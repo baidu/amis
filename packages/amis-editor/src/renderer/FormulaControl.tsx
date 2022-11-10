@@ -47,7 +47,13 @@ export interface FormulaControlProps extends FormControlProps {
   /**
    * 用于提示的变量集合，默认为空
    */
-  variables?: Array<VariableItem>;
+  variables?: Array<VariableItem> | Function;
+
+  /**
+   * 配合 variables 使用
+   * 当 props.variables 存在时， 是否再从 amis数据域中取变量集合，默认 false;
+   */
+  requiredDataPropsVariables?: boolean;
 
   /**
    * 变量展现模式，可选值：'tabs' ｜ 'tree'
@@ -132,14 +138,15 @@ export default class FormulaControl extends React.Component<
 > {
   static defaultProps: Partial<FormulaControlProps> = {
     simple: false,
-    DateTimeType: FormulaDateType.NotDate
+    DateTimeType: FormulaDateType.NotDate,
+    requiredDataPropsAsOptions: false
   };
   isUnmount: boolean;
 
   constructor(props: FormulaControlProps) {
     super(props);
     this.state = {
-      variables: this.normalizeVariables(props.variables), // 备注: 待沟通
+      variables: [],
       variableMode: 'tabs'
     };
   }
@@ -149,12 +156,8 @@ export default class FormulaControl extends React.Component<
   }
 
   componentDidUpdate(prevProps: FormulaControlProps) {
-    // 优先使用props中的变量数据
-    this.getVariables();
     if (this.props.data !== prevProps.data) {
-      this.setState({
-        variables: dataMapping(this.props.variables, this.props.data)
-      });
+      this.getVariables();
     }
   }
 
@@ -162,55 +165,32 @@ export default class FormulaControl extends React.Component<
     this.isUnmount = true;
   }
 
-  // 组件默认值设置交互中未使用，自定义variables情况适用
-  normalizeVariables(variables: any) {
-    if (!variables) {
-      return [];
-    }
-
-    if (
-      variables &&
-      Array.isArray(variables) &&
-      variables.some((item: any) => isExpression(item.children))
-    ) {
-      variables = dataMapping(variables, this.props.data);
-    }
-
-    const {context} = this.props;
-    // 自身字段
-    const field = this.props?.data?.name;
-    const ancestorField = context?.node?.ancestorField;
-
-    return uniqBy(
-      [
-        ...(Array.isArray(variables) ? variables : []),
-        ...(ancestorField
-          ? ancestorField.map((item: any) => ({
-              label: item,
-              value: `this.${item}`
-            }))
-          : []),
-        ...(field ? [{label: field, value: `this.${field}`}] : [])
-      ],
-      'value'
-    );
-  }
-
   // 设置 variables
-  getVariables() {
-    if (!this.props.variables) {
+  async getVariables() {
+    let variablesArr: any[] = [];
+    const {variables, requiredDataPropsVariables} = this.props;
+    if (!variables || requiredDataPropsVariables) {
       // 从amis数据域中取变量数据
-      this.resolveVariablesFromScope().then(variables => {
-        if (Array.isArray(variables)) {
-          const vars = variables.filter(item => item.children?.length);
-          if (!this.isUnmount && !isEqual(vars, this.state.variables)) {
-            this.setState({
-              variables: vars
-            });
-          }
+      let varItem = await this.resolveVariablesFromScope();
+      if (Array.isArray(varItem)) {
+        const vars = varItem.filter(item => item.children?.length);
+        if (!this.isUnmount && !isEqual(vars, this.state.variables)) {
+          variablesArr = vars;
         }
-      });
+      }
     }
+    if (variables) {
+      if (Array.isArray(variables)) {
+        variablesArr = [...variables, ...variablesArr];
+      }
+      if (typeof variables === 'function') {
+        variablesArr = [...variables(), ...variablesArr];
+      }
+    }
+
+    this.setState({
+      variables: variablesArr
+    });
   }
 
   /**

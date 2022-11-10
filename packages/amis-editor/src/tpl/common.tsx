@@ -357,7 +357,8 @@ setSchemaTpl(
     valueType?: string; // 用于设置期望数值类型
     visibleOn?: string; // 用于控制显示的表达式
     DateTimeType?: FormulaDateType; // 日期类组件要支持 表达式 & 相对值
-    variables?: Array<VariableItem>; // 自定义变量集合
+    variables?: Array<VariableItem> | Function; // 自定义变量集合
+    requiredDataPropsVariables?: boolean; // 是否再从amis数据域中取变量结合， 默认 false
     variableMode?: 'tabs' | 'tree'; // 变量展现模式
   }) => {
     let curRendererSchema = config?.rendererSchema;
@@ -389,7 +390,8 @@ setSchemaTpl(
           valueType: config?.valueType,
           header: config?.header ?? '表达式',
           DateTimeType: config?.DateTimeType ?? FormulaDateType.NotDate,
-          variables: config?.variables || null,
+          variables: config?.variables,
+          requiredDataPropsVariables: config?.requiredDataPropsVariables,
           variableMode: config?.variableMode
         }
       ]
@@ -489,12 +491,10 @@ setSchemaTpl('selectDateRangeType', {
 });
 
 setSchemaTpl('optionsMenuTpl', (config: {manager: EditorManager}) => {
-  function getVariable() {
-    let rawVariables = config.manager.dataSchema?.getDataPropsAsOptions();
+  // 设置 options 中变量集合
+  function getOptionVars() {
     let schema = config.manager.store.valueWithoutHiddenProps;
-
     let children = [];
-
     if (schema.labelField) {
       children.push({
         label: '选项文本',
@@ -502,7 +502,6 @@ setSchemaTpl('optionsMenuTpl', (config: {manager: EditorManager}) => {
         tag: typeof schema.labelField
       });
     }
-
     if (schema.valueField) {
       children.push({
         label: '选项值',
@@ -510,7 +509,6 @@ setSchemaTpl('optionsMenuTpl', (config: {manager: EditorManager}) => {
         tag: typeof schema.valueField
       });
     }
-
     if (schema.options) {
       let optionItem = _.reduce(
         schema.options,
@@ -520,26 +518,28 @@ setSchemaTpl('optionsMenuTpl', (config: {manager: EditorManager}) => {
         {}
       );
       delete optionItem?.$$id;
+
       optionItem = _.omit(
         optionItem,
         _.map(children, item => item?.label)
       );
+
       let otherItem = _.map(_.keys(optionItem), item => ({
         label:
           item === 'label' ? '选项文本' : item === 'value' ? '选项值' : item,
         value: item,
         tag: typeof optionItem[item]
       }));
+
       children.push(...otherItem);
     }
-
     let variablesArr = [
       {
         label: '选项字段',
         children
       }
     ];
-    return [...variablesArr, ...rawVariables];
+    return variablesArr;
   }
 
   return {
@@ -547,7 +547,8 @@ setSchemaTpl('optionsMenuTpl', (config: {manager: EditorManager}) => {
     mode: 'normal',
     label: tipedLabel('模板', '选项渲染模板，支持JSX，变量使用\\${xx}'),
     name: 'menuTpl',
-    variables: getVariable
+    variables: getOptionVars,
+    requiredDataPropsVariables: true
   };
 });
 

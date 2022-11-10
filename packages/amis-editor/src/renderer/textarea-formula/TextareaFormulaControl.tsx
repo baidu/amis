@@ -15,11 +15,21 @@ import debounce from 'lodash/debounce';
 import CodeMirror from 'codemirror';
 import {resolveVariablesFromScope} from './utils';
 import Menu from './Menu';
+import {VariableItem} from 'amis-ui/lib/components/formula/Editor';
 
 export interface TextareaFormulaControlProps extends FormControlProps {
   height?: number; // 输入框的高度
 
-  variables?: any; // 公式变量
+  /**
+   * 用于提示的变量集合，默认为空
+   */
+  variables?: Array<VariableItem> | Function;
+
+  /**
+   * 配合 variables 使用
+   * 当 props.variables 存在时， 是否再从 amis数据域中取变量集合，默认 false;
+   */
+  requiredDataPropsVariables?: boolean;
 
   variableMode?: 'tree' | 'tabs';
 
@@ -32,7 +42,7 @@ export interface TextareaFormulaControlProps extends FormControlProps {
 interface TextareaFormulaControlState {
   value: string; // 当前文本值
 
-  variables: any; // 变量数据
+  variables: Array<VariableItem>; // 变量数据
 
   menusList: Array<{
     label: string;
@@ -54,6 +64,7 @@ export class TextareaFormulaControl extends React.Component<
 > {
   static defaultProps: Partial<TextareaFormulaControlProps> = {
     variableMode: 'tabs',
+    requiredDataPropsVariables: false,
     height: 100
   };
 
@@ -90,26 +101,45 @@ export class TextareaFormulaControl extends React.Component<
     this.setState({
       menusList: [...menusList, ...additionalMenus]
     });
+
+    this.getVariables();
   }
 
   componentDidUpdate(prevProps: TextareaFormulaControlProps) {
-    // 优先使用props中的变量数据
-    if (!this.props.variables) {
-      // 从amis数据域中取变量数据
-      const {node, manager} = this.props.formProps || this.props;
-      resolveVariablesFromScope(node, manager).then(variables => {
-        if (Array.isArray(variables)) {
-          if (!this.isUnmount && !isEqual(variables, this.state.variables)) {
-            this.setState({
-              variables
-            });
-          }
-        }
-      });
+    if (this.props.data !== prevProps.data) {
+      this.getVariables();
     }
   }
   componentWillUnmount() {
     this.isUnmount = true;
+  }
+
+  // 设置 variables
+  async getVariables() {
+    let variablesArr: any[] = [];
+    const {variables, requiredDataPropsVariables} = this.props;
+    if (!variables || requiredDataPropsVariables) {
+      // 从amis数据域中取变量数据
+      const {node, manager} = this.props.formProps || this.props;
+      const vars = await resolveVariablesFromScope(node, manager);
+      if (Array.isArray(vars)) {
+        if (!this.isUnmount && !isEqual(vars, this.state.variables)) {
+          variablesArr = vars;
+        }
+      }
+    }
+    if (variables) {
+      if (Array.isArray(variables)) {
+        variablesArr = [...variables, ...variablesArr];
+      }
+      if (typeof variables === 'function') {
+        variablesArr = [...variables(), ...variablesArr];
+      }
+    }
+
+    this.setState({
+      variables: variablesArr
+    });
   }
 
   @autobind
@@ -175,15 +205,9 @@ export class TextareaFormulaControl extends React.Component<
       menusList,
       formulaPickerOpen,
       formulaPickerValue,
-      isFullscreen
+      isFullscreen,
+      variables
     } = this.state;
-
-    let variables = [];
-    if (typeof rest?.variables === 'function') {
-      variables = rest.variables();
-    } else {
-      variables = rest?.variables || this.state.variables || [];
-    }
 
     // 输入框样式
     let resultBoxStyle: {[key in string]: string} = {};

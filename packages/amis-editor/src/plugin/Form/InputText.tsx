@@ -274,9 +274,9 @@ export class TextControlPlugin extends BasePlugin {
             {
               title: '选项',
               visibleOn: `${isText} && (data.options  || data.autoComplete || data.source)`,
-              body:[
+              body: [
                 getSchemaTpl('optionControlV2'),
-                getSchemaTpl('multiple',{
+                getSchemaTpl('multiple', {
                   visibleOn: `${isText} || ${isUrl}`
                 }),
                 {
@@ -285,7 +285,7 @@ export class TextControlPlugin extends BasePlugin {
                   label: tipedLabel(
                     '自动补全',
                     '根据输入内容，调用接口提供选项。当前输入值可用${term}变量'
-                    ),
+                  ),
                   visibleOn: isText,
                   formType: 'extend',
                   defaultData: {
@@ -309,7 +309,7 @@ export class TextControlPlugin extends BasePlugin {
                         ),
                         type: 'input-text',
                         name: 'labelField',
-                        placeholder: '选项文本对应的字段',
+                        placeholder: '选项文本对应的字段'
                       },
                       {
                         label: '值字段',
@@ -319,7 +319,7 @@ export class TextControlPlugin extends BasePlugin {
                       }
                     ]
                   }
-                },
+                }
               ]
             },
             getSchemaTpl('status', {
