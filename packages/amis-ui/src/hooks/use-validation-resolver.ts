@@ -19,7 +19,20 @@ function formatErrors(errors: any) {
   return formated;
 }
 
-export function useValidationResolver(__ = (str: string) => str) {
+export function useValidationResolver(
+  __ = (str: string) => str,
+  validate?: (
+    error: {
+      [propName: string]: {
+        rule: string;
+        msg: string;
+      }[];
+    },
+    values: Record<string, any>,
+    context: any,
+    config: any
+  ) => Promise<void>
+) {
   return React.useCallback<any>(
     async (values: any, context: any, config: any) => {
       const rules: any = {};
@@ -53,12 +66,23 @@ export function useValidationResolver(__ = (str: string) => str) {
         }
       }
 
+      try {
+        await validate?.(errors, values, context, config);
+      } catch (e) {
+        errors.customValidate = [
+          {
+            rule: 'custom',
+            msg: e.message || e
+          }
+        ];
+      }
+
       return {
         values,
         errors: formatErrors(errors)
       };
     },
-    [__]
+    [__, validate]
   );
 }
 

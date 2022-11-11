@@ -18,6 +18,7 @@ export type FormRef = React.MutableRefObject<
 export interface FormProps extends ThemeProps, LocaleProps {
   defaultValue?: any;
   autoSubmit?: boolean;
+  onValidate?: (errors: any, values: any) => Promise<void>;
   onSubmit?: (value: any) => void;
   forwardRef?: FormRef;
   children?: (
@@ -32,7 +33,7 @@ export function Form(props: FormProps) {
   const {classnames: cx, className, autoSubmit} = props;
   const methods = useForm({
     defaultValues: props.defaultValue,
-    resolver: useValidationResolver(props.translate)
+    resolver: useValidationResolver(props.translate, props.onValidate)
   });
   let onSubmit = React.useRef<(data: any) => void>(
     methods.handleSubmit(props.onSubmit || noop)
@@ -66,7 +67,7 @@ export function Form(props: FormProps) {
                 props.onSubmit?.(values);
                 resolve(values);
               },
-              () => resolve(false)
+              e => resolve(e.customValidate?.message || false)
             )();
           })
       };
