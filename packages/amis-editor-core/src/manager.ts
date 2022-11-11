@@ -1208,8 +1208,8 @@ export class EditorManager {
     const context: MoveEventContext = {
       ...commonContext,
       sourceId: node.id,
-      direction: 'up',
-      beforeId: node.nextSibling?.nextSibling?.id,
+      direction: 'down',
+      beforeId: node.nextSibling?.id,
       region: regionNode.region
     };
 

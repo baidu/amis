@@ -4,6 +4,7 @@
 import find from 'lodash/find';
 import {isAlive} from 'mobx-state-tree';
 import {toast} from 'amis';
+import debounce from 'lodash/debounce';
 import {EditorManager} from '../manager';
 import {DragEventContext, SubRendererInfo} from '../plugin';
 import {EditorStoreType} from '../store/editor';
@@ -12,6 +13,10 @@ import {autobind, reactionWithOldValue, unitFormula} from '../util';
 import {DefaultDNDMode} from './default';
 import {DNDModeInterface} from './interface';
 import {PositionHDNDMode} from './position-h';
+
+const toastWarning = debounce(msg => {
+  toast.warning(msg);
+}, 500);
 
 export class EditorDNDManager {
   toDispose: Array<() => void> = [];
@@ -242,16 +247,16 @@ export class EditorDNDManager {
     if (activeId) {
       const curNode = store.getNodeById(activeId);
       if (!curNode) {
-        toast.warning('请先选择一个元素作为插入的位置。');
+        toastWarning('请先选择一个元素作为插入的位置。');
         return;
       }
        
       if (curNode?.schema?.type === 'flex') {
-        toast.warning('布局容器组件不支持拖拽插入子元素。');
+        toastWarning('布局容器组件不支持拖拽插入子元素。');
         return;
       }
     } else {
-      toast.warning('请先选择一个元素作为插入的位置。');
+      toastWarning('请先选择一个元素作为插入的位置。');
       return;
     }
 

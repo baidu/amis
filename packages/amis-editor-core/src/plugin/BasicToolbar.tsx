@@ -44,7 +44,7 @@ export class BasicToolbarPlugin extends BasePlugin {
         });
       }
 
-      const idx = parent.indexOf(schema);
+      const idx = parent?.indexOf(schema);
 
       // if (idx > 0 && node.moveable) {
       //   let icon = 'fa fa-arrow-up';
@@ -359,9 +359,9 @@ export class BasicToolbarPlugin extends BasePlugin {
       menus.push({
         label: '向前移动',
         disabled:
-          !(Array.isArray(parent) && idx > 0) ||
-          !node.moveable ||
-          !node.prevSibling,
+          !(Array.isArray(parent) && idx > 0)
+          || !node.moveable,
+          // || !node.prevSibling,
         onSelect: () => manager.moveUp()
       });
 
@@ -369,8 +369,8 @@ export class BasicToolbarPlugin extends BasePlugin {
         label: '向后移动',
         disabled:
           !(Array.isArray(parent) && idx < parent.length - 1)
-          || !node.moveable
-          || !node.nextSibling,
+          || !node.moveable,
+          // || !node.nextSibling,
         onSelect: () => manager.moveDown()
       });
 

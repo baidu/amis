@@ -132,7 +132,7 @@ export class LeftPanels extends React.Component<
             <div
               className={`editor-panel-btn`}
               editor-tooltip={isFixedStatus ? '关闭悬浮模式' : '开启悬浮模式'}
-              tooltip-position="left"
+              tooltip-position="right"
             >
               <Icon
                 icon={isFixedStatus ? 'editor-fixed' : 'editor-no-fixed'}

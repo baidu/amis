@@ -508,7 +508,6 @@ export function JSONMoveDownById(json: any, id: string) {
     if (index === arr.length - 1) {
       return;
     }
-
     arr.splice(index, 1);
     arr.splice(index + 1, 0, node);
   });
