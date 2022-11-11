@@ -15,7 +15,6 @@ import {SchemaTpl} from '../../Schema';
 import {Icon} from 'amis-ui';
 
 import type {IColumn, IRow} from 'amis-core/lib/store/table';
-import type {TableProps} from './index';
 
 export interface TableContentProps extends LocaleProps {
   className?: string;
