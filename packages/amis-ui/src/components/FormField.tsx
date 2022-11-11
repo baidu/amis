@@ -163,6 +163,8 @@ export interface ControllerProps
     [propName: string]: any;
   };
 
+  className?: string;
+
   /**
    * 配置成 false 则不包裹
    */
