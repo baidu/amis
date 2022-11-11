@@ -127,6 +127,7 @@ export class PickerContainer extends React.Component<
       title,
       showTitle,
       headerClassName,
+      bodyClassName,
       translate: __,
       size,
       showFooter,
@@ -149,6 +150,7 @@ export class PickerContainer extends React.Component<
           title={title || __('Select.placeholder')}
           showTitle={showTitle}
           headerClassName={headerClassName}
+          bodyClassName={bodyClassName}
           showFooter={showFooter}
           beforeConfirm={this.confirm}
         >
