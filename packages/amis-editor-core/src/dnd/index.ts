@@ -123,7 +123,6 @@ export class EditorDNDManager {
    */
   switchToRegion(e: DragEvent, id: string, region: string): boolean {
     const store = this.store;
-
     if (
       !id ||
       !region ||
@@ -204,7 +203,7 @@ export class EditorDNDManager {
     this.lastY = e.clientY;
 
     if (this.manager.draggableContainer(node.id)) {
-      this.curDragId = id; 
+      this.curDragId = id;
       this.startX = e.clientX;
       this.startY = e.clientY;
       return;
@@ -237,6 +236,7 @@ export class EditorDNDManager {
   @autobind
   dragEnter(e: DragEvent) {
     const store = this.store;
+    this.dragEnterCount++;
 
     if (this.curDragId && this.manager.draggableContainer(this.curDragId)) {
       // 特殊布局元素拖拽位置时，不需要 switchToRegion
@@ -259,8 +259,6 @@ export class EditorDNDManager {
       toastWarning('请先选择一个元素作为插入的位置。');
       return;
     }
-
-    this.dragEnterCount++;
 
     if (store.dragId || this.dragEnterCount !== 1) {
       return;
@@ -388,9 +386,6 @@ export class EditorDNDManager {
   @autobind
   async drop(e: DragEvent) {
     const store = this.store;
-    if (!this.curDragId) {
-      return;
-    }
     if (this.curDragId && this.manager.draggableContainer(this.curDragId)) {
       // 特殊布局元素拖拽位置后更新schema-style数据
       const dx = e.clientX - this.startX;
@@ -398,6 +393,11 @@ export class EditorDNDManager {
       this.manager.updateContainerStyleByDrag(this.curDragId, dx, dy);
       // 重置拖拽ID，避免影响其他拖拽元素
       this.curDragId = '';
+      return;
+    }
+
+    if (!store.dropId) {
+      // 没有拖拽接受容器，则直接跳过
       return;
     }
 
