@@ -1,8 +1,8 @@
-@import '../../../node_modules/codemirror/lib/codemirror';
-@import '../../../node_modules/froala-editor/css/froala_style.min';
-@import '../../../node_modules/froala-editor/css/froala_editor.pkgd.min';
-@import '../../../node_modules/tinymce/skins/ui/oxide/skin';
-@import '../../../node_modules/video-react/dist/video-react';
-@import '../../../node_modules/cropperjs/dist/cropper';
+@import '../node_modules/codemirror/lib/codemirror';
+@import '../node_modules/froala-editor/css/froala_style.min';
+@import '../node_modules/froala-editor/css/froala_editor.pkgd.min';
+@import '../node_modules/tinymce/skins/ui/oxide/skin';
+@import '../amis/node_modules/video-react/dist/video-react';
+@import '../amis/node_modules/cropperjs/dist/cropper';
 
 @import './components/react-datetime';
