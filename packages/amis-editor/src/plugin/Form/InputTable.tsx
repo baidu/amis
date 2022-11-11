@@ -190,13 +190,12 @@ export class TableControlPlugin extends BasePlugin {
             visibleOn: 'data.addable',
             pipeIn: defaultValue('')
           },
-          {
+          getSchemaTpl('icon', {
             name: 'addBtnIcon',
             label: '增加按钮图标',
-            type: 'icon-picker',
             className: 'fix-icon-picker-overflow',
             visibleOn: 'data.addable'
-          },
+          }),
           getSchemaTpl('api', {
             name: 'addApi',
             label: '新增时提交的 API',
@@ -213,13 +212,12 @@ export class TableControlPlugin extends BasePlugin {
             visibleOn: 'data.removable',
             pipeIn: defaultValue('')
           },
-          {
+          getSchemaTpl('icon', {
             name: 'deleteBtnIcon',
             label: '删除按钮图标',
-            type: 'icon-picker',
             className: 'fix-icon-picker-overflow',
             visibleOn: 'data.removable'
-          },
+          }),
           getSchemaTpl('api', {
             name: 'deleteApi',
             label: '删除时提交的 API',
@@ -236,13 +234,12 @@ export class TableControlPlugin extends BasePlugin {
             visibleOn: 'data.editable',
             pipeIn: defaultValue('')
           },
-          {
+          getSchemaTpl('icon', {
             name: 'editBtnIcon',
             label: '编辑按钮图标',
-            type: 'icon-picker',
             className: 'fix-icon-picker-overflow',
             visibleOn: 'data.editable'
-          },
+          }),
           getSchemaTpl('switch', {
             label: '是否可复制',
             name: 'copyable'
@@ -254,13 +251,12 @@ export class TableControlPlugin extends BasePlugin {
             visibleOn: 'data.copyable',
             pipeIn: defaultValue('')
           },
-          {
+          getSchemaTpl('icon', {
             name: 'copyBtnIcon',
             label: '复制按钮图标',
-            type: 'icon-picker',
             className: 'fix-icon-picker-overflow',
             visibleOn: 'data.copyable'
-          },
+          }),
           getSchemaTpl('api', {
             name: 'updateApi',
             label: '修改时提交的 API',
@@ -273,13 +269,12 @@ export class TableControlPlugin extends BasePlugin {
             visibleOn: 'data.editable',
             pipeIn: defaultValue('')
           },
-          {
+          getSchemaTpl('icon', {
             name: 'confirmBtnIcon',
             label: '确认编辑按钮图标',
-            type: 'icon-picker',
             className: 'fix-icon-picker-overflow',
             visibleOn: 'data.editable'
-          },
+          }),
           {
             type: 'input-text',
             name: 'cancelBtnLabel',
@@ -287,13 +282,12 @@ export class TableControlPlugin extends BasePlugin {
             visibleOn: 'data.editable',
             pipeIn: defaultValue('')
           },
-          {
+          getSchemaTpl('icon', {
             name: 'cancelBtnIcon',
             label: '取消编辑按钮图标',
-            type: 'icon-picker',
             className: 'fix-icon-picker-overflow',
             visibleOn: 'data.editable'
-          },
+          }),
           getSchemaTpl('switch', {
             label: '是否可拖拽排序',
             name: 'draggable'
