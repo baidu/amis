@@ -144,112 +144,117 @@ export class TableContent extends React.Component<TableContentProps> {
     const hideHeader = columns.every(column => !column.label);
 
     return (
-      <div
-        onMouseMove={onMouseMove}
-        className={cx('Table-content', className)}
-        onScroll={onScroll}
-      >
+      <>
         {store.hoverRow ? this.renderItemActions() : null}
-        <table ref={tableRef} className={tableClassName}>
-          <thead>
-            {columnsGroup.length ? (
-              <tr>
-                {columnsGroup.map((item, index) =>
-                  /**
-                   * 勾选列和展开列的表头单独成列
-                   * 如果分组列只有一个元素且未分组时，也要执行表头合并
-                   */
-                  !!~['__checkme', '__expandme'].indexOf(item.has[0].type) ||
-                  (item.has.length === 1 &&
-                    !/^__/.test(item.has[0].type) &&
-                    !item.has[0].groupName) ? (
-                    renderHeadCell(item.has[0], {
-                      'data-index': item.has[0].index,
-                      'key': index,
-                      'colSpan': item.colSpan,
-                      'rowSpan': item.rowSpan
-                    })
-                  ) : (
-                    <th
-                      key={index}
-                      data-index={item.index}
-                      colSpan={item.colSpan}
-                      rowSpan={item.rowSpan}
-                    >
-                      {item.label ? render('tpl', item.label) : null}
-                    </th>
-                  )
+        <div
+          onMouseMove={onMouseMove}
+          className={cx('Table-content', className)}
+          onScroll={onScroll}
+        >
+          <table ref={tableRef} className={tableClassName}>
+            <thead>
+              {columnsGroup.length ? (
+                <tr>
+                  {columnsGroup.map((item, index) =>
+                    /**
+                     * 勾选列和展开列的表头单独成列
+                     * 如果分组列只有一个元素且未分组时，也要执行表头合并
+                     */
+                    !!~['__checkme', '__expandme'].indexOf(item.has[0].type) ||
+                    (item.has.length === 1 &&
+                      !/^__/.test(item.has[0].type) &&
+                      !item.has[0].groupName) ? (
+                      renderHeadCell(item.has[0], {
+                        'data-index': item.has[0].index,
+                        'key': index,
+                        'colSpan': item.colSpan,
+                        'rowSpan': item.rowSpan
+                      })
+                    ) : (
+                      <th
+                        key={index}
+                        data-index={item.index}
+                        colSpan={item.colSpan}
+                        rowSpan={item.rowSpan}
+                      >
+                        {item.label ? render('tpl', item.label) : null}
+                      </th>
+                    )
+                  )}
+                </tr>
+              ) : null}
+              <tr className={hideHeader ? 'fake-hide' : ''}>
+                {columns.map(column =>
+                  columnsGroup.find(group => ~group.has.indexOf(column))
+                    ?.rowSpan === 2
+                    ? null
+                    : renderHeadCell(column, {
+                        'data-index': column.index,
+                        'key': column.index
+                      })
                 )}
               </tr>
-            ) : null}
-            <tr className={hideHeader ? 'fake-hide' : ''}>
-              {columns.map(column =>
-                columnsGroup.find(group => ~group.has.indexOf(column))
-                  ?.rowSpan === 2
-                  ? null
-                  : renderHeadCell(column, {
-                      'data-index': column.index,
-                      'key': column.index
-                    })
-              )}
-            </tr>
-          </thead>
-          {!rows.length ? (
-            <tbody>
-              <tr className={cx('Table-placeholder')}>
-                {!loading ? (
-                  <td colSpan={columns.length}>
-                    {typeof placeholder === 'string' ? (
-                      <>
-                        <Icon
-                          icon="desk-empty"
-                          className={cx('Table-placeholder-empty-icon', 'icon')}
-                        />
-                        {translate(placeholder || 'placeholder.noData')}
-                      </>
-                    ) : (
-                      render(
-                        'placeholder',
-                        translate(placeholder || 'placeholder.noData')
-                      )
-                    )}
-                  </td>
-                ) : null}
-              </tr>
-            </tbody>
-          ) : (
-            <TableBody
-              itemAction={itemAction}
-              classnames={cx}
-              render={render}
-              renderCell={renderCell}
-              onCheck={onCheck}
-              onQuickChange={onQuickChange}
-              footable={footable}
-              footableColumns={footableColumns}
-              checkOnItemClick={checkOnItemClick}
-              buildItemProps={buildItemProps}
-              onAction={onAction}
-              rowClassNameExpr={rowClassNameExpr}
-              rowClassName={rowClassName}
-              prefixRowClassName={prefixRowClassName}
-              affixRowClassName={affixRowClassName}
-              rows={rows}
-              columns={columns}
-              locale={locale}
-              translate={translate}
-              prefixRow={prefixRow}
-              affixRow={affixRow}
-              data={data}
-              rowsProps={{
-                data,
-                dispatchEvent,
-                onEvent
-              }}
-            />
-          )}
-        </table>
-      </div>
+            </thead>
+            {!rows.length ? (
+              <tbody>
+                <tr className={cx('Table-placeholder')}>
+                  {!loading ? (
+                    <td colSpan={columns.length}>
+                      {typeof placeholder === 'string' ? (
+                        <>
+                          <Icon
+                            icon="desk-empty"
+                            className={cx(
+                              'Table-placeholder-empty-icon',
+                              'icon'
+                            )}
+                          />
+                          {translate(placeholder || 'placeholder.noData')}
+                        </>
+                      ) : (
+                        render(
+                          'placeholder',
+                          translate(placeholder || 'placeholder.noData')
+                        )
+                      )}
+                    </td>
+                  ) : null}
+                </tr>
+              </tbody>
+            ) : (
+              <TableBody
+                itemAction={itemAction}
+                classnames={cx}
+                render={render}
+                renderCell={renderCell}
+                onCheck={onCheck}
+                onQuickChange={onQuickChange}
+                footable={footable}
+                footableColumns={footableColumns}
+                checkOnItemClick={checkOnItemClick}
+                buildItemProps={buildItemProps}
+                onAction={onAction}
+                rowClassNameExpr={rowClassNameExpr}
+                rowClassName={rowClassName}
+                prefixRowClassName={prefixRowClassName}
+                affixRowClassName={affixRowClassName}
+                rows={rows}
+                columns={columns}
+                locale={locale}
+                translate={translate}
+                prefixRow={prefixRow}
+                affixRow={affixRow}
+                data={data}
+                rowsProps={{
+                  data,
+                  dispatchEvent,
+                  onEvent
+                }}
+              />
+            )}
+          </table>
+        </div>
+      </>
     );
   }
 }
