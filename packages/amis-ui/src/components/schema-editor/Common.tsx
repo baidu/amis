@@ -121,7 +121,7 @@ export class SchemaEditorItemCommon<
             value={value}
             bodyRender={({isOpened, value, onChange, ref}) => {
               return isOpened ? (
-                <Form defaultValues={value} onSubmit={onChange} ref={ref}>
+                <Form defaultValue={value} onSubmit={onChange} ref={ref}>
                   {({control, getValues, setValue}) => (
                     <>
                       <Controller

@@ -783,10 +783,14 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     };
 
     // Action如果配了事件动作也会处理二次确认，这里需要处理一下忽略
-    if (!action.ignoreConfirm && action.confirmText && env.confirm) {
-      env
-        .confirm(filter(action.confirmText, ctx))
-        .then((confirmed: boolean) => confirmed && fn());
+    let confirmText: string = '';
+    if (
+      !action.ignoreConfirm &&
+      action.confirmText &&
+      env.confirm &&
+      (confirmText = filter(action.confirmText, ctx))
+    ) {
+      env.confirm(confirmText).then((confirmed: boolean) => confirmed && fn());
     } else {
       fn();
     }
@@ -896,10 +900,14 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   ) {
     const action = this.props.store.selectedAction;
     const env = this.props.env;
+    let confirmText: string = '';
 
-    if (action.confirmText) {
+    if (
+      action.confirmText &&
+      (confirmText = filter(action.confirmText, this.props.store.mergedData))
+    ) {
       return env
-        .confirm(action.confirmText)
+        .confirm(confirmText)
         .then(
           (confirmed: boolean) =>
             confirmed &&

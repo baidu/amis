@@ -724,7 +724,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
           rowIndex: number;
           offset: number;
         }) =>
-          ~this.state.editIndex && needConfirm !== false ? null : (
+          (~this.state.editIndex && needConfirm !== false) ||
+          (this.props.maxLength &&
+            this.props.maxLength <= this.state.items.length) ? null : (
             <Button
               classPrefix={ns}
               size="sm"
@@ -957,8 +959,10 @@ export default class FormTable extends React.Component<TableProps, TableState> {
           data: any;
           offset: number;
         }) =>
-          (~this.state.editIndex || (data && data.__isPlaceholder)) &&
-          needConfirm !== false ? null : (
+          ((~this.state.editIndex || (data && data.__isPlaceholder)) &&
+            needConfirm !== false) ||
+          (this.props.minLength &&
+            this.props.minLength >= this.state.items.length) ? null : (
             <Button
               classPrefix={ns}
               size="sm"
@@ -1209,7 +1213,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       rowClassNameExpr,
       affixHeader = false,
       autoFillHeight = false,
-      tableContentClassName
+      tableContentClassName,
+      maxLength
     } = this.props;
 
     if (formInited === false) {
@@ -1270,7 +1275,10 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             // onPristineChange: this.handlePristineChange
           }
         )}
-        {(addable && showAddBtn !== false) || showPager ? (
+        {(addable &&
+          showAddBtn !== false &&
+          (!maxLength || maxLength > items.length)) ||
+        showPager ? (
           <div className={cx('InputTable-toolbar')}>
             {addable && showAddBtn !== false ? (
               <Button
