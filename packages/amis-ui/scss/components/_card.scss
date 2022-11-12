@@ -168,7 +168,7 @@
       }
 
       & > .#{$ns}Button-icon:first-child:not(:last-child) {
-        margin-right: var(--Button-icon-rightMargin);
+        margin-right: var(--button-size-sm-icon-margin);
       }
     }
   }
