@@ -508,7 +508,7 @@ export default class Form extends React.Component<FormProps, object> {
     }
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     const {
       initApi,
       initFetch,
@@ -521,18 +521,10 @@ export default class Form extends React.Component<FormProps, object> {
       onValidate,
       promptPageLeave,
       env,
-      rules,
-      dispatchEvent,
-      data
+      rules
     } = this.props;
 
     this.mounted = true;
-
-    const rendererEvent = await dispatchEvent('didMount', data, this);
-
-    if (rendererEvent?.prevented) {
-      return;
-    }
 
     if (onValidate) {
       const finalValidate = promisify(onValidate);
@@ -1801,7 +1793,7 @@ export class FormRenderer extends Form {
     scoped.registerComponent(this);
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     super.componentDidMount();
 
     if (this.props.autoFocus) {

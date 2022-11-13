@@ -390,6 +390,13 @@ export default class Page extends React.Component<PageProps> {
 
     this.mounted = true;
 
+    if (asideSticky && this.asideInner.current) {
+      const dom = this.asideInner.current!;
+      dom.style.cssText += `position: sticky; top: ${
+        scrollPosition(dom).top
+      }px;`;
+    }
+
     const rendererEvent = await dispatchEvent('init', data, this);
 
     if (rendererEvent?.prevented) {
@@ -403,13 +410,6 @@ export default class Page extends React.Component<PageProps> {
           errorMessage: messages && messages.fetchFailed
         })
         .then(this.initInterval);
-    }
-
-    if (asideSticky && this.asideInner.current) {
-      const dom = this.asideInner.current!;
-      dom.style.cssText += `position: sticky; top: ${
-        scrollPosition(dom).top
-      }px;`;
     }
   }
 
