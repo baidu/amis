@@ -3,6 +3,7 @@ import Modal from './Modal';
 import Button from './Button';
 import Drawer from './Drawer';
 import {localeable, LocaleProps, themeable, ThemeProps} from 'amis-core';
+import Spinner from './Spinner';
 
 export interface ConfirmBoxProps extends LocaleProps, ThemeProps {
   show?: boolean;
@@ -56,19 +57,32 @@ export function ConfirmBox({
   bodyClassName,
   footerClassName
 }: ConfirmBoxProps) {
+  const [loading, setLoading] = React.useState<boolean>();
+  const [error, setError] = React.useState<string>();
   const bodyRef = React.useRef<
     {submit: () => Promise<Record<string, any>>} | undefined
   >();
   const handleConfirm = React.useCallback(async () => {
-    const ret = beforeConfirm
-      ? await beforeConfirm?.(bodyRef.current)
-      : await bodyRef.current?.submit?.();
+    setError('');
+    setLoading(true);
+    try {
+      const ret = beforeConfirm
+        ? await beforeConfirm?.(bodyRef.current)
+        : await bodyRef.current?.submit?.();
 
-    if (ret === false) {
-      return;
+      if (ret === false) {
+        return;
+      } else if (typeof ret === 'string') {
+        setError(ret);
+        return;
+      }
+
+      onConfirm?.(ret);
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setLoading(false);
     }
-
-    onConfirm?.(ret);
   }, [onConfirm, beforeConfirm]);
 
   function renderDialog() {
@@ -95,6 +109,14 @@ export function ConfirmBox({
         </Modal.Body>
         {showFooter ?? true ? (
           <Modal.Footer className={footerClassName}>
+            {loading || error ? (
+              <div className={cx('Dialog-info')}>
+                <Spinner size="sm" key="info" show={loading} />
+                {error ? (
+                  <span className={cx('Dialog-error')}>{error}</span>
+                ) : null}
+              </div>
+            ) : null}
             <Button onClick={onCancel}>{__('cancel')}</Button>
             <Button onClick={handleConfirm} level="primary">
               {__('confirm')}
@@ -132,6 +154,14 @@ export function ConfirmBox({
         </div>
         {showFooter ?? true ? (
           <div className={cx('Drawer-footer', footerClassName)}>
+            {loading || error ? (
+              <div className={cx('Drawer-info')}>
+                <Spinner size="sm" key="info" show={loading} />
+                {error ? (
+                  <span className={cx('Drawer-error')}>{error}</span>
+                ) : null}
+              </div>
+            ) : null}
             <Button onClick={handleConfirm} level="primary">
               {__('confirm')}
             </Button>

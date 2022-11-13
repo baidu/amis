@@ -17,6 +17,13 @@ export default function ButtonExamples() {
     setIsShow(false);
   }, []);
 
+  async function handleValidate() {
+    return new Promise<void>((resolve, reject) => {
+      // setTimeout(() => reject('error message'), 200);
+      setTimeout(() => resolve(), 200);
+    });
+  }
+
   return (
     <div className="wrapper">
       <Button onClick={handleClick}>Open</Button>
@@ -29,7 +36,7 @@ export default function ButtonExamples() {
         onCancel={handleCancel}
       >
         {({bodyRef}) => (
-          <Form ref={bodyRef}>
+          <Form ref={bodyRef} onValidate={handleValidate}>
             {({control}) => (
               <>
                 <Controller
