@@ -296,9 +296,6 @@ test('Renderer:Form initApi', async () => {
 
   await waitFor(() => {
     expect(
-      container.querySelector('[data-testid="spinner"]')
-    ).not.toBeInTheDocument();
-    expect(
       container.querySelector('[name="a"][value="1"]')
     ).toBeInTheDocument();
   });
