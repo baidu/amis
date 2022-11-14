@@ -25,28 +25,28 @@ import {getEventControlConfig} from '../renderer/event-control/helper';
 import {SchemaObject} from 'amis/lib/Schema';
 import {getArgsWrapper} from '../renderer/event-control/helper';
 
-export class TableV2Plugin extends BasePlugin {
+export class Table2Plugin extends BasePlugin {
   // 关联渲染器名字
-  rendererName = 'table-v2';
+  rendererName = 'table2';
   $schema = '/schemas/TableSchema.json';
 
   // 组件名称
-  name = '表格V2';
+  name = '表格2';
   isBaseComponent = true;
   panelJustify = true;
   disabledRendererPlugin = true;
   description =
     '用来展示表格数据，可以配置列信息，然后关联数据便能完成展示。支持嵌套、超级表头、列固定、表头固顶、合并单元格等等。当前组件需要配置数据源，不自带数据拉取，请优先使用 「CRUD」 组件。';
-  docLink = '/amis/zh-CN/components/table-v2';
+  docLink = '/amis/zh-CN/components/table2';
   icon = 'fa fa-table';
 
   scaffold: SchemaObject = {
-    type: 'table-v2',
+    type: 'table2',
 
     columns: [
       {
         title: '列信息',
-        key: 'a'
+        name: 'a'
       }
     ],
 
@@ -64,7 +64,7 @@ export class TableV2Plugin extends BasePlugin {
   ];
 
   previewSchema: any = {
-    type: 'table-v2',
+    type: 'table2',
     className: 'text-left m-b-none',
     items: [
       {a: 1, b: 2, c: 9},
@@ -74,11 +74,11 @@ export class TableV2Plugin extends BasePlugin {
     columns: [
       {
         title: 'A',
-        key: 'a'
+        name: 'a'
       },
       {
         title: 'B',
-        key: 'b'
+        name: 'b'
       }
     ]
   };
@@ -101,7 +101,7 @@ export class TableV2Plugin extends BasePlugin {
           },
           {
             type: 'input-text',
-            name: 'key',
+            name: 'name',
             placeholder: '绑定字段名'
           },
           {
@@ -326,23 +326,24 @@ export class TableV2Plugin extends BasePlugin {
     const columns: EditorNodeType = node.children.find(
       item => item.isRegion && item.region === 'columns'
     );
-
-    for (let current of columns.children) {
-      const schema = current.schema;
-      if (schema && schema.key) {
-        itemsSchema.properties[schema.key] = current.info?.plugin
-          ?.buildDataSchemas
-          ? await current.info.plugin.buildDataSchemas(current, region)
-          : {
-              type: 'string',
-              title: schema.label || schema.title,
-              description: schema.description
-            };
+    if (columns) {
+      for (let current of columns.children) {
+        const schema = current.schema;
+        if (schema && schema.key) {
+          itemsSchema.properties[schema.key] = current.info?.plugin
+            ?.buildDataSchemas
+            ? await current.info.plugin.buildDataSchemas(current, region)
+            : {
+                type: 'string',
+                title: schema.label || schema.title,
+                description: schema.description
+              };
+        }
       }
     }
 
     const result: any = {
-      $id: 'table-v2',
+      $id: 'table2',
       type: 'object',
       properties: {
         items: {
@@ -822,8 +823,8 @@ export class TableV2Plugin extends BasePlugin {
 
       if (Array.isArray(props.columns)) {
         props.columns.forEach((column: any) => {
-          if (column.key) {
-            setVariable(mockedData, column.key, mockValue(column));
+          if (column.name) {
+            setVariable(mockedData, column.name, mockValue(column));
           }
         });
       }
@@ -870,7 +871,7 @@ export class TableV2Plugin extends BasePlugin {
     if (
       !schema.$$id &&
       ['crud', 'crud2'].includes(schema.$$editor?.renderer.name) &&
-      renderer.name === 'table-v2'
+      renderer.name === 'table2'
     ) {
       return {
         ...({id: schema.$$editor.id} as any),
@@ -905,4 +906,4 @@ export class TableV2Plugin extends BasePlugin {
   }
 }
 
-registerEditorPlugin(TableV2Plugin);
+registerEditorPlugin(Table2Plugin);

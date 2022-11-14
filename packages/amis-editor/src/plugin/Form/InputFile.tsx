@@ -15,12 +15,15 @@ export class FileControlPlugin extends BasePlugin {
   isBaseComponent = true;
   icon = 'fa fa-upload';
   pluginIcon = 'input-file-plugin';
-  description = `可上传多个文件，可配置是否自动上传以及大文件分片上传`;
+  description = '可上传多个文件，可配置是否自动上传以及大文件分片上传';
   docLink = '/amis/zh-CN/components/form/input-file';
   tags = ['表单项'];
   scaffold = {
     type: 'input-file',
     label: '文件上传',
+    autoUpload: true,
+    proxy: true,
+    uploadType: 'fileReceptor',
     name: 'file',
     receiver: {
       url: 'object-upload://default',
@@ -67,7 +70,7 @@ export class FileControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.file': {
+            'event.data.item': {
               type: 'object',
               title: '被移除的文件'
             }
@@ -83,7 +86,7 @@ export class FileControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.file': {
+            'event.data.item': {
               type: 'object',
               title: '远程上传请求成功后返回的结果数据'
             }
@@ -99,7 +102,7 @@ export class FileControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.file': {
+            'event.data.item': {
               type: 'object',
               title: '上传的文件'
             },
@@ -240,7 +243,7 @@ export class FileControlPlugin extends BasePlugin {
               }),
 
               getSchemaTpl('proxy', {
-                value: false,
+                value: true,
                 visibleOn: 'data.uploadType !== "asForm" || !data.uploadType'
               }),
 
@@ -263,7 +266,7 @@ export class FileControlPlugin extends BasePlugin {
                 type: 'container',
                 className: 'ae-ExtendMore mb-3',
                 visibleOn:
-                  'data.uploadType !== "asForm" && data.useChunk != false',
+                  'data.uploadType !== "asForm" && data.useChunk === true',
                 body: [
                   {
                     type: 'input-group',
@@ -287,6 +290,7 @@ export class FileControlPlugin extends BasePlugin {
                       'data.uploadType == "fileReceptor" && data.useChunk != false',
                     body: [
                       getSchemaTpl('apiControl', {
+                        mode: 'row',
                         name: 'startChunkApi',
                         label: tipedLabel(
                           '分块准备接口',
@@ -295,6 +299,7 @@ export class FileControlPlugin extends BasePlugin {
                         value: '/api/upload/startChunk'
                       }),
                       getSchemaTpl('apiControl', {
+                        mode: 'row',
                         name: 'chunkApi',
                         label: tipedLabel(
                           '分块上传接口',
@@ -303,6 +308,7 @@ export class FileControlPlugin extends BasePlugin {
                         value: '/api/upload/chunk'
                       }),
                       getSchemaTpl('apiControl', {
+                        mode: 'row',
                         name: 'finishChunkApi',
                         label: tipedLabel(
                           '上传完成接口',
@@ -362,7 +368,10 @@ export class FileControlPlugin extends BasePlugin {
               })
             ]
           },
-          getSchemaTpl('status', {isFormItem: true}),
+          getSchemaTpl('status', {
+            isFormItem: true,
+            unsupportStatic: true
+          }),
           getSchemaTpl('validation', {tag: ValidatorTag.File})
         ])
       },
@@ -371,6 +380,7 @@ export class FileControlPlugin extends BasePlugin {
         body: getSchemaTpl('collapseGroup', [
           getSchemaTpl('style:formItem', {renderer: context.info.renderer}),
           getSchemaTpl('style:classNames', {
+            unsupportStatic: true,
             schema: [
               getSchemaTpl('className', {
                 name: 'descriptionClassName',

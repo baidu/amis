@@ -19,7 +19,8 @@ export class ImageControlPlugin extends BasePlugin {
   // 组件名称
   name = '图片上传';
   isBaseComponent = true;
-  description = `可以对图片实现裁剪，限制图片的宽高以及大小，支持自动上传及上传多张图片`;
+  description =
+    '可以对图片实现裁剪，限制图片的宽高以及大小，支持自动上传及上传多张图片';
   docLink = '/amis/zh-CN/components/form/input-image';
   tags = ['表单项'];
   icon = 'fa fa-crop';
@@ -28,6 +29,9 @@ export class ImageControlPlugin extends BasePlugin {
     type: 'input-image',
     label: '图片上传',
     name: 'image',
+    autoUpload: true,
+    proxy: true,
+    uploadType: 'fileReceptor',
     imageClassName: 'r w-full',
     receiver: {
       url: 'object-upload://default',
@@ -73,7 +77,7 @@ export class ImageControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.file': {
+            'event.data.item': {
               type: 'object',
               title: '被移除的文件'
             }
@@ -89,7 +93,7 @@ export class ImageControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.file': {
+            'event.data.item': {
               type: 'object',
               title: '远程上传请求成功后返回的结果数据'
             }
@@ -105,7 +109,7 @@ export class ImageControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.file': {
+            'event.data.item': {
               type: 'object',
               title: '上传的文件'
             },
@@ -173,6 +177,7 @@ export class ImageControlPlugin extends BasePlugin {
               }),
 
               getSchemaTpl('apiControl', {
+                mode: 'row',
                 name: 'receiver',
                 label: tipedLabel(
                   '文件接收器',
@@ -188,7 +193,7 @@ export class ImageControlPlugin extends BasePlugin {
               }),
 
               getSchemaTpl('proxy', {
-                value: false
+                value: true
               }),
               // getSchemaTpl('autoFill'),
 
@@ -311,6 +316,7 @@ export class ImageControlPlugin extends BasePlugin {
                   {
                     name: 'maxSize',
                     type: 'input-number',
+                    suffix: 'B',
                     label: tipedLabel(
                       '最大体积',
                       '超出大小不允许上传，单位字节'
@@ -376,7 +382,10 @@ export class ImageControlPlugin extends BasePlugin {
               }
             ]
           },
-          getSchemaTpl('status', {isFormItem: true}),
+          getSchemaTpl('status', {
+            isFormItem: true,
+            unsupportStatic: true
+          }),
           getSchemaTpl('validation', {tag: ValidatorTag.File})
         ])
       },
@@ -415,6 +424,7 @@ export class ImageControlPlugin extends BasePlugin {
             ]
           },
           getSchemaTpl('style:classNames', {
+            unsupportStatic: true,
             schema: []
           })
         ])

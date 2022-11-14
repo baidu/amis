@@ -527,7 +527,7 @@ export class CRUDPlugin extends BasePlugin {
         return;
       }
 
-      // 可能会出错，但是cards table-v2 list 配置面板结构统一，因此
+      // 可能会出错，但是cards table2 list 配置面板结构统一，因此
       (context.data as any).tabs.forEach((tab: any) => {
         if (tab.title === '属性') {
           tab.body[0].body.forEach((collapse: any) => {
@@ -610,7 +610,7 @@ export class CRUDPlugin extends BasePlugin {
     });
 
     // 只有表格才能找到操作列放这个内容，卡片和列表不知道位置
-    if (context.schema.mode === 'table-v2') {
+    if (context.schema.mode === 'table2') {
       DataOperators.forEach(op => {
         if (!builder.features.includes(op.value)) {
           return;
@@ -681,7 +681,7 @@ export class CRUDPlugin extends BasePlugin {
     }
 
     const existCols =
-      node!.children.find(child => child.type === 'table-v2')?.children[0]
+      node!.children.find(child => child.type === 'table2')?.children[0]
         ?.children || [];
     const hasOperatorCol = node!.schema.columns?.some(
       (col: any) => col.type === 'operation'
@@ -707,7 +707,7 @@ export class CRUDPlugin extends BasePlugin {
       );
       if (appendCols?.length) {
         appendCols.forEach((col: any) => {
-          if (existColsName.includes(col.key)) {
+          if (existColsName.includes(col.name)) {
             return;
           }
 
@@ -741,7 +741,7 @@ export class CRUDPlugin extends BasePlugin {
     // context.node.
 
     // // 只有表格才能找到操作列放这个内容，卡片和列表不知道位置
-    // if (context.schema.mode === 'table-v2') {
+    // if (context.schema.mode === 'table2') {
     //   DataOperators.forEach(op => {
     //     if (!builder.features.includes(op.value)) {
     //       return;
@@ -760,7 +760,6 @@ export class CRUDPlugin extends BasePlugin {
     //     });
     //   });
     // }
-
     return columns;
   }
 
@@ -1342,7 +1341,7 @@ export class CRUDPlugin extends BasePlugin {
     //   actionType: 'resetQuery',
     //   actionLabel: '重置查询',
     //   description: '重新恢复查询条件为初始值',
-    //   desc: (info: any) => {
+    //   descDetail: (info: any) => {
     //     return (
     //       <div>
     //         <span className="variable-right">{info?.__rendererLabel}</span>
@@ -1383,14 +1382,14 @@ export class CRUDPlugin extends BasePlugin {
     columns: [
       {
         title: 'A',
-        key: 'a'
+        name: 'a'
       },
       {
         title: 'B',
-        key: 'b'
+        name: 'b'
       },
       {
-        key: 'operation',
+        name: 'operation',
         title: '操作',
         buttons: [
           {
@@ -1422,7 +1421,7 @@ export class CRUDPlugin extends BasePlugin {
 
   async buildDataSchemas(node: EditorNodeType, region?: EditorNodeType) {
     const child: EditorNodeType = node.children.find(
-      item => !!~['table-v2', 'cards', 'list'].indexOf(item.type)
+      item => !!~['table2', 'cards', 'list'].indexOf(item.type)
     );
 
     let items;
@@ -1531,10 +1530,10 @@ export class TableCRUDPlugin extends CRUDPlugin {
 
   scaffold: any = {
     type: 'crud2',
-    mode: 'table-v2',
+    mode: 'table2',
     columns: [
       {
-        key: 'id',
+        name: 'id',
         title: 'ID',
         type: 'container',
         body: [
@@ -1544,7 +1543,7 @@ export class TableCRUDPlugin extends CRUDPlugin {
         ]
       },
       {
-        key: 'engine',
+        name: 'engine',
         title: '示例',
         type: 'container',
         body: [

@@ -23,7 +23,7 @@ export class TagControlPlugin extends BasePlugin {
   isBaseComponent = true;
   icon = 'fa fa-tag';
   pluginIcon = 'input-tag-plugin';
-  description = `配置<code>options</code>可以实现选择选项`;
+  description = '配置 options 可以实现选择选项';
   docLink = '/amis/zh-CN/components/form/input-tag';
   tags = ['表单项'];
   scaffold = {
@@ -76,6 +76,10 @@ export class TagControlPlugin extends BasePlugin {
             'event.data.value': {
               type: 'string',
               title: '选中值'
+            },
+            'event.data.items': {
+              type: 'array',
+              title: '选项集合'
             }
           }
         }
@@ -92,6 +96,10 @@ export class TagControlPlugin extends BasePlugin {
             'event.data.value': {
               type: 'string',
               title: '选中值'
+            },
+            'event.data.items': {
+              type: 'array',
+              title: '选项集合'
             }
           }
         }

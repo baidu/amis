@@ -409,7 +409,7 @@ export class ActionPlugin extends BasePlugin {
     ) {
       toolbars.push({
         iconSvg: 'dialog',
-        tooltip: `配置弹框内容`,
+        tooltip: '配置弹框内容',
         placement: 'bottom',
         onClick: () => this.editDetail(id)
       });

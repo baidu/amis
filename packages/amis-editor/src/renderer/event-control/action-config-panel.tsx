@@ -7,14 +7,13 @@ import {defaultValue, RendererPluginAction} from 'amis-editor-core';
 import React from 'react';
 import cx from 'classnames';
 import {COMMON_ACTION_SCHEMA_MAP, renderCmptActionSelect} from './helper';
-import { Button } from 'amis';
+import {Button} from 'amis';
 
 export default class ActionConfigPanel extends React.Component<RendererProps> {
   render() {
-    const {data, onBulkChange, render, pluginActions, actionConfigItemsMap} = this.props;
-    const actionType = data.__subActions
-      ? data.groupType
-      : data.actionType;
+    const {data, onBulkChange, render, pluginActions, actionConfigItemsMap} =
+      this.props;
+    const actionType = data.__subActions ? data.groupType : data.actionType;
     const commonActionConfig = {
       ...COMMON_ACTION_SCHEMA_MAP,
       ...actionConfigItemsMap
@@ -25,8 +24,7 @@ export default class ActionConfigPanel extends React.Component<RendererProps> {
       // 获取组件动作配置
       const subActionSchema =
         pluginActions?.[data.__rendererName]?.find(
-          (item: RendererPluginAction) =>
-            item.actionType === data.groupType
+          (item: RendererPluginAction) => item.actionType === data.groupType
         )?.schema ?? commonActionConfig[data.groupType]?.schema;
       const baseSchema = renderCmptActionSelect('选择组件', true);
       // 追加到基础配置
@@ -36,8 +34,7 @@ export default class ActionConfigPanel extends React.Component<RendererProps> {
           ? subActionSchema
           : [subActionSchema])
       ];
-    }
-    else {
+    } else {
       schema = data.__actionSchema;
     }
 

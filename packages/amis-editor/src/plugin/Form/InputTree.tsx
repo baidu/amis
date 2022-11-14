@@ -20,7 +20,8 @@ export class TreeControlPlugin extends BasePlugin {
   isBaseComponent = true;
   icon = 'fa fa-list-alt';
   pluginIcon = 'input-tree-plugin';
-  description = `树型结构来选择，可通过<code>options</code>来配置选项，也可通过<code>source</code>拉取选项`;
+  description =
+    '树型结构来选择，可通过 options 来配置选项，也可通过 source 拉取选项';
   docLink = '/amis/zh-CN/components/form/input-tree';
   tags = ['表单项'];
   scaffold = {
@@ -93,7 +94,7 @@ export class TreeControlPlugin extends BasePlugin {
               type: 'object',
               title: '新增的节点信息'
             },
-            'event.data.options': {
+            'event.data.items': {
               type: 'array',
               title: '选项集合'
             }
@@ -113,7 +114,7 @@ export class TreeControlPlugin extends BasePlugin {
               type: 'object',
               title: '编辑的节点信息'
             },
-            'event.data.options': {
+            'event.data.items': {
               type: 'array',
               title: '选项集合'
             }
@@ -133,7 +134,7 @@ export class TreeControlPlugin extends BasePlugin {
               type: 'object',
               title: '删除的节点信息'
             },
-            'event.data.options': {
+            'event.data.items': {
               type: 'array',
               title: '选项集合'
             }

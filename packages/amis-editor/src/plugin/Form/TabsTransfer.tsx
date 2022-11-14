@@ -16,7 +16,7 @@ export class TabsTransferPlugin extends BasePlugin {
   isBaseComponent = true;
   icon = 'fa fa-th-list';
   pluginIcon = 'tabs-transfer-plugin';
-  description = `组合穿梭器组件`;
+  description = '组合穿梭器组件';
   docLink = '/amis/zh-CN/components/form/transfer';
   tags = ['表单项'];
   scaffold = {
@@ -144,22 +144,10 @@ export class TabsTransferPlugin extends BasePlugin {
             'event.data.value': {
               type: 'string',
               title: '选中值'
-            }
-          }
-        }
-      ]
-    },
-    {
-      eventName: 'selectAll',
-      eventLabel: '全选',
-      description: '选中所有选项',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '选中值'
+            },
+            'event.data.items': {
+              type: 'array',
+              title: '选项集合'
             }
           }
         }
@@ -279,12 +267,12 @@ export class TabsTransferPlugin extends BasePlugin {
               getSchemaTpl('label'),
 
               getSchemaTpl('searchable'),
-          
+
               getSchemaTpl('api', {
                 label: '检索接口',
                 name: 'searchApi'
               }),
-          
+
               {
                 label: '查询时勾选展示模式',
                 name: 'searchResultMode',
@@ -309,16 +297,16 @@ export class TabsTransferPlugin extends BasePlugin {
                   }
                 ]
               },
-          
+
               getSchemaTpl('sortable'),
-          
+
               getSchemaTpl('formulaControl', {
                 label: '左侧选项标题',
                 name: 'selectTitle',
                 type: 'input-text',
                 inputClassName: 'is-inline '
               }),
-          
+
               getSchemaTpl('formulaControl', {
                 label: '右侧结果标题',
                 name: 'resultTitle',

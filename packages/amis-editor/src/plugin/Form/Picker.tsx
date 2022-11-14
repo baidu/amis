@@ -27,7 +27,8 @@ export class PickerControlPlugin extends BasePlugin {
   isBaseComponent = true;
   icon = 'fa fa-window-restore';
   pluginIcon = 'picker-plugin';
-  description = `通过<code>pickerSchema</code>配置可供选取的数据源进行选择需要的数据，支持多选`;
+  description =
+    '通过 pickerSchema 配置可供选取的数据源进行选择需要的数据，支持多选';
   docLink = '/amis/zh-CN/components/form/picker';
   tags = ['表单项'];
   scaffold = {
@@ -72,9 +73,25 @@ export class PickerControlPlugin extends BasePlugin {
               type: 'string',
               title: '选中值'
             },
-            'event.data.option': {
+            'event.data.selectedItems': {
               type: 'string',
               title: '选中的行数据'
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'itemclick',
+      eventLabel: '点击选项',
+      description: '选项被点击时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            'event.data.item': {
+              type: 'object',
+              title: '所点击的选项'
             }
           }
         }

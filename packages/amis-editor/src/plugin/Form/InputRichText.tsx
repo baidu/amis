@@ -12,13 +12,15 @@ export class RichTextControlPlugin extends BasePlugin {
   isBaseComponent = true;
   icon = 'fa fa-newspaper-o';
   pluginIcon = 'input-rich-text-plugin';
-  description = `可自定义富文本的配置栏`;
+  description = '可自定义富文本的配置栏';
   docLink = '/amis/zh-CN/components/form/input-rich-text';
   tags = ['表单项'];
   scaffold = {
     type: 'input-rich-text',
     label: '富文本',
-    name: 'rich-text'
+    name: 'rich-text',
+    receiver: '/api/upload/image',
+    vendor: 'tinymce'
   };
   previewSchema: any = {
     type: 'form',

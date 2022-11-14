@@ -214,7 +214,7 @@ export class FormPlugin extends BasePlugin {
   events: RendererPluginEvent[] = [
     {
       eventName: 'inited',
-      eventLabel: '初始化完成',
+      eventLabel: '初始化接口请求成功',
       description: '远程初始化接口请求成功时触发',
       // 表单数据为表单变量
       dataSchema: [
@@ -223,7 +223,7 @@ export class FormPlugin extends BasePlugin {
           properties: {
             'event.data': {
               type: 'object',
-              title: 'initApi 远程请求返回的初始化数据'
+              title: '初始化接口请求成功返回的数据'
             }
           }
         }
@@ -328,14 +328,15 @@ export class FormPlugin extends BasePlugin {
     {
       eventName: 'submitSucc',
       eventLabel: '提交成功',
-      description: '表单提交请求成功后触发',
+      description:
+        '表单提交成功后触发，如果事件源是按钮，且按钮的类型为“提交”，那么即便当前表单没有配置“保存接口”也将触发提交成功事件',
       dataSchema: [
         {
           type: 'object',
           properties: {
             'event.data.result': {
               type: 'object',
-              title: '提交成功后返回的数据'
+              title: '保存接口请求成功后返回的数据'
             }
           }
         }
@@ -351,7 +352,7 @@ export class FormPlugin extends BasePlugin {
           properties: {
             'event.data.error': {
               type: 'object',
-              title: '提交失败后返回的错误信息'
+              title: '保存接口请求失败后返回的错误信息'
             }
           }
         }
@@ -811,6 +812,11 @@ export class FormPlugin extends BasePlugin {
             getSchemaTpl('className'),
 
             getSchemaTpl('className', {
+              name: 'staticClassName',
+              label: '静态展示时 的 CSS 类名'
+            }),
+
+            getSchemaTpl('className', {
               name: 'panelClassName',
               visibleOn: 'this.wrapWithPanel !== false',
               label: 'Panel 的 CSS 类名',
@@ -844,7 +850,8 @@ export class FormPlugin extends BasePlugin {
             }),
 
             getSchemaTpl('disabled'),
-            getSchemaTpl('visible')
+            getSchemaTpl('visible'),
+            getSchemaTpl('static')
           ]
         }
       ])

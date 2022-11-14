@@ -87,13 +87,12 @@ export class TabsPlugin extends BasePlugin {
   actions = [
     {
       actionType: 'changeActiveKey',
-      actionLabel: '修改激活tab值',
+      actionLabel: '激活指定选项卡',
       description: '修改当前激活tab项的key',
       config: ['activeKey'],
-      desc: (info: any) => {
+      descDetail: (info: any) => {
         return (
           <div>
-            <span className="variable-right">{info?.__rendererLabel}</span>
             激活第
             <span className="variable-left variable-right">
               {info?.args?.activeKey}

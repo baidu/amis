@@ -34,7 +34,7 @@ setSchemaTpl('api', (patch: any = {}) => {
               placement: 'left'
             }
           : undefined,
-        option: `高级配置`,
+        option: '高级配置',
         name: name || 'api',
         mode: 'inline',
         className: 'w-full m-b-sm',

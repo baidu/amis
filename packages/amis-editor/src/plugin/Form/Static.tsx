@@ -18,7 +18,7 @@ export class StaticControlPlugin extends BasePlugin {
   isBaseComponent = true;
   icon = 'fa fa-info';
   pluginIcon = 'static-plugin';
-  description = `纯用来展示数据，可用来展示<code>json、date、image、progress</code>等数据`;
+  description = '纯用来展示数据，可用来展示 json、date、image、progress 等数据';
   docLink = '/amis/zh-CN/components/form/static';
   tags = ['表单项'];
   scaffold = {
@@ -96,8 +96,13 @@ export class StaticControlPlugin extends BasePlugin {
                 name: 'quickEdit.saveImmediately',
                 label: '立即保存',
                 visibleOn: 'data.quickEdit',
-                description: '开启后修改即提交，而不是标记修改批量提交。',
-                descriptionClassName: 'help-block m-b-none',
+                labelRemark: {
+                  className: 'm-l-xs',
+                  trigger: 'click',
+                  rootClose: true,
+                  placement: 'left',
+                  content: '开启后修改即提交，而不是标记修改批量提交。'
+                },
                 pipeIn: (value: any) => !!value
               }),
               getSchemaTpl('apiControl', {

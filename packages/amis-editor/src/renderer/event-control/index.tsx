@@ -30,6 +30,7 @@ import {
   SubRendererPluginAction
 } from 'amis-editor-core';
 export * from './helper';
+import {i18n as _i18n} from 'i18n-runtime';
 
 interface EventControlProps extends FormControlProps {
   actions: PluginActions; // 组件的动作列表
@@ -415,7 +416,8 @@ export class EventControl extends React.Component<
     >
   ) {
     const {events, onEvent} = this.state;
-    const {actionTree, pluginActions, commonActions} = this.props;
+    const {actionTree, pluginActions, commonActions, allComponents} =
+      this.props;
     // 收集当前事件已有ajax动作的请求返回结果作为事件变量
     let oldActions = onEvent[activeData.actionData!.eventKey].actions;
     if (activeData.type === 'update') {
@@ -431,14 +433,16 @@ export class EventControl extends React.Component<
           'actionLabel',
           actionTree,
           pluginActions,
-          commonActions
+          commonActions,
+          allComponents
         );
         const dataSchemaJson = getPropOfAcion(
           item,
           'outputVarDataSchema',
           actionTree,
           pluginActions,
-          commonActions
+          commonActions,
+          allComponents
         );
         const dataSchema = new DataSchema(dataSchemaJson || []);
         return {
@@ -512,20 +516,23 @@ export class EventControl extends React.Component<
         item => item.value === action.componentId
       );
 
+      // 获取组件数据动作所需上下文
       let setValueDs: any = null;
-      if (actionConfig?.actionType === 'setValue') {
-        const rendererType = node?.type;
-        const rendererName = node?.label;
-        // todo:这里会闪一下，需要从amis查下问题
-        if (SELECT_PROPS_CONTAINER.includes(rendererType || '')) {
-          const curVariable = rawVariables.find(
-            item => item.label === `${rendererName}变量`
-          );
-          setValueDs = curVariable?.children?.filter(
-            (item: ContextVariables) => item.value !== '$$id'
-          );
-        }
+      if (
+        actionConfig?.actionType === 'setValue' &&
+        node?.id &&
+        SELECT_PROPS_CONTAINER.includes(node?.type || '')
+      ) {
+        const targetDataSchema: any = await getContextSchemas?.(node.id, true);
+        const targetDataSchemaIns = new DataSchema(targetDataSchema || []);
+        const targetVariables =
+          targetDataSchemaIns?.getDataPropsAsOptions() || [];
+
+        setValueDs = targetVariables?.filter(
+          (item: ContextVariables) => item.value !== '$$id'
+        );
       }
+
       data.actionData = {
         eventKey: data.actionData!.eventKey,
         actionIndex: data.actionData!.actionIndex,
@@ -571,14 +578,16 @@ export class EventControl extends React.Component<
       actions: pluginActions,
       actionTree,
       commonActions,
-      getComponents
+      getComponents,
+      allComponents
     } = this.props;
     const desc = getPropOfAcion(
       action,
       'descDetail',
       actionTree,
       pluginActions,
-      commonActions
+      commonActions,
+      allComponents
     );
     let info = {...action};
     // 根据子动作类型获取动作树节点的配置
@@ -614,8 +623,9 @@ export class EventControl extends React.Component<
     } else if (type === 'update') {
       this.updateAction?.(config.eventKey, config.actionIndex, action);
     }
-    this.setState({actionData: undefined});
+
     this.setState({showAcionDialog: false});
+    this.setState({actionData: undefined});
   }
 
   @autobind
@@ -629,6 +639,7 @@ export class EventControl extends React.Component<
       actions: pluginActions,
       commonActions,
       getComponents,
+      allComponents,
       render
     } = this.props;
     const {
@@ -777,7 +788,8 @@ export class EventControl extends React.Component<
                                       'actionLabel',
                                       actionTree,
                                       pluginActions,
-                                      commonActions
+                                      commonActions,
+                                      allComponents
                                     ) || action.actionType}
                                   </div>
                                 </div>
@@ -828,7 +840,8 @@ export class EventControl extends React.Component<
             })
           ) : (
             <div className="ae-event-control-placeholder">
-              快去添加事件，让你的产品动起来吧
+              {/* 翻译未生效，临时方案 */}
+              {_i18n('4db5110d41293fef57f5a1f364187896')}
             </div>
           )}
         </ul>

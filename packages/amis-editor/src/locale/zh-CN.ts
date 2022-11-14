@@ -20,8 +20,6 @@ extendLocale('zh-CN', {
   '4d9c32c23df5d234e629c922c58d8e12': '右',
   '5ef69f62dc668c1a3e68b51c50a2530a': '图标',
   '4434b33a8731a73613ba5fa1eb984efb': 'CSS 类名',
-  'd46908ab96b7955bc7ba9cb172c4d2c8':
-    '有哪些辅助类 CSS 类名？请前往 <a href=https://baidu.gitee.io/amis/zh-CN/style/index target=_blank>样式说明</a>，除此之外你可以添加自定义类名，然后在系统配置中添加自定义样式。',
   '159dbc2fafd57b9d3652f16659b1b519': '触发方式',
   '45a51525391d4a3771b22f2cf1aa96b3': '浮层触发方式默认值为鼠标悬停',
   '728c7cdfa431821d291b5108394ec65a': '鼠标悬停',
@@ -534,8 +532,6 @@ extendLocale('zh-CN', {
     "\n        const button = document.createElement('button');\n        button.innerText = '点击修改姓名ddd';\n        button.onclick = event => {\n          onChange('new name');\n          event.preventDefault();\n        };\n        dom.appendChild(button);",
   'b82231f254baf9a28bf752683d31b169': '自定义容器',
   'e5b5798a8bab7dc8a578431991731040': '通过自定义代码来实现容器组件',
-  '717a7095d0330ee4bdb46ba8c8b44463':
-    '<div>\n<h2>hello, world!</h2>\n<div id=customBox>自定义容器区域</div>\n</div>',
   '96ec95de2d7da5b16465eb980f74deae': '<p>自定义容器区域</p>',
   '749f710d280419b1da031c9bc79b3b07': '自定义容器区',
   '356b1959a9da95997b4de31415d9d74e': '日期展示',
@@ -565,13 +561,6 @@ extendLocale('zh-CN', {
   'dcba76890a534e1fe94421be2a17b484': '左下角展示报错消息',
   'af5876b89583552eef4c781718886dec': '左下角展示loading动画',
   'dd10fdec63a2224aa3d28b48d428cb98': '数据映射',
-  'ff57dff3fca4dee46a8e693d35b7e728':
-    '<div> 当开启数据映射时，弹框中的数据只会包含设置的部分，请绑定数据。如：{a: ${a}, b: 2}。</div>',
-  '290aa0d8fd40285d213a3786c98e28d3':
-    '<div>当值为 __undefined时，表示删除对应的字段，可以结合{&: $$}来达到黑名单效果。</div>',
-  'c7505acc5b5dd1ad17f35dd90e0884d6':
-    '${data[&] ? 已开启定制参数功能，可点击关闭该功能。 : 如果需要在默认数据的基础上定制参数，请配置开启参数定制再定义key和value。}',
-  '9567f8bbb315b1217b7b32be37f97792': '${data[&] ? 立即关闭 : 立即开启}',
   '261bba7ad82914e477f4b37f6a83874e': 'CSS类名',
   '5e5d3f13111593b2710673006d4c8297': '外层',
   '7e1eb2c588aa1301f4aa19395ef0a177': '分隔线',
@@ -587,11 +576,7 @@ extendLocale('zh-CN', {
   'bde8a41fc64bfe78d0c4951ac6f93718': '显示蒙层',
   '4a757588f5aee8cd039b1d166b096d1a': '点击外部关闭',
   '874cf31274d782914c7833cc39836c4e': '可拖拽抽屉大小',
-  '0eeffa0f121262f0c737975a7a6553e4':
-    '位置为 左 或 右 时生效。 默认宽度为尺寸字段配置的宽度，值单位默认为 px，也支持百分比等单位 ，如：100%',
   'd3e329f73ae4b58d95cc7769eeca8370': '位置为 为 左 或 右 时生效',
-  '9c203944698316da279b3c6f8d1933ac':
-    '位置为 上 或 下 时生效。 默认宽度为尺寸字段配置的高度，值单位默认为 px，也支持百分比等单位 ，如：100%',
   '45ce37c24c6e7252d98c6d450e3ca4ad': '标题区域',
   '660553eee939d2bd8ea68172fa7216df': '页脚区域',
   'cc70a816b7d61e7212d57335c0a15af5': '下拉按钮',
@@ -638,8 +623,6 @@ extendLocale('zh-CN', {
   '7ac1519928de413cfe36f5d2e0610430': '自动拉伸',
   '8e15f51c9512fdbf4287794d6642a90b': '子节点管理',
   'bc78248b34b7bf18691e6d385e0f544b': '子节点内容',
-  '2f10b0974520010e9db4ed5c87bc2a95':
-    '<span class=label label-default>子节点${index | plus}</span>',
   '023c4bfc60545a2668c2d5111171b5d8': '外层CSS类名',
   'a4611da51ffee9140976d01668e45d45': '子节点集合',
   '729a4cca5ed3504793c1f3a87d2b48b9': '按钮点选',
@@ -729,7 +712,6 @@ extendLocale('zh-CN', {
   '66e867eb73a118649800c0a064d0b5aa': '类型名称',
   '5aa528690fd771f89683a7f00868f39e': '分支管理',
   '35b65a5a3f8d721e12cae310463d69d6': '命中条件',
-  'c4f1a371191ac24d16e00e105540c47a': '比如: this.type === text',
   '85485d70be6b380294428018e54fc9b9': '根据成员数据判断是否使用此分支',
   '50bfed6ada3e7d0ef4d20eb727b3d7df': '配置子表单项',
   'd68162ea1904f627b033fe3953da295d': '配置子表单集合',
@@ -942,8 +924,6 @@ extendLocale('zh-CN', {
   'c80c42a0be1b39ed899b1f5560875cf8':
     '支持 JS 表达式，如： <code>data.var_a + 2</code>，即当表单项 <code>var_a</code> 变化的时候，会自动给当前表单项设置为 <code>var_a + 2</code> 的值。若设置为字符串，则需要加引号',
   '89a8549c2ed7fc23a683599731d92b22': '作用条件',
-  'e16e5eca749d250efd3ad95434ff7026':
-    '支持如：<code>\\${xxx}</code>或者<code>data.xxx == a</code> 表达式来配置作用条件，当满足该作用条件时，会将计算结果设置到目标变量上。',
   '3df193f5d4f652a4bac331a69761041b': '是否初始应用',
   '86cebf86c66c6a4e6731b840c3967ab0':
     '是否初始化的时候运行公式结果，并设置到目标变量上。',
@@ -1017,8 +997,6 @@ extendLocale('zh-CN', {
   '0a72b3858efffaa1bab685fa840b701b': '时间值',
   'f6db3514c72bdc34922f137a8a92b997': '输入框获取焦点(非内嵌模式)时触发',
   '0f5fc3b84cf9c24ff3acae45ae22fb57': '输入框失去焦点(非内嵌模式)时触发',
-  'cfbace00045a3debdc8f02858cf753c6':
-    '提交数据前将根据设定格式化数据，请参考 <a href=https://momentjs.com/ target=_blank>moment</a> 中的格式用法。',
   'ecd1a3cadcf1d55250afafbbde767250': '显示格式',
   '182503224cfaf1f63c566f13da56a2a4':
     '请参考 <a href=https://momentjs.com/ target=_blank>moment</a> 中的格式用法。',
@@ -1095,8 +1073,6 @@ extendLocale('zh-CN', {
   'd28879b6a8a4ddb62bf6f2ab59303df7': '随表单提交',
   '3a76423b7ae40b0fa8b0bedb470cce7e': '独立上传',
   '7c6722203327e8173be987f36fadf610': '数据格式',
-  'abe8f84fa8436e1033af359d8ef25634':
-    '${formType ? asBase64 ? 小文件时可以使用，默认给 Form 提交的是文件下载地址，设置后给 Form 提交文件内容的 base64 格式字符串。 : File 控件不接管文件上传，直接由表单的保存接口完成。和 Base64 选项二选一。 : }',
   '6168fb08fe64663a502a132c5589b73d': '二进制',
   '7245fe895fa1cfc42b5217a3de314565': '自动上传',
   'cf9e4c80962e712eaa55551cccff317e': '开启分块',
@@ -1240,8 +1216,6 @@ extendLocale('zh-CN', {
   'f9fb6a063d1856da86a06def2dc6b921': '英文',
   '81fafee54baebeb9591b5e7840d7e650': '大屏时展示的配置项',
   '0b6eee152cb2553ed4298ca2fe82d3f8': '屏幕宽度 ≥ 1200px',
-  'ac3906888a34e51c5bdc1297636857ed':
-    '使用空格分开配置，使用<code>|</code>可将配置栏分组，<a target=_blank href=https://www.froala.com/wysiwyg-editor/docs/options>参考文档</a>',
   'f126c4368fbf51cfd470684e7c3d31c9': '中屏时展示的配置项',
   '3b8c320d14dba586c581ceb951917397': '屏幕宽度 ≥ 992px',
   '89bc688b5b497e515ce3c026a1d92669': '小屏时展示的配置项',
@@ -1249,8 +1223,6 @@ extendLocale('zh-CN', {
   'b8c8f1c6a56e902bd837420da0f554b3': 'tinymce 设置项',
   'e4d0e65de0018b63698ff22d683d6dd5': '是否显示菜单栏',
   '63068211669d69b4028eebe0052425e7': '启用的插件',
-  'a917d194212a4f48b60d094c7a83fa17':
-    '使用空格分开配置，<a target=_blank href=https://www.tiny.cloud/docs/general-configuration-guide/basic-setup/>参考文档</a>',
   '1a920d9999206a9fa5f588c7405fe081':
     'SubForm, 配置一个子<code>form</code>作为当前的表单项',
   '18c113b99afa964ee988f30e81baf12b': '名称字段名',
@@ -1289,8 +1261,6 @@ extendLocale('zh-CN', {
   'e54289c1f0e9311185adee89af24e618': '取消编辑按钮图标',
   '1205e138ba64dddf61c1f8e6eb3a1aa7': '确认模式',
   '1c1618f67cfea6fefb5f287932be2c27': '获取父级数据',
-  'c811e7212b773b5d698a708113007729':
-    '配置canAccessSuperData: true 同时配置 strictMode: false 开启此特性，初始会自动映射父级数据域的同名变量。需要注意的是，这里只会初始会映射，一旦修改过就是当前行数据为主了。也就是说，表单项类型的，只会起到初始值的作用',
   '677fb705e57897710d28867b7628307e': 'Input CSS 类名',
   '14d342362f66aa86e2aa1c1e11aa1204': '标签',
   '1b4996b29c7b4d5fb45ca701e6438d14':
@@ -1407,8 +1377,6 @@ extendLocale('zh-CN', {
   'd1f923b8e23b66b3e48953ba1ce17839': '地理位置选择',
   '989ea9acbab9b17d2c15e2946b5365bb': '位置选择',
   'dffd9d86d2003615897b12ce7597d77b': '百度地图的 AK',
-  '3eaf4454ea75f435e78890d051775f68':
-    '请从<a href=http://lbsyun.baidu.com/ target=_blank>百度地图开放平台</a>获取',
   'b472ba224a7d132c487ee6ec4798f835': '坐标格式',
   '36443b53c845b197db8d39eeda433ab9': '百度坐标',
   'f58cb611aec0998a44ef104b5c950b40': '国测局坐标',
@@ -1451,8 +1419,6 @@ extendLocale('zh-CN', {
   'dc0c50a5c9832b393df34835111c34a3': '开启内嵌模式',
   '1ac065ed64b81380384a0b371d5b404f': '配置选框详情',
   'd64b585847f015eaa1443a3a03562350': '已选定数据的展示样式',
-  'c2ceb5af7595ec6d1818b35d5b68890b':
-    '支持使用 <code>\\${xxx}</code> 来获取变量，或者用 lodash.template 语法来写模板逻辑。<a target=_blank href=/amis/zh-CN/docs/concepts/template>详情</a>',
   'c2c23b4fc7f695c58e947ad413f2c5d8': '选框类型',
   '33e6c41fed95c25e3b426d596d504579': '抽出式弹框',
   '5a7af8d3e471d98339c84b07a844547b':
@@ -1688,15 +1654,6 @@ extendLocale('zh-CN', {
   'a2bc1edd7be9348e5a998feb0886c55d': '日志数据源',
   'ddeeaa33ae62ead1a77a859fb79b78d7':
     '对现有值做映射展示，比如原始值是：1、2、3...，需要展示成：下线、上线、过期等等。',
-  'de5c484c2ef38a6908f501bd93339ea7': '<span class=label label-info>一</span>',
-  '637729ecbb0395a5ce9fc43f94cb92bd':
-    '<span class=label label-success>二</span>',
-  '3a82dd75c3c3747c77329f682b243405':
-    '<span class=label label-danger>三</span>',
-  '6aa6f4aed3337b006be1052661f2b86b':
-    '<span class=label label-warning>四</span>',
-  '8fb95b984334a27006b5d45613a79c51':
-    '<span class=label label-primary>五</span>',
   '8b139ce9fa196b602bb1ee3bd25b25df': '映射表',
   'a9de5901385d644363cd056482be7517':
     '<p>当值命中左侧 Key 时，展示右侧内容，当没有命中时，默认实现 Key 为 <code>*</code>的内容</div>(请确保key值唯一)',
@@ -1771,8 +1728,6 @@ extendLocale('zh-CN', {
   'ff88d5db9d61f14bce6e3397fd4652a5': '当没有值时用这个来替代展示',
   '348097cc50579e489f0bcb5433637d3a': '开启后可以根据当前列排序(后端排序)。',
   '9db64f772c11c614ee00bb3cc066f46f': '列分组名称',
-  '161799764950b7251c94ae3e44d4c06f':
-    '当多列的分组名称设置一致时，表格会在显示表头的上层显示超级表头，<a href=https://baidu.github.io/amis/crud/header-group target=_blank>示例</a>',
   '19c4f5e98ad302574202de30dddbaf66': '启用快速编辑',
   '15c3796e07e33afc7252df751f610c5d': '是否立即保存',
   'ba5a0a1ff2c438ae7719ca48b0ce3af7': '启用查看更多展示',
@@ -1849,8 +1804,6 @@ extendLocale('zh-CN', {
   'da71dcbb13405815476cef28a8b9c4f6': '按钮外层',
   '6c5b1f0e8e361a801fa75da070d1cba5': '用来展示纯文字，html 标签会被转义。',
   '67e77a196826a8880e47ad949ce08ac0': '这是纯文本',
-  '8f945732891671ab4a3e095ebe58ea38':
-    '如果当前字段有值，请不要设置，否则覆盖。支持使用 <code>\\${xxx}</code> 来获取变量，或者用 lodash.template 语法来写模板逻辑。<a target=_blank href=/amis/zh-CN/docs/concepts/template>详情</a>',
   '83077805e05ac6bedad69b47fca4462b': '进度展示',
   'c77048def6e8a2d6c556a3fcc9c66730': '进度条、progress',
   'b1aefb18d4bf96dc283a26d67abc41a8':
@@ -2115,7 +2068,7 @@ extendLocale('zh-CN', {
   '9769ee568100b0c530a06ec3f0c0044d': '内容1',
   '4be268145385303e8ebeb480458a380e': '选项卡2',
   'c50159e2acff0f4ffdce4c67ec3513a3': '内容2',
-  'c8794c58d0eb020ca40905d1904d88b2': '修改激活tab值',
+  'c8794c58d0eb020ca40905d1904d88b2': '激活指定选项卡',
   'fcd3abb110aab48ebd0ac2a1d7040d6d': '修改当前激活tab项的key',
   '9d000284174ff09642502803887f28ed': '激活第',
   '29645b509093191cad34c673c1b3efb7': '项',
@@ -2153,8 +2106,6 @@ extendLocale('zh-CN', {
   '8a471486c6c7bbe43e14392c6b127aea': '异步任务',
   '4f58f808d62c4e31c347e483898396d5': '用来做异步任务呈现或者操作。',
   '9ee043b0a77a26d22eec0f4ea99afbd3': 'hive 任务',
-  'f0eda973dd9e60c659057dadde816725':
-    '查看详情<a target=_blank href=http://www.baidu.com>日志</a>。',
   '3709f71c9552ed5db76cbe8f3cb5d4be': '小流量',
   'c60ad696dee4e1eeff6f0f2c2e9b9fc0': '全量',
   '5c0dc424442c913c6d16a2cf43137da4': '初始任务信息',
@@ -2321,7 +2272,6 @@ extendLocale('zh-CN', {
   '7c57a563ab87bc6eb5edd8f5b953f499': '接口设置',
   '6aa351f5dacd13d3d862d9c93e4a0241': '发送方式',
   '8dc91bca9bc83efea73150e3478657fc': '发送条件',
-  'd811d2650a17fb7cac710e9376645287': '如：this.type == 123',
   '91ee84292a5bf5e59d3b6309f948f2f1': '用表达式来设置该请求的发送条件',
   '55409342e28d37db86fb23efbd84a025': '发送体格式为',
   'e06a14abe7ef66a8ead143db4ae9786e':
@@ -2342,8 +2292,6 @@ extendLocale('zh-CN', {
   '9ae7a582479116d4cb41e828fbd59798': '发送数据映射',
   '0fcbf036057c6dd88b7b809daa0c5eb7':
     '当没开启数据映射时，发送 API 的时候会发送尽可能多的数据，如果你想自己控制发送的数据，或者需要额外的数据处理，请开启此选项',
-  'eba0c4982948edc9b865292dc8abea33':
-    '<p>当没开启数据映射时，发送数据自动切成白名单模式，配置啥发送啥，请绑定数据。如：<code>{a: \\${a}, b: 2}</code></p><p>如果希望在默认的基础上定制，请先添加一个 Key 为 `&` Value 为 `\\$$` 作为第一行。</p><div>当值为 <code>__undefined</code>时，表示删除对应的字段，可以结合<code>{&: \\$$}</code>来达到黑名单效果。</div>',
   '7dd590a9d9e783e980d318bd52891905': '返回结果映射',
   '7e295b6ff39ec7356e06c4534bfc4fb3':
     '如果需要对返回结果做额外的数据处理，请开启此选项',
@@ -2403,8 +2351,6 @@ extendLocale('zh-CN', {
   '5d26b8a41e805204c9dcd5ea7e23b150': '请输入文本/值',
   '22de6ef85ed60ec54dbdc1d8583e5104': '批量添加',
   '421252e16c6cb544fe9ce0be94a190e0': '批量添加选项',
-  '55c4cbeae7ffae65d211bc5e9968dc28':
-    '每个选项单列一行，将所有值不重复的项加为新的选项;<br/>每行可通过空格来分别设置label和value,例：张三 zhangsan',
   '1e2f96a69fbef8caa8823a3067ebbdc7': '请输入选项内容',
   'a4f1ddbbfc96930d24e4b54cb815b62b': '无选项',
   '5b4ffa2eadaf629b833b37a3e8742b2c': '不分块',
@@ -2427,8 +2373,6 @@ extendLocale('zh-CN', {
   '34df758502e02c7c1a58f804a6c96c28': '折叠前文案',
   '1d20d90b7c7301b7739900242d38544e': '无配置情况，默认显示标题',
   '8aea4138b4fac2627c9b72da37e0671f': '折叠后文案',
-  '82e9f5ad74c0ff5a041369bd6c7a0760':
-    '每个选项单列一行，将所有值不重复的项加为新的选项;<br/>每行可通过空格来分别设置time和title,例：2022-06-23 期末补考',
   'd584018521820dac9e92120737b733ba': '节点配置',
   'c8158b3cad598b0b5939788ca4efb298': '接口获取',
   '72a3c1690dead6e24f7ac1abc90d5063': '请输入显示时间',
@@ -2675,8 +2619,6 @@ extendLocale('zh-CN', {
   '1a1ff1e1149a0cd1b39c0b231a334d04':
     '可以指定操作完成后刷新目标组件，请填写目标组件的 <code>name</code> 属性，多个组件请用<code>,</code>隔开，如果目标组件为表单项，请先填写表单的名字，再用<code>.</code>连接表单项的名字如：<code>xxForm.xxControl</code>。另外如果刷新目标对象设置为 <code>window</code>，则会刷新整个页面。',
   '4fe2f10c6d5bedac03f40a4362e4f69b': '请输入组件name',
-  '018dcc21d4c932029eaff062c4767f3f':
-    '有哪些辅助类 CSS 类名？请前往 <a href=https://baidu.github.io/amis/docs/concepts/style target=_blank>样式说明</a>，除此之外你可以添加自定义类名，然后在系统配置中添加自定义样式。',
   '3bce1a6217990c8dc087d254f1fe754a': '自动填充',
   'f01553e415ca33cc89d0bca84023f4b5':
     '将当前已选中的选项的某个字段的值，自动填充到表单中某个表单项中，支持数据映射',
@@ -2824,8 +2766,6 @@ extendLocale('zh-CN', {
   'ebd0dc3ebde6182caa3b66e0faf658b6': '自定义验证提示',
   'd7772d568894afbb1c924bed7f7ddb32': '自带提示不满足时，可以自定义。',
   '58c9592f818d706420236c6f9f595517': '新增提示',
-  'e367011e16762afd7db7cf4ff06dcb68':
-    "({\n          isEmail: 'Email 格式不正确',\n          isRequired: '这是必填项',\n          isUrl: 'Url 格式不正确',\n          isInt: '请输入整形数字',\n          isAlpha: '请输入字母',\n          isNumeric: '请输入数字',\n          isAlphanumeric: '请输入字母或者数字',\n          isFloat: '请输入浮点型数值',\n          isWords: '请输入字母',\n          isUrlPath: '只能输入字母、数字、\\-\\ 和 \\_\\.',\n          matchRegexp: '格式不正确, 请输入符合规则为 \\$1\\ 的内容。',\n          minLength: '请输入更多的内容，至少输入 $1 个字符。',\n          maxLength: '请控制内容长度, 请不要输入 $1 个字符以上',\n          maximum: '当前输入值超出最大值 $1，请检查',\n          minimum: '当前输入值低于最小值 $1，请检查',\n          isJson: '请检查 Json 格式。',\n          isLength: '请输入长度为 $1 的内容',\n          notEmptyString: '请不要全输入空白字符',\n          equalsField: '输入的数据与 $1 值不一致',\n          equals: '输入的数据与 $1 不一致',\n          isPhoneNumber: '请输入合法的手机号码',\n          isTelNumber: '请输入合法的电话号码',\n          isZipcode: '请输入合法的邮编地址',\n          isId: '请输入合法的身份证号',\n      })[data.type] || ''",
   '171f7b825707ddd79175fed3f8def6cd': '修改即提交',
   '6ccb7091c39a5229f7e77eff4dd44a0e': '设置后，表单中每次有修改都会触发提交',
   '1a006028adf7167ae28cdf532bb75ef4': '校验触发',
@@ -2858,5 +2798,152 @@ extendLocale('zh-CN', {
   'acf719549561f28f38bf750a64cda508': '输入的数据与 \\$1 不一致',
   'e027500d91d46a962036f63c09492c6c': '输入的数据与 \\$1 值不一致',
   'd01886eeef1de19f2e99617017f4def8':
-    '格式不正确, 请输入符合规则为 \\$1 的内容。'
+    '格式不正确, 请输入符合规则为 \\$1 的内容。',
+  'f10b676db977ae808af8d96b327be7f3':
+    '有哪些辅助类 CSS 类名？请前往 <a href="https://baidu.gitee.io/amis/zh-CN/style/index" target="_blank">样式说明</a>，除此之外你可以添加自定义类名，然后在系统配置中添加自定义样式。',
+  '73ac822ddf4685dbfec661dec41a96b7':
+    '<div>\n<h2>hello, world!</h2>\n<div id="customBox">自定义容器区域</div>\n</div>',
+  'e9b91e9101059dc2e234d9847dd7b003': '弹窗数据',
+  '94397b87ac63fe238c779120fadab024':
+    '位置为 "左" 或 "右" 时生效。 默认宽度为"尺寸"字段配置的宽度，值单位默认为 px，也支持百分比等单位 ，如：100%',
+  'a6d91e801974dfa735a4ae0e098c522a':
+    '位置为 "上" 或 "下" 时生效。 默认宽度为"尺寸"字段配置的高度，值单位默认为 px，也支持百分比等单位 ，如：100%',
+  '197af5d5971778e3b80deb25182d63e3':
+    '<span class="label label-default">子节点${index | plus}</span>',
+  '7341e991c8e8cfec68d31ffe0e06e429': '比如: this.type === "text"',
+  '8add6799ceff24eb041c5a6a92bb1694':
+    '支持如：<code>\\${xxx}</code>或者<code>data.xxx == "a"</code> 表达式来配置作用条件，当满足该作用条件时，会将计算结果设置到目标变量上。',
+  'e02d111d524de97e8622121f7ce845cf':
+    '提交数据前将根据设定格式化数据，请参考 <a href="https://momentjs.com/" target="_blank">moment</a> 中的格式用法。',
+  'fcb9b16d5d056bfbf6b6cba9dcf61efa':
+    '请参考 <a href="https://momentjs.com/" target="_blank">moment</a> 中的格式用法。',
+  'fde1ab2f504097f3f717acbb653b4f09':
+    '${formType ? asBase64 ? "小文件时可以使用，默认给 Form 提交的是文件下载地址，设置后给 Form 提交文件内容的 base64 格式字符串。" : "File 控件不接管文件上传，直接由表单的保存接口完成。和 Base64 选项二选一。" : ""}',
+  '17a689143f0c7003123bb3c947d35273': '校验优先级比最大宽度和最大宽度高',
+  '2aa41edf8cfa79e7e5fcf38c9742b495': '校验优先级比最大高度和最大高度高',
+  '37ad5d98b12853d786b08cb52b91a43a': '开启后需通过CSS类设置其高度、宽度',
+  '324d0ccd6fa9d976d2f17de3bf0b70bd': '开启固定尺寸时，根据此值控制展示尺寸',
+  'd85a80d177db696b29b7338af1501055':
+    '使用空格分开配置，使用<code>|</code>可将配置栏分组，<a target="_blank" href="https://www.froala.com/wysiwyg-editor/docs/options">参考文档</a>',
+  '8cfcd52cebdc2555b202f4b03de93662':
+    '使用空格分开配置，<a target="_blank" href="https://www.tiny.cloud/docs/general-configuration-guide/basic-setup/">参考文档</a>',
+  '5831c1f77c5acefa6dfe9c64d06ca78a':
+    '配置"canAccessSuperData": true 同时配置 "strictMode": false 开启此特性，初始会自动映射父级数据域的同名变量。需要注意的是，这里只会初始会映射，一旦修改过就是当前行数据为主了。也就是说，表单项类型的，只会起到初始值的作用',
+  '24c5febd312d27b5e80354cf03e241f0': '外层容器',
+  'a269e7de6c7735290733eb3e574c2129':
+    '请从<a href="http://lbsyun.baidu.com/" target="_blank">百度地图开放平台</a>获取',
+  '0861915dbac25ccb573b3bb72ffeebd7':
+    '支持使用 <code>\\${xxx}</code> 来获取变量，或者用 lodash.template 语法来写模板逻辑。<a target="_blank" href="/amis/zh-CN/docs/concepts/template">详情</a>',
+  '844318bd1d58ba0bf7dabbb771174b12':
+    '<span class="label label-info">一</span>',
+  '2fccd71275cdf5d6c0c677ef79dd84a0':
+    '<span class="label label-success">二</span>',
+  '198a96c4cfc64d5feba81b3f931f8289':
+    '<span class="label label-danger">三</span>',
+  '626a0f2fdf13bcadf11581006ab9eba3':
+    '<span class="label label-warning">四</span>',
+  'ce3fd44456123f571e9d083b98da9fcb':
+    '<span class="label label-primary">五</span>',
+  'fea0f3f456153564218a9eefb78d8cec':
+    '当多列的分组名称设置一致时，表格会在显示表头的上层显示超级表头，<a href="https://baidu.github.io/amis/crud/header-group" target="_blank">示例</a>',
+  'f8fc21a9fd40881e8fd3d7f15919465c':
+    '如果当前字段有值，请不要设置，否则覆盖。支持使用 <code>\\${xxx}</code> 来获取变量，或者用 lodash.template 语法来写模板逻辑。<a target="_blank" href="/amis/zh-CN/docs/concepts/template">详情</a>',
+  '2c8a99d35cb5704994cabcc61a4c3a4a':
+    '查看详情<a target="_blank" href="http://www.baidu.com">日志</a>。',
+  'bf9e242338d2c26b182aa6b9c015d84c': '如：this.type == "123"',
+  '5414824fb8efdb7d59beae4bf95fdefd':
+    '<p>当没开启数据映射时，发送数据自动切成白名单模式，配置啥发送啥，请绑定数据。如：<code>{"a": "\\${a}", "b": 2}</code></p><p>如果希望在默认的基础上定制，请先添加一个 Key 为 `&` Value 为 `\\$$` 作为第一行。</p><div>当值为 <code>__undefined</code>时，表示删除对应的字段，可以结合<code>{"&": "\\$$"}</code>来达到黑名单效果。</div>',
+  'c130bd5b55edefdaf8923269e9a52439':
+    '每个选项单列一行，将所有值不重复的项加为新的选项;<br/>每行可通过空格来分别设置label和value,例："张三 zhangsan"',
+  '1bf14fd24efe68f62bbff0538dee238a':
+    '每个选项单列一行，将所有值不重复的项加为新的选项;<br/>每行可通过空格来分别设置time和title,例："2022-06-23 期末补考"',
+  '0e9525b2bb1493c567c114dd61b69095': '温馨提示：',
+  '7080fa6e0ca1d7e24f6f8cac05077a3a':
+    '有哪些辅助类 CSS 类名？请前往 <a href="https://baidu.github.io/amis/docs/concepts/style" target="_blank">样式说明</a>，除此之外你可以添加自定义类名，然后在系统配置中添加自定义样式。',
+  'f19464cd1d7c55610b84b4972eaf506f':
+    '<div> 当开启数据映射时，弹框中的数据只会包含设置的部分，请绑定数据。如：{"a": "${a}", "b": 2}。</div>',
+  '784cf5219012b5f16f2985b7f1fd52f5':
+    '<div>当值为 __undefined时，表示删除对应的字段，可以结合{"&": "$$"}来达到黑名单效果。</div>',
+  'af9f27383daeec508815a33753247f42':
+    '${data["&"] ? "已开启定制参数功能，可点击关闭该功能。" : "如果需要在默认数据的基础上定制参数，请配置开启参数定制再定义key和value。"}',
+  'ff0d36eac9b9c029d91c365cd2c7e6cf': '${data["&"] ? "立即关闭" : "立即开启"}',
+  '7237d0dfa065bf451120d06330291b7d':
+    "({\n          isEmail: 'Email 格式不正确',\n          isRequired: '这是必填项',\n          isUrl: 'Url 格式不正确',\n          isInt: '请输入整形数字',\n          isAlpha: '请输入字母',\n          isNumeric: '请输入数字',\n          isAlphanumeric: '请输入字母或者数字',\n          isFloat: '请输入浮点型数值',\n          isWords: '请输入字母',\n          isUrlPath: '只能输入字母、数字、\\`-\\` 和 \\`_\\`.',\n          matchRegexp: '格式不正确, 请输入符合规则为 \\`$1\\` 的内容。',\n          minLength: '请输入更多的内容，至少输入 $1 个字符。',\n          maxLength: '请控制内容长度, 请不要输入 $1 个字符以上',\n          maximum: '当前输入值超出最大值 $1，请检查',\n          minimum: '当前输入值低于最小值 $1，请检查',\n          isJson: '请检查 Json 格式。',\n          isLength: '请输入长度为 $1 的内容',\n          notEmptyString: '请不要全输入空白字符',\n          equalsField: '输入的数据与 $1 值不一致',\n          equals: '输入的数据与 $1 不一致',\n          isPhoneNumber: '请输入合法的手机号码',\n          isTelNumber: '请输入合法的电话号码',\n          isZipcode: '请输入合法的邮编地址',\n          isId: '请输入合法的身份证号',\n      })[data.type] || ''",
+  '5e568c42a5ecb74db2dc3d8531079dd6':
+    '<a target="_blank" href="https://www.tiny.cloud/docs/general-configuration-guide/basic-setup/">参考文档</a>',
+  'cadf0e302ddbc6fdbf005aed670b5e3e': '代码变化',
+  '6006074bdabc639b86f42aa18876e33a': '代码变化时触发',
+  '28e5fd494ea37a09fd2ad36d0f98bacc': '被删除的项',
+  '046de1a6cb21ff83af74958342c0db64': '被激活的项',
+  'f6e5fc909971d2e5f6ffe23edae93584':
+    '如果数据比较多，比较卡顿时，可开启此配置项。',
+  '31dae237cbd03ae0d2dcf7ad2fd4fb76': '初始化接口请求成功后返回的数据',
+  '850c62f7b1ebfb4b89182ecd51202a7d':
+    '表单提交成功后触发，如果事件源是按钮，且按钮的类型为“提交”，那么即便当前表单没有配置“保存接口”也将触发提交成功事件',
+  '88b2930823f9fd6706473805e9b11797': '保存接口请求成功后返回的数据',
+  '3e07258baf3c4389c1ffd4a98c20b8fe': '保存接口请求失败后返回的错误信息',
+  '0d6581b6dd51f6c03a4edf26475d75c6': '被移除的项',
+  '4ea280a2e54969de1d1b9bbd5b708e63': '点击选项',
+  'f05520432bb87ced419a1da818c6cc9d': '选项被点击时触发',
+  '91f7b7fdf9b91073ca3519260f7a62d7': '所点击的选项',
+  '6afde638796d237377b0755506d08ded': '目标组件',
+  'fee99f2bcced486e4753a8f58f511d3f': '追加数据',
+  '3f3f4c71c1b736e7f01cf910a553ff43':
+    '选择“是”时，会将源组件所在数据域变量同步到目标组件的数据域。<br/>如果目标组件是增删改查组件，且增删改查组件的数据拉取接口是get请求，则源组件所在数据域变量将追加到目标组件的初始化请求query中。',
+  '2aecb19ca1655d66fc80fc27a783cc9e': '追加方式',
+  'b67b01a3b9170f1daf78082cfd0df793':
+    '选择“合并”时，会将数据合并到目标组件的数据域。<br/>选择“覆盖”时，数据会直接覆盖目标组件的数据域。',
+  'bd81577a6fd4956e676cec499bb70d00': '合并',
+  'e09fea40f7e4abd4b2a495b315940688': '覆盖',
+  '9a5500b6013ec1ebf61bdf0e18452348':
+    '数据默认为源组件所在数据域，可以选择“自定义”来定制所需数据',
+  'f30bcdccf71b19e858c37d8881d2b206': '源组件所在数据域',
+  'fa644cb20c66f7530d8a376d4fa6a36e': '组件数据',
+  '7d9260bd45b2e85a09398f218c25f220':
+    '更新目标组件的数据域或目标表单项的数据值',
+  'e7af71fb102cc86ab3be6a2fb32b5e3f': '数据设置',
+  '77b1081c177fa3334cc93c99f0ecee75': '直接赋值',
+  'f5c5e3d69daee06ea1606378ef466765': '成员赋值',
+  '697af73997072e0ce9ee65b15a7b3715': '重置页码',
+  'd7bf42dd6e66f2818f9a232603c4a53b': '选择“是”时，将重新请求第一页数据。',
+  '3e573fd37473d789211ee44335d82fad': '静态 CSS 类名',
+  '905407c57ccd033cb6bd64bfad20a8c7': '静态展示时 的 CSS 类名',
+  '0d1f68afa19f3f3dd88e28d17c98ddf9': '表格2',
+  'e052287273ad39a1d3fa9fa3decb5fd9': '组件展示态',
+  '506f28f48dbebd5d19e19dfc721e13be': '控制所选的组件的输入态/静态',
+  '0e35b091e18032508758899735664df7': '组件切换为静态',
+  '34d361256526b04909e064c29d9a9b76': '组件切换为输入态',
+  'd2e930293da37452638759e17d771adf': '组件状态',
+  'b535bea11c97ec5588b1494799de4d60': '表单输入',
+  'f7784642f42d33f506ba05f3daefc3c4': '表单静态',
+  'a8797a840f3c0bbb5297aada95f9b13a': '表单项静态',
+  '7bb3e24cc54f4b8ee0a65d14fa4c067c': '激活指定选项卡',
+  'fd951a59a7c635d5330bc1aeec22c813': '自定义数据',
+  'b62ce3df3c0d5772006c525b60d5eeab':
+    '数据默认为源组件所在数据域，开启“自定义”可以定制所需数据',
+  '0f9803bd27434940d4017007c105a861':
+    '当选择“是”，且目标组件是增删改查组件时，数据接口请求时将带上这些数据，其他类型的目标组件只有在数据接口是post请求时才会带上这些数据。',
+  '81e1ff0bb8917a9df99d737982ee24b7':
+    'SubForm, 配置一个子 form 作为当前的表单项',
+  'a5c2dba5ccf62851b24cfa12d4958ce2':
+    '可以用来展现数据的,可以用来展示数组类型的数据，比如 multiple  的子 form',
+  '74104c62ed33836f0bc74297539dd7c9': '配置 options 可以实现选择选项',
+  'b5ade3d97d5b11bc784786111e011571':
+    '树型结构来选择，可通过 options 来配置选项，也可通过 source 拉取选项',
+  '2c05e451a6f2b2fe1cf55f7afb8c8423':
+    '单选或者多选，支持 source 拉取选项，选项可配置图片，也可以自定义 HTML 配置',
+  'c65c9862813c7a66c0df52e301e0e1d1':
+    '适用于选项中含有子项，可通过 source 拉取选项，支持多选',
+  '8f650b58c8421edecfb380d6f60ef40e':
+    '通过 pickerSchema 配置可供选取的数据源进行选择需要的数据，支持多选',
+  'b7a4abc1e4e975c9df5bb9d9cf4823ba':
+    '通过 options 配置选项，可通过 source 拉取选项',
+  'f2fc416c7d95a93a8da621f760be8417':
+    '支持多选，输入提示，可使用 source 获取选项',
+  'b4482a3d9523f48e83a816fa85911185':
+    '纯用来展示数据，可用来展示 json、date、image、progress 等数据',
+  'ecfd82eb65102274188011a502913d3a': '抽屉数据',
+  '951f802ebd0c0d795fbae6767a5ee9b3': '初始化接口请求成功',
+  'da0126992b4937a5fd847ef5366b02e6': '初始化接口请求成功返回的数据',
+  '70b8342d743374233bfee0f56c7f0fc7': '节点示例数据'
 });

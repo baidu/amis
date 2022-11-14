@@ -3,10 +3,7 @@ import {registerEditorPlugin} from 'amis-editor-core';
 import {BasePlugin, BaseEventContext} from 'amis-editor-core';
 
 import {formItemControl} from '../../component/BaseControl';
-import {
-  RendererPluginAction,
-  RendererPluginEvent
-} from 'amis-editor-core';
+import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 
 export class ListControlPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -20,7 +17,8 @@ export class ListControlPlugin extends BasePlugin {
   isBaseComponent = true;
   icon = 'fa fa-ellipsis-h';
   pluginIcon = 'list-select-plugin';
-  description = `单选或者多选，支持<code>source</code>拉取选项，选项可配置图片，也可以自定义<code>HTML</code>配置`;
+  description =
+    '单选或者多选，支持 source 拉取选项，选项可配置图片，也可以自定义 HTML 配置';
   docLink = '/amis/zh-CN/components/form/list-select';
   tags = ['表单项'];
   scaffold = {
@@ -112,7 +110,6 @@ export class ListControlPlugin extends BasePlugin {
             getSchemaTpl('label'),
             getSchemaTpl('multiple'),
             getSchemaTpl('extractValue'),
-            
             getSchemaTpl('valueFormula', {
               rendererSchema: context?.schema,
               useSelectMode: true, // 改用 Select 设置模式

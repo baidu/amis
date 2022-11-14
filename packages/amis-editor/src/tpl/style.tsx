@@ -18,8 +18,16 @@ setSchemaTpl('style:formItem', ({renderer, schema}: any) => {
 
 setSchemaTpl(
   'style:classNames',
-  (config: {schema: SchemaCollection; isFormItem: boolean}) => {
-    const {isFormItem = true, schema = []} = config || {};
+  (config: {
+    schema: SchemaCollection;
+    isFormItem: boolean;
+    unsupportStatic?: boolean;
+  }) => {
+    const {
+      isFormItem = true,
+      unsupportStatic = false,
+      schema = []
+    } = config || {};
 
     return {
       title: 'CSS 类名',
@@ -35,7 +43,13 @@ setSchemaTpl(
             getSchemaTpl('className', {
               label: '控件',
               name: 'inputClassName'
-            })
+            }),
+            ...unsupportStatic ? [] : [
+              getSchemaTpl('className', {
+                label: '表单项静态',
+                name: 'staticClassName'
+              })
+            ]
           ]
         : [
             getSchemaTpl('className', {

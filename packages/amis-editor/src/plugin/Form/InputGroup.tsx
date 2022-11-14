@@ -14,7 +14,7 @@ export class InputGroupControlPlugin extends BasePlugin {
   isBaseComponent = true;
   icon = 'fa fa-object-group';
   pluginIcon = 'input-group-plugin';
-  description = `输入组合，支持多种类型的控件组合`;
+  description = '输入组合，支持多种类型的控件组合';
   docLink = '/amis/zh-CN/components/form/input-group';
   tags = ['表单项'];
   scaffold = {
@@ -64,8 +64,7 @@ export class InputGroupControlPlugin extends BasePlugin {
             type: 'tpl',
             inline: false,
             className: 'p-t-xs',
-            tpl:
-              '<%= data.label %><% if (data.icon) { %><i class="<%= data.icon %>"/><% }%>'
+            tpl: '<%= data.label %><% if (data.icon) { %><i class="<%= data.icon %>"/><% }%>'
           }
         ]
       },
