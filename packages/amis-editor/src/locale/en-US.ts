@@ -3331,5 +3331,115 @@ extendLocale('en-US', {
   '951f802ebd0c0d795fbae6767a5ee9b3': 'Initialize interface request succeeded',
   'da0126992b4937a5fd847ef5366b02e6':
     'Data returned by initialization interface request successfully',
-  '70b8342d743374233bfee0f56c7f0fc7': 'Node Sample Data'
+  '70b8342d743374233bfee0f56c7f0fc7': 'Node Sample Data',
+  '38f85482d657cd4db1280c5efa1950fd': '{{@1}} Alignment',
+  '0a0574baedb8eb2abf7daf25159d8bb1':
+    'Set the alignment of sub elements on the spindle',
+  '5ccc4c05cd41195f202f550a4c307a64':
+    'Set the alignment of child elements on the cross axis',
+  'b1b98c19058af70d8bd499e1899e93bc': 'Layout Container',
+  '03097563d201ad3a29c79165226764e5':
+    'The layout container is a layout effect based on CSS Flex. It is more controllable than Grid and HBox for the location of child nodes, and easier to use than CSS classes',
+  'e151c86d57096bb74dcd390ade29362b': 'New column',
+  'e5f9b3a3655b8daddcee8b97b735887f': 'Insert Layout Container Forward',
+  '577b33bf128fba16ed8e9bf7c395f455': 'Insert Layout Container Backward',
+  '31f84d1bc6175fd0828a81b5bfd98736': 'Add column level element',
+  'cbc1d00cc640b67ee34a29a694ef162a':
+    'Left (upper) insert column level container',
+  'bb3cc092e17ff83e943554bde3d5771b':
+    'Insert column level container on the right (lower) side',
+  'b19b454fe603e03e98ad9772615c7c32': 'Positioning mode',
+  '8444f01399c0003fbb68eeff1310566c':
+    'Specifies the positioning type of the current container element',
+  '5ddea41072a27a74a1715549dfb79bc2': 'relative',
+  'e9513a013011450c57cfe3ef51b7d4b0': 'Fixed (relative to window)',
+  '3059599d8ebfec00a8ab53346d9b4fa3': 'Absolute (relative to parent container)',
+  '86a6b5a0a45bba5b6187cc2277e3375e': 'Layout Location',
+  '6e72759ed1cbf9f9e8523197dd93888f':
+    'Specifies the location of the current container element, which is used to configure top, right, bottom, and left.',
+  '6896da744f8ae9633263d55af0fceae1': 'Hierarchy',
+  '6f649980c839dffca1506f20d534fe3d':
+    'Specifies the stacking order of elements. Elements at higher levels will always be above elements at lower levels.',
+  'a8489cf57d7f44e889aff79434776f47':
+    'The default is block level, which can be set to elastic layout mode (flex layout container)',
+  '4180e30c34190007ffaa654e0959b8a3': 'Intra row flexible layout',
+  'ebe7bde5c9094813e2924473488d281a': 'In row block level',
+  'dde193342b8c350ae29795117c0c5b9a': 'Horizontal Alignment',
+  '5b15af1f73b4f2d5bb152410863602f4': 'Vertical Alignment',
+  '78d32d2bd35c0262fe77b517c5a4fb62': 'Arrangement direction',
+  '3fa460b81736c0360f6f7571801935b1':
+    'If the direction is set to horizontal arrangement, children are placed from left to right; If it is set to the vertical arrangement direction, the sub items will be set from top to bottom',
+  'fa228d6bec96d052de0ad369407f5241':
+    'Horizontal (starting point is at the right end)',
+  '2df3bc66ab3fcb0de1caf11831eff595': 'Vertical (starting point at lower edge)',
+  '98b2fea2d8f3ceb81e9ce32d66383f05': 'How to wrap lines',
+  '9af509c2a9636343199b9072e001826c': 'Default (no line breaks)',
+  'd4054144c4341872496e3550fdb1b826': 'Word wrap (reverse)',
+  'ee2df1c1a0d99094f641166535948d4b': 'Elastic mode',
+  '947c03e411c20563c7ac67d0a5ad741b':
+    'After the elastic mode is set, the current area is automatically adapted',
+  'f92626f9e56b3e2d0c47495a446acf71': 'Elastic width',
+  'cf8852316501c22ea19c4e432c59e7d7': 'Default Width',
+  '9cc69c8469b23b77519065d3df381113':
+    'Define the main size occupied by the project before allocating extra space',
+  '0ad8b3b736ae5b9e23cf16ac13e1e283': 'Proportion setting',
+  'fa6bb048a2f73975a40789b30c5b8a06':
+    'Defines the magnification of the project, which is 0 by default, that is, if there is any remaining space, it will not be magnified.',
+  'c19b79073b676b9bade80613aba2dbfa': 'Fixed height',
+  'd1b91a1a24f0d4935c2dd13e6a22b6d4':
+    'The maximum width is the maximum horizontal display area of the current element',
+  'c2ed47a1f0f45cf7e2d22bddffc8a732':
+    'Scroll mode for setting horizontal direction',
+  'cbc7af1d6422e88f4b87ade748e0f07d': 'Exceeding the display',
+  'b48a90c77b5e792260d830c2d68c527e': 'Beyond hiding',
+  'ddea62517e2bd1007712689746ebfe00': 'Scrolling',
+  '55becc96b40692cc9cf898b331d16976': 'Automatic adaptation',
+  'ede82efb4a69c35743185c6c73ab771e':
+    'The minimum width is the smallest horizontal display area of the current element',
+  '6f420734edfaff00a8210a4c762a9207':
+    'The maximum height is the display height with the most current elements',
+  '411f9d120093314cd38e6dd5cce398c6':
+    'The minimum width is the smallest vertical display area of the current element',
+  'b31c6aaa78f8e24df665ce80ab5301e2':
+    'Scroll mode for setting the vertical direction',
+  '4fc0e68b093db41b45a4ea706fbe56f3': 'Center Display',
+  '55efb233147f9539de019d9abc7653f9':
+    'Center display by setting margin: 0 auto',
+  '2bf5bcbe21f39b254a601664fb8b264d': 'Default (Wrap)',
+  'b2d418355cb59a5613ecff7b150c588f': 'nowrap ',
+  '7d1313925f158b747c094a7f2480e535': 'Reference position',
+  '41a7494315a528f0f9618646f7e0dddf':
+    'It can be set as upper left corner, upper right corner, lower right corner and lower left corner. The default is lower right corner',
+  '845c61ac8f51c6702dd22e5657c07e8d': 'Lower right corner (default)',
+  '2794fe303cf8ad4395fe93271fae7925':
+    'Layout containers are mainly used to design container components with complex layouts. The layout effect implemented based on CSS Flex is more controllable than Grid and HBox for the location of child nodes, and easier to use than using CSS classes',
+  'abbd790f85282349e2004df9fd494e31':
+    'Main size occupied by default before allocating extra space',
+  'dbb93e8f413074ead24b6ed822247d98': 'Insert Layout Container Above',
+  '5b5765b3fd7e72e04a5cd3e2ef6218a4': 'Insert Layout Container Below',
+  'ee466872b9a43e720e296813dbc5adee': '{{@1}} Insert Column Level Container',
+  '14c495b1248756310c75396cd41f4fe9': 'upper',
+  'e33ac3a4c1a95a02a18f1555038804da': 'Below',
+  'e731c52010266b8ade1e7e78e25cdccc': 'Common layouts',
+  'f80bd0a5546465336f4f9cafdfa8b67f': 'Default Height',
+  'ba9ccf1040d7abd0848046330ba3558c': 'Classic layout',
+  '230d65546ea0d299907943403608233c':
+    'Common layout: classic layout (layout container based on CSS Flex implementation).',
+  '9bbb7cfaeb34a2b5c095ac253355f028': 'Levitation vessel',
+  'a3e91631c1a3a43e09526ea7f6b8595c':
+    'Common layout: suspended container (layout container based on CSS Flex implementation).',
+  'd423930b823fc45f08c18922b19e4e9e': 'Bottom suction vessel',
+  'b8b4eb373d8ba6f98271b681fba2511d':
+    'Common layout: bottom suction container (a layout container based on CSS Flex implementation).',
+  'faaa6444a709917ff33e0d58948504dc': 'Ceiling container',
+  '1facf0bd0f56c66759857345e7434443':
+    'Common layout: ceiling container (a layout container based on CSS Flex implementation).',
+  'f416a3a2566dda04bc0ef67027e6f460': 'X axis rolling container',
+  'e3d9ad8453925764f2918dbfd6ff824e':
+    'Common layout: x-axis rolling container (based on the layout container implemented by CSS Flex).',
+  '053e0cbf18c8fe59b928d52fcd556b88': 'Y-axis rolling container',
+  'c9f089cefc06c217c6dddfe2fc772ea3':
+    'Common layout: y-axis rolling container (a layout container based on CSS Flex implementation).',
+  '3587540660a01f8a8aff6a2c0409a404':
+    'After the elastic mode is turned on, the current area is automatically adapted'
 });

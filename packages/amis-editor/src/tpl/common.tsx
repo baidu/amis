@@ -380,6 +380,7 @@ setSchemaTpl(
             rendererWrapper: config?.rendererWrapper,
             needDeleteValue: config?.needDeleteValue,
             valueType: config?.valueType,
+            visibleOn: config?.visibleOn,
             evalMode: config?.evalMode ?? false // 默认需要${}包裹变量
           }
         ]
