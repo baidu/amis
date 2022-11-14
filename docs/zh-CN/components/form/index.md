@@ -1443,8 +1443,8 @@ Form 支持轮询初始化接口，步骤如下：
 | promptPageLeave             | `boolean`                                                                 | `false`                                                                | form 还没保存，即将离开页面前是否弹框确认。                                                                                                                                                                                                                                                                                                                  |
 | columnCount                 | `number`                                                                  | 0                                                                      | 表单项显示为几列                                                                                                                                                                                                                                                                                                                                             |
 | inheritData                 | `boolean`                                                                 | `true`                                                                 | 默认表单是采用数据链的形式创建个自己的数据域，表单提交的时候只会发送自己这个数据域的数据，如果希望共用上层数据域可以设置这个属性为 false，这样上层数据域的数据不需要在表单中用隐藏域或者显式映射才能发送了。                                                                                                                                                 |
-| static | `boolean` |   | `2.4.0` 整个表单静态方式展示，详情请查看[示例页](../../../examples/form/switchDisplay) |
-| staticClassName | `string` |   | `2.4.0` 表单静态展示时使用的类名 |
+| static                      | `boolean`                                                                 |                                                                        | `2.4.0` 整个表单静态方式展示，详情请查看[示例页](../../../examples/form/switchDisplay)                                                                                                                                                                                                                                                                       |
+| staticClassName             | `string`                                                                  |                                                                        | `2.4.0` 表单静态展示时使用的类名                                                                                                                                                                                                                                                                                                                             |
 
 ## 事件表
 
@@ -1465,13 +1465,13 @@ Form 支持轮询初始化接口，步骤如下：
 
 当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
 
-| 动作名称 | 动作配置                       | 说明                       |
-| -------- | ------------------------------ | -------------------------- |
-| submit   | -                              | 提交表单                   |
-| reset    | -                              | 重置表单                   |
-| clear    | -                              | 清空表单                   |
-| validate | -                              | 校验表单                   |
-| reload   | -                              | 刷新（重新加载）             |
-| setValue | `value: object` 更新的表单数据   | 更新数据，对数据进行 merge    |
-| static   | -                              | 表单切换为静态展示          |
-| nonstatic | -                             | 表单切换为普通输入态         |
+| 动作名称  | 动作配置                       | 说明                       |
+| --------- | ------------------------------ | -------------------------- |
+| submit    | -                              | 提交表单                   |
+| reset     | -                              | 重置表单                   |
+| clear     | -                              | 清空表单                   |
+| validate  | -                              | 校验表单                   |
+| reload    | -                              | 刷新（重新加载）           |
+| setValue  | `value: object` 更新的表单数据 | 更新数据，对数据进行 merge |
+| static    | -                              | 表单切换为静态展示         |
+| nonstatic | -                              | 表单切换为普通输入态       |

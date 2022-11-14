@@ -182,8 +182,15 @@ export default class Service extends React.Component<ServiceProps> {
     this.dataProviderSetData = this.dataProviderSetData.bind(this);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    const {data, dispatchEvent} = this.props;
     this.mounted = true;
+    const rendererEvent = await dispatchEvent('init', data, this);
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
+
     this.initFetch();
   }
 

@@ -273,7 +273,8 @@ export default class TagControl extends React.PureComponent<
     const newValueRes = this.getValue('push', option);
 
     const isPrevented = await this.dispatchEvent('change', {
-      value: newValueRes
+      value: newValueRes,
+      selectedItems: selectedOptions.concat(option)
     });
     isPrevented || onChange(newValueRes);
   }
@@ -287,7 +288,8 @@ export default class TagControl extends React.PureComponent<
 
     const newValueRes = this.getValue('normal');
     const isPrevented = await this.dispatchEvent('focus', {
-      value: newValueRes
+      value: newValueRes,
+      selectedItems: this.props.selectedOptions
     });
     isPrevented || this.props.onFocus?.(e);
   }
@@ -305,7 +307,8 @@ export default class TagControl extends React.PureComponent<
 
     const newValueRes = this.normalizeMergedValue(value);
     const isPrevented = await this.dispatchEvent('blur', {
-      value: newValueRes
+      value: newValueRes,
+      selectedItems: selectedOptions
     });
 
     isPrevented || this.props.onBlur?.(e);
@@ -353,7 +356,8 @@ export default class TagControl extends React.PureComponent<
     }
 
     const isPrevented = await this.dispatchEvent('change', {
-      value: newValue
+      value: newValue,
+      selectedItems: value
     });
     isPrevented || onChange(newValue);
   }
@@ -369,11 +373,13 @@ export default class TagControl extends React.PureComponent<
     const {selectedOptions, onChange, delimiter} = this.props;
 
     const value = this.state.inputValue.trim();
+    const selectedItems = selectedOptions.concat({label: value, value});
 
     if (selectedOptions.length && !value && evt.key == 'Backspace') {
       const newValueRes = this.getValue('pop');
       const isPrevented = await this.dispatchEvent('change', {
-        value: newValueRes
+        value: newValueRes,
+        selectedItems
       });
       isPrevented || onChange(newValueRes);
     } else if (value && (evt.key === 'Enter' || evt.key === delimiter)) {
@@ -382,7 +388,8 @@ export default class TagControl extends React.PureComponent<
 
       const newValueRes = this.normalizeMergedValue(value);
       const isPrevented = await this.dispatchEvent('change', {
-        value: newValueRes
+        value: newValueRes,
+        selectedItems
       });
 
       if (!this.validateInputValue(value)) {
