@@ -255,5 +255,8 @@ extendLocale('en-US', {
   '38ce27d84639f3a6e07c00b3b4995c0e': 'Next step',
   '392342f7750a565f9a79c678c6b12421': '<Hidden state>',
   '8e44aba21d01c1e08cc79f4ebaf0b3f2':
-    'The layout container component does not support dragging and inserting child elements.'
+    'The layout container component does not support dragging and inserting child elements.',
+  '52e6abbe5c11e7cbf14788c1540f8bf2': 'Copied',
+  '372ea9fd27fb7cfacfe1b4ca3046f8d0': 'Configuration Item',
+  '2a6287664de5ab46c65220c7182878ff': 'Cut'
 });

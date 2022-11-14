@@ -227,5 +227,8 @@ extendLocale('zh-CN', {
   'f942c7a6a35c4eb1381d2966462d0489':
     '<div class="wrapper-sm b-a b-light m-b-sm">拖入占位</div>',
   '392342f7750a565f9a79c678c6b12421': '<隐藏状态>',
-  '8e44aba21d01c1e08cc79f4ebaf0b3f2': '布局容器组件不支持拖拽插入子元素。'
+  '8e44aba21d01c1e08cc79f4ebaf0b3f2': '布局容器组件不支持拖拽插入子元素。',
+  '52e6abbe5c11e7cbf14788c1540f8bf2': '已复制',
+  '372ea9fd27fb7cfacfe1b4ca3046f8d0': '配置项',
+  '2a6287664de5ab46c65220c7182878ff': '已剪切'
 });
