@@ -925,7 +925,6 @@ setSchemaTpl(
     pipeIn?: (value: any, data: any) => void;
     pipeOut?: (value: any, data: any) => void;
   }) => {
-    console.log('config:', config);
     const configSchema = {
       type: 'select',
       label: config?.label || tipedLabel('参考位置', '可设置为左上角、右上角、右下角、左下角，默认为右下角'),
