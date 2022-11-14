@@ -3441,5 +3441,40 @@ extendLocale('en-US', {
   'c9f089cefc06c217c6dddfe2fc772ea3':
     'Common layout: y-axis rolling container (a layout container based on CSS Flex implementation).',
   '3587540660a01f8a8aff6a2c0409a404':
-    'After the elastic mode is turned on, the current area is automatically adapted'
+    'After the elastic mode is turned on, the current area is automatically adapted',
+  '2ea6f1f33dec7cb3c23a1bf1f9eab11a': 'Mouse click',
+  'fe9228649853d08eebee72ad5521a3dd': 'Triggered when the mouse clicks',
+  'a643d2fe12d205eb8fb5cffe92f62c35': 'Triggered on mouse over',
+  '764c134791952dd1acb0f23587e75421': 'Toggle legend selection status',
+  '262cd2f688751332c1907a659e686210':
+    'Triggered when the legend is switched to the selected state',
+  'fd312ae2f1c24b8a14d9412bb3c6bb76': 'Last n days',
+  '68cba5f27ab003cfada5eb4c1f29eb21': 'Within n days',
+  '34b06708894a178c440e6f6539e95e9e': 'Last n weeks',
+  'f0e1b8d8a6e731360d7348bc8301d44a': 'Within n weeks',
+  '5cad2778bb8f01d1a1b1226082eb2117': 'Last n months',
+  'ff76f60b3da86a0d2c6663b170a7955a': 'Within n months',
+  '9ff9b56c9ed633ee09396830e93113ad': 'Last n quarters',
+  '2b80b20008b3ae81136217ae10a1fbaf': 'Within n quarters',
+  '84752114d27119dc50d8a7b9ac0b788b': 'Last n years',
+  '5df2352afebd73d1f568ebaa81e2db28': 'Within n years',
+  '8572d14f815d840bd9e940cd8ee4e380':
+    'Add or subtract data values through up and down arrow keys on the keyboard',
+  '925d31bb30d63576600299475a910c33':
+    'Displayed before entering content, not included in data value',
+  '42677544e2cbee28f7e7df216e685543':
+    'Displayed after input, not included in data value',
+  '046c6233e03af774df7b90b4504fa96c': 'lately',
+  '249aba763258bbe488af3e79a381d265': 'day',
+  '2f8ab07bea442bc6ce8a9e99ff88e5c1': 'Within days',
+  'a657f46f5bb00961adfae80d12e41b3d': 'week',
+  'b1599eaa05dc9b3d90be5aebc5c84338': 'Within weeks',
+  'e42b99d59954ce6437e66f416850425a': 'month',
+  '3c690347976de82df1909750cbc82b80': 'Within months',
+  'b62ba98a627851e911bef8fbb005bd4a': 'Within quarter',
+  '465260fe80b0c3338d06194bb7a94446': 'year',
+  '137bcb84f52bbd48623c37d8dfdebdff': 'Within a year',
+  '279d93f2d745ed08e9034022941510dc': 'Common span',
+  '7a1e5f93e362d371519bcb2bfdb0fc9a': 'Custom Span',
+  '4a12e9b9fc5443e5e9999b5a7c56c19a': 'Default (full)'
 });
