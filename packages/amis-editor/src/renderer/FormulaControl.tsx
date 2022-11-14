@@ -336,13 +336,12 @@ export default class FormulaControl extends React.Component<
 
   @autobind
   transExpr(str: string) {
-    if (
-      str.indexOf('}') === str.length - 1 &&
-      str.slice(0, 2) === '${' &&
-      str.slice(-1) === '}'
-    ) {
+    if (str?.slice(0, 2) === '${' && str?.slice(-1) === '}') {
       // 非最外层内容还存在表达式情况
       if (isExpression(str.slice(2, -1))) {
+        return str;
+      }
+      if (str.lastIndexOf('${') > str.indexOf('}') && str.indexOf('}') > -1) {
         return str;
       }
       return str.slice(2, -1);
@@ -498,16 +497,19 @@ export default class FormulaControl extends React.Component<
 
     // 判断是否含有公式表达式
     const isTypeError = !this.isExpectType(value);
+    const exprValue = this.transExpr(value);
 
     const isError = isLoop || isTypeError;
 
     const highlightValue = isExpression(value)
-      ? FormulaEditor.highlightValue(value, this.state.variables)
+      ? FormulaEditor.highlightValue(exprValue, this.state.variables) || {
+          html: exprValue
+        }
       : value;
 
     // 公式表达式弹窗内容过滤
     const filterValue = isExpression(value)
-      ? this.transExpr(value)
+      ? exprValue
       : this.hasDateShortcutkey(value)
       ? value
       : undefined;
@@ -569,7 +571,8 @@ export default class FormulaControl extends React.Component<
             tooltip={{
               tooltipTheme: 'dark',
               mouseLeaveDelay: 20,
-              content: this.transExpr(value)
+              content: exprValue,
+              children: () => this.renderFormulaValue(highlightValue)
             }}
           >
             <div className="ae-editor-FormulaControl-tooltipBox">
