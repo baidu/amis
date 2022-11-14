@@ -106,7 +106,7 @@ export interface TargetName {
   editorId: string;
 }
 
-export const EditorStore = types
+export const MainStore = types
   .model('EditorRoot', {
     isMobile: false,
     isSubEditor: false,
@@ -1684,4 +1684,4 @@ export const EditorStore = types
     };
   });
 
-export type EditorStoreType = Instance<typeof EditorStore>;
+export type EditorStoreType = Instance<typeof MainStore>;
