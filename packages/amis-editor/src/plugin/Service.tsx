@@ -1,14 +1,15 @@
 import {Button} from 'amis';
 import React from 'react';
-import {EditorNodeType, jsonToJsonSchema, registerEditorPlugin} from 'amis-editor-core';
+import {
+  EditorNodeType,
+  jsonToJsonSchema,
+  registerEditorPlugin
+} from 'amis-editor-core';
 import {BaseEventContext, BasePlugin, RegionConfig} from 'amis-editor-core';
 import {getSchemaTpl} from 'amis-editor-core';
 import {getEventControlConfig} from '../renderer/event-control/helper';
 
-import type {
-  RendererPluginAction,
-  RendererPluginEvent
-} from 'amis-editor-core';
+import type {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 
 export class ServicePlugin extends BasePlugin {
   // 关联渲染器名字

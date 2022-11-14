@@ -40,8 +40,8 @@ const defaultFlexContainerSchema = {
     defaultFlexColumnSchema('第二列'),
     defaultFlexColumnSchema('第三列')
   ],
-  justify: "flex-start",
-  alignItems: "stretch"
+  justify: 'flex-start',
+  alignItems: 'stretch'
 };
 
 export class FlexPluginBase extends BasePlugin {
@@ -118,23 +118,27 @@ export class FlexPluginBase extends BasePlugin {
                   getSchemaTpl('layout:justifyContent', {
                     name: 'justify',
                     label: '水平对齐方式',
-                    visibleOn: 'data.direction === "row" || data.direction === "row-reverse"'
+                    visibleOn:
+                      'data.direction === "row" || data.direction === "row-reverse"'
                   }),
                   // 备注: 重复一个是为了能实时联动，后续需要amis优化，支持label使用公式表达式
                   getSchemaTpl('layout:justifyContent', {
                     name: 'justify',
                     label: '垂直对齐方式',
-                    visibleOn: 'data.direction === "column" || data.direction === "column-reverse"'
+                    visibleOn:
+                      'data.direction === "column" || data.direction === "column-reverse"'
                   }),
                   getSchemaTpl('layout:alignItems', {
                     name: 'alignItems',
                     label: '水平对齐方式',
-                    visibleOn: 'data.direction === "column" || data.direction === "column-reverse"'
+                    visibleOn:
+                      'data.direction === "column" || data.direction === "column-reverse"'
                   }),
                   getSchemaTpl('layout:alignItems', {
                     name: 'alignItems',
                     label: '垂直对齐方式',
-                    visibleOn: 'data.direction === "row" || data.direction === "row-reverse"'
+                    visibleOn:
+                      'data.direction === "row" || data.direction === "row-reverse"'
                   }),
                   getSchemaTpl('layout:flex-wrap'),
 
@@ -151,7 +155,11 @@ export class FlexPluginBase extends BasePlugin {
                     visibleOn: `${!isFlexItem || !isFlexColumnItem}`
                   }),
                   getSchemaTpl('layout:overflow-y', {
-                    visibleOn: `${!isFlexItem || !isFlexColumnItem} && (data.isFixedHeight || data.style && data.style.maxHeight) || (${isFlexItem && isFlexColumnItem} && data.style.flex === '0 0 auto')`,
+                    visibleOn: `${
+                      !isFlexItem || !isFlexColumnItem
+                    } && (data.isFixedHeight || data.style && data.style.maxHeight) || (${
+                      isFlexItem && isFlexColumnItem
+                    } && data.style.flex === '0 0 auto')`
                   }),
 
                   getSchemaTpl('layout:isFixedWidth', {
@@ -167,7 +175,11 @@ export class FlexPluginBase extends BasePlugin {
                     visibleOn: `${!isFlexItem || isFlexColumnItem}`
                   }),
                   getSchemaTpl('layout:overflow-x', {
-                    visibleOn: `${!isFlexItem || isFlexColumnItem} && (data.isFixedWidth || data.style && data.style.maxWidth) || (${isFlexItem && !isFlexColumnItem} && data.style.flex === '0 0 auto')`,
+                    visibleOn: `${
+                      !isFlexItem || isFlexColumnItem
+                    } && (data.isFixedWidth || data.style && data.style.maxWidth) || (${
+                      isFlexItem && !isFlexColumnItem
+                    } && data.style.flex === '0 0 auto')`
                   }),
 
                   !isFlexItem ? getSchemaTpl('layout:margin-center') : null
@@ -248,16 +260,14 @@ export class FlexPluginBase extends BasePlugin {
 
       // 布局容器 右上角插入子元素
       if (info.renderer?.name === 'flex') {
-        toolbars.push(
-          {
-            iconSvg: 'add-btn',
-            tooltip: '新增列级元素',
-            level: 'special',
-            placement: 'bottom',
-            className: 'ae-AppendChild',
-            onClick: () => this.manager.addElem(newColumnSchema)
-          }
-        );
+        toolbars.push({
+          iconSvg: 'add-btn',
+          tooltip: '新增列级元素',
+          level: 'special',
+          placement: 'bottom',
+          className: 'ae-AppendChild',
+          onClick: () => this.manager.addElem(newColumnSchema)
+        });
       }
     }
 
@@ -269,7 +279,9 @@ export class FlexPluginBase extends BasePlugin {
           tooltip: `${isFlexColumnItem ? '上方' : '左侧'}插入列级容器`,
           level: 'special',
           placement: 'right',
-          className: isFlexColumnItem ? 'ae-InsertBefore is-vertical' : 'ae-InsertBefore',
+          className: isFlexColumnItem
+            ? 'ae-InsertBefore is-vertical'
+            : 'ae-InsertBefore',
           onClick: () =>
             this.manager.appendSiblingSchema(newColumnSchema, true, true)
         },
@@ -278,7 +290,9 @@ export class FlexPluginBase extends BasePlugin {
           tooltip: `${isFlexColumnItem ? '下方' : '右侧'}插入列级容器`,
           level: 'special',
           placement: isFlexColumnItem ? 'right' : 'left',
-          className: isFlexColumnItem ? 'ae-InsertAfter is-vertical' : 'ae-InsertAfter',
+          className: isFlexColumnItem
+            ? 'ae-InsertAfter is-vertical'
+            : 'ae-InsertAfter',
           onClick: () =>
             this.manager.appendSiblingSchema(newColumnSchema, false, true)
         }

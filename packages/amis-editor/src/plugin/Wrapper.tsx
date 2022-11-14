@@ -49,17 +49,26 @@ export class WrapperPlugin extends BasePlugin {
               {
                 title: '布局',
                 body: [
-                  isFlexItem ? getSchemaTpl('layout:flex', {
-                    isFlexColumnItem,
-                    visibleOn: 'data.style && (data.style.position === "static" || data.style.position === "relative")',
-                  }) : null,
-                  isFlexItem ? getSchemaTpl('layout:flex-grow', {
-                    visibleOn: 'data.style && data.style.flex !== "0 0 auto" && (data.style.position === "static" || data.style.position === "relative")',
-                  }) : null,
-                  isFlexItem ? getSchemaTpl('layout:flex-basis', {
-                    label: isFlexColumnItem ? '默认高度' : '默认宽度',
-                    visibleOn: 'data.style && (data.style.position === "static" || data.style.position === "relative")',
-                  }) : null,
+                  isFlexItem
+                    ? getSchemaTpl('layout:flex', {
+                        isFlexColumnItem,
+                        visibleOn:
+                          'data.style && (data.style.position === "static" || data.style.position === "relative")'
+                      })
+                    : null,
+                  isFlexItem
+                    ? getSchemaTpl('layout:flex-grow', {
+                        visibleOn:
+                          'data.style && data.style.flex !== "0 0 auto" && (data.style.position === "static" || data.style.position === "relative")'
+                      })
+                    : null,
+                  isFlexItem
+                    ? getSchemaTpl('layout:flex-basis', {
+                        label: isFlexColumnItem ? '默认高度' : '默认宽度',
+                        visibleOn:
+                          'data.style && (data.style.position === "static" || data.style.position === "relative")'
+                      })
+                    : null,
                   getSchemaTpl('layout:position'),
                   getSchemaTpl('layout:originPosition'),
                   getSchemaTpl('layout:inset', {
@@ -68,28 +77,32 @@ export class WrapperPlugin extends BasePlugin {
                   getSchemaTpl('layout:z-index'),
                   getSchemaTpl('layout:display'),
                   getSchemaTpl('layout:flexDirection', {
-                    visibleOn: 'data.style && data.style.display === "flex"',
+                    visibleOn: 'data.style && data.style.display === "flex"'
                   }),
 
                   getSchemaTpl('layout:justifyContent', {
                     label: '水平对齐方式',
-                    visibleOn: 'data.style && data.style.display === "flex" && data.style.flexDirection === "row" || data.style.flexDirection === "row-reverse"'
+                    visibleOn:
+                      'data.style && data.style.display === "flex" && data.style.flexDirection === "row" || data.style.flexDirection === "row-reverse"'
                   }),
                   getSchemaTpl('layout:justifyContent', {
                     label: '垂直对齐方式',
-                    visibleOn: 'data.style && data.style.display === "flex" && (data.style.flexDirection === "column" || data.style.flexDirection === "column-reverse")'
+                    visibleOn:
+                      'data.style && data.style.display === "flex" && (data.style.flexDirection === "column" || data.style.flexDirection === "column-reverse")'
                   }),
                   getSchemaTpl('layout:alignItems', {
                     label: '水平对齐方式',
-                    visibleOn: 'data.style && data.style.display === "flex" && (data.style.flexDirection === "column" || data.style.flexDirection === "column-reverse")'
+                    visibleOn:
+                      'data.style && data.style.display === "flex" && (data.style.flexDirection === "column" || data.style.flexDirection === "column-reverse")'
                   }),
                   getSchemaTpl('layout:alignItems', {
                     label: '垂直对齐方式',
-                    visibleOn: 'data.style && data.style.display === "flex" && (data.style.flexDirection === "row" || data.style.flexDirection === "row-reverse")'
+                    visibleOn:
+                      'data.style && data.style.display === "flex" && (data.style.flexDirection === "row" || data.style.flexDirection === "row-reverse")'
                   }),
 
                   getSchemaTpl('layout:flex-wrap', {
-                    visibleOn: 'data.style && data.style.display === "flex"',
+                    visibleOn: 'data.style && data.style.display === "flex"'
                   }),
 
                   getSchemaTpl('layout:isFixedHeight', {
@@ -105,7 +118,11 @@ export class WrapperPlugin extends BasePlugin {
                     visibleOn: `${!isFlexItem || !isFlexColumnItem}`
                   }),
                   getSchemaTpl('layout:overflow-y', {
-                    visibleOn: `${!isFlexItem || !isFlexColumnItem} && (data.isFixedHeight || data.style && data.style.maxHeight) || (${isFlexItem && isFlexColumnItem} && data.style.flex === '0 0 auto')`,
+                    visibleOn: `${
+                      !isFlexItem || !isFlexColumnItem
+                    } && (data.isFixedHeight || data.style && data.style.maxHeight) || (${
+                      isFlexItem && isFlexColumnItem
+                    } && data.style.flex === '0 0 auto')`
                   }),
 
                   getSchemaTpl('layout:isFixedWidth', {
@@ -121,10 +138,14 @@ export class WrapperPlugin extends BasePlugin {
                     visibleOn: `${!isFlexItem || isFlexColumnItem}`
                   }),
                   getSchemaTpl('layout:overflow-x', {
-                    visibleOn: `${!isFlexItem || isFlexColumnItem} && (data.isFixedWidth || data.style && data.style.maxWidth) || (${isFlexItem && !isFlexColumnItem} && data.style.flex === '0 0 auto')`,
+                    visibleOn: `${
+                      !isFlexItem || isFlexColumnItem
+                    } && (data.isFixedWidth || data.style && data.style.maxWidth) || (${
+                      isFlexItem && !isFlexColumnItem
+                    } && data.style.flex === '0 0 auto')`
                   }),
 
-                  !isFlexItem ? getSchemaTpl('layout:margin-center') : null,
+                  !isFlexItem ? getSchemaTpl('layout:margin-center') : null
                 ]
               },
               {
@@ -189,7 +210,7 @@ export class WrapperPlugin extends BasePlugin {
         }
       ])
     ];
-  }
+  };
 }
 
 registerEditorPlugin(WrapperPlugin);

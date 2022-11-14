@@ -44,12 +44,14 @@ setSchemaTpl(
               label: '控件',
               name: 'inputClassName'
             }),
-            ...unsupportStatic ? [] : [
-              getSchemaTpl('className', {
-                label: '表单项静态',
-                name: 'staticClassName'
-              })
-            ]
+            ...(unsupportStatic
+              ? []
+              : [
+                  getSchemaTpl('className', {
+                    label: '表单项静态',
+                    name: 'staticClassName'
+                  })
+                ])
           ]
         : [
             getSchemaTpl('className', {

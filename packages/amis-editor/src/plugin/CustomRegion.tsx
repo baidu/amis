@@ -30,8 +30,7 @@ export class CustomPlugin extends BasePlugin {
   icon = 'fa fa-gears';
   scaffold = {
     type: 'custom',
-    html:
-      '<div>\n<h2>hello, world!</h2>\n<div id="customBox">自定义容器区域</div>\n</div>',
+    html: '<div>\n<h2>hello, world!</h2>\n<div id="customBox">自定义容器区域</div>\n</div>',
     onMount: `this.renderChild('body', props.body, document.getElementById('customBox'));`,
     body: [
       {

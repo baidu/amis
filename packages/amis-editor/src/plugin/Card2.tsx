@@ -52,10 +52,7 @@ export class Card2Plugin extends BasePlugin {
               body: [
                 {
                   type: 'button-group-select',
-                  label: tipedLabel(
-                    '选择区域',
-                    '点击触发选中或取消选中的区域'
-                  ),
+                  label: tipedLabel('选择区域', '点击触发选中或取消选中的区域'),
                   name: 'checkOnItemClick',
                   options: [
                     {label: '整个', value: true},

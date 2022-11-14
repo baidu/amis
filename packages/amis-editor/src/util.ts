@@ -37,9 +37,9 @@ export const getEventControlConfig = (
   };
   return {
     showOldEntry:
-    manager?.config.actionOptions?.showOldEntry !== false &&
-    (!!context.schema.actionType ||
-      ['submit', 'reset'].includes(context.schema.type)),
+      manager?.config.actionOptions?.showOldEntry !== false &&
+      (!!context.schema.actionType ||
+        ['submit', 'reset'].includes(context.schema.type)),
     actions: manager?.pluginActions,
     events: manager?.pluginEvents,
     actionTree,
@@ -274,9 +274,8 @@ export const getEventControlConfig = (
  * 布局配置项，数值设置时需要
  */
 export const isAuto = (value: any) => {
-  if (value && isString(value)
-   && /^((a)|(au)|(aut)|(auto))$/.test(value)) {
+  if (value && isString(value) && /^((a)|(au)|(aut)|(auto))$/.test(value)) {
     return true;
   }
   return false;
-}
+};

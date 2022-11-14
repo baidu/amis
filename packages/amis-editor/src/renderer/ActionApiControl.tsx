@@ -195,7 +195,10 @@ export default class APIControl extends React.Component<
     }
 
     if (typeof value !== 'string' || typeof values !== 'string') {
-      api = mergeWith({}, normalizeApi(value), normalizeApi(values),
+      api = mergeWith(
+        {},
+        normalizeApi(value),
+        normalizeApi(values),
         (value, srcValue, key) => {
           // 这三个支持删除单个key的属性需用新值完全替换
           // 否则删除无效
@@ -204,7 +207,7 @@ export default class APIControl extends React.Component<
           }
         }
       );
-      ['data', 'responseData', 'headers'].forEach((item: keyof(Api)) => {
+      ['data', 'responseData', 'headers'].forEach((item: keyof Api) => {
         if (api[item] == null) {
           delete api[item];
         }

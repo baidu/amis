@@ -135,7 +135,7 @@ registerValidator(
       [ValidatorTag.Email]: ValidTagMatchType.isDefault,
       [ValidatorTag.Password]: ValidTagMatchType.isDefault,
       [ValidatorTag.URL]: ValidTagMatchType.isDefault,
-      [ValidatorTag.Tree]: ValidTagMatchType.isDefault,
+      [ValidatorTag.Tree]: ValidTagMatchType.isDefault
     }
   },
   {

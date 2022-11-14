@@ -238,7 +238,7 @@ function BoxBorder({
                 clearable: true,
                 value: value[getKey('border', 'color')],
                 inputClassName: 'ae-border-colorpicker',
-                label: false,
+                label: false
               },
               {
                 onChange: changeItem('border', 'color')
