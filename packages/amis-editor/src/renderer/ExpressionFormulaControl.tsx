@@ -19,7 +19,7 @@ interface ExpressionFormulaControlProps extends FormControlProps {
 
   /**
    * 配合 variables 使用
-   * 当 props.variables 存在时， 是否再从 amis数据域中取变量集合，默认 false;
+   * 当 props.variables 存在时， 是否再从 amis数据域中取变量集合，默认 false
    */
   requiredDataPropsVariables?: boolean;
 
@@ -27,6 +27,10 @@ interface ExpressionFormulaControlProps extends FormControlProps {
    * 变量展现模式，可选值：'tabs' ｜ 'tree'
    */
   variableMode?: 'tabs' | 'tree';
+  /**
+   * 表达式最外层是否使用 ${} 来包裹，默认 false
+   */
+  evalMode: boolean;
 }
 
 interface ExpressionFormulaControlState {
@@ -41,7 +45,8 @@ export default class ExpressionFormulaControl extends React.Component<
 > {
   static defaultProps: Partial<ExpressionFormulaControlProps> = {
     variableMode: 'tabs',
-    requiredDataPropsVariables: false
+    requiredDataPropsVariables: false,
+    evalMode: false
   };
 
   isUnmount: boolean;
@@ -81,7 +86,7 @@ export default class ExpressionFormulaControl extends React.Component<
       const {node, manager} = this.props.formProps || this.props;
       const vars = await resolveVariablesFromScope(node, manager);
       if (Array.isArray(vars)) {
-        if (!this.isUnmount && !isEqual(vars, this.state.variables)) {
+        if (!this.isUnmount) {
           variablesArr = vars;
         }
       }
@@ -94,7 +99,6 @@ export default class ExpressionFormulaControl extends React.Component<
         variablesArr = [...variables(), ...variablesArr];
       }
     }
-
     this.setState({
       variables: variablesArr
     });
@@ -116,24 +120,12 @@ export default class ExpressionFormulaControl extends React.Component<
     return <span dangerouslySetInnerHTML={html}></span>;
   }
 
-  async resolveVariablesFromScope() {
-    const {node, manager} = this.props.formProps || this.props;
-    await manager?.getContextSchemas(node);
-    const dataPropsAsOptions = manager?.dataSchema?.getDataPropsAsOptions();
-
-    if (dataPropsAsOptions) {
-      return dataPropsAsOptions.map((item: any) => ({
-        selectMode: 'tree',
-        ...item
-      }));
-    }
-    return [];
-  }
-
   @autobind
   handleConfirm(value = '') {
-    value = value.replace(/^\$\{(.*)\}$/, (match: string, p1: string) => p1);
-    value = value ? `\${${value}}` : '';
+    if (this.props.evalMode) {
+      value = value.replace(/^\$\{(.*)\}$/, (match: string, p1: string) => p1);
+      value = value ? `\${${value}}` : '';
+    }
     this.props?.onChange?.(value);
   }
 

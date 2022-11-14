@@ -34,6 +34,7 @@ import type {
 import {dataMapping, FormControlProps} from 'amis-core';
 import type {BaseEventContext} from 'amis-editor-core';
 import {EditorManager} from 'amis-editor-core';
+import {resolveVariablesFromScope} from './textarea-formula/utils';
 
 export enum FormulaDateType {
   NotDate, // 不是时间类
@@ -171,10 +172,10 @@ export default class FormulaControl extends React.Component<
     const {variables, requiredDataPropsVariables} = this.props;
     if (!variables || requiredDataPropsVariables) {
       // 从amis数据域中取变量数据
-      let varItem = await this.resolveVariablesFromScope();
-      if (Array.isArray(varItem)) {
-        const vars = varItem.filter(item => item.children?.length);
-        if (!this.isUnmount && !isEqual(vars, this.state.variables)) {
+      const {node, manager} = this.props.formProps || this.props;
+      let vars = await resolveVariablesFromScope(node, manager);
+      if (Array.isArray(vars)) {
+        if (!this.isUnmount) {
           variablesArr = vars;
         }
       }
@@ -278,20 +279,6 @@ export default class FormulaControl extends React.Component<
       }
     }
     return false;
-  }
-
-  async resolveVariablesFromScope() {
-    const {node, manager} = this.props.formProps || this.props;
-    await manager?.getContextSchemas(node);
-    const dataPropsAsOptions = manager?.dataSchema?.getDataPropsAsOptions();
-
-    if (dataPropsAsOptions) {
-      return dataPropsAsOptions.map((item: any) => ({
-        selectMode: 'tree',
-        ...item
-      }));
-    }
-    return [];
   }
 
   matchDate(str: string): boolean {

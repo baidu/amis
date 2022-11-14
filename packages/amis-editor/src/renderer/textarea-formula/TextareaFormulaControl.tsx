@@ -123,7 +123,7 @@ export class TextareaFormulaControl extends React.Component<
       const {node, manager} = this.props.formProps || this.props;
       const vars = await resolveVariablesFromScope(node, manager);
       if (Array.isArray(vars)) {
-        if (!this.isUnmount && !isEqual(vars, this.state.variables)) {
+        if (!this.isUnmount) {
           variablesArr = vars;
         }
       }
