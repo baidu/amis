@@ -187,10 +187,6 @@ export class FlexPluginBase extends BasePlugin {
               body: [getSchemaTpl('className', {label: '外层CSS类名'})]
             }
           ])
-        },
-        {
-          title: '状态',
-          body: [getSchemaTpl('visible'), getSchemaTpl('disabled')]
         }
       ])
     ];
