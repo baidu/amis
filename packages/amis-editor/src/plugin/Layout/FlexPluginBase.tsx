@@ -173,31 +173,7 @@ export class FlexPluginBase extends BasePlugin {
                   !isFlexItem ? getSchemaTpl('layout:margin-center') : null
                 ]
               },
-              getSchemaTpl('status'),
-              {
-                title: '子节点管理',
-                body: [
-                  {
-                    name: 'items',
-                    label: false,
-                    type: 'combo',
-                    scaffold: {
-                      type: 'wrapper',
-                      body: '子节点内容'
-                    },
-                    minLength: 2,
-                    multiple: true,
-                    // draggable: true,
-                    draggableTip: '',
-                    items: [
-                      {
-                        type: 'tpl',
-                        tpl: '<span class="label label-default">子节点${index | plus}</span>'
-                      }
-                    ]
-                  }
-                ]
-              }
+              getSchemaTpl('status')
             ])
           ]
         },

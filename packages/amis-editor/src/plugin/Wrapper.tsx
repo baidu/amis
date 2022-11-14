@@ -167,31 +167,7 @@ export class WrapperPlugin extends BasePlugin {
                   }
                 ]
               },
-              getSchemaTpl('status'),
-              {
-                title: '子节点管理',
-                body: [
-                  {
-                    name: 'body',
-                    label: false,
-                    type: 'combo',
-                    scaffold: {
-                      type: 'tpl',
-                      tpl: '子节点',
-                      inline: false
-                    },
-                    multiple: true,
-                    draggableTip: '',
-                    items: [
-                      {
-                        type: 'tpl',
-                        tpl:
-                          '<span class="label label-default">子节点${index | plus}</span>'
-                      }
-                    ]
-                  }
-                ]
-              }
+              getSchemaTpl('status')
             ])
           ]
         },
