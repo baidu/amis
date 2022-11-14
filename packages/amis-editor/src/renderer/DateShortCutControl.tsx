@@ -5,21 +5,22 @@ import React from 'react';
 import cx from 'classnames';
 import Sortable from 'sortablejs';
 import {findDOMNode} from 'react-dom';
-import {FormItem, Button, Icon, InputBox} from 'amis';
+import {FormItem, Icon} from 'amis';
 
 import type {FormControlProps} from 'amis-core';
 import type {BaseEventContext} from 'amis-editor-core';
+import type {Option} from 'amis';
 
 import {autobind} from 'amis-editor-core';
-import FormulaControl from './FormulaControl';
 
-const CustomType = 'custom';
-
-type RangesType = Array<string | {label: string; range: any}>;
-
-type DropDownOption = {
+type $Object = {
   [key: string]: string;
 };
+
+enum RangeType {
+  Normal = 'Normal',
+  Custom = 'Custom'
+}
 
 export interface DateShortCutControlProps extends FormControlProps {
   className?: string;
@@ -27,17 +28,46 @@ export interface DateShortCutControlProps extends FormControlProps {
    * 编辑器上下文数据，用于获取字段所在Form的其他字段
    */
   context: BaseEventContext;
-  dropDownOption: DropDownOption;
+  normalDropDownOption: $Object;
+  customDropDownOption: $Object;
 }
 
 interface OptionsType {
-  label: string;
-  type: string;
-  inputValue: string;
+  label?: string;
+  value: string;
+  type: RangeType;
+  inputType?: string;
 }
 
 interface DateShortCutControlState {
   options: Array<OptionsType>;
+}
+
+interface InputOption {
+  type: 'middle' | 'suffix',
+  prefix?: string,
+  suffix: string
+}
+
+const ShortCutItemWrap = (
+  props: {
+    index: number,
+    children: React.ReactNode,
+    handleDelete: (index: number, e: React.SyntheticEvent<any>) => void
+  }) => {
+  return (
+    <>
+      <a className={klass + 'Item-dragBar'}><Icon icon='drag-bar' className='icon' /></a>
+      <span className={klass + 'Item-content'}>
+        {props.children}
+      </span>
+      <span
+        className={klass + 'Item-close'}
+        onClick={(e) => props.handleDelete(props.index, e)}>
+        <Icon icon='status-close' className='icon' />
+      </span>
+    </>
+  );
 }
 
 const klass = 'ae-DateShortCutControl';
@@ -49,10 +79,8 @@ export class DateShortCutControl extends React.PureComponent<
   sortable?: Sortable;
   drag?: HTMLElement | null;
   target: HTMLElement | null;
-  dropDownOptionArr: Array<{
-    label: string;
-    value: string;
-  }>;
+  normalDropDownOptionArr: Array<Option>;
+  customDropDownOptionArr: Array<Option>
 
   static defaultProps: Partial<DateShortCutControlProps> = {
     label: '快捷键'
@@ -60,70 +88,40 @@ export class DateShortCutControl extends React.PureComponent<
 
   constructor(props: DateShortCutControlProps) {
     super(props);
-    const {dropDownOption, data} = props;
-    this.dropDownOptionArr = Object.keys(dropDownOption).map(key => ({
-      label: dropDownOption[key],
+    const {normalDropDownOption, customDropDownOption, data} = props;
+    this.normalDropDownOptionArr = Object.keys(normalDropDownOption).map(key => ({
+      label: normalDropDownOption[key],
       value: key
     }));
-    this.initOptions(data.ranges);
-  }
-
-  initOptions(ranges: RangesType) {
-    if (!ranges) {
-      // 这里先写固定，如果amis的dateTimeRange组件暴露对应属性，从中获取更合适，到时需要让其暴露下
-      ranges = [
-        'yesterday',
-        '7daysago',
-        'prevweek',
-        'thismonth',
-        'prevmonth',
-        'prevquarter'
-      ];
-    }
-    const {dropDownOption} = this.props;
-    const options: Array<OptionsType> = [];
-    if (Array.isArray(ranges)) {
-      ranges.map(item => {
-        if (typeof item === 'string' && dropDownOption.hasOwnProperty(item)) {
-          options.push({
-            label: dropDownOption[item as keyof typeof dropDownOption],
-            type: item,
-            inputValue: item
-          });
-        }
-        if (typeof item === 'object') {
-          options.push({
-            label: item?.label,
-            type: CustomType,
-            inputValue: item.range
-          });
-        }
-      });
-    }
-    this.state = {options};
-  }
-
-  /**
-   * 添加
-   */
-  addItem(item: {label: string; value: string}) {
-    const {options} = this.state;
-    this.setState(
-      {
-        options: [
-          ...options,
-          {
-            ...item,
-            inputValue: item.value === CustomType ? '' : item.value,
-            type: item.value
+    this.customDropDownOptionArr = Object.keys(customDropDownOption).map(key => ({
+      label: customDropDownOption[key],
+      value: key
+    }));
+    const defaultRanges = [
+      'yesterday',
+      '7daysago',
+      'prevweek',
+      'thismonth',
+      'prevmonth',
+      'prevquarter'
+    ];
+    this.state = {
+      options: (data?.ranges ?? defaultRanges).map((item: string, index: number) => {
+        const arr = item.match(/^(\d+)[a-zA-Z]+/);
+        if (arr) {
+          return {
+            value: arr[1],
+            type: RangeType.Custom,
+            inputType: item.match(/[a-zA-Z]+/)?.[0]
           }
-        ]
-      },
-      () => {
-        this.onChangeOptions();
-        this.scrollToBottom();
-      }
-    );
+        }
+        return {
+            label: normalDropDownOption[item],
+            value: item,
+            type: RangeType.Normal,
+        }
+      })
+    };
   }
 
   @autobind
@@ -207,72 +205,121 @@ export class DateShortCutControl extends React.PureComponent<
       <div className={klass + '-wrapper'}>
         {options && options.length ? (
           <ul className={klass + '-content'} ref={this.dragRef}>
-            {options.map((option, index) => this.renderOption(option, index))}
+              {options.map(
+                (option, index) =>
+                  <li className={klass + 'Item'} key={index}>
+                    {option.type === RangeType.Normal
+                      ? this.renderNormalOption(option, index)
+                      : this.renderCustomOption(option, index)}
+                  </li>
+                )
+              }
           </ul>
         ) : (
-          <div className="ae-OptionControl-placeholder">未配置</div>
+          <div className={klass + '-content ' + klass + '-empty'}>未配置</div>
         )}
       </div>
     );
   }
 
   /**
-   * 生成选项
+   * 生成固定跨度选项
    */
-  renderOption(option: OptionsType, index: number) {
+  renderNormalOption(option: OptionsType, index: number) {
     return (
-      <li className={klass + 'Item'} key={index}>
-        <a className={klass + 'Item-dragBar'}>
-          <Icon icon="drag-bar" className="icon" />
-        </a>
-        <InputBox
-          className={klass + 'Item-input'}
-          clearable={false}
-          placeholder="名称"
-          value={option.label}
-          onInput={(e: React.FocusEvent<HTMLInputElement>) =>
-            this.onInputChange(index, e.target.value, 'label')
-          }
-        />
-        <FormulaControl
-          {...this.props}
-          simple
-          variables={[]}
-          functions={[]}
-          header={''}
-          onChange={(value: string) =>
-            this.onInputChange(index, value, 'inputValue')
-          }
-          value={option.inputValue}
-        />
-        <Button
-          className={klass + 'Item-action'}
-          level="link"
-          size="md"
-          onClick={(e: React.UIEvent<any>) => this.handleDelete(index, e)}
-        >
-          <Icon icon="delete-btn" className="icon" />
-        </Button>
-      </li>
+      <ShortCutItemWrap index={index} handleDelete={this.handleDelete}>
+        <span>{option.label}</span>
+      </ShortCutItemWrap>);
+  }
+
+  /**
+   * 生成自定义跨度选项
+   */
+  renderCustomOption(option: OptionsType, index: number) {
+    const {render} = this.props;
+
+    const renderInput = (option: InputOption & {value: string}) => {
+      if (option.type === 'middle') {
+        return render('inner', {
+          type: 'input-text',
+          prefix: option?.prefix,
+          suffix: option.suffix,
+          mode: 'normal',
+          placeholder: 'n',
+          value: option?.value,
+          onChange: (value: string) => this.handleCustomItemChange(value, index)
+        })
+      }
+      return render('inner', {
+        type: 'input-text',
+        placeholder: 'n',
+        mode: 'normal',
+        suffix: option.suffix,
+        value: option?.value,
+        onChange: (value: string) => this.handleCustomItemChange(value, index)
+      })
+    }
+
+    const dateMap: {[key: string]: InputOption} = {
+      daysago: {prefix: '最近', suffix: '天', type: 'middle'},
+      dayslater: {suffix: '天以内', type: 'suffix'},
+      weeksago: {prefix: '最近', suffix: '周', type: 'middle'},
+      weekslater: {suffix: '周以内', type: 'suffix'},
+      monthsago: {prefix: '最近', suffix: '月', type: 'middle'},
+      monthslater: {suffix: '月以内', type: 'suffix'},
+      quartersago: {prefix: '最近', suffix: '季度', type: 'middle'},
+      quarterslater: {suffix: '季度以内', type: 'suffix'},
+      yearsago: {prefix: '最近', suffix: '年', type: 'middle'},
+      yearslater: {suffix: '年以内', type: 'suffix'}
+    }
+  
+    return (
+      <ShortCutItemWrap index={index} handleDelete={this.handleDelete}>
+        {option.inputType
+          ? renderInput({...dateMap[option.inputType], value: option.value})
+          : null}
+      </ShortCutItemWrap>
     );
   }
 
   /**
-   * 输入框的改变
+   * 自定义跨度变化
    */
-  onInputChange(index: number, value: string, key: 'inputValue' | 'label') {
-    const options = this.state.options.concat();
-    options[index][key] = value;
-    options[index].type = CustomType;
+  handleCustomItemChange(value: string, index: number) {
+    const options = [...this.state.options];
+    options[index].value = value;
     this.setState({options}, () => this.onChangeOptions());
+  }
+
+  /**
+   * option添加
+   */
+  addItem(item: Option, type: RangeType) {
+    this.setState(
+      {
+        options: [
+          ...this.state.options,
+          {
+            label: item?.label ?? '',
+            type,
+            value: type === RangeType.Normal ? item.value : '',
+            ...(type === RangeType.Normal ? {} : {inputType: item.value})
+          }
+        ]
+      },
+      () => {
+        this.onChangeOptions();
+        this.scrollToBottom();
+      }
+    );
   }
 
   /**
    * 删除选项
    */
+  @autobind
   handleDelete(index: number, e: React.UIEvent<any>) {
     const options = this.state.options.concat();
-
     options.splice(index, 1);
     this.setState({options}, () => this.onChangeOptions());
   }
@@ -283,28 +330,20 @@ export class DateShortCutControl extends React.PureComponent<
   onChangeOptions() {
     const {options} = this.state;
     const {onBulkChange} = this.props;
-    const newOptions: RangesType = [];
-    options.forEach(item => {
-      if (item.type !== CustomType) {
-        newOptions.push(item.inputValue);
-      } else {
-        newOptions.push({
-          label: item.label,
-          range: item.inputValue
-        });
+    const newOptions: Array<string> = [];
+    options.forEach((item, index) => {
+      if (item.type === RangeType.Normal) {
+        newOptions[index] = item.value;
+      }
+      if (item.type === RangeType.Custom && item.value) {
+        newOptions[index] = `${item.value}${item.inputType}`;
       }
     });
-
     onBulkChange && onBulkChange({ranges: newOptions});
   }
 
   render() {
     const {className, label, render} = this.props;
-    const optionList = this.dropDownOptionArr.map((item: any) => ({
-      ...item,
-      type: 'button',
-      onAction: (e: React.MouseEvent, action: any) => this.addItem(item)
-    }));
     return (
       <div className={cx(klass, className)}>
         <header className={klass + '-header'}>
@@ -312,19 +351,45 @@ export class DateShortCutControl extends React.PureComponent<
         </header>
         {this.renderContent()}
         <div className={klass + '-footer'}>
-          {render(
-            'inner',
-            {
-              type: 'dropdown-button',
-              label: '添加选项',
-              closeOnClick: true,
-              closeOnOutside: true,
-              buttons: optionList
-            },
-            {
-              popOverContainer: null // amis 渲染挂载节点会使用 this.target
-            }
-          )}
+          <div className={klass + '-footer-btn'}>
+            {render(
+              'inner',
+              {
+                type: 'dropdown-button',
+                label: '常用跨度',
+                closeOnClick: true,
+                closeOnOutside: true,
+                level: 'enhance',
+                buttons: this.normalDropDownOptionArr.map((item: any) => ({
+                  ...item,
+                  type: 'button',
+                  onAction: (e: React.MouseEvent, action: any) => this.addItem(item, RangeType.Normal)
+                }))
+              },
+              {
+                popOverContainer: null
+              }
+            )}
+          </div>
+          <div className={klass + '-footer-btn'}>
+            {render(
+              'inner',
+              {
+                type: 'dropdown-button',
+                label: '自定义跨度',
+                closeOnClick: true,
+                closeOnOutside: true,
+                buttons: this.customDropDownOptionArr.map((item: any) => ({
+                  ...item,
+                  type: 'button',
+                  onAction: (e: React.MouseEvent, action: any) => this.addItem(item, RangeType.Custom)
+                }))
+              },
+              {
+                popOverContainer: null
+              }
+            )}
+          </div>
         </div>
       </div>
     );

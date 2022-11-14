@@ -32,7 +32,8 @@ export class NumberControlPlugin extends BasePlugin {
   scaffold = {
     type: 'input-number',
     label: '数字',
-    name: 'number'
+    name: 'number',
+    keyboard: true
   };
   previewSchema: any = {
     type: 'form',
@@ -137,7 +138,16 @@ export class NumberControlPlugin extends BasePlugin {
                   required: true
                 }),
                 getSchemaTpl('label'),
-                getSchemaTpl('numberSwitchKeyboard'),
+                {
+                  type: 'switch',
+                  label: tipedLabel(
+                    '键盘事件',
+                    '通过键盘上下方向键来加减数据值'
+                  ),
+                  name: 'keyboard',
+                  value: true,
+                  inputClassName: 'is-inline'
+                },
                 getSchemaTpl('kilobitSeparator'),
 
                 getSchemaTpl('valueFormula', {
@@ -152,10 +162,7 @@ export class NumberControlPlugin extends BasePlugin {
                     value: context?.schema.min
                   },
                   needDeleteProps: ['min'], // 避免自我限制
-                  label: tipedLabel(
-                    '最小值',
-                    '请输入数字或使用 <code>\\${xxx}</code> 来获取变量，否则该配置不生效'
-                  ),
+                  label: '最小值',
                   valueType: 'number'
                 }),
 
@@ -166,10 +173,7 @@ export class NumberControlPlugin extends BasePlugin {
                     value: context?.schema.max
                   },
                   needDeleteProps: ['max'], // 避免自我限制
-                  label: tipedLabel(
-                    '最大值',
-                    '请输入数字或使用 <code>\\${xxx}</code> 来获取变量，否则该配置不生效'
-                  ),
+                  label: '最大值',
                   valueType: 'number'
                 }),
 
@@ -194,18 +198,12 @@ export class NumberControlPlugin extends BasePlugin {
                 {
                   type: 'input-text',
                   name: 'prefix',
-                  label: tipedLabel(
-                    '前缀',
-                    '仅在输入内容前展示，不包含在数据值中'
-                  )
+                  label: tipedLabel('前缀', '输入内容前展示，不包含在数据值中')
                 },
                 {
                   type: 'input-text',
                   name: 'suffix',
-                  label: tipedLabel(
-                    '后缀',
-                    '仅在输入内容前展示，不包含在数据值中'
-                  )
+                  label: tipedLabel('后缀', '输入内容后展示，不包含在数据值中')
                 },
 
                 getSchemaTpl('combo-container', {
@@ -263,7 +261,7 @@ export class NumberControlPlugin extends BasePlugin {
                     label: '快捷编辑',
                     name: 'displayMode',
                     type: 'select',
-                    value: 'base',
+                    pipeIn: defaultValue('base'),
                     options: [
                       {
                         label: '单侧按钮',
