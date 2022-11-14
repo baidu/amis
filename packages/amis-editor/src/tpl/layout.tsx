@@ -524,11 +524,12 @@ setSchemaTpl(
           // 固定宽度模式下，剔除占比设置
           form.setValueByName('style.flexGrow', undefined);
         }
-        // 重置overflow数值
         if (config?.isFlexColumnItem) {
           form.setValueByName('style.overflowY', 'auto');
+          form.setValueByName('style.height', undefined);
         } else {
           form.setValueByName('style.overflowX', 'auto');
+          form.setValueByName('style.width', undefined);
         }
       },
     };
