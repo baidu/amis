@@ -28,9 +28,10 @@ export default class SearchRendererPanel extends React.Component<
     subRenderersByOrder = subRenderersByOrder.filter(
       (item: SubRendererInfo) => !item.disabledRendererPlugin
     );
+    const {subRenderersKeywords, subRenderersTag} = props.store;
     this.state = {
       subRenderersByOrder: subRenderersByOrder,
-      defaultKeyword: ''
+      defaultKeyword: subRenderersKeywords || subRenderersTag || ''
     };
     this.lastSubRenderersTag = props.store.subRenderersTag;
 
