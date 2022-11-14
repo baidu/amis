@@ -759,9 +759,11 @@ export class EditorManager {
       return;
     }
 
-    if (node.type === 'wrapper'
-     && node.schema?.body?.length === 0
-     && (schemaData?.type === 'flex' || subRenderer?.rendererName === 'flex')) {
+    if (
+      node.type === 'wrapper' &&
+      node.schema?.body?.length === 0 &&
+      (schemaData?.type === 'flex' || subRenderer?.rendererName === 'flex')
+    ) {
       const newSchemaData = schemaData || subRenderer?.scaffold;
       // 布局能力提升: 点击插入新元素，当wrapper为空插入布局容器时，自动改为置换，避免过多层级
       this.replaceChild(id, newSchemaData);
@@ -800,7 +802,11 @@ export class EditorManager {
         regionNodeRegion = 'body';
       } else if (!parentNode.region && parentNode.schema.items) {
         regionNodeRegion = 'items';
-      } else if (!parentNode.region && !parentNode.schema.body && !parentNode.schema.items) {
+      } else if (
+        !parentNode.region &&
+        !parentNode.schema.body &&
+        !parentNode.schema.items
+      ) {
         // 其他特殊情况暂时不考虑，给予提示
         toast.warning('当前节点不允许追加新组件。');
         return;
@@ -889,7 +895,11 @@ export class EditorManager {
       if (!regionNode.region && regionNode.schema.body) {
         // 默认插入到父节点的body中
         regionNodeRegion = 'body';
-      } else if (!regionNode.region && regionNode.schema?.type === 'flex' && regionNode.schema.items) {
+      } else if (
+        !regionNode.region &&
+        regionNode.schema?.type === 'flex' &&
+        regionNode.schema.items
+      ) {
         // flex布局容器
         regionNodeRegion = 'items';
       } else if (!regionNode.region && !regionNode.schema.body) {

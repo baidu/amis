@@ -7,7 +7,7 @@ import {
   BasicPanelItem,
   BuildPanelEventContext,
   PluginEvent,
-  InsertEventContext,
+  InsertEventContext
 } from '../plugin';
 import {registerEditorPlugin} from '../manager';
 import type {MenuItem} from 'amis-ui/lib/components/ContextMenu';
@@ -29,7 +29,7 @@ export class BasicToolbarPlugin extends BasePlugin {
     const draggableContainer = this.manager.draggableContainer(id);
     // let vertical = true;
     const regionNode = node.parent as EditorNodeType; // 父级节点
-    if (Array.isArray(parent) && regionNode?.isRegion || draggableContainer) {
+    if ((Array.isArray(parent) && regionNode?.isRegion) || draggableContainer) {
       const host = node.host as EditorNodeType;
 
       if (node.draggable || draggableContainer) {
@@ -206,7 +206,9 @@ export class BasicToolbarPlugin extends BasePlugin {
       order: 1000,
       onClick: e => {
         if (!e.defaultPrevented) {
-          const info = (e.target as HTMLElement).parentElement!.getBoundingClientRect();
+          const info = (
+            e.target as HTMLElement
+          ).parentElement!.getBoundingClientRect();
           this.manager.openContextMenu(id, '', {
             x: window.scrollX + info.left + info.width - 155,
             y: window.scrollY + info.top + info.height + 8
@@ -358,19 +360,16 @@ export class BasicToolbarPlugin extends BasePlugin {
 
       menus.push({
         label: '向前移动',
-        disabled:
-          !(Array.isArray(parent) && idx > 0)
-          || !node.moveable,
-          // || !node.prevSibling,
+        disabled: !(Array.isArray(parent) && idx > 0) || !node.moveable,
+        // || !node.prevSibling,
         onSelect: () => manager.moveUp()
       });
 
       menus.push({
         label: '向后移动',
         disabled:
-          !(Array.isArray(parent) && idx < parent.length - 1)
-          || !node.moveable,
-          // || !node.nextSibling,
+          !(Array.isArray(parent) && idx < parent.length - 1) || !node.moveable,
+        // || !node.nextSibling,
         onSelect: () => manager.moveDown()
       });
 

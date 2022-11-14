@@ -36,10 +36,8 @@ export default class SearchCustomRendererPanel extends React.Component<
 
   render() {
     const {customRenderersByOrder, defaultKeyword} = this.state;
-    const {
-      changeCustomRenderersKeywords,
-      changeCustomRenderersTag
-    } = this.props.store;
+    const {changeCustomRenderersKeywords, changeCustomRenderersTag} =
+      this.props.store;
 
     return customRenderersByOrder && customRenderersByOrder.length > 0 ? (
       <SearchPanel

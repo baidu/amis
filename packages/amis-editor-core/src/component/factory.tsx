@@ -84,7 +84,7 @@ export function makeWrapper(
             closestScope = manager.dataSchema.getScope(
               `${from.id}-${from.type}`
             );
-          } 
+          }
 
           // node.parent 是找不到 root 那层的，所以需要自己加逻辑
           from = from.parentId === 'root' ? store.root : from.parent;
@@ -285,8 +285,8 @@ function SchemaFrom({
     schema,
     {
       onFinished: (newValue: any) => {
-          const diffValue = diff(value, newValue);
-          onChange(newValue, diffValue);
+        const diffValue = diff(value, newValue);
+        onChange(newValue, diffValue);
       },
       data: value,
       node: node,

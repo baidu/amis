@@ -369,7 +369,7 @@ export const EditorStore = types
       getSchemaParentById(id: string, skipArray: boolean = false) {
         return JSONGetParentById(self.schema, id, skipArray);
       },
-      
+
       getSchemaPath(id: string): string {
         const paths = JSONGetPathById(self.schema, id);
         return Array.isArray(paths) ? paths.join('/') : '';
@@ -871,13 +871,15 @@ export const EditorStore = types
       isFlexColumnItem(id: string) {
         const activeId = id || self.activeId;
         const parentSchema = this.getSchemaParentById(activeId, true);
-        const isFlexItem = parentSchema?.type === 'flex'
-         || parentSchema?.style?.display === 'flex'
-         || parentSchema?.style?.display === 'inline-flex';
-        const isFlexColumn = parentSchema?.direction === 'column'
-         || parentSchema?.direction === 'column-reverse'
-         || parentSchema?.style?.flexDirection === 'column'
-         || parentSchema?.style?.flexDirection === 'column-reverse';
+        const isFlexItem =
+          parentSchema?.type === 'flex' ||
+          parentSchema?.style?.display === 'flex' ||
+          parentSchema?.style?.display === 'inline-flex';
+        const isFlexColumn =
+          parentSchema?.direction === 'column' ||
+          parentSchema?.direction === 'column-reverse' ||
+          parentSchema?.style?.flexDirection === 'column' ||
+          parentSchema?.style?.flexDirection === 'column-reverse';
         if (isFlexItem && isFlexColumn) {
           return true;
         }
@@ -888,7 +890,10 @@ export const EditorStore = types
         const activeId = id || self.activeId;
         const curSchema = this.getSchema(activeId);
         const curSchemaStyle = curSchema?.style || {};
-        if (curSchemaStyle?.position === 'fixed' || curSchemaStyle?.position === 'absolute') {
+        if (
+          curSchemaStyle?.position === 'fixed' ||
+          curSchemaStyle?.position === 'absolute'
+        ) {
           return true;
         }
         return false;
@@ -1264,8 +1269,10 @@ export const EditorStore = types
         }
         const curSchema = self.getSchema(curDragId);
         const curSchemaStyle = curSchema?.style || {};
-        if (curDragId && curSchemaStyle?.position === 'fixed' || curSchemaStyle?.position === 'absolute') {
-
+        if (
+          (curDragId && curSchemaStyle?.position === 'fixed') ||
+          curSchemaStyle?.position === 'absolute'
+        ) {
           let curInset = curSchemaStyle.inset || 'auto';
 
           const insetArr = curInset.split(' ');
@@ -1273,11 +1280,17 @@ export const EditorStore = types
             top: insetArr[0] || 'auto',
             right: insetArr[1] || 'auto',
             bottom: insetArr[2] || insetArr[0] || 'auto',
-            left: insetArr[3] || insetArr[1] || 'auto',
+            left: insetArr[3] || insetArr[1] || 'auto'
           };
 
-          const newInset = `${inset.top !== 'auto' ? unitFormula(inset.top, dy) : 'auto'} ${inset.right !== 'auto' ? unitFormula(inset.right, -dx) : 'auto'} ${inset.bottom !== 'auto' ? unitFormula(inset.bottom, -dy) : 'auto'} ${inset.left !== 'auto' ? unitFormula(inset.left, dx) : 'auto'}`;
-          
+          const newInset = `${
+            inset.top !== 'auto' ? unitFormula(inset.top, dy) : 'auto'
+          } ${
+            inset.right !== 'auto' ? unitFormula(inset.right, -dx) : 'auto'
+          } ${
+            inset.bottom !== 'auto' ? unitFormula(inset.bottom, -dy) : 'auto'
+          } ${inset.left !== 'auto' ? unitFormula(inset.left, dx) : 'auto'}`;
+
           this.changeValueById(curDragId, {
             ...curSchema,
             style: {

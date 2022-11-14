@@ -1085,7 +1085,7 @@
   &.layout-content {
     height: 100%;
     min-height: 88px;
-    background: #F7F7F8;
+    background: #f7f7f8;
   }
 
   &:first-child {
@@ -1187,11 +1187,11 @@
 }
 
 // 优化画布区页面展示效果
-[data-region="aside"][data-renderer="page"] {
+[data-region='aside'][data-renderer='page'] {
   min-height: calc(100vh - 131px);
 }
 
-[data-region="body"][data-renderer="page"] {
+[data-region='body'][data-renderer='page'] {
   min-height: calc(100vh - 165px);
 }
 
@@ -1273,7 +1273,7 @@
       margin: 0 6px;
     }
   }
-  
+
   // 兼容方案，避免便签被遮挡: 区域仅有 [内容区]，头部标签放内部展示
   > div.region-tip.is-only-child-region,
   &.region-label-within > .region-tip {

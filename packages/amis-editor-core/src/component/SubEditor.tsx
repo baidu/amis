@@ -100,7 +100,10 @@ export class SubEditor extends React.Component<SubEditorProps> {
     const config = manager.config;
     let superEditorData: any = store.superEditorData;
     if (!!subEditorContext) {
-      superEditorData = createObject(store.superEditorData, subEditorContext?.data?.__super);
+      superEditorData = createObject(
+        store.superEditorData,
+        subEditorContext?.data?.__super
+      );
     }
     return {
       size: 'full',
@@ -150,7 +153,9 @@ export class SubEditor extends React.Component<SubEditorProps> {
                     ctx={store.ctx}
                     amisEnv={config.amisEnv}
                     plugins={config.plugins}
-                    showCustomRenderersPanel={store.showCustomRenderersPanel ?? true}
+                    showCustomRenderersPanel={
+                      store.showCustomRenderersPanel ?? true
+                    }
                     isHiddenProps={config.isHiddenProps}
                     $schemaUrl={config.$schemaUrl}
                   />

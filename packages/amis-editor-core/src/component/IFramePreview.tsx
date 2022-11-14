@@ -250,15 +250,8 @@ export default class IFramePreview extends React.Component<IFramePreviewProps> {
   }
 
   render() {
-    const {
-      store,
-      editable,
-      manager,
-      className,
-      schema,
-      data,
-      ...rest
-    } = this.props;
+    const {store, editable, manager, className, schema, data, ...rest} =
+      this.props;
 
     return (
       <div

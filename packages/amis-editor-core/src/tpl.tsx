@@ -1,4 +1,4 @@
-import { SchemaObject } from "amis/lib/Schema";
+import {SchemaObject} from 'amis/lib/Schema';
 
 /**
  * @file amis schema 配置模板，主要很多地方都要全部配置的化，

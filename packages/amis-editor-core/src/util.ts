@@ -211,7 +211,11 @@ export function JSONGetByPath(
   return target;
 }
 
-export function JSONGetPathById(json: any, id: string, idKey: string = '$$id'): Array<string> | null {
+export function JSONGetPathById(
+  json: any,
+  id: string,
+  idKey: string = '$$id'
+): Array<string> | null {
   let paths: Array<string> = [];
   let resolved: boolean = false;
   let stack: Array<any> = [

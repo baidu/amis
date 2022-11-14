@@ -101,11 +101,17 @@ export class RegionWrapper extends React.Component<RegionWrapperProps> {
   }
 
   render() {
-    const isLayoutItem = this.props.rendererName === 'wrapper' || this.props.rendererName === 'container';
+    const isLayoutItem =
+      this.props.rendererName === 'wrapper' ||
+      this.props.rendererName === 'container';
     return (
       <EditorNodeContext.Provider value={this.editorNode}>
         {this.props.children}
-        <span className={`ae-Region-placeholder ${isLayoutItem ? 'layout-content' : ''}`}>
+        <span
+          className={`ae-Region-placeholder ${
+            isLayoutItem ? 'layout-content' : ''
+          }`}
+        >
           {this.props.placeholder || this.props.label}
         </span>
       </EditorNodeContext.Provider>
