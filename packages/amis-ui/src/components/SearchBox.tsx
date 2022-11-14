@@ -43,6 +43,8 @@ export interface SearchBoxProps extends ThemeProps, LocaleProps {
   onActiveChange?: (active: boolean) => void;
   onSearch?: (value: string) => void;
   onCancel?: () => void;
+  onFocus?: () => void;
+  onBlur?: () => void;
   /** 历史记录配置 */
   history?: SearchHistoryOptions;
 }
@@ -164,11 +166,13 @@ export class SearchBox extends React.Component<SearchBoxProps, SearchBoxState> {
   handleFocus() {
     const {enable} = this.getHistoryOptions();
     this.setState({isFocused: true, isHistoryOpened: enable});
+    this.props.onFocus?.();
   }
 
   @autobind
   handleBlur(e: React.FocusEvent<HTMLInputElement>) {
     this.setState({isFocused: false, isHistoryOpened: false});
+    this.props.onBlur?.();
   }
 
   handleHistoryRecordSelect(record: HistoryRecord) {
