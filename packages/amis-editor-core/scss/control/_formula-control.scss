@@ -12,7 +12,11 @@
     &:not(:disabled):not(.is-disabled):hover {
       border-color: #e6f0ff;
       background-color: #e6f0ff;
-      border-left: 0;
+      border-left-width: 0;
+    }
+    &:not(:disabled):not(.is-disabled):active {
+      border-left-width: 1;
+      transition: var(--Button-transition);
     }
   }
 
