@@ -193,7 +193,7 @@ setSchemaTpl(
     }
 });
 
-// 展示模式
+// 显示类型
 setSchemaTpl(
   'layout:display',
   (config?: {
@@ -207,7 +207,7 @@ setSchemaTpl(
   }) => {
     const configSchema = {
       type: 'select',
-      label: config?.label || tipedLabel('展示模式', '默认为块级，可设置为弹性布局模式（flex布局容器）'),
+      label: config?.label || tipedLabel('显示类型', '默认为块级，可设置为弹性布局模式（flex布局容器）'),
       name: config?.name || 'style.display',
       value: config?.value || 'block',
       visibleOn: config?.visibleOn,

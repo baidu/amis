@@ -164,7 +164,7 @@ export class ContainerPlugin extends BasePlugin {
         title: '外观',
         className: 'p-none',
         body: getSchemaTpl('collapseGroup', [
-          ...getSchemaTpl('style:common', [], ['layout']),
+          ...getSchemaTpl('style:common', ['layout']),
           getSchemaTpl('style:classNames', {
             isFormItem: false,
             schema: [
@@ -173,8 +173,7 @@ export class ContainerPlugin extends BasePlugin {
                 label: '内容区'
               })
             ]
-          }),
-          ...getSchemaTpl('style:common', ['layout']),
+          })
         ])
       }
     ]);

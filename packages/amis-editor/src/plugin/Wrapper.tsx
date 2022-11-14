@@ -199,7 +199,7 @@ export class WrapperPlugin extends BasePlugin {
           title: '外观',
           className: 'p-none',
           body: getSchemaTpl('collapseGroup', [
-            ...getSchemaTpl('style:common'),
+            ...getSchemaTpl('style:common', ['layout']),
             {
               title: 'CSS 类名',
               body: [
