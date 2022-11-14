@@ -106,7 +106,10 @@ test('Renderer:Page initApi error show Message', async () => {
     expect(
       container.querySelector('[data-testid="spinner"]')
     ).not.toBeInTheDocument();
+
+    expect(container.querySelector('.cxd-Alert')).toBeInTheDocument();
   });
+
   expect(container).toMatchSnapshot();
 });
 
@@ -1355,6 +1358,7 @@ test('Renderer:Page initApi reload by Form submit', async () => {
 
   await waitFor(() => {
     expect(getByText(/Submit/)).toBeInTheDocument();
+    expect(getByText('The variable value is 1')).toBeInTheDocument();
     expect(
       container.querySelector('[data-testid="spinner"]')
     ).not.toBeInTheDocument();

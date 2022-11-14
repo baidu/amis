@@ -376,11 +376,32 @@ export default class Page extends React.Component<PageProps> {
     }
   }
 
-  componentDidMount() {
-    const {initApi, initFetch, initFetchOn, store, messages, asideSticky} =
-      this.props;
+  async componentDidMount() {
+    const {
+      initApi,
+      initFetch,
+      initFetchOn,
+      store,
+      messages,
+      asideSticky,
+      data,
+      dispatchEvent
+    } = this.props;
 
     this.mounted = true;
+
+    if (asideSticky && this.asideInner.current) {
+      const dom = this.asideInner.current!;
+      dom.style.cssText += `position: sticky; top: ${
+        scrollPosition(dom).top
+      }px;`;
+    }
+
+    const rendererEvent = await dispatchEvent('init', data, this);
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
 
     if (isEffectiveApi(initApi, store.data, initFetch, initFetchOn)) {
       store
@@ -389,13 +410,6 @@ export default class Page extends React.Component<PageProps> {
           errorMessage: messages && messages.fetchFailed
         })
         .then(this.initInterval);
-    }
-
-    if (asideSticky && this.asideInner.current) {
-      const dom = this.asideInner.current!;
-      dom.style.cssText += `position: sticky; top: ${
-        scrollPosition(dom).top
-      }px;`;
     }
   }
 
