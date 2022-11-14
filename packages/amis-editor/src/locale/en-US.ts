@@ -3419,5 +3419,27 @@ extendLocale('en-US', {
   '5b5765b3fd7e72e04a5cd3e2ef6218a4': 'Insert Layout Container Below',
   'ee466872b9a43e720e296813dbc5adee': '{{@1}} Insert Column Level Container',
   '14c495b1248756310c75396cd41f4fe9': 'upper',
-  'e33ac3a4c1a95a02a18f1555038804da': 'Below'
+  'e33ac3a4c1a95a02a18f1555038804da': 'Below',
+  'e731c52010266b8ade1e7e78e25cdccc': 'Common layouts',
+  'f80bd0a5546465336f4f9cafdfa8b67f': 'Default Height',
+  'ba9ccf1040d7abd0848046330ba3558c': 'Classic layout',
+  '230d65546ea0d299907943403608233c':
+    'Common layout: classic layout (layout container based on CSS Flex implementation).',
+  '9bbb7cfaeb34a2b5c095ac253355f028': 'Levitation vessel',
+  'a3e91631c1a3a43e09526ea7f6b8595c':
+    'Common layout: suspended container (layout container based on CSS Flex implementation).',
+  'd423930b823fc45f08c18922b19e4e9e': 'Bottom suction vessel',
+  'b8b4eb373d8ba6f98271b681fba2511d':
+    'Common layout: bottom suction container (a layout container based on CSS Flex implementation).',
+  'faaa6444a709917ff33e0d58948504dc': 'Ceiling container',
+  '1facf0bd0f56c66759857345e7434443':
+    'Common layout: ceiling container (a layout container based on CSS Flex implementation).',
+  'f416a3a2566dda04bc0ef67027e6f460': 'X axis rolling container',
+  'e3d9ad8453925764f2918dbfd6ff824e':
+    'Common layout: x-axis rolling container (based on the layout container implemented by CSS Flex).',
+  '053e0cbf18c8fe59b928d52fcd556b88': 'Y-axis rolling container',
+  'c9f089cefc06c217c6dddfe2fc772ea3':
+    'Common layout: y-axis rolling container (a layout container based on CSS Flex implementation).',
+  '3587540660a01f8a8aff6a2c0409a404':
+    'After the elastic mode is turned on, the current area is automatically adapted'
 });
