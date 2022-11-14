@@ -399,7 +399,7 @@ export class DateControlPlugin extends BasePlugin {
                 size: 'md',
                 label: '模式',
                 mode: 'row',
-                value: false,
+                pipeIn: defaultValue(false),
                 options: [
                   {
                     label: '浮层',
