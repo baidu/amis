@@ -22,7 +22,8 @@ export default class Layout_fixed extends FlexPluginBase {
       flexDirection: 'column',
       justifyContent: 'flex-start',
       alignItems: 'stretch'
-    }
+    },
+    originPosition: 'right-bottom'
   };
 }
 

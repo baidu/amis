@@ -69,7 +69,8 @@ export default class Layout_fixed_bottom extends FlexPluginBase {
     direction: 'row',
     justify: 'center',
     alignItems: 'stretch',
-    isFixedHeight: false
+    isFixedHeight: false,
+    originPosition: 'right-bottom'
   };
 }
 
