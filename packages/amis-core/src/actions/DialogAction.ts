@@ -100,7 +100,7 @@ export class AlertAction implements RendererAction {
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
-    event.context.env.alert?.(action.args?.msg);
+    event.context.env.alert?.(action.args?.msg, action.args?.title);
   }
 }
 
