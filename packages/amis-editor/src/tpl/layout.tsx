@@ -372,19 +372,7 @@ setSchemaTpl(
         {
           label: '自动拉伸',
           value: 'stretch'
-        },
-        {
-          label: '首尾留空',
-          value: 'space-around'
-        },
-        {
-          label: '首尾对齐',
-          value: 'space-between'
-        },
-        {
-          label: '元素等间距',
-          value: 'space-evenly'
-        },
+        }
       ]
     }
 
