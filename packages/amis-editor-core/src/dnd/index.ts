@@ -3,14 +3,20 @@
  */
 import find from 'lodash/find';
 import {isAlive} from 'mobx-state-tree';
+import {toast} from 'amis';
+import debounce from 'lodash/debounce';
 import {EditorManager} from '../manager';
 import {DragEventContext, SubRendererInfo} from '../plugin';
 import {EditorStoreType} from '../store/editor';
 import {EditorNodeType} from '../store/node';
-import {autobind, reactionWithOldValue} from '../util';
+import {autobind, reactionWithOldValue, unitFormula} from '../util';
 import {DefaultDNDMode} from './default';
 import {DNDModeInterface} from './interface';
 import {PositionHDNDMode} from './position-h';
+
+const toastWarning = debounce(msg => {
+  toast.warning(msg);
+}, 500);
 
 export class EditorDNDManager {
   toDispose: Array<() => void> = [];
@@ -47,15 +53,16 @@ export class EditorDNDManager {
   lastX: number = 0;
   lastY: number = 0;
   lastMoveAt: number = 0;
+  curDragId: string;
+  startX: number = 0;
+  startY: number = 0;
 
   constructor(
     readonly manager: EditorManager,
     readonly store: EditorStoreType
   ) {
     this.toDispose.push(
-      /**
-       * 自动给正在拖拽的元素加 is-draging 之类的 css。
-       */
+      
       reactionWithOldValue(
         () => (store.dragType === 'schema' ? store.dragId : ''),
         this.updateDragElements
@@ -116,7 +123,6 @@ export class EditorDNDManager {
    */
   switchToRegion(e: DragEvent, id: string, region: string): boolean {
     const store = this.store;
-
     if (
       !id ||
       !region ||
@@ -193,6 +199,17 @@ export class EditorDNDManager {
       return;
     }
 
+    this.lastX = e.clientX;
+    this.lastY = e.clientY;
+
+    if (this.manager.draggableContainer(node.id)) {
+      this.curDragId = id;
+      this.startX = e.clientX;
+      this.startY = e.clientY;
+      return;
+    }
+
+
     this.dragElement = dom as HTMLElement;
     // const rect = dom.getBoundingClientRect();
     e.dataTransfer!.effectAllowed = 'move';
@@ -220,6 +237,28 @@ export class EditorDNDManager {
   dragEnter(e: DragEvent) {
     const store = this.store;
     this.dragEnterCount++;
+
+    if (this.curDragId && this.manager.draggableContainer(this.curDragId)) {
+      // 特殊布局元素拖拽位置时，不需要 switchToRegion
+      return;
+    }
+
+    const activeId = store.activeId;
+    if (activeId) {
+      const curNode = store.getNodeById(activeId);
+      if (!curNode) {
+        toastWarning('请先选择一个元素作为插入的位置。');
+        return;
+      }
+       
+      if (curNode?.schema?.type === 'flex') {
+        toastWarning('布局容器组件不支持拖拽插入子元素。');
+        return;
+      }
+    } else {
+      toastWarning('请先选择一个元素作为插入的位置。');
+      return;
+    }
 
     if (store.dragId || this.dragEnterCount !== 1) {
       return;
@@ -266,11 +305,6 @@ export class EditorDNDManager {
   dragOver(e: DragEvent) {
     const store = this.store;
     const target = e.target as HTMLElement;
-
-    if (!store.dropId || !target) {
-      return;
-    }
-
     e.preventDefault();
 
     const dx = e.clientX - this.lastX;
@@ -281,6 +315,44 @@ export class EditorDNDManager {
     const curElem = target.closest(`[data-region][data-region-host]`);
     const hostId = curElem?.getAttribute('data-region-host');
     const region = curElem?.getAttribute('data-region');
+
+    if (d > 5 && this.curDragId && this.manager.draggableContainer(this.curDragId)) {
+      // 特殊布局元素拖拽位置
+      const doc = store.getDoc();
+
+      // 实时调整高亮区域坐标值
+      const dragHlBoxItem = doc.querySelector(`[data-hlbox-id='${this.curDragId}']`) as HTMLElement;
+      const hlBoxInset = dragHlBoxItem.style.inset || 'auto';
+      const hlBoxInsetArr = hlBoxInset.split(' ');
+      const hlBInset = {
+        top: dragHlBoxItem.style.top || hlBoxInsetArr[0] || 'auto',
+        right: dragHlBoxItem.style.right || hlBoxInsetArr[1] || 'auto',
+        bottom: dragHlBoxItem.style.bottom || hlBoxInsetArr[2] || hlBoxInsetArr[0] || 'auto',
+        left: dragHlBoxItem.style.left || hlBoxInsetArr[3] || hlBoxInsetArr[1] || 'auto',
+      };
+      dragHlBoxItem.style.inset = `${hlBInset.top !== 'auto' ? unitFormula(hlBInset.top, dy) : 'auto'} ${hlBInset.right !== 'auto' ? unitFormula(hlBInset.right, -dx) : 'auto'} ${hlBInset.bottom !== 'auto' ? unitFormula(hlBInset.bottom, -dy) : 'auto'} ${hlBInset.left !== 'auto' ? unitFormula(hlBInset.left, dx) : 'auto'}`;
+
+      // 实时调整被拖拽元素的坐标值
+      const dragContainerItem = doc.querySelector(`[data-editor-id='${this.curDragId}']`) as HTMLElement;
+      const curInset = dragContainerItem.style.inset || 'auto';
+      const insetArr = curInset.split(' ');
+      const inset = {
+        top: insetArr[0] || 'auto',
+        right: insetArr[1] || 'auto',
+        bottom: insetArr[2] || insetArr[0] || 'auto',
+        left: insetArr[3] || insetArr[1] || 'auto',
+      };
+
+      dragContainerItem.style.inset = `${inset.top !== 'auto' ? unitFormula(inset.top, dy) : 'auto'} ${inset.right !== 'auto' ? unitFormula(inset.right, -dx) : 'auto'} ${inset.bottom !== 'auto' ? unitFormula(inset.bottom, -dy) : 'auto'} ${inset.left !== 'auto' ? unitFormula(inset.left, dx) : 'auto'}`;
+
+      this.lastX = e.clientX;
+      this.lastY = e.clientY;
+      return;
+    }
+
+    if (!store.dropId || !target) {
+      return;
+    }
 
     // 没移动还是不要处理，免得晃动个不停。
     if (d < 5) {
@@ -321,6 +393,21 @@ export class EditorDNDManager {
   @autobind
   async drop(e: DragEvent) {
     const store = this.store;
+    if (this.curDragId && this.manager.draggableContainer(this.curDragId)) {
+      // 特殊布局元素拖拽位置后更新schema-style数据
+      const dx = e.clientX - this.startX;
+      const dy = e.clientY - this.startY;
+      this.manager.updateContainerStyleByDrag(this.curDragId, dx, dy);
+      // 重置拖拽ID，避免影响其他拖拽元素
+      this.curDragId = '';
+      return;
+    }
+
+    if (!store.dropId) {
+      // 没有拖拽接受容器，则直接跳过
+      return;
+    }
+
     const beforeId = this.dndMode?.getDropBeforeId();
 
     if (store.dragMode === 'move') {
@@ -381,6 +468,9 @@ export class EditorDNDManager {
    */
   @autobind
   updateDragElements(dragId: string) {
+    if (dragId && this.manager.draggableContainer(dragId)) {
+      return;
+    }
     if (dragId) {
       [].slice
         .call(
@@ -402,6 +492,9 @@ export class EditorDNDManager {
     value: {id: string; region: string},
     oldValue?: {id: string; region: string}
   ) {
+    if (this.store.dragId && this.manager.draggableContainer(this.store.dragId)) {
+      return;
+    }
     if (oldValue?.id && oldValue.region) {
       this.store
         .getDoc()
@@ -429,6 +522,9 @@ export class EditorDNDManager {
     value: {id: string; region: string},
     oldValue?: {id: string; region: string}
   ) {
+    if (this.store.dragId && this.manager.draggableContainer(this.store.dragId)) {
+      return;
+    }
     if (oldValue?.id && oldValue.region) {
       this.store
         .getDoc()

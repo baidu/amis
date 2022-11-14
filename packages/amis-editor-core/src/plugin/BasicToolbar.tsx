@@ -26,12 +26,13 @@ export class BasicToolbarPlugin extends BasePlugin {
     const store = this.manager.store;
     const node = store.getNodeById(id)!;
     const parent = store.getSchemaParentById(id);
+    const draggableContainer = this.manager.draggableContainer(id);
     // let vertical = true;
     const regionNode = node.parent as EditorNodeType; // 父级节点
-    if (Array.isArray(parent) && regionNode?.isRegion) {
+    if (Array.isArray(parent) && regionNode?.isRegion || draggableContainer) {
       const host = node.host as EditorNodeType;
 
-      if (node.draggable) {
+      if (node.draggable || draggableContainer) {
         toolbars.push({
           iconSvg: 'drag-btn',
           icon: 'fa fa-arrows',
@@ -43,7 +44,7 @@ export class BasicToolbarPlugin extends BasePlugin {
         });
       }
 
-      const idx = parent.indexOf(schema);
+      const idx = parent?.indexOf(schema);
 
       // if (idx > 0 && node.moveable) {
       //   let icon = 'fa fa-arrow-up';
@@ -358,18 +359,18 @@ export class BasicToolbarPlugin extends BasePlugin {
       menus.push({
         label: '向前移动',
         disabled:
-          !(Array.isArray(parent) && idx > 0) ||
-          !node.moveable ||
-          !node.prevSibling,
+          !(Array.isArray(parent) && idx > 0)
+          || !node.moveable,
+          // || !node.prevSibling,
         onSelect: () => manager.moveUp()
       });
 
       menus.push({
         label: '向后移动',
         disabled:
-          !(Array.isArray(parent) && idx < parent.length - 1) ||
-          !node.moveable ||
-          !node.nextSibling,
+          !(Array.isArray(parent) && idx < parent.length - 1)
+          || !node.moveable,
+          // || !node.nextSibling,
         onSelect: () => manager.moveDown()
       });
 
