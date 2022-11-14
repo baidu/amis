@@ -1040,7 +1040,7 @@
   &:before {
     pointer-events: none;
     font-size: 12px;
-    content: '<隐藏状态>';
+    content: attr(data-hide-text);
     z-index: 10;
     color: rgb(108, 113, 124);
     border: 1px dashed rgb(206, 208, 211);
@@ -1077,6 +1077,29 @@
 [data-region] {
   position: relative;
   min-height: 34px;
+
+  &:empty {
+    min-width: 20px;
+
+    &:before {
+      height: 100%;
+      content: attr(data-region-placeholder);
+      position: relative;
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      justify-content: center;
+
+      padding: 0 5px;
+      -webkit-user-select: none;
+      user-select: none;
+      text-align: center;
+      text-transform: uppercase;
+      color: rgb(108, 113, 124);
+      border: 1px dashed rgb(206, 208, 211);
+      background: rgba(10, 19, 37, 0.05);
+    }
+  }
 
   &.is-dragenter {
     background-color: #fff;
@@ -1185,11 +1208,6 @@
     align-items: center;
     visibility: hidden;
 
-    // 只有一个region时不显示头部标签
-    &.is-only-child-region {
-      visibility: hidden !important;
-    }
-
     button {
       cursor: pointer;
       display: inline-flex;
@@ -1225,7 +1243,8 @@
     }
   }
 
-  // 兼容方案，避免便签被遮挡
+  // 兼容方案，避免便签被遮挡: 区域仅有 [内容区]，头部标签放内部展示
+  > div.region-tip.is-only-child-region,
   &.region-label-within > .region-tip {
     top: 1px;
     border-radius: 0 0 3px 3px;
@@ -1430,6 +1449,11 @@ div.ae-DragImage {
   height: auto;
   width: 100%;
   border: 1px solid $borderColor;
+  > div:nth-child(2),
+  div[data-renderer='drawer'] {
+    flex-basis: auto;
+    overflow: visible;
+  }
 }
 
 .ae-EditableRenderers {

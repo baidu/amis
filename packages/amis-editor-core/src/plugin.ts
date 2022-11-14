@@ -438,7 +438,6 @@ export interface PanelItem {
   position?: 'left' | 'right';
   render?: (props: PanelProps) => JSX.Element;
   menus?: Array<any>;
-  isNotConfigPanel?: boolean; // 可用于标记非组件属性配置面板
 }
 
 export type BasicPanelItem = Omit<PanelItem, 'order'> &
@@ -901,6 +900,7 @@ export interface RendererPluginEvent {
   isBroadcast?: boolean; // 广播事件
   owner?: string; // 标记来源，主要用于广播
   dataSchema?: any[]; // 上下文schema
+  strongDesc?: string;
 }
 
 // 动作声明
@@ -1062,21 +1062,7 @@ export abstract class BasePlugin implements PluginInterface {
       if (sameIdChild) {
         const subPanels = this.manager.collectPanels(sameIdChild, false, true);
         subPanels.forEach(panel => {
-          if (panel.key === 'code') {
-            const exists = panels.some(panel => panel.key === 'code');
-            exists || panels.push(panel);
-          } else if (panel.key === 'renderers') {
-            const exists = panels.some(panel => panel.key === 'renderers');
-            exists || panels.push(panel);
-          } else if (
-            panel.key === 'outline' ||
-            panel.key === 'commonConfig' ||
-            panel.key === 'page-setting' ||
-            panel.key === 'name-list' ||
-            panel.isNotConfigPanel
-          ) {
-            // do nothing
-          } else {
+          if (panel.key === 'config' || panel.key === 'vconfig') {
             panels.push({
               ...panel,
               key: `sub-${panel.key}`,
