@@ -875,8 +875,9 @@ export const EditorStore = types
          || parentSchema?.style?.display === 'flex'
          || parentSchema?.style?.display === 'inline-flex';
         const isFlexColumn = parentSchema?.direction === 'column'
+         || parentSchema?.direction === 'column-reverse'
          || parentSchema?.style?.flexDirection === 'column'
-         || parentSchema?.style?.flexDirection === 'column';
+         || parentSchema?.style?.flexDirection === 'column-reverse';
         if (isFlexItem && isFlexColumn) {
           return true;
         }

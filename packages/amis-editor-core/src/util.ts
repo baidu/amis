@@ -914,6 +914,9 @@ export function isLayoutPlugin(plugin: any) {
  * 备注：支持带单位的数值进行运算
  */
 export function unitFormula(insetStr: string, offsetVal: number) {
+  if (insetStr === 'auto') {
+    return 'auto';
+  }
   const insetNum = parseInt(insetStr);
   let curOffsetVal = offsetVal;
   if (!isNumber(offsetVal)) {

@@ -322,12 +322,19 @@ export class EditorDNDManager {
 
       // 实时调整高亮区域坐标值
       const dragHlBoxItem = doc.querySelector(`[data-hlbox-id='${this.curDragId}']`) as HTMLElement;
-      dragHlBoxItem.style.top = unitFormula(dragHlBoxItem.style.top, dy);
-      dragHlBoxItem.style.left = unitFormula(dragHlBoxItem.style.left, dx);
+      const hlBoxInset = dragHlBoxItem.style.inset || 'auto';
+      const hlBoxInsetArr = hlBoxInset.split(' ');
+      const hlBInset = {
+        top: dragHlBoxItem.style.top || hlBoxInsetArr[0] || 'auto',
+        right: dragHlBoxItem.style.right || hlBoxInsetArr[1] || 'auto',
+        bottom: dragHlBoxItem.style.bottom || hlBoxInsetArr[2] || hlBoxInsetArr[0] || 'auto',
+        left: dragHlBoxItem.style.left || hlBoxInsetArr[3] || hlBoxInsetArr[1] || 'auto',
+      };
+      dragHlBoxItem.style.inset = `${hlBInset.top !== 'auto' ? unitFormula(hlBInset.top, dy) : 'auto'} ${hlBInset.right !== 'auto' ? unitFormula(hlBInset.right, -dx) : 'auto'} ${hlBInset.bottom !== 'auto' ? unitFormula(hlBInset.bottom, -dy) : 'auto'} ${hlBInset.left !== 'auto' ? unitFormula(hlBInset.left, dx) : 'auto'}`;
 
       // 实时调整被拖拽元素的坐标值
       const dragContainerItem = doc.querySelector(`[data-editor-id='${this.curDragId}']`) as HTMLElement;
-      let curInset = dragContainerItem.style.inset || 'auto';
+      const curInset = dragContainerItem.style.inset || 'auto';
       const insetArr = curInset.split(' ');
       const inset = {
         top: insetArr[0] || 'auto',
