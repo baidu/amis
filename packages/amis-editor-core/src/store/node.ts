@@ -525,7 +525,7 @@ export const EditorNode = types
 
     function getClosestParentByType(type: string): EditorNodeType | void {
       let node = self;
-      while ((node = node.parent)) {
+      while (node === node.parent) {
         if (node.schema.type === type) {
           return node as EditorNodeType;
         }
