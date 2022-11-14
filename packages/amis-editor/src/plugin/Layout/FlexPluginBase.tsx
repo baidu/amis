@@ -50,13 +50,14 @@ export class FlexPluginBase extends BasePlugin {
   disabledRendererPlugin = false;
 
   name = '布局容器';
+  order = -1200;
   isBaseComponent = true;
   icon = 'fa fa-columns';
   pluginIcon = 'flex-container-plugin';
   description =
     '布局容器 是基于 CSS Flex 实现的布局效果，它比 Grid 和 HBox 对子节点位置的可控性更强，比用 CSS 类的方式更易用';
   docLink = '/amis/zh-CN/components/flex';
-  tags = ['容器'];
+  tags = ['常见布局'];
   scaffold: any = defaultFlexContainerSchema;
   previewSchema = {
     ...this.scaffold
@@ -72,6 +73,7 @@ export class FlexPluginBase extends BasePlugin {
       curRendererSchema?.direction === 'row' ||
       curRendererSchema?.direction === 'row-reverse';
     const isFlexItem = this.manager?.isFlexItem(context?.id);
+    const isFlexColumnItem = this.manager?.isFlexColumnItem(context?.id);
 
     return [
       getSchemaTpl('tabs', [
@@ -85,6 +87,7 @@ export class FlexPluginBase extends BasePlugin {
                 body: [
                   isFlexItem
                     ? getSchemaTpl('layout:flex', {
+                        isFlexColumnItem,
                         visibleOn:
                           'data.style && (data.style.position === "static" || data.style.position === "relative")'
                       })
@@ -97,6 +100,7 @@ export class FlexPluginBase extends BasePlugin {
                     : null,
                   isFlexItem
                     ? getSchemaTpl('layout:flex-basis', {
+                        label: isFlexColumnItem ? '默认高度' : '默认宽度',
                         visibleOn:
                           'data.style && (data.style.position === "static" || data.style.position === "relative")'
                       })
@@ -110,33 +114,61 @@ export class FlexPluginBase extends BasePlugin {
                   getSchemaTpl('layout:flexDirection', {
                     name: 'direction'
                   }),
+
                   getSchemaTpl('layout:justifyContent', {
                     name: 'justify',
-                    label: tipedLabel(
-                      `${isRowContent ? '水平' : '垂直'}对齐方式`,
-                      '设置子元素在主轴上的对齐方式'
-                    )
+                    label: '水平对齐方式',
+                    visibleOn: 'data.direction === "row" || data.direction === "row-reverse"'
+                  }),
+                  // 备注: 重复一个是为了能实时联动，后续需要amis优化，支持label使用公式表达式
+                  getSchemaTpl('layout:justifyContent', {
+                    name: 'justify',
+                    label: '垂直对齐方式',
+                    visibleOn: 'data.direction === "column" || data.direction === "column-reverse"'
                   }),
                   getSchemaTpl('layout:alignItems', {
                     name: 'alignItems',
-                    label: tipedLabel(
-                      `${isRowContent ? '垂直' : '水平'}对齐方式`,
-                      '设置子元素在交叉轴上的对齐方式'
-                    )
+                    label: '水平对齐方式',
+                    visibleOn: 'data.direction === "column" || data.direction === "column-reverse"'
+                  }),
+                  getSchemaTpl('layout:alignItems', {
+                    name: 'alignItems',
+                    label: '垂直对齐方式',
+                    visibleOn: 'data.direction === "row" || data.direction === "row-reverse"'
                   }),
                   getSchemaTpl('layout:flex-wrap'),
 
-                  getSchemaTpl('layout:isFixedHeight'),
-                  getSchemaTpl('layout:height'),
-                  getSchemaTpl('layout:max-height'),
-                  getSchemaTpl('layout:min-height'),
-                  getSchemaTpl('layout:overflow-y'),
+                  getSchemaTpl('layout:isFixedHeight', {
+                    visibleOn: `${!isFlexItem || !isFlexColumnItem}`
+                  }),
+                  getSchemaTpl('layout:height', {
+                    visibleOn: `${!isFlexItem || !isFlexColumnItem}`
+                  }),
+                  getSchemaTpl('layout:max-height', {
+                    visibleOn: `${!isFlexItem || !isFlexColumnItem}`
+                  }),
+                  getSchemaTpl('layout:min-height', {
+                    visibleOn: `${!isFlexItem || !isFlexColumnItem}`
+                  }),
+                  getSchemaTpl('layout:overflow-y', {
+                    visibleOn: `${!isFlexItem || !isFlexColumnItem} && (data.isFixedHeight || data.style && data.style.maxHeight) || (${isFlexItem && isFlexColumnItem} && data.style.flex === '0 0 auto')`,
+                  }),
 
-                  getSchemaTpl('layout:isFixedWidth'),
-                  getSchemaTpl('layout:width'),
-                  getSchemaTpl('layout:max-width'),
-                  getSchemaTpl('layout:min-width'),
-                  getSchemaTpl('layout:overflow-x'),
+                  getSchemaTpl('layout:isFixedWidth', {
+                    visibleOn: `${!isFlexItem || isFlexColumnItem}`
+                  }),
+                  getSchemaTpl('layout:width', {
+                    visibleOn: `${!isFlexItem || isFlexColumnItem}`
+                  }),
+                  getSchemaTpl('layout:max-width', {
+                    visibleOn: `${!isFlexItem || isFlexColumnItem}`
+                  }),
+                  getSchemaTpl('layout:min-width', {
+                    visibleOn: `${!isFlexItem || isFlexColumnItem}`
+                  }),
+                  getSchemaTpl('layout:overflow-x', {
+                    visibleOn: `${!isFlexItem || isFlexColumnItem} && (data.isFixedWidth || data.style && data.style.maxWidth) || (${isFlexItem && !isFlexColumnItem} && data.style.flex === '0 0 auto')`,
+                  }),
 
                   !isFlexItem ? getSchemaTpl('layout:margin-center') : null
                 ]

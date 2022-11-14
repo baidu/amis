@@ -37,6 +37,7 @@ export class WrapperPlugin extends BasePlugin {
   panelBodyCreator = (context: BaseEventContext) => {
     const curRendererSchema = context?.schema;
     const isFlexItem = this.manager?.isFlexItem(context?.id);
+    const isFlexColumnItem = this.manager?.isFlexColumnItem(context?.id);
 
     return [
       getSchemaTpl('tabs', [
@@ -49,12 +50,14 @@ export class WrapperPlugin extends BasePlugin {
                 title: '布局',
                 body: [
                   isFlexItem ? getSchemaTpl('layout:flex', {
+                    isFlexColumnItem,
                     visibleOn: 'data.style && (data.style.position === "static" || data.style.position === "relative")',
                   }) : null,
                   isFlexItem ? getSchemaTpl('layout:flex-grow', {
                     visibleOn: 'data.style && data.style.flex !== "0 0 auto" && (data.style.position === "static" || data.style.position === "relative")',
                   }) : null,
                   isFlexItem ? getSchemaTpl('layout:flex-basis', {
+                    label: isFlexColumnItem ? '默认高度' : '默认宽度',
                     visibleOn: 'data.style && (data.style.position === "static" || data.style.position === "relative")',
                   }) : null,
                   getSchemaTpl('layout:position'),
@@ -67,27 +70,59 @@ export class WrapperPlugin extends BasePlugin {
                   getSchemaTpl('layout:flexDirection', {
                     visibleOn: 'data.style && data.style.display === "flex"',
                   }),
+
                   getSchemaTpl('layout:justifyContent', {
-                    visibleOn: 'data.style && data.style.display === "flex"',
+                    label: '水平对齐方式',
+                    visibleOn: 'data.style && data.style.display === "flex" && data.style.flexDirection === "row" || data.style.flexDirection === "row-reverse"'
+                  }),
+                  getSchemaTpl('layout:justifyContent', {
+                    label: '垂直对齐方式',
+                    visibleOn: 'data.style && data.style.display === "flex" && (data.style.flexDirection === "column" || data.style.flexDirection === "column-reverse")'
                   }),
                   getSchemaTpl('layout:alignItems', {
-                    visibleOn: 'data.style && data.style.display === "flex"',
+                    label: '水平对齐方式',
+                    visibleOn: 'data.style && data.style.display === "flex" && (data.style.flexDirection === "column" || data.style.flexDirection === "column-reverse")'
                   }),
+                  getSchemaTpl('layout:alignItems', {
+                    label: '垂直对齐方式',
+                    visibleOn: 'data.style && data.style.display === "flex" && (data.style.flexDirection === "row" || data.style.flexDirection === "row-reverse")'
+                  }),
+
                   getSchemaTpl('layout:flex-wrap', {
                     visibleOn: 'data.style && data.style.display === "flex"',
                   }),
 
-                  getSchemaTpl('layout:isFixedHeight'),
-                  getSchemaTpl('layout:height'),
-                  getSchemaTpl('layout:max-height'),
-                  getSchemaTpl('layout:min-height'),
-                  getSchemaTpl('layout:overflow-y'),
+                  getSchemaTpl('layout:isFixedHeight', {
+                    visibleOn: `${!isFlexItem || !isFlexColumnItem}`
+                  }),
+                  getSchemaTpl('layout:height', {
+                    visibleOn: `${!isFlexItem || !isFlexColumnItem}`
+                  }),
+                  getSchemaTpl('layout:max-height', {
+                    visibleOn: `${!isFlexItem || !isFlexColumnItem}`
+                  }),
+                  getSchemaTpl('layout:min-height', {
+                    visibleOn: `${!isFlexItem || !isFlexColumnItem}`
+                  }),
+                  getSchemaTpl('layout:overflow-y', {
+                    visibleOn: `${!isFlexItem || !isFlexColumnItem} && (data.isFixedHeight || data.style && data.style.maxHeight) || (${isFlexItem && isFlexColumnItem} && data.style.flex === '0 0 auto')`,
+                  }),
 
-                  getSchemaTpl('layout:isFixedWidth'),
-                  getSchemaTpl('layout:width'),
-                  getSchemaTpl('layout:max-width'),
-                  getSchemaTpl('layout:min-width'),
-                  getSchemaTpl('layout:overflow-x'),
+                  getSchemaTpl('layout:isFixedWidth', {
+                    visibleOn: `${!isFlexItem || isFlexColumnItem}`
+                  }),
+                  getSchemaTpl('layout:width', {
+                    visibleOn: `${!isFlexItem || isFlexColumnItem}`
+                  }),
+                  getSchemaTpl('layout:max-width', {
+                    visibleOn: `${!isFlexItem || isFlexColumnItem}`
+                  }),
+                  getSchemaTpl('layout:min-width', {
+                    visibleOn: `${!isFlexItem || isFlexColumnItem}`
+                  }),
+                  getSchemaTpl('layout:overflow-x', {
+                    visibleOn: `${!isFlexItem || isFlexColumnItem} && (data.isFixedWidth || data.style && data.style.maxWidth) || (${isFlexItem && !isFlexColumnItem} && data.style.flex === '0 0 auto')`,
+                  }),
 
                   !isFlexItem ? getSchemaTpl('layout:margin-center') : null,
                 ]

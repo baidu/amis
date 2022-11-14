@@ -138,6 +138,12 @@ import './plugin/CodeView';
 import './plugin/WebComponent';
 import './plugin/CRUD2';
 import './plugin/ColumnToggler';
+import './plugin/Layout/Layout_fixed_bottom';
+import './plugin/Layout/Layout_fixed_top';
+import './plugin/Layout/Layout_fixed';
+import './plugin/Layout/Layout_scroll_x';
+import './plugin/Layout/Layout_scroll_y';
+import './plugin/Layout/Layout1_2_v4';
 
 import {GridPlugin} from './plugin/Grid';
 
