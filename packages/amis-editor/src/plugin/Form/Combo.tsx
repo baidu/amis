@@ -10,10 +10,11 @@ import {
   mockValue,
   RegionConfig
 } from 'amis-editor-core';
+
 import {setVariable} from 'amis-core';
 
 import {ValidatorTag} from '../../validator';
-import {getEventControlConfig} from '../../renderer/event-control/helper';
+import {getArgsWrapper, getEventControlConfig} from '../../renderer/event-control/helper';
 
 export class ComboControlPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -33,6 +34,8 @@ export class ComboControlPlugin extends BasePlugin {
     label: '组合输入',
     name: 'combo',
     multiple: true,
+    addable: true,
+    removable: true,
     items: [
       {
         type: 'input-text',
@@ -151,6 +154,23 @@ export class ComboControlPlugin extends BasePlugin {
       description: '将值重置为resetValue，若没有配置resetValue，则清空'
     },
     {
+      actionType: 'addItem',
+      actionLabel: '添加项',
+      description: '添加新的项',
+      innerArgs: ['item'],
+      schema: getArgsWrapper({
+        type: 'input-kv',
+        variables: '${variables}',
+        evalMode: false,
+        variableMode: 'tabs',
+        label: '添加项',
+        size: 'lg',
+        name: 'item',
+        mode: 'horizontal',
+        draggable: false
+      })
+    },
+    {
       actionType: 'setValue',
       actionLabel: '赋值',
       description: '触发组件数据更新'
@@ -179,6 +199,16 @@ export class ComboControlPlugin extends BasePlugin {
                 }),
                 getSchemaTpl('label'),
 
+                getSchemaTpl('valueFormula', {
+                  rendererSchema: {
+                    ...context?.schema,
+                    type: 'input-text'
+                  },
+                  label: tipedLabel(
+                    '默认值',
+                    '支持 <code>now、+1day、-2weeks、+1hours、+2years</code>等这种相对值用法'
+                  )
+                }),
                 // 多选模式和条数绑定了，所以设定了多选，条数开启
                 getSchemaTpl('multiple', {
                   body: [
@@ -204,6 +234,21 @@ export class ComboControlPlugin extends BasePlugin {
                   pipeIn: defaultValue(false),
                   visibleOn: 'data.multiple'
                 }),
+                {
+                  type: 'container',
+                  className: 'ae-ExtendMore mb-3',
+                  visibleOn: 'data.draggable',
+                  body: [
+                    {
+                      type: 'input-text',
+                      name: 'draggableTip',
+                      label: tipedLabel(
+                        '提示文字',
+                        '拖拽排序的提示文字'
+                      )
+                    }
+                  ]
+                },
                 
                 // 可新增
                 getSchemaTpl('switch', {
@@ -217,11 +262,35 @@ export class ComboControlPlugin extends BasePlugin {
                   className: 'ae-ExtendMore mb-3',
                   visibleOn: 'data.addable',
                   body: [
+                    // 自定义新增按钮开关
+                    getSchemaTpl('switch', {
+                      name: 'addableCustom',
+                      label: '使用自定义按钮',
+                      visibleOn: 'data.addable',
+                      pipeIn: defaultValue(false),
+                      onChange: (value: any, oldValue: any, model: any, form: any) => {
+                        if (!value) {
+                          form.setValueByName('addBtn', undefined);
+                        }
+                      }
+                    }),
                     {
-                      label: '按钮文案',
-                      name: 'addBtn',
-                      type: 'input-text'
-                    }
+                      label: '文案',
+                      name: 'addBtn.label',
+                      type: 'input-text',
+                      visibleOn: 'data.addableCustom'
+                    },
+                    getSchemaTpl('buttonLevel', {
+                      label: '样式',
+                      name: 'addBtn.level',
+                      visibleOn: 'data.addableCustom',
+                    }),
+      
+                    getSchemaTpl('switch', {
+                      name: 'addBtn.block',
+                      label: '块状显示',
+                      visibleOn: 'data.addableCustom',
+                    }),
                   ]
                 },
 
@@ -230,23 +299,60 @@ export class ComboControlPlugin extends BasePlugin {
                   name: 'removable',
                   label: '可删除',
                   pipeIn: defaultValue(false),
-                    visibleOn: 'data.multiple',
+                  visibleOn: 'data.multiple'
                 }),
-
                 {
                   type: 'container',
                   className: 'ae-ExtendMore mb-3',
                   visibleOn: 'data.removable',
                   body: [
+                    // 自定义新增按钮开关
+                    getSchemaTpl('switch', {
+                      name: 'removableCustom',
+                      label: '使用自定义按钮',
+                      visibleOn: 'data.removable',
+                      pipeIn: defaultValue(false),
+                      onChange: (value: any, oldValue: any, model: any, form: any) => {
+                        if (!value) {
+                          form.setValueByName('deleteBtn', undefined);
+                        }
+                      }
+                    }),
                     {
-                      label: '按钮文案',
-                      name: 'deleteBtn',
-                      type: 'input-text'
+                      label: '文案',
+                      name: 'deleteBtn.label',
+                      type: 'input-text',
+                      visibleOn: 'data.removableCustom'
                     },
+                    getSchemaTpl('buttonLevel', {
+                      label: '样式',
+                      name: 'deleteBtn.level',
+                      visibleOn: 'data.removableCustom',
+                    }),
+      
+                    getSchemaTpl('switch', {
+                      name: 'deleteBtn.block',
+                      label: '块状显示',
+                      visibleOn: 'data.removableCustom',
+                    }),
+                    getSchemaTpl('switch', {
+                      name: 'removableApi',
+                      label: tipedLabel('删除前调用接口', '配置后，删除前会发送api，请求成功才完成删除'),
+                      visibleOn: 'data.removable',
+                      pipeIn: defaultValue(false),
+                      onChange: (value: any, oldValue: any, model: any, form: any) => {
+                        if (!value) {
+                          form.setValueByName('deleteApi', undefined);
+                          form.setValueByName('deleteConfirmText', undefined);
+                        }
+                      }
+                    }),
                     getSchemaTpl('apiControl', {
                       name: 'deleteApi',
                       label: '删除',
-                      mode: 'normal'
+                      mode: 'normal',
+                      wrapWithPanel: false,
+                      visibleOn: 'data.removableApi',
                     }),
                     {
                       label: tipedLabel(
@@ -255,6 +361,7 @@ export class ComboControlPlugin extends BasePlugin {
                       ),
                       name: 'deleteConfirmText',
                       type: 'input-text',
+                      visibleOn: 'data.removableApi',
                       pipeIn: defaultValue('确认要删除吗？')
                     }
                   ]
@@ -356,8 +463,8 @@ export class ComboControlPlugin extends BasePlugin {
         body: getSchemaTpl('collapseGroup', [
           {
             title: '基本',
+            visibleOn: 'data.multiple',
             body: [
-              // 展示形式
               {
                 name: 'tabsMode',
                 label: '展示形式',
@@ -384,20 +491,24 @@ export class ComboControlPlugin extends BasePlugin {
               getSchemaTpl('switch', {
                 name: 'multiLine',
                 label: '多行展示',
+                pipeIn: defaultValue(false),
+                onChange: (value: boolean, oldValue: any, model: any, form: any) => {
+                  if (!value) {
+                    form.setValueByName('subFormMode', undefined);
+                    form.setValueByName('noBorder', undefined);
+                  }
+                }
+              }),
+              getSchemaTpl('switch', {
+                visibleOn: 'data.multiLine',
+                name: 'noBorder',
+                label: '去掉边框',
                 pipeIn: defaultValue(false)
               }),
-              {
-                type: 'container',
-                className: 'ae-ExtendMore mb-3',
+              getSchemaTpl('subFormItemMode', {
                 visibleOn: 'data.multiLine',
-                body: [
-                  getSchemaTpl('switch', {
-                    name: 'noBorder',
-                    label: '去掉边框',
-                    pipeIn: defaultValue(false)
-                  })
-                ]
-              }
+                label: '展示模式'
+              }),
             ]
           },
           getSchemaTpl('style:classNames'),
@@ -418,9 +529,9 @@ export class ComboControlPlugin extends BasePlugin {
 
   filterProps(props: any) {
     // 至少显示一个成员，否则啥都不显示。
-    if (props.multiple && !props.value && !props.$ref) {
+    if (props.multiple && !props.value && !props.$schema.value && !props.$ref) {
       const mockedData = {};
-      if (Array.isArray(props.items)) {
+      if (Array.isArray(props.items) && props.items.length === 0) {
         props.items.forEach((control: any) => {
           control.name &&
             setVariable(mockedData, control.name, mockValue(control));
