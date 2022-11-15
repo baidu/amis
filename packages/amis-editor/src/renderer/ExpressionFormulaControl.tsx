@@ -182,7 +182,6 @@ export default class ExpressionFormulaControl extends React.Component<
             formulaPickerValue ? (
               <Button
                 className="btn-configured"
-                level="primary"
                 tooltip={{
                   placement: 'top',
                   tooltipTheme: 'dark',
@@ -201,9 +200,11 @@ export default class ExpressionFormulaControl extends React.Component<
                 />
               </Button>
             ) : (
-              <Button className="btn-set-expression" onClick={onClick}>
-                点击编写表达式
-              </Button>
+              <>
+                <Button className="btn-set-expression" onClick={onClick}>
+                  点击编写表达式
+                </Button>
+              </>
             )
           }
         </PickerContainer>
