@@ -1023,7 +1023,11 @@ export function registerOptionsControl(config: OptionsConfig) {
           });
 
           if (!payload.ok) {
-            env.notify('error', payload.msg || __('Options.createFailed'));
+            env.notify(
+              'error',
+              (addApi as BaseApiObject)?.messages?.failed ??
+                (payload.msg || __('Options.createFailed'))
+            );
             result = null;
           } else {
             result = payload.data || result;
@@ -1145,7 +1149,11 @@ export function registerOptionsControl(config: OptionsConfig) {
           );
 
           if (!payload.ok) {
-            env.notify('error', payload.msg || __('saveFailed'));
+            env.notify(
+              'error',
+              (editApi as BaseApiObject)?.messages?.failed ??
+                (payload.msg || __('saveFailed'))
+            );
             result = null;
           } else {
             result = payload.data || result;
@@ -1228,7 +1236,11 @@ export function registerOptionsControl(config: OptionsConfig) {
             method: 'delete'
           });
           if (!result.ok) {
-            env.notify('error', result.msg || __('deleteFailed'));
+            env.notify(
+              'error',
+              (deleteApi as BaseApiObject)?.messages?.failed ??
+                (result.msg || __('deleteFailed'))
+            );
             return;
           }
         }

@@ -395,7 +395,11 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         if (isEffectiveApi(addApi, ctx)) {
           const payload = await env.fetcher(addApi, ctx);
           if (payload && !payload.ok) {
-            env.notify('error', payload.msg || __('fetchFailed'));
+            env.notify(
+              'error',
+              (addApi as ApiObject)?.messages?.failed ??
+                (payload.msg || __('fetchFailed'))
+            );
             return;
           } else if (payload && payload.ok) {
             toAdd = payload.data;
@@ -586,14 +590,17 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     const isNew = item.__isPlaceholder;
 
     let remote: Payload | null = null;
+    let apiMsg = undefined;
     if (isNew && isEffectiveApi(addApi, createObject(data, item))) {
       remote = await env.fetcher(addApi, createObject(data, item));
+      apiMsg = (addApi as ApiObject)?.messages?.failed;
     } else if (isEffectiveApi(updateApi, createObject(data, item))) {
       remote = await env.fetcher(updateApi, createObject(data, item));
+      apiMsg = (updateApi as ApiObject)?.messages?.failed;
     }
 
     if (remote && !remote.ok) {
-      env.notify('error', remote.msg || __('saveFailed'));
+      env.notify('error', apiMsg ?? (remote.msg || __('saveFailed')));
       return;
     } else if (remote && remote.ok) {
       item = {
@@ -667,7 +674,10 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       const result = await env.fetcher(deleteApi, ctx);
 
       if (!result.ok) {
-        env.notify('error', __('deleteFailed'));
+        env.notify(
+          'error',
+          (deleteApi as ApiObject)?.messages?.failed ?? __('deleteFailed')
+        );
         return;
       }
     }
