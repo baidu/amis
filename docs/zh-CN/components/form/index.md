@@ -19,7 +19,7 @@ order: 24
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "/api/mock2/form/saveForm",
+    "api": "get:http://127.0.0.1:5500/api/history/active.json",
     "body": [
       {
         "type": "input-text",
