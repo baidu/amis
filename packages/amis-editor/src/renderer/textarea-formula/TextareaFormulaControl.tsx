@@ -3,7 +3,6 @@
  */
 
 import React from 'react';
-import isEqual from 'lodash/isEqual';
 import cx from 'classnames';
 import {Icon, FormItem} from 'amis';
 import {autobind, FormControlProps, Schema} from 'amis-core';
@@ -14,11 +13,13 @@ import FormulaPicker from './FormulaPicker';
 import debounce from 'lodash/debounce';
 import CodeMirror from 'codemirror';
 import {resolveVariablesFromScope} from './utils';
-import Menu from './Menu';
 import {VariableItem} from 'amis-ui/lib/components/formula/Editor';
 
 export interface TextareaFormulaControlProps extends FormControlProps {
-  height?: number; // 输入框的高度
+  /**
+   * 输入框的高度， 默认 100 px
+   */
+  height?: number;
 
   /**
    * 用于提示的变量集合，默认为空
@@ -31,23 +32,26 @@ export interface TextareaFormulaControlProps extends FormControlProps {
    */
   requiredDataPropsVariables?: boolean;
 
+  /**
+   * 变量展现模式，可选值：'tabs' ｜ 'tree'
+   */
   variableMode?: 'tree' | 'tabs';
 
+  /**
+   *  附加底部按钮菜单项
+   */
   additionalMenus?: Array<{
-    label: string;
-    onClick: () => void;
-  }>; // 附加底部按钮菜单项
+    label: string; // 文案（当存在图标时，为tooltip内容）
+    onClick: () => void; // 触发事件
+    icon?: string; // 图标
+    className?: string; //外层类名
+  }>;
 }
 
 interface TextareaFormulaControlState {
   value: string; // 当前文本值
 
   variables: Array<VariableItem>; // 变量数据
-
-  menusList: Array<{
-    label: string;
-    onClick: () => void;
-  }>; // 底部按钮菜单
 
   formulaPickerOpen: boolean; // 是否打开公式编辑器
 
@@ -77,7 +81,6 @@ export class TextareaFormulaControl extends React.Component<
     this.state = {
       value: '',
       variables: [],
-      menusList: [],
       formulaPickerOpen: false,
       formulaPickerValue: '',
       isFullscreen: false
@@ -85,23 +88,6 @@ export class TextareaFormulaControl extends React.Component<
   }
 
   componentDidMount() {
-    const {additionalMenus = [], value} = this.props;
-    const menusList = [
-      {
-        label: '表达式',
-        onClick: () => {
-          this.setState({
-            formulaPickerOpen: true,
-            formulaPickerValue: '',
-            expressionBrace: undefined
-          });
-        }
-      }
-    ];
-    this.setState({
-      menusList: [...menusList, ...additionalMenus]
-    });
-
     this.getVariables();
   }
 
@@ -198,11 +184,27 @@ export class TextareaFormulaControl extends React.Component<
     });
   }
 
+  @autobind
+  handleFormulaClick() {
+    this.setState({
+      formulaPickerOpen: true,
+      formulaPickerValue: '',
+      expressionBrace: undefined
+    });
+  }
+
   render() {
-    const {className, header, label, placeholder, height, ...rest} = this.props;
+    const {
+      className,
+      header,
+      label,
+      placeholder,
+      height,
+      additionalMenus,
+      ...rest
+    } = this.props;
     const {
       value,
-      menusList,
       formulaPickerOpen,
       formulaPickerValue,
       isFullscreen,
@@ -229,20 +231,49 @@ export class TextareaFormulaControl extends React.Component<
             editorFactory={this.editorFactory}
             editorDidMount={this.handleEditorMounted}
           />
-          <Menu menus={menusList} />
-          <div className="ae-TextareaResultBox-fullscreen">
-            <a
-              className={cx('Modal-fullscreen')}
-              data-tooltip={isFullscreen ? '退出全屏' : '全屏'}
-              data-position="left"
-              onClick={this.handleFullscreenModeChange}
-            >
-              <Icon
-                icon={isFullscreen ? 'compress-alt' : 'expand-alt'}
-                className="icon"
-              />
-            </a>
-          </div>
+          <ul className="ae-TextareaResultBox-footer">
+            <li className="ae-TextareaResultBox-footer-fullscreen">
+              <a
+                className={cx('Modal-fullscreen')}
+                data-tooltip={isFullscreen ? '退出全屏' : '全屏'}
+                data-position="top"
+                onClick={this.handleFullscreenModeChange}
+              >
+                <Icon
+                  icon={isFullscreen ? 'compress-alt' : 'expand-alt'}
+                  className="icon"
+                />
+              </a>
+            </li>
+            <li className="ae-TextareaResultBox-footer-fxIcon">
+              <a
+                data-tooltip="表达式"
+                data-position="top"
+                onClick={this.handleFormulaClick}
+              >
+                <Icon icon="function" className="icon" />
+              </a>
+            </li>
+            {/* 附加底部按钮菜单项 */}
+            {additionalMenus?.length &&
+              additionalMenus?.map((item, i) => {
+                return (
+                  <li key={i} className={item?.className || ''}>
+                    {item.icon ? (
+                      <a
+                        data-tooltip={item.label}
+                        data-position="top"
+                        onClick={() => item.onClick()}
+                      >
+                        <Icon icon={item.icon} className="icon" />
+                      </a>
+                    ) : (
+                      <a onClick={() => item?.onClick()}>{item.label}</a>
+                    )}
+                  </li>
+                );
+              })}
+          </ul>
         </div>
         {formulaPickerOpen ? (
           <FormulaPicker
