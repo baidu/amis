@@ -448,7 +448,7 @@ export default class ComboControl extends React.Component<ComboProps> {
     const {onChange, resetValue} = this.props;
 
     if (actionType === 'addItem') {
-      this.addItemValue(args.value);
+      this.addItemValue(args.item);
     }
     else if (actionType === 'clear') {
       onChange('');
