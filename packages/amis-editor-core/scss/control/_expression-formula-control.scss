@@ -12,9 +12,10 @@
       bottom: 0;
       right: var(--button-size-default-paddingRight);
       margin: auto 0 !important;
-      width: 12px;
+      font-size: 14px;
+      fill: var(--Form-input-clearBtn-color);
       &:hover {
-        width: 12px;
+        fill: var(--Form-input-clearBtn-color-onHover);
       }
     }
   }
