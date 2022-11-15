@@ -68,6 +68,10 @@ export class SelectControlPlugin extends BasePlugin {
               type: 'string',
               title: '选中值'
             },
+            'event.data.selectedItems': {
+              type: 'object', // 也可能是array
+              title: '选中的项'
+            },
             'event.data.items': {
               type: 'array',
               title: '选项集合'

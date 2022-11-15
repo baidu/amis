@@ -49,6 +49,22 @@ export class ServicePlugin extends BasePlugin {
 
   events: RendererPluginEvent[] = [
     {
+      eventName: 'init',
+      eventLabel: '初始化',
+      description: '组件实例被创建并插入 DOM 中时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            'event.data': {
+              type: 'object',
+              title: '当前数据域'
+            }
+          }
+        }
+      ]
+    },
+    {
       eventName: 'fetchInited',
       eventLabel: 'api 初始化数据',
       description: 'api 初始化完成'
