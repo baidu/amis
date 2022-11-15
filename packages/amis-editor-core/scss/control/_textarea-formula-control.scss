@@ -23,46 +23,13 @@
       border-color: var(--Form-input-onHover-borderColor);
     }
 
-    .textarea-formula-menu {
-      display: absolute;
-      position: absolute;
-      bottom: px2rem(8px);
-      right: px2rem(12px);
-
-      &-outer {
-        min-width: px2rem(60px);
-        margin: 0;
-        padding: 0;
-        list-style: none;
-
-        > li {
-          cursor: pointer;
-          white-space: nowrap;
-          user-select: none;
-          color: var(--DropDown-menuItem-color);
-          padding: var(--DropDown-menuItem-paddingY)
-            var(--DropDown-menuItem-paddingX);
-
-          > a {
-            color: inherit;
-          }
-
-          &:hover {
-            color: var(--DropDown-menuItem-onHover-color);
-            background: var(--DropDown-menuItem-onHover-bg);
-          }
-        }
-      }
-    }
-
     &-editor {
       height: 100%;
       border-radius: var(--Form-input-borderRadius);
       overflow: auto;
       & > .CodeMirror {
         height: 100%;
-        padding-right: 24px;
-        padding-bottom: 24px;
+        padding-bottom: 26px;
       }
 
       .cm-expression {
@@ -126,11 +93,26 @@
       }
     }
 
-    &-fullscreen {
+    &-footer {
       position: absolute;
-      top: 4px;
-      right: 12px;
-      cursor: pointer;
+      width: 100%;
+      background: #f7f7f9;
+      bottom: 0px;
+      height: 26px;
+      margin: 0;
+      border-radius: 0 0 4px 4px;
+      list-style: none;
+      display: flex;
+      flex-direction: row-reverse;
+      align-items: center;
+      > li {
+        margin-right: 10px;
+        cursor: pointer;
+      }
+      &-fxIcon {
+        font-size: 19px;
+        margin-bottom: 3px;
+      }
     }
   }
 
@@ -146,11 +128,24 @@
     height: auto !important;
     .ae-TextareaResultBox {
       height: 100% !important;
-      &-dropdown {
-        bottom: 60px;
+      &-editor {
+        & > .CodeMirror {
+          height: 100%;
+          padding: 10px 10px 48px;
+        }
       }
-      &-menus {
-        right: 10px;
+
+      &-footer {
+        height: 48px;
+        > li {
+          margin-right: 20px;
+        }
+        &-fxIcon {
+          font-size: 28px;
+        }
+        &-fullscreen {
+          font-size: 20px;
+        }
       }
     }
   }
