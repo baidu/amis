@@ -159,7 +159,7 @@ export class TextareaFormulaControl extends React.Component<
 
   handleOnChange = debounce((value: any) => {
     this.props.onChange?.(value);
-  }, 1000);
+  }, 200);
 
   @autobind
   editorFactory(dom: HTMLElement, cm: any) {
@@ -191,6 +191,11 @@ export class TextareaFormulaControl extends React.Component<
       formulaPickerValue: '',
       expressionBrace: undefined
     });
+  }
+
+  @autobind
+  editorAutoMark() {
+    this.editorPlugin?.autoMark();
   }
 
   render() {
@@ -230,6 +235,7 @@ export class TextareaFormulaControl extends React.Component<
             onChange={this.handleOnChange}
             editorFactory={this.editorFactory}
             editorDidMount={this.handleEditorMounted}
+            onBlur={this.editorAutoMark}
           />
           <ul className="ae-TextareaResultBox-footer">
             <li className="ae-TextareaResultBox-footer-fullscreen">
