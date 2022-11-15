@@ -20,6 +20,11 @@ export type GroupSubControl = SchemaObject & {
    * 宽度占用比率。在某些容器里面有用比如 group
    */
   columnRatio?: number | 'auto';
+
+  /**
+   * 列名称
+   */
+  name?: string;
 };
 
 /**
@@ -115,7 +120,7 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
           }
 
           return this.renderControl(control, index, {
-            key: index
+            key: `${control.name ?? ''}-${index}`
           });
         })}
       </div>
@@ -179,7 +184,7 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
               ['formula', 'hidden'].includes((control as any).type))
           ) {
             return this.renderControl(control, index, {
-              key: index,
+              key: `${control.name ?? ''}-${index}`,
               className: cx(control.className, control.columnClassName)
             });
           }
@@ -198,6 +203,7 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
               )}
             >
               {this.renderControl(control, index, {
+                key: `${control.name ?? ''}-${index}`,
                 formHorizontal: horizontalDeeper,
                 formMode: controlMode
               })}
