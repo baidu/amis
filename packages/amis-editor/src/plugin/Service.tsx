@@ -66,13 +66,13 @@ export class ServicePlugin extends BasePlugin {
     },
     {
       eventName: 'fetchInited',
-      eventLabel: 'api 初始化数据',
-      description: 'api 初始化完成'
+      eventLabel: '初始化数据接口请求成功',
+      description: '远程初始化数据接口请求成功时触发'
     },
     {
       eventName: 'fetchSchemaInited',
-      eventLabel: 'schemaApi 初始化数据',
-      description: 'schemaApi 初始化完成'
+      eventLabel: '初始化Schema接口请求成功',
+      description: '远程初始化Schema接口请求成功时触发'
     }
   ];
 

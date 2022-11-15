@@ -66,15 +66,15 @@ export class PagePlugin extends BasePlugin {
     },
     {
       eventName: 'inited',
-      eventLabel: '初始化接口请求成功',
-      description: '远程初始化接口请求成功时触发',
+      eventLabel: '初始化数据接口请求成功',
+      description: '远程初始化数据接口请求成功时触发',
       dataSchema: [
         {
           type: 'object',
           properties: {
             'event.data': {
               type: 'object',
-              title: '初始化接口请求成功返回的数据'
+              title: '初始化数据接口请求成功返回的数据'
             }
           }
         }

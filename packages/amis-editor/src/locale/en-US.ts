@@ -3476,5 +3476,27 @@ extendLocale('en-US', {
   '137bcb84f52bbd48623c37d8dfdebdff': 'Within a year',
   '279d93f2d745ed08e9034022941510dc': 'Common span',
   '7a1e5f93e362d371519bcb2bfdb0fc9a': 'Custom Span',
-  '4a12e9b9fc5443e5e9999b5a7c56c19a': 'Default (full)'
+  '4a12e9b9fc5443e5e9999b5a7c56c19a': 'Default (full)',
+  '2cb472ff9cad0c89a033c53996b52053': 'Init',
+  '76ddcc0ad85aa4be6875b73244a64faf':
+    'Triggered when a component instance is created and inserted into the DOM',
+  '584e4b6108e132be92c9de09d7bbed72': 'Current Data Domain',
+  '9328b90ded33d16a873db5c0dbd815b8':
+    'Initial data interface request successful',
+  'f3b97bd71a77cca1e9288089a537cf3b':
+    'Triggered on successful remote initialization data interface request',
+  '9787088794f42c7e476cf7580f81447e':
+    'Initialize the data returned by a successful data interface request',
+  '029e280e119b028bffc51424d909c07d': 'SelectedItems',
+  'a6eebb9b4fc7148e2dc41335c74e6393':
+    'Initialization of Schema interface request successful',
+  '887954cd9bdb290003984fe9a6eb99e2':
+    'Triggered when remote initialization Schema interface request is successful',
+  '8f0064a9cfd7dcbb3c729f1357f11772': 'Send data',
+  '6d33298a54888a30753373ca5bfe3bc2': 'Return Data',
+  '542e06175ff4f7407c467bbde90de56a':
+    'Turn on this option if you need to do additional data processing on the data in the returned results',
+  '7c583ecdf795ce4f1f40d7960ead9344': 'Default prompt text',
+  '70941a02776496ec446f21f98ebf754e': 'Request successful',
+  'f50bf418323ee425eca7208c09a4577e': 'Request failed'
 });

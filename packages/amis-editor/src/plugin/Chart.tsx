@@ -59,7 +59,7 @@ const DEFAULT_EVENT_PARAMS = [
       },
       'event.data.value': {
         type: 'number',
-        title: 'data'
+        title: 'value'
       },
       'event.data.color': {
         type: 'string',
