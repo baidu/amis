@@ -45,6 +45,16 @@ export default {
               }
             }
           ]
+        },
+        legendselectchanged: {
+          actions: [
+            {
+              actionType: 'toast',
+              args: {
+                msg: '${event.data|json}'
+              }
+            }
+          ]
         }
       },
       config: {
