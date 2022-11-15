@@ -30,6 +30,9 @@
       & > .CodeMirror {
         height: 100%;
         padding-bottom: 26px;
+        .CodeMirror-vscrollbar {
+          margin-bottom: 26px;
+        }
       }
 
       .cm-expression {
@@ -132,6 +135,9 @@
         & > .CodeMirror {
           height: 100%;
           padding: 10px 10px 48px;
+          .CodeMirror-vscrollbar {
+            margin-bottom: 48px;
+          }
         }
       }
 
