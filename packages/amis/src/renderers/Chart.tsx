@@ -309,7 +309,7 @@ export class Chart extends React.Component<ChartProps> {
     const {data, dispatchEvent} = this.props;
 
     dispatchEvent(
-      (ctx as any).event,
+      (ctx as any).event || ctx.type,
       createObject(data, {
         ...pick(
           ctx,
