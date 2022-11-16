@@ -1835,8 +1835,8 @@ export class FormRenderer extends Form {
     // }
 
     // 配了submit事件的表示将提交逻辑全部托管给事件
-    const {dispatchEvent, $schema} = this.props;
-    const submitEvent = $schema?.onEvent?.submit?.actions?.length;
+    const {dispatchEvent, onEvent} = this.props;
+    const submitEvent = onEvent?.submit?.actions?.length;
     const dispatcher = await dispatchEvent(
       'submit',
       this.props.data
