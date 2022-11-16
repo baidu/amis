@@ -1,6 +1,6 @@
 /**
- * @file  BoxModel
- * @description 盒模型控件，支持编辑 margin & padding
+ * @file  InsetBoxModel
+ * @description 盒模型控件，支持编辑 top、right、bottom、left
  */
 
 import cx from 'classnames';
@@ -8,16 +8,14 @@ import React from 'react';
 import {observer} from 'mobx-react';
 import camelCase from 'lodash/camelCase';
 import {FormItem} from 'amis';
-
 import {isNumeric} from 'amis-editor-core';
-import {isAuto} from '../../util';
-
 import type {FormControlProps} from 'amis-core';
+import {isAuto} from '../../util';
 import type {PlainObject} from './types';
 
 export type Direction = 'left' | 'right' | 'top' | 'bottom';
 
-function BoxModel({
+function InsetBoxModel({
   value,
   onChange
 }: {
@@ -31,7 +29,7 @@ function BoxModel({
       let inputValue = e.target.value;
 
       if (!inputValue) {
-        onChange({...value, [styleName]: undefined});
+        onChange({...value, [styleName]: ''});
         return;
       }
 
@@ -78,22 +76,17 @@ function BoxModel({
 
   return (
     <div className="mx-2 ae-BoxModel">
-      <div className="ae-BoxModel-inner">
-        <div className="ae-BoxModel">
-          <div className="ae-BoxModel-inner"></div>
-          {renderBoxItem('padding')}
-        </div>
-      </div>
-      {renderBoxItem('margin')}
+      <div className="ae-BoxModel-inner"></div>
+      {renderBoxItem('inset')}
     </div>
   );
 }
 
-export default observer(BoxModel);
+export default observer(InsetBoxModel);
 
-@FormItem({type: 'style-box-model'})
+@FormItem({type: 'inset-box-model'})
 export class BoxModelRenderer extends React.Component<FormControlProps> {
   render() {
-    return <BoxModel {...this.props} />;
+    return <InsetBoxModel {...this.props} />;
   }
 }

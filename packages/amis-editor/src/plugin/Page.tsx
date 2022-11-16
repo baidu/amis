@@ -49,16 +49,32 @@ export class PagePlugin extends BasePlugin {
 
   events: RendererPluginEvent[] = [
     {
-      eventName: 'inited',
-      eventLabel: '初始化接口请求成功',
-      description: '远程初始化接口请求成功时触发',
+      eventName: 'init',
+      eventLabel: '初始化',
+      description: '组件实例被创建并插入 DOM 中时触发',
       dataSchema: [
         {
           type: 'object',
           properties: {
             'event.data': {
               type: 'object',
-              title: '初始化接口请求成功返回的数据'
+              title: '当前数据域'
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'inited',
+      eventLabel: '初始化数据接口请求成功',
+      description: '远程初始化数据接口请求成功时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            'event.data': {
+              type: 'object',
+              title: '初始化数据接口请求成功返回的数据'
             }
           }
         }

@@ -59,7 +59,7 @@ const DEFAULT_EVENT_PARAMS = [
       },
       'event.data.value': {
         type: 'number',
-        title: 'data'
+        title: 'value'
       },
       'event.data.color': {
         type: 'string',
@@ -108,6 +108,22 @@ export class ChartPlugin extends BasePlugin {
 
   // 事件定义
   events: RendererPluginEvent[] = [
+    {
+      eventName: 'init',
+      eventLabel: '初始化',
+      description: '组件实例被创建并插入 DOM 中时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            'event.data': {
+              type: 'object',
+              title: '当前数据域'
+            }
+          }
+        }
+      ]
+    },
     {
       eventName: 'click',
       eventLabel: '鼠标点击',

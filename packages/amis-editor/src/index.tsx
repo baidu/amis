@@ -138,6 +138,12 @@ import './plugin/CodeView';
 import './plugin/WebComponent';
 import './plugin/CRUD2';
 import './plugin/ColumnToggler';
+import './plugin/Layout/Layout_fixed_bottom';
+import './plugin/Layout/Layout_fixed_top';
+import './plugin/Layout/Layout_fixed';
+import './plugin/Layout/Layout_scroll_x';
+import './plugin/Layout/Layout_scroll_y';
+import './plugin/Layout/Layout1_2_v4';
 
 import {GridPlugin} from './plugin/Grid';
 
@@ -159,6 +165,7 @@ import './renderer/style-control/Border';
 import './renderer/style-control/BoxShadow';
 import './renderer/style-control/Background';
 import './renderer/style-control/Display';
+import './renderer/style-control/InsetBoxModel';
 import './renderer/RangePartsControl';
 import './renderer/DataBindingControl';
 import './renderer/DataMappingControl';

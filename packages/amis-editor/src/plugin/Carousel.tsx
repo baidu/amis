@@ -24,8 +24,7 @@ export class CarouselPlugin extends BasePlugin {
         image: mockValue({type: 'image'})
       },
       {
-        html:
-          '<div style="width: 100%; height: 300px; background: #e3e3e3; text-align: center; line-height: 300px;">carousel data</div>'
+        html: '<div style="width: 100%; height: 300px; background: #e3e3e3; text-align: center; line-height: 300px;">carousel data</div>'
       },
       {
         image: mockValue({type: 'image'})
