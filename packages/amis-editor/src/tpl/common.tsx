@@ -120,7 +120,7 @@ setSchemaTpl('formItemSize', {
   name: 'size',
   label: '控件宽度',
   type: 'select',
-  pipeIn: defaultValue(''),
+  pipeIn: defaultValue('full'),
   // mode: 'inline',
   // className: 'w-full',
   options: [
@@ -144,12 +144,8 @@ setSchemaTpl('formItemSize', {
       value: 'lg'
     },
     {
-      label: '占满',
+      label: '默认（占满）',
       value: 'full'
-    },
-    {
-      label: '默认',
-      value: ''
     }
   ]
 });
@@ -384,6 +380,7 @@ setSchemaTpl(
             rendererWrapper: config?.rendererWrapper,
             needDeleteValue: config?.needDeleteValue,
             valueType: config?.valueType,
+            visibleOn: config?.visibleOn,
             evalMode: config?.evalMode ?? false // 默认需要${}包裹变量
           }
         ]
@@ -1078,12 +1075,16 @@ setSchemaTpl('app-page-args', {
 
 setSchemaTpl(
   'iconLink',
-  (schema: {name: 'icon' | 'rightIcon'; visibleOn: boolean}) => {
-    const {name, visibleOn} = schema;
+  (schema: {
+    name: 'icon' | 'rightIcon';
+    visibleOn: boolean;
+    label?: string;
+  }) => {
+    const {name, visibleOn, label} = schema;
     return getSchemaTpl('icon', {
       name: name,
       visibleOn,
-      label: '图标',
+      label: label ?? '图标',
       placeholder: '点击选择图标',
       clearable: true,
       description: ''

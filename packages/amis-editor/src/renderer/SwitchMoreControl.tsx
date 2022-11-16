@@ -356,7 +356,7 @@ export default class SwitchMore extends React.Component<
     return {
       type: 'input-sub-form',
       btnLabel: '',
-      className: 'inline-block m-0 h-6',
+      className: 'inline-block m-0 h-6 bg-white ',
       itemClassName: 'bg-white hover:bg-white m-0 p-0',
       icon: 'fa fa-cog',
       form: {

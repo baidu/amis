@@ -49,7 +49,7 @@ export interface Validator {
   /**
    * 快速编辑的表单
    */
-  schema?: SchemaObject[];
+  schema?: any[];
 
   /**
    * 输入类型，true则表示是默认
@@ -135,7 +135,7 @@ registerValidator(
       [ValidatorTag.Email]: ValidTagMatchType.isDefault,
       [ValidatorTag.Password]: ValidTagMatchType.isDefault,
       [ValidatorTag.URL]: ValidTagMatchType.isDefault,
-      [ValidatorTag.Tree]: ValidTagMatchType.isDefault,
+      [ValidatorTag.Tree]: ValidTagMatchType.isDefault
     }
   },
   {

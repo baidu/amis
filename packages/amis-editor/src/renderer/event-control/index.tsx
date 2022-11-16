@@ -45,7 +45,7 @@ interface EventControlProps extends FormControlProps {
   ) => void;
   addBroadcast?: (event: RendererPluginEvent) => void;
   removeBroadcast?: (eventName: string) => void;
-  getComponents: (action: RendererPluginAction) => ComponentInfo[]; // 当前页面组件树
+  getComponents: (action: any) => ComponentInfo[]; // 当前页面组件树
   getContextSchemas?: (id?: string, withoutSuper?: boolean) => DataSchema; // 获取上下文
   actionConfigInitFormatter?: (
     actionConfig: ActionConfig,

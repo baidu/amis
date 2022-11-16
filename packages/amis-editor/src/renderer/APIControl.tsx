@@ -1,6 +1,5 @@
 import React from 'react';
-import merge from 'lodash/merge';
-import isEqual from 'lodash/isEqual';
+import mergeWith from 'lodash/mergeWith';
 import cloneDeep from 'lodash/cloneDeep';
 import cx from 'classnames';
 import {FormItem, Icon} from 'amis';
@@ -324,7 +323,23 @@ export default class APIControl extends React.Component<
     }
 
     if (typeof value !== 'string' || typeof values !== 'string') {
-      api = merge({}, normalizeApi(values));
+      api = mergeWith(
+        {},
+        normalizeApi(value),
+        normalizeApi(values),
+        (value, srcValue, key) => {
+          // 这三个支持删除单个key的属性需用新值完全替换
+          // 否则删除无效
+          if (['data', 'responseData', 'headers'].includes(key)) {
+            return srcValue;
+          }
+        }
+      );
+      ['data', 'responseData', 'headers'].forEach((item: keyof Api) => {
+        if (api[item] == null) {
+          delete api[item];
+        }
+      });
     }
     onChange?.(api);
   }
@@ -673,314 +688,272 @@ export default class APIControl extends React.Component<
               title: 'HTTP配置',
               tab: [
                 {
-                  type: 'fieldSet',
-                  title: 'Body',
-                  headingClassName: 'ae-ApiControl-title',
-                  body: [
+                  type: 'switch',
+                  label: tipedLabel(
+                    '请求头',
+                    '可以配置<code>headers</code>对象，添加自定义请求头'
+                  ),
+                  name: 'headers',
+                  mode: 'horizontal',
+                  className: 'm-b-xs',
+                  pipeIn: (value: any) => !!value,
+                  pipeOut: (value: any) => (value ? {'': ''} : null)
+                },
+                {
+                  type: 'combo',
+                  name: 'headers',
+                  mode: 'horizontal',
+                  syncDefaultValue: false,
+                  multiple: true,
+                  visibleOn: 'this.headers',
+                  items: [
                     {
-                      type: 'switch',
-                      label: tipedLabel(
-                        '发送数据映射',
-                        '当没开启数据映射时，发送 API 的时候会发送尽可能多的数据，如果你想自己控制发送的数据，或者需要额外的数据处理，请开启此选项'
-                      ),
-                      name: 'data',
-                      mode: 'row',
-                      pipeIn: (value: any) => !!value,
-                      pipeOut: (value: any) => (value ? {'&': '$$'} : null)
-                    },
-                    {
-                      type: 'combo',
-                      syncDefaultValue: false,
-                      name: 'data',
-                      mode: 'normal',
-                      renderLabel: false,
-                      visibleOn: 'this.data',
-                      descriptionClassName: 'help-block text-xs m-b-none',
-                      description:
-                        '<p>当没开启数据映射时，发送数据自动切成白名单模式，配置啥发送啥，请绑定数据。如：<code>{"a": "\\${a}", "b": 2}</code></p><p>如果希望在默认的基础上定制，请先添加一个 Key 为 `&` Value 为 `\\$$` 作为第一行。</p><div>当值为 <code>__undefined</code>时，表示删除对应的字段，可以结合<code>{"&": "\\$$"}</code>来达到黑名单效果。</div>',
-                      multiple: true,
-                      pipeIn: (value: any) => {
-                        if (!isObject(value)) {
-                          return value;
-                        }
-
-                        let arr: Array<any> = [];
-
-                        Object.keys(value).forEach(key => {
-                          arr.push({
-                            key: key || '',
-                            value:
-                              typeof value[key] === 'string'
-                                ? value[key]
-                                : JSON.stringify(value[key])
-                          });
-                        });
-                        return arr;
-                      },
-                      pipeOut: (value: any) => {
-                        if (!Array.isArray(value)) {
-                          return value;
-                        }
-                        let obj: any = {};
-
-                        value.forEach((item: any) => {
-                          let key: string = item.key || '';
-                          let value: any = item.value;
-                          try {
-                            value = JSON.parse(value);
-                          } catch (e) {}
-
-                          obj[key] = value;
-                        });
-                        return obj;
-                      },
-                      items: [
+                      type: 'input-text',
+                      name: 'key',
+                      placeholder: 'Key',
+                      unique: true,
+                      required: true,
+                      options: [
                         {
-                          placeholder: 'Key',
-                          type: 'input-text',
-                          unique: true,
-                          name: 'key',
-                          required: true
+                          label: 'Content-Encoding',
+                          value: 'Content-Encoding'
                         },
-
                         {
-                          placeholder: 'Value',
-                          type: 'ae-DataPickerControl',
-                          name: 'value'
+                          label: 'Content-Type',
+                          value: 'Content-Type'
                         }
                       ]
                     },
                     {
-                      type: 'switch',
-                      label: tipedLabel(
-                        '返回结果映射',
-                        '如果需要对返回结果做额外的数据处理，请开启此选项'
-                      ),
-                      name: 'responseData',
-                      mode: 'row',
-                      pipeIn: (value: any) => !!value,
-                      pipeOut: (value: any) => (value ? {'&': '$$'} : null)
-                    },
+                      type: 'input-text',
+                      name: 'value',
+                      placeholder: 'Value',
+                      disabled: false
+                    }
+                  ],
+                  pipeIn: (value: any) => {
+                    if (!isObject(value)) {
+                      return value;
+                    }
+
+                    let arr: Array<any> = [];
+
+                    Object.keys(value).forEach(key => {
+                      arr.push({
+                        key: key || '',
+                        value:
+                          typeof value[key] === 'string'
+                            ? value[key]
+                            : JSON.stringify(value[key])
+                      });
+                    });
+                    return arr;
+                  },
+                  pipeOut: (value: any) => {
+                    if (!Array.isArray(value)) {
+                      return value;
+                    }
+                    let obj: any = {};
+
+                    value.forEach((item: any) => {
+                      let key: string = item.key || '';
+                      let value: any = item.value;
+                      try {
+                        value = JSON.parse(value);
+                      } catch (e) {}
+
+                      obj[key] = value;
+                    });
+                    return obj;
+                  }
+                },
+                {
+                  type: 'switch',
+                  label: tipedLabel(
+                    '发送数据',
+                    '当没开启数据映射时，发送 API 的时候会发送尽可能多的数据，如果你想自己控制发送的数据，或者需要额外的数据处理，请开启此选项'
+                  ),
+                  name: 'data',
+                  mode: 'horizontal',
+                  pipeIn: (value: any) => !!value,
+                  pipeOut: (value: any) => (value ? {'&': '$$'} : null)
+                },
+                {
+                  type: 'combo',
+                  syncDefaultValue: false,
+                  name: 'data',
+                  mode: 'horizontal',
+                  renderLabel: false,
+                  visibleOn: 'this.data',
+                  descriptionClassName: 'help-block text-xs m-b-none',
+                  description:
+                    '<p>当没开启数据映射时，发送数据自动切成白名单模式，配置啥发送啥，请绑定数据。如：<code>{"a": "\\${a}", "b": 2}</code></p><p>如果希望在默认的基础上定制，请先添加一个 Key 为 `&` Value 为 `\\$$` 作为第一行。</p><div>当值为 <code>__undefined</code>时，表示删除对应的字段，可以结合<code>{"&": "\\$$"}</code>来达到黑名单效果。</div>',
+                  multiple: true,
+                  pipeIn: (value: any) => {
+                    if (!isObject(value)) {
+                      return value;
+                    }
+
+                    let arr: Array<any> = [];
+
+                    Object.keys(value).forEach(key => {
+                      arr.push({
+                        key: key || '',
+                        value:
+                          typeof value[key] === 'string'
+                            ? value[key]
+                            : JSON.stringify(value[key])
+                      });
+                    });
+                    return arr;
+                  },
+                  pipeOut: (value: any) => {
+                    if (!Array.isArray(value)) {
+                      return value;
+                    }
+                    let obj: any = {};
+
+                    value.forEach((item: any) => {
+                      let key: string = item.key || '';
+                      let value: any = item.value;
+                      try {
+                        value = JSON.parse(value);
+                      } catch (e) {}
+
+                      obj[key] = value;
+                    });
+                    return obj;
+                  },
+                  items: [
                     {
-                      type: 'combo',
-                      syncDefaultValue: false,
-                      name: 'responseData',
-                      mode: 'normal',
-                      renderLabel: false,
-                      visibleOn: 'this.responseData',
-                      descriptionClassName: 'help-block text-xs m-b-none',
-                      multiple: true,
-                      pipeIn: (value: any) => {
-                        if (!isObject(value)) {
-                          return value;
-                        }
-
-                        let arr: Array<any> = [];
-
-                        Object.keys(value).forEach(key => {
-                          arr.push({
-                            key: key || '',
-                            value:
-                              typeof value[key] === 'string'
-                                ? value[key]
-                                : JSON.stringify(value[key])
-                          });
-                        });
-                        return arr;
-                      },
-                      pipeOut: (value: any) => {
-                        if (!Array.isArray(value)) {
-                          return value;
-                        }
-                        let obj: any = {};
-
-                        value.forEach((item: any) => {
-                          let key: string = item.key || '';
-                          let value: any = item.value;
-                          try {
-                            value = JSON.parse(value);
-                          } catch (e) {}
-
-                          obj[key] = value;
-                        });
-                        return obj;
-                      },
-                      items: [
-                        {
-                          placeholder: 'Key',
-                          type: 'input-text',
-                          unique: true,
-                          name: 'key',
-                          required: true
-                        },
-
-                        {
-                          placeholder: 'Value',
-                          type: 'input-text',
-                          name: 'value'
-                        }
-                      ]
+                      placeholder: 'Key',
+                      type: 'input-text',
+                      unique: true,
+                      name: 'key',
+                      required: true
                     },
+
                     {
-                      label: '发送适配器',
-                      name: 'requestAdaptor',
-                      type: 'js-editor',
-                      mode: 'horizontal',
-                      horizontal: {justify: true},
-                      clasName: 'm-t-sm',
-                      allowFullscreen: true,
-                      description:
-                        '函数签名：(api) => api， 数据在 api.data 中，修改后返回 api 对象。'
-                    },
-                    {
-                      label: '接收适配器',
-                      name: 'adaptor',
-                      type: 'js-editor',
-                      mode: 'horizontal',
-                      horizontal: {justify: true},
-                      clasName: 'm-t-sm',
-                      allowFullscreen: true,
-                      description:
-                        '函数签名: (payload, response, api) => payload'
+                      placeholder: 'Value',
+                      type: 'ae-DataPickerControl',
+                      name: 'value'
                     }
                   ]
                 },
                 {
-                  type: 'fieldSet',
-                  title: 'Header',
-                  headingClassName: 'ae-ApiControl-title',
-                  body: [
+                  label: '发送适配器',
+                  name: 'requestAdaptor',
+                  type: 'js-editor',
+                  mode: 'horizontal',
+                  horizontal: {justify: true},
+                  clasName: 'm-t-sm',
+                  allowFullscreen: true,
+                  description:
+                    '函数签名：(api) => api， 数据在 api.data 中，修改后返回 api 对象。'
+                },
+                {
+                  type: 'switch',
+                  label: tipedLabel(
+                    '返回数据',
+                    '如果需要对返回结果中的data做额外的数据处理，请开启此选项'
+                  ),
+                  name: 'responseData',
+                  mode: 'horizontal',
+                  pipeIn: (value: any) => !!value,
+                  pipeOut: (value: any) => (value ? {'&': '$$'} : null)
+                },
+                {
+                  type: 'combo',
+                  syncDefaultValue: false,
+                  name: 'responseData',
+                  mode: 'horizontal',
+                  renderLabel: false,
+                  visibleOn: 'this.responseData',
+                  descriptionClassName: 'help-block text-xs m-b-none',
+                  multiple: true,
+                  pipeIn: (value: any) => {
+                    if (!isObject(value)) {
+                      return value;
+                    }
+
+                    let arr: Array<any> = [];
+
+                    Object.keys(value).forEach(key => {
+                      arr.push({
+                        key: key || '',
+                        value:
+                          typeof value[key] === 'string'
+                            ? value[key]
+                            : JSON.stringify(value[key])
+                      });
+                    });
+                    return arr;
+                  },
+                  pipeOut: (value: any) => {
+                    if (!Array.isArray(value)) {
+                      return value;
+                    }
+                    let obj: any = {};
+
+                    value.forEach((item: any) => {
+                      let key: string = item.key || '';
+                      let value: any = item.value;
+                      try {
+                        value = JSON.parse(value);
+                      } catch (e) {}
+
+                      obj[key] = value;
+                    });
+                    return obj;
+                  },
+                  items: [
                     {
-                      type: 'switch',
-                      label: tipedLabel(
-                        '请求头',
-                        '可以配置<code>headers</code>对象，添加自定义请求头'
-                      ),
-                      name: 'headers',
-                      mode: 'row',
-                      className: 'm-b-xs',
-                      pipeIn: (value: any) => !!value,
-                      pipeOut: (value: any) => (value ? {'': ''} : null)
+                      placeholder: 'Key',
+                      type: 'input-text',
+                      unique: true,
+                      name: 'key',
+                      required: true
                     },
+
                     {
-                      type: 'combo',
-                      name: 'headers',
-                      mode: 'row',
-                      syncDefaultValue: false,
-                      multiple: true,
-                      visibleOn: 'this.headers',
-                      items: [
-                        {
-                          type: 'input-text',
-                          name: 'key',
-                          placeholder: 'Key',
-                          unique: true,
-                          required: true,
-                          options: [
-                            {
-                              label: 'Content-Encoding',
-                              value: 'Content-Encoding'
-                            },
-                            {
-                              label: 'Content-Type',
-                              value: 'Content-Type'
-                            }
-                          ]
-                        },
-                        {
-                          type: 'input-text',
-                          name: 'value',
-                          placeholder: 'Value',
-                          disabled: false
-                        }
-                      ],
-                      pipeIn: (value: any) => {
-                        if (!isObject(value)) {
-                          return value;
-                        }
-
-                        let arr: Array<any> = [];
-
-                        Object.keys(value).forEach(key => {
-                          arr.push({
-                            key: key || '',
-                            value:
-                              typeof value[key] === 'string'
-                                ? value[key]
-                                : JSON.stringify(value[key])
-                          });
-                        });
-                        return arr;
-                      },
-                      pipeOut: (value: any) => {
-                        if (!Array.isArray(value)) {
-                          return value;
-                        }
-                        let obj: any = {};
-
-                        value.forEach((item: any) => {
-                          let key: string = item.key || '';
-                          let value: any = item.value;
-                          try {
-                            value = JSON.parse(value);
-                          } catch (e) {}
-
-                          obj[key] = value;
-                        });
-                        return obj;
-                      }
+                      placeholder: 'Value',
+                      type: 'input-text',
+                      name: 'value'
                     }
                   ]
+                },
+                {
+                  label: '接收适配器',
+                  name: 'adaptor',
+                  type: 'js-editor',
+                  mode: 'horizontal',
+                  horizontal: {justify: true},
+                  clasName: 'm-t-sm',
+                  allowFullscreen: true,
+                  description: '函数签名: (payload, response, api) => payload'
                 }
               ]
             },
             {
-              title: '其他',
+              title: '提示信息',
               tab: [
                 {
-                  label: '默认消息提示',
+                  label: '默认提示文案',
                   type: 'combo',
                   name: 'messages',
                   mode: 'normal',
                   multiLine: true,
-                  description:
-                    messageDesc ||
-                    '设置 ajax 默认提示信息，当 ajax 没有返回 msg 信息时有用，如果 ajax 返回携带了 msg 值，则还是以 ajax 返回为主',
                   items: [
                     {
-                      label: '获取成功提示',
+                      label: '请求成功',
                       type: 'input-text',
-                      name: 'fetchSuccess'
+                      name: 'success'
                     },
 
                     {
-                      label: '获取失败提示',
+                      label: '请求失败',
                       type: 'input-text',
-                      name: 'fetchFailed'
-                    },
-
-                    {
-                      label: '保存顺序成功提示',
-                      type: 'input-text',
-                      name: 'saveOrderSuccess'
-                    },
-
-                    {
-                      label: '保存顺序失败提示',
-                      type: 'input-text',
-                      name: 'saveOrderFailed'
-                    },
-
-                    {
-                      label: '快速保存成功提示',
-                      type: 'input-text',
-                      name: 'quickSaveSuccess'
-                    },
-
-                    {
-                      label: '快速保存失败提示',
-                      type: 'input-text',
-                      name: 'quickSaveFailed'
+                      name: 'failed'
                     }
                   ]
                 }

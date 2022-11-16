@@ -1,14 +1,15 @@
 import {Button} from 'amis';
 import React from 'react';
-import {EditorNodeType, jsonToJsonSchema, registerEditorPlugin} from 'amis-editor-core';
+import {
+  EditorNodeType,
+  jsonToJsonSchema,
+  registerEditorPlugin
+} from 'amis-editor-core';
 import {BaseEventContext, BasePlugin, RegionConfig} from 'amis-editor-core';
 import {getSchemaTpl} from 'amis-editor-core';
 import {getEventControlConfig} from '../renderer/event-control/helper';
 
-import type {
-  RendererPluginAction,
-  RendererPluginEvent
-} from 'amis-editor-core';
+import type {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 
 export class ServicePlugin extends BasePlugin {
   // 关联渲染器名字
@@ -48,14 +49,30 @@ export class ServicePlugin extends BasePlugin {
 
   events: RendererPluginEvent[] = [
     {
+      eventName: 'init',
+      eventLabel: '初始化',
+      description: '组件实例被创建并插入 DOM 中时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            'event.data': {
+              type: 'object',
+              title: '当前数据域'
+            }
+          }
+        }
+      ]
+    },
+    {
       eventName: 'fetchInited',
-      eventLabel: 'api 初始化数据',
-      description: 'api 初始化完成'
+      eventLabel: '初始化数据接口请求成功',
+      description: '远程初始化数据接口请求成功时触发'
     },
     {
       eventName: 'fetchSchemaInited',
-      eventLabel: 'schemaApi 初始化数据',
-      description: 'schemaApi 初始化完成'
+      eventLabel: '初始化Schema接口请求成功',
+      description: '远程初始化Schema接口请求成功时触发'
     }
   ];
 

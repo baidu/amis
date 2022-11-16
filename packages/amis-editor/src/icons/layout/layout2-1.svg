@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16" height="16" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="常见布局" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="常见布局-左二右一" transform="translate(-220.000000, -840.000000)" fill-rule="nonzero" stroke="currentColor" stroke-width="2">
+            <g id="左二右一" transform="translate(220.000000, 840.000000)">
+                <g id="分组" transform="translate(20.000000, 20.000000) scale(-1, 1) rotate(-90.000000) translate(-20.000000, -20.000000) translate(3.000000, 3.000000)">
+                    <rect id="矩形" x="1" y="1" width="32" height="32" rx="1"></rect>
+                    <line x1="17" y1="1.5" x2="17" y2="32.5" id="直线" stroke-dasharray="0" transform="translate(17.000000, 17.000000) rotate(90.000000) translate(-17.000000, -17.000000) "></line>
+                    <line x1="17.5" y1="20" x2="17.5" y2="33" id="直线" stroke-dasharray="0"></line>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

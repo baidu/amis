@@ -96,6 +96,7 @@ function transpileDynamicImportForCJS(options) {
 }
 
 function getPlugins(format = 'esm') {
+
   const typeScriptOptions = {
     typescript: require('typescript'),
     sourceMap: false,
@@ -161,4 +162,3 @@ function onRollupError(callback = () => {}) {
     }
   };
 }
-

@@ -309,13 +309,8 @@ export class TableViewEditor extends React.Component<
   // 合并单元格操作
   @autobind
   handleMergeCell() {
-    const {
-      firstCell,
-      minRow,
-      minCol,
-      maxRow,
-      maxCol
-    } = this.findFirstAndLastCell();
+    const {firstCell, minRow, minCol, maxRow, maxCol} =
+      this.findFirstAndLastCell();
     if (!firstCell) {
       console.warn('找不到第一个 cell');
       return;

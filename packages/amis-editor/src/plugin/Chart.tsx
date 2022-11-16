@@ -8,8 +8,10 @@ import {
   diff,
   defaultValue,
   getSchemaTpl,
-  CodeEditor as AmisCodeEditor
+  CodeEditor as AmisCodeEditor,
+  RendererPluginEvent
 } from 'amis-editor-core';
+import {getEventControlConfig} from '../renderer/event-control/helper';
 
 const ChartConfigEditor = ({value, onChange}: any) => {
   return (
@@ -18,6 +20,54 @@ const ChartConfigEditor = ({value, onChange}: any) => {
     </div>
   );
 };
+
+const DEFAULT_EVENT_PARAMS = [
+  {
+    type: 'object',
+    properties: {
+      'event.data.componentType': {
+        type: 'string',
+        title: 'componentType'
+      },
+      'event.data.seriesType': {
+        type: 'string',
+        title: 'seriesType'
+      },
+      'event.data.seriesIndex': {
+        type: 'number',
+        title: 'seriesIndex'
+      },
+      'event.data.seriesName': {
+        type: 'string',
+        title: 'seriesName'
+      },
+      'event.data.name': {
+        type: 'string',
+        title: 'name'
+      },
+      'event.data.dataIndex': {
+        type: 'number',
+        title: 'dataIndex'
+      },
+      'event.data.data': {
+        type: 'object',
+        title: 'data'
+      },
+      'event.data.dataType': {
+        type: 'string',
+        title: 'dataType'
+      },
+      'event.data.value': {
+        type: 'number',
+        title: 'value'
+      },
+      'event.data.color': {
+        type: 'string',
+        title: 'color'
+      }
+    }
+  }
+];
 
 export class ChartPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -56,6 +106,58 @@ export class ChartPlugin extends BasePlugin {
     ...this.scaffold
   };
 
+  // 事件定义
+  events: RendererPluginEvent[] = [
+    {
+      eventName: 'init',
+      eventLabel: '初始化',
+      description: '组件实例被创建并插入 DOM 中时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            'event.data': {
+              type: 'object',
+              title: '当前数据域'
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'click',
+      eventLabel: '鼠标点击',
+      description: '鼠标点击时触发',
+      dataSchema: DEFAULT_EVENT_PARAMS
+    },
+    {
+      eventName: 'mouseover',
+      eventLabel: '鼠标悬停',
+      description: '鼠标悬停时触发',
+      dataSchema: DEFAULT_EVENT_PARAMS
+    },
+    {
+      eventName: 'legendselectchanged',
+      eventLabel: '切换图例选中状态',
+      description: '切换图例选中状态时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            'event.data.name': {
+              type: 'string',
+              title: 'name'
+            },
+            'event.data.selected': {
+              type: 'object',
+              title: 'selected'
+            }
+          }
+        }
+      ]
+    }
+  ];
+
   // 动作定义
   actions: RendererPluginAction[] = [
     {
@@ -68,6 +170,7 @@ export class ChartPlugin extends BasePlugin {
       actionLabel: '更新数据',
       description: '触发组件数据更新'
     }
+    // 特性动作太多了，这里先不加了，可以通过写代码配置
   ];
 
   panelTitle = '图表';
@@ -184,6 +287,16 @@ export class ChartPlugin extends BasePlugin {
         {
           title: '其他',
           body: [getSchemaTpl('name')]
+        },
+        {
+          title: '事件',
+          className: 'p-none',
+          body: [
+            getSchemaTpl('eventControl', {
+              name: 'onEvent',
+              ...getEventControlConfig(this.manager, context)
+            })
+          ]
         }
       ])
     ];

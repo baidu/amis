@@ -77,6 +77,10 @@ export class TagControlPlugin extends BasePlugin {
               type: 'string',
               title: '选中值'
             },
+            'event.data.selectedItems': {
+              type: 'array',
+              title: '选中的项'
+            },
             'event.data.items': {
               type: 'array',
               title: '选项集合'

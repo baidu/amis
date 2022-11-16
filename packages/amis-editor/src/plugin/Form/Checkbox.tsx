@@ -14,10 +14,7 @@ import {
   tipedLabel
 } from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
-import {
-  RendererPluginAction,
-  RendererPluginEvent
-} from 'amis-editor-core';
+import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 
 setSchemaTpl('option', {
