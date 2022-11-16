@@ -1,5 +1,5 @@
 import {registerEditorPlugin} from 'amis-editor-core';
-import {FlexPluginBase} from './FlexPluginBase';
+import {FlexPluginBase, defaultFlexColumnSchema} from './FlexPluginBase';
 
 export default class Layout_fixed_top extends FlexPluginBase {
   name = '吸顶容器';
@@ -12,39 +12,9 @@ export default class Layout_fixed_top extends FlexPluginBase {
     type: 'flex',
     className: 'p-1',
     items: [
-      {
-        type: 'wrapper',
-        size: 'xs',
-        body: [],
-        style: {
-          flex: '1 1 auto',
-          flexBasis: 'auto',
-          flexGrow: 1,
-          display: 'block'
-        }
-      },
-      {
-        type: 'wrapper',
-        size: 'xs',
-        body: [],
-        style: {
-          flex: '1 1 auto',
-          flexBasis: 'auto',
-          flexGrow: 1,
-          display: 'block'
-        }
-      },
-      {
-        type: 'wrapper',
-        size: 'xs',
-        body: [],
-        style: {
-          flex: '1 1 auto',
-          display: 'block',
-          flexBasis: 'auto',
-          flexGrow: 1
-        }
-      }
+      defaultFlexColumnSchema(),
+      defaultFlexColumnSchema(),
+      defaultFlexColumnSchema(),
     ],
     style: {
       position: 'fixed',

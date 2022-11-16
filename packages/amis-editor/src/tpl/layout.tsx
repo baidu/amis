@@ -246,7 +246,7 @@ setSchemaTpl(
       },
       options: [
         {
-          label: '默认',
+          label: '块级(默认)',
           value: 'block'
         },
         {
@@ -508,7 +508,7 @@ setSchemaTpl(
       pipeOut: config?.pipeOut,
       options: [
         {
-          label: '默认（不换行）',
+          label: '不换行(默认)',
           value: 'nowrap'
         },
         {

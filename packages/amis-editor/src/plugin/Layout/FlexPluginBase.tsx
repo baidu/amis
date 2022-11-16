@@ -12,20 +12,17 @@ import type {
 } from 'amis-editor-core';
 
 // 默认的列容器Schema
-const defaultFlexColumnSchema = (title: string) => {
+export const defaultFlexColumnSchema = (title?: string) => {
   return {
     type: 'wrapper',
     body: [],
     size: 'xs',
     style: {
       position: 'static',
-      display: 'flex',
+      display: 'block',
       flex: '1 1 auto',
       flexGrow: 1,
-      flexBasis: 'auto',
-      flexDirection: 'column',
-      justifyContent: 'flex-start',
-      alignItems: 'stretch'
+      flexBasis: 'auto'
     },
     isFixedHeight: false,
     isFixedWidth: false
@@ -40,6 +37,7 @@ const defaultFlexContainerSchema = {
     defaultFlexColumnSchema('第二列'),
     defaultFlexColumnSchema('第三列')
   ],
+  direction: "column",
   justify: 'flex-start',
   alignItems: 'stretch'
 };
