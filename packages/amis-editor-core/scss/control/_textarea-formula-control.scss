@@ -37,6 +37,10 @@
           margin-bottom: 26px;
         }
 
+        // 解决上下 pre标签中表达式浮层遮挡问题
+        .CodeMirror-measure + div {
+          z-index: inherit !important;
+        }
         pre.CodeMirror-line,
         .CodeMirror pre.CodeMirror-line-like {
           z-index: initial;
