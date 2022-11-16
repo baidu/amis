@@ -34,6 +34,7 @@
   "dependencies": {
     "@webcomponents/webcomponentsjs": "^2.6.0",
     "amis-editor-core": "*",
+    "amis-theme-editor": "*",
     "i18n-runtime": "*",
     "lodash": "^4.17.15"
   },
@@ -102,6 +103,7 @@
     "amis-core": "*",
     "amis-formula": "*",
     "amis-ui": "*",
+    "amis-theme-editor": "*",
     "i18n-runtime": "*"
   }
 }

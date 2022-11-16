@@ -78,6 +78,42 @@ export class ButtonPlugin extends BasePlugin {
     // const isInDropdown = /(?:\/|^)dropdown-button\/.+$/.test(context.path);
     const isInDropdown = /^button-group\/.+$/.test(context.path);
 
+    const buttonStateFunc = (visibleOn: string, state: string) => {
+      return [
+        {
+          mode: 'default',
+          type: 'amis-theme-color-picker',
+          label: '文字颜色',
+          name: `css.className.color:${state}`,
+          labelMode: 'input',
+          needCustom: true,
+          visibleOn: visibleOn
+        },
+        {
+          mode: 'default',
+          type: 'amis-theme-color-picker',
+          label: '背景颜色',
+          name: `css.className.background-color:${state}`,
+          labelMode: 'input',
+          needCustom: true,
+          visibleOn: visibleOn
+        },
+        // {
+        //   type: 'amis-theme-shadow-editor',
+        //   name: `css.className.shadow:${state}`,
+        //   label: '阴影'
+        // },
+        {
+          mode: 'default',
+          label: '边框',
+          type: 'amis-theme-border',
+          name: `css.className.border:${state}`,
+          needColorCustom: true,
+          visibleOn: visibleOn
+        }
+      ];
+    };
+
     return getSchemaTpl('tabs', [
       {
         title: '属性',
@@ -263,6 +299,69 @@ export class ButtonPlugin extends BasePlugin {
                 label: '尺寸',
                 hidden: isInDropdown
               })
+            ]
+          },
+          {
+            title: '样式参数',
+            body: [
+              {
+                type: 'select',
+                name: 'state',
+                label: '状态',
+                selectFirst: true,
+                options: [
+                  {
+                    label: '常规',
+                    value: 'default'
+                  },
+                  {
+                    label: '悬浮',
+                    value: 'hover'
+                  },
+                  {
+                    label: '点击',
+                    value: 'active'
+                  },
+                  {
+                    label: '禁用',
+                    value: 'disabled'
+                  }
+                ]
+              },
+              ...buttonStateFunc("${state == 'default' || !state}", 'default'),
+              ...buttonStateFunc("${state == 'hover'}", 'hover'),
+              ...buttonStateFunc("${state == 'active'}", 'active'),
+              ...buttonStateFunc("${state == 'disabled'}", 'disabled')
+            ]
+          },
+          {
+            title: '尺寸参数',
+            body: [
+              {
+                mode: 'default',
+                label: '尺寸',
+                type: 'amis-theme-size-editor',
+                name: `css.className.size`,
+                hideWidth: true
+              },
+              {
+                mode: 'default',
+                type: 'amis-theme-font-editor',
+                label: '文字',
+                name: `css.className.font`
+              },
+              {
+                mode: 'default',
+                type: 'amis-theme-radius',
+                label: '圆角',
+                name: `css.className.radius`
+              },
+              {
+                mode: 'default',
+                type: 'amis-theme-padding-and-margin',
+                label: '边距',
+                name: `css.className.radipadding-and-margin`
+              }
             ]
           },
           getSchemaTpl('style:classNames', {

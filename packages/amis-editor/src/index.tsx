@@ -165,6 +165,7 @@ import './renderer/FeatureControl';
 import './renderer/event-control/index';
 import './renderer/TreeOptionControl';
 import './renderer/TransferTableControl';
+import 'amis-theme-editor/lib/renderers';
 
 export * from './component/BaseControl';
 export * from './icons/index';
