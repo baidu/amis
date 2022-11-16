@@ -20,9 +20,10 @@
     }
   }
 
-  &-input {
+  & &-input {
     flex: 1;
-    margin-right: 3px;
+    border-radius: var(--Form-select-borderRadius) 0 0
+      var(--Form-select-borderRadius);
     max-width: calc(100% - 35px); // 避免表达式内容太长撑开面板
 
     &.is-clearable {
