@@ -7,6 +7,7 @@ import {
   JSONGetById,
   JSONTraverse,
   patchDiff,
+  unitFormula,
   guid,
   reGenerateID
 } from '../../src/util';
@@ -307,7 +308,7 @@ export const EditorStore = types
 
         if (
           (self.activeId || self.selections.length) &&
-          !self.dragId &&
+          (!self.dragId || this.draggableContainer(self.dragId)) &&
           !self.insertOrigId &&
           !self.insertId &&
           !(self.hoverId && self.hoverRegion)
@@ -365,8 +366,8 @@ export const EditorStore = types
         return id ? JSONGetById(self.schema, id, idKey) : self.schema;
       },
 
-      getSchemaParentById(id: string) {
-        return JSONGetParentById(self.schema, id);
+      getSchemaParentById(id: string, skipArray: boolean = false) {
+        return JSONGetParentById(self.schema, id, skipArray);
       },
 
       getSchemaPath(id: string): string {
@@ -573,6 +574,9 @@ export const EditorStore = types
       },
 
       get dragging() {
+        if (this.draggableContainer(self.dragId)) {
+          return false;
+        }
         return !!(self.dragId || self.dropId);
       },
 
@@ -850,7 +854,50 @@ export const EditorStore = types
         );
         return idx < self.schemaHistory.length - 1;
       },
-
+      // 判断是否是布局容器中的列级元素
+      isFlexItem(id: string) {
+        const activeId = id || self.activeId;
+        const parentSchema = this.getSchemaParentById(activeId, true);
+        if (
+          parentSchema?.type === 'flex' ||
+          parentSchema?.style?.display === 'flex' ||
+          parentSchema?.style?.display === 'inline-flex'
+        ) {
+          return true;
+        }
+        return false;
+      },
+      // 判断父级布局容器是否为垂直排列
+      isFlexColumnItem(id: string) {
+        const activeId = id || self.activeId;
+        const parentSchema = this.getSchemaParentById(activeId, true);
+        const isFlexItem =
+          parentSchema?.type === 'flex' ||
+          parentSchema?.style?.display === 'flex' ||
+          parentSchema?.style?.display === 'inline-flex';
+        const isFlexColumn =
+          parentSchema?.direction === 'column' ||
+          parentSchema?.direction === 'column-reverse' ||
+          parentSchema?.style?.flexDirection === 'column' ||
+          parentSchema?.style?.flexDirection === 'column-reverse';
+        if (isFlexItem && isFlexColumn) {
+          return true;
+        }
+        return false;
+      },
+      // 判断是否可拖拽容器元素
+      draggableContainer(id?: string) {
+        const activeId = id || self.activeId;
+        const curSchema = this.getSchema(activeId);
+        const curSchemaStyle = curSchema?.style || {};
+        if (
+          curSchemaStyle?.position === 'fixed' ||
+          curSchemaStyle?.position === 'absolute'
+        ) {
+          return true;
+        }
+        return false;
+      },
       get getSuperEditorData() {
         return self.superEditorData || {};
       }
@@ -1209,6 +1256,51 @@ export const EditorStore = types
             JSONUpdate(self.schema, id, JSONPipeIn(value), replace),
             noTrace
           );
+        }
+      },
+
+      /**
+       * 更新特殊布局元素的位置（fixed、absolute）
+       */
+      updateContainerStyleByDrag(dragId: string, dx: number, dy: number) {
+        const curDragId = dragId || self.dragId;
+        if (!curDragId) {
+          return;
+        }
+        const curSchema = self.getSchema(curDragId);
+        const curSchemaStyle = curSchema?.style || {};
+        if (
+          (curDragId && curSchemaStyle?.position === 'fixed') ||
+          curSchemaStyle?.position === 'absolute'
+        ) {
+          let curInset = curSchemaStyle.inset || 'auto';
+
+          const insetArr = curInset.split(' ');
+          const inset = {
+            top: insetArr[0] || 'auto',
+            right: insetArr[1] || 'auto',
+            bottom: insetArr[2] || insetArr[0] || 'auto',
+            left: insetArr[3] || insetArr[1] || 'auto'
+          };
+
+          const newInset = `${
+            inset.top !== 'auto' ? unitFormula(inset.top, dy) : 'auto'
+          } ${
+            inset.right !== 'auto' ? unitFormula(inset.right, -dx) : 'auto'
+          } ${
+            inset.bottom !== 'auto' ? unitFormula(inset.bottom, -dy) : 'auto'
+          } ${inset.left !== 'auto' ? unitFormula(inset.left, dx) : 'auto'}`;
+
+          this.changeValueById(curDragId, {
+            ...curSchema,
+            style: {
+              ...curSchemaStyle,
+              inset: newInset
+            }
+          });
+
+          // 更新高亮位置
+          this.calculateHighlightBox([curDragId]);
         }
       },
 

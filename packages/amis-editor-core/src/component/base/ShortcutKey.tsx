@@ -8,7 +8,7 @@ export interface ShortcutKeyProps {
   size?: string;
   closeOnEsc?: boolean;
   closeOnOutside?: boolean;
-  ShortcutKeyList?: Array<ShortcutKeyItem>
+  ShortcutKeyList?: Array<ShortcutKeyItem>;
 }
 
 interface ShortcutKeyItem {
@@ -76,14 +76,13 @@ const ShortcutKeyList = [
     title: '向下移动',
     letters: ['⌘', '↓'],
     tooltip: '向下移动当前节点'
-  },
-]
+  }
+];
 
 export default class ShortcutKey extends React.Component<
   ShortcutKeyProps,
   ShortcutKeyStates
 > {
-
   constructor(props: any) {
     super(props);
 
@@ -112,60 +111,70 @@ export default class ShortcutKey extends React.Component<
 
     return (
       <>
-      <div className="shortcut-icon-btn" editor-tooltip='点击查看当前可用快捷键' tooltip-position="bottom">
-        <Icon icon="editor-shortcut" onClick={this.showShortcutKeyModal} />
-      </div>
-      <Modal
-        size={size || 'xs'}
-        show={this.state.visible}
-        closeOnEsc={closeOnEsc ?? true}
-        closeOnOutside={closeOnOutside ?? true}
-        onHide={this.closeShortcutKeyModal}
-        contentClassName="shortcut-list-modal"
-      >
-        <div className='shortcut-modal-header'>
-          <div className='shortcut-modal-title'>{title || '当前可用快捷键'}</div>
-          <Icon icon="close" className="shortcut-modal-icon" onClick={this.closeShortcutKeyModal} />
+        <div
+          className="shortcut-icon-btn"
+          editor-tooltip="点击查看当前可用快捷键"
+          tooltip-position="bottom"
+        >
+          <Icon icon="editor-shortcut" onClick={this.showShortcutKeyModal} />
         </div>
-        <div className='shortcut-modal-body'>
-          {
-            curShortcutKeyList && curShortcutKeyList.length > 0 && (
-              <div className='shortcut-list'>
-                {curShortcutKeyList.map((shortcutKey: ShortcutKeyItem, index: number) => {
-                  return (
-                    <div className='shortcut-item' key={index}>
-                      {
-                        shortcutKey.tooltip && (
-                          <div className='shortcut-title' editor-tooltip={shortcutKey.tooltip}>{shortcutKey.title}</div>
-                        )
-                      }
-                      {
-                        !shortcutKey.tooltip && (
-                          <div className='shortcut-title'>{shortcutKey.title}</div>
-                        )
-                      }
-                      <div className='shortcut-letters'>
-                      {shortcutKey.letters.map((letter: string) => {
-                        return (
-                          <div className='shortcut-letter' key={letter}>
-                            {letter}
+        <Modal
+          size={size || 'xs'}
+          show={this.state.visible}
+          closeOnEsc={closeOnEsc ?? true}
+          closeOnOutside={closeOnOutside ?? true}
+          onHide={this.closeShortcutKeyModal}
+          contentClassName="shortcut-list-modal"
+        >
+          <div className="shortcut-modal-header">
+            <div className="shortcut-modal-title">
+              {title || '当前可用快捷键'}
+            </div>
+            <Icon
+              icon="close"
+              className="shortcut-modal-icon"
+              onClick={this.closeShortcutKeyModal}
+            />
+          </div>
+          <div className="shortcut-modal-body">
+            {curShortcutKeyList && curShortcutKeyList.length > 0 && (
+              <div className="shortcut-list">
+                {curShortcutKeyList.map(
+                  (shortcutKey: ShortcutKeyItem, index: number) => {
+                    return (
+                      <div className="shortcut-item" key={index}>
+                        {shortcutKey.tooltip && (
+                          <div
+                            className="shortcut-title"
+                            editor-tooltip={shortcutKey.tooltip}
+                          >
+                            {shortcutKey.title}
                           </div>
-                        );
-                      })}
+                        )}
+                        {!shortcutKey.tooltip && (
+                          <div className="shortcut-title">
+                            {shortcutKey.title}
+                          </div>
+                        )}
+                        <div className="shortcut-letters">
+                          {shortcutKey.letters.map((letter: string) => {
+                            return (
+                              <div className="shortcut-letter" key={letter}>
+                                {letter}
+                              </div>
+                            );
+                          })}
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  }
+                )}
               </div>
-            )
-          }
-          {
-            !curShortcutKeyList || curShortcutKeyList.length === 0 && (
-              <span>暂无快捷键</span>
-            )
-          }
-        </div>
-      </Modal>
+            )}
+            {!curShortcutKeyList ||
+              (curShortcutKeyList.length === 0 && <span>暂无快捷键</span>)}
+          </div>
+        </Modal>
       </>
     );
   }

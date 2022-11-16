@@ -113,9 +113,11 @@ export class OutlinePanel extends React.Component<PanelProps> {
   renderItem(option: EditorNodeType, index: number) {
     const store = this.props.store;
     const {curSearchElemKey} = this.state;
-    const children = (!store.dragging && option.singleRegion
-      ? option.uniqueChildren[0]!.uniqueChildren
-      : option.uniqueChildren) as Array<EditorNodeType>;
+    const children = (
+      !store.dragging && option.singleRegion
+        ? option.uniqueChildren[0]!.uniqueChildren
+        : option.uniqueChildren
+    ) as Array<EditorNodeType>;
     const hasChildren = children.length;
 
     if (store.dragging && !option.isRegion && !option.children.length) {

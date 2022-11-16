@@ -87,7 +87,6 @@ export default class SearchPanel extends React.Component<
       this.curInputBox = this.ref.current.childNodes[0].childNodes[0];
       this.curInputBox.addEventListener('keyup', this.bindEnterEvent);
     }
-    this.updateCurKeyword('');
   }
 
   componentWillUnmount() {

@@ -87,21 +87,26 @@ export default class Preview extends Component<PreviewProps> {
     this.currentDom.removeEventListener('mousedown', this.handeMouseDown);
     this.props.manager.off('after-update', this.handlePanelChange);
 
+    this.scrollLayer?.removeEventListener('scroll', this.handlePanelChange);
+
     setTimeout(() => clearStoresCache([this.env.session!]), 500);
   }
 
   unSensor?: () => void;
   layer?: HTMLDivElement;
+  scrollLayer?: HTMLDivElement;
+
   @autobind
   contentsRef(ref: HTMLDivElement | null) {
     if (ref) {
+      this.scrollLayer = ref as HTMLDivElement;
+      this.scrollLayer.addEventListener('scroll', this.handlePanelChange);
       this.layer = ref!.querySelector('.ae-Preview-widgets') as HTMLDivElement;
       this.props.store.setLayer(this.layer);
 
-      this.unSensor = resizeSensor(ref, () =>
-        this.calculateHighlightBox(this.getHighlightNodes())
-      );
+      this.unSensor = resizeSensor(ref, this.handlePanelChange);
     } else {
+      delete this.scrollLayer;
       delete this.layer;
       this.unSensor?.();
       delete this.unSensor;
@@ -484,6 +489,7 @@ export default class Preview extends Component<PreviewProps> {
             editable ? 'is-edting' : '',
             isMobile ? 'is-mobile' : 'is-pc hoverShowScrollBar'
           )}
+          ref={this.contentsRef}
         >
           {iframeUrl && isMobile && (
             <React.Fragment>
@@ -494,7 +500,7 @@ export default class Preview extends Component<PreviewProps> {
               <div className="mobile-open-btn"></div>
             </React.Fragment>
           )}
-          <div className="ae-Preview-inner" ref={this.contentsRef}>
+          <div className="ae-Preview-inner">
             {iframeUrl && isMobile ? (
               <IFrameBridge
                 {...rest}

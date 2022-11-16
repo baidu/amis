@@ -252,6 +252,8 @@
   background: #fff;
   box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.06), 0 1px 10px 0 rgba(0, 0, 0, 0.05),
     0 2px 4px -1px rgba(0, 0, 0, 0.04);
+  transform: scale(1);
+  transform-origin: center top;
 
   .ae-Renderer-title {
     font-family: PingFangSC-Medium;

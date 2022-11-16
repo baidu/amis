@@ -211,7 +211,11 @@ export function JSONGetByPath(
   return target;
 }
 
-export function JSONGetPathById(json: any, id: string, idKey: string = '$$id'): Array<string> | null {
+export function JSONGetPathById(
+  json: any,
+  id: string,
+  idKey: string = '$$id'
+): Array<string> | null {
   let paths: Array<string> = [];
   let resolved: boolean = false;
   let stack: Array<any> = [
@@ -508,7 +512,6 @@ export function JSONMoveDownById(json: any, id: string) {
     if (index === arr.length - 1) {
       return;
     }
-
     arr.splice(index, 1);
     arr.splice(index + 1, 0, node);
   });
@@ -897,4 +900,36 @@ export function generateNodeId() {
 // 是否使用 plugin 自带的 svg 版 icon
 export function isHasPluginIcon(plugin: any) {
   return plugin.pluginIcon && hasIcon(plugin.pluginIcon);
+}
+
+/**
+ * 判断是否是布局容器类组件
+ * 备注：当前只有一个flex布局容器
+ */
+export function isLayoutPlugin(plugin: any) {
+  if (plugin && plugin.type === 'flex') {
+    return true;
+  }
+  return false;
+}
+
+/**
+ * 单位数值运算
+ * 备注：支持带单位的数值进行运算
+ */
+export function unitFormula(insetStr: string, offsetVal: number) {
+  if (insetStr === 'auto') {
+    return 'auto';
+  }
+  const insetNum = parseInt(insetStr);
+  let curOffsetVal = offsetVal;
+  if (!isNumber(offsetVal)) {
+    curOffsetVal = parseInt(offsetVal);
+  }
+  let insetUnit = insetStr.substring(insetNum.toString().length);
+  if (!insetUnit) {
+    insetUnit = 'px';
+  }
+  const newOffsetVal = insetNum + curOffsetVal;
+  return `${newOffsetVal >= 0 ? newOffsetVal : '0'}${insetUnit}`;
 }
