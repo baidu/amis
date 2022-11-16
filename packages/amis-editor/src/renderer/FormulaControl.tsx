@@ -306,7 +306,7 @@ export default class FormulaControl extends React.Component<
       }
       return this.matchDate(str);
     } else if (DateTimeType === FormulaDateType.IsRange) {
-      const start_end = str?.split(',');
+      const start_end = str?.split?.(',');
       if (start_end && start_end.length === 2) {
         return (
           this.matchDateRange(start_end[0].trim()) &&
@@ -323,7 +323,11 @@ export default class FormulaControl extends React.Component<
 
   @autobind
   transExpr(str: string) {
-    if (str?.slice(0, 2) === '${' && str?.slice(-1) === '}') {
+    if (
+      typeof str === 'string' &&
+      str?.slice(0, 2) === '${' &&
+      str?.slice(-1) === '}'
+    ) {
       // 非最外层内容还存在表达式情况
       if (isExpression(str.slice(2, -1))) {
         return str;
@@ -363,7 +367,8 @@ export default class FormulaControl extends React.Component<
     let curRendererSchema: any = null;
     if (rendererSchema) {
       curRendererSchema = Object.assign({}, rendererSchema, data, {
-        type: rendererSchema.type ?? data.type
+        type: rendererSchema.type ?? data.type,
+        name: rendererSchema.name ?? data.name ?? 'value'
       });
 
       // 默认要剔除的字段
@@ -423,7 +428,10 @@ export default class FormulaControl extends React.Component<
           (curRendererSchema.placeholder = '请选择静态值');
         curRendererSchema.inputClassName =
           'ae-editor-FormulaControl-select-style';
-      } else if (!curRendererSchema.placeholder) {
+      } else if (rendererSchema.customPlaceholder) {
+        // 存在自定义 placeholder
+        curRendererSchema.placeholder = rendererSchema.customPlaceholder;
+      } else {
         curRendererSchema.placeholder = '请输入静态值';
       }
 
