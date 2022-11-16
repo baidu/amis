@@ -166,6 +166,10 @@
 
   &-actions {
     float: right;
+
+    .#{$ns}Button--link {
+      margin-right: px2rem(10px);
+    }
   }
 
   &--actions-at-left &-actions {
