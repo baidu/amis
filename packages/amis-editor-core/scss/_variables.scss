@@ -39,3 +39,9 @@ $disabled-color: #b8babf; // 禁用文字颜色
 $disabled-bg-color: #f7f7f9; // 禁用背景颜色
 
 $default-bg-color: #f7f7f9; // 默认背景颜色
+
+// 修复 amis button 字体 14px问题
+.editor-right-panel {
+  --button-size-md-font-size: 12px;
+  --button-size-default-font-size: 12px;
+}

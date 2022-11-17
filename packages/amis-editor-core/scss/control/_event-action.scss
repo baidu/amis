@@ -8,8 +8,8 @@
     }
   }
   &-header {
-    position: fixed;
-    top: #{px2rem(48px)};
+    position: absolute;
+    top: 0;
     width: 100%;
     padding: #{px2rem(12px)};
     background: #fff;

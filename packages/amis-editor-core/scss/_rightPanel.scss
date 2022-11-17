@@ -16,7 +16,7 @@ $tooltip-bottom: '[data-tooltip][data-position=' bottom ']:hover:after';
   z-index: 5;
   // 搞点动画？
   transition: width ease-in-out 0.2s;
-  transform: translateZ(0);
+  // transform: translateZ(0);
 
   @include panel-sm-content();
 

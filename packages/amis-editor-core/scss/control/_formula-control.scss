@@ -1,14 +1,41 @@
-.ae-editor-FormulaControl {
+div.ae-editor-FormulaControl {
   position: relative;
   @include flexBox();
+  align-items: stretch;
+}
+.ae-editor-FormulaControl {
+  & > &-button {
+    height: auto;
+    background-color: #f7f7f9;
+    border-radius: 0 var(--button-size-sm-top-left-border-radius)
+      var(--button-size-sm-bottom-right-border-radius) 0;
+    border-left: 0;
+    &:not(:disabled):not(.is-disabled):hover {
+      border-color: #e6f0ff;
+      background-color: #e6f0ff;
+      border-left-width: 0;
+    }
+    &:not(:disabled):not(.is-disabled):active {
+      border-left-width: 1;
+      transition: var(--Button-transition);
+    }
+  }
 
-  &-input {
+  & &-input {
     flex: 1;
-    margin-right: 3px;
-    max-width: calc(100% - 39px); // 避免表达式内容太长撑开面板
+    border-radius: var(--Form-select-borderRadius) 0 0
+      var(--Form-select-borderRadius);
+    max-width: calc(100% - 35px); // 避免表达式内容太长撑开面板
 
     &.is-clearable {
       padding-right: 30px; // 避免间隙过大
+    }
+  }
+
+  &-select-style {
+    > div {
+      border-radius: var(--Form-select-borderRadius) 0 0
+        var(--Form-select-borderRadius);
     }
   }
 
@@ -47,11 +74,18 @@
   }
 
   &-custom-renderer {
-    width: calc(100% - 36px);
+    width: calc(100% - 35px);
     flex: 1 1 auto;
-    margin-right: 3px;
     border: none;
     padding: 0;
+    > div {
+      min-height: 32px;
+    }
+    > div,
+    &:not(.border-wrapper) > div > div {
+      border-radius: var(--Form-select-borderRadius) 0 0
+        var(--Form-select-borderRadius);
+    }
 
     &.border-wrapper {
       padding: 2px 4px;
@@ -59,21 +93,42 @@
     }
   }
 
-  &-ResultBox {
+  &-tooltipBox {
     flex: 1;
+    max-width: calc(100% - 35px); // 避免表达式内容太长撑开面板
+  }
+
+  & &-ResultBox {
     flex-wrap: nowrap !important; // 不换行，避免被其他样式覆盖
-    margin-right: 3px;
-    max-width: calc(100% - 39px); // 避免表达式内容太长撑开面板
     white-space: nowrap;
-    padding: 0;
+    padding: 0 0 0 0.25rem;
+    border-radius: var(--Form-select-borderRadius) 0 0
+      var(--Form-select-borderRadius);
 
     &.is-clearable {
       > div:first-child {
-        max-width: calc(100% - 24px); // 避免表达式内容太长撑开面板
-
+        max-width: calc(100% - 30px); // 避免表达式内容太长撑开面板
+        background: #f7f7f9;
+        color: #151b26;
+        padding: 1px 5px;
+        border-radius: 4px 0 0 4px;
+        height: 26px;
+        flex: none;
         > div,
         span {
           padding-right: 0; // 覆盖 amis 默认样式
+        }
+      }
+      > div:last-child {
+        background: #f7f7f9;
+        margin-right: 0.75rem;
+        border-radius: 0 4px 4px 0;
+        height: 26px;
+        svg {
+          fill: var(--Form-input-clearBtn-color);
+          &:hover {
+            fill: var(--Form-input-clearBtn-color-onHover);
+          }
         }
       }
     }

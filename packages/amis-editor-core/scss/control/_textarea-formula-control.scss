@@ -1,0 +1,192 @@
+.ae-TextareaFormulaControl {
+  position: relative;
+  &-input {
+    textarea {
+      resize: none;
+    }
+  }
+
+  .ae-TextareaResultBox {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: block;
+    border: 1px solid var(--Form-input-borderColor);
+    border-radius: var(--Form-input-borderRadius);
+    background: var(--Form-input-bg);
+    font-size: var(--Form-input-fontSize);
+    &::placeholder {
+      color: var(--Form-input-placeholderColor);
+    }
+
+    &:hover {
+      border-color: var(--Form-input-onHover-borderColor);
+    }
+
+    &-editor {
+      height: 100%;
+      border-radius: var(--Form-input-borderRadius);
+      overflow: auto;
+      & > .CodeMirror {
+        height: 100%;
+        padding-bottom: 26px;
+        .CodeMirror-lines {
+          padding-bottom: 30px;
+        }
+        .CodeMirror-vscrollbar {
+          margin-bottom: 26px;
+        }
+
+        // 解决上下 pre标签中表达式浮层遮挡问题
+        .CodeMirror-measure + div {
+          z-index: inherit !important;
+        }
+        pre.CodeMirror-line,
+        .CodeMirror pre.CodeMirror-line-like {
+          z-index: initial;
+        }
+      }
+
+      .cm-expression {
+        position: relative;
+        display: inline-block;
+
+        .expression-popover {
+          position: absolute;
+          display: none;
+          left: 0;
+          bottom: -30px;
+          transform: translate(calc(24px - 50%));
+          font-size: 12px;
+          width: max-content;
+          color: #fff;
+          border-radius: 4px;
+          padding: 2px 8px;
+          background: var(--Tooltip-bg--dark);
+          border: none;
+          box-shadow: var(--Tooltip-boxShadow--dark);
+          z-index: 10;
+
+          .expression-popover-arrow {
+            position: absolute;
+            display: block;
+            width: var(--Tooltip-arrow-width);
+            height: var(--Tooltip-arrow-height);
+            margin-left: calc(var(--Tooltip-arrow-width) * -1 / 2);
+            left: 50%;
+            top: calc(var(--Tooltip-arrow-height) * -1);
+
+            &::before,
+            &::after {
+              position: absolute;
+              display: block;
+              content: '';
+              border-color: transparent;
+              border-style: solid;
+              border-width: 0 calc(var(--Tooltip-arrow-width) / 2)
+                var(--Tooltip-arrow-height) calc(var(--Tooltip-arrow-width) / 2);
+            }
+            &::before {
+              border-width: 0;
+            }
+            &::after {
+              border-bottom-color: var(--Tooltip-arrow-color--dark);
+            }
+          }
+        }
+      }
+
+      .cm-expression-text {
+        display: inline-block;
+        position: relative;
+        padding: 0 5px;
+        border-radius: 3px;
+        color: #fff;
+        margin: 0 1px 1px;
+        background: var(--button-primary-default-bg-color);
+        cursor: pointer;
+        width: 40px;
+        overflow-x: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        vertical-align: middle;
+
+        &:hover {
+          background: var(--button-primary-hover-bg-color);
+          & ~ .expression-popover {
+            display: block;
+          }
+        }
+      }
+    }
+
+    &-footer {
+      position: absolute;
+      width: 100%;
+      background: #f7f7f9;
+      bottom: 0px;
+      height: 26px;
+      margin: 0;
+      border-radius: 0 0 4px 4px;
+      list-style: none;
+      display: flex;
+      flex-direction: row-reverse;
+      align-items: center;
+      > li {
+        margin-right: 10px;
+        cursor: pointer;
+      }
+      &--fullscreen {
+        > a {
+          font-size: 12px;
+        }
+      }
+      &-fxIcon {
+        > a {
+          font-size: 19px;
+        }
+      }
+    }
+  }
+
+  &.is-fullscreen {
+    margin: 0 !important;
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 2147483630 !important;
+    width: auto !important;
+    height: auto !important;
+    .ae-TextareaResultBox {
+      height: 100% !important;
+      &-editor {
+        & > .CodeMirror {
+          height: 100%;
+          padding: 10px 10px 48px;
+          .CodeMirror-vscrollbar {
+            margin-bottom: 48px;
+          }
+        }
+      }
+
+      &-footer {
+        height: 48px;
+        > li {
+          margin-right: 20px;
+        }
+        &-fullscreen {
+          > a {
+            font-size: 18px;
+          }
+        }
+        &-fxIcon {
+          > a {
+            font-size: 28px;
+          }
+        }
+      }
+    }
+  }
+}

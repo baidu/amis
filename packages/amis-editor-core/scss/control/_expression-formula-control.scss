@@ -1,0 +1,25 @@
+.ae-ExpressionFormulaControl {
+  background-color: #fff;
+  .btn-configured,
+  .btn-set-expression {
+    width: 100%;
+  }
+  .btn-configured {
+    position: relative;
+    .icon {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: var(--button-size-default-paddingRight);
+      margin: auto 0 !important;
+      font-size: 14px;
+      fill: var(--Form-input-clearBtn-color);
+      &:hover {
+        fill: var(--Form-input-clearBtn-color-onHover);
+      }
+    }
+  }
+}
+.btn-configured-tooltip {
+  font-size: 12px;
+}
