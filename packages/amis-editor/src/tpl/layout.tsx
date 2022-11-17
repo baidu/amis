@@ -57,6 +57,8 @@ setSchemaTpl(
         } else if (value === 'fixed' || value === 'absolute') {
           // 默认使用右下角进行相对定位
           form.setValueByName('style.inset', 'auto 50px 50px auto');
+        } else if (value === 'relative') {
+          form.setValueByName('style.inset', 'auto');
         }
       },
       options: [
