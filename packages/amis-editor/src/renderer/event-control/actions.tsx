@@ -401,6 +401,10 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               name: 'timeout',
               label: '持续时间(ms)',
               type: 'ae-formulaControl',
+              rendererSchema: {
+                type: 'input-number'
+              },
+              valueType: 'number',
               variables: '${variables}',
               size: 'lg',
               mode: 'horizontal'
