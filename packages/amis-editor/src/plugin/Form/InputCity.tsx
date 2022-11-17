@@ -7,6 +7,7 @@ import {
   SubRendererInfo,
   BaseEventContext
 } from 'amis-editor-core';
+import cloneDeep from 'lodash/cloneDeep';
 
 import {formItemControl} from '../../component/BaseControl';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
@@ -29,7 +30,10 @@ export class CityControlPlugin extends BasePlugin {
   scaffold = {
     type: 'input-city',
     label: '城市选择',
-    name: 'city'
+    name: 'city',
+    allowCity: true,
+    allowDistrict: true,
+    extractValue: true
   };
   previewSchema: any = {
     type: 'form',
@@ -104,23 +108,53 @@ export class CityControlPlugin extends BasePlugin {
                 rendererWrapper: true,
                 mode: 'vertical' // 改成上下展示模式
               }),
-              getSchemaTpl('switch', {
-                name: 'allowDistrict',
-                label: '允许选择区域',
-                pipeIn: defaultValue(true)
-              }),
+              {
+                name: 'extractValue',
+                label: '值格式',
+                type: 'button-group-select',
+                size: 'sm',
+                options: [
+                  {label: '行政编码', value: true},
+                  {label: '对象结构', value: false}
+                ]
+              },
 
               getSchemaTpl('switch', {
                 name: 'allowCity',
-                label: '允许选择城市',
-                pipeIn: defaultValue(true)
+                label: '可选城市',
+                pipeIn: defaultValue(true),
+                onChange: (value: string, oldValue: string, item: any, form: any) => {
+                  if (!value) {
+                    const schema = cloneDeep(form.data);
+                    form.setValueByName('allowDistrict', undefined);
+                    form.setValueByName('value', schema.extractValue ? '' : {});
+                  }
+                }
+              }),
+
+              getSchemaTpl('switch', {
+                name: 'allowDistrict',
+                label: '可选区域',
+                visibleOn: 'data.allowCity',
+                pipeIn: defaultValue(true),
+                onChange: (value: string, oldValue: string, item: any, form: any) => {
+                  if (!value) {
+                    const schema = cloneDeep(form.data);
+                    form.setValueByName('value', schema.extractValue ? '' : {});
+                  }
+                }
               }),
 
               getSchemaTpl('switch', {
                 name: 'searchable',
-                label: '是否出搜索框',
+                label: '可搜索',
                 pipeIn: defaultValue(false)
-              })
+              }),
+
+              getSchemaTpl('labelRemark'),
+              getSchemaTpl('remark'),
+              getSchemaTpl('description'),
+              getSchemaTpl('autoFillApi')
             ]
           },
           getSchemaTpl('status', {isFormItem: true}),
