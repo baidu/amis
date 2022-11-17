@@ -350,6 +350,7 @@ setSchemaTpl(
     label?: string; // 表单项 label
     name?: string; // 表单项 name
     header?: string; // 表达式弹窗标题
+    placeholder?: string; // 表达式自定义渲染 占位符
     rendererSchema?: any;
     rendererWrapper?: boolean; // 自定义渲染器 是否需要浅色边框包裹
     needDeleteProps?: string[]; // 需要剔除的其他属性，默认 deleteProps 中包含一些通用属性
@@ -361,7 +362,10 @@ setSchemaTpl(
     requiredDataPropsVariables?: boolean; // 是否再从amis数据域中取变量结合， 默认 false
     variableMode?: 'tabs' | 'tree'; // 变量展现模式
   }) => {
-    let curRendererSchema = config?.rendererSchema;
+    let curRendererSchema = {
+      ...config?.rendererSchema,
+      placeholder: config?.placeholder ?? undefined
+    };
     if (
       config?.useSelectMode &&
       curRendererSchema &&
@@ -490,71 +494,80 @@ setSchemaTpl('selectDateRangeType', {
   ]
 });
 
-setSchemaTpl('optionsMenuTpl', (config: {manager: EditorManager}) => {
-  // 设置 options 中变量集合
-  function getOptionVars() {
-    let schema = config.manager.store.valueWithoutHiddenProps;
-    let children = [];
-    if (schema.labelField) {
-      children.push({
-        label: '选项文本',
-        value: schema.labelField,
-        tag: typeof schema.labelField
-      });
-    }
-    if (schema.valueField) {
-      children.push({
-        label: '选项值',
-        value: schema.valueField,
-        tag: typeof schema.valueField
-      });
-    }
-    if (schema.options) {
-      let optionItem = _.reduce(
-        schema.options,
-        function (result, item) {
-          return {...result, ...item};
-        },
-        {}
-      );
-      delete optionItem?.$$id;
-
-      optionItem = _.omit(
-        optionItem,
-        _.map(children, item => item?.label)
-      );
-
-      let otherItem = _.map(_.keys(optionItem), item => ({
-        label:
-          item === 'label' ? '选项文本' : item === 'value' ? '选项值' : item,
-        value: item,
-        tag: typeof optionItem[item]
-      }));
-
-      children.push(...otherItem);
-    }
-    let variablesArr = [
-      {
-        label: '选项字段',
-        children
+setSchemaTpl(
+  'optionsMenuTpl',
+  (config: {manager: EditorManager; [key: string]: any}) => {
+    const {manager, ...rest} = config;
+    // 设置 options 中变量集合
+    function getOptionVars(that: any) {
+      let schema = manager.store.valueWithoutHiddenProps;
+      let children = [];
+      if (schema.labelField) {
+        children.push({
+          label: '显示字段',
+          value: schema.labelField,
+          tag: typeof schema.labelField
+        });
       }
-    ];
-    return variablesArr;
-  }
+      if (schema.valueField) {
+        children.push({
+          label: '值字段',
+          value: schema.valueField,
+          tag: typeof schema.valueField
+        });
+      }
+      if (schema.options) {
+        let optionItem = _.reduce(
+          schema.options,
+          function (result, item) {
+            return {...result, ...item};
+          },
+          {}
+        );
+        delete optionItem?.$$id;
 
-  return {
-    type: 'ae-textareaFormulaControl',
-    mode: 'normal',
-    label: tipedLabel('模板', '选项渲染模板，支持JSX，变量使用\\${xx}'),
-    name: 'menuTpl',
-    variables: getOptionVars,
-    requiredDataPropsVariables: true
-  };
-});
+        optionItem = _.omit(
+          optionItem,
+          _.map(children, item => item?.label)
+        );
+
+        let otherItem = _.map(_.keys(optionItem), item => ({
+          label:
+            item === 'label' ? '选项文本' : item === 'value' ? '选项值' : item,
+          value: item,
+          tag: typeof optionItem[item]
+        }));
+
+        children.push(...otherItem);
+      }
+      let variablesArr = [
+        {
+          label: '选项字段',
+          children
+        }
+      ];
+      return variablesArr;
+    }
+
+    return {
+      type: 'ae-textareaFormulaControl',
+      mode: 'normal',
+      label: tipedLabel(
+        '选项模板',
+        '自定义选项渲染模板，支持JSX、数据域变量使用'
+      ),
+      name: 'menuTpl',
+      variables: getOptionVars,
+      requiredDataPropsVariables: true,
+      ...rest
+    };
+  }
+);
 
 setSchemaTpl('menuTpl', {
-  type: 'ae-formulaControl',
-  label: tipedLabel('模板', '选项渲染模板，支持JSX，变量使用\\${xx}'),
+  type: 'ae-textareaFormulaControl',
+  mode: 'normal',
+  label: tipedLabel('模板', '自定义选项渲染模板，支持JSX、数据域变量使用'),
   name: 'menuTpl'
 });
 

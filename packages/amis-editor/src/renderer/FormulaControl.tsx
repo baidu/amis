@@ -34,7 +34,7 @@ import type {
 import {dataMapping, FormControlProps} from 'amis-core';
 import type {BaseEventContext} from 'amis-editor-core';
 import {EditorManager} from 'amis-editor-core';
-import {resolveVariablesFromScope} from './textarea-formula/utils';
+import {getVariables} from './textarea-formula/utils';
 
 export enum FormulaDateType {
   NotDate, // 不是时间类
@@ -57,7 +57,7 @@ export interface FormulaControlProps extends FormControlProps {
   requiredDataPropsVariables?: boolean;
 
   /**
-   * 变量展现模式，可选值：'tabs' ｜ 'tree'
+   * 变量展现模式，可选值：'tabs' ｜ 'tree', 默认 tabs
    */
   variableMode?: 'tabs' | 'tree';
 
@@ -68,9 +68,14 @@ export interface FormulaControlProps extends FormControlProps {
   functions: Array<FuncGroup>;
 
   /**
-   * 顶部标题，默认为表达式
+   * 弹窗顶部标题，默认为 "表达式"
    */
   header: string;
+
+  /**
+   * 静态输入框的占位提示内容，可用于默认静态输入框 & 自定义自定义渲染器 中
+   */
+  placeholder: string;
 
   /**
    * 编辑器上下文数据，用于获取字段所在Form的其他字段
@@ -152,46 +157,24 @@ export default class FormulaControl extends React.Component<
     };
   }
 
-  componentDidMount(): void {
-    this.getVariables();
+  async componentDidMount() {
+    const variablesArr = await getVariables(this);
+    this.setState({
+      variables: variablesArr
+    });
   }
 
-  componentDidUpdate(prevProps: FormulaControlProps) {
+  async componentDidUpdate(prevProps: FormulaControlProps) {
     if (this.props.data !== prevProps.data) {
-      this.getVariables();
+      const variablesArr = await getVariables(this);
+      this.setState({
+        variables: variablesArr
+      });
     }
   }
 
   componentWillUnmount() {
     this.isUnmount = true;
-  }
-
-  // 设置 variables
-  async getVariables() {
-    let variablesArr: any[] = [];
-    const {variables, requiredDataPropsVariables} = this.props;
-    if (!variables || requiredDataPropsVariables) {
-      // 从amis数据域中取变量数据
-      const {node, manager} = this.props.formProps || this.props;
-      let vars = await resolveVariablesFromScope(node, manager);
-      if (Array.isArray(vars)) {
-        if (!this.isUnmount) {
-          variablesArr = vars;
-        }
-      }
-    }
-    if (variables) {
-      if (Array.isArray(variables)) {
-        variablesArr = [...variables, ...variablesArr];
-      }
-      if (typeof variables === 'function') {
-        variablesArr = [...variables(), ...variablesArr];
-      }
-    }
-
-    this.setState({
-      variables: variablesArr
-    });
   }
 
   /**
@@ -362,7 +345,7 @@ export default class FormulaControl extends React.Component<
   // 剔除掉一些用不上的属性
   @autobind
   filterCustomRendererProps(rendererSchema: any) {
-    const {data, name} = this.props;
+    const {data, name, placeholder} = this.props;
 
     let curRendererSchema: any = null;
     if (rendererSchema) {
@@ -428,17 +411,14 @@ export default class FormulaControl extends React.Component<
           (curRendererSchema.placeholder = '请选择静态值');
         curRendererSchema.inputClassName =
           'ae-editor-FormulaControl-select-style';
-      } else if (rendererSchema.customPlaceholder) {
-        // 存在自定义 placeholder
-        curRendererSchema.placeholder = rendererSchema.customPlaceholder;
+      } else if (placeholder) {
+        curRendererSchema.placeholder = placeholder;
       } else {
         curRendererSchema.placeholder = '请输入静态值';
       }
-
       // 设置popOverContainer
       curRendererSchema.popOverContainer = window.document.body;
     }
-
     return curRendererSchema;
   }
 
@@ -608,7 +588,7 @@ export default class FormulaControl extends React.Component<
                 evalMode={true}
                 variableMode={rest.variableMode ?? this.state.variableMode}
                 variables={this.state.variables}
-                header={header || '新表达式语法'}
+                header={header || '表达式'}
                 value={filterValue}
                 onChange={onChange}
                 selfVariableName={selfName}

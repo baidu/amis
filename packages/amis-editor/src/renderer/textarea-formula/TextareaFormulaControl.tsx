@@ -12,7 +12,7 @@ import {FormulaPlugin, editorFactory} from './plugin';
 import FormulaPicker from './FormulaPicker';
 import debounce from 'lodash/debounce';
 import CodeMirror from 'codemirror';
-import {resolveVariablesFromScope} from './utils';
+import {getVariables} from './utils';
 import {VariableItem} from 'amis-ui/lib/components/formula/Editor';
 
 export interface TextareaFormulaControlProps extends FormControlProps {
@@ -87,45 +87,24 @@ export class TextareaFormulaControl extends React.Component<
     };
   }
 
-  componentDidMount() {
-    this.getVariables();
-  }
-
-  componentDidUpdate(prevProps: TextareaFormulaControlProps) {
-    if (this.props.data !== prevProps.data) {
-      this.getVariables();
-    }
-  }
-  componentWillUnmount() {
-    this.isUnmount = true;
-  }
-
-  // 设置 variables
-  async getVariables() {
-    let variablesArr: any[] = [];
-    const {variables, requiredDataPropsVariables} = this.props;
-    if (!variables || requiredDataPropsVariables) {
-      // 从amis数据域中取变量数据
-      const {node, manager} = this.props.formProps || this.props;
-      const vars = await resolveVariablesFromScope(node, manager);
-      if (Array.isArray(vars)) {
-        if (!this.isUnmount) {
-          variablesArr = vars;
-        }
-      }
-    }
-    if (variables) {
-      if (Array.isArray(variables)) {
-        variablesArr = [...variables, ...variablesArr];
-      }
-      if (typeof variables === 'function') {
-        variablesArr = [...variables(), ...variablesArr];
-      }
-    }
-
+  async componentDidMount() {
+    const variablesArr = await getVariables(this);
     this.setState({
       variables: variablesArr
     });
+  }
+
+  async componentDidUpdate(prevProps: TextareaFormulaControlProps) {
+    if (this.props.data !== prevProps.data) {
+      const variablesArr = await getVariables(this);
+      this.setState({
+        variables: variablesArr
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    this.isUnmount = true;
   }
 
   @autobind

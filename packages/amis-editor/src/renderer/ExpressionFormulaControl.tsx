@@ -5,11 +5,10 @@
 import React from 'react';
 import {autobind, FormControlProps} from 'amis-core';
 import cx from 'classnames';
-import isEqual from 'lodash/isEqual';
 import {FormItem, Button, Icon, PickerContainer} from 'amis';
 import {FormulaEditor} from 'amis-ui/lib/components/formula/Editor';
 import type {VariableItem} from 'amis-ui/lib/components/formula/Editor';
-import {resolveVariablesFromScope} from './textarea-formula/utils';
+import {getVariables} from './textarea-formula/utils';
 
 interface ExpressionFormulaControlProps extends FormControlProps {
   /**
@@ -59,14 +58,20 @@ export default class ExpressionFormulaControl extends React.Component<
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this.initFormulaPickerValue(this.props.value);
-    this.getVariables();
+    const variablesArr = await getVariables(this);
+    this.setState({
+      variables: variablesArr
+    });
   }
 
-  componentDidUpdate(prevProps: ExpressionFormulaControlProps) {
+  async componentDidUpdate(prevProps: ExpressionFormulaControlProps) {
     if (this.props.data !== prevProps.data) {
-      this.getVariables();
+      const variablesArr = await getVariables(this);
+      this.setState({
+        variables: variablesArr
+      });
     }
     if (prevProps.value !== this.props.value) {
       this.initFormulaPickerValue(this.props.value);
@@ -75,33 +80,6 @@ export default class ExpressionFormulaControl extends React.Component<
 
   componentWillUnmount() {
     this.isUnmount = true;
-  }
-
-  // 设置 variables
-  async getVariables() {
-    let variablesArr: any[] = [];
-    const {variables, requiredDataPropsVariables} = this.props;
-    if (!variables || requiredDataPropsVariables) {
-      // 从amis数据域中取变量数据
-      const {node, manager} = this.props.formProps || this.props;
-      const vars = await resolveVariablesFromScope(node, manager);
-      if (Array.isArray(vars)) {
-        if (!this.isUnmount) {
-          variablesArr = vars;
-        }
-      }
-    }
-    if (variables) {
-      if (Array.isArray(variables)) {
-        variablesArr = [...variables, ...variablesArr];
-      }
-      if (typeof variables === 'function') {
-        variablesArr = [...variables(), ...variablesArr];
-      }
-    }
-    this.setState({
-      variables: variablesArr
-    });
   }
 
   @autobind
