@@ -280,6 +280,7 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
                             className: 'action-panel-title',
                             visibleOn: 'data.actionType'
                           },
+                          /*
                           {
                             name: 'expression',
                             title: '',
@@ -289,6 +290,17 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
                             variables: '${variables}',
                             className: 'action-exec-on',
                             label: '执行条件',
+                            mode: 'horizontal',
+                            size: 'lg',
+                            placeholder: '默认执行该动作',
+                            visibleOn: 'data.actionType'
+                          },
+                          */
+                          {
+                            name: 'expression',
+                            label: '执行条件',
+                            type: 'ae-expressionFormulaControl',
+                            variables: '${variables}',
                             mode: 'horizontal',
                             size: 'lg',
                             placeholder: '默认执行该动作',

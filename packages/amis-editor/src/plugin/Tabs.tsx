@@ -101,16 +101,28 @@ export class TabsPlugin extends BasePlugin {
           </div>
         );
       },
-      schema: getArgsWrapper({
-        type: 'input-formula',
-        variables: '${variables}',
-        evalMode: false,
-        variableMode: 'tabs',
-        label: '激活项',
-        size: 'lg',
-        name: 'activeKey',
-        mode: 'horizontal'
-      })
+      schema: getArgsWrapper(
+        /*
+        {
+          type: 'input-formula',
+          variables: '${variables}',
+          evalMode: false,
+          variableMode: 'tabs',
+          label: '激活项',
+          size: 'lg',
+          name: 'activeKey',
+          mode: 'horizontal'
+        }
+        */
+        {
+          name: 'activeKey',
+          label: '激活项',
+          type: 'ae-formulaControl',
+          variables: '${variables}',
+          size: 'lg',
+          mode: 'horizontal'
+        }
+      )
     }
   ];
 

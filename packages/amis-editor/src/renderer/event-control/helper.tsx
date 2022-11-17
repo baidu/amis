@@ -226,6 +226,7 @@ export const COMMON_ACTION_SCHEMA_MAP: {
               valueField: 'value',
               required: true
             },
+            /*
             {
               name: 'val',
               type: 'input-formula',
@@ -234,6 +235,13 @@ export const COMMON_ACTION_SCHEMA_MAP: {
               evalMode: false,
               variableMode: 'tabs',
               inputMode: 'input-group'
+            }
+            */
+            {
+              name: 'val',
+              type: 'ae-formulaControl',
+              variables: '${variables}',
+              placeholder: '变量值'
             }
           ],
           visibleOn: `${IS_DATA_CONTAINER}`
@@ -269,6 +277,7 @@ export const COMMON_ACTION_SCHEMA_MAP: {
                   type: 'input-text',
                   required: true
                 },
+                /*
                 {
                   name: 'val',
                   type: 'input-formula',
@@ -277,11 +286,18 @@ export const COMMON_ACTION_SCHEMA_MAP: {
                   variableMode: 'tabs',
                   inputMode: 'input-group'
                 }
+                */
+                {
+                  name: 'val',
+                  type: 'ae-formulaControl',
+                  variables: '${variables}'
+                }
               ]
             }
           ],
           visibleOn: `data.__rendererName === 'combo'`
         },
+        /*
         {
           name: '__valueInput',
           type: 'input-formula',
@@ -290,6 +306,17 @@ export const COMMON_ACTION_SCHEMA_MAP: {
           variableMode: 'tabs',
           inputMode: 'input-group',
           label: '变量赋值',
+          size: 'lg',
+          mode: 'horizontal',
+          visibleOn: `!${IS_DATA_CONTAINER} && data.__rendererName !== 'combo'`,
+          required: true
+        }
+        */
+        {
+          name: '__valueInput',
+          label: '变量赋值',
+          type: 'ae-formulaControl',
+          variables: '${variables}',
           size: 'lg',
           mode: 'horizontal',
           visibleOn: `!${IS_DATA_CONTAINER} && data.__rendererName !== 'combo'`,

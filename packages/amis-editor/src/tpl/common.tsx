@@ -1149,7 +1149,8 @@ setSchemaTpl('app-page-args', {
       valueField: 'value',
       required: true
     },
-    {
+    /*
+     {
       name: 'val',
       type: 'input-formula',
       placeholder: '参数值',
@@ -1157,6 +1158,13 @@ setSchemaTpl('app-page-args', {
       evalMode: false,
       variableMode: 'tabs',
       inputMode: 'input-group'
+    }
+     */
+    {
+      name: 'val',
+      type: 'ae-formulaControl',
+      variables: '${variables}',
+      placeholder: '参数值'
     }
   ]
 });

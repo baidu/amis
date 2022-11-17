@@ -254,6 +254,7 @@ export class WizardPlugin extends BasePlugin {
         );
       },
       schema: getArgsWrapper([
+        /*
         {
           type: 'input-formula',
           variables: '${variables}',
@@ -264,6 +265,16 @@ export class WizardPlugin extends BasePlugin {
           size: 'lg',
           name: 'step',
           mode: 'horizontal'
+        }
+        */
+        {
+          name: 'step',
+          label: '目标步骤',
+          type: 'ae-formulaControl',
+          variables: '${variables}',
+          size: 'lg',
+          mode: 'horizontal',
+          required: true
         }
       ])
     },
