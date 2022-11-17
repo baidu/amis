@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import cx from 'classnames';
 import Preview from './Preview';
 import {autobind} from '../util';
-import {EditorStore, EditorStoreType} from '../store/editor';
+import {MainStore, EditorStoreType} from '../store/editor';
 import {SchemaObject} from 'amis/lib/Schema';
 import {EditorManager, EditorManagerConfig, PluginClass} from '../manager';
 import {reaction} from 'mobx';
@@ -123,7 +123,7 @@ export default class Editor extends Component<EditorProps> {
     const config: EditorManagerConfig = {
       ...rest
     };
-    this.store = EditorStore.create(
+    this.store = MainStore.create(
       {
         isMobile: props.isMobile,
         theme: props.theme,
