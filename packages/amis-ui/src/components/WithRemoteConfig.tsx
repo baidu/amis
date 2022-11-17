@@ -26,7 +26,8 @@ export const Store = types
   .props({
     fetching: false,
     errorMsg: '',
-    config: types.frozen(),
+    config: types.frozen(), // 当前展示的数据
+    originConfig: types.frozen(), // 记录原始数据源
     data: types.frozen({})
   })
   .actions(self => {
@@ -50,6 +51,7 @@ export const Store = types
           let options = config.adaptor
             ? config.adaptor(data, component.props)
             : data;
+          (self as any).setOriginConfig(options);
           (self as any).setConfig(options, config, 'remote');
           config.afterLoad?.(data, self.config, component.props);
           return ret;
@@ -71,6 +73,9 @@ export const Store = types
       load,
       setData(data: any) {
         self.data = data || {};
+      },
+      setOriginConfig(options: any) {
+        self.originConfig = options;
       },
       setConfig(
         options: any,
@@ -112,9 +117,11 @@ export interface OutterProps {
 
 export interface RemoteOptionsProps<T = any> {
   config: T;
+  originConfig: T;
   loading?: boolean;
   deferLoad: (item: any) => Promise<any>;
   updateConfig: (value: T, ctx?: any) => void;
+  setOriginConfig: (value: T) => void;
 }
 
 export interface WithRemoteConfigSettings {
@@ -214,6 +221,7 @@ export function withRemoteConfig<P = any>(
             super(props);
 
             this.setConfig = this.setConfig.bind(this);
+            this.setOriginConfig = this.setOriginConfig.bind(this);
             props.store.setComponent(this);
             this.deferLoadConfig = this.deferLoadConfig.bind(this);
             props.remoteConfigRef?.(this);
@@ -310,18 +318,23 @@ export function withRemoteConfig<P = any>(
             store.setConfig(value, config, ctx);
           }
 
+          setOriginConfig(value: any, ctx?: any) {
+            const {store} = this.props;
+            store.setOriginConfig(value);
+          }
+
           syncConfig() {
             const {store, data} = this.props;
             const source = (this.props as any)[config.sourceField || 'source'];
 
             if (isPureVariable(source)) {
-              store.setConfig(
-                resolveVariableAndFilter(source as string, data, '| raw') || [],
-                config,
-                'syncConfig'
-              );
+              const options =
+                resolveVariableAndFilter(source as string, data, '| raw') || [];
+              store.setConfig(options, config, 'syncConfig');
+              store.setOriginConfig(options);
             } else if (isObject(source) && !isEffectiveApi(source, data)) {
               store.setConfig(source, config, 'syncConfig');
+              store.setOriginConfig(source);
             }
           }
 
@@ -372,9 +385,11 @@ export function withRemoteConfig<P = any>(
             const env: RendererEnv = this.props.env || this.context;
             const injectedProps: RemoteOptionsProps<P> = {
               config: store.config,
+              originConfig: store.originConfig,
               loading: store.fetching,
               deferLoad: this.deferLoadConfig,
-              updateConfig: this.setConfig
+              updateConfig: this.setConfig,
+              setOriginConfig: this.setOriginConfig
             };
             const {remoteConfigRef, autoComplete, ...rest} = this.props;
 

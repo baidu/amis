@@ -52,6 +52,25 @@ export default function mockApiPlugin(options: {} = {}): Plugin {
         res.end(template);
       });
 
+      // 处理 导航示例
+      server.middlewares.use('/examples/nav/', async (req, res, next) => {
+        if (req.originalUrl !== '/examples/nav/') {
+          next();
+          return;
+        }
+
+        let template = fs.readFileSync(
+          path.resolve(__dirname, '../examples/nav/index-vite.html'),
+          'utf-8'
+        );
+        template = await server.transformIndexHtml(
+          '/examples/nav/index-vite.html',
+          template
+        );
+        res.statusCode = 200;
+        res.end(template);
+      });
+
       server.middlewares.use('/schema.json', (req, res, next) => {
         initExpress(req, res, next, () => {
           const filepath = path.resolve(

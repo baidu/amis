@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <title>导航示例</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link
+      type="image/x-icon"
+      rel="shortcut icon"
+      href="../static/favicon.png"
+    />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="stylesheet" href="../static/iconfont.css" />
+    <link
+      rel="stylesheet"
+      href="../../node_modules/@fortawesome/fontawesome-free/css/all.css"
+    />
+    <link
+      rel="stylesheet"
+      href="../../node_modules/@fortawesome/fontawesome-free/css/v4-shims.css"
+    />
+    <style>
+      .app-wrapper,
+      .schema-wrapper {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+      .cxd-Layout-asideWrap {
+        background: #fff;
+      }
+      .cxd-Layout .cxd-Layout-header {
+        height: 56px !important;
+        padding-left: 300px;
+      }
+      .cxd-Layout--headerFixed {
+        padding-top: 56px !important;
+      }
+      .cxd-Layout--asideFixed .cxd-Layout-asideWrap {
+        top: 56px !important;
+      }
+    </style>
+    <script type="module">
+      let theme = localStorage.getItem('amis-theme') || 'cxd';
+      if (theme === 'default') {
+        theme = 'cxd';
+      }
+
+      ['ang', 'cxd', 'dark', 'antd'].forEach(key => {
+        const link = document.createElement('link');
+        link.setAttribute('rel', 'stylesheet');
+        link.setAttribute('title', key);
+        if (theme !== key) {
+          link.setAttribute('disabled', 'disabled');
+        }
+        link.setAttribute(
+          'href',
+          new URL(
+            `../../packages/amis-ui/scss/themes/${key}.scss`,
+            import.meta.url
+          ).href
+        );
+        document.head.appendChild(link);
+      });
+    </script>
+    <link rel="stylesheet" href="../../packages/amis-ui/scss/helper.scss" />
+  </head>
+
+  <body>
+    <div id="root" class="app-wrapper"></div>
+    <script type="module">
+      import {bootstrap} from './index.tsx';
+      const initialState = {};
+      bootstrap(document.getElementById('root'), initialState);
+    </script>
+  </body>
+</html>

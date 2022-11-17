@@ -16,6 +16,27 @@
       vertical-align: middle;
     }
 
+    .#{$ns}Nav-itemToggler {
+      // position: absolute;
+      // left: 0;
+      // top: px2rem(3px);
+      float: left;
+      margin-right: px2rem(10px);
+      height: px2rem(24px);
+      text-align: center;
+      line-height: px2rem(24px);
+      vertical-align: middle;
+      cursor: pointer;
+      transform: scale(0.8);
+      transition: transform var(--animation-duration);
+
+      > svg {
+        width: 10px;
+        height: 10px;
+        top: 0;
+      }
+    }
+
     &-overflow {
       min-height: var(--Nav-Item-height) !important;
       max-height: calc(var(--Nav-Item-height) * 5);
@@ -45,53 +66,84 @@
     }
 
     &--tabs {
-      border-bottom: var(--Tabs-borderWidth) solid var(--Tabs-borderColor);
+      // border-bottom: var(--Tabs-borderWidth) solid var(--Tabs-borderColor);
+      display: flex;
 
       .#{$ns}Nav-item {
-        margin-bottom: calc(var(--Tabs-borderWidth) * -1);
+        // margin-bottom: calc(var(--Tabs-borderWidth) * -1);
         display: inline-block;
+        vertical-align: text-top;
         position: relative;
         max-width: var(--Nav-Item-maxWidth--tabs);
+
+        &:first-child {
+          margin-left: 0;
+        }
 
         > a {
           font-size: var(--Tabs-linkFontSize);
           display: block;
           outline: none;
-          border: var(--Tabs-borderWidth) solid transparent;
-          border-top-left-radius: var(--Tabs-borderRadius);
-          border-top-right-radius: var(--Tabs-borderRadius);
+          // border: var(--Tabs-borderWidth) solid transparent;
+          // border-top-left-radius: var(--Tabs-borderRadius);
+          // border-top-right-radius: var(--Tabs-borderRadius);
           color: var(--Tabs-color);
           text-decoration: none;
-          margin-right: px2rem(2px);
-          padding: var(--gap-sm) var(--gap-xl);
+          // margin-right: px2rem(2px);
+          // padding: var(--gap-sm) var(--gap-xl);
+          padding: var(--gap-md) 0;
           cursor: pointer;
           text-overflow: ellipsis;
           overflow: hidden;
           white-space: nowrap;
         }
 
-        &:hover > a,
-        > a:focus {
-          border-color: var(--Tabs-onHover-borderColor);
-          border-bottom: none; // 外层已经有border-bottom了
-          text-decoration: none;
+        &:hover {
+          > a,
+          > a:focus {
+            // border-color: var(--Tabs-onHover-borderColor);
+            // border-bottom: none; // 外层已经有border-bottom了
+            color: var(--Tabs-onActive-color);
+            text-decoration: none;
+          }
         }
 
         &.disabled > a,
         &.is-disabled > a {
           color: var(--Tabs-onDisabled-color);
           background: transparent;
-          border-color: transparent;
+          // border-color: transparent;
           pointer-events: none;
         }
 
         &.active > a,
         &.is-active > a {
           color: var(--Tabs-onActive-color);
-          background: var(--Tabs-onActive-bg);
-          border-color: var(--Tabs-onActive-borderColor);
-          border-bottom-color: var(--Tabs-content-bg);
+          // background: var(--Tabs-onActive-bg);
+          // border-color: var(--Tabs-onActive-borderColor);
+          // border-bottom-color: var(--Tabs-content-bg);
         }
+
+        &.is-active {
+          position: relative;
+
+          &:after {
+            position: absolute;
+            content: '';
+            bottom: 0;
+            width: 100%;
+            height: px2rem(2px);
+            background-color: var(--Tabs-onActive-color);
+          }
+        }
+
+        .#{$ns}Nav-subItems {
+          display: none;
+        }
+      }
+
+      > .#{$ns}Nav-item {
+        margin-left: px2rem(40px);
       }
 
       .#{$ns}Nav-item-overflow {
@@ -245,32 +297,38 @@
           }
         }
 
+        &.is-after > {
+          a {
+            justify-content: space-between;
+          }
+        }
+
         .#{$ns}Nav-spinner {
           position: absolute;
           right: px2rem(10px);
           top: px2rem(8px);
         }
 
-        .#{$ns}Nav-itemToggler {
-          // position: absolute;
-          // left: 0;
-          // top: px2rem(3px);
-          float: left;
-          margin-right: px2rem(10px);
-          height: px2rem(24px);
-          text-align: center;
-          line-height: px2rem(24px);
-          vertical-align: middle;
-          cursor: pointer;
-          transform: scale(0.8);
-          transition: transform var(--animation-duration);
+        // .#{$ns}Nav-itemToggler {
+        //   // position: absolute;
+        //   // left: 0;
+        //   // top: px2rem(3px);
+        //   float: left;
+        //   margin-right: px2rem(10px);
+        //   height: px2rem(24px);
+        //   text-align: center;
+        //   line-height: px2rem(24px);
+        //   vertical-align: middle;
+        //   cursor: pointer;
+        //   transform: scale(0.8);
+        //   transition: transform var(--animation-duration);
 
-          > svg {
-            width: 10px;
-            height: 10px;
-            top: 0;
-          }
-        }
+        //   > svg {
+        //     width: 10px;
+        //     height: 10px;
+        //     top: 0;
+        //   }
+        // }
 
         .#{$ns}Nav-subItems {
           // background: var(--Nav-subNav-bg);

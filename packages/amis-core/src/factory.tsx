@@ -296,6 +296,18 @@ export const defaultOptions: RenderOptions = {
 
     const link = normalizeLink(to);
     const location = window.location;
+
+    // hash模式路径默认按#开头
+    if (/^#/.test(to)) {
+      const idx = location.hash.indexOf('?');
+      let hash = location.hash;
+      if (idx > -1) {
+        hash = location.hash.substring(0, idx);
+      }
+
+      return hash === to;
+    }
+
     let pathname = link;
     let search = '';
     const idx = link.indexOf('?');

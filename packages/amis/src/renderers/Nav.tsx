@@ -1,7 +1,13 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 import Overflow from 'rc-overflow';
-import {Renderer, RendererEnv, RendererProps} from 'amis-core';
+import {
+  Renderer,
+  RendererEnv,
+  RendererProps,
+  resolveVariableAndFilter,
+  ActionObject
+} from 'amis-core';
 import {getExprProperties} from 'amis-core';
 import {filter, evalExpression} from 'amis-core';
 import {
@@ -17,13 +23,14 @@ import {
 } from 'amis-core';
 import {generateIcon} from 'amis-core';
 import {isEffectiveApi} from 'amis-core';
-import {themeable, ThemeProps} from 'amis-core';
+import {themeable} from 'amis-core';
 import {Icon, getIcon} from 'amis-ui';
 import {Badge, BadgeObject} from 'amis-ui';
 import {RemoteOptionsProps, withRemoteConfig} from 'amis-ui';
 import {Spinner} from 'amis-ui';
 import {PopOverContainer} from 'amis-ui';
 import {ScopedContext, IScopedContext} from 'amis-core';
+import isEqual from 'lodash/isEqual';
 
 import type {Payload} from 'amis-core';
 import type {
@@ -189,6 +196,21 @@ export interface NavSchema extends BaseSchema {
    * 横向导航时自动收纳配置
    */
   overflow?: NavOverflow;
+
+  /**
+   * 最多展示多少层级
+   */
+  level?: number;
+
+  /**
+   * 控制仅展示指定label菜单下的子菜单项
+   */
+  showLabel?: string;
+
+  /**
+   * 控制展开按钮位置 不设置 默认放在前面
+   */
+  expandPosition?: string; // before、after，不设置默认before
 }
 
 export interface Link {
@@ -221,7 +243,7 @@ export interface NavigationState {
 }
 
 export interface NavigationProps
-  extends ThemeProps,
+  extends RendererProps,
     Omit<NavSchema, 'type' | 'className'> {
   onSelect?: (item: Link) => void | false;
   onToggle?: (item: Link, forceFold?: boolean) => void;
@@ -427,6 +449,9 @@ export class Navigation extends React.Component<
     if (link.hidden === true || link.visible === false) {
       return null;
     }
+    if (this.props.level && this.props.level < depth) {
+      return null;
+    }
     const isActive: boolean = !!link.active;
     const {
       disabled,
@@ -436,12 +461,38 @@ export class Navigation extends React.Component<
       render,
       itemActions,
       draggable,
-      links,
       itemBadge,
+      level,
+      stacked,
+      expandPosition,
       data: defaultData
     } = this.props;
-    const hasSub =
-      (link.defer && !link.loaded) || (link.children && link.children.length);
+    let hasSub = !!(
+      (link.defer && !link.loaded) ||
+      (link.children && link.children.length)
+    );
+
+    if (level) {
+      hasSub = !!(depth + 1 < level);
+    }
+
+    // padding-left只有stacked模式下才设置
+    const linkStyle = stacked
+      ? {paddingLeft: depth * (parseInt(indentSize as any, 10) ?? 24)}
+      : {};
+
+    const togglerIcon = hasSub ? (
+      <span
+        onClick={e => {
+          this.toggleLink(link);
+          e.stopPropagation();
+        }}
+        className={cx('Nav-itemToggler', togglerClassName)}
+      >
+        <Icon icon="caret" className="icon" />
+      </span>
+    ) : null;
+    const expandAfter = expandPosition === 'after';
 
     return (
       <li
@@ -451,6 +502,7 @@ export class Navigation extends React.Component<
           'is-disabled': disabled || link.disabled || link.loading,
           'is-active': isActive,
           'is-unfolded': link.unfolded,
+          'is-after': expandAfter,
           'has-sub': hasSub
         })}
         onDragStart={this.handleDragStart(link)}
@@ -465,9 +517,7 @@ export class Navigation extends React.Component<
             data-depth={depth}
             title={typeof link?.label === 'string' ? link?.label : undefined}
             onClick={this.handleClick.bind(this, link)}
-            style={{
-              paddingLeft: depth * (parseInt(indentSize as any, 10) ?? 24)
-            }}
+            style={linkStyle}
           >
             {!disabled && draggable ? (
               <div
@@ -488,22 +538,15 @@ export class Navigation extends React.Component<
                 icon="reload"
                 spinnerClassName={cx('Nav-spinner')}
               />
-            ) : hasSub ? (
-              <span
-                onClick={e => {
-                  this.toggleLink(link);
-                  e.stopPropagation();
-                }}
-                className={cx('Nav-itemToggler', togglerClassName)}
-              >
-                <Icon icon="caret" className="icon" />
-              </span>
+            ) : !expandAfter ? (
+              togglerIcon
             ) : null}
             {generateIcon(cx, link.icon, 'Nav-itemIcon')}
             {link.label &&
               (typeof link.label === 'string'
                 ? link.label
                 : render('inline', link.label as SchemaCollection))}
+            {expandAfter ? togglerIcon : null}
           </a>
           {
             // 更多操作
@@ -675,6 +718,23 @@ export class Navigation extends React.Component<
 
 const ThemedNavigation = themeable(Navigation);
 
+// 如果设置了重复的label，那么默认取第一个找到的
+function findSelectedLink(links: Array<Link>, key: string): any {
+  let result = null;
+  if (links && links.length) {
+    for (let i = 0; i < links.length; i++) {
+      const item = links[i];
+      if (item.label === key) {
+        result = item;
+        break;
+      } else if (item.children) {
+        result = findSelectedLink(item.children, key);
+      }
+    }
+  }
+  return result;
+}
+
 const ConditionBuilderWithRemoteOptions = withRemoteConfig({
   adaptor: (config: any, props: any) => {
     const links = Array.isArray(config)
@@ -701,7 +761,7 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
     motivation?: string
   ) {
     if (Array.isArray(links) && motivation !== 'toggle') {
-      const {data, env, unfoldedField, foldedField} = props;
+      const {data, env, unfoldedField, foldedField, location} = props;
 
       links = mapTree(
         links,
@@ -712,7 +772,8 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
             active:
               (motivation !== 'location-change' && link.active) ||
               (link.activeOn
-                ? evalExpression(link.activeOn as string, data)
+                ? evalExpression(link.activeOn as string, data) ||
+                  evalExpression(link.activeOn as string, location)
                 : !!(
                     link.hasOwnProperty('to') &&
                     env &&
@@ -783,12 +844,40 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
       this.toggleLink = this.toggleLink.bind(this);
       this.handleSelect = this.handleSelect.bind(this);
       this.dragUpdate = this.dragUpdate.bind(this);
+
+      props?.onRef(this);
     }
 
     componentDidMount() {
       if (Array.isArray(this.props.links)) {
         this.props.updateConfig(this.props.links, 'mount');
+        this.props.setOriginConfig(this.props.links);
       }
+
+      const showLabel = this.props.showLabel;
+      if (showLabel) {
+        const children = this.updateSelectedConfig(showLabel);
+        this.props.updateConfig(children, 'update');
+      }
+
+      // hahs history 切换路由 自动选中
+      window.addEventListener('popstate', this.updateConfig, false);
+    }
+
+    getActiveItems(config: Array<any>) {
+      let activeItems: Array<any> = [];
+      config &&
+        config.forEach(item => {
+          if (item.active) {
+            activeItems.push(item);
+          }
+          if (item.children) {
+            activeItems = activeItems.concat(
+              this.getActiveItems(item.children)
+            );
+          }
+        });
+      return activeItems;
     }
 
     componentDidUpdate(prevProps: any) {
@@ -796,7 +885,38 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
         this.props.updateConfig(this.props.config, 'location-change');
       } else if (this.props.links !== prevProps.links) {
         this.props.updateConfig(this.props.links, 'update');
+        this.props.setOriginConfig(this.props.links);
       }
+
+      const currentActiveItems = this.getActiveItems(this.props.config);
+      const prevActiveItems = this.getActiveItems(prevProps.config);
+
+      if (!isEqual(currentActiveItems, prevActiveItems)) {
+        this.props.dispatchEvent('selected', {avtiveItems: currentActiveItems});
+      }
+    }
+
+    componentWillUnmount() {
+      window.removeEventListener('popstate', this.updateConfig, false);
+    }
+
+    updateConfig = () => {
+      this.props.updateConfig(this.props.config, 'location-change');
+    };
+
+    updateSelectedConfig(key: string) {
+      const {originConfig, data} = this.props;
+      const label = resolveVariableAndFilter(key, data, '| raw');
+      if (!label) {
+        return [...originConfig];
+      }
+      const item = findSelectedLink(originConfig, label);
+      let children: Array<Link> = [];
+      if (item && item.children) {
+        children = children.concat(item.children);
+      }
+
+      return children;
     }
 
     toggleLink(target: Link, forceFold?: boolean) {
@@ -876,14 +996,14 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
     async saveOrder(links: Links) {
       const {saveOrderApi, env, data, reload} = this.props;
       if (saveOrderApi && isEffectiveApi(saveOrderApi)) {
-        await env.fetcher(
+        await env?.fetcher(
           saveOrderApi as SchemaApi,
           createObject(data, {data: links}),
           {method: 'post'}
         );
         reload();
       } else if (!this.props.onOrderChange) {
-        env.alert('NAV saveOrderApi is required!');
+        env?.alert('NAV saveOrderApi is required!');
       }
     }
 
@@ -930,6 +1050,8 @@ export default ThemedNavigation;
 export class NavigationRenderer extends React.Component<RendererProps> {
   static contextType = ScopedContext;
 
+  navRef: any;
+
   remoteRef:
     | {
         loadConfig: (ctx?: any) => Promise<any> | void;
@@ -940,6 +1062,11 @@ export class NavigationRenderer extends React.Component<RendererProps> {
   @autobind
   remoteConfigRef(ref: any) {
     this.remoteRef = ref;
+  }
+
+  @autobind
+  getRef(ref: any) {
+    this.navRef = ref;
   }
 
   constructor(props: RendererProps, context: IScopedContext) {
@@ -954,13 +1081,43 @@ export class NavigationRenderer extends React.Component<RendererProps> {
     scoped.unRegisterComponent(this);
   }
 
+  doAction(
+    action: ActionObject,
+    args: {
+      value?: string | {[key: string]: string};
+    }
+  ) {
+    const actionType = action?.actionType as any;
+    if (actionType === 'updateItems') {
+      let children: Array<Link> = [];
+      if (args.value) {
+        if (Array.isArray(args.value)) {
+          // 只展示触发项的children属性
+          args.value.forEach((item: Link) => {
+            if (item.children) {
+              children = children.concat(item.children);
+            }
+          });
+        } else if (typeof args.value === 'string') {
+          children = this.navRef.updateSelectedConfig(args.value);
+          if (children.length > 0) {
+            const {env, data} = this.props;
+            env?.jumpTo(filter(children[0].to as string, data));
+          }
+        }
+      }
+
+      this.remoteRef?.setConfig(children);
+    }
+  }
+
   @autobind
   reload(target?: string, query?: any, values?: object) {
     if (query) {
       return this.receive(query);
     }
 
-    const {data, env, source, translate: __} = this.props;
+    const {data, translate: __} = this.props;
     const finalData = values ? createObject(data, values) : data;
 
     this.remoteRef?.loadConfig(finalData);
@@ -976,6 +1133,7 @@ export class NavigationRenderer extends React.Component<RendererProps> {
     return (
       <ConditionBuilderWithRemoteOptions
         {...rest}
+        onRef={this.getRef}
         reload={this.reload}
         remoteConfigRef={this.remoteConfigRef}
       />
