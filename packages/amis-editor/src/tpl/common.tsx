@@ -361,16 +361,29 @@ setSchemaTpl(
     variables?: Array<VariableItem> | Function; // 自定义变量集合
     requiredDataPropsVariables?: boolean; // 是否再从amis数据域中取变量结合， 默认 false
     variableMode?: 'tabs' | 'tree'; // 变量展现模式
+    [key: string]: any; // 其他属性，例如包括表单项pipeIn\Out 等等
   }) => {
-    let curRendererSchema = {
-      ...config?.rendererSchema,
-      placeholder: config?.placeholder ?? undefined
-    };
-    if (
-      config?.useSelectMode &&
-      curRendererSchema &&
-      curRendererSchema.options
-    ) {
+    const {
+      rendererSchema,
+      useSelectMode,
+      mode,
+      visibleOn,
+      label,
+      name,
+      rendererWrapper,
+      needDeleteProps,
+      valueType,
+      header,
+      placeholder,
+      DateTimeType,
+      variables,
+      requiredDataPropsVariables,
+      variableMode,
+      ...rest
+    } = config || {};
+    let curRendererSchema = rendererSchema;
+
+    if (useSelectMode && curRendererSchema && curRendererSchema.options) {
       curRendererSchema = {
         ...curRendererSchema,
         type: 'select'
@@ -381,22 +394,24 @@ setSchemaTpl(
       type: 'group',
       // 默认左右展示
       // 上下展示，可避免 自定义渲染器 出现挤压
-      mode: config?.mode === 'vertical' ? 'vertical' : 'horizontal',
-      visibleOn: config?.visibleOn,
+      mode: mode === 'vertical' ? 'vertical' : 'horizontal',
+      visibleOn,
       body: [
         {
           type: 'ae-formulaControl',
-          label: config?.label ?? '默认值',
-          name: config?.name || 'value',
+          label: label ?? '默认值',
+          name: name || 'value',
+          rendererWrapper,
+          needDeleteProps,
+          valueType,
+          header,
+          placeholder,
           rendererSchema: curRendererSchema,
-          rendererWrapper: config?.rendererWrapper,
-          needDeleteProps: config?.needDeleteProps,
-          valueType: config?.valueType,
-          header: config?.header ?? '表达式',
-          DateTimeType: config?.DateTimeType ?? FormulaDateType.NotDate,
-          variables: config?.variables,
-          requiredDataPropsVariables: config?.requiredDataPropsVariables,
-          variableMode: config?.variableMode
+          variables,
+          requiredDataPropsVariables,
+          variableMode,
+          DateTimeType: DateTimeType ?? FormulaDateType.NotDate,
+          ...rest
         }
       ]
     };

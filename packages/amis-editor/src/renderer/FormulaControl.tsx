@@ -144,6 +144,7 @@ export default class FormulaControl extends React.Component<
 > {
   static defaultProps: Partial<FormulaControlProps> = {
     simple: false,
+    rendererWrapper: false,
     DateTimeType: FormulaDateType.NotDate,
     requiredDataPropsAsOptions: false
   };
