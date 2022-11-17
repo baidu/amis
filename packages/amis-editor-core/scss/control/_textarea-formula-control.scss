@@ -125,9 +125,15 @@
         margin-right: 10px;
         cursor: pointer;
       }
+      &--fullscreen {
+        > a {
+          font-size: 12px;
+        }
+      }
       &-fxIcon {
-        font-size: 19px;
-        margin-bottom: 3px;
+        > a {
+          font-size: 19px;
+        }
       }
     }
   }
@@ -159,11 +165,15 @@
         > li {
           margin-right: 20px;
         }
-        &-fxIcon {
-          font-size: 28px;
-        }
         &-fullscreen {
-          font-size: 20px;
+          > a {
+            font-size: 18px;
+          }
+        }
+        &-fxIcon {
+          > a {
+            font-size: 28px;
+          }
         }
       }
     }
