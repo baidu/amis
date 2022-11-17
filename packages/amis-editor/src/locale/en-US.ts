@@ -3498,5 +3498,38 @@ extendLocale('en-US', {
     'Turn on this option if you need to do additional data processing on the data in the returned results',
   '7c583ecdf795ce4f1f40d7960ead9344': 'Default prompt text',
   '70941a02776496ec446f21f98ebf754e': 'Request successful',
-  'f50bf418323ee425eca7208c09a4577e': 'Request failed'
+  'f50bf418323ee425eca7208c09a4577e': 'Request failed',
+  'f3dc08e3617d1e19cf8135be4412a80b':
+    'After clicking, ask the user first, and then execute the action after manual confirmation to avoid accidental touch. Values can be taken from data field variables.',
+  'faa29265819714253843e23437b9193e':
+    'The prompt content under normal status. If it is not filled, no prompt will pop up. Values can be taken from data field variables.',
+  'f855f46ce6146aa17a9ed423da16bfa2':
+    'Prompt content in disabled status. If it is not filled in, a normal prompt will pop up. Values can be taken from data field variables.',
+  '037becbe8bff2f8838d141cc7b6b2df7':
+    'Support such relative value usage as:<code>now,+3 days, - 2weeks,+1hour,+2years</code>, etc. (minute | min | hour | day | week | month | year | weekday | second | millisecond)',
+  '8f7ae284d0039fe05b9f57fd5ae3ede9': 'Please select a static value',
+  '98229308e2e9484583fde4ae363a979f': 'Expression or relative value',
+  '6b3c2a07db1bb3c229bbc5df48068792':
+    'Support such relative value usage as:<code>now,+3 days, - 2weeks,+1 hour,+2 years</code>(minute | hour | day | week | month | year | weekday | second | millisecond)',
+  'dcc94ea1715bd502c709c5d5092e9c82':
+    'Support such relative value usage as:<code>3days, 2weeks, 1hour, 2years</code>(minute | hour | day | week | month | year | weekday | second | millisecond)',
+  '13ce82d026daa5a30e50105bd2a204a6': 'Please enter a relative value',
+  '31c29c46536a5007522032d2a42db56a': 'Numerical template',
+  'a6a41d1bfb5896210eb527d183a07958':
+    'Value rendering template, which supports the use of JSX and data field variables. The default is ${value}%',
+  'eadd1d64cd6ceb2c50554281cd2d3be0':
+    'Dynamically re render the configured tabs based on this data',
+  '0d9d899edb456e8806a99850e9c38212': 'Configured Expression',
+  'fbb96f7ea104d34fc4b7bd625d892c45': 'Click Write Expression',
+  'e0c7ac5eb397512fdbe71600baa09dab': 'Please enter a static value',
+  '48942ef507ea38d8ead03f8bfdffae5a': 'Relative value configured',
+  '49041f245018a6d799fee3c6f177c782': 'Exit full screen',
+  '185926bf986c784d03a9a73102da6542': 'Full screen',
+  '891ec6336d4243714c25eecb2f8f774a': 'Option Text',
+  'fb7ea2b05ca7328ee16a562d90c2eb96': 'Option field',
+  '1ca87f0171481e27d94e81b477150b7d': 'Option Template',
+  'd6ecb32a380c91887a9346653c2427e9':
+    'Customized option rendering template, supporting the use of JSX and data field variables',
+  'cb048b2d8426afd464dc01b72c446342': 'Block level (default)',
+  '3b6e8d54b7b2ae890d5357b7eaaeaaf2': 'No line breaks (default)'
 });
