@@ -48,21 +48,8 @@
       }
 
       .cm-expression {
-        display: inline-block;
         position: relative;
-        padding: 0 5px;
-        border-radius: 3px;
-        color: #fff;
-        margin: 0 1px 1px;
-        background: var(--button-primary-default-bg-color);
-        cursor: pointer;
-
-        &:hover {
-          background: var(--button-primary-hover-bg-color);
-          .expression-popover {
-            display: block;
-          }
-        }
+        display: inline-block;
 
         .expression-popover {
           position: absolute;
@@ -79,6 +66,7 @@
           border: none;
           box-shadow: var(--Tooltip-boxShadow--dark);
           z-index: 10;
+
           .expression-popover-arrow {
             position: absolute;
             display: block;
@@ -104,6 +92,29 @@
             &::after {
               border-bottom-color: var(--Tooltip-arrow-color--dark);
             }
+          }
+        }
+      }
+
+      .cm-expression-text {
+        display: inline-block;
+        position: relative;
+        padding: 0 5px;
+        border-radius: 3px;
+        color: #fff;
+        margin: 0 1px 1px;
+        background: var(--button-primary-default-bg-color);
+        cursor: pointer;
+        width: 40px;
+        overflow-x: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        vertical-align: middle;
+
+        &:hover {
+          background: var(--button-primary-hover-bg-color);
+          & ~ .expression-popover {
+            display: block;
           }
         }
       }
