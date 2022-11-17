@@ -1,8 +1,9 @@
-.ae-editor-FormulaControl {
+div.ae-editor-FormulaControl {
   position: relative;
   @include flexBox();
   align-items: stretch;
-
+}
+.ae-editor-FormulaControl {
   & > &-button {
     height: auto;
     background-color: #f7f7f9;
