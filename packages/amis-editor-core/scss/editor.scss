@@ -95,6 +95,14 @@
   outline: 2px solid rgba($Editor-hlbox--onActiveConfig-bg, 0.2);
 }
 
+// 公共组件占位样式
+.ae-Editor-common-config div[class*='Wrapper']:empty {
+  margin: 4px;
+  min-height: 88px;
+  background: #f7f7f8;
+  border: 1px dashed rgb(206, 208, 211);
+}
+
 // 弹窗编辑器面板
 .subEditor-dialog {
   overflow: hidden;
@@ -1070,6 +1078,12 @@
     align-items: center;
     justify-content: center;
   }
+}
+
+// 布局容器类元素隐藏标记样式
+[data-editor-id][data-visible='false'][style*='position: static'],
+[data-editor-id][data-visible='false'][style*='position:static'] {
+  position: relative !important;
 }
 
 .ae-Region-placeholder {

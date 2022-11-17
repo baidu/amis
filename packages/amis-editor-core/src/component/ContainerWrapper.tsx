@@ -78,7 +78,8 @@ export class ContainerWrapper extends React.Component<ContainerWrapperProps> {
         }
 
         let defaultRegion: any[] = [];
-        /** form表单的按钮组特殊处理
+        /**
+         * form表单的按钮组特殊处理
          * 原因：确保编辑态也显示默认的提交按钮
          */
         if (
