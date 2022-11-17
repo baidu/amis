@@ -179,16 +179,28 @@ export class TreeControlPlugin extends BasePlugin {
           </div>
         );
       },
-      schema: getArgsWrapper({
-        type: 'input-formula',
-        variables: '${variables}',
-        evalMode: false,
-        variableMode: 'tabs',
-        label: '展开层级',
-        size: 'lg',
-        name: 'openLevel',
-        mode: 'horizontal'
-      })
+      schema: getArgsWrapper(
+        /*
+        {
+          type: 'input-formula',
+          variables: '${variables}',
+          evalMode: false,
+          variableMode: 'tabs',
+          label: '展开层级',
+          size: 'lg',
+          name: 'openLevel',
+          mode: 'horizontal'
+        },
+       */
+        {
+          name: 'openLevel',
+          label: '展开层级',
+          type: 'ae-formulaControl',
+          variables: '${variables}',
+          size: 'lg',
+          mode: 'horizontal'
+        }
+      )
     },
     {
       actionType: 'collapse',

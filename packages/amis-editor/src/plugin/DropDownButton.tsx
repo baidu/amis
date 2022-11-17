@@ -61,15 +61,17 @@ export class DropDownButtonPlugin extends BasePlugin {
             body: [
               {
                 children: (
-                  <Button
-                    level="info"
-                    size="sm"
-                    className="m-b-sm"
-                    block
-                    onClick={this.editDetail.bind(this, context.id)}
-                  >
-                    配置下拉按钮集合
-                  </Button>
+                  <div className="mb-3">
+                    <Button
+                      level="info"
+                      size="sm"
+                      className="m-b-sm"
+                      block
+                      onClick={this.editDetail.bind(this, context.id)}
+                    >
+                      配置下拉按钮集合
+                    </Button>
+                  </div>
                 )
               },
               {

@@ -295,6 +295,7 @@ export class TablePlugin extends BasePlugin {
       description: '设置表格的选中项',
       innerArgs: ['selected'],
       schema: getArgsWrapper([
+        /*
         {
           type: 'input-formula',
           variables: '${variables}',
@@ -303,6 +304,15 @@ export class TablePlugin extends BasePlugin {
           label: '选中项',
           size: 'lg',
           name: 'selected',
+          mode: 'horizontal'
+        }
+        */
+        {
+          name: 'selected',
+          label: '选中项',
+          type: 'ae-formulaControl',
+          variables: '${variables}',
+          size: 'lg',
           mode: 'horizontal'
         }
       ])

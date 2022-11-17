@@ -9,7 +9,7 @@ const path = require('path');
 module.exports = {
   mode: 'production', // development production
   entry: {
-    index: ['./src/index.tsx'],
+    index: ['./src/index.tsx']
   },
   output: {
     path: path.join(__dirname, 'lib'),
@@ -48,9 +48,9 @@ module.exports = {
               // webpackImporter: true, // 开启 / 关闭默认的 Webpack importer。默认为true，所以不需要额外配置这个
               sassOptions: {
                 // 正常情况下不需要这个配置项，但有些情况下需要（比如导入的sass文件包含 media queries等）。
-                includePaths: ['node_modules', '../../node_modules'],
-              },
-            },
+                includePaths: ['node_modules', '../../node_modules']
+              }
+            }
           }
         ]
       },

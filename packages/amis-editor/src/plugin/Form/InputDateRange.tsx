@@ -4,6 +4,7 @@ import {BasePlugin, BaseEventContext} from 'amis-editor-core';
 
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
+import {FormulaDateType} from '../../renderer/FormulaControl';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {getRendererByName} from 'amis-core';
 
@@ -68,12 +69,14 @@ const DateType: {
   }
 };
 
+const dateTooltip =
+  '支持例如: <code>now、+3days、-2weeks、+1hour、+2years</code> 等（minute|hour|day|week|month|year|weekday|second|millisecond）这种相对值用法';
+const rangTooltip =
+  '支持例如: <code>3days、2weeks、1hour、2years</code> 等（minute|hour|day|week|month|year|weekday|second|millisecond）这种相对值用法';
+
 const sizeImmutableComponents = Object.values(DateType)
   .map(item => (item?.sizeMutable === false ? item.type : null))
   .filter(a => a);
-
-const tipedLabelText =
-  '支持 <code>now、+1day、-2weeks、+1hours、+2years</code>这种相对值用法，同时支持变量如<code>\\${start_date}</code>';
 
 export class DateRangeControlPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -264,63 +267,69 @@ export class DateRangeControlPlugin extends BasePlugin {
                 }),
 
                 getSchemaTpl('valueFormula', {
-                  /* 备注: 待 amis 日期组件优化
-                rendererSchema: {
-                  ...context?.schema,
-                  size: 'full', // 备注：目前样式还有问题，需要在amis端进行优化
-                  mode: "inline"
-                },
-                mode: 'vertical',
-                */
                   rendererSchema: {
-                    type: 'input-date'
+                    ...context?.schema,
+                    size: 'full',
+                    mode: 'inline'
                   },
-                  label: tipedLabel(
-                    '默认值',
-                    '支持 <code>now、+1day、-2weeks、+1hours、+2years</code>等这种相对值用法'
-                  )
+                  mode: 'vertical',
+                  header: '表达式或相对值',
+                  DateTimeType: FormulaDateType.IsRange,
+                  label: tipedLabel('默认值', dateTooltip)
                 }),
                 getSchemaTpl('valueFormula', {
                   name: 'minDate',
+                  header: '表达式或相对值',
+                  DateTimeType: FormulaDateType.IsDate,
                   rendererSchema: {
                     ...context?.schema,
                     value: context?.schema.minDate,
                     type: 'input-date'
                   },
+                  placeholder: '请选择静态值',
                   needDeleteProps: ['minDate'], // 避免自我限制
-                  label: tipedLabel('最小值', tipedLabelText)
+                  label: tipedLabel('最小值', dateTooltip)
                 }),
                 getSchemaTpl('valueFormula', {
                   name: 'maxDate',
+                  header: '表达式或相对值',
+                  DateTimeType: FormulaDateType.IsDate,
                   rendererSchema: {
                     ...context?.schema,
                     value: context?.schema.maxDate,
                     type: 'input-date'
                   },
+                  placeholder: '请选择静态值',
                   needDeleteProps: ['maxDate'], // 避免自我限制
-                  label: tipedLabel('最大值', tipedLabelText)
+                  label: tipedLabel('最大值', dateTooltip)
                 }),
 
                 getSchemaTpl('valueFormula', {
                   name: 'minDuration',
+                  header: '表达式',
+                  DateTimeType: FormulaDateType.NotDate,
                   rendererSchema: {
                     ...context?.schema,
                     value: context?.schema.minDuration,
                     type: 'input-text'
                   },
+                  placeholder: '请输入相对值',
                   needDeleteProps: ['minDuration'], // 避免自我限制
-                  label: tipedLabel('最小跨度', '例如 2days')
+                  label: tipedLabel('最小跨度', rangTooltip)
                 }),
 
                 getSchemaTpl('valueFormula', {
                   name: 'maxDuration',
+                  header: '表达式',
+                  DateTimeType: FormulaDateType.NotDate,
                   rendererSchema: {
                     ...context?.schema,
                     value: context?.schema.maxDuration,
                     type: 'input-text'
                   },
+                  placeholder: '请输入相对值',
                   needDeleteProps: ['maxDuration'], // 避免自我限制
-                  label: tipedLabel('最大跨度', '例如 1year')
+                  label: tipedLabel('最大跨度', rangTooltip)
                 }),
                 getSchemaTpl('dateShortCutControl', {
                   mode: 'normal',
