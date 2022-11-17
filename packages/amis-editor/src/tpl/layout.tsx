@@ -683,7 +683,15 @@ setSchemaTpl(
       clearable: true,
       unitOptions: config?.unitOptions ?? LayoutUnitOptions,
       pipeIn: config?.pipeIn,
-      pipeOut: config?.pipeOut
+      // pipeOut: config?.pipeOut,
+      pipeOut: (value: string) => {
+        const curValue = parseInt(value);
+        if (curValue && curValue === 0) {
+          return value;
+        } else {
+          return undefined;
+        }
+      }
     };
   }
 );
@@ -714,7 +722,15 @@ setSchemaTpl(
       clearable: true,
       unitOptions: config?.unitOptions ?? LayoutUnitOptions,
       pipeIn: config?.pipeIn,
-      pipeOut: config?.pipeOut
+      // pipeOut: config?.pipeOut
+      pipeOut: (value: string) => {
+        const curValue = parseInt(value);
+        if (curValue && curValue === 0) {
+          return value;
+        } else {
+          return undefined;
+        }
+      }
     };
   }
 );
@@ -745,7 +761,15 @@ setSchemaTpl(
       clearable: true,
       unitOptions: config?.unitOptions ?? LayoutUnitOptions,
       pipeIn: config?.pipeIn,
-      pipeOut: config?.pipeOut
+      // pipeOut: config?.pipeOut
+      pipeOut: (value: string) => {
+        const curValue = parseInt(value);
+        if (curValue && curValue === 0) {
+          return value;
+        } else {
+          return undefined;
+        }
+      }
     };
   }
 );
@@ -850,7 +874,15 @@ setSchemaTpl(
       clearable: true,
       unitOptions: config?.unitOptions ?? LayoutUnitOptions,
       pipeIn: config?.pipeIn,
-      pipeOut: config?.pipeOut
+      // pipeOut: config?.pipeOut
+      pipeOut: (value: string) => {
+        const curValue = parseInt(value);
+        if (curValue && curValue === 0) {
+          return value;
+        } else {
+          return undefined;
+        }
+      }
     };
   }
 );
@@ -881,7 +913,15 @@ setSchemaTpl(
       clearable: true,
       unitOptions: config?.unitOptions ?? LayoutUnitOptions,
       pipeIn: config?.pipeIn,
-      pipeOut: config?.pipeOut
+      // pipeOut: config?.pipeOut
+      pipeOut: (value: string) => {
+        const curValue = parseInt(value);
+        if (curValue && curValue === 0) {
+          return value;
+        } else {
+          return undefined;
+        }
+      }
     };
   }
 );
@@ -912,7 +952,15 @@ setSchemaTpl(
       clearable: true,
       unitOptions: config?.unitOptions ?? LayoutUnitOptions,
       pipeIn: config?.pipeIn,
-      pipeOut: config?.pipeOut
+      // pipeOut: config?.pipeOut
+      pipeOut: (value: string) => {
+        const curValue = parseInt(value);
+        if (curValue && curValue === 0) {
+          return value;
+        } else {
+          return undefined;
+        }
+      }
     };
   }
 );
