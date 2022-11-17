@@ -186,9 +186,11 @@ export class FormulaPlugin {
     expression = '',
     className = 'cm-expression'
   ) {
+    const wrap = document.createElement('span');
+    wrap.className = className;
     const text = document.createElement('span');
-    text.className = className;
-    text.innerText = '表达式';
+    text.className = `${className}-text`;
+    text.innerText = expression;
     text.setAttribute('data-expression', expression);
     text.onclick = () => {
       const brace = this.getExpressionBrace(expression);
@@ -209,11 +211,12 @@ export class FormulaPlugin {
     const arrow = document.createElement('div');
     arrow.classList.add('expression-popover-arrow');
     popoverEl.appendChild(arrow);
-    text.appendChild(popoverEl);
+    wrap.appendChild(text);
+    wrap.appendChild(popoverEl);
 
     this.editor.markText(from, to, {
       atomic: true,
-      replacedWith: text
+      replacedWith: wrap
     });
   }
 
