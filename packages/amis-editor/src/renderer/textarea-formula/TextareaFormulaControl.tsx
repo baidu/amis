@@ -203,9 +203,13 @@ export class TextareaFormulaControl extends React.Component<
 
     return (
       <div
-        className={cx('ae-TextareaFormulaControl', {
-          'is-fullscreen': this.state.isFullscreen
-        })}
+        className={cx(
+          'ae-TextareaFormulaControl',
+          {
+            'is-fullscreen': this.state.isFullscreen
+          },
+          className
+        )}
       >
         <div className={cx('ae-TextareaResultBox')} style={resultBoxStyle}>
           <CodeMirrorEditor

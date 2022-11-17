@@ -146,7 +146,7 @@ export default class FormulaControl extends React.Component<
     simple: false,
     rendererWrapper: false,
     DateTimeType: FormulaDateType.NotDate,
-    requiredDataPropsAsOptions: false
+    requiredDataPropsVariables: false
   };
   isUnmount: boolean;
 
@@ -510,7 +510,7 @@ export default class FormulaControl extends React.Component<
               className="ae-editor-FormulaControl-input"
               value={this.inReplaceExpression(value)}
               clearable={true}
-              placeholder={placeholder}
+              placeholder={placeholder ?? '请输入静态值'}
               onChange={this.handleSimpleInputChange}
             />
           )}
