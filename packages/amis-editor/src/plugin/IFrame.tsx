@@ -41,9 +41,10 @@ export class IFramePlugin extends BasePlugin {
             title: '基本',
             body: [
               {
+                type: 'ae-textareaFormulaControl',
                 name: 'src',
-                label: '页面地址',
-                type: 'input-text'
+                mode: 'normal',
+                label: '页面地址'
               }
             ]
           },

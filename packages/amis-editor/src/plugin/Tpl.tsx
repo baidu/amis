@@ -5,13 +5,9 @@ import {tipedLabel} from 'amis-editor-core';
 import {ValidatorTag} from '../validator';
 
 setSchemaTpl('tpl:content', {
-  label: tipedLabel(
-    '文字内容',
-    '支持使用 <code>\\${xxx}</code> 来获取变量，或者用 lodash.template 语法来写模板逻辑。<a target="_blank" href="/amis/zh-CN/docs/concepts/template">详情</a>'
-  ),
-  type: 'textarea',
-  minRows: 5,
-  language: 'html',
+  label: '文字内容',
+  type: 'ae-textareaFormulaControl',
+  mode: 'normal',
   visibleOn: 'data.wrapperComponent !== undefined',
   pipeIn: (value: any, data: any) => value || (data && data.html),
   name: 'tpl'

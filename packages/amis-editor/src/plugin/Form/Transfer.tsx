@@ -266,11 +266,9 @@ export class TransferPlugin extends BasePlugin {
                 name: 'searchable'
               }),
 
-              getSchemaTpl('menuTpl', {
-                label: tipedLabel(
-                  '模板',
-                  '左侧选项渲染模板，支持JSX，变量使用\\${xx}'
-                ),
+              getSchemaTpl('optionsMenuTpl', {
+                manager: this.manager,
+                onChange: (value: any) => {},
                 visibleOn: 'data.selectMode !== "table"'
               }),
 
@@ -317,12 +315,10 @@ export class TransferPlugin extends BasePlugin {
                   'data.selectMode === "list" && !data.resultListModeFollowSelect'
               }),
 
-              getSchemaTpl('menuTpl', {
+              getSchemaTpl('optionsMenuTpl', {
                 name: 'valueTpl',
-                label: tipedLabel(
-                  '模板',
-                  '结果选项渲染模板，支持JSX，变量使用\\${xx}'
-                ),
+                manager: this.manager,
+                onChange: (value: any) => {},
                 visibleOn:
                   '!(data.selectMode === "table" && data.resultListModeFollowSelect)'
               }),

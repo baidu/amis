@@ -173,10 +173,11 @@ export class TabsPlugin extends BasePlugin {
             title: '高级',
             body: [
               {
-                type: 'ae-formulaControl',
+                type: 'ae-expressionFormulaControl',
+                evalMode: true,
                 label: tipedLabel(
                   '关联数据',
-                  '可用<code>\\${xxx}</code>取值，根据该数据来动态重复渲染所配置的选项卡'
+                  '根据该数据来动态重复渲染所配置的选项卡'
                 ),
                 name: 'source'
               },

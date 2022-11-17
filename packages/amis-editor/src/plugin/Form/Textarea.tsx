@@ -122,10 +122,16 @@ export class TextareaControlPlugin extends BasePlugin {
                 required: true
               }),
               getSchemaTpl('label'),
-              getSchemaTpl('valueFormula', {
-                rendererSchema: context?.schema,
-                mode: 'vertical' // 改成上下展示模式
-              }),
+              // getSchemaTpl('valueFormula', {
+              //   rendererSchema: context?.schema,
+              //   mode: 'vertical' // 改成上下展示模式
+              // }),
+              {
+                type: 'ae-textareaFormulaControl',
+                label: '默认值',
+                name: 'value',
+                mode: 'normal'
+              },
               getSchemaTpl('switch', {
                 name: 'trimContents',
                 pipeIn: defaultValue(true),
