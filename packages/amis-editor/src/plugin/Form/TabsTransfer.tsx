@@ -336,6 +336,13 @@ export class TabsTransferPlugin extends BasePlugin {
               })
             ]
           },
+          {
+            title: '高级',
+            body: [
+              getSchemaTpl('virtualThreshold'),
+              getSchemaTpl('virtualItemHeight')
+            ]
+          },
           getSchemaTpl('status', {isFormItem: true})
         ])
       },

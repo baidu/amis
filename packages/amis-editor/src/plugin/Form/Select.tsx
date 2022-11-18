@@ -312,7 +312,9 @@ export class SelectControlPlugin extends BasePlugin {
                   '开启后，当选项值未匹配到当前options中的选项时，选项文本飘红'
                 ),
                 name: 'showInvalidMatch'
-              })
+              }),
+              getSchemaTpl('virtualThreshold'),
+              getSchemaTpl('virtualItemHeight')
             ]
           },
           getSchemaTpl('status', {isFormItem: true}),

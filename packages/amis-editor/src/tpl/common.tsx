@@ -1187,3 +1187,26 @@ setSchemaTpl(
     });
   }
 );
+
+setSchemaTpl('virtualThreshold', {
+  name: 'virtualThreshold',
+  type: 'input-number',
+  min: 1,
+  step: 1,
+  precision: 0,
+  label: tipedLabel(
+    '虚拟列表阈值',
+    '当选项数量超过阈值后，会开启虚拟列表以优化性能'
+  ),
+  pipeOut: (value: any) => value || undefined
+});
+
+setSchemaTpl('virtualItemHeight', {
+  name: 'itemHeight',
+  type: 'input-number',
+  min: 1,
+  step: 1,
+  precision: 0,
+  label: tipedLabel('选项高度', '开启虚拟列表时每个选项的高度'),
+  pipeOut: (value: any) => value || undefined
+});

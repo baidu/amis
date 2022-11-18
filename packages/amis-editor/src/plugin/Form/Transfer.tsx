@@ -330,6 +330,13 @@ export class TransferPlugin extends BasePlugin {
               }
             ]
           },
+          {
+            title: '高级',
+            body: [
+              getSchemaTpl('virtualThreshold'),
+              getSchemaTpl('virtualItemHeight')
+            ]
+          },
           getSchemaTpl('status', {isFormItem: true}),
           getSchemaTpl('validation', {tag: ValidatorTag.MultiSelect})
         ])
