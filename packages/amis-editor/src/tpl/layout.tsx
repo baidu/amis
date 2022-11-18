@@ -685,7 +685,7 @@ setSchemaTpl(
       // pipeOut: config?.pipeOut,
       pipeOut: (value: string) => {
         const curValue = parseInt(value);
-        if (curValue && curValue === 0) {
+        if (curValue || curValue === 0) {
           return value;
         } else {
           return undefined;
@@ -724,7 +724,7 @@ setSchemaTpl(
       // pipeOut: config?.pipeOut
       pipeOut: (value: string) => {
         const curValue = parseInt(value);
-        if (curValue && curValue === 0) {
+        if (curValue || curValue === 0) {
           return value;
         } else {
           return undefined;
@@ -763,7 +763,7 @@ setSchemaTpl(
       // pipeOut: config?.pipeOut
       pipeOut: (value: string) => {
         const curValue = parseInt(value);
-        if (curValue && curValue === 0) {
+        if (curValue || curValue === 0) {
           return value;
         } else {
           return undefined;
@@ -876,7 +876,7 @@ setSchemaTpl(
       // pipeOut: config?.pipeOut
       pipeOut: (value: string) => {
         const curValue = parseInt(value);
-        if (curValue && curValue === 0) {
+        if (curValue || curValue === 0) {
           return value;
         } else {
           return undefined;
@@ -915,7 +915,7 @@ setSchemaTpl(
       // pipeOut: config?.pipeOut
       pipeOut: (value: string) => {
         const curValue = parseInt(value);
-        if (curValue && curValue === 0) {
+        if (curValue || curValue === 0) {
           return value;
         } else {
           return undefined;
@@ -954,7 +954,7 @@ setSchemaTpl(
       // pipeOut: config?.pipeOut
       pipeOut: (value: string) => {
         const curValue = parseInt(value);
-        if (curValue && curValue === 0) {
+        if (curValue || curValue === 0) {
           return value;
         } else {
           return undefined;
