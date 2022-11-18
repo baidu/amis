@@ -29,6 +29,7 @@ module.exports = {
           {
             loader: 'ts-loader',
             options: {
+              // transpileOnly: true,
               compilerOptions: {
                 declaration: true,
                 outDir: './lib'

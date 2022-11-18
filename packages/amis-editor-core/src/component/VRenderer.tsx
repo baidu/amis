@@ -11,6 +11,7 @@ export interface VRendererProps extends RendererInfo {
   path: string;
   data?: any;
   widthMutable?: boolean;
+  children?: React.ReactNode;
 }
 
 export class VRenderer extends React.Component<VRendererProps> {

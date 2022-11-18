@@ -17,6 +17,7 @@ export interface HighlightBoxProps {
   toolbarContainer?: () => any;
   onSwitch?: (id: string) => void;
   manager: EditorManager;
+  children?: React.ReactNode;
 }
 
 @observer

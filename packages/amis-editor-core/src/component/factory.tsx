@@ -16,7 +16,7 @@ import {render as reactRender, unmountComponentAtNode} from 'react-dom';
 import {autobind, diff} from '../util';
 import {createObject} from 'amis-core';
 import {CommonConfigWrapper} from './CommonConfigWrapper';
-import {Schema} from 'amis/lib/types';
+import {Schema} from 'amis';
 import type {DataScope} from 'amis-core';
 import type {RendererConfig} from 'amis-core/lib/factory';
 import {SchemaCollection} from 'amis/lib/Schema';

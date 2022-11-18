@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import cx from 'classnames';
 import {autobind, guid, noop, reactionWithOldValue} from '../util';
 import {clearStoresCache, RenderOptions} from 'amis-core';
-import {Schema} from 'amis/lib/types';
+import {Schema} from 'amis';
 import {EditorStoreType} from '../store/editor';
 import {observer} from 'mobx-react';
 import {findDOMNode} from 'react-dom';

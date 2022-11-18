@@ -7,7 +7,7 @@ import {isObservable, reaction} from 'mobx';
 import DeepDiff, {Diff} from 'deep-diff';
 import isPlainObject from 'lodash/isPlainObject';
 import isNumber from 'lodash/isNumber';
-import type {Schema} from 'amis/lib/types';
+import type {Schema} from 'amis';
 import {SchemaObject} from 'amis/lib/Schema';
 
 const {

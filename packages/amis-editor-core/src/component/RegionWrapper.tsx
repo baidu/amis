@@ -18,6 +18,7 @@ export interface RegionWrapperProps {
   regionConfig: RegionConfig;
   node?: EditorNodeType; // 虚拟dom节点信息
   $$editor?: RendererInfo; // 当前节点信息（info）
+  children?: React.ReactNode;
 }
 
 /**
