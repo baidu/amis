@@ -13,6 +13,7 @@ import ReactionFormSchema from './Form/Reaction';
 import ValidationFormSchema from './Form/Validation';
 import FullFormSchema from './Form/Full';
 import StaticFormSchema from './Form/Static';
+import SwitchFormDisplay from './Form/SwitchDisplay';
 import HintFormSchema from './Form/Hint';
 import FieldSetInTabsFormSchema from './Form/FieldSetInTabs';
 import ComboFormSchema from './Form/Combo';
@@ -85,6 +86,9 @@ import TransferEventSchema from './EventAction/cmpt-event-action/TransferEvent';
 import ServiceEventSchema from './EventAction/cmpt-event-action/ServiceEvent';
 import CarouselEventSchema from './EventAction/cmpt-event-action/CarouselEvent';
 import TableEventSchema from './EventAction/cmpt-event-action/TableEvent';
+import ListEventSchema from './EventAction/cmpt-event-action/ListEvent';
+import ChartEventSchema from './EventAction/cmpt-event-action/ChartEvent';
+import SearchBoxEventSchema from './EventAction/cmpt-event-action/SearchBoxEvent';
 import ReloadFormActionSchema from './EventAction/reload-action/ReloadForm';
 import ReloadSelectActionSchema from './EventAction/reload-action/ReloadSelect';
 import ReloadChartActionSchema from './EventAction/reload-action/ReloadChart';
@@ -119,6 +123,7 @@ import Tab1Schema from './Tabs/Tab1';
 import Tab2Schema from './Tabs/Tab2';
 import Tab3Schema from './Tabs/Tab3';
 import Loading from './Loading';
+import CodeSchema from './Code';
 
 import {Switch} from 'react-router-dom';
 import {navigations2route} from './App';
@@ -172,6 +177,12 @@ export const examples = [
             label: '静态展示',
             path: '/examples/form/static',
             component: makeSchemaRenderer(StaticFormSchema)
+          },
+
+          {
+            label: '输入态、展示态切换',
+            path: '/examples/form/switchDisplay',
+            component: makeSchemaRenderer(SwitchFormDisplay)
           },
 
           {
@@ -713,6 +724,21 @@ export const examples = [
                 label: '表格组件',
                 path: 'examples/event/table',
                 component: makeSchemaRenderer(TableEventSchema)
+              },
+              {
+                label: '列表展示类组件',
+                path: 'examples/event/list',
+                component: makeSchemaRenderer(ListEventSchema)
+              },
+              {
+                label: 'chart组件',
+                path: 'examples/event/chart',
+                component: makeSchemaRenderer(ChartEventSchema)
+              },
+              {
+                label: 'SearchBox组件',
+                path: 'examples/event/searchbox',
+                component: makeSchemaRenderer(SearchBoxEventSchema)
               }
             ]
           },
@@ -756,6 +782,13 @@ export const examples = [
         icon: 'fa fa-glasses',
         path: '/examples/theme',
         component: makeSchemaRenderer(ThemeSchema)
+      },
+
+      {
+        label: '代码高亮',
+        icon: 'fa fa-code',
+        path: '/examples/code',
+        component: makeSchemaRenderer(CodeSchema)
       },
 
       {

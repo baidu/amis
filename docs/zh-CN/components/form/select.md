@@ -912,6 +912,7 @@ leftOptions 动态加载，默认 source 接口是返回 options 部分，而 le
       "selectMode": "associated",
       "leftMode": "tree",
       "source": "/api/mock2/form/departUser",
+      "searchApi": '/api/mock2/form/departUserSearch?term=${term}',
       "deferApi": "/api/mock2/form/departUser?ref=${ref}&dep=${value}"
     }
   ]
@@ -1036,28 +1037,30 @@ leftOptions 动态加载，默认 source 接口是返回 options 部分，而 le
 | overflowTagPopover       | `TooltipObject`                                                                   | `{"placement": "top", "trigger": "hover", "showArrow": false, "offset": [0, -10]}` | 收纳浮层的配置属性，详细配置参考[Tooltip](../tooltip#属性表)                                                                                                                                                 |
 | optionClassName          | `string`                                                                          |                                                                                    | 选项 CSS 类名                                                                                                                                                                                                |
 | popOverContainerSelector | `string`                                                                          |                                                                                    | 弹层挂载位置选择器，会通过`querySelector`获取                                                                                                                                                                |
-| clearable                | `boolean`                                                                         | 是否展示清空图标    ｜                                                             |
+| clearable                | `boolean`                                                                         | 是否展示清空图标 ｜                                                                |
 
 ## 事件表
 
-当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`event.data.xxx`事件参数变量来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`来获取事件产生的数据（`< 2.3.2 及以下版本 为 ${event.data.[事件参数名]}`），详细请查看[事件动作](../../docs/concepts/event-action)。
 
-| 事件名称 | 事件参数                                                                          | 说明                 |
-| -------- | --------------------------------------------------------------------------------- | -------------------- |
-| change   | `event.data.value: string` 选中值                                                 | 选中值变化时触发     |
-| blur     | `event.data.value: string` 选中值                                                 | 输入框失去焦点时触发 |
-| focus    | `event.data.value: string` 选中值                                                 | 输入框获取焦点时触发 |
-| add      | `event.data.options: Option[]` 选项集合<br/>`event.data.value: Option` 新增的选项 | 新增选项提交时触发   |
-| edit     | `event.data.options: Option[]` 选项集合<br/>`event.data.value: Option` 编辑的选项 | 编辑选项提交时触发   |
-| delete   | `event.data.options: Option[]` 选项集合<br/>`event.data.value: Option` 删除的选项 | 删除选项提交时触发   |
+> `[name]`表示当前组件绑定的名称，即`name`属性，如果没有配置`name`属性，则通过`value`取值。
+
+| 事件名称 | 事件参数                                                                                                                                    | 说明                 |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------------------- | -------------------- |
+| change   | `[name]: string` 组件的值<br/>`selectedItems: Option \| Option[]` 选中的项<br/>`items: Option[]` 选项集合（< 2.3.2 及以下版本 为`options`） | 选中值变化时触发     |
+| blur     | `[name]: string` 组件的值<br/>`items: Option[]` 选项集合（< 2.3.2 及以下版本 为`options`）                                                  | 输入框失去焦点时触发 |
+| focus    | `[name]: string` 组件的值<br/>`items: Option[]` 选项集合（< 2.3.2 及以下版本 为`options`）                                                  | 输入框获取焦点时触发 |
+| add      | `[name]: Option` 新增的选项<br/>`items: Option[]` 选项集合（< 2.3.2 及以下版本 为`options`）                                                | 新增选项提交时触发   |
+| edit     | `[name]: Option` 编辑的选项<br/>`items: Option[]` 选项集合（< 2.3.2 及以下版本 为`options`）                                                | 编辑选项提交时触发   |
+| delete   | `[name]: Option` 删除的选项<br/>`items: Option[]` 选项集合（< 2.3.2 及以下版本 为`options`）                                                | 删除选项提交时触发   |
 
 ## 动作表
 
 当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
 
-| 动作名称 | 动作配置                 | 说明                                                    |
-| -------- | ------------------------ | ------------------------------------------------------- |
-| clear    | -                        | 清空                                                    |
-| reset    | -                        | 将值重置为`resetValue`，若没有配置`resetValue`，则清空  |
-| reload   | -                        | 重新加载，调用 `source`，刷新数据域数据刷新（重新加载） |
-| setValue | `value: string` 更新的值 | 更新数据，开启`multiple`，多值用`,`分隔                 |
+| 动作名称 | 动作配置                               | 说明                                                                                    |
+| -------- | -------------------------------------- | --------------------------------------------------------------------------------------- |
+| clear    | -                                      | 清空                                                                                    |
+| reset    | -                                      | 将值重置为`resetValue`，若没有配置`resetValue`，则清空                                  |
+| reload   | -                                      | 重新加载，调用 `source`，刷新数据域数据刷新（重新加载）                                 |
+| setValue | `value: string` \| `string[]` 更新的值 | 更新数据，开启`multiple`支持设置多项，开启`joinValues`时，多值用`,`分隔，否则多值用数组 |

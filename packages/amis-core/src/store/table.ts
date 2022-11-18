@@ -7,7 +7,11 @@ import {
   Instance
 } from 'mobx-state-tree';
 import {iRendererStore} from './iRenderer';
-import {resolveVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
+import {
+  resolveVariable,
+  resolveVariableAndFilter,
+  isPureVariable
+} from '../utils/tpl-builtin';
 import isEqual from 'lodash/isEqual';
 import find from 'lodash/find';
 import sortBy from 'lodash/sortBy';
@@ -198,6 +202,40 @@ export const Row = types
       return table && table.itemDraggableOn
         ? evalExpression(table.itemDraggableOn, (self as IRow).locals)
         : true;
+    },
+
+    /**
+     * 判断当前行点击后是否应该继续触发check
+     * 用于限制checkOnItemClick触发的check事件
+     */
+    get isCheckAvaiableOnClick(): boolean {
+      const table = getParent(self, self.depth * 2) as ITableStore;
+      const keepItemSelectionOnPageChange =
+        table?.keepItemSelectionOnPageChange;
+      const selectionUpperLimit = table?.maxKeepItemSelectionLength;
+
+      // 如果未做配置，或者配置不合法直接通过检查
+      if (
+        !keepItemSelectionOnPageChange ||
+        !Number.isInteger(selectionUpperLimit)
+      ) {
+        return true;
+      }
+
+      // 使用内置ID，不会重复
+      const selectedIds = (table?.selectedRows ?? []).map(
+        (item: IRow) => item.id
+      );
+      // 此时syncSelected还没有触发，所以需要比较点击之后的数量
+      const selectedCount = selectedIds.includes(self.id)
+        ? selectedIds.length - 1
+        : selectedIds.length + 1;
+
+      if (selectedCount > selectionUpperLimit) {
+        return false;
+      }
+
+      return true;
     }
   }))
   .actions(self => ({
@@ -335,16 +373,8 @@ export const TableStore = iRendererStore
             item.pristine,
             hasVisibleExpression(item.pristine) ? self.data : {}
           ) &&
-          (item.type === '__checkme'
-            ? self.selectable &&
-              !self.dragging &&
-              !self.hideCheckToggler &&
-              self.rows.length
-            : item.type === '__dragme'
-            ? self.dragging
-            : item.type === '__expandme'
-            ? (getFootableColumns().length || self.isNested) && !self.dragging
-            : item.toggled || !item.toggable)
+          (item.toggled || !item.toggable) &&
+          !/^__/.test(item.type)
         );
       });
     }
@@ -685,7 +715,8 @@ export const TableStore = iRendererStore
         return getHovedRow();
       },
 
-      get disabledHeadCheckbox() {
+      /** 已选择item是否达到数量上限 */
+      get isSelectionThresholdReached() {
         const selectedLength = self.data?.selectedItems?.length;
         const maxLength = self.maxKeepItemSelectionLength;
 
@@ -693,7 +724,7 @@ export const TableStore = iRendererStore
           return false;
         }
 
-        return maxLength === selectedLength;
+        return maxLength <= selectedLength;
       },
 
       get firstToggledColumnIndex() {
@@ -831,7 +862,11 @@ export const TableStore = iRendererStore
           toggled: item.toggled !== false,
           breakpoint: item.breakpoint,
           isPrimary: index === PARTITION_INDEX,
-          className: item.className || ''
+          className: item.className || '',
+          /** 提前映射变量，方便后续view中使用 */
+          label: isPureVariable(item.label)
+            ? resolveVariableAndFilter(item.label, self.data)
+            : item.label
         }));
 
         self.columns.replace(columns as any);
@@ -876,7 +911,11 @@ export const TableStore = iRendererStore
           pristine: item.pristine || item,
           toggled: item.toggled !== false,
           breakpoint: item.breakpoint,
-          isPrimary: index === PARTITION_INDEX
+          isPrimary: index === PARTITION_INDEX,
+          /** 提前映射变量，方便后续view中使用 */
+          label: isPureVariable(item.label)
+            ? resolveVariableAndFilter(item.label, self.data)
+            : item.label
         }));
 
         self.columns.replace(columns as any);

@@ -58,11 +58,6 @@ const themes = [
     label: 'ang',
     ns: 'a-',
     value: 'ang'
-  },
-  {
-    label: 'Dark',
-    ns: 'dark-',
-    value: 'dark'
   }
 ];
 

@@ -555,7 +555,7 @@ export class CustomTimeView extends React.Component<
     const offset = (value - min) / step;
     const height = 28; /** 单个选项的高度 */
 
-    elf?.parentNode?.scrollTo({
+    elf?.parentNode?.scrollTo?.({
       top: offset * height,
       behavior: label === 'init' ? 'auto' : 'smooth'
     });
@@ -727,7 +727,7 @@ export class CustomTimeView extends React.Component<
           <div className={cx('TimeFooterWrapper')}>
             <div className={cx('QuickWrapper')}>{quickLists}</div>
             <a
-              className={cx('Button', 'Button--primary', 'Button--sm')}
+              className={cx('Button', 'Button--primary', 'Button--size-sm')}
               onClick={this.confirm}
             >
               {__('confirm')}

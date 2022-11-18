@@ -3,7 +3,7 @@ const changeEvent = {
     {
       actionType: 'dialog',
       args: {
-        val: '${event.data.value}'
+        val: '${file}'
       },
       dialog: {
         title: `派发change事件`,

@@ -552,7 +552,7 @@ exports[`Renderer:checkboxes with checkall: all selected 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -788,7 +788,7 @@ exports[`Renderer:checkboxes with checkall: default value 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -1024,7 +1024,7 @@ exports[`Renderer:checkboxes with checkall: no selected 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -1215,7 +1215,7 @@ exports[`Renderer:checkboxes with columnsCount 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -1410,7 +1410,7 @@ exports[`Renderer:checkboxes with columnsCount 2`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -1666,7 +1666,7 @@ exports[`Renderer:checkboxes with columnsCount 3`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -1855,7 +1855,7 @@ exports[`Renderer:checkboxes with creatable & createBtnLabel & addControls & add
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -2035,7 +2035,7 @@ exports[`Renderer:checkboxes with creatable & createBtnLabel & addControls & add
           class="cxd-Panel-btnToolbar cxd-Panel-footer"
         >
           <button
-            class="cxd-Button cxd-Button--primary"
+            class="cxd-Button cxd-Button--primary cxd-Button--size-default"
             type="submit"
           >
             <span>
@@ -2239,7 +2239,7 @@ exports[`Renderer:checkboxes with creatable & createBtnLabel & addControls & add
         class="cxd-Modal-footer"
       >
         <button
-          class="cxd-Button cxd-Button--default"
+          class="cxd-Button cxd-Button--default cxd-Button--size-default"
           type="button"
         >
           <span>
@@ -2247,7 +2247,7 @@ exports[`Renderer:checkboxes with creatable & createBtnLabel & addControls & add
           </span>
         </button>
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="button"
         >
           <span>
@@ -2450,7 +2450,7 @@ exports[`Renderer:checkboxes with defaultCheckAll & inline 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -2657,7 +2657,7 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: dialog open
           class="cxd-Panel-btnToolbar cxd-Panel-footer"
         >
           <button
-            class="cxd-Button cxd-Button--primary"
+            class="cxd-Button cxd-Button--primary cxd-Button--size-default"
             type="submit"
           >
             <span>
@@ -2831,7 +2831,7 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: dialog open
         class="cxd-Modal-footer"
       >
         <button
-          class="cxd-Button cxd-Button--default"
+          class="cxd-Button cxd-Button--default cxd-Button--size-default"
           type="button"
         >
           <span>
@@ -2839,7 +2839,7 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: dialog open
           </span>
         </button>
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="button"
         >
           <span>
@@ -3003,7 +3003,7 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: edit succes
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -3206,7 +3206,7 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: hover edit 
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -3430,7 +3430,7 @@ exports[`Renderer:checkboxes with group 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -3637,7 +3637,7 @@ exports[`Renderer:checkboxes with menuTpl 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -3809,7 +3809,7 @@ exports[`Renderer:checkboxes with optionType & labelClassName & itemClassName 1`
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -4016,7 +4016,7 @@ exports[`Renderer:checkboxes with removable & deleteApi: dialog open 1`] = `
           class="cxd-Panel-btnToolbar cxd-Panel-footer"
         >
           <button
-            class="cxd-Button cxd-Button--primary"
+            class="cxd-Button cxd-Button--primary cxd-Button--size-default"
             type="submit"
           >
             <span>
@@ -4099,13 +4099,13 @@ exports[`Renderer:checkboxes with removable & deleteApi: dialog open 1`] = `
         class="cxd-Modal-footer"
       >
         <button
-          class="cxd-Button cxd-Button--default"
+          class="cxd-Button cxd-Button--default cxd-Button--size-default"
           type="button"
         >
           取消
         </button>
         <button
-          class="cxd-Button cxd-Button--danger"
+          class="cxd-Button cxd-Button--danger cxd-Button--size-default"
           type="button"
         >
           确认
@@ -4267,7 +4267,7 @@ exports[`Renderer:checkboxes with removable & deleteApi: hover edit 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>

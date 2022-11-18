@@ -80,6 +80,18 @@ order: 9
 }
 ```
 
+### 运行日志
+
+可以在浏览器控制台查看运行日志，类似如下
+
+```
+run action ajax
+  [ajax] action args, data {api: {…}, messages: {…}}
+  [ajax] action end event {context: {…}, type: 'click', prevented: false, stoped: false, preventDefault: ƒ, …}
+```
+
+代表运行了 ajax 动作，第二行是传递的参数和数据，第三行是执行完动作之后的 `event` 值，可以用做后续动作的参数。
+
 ## 事件与动作
 
 事件包含`渲染器事件`和`广播事件`，监听这些事件时，可以通过`event.data`来获取事件对象的数据。
@@ -95,12 +107,7 @@ order: 9
 
 ### 发送 http 请求
 
-通过配置`actionType: 'ajax'`和`api`实现 http 请求发送，该动作需实现 `env.fetcher` 请求器。
-
-- 请求结果缓存在`event.data.responseResult`或`event.data.{{outputVar}}`。
-- 请求结果的状态、数据、消息分别默认缓存在：`event.data.{{outputVar}}.responseStatus`、`event.data.{{outputVar}}.responseData`、`event.data.{{outputVar}}.responseMsg`。
-
-< 2.0.3 及以下版本，请求返回数据默认缓存在 `event.data`。`outputVar` 配置用于解决串行或者并行发送多个 http 请求的场景。
+通过配置`actionType: 'ajax'`实现 http 请求发送，该动作需实现 `env.fetcher` 请求器。
 
 ```schema
 {
@@ -128,7 +135,9 @@ order: 9
                 messages: {
                   success: '成功了！欧耶',
                   failed: '失败了呢。。'
-                },
+                }
+              },
+              data: {
                 age: 18
               }
             },
@@ -136,7 +145,7 @@ order: 9
               actionType: 'toast',
               expression: '${event.data.responseResult.responseStatus === 0}',
               args: {
-                msg: '${event.data|json}'
+                msg: '${event.data.responseResult|json}'
               }
             }
           ]
@@ -157,24 +166,26 @@ order: 9
               actionType: 'ajax',
               args: {
                 api: {
-                  url: 'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/initData?name=${name}',
-                  method: 'get'
+                  url: 'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/initData',
+                  method: 'post'
                 },
                 messages: {
                   success: '成功了！欧耶',
                   failed: '失败了呢。。'
                 },
-                age: 18,
                 options: {
                   silent: true
                 }
+              },
+              data: {
+                age: 18
               }
             },
             {
               actionType: 'toast',
               expression: '${event.data.responseResult.responseStatus === 0}',
               args: {
-                msg: '${event.data|json}'
+                msg: '${event.data.responseResult|json}'
               }
             }
           ]
@@ -185,18 +196,40 @@ order: 9
 }
 ```
 
-**动作属性**
+**动作属性（args）**
 
-| 属性名        | 类型                                | 默认值 | 说明                                                        |
-| ------------- | ----------------------------------- | ------ | ----------------------------------------------------------- |
-| actionType    | `string`                            | `ajax` | ajax 请求                                                   |
-| args.api      | [API](../../../docs/types/api)      | -      | 接口配置，`< 1.8.0 及以下版本 为 api`                       |
-| args.options  | `object`                            | -      | 其他配置，`< 1.8.0 及以下版本 为 options`                   |
-| args.messages | `{success: string, failed: string}` | -      | 请求成功/失败后的提示信息，`< 1.8.0 及以下版本 为 messages` |
+> `< 1.8.0 及以下版本`，以下属性与 args 同级。
+
+| 属性名   | 类型                                | 默认值 | 说明                      |
+| -------- | ----------------------------------- | ------ | ------------------------- |
+| api      | [API](../../../docs/types/api)      | -      | 接口配置                  |
+| options  | `object`                            | -      | 其他配置                  |
+| messages | `{success: string, failed: string}` | -      | 请求成功/失败后的提示信息 |
+
+**其他属性**
+
+| 属性名    | 类型     | 默认值 | 说明                                                                          |
+| --------- | -------- | ------ | ----------------------------------------------------------------------------- |
+| outputVar | `string` | -      | 请求响应结果缓存在`${event.data.responseResult}`或`${event.data.{outputVar}}` |
+
+请求响应结果的结构如下：
+
+```json
+{
+  // 状态码
+  "responseStatus": 0,
+  // 响应数据
+  "responseData": {
+    "xxx": "xxx"
+  },
+  // 响应消息
+  "responseMsg": "ok"
+}
+```
 
 ### 打开弹窗（模态）
 
-通过配置`actionType: 'dialog'`和`dialog`实现 Dialog 弹窗。
+通过配置`actionType: 'dialog'`实现 Dialog 弹窗。
 
 ```schema
 {
@@ -212,55 +245,57 @@ order: 9
           actions: [
             {
               actionType: 'dialog',
-              dialog: {
-                type: 'dialog',
-                title: '模态弹窗',
-                id: 'dialog_001',
-                data: {
-                   myage: '22'
-                },
-                body: [
-                  {
-                    type: 'tpl',
-                    tpl: '<p>对，你打开了模态弹窗</p>',
-                    inline: false
+              args: {
+                dialog: {
+                  type: 'dialog',
+                  title: '模态弹窗',
+                  id: 'dialog_001',
+                  data: {
+                    myage: '22'
                   },
-                  {
-                    type: 'input-text',
-                    name: 'myname',
-                    mode: 'horizontal',
-                    onEvent: {
-                      change: {
-                        actions: [
-                          {
-                            actionType: 'confirm',
-                            componentId: 'dialog_001'
-                          }
-                        ]
+                  body: [
+                    {
+                      type: 'tpl',
+                      tpl: '<p>对，你打开了模态弹窗</p>',
+                      inline: false
+                    },
+                    {
+                      type: 'input-text',
+                      name: 'myname',
+                      mode: 'horizontal',
+                      onEvent: {
+                        change: {
+                          actions: [
+                            {
+                              actionType: 'confirm',
+                              componentId: 'dialog_001'
+                            }
+                          ]
+                        }
                       }
                     }
-                  }
-                ],
-                onEvent: {
-                  confirm: {
-                    actions: [
-                      {
-                        actionType: 'toast',
-                        args: {
-                          msg: 'confirm'
+                  ],
+                  onEvent: {
+                    confirm: {
+                      actions: [
+                        {
+                          actionType: 'toast',
+                          args: {
+                            msg: 'confirm'
+                          }
                         }
-                      }
-                    ]
-                  },
-                  cancel: {
-                    actions: [
-                      {
-                        actionType: 'toast',
-                        args: {
-                          msg: 'cancel'
+                      ]
+                    },
+                    cancel: {
+                      actions: [
+                        {
+                          actionType: 'toast',
+                          args: {
+                            msg: 'cancel'
+                          }
                         }
-                      }
-                    ]
+                      ]
+                    }
                   }
                 }
               }
@@ -273,12 +308,13 @@ order: 9
 }
 ```
 
-**动作属性**
+**动作属性（args）**
 
-| 属性名     | 类型                    | 默认值   | 说明                                       |
-| ---------- | ----------------------- | -------- | ------------------------------------------ |
-| actionType | `string`                | `dialog` | 点击后显示一个弹出框                       |
-| dialog     | `string`/`DialogObject` | -        | 指定弹框内容，格式可参考[Dialog](../../components/dialog) |
+> `< 2.3.2 及以下版本`，以下属性与 args 同级。
+
+| 属性名 | 类型                    | 默认值 | 说明                                                      |
+| ------ | ----------------------- | ------ | --------------------------------------------------------- |
+| dialog | `string`/`DialogObject` | -      | 指定弹框内容，格式可参考[Dialog](../../components/dialog) |
 
 ### 关闭弹窗（模态）
 
@@ -298,59 +334,63 @@ order: 9
           actions: [
             {
               actionType: 'dialog',
-              dialog: {
-                type: 'dialog',
-                id: 'dialog_002',
-                title: '模态弹窗',
-                body: [
-                  {
-                    type: 'button',
-                    label: '打开子弹窗，然后关闭它的父亲',
-                    onEvent: {
-                      click: {
-                        actions: [
-                          {
-                            actionType: 'dialog',
-                            dialog: {
-                              type: 'dialog',
-                              title: '模态子弹窗',
-                              body: [
-                                {
-                                  type: 'button',
-                                  label: '关闭指定弹窗（关闭父弹窗）',
-                                  onEvent: {
-                                    click: {
-                                      actions: [
-                                        {
-                                          actionType: 'closeDialog',
-                                          componentId: 'dialog_002'
+              args: {
+                dialog: {
+                  type: 'dialog',
+                  id: 'dialog_002',
+                  title: '模态弹窗',
+                  body: [
+                    {
+                      type: 'button',
+                      label: '打开子弹窗，然后关闭它的父亲',
+                      onEvent: {
+                        click: {
+                          actions: [
+                            {
+                              actionType: 'dialog',
+                              args: {
+                                dialog: {
+                                  type: 'dialog',
+                                  title: '模态子弹窗',
+                                  body: [
+                                    {
+                                      type: 'button',
+                                      label: '关闭指定弹窗（关闭父弹窗）',
+                                      onEvent: {
+                                        click: {
+                                          actions: [
+                                            {
+                                              actionType: 'closeDialog',
+                                              componentId: 'dialog_002'
+                                            }
+                                          ]
                                         }
-                                      ]
+                                      }
                                     }
-                                  }
+                                  ]
                                 }
-                              ]
+                              }
                             }
-                          }
-                        ]
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      type: 'button',
+                      label: '关闭当前弹窗',
+                      className: 'ml-2',
+                      onEvent: {
+                        click: {
+                          actions: [
+                            {
+                              actionType: 'closeDialog'
+                            }
+                          ]
+                        }
                       }
                     }
-                  },
-                  {
-                    type: 'button',
-                    label: '关闭当前弹窗',
-                    className: 'ml-2',
-                    onEvent: {
-                      click: {
-                        actions: [
-                          {
-                            actionType: 'closeDialog'
-                          }
-                        ]
-                      }
-                    }
-                  }
-                ]
+                  ]
+                }
               }
             }
           ]
@@ -361,16 +401,15 @@ order: 9
 }
 ```
 
-**动作属性**
+**其他属性**
 
-| 属性名      | 类型     | 默认值        | 说明            |
-| ----------- | -------- | ------------- | --------------- |
-| actionType  | `string` | `closeDialog` | 关闭弹窗        |
-| componentId | `string` | -             | 指定弹框组件 id |
+| 属性名      | 类型     | 默认值 | 说明            |
+| ----------- | -------- | ------ | --------------- |
+| componentId | `string` | -      | 指定弹框组件 id |
 
 ### 打开抽屉（模态）
 
-通过配置`actionType: 'drawer'`和`drawer`实现 Drawer 抽屉打开。
+通过配置`actionType: 'drawer'`实现 Drawer 抽屉打开。
 
 ```schema
 {
@@ -386,36 +425,38 @@ order: 9
           actions: [
             {
               actionType: 'drawer',
-              drawer: {
-                type: 'drawer',
-                title: '模态抽屉',
-                body: [
-                  {
-                    type: 'tpl',
-                    tpl: '<p>对，你打开了模态抽屉</p>',
-                    inline: false
-                  }
-                ],
-                onEvent: {
-                  confirm: {
-                    actions: [
-                      {
-                        actionType: 'toast',
-                        args: {
-                          msg: 'confirm'
+              args: {
+                drawer: {
+                  type: 'drawer',
+                  title: '模态抽屉',
+                  body: [
+                    {
+                      type: 'tpl',
+                      tpl: '<p>对，你打开了模态抽屉</p>',
+                      inline: false
+                    }
+                  ],
+                  onEvent: {
+                    confirm: {
+                      actions: [
+                        {
+                          actionType: 'toast',
+                          args: {
+                            msg: 'confirm'
+                          }
                         }
-                      }
-                    ]
-                  },
-                  cancel: {
-                    actions: [
-                      {
-                        actionType: 'toast',
-                        args: {
-                          msg: 'cancel'
+                      ]
+                    },
+                    cancel: {
+                      actions: [
+                        {
+                          actionType: 'toast',
+                          args: {
+                            msg: 'cancel'
+                          }
                         }
-                      }
-                    ]
+                      ]
+                    }
                   }
                 }
               }
@@ -428,12 +469,13 @@ order: 9
 }
 ```
 
-**动作属性**
+**动作属性（args）**
 
-| 属性名     | 类型                    | 默认值   | 说明                                       |
-| ---------- | ----------------------- | -------- | ------------------------------------------ |
-| actionType | `string`                | `drawer` | 点击后显示一个侧边栏                       |
-| drawer     | `string`/`DrawerObject` | -        | 指定弹框内容，格式可参考[Drawer](../../components/drawer) |
+> `< 2.3.2 及以下版本`，以下属性与 args 同级。
+
+| 属性名 | 类型                    | 默认值 | 说明                                                      |
+| ------ | ----------------------- | ------ | --------------------------------------------------------- |
+| drawer | `string`/`DrawerObject` | -      | 指定弹框内容，格式可参考[Drawer](../../components/drawer) |
 
 ### 关闭抽屉（模态）
 
@@ -452,59 +494,63 @@ order: 9
           actions: [
             {
               actionType: 'drawer',
-              drawer: {
-                type: 'drawer',
-                id: 'drawer_1',
-                title: '模态抽屉',
-                body: [
-                  {
-                    type: 'button',
-                    label: '打开子抽屉，然后关闭它的父亲',
-                    onEvent: {
-                      click: {
-                        actions: [
-                          {
-                            actionType: 'drawer',
-                            drawer: {
-                              type: 'drawer',
-                              title: '模态子抽屉',
-                              body: [
-                                {
-                                  type: 'button',
-                                  label: '关闭指定抽屉(关闭父抽屉)',
-                                  onEvent: {
-                                    click: {
-                                      actions: [
-                                        {
-                                          actionType: 'closeDrawer',
-                                          componentId: 'drawer_1'
+              args: {
+                drawer: {
+                  type: 'drawer',
+                  id: 'drawer_1',
+                  title: '模态抽屉',
+                  body: [
+                    {
+                      type: 'button',
+                      label: '打开子抽屉，然后关闭它的父亲',
+                      onEvent: {
+                        click: {
+                          actions: [
+                            {
+                              actionType: 'drawer',
+                              args: {
+                                drawer: {
+                                  type: 'drawer',
+                                  title: '模态子抽屉',
+                                  body: [
+                                    {
+                                      type: 'button',
+                                      label: '关闭指定抽屉(关闭父抽屉)',
+                                      onEvent: {
+                                        click: {
+                                          actions: [
+                                            {
+                                              actionType: 'closeDrawer',
+                                              componentId: 'drawer_1'
+                                            }
+                                          ]
                                         }
-                                      ]
+                                      }
                                     }
-                                  }
+                                  ]
                                 }
-                              ]
+                              }
                             }
-                          }
-                        ]
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      type: 'button',
+                      label: '关闭当前抽屉',
+                      className: 'ml-2',
+                      onEvent: {
+                        click: {
+                          actions: [
+                            {
+                              actionType: 'closeDrawer'
+                            }
+                          ]
+                        }
                       }
                     }
-                  },
-                  {
-                    type: 'button',
-                    label: '关闭当前抽屉',
-                    className: 'ml-2',
-                    onEvent: {
-                      click: {
-                        actions: [
-                          {
-                            actionType: 'closeDrawer'
-                          }
-                        ]
-                      }
-                    }
-                  }
-                ]
+                  ]
+                }
               }
             }
           ]
@@ -515,12 +561,11 @@ order: 9
 }
 ```
 
-**动作属性**
+**其他属性**
 
-| 属性名      | 类型     | 默认值        | 说明            |
-| ----------- | -------- | ------------- | --------------- |
-| actionType  | `string` | `closeDrawer` | 关闭抽屉        |
-| componentId | `string` | -             | 指定抽屉组件 id |
+| 属性名      | 类型     | 默认值 | 说明            |
+| ----------- | -------- | ------ | --------------- |
+| componentId | `string` | -      | 指定抽屉组件 id |
 
 ### 打开对话框
 
@@ -545,6 +590,7 @@ order: 9
             {
               actionType: 'alert',
               args: {
+                title: '提示',
                 msg: '<a href="http://www.baidu.com" target="_blank">${msg}~</a>'
               }
             }
@@ -556,12 +602,14 @@ order: 9
 }
 ```
 
-**动作属性**
+**动作属性（args）**
 
-| 属性名     | 类型     | 默认值  | 说明                                        |
-| ---------- | -------- | ------- | ------------------------------------------- |
-| actionType | `string` | `alert` | 打开提示对话框                              |
-| args.msg   | `string` | -       | 对话框提示内容，`< 1.8.0 及以下版本 为 msg` |
+> `< 1.8.0 及以下版本`，以下属性与 args 同级。
+
+| 属性名 | 类型     | 默认值   | 说明           |
+| ------ | -------- | -------- | -------------- |
+| title  | `string` | 系统提示 | 对话框标题     |
+| msg    | `string` | -        | 对话框提示内容 |
 
 #### 确认对话框
 
@@ -595,19 +643,20 @@ order: 9
 }
 ```
 
-**动作属性**
+**动作属性（args）**
 
-| 属性名     | 类型     | 默认值          | 说明                                        |
-| ---------- | -------- | --------------- | ------------------------------------------- |
-| actionType | `string` | `confirmDialog` | 打开确认对话框                              |
-| args.title | `string` | -               | 对话框标题，`< 1.8.0 及以下版本 为 title`   |
-| args.msg   | `string` | -               | 对话框提示内容，`< 1.8.0 及以下版本 为 msg` |
+> `< 1.8.0 及以下版本`，以下属性与 args 同级。
+
+| 属性名 | 类型     | 默认值 | 说明           |
+| ------ | -------- | ------ | -------------- |
+| title  | `string` | -      | 对话框标题     |
+| msg    | `string` | -      | 对话框提示内容 |
 
 ### 跳转链接
 
 通过配置`actionType: 'url'`或`actionType: 'link'`实现链接跳转，该动作需实现 env.jumpTo(to: string, action?: any) => void 方法。
 
-**打开页面链接**
+#### 打开页面
 
 ```schema
 {
@@ -646,16 +695,17 @@ order: 9
 }
 ```
 
-**动作属性**
+**动作属性（args）**
 
-| 属性名      | 类型      | 默认值  | 说明                                                                        |
-| ----------- | --------- | ------- | --------------------------------------------------------------------------- |
-| actionType  | `string`  | `url`   | 页面跳转                                                                    |
-| args.url    | `string`  | -       | 按钮点击后，会打开指定页面。可用 `${xxx}` 取值，`< 1.8.0 及以下版本 为 url` |
-| args.blank  | `boolean` | `false` | 如果为 `true` 将在新 tab 页面打开，`< 1.8.0 及以下版本 为 blank`            |
-| args.params | `object`  | -       | 页面参数`{key:value}`，支持数据映射，`> 1.10.0 及以上版本`                  |
+> `< 1.8.0 及以下版本`，以下属性与 args 同级。
 
-**打开单页链接**
+| 属性名 | 类型      | 默认值  | 说明                                                       |
+| ------ | --------- | ------- | ---------------------------------------------------------- |
+| url    | `string`  | -       | 按钮点击后，会打开指定页面。可用 `${xxx}` 取值             |
+| blank  | `boolean` | `false` | 如果为 `true` 将在新 tab 页面打开                          |
+| params | `object`  | -       | 页面参数`{key:value}`，支持数据映射，`> 1.10.0 及以上版本` |
+
+#### 打开单页
 
 ```schema
 {
@@ -683,12 +733,14 @@ order: 9
 }
 ```
 
-**动作属性**
-| 属性名 | 类型 | 默认值 | 说明 |
-| ---------- | -------- | ------ | ------------------------------------------------------------------------------------------------------------------- |
-| actionType | `string` | `link` | 单页跳转 |
-| args.link | `string` | `link` | 用来指定跳转地址，跟 url 不同的是，这是单页跳转方式，不会渲染浏览器，请指定 amis 平台内的页面。可用 `${xxx}` 取值，`< 1.8.0 及以下版本 为 link` |
-| args.params | `object` | - | 页面参数`{key:value}`，支持数据映射，`> 1.9.0 及以上版本` |
+**动作属性（args）**
+
+> `< 1.8.0 及以下版本`，以下属性与 args 同级。
+
+| 属性名 | 类型     | 默认值 | 说明                                                                                                              |
+| ------ | -------- | ------ | ----------------------------------------------------------------------------------------------------------------- |
+| link   | `string` | `link` | 用来指定跳转地址，跟 url 不同的是，这是单页跳转方式，不会渲染浏览器，请指定 amis 平台内的页面。可用 `${xxx}` 取值 |
+| params | `object` | -      | 页面参数`{key:value}`，支持数据映射，`> 1.9.0 及以上版本`                                                         |
 
 ### 浏览器回退
 
@@ -718,12 +770,6 @@ order: 9
   ]
 }
 ```
-
-**动作属性**
-
-| 属性名     | 类型     | 默认值   | 说明         |
-| ---------- | -------- | -------- | ------------ |
-| actionType | `string` | `goBack` | 返回上个页面 |
 
 ### 前进/后退到指定页面
 
@@ -757,12 +803,13 @@ order: 9
 }
 ```
 
-**动作属性**
+**动作属性（args）**
 
-| 属性名     | 类型     | 默认值   | 说明                                |
-| ---------- | -------- | -------- | ----------------------------------- |
-| actionType | `string` | `goPage` | 前进/后退到页面                     |
-| args.delta | `string` | `0`      | 位置，`< 1.8.0 及以下版本 为 delta` |
+> `< 1.8.0 及以下版本`，以下属性与 args 同级。
+
+| 属性名 | 类型     | 默认值 | 说明 |
+| ------ | -------- | ------ | ---- |
+| delta  | `string` | `0`    | 位置 |
 
 ### 浏览器刷新
 
@@ -793,15 +840,9 @@ order: 9
 }
 ```
 
-**动作属性**
-
-| 属性名     | 类型     | 默认值    | 说明         |
-| ---------- | -------- | --------- | ------------ |
-| actionType | `string` | `refresh` | 返回上个页面 |
-
 ### toast 提示
 
-通过配置`actionType: 'toast'`和`msg`实现弹出 toast 提示，该动作需实现 env.notify(type: ToastLevel, msg: string, conf?: ToastConf) => void 方法。
+通过配置`actionType: 'toast'`实现弹出 toast 提示，该动作需实现 env.notify(type: ToastLevel, msg: string, conf?: ToastConf) => void 方法。
 
 ```schema
 {
@@ -1035,17 +1076,18 @@ order: 9
 }
 ```
 
-**动作属性**
+**动作属性（args）**
 
-| 属性名           | 类型      | 默认值                                  | 说明                                                                                                                               |
-| ---------------- | --------- | --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| actionType       | `string`  | `"toast"`                               | 指定 toast 动作                                                                                                                    |
-| args.msgType     | `string`  | `"info"`                                | 消息类型 `info\|success\|error\|warning`，`< 1.8.0 及以下版本 为 msgType`                                                          |
-| args.msg         | `string`  | -                                       | 消息内容，`< 1.8.0 及以下版本 为 msg`                                                                                              |
-| args.position    | `string`  | `top-center（移动端为center）`          | 提示显示位置 `top-right\|top-center\|top-left\|bottom-center\|bottom-left\|bottom-right\|center`，`< 1.8.0 及以下版本 为 position` |
-| args.closeButton | `boolean` | `false`                                 | 是否展示关闭按钮，`< 1.8.0 及以下版本 为 closeButton`                                                                              |
-| args.showIcon    | `boolean` | `true`                                  | 是否展示图标，`< 1.8.0 及以下版本 为 showIcon`                                                                                     |
-| args.timeout     | `number`  | `5000（error类型为6000，移动端为3000）` | 持续时间，`< 1.8.0 及以下版本 为 timeout`                                                                                          |
+> `< 1.8.0 及以下版本`，以下属性与 args 同级。
+
+| 属性名      | 类型      | 默认值                                  | 说明                                                                                             |
+| ----------- | --------- | --------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| msgType     | `string`  | `"info"`                                | 消息类型 `info\|success\|error\|warning`                                                         |
+| msg         | `string`  | -                                       | 消息内容                                                                                         |
+| position    | `string`  | `top-center（移动端为center）`          | 提示显示位置 `top-right\|top-center\|top-left\|bottom-center\|bottom-left\|bottom-right\|center` |
+| closeButton | `boolean` | `false`                                 | 是否展示关闭按钮                                                                                 |
+| showIcon    | `boolean` | `true`                                  | 是否展示图标                                                                                     |
+| timeout     | `number`  | `5000（error类型为6000，移动端为3000）` | 持续时间                                                                                         |
 
 ### 复制
 
@@ -1095,13 +1137,14 @@ order: 9
 }
 ```
 
-**动作属性**
+**动作属性（args）**
 
-| 属性名          | 类型                                 | 默认值      | 说明                                                                |
-| --------------- | ------------------------------------ | ----------- | ------------------------------------------------------------------- |
-| actionType      | `string`                             | `copy`      | 复制一段内容到粘贴板                                                |
-| args.copyFormat | `string`                             | `text/html` | 复制格式，`< 1.8.0 及以下版本 为 copyFormat`                        |
-| args.content    | [模板](../../docs/concepts/template) | -           | 指定复制的内容。可用 `${xxx}` 取值，`< 1.8.0 及以下版本 为 content` |
+> `< 1.8.0 及以下版本`，以下属性与 args 同级。
+
+| 属性名     | 类型                                 | 默认值      | 说明                               |
+| ---------- | ------------------------------------ | ----------- | ---------------------------------- |
+| copyFormat | `string`                             | `text/html` | 复制格式                           |
+| content    | [模板](../../docs/concepts/template) | -           | 指定复制的内容。可用 `${xxx}` 取值 |
 
 ### 发送邮件
 
@@ -1135,16 +1178,17 @@ order: 9
 }
 ```
 
-**动作属性**
+**动作属性（args）**
 
-| 属性名       | 类型     | 默认值  | 说明                                                        |
-| ------------ | -------- | ------- | ----------------------------------------------------------- |
-| actionType   | `string` | `email` | 点击后显示一个弹出框                                        |
-| args.to      | `string` | -       | 收件人邮箱，可用 ${xxx} 取值，`< 1.8.0 及以下版本 为 to`    |
-| args.cc      | `string` | -       | 抄送邮箱，可用 ${xxx} 取值，`< 1.8.0 及以下版本 为 cc`      |
-| args.bcc     | `string` | -       | 匿名抄送邮箱，可用 ${xxx} 取值，`< 1.8.0 及以下版本 为 bcc` |
-| args.subject | `string` | -       | 邮件主题，可用 ${xxx} 取值，`< 1.8.0 及以下版本 为 subject` |
-| args.body    | `string` | -       | 邮件正文，可用 ${xxx} 取值，`< 1.8.0 及以下版本 为 body`    |
+> `< 1.8.0 及以下版本`，以下属性与 args 同级。
+
+| 属性名  | 类型     | 默认值 | 说明                           |
+| ------- | -------- | ------ | ------------------------------ |
+| to      | `string` | -      | 收件人邮箱，可用 ${xxx} 取值   |
+| cc      | `string` | -      | 抄送邮箱，可用 ${xxx} 取值     |
+| bcc     | `string` | -      | 匿名抄送邮箱，可用 ${xxx} 取值 |
+| subject | `string` | -      | 邮件主题，可用 ${xxx} 取值     |
+| body    | `string` | -      | 邮件正文，可用 ${xxx} 取值     |
 
 ### 刷新
 
@@ -1192,10 +1236,15 @@ order: 9
 
 **动作属性**
 
-| 属性名      | 类型     | 默认值   | 说明                  |
-| ----------- | -------- | -------- | --------------------- |
-| actionType  | `string` | `reload` | 刷新组件              |
-| componentId | `string` | -        | 指定刷新的目标组件 id |
+| 属性名    | 类型      | 默认值 | 说明                                                               |
+| --------- | --------- | ------ | ------------------------------------------------------------------ |
+| resetPage | `boolean` | true   | 当目标组件为 `crud` 时，可以控制是否重置页码，`> 2.3.2 及以上版本` |
+
+**其他属性**
+
+| 属性名      | 类型     | 默认值 | 说明                  |
+| ----------- | -------- | ------ | --------------------- |
+| componentId | `string` | -      | 指定刷新的目标组件 id |
 
 ### 显示与隐藏
 
@@ -1250,12 +1299,11 @@ order: 9
 }
 ```
 
-**动作属性**
+**其他属性**
 
-| 属性名      | 类型     | 默认值             | 说明                        |
-| ----------- | -------- | ------------------ | --------------------------- |
-| actionType  | `string` | `show` or `hidden` | 显示或隐藏组件              |
-| componentId | `string` | -                  | 指定显示或隐藏的目标组件 id |
+| 属性名      | 类型     | 默认值 | 说明                        |
+| ----------- | -------- | ------ | --------------------------- |
+| componentId | `string` | -      | 指定显示或隐藏的目标组件 id |
 
 ### 控制状态
 
@@ -1354,20 +1402,24 @@ order: 9
 }
 ```
 
-**动作属性**
+**其他属性**
 
-| 属性名      | 类型     | 默认值                  | 说明                        |
-| ----------- | -------- | ----------------------- | --------------------------- |
-| actionType  | `string` | `enabled` or `disabled` | 启用或禁用组件              |
-| componentId | `string` | -                       | 指定启用或禁用的目标组件 id |
+| 属性名      | 类型     | 默认值 | 说明                        |
+| ----------- | -------- | ------ | --------------------------- |
+| componentId | `string` | -      | 指定启用或禁用的目标组件 id |
 
 ### 更新数据
 
 > 1.8.0 及以上版本
 
-更新数据即更新指定组件数据域中的数据（data），通过配置`actionType: 'setValue'`实现组件`数据域变量更新`，通过它可以实现`组件间联动更新`、`数据回填`，支持`基础类型`、`对象类型`、`数组类型`，数据类型取决于目标组件所需数据值类型，仅支持`form`、`dialog`、`drawer`、`wizard`、`service`、`page`、`app`、`chart`，以及数据`输入类`组件。更多示例请查看[更新数据示例](../../../examples/action/setdata/form)。
+更新数据即更新指定组件数据域中的数据（data），通过配置`actionType: 'setValue'`实现组件`数据域变量更新`，通过它可以实现`组件间联动更新`、`数据回填`，更多示例请查看[更新数据示例](../../../examples/action/setdata/form)。
 
-> 注意：虽然更新数据可以实现对组件数据域的更新，但如果更新数据动作的数据值来自前面的异步动作（例如 发送 http 请求、自定义 JS（异步）），则后面的动作只能通过事件变量`${event.data.xxx}`来获取异步动作产生的数据，无法通过当前数据域`${xxx}`直接获取更新后的数据。
+**注意事项**
+
+- 数据类型支持范围：`基础类型`、`对象类型`、`数组类型`，数据类型取决于目标组件所需数据值类型
+- 目标组件支持范围：`form`、`dialog`、`drawer`、`wizard`、`service`、`page`、`app`、`chart`，以及数据`输入类`组件
+- < 2.3.2 及以下版本，虽然更新数据可以实现对组件数据域的更新，但如果更新数据动作的数据值来自前面的异步动作（例如 发送 http 请求、自定义 JS（异步）），则后面的动作只能通过事件变量`${event.data.xxx}`来获取异步动作产生的数据，无法通过当前数据域`${xxx}`直接获取更新后的数据。
+- 它的值通常都是对象形式，比如 form 传递的值应该是类似 `{"user": "amis"}`，这时就会更新表单里的 `user` 字段值为 `amis`
 
 ```schema
 {
@@ -1430,13 +1482,20 @@ order: 9
 }
 ```
 
-**动作属性**
+**动作属性（args）**
 
-| 属性名      | 类型     | 默认值     | 说明                              |
-| ----------- | -------- | ---------- | --------------------------------- |
-| actionType  | `string` | `setValue` | 变量赋值，即设置组件的数据值      |
-| componentId | `string` | -          | 指定赋值的目标组件 id             |
-| args.value  | `any`    | -          | 值，`< 1.8.0 及以下版本 为 value` |
+> `< 1.8.0 及以下版本`，以下属性与 args 同级。
+
+| 属性名 | 类型     | 默认值 | 说明                                                                |
+| ------ | -------- | ------ | ------------------------------------------------------------------- |
+| value  | `any`    | -      | 值                                                                  |
+| index  | `number` | -      | 当目标组件是`combo`时，可以指定更新的数据索引， `1.10.1 及以上版本` |
+
+**其他属性**
+
+| 属性名      | 类型     | 默认值 | 说明                  |
+| ----------- | -------- | ------ | --------------------- |
+| componentId | `string` | -      | 指定赋值的目标组件 id |
 
 ### 自定义 JS
 
@@ -1444,7 +1503,7 @@ order: 9
 
 - context，渲染器上下文
 - doAction() 动作执行方法，用于调用任何 actionType 指定的动作
-- event，事件对象，可以获取事件上下文，以及可以调用 setData()、stopPropagation()、preventDefault()分别实现事件上下文设置、动作干预、事件干预
+- event，事件对象，可以调用 setData()、stopPropagation()、preventDefault()分别实现事件上下文设置、动作干预、事件干预，可以通过 event.data 获取事件上下文
 
 ```schema
 {
@@ -1469,6 +1528,14 @@ order: 9
   ]
 }
 ```
+
+**动作属性（args）**
+
+> `< 2.3.2 及以下版本`，以下属性与 args 同级。
+
+| 属性名 | 类型                | 默认值 | 说明                                                                                                                                            |
+| ------ | ------------------- | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| script | `string`/`function` | -      | 自定义 JS 脚本代码，代码内可以通过调用`doAction`执行任何[动作](../../docs/concepts/event-action#动作) ，通过事件对象`event`可以实现事件动作干预 |
 
 #### 支持异步
 
@@ -1507,7 +1574,7 @@ order: 9
                   {
                     "componentId": "u:e47e2c8e6be8",
                     "args": {
-                      "value": "${event.data.pId}"
+                      "value": "${pId}"
                     },
                     "actionType": "setValue"
                   },
@@ -1563,7 +1630,7 @@ order: 9
                   {
                     "componentId": "u:e47e2c8e6be7",
                     "args": {
-                      "value": "${event.data.pId}"
+                      "value": "${pId}"
                     },
                     "actionType": "setValue"
                   },
@@ -1591,13 +1658,6 @@ order: 9
 有时在执行自定义 JS 的时候，希望该过程中产生的数据可以分享给后面的动作使用，此时可以通过`event.setData()`来实现事件上下文的设置，这样后面动作都可以通过事件上下文来获取共享的数据。
 
 > 注意：直接调用`event.setData()`将修改事件的原有上下文，如果不希望覆盖可以通过`event.setData({...event.data, {xxx: xxx}})`来进行数据的合并。
-
-**动作属性**
-
-| 属性名     | 类型                | 默认值   | 说明                                                                                                                                            |
-| ---------- | ------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| actionType | `string`            | `custom` | 自定义 JS                                                                                                                                       |
-| script     | `string`/`function` | -        | 自定义 JS 脚本代码，代码内可以通过调用`doAction`执行任何[动作](../../docs/concepts/event-action#动作) ，通过事件对象`event`可以实现事件动作干预 |
 
 ## 触发其他组件的动作
 
@@ -1651,7 +1711,7 @@ order: 9
 
 ## 触发广播动作
 
-通过配置`actionType: 'broadcast'`和`eventName`实现触发一个广播，可以通过配置动作执行优先级`weight`来控制所有监听者的动作执行顺序。
+通过配置`actionType: 'broadcast'`实现触发一个广播。
 
 ```schema
 {
@@ -1681,8 +1741,10 @@ order: 9
           "actions": [
             {
               actionType: 'broadcast',
-              eventName: 'broadcast_1',
               args: {
+                eventName: 'broadcast_1',
+              },
+              data: {
                 myrole: '${role}',
                 age: 18
               }
@@ -1710,8 +1772,8 @@ order: 9
           actions: [
             {
               actionType: 'reload',
-              args: {
-                myname: '${event.data.value}', // 从事件数据中取
+              data: {
+                myname: '${myrole}', // 从事件数据中取
               }
             },
             {
@@ -1752,9 +1814,9 @@ order: 9
           actions: [
             {
               actionType: 'reload',
-              args: {
-                myrole: '${event.data.value}',
-                age: '${event.data.age}'
+              data: {
+                myrole: '${myrole}',
+                age: '${age}'
               }
             },
             {
@@ -1790,8 +1852,8 @@ order: 9
           actions: [
             {
               actionType: 'reload',
-              args: {
-                job: '${event.data.value}'
+              data: {
+                job: '${myrole}'
               }
             },
             {
@@ -1809,12 +1871,19 @@ order: 9
 }
 ```
 
-**动作属性**
+**动作属性（args）**
 
-| 属性名     | 类型     | 默认值      | 说明                                             |
-| ---------- | -------- | ----------- | ------------------------------------------------ |
-| actionType | `string` | `broadcast` | 广播动作                                         |
-| eventName  | `string` | -           | 广播动作对应的自定义事件名称，用于广播事件的监听 |
+> `< 2.3.2 及以下版本`，以下属性与 args 同级。
+
+| 属性名    | 类型     | 默认值 | 说明                                             |
+| --------- | -------- | ------ | ------------------------------------------------ |
+| eventName | `string` | -      | 广播动作对应的自定义事件名称，用于广播事件的监听 |
+
+**其他属性**
+
+| 属性名 | 类型     | 默认值 | 说明                                                     |
+| ------ | -------- | ------ | -------------------------------------------------------- |
+| weight | `number` | 0      | 可以通过配置动作执行优先级来控制所有监听者的动作执行顺序 |
 
 ## 自定义动作
 
@@ -1857,9 +1926,11 @@ registerAction('my-action', new MyAction());
 
 # 编排动作
 
-通过配置`actionType: 'for'`或`actionType: 'break'`或`actionType: 'continue'`或`actionType: 'switch'`或`actionType: 'parallel'`实现动作的逻辑编排，支持嵌套。
+通过配置不同的逻辑动作实现动作编排，支持嵌套。
 
 ## 条件
+
+通过配置`expression: 表达式`来实现条件逻辑。
 
 ```schema
 {
@@ -1910,14 +1981,15 @@ registerAction('my-action', new MyAction());
 }
 ```
 
-**动作属性**
+**其他属性**
 
 | 属性名     | 类型                                        | 默认值 | 说明                         |
 | ---------- | ------------------------------------------- | ------ | ---------------------------- |
-| actionType | `string`                                    | `for`  | 循环执行动作                 |
 | expression | `boolean`\|[表达式](../concepts/expression) | -      | 执行条件，不设置表示默认执行 |
 
 ## 循环
+
+通过配置`actionType: 'for'`实现循环逻辑。
 
 **单层循环**
 
@@ -1951,7 +2023,6 @@ registerAction('my-action', new MyAction());
               {
                 actionType: 'loop',
                 args: {
-                  level: 3,
                   loopName: '${loopName}'
                 },
                 children: [
@@ -2006,8 +2077,7 @@ registerAction('my-action', new MyAction());
                 preventDefault: false,
                 stopPropagation: false,
                 args: {
-                  loopName: '${loopName}',
-                  level: 3
+                  loopName: '${loopName}'
                 },
                 children: [
                   {
@@ -2027,8 +2097,7 @@ registerAction('my-action', new MyAction());
                   {
                     actionType: 'loop',
                     args: {
-                      loopName: '${loopName}',
-                      level: 3
+                      loopName: '${loopName}'
                     },
                     children: [
                       {
@@ -2067,15 +2136,25 @@ registerAction('my-action', new MyAction());
 }
 ```
 
-**动作属性**
+**动作属性（args）**
 
-| 属性名        | 类型                                                 | 默认值 | 说明                                           |
-| ------------- | ---------------------------------------------------- | ------ | ---------------------------------------------- |
-| actionType    | `string`                                             | `for`  | 循环执行动作                                   |
-| args.loopName | `string`                                             | -      | 循环变量名称，`< 1.8.0 及以下版本 为 loopName` |
-| children      | Array<[动作](../../docs/concepts/event-action#动作)> | -      | 子动作，可以通过`break动作`来跳出循环          |
+> `< 1.8.0 及以下版本`，以下属性与 args 同级。
+
+| 属性名   | 类型     | 默认值 | 说明         |
+| -------- | -------- | ------ | ------------ |
+| loopName | `string` | -      | 循环变量名称 |
+
+**其他属性**
+
+> `< 2.3.2 及以下版本`，以下属性与 args 同级。
+
+| 属性名   | 类型                                                 | 默认值 | 说明                                  |
+| -------- | ---------------------------------------------------- | ------ | ------------------------------------- |
+| children | Array<[动作](../../docs/concepts/event-action#动作)> | -      | 子动作，可以通过`break动作`来跳出循环 |
 
 ## Break 动作
+
+通过配置`actionType: 'for'`和`actionType: 'break'`实现循环跳出。
 
 ```schema
 {
@@ -2140,13 +2219,9 @@ registerAction('my-action', new MyAction());
 }
 ```
 
-**动作属性**
-
-| 属性名     | 类型     | 默认值  | 说明         |
-| ---------- | -------- | ------- | ------------ |
-| actionType | `string` | `break` | 跳出循环动作 |
-
 ## Continue 动作
+
+通过配置`actionType: 'for'`和`actionType: 'continue'`实现循环跳过。
 
 ```schema
 {
@@ -2212,13 +2287,9 @@ registerAction('my-action', new MyAction());
 }
 ```
 
-**动作属性**
-
-| 属性名     | 类型     | 默认值     | 说明     |
-| ---------- | -------- | ---------- | -------- |
-| actionType | `string` | `continue` | 跳出当前 |
-
 ## 排他（switch）
+
+通过配置`actionType: 'switch'`实现排他逻辑。
 
 ```schema
 {
@@ -2279,14 +2350,15 @@ registerAction('my-action', new MyAction());
 }
 ```
 
-**动作属性**
+**其他属性**
 
-| 属性名     | 类型                                                 | 默认值   | 说明                                                   |
-| ---------- | ---------------------------------------------------- | -------- | ------------------------------------------------------ |
-| actionType | `string`                                             | `switch` | 只执行第一个符合条件的动作                             |
-| children   | Array<[动作](../../docs/concepts/event-action#动作)> | -        | 子动作，每个子动作可以通过配置`expression`来匹配的条件 |
+| 属性名   | 类型                                                 | 默认值 | 说明                                                   |
+| -------- | ---------------------------------------------------- | ------ | ------------------------------------------------------ |
+| children | Array<[动作](../../docs/concepts/event-action#动作)> | -      | 子动作，每个子动作可以通过配置`expression`来匹配的条件 |
 
 ## 并行
+
+通过配置`actionType: 'parallel'`实现并行执逻辑。
 
 ```schema
 {
@@ -2294,6 +2366,10 @@ registerAction('my-action', new MyAction());
   body: {
     type: 'form',
     wrapWithPanel: false,
+    data: {
+      name: 'lvxj',
+      age: 'kkkk'
+    },
     body: [
       {
         type: 'button',
@@ -2332,13 +2408,27 @@ registerAction('my-action', new MyAction());
                       }
                     },
                     outputVar: 'var2'
+                  },
+                  {
+                    actionType: 'ajax',
+                    args: {
+                      api: {
+                        url: 'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm?name=${name}',
+                        method: 'get'
+                      },
+                      messages: {
+                        success: '请求3成功了！欧耶',
+                        failed: '失败了呢。。'
+                      }
+                    },
+                    outputVar: 'var3'
                   }
                 ]
               },
               {
                 actionType: 'toast',
                 args: {
-                  msg: 'var1:${event.data.var1|json}, var2:${event.data.var2|json}'
+                  msg: 'var1:${event.data.var1|json}, var2:${event.data.var2|json}, var3:${event.data.var3|json}'
                 }
               }
             ]
@@ -2350,20 +2440,19 @@ registerAction('my-action', new MyAction());
 }
 ```
 
-**动作属性**
+**其他属性**
 
-| 属性名     | 类型                                                 | 默认值     | 说明             |
-| ---------- | ---------------------------------------------------- | ---------- | ---------------- |
-| actionType | `string`                                             | `parallel` | 并行执行多个动作 |
-| children   | Array<[动作](../../docs/concepts/event-action#动作)> | -          | 子动作           |
+| 属性名   | 类型                                                 | 默认值 | 说明   |
+| -------- | ---------------------------------------------------- | ------ | ------ |
+| children | Array<[动作](../../docs/concepts/event-action#动作)> | -      | 子动作 |
 
 # 动作间数据传递
 
-从事件触发开始，整个数据流包含事件本身产生的事件数据和动作产生的动作数据，事件源头产生的数据在 AMIS 事件动作机制底层已经自动加入渲染器数据域，可以通过`event.data.xxx`直接获取，而部分动作产生的数据如何流动需要交互设计者进行介入，对于数据流动可以通过数据映射，将上一个动作产生的数据作为动作参数写入下一个动作。
+从事件触发开始，整个数据流包含事件本身产生的事件数据和动作产生的动作数据，事件源头产生的数据在 AMIS 事件动作机制底层已经自动加入渲染器数据域，可以通过`xxx`直接获取（`< 2.3.2 及以下版本 为 event.data.xxx`），而部分动作产生的数据如何流动需要交互设计者进行介入，对于数据流动可以通过数据映射，将上一个动作产生的数据作为动作参数写入下一个动作。
 
-**传递数据**
+#### 传递数据
 
-通过 `args` 指定输入的参数数据，它是一个键值对。
+通过 `data` 指定输入的参数数据（`< 2.3.2 及以下版本`通过`args`传递数据），它是一个键值对。
 
 ```schema
 {
@@ -2380,8 +2469,10 @@ registerAction('my-action', new MyAction());
           actions: [
             {
               actionType: 'broadcast',
-              eventName: 'broadcast_1',
               args: {
+                eventName: 'broadcast_1',
+              },
+              data: {
                 name: 'lvxj',
                 age: 18
               },
@@ -2415,8 +2506,9 @@ registerAction('my-action', new MyAction());
           actions: [
             {
               actionType: 'reload',
-              args: {
-                age: '${event.data.age}'
+              data: {
+                age: '${age}',
+                name: '${name}'
               }
             }
           ]
@@ -2427,9 +2519,11 @@ registerAction('my-action', new MyAction());
 }
 ```
 
-**引用 http 请求动作返回的数据**
+#### 引用 http 请求返回的数据
 
-http 请求动作执行结束后，后面的动作可以通过 `event.data.responseResult.responseStatus`或`event.data.{{outputVar}}.responseStatus`、`event.data.responseResult.responseData`或`event.data.{{outputVar}}.responseData`、`event.data.responseResult.responseMsg`或`event.data.{{outputVar}}.responseMsg`来获取请求结果的状态、数据、消息。
+http 请求动作执行结束后，后面的动作可以通过 `${responseResult}`或`${{outputVar}}`来获取请求响应结果，响应结果的结构定义参考[发送 http 请求](../../docs/concepts/event-action#发送-http-请求)。
+
+> `< 2.3.2 及以下版本 需要通过 ${event.data.{xxx}}`来获取以上信息，例如：${event.data.responseResult}
 
 ```schema
 {
@@ -2450,7 +2544,7 @@ http 请求动作执行结束后，后面的动作可以通过 `event.data.respo
             },
             {
               actionType: 'dialog',
-              args: {
+              data: {
                 id: '${event.data.responseResult.responseData.id}'
               },
               dialog: {
@@ -2531,7 +2625,7 @@ http 请求动作执行结束后，后面的动作可以通过 `event.data.respo
                         args: {
                           msg: '不关闭'
                         },
-                        preventDefault: 'event.data.command === "Do not close"'
+                        preventDefault: 'command === "Do not close"'
                       }
                     ]
                   }
@@ -2599,11 +2693,13 @@ http 请求动作执行结束后，后面的动作可以通过 `event.data.respo
 
 # 属性表
 
-| 属性名          | 类型                                        | 默认值 | 说明                                              |
-| --------------- | ------------------------------------------- | ------ | ------------------------------------------------- |
-| actionType      | `string`                                    | -      | 动作名称                                          |
-| args            | `object`                                    | -      | 动作参数`{key:value}`，支持数据映射               |
-| preventDefault  | `boolean`\|[表达式](../concepts/expression) | false  | 阻止事件默认行为，`> 1.10.0 及以上版本支持表达式` |
-| stopPropagation | `boolean`\|[表达式](../concepts/expression) | false  | 停止后续动作执行，`> 1.10.0 及以上版本支持表达式` |
-| expression      | `boolean`\|[表达式](../concepts/expression) | -      | 执行条件，不设置表示默认执行                      |
-| outputVar       | `string`                                    | -      | 输出数据变量名                                    |
+| 属性名          | 类型                                        | 默认值  | 说明                                                                                                          |
+| --------------- | ------------------------------------------- | ------- | ------------------------------------------------------------------------------------------------------------- |
+| actionType      | `string`                                    | -       | 动作名称                                                                                                      |
+| args            | `object`                                    | -       | 动作属性`{key:value}`，支持数据映射                                                                           |
+| data            | `object`                                    | -       | 追加数据`{key:value}`，支持数据映射，如果是触发其他组件的动作，则该数据会传递给目标组件，`> 2.3.2 及以上版本` |
+| dataMergeMode   | `string`                                    | 'merge' | 当配置了 data 的时候，可以控制数据追加方式，支持合并(`merge`)和覆盖(`override`)两种模式，`> 2.3.2 及以上版本` |
+| preventDefault  | `boolean`\|[表达式](../concepts/expression) | false   | 阻止事件默认行为，`> 1.10.0 及以上版本支持表达式`                                                             |
+| stopPropagation | `boolean`\|[表达式](../concepts/expression) | false   | 停止后续动作执行，`> 1.10.0 及以上版本支持表达式`                                                             |
+| expression      | `boolean`\|[表达式](../concepts/expression) | -       | 执行条件，不设置表示默认执行                                                                                  |
+| outputVar       | `string`                                    | -       | 输出数据变量名                                                                                                |

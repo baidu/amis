@@ -26,7 +26,7 @@ order: 32
 
 ## 设置精度
 
-`precision` 设置数字的显示精度，一般需要配合`step`属性使用，以实现细粒度调整。注意带有单位的输入不支持配置精度属性。
+`precision` 设置数字的显示精度，一般需要配合`step`属性使用，以实现细粒度调整。注意带有单位的输入不支持配置精度属性。若设置了`step`值，则会基于`step` 和`precision`的值，选择更高的精度。若输入的内容不满足精度要求，组件会按照精度自动处理，遵循四舍五入规则。
 
 ```schema: scope="body"
 {
@@ -51,6 +51,61 @@ order: 32
             "label": "数字2",
             "precision": 3,
             "step": 0.001
+        },
+        {
+            "type": "input-number",
+            "name": "number3",
+            "label": "数字3",
+            "step": 0.001,
+            "description": "不设置precision，仅设置step, 实际精度为3"
+        }
+    ]
+}
+```
+
+## 重置值
+
+清空/重置组件输入后，组件绑定的值将被设置为`resetValue`，默认为`""`。若`resetValue`为合法数字时，会根据`min`、`max`和`precision`属性，将组件值设置为满足条件的值。若`resetValue`为非数字，则组件清空/重置后设置为该值。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "type": "input-number",
+            "name": "number1",
+            "label": "数字resetValue为0",
+            "resetValue": 0,
+            "value": 1234
+        },
+        {
+            "type": "input-number",
+            "name": "number2",
+            "label": "数字带有min",
+            "min": 100,
+            "resetValue": 0,
+            "value": 1234,
+            "description": "清空输入后组件值变为100，因为设置了最小值min为100"
+        },
+        {
+            "type": "input-number",
+            "name": "number3",
+            "label": "数字带有max和precision",
+            "max": 100.50,
+            "precision": 2,
+            "resetValue": 1000,
+            "value": 1234,
+            "description": "清空输入后组件值变为100.5，因为设置了最大值max为100.5"
+        },
+        {
+            "type": "input-number",
+            "name": "number4",
+            "label": "数字未设置resetValue",
+            "resetValue": "string",
+            "value": 1234,
+            "description": "清空输入后组件值变为\"string\"，因为resetValue不是一个合法的数字"
         }
     ]
 }
@@ -159,29 +214,32 @@ order: 32
 
 当做选择器表单项使用时，除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
 
-| 属性名           | 类型                                    | 默认值 | 说明                 |
-| ---------------- | --------------------------------------- | ------ | -------------------- |
-| min              | [模板](../../../docs/concepts/template) |        | 最小值               |
-| max              | [模板](../../../docs/concepts/template) |        | 最大值               |
-| step             | `number`                                |        | 步长                 |
-| precision        | `number`                                |        | 精度，即小数点后几位 |
-| showSteps        | `boolean`                               |        | 是否显示上下点击按钮 |
-| prefix           | `string`                                |        | 前缀                 |
-| suffix           | `string`                                |        | 后缀                 |
-| kilobitSeparator | `boolean`                               |        | 千分分隔             |
-| keyboard         | `boolean`                               |        | 键盘事件（方向上下） |
-| big              | `boolean`                               |        | 是否使用大数         |
-| displayMode      | `string`                                |        | 样式类型             |
+| 属性名           | 类型                                    | 默认值 | 说明                                       |
+| ---------------- | --------------------------------------- | ------ | ------------------------------------------ |
+| min              | [模板](../../../docs/concepts/template) |        | 最小值                                     |
+| max              | [模板](../../../docs/concepts/template) |        | 最大值                                     |
+| step             | `number`                                |        | 步长                                       |
+| precision        | `number`                                |        | 精度，即小数点后几位，支持 0 和正整数      |
+| showSteps        | `boolean`                               |        | 是否显示上下点击按钮                       |
+| prefix           | `string`                                |        | 前缀                                       |
+| suffix           | `string`                                |        | 后缀                                       |
+| kilobitSeparator | `boolean`                               |        | 千分分隔                                   |
+| keyboard         | `boolean`                               |        | 键盘事件（方向上下）                       |
+| big              | `boolean`                               |        | 是否使用大数                               |
+| displayMode      | `string`                                |        | 样式类型                                   |
+| resetValue       | `any`                                   | `""`   | 清空输入内容时，组件值将设置为`resetValue` |
 
 ## 事件表
 
-当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`event.data.xxx`事件参数变量来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`来获取事件产生的数据（`< 2.3.2 及以下版本 为 ${event.data.[事件参数名]}`），详细请查看[事件动作](../../docs/concepts/event-action)。
 
-| 事件名称 | 事件参数                          | 说明             |
-| -------- | --------------------------------- | ---------------- |
-| change   | `event.data.value: number` 当前值 | 输入值变化时触发 |
-| blur     | `event.data.value: number` 当前值 | -                |
-| focus    | `event.data.value: number` 当前值 | -                |
+> `[name]`表示当前组件绑定的名称，即`name`属性，如果没有配置`name`属性，则通过`value`取值。
+
+| 事件名称 | 事件参数                  | 说明             |
+| -------- | ------------------------- | ---------------- |
+| change   | `[name]: number` 组件的值 | 输入值变化时触发 |
+| blur     | `[name]: number` 组件的值 | -                |
+| focus    | `[name]: number` 组件的值 | -                |
 
 ## 动作表
 

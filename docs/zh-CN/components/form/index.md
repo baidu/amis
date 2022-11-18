@@ -568,6 +568,145 @@ Form 默认会在底部渲染一个提交按钮，用于执行表单的提交行
 
 如果表单项较多导致表单过长，而不方便操作底部的按钮栏，可以配置`"affixFooter": true`属性，将底部按钮栏固定在浏览器底部
 
+## 表单静态展示
+
+> 2.4.0 及以上版本
+
+在一些场景，表单提交后需要将填写的内容静态展示
+
+### 设置初始状态
+
+通过配置`static: true`将整个表单设置为静态展示，单个表单项也支持此配置
+
+```schema: scope="body"
+{
+  "type": "form",
+  "title": "表单状态切换",
+  "mode": "horizontal",
+  "labelWidth": 150,
+  "id": "allFormStatic",
+  "static": true,
+  "body": [
+    {
+      "type": "input-text",
+      "name": "var1",
+      "label": "输入框",
+      "value": "text"
+    },
+    {
+      "type": "input-color",
+      "name": "var2",
+      "label": "颜色选择",
+      "value": "#F0F"
+    },
+    {
+      "type": "switch",
+      "name": "switch",
+      "label": "开关",
+      "option": "开关说明",
+      "value": true
+    }
+  ],
+  "actions": []
+}
+```
+
+### 切换输入态和展示态
+
+也支持使用[动作](#动作表)切换表单的 输入态和展示态（静态），也可以使用动作对单个表单项进行状态切换  
+可以在[示例页](../../../examples/form/switchDisplay)查看表单项的静态展示方式
+
+```schema: scope="body"
+{
+  "type": "form",
+  "title": "表单状态切换",
+  "mode": "horizontal",
+  "labelWidth": 150,
+  "id": "allFormSwitch",
+  "data": {
+    "isStatic": false
+  },
+  "body": [
+    {
+      "type": "input-text",
+      "name": "var1",
+      "label": "输入框",
+      "value": "text"
+    },
+    {
+      "type": "input-color",
+      "name": "var2",
+      "label": "颜色选择",
+      "value": "#F0F"
+    },
+    {
+      "type": "switch",
+      "name": "switch",
+      "label": "开关",
+      "option": "开关说明",
+      "value": true
+    },
+    {
+      "type": 'button-toolbar',
+      "name": 'button-toolbar',
+      "buttons": [
+        {
+          "type": "button",
+          "label": "提交",
+          "level": "primary",
+          "visibleOn": "${!isStatic}",
+          "onEvent": {
+            "click": {
+              "actions": [
+                {
+                  "actionType": "setValue",
+                  "componentId": "allFormSwitch",
+                  "args": {
+                    "value": {
+                      "isStatic": true
+                    }
+                  }
+                },
+                {
+                  "actionType": "static",
+                  "componentId": "allFormSwitch"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "button",
+          "label": "编辑",
+          "level": "primary",
+          "visibleOn": "${isStatic}",
+          "onEvent": {
+            "click": {
+              "actions": [
+                {
+                  "actionType": "setValue",
+                  "componentId": "allFormSwitch",
+                  "args": {
+                    "value": {
+                      "isStatic": false
+                    }
+                  }
+                },
+                {
+                  "actionType": "nonstatic",
+                  "componentId": "allFormSwitch"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+  ],
+  "actions": []
+}
+```
+
 ## 表单项数据初始化
 
 表单可以通过配置`initApi`，实现表单初始化时请求接口，用于展示数据或初始化表单项。
@@ -971,13 +1110,19 @@ Form 支持轮询初始化接口，步骤如下：
 
 ## 表单数据域调试
 
-配置`debug:true`可以查看当前表单的数据域数据详情，方便数据映射、表达式等功能调试，如下，你可以修改表单项查看数据域变化
+配置`debug:true`可以查看当前表单的数据域数据详情，方便数据映射、表达式等功能调试，如下，你可以修改表单项查看数据域变化。`debugConfig`可以额外配置 debug 区域的相关配置，具体配置请参考[Json 组件属性](../json.md#属性表)。
+
+> 2.2.0 及以上版本支持`debugConfig`
 
 ```schema: scope="body"
 {
     "type": "form",
     "title": "用户信息",
     "debug": true,
+    "debugConfig": {
+      "enableClipboard": true,
+      "displayDataTypes": true
+    },
     "body": [
       {
         "type": "input-text",
@@ -1297,11 +1442,13 @@ Form 支持轮询初始化接口，步骤如下：
 | trimValues                  | `boolean`                                                                 | `false`                                                                | trim 当前表单项的每一个值                                                                                                                                                                                                                                                                                                                                    |
 | promptPageLeave             | `boolean`                                                                 | `false`                                                                | form 还没保存，即将离开页面前是否弹框确认。                                                                                                                                                                                                                                                                                                                  |
 | columnCount                 | `number`                                                                  | 0                                                                      | 表单项显示为几列                                                                                                                                                                                                                                                                                                                                             |
-| inheritData                 | `booelan`                                                                 | `true`                                                                 | 默认表单是采用数据链的形式创建个自己的数据域，表单提交的时候只会发送自己这个数据域的数据，如果希望共用上层数据域可以设置这个属性为 false，这样上层数据域的数据不需要在表单中用隐藏域或者显式映射才能发送了。                                                                                                                                                 |
+| inheritData                 | `boolean`                                                                 | `true`                                                                 | 默认表单是采用数据链的形式创建个自己的数据域，表单提交的时候只会发送自己这个数据域的数据，如果希望共用上层数据域可以设置这个属性为 false，这样上层数据域的数据不需要在表单中用隐藏域或者显式映射才能发送了。                                                                                                                                                 |
+| static                      | `boolean`                                                                 |                                                                        | `2.4.0` 整个表单静态方式展示，详情请查看[示例页](../../../examples/form/switchDisplay)                                                                                                                                                                                                                                                                       |
+| staticClassName             | `string`                                                                  |                                                                        | `2.4.0` 表单静态展示时使用的类名                                                                                                                                                                                                                                                                                                                             |
 
 ## 事件表
 
-当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`event.data.xxx`事件参数变量来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`来获取事件产生的数据（`< 2.3.2 及以下版本 为 ${event.data.[事件参数名]}`），详细请查看[事件动作](../../docs/concepts/event-action)。
 
 | 事件名称              | 事件参数                                                     | 说明                         |
 | --------------------- | ------------------------------------------------------------ | ---------------------------- |
@@ -1311,6 +1458,7 @@ Form 支持轮询初始化接口，步骤如下：
 | formItemValidateError | `event.data: object` 当前表单数据                            | 表单项校验失败时触发         |
 | validateSucc          | `event.data: object` 当前表单数据                            | 表单校验成功时触发           |
 | validateError         | `event.data: object` 当前表单数据                            | 表单校验失败时触发           |
+| submit         | `event.data: object` 当前表单数据                            | 点击提交按钮或者触发表单提交动作的时候触发，配置了该事件后将不会触发表单提交时的校验、提交到api或者target等行为，所有行为需要自己配置           |
 | submitSucc            | `event.data.result: object` api 远程请求成功后返回的结果数据 | 提交成功时触发               |
 | submitFail            | `event.data.error: object` api 远程请求失败后返回的错误信息  | 提交失败时触发               |
 
@@ -1318,11 +1466,13 @@ Form 支持轮询初始化接口，步骤如下：
 
 当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
 
-| 动作名称 | 动作配置                       | 说明                       |
-| -------- | ------------------------------ | -------------------------- |
-| submit   | -                              | 提交表单                   |
-| reset    | -                              | 重置表单                   |
-| clear    | -                              | 清空表单                   |
-| validate | -                              | 校验表单                   |
-| reload   | -                              | 刷新（重新加载）           |
-| setValue | `value: object` 更新的表单数据 | 更新数据，对数据进行 merge |
+| 动作名称  | 动作配置                       | 说明                       |
+| --------- | ------------------------------ | -------------------------- |
+| submit    | -                              | 提交表单                   |
+| reset     | -                              | 重置表单                   |
+| clear     | -                              | 清空表单                   |
+| validate  | -                              | 校验表单                   |
+| reload    | -                              | 刷新（重新加载）           |
+| setValue  | `value: object` 更新的表单数据 | 更新数据，对数据进行 merge |
+| static    | -                              | 表单切换为静态展示         |
+| nonstatic | -                              | 表单切换为普通输入态       |

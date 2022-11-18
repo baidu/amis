@@ -331,6 +331,412 @@ order: 1
 
 > `visible`和`hidden`，`visibleOn`和`hiddenOn`除了判断逻辑相反以外，没有任何区别
 
+### 配置静态展示
+
+> 2.4.0 及以上版本
+
+##### 静态配置
+
+通过配置`"static": true`来将表单项以静态形式展示  
+可以在[示例页](../../../examples/form/switchDisplay)查看支持静态展示的表单项的展示方式
+
+```schema: scope="body"
+{
+  "type": "form",
+  "mode": "horizontal",
+  "labelWidth": 220,
+  "body": [
+    {
+      "type": "input-text",
+      "label": "静态",
+      "name": "text1",
+      "value": "text1的值",
+      "static": true
+    },
+    {
+      "type": "input-text",
+      "label": "输入态",
+      "name": "text2",
+      "value": "text2的值"
+    }
+  ]
+}
+```
+
+##### 通过条件配置静态/输入态
+
+也可以通过[表达式](../../../docs/concepts/expression)配置`staticOn`，来实现在某个条件下将当前表单项状态的的自动切换.
+
+```schema: scope="body"
+{
+  "type": "form",
+  "mode": "horizontal",
+  "labelWidth": 220,
+  "body": [
+    {
+      "type": "input-number",
+      "label": "数量",
+      "name": "number",
+      "value": 0,
+      "description": "调整数量大小查看效果吧！"
+    },
+    {
+      "type": "input-text",
+      "label": "文本",
+      "name": "text",
+      "staticOn": "this.number > 1",
+      "value": "text value",
+      "description": "当数量大于1的时候，该文本框会变成静态"
+    }
+  ]
+}
+```
+
+##### 自定义展示态的展示方式
+
+通过配置`staticSchema`，可以自定义静态展示时的展示方式
+
+```schema: scope="body"
+{
+  "type": "form",
+  "mode": "horizontal",
+  "labelWidth": 220,
+  "body": [
+    {
+      "type": "input-text",
+      "name": "var3",
+      "label": "自定义展示态schema",
+      "value": "表单项value",
+      "static": true,
+      "staticSchema": [
+        "自定义前缀 | ",
+        {
+          "type": "tpl",
+          "tpl": "${var3}"
+        },
+        " | 自定义后缀",
+      ]
+    }
+  ]
+}
+```
+
+##### 限制选择器类组件的展示数量
+
+下拉选择器、多选框等组件，当选项过多静态展示时，若全部展示会占用页面很多空间，所以默认进行了限制（10 个）  
+可以通过配置`staticSchema.limit`，可以自定义静态展示时的数量
+
+```schema: scope="body"
+{
+  "type": "form",
+  "mode": "horizontal",
+  "labelWidth": 220,
+  "body": [
+    {
+      "type": "input-tag",
+      "name": "tags",
+      "label": "自定义展示数量",
+      "value": "1,2,3,4,5,6,7,8",
+      "options": [
+        {"label": "选项1", "value": "选项1"},
+        {"label": "选项2", "value": "选项2"},
+        {"label": "选项3", "value": "选项3"},
+        {"label": "选项4", "value": "选项4"},
+        {"label": "选项5", "value": "选项5"},
+        {"label": "选项6", "value": "选项6"},
+        {"label": "选项7", "value": "选项7"},
+        {"label": "选项8", "value": "选项8"}
+      ],
+      "static": true,
+      "staticSchema": {
+        "limit": 3
+      }
+    }
+  ]
+}
+```
+
+##### 通过事件动作切换表单项状态
+
+也支持使用 事件动作 切换表单项的 输入态和展示态（静态），也可以使用动作对整个表单进行状态切换
+
+```schema: scope="body"
+{
+  "type": "form",
+  "title": "单个表单项状态切换",
+  "mode": "horizontal",
+  "labelWidth": 220,
+  "body": [
+    {
+      "type": "input-text",
+      "id": "formItemSwitch",
+      "name": "var1",
+      "label": "使用事件动作状态切换",
+      "value": "text"
+    },
+    {
+      "type": 'button-toolbar',
+      "name": 'button-toolbar',
+      "buttons": [
+        {
+          "type": "button",
+          "label": "输入态",
+          "level": "primary",
+          "onEvent": {
+            "click": {
+              "actions": [
+                {
+                  "actionType": "nonstatic",
+                  "componentId": "formItemSwitch"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "button",
+          "label": "展示态",
+          "level": "primary",
+          "onEvent": {
+            "click": {
+              "actions": [
+                {
+                  "actionType": "static",
+                  "componentId": "formItemSwitch"
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "className": 'show'
+    },
+  ],
+  "actions": []
+}
+```
+
+##### 表单项静态展示优先级
+
+1. 表单项配置为`static: true` 时，始终保持静态展示；
+
+```schema: scope="body"
+{
+  "type": "form",
+  "title": "父表单 static: true",
+  "static": true,
+  "mode": "horizontal",
+  "labelWidth": 220,
+  "body": [
+    {
+      "type": "input-text",
+      "label": "text1为静态 static: true",
+      "static": true,
+      "value": "value",
+      "name": "text1",
+      "description": "配置了static: true, 所以是静态"
+    },
+    {
+      "type": "input-text",
+      "value": "value",
+      "name": "text2",
+      "label": "text2",
+      "description": "其他表单项是 输入态"
+    }
+  ]
+}
+```
+
+2. 表单项配置为`static: false` 或 `不配置` 时，跟随父表单的状态；
+
+```schema: scope="body"
+{
+  "type": "form",
+  "static": true,
+  "title": "父表单为静态 static: true",
+  "mode": "horizontal",
+  "labelWidth": 220,
+  "body": [
+    {
+      "type": "input-text",
+      "label": "text1为静态 static: true",
+      "static": true,
+      "value": "value",
+      "name": "text1"
+    },
+    {
+      "type": "input-text",
+      "label": "text2为输入态 static: false",
+      "static": false,
+      "value": "value",
+      "name": "text2",
+      "description": "虽然配置了static: false, 但是仍然和父表单保持一致"
+    },
+    {
+      "type": "input-text",
+      "label": "text3 未配置 static 属性",
+      "value": "value",
+      "name": "text3",
+      "description": "未配置static时，和父表单保持一致"
+    }
+  ]
+}
+```
+
+3. 使用 `事件动作` 切换表单项 的 静态/展示态，优先级最高，将无视 `schema` 配置
+
+```schema: scope="body"
+{
+  "type": "form",
+  "static": true,
+  "title": "父表单为静态 static: true",
+  "mode": "horizontal",
+  "id": "myForm",
+  "labelWidth": 220,
+  "body": [
+    {
+      "type": "input-text",
+      "label": "text1",
+      "static": true,
+      "value": "value",
+      "name": "text1",
+      "id": "text1",
+      "description": "初始配置了static: true, 但是后续可以使用动作切换状态"
+    },
+    {
+      "type": "button-toolbar",
+      "name": "button-toolbar1",
+      "label": "text1 切换状态",
+      "buttons": [
+        {
+          "type": "button",
+          "label": "静态",
+          "level": "primary",
+          "onEvent": {
+            "click": {
+              "actions": [
+                {
+                  "actionType": "static",
+                  "componentId": "text1"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "button",
+          "label": "输入态",
+          "level": "primary",
+          "onEvent": {
+            "click": {
+              "actions": [
+                {
+                  "actionType": "nonstatic",
+                  "componentId": "text1"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "input-text",
+      "label": "text2",
+      "static": false,
+      "value": "value",
+      "name": "text2",
+      "id": "text2",
+      "description": "初始配置了static: false, 但是后续可以使用动作切换状态"
+    },
+    {
+      "type": "button-toolbar",
+      "name": "button-toolbar2",
+      "label": "text2 切换状态",
+      "buttons": [
+        {
+          "type": "button",
+          "label": "静态",
+          "level": "primary",
+          "onEvent": {
+            "click": {
+              "actions": [
+                {
+                  "actionType": "static",
+                  "componentId": "text2"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "button",
+          "label": "输入态",
+          "level": "primary",
+          "onEvent": {
+            "click": {
+              "actions": [
+                {
+                  "actionType": "nonstatic",
+                  "componentId": "text2"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "input-text",
+      "label": "text3",
+      "value": "value",
+      "name": "text3",
+      "description": "无配置，跟随父表单变化"
+    },
+    {
+      "type": "divider"
+    },
+    {
+      "type": "button-toolbar",
+      "name": "button-toolbar0",
+      "label": "父表单 切换状态",
+      "buttons": [
+        {
+          "type": "button",
+          "label": "静态",
+          "level": "primary",
+          "onEvent": {
+            "click": {
+              "actions": [
+                {
+                  "actionType": "static",
+                  "componentId": "myForm"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "button",
+          "label": "输入态",
+          "level": "primary",
+          "onEvent": {
+            "click": {
+              "actions": [
+                {
+                  "actionType": "nonstatic",
+                  "componentId": "myForm"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
+```
+
 ## 表单项值
 
 表单项值，即表单项通过用户交互发生变化后，更新表单数据域中同`name`变量值.
@@ -833,7 +1239,8 @@ amis 会有默认的报错信息，如果你想自定义校验信息，配置`va
   isTimeAfter: 'validate.isTimeAfter',
   isTimeSameOrBefore: 'validate.isTimeSameOrBefore',
   isTimeSameOrAfter: 'validate.isTimeSameOrAfter',
-  isTimeBetween: 'validate.isTimeBetween'
+  isTimeBetween: 'validate.isTimeBetween',
+  isVariableName: 'validate.isVariableName'
 }
 ```
 
@@ -843,45 +1250,46 @@ amis 会有默认的报错信息，如果你想自定义校验信息，配置`va
 
 ### 支持的格式校验
 
-| 规则名称                 | 说明                                                                                           | 定义                                                                                                            | 版本    |
-| ------------------------ | ---------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- | ------- |
-| `isEmail`                | 必须是 Email。                                                                                 | `(value: any) => boolean`                                                                                       |         |
-| `isUrl`                  | 必须是 Url。                                                                                   | `(value: any) => boolean`                                                                                       |         |
-| `isNumeric`              | 必须是 数值。                                                                                  | `(value: any) => boolean`                                                                                       |         |
-| `isAlpha`                | 必须是 字母。                                                                                  | `(value: any) => boolean`                                                                                       |         |
-| `isAlphanumeric`         | 必须是 字母或者数字。                                                                          | `(value: any) => boolean`                                                                                       |         |
-| `isInt`                  | 必须是 整形。                                                                                  | `(value: any) => boolean`                                                                                       |         |
-| `isFloat`                | 必须是 浮点形。                                                                                | `(value: any) => boolean`                                                                                       |         |
-| `isLength:length`        | 是否长度正好等于设定值。                                                                       | `(value: any) => boolean`                                                                                       |         |
-| `minLength:length`       | 最小长度。                                                                                     | `(value: any, length: number) => boolean`                                                                       |         |
-| `maxLength:length`       | 最大长度。                                                                                     | `(value: any, length: number) => boolean`                                                                       |         |
-| `maximum:number`         | 最大值。                                                                                       | `(value: any, maximum: number) => boolean`                                                                      |         |
-| `minimum:number`         | 最小值。                                                                                       | `(value: any, minimum:number) => boolean`                                                                       |         |
-| `equals:xxx`             | 当前值必须完全等于 xxx。                                                                       | `(value: any, targetValue: any) => boolean`                                                                     |         |
-| `equalsField:xxx`        | 当前值必须与 xxx 变量值一致。                                                                  | `(value: any, field: string) => boolean`                                                                        |         |
-| `isJson`                 | 是否是合法的 Json 字符串。                                                                     | `(value: any) => boolean`                                                                                       |         |
-| `isUrlPath`              | 是 url 路径。                                                                                  | `(value: any) => boolean`                                                                                       |         |
-| `isPhoneNumber`          | 是否为合法的手机号码                                                                           | `(value: any) => boolean`                                                                                       |         |
-| `isTelNumber`            | 是否为合法的电话号码                                                                           | `(value: any) => boolean`                                                                                       |         |
-| `isZipcode`              | 是否为邮编号码                                                                                 | `(value: any) => boolean`                                                                                       |         |
-| `isId`                   | 是否为身份证号码，没做校验                                                                     | `(value: any) => boolean`                                                                                       |         |
-| `matchRegexp:/foo/`      | 必须命中某个正则。                                                                             | `(value: any, regexp: string \| RegExp) => boolean`                                                             |         |
-| `matchRegexp1:/foo/`     | 必须命中某个正则。                                                                             | `(value: any, regexp: string \| RegExp) => boolean`                                                             |         |
-| `matchRegexp2:/foo/`     | 必须命中某个正则。                                                                             | `(value: any, regexp: string \| RegExp) => boolean`                                                             |         |
-| `matchRegexp3:/foo/`     | 必须命中某个正则。                                                                             | `(value: any, regexp: string \| RegExp) => boolean`                                                             |         |
-| `matchRegexp4:/foo/`     | 必须命中某个正则。                                                                             | `(value: any, regexp: string \| RegExp) => boolean`                                                             |         |
-| `isDateTimeSame`         | 日期和目标日期相同，支持指定粒度，默认到毫秒 `millisecond`                                     | `(value: any, targetDate: any, granularity?: string) => boolean`                                                | `2.2.0` |
-| `isDateTimeBefore`       | 日期早于目标日期，支持指定粒度，默认到毫秒 `millisecond`                                       | `(value: any, targetDate: any, granularity?: string) => boolean`                                                | `2.2.0` |
-| `isDateTimeAfter`        | 日期晚于目标日期，支持指定粒度，默认到毫秒 `millisecond`                                       | `(value: any, targetDate: any, granularity?: string) => boolean`                                                | `2.2.0` |
-| `isDateTimeSameOrBefore` | 日期早于目标日期或和目标日期相同，支持指定粒度，默认到毫秒 `millisecond`                       | `(value: any, targetDate: any, granularity?: string) => boolean`                                                | `2.2.0` |
-| `isDateTimeSameOrAfter`  | 日期晚于目标日期或和目标日期相同，支持指定粒度，默认到毫秒 `millisecond`                       | `(value: any, targetDate: any, granularity?: string) => boolean`                                                | `2.2.0` |
-| `isDateTimeBetween`      | 日期处于目标日期范围，支持指定粒度和区间的开闭形式，默认到毫秒 `millisecond`，左右开区间`'()'` | `(value: any, lhs: any, rhs: any, granularity?: string, inclusivity?: '()' \| '[)' \| '(]' \| '[]') => boolean` | `2.2.0` |
-| `isTimeSame`             | 时间和目标时间相同，支持指定粒度，默认到毫秒 `millisecond`                                     | `(value: any, targetTime: any, granularity?: string) => boolean`                                                | `2.2.0` |
-| `isTimeBefore`           | 时间早于目标时间，支持指定粒度，默认到毫秒 `millisecond`                                       | `(value: any, targetTime: any, granularity?: string) => boolean`                                                | `2.2.0` |
-| `isTimeAfter`            | 时间晚于目标时间，支持指定粒度，默认到毫秒 `millisecond`                                       | `(value: any, targetTime: any, granularity?: string) => boolean`                                                | `2.2.0` |
-| `isTimeSameOrBefore`     | 时间早于目标时间或和目标时间相同，支持指定粒度，默认到毫秒 `millisecond`                       | `(value: any, targetTime: any, granularity?: string) => boolean`                                                | `2.2.0` |
-| `isTimeSameOrAfter`      | 时间晚于目标时间或和目标时间相同，支持指定粒度，默认到毫秒 `millisecond`                       | `(value: any, targetTime: any, granularity?: string) => boolean`                                                | `2.2.0` |
-| `isTimeBetween`          | 时间处于目标时间范围，支持指定粒度和区间的开闭形式，默认到毫秒 `millisecond`，左右开区间`'()'` | `(value: any, lhs: any, rhs: any, granularity?: string, inclusivity?: '()' \| '[)' \| '(]' \| '[]') => boolean` | `2.2.0` |
+| 规则名称                 | 说明                                                                                                   | 定义                                                                                                            | 版本    |
+| ------------------------ | ------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------- | ------- |
+| `isEmail`                | 必须是 Email。                                                                                         | `(value: any) => boolean`                                                                                       |         |
+| `isUrl`                  | 必须是 Url。                                                                                           | `(value: any) => boolean`                                                                                       |         |
+| `isNumeric`              | 必须是 数值。                                                                                          | `(value: any) => boolean`                                                                                       |         |
+| `isAlpha`                | 必须是 字母。                                                                                          | `(value: any) => boolean`                                                                                       |         |
+| `isAlphanumeric`         | 必须是 字母或者数字。                                                                                  | `(value: any) => boolean`                                                                                       |         |
+| `isInt`                  | 必须是 整形。                                                                                          | `(value: any) => boolean`                                                                                       |         |
+| `isFloat`                | 必须是 浮点形。                                                                                        | `(value: any) => boolean`                                                                                       |         |
+| `isLength:length`        | 是否长度正好等于设定值。                                                                               | `(value: any) => boolean`                                                                                       |         |
+| `minLength:length`       | 最小长度。                                                                                             | `(value: any, length: number) => boolean`                                                                       |         |
+| `maxLength:length`       | 最大长度。                                                                                             | `(value: any, length: number) => boolean`                                                                       |         |
+| `maximum:number`         | 最大值。                                                                                               | `(value: any, maximum: number) => boolean`                                                                      |         |
+| `minimum:number`         | 最小值。                                                                                               | `(value: any, minimum:number) => boolean`                                                                       |         |
+| `equals:xxx`             | 当前值必须完全等于 xxx。                                                                               | `(value: any, targetValue: any) => boolean`                                                                     |         |
+| `equalsField:xxx`        | 当前值必须与 xxx 变量值一致。                                                                          | `(value: any, field: string) => boolean`                                                                        |         |
+| `isJson`                 | 是否是合法的 Json 字符串。                                                                             | `(value: any) => boolean`                                                                                       |         |
+| `isUrlPath`              | 是 url 路径。                                                                                          | `(value: any) => boolean`                                                                                       |         |
+| `isPhoneNumber`          | 是否为合法的手机号码                                                                                   | `(value: any) => boolean`                                                                                       |         |
+| `isTelNumber`            | 是否为合法的电话号码                                                                                   | `(value: any) => boolean`                                                                                       |         |
+| `isZipcode`              | 是否为邮编号码                                                                                         | `(value: any) => boolean`                                                                                       |         |
+| `isId`                   | 是否为身份证号码，没做校验                                                                             | `(value: any) => boolean`                                                                                       |         |
+| `matchRegexp:/foo/`      | 必须命中某个正则。                                                                                     | `(value: any, regexp: string \| RegExp) => boolean`                                                             |         |
+| `matchRegexp1:/foo/`     | 必须命中某个正则。                                                                                     | `(value: any, regexp: string \| RegExp) => boolean`                                                             |         |
+| `matchRegexp2:/foo/`     | 必须命中某个正则。                                                                                     | `(value: any, regexp: string \| RegExp) => boolean`                                                             |         |
+| `matchRegexp3:/foo/`     | 必须命中某个正则。                                                                                     | `(value: any, regexp: string \| RegExp) => boolean`                                                             |         |
+| `matchRegexp4:/foo/`     | 必须命中某个正则。                                                                                     | `(value: any, regexp: string \| RegExp) => boolean`                                                             |         |
+| `isDateTimeSame`         | 日期和目标日期相同，支持指定粒度，默认到毫秒 `millisecond`                                             | `(value: any, targetDate: any, granularity?: string) => boolean`                                                | `2.2.0` |
+| `isDateTimeBefore`       | 日期早于目标日期，支持指定粒度，默认到毫秒 `millisecond`                                               | `(value: any, targetDate: any, granularity?: string) => boolean`                                                | `2.2.0` |
+| `isDateTimeAfter`        | 日期晚于目标日期，支持指定粒度，默认到毫秒 `millisecond`                                               | `(value: any, targetDate: any, granularity?: string) => boolean`                                                | `2.2.0` |
+| `isDateTimeSameOrBefore` | 日期早于目标日期或和目标日期相同，支持指定粒度，默认到毫秒 `millisecond`                               | `(value: any, targetDate: any, granularity?: string) => boolean`                                                | `2.2.0` |
+| `isDateTimeSameOrAfter`  | 日期晚于目标日期或和目标日期相同，支持指定粒度，默认到毫秒 `millisecond`                               | `(value: any, targetDate: any, granularity?: string) => boolean`                                                | `2.2.0` |
+| `isDateTimeBetween`      | 日期处于目标日期范围，支持指定粒度和区间的开闭形式，默认到毫秒 `millisecond`，左右开区间`'()'`         | `(value: any, lhs: any, rhs: any, granularity?: string, inclusivity?: '()' \| '[)' \| '(]' \| '[]') => boolean` | `2.2.0` |
+| `isTimeSame`             | 时间和目标时间相同，支持指定粒度，默认到毫秒 `millisecond`                                             | `(value: any, targetTime: any, granularity?: string) => boolean`                                                | `2.2.0` |
+| `isTimeBefore`           | 时间早于目标时间，支持指定粒度，默认到毫秒 `millisecond`                                               | `(value: any, targetTime: any, granularity?: string) => boolean`                                                | `2.2.0` |
+| `isTimeAfter`            | 时间晚于目标时间，支持指定粒度，默认到毫秒 `millisecond`                                               | `(value: any, targetTime: any, granularity?: string) => boolean`                                                | `2.2.0` |
+| `isTimeSameOrBefore`     | 时间早于目标时间或和目标时间相同，支持指定粒度，默认到毫秒 `millisecond`                               | `(value: any, targetTime: any, granularity?: string) => boolean`                                                | `2.2.0` |
+| `isTimeSameOrAfter`      | 时间晚于目标时间或和目标时间相同，支持指定粒度，默认到毫秒 `millisecond`                               | `(value: any, targetTime: any, granularity?: string) => boolean`                                                | `2.2.0` |
+| `isTimeBetween`          | 时间处于目标时间范围，支持指定粒度和区间的开闭形式，默认到毫秒 `millisecond`，左右开区间`'()'`         | `(value: any, lhs: any, rhs: any, granularity?: string, inclusivity?: '()' \| '[)' \| '(]' \| '[]') => boolean` | `2.2.0` |
+| `isVariableName`         | 是否为合法的变量名，默认规则为 `/^[a-zA-Z_]+[a-zA-Z0-9]*$/` 可以自己指定如 `{isVariableName: /^a.*$/}` | `(value: any) => boolean`                                                                                       | `2.5.0` |
 
 #### 验证只允许 http 协议的 url 地址
 
@@ -1370,3 +1778,59 @@ fillMapping 配置 支持变量取值和表达式；
 | autoFill.size           | `string`                                           |           | showSuggestion 为 true 时，参照录入 mode 为 dialog 时，可设置大小                                   |
 | autoFill.columns        | `Array<Column>`                                    |           | showSuggestion 为 true 时，数据展示列配置                                                           |
 | autoFill.filter         | [SchemaNode](../../docs/types/schemanode)          |           | showSuggestion 为 true 时，数据查询过滤条件                                                         |
+| static                  | `boolean`                                          |           | `2.4.0` 当前表单项是否是静态展示，目前支持静[支持静态展示的表单项](#支持静态展示的表单项)           |
+| staticClassName         | `string`                                           |           | `2.4.0` 静态展示时的类名                                                                            |
+| staticLabelClassName    | `string`                                           |           | `2.4.0` 静态展示时的 Label 的类名                                                                   |
+| staticInputClassName    | `string`                                           |           | `2.4.0` 静态展示时的 value 的类名                                                                   |
+| staticSchema            | [SchemaNode](../../docs/types/schemanode)          |           | `2.4.0` 自定义静态展示方式                                                                       |
+| staticSchema.limit      | `number`                                           | 10        | `2.4.0` select、checkboxes 等选择类组件多选时展示态展示的数量                                       |
+
+## 支持静态展示的表单项
+
+可以在[示例页](../../../examples/form/switchDisplay)查看支持静态展示的表单项的展示方式
+
+- form 表单
+- button-group-select 按钮点选
+- chained-select 链式下拉框
+- chart-radios 图表单选框
+- checkbox 勾选框
+- checkboxes 复选框
+- combo 组合
+- input-kv 键值对
+- input-array 数组输入框
+- input-city 城市选择器
+- input-color 颜色选择器
+- input-date 日期选择器
+- input-date-range 日期范围选择器
+- input-datetime-range 日期时间选择器
+- input-time-range 时间范围选择器
+- input-group 输入框组合
+- input-month-range 月份范围
+- input-number 数字输入
+- input-quarter-range 季度范围
+- input-range 滑块
+- input-rating 评分
+- input-tag 标签选择器
+- input-text 输入框
+- input-password 密码输入框
+- input-email 邮箱输入框
+- input-url url 输入框
+- native-date native 日期选择器
+- native-time native 时间选择器
+- native-number native 数字输入
+- input-tree 树形选择器
+- input-year-range 年份范围
+- list-select 列表选择器
+- location-picker 地理位置
+- matrix-checkboxes 矩阵勾选
+- nested-select 级联选择器
+- radios 单选框
+- select 下拉框
+- multi-select 多选下拉框
+- switch 开关
+- tabs-transfer 组合穿梭器
+- tabs-transfer-picker 组合穿梭选择器
+- textarea 多行输入框
+- transfer 穿梭器
+- transfer-picker 穿梭选择器
+- tree-select 属性选择器

@@ -24,7 +24,8 @@ test('EventAction:inputRange', async () => {
                     componentId: 'form_data',
                     args: {
                       value: {
-                        rangeValue: '值改变为${event.data.value}了'
+                        rangeEvent: '触发了change',
+                        rangeValue: '值为${range}'
                       }
                     }
                   }
@@ -37,7 +38,8 @@ test('EventAction:inputRange', async () => {
                     componentId: 'form_data',
                     args: {
                       value: {
-                        rangeEvent: '触发了blur'
+                        rangeEvent: '触发了blur',
+                        rangeValue: '值为${range}'
                       }
                     }
                   }
@@ -50,7 +52,8 @@ test('EventAction:inputRange', async () => {
                     componentId: 'form_data',
                     args: {
                       value: {
-                        rangeEvent: '触发了focus'
+                        rangeEvent: '触发了focus',
+                        rangeValue: '值为${range}'
                       }
                     }
                   }
@@ -105,7 +108,10 @@ test('EventAction:inputRange', async () => {
   await wait(300);
   await waitFor(() => {
     expect(
-      container.querySelector(`[value="值改变为${valueChange}了"]`)
+      container.querySelector('[value="触发了change"]')
+    ).toBeInTheDocument();
+    expect(
+      container.querySelector(`[value="值为${valueChange}"]`)
     ).toBeInTheDocument();
   });
 
@@ -120,8 +126,9 @@ test('EventAction:inputRange', async () => {
   await wait(300);
   await waitFor(() => {
     expect(
-      container.querySelector(`[value="值改变为0了"]`)
+      container.querySelector('[value="触发了change"]')
     ).toBeInTheDocument();
+    expect(container.querySelector(`[value="值为0"]`)).toBeInTheDocument();
   });
 
   // focus
@@ -131,6 +138,7 @@ test('EventAction:inputRange', async () => {
     expect(
       container.querySelector('[value="触发了focus"]')
     ).toBeInTheDocument();
+    expect(container.querySelector(`[value="值为0"]`)).toBeInTheDocument();
   });
 
   // blur
@@ -138,6 +146,7 @@ test('EventAction:inputRange', async () => {
   await wait(300);
   await waitFor(() => {
     expect(container.querySelector('[value="触发了blur"]')).toBeInTheDocument();
+    expect(container.querySelector(`[value="值为0"]`)).toBeInTheDocument();
   });
 
   expect(container).toMatchSnapshot();

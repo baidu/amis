@@ -1021,6 +1021,20 @@
   }
 }
 
+.#{$ns}InputTable {
+  .#{$ns}Field--quickEditable svg {
+    color: var(--primary);
+
+    &:hover {
+      color: var(--primary-onHover);
+    }
+
+    &:active {
+      color: var(--primary-onActive);
+    }
+  }
+}
+
 .#{$ns}InputTable-toolbar {
   display: flex;
   flex-direction: row;
@@ -1028,8 +1042,8 @@
   justify-content: space-between;
 
   .#{$ns}Button {
-    border: none;
-    color: var(--Button--link-color);
+    border-color: transparent;
+    color: var(--button-link-default-font-color);
   }
 }
 

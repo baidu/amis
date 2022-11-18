@@ -882,12 +882,12 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
 | joinValues               | `boolean`                          | `true`                                         | 默认为 `true` 当扁平化开启的时候，是否用分隔符的形式发送给后端，否则采用 array 的方式。                                                                             |
 | delimiter                | `string`                           | `false`                                        | 当扁平化开启并且 joinValues 为 true 时，用什么分隔符。                                                                                                              |
 | addable                  | `boolean`                          | `false`                                        | 是否可新增                                                                                                                                                          |
-| addattop                  | `boolean`                          | `false`                                        | 在顶部添加                                                                                                                                                          |
+| addattop                 | `boolean`                          | `false`                                        | 在顶部添加                                                                                                                                                          |
 | removable                | `boolean`                          | `false`                                        | 是否可删除                                                                                                                                                          |
 | deleteApi                | [API](../../../docs/types/api)     |                                                | 如果配置了，则删除前会发送一个 api，请求成功才完成删除                                                                                                              |
 | deleteConfirmText        | `string`                           | `"确认要删除？"`                               | 当配置 `deleteApi` 才生效！删除时用来做用户确认                                                                                                                     |
 | draggable                | `boolean`                          | `false`                                        | 是否可以拖动排序, 需要注意的是当启用拖动排序的时候，会多一个\$id 字段                                                                                               |
-| draggableTip             | `string`                           | `"可通过拖动每行中的【交换】按钮进行顺序调整"` | 可拖拽的提示文字                                                                                                                                                    |
+| draggableTip             | `string`                           |  | 可拖拽的提示文字                                                                                                                                                    |
 | subFormMode              | `string`                           | `"normal"`                                     | 可选`normal`、`horizontal`、`inline`                                                                                                                                |
 | placeholder              | `string`                           | ``                                             | 没有成员时显示。                                                                                                                                                    |
 | canAccessSuperData       | `boolean`                          | `false`                                        | 指定是否可以自动获取上层的数据并映射到表单项上                                                                                                                      |
@@ -905,13 +905,15 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
 
 ## 事件表
 
-当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`event.data.xxx`事件参数变量来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`来获取事件产生的数据（`< 2.3.2 及以下版本 为 ${event.data.[事件参数名]}`），详细请查看[事件动作](../../docs/concepts/event-action)。
 
-| 事件名称   | 事件参数                                                                                       | 说明                                         |
-| ---------- | ---------------------------------------------------------------------------------------------- | -------------------------------------------- |
-| add        | `event.data.value: string \| string[]` 当前数据集                                              | 添加组合项时触发                             |
-| delete     | `event.data.key: number` 移除项的索引<br />`event.data.value: string \| string[]` 现有的数据集 | 删除组合项时触发                             |
-| tabsChange | `event.data.key: number` 选项卡索引                                                            | 当设置 tabsMode 为 true 时，切换选项卡时触发 |
+> `[name]`表示当前组件绑定的名称，即`name`属性，如果没有配置`name`属性，则通过`value`取值。
+
+| 事件名称   | 事件参数                                                                                         | 说明                                         |
+| ---------- | ------------------------------------------------------------------------------------------------ | -------------------------------------------- |
+| add        | `[name]: object \| object[]` 组件的值                                                            | 添加组合项时触发                             |
+| delete     | `key: number` 移除项的索引<br />`item: object` 移除项<br />`[name]: object \| object[]` 组件的值 | 删除组合项时触发                             |
+| tabsChange | `key: number` 选项卡索引<br />`item: object` 激活项<br />`[name]: object \| object[]` 组件的值   | 当设置 tabsMode 为 true 时，切换选项卡时触发 |
 
 ## 动作表
 
@@ -919,6 +921,7 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
 
 | 动作名称 | 动作配置                                                                                                  | 说明                                                                                              |
 | -------- | --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| addItem  | `item: object` 新增项的值                                                                                         | 只有开启`multiple`模式才能使用, `multiple`模式下，给新增项添加默认值         |
 | clear    | -                                                                                                         | 清空                                                                                              |
 | reset    | -                                                                                                         | 将值重置为`resetValue`，若没有配置`resetValue`，则清空                                            |
 | setValue | `value: object \| Array<object>` 更新的值<br/>`index?: number` 指定更新的数据索引， 1.10.1 及以上版本引入 | 更新数据，对象数组针对开启`multiple`模式, `multiple`模式下可以通过指定`index`来更新指定索引的数据 |

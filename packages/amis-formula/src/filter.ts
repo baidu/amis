@@ -1,9 +1,7 @@
 import {Evaluator} from './evalutor';
 import {FilterMap} from './types';
 
-const entityMap: {
-  [propName: string]: string;
-} = {
+const entityMap: any = {
   '&': '&amp;',
   '<': '&lt;',
   '>': '&gt;',

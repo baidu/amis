@@ -3,13 +3,12 @@ import {
   OptionsControl,
   OptionsControlProps,
   Option,
-  FormOptionsControl
+  resolveEventData
 } from 'amis-core';
 import Downshift from 'downshift';
 import find from 'lodash/find';
 import isInteger from 'lodash/isInteger';
 import unionWith from 'lodash/unionWith';
-import isEqual from 'lodash/isEqual';
 import {findDOMNode} from 'react-dom';
 import {ResultBox} from 'amis-ui';
 import {autobind, filterTree, createObject} from 'amis-core';
@@ -19,6 +18,7 @@ import {PopOver} from 'amis-core';
 import {ListMenu} from 'amis-ui';
 import {ActionObject} from 'amis-core';
 import {FormOptionsSchema} from '../../Schema';
+import {supportStatic} from './StaticHoc';
 
 /**
  * Tag 输入框
@@ -144,13 +144,18 @@ export default class TagControl extends React.PureComponent<
 
   @autobind
   async dispatchEvent(eventName: string, eventData: any = {}) {
-    const {dispatchEvent, options, data} = this.props;
+    const {dispatchEvent, options} = this.props;
     const rendererEvent = await dispatchEvent(
       eventName,
-      createObject(data, {
-        options,
-        ...eventData
-      })
+      resolveEventData(
+        this.props,
+        {
+          options,
+          items: options, // 为了保持名字统一
+          ...eventData
+        },
+        'value'
+      )
     );
     // 返回阻塞标识
     return !!rendererEvent?.prevented;
@@ -268,7 +273,8 @@ export default class TagControl extends React.PureComponent<
     const newValueRes = this.getValue('push', option);
 
     const isPrevented = await this.dispatchEvent('change', {
-      value: newValueRes
+      value: newValueRes,
+      selectedItems: selectedOptions.concat(option)
     });
     isPrevented || onChange(newValueRes);
   }
@@ -282,7 +288,8 @@ export default class TagControl extends React.PureComponent<
 
     const newValueRes = this.getValue('normal');
     const isPrevented = await this.dispatchEvent('focus', {
-      value: newValueRes
+      value: newValueRes,
+      selectedItems: this.props.selectedOptions
     });
     isPrevented || this.props.onFocus?.(e);
   }
@@ -300,7 +307,8 @@ export default class TagControl extends React.PureComponent<
 
     const newValueRes = this.normalizeMergedValue(value);
     const isPrevented = await this.dispatchEvent('blur', {
-      value: newValueRes
+      value: newValueRes,
+      selectedItems: selectedOptions
     });
 
     isPrevented || this.props.onBlur?.(e);
@@ -348,7 +356,8 @@ export default class TagControl extends React.PureComponent<
     }
 
     const isPrevented = await this.dispatchEvent('change', {
-      value: newValue
+      value: newValue,
+      selectedItems: value
     });
     isPrevented || onChange(newValue);
   }
@@ -364,11 +373,13 @@ export default class TagControl extends React.PureComponent<
     const {selectedOptions, onChange, delimiter} = this.props;
 
     const value = this.state.inputValue.trim();
+    const selectedItems = selectedOptions.concat({label: value, value});
 
     if (selectedOptions.length && !value && evt.key == 'Backspace') {
       const newValueRes = this.getValue('pop');
       const isPrevented = await this.dispatchEvent('change', {
-        value: newValueRes
+        value: newValueRes,
+        selectedItems
       });
       isPrevented || onChange(newValueRes);
     } else if (value && (evt.key === 'Enter' || evt.key === delimiter)) {
@@ -377,7 +388,8 @@ export default class TagControl extends React.PureComponent<
 
       const newValueRes = this.normalizeMergedValue(value);
       const isPrevented = await this.dispatchEvent('change', {
-        value: newValueRes
+        value: newValueRes,
+        selectedItems
       });
 
       if (!this.validateInputValue(value)) {
@@ -425,6 +437,7 @@ export default class TagControl extends React.PureComponent<
     return max != null && isInteger(max) && selectedOptions.length >= max;
   }
 
+  @supportStatic()
   render() {
     const {
       className,
@@ -523,7 +536,7 @@ export default class TagControl extends React.PureComponent<
                           disabled: reachMax || item.disabled,
                           className: cx('ListMenu-item', {
                             'is-disabled': reachMax
-                          }),
+                          })
                         })
                       })}
                     />

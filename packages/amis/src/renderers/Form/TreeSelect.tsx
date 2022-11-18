@@ -1,5 +1,5 @@
 import React from 'react';
-import {Overlay} from 'amis-core';
+import {Overlay, resolveEventData} from 'amis-core';
 import {PopOver} from 'amis-core';
 import {PopUp} from 'amis-ui';
 
@@ -23,6 +23,7 @@ import {findDOMNode} from 'react-dom';
 import {normalizeOptions} from 'amis-core';
 import {ActionObject} from 'amis-core';
 import {FormOptionsSchema} from '../../Schema';
+import {supportStatic} from './StaticHoc';
 
 /**
  * Tree 下拉选择框。
@@ -116,6 +117,7 @@ export default class TreeSelectControl extends React.Component<
   TreeSelectState
 > {
   static defaultProps = {
+    hideRoot: true,
     placeholder: 'Select.placeholder',
     optionsPlaceholder: 'placeholder.noData',
     multiple: false,
@@ -202,23 +204,13 @@ export default class TreeSelectControl extends React.Component<
   }
 
   handleFocus(e: any) {
-    const {dispatchEvent, value, data} = this.props;
-    dispatchEvent(
-      'focus',
-      createObject(data, {
-        value
-      })
-    );
+    const {dispatchEvent, value} = this.props;
+    dispatchEvent('focus', resolveEventData(this.props, {value}, 'value'));
   }
 
   handleBlur(e: any) {
     const {dispatchEvent, value, data} = this.props;
-    dispatchEvent(
-      'blur',
-      createObject(data, {
-        value
-      })
-    );
+    dispatchEvent('blur', resolveEventData(this.props, {value}, 'value'));
   }
 
   handleKeyPress(e: React.KeyboardEvent) {
@@ -453,9 +445,7 @@ export default class TreeSelectControl extends React.Component<
 
     const rendererEvent = await dispatchEvent(
       'change',
-      createObject(data, {
-        value
-      })
+      resolveEventData(this.props, {value}, 'value')
     );
 
     if (rendererEvent?.prevented) {
@@ -536,7 +526,8 @@ export default class TreeSelectControl extends React.Component<
       expandTreeOptions,
       selfDisabledAffectChildren,
       showOutline,
-      autoCheckChildren
+      autoCheckChildren,
+      hideRoot
     } = this.props;
 
     let filtedOptions =
@@ -572,7 +563,7 @@ export default class TreeSelectControl extends React.Component<
         showOutline={showOutline}
         cascade={cascade}
         foldedField="collapsed"
-        hideRoot
+        hideRoot={hideRoot}
         value={value || ''}
         nodePath={nodePath}
         enableNodePath={enableNodePath}
@@ -598,6 +589,7 @@ export default class TreeSelectControl extends React.Component<
     );
   }
 
+  @supportStatic()
   render() {
     const {
       className,

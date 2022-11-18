@@ -52,7 +52,8 @@ const defaultOmitList = [
   'requiredOn',
   'syncSuperStore',
   'mode',
-  'body'
+  'body',
+  'id'
 ];
 
 const componentCache: SimpleMap = new SimpleMap();
@@ -86,7 +87,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       () =>
         `${props.topStore.visibleState[props.schema.id || props.$path]}${
           props.topStore.disableState[props.schema.id || props.$path]
-        }`,
+        }${props.topStore.staticState[props.schema.id || props.$path]}`,
       () => this.forceUpdate()
     );
   }
@@ -203,9 +204,10 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
 
   async dispatchEvent(
     e: React.MouseEvent<any>,
-    data: any
+    data: any,
+    renderer?: React.Component<RendererProps> // for didmount
   ): Promise<RendererEvent<any> | void> {
-    return await dispatchEvent(e, this.cRef, this.context, data);
+    return await dispatchEvent(e, this.cRef || renderer, this.context, data);
   }
 
   renderChild(
@@ -273,6 +275,9 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       : undefined;
     const disable = isAlive(topStore)
       ? topStore.disableState[schema.id || $path]
+      : undefined;
+    const isStatic = isAlive(topStore)
+      ? topStore.staticState[schema.id || $path]
       : undefined;
 
     if (
@@ -420,6 +425,10 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
 
     if (disable !== undefined) {
       (props as any).disabled = disable;
+    }
+
+    if (isStatic !== undefined) {
+      (props as any).static = isStatic;
     }
 
     // 自动解析变量模式，主要是方便直接引入第三方组件库，无需为了支持变量封装一层

@@ -72,17 +72,19 @@ import VariableList from './formula/VariableList';
 import FormulaPicker from './formula/Picker';
 import PickerContainer from './PickerContainer';
 import InputJSONSchema from './json-schema';
-import {Badge, BadgeObject, withBadge} from './Badge';
+import {Badge, withBadge} from './Badge';
+import type {BadgeObject} from './Badge';
 import {getIcon, Icon, registerIcon} from './icons';
-import {RemoteOptionsProps, withRemoteConfig} from './WithRemoteConfig';
+import {withRemoteConfig} from './WithRemoteConfig';
+import type {RemoteOptionsProps} from './WithRemoteConfig';
 import ConditionBuilder from './condition-builder';
-import {
+import type {
   ConditionBuilderFields,
   ConditionBuilderFuncs
 } from './condition-builder/types';
-import {ConditionBuilderConfig} from './condition-builder/config';
+import type {ConditionBuilderConfig} from './condition-builder/config';
 import CityArea from './CityArea';
-import {PresetColor} from './ColorPicker';
+import type {PresetColor} from './ColorPicker';
 import ListMenu from './ListMenu';
 import Input from './Input';
 import JSONSchemaEditor from './schema-editor';
@@ -97,7 +99,8 @@ import UserSelect from './UserSelect';
 import UserTabSelect from './UserTabSelect';
 import HeadCellDropDown from './table/HeadCellDropDown';
 import Card from './Card';
-import GridNav, {GridNavDirection, GridNavItem} from './GridNav';
+import GridNav, {GridNavItem} from './GridNav';
+import type {GridNavDirection} from './GridNav';
 import Link from './Link';
 import VirtualList from './virtual-list';
 import {withStore} from './WithStore';
@@ -108,6 +111,14 @@ import Steps, {StepStatus} from './Steps';
 import Tag from './Tag';
 import Timeline from './Timeline';
 import ImageGallery from './ImageGallery';
+import BaiduMapPicker from './BaiduMapPicker';
+import MultilineText from './MultilineText';
+import Form from './Form';
+import FormField, {Controller} from './FormField';
+import Combo from './Combo';
+import InputTable from './InputTable';
+import type {InputTableColumnProps} from './InputTable';
+import ConfirmBox from './ConfirmBox';
 
 export {
   NotFound,
@@ -175,6 +186,7 @@ export {
   SchemaVariableList,
   VariableList,
   PickerContainer,
+  ConfirmBox,
   FormulaPicker,
   InputJSONSchema,
   withBadge,
@@ -220,5 +232,13 @@ export {
   StepStatus,
   Tag,
   Timeline,
-  ImageGallery
+  ImageGallery,
+  BaiduMapPicker,
+  MultilineText,
+  Form,
+  FormField,
+  Controller,
+  Combo,
+  InputTable,
+  InputTableColumnProps
 };

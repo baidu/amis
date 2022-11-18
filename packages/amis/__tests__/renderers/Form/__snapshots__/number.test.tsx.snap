@@ -143,6 +143,167 @@ exports[`Renderer:number 1`] = `
 </div>
 `;
 
+exports[`Renderer:number with big value 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    style="position: relative;"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            表单
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  number
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-NumberControl cxd-Form-control"
+          >
+            <div
+              class="cxd-Number cxd-Number--borderFull"
+            >
+              <div
+                class="cxd-Number-handler-wrap"
+              >
+                <span
+                  aria-disabled="true"
+                  aria-label="Increase Value"
+                  class="cxd-Number-handler cxd-Number-handler-up cxd-Number-handler-up-disabled"
+                  role="button"
+                  unselectable="on"
+                >
+                  <span
+                    class="cxd-Number-handler-up-inner"
+                    unselectable="on"
+                  />
+                </span>
+                <span
+                  aria-disabled="false"
+                  aria-label="Decrease Value"
+                  class="cxd-Number-handler cxd-Number-handler-down"
+                  role="button"
+                  unselectable="on"
+                >
+                  <span
+                    class="cxd-Number-handler-down-inner"
+                    unselectable="on"
+                  />
+                </span>
+              </div>
+              <div
+                class="cxd-Number-input-wrap"
+              >
+                <input
+                  aria-valuemax="99999999999999999.99"
+                  aria-valuemin="9999999999999999.99"
+                  aria-valuenow="99999999999999999.99"
+                  autocomplete="off"
+                  class="cxd-Number-input"
+                  role="spinbutton"
+                  step="1"
+                  value="99999999999999999.99"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div
+      class="cxd-Panel-footerWrap"
+    >
+      <div
+        class="cxd-Panel-btnToolbar cxd-Panel-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+          type="submit"
+        >
+          <span>
+            提交
+          </span>
+        </button>
+      </div>
+    </div>
+    <div
+      class="resize-sensor"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+    >
+      
+  
+      <div
+        class="resize-sensor-expand"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-shrink"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
+    </div>
+  </div>
+</div>
+`;
+
 exports[`Renderer:number with borderMode 1`] = `
 <div>
   <div
@@ -249,7 +410,7 @@ exports[`Renderer:number with borderMode 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -407,7 +568,7 @@ exports[`Renderer:number with borderMode 2`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -566,7 +727,7 @@ exports[`Renderer:number with precision and default value 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -725,7 +886,7 @@ exports[`Renderer:number with prefix & suffix & kilobitSeparator 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -904,7 +1065,7 @@ exports[`Renderer:number with step & precision & displayMode & keyboard 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -1107,7 +1268,7 @@ exports[`Renderer:number with unitOptions 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>

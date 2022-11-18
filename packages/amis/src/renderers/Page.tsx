@@ -39,7 +39,6 @@ import mapValues from 'lodash/mapValues';
 import {resolveVariable} from 'amis-core';
 import {buildStyle} from 'amis-core';
 import {PullRefresh} from 'amis-ui';
-import position from 'amis-core';
 import {scrollPosition, isMobile} from 'amis-core';
 
 /**
@@ -377,11 +376,32 @@ export default class Page extends React.Component<PageProps> {
     }
   }
 
-  componentDidMount() {
-    const {initApi, initFetch, initFetchOn, store, messages, asideSticky} =
-      this.props;
+  async componentDidMount() {
+    const {
+      initApi,
+      initFetch,
+      initFetchOn,
+      store,
+      messages,
+      asideSticky,
+      data,
+      dispatchEvent
+    } = this.props;
 
     this.mounted = true;
+
+    if (asideSticky && this.asideInner.current) {
+      const dom = this.asideInner.current!;
+      dom.style.cssText += `position: sticky; top: ${
+        scrollPosition(dom).top
+      }px;`;
+    }
+
+    const rendererEvent = await dispatchEvent('init', data, this);
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
 
     if (isEffectiveApi(initApi, store.data, initFetch, initFetchOn)) {
       store
@@ -390,13 +410,6 @@ export default class Page extends React.Component<PageProps> {
           errorMessage: messages && messages.fetchFailed
         })
         .then(this.initInterval);
-    }
-
-    if (asideSticky && this.asideInner.current) {
-      const dom = this.asideInner.current!;
-      dom.style.cssText += `position: sticky; top: ${
-        scrollPosition(dom).top
-      }px;`;
     }
   }
 
@@ -620,9 +633,15 @@ export default class Page extends React.Component<PageProps> {
     });
   }
 
-  reload(subpath?: any, query?: any, ctx?: any, silent?: boolean) {
+  reload(
+    subpath?: any,
+    query?: any,
+    ctx?: any,
+    silent?: boolean,
+    replace?: boolean
+  ) {
     if (query) {
-      return this.receive(query);
+      return this.receive(query, undefined, replace);
     }
 
     const {store, initApi} = this.props;
@@ -636,10 +655,10 @@ export default class Page extends React.Component<PageProps> {
         .then(this.initInterval);
   }
 
-  receive(values: object) {
+  receive(values: object, subPath?: string, replace?: boolean) {
     const {store} = this.props;
 
-    store.updateData(values);
+    store.updateData(values, undefined, replace);
     this.reload();
   }
 
@@ -1024,7 +1043,7 @@ export class PageRenderer extends Page {
     }, 300);
   }
 
-  setData(values: object) {
-    return this.props.store.updateData(values);
+  setData(values: object, replace?: boolean) {
+    return this.props.store.updateData(values, undefined, replace);
   }
 }

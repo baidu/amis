@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <title>角色</title>
     <g id="PC-流程属性、找人找部门+公式化编辑器+字段权限" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <g transform="translate(-3426.000000, -1246.000000)" id="角色">
             <g transform="translate(3426.000000, 1246.000000)">
-                <rect id="矩形" fill-opacity="0.01" fill="#FFFFFF" fill-rule="nonzero" x="0" y="0" width="16" height="16"></rect>
-                <circle id="椭圆形" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" cx="8" cy="4" r="2.66666667"></circle>
-                <path d="M14,14.6666667 C14,11.3529667 11.3137,8.66666667 8,8.66666667 C4.6863,8.66666667 2,11.3529667 2,14.6666667" id="路径" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"></path>
-                <polygon id="路径" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" points="8 14.6666667 9.33333333 13 8 8.66666667 6.66666667 13"></polygon>
+                <rect id="矩形" fill-opacity="0.01" fill="currentColor" fill-rule="nonzero" x="0" y="0" width="16" height="16"></rect>
+                <circle id="椭圆形" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" cx="8" cy="4" r="2.66666667"></circle>
+                <path d="M14,14.6666667 C14,11.3529667 11.3137,8.66666667 8,8.66666667 C4.6863,8.66666667 2,11.3529667 2,14.6666667" id="路径" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+                <polygon id="路径" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" points="8 14.6666667 9.33333333 13 8 8.66666667 6.66666667 13"></polygon>
             </g>
         </g>
     </g>

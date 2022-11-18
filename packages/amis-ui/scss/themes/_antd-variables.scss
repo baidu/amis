@@ -1,179 +1,222 @@
-@import './antd-colors';
-@import '../functions';
-
-$remFactor: 16px;
-
 $ns: 'antd-';
-
-$primary: $blue-6;
-$info: $primary;
-$success: $green-6;
-$warning: $gold-6;
-$danger: $red-5;
-$light: #d9d9d9;
-$white: #fff;
-$black: #000;
-
-$info-bg: #eaf6fe;
-$success-bg: #f1fdeb;
-$warning-bg: #fcf7f1;
-$danger-bg: #fff5f5;
-
-// Border color
-$border-color-base: #d9d9d9; // base border outline a component
-$border-color-split: #5d5d5d; // split border inside a component
-$border-color-inverse: $white;
-$border-width-base: 1px; // width of the border for a component
-$border-style-base: solid; // style of a components border
-
-$text-color: rgba(0, 0, 0, 0.85);
-
-$text--muted-color: #6c6c6c;
-$text--loud-color: lighten($text-color, 10%);
-
-$link-color: $info;
-
-@import '../variables';
-@import '../properties';
-
-/* 此处放置需要override的变量，因为部分变量已经在variables.scss中定义 */
-$Table-strip-bg: transparent;
-
 :root {
-  --fontFamilyBase: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji',
-    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-
-  --lineHeightBase: 1.57;
-
-  --borderColor: #d9d9d9;
-  --text-color: #{$text-color};
-
-  --text--muted-color: #999;
-  --text--loud-color: #333;
-  --link-onHover-decoration: none;
-
-  --icon-color: inherit;
-  --icon-onHover-color: var(--primary);
-
-  --body-bg: #f0f2f5;
-
-  --borderRadius: 2px;
-
-  --Page-header-bg: #fff;
-
-  --Button-boxShadow: none;
-  --Button-onActive-boxShadow: none;
-  --Button-transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
-  // --Button-textShadow: 0 -1px 0 rgb(0 0 0 / 12%);
-  --Button--default-border: #d9d9d9;
-  --Button--default-onHover-border: #{$blue-5};
-  --Button--default-onHover-bg: #fff;
-  --Button--default-onHover-color: #{$blue-5};
-  --Button--default-onActive-bg: #fff;
-  --Button--default-onActive-border: #{$blue-7};
-  --Button--default-onActive-color: #{$blue-7};
-  --Button-onDisabled-borderColor: #d9d9d9;
-
-  --Button--primary-onHover-bg: #{$blue-5};
-  --Button--primary-onHover-border: #{$blue-5};
-
-  --Card-onChecked-bg: #{$blue-1};
-  --Card-onChecked-color: var(--body-color);
-  --Card-onChecked-fieldLabel-color: var(--text--muted-color);
-  --Card-onChecked-borderColor: #{$blue-5};
-
-  --Calendar-btnCancel-bg: #fff;
-  --Calendar-btnCancel-border: var(--Button--default-border);
-
-  --Checkbox-onDisabled-color: #d9d9d9;
-  --Checkbox-onDisabled-bg: #f5f5f5;
-
-  --Radio-onDisabled-color: #c4c4c4;
-  --Radio-onDisabled-bg: #f5f5f5;
-  --Radio-onFocus-boxShadow: 0 0 0 3px rgb(24 144 255 / 8%);
-
-  --Rating-onActive-color: #fadb14;
-
-  --Panel--default-bg: #fff;
-
-  --Layout-aside-bg: #001529;
-  --Layout-brand-bg: #001529;
-  --Layout-aside-color: hsla(0, 0%, 100%, 0.65);
-  --Layout-aside-subList-bg: #000c17;
-  --Layout-aside-onHover-bg: none;
-  --Layout-aside-onAcitve-bg: #1890ff;
-
-  --ListControl-item-onHover-color: var(--primary);
-  --ListControl-item-onHover-bg: var(--Button--default-onHover-bg);
-  --ListControl-item-onHover-borderColor: var(--primary);
-
-  --ListItem-onChecked-bg: #{$blue-1};
-  --ListItem--strip-bg: #fff;
-
-  --Nav-item-onActive-borderLeft: 0;
-
-  --Modal-header-bg: #fff;
-  --Modal-title-fontWeight: 500;
-
-  --Form-item-fontSize: var(--fontSizeBase);
-  --Form-item-fontColor: var(--body-color);
-  --Form-input-onFocused-borderColor: #{$blue-5};
-  --Form-input-borderColor: #{$border-color-base};
-  --Form-input-boxShadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
-  --Form-select-borderWidth: #{px2rem(1px)};
-  --Form-select-borderRadius: 0;
-  --Form-select-borderColor: #{$border-color-base};
-  --Form-select-bg: var(--white);
-  --Form-select-onHover-bg: var(--white);
-  --Form-select-onHover-borderColor: #{$blue-5};
-  --Form-select-placeholderColor: #999;
-  --Form-select-color: #000;
-  --Form-select-caret-iconColor: #999;
-  --Form-select-caret-onHover-iconColor: var(--primary);
-  --Form-select-caret-fontSize: #{px2rem(12px)};
-  --Form-select-outer-borderWidth: 0;
-  --Form-select-outer-top: #{px2rem(32px)};
-  --Form-select-outer-boxShadow: 0 3px 6px -4px rgb(0 0 0 / 12%),
-    0 6px 16px 0 rgb(0 0 0 / 8%), 0 9px 28px 8px rgb(0 0 0 / 5%);
-  --Form-select-menu-color: #333;
-  --Form-select-menu-onHover-color: #000;
-  --Form-select-menu-onHover-bg: #f5f5f5;
-  --Form-select-menu-height: #{px2rem(24px)};
-  --Form-select-popoverGap: #{px2rem(3px)};
-  --Form-select-search-height: #{px2rem(30px)};
-  --Form-selectValue-color: var(--primary);
-  --Form-select-onFocus-boxShadow: 0 0 0 3px rgb(24 144 255 / 8%);
-
-  --Page-aside-bg: #ffffff;
-
-  --Pagination-onActive-backgroundColor: #fff;
-  --Pagination-onActive-color: rgb(24, 144, 255);
-  --Pagination-onActive-border: #{px2rem(1px)} solid var(--primary);
-
-  --Transfer-title-bg: #f0f2f5;
-  // Tabs
-  --Tabs-linkFontSize: #{px2rem(14px)};
-  --Tabs--card-bg: var(--Table-thead-bg);
-  --Tabs--radio-bg: var(--white);
-  --Tabs--vertical-onActive-bg: #e7f7ff;
-  --Tabs--vertical-onActive-borderWidth: 0 3px 0 0;
-  --Tabs--vertical-onActive-container-bg: #fff;
-  --Tabs--vertical-onActive-container-borderRight: 1px solid #f0f0f0;
-
-  --Table-strip-bg: #{$Table-strip-bg};
-  --Table-thead-bg: #fafafa;
-  --Table-onHover-bg: rgb(250, 250, 250);
-  --Table-onHover-borderColor: var(--Table-borderColor);
-  --Table-onChecked-bg: #{$blue-1};
-  --Table-onChecked-color: var(--Table-color);
-  --Table-onChecked-borderColor: var(--Table-borderColor);
-
-  --Switch-bgColor: #bfbfbf;
-
-  // tree
-  --Tree-item-onChekced-bg: #bae7ff;
-  --Tree-item-onChekced-bg-borderRadius: #{px2rem(2px)};
-  --Tree-itemHeight: #{px2rem(24px)};
-  --Tree-icon-gap: var(--gap-sm);
+  --colors-neutral-fill-none: translate;
+  --colors-error-main: #ff4d4f;
+  --colors-error-1: #660a18;
+  --colors-error-2: #8c1523;
+  --colors-error-3: #b32430;
+  --colors-error-4: #d9363e;
+  --colors-error-5: #ff4d4f;
+  --colors-error-6: #ff7070;
+  --colors-error-7: #ff9694;
+  --colors-error-8: #ffbab8;
+  --colors-error-9: #ffdddb;
+  --colors-error-10: #ffe7e6;
+  --colors-warning-main: #faad14;
+  --colors-warning-1: #613400;
+  --colors-warning-2: #874d00;
+  --colors-warning-3: #ad6800;
+  --colors-warning-4: #d48806;
+  --colors-warning-5: #faad14;
+  --colors-warning-6: #ffc443;
+  --colors-warning-7: #ffd572;
+  --colors-warning-8: #ffe4a1;
+  --colors-warning-9: #fff2d0;
+  --colors-warning-10: #fff9e6;
+  --colors-success-main: #389e0d;
+  --colors-success-1: #010500;
+  --colors-success-2: #092b00;
+  --colors-success-3: #135200;
+  --colors-success-4: #237804;
+  --colors-success-5: #389e0d;
+  --colors-success-6: #55ab2d;
+  --colors-success-7: #74b852;
+  --colors-success-8: #95c47c;
+  --colors-success-9: #b9d1ab;
+  --colors-success-10: #d0dec8;
+  --colors-link-1: #002766;
+  --colors-link-2: #003a8c;
+  --colors-link-3: #0050b3;
+  --colors-link-4: #096dd9;
+  --colors-link-5: #1890ff;
+  --colors-link-6: #45a8ff;
+  --colors-link-7: #74c0ff;
+  --colors-link-8: #a2d7ff;
+  --colors-link-9: #d1ecff;
+  --colors-link-10: #e6f5ff;
+  --colors-info-1: #002766;
+  --colors-info-2: #003a8c;
+  --colors-info-3: #0050b3;
+  --colors-info-4: #096dd9;
+  --colors-info-5: #1890ff;
+  --colors-info-6: #45a8ff;
+  --colors-info-7: #74c0ff;
+  --colors-info-8: #a2d7ff;
+  --colors-info-9: #d1ecff;
+  --colors-info-10: #e6f5ff;
+  --colors-other-main: #2468f2;
+  --colors-other-1: #001259;
+  --colors-other-2: #001e80;
+  --colors-other-3: #0832a6;
+  --colors-other-4: #144bcc;
+  --colors-other-5: #2468f2;
+  --colors-other-6: #528eff;
+  --colors-other-7: #7dadff;
+  --colors-other-8: #a8caff;
+  --colors-other-9: #d4e5ff;
+  --colors-other-10: #e6f0ff;
+  --colors-brand-1: #002766;
+  --colors-brand-2: #003a8c;
+  --colors-brand-3: #0050b3;
+  --colors-brand-4: #096dd9;
+  --colors-brand-5: #1890ff;
+  --colors-brand-6: #45a8ff;
+  --colors-brand-7: #74c0ff;
+  --colors-brand-8: #a2d7ff;
+  --colors-brand-9: #d1ecff;
+  --colors-brand-10: #e6f5ff;
+  --colors-neutral-text-1: #070e14;
+  --colors-neutral-text-2: #151e26;
+  --colors-neutral-text-3: #303840;
+  --colors-neutral-text-4: #5c6166;
+  --colors-neutral-text-5: #84888c;
+  --colors-neutral-text-6: #b8bcbf;
+  --colors-neutral-text-7: #d4d7d9;
+  --colors-neutral-text-8: #e8e9eb;
+  --colors-neutral-text-9: #f2f4f5;
+  --colors-neutral-text-10: #f7f9fa;
+  --colors-neutral-text-11: #ffffff;
+  --colors-neutral-fill-none: transparent;
+  --colors-neutral-fill-1: #070e14;
+  --colors-neutral-fill-2: #151e26;
+  --colors-neutral-fill-3: #303840;
+  --colors-neutral-fill-4: #5c6166;
+  --colors-neutral-fill-5: #84888c;
+  --colors-neutral-fill-6: #b8bcbf;
+  --colors-neutral-fill-7: #d4d7d9;
+  --colors-neutral-fill-8: #e8e9eb;
+  --colors-neutral-fill-9: #f2f4f5;
+  --colors-neutral-fill-10: #f7f9fa;
+  --colors-neutral-fill-11: #ffffff;
+  --colors-neutral-line-1: #070e14;
+  --colors-neutral-line-2: #151e26;
+  --colors-neutral-line-3: #303840;
+  --colors-neutral-line-4: #5c6166;
+  --colors-neutral-line-5: #84888c;
+  --colors-neutral-line-6: #b8bcbf;
+  --colors-neutral-line-7: #d4d7d9;
+  --colors-neutral-line-8: #e8e9eb;
+  --colors-neutral-line-9: #f2f4f5;
+  --colors-neutral-line-10: #f7f9fa;
+  --colors-neutral-line-11: #ffffff;
+  --fonts-base-family: -apple-system, BlinkMacSystemFont, SF Pro SC, SF Pro Text,
+    Helvetica Neue, Helvetica, PingFang SC, Segoe UI, Roboto, Hiragino Sans GB,
+    Arial, microsoft yahei ui, Microsoft YaHei, SimSun, sans-serif;
+  --fonts-size-1: 48px;
+  --fonts-size-2: 40px;
+  --fonts-size-3: 32px;
+  --fonts-size-4: 24px;
+  --fonts-size-5: 18px;
+  --fonts-size-6: 16px;
+  --fonts-size-7: 14px;
+  --fonts-size-8: 12px;
+  --fonts-size-9: 12px;
+  --fonts-weight-1: 900;
+  --fonts-weight-2: 800;
+  --fonts-weight-3: 700;
+  --fonts-weight-4: 600;
+  --fonts-weight-5: 500;
+  --fonts-weight-6: 400;
+  --fonts-weight-7: 300;
+  --fonts-weight-8: 200;
+  --fonts-weight-9: 100;
+  --fonts-lineHeight-1: 1.3;
+  --fonts-lineHeight-2: 1.5;
+  --fonts-lineHeight-3: 1.7;
+  --borders-style-1: none;
+  --borders-style-2: solid;
+  --borders-style-3: dashed;
+  --borders-style-4: dotted;
+  --borders-width-1: 0px;
+  --borders-width-2: 1px;
+  --borders-width-3: 2px;
+  --borders-width-4: 4px;
+  --borders-radius-1: 0px;
+  --borders-radius-2: 1px;
+  --borders-radius-3: 2px;
+  --borders-radius-4: 6px;
+  --borders-radius-5: 8px;
+  --borders-radius-6: 10px;
+  --borders-radius-7: 50%;
+  --sizes-size-0: 0rem;
+  --sizes-size-1: auto;
+  --sizes-size-2: 0.125rem;
+  --sizes-size-3: 0.25rem;
+  --sizes-size-4: 0.375rem;
+  --sizes-size-5: 0.5rem;
+  --sizes-size-6: 0.625rem;
+  --sizes-size-7: 0.75rem;
+  --sizes-size-8: 0.875rem;
+  --sizes-size-9: 1rem;
+  --sizes-base-2: 0.125rem;
+  --sizes-base-3: 0.25rem;
+  --sizes-base-4: 0.375rem;
+  --sizes-base-5: 0.5rem;
+  --sizes-base-6: 0.625rem;
+  --sizes-base-7: 0.75rem;
+  --sizes-base-8: 0.875rem;
+  --sizes-base-9: 1rem;
+  --sizes-base-10: 1.125rem;
+  --sizes-base-11: 1.25rem;
+  --sizes-base-12: 1.375rem;
+  --sizes-base-13: 1.5rem;
+  --sizes-base-14: 1.625rem;
+  --sizes-base-15: 1.75rem;
+  --sizes-base-16: 1.875rem;
+  --sizes-base-17: 2rem;
+  --sizes-base-18: 2.125rem;
+  --sizes-base-19: 2.25rem;
+  --sizes-base-20: 2.375rem;
+  --sizes-base-21: 2.5rem;
+  --sizes-base-22: 2.625rem;
+  --sizes-base-23: 2.75rem;
+  --sizes-base-24: 2.875rem;
+  --sizes-base-25: 3rem;
+  --sizes-base-26: 3.125rem;
+  --sizes-base-27: 3.25rem;
+  --sizes-base-28: 3.375rem;
+  --sizes-base-29: 3.5rem;
+  --sizes-base-30: 3.625rem;
+  --sizes-base-31: 3.75rem;
+  --sizes-base-32: 3.875rem;
+  --sizes-base-33: 4rem;
+  --sizes-base-34: 4.125rem;
+  --sizes-base-35: 4.25rem;
+  --sizes-base-36: 4.375rem;
+  --sizes-base-37: 4.5rem;
+  --sizes-base-38: 4.625rem;
+  --sizes-base-39: 4.75rem;
+  --sizes-base-40: 4.875rem;
+  --sizes-base-41: 5rem;
+  --sizes-base-42: 5.125rem;
+  --sizes-base-43: 5.25rem;
+  --sizes-base-44: 5.375rem;
+  --sizes-base-45: 5.5rem;
+  --sizes-base-46: 5.625rem;
+  --sizes-base-47: 5.75rem;
+  --sizes-base-48: 5.875rem;
+  --sizes-base-49: 6rem;
+  --sizes-base-50: 6.125rem;
+  --sizes-base-51: 6.25rem;
+  --shadows-shadow-none: 0px 0px 0px 0px transparent;
+  --shadows-shadow-sm: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  --shadows-shadow-normal: 0px 1px 3px 0px rgba(0, 0, 0, 0.1),
+    0px 1px 2px 0px rgba(0, 0, 0, 0.06);
+  --shadows-shadow-md: 0px 4px -1px 0px rgba(0, 0, 0, 0.1),
+    0px 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadows-shadow-lg: 0px 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0px 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadows-shadow-xl: 0px 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0px 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadows-shadow-2xl: 0px 25px 50px -12px rgba(0, 0, 0, 0.25);
 }

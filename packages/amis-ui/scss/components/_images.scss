@@ -21,11 +21,15 @@
 
   &-thumbWrap {
     position: relative;
-    height: 100%;
+    // height: 100%;
   }
 
   &-image {
     display: block;
+
+    &--loading {
+      visibility: hidden;
+    }
   }
 
   &--original &-image {

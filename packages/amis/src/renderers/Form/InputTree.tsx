@@ -8,10 +8,12 @@ import {
   createObject,
   ActionObject,
   isPureVariable,
-  resolveVariableAndFilter
+  resolveVariableAndFilter,
+  resolveEventData
 } from 'amis-core';
 import {Spinner} from 'amis-ui';
 import {FormOptionsSchema, SchemaApi} from '../../Schema';
+import {supportStatic} from './StaticHoc';
 
 /**
  * Tree 下拉选择框。
@@ -145,13 +147,11 @@ export default class TreeControl extends React.Component<TreeProps> {
 
   @autobind
   async handleChange(value: any) {
-    const {onChange, dispatchEvent, data} = this.props;
+    const {onChange, dispatchEvent} = this.props;
 
     const rendererEvent = await dispatchEvent(
       'change',
-      createObject(data, {
-        value
-      })
+      resolveEventData(this.props, {value}, 'value')
     );
 
     if (rendererEvent?.prevented) {
@@ -179,6 +179,7 @@ export default class TreeControl extends React.Component<TreeProps> {
     }
   }
 
+  @supportStatic()
   render() {
     const {
       className,

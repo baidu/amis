@@ -1,5 +1,5 @@
 import React from 'react';
-
+import isEqual from 'lodash/isEqual';
 import {Renderer, RendererProps} from 'amis-core';
 import {SchemaNode, Schema, ActionObject, PlainObject} from 'amis-core';
 import {CRUDStore, ICRUDStore} from 'amis-core';
@@ -519,13 +519,19 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     }
 
     let val: any;
+
     if (
       this.props.pickerMode &&
       isArrayChildrenModified(
         (val = getPropValue(this.props)),
         getPropValue(prevProps)
-      )
+      ) &&
+      !isEqual(val, store.selectedItems.concat())
     ) {
+      /**
+       * 更新链：Table -> CRUD -> Picker -> Form
+       * 对于Picker模式来说，执行到这里的时候store.selectedItems已经更新过了，所以需要额外判断一下
+       */
       store.setSelectedItems(val);
     }
 
@@ -721,6 +727,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
     const ctx = createObject(store.mergedData, {
       ...selectedItems[0],
+      currentPageData: store.mergedData.items.concat(),
       rows: selectedItems,
       items: selectedItems,
       selectedItems,
@@ -776,10 +783,14 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     };
 
     // Action如果配了事件动作也会处理二次确认，这里需要处理一下忽略
-    if (!action.ignoreConfirm && action.confirmText && env.confirm) {
-      env
-        .confirm(filter(action.confirmText, ctx))
-        .then((confirmed: boolean) => confirmed && fn());
+    let confirmText: string = '';
+    if (
+      !action.ignoreConfirm &&
+      action.confirmText &&
+      env.confirm &&
+      (confirmText = filter(action.confirmText, ctx))
+    ) {
+      env.confirm(confirmText).then((confirmed: boolean) => confirmed && fn());
     } else {
       fn();
     }
@@ -889,10 +900,14 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   ) {
     const action = this.props.store.selectedAction;
     const env = this.props.env;
+    let confirmText: string = '';
 
-    if (action.confirmText) {
+    if (
+      action.confirmText &&
+      (confirmText = filter(action.confirmText, this.props.store.mergedData))
+    ) {
       return env
-        .confirm(action.confirmText)
+        .confirm(confirmText)
         .then(
           (confirmed: boolean) =>
             confirmed &&
@@ -1469,9 +1484,10 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         newItems.splice(0, newItems.length - 1)
       );
     }
+
     store.setSelectedItems(newItems);
     store.setUnSelectedItems(newUnSelectedItems);
-    onSelect && onSelect(newItems);
+    onSelect && onSelect(newItems, newUnSelectedItems);
   }
 
   handleChildPopOverOpen(popOver: any) {
@@ -1501,33 +1517,51 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     }
   }
 
-  handleQuery(values: object, forceReload: boolean = false) {
+  handleQuery(
+    values: object,
+    forceReload: boolean = false,
+    replace?: boolean,
+    resetPage?: boolean
+  ) {
     const {store, syncLocation, env, pageField, perPageField} = this.props;
-
     store.updateQuery(
-      {
-        ...values,
-        [pageField || 'page']: 1
-      },
+      resetPage
+        ? {
+            // 有些交互场景完全不想重置
+            [pageField || 'page']: 1,
+            ...values
+          }
+        : values,
       syncLocation && env && env.updateLocation
         ? env.updateLocation
         : undefined,
       pageField,
-      perPageField
+      perPageField,
+      replace
     );
     this.search(undefined, undefined, undefined, forceReload);
   }
 
-  reload(subpath?: string, query?: any) {
+  reload(
+    subpath?: string,
+    query?: any,
+    replace?: boolean,
+    resetPage?: boolean
+  ) {
     if (query) {
-      return this.receive(query);
+      return this.receive(query, undefined, replace, resetPage);
     } else {
       this.search(undefined, undefined, true, true);
     }
   }
 
-  receive(values: object) {
-    this.handleQuery(values, true);
+  receive(
+    values: object,
+    subPath?: string,
+    replace?: boolean,
+    resetPage?: boolean
+  ) {
+    this.handleQuery(values, true, replace, resetPage);
   }
 
   reloadTarget(target: string, data: any) {
@@ -1610,6 +1644,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     let itemBtns: Array<ActionSchema> = [];
 
     const ctx = createObject(store.mergedData, {
+      currentPageData: store.mergedData.items.concat(),
       selectedItems: selectedItems.concat(),
       unSelectedItems: unSelectedItems.concat()
     });
@@ -1807,9 +1842,11 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     const {store, classPrefix: ns, classnames: cx, translate: __} = this.props;
     const {page, lastPage} = store;
 
-    return page < lastPage ? (
+    return (
       <div className={cx('Crud-loadMore')}>
         <Button
+          disabled={page >= lastPage}
+          disabledTip={__('CRUD.loadMoreDisableTip')}
           classPrefix={ns}
           onClick={() =>
             this.search({page: page + 1, loadDataMode: 'load-more'})
@@ -1819,8 +1856,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           {__('CRUD.loadMore')}
         </Button>
       </div>
-    ) : (
-      ''
     );
   }
 
@@ -1845,15 +1880,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   }
 
   renderExportCSV(toolbar: Schema) {
-    const {
-      store,
-      classPrefix: ns,
-      classnames: cx,
-      translate: __,
-      loadDataOnce,
-      data
-    } = this.props;
-
+    const {store, classPrefix: ns, translate: __, loadDataOnce} = this.props;
     const api = (toolbar as Schema).api;
 
     return (
@@ -1863,7 +1890,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           store.exportAsCSV({
             loadDataOnce,
             api,
-            data
+            data: store.filterData /* 因为filter区域可能设置了过滤字段值，所以query信息也要写入数据域 */
           })
         }
       >
@@ -2244,7 +2271,14 @@ export class CRUDRenderer extends CRUD {
     scoped.unRegisterComponent(this);
   }
 
-  reload(subpath?: string, query?: any, ctx?: any) {
+  reload(
+    subpath?: string,
+    query?: any,
+    ctx?: any,
+    silent?: boolean,
+    replace?: boolean,
+    args?: any
+  ) {
     const scoped = this.context as IScopedContext;
     if (subpath) {
       return scoped.reload(
@@ -2253,16 +2287,21 @@ export class CRUDRenderer extends CRUD {
       );
     }
 
-    return super.reload(subpath, query);
+    return super.reload(subpath, query, replace, args?.resetPage ?? true);
   }
 
-  receive(values: any, subPath?: string) {
+  receive(
+    values: any,
+    subPath?: string,
+    replace?: boolean,
+    resetPage?: boolean
+  ) {
     const scoped = this.context as IScopedContext;
     if (subPath) {
       return scoped.send(subPath, values);
     }
 
-    return super.receive(values);
+    return super.receive(values, undefined, replace, resetPage);
   }
 
   reloadTarget(target: string, data: any) {

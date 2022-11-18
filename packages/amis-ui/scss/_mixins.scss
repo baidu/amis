@@ -203,46 +203,64 @@
 }
 
 @mixin button-size(
-  $padding-y,
-  $padding-x,
-  $font-size,
-  $line-height,
-  $border-radius,
-  $height: auto,
-  $iconWdith: px2rem(20px),
-  $icon-rightMargin: var(--Button-icon-rightMargin)
+  $font-size: var(--button-size-default-font-size),
+  $line-height: var(--button-size-default-font-lineHeight),
+  $border-radius-top-right: var(--button-size-default-top-right-border-radius),
+  $border-radius-top-left: var(--button-size-default-top-left-border-radius),
+  $border-radius-bottom-right:
+    var(--button-size-default-bottom-right-border-radius),
+  $border-radius-bottom-left:
+    var(--button-size-default-bottom-left-border-radius),
+  $height: var(--button-size-default-height),
+  $paddingTop: var(--button-size-default-paddingTop),
+  $paddingBottom: var(--button-size-default-paddingBottom),
+  $paddingLeft: var(--button-size-default-paddingLeft),
+  $paddingRight: var(--button-size-default-paddingRight),
+  $marginTop: var(--button-size-default-marginTop),
+  $marginBottom: var(--button-size-default-marginBottom),
+  $marginLeft: var(--button-size-default-marginLeft),
+  $marginRight: var(--button-size-default-marginRight),
+  $minWidth: var(--button-size-default-minWidth),
+  $iconSize: var(--button-size-default-icon-size),
+  $iconMargin: var(--button-size-default-icon-margin)
 ) {
-  padding: $padding-y $padding-x;
   font-size: $font-size;
   line-height: $line-height;
-  border-radius: $border-radius;
+  border-radius: $border-radius-top-right $border-radius-top-left
+    $border-radius-bottom-right $border-radius-bottom-left;
   height: $height;
+  padding: $paddingTop $paddingRight $paddingBottom $paddingLeft;
+  margin: $marginTop $marginRight $marginBottom $marginLeft;
 
   .#{$ns}Button-icon:first-child:not(:last-child):not(.pull-right),
   > svg.icon:not(:last-child):not(.pull-right),
   > .pull-left {
-    margin-right: $icon-rightMargin;
+    margin-right: $iconMargin;
+    font-size: $iconSize;
   }
 
   .#{$ns}Button-icon:last-child:not(:first-child):not(.pull-left),
   > .pull-right {
-    margin-left: $padding-x;
+    font-size: $iconSize;
+    margin-left: $iconMargin;
   }
 
   .#{$ns}Button--loading:first-child:not(:last-child):not(.pull-right),
   > svg.icon:not(:last-child):not(.pull-right),
   > .pull-left {
-    margin-right: $icon-rightMargin;
+    font-size: $iconSize;
+    margin-right: $iconMargin;
   }
 
   .#{$ns}Button--loading:last-child:not(:first-child):not(.pull-left),
   > .pull-right {
-    margin-left: $padding-x;
+    font-size: $iconSize;
+    margin-left: $iconMargin;
   }
 
   // img 需要加一下高度限制
   img.#{$ns}Button-icon {
-    height: var(--Button-fontSize);
+    height: $iconSize;
     vertical-align: middle;
   }
 }
@@ -259,47 +277,124 @@
 }
 
 @mixin button-variant(
-  $background,
-  $border: $background,
-  $color: $white,
-  $hover-background: darken($background, 7.5%),
-  $hover-border: darken($border, 10%),
-  $hover-color: $color,
-  $active-background: darken($background, 10%),
-  $active-border: darken($border, 12.5%),
-  $active-color: $color
+  // 常规
+  $bg-color: var(--button-default-default-bg-color),
+  $font-color: var(--button-default-default-font-color),
+  $border-color-top: var(--button-default-default-top-border-color),
+  $border-color-right: var(--button-default-default-right-border-color),
+  $border-color-bottom: var(--button-default-default-bottom-border-color),
+  $border-color-left: var(--button-default-default-left-border-color),
+  $border-width-top: var(--button-default-default-top-border-width),
+  $border-width-right: var(--button-default-default-right-border-width),
+  $border-width-bottom: var(--button-default-default-bottom-border-width),
+  $border-width-left: var(--button-default-default-left-border-width),
+  $border-style-top: var(--button-default-default-top-border-style),
+  $border-style-right: var(--button-default-default-right-border-style),
+  $border-style-bottom: var(--button-default-default-bottom-border-style),
+  $border-style-left: var(--button-default-default-left-border-style),
+  $shadow: var(--button-default-default-shadow),
+  // 悬浮
+  $hover-bg-color: var(--button-default-hover-bg-color),
+  $hover-font-color: var(--button-default-hover-font-color),
+  $hover-border-color-top: var(--button-default-hover-top-border-color),
+  $hover-border-color-right: var(--button-default-hover-right-border-color),
+  $hover-border-color-bottom: var(--button-default-hover-bottom-border-color),
+  $hover-border-color-left: var(--button-default-hover-left-border-color),
+  $hover-border-width-top: var(--button-default-hover-top-border-width),
+  $hover-border-width-right: var(--button-default-hover-right-border-width),
+  $hover-border-width-bottom: var(--button-default-hover-bottom-border-width),
+  $hover-border-width-left: var(--button-default-hover-left-border-width),
+  $hover-border-style-top: var(--button-default-hover-top-border-style),
+  $hover-border-style-right: var(--button-default-hover-right-border-style),
+  $hover-border-style-bottom: var(--button-default-hover-bottom-border-style),
+  $hover-border-style-left: var(--button-default-hover-left-border-style),
+  $hover-shadow: var(--button-default-hover-shadow),
+  // 点击
+  $active-bg-color: var(--button-default-active-bg-color),
+  $active-font-color: var(--button-default-active-font-color),
+  $active-border-color-top: var(--button-default-active-top-border-color),
+  $active-border-color-right: var(--button-default-active-right-border-color),
+  $active-border-color-bottom: var(--button-default-active-bottom-border-color),
+  $active-border-color-left: var(--button-default-active-left-border-color),
+  $active-border-width-top: var(--button-default-active-top-border-width),
+  $active-border-width-right: var(--button-default-active-right-border-width),
+  $active-border-width-bottom: var(--button-default-active-bottom-border-width),
+  $active-border-width-left: var(--button-default-active-left-border-width),
+  $active-border-style-top: var(--button-default-active-top-border-style),
+  $active-border-style-right: var(--button-default-active-right-border-style),
+  $active-border-style-bottom: var(--button-default-active-bottom-border-style),
+  $active-border-style-left: var(--button-default-active-left-border-style),
+  $active-shadow: var(--button-default-active-shadow),
+  // 禁用
+  $disabled-bg-color: var(--button-default-disabled-bg-color),
+  $disabled-font-color: var(--button-default-disabled-font-color),
+  $disabled-border-color-top: var(--button-default-disabled-top-border-color),
+  $disabled-border-color-right:
+    var(--button-default-disabled-right-border-color),
+  $disabled-border-color-bottom:
+    var(--button-default-disabled-bottom-border-color),
+  $disabled-border-color-left: var(--button-default-disabled-left-border-color),
+  $disabled-border-width-top: var(--button-default-disabled-top-border-width),
+  $disabled-border-width-right:
+    var(--button-default-disabled-right-border-width),
+  $disabled-border-width-bottom:
+    var(--button-default-disabled-bottom-border-width),
+  $disabled-border-width-left: var(--button-default-disabled-left-border-width),
+  $disabled-border-style-top: var(--button-default-disabled-top-border-style),
+  $disabled-border-style-right:
+    var(--button-default-disabled-right-border-style),
+  $disabled-border-style-bottom:
+    var(--button-default-disabled-bottom-border-style),
+  $disabled-border-style-left: var(--button-default-disabled-left-border-style),
+  $disabled-shadow: var(--button-default-disabled-shadow)
 ) {
-  color: $color;
-  background: $background;
-  border-color: $border;
-  box-shadow: var(--Button-boxShadow);
-  text-shadow: var(--Button-textShadow);
+  color: $font-color;
+  background: $bg-color;
+  border-color: $border-color-top $border-color-right $border-color-bottom
+    $border-color-left;
+  border-width: $border-width-top $border-width-right $border-width-bottom
+    $border-width-left;
+  border-style: $border-style-top $border-style-right $border-style-bottom
+    $border-style-left;
+  box-shadow: $shadow;
+
+  // text-shadow: var(--Button-textShadow);
 
   &:not(:disabled):not(.is-disabled) {
     @include hover {
-      color: $hover-color;
-      background: $hover-background;
-      border-color: $hover-border;
+      color: $hover-font-color;
+      background: $hover-bg-color;
+      border-color: $hover-border-color-top $hover-border-color-right
+        $hover-border-color-bottom $hover-border-color-left;
+      border-width: $hover-border-width-top $hover-border-width-right
+        $hover-border-width-bottom $hover-border-width-left;
+      border-style: $hover-border-style-top $hover-border-style-right
+        $hover-border-style-bottom $hover-border-style-left;
+      box-shadow: $hover-shadow;
     }
     @include hover-active {
-      color: $active-color;
-      background: $active-background;
-      border-color: $active-border;
+      color: $active-font-color;
+      background: $active-bg-color;
+      border-color: $active-border-color-top $active-border-color-right
+        $active-border-color-bottom $active-border-color-left;
+      border-width: $active-border-width-top $active-border-width-right
+        $active-border-width-bottom $active-border-width-left;
+      border-style: $active-border-style-top $active-border-style-right
+        $active-border-style-bottom $active-border-style-left;
+      box-shadow: $active-shadow;
     }
   }
-
-  // @include focus {
-  //   color: $color;
-  //   background: $background;
-  //   border-color: $border;
-  //   box-shadow: var(--Button-boxShadow);
-  // }
-
-  @include hover-focus {
-    // color: $hover-color;
-    // background: $hover-background;
-    // border-color: $hover-border;
-    box-shadow: var(--Button-boxShadow);
+  &:disabled,
+  &.is-disabled {
+    color: $disabled-font-color;
+    background: $disabled-bg-color;
+    border-color: $disabled-border-color-top $disabled-border-color-right
+      $disabled-border-color-bottom $disabled-border-color-left;
+    border-width: $disabled-border-width-top $disabled-border-width-right
+      $disabled-border-width-bottom $disabled-border-width-left;
+    border-style: $disabled-border-style-top $disabled-border-style-right
+      $disabled-border-style-bottom $disabled-border-style-left;
+    box-shadow: $disabled-shadow;
   }
 }
 

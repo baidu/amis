@@ -78,7 +78,9 @@ export const FormStore = ServiceStore.named('FormStore')
           const current = pool.shift()!;
           if (current.storeType === 'FormItemStore') {
             formItems.push(current);
-          } else if (current.storeType !== 'ComboStore') {
+          } else if (
+            !['ComboStore', 'TableStore'].includes(current.storeType)
+          ) {
             pool.push(...current.children);
           }
         }
@@ -345,14 +347,17 @@ export const FormStore = ServiceStore.named('FormStore')
             setFormItemErrors(json.errors);
 
             self.updateMessage(
-              json.msg ??
+              (api as ApiObject)?.messages?.failed ??
+                json.msg ??
                 self.__(options && options.errorMessage) ??
                 self.__('Form.validateFailed'),
               true
             );
           } else {
             self.updateMessage(
-              json.msg ?? self.__(options && options.errorMessage),
+              (api as ApiObject)?.messages?.failed ??
+                json.msg ??
+                self.__(options && options.errorMessage),
               true
             );
           }
@@ -369,7 +374,8 @@ export const FormStore = ServiceStore.named('FormStore')
           }
           self.markSaving(false);
           self.updateMessage(
-            json.msg ??
+            (api as ApiObject)?.messages?.success ??
+              json.msg ??
               (options.successMessage === 'saveSuccess'
                 ? json.defaultMsg
                 : self.__(options && options.successMessage)) ??

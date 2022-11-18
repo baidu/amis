@@ -190,6 +190,14 @@ export default class App extends React.Component<AppProps, object> {
   }
 
   async componentDidMount() {
+    const {data, dispatchEvent} = this.props;
+
+    const rendererEvent = await dispatchEvent('init', data, this);
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
+
     this.reload();
   }
 
@@ -215,9 +223,15 @@ export default class App extends React.Component<AppProps, object> {
     this.unWatchRouteChange?.();
   }
 
-  async reload(subpath?: any, query?: any, ctx?: any, silent?: boolean) {
+  async reload(
+    subpath?: any,
+    query?: any,
+    ctx?: any,
+    silent?: boolean,
+    replace?: boolean
+  ) {
     if (query) {
-      return this.receive(query);
+      return this.receive(query, undefined, replace);
     }
 
     const {
@@ -246,10 +260,10 @@ export default class App extends React.Component<AppProps, object> {
     }
   }
 
-  receive(values: object) {
+  receive(values: object, subPath?: string, replace?: boolean) {
     const {store} = this.props;
 
-    store.updateData(values);
+    store.updateData(values, undefined, replace);
     this.reload();
   }
 
@@ -468,7 +482,7 @@ export class AppRenderer extends App {
     super.componentWillUnmount();
   }
 
-  setData(values: object) {
-    return this.props.store.updateData(values);
+  setData(values: object, replace?: boolean) {
+    return this.props.store.updateData(values, undefined, replace);
   }
 }

@@ -45,9 +45,10 @@
     flex: 1;
     width: 50%;
     line-height: px2rem(30px);
+    font-size: var(--fonts-size-7);
 
     &::placeholder {
-      color: #{$G6};
+      color: var(--colors-neutral-text-6);
     }
   }
 

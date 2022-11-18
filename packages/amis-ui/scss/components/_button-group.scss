@@ -29,7 +29,7 @@
   .#{$ns}Button + .#{$ns}ButtonGroup,
   .#{$ns}ButtonGroup + .#{$ns}Button,
   .#{$ns}ButtonGroup + .#{$ns}ButtonGroup {
-    margin-left: calc(var(--Button-borderWidth) * -1);
+    margin-left: calc(var(--ButtonGroup-borderWidth) * -1);
   }
 
   &--block {
@@ -92,7 +92,7 @@
   > .#{$ns}Button + .#{$ns}ButtonGroup,
   > .#{$ns}ButtonGroup + .#{$ns}Button,
   > .#{$ns}ButtonGroup + .#{$ns}ButtonGroup {
-    margin-top: calc(var(--Button-borderWidth) * -1);
+    margin-top: calc(var(--ButtonGroup-borderWidth) * -1);
     margin-left: 0;
   }
 

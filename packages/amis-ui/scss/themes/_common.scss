@@ -46,6 +46,7 @@
 @import '../components/color';
 @import '../components/condition-builder';
 @import '../components/context-menu';
+@import '../components/code';
 @import '../components/wizard';
 @import '../components/crud';
 @import '../components/crud2';
@@ -122,6 +123,7 @@
 @import '../components/form/nested-select';
 @import '../components/cascader';
 @import '../components/form/icon-picker';
+@import '../components/form/icon-select';
 @import '../components/form/form';
 @import '../components/form/user-select';
 @import '../components/anchor-nav';
@@ -133,5 +135,6 @@
 @import '../components/barcode';
 @import '../components/tag';
 @import '../components/pull-refresh';
+@import '../components/multiline-text';
 
 @import '../components/debug';

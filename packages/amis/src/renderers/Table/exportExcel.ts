@@ -6,7 +6,12 @@ import {filter} from 'amis-core';
 import './ColumnToggler';
 import {TableStore} from 'amis-core';
 import {saveAs} from 'file-saver';
-import {getVariable, removeHTMLTag, createObject} from 'amis-core';
+import {
+  getVariable,
+  removeHTMLTag,
+  decodeEntity,
+  createObject
+} from 'amis-core';
 import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
 import {BaseSchema} from '../../Schema';
 import {toDataURL, getImageDimensions} from 'amis-core';
@@ -16,6 +21,10 @@ import {getSnapshot} from 'mobx-state-tree';
 import {DateSchema} from '../Date';
 import moment from 'moment';
 import type {TableProps, ExportExcelToolbar} from './index';
+
+const loadDb = () => {
+  return import('amis-ui/lib/components/CityDB');
+};
 
 /**
  * 将 url 转成绝对地址
@@ -165,7 +174,7 @@ export async function exportExcel(
       }
 
       const type = (column as BaseSchema).type || 'plain';
-      // TODO: 这里很多组件都是拷贝对应渲染的逻辑实现的，导致
+      // TODO: 这里很多组件都是拷贝对应渲染的逻辑实现的，导致每种都得实现一遍
       if ((type === 'image' || (type as any) === 'static-image') && value) {
         try {
           const imageData = await toDataURL(value);
@@ -294,10 +303,15 @@ export async function exportExcel(
         if (viewValue) {
           sheetRow.getCell(columIndex).value = viewValue;
         }
+      } else if (type === 'input-city') {
+        const db = await loadDb();
+        if (db.default && value && value in db.default) {
+          sheetRow.getCell(columIndex).value = db.default[value];
+        }
       } else {
         if (column.pristine.tpl) {
           sheetRow.getCell(columIndex).value = removeHTMLTag(
-            filter(column.pristine.tpl, rowData)
+            decodeEntity(filter(column.pristine.tpl, rowData))
           );
         } else {
           sheetRow.getCell(columIndex).value = value;

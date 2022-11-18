@@ -128,17 +128,21 @@ export function localeable<
         const refConfig = ComposedComponent.prototype?.isReactComponent
           ? {ref: this.childRef}
           : {forwardedRef: this.childRef};
-        return (
-          <LocaleContext.Provider value={locale}>
-            <ComposedComponent
-              {...(this.props as JSX.LibraryManagedAttributes<
-                T,
-                React.ComponentProps<T>
-              > as any)}
-              {...injectedProps}
-              {...refConfig}
-            />
-          </LocaleContext.Provider>
+
+        const body = (
+          <ComposedComponent
+            {...(this.props as JSX.LibraryManagedAttributes<
+              T,
+              React.ComponentProps<T>
+            > as any)}
+            {...injectedProps}
+            {...refConfig}
+          />
+        );
+        return this.context ? (
+          body
+        ) : (
+          <LocaleContext.Provider value={locale}>{body}</LocaleContext.Provider>
         );
       }
     },

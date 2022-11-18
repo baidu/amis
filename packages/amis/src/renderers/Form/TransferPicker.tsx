@@ -1,10 +1,11 @@
-import {OptionsControlProps, OptionsControl} from 'amis-core';
+import {OptionsControlProps, OptionsControl, resolveEventData} from 'amis-core';
 import React from 'react';
 import {Spinner} from 'amis-ui';
 import {BaseTransferRenderer, TransferControlSchema} from './Transfer';
 import {TransferPicker} from 'amis-ui';
-import {autobind} from 'amis-core';
+import {autobind, createObject} from 'amis-core';
 import {ActionObject} from 'amis-core';
+import {supportStatic} from './StaticHoc';
 
 /**
  * TransferPicker 穿梭器的弹框形态
@@ -41,8 +42,8 @@ export interface TabsTransferProps
 export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferProps> {
   @autobind
   dispatchEvent(name: string) {
-    const {dispatchEvent, data} = this.props;
-    dispatchEvent(name, data);
+    const {dispatchEvent, value} = this.props;
+    dispatchEvent(name, resolveEventData(this.props, {value}, 'value'));
   }
 
   // 动作
@@ -58,6 +59,7 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
     }
   }
 
+  @supportStatic()
   render() {
     const {
       className,

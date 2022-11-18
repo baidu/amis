@@ -1,4 +1,4 @@
-import {OptionsControlProps, OptionsControl} from 'amis-core';
+import {OptionsControlProps, OptionsControl, resolveEventData} from 'amis-core';
 import React from 'react';
 import {Spinner} from 'amis-ui';
 import {BaseTabsTransferRenderer} from './TabsTransfer';
@@ -8,6 +8,7 @@ import {autobind, createObject} from 'amis-core';
 import {Selection as BaseSelection} from 'amis-ui';
 import {ActionObject} from 'amis-core';
 import type {ItemRenderStates} from 'amis-ui/lib/components/Selection';
+import {supportStatic} from './StaticHoc';
 
 /**
  * TabsTransferPicker 穿梭器的弹框形态
@@ -43,8 +44,8 @@ export class TabsTransferPickerRenderer extends BaseTabsTransferRenderer<TabsTra
 
   @autobind
   dispatchEvent(name: string) {
-    const {dispatchEvent, data} = this.props;
-    dispatchEvent(name, data);
+    const {dispatchEvent, value} = this.props;
+    dispatchEvent(name, resolveEventData(this.props, {value}, 'value'));
   }
 
   @autobind
@@ -80,6 +81,7 @@ export class TabsTransferPickerRenderer extends BaseTabsTransferRenderer<TabsTra
     }
   }
 
+  @supportStatic()
   render() {
     const {
       className,

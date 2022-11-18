@@ -101,7 +101,7 @@ exports[`Renderer: chained select 1`] = `
                 class="cxd-Panel-btnToolbar cxd-Panel-footer"
               >
                 <button
-                  class="cxd-Button cxd-Button--primary"
+                  class="cxd-Button cxd-Button--primary cxd-Button--size-default"
                   type="submit"
                 >
                   <span>
@@ -258,7 +258,7 @@ exports[`Renderer:select associated 1`] = `
                 class="cxd-Panel-btnToolbar cxd-Panel-footer"
               >
                 <button
-                  class="cxd-Button cxd-Button--primary"
+                  class="cxd-Button cxd-Button--primary cxd-Button--size-default"
                   type="submit"
                 >
                   <span>
@@ -415,7 +415,7 @@ exports[`Renderer:select chained 1`] = `
                 class="cxd-Panel-btnToolbar cxd-Panel-footer"
               >
                 <button
-                  class="cxd-Button cxd-Button--primary"
+                  class="cxd-Button cxd-Button--primary cxd-Button--size-default"
                   type="submit"
                 >
                   <span>
@@ -572,7 +572,7 @@ exports[`Renderer:select group 1`] = `
                 class="cxd-Panel-btnToolbar cxd-Panel-footer"
               >
                 <button
-                  class="cxd-Button cxd-Button--primary"
+                  class="cxd-Button cxd-Button--primary cxd-Button--size-default"
                   type="submit"
                 >
                   <span>
@@ -729,7 +729,7 @@ exports[`Renderer:select menutpl 1`] = `
                 class="cxd-Panel-btnToolbar cxd-Panel-footer"
               >
                 <button
-                  class="cxd-Button cxd-Button--primary"
+                  class="cxd-Button cxd-Button--primary cxd-Button--size-default"
                   type="submit"
                 >
                   <span>
@@ -886,7 +886,7 @@ exports[`Renderer:select table 1`] = `
                 class="cxd-Panel-btnToolbar cxd-Panel-footer"
               >
                 <button
-                  class="cxd-Button cxd-Button--primary"
+                  class="cxd-Button cxd-Button--primary cxd-Button--size-default"
                   type="submit"
                 >
                   <span>
@@ -1365,7 +1365,7 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -1524,7 +1524,7 @@ exports[`Renderer:select tree 1`] = `
                 class="cxd-Panel-btnToolbar cxd-Panel-footer"
               >
                 <button
-                  class="cxd-Button cxd-Button--primary"
+                  class="cxd-Button cxd-Button--primary cxd-Button--size-default"
                   type="submit"
                 >
                   <span>
@@ -1938,7 +1938,7 @@ exports[`Renderer:select virtual 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>

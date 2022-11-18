@@ -1,4 +1,4 @@
-import {OptionsControlProps, OptionsControl} from 'amis-core';
+import {OptionsControlProps, OptionsControl, resolveEventData} from 'amis-core';
 import React from 'react';
 import find from 'lodash/find';
 import {Spinner} from 'amis-ui';
@@ -17,6 +17,7 @@ import {
 import {Selection as BaseSelection} from 'amis-ui';
 import {ActionObject} from 'amis-core';
 import type {ItemRenderStates} from 'amis-ui/lib/components/Selection';
+import {supportStatic} from './StaticHoc';
 
 /**
  * TabsTransfer
@@ -213,10 +214,18 @@ export class BaseTabsTransferRenderer<
       setOptions(newOptions, true);
 
     // 触发渲染器事件
-    const rendererEvent = await dispatchEvent('change', {
-      value: newValue,
-      options
-    });
+    const rendererEvent = await dispatchEvent(
+      'change',
+      resolveEventData(
+        this.props,
+        {
+          value: newValue,
+          options,
+          items: options // 为了保持名字统一
+        },
+        'value'
+      )
+    );
     if (rendererEvent?.prevented) {
       return;
     }
@@ -268,6 +277,7 @@ export class TabsTransferRenderer extends BaseTabsTransferRenderer<TabsTransferP
     }
   }
 
+  @supportStatic()
   render() {
     const {
       className,

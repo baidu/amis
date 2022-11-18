@@ -1,6 +1,7 @@
 import {ListenerAction, ListenerContext, runActions} from '../actions/Action';
 import {RendererProps} from '../factory';
 import {IScopedContext} from '../Scoped';
+import {createObject} from './object';
 
 // 事件监听器
 export interface EventListeners {
@@ -179,6 +180,24 @@ export async function dispatchEvent(
 
 export const getRendererEventListeners = () => {
   return rendererEventListeners;
+};
+
+/**
+ * 兼容历史配置，追加对应name的值
+ * @param props
+ * @param data
+ * @param valueKey
+ */
+export const resolveEventData = (props: any, data: any, valueKey?: string) => {
+  return createObject(
+    props.data,
+    props.name && valueKey
+      ? {
+          ...data,
+          [props.name]: data[valueKey]
+        }
+      : data
+  );
 };
 
 export default {};

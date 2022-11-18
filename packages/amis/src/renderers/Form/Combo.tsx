@@ -1,7 +1,13 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 import cloneDeep from 'lodash/cloneDeep';
-import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
+import {
+  FormItem,
+  FormControlProps,
+  FormBaseControl,
+  resolveEventData,
+  ApiObject
+} from 'amis-core';
 import {ActionObject, Api} from 'amis-core';
 import {ComboStore, IComboStore} from 'amis-core';
 import {Tabs as CTabs, Tab, Button} from 'amis-ui';
@@ -120,7 +126,7 @@ export interface ComboControlSchema extends FormBaseControlSchema {
   /**
    * Add at top
    */
-   addattop?: boolean;
+  addattop?: boolean;
 
   /**
    * 数组输入框的子项
@@ -442,11 +448,38 @@ export default class ComboControl extends React.Component<ComboProps> {
     const actionType = action?.actionType as string;
     const {onChange, resetValue} = this.props;
 
-    if (actionType === 'clear') {
+    if (actionType === 'addItem') {
+      this.addItemValue(args?.item ?? {});
+    } else if (actionType === 'clear') {
       onChange('');
     } else if (actionType === 'reset') {
       onChange(resetValue ?? '');
     }
+  }
+
+  addItemValue(itemValue: any) {
+    const {flat, joinValues, addattop, delimiter, disabled, submitOnChange} =
+      this.props;
+
+    if (disabled) {
+      return;
+    }
+
+    let value = this.getValueAsArray();
+
+    this.keys.push(guid());
+
+    if (addattop === true) {
+      value.unshift(itemValue);
+    } else {
+      value.push(itemValue);
+    }
+
+    if (flat && joinValues) {
+      value = value.join(delimiter || ',');
+    }
+
+    this.props.onChange(value, submitOnChange, true);
   }
 
   getValueAsArray(props = this.props) {
@@ -464,8 +497,15 @@ export default class ComboControl extends React.Component<ComboProps> {
   }
 
   addItemWith(condition: ComboCondition) {
-    const {flat, joinValues, addattop, delimiter, scaffold, disabled, submitOnChange} =
-      this.props;
+    const {
+      flat,
+      joinValues,
+      addattop,
+      delimiter,
+      scaffold,
+      disabled,
+      submitOnChange
+    } = this.props;
 
     if (disabled) {
       return;
@@ -475,7 +515,7 @@ export default class ComboControl extends React.Component<ComboProps> {
 
     value.push(
       flat
-        ? condition.scaffold || scaffold || ''
+        ? condition.scaffold ?? scaffold ?? ''
         : {
             ...(condition.scaffold || scaffold)
           }
@@ -486,7 +526,7 @@ export default class ComboControl extends React.Component<ComboProps> {
       value = value.join(delimiter || ',');
     }
 
-    if (addattop === true){
+    if (addattop === true) {
       value.unshift(value.pop());
     }
 
@@ -502,7 +542,6 @@ export default class ComboControl extends React.Component<ComboProps> {
       scaffold,
       disabled,
       submitOnChange,
-      data,
       dispatchEvent
     } = this.props;
 
@@ -512,12 +551,17 @@ export default class ComboControl extends React.Component<ComboProps> {
 
     let value = this.getValueAsArray();
 
+    // todo:这里的数据结构与表单项最终类型不一致，需要区分是否多选、是否未input-kv or input-kvs
     const rendererEvent = await dispatchEvent(
       'add',
-      createObject(data, {
-        value:
-          flat && joinValues ? value.join(delimiter || ',') : cloneDeep(value)
-      })
+      resolveEventData(
+        this.props,
+        {
+          value:
+            flat && joinValues ? value.join(delimiter || ',') : cloneDeep(value)
+        },
+        'value'
+      )
     );
 
     if (rendererEvent?.prevented) {
@@ -526,7 +570,7 @@ export default class ComboControl extends React.Component<ComboProps> {
 
     value.push(
       flat
-        ? scaffold || ''
+        ? scaffold ?? ''
         : {
             ...scaffold
           }
@@ -537,7 +581,7 @@ export default class ComboControl extends React.Component<ComboProps> {
       value = value.join(delimiter || ',');
     }
 
-    if (addattop === true){
+    if (addattop === true) {
       value.unshift(value.pop());
     }
 
@@ -565,13 +609,21 @@ export default class ComboControl extends React.Component<ComboProps> {
     let value = this.getValueAsArray();
     const ctx = createObject(data, value[key]);
 
+    // todo:这里的数据结构与表单项最终类型不一致，需要区分是否多选、是否未input-kv or input-kvs
     const rendererEvent = await dispatchEvent(
       'delete',
-      createObject(data, {
-        key,
-        value:
-          flat && joinValues ? value.join(delimiter || ',') : cloneDeep(value)
-      })
+      resolveEventData(
+        this.props,
+        {
+          key,
+          value:
+            flat && joinValues
+              ? value.join(delimiter || ',')
+              : cloneDeep(value),
+          item: value[key]
+        },
+        'value'
+      )
     );
 
     if (rendererEvent?.prevented) {
@@ -590,7 +642,10 @@ export default class ComboControl extends React.Component<ComboProps> {
       const result = await env.fetcher(deleteApi as Api, ctx);
 
       if (!result.ok) {
-        env.notify('error', __('deleteFailed'));
+        env.notify(
+          'error',
+          (deleteApi as ApiObject)?.messages?.failed ?? __('deleteFailed')
+        );
         return;
       }
     }
@@ -962,13 +1017,22 @@ export default class ComboControl extends React.Component<ComboProps> {
 
   @autobind
   async handleTabSelect(key: number) {
-    const {store, data, dispatchEvent} = this.props;
-
+    const {store, data, name, value, dispatchEvent} = this.props;
+    const eventData = {
+      key,
+      item: value[key]
+    };
     const rendererEvent = await dispatchEvent(
       'tabsChange',
-      createObject(data, {
-        key
-      })
+      createObject(
+        data,
+        name
+          ? {
+              ...eventData,
+              [name]: value
+            }
+          : eventData
+      )
     );
 
     if (rendererEvent?.prevented) {
@@ -1023,6 +1087,7 @@ export default class ComboControl extends React.Component<ComboProps> {
       conditions,
       changeImmediately,
       addBtnText,
+      static: isStatic,
       translate: __
     } = this.props;
 
@@ -1138,32 +1203,7 @@ export default class ComboControl extends React.Component<ComboProps> {
               ) : null}
               <div className={cx(`Combo-itemInner`)}>
                 {finnalControls ? (
-                  render(
-                    `multiple/${index}`,
-                    {
-                      type: 'form',
-                      body: finnalControls,
-                      wrapperComponent: 'div',
-                      wrapWithPanel: false,
-                      mode: subFormMode,
-                      className: cx(`Combo-form`, formClassName)
-                    },
-                    {
-                      index,
-                      disabled,
-                      data,
-                      onChange: this.handleChange,
-                      onInit: this.handleFormInit,
-                      onAction: this.handleAction,
-                      ref: this.makeFormRef(index),
-                      canAccessSuperData,
-                      lazyChange: changeImmediately ? false : true,
-                      formLazyChange: false,
-                      value: undefined,
-                      formItemValue: undefined,
-                      formStore: undefined
-                    }
-                  )
+                  this.renderItems(finnalControls, data, index)
                 ) : (
                   <Alert2 level="warning" className="m-b-none">
                     {__('Combo.invalidData')}
@@ -1178,6 +1218,10 @@ export default class ComboControl extends React.Component<ComboProps> {
   }
 
   renderDelBtn(value: any, index: number) {
+    if (this.props.static) {
+      return null;
+    }
+
     const {
       classPrefix: ns,
       classnames: cx,
@@ -1271,6 +1315,10 @@ export default class ComboControl extends React.Component<ComboProps> {
   }
 
   renderAddBtn() {
+    if (this.props.static) {
+      return null;
+    }
+
     const {
       classPrefix: ns,
       classnames: cx,
@@ -1297,7 +1345,7 @@ export default class ComboControl extends React.Component<ComboProps> {
               {
                 type: 'dropdown-button',
                 icon: addIcon ? <Icon icon="plus" className="icon" /> : '',
-                label: __(addButtonText || 'Combo.add'),
+                label: __(addButtonText || 'add'),
                 level: 'info',
                 size: 'sm',
                 closeOnClick: true
@@ -1315,7 +1363,7 @@ export default class ComboControl extends React.Component<ComboProps> {
           ) : tabsMode ? (
             <a onClick={this.addItem}>
               {addIcon ? <Icon icon="plus" className="icon" /> : null}
-              <span>{__(addButtonText || 'Combo.add')}</span>
+              <span>{__(addButtonText || 'add')}</span>
             </a>
           ) : isObject(addBtn) ? (
             render('add-button', {
@@ -1329,7 +1377,7 @@ export default class ComboControl extends React.Component<ComboProps> {
               onClick={this.addItem}
             >
               {addIcon ? <Icon icon="plus" className="icon" /> : null}
-              <span>{__(addButtonText || 'Combo.add')}</span>
+              <span>{__(addButtonText || 'add')}</span>
             </Button>
           ))}
       </>
@@ -1344,32 +1392,21 @@ export default class ComboControl extends React.Component<ComboProps> {
     const {
       classPrefix: ns,
       classnames: cx,
-      formClassName,
-      render,
       multiLine,
-      addButtonClassName,
       disabled,
-      store,
       flat,
-      subFormMode,
       draggable,
       draggableTip,
-      addButtonText,
-      addable,
-      removable,
       typeSwitchable,
       delimiter,
-      canAccessSuperData,
-      addIcon,
       dragIcon,
       noBorder,
       conditions,
-      lazyLoad,
-      changeImmediately,
       placeholder,
       translate: __,
       itemClassName,
-      itemsWrapperClassName
+      itemsWrapperClassName,
+      static: isStatic
     } = this.props;
 
     let items = this.props.items;
@@ -1386,7 +1423,11 @@ export default class ComboControl extends React.Component<ComboProps> {
           multiLine ? `Combo--ver` : `Combo--hor`,
           noBorder ? `Combo--noBorder` : '',
           disabled ? 'is-disabled' : '',
-          !disabled && draggable && Array.isArray(value) && value.length > 1
+          !isStatic &&
+            !disabled &&
+            draggable &&
+            Array.isArray(value) &&
+            value.length > 1
             ? 'is-draggable'
             : ''
         )}
@@ -1419,7 +1460,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                   className={cx(`Combo-item`, itemClassName)}
                   key={this.keys[index] || (this.keys[index] = guid())}
                 >
-                  {!disabled && draggable && thelist.length > 1 ? (
+                  {!isStatic && !disabled && draggable && thelist.length > 1 ? (
                     <div className={cx('Combo-itemDrager')}>
                       <a
                         key="drag"
@@ -1452,33 +1493,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                   ) : null}
                   <div className={cx(`Combo-itemInner`)}>
                     {finnalControls ? (
-                      render(
-                        `multiple/${index}`,
-                        {
-                          type: 'form',
-                          body: finnalControls,
-                          wrapperComponent: 'div',
-                          wrapWithPanel: false,
-                          mode: multiLine ? subFormMode : 'row',
-                          className: cx(`Combo-form`, formClassName)
-                        },
-                        {
-                          index,
-                          disabled,
-                          data,
-                          onChange: this.handleChange,
-                          onInit: this.handleFormInit,
-                          onAction: this.handleAction,
-                          ref: this.makeFormRef(index),
-                          lazyChange: changeImmediately ? false : true,
-                          formLazyChange: false,
-                          lazyLoad,
-                          canAccessSuperData,
-                          value: undefined,
-                          formItemValue: undefined,
-                          formStore: undefined
-                        }
-                      )
+                      this.renderItems(finnalControls, data, index)
                     ) : (
                       <Alert2 level="warning" className="m-b-none">
                         {__('Combo.invalidData')}
@@ -1493,7 +1508,7 @@ export default class ComboControl extends React.Component<ComboProps> {
             <div className={cx(`Combo-placeholder`)}>{__(placeholder)}</div>
           ) : null}
         </div>
-        {!disabled ? (
+        {!isStatic && !disabled ? (
           <div className={cx(`Combo-toolbar`)}>
             {this.renderAddBtn()}
             {draggable ? (
@@ -1513,11 +1528,8 @@ export default class ComboControl extends React.Component<ComboProps> {
     const {
       conditions,
       classnames: cx,
-      render,
       value,
       multiLine,
-      formClassName,
-      canAccessSuperData,
       noBorder,
       disabled,
       typeSwitchable,
@@ -1562,26 +1574,7 @@ export default class ComboControl extends React.Component<ComboProps> {
 
           <div className={cx(`Combo-itemInner`)}>
             {items ? (
-              render(
-                'single',
-                {
-                  type: 'form',
-                  body: items,
-                  wrapperComponent: 'div',
-                  wrapWithPanel: false,
-                  mode: multiLine ? 'normal' : 'row',
-                  className: cx(`Combo-form`, formClassName)
-                },
-                {
-                  disabled: disabled,
-                  data: data,
-                  onChange: this.handleSingleFormChange,
-                  ref: this.makeFormRef(0),
-                  onInit: this.handleSingleFormInit,
-                  canAccessSuperData,
-                  formStore: undefined
-                }
-              )
+              this.renderItems(items, data)
             ) : (
               <Alert2 level="warning" className="m-b-none">
                 {__('Combo.invalidData')}
@@ -1598,15 +1591,109 @@ export default class ComboControl extends React.Component<ComboProps> {
     );
   }
 
+  // 为了给 editor 重写使用
+  renderItems(finnalControls: ComboSubControl[], data: object, index?: number) {
+    const {
+      classnames: cx,
+      formClassName,
+      render,
+      multiLine,
+      disabled,
+      canAccessSuperData,
+      multiple,
+      tabsMode,
+      subFormMode,
+      changeImmediately,
+      lazyLoad,
+      translate: __
+    } = this.props;
+
+    // 单个
+    if (!multiple) {
+      return render(
+        'single',
+        {
+          type: 'form',
+          body: finnalControls,
+          wrapperComponent: 'div',
+          wrapWithPanel: false,
+          mode: multiLine ? 'normal' : 'row',
+          className: cx(`Combo-form`, formClassName)
+        },
+        {
+          disabled: disabled,
+          data,
+          onChange: this.handleSingleFormChange,
+          ref: this.makeFormRef(0),
+          onInit: this.handleSingleFormInit,
+          canAccessSuperData,
+          formStore: undefined
+        }
+      );
+    } else if (multiple && index !== undefined && index >= 0) {
+      return render(
+        `multiple/${index}`,
+        {
+          type: 'form',
+          body: finnalControls,
+          wrapperComponent: 'div',
+          wrapWithPanel: false,
+          mode: tabsMode ? subFormMode : multiLine ? subFormMode : 'row',
+          className: cx(`Combo-form`, formClassName)
+        },
+        {
+          index,
+          disabled,
+          data,
+          onChange: this.handleChange,
+          onInit: this.handleFormInit,
+          onAction: this.handleAction,
+          ref: this.makeFormRef(index),
+          canAccessSuperData,
+          lazyChange: changeImmediately ? false : true,
+          formLazyChange: false,
+          value: undefined,
+          formItemValue: undefined,
+          formStore: undefined,
+          ...(tabsMode ? {} : {lazyLoad})
+        }
+      );
+    }
+    return <></>;
+  }
+
+  renderStatic(displayValue = '-') {
+    // 如有 staticSchema 会被拦截渲染schema, 不会走到这里
+    return this.props.render(
+      'static-input-kv',
+      {
+        type: 'json'
+      },
+      this.props
+    );
+  }
+
   render() {
     const {
+      type,
       formInited,
       multiple,
       className,
       classPrefix: ns,
       classnames: cx,
-      disabled
+      static: isStatic,
+      staticSchema
     } = this.props;
+
+    // 静态展示时
+    // 当有staticSchema 或 type = input-kv | input-kvs
+    // 才拦截处理，其他情况交给子表单项处理即可
+    if (
+      isStatic &&
+      (staticSchema || ['input-kv', 'input-kvs'].includes(type))
+    ) {
+      return this.renderStatic();
+    }
 
     return formInited || typeof formInited === 'undefined' ? (
       <div className={cx(`ComboControl`, className)}>
@@ -1623,7 +1710,7 @@ export default class ComboControl extends React.Component<ComboProps> {
 })
 export class ComboControlRenderer extends ComboControl {
   // 支持更新指定索引的值
-  setData(value: any, index?: number) {
+  setData(value: any, replace?: boolean, index?: number) {
     const {multiple, onChange, submitOnChange} = this.props;
     if (multiple) {
       if (index !== undefined && ~index) {

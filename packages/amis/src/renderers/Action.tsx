@@ -926,9 +926,15 @@ export class ActionRenderer extends React.Component<ActionRendererProps> {
     }
 
     const hasOnEvent = $schema.onEvent && Object.keys($schema.onEvent).length;
+    let confirmText: string = '';
     // 有些组件虽然要求这里忽略二次确认，但是如果配了事件动作还是需要在这里等待二次确认提交才可以
-    if ((!ignoreConfirm || hasOnEvent) && action.confirmText && env.confirm) {
-      let confirmed = await env.confirm(filter(action.confirmText, mergedData));
+    if (
+      (!ignoreConfirm || hasOnEvent) &&
+      action.confirmText &&
+      env.confirm &&
+      (confirmText = filter(action.confirmText, mergedData))
+    ) {
+      let confirmed = await env.confirm(confirmText);
       if (confirmed) {
         // 触发渲染器事件
         const rendererEvent = await dispatchEvent(
@@ -942,7 +948,7 @@ export class ActionRenderer extends React.Component<ActionRendererProps> {
         }
 
         // 因为crud里面也会处理二次确认，所以如果按钮处理过了就跳过crud的二次确认
-        await onAction(e, {...action, ignoreConfirm: !!hasOnEvent}, mergedData);
+        onAction(e, {...action, ignoreConfirm: !!hasOnEvent}, mergedData);
       } else if (action.countDown) {
         throw new Error('cancel');
       }
@@ -958,7 +964,7 @@ export class ActionRenderer extends React.Component<ActionRendererProps> {
         return;
       }
 
-      await onAction(e, action, mergedData);
+      onAction(e, action, mergedData);
     }
   }
 

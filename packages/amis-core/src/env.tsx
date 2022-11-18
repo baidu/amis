@@ -34,7 +34,7 @@ export interface RendererEnv {
   ) => void;
   notify: (type: ToastLevel, msg: any, conf?: ToastConf) => void;
   jumpTo: (to: string, action?: ActionObject, ctx?: object) => void;
-  alert: (msg: string) => void;
+  alert: (msg: string, title?: string) => void;
   confirm: (msg: string, title?: string) => Promise<boolean>;
   updateLocation: (location: any, replace?: boolean) => void;
 

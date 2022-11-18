@@ -191,18 +191,22 @@ export function themeable<
           ? {ref: this.childRef}
           : {forwardedRef: this.childRef};
 
-        return (
-          <ThemeContext.Provider value={theme}>
-            <ComposedComponent
-              {...config.getComponentConfig(ComposedComponent.themeKey)}
-              {...(this.props as JSX.LibraryManagedAttributes<
-                T,
-                React.ComponentProps<T>
-              >)}
-              {...injectedProps}
-              {...refConfig}
-            />
-          </ThemeContext.Provider>
+        const body = (
+          <ComposedComponent
+            {...config.getComponentConfig(ComposedComponent.themeKey)}
+            {...(this.props as JSX.LibraryManagedAttributes<
+              T,
+              React.ComponentProps<T>
+            >)}
+            {...injectedProps}
+            {...refConfig}
+          />
+        );
+
+        return this.context ? (
+          body
+        ) : (
+          <ThemeContext.Provider value={theme}>{body}</ThemeContext.Provider>
         );
       }
     },

@@ -25,8 +25,10 @@
 
 .#{$ns}Form-static {
   min-height: var(--Form-input-height);
-  padding-top: var(--Form-label-paddingTop);
-  padding-bottom: var(--Form-label-paddingTop);
+  &:not(.is-noPaddingY-static) {
+    padding-top: var(--Form-label-paddingTop);
+    padding-bottom: var(--Form-label-paddingTop);
+  }
   margin-bottom: 0;
   word-break: break-word;
 
@@ -77,6 +79,7 @@
 
 .#{$ns}Form-description {
   display: block;
+  word-break: break-word;
   color: var(--Form-description-color);
   margin: var(--Form-input-marginBottom) 0 0;
   font-size: var(--Form-description-fontSize);
@@ -403,9 +406,9 @@
   position: relative;
 }
 
-.#{$ns}Form--quickEdit {
-  min-width: var(--Form-control-widthSm);
-}
+// .#{$ns}Form--quickEdit {
+//   min-width: var(--Form-control-widthSm);
+// }
 
 .#{$ns}Form--column {
   display: flex;
@@ -526,6 +529,9 @@
         &.is-disabled > .#{$ns}TextControl-input {
           background: transparent;
         }
+      }
+      .#{$ns}SelectControl.#{$ns}Form-control {
+        overflow: hidden;
       }
 
       .#{$ns}Form-hint,

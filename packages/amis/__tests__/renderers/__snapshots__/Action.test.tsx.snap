@@ -2,7 +2,7 @@
 
 exports[`Renderers:Action [actionType = "link"] show active class 1`] = `
 <button
-  className="cxd-Button cxd-Button--default a"
+  className="cxd-Button cxd-Button--default cxd-Button--size-default a"
   onClick={[Function]}
   type="button"
 >
@@ -14,7 +14,7 @@ exports[`Renderers:Action [actionType = "link"] show active class 1`] = `
 
 exports[`Renderers:Action [actionType = "link"] show active class 2`] = `
 <button
-  className="cxd-Button cxd-Button--default a is-active"
+  className="cxd-Button cxd-Button--default cxd-Button--size-default a is-active"
   onClick={[Function]}
   type="button"
 >
@@ -98,7 +98,7 @@ exports[`Renderers:Action all levels 1`] = `
           class="cxd-Page-body"
         >
           <button
-            class="cxd-Button cxd-Button--link"
+            class="cxd-Button cxd-Button--link cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -106,7 +106,7 @@ exports[`Renderers:Action all levels 1`] = `
             </span>
           </button>
           <button
-            class="cxd-Button cxd-Button--primary"
+            class="cxd-Button cxd-Button--primary cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -114,7 +114,7 @@ exports[`Renderers:Action all levels 1`] = `
             </span>
           </button>
           <button
-            class="cxd-Button cxd-Button--secondary"
+            class="cxd-Button cxd-Button--secondary cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -122,7 +122,7 @@ exports[`Renderers:Action all levels 1`] = `
             </span>
           </button>
           <button
-            class="cxd-Button cxd-Button--info"
+            class="cxd-Button cxd-Button--info cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -130,7 +130,7 @@ exports[`Renderers:Action all levels 1`] = `
             </span>
           </button>
           <button
-            class="cxd-Button cxd-Button--success"
+            class="cxd-Button cxd-Button--success cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -138,7 +138,7 @@ exports[`Renderers:Action all levels 1`] = `
             </span>
           </button>
           <button
-            class="cxd-Button cxd-Button--warning"
+            class="cxd-Button cxd-Button--warning cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -146,7 +146,7 @@ exports[`Renderers:Action all levels 1`] = `
             </span>
           </button>
           <button
-            class="cxd-Button cxd-Button--danger"
+            class="cxd-Button cxd-Button--danger cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -154,7 +154,7 @@ exports[`Renderers:Action all levels 1`] = `
             </span>
           </button>
           <button
-            class="cxd-Button cxd-Button--light"
+            class="cxd-Button cxd-Button--light cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -162,7 +162,7 @@ exports[`Renderers:Action all levels 1`] = `
             </span>
           </button>
           <button
-            class="cxd-Button cxd-Button--dark"
+            class="cxd-Button cxd-Button--dark cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -170,7 +170,7 @@ exports[`Renderers:Action all levels 1`] = `
             </span>
           </button>
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -181,7 +181,7 @@ exports[`Renderers:Action all levels 1`] = `
             class="cxd-Divider cxd-Divider--dashed"
           />
           <div
-            class="cxd-Button cxd-Button--link is-disabled"
+            class="cxd-Button cxd-Button--link cxd-Button--size-default is-disabled"
             disabled=""
           >
             <span>
@@ -189,7 +189,7 @@ exports[`Renderers:Action all levels 1`] = `
             </span>
           </div>
           <div
-            class="cxd-Button cxd-Button--primary is-disabled"
+            class="cxd-Button cxd-Button--primary cxd-Button--size-default is-disabled"
             disabled=""
           >
             <span>
@@ -197,7 +197,7 @@ exports[`Renderers:Action all levels 1`] = `
             </span>
           </div>
           <div
-            class="cxd-Button cxd-Button--secondary is-disabled"
+            class="cxd-Button cxd-Button--secondary cxd-Button--size-default is-disabled"
             disabled=""
           >
             <span>
@@ -205,7 +205,7 @@ exports[`Renderers:Action all levels 1`] = `
             </span>
           </div>
           <div
-            class="cxd-Button cxd-Button--info is-disabled"
+            class="cxd-Button cxd-Button--info cxd-Button--size-default is-disabled"
             disabled=""
           >
             <span>
@@ -213,7 +213,7 @@ exports[`Renderers:Action all levels 1`] = `
             </span>
           </div>
           <div
-            class="cxd-Button cxd-Button--success is-disabled"
+            class="cxd-Button cxd-Button--success cxd-Button--size-default is-disabled"
             disabled=""
           >
             <span>
@@ -221,7 +221,7 @@ exports[`Renderers:Action all levels 1`] = `
             </span>
           </div>
           <div
-            class="cxd-Button cxd-Button--warning is-disabled"
+            class="cxd-Button cxd-Button--warning cxd-Button--size-default is-disabled"
             disabled=""
           >
             <span>
@@ -229,7 +229,7 @@ exports[`Renderers:Action all levels 1`] = `
             </span>
           </div>
           <div
-            class="cxd-Button cxd-Button--danger is-disabled"
+            class="cxd-Button cxd-Button--danger cxd-Button--size-default is-disabled"
             disabled=""
           >
             <span>
@@ -237,7 +237,7 @@ exports[`Renderers:Action all levels 1`] = `
             </span>
           </div>
           <div
-            class="cxd-Button cxd-Button--light is-disabled"
+            class="cxd-Button cxd-Button--light cxd-Button--size-default is-disabled"
             disabled=""
           >
             <span>
@@ -245,7 +245,7 @@ exports[`Renderers:Action all levels 1`] = `
             </span>
           </div>
           <div
-            class="cxd-Button cxd-Button--dark is-disabled"
+            class="cxd-Button cxd-Button--dark cxd-Button--size-default is-disabled"
             disabled=""
           >
             <span>
@@ -253,7 +253,7 @@ exports[`Renderers:Action all levels 1`] = `
             </span>
           </div>
           <div
-            class="cxd-Button cxd-Button--default is-disabled"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default is-disabled"
             disabled=""
           >
             <span>
@@ -269,7 +269,7 @@ exports[`Renderers:Action all levels 1`] = `
 
 exports[`Renderers:Action custom activeClass 1`] = `
 <button
-  className="cxd-Button cxd-Button--default a"
+  className="cxd-Button cxd-Button--default cxd-Button--size-default a"
   onClick={[Function]}
   type="button"
 >
@@ -281,7 +281,7 @@ exports[`Renderers:Action custom activeClass 1`] = `
 
 exports[`Renderers:Action custom activeClass 2`] = `
 <button
-  className="cxd-Button cxd-Button--default a custom-active"
+  className="cxd-Button cxd-Button--default cxd-Button--size-default a custom-active"
   onClick={[Function]}
   type="button"
 >
@@ -293,7 +293,7 @@ exports[`Renderers:Action custom activeClass 2`] = `
 
 exports[`Renderers:Action display size[xs, sm, md, lg] 1`] = `
 <button
-  className="cxd-Button cxd-Button--default cxd-Button--xs"
+  className="cxd-Button cxd-Button--default cxd-Button--size-xs"
   onClick={[Function]}
   type="button"
 />
@@ -301,7 +301,7 @@ exports[`Renderers:Action display size[xs, sm, md, lg] 1`] = `
 
 exports[`Renderers:Action display size[xs, sm, md, lg] 2`] = `
 <button
-  className="cxd-Button cxd-Button--default cxd-Button--sm"
+  className="cxd-Button cxd-Button--default cxd-Button--size-sm"
   onClick={[Function]}
   type="button"
 />
@@ -309,7 +309,7 @@ exports[`Renderers:Action display size[xs, sm, md, lg] 2`] = `
 
 exports[`Renderers:Action display size[xs, sm, md, lg] 3`] = `
 <button
-  className="cxd-Button cxd-Button--default cxd-Button--md"
+  className="cxd-Button cxd-Button--default cxd-Button--size-md"
   onClick={[Function]}
   type="button"
 />
@@ -317,7 +317,7 @@ exports[`Renderers:Action display size[xs, sm, md, lg] 3`] = `
 
 exports[`Renderers:Action display size[xs, sm, md, lg] 4`] = `
 <button
-  className="cxd-Button cxd-Button--default cxd-Button--lg"
+  className="cxd-Button cxd-Button--default cxd-Button--size-lg"
   onClick={[Function]}
   type="button"
 />
@@ -325,7 +325,7 @@ exports[`Renderers:Action display size[xs, sm, md, lg] 4`] = `
 
 exports[`Renderers:Action download shortcut 1`] = `
 <button
-  className="cxd-Button cxd-Button--default"
+  className="cxd-Button cxd-Button--default cxd-Button--size-default"
   onClick={[Function]}
   type="button"
 >
@@ -350,7 +350,7 @@ exports[`Renderers:Action tooltip 1`] = `
           class="cxd-Page-body"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             style="position: relative;"
             type="button"
           >
@@ -398,7 +398,7 @@ exports[`Renderers:Action tooltip 1`] = `
             </div>
           </button>
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -406,7 +406,7 @@ exports[`Renderers:Action tooltip 1`] = `
             </span>
           </button>
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -414,7 +414,7 @@ exports[`Renderers:Action tooltip 1`] = `
             </span>
           </button>
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>

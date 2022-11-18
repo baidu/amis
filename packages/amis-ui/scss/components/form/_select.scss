@@ -104,8 +104,9 @@
     position: relative;
     flex-grow: 1;
     line-height: 1;
-    // width: 0;
+    width: auto;
     max-width: 100%;
+    overflow: hidden;
   }
   &-valuesNoWrap {
     white-space: nowrap;

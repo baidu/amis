@@ -51,6 +51,7 @@
 
   &-title {
     font-size: var(--Drawer-title-fontSize);
+    font-weight: 500;
     color: var(--Drawer-title-fontColor);
   }
 
@@ -279,10 +280,10 @@
   }
 
   .#{$ns}Drawer-footer {
-    justify-content: flex-start;
+    justify-content: flex-end;
 
     .#{$ns}Button {
-      margin-left: 0;
+      margin-left: var(--Drawer-footer-margin);
       margin-right: var(--gap-xs);
     }
 
@@ -363,5 +364,9 @@
     writing-mode: vertical-lr;
     width: px2rem(12px);
     height: px2rem(24px);
+  }
+
+  .#{$ns}Button {
+    margin-left: var(--Drawer-footer-margin);
   }
 }

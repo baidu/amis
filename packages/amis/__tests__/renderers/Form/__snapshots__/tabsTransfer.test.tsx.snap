@@ -204,7 +204,9 @@ exports[`Renderer:tabs-transfer 1`] = `
                                     <div
                                       class="cxd-TreeSelection-itemLabel"
                                     >
-                                      <span>
+                                      <span
+                                        class=""
+                                      >
                                         法师
                                       </span>
                                     </div>
@@ -232,7 +234,9 @@ exports[`Renderer:tabs-transfer 1`] = `
                                         <div
                                           class="cxd-TreeSelection-itemLabel"
                                         >
-                                          <span>
+                                          <span
+                                            class=""
+                                          >
                                             诸葛亮
                                           </span>
                                         </div>
@@ -268,7 +272,9 @@ exports[`Renderer:tabs-transfer 1`] = `
                                     <div
                                       class="cxd-TreeSelection-itemLabel"
                                     >
-                                      <span>
+                                      <span
+                                        class=""
+                                      >
                                         战士
                                       </span>
                                     </div>
@@ -296,7 +302,9 @@ exports[`Renderer:tabs-transfer 1`] = `
                                         <div
                                           class="cxd-TreeSelection-itemLabel"
                                         >
-                                          <span>
+                                          <span
+                                            class=""
+                                          >
                                             曹操
                                           </span>
                                         </div>
@@ -322,7 +330,9 @@ exports[`Renderer:tabs-transfer 1`] = `
                                         <div
                                           class="cxd-TreeSelection-itemLabel"
                                         >
-                                          <span>
+                                          <span
+                                            class=""
+                                          >
                                             钟无艳
                                           </span>
                                         </div>
@@ -358,7 +368,9 @@ exports[`Renderer:tabs-transfer 1`] = `
                                     <div
                                       class="cxd-TreeSelection-itemLabel"
                                     >
-                                      <span>
+                                      <span
+                                        class=""
+                                      >
                                         打野
                                       </span>
                                     </div>
@@ -386,7 +398,9 @@ exports[`Renderer:tabs-transfer 1`] = `
                                         <div
                                           class="cxd-TreeSelection-itemLabel"
                                         >
-                                          <span>
+                                          <span
+                                            class=""
+                                          >
                                             李白
                                           </span>
                                         </div>
@@ -412,7 +426,9 @@ exports[`Renderer:tabs-transfer 1`] = `
                                         <div
                                           class="cxd-TreeSelection-itemLabel"
                                         >
-                                          <span>
+                                          <span
+                                            class=""
+                                          >
                                             韩信
                                           </span>
                                         </div>
@@ -438,7 +454,9 @@ exports[`Renderer:tabs-transfer 1`] = `
                                         <div
                                           class="cxd-TreeSelection-itemLabel"
                                         >
-                                          <span>
+                                          <span
+                                            class=""
+                                          >
                                             云中君
                                           </span>
                                         </div>
@@ -463,7 +481,9 @@ exports[`Renderer:tabs-transfer 1`] = `
                                     <div
                                       class="cxd-ChainedSelection-itemLabel"
                                     >
-                                      <span>
+                                      <span
+                                        class=""
+                                      >
                                         法师
                                       </span>
                                     </div>
@@ -474,7 +494,9 @@ exports[`Renderer:tabs-transfer 1`] = `
                                     <div
                                       class="cxd-ChainedSelection-itemLabel"
                                     >
-                                      <span>
+                                      <span
+                                        class=""
+                                      >
                                         战士
                                       </span>
                                     </div>
@@ -485,7 +507,9 @@ exports[`Renderer:tabs-transfer 1`] = `
                                     <div
                                       class="cxd-ChainedSelection-itemLabel"
                                     >
-                                      <span>
+                                      <span
+                                        class=""
+                                      >
                                         打野
                                       </span>
                                     </div>
@@ -543,7 +567,7 @@ exports[`Renderer:tabs-transfer 1`] = `
                 class="cxd-Panel-btnToolbar cxd-Panel-footer"
               >
                 <button
-                  class="cxd-Button cxd-Button--primary"
+                  class="cxd-Button cxd-Button--primary cxd-Button--size-default"
                   type="submit"
                 >
                   <span>

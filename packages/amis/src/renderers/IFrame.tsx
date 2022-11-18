@@ -1,5 +1,11 @@
 import React from 'react';
-import {Renderer, RendererProps} from 'amis-core';
+import {
+  createRendererEvent,
+  OnEventProps,
+  Renderer,
+  RendererProps,
+  runActions
+} from 'amis-core';
 import {filter} from 'amis-core';
 import {autobind, createObject} from 'amis-core';
 import {ScopedContext, IScopedContext} from 'amis-core';
@@ -26,6 +32,9 @@ export interface IFrameSchema extends BaseSchema {
   events?: {
     [eventName: string]: ActionSchema;
   };
+
+  // 事件动作
+  onEvent?: OnEventProps['onEvent'];
 
   width?: number | string;
   height?: number | string;
@@ -88,11 +97,34 @@ export default class IFrame extends React.Component<IFrameProps, object> {
     window.removeEventListener('message', this.onMessage);
   }
 
-  @autobind
-  onMessage(e: MessageEvent) {
-    const {events, onAction, data} = this.props;
+  /** 校验URL是否合法 */
+  validateURL(url: any) {
+    // base64编码格式
+    if (
+      url &&
+      typeof url === 'string' &&
+      /^data:([a-zA-Z0-9]+\/[a-zA-Z0-9]+);base64,.*/.test(url)
+    ) {
+      return true;
+    }
 
-    if (typeof e?.data?.type !== 'string' || !events) {
+    // HTTP[S]协议
+    if (
+      url &&
+      typeof url === 'string' &&
+      !/^(\.\/|\.\.\/|\/|https?\:\/\/|\/\/)/.test(url)
+    ) {
+      return false;
+    }
+
+    return true;
+  }
+
+  @autobind
+  async onMessage(e: MessageEvent) {
+    const {events, onEvent, onAction, data} = this.props;
+
+    if (typeof e?.data?.type !== 'string') {
       return;
     }
 
@@ -108,8 +140,26 @@ export default class IFrame extends React.Component<IFrameProps, object> {
         height: e.data.data.height || '100%'
       });
     } else {
-      const action = events[type];
-      action && onAction(e, action, createObject(data, e.data.data));
+      const eventConfig: any = onEvent?.[type];
+
+      if (eventConfig && eventConfig.actions?.length) {
+        const rendererEvent = createRendererEvent(type, {
+          env: this.props?.env,
+          nativeEvent: e,
+          data: createObject(data, e.data.data),
+          scoped: this.context
+        });
+        await runActions(eventConfig.actions, this, rendererEvent);
+
+        if (rendererEvent.prevented) {
+          return;
+        }
+      }
+
+      if (events) {
+        const action = events[type];
+        action && onAction(e, action, createObject(data, e.data.data));
+      }
     }
   }
 
@@ -189,11 +239,7 @@ export default class IFrame extends React.Component<IFrameProps, object> {
       ? resolveVariableAndFilter(src, data, '| raw')
       : undefined;
 
-    if (
-      typeof finalSrc === 'string' &&
-      finalSrc &&
-      !/^(\.\/|\.\.\/|\/|https?\:\/\/|\/\/)/.test(finalSrc)
-    ) {
+    if (!this.validateURL(finalSrc)) {
       return <p>{__('Iframe.invalid')}</p>;
     }
 

@@ -1,11 +1,17 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
+import {
+  FormItem,
+  FormControlProps,
+  FormBaseControl,
+  resolveEventData
+} from 'amis-core';
 import cx from 'classnames';
 import {Checkbox} from 'amis-ui';
 import {withBadge, BadgeObject} from 'amis-ui';
 import {autobind, createObject} from 'amis-core';
 import {ActionObject} from 'amis-core';
 import {BaseSchema, FormBaseControlSchema} from '../../Schema';
+import {supportStatic} from './StaticHoc';
 
 export interface SchemaMap {
   checkbox: CheckboxControlSchema;
@@ -74,12 +80,10 @@ export default class CheckboxControl extends React.Component<
 
   @autobind
   async dispatchChangeEvent(eventData: any = {}) {
-    const {dispatchEvent, data, onChange} = this.props;
+    const {dispatchEvent, onChange} = this.props;
     const rendererEvent = await dispatchEvent(
       'change',
-      createObject(data, {
-        value: eventData
-      })
+      resolveEventData(this.props, {value: eventData}, 'value')
     );
 
     if (rendererEvent?.prevented) {
@@ -89,6 +93,37 @@ export default class CheckboxControl extends React.Component<
     onChange && onChange(eventData);
   }
 
+  renderStatic() {
+    const {
+      value,
+      trueValue,
+      falseValue,
+      option,
+      render,
+      partial,
+      optionType,
+      checked,
+      labelClassName
+    } = this.props;
+
+    return (
+      <Checkbox
+        inline
+        value={value || ''}
+        trueValue={trueValue}
+        falseValue={falseValue}
+        disabled={true}
+        partial={partial}
+        optionType={optionType}
+        checked={checked}
+        labelClassName={labelClassName}
+      >
+        {option ? render('option', option) : null}
+      </Checkbox>
+    );
+  }
+
+  @supportStatic()
   render() {
     const {
       className,

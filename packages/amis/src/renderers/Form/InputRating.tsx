@@ -1,10 +1,16 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
-import {autobind, createObject} from 'amis-core';
+import {
+  FormItem,
+  FormControlProps,
+  FormBaseControl,
+  resolveEventData
+} from 'amis-core';
+import {autobind, createObject, filter, toNumber} from 'amis-core';
 import {ActionObject} from 'amis-core';
 import {Rating} from 'amis-ui';
 import type {textPositionType} from 'amis-ui/lib/components/Rating';
 import {FormBaseControlSchema} from '../../Schema';
+import {supportStatic} from './StaticHoc';
 
 /**
  * Rating
@@ -101,13 +107,11 @@ export default class RatingControl extends React.Component<RatingProps, any> {
 
   @autobind
   async handleChange(value: any) {
-    const {onChange, dispatchEvent, data} = this.props;
+    const {onChange, dispatchEvent} = this.props;
 
     const rendererEvent = await dispatchEvent(
       'change',
-      createObject(data, {
-        value
-      })
+      resolveEventData(this.props, {value}, 'value')
     );
 
     if (rendererEvent?.prevented) {
@@ -117,6 +121,43 @@ export default class RatingControl extends React.Component<RatingProps, any> {
     onChange?.(value);
   }
 
+  renderStatic() {
+    const {
+      className,
+      value,
+      count,
+      half,
+      char,
+      inactiveColor,
+      colors,
+      texts,
+      charClassName,
+      textClassName,
+      textPosition,
+      classnames: cx
+    } = this.props;
+
+    return (
+      <div className={cx('RatingControl', className)}>
+        <Rating
+          classnames={cx}
+          value={value}
+          disabled={true}
+          count={count}
+          half={half}
+          char={char}
+          inactiveColor={inactiveColor}
+          colors={colors}
+          texts={texts}
+          charClassName={charClassName}
+          textClassName={textClassName}
+          textPosition={textPosition}
+        />
+      </div>
+    );
+  }
+
+  @supportStatic()
   render() {
     const {
       className,
@@ -137,13 +178,17 @@ export default class RatingControl extends React.Component<RatingProps, any> {
       classnames: cx
     } = this.props;
 
+    let finalCount: number = getFinalCount(count, this.props.data);
+    // 限制最大 100 星，避免渲染卡死问题
+    finalCount > 100 && (finalCount = 100);
+
     return (
       <div className={cx('RatingControl', className)}>
         <Rating
           classnames={cx}
           value={value}
           disabled={disabled}
-          count={count}
+          count={finalCount}
           half={half}
           allowClear={allowClear}
           readOnly={readOnly}
@@ -164,8 +209,28 @@ export default class RatingControl extends React.Component<RatingProps, any> {
   }
 }
 
+function getFinalCount(name: number | string, data: any): number {
+  if (typeof name === 'number') {
+    return name;
+  }
+
+  return toNumber(filter(name, data));
+}
+
 @FormItem({
   type: 'input-rating',
-  sizeMutable: false
+  sizeMutable: false,
+  shouldComponentUpdate: (props: any, prevProps: any) =>
+    getFinalCount(props.count, props.data) !==
+    getFinalCount(prevProps.count, prevProps.data),
+  detectProps: [
+    'half',
+    'allowClear',
+    'colors',
+    'inactiveColor',
+    'texts',
+    'textPosition',
+    'char'
+  ]
 })
 export class RatingControlRenderer extends RatingControl {}

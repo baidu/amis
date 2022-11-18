@@ -1,698 +1,218 @@
-@import '../functions';
-@import './cxd-colors';
-
-$remFactor: 16px;
-
 $ns: 'cxd-';
-
-$info: $B6;
-$primary: $B6;
-$success: $S6;
-$warning: $W6;
-$danger: $E6;
-$light: #eaf6fe;
-$white: #fff;
-$secondary: $G6;
-
-$info-bg: $B1;
-$success-bg: $S1;
-$warning-bg: $W1;
-$danger-bg: $E1;
-
-$text-color: #151a26;
-
-$Number-handler-mode: 'horizontal';
-// css 变量似乎没法用 !important，所以这里用 sass 变量
-$Wizard-steps-liAfterBorder: none !important;
-
-@import '../variables';
-@import '../properties';
-
-/* 此处放置需要override的变量，因为部分变量已经在variables.scss中定义 */
-$Table-strip-bg: transparent;
-
-// yunshe4.0 font-size
-$T1: 10px;
-$T2: 12px;
-$T3: 14px;
-$T4: 16px;
-$T5: 18px;
-$T6: 20px;
-$T7: 22px;
-$T8: 24px;
-$T9: 28px;
-$T10: 30px;
-$T11: 32px;
-$T12: 34px;
-$T13: 36px;
-$T14: 40px;
-
-// yunshe4.0 font-weight
-$W1: 200;
-$W2: 400;
-$W3: 500;
-$W4: 600;
-
-// yunshe4.0 间距
-$H1: 4px;
-$H2: 8px;
-$H3: 16px;
-$H5: 24px;
-$H6: 32px;
-$H7: 40px;
-$H8: 48px;
-$H9: 56px;
-$H10: 80px;
-
-// yunshe4.0 border-radius
-$R1: 0;
-$R2: px2rem(2px);
-$R3: px2rem(4px);
-$R4: px2rem(6px);
-$R5: px2rem(8px);
-$R6: px2rem(10px);
-$R7: px2rem(16px);
-$R8: 50%;
-
-// yunshe4.0 box-shadow
-$L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
-  0px 1px 10px 0px rgba(8, 14, 26, 0.05), 0px 2px 4px -1px rgba(8, 14, 26, 0.04);
-
 :root {
-  --fontSizeXs: #{$T1};
-  --fontSizeSm: #{$T2};
-  --fontSizeMd: #{$T3};
-  --fontSizeLg: #{$T4};
-  --fontSizeXl: #{$T5};
-  --fontSizeBase: var(--fontSizeMd);
-
-  --borderColor: #{$G8};
-  --borderRadius: #{$R3};
-  --body-bg: #ffffff;
-  --text-color: #151b26;
-
-  --text--muted-color: #{$G6};
-  --text--loud-color: #333;
-  --link-onHover-decoration: none;
-
-  --icon-color: #999;
-  --icon-onHover-color: var(--primary);
-
-  --Layout-header-boxShadow: none;
-  --Layout-header-bg: #f5f5f5;
-  --Layout-aside-width: #{px2rem(180px)};
-  --Layout-aside-bg: #1e1e28;
-  --Layout-aside-subList-bg: #1e1e28;
-  --Layout-brand-bg: #0f1012;
-  --Layout-brand-color: #fff;
-  --Layout-asideLink-iconColor: rgba(255, 255, 255, 0.6);
-  --Layout-asideLink-color: #fff;
-  --Layout-asideLink-onHover-color: var(--primary);
-  --Layout-asideLink-onActive-color: var(--primary);
-  --Layout-asideLink-onHover-iconSize: #{px2rem(16px)};
-  --Layout-asideLink-onHover-iconColor: var(--primary);
-  --Layout-asideLink-fontSize: #{px2rem(12px)};
-  --Layout-asideLink-arrowFontSize: #{px2rem(12px)};
-  --Layout-asideLink-arrowColor: #8d99b0;
-  --Layout-asideLink-onHover-arrowColor: #fff;
-  --Layout-headerBar-borderBottom: 0 none;
-  --Layout-asideDivider-margin: 0 #{px2rem(10px)};
-  --Layout-asideDivider-bg: #3c3c4d;
-  --Layout-nav--folded-height: #{px2rem(40px)};
-
-  --Page-aside-bg: #ffffff;
-  --Page-aside-width: #{px2rem(160px)};
-  --Page-content-paddingY: 0;
-  --Page-content-paddingX: 0;
-  --Page-main-bg: #fff;
-  --Page-title-color: #000;
-  --Page-header-paddingX: var(--gap-md);
-  --Page-header-paddingY: #{px2rem(10px)};
-  --Form-item-fontSize: var(--fontSizeBase);
-  --Form-input-marginBottom: #{px2rem(4px)};
-  --Form-item-fontColor: #{$G4};
-  --Form-item-gap: var(--gap-xl);
-  --Form-input-bg: #{$G11};
-  --Form-input-color: #{$G2};
-  --Form-input-height: #{px2rem(32px)};
-  // --Form-input-lineHeight: #{px2rem(32px)};
-  --Form-input-borderColor: var(--borderColor);
-  --Form-input-borderRadius: #{$R3};
-  --Form-input-onHover-borderColor: #{$B6};
-  --Form-input-onFocused-bg: #{$G11};
-  --Form-input-onFocused-borderColor: #{$B7};
-  --Form-input-onError-borderColor: #{$E6};
-  --Form-input-onError-bg: #{$G11};
-  --Form-input-onDisabled-bg: #{$G10};
-  --Form-input-onDisabled-borderColor: #{$G8};
-  --Form-input-onDisabled-color: #{$G5};
-  --Form-input-iconColor: #{$G5};
-  --Form-input-paddingX: var(--gap-base);
-  --Form-description-color: #999;
-  --Form--horizontal-label-whiteSpace: normal;
-  --Form--horizontal-label-widthXs: #{px2rem(50px)};
-  --Form--horizontal-label-widthSm: #{px2rem(70px)};
-  --Form--horizontal-label-widthBase: #{px2rem(100px)};
-  --Form--horizontal-label-widthMd: #{px2rem(140px)};
-  --Form--horizontal-label-widthLg: #{px2rem(190px)};
-  --Form-input-addOnBg: var(--white);
-  --Form-input-addOnColor: #666;
-  --Form-input-onFocus-addOnColor: var(--primary);
-  --Form-input-addOnDividerBorderWidth: 0;
-  --Form-input-clearBtn-color: #{$G7};
-  --Form-input-clearBtn-color-onHover: #{$G4};
-  --Form-input-clearBtn-color-onActive: #{$G3};
-
-  --Form-select-borderWidth: #{px2rem(1px)};
-  --Form-select-borderRadius: #{$R3};
-  --Form-select-bg: var(--white);
-  --Form-select-onHover-bg: var(--white);
-  --Form-select-onHover-borderColor: var(--primary);
-  --Form-select-placeholderColor: #999;
-  --Form-select-color: #000;
-  --Form-select-caret-iconColor: #{$G5};
-  --Form-select-caret-onHover-iconColor: #{$G5};
-  --Form-select-caret-fontSize: #{px2rem(12px)};
-  --Form-select-outer-borderWidth: 0;
-  --Form-select-outer-top: #{px2rem(32px)};
-  --Form-select-outer-boxShadow: #{px2rem(2px)} #{px2rem(4px)} #{px2rem(8px)} rgba(0, 0, 0, 0.2);
-  --Form-select-menu-color: #{$G2};
-  --Form-select-menu-onHover-color: #{$G2};
-  --Form-select-menu-onHover-bg: #{$B1};
-  --Form-select-menu-onActive-color: #{$B6};
-  --Form-select-menu-height: #{px2rem(24px)};
-  --Form-select-popoverGap: #{$R3};
-  --Form-select-search-height: #{px2rem(30px)};
-  --Form-selectValue-color: var(--primary);
-  --Form-select-value-borderColor: #{$G9};
-  --Form-select-valueIcon-color: #{$G4};
-  --Form-select-valueIcon-color--dark: #{$G8};
-  --Form-select-multiple-bgColor: #{$G10};
-  --Form-select-value-bgColor--dark: #{$G4};
-  --Form-selectValue-onDisabled-color: #{$G6};
-
-  --InputGroup-select-borderWidth: #{px2rem(1px)};
-  --InputGroup-select-onFocused-bg: #eaf6fe;
-  --InputGroup-select-color: #333;
-  --InputGroup-select-onFocused-color: var(--primary);
-  --InputGroup-select-arrowColor: #999;
-  --InputGroup-select-onFocused-arrowColor: var(--primary);
-  --InputGroup-button-borderWidth: #{px2rem(1px)};
-  --InputGroup-button-borderRadius: #{$R3};
-
-  // $Number-bg: #eaf6fe;
-  --Number-borderWidth: #{px2rem(1px)};
-
-  --Number-handler-borderBottom: 0;
-  --Number-handler-width: var(--gap-xl);
-  --Number-borderColor: #{$G7};
-  --Number-handler-color: #666;
-  --Number-handler-onDisabled-color: #999;
-  // $Number-handler-bg: var(--info);
-  --Number-handler-onHover-bg: var(--white);
-  --Number-handler-onHover-color: var(--primary);
-  --Number-handler-onActive-bg: #f3f9fe;
-  --Number-handler-onDisabled-bg: #f5f5f5;
-  --Number-handler-fontFamily: 'iconfont';
-  --Number-handler-fontSize: #{px2rem(12px)};
-  --Number-handler--up-content: '\e6dd';
-  --Number-handler--up-transform: rotate(180deg);
-  --Number-handler--down-content: '\e6dd';
-
-  --Checkbox-onDisabled-bg: #f7f7f9;
-  --Checkbox-onDisabled-color: #b8babf;
-
-  --Checkbox-inner-size: #{px2rem(8px)};
-  --Checkbox--full-inner-size: #{px2rem(8px)};
-  --Checkbox--sm-size: #{px2rem(14px)};
-  --Checkbox--sm-inner-size: #{px2rem(8px)};
-  --Checkbox--sm--full-inner-size: #{px2rem(8px)};
-  --Radio-size: #{px2rem(16px)};
-  --Radio-inner-size: #{px2rem(8px)};
-
-  --Switch-height: #{px2rem(20px)};
-  --Switch-width: #{px2rem(44px)};
-  --Switch-valueColor: #{$G11};
-  --Switch-bgColor: #{$G7};
-  --Switch-onActive-bgColor: var(--primary);
-  --Switch-onHover-bgColor: #{$G6};
-  --Switch-checked-onHover-bgColor: #{$B7};
-  --Switch-checked-onActive-bgColor: #{$B7};
-  --Switch-onDisabled-bgColor: #{$B2};
-  --Switch-onDisabled-color: #{$G11};
-  // --Switch-onDisabled-circle-BackgroundColor: #fff;
-  --Switch-slider-margin: #{px2rem(2px)};
-  --Switch-slider-width: calc(
-    var(--Switch-height) - var(--Switch-slider-margin) * 2
-  );
-  --Switch-slider-transition: all 0.5s ease;
-  --Switch-text-margin: 0 px2rem(8px) 0 px2rem(25px);
-
-  --Calendar-icon-bottom: #{px2rem(-4px)};
-  --Calendar-icon-width: #{px2rem(10px)};
-  --Calendar-icon-height: #{px2rem(10px)};
-  --Calendar-borderWidth: #{px2rem(1px)};
-  --Calendar-rdt-day: #{px2rem(100px)};
-  --Calendar-schedule-content-padding: 0 #{px2rem(4px)};
-  --Calendar-schedule-content-height: #{px2rem(20px)};
-  --Calendar-schedule-content-color: #{$white};
-
-  --ColorPicker-borderWidth: #{px2rem(1px)};
-  --ColorPicker-borderRadius: #{$R3};
-  --ColorPicker-bg: var(--white);
-  --ColorPicker-onHover-bg: var(--white);
-  --ColorPicker-onHover-borderColor: var(--primary);
-  --ColorPicker-color: #000;
-  --ColorPicker-placeholderColor: #999;
-  --ColorPicker-onDisabled-bg: #f5f5f5;
-  --ColorPicker-onDisabled-color: #999;
-  --ColorPicker-boxShadow: #{$L1};
-
-  --Collapse-border: #{px2rem(1px)} solid #{$G8};
-  --Collapse-border-color: #{$G8};
-  --Collapse-header-fontSize: #{$T3};
-  --Collapse-header-fontWeight: #{$W2};
-  --Collapse-header-padding: #{px2rem(16px)};
-  --Collapse-header-bg: #{$G10};
-  --Collapse-header-onHover-bg: #{$G9};
-  --Collapse-header-bg-disabled-color: #{$G10};
-  --Collapse-header-collapsed-borderBottom: none;
-  --Collapse-header-wrapper-direction: row-reverse;
-  --Collapse-content-padding: #{px2rem(16px)};
-  --Collapse-content-color: #{$G4};
-  --Collapse-content-fontSize: #{$T2};
-  --Collapse-content-fontWeight: #{$W2};
-
-  --DatePicker-borderWidth: #{px2rem(1px)};
-  --DatePicker-borderRadius: #{$R3};
-  --DatePicker-bg: var(--white);
-  --DatePicker-onHover-bg: var(--white);
-  --DatePicker-color: #000;
-  --DatePicker-placeholderColor: #999;
-  --DatePicker-onDisabled-bg: #f5f5f5;
-  --DatePicker-onDisabled-color: #999;
-  --DatePicker-iconColor: #666;
-  --DatePicker-onHover-iconColor: var(--primary);
-  --DatePicker-onHover-borderColor: var(--primary);
-
-  --LocationPicker-borderRadius: #{$R3};
-
-  --Calendar-input-borderRadius: 0;
-  --Calendar-input-borderRadius: #{$R3};
-  --Calendar-shortcuts-bg: #f5f5f5;
-  --Calendar-shortcuts-height: #{px2rem(30px)};
-
-  // button
-  --Button-borderWidth: #{px2rem(1px)};
-  --Button-boxShadow: none;
-  --Button-onActive-boxShadow: none;
-
-  --Button-borderRadius: #{$R3};
-
-  --Button-paddingX: #{px2rem(12px)};
-  --Button-icon-rightMargin: #{px2rem(4px)};
-
-  --Button--lg-height: #{px2rem(40px)};
-  --Button--lg-fontSize: #{px2rem(14px)};
-  --Button--lg-lineHeight: 30 / 20;
-  --Button--lg-paddingX: #{px2rem(16px)};
-
-  --Button--default-bg: #{$G11};
-  --Button--default-color: #{$G2};
-  --Button--default-onHover-bg: #{$G11};
-  --Button--default-onHover-border: var(--primary);
-  --Button--default-onHover-color: var(--primary);
-  --Button--default-onActive-bg: #{$G11};
-  --Button--default-onActive-border: #{$B7};
-  --Button--default-onActive-color: #{$B7};
-
-  --Button--emphasize-bg: #{$G11};
-  --Button--emphasize-color: var(--primary);
-  --Button--emphasize-onHover-bg: #{$G11};
-  --Button--emphasize-onHover-border: var(--primary);
-  --Button--emphasize-onHover-color: #{$B5};
-  --Button--emphasize-onActive-bg: #{$G11};
-  --Button--emphasize-onActive-border: #{$B7};
-  --Button--emphasize-onActive-color: #{$B7};
-
-  --Button--primary-bg: var(--primary);
-  --Button--primary-border: var(--primary);
-  --Button--primary-onHover-bg: #{$B5};
-  --Button--primary-onHover-border: #{$B5};
-  --Button--primary-onHover-color: #{$G11};
-  --Button--primary-onActive-bg: #{$B7};
-  --Button--primary-onActive-border: #{$B7};
-  --Button--primary-onActive-color: #{$G11};
-
-  --Button--light-border: var(--light);
-  --Button--light-color: var(--text-color);
-
-  --Button-onDisabled-borderColor: #{$G9};
-  --Button-onDisabled-opacity: 0.65;
-  --Button-onDisabled-bg: #{$G9};
-
-  // 这个颜色太奇怪了，先不用
-  // --Button--danger-bg: #{$E6};
-  // --Button--danger-onHover-bg: #{$E5};
-  // --Button--danger-onHover-border: #{$E5};
-  // --Button--danger-onActive-bg: #{$E7};
-  // --Button--danger-onActive-border: #{$E7};
-
-  --Button--danger-bg: #ea2e2e;
-  --Button--danger-onHover-bg: #f64545;
-  --Button--danger-onHover-border: #f64545;
-  --Button--danger-onActive-bg: #d72b2b;
-  --Button--danger-onActive-border: #d72b2b;
-
-  --ButtonGroup-divider-width: #{px2rem(1px)};
-  --ButtonGroup-divider-color: #fff;
-  --ButtonGroup--primary-isActive-color: var(--primary);
-  --ButtonGroup--primary-isActive-bg: #{$G11};
-
-  --Button--link-color: var(--primary);
-  --Button--link-onHover-color: #209bfd;
-
-  --Breadcrumb-item-default-color: #{$G5};
-  --Breadcrumb-item-hover-color: #{$B6};
-  --Breadcrumb-item-active-color: #{$B7};
-  --Breadcrumb-item-disabled-color: #{$G6};
-  --BreadcrumbDropdown-item-default-color: #{$G2};
-  --BreadcrumbDropdown-item-default-bg: #{$G11};
-  --BreadcrumbDropdown-item-hover-bg: #{$B1};
-
-  --Spinner-bg: url('data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjY0cHgiIGhlaWdodD0iNjRweCIgdmlld0JveD0iMCAwIDY0IDY0IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgogICAgPGcgaWQ9Iumhtemdoi0xIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4KICAgICAgICA8ZyBpZD0ibG9hZGluZyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMC41MDAwMDAsIDAuNTAwMDAwKSI+CiAgICAgICAgICAgIDxyZWN0IGlkPSLnn6nlvaIiIHN0cm9rZT0iIzk3OTc5NyIgZmlsbD0iI0Q4RDhEOCIgZmlsbC1ydWxlPSJub256ZXJvIiBvcGFjaXR5PSIwIiB4PSIwIiB5PSIwIiB3aWR0aD0iNjMiIGhlaWdodD0iNjMiPjwvcmVjdD4KICAgICAgICAgICAgPGcgaWQ9Iue8lue7hOWkh+S7vS02IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzLjk4MDAwMCwgMC43ODAwMDApIj4KICAgICAgICAgICAgICAgIDxwb2x5Z29uIGlkPSJmcmFtZSIgc3Ryb2tlPSIjMjQ2OEYyIiBzdHJva2Utd2lkdGg9IjMuMiIgcG9pbnRzPSIyNy41MiA1LjEyIDQ5LjY5MDI1MDMgMTcuOTIgNDkuNjkwMjUwMyA0My41MiAyNy41MiA1Ni4zMiA1LjM0OTc0OTY2IDQzLjUyIDUuMzQ5NzQ5NjYgMTcuOTIiIHN0cm9rZS1kYXNoYXJyYXk9IjE2MCAxNjAiIHN0cm9rZS1kYXNob2Zmc2V0PSIxNjAiPgogICAgICAgICAgICAgICAgICAgIDxhbmltYXRlIGlkPSJmcmFtZTEiIGF0dHJpYnV0ZU5hbWU9InN0cm9rZS1kYXNob2Zmc2V0IiBiZWdpbj0iLjQ1cztmcmFtZTIuZW5kIiBkdXI9Ii45cyIgdHlwZT0idHJhbnNsYXRlIiBmcm9tPSIxNjAiIHRvPSItMTYwIiBmaWxsPSJmcmVlemUiICBjYWxjTW9kZT0ic3BsaW5lIiBrZXlUaW1lcz0iMDsgMSIgIGtleVNwbGluZXM9Ii41IDAgLjUgMSIvPgogICAgICAgICAgICAgICAgICAgIDxhbmltYXRlIGlkPSJmcmFtZTIiIGF0dHJpYnV0ZU5hbWU9InN0cm9rZS1kYXNob2Zmc2V0IiBiZWdpbj0iZnJhbWUxLmVuZCIgZHVyPSIuOXMiIHR5cGU9InRyYW5zbGF0ZSIgZnJvbT0iMTYwIiB0bz0iMTYwIiBmaWxsPSJmcmVlemUiIGNhbGNNb2RlPSJzcGxpbmUiIGtleVRpbWVzPSIwOyAxIiAga2V5U3BsaW5lcz0iLjUgMCAuNSAxIi8+CiAgICAgICAgICAgICAgICA8L3BvbHlnb24+CiAgICAgICAgICAgICAgICA8Y2lyY2xlIGlkPSJjaXJjbGUxIiBmaWxsPSIjMjQ2OEYyIiBmaWxsLXJ1bGU9Im5vbnplcm8iIGN4PSIyNy41MiIgY3k9IjQuOCIgcj0iNC44Ij4KICAgICAgICAgICAgICAgICAgICA8YW5pbWF0ZVRyYW5zZm9ybSBpZD0iY2lyY2xlMW9uZSIgYXR0cmlidXRlTmFtZT0idHJhbnNmb3JtIiBiZWdpbj0iMHM7Y2lyY2xlMXR3by5lbmQiIGR1cj0iLjU0cyIgdHlwZT0idHJhbnNsYXRlIiBmcm9tPSIwIDI2IiB0bz0iMCAwIiBmaWxsPSJmcmVlemUiIGNhbGNNb2RlPSJzcGxpbmUiIGtleVRpbWVzPSIwOyAxIiAga2V5U3BsaW5lcz0iLjUgMCAuNSAxIi8+CiAgICAgICAgICAgICAgICAgICAgPGFuaW1hdGVUcmFuc2Zvcm0gaWQ9ImNpcmNsZTF0d28iIGF0dHJpYnV0ZU5hbWU9InRyYW5zZm9ybSIgYmVnaW49ImNpcmNsZTFvbmUuZW5kICsgLjcycyIgZHVyPSIuNTRzIiB0eXBlPSJ0cmFuc2xhdGUiIGZyb209IjAgMCIgdG89IjAgMjYiIGZpbGw9ImZyZWV6ZSIgY2FsY01vZGU9InNwbGluZSIga2V5VGltZXM9IjA7IDEiICBrZXlTcGxpbmVzPSIuNSAwIC41IDEiLz4KICAgICAgICAgICAgICAgIDwvY2lyY2xlPgogICAgICAgICAgICAgICAgPGNpcmNsZSBpZD0iY2lyY2xlMiIgZmlsbD0iIzI0NjhGMiIgZmlsbC1ydWxlPSJub256ZXJvIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg1MC4yNDAwMDAsIDE3LjI4MDAwMCkgcm90YXRlKC0xODAuMDAwMDAwKSB0cmFuc2xhdGUoLTUwLjI0MDAwMCwgLTE3LjI4MDAwMCkgIiBjeD0iNTAuMjQiIGN5PSIxNy4yOCIgcj0iNC44Ij4KICAgICAgICAgICAgICAgICAgICA8YW5pbWF0ZVRyYW5zZm9ybSBpZD0iY2lyY2xlMm9uZSIgYXR0cmlidXRlTmFtZT0idHJhbnNmb3JtIiBiZWdpbj0iMHM7Y2lyY2xlMnR3by5lbmQiIGR1cj0iLjU0cyIgdHlwZT0idHJhbnNsYXRlIiBmcm9tPSItMjIuNSAxMyIgdG89IjAgMCIgZmlsbD0iZnJlZXplIiBjYWxjTW9kZT0ic3BsaW5lIiBrZXlUaW1lcz0iMDsgMSIgIGtleVNwbGluZXM9Ii41IDAgLjUgMSIvPgogICAgICAgICAgICAgICAgICAgIDxhbmltYXRlVHJhbnNmb3JtIGlkPSJjaXJjbGUydHdvIiBhdHRyaWJ1dGVOYW1lPSJ0cmFuc2Zvcm0iIGJlZ2luPSJjaXJjbGUyb25lLmVuZCArIC43MnMiIGR1cj0iLjU0cyIgdHlwZT0idHJhbnNsYXRlIiBmcm9tPSIwIDAiIHRvPSItMjIuNSAxMyIgZmlsbD0iZnJlZXplIiBjYWxjTW9kZT0ic3BsaW5lIiBrZXlUaW1lcz0iMDsgMSIgIGtleVNwbGluZXM9Ii41IDAgLjUgMSIvPgogICAgICAgICAgICAgICAgPC9jaXJjbGU+CiAgICAgICAgICAgICAgICA8Y2lyY2xlIGlkPSJjaXJjbGUzIiBmaWxsPSIjMjQ2OEYyIiBmaWxsLXJ1bGU9Im5vbnplcm8iIHRyYW5zZm9ybT0idHJhbnNsYXRlKDUwLjI0MDAwMCwgNDMuMjAwMDAwKSByb3RhdGUoOTAuMDAwMDAwKSB0cmFuc2xhdGUoLTUwLjI0MDAwMCwgLTQzLjIwMDAwMCkgIiBjeD0iNTAuMjQiIGN5PSI0My4yIiByPSI0LjgiPgogICAgICAgICAgICAgICAgICAgIDxhbmltYXRlVHJhbnNmb3JtIGlkPSJjaXJjbGUzb25lIiBhdHRyaWJ1dGVOYW1lPSJ0cmFuc2Zvcm0iIGJlZ2luPSIwcztjaXJjbGUzdHdvLmVuZCIgZHVyPSIuNTRzIiB0eXBlPSJ0cmFuc2xhdGUiIGZyb209Ii0yMi41IC0xMyIgdG89IjAgMCIgZmlsbD0iZnJlZXplIiBjYWxjTW9kZT0ic3BsaW5lIiBrZXlUaW1lcz0iMDsgMSIgIGtleVNwbGluZXM9Ii41IDAgLjUgMSIvPgogICAgICAgICAgICAgICAgICAgIDxhbmltYXRlVHJhbnNmb3JtIGlkPSJjaXJjbGUzdHdvIiBhdHRyaWJ1dGVOYW1lPSJ0cmFuc2Zvcm0iIGJlZ2luPSJjaXJjbGUzb25lLmVuZCArIC43MnMiIGR1cj0iLjU0cyIgdHlwZT0idHJhbnNsYXRlIiBmcm9tPSIwIDAiIHRvPSItMjIuNSAtMTMiIGZpbGw9ImZyZWV6ZSIgY2FsY01vZGU9InNwbGluZSIga2V5VGltZXM9IjA7IDEiICBrZXlTcGxpbmVzPSIuNSAwIC41IDEiLz4KICAgICAgICAgICAgICAgIDwvY2lyY2xlPgogICAgICAgICAgICAgICAgPGNpcmNsZSBpZD0iY2lyY2xlNCIgZmlsbD0iIzI0NjhGMiIgZmlsbC1ydWxlPSJub256ZXJvIiBjeD0iMjcuNTIiIGN5PSI1Ni42NCIgcj0iNC44Ij4KICAgICAgICAgICAgICAgICAgICA8YW5pbWF0ZVRyYW5zZm9ybSBpZD0iY2lyY2xlMW9uZSIgYXR0cmlidXRlTmFtZT0idHJhbnNmb3JtIiBiZWdpbj0iMHM7Y2lyY2xlMXR3by5lbmQiIGR1cj0iLjU0cyIgdHlwZT0idHJhbnNsYXRlIiBmcm9tPSIwIC0yNiIgdG89IjAgMCIgZmlsbD0iZnJlZXplIiBjYWxjTW9kZT0ic3BsaW5lIiBrZXlUaW1lcz0iMDsgMSIgIGtleVNwbGluZXM9Ii41IDAgLjUgMSIvPgogICAgICAgICAgICAgICAgICAgIDxhbmltYXRlVHJhbnNmb3JtIGlkPSJjaXJjbGUxdHdvIiBhdHRyaWJ1dGVOYW1lPSJ0cmFuc2Zvcm0iIGJlZ2luPSJjaXJjbGUxb25lLmVuZCArIC43MnMiIGR1cj0iLjU0cyIgdHlwZT0idHJhbnNsYXRlIiBmcm9tPSIwIDAiIHRvPSIwIC0yNiIgZmlsbD0iZnJlZXplIiBjYWxjTW9kZT0ic3BsaW5lIiBrZXlUaW1lcz0iMDsgMSIgIGtleVNwbGluZXM9Ii41IDAgLjUgMSIvPgogICAgICAgICAgICAgICAgPC9jaXJjbGU+CiAgICAgICAgICAgICAgICA8Y2lyY2xlIGlkPSJjaXJjbGU1IiBmaWxsPSIjMjQ2OEYyIiBmaWxsLXJ1bGU9Im5vbnplcm8iIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQuODAwMDAwLCA0My4yMDAwMDApIHJvdGF0ZSgtMTgwLjAwMDAwMCkgdHJhbnNsYXRlKC00LjgwMDAwMCwgLTQzLjIwMDAwMCkgIiBjeD0iNC44IiBjeT0iNDMuMiIgcj0iNC44Ij4KICAgICAgICAgICAgICAgICAgICA8YW5pbWF0ZVRyYW5zZm9ybSBpZD0iY2lyY2xlNW9uZSIgYXR0cmlidXRlTmFtZT0idHJhbnNmb3JtIiBiZWdpbj0iMHM7Y2lyY2xlNXR3by5lbmQiIGR1cj0iLjU0cyIgdHlwZT0idHJhbnNsYXRlIiBmcm9tPSIyMi41IC0xMyIgdG89IjAgMCIgZmlsbD0iZnJlZXplIiBjYWxjTW9kZT0ic3BsaW5lIiBrZXlUaW1lcz0iMDsgMSIgIGtleVNwbGluZXM9Ii41IDAgLjUgMSIvPgogICAgICAgICAgICAgICAgICAgIDxhbmltYXRlVHJhbnNmb3JtIGlkPSJjaXJjbGU1dHdvIiBhdHRyaWJ1dGVOYW1lPSJ0cmFuc2Zvcm0iIGJlZ2luPSJjaXJjbGU1b25lLmVuZCArIC43MnMiIGR1cj0iLjU0cyIgdHlwZT0idHJhbnNsYXRlIiBmcm9tPSIwIDAiIHRvPSIyMi41IC0xMyIgZmlsbD0iZnJlZXplIiBjYWxjTW9kZT0ic3BsaW5lIiBrZXlUaW1lcz0iMDsgMSIgIGtleVNwbGluZXM9Ii41IDAgLjUgMSIvPgogICAgICAgICAgICAgICAgPC9jaXJjbGU+CiAgICAgICAgICAgICAgICA8Y2lyY2xlIGlkPSJjaXJjbGU2IiBmaWxsPSIjMjQ2OEYyIiBmaWxsLXJ1bGU9Im5vbnplcm8iIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQuODAwMDAwLCAxNy4yODAwMDApIHJvdGF0ZSg5MC4wMDAwMDApIHRyYW5zbGF0ZSgtNC44MDAwMDAsIC0xNy4yODAwMDApICIgY3g9IjQuOCIgY3k9IjE3LjI4IiByPSI0LjgiPgogICAgICAgICAgICAgICAgICAgIDxhbmltYXRlVHJhbnNmb3JtIGlkPSJjaXJjbGU2b25lIiBhdHRyaWJ1dGVOYW1lPSJ0cmFuc2Zvcm0iIGJlZ2luPSIwcztjaXJjbGU2dHdvLmVuZCIgZHVyPSIuNTRzIiB0eXBlPSJ0cmFuc2xhdGUiIGZyb209IjIyLjUgMTMiIHRvPSIwIDAiIGZpbGw9ImZyZWV6ZSIgY2FsY01vZGU9InNwbGluZSIga2V5VGltZXM9IjA7IDEiICBrZXlTcGxpbmVzPSIuNSAwIC41IDEiLz4KICAgICAgICAgICAgICAgICAgICA8YW5pbWF0ZVRyYW5zZm9ybSBpZD0iY2lyY2xlNnR3byIgYXR0cmlidXRlTmFtZT0idHJhbnNmb3JtIiBiZWdpbj0iY2lyY2xlNm9uZS5lbmQgKyAuNzJzIiBkdXI9Ii41NHMiIHR5cGU9InRyYW5zbGF0ZSIgZnJvbT0iMCAwIiB0bz0iMjIuNSAxMyIgZmlsbD0iZnJlZXplIiBjYWxjTW9kZT0ic3BsaW5lIiBrZXlUaW1lcz0iMDsgMSIgIGtleVNwbGluZXM9Ii41IDAgLjUgMSIvPgogICAgICAgICAgICAgICAgPC9jaXJjbGU+CiAgICAgICAgICAgIDwvZz4KICAgICAgICA8L2c+CiAgICA8L2c+Cjwvc3ZnPg==');
-
-  --Crud-toolbar-gap: #{px2rem(10px)};
-
-  // Table
-  --Table-bg: #fff;
-  --Table-fontSize: #{px2rem(12px)};
-  --Table-color: #333;
-  --Table-thead-color: #333;
-  --Table-lineHeight: 20 / 12;
-  --Table-borderColor: #{$G8};
-  --Table-tree-borderColor: #{darken(#f5f5f5, 10%)};
-  --Table-thead-bg: #{$G10};
-  --Table-thead-borderColor: #fff;
-  --Table-thead-iconColor: #999;
-  --Table-strip-bg: #{$Table-strip-bg};
-  --Table-onHover-bg: #{$B1};
-  --Table-onHover-bg-rgb: 245, 251, 255;
-  --Table-onHover-borderColor: #eceff8;
-  --Table-onChecked-bg: #f0faff;
-  --Table-onChecked-borderColor: #eceff8;
-  --Table-onChecked-color: #333;
-  --Table-onChecked-onHover-bg: #f5f5f5;
-  --Table-onChecked-onHover-borderColor: #eceff8;
-  --Table-onChecked-onHover-color: #666;
-  --Table-expandBtn-color: #{$G5};
-  --TableCell-paddingX: #{px2rem(10px)};
-
-  --TableCell-sortBtn-width: #{px2rem(14px)};
-
-  --TableCell-filterPopOver-dropDownItem-height: #{px2rem(30px)};
-  --TableCell-filterPopOver-dropDownItem-padding: 0 #{px2rem(10px)};
-
-  --TableRow-onDisabled-bg: #{$G10};
-  --TableRow-onDisabled-color: #{$G6};
-
-  // listControl
-  --ListControl-item-borderWidth: #{px2rem(1px)};
-  --ListControl-item-borderRadius: #{$R3};
-  --ListControl-item-paddingX: #{px2rem(10px)};
-  --ListControl-item-bg: var(--Button--default-bg);
-  --ListControl-item-color: var(--Button--default-color);
-
-  --ListControl-item-onHover-color: var(--primary);
-  --ListControl-item-onHover-bg: var(--Button--default-onHover-bg);
-  --ListControl-item-onHover-borderColor: var(--primary);
-
-  --ListControl-item-onActive-bg: #{$G11};
-  --ListControl-item-onActive-onHover-bg: #{$G11};
-  --ListControl-item-onActive-color: #{$B7};
-  --ListControl-item-onActive-borderColor: #{$B7};
-  --ListControl-item-onActive-before-bg: #{$B7};
-  --ListControl-item-onActive-after-borderColor: #{$G11};
-
-  --ListControl-item-onDisabled-opacity: 1;
-  --ListControl-item-onDisabled-bg: #{$G9};
-  --ListControl-item-onDisabled-color: #{$G6};
-  --ListControl-item-onDisabled-borderColor: #{$G9};
-
-  // 图片上传
-  --ImageControl-addBtn-bg: #fff;
-  --ImageControl-addBtn-border: #dbdbdb;
-  --ImageControl-addBtn-borderRadius: #{$R3};
-  --ImageControl-addBtn-color: #84868c;
-  --ImageControl-addBtn-onHover-bg: var(--ImageControl-addBtn-bg);
-  --ImageControl-addBtn-onHover-border: var(--primary);
-  --ImageControl-addBtn-onHover-color: var(--primary);
-  --ImageControl-addBtn-onActive-bg: #f3f9fe;
-  --ImageControl-addBtn-onActive-border: var(--primary);
-  --ImageControl-addBtn-onActive-color: var(--primary);
-  --ImageControl-addBtn-onDisabled-bg: #f5f5f5;
-  --ImageControl-addBtn-onDisabled-border: #ebebeb;
-  --ImageControl-addBtn-onDisabled-color: #ccc;
-  --ImageControl-progress-borderRadius: #{$R2};
-
-  // 文件上传
-  --FileControl-danger-color: #{$E6};
-  --FileControl-drag-color: #{$G3};
-  --FileControl-icon-onHover-color: #{$G4};
-  --FileControl-icon-color: #{$G5};
-  --FileControl-onDisabled-color: #{$G6};
-  --FileControl-border-color: #{$G8};
-  --FileControl-onHover-bg: #{$G9};
-  --FileControl-onDisabled-bg: #{$G10};
-  --FileControl-progress-borderRadius: #{$R2};
-
-  // Modal
-  --Modal-title-fontSize: #{$T3};
-  --Modal-title-color: #{$W3};
-  --Modal-title-fontWeight: #{$W3};
-  --Modal-overlay-bg: rgba(0, 0, 0, 0.7);
-  --Modal-content-borderWidth: 0;
-  --Modal-content-borderRadius: 0;
-  --Modal-content-minHeight: #{px2rem(193px)};
-  --Modal-header-bg: #fff;
-  --Modal-header-paddingY: 0;
-  --Modal-header-paddingX: 0;
-  --Modal-title-color: #333;
-  --Modal-body-paddingY: var(--gap-md);
-  --Modal-body-paddingX: var(--gap-md);
-  --Modal-body-borderTop: none;
-  --Modal-body-borderBottom: none;
-  --Modal-footer-marginX: 0;
-  --Modal-footer-marginY: 0;
-  --Modal-footer-padding: 0;
-
-  // Drawer
-  --Drawer-header-padding: #{px2rem(16px)} #{px2rem(24px)};
-  --Drawer-widthBase: #{px2rem(400px)};
-  --Drawer-header-bg: #fff;
-  --Drawer-body-padding: #{px2rem(24px)};
-
-  // Remark
-  --Remark-icon-fontSize: #{px2rem(12px)};
-  --Remark-iconColor: #999;
-  --Remark-onHover-iconColor: #fff;
-  --Remark-bg: #fff;
-  --Remark-onHover-bg: #f38900;
-  --Remark-borderWidth: #{px2rem(1px)};
-  --Remark-borderColor: #999;
-  --Remark-onHover-borderColor: #f38900;
-
-  // Wizard
-  --Wizard-steps-bg: #fff;
-  --Wizard-steps-borderWidth: 0;
-  --Wizard-steps-textAlign: center;
-  --Wizard-steps-ulDisplay: inline-block;
-  --Wizard-steps-height: #{px2rem(60px)};
-  --Wizard-steps-padding: #{px2rem(10)} 0;
-  --Wizard-steps-liVender: 'iconfont';
-  --Wizard-steps-liAfterContent: '\e6ee';
-
-  --Wizard-steps-li-onActive-color: #333333;
-  --Wizard-steps-bg--isComplete: #fff;
-  --Wizard-badge-size: #{px2rem(26px)};
-  --Wizard-badge-color: #999999;
-  --Wizard-badge-onActive-backgroundColor: #333333;
-  --Wizard-badge-onComplete-backgroundColor: #333333;
-  --Wizard-badge-fontSize: #{px2rem(14px)};
-  --Wizard-badge-border: #{px2rem(1px)} solid #999999;
-  --Wizard-badge-borderRadius: 50%;
-  --Wizard-badge-bg: var(--white);
-  --Wizard-badge-marginRight: #{px2rem(6px)};
-
-  // Tabs
-  --Tabs-linkFontSize: #{px2rem(14px)};
-  --Tabs-link-disabled-color: #{$G6};
-  --Tabs--card-onActive-borderColor: var(--white);
-  --Tabs--card-bg: var(--Table-thead-bg);
-  --Tabs--radio-bg: var(--white);
-  --Tabs--chrome-onHover-bg: #fcfcfc;
-  --Tabs--chrome-bg: #f5f5f5;
-  --Tabs--simple-split-color: #{$G9};
-  --Tabs--simple-split-size: var(--gap-xs) var(--gap-md);
-  --Tabs--sidebar-iconColor: #{$B6};
-
-  // Pagination
-  --Pagination-fontSize: #{px2rem(12px)};
-  --Pagination-onActive-backgroundColor: var(--white);
-  --Pagination-onActive-color: var(--primary);
-  --Pagination-onActive-border: #{px2rem(1px)} solid var(--primary);
-
-  // Panel
-  --Panel-borderRadius: #{$R3};
-  --Panel-fixedBottom-boxShadow: 0 -2px 10px 0 rgba(0, 0, 0, 0.05);
-  --Panel--default-bg: #f5f5f5;
-
-  // Nav
-  --Nav-item-fontSize: #{px2rem(16px)};
-  --Nav-item-borderRadius: 0;
-  --Nav-item-onActive-bg: #f6f7fb;
-  --Nav-item-onActive-color: var(--primary);
-  --Nav-item-onActive-borderLeft: #{px2rem(3px)} solid var(--primary);
-  --Nav-subItem-fontSize: #{px2rem(12px)};
-  --Nav-subItem-onActiveBeforeBg: var(--primary);
-
-  // TransferSelect
-  --TransferSelect--table-heading-bg: var(--white);
-  --TransferSelect--normal-heading-bg: #f6f7fb;
-  --TransferSelect-heading-borderBottom: 0;
-
-  // Alert
-  --Alert-fontColor: #{$G2};
-  --Alert-title-fontColor: #{$G2};
-
-  --Alert-height: #{px2rem(40px)};
-  --Alert-paddingX: #{px2rem(16px)};
-  --Alert-fontSize: #{$T2};
-  --Alert-borderRadius: #{$R3};
-  --Alert-marginBottom: var(--gap-md);
-
-  --Alert--danger-color: #{$G2};
-  --Alert--danger-bg: #{$danger-bg};
-  --Alert--danger-borderColor: transparent;
-
-  --Alert--info-color: #{$G2};
-  --Alert--info-bg: #{$info-bg};
-  --Alert--info-borderColor: transparent;
-
-  --Alert--success-color: #{$G2};
-  --Alert--success-bg: #{$success-bg};
-  --Alert--success-borderColor: transparent;
-
-  --Alert--warning-color: #{$G2};
-  --Alert--warning-bg: #{$warning-bg};
-  --Alert--warning-borderColor: transparent;
-
-  // Toast size
-  --Toast-width: #{px2rem(400px)};
-  --Toast-borderRadius: #{$R3};
-  --Toast-paddingL: #{px2rem(26px)};
-  --Toast-paddingX: #{px2rem(16px)};
-  --Toast--info-paddingL: 0;
-  --Toast-border-width: #{px2rem(1px)};
-  --Toast-opacity: 1;
-  --Toast-title-display: inline;
-
-  // Toast color
-  --Toast-color: var(--white);
-
-  --Toast--danger-color: #{$G2};
-  --Toast--danger-bgColor: #{$G11};
-  --Toast--danger-borderColor: #{$G11};
-
-  --Toast--info-color: #{$G2};
-  --Toast--info-bgColor: #{$G11};
-  --Toast--info-borderColor: #{$G11};
-
-  --Toast--success-color: #{$G2};
-  --Toast--success-bgColor: #{$G11};
-  --Toast--success-borderColor: #{$G11};
-
-  --Toast--warning-color: #{$G2};
-  --Toast--warning-bgColor: #{$G11};
-  --Toast--warning-borderColor: #{$G11};
-
-  --Toast-close-color: var(--icon-color);
-  --Toast-close--onHover-color: var(--icon-onHover-color);
-
-  --TagControl-sugTip-color: var(--primary);
-
-  // Card
-  --Card-actions-borderColor: #{lighten(#eceff8, 2.5%)};
-  --Card-onChecked-bg: var(--white);
-  --Card-onChecked-borderColor: var(--primary);
-  --Card-onChecked-color: var(--primary);
-
-  --Card-onModified-bg: #e8f0fe;
-  --Card-onModified-borderColor: var(--primary);
-  --Card-onModified-color: #4285f4;
-
-  --Card-actions-onHover-bg: white;
-  --Card-actions-onHover-color: var(--primary);
-  --Card-actions-onChecked-onHover-bg: var(--white);
-
-  --Card-actions-fontSize: #{px2rem(12px)};
-
-  // Combo
-  --Combo--horizontal-dragger-top: var(--gap-xs);
-
-  // ListMenu
-  --ListMenu-borderWidth: 0;
-  --ListMenu-borderRadius: 0;
-  --ListMenu-item-height: #{px2rem(30px)};
-  --ListMenu-item-color: #333;
-  --ListMenu-item--onHover-color: #000;
-  --ListMenu-item--onHover-bg: #eaf6fe;
-  --ListItem--strip-bg: #f6f6f6;
-  --ListItem-onChecked-color: #0052cc;
-  --ListItem-onChecked-bg: #f0f6ff;
-  --ListItem-onChecked-borderColor: #0052cc;
-  --ListItem-onChecked-fieldLabel-color: #0052cc;
-
-  --Transfer-title-bg: #f7f7f9;
-
-  --Satus-icon-width: #{px2rem(14px)};
-
-  --Progress-borderRadius: #{$R7};
-
-  --Rating-inactive-color: #{$G8};
-  --Rating-text-color: #{$G2};
-
-  // tree
-  --Tree-item-onHover-bg-pure: #{$G10};
-  --Tree-item-onChekced-bg: var(--Form-select-menu-onHover-bg);
-  --Tree-item-onChekced-bg-borderRadius: #{px2rem(2px)};
-  --Tree-itemHeight: #{px2rem(24px)};
-  --Tree-icon-gap: var(--gap-sm);
-
-  // Formula
-  --InputFormula-code-bgColor: #{$G10};
-
-  // ResultBox
-  --ResultBox-value-bg: #{$G10};
-  --ResultBox-value-clear-bg: #{$G8};
-  --ResultBox-value-clear-hover-bg: #{$G9};
-
-  // SearchBox
-  --SearchBox-hover-color: #{$B6};
-  --SearchBox-focus-color: #{$B7};
-  --SearchBox-search-icon-color: #{$G5};
-  --SearchBox-enhonce-icon-color: #{$G11};
-  --SearchBox-clearable-icon-color: #{$G7};
-  --SearchBox-clearable-icon-size: #{px2rem(16px)};
-  --SearchBox-height: #{px2rem(30px)};
-  --SearchBox-disabled-color: #{$G10};
-  --SearchBox-enhonce-disabled-color: #{$G9};
-  --SearchBox-enhonce-disabled-search-color: #{$G6};
-  --SearchBox-enhonce-clearable-gap: #{$R4};
-}
-
-@media (max-width: 767px) {
-  :root {
-    --fontSizeBase: var(--fontSizeLg);
-  }
+  --colors-neutral-fill-none: translate;
+  --colors-error-1: #590410;
+  --colors-error-2: #800d18;
+  --colors-error-3: #a61922;
+  --colors-error-4: #cc292e;
+  --colors-error-5: #f23d3d;
+  --colors-error-6: #ff6966;
+  --colors-error-7: #ff908c;
+  --colors-error-8: #ffb6b3;
+  --colors-error-9: #ffdbd9;
+  --colors-error-10: #ffe8e6;
+  --colors-warning-1: #662500;
+  --colors-warning-2: #8c3800;
+  --colors-warning-3: #b35209;
+  --colors-warning-4: #d97116;
+  --colors-warning-5: #ff9326;
+  --colors-warning-6: #ffab52;
+  --colors-warning-7: #ffc27d;
+  --colors-warning-8: #ffd8a8;
+  --colors-warning-9: #ffecd4;
+  --colors-warning-10: #fff4e6;
+  --colors-success-1: #012600;
+  --colors-success-2: #054d00;
+  --colors-success-3: #0b7300;
+  --colors-success-4: #1b9908;
+  --colors-success-5: #30bf13;
+  --colors-success-6: #54cc39;
+  --colors-success-7: #7bd964;
+  --colors-success-8: #a5e693;
+  --colors-success-9: #d1f2c7;
+  --colors-success-10: #ecffe6;
+  --colors-link-1: #001259;
+  --colors-link-2: #001e80;
+  --colors-link-3: #0832a6;
+  --colors-link-4: #144bcc;
+  --colors-link-5: #2468f2;
+  --colors-link-6: #528eff;
+  --colors-link-7: #7dadff;
+  --colors-link-8: #a8caff;
+  --colors-link-9: #d4e5ff;
+  --colors-link-10: #e6f0ff;
+  --colors-info-1: #001259;
+  --colors-info-2: #001e80;
+  --colors-info-3: #0832a6;
+  --colors-info-4: #144bcc;
+  --colors-info-5: #2468f2;
+  --colors-info-6: #528eff;
+  --colors-info-7: #7dadff;
+  --colors-info-8: #a8caff;
+  --colors-info-9: #d4e5ff;
+  --colors-info-10: #e6f0ff;
+  --colors-other-1: #001259;
+  --colors-other-2: #001e80;
+  --colors-other-3: #0832a6;
+  --colors-other-4: #144bcc;
+  --colors-other-5: #2468f2;
+  --colors-other-6: #528eff;
+  --colors-other-7: #7dadff;
+  --colors-other-8: #a8caff;
+  --colors-other-9: #d4e5ff;
+  --colors-other-10: #e6f0ff;
+  --colors-brand-1: #001259;
+  --colors-brand-2: #001e80;
+  --colors-brand-3: #0832a6;
+  --colors-brand-4: #144bcc;
+  --colors-brand-5: #2468f2;
+  --colors-brand-6: #528eff;
+  --colors-brand-7: #7dadff;
+  --colors-brand-8: #a8caff;
+  --colors-brand-9: #d4e5ff;
+  --colors-brand-10: #e6f0ff;
+  --colors-neutral-text-1: #070c14;
+  --colors-neutral-text-2: #151b26;
+  --colors-neutral-text-3: #303540;
+  --colors-neutral-text-4: #5c5f66;
+  --colors-neutral-text-5: #84878c;
+  --colors-neutral-text-6: #b8babf;
+  --colors-neutral-text-7: #d4d6d9;
+  --colors-neutral-text-8: #e8e9eb;
+  --colors-neutral-text-9: #f2f3f5;
+  --colors-neutral-text-10: #f7f8fa;
+  --colors-neutral-text-11: #ffffff;
+  --colors-neutral-fill-none: transparent;
+  --colors-neutral-fill-1: #070c14;
+  --colors-neutral-fill-2: #151b26;
+  --colors-neutral-fill-3: #303540;
+  --colors-neutral-fill-4: #5c5f66;
+  --colors-neutral-fill-5: #84878c;
+  --colors-neutral-fill-6: #b8babf;
+  --colors-neutral-fill-7: #d4d6d9;
+  --colors-neutral-fill-8: #e8e9eb;
+  --colors-neutral-fill-9: #f2f3f5;
+  --colors-neutral-fill-10: #f7f8fa;
+  --colors-neutral-fill-11: #ffffff;
+  --colors-neutral-line-1: #070c14;
+  --colors-neutral-line-2: #151b26;
+  --colors-neutral-line-3: #303540;
+  --colors-neutral-line-4: #5c5f66;
+  --colors-neutral-line-5: #84878c;
+  --colors-neutral-line-6: #b8babf;
+  --colors-neutral-line-7: #d4d6d9;
+  --colors-neutral-line-8: #e8e9eb;
+  --colors-neutral-line-9: #f2f3f5;
+  --colors-neutral-line-10: #f7f8fa;
+  --colors-neutral-line-11: #ffffff;
+  --fonts-base-family: -apple-system, BlinkMacSystemFont, SF Pro SC, SF Pro Text,
+    Helvetica Neue, Helvetica, PingFang SC, Segoe UI, Roboto, Hiragino Sans GB,
+    Arial, microsoft yahei ui, Microsoft YaHei, SimSun, sans-serif;
+  --fonts-size-1: 48px;
+  --fonts-size-2: 40px;
+  --fonts-size-3: 32px;
+  --fonts-size-4: 24px;
+  --fonts-size-5: 18px;
+  --fonts-size-6: 16px;
+  --fonts-size-7: 14px;
+  --fonts-size-8: 12px;
+  --fonts-size-9: 12px;
+  --fonts-weight-1: 900;
+  --fonts-weight-2: 800;
+  --fonts-weight-3: 700;
+  --fonts-weight-4: 600;
+  --fonts-weight-5: 500;
+  --fonts-weight-6: 400;
+  --fonts-weight-7: 300;
+  --fonts-weight-8: 200;
+  --fonts-weight-9: 100;
+  --fonts-lineHeight-1: 1.3;
+  --fonts-lineHeight-2: 1.5;
+  --fonts-lineHeight-3: 1.7;
+  --borders-style-1: none;
+  --borders-style-2: solid;
+  --borders-style-3: dashed;
+  --borders-style-4: dotted;
+  --borders-width-1: 0px;
+  --borders-width-2: 1px;
+  --borders-width-3: 2px;
+  --borders-width-4: 4px;
+  --borders-radius-1: 0px;
+  --borders-radius-2: 2px;
+  --borders-radius-3: 4px;
+  --borders-radius-4: 6px;
+  --borders-radius-5: 8px;
+  --borders-radius-6: 10px;
+  --borders-radius-7: 50%;
+  --sizes-size-0: 0rem;
+  --sizes-size-1: auto;
+  --sizes-size-2: 0.125rem;
+  --sizes-size-3: 0.25rem;
+  --sizes-size-4: 0.375rem;
+  --sizes-size-5: 0.5rem;
+  --sizes-size-6: 0.625rem;
+  --sizes-size-7: 0.75rem;
+  --sizes-size-8: 0.875rem;
+  --sizes-size-9: 1rem;
+  --sizes-base-2: 0.125rem;
+  --sizes-base-3: 0.25rem;
+  --sizes-base-4: 0.375rem;
+  --sizes-base-5: 0.5rem;
+  --sizes-base-6: 0.625rem;
+  --sizes-base-7: 0.75rem;
+  --sizes-base-8: 0.875rem;
+  --sizes-base-9: 1rem;
+  --sizes-base-10: 1.125rem;
+  --sizes-base-11: 1.25rem;
+  --sizes-base-12: 1.375rem;
+  --sizes-base-13: 1.5rem;
+  --sizes-base-14: 1.625rem;
+  --sizes-base-15: 1.75rem;
+  --sizes-base-16: 1.875rem;
+  --sizes-base-17: 2rem;
+  --sizes-base-18: 2.125rem;
+  --sizes-base-19: 2.25rem;
+  --sizes-base-20: 2.375rem;
+  --sizes-base-21: 2.5rem;
+  --sizes-base-22: 2.625rem;
+  --sizes-base-23: 2.75rem;
+  --sizes-base-24: 2.875rem;
+  --sizes-base-25: 3rem;
+  --sizes-base-26: 3.125rem;
+  --sizes-base-27: 3.25rem;
+  --sizes-base-28: 3.375rem;
+  --sizes-base-29: 3.5rem;
+  --sizes-base-30: 3.625rem;
+  --sizes-base-31: 3.75rem;
+  --sizes-base-32: 3.875rem;
+  --sizes-base-33: 4rem;
+  --sizes-base-34: 4.125rem;
+  --sizes-base-35: 4.25rem;
+  --sizes-base-36: 4.375rem;
+  --sizes-base-37: 4.5rem;
+  --sizes-base-38: 4.625rem;
+  --sizes-base-39: 4.75rem;
+  --sizes-base-40: 4.875rem;
+  --sizes-base-41: 5rem;
+  --sizes-base-42: 5.125rem;
+  --sizes-base-43: 5.25rem;
+  --sizes-base-44: 5.375rem;
+  --sizes-base-45: 5.5rem;
+  --sizes-base-46: 5.625rem;
+  --sizes-base-47: 5.75rem;
+  --sizes-base-48: 5.875rem;
+  --sizes-base-49: 6rem;
+  --sizes-base-50: 6.125rem;
+  --sizes-base-51: 6.25rem;
+  --shadows-shadow-none: 0px 0px 0px 0px transparent;
+  --shadows-shadow-sm: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  --shadows-shadow-normal: 0px 1px 3px 0px rgba(0, 0, 0, 0.1),
+    0px 1px 2px 0px rgba(0, 0, 0, 0.06);
+  --shadows-shadow-md: 0px 4px -1px 0px rgba(0, 0, 0, 0.1),
+    0px 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadows-shadow-lg: 0px 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0px 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadows-shadow-xl: 0px 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0px 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadows-shadow-2xl: 0px 25px 50px -12px rgba(0, 0, 0, 0.25);
 }

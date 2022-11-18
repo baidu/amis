@@ -25,29 +25,69 @@
     > svg {
       width: var(--Combo-addBtn-fontSize);
       height: var(--Combo-addBtn-fontSize);
+      top: 0;
     }
 
-    font-size: var(--Combo-addBtn-fontSize);
-
     @include button-size(
-      var(--Combo-addBtn-paddingY),
-      var(--Combo-addBtn-paddingX),
       var(--Combo-addBtn-fontSize),
       var(--Combo-addBtn-lineHeight),
       var(--Combo-addBtn-borderRadius),
-      var(--Combo-addBtn-height)
+      var(--Combo-addBtn-borderRadius),
+      var(--Combo-addBtn-borderRadius),
+      var(--Combo-addBtn-borderRadius),
+      var(--Combo-addBtn-height),
+      var(--Combo-addBtn-paddingY),
+      var(--Combo-addBtn-paddingY),
+      var(--Combo-addBtn-paddingX),
+      var(--Combo-addBtn-paddingX)
     );
 
     @include button-variant(
       var(--Combo-addBtn-bg),
-      var(--Combo-addBtn-border),
       var(--Combo-addBtn-color),
+      var(--Combo-addBtn-border),
+      var(--Combo-addBtn-border),
+      var(--Combo-addBtn-border),
+      var(--Combo-addBtn-border),
+      var(--button-default-default-top-border-width),
+      var(--button-default-default-right-border-width),
+      var(--button-default-default-bottom-border-width),
+      var(--button-default-default-left-border-width),
+      var(--button-default-default-top-border-style),
+      var(--button-default-default-right-border-style),
+      var(--button-default-default-bottom-border-style),
+      var(--button-default-default-left-border-style),
+      var(--button-default-default-shadow),
       var(--Combo-addBtn-onHover-bg),
-      var(--Combo-addBtn-onHover-border),
       var(--Combo-addBtn-onHover-color),
+      var(--Combo-addBtn-onHover-border),
+      var(--Combo-addBtn-onHover-border),
+      var(--Combo-addBtn-onHover-border),
+      var(--Combo-addBtn-onHover-border),
+      var(--button-default-hover-top-border-width),
+      var(--button-default-hover-right-border-width),
+      var(--button-default-hover-bottom-border-width),
+      var(--button-default-hover-left-border-width),
+      var(--button-default-hover-top-border-style),
+      var(--button-default-hover-right-border-style),
+      var(--button-default-hover-bottom-border-style),
+      var(--button-default-hover-left-border-style),
+      var(--button-default-hover-shadow),
       var(--Combo-addBtn-onActive-bg),
+      var(--Combo-addBtn-onActive-color),
       var(--Combo-addBtn-onActive-border),
-      var(--Combo-addBtn-onActive-color)
+      var(--Combo-addBtn-onActive-border),
+      var(--Combo-addBtn-onActive-border),
+      var(--Combo-addBtn-onActive-border),
+      var(--button-default-active-top-border-width),
+      var(--button-default-active-right-border-width),
+      var(--button-default-active-bottom-border-width),
+      var(--button-default-active-left-border-width),
+      var(--button-default-active-top-border-style),
+      var(--button-default-active-right-border-style),
+      var(--button-default-active-bottom-border-style),
+      var(--button-default-active-left-border-style),
+      var(--button-default-active-shadow)
     );
 
     &.is-disabled {

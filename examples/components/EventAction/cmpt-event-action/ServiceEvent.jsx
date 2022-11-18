@@ -39,7 +39,7 @@ export default {
                     actionType: 'toast',
                     args: {
                       msgType: 'success',
-                      msg: 'API inited: <b>${event.data.date}</b>'
+                      msg: 'API inited: <b>${date}</b>'
                     }
                   }
                 ]
@@ -77,7 +77,7 @@ export default {
                     actionType: 'toast',
                     args: {
                       msgType: 'info',
-                      msg: 'SchemaAPI inited: <b>title: ${event.data.title}</b>'
+                      msg: 'SchemaAPI inited: <b>title: ${title}</b>'
                     }
                   }
                 ]

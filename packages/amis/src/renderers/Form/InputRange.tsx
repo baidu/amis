@@ -1,18 +1,21 @@
-import React, {CSSProperties, ReactNode} from 'react';
+import React, {ReactNode} from 'react';
 import isNumber from 'lodash/isNumber';
 import isObject from 'lodash/isObject';
 import isEqual from 'lodash/isEqual';
 import forEach from 'lodash/forEach';
 
-import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
-import {Range as InputRange} from 'amis-ui';
-import {NumberInput} from 'amis-ui';
-import {Icon} from 'amis-ui';
-import {stripNumber} from 'amis-core';
-import {autobind, createObject} from 'amis-core';
-import {filter} from 'amis-core';
+import {
+  FormItem,
+  FormControlProps,
+  resolveEventData,
+  autobind,
+  stripNumber,
+  filter,
+  ActionObject
+} from 'amis-core';
+import {Range as InputRange, NumberInput, Icon} from 'amis-ui';
 import {FormBaseControlSchema, SchemaObject} from '../../Schema';
-import {ActionObject} from 'amis-core';
+import {supportStatic} from './StaticHoc';
 
 /**
  * Range
@@ -294,11 +297,11 @@ export class Input extends React.Component<RangeItemProps, any> {
    * @param e React.ChangeEvent
    */
   @autobind
-  onChange(value: number) {
-    const {multiple, value: originValue, type, min} = this.props;
+  handleInputNumberChange(value: number) {
+    const {multiple, value: originValue, type, min, onChange} = this.props;
     const _value = this.getValue(value, type);
 
-    this.props.onChange(
+    onChange?.(
       multiple
         ? {...(originValue as MultipleValue), [type]: _value}
         : value ?? min
@@ -384,30 +387,50 @@ export class Input extends React.Component<RangeItemProps, any> {
    * 失焦事件
    */
   @autobind
-  onBlur() {
-    const {data, dispatchEvent, value} = this.props;
+  async onBlur(e: any) {
+    const {dispatchEvent, value, onBlur} = this.props;
 
-    dispatchEvent(
+    const rendererEvent = await dispatchEvent(
       'blur',
-      createObject(data, {
-        value
-      })
+      resolveEventData(
+        this.props,
+        {
+          value
+        },
+        'value'
+      )
     );
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
+
+    onBlur?.(e);
   }
 
   /**
    * 聚焦事件
    */
   @autobind
-  async onFocus() {
-    const {data, dispatchEvent, value} = this.props;
+  async onFocus(e: any) {
+    const {dispatchEvent, value, onFocus} = this.props;
 
-    dispatchEvent(
+    const rendererEvent = await dispatchEvent(
       'focus',
-      createObject(data, {
-        value
-      })
+      resolveEventData(
+        this.props,
+        {
+          value
+        },
+        'value'
+      )
     );
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
+
+    onFocus?.(e);
   }
 
   render() {
@@ -434,7 +457,7 @@ export class Input extends React.Component<RangeItemProps, any> {
           step={step}
           max={this.checkNum(max)}
           min={this.checkNum(min)}
-          onChange={this.onChange}
+          onChange={this.handleInputNumberChange}
           disabled={disabled}
           onBlur={this.onBlur}
           onFocus={this.onFocus}
@@ -551,16 +574,20 @@ export default class RangeControl extends React.PureComponent<
    * @param value
    */
   @autobind
-  async onChange(value: FormatValue) {
+  async handleChange(value: FormatValue) {
     this.setState({value: this.getValue(value)});
-    const {onChange, data, dispatchEvent} = this.props;
+    const {onChange, dispatchEvent} = this.props;
     const result = this.getFormatValue(value);
 
     const rendererEvent = await dispatchEvent(
       'change',
-      createObject(data, {
-        value: result
-      })
+      resolveEventData(
+        this.props,
+        {
+          value: result
+        },
+        'value'
+      )
     );
 
     if (rendererEvent?.prevented) {
@@ -576,7 +603,7 @@ export default class RangeControl extends React.PureComponent<
   @autobind
   onAfterChange() {
     const {value} = this.state;
-    const {onAfterChange, dispatchEvent, data} = this.props;
+    const {onAfterChange} = this.props;
     const result = this.getFormatValue(value);
     onAfterChange && onAfterChange(result);
   }
@@ -599,12 +626,13 @@ export default class RangeControl extends React.PureComponent<
       : value;
   }
 
+  @supportStatic()
   render() {
     const {value} = this.state;
     const props: RangeItemProps = {
       ...this.props,
       value,
-      onChange: this.onChange,
+      onChange: this.handleChange,
       onAfterChange: this.onAfterChange
     };
 

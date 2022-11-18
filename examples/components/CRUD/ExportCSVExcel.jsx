@@ -14,16 +14,16 @@ export default {
           grade: 'A',
           engine: {
             name: 'Trident',
-            version: '4'
+            version: '4/2'
           },
-          date: '1591326307'
+          date: '1591326307',
+          city: '310100'
         },
         {
           link: 'https://www.microsoft.com/',
           icon: __uri('../../static/ie.png'),
           browser: 'Internet Explorer 4.2',
           platform: 'Win 95+',
-
           engine: {
             name: 'Trident',
             version: '4'
@@ -189,6 +189,11 @@ export default {
         name: 'date',
         label: 'Date',
         type: 'date'
+      },
+      {
+        name: 'city',
+        label: 'city',
+        type: 'input-city'
       }
     ]
   }

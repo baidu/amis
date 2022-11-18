@@ -1,5 +1,5 @@
 import React from 'react';
-import {Overlay} from 'amis-core';
+import {Overlay, resolveEventData} from 'amis-core';
 import {Checkbox} from 'amis-ui';
 import {PopOver} from 'amis-core';
 import {PopUp} from 'amis-ui';
@@ -30,6 +30,7 @@ import {RootClose} from 'amis-core';
 import {Cascader} from 'amis-ui';
 import {ActionObject} from 'amis-core';
 import {FormOptionsSchema} from '../../Schema';
+import {supportStatic} from './StaticHoc';
 
 /**
  * Nested Select
@@ -139,12 +140,10 @@ export default class NestedSelectControl extends React.Component<
 
   @autobind
   async dispatchEvent(eventName: string, eventData: any = {}) {
-    const {dispatchEvent, data} = this.props;
+    const {dispatchEvent} = this.props;
     const rendererEvent = await dispatchEvent(
       eventName,
-      createObject(data, {
-        ...eventData
-      })
+      resolveEventData(this.props, eventData, 'value')
     );
     // 返回阻塞标识
     return !!rendererEvent?.prevented;
@@ -862,6 +861,7 @@ export default class NestedSelectControl extends React.Component<
     );
   }
 
+  @supportStatic()
   render() {
     const {
       className,

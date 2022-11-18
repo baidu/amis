@@ -20,13 +20,14 @@ function conditionalFilter(
   filterContext: FilterContext,
   test: any,
   trueValue: any,
-  falseValue: any
+  falseValue: any,
+  astOffset: number = 1
 ) {
   (hasAlternate || test) && skipRestTest(filterContext.restFilters);
   const result = test ? trueValue : falseValue;
   const ast = test
-    ? filterContext.filter?.args[1]
-    : filterContext.filter?.args[2];
+    ? filterContext.filter?.args[0 + astOffset]
+    : filterContext.filter?.args[1 + astOffset];
 
   return test || hasAlternate
     ? getStrOrVariable(result, filterContext.data, ast) ?? result
@@ -100,13 +101,16 @@ extendsFilters({
       ? JSON.stringify(input, null, parseInt(tabSize as string, 10))
       : JSON.stringify(input),
   toJson: input => {
-    let ret;
-    try {
-      ret = JSON.parse(input);
-    } catch (e) {
-      ret = null;
+    // 如果不是字符串，不处理
+    if (typeof input !== 'string') {
+      return input;
     }
-    return ret;
+
+    try {
+      return JSON.parse(input);
+    } catch (e) {
+      return null;
+    }
   },
   toInt: input => (typeof input === 'string' ? parseInt(input, 10) : input),
   toFloat: input => (typeof input === 'string' ? parseFloat(input) : input),
@@ -461,7 +465,8 @@ extendsFilters({
       this,
       !!input,
       trueValue,
-      falseValue
+      falseValue,
+      0
     );
   },
   isFalse(input, trueValue, falseValue) {
@@ -472,7 +477,8 @@ extendsFilters({
       this,
       !input,
       trueValue,
-      falseValue
+      falseValue,
+      0
     );
   },
   isMatch(input, matchArg, trueValue, falseValue) {

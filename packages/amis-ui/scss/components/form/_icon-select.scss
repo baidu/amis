@@ -1,0 +1,216 @@
+.#{$ns}IconSelectControl {
+  @include input-text();
+
+  &-clear {
+    position: absolute;
+    right: var(--Form-input-paddingX);
+  }
+
+  &-Modal {
+    &-search.#{$ns}SearchBox {
+      width: var(--IconSelect-searchBox-width);
+    }
+
+    &-refresh {
+      display: inline-block;
+      vertical-align: baseline;
+      margin-left: var(--IconSelect-base-margin);
+    }
+
+    &-content {
+      display: flex;
+      position: relative;
+      margin-top: var(--IconSelect-base-margin);
+      height: var(--IconSelect-dialog-height);
+      align-items: stretch;
+      border: 1px solid var(--IconSelect-border-color);
+      border-radius: var(--IconSelect-base-border-radius);
+
+      &-aside {
+        border-right: 1px solid var(--IconSelect-border-color);
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
+
+      &-main {
+        flex: 1;
+        overflow: auto;
+      }
+    }
+  }
+
+  &-input {
+    overflow: hidden;
+
+    &-area {
+      min-height: var(--IconSelect-preivew-icon-size);
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      overflow: hidden;
+    }
+
+    &-wrapper {
+      width: 100%;
+    }
+
+    &-icon {
+      &-show {
+        width: var(--IconSelect-preivew-icon-size);
+        height: var(--IconSelect-preivew-icon-size);
+        margin-right: var(--IconSelect-xs-margin);
+
+        & > svg {
+          width: 100%;
+          height: 100%;
+        }
+      }
+
+      &-id {
+        flex: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      &-placeholder {
+        color: var(--IconSelect-icon-placeholder-color);
+        user-select: none;
+      }
+    }
+  }
+
+  &-type-list {
+    display: flex;
+    padding: 0;
+    margin: 0;
+    width: var(--IconSelect-type-width);
+    flex-direction: column;
+    list-style: none;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    justify-content: flex-start;
+    overflow: auto;
+    font-size: var(--IconSelect-type-font-size);
+
+    li {
+      line-height: var(--IconSelect-type-li-height);
+      padding: 0;
+      padding-left: var(--IconSelect-type-li-padding);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      cursor: pointer;
+
+      &:hover,
+      &.active {
+        color: var(--IconSelect-active-bg-color);
+      }
+
+      &.active {
+        background-color: #e6f0ff;
+      }
+    }
+  }
+
+  &-icon-list {
+    position: relative;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    overflow: hidden;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+    padding: var(--IconSelect-sm-padding);
+
+    &-empty {
+      text-align: center;
+    }
+
+    > li {
+      padding: var(--IconSelect-sm-padding);
+      width: 20%;
+    }
+
+    &-item {
+      position: relative;
+      // padding: 8px;
+      padding-left: var(--IconSelect-base-margin);
+      height: var(--IconSelect-type-item-height);
+      // flex: 1;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      border: 1px solid #e8e9eb;
+      border-radius: var(--IconSelect-base-border-radius);
+
+      cursor: pointer;
+
+      &:hover,
+      &.active {
+        border-color: var(--IconSelect-active-bg-color);
+      }
+
+      &.active {
+        &::before {
+          content: '';
+          display: block;
+          position: absolute;
+          right: 0;
+          top: 0;
+          width: var(--IconSelect-type-font-size);
+          height: var(--IconSelect-type-font-size);
+          border-bottom-left-radius: var(--IconSelect-base-border-radius);
+          background-color: var(--IconSelect-active-bg-color);
+        }
+
+        &::after {
+          content: '';
+          display: block;
+          position: absolute;
+          right: 2px;
+          top: 3px;
+          width: 7px;
+          height: 4px;
+          border-style: solid;
+          border-color: var(--IconSelect-active-badge-color);
+          border-width: 0 0 1px 1px;
+          transform: rotate(-45deg);
+        }
+      }
+
+      & > svg {
+        width: var(--IconSelect-list-icon-size);
+        height: var(--IconSelect-list-icon-size);
+      }
+
+      &-info {
+        margin-left: var(--IconSelect-base-margin);
+        overflow: hidden;
+        flex: 1;
+
+        > p {
+          line-height: 1;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+
+        &-name {
+          margin: 0;
+          margin-bottom: var(--IconSelect-xs-margin);
+          font-size: var(--IconSelect-type-font-size);
+          color: var(--IconSelect-icon-name-color);
+        }
+
+        &-id {
+          margin: 0;
+          font-size: var(--IconSelect-type-font-size);
+          color: var(--IconSelect-icon-id-color);
+        }
+      }
+    }
+  }
+}
