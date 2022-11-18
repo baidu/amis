@@ -13,7 +13,7 @@ import {
 } from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {EditorNodeType} from 'amis-editor-core';
-import {Schema} from 'amis/lib/types';
+import {Schema} from 'amis';
 import {VRenderer} from 'amis-editor-core';
 import {RegionWrapper as Region} from 'amis-editor-core';
 import {JSONChangeInArray, JSONPipeIn, repeatArray} from 'amis-editor-core';

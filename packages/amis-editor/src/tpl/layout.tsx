@@ -140,7 +140,6 @@ setSchemaTpl(
         };
       },
       pipeOut: (value: any) => {
-        console.log('pipeOut:', value);
         return `${value.insetTop ?? 'auto'} ${value.insetRight ?? 'auto'} ${
           value.insetBottom ?? 'auto'
         } ${value.insetLeft ?? 'auto'}`;
