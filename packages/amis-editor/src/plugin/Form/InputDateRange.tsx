@@ -356,8 +356,8 @@ export class DateRangeControlPlugin extends BasePlugin {
                     yearslater: 'n年以内'
                   }
                 }),
-                // getSchemaTpl('remark'),
-                // getSchemaTpl('labelRemark'),
+                getSchemaTpl('remark'),
+                getSchemaTpl('labelRemark'),
                 {
                   type: 'input-text',
                   name: 'startPlaceholder',
