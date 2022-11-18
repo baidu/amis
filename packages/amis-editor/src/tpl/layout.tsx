@@ -941,7 +941,7 @@ setSchemaTpl(
       type: 'input-number',
       label:
         config?.label ||
-        tipedLabel('最小高度', '最小宽度即当前元素最小的垂直展示区域'),
+        tipedLabel('最小高度', '最小高度即当前元素最小的垂直展示区域'),
       name: config?.name || 'style.minHeight',
       value: config?.value,
       max: '${style.maxHeight | toInt}',

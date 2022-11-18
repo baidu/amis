@@ -3399,7 +3399,7 @@ extendLocale('en-US', {
   '6f420734edfaff00a8210a4c762a9207':
     'The maximum height is the display height with the most current elements',
   '411f9d120093314cd38e6dd5cce398c6':
-    'The minimum width is the smallest vertical display area of the current element',
+    'The minimum height is the smallest vertical display area of the current element',
   'b31c6aaa78f8e24df665ce80ab5301e2':
     'Scroll mode for setting the vertical direction',
   '4fc0e68b093db41b45a4ea706fbe56f3': 'Center Display',
@@ -3531,5 +3531,7 @@ extendLocale('en-US', {
   'd6ecb32a380c91887a9346653c2427e9':
     'Customized option rendering template, supporting the use of JSX and data field variables',
   'cb048b2d8426afd464dc01b72c446342': 'Block level (default)',
-  '3b6e8d54b7b2ae890d5357b7eaaeaaf2': 'No line breaks (default)'
+  '3b6e8d54b7b2ae890d5357b7eaaeaaf2': 'No line breaks (default)',
+  '0611733b53e0098e6fd880bd44b2806f':
+    'The minimum height is the smallest vertical display area of the current element'
 });
