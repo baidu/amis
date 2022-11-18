@@ -491,7 +491,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         if (needConfirm === false) {
           this.emitValue();
         } else {
-          this.startEdit(index, true);
+          this.startEdit(index, true, true);
         }
       }
     );
@@ -563,11 +563,11 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     );
   }
 
-  startEdit(index: number, isCreate: boolean = false) {
+  startEdit(index: number, isCreate: boolean = false, isCopy: boolean = false) {
     this.setState({
       editIndex: index,
       isCreateMode: isCreate,
-      raw: this.state.items[index],
+      raw: isCopy ? undefined : this.state.items[index],
 
       columns: this.buildColumns(this.props, isCreate)
     });
@@ -627,10 +627,10 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   cancelEdit() {
     let items = this.state.items.concat();
 
-    if (this.state.isCreateMode) {
-      items = items.filter(item => !item.__isPlaceholder);
-    } else if (this.state.raw) {
+    if (this.state.raw) {
       items.splice(this.state.editIndex, 1, this.state.raw);
+    } else {
+      items.splice(this.state.editIndex, 1);
     }
 
     this.setState(
