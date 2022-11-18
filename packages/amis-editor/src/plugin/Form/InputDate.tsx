@@ -368,8 +368,8 @@ export class DateControlPlugin extends BasePlugin {
                 getSchemaTpl('placeholder', {
                   pipeIn: defaultValue('请选择日期')
                 }),
-                // getSchemaTpl('remark'),
-                // getSchemaTpl('labelRemark'),
+                getSchemaTpl('remark'),
+                getSchemaTpl('labelRemark'),
                 getSchemaTpl('description'),
                 getSchemaTpl('autoFillApi')
               ]
