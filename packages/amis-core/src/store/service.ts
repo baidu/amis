@@ -82,10 +82,15 @@ export const ServiceStore = iRendererStore
         fetchCancel = null;
 
         if (!json.ok) {
-          updateMessage(json.msg ?? (options && options.errorMessage), true);
+          updateMessage(
+            (api as ApiObject)?.messages?.failed ??
+              json.msg ??
+              (options && options.errorMessage),
+            true
+          );
           getEnv(self).notify(
             'error',
-            json.msg,
+            self.msg,
             json.msgTimeout !== undefined
               ? {
                   closeButton: true,
@@ -111,7 +116,10 @@ export const ServiceStore = iRendererStore
           }
 
           updateMessage(
-            json.msg ?? (options && options.successMessage) ?? json.defaultMsg
+            (api as ApiObject)?.messages?.success ??
+              json.msg ??
+              (options && options.successMessage) ??
+              json.defaultMsg
           );
 
           // 配置了获取成功提示后提示，默认是空不会提示。
@@ -189,7 +197,12 @@ export const ServiceStore = iRendererStore
         }
 
         if (!json.ok) {
-          updateMessage(json.msg ?? (options && options.errorMessage), true);
+          updateMessage(
+            (api as ApiObject)?.messages?.failed ??
+              json.msg ??
+              (options && options.errorMessage),
+            true
+          );
           getEnv(self).notify(
             'error',
             self.msg,
@@ -209,7 +222,11 @@ export const ServiceStore = iRendererStore
             }
           }
 
-          updateMessage(json.msg ?? (options && options.successMessage));
+          updateMessage(
+            (api as ApiObject)?.messages?.success ??
+              json.msg ??
+              (options && options.successMessage)
+          );
 
           // 配置了获取成功提示后提示，默认是空不会提示。
           options &&
@@ -284,7 +301,8 @@ export const ServiceStore = iRendererStore
           }
 
           updateMessage(
-            json.msg ??
+            (api as ApiObject)?.messages?.failed ??
+              json.msg ??
               (options && options.errorMessage) ??
               self.__('saveFailed'),
             true
@@ -299,7 +317,11 @@ export const ServiceStore = iRendererStore
             }
           }
 
-          updateMessage(json.msg ?? (options && options.successMessage));
+          updateMessage(
+            (api as ApiObject)?.messages?.success ??
+              json.msg ??
+              (options && options.successMessage)
+          );
           self.msg &&
             getEnv(self).notify(
               'success',
@@ -388,7 +410,8 @@ export const ServiceStore = iRendererStore
 
         if (!json.ok) {
           updateMessage(
-            json.msg ??
+            (api as ApiObject)?.messages?.failed ??
+              json.msg ??
               (options && options.errorMessage) ??
               self.__('fetchFailed'),
             true
@@ -424,7 +447,11 @@ export const ServiceStore = iRendererStore
               );
           }
 
-          updateMessage(json.msg ?? (options && options.successMessage));
+          updateMessage(
+            (api as ApiObject)?.messages?.success ??
+              json.msg ??
+              (options && options.successMessage)
+          );
 
           // 配置了获取成功提示后提示，默认是空不会提示。
           options &&

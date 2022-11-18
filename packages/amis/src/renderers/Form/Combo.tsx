@@ -5,7 +5,8 @@ import {
   FormItem,
   FormControlProps,
   FormBaseControl,
-  resolveEventData
+  resolveEventData,
+  ApiObject
 } from 'amis-core';
 import {ActionObject, Api} from 'amis-core';
 import {ComboStore, IComboStore} from 'amis-core';
@@ -447,11 +448,38 @@ export default class ComboControl extends React.Component<ComboProps> {
     const actionType = action?.actionType as string;
     const {onChange, resetValue} = this.props;
 
-    if (actionType === 'clear') {
+    if (actionType === 'addItem') {
+      this.addItemValue(args?.item ?? {});
+    } else if (actionType === 'clear') {
       onChange('');
     } else if (actionType === 'reset') {
       onChange(resetValue ?? '');
     }
+  }
+
+  addItemValue(itemValue: any) {
+    const {flat, joinValues, addattop, delimiter, disabled, submitOnChange} =
+      this.props;
+
+    if (disabled) {
+      return;
+    }
+
+    let value = this.getValueAsArray();
+
+    this.keys.push(guid());
+
+    if (addattop === true) {
+      value.unshift(itemValue);
+    } else {
+      value.push(itemValue);
+    }
+
+    if (flat && joinValues) {
+      value = value.join(delimiter || ',');
+    }
+
+    this.props.onChange(value, submitOnChange, true);
   }
 
   getValueAsArray(props = this.props) {
@@ -614,7 +642,10 @@ export default class ComboControl extends React.Component<ComboProps> {
       const result = await env.fetcher(deleteApi as Api, ctx);
 
       if (!result.ok) {
-        env.notify('error', __('deleteFailed'));
+        env.notify(
+          'error',
+          (deleteApi as ApiObject)?.messages?.failed ?? __('deleteFailed')
+        );
         return;
       }
     }

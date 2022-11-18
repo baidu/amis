@@ -887,7 +887,7 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
 | deleteApi                | [API](../../../docs/types/api)     |                                                | 如果配置了，则删除前会发送一个 api，请求成功才完成删除                                                                                                              |
 | deleteConfirmText        | `string`                           | `"确认要删除？"`                               | 当配置 `deleteApi` 才生效！删除时用来做用户确认                                                                                                                     |
 | draggable                | `boolean`                          | `false`                                        | 是否可以拖动排序, 需要注意的是当启用拖动排序的时候，会多一个\$id 字段                                                                                               |
-| draggableTip             | `string`                           | `"可通过拖动每行中的【交换】按钮进行顺序调整"` | 可拖拽的提示文字                                                                                                                                                    |
+| draggableTip             | `string`                           |  | 可拖拽的提示文字                                                                                                                                                    |
 | subFormMode              | `string`                           | `"normal"`                                     | 可选`normal`、`horizontal`、`inline`                                                                                                                                |
 | placeholder              | `string`                           | ``                                             | 没有成员时显示。                                                                                                                                                    |
 | canAccessSuperData       | `boolean`                          | `false`                                        | 指定是否可以自动获取上层的数据并映射到表单项上                                                                                                                      |
@@ -921,6 +921,7 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
 
 | 动作名称 | 动作配置                                                                                                  | 说明                                                                                              |
 | -------- | --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| addItem  | `item: object` 新增项的值                                                                                         | 只有开启`multiple`模式才能使用, `multiple`模式下，给新增项添加默认值         |
 | clear    | -                                                                                                         | 清空                                                                                              |
 | reset    | -                                                                                                         | 将值重置为`resetValue`，若没有配置`resetValue`，则清空                                            |
 | setValue | `value: object \| Array<object>` 更新的值<br/>`index?: number` 指定更新的数据索引， 1.10.1 及以上版本引入 | 更新数据，对象数组针对开启`multiple`模式, `multiple`模式下可以通过指定`index`来更新指定索引的数据 |

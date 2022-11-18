@@ -33,6 +33,7 @@ import {ActionSchema} from './Action';
 import {isAlive} from 'mobx-state-tree';
 import debounce from 'lodash/debounce';
 import pick from 'lodash/pick';
+import {ApiObject} from 'packages/amis-core/lib';
 
 const DEFAULT_EVENT_PARAMS = [
   'componentType',
@@ -308,7 +309,7 @@ export class Chart extends React.Component<ChartProps> {
     const {data, dispatchEvent} = this.props;
 
     dispatchEvent(
-      (ctx as any).event,
+      (ctx as any).event || ctx.type,
       createObject(data, {
         ...pick(
           ctx,
@@ -467,7 +468,8 @@ export class Chart extends React.Component<ChartProps> {
         if (!result.ok) {
           return env.notify(
             'error',
-            result.msg || __('fetchFailed'),
+            (api as ApiObject)?.messages?.failed ??
+              (result.msg || __('fetchFailed')),
             result.msgTimeout !== undefined
               ? {
                   closeButton: true,

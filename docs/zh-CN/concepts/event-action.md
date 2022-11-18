@@ -590,6 +590,7 @@ run action ajax
             {
               actionType: 'alert',
               args: {
+                title: '提示',
                 msg: '<a href="http://www.baidu.com" target="_blank">${msg}~</a>'
               }
             }
@@ -605,9 +606,10 @@ run action ajax
 
 > `< 1.8.0 及以下版本`，以下属性与 args 同级。
 
-| 属性名 | 类型     | 默认值 | 说明           |
-| ------ | -------- | ------ | -------------- |
-| msg    | `string` | -      | 对话框提示内容 |
+| 属性名 | 类型     | 默认值   | 说明           |
+| ------ | -------- | -------- | -------------- |
+| title  | `string` | 系统提示 | 对话框标题     |
+| msg    | `string` | -        | 对话框提示内容 |
 
 #### 确认对话框
 

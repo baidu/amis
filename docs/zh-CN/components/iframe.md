@@ -90,29 +90,16 @@ window.addEventListener('message', e => {
 
 #### iframe 页面向 amis 通信
 
-1. 首先在 amis 的 iframe 配置项中配置 events 对象，指明 iframe 需要触发的 amis 行为
+可以通过以下两种方式实现 iframe 页面向 amis 通信：
 
-```json
-{
-  "type": "iframe",
-  "src": "http://www.xxx.com",
-  "events": {
-    "detail": {
-      "actionType": "dialog",
-      "dialog": {
-        "title": "弹框",
-        "body": "iframe 传给 amis 的 id 是：${iframeId}"
-      }
-    }
-  }
-}
-```
+- 方式一：通过 events 属性，基于[Action](./action)实现，有一定的局限性。
+- 方式二：通过 onEvent 属性，基于[事件动作](../../docs/concepts/event-action)实现，更灵活。
 
-上面 `events` 对象中配置了`detail`事件，该行为会触发 amis 弹框行为，并在弹框中渲染`"iframe 传给 amis 的 id 是：${iframeId}"`这段模板。`detail`支持多种动作配置，具体配置参考[Action](./action.md)的 actionType 部分。
+> 注意：如果同时配置了 events 和 onEvent，amis 都会执行，且 onEvent 配置的动作行为会先于 events 执行。
 
-那么要如何触发该事件和传递数据呢？
+步骤如下：
 
-2. iframe 页面中，获取父级 window，并使用`postMessage`传递数据，格式如下，：
+1. 在 iframe 页面中定义消息名称和需要传递的数据。获取父级 window，并使用`postMessage`传递数据，格式如下，：
 
 ```js
 window.parent.postMessage(
@@ -131,7 +118,52 @@ window.parent.postMessage(
 - `type`: 标识要触发的 amis 行为，请使用 `amis:xxx` 的格式，这里我们设置为配置好的`detail`事件
 - `data`: 传给 amis 的数据，amis 会将该数据与当前数据域进行合并进行使用
 
-这样 amis 弹框中就会渲染内容:`iframe 传给 amis 的 id 是：111`
+2. 在 amis 的 iframe 组件中指明需要监听的消息名称，以及需要执行的动作。
+
+```json
+// 方式一：即在 amis 的 iframe 配置项中配置 events 对象
+{
+  "type": "iframe",
+  "src": "http://www.xxx.com",
+  "events": {
+    "detail": {
+      "actionType": "dialog", // 弹窗动作
+      "dialog": {
+        "title": "弹框",
+        "body": "iframe 传给 amis 的 id 是：${iframeId}" // 在弹框中渲染`"iframe 传给 amis 的 id 是：${iframeId}"`这段模板，即111
+      }
+    }
+  }
+}
+
+// 方式二：即在 amis 的 iframe 配置项中配置 onEvent 对象
+{
+  "type": "iframe",
+  "src": "http://www.xxx.com",
+  "onEvent": {
+    "detail": {
+      "actions": [
+        // 动作 1，弹窗动作
+        {
+          "actionType": "dialog",
+          "dialog": {
+            "title": "弹框",
+            "body": "iframe 传给 amis 的 id 是：${iframeId}" // 在弹框中渲染`"iframe 传给 amis 的 id 是：${iframeId}"`这段模板，即111
+          }
+        },
+        // 动作 2，触发指定组件的特性动作
+        {
+          "actionType": "crud",
+          "componentId": "form01",
+          "data": {
+            "iframeId": "${iframeId}" // 刷新请求参数为`"iframe 传给 amis 的 id 是：${iframeId}"`这段模板，即111
+          }
+        }
+      ]
+    }
+  }
+}
+```
 
 ## 设置高度自适应
 
