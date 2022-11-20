@@ -8,7 +8,8 @@ import {
   JSONTraverse,
   patchDiff,
   guid,
-  reGenerateID
+  reGenerateID,
+  addStyleClassName
 } from '../../src/util';
 import {
   InsertEventContext,
@@ -155,7 +156,6 @@ export const EditorStore = types
     showInsertRenderer: false, // 是否显示插入组件面板（抽屉弹出模式）
 
     schema: types.frozen(),
-    style: types.frozen(),
     versionId: 0,
     schemaHistory: types.optional(
       types.array(types.frozen<SchemaHistory>()),
@@ -499,46 +499,10 @@ export const EditorStore = types
         return this.getValueOf(self.activeId);
       },
 
-      get cssValue() {
-        if (!self.activeId) {
-          return undefined;
-        }
-        const schema = JSONGetById(self.schema, self.activeId);
-        return this.getCssValueof(schema)?.res;
-      },
-
       getValueOf(id: string) {
         const schema = JSONGetById(self.schema, id);
-        const res = JSONPipeOut(
-          Object.assign({}, schema, this.getCssValueof(schema)?.css),
-          false
-        );
+        const res = JSONPipeOut(schema, false);
         return res;
-      },
-
-      getCssValueof(schema: any) {
-        if (!self.style) {
-          return null;
-        }
-        const list = [];
-        for (let key in schema) {
-          if (/[c|C]lassName/.test(key)) {
-            const className = schema[key];
-            if (/(\S*[C|c]lassName-\S*)/.test(className)) {
-              list.push({
-                key,
-                value: /(\S*[C|c]lassName-\S*)/.exec(className)![0]
-              });
-            }
-          }
-        }
-        const css: any = {};
-        const res: any = {};
-        list.forEach(item => {
-          css[item.key] = self.style[item.value];
-          res[item.value] = self.style[item.value];
-        });
-        return {css: {css}, res};
       },
 
       get valueWithoutHiddenProps() {
@@ -554,7 +518,9 @@ export const EditorStore = types
                 key !== '$$comments' &&
                 key !== '$$commonSchema') ||
               typeof props === 'function' || // pipeIn 和 pipeOut
-              key.substring(0, 2) === '__')
+              key.substring(0, 2) === '__' ||
+              key === 'css' ||
+              key === 'editorState') // 样式不需要出现做json中,
         );
       },
 
@@ -1221,11 +1187,7 @@ export const EditorStore = types
         if (!self.activeId) {
           return;
         }
-        if (this.isStyleChange(diff)) {
-          this.changeStyle(value, diff);
-        } else {
-          this.changeValueById(self.activeId, value, diff);
-        }
+        this.changeValueById(self.activeId, value, diff);
       },
 
       changeValueById(
@@ -1245,79 +1207,25 @@ export const EditorStore = types
         if (diff) {
           const result = patchDiff(origin, diff);
           this.traceableSetSchema(
-            JSONUpdate(self.schema, id, JSONPipeIn(result), true),
+            JSONUpdate(
+              self.schema,
+              id,
+              addStyleClassName(JSONPipeIn(result)),
+              true
+            ),
             noTrace
           );
         } else {
           this.traceableSetSchema(
-            JSONUpdate(self.schema, id, JSONPipeIn(value), replace),
+            JSONUpdate(
+              self.schema,
+              id,
+              addStyleClassName(JSONPipeIn(value)),
+              replace
+            ),
             noTrace
           );
         }
-      },
-
-      isStyleChange(diff: any) {
-        if (
-          Array.isArray(diff) &&
-          !!diff.find(
-            (n: any) =>
-              !!n.path.find(
-                (path: any) =>
-                  typeof path === 'string' && !!~path.indexOf('css')
-              )
-          )
-        ) {
-          return true;
-        } else {
-          return false;
-        }
-      },
-
-      changeStyle(value: Schema, diff?: any) {
-        const styleDiff = diff.find(
-          (n: any) =>
-            !!n.path.find(
-              (path: any) => typeof path === 'string' && !!~path.indexOf('css')
-            )
-        );
-        const obj = cloneDeep(value);
-        const style = cloneDeep(self.style);
-        let key = '';
-        let styleValue = {};
-        const cssIndex = styleDiff.path.findIndex((path: any) =>
-          /css/.test(path)
-        );
-        key = styleDiff.path[cssIndex + 1];
-        if (!key) {
-          key = Object.keys(styleDiff.rhs)[0];
-          styleValue = obj.css[key];
-        } else {
-          const styleKey = styleDiff.path[cssIndex + 2];
-          if (styleKey) {
-            styleValue = {
-              [styleKey]: obj.css[key][styleKey]
-            };
-          } else {
-            styleValue = obj.css[key];
-          }
-        }
-        let classname = `${key}-${guid()}`;
-        if (!value[key]) {
-          obj[key] = classname;
-        } else if (/(\S*[C|c]lassName-\S*)/.test(obj[key])) {
-          classname = /(\S*[C|c]lassName-\S*)/.exec(obj[key])![0];
-        } else {
-          obj[key] += ' ' + classname;
-        }
-
-        self.style = Object.assign(style || {}, {
-          [classname]: Object.assign(
-            style ? style[classname] || {} : {},
-            styleValue
-          )
-        });
-        delete obj.css;
-        this.changeValueById(self.activeId, obj);
       },
 
       moveUp(id: string) {

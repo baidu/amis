@@ -197,6 +197,32 @@ export function JSONPipeOut(
   return obj;
 }
 
+/**
+ * 如果存在css属性，则给对应的className加上name
+ */
+export function addStyleClassName(obj: Schema) {
+  const css = obj.css;
+  if (!obj.css) {
+    return obj;
+  }
+  let toUpdate: any = {};
+  Object.keys(css).forEach(key => {
+    if (key !== '$$id') {
+      let classname = `${key}-${obj.id.replace('u:', '')}`;
+      if (!obj[key]) {
+        toUpdate[key] = classname;
+      } else if (!~obj[key].indexOf(classname)) {
+        toUpdate[key] = obj[key] + ' ' + classname;
+      }
+    }
+  });
+  obj = cleanUndefined({
+    ...obj,
+    ...toUpdate
+  });
+  return obj;
+}
+
 export function JSONGetByPath(
   json: any,
   paths: Array<string>,
@@ -211,7 +237,11 @@ export function JSONGetByPath(
   return target;
 }
 
-export function JSONGetPathById(json: any, id: string, idKey: string = '$$id'): Array<string> | null {
+export function JSONGetPathById(
+  json: any,
+  id: string,
+  idKey: string = '$$id'
+): Array<string> | null {
   let paths: Array<string> = [];
   let resolved: boolean = false;
   let stack: Array<any> = [
@@ -639,6 +669,14 @@ export function filterSchemaForEditor(schema: any): any {
       }
       const filtered = filterSchemaForEditor(value);
       mapped[key] = filtered;
+
+      // 组件切换状态修改classname
+      if (/[C|c]lassName/.test(key) && schema.editorState) {
+        mapped[key] = mapped[key]
+          ? mapped[key] + ' ' + schema.editorState
+          : schema.editorState;
+        modified = true;
+      }
 
       if (filtered !== value) {
         modified = true;
