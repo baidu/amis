@@ -1,3 +1,9 @@
+/**
+ * 组件名称：Chained-Select 链式下拉框
+ * 单测内容：
+ * 1. 基础使用
+ */
+
 import {
   render,
   waitFor,
