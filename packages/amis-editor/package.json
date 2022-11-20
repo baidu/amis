@@ -1,6 +1,6 @@
 {
   "name": "amis-editor",
-  "version": "5.2.1",
+  "version": "5.2.1-theme.0",
   "description": "amis 可视化编辑器",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "@webcomponents/webcomponentsjs": "^2.6.0",
-    "amis-editor-core": "*",
+    "amis-editor-core": "^5.2.1-theme.0",
     "amis-theme-editor": "*",
     "i18n-runtime": "*",
     "lodash": "^4.17.15"
@@ -102,8 +102,8 @@
     "amis": "*",
     "amis-core": "*",
     "amis-formula": "*",
-    "amis-ui": "*",
     "amis-theme-editor": "*",
+    "amis-ui": "*",
     "i18n-runtime": "*"
   }
 }

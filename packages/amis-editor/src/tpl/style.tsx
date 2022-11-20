@@ -44,12 +44,14 @@ setSchemaTpl(
               label: '控件',
               name: 'inputClassName'
             }),
-            ...unsupportStatic ? [] : [
-              getSchemaTpl('className', {
-                label: '表单项静态',
-                name: 'staticClassName'
-              })
-            ]
+            ...(unsupportStatic
+              ? []
+              : [
+                  getSchemaTpl('className', {
+                    label: '表单项静态',
+                    name: 'staticClassName'
+                  })
+                ])
           ]
         : [
             getSchemaTpl('className', {
@@ -418,3 +420,45 @@ export const styleTpl = {
     }
   ]
 };
+
+/**
+ * 新版主题
+ */
+
+// css类名
+setSchemaTpl('theme:classNames', (option: any = []) => {
+  return {
+    title: 'CSS 类名',
+    body: [
+      {
+        type: 'input-text',
+        label: '外层',
+        name: 'className'
+      },
+      ...option
+    ]
+  };
+});
+
+// 颜色选择器
+setSchemaTpl('theme:colorPicker', (option: any = {}) => {
+  return {
+    mode: 'default',
+    type: 'amis-theme-color-picker',
+    label: '颜色',
+    name: `css.className.color`,
+    needCustom: true,
+    ...option
+  };
+});
+
+// 边距选择器
+setSchemaTpl('theme:paddingAndMargin', (option: any = {}) => {
+  return {
+    mode: 'default',
+    type: 'amis-theme-padding-and-margin',
+    label: '边距',
+    name: `css.className.padding-and-margin`,
+    ...option
+  };
+});

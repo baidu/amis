@@ -80,37 +80,19 @@ export class ButtonPlugin extends BasePlugin {
 
     const buttonStateFunc = (visibleOn: string, state: string) => {
       return [
-        {
-          mode: 'default',
-          type: 'amis-theme-color-picker',
+        getSchemaTpl('theme:colorPicker', {
           label: '文字颜色',
           name: `css.className.color:${state}`,
           labelMode: 'input',
-          needCustom: true,
           visibleOn: visibleOn
-        },
-        {
-          mode: 'default',
-          type: 'amis-theme-color-picker',
+        }),
+        getSchemaTpl('theme:colorPicker', {
           label: '背景颜色',
-          name: `css.className.background-color:${state}`,
+          name: `css.className.background:${state}`,
           labelMode: 'input',
-          needCustom: true,
+          needGradient: true,
           visibleOn: visibleOn
-        },
-        // {
-        //   type: 'amis-theme-shadow-editor',
-        //   name: `css.className.shadow:${state}`,
-        //   label: '阴影'
-        // },
-        {
-          mode: 'default',
-          label: '边框',
-          type: 'amis-theme-border',
-          name: `css.className.border:${state}`,
-          needColorCustom: true,
-          visibleOn: visibleOn
-        }
+        })
       ];
     };
 
@@ -306,7 +288,7 @@ export class ButtonPlugin extends BasePlugin {
             body: [
               {
                 type: 'select',
-                name: 'state',
+                name: 'editorState',
                 label: '状态',
                 selectFirst: true,
                 options: [
@@ -328,57 +310,19 @@ export class ButtonPlugin extends BasePlugin {
                   }
                 ]
               },
-              ...buttonStateFunc("${state == 'default' || !state}", 'default'),
-              ...buttonStateFunc("${state == 'hover'}", 'hover'),
-              ...buttonStateFunc("${state == 'active'}", 'active'),
-              ...buttonStateFunc("${state == 'disabled'}", 'disabled')
+              ...buttonStateFunc(
+                "${editorState == 'default' || !editorState}",
+                'default'
+              ),
+              ...buttonStateFunc("${editorState == 'hover'}", 'hover'),
+              ...buttonStateFunc("${editorState == 'active'}", 'active')
             ]
           },
           {
             title: '尺寸参数',
-            body: [
-              {
-                mode: 'default',
-                label: '尺寸',
-                type: 'amis-theme-size-editor',
-                name: `css.className.size`,
-                hideWidth: true
-              },
-              {
-                mode: 'default',
-                type: 'amis-theme-font-editor',
-                label: '文字',
-                name: `css.className.font`
-              },
-              {
-                mode: 'default',
-                type: 'amis-theme-radius',
-                label: '圆角',
-                name: `css.className.radius`
-              },
-              {
-                mode: 'default',
-                type: 'amis-theme-padding-and-margin',
-                label: '边距',
-                name: `css.className.radipadding-and-margin`
-              }
-            ]
+            body: [getSchemaTpl('theme:paddingAndMargin')]
           },
-          getSchemaTpl('style:classNames', {
-            isFormItem: false,
-            schema: [
-              getSchemaTpl('className', {
-                name: 'iconClassName',
-                label: '左侧图标',
-                visibleOn: 'this.icon'
-              }),
-              getSchemaTpl('className', {
-                name: 'rightIconClassName',
-                label: '右侧图标',
-                visibleOn: 'this.rightIcon'
-              })
-            ]
-          })
+          getSchemaTpl('theme:classNames')
         ])
       },
       {
