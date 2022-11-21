@@ -605,6 +605,7 @@
   &--size-default {
     @include button-size(
       var(--button-size-default-fontSize),
+      var(--button-size-default-fontWeight),
       var(--button-size-default-lineHeight),
       var(--button-size-default-top-right-border-radius),
       var(--button-size-default-top-left-border-radius),

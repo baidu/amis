@@ -203,8 +203,9 @@
 }
 
 @mixin button-size(
-  $font-size: var(--button-size-default-font-size),
-  $line-height: var(--button-size-default-font-lineHeight),
+  $font-size: var(--button-size-default-fontSize),
+  $font-weight: var(--button-size-default-fontWeight),
+  $line-height: var(--button-size-default-lineHeight),
   $border-radius-top-right: var(--button-size-default-top-right-border-radius),
   $border-radius-top-left: var(--button-size-default-top-left-border-radius),
   $border-radius-bottom-right:
@@ -225,6 +226,7 @@
   $iconMargin: var(--button-size-default-icon-margin)
 ) {
   font-size: $font-size;
+  font-weight: $font-weight;
   line-height: $line-height;
   border-radius: $border-radius-top-right $border-radius-top-left
     $border-radius-bottom-right $border-radius-bottom-left;
