@@ -30,6 +30,8 @@ export class TimePlugin extends DatePlugin {
             {
               type: 'input-time',
               name: 'value',
+              inputFormat: 'HH:mm:ss',
+              timeFormat: 'HH:mm:ss',
               label: '时间数值'
             },
             {

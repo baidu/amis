@@ -75,7 +75,7 @@ const DateType: {
       {
         label: 'HH:mm:ss',
         value: 'HH:mm:ss',
-        timeFormat: 'HH:mm'
+        timeFormat: 'HH:mm:ss'
       },
       {
         label: 'HH时mm分',
