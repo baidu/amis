@@ -36,13 +36,19 @@ export class ComboControlPlugin extends BasePlugin {
     multiple: true,
     addable: true,
     removable: true,
+    removableMode: 'icon',
+    addBtn: {
+      label: '新增',
+      icon: 'fa fa-plus',
+      level: 'primary',
+      size: 'sm'
+    },
     items: [
       {
         type: 'input-text',
         name: 'input-text',
         placeholder: '文本'
       },
-
       {
         type: 'select',
         name: 'select',
@@ -159,15 +165,34 @@ export class ComboControlPlugin extends BasePlugin {
       description: '添加新的项',
       innerArgs: ['item'],
       schema: getArgsWrapper({
-        type: 'input-kv',
-        variables: '${variables}',
-        evalMode: false,
-        variableMode: 'tabs',
+        type: 'combo',
         label: '添加项',
-        size: 'lg',
         name: 'item',
+        draggable: false,
+        multiple: true,
+        removable: true,
+        required: true,
+        addable: true,
+        strictMode: false,
+        canAccessSuperData: true,
         mode: 'horizontal',
-        draggable: false
+        items: [
+          {
+            name: 'key',
+            type: 'input-text',
+            required: true,
+            placeholder: '变量名',
+            source: '${__setValueDs}',
+          },
+          {
+            name: 'val',
+            type: 'input-formula',
+            variables: '${variables}',
+            evalMode: false,
+            variableMode: 'tabs',
+            inputMode: 'input-group'
+          }
+        ]
       })
     },
     {
@@ -207,7 +232,15 @@ export class ComboControlPlugin extends BasePlugin {
                   label: tipedLabel(
                     '默认值',
                     '支持 <code>now、+1day、-2weeks、+1hours、+2years</code>等这种相对值用法'
-                  )
+                  ),
+                  pipeOut: (value: any) => {
+                    try {
+                      return JSON.parse(value);
+                    }
+                    catch (err) {
+                      return value;
+                    }
+                  } 
                 }),
                 // 多选模式和条数绑定了，所以设定了多选，条数开启
                 getSchemaTpl('multiple', {
@@ -253,44 +286,46 @@ export class ComboControlPlugin extends BasePlugin {
                 // 可新增
                 getSchemaTpl('switch', {
                   name: 'addable',
-                  label: '可新增',
+                  label: tipedLabel(
+                    '可新增',
+                    '如需要拓展自定义的新增功能，可通过配置组件-新增项来拓展'
+                  ),
                   visibleOn: 'data.multiple',
-                  pipeIn: defaultValue(false)
+                  pipeIn: defaultValue(false),
+                  onChange: (value: any, oldValue: any, model: any, form: any) => {
+                    if (value) {
+                      form.setValueByName('addBtn', {
+                        label: '新增',
+                        icon: 'fa fa-plus',
+                        level: 'primary',
+                        size: 'sm'
+                      });
+                    }
+                  }
                 }),
                 {
                   type: 'container',
                   className: 'ae-ExtendMore mb-3',
                   visibleOn: 'data.addable',
                   body: [
-                    // 自定义新增按钮开关
-                    getSchemaTpl('switch', {
-                      name: 'addableCustom',
-                      label: '使用自定义按钮',
-                      visibleOn: 'data.addable',
-                      pipeIn: defaultValue(false),
-                      onChange: (value: any, oldValue: any, model: any, form: any) => {
-                        if (!value) {
-                          form.setValueByName('addBtn', undefined);
-                        }
-                      }
-                    }),
                     {
                       label: '文案',
                       name: 'addBtn.label',
-                      type: 'input-text',
-                      visibleOn: 'data.addableCustom'
+                      type: 'input-text'
                     },
+                    getSchemaTpl('icon', {
+                      name: 'addBtn.icon',
+                      label: '左侧图标'
+                    }),
                     getSchemaTpl('buttonLevel', {
                       label: '样式',
-                      name: 'addBtn.level',
-                      visibleOn: 'data.addableCustom',
+                      name: 'addBtn.level'
                     }),
-      
-                    getSchemaTpl('switch', {
-                      name: 'addBtn.block',
-                      label: '块状显示',
-                      visibleOn: 'data.addableCustom',
-                    }),
+
+                    getSchemaTpl('size', {
+                      name: 'addBtn.size',
+                      label: '尺寸'
+                    })
                   ]
                 },
 
@@ -299,7 +334,13 @@ export class ComboControlPlugin extends BasePlugin {
                   name: 'removable',
                   label: '可删除',
                   pipeIn: defaultValue(false),
-                  visibleOn: 'data.multiple'
+                  visibleOn: 'data.multiple',
+                  onChange: (value: any, oldValue: any, model: any, form: any) => {
+                    if (value) {
+                      form.setValueByName('removableMode', 'icon');
+                      form.setValueByName('deleteIcon', 'fa fa-status-close');
+                    }
+                  }
                 }),
                 {
                   type: 'container',
@@ -307,52 +348,47 @@ export class ComboControlPlugin extends BasePlugin {
                   visibleOn: 'data.removable',
                   body: [
                     // 自定义新增按钮开关
-                    getSchemaTpl('switch', {
-                      name: 'removableCustom',
-                      label: '使用自定义按钮',
-                      visibleOn: 'data.removable',
-                      pipeIn: defaultValue(false),
+                    {
+                      type: 'button-group-select',
+                      name: 'removableMode',
+                      label: '按钮模式',
+                      options: [
+                        {
+                          label: '图标',
+                          value: 'icon'
+                        },
+                        {
+                          label: '按钮',
+                          value: 'button'
+                        }
+                      ],
                       onChange: (value: any, oldValue: any, model: any, form: any) => {
                         if (!value) {
                           form.setValueByName('deleteBtn', undefined);
                         }
                       }
+                    },
+                    getSchemaTpl('icon', {
+                      name: 'deleteIcon',
+                      label: '图标',
+                      visibleOn: 'data.removableMode === "icon"'
                     }),
                     {
                       label: '文案',
                       name: 'deleteBtn.label',
                       type: 'input-text',
-                      visibleOn: 'data.removableCustom'
+                      visibleOn: 'data.removableMode === "button"'
                     },
                     getSchemaTpl('buttonLevel', {
                       label: '样式',
                       name: 'deleteBtn.level',
-                      visibleOn: 'data.removableCustom',
-                    }),
-      
-                    getSchemaTpl('switch', {
-                      name: 'deleteBtn.block',
-                      label: '块状显示',
-                      visibleOn: 'data.removableCustom',
-                    }),
-                    getSchemaTpl('switch', {
-                      name: 'removableApi',
-                      label: tipedLabel('删除前调用接口', '配置后，删除前会发送api，请求成功才完成删除'),
-                      visibleOn: 'data.removable',
-                      pipeIn: defaultValue(false),
-                      onChange: (value: any, oldValue: any, model: any, form: any) => {
-                        if (!value) {
-                          form.setValueByName('deleteApi', undefined);
-                          form.setValueByName('deleteConfirmText', undefined);
-                        }
-                      }
+                      visibleOn: 'data.removableMode === "button"'
                     }),
                     getSchemaTpl('apiControl', {
                       name: 'deleteApi',
                       label: '删除',
-                      mode: 'normal',
-                      wrapWithPanel: false,
-                      visibleOn: 'data.removableApi',
+                      renderLabel: false,
+                      mode: 'normal'
                     }),
                     {
                       label: tipedLabel(
@@ -361,7 +397,6 @@ export class ComboControlPlugin extends BasePlugin {
                       ),
                       name: 'deleteConfirmText',
                       type: 'input-text',
-                      visibleOn: 'data.removableApi',
                       pipeIn: defaultValue('确认要删除吗？')
                     }
                   ]
@@ -387,6 +422,11 @@ export class ComboControlPlugin extends BasePlugin {
                 },
               ]
             },
+            getSchemaTpl('status', {
+              isFormItem: true,
+              readonly: true
+            }),
+            getSchemaTpl('validation', {tag: ValidatorTag.MultiSelect}),
             getSchemaTpl('collapseGroup', [
               {
                 className: 'p-none',
@@ -449,11 +489,6 @@ export class ComboControlPlugin extends BasePlugin {
                 ]
               }]
             ),
-            getSchemaTpl('status', {
-              isFormItem: true,
-              readonly: true
-            }),
-            getSchemaTpl('validation', {tag: ValidatorTag.MultiSelect})
           ])
         ]
       },
@@ -470,6 +505,7 @@ export class ComboControlPlugin extends BasePlugin {
                 label: '展示形式',
                 type: 'button-group-select',
                 inputClassName: 'items-center',
+                size: 'sm',
                 options: [
                   {label: '表单', value: false},
                   {label: '选项卡', value: true}
@@ -480,13 +516,38 @@ export class ComboControlPlugin extends BasePlugin {
                     form.setValueByName('lazyLoad', undefined);
                   }
                 },
-              }
-            ]
-          },
-          getSchemaTpl('style:formItem', {renderer: context.info.renderer}),
-          {
-            title: '子表单项',
-            body: [
+              },
+              {
+                type: 'container',
+                className: 'ae-ExtendMore mb-3',
+                visibleOn: 'data.tabsMode',
+                body: [
+                  {
+                    type: 'button-group-select',
+                    name: 'tabsStyle',
+                    label: '展示形式',
+                    options: [
+                      {
+                        value: 'normal',
+                        label: '正常'
+                      },
+                      {
+                        value: 'horizontal',
+                        label: '水平'
+                      },
+                      {
+                        value: 'inline',
+                        label: '内联'
+                      },
+                    ]
+                  },
+                  {
+                    type: 'ae-formulaControl',
+                    label: '标题模版',
+                    name: 'tabsLabelTpl'
+                  }
+                ]
+              },
               // 表单多行展示
               getSchemaTpl('switch', {
                 name: 'multiLine',
@@ -511,6 +572,7 @@ export class ComboControlPlugin extends BasePlugin {
               }),
             ]
           },
+          getSchemaTpl('style:formItem', {renderer: context.info.renderer}),
           getSchemaTpl('style:classNames'),
         ])
       },

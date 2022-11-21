@@ -1252,6 +1252,14 @@ export const getEventControlConfig = (
 
       delete config.data;
 
+      // 处理下 combo - addItem 的初始化
+      if (action.actionType === 'addItem' && typeof action.args?.item === 'object') {
+          config.args = {
+            ...config.args,
+            item: objectToComboArray(action.args?.item)
+          };
+      }
+
       // 还原args为可视化配置结构(args + addOnArgs)
       if (config.args) {
         if (innerArgs) {
@@ -1413,6 +1421,13 @@ export const getEventControlConfig = (
             };
           }
         }
+      }
+
+      if (action.actionType === 'addItem' && action.__rendererName === 'combo') {
+        action.args = {
+          ...action.args,
+          item: comboArrayToObject(config.args?.item!)
+        };
       }
 
       delete action.config;
