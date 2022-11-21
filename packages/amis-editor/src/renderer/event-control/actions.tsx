@@ -1404,6 +1404,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               lineNumbers: 'off',
               glyphMargin: false,
               tabSize: 2,
+              fontSize: '12px',
               wordWrap: 'on',
               lineDecorationsWidth: 0,
               lineNumbersMinChars: 0,
