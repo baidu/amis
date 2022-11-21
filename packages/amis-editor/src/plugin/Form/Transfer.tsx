@@ -229,7 +229,7 @@ export class TransferPlugin extends BasePlugin {
                 }
               },
 
-              getSchemaTpl('optionControl', {
+              getSchemaTpl('optionControlV2', {
                 visibleOn: 'data.selectMode === "list"',
                 multiple: true
               }),
