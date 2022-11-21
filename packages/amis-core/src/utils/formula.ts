@@ -228,6 +228,11 @@ export function isNeedFormula(
   );
 }
 
+export function isNowFormula(expression: string): boolean {
+  const block = expression.split(/\${|\||}/).filter(item => item);
+  return block[1] === 'now';
+}
+
 // 将 \${xx} 替换成 ${xx}
 export function replaceExpression(expression: any): any {
   if (

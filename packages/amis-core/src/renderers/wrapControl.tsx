@@ -18,7 +18,8 @@ import {
   isNeedFormula,
   isExpression,
   FormulaExec,
-  replaceExpression
+  replaceExpression,
+  isNowFormula
 } from '../utils/formula';
 import {IIRendererStore, IRendererStore} from '../store';
 import {ScopedContext, IScopedContext} from '../Scoped';
@@ -352,11 +353,17 @@ export function wrapControl<
               typeof props.defaultValue !== 'undefined' &&
               isExpression(props.defaultValue)
             ) {
+              const nowFormulaChecked = isNowFormula(props.defaultValue);
               // 渲染器中的 defaultValue 优先（备注: SchemaRenderer中会将 value 改成 defaultValue）
               if (
                 !isEqual(props.defaultValue, prevProps.defaultValue) ||
                 (props.data !== prevProps.data &&
-                  isNeedFormula(props.defaultValue, props.data, prevProps.data))
+                  (isNeedFormula(
+                    props.defaultValue,
+                    props.data,
+                    prevProps.data
+                  ) ||
+                    nowFormulaChecked))
               ) {
                 const curResult = FormulaExec['formula'](
                   props.defaultValue,
@@ -374,6 +381,13 @@ export function wrapControl<
                   model.changeTmpValue(curResult);
                   if (props.onChange) {
                     props.onChange(curResult, model.name, false);
+                  }
+                } else if (nowFormulaChecked) {
+                  const nowData = props.data[model.name];
+                  // now 表达式，计算后的值永远相同
+                  model.changeTmpValue(nowData);
+                  if (props.onChange) {
+                    props.onChange(nowData, model.name, false);
                   }
                 }
               }
