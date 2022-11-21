@@ -848,7 +848,9 @@ test('Renderer:combo with removable & deleteBtn & deleteApi & deleteConfirmText'
       }
     ],
     {
-      fetcher
+      fetcher,
+      // 不加这个，就会报错 fetcher is required
+      session: 'test-case-2'
     }
   );
 
@@ -884,7 +886,6 @@ test('Renderer:combo with removable & deleteBtn & deleteApi & deleteConfirmText'
     )
   );
 
-  // error: fetcher is required
-  // await wait(300);
-  // expect(fetcher).toHaveBeenCalled();
+  await wait(300);
+  expect(fetcher).toHaveBeenCalled();
 });
