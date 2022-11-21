@@ -12,7 +12,7 @@ import {
 import isEqualWith from 'lodash/isEqualWith';
 import {FormStore, IFormStore} from './form';
 import {str2rules, validate as doValidate} from '../utils/validations';
-import {Api, Payload, fetchOptions} from '../types';
+import {Api, Payload, fetchOptions, ApiObject} from '../types';
 import {ComboStore, IComboStore, IUniqueGroup} from './combo';
 import {evalExpression} from '../utils/tpl';
 import {isEffectiveApi} from '../utils/api';
@@ -551,7 +551,10 @@ export const FormItemStore = StoreNode.named('FormItemStore')
             );
           getEnv(self).notify(
             'error',
-            self.errors.join('') || `${api}：${json.msg}`,
+            self.errors.join('') ||
+              `${typeof api === 'string' ? api : (api as ApiObject).url}：${
+                json.msg
+              }`,
             json.msgTimeout !== undefined
               ? {
                   closeButton: true,
