@@ -182,6 +182,9 @@
   &:hover {
     @content;
   }
+  &.hover {
+    @content;
+  }
 }
 
 @mixin focus {
@@ -198,6 +201,9 @@
 
 @mixin hover-active {
   &:hover:active {
+    @content;
+  }
+  &.active {
     @content;
   }
 }
@@ -226,7 +232,7 @@
 ) {
   font-size: $font-size;
   line-height: $line-height;
-  border-radius: $border-radius-top-right $border-radius-top-left
+  border-radius: $border-radius-top-left $border-radius-top-right
     $border-radius-bottom-right $border-radius-bottom-left;
   height: $height;
   padding: $paddingTop $paddingRight $paddingBottom $paddingLeft;

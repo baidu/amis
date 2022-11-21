@@ -51,6 +51,7 @@ export * from './uncontrollable';
 export * from './validations';
 export * from './toNumber';
 export * from './decodeEntity';
+export * from './style-helper';
 
 import animation from './Animation';
 
