@@ -333,194 +333,205 @@ export class TablePlugin extends BasePlugin {
       description: '开启表格拖拽排序功能'
     }
   ];
-
+  panelJustify = true;
   panelBodyCreator = (context: BaseEventContext) => {
     const isCRUDBody = context.schema.type === 'crud';
-
     return getSchemaTpl('tabs', [
       {
-        title: '常规',
-        body: [
+        title: '属性',
+        body: getSchemaTpl('collapseGroup', [
           {
-            name: 'title',
-            type: 'input-text',
-            label: '标题'
-          },
-
-          isCRUDBody
-            ? null
-            : {
-                name: 'source',
+            title: '基本',
+            body: [
+              {
+                name: 'title',
                 type: 'input-text',
-                label: '数据源',
-                pipeIn: defaultValue('${items}'),
-                description: '绑定当前环境变量'
+                label: '标题'
               },
 
-          {
-            name: 'combineNum',
-            label: '自动合并单元格',
-            type: 'input-number',
-            placeholder: '设置列数',
-            description:
-              '设置从左到右多少列内启用自动合并单元格，根据字段值是否相同来决定是否合并。'
-          }
+              isCRUDBody
+                ? null
+                : {
+                    name: 'source',
+                    type: 'input-text',
+                    label: '数据源',
+                    pipeIn: defaultValue('${items}'),
+                    description: '绑定当前环境变量'
+                  },
 
-          // {
-          //   children: (
-          //     <div>
-          //       <Button
-          //         level="info"
-          //         size="sm"
-          //         className="m-b-sm"
-          //         block
-          //         onClick={this.handleAdd}
-          //       >
-          //         新增一列
-          //       </Button>
-          //     </div>
-          //   )
-          // },
+              {
+                name: 'combineNum',
+                label: '自动合并单元格',
+                type: 'input-number',
+                placeholder: '设置列数',
+                description:
+                  '设置从左到右多少列内启用自动合并单元格，根据字段值是否相同来决定是否合并。'
+              }
 
-          // {
-          //   children: (
-          //     <div>
-          //       <Button
-          //         level="success"
-          //         size="sm"
-          //         block
-          //         onClick={this.handleColumnsQuickEdit.bind(this)}
-          //       >
-          //         快速编辑列信息
-          //       </Button>
-          //     </div>
-          //   )
-          // }
-        ]
+              // {
+              //   children: (
+              //     <div>
+              //       <Button
+              //         level="info"
+              //         size="sm"
+              //         className="m-b-sm"
+              //         block
+              //         onClick={this.handleAdd}
+              //       >
+              //         新增一列
+              //       </Button>
+              //     </div>
+              //   )
+              // },
+
+              // {
+              //   children: (
+              //     <div>
+              //       <Button
+              //         level="success"
+              //         size="sm"
+              //         block
+              //         onClick={this.handleColumnsQuickEdit.bind(this)}
+              //       >
+              //         快速编辑列信息
+              //       </Button>
+              //     </div>
+              //   )
+              // }
+            ]
+          },
+          getSchemaTpl('status')
+        ])
       },
       {
         title: '外观',
-        body: [
+        body: getSchemaTpl('collapseGroup', [
           {
-            name: 'columnsTogglable',
-            label: '展示列显示开关',
-            type: 'button-group-select',
-            pipeIn: defaultValue('auto'),
-            mode: 'inline',
-            className: 'w-full',
-            size: 'xs',
-            options: [
+            title: '基本',
+            body: [
               {
-                label: '自动',
-                value: 'auto'
+                name: 'columnsTogglable',
+                label: '展示列显示开关',
+                type: 'button-group-select',
+                pipeIn: defaultValue('auto'),
+                mode: 'inline',
+                className: 'w-full',
+                size: 'xs',
+                options: [
+                  {
+                    label: '自动',
+                    value: 'auto'
+                  },
+
+                  {
+                    label: '开启',
+                    value: true
+                  },
+
+                  {
+                    label: '关闭',
+                    value: false
+                  }
+                ],
+                description: '自动即列数量大于5个时自动开启'
+              },
+
+              getSchemaTpl('switch', {
+                name: 'affixHeader',
+                label: '是否固顶表头',
+                pipeIn: defaultValue(true)
+              }),
+
+              getSchemaTpl('switch', {
+                name: 'showHeader',
+                label: '是否显示头部',
+                pipeIn: defaultValue(true)
+              }),
+
+              getSchemaTpl('switch', {
+                name: 'showFooter',
+                label: '是否显示底部',
+                pipeIn: defaultValue(true)
+              }),
+
+              getSchemaTpl('switch', {
+                name: 'footable',
+                label: '是否开启单条底部展示',
+                description:
+                  '如果列太多显示会很臃肿，可以考虑把部分列放在当前行的底部展示',
+                pipeIn: (value: any) => !!value
+              }),
+
+              {
+                name: 'footable.expand',
+                type: 'button-group-select',
+                size: 'xs',
+                visibleOn: 'data.footable',
+                label: '底部默认展开',
+                pipeIn: defaultValue('none'),
+                mode: 'inline',
+                className: 'w-full',
+                options: [
+                  {
+                    label: '第一条',
+                    value: 'first'
+                  },
+
+                  {
+                    label: '所有',
+                    value: 'all'
+                  },
+
+                  {
+                    label: '不展开',
+                    value: 'none'
+                  }
+                ]
               },
 
               {
-                label: '开启',
-                value: true
+                name: 'placeholder',
+                pipeIn: defaultValue('暂无数据'),
+                type: 'input-text',
+                label: '无数据提示'
               },
-
               {
-                label: '关闭',
-                value: false
-              }
-            ],
-            description: '自动即列数量大于5个时自动开启'
-          },
-
-          getSchemaTpl('switch', {
-            name: 'affixHeader',
-            label: '是否固顶表头',
-            pipeIn: defaultValue(true)
-          }),
-
-          getSchemaTpl('switch', {
-            name: 'showHeader',
-            label: '是否显示头部',
-            pipeIn: defaultValue(true)
-          }),
-
-          getSchemaTpl('switch', {
-            name: 'showFooter',
-            label: '是否显示底部',
-            pipeIn: defaultValue(true)
-          }),
-
-          getSchemaTpl('switch', {
-            name: 'footable',
-            label: '是否开启单条底部展示',
-            description:
-              '如果列太多显示会很臃肿，可以考虑把部分列放在当前行的底部展示',
-            pipeIn: (value: any) => !!value
-          }),
-
-          {
-            name: 'footable.expand',
-            type: 'button-group-select',
-            size: 'xs',
-            visibleOn: 'data.footable',
-            label: '底部默认展开',
-            pipeIn: defaultValue('none'),
-            mode: 'inline',
-            className: 'w-full',
-            options: [
-              {
-                label: '第一条',
-                value: 'first'
-              },
-
-              {
-                label: '所有',
-                value: 'all'
-              },
-
-              {
-                label: '不展开',
-                value: 'none'
+                name: 'rowClassNameExpr',
+                type: 'input-text',
+                label: '行高亮规则',
+                placeholder: `支持模板语法，如 <%= data.id % 2 ? 'bg-success' : '' %>`
               }
             ]
           },
-
           {
-            name: 'placeholder',
-            pipeIn: defaultValue('暂无数据'),
-            type: 'input-text',
-            label: '无数据提示'
-          },
-          {
-            name: 'rowClassNameExpr',
-            type: 'input-text',
-            label: '行高亮规则',
-            placeholder: `支持模板语法，如 <%= data.id % 2 ? 'bg-success' : '' %>`
-          },
-          getSchemaTpl('className', {
-            label: '外层 CSS 类名'
-          }),
+            title: 'CSS类名',
+            body: [
+              getSchemaTpl('className', {
+                label: '外层'
+              }),
 
-          getSchemaTpl('className', {
-            name: 'tableClassName',
-            label: '表格 CSS 类名'
-          }),
+              getSchemaTpl('className', {
+                name: 'tableClassName',
+                label: '表格'
+              }),
 
-          getSchemaTpl('className', {
-            name: 'headerClassName',
-            label: '顶部外层 CSS 类名'
-          }),
+              getSchemaTpl('className', {
+                name: 'headerClassName',
+                label: '顶部外层'
+              }),
 
-          getSchemaTpl('className', {
-            name: 'footerClassName',
-            label: '底部外层 CSS 类名'
-          }),
+              getSchemaTpl('className', {
+                name: 'footerClassName',
+                label: '底部外层'
+              }),
 
-          getSchemaTpl('className', {
-            name: 'toolbarClassName',
-            label: '工具栏 CSS 类名'
-          })
-        ]
-      },
-      {
-        title: '显隐',
-        body: [getSchemaTpl('ref'), getSchemaTpl('visible')]
+              getSchemaTpl('className', {
+                name: 'toolbarClassName',
+                label: '工具栏'
+              })
+            ]
+          }
+        ])
       },
       isCRUDBody
         ? null
