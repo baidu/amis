@@ -629,6 +629,7 @@
   &--size-xs {
     @include button-size(
       var(--button-size-xs-fontSize),
+      var(--button-size-xs-fontWeight),
       var(--button-size-xs-lineHeight),
       var(--button-size-xs-top-right-border-radius),
       var(--button-size-xs-top-left-border-radius),
@@ -658,6 +659,7 @@
   &--size-sm {
     @include button-size(
       var(--button-size-sm-fontSize),
+      var(--button-size-sm-fontWeight),
       var(--button-size-sm-lineHeight),
       var(--button-size-sm-top-right-border-radius),
       var(--button-size-sm-top-left-border-radius),
@@ -687,6 +689,7 @@
   &--size-md {
     @include button-size(
       var(--button-size-md-fontSize),
+      var(--button-size-md-fontWeight),
       var(--button-size-md-lineHeight),
       var(--button-size-md-top-right-border-radius),
       var(--button-size-md-top-left-border-radius),
@@ -716,6 +719,7 @@
   &--size-lg {
     @include button-size(
       var(--button-size-lg-fontSize),
+      var(--button-size-lg-fontWeight),
       var(--button-size-lg-lineHeight),
       var(--button-size-lg-top-right-border-radius),
       var(--button-size-lg-top-left-border-radius),
