@@ -90,6 +90,8 @@ export class FlexPluginBase extends BasePlugin {
                   isFlexItem
                     ? getSchemaTpl('layout:flex', {
                         isFlexColumnItem,
+                        onText: isFlexColumnItem ? '弹性高度' : '弹性宽度',
+                        offText: isFlexColumnItem ? '固定高度' : '固定宽度',
                         visibleOn:
                           'data.style && (data.style.position === "static" || data.style.position === "relative")'
                       })
@@ -102,9 +104,16 @@ export class FlexPluginBase extends BasePlugin {
                     : null,
                   isFlexItem
                     ? getSchemaTpl('layout:flex-basis', {
-                        label: isFlexColumnItem ? '默认高度' : '默认宽度',
+                        label: isFlexColumnItem ? '弹性高度' : '弹性宽度',
                         visibleOn:
-                          'data.style && (data.style.position === "static" || data.style.position === "relative")'
+                          'data.style && (data.style.position === "static" || data.style.position === "relative") && data.style.flex === "1 1 auto"'
+                      })
+                    : null,
+                  isFlexItem
+                    ? getSchemaTpl('layout:flex-basis', {
+                        label: isFlexColumnItem ? '固定高度' : '固定宽度',
+                        visibleOn:
+                          'data.style && (data.style.position === "static" || data.style.position === "relative") && data.style.flex === "0 0 auto"'
                       })
                     : null,
                   getSchemaTpl('layout:position'),

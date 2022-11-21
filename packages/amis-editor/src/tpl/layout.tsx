@@ -225,9 +225,32 @@ setSchemaTpl(
     name?: string;
     value?: string;
     visibleOn?: string;
+    isFlexItem?: boolean;
     pipeIn?: (value: any, data: any) => void;
     pipeOut?: (value: any, data: any) => void;
   }) => {
+    const configOptions = [
+      {
+        label: '块级(默认)',
+        value: 'block'
+      },
+      {
+        label: '弹性布局',
+        value: 'flex'
+      },
+      {
+        label: '行内弹性布局',
+        value: 'inline-flex'
+      },
+      {
+        label: '行内块级',
+        value: 'inline-block'
+      },
+      {
+        label: '行内元素',
+        value: 'inline'
+      }
+    ]
     const configSchema = {
       type: 'select',
       label:
@@ -239,6 +262,7 @@ setSchemaTpl(
       name: config?.name || 'style.display',
       value: config?.value || 'block',
       visibleOn: config?.visibleOn,
+      options: configOptions,
       pipeIn: config?.pipeIn,
       pipeOut: config?.pipeOut,
       onChange: (value: string, oldValue: string, model: any, form: any) => {
@@ -248,28 +272,6 @@ setSchemaTpl(
           form.setValueByName('style.alignItems', undefined);
         }
       },
-      options: [
-        {
-          label: '块级(默认)',
-          value: 'block'
-        },
-        {
-          label: '弹性布局',
-          value: 'flex'
-        },
-        {
-          label: '行内弹性布局',
-          value: 'inline-flex'
-        },
-        {
-          label: '行内块级',
-          value: 'inline-block'
-        },
-        {
-          label: '行内元素',
-          value: 'inline'
-        }
-      ]
     };
 
     if (config?.mode === 'vertical') {
@@ -537,6 +539,8 @@ setSchemaTpl(
     value?: string;
     visibleOn?: string;
     isFlexColumnItem?: boolean;
+    onText?: string;
+    offText?: string;
   }) => {
     return {
       type: 'switch',
@@ -547,8 +551,8 @@ setSchemaTpl(
       value: config?.value || '0 0 auto',
       trueValue: '1 1 auto',
       falseValue: '0 0 auto',
-      onText: '开启',
-      offText: '关闭',
+      onText: config?.onText || '开启',
+      offText: config?.offText || '关闭',
       inputClassName: 'inline-flex justify-between',
       visibleOn: config?.visibleOn,
       onChange: (value: any, oldValue: boolean, model: any, form: any) => {
@@ -595,7 +599,7 @@ setSchemaTpl(
       // pipeOut: config?.pipeOut,
       pipeOut: (value: string) => {
         const curValue = parseInt(value);
-        if (curValue || curValue === 0) {
+        if (value === 'auto' || curValue || curValue === 0) {
           return value;
         } else {
           return undefined;
@@ -696,7 +700,7 @@ setSchemaTpl(
       // pipeOut: config?.pipeOut,
       pipeOut: (value: string) => {
         const curValue = parseInt(value);
-        if (curValue || curValue === 0) {
+        if (value === 'auto' || curValue || curValue === 0) {
           return value;
         } else {
           return undefined;
@@ -735,7 +739,7 @@ setSchemaTpl(
       // pipeOut: config?.pipeOut
       pipeOut: (value: string) => {
         const curValue = parseInt(value);
-        if (curValue || curValue === 0) {
+        if (value === 'auto' || curValue || curValue === 0) {
           return value;
         } else {
           return undefined;
@@ -774,7 +778,7 @@ setSchemaTpl(
       // pipeOut: config?.pipeOut
       pipeOut: (value: string) => {
         const curValue = parseInt(value);
-        if (curValue || curValue === 0) {
+        if (value === 'auto' || curValue || curValue === 0) {
           return value;
         } else {
           return undefined;
@@ -887,7 +891,7 @@ setSchemaTpl(
       // pipeOut: config?.pipeOut
       pipeOut: (value: string) => {
         const curValue = parseInt(value);
-        if (curValue || curValue === 0) {
+        if (value === 'auto' || curValue || curValue === 0) {
           return value;
         } else {
           return undefined;
@@ -926,7 +930,7 @@ setSchemaTpl(
       // pipeOut: config?.pipeOut
       pipeOut: (value: string) => {
         const curValue = parseInt(value);
-        if (curValue || curValue === 0) {
+        if (value === 'auto' || curValue || curValue === 0) {
           return value;
         } else {
           return undefined;
@@ -965,7 +969,7 @@ setSchemaTpl(
       // pipeOut: config?.pipeOut
       pipeOut: (value: string) => {
         const curValue = parseInt(value);
-        if (curValue || curValue === 0) {
+        if (value === 'auto' || curValue || curValue === 0) {
           return value;
         } else {
           return undefined;
