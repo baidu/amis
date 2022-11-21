@@ -366,6 +366,10 @@
         .#{$ns}Remark {
           margin-left: var(--gap-xs);
         }
+
+        .#{$ns}TableCell--title {
+          min-width: fit-content;
+        }
       }
     }
 
@@ -649,9 +653,6 @@
     > thead > tr > th.#{$ns}TableCell--filterable {
       > .#{$ns}TableCell--title {
         display: inline-block;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
       }
     }
   }
