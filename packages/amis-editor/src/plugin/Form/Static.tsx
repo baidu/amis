@@ -253,7 +253,7 @@ export class StaticControlPlugin extends BasePlugin {
 
   // 组件名称
   name = '静态展示框';
-  isBaseComponent = true;
+  isBaseComponent = false;
   icon = 'fa fa-info';
   pluginIcon = 'static-plugin';
   description = '纯用来展示数据，可用来展示 json、date、image、progress 等数据';
@@ -294,7 +294,7 @@ export class StaticControlPlugin extends BasePlugin {
                 inline: false,
                 level: 'warning',
                 className: 'text-sm',
-                body: '<p>当前组件已停止维护，建议您使用<a href="https://aisuda.bce.baidu.com/amis/zh-CN/components/form/formitem#%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81%E5%B1%95%E7%A4%BA" target="_blank">静态展示</a>新特性实现表单项及整个表单的静态展示。</p>'
+                body: '<p>当前组件已停止维护，建议您使用<a href="https://baidu.gitee.io/amis/zh-CN/components/form/formitem#%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81%E5%B1%95%E7%A4%BA" target="_blank">静态展示</a>新特性实现表单项的静态展示。</p>'
               },
               getSchemaTpl('formItemName', {
                 required: false
