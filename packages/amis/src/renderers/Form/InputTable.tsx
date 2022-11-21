@@ -395,7 +395,11 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         if (isEffectiveApi(addApi, ctx)) {
           const payload = await env.fetcher(addApi, ctx);
           if (payload && !payload.ok) {
-            env.notify('error', payload.msg || __('fetchFailed'));
+            env.notify(
+              'error',
+              (addApi as ApiObject)?.messages?.failed ??
+                (payload.msg || __('fetchFailed'))
+            );
             return;
           } else if (payload && payload.ok) {
             toAdd = payload.data;
@@ -487,7 +491,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         if (needConfirm === false) {
           this.emitValue();
         } else {
-          this.startEdit(index, true);
+          this.startEdit(index, true, true);
         }
       }
     );
@@ -559,11 +563,11 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     );
   }
 
-  startEdit(index: number, isCreate: boolean = false) {
+  startEdit(index: number, isCreate: boolean = false, isCopy: boolean = false) {
     this.setState({
       editIndex: index,
       isCreateMode: isCreate,
-      raw: this.state.items[index],
+      raw: isCopy ? undefined : this.state.items[index],
 
       columns: this.buildColumns(this.props, isCreate)
     });
@@ -586,14 +590,17 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     const isNew = item.__isPlaceholder;
 
     let remote: Payload | null = null;
+    let apiMsg = undefined;
     if (isNew && isEffectiveApi(addApi, createObject(data, item))) {
       remote = await env.fetcher(addApi, createObject(data, item));
+      apiMsg = (addApi as ApiObject)?.messages?.failed;
     } else if (isEffectiveApi(updateApi, createObject(data, item))) {
       remote = await env.fetcher(updateApi, createObject(data, item));
+      apiMsg = (updateApi as ApiObject)?.messages?.failed;
     }
 
     if (remote && !remote.ok) {
-      env.notify('error', remote.msg || __('saveFailed'));
+      env.notify('error', apiMsg ?? (remote.msg || __('saveFailed')));
       return;
     } else if (remote && remote.ok) {
       item = {
@@ -620,10 +627,10 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   cancelEdit() {
     let items = this.state.items.concat();
 
-    if (this.state.isCreateMode) {
-      items = items.filter(item => !item.__isPlaceholder);
-    } else if (this.state.raw) {
+    if (this.state.raw) {
       items.splice(this.state.editIndex, 1, this.state.raw);
+    } else {
+      items.splice(this.state.editIndex, 1);
     }
 
     this.setState(
@@ -667,7 +674,10 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       const result = await env.fetcher(deleteApi, ctx);
 
       if (!result.ok) {
-        env.notify('error', __('deleteFailed'));
+        env.notify(
+          'error',
+          (deleteApi as ApiObject)?.messages?.failed ?? __('deleteFailed')
+        );
         return;
       }
     }

@@ -823,6 +823,41 @@ Content-Disposition: attachment; filename="download.pdf"
 Access-Control-Expose-Headers: Content-Disposition
 ```
 
+### 配置提示信息
+
+可以通过`messages`自定义接口请求提示信息。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": {
+        "method": "post",
+        "url": "/api/mock2/form/saveForm",
+        "data": {
+            "myName": "${name}",
+            "myEmail": "${email}"
+        },
+        "messages": {
+          "success": '好耶，成功了！',
+          "failed": '糟糕，失败了！'
+        }
+
+    },
+    "body": [
+      {
+        "type": "input-text",
+        "name": "name",
+        "label": "姓名："
+      },
+      {
+        "name": "email",
+        "type": "input-email",
+        "label": "邮箱："
+      }
+    ]
+}
+```
+
 ### replaceData
 
 返回的数据是否替换掉当前的数据，默认为 `false`（即追加），设置为`true`就是完全替换当前数据。
@@ -1056,3 +1091,4 @@ Access-Control-Expose-Headers: Content-Disposition
 | autoRefresh     | 是否自动刷新 | 布尔                                                                                                 | 配置是否需要自动刷新接口。                                                                                                                                                                    |
 | responseData    | 配置返回数据 | 对象                                                                                                 | 对返回结果做个映射                                                                                                                                                                            |
 | trackExpression | 跟踪变量     | 字符串                                                                                               | 配置跟踪变量表达式                                                                                                                                                                            |
+| messages        | 提示信息     | 对象                                                                                                 | 配置接口请求的提示信息，messages.success 表示请求成功提示信息、messages.failed 表示请求失败提示信息，2.4.1 及以上版本                                                                         |
