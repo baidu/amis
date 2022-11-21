@@ -3,6 +3,7 @@ import hotkeys from 'hotkeys-js';
 import {
   ActionObject,
   extendObject,
+  insertCustomStyle,
   IScopedContext,
   isObject,
   Renderer,
@@ -777,8 +778,26 @@ export class Action extends React.Component<ActionProps, ActionState> {
       onMouseEnter,
       onMouseLeave,
       classnames: cx,
-      classPrefix: ns
+      classPrefix: ns,
+      css,
+      id
     } = this.props;
+    insertCustomStyle(
+      css,
+      [
+        {
+          key: 'className',
+          value: className,
+          weights: {
+            hover: {
+              suf: ':not(:disabled):not(.is-disabled)'
+            },
+            active: {suf: ':not(:disabled):not(.is-disabled)'}
+          }
+        }
+      ],
+      id
+    );
 
     if (actionType !== 'email' && body) {
       return (
