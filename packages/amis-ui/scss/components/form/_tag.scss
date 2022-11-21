@@ -52,6 +52,7 @@
 
       @include button-size(
         var(--TagControl-sugBtn-fontSize),
+        var(--TagControl-sugBtn-fontWeight),
         var(--TagControl-sugBtn-lineHeight),
         var(--TagControl-sugBtn-borderRadius),
         var(--TagControl-sugBtn-borderRadius),
