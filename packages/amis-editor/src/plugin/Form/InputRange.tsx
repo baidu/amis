@@ -164,10 +164,7 @@ export class RangeControlPlugin extends BasePlugin {
                 },
                 pipeIn: defaultValue(0),
                 needDeleteProps: ['min'], // 避免自我限制
-                label: tipedLabel(
-                  '最小值',
-                  '请输入数字或使用 <code>\\${xxx}</code> 来获取变量，否则该配置不生效'
-                ),
+                label: '最小值',
                 valueType: 'number'
               }),
 
@@ -179,10 +176,7 @@ export class RangeControlPlugin extends BasePlugin {
                 },
                 pipeIn: defaultValue(100),
                 needDeleteProps: ['max'], // 避免自我限制
-                label: tipedLabel(
-                  '最大值',
-                  '请输入数字或使用 <code>\\${xxx}</code> 来获取变量，否则该配置不生效'
-                ),
+                label: '最大值',
                 valueType: 'number'
               }),
 

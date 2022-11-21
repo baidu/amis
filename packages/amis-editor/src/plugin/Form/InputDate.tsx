@@ -4,6 +4,7 @@ import {BasePlugin, BaseEventContext, tipedLabel} from 'amis-editor-core';
 
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
+import {FormulaDateType} from '../../renderer/FormulaControl';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 
 const formatX = [
@@ -135,8 +136,8 @@ const DateType: {
   }
 };
 
-const tipedLabelText =
-  '支持 <code>now、+1day、-2weeks、+1hours、+2years</code>这种相对值用法，同时支持变量如<code>\\${start_date}</code>';
+const dateTooltip =
+  '支持例如: <code>now、+3days、-2weeks、+1hour、+2years</code> 等（minute|min|hour|day|week|month|year|weekday|second|millisecond）这种相对值用法';
 
 export class DateControlPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -333,35 +334,42 @@ export class DateControlPlugin extends BasePlugin {
                   pipeIn: defaultValue(true)
                 }),
                 getSchemaTpl('valueFormula', {
-                  rendererSchema: context?.schema,
-                  label: tipedLabel(
-                    '默认值',
-                    '支持 <code>now、+1day、-2weeks、+1hours、+2years</code>等这种相对值用法'
-                  )
+                  rendererSchema: {
+                    ...context?.schema
+                  },
+                  placeholder: '请选择静态值',
+                  header: '表达式或相对值',
+                  DateTimeType: FormulaDateType.IsDate,
+                  label: tipedLabel('默认值', dateTooltip)
                 }),
                 getSchemaTpl('valueFormula', {
                   name: 'minDate',
+                  header: '表达式或相对值',
+                  DateTimeType: FormulaDateType.IsDate,
                   rendererSchema: {
                     ...context?.schema,
                     value: context?.schema.minDate
                   },
+                  placeholder: '请选择静态值',
                   needDeleteProps: ['minDate'], // 避免自我限制
-                  label: tipedLabel('最小值', tipedLabelText)
+                  label: tipedLabel('最小值', dateTooltip)
                 }),
                 getSchemaTpl('valueFormula', {
                   name: 'maxDate',
+                  header: '表达式或相对值',
+                  DateTimeType: FormulaDateType.IsDate,
                   rendererSchema: {
                     ...context?.schema,
                     value: context?.schema.maxDate
                   },
                   needDeleteProps: ['maxDate'], // 避免自我限制
-                  label: tipedLabel('最大值', tipedLabelText)
+                  label: tipedLabel('最大值', dateTooltip)
                 }),
                 getSchemaTpl('placeholder', {
                   pipeIn: defaultValue('请选择日期')
                 }),
-                // getSchemaTpl('remark'),
-                // getSchemaTpl('labelRemark'),
+                getSchemaTpl('remark'),
+                getSchemaTpl('labelRemark'),
                 getSchemaTpl('description'),
                 getSchemaTpl('autoFillApi')
               ]

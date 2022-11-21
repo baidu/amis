@@ -8,24 +8,22 @@ import type {
   EditorNodeType,
   RegionConfig,
   RendererJSONSchemaResolveEventContext,
-  BasicToolbarItem
+  BasicToolbarItem,
+  PluginInterface
 } from 'amis-editor-core';
 
 // 默认的列容器Schema
-const defaultFlexColumnSchema = (title: string) => {
+export const defaultFlexColumnSchema = (title?: string) => {
   return {
     type: 'wrapper',
     body: [],
     size: 'xs',
     style: {
       position: 'static',
-      display: 'flex',
+      display: 'block',
       flex: '1 1 auto',
       flexGrow: 1,
-      flexBasis: 'auto',
-      flexDirection: 'column',
-      justifyContent: 'flex-start',
-      alignItems: 'stretch'
+      flexBasis: 'auto'
     },
     isFixedHeight: false,
     isFixedWidth: false
@@ -40,6 +38,10 @@ const defaultFlexContainerSchema = {
     defaultFlexColumnSchema('第二列'),
     defaultFlexColumnSchema('第三列')
   ],
+  style: {
+    position: 'static',
+  },
+  direction: "row",
   justify: 'flex-start',
   alignItems: 'stretch'
 };
@@ -222,6 +224,13 @@ export class FlexPluginBase extends BasePlugin {
     const isFlexColumnItem = this.manager?.isFlexColumnItem(id);
     const newColumnSchema = defaultFlexColumnSchema('新的一列');
 
+    const toolbarsTooltips:any = {};
+    toolbars.forEach(toolbar => {
+      if (toolbar.tooltip) {
+        toolbarsTooltips[toolbar.tooltip] = 1;
+      }
+    });
+
     if (
       parent &&
       (info.renderer?.name === 'flex' || info.renderer?.name === 'container') &&
@@ -229,74 +238,80 @@ export class FlexPluginBase extends BasePlugin {
       !draggableContainer
     ) {
       // 非特殊布局元素（fixed、absolute）支持前后插入追加布局元素功能icon
-      toolbars.push(
-        {
-          iconSvg: 'add-btn',
-          tooltip: '上方插入布局容器',
-          level: 'special',
-          placement: 'right',
-          className: 'ae-InsertBefore is-vertical',
-          onClick: () =>
-            this.manager.appendSiblingSchema(
-              defaultFlexContainerSchema,
-              true,
-              true
-            )
-        },
-        {
-          iconSvg: 'add-btn',
-          tooltip: '下方插入布局容器',
-          level: 'special',
-          placement: 'right',
-          className: 'ae-InsertAfter is-vertical',
-          onClick: () =>
-            this.manager.appendSiblingSchema(
-              defaultFlexContainerSchema,
-              false,
-              true
-            )
-        }
-      );
+      if (!toolbarsTooltips['上方插入布局容器']) {
+        toolbars.push(
+          {
+            iconSvg: 'add-btn',
+            tooltip: '上方插入布局容器',
+            level: 'special',
+            placement: 'right',
+            className: 'ae-InsertBefore is-vertical',
+            onClick: () =>
+              this.manager.appendSiblingSchema(
+                defaultFlexContainerSchema,
+                true,
+                true
+              )
+          },
+          {
+            iconSvg: 'add-btn',
+            tooltip: '下方插入布局容器',
+            level: 'special',
+            placement: 'right',
+            className: 'ae-InsertAfter is-vertical',
+            onClick: () =>
+              this.manager.appendSiblingSchema(
+                defaultFlexContainerSchema,
+                false,
+                true
+              )
+          }
+        );
+      }
 
       // 布局容器 右上角插入子元素
       if (info.renderer?.name === 'flex') {
-        toolbars.push({
-          iconSvg: 'add-btn',
-          tooltip: '新增列级元素',
-          level: 'special',
-          placement: 'bottom',
-          className: 'ae-AppendChild',
-          onClick: () => this.manager.addElem(newColumnSchema)
-        });
+        if (!toolbarsTooltips['新增列级元素']) {
+          toolbars.push({
+            iconSvg: 'add-btn',
+            tooltip: '新增列级元素',
+            level: 'special',
+            placement: 'bottom',
+            className: 'ae-AppendChild',
+            onClick: () => this.manager.addElem(newColumnSchema)
+          });
+        }
       }
     }
 
     if (isFlexItem && !draggableContainer) {
-      // 布局容器的列级元素 增加左右插入icon
-      toolbars.push(
-        {
-          iconSvg: 'add-btn',
-          tooltip: `${isFlexColumnItem ? '上方' : '左侧'}插入列级容器`,
-          level: 'special',
-          placement: 'right',
-          className: isFlexColumnItem
-            ? 'ae-InsertBefore is-vertical'
-            : 'ae-InsertBefore',
-          onClick: () =>
-            this.manager.appendSiblingSchema(newColumnSchema, true, true)
-        },
-        {
-          iconSvg: 'add-btn',
-          tooltip: `${isFlexColumnItem ? '下方' : '右侧'}插入列级容器`,
-          level: 'special',
-          placement: isFlexColumnItem ? 'right' : 'left',
-          className: isFlexColumnItem
-            ? 'ae-InsertAfter is-vertical'
-            : 'ae-InsertAfter',
-          onClick: () =>
-            this.manager.appendSiblingSchema(newColumnSchema, false, true)
-        }
-      );
+      if (!toolbarsTooltips[`${isFlexColumnItem ? '上方' : '左侧'}插入列级容器`]) {
+        // 布局容器的列级元素 增加左右插入icon
+        toolbars.push(
+          {
+            iconSvg: 'add-btn',
+            tooltip: `${isFlexColumnItem ? '上方' : '左侧'}插入列级容器`,
+            level: 'special',
+            placement: 'right',
+            className: isFlexColumnItem
+              ? 'ae-InsertBefore is-vertical'
+              : 'ae-InsertBefore',
+            onClick: () =>
+              this.manager.appendSiblingSchema(newColumnSchema, true, true)
+          },
+          {
+            iconSvg: 'add-btn',
+            tooltip: `${isFlexColumnItem ? '下方' : '右侧'}插入列级容器`,
+            level: 'special',
+            placement: isFlexColumnItem ? 'right' : 'left',
+            className: isFlexColumnItem
+              ? 'ae-InsertAfter is-vertical'
+              : 'ae-InsertAfter',
+            onClick: () =>
+              this.manager.appendSiblingSchema(newColumnSchema, false, true)
+          }
+        );
+      }
     }
   }
 

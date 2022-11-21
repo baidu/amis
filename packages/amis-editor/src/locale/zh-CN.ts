@@ -3002,7 +3002,7 @@ extendLocale('zh-CN', {
   '55becc96b40692cc9cf898b331d16976': '自动适配',
   'ede82efb4a69c35743185c6c73ab771e': '最小宽度即当前元素最小的水平展示区域',
   '6f420734edfaff00a8210a4c762a9207': '最大高度即当前元素最多的展示高度',
-  '411f9d120093314cd38e6dd5cce398c6': '最小宽度即当前元素最小的垂直展示区域',
+  '411f9d120093314cd38e6dd5cce398c6': '最小高度即当前元素最小的垂直展示区域',
   'ff9e9329fe186be342ef59ee711b9371': ' y轴滚动模式',
   'b31c6aaa78f8e24df665ce80ab5301e2': '用于设置垂直方向的滚动模式',
   '4fc0e68b093db41b45a4ea706fbe56f3': '居中显示',
@@ -3090,5 +3090,43 @@ extendLocale('zh-CN', {
     '如果需要对返回结果中的data做额外的数据处理，请开启此选项',
   '7c583ecdf795ce4f1f40d7960ead9344': '默认提示文案',
   '70941a02776496ec446f21f98ebf754e': '请求成功',
-  'f50bf418323ee425eca7208c09a4577e': '请求失败'
+  'f50bf418323ee425eca7208c09a4577e': '请求失败',
+  'f3dc08e3617d1e19cf8135be4412a80b':
+    '点击后先询问用户，由手动确认后再执行动作，避免误触。可从数据域变量中取值。',
+  'faa29265819714253843e23437b9193e':
+    '正常状态下的提示内容，不填则不弹出提示。可从数据域变量中取值。',
+  'f855f46ce6146aa17a9ed423da16bfa2':
+    '禁用状态下的提示内容，不填则弹出正常提示。可从数据域变量中取值。',
+  '037becbe8bff2f8838d141cc7b6b2df7':
+    '支持例如: <code>now、+3days、-2weeks、+1hour、+2years</code> 等（minute|min|hour|day|week|month|year|weekday|second|millisecond）这种相对值用法',
+  '8f7ae284d0039fe05b9f57fd5ae3ede9': '请选择静态值',
+  '98229308e2e9484583fde4ae363a979f': '表达式或相对值',
+  '6b3c2a07db1bb3c229bbc5df48068792':
+    '支持例如: <code>now、+3days、-2weeks、+1hour、+2years</code> 等（minute|hour|day|week|month|year|weekday|second|millisecond）这种相对值用法',
+  'dcc94ea1715bd502c709c5d5092e9c82':
+    '支持例如: <code>3days、2weeks、1hour、2years</code> 等（minute|hour|day|week|month|year|weekday|second|millisecond）这种相对值用法',
+  '13ce82d026daa5a30e50105bd2a204a6': '请输入相对值',
+  '31c29c46536a5007522032d2a42db56a': '数值模板',
+  'a6a41d1bfb5896210eb527d183a07958':
+    '值渲染模板，支持JSX、数据域变量使用, 默认 ${value}%',
+  'eadd1d64cd6ceb2c50554281cd2d3be0': '根据该数据来动态重复渲染所配置的选项卡',
+  '0d9d899edb456e8806a99850e9c38212': '已配置表达式',
+  'fbb96f7ea104d34fc4b7bd625d892c45': '点击编写表达式',
+  'e0c7ac5eb397512fdbe71600baa09dab': '请输入静态值',
+  '48942ef507ea38d8ead03f8bfdffae5a': '已配置相对值',
+  '49041f245018a6d799fee3c6f177c782': '退出全屏',
+  '185926bf986c784d03a9a73102da6542': '全屏',
+  '891ec6336d4243714c25eecb2f8f774a': '选项文本',
+  'fb7ea2b05ca7328ee16a562d90c2eb96': '选项字段',
+  '1ca87f0171481e27d94e81b477150b7d': '选项模板',
+  'd6ecb32a380c91887a9346653c2427e9':
+    '自定义选项渲染模板，支持JSX、数据域变量使用',
+  'cb048b2d8426afd464dc01b72c446342': '块级(默认)',
+  '3b6e8d54b7b2ae890d5357b7eaaeaaf2': '不换行(默认)',
+  '0611733b53e0098e6fd880bd44b2806f': '最小高度即当前元素最小的垂直展示区域',
+  '03bfb834c8a5fef58d885e448a4e13b4': '虚拟列表阈值',
+  '50437e080edc71ab624c93d419472919':
+    '当选项数量超过阈值后，会开启虚拟列表以优化性能',
+  '02b9880e1d2df8a07e90e9878080c739': '选项高度',
+  'a3f66655c3d2bcfecc6afba0e4424460': '开启虚拟列表时每个选项的高度'
 });

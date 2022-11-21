@@ -9,19 +9,16 @@ export default class Layout_fixed extends FlexPluginBase {
   tags = ['常见布局'];
   order = 503;
   scaffold: any = {
-    type: 'wrapper',
+    type: 'container',
     size: 'xs',
     body: [],
     style: {
       position: 'fixed',
       inset: 'auto 50px 50px auto',
       zIndex: 10,
-      display: 'flex',
       minWidth: '80px',
       minHeight: '80px',
-      flexDirection: 'column',
-      justifyContent: 'flex-start',
-      alignItems: 'stretch'
+      display: 'block'
     },
     originPosition: 'right-bottom'
   };

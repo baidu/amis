@@ -50,6 +50,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               type: 'wrapper',
               className: 'p-none',
               body: [
+                /**
                 {
                   label: '页面地址',
                   type: 'input-formula',
@@ -60,6 +61,18 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   name: 'url',
                   placeholder: 'http://',
                   mode: 'horizontal',
+                  size: 'lg',
+                  required: true,
+                  visibleOn: 'data.actionType === "url"'
+                },
+                */
+                {
+                  name: 'url',
+                  label: '页面地址',
+                  type: 'ae-textareaFormulaControl',
+                  variables: '${variables}',
+                  mode: 'horizontal',
+                  // placeholder: 'http://', 长文本暂不支持
                   size: 'lg',
                   required: true,
                   visibleOn: 'data.actionType === "url"'
@@ -75,11 +88,10 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                     {
                       name: 'key',
                       placeholder: '参数名',
-                      type: 'input-text',
-                      mode: 'inline',
-                      size: 'xs'
+                      type: 'input-text'
                     },
-                    {
+                    /**
+                     {
                       name: 'val',
                       placeholder: '参数值',
                       type: 'input-formula',
@@ -88,6 +100,14 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                       variableMode: 'tabs',
                       inputMode: 'input-group',
                       size: 'xs'
+                    },
+                     */
+                    {
+                      type: 'ae-formulaControl',
+                      variables: '${variables}',
+                      name: 'val',
+                      variableMode: 'tabs',
+                      placeholder: '参数值'
                     }
                   ]
                 },
@@ -306,23 +326,21 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               </div>
             );
           },
-          schema: getArgsWrapper({
-            type: 'wrapper',
-            className: 'p-none',
-            body: [
-              {
-                type: 'button-group-select',
-                name: 'msgType',
-                label: '消息类型',
-                value: 'info',
-                required: true,
-                mode: 'horizontal',
-                options: Object.keys(MSG_TYPES).map(key => ({
-                  label: MSG_TYPES[key],
-                  value: key,
-                  level: 'default'
-                }))
-              },
+          schema: [
+            {
+              type: 'button-group-select',
+              name: 'msgType',
+              label: '消息类型',
+              value: 'info',
+              required: true,
+              mode: 'horizontal',
+              options: Object.keys(MSG_TYPES).map(key => ({
+                label: MSG_TYPES[key],
+                value: key,
+                level: 'default'
+              }))
+            },
+            /*
               {
                 name: 'msg',
                 label: '消息内容',
@@ -335,81 +353,114 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 size: 'lg',
                 required: true
               },
-              {
-                name: 'title',
-                type: 'input-formula',
-                variables: '${variables}',
-                evalMode: false,
-                variableMode: 'tabs',
-                inputMode: 'input-group',
-                label: '标题内容',
-                size: 'lg',
-                mode: 'horizontal'
+              */
+            {
+              name: 'msg',
+              label: '消息内容',
+              type: 'ae-textareaFormulaControl',
+              mode: 'horizontal',
+              variables: '${variables}',
+              size: 'lg',
+              required: true
+            },
+            /*
+            {
+              name: 'title',
+              type: 'input-formula',
+              variables: '${variables}',
+              evalMode: false,
+              variableMode: 'tabs',
+              inputMode: 'input-group',
+              label: '标题内容',
+              size: 'lg',
+              mode: 'horizontal'
+            },
+            */
+            {
+              name: 'title',
+              label: '标题内容',
+              type: 'ae-textareaFormulaControl',
+              variables: '${variables}',
+              mode: 'horizontal',
+              size: 'lg'
+            },
+            /*
+            {
+              name: 'timeout',
+              type: 'input-formula',
+              variables: '${variables}',
+              evalMode: false,
+              variableMode: 'tabs',
+              inputMode: 'input-group',
+              label: '持续时间(ms)',
+              size: 'lg',
+              mode: 'horizontal'
+            },
+            */
+            {
+              name: 'timeout',
+              label: '持续时间(ms)',
+              type: 'ae-formulaControl',
+              rendererSchema: {
+                type: 'input-number'
               },
-              {
-                name: 'timeout',
-                type: 'input-formula',
-                variables: '${variables}',
-                evalMode: false,
-                variableMode: 'tabs',
-                inputMode: 'input-group',
-                label: '持续时间(ms)',
-                size: 'lg',
-                mode: 'horizontal'
-              },
-              {
-                type: 'button-group-select',
-                name: 'position',
-                value: 'top-right',
-                mode: 'horizontal',
-                label: '显示位置',
-                options: [
-                  {
-                    label: '左上',
-                    value: 'top-left'
-                  },
+              valueType: 'number',
+              variables: '${variables}',
+              size: 'lg',
+              mode: 'horizontal'
+            },
+            {
+              type: 'button-group-select',
+              name: 'position',
+              value: 'top-right',
+              mode: 'horizontal',
+              label: '显示位置',
+              options: [
+                {
+                  label: '左上',
+                  value: 'top-left'
+                },
 
-                  {
-                    label: '中上',
-                    value: 'top-center'
-                  },
+                {
+                  label: '中上',
+                  value: 'top-center'
+                },
 
-                  {
-                    label: '右上',
-                    value: 'top-right'
-                  },
+                {
+                  label: '右上',
+                  value: 'top-right'
+                },
 
-                  {
-                    label: '左下',
-                    value: 'bottom-left'
-                  },
-                  {
-                    label: '中下',
-                    value: 'bottom-center'
-                  },
+                {
+                  label: '左下',
+                  value: 'bottom-left'
+                },
+                {
+                  label: '中下',
+                  value: 'bottom-center'
+                },
 
-                  {
-                    label: '右下',
-                    value: 'bottom-right'
-                  }
-                ]
-              },
-              {
-                type: 'switch',
-                name: 'closeButton',
-                value: true,
-                label: '展示关闭按钮',
-                mode: 'horizontal'
-              },
-              {
-                type: 'switch',
-                name: 'showIcon',
-                value: true,
-                label: '展示图标',
-                mode: 'horizontal'
-              }
-            ]
-          })
+                {
+                  label: '右下',
+                  value: 'bottom-right'
+                }
+              ]
+            },
+            {
+              type: 'switch',
+              name: 'closeButton',
+              value: true,
+              label: '展示关闭按钮',
+              mode: 'horizontal'
+            },
+            {
+              type: 'switch',
+              name: 'showIcon',
+              value: true,
+              label: '展示图标',
+              mode: 'horizontal'
+            }
+          ]
         }
       ]
     },
@@ -833,6 +884,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 form.setValueByName('__valueInput', undefined);
               }
             },
+            /*
             {
               name: '__valueInput',
               type: 'input-formula',
@@ -844,6 +896,17 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               label: '',
               size: 'lg',
               mode: 'horizontal',
+              visibleOn: `data.__addParam && data.__customData && data.__containerType === "all" && data.actionType === "reload" && ${IS_DATA_CONTAINER}`
+            },
+            */
+            {
+              name: '__valueInput',
+              label: '',
+              type: 'ae-formulaControl',
+              variables: '${variables}',
+              size: 'lg',
+              mode: 'horizontal',
+              required: true,
               visibleOn: `data.__addParam && data.__customData && data.__containerType === "all" && data.actionType === "reload" && ${IS_DATA_CONTAINER}`
             },
             {
@@ -866,6 +929,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   valueField: 'value',
                   required: true
                 },
+                /*
                 {
                   name: 'val',
                   type: 'input-formula',
@@ -874,6 +938,13 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   evalMode: false,
                   variableMode: 'tabs',
                   inputMode: 'input-group'
+                }
+                */
+                {
+                  name: 'val',
+                  type: 'ae-formulaControl',
+                  variables: '${variables}',
+                  placeholder: '参数值'
                 }
               ],
               visibleOn: `data.__addParam && data.__customData && data.__containerType === "appoint" && data.actionType === "reload" && ${IS_DATA_CONTAINER}`
@@ -1035,6 +1106,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                       valueField: 'value',
                       required: true
                     },
+                    /*
                     {
                       name: 'val',
                       type: 'input-formula',
@@ -1043,6 +1115,13 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                       evalMode: false,
                       variableMode: 'tabs',
                       inputMode: 'input-group'
+                    }
+                    */
+                    {
+                      name: 'val',
+                      type: 'ae-formulaControl',
+                      variables: '${variables}',
+                      placeholder: '字段值'
                     }
                   ],
                   visibleOn: `${IS_DATA_CONTAINER} && data.__containerType === 'appoint' || data.__comboType === 'appoint'`
@@ -1084,6 +1163,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                           required: true,
                           visibleOn: `data.__rendererName`
                         },
+                        /*
                         {
                           name: 'val',
                           type: 'input-formula',
@@ -1092,11 +1172,18 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                           variableMode: 'tabs',
                           inputMode: 'input-group'
                         }
+                        */
+                        {
+                          name: 'val',
+                          type: 'ae-formulaControl',
+                          variables: '${variables}'
+                        }
                       ]
                     }
                   ],
                   visibleOn: `data.__rendererName === 'combo' && data.__comboType === 'all'`
                 },
+                /*
                 {
                   name: '__valueInput',
                   type: 'input-formula',
@@ -1110,6 +1197,19 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   visibleOn: `(${IS_DATA_CONTAINER} || ${SHOW_SELECT_PROP}) && data.__containerType === 'all'`,
                   required: true
                 },
+                */
+                {
+                  name: '__valueInput',
+                  label: '',
+                  type: 'ae-formulaControl',
+                  variables: '${variables}',
+                  size: 'lg',
+                  mode: 'horizontal',
+                  visibleOn: `(${IS_DATA_CONTAINER} || ${SHOW_SELECT_PROP}) && data.__containerType === 'all'`,
+                  required: true
+                },
+                ,
+                /*
                 {
                   name: '__valueInput',
                   type: 'input-formula',
@@ -1118,6 +1218,17 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   variableMode: 'tabs',
                   inputMode: 'input-group',
                   label: '数据设置',
+                  size: 'lg',
+                  mode: 'horizontal',
+                  visibleOn: `data.__rendererName && !${IS_DATA_CONTAINER} && data.__rendererName !== 'combo'`,
+                  required: true
+                }
+               */
+                {
+                  name: '__valueInput',
+                  label: '数据设置',
+                  type: 'ae-formulaControl',
+                  variables: '${variables}',
                   size: 'lg',
                   mode: 'horizontal',
                   visibleOn: `data.__rendererName && !${IS_DATA_CONTAINER} && data.__rendererName !== 'combo'`,
@@ -1231,7 +1342,8 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             type: 'wrapper',
             className: 'p-none',
             body: [
-              {
+              /*
+               {
                 name: 'content',
                 type: 'input-formula',
                 variables: '${variables}',
@@ -1239,6 +1351,17 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 variableMode: 'tabs',
                 inputMode: 'input-group',
                 label: '内容模板',
+                mode: 'horizontal',
+                size: 'lg',
+                visibleOn: 'data.actionType === "copy"',
+                required: true
+              },
+              */
+              {
+                name: 'content',
+                label: '内容模板',
+                type: 'ae-textareaFormulaControl',
+                variables: '${variables}',
                 mode: 'horizontal',
                 size: 'lg',
                 visibleOn: 'data.actionType === "copy"',
@@ -1281,6 +1404,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               lineNumbers: 'off',
               glyphMargin: false,
               tabSize: 2,
+              fontSize: '12px',
               wordWrap: 'on',
               lineDecorationsWidth: 0,
               lineNumbersMinChars: 0,

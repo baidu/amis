@@ -79,8 +79,7 @@ function transpileDynamicImportForCJS(options) {
       }
 
       return {
-        left:
-          'Promise.resolve().then(function() {return new Promise(function(fullfill) {require([',
+        left: 'Promise.resolve().then(function() {return new Promise(function(fullfill) {require([',
         right: '], function(mod) {fullfill(tslib.__importStar(mod))})})})'
       };
 
@@ -96,7 +95,6 @@ function transpileDynamicImportForCJS(options) {
 }
 
 function getPlugins(format = 'esm') {
-
   const typeScriptOptions = {
     typescript: require('typescript'),
     sourceMap: false,
@@ -142,11 +140,13 @@ function getPlugins(format = 'esm') {
         Copyright 2018<%= moment().format('YYYY') > 2018 ? '-' + moment().format('YYYY') : null %> ${author}
       `
     }),
-    onRollupError((error) => {
+    onRollupError(error => {
       console.warn(`[构建异常]${error}`);
       // 构建异常时，删除 tsconfig.tsbuildinfo
       fs.unlink(path.resolve(__dirname, 'tsconfig.tsbuildinfo'), () => {
-        console.info('[构建异常]已自动删除tsconfig.tsbuildinfo，请重试构建命令。');
+        console.info(
+          '[构建异常]已自动删除tsconfig.tsbuildinfo，请重试构建命令。'
+        );
       });
     })
   ];

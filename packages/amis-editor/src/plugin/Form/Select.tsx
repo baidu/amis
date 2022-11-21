@@ -251,7 +251,11 @@ export class SelectControlPlugin extends BasePlugin {
             title: '选项',
             body: [
               getSchemaTpl('optionControlV2'),
-              getSchemaTpl('menuTpl'),
+              // 模板
+              getSchemaTpl('optionsMenuTpl', {
+                manager: this.manager,
+                onChange: (value: any) => {}
+              }),
               getSchemaTpl('creatable', {
                 formType: 'extend',
                 hiddenOnDefault: true,
@@ -308,7 +312,9 @@ export class SelectControlPlugin extends BasePlugin {
                   '开启后，当选项值未匹配到当前options中的选项时，选项文本飘红'
                 ),
                 name: 'showInvalidMatch'
-              })
+              }),
+              getSchemaTpl('virtualThreshold'),
+              getSchemaTpl('virtualItemHeight')
             ]
           },
           getSchemaTpl('status', {isFormItem: true}),

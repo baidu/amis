@@ -4,12 +4,16 @@ import {
   defaultValue,
   isObject,
   tipedLabel,
-  DSField
+  DSField,
+  EditorManager
 } from 'amis-editor-core';
 import {remarkTpl} from '../component/BaseControl';
 import {SchemaObject} from 'amis/lib/Schema';
 import flatten from 'lodash/flatten';
+import _ from 'lodash';
 import {InputComponentName} from '../component/InputComponentName';
+import {FormulaDateType} from '../renderer/FormulaControl';
+import {VariableItem} from 'amis-ui/lib/components/formula/Editor';
 
 /**
  * @deprecated 兼容当前组件的switch
@@ -345,60 +349,72 @@ setSchemaTpl(
     mode?: string; // 自定义展示默认值，上下展示: vertical, 左右展示: horizontal
     label?: string; // 表单项 label
     name?: string; // 表单项 name
+    header?: string; // 表达式弹窗标题
+    placeholder?: string; // 表达式自定义渲染 占位符
     rendererSchema?: any;
     rendererWrapper?: boolean; // 自定义渲染器 是否需要浅色边框包裹
-    needDeleteValue?: boolean; // 是否需要剔除默认值
+    needDeleteProps?: string[]; // 需要剔除的其他属性，默认 deleteProps 中包含一些通用属性
     useSelectMode?: boolean; // 是否使用Select选择设置模式，需要确保 rendererSchema.options 不为 undefined
     valueType?: string; // 用于设置期望数值类型
     visibleOn?: string; // 用于控制显示的表达式
-    evalMode?: boolean; // 为false时，则会用 ${这里面才是表达式} 包裹变量
+    DateTimeType?: FormulaDateType; // 日期类组件要支持 表达式 & 相对值
+    variables?: Array<VariableItem> | Function; // 自定义变量集合
+    requiredDataPropsVariables?: boolean; // 是否再从amis数据域中取变量结合， 默认 false
+    variableMode?: 'tabs' | 'tree'; // 变量展现模式
+    [key: string]: any; // 其他属性，例如包括表单项pipeIn\Out 等等
   }) => {
-    let curRendererSchema = config?.rendererSchema;
-    if (
-      config?.useSelectMode &&
-      curRendererSchema &&
-      curRendererSchema.options
-    ) {
+    const {
+      rendererSchema,
+      useSelectMode,
+      mode,
+      visibleOn,
+      label,
+      name,
+      rendererWrapper,
+      needDeleteProps,
+      valueType,
+      header,
+      placeholder,
+      DateTimeType,
+      variables,
+      requiredDataPropsVariables,
+      variableMode,
+      ...rest
+    } = config || {};
+    let curRendererSchema = rendererSchema;
+
+    if (useSelectMode && curRendererSchema && curRendererSchema.options) {
       curRendererSchema = {
         ...curRendererSchema,
         type: 'select'
       };
     }
 
-    if (config?.mode === 'vertical') {
-      // 上下展示，可避免 自定义渲染器 出现挤压
-      return {
-        type: 'group',
-        mode: 'vertical',
-        visibleOn: config?.visibleOn,
-        body: [
-          {
-            type: 'ae-formulaControl',
-            label: config?.label ?? '默认值',
-            name: config?.name || 'value',
-            rendererSchema: curRendererSchema,
-            rendererWrapper: config?.rendererWrapper,
-            needDeleteValue: config?.needDeleteValue,
-            valueType: config?.valueType,
-            visibleOn: config?.visibleOn,
-            evalMode: config?.evalMode ?? false // 默认需要${}包裹变量
-          }
-        ]
-      };
-    } else {
+    return {
+      type: 'group',
       // 默认左右展示
-      return {
-        type: 'ae-formulaControl',
-        label: config?.label || '默认值',
-        name: config?.name || 'value',
-        rendererSchema: curRendererSchema,
-        rendererWrapper: config?.rendererWrapper,
-        needDeleteValue: config?.needDeleteValue,
-        valueType: config?.valueType,
-        visibleOn: config?.visibleOn,
-        evalMode: config?.evalMode ?? false // 默认需要${}包裹变量
-      };
-    }
+      // 上下展示，可避免 自定义渲染器 出现挤压
+      mode: mode === 'vertical' ? 'vertical' : 'horizontal',
+      visibleOn,
+      body: [
+        {
+          type: 'ae-formulaControl',
+          label: label ?? '默认值',
+          name: name || 'value',
+          rendererWrapper,
+          needDeleteProps,
+          valueType,
+          header,
+          placeholder,
+          rendererSchema: curRendererSchema,
+          variables,
+          requiredDataPropsVariables,
+          variableMode,
+          DateTimeType: DateTimeType ?? FormulaDateType.NotDate,
+          ...rest
+        }
+      ]
+    };
   }
 );
 
@@ -493,9 +509,80 @@ setSchemaTpl('selectDateRangeType', {
   ]
 });
 
+setSchemaTpl(
+  'optionsMenuTpl',
+  (config: {manager: EditorManager; [key: string]: any}) => {
+    const {manager, ...rest} = config;
+    // 设置 options 中变量集合
+    function getOptionVars(that: any) {
+      let schema = manager.store.valueWithoutHiddenProps;
+      let children = [];
+      if (schema.labelField) {
+        children.push({
+          label: '显示字段',
+          value: schema.labelField,
+          tag: typeof schema.labelField
+        });
+      }
+      if (schema.valueField) {
+        children.push({
+          label: '值字段',
+          value: schema.valueField,
+          tag: typeof schema.valueField
+        });
+      }
+      if (schema.options) {
+        let optionItem = _.reduce(
+          schema.options,
+          function (result, item) {
+            return {...result, ...item};
+          },
+          {}
+        );
+        delete optionItem?.$$id;
+
+        optionItem = _.omit(
+          optionItem,
+          _.map(children, item => item?.label)
+        );
+
+        let otherItem = _.map(_.keys(optionItem), item => ({
+          label:
+            item === 'label' ? '选项文本' : item === 'value' ? '选项值' : item,
+          value: item,
+          tag: typeof optionItem[item]
+        }));
+
+        children.push(...otherItem);
+      }
+      let variablesArr = [
+        {
+          label: '选项字段',
+          children
+        }
+      ];
+      return variablesArr;
+    }
+
+    return {
+      type: 'ae-textareaFormulaControl',
+      mode: 'normal',
+      label: tipedLabel(
+        '选项模板',
+        '自定义选项渲染模板，支持JSX、数据域变量使用'
+      ),
+      name: 'menuTpl',
+      variables: getOptionVars,
+      requiredDataPropsVariables: true,
+      ...rest
+    };
+  }
+);
+
 setSchemaTpl('menuTpl', {
-  type: 'ae-formulaControl',
-  label: tipedLabel('模板', '选项渲染模板，支持JSX，变量使用\\${xx}'),
+  type: 'ae-textareaFormulaControl',
+  mode: 'normal',
+  label: tipedLabel('模板', '自定义选项渲染模板，支持JSX、数据域变量使用'),
   name: 'menuTpl'
 });
 
@@ -1000,6 +1087,7 @@ setSchemaTpl('badge', {
   type: 'ae-badge'
 });
 
+// 暂未使用
 setSchemaTpl('formulaControl', (schema: object = {}) => {
   return {
     type: 'ae-formulaControl',
@@ -1061,7 +1149,8 @@ setSchemaTpl('app-page-args', {
       valueField: 'value',
       required: true
     },
-    {
+    /*
+     {
       name: 'val',
       type: 'input-formula',
       placeholder: '参数值',
@@ -1069,6 +1158,13 @@ setSchemaTpl('app-page-args', {
       evalMode: false,
       variableMode: 'tabs',
       inputMode: 'input-group'
+    }
+     */
+    {
+      name: 'val',
+      type: 'ae-formulaControl',
+      variables: '${variables}',
+      placeholder: '参数值'
     }
   ]
 });
@@ -1091,3 +1187,26 @@ setSchemaTpl(
     });
   }
 );
+
+setSchemaTpl('virtualThreshold', {
+  name: 'virtualThreshold',
+  type: 'input-number',
+  min: 1,
+  step: 1,
+  precision: 0,
+  label: tipedLabel(
+    '虚拟列表阈值',
+    '当选项数量超过阈值后，会开启虚拟列表以优化性能'
+  ),
+  pipeOut: (value: any) => value || undefined
+});
+
+setSchemaTpl('virtualItemHeight', {
+  name: 'itemHeight',
+  type: 'input-number',
+  min: 1,
+  step: 1,
+  precision: 0,
+  label: tipedLabel('选项高度', '开启虚拟列表时每个选项的高度'),
+  pipeOut: (value: any) => value || undefined
+});

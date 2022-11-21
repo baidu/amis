@@ -13,9 +13,16 @@ import isString from 'lodash/isString';
 import isEqual from 'lodash/isEqual';
 import omit from 'lodash/omit';
 import cx from 'classnames';
-import {FormItem, Button, InputBox, Icon, ResultBox} from 'amis';
+import {
+  FormItem,
+  Button,
+  InputBox,
+  Icon,
+  ResultBox,
+  TooltipWrapper
+} from 'amis';
 import {FormulaExec, isExpression} from 'amis';
-import {PickerContainer} from 'amis';
+import {PickerContainer, relativeValueRe} from 'amis';
 import {FormulaEditor} from 'amis-ui/lib/components/formula/Editor';
 
 import {autobind} from 'amis-editor-core';
@@ -27,24 +34,30 @@ import type {
 import {dataMapping, FormControlProps} from 'amis-core';
 import type {BaseEventContext} from 'amis-editor-core';
 import {EditorManager} from 'amis-editor-core';
+import {getVariables} from './textarea-formula/utils';
+
+export enum FormulaDateType {
+  NotDate, // 不是时间类
+  IsDate, // 日期时间类
+  IsRange // 日期时间范围类
+}
 
 export interface FormulaControlProps extends FormControlProps {
-  /**
-   * evalMode 即直接就是表达式，否则
-   * 需要 ${这里面才是表达式}
-   * 默认为 true，即默认不会将表达式用 ${} 包裹
-   */
-  evalMode?: boolean;
-
   manager?: EditorManager;
 
   /**
    * 用于提示的变量集合，默认为空
    */
-  variables?: Array<VariableItem>;
+  variables?: Array<VariableItem> | Function;
 
   /**
-   * 变量展现模式，可选值：'tabs' ｜ 'tree'
+   * 配合 variables 使用
+   * 当 props.variables 存在时， 是否再从 amis数据域中取变量集合，默认 false;
+   */
+  requiredDataPropsVariables?: boolean;
+
+  /**
+   * 变量展现模式，可选值：'tabs' ｜ 'tree', 默认 tabs
    */
   variableMode?: 'tabs' | 'tree';
 
@@ -55,9 +68,14 @@ export interface FormulaControlProps extends FormControlProps {
   functions: Array<FuncGroup>;
 
   /**
-   * 顶部标题，默认为表达式
+   * 弹窗顶部标题，默认为 "表达式"
    */
   header: string;
+
+  /**
+   * 静态输入框的占位提示内容，可用于默认静态输入框 & 自定义自定义渲染器 中
+   */
+  placeholder: string;
 
   /**
    * 编辑器上下文数据，用于获取字段所在Form的其他字段
@@ -103,6 +121,14 @@ export interface FormulaControlProps extends FormControlProps {
    * 是否使用外部的Form数据
    */
   useExternalFormData?: boolean;
+
+  /**
+   * 是否是日期类组件使用formulaControl
+   * 日期类 值 使用表达式时，支持 now、+1day、-2weeks、+1hours、+2years等这种相对值写法，不会最外层包裹 ${}
+   * 日期类 跨度值 使用表达式时，支持 1day、2weeks、1hours、2years等这种相对值写法，不会最外层包裹 ${}
+   * 默认为 FormulaDateType.NotDate
+   */
+  DateTimeType?: FormulaDateType;
 }
 
 interface FormulaControlState {
@@ -110,8 +136,6 @@ interface FormulaControlState {
   variables: any;
 
   variableMode?: 'tree' | 'tabs';
-
-  evalMode?: boolean;
 }
 
 export default class FormulaControl extends React.Component<
@@ -119,37 +143,33 @@ export default class FormulaControl extends React.Component<
   FormulaControlState
 > {
   static defaultProps: Partial<FormulaControlProps> = {
-    simple: false
+    simple: false,
+    rendererWrapper: false,
+    DateTimeType: FormulaDateType.NotDate,
+    requiredDataPropsVariables: false
   };
   isUnmount: boolean;
 
   constructor(props: FormulaControlProps) {
     super(props);
     this.state = {
-      variables: this.normalizeVariables(props.variables), // 备注: 待沟通
-      variableMode: 'tabs',
-      evalMode: true
+      variables: [],
+      variableMode: 'tabs'
     };
   }
 
-  componentDidUpdate(prevProps: FormulaControlProps) {
-    // 优先使用props中的变量数据
-    if (!this.props.variables) {
-      // 从amis数据域中取变量数据
-      this.resolveVariablesFromScope().then(variables => {
-        if (Array.isArray(variables)) {
-          const vars = variables.filter(item => item.children?.length);
-          if (!this.isUnmount && !isEqual(vars, this.state.variables)) {
-            this.setState({
-              variables: vars
-            });
-          }
-        }
-      });
-    }
+  async componentDidMount() {
+    const variablesArr = await getVariables(this);
+    this.setState({
+      variables: variablesArr
+    });
+  }
+
+  async componentDidUpdate(prevProps: FormulaControlProps) {
     if (this.props.data !== prevProps.data) {
+      const variablesArr = await getVariables(this);
       this.setState({
-        variables: dataMapping(this.props.variables, this.props.data)
+        variables: variablesArr
       });
     }
   }
@@ -158,47 +178,22 @@ export default class FormulaControl extends React.Component<
     this.isUnmount = true;
   }
 
-  // 组件默认值设置交互中未使用
-  normalizeVariables(variables: any) {
-    if (!variables) {
-      return [];
-    }
-
-    if (
-      variables &&
-      variables.some((item: any) => isExpression(item.children))
-    ) {
-      variables = dataMapping(variables, this.props.data);
-    }
-
-    const {context, evalMode} = this.props;
-    // 自身字段
-    const field = this.props?.data?.name;
-    const ancestorField = context?.node?.ancestorField;
-
-    return uniqBy(
-      [
-        ...(Array.isArray(variables) ? variables : []),
-        ...(ancestorField
-          ? ancestorField.map((item: any) => ({
-              label: item,
-              value: evalMode ? `this.${item}` : item
-            }))
-          : []),
-        ...(field ? [{label: field, value: `this.${field}`}] : [])
-      ],
-      'value'
-    );
-  }
-
   /**
    * 将 ${xx}（非 \${xx}）替换成 \${xx}
    * 备注: 手动编辑时，自动处理掉 ${xx}，避免识别成 公式表达式
    */
   @autobind
-  replaceExpression(expression: any): any {
+  outReplaceExpression(expression: any): any {
     if (expression && isString(expression) && isExpression(expression)) {
       return expression.replace(/(^|[^\\])\$\{/g, '\\${');
+    }
+    return expression;
+  }
+
+  @autobind
+  inReplaceExpression(expression: any): any {
+    if (expression && isString(expression)) {
+      return expression.replace(/\\\$\{/g, '${');
     }
     return expression;
   }
@@ -209,7 +204,10 @@ export default class FormulaControl extends React.Component<
     if (!expression || !selfName || !isString(expression)) {
       return false;
     }
-    const variables = FormulaExec.collect(expression);
+    let variables = [];
+    try {
+      variables = FormulaExec.collect(expression);
+    } catch (e) {}
     return variables.some((variable: string) => variable === selfName);
   }
 
@@ -267,36 +265,79 @@ export default class FormulaControl extends React.Component<
     return false;
   }
 
-  async resolveVariablesFromScope() {
-    const {node, manager} = this.props.formProps || this.props;
-    await manager?.getContextSchemas(node);
-    const dataPropsAsOptions = manager?.dataSchema?.getDataPropsAsOptions();
+  matchDate(str: string): boolean {
+    const matchDate =
+      /^(.+)?(\+|-)(\d+)(minute|min|hour|day|week|month|year|weekday|second|millisecond)s?$/i;
+    const m = matchDate.exec(str);
+    return m ? (m[1] ? this.matchDate(m[1]) : true) : false;
+  }
 
-    if (dataPropsAsOptions) {
-      return dataPropsAsOptions.map((item: any) => ({
-        selectMode: 'tree',
-        ...item
-      }));
+  matchDateRange(str: string): boolean {
+    if (/^(now|today)$/.test(str)) {
+      return true;
     }
-    return [];
+    return this.matchDate(str);
+  }
+
+  // 日期类组件 & 是否存在快捷键判断
+  @autobind
+  hasDateShortcutkey(str: string): boolean {
+    const {DateTimeType} = this.props;
+
+    if (DateTimeType === FormulaDateType.IsDate) {
+      if (/^(now|today)$/.test(str)) {
+        return true;
+      }
+      return this.matchDate(str);
+    } else if (DateTimeType === FormulaDateType.IsRange) {
+      const start_end = str?.split?.(',');
+      if (start_end && start_end.length === 2) {
+        return (
+          this.matchDateRange(start_end[0].trim()) &&
+          this.matchDateRange(start_end[1].trim())
+        );
+      }
+    }
+    // 非日期类组件使用，也直接false
+    // if (DateTimeType === FormulaDateType.NotDate) {
+    //   return false;
+    // }
+    return false;
+  }
+
+  @autobind
+  transExpr(str: string) {
+    if (
+      typeof str === 'string' &&
+      str?.slice(0, 2) === '${' &&
+      str?.slice(-1) === '}'
+    ) {
+      // 非最外层内容还存在表达式情况
+      if (isExpression(str.slice(2, -1))) {
+        return str;
+      }
+      if (str.lastIndexOf('${') > str.indexOf('}') && str.indexOf('}') > -1) {
+        return str;
+      }
+      return str.slice(2, -1);
+    }
+    return str;
   }
 
   @autobind
   handleConfirm(value: any) {
-    this.props?.onChange?.(value);
+    const val = !value
+      ? undefined
+      : isExpression(value) || this.hasDateShortcutkey(value)
+      ? value
+      : `\${${value}}`;
+    this.props?.onChange?.(val);
   }
 
-  handleSimpleInputChange = debounce(
-    (value: any) => {
-      const curValue = this.replaceExpression(value);
-      this.props?.onChange?.(curValue);
-    },
-    250,
-    {
-      trailing: true,
-      leading: false
-    }
-  );
+  handleSimpleInputChange = (value: any) => {
+    const curValue = this.outReplaceExpression(value);
+    this.props?.onChange?.(curValue);
+  };
 
   handleInputChange = (value: any) => {
     this.props?.onChange?.(value);
@@ -305,12 +346,13 @@ export default class FormulaControl extends React.Component<
   // 剔除掉一些用不上的属性
   @autobind
   filterCustomRendererProps(rendererSchema: any) {
-    const {data, name} = this.props;
+    const {data, name, placeholder} = this.props;
 
     let curRendererSchema: any = null;
     if (rendererSchema) {
       curRendererSchema = Object.assign({}, rendererSchema, data, {
-        type: rendererSchema.type ?? data.type
+        type: rendererSchema.type ?? data.type,
+        name: rendererSchema.name ?? data.name ?? 'value'
       });
 
       // 默认要剔除的字段
@@ -361,27 +403,23 @@ export default class FormulaControl extends React.Component<
       }
       curRendererSchema = omit(curRendererSchema, deleteProps);
 
-      // 避免没有清空icon
-      if (
-        curRendererSchema.clearable !== undefined &&
-        !curRendererSchema.clearable
-      ) {
-        curRendererSchema.clearable = true;
-      }
+      // 设置可清空
+      curRendererSchema.clearable = true;
 
       // 设置统一的占位提示
       if (curRendererSchema.type === 'select') {
-        curRendererSchema.placeholder = '请选择默认值';
+        !curRendererSchema.placeholder &&
+          (curRendererSchema.placeholder = '请选择静态值');
         curRendererSchema.inputClassName =
           'ae-editor-FormulaControl-select-style';
+      } else if (placeholder) {
+        curRendererSchema.placeholder = placeholder;
       } else {
-        curRendererSchema.placeholder = '请输入静态默认值';
+        curRendererSchema.placeholder = '请输入静态值';
       }
-
       // 设置popOverContainer
       curRendererSchema.popOverContainer = window.document.body;
     }
-
     return curRendererSchema;
   }
 
@@ -411,7 +449,6 @@ export default class FormulaControl extends React.Component<
       variables,
       placeholder,
       simple,
-      evalMode,
       rendererSchema,
       rendererWrapper,
       manager,
@@ -420,7 +457,6 @@ export default class FormulaControl extends React.Component<
       ...rest
     } = this.props;
 
-    const labelText = typeof label === 'string' ? label : '';
     // 自身字段
     const selfName = this.props?.data?.name;
 
@@ -437,16 +473,25 @@ export default class FormulaControl extends React.Component<
 
     // 判断是否含有公式表达式
     const isTypeError = !this.isExpectType(value);
+    const exprValue = this.transExpr(value);
 
     const isError = isLoop || isTypeError;
 
     const highlightValue = isExpression(value)
-      ? FormulaEditor.highlightValue(
-          value,
-          this.state.variables,
-          evalMode ?? this.state.evalMode
-        )
+      ? FormulaEditor.highlightValue(exprValue, this.state.variables) || {
+          html: exprValue
+        }
       : value;
+
+    // 公式表达式弹窗内容过滤
+    const filterValue = isExpression(value)
+      ? exprValue
+      : this.hasDateShortcutkey(value)
+      ? value
+      : undefined;
+
+    // 值 是表达式或日期快捷
+    const isFx = !simple && (isExpr || this.hasDateShortcutkey(value));
 
     return (
       <div
@@ -456,51 +501,78 @@ export default class FormulaControl extends React.Component<
           className
         )}
       >
-        {!simple && !rendererSchema && !isExpr && (
-          <InputBox
-            className="ae-editor-FormulaControl-input"
-            value={value}
-            clearable={true}
-            placeholder={placeholder}
-            onChange={this.handleSimpleInputChange}
-          />
-        )}
-        {!simple && rendererSchema && !isExpr && (
-          <div
-            className={cx(
-              'ae-editor-FormulaControl-custom-renderer',
-              rendererWrapper ? 'border-wrapper' : ''
-            )}
-          >
-            {render('inner', this.filterCustomRendererProps(rendererSchema), {
-              inputOnly: true,
-              value: value,
-              data: useExternalFormData
-                ? {
-                    ...this.props.data
-                  }
-                : {},
-              onChange: this.handleSimpleInputChange,
-              manager: manager
-            })}
-          </div>
-        )}
-        {!simple && isExpr && (
-          <ResultBox
-            className={cx(
-              'ae-editor-FormulaControl-ResultBox',
-              isError ? 'is-error' : ''
-            )}
-            allowInput={false}
-            clearable={true}
-            value={value}
-            result={highlightValue}
-            itemRender={this.renderFormulaValue}
-            onChange={this.handleInputChange}
-            onResultChange={() => {
-              this.handleInputChange(undefined);
+        {/* 非简单模式 & 非表达式 & 非日期快捷 & 无自定义渲染 */}
+        {!simple &&
+          !isExpr &&
+          !this.hasDateShortcutkey(value) &&
+          !rendererSchema && (
+            <InputBox
+              className="ae-editor-FormulaControl-input"
+              value={this.inReplaceExpression(value)}
+              clearable={true}
+              placeholder={placeholder ?? '请输入静态值'}
+              onChange={this.handleSimpleInputChange}
+            />
+          )}
+        {/* 非简单模式 & 非表达式 & 非日期快捷 & 自定义渲染 */}
+        {!simple &&
+          !isExpr &&
+          !this.hasDateShortcutkey(value) &&
+          rendererSchema && (
+            <div
+              className={cx(
+                'ae-editor-FormulaControl-custom-renderer',
+                rendererWrapper ? 'border-wrapper' : ''
+              )}
+            >
+              {render('inner', this.filterCustomRendererProps(rendererSchema), {
+                inputOnly: true,
+                value: this.inReplaceExpression(value),
+                data: useExternalFormData
+                  ? {
+                      ...this.props.data
+                    }
+                  : {},
+                onChange: this.handleSimpleInputChange,
+                manager: manager
+              })}
+            </div>
+          )}
+        {/* 非简单模式 &（表达式 或 日期快捷）*/}
+        {isFx && (
+          <TooltipWrapper
+            trigger="hover"
+            placement="top"
+            style={{fontSize: '12px'}}
+            tooltip={{
+              tooltipTheme: 'dark',
+              mouseLeaveDelay: 20,
+              content: exprValue,
+              children: () => this.renderFormulaValue(highlightValue)
             }}
-          />
+          >
+            <div className="ae-editor-FormulaControl-tooltipBox">
+              <ResultBox
+                className={cx(
+                  'ae-editor-FormulaControl-ResultBox',
+                  isError ? 'is-error' : ''
+                )}
+                allowInput={false}
+                clearable={true}
+                value={value}
+                result={{
+                  html: this.hasDateShortcutkey(value)
+                    ? '已配置相对值'
+                    : '已配置表达式'
+                }}
+                itemRender={this.renderFormulaValue}
+                onChange={this.handleInputChange}
+                onResultChange={() => {
+                  this.handleInputChange(undefined);
+                }}
+              />
+            </div>
+          </TooltipWrapper>
         )}
         <PickerContainer
           showTitle={false}
@@ -514,11 +586,11 @@ export default class FormulaControl extends React.Component<
             return (
               <FormulaEditor
                 {...rest}
-                evalMode={evalMode ?? this.state.evalMode}
+                evalMode={true}
                 variableMode={rest.variableMode ?? this.state.variableMode}
                 variables={this.state.variables}
-                header={header || labelText}
-                value={isString(value) ? value : undefined}
+                header={header || '表达式'}
+                value={filterValue}
                 onChange={onChange}
                 selfVariableName={selfName}
               />
@@ -530,26 +602,26 @@ export default class FormulaControl extends React.Component<
         >
           {({onClick}: {onClick: (e: React.MouseEvent) => void}) => (
             <Button
+              className="ae-editor-FormulaControl-button"
               size="sm"
-              tooltip={'点击配置表达式'}
-              tooltipPlacement="left"
+              tooltip={{
+                enterable: false,
+                content: '点击配置表达式',
+                placement: 'left',
+                mouseLeaveDelay: 0
+              }}
               onClick={onClick}
               // active={simple && value} // 不需要，避免 hover 时无任何反馈效果
             >
               <Icon
                 icon="function"
                 className={cx('ae-editor-FormulaControl-icon', 'icon', {
-                  ['is-filled']: !!value
+                  ['is-filled']: !!isFx
                 })}
               />
             </Button>
           )}
         </PickerContainer>
-        {isExpr && !isError && (
-          <div className="desc-msg info-msg" title={value}>
-            {value}
-          </div>
-        )}
         {isError && (
           <div className="desc-msg error-msg">
             {isLoop ? '当前表达式异常（存在循环引用）' : '数值类型不匹配'}

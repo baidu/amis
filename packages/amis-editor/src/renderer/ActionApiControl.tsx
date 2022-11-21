@@ -12,7 +12,7 @@ import {autobind, isObject, anyChanged, createObject} from 'amis-editor-core';
 import {tipedLabel} from 'amis-editor-core';
 
 import type {SchemaObject, SchemaCollection, SchemaApi} from 'amis/lib/Schema';
-import type {Api} from 'amis/lib/types';
+import type {Api} from 'amis';
 import type {FormControlProps} from 'amis-core';
 import type {ActionSchema} from 'amis/lib/renderers/Action';
 

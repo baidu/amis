@@ -18,10 +18,7 @@ export default class Layout1_2_v4 extends FlexPluginBase {
         body: [],
         style: {
           flex: '0 0 auto',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'flex-start',
-          alignItems: 'stretch'
+          display: 'block'
         }
       },
       {
@@ -34,10 +31,7 @@ export default class Layout1_2_v4 extends FlexPluginBase {
             style: {
               flex: '0 0 auto',
               flexBasis: '250px',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'flex-start',
-              alignItems: 'stretch'
+              display: 'block'
             }
           },
           {

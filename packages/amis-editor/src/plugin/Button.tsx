@@ -132,14 +132,15 @@ export class ButtonPlugin extends BasePlugin {
                 formType: 'extend',
                 label: tipedLabel(
                   '二次确认',
-                  '点击后先询问用户，由手动确认后再执行动作，避免误触。可用<code>\\${xxx}</code>取值。'
+                  '点击后先询问用户，由手动确认后再执行动作，避免误触。可从数据域变量中取值。'
                 ),
                 form: {
                   body: [
                     {
-                      name: 'confirmText',
-                      type: 'input-text',
-                      label: '确认内容'
+                      type: 'ae-textareaFormulaControl',
+                      label: '确认内容',
+                      mode: 'normal',
+                      name: 'confirmText'
                     }
                   ]
                 }
@@ -154,19 +155,21 @@ export class ButtonPlugin extends BasePlugin {
                 form: {
                   body: [
                     {
-                      type: 'input-text',
+                      type: 'ae-textareaFormulaControl',
                       name: 'tooltip',
+                      mode: 'normal',
                       label: tipedLabel(
                         '正常提示',
-                        '正常状态下的提示内容，不填则不弹出提示。可用<code>\\${xxx}</code>取值。'
+                        '正常状态下的提示内容，不填则不弹出提示。可从数据域变量中取值。'
                       )
                     },
                     {
-                      type: 'input-text',
+                      type: 'ae-textareaFormulaControl',
                       name: 'disabledTip',
+                      mode: 'normal',
                       label: tipedLabel(
                         '禁用提示',
-                        '禁用状态下的提示内容，不填则弹出正常提示。可用<code>\\${xxx}</code>取值。'
+                        '禁用状态下的提示内容，不填则弹出正常提示。可从数据域变量中取值。'
                       ),
                       clearValueOnHidden: true,
                       visibleOn: 'data.tooltipTrigger !== "focus"'

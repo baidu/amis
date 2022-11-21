@@ -293,6 +293,7 @@ export class Table2Plugin extends BasePlugin {
       actionLabel: '设置选中项',
       description: '设置表格的选中项',
       schema: getArgsWrapper([
+        /*
         {
           type: 'input-formula',
           variables: '${variables}',
@@ -301,6 +302,15 @@ export class Table2Plugin extends BasePlugin {
           label: '选中项',
           size: 'lg',
           name: 'selected',
+          mode: 'horizontal'
+        }
+        */
+        {
+          name: 'selected',
+          label: '选中项',
+          type: 'ae-formulaControl',
+          variables: '${variables}',
+          size: 'lg',
           mode: 'horizontal'
         }
       ])

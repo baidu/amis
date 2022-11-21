@@ -54,9 +54,14 @@ setSchemaTpl(
         if (value === 'static') {
           form.setValueByName('style.inset', undefined);
           form.setValueByName('style.zIndex', undefined);
+          form.setValueByName('originPosition', undefined);
         } else if (value === 'fixed' || value === 'absolute') {
           // 默认使用右下角进行相对定位
           form.setValueByName('style.inset', 'auto 50px 50px auto');
+          form.setValueByName('originPosition', 'right-bottom');
+        } else if (value === 'relative') {
+          form.setValueByName('style.inset', 'auto');
+          form.setValueByName('originPosition', undefined);
         }
       },
       options: [
@@ -138,7 +143,6 @@ setSchemaTpl(
         };
       },
       pipeOut: (value: any) => {
-        console.log('pipeOut:', value);
         return `${value.insetTop ?? 'auto'} ${value.insetRight ?? 'auto'} ${
           value.insetBottom ?? 'auto'
         } ${value.insetLeft ?? 'auto'}`;
@@ -246,7 +250,7 @@ setSchemaTpl(
       },
       options: [
         {
-          label: '默认',
+          label: '块级(默认)',
           value: 'block'
         },
         {
@@ -508,7 +512,7 @@ setSchemaTpl(
       pipeOut: config?.pipeOut,
       options: [
         {
-          label: '默认（不换行）',
+          label: '不换行(默认)',
           value: 'nowrap'
         },
         {
@@ -588,7 +592,15 @@ setSchemaTpl(
       clearable: true,
       unitOptions: config?.unitOptions ?? LayoutUnitOptions,
       pipeIn: config?.pipeIn,
-      pipeOut: config?.pipeOut
+      // pipeOut: config?.pipeOut,
+      pipeOut: (value: string) => {
+        const curValue = parseInt(value);
+        if (curValue || curValue === 0) {
+          return value;
+        } else {
+          return undefined;
+        }
+      }
     };
   }
 );
@@ -681,7 +693,15 @@ setSchemaTpl(
       clearable: true,
       unitOptions: config?.unitOptions ?? LayoutUnitOptions,
       pipeIn: config?.pipeIn,
-      pipeOut: config?.pipeOut
+      // pipeOut: config?.pipeOut,
+      pipeOut: (value: string) => {
+        const curValue = parseInt(value);
+        if (curValue || curValue === 0) {
+          return value;
+        } else {
+          return undefined;
+        }
+      }
     };
   }
 );
@@ -712,7 +732,15 @@ setSchemaTpl(
       clearable: true,
       unitOptions: config?.unitOptions ?? LayoutUnitOptions,
       pipeIn: config?.pipeIn,
-      pipeOut: config?.pipeOut
+      // pipeOut: config?.pipeOut
+      pipeOut: (value: string) => {
+        const curValue = parseInt(value);
+        if (curValue || curValue === 0) {
+          return value;
+        } else {
+          return undefined;
+        }
+      }
     };
   }
 );
@@ -743,7 +771,15 @@ setSchemaTpl(
       clearable: true,
       unitOptions: config?.unitOptions ?? LayoutUnitOptions,
       pipeIn: config?.pipeIn,
-      pipeOut: config?.pipeOut
+      // pipeOut: config?.pipeOut
+      pipeOut: (value: string) => {
+        const curValue = parseInt(value);
+        if (curValue || curValue === 0) {
+          return value;
+        } else {
+          return undefined;
+        }
+      }
     };
   }
 );
@@ -848,7 +884,15 @@ setSchemaTpl(
       clearable: true,
       unitOptions: config?.unitOptions ?? LayoutUnitOptions,
       pipeIn: config?.pipeIn,
-      pipeOut: config?.pipeOut
+      // pipeOut: config?.pipeOut
+      pipeOut: (value: string) => {
+        const curValue = parseInt(value);
+        if (curValue || curValue === 0) {
+          return value;
+        } else {
+          return undefined;
+        }
+      }
     };
   }
 );
@@ -879,7 +923,15 @@ setSchemaTpl(
       clearable: true,
       unitOptions: config?.unitOptions ?? LayoutUnitOptions,
       pipeIn: config?.pipeIn,
-      pipeOut: config?.pipeOut
+      // pipeOut: config?.pipeOut
+      pipeOut: (value: string) => {
+        const curValue = parseInt(value);
+        if (curValue || curValue === 0) {
+          return value;
+        } else {
+          return undefined;
+        }
+      }
     };
   }
 );
@@ -900,7 +952,7 @@ setSchemaTpl(
       type: 'input-number',
       label:
         config?.label ||
-        tipedLabel('最小高度', '最小宽度即当前元素最小的垂直展示区域'),
+        tipedLabel('最小高度', '最小高度即当前元素最小的垂直展示区域'),
       name: config?.name || 'style.minHeight',
       value: config?.value,
       max: '${style.maxHeight | toInt}',
@@ -910,7 +962,15 @@ setSchemaTpl(
       clearable: true,
       unitOptions: config?.unitOptions ?? LayoutUnitOptions,
       pipeIn: config?.pipeIn,
-      pipeOut: config?.pipeOut
+      // pipeOut: config?.pipeOut
+      pipeOut: (value: string) => {
+        const curValue = parseInt(value);
+        if (curValue || curValue === 0) {
+          return value;
+        } else {
+          return undefined;
+        }
+      }
     };
   }
 );

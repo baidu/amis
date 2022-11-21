@@ -19,10 +19,7 @@ export default class Layout_scroll_y extends FlexPluginBase {
         style: {
           flex: '0 0 auto',
           flexBasis: '60px',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'flex-start',
-          alignItems: 'stretch',
+          display: 'block',
           minWidth: 'auto',
           minHeight: 'auto'
         }
@@ -34,10 +31,7 @@ export default class Layout_scroll_y extends FlexPluginBase {
         style: {
           flex: '0 0 auto',
           flexBasis: '60px',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'flex-start',
-          alignItems: 'stretch',
+          display: 'block',
           position: 'static',
           minWidth: 'auto',
           minHeight: 'auto'
@@ -50,10 +44,7 @@ export default class Layout_scroll_y extends FlexPluginBase {
         style: {
           flex: '0 0 auto',
           flexBasis: '60px',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'flex-start',
-          alignItems: 'stretch',
+          display: 'block',
           position: 'static',
           minWidth: 'auto',
           minHeight: 'auto'
@@ -66,10 +57,7 @@ export default class Layout_scroll_y extends FlexPluginBase {
         style: {
           flex: '0 0 auto',
           flexBasis: '60px',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'flex-start',
-          alignItems: 'stretch',
+          display: 'block',
           position: 'static',
           minWidth: 'auto',
           minHeight: 'auto'
@@ -82,10 +70,7 @@ export default class Layout_scroll_y extends FlexPluginBase {
         style: {
           flex: '0 0 auto',
           flexBasis: '60px',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'flex-start',
-          alignItems: 'stretch',
+          display: 'block',
           position: 'static',
           minWidth: 'auto',
           minHeight: 'auto'
@@ -98,10 +83,7 @@ export default class Layout_scroll_y extends FlexPluginBase {
         style: {
           flex: '0 0 auto',
           flexBasis: '60px',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'flex-start',
-          alignItems: 'stretch',
+          display: 'block',
           position: 'static',
           minWidth: 'auto',
           minHeight: 'auto'
