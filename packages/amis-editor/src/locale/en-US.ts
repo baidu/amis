@@ -3533,5 +3533,11 @@ extendLocale('en-US', {
   'cb048b2d8426afd464dc01b72c446342': 'Block level (default)',
   '3b6e8d54b7b2ae890d5357b7eaaeaaf2': 'No line breaks (default)',
   '0611733b53e0098e6fd880bd44b2806f':
-    'The minimum height is the smallest vertical display area of the current element'
+    'The minimum height is the smallest vertical display area of the current element',
+  '03bfb834c8a5fef58d885e448a4e13b4': 'Virtual List Threshold',
+  '50437e080edc71ab624c93d419472919':
+    'When the number of options exceeds the threshold, the virtual list is opened to optimize performance',
+  '02b9880e1d2df8a07e90e9878080c739': 'Option Height',
+  'a3f66655c3d2bcfecc6afba0e4424460':
+    'Height of each option when virtual list is turned on'
 });

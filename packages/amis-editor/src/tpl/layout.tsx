@@ -54,11 +54,14 @@ setSchemaTpl(
         if (value === 'static') {
           form.setValueByName('style.inset', undefined);
           form.setValueByName('style.zIndex', undefined);
+          form.setValueByName('originPosition', undefined);
         } else if (value === 'fixed' || value === 'absolute') {
           // 默认使用右下角进行相对定位
           form.setValueByName('style.inset', 'auto 50px 50px auto');
+          form.setValueByName('originPosition', 'right-bottom');
         } else if (value === 'relative') {
           form.setValueByName('style.inset', 'auto');
+          form.setValueByName('originPosition', undefined);
         }
       },
       options: [
@@ -589,7 +592,15 @@ setSchemaTpl(
       clearable: true,
       unitOptions: config?.unitOptions ?? LayoutUnitOptions,
       pipeIn: config?.pipeIn,
-      pipeOut: config?.pipeOut
+      // pipeOut: config?.pipeOut,
+      pipeOut: (value: string) => {
+        const curValue = parseInt(value);
+        if (curValue || curValue === 0) {
+          return value;
+        } else {
+          return undefined;
+        }
+      }
     };
   }
 );
