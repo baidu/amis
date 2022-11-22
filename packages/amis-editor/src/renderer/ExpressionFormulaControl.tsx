@@ -84,8 +84,11 @@ export default class ExpressionFormulaControl extends React.Component<
 
   @autobind
   initFormulaPickerValue(value: string) {
-    const formulaPickerValue =
-      value?.replace(/^\$\{(.*)\}$/, (match: string, p1: string) => p1) || '';
+    let formulaPickerValue = value;
+    if (this.props.evalMode) {
+      formulaPickerValue =
+        value?.replace(/^\$\{(.*)\}$/, (match: string, p1: string) => p1) || '';
+    }
     this.setState({
       formulaPickerValue
     });
