@@ -609,7 +609,7 @@ setSchemaTpl(
   }
 );
 
-// flex-grow 占比设置
+// flex-grow 弹性比例
 setSchemaTpl(
   'layout:flex-grow',
   (config?: {
@@ -627,7 +627,7 @@ setSchemaTpl(
       label:
         config?.label ||
         tipedLabel(
-          '占比设置',
+          '弹性比例',
           '定义项目的放大比例，默认为0，即如果存在剩余空间，也不放大。'
         ),
       name: config?.name || 'style.flexGrow',

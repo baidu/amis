@@ -3540,5 +3540,6 @@ extendLocale('en-US', {
   '02b9880e1d2df8a07e90e9878080c739': 'Option Height',
   'a3f66655c3d2bcfecc6afba0e4424460':
     'Height of each option when virtual list is turned on',
-  '183f00df0922a6be371fea58cd46a60a': 'Elastic height'
+  '183f00df0922a6be371fea58cd46a60a': 'Elastic height',
+  '9e7c8d1554f6449121a83f951cf21ca1': 'Elastic scale'
 });
