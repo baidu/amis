@@ -696,7 +696,6 @@ export class DialogRenderer extends Dialog {
     rawAction?: ActionObject
   ) {
     const scoped = this.context as IScopedContext;
-
     const targets: Array<any> = [];
     const {onConfirm, store} = this.props;
 
@@ -709,7 +708,8 @@ export class DialogRenderer extends Dialog {
       );
     }
 
-    if (!targets.length) {
+    /** 如果为隔离动作, 则不做联动处理, 继续交给handleAction */
+    if (action?.isolateScope !== true && !targets.length) {
       let components = scoped
         .getComponents()
         .filter(item => !~['drawer', 'dialog'].indexOf(item.props.type));

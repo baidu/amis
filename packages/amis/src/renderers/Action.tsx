@@ -182,6 +182,11 @@ export interface AjaxActionSchema extends ButtonSchema {
   reload?: SchemaReload;
   redirect?: string;
   ignoreConfirm?: boolean;
+
+  /**
+   * 是否开启请求隔离, 主要用于隔离联动CRUD, Service的请求
+   */
+  isolateScope?: boolean;
 }
 
 export interface DownloadActionSchema
@@ -416,7 +421,8 @@ const ActionProps = [
   'payload',
   'requireSelected',
   'countDown',
-  'fileName'
+  'fileName',
+  'isolateScope'
 ];
 import {filterContents} from './Remark';
 import {ClassNamesFn, themeable, ThemeProps} from 'amis-core';
