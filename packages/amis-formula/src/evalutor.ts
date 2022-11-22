@@ -438,7 +438,9 @@ export class Evaluator {
   funcCall(this: any, ast: {identifier: string; args: Array<any>}) {
     const fnName = `fn${ast.identifier}`;
     const fn =
-      this.functions[fnName] || this[fnName] || this.filters[ast.identifier];
+      this.functions.hasOwnProperty(fnName) ||
+      this.hasOwnProperty(fnName) ||
+      this.filters.hasOwnProperty(ast.identifier);
 
     if (!fn) {
       throw new Error(`${ast.identifier}函数没有定义`);
