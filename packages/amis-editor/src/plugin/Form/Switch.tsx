@@ -184,14 +184,21 @@ export class SwitchControlPlugin extends BasePlugin {
                 rendererSchema: context?.schema,
                 needDeleteProps: ['option'],
                 rendererWrapper: true, // 浅色线框包裹一下，增加边界感
-                valueType: 'boolean',
+                // valueType: 'boolean',
                 pipeIn: (value: any, data: any) => {
-                  const {trueValue = true} = data.data || {};
-                  return value === trueValue ? true : false;
+                  const {trueValue = true, falseValue = false} =
+                    data.data || {};
+                  return value === trueValue
+                    ? true
+                    : value === falseValue
+                    ? false
+                    : value;
                 },
                 pipeOut: (value: any, origin: any, data: any) => {
-                  return value
+                  return value && value === (data.trueValue || true)
                     ? data.trueValue || true
+                    : value && value !== (data.falseValue || false)
+                    ? value
                     : data.falseValue || false;
                 }
               }),

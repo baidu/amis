@@ -215,6 +215,7 @@ export class TabsTransferPlugin extends BasePlugin {
       multiple: true,
       multiLine: true,
       draggable: true,
+      mode: 'normal',
       addButtonText: '新增选项',
       scaffold: {
         label: '',
