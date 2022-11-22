@@ -27,7 +27,7 @@ interface ExpressionFormulaControlProps extends FormControlProps {
    */
   variableMode?: 'tabs' | 'tree';
   /**
-   * 表达式最外层是否使用 ${} 来包裹，默认 false
+   * 表达式最外层是否使用 ${} 来包裹，默认 true
    */
   evalMode: boolean;
 }
@@ -45,7 +45,7 @@ export default class ExpressionFormulaControl extends React.Component<
   static defaultProps: Partial<ExpressionFormulaControlProps> = {
     variableMode: 'tabs',
     requiredDataPropsVariables: false,
-    evalMode: false
+    evalMode: true
   };
 
   isUnmount: boolean;

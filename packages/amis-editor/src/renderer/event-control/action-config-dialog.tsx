@@ -300,6 +300,7 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
                             name: 'expression',
                             label: '执行条件',
                             type: 'ae-expressionFormulaControl',
+                            evalMode: true,
                             variables: '${variables}',
                             mode: 'horizontal',
                             size: 'lg',
