@@ -31,7 +31,7 @@ export class RegionWrapper extends React.Component<RegionWrapperProps> {
   editorNode: EditorNodeType;
 
   UNSAFE_componentWillMount() {
-    this.parentNode = this.context!;
+    this.parentNode = (this.context as any)!;
 
     /**
      * 当前parent为空时尝试通过节点id获取当前上下文

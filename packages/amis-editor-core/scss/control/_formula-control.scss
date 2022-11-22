@@ -2,11 +2,13 @@ div.ae-editor-FormulaControl {
   position: relative;
   @include flexBox();
   align-items: stretch;
+  max-width: 100%;
 }
 .ae-editor-FormulaControl {
   & > &-button {
     height: auto;
     background-color: #f7f7f9;
+    padding: 4px 8px;
     border-radius: 0 var(--button-size-sm-top-left-border-radius)
       var(--button-size-sm-bottom-right-border-radius) 0;
     border-left: 0;

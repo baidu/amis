@@ -53,7 +53,7 @@ export function makeWrapper(
     }
 
     UNSAFE_componentWillMount() {
-      const parent: EditorNodeType = this.context || store.root;
+      const parent: EditorNodeType = (this.context as any) || store.root;
       if (!info.id) {
         return;
       }
@@ -127,7 +127,7 @@ export function makeWrapper(
 
     componentWillUnmount() {
       if (this.editorNode && isAlive(this.editorNode)) {
-        const parent: EditorNodeType = this.context || store.root;
+        const parent: EditorNodeType = (this.context as any) || store.root;
         parent.removeChild(this.editorNode);
       }
 
@@ -183,7 +183,9 @@ export function makeWrapper(
         : NodeWrapper; /*)*/
 
       return (
-        <EditorNodeContext.Provider value={this.editorNode || this.context}>
+        <EditorNodeContext.Provider
+          value={this.editorNode || (this.context as any)}
+        >
           <Wrapper
             {...rest}
             render={this.renderChild}
