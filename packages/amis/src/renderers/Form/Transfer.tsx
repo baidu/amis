@@ -25,7 +25,7 @@ import {resolveVariable} from 'amis-core';
 import {FormOptionsSchema, SchemaApi, SchemaObject} from '../../Schema';
 import {Selection as BaseSelection} from 'amis-ui';
 import {ResultList} from 'amis-ui';
-import {ActionObject} from 'amis-core';
+import {ActionObject, toNumber} from 'amis-core';
 import type {ItemRenderStates} from 'amis-ui/lib/components/Selection';
 import {supportStatic} from './StaticHoc';
 
@@ -513,7 +513,9 @@ export class BaseTransferRenderer<
           onSelectAll={this.onSelectAll}
           onRef={this.getRef}
           virtualThreshold={virtualThreshold}
-          itemHeight={itemHeight}
+          itemHeight={
+            toNumber(itemHeight) > 0 ? toNumber(itemHeight) : undefined
+          }
         />
 
         <Spinner overlay key="info" show={loading} />

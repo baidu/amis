@@ -153,7 +153,9 @@ export class TabsTransfer extends React.Component<
       onChange,
       option2value,
       cellRender,
-      optionItemRender
+      optionItemRender,
+      itemHeight,
+      virtualThreshold
     } = this.props;
     const options = searchResult || [];
     const mode = searchResultMode;
@@ -169,6 +171,8 @@ export class TabsTransfer extends React.Component<
         onChange={onChange}
         option2value={option2value}
         cellRender={cellRender}
+        itemHeight={itemHeight}
+        virtualThreshold={virtualThreshold}
       />
     ) : mode === 'tree' ? (
       <TreeCheckboxes
@@ -187,6 +191,8 @@ export class TabsTransfer extends React.Component<
                 })
             : undefined
         }
+        itemHeight={itemHeight}
+        virtualThreshold={virtualThreshold}
       />
     ) : mode === 'chained' ? (
       <ChainedCheckboxes
@@ -205,6 +211,8 @@ export class TabsTransfer extends React.Component<
                 })
             : undefined
         }
+        itemHeight={itemHeight}
+        virtualThreshold={virtualThreshold}
       />
     ) : (
       <ListCheckboxes
@@ -223,6 +231,8 @@ export class TabsTransfer extends React.Component<
                 })
             : undefined
         }
+        itemHeight={itemHeight}
+        virtualThreshold={virtualThreshold}
       />
     );
   }
@@ -301,7 +311,9 @@ export class TabsTransfer extends React.Component<
       onLeftDeferLoad,
       cellRender,
       translate: __,
-      optionItemRender
+      optionItemRender,
+      itemHeight,
+      virtualThreshold
     } = this.props;
 
     return option.selectMode === 'table' ? (
@@ -316,6 +328,8 @@ export class TabsTransfer extends React.Component<
         option2value={option2value}
         onDeferLoad={onDeferLoad}
         cellRender={cellRender}
+        itemHeight={itemHeight}
+        virtualThreshold={virtualThreshold}
       />
     ) : option.selectMode === 'tree' ? (
       <TreeCheckboxes
@@ -336,6 +350,8 @@ export class TabsTransfer extends React.Component<
                 })
             : undefined
         }
+        itemHeight={itemHeight}
+        virtualThreshold={virtualThreshold}
       />
     ) : option.selectMode === 'chained' ? (
       <ChainedCheckboxes
@@ -357,6 +373,8 @@ export class TabsTransfer extends React.Component<
                 })
             : undefined
         }
+        itemHeight={itemHeight}
+        virtualThreshold={virtualThreshold}
       />
     ) : option.selectMode === 'associated' ? (
       <AssociatedCheckboxes
@@ -381,6 +399,8 @@ export class TabsTransfer extends React.Component<
                 })
             : undefined
         }
+        itemHeight={itemHeight}
+        virtualThreshold={virtualThreshold}
       />
     ) : (
       <ListCheckboxes
@@ -401,6 +421,8 @@ export class TabsTransfer extends React.Component<
                 })
             : undefined
         }
+        itemHeight={itemHeight}
+        virtualThreshold={virtualThreshold}
       />
     );
   }
