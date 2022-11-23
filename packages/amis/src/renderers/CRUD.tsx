@@ -599,6 +599,14 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     clearTimeout(this.timer);
   }
 
+  /** 查找CRUD最近层级的父窗口 */
+  getClosestParentContainer() {
+    const dom = findDOMNode(this) as HTMLElement;
+    const overlay = dom?.closest('[role=dialog]');
+
+    return overlay;
+  }
+
   controlRef(control: any) {
     // 因为 control 有可能被 n 层 hoc 包裹。
     while (control && control.getWrappedInstance) {
@@ -1739,9 +1747,10 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       return null;
     }
 
+    const container = this.getClosestParentContainer();
     const extraProps: Pick<
       PaginationProps,
-      'showPageInput' | 'maxButtons' | 'layout'
+      'showPageInput' | 'maxButtons' | 'layout' | 'popOverContainerSelector'
     > = {};
 
     /** 优先级：showPageInput显性配置 > (lastPage > 9) */
@@ -1752,6 +1761,9 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         showPageInput === true || (lastPage > 9 && showPageInput == null);
       extraProps.maxButtons = (toolbar as Schema).maxButtons;
       extraProps.layout = (toolbar as Schema).layout;
+      extraProps.popOverContainerSelector = (
+        toolbar as Schema
+      ).popOverContainerSelector;
     } else {
       extraProps.showPageInput = lastPage > 9;
     }
@@ -1770,6 +1782,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             hasNext: store.hasNext,
             mode: store.mode,
             perPage: store.perPage,
+            popOverContainer: container,
             onPageChange: this.handleChangePage
           }
         )}
@@ -1821,6 +1834,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         value: item + ''
       })
     );
+    const container = this.getClosestParentContainer();
 
     return (
       <div className={cx('Crud-pageSwitch')}>
@@ -1833,6 +1847,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           value={store.perPage + ''}
           onChange={(value: any) => this.handleChangePage(1, value.value)}
           clearable={false}
+          popOverContainer={container}
         />
       </div>
     );
