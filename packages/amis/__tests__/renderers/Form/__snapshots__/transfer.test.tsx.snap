@@ -489,42 +489,38 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
                               />
                             </div>
                           </div>
-                          <ul
-                            class="cxd-Tree-sublist"
+                        </li>
+                        <li
+                          class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                        >
+                          <div
+                            class="cxd-Tree-itemLabel"
                           >
-                            <li
-                              class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                            <span
+                              class="cxd-Tree-itemArrowPlaceholder"
+                            />
+                            <div
+                              class="cxd-Tree-itemLabel-item"
                             >
-                              <div
-                                class="cxd-Tree-itemLabel"
+                              <i
+                                class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
                               >
-                                <span
-                                  class="cxd-Tree-itemArrowPlaceholder"
+                                <icon-mock
+                                  classname="icon icon-file"
+                                  icon="file"
                                 />
-                                <div
-                                  class="cxd-Tree-itemLabel-item"
-                                >
-                                  <i
-                                    class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
-                                  >
-                                    <icon-mock
-                                      classname="icon icon-file"
-                                      icon="file"
-                                    />
-                                  </i>
-                                  <span
-                                    class="cxd-Tree-itemText"
-                                    title="诸葛亮"
-                                  >
-                                    诸葛亮
-                                  </span>
-                                  <div
-                                    class="cxd-Tree-item-icons"
-                                  />
-                                </div>
-                              </div>
-                            </li>
-                          </ul>
+                              </i>
+                              <span
+                                class="cxd-Tree-itemText"
+                                title="诸葛亮"
+                              >
+                                诸葛亮
+                              </span>
+                              <div
+                                class="cxd-Tree-item-icons"
+                              />
+                            </div>
+                          </div>
                         </li>
                         <li
                           class="cxd-Tree-item "
@@ -562,74 +558,70 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
                               />
                             </div>
                           </div>
-                          <ul
-                            class="cxd-Tree-sublist"
+                        </li>
+                        <li
+                          class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                        >
+                          <div
+                            class="cxd-Tree-itemLabel"
                           >
-                            <li
-                              class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                            <span
+                              class="cxd-Tree-itemArrowPlaceholder"
+                            />
+                            <div
+                              class="cxd-Tree-itemLabel-item"
                             >
-                              <div
-                                class="cxd-Tree-itemLabel"
+                              <i
+                                class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
                               >
-                                <span
-                                  class="cxd-Tree-itemArrowPlaceholder"
+                                <icon-mock
+                                  classname="icon icon-file"
+                                  icon="file"
                                 />
-                                <div
-                                  class="cxd-Tree-itemLabel-item"
-                                >
-                                  <i
-                                    class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
-                                  >
-                                    <icon-mock
-                                      classname="icon icon-file"
-                                      icon="file"
-                                    />
-                                  </i>
-                                  <span
-                                    class="cxd-Tree-itemText"
-                                    title="曹操"
-                                  >
-                                    曹操
-                                  </span>
-                                  <div
-                                    class="cxd-Tree-item-icons"
-                                  />
-                                </div>
-                              </div>
-                            </li>
-                            <li
-                              class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                              </i>
+                              <span
+                                class="cxd-Tree-itemText"
+                                title="曹操"
+                              >
+                                曹操
+                              </span>
+                              <div
+                                class="cxd-Tree-item-icons"
+                              />
+                            </div>
+                          </div>
+                        </li>
+                        <li
+                          class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                        >
+                          <div
+                            class="cxd-Tree-itemLabel is-checked"
+                          >
+                            <span
+                              class="cxd-Tree-itemArrowPlaceholder"
+                            />
+                            <div
+                              class="cxd-Tree-itemLabel-item"
                             >
-                              <div
-                                class="cxd-Tree-itemLabel is-checked"
+                              <i
+                                class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
                               >
-                                <span
-                                  class="cxd-Tree-itemArrowPlaceholder"
+                                <icon-mock
+                                  classname="icon icon-file"
+                                  icon="file"
                                 />
-                                <div
-                                  class="cxd-Tree-itemLabel-item"
-                                >
-                                  <i
-                                    class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
-                                  >
-                                    <icon-mock
-                                      classname="icon icon-file"
-                                      icon="file"
-                                    />
-                                  </i>
-                                  <span
-                                    class="cxd-Tree-itemText"
-                                    title="钟无艳"
-                                  >
-                                    钟无艳
-                                  </span>
-                                  <div
-                                    class="cxd-Tree-item-icons"
-                                  />
-                                </div>
-                              </div>
-                            </li>
-                          </ul>
+                              </i>
+                              <span
+                                class="cxd-Tree-itemText"
+                                title="钟无艳"
+                              >
+                                钟无艳
+                              </span>
+                              <div
+                                class="cxd-Tree-item-icons"
+                              />
+                            </div>
+                          </div>
                         </li>
                       </ul>
                     </div>
@@ -667,7 +659,9 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
                               <div
                                 class="cxd-GroupedSelection-itemLabel"
                               >
-                                <span>
+                                <span
+                                  class=""
+                                >
                                   label-1
                                 </span>
                               </div>
@@ -690,7 +684,9 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
                               <div
                                 class="cxd-GroupedSelection-itemLabel"
                               >
-                                <span>
+                                <span
+                                  class=""
+                                >
                                   label-2
                                 </span>
                               </div>
@@ -713,7 +709,9 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
                               <div
                                 class="cxd-GroupedSelection-itemLabel"
                               >
-                                <span>
+                                <span
+                                  class=""
+                                >
                                   label-3
                                 </span>
                               </div>
@@ -736,7 +734,9 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
                               <div
                                 class="cxd-GroupedSelection-itemLabel"
                               >
-                                <span>
+                                <span
+                                  class=""
+                                >
                                   label-4
                                 </span>
                               </div>
@@ -1237,7 +1237,9 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                       <div
                         class="cxd-ChainedSelection-itemLabel"
                       >
-                        <span>
+                        <span
+                          class=""
+                        >
                           group-1
                         </span>
                       </div>
@@ -1248,7 +1250,9 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                       <div
                         class="cxd-ChainedSelection-itemLabel"
                       >
-                        <span>
+                        <span
+                          class=""
+                        >
                           group-2
                         </span>
                       </div>
@@ -1259,7 +1263,9 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                       <div
                         class="cxd-ChainedSelection-itemLabel"
                       >
-                        <span>
+                        <span
+                          class=""
+                        >
                           group-3
                         </span>
                       </div>
@@ -1270,7 +1276,9 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                       <div
                         class="cxd-ChainedSelection-itemLabel"
                       >
-                        <span>
+                        <span
+                          class=""
+                        >
                           group-4
                         </span>
                       </div>
@@ -1281,7 +1289,9 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                       <div
                         class="cxd-ChainedSelection-itemLabel"
                       >
-                        <span>
+                        <span
+                          class=""
+                        >
                           group-5
                         </span>
                       </div>
@@ -1292,7 +1302,9 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                       <div
                         class="cxd-ChainedSelection-itemLabel"
                       >
-                        <span>
+                        <span
+                          class=""
+                        >
                           group-6
                         </span>
                       </div>
@@ -1303,7 +1315,9 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                       <div
                         class="cxd-ChainedSelection-itemLabel"
                       >
-                        <span>
+                        <span
+                          class=""
+                        >
                           group-7
                         </span>
                       </div>
@@ -1314,7 +1328,9 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                       <div
                         class="cxd-ChainedSelection-itemLabel"
                       >
-                        <span>
+                        <span
+                          class=""
+                        >
                           group-8
                         </span>
                       </div>
@@ -1325,7 +1341,9 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                       <div
                         class="cxd-ChainedSelection-itemLabel"
                       >
-                        <span>
+                        <span
+                          class=""
+                        >
                           group-9
                         </span>
                       </div>
@@ -1336,7 +1354,9 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                       <div
                         class="cxd-ChainedSelection-itemLabel"
                       >
-                        <span>
+                        <span
+                          class=""
+                        >
                           group-10
                         </span>
                       </div>
@@ -1372,7 +1392,9 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                             <div
                               class="cxd-ChainedSelection-itemLabel"
                             >
-                              <span>
+                              <span
+                                class=""
+                              >
                                 group-2-option-1
                               </span>
                             </div>
@@ -1395,7 +1417,9 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                             <div
                               class="cxd-ChainedSelection-itemLabel"
                             >
-                              <span>
+                              <span
+                                class=""
+                              >
                                 group-2-option-2
                               </span>
                             </div>
@@ -1418,7 +1442,9 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                             <div
                               class="cxd-ChainedSelection-itemLabel"
                             >
-                              <span>
+                              <span
+                                class=""
+                              >
                                 group-2-option-3
                               </span>
                             </div>
@@ -1441,7 +1467,9 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                             <div
                               class="cxd-ChainedSelection-itemLabel"
                             >
-                              <span>
+                              <span
+                                class=""
+                              >
                                 group-2-option-4
                               </span>
                             </div>
@@ -1707,7 +1735,9 @@ exports[`Renderer:transfer group mode with virtual 1`] = `
                               <div
                                 class="cxd-GroupedSelection-itemLabel"
                               >
-                                <span>
+                                <span
+                                  class=""
+                                >
                                   option-197
                                 </span>
                               </div>
@@ -1738,7 +1768,9 @@ exports[`Renderer:transfer group mode with virtual 1`] = `
                               <div
                                 class="cxd-GroupedSelection-itemLabel"
                               >
-                                <span>
+                                <span
+                                  class=""
+                                >
                                   option-198
                                 </span>
                               </div>
@@ -1769,7 +1801,9 @@ exports[`Renderer:transfer group mode with virtual 1`] = `
                               <div
                                 class="cxd-GroupedSelection-itemLabel"
                               >
-                                <span>
+                                <span
+                                  class=""
+                                >
                                   option-199
                                 </span>
                               </div>
@@ -1800,7 +1834,9 @@ exports[`Renderer:transfer group mode with virtual 1`] = `
                               <div
                                 class="cxd-GroupedSelection-itemLabel"
                               >
-                                <span>
+                                <span
+                                  class=""
+                                >
                                   option-200
                                 </span>
                               </div>
@@ -2104,42 +2140,38 @@ exports[`Renderer:transfer left tree 1`] = `
                                       />
                                     </div>
                                   </div>
-                                  <ul
-                                    class="cxd-Tree-sublist"
+                                </li>
+                                <li
+                                  class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                >
+                                  <div
+                                    class="cxd-Tree-itemLabel"
                                   >
-                                    <li
-                                      class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                    <span
+                                      class="cxd-Tree-itemArrowPlaceholder"
+                                    />
+                                    <div
+                                      class="cxd-Tree-itemLabel-item"
                                     >
-                                      <div
-                                        class="cxd-Tree-itemLabel"
+                                      <i
+                                        class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
                                       >
-                                        <span
-                                          class="cxd-Tree-itemArrowPlaceholder"
+                                        <icon-mock
+                                          classname="icon icon-file"
+                                          icon="file"
                                         />
-                                        <div
-                                          class="cxd-Tree-itemLabel-item"
-                                        >
-                                          <i
-                                            class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
-                                          >
-                                            <icon-mock
-                                              classname="icon icon-file"
-                                              icon="file"
-                                            />
-                                          </i>
-                                          <span
-                                            class="cxd-Tree-itemText"
-                                            title="诸葛亮"
-                                          >
-                                            诸葛亮
-                                          </span>
-                                          <div
-                                            class="cxd-Tree-item-icons"
-                                          />
-                                        </div>
-                                      </div>
-                                    </li>
-                                  </ul>
+                                      </i>
+                                      <span
+                                        class="cxd-Tree-itemText"
+                                        title="诸葛亮"
+                                      >
+                                        诸葛亮
+                                      </span>
+                                      <div
+                                        class="cxd-Tree-item-icons"
+                                      />
+                                    </div>
+                                  </div>
                                 </li>
                                 <li
                                   class="cxd-Tree-item "
@@ -2177,74 +2209,70 @@ exports[`Renderer:transfer left tree 1`] = `
                                       />
                                     </div>
                                   </div>
-                                  <ul
-                                    class="cxd-Tree-sublist"
+                                </li>
+                                <li
+                                  class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                >
+                                  <div
+                                    class="cxd-Tree-itemLabel"
                                   >
-                                    <li
-                                      class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                    <span
+                                      class="cxd-Tree-itemArrowPlaceholder"
+                                    />
+                                    <div
+                                      class="cxd-Tree-itemLabel-item"
                                     >
-                                      <div
-                                        class="cxd-Tree-itemLabel"
+                                      <i
+                                        class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
                                       >
-                                        <span
-                                          class="cxd-Tree-itemArrowPlaceholder"
+                                        <icon-mock
+                                          classname="icon icon-file"
+                                          icon="file"
                                         />
-                                        <div
-                                          class="cxd-Tree-itemLabel-item"
-                                        >
-                                          <i
-                                            class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
-                                          >
-                                            <icon-mock
-                                              classname="icon icon-file"
-                                              icon="file"
-                                            />
-                                          </i>
-                                          <span
-                                            class="cxd-Tree-itemText"
-                                            title="曹操"
-                                          >
-                                            曹操
-                                          </span>
-                                          <div
-                                            class="cxd-Tree-item-icons"
-                                          />
-                                        </div>
-                                      </div>
-                                    </li>
-                                    <li
-                                      class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                      </i>
+                                      <span
+                                        class="cxd-Tree-itemText"
+                                        title="曹操"
+                                      >
+                                        曹操
+                                      </span>
+                                      <div
+                                        class="cxd-Tree-item-icons"
+                                      />
+                                    </div>
+                                  </div>
+                                </li>
+                                <li
+                                  class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                >
+                                  <div
+                                    class="cxd-Tree-itemLabel"
+                                  >
+                                    <span
+                                      class="cxd-Tree-itemArrowPlaceholder"
+                                    />
+                                    <div
+                                      class="cxd-Tree-itemLabel-item"
                                     >
-                                      <div
-                                        class="cxd-Tree-itemLabel"
+                                      <i
+                                        class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
                                       >
-                                        <span
-                                          class="cxd-Tree-itemArrowPlaceholder"
+                                        <icon-mock
+                                          classname="icon icon-file"
+                                          icon="file"
                                         />
-                                        <div
-                                          class="cxd-Tree-itemLabel-item"
-                                        >
-                                          <i
-                                            class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
-                                          >
-                                            <icon-mock
-                                              classname="icon icon-file"
-                                              icon="file"
-                                            />
-                                          </i>
-                                          <span
-                                            class="cxd-Tree-itemText"
-                                            title="钟无艳"
-                                          >
-                                            钟无艳
-                                          </span>
-                                          <div
-                                            class="cxd-Tree-item-icons"
-                                          />
-                                        </div>
-                                      </div>
-                                    </li>
-                                  </ul>
+                                      </i>
+                                      <span
+                                        class="cxd-Tree-itemText"
+                                        title="钟无艳"
+                                      >
+                                        钟无艳
+                                      </span>
+                                      <div
+                                        class="cxd-Tree-item-icons"
+                                      />
+                                    </div>
+                                  </div>
                                 </li>
                                 <li
                                   class="cxd-Tree-item "
@@ -2282,106 +2310,102 @@ exports[`Renderer:transfer left tree 1`] = `
                                       />
                                     </div>
                                   </div>
-                                  <ul
-                                    class="cxd-Tree-sublist"
+                                </li>
+                                <li
+                                  class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                >
+                                  <div
+                                    class="cxd-Tree-itemLabel"
                                   >
-                                    <li
-                                      class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                    <span
+                                      class="cxd-Tree-itemArrowPlaceholder"
+                                    />
+                                    <div
+                                      class="cxd-Tree-itemLabel-item"
                                     >
-                                      <div
-                                        class="cxd-Tree-itemLabel"
+                                      <i
+                                        class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
                                       >
-                                        <span
-                                          class="cxd-Tree-itemArrowPlaceholder"
+                                        <icon-mock
+                                          classname="icon icon-file"
+                                          icon="file"
                                         />
-                                        <div
-                                          class="cxd-Tree-itemLabel-item"
-                                        >
-                                          <i
-                                            class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
-                                          >
-                                            <icon-mock
-                                              classname="icon icon-file"
-                                              icon="file"
-                                            />
-                                          </i>
-                                          <span
-                                            class="cxd-Tree-itemText"
-                                            title="李白"
-                                          >
-                                            李白
-                                          </span>
-                                          <div
-                                            class="cxd-Tree-item-icons"
-                                          />
-                                        </div>
-                                      </div>
-                                    </li>
-                                    <li
-                                      class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                      </i>
+                                      <span
+                                        class="cxd-Tree-itemText"
+                                        title="李白"
+                                      >
+                                        李白
+                                      </span>
+                                      <div
+                                        class="cxd-Tree-item-icons"
+                                      />
+                                    </div>
+                                  </div>
+                                </li>
+                                <li
+                                  class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                >
+                                  <div
+                                    class="cxd-Tree-itemLabel"
+                                  >
+                                    <span
+                                      class="cxd-Tree-itemArrowPlaceholder"
+                                    />
+                                    <div
+                                      class="cxd-Tree-itemLabel-item"
                                     >
-                                      <div
-                                        class="cxd-Tree-itemLabel"
+                                      <i
+                                        class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
                                       >
-                                        <span
-                                          class="cxd-Tree-itemArrowPlaceholder"
+                                        <icon-mock
+                                          classname="icon icon-file"
+                                          icon="file"
                                         />
-                                        <div
-                                          class="cxd-Tree-itemLabel-item"
-                                        >
-                                          <i
-                                            class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
-                                          >
-                                            <icon-mock
-                                              classname="icon icon-file"
-                                              icon="file"
-                                            />
-                                          </i>
-                                          <span
-                                            class="cxd-Tree-itemText"
-                                            title="韩信"
-                                          >
-                                            韩信
-                                          </span>
-                                          <div
-                                            class="cxd-Tree-item-icons"
-                                          />
-                                        </div>
-                                      </div>
-                                    </li>
-                                    <li
-                                      class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                      </i>
+                                      <span
+                                        class="cxd-Tree-itemText"
+                                        title="韩信"
+                                      >
+                                        韩信
+                                      </span>
+                                      <div
+                                        class="cxd-Tree-item-icons"
+                                      />
+                                    </div>
+                                  </div>
+                                </li>
+                                <li
+                                  class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                >
+                                  <div
+                                    class="cxd-Tree-itemLabel"
+                                  >
+                                    <span
+                                      class="cxd-Tree-itemArrowPlaceholder"
+                                    />
+                                    <div
+                                      class="cxd-Tree-itemLabel-item"
                                     >
-                                      <div
-                                        class="cxd-Tree-itemLabel"
+                                      <i
+                                        class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
                                       >
-                                        <span
-                                          class="cxd-Tree-itemArrowPlaceholder"
+                                        <icon-mock
+                                          classname="icon icon-file"
+                                          icon="file"
                                         />
-                                        <div
-                                          class="cxd-Tree-itemLabel-item"
-                                        >
-                                          <i
-                                            class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
-                                          >
-                                            <icon-mock
-                                              classname="icon icon-file"
-                                              icon="file"
-                                            />
-                                          </i>
-                                          <span
-                                            class="cxd-Tree-itemText"
-                                            title="云中君"
-                                          >
-                                            云中君
-                                          </span>
-                                          <div
-                                            class="cxd-Tree-item-icons"
-                                          />
-                                        </div>
-                                      </div>
-                                    </li>
-                                  </ul>
+                                      </i>
+                                      <span
+                                        class="cxd-Tree-itemText"
+                                        title="云中君"
+                                      >
+                                        云中君
+                                      </span>
+                                      <div
+                                        class="cxd-Tree-item-icons"
+                                      />
+                                    </div>
+                                  </div>
                                 </li>
                               </ul>
                             </div>
@@ -3516,7 +3540,9 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                     <div
                       class="cxd-Selections-item"
                     >
-                      <label>
+                      <label
+                        class="cxd-Selections-label"
+                      >
                         <span>
                           label-1
                         </span>
@@ -3534,7 +3560,9 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                     <div
                       class="cxd-Selections-item"
                     >
-                      <label>
+                      <label
+                        class="cxd-Selections-label"
+                      >
                         <span>
                           label-3
                         </span>
@@ -3552,7 +3580,9 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                     <div
                       class="cxd-Selections-item"
                     >
-                      <label>
+                      <label
+                        class="cxd-Selections-label"
+                      >
                         <span>
                           label-5
                         </span>
@@ -3570,7 +3600,9 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                     <div
                       class="cxd-Selections-item"
                     >
-                      <label>
+                      <label
+                        class="cxd-Selections-label"
+                      >
                         <span>
                           label-7
                         </span>
@@ -3588,7 +3620,9 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                     <div
                       class="cxd-Selections-item"
                     >
-                      <label>
+                      <label
+                        class="cxd-Selections-label"
+                      >
                         <span>
                           label-9
                         </span>
@@ -3606,7 +3640,9 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                     <div
                       class="cxd-Selections-item"
                     >
-                      <label>
+                      <label
+                        class="cxd-Selections-label"
+                      >
                         <span>
                           label-11
                         </span>
@@ -3624,7 +3660,9 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                     <div
                       class="cxd-Selections-item"
                     >
-                      <label>
+                      <label
+                        class="cxd-Selections-label"
+                      >
                         <span>
                           label-13
                         </span>
@@ -3642,7 +3680,9 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                     <div
                       class="cxd-Selections-item"
                     >
-                      <label>
+                      <label
+                        class="cxd-Selections-label"
+                      >
                         <span>
                           label-15
                         </span>
@@ -3660,7 +3700,9 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                     <div
                       class="cxd-Selections-item"
                     >
-                      <label>
+                      <label
+                        class="cxd-Selections-label"
+                      >
                         <span>
                           label-17
                         </span>
@@ -3678,7 +3720,9 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                     <div
                       class="cxd-Selections-item"
                     >
-                      <label>
+                      <label
+                        class="cxd-Selections-label"
+                      >
                         <span>
                           label-19
                         </span>
@@ -4123,7 +4167,9 @@ exports[`Renderer:transfer table mode with virtual: result virtual 1`] = `
                             class="cxd-Selections-item"
                             style="position: absolute; top: 0px; left: 0px; width: 100%; height: 32px;"
                           >
-                            <label>
+                            <label
+                              class="cxd-Selections-label"
+                            >
                               <span>
                                 label-1
                               </span>
@@ -4142,7 +4188,9 @@ exports[`Renderer:transfer table mode with virtual: result virtual 1`] = `
                             class="cxd-Selections-item"
                             style="position: absolute; top: 32px; left: 0px; width: 100%; height: 32px;"
                           >
-                            <label>
+                            <label
+                              class="cxd-Selections-label"
+                            >
                               <span>
                                 label-3
                               </span>
@@ -4161,7 +4209,9 @@ exports[`Renderer:transfer table mode with virtual: result virtual 1`] = `
                             class="cxd-Selections-item"
                             style="position: absolute; top: 64px; left: 0px; width: 100%; height: 32px;"
                           >
-                            <label>
+                            <label
+                              class="cxd-Selections-label"
+                            >
                               <span>
                                 label-5
                               </span>
@@ -4180,7 +4230,9 @@ exports[`Renderer:transfer table mode with virtual: result virtual 1`] = `
                             class="cxd-Selections-item"
                             style="position: absolute; top: 96px; left: 0px; width: 100%; height: 32px;"
                           >
-                            <label>
+                            <label
+                              class="cxd-Selections-label"
+                            >
                               <span>
                                 label-7
                               </span>
@@ -4420,7 +4472,7 @@ exports[`Renderer:transfer tree 1`] = `
                                   />
                                 </div>
                                 <label
-                                  class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--sm"
+                                  class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
                                 >
                                   <input
                                     type="checkbox"
@@ -4448,49 +4500,45 @@ exports[`Renderer:transfer tree 1`] = `
                                   />
                                 </div>
                               </div>
-                              <ul
-                                class="cxd-Tree-sublist"
+                            </li>
+                            <li
+                              class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                            >
+                              <div
+                                class="cxd-Tree-itemLabel"
                               >
-                                <li
-                                  class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                <span
+                                  class="cxd-Tree-itemArrowPlaceholder"
+                                />
+                                <label
+                                  class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
                                 >
-                                  <div
-                                    class="cxd-Tree-itemLabel"
+                                  <input
+                                    type="checkbox"
+                                  />
+                                  <i />
+                                  <span
+                                    class=""
+                                  />
+                                </label>
+                                <div
+                                  class="cxd-Tree-itemLabel-item"
+                                >
+                                  <span
+                                    class="cxd-Tree-itemText"
+                                    title="诸葛亮"
                                   >
                                     <span
-                                      class="cxd-Tree-itemArrowPlaceholder"
-                                    />
-                                    <label
-                                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--sm"
+                                      class=""
                                     >
-                                      <input
-                                        type="checkbox"
-                                      />
-                                      <i />
-                                      <span
-                                        class=""
-                                      />
-                                    </label>
-                                    <div
-                                      class="cxd-Tree-itemLabel-item"
-                                    >
-                                      <span
-                                        class="cxd-Tree-itemText"
-                                        title="诸葛亮"
-                                      >
-                                        <span
-                                          class=""
-                                        >
-                                          诸葛亮
-                                        </span>
-                                      </span>
-                                      <div
-                                        class="cxd-Tree-item-icons"
-                                      />
-                                    </div>
-                                  </div>
-                                </li>
-                              </ul>
+                                      诸葛亮
+                                    </span>
+                                  </span>
+                                  <div
+                                    class="cxd-Tree-item-icons"
+                                  />
+                                </div>
+                              </div>
                             </li>
                             <li
                               class="cxd-Tree-item "
@@ -4507,7 +4555,7 @@ exports[`Renderer:transfer tree 1`] = `
                                   />
                                 </div>
                                 <label
-                                  class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--sm"
+                                  class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
                                 >
                                   <input
                                     type="checkbox"
@@ -4535,88 +4583,84 @@ exports[`Renderer:transfer tree 1`] = `
                                   />
                                 </div>
                               </div>
-                              <ul
-                                class="cxd-Tree-sublist"
+                            </li>
+                            <li
+                              class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                            >
+                              <div
+                                class="cxd-Tree-itemLabel"
                               >
-                                <li
-                                  class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                <span
+                                  class="cxd-Tree-itemArrowPlaceholder"
+                                />
+                                <label
+                                  class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
                                 >
-                                  <div
-                                    class="cxd-Tree-itemLabel"
+                                  <input
+                                    type="checkbox"
+                                  />
+                                  <i />
+                                  <span
+                                    class=""
+                                  />
+                                </label>
+                                <div
+                                  class="cxd-Tree-itemLabel-item"
+                                >
+                                  <span
+                                    class="cxd-Tree-itemText"
+                                    title="曹操"
                                   >
                                     <span
-                                      class="cxd-Tree-itemArrowPlaceholder"
-                                    />
-                                    <label
-                                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--sm"
+                                      class=""
                                     >
-                                      <input
-                                        type="checkbox"
-                                      />
-                                      <i />
-                                      <span
-                                        class=""
-                                      />
-                                    </label>
-                                    <div
-                                      class="cxd-Tree-itemLabel-item"
-                                    >
-                                      <span
-                                        class="cxd-Tree-itemText"
-                                        title="曹操"
-                                      >
-                                        <span
-                                          class=""
-                                        >
-                                          曹操
-                                        </span>
-                                      </span>
-                                      <div
-                                        class="cxd-Tree-item-icons"
-                                      />
-                                    </div>
-                                  </div>
-                                </li>
-                                <li
-                                  class="cxd-Tree-item  cxd-Tree-item--isLeaf"
-                                >
+                                      曹操
+                                    </span>
+                                  </span>
                                   <div
-                                    class="cxd-Tree-itemLabel"
+                                    class="cxd-Tree-item-icons"
+                                  />
+                                </div>
+                              </div>
+                            </li>
+                            <li
+                              class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                            >
+                              <div
+                                class="cxd-Tree-itemLabel"
+                              >
+                                <span
+                                  class="cxd-Tree-itemArrowPlaceholder"
+                                />
+                                <label
+                                  class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                >
+                                  <input
+                                    type="checkbox"
+                                  />
+                                  <i />
+                                  <span
+                                    class=""
+                                  />
+                                </label>
+                                <div
+                                  class="cxd-Tree-itemLabel-item"
+                                >
+                                  <span
+                                    class="cxd-Tree-itemText"
+                                    title="钟无艳"
                                   >
                                     <span
-                                      class="cxd-Tree-itemArrowPlaceholder"
-                                    />
-                                    <label
-                                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--sm"
+                                      class=""
                                     >
-                                      <input
-                                        type="checkbox"
-                                      />
-                                      <i />
-                                      <span
-                                        class=""
-                                      />
-                                    </label>
-                                    <div
-                                      class="cxd-Tree-itemLabel-item"
-                                    >
-                                      <span
-                                        class="cxd-Tree-itemText"
-                                        title="钟无艳"
-                                      >
-                                        <span
-                                          class=""
-                                        >
-                                          钟无艳
-                                        </span>
-                                      </span>
-                                      <div
-                                        class="cxd-Tree-item-icons"
-                                      />
-                                    </div>
-                                  </div>
-                                </li>
-                              </ul>
+                                      钟无艳
+                                    </span>
+                                  </span>
+                                  <div
+                                    class="cxd-Tree-item-icons"
+                                  />
+                                </div>
+                              </div>
                             </li>
                             <li
                               class="cxd-Tree-item "
@@ -4633,7 +4677,7 @@ exports[`Renderer:transfer tree 1`] = `
                                   />
                                 </div>
                                 <label
-                                  class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--sm"
+                                  class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
                                 >
                                   <input
                                     type="checkbox"
@@ -4661,127 +4705,123 @@ exports[`Renderer:transfer tree 1`] = `
                                   />
                                 </div>
                               </div>
-                              <ul
-                                class="cxd-Tree-sublist"
+                            </li>
+                            <li
+                              class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                            >
+                              <div
+                                class="cxd-Tree-itemLabel"
                               >
-                                <li
-                                  class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                <span
+                                  class="cxd-Tree-itemArrowPlaceholder"
+                                />
+                                <label
+                                  class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
                                 >
-                                  <div
-                                    class="cxd-Tree-itemLabel"
+                                  <input
+                                    type="checkbox"
+                                  />
+                                  <i />
+                                  <span
+                                    class=""
+                                  />
+                                </label>
+                                <div
+                                  class="cxd-Tree-itemLabel-item"
+                                >
+                                  <span
+                                    class="cxd-Tree-itemText"
+                                    title="李白"
                                   >
                                     <span
-                                      class="cxd-Tree-itemArrowPlaceholder"
-                                    />
-                                    <label
-                                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--sm"
+                                      class=""
                                     >
-                                      <input
-                                        type="checkbox"
-                                      />
-                                      <i />
-                                      <span
-                                        class=""
-                                      />
-                                    </label>
-                                    <div
-                                      class="cxd-Tree-itemLabel-item"
-                                    >
-                                      <span
-                                        class="cxd-Tree-itemText"
-                                        title="李白"
-                                      >
-                                        <span
-                                          class=""
-                                        >
-                                          李白
-                                        </span>
-                                      </span>
-                                      <div
-                                        class="cxd-Tree-item-icons"
-                                      />
-                                    </div>
-                                  </div>
-                                </li>
-                                <li
-                                  class="cxd-Tree-item  cxd-Tree-item--isLeaf"
-                                >
+                                      李白
+                                    </span>
+                                  </span>
                                   <div
-                                    class="cxd-Tree-itemLabel"
+                                    class="cxd-Tree-item-icons"
+                                  />
+                                </div>
+                              </div>
+                            </li>
+                            <li
+                              class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                            >
+                              <div
+                                class="cxd-Tree-itemLabel"
+                              >
+                                <span
+                                  class="cxd-Tree-itemArrowPlaceholder"
+                                />
+                                <label
+                                  class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                >
+                                  <input
+                                    type="checkbox"
+                                  />
+                                  <i />
+                                  <span
+                                    class=""
+                                  />
+                                </label>
+                                <div
+                                  class="cxd-Tree-itemLabel-item"
+                                >
+                                  <span
+                                    class="cxd-Tree-itemText"
+                                    title="韩信"
                                   >
                                     <span
-                                      class="cxd-Tree-itemArrowPlaceholder"
-                                    />
-                                    <label
-                                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--sm"
+                                      class=""
                                     >
-                                      <input
-                                        type="checkbox"
-                                      />
-                                      <i />
-                                      <span
-                                        class=""
-                                      />
-                                    </label>
-                                    <div
-                                      class="cxd-Tree-itemLabel-item"
-                                    >
-                                      <span
-                                        class="cxd-Tree-itemText"
-                                        title="韩信"
-                                      >
-                                        <span
-                                          class=""
-                                        >
-                                          韩信
-                                        </span>
-                                      </span>
-                                      <div
-                                        class="cxd-Tree-item-icons"
-                                      />
-                                    </div>
-                                  </div>
-                                </li>
-                                <li
-                                  class="cxd-Tree-item  cxd-Tree-item--isLeaf"
-                                >
+                                      韩信
+                                    </span>
+                                  </span>
                                   <div
-                                    class="cxd-Tree-itemLabel"
+                                    class="cxd-Tree-item-icons"
+                                  />
+                                </div>
+                              </div>
+                            </li>
+                            <li
+                              class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                            >
+                              <div
+                                class="cxd-Tree-itemLabel"
+                              >
+                                <span
+                                  class="cxd-Tree-itemArrowPlaceholder"
+                                />
+                                <label
+                                  class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                >
+                                  <input
+                                    type="checkbox"
+                                  />
+                                  <i />
+                                  <span
+                                    class=""
+                                  />
+                                </label>
+                                <div
+                                  class="cxd-Tree-itemLabel-item"
+                                >
+                                  <span
+                                    class="cxd-Tree-itemText"
+                                    title="云中君"
                                   >
                                     <span
-                                      class="cxd-Tree-itemArrowPlaceholder"
-                                    />
-                                    <label
-                                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--sm"
+                                      class=""
                                     >
-                                      <input
-                                        type="checkbox"
-                                      />
-                                      <i />
-                                      <span
-                                        class=""
-                                      />
-                                    </label>
-                                    <div
-                                      class="cxd-Tree-itemLabel-item"
-                                    >
-                                      <span
-                                        class="cxd-Tree-itemText"
-                                        title="云中君"
-                                      >
-                                        <span
-                                          class=""
-                                        >
-                                          云中君
-                                        </span>
-                                      </span>
-                                      <div
-                                        class="cxd-Tree-item-icons"
-                                      />
-                                    </div>
-                                  </div>
-                                </li>
-                              </ul>
+                                      云中君
+                                    </span>
+                                  </span>
+                                  <div
+                                    class="cxd-Tree-item-icons"
+                                  />
+                                </div>
+                              </div>
                             </li>
                           </ul>
                         </div>
