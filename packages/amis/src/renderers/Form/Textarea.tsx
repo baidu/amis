@@ -164,16 +164,17 @@ export default class TextAreaControl extends React.Component<
   }
 
   renderStatic(displayValue = '-') {
-    const {
-      render,
-      staticSchema = {}
-    } = this.props;
+    const {render, staticSchema = {}} = this.props;
 
-    return render('static-textarea', {
-      type: 'multiline-text',
-      text: displayValue,
-      maxRows: staticSchema.limit || 5
-    }, staticSchema);
+    return render(
+      'static-textarea',
+      {
+        type: 'multiline-text',
+        text: displayValue,
+        maxRows: staticSchema.limit || 5
+      },
+      staticSchema
+    );
   }
 
   @supportStatic()
@@ -182,6 +183,7 @@ export default class TextAreaControl extends React.Component<
     return (
       <Textarea
         {...rest}
+        forwardRef={this.inputRef}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
         onChange={this.handleChange}
