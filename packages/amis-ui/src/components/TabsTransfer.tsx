@@ -195,8 +195,6 @@ export class TabsTransfer extends React.Component<
                 })
             : undefined
         }
-        itemHeight={itemHeight}
-        virtualThreshold={virtualThreshold}
       />
     ) : mode === 'chained' ? (
       <ChainedCheckboxes

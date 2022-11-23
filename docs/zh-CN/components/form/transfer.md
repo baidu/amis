@@ -300,6 +300,7 @@ icon:
       "deferApi": "/api/mock2/form/deferOptions?label=${label}",
       "selectMode": "associated",
       "leftMode": "tree",
+      "virtualThreshold": 2,
       "leftOptions": [
         {
           "label": "法师",
