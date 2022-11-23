@@ -294,7 +294,16 @@ export function isArrayChildrenModified(
   }
 
   for (let i: number = prev.length - 1; i >= 0; i--) {
-    if (strictMode ? prev[i] !== next[i] : prev[i] != next[i]) {
+    if (
+      strictMode
+        ? prev[i] !== next[i]
+        : prev[i] != next[i] ||
+          isArrayChildrenModified(
+            prev[i].children,
+            next[i].children,
+            strictMode
+          )
+    ) {
       return true;
     }
   }

@@ -514,6 +514,8 @@ test('Renderer:transfer group mode with virtual', async () => {
   const firstStyle = formatStyleObject(optionsOrLabel[0].getAttribute('style'));
   expect(firstStyle.top).toBe(0);
   expect(firstStyle.height).toBe(40);
+  await waitFor(() => expect(optionsOrLabel.length > 1).toBeTruthy());
+
   expect(formatStyleObject(optionsOrLabel[1].getAttribute('style')).top).toBe(
     40
   );
