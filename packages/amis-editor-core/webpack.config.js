@@ -10,7 +10,7 @@ const i18nConfig = require('./i18nConfig');
 module.exports = {
   mode: 'production', // development production
   entry: {
-    index: ['./src/index.ts'],
+    // index: ['./src/index.ts'],
     style: ['./scss/editor.scss']
   },
   output: {

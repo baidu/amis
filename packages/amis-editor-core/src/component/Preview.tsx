@@ -80,12 +80,14 @@ export default class Preview extends Component<PreviewProps> {
   }
 
   componentWillUnmount() {
-    this.currentDom.removeEventListener('mouseleave', this.handleMouseLeave);
-    this.currentDom.removeEventListener('mousemove', this.handleMouseMove);
-    this.currentDom.removeEventListener('click', this.handleClick);
-    this.currentDom.removeEventListener('mouseover', this.handeMouseOver);
-    this.currentDom.removeEventListener('mousedown', this.handeMouseDown);
-    this.props.manager.off('after-update', this.handlePanelChange);
+    if (this.currentDom) {
+      this.currentDom.removeEventListener('mouseleave', this.handleMouseLeave);
+      this.currentDom.removeEventListener('mousemove', this.handleMouseMove);
+      this.currentDom.removeEventListener('click', this.handleClick);
+      this.currentDom.removeEventListener('mouseover', this.handeMouseOver);
+      this.currentDom.removeEventListener('mousedown', this.handeMouseDown);
+      this.props.manager.off('after-update', this.handlePanelChange);
+    }
 
     this.scrollLayer?.removeEventListener('scroll', this.handlePanelChange);
 

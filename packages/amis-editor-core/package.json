@@ -1,12 +1,13 @@
 {
   "name": "amis-editor-core",
-  "version": "5.2.1-beta.19",
+  "version": "5.2.1-beta.22",
   "description": "amis 可视化编辑器",
-  "main": "lib/index.min.js",
+  "main": "lib/index.js",
+  "module": "esm/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npm run clean-dist && webpack",
+    "build": "npm run clean-dist && NODE_ENV=production rollup -c && webpack",
     "clean-dist": "rimraf lib/* esm/*",
     "i18n:update": "npx i18n update --config=./i18nConfig.js",
     "i18n:translate": "npx i18n translate --config=./i18nConfig.js --l=en-US",
@@ -19,20 +20,26 @@
   "author": "@fex",
   "license": "ISC",
   "files": [
-    "lib"
+    "lib",
+    "esm"
   ],
   "dependencies": {
     "deep-diff": "1.0.2",
     "json-ast-comments": "^1.1.0",
-    "react-json-view": "^1.21.3",
     "lodash": "^4.17.15",
     "mobx": "^4.5.0",
     "mobx-react": "^6.3.1",
     "mobx-state-tree": "^3.17.3",
+    "react-json-view": "^1.21.3",
     "sortablejs": "^1.14.0"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.15.3",
+    "@rollup/plugin-commonjs": "^22.0.0",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^13.3.0",
+    "@rollup/plugin-typescript": "^8.3.2",
+    "@svgr/rollup": "^6.2.1",
     "@svgr/webpack": "^5.5.0",
     "@types/async": "^2.0.45",
     "@types/classnames": "^2.2.3",
@@ -69,6 +76,10 @@
     "react-router": "5.2.0",
     "react-router-dom": "5.2.0",
     "rimraf": "^3.0.2",
+    "rollup": "^2.73.0",
+    "rollup-plugin-auto-external": "^2.0.0",
+    "rollup-plugin-license": "^2.7.0",
+    "rollup-plugin-terser": "^7.0.2",
     "sass": "^1.49.7",
     "sass-loader": "^12.5.0",
     "style-loader": "^3.2.1",
