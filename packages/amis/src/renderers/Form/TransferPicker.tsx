@@ -4,7 +4,7 @@ import {Spinner} from 'amis-ui';
 import {BaseTransferRenderer, TransferControlSchema} from './Transfer';
 import {TransferPicker} from 'amis-ui';
 import {autobind, createObject} from 'amis-core';
-import {ActionObject} from 'amis-core';
+import {ActionObject, toNumber} from 'amis-core';
 import {supportStatic} from './StaticHoc';
 
 /**
@@ -78,7 +78,9 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
       columns,
       leftMode,
       selectMode,
-      borderMode
+      borderMode,
+      itemHeight,
+      virtualThreshold
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载
@@ -122,6 +124,10 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
           resultItemRender={this.resultItemRender}
           onFocus={() => this.dispatchEvent('focus')}
           onBlur={() => this.dispatchEvent('blur')}
+          itemHeight={
+            toNumber(itemHeight) > 0 ? toNumber(itemHeight) : undefined
+          }
+          virtualThreshold={virtualThreshold}
         />
 
         <Spinner overlay key="info" show={loading} />
