@@ -66,7 +66,7 @@ export class ResultList extends React.Component<
     | 'itemHeight'
   > = {
     placeholder: 'placeholder.selectData',
-    itemRender: ResultList.itemRender,
+    itemRender: this.itemRender,
     searchPlaceholder: '',
     virtualThreshold: 100,
     itemHeight: 32
