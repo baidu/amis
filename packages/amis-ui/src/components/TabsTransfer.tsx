@@ -4,6 +4,7 @@ import Tabs, {Tab} from './Tabs';
 import InputBox from './InputBox';
 import TableCheckboxes from './TableSelection';
 import TreeCheckboxes from './TreeSelection';
+import Tree from './Tree';
 import ChainedCheckboxes from './ChainedSelection';
 import ListCheckboxes from './GroupedSelection';
 import {Options, Option} from './Select';
@@ -175,14 +176,17 @@ export class TabsTransfer extends React.Component<
         virtualThreshold={virtualThreshold}
       />
     ) : mode === 'tree' ? (
-      <TreeCheckboxes
+      <Tree
         placeholder={noResultsText}
         className={cx('Transfer-checkboxes')}
         options={options}
         value={value}
         disabled={disabled}
-        onChange={onChange}
-        option2value={option2value}
+        onChange={onChange!}
+        joinValues={false}
+        showIcon={false}
+        multiple={true}
+        cascade={true}
         itemRender={
           optionItemRender
             ? (item: Option, states: ItemRenderStates) =>
@@ -191,8 +195,6 @@ export class TabsTransfer extends React.Component<
                 })
             : undefined
         }
-        itemHeight={itemHeight}
-        virtualThreshold={virtualThreshold}
       />
     ) : mode === 'chained' ? (
       <ChainedCheckboxes
@@ -332,14 +334,17 @@ export class TabsTransfer extends React.Component<
         virtualThreshold={virtualThreshold}
       />
     ) : option.selectMode === 'tree' ? (
-      <TreeCheckboxes
+      <Tree
         className={cx('Transfer-checkboxes')}
         options={option.children || []}
         value={value}
         multiple={multiple}
         disabled={disabled}
-        onChange={onChange}
-        option2value={option2value}
+        onChange={onChange!}
+        joinValues={false}
+        showIcon={false}
+        multiple={true}
+        cascade={true}
         onDeferLoad={onDeferLoad}
         itemRender={
           optionItemRender

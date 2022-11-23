@@ -143,6 +143,8 @@ export class AssociatedSelection extends BaseSelection<
               options={leftOptions}
               onChange={this.handleLeftSelect}
               onDeferLoad={this.handleLeftDeferLoad}
+              virtualThreshold={virtualThreshold}
+              itemHeight={itemHeight}
             />
           ) : (
             <GroupedSelecton
@@ -204,6 +206,8 @@ export class AssociatedSelection extends BaseSelection<
                   onChange={onChange!}
                   multiple={multiple}
                   labelField={labelField}
+                  virtualThreshold={virtualThreshold}
+                  itemHeight={itemHeight}
                 />
               ) : rightMode === 'chained' ? (
                 <ChainedSelection

@@ -512,6 +512,8 @@ export class Transfer<
         onlyChildren={!isTreeDeferLoad}
         itemRender={optionItemRender}
         labelField={labelField}
+        virtualThreshold={virtualThreshold}
+        itemHeight={itemHeight}
       />
     ) : mode === 'chained' ? (
       <ChainedSelection
@@ -605,6 +607,8 @@ export class Transfer<
         multiple={multiple}
         cascade={true}
         labelField={labelField}
+        virtualThreshold={virtualThreshold}
+        itemHeight={itemHeight}
       />
     ) : selectMode === 'chained' ? (
       <ChainedSelection
@@ -723,6 +727,8 @@ export class Transfer<
             searchPlaceholder={resultSearchPlaceholder}
             onSearch={onResultSearch}
             labelField={labelField}
+            virtualThreshold={virtualThreshold}
+            itemHeight={itemHeight}
           />
         );
       default:
