@@ -102,6 +102,7 @@ import UpdateButtonGroupSelectActionSchema from './EventAction/update-data/Updat
 import UpdateComboActionSchema from './EventAction/update-data/UpdateCombo';
 import SyncUpdateActionSchema from './EventAction/update-data/SyncUpdate';
 import DataAutoFillActionSchema from './EventAction/update-data/DataAutoFill';
+import SetVariable from './EventAction/update-data/SetVariable';
 import PreventFormActionSchema from './EventAction/prevent-defalut/PreventForm';
 import WizardSchema from './Wizard';
 import ChartSchema from './Chart';
@@ -634,6 +635,16 @@ export const examples = [
                 label: '数据回填',
                 path: '/examples/action/setdata/autofill',
                 component: makeSchemaRenderer(DataAutoFillActionSchema)
+              },
+              {
+                label: '更新全局变量数据',
+                path: '/examples/action/setdata/variable',
+                component: makeSchemaRenderer(
+                  SetVariable.schema,
+                  SetVariable.props ?? {},
+                  true,
+                  SetVariable.env
+                )
               }
             ]
           },

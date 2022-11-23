@@ -5,7 +5,6 @@ import LazyComponent from './components/LazyComponent';
 import {
   filterSchema,
   loadRenderer,
-  RendererComponent,
   RendererConfig,
   RendererEnv,
   RendererProps,
@@ -18,7 +17,6 @@ import {DebugWrapper} from './utils/debug';
 import getExprProperties from './utils/filter-schema';
 import {anyChanged, chainEvents, autobind} from './utils/helper';
 import {SimpleMap} from './utils/SimpleMap';
-
 import {bindEvent, dispatchEvent, RendererEvent} from './utils/renderer-event';
 import {isAlive} from 'mobx-state-tree';
 import {reaction} from 'mobx';
@@ -81,7 +79,6 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     this.renderChild = this.renderChild.bind(this);
     this.reRender = this.reRender.bind(this);
     this.resolveRenderer(this.props);
-
     this.dispatchEvent = this.dispatchEvent.bind(this);
 
     // 监听topStore更新
