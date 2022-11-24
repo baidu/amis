@@ -348,6 +348,7 @@ type Value = ValueGroup;
             {
               "label": "A",
               "type": "select",
+              "placeholder": "这个是下拉框",
               "name": "a",
               "source": "/api/mock2/form/getOptions?waitSeconds=1",
               "searchable": true
