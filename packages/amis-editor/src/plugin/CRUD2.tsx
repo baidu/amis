@@ -882,7 +882,12 @@ export class CRUDPlugin extends BasePlugin {
 
               getSchemaTpl('switch', {
                 label: '可选择',
-                name: 'selectable'
+                name: 'rowSelection',
+                pipeIn: (item: any) => !!item,
+                pipeOut: (item: any) =>
+                  item
+                    ? this.resolveRowSelection(context.context.schema)
+                    : undefined
               }),
 
               getSchemaTpl('switch', {
@@ -1369,7 +1374,8 @@ export class CRUDPlugin extends BasePlugin {
             )
           ) {
             schema.multiple = true;
-            schema.selectable = true;
+            // schema.selectable = true;
+            schema.rowSelection = this.resolveRowSelection(schema);
           }
         }
 
@@ -1385,6 +1391,7 @@ export class CRUDPlugin extends BasePlugin {
           'footer',
           'right'
         );
+
         return schema;
       },
       canRebuild: true
@@ -1602,6 +1609,15 @@ export class CRUDPlugin extends BasePlugin {
       );
     }
   }
+
+  resolveRowSelection(schema: any, multiple: boolean = true) {
+    return {
+      type: multiple ? 'checkbox' : 'radio',
+      keyField:
+        schema?.$$m?.__fields?.find((item: any) => item.isPrimayKey)?.key ||
+        'id'
+    };
+  }
 }
 
 export class TableCRUDPlugin extends CRUDPlugin {
@@ -1644,7 +1660,12 @@ export class TableCRUDPlugin extends CRUDPlugin {
   };
 
   resolveListField(setting: any, schema: any, builder: DSBuilder) {
-    builder.resolveTableSchema({schema, setting, inCrud: true});
+    // builder.resolveTableSchema({schema, setting, inCrud: true});
+
+    schema.columns = builder.resolveViewSchema({
+      setting,
+      feat: 'List'
+    });
 
     if (setting.operators?.length) {
       const operators: SchemaObject[] = [];
@@ -1840,7 +1861,10 @@ export class ListCRUDPlugin extends CRUDPlugin {
       return;
     }
 
-    schema.listItem.body = builder.resolveViewSchema({setting, feat: 'List'});
+    schema.listItem.body[0].body = builder.resolveViewSchema({
+      setting,
+      feat: 'List'
+    });
 
     if (setting.operators?.length) {
       const operators: SchemaObject[] = [];
