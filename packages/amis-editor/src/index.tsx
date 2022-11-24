@@ -165,7 +165,14 @@ import './renderer/FeatureControl';
 import './renderer/event-control/index';
 import './renderer/TreeOptionControl';
 import './renderer/TransferTableControl';
-import 'amis-theme-editor';
+import 'amis-theme-editor/lib/renderers/Border';
+import 'amis-theme-editor/lib/renderers/ColorPicker';
+import 'amis-theme-editor/lib/renderers/Font';
+import 'amis-theme-editor/lib/renderers/PaddingAndMargin';
+import 'amis-theme-editor/lib/renderers/Radius';
+import 'amis-theme-editor/lib/renderers/Shadow';
+import 'amis-theme-editor/lib/renderers/Size';
+import 'amis-theme-editor/lib/renderers.css';
 
 export * from './component/BaseControl';
 export * from './icons/index';
