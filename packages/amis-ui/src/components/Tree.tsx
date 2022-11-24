@@ -3,14 +3,14 @@
  * @description 树形组件
  *
  * 情况列举：
- * 1. 选中父节点时，连带选中子节点，
+ * 1. 选中父节点时，连带选中子节点 : autoChildren = true 前提条件
  *    1.1 交互
- *        1.1.1 子节点不可以取消勾选
- *        1.1.2 子节点可以取消勾选
+ *        1.1.1 子节点不可以取消勾选 cascade = false,
+ *        1.1.2 子节点可以取消勾选 cascade = true, withChildren 失效
  *    1.2 数据（state.value）
- *        1.2.1 只提交父节点数据
- *        1.2.2 只提交子节点的数据
- *        1.2.3 全部数据提交
+ *        1.2.1 只提交父节点数据 cascade = false
+ *        1.2.2 只提交子节点的数据  onlyChildren = true
+ *        1.2.3 全部数据提交 withChildren = true || cascade = true
  *
  * 2. 选中节点时，只选中当前节点，没有联动效果
  *
@@ -105,7 +105,7 @@ interface TreeSelectorProps extends ThemeProps, LocaleProps {
 
   /*
    * 该属性代表数据级联关系，autoCheckChildren为true时生效，默认为false，具体数据级联关系如下：
-   * 1.casacde为false，ui行为为级联选中子节点，子节点禁用；值只包含父节点的值
+   * 1.cascade 为false，ui行为为级联选中子节点，子节点禁用；值只包含父节点的值
    * 2.cascade为false，withChildren为true，ui行为为级联选中子节点，子节点禁用；值包含父子节点的值
    * 3.cascade为true，ui行为级联选中子节点，子节点可反选，值包含父子节点的值，此时withChildren属性失效
    * 4.cascade不论为true还是false，onlyChildren为true，ui行为级联选中子节点，子节点可反选，值只包含子节点的值
@@ -199,7 +199,7 @@ export class TreeSelector extends React.Component<
     virtualThreshold: 100,
     itemHeight: 32
   };
-
+  // 展开的节点
   unfolded: WeakMap<Object, boolean> = new WeakMap();
   checked: WeakMap<Object, boolean> = new WeakMap();
 
@@ -346,9 +346,12 @@ export class TreeSelector extends React.Component<
     this.forceUpdate();
   }
 
-  isUnfolded(node: any) {
+  isUnfolded(node: any): boolean {
     const unfolded = this.unfolded;
-    return unfolded.get(node);
+    if (node.parent) {
+      return !!unfolded.get(node) && this.isUnfolded(node.parent);
+    }
+    return !!unfolded.get(node);
   }
 
   @autobind
@@ -448,6 +451,7 @@ export class TreeSelector extends React.Component<
 
   @autobind
   handleCheck(item: any, checked: boolean) {
+    // TODO: 重新梳理这里的逻辑
     const props = this.props;
     const value = this.state.value.concat();
     const idx = value.indexOf(item);
@@ -755,7 +759,7 @@ export class TreeSelector extends React.Component<
 
   @autobind
   updateDropIndicator(e: React.DragEvent<Element>, node: Option) {
-    const gap = node?.children?.length ? 0 : 16;
+    // const gap = node?.children?.length ? 0 : 16;
     this.dropInfo = this.getDropInfo(e, node);
     let {dragNode, indicator} = this.dropInfo;
     if (node === dragNode) {
@@ -885,16 +889,21 @@ export class TreeSelector extends React.Component<
   /**
    * 判断子元素 部分勾选
    */
-  isItemChildrenPartialChecked(item: Option) {
-    if (!item || !item.children) {
+  isItemChildrenPartialChecked(item: Option, checked: boolean): boolean {
+    if (!item || !item.children || checked) {
       return false;
     }
+    let checkedLength = 0;
+    let partialChildrenLength = 0;
+    for (const child of item.children) {
+      if (this.isItemChecked(child)) {
+        checkedLength++;
+      } else if (this.isItemChildrenPartialChecked(child, false)) {
+        partialChildrenLength++;
+      }
+    }
 
-    const checkedLength = item.children.filter(
-      child => !this.isItemChecked(child)
-    ).length;
-
-    return checkedLength !== item.children.length && checkedLength !== 0;
+    return checkedLength !== 0 || partialChildrenLength !== 0;
   }
 
   /**
@@ -955,7 +964,6 @@ export class TreeSelector extends React.Component<
       maxLength,
       minLength,
       cascade,
-      withChildren,
       onlyChildren
     } = this.props;
     const {value} = this.state;
@@ -1013,7 +1021,6 @@ export class TreeSelector extends React.Component<
       removeTip,
       translate: __,
       itemRender,
-      // ? 没看到那里用到这个属性了，暂时没测
       draggable
     } = this.props;
 
@@ -1027,7 +1034,7 @@ export class TreeSelector extends React.Component<
 
     const checked = this.isItemChecked(item);
     const disabled = this.isItemDisabled(item, checked);
-    const partial = this.isItemChildrenPartialChecked(item);
+    const partial = this.isItemChildrenPartialChecked(item, checked);
     const checkedInValue = !!~this.state.value.indexOf(item);
 
     const checkbox: JSX.Element | null = multiple ? (
@@ -1245,7 +1252,6 @@ export class TreeSelector extends React.Component<
       draggable,
       translate: __
     } = this.props;
-
     const {
       value,
       isAdding,
