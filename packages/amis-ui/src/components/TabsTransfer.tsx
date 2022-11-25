@@ -345,7 +345,6 @@ export class TabsTransfer extends React.Component<
         onChange={onChange!}
         joinValues={false}
         showIcon={false}
-        multiple={true}
         cascade={true}
         onlyChildren={true}
         onDeferLoad={onDeferLoad}
