@@ -347,6 +347,7 @@ export class TabsTransfer extends React.Component<
         showIcon={false}
         multiple={true}
         cascade={true}
+        onlyChildren={true}
         onDeferLoad={onDeferLoad}
         itemRender={
           optionItemRender
