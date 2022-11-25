@@ -162,7 +162,9 @@ extendsFilters({
     );
   },
   duration: input => (input ? formatDuration(input) : input),
-  bytes: input => (input ? prettyBytes(parseFloat(input)) : input),
+  bytes: (input, step = 1000) => {
+    return input ? prettyBytes(parseFloat(input), parseInt(step, 10) ?? 1000) : input
+  },
   round: (input, decimals = 2) => {
     if (isNaN(input)) {
       return 0;
