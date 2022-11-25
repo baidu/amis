@@ -385,7 +385,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
           return;
         }
 
-        console.error(e.stack);
+        console.error(e);
         env.notify('error', e.message);
         return;
       }

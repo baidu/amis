@@ -212,7 +212,7 @@ export async function exportExcel(
             }
           });
         } catch (e) {
-          console.warn(e.stack);
+          console.warn(e);
         }
       } else if (type == 'link' || (type as any) === 'static-link') {
         const href = column.pristine.href;

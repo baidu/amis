@@ -571,7 +571,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
           return;
         }
 
-        console.error(e.stack);
+        console.error(e);
         env.notify('error', e.message);
         return;
       }
