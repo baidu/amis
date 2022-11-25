@@ -27,8 +27,7 @@ export function embed(
   container: string | HTMLElement,
   schema: any,
   props: any = {},
-  env?: any,
-  callback?: () => void
+  env?: any
 ) {
   const __ = makeTranslator(env?.locale || props?.locale);
 
@@ -260,10 +259,7 @@ export function embed(
       ...amisProps,
       ...props,
       scopeRef: (ref: any) => {
-        if (ref) {
-          Object.assign(scoped, ref);
-          callback?.();
-        }
+        if (ref) Object.assign(scoped, ref);
       }
     };
 

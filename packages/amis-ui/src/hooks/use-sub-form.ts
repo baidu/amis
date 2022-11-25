@@ -33,10 +33,10 @@ const useSubForm = (
 
   // 监控数值变化，自动同步到上层
   React.useEffect(() => {
-    const subscriber = methods.watch(() => {
+    const unsubscribe = methods.watch(() => {
       lazySubmit.current();
     });
-    return () => subscriber.unsubscribe();
+    return () => unsubscribe.unsubscribe();
   }, [methods.watch]);
 
   return methods;

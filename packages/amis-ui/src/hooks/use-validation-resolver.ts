@@ -23,7 +23,6 @@ export function useValidationResolver(__ = (str: string) => str) {
   return React.useCallback<any>(
     async (values: any, context: any, config: any) => {
       const rules: any = {};
-      const customValidator: any = {};
       const ruleKeys = Object.keys(validations);
       for (let key of Object.keys(config.fields)) {
         const field = config.fields[key];
@@ -32,26 +31,9 @@ export function useValidationResolver(__ = (str: string) => str) {
         if (field.required) {
           rules[key].isRequired = true;
         }
-
-        if (typeof field.validate === 'function') {
-          customValidator[key] = field.validate;
-        }
       }
 
       const errors = validateObject(values, rules, undefined, __);
-
-      for (let key of Object.keys(customValidator)) {
-        const validate = customValidator[key];
-        const result = await validate(values[key]);
-
-        if (typeof result === 'string') {
-          errors[key] = errors[key] || [];
-          errors[key].push({
-            rule: 'custom',
-            msg: result
-          });
-        }
-      }
 
       return {
         values,

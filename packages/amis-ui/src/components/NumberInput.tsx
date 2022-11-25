@@ -179,16 +179,9 @@ export class NumberInput extends React.Component<NumberProps, any> {
 
   constructor(props: NumberProps) {
     super(props);
-
-    // 严格判断大数模式，因为初始化value为empty string时，修改value值格式仍然为string
-    this.isBig = !!props.big;
-  }
-
-  componentDidUpdate(prevProps: NumberProps) {
-    const isBig = !!this.props.big;
-
-    if (!!prevProps?.big !== isBig) {
-      this.isBig = isBig;
+    const value = props.value;
+    if (typeof value === 'string' || props.big) {
+      this.isBig = true;
     }
   }
 

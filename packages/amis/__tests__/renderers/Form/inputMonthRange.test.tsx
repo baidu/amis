@@ -1,26 +1,11 @@
-/**
- * 组件名称：InputMonthRange 月份范围
- * 
- * 备注：InputMonthRange 与 dateRange 等日期范围使用的是同一个组件，所以只测试不同的地方即可
- * 
- * 单测内容：
- 1. 点击选择
- 2. timeFormat
- */
-import {
-  render,
-  fireEvent,
-  within,
-  cleanup,
-  waitFor
-} from '@testing-library/react';
+import React = require('react');
+import {render, fireEvent, within, cleanup} from '@testing-library/react';
 import '../../../src';
 import {render as amisRender} from '../../../src';
-import {makeEnv, wait} from '../../helper';
+import {makeEnv} from '../../helper';
 import moment from 'moment';
 
-// 1. 点击选择
-test('Renderer:inputMonthRange click', async () => {
+test('Renderer:inputMonth click', async () => {
   const {container, findByPlaceholderText, getByText} = render(
     amisRender(
       {
@@ -71,50 +56,4 @@ test('Renderer:inputMonthRange click', async () => {
 
   expect((value[0] as HTMLInputElement).value).toEqual(thisMonthValue);
   expect((value[1] as HTMLInputElement).value).toEqual(nextMonthValue);
-});
-
-// 2. 内嵌模式
-test('Renderer:inputMonthRange with embed', async () => {
-  const {container, findByPlaceholderText, getByText} = render(
-    amisRender(
-      {
-        type: 'form',
-        submitText: 'Submit',
-        api: '/api/xxx',
-        body: [
-          {
-            type: 'input-month-range',
-            name: 'a',
-            label: '月份范围',
-            embed: true,
-            format: 'YYYY-MM',
-            value: '2019-10,2022-11'
-          }
-        ],
-        title: 'The form'
-      },
-      {},
-      makeEnv({})
-    )
-  );
-
-  expect(
-    container.querySelector('.cxd-DateRangePicker-start .rdtSwitch')!.innerHTML
-  ).toBe('2019年');
-  expect(
-    container.querySelector(
-      '.cxd-DateRangePicker-start .rdtMonth.rdtActive span'
-    )!.innerHTML
-  ).toBe('10月');
-
-  expect(
-    container.querySelector('.cxd-DateRangePicker-end .rdtSwitch')!.innerHTML
-  ).toBe('2022年');
-  expect(
-    container.querySelector(
-      '.cxd-DateRangePicker-end .rdtMonth.rdtActive span'
-    )!.innerHTML
-  ).toBe('11月');
-
-  expect(container).toMatchSnapshot();
 });

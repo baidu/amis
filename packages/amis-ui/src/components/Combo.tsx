@@ -73,8 +73,7 @@ import {
   RegisterOptions,
   useFieldArray,
   UseFieldArrayProps,
-  UseFormReturn,
-  useFormState
+  UseFormReturn
 } from 'react-hook-form';
 import useSubForm from '../hooks/use-sub-form';
 import Button from './Button';
@@ -148,64 +147,17 @@ export function Combo({
   minLength,
   maxLength
 }: ComboProps) {
-  const subForms = React.useRef<Record<any, UseFormReturn>>({});
-  const subFormRef = React.useCallback(
-    (subform: UseFormReturn | null, index: number) => {
-      if (subform) {
-        subForms.current[index] = subform;
-      } else {
-        delete subForms.current[index];
-      }
-    },
-    [subForms]
-  );
-  let finalRules: any = {...rules};
+  // 看文档是支持的，但是传入报错，后面看看
+  // let rules2: any = {...rules};
 
-  if (isRequired) {
-    finalRules.required = true;
-  }
-
-  if (minLength) {
-    finalRules.minLength = minLength;
-  }
-
-  if (maxLength) {
-    finalRules.maxLength = maxLength;
-  }
-
-  finalRules.validate = React.useCallback(
-    async (items: Array<any>) => {
-      const map = subForms.current;
-
-      if (typeof rules?.validate === 'function') {
-        const result = await rules.validate(items);
-        if (result) {
-          return result;
-        }
-      }
-
-      for (let key of Object.keys(map)) {
-        const valid = await (function (methods) {
-          return new Promise<boolean>(resolve => {
-            methods.handleSubmit(
-              () => resolve(true),
-              () => resolve(false)
-            )();
-          });
-        })(map[key]);
-
-        if (!valid) {
-          return __('validateFailed');
-        }
-      }
-    },
-    [subForms]
-  );
+  // if (isRequired) {
+  //   rules2.required = true;
+  // }
   const {fields, append, update, remove} = useFieldArray({
     control,
     name: name,
-    shouldUnregister: true,
-    rules: finalRules
+    shouldUnregister: true
+    // rules: rules2
   });
 
   function renderBody() {
@@ -228,7 +180,6 @@ export function Combo({
                 itemRender={itemRender}
                 translate={__}
                 classnames={cx}
-                formRef={subFormRef}
               />
               <a
                 onClick={() => remove(index)}
@@ -264,10 +215,6 @@ export function Combo({
     );
   }
 
-  const {errors} = useFormState({
-    control
-  });
-
   return wrap === false ? (
     renderBody()
   ) : (
@@ -279,8 +226,8 @@ export function Combo({
       description={description}
       mode={mode}
       isRequired={isRequired}
-      hasError={!!errors[name]?.message}
-      errors={errors[name]?.message as any}
+      hasError={false /*目前看来不支持，后续研究一下 */}
+      errors={undefined /*目前看来不支持，后续研究一下 */}
     >
       {renderBody()}
     </FormField>
@@ -295,7 +242,6 @@ export interface ComboItemProps {
   index: number;
   translate: TranslateFn;
   classnames: ClassNamesFn;
-  formRef: (form: UseFormReturn | null, index: number) => void;
 }
 
 export function ComboItem({
@@ -304,16 +250,9 @@ export function ComboItem({
   index,
   translate,
   update,
-  classnames: cx,
-  formRef
+  classnames: cx
 }: ComboItemProps) {
   const methods = useSubForm(value, translate, data => update(index, data));
-  React.useEffect(() => {
-    formRef?.(methods, index);
-    return () => {
-      formRef?.(null, index);
-    };
-  }, [methods]);
 
   let child: any = itemRender(methods, index);
   if (child?.type === React.Fragment) {

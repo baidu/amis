@@ -34,12 +34,6 @@ test('lexer:filter', () => {
       evalMode: false
     })
   ).toMatchSnapshot();
-
-  expect(
-    getTokens('\\$abc is ${abc | isTrue : trueValue : falseValue}', {
-      evalMode: false
-    })
-  ).toMatchSnapshot();
 });
 
 // test('lexer:test', () => {

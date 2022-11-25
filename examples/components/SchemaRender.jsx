@@ -9,7 +9,7 @@ import {qsparse, parseQuery} from 'amis-core';
 
 function loadEditor() {
   return new Promise(resolve =>
-    import('amis-ui').then(component => resolve(component.Editor))
+    require(['amis-ui'], component => resolve(component.Editor))
   );
 }
 
