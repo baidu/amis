@@ -431,12 +431,24 @@ setSchemaTpl('theme:classNames', (option: any = []) => {
     title: 'CSS 类名',
     body: [
       {
-        type: 'input-text',
+        type: 'theme-classname',
         label: '外层',
         name: 'className'
       },
       ...option
     ]
+  };
+});
+
+// 文字编辑器
+setSchemaTpl('theme:font', (option: any = {}) => {
+  return {
+    mode: 'default',
+    type: 'amis-theme-font-editor',
+    label: '文字',
+    name: `css.className.font`,
+    needCustom: true,
+    ...option
   };
 });
 
@@ -452,6 +464,18 @@ setSchemaTpl('theme:colorPicker', (option: any = {}) => {
   };
 });
 
+// 边框选择器
+setSchemaTpl('theme:border', (option: any = {}) => {
+  return {
+    mode: 'default',
+    type: 'amis-theme-border',
+    label: '边框',
+    name: `css.className.border`,
+    needColorCustom: true,
+    ...option
+  };
+});
+
 // 边距选择器
 setSchemaTpl('theme:paddingAndMargin', (option: any = {}) => {
   return {
@@ -459,6 +483,17 @@ setSchemaTpl('theme:paddingAndMargin', (option: any = {}) => {
     type: 'amis-theme-padding-and-margin',
     label: '边距',
     name: `css.className.padding-and-margin`,
+    ...option
+  };
+});
+
+// 圆角选择器
+setSchemaTpl('theme:radius', (option: any = {}) => {
+  return {
+    mode: 'default',
+    type: 'amis-theme-radius',
+    label: '圆角',
+    name: `css.className.radius`,
     ...option
   };
 });

@@ -80,17 +80,29 @@ export class ButtonPlugin extends BasePlugin {
 
     const buttonStateFunc = (visibleOn: string, state: string) => {
       return [
-        getSchemaTpl('theme:colorPicker', {
-          label: '文字颜色',
-          name: `css.className.color:${state}`,
-          labelMode: 'input',
+        getSchemaTpl('theme:font', {
+          label: '文字',
+          name: `css.className.font:${state}`,
           visibleOn: visibleOn
         }),
         getSchemaTpl('theme:colorPicker', {
-          label: '背景颜色',
+          label: '背景',
           name: `css.className.background:${state}`,
           labelMode: 'input',
           needGradient: true,
+          visibleOn: visibleOn
+        }),
+        getSchemaTpl('theme:border', {
+          name: `css.className.border:${state}`,
+          visibleOn: visibleOn
+        }),
+        getSchemaTpl('theme:paddingAndMargin', {
+          name: `css.className.padding-and-margin:${state}`,
+
+          visibleOn: visibleOn
+        }),
+        getSchemaTpl('theme:radius', {
+          name: `css.className.radius:${state}`,
           visibleOn: visibleOn
         })
       ];
@@ -284,7 +296,7 @@ export class ButtonPlugin extends BasePlugin {
             ]
           },
           {
-            title: '样式参数',
+            title: '自定义样式',
             body: [
               {
                 type: 'select',
@@ -303,10 +315,6 @@ export class ButtonPlugin extends BasePlugin {
                   {
                     label: '点击',
                     value: 'active'
-                  },
-                  {
-                    label: '禁用',
-                    value: 'disabled'
                   }
                 ]
               },
@@ -317,10 +325,6 @@ export class ButtonPlugin extends BasePlugin {
               ...buttonStateFunc("${editorState == 'hover'}", 'hover'),
               ...buttonStateFunc("${editorState == 'active'}", 'active')
             ]
-          },
-          {
-            title: '尺寸参数',
-            body: [getSchemaTpl('theme:paddingAndMargin')]
           },
           getSchemaTpl('theme:classNames')
         ])
