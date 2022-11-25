@@ -682,6 +682,10 @@
       }
     }
 
+    > .#{$ns}Tabs-linksWrapper + .#{$ns}Tabs-content {
+      max-width: 300px;
+    }
+
     > .#{$ns}Tabs-content {
       border: none;
       flex-grow: 1;

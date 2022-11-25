@@ -15,12 +15,15 @@ order: 59
 ```schema: scope="body"
 {
   "type": "form",
+  "debug": true,
   "api": "/api/mock2/form/saveForm",
   "body": [
     {
       "type": "input-tree",
       "name": "tree",
       "label": "Tree",
+      "joinValues": false,
+      "extractValue": false,
       "options": [
         {
           "label": "Folder A",
