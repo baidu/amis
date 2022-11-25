@@ -201,7 +201,8 @@ export class TreeSelector extends React.Component<
   };
   // 展开的节点
   unfolded: WeakMap<Object, boolean> = new WeakMap();
-  checked: WeakMap<Object, boolean> = new WeakMap();
+  // key: child option, value: parent option;
+  relations: WeakMap<Option, Option> = new WeakMap();
 
   dragNode: Option | null;
   dropInfo: IDropInfo | null;
@@ -348,8 +349,9 @@ export class TreeSelector extends React.Component<
 
   isUnfolded(node: any): boolean {
     const unfolded = this.unfolded;
-    if (node.parent) {
-      return !!unfolded.get(node) && this.isUnfolded(node.parent);
+    const parent = this.relations.get(node);
+    if (parent) {
+      return !!unfolded.get(node) && this.isUnfolded(parent);
     }
     return !!unfolded.get(node);
   }
@@ -844,9 +846,9 @@ export class TreeSelector extends React.Component<
           item.key = item.key || key;
           flattenedOptions.push(item);
         } else if (this.isUnfolded(parent)) {
+          this.relations.set(item, parent);
           // 父节点是展开的状态
           item.level = level;
-          item.parent = parent;
           item.key = item.key || `${parent.key}-${key}`;
           flattenedOptions.push(item);
         }
@@ -867,13 +869,14 @@ export class TreeSelector extends React.Component<
    * TODO: 递归可能需要优化
    */
   isParentChecked(item?: Option): boolean {
-    if (!item || !item.parent) {
+    if (!item || !this.relations.get(item)) {
       return false;
     }
+    const itemParent = this.relations.get(item);
     const {value} = this.state;
-    const checked = !!~value.indexOf(item.parent);
+    const checked = !!~value.indexOf(itemParent);
 
-    return checked || this.isParentChecked(item.parent);
+    return checked || this.isParentChecked(itemParent);
   }
 
   /**
@@ -933,8 +936,8 @@ export class TreeSelector extends React.Component<
         return true;
       }
     }
-
-    if (item.parent && multiple && autoCheckChildren) {
+    const itemParent = this.relations.get(item);
+    if (itemParent && multiple && autoCheckChildren) {
       // 当前节点为子节点
       if (withChildren) {
         return false;
@@ -984,12 +987,14 @@ export class TreeSelector extends React.Component<
       return true;
     }
 
+    const itemParent = this.relations.get(item);
+
     if (
       autoCheckChildren &&
       multiple &&
       checked &&
-      item.parent &&
-      this.isItemChecked(item.parent)
+      itemParent &&
+      this.isItemChecked(itemParent)
     ) {
       // 子节点
       if (onlyChildren) {
