@@ -479,7 +479,9 @@ export class TreeSelectControlPlugin extends BasePlugin {
                     }
                   ]
                 }
-              }
+              },
+              getSchemaTpl('virtualThreshold'),
+              getSchemaTpl('virtualItemHeight')
             ]
           },
           getSchemaTpl('status', {
