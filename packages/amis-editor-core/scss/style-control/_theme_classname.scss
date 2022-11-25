@@ -1,0 +1,31 @@
+.ThemeClassName {
+  position: relative;
+  &-button {
+    position: absolute;
+    left: px2rem(-38px);
+  }
+}
+.ThemeClassName-editor {
+  height: auto;
+  width: px2rem(400px);
+  padding: px2rem(16px);
+  position: relative;
+  &-title {
+    font-size: 14px;
+    margin-bottom: px2rem(16px);
+  }
+  &-close {
+    position: absolute;
+    top: px2rem(14px);
+    right: px2rem(16px);
+    button {
+      height: px2rem(16px);
+      padding: 0;
+      margin: 0;
+    }
+  }
+  &-content {
+    height: px2rem(500px);
+    width: 100%;
+  }
+}
