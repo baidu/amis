@@ -321,6 +321,7 @@ export class TabsTransferRenderer extends BaseTabsTransferRenderer<TabsTransferP
             toNumber(itemHeight) > 0 ? toNumber(itemHeight) : undefined
           }
           virtualThreshold={virtualThreshold}
+          multiple={true}
         />
 
         <Spinner overlay key="info" show={loading} />
