@@ -1,6 +1,6 @@
 {
   "name": "amis-editor-core",
-  "version": "5.2.1-beta.22",
+  "version": "5.2.1-beta.23",
   "description": "amis 可视化编辑器",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -27,6 +27,8 @@
     "deep-diff": "1.0.2",
     "json-ast-comments": "^1.1.0",
     "lodash": "^4.17.15",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "mobx": "^4.5.0",
     "mobx-react": "^6.3.1",
     "mobx-state-tree": "^3.17.3",

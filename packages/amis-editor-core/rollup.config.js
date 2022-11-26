@@ -39,33 +39,27 @@ const input = './src/index.ts';
 export default [
   {
     input,
-
-    output: [
-      {
-        ...settings,
-        dir: path.dirname(main),
-        format: 'cjs',
-        exports: 'named',
-        preserveModulesRoot: './src',
-        preserveModules: false // Keep directory structure and files
-      }
-    ],
+    output: [{
+      ...settings,
+      dir: path.dirname(main),
+      format: 'cjs',
+      exports: 'named',
+      preserveModulesRoot: './src',
+      preserveModules: false // Keep directory structure and files
+    }],
     external,
     plugins: getPlugins('cjs')
   },
   {
     input,
-
-    output: [
-      {
-        ...settings,
-        dir: path.dirname(module),
-        format: 'esm',
-        exports: 'named',
-        preserveModulesRoot: './src',
-        preserveModules: false // Keep directory structure and files
-      }
-    ],
+    output: [{
+      ...settings,
+      dir: path.dirname(module),
+      format: 'esm',
+      exports: 'named',
+      preserveModulesRoot: './src',
+      preserveModules: false // Keep directory structure and files
+    }],
     external,
     plugins: getPlugins('esm')
   }
