@@ -1,6 +1,6 @@
 {
   "name": "amis-editor-core",
-  "version": "5.2.1-beta.25",
+  "version": "5.2.1-beta.26",
   "description": "amis 可视化编辑器",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -31,7 +31,8 @@
     "mobx-react": "^6.3.1",
     "mobx-state-tree": "^3.17.3",
     "react-json-view": "^1.21.3",
-    "sortablejs": "^1.14.0"
+    "sortablejs": "^1.14.0",
+    "axios": "0.21.1"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.15.3",
@@ -61,7 +62,6 @@
     "amis-core": "2.4.1-beta.0",
     "amis-formula": "2.4.1-beta.0",
     "amis-ui": "2.4.1-beta.0",
-    "axios": "0.21.1",
     "concurrently": "^6.2.0",
     "css-loader": "^6.2.0",
     "faker": "^5.5.3",
