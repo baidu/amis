@@ -1172,8 +1172,6 @@ extendLocale('en-US', {
   '2c4a34adf66f12d0a08716383304a66e':
     'It is implemented by hiphoto. For the custom interface, it is invalid.',
   '5d8ff202988e28795bc72ab60d67d79d': 'Compression configuration',
-  '99b57d8c9244ff9a695fcd519b4e2e57': 'Maximum width',
-  'fc2bc4193eea63128961d09497e07dc8': 'Maximum height',
   'd4efa8f599c1effe67bf6a7f38a9c40d': 'Whether to display compression option',
   'f8a68f636880acd097317f16aeacaedc': 'Turn on Cropping',
   '3d948d24bc4c29689c5a1d4bcb9f2b98':
@@ -2289,7 +2287,7 @@ extendLocale('en-US', {
   '1fc7d723b3a82ce32bfbbfa0a1761969':
     'For example, enter <code>\\${videoFrames}</code>. You can search for the videoFrames in the current application domain. If it is an object, a video screen-shot list is generated. After you click the list, click the screen-shot to redirect to the corresponding frame.',
   '1fa035e78c5408c9079c20637acdb2bb': 'It is used to render the Web Component.',
-  '8df7c8a1f9f579f0ddc35bb4ee50f166': 'Package?',
+  '8df7c8a1f9f579f0ddc35bb4ee50f166': 'Package',
   '5acec91385a3b9093e3c803f6b0d869a': 'Wizard',
   'c8c0339a6f9e105cfef45b76b788b635':
     'The form wizard can split multiple complex form items into multiple steps. Then, it can guide the user to fill the items  step by step.',
@@ -3004,8 +3002,6 @@ extendLocale('en-US', {
   'c7fa7f54ece94ae684aee1ee2088a5ae': 'Rotate during cropping',
   'bd698e3f47ede4e59aafb28a291b77e7': 'Zooming-in during cropping',
   'f785a357a820555445acd6f7051b1048': 'Cropping area',
-  'a2b62974f4d7564bb68b570116f25a10': 'Minimum width',
-  '2bd921d0ea7a73b77ee0fcddb1afcc84': 'Maximum height',
   'b7623c7e17098d5950694437aa7584ad': 'Aspect ratio',
   '204770091fd4b7cd0611ddc65bf21d37': 'Automatic selection of child node',
   'be7d848c40dfdd3e20f233c373af00a5':
@@ -3541,5 +3537,13 @@ extendLocale('en-US', {
   'a3f66655c3d2bcfecc6afba0e4424460':
     'Height of each option when virtual list is turned on',
   '183f00df0922a6be371fea58cd46a60a': 'Elastic height',
-  '9e7c8d1554f6449121a83f951cf21ca1': 'Elastic scale'
+  '9e7c8d1554f6449121a83f951cf21ca1': 'Elastic scale',
+  'ff9e9329fe186be342ef59ee711b9371': 'Y-axis scrolling mode',
+  'c18457fe4f249f06b48297ccfe6224e8': 'X-axis scrolling mode',
+  '99b57d8c9244ff9a695fcd519b4e2e57': 'Maximum width',
+  'fc2bc4193eea63128961d09497e07dc8': 'Maximum height',
+  'a2b62974f4d7564bb68b570116f25a10': 'Minimum width',
+  '2bd921d0ea7a73b77ee0fcddb1afcc84': 'Minimum height',
+  'eb7366583485f478e3d8c2b105ea51ff':
+    'Defines the magnification of the item. If it is set to 0, it will not be magnified even if there is space left in the parent container.'
 });
