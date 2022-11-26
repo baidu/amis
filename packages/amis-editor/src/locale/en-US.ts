@@ -535,10 +535,10 @@ extendLocale('en-US', {
   'c14ebcefcb02c97b925b762d8bacd1ee': 'Press ESC to close the pop-up box',
   '4cade75641878a17e2f1ff29ff0ac235':
     'Click the area outside the pop-up box to close the pop-up box',
-  '391b8fa9c747a1799353ab856e666ad5': 'Small',
-  '18c63459a2c069022c7790430f761214': 'Default',
-  'aed1dfbc31703955e64806b799b67645': 'Medium',
-  'ab18e30c0dc4093ceeda8961fac3d1f4': 'Big',
+  '391b8fa9c747a1799353ab856e666ad5': 'sm',
+  '18c63459a2c069022c7790430f761214': 'default',
+  'aed1dfbc31703955e64806b799b67645': 'md',
+  'ab18e30c0dc4093ceeda8961fac3d1f4': 'lg',
   '949934d97c42801151673a51d3adc421': 'Extra big',
   '5831b836c8132033f90b3f530fa433db': 'Whether to display the close button',
   '79e5818b205352166231217ea39c4f1f': 'Top CSS class name',
@@ -806,7 +806,7 @@ extendLocale('en-US', {
   'ec2a8ec81d1d2588db8c7827ba99e7d3': 'Whether to fold',
   'f315bd4984fd09c30581674d28287f12': 'Whether to fold by default',
   'ab2d2b13794ae1e2d7bf3bcd5af55dce': 'Control style',
-  '23ecf42cada8bf2715792d718544d107': 'Extremely small',
+  '23ecf42cada8bf2715792d718544d107': 'xs',
   'e5a226534fb99ab260865b936d3c85ba': 'CSS class name of content area ',
   '12b54e3fdccdbb5588785fce5534edbd':
     'Click to add a sub-form item in the left component panel',

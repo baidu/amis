@@ -165,8 +165,7 @@ export class WrapperPlugin extends BasePlugin {
                     type: 'button-group-select',
                     name: 'size',
                     size: 'xs',
-                    mode: 'row',
-                    className: 'ae-buttonGroupSelect--justify',
+                    mode: 'vertical',
                     options: [
                       {
                         label: '极小',
