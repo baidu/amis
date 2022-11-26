@@ -628,7 +628,7 @@ setSchemaTpl(
         config?.label ||
         tipedLabel(
           '弹性比例',
-          '定义项目的放大比例，默认为0，即如果存在剩余空间，也不放大。'
+          '定义项目的放大比例，如果设置为0，即使父容器存在剩余空间，也不放大。'
         ),
       name: config?.name || 'style.flexGrow',
       value: config?.value || 1,
