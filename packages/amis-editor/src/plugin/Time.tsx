@@ -13,7 +13,8 @@ export class TimePlugin extends DatePlugin {
 
   scaffold = {
     type: 'time',
-    value: Math.round(Date.now() / 1000)
+    value: Math.round(Date.now() / 1000),
+    format: 'HH:mm:ss',
   };
 
   previewSchema = {
