@@ -1,6 +1,6 @@
 {
   "name": "amis-editor",
-  "version": "5.2.1-beta.23",
+  "version": "5.2.1-beta.25",
   "description": "amis 可视化编辑器",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -94,6 +94,8 @@
     "amis-core": "*",
     "amis-formula": "*",
     "amis-ui": "*",
-    "i18n-runtime": "*"
+    "i18n-runtime": "*",
+    "react": ">=16.8.6",
+    "react-dom": ">=16.8.6"
   }
 }
