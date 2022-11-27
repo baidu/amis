@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Renderer:tabs-transfer 1`] = `
+exports[`Renderer:tabsTransfer 1`] = `
 <div>
   <div
     class="cxd-Page"
@@ -484,7 +484,7 @@ exports[`Renderer:tabs-transfer 1`] = `
                                       <span
                                         class=""
                                       >
-                                        法师
+                                        法师2
                                       </span>
                                     </div>
                                   </div>
@@ -497,7 +497,7 @@ exports[`Renderer:tabs-transfer 1`] = `
                                       <span
                                         class=""
                                       >
-                                        战士
+                                        战士2
                                       </span>
                                     </div>
                                   </div>
@@ -510,7 +510,7 @@ exports[`Renderer:tabs-transfer 1`] = `
                                       <span
                                         class=""
                                       >
-                                        打野
+                                        打野2
                                       </span>
                                     </div>
                                   </div>
@@ -571,7 +571,580 @@ exports[`Renderer:tabs-transfer 1`] = `
                   type="submit"
                 >
                   <span>
-                    提交
+                    submitText
+                  </span>
+                </button>
+              </div>
+            </div>
+            <div
+              class="resize-sensor"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+            >
+              
+  
+              <div
+                class="resize-sensor-expand"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-shrink"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-appear"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:tabsTransfer with deferApi 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <div
+            class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            style="position: relative;"
+          >
+            <div
+              class="cxd-Panel-heading"
+            >
+              <h3
+                class="cxd-Panel-title"
+              >
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    表单
+                  </span>
+                </span>
+              </h3>
+            </div>
+            <div
+              class="cxd-Panel-body"
+            >
+              <form
+                class="cxd-Form cxd-Form--normal"
+                novalidate=""
+              >
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
+                <div
+                  class="cxd-Form-item cxd-Form-item--normal"
+                  data-role="form-item"
+                >
+                  <label
+                    class="cxd-Form-label"
+                  >
+                    <span>
+                      <span
+                        class="cxd-TplField"
+                      >
+                        <span>
+                          组合穿梭器
+                        </span>
+                      </span>
+                    </span>
+                  </label>
+                  <div
+                    class="cxd-TabsTransferControl cxd-Form-control"
+                  >
+                    <div
+                      class="cxd-Transfer cxd-TabsTransfer"
+                    >
+                      <div
+                        class="cxd-Transfer-select"
+                      >
+                        <div
+                          class="cxd-Tabs cxd-Tabs--line cxd-TabsTransfer-tabs"
+                        >
+                          <div
+                            class="cxd-Tabs-linksContainer-wrapper"
+                            style="position: relative;"
+                          >
+                            <div
+                              class="cxd-Tabs-linksContainer"
+                            >
+                              <div
+                                class="cxd-Tabs-linksContainer-main"
+                              >
+                                <ul
+                                  class="cxd-Tabs-links"
+                                  role="tablist"
+                                >
+                                  <li
+                                    class="cxd-Tabs-link is-active"
+                                  >
+                                    <a
+                                      title="成员"
+                                    >
+                                      成员
+                                    </a>
+                                  </li>
+                                  <li
+                                    class="cxd-Tabs-link"
+                                  >
+                                    <a
+                                      title="用户"
+                                    >
+                                      用户
+                                    </a>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                            <div
+                              class="resize-sensor"
+                              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+                            >
+                              
+  
+                              <div
+                                class="resize-sensor-expand"
+                                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                              >
+                                
+    
+                                <div
+                                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                                />
+                                
+  
+                              </div>
+                              
+  
+                              <div
+                                class="resize-sensor-shrink"
+                                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                              >
+                                
+    
+                                <div
+                                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                                />
+                                
+  
+                              </div>
+                              
+  
+                              <div
+                                class="resize-sensor-appear"
+                                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                              />
+                            </div>
+                          </div>
+                          <div
+                            class="cxd-Tabs-content"
+                          >
+                            <div
+                              class="in is-active cxd-Tabs-pane cxd-TabsTransfer-tab"
+                            >
+                              <div
+                                class="cxd-TabsTransfer-search"
+                              >
+                                <div
+                                  class="cxd-InputBox"
+                                >
+                                  <input
+                                    placeholder="请输入关键字"
+                                    size="12"
+                                    theme="cxd"
+                                    type="text"
+                                    value=""
+                                  />
+                                  <icon-mock
+                                    classname="icon icon-search"
+                                    icon="search"
+                                  />
+                                </div>
+                              </div>
+                              <div
+                                class="cxd-AssociatedSelection cxd-Transfer-checkboxes"
+                              >
+                                <div
+                                  class="cxd-AssociatedSelection-left"
+                                >
+                                  <div
+                                    class="cxd-Tree "
+                                  >
+                                    <ul
+                                      class="cxd-Tree-list"
+                                    >
+                                      <li
+                                        class="cxd-Tree-item "
+                                      >
+                                        <div
+                                          class="cxd-Tree-itemLabel"
+                                        >
+                                          <div
+                                            class="cxd-Tree-itemArrow"
+                                          >
+                                            <icon-mock
+                                              classname="icon icon-down-arrow-bold"
+                                              icon="down-arrow-bold"
+                                            />
+                                          </div>
+                                          <div
+                                            class="cxd-Tree-itemLabel-item"
+                                          >
+                                            <i
+                                              class="cxd-Tree-itemIcon cxd-Tree-folderIcon"
+                                            >
+                                              <icon-mock
+                                                classname="icon icon-folder"
+                                                icon="folder"
+                                              />
+                                            </i>
+                                            <span
+                                              class="cxd-Tree-itemText"
+                                              title="DEFER"
+                                            >
+                                              DEFER
+                                            </span>
+                                            <div
+                                              class="cxd-Tree-item-icons"
+                                            />
+                                          </div>
+                                        </div>
+                                        <ul
+                                          class="cxd-Tree-sublist"
+                                        >
+                                          <li
+                                            class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                          >
+                                            <div
+                                              class="cxd-Tree-itemLabel"
+                                            >
+                                              <span
+                                                class="cxd-Tree-itemArrowPlaceholder"
+                                              />
+                                              <div
+                                                class="cxd-Tree-itemLabel-item"
+                                              >
+                                                <i
+                                                  class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
+                                                >
+                                                  <icon-mock
+                                                    classname="icon icon-file"
+                                                    icon="file"
+                                                  />
+                                                </i>
+                                                <span
+                                                  class="cxd-Tree-itemText"
+                                                  title="Option A"
+                                                >
+                                                  Option A
+                                                </span>
+                                                <div
+                                                  class="cxd-Tree-item-icons"
+                                                />
+                                              </div>
+                                            </div>
+                                          </li>
+                                          <li
+                                            class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                          >
+                                            <div
+                                              class="cxd-Tree-itemLabel is-checked"
+                                            >
+                                              <span
+                                                class="cxd-Tree-itemArrowPlaceholder"
+                                              />
+                                              <div
+                                                class="cxd-Tree-itemLabel-item"
+                                              >
+                                                <i
+                                                  class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
+                                                >
+                                                  <icon-mock
+                                                    classname="icon icon-file"
+                                                    icon="file"
+                                                  />
+                                                </i>
+                                                <span
+                                                  class="cxd-Tree-itemText"
+                                                  title="Option B"
+                                                >
+                                                  Option B
+                                                </span>
+                                                <div
+                                                  class="cxd-Tree-item-icons"
+                                                />
+                                              </div>
+                                            </div>
+                                          </li>
+                                          <li
+                                            class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                          >
+                                            <div
+                                              class="cxd-Tree-itemLabel"
+                                            >
+                                              <span
+                                                class="cxd-Tree-itemArrowPlaceholder"
+                                              />
+                                              <div
+                                                class="cxd-Tree-itemLabel-item"
+                                              >
+                                                <i
+                                                  class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
+                                                >
+                                                  <icon-mock
+                                                    classname="icon icon-file"
+                                                    icon="file"
+                                                  />
+                                                </i>
+                                                <span
+                                                  class="cxd-Tree-itemText"
+                                                  title="Option C"
+                                                >
+                                                  Option C
+                                                </span>
+                                                <div
+                                                  class="cxd-Tree-item-icons"
+                                                />
+                                              </div>
+                                            </div>
+                                          </li>
+                                          <li
+                                            class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                          >
+                                            <div
+                                              class="cxd-Tree-itemLabel"
+                                            >
+                                              <span
+                                                class="cxd-Tree-itemArrowPlaceholder"
+                                              />
+                                              <div
+                                                class="cxd-Tree-itemLabel-item"
+                                              >
+                                                <i
+                                                  class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
+                                                >
+                                                  <icon-mock
+                                                    classname="icon icon-file"
+                                                    icon="file"
+                                                  />
+                                                </i>
+                                                <span
+                                                  class="cxd-Tree-itemText"
+                                                  title="Option D"
+                                                >
+                                                  Option D
+                                                </span>
+                                                <div
+                                                  class="cxd-Tree-item-icons"
+                                                />
+                                              </div>
+                                            </div>
+                                          </li>
+                                          <li
+                                            class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                          >
+                                            <div
+                                              class="cxd-Tree-itemLabel"
+                                            >
+                                              <span
+                                                class="cxd-Tree-itemArrowPlaceholder"
+                                              />
+                                              <div
+                                                class="cxd-Tree-itemLabel-item"
+                                              >
+                                                <i
+                                                  class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
+                                                >
+                                                  <icon-mock
+                                                    classname="icon icon-file"
+                                                    icon="file"
+                                                  />
+                                                </i>
+                                                <span
+                                                  class="cxd-Tree-itemText"
+                                                  title="Option E"
+                                                >
+                                                  Option E
+                                                </span>
+                                                <div
+                                                  class="cxd-Tree-item-icons"
+                                                />
+                                              </div>
+                                            </div>
+                                          </li>
+                                        </ul>
+                                      </li>
+                                      <li
+                                        class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                      >
+                                        <div
+                                          class="cxd-Tree-itemLabel"
+                                        >
+                                          <span
+                                            class="cxd-Tree-itemArrowPlaceholder"
+                                          />
+                                          <div
+                                            class="cxd-Tree-itemLabel-item"
+                                          >
+                                            <i
+                                              class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
+                                            >
+                                              <icon-mock
+                                                classname="icon icon-file"
+                                                icon="file"
+                                              />
+                                            </i>
+                                            <span
+                                              class="cxd-Tree-itemText"
+                                              title="法师"
+                                            >
+                                              法师
+                                            </span>
+                                            <div
+                                              class="cxd-Tree-item-icons"
+                                            />
+                                          </div>
+                                        </div>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                                <div
+                                  class="cxd-AssociatedSelection-right"
+                                >
+                                  <div
+                                    class="cxd-AssociatedSelection-box"
+                                  >
+                                    <div
+                                      class="cxd-AssociatedSelection-reload is-clickable"
+                                    >
+                                      <icon-mock
+                                        classname="icon icon-reload"
+                                        icon="reload"
+                                      />
+                                    </div>
+                                    <p>
+                                      点击刷新重新加载
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div
+                              class="cxd-Tabs-pane cxd-TabsTransfer-tab"
+                            >
+                              <div
+                                class="cxd-ChainedSelection cxd-Transfer-checkboxes"
+                              >
+                                <div
+                                  class="cxd-ChainedSelection-col"
+                                >
+                                  <div
+                                    class="cxd-ChainedSelection-item"
+                                  >
+                                    <div
+                                      class="cxd-ChainedSelection-itemLabel"
+                                    >
+                                      <span
+                                        class=""
+                                      >
+                                        法师2
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div
+                                  class="cxd-ChainedSelection-col"
+                                >
+                                  <div
+                                    class="cxd-ChainedSelection-placeholder"
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="cxd-Transfer-mid"
+                      />
+                      <div
+                        class="cxd-Transfer-result"
+                      >
+                        <div
+                          class="cxd-Transfer-title"
+                        >
+                          <span>
+                            已选项
+                          </span>
+                          <a
+                            class="cxd-Transfer-clearAll is-disabled"
+                          >
+                            清空
+                          </a>
+                        </div>
+                        <div
+                          class="cxd-Selections cxd-Transfer-value"
+                        >
+                          <div
+                            class="cxd-Selections-placeholder"
+                          >
+                            请选择左侧数据
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div
+              class="cxd-Panel-footerWrap"
+            >
+              <div
+                class="cxd-Panel-btnToolbar cxd-Panel-footer"
+              >
+                <button
+                  class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+                  type="submit"
+                >
+                  <span>
+                    submitText
                   </span>
                 </button>
               </div>
