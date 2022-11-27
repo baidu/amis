@@ -3,6 +3,7 @@
  * 
  * 单测内容：
  1. 点击切换
+ 2. deferApi 数据懒加载
  */
 
 import {fireEvent, getByText, render} from '@testing-library/react';
