@@ -274,13 +274,14 @@ test('Renderer:input-table with combo column', async () => {
 
   await wait(300);
   expect(onSubmit).toBeCalledTimes(2);
+
   expect(onSubmit.mock.calls[1][0]).toEqual({
     table: [
       {
         q2: '1',
         q1: {
-          score: 99,
-          comment: 'this is comment msg!'
+          comment: 'this is comment msg!',
+          score: 99
         }
       }
     ]
