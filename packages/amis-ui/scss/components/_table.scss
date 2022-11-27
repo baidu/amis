@@ -366,6 +366,10 @@
         .#{$ns}Remark {
           margin-left: var(--gap-xs);
         }
+
+        .#{$ns}TableCell--title {
+          min-width: fit-content;
+        }
       }
     }
 

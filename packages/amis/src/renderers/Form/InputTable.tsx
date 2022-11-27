@@ -33,6 +33,7 @@ import {TableSchema} from '../Table';
 import {SchemaApi} from '../../Schema';
 import find from 'lodash/find';
 import moment from 'moment';
+import merge from 'lodash/merge';
 
 export interface TableControlSchema
   extends FormBaseControl,
@@ -537,10 +538,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       });
     }
 
-    value = {
-      ...value,
-      ...scaffold
-    };
+    value = merge({}, value, scaffold);
 
     if (needConfirm === false) {
       delete value.__isPlaceholder;
@@ -603,12 +601,11 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       env.notify('error', apiMsg ?? (remote.msg || __('saveFailed')));
       return;
     } else if (remote && remote.ok) {
-      item = {
-        ...(((isNew ? addApi : updateApi) as ApiObject).replaceData
-          ? {}
-          : item),
-        ...remote.data
-      };
+      item = merge(
+        {},
+        ((isNew ? addApi : updateApi) as ApiObject).replaceData ? {} : item,
+        remote.data
+      );
     }
 
     delete item.__isPlaceholder;
@@ -1094,11 +1091,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
           indexes[0] += (page - 1) * perPage;
         }
         const origin = getTree(items, indexes);
-
-        const data = {
-          ...origin,
-          ...(diff as Array<object>)[index]
-        };
+        const data = merge({}, origin, (diff as Array<object>)[index]);
 
         items = spliceTree(items, indexes, 1, data);
       });
@@ -1112,10 +1105,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       }
 
       const origin = getTree(items, indexes);
-      const data = {
-        ...origin,
-        ...diff
-      };
+      const data = merge({}, origin, diff);
 
       items = spliceTree(items, indexes, 1, data);
       this.entries.set(data, this.entries.get(origin) || this.entityId++);

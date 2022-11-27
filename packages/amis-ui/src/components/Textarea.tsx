@@ -58,6 +58,8 @@ export interface TextAreaProps extends ThemeProps, LocaleProps {
   placeholder?: string;
   name?: string;
   disabled?: boolean;
+
+  forwardRef?: {current: HTMLTextAreaElement | null};
 }
 
 export interface TextAreaState {
@@ -77,8 +79,14 @@ export class Textarea extends React.Component<TextAreaProps, TextAreaState> {
     focused: false
   };
 
-  input?: HTMLInputElement;
-  inputRef = (ref: any) => (this.input = findDOMNode(ref) as HTMLInputElement);
+  input?: HTMLTextAreaElement;
+  inputRef = (ref: HTMLTextAreaElement) => {
+    this.input = findDOMNode(ref) as HTMLTextAreaElement;
+    if (this.props.forwardRef) {
+      this.props.forwardRef.current = this.input;
+    }
+    return this.input;
+  };
 
   valueToString(value: any) {
     return typeof value === 'undefined' || value === null

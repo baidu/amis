@@ -177,6 +177,7 @@ interface OverlayProps {
   show?: boolean;
   transition?: React.ElementType;
   containerPadding?: number;
+  children?: any;
   shouldUpdatePosition?: boolean;
   rootClose?: boolean;
   onHide?(props: any, ...args: any[]): any;

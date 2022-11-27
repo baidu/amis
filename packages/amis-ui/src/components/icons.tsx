@@ -4,7 +4,7 @@
  * @author fex
  */
 import React from 'react';
-
+import cx from 'classnames';
 import CloseIcon from '../icons/close.svg';
 import CloseSmallIcon from '../icons/close-small.svg';
 import StatusCloseIcon from '../icons/status-close.svg';
@@ -243,6 +243,7 @@ registerIcon('scale-origin', ScaleOrigin);
 export function Icon({
   icon,
   className,
+  classPrefix = '',
   ...rest
 }: {
   icon: string;
@@ -253,8 +254,12 @@ export function Icon({
   }
 
   const Component = getIcon(icon);
+  const isURLIcon = typeof icon === 'string' && icon?.indexOf('.') !== -1;
+
   return Component ? (
     <Component {...rest} className={`${className || ''} icon-${icon}`} />
+  ) : isURLIcon ? (
+    <img className={cx(`${classPrefix}Icon`, className)} src={icon} />
   ) : (
     <span className="text-danger">没有 icon {icon}</span>
   );
