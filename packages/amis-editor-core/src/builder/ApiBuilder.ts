@@ -2,25 +2,28 @@
  * API数据源处理器
  */
 
-import {Schema, toast} from 'amis';
+import {toast} from 'amis';
 import {
   DSBuilder,
   DSFeature,
   DSFeatureType,
-  DSGrain,
   registerDSBuilder
 } from './DSBuilder';
 import cloneDeep from 'lodash/cloneDeep';
 import {getEnv} from 'mobx-state-tree';
 import {ButtonSchema} from 'amis/lib/renderers/Action';
-import {FormSchema, SchemaCollection, SchemaObject} from 'amis/lib/Schema';
+import {FormSchema, SchemaObject} from 'amis/lib/Schema';
 
 import type {DSSourceSettingFormConfig} from './DSBuilder';
 import {getSchemaTpl, tipedLabel} from '../tpl';
 import {EditorNodeType} from '../store/node';
 
 class APIBuilder extends DSBuilder {
-  public static type = 'api';
+  static type = 'api';
+
+  static accessable = (controlType: string, propKey: string) => {
+    return true;
+  };
 
   name = '接口';
 
@@ -37,10 +40,6 @@ class APIBuilder extends DSBuilder {
     }
 
     return false;
-  };
-
-  public static accessable = (controlType: string, propKey: string) => {
-    return true;
   };
 
   public features: Array<DSFeatureType> = [

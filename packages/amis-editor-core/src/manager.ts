@@ -2,6 +2,11 @@
  * @file 把一些功能性的东西放在了这个里面，辅助 compoennt/Editor.tsx 组件的。
  * 编辑器非 UI 相关的东西应该放在这。
  */
+
+import findIndex from 'lodash/findIndex';
+import debounce from 'lodash/debounce';
+import isPlainObject from 'lodash/isPlainObject';
+import uniqBy from 'lodash/uniqBy';
 import {getRenderers, RenderOptions} from 'amis-core';
 import {
   PluginInterface,
@@ -47,22 +52,22 @@ import {
   isObject,
   JSONPipeOut,
   generateNodeId,
-  JSONTraverse
+  JSONTraverse,
+  diff as diffFunc
 } from './util';
 import {reaction} from 'mobx';
 import {hackIn, makeSchemaFormRender, makeWrapper} from './component/factory';
 import {env} from './env';
-import debounce from 'lodash/debounce';
 import {openContextMenus, toast, alert, DataScope, DataSchema} from 'amis';
 import {parse, stringify} from 'json-ast-comments';
 import {EditorNodeType} from './store/node';
 import {EditorProps} from './component/Editor';
-import findIndex from 'lodash/findIndex';
 import {EditorDNDManager} from './dnd';
 import {IScopedContext} from 'amis';
 import {SchemaObject, SchemaCollection} from 'amis/lib/Schema';
+import {BasePlugin} from './plugin';
+
 import type {RendererConfig} from 'amis-core/lib/factory';
-import {isPlainObject} from 'lodash';
 
 export interface EditorManagerConfig
   extends Omit<EditorProps, 'value' | 'onChange'> {}
@@ -100,6 +105,28 @@ export function registerEditorPlugin(klass: PluginClass) {
  */
 export function getEditorPlugins() {
   return builtInPlugins.concat();
+}
+
+/**
+ * 更新当前已经注册的插件
+ */
+export function updateRegisteredEditorPlugin(
+  identifier: string,
+  klass: PluginClass
+) {
+  const idx = findIndex(
+    builtInPlugins,
+    item =>
+      (item.id === identifier || item.name === identifier) &&
+      item?.prototype instanceof BasePlugin
+  );
+
+  if (!~idx) {
+    console.warn(`[amis-editor] 更新插件异常, 未找到指定插件`);
+    return;
+  }
+
+  builtInPlugins.splice(idx, 1, klass);
 }
 
 /**
@@ -697,7 +724,7 @@ export class EditorManager {
       });
     }
 
-    let promises: Array<Promise<any>> = [];
+    let promises: Array<Promise<{type: string; value: any}>> = [];
     listeners.some(listener => {
       const ret = listener.fn.call(null, event);
 
@@ -1030,7 +1057,7 @@ export class EditorManager {
    * @param diff
    */
   @autobind
-  panelChangeValue(value: any, diff?: any) {
+  async panelChangeValue(value: any, diff?: any) {
     const store = this.store;
     const context: ChangeEventContext = {
       ...this.buildEventContext(store.activeId),
@@ -1043,15 +1070,39 @@ export class EditorManager {
       return;
     }
 
+    // 处理异步队列的hook
+    const pendingTaskQueue = uniqBy(await event.pending, 'type');
+    if (pendingTaskQueue.length > 0) {
+      const idx = findIndex(
+        pendingTaskQueue,
+        task => task.type === 'update-value' && task.value !== void 0
+      );
+
+      if (~idx) {
+        const task = pendingTaskQueue[idx];
+
+        value = task.value;
+        store.changeValue(value);
+
+        const updatedContext: ChangeEventContext = {
+          ...this.buildEventContext(store.activeId),
+          value,
+          diff
+        };
+        this.trigger('after-update', updatedContext);
+        return;
+      }
+    }
+
     store.changeValue(value, diff);
 
     // value 变了需要重新构建一下 context
-    const context2: ChangeEventContext = {
+    const updatedContext: ChangeEventContext = {
       ...this.buildEventContext(store.activeId),
       value,
       diff
     };
-    this.trigger('after-update', context2);
+    this.trigger('after-update', updatedContext);
   }
 
   /**

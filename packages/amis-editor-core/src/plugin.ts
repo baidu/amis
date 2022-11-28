@@ -13,7 +13,6 @@ import find from 'lodash/find';
 import type {RendererConfig} from 'amis-core/lib/factory';
 import type {MenuDivider, MenuItem} from 'amis-ui/lib/components/ContextMenu';
 import type {BaseSchema, SchemaCollection} from 'amis/lib/Schema';
-import {DSFieldGroup} from './builder/DSBuilder';
 
 /**
  * 区域的定义，容器渲染器都需要定义区域信息。
@@ -446,6 +445,7 @@ export type BasicPanelItem = Omit<PanelItem, 'order'> &
 
 export interface EventContext {
   data?: any;
+  value?: any;
   [propName: string]: any;
 }
 
@@ -585,11 +585,18 @@ export type PluginEvent<T, P = any> = {
   prevented?: boolean;
   stoped?: boolean;
 
-  // 用来支持异步场景
-  pending?: Promise<any>;
+  /**
+   * 用来支持异步场景
+   * type: 异步任务类型名称, 当前队列中的主键, 同一队列中多个相同type的任务会被过滤掉
+   * value: 异步任务的输出值
+   */
+  pending?: Promise<{type: string; value: any}[]>;
 
   // 当前值
   data?: P;
+
+  // value值
+  value?: any;
 };
 
 export type PluginEventFn = (e: PluginEvent<EventContext>) => false | void;
@@ -735,9 +742,6 @@ export interface PluginInterface
   readonly manager: EditorManager;
 
   order?: number;
-
-  // 是否可绑定数据，一般容器类型就没有
-  withDataSource?: boolean;
 
   /**
    * 渲染器的名字，关联后不用自己实现 getRendererInfo 了。
