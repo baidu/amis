@@ -796,7 +796,7 @@ export default class OptionControl extends React.Component<
           </div>
         ) : null}
 
-        {(source === 'api' || source === 'apicenter')  && this.renderApiPanel()}
+        {this.renderApiPanel()}
       </div>
     );
   }
