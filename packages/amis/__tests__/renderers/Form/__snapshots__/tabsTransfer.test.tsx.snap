@@ -174,296 +174,378 @@ exports[`Renderer:tabsTransfer 1`] = `
                                 </div>
                               </div>
                               <div
-                                class="cxd-TreeSelection cxd-Transfer-checkboxes"
+                                class="cxd-Tree cxd-Transfer-checkboxes"
                               >
-                                <div
-                                  class="cxd-TreeSelection-item is-expanded"
+                                <ul
+                                  class="cxd-Tree-list"
                                 >
-                                  <div
-                                    class="cxd-TreeSelection-itemInner"
-                                  >
-                                    <a
-                                      class="cxd-Table-expandBtn is-active"
-                                    >
-                                      <icon-mock
-                                        classname="icon icon-right-arrow-bold"
-                                        icon="right-arrow-bold"
-                                      />
-                                    </a>
-                                    <label
-                                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                                    >
-                                      <input
-                                        type="checkbox"
-                                      />
-                                      <i />
-                                      <span
-                                        class=""
-                                      />
-                                    </label>
-                                    <div
-                                      class="cxd-TreeSelection-itemLabel"
-                                    >
-                                      <span
-                                        class=""
-                                      >
-                                        法师
-                                      </span>
-                                    </div>
-                                  </div>
-                                  <div
-                                    class="cxd-TreeSelection-sublist"
+                                  <li
+                                    class="cxd-Tree-item "
                                   >
                                     <div
-                                      class="cxd-TreeSelection-item"
+                                      class="cxd-Tree-itemLabel"
                                     >
                                       <div
-                                        class="cxd-TreeSelection-itemInner"
+                                        class="cxd-Tree-itemArrow"
                                       >
-                                        <label
-                                          class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                        <icon-mock
+                                          classname="icon icon-down-arrow-bold"
+                                          icon="down-arrow-bold"
+                                        />
+                                      </div>
+                                      <label
+                                        class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                      >
+                                        <input
+                                          type="checkbox"
+                                        />
+                                        <i />
+                                        <span
+                                          class=""
+                                        />
+                                      </label>
+                                      <div
+                                        class="cxd-Tree-itemLabel-item"
+                                      >
+                                        <span
+                                          class="cxd-Tree-itemText"
+                                          title="法师"
                                         >
-                                          <input
-                                            type="checkbox"
-                                          />
-                                          <i />
                                           <span
                                             class=""
-                                          />
-                                        </label>
+                                          >
+                                            法师
+                                          </span>
+                                        </span>
                                         <div
-                                          class="cxd-TreeSelection-itemLabel"
+                                          class="cxd-Tree-item-icons"
+                                        />
+                                      </div>
+                                    </div>
+                                  </li>
+                                  <li
+                                    class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                  >
+                                    <div
+                                      class="cxd-Tree-itemLabel"
+                                    >
+                                      <span
+                                        class="cxd-Tree-itemArrowPlaceholder"
+                                      />
+                                      <label
+                                        class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                      >
+                                        <input
+                                          type="checkbox"
+                                        />
+                                        <i />
+                                        <span
+                                          class=""
+                                        />
+                                      </label>
+                                      <div
+                                        class="cxd-Tree-itemLabel-item"
+                                      >
+                                        <span
+                                          class="cxd-Tree-itemText"
+                                          title="诸葛亮"
                                         >
                                           <span
                                             class=""
                                           >
                                             诸葛亮
                                           </span>
-                                        </div>
+                                        </span>
+                                        <div
+                                          class="cxd-Tree-item-icons"
+                                        />
                                       </div>
                                     </div>
-                                  </div>
-                                </div>
-                                <div
-                                  class="cxd-TreeSelection-item"
-                                >
-                                  <div
-                                    class="cxd-TreeSelection-itemInner"
-                                  >
-                                    <a
-                                      class="cxd-Table-expandBtn"
-                                    >
-                                      <icon-mock
-                                        classname="icon icon-right-arrow-bold"
-                                        icon="right-arrow-bold"
-                                      />
-                                    </a>
-                                    <label
-                                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                                    >
-                                      <input
-                                        type="checkbox"
-                                      />
-                                      <i />
-                                      <span
-                                        class=""
-                                      />
-                                    </label>
-                                    <div
-                                      class="cxd-TreeSelection-itemLabel"
-                                    >
-                                      <span
-                                        class=""
-                                      >
-                                        战士
-                                      </span>
-                                    </div>
-                                  </div>
-                                  <div
-                                    class="cxd-TreeSelection-sublist"
+                                  </li>
+                                  <li
+                                    class="cxd-Tree-item "
                                   >
                                     <div
-                                      class="cxd-TreeSelection-item"
+                                      class="cxd-Tree-itemLabel"
                                     >
                                       <div
-                                        class="cxd-TreeSelection-itemInner"
+                                        class="cxd-Tree-itemArrow"
                                       >
-                                        <label
-                                          class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                        <icon-mock
+                                          classname="icon icon-down-arrow-bold"
+                                          icon="down-arrow-bold"
+                                        />
+                                      </div>
+                                      <label
+                                        class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                      >
+                                        <input
+                                          type="checkbox"
+                                        />
+                                        <i />
+                                        <span
+                                          class=""
+                                        />
+                                      </label>
+                                      <div
+                                        class="cxd-Tree-itemLabel-item"
+                                      >
+                                        <span
+                                          class="cxd-Tree-itemText"
+                                          title="战士"
                                         >
-                                          <input
-                                            type="checkbox"
-                                          />
-                                          <i />
                                           <span
                                             class=""
-                                          />
-                                        </label>
+                                          >
+                                            战士
+                                          </span>
+                                        </span>
                                         <div
-                                          class="cxd-TreeSelection-itemLabel"
+                                          class="cxd-Tree-item-icons"
+                                        />
+                                      </div>
+                                    </div>
+                                  </li>
+                                  <li
+                                    class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                  >
+                                    <div
+                                      class="cxd-Tree-itemLabel"
+                                    >
+                                      <span
+                                        class="cxd-Tree-itemArrowPlaceholder"
+                                      />
+                                      <label
+                                        class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                      >
+                                        <input
+                                          type="checkbox"
+                                        />
+                                        <i />
+                                        <span
+                                          class=""
+                                        />
+                                      </label>
+                                      <div
+                                        class="cxd-Tree-itemLabel-item"
+                                      >
+                                        <span
+                                          class="cxd-Tree-itemText"
+                                          title="曹操"
                                         >
                                           <span
                                             class=""
                                           >
                                             曹操
                                           </span>
-                                        </div>
+                                        </span>
+                                        <div
+                                          class="cxd-Tree-item-icons"
+                                        />
                                       </div>
                                     </div>
+                                  </li>
+                                  <li
+                                    class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                  >
                                     <div
-                                      class="cxd-TreeSelection-item"
+                                      class="cxd-Tree-itemLabel"
                                     >
-                                      <div
-                                        class="cxd-TreeSelection-itemInner"
+                                      <span
+                                        class="cxd-Tree-itemArrowPlaceholder"
+                                      />
+                                      <label
+                                        class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
                                       >
-                                        <label
-                                          class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                                        >
-                                          <input
-                                            type="checkbox"
-                                          />
-                                          <i />
-                                          <span
-                                            class=""
-                                          />
-                                        </label>
-                                        <div
-                                          class="cxd-TreeSelection-itemLabel"
+                                        <input
+                                          type="checkbox"
+                                        />
+                                        <i />
+                                        <span
+                                          class=""
+                                        />
+                                      </label>
+                                      <div
+                                        class="cxd-Tree-itemLabel-item"
+                                      >
+                                        <span
+                                          class="cxd-Tree-itemText"
+                                          title="钟无艳"
                                         >
                                           <span
                                             class=""
                                           >
                                             钟无艳
                                           </span>
-                                        </div>
+                                        </span>
+                                        <div
+                                          class="cxd-Tree-item-icons"
+                                        />
                                       </div>
                                     </div>
-                                  </div>
-                                </div>
-                                <div
-                                  class="cxd-TreeSelection-item"
-                                >
-                                  <div
-                                    class="cxd-TreeSelection-itemInner"
-                                  >
-                                    <a
-                                      class="cxd-Table-expandBtn"
-                                    >
-                                      <icon-mock
-                                        classname="icon icon-right-arrow-bold"
-                                        icon="right-arrow-bold"
-                                      />
-                                    </a>
-                                    <label
-                                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                                    >
-                                      <input
-                                        type="checkbox"
-                                      />
-                                      <i />
-                                      <span
-                                        class=""
-                                      />
-                                    </label>
-                                    <div
-                                      class="cxd-TreeSelection-itemLabel"
-                                    >
-                                      <span
-                                        class=""
-                                      >
-                                        打野
-                                      </span>
-                                    </div>
-                                  </div>
-                                  <div
-                                    class="cxd-TreeSelection-sublist"
+                                  </li>
+                                  <li
+                                    class="cxd-Tree-item "
                                   >
                                     <div
-                                      class="cxd-TreeSelection-item"
+                                      class="cxd-Tree-itemLabel"
                                     >
                                       <div
-                                        class="cxd-TreeSelection-itemInner"
+                                        class="cxd-Tree-itemArrow"
                                       >
-                                        <label
-                                          class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                        <icon-mock
+                                          classname="icon icon-down-arrow-bold"
+                                          icon="down-arrow-bold"
+                                        />
+                                      </div>
+                                      <label
+                                        class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                      >
+                                        <input
+                                          type="checkbox"
+                                        />
+                                        <i />
+                                        <span
+                                          class=""
+                                        />
+                                      </label>
+                                      <div
+                                        class="cxd-Tree-itemLabel-item"
+                                      >
+                                        <span
+                                          class="cxd-Tree-itemText"
+                                          title="打野"
                                         >
-                                          <input
-                                            type="checkbox"
-                                          />
-                                          <i />
                                           <span
                                             class=""
-                                          />
-                                        </label>
+                                          >
+                                            打野
+                                          </span>
+                                        </span>
                                         <div
-                                          class="cxd-TreeSelection-itemLabel"
+                                          class="cxd-Tree-item-icons"
+                                        />
+                                      </div>
+                                    </div>
+                                  </li>
+                                  <li
+                                    class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                  >
+                                    <div
+                                      class="cxd-Tree-itemLabel"
+                                    >
+                                      <span
+                                        class="cxd-Tree-itemArrowPlaceholder"
+                                      />
+                                      <label
+                                        class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                      >
+                                        <input
+                                          type="checkbox"
+                                        />
+                                        <i />
+                                        <span
+                                          class=""
+                                        />
+                                      </label>
+                                      <div
+                                        class="cxd-Tree-itemLabel-item"
+                                      >
+                                        <span
+                                          class="cxd-Tree-itemText"
+                                          title="李白"
                                         >
                                           <span
                                             class=""
                                           >
                                             李白
                                           </span>
-                                        </div>
+                                        </span>
+                                        <div
+                                          class="cxd-Tree-item-icons"
+                                        />
                                       </div>
                                     </div>
+                                  </li>
+                                  <li
+                                    class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                  >
                                     <div
-                                      class="cxd-TreeSelection-item"
+                                      class="cxd-Tree-itemLabel"
                                     >
-                                      <div
-                                        class="cxd-TreeSelection-itemInner"
+                                      <span
+                                        class="cxd-Tree-itemArrowPlaceholder"
+                                      />
+                                      <label
+                                        class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
                                       >
-                                        <label
-                                          class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                                        >
-                                          <input
-                                            type="checkbox"
-                                          />
-                                          <i />
-                                          <span
-                                            class=""
-                                          />
-                                        </label>
-                                        <div
-                                          class="cxd-TreeSelection-itemLabel"
+                                        <input
+                                          type="checkbox"
+                                        />
+                                        <i />
+                                        <span
+                                          class=""
+                                        />
+                                      </label>
+                                      <div
+                                        class="cxd-Tree-itemLabel-item"
+                                      >
+                                        <span
+                                          class="cxd-Tree-itemText"
+                                          title="韩信"
                                         >
                                           <span
                                             class=""
                                           >
                                             韩信
                                           </span>
-                                        </div>
+                                        </span>
+                                        <div
+                                          class="cxd-Tree-item-icons"
+                                        />
                                       </div>
                                     </div>
+                                  </li>
+                                  <li
+                                    class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                  >
                                     <div
-                                      class="cxd-TreeSelection-item"
+                                      class="cxd-Tree-itemLabel"
                                     >
-                                      <div
-                                        class="cxd-TreeSelection-itemInner"
+                                      <span
+                                        class="cxd-Tree-itemArrowPlaceholder"
+                                      />
+                                      <label
+                                        class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
                                       >
-                                        <label
-                                          class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                                        >
-                                          <input
-                                            type="checkbox"
-                                          />
-                                          <i />
-                                          <span
-                                            class=""
-                                          />
-                                        </label>
-                                        <div
-                                          class="cxd-TreeSelection-itemLabel"
+                                        <input
+                                          type="checkbox"
+                                        />
+                                        <i />
+                                        <span
+                                          class=""
+                                        />
+                                      </label>
+                                      <div
+                                        class="cxd-Tree-itemLabel-item"
+                                      >
+                                        <span
+                                          class="cxd-Tree-itemText"
+                                          title="云中君"
                                         >
                                           <span
                                             class=""
                                           >
                                             云中君
                                           </span>
-                                        </div>
+                                        </span>
+                                        <div
+                                          class="cxd-Tree-item-icons"
+                                        />
                                       </div>
                                     </div>
-                                  </div>
-                                </div>
+                                  </li>
+                                </ul>
                               </div>
                             </div>
                             <div
@@ -844,170 +926,166 @@ exports[`Renderer:tabsTransfer with deferApi 1`] = `
                                             />
                                           </div>
                                         </div>
-                                        <ul
-                                          class="cxd-Tree-sublist"
+                                      </li>
+                                      <li
+                                        class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                      >
+                                        <div
+                                          class="cxd-Tree-itemLabel"
                                         >
-                                          <li
-                                            class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                          <span
+                                            class="cxd-Tree-itemArrowPlaceholder"
+                                          />
+                                          <div
+                                            class="cxd-Tree-itemLabel-item"
                                           >
-                                            <div
-                                              class="cxd-Tree-itemLabel"
+                                            <i
+                                              class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
                                             >
-                                              <span
-                                                class="cxd-Tree-itemArrowPlaceholder"
+                                              <icon-mock
+                                                classname="icon icon-file"
+                                                icon="file"
                                               />
-                                              <div
-                                                class="cxd-Tree-itemLabel-item"
-                                              >
-                                                <i
-                                                  class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
-                                                >
-                                                  <icon-mock
-                                                    classname="icon icon-file"
-                                                    icon="file"
-                                                  />
-                                                </i>
-                                                <span
-                                                  class="cxd-Tree-itemText"
-                                                  title="Option A"
-                                                >
-                                                  Option A
-                                                </span>
-                                                <div
-                                                  class="cxd-Tree-item-icons"
-                                                />
-                                              </div>
-                                            </div>
-                                          </li>
-                                          <li
-                                            class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                            </i>
+                                            <span
+                                              class="cxd-Tree-itemText"
+                                              title="Option A"
+                                            >
+                                              Option A
+                                            </span>
+                                            <div
+                                              class="cxd-Tree-item-icons"
+                                            />
+                                          </div>
+                                        </div>
+                                      </li>
+                                      <li
+                                        class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                      >
+                                        <div
+                                          class="cxd-Tree-itemLabel is-checked"
+                                        >
+                                          <span
+                                            class="cxd-Tree-itemArrowPlaceholder"
+                                          />
+                                          <div
+                                            class="cxd-Tree-itemLabel-item"
                                           >
-                                            <div
-                                              class="cxd-Tree-itemLabel is-checked"
+                                            <i
+                                              class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
                                             >
-                                              <span
-                                                class="cxd-Tree-itemArrowPlaceholder"
+                                              <icon-mock
+                                                classname="icon icon-file"
+                                                icon="file"
                                               />
-                                              <div
-                                                class="cxd-Tree-itemLabel-item"
-                                              >
-                                                <i
-                                                  class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
-                                                >
-                                                  <icon-mock
-                                                    classname="icon icon-file"
-                                                    icon="file"
-                                                  />
-                                                </i>
-                                                <span
-                                                  class="cxd-Tree-itemText"
-                                                  title="Option B"
-                                                >
-                                                  Option B
-                                                </span>
-                                                <div
-                                                  class="cxd-Tree-item-icons"
-                                                />
-                                              </div>
-                                            </div>
-                                          </li>
-                                          <li
-                                            class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                            </i>
+                                            <span
+                                              class="cxd-Tree-itemText"
+                                              title="Option B"
+                                            >
+                                              Option B
+                                            </span>
+                                            <div
+                                              class="cxd-Tree-item-icons"
+                                            />
+                                          </div>
+                                        </div>
+                                      </li>
+                                      <li
+                                        class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                      >
+                                        <div
+                                          class="cxd-Tree-itemLabel"
+                                        >
+                                          <span
+                                            class="cxd-Tree-itemArrowPlaceholder"
+                                          />
+                                          <div
+                                            class="cxd-Tree-itemLabel-item"
                                           >
-                                            <div
-                                              class="cxd-Tree-itemLabel"
+                                            <i
+                                              class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
                                             >
-                                              <span
-                                                class="cxd-Tree-itemArrowPlaceholder"
+                                              <icon-mock
+                                                classname="icon icon-file"
+                                                icon="file"
                                               />
-                                              <div
-                                                class="cxd-Tree-itemLabel-item"
-                                              >
-                                                <i
-                                                  class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
-                                                >
-                                                  <icon-mock
-                                                    classname="icon icon-file"
-                                                    icon="file"
-                                                  />
-                                                </i>
-                                                <span
-                                                  class="cxd-Tree-itemText"
-                                                  title="Option C"
-                                                >
-                                                  Option C
-                                                </span>
-                                                <div
-                                                  class="cxd-Tree-item-icons"
-                                                />
-                                              </div>
-                                            </div>
-                                          </li>
-                                          <li
-                                            class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                            </i>
+                                            <span
+                                              class="cxd-Tree-itemText"
+                                              title="Option C"
+                                            >
+                                              Option C
+                                            </span>
+                                            <div
+                                              class="cxd-Tree-item-icons"
+                                            />
+                                          </div>
+                                        </div>
+                                      </li>
+                                      <li
+                                        class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                      >
+                                        <div
+                                          class="cxd-Tree-itemLabel"
+                                        >
+                                          <span
+                                            class="cxd-Tree-itemArrowPlaceholder"
+                                          />
+                                          <div
+                                            class="cxd-Tree-itemLabel-item"
                                           >
-                                            <div
-                                              class="cxd-Tree-itemLabel"
+                                            <i
+                                              class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
                                             >
-                                              <span
-                                                class="cxd-Tree-itemArrowPlaceholder"
+                                              <icon-mock
+                                                classname="icon icon-file"
+                                                icon="file"
                                               />
-                                              <div
-                                                class="cxd-Tree-itemLabel-item"
-                                              >
-                                                <i
-                                                  class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
-                                                >
-                                                  <icon-mock
-                                                    classname="icon icon-file"
-                                                    icon="file"
-                                                  />
-                                                </i>
-                                                <span
-                                                  class="cxd-Tree-itemText"
-                                                  title="Option D"
-                                                >
-                                                  Option D
-                                                </span>
-                                                <div
-                                                  class="cxd-Tree-item-icons"
-                                                />
-                                              </div>
-                                            </div>
-                                          </li>
-                                          <li
-                                            class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                            </i>
+                                            <span
+                                              class="cxd-Tree-itemText"
+                                              title="Option D"
+                                            >
+                                              Option D
+                                            </span>
+                                            <div
+                                              class="cxd-Tree-item-icons"
+                                            />
+                                          </div>
+                                        </div>
+                                      </li>
+                                      <li
+                                        class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                      >
+                                        <div
+                                          class="cxd-Tree-itemLabel"
+                                        >
+                                          <span
+                                            class="cxd-Tree-itemArrowPlaceholder"
+                                          />
+                                          <div
+                                            class="cxd-Tree-itemLabel-item"
                                           >
-                                            <div
-                                              class="cxd-Tree-itemLabel"
+                                            <i
+                                              class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
                                             >
-                                              <span
-                                                class="cxd-Tree-itemArrowPlaceholder"
+                                              <icon-mock
+                                                classname="icon icon-file"
+                                                icon="file"
                                               />
-                                              <div
-                                                class="cxd-Tree-itemLabel-item"
-                                              >
-                                                <i
-                                                  class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
-                                                >
-                                                  <icon-mock
-                                                    classname="icon icon-file"
-                                                    icon="file"
-                                                  />
-                                                </i>
-                                                <span
-                                                  class="cxd-Tree-itemText"
-                                                  title="Option E"
-                                                >
-                                                  Option E
-                                                </span>
-                                                <div
-                                                  class="cxd-Tree-item-icons"
-                                                />
-                                              </div>
-                                            </div>
-                                          </li>
-                                        </ul>
+                                            </i>
+                                            <span
+                                              class="cxd-Tree-itemText"
+                                              title="Option E"
+                                            >
+                                              Option E
+                                            </span>
+                                            <div
+                                              class="cxd-Tree-item-icons"
+                                            />
+                                          </div>
+                                        </div>
                                       </li>
                                       <li
                                         class="cxd-Tree-item  cxd-Tree-item--isLeaf"

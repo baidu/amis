@@ -464,73 +464,89 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                   class="in is-active cxd-Tabs-pane cxd-TabsTransfer-tab"
                 >
                   <div
-                    class="cxd-TreeSelection cxd-Transfer-checkboxes"
+                    class="cxd-Tree cxd-Transfer-checkboxes"
                   >
-                    <div
-                      class="cxd-TreeSelection-item is-expanded"
+                    <ul
+                      class="cxd-Tree-list"
                     >
-                      <div
-                        class="cxd-TreeSelection-itemInner is-active"
-                      >
-                        <a
-                          class="cxd-Table-expandBtn is-active"
-                        >
-                          <icon-mock
-                            classname="icon icon-right-arrow-bold"
-                            icon="right-arrow-bold"
-                          />
-                        </a>
-                        <label
-                          class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                        >
-                          <input
-                            type="checkbox"
-                          />
-                          <i />
-                          <span
-                            class=""
-                          />
-                        </label>
-                        <div
-                          class="cxd-TreeSelection-itemLabel"
-                        >
-                          <span
-                            class="cxd-TplField"
-                          >
-                            <span>
-                              <div
-                                class="flex justify-between"
-                              >
-                                <span>
-                                  法师
-                                </span>
-                              </div>
-                            </span>
-                          </span>
-                        </div>
-                      </div>
-                      <div
-                        class="cxd-TreeSelection-sublist"
+                      <li
+                        class="cxd-Tree-item "
                       >
                         <div
-                          class="cxd-TreeSelection-item"
+                          class="cxd-Tree-itemLabel"
                         >
                           <div
-                            class="cxd-TreeSelection-itemInner is-active"
+                            class="cxd-Tree-itemArrow"
                           >
-                            <label
-                              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                            <icon-mock
+                              classname="icon icon-down-arrow-bold"
+                              icon="down-arrow-bold"
+                            />
+                          </div>
+                          <label
+                            class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--sm"
+                          >
+                            <input
+                              type="checkbox"
+                            />
+                            <i />
+                            <span
+                              class=""
+                            />
+                          </label>
+                          <div
+                            class="cxd-Tree-itemLabel-item"
+                          >
+                            <span
+                              class="cxd-Tree-itemText"
+                              title="法师"
                             >
-                              <input
-                                type="checkbox"
-                              />
-                              <i />
                               <span
-                                class=""
-                              />
-                            </label>
+                                class="cxd-TplField"
+                              >
+                                <span>
+                                  <div
+                                    class="flex justify-between"
+                                  >
+                                    <span>
+                                      法师
+                                    </span>
+                                  </div>
+                                </span>
+                              </span>
+                            </span>
                             <div
-                              class="cxd-TreeSelection-itemLabel"
+                              class="cxd-Tree-item-icons"
+                            />
+                          </div>
+                        </div>
+                      </li>
+                      <li
+                        class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                      >
+                        <div
+                          class="cxd-Tree-itemLabel is-checked"
+                        >
+                          <span
+                            class="cxd-Tree-itemArrowPlaceholder"
+                          />
+                          <label
+                            class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                          >
+                            <input
+                              type="checkbox"
+                            />
+                            <i />
+                            <span
+                              class=""
+                            />
+                          </label>
+                          <div
+                            class="cxd-Tree-itemLabel-item"
+                          >
+                            <span
+                              class="cxd-Tree-itemText"
+                              title="诸葛亮"
                             >
                               <span
                                 class="cxd-TplField"
@@ -552,76 +568,91 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                                   </div>
                                 </span>
                               </span>
-                            </div>
+                            </span>
+                            <div
+                              class="cxd-Tree-item-icons"
+                            />
                           </div>
                         </div>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-TreeSelection-item"
-                    >
-                      <div
-                        class="cxd-TreeSelection-itemInner"
-                      >
-                        <a
-                          class="cxd-Table-expandBtn"
-                        >
-                          <icon-mock
-                            classname="icon icon-right-arrow-bold"
-                            icon="right-arrow-bold"
-                          />
-                        </a>
-                        <label
-                          class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                        >
-                          <input
-                            type="checkbox"
-                          />
-                          <i />
-                          <span
-                            class=""
-                          />
-                        </label>
-                        <div
-                          class="cxd-TreeSelection-itemLabel"
-                        >
-                          <span
-                            class="cxd-TplField"
-                          >
-                            <span>
-                              <div
-                                class="flex justify-between"
-                              >
-                                <span>
-                                  战士
-                                </span>
-                              </div>
-                            </span>
-                          </span>
-                        </div>
-                      </div>
-                      <div
-                        class="cxd-TreeSelection-sublist"
+                      </li>
+                      <li
+                        class="cxd-Tree-item "
                       >
                         <div
-                          class="cxd-TreeSelection-item"
+                          class="cxd-Tree-itemLabel"
                         >
                           <div
-                            class="cxd-TreeSelection-itemInner"
+                            class="cxd-Tree-itemArrow"
                           >
-                            <label
-                              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                            <icon-mock
+                              classname="icon icon-down-arrow-bold"
+                              icon="down-arrow-bold"
+                            />
+                          </div>
+                          <label
+                            class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                          >
+                            <input
+                              type="checkbox"
+                            />
+                            <i />
+                            <span
+                              class=""
+                            />
+                          </label>
+                          <div
+                            class="cxd-Tree-itemLabel-item"
+                          >
+                            <span
+                              class="cxd-Tree-itemText"
+                              title="战士"
                             >
-                              <input
-                                type="checkbox"
-                              />
-                              <i />
                               <span
-                                class=""
-                              />
-                            </label>
+                                class="cxd-TplField"
+                              >
+                                <span>
+                                  <div
+                                    class="flex justify-between"
+                                  >
+                                    <span>
+                                      战士
+                                    </span>
+                                  </div>
+                                </span>
+                              </span>
+                            </span>
                             <div
-                              class="cxd-TreeSelection-itemLabel"
+                              class="cxd-Tree-item-icons"
+                            />
+                          </div>
+                        </div>
+                      </li>
+                      <li
+                        class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                      >
+                        <div
+                          class="cxd-Tree-itemLabel"
+                        >
+                          <span
+                            class="cxd-Tree-itemArrowPlaceholder"
+                          />
+                          <label
+                            class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                          >
+                            <input
+                              type="checkbox"
+                            />
+                            <i />
+                            <span
+                              class=""
+                            />
+                          </label>
+                          <div
+                            class="cxd-Tree-itemLabel-item"
+                          >
+                            <span
+                              class="cxd-Tree-itemText"
+                              title="曹操"
                             >
                               <span
                                 class="cxd-TplField"
@@ -643,28 +674,39 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                                   </div>
                                 </span>
                               </span>
-                            </div>
+                            </span>
+                            <div
+                              class="cxd-Tree-item-icons"
+                            />
                           </div>
                         </div>
+                      </li>
+                      <li
+                        class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                      >
                         <div
-                          class="cxd-TreeSelection-item"
+                          class="cxd-Tree-itemLabel"
                         >
-                          <div
-                            class="cxd-TreeSelection-itemInner"
+                          <span
+                            class="cxd-Tree-itemArrowPlaceholder"
+                          />
+                          <label
+                            class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
                           >
-                            <label
-                              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                            >
-                              <input
-                                type="checkbox"
-                              />
-                              <i />
-                              <span
-                                class=""
-                              />
-                            </label>
-                            <div
-                              class="cxd-TreeSelection-itemLabel"
+                            <input
+                              type="checkbox"
+                            />
+                            <i />
+                            <span
+                              class=""
+                            />
+                          </label>
+                          <div
+                            class="cxd-Tree-itemLabel-item"
+                          >
+                            <span
+                              class="cxd-Tree-itemText"
+                              title="钟无艳"
                             >
                               <span
                                 class="cxd-TplField"
@@ -686,76 +728,91 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                                   </div>
                                 </span>
                               </span>
-                            </div>
+                            </span>
+                            <div
+                              class="cxd-Tree-item-icons"
+                            />
                           </div>
                         </div>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-TreeSelection-item"
-                    >
-                      <div
-                        class="cxd-TreeSelection-itemInner"
-                      >
-                        <a
-                          class="cxd-Table-expandBtn"
-                        >
-                          <icon-mock
-                            classname="icon icon-right-arrow-bold"
-                            icon="right-arrow-bold"
-                          />
-                        </a>
-                        <label
-                          class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                        >
-                          <input
-                            type="checkbox"
-                          />
-                          <i />
-                          <span
-                            class=""
-                          />
-                        </label>
-                        <div
-                          class="cxd-TreeSelection-itemLabel"
-                        >
-                          <span
-                            class="cxd-TplField"
-                          >
-                            <span>
-                              <div
-                                class="flex justify-between"
-                              >
-                                <span>
-                                  打野
-                                </span>
-                              </div>
-                            </span>
-                          </span>
-                        </div>
-                      </div>
-                      <div
-                        class="cxd-TreeSelection-sublist"
+                      </li>
+                      <li
+                        class="cxd-Tree-item "
                       >
                         <div
-                          class="cxd-TreeSelection-item"
+                          class="cxd-Tree-itemLabel"
                         >
                           <div
-                            class="cxd-TreeSelection-itemInner"
+                            class="cxd-Tree-itemArrow"
                           >
-                            <label
-                              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                            <icon-mock
+                              classname="icon icon-down-arrow-bold"
+                              icon="down-arrow-bold"
+                            />
+                          </div>
+                          <label
+                            class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                          >
+                            <input
+                              type="checkbox"
+                            />
+                            <i />
+                            <span
+                              class=""
+                            />
+                          </label>
+                          <div
+                            class="cxd-Tree-itemLabel-item"
+                          >
+                            <span
+                              class="cxd-Tree-itemText"
+                              title="打野"
                             >
-                              <input
-                                type="checkbox"
-                              />
-                              <i />
                               <span
-                                class=""
-                              />
-                            </label>
+                                class="cxd-TplField"
+                              >
+                                <span>
+                                  <div
+                                    class="flex justify-between"
+                                  >
+                                    <span>
+                                      打野
+                                    </span>
+                                  </div>
+                                </span>
+                              </span>
+                            </span>
                             <div
-                              class="cxd-TreeSelection-itemLabel"
+                              class="cxd-Tree-item-icons"
+                            />
+                          </div>
+                        </div>
+                      </li>
+                      <li
+                        class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                      >
+                        <div
+                          class="cxd-Tree-itemLabel"
+                        >
+                          <span
+                            class="cxd-Tree-itemArrowPlaceholder"
+                          />
+                          <label
+                            class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                          >
+                            <input
+                              type="checkbox"
+                            />
+                            <i />
+                            <span
+                              class=""
+                            />
+                          </label>
+                          <div
+                            class="cxd-Tree-itemLabel-item"
+                          >
+                            <span
+                              class="cxd-Tree-itemText"
+                              title="李白"
                             >
                               <span
                                 class="cxd-TplField"
@@ -777,28 +834,39 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                                   </div>
                                 </span>
                               </span>
-                            </div>
+                            </span>
+                            <div
+                              class="cxd-Tree-item-icons"
+                            />
                           </div>
                         </div>
+                      </li>
+                      <li
+                        class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                      >
                         <div
-                          class="cxd-TreeSelection-item"
+                          class="cxd-Tree-itemLabel"
                         >
-                          <div
-                            class="cxd-TreeSelection-itemInner"
+                          <span
+                            class="cxd-Tree-itemArrowPlaceholder"
+                          />
+                          <label
+                            class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
                           >
-                            <label
-                              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                            >
-                              <input
-                                type="checkbox"
-                              />
-                              <i />
-                              <span
-                                class=""
-                              />
-                            </label>
-                            <div
-                              class="cxd-TreeSelection-itemLabel"
+                            <input
+                              type="checkbox"
+                            />
+                            <i />
+                            <span
+                              class=""
+                            />
+                          </label>
+                          <div
+                            class="cxd-Tree-itemLabel-item"
+                          >
+                            <span
+                              class="cxd-Tree-itemText"
+                              title="韩信"
                             >
                               <span
                                 class="cxd-TplField"
@@ -820,28 +888,39 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                                   </div>
                                 </span>
                               </span>
-                            </div>
+                            </span>
+                            <div
+                              class="cxd-Tree-item-icons"
+                            />
                           </div>
                         </div>
+                      </li>
+                      <li
+                        class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                      >
                         <div
-                          class="cxd-TreeSelection-item"
+                          class="cxd-Tree-itemLabel"
                         >
-                          <div
-                            class="cxd-TreeSelection-itemInner"
+                          <span
+                            class="cxd-Tree-itemArrowPlaceholder"
+                          />
+                          <label
+                            class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
                           >
-                            <label
-                              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                            >
-                              <input
-                                type="checkbox"
-                              />
-                              <i />
-                              <span
-                                class=""
-                              />
-                            </label>
-                            <div
-                              class="cxd-TreeSelection-itemLabel"
+                            <input
+                              type="checkbox"
+                            />
+                            <i />
+                            <span
+                              class=""
+                            />
+                          </label>
+                          <div
+                            class="cxd-Tree-itemLabel-item"
+                          >
+                            <span
+                              class="cxd-Tree-itemText"
+                              title="云中君"
                             >
                               <span
                                 class="cxd-TplField"
@@ -863,11 +942,14 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                                   </div>
                                 </span>
                               </span>
-                            </div>
+                            </span>
+                            <div
+                              class="cxd-Tree-item-icons"
+                            />
                           </div>
                         </div>
-                      </div>
-                    </div>
+                      </li>
+                    </ul>
                   </div>
                 </div>
                 <div
@@ -1010,81 +1092,94 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                   class="cxd-Tabs-pane cxd-TabsTransfer-tab"
                 >
                   <div
-                    class="cxd-TreeSelection cxd-Transfer-checkboxes"
+                    class="cxd-Tree cxd-Transfer-checkboxes"
                   >
-                    <div
-                      class="cxd-TreeSelection-item is-expanded"
+                    <ul
+                      class="cxd-Tree-list"
                     >
-                      <div
-                        class="cxd-TreeSelection-itemInner"
-                      >
-                        <a
-                          class="cxd-Table-expandBtn is-active"
-                        >
-                          <icon-mock
-                            classname="icon icon-right-arrow-bold"
-                            icon="right-arrow-bold"
-                          />
-                        </a>
-                        <label
-                          class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                        >
-                          <input
-                            type="checkbox"
-                          />
-                          <i />
-                          <span
-                            class=""
-                          />
-                        </label>
-                        <div
-                          class="cxd-TreeSelection-itemLabel"
-                        >
-                          <span
-                            class="cxd-TplField"
-                          >
-                            <span>
-                              <div
-                                class="flex justify-between"
-                              >
-                                <span>
-                                  总部
-                                </span>
-                              </div>
-                            </span>
-                          </span>
-                        </div>
-                      </div>
-                      <div
-                        class="cxd-TreeSelection-sublist"
+                      <li
+                        class="cxd-Tree-item "
                       >
                         <div
-                          class="cxd-TreeSelection-item"
+                          class="cxd-Tree-itemLabel"
                         >
                           <div
-                            class="cxd-TreeSelection-itemInner"
+                            class="cxd-Tree-itemArrow"
                           >
-                            <a
-                              class="cxd-Table-expandBtn"
+                            <icon-mock
+                              classname="icon icon-down-arrow-bold"
+                              icon="down-arrow-bold"
+                            />
+                          </div>
+                          <label
+                            class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                          >
+                            <input
+                              type="checkbox"
+                            />
+                            <i />
+                            <span
+                              class=""
+                            />
+                          </label>
+                          <div
+                            class="cxd-Tree-itemLabel-item"
+                          >
+                            <span
+                              class="cxd-Tree-itemText"
+                              title="总部"
                             >
-                              <icon-mock
-                                classname="icon icon-right-arrow-bold"
-                                icon="right-arrow-bold"
-                              />
-                            </a>
-                            <label
-                              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                            >
-                              <input
-                                type="checkbox"
-                              />
-                              <i />
                               <span
-                                class=""
-                              />
-                            </label>
+                                class="cxd-TplField"
+                              >
+                                <span>
+                                  <div
+                                    class="flex justify-between"
+                                  >
+                                    <span>
+                                      总部
+                                    </span>
+                                  </div>
+                                </span>
+                              </span>
+                            </span>
                             <div
-                              class="cxd-TreeSelection-itemLabel"
+                              class="cxd-Tree-item-icons"
+                            />
+                          </div>
+                        </div>
+                      </li>
+                      <li
+                        class="cxd-Tree-item "
+                      >
+                        <div
+                          class="cxd-Tree-itemLabel"
+                        >
+                          <div
+                            class="cxd-Tree-itemArrow"
+                          >
+                            <icon-mock
+                              classname="icon icon-down-arrow-bold"
+                              icon="down-arrow-bold"
+                            />
+                          </div>
+                          <label
+                            class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                          >
+                            <input
+                              type="checkbox"
+                            />
+                            <i />
+                            <span
+                              class=""
+                            />
+                          </label>
+                          <div
+                            class="cxd-Tree-itemLabel-item"
+                          >
+                            <span
+                              class="cxd-Tree-itemText"
+                              title="部门 1"
                             >
                               <span
                                 class="cxd-TplField"
@@ -1099,104 +1194,133 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                                   </div>
                                 </span>
                               </span>
-                            </div>
-                          </div>
-                          <div
-                            class="cxd-TreeSelection-sublist"
-                          >
+                            </span>
                             <div
-                              class="cxd-TreeSelection-item"
-                            >
-                              <div
-                                class="cxd-TreeSelection-itemInner"
-                              >
-                                <label
-                                  class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                                >
-                                  <input
-                                    type="checkbox"
-                                  />
-                                  <i />
-                                  <span
-                                    class=""
-                                  />
-                                </label>
-                                <div
-                                  class="cxd-TreeSelection-itemLabel"
-                                >
-                                  <span
-                                    class="cxd-TplField"
-                                  >
-                                    <span>
-                                      <div
-                                        class="flex justify-between"
-                                      >
-                                        <span>
-                                          部门 4
-                                        </span>
-                                      </div>
-                                    </span>
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                            <div
-                              class="cxd-TreeSelection-item"
-                            >
-                              <div
-                                class="cxd-TreeSelection-itemInner"
-                              >
-                                <label
-                                  class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                                >
-                                  <input
-                                    type="checkbox"
-                                  />
-                                  <i />
-                                  <span
-                                    class=""
-                                  />
-                                </label>
-                                <div
-                                  class="cxd-TreeSelection-itemLabel"
-                                >
-                                  <span
-                                    class="cxd-TplField"
-                                  >
-                                    <span>
-                                      <div
-                                        class="flex justify-between"
-                                      >
-                                        <span>
-                                          部门 5
-                                        </span>
-                                      </div>
-                                    </span>
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
+                              class="cxd-Tree-item-icons"
+                            />
                           </div>
                         </div>
+                      </li>
+                      <li
+                        class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                      >
                         <div
-                          class="cxd-TreeSelection-item"
+                          class="cxd-Tree-itemLabel"
                         >
-                          <div
-                            class="cxd-TreeSelection-itemInner"
+                          <span
+                            class="cxd-Tree-itemArrowPlaceholder"
+                          />
+                          <label
+                            class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
                           >
-                            <label
-                              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                            <input
+                              type="checkbox"
+                            />
+                            <i />
+                            <span
+                              class=""
+                            />
+                          </label>
+                          <div
+                            class="cxd-Tree-itemLabel-item"
+                          >
+                            <span
+                              class="cxd-Tree-itemText"
+                              title="部门 4"
                             >
-                              <input
-                                type="checkbox"
-                              />
-                              <i />
                               <span
-                                class=""
-                              />
-                            </label>
+                                class="cxd-TplField"
+                              >
+                                <span>
+                                  <div
+                                    class="flex justify-between"
+                                  >
+                                    <span>
+                                      部门 4
+                                    </span>
+                                  </div>
+                                </span>
+                              </span>
+                            </span>
                             <div
-                              class="cxd-TreeSelection-itemLabel"
+                              class="cxd-Tree-item-icons"
+                            />
+                          </div>
+                        </div>
+                      </li>
+                      <li
+                        class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                      >
+                        <div
+                          class="cxd-Tree-itemLabel"
+                        >
+                          <span
+                            class="cxd-Tree-itemArrowPlaceholder"
+                          />
+                          <label
+                            class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                          >
+                            <input
+                              type="checkbox"
+                            />
+                            <i />
+                            <span
+                              class=""
+                            />
+                          </label>
+                          <div
+                            class="cxd-Tree-itemLabel-item"
+                          >
+                            <span
+                              class="cxd-Tree-itemText"
+                              title="部门 5"
+                            >
+                              <span
+                                class="cxd-TplField"
+                              >
+                                <span>
+                                  <div
+                                    class="flex justify-between"
+                                  >
+                                    <span>
+                                      部门 5
+                                    </span>
+                                  </div>
+                                </span>
+                              </span>
+                            </span>
+                            <div
+                              class="cxd-Tree-item-icons"
+                            />
+                          </div>
+                        </div>
+                      </li>
+                      <li
+                        class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                      >
+                        <div
+                          class="cxd-Tree-itemLabel"
+                        >
+                          <span
+                            class="cxd-Tree-itemArrowPlaceholder"
+                          />
+                          <label
+                            class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                          >
+                            <input
+                              type="checkbox"
+                            />
+                            <i />
+                            <span
+                              class=""
+                            />
+                          </label>
+                          <div
+                            class="cxd-Tree-itemLabel-item"
+                          >
+                            <span
+                              class="cxd-Tree-itemText"
+                              title="部门 2"
                             >
                               <span
                                 class="cxd-TplField"
@@ -1211,28 +1335,39 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                                   </div>
                                 </span>
                               </span>
-                            </div>
+                            </span>
+                            <div
+                              class="cxd-Tree-item-icons"
+                            />
                           </div>
                         </div>
+                      </li>
+                      <li
+                        class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                      >
                         <div
-                          class="cxd-TreeSelection-item"
+                          class="cxd-Tree-itemLabel"
                         >
-                          <div
-                            class="cxd-TreeSelection-itemInner"
+                          <span
+                            class="cxd-Tree-itemArrowPlaceholder"
+                          />
+                          <label
+                            class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
                           >
-                            <label
-                              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                            >
-                              <input
-                                type="checkbox"
-                              />
-                              <i />
-                              <span
-                                class=""
-                              />
-                            </label>
-                            <div
-                              class="cxd-TreeSelection-itemLabel"
+                            <input
+                              type="checkbox"
+                            />
+                            <i />
+                            <span
+                              class=""
+                            />
+                          </label>
+                          <div
+                            class="cxd-Tree-itemLabel-item"
+                          >
+                            <span
+                              class="cxd-Tree-itemText"
+                              title="部门 3"
                             >
                               <span
                                 class="cxd-TplField"
@@ -1247,11 +1382,14 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                                   </div>
                                 </span>
                               </span>
-                            </div>
+                            </span>
+                            <div
+                              class="cxd-Tree-item-icons"
+                            />
                           </div>
                         </div>
-                      </div>
-                    </div>
+                      </li>
+                    </ul>
                   </div>
                 </div>
               </div>
