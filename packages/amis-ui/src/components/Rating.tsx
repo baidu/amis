@@ -9,7 +9,6 @@ import {ClassNamesFn, themeable} from 'amis-core';
 import {isObject} from 'amis-core';
 import {validations} from 'amis-core';
 import {Icon} from './icons';
-import {isObjectShallowModified} from 'amis-core';
 
 export type textPositionType = 'left' | 'right';
 
@@ -97,18 +96,7 @@ export class Rating extends React.Component<RatingProps, any> {
   componentDidUpdate(prevProps: RatingProps) {
     const props = this.props;
 
-    if (
-      isObjectShallowModified(
-        {
-          value: props.value,
-          count: props.count
-        },
-        {
-          value: prevProps.value,
-          count: prevProps.count
-        }
-      )
-    ) {
+    if (props.value !== prevProps.value) {
       this.setState(
         {
           stars: this.getStars(props.value),
@@ -122,11 +110,6 @@ export class Rating extends React.Component<RatingProps, any> {
           this.getShowColorAndText(props.value);
         }
       );
-    } else if (
-      isObjectShallowModified(props.colors, prevProps.colors) ||
-      isObjectShallowModified(props.texts, prevProps.texts)
-    ) {
-      this.getShowColorAndText(props.value);
     }
   }
 

@@ -1,13 +1,6 @@
-/**
- * 组件名称：InputYearRange 年份范围
- * 
- * 备注：InputYearRange 与 dateRange 等日期范围使用的是同一个组件，所以只测试不同的地方即可
- * 
- * 单测内容：
- 1. 点击选择
- 2. 内嵌模式
- */
-
+import React = require('react');
+import PageRenderer from '../../../../amis-core/src/renderers/Form';
+import * as renderer from 'react-test-renderer';
 import {render, fireEvent, screen, within} from '@testing-library/react';
 import '../../../src';
 import {render as amisRender} from '../../../src';
@@ -62,41 +55,4 @@ test('Renderer:inputYearRange click', async () => {
 
   expect((value[0] as HTMLInputElement).value).toEqual(thisYearText);
   expect((value[1] as HTMLInputElement).value).toEqual(nextYearText);
-});
-
-// 2. 内嵌模式
-test('Renderer:inputYearRange with embed', async () => {
-  const {container} = render(
-    amisRender(
-      {
-        type: 'form',
-        api: '/api/xxx',
-        submitText: 'Submit',
-        body: [
-          {
-            type: 'input-year-range',
-            name: 'year',
-            label: '年',
-            embed: true,
-            value: '815155200,3374063999' // 1995 - 2076
-          }
-        ]
-      },
-      {},
-      makeEnv({})
-    )
-  );
-
-  expect(
-    container.querySelector(
-      '.cxd-DateRangePicker-start .rdtYear.rdtActive span'
-    )!.innerHTML
-  ).toBe('1995');
-
-  expect(
-    container.querySelector('.cxd-DateRangePicker-end .rdtYear.rdtActive span')!
-      .innerHTML
-  ).toBe('2076');
-
-  expect(container).toMatchSnapshot();
 });

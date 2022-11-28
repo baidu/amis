@@ -547,27 +547,22 @@ export function lexer(input: string, options?: LexerOptions) {
     return null;
   }
 
-  // substring(index, index + 4) 在某些情况会匹配错误
-  // 比如变量名称为 trueValue
-  // ${value2|isTrue:trueValue:falseValue}
   function literal() {
-    // {4,10} 匹配长度就足够判断  ("true").length <= targetLength <= ("undefined").length + 1
-    const match = input.substring(index).match(/^\w{4,10}/);
-    if (!match) {
-      return null;
-    }
-
-    let keyword = match[0].toLowerCase();
+    let keyword = input.substring(index, index + 4).toLowerCase();
     let value: any = keyword;
     let isLiteral = false;
-
     if (keyword === 'true' || keyword === 'null') {
       isLiteral = true;
       value = keyword === 'true' ? true : null;
-    } else if (keyword === 'false') {
+    } else if (
+      (keyword = input.substring(index, index + 5).toLowerCase()) === 'false'
+    ) {
       isLiteral = true;
       value = false;
-    } else if (keyword === 'undefined') {
+    } else if (
+      (keyword = input.substring(index, index + 9).toLowerCase()) ===
+      'undefined'
+    ) {
       isLiteral = true;
       value = undefined;
     }

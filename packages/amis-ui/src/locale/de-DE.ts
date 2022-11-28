@@ -286,10 +286,6 @@ register('de-DE', {
     'Kontrollieren Sie die Länge des Inhalts. Geben Sie nicht mehr als $1 Buchstaben ein.',
   'validate.minimum': 'Der Eingabewert ist kleiner als der Mindestwert von $1.',
   'validate.minLength': 'Geben Sie weitere Zeichen ein, mindestens $1.',
-  'validate.array.minLength':
-    'Bitte fügen Sie weitere Mitglieder hinzu, mindestens $1 Mitglieder',
-  'validate.array.maxLength':
-    'Bitte kontrollieren Sie die Anzahl der Mitglieder, die $1 nicht überschreiten darf',
   'validate.notEmptyString': 'Geben Sie nicht nur Leerzeichen ein.',
   'validate.isDateTimeSame':
     'Der aktuelle Datumswert ist ungültig, bitte geben Sie denselben Datumswert wie $1 ein',

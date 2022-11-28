@@ -331,7 +331,7 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
     const offset = (value - min) / step;
     const height = 28; /** 单个选项的高度 */
 
-    elf?.parentNode?.scrollTo?.({
+    elf?.parentNode?.scrollTo({
       top: offset * height,
       behavior: label === 'init' ? 'auto' : 'smooth'
     });

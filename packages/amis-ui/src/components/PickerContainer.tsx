@@ -9,12 +9,12 @@ import {
 } from 'amis-core';
 import Modal from './Modal';
 import Button from './Button';
-import ConfirmBox, {ConfirmBoxProps} from './ConfirmBox';
 
-export interface PickerContainerProps
-  extends ThemeProps,
-    LocaleProps,
-    Omit<ConfirmBoxProps, 'children' | 'type'> {
+export interface PickerContainerProps extends ThemeProps, LocaleProps {
+  title?: string;
+  showTitle?: boolean;
+  showFooter?: boolean;
+  headerClassName?: string;
   children: (props: {
     onClick: (e: React.MouseEvent) => void;
     setState: (state: any) => void;
@@ -28,6 +28,12 @@ export interface PickerContainerProps
     [propName: string]: any;
   }) => JSX.Element | null;
   value?: any;
+  beforeConfirm?: (bodyRef: any) => any;
+  onConfirm?: (value?: any) => void;
+  onCancel?: () => void;
+  popOverContainer?: any;
+  popOverClassName?: string;
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
   onFocus?: () => void;
   onClose?: () => void;
 
@@ -93,7 +99,7 @@ export class PickerContainer extends React.Component<
   }
 
   @autobind
-  async confirm(): Promise<any> {
+  async confirm() {
     const {onConfirm, beforeConfirm} = this.props;
 
     const ret = await beforeConfirm?.(this.bodyRef.current);
@@ -103,7 +109,7 @@ export class PickerContainer extends React.Component<
 
     // beforeConfirm 返回 false 则阻止后续动作
     if (ret === false) {
-      return false;
+      return;
     } else if (isObject(ret)) {
       state.value = ret;
     }
@@ -129,8 +135,7 @@ export class PickerContainer extends React.Component<
       headerClassName,
       translate: __,
       size,
-      showFooter,
-      closeOnEsc
+      showFooter
     } = this.props;
     return (
       <>
@@ -140,29 +145,36 @@ export class PickerContainer extends React.Component<
           setState: this.updateState
         })}
 
-        <ConfirmBox
-          type="dialog"
+        <Modal
           size={size}
-          closeOnEsc={closeOnEsc}
+          closeOnEsc
           show={this.state.isOpened}
-          onCancel={this.close}
-          title={title || __('Select.placeholder')}
-          showTitle={showTitle}
-          headerClassName={headerClassName}
-          showFooter={showFooter}
-          beforeConfirm={this.confirm}
+          onHide={this.close}
         >
-          {() =>
-            popOverRender({
+          {showTitle !== false ? (
+            <Modal.Header onClose={this.close} className={headerClassName}>
+              {__(title || 'Select.placeholder')}
+            </Modal.Header>
+          ) : null}
+          <Modal.Body>
+            {popOverRender({
               ...(this.state as any),
               ref: this.bodyRef,
               setState: this.updateState,
               onClose: this.close,
               onChange: this.handleChange,
               onConfirm: this.confirm
-            })!
-          }
-        </ConfirmBox>
+            })}
+          </Modal.Body>
+          {showFooter ?? true ? (
+            <Modal.Footer>
+              <Button onClick={this.close}>{__('cancel')}</Button>
+              <Button onClick={this.confirm} level="primary">
+                {__('confirm')}
+              </Button>
+            </Modal.Footer>
+          ) : null}
+        </Modal>
       </>
     );
   }
