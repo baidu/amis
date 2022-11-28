@@ -326,21 +326,24 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               </div>
             );
           },
-          schema: [
-            {
-              type: 'button-group-select',
-              name: 'msgType',
-              label: '消息类型',
-              value: 'info',
-              required: true,
-              mode: 'horizontal',
-              options: Object.keys(MSG_TYPES).map(key => ({
-                label: MSG_TYPES[key],
-                value: key,
-                level: 'default'
-              }))
-            },
-            /*
+          schema: getArgsWrapper({
+            type: 'wrapper',
+            className: 'p-none',
+            body: [
+              {
+                type: 'button-group-select',
+                name: 'msgType',
+                label: '消息类型',
+                value: 'info',
+                required: true,
+                mode: 'horizontal',
+                options: Object.keys(MSG_TYPES).map(key => ({
+                  label: MSG_TYPES[key],
+                  value: key,
+                  level: 'default'
+                }))
+              },
+              /*
               {
                 name: 'msg',
                 label: '消息内容',
@@ -354,113 +357,114 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 required: true
               },
               */
-            {
-              name: 'msg',
-              label: '消息内容',
-              type: 'ae-textareaFormulaControl',
-              mode: 'horizontal',
-              variables: '${variables}',
-              size: 'lg',
-              required: true
-            },
-            /*
-            {
-              name: 'title',
-              type: 'input-formula',
-              variables: '${variables}',
-              evalMode: false,
-              variableMode: 'tabs',
-              inputMode: 'input-group',
-              label: '标题内容',
-              size: 'lg',
-              mode: 'horizontal'
-            },
-            */
-            {
-              name: 'title',
-              label: '标题内容',
-              type: 'ae-textareaFormulaControl',
-              variables: '${variables}',
-              mode: 'horizontal',
-              size: 'lg'
-            },
-            /*
-            {
-              name: 'timeout',
-              type: 'input-formula',
-              variables: '${variables}',
-              evalMode: false,
-              variableMode: 'tabs',
-              inputMode: 'input-group',
-              label: '持续时间(ms)',
-              size: 'lg',
-              mode: 'horizontal'
-            },
-            */
-            {
-              name: 'timeout',
-              label: '持续时间(ms)',
-              type: 'ae-formulaControl',
-              rendererSchema: {
-                type: 'input-number'
+              {
+                name: 'msg',
+                label: '消息内容',
+                type: 'ae-textareaFormulaControl',
+                mode: 'horizontal',
+                variables: '${variables}',
+                size: 'lg',
+                required: true
               },
-              valueType: 'number',
+              /*
+            {
+              name: 'title',
+              type: 'input-formula',
               variables: '${variables}',
+              evalMode: false,
+              variableMode: 'tabs',
+              inputMode: 'input-group',
+              label: '标题内容',
               size: 'lg',
               mode: 'horizontal'
             },
+            */
+              {
+                name: 'title',
+                label: '标题内容',
+                type: 'ae-textareaFormulaControl',
+                variables: '${variables}',
+                mode: 'horizontal',
+                size: 'lg'
+              },
+              /*
             {
-              type: 'button-group-select',
-              name: 'position',
-              value: 'top-right',
-              mode: 'horizontal',
-              label: '显示位置',
-              options: [
-                {
-                  label: '左上',
-                  value: 'top-left'
-                },
-
-                {
-                  label: '中上',
-                  value: 'top-center'
-                },
-
-                {
-                  label: '右上',
-                  value: 'top-right'
-                },
-
-                {
-                  label: '左下',
-                  value: 'bottom-left'
-                },
-                {
-                  label: '中下',
-                  value: 'bottom-center'
-                },
-
-                {
-                  label: '右下',
-                  value: 'bottom-right'
-                }
-              ]
-            },
-            {
-              type: 'switch',
-              name: 'closeButton',
-              value: true,
-              label: '展示关闭按钮',
+              name: 'timeout',
+              type: 'input-formula',
+              variables: '${variables}',
+              evalMode: false,
+              variableMode: 'tabs',
+              inputMode: 'input-group',
+              label: '持续时间(ms)',
+              size: 'lg',
               mode: 'horizontal'
             },
-            {
-              type: 'switch',
-              name: 'showIcon',
-              value: true,
-              label: '展示图标',
-              mode: 'horizontal'
-            }
-          ]
+            */
+              {
+                name: 'timeout',
+                label: '持续时间(ms)',
+                type: 'ae-formulaControl',
+                rendererSchema: {
+                  type: 'input-number'
+                },
+                valueType: 'number',
+                variables: '${variables}',
+                size: 'lg',
+                mode: 'horizontal'
+              },
+              {
+                type: 'button-group-select',
+                name: 'position',
+                value: 'top-right',
+                mode: 'horizontal',
+                label: '显示位置',
+                options: [
+                  {
+                    label: '左上',
+                    value: 'top-left'
+                  },
+
+                  {
+                    label: '中上',
+                    value: 'top-center'
+                  },
+
+                  {
+                    label: '右上',
+                    value: 'top-right'
+                  },
+
+                  {
+                    label: '左下',
+                    value: 'bottom-left'
+                  },
+                  {
+                    label: '中下',
+                    value: 'bottom-center'
+                  },
+
+                  {
+                    label: '右下',
+                    value: 'bottom-right'
+                  }
+                ]
+              },
+              {
+                type: 'switch',
+                name: 'closeButton',
+                value: true,
+                label: '展示关闭按钮',
+                mode: 'horizontal'
+              },
+              {
+                type: 'switch',
+                name: 'showIcon',
+                value: true,
+                label: '展示图标',
+                mode: 'horizontal'
+              }
+            ]
+          })
         }
       ]
     },
