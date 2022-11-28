@@ -4,7 +4,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {Button, Editor, Icon, Overlay, PopOver} from 'amis-ui';
 import {FormControlProps, FormItem, render} from 'amis-core';
-import {parse as cssParse} from 'postcss';
+import {parse as cssParse} from 'amis-postcss';
 import {PlainObject} from './types';
 import {debounce} from 'lodash';
 
@@ -51,27 +51,31 @@ function AmisStyleCodeEditor(props: FormControlProps) {
   const [value, setValue] = useState('');
 
   function getCssAndSetValue(classname?: string, name?: string) {
-    const id = classname?.replace(name + '-', '');
-    const dom = document.getElementById(id || '') || null;
-    const content = dom?.innerHTML || '';
-    const ast = cssParse(content);
-    const nodes: any[] = [];
-    ast.nodes.forEach((node: any) => {
-      const selector = node.selector;
-      if (!selector.endsWith('.hover') && !selector.endsWith('.active')) {
-        nodes.push(node);
-      }
-    });
-    ast.nodes = nodes;
+    try {
+      const id = classname?.replace(name + '-', '');
+      const dom = document.getElementById(id || '') || null;
+      const content = dom?.innerHTML || '';
+      const ast = cssParse(content);
+      const nodes: any[] = [];
+      ast.nodes.forEach((node: any) => {
+        const selector = node.selector;
+        if (!selector.endsWith('.hover') && !selector.endsWith('.active')) {
+          nodes.push(node);
+        }
+      });
+      ast.nodes = nodes;
 
-    const css = nodes
-      .map(node => {
-        const style = node.nodes.map((n: any) => `${n.prop}: ${n.value};`);
-        return `${node.selector} {\n  ${style.join('\n  ')}\n}`;
-      })
-      .join('\n\n');
+      const css = nodes
+        .map(node => {
+          const style = node.nodes.map((n: any) => `${n.prop}: ${n.value};`);
+          return `${node.selector} {\n  ${style.join('\n  ')}\n}`;
+        })
+        .join('\n\n');
 
-    setValue(css);
+      setValue(css);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   useEffect(() => {
@@ -136,7 +140,7 @@ function AmisStyleCodeEditor(props: FormControlProps) {
           css: newCss
         });
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   });
 
