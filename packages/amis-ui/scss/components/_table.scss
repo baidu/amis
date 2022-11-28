@@ -366,6 +366,10 @@
         .#{$ns}Remark {
           margin-left: var(--gap-xs);
         }
+
+        .#{$ns}TableCell--title {
+          min-width: fit-content;
+        }
       }
     }
 
@@ -1043,7 +1047,7 @@
 
   .#{$ns}Button {
     border-color: transparent;
-    color: var(--Button--link-color);
+    color: var(--button-link-default-font-color);
   }
 }
 

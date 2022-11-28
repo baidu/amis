@@ -666,7 +666,10 @@ export const TableStore2 = ServiceStore.named('TableStore2')
 
         if (!json.ok) {
           self.updateMessage(
-            json.msg ?? options.errorMessage ?? self.__('saveFailed'),
+            (api as ApiObject)?.messages?.failed ??
+              json.msg ??
+              options.errorMessage ??
+              self.__('saveFailed'),
             true
           );
           getEnv(self).notify(
@@ -682,7 +685,10 @@ export const TableStore2 = ServiceStore.named('TableStore2')
           throw new ServerError(self.msg);
         } else {
           self.updateMessage(
-            json.msg ?? options.successMessage ?? json.defaultMsg
+            (api as ApiObject)?.messages?.success ??
+              json.msg ??
+              options.successMessage ??
+              json.defaultMsg
           );
           self.msg &&
             getEnv(self).notify(

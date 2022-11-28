@@ -73,7 +73,9 @@ import {
   RegisterOptions,
   useFieldArray,
   UseFieldArrayProps,
-  UseFormReturn
+  useFormContext,
+  UseFormReturn,
+  useFormState
 } from 'react-hook-form';
 import useSubForm from '../hooks/use-sub-form';
 import Button from './Button';
@@ -147,18 +149,80 @@ export function Combo({
   minLength,
   maxLength
 }: ComboProps) {
-  // 看文档是支持的，但是传入报错，后面看看
-  // let rules2: any = {...rules};
+  const subForms = React.useRef<Record<any, UseFormReturn>>({});
+  const subFormRef = React.useCallback(
+    (subform: UseFormReturn | null, index: number) => {
+      if (subform) {
+        subForms.current[index] = subform;
+      } else {
+        delete subForms.current[index];
+      }
+    },
+    [subForms]
+  );
+  let finalRules: any = {...rules};
 
-  // if (isRequired) {
-  //   rules2.required = true;
-  // }
+  if (isRequired) {
+    finalRules.required = true;
+  }
+
+  if (minLength) {
+    finalRules.minLength = minLength;
+  }
+
+  if (maxLength) {
+    finalRules.maxLength = maxLength;
+  }
+
+  finalRules.validate = React.useCallback(
+    async (items: Array<any>) => {
+      const map = subForms.current;
+
+      if (typeof rules?.validate === 'function') {
+        const result = await rules.validate(items);
+        if (result) {
+          return result;
+        }
+      }
+
+      for (let key of Object.keys(map)) {
+        const valid = await (function (methods) {
+          return new Promise<boolean>(resolve => {
+            methods.handleSubmit(
+              () => resolve(true),
+              () => resolve(false)
+            )();
+          });
+        })(map[key]);
+
+        if (!valid) {
+          return __('validateFailed');
+        }
+      }
+    },
+    [subForms]
+  );
   const {fields, append, update, remove} = useFieldArray({
     control,
     name: name,
-    shouldUnregister: true
-    // rules: rules2
+    shouldUnregister: true,
+    rules: finalRules
   });
+
+  const {trigger} = useFormContext();
+
+  // useFieldArray 的 update 会更新行 id，导致重新渲染
+  // 正在编辑中的元素失去焦点，所以自己写一个
+  const lightUpdate = React.useCallback(
+    (index: number, value: any) => {
+      const arr = control._getFieldArray(name);
+      arr[index] = {...value};
+      control._updateFieldArray(name, arr);
+      trigger(name);
+      control._subjects.watch.next({});
+    },
+    [control]
+  );
 
   function renderBody() {
     return (
@@ -174,12 +238,13 @@ export function Combo({
             <div key={field.id} className={cx(`Combo-item`, itemClassName)}>
               <ComboItem
                 control={control}
-                update={update}
+                update={lightUpdate}
                 index={index}
                 value={field}
                 itemRender={itemRender}
                 translate={__}
                 classnames={cx}
+                formRef={subFormRef}
               />
               <a
                 onClick={() => remove(index)}
@@ -215,6 +280,10 @@ export function Combo({
     );
   }
 
+  const {errors} = useFormState({
+    control
+  });
+
   return wrap === false ? (
     renderBody()
   ) : (
@@ -226,8 +295,8 @@ export function Combo({
       description={description}
       mode={mode}
       isRequired={isRequired}
-      hasError={false /*目前看来不支持，后续研究一下 */}
-      errors={undefined /*目前看来不支持，后续研究一下 */}
+      hasError={!!errors[name]?.message}
+      errors={errors[name]?.message as any}
     >
       {renderBody()}
     </FormField>
@@ -242,6 +311,7 @@ export interface ComboItemProps {
   index: number;
   translate: TranslateFn;
   classnames: ClassNamesFn;
+  formRef: (form: UseFormReturn | null, index: number) => void;
 }
 
 export function ComboItem({
@@ -250,9 +320,16 @@ export function ComboItem({
   index,
   translate,
   update,
-  classnames: cx
+  classnames: cx,
+  formRef
 }: ComboItemProps) {
   const methods = useSubForm(value, translate, data => update(index, data));
+  React.useEffect(() => {
+    formRef?.(methods, index);
+    return () => {
+      formRef?.(null, index);
+    };
+  }, [methods]);
 
   let child: any = itemRender(methods, index);
   if (child?.type === React.Fragment) {

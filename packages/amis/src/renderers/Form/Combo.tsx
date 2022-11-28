@@ -5,7 +5,8 @@ import {
   FormItem,
   FormControlProps,
   FormBaseControl,
-  resolveEventData
+  resolveEventData,
+  ApiObject
 } from 'amis-core';
 import {ActionObject, Api} from 'amis-core';
 import {ComboStore, IComboStore} from 'amis-core';
@@ -447,11 +448,38 @@ export default class ComboControl extends React.Component<ComboProps> {
     const actionType = action?.actionType as string;
     const {onChange, resetValue} = this.props;
 
-    if (actionType === 'clear') {
+    if (actionType === 'addItem') {
+      this.addItemValue(args?.item ?? {});
+    } else if (actionType === 'clear') {
       onChange('');
     } else if (actionType === 'reset') {
       onChange(resetValue ?? '');
     }
+  }
+
+  addItemValue(itemValue: any) {
+    const {flat, joinValues, addattop, delimiter, disabled, submitOnChange} =
+      this.props;
+
+    if (disabled) {
+      return;
+    }
+
+    let value = this.getValueAsArray();
+
+    this.keys.push(guid());
+
+    if (addattop === true) {
+      value.unshift(itemValue);
+    } else {
+      value.push(itemValue);
+    }
+
+    if (flat && joinValues) {
+      value = value.join(delimiter || ',');
+    }
+
+    this.props.onChange(value, submitOnChange, true);
   }
 
   getValueAsArray(props = this.props) {
@@ -487,7 +515,7 @@ export default class ComboControl extends React.Component<ComboProps> {
 
     value.push(
       flat
-        ? condition.scaffold || scaffold || ''
+        ? condition.scaffold ?? scaffold ?? ''
         : {
             ...(condition.scaffold || scaffold)
           }
@@ -542,7 +570,7 @@ export default class ComboControl extends React.Component<ComboProps> {
 
     value.push(
       flat
-        ? scaffold || ''
+        ? scaffold ?? ''
         : {
             ...scaffold
           }
@@ -614,7 +642,10 @@ export default class ComboControl extends React.Component<ComboProps> {
       const result = await env.fetcher(deleteApi as Api, ctx);
 
       if (!result.ok) {
-        env.notify('error', __('deleteFailed'));
+        env.notify(
+          'error',
+          (deleteApi as ApiObject)?.messages?.failed ?? __('deleteFailed')
+        );
         return;
       }
     }
@@ -1172,32 +1203,7 @@ export default class ComboControl extends React.Component<ComboProps> {
               ) : null}
               <div className={cx(`Combo-itemInner`)}>
                 {finnalControls ? (
-                  render(
-                    `multiple/${index}`,
-                    {
-                      type: 'form',
-                      body: finnalControls,
-                      wrapperComponent: 'div',
-                      wrapWithPanel: false,
-                      mode: subFormMode,
-                      className: cx(`Combo-form`, formClassName)
-                    },
-                    {
-                      index,
-                      disabled,
-                      data,
-                      onChange: this.handleChange,
-                      onInit: this.handleFormInit,
-                      onAction: this.handleAction,
-                      ref: this.makeFormRef(index),
-                      canAccessSuperData,
-                      lazyChange: changeImmediately ? false : true,
-                      formLazyChange: false,
-                      value: undefined,
-                      formItemValue: undefined,
-                      formStore: undefined
-                    }
-                  )
+                  this.renderItems(finnalControls, data, index)
                 ) : (
                   <Alert2 level="warning" className="m-b-none">
                     {__('Combo.invalidData')}
@@ -1342,7 +1348,8 @@ export default class ComboControl extends React.Component<ComboProps> {
                 label: __(addButtonText || 'add'),
                 level: 'info',
                 size: 'sm',
-                closeOnClick: true
+                closeOnClick: true,
+                btnClassName: addButtonClassName
               },
               {
                 buttons: conditions?.map(item => ({
@@ -1386,28 +1393,16 @@ export default class ComboControl extends React.Component<ComboProps> {
     const {
       classPrefix: ns,
       classnames: cx,
-      formClassName,
-      render,
       multiLine,
-      addButtonClassName,
       disabled,
-      store,
       flat,
-      subFormMode,
       draggable,
       draggableTip,
-      addButtonText,
-      addable,
-      removable,
       typeSwitchable,
       delimiter,
-      canAccessSuperData,
-      addIcon,
       dragIcon,
       noBorder,
       conditions,
-      lazyLoad,
-      changeImmediately,
       placeholder,
       translate: __,
       itemClassName,
@@ -1499,33 +1494,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                   ) : null}
                   <div className={cx(`Combo-itemInner`)}>
                     {finnalControls ? (
-                      render(
-                        `multiple/${index}`,
-                        {
-                          type: 'form',
-                          body: finnalControls,
-                          wrapperComponent: 'div',
-                          wrapWithPanel: false,
-                          mode: multiLine ? subFormMode : 'row',
-                          className: cx(`Combo-form`, formClassName)
-                        },
-                        {
-                          index,
-                          disabled,
-                          data,
-                          onChange: this.handleChange,
-                          onInit: this.handleFormInit,
-                          onAction: this.handleAction,
-                          ref: this.makeFormRef(index),
-                          lazyChange: changeImmediately ? false : true,
-                          formLazyChange: false,
-                          lazyLoad,
-                          canAccessSuperData,
-                          value: undefined,
-                          formItemValue: undefined,
-                          formStore: undefined
-                        }
-                      )
+                      this.renderItems(finnalControls, data, index)
                     ) : (
                       <Alert2 level="warning" className="m-b-none">
                         {__('Combo.invalidData')}
@@ -1560,11 +1529,8 @@ export default class ComboControl extends React.Component<ComboProps> {
     const {
       conditions,
       classnames: cx,
-      render,
       value,
       multiLine,
-      formClassName,
-      canAccessSuperData,
       noBorder,
       disabled,
       typeSwitchable,
@@ -1609,26 +1575,7 @@ export default class ComboControl extends React.Component<ComboProps> {
 
           <div className={cx(`Combo-itemInner`)}>
             {items ? (
-              render(
-                'single',
-                {
-                  type: 'form',
-                  body: items,
-                  wrapperComponent: 'div',
-                  wrapWithPanel: false,
-                  mode: multiLine ? 'normal' : 'row',
-                  className: cx(`Combo-form`, formClassName)
-                },
-                {
-                  disabled: disabled,
-                  data: data,
-                  onChange: this.handleSingleFormChange,
-                  ref: this.makeFormRef(0),
-                  onInit: this.handleSingleFormInit,
-                  canAccessSuperData,
-                  formStore: undefined
-                }
-              )
+              this.renderItems(items, data)
             ) : (
               <Alert2 level="warning" className="m-b-none">
                 {__('Combo.invalidData')}
@@ -1643,6 +1590,77 @@ export default class ComboControl extends React.Component<ComboProps> {
         ) : null}
       </div>
     );
+  }
+
+  // 为了给 editor 重写使用
+  renderItems(finnalControls: ComboSubControl[], data: object, index?: number) {
+    const {
+      classnames: cx,
+      formClassName,
+      render,
+      multiLine,
+      disabled,
+      canAccessSuperData,
+      multiple,
+      tabsMode,
+      subFormMode,
+      changeImmediately,
+      lazyLoad,
+      translate: __
+    } = this.props;
+
+    // 单个
+    if (!multiple) {
+      return render(
+        'single',
+        {
+          type: 'form',
+          body: finnalControls,
+          wrapperComponent: 'div',
+          wrapWithPanel: false,
+          mode: multiLine ? 'normal' : 'row',
+          className: cx(`Combo-form`, formClassName)
+        },
+        {
+          disabled: disabled,
+          data,
+          onChange: this.handleSingleFormChange,
+          ref: this.makeFormRef(0),
+          onInit: this.handleSingleFormInit,
+          canAccessSuperData,
+          formStore: undefined
+        }
+      );
+    } else if (multiple && index !== undefined && index >= 0) {
+      return render(
+        `multiple/${index}`,
+        {
+          type: 'form',
+          body: finnalControls,
+          wrapperComponent: 'div',
+          wrapWithPanel: false,
+          mode: tabsMode ? subFormMode : multiLine ? subFormMode : 'row',
+          className: cx(`Combo-form`, formClassName)
+        },
+        {
+          index,
+          disabled,
+          data,
+          onChange: this.handleChange,
+          onInit: this.handleFormInit,
+          onAction: this.handleAction,
+          ref: this.makeFormRef(index),
+          canAccessSuperData,
+          lazyChange: changeImmediately ? false : true,
+          formLazyChange: false,
+          value: undefined,
+          formItemValue: undefined,
+          formStore: undefined,
+          ...(tabsMode ? {} : {lazyLoad})
+        }
+      );
+    }
+    return <></>;
   }
 
   renderStatic(displayValue = '-') {

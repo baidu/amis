@@ -7,14 +7,12 @@
   display: inline-block;
   vertical-align: middle;
   background: var(--Number-bg);
-  border: var(--Number-borderWidth) solid var(--Number-borderColor);
+  border: var(--Number-borderWidth) solid var(--Form-input-borderColor);
   border-radius: var(--Number-borderRadius);
   overflow: hidden;
 
   @include input-border();
-  &.no-steps > &-handler-wrap {
-    display: none;
-  }
+
   &-focused {
     border-color: var(--Form-input-onFocused-borderColor);
     box-shadow: var(--Form-input-boxShadow);
@@ -46,6 +44,10 @@
     }
   }
 
+  &.no-steps > &-handler-wrap {
+    display: none;
+  }
+
   &-disabled:hover {
     border-color: var(--Form-input-onDisabled-borderColor);
   }
@@ -69,6 +71,11 @@
     border-radius: var(--Form-input-borderRadius);
     color: var(--Form-input-color);
     padding: 0 var(--Form-inputNumber-paddingX);
+
+    &::placeholder {
+      color: var(--Form-input-placeholderColor);
+      user-select: none;
+    }
   }
 
   &-handler {

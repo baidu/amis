@@ -182,8 +182,15 @@ export default class Service extends React.Component<ServiceProps> {
     this.dataProviderSetData = this.dataProviderSetData.bind(this);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    const {data, dispatchEvent} = this.props;
     this.mounted = true;
+    const rendererEvent = await dispatchEvent('init', data, this);
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
+
     this.initFetch();
   }
 
@@ -472,8 +479,8 @@ export default class Service extends React.Component<ServiceProps> {
         if ('status' in data && 'data' in data) {
           returndata = data.data;
           if (data.status !== 0) {
-            store.updateMessage(data.msg, true);
-            env.notify('error', data.msg);
+            store.updateMessage(wsApi?.messages?.failed ?? data.msg, true);
+            env.notify('error', wsApi?.messages?.failed ?? data.msg);
             return;
           }
         }

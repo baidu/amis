@@ -25,6 +25,7 @@ import {normalizeOptions} from 'amis-core';
 import {ActionObject} from 'amis-core';
 import {FormOptionsSchema} from '../../Schema';
 import {supportStatic} from './StaticHoc';
+import {TooltipWrapperSchema} from '../TooltipWrapper';
 
 /**
  * Tree 下拉选择框。
@@ -97,6 +98,16 @@ export interface TreeSelectControlSchema extends FormOptionsSchema {
    * 是否显示展开线
    */
   showOutline?: boolean;
+
+  /**
+   * 标签的最大展示数量，超出数量后以收纳浮层的方式展示，仅在多选模式开启后生效
+   */
+  maxTagCount?: number;
+
+  /**
+   * 收纳标签的Popover配置
+   */
+  overflowTagPopover?: TooltipWrapperSchema;
 }
 
 export interface TreeSelectProps extends OptionsControlProps {
@@ -612,6 +623,8 @@ export default class TreeSelectControl extends React.Component<
       placeholder,
       popOverContainer,
       useMobileUI,
+      maxTagCount,
+      overflowTagPopover,
       translate: __,
       env
     } = this.props;
@@ -621,6 +634,8 @@ export default class TreeSelectControl extends React.Component<
     return (
       <div ref={this.container} className={cx(`TreeSelectControl`, className)}>
         <ResultBox
+          maxTagCount={maxTagCount}
+          overflowTagPopover={overflowTagPopover}
           disabled={disabled}
           ref={this.targetRef}
           placeholder={__(placeholder ?? 'placeholder.empty')}

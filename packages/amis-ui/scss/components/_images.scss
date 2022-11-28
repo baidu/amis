@@ -21,7 +21,7 @@
 
   &-thumbWrap {
     position: relative;
-    height: 100%;
+    // height: 100%;
   }
 
   &-image {
@@ -82,7 +82,7 @@
 
   &-thumb--fixed-size &-thumb {
     width: 100%;
-    height: 100%;
+    // height: 100%;
 
     > img {
       width: auto;

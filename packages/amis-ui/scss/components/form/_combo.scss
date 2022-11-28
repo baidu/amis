@@ -25,6 +25,7 @@
     > svg {
       width: var(--Combo-addBtn-fontSize);
       height: var(--Combo-addBtn-fontSize);
+      top: 0;
     }
 
     @include button-size(

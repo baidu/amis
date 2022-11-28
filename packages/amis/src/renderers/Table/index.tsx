@@ -2805,6 +2805,12 @@ export default class Table extends React.Component<TableProps, object> {
 
     return (
       <>
+        {TableContent.renderItemActions({
+          store,
+          classnames: cx,
+          render,
+          itemActions
+        })}
         <TableContent
           tableClassName={cx(
             {

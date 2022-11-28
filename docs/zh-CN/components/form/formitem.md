@@ -423,7 +423,7 @@ order: 1
 
 ##### 限制选择器类组件的展示数量
 
-下拉选择器、多选框等组件，当选项过多静态展示时，若全部展示会占用页面很多空间，所以默认进行了限制（10个）  
+下拉选择器、多选框等组件，当选项过多静态展示时，若全部展示会占用页面很多空间，所以默认进行了限制（10 个）  
 可以通过配置`staticSchema.limit`，可以自定义静态展示时的数量
 
 ```schema: scope="body"
@@ -1239,7 +1239,8 @@ amis 会有默认的报错信息，如果你想自定义校验信息，配置`va
   isTimeAfter: 'validate.isTimeAfter',
   isTimeSameOrBefore: 'validate.isTimeSameOrBefore',
   isTimeSameOrAfter: 'validate.isTimeSameOrAfter',
-  isTimeBetween: 'validate.isTimeBetween'
+  isTimeBetween: 'validate.isTimeBetween',
+  isVariableName: 'validate.isVariableName'
 }
 ```
 
@@ -1249,45 +1250,46 @@ amis 会有默认的报错信息，如果你想自定义校验信息，配置`va
 
 ### 支持的格式校验
 
-| 规则名称                 | 说明                                                                                           | 定义                                                                                                            | 版本    |
-| ------------------------ | ---------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- | ------- |
-| `isEmail`                | 必须是 Email。                                                                                 | `(value: any) => boolean`                                                                                       |         |
-| `isUrl`                  | 必须是 Url。                                                                                   | `(value: any) => boolean`                                                                                       |         |
-| `isNumeric`              | 必须是 数值。                                                                                  | `(value: any) => boolean`                                                                                       |         |
-| `isAlpha`                | 必须是 字母。                                                                                  | `(value: any) => boolean`                                                                                       |         |
-| `isAlphanumeric`         | 必须是 字母或者数字。                                                                          | `(value: any) => boolean`                                                                                       |         |
-| `isInt`                  | 必须是 整形。                                                                                  | `(value: any) => boolean`                                                                                       |         |
-| `isFloat`                | 必须是 浮点形。                                                                                | `(value: any) => boolean`                                                                                       |         |
-| `isLength:length`        | 是否长度正好等于设定值。                                                                       | `(value: any) => boolean`                                                                                       |         |
-| `minLength:length`       | 最小长度。                                                                                     | `(value: any, length: number) => boolean`                                                                       |         |
-| `maxLength:length`       | 最大长度。                                                                                     | `(value: any, length: number) => boolean`                                                                       |         |
-| `maximum:number`         | 最大值。                                                                                       | `(value: any, maximum: number) => boolean`                                                                      |         |
-| `minimum:number`         | 最小值。                                                                                       | `(value: any, minimum:number) => boolean`                                                                       |         |
-| `equals:xxx`             | 当前值必须完全等于 xxx。                                                                       | `(value: any, targetValue: any) => boolean`                                                                     |         |
-| `equalsField:xxx`        | 当前值必须与 xxx 变量值一致。                                                                  | `(value: any, field: string) => boolean`                                                                        |         |
-| `isJson`                 | 是否是合法的 Json 字符串。                                                                     | `(value: any) => boolean`                                                                                       |         |
-| `isUrlPath`              | 是 url 路径。                                                                                  | `(value: any) => boolean`                                                                                       |         |
-| `isPhoneNumber`          | 是否为合法的手机号码                                                                           | `(value: any) => boolean`                                                                                       |         |
-| `isTelNumber`            | 是否为合法的电话号码                                                                           | `(value: any) => boolean`                                                                                       |         |
-| `isZipcode`              | 是否为邮编号码                                                                                 | `(value: any) => boolean`                                                                                       |         |
-| `isId`                   | 是否为身份证号码，没做校验                                                                     | `(value: any) => boolean`                                                                                       |         |
-| `matchRegexp:/foo/`      | 必须命中某个正则。                                                                             | `(value: any, regexp: string \| RegExp) => boolean`                                                             |         |
-| `matchRegexp1:/foo/`     | 必须命中某个正则。                                                                             | `(value: any, regexp: string \| RegExp) => boolean`                                                             |         |
-| `matchRegexp2:/foo/`     | 必须命中某个正则。                                                                             | `(value: any, regexp: string \| RegExp) => boolean`                                                             |         |
-| `matchRegexp3:/foo/`     | 必须命中某个正则。                                                                             | `(value: any, regexp: string \| RegExp) => boolean`                                                             |         |
-| `matchRegexp4:/foo/`     | 必须命中某个正则。                                                                             | `(value: any, regexp: string \| RegExp) => boolean`                                                             |         |
-| `isDateTimeSame`         | 日期和目标日期相同，支持指定粒度，默认到毫秒 `millisecond`                                     | `(value: any, targetDate: any, granularity?: string) => boolean`                                                | `2.2.0` |
-| `isDateTimeBefore`       | 日期早于目标日期，支持指定粒度，默认到毫秒 `millisecond`                                       | `(value: any, targetDate: any, granularity?: string) => boolean`                                                | `2.2.0` |
-| `isDateTimeAfter`        | 日期晚于目标日期，支持指定粒度，默认到毫秒 `millisecond`                                       | `(value: any, targetDate: any, granularity?: string) => boolean`                                                | `2.2.0` |
-| `isDateTimeSameOrBefore` | 日期早于目标日期或和目标日期相同，支持指定粒度，默认到毫秒 `millisecond`                       | `(value: any, targetDate: any, granularity?: string) => boolean`                                                | `2.2.0` |
-| `isDateTimeSameOrAfter`  | 日期晚于目标日期或和目标日期相同，支持指定粒度，默认到毫秒 `millisecond`                       | `(value: any, targetDate: any, granularity?: string) => boolean`                                                | `2.2.0` |
-| `isDateTimeBetween`      | 日期处于目标日期范围，支持指定粒度和区间的开闭形式，默认到毫秒 `millisecond`，左右开区间`'()'` | `(value: any, lhs: any, rhs: any, granularity?: string, inclusivity?: '()' \| '[)' \| '(]' \| '[]') => boolean` | `2.2.0` |
-| `isTimeSame`             | 时间和目标时间相同，支持指定粒度，默认到毫秒 `millisecond`                                     | `(value: any, targetTime: any, granularity?: string) => boolean`                                                | `2.2.0` |
-| `isTimeBefore`           | 时间早于目标时间，支持指定粒度，默认到毫秒 `millisecond`                                       | `(value: any, targetTime: any, granularity?: string) => boolean`                                                | `2.2.0` |
-| `isTimeAfter`            | 时间晚于目标时间，支持指定粒度，默认到毫秒 `millisecond`                                       | `(value: any, targetTime: any, granularity?: string) => boolean`                                                | `2.2.0` |
-| `isTimeSameOrBefore`     | 时间早于目标时间或和目标时间相同，支持指定粒度，默认到毫秒 `millisecond`                       | `(value: any, targetTime: any, granularity?: string) => boolean`                                                | `2.2.0` |
-| `isTimeSameOrAfter`      | 时间晚于目标时间或和目标时间相同，支持指定粒度，默认到毫秒 `millisecond`                       | `(value: any, targetTime: any, granularity?: string) => boolean`                                                | `2.2.0` |
-| `isTimeBetween`          | 时间处于目标时间范围，支持指定粒度和区间的开闭形式，默认到毫秒 `millisecond`，左右开区间`'()'` | `(value: any, lhs: any, rhs: any, granularity?: string, inclusivity?: '()' \| '[)' \| '(]' \| '[]') => boolean` | `2.2.0` |
+| 规则名称                 | 说明                                                                                                   | 定义                                                                                                            | 版本    |
+| ------------------------ | ------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------- | ------- |
+| `isEmail`                | 必须是 Email。                                                                                         | `(value: any) => boolean`                                                                                       |         |
+| `isUrl`                  | 必须是 Url。                                                                                           | `(value: any) => boolean`                                                                                       |         |
+| `isNumeric`              | 必须是 数值。                                                                                          | `(value: any) => boolean`                                                                                       |         |
+| `isAlpha`                | 必须是 字母。                                                                                          | `(value: any) => boolean`                                                                                       |         |
+| `isAlphanumeric`         | 必须是 字母或者数字。                                                                                  | `(value: any) => boolean`                                                                                       |         |
+| `isInt`                  | 必须是 整形。                                                                                          | `(value: any) => boolean`                                                                                       |         |
+| `isFloat`                | 必须是 浮点形。                                                                                        | `(value: any) => boolean`                                                                                       |         |
+| `isLength:length`        | 是否长度正好等于设定值。                                                                               | `(value: any) => boolean`                                                                                       |         |
+| `minLength:length`       | 最小长度。                                                                                             | `(value: any, length: number) => boolean`                                                                       |         |
+| `maxLength:length`       | 最大长度。                                                                                             | `(value: any, length: number) => boolean`                                                                       |         |
+| `maximum:number`         | 最大值。                                                                                               | `(value: any, maximum: number) => boolean`                                                                      |         |
+| `minimum:number`         | 最小值。                                                                                               | `(value: any, minimum:number) => boolean`                                                                       |         |
+| `equals:xxx`             | 当前值必须完全等于 xxx。                                                                               | `(value: any, targetValue: any) => boolean`                                                                     |         |
+| `equalsField:xxx`        | 当前值必须与 xxx 变量值一致。                                                                          | `(value: any, field: string) => boolean`                                                                        |         |
+| `isJson`                 | 是否是合法的 Json 字符串。                                                                             | `(value: any) => boolean`                                                                                       |         |
+| `isUrlPath`              | 是 url 路径。                                                                                          | `(value: any) => boolean`                                                                                       |         |
+| `isPhoneNumber`          | 是否为合法的手机号码                                                                                   | `(value: any) => boolean`                                                                                       |         |
+| `isTelNumber`            | 是否为合法的电话号码                                                                                   | `(value: any) => boolean`                                                                                       |         |
+| `isZipcode`              | 是否为邮编号码                                                                                         | `(value: any) => boolean`                                                                                       |         |
+| `isId`                   | 是否为身份证号码，没做校验                                                                             | `(value: any) => boolean`                                                                                       |         |
+| `matchRegexp:/foo/`      | 必须命中某个正则。                                                                                     | `(value: any, regexp: string \| RegExp) => boolean`                                                             |         |
+| `matchRegexp1:/foo/`     | 必须命中某个正则。                                                                                     | `(value: any, regexp: string \| RegExp) => boolean`                                                             |         |
+| `matchRegexp2:/foo/`     | 必须命中某个正则。                                                                                     | `(value: any, regexp: string \| RegExp) => boolean`                                                             |         |
+| `matchRegexp3:/foo/`     | 必须命中某个正则。                                                                                     | `(value: any, regexp: string \| RegExp) => boolean`                                                             |         |
+| `matchRegexp4:/foo/`     | 必须命中某个正则。                                                                                     | `(value: any, regexp: string \| RegExp) => boolean`                                                             |         |
+| `isDateTimeSame`         | 日期和目标日期相同，支持指定粒度，默认到毫秒 `millisecond`                                             | `(value: any, targetDate: any, granularity?: string) => boolean`                                                | `2.2.0` |
+| `isDateTimeBefore`       | 日期早于目标日期，支持指定粒度，默认到毫秒 `millisecond`                                               | `(value: any, targetDate: any, granularity?: string) => boolean`                                                | `2.2.0` |
+| `isDateTimeAfter`        | 日期晚于目标日期，支持指定粒度，默认到毫秒 `millisecond`                                               | `(value: any, targetDate: any, granularity?: string) => boolean`                                                | `2.2.0` |
+| `isDateTimeSameOrBefore` | 日期早于目标日期或和目标日期相同，支持指定粒度，默认到毫秒 `millisecond`                               | `(value: any, targetDate: any, granularity?: string) => boolean`                                                | `2.2.0` |
+| `isDateTimeSameOrAfter`  | 日期晚于目标日期或和目标日期相同，支持指定粒度，默认到毫秒 `millisecond`                               | `(value: any, targetDate: any, granularity?: string) => boolean`                                                | `2.2.0` |
+| `isDateTimeBetween`      | 日期处于目标日期范围，支持指定粒度和区间的开闭形式，默认到毫秒 `millisecond`，左右开区间`'()'`         | `(value: any, lhs: any, rhs: any, granularity?: string, inclusivity?: '()' \| '[)' \| '(]' \| '[]') => boolean` | `2.2.0` |
+| `isTimeSame`             | 时间和目标时间相同，支持指定粒度，默认到毫秒 `millisecond`                                             | `(value: any, targetTime: any, granularity?: string) => boolean`                                                | `2.2.0` |
+| `isTimeBefore`           | 时间早于目标时间，支持指定粒度，默认到毫秒 `millisecond`                                               | `(value: any, targetTime: any, granularity?: string) => boolean`                                                | `2.2.0` |
+| `isTimeAfter`            | 时间晚于目标时间，支持指定粒度，默认到毫秒 `millisecond`                                               | `(value: any, targetTime: any, granularity?: string) => boolean`                                                | `2.2.0` |
+| `isTimeSameOrBefore`     | 时间早于目标时间或和目标时间相同，支持指定粒度，默认到毫秒 `millisecond`                               | `(value: any, targetTime: any, granularity?: string) => boolean`                                                | `2.2.0` |
+| `isTimeSameOrAfter`      | 时间晚于目标时间或和目标时间相同，支持指定粒度，默认到毫秒 `millisecond`                               | `(value: any, targetTime: any, granularity?: string) => boolean`                                                | `2.2.0` |
+| `isTimeBetween`          | 时间处于目标时间范围，支持指定粒度和区间的开闭形式，默认到毫秒 `millisecond`，左右开区间`'()'`         | `(value: any, lhs: any, rhs: any, granularity?: string, inclusivity?: '()' \| '[)' \| '(]' \| '[]') => boolean` | `2.2.0` |
+| `isVariableName`         | 是否为合法的变量名，默认规则为 `/^[a-zA-Z_]+[a-zA-Z0-9]*$/` 可以自己指定如 `{isVariableName: /^a.*$/}` | `(value: any) => boolean`                                                                                       | `2.5.0` |
 
 #### 验证只允许 http 协议的 url 地址
 
@@ -1776,14 +1778,14 @@ fillMapping 配置 支持变量取值和表达式；
 | autoFill.size           | `string`                                           |           | showSuggestion 为 true 时，参照录入 mode 为 dialog 时，可设置大小                                   |
 | autoFill.columns        | `Array<Column>`                                    |           | showSuggestion 为 true 时，数据展示列配置                                                           |
 | autoFill.filter         | [SchemaNode](../../docs/types/schemanode)          |           | showSuggestion 为 true 时，数据查询过滤条件                                                         |
-| static                  | `boolean`                                          |           | `2.4.0` 当前表单项是否是静态展示，目前支持静[支持静态展示的表单项](#支持静态展示的表单项) |
-| staticClassName         | `string`                                           |           | `2.4.0` 静态展示时的类名 |
-| staticLabelClassName    | `string`                                           |           | `2.4.0` 静态展示时的Label的类名 |
-| staticInputClassName    | `string`                                           |           | `2.4.0` 静态展示时的value的类名 |
-| staticSchema            | `string`|`Array`|[SchemaNode](../../docs/types/schemanode)     |           | `2.4.0` 自定义静态展示方式 |
-| staticSchema.limit      | `number`                                           | 10        | `2.4.0` select、checkboxes等选择类组件多选时展示态展示的数量 |
+| static                  | `boolean`                                          |           | `2.4.0` 当前表单项是否是静态展示，目前支持静[支持静态展示的表单项](#支持静态展示的表单项)           |
+| staticClassName         | `string`                                           |           | `2.4.0` 静态展示时的类名                                                                            |
+| staticLabelClassName    | `string`                                           |           | `2.4.0` 静态展示时的 Label 的类名                                                                   |
+| staticInputClassName    | `string`                                           |           | `2.4.0` 静态展示时的 value 的类名                                                                   |
+| staticSchema            | [SchemaNode](../../docs/types/schemanode)          |           | `2.4.0` 自定义静态展示方式                                                                       |
+| staticSchema.limit      | `number`                                           | 10        | `2.4.0` select、checkboxes 等选择类组件多选时展示态展示的数量                                       |
 
-## 支持静态展示的表单项  
+## 支持静态展示的表单项
 
 可以在[示例页](../../../examples/form/switchDisplay)查看支持静态展示的表单项的展示方式
 
@@ -1812,10 +1814,10 @@ fillMapping 配置 支持变量取值和表达式；
 - input-text 输入框
 - input-password 密码输入框
 - input-email 邮箱输入框
-- input-url url输入框
-- native-date native日期选择器
-- native-time native时间选择器
-- native-number native数字输入
+- input-url url 输入框
+- native-date native 日期选择器
+- native-time native 时间选择器
+- native-number native 数字输入
 - input-tree 树形选择器
 - input-year-range 年份范围
 - list-select 列表选择器

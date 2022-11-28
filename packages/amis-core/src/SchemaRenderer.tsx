@@ -87,9 +87,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       () =>
         `${props.topStore.visibleState[props.schema.id || props.$path]}${
           props.topStore.disableState[props.schema.id || props.$path]
-        }${
-          props.topStore.staticState[props.schema.id || props.$path]
-        }`,
+        }${props.topStore.staticState[props.schema.id || props.$path]}`,
       () => this.forceUpdate()
     );
   }
@@ -206,9 +204,10 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
 
   async dispatchEvent(
     e: React.MouseEvent<any>,
-    data: any
+    data: any,
+    renderer?: React.Component<RendererProps> // for didmount
   ): Promise<RendererEvent<any> | void> {
-    return await dispatchEvent(e, this.cRef, this.context, data);
+    return await dispatchEvent(e, this.cRef || renderer, this.context, data);
   }
 
   renderChild(

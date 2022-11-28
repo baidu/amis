@@ -663,7 +663,14 @@ echarts 的 config 一般是静态配置的，支持简单的数据映射。如�
 
 > 2.4.1 及以上版本
 
-当前组件会对外派发`click`、`mouseover`、`legendselectchanged`事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。事件参数提供通用的字段，可以查看[ECharst 事件与行为文档](https://echarts.apache.org/handbook/zh/concepts/event/)。
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
+
+| 事件名称            | 事件参数                                                                             | 说明                                                |
+| ------------------- | ------------------------------------------------------------------------------------ | --------------------------------------------------- |
+| init                | -                                                                                    | 组件实例被创建并插入 DOM 中时触发。2.4.1 及以上版本 |
+| click               | 查看[ECharst 事件与行为文档](https://echarts.apache.org/handbook/zh/concepts/event/) | 鼠标点击时触发                                      |
+| mouseover           | 查看[ECharst 事件与行为文档](https://echarts.apache.org/handbook/zh/concepts/event/) | 鼠标悬浮时触发                                      |
+| legendselectchanged | 查看[ECharst 事件与行为文档](https://echarts.apache.org/handbook/zh/concepts/event/) | 切换图例选中状态时触发                              |
 
 ## 动作表
 

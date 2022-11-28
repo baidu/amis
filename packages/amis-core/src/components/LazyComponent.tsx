@@ -86,7 +86,7 @@ export default class LazyComponent extends React.Component<
       );
   }
 
-  render() {
+  render(): React.ReactNode {
     const {
       placeholder,
       unMountOnHidden,

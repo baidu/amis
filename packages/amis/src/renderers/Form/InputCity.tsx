@@ -420,22 +420,7 @@ export class CityPicker extends React.Component<
           onChange={this.handleProvinceChange}
         />
 
-        {provinceCode &&
-        allowDistrict &&
-        Array.isArray(db.district[provinceCode]) ? (
-          <Select
-            searchable={searchable}
-            disabled={disabled}
-            options={(db.district[provinceCode] as Array<number>).map(item => ({
-              label: db[item],
-              value: item
-            }))}
-            value={districtCode || ''}
-            onChange={this.handleDistrictChange}
-          />
-        ) : allowCity &&
-          db.city[provinceCode] &&
-          db.city[provinceCode].length ? (
+        {allowCity && db.city[provinceCode] && db.city[provinceCode].length ? (
           <Select
             searchable={searchable}
             disabled={disabled}

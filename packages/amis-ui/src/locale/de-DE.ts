@@ -286,6 +286,10 @@ register('de-DE', {
     'Kontrollieren Sie die Länge des Inhalts. Geben Sie nicht mehr als $1 Buchstaben ein.',
   'validate.minimum': 'Der Eingabewert ist kleiner als der Mindestwert von $1.',
   'validate.minLength': 'Geben Sie weitere Zeichen ein, mindestens $1.',
+  'validate.array.minLength':
+    'Bitte fügen Sie weitere Mitglieder hinzu, mindestens $1 Mitglieder',
+  'validate.array.maxLength':
+    'Bitte kontrollieren Sie die Anzahl der Mitglieder, die $1 nicht überschreiten darf',
   'validate.notEmptyString': 'Geben Sie nicht nur Leerzeichen ein.',
   'validate.isDateTimeSame':
     'Der aktuelle Datumswert ist ungültig, bitte geben Sie denselben Datumswert wie $1 ein',
@@ -311,6 +315,8 @@ register('de-DE', {
     'Der aktuelle Zeitwert ist ungültig. Bitte geben Sie einen Zeitwert ein, der gleich oder nach $1 ist',
   'validate.isTimeBetween':
     'Der aktuelle Zeitwert ist ungültig, bitte geben Sie einen Zeitwert zwischen $1 und $2 ein',
+  'validate.isVariableName':
+    'Bitte geben Sie einen gültigen Variablennamen ein',
   'validateFailed': 'Fehler bei der Überprüfung',
   'Wizard.configError': 'Konfigurationsfehler',
   'Wizard.finish': 'Ende',

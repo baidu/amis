@@ -251,7 +251,9 @@ export default class SelectControl extends React.Component<SelectProps, any> {
 
   async dispatchEvent(eventName: SelectRendererEvent, eventData: any = {}) {
     const event = 'on' + eventName.charAt(0).toUpperCase() + eventName.slice(1);
-    const {dispatchEvent, options, data} = this.props;
+    const {dispatchEvent, options, data, multiple, selectedOptions} =
+      this.props;
+
     // 触发渲染器事件
     const rendererEvent = await dispatchEvent(
       eventName,
@@ -262,7 +264,8 @@ export default class SelectControl extends React.Component<SelectProps, any> {
           items: options, // 为了保持名字统一
           value: ['onEdit', 'onDelete'].includes(event)
             ? eventData
-            : eventData && eventData.value
+            : eventData && eventData.value,
+          selectedItems: multiple ? selectedOptions : selectedOptions[0]
         },
         'value'
       )
@@ -293,7 +296,8 @@ export default class SelectControl extends React.Component<SelectProps, any> {
         {
           value: newValue,
           options,
-          items: options // 为了保持名字统一
+          items: options, // 为了保持名字统一
+          selectedItems: value
         },
         'value'
       )

@@ -223,7 +223,10 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
 
         if (!json.ok) {
           self.updateMessage(
-            json.msg ?? options.errorMessage ?? self.__('CRUD.fetchFailed'),
+            (api as ApiObject)?.messages?.failed ??
+              json.msg ??
+              options.errorMessage ??
+              self.__('CRUD.fetchFailed'),
             true
           );
           getEnv(self).notify(
@@ -361,7 +364,10 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
           }
 
           self.updateMessage(
-            json.msg ?? options.successMessage ?? json.defaultMsg
+            (api as ApiObject).messages?.success ??
+              json.msg ??
+              options.successMessage ??
+              json.defaultMsg
           );
 
           // 配置了获取成功提示后提示，默认是空不会提示。
@@ -385,7 +391,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
           return;
         }
 
-        console.error(e.stack);
+        console.error(e);
         env.notify('error', e.message);
         return;
       }
@@ -432,7 +438,10 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
 
         if (!json.ok) {
           self.updateMessage(
-            json.msg ?? options.errorMessage ?? self.__('saveFailed'),
+            (api as ApiObject)?.messages?.failed ??
+              json.msg ??
+              options.errorMessage ??
+              self.__('saveFailed'),
             true
           );
           getEnv(self).notify(
@@ -448,7 +457,10 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
           throw new ServerError(self.msg);
         } else {
           self.updateMessage(
-            json.msg ?? options.successMessage ?? json.defaultMsg
+            (api as ApiObject)?.messages?.success ??
+              json.msg ??
+              options.successMessage ??
+              json.defaultMsg
           );
           self.msg &&
             getEnv(self).notify(

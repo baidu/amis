@@ -306,6 +306,7 @@ export class TabsTransfer extends React.Component<
       classnames: cx,
       value,
       disabled,
+      multiple,
       onChange,
       option2value,
       onDeferLoad,
@@ -316,12 +317,14 @@ export class TabsTransfer extends React.Component<
       itemHeight,
       virtualThreshold
     } = this.props;
+
     return option.selectMode === 'table' ? (
       <TableCheckboxes
         className={cx('Transfer-checkboxes')}
         columns={option.columns as any}
         options={option.children || []}
         value={value}
+        multiple={multiple}
         disabled={disabled}
         onChange={onChange}
         option2value={option2value}
@@ -335,6 +338,7 @@ export class TabsTransfer extends React.Component<
         className={cx('Transfer-checkboxes')}
         options={option.children || []}
         value={value}
+        multiple={multiple}
         disabled={disabled}
         onChange={onChange!}
         joinValues={false}
@@ -359,6 +363,7 @@ export class TabsTransfer extends React.Component<
         className={cx('Transfer-checkboxes')}
         options={option.children || []}
         value={value}
+        multiple={multiple}
         disabled={disabled}
         onChange={onChange}
         option2value={option2value}
@@ -381,6 +386,7 @@ export class TabsTransfer extends React.Component<
         className={cx('Transfer-checkboxes')}
         options={option.children || []}
         value={value}
+        multiple={multiple}
         disabled={disabled}
         onChange={onChange}
         option2value={option2value}
@@ -406,6 +412,7 @@ export class TabsTransfer extends React.Component<
         className={cx('Transfer-checkboxes')}
         options={option.children || []}
         value={value}
+        multiple={multiple}
         disabled={disabled}
         onChange={onChange}
         option2value={option2value}
