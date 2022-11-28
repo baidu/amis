@@ -109,6 +109,7 @@ export interface TreeProps
       | 'className'
       | 'inputClassName'
       | 'descriptionClassName'
+      | 'deferApi'
     > {
   enableNodePath?: boolean;
   pathSeparator?: string;

@@ -59,6 +59,10 @@ export class TabsTransfer extends React.Component<
   TabsTransferProps,
   TabsTransferState
 > {
+  static defaultProps = {
+    multiple: true
+  };
+
   state = {
     inputValue: '',
     searchResult: null
@@ -343,7 +347,6 @@ export class TabsTransfer extends React.Component<
         onChange={onChange!}
         joinValues={false}
         showIcon={false}
-        multiple={true}
         cascade={true}
         onDeferLoad={onDeferLoad}
         itemRender={

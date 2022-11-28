@@ -230,7 +230,7 @@ export class TreeSelector extends React.Component<
         },
         props.enableNodePath
       ),
-
+      flattenedOptions: [],
       inputValue: '',
       addingParent: null,
       isAdding: false,
