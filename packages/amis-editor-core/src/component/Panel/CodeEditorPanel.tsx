@@ -2,7 +2,6 @@ import React from 'react';
 import {PanelProps} from '../../plugin';
 import {autobind} from '../../util';
 import AMisCodeEditor from './AMisCodeEditor';
-import AmisStyleCodeEditor from './AmisStyleCodeEditor';
 
 export default class CodeEditorPanel extends React.Component<PanelProps> {
   @autobind
@@ -17,7 +16,7 @@ export default class CodeEditorPanel extends React.Component<PanelProps> {
 
     return (
       <div className="ae-CodePanel">
-        <div className="panel-header">代码</div>
+        <div className="panel-header">源码</div>
         <div className="ae-CodePanel-content">
           <AMisCodeEditor
             value={store.valueWithoutHiddenProps}
