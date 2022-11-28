@@ -71,7 +71,7 @@ exports[`Renderer:inputCity 1`] = `
                         aria-expanded="false"
                         aria-haspopup="listbox"
                         aria-labelledby="downshift-0-label"
-                        class="cxd-Select"
+                        class="cxd-Select is-focused"
                         role="combobox"
                         tabindex="0"
                       >
