@@ -38,24 +38,38 @@ export class TableCell2Plugin extends BasePlugin {
       sameName?: string;
       [propName: string]: any;
     }> = [
-      context.node.info.plugin.withDataSource === false
-        ? false
-        : {
-            sameName: context.info.renderer.isFormItem ? 'name' : undefined,
-            name: 'name',
-            type: 'ae-DataBindingControl',
-            label: '列字段',
-            onBindingChange(
-              field: DSField,
-              onBulkChange: (value: any) => void
-            ) {
-              const schema = field?.resolveColumnSchema?.('List') || {
-                title: field.label
-              };
-              onBulkChange(schema);
-            }
-          },
-
+      // context.node.info.plugin.withDataSource === false
+      //   ? false
+      //   : {
+      //       sameName: context.info.renderer.isFormItem ? 'name' : undefined,
+      //       name: 'name',
+      //       type: 'ae-DataBindingControl',
+      //       label: '列字段',
+      //       onBindingChange(
+      //         field: DSField,
+      //         onBulkChange: (value: any) => void
+      //       ) {
+      //         const schema = field?.resolveColumnSchema?.('List') || {
+      //           title: field.label
+      //         };
+      //         onBulkChange(schema);
+      //       }
+      //     },
+      {
+        sameName: context.info.renderer.isFormItem ? 'name' : undefined,
+        name: 'name',
+        type: 'ae-DataBindingControl',
+        label: '列字段',
+        onBindingChange(
+          field: DSField,
+          onBulkChange: (value: any) => void
+        ) {
+          const schema = field?.resolveColumnSchema?.('List') || {
+            title: field.label
+          };
+          onBulkChange(schema);
+        }
+      },
       {
         sameName: context.info.renderer.isFormItem ? 'label' : undefined,
         name: 'title',

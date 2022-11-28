@@ -1163,6 +1163,9 @@ export class CRUDPlugin extends BasePlugin {
 
   scaffold: CRUD2Schema;
 
+  /**
+   * 获取脚手架中场景选择Tab
+   */
   getScaffoldFeatureTab() {
     const generator = (feat: FeatOption, featGroup?: string) =>
       this.dsBuilderMgr.collectFromBuilders((builder, builderName) => {
@@ -1695,7 +1698,7 @@ export class TableCRUDPlugin extends CRUDPlugin {
 
 export class CardsCRUDPlugin extends CRUDPlugin {
   // 组件名称
-  name = '卡片列表';
+  name = '卡片';
   isBaseComponent = true;
   description =
     '围绕卡片列表的数据增删改查. 负责数据的拉取，分页，单条操作，批量操作，排序，快速编辑等等功能，集成查询条件。';

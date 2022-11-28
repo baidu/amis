@@ -19,11 +19,13 @@ import {
   mockValue,
   EditorNodeType,
   RendererPluginAction,
-  RendererPluginEvent
+  RendererPluginEvent,
+  DSBuilderManager
 } from 'amis-editor-core';
 import {getEventControlConfig} from '../renderer/event-control/helper';
 import {SchemaObject} from 'amis/lib/Schema';
 import {getArgsWrapper} from '../renderer/event-control/helper';
+import type {EditorManager} from 'amis-editor-core';
 
 export class Table2Plugin extends BasePlugin {
   // 关联渲染器名字
@@ -317,6 +319,14 @@ export class Table2Plugin extends BasePlugin {
     }
   ];
 
+  dsBuilderMgr: DSBuilderManager;
+
+  constructor(manager: EditorManager) {
+    super(manager);
+
+    this.dsBuilderMgr = new DSBuilderManager('table', 'api');
+  }
+
   async buildDataSchemas(node: EditorNodeType, region?: EditorNodeType) {
     const itemsSchema: any = {
       $id: 'tableRow',
@@ -362,23 +372,6 @@ export class Table2Plugin extends BasePlugin {
     }
 
     return result;
-  }
-
-  async getAvailableContextFields(
-    scopeNode: EditorNodeType,
-    node: EditorNodeType,
-    region?: EditorNodeType
-  ) {
-    // // 只有表单项组件可以使用表单组件的数据域
-    // if (
-    //   scopeNode.parent?.type === 'crud2'
-    // ) {
-    //   return scopeNode.parent.info.plugin.getAvailableContextFields?.(
-    //     scopeNode.parent,
-    //     node,
-    //     region
-    //   );
-    // }
   }
 
   panelBodyCreator = (context: BaseEventContext) => {
@@ -902,6 +895,55 @@ export class Table2Plugin extends BasePlugin {
         ...context.data,
         title: context.data.label ?? context.subRenderer?.name ?? '列名称'
       };
+    }
+  }
+
+  async getAvailableContextFields(
+    scopeNode: EditorNodeType,
+    node: EditorNodeType,
+    region?: EditorNodeType
+  ) {
+    if (
+      node?.info?.renderer?.name &&
+      ['table-cell', 'cell-field'].includes(node.info.renderer.name)
+    ) {
+      if (
+        scopeNode.parent?.type === 'crud2' &&
+        scopeNode.parent?.path?.endsWith('crud2')
+      ) {
+        return scopeNode.parent.info.plugin.getAvailableContextFields?.(
+          scopeNode.parent,
+          node,
+          region
+        );
+      }
+
+      if (
+        scopeNode.parent?.type === 'service' &&
+        scopeNode.parent?.parent?.path?.endsWith('service')
+      ) {
+        return scopeNode.parent.parent.info.plugin.getAvailableContextFields?.(
+          scopeNode.parent.parent,
+          node,
+          region
+        );
+      }
+    }
+
+    const builder = this.dsBuilderMgr.resolveBuilderBySchema(
+      scopeNode.schema,
+      'api'
+    );
+
+    if (builder && scopeNode.schema.api) {
+      return builder.getAvailableContextFileds(
+        {
+          schema: scopeNode.schema,
+          sourceKey: 'api',
+          feat: 'List'
+        },
+        node
+      );
     }
   }
 }

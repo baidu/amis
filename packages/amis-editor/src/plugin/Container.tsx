@@ -12,7 +12,6 @@ export class ContainerPlugin extends BasePlugin {
   isBaseComponent = true;
   description = '一个简单的容器，可以将多个渲染器放置在一起。';
   tags = ['容器'];
-  withDataSource = false;
   icon = 'fa fa-square-o';
   pluginIcon = 'container-plugin';
   scaffold = {

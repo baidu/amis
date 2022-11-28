@@ -12,7 +12,8 @@ import {
   BasicRendererInfo,
   PluginInterface,
   InsertEventContext,
-  ScaffoldForm
+  ScaffoldForm,
+  DSBuilderManager
 } from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {mockValue} from 'amis-editor-core';
@@ -22,6 +23,8 @@ import {
   getArgsWrapper,
   getEventControlConfig
 } from '../renderer/event-control/helper';
+
+import type {EditorManager} from 'amis-editor-core';
 
 export class TablePlugin extends BasePlugin {
   // 关联渲染器名字
@@ -324,6 +327,14 @@ export class TablePlugin extends BasePlugin {
     }
   ];
 
+  dsBuilderMgr: DSBuilderManager;
+
+  constructor(manager: EditorManager) {
+    super(manager);
+
+    this.dsBuilderMgr = new DSBuilderManager('table', 'api');
+  }
+
   panelBodyCreator = (context: BaseEventContext) => {
     const isCRUDBody = context.schema.type === 'crud';
 
@@ -512,16 +523,18 @@ export class TablePlugin extends BasePlugin {
         title: '显隐',
         body: [getSchemaTpl('ref'), getSchemaTpl('visible')]
       },
-      isCRUDBody ? null : {
-        title: '事件',
-        className: 'p-none',
-        body: [
-          getSchemaTpl('eventControl', {
-            name: 'onEvent',
-            ...getEventControlConfig(this.manager, context)
-          })
-        ]
-      }
+      isCRUDBody
+        ? null
+        : {
+            title: '事件',
+            className: 'p-none',
+            body: [
+              getSchemaTpl('eventControl', {
+                name: 'onEvent',
+                ...getEventControlConfig(this.manager, context)
+              })
+            ]
+          }
     ]);
   };
 
@@ -636,6 +649,41 @@ export class TablePlugin extends BasePlugin {
         }
       }
     };
+  }
+
+  async getAvailableContextFields(
+    scopeNode: EditorNodeType,
+    node: EditorNodeType,
+    region?: EditorNodeType
+  ) {
+    if (node?.info?.renderer?.name === 'table-cell') {
+      if (
+        scopeNode.parent?.type === 'service' &&
+        scopeNode.parent?.parent?.path?.endsWith('service')
+      ) {
+        return scopeNode.parent.parent.info.plugin.getAvailableContextFields?.(
+          scopeNode.parent.parent,
+          node,
+          region
+        );
+      }
+    }
+
+    const builder = this.dsBuilderMgr.resolveBuilderBySchema(
+      scopeNode.schema,
+      'api'
+    );
+
+    if (builder && scopeNode.schema.api) {
+      return builder.getAvailableContextFileds(
+        {
+          schema: scopeNode.schema,
+          sourceKey: 'api',
+          feat: 'List'
+        },
+        node
+      );
+    }
   }
 }
 

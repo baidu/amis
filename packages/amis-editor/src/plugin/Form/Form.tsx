@@ -803,6 +803,17 @@ export class FormPlugin extends BasePlugin {
         );
       }
 
+      if (
+        scopeNode.parent?.type === 'service' &&
+        scopeNode.parent?.parent?.path?.endsWith('service')
+      ) {
+        return scopeNode.parent.parent.info.plugin.getAvailableContextFields?.(
+          scopeNode.parent.parent,
+          target,
+          region
+        );
+      }
+
       // 先从数据源获取可用字段
       const builder = this.dsBuilderMgr.resolveBuilderBySchema(
         scopeNode.schema,

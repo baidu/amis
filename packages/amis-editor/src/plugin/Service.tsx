@@ -13,6 +13,8 @@ import {
   tipedLabel
 } from 'amis-editor-core';
 import type {
+  PluginEvent,
+  ChangeEventContext,
   EditorManager,
   RendererPluginAction,
   RendererPluginEvent
@@ -25,8 +27,8 @@ export class ServicePlugin extends BasePlugin {
   rendererName = 'service';
   $schema = '/schemas/ServiceSchema.json';
   // 组件名称
-  name = '服务';
-  panelTitle = '服务';
+  name = '服务Service';
+  panelTitle = '服务Service';
   isBaseComponent = true;
   description =
     '功能性容器，可以用来加载数据或者加载渲染器配置。加载到的数据在容器可以使用。';
@@ -108,9 +110,10 @@ export class ServicePlugin extends BasePlugin {
       dsManager.getDSSwitch({
         type: 'button-group-select',
         mode: 'horizontal',
-        labelClassName: 'w-24',
-        labelAlign: 'left',
-        tiled: true,
+        horizontal: {
+          justify: true
+        },
+        size: 'sm',
         onChange: (value: any, oldValue: any, model: any, form: any) => {
           if (value !== oldValue) {
             const data = form.data;
@@ -149,33 +152,7 @@ export class ServicePlugin extends BasePlugin {
           getSchemaTpl('collapseGroup', [
             {
               title: '基本',
-              body: [
-                getSchemaTpl('name', {
-                  mode: 'horizontal',
-                  horizontal: {
-                    justify: true,
-                    left: 2
-                  }
-                }),
-                dsTypeSelect(),
-                ...dsSetting
-                // {
-                //   children: (
-                //     <Button
-                //       level="info"
-                //       size="sm"
-                //       className="m-b-sm"
-                //       block
-                //       onClick={() => {
-                //         // this.manager.showInsertPanel('body', context.id);
-                //         this.manager.showRendererPanel('');
-                //       }}
-                //     >
-                //       添加内容
-                //     </Button>
-                //   )
-                // }
-              ]
+              body: [dsTypeSelect(), ...dsSetting]
             },
             {
               title: '状态',
@@ -263,6 +240,28 @@ export class ServicePlugin extends BasePlugin {
 
       scope?.removeSchema(jsonschema.$id);
       scope?.addSchema(jsonschema);
+    }
+  }
+
+  async getAvailableContextFields(
+    scopeNode: EditorNodeType,
+    node: EditorNodeType,
+    region?: EditorNodeType
+  ) {
+    const builder = this.dsBuilderMgr.resolveBuilderBySchema(
+      scopeNode.schema,
+      'api'
+    );
+
+    if (builder && scopeNode.schema.api) {
+      return builder.getAvailableContextFileds(
+        {
+          schema: scopeNode.schema,
+          sourceKey: 'api',
+          feat: 'List'
+        },
+        node
+      );
     }
   }
 }
