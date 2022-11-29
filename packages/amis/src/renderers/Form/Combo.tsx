@@ -22,7 +22,12 @@ import {
   isObjectShallowModified
 } from 'amis-core';
 import Sortable from 'sortablejs';
-import {evalExpression, filter} from 'amis-core';
+import {
+  evalExpression,
+  filter,
+  isPureVariable,
+  resolveVariableAndFilter
+} from 'amis-core';
 import find from 'lodash/find';
 import {Select} from 'amis-ui';
 import {dataMapping, resolveVariable} from 'amis-core';
@@ -39,6 +44,7 @@ import {
   SchemaTpl
 } from '../../Schema';
 import {ListenerAction} from 'amis-core';
+import type {SchemaTokenizeableString} from '../../Schema';
 
 export type ComboCondition = {
   test: string;
@@ -166,12 +172,12 @@ export interface ComboControlSchema extends FormBaseControlSchema {
   /**
    * 限制最大个数
    */
-  maxLength?: number;
+  maxLength?: number | SchemaTokenizeableString;
 
   /**
    * 限制最小个数
    */
-  minLength?: number;
+  minLength?: number | SchemaTokenizeableString;
 
   /**
    * 是否多行模式，默认一行展示完
@@ -304,7 +310,7 @@ export default class ComboControl extends React.Component<ComboProps> {
     | 'itemsWrapperClassName'
   > = {
     minLength: 0,
-    maxLength: 0,
+    maxLength: Infinity,
     multiple: false,
     multiLine: false,
     addButtonClassName: '',
@@ -382,13 +388,12 @@ export default class ComboControl extends React.Component<ComboProps> {
       ...props.scaffold
     };
 
-    const {store, value, multiple, minLength, maxLength, formItem, addHook} =
-      props;
+    const {store, value, multiple, formItem, addHook} = props;
 
     store.config({
       multiple,
-      minLength,
-      maxLength,
+      minLength: this.resolveVariableProps(props, 'minLength'),
+      maxLength: this.resolveVariableProps(props, 'maxLength'),
       length: this.getValueAsArray(props).length
     });
 
@@ -400,13 +405,13 @@ export default class ComboControl extends React.Component<ComboProps> {
     const props = this.props;
 
     if (anyChanged(['minLength', 'maxLength', 'value'], prevProps, props)) {
-      const {store, minLength, maxLength, multiple} = props;
+      const {store, multiple} = props;
       const values = this.getValueAsArray(props);
 
       store.config({
         multiple,
-        minLength,
-        maxLength,
+        minLength: this.resolveVariableProps(props, 'minLength'),
+        maxLength: this.resolveVariableProps(props, 'maxLength'),
         length: values.length
       });
 
@@ -442,6 +447,35 @@ export default class ComboControl extends React.Component<ComboProps> {
     this.toDispose = [];
     this.memoizedFormatValue.cache.clear?.();
     this.makeFormRef.cache.clear?.();
+  }
+
+  /** 解析props中的变量，目前支持'minLength' | 'maxLength' */
+  resolveVariableProps(props: ComboProps, key: 'minLength' | 'maxLength') {
+    const defaultMap = {
+      minLength: 0,
+      maxLength: Infinity
+    };
+    let value = props[key];
+
+    if (!value) {
+      return defaultMap[key];
+    }
+
+    if (typeof value === 'string') {
+      if (isPureVariable(value)) {
+        const resolved = resolveVariableAndFilter(value, props.data, '| raw');
+        value = (
+          typeof resolved === 'number' && resolved >= 0
+            ? resolved
+            : defaultMap[key]
+        ) as number;
+      } else {
+        const parsed = parseInt(value, 10);
+        value = (isNaN(parsed) ? defaultMap[key] : parsed) as number;
+      }
+    }
+
+    return value;
   }
 
   doAction(action: ListenerAction, args: any) {
@@ -813,14 +847,11 @@ export default class ComboControl extends React.Component<ComboProps> {
   }
 
   validate(): any {
-    const {
-      minLength,
-      maxLength,
-      messages,
-      nullable,
-      translate: __
-    } = this.props;
+    const {messages, nullable, translate: __} = this.props;
     const value = this.getValueAsArray();
+    const minLength = this.resolveVariableProps(this.props, 'minLength');
+    const maxLength = this.resolveVariableProps(this.props, 'maxLength');
+
     if (minLength && (!Array.isArray(value) || value.length < minLength)) {
       return __(
         (messages && messages.minLengthValidateFailed) || 'Combo.minLength',
