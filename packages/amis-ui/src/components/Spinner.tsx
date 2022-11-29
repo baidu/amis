@@ -42,7 +42,7 @@ const SpinnerSharedStore = types
   .volatile(self => {
     return {
       // 保存所有可以进入 loading 状态（props.show = true）的 Spinner 的父级容器
-      spinnerContainers: observable.set([] as HTMLElement[], {
+      spinningContainers: observable.set([] as HTMLElement[], {
         deep: false
       })
     };
@@ -50,14 +50,14 @@ const SpinnerSharedStore = types
   .actions(self => {
     return {
       push: (spinnerContainer: HTMLElement) => {
-        if (self.spinnerContainers.has(spinnerContainer)) {
+        if (self.spinningContainers.has(spinnerContainer)) {
           return;
         }
-        self.spinnerContainers.add(spinnerContainer);
+        self.spinningContainers.add(spinnerContainer);
       },
       remove: (spinnerContainer: HTMLElement) => {
-        if (self.spinnerContainers.has(spinnerContainer)) {
-          self.spinnerContainers.delete(spinnerContainer);
+        if (self.spinningContainers.has(spinnerContainer)) {
+          self.spinningContainers.delete(spinnerContainer);
         }
       },
       /**
@@ -66,15 +66,15 @@ const SpinnerSharedStore = types
        * @returns {boolean} 是否可以进入 loading
        */
       checkLoading: (spinnerContainerWillCheck: HTMLElement | null) => {
-        if (self.spinnerContainers.has(spinnerContainerWillCheck)) {
-          if (!self.spinnerContainers.size) {
+        if (self.spinningContainers.has(spinnerContainerWillCheck)) {
+          if (!self.spinningContainers.size) {
             return false;
           }
 
           let loading = true;
 
           // 检查缓存的容器中是否有当前容器的父级元素
-          self.spinnerContainers.forEach(container => {
+          self.spinningContainers.forEach(container => {
             if (
               container.contains(spinnerContainerWillCheck) &&
               container !== spinnerContainerWillCheck
@@ -95,7 +95,7 @@ const store = SpinnerSharedStore.create({});
 
 export class Spinner extends React.Component<
   SpinnerProps,
-  {spinning: boolean; showMark: boolean}
+  {spinning: boolean; showMarker: boolean}
 > {
   static defaultProps = {
     show: true,
@@ -111,37 +111,38 @@ export class Spinner extends React.Component<
 
   state = {
     spinning: false,
-    showMark: true
+    showMarker: true
   };
 
   parent: HTMLElement | null = null;
 
   /**
    * 解决同级（same parent node） spinner 的 show 不全为 true 时
-   * 辅助控制 spinning; push: + 1 ; remove: -1;
-   * > 0 : spinning = checkLoading
-   * = 0 : spinning = false; cannot remove
+   * 标记 loading 是由当前组件触发的
    */
-  count: number = 0;
+  loadingTriggered: boolean = false;
 
   spinnerRef = (dom: HTMLElement) => {
     if (dom) {
       this.parent = dom.parentNode as HTMLElement;
-      this.setState({
-        showMark: false
-      });
     }
   };
 
   componentDidUpdate() {
     if (this.parent) {
       if (this.props.show) {
-        this.count++;
+        this.loadingTriggered = true;
         store.push(this.parent);
-      } else if (this.state.spinning && this.count > 0) {
+      } else if (this.state.spinning && this.loadingTriggered) {
+        this.loadingTriggered = false;
         store.remove(this.parent);
-        this.count--;
       }
+    }
+  }
+
+  componentDidMount() {
+    if (this.parent && this.state.showMarker) {
+      this.setState({showMarker: false});
     }
   }
 
@@ -153,13 +154,13 @@ export class Spinner extends React.Component<
   }
 
   /**
-   * 监控着 spinnerContainers 的变化
+   * 监控着 spinningContainers 的变化
    */
   loadingChecker = reaction(
-    () => store.spinnerContainers.size,
+    () => store.spinningContainers.size,
     () => {
       this.setState({
-        spinning: store.checkLoading(this.parent) && this.count > 0
+        spinning: store.checkLoading(this.parent) && this.loadingTriggered
       });
     }
   );
@@ -181,7 +182,7 @@ export class Spinner extends React.Component<
 
     return (
       <>
-        {this.state.showMark && (
+        {this.state.showMarker && (
           <span className={cx('Spinner-mark')} ref={this.spinnerRef as any} />
         )}
         <Transition

@@ -478,7 +478,8 @@ export default class List extends React.Component<ListProps, object> {
         })
       );
     } else {
-      onAction?.(e, action, ctx);
+      /** action无值代表List自身已经处理, 无需交给上层处理 */
+      action && onAction?.(e, action, ctx);
     }
   }
 

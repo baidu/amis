@@ -217,7 +217,8 @@ export const Row = types
       // 如果未做配置，或者配置不合法直接通过检查
       if (
         !keepItemSelectionOnPageChange ||
-        !Number.isInteger(selectionUpperLimit)
+        !Number.isInteger(selectionUpperLimit) ||
+        selectionUpperLimit === Infinity
       ) {
         return true;
       }
@@ -341,7 +342,7 @@ export const TableStore = iRendererStore
     combineNum: 0,
     combineFromIndex: 0,
     formsRef: types.optional(types.array(types.frozen()), []),
-    maxKeepItemSelectionLength: 0,
+    maxKeepItemSelectionLength: Infinity,
     keepItemSelectionOnPageChange: false,
     searchFormExpanded: false // 用来控制搜索框是否展开了，那个自动根据 searchable 生成的表单 autoGenerateFilter
   })

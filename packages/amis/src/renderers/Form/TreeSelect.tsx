@@ -7,7 +7,8 @@ import {
   OptionsControl,
   OptionsControlProps,
   Option,
-  FormOptionsControl
+  FormOptionsControl,
+  toNumber
 } from 'amis-core';
 
 import {Tree as TreeSelector} from 'amis-ui';
@@ -538,7 +539,9 @@ export default class TreeSelectControl extends React.Component<
       selfDisabledAffectChildren,
       showOutline,
       autoCheckChildren,
-      hideRoot
+      hideRoot,
+      virtualThreshold,
+      itemHeight
     } = this.props;
 
     let filtedOptions =
@@ -596,6 +599,8 @@ export default class TreeSelectControl extends React.Component<
         onDeferLoad={deferLoad}
         onExpandTree={expandTreeOptions}
         selfDisabledAffectChildren={selfDisabledAffectChildren}
+        virtualThreshold={virtualThreshold}
+        itemHeight={toNumber(itemHeight) > 0 ? toNumber(itemHeight) : undefined}
       />
     );
   }
