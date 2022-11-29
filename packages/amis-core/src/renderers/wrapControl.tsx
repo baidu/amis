@@ -400,7 +400,6 @@ export function wrapControl<
                   }
                 }
               } else if (
-                typeof props.defaultValue !== 'undefined' &&
                 !isEqual(props.defaultValue, prevProps.defaultValue) &&
                 !isEqual(props.defaultValue, model.tmpValue)
               ) {
