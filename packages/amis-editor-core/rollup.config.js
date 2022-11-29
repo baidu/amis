@@ -17,7 +17,11 @@ import path from 'path';
 import svgr from '@svgr/rollup';
 import fs from 'fs';
 import i18nPlugin from 'plugin-react-i18n';
-const {terser} = require('rollup-plugin-terser'); // 压缩
+import postcssImport from 'postcss-import';
+import minify from 'postcss-minify';
+import autoprefixer from 'autoprefixer';
+import {terser} from 'rollup-plugin-terser';
+import postcss from 'rollup-plugin-postcss';
 
 const i18nConfig = require('./i18nConfig');
 
@@ -38,28 +42,38 @@ const input = './src/index.ts';
 
 export default [
   {
-    input,
-    output: [{
-      ...settings,
-      dir: path.dirname(main),
-      format: 'cjs',
-      exports: 'named',
-      preserveModulesRoot: './src',
-      preserveModules: false // Keep directory structure and files
-    }],
+    input: ['./src/index.ts', './scss/editor.scss'],
+    output: [
+      {
+        ...settings,
+        dir: path.dirname(main),
+        format: 'cjs',
+        exports: 'named',
+        preserveModulesRoot: './src',
+        preserveModules: false // Keep directory structure and files
+      }
+    ],
     external,
-    plugins: getPlugins('cjs')
+    plugins: getPlugins('cjs').concat([
+      postcss({
+        include: 'scss/editor.scss',
+        extract: path.resolve('lib/editor.css'),
+        plugins: [postcssImport(), autoprefixer(), minify()]
+      })
+    ])
   },
   {
     input,
-    output: [{
-      ...settings,
-      dir: path.dirname(module),
-      format: 'esm',
-      exports: 'named',
-      preserveModulesRoot: './src',
-      preserveModules: false // Keep directory structure and files
-    }],
+    output: [
+      {
+        ...settings,
+        dir: path.dirname(module),
+        format: 'esm',
+        exports: 'named',
+        preserveModulesRoot: './src',
+        preserveModules: false // Keep directory structure and files
+      }
+    ],
     external,
     plugins: getPlugins('esm')
   }
