@@ -170,4 +170,4 @@ public class StreamingResponseBodyController {
 | source      | `string`  |        | 接口                                                     |
 | rowHeight   | `number`  |        | 设置每行高度，将会开启虚拟渲染                           |
 | maxLength   | `number`  |        | 最大显示行数                                             |
-| operation   | `Array`   |        | 可选日志操作：['stop','clear','showLineNumber','filter'] |
+| operation   | `Array`   |        | 可选日志操作：['stop','restart',clear','showLineNumber','filter'] |

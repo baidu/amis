@@ -56,6 +56,7 @@ import {offset} from 'amis-core';
 import {getStyleNumber} from 'amis-core';
 import {exportExcel} from './exportExcel';
 import type {IColumn, IRow} from 'amis-core/lib/store/table';
+import intersection from 'lodash/intersection';
 
 /**
  * 表格列，不指定类型时默认为文本类型。
@@ -1783,20 +1784,42 @@ export default class Table extends React.Component<TableProps, object> {
       saveImmediately,
       headingClassName,
       quickSaveApi,
-      translate: __
+      translate: __,
+      columns
     } = this.props;
+
+    // 当被修改列的 column 开启 quickEdit.saveImmediately 时，不展示提交、放弃按钮
+    let isModifiedColumnSaveImmediately = false;
+    if (store.modifiedRows.length === 1) {
+      const saveImmediatelyColumnNames: string[] =
+        columns
+          ?.map(column =>
+            column?.quickEdit?.saveImmediately ? column?.name : ''
+          )
+          .filter(a => a) || [];
+
+      const item = store.modifiedRows[0];
+      const diff = difference(item.data, item.pristine);
+      if (intersection(saveImmediatelyColumnNames, Object.keys(diff)).length) {
+        isModifiedColumnSaveImmediately = true;
+      }
+    }
 
     if (
       title ||
       (quickSaveApi &&
         !saveImmediately &&
+        !isModifiedColumnSaveImmediately &&
         store.modified &&
         !hideQuickSaveBtn) ||
       store.moved
     ) {
       return (
         <div className={cx('Table-heading', headingClassName)} key="heading">
-          {!saveImmediately && store.modified && !hideQuickSaveBtn ? (
+          {!saveImmediately &&
+          store.modified &&
+          !hideQuickSaveBtn &&
+          !isModifiedColumnSaveImmediately ? (
             <span>
               {__('Table.modified', {
                 modified: store.modified
@@ -2805,6 +2828,12 @@ export default class Table extends React.Component<TableProps, object> {
 
     return (
       <>
+        {TableContent.renderItemActions({
+          store,
+          classnames: cx,
+          render,
+          itemActions
+        })}
         <TableContent
           tableClassName={cx(
             {

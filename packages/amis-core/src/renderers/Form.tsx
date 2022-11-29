@@ -1822,7 +1822,7 @@ export class FormRenderer extends Form {
     return this.handleAction(undefined, action, data, throwErrors);
   }
 
-  handleAction(
+  async handleAction(
     e: React.UIEvent<any> | undefined,
     action: ActionObject,
     ctx: object,
@@ -1833,6 +1833,17 @@ export class FormRenderer extends Form {
     // if (this.props.disabled) {
     //   return;
     // }
+
+    // 配了submit事件的表示将提交逻辑全部托管给事件
+    const {dispatchEvent, onEvent} = this.props;
+    const submitEvent = onEvent?.submit?.actions?.length;
+    const dispatcher = await dispatchEvent(
+      'submit',
+      this.props.data
+    );
+    if (dispatcher?.prevented || submitEvent) {
+      return;
+    }
     if (action.target && action.actionType !== 'reload') {
       const scoped = this.context as IScopedContext;
 

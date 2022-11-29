@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Renderer:button-group 1`] = `
+exports[`Renderer:button-group with btnActiveLevel 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
@@ -44,13 +44,136 @@ exports[`Renderer:button-group 1`] = `
                 class="cxd-TplField"
               >
                 <span>
-                  单选
+                  选项
                 </span>
               </span>
             </span>
           </label>
           <div
             class="cxd-ButtonGroup cxd-Form-control"
+          >
+            <button
+              class="cxd-Button cxd-Button--warning cxd-Button--size-default is-active"
+              type="button"
+            >
+              <span>
+                Option A
+              </span>
+            </button>
+            <button
+              class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+              type="button"
+            >
+              <span>
+                Option B
+              </span>
+            </button>
+            <button
+              class="cxd-Button cxd-Button--light cxd-Button--size-default"
+              type="button"
+            >
+              <span>
+                Option C
+              </span>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div
+      class="resize-sensor"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+    >
+      
+  
+      <div
+        class="resize-sensor-expand"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-shrink"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:button-group with tiled 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    style="position: relative;"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            The form
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  多选
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-ButtonGroup cxd-ButtonGroup--tiled cxd-Form-control"
           >
             <button
               class="cxd-Button cxd-Button--default cxd-Button--size-default"
@@ -70,6 +193,83 @@ exports[`Renderer:button-group 1`] = `
             </button>
           </div>
         </div>
+      </form>
+    </div>
+    <div
+      class="resize-sensor"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+    >
+      
+  
+      <div
+        class="resize-sensor-expand"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-shrink"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:button-group with vertical 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    style="position: relative;"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            The form
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
           data-role="form-item"
@@ -82,27 +282,30 @@ exports[`Renderer:button-group 1`] = `
                 class="cxd-TplField"
               >
                 <span>
-                  当前值
+                  多选
                 </span>
               </span>
             </span>
           </label>
           <div
-            class="cxd-Form-static"
+            class="cxd-ButtonGroup cxd-ButtonGroup--vertical cxd-Form-control"
           >
-            <div
-              class="cxd-Form-control"
+            <button
+              class="cxd-Button cxd-Button--default cxd-Button--size-default"
+              type="button"
             >
-              <span
-                class="cxd-PlainField"
-              >
-                <span
-                  class="text-muted"
-                >
-                  -
-                </span>
+              <span>
+                Option A
               </span>
-            </div>
+            </button>
+            <button
+              class="cxd-Button cxd-Button--default cxd-Button--size-default"
+              type="button"
+            >
+              <span>
+                Option B
+              </span>
+            </button>
           </div>
         </div>
       </form>
@@ -539,6 +742,156 @@ exports[`Renderer:button-group:multiple clearable 3`] = `
                 class="cxd-PlainField"
               >
                 a
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div
+      class="resize-sensor"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+    >
+      
+  
+      <div
+        class="resize-sensor-expand"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-shrink"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:button-group-select 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    style="position: relative;"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            The form
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  单选
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-ButtonGroup cxd-Form-control"
+          >
+            <button
+              class="cxd-Button cxd-Button--default cxd-Button--size-default"
+              type="button"
+            >
+              <span>
+                Option A
+              </span>
+            </button>
+            <button
+              class="cxd-Button cxd-Button--default cxd-Button--size-default"
+              type="button"
+            >
+              <span>
+                Option B
+              </span>
+            </button>
+          </div>
+        </div>
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  当前值
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-Form-static"
+          >
+            <div
+              class="cxd-Form-control"
+            >
+              <span
+                class="cxd-PlainField"
+              >
+                <span
+                  class="text-muted"
+                >
+                  -
+                </span>
               </span>
             </div>
           </div>

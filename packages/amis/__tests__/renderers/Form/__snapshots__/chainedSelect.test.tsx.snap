@@ -248,6 +248,60 @@ exports[`Renderer:chained-select 1`] = `
                 class="cxd-Select-valueWrap"
               >
                 <div
+                  class="cxd-Select-value"
+                >
+                  D 2
+                </div>
+              </div>
+              <span
+                class="cxd-Select-arrow"
+              >
+                <icon-mock
+                  classname="icon icon-right-arrow-bold"
+                  icon="right-arrow-bold"
+                />
+              </span>
+            </div>
+            <div
+              aria-expanded="false"
+              aria-haspopup="listbox"
+              aria-labelledby="downshift-4-label"
+              class="cxd-Select cxd-Select--inline"
+              role="combobox"
+              tabindex="0"
+            >
+              <div
+                class="cxd-Select-valueWrap"
+              >
+                <div
+                  class="cxd-Select-value"
+                >
+                  C 3
+                </div>
+              </div>
+              <span
+                class="cxd-Select-arrow"
+              >
+                <icon-mock
+                  classname="icon icon-right-arrow-bold"
+                  icon="right-arrow-bold"
+                />
+              </span>
+            </div>
+            <div
+              aria-expanded="true"
+              aria-haspopup="listbox"
+              aria-labelledby="downshift-5-label"
+              aria-owns="downshift-5-menu"
+              class="cxd-Select cxd-Select--inline is-opened has-popover"
+              role="combobox"
+              style="position: relative;"
+              tabindex="0"
+            >
+              <div
+                class="cxd-Select-valueWrap"
+              >
+                <div
                   class="cxd-Select-placeholder"
                 >
                   请选择
@@ -261,6 +315,102 @@ exports[`Renderer:chained-select 1`] = `
                   icon="right-arrow-bold"
                 />
               </span>
+              <div
+                class="cxd-PopOver cxd-Select-popover cxd-PopOver--leftBottomLeftTop"
+                style="display: block; width: auto; left: 0px; top: 0px; position: relative;"
+                theme="cxd"
+              >
+                <div
+                  class="cxd-PopOver-overlay"
+                />
+                <div
+                  class="cxd-Select-menu"
+                >
+                  <div
+                    class="cxd-Select-noResult"
+                  >
+                    未找到任何结果
+                  </div>
+                </div>
+                <div
+                  class="resize-sensor"
+                  style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+                >
+                  
+  
+                  <div
+                    class="resize-sensor-expand"
+                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                  >
+                    
+    
+                    <div
+                      style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                    />
+                    
+  
+                  </div>
+                  
+  
+                  <div
+                    class="resize-sensor-shrink"
+                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                  >
+                    
+    
+                    <div
+                      style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                    />
+                    
+  
+                  </div>
+                  
+  
+                  <div
+                    class="resize-sensor-appear"
+                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                  />
+                </div>
+              </div>
+              <div
+                class="resize-sensor"
+                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+  
+                <div
+                  class="resize-sensor-expand"
+                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                >
+                  
+    
+                  <div
+                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                  />
+                  
+  
+                </div>
+                
+  
+                <div
+                  class="resize-sensor-shrink"
+                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                >
+                  
+    
+                  <div
+                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                  />
+                  
+  
+                </div>
+                
+  
+                <div
+                  class="resize-sensor-appear"
+                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                />
+              </div>
             </div>
           </div>
         </div>

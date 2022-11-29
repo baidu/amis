@@ -190,6 +190,14 @@ export interface BaseApiObject {
    * autoFill 是否显示自动填充错误提示
    */
   silent?: boolean;
+
+  /**
+   * 提示信息
+   */
+  messages?: {
+    success?: string;
+    failed?: string;
+  };
 }
 
 export type ClassName =

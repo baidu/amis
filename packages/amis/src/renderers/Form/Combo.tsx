@@ -5,7 +5,8 @@ import {
   FormItem,
   FormControlProps,
   FormBaseControl,
-  resolveEventData
+  resolveEventData,
+  ApiObject
 } from 'amis-core';
 import {ActionObject, Api} from 'amis-core';
 import {ComboStore, IComboStore} from 'amis-core';
@@ -449,8 +450,7 @@ export default class ComboControl extends React.Component<ComboProps> {
 
     if (actionType === 'addItem') {
       this.addItemValue(args?.item ?? {});
-    }
-    else if (actionType === 'clear') {
+    } else if (actionType === 'clear') {
       onChange('');
     } else if (actionType === 'reset') {
       onChange(resetValue ?? '');
@@ -458,14 +458,8 @@ export default class ComboControl extends React.Component<ComboProps> {
   }
 
   addItemValue(itemValue: any) {
-    const {
-      flat,
-      joinValues,
-      addattop,
-      delimiter,
-      disabled,
-      submitOnChange
-    } = this.props;
+    const {flat, joinValues, addattop, delimiter, disabled, submitOnChange} =
+      this.props;
 
     if (disabled) {
       return;
@@ -477,8 +471,7 @@ export default class ComboControl extends React.Component<ComboProps> {
 
     if (addattop === true) {
       value.unshift(itemValue);
-    }
-    else {
+    } else {
       value.push(itemValue);
     }
 
@@ -649,7 +642,10 @@ export default class ComboControl extends React.Component<ComboProps> {
       const result = await env.fetcher(deleteApi as Api, ctx);
 
       if (!result.ok) {
-        env.notify('error', __('deleteFailed'));
+        env.notify(
+          'error',
+          (deleteApi as ApiObject)?.messages?.failed ?? __('deleteFailed')
+        );
         return;
       }
     }
@@ -1352,7 +1348,8 @@ export default class ComboControl extends React.Component<ComboProps> {
                 label: __(addButtonText || 'add'),
                 level: 'info',
                 size: 'sm',
-                closeOnClick: true
+                closeOnClick: true,
+                btnClassName: addButtonClassName
               },
               {
                 buttons: conditions?.map(item => ({

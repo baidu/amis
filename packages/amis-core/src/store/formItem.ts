@@ -9,7 +9,7 @@ import {
 import isEqualWith from 'lodash/isEqualWith';
 import {FormStore, IFormStore} from './form';
 import {str2rules, validate as doValidate} from '../utils/validations';
-import {Api, Payload, fetchOptions} from '../types';
+import {Api, Payload, fetchOptions, ApiObject} from '../types';
 import {ComboStore, IComboStore, IUniqueGroup} from './combo';
 import {evalExpression} from '../utils/tpl';
 import {buildApi, isEffectiveApi} from '../utils/api';
@@ -369,7 +369,10 @@ export const FormItemStore = StoreNode.named('FormItemStore')
 
         if (!json.ok && json.status === 422 && json.errors) {
           addError(
-            String(json.errors || json.msg || `表单项「${self.name}」校验失败`)
+            String(
+              (self.validateApi as ApiObject)?.messages?.failed ??
+                (json.errors || json.msg || `表单项「${self.name}」校验失败`)
+            )
           );
         }
       }
@@ -540,12 +543,16 @@ export const FormItemStore = StoreNode.named('FormItemStore')
           setErrorFlag !== false &&
             setError(
               self.__('Form.loadOptionsFailed', {
-                reason: json.msg ?? (config && config.errorMessage)
+                reason:
+                  apiObject.messages?.failed ??
+                  json.msg ??
+                  (config && config.errorMessage)
               })
             );
           getEnv(self).notify(
             'error',
-            self.errors.join('') || `${apiObject.url}：${json.msg}`,
+            apiObject.messages?.failed ??
+              (self.errors.join('') || `${apiObject.url}：${json.msg}`),
             json.msgTimeout !== undefined
               ? {
                   closeButton: true,
@@ -571,7 +578,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
           return;
         }
 
-        console.error(e.stack);
+        console.error(e);
         env.notify('error', e.message);
         return;
       }
