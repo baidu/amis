@@ -1,6 +1,6 @@
 import omit from 'lodash/omit';
 import {RendererProps} from '../factory';
-import {createObject, extendObject} from '../utils/helper';
+import {createObject} from '../utils/helper';
 import {RendererEvent} from '../utils/renderer-event';
 import {evalExpression} from '../utils/tpl';
 import {dataMapping} from '../utils/tpl-builtin';
@@ -237,6 +237,7 @@ export const runAction = async (
 
   console.group?.(`run action ${actionConfig.actionType}`);
   console.debug(`[${actionConfig.actionType}] action args, data`, args, data);
+
   await actionInstrance.run(
     {
       ...actionConfig,
@@ -247,8 +248,10 @@ export const runAction = async (
     event,
     mergeData
   );
+
   console.debug(`[${actionConfig.actionType}] action end event`, event);
   console.groupEnd?.();
+
   // 阻止原有动作执行
   preventDefault && event.preventDefault();
   // 阻止后续动作执行
