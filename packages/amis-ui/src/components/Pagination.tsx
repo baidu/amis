@@ -98,7 +98,9 @@ export interface BasicPaginationProps {
 export interface PaginationProps
   extends BasicPaginationProps,
     ThemeProps,
-    LocaleProps {}
+    LocaleProps {
+  popOverContainer?: any;
+}
 export interface PaginationState {
   pageNum: string;
   perPage: number;
@@ -264,6 +266,7 @@ export class Pagination extends React.Component<
       className,
       disabled,
       hasNext,
+      popOverContainer,
       popOverContainerSelector,
       translate: __
     } = this.props;
@@ -482,6 +485,7 @@ export class Pagination extends React.Component<
         disabled={disabled}
         value={perPage}
         options={selection}
+        popOverContainer={popOverContainer}
         popOverContainerSelector={popOverContainerSelector}
         onChange={(p: any) => {
           this.setState({
