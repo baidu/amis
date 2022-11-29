@@ -95,6 +95,28 @@ const formItemOptions = [
   }
 ];
 
+// 自动为form中子元素（单选框、复选框）补上默认options
+const autoAddOptions = (values: any) => {
+  if (values && (values.type === 'form' || values.type === 'group') && values.body?.length > 0) {
+    values.body.forEach((formItem: any) => {
+      if (formItem.type === 'radios' || formItem.type === 'checkboxes') {
+        formItem.options = [
+          {
+            label: "选项A",
+            value: "A"
+          },
+          {
+            label: "选项B",
+            value: "B"
+          }
+        ];
+      } else if (formItem.type === 'form' || formItem.type === 'group') {
+        autoAddOptions(formItem); 
+      }
+    });
+  }
+}
+
 export class FormPlugin extends BasePlugin {
   // 关联渲染器名字
   rendererName = 'form';
@@ -184,23 +206,7 @@ export class FormPlugin extends BasePlugin {
       }
     ],
     pipeOut: (values: any) => {
-      // 给form中直接子元素（单选框、复选框）自动添加上默认options
-      if (values && values.type === 'form' && values.body?.length > 0) {
-        values.body.forEach((formItem: any) => {
-          if (formItem.type === 'radios' || formItem.type === 'checkboxes') {
-            formItem.options = [
-              {
-                label: "选项A",
-                value: "A"
-              },
-              {
-                label: "选项B",
-                value: "B"
-              }
-            ];
-          }
-        });
-      }
+      autoAddOptions(values);
       return values;
     }
   };
