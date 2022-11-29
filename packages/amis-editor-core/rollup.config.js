@@ -57,7 +57,7 @@ export default [
     plugins: getPlugins('cjs').concat([
       postcss({
         include: 'scss/editor.scss',
-        extract: path.resolve('lib/editor.css'),
+        extract: path.resolve('lib/style.css'),
         plugins: [postcssImport(), autoprefixer(), minify()]
       })
     ])
