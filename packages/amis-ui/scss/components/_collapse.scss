@@ -57,9 +57,10 @@
     margin-right: var(--gap-xs);
   }
 
-  .#{$ns}TplField {
-    display: inline-block;
-  }
+  // 干扰太多了，先注释
+  // .#{$ns}TplField {
+  //   display: inline-block;
+  // }
 
   &.is-active > * > &-arrow:before {
     transform: rotate(135deg);
