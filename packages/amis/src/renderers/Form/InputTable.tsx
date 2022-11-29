@@ -15,13 +15,14 @@ import {
   SimpleMap,
   RendererData,
   ActionObject,
-  Api,
   Payload,
   ApiObject,
   autobind,
   isExpression,
   ITableStore,
-  generateIcon
+  generateIcon,
+  isPureVariable,
+  resolveVariableAndFilter
 } from 'amis-core';
 import {Button, Icon} from 'amis-ui';
 import omit from 'lodash/omit';
@@ -34,6 +35,8 @@ import {SchemaApi} from '../../Schema';
 import find from 'lodash/find';
 import moment from 'moment';
 import merge from 'lodash/merge';
+
+import type {SchemaTokenizeableString} from '../../Schema';
 
 export interface TableControlSchema
   extends FormBaseControl,
@@ -184,6 +187,16 @@ export interface TableControlSchema
    * 分页个数，默认不分页
    */
   perPage?: number;
+
+  /**
+   * 限制最大个数
+   */
+  maxLength?: number | SchemaTokenizeableString;
+
+  /**
+   * 限制最小个数
+   */
+  minLength?: number | SchemaTokenizeableString;
 }
 
 export interface TableProps
@@ -212,7 +225,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     deleteBtnIcon: 'minus',
     confirmBtnIcon: 'check',
     cancelBtnIcon: 'close',
-    valueField: ''
+    valueField: '',
+    minLength: 0,
+    maxLength: Infinity
   };
 
   static propsList: Array<string> = [
@@ -289,12 +304,42 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     this.entries.dispose();
   }
 
+  resolveVariableProps(props: TableProps, key: 'minLength' | 'maxLength') {
+    const defaultMap = {
+      minLength: 0,
+      maxLength: Infinity
+    };
+    let value = props[key];
+
+    if (!value) {
+      return defaultMap[key];
+    }
+
+    if (typeof value === 'string') {
+      if (isPureVariable(value)) {
+        const resolved = resolveVariableAndFilter(value, props.data, '| raw');
+        value = (
+          typeof resolved === 'number' && resolved >= 0
+            ? resolved
+            : defaultMap[key]
+        ) as number;
+      } else {
+        const parsed = parseInt(value, 10);
+        value = (isNaN(parsed) ? defaultMap[key] : parsed) as number;
+      }
+    }
+
+    return value;
+  }
+
   subFormRef(form: any, x: number, y: number) {
     this.subForms[`${x}-${y}`] = form;
   }
 
   async validate(): Promise<string | void> {
-    const {value, minLength, maxLength, translate: __, columns} = this.props;
+    const {value, translate: __, columns} = this.props;
+    const minLength = this.resolveVariableProps(this.props, 'minLength');
+    const maxLength = this.resolveVariableProps(this.props, 'maxLength');
 
     // todo: 如果当前正在编辑中，表单提交了，应该先让正在编辑的东西提交然后再做验证。
     if (~this.state.editIndex) {
@@ -718,6 +763,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     const __ = this.props.translate;
     const needConfirm = this.props.needConfirm;
     const showIndex = this.props.showIndex;
+    const minLength = this.resolveVariableProps(this.props, 'minLength');
+    const maxLength = this.resolveVariableProps(this.props, 'maxLength');
 
     let btns = [];
     if (props.addable && props.showAddBtn !== false) {
@@ -732,8 +779,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
           offset: number;
         }) =>
           (~this.state.editIndex && needConfirm !== false) ||
-          (this.props.maxLength &&
-            this.props.maxLength <= this.state.items.length) ? null : (
+          maxLength <= this.state.items.length ? null : (
             <Button
               classPrefix={ns}
               size="sm"
@@ -968,8 +1014,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         }) =>
           ((~this.state.editIndex || (data && data.__isPlaceholder)) &&
             needConfirm !== false) ||
-          (this.props.minLength &&
-            this.props.minLength >= this.state.items.length) ? null : (
+          minLength >= this.state.items.length ? null : (
             <Button
               classPrefix={ns}
               size="sm"
@@ -1213,9 +1258,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       rowClassNameExpr,
       affixHeader = false,
       autoFillHeight = false,
-      tableContentClassName,
-      maxLength
+      tableContentClassName
     } = this.props;
+    const maxLength = this.resolveVariableProps(this.props, 'maxLength');
 
     if (formInited === false) {
       return null;

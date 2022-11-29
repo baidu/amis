@@ -510,7 +510,7 @@ order: 54
 
 ## 限制个数
 
-多选模式下，可以配置`minLength`和`maxLength`配置该 InputTable 可添加的条数
+可以配置`minLength`和`maxLength`配置 InputTable 可添加的条数
 
 ```schema: scope="body"
 {
@@ -539,6 +539,58 @@ order: 54
       "label": "Table",
       "minLength": 1,
       "maxLength": 5,
+      "needConfirm": false,
+      "addable": true,
+      "removable": true,
+      "columns": [
+        {
+          "label": "A",
+          "name": "a",
+          "quickEdit": false
+        },
+        {
+          "label": "B",
+          "name": "b"
+        }
+      ]
+    }
+  ]
+}
+```
+
+也可以使用变量配置`minLength`和`maxLength`
+
+> 2.4.1 及以上版本
+
+```schema: scope="body"
+{
+  "type": "form",
+  "data": {
+    "table": [
+      {
+        "a": "a1",
+        "b": "b1"
+      },
+      {
+        "a": "a2",
+        "b": "b2"
+      },
+      {
+        "a": "a3",
+        "b": "b3"
+      }
+    ],
+    "minLength": 2,
+    "maxLength": 4
+  },
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+      "type": "input-table",
+      "name": "table",
+      "label": "Table",
+      "minLength": "${minLength}",
+      "maxLength": "${maxLength}",
       "needConfirm": false,
       "addable": true,
       "removable": true,
@@ -748,6 +800,8 @@ order: 54
 | needConfirm                  | `boolean`                      | `true`     | 是否需要确认操作，，可用来控控制表格的操作交互                                                       |
 | canAccessSuperData           | `boolean`                      | `false`    | 是否可以访问父级数据，也就是表单中的同级数据，通常需要跟 strictMode 搭配使用                         |
 | strictMode                   | `boolean`                      | `true`     | 为了性能，默认其他表单项项值变化不会让当前表格更新，有时候为了同步获取其他表单项字段，需要开启这个。 |
+| minLength                    | `number`                       | `0`        | 最小行数, `2.4.1`版本后支持变量                                                                      |
+| maxLength                    | `number`                       | `Infinity` | 最大行数, `2.4.1`版本后支持变量                                                                      |
 | columns                      | `array`                        | []         | 列信息                                                                                               |
 | columns[x].quickEdit         | `boolean` 或者 `object`        | -          | 配合 editable 为 true 一起使用                                                                       |
 | columns[x].quickEditOnUpdate | `boolean` 或者 `object`        | -          | 可以用来区分新建模式和更新模式的编辑配置                                                             |
