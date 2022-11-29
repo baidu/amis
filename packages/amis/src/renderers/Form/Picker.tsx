@@ -24,7 +24,7 @@ import {
 } from 'amis-core';
 import {Html, Icon} from 'amis-ui';
 import {FormOptionsSchema, SchemaTpl} from '../../Schema';
-import {intersectionWith} from 'lodash';
+import intersectionWith from 'lodash/intersectionWith';
 
 /**
  * Picker
