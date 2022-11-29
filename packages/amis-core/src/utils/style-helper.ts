@@ -21,7 +21,10 @@ const valueMap: PlainObject = {
   'top-border-color': 'border-top-color',
   'right-border-color': 'border-right-color',
   'bottom-border-color': 'border-bottom-color',
-  'left-border-color': 'border-left-color'
+  'left-border-color': 'border-left-color',
+  'fontSize': 'font-size',
+  'fontWeight': 'font-weight',
+  'lineHeight': 'line-height'
 };
 
 interface extra {
