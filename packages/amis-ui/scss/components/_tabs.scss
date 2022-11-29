@@ -683,7 +683,7 @@
     }
 
     > .#{$ns}Tabs-linksWrapper + .#{$ns}Tabs-content {
-      max-width: 300px;
+      width: calc(100% - var(--Tabs--vertical-width));
     }
 
     > .#{$ns}Tabs-content {
