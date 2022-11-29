@@ -1649,7 +1649,7 @@ export default class ComboControl extends React.Component<ComboProps> {
           body: finnalControls,
           wrapperComponent: 'div',
           wrapWithPanel: false,
-          mode: multiLine ? 'normal' : 'row',
+          mode: multiLine ? subFormMode || 'normal' : 'row',
           className: cx(`Combo-form`, formClassName)
         },
         {
