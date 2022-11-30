@@ -22,7 +22,7 @@ import minify from 'postcss-minify';
 import autoprefixer from 'autoprefixer';
 import {terser} from 'rollup-plugin-terser';
 import postcss from 'rollup-plugin-postcss';
-
+const cssUrl = require("postcss-url");
 const i18nConfig = require('./i18nConfig');
 
 const settings = {
@@ -58,7 +58,15 @@ export default [
       postcss({
         include: 'scss/editor.scss',
         extract: path.resolve('lib/style.css'),
-        plugins: [postcssImport(), autoprefixer(), minify()]
+        plugins: [
+          postcssImport(),
+          autoprefixer(),
+          minify(),
+          cssUrl({
+            url: 'inline',
+            maxSize: 10
+          })
+        ]
       })
     ])
   },
