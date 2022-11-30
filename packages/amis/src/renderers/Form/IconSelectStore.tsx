@@ -4,6 +4,7 @@ import {TranslateFn, makeTranslator, getDefaultLocale} from 'amis-core';
 export interface SvgIcon {
   name: string;
   id: string;
+  svg?: string;
 }
 
 export interface SvgIconGroup {

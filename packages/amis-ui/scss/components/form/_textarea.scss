@@ -15,9 +15,10 @@
     border: 1px solid var(--Form-input-borderColor);
     border-radius: var(--Form-input-borderRadius);
     background: var(--Form-input-bg);
-    padding: var(--Form-input-paddingY) var(--Form-input-paddingX);
-    /* 避免和clear btn 重叠 */
-    padding-right: calc(var(--Form-input-paddingX) + var(--Form-fontSize));
+    padding: var(--input-textarea-paddingTop)
+      var(--input-textarea-paddingRight)
+      var(--input-textarea-paddingBottom)
+      var(--input-textarea-paddingLeft);
     font-size: var(--Form-input-fontSize);
     display: block;
     width: 100%;
@@ -43,15 +44,12 @@
     padding-bottom: var(--Form-input-paddingY);
     background-color: #fff;
     text-align: right;
-    // right: var(--Form-input-paddingX);
-    // bottom: var(--Form-input-paddingY);
-    font-size: var(--fontSizeSm);
-    // padding: 0 5px;
     border-radius: 3px;
-    color: #84868c;
+    color: var(--input-count-multi-color);
+    font-size: var(--input-count-multi-fontSize);
 
     &.is-empty {
-      color: #84868c;
+      color: var(--input-count-multi-color);
     }
   }
 
