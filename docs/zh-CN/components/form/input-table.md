@@ -14,41 +14,56 @@ order: 54
 
 ```schema: scope="body"
 {
-  "type": "form",
-  "debug": "true",
-  "data": {
-    "table": [
+  "type": "page",
+  "body": {
+    "type": "form",
+    "debug": "true",
+    "data": {
+      "table": [
         {
-            "a": "a1",
-            "b": "b1"
-        },
-        {
-            "a": "a2",
-            "b": "b2"
-        },
-        {
-            "a": "a3",
-            "b": "b3"
+          "a": "a1",
+          "b": "b1",
+          "c": {
+            "c1": "123",
+            "c2": "222"
+          }
         }
-    ]
-  },
-  "api": "/api/mock2/form/saveForm",
-  "body": [
-    {
-    "type":"input-table",
-    "name":"table",
-    "columns":[
-        {
-          "name": "a",
-          "label": "A"
-        },
-        {
-          "name": "b",
-          "label": "B"
-        }
+      ]
+    },
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+      {
+        "type": "input-table",
+        "name": "table",
+        "columns": [
+          {
+            "name": "a",
+            "label": "A"
+          },
+          {
+            "name": "b",
+            "label": "B"
+          },
+          {
+            "type": "combo",
+            "name": "c",
+            "multiLine": true,
+            "multiple": false,
+            "items": [
+              {
+                "type": "input-text",
+                "name": "c1"
+              },
+              {
+                "type": "input-text",
+                "name": "c2"
+              }
+            ]
+          }
+        ]
+      }
     ]
   }
-  ]
 }
 ```
 
