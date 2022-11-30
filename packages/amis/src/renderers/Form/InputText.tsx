@@ -107,6 +107,8 @@ export interface TextControlSchema extends FormOptionsSchema {
 
   /** 在内容为空的时候清除值 */
   clearValueOnEmpty?: boolean;
+
+  size?: 'sm' | 'md' | 'lg';
 }
 
 export type InputTextRendererEvent =
@@ -676,6 +678,7 @@ export default class TextControl extends React.PureComponent<
       showCounter,
       maxLength,
       minLength,
+      size,
       translate: __
     } = this.props;
     let type = this.props.type?.replace(/^(?:native|input)\-/, '');
@@ -731,6 +734,7 @@ export default class TextControl extends React.PureComponent<
                 `TextControl-input TextControl-input--withAC`,
                 inputControlClassName,
                 inputOnly ? className : '',
+                size ? `TextControl-input--${size}-size` : '',
                 {
                   'is-opened': isOpen,
                   'TextControl-input--multiple': multiple,
@@ -792,9 +796,8 @@ export default class TextControl extends React.PureComponent<
               {clearable && !disabled && !readOnly && value ? (
                 <a
                   onClick={this.clearValue}
-                  className={cx('TextControl-clear')}
                 >
-                  <Icon icon="input-clear" className="icon" />
+                  <Icon icon="input-clear" className={cx('TextControl-clear')} iconContent="InputBox-clear" />
                 </a>
               ) : null}
 
@@ -861,6 +864,7 @@ export default class TextControl extends React.PureComponent<
   }
 
   toggleRevealPassword() {
+    console.log('toggleRevealPassword', this.state.revealPassword)
     this.setState({revealPassword: !this.state.revealPassword});
   }
 
@@ -889,7 +893,8 @@ export default class TextControl extends React.PureComponent<
       data,
       showCounter,
       maxLength,
-      minLength
+      minLength,
+      size
     } = this.props;
 
     const type = this.props.type?.replace(/^(?:native|input)\-/, '');
@@ -902,7 +907,8 @@ export default class TextControl extends React.PureComponent<
             [`TextControl-input--border${ucFirst(borderMode)}`]: borderMode
           },
           inputControlClassName,
-          inputOnly ? className : ''
+          inputOnly ? className : '',
+          size ? `TextControl-input--${size}-size` : ''
         )}
       >
         {prefix ? (
@@ -933,19 +939,26 @@ export default class TextControl extends React.PureComponent<
           })}
         />
         {clearable && !disabled && !readOnly && value ? (
-          <a onClick={this.clearValue} className={`${ns}TextControl-clear`}>
-            <Icon icon="input-clear" className="icon" />
+          <a onClick={this.clearValue}>
+            <Icon icon="input-clear" className={cx('TextControl-clear')} iconContent="InputText-clear" />
           </a>
         ) : null}
         {type === 'password' && revealPassword && !disabled ? (
           <a
             onClick={this.toggleRevealPassword}
-            className={`${ns}TextControl-revealPassword`}
           >
             {this.state.revealPassword ? (
-              <Icon icon="view" className="icon" />
+              <Icon
+                icon="view"
+                className={cx('TextControl-revealPassword', 'TextControl-icon-view')}
+                iconContent="InputText-view"
+              />
             ) : (
-              <Icon icon="invisible" className="icon" />
+              <Icon
+                icon="invisible"
+                className={cx('TextControl-revealPassword', 'TextControl-icon-invisible')}
+                iconContent="InputText-invisible"
+              />
             )}
           </a>
         ) : null}
@@ -1055,24 +1068,28 @@ export function mapItemIndex(
 }
 
 @OptionsControl({
-  type: 'input-text'
+  type: 'input-text',
+  sizeMutable: false
 })
 export class TextControlRenderer extends TextControl {}
 
 @OptionsControl({
-  type: 'input-password'
+  type: 'input-password',
+  sizeMutable: false
 })
 export class PasswordControlRenderer extends TextControl {}
 
 @OptionsControl({
   type: 'input-email',
-  validations: 'isEmail'
+  validations: 'isEmail',
+  sizeMutable: false
 })
 export class EmailControlRenderer extends TextControl {}
 
 @OptionsControl({
   type: 'input-url',
-  validations: 'isUrl'
+  validations: 'isUrl',
+  sizeMutable: false
 })
 export class UrlControlRenderer extends TextControl {}
 
