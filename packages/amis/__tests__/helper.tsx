@@ -57,3 +57,26 @@ export const createMockMediaMatcher =
       return true;
     }
   });
+
+export function formatStyleObject(style: string | null, px2number = true) {
+  if (!style) {
+    return {};
+  }
+
+  // 去除注释 /* xx */
+  style = style.replace(/\/\*[^(\*\/)]*\*\//g, '');
+
+  const res: any = {};
+  style.split(';').forEach((item: string) => {
+    if (!item || !String(item).includes(':')) return;
+
+    const [key, value] = item.split(':');
+
+    res[String(key).trim()] =
+      px2number && value.endsWith('px')
+        ? Number(String(value).replace(/px$/, ''))
+        : String(value).trim();
+  });
+
+  return res;
+}

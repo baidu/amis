@@ -1,6 +1,1582 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Renderer:combo 1`] = `
+exports[`Renderer:combo with addable & addattop & addBtn & addButtonText & addButtonClassName 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <div
+            class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            style="position: relative;"
+          >
+            <div
+              class="cxd-Panel-heading"
+            >
+              <h3
+                class="cxd-Panel-title"
+              >
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    表单
+                  </span>
+                </span>
+              </h3>
+            </div>
+            <div
+              class="cxd-Panel-body"
+            >
+              <form
+                class="cxd-Form cxd-Form--horizontal"
+                novalidate=""
+              >
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
+                <div
+                  class="cxd-Form-item cxd-Form-item--horizontal"
+                  data-role="form-item"
+                >
+                  <label
+                    class="cxd-Form-label cxd-Form-itemColumn--normal"
+                  >
+                    <span>
+                      <span
+                        class="cxd-TplField"
+                      >
+                        <span>
+                          自定义1
+                        </span>
+                      </span>
+                    </span>
+                  </label>
+                  <div
+                    class="cxd-Form-value"
+                  >
+                    <div
+                      class="cxd-ComboControl cxd-Form-control"
+                    >
+                      <div
+                        class="cxd-Combo cxd-Combo--multi cxd-Combo--hor"
+                      >
+                        <div
+                          class="cxd-Combo-items"
+                        >
+                          <div
+                            class="cxd-Combo-item"
+                          >
+                            <div
+                              class="cxd-Combo-itemInner"
+                            >
+                              <div
+                                class="cxd-Form cxd-Form--row cxd-Combo-form"
+                                novalidate=""
+                              >
+                                <input
+                                  style="display: none;"
+                                  type="submit"
+                                />
+                                <div
+                                  class="cxd-Form-row"
+                                >
+                                  <div
+                                    class="cxd-Form-col"
+                                  >
+                                    <div
+                                      class="cxd-Form-item cxd-Form-item--row"
+                                      data-role="form-item"
+                                    >
+                                      <div
+                                        class="cxd-Form-rowInner"
+                                      >
+                                        <div
+                                          class="cxd-Form-control cxd-TextControl"
+                                        >
+                                          <div
+                                            class="cxd-TextControl-input"
+                                          >
+                                            <input
+                                              autocomplete="off"
+                                              class=""
+                                              name="text"
+                                              placeholder=""
+                                              size="10"
+                                              type="text"
+                                              value=""
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <a
+                              class="cxd-Combo-delBtn "
+                              data-position="bottom"
+                              data-tooltip="删除"
+                            >
+                              <icon-mock
+                                classname="icon icon-status-close"
+                                icon="status-close"
+                              />
+                            </a>
+                          </div>
+                        </div>
+                        <div
+                          class="cxd-Combo-toolbar"
+                        >
+                          <button
+                            class="cxd-Button cxd-Button--default cxd-Button--size-default cxd-Combo-addBtn classOfAdd"
+                            type="button"
+                          >
+                            <icon-mock
+                              classname="icon icon-plus"
+                              icon="plus"
+                            />
+                            <span>
+                              自定义的新增
+                            </span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="cxd-Form-item cxd-Form-item--horizontal addAtTopClass"
+                  data-role="form-item"
+                >
+                  <label
+                    class="cxd-Form-label cxd-Form-itemColumn--normal"
+                  >
+                    <span>
+                      <span
+                        class="cxd-TplField"
+                      >
+                        <span>
+                          更复杂的
+                        </span>
+                      </span>
+                    </span>
+                  </label>
+                  <div
+                    class="cxd-Form-value"
+                  >
+                    <div
+                      class="cxd-ComboControl cxd-Form-control"
+                    >
+                      <div
+                        class="cxd-Combo cxd-Combo--multi cxd-Combo--hor"
+                      >
+                        <div
+                          class="cxd-Combo-items"
+                        >
+                          <div
+                            class="cxd-Combo-item"
+                          >
+                            <div
+                              class="cxd-Combo-itemInner"
+                            >
+                              <div
+                                class="cxd-Form cxd-Form--row cxd-Combo-form"
+                                novalidate=""
+                              >
+                                <input
+                                  style="display: none;"
+                                  type="submit"
+                                />
+                                <div
+                                  class="cxd-Form-row"
+                                >
+                                  <div
+                                    class="cxd-Form-col"
+                                  >
+                                    <div
+                                      class="cxd-Form-item cxd-Form-item--row"
+                                      data-role="form-item"
+                                    >
+                                      <div
+                                        class="cxd-Form-rowInner"
+                                      >
+                                        <div
+                                          class="cxd-Form-control cxd-TextControl"
+                                        >
+                                          <div
+                                            class="cxd-TextControl-input"
+                                          >
+                                            <input
+                                              autocomplete="off"
+                                              class=""
+                                              name="text"
+                                              placeholder=""
+                                              size="10"
+                                              type="text"
+                                              value=""
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <a
+                              class="cxd-Combo-delBtn "
+                              data-position="bottom"
+                              data-tooltip="删除"
+                            >
+                              <icon-mock
+                                classname="icon icon-status-close"
+                                icon="status-close"
+                              />
+                            </a>
+                          </div>
+                          <div
+                            class="cxd-Combo-item"
+                          >
+                            <div
+                              class="cxd-Combo-itemInner"
+                            >
+                              <div
+                                class="cxd-Form cxd-Form--row cxd-Combo-form"
+                                novalidate=""
+                              >
+                                <input
+                                  style="display: none;"
+                                  type="submit"
+                                />
+                                <div
+                                  class="cxd-Form-row"
+                                >
+                                  <div
+                                    class="cxd-Form-col"
+                                  >
+                                    <div
+                                      class="cxd-Form-item cxd-Form-item--row"
+                                      data-role="form-item"
+                                    >
+                                      <div
+                                        class="cxd-Form-rowInner"
+                                      >
+                                        <div
+                                          class="cxd-Form-control cxd-TextControl"
+                                        >
+                                          <div
+                                            class="cxd-TextControl-input"
+                                          >
+                                            <input
+                                              autocomplete="off"
+                                              class=""
+                                              name="text"
+                                              placeholder=""
+                                              size="10"
+                                              type="text"
+                                              value="1"
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <a
+                              class="cxd-Combo-delBtn "
+                              data-position="bottom"
+                              data-tooltip="删除"
+                            >
+                              <icon-mock
+                                classname="icon icon-status-close"
+                                icon="status-close"
+                              />
+                            </a>
+                          </div>
+                        </div>
+                        <div
+                          class="cxd-Combo-toolbar"
+                        >
+                          <button
+                            class="cxd-Button cxd-Button--default cxd-Button--size-default cxd-Button--block"
+                            type="button"
+                          >
+                            <span>
+                              更复杂的增加
+                            </span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="cxd-Form-item cxd-Form-item--horizontal addableClass"
+                  data-role="form-item"
+                >
+                  <label
+                    class="cxd-Form-label cxd-Form-itemColumn--normal"
+                  >
+                    <span>
+                      <span
+                        class="cxd-TplField"
+                      >
+                        <span>
+                          不存在的
+                        </span>
+                      </span>
+                    </span>
+                  </label>
+                  <div
+                    class="cxd-Form-value"
+                  >
+                    <div
+                      class="cxd-ComboControl cxd-Form-control"
+                    >
+                      <div
+                        class="cxd-Combo cxd-Combo--multi cxd-Combo--hor"
+                      >
+                        <div
+                          class="cxd-Combo-items"
+                        >
+                          <div
+                            class="cxd-Combo-item"
+                          >
+                            <div
+                              class="cxd-Combo-itemInner"
+                            >
+                              <div
+                                class="cxd-Form cxd-Form--row cxd-Combo-form"
+                                novalidate=""
+                              >
+                                <input
+                                  style="display: none;"
+                                  type="submit"
+                                />
+                                <div
+                                  class="cxd-Form-row"
+                                >
+                                  <div
+                                    class="cxd-Form-col"
+                                  >
+                                    <div
+                                      class="cxd-Form-item cxd-Form-item--row"
+                                      data-role="form-item"
+                                    >
+                                      <div
+                                        class="cxd-Form-rowInner"
+                                      >
+                                        <div
+                                          class="cxd-Form-control cxd-TextControl"
+                                        >
+                                          <div
+                                            class="cxd-TextControl-input"
+                                          >
+                                            <input
+                                              autocomplete="off"
+                                              class=""
+                                              name="text"
+                                              placeholder=""
+                                              size="10"
+                                              type="text"
+                                              value=""
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <a
+                              class="cxd-Combo-delBtn "
+                              data-position="bottom"
+                              data-tooltip="删除"
+                            >
+                              <icon-mock
+                                classname="icon icon-status-close"
+                                icon="status-close"
+                              />
+                            </a>
+                          </div>
+                          <div
+                            class="cxd-Combo-item"
+                          >
+                            <div
+                              class="cxd-Combo-itemInner"
+                            >
+                              <div
+                                class="cxd-Form cxd-Form--row cxd-Combo-form"
+                                novalidate=""
+                              >
+                                <input
+                                  style="display: none;"
+                                  type="submit"
+                                />
+                                <div
+                                  class="cxd-Form-row"
+                                >
+                                  <div
+                                    class="cxd-Form-col"
+                                  >
+                                    <div
+                                      class="cxd-Form-item cxd-Form-item--row"
+                                      data-role="form-item"
+                                    >
+                                      <div
+                                        class="cxd-Form-rowInner"
+                                      >
+                                        <div
+                                          class="cxd-Form-control cxd-TextControl"
+                                        >
+                                          <div
+                                            class="cxd-TextControl-input"
+                                          >
+                                            <input
+                                              autocomplete="off"
+                                              class=""
+                                              name="text"
+                                              placeholder=""
+                                              size="10"
+                                              type="text"
+                                              value="1"
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <a
+                              class="cxd-Combo-delBtn "
+                              data-position="bottom"
+                              data-tooltip="删除"
+                            >
+                              <icon-mock
+                                classname="icon icon-status-close"
+                                icon="status-close"
+                              />
+                            </a>
+                          </div>
+                        </div>
+                        <div
+                          class="cxd-Combo-toolbar"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div
+              class="cxd-Panel-footerWrap"
+            >
+              <div
+                class="cxd-Panel-btnToolbar cxd-Panel-footer"
+              >
+                <button
+                  class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+                  type="submit"
+                >
+                  <span>
+                    FormSubmit
+                  </span>
+                </button>
+              </div>
+            </div>
+            <div
+              class="resize-sensor"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+            >
+              
+  
+              <div
+                class="resize-sensor-expand"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-shrink"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-appear"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:combo with canAccessSuperData & strictMode & syncFields 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <div
+            class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            style="position: relative;"
+          >
+            <div
+              class="cxd-Panel-heading"
+            >
+              <h3
+                class="cxd-Panel-title"
+              >
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    表单
+                  </span>
+                </span>
+              </h3>
+            </div>
+            <div
+              class="cxd-Panel-body"
+            >
+              <form
+                class="cxd-Form cxd-Form--horizontal"
+                novalidate=""
+              >
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
+                <div
+                  class="cxd-Form-item cxd-Form-item--horizontal parentInput"
+                  data-role="form-item"
+                >
+                  <label
+                    class="cxd-Form-label cxd-Form-itemColumn--normal"
+                  >
+                    <span>
+                      <span
+                        class="cxd-TplField"
+                      >
+                        <span>
+                          父级文本框
+                        </span>
+                      </span>
+                    </span>
+                  </label>
+                  <div
+                    class="cxd-Form-value"
+                  >
+                    <div
+                      class="cxd-Form-control cxd-TextControl"
+                    >
+                      <div
+                        class="cxd-TextControl-input"
+                      >
+                        <input
+                          autocomplete="off"
+                          class=""
+                          name="super_text"
+                          placeholder=""
+                          size="10"
+                          type="text"
+                          value="123"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="cxd-Form-item cxd-Form-item--horizontal"
+                  data-role="form-item"
+                >
+                  <label
+                    class="cxd-Form-label cxd-Form-itemColumn--normal"
+                  >
+                    <span>
+                      <span
+                        class="cxd-TplField"
+                      >
+                        <span>
+                          不可获取父级数据
+                        </span>
+                      </span>
+                    </span>
+                  </label>
+                  <div
+                    class="cxd-Form-value"
+                  >
+                    <div
+                      class="cxd-ComboControl cxd-Form-control"
+                    >
+                      <div
+                        class="cxd-Combo cxd-Combo--multi cxd-Combo--hor"
+                      >
+                        <div
+                          class="cxd-Combo-items"
+                        >
+                          <div
+                            class="cxd-Combo-placeholder"
+                          >
+                            &lt;空&gt;
+                          </div>
+                        </div>
+                        <div
+                          class="cxd-Combo-toolbar"
+                        >
+                          <button
+                            class="cxd-Button cxd-Button--default cxd-Button--size-default cxd-Combo-addBtn"
+                            type="button"
+                          >
+                            <icon-mock
+                              classname="icon icon-plus"
+                              icon="plus"
+                            />
+                            <span>
+                              新增
+                            </span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="cxd-Form-item cxd-Form-item--horizontal"
+                  data-role="form-item"
+                >
+                  <label
+                    class="cxd-Form-label cxd-Form-itemColumn--normal"
+                  >
+                    <span>
+                      <span
+                        class="cxd-TplField"
+                      >
+                        <span>
+                          可获取父级数据不可更新
+                        </span>
+                      </span>
+                    </span>
+                  </label>
+                  <div
+                    class="cxd-Form-value"
+                  >
+                    <div
+                      class="cxd-ComboControl cxd-Form-control"
+                    >
+                      <div
+                        class="cxd-Combo cxd-Combo--multi cxd-Combo--hor"
+                      >
+                        <div
+                          class="cxd-Combo-items"
+                        >
+                          <div
+                            class="cxd-Combo-placeholder"
+                          >
+                            &lt;空&gt;
+                          </div>
+                        </div>
+                        <div
+                          class="cxd-Combo-toolbar"
+                        >
+                          <button
+                            class="cxd-Button cxd-Button--default cxd-Button--size-default cxd-Combo-addBtn"
+                            type="button"
+                          >
+                            <icon-mock
+                              classname="icon icon-plus"
+                              icon="plus"
+                            />
+                            <span>
+                              新增
+                            </span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="cxd-Form-item cxd-Form-item--horizontal"
+                  data-role="form-item"
+                >
+                  <label
+                    class="cxd-Form-label cxd-Form-itemColumn--normal"
+                  >
+                    <span>
+                      <span
+                        class="cxd-TplField"
+                      >
+                        <span>
+                          可获取父级数据亦可更新
+                        </span>
+                      </span>
+                    </span>
+                  </label>
+                  <div
+                    class="cxd-Form-value"
+                  >
+                    <div
+                      class="cxd-ComboControl cxd-Form-control"
+                    >
+                      <div
+                        class="cxd-Combo cxd-Combo--multi cxd-Combo--hor"
+                      >
+                        <div
+                          class="cxd-Combo-items"
+                        >
+                          <div
+                            class="cxd-Combo-placeholder"
+                          >
+                            &lt;空&gt;
+                          </div>
+                        </div>
+                        <div
+                          class="cxd-Combo-toolbar"
+                        >
+                          <button
+                            class="cxd-Button cxd-Button--default cxd-Button--size-default cxd-Combo-addBtn"
+                            type="button"
+                          >
+                            <icon-mock
+                              classname="icon icon-plus"
+                              icon="plus"
+                            />
+                            <span>
+                              新增
+                            </span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div
+              class="cxd-Panel-footerWrap"
+            >
+              <div
+                class="cxd-Panel-btnToolbar cxd-Panel-footer"
+              >
+                <button
+                  class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+                  type="submit"
+                >
+                  <span>
+                    FormSubmit
+                  </span>
+                </button>
+              </div>
+            </div>
+            <div
+              class="resize-sensor"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+            >
+              
+  
+              <div
+                class="resize-sensor-expand"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-shrink"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-appear"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:combo with conditions: add button open 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <div
+            class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            style="position: relative;"
+          >
+            <div
+              class="cxd-Panel-heading"
+            >
+              <h3
+                class="cxd-Panel-title"
+              >
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    表单
+                  </span>
+                </span>
+              </h3>
+            </div>
+            <div
+              class="cxd-Panel-body"
+            >
+              <form
+                class="cxd-Form cxd-Form--horizontal"
+                novalidate=""
+              >
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
+                <div
+                  class="cxd-Form-item cxd-Form-item--horizontal"
+                  data-role="form-item"
+                >
+                  <label
+                    class="cxd-Form-label cxd-Form-itemColumn--normal"
+                  >
+                    <span>
+                      <span
+                        class="cxd-TplField"
+                      >
+                        <span>
+                          多选
+                        </span>
+                      </span>
+                    </span>
+                  </label>
+                  <div
+                    class="cxd-Form-value"
+                  >
+                    <div
+                      class="cxd-ComboControl cxd-Form-control"
+                    >
+                      <div
+                        class="cxd-Combo cxd-Combo--multi cxd-Combo--ver"
+                      >
+                        <div
+                          class="cxd-Combo-items"
+                        >
+                          <div
+                            class="cxd-Combo-item"
+                          >
+                            <div
+                              class="cxd-Combo-itemTag"
+                            >
+                              <label>
+                                类型
+                              </label>
+                              <div
+                                aria-expanded="false"
+                                aria-haspopup="listbox"
+                                aria-labelledby="downshift-6-label"
+                                class="cxd-Select"
+                                role="combobox"
+                                tabindex="0"
+                              >
+                                <div
+                                  class="cxd-Select-valueWrap"
+                                >
+                                  <div
+                                    class="cxd-Select-value"
+                                  >
+                                    数字
+                                  </div>
+                                </div>
+                                <span
+                                  class="cxd-Select-arrow"
+                                >
+                                  <icon-mock
+                                    classname="icon icon-right-arrow-bold"
+                                    icon="right-arrow-bold"
+                                  />
+                                </span>
+                              </div>
+                            </div>
+                            <div
+                              class="cxd-Combo-itemInner"
+                            >
+                              <div
+                                class="cxd-Form cxd-Form--normal cxd-Combo-form"
+                                novalidate=""
+                              >
+                                <input
+                                  style="display: none;"
+                                  type="submit"
+                                />
+                                <div
+                                  class="cxd-Form-item cxd-Form-item--normal"
+                                  data-role="form-item"
+                                >
+                                  <label
+                                    class="cxd-Form-label"
+                                  >
+                                    <span>
+                                      <span
+                                        class="cxd-TplField"
+                                      >
+                                        <span>
+                                          最小值
+                                        </span>
+                                      </span>
+                                    </span>
+                                  </label>
+                                  <div
+                                    class="cxd-NumberControl cxd-Form-control"
+                                  >
+                                    <div
+                                      class="cxd-Number cxd-Number--borderFull"
+                                    >
+                                      <div
+                                        class="cxd-Number-handler-wrap"
+                                      >
+                                        <span
+                                          aria-disabled="false"
+                                          aria-label="Increase Value"
+                                          class="cxd-Number-handler cxd-Number-handler-up"
+                                          role="button"
+                                          unselectable="on"
+                                        >
+                                          <span
+                                            class="cxd-Number-handler-up-inner"
+                                            unselectable="on"
+                                          />
+                                        </span>
+                                        <span
+                                          aria-disabled="false"
+                                          aria-label="Decrease Value"
+                                          class="cxd-Number-handler cxd-Number-handler-down"
+                                          role="button"
+                                          unselectable="on"
+                                        >
+                                          <span
+                                            class="cxd-Number-handler-down-inner"
+                                            unselectable="on"
+                                          />
+                                        </span>
+                                      </div>
+                                      <div
+                                        class="cxd-Number-input-wrap"
+                                      >
+                                        <input
+                                          aria-valuenow="1239"
+                                          autocomplete="off"
+                                          class="cxd-Number-input"
+                                          role="spinbutton"
+                                          step="1"
+                                          value="1239"
+                                        />
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <a
+                              class="cxd-Combo-delBtn "
+                              data-position="bottom"
+                              data-tooltip="删除"
+                            >
+                              <icon-mock
+                                classname="icon icon-status-close"
+                                icon="status-close"
+                              />
+                            </a>
+                          </div>
+                        </div>
+                        <div
+                          class="cxd-Combo-toolbar"
+                        >
+                          <div
+                            class="cxd-DropDown  is-opened"
+                          >
+                            <button
+                              class="cxd-Button cxd-Button--info cxd-Button--size-sm"
+                            >
+                              <icon-mock
+                                classname="icon icon-plus"
+                                icon="plus"
+                              />
+                              新增
+                              <span
+                                class="cxd-DropDown-caret"
+                              >
+                                <icon-mock
+                                  classname="icon icon-caret"
+                                  icon="caret"
+                                />
+                              </span>
+                            </button>
+                            <ul
+                              class="cxd-DropDown-menu-root cxd-DropDown-menu"
+                            >
+                              <li
+                                class="cxd-DropDown-button"
+                              >
+                                <a
+                                  class=""
+                                >
+                                  <span>
+                                    文本
+                                  </span>
+                                </a>
+                              </li>
+                              <li
+                                class="cxd-DropDown-button"
+                              >
+                                <a
+                                  class=""
+                                >
+                                  <span>
+                                    数字
+                                  </span>
+                                </a>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div
+              class="cxd-Panel-footerWrap"
+            >
+              <div
+                class="cxd-Panel-btnToolbar cxd-Panel-footer"
+              >
+                <button
+                  class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+                  type="submit"
+                >
+                  <span>
+                    FormSubmit
+                  </span>
+                </button>
+              </div>
+            </div>
+            <div
+              class="resize-sensor"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+            >
+              
+  
+              <div
+                class="resize-sensor-expand"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-shrink"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-appear"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:combo with draggable 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <div
+            class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            style="position: relative;"
+          >
+            <div
+              class="cxd-Panel-heading"
+            >
+              <h3
+                class="cxd-Panel-title"
+              >
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    表单
+                  </span>
+                </span>
+              </h3>
+            </div>
+            <div
+              class="cxd-Panel-body"
+            >
+              <form
+                class="cxd-Form cxd-Form--horizontal"
+                novalidate=""
+              >
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
+                <div
+                  class="cxd-Form-item cxd-Form-item--horizontal"
+                  data-role="form-item"
+                >
+                  <label
+                    class="cxd-Form-label cxd-Form-itemColumn--normal"
+                  >
+                    <span>
+                      <span
+                        class="cxd-TplField"
+                      >
+                        <span>
+                          拖拽排序
+                        </span>
+                      </span>
+                    </span>
+                  </label>
+                  <div
+                    class="cxd-Form-value"
+                  >
+                    <div
+                      class="cxd-ComboControl cxd-Form-control"
+                    >
+                      <div
+                        class="cxd-Combo cxd-Combo--multi cxd-Combo--hor is-draggable"
+                      >
+                        <div
+                          class="cxd-Combo-items"
+                        >
+                          <div
+                            class="cxd-Combo-item"
+                          >
+                            <div
+                              class="cxd-Combo-itemDrager"
+                            >
+                              <a
+                                data-position="bottom"
+                                data-tooltip="拖拽排序"
+                              >
+                                <icon-mock
+                                  classname="icon icon-drag-bar"
+                                  icon="drag-bar"
+                                />
+                              </a>
+                            </div>
+                            <div
+                              class="cxd-Combo-itemInner"
+                            >
+                              <div
+                                class="cxd-Form cxd-Form--row cxd-Combo-form"
+                                novalidate=""
+                              >
+                                <input
+                                  style="display: none;"
+                                  type="submit"
+                                />
+                                <div
+                                  class="cxd-Form-row"
+                                >
+                                  <div
+                                    class="cxd-Form-col"
+                                  >
+                                    <div
+                                      class="cxd-Form-item cxd-Form-item--row"
+                                      data-role="form-item"
+                                    >
+                                      <div
+                                        class="cxd-Form-rowInner"
+                                      >
+                                        <div
+                                          class="cxd-Form-control cxd-TextControl"
+                                        >
+                                          <div
+                                            class="cxd-TextControl-input"
+                                          >
+                                            <input
+                                              autocomplete="off"
+                                              class=""
+                                              name="text"
+                                              placeholder=""
+                                              size="10"
+                                              type="text"
+                                              value="1"
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div
+                                    class="cxd-Form-col"
+                                  >
+                                    <div
+                                      class="cxd-Form-item cxd-Form-item--row"
+                                      data-role="form-item"
+                                    >
+                                      <div
+                                        class="cxd-Form-rowInner"
+                                      >
+                                        <div
+                                          class="cxd-SelectControl cxd-Form-control"
+                                        >
+                                          <div
+                                            aria-expanded="false"
+                                            aria-haspopup="listbox"
+                                            aria-labelledby="downshift-4-label"
+                                            class="cxd-Select"
+                                            role="combobox"
+                                            tabindex="0"
+                                          >
+                                            <div
+                                              class="cxd-Select-valueWrap"
+                                            >
+                                              <div
+                                                class="cxd-Select-value"
+                                              >
+                                                a
+                                              </div>
+                                            </div>
+                                            <span
+                                              class="cxd-Select-arrow"
+                                            >
+                                              <icon-mock
+                                                classname="icon icon-right-arrow-bold"
+                                                icon="right-arrow-bold"
+                                              />
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <a
+                              class="cxd-Combo-delBtn "
+                              data-position="bottom"
+                              data-tooltip="删除"
+                            >
+                              <icon-mock
+                                classname="icon icon-status-close"
+                                icon="status-close"
+                              />
+                            </a>
+                          </div>
+                          <div
+                            class="cxd-Combo-item"
+                          >
+                            <div
+                              class="cxd-Combo-itemDrager"
+                            >
+                              <a
+                                data-position="bottom"
+                                data-tooltip="拖拽排序"
+                              >
+                                <icon-mock
+                                  classname="icon icon-drag-bar"
+                                  icon="drag-bar"
+                                />
+                              </a>
+                            </div>
+                            <div
+                              class="cxd-Combo-itemInner"
+                            >
+                              <div
+                                class="cxd-Form cxd-Form--row cxd-Combo-form"
+                                novalidate=""
+                              >
+                                <input
+                                  style="display: none;"
+                                  type="submit"
+                                />
+                                <div
+                                  class="cxd-Form-row"
+                                >
+                                  <div
+                                    class="cxd-Form-col"
+                                  >
+                                    <div
+                                      class="cxd-Form-item cxd-Form-item--row"
+                                      data-role="form-item"
+                                    >
+                                      <div
+                                        class="cxd-Form-rowInner"
+                                      >
+                                        <div
+                                          class="cxd-Form-control cxd-TextControl"
+                                        >
+                                          <div
+                                            class="cxd-TextControl-input"
+                                          >
+                                            <input
+                                              autocomplete="off"
+                                              class=""
+                                              name="text"
+                                              placeholder=""
+                                              size="10"
+                                              type="text"
+                                              value="2"
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div
+                                    class="cxd-Form-col"
+                                  >
+                                    <div
+                                      class="cxd-Form-item cxd-Form-item--row"
+                                      data-role="form-item"
+                                    >
+                                      <div
+                                        class="cxd-Form-rowInner"
+                                      >
+                                        <div
+                                          class="cxd-SelectControl cxd-Form-control"
+                                        >
+                                          <div
+                                            aria-expanded="false"
+                                            aria-haspopup="listbox"
+                                            aria-labelledby="downshift-5-label"
+                                            class="cxd-Select"
+                                            role="combobox"
+                                            tabindex="0"
+                                          >
+                                            <div
+                                              class="cxd-Select-valueWrap"
+                                            >
+                                              <div
+                                                class="cxd-Select-value"
+                                              >
+                                                b
+                                              </div>
+                                            </div>
+                                            <span
+                                              class="cxd-Select-arrow"
+                                            >
+                                              <icon-mock
+                                                classname="icon icon-right-arrow-bold"
+                                                icon="right-arrow-bold"
+                                              />
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <a
+                              class="cxd-Combo-delBtn "
+                              data-position="bottom"
+                              data-tooltip="删除"
+                            >
+                              <icon-mock
+                                classname="icon icon-status-close"
+                                icon="status-close"
+                              />
+                            </a>
+                          </div>
+                        </div>
+                        <div
+                          class="cxd-Combo-toolbar"
+                        >
+                          <button
+                            class="cxd-Button cxd-Button--default cxd-Button--size-default cxd-Combo-addBtn"
+                            type="button"
+                          >
+                            <icon-mock
+                              classname="icon icon-plus"
+                              icon="plus"
+                            />
+                            <span>
+                              新增
+                            </span>
+                          </button>
+                          <span
+                            class="cxd-Combo-dragableTip"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div
+              class="cxd-Panel-footerWrap"
+            >
+              <div
+                class="cxd-Panel-btnToolbar cxd-Panel-footer"
+              >
+                <button
+                  class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+                  type="submit"
+                >
+                  <span>
+                    FormSubmit
+                  </span>
+                </button>
+              </div>
+            </div>
+            <div
+              class="resize-sensor"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+            >
+              
+  
+              <div
+                class="resize-sensor-expand"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-shrink"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-appear"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:combo with items & multiLine 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
@@ -133,6 +1709,1210 @@ exports[`Renderer:combo 1`] = `
         class="resize-sensor-appear"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
       />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:combo with minLength & maxLength: minLength error 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <div
+            class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            style="position: relative;"
+          >
+            <div
+              class="cxd-Panel-heading"
+            >
+              <h3
+                class="cxd-Panel-title"
+              >
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    表单
+                  </span>
+                </span>
+              </h3>
+            </div>
+            <div
+              class="cxd-Panel-body"
+            >
+              <form
+                class="cxd-Form cxd-Form--horizontal"
+                novalidate=""
+              >
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
+                <div
+                  class="cxd-Form-item cxd-Form-item--horizontal is-error"
+                  data-role="form-item"
+                >
+                  <label
+                    class="cxd-Form-label cxd-Form-itemColumn--normal"
+                  >
+                    <span>
+                      <span
+                        class="cxd-TplField"
+                      >
+                        <span>
+                          最少添加1条且最多3条
+                        </span>
+                      </span>
+                    </span>
+                  </label>
+                  <div
+                    class="cxd-Form-value"
+                  >
+                    <div
+                      class="cxd-ComboControl cxd-Form-control is-error"
+                    >
+                      <div
+                        class="cxd-Combo cxd-Combo--multi cxd-Combo--hor"
+                      >
+                        <div
+                          class="cxd-Combo-items"
+                        >
+                          <div
+                            class="cxd-Combo-placeholder"
+                          >
+                            &lt;空&gt;
+                          </div>
+                        </div>
+                        <div
+                          class="cxd-Combo-toolbar"
+                        >
+                          <button
+                            class="cxd-Button cxd-Button--default cxd-Button--size-default cxd-Combo-addBtn"
+                            type="button"
+                          >
+                            <icon-mock
+                              classname="icon icon-plus"
+                              icon="plus"
+                            />
+                            <span>
+                              新增
+                            </span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <ul
+                      class="cxd-Form-feedback"
+                    >
+                      <li>
+                        组合表单数量不足1个，请添加更多
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div
+              class="cxd-Panel-footerWrap"
+            >
+              <div
+                class="cxd-Panel-btnToolbar cxd-Panel-footer"
+              >
+                <button
+                  class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+                  type="submit"
+                >
+                  <span>
+                    FormSubmit
+                  </span>
+                </button>
+              </div>
+            </div>
+            <div
+              class="resize-sensor"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+            >
+              
+  
+              <div
+                class="resize-sensor-expand"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-shrink"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-appear"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:combo with removable & deleteBtn & deleteApi & deleteConfirmText 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <div
+            class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            style="position: relative;"
+          >
+            <div
+              class="cxd-Panel-heading"
+            >
+              <h3
+                class="cxd-Panel-title"
+              >
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    表单
+                  </span>
+                </span>
+              </h3>
+            </div>
+            <div
+              class="cxd-Panel-body"
+            >
+              <form
+                class="cxd-Form cxd-Form--horizontal"
+                novalidate=""
+              >
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
+                <div
+                  class="cxd-Form-item cxd-Form-item--horizontal removableFalse"
+                  data-role="form-item"
+                >
+                  <label
+                    class="cxd-Form-label cxd-Form-itemColumn--normal"
+                  >
+                    <span>
+                      <span
+                        class="cxd-TplField"
+                      >
+                        <span>
+                          combo
+                        </span>
+                      </span>
+                    </span>
+                  </label>
+                  <div
+                    class="cxd-Form-value"
+                  >
+                    <div
+                      class="cxd-ComboControl cxd-Form-control"
+                    >
+                      <div
+                        class="cxd-Combo cxd-Combo--multi cxd-Combo--hor"
+                      >
+                        <div
+                          class="cxd-Combo-items"
+                        >
+                          <div
+                            class="cxd-Combo-item"
+                          >
+                            <div
+                              class="cxd-Combo-itemInner"
+                            >
+                              <div
+                                class="cxd-Form cxd-Form--row cxd-Combo-form"
+                                novalidate=""
+                              >
+                                <input
+                                  style="display: none;"
+                                  type="submit"
+                                />
+                                <div
+                                  class="cxd-Form-row"
+                                >
+                                  <div
+                                    class="cxd-Form-col"
+                                  >
+                                    <div
+                                      class="cxd-Form-item cxd-Form-item--row"
+                                      data-role="form-item"
+                                    >
+                                      <div
+                                        class="cxd-Form-rowInner"
+                                      >
+                                        <div
+                                          class="cxd-Form-control cxd-TextControl"
+                                        >
+                                          <div
+                                            class="cxd-TextControl-input"
+                                          >
+                                            <input
+                                              autocomplete="off"
+                                              class=""
+                                              name="text"
+                                              placeholder=""
+                                              size="10"
+                                              type="text"
+                                              value="1"
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="cxd-Combo-toolbar"
+                        >
+                          <button
+                            class="cxd-Button cxd-Button--default cxd-Button--size-default cxd-Combo-addBtn"
+                            type="button"
+                          >
+                            <icon-mock
+                              classname="icon icon-plus"
+                              icon="plus"
+                            />
+                            <span>
+                              新增
+                            </span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="cxd-Form-item cxd-Form-item--horizontal deleteBtn"
+                  data-role="form-item"
+                >
+                  <label
+                    class="cxd-Form-label cxd-Form-itemColumn--normal"
+                  >
+                    <span>
+                      <span
+                        class="cxd-TplField"
+                      >
+                        <span>
+                          combo
+                        </span>
+                      </span>
+                    </span>
+                  </label>
+                  <div
+                    class="cxd-Form-value"
+                  >
+                    <div
+                      class="cxd-ComboControl cxd-Form-control"
+                    >
+                      <div
+                        class="cxd-Combo cxd-Combo--multi cxd-Combo--hor"
+                      >
+                        <div
+                          class="cxd-Combo-items"
+                        >
+                          <div
+                            class="cxd-Combo-item"
+                          >
+                            <div
+                              class="cxd-Combo-itemInner"
+                            >
+                              <div
+                                class="cxd-Form cxd-Form--row cxd-Combo-form"
+                                novalidate=""
+                              >
+                                <input
+                                  style="display: none;"
+                                  type="submit"
+                                />
+                                <div
+                                  class="cxd-Form-row"
+                                >
+                                  <div
+                                    class="cxd-Form-col"
+                                  >
+                                    <div
+                                      class="cxd-Form-item cxd-Form-item--row"
+                                      data-role="form-item"
+                                    >
+                                      <div
+                                        class="cxd-Form-rowInner"
+                                      >
+                                        <div
+                                          class="cxd-Form-control cxd-TextControl"
+                                        >
+                                          <div
+                                            class="cxd-TextControl-input"
+                                          >
+                                            <input
+                                              autocomplete="off"
+                                              class=""
+                                              name="text"
+                                              placeholder=""
+                                              size="10"
+                                              type="text"
+                                              value="1"
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <button
+                              class="cxd-Button cxd-Button--default cxd-Button--size-default cxd-Combo-delController"
+                              type="button"
+                            >
+                              <span>
+                                更复杂的删除按钮
+                              </span>
+                            </button>
+                          </div>
+                        </div>
+                        <div
+                          class="cxd-Combo-toolbar"
+                        >
+                          <button
+                            class="cxd-Button cxd-Button--default cxd-Button--size-default cxd-Combo-addBtn"
+                            type="button"
+                          >
+                            <icon-mock
+                              classname="icon icon-plus"
+                              icon="plus"
+                            />
+                            <span>
+                              新增
+                            </span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="cxd-Form-item cxd-Form-item--horizontal superDeleteBtn"
+                  data-role="form-item"
+                >
+                  <label
+                    class="cxd-Form-label cxd-Form-itemColumn--normal"
+                  >
+                    <span>
+                      <span
+                        class="cxd-TplField"
+                      >
+                        <span>
+                          combo
+                        </span>
+                      </span>
+                    </span>
+                  </label>
+                  <div
+                    class="cxd-Form-value"
+                  >
+                    <div
+                      class="cxd-ComboControl cxd-Form-control"
+                    >
+                      <div
+                        class="cxd-Combo cxd-Combo--multi cxd-Combo--hor"
+                      >
+                        <div
+                          class="cxd-Combo-items"
+                        >
+                          <div
+                            class="cxd-Combo-item"
+                          >
+                            <div
+                              class="cxd-Combo-itemInner"
+                            >
+                              <div
+                                class="cxd-Form cxd-Form--row cxd-Combo-form"
+                                novalidate=""
+                              >
+                                <input
+                                  style="display: none;"
+                                  type="submit"
+                                />
+                                <div
+                                  class="cxd-Form-row"
+                                >
+                                  <div
+                                    class="cxd-Form-col"
+                                  >
+                                    <div
+                                      class="cxd-Form-item cxd-Form-item--row"
+                                      data-role="form-item"
+                                    >
+                                      <div
+                                        class="cxd-Form-rowInner"
+                                      >
+                                        <div
+                                          class="cxd-Form-control cxd-TextControl"
+                                        >
+                                          <div
+                                            class="cxd-TextControl-input"
+                                          >
+                                            <input
+                                              autocomplete="off"
+                                              class=""
+                                              name="text"
+                                              placeholder=""
+                                              size="10"
+                                              type="text"
+                                              value="1"
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <button
+                              class="cxd-Button cxd-Button--danger cxd-Button--size-default cxd-Combo-delController"
+                              type="button"
+                            >
+                              <span>
+                                delete
+                              </span>
+                            </button>
+                          </div>
+                        </div>
+                        <div
+                          class="cxd-Combo-toolbar"
+                        >
+                          <button
+                            class="cxd-Button cxd-Button--default cxd-Button--size-default cxd-Combo-addBtn"
+                            type="button"
+                          >
+                            <icon-mock
+                              classname="icon icon-plus"
+                              icon="plus"
+                            />
+                            <span>
+                              新增
+                            </span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div
+              class="cxd-Panel-footerWrap"
+            >
+              <div
+                class="cxd-Panel-btnToolbar cxd-Panel-footer"
+              >
+                <button
+                  class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+                  type="submit"
+                >
+                  <span>
+                    FormSubmit
+                  </span>
+                </button>
+              </div>
+            </div>
+            <div
+              class="resize-sensor"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+            >
+              
+  
+              <div
+                class="resize-sensor-expand"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-shrink"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-appear"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:combo with tabsMode 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <div
+            class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            style="position: relative;"
+          >
+            <div
+              class="cxd-Panel-heading"
+            >
+              <h3
+                class="cxd-Panel-title"
+              >
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    表单
+                  </span>
+                </span>
+              </h3>
+            </div>
+            <div
+              class="cxd-Panel-body"
+            >
+              <form
+                class="cxd-Form cxd-Form--horizontal"
+                novalidate=""
+              >
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
+                <div
+                  class="cxd-Form-item cxd-Form-item--horizontal"
+                  data-role="form-item"
+                >
+                  <label
+                    class="cxd-Form-label cxd-Form-itemColumn--normal"
+                  >
+                    <span>
+                      <span
+                        class="cxd-TplField"
+                      >
+                        <span>
+                          组合多条多行
+                        </span>
+                      </span>
+                    </span>
+                  </label>
+                  <div
+                    class="cxd-Form-value"
+                  >
+                    <div
+                      class="cxd-ComboControl cxd-Form-control"
+                    >
+                      <div
+                        class="cxd-Tabs cxd-ComboTabs"
+                      >
+                        <div
+                          class="cxd-Tabs-linksContainer-wrapper"
+                          style="position: relative;"
+                        >
+                          <div
+                            class="cxd-Tabs-linksContainer"
+                          >
+                            <div
+                              class="cxd-Tabs-linksContainer-main"
+                            >
+                              <ul
+                                class="cxd-Tabs-links"
+                                role="tablist"
+                              >
+                                <li
+                                  class="cxd-Tabs-link is-active"
+                                >
+                                  <a
+                                    title="这是第3个"
+                                  >
+                                    这是第3个
+                                    <div
+                                      class="cxd-Combo-tab-delBtn "
+                                      data-position="bottom"
+                                      data-tooltip="删除"
+                                    >
+                                      <icon-mock
+                                        classname="icon icon-status-close"
+                                        icon="status-close"
+                                      />
+                                    </div>
+                                  </a>
+                                </li>
+                                <li
+                                  class="cxd-Tabs-link"
+                                >
+                                  <a
+                                    title="这是第4个"
+                                  >
+                                    这是第4个
+                                    <div
+                                      class="cxd-Combo-tab-delBtn "
+                                      data-position="bottom"
+                                      data-tooltip="删除"
+                                    >
+                                      <icon-mock
+                                        classname="icon icon-status-close"
+                                        icon="status-close"
+                                      />
+                                    </div>
+                                  </a>
+                                </li>
+                                <li
+                                  class="cxd-Tabs-link cxd-ComboTabs-addLink"
+                                >
+                                  <a>
+                                    <icon-mock
+                                      classname="icon icon-plus"
+                                      icon="plus"
+                                    />
+                                    <span>
+                                      新增
+                                    </span>
+                                  </a>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div
+                            class="resize-sensor"
+                            style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+                          >
+                            
+  
+                            <div
+                              class="resize-sensor-expand"
+                              style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                            >
+                              
+    
+                              <div
+                                style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                              />
+                              
+  
+                            </div>
+                            
+  
+                            <div
+                              class="resize-sensor-shrink"
+                              style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                            >
+                              
+    
+                              <div
+                                style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                              />
+                              
+  
+                            </div>
+                            
+  
+                            <div
+                              class="resize-sensor-appear"
+                              style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                            />
+                          </div>
+                        </div>
+                        <div
+                          class="cxd-Tabs-content"
+                        >
+                          <div
+                            class="in is-active cxd-Tabs-pane"
+                          >
+                            <div
+                              class="cxd-Combo-itemInner"
+                            >
+                              <div
+                                class="cxd-Form cxd-Form--normal cxd-Combo-form"
+                                novalidate=""
+                              >
+                                <input
+                                  style="display: none;"
+                                  type="submit"
+                                />
+                                <div
+                                  class="cxd-Form-item cxd-Form-item--normal"
+                                  data-role="form-item"
+                                >
+                                  <label
+                                    class="cxd-Form-label"
+                                  >
+                                    <span>
+                                      <span
+                                        class="cxd-TplField"
+                                      >
+                                        <span>
+                                          文本
+                                        </span>
+                                      </span>
+                                    </span>
+                                  </label>
+                                  <div
+                                    class="cxd-Form-control cxd-TextControl"
+                                  >
+                                    <div
+                                      class="cxd-TextControl-input"
+                                    >
+                                      <input
+                                        autocomplete="off"
+                                        class=""
+                                        name="a"
+                                        placeholder=""
+                                        size="10"
+                                        type="text"
+                                        value="111"
+                                      />
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div
+              class="cxd-Panel-footerWrap"
+            >
+              <div
+                class="cxd-Panel-btnToolbar cxd-Panel-footer"
+              >
+                <button
+                  class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+                  type="submit"
+                >
+                  <span>
+                    FormSubmit
+                  </span>
+                </button>
+              </div>
+            </div>
+            <div
+              class="resize-sensor"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+            >
+              
+  
+              <div
+                class="resize-sensor-expand"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-shrink"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-appear"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:combo with unique: unique error 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <div
+            class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            style="position: relative;"
+          >
+            <div
+              class="cxd-Panel-heading"
+            >
+              <h3
+                class="cxd-Panel-title"
+              >
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    表单
+                  </span>
+                </span>
+              </h3>
+            </div>
+            <div
+              class="cxd-Panel-body"
+            >
+              <form
+                class="cxd-Form cxd-Form--horizontal"
+                novalidate=""
+              >
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
+                <div
+                  class="cxd-Form-item cxd-Form-item--horizontal is-error"
+                  data-role="form-item"
+                >
+                  <label
+                    class="cxd-Form-label cxd-Form-itemColumn--normal"
+                  >
+                    <span>
+                      <span
+                        class="cxd-TplField"
+                      >
+                        <span>
+                          唯一
+                        </span>
+                      </span>
+                    </span>
+                  </label>
+                  <div
+                    class="cxd-Form-value"
+                  >
+                    <div
+                      class="cxd-ComboControl cxd-Form-control is-error"
+                    >
+                      <div
+                        class="cxd-Combo cxd-Combo--multi cxd-Combo--hor"
+                      >
+                        <div
+                          class="cxd-Combo-items"
+                        >
+                          <div
+                            class="cxd-Combo-item"
+                          >
+                            <div
+                              class="cxd-Combo-itemInner"
+                            >
+                              <div
+                                class="cxd-Form cxd-Form--row cxd-Combo-form"
+                                novalidate=""
+                              >
+                                <input
+                                  style="display: none;"
+                                  type="submit"
+                                />
+                                <div
+                                  class="cxd-Form-row"
+                                >
+                                  <div
+                                    class="cxd-Form-col"
+                                  >
+                                    <div
+                                      class="cxd-Form-item cxd-Form-item--row is-error"
+                                      data-role="form-item"
+                                    >
+                                      <div
+                                        class="cxd-Form-rowInner"
+                                      >
+                                        <div
+                                          class="cxd-Form-control is-error cxd-TextControl"
+                                        >
+                                          <div
+                                            class="cxd-TextControl-input"
+                                          >
+                                            <input
+                                              autocomplete="off"
+                                              class=""
+                                              name="text"
+                                              placeholder="文本"
+                                              size="10"
+                                              type="text"
+                                              value="text-one"
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <ul
+                                        class="cxd-Form-feedback"
+                                      >
+                                        <li>
+                                          当前值不唯一
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <a
+                              class="cxd-Combo-delBtn "
+                              data-position="bottom"
+                              data-tooltip="删除"
+                            >
+                              <icon-mock
+                                classname="icon icon-status-close"
+                                icon="status-close"
+                              />
+                            </a>
+                          </div>
+                          <div
+                            class="cxd-Combo-item"
+                          >
+                            <div
+                              class="cxd-Combo-itemInner"
+                            >
+                              <div
+                                class="cxd-Form cxd-Form--row cxd-Combo-form"
+                                novalidate=""
+                              >
+                                <input
+                                  style="display: none;"
+                                  type="submit"
+                                />
+                                <div
+                                  class="cxd-Form-row"
+                                >
+                                  <div
+                                    class="cxd-Form-col"
+                                  >
+                                    <div
+                                      class="cxd-Form-item cxd-Form-item--row is-error"
+                                      data-role="form-item"
+                                    >
+                                      <div
+                                        class="cxd-Form-rowInner"
+                                      >
+                                        <div
+                                          class="cxd-Form-control is-error cxd-TextControl"
+                                        >
+                                          <div
+                                            class="cxd-TextControl-input"
+                                          >
+                                            <input
+                                              autocomplete="off"
+                                              class=""
+                                              name="text"
+                                              placeholder="文本"
+                                              size="10"
+                                              type="text"
+                                              value="text-one"
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <ul
+                                        class="cxd-Form-feedback"
+                                      >
+                                        <li>
+                                          当前值不唯一
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <a
+                              class="cxd-Combo-delBtn "
+                              data-position="bottom"
+                              data-tooltip="删除"
+                            >
+                              <icon-mock
+                                classname="icon icon-status-close"
+                                icon="status-close"
+                              />
+                            </a>
+                          </div>
+                        </div>
+                        <div
+                          class="cxd-Combo-toolbar"
+                        >
+                          <button
+                            class="cxd-Button cxd-Button--default cxd-Button--size-default cxd-Combo-addBtn"
+                            type="button"
+                          >
+                            <icon-mock
+                              classname="icon icon-plus"
+                              icon="plus"
+                            />
+                            <span>
+                              新增
+                            </span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <ul
+                      class="cxd-Form-feedback"
+                    >
+                      <li>
+                        表单验证失败
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div
+              class="cxd-Panel-footerWrap"
+            >
+              <div
+                class="cxd-Panel-btnToolbar cxd-Panel-footer"
+              >
+                <button
+                  class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+                  type="submit"
+                >
+                  <span>
+                    FormSubmit
+                  </span>
+                </button>
+              </div>
+            </div>
+            <div
+              class="resize-sensor"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+            >
+              
+  
+              <div
+                class="resize-sensor-expand"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-shrink"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-appear"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

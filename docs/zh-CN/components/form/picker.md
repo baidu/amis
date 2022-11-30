@@ -88,6 +88,14 @@ order: 35
             }
           ]
         },
+        "footerToolbar": [
+          "statistics",
+          {
+            "type": "pagination",
+            "showPageInput": true,
+            "layout": "perPage,pager,go"
+          }
+        ],
         "columns": [
           {
             "name": "engine",

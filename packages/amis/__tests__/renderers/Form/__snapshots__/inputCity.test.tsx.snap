@@ -1,0 +1,952 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:inputCity 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <div
+            class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            style="position: relative;"
+          >
+            <div
+              class="cxd-Panel-heading"
+            >
+              <h3
+                class="cxd-Panel-title"
+              >
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    表单
+                  </span>
+                </span>
+              </h3>
+            </div>
+            <div
+              class="cxd-Panel-body"
+            >
+              <form
+                class="cxd-Form cxd-Form--horizontal"
+                novalidate=""
+              >
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
+                <div
+                  class="cxd-Form-item cxd-Form-item--horizontal"
+                  data-role="form-item"
+                >
+                  <label
+                    class="cxd-Form-label cxd-Form-itemColumn--normal"
+                  >
+                    <span>
+                      <span
+                        class="cxd-TplField"
+                      >
+                        <span>
+                          城市
+                        </span>
+                      </span>
+                    </span>
+                  </label>
+                  <div
+                    class="cxd-Form-value"
+                  >
+                    <div
+                      class="cxd-CityPicker"
+                    >
+                      <div
+                        aria-expanded="false"
+                        aria-haspopup="listbox"
+                        aria-labelledby="downshift-0-label"
+                        class="cxd-Select is-focused"
+                        role="combobox"
+                        tabindex="0"
+                      >
+                        <div
+                          class="cxd-Select-valueWrap"
+                        >
+                          <div
+                            class="cxd-Select-value"
+                          >
+                            北京市
+                          </div>
+                        </div>
+                        <a
+                          class="cxd-Select-clear"
+                        >
+                          <icon-mock
+                            classname="icon icon-close-small"
+                            icon="close-small"
+                          />
+                        </a>
+                        <span
+                          class="cxd-Select-arrow"
+                        >
+                          <icon-mock
+                            classname="icon icon-right-arrow-bold"
+                            icon="right-arrow-bold"
+                          />
+                        </span>
+                      </div>
+                      <div
+                        aria-expanded="false"
+                        aria-haspopup="listbox"
+                        aria-labelledby="downshift-1-label"
+                        class="cxd-Select"
+                        role="combobox"
+                        tabindex="0"
+                      >
+                        <div
+                          class="cxd-Select-valueWrap"
+                        >
+                          <div
+                            class="cxd-Select-value"
+                          >
+                            北京市市辖区
+                          </div>
+                        </div>
+                        <a
+                          class="cxd-Select-clear"
+                        >
+                          <icon-mock
+                            classname="icon icon-close-small"
+                            icon="close-small"
+                          />
+                        </a>
+                        <span
+                          class="cxd-Select-arrow"
+                        >
+                          <icon-mock
+                            classname="icon icon-right-arrow-bold"
+                            icon="right-arrow-bold"
+                          />
+                        </span>
+                      </div>
+                      <div
+                        aria-expanded="false"
+                        aria-haspopup="listbox"
+                        aria-labelledby="downshift-2-label"
+                        class="cxd-Select"
+                        role="combobox"
+                        tabindex="0"
+                      >
+                        <div
+                          class="cxd-Select-valueWrap"
+                        >
+                          <div
+                            class="cxd-Select-value"
+                          >
+                            海淀区
+                          </div>
+                        </div>
+                        <a
+                          class="cxd-Select-clear"
+                        >
+                          <icon-mock
+                            classname="icon icon-close-small"
+                            icon="close-small"
+                          />
+                        </a>
+                        <span
+                          class="cxd-Select-arrow"
+                        >
+                          <icon-mock
+                            classname="icon icon-right-arrow-bold"
+                            icon="right-arrow-bold"
+                          />
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div
+              class="cxd-Panel-footerWrap"
+            >
+              <div
+                class="cxd-Panel-btnToolbar cxd-Panel-footer"
+              >
+                <button
+                  class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+                  type="submit"
+                >
+                  <span>
+                    Submit
+                  </span>
+                </button>
+              </div>
+            </div>
+            <div
+              class="resize-sensor"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+            >
+              
+  
+              <div
+                class="resize-sensor-expand"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-shrink"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-appear"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:inputCity with searchable: open select 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <div
+            class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            style="position: relative;"
+          >
+            <div
+              class="cxd-Panel-heading"
+            >
+              <h3
+                class="cxd-Panel-title"
+              >
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    表单
+                  </span>
+                </span>
+              </h3>
+            </div>
+            <div
+              class="cxd-Panel-body"
+            >
+              <form
+                class="cxd-Form cxd-Form--horizontal"
+                novalidate=""
+              >
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
+                <div
+                  class="cxd-Form-item cxd-Form-item--horizontal"
+                  data-role="form-item"
+                >
+                  <label
+                    class="cxd-Form-label cxd-Form-itemColumn--normal"
+                  >
+                    <span>
+                      <span
+                        class="cxd-TplField"
+                      >
+                        <span>
+                          城市
+                        </span>
+                      </span>
+                    </span>
+                  </label>
+                  <div
+                    class="cxd-Form-value"
+                  >
+                    <div
+                      class="cxd-CityPicker"
+                    >
+                      <div
+                        aria-expanded="true"
+                        aria-haspopup="listbox"
+                        aria-labelledby="downshift-3-label"
+                        aria-owns="downshift-3-menu"
+                        class="cxd-Select cxd-Select--searchable is-opened has-popover"
+                        role="combobox"
+                        style="position: relative;"
+                        tabindex="0"
+                      >
+                        <div
+                          class="cxd-Select-valueWrap"
+                        >
+                          <div
+                            class="cxd-Select-placeholder"
+                          >
+                            请选择
+                          </div>
+                        </div>
+                        <span
+                          class="cxd-Select-arrow"
+                        >
+                          <icon-mock
+                            classname="icon icon-right-arrow-bold"
+                            icon="right-arrow-bold"
+                          />
+                        </span>
+                        <div
+                          class="cxd-PopOver cxd-Select-popover cxd-PopOver--leftBottomLeftTop"
+                          style="display: block; width: auto; left: 0px; top: 0px; position: relative;"
+                          theme="cxd"
+                        >
+                          <div
+                            class="cxd-PopOver-overlay"
+                          />
+                          <div
+                            class="cxd-Select-menu"
+                          >
+                            <div
+                              class="cxd-Select-input"
+                            >
+                              <icon-mock
+                                classname="icon icon-search"
+                                icon="search"
+                              />
+                              <input
+                                aria-autocomplete="list"
+                                aria-controls="downshift-3-menu"
+                                aria-labelledby="downshift-3-label"
+                                autocomplete="off"
+                                id="downshift-3-input"
+                                placeholder="搜索"
+                                type="text"
+                                value=""
+                              />
+                            </div>
+                            <div
+                              aria-selected="false"
+                              class="cxd-Select-option"
+                              id="downshift-3-item-0"
+                              role="option"
+                            >
+                              <span
+                                class="cxd-Select-option-content"
+                                title="北京市"
+                              >
+                                北京市
+                              </span>
+                            </div>
+                            <div
+                              aria-selected="false"
+                              class="cxd-Select-option"
+                              id="downshift-3-item-1"
+                              role="option"
+                            >
+                              <span
+                                class="cxd-Select-option-content"
+                                title="天津市"
+                              >
+                                天津市
+                              </span>
+                            </div>
+                            <div
+                              aria-selected="false"
+                              class="cxd-Select-option"
+                              id="downshift-3-item-2"
+                              role="option"
+                            >
+                              <span
+                                class="cxd-Select-option-content"
+                                title="河北省"
+                              >
+                                河北省
+                              </span>
+                            </div>
+                            <div
+                              aria-selected="false"
+                              class="cxd-Select-option"
+                              id="downshift-3-item-3"
+                              role="option"
+                            >
+                              <span
+                                class="cxd-Select-option-content"
+                                title="山西省"
+                              >
+                                山西省
+                              </span>
+                            </div>
+                            <div
+                              aria-selected="false"
+                              class="cxd-Select-option"
+                              id="downshift-3-item-4"
+                              role="option"
+                            >
+                              <span
+                                class="cxd-Select-option-content"
+                                title="内蒙古自治区"
+                              >
+                                内蒙古自治区
+                              </span>
+                            </div>
+                            <div
+                              aria-selected="false"
+                              class="cxd-Select-option"
+                              id="downshift-3-item-5"
+                              role="option"
+                            >
+                              <span
+                                class="cxd-Select-option-content"
+                                title="辽宁省"
+                              >
+                                辽宁省
+                              </span>
+                            </div>
+                            <div
+                              aria-selected="false"
+                              class="cxd-Select-option"
+                              id="downshift-3-item-6"
+                              role="option"
+                            >
+                              <span
+                                class="cxd-Select-option-content"
+                                title="吉林省"
+                              >
+                                吉林省
+                              </span>
+                            </div>
+                            <div
+                              aria-selected="false"
+                              class="cxd-Select-option"
+                              id="downshift-3-item-7"
+                              role="option"
+                            >
+                              <span
+                                class="cxd-Select-option-content"
+                                title="黑龙江省"
+                              >
+                                黑龙江省
+                              </span>
+                            </div>
+                            <div
+                              aria-selected="false"
+                              class="cxd-Select-option"
+                              id="downshift-3-item-8"
+                              role="option"
+                            >
+                              <span
+                                class="cxd-Select-option-content"
+                                title="上海市"
+                              >
+                                上海市
+                              </span>
+                            </div>
+                            <div
+                              aria-selected="false"
+                              class="cxd-Select-option"
+                              id="downshift-3-item-9"
+                              role="option"
+                            >
+                              <span
+                                class="cxd-Select-option-content"
+                                title="江苏省"
+                              >
+                                江苏省
+                              </span>
+                            </div>
+                            <div
+                              aria-selected="false"
+                              class="cxd-Select-option"
+                              id="downshift-3-item-10"
+                              role="option"
+                            >
+                              <span
+                                class="cxd-Select-option-content"
+                                title="浙江省"
+                              >
+                                浙江省
+                              </span>
+                            </div>
+                            <div
+                              aria-selected="false"
+                              class="cxd-Select-option"
+                              id="downshift-3-item-11"
+                              role="option"
+                            >
+                              <span
+                                class="cxd-Select-option-content"
+                                title="安徽省"
+                              >
+                                安徽省
+                              </span>
+                            </div>
+                            <div
+                              aria-selected="false"
+                              class="cxd-Select-option"
+                              id="downshift-3-item-12"
+                              role="option"
+                            >
+                              <span
+                                class="cxd-Select-option-content"
+                                title="福建省"
+                              >
+                                福建省
+                              </span>
+                            </div>
+                            <div
+                              aria-selected="false"
+                              class="cxd-Select-option"
+                              id="downshift-3-item-13"
+                              role="option"
+                            >
+                              <span
+                                class="cxd-Select-option-content"
+                                title="江西省"
+                              >
+                                江西省
+                              </span>
+                            </div>
+                            <div
+                              aria-selected="false"
+                              class="cxd-Select-option"
+                              id="downshift-3-item-14"
+                              role="option"
+                            >
+                              <span
+                                class="cxd-Select-option-content"
+                                title="山东省"
+                              >
+                                山东省
+                              </span>
+                            </div>
+                            <div
+                              aria-selected="false"
+                              class="cxd-Select-option"
+                              id="downshift-3-item-15"
+                              role="option"
+                            >
+                              <span
+                                class="cxd-Select-option-content"
+                                title="河南省"
+                              >
+                                河南省
+                              </span>
+                            </div>
+                            <div
+                              aria-selected="false"
+                              class="cxd-Select-option"
+                              id="downshift-3-item-16"
+                              role="option"
+                            >
+                              <span
+                                class="cxd-Select-option-content"
+                                title="湖北省"
+                              >
+                                湖北省
+                              </span>
+                            </div>
+                            <div
+                              aria-selected="false"
+                              class="cxd-Select-option"
+                              id="downshift-3-item-17"
+                              role="option"
+                            >
+                              <span
+                                class="cxd-Select-option-content"
+                                title="湖南省"
+                              >
+                                湖南省
+                              </span>
+                            </div>
+                            <div
+                              aria-selected="false"
+                              class="cxd-Select-option"
+                              id="downshift-3-item-18"
+                              role="option"
+                            >
+                              <span
+                                class="cxd-Select-option-content"
+                                title="广东省"
+                              >
+                                广东省
+                              </span>
+                            </div>
+                            <div
+                              aria-selected="false"
+                              class="cxd-Select-option"
+                              id="downshift-3-item-19"
+                              role="option"
+                            >
+                              <span
+                                class="cxd-Select-option-content"
+                                title="广西壮族自治区"
+                              >
+                                广西壮族自治区
+                              </span>
+                            </div>
+                            <div
+                              aria-selected="false"
+                              class="cxd-Select-option"
+                              id="downshift-3-item-20"
+                              role="option"
+                            >
+                              <span
+                                class="cxd-Select-option-content"
+                                title="海南省"
+                              >
+                                海南省
+                              </span>
+                            </div>
+                            <div
+                              aria-selected="false"
+                              class="cxd-Select-option"
+                              id="downshift-3-item-21"
+                              role="option"
+                            >
+                              <span
+                                class="cxd-Select-option-content"
+                                title="重庆市"
+                              >
+                                重庆市
+                              </span>
+                            </div>
+                            <div
+                              aria-selected="false"
+                              class="cxd-Select-option"
+                              id="downshift-3-item-22"
+                              role="option"
+                            >
+                              <span
+                                class="cxd-Select-option-content"
+                                title="四川省"
+                              >
+                                四川省
+                              </span>
+                            </div>
+                            <div
+                              aria-selected="false"
+                              class="cxd-Select-option"
+                              id="downshift-3-item-23"
+                              role="option"
+                            >
+                              <span
+                                class="cxd-Select-option-content"
+                                title="贵州省"
+                              >
+                                贵州省
+                              </span>
+                            </div>
+                            <div
+                              aria-selected="false"
+                              class="cxd-Select-option"
+                              id="downshift-3-item-24"
+                              role="option"
+                            >
+                              <span
+                                class="cxd-Select-option-content"
+                                title="云南省"
+                              >
+                                云南省
+                              </span>
+                            </div>
+                            <div
+                              aria-selected="false"
+                              class="cxd-Select-option"
+                              id="downshift-3-item-25"
+                              role="option"
+                            >
+                              <span
+                                class="cxd-Select-option-content"
+                                title="西藏自治区"
+                              >
+                                西藏自治区
+                              </span>
+                            </div>
+                            <div
+                              aria-selected="false"
+                              class="cxd-Select-option"
+                              id="downshift-3-item-26"
+                              role="option"
+                            >
+                              <span
+                                class="cxd-Select-option-content"
+                                title="陕西省"
+                              >
+                                陕西省
+                              </span>
+                            </div>
+                            <div
+                              aria-selected="false"
+                              class="cxd-Select-option"
+                              id="downshift-3-item-27"
+                              role="option"
+                            >
+                              <span
+                                class="cxd-Select-option-content"
+                                title="甘肃省"
+                              >
+                                甘肃省
+                              </span>
+                            </div>
+                            <div
+                              aria-selected="false"
+                              class="cxd-Select-option"
+                              id="downshift-3-item-28"
+                              role="option"
+                            >
+                              <span
+                                class="cxd-Select-option-content"
+                                title="青海省"
+                              >
+                                青海省
+                              </span>
+                            </div>
+                            <div
+                              aria-selected="false"
+                              class="cxd-Select-option"
+                              id="downshift-3-item-29"
+                              role="option"
+                            >
+                              <span
+                                class="cxd-Select-option-content"
+                                title="宁夏回族自治区"
+                              >
+                                宁夏回族自治区
+                              </span>
+                            </div>
+                            <div
+                              aria-selected="false"
+                              class="cxd-Select-option"
+                              id="downshift-3-item-30"
+                              role="option"
+                            >
+                              <span
+                                class="cxd-Select-option-content"
+                                title="新疆维吾尔自治区"
+                              >
+                                新疆维吾尔自治区
+                              </span>
+                            </div>
+                            <div
+                              aria-selected="false"
+                              class="cxd-Select-option"
+                              id="downshift-3-item-31"
+                              role="option"
+                            >
+                              <span
+                                class="cxd-Select-option-content"
+                                title="台湾省"
+                              >
+                                台湾省
+                              </span>
+                            </div>
+                            <div
+                              aria-selected="false"
+                              class="cxd-Select-option"
+                              id="downshift-3-item-32"
+                              role="option"
+                            >
+                              <span
+                                class="cxd-Select-option-content"
+                                title="香港特别行政区"
+                              >
+                                香港特别行政区
+                              </span>
+                            </div>
+                            <div
+                              aria-selected="false"
+                              class="cxd-Select-option"
+                              id="downshift-3-item-33"
+                              role="option"
+                            >
+                              <span
+                                class="cxd-Select-option-content"
+                                title="澳门特别行政区"
+                              >
+                                澳门特别行政区
+                              </span>
+                            </div>
+                          </div>
+                          <div
+                            class="resize-sensor"
+                            style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+                          >
+                            
+  
+                            <div
+                              class="resize-sensor-expand"
+                              style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                            >
+                              
+    
+                              <div
+                                style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                              />
+                              
+  
+                            </div>
+                            
+  
+                            <div
+                              class="resize-sensor-shrink"
+                              style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                            >
+                              
+    
+                              <div
+                                style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                              />
+                              
+  
+                            </div>
+                            
+  
+                            <div
+                              class="resize-sensor-appear"
+                              style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                            />
+                          </div>
+                        </div>
+                        <div
+                          class="resize-sensor"
+                          style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+                        >
+                          
+  
+                          <div
+                            class="resize-sensor-expand"
+                            style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                          >
+                            
+    
+                            <div
+                              style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                            />
+                            
+  
+                          </div>
+                          
+  
+                          <div
+                            class="resize-sensor-shrink"
+                            style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                          >
+                            
+    
+                            <div
+                              style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                            />
+                            
+  
+                          </div>
+                          
+  
+                          <div
+                            class="resize-sensor-appear"
+                            style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div
+              class="cxd-Panel-footerWrap"
+            >
+              <div
+                class="cxd-Panel-btnToolbar cxd-Panel-footer"
+              >
+                <button
+                  class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+                  type="submit"
+                >
+                  <span>
+                    Submit
+                  </span>
+                </button>
+              </div>
+            </div>
+            <div
+              class="resize-sensor"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+            >
+              
+  
+              <div
+                class="resize-sensor-expand"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-shrink"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-appear"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

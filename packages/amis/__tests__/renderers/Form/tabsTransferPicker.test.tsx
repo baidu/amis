@@ -1,11 +1,17 @@
-import React = require('react');
+/**
+ * 组件名称：TabsTransferPicker 穿梭选择器
+ * 
+ * 单测内容：
+ 1. 点击选择
+ */
+
 import {render, fireEvent, cleanup, screen} from '@testing-library/react';
 import '../../../src';
 import {render as amisRender} from '../../../src';
 import {makeEnv, wait} from '../../helper';
 
 test('Renderer:TabsTransferPicker', async () => {
-  const {container, findByText} = render(
+  const {container, findByText, baseElement} = render(
     amisRender(
       {
         type: 'page',
@@ -151,28 +157,28 @@ test('Renderer:TabsTransferPicker', async () => {
   const picker = await findByText('请选择');
 
   fireEvent.click(picker);
+  await wait(500);
+  expect(baseElement.querySelector('.cxd-Modal')!).toBeInTheDocument();
 
   const option = await findByText('诸葛亮');
 
-  const checkbox = document.querySelector('.cxd-Checkbox input')!;
+  expect(option).toBeInTheDocument();
+  fireEvent.click(option);
 
-  fireEvent.click(checkbox);
-
-  await wait(500);
+  await wait(200);
+  expect(baseElement).toMatchSnapshot('dialog open');
 
   const confirm = await findByText('确认');
 
+  expect(confirm).toBeInTheDocument();
   fireEvent.click(confirm);
 
-  await wait(500);
+  await wait(1000);
+  expect(baseElement.querySelector('.cxd-Modal')!).not.toBeInTheDocument();
 
-  // TODO: 应该是点了但不知为何没反应
-  //  screen.debug();
-  // const dialog = document.querySelector('.cxd-Selections-item')!;
+  const valueWrap = container.querySelector('.cxd-ResultBox-value-wrap')!;
+  expect(valueWrap).not.toHaveTextContent('请选择');
+  expect(valueWrap).toHaveTextContent('诸葛亮');
 
-  // console.log('...dialog', dialog.innerHTML);
-
-  // screen.debug();
-
-  // expect(container).toMatchSnapshot();
+  expect(baseElement).toMatchSnapshot();
 });

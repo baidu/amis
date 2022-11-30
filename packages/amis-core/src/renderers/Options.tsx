@@ -392,6 +392,8 @@ export function registerOptionsControl(config: OptionsConfig) {
         return true;
       } else if (nextProps.formItem?.expressionsInOptions) {
         return true;
+      } else if (nextProps.formItem?.filteredOptions) {
+        return true;
       }
 
       if (anyChanged(detectProps, this.props, nextProps)) {

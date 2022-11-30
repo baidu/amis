@@ -9,7 +9,8 @@ import {
   ActionObject,
   isPureVariable,
   resolveVariableAndFilter,
-  resolveEventData
+  resolveEventData,
+  toNumber
 } from 'amis-core';
 import {Spinner} from 'amis-ui';
 import {FormOptionsSchema, SchemaApi} from '../../Schema';
@@ -108,6 +109,7 @@ export interface TreeProps
       | 'className'
       | 'inputClassName'
       | 'descriptionClassName'
+      | 'deferApi'
     > {
   enableNodePath?: boolean;
   pathSeparator?: string;
@@ -229,7 +231,9 @@ export default class TreeControl extends React.Component<TreeProps> {
       deferLoad,
       expandTreeOptions,
       translate: __,
-      data
+      data,
+      virtualThreshold,
+      itemHeight
     } = this.props;
     let {highlightTxt} = this.props;
 
@@ -291,6 +295,10 @@ export default class TreeControl extends React.Component<TreeProps> {
             bultinCUD={!addControls && !editControls}
             onDeferLoad={deferLoad}
             onExpandTree={expandTreeOptions}
+            virtualThreshold={virtualThreshold}
+            itemHeight={
+              toNumber(itemHeight) > 0 ? toNumber(itemHeight) : undefined
+            }
           />
         )}
       </div>

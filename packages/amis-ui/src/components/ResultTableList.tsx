@@ -146,7 +146,9 @@ export class BaseResultTableSelection extends BaseSelection<
       option2value,
       onChange,
       translate: __,
-      placeholder
+      placeholder,
+      virtualThreshold,
+      itemHeight
     } = this.props;
 
     const {searching, tableOptions, searchTableOptions} = this.state;
@@ -163,6 +165,8 @@ export class BaseResultTableSelection extends BaseSelection<
             onChange={onChange}
             multiple={false}
             resultMode={true}
+            virtualThreshold={virtualThreshold}
+            itemHeight={itemHeight}
             cellRender={(
               column: {
                 name: string;
