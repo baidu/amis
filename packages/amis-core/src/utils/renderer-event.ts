@@ -92,7 +92,6 @@ export const bindEvent = (renderer: any) => {
   if (!renderer) {
     return undefined;
   }
-  console.log(rendererEventListeners);
   const listeners: EventListeners = renderer.props.$schema.onEvent;
   if (listeners) {
     // 暂存
