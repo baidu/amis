@@ -185,7 +185,6 @@ export default class IconSelectControl extends React.PureComponent<
   handleConfirm() {
     const checkedIcon = this.state.tmpCheckIconId;
     if (this.props.returnSvg) {
-      console.log('kkk')
       this.props.onChange &&
         this.props.onChange(checkedIcon && checkedIcon.svg || '');
     } else {

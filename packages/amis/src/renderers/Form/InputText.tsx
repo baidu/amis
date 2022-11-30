@@ -864,7 +864,6 @@ export default class TextControl extends React.PureComponent<
   }
 
   toggleRevealPassword() {
-    console.log('toggleRevealPassword', this.state.revealPassword)
     this.setState({revealPassword: !this.state.revealPassword});
   }
 
