@@ -292,6 +292,7 @@ exports[`Renderer:button 2`] = `
       </div>
       <div
         class="cxd-Modal-body"
+        role="dialog-body"
       >
         <span
           class="cxd-TplField"

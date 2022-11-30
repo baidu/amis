@@ -15,7 +15,7 @@ import {isEffectiveApi, isApiOutdated} from 'amis-core';
 import {isEmpty, createObject, autobind, isMobile} from 'amis-core';
 
 import {FormOptionsSchema, SchemaApi} from '../../Schema';
-import {Spinner, Select} from 'amis-ui';
+import {Spinner, Select, SpinnerExtraProps} from 'amis-ui';
 import {BaseTransferRenderer, TransferControlSchema} from './Transfer';
 import {TransferDropDown} from 'amis-ui';
 
@@ -27,7 +27,9 @@ import {supportStatic} from './StaticHoc';
  * Select 下拉选择框。
  * 文档：https://baidu.gitee.io/amis/docs/components/form/select
  */
-export interface SelectControlSchema extends FormOptionsSchema {
+export interface SelectControlSchema
+  extends FormOptionsSchema,
+    SpinnerExtraProps {
   type: 'select' | 'multi-select';
 
   /**
@@ -135,7 +137,7 @@ export interface SelectControlSchema extends FormOptionsSchema {
   optionClassName?: SchemaClassName;
 }
 
-export interface SelectProps extends OptionsControlProps {
+export interface SelectProps extends OptionsControlProps, SpinnerExtraProps {
   autoComplete?: Api;
   searchable?: boolean;
   showInvalidMatch?: boolean;
@@ -510,7 +512,8 @@ export interface TransferDropDownProps
       | 'inputClassName'
       | 'className'
       | 'descriptionClassName'
-    > {
+    >,
+    SpinnerExtraProps {
   borderMode?: 'full' | 'half' | 'none';
   useMobileUI?: boolean;
 }
@@ -548,7 +551,8 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
       placeholder,
       itemHeight,
       virtualThreshold,
-      rightMode
+      rightMode,
+      loadingConfig
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载
@@ -601,7 +605,12 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
           virtualListHeight={266}
         />
 
-        <Spinner overlay key="info" show={loading} />
+        <Spinner
+          overlay
+          key="info"
+          show={loading}
+          loadingConfig={loadingConfig}
+        />
       </>
     );
   }

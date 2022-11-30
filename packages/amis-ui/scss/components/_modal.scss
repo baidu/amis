@@ -93,6 +93,7 @@
     border-bottom: var(--Modal-body-borderTop);
     border-top-left-radius: var(--Modal-content-borderRadius);
     border-top-right-radius: var(--Modal-content-borderRadius);
+    z-index: 150; // 高于 Spinner 的 overlay
   }
 
   &-title {

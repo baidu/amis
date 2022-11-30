@@ -12,7 +12,7 @@ import {
   isEffectiveApi,
   str2AsyncFunction
 } from 'amis-core';
-import {Spinner} from 'amis-ui';
+import {Spinner, SpinnerExtraProps} from 'amis-ui';
 import {
   autobind,
   isObject,
@@ -60,7 +60,7 @@ export type ComposedDataProvider = DataProvider | DataProviderCollection;
  * Service 服务类控件。
  * 文档：https://baidu.gitee.io/amis/docs/components/service
  */
-export interface ServiceSchema extends BaseSchema {
+export interface ServiceSchema extends BaseSchema, SpinnerExtraProps {
   /**
    * 指定为 Service 数据拉取控件。
    */
@@ -727,7 +727,8 @@ export default class Service extends React.Component<ServiceProps> {
       store,
       render,
       classPrefix: ns,
-      classnames: cx
+      classnames: cx,
+      loadingConfig
     } = this.props;
 
     return (
@@ -747,7 +748,13 @@ export default class Service extends React.Component<ServiceProps> {
 
         {this.renderBody()}
 
-        <Spinner size="lg" overlay key="info" show={store.loading} />
+        <Spinner
+          size="lg"
+          overlay
+          key="info"
+          show={store.loading}
+          loadingConfig={loadingConfig}
+        />
 
         {render(
           // 单独给 feedback 服务的，handleAction 里面先不要处理弹窗

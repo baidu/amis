@@ -11,11 +11,13 @@ import {LocaleProps, localeable} from 'amis-core';
 import {BaseSelectionProps} from './Selection';
 import Tree from './Tree';
 import TransferSearch from './TransferSearch';
+import {SpinnerExtraProps} from './Spinner';
 
 export interface ResultTreeListProps
   extends ThemeProps,
     LocaleProps,
-    BaseSelectionProps {
+    BaseSelectionProps,
+    SpinnerExtraProps {
   className?: string;
   title?: string;
   searchable?: boolean;
@@ -265,7 +267,8 @@ export class BaseResultTreeList extends React.Component<
       translate: __,
       placeholder,
       virtualThreshold,
-      itemHeight
+      itemHeight,
+      loadingConfig
     } = this.props;
 
     const {treeOptions, searching, searchTreeOptions} = this.state;
@@ -282,6 +285,7 @@ export class BaseResultTreeList extends React.Component<
             showIcon={false}
             itemRender={itemRender}
             removable
+            loadingConfig={loadingConfig}
             onDelete={(option: Option) => this.deleteTreeChecked(option)}
             virtualThreshold={virtualThreshold}
             itemHeight={itemHeight}

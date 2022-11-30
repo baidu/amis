@@ -17,8 +17,11 @@ import ChainedSelection from './ChainedSelection';
 import {Icon} from './icons';
 import {localeable} from 'amis-core';
 import Tree from './Tree';
+import {SpinnerExtraProps} from './Spinner';
 
-export interface AssociatedSelectionProps extends BaseSelectionProps {
+export interface AssociatedSelectionProps
+  extends BaseSelectionProps,
+    SpinnerExtraProps {
   leftOptions: Options;
   leftDefaultValue?: any;
   leftMode?: 'tree' | 'list' | 'group';
@@ -122,7 +125,8 @@ export class AssociatedSelection extends BaseSelection<
       itemRender,
       labelField,
       virtualThreshold,
-      itemHeight
+      itemHeight,
+      loadingConfig
     } = this.props;
 
     const selectdOption = BaseSelection.resolveSelected(
@@ -145,6 +149,7 @@ export class AssociatedSelection extends BaseSelection<
               onDeferLoad={this.handleLeftDeferLoad}
               virtualThreshold={virtualThreshold}
               itemHeight={itemHeight}
+              loadingConfig={loadingConfig}
             />
           ) : (
             <GroupedSelecton
@@ -208,6 +213,7 @@ export class AssociatedSelection extends BaseSelection<
                   labelField={labelField}
                   virtualThreshold={virtualThreshold}
                   itemHeight={itemHeight}
+                  loadingConfig={loadingConfig}
                 />
               ) : rightMode === 'chained' ? (
                 <ChainedSelection
@@ -221,6 +227,7 @@ export class AssociatedSelection extends BaseSelection<
                   labelField={labelField}
                   virtualThreshold={virtualThreshold}
                   itemHeight={itemHeight}
+                  loadingConfig={loadingConfig}
                 />
               ) : (
                 <GroupedSelection
