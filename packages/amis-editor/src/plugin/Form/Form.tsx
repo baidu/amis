@@ -724,6 +724,18 @@ export class FormPlugin extends BasePlugin {
                   type: 'divider'
                 },
 
+                getSchemaTpl(
+                  'loadingConfig',
+                  {
+                    label: '加载设置'
+                  },
+                  {context}
+                ),
+
+                {
+                  type: 'divider'
+                },
+
                 isCRUDFilter
                   ? {
                       name: 'messages',

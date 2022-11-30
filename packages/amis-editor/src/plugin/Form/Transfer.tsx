@@ -234,6 +234,14 @@ export class TransferPlugin extends BasePlugin {
                 multiple: true
               }),
 
+              getSchemaTpl(
+                'loadingConfig',
+                {
+                  visibleOn: 'this.source || !this.options'
+                },
+                {context}
+              ),
+
               {
                 type: 'ae-transferTableControl',
                 label: '数据',

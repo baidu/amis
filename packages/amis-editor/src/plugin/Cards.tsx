@@ -106,6 +106,7 @@ export class CardsPlugin extends BasePlugin {
               type: 'input-text',
               label: '打开外部链接'
             },
+
             isCRUDBody
               ? null
               : {
@@ -116,6 +117,7 @@ export class CardsPlugin extends BasePlugin {
                   description: '绑定当前环境变量',
                   test: !isCRUDBody
                 },
+
             {
               name: 'placeholder',
               value: '暂无数据',

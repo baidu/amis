@@ -364,7 +364,13 @@ export class TablePlugin extends BasePlugin {
             placeholder: '设置列数',
             description:
               '设置从左到右多少列内启用自动合并单元格，根据字段值是否相同来决定是否合并。'
-          }
+          },
+
+          isCRUDBody
+            ? null
+            : {
+                type: 'divider'
+              }
 
           // {
           //   children: (
