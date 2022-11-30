@@ -37,8 +37,8 @@ export interface RendererEventListener {
   },
   actions: ListenerAction[];
   executing?: boolean;
+  debounceInstance?: any;
 }
-
 // 将事件上下文转成事件对象
 export type RendererEvent<T, P = any> = {
   context: T;
@@ -96,10 +96,23 @@ export const bindEvent = (renderer: any) => {
   if (listeners) {
     // 暂存
     for (let key of Object.keys(listeners)) {
-      const listener = rendererEventListeners.some(
+      const listener = rendererEventListeners.find(
         (item: RendererEventListener) =>
           item.renderer === renderer && item.type === key
       );
+      if (listener?.executing) {
+        listener?.debounceInstance?.cancel?.();
+        rendererEventListeners = rendererEventListeners.filter(
+          (item: RendererEventListener) =>
+            !(item.renderer === listener.renderer && item.type === listener.type));
+        rendererEventListeners.push({
+          renderer,
+          type: key,
+          debounceConfig: listener.debounceConfig || {open: false},
+          weight: listener.weight || 0,
+          actions: listener.actions
+        });
+      }
       if (!listener) {
         rendererEventListeners.push({
           renderer,
@@ -167,7 +180,7 @@ export async function dispatchEvent(
   const listeners = rendererEventListeners
     .filter(
       (item: RendererEventListener) =>
-        item.type === eventName && !item.executing &&
+        item.type === eventName &&
         (broadcast ? true : item.renderer === renderer)
     )
     .sort(
@@ -183,21 +196,25 @@ export async function dispatchEvent(
   }
   for (let listener of listeners) {
     if (listener.debounceConfig.open) {
+      const debounced = debounce(
+        async () => {
+          await runActions(listener.actions, listener.renderer, rendererEvent);
+          checkExecuted();
+        },
+        listener.debounceConfig.interval,
+        {
+          trailing: true,
+          leading: false
+        }
+      );
       rendererEventListeners.forEach(item => {
         // 找到事件队列中正在执行的事件加上标识，下次待执行队列就会把这个事件过滤掉
         if (item.renderer === listener.renderer && listener.type === item.type) {
           item.executing = true;
+          item.debounceInstance = debounced;
         }
       });
-      debounce(async () => {
-        await runActions(listener.actions, listener.renderer, rendererEvent);
-        checkExecuted();
-      },
-      listener.debounceConfig.interval,
-      {
-        trailing: true,
-        leading: false
-      })();
+      debounced();
     } else {
       await runActions(listener.actions, listener.renderer, rendererEvent);
       checkExecuted();
