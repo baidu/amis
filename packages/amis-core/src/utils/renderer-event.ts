@@ -2,10 +2,15 @@ import {ListenerAction, ListenerContext, runActions} from '../actions/Action';
 import {RendererProps} from '../factory';
 import {IScopedContext} from '../Scoped';
 import {createObject} from './object';
+import debounce from 'lodash/debounce';
 
 // 事件监听器
 export interface EventListeners {
   [propName: string]: {
+    debounceConfig: {
+      open: boolean,
+      interval?: number
+    },
     weight?: number; // 权重
     actions: ListenerAction[]; // 执行的动作集
   };
@@ -26,7 +31,12 @@ export interface RendererEventListener {
   renderer: React.Component<RendererProps>;
   type: string;
   weight: number;
+  debounceConfig: {
+    open: boolean,
+    interval?: number
+  },
   actions: ListenerAction[];
+  executing?: boolean;
 }
 
 // 将事件上下文转成事件对象
@@ -82,6 +92,7 @@ export const bindEvent = (renderer: any) => {
   if (!renderer) {
     return undefined;
   }
+  console.log(rendererEventListeners);
   const listeners: EventListeners = renderer.props.$schema.onEvent;
   if (listeners) {
     // 暂存
@@ -94,6 +105,7 @@ export const bindEvent = (renderer: any) => {
         rendererEventListeners.push({
           renderer,
           type: key,
+          debounceConfig: listeners[key].debounceConfig || {open: false},
           weight: listeners[key].weight || 0,
           actions: listeners[key].actions
         });
@@ -118,7 +130,7 @@ export async function dispatchEvent(
   data: any,
   broadcast?: RendererEvent<any>
 ): Promise<RendererEvent<any> | void> {
-  let unbindEvent = null;
+  let unbindEvent: (() => void) | null | undefined = null;
   const eventName = typeof e === 'string' ? e : e.type;
 
   renderer?.props?.env?.beforeDispatchEvent?.(
@@ -156,24 +168,46 @@ export async function dispatchEvent(
   const listeners = rendererEventListeners
     .filter(
       (item: RendererEventListener) =>
-        item.type === eventName &&
+        item.type === eventName && !item.executing &&
         (broadcast ? true : item.renderer === renderer)
     )
     .sort(
       (prev: RendererEventListener, next: RendererEventListener) =>
         next.weight - prev.weight
     );
-
+  let executedCount = 0;
+  const checkExecuted = () => {
+    executedCount++;
+    if (executedCount === listeners.length) {
+      unbindEvent?.();
+    }
+  }
   for (let listener of listeners) {
-    await runActions(listener.actions, listener.renderer, rendererEvent);
-
+    if (listener.debounceConfig.open) {
+      rendererEventListeners.forEach(item => {
+        // 找到事件队列中正在执行的事件加上标识，下次待执行队列就会把这个事件过滤掉
+        if (item.renderer === listener.renderer && listener.type === item.type) {
+          item.executing = true;
+        }
+      });
+      debounce(async () => {
+        await runActions(listener.actions, listener.renderer, rendererEvent);
+        checkExecuted();
+      },
+      listener.debounceConfig.interval,
+      {
+        trailing: true,
+        leading: false
+      })();
+    } else {
+      await runActions(listener.actions, listener.renderer, rendererEvent);
+      checkExecuted();
+    }
     // 停止后续监听器执行
     if (rendererEvent.stoped) {
       break;
     }
   }
-
-  unbindEvent?.();
 
   return Promise.resolve(rendererEvent);
 }
