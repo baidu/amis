@@ -426,16 +426,73 @@ export const styleTpl = {
  */
 
 // css类名
-setSchemaTpl('theme:classNames', (option: any = []) => {
+setSchemaTpl(
+  'theme:classNames',
+  (config: {schema: any; isFormItem: boolean; unsupportStatic?: boolean}) => {
+    const {
+      isFormItem = true,
+      unsupportStatic = false,
+      schema = []
+    } = config || {};
+    return {
+      title: 'CSS 类名',
+      body: (isFormItem
+        ? [
+            {
+              type: 'theme-classname',
+              label: 'Label',
+              suffix: 'label',
+              name: 'labelClassName'
+            },
+            {
+              type: 'theme-classname',
+              label: '描述',
+              suffix: 'description',
+              name: 'descriptionClassName',
+              visibleOn: 'this.description'
+            }
+          ]
+        : [
+            {
+              type: 'theme-classname',
+              label: '外层',
+              name: 'className'
+            }
+          ]
+      ).concat(schema)
+    };
+  }
+);
+
+// form label
+setSchemaTpl('theme:form-label', () => {
   return {
-    title: 'CSS 类名',
+    title: 'Label样式',
     body: [
-      {
-        type: 'theme-classname',
-        label: '外层',
-        name: 'className'
-      },
-      ...option
+      getSchemaTpl('theme:font', {
+        label: '文字',
+        name: 'css.labelClassName.font'
+      }),
+      getSchemaTpl('theme:paddingAndMargin', {
+        name: 'css.labelClassName.padding-and-margin'
+      })
+    ]
+  };
+});
+
+// form description
+setSchemaTpl('theme:form-description', () => {
+  return {
+    title: '描述样式',
+    visibleOn: 'this.description',
+    body: [
+      getSchemaTpl('theme:font', {
+        label: '文字',
+        name: 'css.descriptionClassName.font'
+      }),
+      getSchemaTpl('theme:paddingAndMargin', {
+        name: 'css.descriptionClassName.padding-and-margin'
+      })
     ]
   };
 });

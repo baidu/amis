@@ -47,12 +47,16 @@ const fontStyle = [
 ];
 
 function AmisStyleCodeEditor(props: FormControlProps) {
-  const {name, value: classname} = props;
+  const {name, value: classname, suffix} = props;
   const [value, setValue] = useState('');
-
-  function getCssAndSetValue(classname?: string, name?: string) {
+  function getCssAndSetValue(
+    classname?: string,
+    name?: string,
+    suffix?: string
+  ) {
     try {
-      const id = classname?.replace(name + '-', '');
+      const id =
+        classname?.replace(name + '-', '') + (suffix ? '-' + suffix : '');
       const dom = document.getElementById(id || '') || null;
       const content = dom?.innerHTML || '';
       const ast = cssParse(content);
@@ -79,7 +83,7 @@ function AmisStyleCodeEditor(props: FormControlProps) {
   }
 
   useEffect(() => {
-    getCssAndSetValue(classname, name);
+    getCssAndSetValue(classname, name, suffix);
   }, []);
 
   function handleChange(value: string) {

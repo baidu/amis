@@ -326,7 +326,7 @@ export class ButtonPlugin extends BasePlugin {
               ...buttonStateFunc("${editorState == 'active'}", 'active')
             ]
           },
-          getSchemaTpl('theme:classNames')
+          getSchemaTpl('theme:classNames', {isFormItem: false})
         ])
       },
       {
