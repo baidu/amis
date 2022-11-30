@@ -40,7 +40,8 @@
     background: var(--input-default-default-bg-color);
     height: var(--input-size-default-height);
 
-    &:hover {
+    &:hover,
+    &.hover {
       border-width: var(--input-default-hover-top-border-width)
         var(--input-default-hover-right-border-width)
         var(--input-default-hover-bottom-border-width)
@@ -65,7 +66,8 @@
     }
   }
 
-  &.is-focused > &-input {
+  &.is-focused > &-input,
+  &-input.active {
     border-width: var(--input-default-active-top-border-width)
       var(--input-default-active-right-border-width)
       var(--input-default-active-bottom-border-width)
@@ -275,10 +277,8 @@
     padding-right: px2rem(10px);
     background: var(--input-addon-text-bg-color-default);
     color: var(--Form-input-addOnColor);
-    border-width: var(--input-addon-text-top-border-width)
-      0
-      var(--input-addon-text-bottom-border-width)
-      0;
+    border-width: var(--input-addon-text-top-border-width) 0
+      var(--input-addon-text-bottom-border-width) 0;
     border-style: var(--input-addon-text-top-border-style)
       var(--input-addon-text-right-border-style)
       var(--input-addon-text-bottom-border-style)
@@ -488,7 +488,8 @@
     font-size: var(--input-count-single-fontSize);
   }
 
-  &-inputPrefix, &-inputSuffix {
+  &-inputPrefix,
+  &-inputSuffix {
     color: var(-input-prefix-color);
     font-size: var(--input-prefix-fontSize);
   }

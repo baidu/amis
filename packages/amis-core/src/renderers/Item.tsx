@@ -33,7 +33,7 @@ import {wrapControl} from './wrapControl';
 import debounce from 'lodash/debounce';
 import {isApiOutdated, isEffectiveApi} from '../utils/api';
 import {findDOMNode} from 'react-dom';
-import {dataMapping} from '../utils';
+import {dataMapping, insertCustomStyle} from '../utils';
 import Overlay from '../components/Overlay';
 import PopOver from '../components/PopOver';
 
@@ -1431,8 +1431,39 @@ export class FormItemWrap extends React.Component<FormItemProps> {
   };
 
   render() {
-    const {formMode, inputOnly, wrap, render, formItem: model} = this.props;
+    const {
+      formMode,
+      inputOnly,
+      wrap,
+      render,
+      formItem: model,
+      css,
+      id,
+      labelClassName,
+      descriptionClassName
+    } = this.props;
     const mode = this.props.mode || formMode;
+
+    insertCustomStyle(
+      css,
+      [
+        {
+          key: 'labelClassName',
+          value: labelClassName
+        }
+      ],
+      id + '-label'
+    );
+    insertCustomStyle(
+      css,
+      [
+        {
+          key: 'descriptionClassName',
+          value: descriptionClassName
+        }
+      ],
+      id + '-description'
+    );
 
     if (wrap === false || inputOnly) {
       return this.renderControl();

@@ -4,7 +4,8 @@ import {
   OptionsControlProps,
   highlight,
   FormOptionsControl,
-  resolveEventData
+  resolveEventData,
+  insertCustomStyle
 } from 'amis-core';
 import {ActionObject} from 'amis-core';
 import Downshift, {StateChangeOptions} from 'downshift';
@@ -794,10 +795,12 @@ export default class TextControl extends React.PureComponent<
               </>
 
               {clearable && !disabled && !readOnly && value ? (
-                <a
-                  onClick={this.clearValue}
-                >
-                  <Icon icon="input-clear" className={cx('TextControl-clear')} iconContent="InputBox-clear" />
+                <a onClick={this.clearValue}>
+                  <Icon
+                    icon="input-clear"
+                    className={cx('TextControl-clear')}
+                    iconContent="InputBox-clear"
+                  />
                 </a>
               ) : null}
 
@@ -939,23 +942,31 @@ export default class TextControl extends React.PureComponent<
         />
         {clearable && !disabled && !readOnly && value ? (
           <a onClick={this.clearValue}>
-            <Icon icon="input-clear" className={cx('TextControl-clear')} iconContent="InputText-clear" />
+            <Icon
+              icon="input-clear"
+              className={cx('TextControl-clear')}
+              iconContent="InputText-clear"
+            />
           </a>
         ) : null}
         {type === 'password' && revealPassword && !disabled ? (
-          <a
-            onClick={this.toggleRevealPassword}
-          >
+          <a onClick={this.toggleRevealPassword}>
             {this.state.revealPassword ? (
               <Icon
                 icon="view"
-                className={cx('TextControl-revealPassword', 'TextControl-icon-view')}
+                className={cx(
+                  'TextControl-revealPassword',
+                  'TextControl-icon-view'
+                )}
                 iconContent="InputText-view"
               />
             ) : (
               <Icon
                 icon="invisible"
-                className={cx('TextControl-revealPassword', 'TextControl-icon-invisible')}
+                className={cx(
+                  'TextControl-revealPassword',
+                  'TextControl-icon-invisible'
+                )}
                 iconContent="InputText-invisible"
               />
             )}
@@ -987,7 +998,8 @@ export default class TextControl extends React.PureComponent<
       data,
       disabled,
       inputOnly,
-      static: isStatic
+      static: isStatic,
+      addOnClassName
     } = this.props;
 
     const addOn: any =
@@ -1004,13 +1016,13 @@ export default class TextControl extends React.PureComponent<
       addOn && !isStatic ? (
         addOn.actionType ||
         ~['button', 'submit', 'reset', 'action'].indexOf(addOn.type) ? (
-          <div className={cx(`${ns}TextControl-button`, addOn.className)}>
+          <div className={cx(`${ns}TextControl-button`, addOnClassName)}>
             {render('addOn', addOn, {
               disabled
             })}
           </div>
         ) : (
-          <div className={cx(`${ns}TextControl-addOn`, addOn.className)}>
+          <div className={cx(`${ns}TextControl-addOn`, addOnClassName)}>
             {iconElement}
             {addOn.label ? filter(addOn.label, data) : null}
           </div>
@@ -1042,12 +1054,46 @@ export default class TextControl extends React.PureComponent<
 
   @supportStatic()
   render(): JSX.Element {
-    const {options, source, autoComplete} = this.props;
-
+    const {
+      options,
+      source,
+      autoComplete,
+      css,
+      inputControlClassName,
+      id,
+      addOnClassName
+    } = this.props;
     let input =
       autoComplete !== false && (source || options?.length || autoComplete)
         ? this.renderSugestMode()
         : this.renderNormal();
+
+    insertCustomStyle(
+      css,
+      [
+        {
+          key: 'inputControlClassName',
+          value: inputControlClassName,
+          weights: {
+            active: {
+              pre: 'is-focused .'
+            }
+          }
+        }
+      ],
+      id
+    );
+
+    insertCustomStyle(
+      css,
+      [
+        {
+          key: 'addOnClassName',
+          value: addOnClassName
+        }
+      ],
+      id + '-addOn'
+    );
 
     return this.renderBody(input);
   }

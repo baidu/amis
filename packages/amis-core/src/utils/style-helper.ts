@@ -92,7 +92,13 @@ export function formatStyle(
     list?.forEach(n => {
       if (
         /(\S*[C|c]lassName-\S*)/.test(n) &&
-        !!~n.indexOf(id?.replace('u:', '') || '')
+        !!~n.indexOf(
+          id
+            ?.replace('u:', '')
+            .replace('-label', '')
+            .replace('-description', '')
+            .replace('-addOn', '') || ''
+        )
       ) {
         classNameList.push(n);
       }
