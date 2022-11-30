@@ -22,7 +22,7 @@ import minify from 'postcss-minify';
 import autoprefixer from 'autoprefixer';
 import {terser} from 'rollup-plugin-terser';
 import postcss from 'rollup-plugin-postcss';
-const cssUrl = require("postcss-url");
+const cssUrl = require('postcss-url');
 const i18nConfig = require('./i18nConfig');
 
 const settings = {
