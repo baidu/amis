@@ -28,6 +28,7 @@ const external = id => {
         'react',
         'react-dom',
         'rc-input-number',
+        '@rc-component/mini-decimal',
         '@babel/runtime'
       ])
       .map(value =>
