@@ -1074,4 +1074,28 @@
   --input-size-default-height: var(--sizes-base-17);
   --input-size-md-height: var(--sizes-base-17);
   --input-size-lg-height: var(--sizes-base-20);
+
+  // 链接
+  --link-color: var(--colors-link-4);
+  --link-fontSize: var(--fonts-size-7);
+  --link-text-decoration: none; // 不兼容
+  --link-font-style: none;
+  --link-bg-color: transparent;
+  --link-onHover-color: var(--colors-link-5);
+  --link-onHover-fontSize: var(--fonts-size-7);
+  --link-onHover-text-decoration: none;
+  --link-onHover-font-style: none;
+  --link-onHover-bg-color: transparent;
+  --link-onClick-color: var(--colors-link-3);
+  --link-onClick-fontSize: var(--fonts-size-7);
+  --link-onClick-text-decoration: none;
+  --link-onClick-font-style: none;
+  --link-onClick-bg-color: transparent;
+  --link-disabled-color: var(--colors-link-3);
+  --link-disabled-fontSize: var(--fonts-size-7);
+  --link-disabled-text-decoration: none;
+  --link-disabled-font-style: none;
+  --link-disabled-bg-color: transparent;
+  --link-icon-size: var(--sizes-size-8);
+  --link-icon-margin: var(--sizes-size-3);
 }

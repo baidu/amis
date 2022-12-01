@@ -18,15 +18,31 @@ body {
 
 a {
   color: var(--link-color);
-  text-decoration: var(--link-decoration);
+  font-size: var(--link-fontSize);
+  font-weight: var(--link-fontWeight);
+  line-height: var(--link-lineHeight);
+  text-decoration: var(--link-text-decoration);
+  font-style: var(--link-font-style);
+  background-color: var(--link-bg-color);
 
   &:hover {
     color: var(--link-onHover-color);
-    text-decoration: var(--link-onHover-decoration);
+    font-size: var(--link-onHover-fontSize);
+    font-weight: var(--link-onHover-fontWeight);
+    line-height: var(--link-onHover-lineHeight);
+    text-decoration: var(--link-onHover-text-decoration);
+    font-style: var(--link-onHover-font-style);
+    background-color: var(--link-onHover-bg-color);
   }
 
   &:active {
     color: var(--link-onClick-color);
+    font-size: var(--link-onClick-fontSize);
+    font-weight: var(--link-onClick-fontWeight);
+    line-height: var(--link-onClick-lineHeight);
+    text-decoration: var(--link-onClick-text-decoration);
+    font-style: var(--link-onClick-font-style);
+    background-color: var(--link-onClick-bg-color);
   }
 }
 
