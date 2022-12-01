@@ -83,7 +83,7 @@ export default class IconSelectControl extends React.PureComponent<
         if (findItem) {
             break;
         }
-    }
+      }
     }
     return findItem || null;
   }
