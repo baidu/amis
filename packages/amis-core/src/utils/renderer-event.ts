@@ -196,7 +196,6 @@ export async function dispatchEvent(
       unbindEvent?.();
     }
   }
-  console.log(listeners);
   for (let listener of listeners) {
     const {wait=100, trailing=true, leading=false, maxWait=10000} = listener?.debounce || {};
     if (listener?.debounce) {
