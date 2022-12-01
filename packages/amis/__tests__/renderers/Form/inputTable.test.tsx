@@ -69,7 +69,6 @@ test('Renderer: input-table with default value column', async () => {
   const onSubmitCallbackFn = jest
     .fn()
     .mockImplementation((values: any, actions: any) => {
-      console.log({values: JSON.stringify(values), actions: actions});
       return true;
     });
   const {container, getByText} = render(

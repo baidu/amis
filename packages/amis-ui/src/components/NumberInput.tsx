@@ -4,12 +4,10 @@ import isInteger from 'lodash/isInteger';
 import InputNumber from 'rc-input-number';
 import getMiniDecimal, {
   DecimalClass,
-  toFixed
-} from 'rc-input-number/lib/utils/MiniDecimal';
-import {
+  toFixed,
   getNumberPrecision,
   num2str
-} from 'rc-input-number/lib/utils/numberUtil';
+} from '@rc-component/mini-decimal';
 
 import {Icon} from './icons';
 import {ThemeProps, themeable} from 'amis-core';
