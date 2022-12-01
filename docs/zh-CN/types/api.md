@@ -576,6 +576,72 @@ API 还支持配置对象类型
 
 需要注意上面例子中 `items` 是因为数据直接放在了 `data` 中，如果是放在其他字段中就换成对应的字段名。
 
+### 配置返回默认值
+
+amis 默认认为接口返回空数据是不合理的，假如接口实际返回为 `null` 或者 `""` 等空值，会提示错误`Response is empty`，一般情况下不需要使用该配置。
+
+当有时候业务接口确实是会合理返回空的情况，比如提交表单后，接口返回空表示正常提交成功，此时可以配置返回默认值来自定义返回数据。
+
+方法是配置 responseDefault 字段，在返回响应体为空的时候生效：
+
+```json
+{
+  "type": "page",
+  "body": {
+    "type": "form",
+    "api": {
+      "method": "post",
+      "url": "/api/mock2/form/saveForm", // 这是个例子，请使用真实返回空数据的接口代替
+      "responseDefault": {
+        "status": 0,
+        "msg": "保存成功"
+      }
+    },
+    "body": [
+      {
+        "type": "input-text",
+        "name": "name",
+        "label": "姓名："
+      },
+      {
+        "name": "email",
+        "type": "input-email",
+        "label": "邮箱："
+      }
+    ]
+  }
+}
+```
+
+```json
+{
+  "type": "page",
+  "body": {
+    "type": "form",
+    "api": {
+      "method": "post",
+      "url": "/api/mock2/form/saveForm", // 这是个例子，请使用真实返回空数据的接口代替
+      "responseDefault": {
+        "status": 1,
+        "msg": "保存失败"
+      }
+    },
+    "body": [
+      {
+        "type": "input-text",
+        "name": "name",
+        "label": "姓名："
+      },
+      {
+        "name": "email",
+        "type": "input-email",
+        "label": "邮箱："
+      }
+    ]
+  }
+}
+```
+
 ### 配置请求适配器
 
 amis 的 API 配置，如果无法配置出你想要的请求结构，那么可以配置`requestAdaptor`发送适配器

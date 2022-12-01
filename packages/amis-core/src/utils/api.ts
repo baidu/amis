@@ -277,7 +277,12 @@ export function responseAdaptor(ret: fetcherResult, api: ApiObject) {
   let hasStatusField = true;
 
   if (!data) {
-    throw new Error('Response is empty');
+    // 是否配置了返回默认值
+    if (api.responseDefault) {
+      data = api.responseDefault;
+    } else {
+      throw new Error('Response is empty');
+    }
   }
 
   // 返回内容是 string，说明 content-type 不是 json，这时可能是返回了纯文本或 html
