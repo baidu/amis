@@ -4,13 +4,17 @@ import {IScopedContext} from '../Scoped';
 import {createObject} from './object';
 import debounce from 'lodash/debounce';
 
+
+interface debounceConfig {
+  open: boolean;
+  wait?: number;
+  leading?: boolean;
+  trailing?: boolean;
+}
 // 事件监听器
 export interface EventListeners {
   [propName: string]: {
-    debounceConfig: {
-      open: boolean,
-      interval?: number
-    },
+    debounceConfig?: debounceConfig,
     weight?: number; // 权重
     actions: ListenerAction[]; // 执行的动作集
   };
@@ -21,7 +25,8 @@ export interface OnEventProps {
   onEvent?: {
     [propName: string]: {
       weight?: number; // 权重
-      actions: ListenerAction[]; // 执行的动作集
+      actions: ListenerAction[]; // 执行的动作集,
+      debounceConfig?: debounceConfig,
     };
   };
 }
@@ -31,10 +36,7 @@ export interface RendererEventListener {
   renderer: React.Component<RendererProps>;
   type: string;
   weight: number;
-  debounceConfig: {
-    open: boolean,
-    interval?: number
-  },
+  debounceConfig: debounceConfig,
   actions: ListenerAction[];
   executing?: boolean;
   debounceInstance?: any;
@@ -195,16 +197,17 @@ export async function dispatchEvent(
     }
   }
   for (let listener of listeners) {
-    if (listener.debounceConfig.open) {
+    const {open, wait=100, trailing=true, leading=false} = listener?.debounceConfig;
+    if (open) {
       const debounced = debounce(
         async () => {
           await runActions(listener.actions, listener.renderer, rendererEvent);
           checkExecuted();
         },
-        listener.debounceConfig.interval,
+        wait,
         {
-          trailing: true,
-          leading: false
+          trailing,
+          leading
         }
       );
       rendererEventListeners.forEach(item => {
