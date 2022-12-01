@@ -1,6 +1,6 @@
 {
   "name": "amis-editor-core",
-  "version": "5.2.1-beta.30",
+  "version": "5.2.1-beta.31",
   "description": "amis 可视化编辑器",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -21,7 +21,8 @@
   "license": "ISC",
   "files": [
     "lib",
-    "esm"
+    "esm",
+    "static"
   ],
   "dependencies": {
     "axios": "0.21.1",

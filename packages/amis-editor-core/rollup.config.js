@@ -67,7 +67,7 @@ export default [
             maxSize: 10
           })
         ]
-      })
+      }),
     ])
   },
   {
