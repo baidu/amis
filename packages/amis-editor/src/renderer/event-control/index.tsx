@@ -2,7 +2,14 @@ import React from 'react';
 import {findDOMNode} from 'react-dom';
 import cx from 'classnames';
 import Sortable from 'sortablejs';
-import {DataSchema, FormItem, Button, Icon, TooltipWrapper} from 'amis';
+import {
+  DataSchema,
+  FormItem,
+  Button,
+  Icon,
+  TooltipWrapper,
+  render as amisRender
+} from 'amis';
 import cloneDeep from 'lodash/cloneDeep';
 import {FormControlProps, autobind, findTree} from 'amis-core';
 import ActionDialog from './action-config-dialog';
@@ -58,6 +65,17 @@ interface EventControlProps extends FormControlProps {
   owner?: string; // 组件标识
 }
 
+interface EventDialogData {
+  eventName: string;
+  eventLabel: string;
+  isBroadcast: boolean;
+  debounceConfig?: {
+    open: boolean;
+    wait?: number;
+  };
+  [propName: string]: any;
+}
+
 interface EventControlState {
   onEvent: ActionEventConfig;
   events: RendererPluginEvent[];
@@ -65,6 +83,8 @@ interface EventControlState {
     [prop: string]: boolean;
   };
   showAcionDialog: boolean;
+  showEventDialog: boolean;
+  eventDialogData?: EventDialogData;
   actionData:
     | {
         eventKey: string;
@@ -114,6 +134,7 @@ export class EventControl extends React.Component<
       events: pluginEvents,
       eventPanelActive,
       showAcionDialog: false,
+      showEventDialog: false,
       actionData: undefined,
       type: 'add'
     };
@@ -163,11 +184,56 @@ export class EventControl extends React.Component<
       weight: 0,
       actions: []
     };
-
     this.setState({
       onEvent: onEvent
     });
 
+    onChange && onChange(onEvent);
+  }
+
+  activeEventDialog(eventInfo: EventDialogData) {
+    if (!eventInfo.debounce) {
+      // 防抖配置的默认值
+      eventInfo.debounce = {
+        open: false,
+        wait: 100
+      };
+    } else {
+      eventInfo.debounce = {
+        open: true,
+        ...eventInfo.debounce
+      };
+    }
+    this.setState({
+      eventDialogData: eventInfo,
+      showEventDialog: true
+    });
+  }
+
+  eventDialogSubmit(formData: any) {
+    const {onChange} = this.props;
+    const {eventName, debounce = {}} = formData;
+    let onEvent = {
+      ...this.state.onEvent
+    };
+    let eventConfig = onEvent[`${eventName}`];
+    if (!debounce.open) {
+      delete eventConfig.debounce;
+    } else {
+      eventConfig = {
+        ...eventConfig,
+        debounce: {
+          wait: debounce.wait
+        }
+      };
+    }
+    onEvent[`${eventName}`] = {
+      ...eventConfig
+    };
+    this.setState({
+      onEvent,
+      showEventDialog: false
+    });
     onChange && onChange(onEvent);
   }
 
@@ -203,8 +269,8 @@ export class EventControl extends React.Component<
     activeConfig[event] = true;
     if (config.actionType) {
       onEventConfig[event] = {
-        actions: onEventConfig[event].actions.concat(config),
-        weight: onEvent[event].weight
+        ...onEventConfig[event],
+        actions: onEventConfig[event].actions.concat(config)
       };
     }
 
@@ -299,6 +365,7 @@ export class EventControl extends React.Component<
       weight: onEvent[event].weight
     };
     onEventConfig[event] = {
+      ...onEvent[event],
       actions: onEvent[event].actions.map((item, actionIndex) => {
         return actionIndex === index
           ? typeof config === 'string'
@@ -308,8 +375,7 @@ export class EventControl extends React.Component<
               }
             : config
           : item;
-      }),
-      weight: onEvent[event].weight
+      })
     };
     this.setState({
       onEvent: onEventConfig
@@ -647,12 +713,14 @@ export class EventControl extends React.Component<
       events,
       eventPanelActive,
       showAcionDialog,
+      showEventDialog,
       type,
-      actionData
+      actionData,
+      eventDialogData
     } = this.state;
-    const enventSnapshot = cloneDeep(onEvent);
+    const eventSnapshot = cloneDeep(onEvent);
     const {showOldEntry} = this.props;
-    const eventKeys = Object.keys(enventSnapshot);
+    const eventKeys = Object.keys(eventSnapshot);
     return (
       <div className="ae-event-control">
         <header
@@ -706,7 +774,7 @@ export class EventControl extends React.Component<
                       'event-item-header': true,
                       'no-bd-btm':
                         !(
-                          enventSnapshot[eventKey].actions?.length &&
+                          eventSnapshot[eventKey].actions?.length &&
                           eventPanelActive[eventKey]
                         ) && !getEventStrongDesc(events, eventKey)
                     })}
@@ -743,6 +811,16 @@ export class EventControl extends React.Component<
                         <Icon className="icon" icon="delete-bold-btn" />
                       </div>
                       <div
+                        onClick={this.activeEventDialog.bind(this, {
+                          eventName: eventKey,
+                          eventLabel:
+                            getEventLabel(events, eventKey) || eventKey,
+                          ...eventSnapshot[eventKey]
+                        })}
+                      >
+                        <Icon className="icon" icon="edit-full-btn" />
+                      </div>
+                      <div
                         onClick={this.toggleActivePanel.bind(this, eventKey)}
                       >
                         {eventPanelActive[eventKey] ? (
@@ -764,10 +842,10 @@ export class EventControl extends React.Component<
                         className: 'event-item-desc'
                       })
                     : null}
-                  {enventSnapshot[eventKey].actions.length &&
+                  {eventSnapshot[eventKey].actions.length &&
                   eventPanelActive[eventKey] ? (
                     <ul className="item-content">
-                      {enventSnapshot[eventKey].actions.map(
+                      {eventSnapshot[eventKey].actions.map(
                         (action, actionIndex) => {
                           return (
                             <li
@@ -845,6 +923,78 @@ export class EventControl extends React.Component<
             </div>
           )}
         </ul>
+        {showEventDialog
+          ? amisRender(
+              {
+                type: 'dialog',
+                title: `${eventDialogData?.eventLabel}-事件配置`,
+                showCloseButton: false,
+                body: [
+                  {
+                    type: 'form',
+                    title: '表单',
+                    data: {
+                      '&': '$$'
+                    },
+                    mode: 'horizontal',
+                    horizontal: {
+                      left: 3,
+                      right: 9
+                    },
+                    body: [
+                      {
+                        label: '设置触发频率',
+                        type: 'switch',
+                        name: 'debounce.open',
+                        description:
+                          '设置触发频率后，单位时间内多次触发事件只会执行最后一次'
+                      },
+                      {
+                        label: '触发频率',
+                        required: true,
+                        hiddenOn: '!debounce.open',
+                        name: 'debounce.wait',
+                        suffix: 'ms',
+                        max: 10000,
+                        min: 0,
+                        type: 'input-number'
+                      }
+                    ],
+                    onSubmit: this.eventDialogSubmit.bind(this)
+                  }
+                ],
+                actions: [
+                  {
+                    type: 'button',
+                    label: '取消',
+                    onEvent: {
+                      click: {
+                        actions: [
+                          {
+                            actionType: 'custom',
+                            script: () => {
+                              this.setState({
+                                showEventDialog: false
+                              });
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    type: 'button',
+                    actionType: 'confirm',
+                    label: '确认',
+                    primary: true
+                  }
+                ]
+              },
+              {
+                data: eventDialogData
+              }
+            )
+          : null}
         <ActionDialog
           show={showAcionDialog}
           type={type}
