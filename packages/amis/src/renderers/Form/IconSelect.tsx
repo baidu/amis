@@ -78,9 +78,12 @@ export default class IconSelectControl extends React.PureComponent<
     }
     let findItem: IconSelectStore.SvgIcon | undefined = undefined;
     if (IconSelectStore.svgIcons && IconSelectStore.svgIcons.length) {
-      IconSelectStore.svgIcons.forEach(item => {
-        findItem = find(item.children, i => i.svg === svg);
-      });
+      for (let i = 0; i < IconSelectStore.svgIcons.length; i++) {
+        findItem = find(IconSelectStore.svgIcons[i].children, i => i.svg === svg);
+        if (findItem) {
+            break;
+        }
+    }
     }
     return findItem || null;
   }
