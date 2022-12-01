@@ -1016,7 +1016,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
           })}
         >
           {removable ? (
-            <a data-tooltip={__('Select.clear')} data-position="left">
+            <a data-tooltip={__('Select.clear')} data-position="top">
               <Icon
                 icon="close"
                 className="icon"
@@ -1025,7 +1025,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
             </a>
           ) : null}
           {editable ? (
-            <a data-tooltip="编辑" data-position="left">
+            <a data-tooltip="编辑" data-position="top">
               <Icon
                 icon="pencil"
                 className="icon"

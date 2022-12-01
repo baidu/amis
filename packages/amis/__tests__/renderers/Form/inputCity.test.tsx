@@ -113,7 +113,7 @@ test('Renderer:inputCity', async () => {
   fireEvent.click(select3);
   expect(getByText('海淀区')).toBeInTheDocument();
   fireEvent.click(getByText('海淀区'));
-  await wait(100);
+  await wait(500);
   fireEvent.click(submitBtn);
   await waitFor(() => {
     expect(onSubmit).toBeCalledTimes(3);
@@ -121,7 +121,7 @@ test('Renderer:inputCity', async () => {
       city: '110108'
     });
   });
-
+  await wait(200);
   expect(container).toMatchSnapshot();
 });
 

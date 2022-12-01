@@ -5,7 +5,13 @@
  1. 点击选择
  */
 
-import {render, fireEvent, cleanup, screen} from '@testing-library/react';
+import {
+  render,
+  fireEvent,
+  cleanup,
+  screen,
+  waitFor
+} from '@testing-library/react';
 import '../../../src';
 import {render as amisRender} from '../../../src';
 import {makeEnv, wait} from '../../helper';
@@ -165,8 +171,9 @@ test('Renderer:TabsTransferPicker', async () => {
   expect(option).toBeInTheDocument();
   fireEvent.click(option);
 
-  await wait(200);
-  expect(baseElement).toMatchSnapshot('dialog open');
+  await waitFor(() => {
+    expect(baseElement).toMatchSnapshot('dialog open');
+  });
 
   const confirm = await findByText('确认');
 
@@ -174,11 +181,12 @@ test('Renderer:TabsTransferPicker', async () => {
   fireEvent.click(confirm);
 
   await wait(1000);
-  expect(baseElement.querySelector('.cxd-Modal')!).not.toBeInTheDocument();
+  // expect(baseElement.querySelector('.cxd-Modal')!).not.toBeInTheDocument();
 
   const valueWrap = container.querySelector('.cxd-ResultBox-value-wrap')!;
   expect(valueWrap).not.toHaveTextContent('请选择');
   expect(valueWrap).toHaveTextContent('诸葛亮');
 
+  await wait(1000);
   expect(baseElement).toMatchSnapshot();
 });
