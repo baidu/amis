@@ -17,6 +17,7 @@ export interface ConfirmBoxProps extends LocaleProps, ThemeProps {
   children?:
     | JSX.Element
     | ((methods: {
+        loading?: boolean;
         bodyRef: React.MutableRefObject<
           | {
               submit: () => Promise<Record<string, any>>;
@@ -103,7 +104,8 @@ export function ConfirmBox({
         <Modal.Body className={bodyClassName}>
           {typeof children === 'function'
             ? children({
-                bodyRef: bodyRef
+                bodyRef: bodyRef,
+                loading
               })
             : children}
         </Modal.Body>
