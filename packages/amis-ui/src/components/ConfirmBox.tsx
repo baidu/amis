@@ -77,7 +77,7 @@ export function ConfirmBox({
         return;
       }
 
-      onConfirm?.(ret);
+      await onConfirm?.(ret);
     } catch (e) {
       setError(e.message);
     } finally {
