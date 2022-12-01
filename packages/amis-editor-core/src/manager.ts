@@ -75,8 +75,25 @@ export interface PluginClass {
 
 const builtInPlugins: Array<PluginClass> = [];
 
+declare const window: Window & { AMISEditorCustomPlugins: any };
+
 /**
- * 注册默认的插件。
+ * 自动加载预先注册的自定义插件
+ * 备注：新版 amis-widget[3.0.0] 需要
+ */
+export function autoPreRegisterEditorCustomPlugins() {
+  if (window.AMISEditorCustomPlugins) {
+    Object.keys(window.AMISEditorCustomPlugins).forEach(pluginName => {
+      const curEditorPlugin = window.AMISEditorCustomPlugins[pluginName];
+      if (curEditorPlugin) {
+        registerEditorPlugin(curEditorPlugin);
+      }
+    })
+  }
+}
+
+/**
+ * 注册Editor插件。
  * @param editor
  */
 export function registerEditorPlugin(klass: PluginClass) {
@@ -158,6 +175,8 @@ export class EditorManager {
       this.env.beforeDispatchEvent
     );
     this.hackIn = parent?.hackIn || hackIn;
+    // 自动加载预先注册的自定义组件
+    autoPreRegisterEditorCustomPlugins();
 
     this.plugins =
       parent?.plugins ||
@@ -269,7 +288,7 @@ export class EditorManager {
     );
   }
 
-  // 初始化plugins
+  // 动态注册 plugin
   dynamicAddPlugin(pluginName: string) {
     if (!pluginName) {
       return;
@@ -281,9 +300,13 @@ export class EditorManager {
       console.warn(`[amis-editor]当前已有${pluginName}插件`);
       return;
     }
-    const newPluginClass: any = builtInPlugins.find(
+    let newPluginClass: any = builtInPlugins.find(
       (Plugin: any) => Plugin.prototype && Plugin.prototype.name === pluginName
     );
+    // 支持 postMessage 间接动态注册自定义组件
+    if (!newPluginClass && window.AMISEditorCustomPlugins) {
+      newPluginClass = window.AMISEditorCustomPlugins[pluginName];
+    }
     if (newPluginClass) {
       const newPlugin = new newPluginClass(this); // 进行一次实例化
       newPlugin.order = newPlugin.order ?? 0;
