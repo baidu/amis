@@ -6,7 +6,7 @@ import debounce from 'lodash/debounce';
 
 
 interface debounceConfig {
-  open: boolean;
+  maxWait?: number;
   wait?: number;
   leading?: boolean;
   trailing?: boolean;
@@ -14,7 +14,7 @@ interface debounceConfig {
 // 事件监听器
 export interface EventListeners {
   [propName: string]: {
-    debounceConfig?: debounceConfig,
+    debounce?: debounceConfig,
     weight?: number; // 权重
     actions: ListenerAction[]; // 执行的动作集
   };
@@ -26,7 +26,7 @@ export interface OnEventProps {
     [propName: string]: {
       weight?: number; // 权重
       actions: ListenerAction[]; // 执行的动作集,
-      debounceConfig?: debounceConfig,
+      debounce?: debounceConfig,
     };
   };
 }
@@ -36,7 +36,7 @@ export interface RendererEventListener {
   renderer: React.Component<RendererProps>;
   type: string;
   weight: number;
-  debounceConfig: debounceConfig,
+  debounce: debounceConfig | null,
   actions: ListenerAction[];
   executing?: boolean;
   debounceInstance?: any;
@@ -110,7 +110,7 @@ export const bindEvent = (renderer: any) => {
         rendererEventListeners.push({
           renderer,
           type: key,
-          debounceConfig: listener.debounceConfig || {open: false},
+          debounce: listener.debounce || null,
           weight: listener.weight || 0,
           actions: listener.actions
         });
@@ -119,7 +119,7 @@ export const bindEvent = (renderer: any) => {
         rendererEventListeners.push({
           renderer,
           type: key,
-          debounceConfig: listeners[key].debounceConfig || {open: false},
+          debounce: listeners[key].debounce || null,
           weight: listeners[key].weight || 0,
           actions: listeners[key].actions
         });
@@ -196,9 +196,10 @@ export async function dispatchEvent(
       unbindEvent?.();
     }
   }
+  console.log(listeners);
   for (let listener of listeners) {
-    const {open, wait=100, trailing=true, leading=false} = listener?.debounceConfig;
-    if (open) {
+    const {wait=100, trailing=true, leading=false, maxWait=10000} = listener?.debounce || {};
+    if (listener?.debounce) {
       const debounced = debounce(
         async () => {
           await runActions(listener.actions, listener.renderer, rendererEvent);
@@ -207,7 +208,8 @@ export async function dispatchEvent(
         wait,
         {
           trailing,
-          leading
+          leading,
+          maxWait
         }
       );
       rendererEventListeners.forEach(item => {
