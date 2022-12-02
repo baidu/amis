@@ -54,7 +54,7 @@ test('Renderer:InputQuarterRange click', async () => {
 
   fireEvent.click(
     await within(
-      document.querySelector('.cxd-DateRangePicker-end')!
+      document.querySelector('.cxd-DateRangePicker-start')!
     ).findByText('Q4')
   );
 
@@ -82,7 +82,7 @@ test('Renderer:InputQuarterRange with embed', async () => {
             label: '季度范围',
             embed: true,
             format: 'YYYY-MM',
-            value: '2022-10,2022-12'
+            value: '2021-10,2021-12'
           }
         ]
       },

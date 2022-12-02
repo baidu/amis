@@ -702,7 +702,8 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       columns,
       labelField,
       popOverContainer,
-      popOverClassName
+      popOverClassName,
+      valueField
     } = autoFill;
     const form = {
       type: 'form',
@@ -715,6 +716,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         joinValues: false,
         label: false,
         labelField,
+        valueField: valueField || 'value',
         multiple,
         name: 'selectedItems',
         options: [],

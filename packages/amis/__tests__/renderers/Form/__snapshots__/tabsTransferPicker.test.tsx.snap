@@ -341,7 +341,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
       class="cxd-Modal-overlay in"
     />
     <div
-      class="cxd-Modal-content"
+      class="cxd-Modal-content in"
     >
       <div
         class="cxd-Modal-header"
