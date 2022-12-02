@@ -142,7 +142,7 @@ exports[`Renderer:InputQuarterRange with embed 1`] = `
                                 </span>
                               </td>
                               <td
-                                class="rdtQuarter rdtActive rdtBetween is-disabled"
+                                class="rdtQuarter rdtActive rdtBetween"
                                 data-value="4"
                               >
                                 <span>
@@ -219,7 +219,7 @@ exports[`Renderer:InputQuarterRange with embed 1`] = `
                                 </span>
                               </td>
                               <td
-                                class="rdtQuarter rdtActive rdtBetween is-disabled"
+                                class="rdtQuarter rdtActive rdtBetween"
                                 data-value="4"
                               >
                                 <span>
