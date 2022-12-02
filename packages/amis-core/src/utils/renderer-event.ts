@@ -228,7 +228,6 @@ export async function dispatchEvent(
       break;
     }
   }
-
   return Promise.resolve(rendererEvent);
 }
 
