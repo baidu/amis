@@ -254,7 +254,7 @@ $remFactor: 16px;
   --Calendar-color: #151b26;
   --Calendar-fontSize: var(--fontSizeSm);
   --Calendar-input-borderColor: var(--borderColor);
-  --Calendar-input-borderRadius:  var(--borders-radius-3);
+  --Calendar-input-borderRadius: var(--borders-radius-3);
   --Calendar-input-color: var(--info);
   --Calendar-input-fontSize: var(--fontSizeBase);
   --Calendar-input-height: #{px2rem(40px)};
@@ -286,7 +286,7 @@ $remFactor: 16px;
   --Calendar-schedule-content-color: (--colors-neutral-text-11);
 
   --Card-actions-borderColor: var(--colors-neutral-line-10);
-  --Card-actions-fontSize:  var(--fonts-size-8);
+  --Card-actions-fontSize: var(--fonts-size-8);
   --Card-actions-onChecked-onHover-bg: var(--colors-neutral-fill-11);
   --Card-actions-onChecked-onHover-color: var(--colors-neutral-fill-11);
   --Card-actions-onHover-bg: var(--colors-neutral-fill-11);
@@ -390,16 +390,16 @@ $remFactor: 16px;
   --Combo-addBtn-bg: var(--colors-brand-5);
   --Combo-addBtn-border: var(--colors-neutral-line-11);
   --Combo-addBtn-borderRadius: var(--borders-radius-3);
-  --Combo-addBtn-color:  var(--colors-neutral-text-11);
+  --Combo-addBtn-color: var(--colors-neutral-text-11);
   --Combo-addBtn-fontSize: var(--fonts-size-8);
-  --Combo-addBtn-height:var(--sizes-base-14);
-  --Combo-addBtn-lineHeight:  var(--fonts-lineHeight-2);
+  --Combo-addBtn-height: var(--sizes-base-14);
+  --Combo-addBtn-lineHeight: var(--fonts-lineHeight-2);
   --Combo-addBtn-onActive-bg: var(--colors-brand-4);
   --Combo-addBtn-onActive-border: var(--colors-neutral-line-4);
   --Combo-addBtn-onActive-color: var(--Combo-addBtn-color);
   --Combo-addBtn-onHover-bg: var(--colors-brand-6);
   --Combo-addBtn-onHover-color: var(--Combo-addBtn-color);
-  --Combo-addBtn-paddingX:  var(--sizes-size-5);
+  --Combo-addBtn-paddingX: var(--sizes-size-5);
   --Combo-addBtn-paddingY: calc(
     (
         var(--Combo-addBtn-height) - var(--borders-width-2) * 2 -
@@ -427,7 +427,7 @@ $remFactor: 16px;
   --Collapse-header-collapsed-border: var(--borderWidth) solid
     var(--Collapse-border-color);
   --Collapse-header-collapsed-borderTop: none;
-  --Collapse-header-collapsed-borderBottom: none
+  --Collapse-header-collapsed-borderBottom: none;
   --Collapse-header-wrapper-direction: row-reverse;
   --Collapse-header-bg-disabled-color: var(--colors-neutral-fill-6);
   --Collapse-content-padding: var(--sizes-size-9);
@@ -443,7 +443,7 @@ $remFactor: 16px;
   --DatePicker-borderColor: var(--Form-input-borderColor);
   --DatePicker-borderRadius: var(--borders-radius-3);
   --DatePicker-borderWidth: var(--borders-width-2);
-  --DatePicker-color:  var(--colors-neutral-text-2);
+  --DatePicker-color: var(--colors-neutral-text-2);
   --DatePicker-header-onHover-color: var(--colors-brand-6);
   --DatePicker-arrow-color: #84868c;
   --DatePicker-fontSize: var(--fontSizeSm);
@@ -464,7 +464,7 @@ $remFactor: 16px;
           var(--DatePicker-fontSize)
       ) / 2 - var(--DatePicker-borderWidth)
   );
-  --DatePicker-placeholderColor:  var(--colors-neutral-text-6);
+  --DatePicker-placeholderColor: var(--colors-neutral-text-6);
   --DatePicker-minWidth: calc(
     var(--fontSizeLg) * 5 + var(--DatePicker-paddingX) * 2 +
       var(--Form-input-clearBtn-size) * 2
@@ -476,7 +476,7 @@ $remFactor: 16px;
   --DateRangePicker-activeCursor-color: var(--colors-brand-4);
   --DateRangePicker-activeCursor-height: 2px;
 
-  --LocationPicker-borderRadius:  var(--borders-radius-3);
+  --LocationPicker-borderRadius: var(--borders-radius-3);
 
   --Divider-borderStyle: solid;
 
@@ -700,10 +700,10 @@ $remFactor: 16px;
   --ImageControl-addBtn-onActive-border: var(--colors-brand-5);
   --ImageControl-addBtn-onActive-color: var(--colors-brand-5);
   --ImageControl-addBtn-onDisabled-bg: var(--colors-neutral-fill-10);
-  --ImageControl-addBtn-onDisabled-border: var(--colors-neutral-line-8);;
+  --ImageControl-addBtn-onDisabled-border: var(--colors-neutral-line-8);
   --ImageControl-addBtn-onDisabled-color: var(--colors-neutral-text-6);
   --ImageControl-addBtn-onHover-bg: var(--colors-neutral-fill-11);
-  --ImageControl-addBtn-onHover-border:var(--colors-brand-5);
+  --ImageControl-addBtn-onHover-border: var(--colors-brand-5);
   --ImageControl-addBtn-onHover-color: var(--colors-brand-5);
   --ImageControl-addBtn-upload-color: var(--colors-neutral-text-3);
   --ImageControl-progress-borderRadius: var(--borders-radius-2);
@@ -890,8 +890,8 @@ $remFactor: 16px;
   --ListMenu-item--onHover-bg: var(--colors-neutral-fill-8);
   --ListMenu-item--onHover-color: var(--colors-neutral-text-2);
   --ListMenu-item-bg: var(--colors-neutral-fill-11);
-  --ListMenu-item-color:  var(--colors-neutral-text-2);
-  --ListMenu-item-height:var(--sizes-base-16);
+  --ListMenu-item-color: var(--colors-neutral-text-2);
+  --ListMenu-item-height: var(--sizes-base-16);
 
   --Log-bg: #222;
   --Log-padding: var(--gap-sm) 0;
@@ -941,7 +941,7 @@ $remFactor: 16px;
   --Nav-item-fontSize: var(--fonts-size-6);
   --Nav-item-onActive-bg: var(--colors-neutral-fill-10);
   --Nav-item-onActive-borderLeft: var(--borders-width-4) var(--borders-style-2)
-  var(--colors-brand-5);
+    var(--colors-brand-5);
   --Nav-item-onActive-color: var(--colors-brand-5);
   --Nav-item-onDisabled-color: var(--text--muted-color);
   --Nav-item-onHover-bg: rgba(0, 0, 0, 0.05);
@@ -993,7 +993,7 @@ $remFactor: 16px;
   --Pagination-minWidth: #{px2rem(32px)};
   --Pagination-onActive-backgroundColor: var(--colors-neutral-fill-11);
   --Pagination-onActive-border: var(--borders-width-2) var(--borders-style-2)
-  var(--colors-brand-5);
+    var(--colors-brand-5);
   --Pagination-onActive-color: var(--colors-brand-5);
   --Pagination-onDisabled-color: var(--colors-neutral-text-6);
   --Pagination-onDisabled-backgroundColor: var(--colors-neutral-fill-10);
@@ -1077,7 +1077,7 @@ $remFactor: 16px;
 
   --Remark-bg: var(--colors-neutral-text-11);
   --Remark-borderColor: var(--colors-neutral-line-8);
-  --Remark-borderWidth:var(--borders-width-2);
+  --Remark-borderWidth: var(--borders-width-2);
   --Remark-icon-fontSize: var(--fonts-size-8);
   --Remark-iconColor: var(--colors-neutral-text-5);
   --Remark-marginLeft: var(--gap-sm);
@@ -1172,15 +1172,15 @@ $remFactor: 16px;
   --Table-lineHeight: var(--fonts-lineHeight-2);
   --Table-onChecked-bg: var(--colors-neutral-fill-10);
   --Table-onChecked-borderColor: var(--colors-neutral-line-8);
-  --Table-onChecked-color: var(--colors-neutral-text-6)
+  --Table-onChecked-color: var(--colors-neutral-text-6);
   --Table-onChecked-onHover-bg: var(--colors-neutral-fill-10);
   --Table-onChecked-onHover-borderColor: var(--colors-neutral-line-8);
-  --Table-onChecked-onHover-color: var( --colors-neutral-line-4);
+  --Table-onChecked-onHover-color: var(--colors-neutral-line-4);
   --Table-onDragging-opacity: 0.1;
   // 背景用到了 rgba，所以必须再提供这种写法，搜一下这个变量就知道为什么了
   --Table-onHover-bg-rgb: 245, 251, 255;
   --Table-onHover-bg: var(--colors-brand-10);
-  --Table-onHover-borderColor:var(--colors-neutral-line-8);
+  --Table-onHover-borderColor: var(--colors-neutral-line-8);
   --Table-onHover-boxShadow: var(--shadows-shadow-normal);
   --Table-onHover-color: var(--text-color);
   --Table-onModified-bg: #e8f0fe;
@@ -1197,7 +1197,7 @@ $remFactor: 16px;
   --Table-thead-iconColor: var(--colors-neutral-text-5);
   --Table-toolbar-marginX: #{px2rem(4px)};
   --Table-toolbar-marginY: var(--gap-base);
-  --Table-tree-borderColor:var(--colors-neutral-line-8);
+  --Table-tree-borderColor: var(--colors-neutral-line-8);
   --Table-searchableForm-backgroundColor: #f6f7f8;
   --Table-searchableForm-borderRadius: #{px2rem(4px)};
   --Table-empty-icon-size: #{px2rem(74px)};
@@ -1209,9 +1209,9 @@ $remFactor: 16px;
   --TableCell--edge-paddingX-default: var(--gap-base);
   --TableCell-filterBtn--onActive-color: var(--colors-brand-5);
   --TableCell-filterBtn-width: #{px2rem(16px)};
-  --TableCell-filterPopOver-dropDownItem-height:  var(--sizes-base-16);
+  --TableCell-filterPopOver-dropDownItem-height: var(--sizes-base-16);
   --TableCell-filterPopOver-dropDownItem-padding: var(--sizes-size-0)
-  var(--sizes-size-6);
+    var(--sizes-size-6);
   --TableCell-line-height-large: #{px2rem(40px)};
   --TableCell-line-height-middle: #{px2rem(30px)};
   --TableCell-height: #{px2rem(40px)};
@@ -1248,7 +1248,7 @@ $remFactor: 16px;
   --TableCell-sortBtn--default-onActive-opacity: 1;
   --TableCell-sortBtn--default-opacity: 0;
   --TableCell-sortBtn--onActive-color: var(--colors-brand-5);
-  --TableCell-sortBtn-width:var(--sizes-size-8);
+  --TableCell-sortBtn-width: var(--sizes-size-8);
   --TableCell-icon-gap: var(--gap-sm);
 
   --Table-fixedLeftLast-boxShadow: inset 10px 0 8px -8px #00000026;
@@ -1287,7 +1287,7 @@ $remFactor: 16px;
   --Tabs--simple-split-size: var(--sizes-size-3) var(--sizes-size-9);
   --Tabs--sidebar-iconColor: var(--colors-brand-5);
 
-  --Tabs--simple-split-color:  var(--colors-neutral-text-8);
+  --Tabs--simple-split-color: var(--colors-neutral-text-8);
   --Tabs-borderRadius: var(--borderRadius);
   --Tabs-borderWidth: var(--borderWidth);
   --Tabs-color: var(--text-color);
@@ -1361,7 +1361,7 @@ $remFactor: 16px;
   --Toast--danger-color: var(--colors-neutral-text-2);
   --Toast--info-bgColor: var(--colors-neutral-fill-11);
   --Toast--info-borderColor: var(--colors-neutral-line-11);
-  --Toast--info-color:var(--colors-neutral-text-2);
+  --Toast--info-color: var(--colors-neutral-text-2);
   --Toast--success-bgColor: var(--colors-neutral-fill-11);
   --Toast--success-borderColor: var(--colors-neutral-line-11);
   --Toast--success-color: var(--colors-neutral-text-2);
@@ -1369,7 +1369,7 @@ $remFactor: 16px;
   --Toast--warning-borderColor: var(--colors-neutral-line-11);
   --Toast--warning-color: var(--colors-neutral-text-2);
 
-  --Toast-border-width:var(--borders-width-2);
+  --Toast-border-width: var(--borders-width-2);
   --Toast-borderRadius: var(--borders-radius-3);
   --Toast-box-shadow: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
     0px 1px 10px 0px rgba(8, 14, 26, 0.05),
@@ -1445,7 +1445,7 @@ $remFactor: 16px;
   --Tree-item-onHover-bg: var(--colors-neutral-fill-10);
   --Tree-item-onHover-bg-pure: var(--colors-neutral-fill-10);
   --Tree-itemArrowWidth: #{px2rem(16px)};
-  --Tree-itemHeight:var(--sizes-base-13);
+  --Tree-itemHeight: var(--sizes-base-13);
   --Tree-itemLabel--onChecked-color: var(--Form-selectValue-color);
   --TreeSelect-popover-bg: var(--colors-neutral-fill-11);
   --Tree-item-text-max-height: #{px2rem(250px)};
@@ -1456,11 +1456,12 @@ $remFactor: 16px;
   --Tree-item-onChekced-bg-borderRadius: var(--borders-radius-2);
 
   --Wizard-badge-bg: var(--colors-neutral-fill-11);
-  --Wizard-badge-border: var(--borders-width-2) var(--borders-style-2) var(--colors-neutral-fill-6);
+  --Wizard-badge-border: var(--borders-width-2) var(--borders-style-2)
+    var(--colors-neutral-fill-6);
   --Wizard-badge-borderRadius: var(--borders-radius-7);
   --Wizard-badge-color: var(--colors-neutral-text-6);
   --Wizard-badge-fontSize: var(--fonts-size-7);
-  --Wizard-badge-marginRight:  var(--sizes-size-4);
+  --Wizard-badge-marginRight: var(--sizes-size-4);
   --Wizard-badge-onActive-backgroundColor: var(--colors-neutral-text-3);
   --Wizard-badge-onComplete-backgroundColor: var(--colors-neutral-text-3);
   --Wizard-badge-size: var(--sizes-base-14);
@@ -1604,7 +1605,7 @@ $remFactor: 16px;
   --menu-font-color: #151b26;
   --menu-font-family: PingFangSC-Regular;
   --menu-border-color: #e8e9eb; // 默认的边框色
-  --menu-active-color: var(--colors-brand-5)
+  --menu-active-color: var(--colors-brand-5);
   --menu-hover-bg-color: #e6f0ff;
   --menu-disabled-color: #b8babf; // 禁用文字颜色
   --default-icon-color: #84868c; // 默认的icon颜色
