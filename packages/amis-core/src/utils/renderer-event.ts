@@ -5,7 +5,7 @@ import {createObject} from './object';
 import debounce from 'lodash/debounce';
 
 
-interface debounceConfig {
+export interface debounceConfig {
   maxWait?: number;
   wait?: number;
   leading?: boolean;
