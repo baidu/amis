@@ -9,7 +9,7 @@ import {ClassName, localeable, LocaleProps, Schema} from 'amis-core';
 import Transition, {ENTERED, ENTERING} from 'react-transition-group/Transition';
 import {themeable, ThemeProps} from 'amis-core';
 import {uncontrollable} from 'amis-core';
-import {generateIcon} from 'amis-core';
+import {generateIcon, isObjectShallowModified} from 'amis-core';
 import {autobind, guid} from 'amis-core';
 import {Icon} from './icons';
 import debounce from 'lodash/debounce';
@@ -237,9 +237,33 @@ export class Tabs extends React.Component<TabsProps, any> {
       );
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(preProps: any) {
+    // 只有 key 变化或者 tab 改变，才会重新计算，避免多次计算导致 顶部标签 滚动问题
+    const isTabsModified = isObjectShallowModified(
+      {
+        activeKey: this.props.activeKey,
+        children: Array.isArray(this.props.children)
+          ? this.props.children!.map(item => ({
+              key: item?.props.key,
+              eventKey: item?.props.eventKey,
+              label: item?.props.label
+            }))
+          : this.props.children
+      },
+      {
+        activeKey: preProps.activeKey,
+        children: Array.isArray(preProps.children)
+          ? preProps.children!.map((item: any) => ({
+              key: item?.props.key,
+              eventKey: item?.props.eventKey,
+              label: item?.props.label
+            }))
+          : preProps.children
+      }
+    );
+
     // 判断是否是由滚动触发的数据更新，如果是则不需要再次判断容器与内容的关系
-    if (!this.scroll && !this.draging) {
+    if (!this.scroll && !this.draging && isTabsModified) {
       this.computedWidth();
     }
     this.scroll = false;
@@ -423,21 +447,25 @@ export class Tabs extends React.Component<TabsProps, any> {
       clientWidth: 0
     };
     if (type === 'left' && scrollLeft > 0) {
+      const newScrollLeft = scrollLeft - clientWidth;
+
       this.navMain.current?.scrollTo({
-        left: 0,
+        left: newScrollLeft > 0 ? newScrollLeft : 0,
         behavior: 'smooth'
       });
       this.setState({
         arrowRightDisabled: false,
-        arrowLeftDisabled: true
+        arrowLeftDisabled: newScrollLeft <= 0
       });
     } else if (type === 'right' && scrollWidth > scrollLeft + clientWidth) {
+      const newScrollLeft = scrollLeft + clientWidth;
+
       this.navMain.current?.scrollTo({
-        left: this.navMain.current?.scrollWidth,
+        left: newScrollLeft > scrollWidth ? scrollWidth : newScrollLeft,
         behavior: 'smooth'
       });
       this.setState({
-        arrowRightDisabled: true,
+        arrowRightDisabled: newScrollLeft > scrollWidth - clientWidth,
         arrowLeftDisabled: false
       });
     }

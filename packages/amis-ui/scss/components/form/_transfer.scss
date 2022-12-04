@@ -380,6 +380,7 @@
   &-tabs {
     .#{$ns}Tabs-linksContainer {
       padding-left: px2rem(20px);
+      padding-right: px2rem(20px);
       padding-top: px2rem(8px);
       background-color: var(--TabsTransfer-title-bg);
     }
