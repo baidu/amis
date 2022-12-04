@@ -34,42 +34,6 @@ exports[`Renderer:Pagination 1`] = `
             </a>
           </li>
           <li
-            class="cxd-Pagination-pager-item"
-          >
-            <a
-              role="button"
-            >
-              2
-            </a>
-          </li>
-          <li
-            class="cxd-Pagination-pager-item"
-          >
-            <a
-              role="button"
-            >
-              3
-            </a>
-          </li>
-          <li
-            class="cxd-Pagination-pager-item"
-          >
-            <a
-              role="button"
-            >
-              4
-            </a>
-          </li>
-          <li
-            class="cxd-Pagination-pager-item"
-          >
-            <a
-              role="button"
-            >
-              5
-            </a>
-          </li>
-          <li
             class="cxd-Pagination-next"
           >
             <span>
@@ -467,6 +431,661 @@ exports[`Renderer:Pagination 2`] = `
           GO
         </span>
       </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:Pagination with disabled 1`] = `
+<div>
+  <div
+    class="cxd-Service"
+  >
+    <div
+      class="cxd-Pagination-wrap disabled"
+    >
+      <ul
+        class="cxd-Pagination cxd-Pagination--sm cxd-Pagination-item"
+      >
+        <li
+          class="cxd-Pagination-prev is-disabled"
+        >
+          <span>
+            <icon-mock
+              classname="icon icon-left-arrow"
+              icon="left-arrow"
+            />
+          </span>
+        </li>
+        <li
+          class="cxd-Pagination-pager-item is-active"
+        >
+          <a
+            role="button"
+          >
+            1
+          </a>
+        </li>
+        <li
+          class="cxd-Pagination-pager-item"
+        >
+          <a
+            role="button"
+          >
+            2
+          </a>
+        </li>
+        <li
+          class="cxd-Pagination-pager-item"
+        >
+          <a
+            role="button"
+          >
+            3
+          </a>
+        </li>
+        <li
+          class="cxd-Pagination-pager-item"
+        >
+          <a
+            role="button"
+          >
+            4
+          </a>
+        </li>
+        <li
+          class="cxd-Pagination-pager-item"
+        >
+          <a
+            role="button"
+          >
+            5
+          </a>
+        </li>
+        <li
+          class="cxd-Pagination-pager-item"
+        >
+          <a
+            role="button"
+          >
+            6
+          </a>
+        </li>
+        <li
+          class="cxd-Pagination-pager-item"
+        >
+          <a
+            role="button"
+          >
+            7
+          </a>
+        </li>
+        <li
+          class="ellipsis"
+        >
+          <a
+            role="button"
+          >
+            ...
+          </a>
+        </li>
+        <li
+          class="cxd-Pagination-pager-item"
+        >
+          <a
+            role="button"
+          >
+            100
+          </a>
+        </li>
+        <li
+          class="cxd-Pagination-next"
+        >
+          <span>
+            <icon-mock
+              classname="icon icon-right-arrow"
+              icon="right-arrow"
+            />
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:Pagination with layout 1`] = `
+<div>
+  <div
+    class="cxd-Service"
+  >
+    <div
+      class="cxd-Pagination-wrap"
+    >
+      <div
+        class="cxd-Pagination-total cxd-Pagination-item"
+      >
+        共 999 条
+      </div>
+      <div
+        class="cxd-Pagination-inputGroup cxd-Pagination-item"
+      >
+        <span
+          class="cxd-Pagination-inputGroup-left"
+        >
+          跳转至
+        </span>
+        <input
+          class="cxd-Pagination-inputGroup-input"
+          type="text"
+          value=""
+        />
+        <span
+          class="cxd-Pagination-inputGroup-right"
+        >
+          GO
+        </span>
+      </div>
+      <div
+        aria-expanded="false"
+        aria-haspopup="listbox"
+        aria-labelledby="downshift-1-label"
+        class="cxd-Select cxd-Pagination-perpage cxd-Pagination-item"
+        role="combobox"
+        tabindex="0"
+      >
+        <div
+          class="cxd-Select-valueWrap"
+        >
+          <div
+            class="cxd-Select-value"
+          >
+            10条/页
+          </div>
+        </div>
+        <span
+          class="cxd-Select-arrow"
+        >
+          <icon-mock
+            classname="icon icon-right-arrow-bold"
+            icon="right-arrow-bold"
+          />
+        </span>
+      </div>
+      <ul
+        class="cxd-Pagination cxd-Pagination--sm cxd-Pagination-item"
+      >
+        <li
+          class="cxd-Pagination-prev"
+        >
+          <span>
+            <icon-mock
+              classname="icon icon-left-arrow"
+              icon="left-arrow"
+            />
+          </span>
+        </li>
+        <li
+          class="cxd-Pagination-pager-item"
+        >
+          <a
+            role="button"
+          >
+            1
+          </a>
+        </li>
+        <li
+          class="cxd-Pagination-pager-item is-active"
+        >
+          <a
+            role="button"
+          >
+            2
+          </a>
+        </li>
+        <li
+          class="cxd-Pagination-pager-item"
+        >
+          <a
+            role="button"
+          >
+            3
+          </a>
+        </li>
+        <li
+          class="cxd-Pagination-pager-item"
+        >
+          <a
+            role="button"
+          >
+            4
+          </a>
+        </li>
+        <li
+          class="cxd-Pagination-pager-item"
+        >
+          <a
+            role="button"
+          >
+            5
+          </a>
+        </li>
+        <li
+          class="cxd-Pagination-pager-item"
+        >
+          <a
+            role="button"
+          >
+            6
+          </a>
+        </li>
+        <li
+          class="cxd-Pagination-pager-item"
+        >
+          <a
+            role="button"
+          >
+            7
+          </a>
+        </li>
+        <li
+          class="ellipsis"
+        >
+          <a
+            role="button"
+          >
+            ...
+          </a>
+        </li>
+        <li
+          class="cxd-Pagination-pager-item"
+        >
+          <a
+            role="button"
+          >
+            100
+          </a>
+        </li>
+        <li
+          class="cxd-Pagination-next"
+        >
+          <span>
+            <icon-mock
+              classname="icon icon-right-arrow"
+              icon="right-arrow"
+            />
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:Pagination with maxButtons 1`] = `
+<div>
+  <div
+    class="cxd-Service"
+  >
+    <div
+      class="cxd-Pagination-wrap"
+    >
+      <ul
+        class="cxd-Pagination cxd-Pagination--sm cxd-Pagination-item"
+      >
+        <li
+          class="cxd-Pagination-prev"
+        >
+          <span>
+            <icon-mock
+              classname="icon icon-left-arrow"
+              icon="left-arrow"
+            />
+          </span>
+        </li>
+        <li
+          class="cxd-Pagination-pager-item"
+        >
+          <a
+            role="button"
+          >
+            1
+          </a>
+        </li>
+        <li
+          class="ellipsis"
+        >
+          <a
+            role="button"
+          >
+            ...
+          </a>
+        </li>
+        <li
+          class="cxd-Pagination-pager-item"
+        >
+          <a
+            role="button"
+          >
+            16
+          </a>
+        </li>
+        <li
+          class="cxd-Pagination-pager-item"
+        >
+          <a
+            role="button"
+          >
+            17
+          </a>
+        </li>
+        <li
+          class="cxd-Pagination-pager-item"
+        >
+          <a
+            role="button"
+          >
+            18
+          </a>
+        </li>
+        <li
+          class="cxd-Pagination-pager-item"
+        >
+          <a
+            role="button"
+          >
+            19
+          </a>
+        </li>
+        <li
+          class="cxd-Pagination-pager-item is-active"
+        >
+          <a
+            role="button"
+          >
+            20
+          </a>
+        </li>
+        <li
+          class="cxd-Pagination-pager-item"
+        >
+          <a
+            role="button"
+          >
+            21
+          </a>
+        </li>
+        <li
+          class="cxd-Pagination-pager-item"
+        >
+          <a
+            role="button"
+          >
+            22
+          </a>
+        </li>
+        <li
+          class="cxd-Pagination-pager-item"
+        >
+          <a
+            role="button"
+          >
+            23
+          </a>
+        </li>
+        <li
+          class="ellipsis"
+        >
+          <a
+            role="button"
+          >
+            ...
+          </a>
+        </li>
+        <li
+          class="cxd-Pagination-pager-item"
+        >
+          <a
+            role="button"
+          >
+            100
+          </a>
+        </li>
+        <li
+          class="cxd-Pagination-next"
+        >
+          <span>
+            <icon-mock
+              classname="icon icon-right-arrow"
+              icon="right-arrow"
+            />
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:Pagination with showPerPage & perPageAvailable & showPageInput 1`] = `
+<div
+  aria-expanded="true"
+  aria-haspopup="listbox"
+  aria-labelledby="downshift-2-label"
+  aria-owns="downshift-2-menu"
+  class="cxd-Select is-opened cxd-Pagination-perpage cxd-Pagination-item has-popover"
+  role="combobox"
+  style="position: relative;"
+  tabindex="0"
+>
+  <div
+    class="cxd-Select-valueWrap"
+  >
+    <div
+      class="cxd-Select-placeholder"
+    >
+      请选择
+    </div>
+  </div>
+  <span
+    class="cxd-Select-arrow"
+  >
+    <icon-mock
+      classname="icon icon-right-arrow-bold"
+      icon="right-arrow-bold"
+    />
+  </span>
+  <div
+    class="cxd-PopOver cxd-Select-popover cxd-PopOver--leftBottomLeftTop"
+    style="display: block; width: auto; left: 0px; top: 0px; position: relative;"
+    theme="cxd"
+  >
+    <div
+      class="cxd-PopOver-overlay"
+    />
+    <div
+      class="cxd-Select-menu"
+    >
+      <div
+        aria-selected="false"
+        class="cxd-Select-option"
+        id="downshift-2-item-0"
+        role="option"
+      >
+        <span
+          class="cxd-Select-option-content"
+          title="2条/页"
+        >
+          2条/页
+        </span>
+      </div>
+      <div
+        aria-selected="false"
+        class="cxd-Select-option"
+        id="downshift-2-item-1"
+        role="option"
+      >
+        <span
+          class="cxd-Select-option-content"
+          title="11条/页"
+        >
+          11条/页
+        </span>
+      </div>
+      <div
+        aria-selected="false"
+        class="cxd-Select-option"
+        id="downshift-2-item-2"
+        role="option"
+      >
+        <span
+          class="cxd-Select-option-content"
+          title="37条/页"
+        >
+          37条/页
+        </span>
+      </div>
+      <div
+        aria-selected="false"
+        class="cxd-Select-option"
+        id="downshift-2-item-3"
+        role="option"
+      >
+        <span
+          class="cxd-Select-option-content"
+          title="101条/页"
+        >
+          101条/页
+        </span>
+      </div>
+      <div
+        aria-selected="false"
+        class="cxd-Select-option"
+        id="downshift-2-item-4"
+        role="option"
+      >
+        <span
+          class="cxd-Select-option-content"
+          title="555条/页"
+        >
+          555条/页
+        </span>
+      </div>
+    </div>
+    <div
+      class="resize-sensor"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+    >
+      
+  
+      <div
+        class="resize-sensor-expand"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-shrink"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
+    </div>
+  </div>
+  <div
+    class="resize-sensor"
+    style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+  >
+    
+  
+    <div
+      class="resize-sensor-expand"
+      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+    >
+      
+    
+      <div
+        style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+      />
+      
+  
+    </div>
+    
+  
+    <div
+      class="resize-sensor-shrink"
+      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+    >
+      
+    
+      <div
+        style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+      />
+      
+  
+    </div>
+    
+  
+    <div
+      class="resize-sensor-appear"
+      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+    />
+  </div>
+</div>
+`;
+
+exports[`Renderer:Pagination with simple mode 1`] = `
+<div>
+  <div
+    class="cxd-Service"
+  >
+    <div
+      class="cxd-Pagination-wrap cxd-Pagination-simple"
+    >
+      <ul
+        class="cxd-Pagination cxd-Pagination--sm cxd-Pagination-pager-items cxd-Pagination-item"
+      >
+        <li
+          class="cxd-Pagination-prev is-disabled"
+        >
+          <span>
+            <icon-mock
+              classname="icon icon-left-arrow"
+              icon="left-arrow"
+            />
+          </span>
+        </li>
+        <li
+          class="cxd-Pagination-next is-disabled"
+        >
+          <span>
+            <icon-mock
+              classname="icon icon-right-arrow"
+              icon="right-arrow"
+            />
+          </span>
+        </li>
+      </ul>
     </div>
   </div>
 </div>
