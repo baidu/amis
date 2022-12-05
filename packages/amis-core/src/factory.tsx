@@ -26,6 +26,8 @@ import {HocStoreFactory} from './WithStore';
 import type {RendererEnv} from './env';
 import {OnEventProps} from './utils/renderer-event';
 import {Placeholder} from './renderers/Placeholder';
+import {OptionsControl} from './renderers/Options';
+import FormItem from './renderers/Item';
 
 export interface TestFunc {
   (
@@ -196,6 +198,51 @@ export function unRegisterRenderer(config: RendererConfig | string) {
   // 清空渲染器定位缓存
   cache = {};
 }
+
+declare const window: Window & {
+  AmisCustomRenderers: any;
+};
+
+// 渲染器动态注册机制（amis-widget 3.0 需要）
+window.addEventListener(
+  'message',
+  (event: any) => {
+    if (!event.data) {
+      return;
+    }
+    if (
+      event.data?.type === 'amis-renderer-register-event' &&
+      event.data?.amisRenderer &&
+      event.data.amisRenderer.type
+    ) {
+      const curAmisRenderer = event.data?.amisRenderer;
+      const curUsage = curAmisRenderer?.usage || 'renderer';
+      // 当前支持动态注册的渲染器类型
+      const registerMap: {
+        [props: string]: Function
+      } = {
+        renderer: Renderer,
+        formitem: FormItem,
+        options: OptionsControl,
+      };
+      if (
+        registerMap[curUsage] &&
+        window.AmisCustomRenderers &&
+        window.AmisCustomRenderers[curAmisRenderer.type]
+      ) {
+        console.info(
+          '[amis-core]响应动态注册渲染器事件：',
+          curAmisRenderer.type
+        );
+        registerMap[curUsage as keyof typeof registerMap]({
+          type: curAmisRenderer.type,
+          weight: curAmisRenderer.weight || 0,
+        })(window.AmisCustomRenderers[curAmisRenderer.type]);
+      }
+    }
+  },
+  false
+);
 
 export function loadRenderer(schema: Schema, path: string) {
   return (
