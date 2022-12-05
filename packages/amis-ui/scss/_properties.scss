@@ -277,7 +277,7 @@ $remFactor: 16px;
   --Calendar-rdt-day: var(--sizes-base-50);
   --Calendar-schedule-content-padding: 0 var(--sizes-size-3);
   --Calendar-schedule-content-height: var(--sizes-base-11);
-  --Calendar-schedule-content-color: (--colors-neutral-text-11);
+  --Calendar-schedule-content-color: var(--colors-neutral-text-11);
 
   --Card-actions-borderColor: var(--colors-neutral-line-10);
   --Card-actions-fontSize:  var(--fonts-size-8);
@@ -545,8 +545,6 @@ $remFactor: 16px;
   --Form-description-fontSize: var(--fontSizeSm);
 
   --Form-fontSize: var(--fontSizeBase);
-  --Form-item-fontSize: var(--fontSizeBase);
-  --Form-item-fontColor: (--colors-neutral-text-4);
 
   --Form-group--lg-gutterWidth: #{px2rem(40px)};
   --Form-group--md-gutterWidth: #{px2rem(30px)};
@@ -634,7 +632,7 @@ $remFactor: 16px;
   --Form-select-onError-borderColor: var(--Form-input-onError-borderColor);
   --Form-select-onFocused-borderColor: var(--Form-input-onFocused-borderColor);
   --Form-select-onFocused-color: var(--Form-select-color);
-  --Form-select-onHover-bg: (--colors-neutral-fill-11);
+  --Form-select-onHover-bg: var(--colors-neutral-fill-11);
   --Form-select-onHover-borderColor: var(--colors-brand-5);
   --Form-select-outer-borderWidth: var(--borders-width-1);
   --Form-select-outer-top: var(--sizes-base-17);
@@ -800,7 +798,7 @@ $remFactor: 16px;
   );
   --Layout-asideLink-onActive-color: var(--colors-brand-4);
   --Layout-asideLink-onHover-color: var(--colors-brand-6);
-  --Layout-asideLink-onHover-iconColor: (--colors-brand-6);
+  --Layout-asideLink-onHover-iconColor:var(--colors-brand-6);
   --Layout-asideLink-onHover-iconSize: var(--sizes-size-9);
   --Layout-asideLink-onHover-arrowColor: var(--colors-neutral-text-11);
   --Layout-brand-bg: var(--colors-brand-1);
