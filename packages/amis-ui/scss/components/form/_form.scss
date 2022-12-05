@@ -65,8 +65,8 @@
 }
 
 .#{$ns}Form-star {
-  color: var(--danger);
-  font-size: var(--fontSizeXs);
+  color: var(--Form-item-star-color);
+  font-size: var(--Form-item-star-size);
   line-height: 1;
 }
 
