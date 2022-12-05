@@ -152,19 +152,19 @@
   }
 
   &-handler {
-    background: var(--inputNumber-base-step-default-bg);
+    background: var(--Number-handler-bg);
     color: var(--Number-handler-color);
     font-family: var(--Number-handler-fontFamily);
-    font-size: var(--inputNumber-base-icon-fontSize);
+    font-size: var(--Number-handler-fontSize);
 
     &:hover {
-      background: var(--inputNumber-base-step-hover-bg);
-      color: var(--inputNumber-base-icon-hover-color);
+      background: var(--Number-handler-onHover-bg);
+      color: var(--Number-handler-onHover-color);
       cursor: pointer;
     }
 
     &:hover:active {
-      background: var(--inputNumber-base-step-active-bg);
+      background: var(--Number-handler-onActive-bg);
       color: var(--inputNumber-base-icon-active-color);
     }
   }
@@ -408,16 +408,16 @@
     height: var(--Form-inputNumber-base-height);
     line-height: var(--Form-inputNumber-base-height);
     text-align: center;
-    color: var(--inputNumber-enhance-icon-default-color);
-    background: var(--inputNumber-enhance-step-default-bg);
+    color: var(--Form-input-color);
+    background: var(--Form-input-bg);
     &:hover {
       cursor: pointer;
-      background: var(--inputNumber-enhance-step-hover-bg);
-      color: var(--inputNumber-enhance-icon-hover-color);
+      background: var(--Form-input-bg);
+      color: var(--Form-input-onHover-borderColor);
     }
     &-focused {
-      background: var(--inputNumber-enhance-step-active-bg);
-      color: var(--inputNumber-enhance-icon-active-color);
+      background: var(--Form-input-bg);
+      color: var(--Form-input-onFocused-borderColor);
     }
     & > svg {
       width: var(--fontSizeSm);

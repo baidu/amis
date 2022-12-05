@@ -1192,6 +1192,11 @@
   --inputNumber-size-default-height: var(--sizes-base-17);
   --inputNumber-size-md-height: var(--sizes-base-17);
   --inputNumber-size-lg-height: var(--sizes-base-17);
+  --Number-handler-bg: var(--inputNumber-base-step-default-bg);
+  --Number-handler-fontSize: var(--inputNumber-base-icon-fontSize);
+  --Number-handler-onHover-bg: var(--inputNumber-base-step-hover-bg);
+  --Number-handler-onHover-color: var(--inputNumber-base-icon-hover-color);
+  --Number-handler-onActive-bg: var(--inputNumber-base-step-active-bg);
   // 加强版数字输入框
   --inputNumber-enhance-default-top-border-color: var(--colors-neutral-line-7);
   --inputNumber-enhance-default-top-border-width: var(--borders-width-2);
@@ -1317,6 +1322,12 @@
   --inputNumber-enhance-step-default-bg: var(--colors-neutral-fill-11);
   --inputNumber-enhance-step-hover-bg: var(--colors-neutral-fill-11);
   --inputNumber-enhance-step-active-bg: var(--colors-neutral-fill-11);
+  --Form-input-color: var(--inputNumber-enhance-icon-default-color);
+  --Form-input-bg: var(--inputNumber-enhance-step-default-bg);
+  --Form-input-onHover-borderColor: var(--inputNumber-enhance-icon-hover-color);
+  --Form-input-onFocused-borderColor: var(
+    --inputNumber-enhance-icon-active-color
+  );
 
   // 链接
   --link-color: var(--colors-link-4);
