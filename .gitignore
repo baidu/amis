@@ -32,3 +32,4 @@ lerna-debug.log
 .rollup.cache
 package-lock.json
 revision.json
+**/revision.json
