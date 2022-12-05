@@ -456,13 +456,11 @@
     }
   }
   .#{$ns}Number--enhance-border-disabled {
-    background: var(--Form-input-onDisabled-bg);
-    color: var(--Form-inputNumber-strong-disabled-color);
+    background: var(--inputNumber-enhance-disabled-bg-color);
     cursor: not-allowed;
     &:hover {
       cursor: not-allowed;
-      background: var(--Form-input-onDisabled-bg);
-      color: var(--Form-inputNumber-strong-disabled-color);
+      background: var(--inputNumber-enhance-disabled-bg-color);
     }
   }
   .#{$ns}Number--enhance-border-readOnly,
