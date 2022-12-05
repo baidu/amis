@@ -1598,9 +1598,12 @@ div.ae-DragImage {
     --Steps-title-fontsize: #{px2rem(14px)};
 
     &-Icon {
+      display: flex !important;
       width: px2rem(22px) !important;
       height: px2rem(22px) !important;
       font-size: px2rem(12px) !important;
+      align-items: center;
+      justify-content: center;
     }
   }
 
