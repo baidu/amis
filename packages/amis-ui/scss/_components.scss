@@ -1078,7 +1078,8 @@
   // 链接
   --link-color: var(--colors-link-4);
   --link-fontSize: var(--fonts-size-7);
-  --link-text-decoration: none; // 不兼容
+  --link-text-decoration: none;
+  --link-decoration: var(--link-text-decoration); // 原变量
   --link-font-style: none;
   --link-bg-color: transparent;
   --link-onHover-color: var(--colors-link-5);
@@ -1089,6 +1090,7 @@
   --link-onClick-color: var(--colors-link-3);
   --link-onClick-fontSize: var(--fonts-size-7);
   --link-onClick-text-decoration: none;
+  --link-onHover-decoration: var(--link-onClick-text-decoration);
   --link-onClick-font-style: none;
   --link-onClick-bg-color: transparent;
   --link-disabled-color: var(--colors-link-3);
@@ -1098,4 +1100,11 @@
   --link-disabled-bg-color: transparent;
   --link-icon-size: var(--sizes-size-8);
   --link-icon-margin: var(--sizes-size-3);
+
+  // 表单
+  --Form-item-color: var(--colors-neutral-text-4);
+  --Form-item-fontColor: var(--Form-item-color);
+  --Form-item-fontSize: var(--fonts-size-7);
+  --Form-item-fontWeight: var(--fonts-weight-6);
+  --Form-item-lineHeight: var(--fonts-lineHeight-2);
 }

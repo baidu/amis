@@ -52,7 +52,8 @@
 }
 
 .#{$ns}Form-label {
-  font-weight: var(--fontWeightNormal);
+  font-weight: var(--Form-item-fontWeight);
+  line-height: var(--Form-item-lineHeight);
   margin-bottom: var(--gap-sm);
   position: relative;
   font-size: var(--Form-item-fontSize);
