@@ -223,6 +223,7 @@ export async function dispatchEvent(
       await runActions(listener.actions, listener.renderer, rendererEvent);
       checkExecuted();
     }
+
     // 停止后续监听器执行
     if (rendererEvent.stoped) {
       break;
