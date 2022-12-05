@@ -583,11 +583,6 @@ $remFactor: 16px;
   --Form-input-password-icon-size: var(--sizes-size-9);
   --Form-input-password-icon-color: var(--colors-neutral-text-5);
 
-  --Form-inputNumber-paddingX: #{px2rem(12px)};
-  --Form-inputNumber-base-width: #{px2rem(24px)};
-  --Form-inputNumber-base-height: #{px2rem(32px)};
-  --Form-inputNumber-strong-disabled-color: #b4b6ba;
-
   --Form-input-paddingY: calc(
     (
         var(--Form-input-height) - var(--Form-input-lineHeight) *
