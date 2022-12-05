@@ -37,6 +37,7 @@ done
 for f in $(find ./packages/*/lib -type f -name "*.[tj]s"); do
   sed -i '' -e "s/from \'amis/from \'@fex\/amis/g" $f
   sed -i '' -e "s/import(\'amis/import(\'@fex\/amis/g" $f
+  sed -i '' -e "s/import[ ]*\'amis/import \'@fex\/amis/g" $f
   sed -i '' -e "s/require(\'amis/require(\'@fex\/amis/g" $f
   sed -i '' -e "s/require(\[\'amis/require(\[\'@fex\/amis/g" $f
 done
@@ -44,6 +45,7 @@ done
 for f in $(find ./packages/*/esm -type f -name "*.[tj]s"); do
   sed -i '' -e "s/from \'amis/from \'@fex\/amis/g" $f
   sed -i '' -e "s/import(\'amis/import(\'@fex\/amis/g" $f
+  sed -i '' -e "s/import[ ]*\'amis/import \'@fex\/amis/g" $f
   sed -i '' -e "s/require(\'amis/require(\'@fex\/amis/g" $f
   sed -i '' -e "s/require(\[\'amis/require(\[\'@fex\/amis/g" $f
 done
