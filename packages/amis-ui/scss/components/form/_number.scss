@@ -11,12 +11,86 @@
   border-radius: var(--Number-borderRadius);
   overflow: hidden;
 
-  @include input-border();
+  border-width: var(--inputNumber-base-default-top-border-width)
+    var(--inputNumber-base-default-right-border-width)
+    var(--inputNumber-base-default-bottom-border-width)
+    var(--inputNumber-base-default-left-border-width);
+  border-style: var(--inputNumber-base-default-top-border-style)
+    var(--inputNumber-base-default-right-border-style)
+    var(--inputNumber-base-default-bottom-border-style)
+    var(--inputNumber-base-default-left-border-style);
+  border-color: var(--inputNumber-base-default-top-border-color)
+    var(--inputNumber-base-default-right-border-color)
+    var(--inputNumber-base-default-bottom-border-color)
+    var(--inputNumber-base-default-left-border-color);
+  border-radius: var(--inputNumber-base-default-top-left-border-radius)
+    var(--inputNumber-base-default-top-right-border-radius)
+    var(--inputNumber-base-default-bottom-right-border-radius)
+    var(--inputNumber-base-default-bottom-left-border-radius);
+  background: var(--inputNumber-base-default-bg-color);
+
+  &:hover {
+    border-width: var(--inputNumber-base-hover-top-border-width)
+      var(--inputNumber-base-hover-right-border-width)
+      var(--inputNumber-base-hover-bottom-border-width)
+      var(--inputNumber-base-hover-left-border-width);
+    border-style: var(--inputNumber-base-hover-top-border-style)
+      var(--inputNumber-base-hover-right-border-style)
+      var(--inputNumber-base-hover-bottom-border-style)
+      var(--inputNumber-base-hover-left-border-style);
+    border-color: var(--inputNumber-base-hover-top-border-color)
+      var(--inputNumber-base-hover-right-border-color)
+      var(--inputNumber-base-hover-bottom-border-color)
+      var(--inputNumber-base-hover-left-border-color);
+    border-radius: var(--inputNumber-base-hover-top-left-border-radius)
+      var(--inputNumber-base-hover-top-right-border-radius)
+      var(--inputNumber-base-hover-bottom-right-border-radius)
+      var(--inputNumber-base-hover-bottom-left-border-radius);
+    background: var(--inputNumber-base-hover-bg-color);
+  }
 
   &-focused {
-    border-color: var(--Form-input-onFocused-borderColor);
-    box-shadow: var(--Form-input-boxShadow);
+    border-width: var(--inputNumber-base-active-top-border-width)
+      var(--inputNumber-base-active-right-border-width)
+      var(--inputNumber-base-active-bottom-border-width)
+      var(--inputNumber-base-active-left-border-width);
+    border-style: var(--inputNumber-base-active-top-border-style)
+      var(--inputNumber-base-active-right-border-style)
+      var(--inputNumber-base-active-bottom-border-style)
+      var(--inputNumber-base-active-left-border-style);
+    border-color: var(--inputNumber-base-active-top-border-color)
+      var(--inputNumber-base-active-right-border-color)
+      var(--inputNumber-base-active-bottom-border-color)
+      var(--inputNumber-base-active-left-border-color);
+    border-radius: var(--inputNumber-base-active-top-left-border-radius)
+      var(--inputNumber-base-active-top-right-border-radius)
+      var(--inputNumber-base-active-bottom-right-border-radius)
+      var(--inputNumber-base-active-bottom-left-border-radius);
+    background: var(--inputNumber-base-active-bg-color);
+    box-shadow: var(--inputNumber-base-active-shadow);
   }
+
+  &-disabled {
+    border-width: var(--inputNumber-base-disabled-top-border-width)
+      var(--inputNumber-base-disabled-right-border-width)
+      var(--inputNumber-base-disabled-bottom-border-width)
+      var(--inputNumber-base-disabled-left-border-width);
+    border-style: var(--inputNumber-base-disabled-top-border-style)
+      var(--inputNumber-base-disabled-right-border-style)
+      var(--inputNumber-base-disabled-bottom-border-style)
+      var(--inputNumber-base-disabled-left-border-style);
+    border-color: var(--inputNumber-base-disabled-top-border-color)
+      var(--inputNumber-base-disabled-right-border-color)
+      var(--inputNumber-base-disabled-bottom-border-color)
+      var(--inputNumber-base-disabled-left-border-color);
+    border-radius: var(--inputNumber-base-disabled-top-left-border-radius)
+      var(--inputNumber-base-disabled-top-right-border-radius)
+      var(--inputNumber-base-disabled-bottom-right-border-radius)
+      var(--inputNumber-base-disabled-bottom-left-border-radius);
+    background: var(--inputNumber-base-disabled-bg-color);
+  }
+
+  @include input-border();
 
   &-handler {
     text-align: center;
@@ -37,8 +111,6 @@
   }
 
   &:hover {
-    border-color: var(--Form-input-onFocused-borderColor);
-
     .#{$ns}Number-handler-wrap {
       display: block;
     }
@@ -70,7 +142,8 @@
     border: 0;
     border-radius: var(--Form-input-borderRadius);
     color: var(--Form-input-color);
-    padding: 0 var(--Form-inputNumber-paddingX);
+    padding: 0 var(--inputNumber-base-default-paddingRight) 0
+      var(--inputNumber-base-default-paddingLeft);
 
     &::placeholder {
       color: var(--Form-input-placeholderColor);
@@ -79,19 +152,20 @@
   }
 
   &-handler {
-    background: var(--Number-handler-bg);
+    background: var(--inputNumber-base-step-default-bg);
     color: var(--Number-handler-color);
     font-family: var(--Number-handler-fontFamily);
-    font-size: var(--Number-handler-fontSize);
+    font-size: var(--inputNumber-base-icon-fontSize);
 
     &:hover {
-      background: var(--Number-handler-onHover-bg);
-      color: var(--Number-handler-onHover-color);
+      background: var(--inputNumber-base-step-hover-bg);
+      color: var(--inputNumber-base-icon-hover-color);
       cursor: pointer;
     }
 
     &:hover:active {
-      background: var(--Number-handler-onActive-bg);
+      background: var(--inputNumber-base-step-active-bg);
+      color: var(--inputNumber-base-icon-active-color);
     }
   }
 
@@ -196,8 +270,29 @@
   }
 }
 
-.#{$ns}NumberControl:not(.is-inline) > .#{$ns}Number {
-  display: block;
+.#{$ns}Form-control--sizeSm > .#{$ns}Number {
+  height: var(--inputNumber-size-sm-height);
+}
+
+.#{$ns}Form-control--sizeMd > .#{$ns}Number {
+  height: var(--inputNumber-size-md-height);
+}
+
+.#{$ns}Form-control--sizeLg > .#{$ns}Number {
+  height: var(--inputNumber-size-lg-height);
+}
+
+.#{$ns}NumberControl {
+  &:not(.is-inline) > .#{$ns}Number {
+    display: block;
+  }
+
+  .#{$ns}Select {
+    padding: var(--inputNumber-base-unit-paddingTop)
+      var(--inputNumber-base-unit-paddingRight)
+      var(--inputNumber-base-unit-paddingBottom)
+      var(--inputNumber-base-unit-paddingLeft);
+  }
 }
 
 .#{$ns}Number--borderHalf,
@@ -222,6 +317,90 @@
   border: var(--Number-borderWidth) solid var(--Number-borderColor);
   border-radius: var(--Number-borderRadius);
   overflow: hidden;
+
+  border-width: var(--inputNumber-enhance-default-top-border-width)
+    var(--inputNumber-enhance-default-right-border-width)
+    var(--inputNumber-enhance-default-bottom-border-width)
+    var(--inputNumber-enhance-default-left-border-width);
+  border-style: var(--inputNumber-enhance-default-top-border-style)
+    var(--inputNumber-enhance-default-right-border-style)
+    var(--inputNumber-enhance-default-bottom-border-style)
+    var(--inputNumber-enhance-default-left-border-style);
+  border-color: var(--inputNumber-enhance-default-top-border-color)
+    var(--inputNumber-enhance-default-right-border-color)
+    var(--inputNumber-enhance-default-bottom-border-color)
+    var(--inputNumber-enhance-default-left-border-color);
+  border-radius: var(--inputNumber-enhance-default-top-left-border-radius)
+    var(--inputNumber-enhance-default-top-right-border-radius)
+    var(--inputNumber-enhance-default-bottom-right-border-radius)
+    var(--inputNumber-enhance-default-bottom-left-border-radius);
+  background: var(--inputNumber-enhance-default-bg-color);
+
+  &:hover {
+    border-width: var(--inputNumber-enhance-hover-top-border-width)
+      var(--inputNumber-enhance-hover-right-border-width)
+      var(--inputNumber-enhance-hover-bottom-border-width)
+      var(--inputNumber-enhance-hover-left-border-width);
+    border-style: var(--inputNumber-enhance-hover-top-border-style)
+      var(--inputNumber-enhance-hover-right-border-style)
+      var(--inputNumber-enhance-hover-bottom-border-style)
+      var(--inputNumber-enhance-hover-left-border-style);
+    border-color: var(--inputNumber-enhance-hover-top-border-color)
+      var(--inputNumber-enhance-hover-right-border-color)
+      var(--inputNumber-enhance-hover-bottom-border-color)
+      var(--inputNumber-enhance-hover-left-border-color);
+    border-radius: var(--inputNumber-enhance-hover-top-left-border-radius)
+      var(--inputNumber-enhance-hover-top-right-border-radius)
+      var(--inputNumber-enhance-hover-bottom-right-border-radius)
+      var(--inputNumber-enhance-hover-bottom-left-border-radius);
+    background: var(--inputNumber-enhance-hover-bg-color);
+  }
+
+  &:focus-within {
+    border-width: var(--inputNumber-enhance-active-top-border-width)
+      var(--inputNumber-enhance-active-right-border-width)
+      var(--inputNumber-enhance-active-bottom-border-width)
+      var(--inputNumber-enhance-active-left-border-width);
+    border-style: var(--inputNumber-enhance-active-top-border-style)
+      var(--inputNumber-enhance-active-right-border-style)
+      var(--inputNumber-enhance-active-bottom-border-style)
+      var(--inputNumber-enhance-active-left-border-style);
+    border-color: var(--inputNumber-enhance-active-top-border-color)
+      var(--inputNumber-enhance-active-right-border-color)
+      var(--inputNumber-enhance-active-bottom-border-color)
+      var(--inputNumber-enhance-active-left-border-color);
+    border-radius: var(--inputNumber-enhance-active-top-left-border-radius)
+      var(--inputNumber-enhance-active-top-right-border-radius)
+      var(--inputNumber-enhance-active-bottom-right-border-radius)
+      var(--inputNumber-enhance-active-bottom-left-border-radius);
+    background: var(--inputNumber-enhance-active-bg-color);
+  }
+
+  &-disabled {
+    border-width: var(--inputNumber-enhance-disabled-top-border-width)
+      var(--inputNumber-enhance-disabled-right-border-width)
+      var(--inputNumber-enhance-disabled-bottom-border-width)
+      var(--inputNumber-enhance-disabled-left-border-width);
+    border-style: var(--inputNumber-enhance-disabled-top-border-style)
+      var(--inputNumber-enhance-disabled-right-border-style)
+      var(--inputNumber-enhance-disabled-bottom-border-style)
+      var(--inputNumber-enhance-disabled-left-border-style);
+    border-color: var(--inputNumber-enhance-disabled-top-border-color)
+      var(--inputNumber-enhance-disabled-right-border-color)
+      var(--inputNumber-enhance-disabled-bottom-border-color)
+      var(--inputNumber-enhance-disabled-left-border-color);
+    border-radius: var(--inputNumber-enhance-disabled-top-left-border-radius)
+      var(--inputNumber-enhance-disabled-top-right-border-radius)
+      var(--inputNumber-enhance-disabled-bottom-right-border-radius)
+      var(--inputNumber-enhance-disabled-bottom-left-border-radius);
+    background: var(--inputNumber-enhance-disabled-bg-color);
+  }
+
+  .#{$ns}Number-input {
+    padding: 0 var(--inputNumber-enhance-default-paddingRight) 0
+      var(--inputNumber-enhance-default-paddingLeft);
+  }
+
   .#{$ns}Number--enhance-left-icon,
   .#{$ns}Number--enhance-right-icon {
     display: inline-block;
@@ -229,16 +408,16 @@
     height: var(--Form-inputNumber-base-height);
     line-height: var(--Form-inputNumber-base-height);
     text-align: center;
-    color: var(--Form-input-color);
-    background: var(--Form-input-bg);
+    color: var(--inputNumber-enhance-icon-default-color);
+    background: var(--inputNumber-enhance-step-default-bg);
     &:hover {
       cursor: pointer;
-      background: var(--Form-input-bg);
-      color: var(--Form-input-onHover-borderColor);
+      background: var(--inputNumber-enhance-step-hover-bg);
+      color: var(--inputNumber-enhance-icon-hover-color);
     }
     &-focused {
-      background: var(--Form-input-bg);
-      color: var(--Form-input-onFocused-borderColor);
+      background: var(--inputNumber-enhance-step-active-bg);
+      color: var(--inputNumber-enhance-icon-active-color);
     }
     & > svg {
       width: var(--fontSizeSm);
@@ -264,9 +443,6 @@
     }
   }
   &:hover {
-    border-color: var(--Form-input-onFocused-borderColor);
-  }
-  &:focus-within {
     border-color: var(--Form-input-onFocused-borderColor);
   }
   .#{$ns}Number--enhance-border-min,
@@ -309,7 +485,6 @@
 }
 
 .#{$ns}Number--enhance-disabled {
-  border-color: var(--Form-input-onDisabled-borderColor);
   .#{$ns}Number--enhance-input {
     border-color: var(--Form-input-onDisabled-borderColor);
   }
