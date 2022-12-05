@@ -3545,5 +3545,6 @@ extendLocale('en-US', {
   'a2b62974f4d7564bb68b570116f25a10': 'Minimum width',
   '2bd921d0ea7a73b77ee0fcddb1afcc84': 'Minimum height',
   'eb7366583485f478e3d8c2b105ea51ff':
-    'Defines the magnification of the item. If it is set to 0, it will not be magnified even if there is space left in the parent container.'
+    'Defines the magnification of the item. If it is set to 0, it will not be magnified even if there is space left in the parent container.',
+  '5d3d48de1ba22368eacdc1c69fb044ce': 'Component inner layer CSS class name'
 });
