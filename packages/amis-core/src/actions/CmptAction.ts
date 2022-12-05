@@ -12,9 +12,11 @@ export interface ICmptAction extends ListenerAction {
     | 'static'
     | 'nonstatic'
     | 'show'
+    | 'visibility'
     | 'hidden'
     | 'enabled'
     | 'disabled'
+    | 'usability'
     | 'reload';
   args: {
     value?: string | {[key: string]: string};
@@ -46,20 +48,24 @@ export class CmptAction implements RendererAction {
     const dataMergeMode = action.dataMergeMode || 'merge';
 
     // 显隐&状态控制
-    if (['show', 'hidden'].includes(action.actionType)) {
+    if (['show', 'hidden','visibility'].includes(action.actionType)) {
+      let visibility = action.actionType === 'visibility'
+        ? action.args?.value : action.actionType === 'show';
       return renderer.props.topStore.setVisible(
         action.componentId,
-        action.actionType === 'show'
+        visibility
       );
     } else if (['static', 'nonstatic'].includes(action.actionType)) {
       return renderer.props.topStore.setStatic(
         action.componentId,
         action.actionType === 'static'
       );
-    } else if (['enabled', 'disabled'].includes(action.actionType)) {
+    } else if (['enabled', 'disabled', 'usability'].includes(action.actionType)) {
+      let usability = action.actionType === 'usability'
+        ? !action.args?.value : action.actionType === 'disabled';
       return renderer.props.topStore.setDisable(
         action.componentId,
-        action.actionType === 'disabled'
+        usability
       );
     }
 
