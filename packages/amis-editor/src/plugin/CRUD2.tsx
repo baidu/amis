@@ -1208,8 +1208,13 @@ export class CRUDPlugin extends BasePlugin {
   /** 将数据资源和数据操作进行填充 */
   resolveListField(setting: any, schema: any, builder: DSBuilder) {}
 
+  scaffoldFormCache?: ScaffoldForm;
+
   get scaffoldForm(): ScaffoldForm {
-    return {
+    if (this.scaffoldFormCache) {
+      return this.scaffoldFormCache;
+    }
+    this.scaffoldFormCache = {
       title: `${this.name}创建向导`,
       mode: {
         mode: 'horizontal',
@@ -1396,6 +1401,8 @@ export class CRUDPlugin extends BasePlugin {
       },
       canRebuild: true
     };
+
+    return this.scaffoldFormCache;
   }
 
   events: RendererPluginEvent[] = [

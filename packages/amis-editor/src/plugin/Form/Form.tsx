@@ -91,8 +91,13 @@ export class FormPlugin extends BasePlugin {
     ]
   };
 
+  scaffoldFormCache?: ScaffoldForm;
+
   get scaffoldForm(): ScaffoldForm {
-    return {
+    if (this.scaffoldFormCache) {
+      return this.scaffoldFormCache;
+    }
+    this.scaffoldFormCache = {
       title: '表单创建向导',
       mode: 'horizontal',
       className: 'ae-Scaffold-Modal ae-formItemControl',
@@ -202,6 +207,8 @@ export class FormPlugin extends BasePlugin {
         return schema;
       }
     };
+
+    return this.scaffoldFormCache;
   }
 
   // 容器配置
