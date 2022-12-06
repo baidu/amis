@@ -29,7 +29,8 @@
     var(--inputNumber-base-default-bottom-left-border-radius);
   background: var(--inputNumber-base-default-bg-color);
 
-  &:hover {
+  &:hover,
+  &.themeEditor-inputNumber-status--hover {
     border-width: var(--inputNumber-base-hover-top-border-width)
       var(--inputNumber-base-hover-right-border-width)
       var(--inputNumber-base-hover-bottom-border-width)
@@ -49,7 +50,8 @@
     background: var(--inputNumber-base-hover-bg-color);
   }
 
-  &-focused {
+  &-focused,
+  &.themeEditor-inputNumber-status--active {
     border-width: var(--inputNumber-base-active-top-border-width)
       var(--inputNumber-base-active-right-border-width)
       var(--inputNumber-base-active-bottom-border-width)
@@ -70,7 +72,8 @@
     box-shadow: var(--inputNumber-base-active-shadow);
   }
 
-  &-disabled {
+  &-disabled,
+  &.themeEditor-inputNumber-status--disabled {
     border-width: var(--inputNumber-base-disabled-top-border-width)
       var(--inputNumber-base-disabled-right-border-width)
       var(--inputNumber-base-disabled-bottom-border-width)
@@ -336,7 +339,8 @@
     var(--inputNumber-enhance-default-bottom-left-border-radius);
   background: var(--inputNumber-enhance-default-bg-color);
 
-  &:hover {
+  &:hover,
+  &.themeEditor-inputNumber-enhance-status--hover {
     border-width: var(--inputNumber-enhance-hover-top-border-width)
       var(--inputNumber-enhance-hover-right-border-width)
       var(--inputNumber-enhance-hover-bottom-border-width)
@@ -356,7 +360,8 @@
     background: var(--inputNumber-enhance-hover-bg-color);
   }
 
-  &:focus-within {
+  &:focus-within,
+  &.themeEditor-inputNumber-enhance-status--active {
     border-width: var(--inputNumber-enhance-active-top-border-width)
       var(--inputNumber-enhance-active-right-border-width)
       var(--inputNumber-enhance-active-bottom-border-width)
@@ -376,7 +381,8 @@
     background: var(--inputNumber-enhance-active-bg-color);
   }
 
-  &-disabled {
+  &-disabled,
+  &.themeEditor-inputNumber-enhance-status--disabled {
     border-width: var(--inputNumber-enhance-disabled-top-border-width)
       var(--inputNumber-enhance-disabled-right-border-width)
       var(--inputNumber-enhance-disabled-bottom-border-width)

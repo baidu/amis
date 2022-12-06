@@ -109,6 +109,10 @@ export interface NumberProps extends FormControlProps {
    */
   borderMode?: 'full' | 'half' | 'none';
   /**
+   * 输入框类名
+   */
+  inputNumberClassName?: 'string';
+  /**
    * 前缀
    */
   prefix?: string;
@@ -351,6 +355,7 @@ export default class NumberControl extends React.Component<
   render() {
     const {
       className,
+      inputNumberClassName,
       classPrefix: ns,
       value,
       step,
@@ -408,6 +413,7 @@ export default class NumberControl extends React.Component<
       >
         <NumberInput
           inputRef={this.inputRef}
+          className={inputNumberClassName}
           value={finalValue}
           resetValue={resetValue}
           step={step}

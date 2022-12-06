@@ -296,7 +296,7 @@ export class NumberInput extends React.Component<NumberProps, any> {
     return (
       <InputNumber
         className={cx(
-          className,
+          displayMode !== 'enhance' ? className : '',
           showSteps === false ? 'no-steps' : '',
           displayMode === 'enhance' ? 'Number--enhance-input' : '',
           {
@@ -326,6 +326,7 @@ export class NumberInput extends React.Component<NumberProps, any> {
   render(): JSX.Element {
     const {
       classnames: cx,
+      className,
       value,
       max,
       min,
@@ -344,6 +345,7 @@ export class NumberInput extends React.Component<NumberProps, any> {
               'Number--enhance',
               disabled ? 'Number--enhance-disabled' : '',
               showSteps === false ? 'Number--enhance-no-steps' : '',
+              displayMode === 'enhance' ? className : '',
               {
                 [`Number--enhance-border${ucFirst(borderMode)}`]: borderMode
               }
