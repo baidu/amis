@@ -637,6 +637,20 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   </div>
                 );
               }
+            },
+            {
+              actionType: 'visibility',
+              descDetail: (info: any) => {
+                return (
+                  <div>
+                    组件
+                    <span className="variable-left variable-right">
+                      {info?.rendererLabel || '-'}
+                    </span>
+                    表达式已配置
+                  </div>
+                );
+              }
             }
           ],
           supportComponents: '*',
@@ -644,13 +658,33 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             ...renderCmptSelect('目标组件', true),
             {
               type: 'radios',
-              label: '显示/隐藏',
+              label: '条件',
               name: 'groupType',
+              mode: 'horizontal',
+              value: 'static',
+              required: true,
+              inputClassName: 'event-action-radio',
+              options: [
+                {
+                  label: '静态',
+                  value: 'static'
+                },
+                {
+                  label: '表达式',
+                  value: 'visibility'
+                }
+              ]
+            },
+            {
+              type: 'radios',
+              label: '显示/隐藏',
+              name: '__statusType',
               mode: 'horizontal',
               value: 'show',
               required: true,
               pipeIn: defaultValue('show'),
               inputClassName: 'event-action-radio',
+              visibleOn: "this.groupType === 'static'",
               options: [
                 {
                   label: '显示',
@@ -661,6 +695,17 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   value: 'hidden'
                 }
               ]
+            },
+            {
+              type: 'ae-expressionFormulaControl',
+              mode: 'horizontal',
+              label: '表达式',
+              required: true,
+              size: 'lg',
+              variables: '${variables}',
+              evalMode: true,
+              name: '__actionExpression',
+              visibleOn: "this.groupType === 'visibility'"
             }
           ]
         },
@@ -696,6 +741,20 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   </div>
                 );
               }
+            },
+            {
+              actionType: 'usability',
+              descDetail: (info: any) => {
+                return (
+                  <div>
+                    组件
+                    <span className="variable-left variable-right">
+                      {info?.rendererLabel || '-'}
+                    </span>
+                    表达式已配置
+                  </div>
+                );
+              }
             }
           ],
           supportComponents: [
@@ -707,13 +766,33 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             ...renderCmptSelect('目标组件', true),
             {
               type: 'radios',
-              label: '启用/禁用',
+              label: '条件',
               name: 'groupType',
+              mode: 'horizontal',
+              inputClassName: 'event-action-radio',
+              value: 'static',
+              required: true,
+              options: [
+                {
+                  label: '静态',
+                  value: 'static'
+                },
+                {
+                  label: '表达式',
+                  value: 'usability'
+                }
+              ]
+            },
+            {
+              type: 'radios',
+              label: '启用/禁用',
+              name: '__statusType',
               mode: 'horizontal',
               inputClassName: 'event-action-radio',
               value: 'enabled',
               required: true,
               pipeIn: defaultValue('enabled'),
+              visibleOn: "this.groupType === 'static'",
               options: [
                 {
                   label: '启用',
@@ -724,6 +803,16 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   value: 'disabled'
                 }
               ]
+            },
+            {
+              type: 'ae-expressionFormulaControl',
+              mode: 'horizontal',
+              label: '表达式',
+              required: true,
+              size: 'lg',
+              evalMode: true,
+              name: '__actionExpression',
+              visibleOn: "this.groupType === 'usability'"
             }
           ]
         },

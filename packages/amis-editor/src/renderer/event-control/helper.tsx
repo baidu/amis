@@ -1200,6 +1200,17 @@ export const getEventControlConfig = (
         }
       }
 
+      if (['show', 'hidden', 'enabled', 'disabled'].includes(action.actionType)) {
+        // 兼容老逻辑，初始化actionType
+        config.__statusType = action.actionType;
+        config.__actionType = 'static';
+      }
+
+      if (['usability', 'visibility'].includes(action.actionType)) {
+        // 初始化条件参数
+        config.__actionExpression = action.args?.value;
+      }
+
       if (
         action.actionType === 'ajax' &&
         typeof action?.args?.api === 'string'
@@ -1414,6 +1425,19 @@ export const getEventControlConfig = (
           }
         }
       }
+
+      // 转换下格式
+      if (['visibility', 'usability'].includes(config.actionType)) {
+        action.args =
+          action.actionType !== 'static'
+            ? {
+                value: action.__actionExpression
+              }
+            : undefined;
+        action.actionType === 'static' && (action.actionType = config.__statusType);
+        delete action.__actionExpression;
+        delete action.__statusType;
+      };
 
       delete action.config;
 

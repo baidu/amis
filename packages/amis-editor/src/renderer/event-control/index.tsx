@@ -541,7 +541,7 @@ export class EventControl extends React.Component<
         getContextSchemas,
         rawVariables,
         ...actionConfig,
-        groupType: action.actionType,
+        groupType: actionConfig?.__actionType || action.actionType,
         __actionDesc: actionNode!.description!, // 树节点描述
         __actionSchema: actionNode!.schema, // 树节点schema
         __subActions: hasSubActionNode?.actions, // 树节点子动作
