@@ -165,7 +165,7 @@
 
     &:hover:active {
       background: var(--Number-handler-onActive-bg);
-      color: var(--inputNumber-base-icon-active-color);
+      color: var(--inputNumber-base-active-icon-color);
     }
   }
 
@@ -288,10 +288,10 @@
   }
 
   .#{$ns}Select {
-    padding: var(--inputNumber-base-unit-paddingTop)
-      var(--inputNumber-base-unit-paddingRight)
-      var(--inputNumber-base-unit-paddingBottom)
-      var(--inputNumber-base-unit-paddingLeft);
+    padding: var(--inputNumber-base-default-unit-paddingTop)
+      var(--inputNumber-base-default-unit-paddingRight)
+      var(--inputNumber-base-default-unit-paddingBottom)
+      var(--inputNumber-base-default-unit-paddingLeft);
   }
 }
 
@@ -408,15 +408,15 @@
     height: var(--Form-inputNumber-base-height);
     line-height: var(--Form-inputNumber-base-height);
     text-align: center;
-    color: var(--Form-input-color);
-    background: var(--Form-input-bg);
+    color: var(--inputNumber-enhance-default-icon-color);
+    background: var(--inputNumber-enhance-default-step-bg);
     &:hover {
       cursor: pointer;
-      background: var(--Form-input-bg);
+      background: var(--inputNumber-enhance-hover-step-bg);
       color: var(--Form-input-onHover-borderColor);
     }
     &-focused {
-      background: var(--Form-input-bg);
+      background: var(--inputNumber-enhance-active-step-bg);
       color: var(--Form-input-onFocused-borderColor);
     }
     & > svg {

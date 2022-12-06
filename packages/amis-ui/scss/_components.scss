@@ -1170,36 +1170,37 @@
   --inputNumber-base-disabled-paddingLeft: var(--sizes-size-7);
   --inputNumber-base-disabled-paddingRight: var(--sizes-size-7);
   --inputNumber-base-disabled-bg-color: var(--colors-neutral-fill-10);
-  --inputNumber-base-icon-fontSize: var(--fonts-size-8);
-  --inputNumber-base-icon-default-color: var(--colors-neutral-text-2);
-  --inputNumber-base-icon-hover-color: var(--colors-brand-5);
-  --inputNumber-base-icon-active-color: var(--colors-brand-5);
-  --inputNumber-base-step-default-bg: var(--colors-neutral-fill-11);
-  --inputNumber-base-step-hover-bg: var(--colors-neutral-fill-11);
-  --inputNumber-base-step-active-bg: var(--colors-neutral-fill-11);
-  --inputNumber-base-unit-paddingTop: calc(
+  --inputNumber-base-default-icon-fontSize: var(--fonts-size-8);
+  --inputNumber-base-default-icon-color: var(--colors-neutral-text-2);
+  --inputNumber-base-hover-icon-color: var(--colors-brand-5);
+  --inputNumber-base-active-icon-color: var(--colors-brand-5);
+  --inputNumber-base-default-step-bg: var(--colors-neutral-fill-11);
+  --inputNumber-base-hover-step-bg: var(--colors-neutral-fill-11);
+  --inputNumber-base-active-step-bg: var(--colors-neutral-fill-11);
+  --inputNumber-base-default-unit-paddingTop: calc(
     (
         var(--Form-selectOption-height) - var(--Form-input-lineHeight) *
           var(--Form-input-fontSize) - var(--Form-select-borderWidth) * 2
       ) / 2
   );
-  --inputNumber-base-unit-paddingBottom: calc(
+  --inputNumber-base-default-unit-paddingBottom: calc(
     (
         var(--Form-selectOption-height) - var(--Form-input-lineHeight) *
           var(--Form-input-fontSize) - var(--Form-select-borderWidth) * 2
       ) / 2
   );
-  --inputNumber-base-unit-paddingLeft: var(--sizes-size-6);
-  --inputNumber-base-unit-paddingRight: 0;
+  --inputNumber-base-default-unit-paddingLeft: var(--sizes-size-6);
+  --inputNumber-base-default-unit-paddingRight: 0;
   --inputNumber-size-sm-height: var(--sizes-base-17);
   --inputNumber-size-default-height: var(--sizes-base-17);
   --inputNumber-size-md-height: var(--sizes-base-17);
   --inputNumber-size-lg-height: var(--sizes-base-17);
-  --Number-handler-bg: var(--inputNumber-base-step-default-bg);
-  --Number-handler-fontSize: var(--inputNumber-base-icon-fontSize);
-  --Number-handler-onHover-bg: var(--inputNumber-base-step-hover-bg);
-  --Number-handler-onHover-color: var(--inputNumber-base-icon-hover-color);
-  --Number-handler-onActive-bg: var(--inputNumber-base-step-active-bg);
+  --Number-handler-bg: var(--inputNumber-base-default-step-bg);
+  --Number-handler-fontSize: var(--inputNumber-base-default-icon-fontSize);
+  --Number-handler-color: var(--inputNumber-base-default-icon-color);
+  --Number-handler-onHover-bg: var(--inputNumber-base-hover-step-bg);
+  --Number-handler-onHover-color: var(--inputNumber-base-hover-icon-color);
+  --Number-handler-onActive-bg: var(--inputNumber-base-active-step-bg);
   // 加强版数字输入框
   --inputNumber-enhance-default-top-border-color: var(--colors-neutral-line-7);
   --inputNumber-enhance-default-top-border-width: var(--borders-width-2);
@@ -1318,18 +1319,16 @@
   --inputNumber-enhance-disabled-paddingLeft: var(--sizes-size-7);
   --inputNumber-enhance-disabled-paddingRight: var(--sizes-size-7);
   --inputNumber-enhance-disabled-bg-color: var(--colors-neutral-fill-10);
-  --inputNumber-enhance-icon-fontSize: var(--fonts-size-8);
-  --inputNumber-enhance-icon-default-color: var(--colors-neutral-text-2);
-  --inputNumber-enhance-icon-hover-color: var(--colors-brand-5);
-  --inputNumber-enhance-icon-active-color: var(--colors-brand-5);
-  --inputNumber-enhance-step-default-bg: var(--colors-neutral-fill-11);
-  --inputNumber-enhance-step-hover-bg: var(--colors-neutral-fill-11);
-  --inputNumber-enhance-step-active-bg: var(--colors-neutral-fill-11);
-  --Form-input-color: var(--inputNumber-enhance-icon-default-color);
-  --Form-input-bg: var(--inputNumber-enhance-step-default-bg);
-  --Form-input-onHover-borderColor: var(--inputNumber-enhance-icon-hover-color);
+  --inputNumber-enhance-default-icon-fontSize: var(--fonts-size-8);
+  --inputNumber-enhance-default-icon-color: var(--colors-neutral-text-2);
+  --inputNumber-enhance-hover-icon-color: var(--colors-brand-5);
+  --inputNumber-enhance-active-icon-color: var(--colors-brand-5);
+  --inputNumber-enhance-default-step-bg: var(--colors-neutral-fill-11);
+  --inputNumber-enhance-hover-step-bg: var(--colors-neutral-fill-11);
+  --inputNumber-enhance-active-step-bg: var(--colors-neutral-fill-11);
+  --Form-input-onHover-borderColor: var(--inputNumber-enhance-hover-icon-color);
   --Form-input-onFocused-borderColor: var(
-    --inputNumber-enhance-icon-active-color
+    --inputNumber-enhance-active-icon-color
   );
 
   // 链接
