@@ -810,7 +810,7 @@ export class EventControl extends React.Component<
                       <div onClick={this.delEvent.bind(this, eventKey)}>
                         <Icon className="icon" icon="delete-bold-btn" />
                       </div>
-                      <div
+                      {/* <div
                         onClick={this.activeEventDialog.bind(this, {
                           eventName: eventKey,
                           eventLabel:
@@ -819,7 +819,7 @@ export class EventControl extends React.Component<
                         })}
                       >
                         <Icon className="icon" icon="edit-full-btn" />
-                      </div>
+                      </div> */}
                       <div
                         onClick={this.toggleActivePanel.bind(this, eventKey)}
                       >

@@ -280,18 +280,18 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
                             className: 'action-panel-title',
                             visibleOn: 'data.actionType'
                           },
-                          {
-                            name: 'stopPropagation',
-                            label: '阻断条件',
-                            type: 'ae-expressionFormulaControl',
-                            evalMode: true,
-                            variables: '${variables}',
-                            mode: 'horizontal',
-                            size: 'lg',
-                            visibleOn: 'data.actionType',
-                            description:
-                              '满足条件时，将会阻断当前事件的后续动作的执行'
-                          },
+                          // {
+                          //   name: 'stopPropagation',
+                          //   label: '阻断条件',
+                          //   type: 'ae-expressionFormulaControl',
+                          //   evalMode: true,
+                          //   variables: '${variables}',
+                          //   mode: 'horizontal',
+                          //   size: 'lg',
+                          //   visibleOn: 'data.actionType',
+                          //   description:
+                          //     '满足条件时，将会阻断当前事件的后续动作的执行'
+                          // },
                           {
                             name: 'expression',
                             label: '执行条件',
