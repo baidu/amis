@@ -991,6 +991,8 @@ true        false        true       [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
 | enableNodePath         | `boolean`                                    | `false`          | 是否开启节点路径模式                                                                                                                 |
 | pathSeparator          | `string`                                     | `/`              | 节点路径的分隔符，`enableNodePath`为`true`时生效                                                                                     |
 | highlightTxt           | `string`                                     |                  | 标签中需要高亮的字符，支持变量                                                                                                       |
+| itemHeight             | `number`                                     | `32`             | 每个选项的高度，用于虚拟渲染                                                                                                         |
+| virtualThreshold       | `number`                                     | `100`            | 在选项数量超过多少时开启虚拟渲染                                                                                                     |
 
 ## 事件表
 

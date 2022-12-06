@@ -1,5 +1,5 @@
 import React from 'react';
-import {toFixed} from 'rc-input-number/lib/utils/MiniDecimal';
+import {toFixed} from '@rc-component/mini-decimal';
 import {
   FormItem,
   FormControlProps,

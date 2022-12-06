@@ -20,19 +20,19 @@ order: 73
       "type": "timeline",
       "items": [
         {
-          "time": "2019-02-07", 
-          "title": "节点数据", 
-          "detail": "error", 
+          "time": "2019-02-07",
+          "title": "节点数据",
+          "detail": "error",
         },
         {
-          "time": "2019-02-08", 
-          "title": "节点数据", 
-          "detail": "success", 
+          "time": "2019-02-08",
+          "title": "节点数据",
+          "detail": "success",
         },
         {
-          "time": "2019-02-09", 
-          "title": "节点数据", 
-          "detail": "error", 
+          "time": "2019-02-09",
+          "title": "节点数据",
+          "detail": "error",
         }
       ]
     }
@@ -50,24 +50,24 @@ order: 73
       "type": "timeline",
       "items": [
         {
-          "time": "2019-02-07", 
-          "title": "节点数据", 
-          "color": "#ffb200", 
+          "time": "2019-02-07",
+          "title": "节点数据",
+          "color": "#ffb200",
         },
         {
-          "time": "2019-02-08", 
-          "title": "节点数据", 
-          "color": "#4F86F4", 
+          "time": "2019-02-08",
+          "title": "节点数据",
+          "color": "#4F86F4",
         },
         {
-          "time": "2019-02-09", 
-          "title": "节点数据", 
-          "color": "success", 
+          "time": "2019-02-09",
+          "title": "节点数据",
+          "color": "success",
         },
         {
-          "time": "2019-02-09", 
-          "title": "节点数据", 
-          "color": "warning", 
+          "time": "2019-02-09",
+          "title": "节点数据",
+          "color": "warning",
         }
       ]
     }
@@ -80,27 +80,30 @@ order: 73
 ```schema
 {
   "type": "page",
+  "data": {
+    "image": "https://suda.cdn.bcebos.com/images%2F2021-01%2Fsearch.svg"
+  },
   "body": [
     {
       "type": "timeline",
       "items": [
         {
-          "time": "2019-02-07", 
-          "title": "节点数据error", 
-          "detail": "error", 
+          "time": "2019-02-07",
+          "title": "节点数据error",
+          "detail": "error",
           "icon": "status-fail"
         },
         {
-          "time": "2019-02-08", 
-          "title": "节点数据success", 
-          "detail": "success", 
+          "time": "2019-02-08",
+          "title": "节点数据success",
+          "detail": "success",
           "icon": "status-success"
         },
         {
-          "time": "2019-02-09", 
-          "title": "节点数据warning", 
-          "detail": "warning", 
-          "icon": "status-warning"
+          "time": "2019-02-09",
+          "title": "节点数据(自定义图片)",
+          "detail": "warning",
+          "icon": "${image}"
         }
       ]
     }
@@ -118,7 +121,7 @@ order: 73
       "type": "timeline",
       "items": [
         {
-          "time": "2019-02-07", 
+          "time": "2019-02-07",
           "title": [
             {
               "type": "text",
@@ -147,12 +150,12 @@ order: 73
           ]
         },
         {
-          "time": "2019-02-10", 
-          "title": [      
+          "time": "2019-02-10",
+          "title": [
             {
               "type": "text",
               "value": "2019年02月10日"
-            },      
+            },
             {
               "type": "button",
               "label": "查看",
@@ -193,20 +196,20 @@ order: 73
       reverse: true,
       "items": [
         {
-          "time": "2019-02-07", 
-          "title": "节点数据", 
+          "time": "2019-02-07",
+          "title": "节点数据",
         },
         {
-          "time": "2019-02-08", 
-          "title": "节点数据", 
+          "time": "2019-02-08",
+          "title": "节点数据",
         },
         {
-          "time": "2019-02-09", 
-          "title": "节点数据", 
+          "time": "2019-02-09",
+          "title": "节点数据",
         },
         {
-          "time": "2019-02-10", 
-          "title": "节点数据", 
+          "time": "2019-02-10",
+          "title": "节点数据",
         },
       ]
     }
@@ -225,20 +228,20 @@ order: 73
       direction: "horizontal",
       "items": [
         {
-          "time": "2019-02-07", 
-          "title": "节点数据", 
+          "time": "2019-02-07",
+          "title": "节点数据",
         },
         {
-          "time": "2019-02-08", 
-          "title": "节点数据", 
+          "time": "2019-02-08",
+          "title": "节点数据",
         },
         {
-          "time": "2019-02-09", 
-          "title": "节点数据", 
+          "time": "2019-02-09",
+          "title": "节点数据",
         },
         {
-          "time": "2019-02-10", 
-          "title": "节点数据", 
+          "time": "2019-02-10",
+          "title": "节点数据",
         },
       ]
     }
@@ -247,6 +250,7 @@ order: 73
 ```
 
 ## 设置文字相对时间轴方向（时间轴横向时不支持）
+
 ### 文字位于时间轴左侧
 
 ```schema
@@ -258,14 +262,14 @@ order: 73
       "mode": "left",
       "items": [
         {
-          "time": "2019-02-07", 
-          "title": "节点数据", 
-          "detail": "error", 
+          "time": "2019-02-07",
+          "title": "节点数据",
+          "detail": "error",
         },
         {
-          "time": "2019-02-08", 
-          "title": "节点数据", 
-          "detail": "success", 
+          "time": "2019-02-08",
+          "title": "节点数据",
+          "detail": "success",
         }
       ]
     },
@@ -284,14 +288,14 @@ order: 73
       "mode": "alternate",
       "items": [
         {
-          "time": "2019-02-07", 
-          "title": "节点数据", 
-          "detail": "error", 
+          "time": "2019-02-07",
+          "title": "节点数据",
+          "detail": "error",
         },
         {
-          "time": "2019-02-08", 
-          "title": "节点数据", 
-          "detail": "success", 
+          "time": "2019-02-08",
+          "title": "节点数据",
+          "detail": "success",
         }
       ]
     }
@@ -310,14 +314,14 @@ order: 73
       "mode": "right",
       "items": [
         {
-          "time": "2019-02-07", 
-          "title": "节点数据", 
-          "detail": "error", 
+          "time": "2019-02-07",
+          "title": "节点数据",
+          "detail": "error",
         },
         {
-          "time": "2019-02-08", 
-          "title": "节点数据", 
-          "detail": "success", 
+          "time": "2019-02-08",
+          "title": "节点数据",
+          "detail": "success",
         }
       ]
     },
@@ -337,8 +341,8 @@ order: 73
         "method": "get",
         "url": "/api/mock2/timeline/timelineItems"
       }
-      
-      
+
+
     }
   ]
 }
@@ -353,38 +357,59 @@ order: 73
   "status": 0,
   "msg": "",
   "data": {
-      "items": [
-        {"time": "2019-02-07", "title": "数据开发", "detail": "2019-02-07detail", "color":"#ffb200", "icon": "close"},
-        {"time": "2019-02-08", "title": "管理中心", "detail": "2019-02-08detail" },
-        {"time": "2019-02-09", "title": "SQL语句", "detail": "2019-02-09detail",  "color":"warning"},
-        {"time": "2019-02-10", "title": "一键部署", "detail": "2019-02-10detail",  "icon": "compress-alt"},
-        {"time": "2019-02-10", "title": "一键部署", "detail": "2019-02-11detail"},
-        {"time": "2019-02-10", "title": "一键部署", "detail": "2019-02-12detail", "icon": "close"},
-        {"time": "2019-02-10", "title": "一键部署", "detail": "2019-02-13detail"}
-      ]
+    "items": [
+      {
+        "time": "2019-02-07",
+        "title": "数据开发",
+        "detail": "2019-02-07detail",
+        "color": "#ffb200",
+        "icon": "close"
+      },
+      {"time": "2019-02-08", "title": "管理中心", "detail": "2019-02-08detail"},
+      {
+        "time": "2019-02-09",
+        "title": "SQL语句",
+        "detail": "2019-02-09detail",
+        "color": "warning"
+      },
+      {
+        "time": "2019-02-10",
+        "title": "一键部署",
+        "detail": "2019-02-10detail",
+        "icon": "compress-alt"
+      },
+      {"time": "2019-02-10", "title": "一键部署", "detail": "2019-02-11detail"},
+      {
+        "time": "2019-02-10",
+        "title": "一键部署",
+        "detail": "2019-02-12detail",
+        "icon": "close"
+      },
+      {"time": "2019-02-10", "title": "一键部署", "detail": "2019-02-13detail"}
+    ]
   }
 }
 ```
 
 ## 属性表
 
-| 属性名    | 类型                                                                              | 默认值       | 说明                                                                 |
-| --------- | --------------------------------------------------------------------------------- | ------------ | -------------------------------------------------------------------- |
-| type      | `string`                                                                          |              | `"timeline"` 指定为 时间轴 渲染器                                       |
-| items     | Array<[timelineItem](#timeline.item)>                                                              | []           | 配置节点数据                                                   |
-| source    | [API](../../../docs/types/api)  |              | 数据源，可通过数据映射获取当前数据域变量、或者配置 API 对象        |
-|  mode   | `left` \| `right` \| `alternate`                                                            | `right`          | 指定文字相对于时间轴的位置，仅 direction=vertical时支持                  |
-| direction    | `vertical` \| `horizontal`                    | `vertical`          | 时间轴方向                                                                 |                                                          | 
-| reverse | `boolean` | `false` | 根据时间倒序显示
+| 属性名    | 类型                                  | 默认值     | 说明                                                        |
+| --------- | ------------------------------------- | ---------- | ----------------------------------------------------------- | --- |
+| type      | `string`                              |            | `"timeline"` 指定为 时间轴 渲染器                           |
+| items     | Array<[timelineItem](#timeline.item)> | []         | 配置节点数据                                                |
+| source    | [API](../../../docs/types/api)        |            | 数据源，可通过数据映射获取当前数据域变量、或者配置 API 对象 |
+| mode      | `left` \| `right` \| `alternate`      | `right`    | 指定文字相对于时间轴的位置，仅 direction=vertical 时支持    |
+| direction | `vertical` \| `horizontal`            | `vertical` | 时间轴方向                                                  |     |
+| reverse   | `boolean`                             | `false`    | 根据时间倒序显示                                            |
 
 ### timeline.item
 
-| 属性名      | 类型                                                  | 默认值 | 说明                                    |
-| ----------- | ----------------------------------------------------- | ------ | --------------------------------------- |
-| time       | `string ` |        | 节点时间                               |
-| title    | `string \| [SchemaNode](../../docs/types/schemanode)` |        | 节点标题                                  |
-| detail | `string` |        | 节点详细描述（折叠）                                |
-| detailCollapsedText        | `string`                                | `展开`       | 详细内容折叠时按钮文案 |
-| detailExpandedText        | `string`                                | `折叠`       | 详细内容展开时按钮文案 |
-| color       | `string \| level样式（info、success、warning、danger）`                                              | `#DADBDD` | 时间轴节点颜色 |
-| icon        | `string`                                              |        | icon 名，支持 fontawesome v4 或使用 url（优先级高于color） |
+| 属性名              | 类型                                                    | 默认值    | 说明                                                        |
+| ------------------- | ------------------------------------------------------- | --------- | ----------------------------------------------------------- |
+| time                | `string `                                               |           | 节点时间                                                    |
+| title               | `string \| [SchemaNode](../../docs/types/schemanode)`   |           | 节点标题                                                    |
+| detail              | `string`                                                |           | 节点详细描述（折叠）                                        |
+| detailCollapsedText | `string`                                                | `展开`    | 详细内容折叠时按钮文案                                      |
+| detailExpandedText  | `string`                                                | `折叠`    | 详细内容展开时按钮文案                                      |
+| color               | `string \| level样式（info、success、warning、danger）` | `#DADBDD` | 时间轴节点颜色                                              |
+| icon                | `string`                                                |           | icon 名，支持 fontawesome v4 或使用 url（优先级高于 color） |

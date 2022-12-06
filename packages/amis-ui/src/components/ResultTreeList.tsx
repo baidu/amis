@@ -177,7 +177,8 @@ export class BaseResultTreeList extends React.Component<
     const {searching, treeOptions} = this.state;
     let temNode: Options = [];
     const cb = (node: Option) => {
-      if (isEqual(node, option)) {
+      // 对比时去掉 parent，因为其无限嵌套
+      if (isEqual(omit(node, 'parent'), omit(option, 'parent'))) {
         temNode = [node];
       }
     };
@@ -194,7 +195,11 @@ export class BaseResultTreeList extends React.Component<
         value.filter(
           item =>
             !arr.find(arrItem =>
-              isEqual(omit(arrItem, ['isChecked', 'childrens']), item)
+              // 对比时去掉 parent，因为其无限嵌套，且不相等
+              isEqual(
+                omit(arrItem, ['isChecked', 'childrens', 'parent']),
+                omit(item, 'parent')
+              )
             )
         )
       );
@@ -258,7 +263,9 @@ export class BaseResultTreeList extends React.Component<
       valueField,
       itemRender,
       translate: __,
-      placeholder
+      placeholder,
+      virtualThreshold,
+      itemHeight
     } = this.props;
 
     const {treeOptions, searching, searchTreeOptions} = this.state;
@@ -276,6 +283,8 @@ export class BaseResultTreeList extends React.Component<
             itemRender={itemRender}
             removable
             onDelete={(option: Option) => this.deleteTreeChecked(option)}
+            virtualThreshold={virtualThreshold}
+            itemHeight={itemHeight}
           />
         ) : (
           <div className={cx('Selections-placeholder')}>{__(placeholder)}</div>

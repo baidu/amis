@@ -15,7 +15,7 @@ import {
   spliceTree
 } from 'amis-core';
 import {Selection as BaseSelection} from 'amis-ui';
-import {ActionObject} from 'amis-core';
+import {ActionObject, toNumber} from 'amis-core';
 import type {ItemRenderStates} from 'amis-ui/lib/components/Selection';
 import {supportStatic} from './StaticHoc';
 
@@ -292,7 +292,9 @@ export class TabsTransferRenderer extends BaseTabsTransferRenderer<TabsTransferP
       leftDeferLoad,
       disabled,
       selectTitle,
-      resultTitle
+      resultTitle,
+      itemHeight,
+      virtualThreshold
     } = this.props;
 
     return (
@@ -315,6 +317,10 @@ export class TabsTransferRenderer extends BaseTabsTransferRenderer<TabsTransferP
           optionItemRender={this.optionItemRender}
           resultItemRender={this.resultItemRender}
           onTabChange={this.onTabChange}
+          itemHeight={
+            toNumber(itemHeight) > 0 ? toNumber(itemHeight) : undefined
+          }
+          virtualThreshold={virtualThreshold}
         />
 
         <Spinner overlay key="info" show={loading} />

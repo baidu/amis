@@ -166,7 +166,7 @@
         position: absolute;
         height: var(--TimelineItem--left-line-width);
         width: calc(100% - var(--TimelineItem--left-line-left));
-        left:  var(--TimelineItem--horizontal-left-line-top);
+        left: var(--TimelineItem--horizontal-left-line-top);
         top: var(--TimelineItem--left-line-left);
         background-color: var(--TimelineItem--line-bg);
       }
@@ -220,7 +220,6 @@
         color: var(--TimelineItem--text-primary-color);
         font-size: var(--Timeline--font-size);
         margin-bottom: var(--TimelineItem--content-title-margin-bottom);
-       
       }
 
       .#{$ns}TimelineItem-detail {

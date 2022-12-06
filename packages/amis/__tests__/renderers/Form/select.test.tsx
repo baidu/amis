@@ -1,8 +1,51 @@
-import React = require('react');
+/**
+ * 组件名称：Select 选择器
+ * 单测内容：
+ * 1. menutpl 选项自定义
+ * 2. 分组模式
+ * 3. 表格模式
+ * 4. 表格模式下自定义 labelField 与 valueField
+ * 5. 树形模式
+ * 6. 级联模式
+ * 7. 级联模式下搜索 searchable
+ * 8. 关联模式
+ * 9. 基础模式下虚拟列表
+ * 10. 分组模式下虚拟列表
+ * 11. 表格模式下虚拟列表
+ * 12. 级联模式下虚拟列表
+ * 13. 关联模式下虚拟列表
+ */
+
 import {render, screen, fireEvent, waitFor} from '@testing-library/react';
 import '../../../src';
 import {render as amisRender} from '../../../src';
 import {makeEnv, wait} from '../../helper';
+
+const setup = async (items: any = {}, formOptions: any = {}) => {
+  const utils = render(
+    amisRender(
+      {
+        type: 'form',
+        api: '/api/mock2/form/saveForm',
+        body: items,
+        ...formOptions
+      },
+      {},
+      makeEnv()
+    )
+  );
+
+  const select = utils.container.querySelector(
+    '.cxd-SelectControl .cxd-TransferDropDown'
+  );
+
+  expect(select).toBeInTheDocument();
+
+  return {
+    ...utils,
+    select
+  };
+};
 
 test('Renderer:select menutpl', () => {
   const {container} = render(
@@ -621,4 +664,156 @@ test('Renderer:select virtual', async () => {
   expect(option12).toBeNull();
 
   expect(container).toMatchSnapshot();
+});
+
+test('Renderer:select group mode with virtual', async () => {
+  const options = [...Array(20)].map((_, i) => ({
+    label: `group-${i + 1}`,
+    children: [...Array(10)].map((_, j) => ({
+      label: `option-${i * 10 + j + 1}`,
+      value: `value-${i * 10 + j + 1}`
+    }))
+  }));
+
+  const {container, select, getByText, queryByText} = await setup([
+    {
+      label: '分组',
+      type: 'select',
+      name: 'select',
+      selectMode: 'group',
+      options: options
+    }
+  ]);
+
+  fireEvent.click(select!);
+
+  await wait(300);
+
+  expect(getByText('option-1')).toBeInTheDocument();
+  expect(await queryByText('option-200')).toBeNull();
+  expect(container).toMatchSnapshot();
+});
+
+test('Renderer:select table mode with virtual', async () => {
+  const options = [...Array(200)].map((_, i) => ({
+    label: `label-${i + 1}`,
+    value: i + 1
+  }));
+
+  const {container, getByText, queryByText, select} = await setup([
+    {
+      label: '表格',
+      type: 'select',
+      name: 'select',
+      options: options,
+      selectMode: 'table',
+      columns: [
+        {
+          name: 'label',
+          label: '名称'
+        },
+        {
+          name: 'value',
+          label: '值'
+        }
+      ]
+    }
+  ]);
+
+  fireEvent.click(select!);
+
+  await wait(300);
+
+  expect(getByText('label-1')).toBeInTheDocument();
+  expect(await queryByText('label-200')).toBeNull();
+  expect(container).toMatchSnapshot('');
+});
+
+test('Renderer:select chained mode with virtual', async () => {
+  const options = [...Array(101)].map((_, i) => ({
+    label: `group-${i + 1}`,
+    children: [...Array(101)].map((_, j) => ({
+      label: `group-${i + 1}-option-${j + 1}`,
+      value: `${i + 1}-${j + 1}`
+    }))
+  }));
+
+  const {container, getByText, queryByText, select} = await setup([
+    {
+      label: '级联',
+      type: 'select',
+      name: 'select',
+      options: options,
+      selectMode: 'chained'
+    }
+  ]);
+
+  fireEvent.click(select!);
+  await wait(300);
+  fireEvent.click(getByText('group-1'));
+
+  await wait(300);
+  expect(getByText('group-1')).toBeInTheDocument();
+  expect(await queryByText('group-100')).toBeNull();
+
+  expect(getByText('group-1-option-1')).toBeInTheDocument();
+  expect(await queryByText('group-1-option-100')).toBeNull();
+
+  expect(container).toMatchSnapshot('');
+});
+
+test('Renderer:select associated mode with virtual', async () => {
+  const leftOptions = [...Array(10)].map((_, i) => ({
+    label: `group-${i + 1}`,
+    children: [...Array(101)].map((_, j) => ({
+      label: `group-${i + 1}-option-${j + 1}`,
+      value: `${i + 1}-${j + 1}`
+    }))
+  }));
+
+  const options = [...Array(101)].map((_, i) => ({
+    label: `label-${i + 1}`,
+    value: `value-${i + 1}`
+  }));
+
+  const {container, getByText, queryByText, select} = await setup([
+    {
+      label: '级联',
+      type: 'select',
+      name: 'select',
+      selectMode: 'associated',
+      leftMode: 'list',
+      rightMode: 'table',
+      columns: [
+        {
+          name: 'label',
+          label: '名称'
+        },
+        {
+          name: 'value',
+          label: '值得'
+        }
+      ],
+      leftOptions: leftOptions,
+      options: [
+        {
+          ref: '1-1',
+          children: options
+        }
+      ]
+    }
+  ]);
+
+  fireEvent.click(select!);
+  await wait(300);
+  fireEvent.click(getByText('group-1-option-1'));
+  await wait(300);
+
+  expect(getByText('group-1-option-1')).toBeInTheDocument();
+  expect(await queryByText('group-10-option-1')).toBeNull();
+
+  expect(getByText('label-1')).toBeInTheDocument();
+  expect(await queryByText('label-100')).toBeNull();
+
+  expect(container).toMatchSnapshot('');
 });

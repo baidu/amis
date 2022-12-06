@@ -90,6 +90,33 @@ export class ImageGallery extends React.Component<
     actions: ImageGallery.defaultProps.actions
   };
 
+  componentDidMount() {
+    window.addEventListener('wheel', this.onWheelScroll.bind(this), {
+      passive: false
+    });
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('wheel', this.onWheelScroll);
+  }
+
+  onWheelScroll(event: WheelEvent) {
+    const showToolbar = this.state?.showToolbar;
+
+    if (!showToolbar) {
+      return;
+    }
+
+    event.preventDefault();
+
+    /** 向上滚动放大，向下滚动缩小 */
+    if (event.deltaY > 0) {
+      this.handleToolbarAction({key: 'zoomOut'} as ImageAction);
+    } else if (event.deltaY < 0) {
+      this.handleToolbarAction({key: 'zoomIn'} as ImageAction);
+    }
+  }
+
   @autobind
   handleImageEnlarge(info: {
     src: string;

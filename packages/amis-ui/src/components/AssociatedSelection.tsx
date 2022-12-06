@@ -120,7 +120,9 @@ export class AssociatedSelection extends BaseSelection<
       cellRender,
       multiple,
       itemRender,
-      labelField
+      labelField,
+      virtualThreshold,
+      itemHeight
     } = this.props;
 
     const selectdOption = BaseSelection.resolveSelected(
@@ -141,6 +143,8 @@ export class AssociatedSelection extends BaseSelection<
               options={leftOptions}
               onChange={this.handleLeftSelect}
               onDeferLoad={this.handleLeftDeferLoad}
+              virtualThreshold={virtualThreshold}
+              itemHeight={itemHeight}
             />
           ) : (
             <GroupedSelecton
@@ -151,6 +155,8 @@ export class AssociatedSelection extends BaseSelection<
               onChange={this.handleLeftSelect}
               multiple={false}
               clearable={false}
+              virtualThreshold={virtualThreshold}
+              itemHeight={itemHeight}
             />
           )}
         </div>
@@ -189,6 +195,8 @@ export class AssociatedSelection extends BaseSelection<
                   option2value={option2value}
                   cellRender={cellRender}
                   multiple={multiple}
+                  virtualThreshold={virtualThreshold}
+                  itemHeight={itemHeight}
                 />
               ) : rightMode === 'tree' ? (
                 <Tree
@@ -198,6 +206,8 @@ export class AssociatedSelection extends BaseSelection<
                   onChange={onChange!}
                   multiple={multiple}
                   labelField={labelField}
+                  virtualThreshold={virtualThreshold}
+                  itemHeight={itemHeight}
                 />
               ) : rightMode === 'chained' ? (
                 <ChainedSelection
@@ -209,6 +219,8 @@ export class AssociatedSelection extends BaseSelection<
                   multiple={multiple}
                   itemRender={itemRender}
                   labelField={labelField}
+                  virtualThreshold={virtualThreshold}
+                  itemHeight={itemHeight}
                 />
               ) : (
                 <GroupedSelection
@@ -220,6 +232,8 @@ export class AssociatedSelection extends BaseSelection<
                   multiple={multiple}
                   itemRender={itemRender}
                   labelField={labelField}
+                  virtualThreshold={virtualThreshold}
+                  itemHeight={itemHeight}
                 />
               )
             ) : (

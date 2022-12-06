@@ -1693,6 +1693,7 @@ fillMapping 配置 支持变量取值和表达式；
           "version": "${items[0].version}",
         },
         "labelField": "name",
+        "valueField": "platform",
         "position": "left-bottom-left-top",
         "trigger": "focus",
         "mode": "popOver",
@@ -1782,7 +1783,7 @@ fillMapping 配置 支持变量取值和表达式；
 | staticClassName         | `string`                                           |           | `2.4.0` 静态展示时的类名                                                                            |
 | staticLabelClassName    | `string`                                           |           | `2.4.0` 静态展示时的 Label 的类名                                                                   |
 | staticInputClassName    | `string`                                           |           | `2.4.0` 静态展示时的 value 的类名                                                                   |
-| staticSchema            | [SchemaNode](../../docs/types/schemanode)          |           | `2.4.0` 自定义静态展示方式                                                                       |
+| staticSchema            | [SchemaNode](../../docs/types/schemanode)          |           | `2.4.0` 自定义静态展示方式                                                                          |
 | staticSchema.limit      | `number`                                           | 10        | `2.4.0` select、checkboxes 等选择类组件多选时展示态展示的数量                                       |
 
 ## 支持静态展示的表单项

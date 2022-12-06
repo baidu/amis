@@ -4,7 +4,7 @@ exports.handler = (event, context, callback) => {
     const entry = require('./mock/index');
     entry(mockRequest(event, context), mockResponse(event, context, callback));
   } catch (e) {
-    callback(e.stack);
+    callback(e);
   }
 };
 

@@ -59,7 +59,7 @@ export interface TextAreaProps extends ThemeProps, LocaleProps {
   name?: string;
   disabled?: boolean;
 
-  forwardRef?: {current: HTMLInputElement | null};
+  forwardRef?: {current: HTMLTextAreaElement | null};
 }
 
 export interface TextAreaState {
@@ -79,9 +79,9 @@ export class Textarea extends React.Component<TextAreaProps, TextAreaState> {
     focused: false
   };
 
-  input?: HTMLInputElement;
-  inputRef = (ref: HTMLInputElement) => {
-    this.input = findDOMNode(ref) as HTMLInputElement;
+  input?: HTMLTextAreaElement;
+  inputRef = (ref: HTMLTextAreaElement) => {
+    this.input = findDOMNode(ref) as HTMLTextAreaElement;
     if (this.props.forwardRef) {
       this.props.forwardRef.current = this.input;
     }

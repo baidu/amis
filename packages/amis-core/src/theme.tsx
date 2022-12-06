@@ -94,6 +94,10 @@ export function getClassPrefix() {
 }
 
 export function getTheme(theme: string): ThemeInstance {
+  if (typeof theme !== 'string') {
+    theme = 'cxd';
+  }
+
   const config = themes[theme || 'cxd'];
 
   if (!config.getRendererConfig) {

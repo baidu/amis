@@ -117,6 +117,7 @@ export class Value extends React.Component<ValueProps> {
         <Select
           simpleValue
           options={field.options!}
+          placeholder={__(field.placeholder) || 'Select.placeholder'}
           source={field.source}
           autoComplete={autoComplete}
           searchable={field.searchable}

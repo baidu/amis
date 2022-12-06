@@ -495,12 +495,16 @@ export interface FormItemConfig extends FormItemBasicConfig {
 
 const getItemLabelClassName = (props: FormItemProps) => {
   const {staticLabelClassName, labelClassName} = props;
-  return props.static && staticLabelClassName ? staticLabelClassName : labelClassName;
+  return props.static && staticLabelClassName
+    ? staticLabelClassName
+    : labelClassName;
 };
 
 const getItemInputClassName = (props: FormItemProps) => {
   const {staticInputClassName, inputClassName} = props;
-  return props.static && staticInputClassName ? staticInputClassName : inputClassName;
+  return props.static && staticInputClassName
+    ? staticInputClassName
+    : inputClassName;
 };
 
 export class FormItemWrap extends React.Component<FormItemProps> {
@@ -521,6 +525,12 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       this.reaction.push(
         reaction(
           () => `${model.errors.join('')}${model.isFocused}${model.dialogOpen}`,
+          () => this.forceUpdate()
+        )
+      );
+      this.reaction.push(
+        reaction(
+          () => model?.filteredOptions,
           () => this.forceUpdate()
         )
       );
@@ -692,7 +702,8 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       columns,
       labelField,
       popOverContainer,
-      popOverClassName
+      popOverClassName,
+      valueField
     } = autoFill;
     const form = {
       type: 'form',
@@ -705,6 +716,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         joinValues: false,
         label: false,
         labelField,
+        valueField: valueField || 'value',
         multiple,
         name: 'selectedItems',
         options: [],
@@ -1001,12 +1013,11 @@ export class FormItemWrap extends React.Component<FormItemProps> {
           ) : null}
 
           <div
-            className={cx(`Form-value`,{
-                // [`Form-itemColumn--offset${getWidthRate(horizontal.offset)}`]: !label && label !== false,
-                [`Form-itemColumn--${right}`]:
-                  !horizontal.leftFixed && !!right && right !== 12 - left
-              }
-            )}
+            className={cx(`Form-value`, {
+              // [`Form-itemColumn--offset${getWidthRate(horizontal.offset)}`]: !label && label !== false,
+              [`Form-itemColumn--${right}`]:
+                !horizontal.leftFixed && !!right && right !== 12 - left
+            })}
           >
             {renderControl()}
 
@@ -1522,7 +1533,8 @@ export const detectProps = [
   'maxLength',
   'embed',
   'displayMode',
-  'revealPassword'
+  'revealPassword',
+  'loading'
 ];
 
 export function asFormItem(config: Omit<FormItemConfig, 'component'>) {

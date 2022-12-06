@@ -105,6 +105,9 @@ export interface TransferProps
   sortable?: boolean;
   onRef?: (ref: Transfer) => void;
   onSelectAll?: (options: Options) => void;
+  itemHeight?: number; // 每个选项的高度，主要用于虚拟渲染
+  virtualThreshold?: number; // 数据量多大的时候开启虚拟渲染`
+  virtualListHeight?: number; // 虚拟渲染时，列表高度
 }
 
 export interface TransferState {
@@ -119,12 +122,17 @@ export class Transfer<
 > extends React.Component<T, TransferState> {
   static defaultProps: Pick<
     TransferProps,
-    'multiple' | 'resultListModeFollowSelect' | 'selectMode' | 'statistics'
+    | 'multiple'
+    | 'resultListModeFollowSelect'
+    | 'selectMode'
+    | 'statistics'
+    | 'virtualThreshold'
   > = {
     multiple: true,
     resultListModeFollowSelect: false,
     selectMode: 'list',
-    statistics: true
+    statistics: true,
+    virtualThreshold: 100
   };
 
   state: TransferState = {
@@ -459,7 +467,10 @@ export class Transfer<
       optionItemRender,
       cellRender,
       multiple,
-      labelField
+      labelField,
+      virtualThreshold,
+      itemHeight,
+      virtualListHeight
     } = props;
     const {isTreeDeferLoad, searchResult} = this.state;
     const options = searchResult ?? [];
@@ -479,6 +490,9 @@ export class Transfer<
         cellRender={cellRender}
         itemRender={optionItemRender}
         multiple={multiple}
+        virtualThreshold={virtualThreshold}
+        itemHeight={itemHeight}
+        virtualListHeight={virtualListHeight}
       />
     ) : mode === 'tree' ? (
       <Tree
@@ -498,6 +512,8 @@ export class Transfer<
         onlyChildren={!isTreeDeferLoad}
         itemRender={optionItemRender}
         labelField={labelField}
+        virtualThreshold={virtualThreshold}
+        itemHeight={itemHeight}
       />
     ) : mode === 'chained' ? (
       <ChainedSelection
@@ -511,6 +527,9 @@ export class Transfer<
         itemRender={optionItemRender}
         multiple={multiple}
         labelField={labelField}
+        virtualThreshold={virtualThreshold}
+        itemHeight={itemHeight}
+        virtualListHeight={virtualListHeight}
       />
     ) : (
       <GroupedSelection
@@ -524,6 +543,9 @@ export class Transfer<
         itemRender={optionItemRender}
         multiple={multiple}
         labelField={labelField}
+        virtualThreshold={virtualThreshold}
+        itemHeight={itemHeight}
+        virtualListHeight={virtualListHeight}
       />
     );
   }
@@ -547,7 +569,10 @@ export class Transfer<
       optionItemRender,
       multiple,
       noResultsText,
-      labelField
+      labelField,
+      virtualThreshold,
+      itemHeight,
+      virtualListHeight
     } = props;
 
     return selectMode === 'table' ? (
@@ -562,6 +587,9 @@ export class Transfer<
         onDeferLoad={onDeferLoad}
         cellRender={cellRender}
         multiple={multiple}
+        virtualThreshold={virtualThreshold}
+        itemHeight={itemHeight}
+        virtualListHeight={virtualListHeight}
       />
     ) : selectMode === 'tree' ? (
       <Tree
@@ -579,6 +607,8 @@ export class Transfer<
         multiple={multiple}
         cascade={true}
         labelField={labelField}
+        virtualThreshold={virtualThreshold}
+        itemHeight={itemHeight}
       />
     ) : selectMode === 'chained' ? (
       <ChainedSelection
@@ -592,6 +622,9 @@ export class Transfer<
         itemRender={optionItemRender}
         multiple={multiple}
         labelField={labelField}
+        virtualThreshold={virtualThreshold}
+        itemHeight={itemHeight}
+        virtualListHeight={virtualListHeight}
       />
     ) : selectMode === 'associated' ? (
       <AssociatedSelection
@@ -610,6 +643,9 @@ export class Transfer<
         itemRender={optionItemRender}
         multiple={multiple}
         labelField={labelField}
+        virtualThreshold={virtualThreshold}
+        itemHeight={itemHeight}
+        virtualListHeight={virtualListHeight}
       />
     ) : (
       <GroupedSelection
@@ -623,6 +659,9 @@ export class Transfer<
         itemRender={optionItemRender}
         multiple={multiple}
         labelField={labelField}
+        virtualThreshold={virtualThreshold}
+        itemHeight={itemHeight}
+        virtualListHeight={virtualListHeight}
       />
     );
   }
@@ -644,7 +683,9 @@ export class Transfer<
       sortable,
       labelField,
       translate: __,
-      placeholder = __('Transfer.selectFromLeft')
+      placeholder = __('Transfer.selectFromLeft'),
+      virtualThreshold,
+      itemHeight
     } = this.props;
 
     const {resultSelectMode, isTreeDeferLoad} = this.state;
@@ -667,6 +708,8 @@ export class Transfer<
             placeholder={placeholder}
             searchPlaceholder={resultSearchPlaceholder}
             onSearch={onResultSearch}
+            virtualThreshold={virtualThreshold}
+            itemHeight={itemHeight}
           />
         );
       case 'tree':
@@ -684,6 +727,8 @@ export class Transfer<
             searchPlaceholder={resultSearchPlaceholder}
             onSearch={onResultSearch}
             labelField={labelField}
+            virtualThreshold={virtualThreshold}
+            itemHeight={itemHeight}
           />
         );
       default:
@@ -700,6 +745,8 @@ export class Transfer<
             searchable={searchable}
             onSearch={onResultSearch}
             labelField={labelField}
+            virtualThreshold={virtualThreshold}
+            itemHeight={itemHeight}
           />
         );
     }

@@ -385,6 +385,10 @@
     }
   }
 
+  .#{$ns}Tree.#{$ns}Transfer-checkboxes {
+    width: 100%;
+  }
+
   &-search {
     margin: var(--gap-sm) var(--gap-sm);
     .#{$ns}InputBox {

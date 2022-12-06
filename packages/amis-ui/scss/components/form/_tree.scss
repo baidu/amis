@@ -63,7 +63,7 @@
     position: relative;
   }
 
-  &--outline &-sublist &-item--isLeaf {
+  &--outline &-item--isLeaf {
     &:before {
       position: absolute;
       top: -8px;

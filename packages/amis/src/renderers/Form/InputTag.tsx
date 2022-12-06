@@ -19,6 +19,7 @@ import {ListMenu} from 'amis-ui';
 import {ActionObject} from 'amis-core';
 import {FormOptionsSchema} from '../../Schema';
 import {supportStatic} from './StaticHoc';
+import {TooltipWrapperSchema} from '../TooltipWrapper';
 
 /**
  * Tag 输入框
@@ -55,7 +56,7 @@ export interface TagControlSchema extends FormOptionsSchema {
   /**
    * 收纳标签的Popover配置
    */
-  overflowTagPopover?: object;
+  overflowTagPopover?: TooltipWrapperSchema;
 
   /** 是否开启批量添加模式 */
   enableBatchAdd: boolean;

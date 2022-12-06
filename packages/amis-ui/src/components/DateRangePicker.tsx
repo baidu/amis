@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import moment from 'moment';
+import moment, {unitOfTime} from 'moment';
 import omit from 'lodash/omit';
 import kebabCase from 'lodash/kebabCase';
 import {findDOMNode} from 'react-dom';
@@ -1222,7 +1222,10 @@ export class DateRangePicker extends React.Component<
       props.className += ' rdtActive rdtEndDay';
     }
 
-    const {className, ...others} = this.getDisabledElementProps(currentDate);
+    const {className, ...others} = this.getDisabledElementProps(
+      currentDate,
+      'day'
+    );
     props.className += className;
 
     return (
@@ -1249,7 +1252,10 @@ export class DateRangePicker extends React.Component<
       props.className += ' rdtBetween';
     }
 
-    const {className, ...others} = this.getDisabledElementProps(currentDate);
+    const {className, ...others} = this.getDisabledElementProps(
+      currentDate,
+      'month'
+    );
     props.className += className;
 
     return (
@@ -1271,7 +1277,10 @@ export class DateRangePicker extends React.Component<
       props.className += ' rdtBetween';
     }
 
-    const {className, ...others} = this.getDisabledElementProps(currentDate);
+    const {className, ...others} = this.getDisabledElementProps(
+      currentDate,
+      'quarter'
+    );
     props.className += className;
 
     return (
@@ -1292,7 +1301,10 @@ export class DateRangePicker extends React.Component<
       props.className += ' rdtBetween';
     }
 
-    const {className, ...others} = this.getDisabledElementProps(currentDate);
+    const {className, ...others} = this.getDisabledElementProps(
+      currentDate,
+      'year'
+    );
     props.className += className;
 
     return (
@@ -1424,10 +1436,16 @@ export class DateRangePicker extends React.Component<
     );
   }
 
-  getDisabledElementProps(currentDate: moment.Moment) {
+  getDisabledElementProps(
+    currentDate: moment.Moment,
+    granularity?: unitOfTime.StartOf
+  ) {
     const {endDateOpenedFirst, endDate, startDate, editState} = this.state;
-    const afterEndDate = editState === 'start' && currentDate > endDate!;
-    const beforeStartDate = editState === 'end' && currentDate < startDate!;
+    const afterEndDate =
+      editState === 'start' && currentDate.isAfter(endDate!, granularity);
+    const beforeStartDate =
+      editState === 'end' &&
+      !currentDate.isSameOrAfter(startDate!, granularity);
 
     if (afterEndDate || beforeStartDate) {
       return {

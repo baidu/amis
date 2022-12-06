@@ -846,6 +846,8 @@ icon:
 | resultSearchPlaceholder    | `string`                                              |              | 右侧列表搜索框提示                                                                                                                                                                                          |
 | menuTpl                    | `string` \| [SchemaNode](../../docs/types/schemanode) |              | 用来自定义选项展示                                                                                                                                                                                          |
 | valueTpl                   | `string` \| [SchemaNode](../../docs/types/schemanode) |              | 用来自定义值的展示                                                                                                                                                                                          |
+| itemHeight                 | `number`                                              | `32`         | 每个选项的高度，用于虚拟渲染                                                                                                                                                                                |
+| virtualThreshold           | `number`                                              | `100`        | 在选项数量超过多少时开启虚拟渲染                                                                                                                                                                            |
 
 ## 事件表
 

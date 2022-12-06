@@ -400,7 +400,6 @@ export function wrapControl<
                   }
                 }
               } else if (
-                typeof props.defaultValue !== 'undefined' &&
                 !isEqual(props.defaultValue, prevProps.defaultValue) &&
                 !isEqual(props.defaultValue, model.tmpValue)
               ) {
@@ -746,7 +745,9 @@ export function wrapControl<
               setValue: this.setValue,
               getValue: this.getValue,
               prinstine: model ? model.prinstine : undefined,
-              setPrinstineValue: this.setPrinstineValue
+              setPrinstineValue: this.setPrinstineValue,
+              // !没了这个， tree 里的 options 渲染会出问题
+              _filteredOptions: this.model?.filteredOptions
             };
 
             return (

@@ -34,6 +34,9 @@ export interface BaseSelectionProps extends ThemeProps, LocaleProps {
   labelClassName?: string;
   option2value?: (option: Option) => any;
   itemClassName?: string;
+  itemHeight?: number; // 每个选项的高度，主要用于虚拟渲染
+  virtualThreshold?: number; // 数据量多大的时候开启虚拟渲染
+  virtualListHeight?: number; // 虚拟渲染时，列表高度
   itemRender: (option: Option, states: ItemRenderStates) => JSX.Element;
   disabled?: boolean;
   onClick?: (e: React.MouseEvent) => void;
@@ -66,7 +69,9 @@ export class BaseSelection<
     placeholder: 'placeholder.noOption',
     itemRender: this.itemRender,
     multiple: true,
-    clearable: false
+    clearable: false,
+    virtualThreshold: 1000,
+    itemHeight: 32
   };
 
   static value2array(

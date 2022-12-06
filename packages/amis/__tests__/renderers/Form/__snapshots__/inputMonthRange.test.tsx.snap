@@ -344,7 +344,7 @@ exports[`Renderer:inputMonthRange with embed 1`] = `
                                 </span>
                               </td>
                               <td
-                                class="rdtMonth rdtActive rdtBetween is-disabled"
+                                class="rdtMonth rdtActive rdtBetween"
                                 data-value="10"
                               >
                                 <span>

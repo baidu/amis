@@ -82,6 +82,29 @@ export class Tpl extends React.Component<TplProps, object> {
     }
   }
 
+  /**
+   * 过滤掉HTML标签, 仅提取文本内容, 用于HTML标签的title属性
+   */
+  getTitle(content: string): string {
+    const {showNativeTitle} = this.props;
+
+    if (!showNativeTitle) {
+      return '';
+    }
+
+    let title = typeof content === 'string' ? content : '';
+    const tempDom = new DOMParser().parseFromString(
+      this.getContent(),
+      'text/html'
+    );
+
+    if (tempDom?.body?.textContent) {
+      title = tempDom.body.textContent;
+    }
+
+    return title;
+  }
+
   render() {
     const {
       className,
@@ -94,17 +117,17 @@ export class Tpl extends React.Component<TplProps, object> {
       env
     } = this.props;
     const Component = wrapperComponent || (inline ? 'span' : 'div');
-    const content = env.filterHtml(this.getContent());
+    const content = this.getContent();
 
     return (
       <Component
         className={cx('TplField', className)}
         style={buildStyle(style, data)}
-        {...(showNativeTitle
-          ? {title: typeof content === 'string' ? content : ''}
-          : {})}
+        {...(showNativeTitle ? {title: this.getTitle(content)} : {})}
       >
-        <span dangerouslySetInnerHTML={{__html: content}}></span>
+        <span
+          dangerouslySetInnerHTML={{__html: env.filterHtml(content)}}
+        ></span>
       </Component>
     );
   }

@@ -102,7 +102,7 @@ import Card from './Card';
 import GridNav, {GridNavItem} from './GridNav';
 import type {GridNavDirection} from './GridNav';
 import Link from './Link';
-import VirtualList from './virtual-list';
+import VirtualList, {AutoSizer} from './virtual-list';
 import {withStore} from './WithStore';
 import PopOverContainer from './PopOverContainer';
 import Pagination, {MODE_TYPE} from './Pagination';
@@ -224,6 +224,7 @@ export {
   GridNavItem,
   Link,
   VirtualList,
+  AutoSizer,
   withStore,
   PopOverContainer,
   Pagination,
