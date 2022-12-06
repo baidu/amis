@@ -491,8 +491,8 @@
   }
 
   &.is-error > &-input {
-    border-color: var(--Form-input-onError-borderColor);
-    background: var(--Form-input-onError-bg);
+    border-color: var(--Form-item-onError-borderColor);
+    background: var(--Form-item-onError-bg);
     transition: all var(--animation-duration);
   }
 
@@ -504,7 +504,8 @@
   }
 
   &.is-error.is-focused > &-input {
-    border-color: var(--Form-input-onError-borderColor);
+    border-color: var(--Form-item-onError-borderColor);
+    background: var(--Form-item-onError-bg);
   }
 
   &.is-disabled > &-input {

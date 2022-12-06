@@ -116,55 +116,6 @@
     background: var(--input-default-disabled-bg-color);
   }
 
-  &.is-error > &-input {
-    border-width: var(--input-error-default-top-border-width)
-      var(--input-error-default-right-border-width)
-      var(--input-error-default-bottom-border-width)
-      var(--input-error-default-left-border-width);
-    border-style: var(--input-error-default-top-border-style)
-      var(--input-error-default-right-border-style)
-      var(--input-error-default-bottom-border-style)
-      var(--input-error-default-left-border-style);
-    border-color: var(--input-error-default-top-border-color)
-      var(--input-error-default-right-border-color)
-      var(--input-error-default-bottom-border-color)
-      var(--input-error-default-left-border-color);
-    background: var(--input-error-default-bg-color);
-
-    &:hover {
-      border-width: var(--input-error-hover-top-border-width)
-        var(--input-error-hover-right-border-width)
-        var(--input-error-hover-bottom-border-width)
-        var(--input-error-hover-left-border-width);
-      border-style: var(--input-error-hover-top-border-style)
-        var(--input-error-hover-right-border-style)
-        var(--input-error-hover-bottom-border-style)
-        var(--input-error-hover-left-border-style);
-      border-color: var(--input-error-hover-top-border-color)
-        var(--input-error-hover-right-border-color)
-        var(--input-error-hover-bottom-border-color)
-        var(--input-error-hover-left-border-color);
-      background: var(--input-error-hover-bg-color);
-    }
-  }
-
-  &.is-error.is-focused > &-input {
-    border-width: var(--input-error-active-top-border-width)
-      var(--input-error-active-right-border-width)
-      var(--input-error-active-bottom-border-width)
-      var(--input-error-active-left-border-width);
-    border-style: var(--input-error-active-top-border-style)
-      var(--input-error-active-right-border-style)
-      var(--input-error-active-bottom-border-style)
-      var(--input-error-active-left-border-style);
-    border-color: var(--input-error-active-top-border-color)
-      var(--input-error-active-right-border-color)
-      var(--input-error-active-bottom-border-color)
-      var(--input-error-active-left-border-color);
-    background: var(--input-error-active-bg-color);
-    box-shadow: var(--input-error-active-shadow);
-  }
-
   &.is-error.is-disabled > &-input {
     border-width: var(--input-error-disabled-top-border-width)
       var(--input-error-disabled-right-border-width)

@@ -71,18 +71,22 @@
 }
 
 .#{$ns}Form-feedback {
-  color: var(--danger);
-  margin: var(--Form-input-marginBottom) 0 0;
-  padding-left: var(--gap-base);
-  font-size: var(--fontSizeSm);
-  position: var(--Form-feedback-position);
+  color: var(--Form-feedBack-color);
+  margin: var(--Form-feedBack-marginTop) var(--Form-feedBack-marginRight)
+    var(--Form-feedBack-marginBottom) var(--Form-feedBack-marginLeft);
+  padding: var(--Form-feedBack-paddingTop) var(--Form-feedBack-paddingRight)
+    var(--Form-feedBack-paddingBottom) var(--Form-feedBack-paddingLeft);
+  font-size: var(--Form-feedBack-fontSize);
 }
 
 .#{$ns}Form-description {
   display: block;
   word-break: break-word;
   color: var(--Form-description-color);
-  margin: var(--Form-input-marginBottom) 0 0;
+  font-weight: var(--Form-description-fontWeight);
+  line-height: var(--Form-description-lineHeight);
+  margin: var(--Form-description-marginTop) var(--Form-description-marginRight)
+    var(--Form-description-marginBottom) var(--Form-description-marginLeft);
   font-size: var(--Form-description-fontSize);
 }
 
@@ -94,7 +98,8 @@
 }
 
 .#{$ns}Form-item {
-  margin-bottom: var(--Form-item-gap);
+  margin: var(--Form-item-marginTop) var(--Form-item-marginRight)
+    var(--Form-item-gap) var(--Form-item-marginLeft);
 
   &:last-child {
     margin-bottom: 0;
@@ -164,7 +169,7 @@
   }
 
   &.is-error > .#{$ns}Form-label {
-    color: var(--danger);
+    color: var(--Form-item-onError-color);
   }
 
   .#{$ns}Form-control--withSize {
