@@ -54,7 +54,9 @@
 .#{$ns}Form-label {
   font-weight: var(--Form-item-fontWeight);
   line-height: var(--Form-item-lineHeight);
-  margin-bottom: var(--gap-sm);
+  margin: var(--Form-mode-default-marginTop)
+    var(--Form-mode-default-marginRight) var(--Form-mode-default-marginBottom)
+    var(--Form-mode-default-marginLeft);
   position: relative;
   font-size: var(--Form-item-fontSize);
   color: var(--Form-item-fontColor);
@@ -125,8 +127,10 @@
   }
 
   &--inline {
-    margin-bottom: calc(var(--Form-item-gap) / 2);
-    margin-right: calc(var(--Form-item-gap) / 2);
+    margin: var(--Form-mode-inline-item-marginTop)
+      var(--Form-mode-inline-item-marginRight)
+      var(--Form-mode-inline-item-marginBottom)
+      var(--Form-mode-inline-item-marginLeft);
   }
 
   &--horizontal {
@@ -159,7 +163,7 @@
   &--normal {
     > .#{$ns}Form-label {
       display: block;
-
+      width: var(--Form-mode-default-width);
       .#{$ns}Form-star {
         position: absolute;
         left: px2rem(-6px);
@@ -246,19 +250,19 @@
     &--horizontal {
       display: flex;
       flex-wrap: nowrap;
-      margin-left: calc(var(--Form--horizontal-gutterWidth) / 2 * -1);
-      margin-right: calc(var(--Form--horizontal-gutterWidth) / 2 * -1);
 
       > * {
-        padding-left: calc(var(--Form--horizontal-gutterWidth) / 2);
-        padding-right: calc(var(--Form--horizontal-gutterWidth) / 2);
+        margin: var(--Form--horizontal-value-marginTop)
+          var(--Form--horizontal-value-marginRight)
+          var(--Form--horizontal-value-marginBottom)
+          var(--Form--horizontal-value-marginLeft);
       }
 
       > .#{$ns}Form-value {
         flex-basis: 0;
         flex-grow: 1;
-        max-width: 100%;
-        min-width: 0;
+        max-width: var(--Form--horizontal-value-maxWidth);
+        min-width: var(--Form--horizontal-value-minWidth);
       }
 
       .#{$ns}Form-itemColumn--xs,
@@ -272,8 +276,10 @@
       }
 
       > .#{$ns}Form-label {
-        padding-top: var(--Form-label-paddingTop);
-        margin-bottom: 0;
+        margin: var(--Form--horizontal-label-marginTop)
+          var(--Form--horizontal-label-marginRight)
+          var(--Form--horizontal-label-marginBottom)
+          var(--Form--horizontal-label-marginLeft);
         flex-shrink: 0;
 
         .#{$ns}Form-star {
@@ -327,9 +333,10 @@
       vertical-align: top;
 
       > .#{$ns}Form-label {
-        padding-top: var(--Form-label-paddingTop);
-        margin-bottom: 0;
-        margin-right: calc(var(--Form-item-gap) / 2);
+        margin: var(--Form-mode-inline-label-marginTop)
+          var(--Form-mode-inline-label-marginRight)
+          var(--Form-mode-inline-label-marginBottom)
+          var(--Form-mode-inline-label-marginLeft);
 
         .#{$ns}Form-star {
           position: absolute;
