@@ -270,6 +270,7 @@ setSchemaTpl(
           form.setValueByName('style.flexDirection', undefined);
           form.setValueByName('style.justifyContent', undefined);
           form.setValueByName('style.alignItems', undefined);
+          form.setValueByName('style.flexWrap', undefined);
         }
       },
     };
