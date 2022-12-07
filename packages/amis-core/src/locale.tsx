@@ -51,8 +51,12 @@ export function makeTranslator(locale?: string): TranslateFn {
       return str;
     }
 
-    const dict = locales[locale!] || locales[defaultLocale] || locales['zh-CN'];
-    return format(dict?.[str] || str, ...args);
+    const value =
+      locales[locale!]?.[str] ||
+      locales[defaultLocale]?.[str] ||
+      locales['zh-CN']?.[str] ||
+      str;
+    return format(value, ...args);
   };
 
   locale && (fns[locale] = fn);

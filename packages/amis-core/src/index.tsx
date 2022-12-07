@@ -22,6 +22,7 @@ import {
 } from './factory';
 import type {RenderOptions, RendererConfig, RendererProps} from './factory';
 import './renderers/builtin';
+import './renderers/register';
 export * from './utils/index';
 export * from './types';
 export * from './store';

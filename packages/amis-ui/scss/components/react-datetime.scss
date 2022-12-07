@@ -47,7 +47,7 @@
   }
   .headerTable {
     border-spacing: 0;
-    border-bottom: 1px solid #E8E9EB;
+    border-bottom: 1px solid #e8e9eb;
   }
 }
 .rdtPicker td,
@@ -76,12 +76,12 @@
 }
 .rdtPicker td.rdtOld,
 .rdtPicker td.rdtNew {
-  color: #B8BABF;
+  color: #b8babf;
 }
 .rdtPicker td.rdtToday {
   position: relative;
   > span {
-    border: 1px solid #2468F2;
+    border: 1px solid #2468f2;
   }
 }
 .rdtPicker td.rdtActive,
@@ -96,20 +96,20 @@
 .rdtPicker td.rdtDisabled,
 .rdtPicker td.rdtDisabled:hover {
   background: none;
-  color: #B8BABF;
+  color: #b8babf;
   cursor: not-allowed;
 }
 
 .rdtPicker td span.rdtOld {
-  color: #B8BABF;
+  color: #b8babf;
 }
 .rdtPicker td span.rdtDisabled,
 .rdtPicker td span.rdtDisabled:hover {
   background: none;
-  color: #B8BABF;
+  color: #b8babf;
   cursor: not-allowed;
   > span {
-    border-color: #E8E9EB;
+    border-color: #e8e9eb;
   }
 }
 .rdtPicker th {
@@ -147,7 +147,7 @@
 .rdtPicker th.rdtDisabled,
 .rdtPicker th.rdtDisabled:hover {
   background: none;
-  color: #B8BABF;
+  color: #b8babf;
   cursor: not-allowed;
 }
 .rdtPicker thead tr:first-of-type th {
