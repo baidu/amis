@@ -186,6 +186,7 @@ export default class HBox extends React.Component<HBoxProps, object> {
   render() {
     const {
       className,
+      style,
       classnames: cx,
       gap,
       valign: vAlign,
@@ -198,6 +199,7 @@ export default class HBox extends React.Component<HBoxProps, object> {
           [`Hbox--v${ucFirst(vAlign)}`]: vAlign,
           [`Hbox--h${ucFirst(hAlign)}`]: hAlign
         })}
+        style={style}
       >
         {this.renderColumns()}
       </div>

@@ -261,12 +261,12 @@ export default class TableView extends React.Component<TableViewProps, object> {
   }
 
   render() {
-    const {width, trs, classnames: cx, className} = this.props;
+    const {width, trs, classnames: cx, className, style} = this.props;
 
     return (
       <table
         className={cx('TableView', className)}
-        style={{width: width, borderCollapse: 'collapse'}}
+        style={{width: width, borderCollapse: 'collapse', ...style}}
       >
         {this.renderCaption()}
         {this.renderCols()}

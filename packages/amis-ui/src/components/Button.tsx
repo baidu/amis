@@ -12,6 +12,7 @@ import Spinner from './Spinner';
 interface ButtonProps extends React.DOMAttributes<HTMLButtonElement> {
   id?: string;
   className?: string;
+  style?: any;
   href?: string;
   title?: string;
   size?: 'xs' | 'sm' | 'md' | 'lg';
@@ -59,6 +60,7 @@ export class Button extends React.Component<ButtonProps> {
       size = 'default',
       disabled,
       className,
+      style,
       title,
       componentClass: Comp,
       classnames: cx,
@@ -101,6 +103,7 @@ export class Button extends React.Component<ButtonProps> {
               },
           className
         )}
+        style={style}
         title={title}
         disabled={disabled}
       >

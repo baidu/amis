@@ -502,7 +502,7 @@ export default class SubFormControl extends React.PureComponent<
   }
 
   render() {
-    const {multiple, classPrefix: ns, className, render} = this.props;
+    const {multiple, classPrefix: ns, className, style, render} = this.props;
     const dialogData = this.state.dialogData;
     const dialogCtx = this.state.dialogCtx;
 

@@ -631,6 +631,7 @@ export class Navigation extends React.Component<
   render(): JSX.Element {
     const {
       className,
+      style,
       stacked,
       classnames: cx,
       links,
@@ -640,7 +641,7 @@ export class Navigation extends React.Component<
     const {dropIndicator} = this.state;
 
     return (
-      <div className={cx('Nav')}>
+      <div className={cx('Nav')} style={style}>
         {overflow && isObject(overflow) && overflow.enable ? (
           this.renderOverflowNavs({
             overflowIndicator: 'fa fa-ellipsis',

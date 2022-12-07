@@ -1711,6 +1711,7 @@ export default class ComboControl extends React.Component<ComboProps> {
       formInited,
       multiple,
       className,
+      style,
       classPrefix: ns,
       classnames: cx,
       static: isStatic,

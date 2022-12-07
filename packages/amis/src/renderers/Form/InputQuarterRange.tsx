@@ -19,6 +19,7 @@ export default class QuarterRangeControl extends InputDateRange {
   render() {
     const {
       className,
+      style,
       classPrefix: ns,
       minDate,
       maxDate,

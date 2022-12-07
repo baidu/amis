@@ -12,6 +12,7 @@ export interface TimelineProps extends ThemeProps {
 export function Timeline(props: TimelineProps) {
   const {
     items,
+    style,
     classnames: cx,
     direction = 'vertical',
     reverse = false,
@@ -25,6 +26,7 @@ export function Timeline(props: TimelineProps) {
   return (
     <div
       className={cx('Timeline', `Timeline-${direction}`, `Timeline-${mode}`)}
+      style={style}
     >
       {timelineDatasource?.map((item: TimelineItemProps, index: number) => (
         <TimelineItem {...item} key={`TimelineItem-${index}`} />

@@ -273,6 +273,7 @@ export class SearchBox extends React.Component<SearchBoxProps, SearchBoxState> {
       active,
       name,
       className,
+      style,
       disabled,
       placeholder,
       mini,
@@ -294,6 +295,7 @@ export class SearchBox extends React.Component<SearchBoxProps, SearchBoxState> {
           !mini || active ? 'is-active' : '',
           {'is-history': enable}
         )}
+        style={style}
       >
         <input
           name={name}
@@ -359,7 +361,7 @@ export class SearchBox extends React.Component<SearchBoxProps, SearchBoxState> {
   }
 
   renderHitoryMode() {
-    const {classnames: cx, translate: __, className} = this.props;
+    const {classnames: cx, translate: __, className, style} = this.props;
     const {isHistoryOpened, inputValue, historyRecords} = this.state;
     const {dropdownClassName} = this.getHistoryOptions();
     const showDropdown =
@@ -369,6 +371,7 @@ export class SearchBox extends React.Component<SearchBoxProps, SearchBoxState> {
       <div
         id="searchbox-history"
         className={cx('SearchBox-history', className)}
+        style={style}
       >
         {this.renderInput(true)}
 

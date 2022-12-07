@@ -21,6 +21,7 @@ export default class MonthRangeControl extends InputDateRange {
   render() {
     const {
       className,
+      style,
       classPrefix: ns,
       minDate,
       maxDate,

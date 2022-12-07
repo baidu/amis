@@ -109,6 +109,7 @@ export class JSONField extends React.Component<JSONProps, object> {
   render() {
     const {
       className,
+      style,
       jsonTheme,
       classnames: cx,
       placeholder,
@@ -153,7 +154,7 @@ export class JSONField extends React.Component<JSONProps, object> {
     }
 
     return (
-      <div className={cx('JsonField', className)}>
+      <div className={cx('JsonField', className)} style={style}>
         {typeof data === 'undefined' || data === null ? (
           placeholder
         ) : (

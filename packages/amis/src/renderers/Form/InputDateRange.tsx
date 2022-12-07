@@ -237,6 +237,7 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
   render() {
     const {
       className,
+      style,
       classPrefix: ns,
       defaultValue,
       defaultData,

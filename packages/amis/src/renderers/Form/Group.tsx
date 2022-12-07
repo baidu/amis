@@ -95,7 +95,7 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
   }
 
   renderVertical(props = this.props) {
-    let {body, className, classnames: cx, mode, formMode, data} = props;
+    let {body, className, style, classnames: cx, mode, formMode, data} = props;
     formMode = mode || formMode;
 
     if (!Array.isArray(body)) {
@@ -126,6 +126,7 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
     let {
       body,
       className,
+      style,
       classPrefix: ns,
       classnames: cx,
       mode,

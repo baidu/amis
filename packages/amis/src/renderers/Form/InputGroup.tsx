@@ -99,6 +99,7 @@ export class InputGroup extends React.Component<
       body,
       controls,
       className,
+      style,
       mode,
       horizontal,
       formMode,

@@ -17,6 +17,7 @@ export interface AnchorNavSectionProps extends ThemeProps {
   name: string | number; // 标识
   body?: Schema; // Schema
   className?: string; // 样式名
+  style?: any;
 }
 
 class AnchorNavSectionComponent extends React.PureComponent<AnchorNavSectionProps> {
@@ -24,10 +25,10 @@ class AnchorNavSectionComponent extends React.PureComponent<AnchorNavSectionProp
   contentRef = (ref: any) => (this.contentDom = ref);
 
   render() {
-    const {classnames: cx, children, className} = this.props;
+    const {classnames: cx, children, className, style} = this.props;
 
     return (
-      <div ref={this.contentRef} className={cx('AnchorNav-section', className)}>
+      <div ref={this.contentRef} className={cx('AnchorNav-section', className)} style={style}>
         {children}
       </div>
     );

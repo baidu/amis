@@ -35,6 +35,7 @@ const defaultOmitList = [
   'name',
   '$ref',
   'className',
+  'style',
   'data',
   'children',
   'ref',
