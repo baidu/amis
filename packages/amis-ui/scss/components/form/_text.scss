@@ -116,26 +116,6 @@
     background: var(--input-default-disabled-bg-color);
   }
 
-  &.is-error.is-disabled > &-input {
-    border-width: var(--input-error-disabled-top-border-width)
-      var(--input-error-disabled-right-border-width)
-      var(--input-error-disabled-bottom-border-width)
-      var(--input-error-disabled-left-border-width);
-    border-style: var(--input-error-disabled-top-border-style)
-      var(--input-error-disabled-right-border-style)
-      var(--input-error-disabled-bottom-border-style)
-      var(--input-error-disabled-left-border-style);
-    border-color: var(--input-error-disabled-top-border-color)
-      var(--input-error-disabled-right-border-color)
-      var(--input-error-disabled-bottom-border-color)
-      var(--input-error-disabled-left-border-color);
-    border-radius: var(--input-error-disabled-top-left-border-radius)
-      var(--input-error-disabled-top-right-border-radius)
-      var(--input-error-disabled-bottom-right-border-radius)
-      var(--input-error-disabled-bottom-left-border-radius);
-    background: var(--input-error-disabled-bg-color);
-  }
-
   &-input--sm-size {
     height: var(--input-size-sm-height);
     font-size: 12px;
