@@ -408,20 +408,53 @@
     height: var(--Form-inputNumber-base-height);
     line-height: var(--Form-inputNumber-base-height);
     text-align: center;
-    color: var(--inputNumber-enhance-default-icon-color);
+    color: var(--inputNumber-enhance-leftIcon-default-color);
     background: var(--inputNumber-enhance-default-step-bg);
-    &:hover {
-      cursor: pointer;
-      background: var(--inputNumber-enhance-hover-step-bg);
-      color: var(--Form-input-onHover-borderColor);
-    }
-    &-focused {
-      background: var(--inputNumber-enhance-active-step-bg);
-      color: var(--Form-input-onFocused-borderColor);
-    }
     & > svg {
       width: var(--fontSizeSm);
       height: var(--fontSizeSm);
+    }
+  }
+  .#{$ns}Number--enhance-left-icon {
+    background: var(--inputNumber-enhance-leftIcon-default-bg-color);
+    &:hover {
+      cursor: pointer;
+      background: var(--inputNumber-enhance-leftIcon-hover-bg-color);
+    }
+    &-focused {
+      background: var(--inputNumber-enhance-leftIcon-active-bg-color);
+    }
+    & > svg {
+      width: var(--inputNumber-enhance-leftIcon-default-height);
+      height: var(--inputNumber-enhance-leftIcon-default-width);
+      color: var(--inputNumber-enhance-leftIcon-default-color);
+      &:hover {
+        color: var(--inputNumber-enhance-leftIcon-hover-color);
+      }
+      &:active {
+        color: var(--inputNumber-enhance-leftIcon-active-color);
+      }
+    }
+  }
+  .#{$ns}Number--enhance-right-icon {
+    cursor: pointer;
+    background: var(--inputNumber-enhance-rightIcon-default-bg-color);
+    &:hover {
+      background: var(--inputNumber-enhance-rightIcon-hover-bg-color);
+    }
+    &:active {
+      background: var(--inputNumber-enhance-rightIcon-active-bg-color);
+    }
+    & > svg {
+      width: var(--inputNumber-enhance-rightIcon-default-height);
+      height: var(--inputNumber-enhance-rightIcon-default-width);
+      color: var(--inputNumber-enhance-rightIcon-default-color);
+      &:hover {
+        color: var(--inputNumber-enhance-rightIcon-hover-color);
+      }
+      &:active {
+        color: var(--inputNumber-enhance-rightIcon-active-color);
+      }
     }
   }
   .#{$ns}Number--enhance-left-icon {

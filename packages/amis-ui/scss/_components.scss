@@ -1267,16 +1267,30 @@
   --inputNumber-enhance-disabled-paddingRight: var(--sizes-size-7);
   --inputNumber-enhance-disabled-bg-color: var(--colors-neutral-fill-10);
   --inputNumber-enhance-default-icon-fontSize: var(--fonts-size-8);
-  --inputNumber-enhance-default-icon-color: var(--colors-neutral-text-2);
-  --inputNumber-enhance-hover-icon-color: var(--colors-brand-5);
-  --inputNumber-enhance-active-icon-color: var(--colors-brand-5);
-  --inputNumber-enhance-default-step-bg: var(--colors-neutral-fill-11);
-  --inputNumber-enhance-hover-step-bg: var(--colors-neutral-fill-11);
-  --inputNumber-enhance-active-step-bg: var(--colors-neutral-fill-11);
-  --Form-input-onHover-borderColor: var(--inputNumber-enhance-hover-icon-color);
-  --Form-input-onFocused-borderColor: var(
-    --inputNumber-enhance-active-icon-color
+  --inputNumber-enhance-leftIcon-default-height: var(--sizes-size-7);
+  --inputNumber-enhance-leftIcon-default-width: var(--sizes-size-7);
+  --inputNumber-enhance-leftIcon-default-color: var(--colors-neutral-text-2);
+  --inputNumber-enhance-leftIcon-hover-color: var(--colors-brand-5);
+  --inputNumber-enhance-leftIcon-active-color: var(--colors-brand-5);
+  --inputNumber-enhance-leftIcon-default-bg-color: var(
+    --colors-neutral-fill-11
   );
+  --inputNumber-enhance-leftIcon-hover-bg-color: var(--colors-neutral-fill-11);
+  --inputNumber-enhance-leftIcon-active-bg-color: var(--colors-neutral-fill-11);
+  --inputNumber-enhance-rightIcon-default-height: var(--sizes-size-7);
+  --inputNumber-enhance-rightIcon-default-width: var(--sizes-size-7);
+  --inputNumber-enhance-rightIcon-default-color: var(--colors-neutral-text-2);
+  --inputNumber-enhance-rightIcon-hover-color: var(--colors-brand-5);
+  --inputNumber-enhance-rightIcon-active-color: var(--colors-brand-5);
+  --inputNumber-enhance-rightIcon-default-bg-color: var(
+    --colors-neutral-fill-11
+  );
+  --inputNumber-enhance-rightIcon-hover-bg-color: var(--colors-neutral-fill-11);
+  --inputNumber-enhance-rightIcon-active-bg-color: var(
+    --colors-neutral-fill-11
+  );
+  --Form-input-onHover-borderColor: var(--colors-brand-5);
+  --Form-input-onFocused-borderColor: var(--colors-brand-5);
 
   // 链接
   --link-color: var(--colors-link-4);
