@@ -1385,4 +1385,74 @@
   --Form-mode-inline-label-marginBottom: var(--sizes-size-0);
   --Form-mode-inline-label-marginLeft: var(--sizes-size-5);
   --Form-mode-inline-label-marginRight: var(--sizes-size-5);
+
+  // 滑块
+  --InputRange-track-bg: var(--colors-neutral-fill-8);
+  --InputRange-track-height: var(--sizes-size-4);
+  --InputRange-track-border-radius: var(--sizes-size-3);
+  --InputRange-track-onActive-bg: var(--colors-brand-5);
+  --InputRange-handle-height: var(--sizes-size-9);
+  --InputRange-handle-width: var(--sizes-size-9);
+  --InputRange-handle-bg: var(--colors-neutral-fill-11);
+  --InputRange-handle-top-border-color: var(--colors-brand-5);
+  --InputRange-handle-top-border-width: 0.0625rem;
+  --InputRange-handle-top-border-style: var(--borders-style-2);
+  --InputRange-handle-top-right-border-radius: var(--borders-radius-7);
+  --InputRange-handle-border: var(--InputRange-handle-top-border-width)
+    var(--InputRange-handle-top-border-style)
+    var(--InputRange-handle-top-border-color);
+  --InputRange-handle-border-radius: var(
+    --InputRange-handle-top-right-border-radius
+  );
+  --InputRange-handle-onActive-transform: scale(1.3);
+  --InputRange-handle-onDrage-border-width: #{px2rem(2px)};
+  --InputRange-handle-onFocus-borderRadius: var(
+    --InputRange-handle-border-radius
+  );
+  --InputRange-padding: #{px2rem(20px)};
+  --InputRange-handle-icon-width: var(--sizes-size-5);
+  --InputRange-handle-icon-height: var(--sizes-size-5);
+  --InputRange-handle-icon-color: var(--colors-brand-9);
+  --InputRange-track-onActive-onDisabled-bg: var(--colors-neutral-fill-6);
+  --InputRange-handle-onDisabled-border-color: var(--colors-neutral-fill-7);
+  --InputRange-handle-onDisabled-bg: var(--colors-neutral-fill-11);
+  --InputRange-handle-icon-onDisabled-color: var(--colors-neutral-fill-7);
+  --InputRange-track-transition: left var(--animation-duration) ease-out,
+    width var(--animation-duration) ease-out;
+  --InputRange-handle-transition: transform var(--animation-duration) ease-out;
+  --InputRange-track-dot-height: var(--sizes-size-4);
+  --InputRange-track-dot-width: var(--sizes-size-4);
+  --InputRange-track-dot-bg: var(--colors-neutral-fill-11);
+  --InputRange-marks-color: var(--colors-neutral-text-2);
+  --InputRange-marks-fontSize: var(--fonts-size-7);
+  --InputRange-marks-fontWeight: var(--fonts-weight-6);
+  --InputRange-marks-lineHeight: var(--fonts-lineHeight-2);
+  --InputRange-marks-marginTop: var(--sizes-size-0);
+  --InputRange-label-color: var(--colors-neutral-fill-11);
+  --InputRange-label-fontSize: var(--fonts-size-7);
+  --InputRange-label-font-size: var(--InputRange-label-fontSize);
+  --InputRange-label-fontWeight: var(--fonts-weight-6);
+  --InputRange-label-lineHeight: var(--fonts-lineHeight-2);
+  --InputRange-label-paddingTop: var(--sizes-size-5);
+  --InputRange-label-paddingBottom: var(--sizes-size-5);
+  --InputRange-label-paddingLeft: var(--sizes-size-5);
+  --InputRange-label-paddingRight: var(--sizes-size-5);
+  --InputRange-label-bg: var(--colors-neutral-fill-1);
+  --InputRange-label-top-right-border-radius: var(--borders-radius-3);
+  --InputRange-label-padding: var(--InputRange-label-paddingTop)
+    var(--InputRange-label-paddingRight) var(--InputRange-label-paddingBottom)
+    var(--InputRange-label-paddingLeft);
+  --InputRange-label-border-radius: var(
+    --InputRange-label-top-right-border-radius
+  );
+  --InputRange-label-position-bottom: calc(100% + 8px);
+  --InputRange-input-width: var(--sizes-base-41);
+  --InputRange-input-marginTop: var(--sizes-size-0);
+  --InputRange-input-marginBottom: var(--sizes-size-0);
+  --InputRange-input-marginLeft: var(--sizes-size-5);
+  --InputRange-input-marginRight: var(--sizes-size-5);
+  --InputRange-clearIcon-height: var(--sizes-size-7);
+  --InputRange-clearIcon-width: var(--sizes-size-7);
+  --InputRange-clearIcon-color: var(--colors-neutral-text-4);
+  --InputRange-clearIcon-hoverColor: var(--colors-brand-5);
 }
