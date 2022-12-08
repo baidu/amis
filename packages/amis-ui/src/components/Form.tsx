@@ -7,6 +7,7 @@ import {useForm, UseFormReturn, FormProvider} from 'react-hook-form';
 import {useValidationResolver} from '../hooks/use-validation-resolver';
 import {localeable, LocaleProps} from 'amis-core';
 import debounce from 'lodash/debounce';
+import {isObjectShallowModified} from 'amis-core';
 
 export type FormRef = React.MutableRefObject<
   | {
@@ -17,8 +18,10 @@ export type FormRef = React.MutableRefObject<
 
 export interface FormProps extends ThemeProps, LocaleProps {
   defaultValue?: any;
+  value?: any;
   autoSubmit?: boolean;
   onValidate?: (errors: any, values: any) => Promise<void>;
+  onChange?: (value: any) => void;
   onSubmit?: (value: any) => void;
   forwardRef?: FormRef;
   children?: (
@@ -30,9 +33,9 @@ export interface FormProps extends ThemeProps, LocaleProps {
 }
 
 export function Form(props: FormProps) {
-  const {classnames: cx, className, autoSubmit} = props;
+  const {classnames: cx, className, autoSubmit, value, onChange} = props;
   const methods = useForm({
-    defaultValues: props.defaultValue,
+    defaultValues: props.value ?? props.defaultValue,
     resolver: useValidationResolver(props.translate, props.onValidate)
   });
   let onSubmit = React.useRef<(data: any) => void>(
@@ -54,6 +57,21 @@ export function Form(props: FormProps) {
         (onSubmit.current as any)?.cancel?.();
       };
     }, []);
+  }
+  React.useEffect(() => {
+    if (value && isObjectShallowModified(value, methods.getValues())) {
+      Object.keys(value).forEach(key => {
+        methods.setValue(key, value[key]);
+      });
+    }
+  }, [value]);
+  if (onChange) {
+    React.useEffect(() => {
+      const subscriber = methods.watch(value => {
+        onChange(value);
+      });
+      return () => subscriber.unsubscribe();
+    }, [onChange]);
   }
 
   React.useEffect(() => {
