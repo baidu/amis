@@ -299,13 +299,13 @@ export class TabsTransferRenderer extends BaseTabsTransferRenderer<TabsTransferP
       resultTitle,
       itemHeight,
       virtualThreshold,
-      ...rest
+      onlyChildren
     } = this.props;
 
     return (
       <div className={cx('TabsTransferControl', className)}>
         <TabsTransfer
-          {...rest}
+          onlyChildren={onlyChildren}
           activeKey={this.state.activeKey}
           value={selectedOptions}
           disabled={disabled}
