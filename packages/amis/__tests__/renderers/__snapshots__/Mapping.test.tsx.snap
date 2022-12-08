@@ -13,3 +13,53 @@ exports[`Renderer:mapping 1`] = `
   </span>
 </div>
 `;
+
+exports[`Renderer:mapping html 1`] = `
+<div>
+  <span
+    class="cxd-MappingField"
+  >
+    <span
+      class="text-muted"
+    >
+      -
+    </span>
+  </span>
+</div>
+`;
+
+exports[`Renderer:mapping html 2`] = `
+<div>
+  <span
+    class="cxd-MappingField"
+  >
+    <span
+      class="cxd-TplField"
+    >
+      <span>
+        <span
+          class="label label-info"
+        >
+          漂亮
+        </span>
+      </span>
+    </span>
+  </span>
+</div>
+`;
+
+exports[`Renderer:mapping html 3`] = `
+<div>
+  <span
+    class="cxd-MappingField"
+  >
+    <span
+      class="cxd-TplField"
+    >
+      <span>
+        其他
+      </span>
+    </span>
+  </span>
+</div>
+`;
