@@ -860,6 +860,8 @@ export class FormItemWrap extends React.Component<FormItemProps> {
 
   renderControl(): JSX.Element | null {
     const {
+      // 这里解构，不可轻易删除，避免被rest传到子组件
+      inputClassName,
       formItem: model,
       classnames: cx,
       children,
@@ -1641,6 +1643,8 @@ export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
 
           renderControl() {
             const {
+              // 这里解构，不可轻易删除，避免被rest传到子组件
+              inputClassName,
               formItem: model,
               classnames: cx,
               children,
