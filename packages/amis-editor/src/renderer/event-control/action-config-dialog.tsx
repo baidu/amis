@@ -2,13 +2,14 @@
  * 动作配置面板
  */
 
-import {PluginActions, RendererPluginAction} from 'amis-editor-core';
+import {PluginActions, RendererPluginAction, tipedLabel} from 'amis-editor-core';
 import React from 'react';
 import {ActionConfig, ComponentInfo} from './types';
 import ActionConfigPanel from './action-config-panel';
 import {BASE_ACTION_PROPS} from './comp-action-select';
 import {findActionNode} from './helper';
 import {PlainObject, SchemaNode} from 'amis-core';
+import {getSchemaTpl} from 'amis-model-design';
 
 interface ActionDialogProp {
   show: boolean;
@@ -282,15 +283,13 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
                           },
                           // {
                           //   name: 'stopPropagation',
-                          //   label: '阻断条件',
+                          //   label: tipedLabel('阻断条件', '满足条件时，将会阻断当前事件的后续动作的执行'),
                           //   type: 'ae-expressionFormulaControl',
                           //   evalMode: true,
                           //   variables: '${variables}',
                           //   mode: 'horizontal',
                           //   size: 'lg',
-                          //   visibleOn: 'data.actionType',
-                          //   description:
-                          //     '满足条件时，将会阻断当前事件的后续动作的执行'
+                          //   visibleOn: 'data.actionType'
                           // },
                           {
                             name: 'expression',
