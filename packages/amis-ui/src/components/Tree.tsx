@@ -18,6 +18,7 @@
  */
 
 import React from 'react';
+import {uniq} from 'lodash';
 import {
   eachTree,
   isVisible,
@@ -344,7 +345,6 @@ export class TreeSelector extends React.Component<
 
     unfolded.set(node, !unfolded.get(node));
     this.flattenOptions();
-    this.forceUpdate();
   }
 
   isUnfolded(node: any): boolean {
@@ -544,7 +544,7 @@ export class TreeSelector extends React.Component<
 
     this.setState(
       {
-        value
+        value: uniq(value)
       },
       () => {
         const {
@@ -555,16 +555,17 @@ export class TreeSelector extends React.Component<
           onChange,
           enableNodePath
         } = props;
+        const value = this.state.value;
 
-        onChange(
-          enableNodePath
-            ? this.transform2NodePath(value)
-            : joinValues
-            ? value.map(item => item[valueField as string]).join(delimiter)
-            : extractValue
-            ? value.map(item => item[valueField as string])
-            : value
-        );
+        const changedValue = enableNodePath
+          ? this.transform2NodePath(value)
+          : joinValues
+          ? value.map(item => item[valueField as string]).join(delimiter)
+          : extractValue
+          ? value.map(item => item[valueField as string])
+          : value;
+
+        onChange(changedValue);
       }
     );
   }
@@ -1029,7 +1030,7 @@ export class TreeSelector extends React.Component<
       draggable
     } = this.props;
 
-    const item = this.state.flattenedOptions[index];
+    const item = this.state.flattenedOptions![index];
 
     if (!item) {
       return null;
