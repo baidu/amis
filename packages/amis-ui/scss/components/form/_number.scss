@@ -425,7 +425,7 @@
       background: var(--inputNumber-enhance-leftIcon-active-bg-color);
     }
     .InputNumber-enhance-minus {
-      content: var(--inputNumber-enhance-minus-icon);
+      content: var(--inputNumber-enhance-leftIcon-default-icon);
     }
     svg {
       width: var(--inputNumber-enhance-leftIcon-default-height);
@@ -449,7 +449,7 @@
       background: var(--inputNumber-enhance-rightIcon-active-bg-color);
     }
     .InputNumber-enhance-plus {
-      content: var(--inputNumber-enhance-plus-icon);
+      content: var(--inputNumber-enhance-rightIcon-default-icon);
     }
     svg {
       width: var(--inputNumber-enhance-rightIcon-default-height);
