@@ -1,5 +1,6 @@
 import React from 'react';
 import isEqual from 'lodash/isEqual';
+import pickBy from 'lodash/pickBy';
 import {Renderer, RendererProps} from 'amis-core';
 import {SchemaNode, Schema, ActionObject, PlainObject} from 'amis-core';
 import {CRUDStore, ICRUDStore} from 'amis-core';
@@ -867,7 +868,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   }
 
   handleFilterSubmit(
-    values: object,
+    values: Record<string, any>,
     jumpToFirstPage: boolean = true,
     replaceLocation: boolean = false,
     search: boolean = true
@@ -881,6 +882,14 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       loadDataOnceFetchOnFilter
     } = this.props;
 
+    /** 找出clearValueOnHidden的字段, 保证updateQuery时不会使用上次的保留值 */
+    values = {
+      ...values,
+      ...pickBy(
+        values?.__super?.diff ?? {},
+        (value) => value === undefined
+      )
+    };
     values = syncLocation
       ? qsparse(qsstringify(values, undefined, true))
       : values;
