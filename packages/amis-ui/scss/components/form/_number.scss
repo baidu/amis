@@ -424,7 +424,10 @@
     &-focused {
       background: var(--inputNumber-enhance-leftIcon-active-bg-color);
     }
-    & > svg {
+    .InputNumber-enhance-minus {
+      content: var(--inputNumber-enhance-leftIcon-default-icon);
+    }
+    svg {
       width: var(--inputNumber-enhance-leftIcon-default-height);
       height: var(--inputNumber-enhance-leftIcon-default-width);
       color: var(--inputNumber-enhance-leftIcon-default-color);
@@ -445,7 +448,10 @@
     &:active {
       background: var(--inputNumber-enhance-rightIcon-active-bg-color);
     }
-    & > svg {
+    .InputNumber-enhance-plus {
+      content: var(--inputNumber-enhance-rightIcon-default-icon);
+    }
+    svg {
       width: var(--inputNumber-enhance-rightIcon-default-height);
       height: var(--inputNumber-enhance-rightIcon-default-width);
       color: var(--inputNumber-enhance-rightIcon-default-color);
