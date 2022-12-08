@@ -358,7 +358,11 @@ export class NumberInput extends React.Component<NumberProps, any> {
               )}
               onClick={() => this.handleEnhanceModeChange('subtract')}
             >
-              <Icon icon="minus" className="icon" />
+              <Icon
+                icon="minus"
+                className={cx('InputNumber-enhance-minus icon')}
+                iconContent="InputNumber-enhance-minus"
+              />
             </div>
             {this.renderBase()}
             <div
@@ -370,7 +374,11 @@ export class NumberInput extends React.Component<NumberProps, any> {
               )}
               onClick={() => this.handleEnhanceModeChange('add')}
             >
-              <Icon icon="plus" className="icon " />
+              <Icon
+                icon="plus"
+                className={cx('InputNumber-enhance-plus icon')}
+                iconContent="InputNumber-enhance-plus"
+              />
             </div>
           </div>
         ) : (
