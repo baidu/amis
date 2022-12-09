@@ -114,8 +114,8 @@ export default class TreeOptionControl extends React.Component<
     if (source === 'api' || source === 'apicenter') {
       const {api, labelField, valueField, iconField} = this.state;
       data.source = api;
-      data.labelField = labelField;
-      data.valueField = valueField;
+      data.labelField = labelField || undefined;
+      data.valueField = valueField || undefined;
       data.iconField = iconField;
     }
     onBulkChange && onBulkChange(data);
