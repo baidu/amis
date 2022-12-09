@@ -1294,6 +1294,98 @@
   --Form-input-onHover-borderColor: var(--colors-brand-5);
   --Form-input-onFocused-borderColor: var(--colors-brand-5);
 
+  // 勾选框
+  --checkbox-checkbox-default-height: var(--sizes-size-9);
+  --checkbox-checkbox-default-bg-color: var(--colors-brand-5);
+  --checkbox-checkbox-default-color: var(--colors-neutral-text-2);
+  --checkbox-checkbox-default-fontSize: var(--sizes-size-8);
+  --checkbox-checkbox-default-top-border-color: var(--colors-neutral-line-8);
+  --checkbox-checkbox-default-top-border-width: var(--borders-width-2);
+  --checkbox-checkbox-default-top-border-style: var(--borders-style-2);
+  --checkbox-checkbox-default-right-border-color: var(--colors-neutral-line-8);
+  --checkbox-checkbox-default-right-border-width: var(--borders-width-2);
+  --checkbox-checkbox-default-right-border-style: var(--borders-style-2);
+  --checkbox-checkbox-default-bottom-border-color: var(--colors-neutral-line-8);
+  --checkbox-checkbox-default-bottom-border-width: var(--borders-width-2);
+  --checkbox-checkbox-default-bottom-border-style: var(--borders-style-2);
+  --checkbox-checkbox-default-left-border-color: var(--colors-neutral-line-8);
+  --checkbox-checkbox-default-left-border-width: var(--borders-width-2);
+  --checkbox-checkbox-default-left-border-style: var(--borders-style-2);
+  --checkbox-checkbox-default-top-right-border-radius: var(--sizes-size-2);
+  --checkbox-checkbox-default-top-left-border-radius: var(--sizes-size-2);
+  --checkbox-checkbox-default-bottom-right-border-radius: var(--sizes-size-2);
+  --checkbox-checkbox-default-bottom-left-border-radius: var(--sizes-size-2);
+  --checkbox-checkbox-hover-height: var(--sizes-size-9);
+  --checkbox-checkbox-hover-bg-color: var(--colors-brand-6);
+  --checkbox-checkbox-hover-color: var(--colors-neutral-text-2);
+  --checkbox-checkbox-hover-fontSize: var(--sizes-size-8);
+  --checkbox-checkbox-hover-top-border-color: var(--colors-brand-5);
+  --checkbox-checkbox-hover-top-border-width: var(--borders-width-2);
+  --checkbox-checkbox-hover-top-border-style: var(--borders-style-2);
+  --checkbox-checkbox-hover-right-border-color: var(--colors-brand-5);
+  --checkbox-checkbox-hover-right-border-width: var(--borders-width-2);
+  --checkbox-checkbox-hover-right-border-style: var(--borders-style-2);
+  --checkbox-checkbox-hover-bottom-border-color: var(--colors-brand-5);
+  --checkbox-checkbox-hover-bottom-border-width: var(--borders-width-2);
+  --checkbox-checkbox-hover-bottom-border-style: var(--borders-style-2);
+  --checkbox-checkbox-hover-left-border-color: var(--colors-brand-5);
+  --checkbox-checkbox-hover-left-border-width: var(--borders-width-2);
+  --checkbox-checkbox-hover-left-border-style: var(--borders-style-2);
+  --checkbox-checkbox-hover-top-right-border-radius: var(--sizes-size-2);
+  --checkbox-checkbox-hover-top-left-border-radius: var(--sizes-size-2);
+  --checkbox-checkbox-hover-bottom-right-border-radius: var(--sizes-size-2);
+  --checkbox-checkbox-hover-bottom-left-border-radius: var(--sizes-size-2);
+  --checkbox-checkbox-active-height: var(--sizes-size-9);
+  --checkbox-checkbox-active-bg-color: var(--colors-brand-6);
+  --checkbox-checkbox-active-color: var(--colors-neutral-text-2);
+  --checkbox-checkbox-active-fontSize: var(--sizes-size-8);
+  --checkbox-checkbox-active-top-border-color: var(--colors-brand-5);
+  --checkbox-checkbox-active-top-border-width: var(--borders-width-2);
+  --checkbox-checkbox-active-top-border-style: var(--borders-style-2);
+  --checkbox-checkbox-active-right-border-color: var(--colors-brand-5);
+  --checkbox-checkbox-active-right-border-width: var(--borders-width-2);
+  --checkbox-checkbox-active-right-border-style: var(--borders-style-2);
+  --checkbox-checkbox-active-bottom-border-color: var(--colors-brand-5);
+  --checkbox-checkbox-active-bottom-border-width: var(--borders-width-2);
+  --checkbox-checkbox-active-bottom-border-style: var(--borders-style-2);
+  --checkbox-checkbox-active-left-border-color: var(--colors-brand-5);
+  --checkbox-checkbox-active-left-border-width: var(--borders-width-2);
+  --checkbox-checkbox-active-left-border-style: var(--borders-style-2);
+  --checkbox-checkbox-active-top-right-border-radius: var(--sizes-size-2);
+  --checkbox-checkbox-active-top-left-border-radius: var(--sizes-size-2);
+  --checkbox-checkbox-active-bottom-right-border-radius: var(--sizes-size-2);
+  --checkbox-checkbox-active-bottom-left-border-radius: var(--sizes-size-2);
+  --checkbox-checkbox-disabled-height: var(--sizes-size-9);
+  --checkbox-checkbox-disabled-bg-color: transparent;
+  --checkbox-checkbox-disabled-color: var(--colors-neutral-text-2);
+  --checkbox-checkbox-disabled-fontSize: var(--sizes-size-8);
+  --checkbox-checkbox-disabled-top-border-color: var(--colors-neutral-line-8);
+  --checkbox-checkbox-disabled-top-border-width: var(--borders-width-2);
+  --checkbox-checkbox-disabled-top-border-style: var(--borders-style-2);
+  --checkbox-checkbox-disabled-right-border-color: var(--colors-neutral-line-8);
+  --checkbox-checkbox-disabled-right-border-width: var(--borders-width-2);
+  --checkbox-checkbox-disabled-right-border-style: var(--borders-style-2);
+  --checkbox-checkbox-disabled-bottom-border-color: var(
+    --colors-neutral-line-8
+  );
+  --checkbox-checkbox-disabled-bottom-border-width: var(--borders-width-2);
+  --checkbox-checkbox-disabled-bottom-border-style: var(--borders-style-2);
+  --checkbox-checkbox-disabled-left-border-color: var(--colors-neutral-line-8);
+  --checkbox-checkbox-disabled-left-border-width: var(--borders-width-2);
+  --checkbox-checkbox-disabled-left-border-style: var(--borders-style-2);
+  --checkbox-checkbox-disabled-top-right-border-radius: var(--sizes-size-2);
+  --checkbox-checkbox-disabled-top-left-border-radius: var(--sizes-size-2);
+  --checkbox-checkbox-disabled-bottom-right-border-radius: var(--sizes-size-2);
+  --checkbox-checkbox-disabled-bottom-left-border-radius: var(--sizes-size-2);
+
+  --Checkbox-onHover-color: var(--checkbox-checkbox-hover-top-border-color)
+    var(--checkbox-checkbox-hover-right-border-color)
+    var(--checkbox-checkbox-hover-bottom-border-color)
+    var(--checkbox-checkbox-hover-left-border-color);
+  --button-primary-hover-bg-color: var(--colors-brand-6);
+  --Checkbox-onDisabled-bg: var(--colors-neutral-fill-10);
+  --Checkbox-size: var(--checkbox-checkbox-default-height);
+
   // 链接
   --link-color: var(--colors-link-4);
   --link-fontSize: var(--fonts-size-7);

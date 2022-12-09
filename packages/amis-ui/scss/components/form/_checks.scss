@@ -69,12 +69,31 @@
 
   &--checkbox {
     padding-left: var(--Checkbox-size);
+    font-size: var(--checkbox-checkbox-default-fontSize);
+    color: var(--checkbox-checkbox-default-color);
 
     input {
       margin-left: calc(var(--Checkbox-size) * -1);
 
       &:checked + i {
         border-color: var(--Checkbox-onHover-color);
+
+        border-width: var(--checkbox-checkbox-hover-top-border-width)
+          var(--checkbox-checkbox-hover-right-border-width)
+          var(--checkbox-checkbox-hover-bottom-border-width)
+          var(--checkbox-checkbox-hover-left-border-width);
+        border-style: var(--checkbox-checkbox-hover-top-border-style)
+          var(--checkbox-checkbox-hover-right-border-style)
+          var(--checkbox-checkbox-hover-bottom-border-style)
+          var(--checkbox-checkbox-hover-left-border-style);
+        border-color: var(--checkbox-checkbox-hover-top-border-color)
+          var(--checkbox-checkbox-hover-right-border-color)
+          var(--checkbox-checkbox-hover-bottom-border-color)
+          var(--checkbox-checkbox-hover-left-border-color);
+        border-radius: var(--checkbox-checkbox-hover-top-left-border-radius)
+          var(--checkbox-checkbox-hover-top-right-border-radius)
+          var(--checkbox-checkbox-hover-bottom-right-border-radius)
+          var(--checkbox-checkbox-hover-bottom-left-border-radius);
 
         &:before {
           width: var(--Checkbox-inner-size);
@@ -105,6 +124,60 @@
       border: px2rem(1px) solid var(--Checkbox-color);
       border-radius: var(--Checkbox-borderRadius);
       margin-left: calc(var(--Checkbox-size) * -1);
+
+      border-width: var(--checkbox-checkbox-default-top-border-width)
+        var(--checkbox-checkbox-default-right-border-width)
+        var(--checkbox-checkbox-default-bottom-border-width)
+        var(--checkbox-checkbox-default-left-border-width);
+      border-style: var(--checkbox-checkbox-default-top-border-style)
+        var(--checkbox-checkbox-default-right-border-style)
+        var(--checkbox-checkbox-default-bottom-border-style)
+        var(--checkbox-checkbox-default-left-border-style);
+      border-color: var(--checkbox-checkbox-default-top-border-color)
+        var(--checkbox-checkbox-default-right-border-color)
+        var(--checkbox-checkbox-default-bottom-border-color)
+        var(--checkbox-checkbox-default-left-border-color);
+      border-radius: var(--checkbox-checkbox-default-top-left-border-radius)
+        var(--checkbox-checkbox-default-top-right-border-radius)
+        var(--checkbox-checkbox-default-bottom-right-border-radius)
+        var(--checkbox-checkbox-default-bottom-left-border-radius);
+
+      &:hover {
+        border-width: var(--checkbox-checkbox-hover-top-border-width)
+          var(--checkbox-checkbox-hover-right-border-width)
+          var(--checkbox-checkbox-hover-bottom-border-width)
+          var(--checkbox-checkbox-hover-left-border-width);
+        border-style: var(--checkbox-checkbox-hover-top-border-style)
+          var(--checkbox-checkbox-hover-right-border-style)
+          var(--checkbox-checkbox-hover-bottom-border-style)
+          var(--checkbox-checkbox-hover-left-border-style);
+        border-color: var(--checkbox-checkbox-hover-top-border-color)
+          var(--checkbox-checkbox-hover-right-border-color)
+          var(--checkbox-checkbox-hover-bottom-border-color)
+          var(--checkbox-checkbox-hover-left-border-color);
+        border-radius: var(--checkbox-checkbox-hover-top-left-border-radius)
+          var(--checkbox-checkbox-hover-top-right-border-radius)
+          var(--checkbox-checkbox-hover-bottom-right-border-radius)
+          var(--checkbox-checkbox-hover-bottom-left-border-radius);
+      }
+      &:active {
+        border-width: var(--checkbox-checkbox-active-top-border-width)
+          var(--checkbox-checkbox-active-right-border-width)
+          var(--checkbox-checkbox-active-bottom-border-width)
+          var(--checkbox-checkbox-active-left-border-width);
+        border-style: var(--checkbox-checkbox-active-top-border-style)
+          var(--checkbox-checkbox-active-right-border-style)
+          var(--checkbox-checkbox-active-bottom-border-style)
+          var(--checkbox-checkbox-active-left-border-style);
+        border-color: var(--checkbox-checkbox-active-top-border-color)
+          var(--checkbox-checkbox-active-right-border-color)
+          var(--checkbox-checkbox-active-bottom-border-color)
+          var(--checkbox-checkbox-active-left-border-color);
+        border-radius: var(--checkbox-checkbox-active-top-left-border-radius)
+          var(--checkbox-checkbox-active-top-right-border-radius)
+          var(--checkbox-checkbox-active-bottom-right-border-radius)
+          var(--checkbox-checkbox-active-bottom-left-border-radius);
+      }
     }
 
     &.#{$ns}Checkbox {
