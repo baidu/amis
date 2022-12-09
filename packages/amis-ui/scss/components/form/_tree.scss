@@ -245,6 +245,7 @@
     width: var(--Tree-itemArrowWidth);
     display: inline-flex;
     margin-right: var(--Tree-icon-margin-right);
+    flex-shrink: 0;
 
     // &:before {
     //   font-style: normal;
@@ -267,7 +268,8 @@
 
   &-itemArrowPlaceholder {
     display: inline-block;
-    width: calc(var(--Tree-itemArrowWidth) + var(--Tree-icon-gap));
+    width: var(--Tree-indent);
+    flex-shrink: 0;
   }
 
   &-itemDrager {

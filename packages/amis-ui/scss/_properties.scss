@@ -1438,7 +1438,9 @@ $remFactor: 16px;
   --TabsTransfer-title-bg: #f7f7f9;
   --TabsTransfer-border-color: #e8e9eb;
 
-  --Tree-indent: var(--gap-md);
+  --Tree-indent: calc(
+    var(--Tree-itemArrowWidth) + var(--Tree-icon-margin-right)
+  );
   --Tree-icon-gap: var(--sizes-size-5);
   --Tree-icon-margin-right: #{px2rem(8px)};
   --Tree-inputHeight: calc(var(--Form-input-height) * 0.85);
