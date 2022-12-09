@@ -1378,7 +1378,10 @@
   --checkbox-checkbox-disabled-bottom-right-border-radius: var(--sizes-size-2);
   --checkbox-checkbox-disabled-bottom-left-border-radius: var(--sizes-size-2);
 
-  --Checkbox-onHover-color: var(--checkbox-checkbox-default-bg-color);
+  --Checkbox-onHover-color: var(--checkbox-checkbox-hover-top-border-color)
+    var(--checkbox-checkbox-hover-right-border-color)
+    var(--checkbox-checkbox-hover-bottom-border-color)
+    var(--checkbox-checkbox-hover-left-border-color);
   --button-primary-hover-bg-color: var(--colors-brand-6);
   --Checkbox-onDisabled-bg: var(--colors-neutral-fill-10);
   --Checkbox-size: var(--checkbox-checkbox-default-height);
