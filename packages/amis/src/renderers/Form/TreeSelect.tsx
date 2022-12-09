@@ -108,6 +108,11 @@ export interface TreeSelectControlSchema extends FormOptionsSchema {
    * 收纳标签的Popover配置
    */
   overflowTagPopover?: TooltipWrapperSchema;
+
+  /**
+   * 弹出时会展开选中项
+   */
+  unfoldedOnOpen?: boolean;
 }
 
 export interface TreeSelectProps extends OptionsControlProps {
@@ -117,6 +122,7 @@ export interface TreeSelectProps extends OptionsControlProps {
   enableNodePath?: boolean;
   pathSeparator?: string;
   useMobileUI?: boolean;
+  unfoldedOnOpen?: boolean;
 }
 
 export interface TreeSelectState {
@@ -541,7 +547,8 @@ export default class TreeSelectControl extends React.Component<
       autoCheckChildren,
       hideRoot,
       virtualThreshold,
-      itemHeight
+      itemHeight,
+      unfoldedOnOpen
     } = this.props;
 
     let filtedOptions =
@@ -551,6 +558,7 @@ export default class TreeSelectControl extends React.Component<
 
     return (
       <TreeSelector
+        unfoldedWithDefaultValue={unfoldedOnOpen}
         classPrefix={ns}
         onRef={this.domRef}
         onlyChildren={onlyChildren}

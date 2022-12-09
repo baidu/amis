@@ -308,6 +308,7 @@ order: 60
 | ----------------- | --------- | ------- | ------------------------------------------- |
 | hideNodePathLabel | `boolean` | `false` | 是否隐藏选择框中已选择节点的路径 label 信息 |
 | onlyLeaf          | `boolean` | `false` | 只允许选择叶子节点                          |
+| unfoldedOnOpen    | `boolean` | `false` | 展开选中项所在的树节点                      |
 
 ## 事件表
 

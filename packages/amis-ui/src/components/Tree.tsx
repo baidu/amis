@@ -143,6 +143,7 @@ interface TreeSelectorProps extends ThemeProps, LocaleProps {
   draggable?: boolean;
   onMove?: (dropInfo: IDropInfo) => void;
   itemRender?: (option: Option, states: ItemRenderStates) => JSX.Element;
+  unfoldedWithDefaultValue?: boolean;
 }
 
 interface TreeSelectorState {
@@ -299,9 +300,15 @@ export class TreeSelector extends React.Component<
     let unfolded = this.unfolded;
     const {foldedField, unfoldedField} = this.props;
 
-    eachTree(props.options, (node: Option, index, level) => {
+    eachTree(props.options, (node: Option, index, level, paths: Option[]) => {
       if (unfolded.has(node) && !initFoldedLevel) {
         return;
+      }
+
+      if (initFoldedLevel && paths?.length > 1) {
+        // 记录父子关系
+        const parent = paths[paths.length - 2];
+        this.relations.set(node, parent);
       }
 
       if (node.children && node.children.length) {
@@ -326,8 +333,18 @@ export class TreeSelector extends React.Component<
       }
     });
 
-    this.flattenOptions();
-    initFoldedLevel && this.forceUpdate();
+    if (props.unfoldedWithDefaultValue && initFoldedLevel) {
+      this.state.value.forEach(v => {
+        let parent = this.relations.get(v);
+        while (parent) {
+          unfolded.set(parent, true);
+          parent = this.relations.get(parent);
+        }
+      });
+    }
+
+    this.flattenOptions(props);
+    // initFoldedLevel && this.forceUpdate();
 
     return unfolded;
   }
@@ -834,6 +851,7 @@ export class TreeSelector extends React.Component<
    */
   flattenOptions(props?: TreeSelectorProps): void | Option[] {
     let flattenedOptions: Option[] = [];
+    const options = props?.options || this.props.options;
 
     eachTree(
       props?.options || this.props.options,
@@ -855,7 +873,8 @@ export class TreeSelector extends React.Component<
         }
       }
     );
-    if (!this.state.flattenedOptions) {
+
+    if (!this.state.flattenedOptions.length && options.length) {
       // 初始化
       this.state = {...this.state, flattenedOptions};
     } else {
