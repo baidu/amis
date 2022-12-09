@@ -579,7 +579,8 @@ export class MonthControlRenderer extends DateControl {
     dateFormat: 'MM',
     timeFormat: '',
     viewMode: 'months',
-    closeOnSelect: true
+    closeOnSelect: true,
+    strictMode: false
   };
 }
 
@@ -594,7 +595,8 @@ export class QuarterControlRenderer extends DateControl {
     dateFormat: 'YYYY [Q]Q',
     timeFormat: '',
     viewMode: 'quarters',
-    closeOnSelect: true
+    closeOnSelect: true,
+    strictMode: false
   };
 }
 
@@ -609,6 +611,7 @@ export class YearControlRenderer extends DateControl {
     dateFormat: 'YYYY',
     timeFormat: '',
     viewMode: 'years',
-    closeOnSelect: true
+    closeOnSelect: true,
+    strictMode: false
   };
 }
