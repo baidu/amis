@@ -117,8 +117,8 @@
     }
 
     > i {
-      width: var(--checkbox-size);
-      height: var(--checkbox-size);
+      width: var(--Checkbox-size);
+      height: var(--Checkbox-size);
       border: px2rem(1px) solid var(--Checkbox-color);
       border-radius: var(--Checkbox-borderRadius);
       margin-left: calc(var(--Checkbox-size) * -1);
