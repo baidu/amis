@@ -76,6 +76,8 @@
       margin-left: calc(var(--Checkbox-size) * -1);
 
       &:checked + i {
+        border-color: var(--Checkbox-onHover-color);
+
         border-width: var(--checkbox-checkbox-hover-top-border-width)
           var(--checkbox-checkbox-hover-right-border-width)
           var(--checkbox-checkbox-hover-bottom-border-width)
