@@ -14,7 +14,7 @@ import {
   getTree,
   spliceTree
 } from 'amis-core';
-import {Selection as BaseSelection} from 'amis-ui';
+import {BaseSelection} from 'amis-ui/lib/components/Selection';
 import {ActionObject, toNumber} from 'amis-core';
 import type {ItemRenderStates} from 'amis-ui/lib/components/Selection';
 import {supportStatic} from './StaticHoc';
@@ -238,6 +238,10 @@ export class BaseTabsTransferRenderer<
   type: 'tabs-transfer'
 })
 export class TabsTransferRenderer extends BaseTabsTransferRenderer<TabsTransferProps> {
+  static defaultProps = {
+    multiple: true
+  };
+
   @autobind
   optionItemRender(option: any, states: ItemRenderStates) {
     const {menuTpl, render, data} = this.props;
@@ -294,12 +298,14 @@ export class TabsTransferRenderer extends BaseTabsTransferRenderer<TabsTransferP
       selectTitle,
       resultTitle,
       itemHeight,
-      virtualThreshold
+      virtualThreshold,
+      onlyChildren
     } = this.props;
 
     return (
       <div className={cx('TabsTransferControl', className)}>
         <TabsTransfer
+          onlyChildren={onlyChildren}
           activeKey={this.state.activeKey}
           value={selectedOptions}
           disabled={disabled}
