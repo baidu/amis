@@ -92,31 +92,37 @@ test('Renderer:Nav with multi-level', () => {
         className: 'w-md',
         links: [
           {
+            __id: 1,
             label: 'Nav 1',
             to: '/docs/index',
             icon: 'fa fa-user',
             active: true
           },
           {
+            __id: 2,
             label: 'Nav 2',
             unfolded: true,
             children: [
               {
+                __id: 2.1,
                 label: 'Nav 2-1',
                 children: [
                   {
+                    __id: 2.11,
                     label: 'Nav 2-1-1',
                     to: '/docs/api-2-1-1'
                   }
                 ]
               },
               {
+                __id: 2.2,
                 label: 'Nav 2-2',
                 to: '/docs/api-2-2'
               }
             ]
           },
           {
+            __id: 3,
             label: 'Nav 3',
             to: '/docs/renderers'
           }
@@ -145,15 +151,18 @@ test('Renderer:Nav with stacked', () => {
         stacked: false,
         links: [
           {
+            __id: 1,
             label: 'Nav 1',
             to: '/docs/index',
             icon: 'fa fa-user'
           },
           {
+            __id: 2,
             label: 'Nav 2',
             to: '/docs/api'
           },
           {
+            __id: 3,
             label: 'Nav 3',
             to: '/docs/renderers'
           }
@@ -178,6 +187,7 @@ test('Renderer:Nav with overflow', async () => {
           type: 'nav',
           stacked: false,
           overflow: {
+            __id: 'overflowid',
             enable: true,
             overflowLabel: '点击展开',
             overflowIndicator: 'fas fa-angle-double-down',
@@ -192,34 +202,42 @@ test('Renderer:Nav with overflow', async () => {
           },
           links: [
             {
+              __id: 1,
               label: 'Nav 1',
               to: '?to=nav1'
             },
             {
+              __id: 2,
               label: 'Nav 2',
               to: '?to=nav1'
             },
             {
+              __id: 3,
               label: 'Nav 3',
               to: '?to=nav3'
             },
             {
+              __id: 4,
               label: 'Nav 4',
               to: '?to=nav4'
             },
             {
+              __id: 5,
               label: 'Nav 5',
               to: '?to=nav5'
             },
             {
+              __id: 6,
               label: 'Nav 6',
               to: '?to=nav6'
             },
             {
+              __id: 7,
               label: 'Nav 7',
               to: '?to=nav7'
             },
             {
+              __id: 8,
               label: 'Nav 8',
               to: '?to=nav8'
             }
@@ -276,15 +294,18 @@ test('Renderer:Nav with source', async () => {
         data: {
           nav: [
             {
+              __id: 1,
               label: 'Nav 1',
               to: '/docs/index',
               icon: 'fa fa-user'
             },
             {
+              __id: 2,
               label: 'Nav 2',
               to: '/docs/api'
             },
             {
+              __id: 3,
               label: 'Nav 3',
               to: '/docs/renderers'
             }
@@ -314,8 +335,8 @@ test('Renderer:Nav with defer', async () => {
             status: 0,
             msg: '',
             data: [
-              {label: 'Nav 3-1', to: '?cat=3-1', value: '3-1'},
-              {label: 'Nav 3-2', to: '?cat=3-2', value: '3-2'}
+              {label: 'Nav 3-1', to: '?cat=3-1', value: '3-1', __id: 3.1},
+              {label: 'Nav 3-2', to: '?cat=3-2', value: '3-2', __id: 3.2}
             ]
           });
           return;
@@ -326,21 +347,34 @@ test('Renderer:Nav with defer', async () => {
           msg: '',
           data: {
             links: [
-              {label: 'Nav 1', to: '?cat=1', value: '1', icon: 'fa fa-user'},
+              {
+                label: 'Nav 1',
+                to: '?cat=1',
+                value: '1',
+                icon: 'fa fa-user',
+                __id: 1
+              },
               {
                 label: 'Nav 2',
+                __id: 2,
                 unfolded: true,
                 children: [
                   {
+                    __id: 2.1,
                     label: 'Nav 2-1',
                     children: [
-                      {label: 'Nav 2-1-1', to: '?cat=2-1', value: '2-1'}
+                      {
+                        label: 'Nav 2-1-1',
+                        to: '?cat=2-1',
+                        value: '2-1',
+                        __id: 2.11
+                      }
                     ]
                   },
-                  {label: 'Nav 2-2', to: '?cat=2-2', value: '2-2'}
+                  {label: 'Nav 2-2', to: '?cat=2-2', value: '2-2', __id: 2.2}
                 ]
               },
-              {label: 'Nav 3', to: '?cat=3', value: '3', defer: true}
+              {label: 'Nav 3', to: '?cat=3', value: '3', defer: true, __id: 3}
             ],
             value: '?cat=1'
           }
@@ -435,19 +469,34 @@ test('Renderer:Nav with itemActions', async () => {
             }
           ],
           links: [
-            {label: 'Nav 1', to: '?cat=1', value: '1', icon: 'fa fa-user'},
+            {
+              label: 'Nav 1',
+              to: '?cat=1',
+              value: '1',
+              icon: 'fa fa-user',
+              __id: 1
+            },
             {
               label: 'Nav 2',
+              __id: 2,
               unfolded: true,
               children: [
                 {
+                  __id: 2.1,
                   label: 'Nav 2-1',
-                  children: [{label: 'Nav 2-1-1', to: '?cat=2-1', value: '2-1'}]
+                  children: [
+                    {
+                      label: 'Nav 2-1-1',
+                      to: '?cat=2-1',
+                      value: '2-1',
+                      __id: 2.11
+                    }
+                  ]
                 },
-                {label: 'Nav 2-2', to: '?cat=2-2', value: '2-2'}
+                {label: 'Nav 2-2', to: '?cat=2-2', value: '2-2', __id: 2.2}
               ]
             },
-            {label: 'Nav 3', to: '?cat=3', value: '3', defer: true}
+            {label: 'Nav 3', to: '?cat=3', value: '3', defer: true, __id: 3}
           ]
         }
       },

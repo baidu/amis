@@ -129,11 +129,11 @@ exports[`Renderer:Nav with itemActions 1`] = `
             >
               <li
                 class="cxd-Nav-item is-disabled"
-                data-id="52d7fe4c14cf"
+                data-id="1"
               >
                 <a
                   data-depth="1"
-                  data-id="52d7fe4c14cf"
+                  data-id="1"
                   style="padding-left: 24px;"
                   title="Nav 1"
                 >
@@ -163,11 +163,11 @@ exports[`Renderer:Nav with itemActions 1`] = `
               </li>
               <li
                 class="cxd-Nav-item is-disabled is-unfolded has-sub"
-                data-id="6e7dea501ca1"
+                data-id="2"
               >
                 <a
                   data-depth="1"
-                  data-id="6e7dea501ca1"
+                  data-id="2"
                   style="padding-left: 24px;"
                   title="Nav 2"
                 >
@@ -201,11 +201,11 @@ exports[`Renderer:Nav with itemActions 1`] = `
                 >
                   <li
                     class="cxd-Nav-item is-disabled has-sub"
-                    data-id="3d557ba5db11"
+                    data-id="2.1"
                   >
                     <a
                       data-depth="2"
-                      data-id="3d557ba5db11"
+                      data-id="2.1"
                       style="padding-left: 48px;"
                       title="Nav 2-1"
                     >
@@ -239,11 +239,11 @@ exports[`Renderer:Nav with itemActions 1`] = `
                     >
                       <li
                         class="cxd-Nav-item is-disabled"
-                        data-id="616ed585c854"
+                        data-id="2.11"
                       >
                         <a
                           data-depth="3"
-                          data-id="616ed585c854"
+                          data-id="2.11"
                           style="padding-left: 72px;"
                           title="Nav 2-1-1"
                         >
@@ -269,11 +269,11 @@ exports[`Renderer:Nav with itemActions 1`] = `
                   </li>
                   <li
                     class="cxd-Nav-item is-disabled"
-                    data-id="a79157554915"
+                    data-id="2.2"
                   >
                     <a
                       data-depth="2"
-                      data-id="a79157554915"
+                      data-id="2.2"
                       style="padding-left: 48px;"
                       title="Nav 2-2"
                     >
@@ -299,11 +299,11 @@ exports[`Renderer:Nav with itemActions 1`] = `
               </li>
               <li
                 class="cxd-Nav-item is-disabled has-sub"
-                data-id="fc74718e689f"
+                data-id="3"
               >
                 <a
                   data-depth="1"
-                  data-id="fc74718e689f"
+                  data-id="3"
                   style="padding-left: 24px;"
                   title="Nav 3"
                 >
@@ -375,11 +375,11 @@ exports[`Renderer:Nav with itemActions 2`] = `
             >
               <li
                 class="cxd-Nav-item"
-                data-id="52d7fe4c14cf"
+                data-id="1"
               >
                 <a
                   data-depth="1"
-                  data-id="52d7fe4c14cf"
+                  data-id="1"
                   style="padding-left: 24px;"
                   title="Nav 1"
                 >
@@ -444,11 +444,11 @@ exports[`Renderer:Nav with itemActions 2`] = `
               </li>
               <li
                 class="cxd-Nav-item is-unfolded has-sub"
-                data-id="6e7dea501ca1"
+                data-id="2"
               >
                 <a
                   data-depth="1"
-                  data-id="6e7dea501ca1"
+                  data-id="2"
                   style="padding-left: 24px;"
                   title="Nav 2"
                 >
@@ -491,11 +491,11 @@ exports[`Renderer:Nav with itemActions 2`] = `
                 >
                   <li
                     class="cxd-Nav-item has-sub"
-                    data-id="3d557ba5db11"
+                    data-id="2.1"
                   >
                     <a
                       data-depth="2"
-                      data-id="3d557ba5db11"
+                      data-id="2.1"
                       style="padding-left: 48px;"
                       title="Nav 2-1"
                     >
@@ -538,11 +538,11 @@ exports[`Renderer:Nav with itemActions 2`] = `
                     >
                       <li
                         class="cxd-Nav-item"
-                        data-id="616ed585c854"
+                        data-id="2.11"
                       >
                         <a
                           data-depth="3"
-                          data-id="616ed585c854"
+                          data-id="2.11"
                           style="padding-left: 72px;"
                           title="Nav 2-1-1"
                         >
@@ -577,11 +577,11 @@ exports[`Renderer:Nav with itemActions 2`] = `
                   </li>
                   <li
                     class="cxd-Nav-item"
-                    data-id="a79157554915"
+                    data-id="2.2"
                   >
                     <a
                       data-depth="2"
-                      data-id="a79157554915"
+                      data-id="2.2"
                       style="padding-left: 48px;"
                       title="Nav 2-2"
                     >
@@ -616,11 +616,11 @@ exports[`Renderer:Nav with itemActions 2`] = `
               </li>
               <li
                 class="cxd-Nav-item has-sub"
-                data-id="fc74718e689f"
+                data-id="3"
               >
                 <a
                   data-depth="1"
-                  data-id="fc74718e689f"
+                  data-id="3"
                   style="padding-left: 24px;"
                   title="Nav 3"
                 >
@@ -678,11 +678,11 @@ exports[`Renderer:Nav with multi-level 1`] = `
     >
       <li
         class="cxd-Nav-item is-active"
-        data-id="cc42af1f24a8"
+        data-id="1"
       >
         <a
           data-depth="1"
-          data-id="cc42af1f24a8"
+          data-id="1"
           style="padding-left: 24px;"
           title="Nav 1"
         >
@@ -694,11 +694,11 @@ exports[`Renderer:Nav with multi-level 1`] = `
       </li>
       <li
         class="cxd-Nav-item is-unfolded has-sub"
-        data-id="5e6547031e9e"
+        data-id="2"
       >
         <a
           data-depth="1"
-          data-id="5e6547031e9e"
+          data-id="2"
           style="padding-left: 24px;"
           title="Nav 2"
         >
@@ -717,11 +717,11 @@ exports[`Renderer:Nav with multi-level 1`] = `
         >
           <li
             class="cxd-Nav-item has-sub"
-            data-id="2970f7e381cf"
+            data-id="2.1"
           >
             <a
               data-depth="2"
-              data-id="2970f7e381cf"
+              data-id="2.1"
               style="padding-left: 48px;"
               title="Nav 2-1"
             >
@@ -740,11 +740,11 @@ exports[`Renderer:Nav with multi-level 1`] = `
             >
               <li
                 class="cxd-Nav-item"
-                data-id="0ea210a774ac"
+                data-id="2.11"
               >
                 <a
                   data-depth="3"
-                  data-id="0ea210a774ac"
+                  data-id="2.11"
                   style="padding-left: 72px;"
                   title="Nav 2-1-1"
                 >
@@ -755,11 +755,11 @@ exports[`Renderer:Nav with multi-level 1`] = `
           </li>
           <li
             class="cxd-Nav-item"
-            data-id="b6055bcf1147"
+            data-id="2.2"
           >
             <a
               data-depth="2"
-              data-id="b6055bcf1147"
+              data-id="2.2"
               style="padding-left: 48px;"
               title="Nav 2-2"
             >
@@ -770,11 +770,11 @@ exports[`Renderer:Nav with multi-level 1`] = `
       </li>
       <li
         class="cxd-Nav-item"
-        data-id="892486dc4f27"
+        data-id="3"
       >
         <a
           data-depth="1"
-          data-id="892486dc4f27"
+          data-id="3"
           style="padding-left: 24px;"
           title="Nav 3"
         >
@@ -809,11 +809,11 @@ exports[`Renderer:Nav with overflow 1`] = `
             >
               <li
                 class="cxd-Nav-item"
-                data-id="3304c96bad8c"
+                data-id="1"
               >
                 <a
                   data-depth="1"
-                  data-id="3304c96bad8c"
+                  data-id="1"
                   style="padding-left: 24px;"
                   title="Nav 1"
                 >
@@ -822,11 +822,11 @@ exports[`Renderer:Nav with overflow 1`] = `
               </li>
               <li
                 class="cxd-Nav-item"
-                data-id="7b518b102ae2"
+                data-id="2"
               >
                 <a
                   data-depth="1"
-                  data-id="7b518b102ae2"
+                  data-id="2"
                   style="padding-left: 24px;"
                   title="Nav 2"
                 >
@@ -839,7 +839,7 @@ exports[`Renderer:Nav with overflow 1`] = `
               >
                 <a
                   data-depth="1"
-                  data-id="bc6b19eb8cb1"
+                  data-id="overflowid"
                 >
                   <i
                     class="cxd-Nav-itemIcon fas fa-angle-double-down"
@@ -899,11 +899,11 @@ exports[`Renderer:Nav with overflow 1`] = `
                 >
                   <li
                     class="cxd-Nav-item"
-                    data-id="d881e2c1010c"
+                    data-id="3"
                   >
                     <a
                       data-depth="1"
-                      data-id="d881e2c1010c"
+                      data-id="3"
                       style="padding-left: 24px;"
                       title="Nav 3"
                     >
@@ -912,11 +912,11 @@ exports[`Renderer:Nav with overflow 1`] = `
                   </li>
                   <li
                     class="cxd-Nav-item"
-                    data-id="b5eb88dcedb0"
+                    data-id="4"
                   >
                     <a
                       data-depth="1"
-                      data-id="b5eb88dcedb0"
+                      data-id="4"
                       style="padding-left: 24px;"
                       title="Nav 4"
                     >
@@ -925,11 +925,11 @@ exports[`Renderer:Nav with overflow 1`] = `
                   </li>
                   <li
                     class="cxd-Nav-item"
-                    data-id="09c2e1ce93be"
+                    data-id="5"
                   >
                     <a
                       data-depth="1"
-                      data-id="09c2e1ce93be"
+                      data-id="5"
                       style="padding-left: 24px;"
                       title="Nav 5"
                     >
@@ -938,11 +938,11 @@ exports[`Renderer:Nav with overflow 1`] = `
                   </li>
                   <li
                     class="cxd-Nav-item"
-                    data-id="be4c66f0e7f0"
+                    data-id="6"
                   >
                     <a
                       data-depth="1"
-                      data-id="be4c66f0e7f0"
+                      data-id="6"
                       style="padding-left: 24px;"
                       title="Nav 6"
                     >
@@ -951,11 +951,11 @@ exports[`Renderer:Nav with overflow 1`] = `
                   </li>
                   <li
                     class="cxd-Nav-item"
-                    data-id="258145f29a2d"
+                    data-id="7"
                   >
                     <a
                       data-depth="1"
-                      data-id="258145f29a2d"
+                      data-id="7"
                       style="padding-left: 24px;"
                       title="Nav 7"
                     >
@@ -964,11 +964,11 @@ exports[`Renderer:Nav with overflow 1`] = `
                   </li>
                   <li
                     class="cxd-Nav-item"
-                    data-id="3424048f956a"
+                    data-id="8"
                   >
                     <a
                       data-depth="1"
-                      data-id="3424048f956a"
+                      data-id="8"
                       style="padding-left: 24px;"
                       title="Nav 8"
                     >
@@ -1035,11 +1035,11 @@ exports[`Renderer:Nav with stacked 1`] = `
     >
       <li
         class="cxd-Nav-item"
-        data-id="a59be6763364"
+        data-id="1"
       >
         <a
           data-depth="1"
-          data-id="a59be6763364"
+          data-id="1"
           style="padding-left: 24px;"
           title="Nav 1"
         >
@@ -1051,11 +1051,11 @@ exports[`Renderer:Nav with stacked 1`] = `
       </li>
       <li
         class="cxd-Nav-item"
-        data-id="2bbb6049448d"
+        data-id="2"
       >
         <a
           data-depth="1"
-          data-id="2bbb6049448d"
+          data-id="2"
           style="padding-left: 24px;"
           title="Nav 2"
         >
@@ -1064,11 +1064,11 @@ exports[`Renderer:Nav with stacked 1`] = `
       </li>
       <li
         class="cxd-Nav-item"
-        data-id="06f929d40952"
+        data-id="3"
       >
         <a
           data-depth="1"
-          data-id="06f929d40952"
+          data-id="3"
           style="padding-left: 24px;"
           title="Nav 3"
         >
