@@ -39,6 +39,7 @@ export interface UserSelectProps extends ThemeProps, LocaleProps {
   placeholder?: string;
   searchPlaceholder?: string;
   controlled?: boolean;
+  displayFields: Array<string>;
   fetcher?: (
     api: Api,
     data?: any,
@@ -288,8 +289,8 @@ export class UserSelect extends React.Component<
       if (isRef) {
         // 部门、人员一起加载
         const res = await Promise.all([
-          deferLoad(option, false, deferParam),
-          deferLoad({...option, ref: option.value}, true, deferParam)
+          deferLoad(option, false, deferParam)
+          // deferLoad({...option, ref: option.value}, true, deferParam)
         ]);
         option.children = flatten(res);
       } else {
@@ -510,9 +511,9 @@ export class UserSelect extends React.Component<
       isDep,
       isRef,
       translate: __,
-      controlled
+      controlled,
+      displayFields
     } = this.props;
-
     let selection = controlled
       ? this.props.selection || []
       : this.state.selection;
@@ -533,6 +534,18 @@ export class UserSelect extends React.Component<
 
             const userIcon = this.renderIcon(option);
 
+            const displays =
+              option.type === 'user' && displayFields
+                ? displayFields
+                : ['label'];
+            const avatar = displays.find(i => i === 'avatar');
+            const first =
+              option.label?.substring(0, 1).toLocaleUpperCase() || 'A';
+            const restFiedls = displays.filter(i => i !== 'avatar');
+            if (option.type === 'post') {
+              restFiedls.push('desc');
+            }
+
             return (
               <li key={index}>
                 {checkVisible ? (
@@ -551,15 +564,35 @@ export class UserSelect extends React.Component<
                       : hasChildren && this.handleExpand(option)
                   }
                 >
-                  {userIcon ? (
+                  {!avatar && userIcon && !option.isRef ? (
                     <span className={cx('UserSelect-userPic-box')}>
                       {userIcon}
                     </span>
                   ) : null}
 
-                  <span className={cx('UserSelect-label')}>
-                    {option[labelField]}
-                  </span>
+                  {!option.isRef ? (
+                    <span className={cx('UserSelect-label')}>
+                      {option[labelField]}
+                    </span>
+                  ) : null}
+
+                  {option.isRef && avatar ? (
+                    option.avatar ? (
+                      <img className="option-avatar-img" src={option.avatar} />
+                    ) : (
+                      <span className="option-avatar-txt">{first}</span>
+                    )
+                  ) : null}
+
+                  {option.isRef ? (
+                    <div className="option-fields">
+                      {restFiedls.map(key => (
+                        <span className={cx('option-item')} key={key}>
+                          {option[key]}
+                        </span>
+                      ))}
+                    </div>
+                  ) : null}
                 </span>
 
                 {!isSearch && hasChildren ? (
@@ -587,6 +620,7 @@ export class UserSelect extends React.Component<
       classnames: cx,
       labelField = 'label',
       valueField = 'value',
+      displayFields,
       translate: __
     } = this.props;
     const {isEdit} = this.state;
@@ -604,6 +638,19 @@ export class UserSelect extends React.Component<
               options,
               (item: Option) => item[valueField] === option[valueField]
             );
+
+            const displays =
+              option.type === 'user' && displayFields
+                ? displayFields
+                : ['label'];
+            const avatar = displays.find(i => i === 'avatar');
+            const first =
+              option.label?.substring(0, 1).toLocaleUpperCase() || 'A';
+            const restFiedls = displays.filter(i => i !== 'avatar');
+            if (option.type === 'post') {
+              restFiedls.push('desc');
+            }
+
             return (
               <li key={index}>
                 {isEdit ? (
@@ -616,17 +663,37 @@ export class UserSelect extends React.Component<
                 ) : null}
 
                 <span className={cx(`UserSelect-memberName`)}>
-                  {userIcon ? (
+                  {!avatar && userIcon && !option.isRef ? (
                     <span className={cx('UserSelect-userPic-box')}>
                       {userIcon}
                     </span>
                   ) : null}
 
-                  <span className={cx('UserSelect-label')}>
-                    {originOption
-                      ? originOption[labelField]
-                      : option[labelField]}
-                  </span>
+                  {!option.isRef ? (
+                    <span className={cx('UserSelect-label')}>
+                      {originOption
+                        ? originOption[labelField]
+                        : option[labelField]}
+                    </span>
+                  ) : null}
+
+                  {avatar && option.isRef ? (
+                    option.avatar ? (
+                      <img className="option-avatar-img" src={option.avatar} />
+                    ) : (
+                      <span className="option-avatar-txt">{first}</span>
+                    )
+                  ) : null}
+
+                  {option.isRef ? (
+                    <div className="option-fields">
+                      {restFiedls.map(key => (
+                        <span className={cx('option-item')} key={key}>
+                          {option[key]}
+                        </span>
+                      ))}
+                    </div>
+                  ) : null}
                 </span>
                 {isEdit ? (
                   <a className={cx('UserSelect-dragBar')}>

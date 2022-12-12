@@ -221,7 +221,8 @@ export default class UserSelectControl extends React.Component<
       placeholder,
       searchPlaceholder,
       tabMode,
-      data
+      data,
+      displayFields
     } = this.props;
     tabOptions?.forEach((item: any) => {
       item.deferLoad = this.deferLoad;
@@ -255,6 +256,7 @@ export default class UserSelectControl extends React.Component<
             deferLoad={this.deferLoad}
             onChange={this.changeValue}
             onSearch={this.onSearch}
+            displayFields={displayFields}
             isDep={isDep}
             isRef={isRef}
           />

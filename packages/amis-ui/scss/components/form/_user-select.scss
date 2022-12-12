@@ -3,6 +3,10 @@
 
   &-popup {
     height: 100vh;
+
+    .#{$ns}PopUp-content {
+      overflow-x: hidden;
+    }
   }
 
   &-selectPopup {
@@ -172,10 +176,46 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
-  }
 
-  &-label {
-    flex: 1;
+    .option-avatar-txt {
+      width: px2rem(32px);
+      height: px2rem(32px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 100%;
+      margin-right: px2rem(12px);
+      background-color: #528eff;
+      color: #fff !important;
+      border: 1px solid #eee;
+    }
+
+    .option-avatar-img {
+      width: px2rem(32px);
+      height: px2rem(32px);
+      margin-right: px2rem(12px);
+      border-radius: 100%;
+    }
+
+    .option-fields {
+      flex: 1;
+      line-height: px2rem(18px);
+
+      .option-item {
+        margin-right: px2rem(10px);
+
+        &:first-child {
+          color: var(--body-color);
+          font-size: var(--Form-fontSize);
+        }
+
+        &:last-child {
+          display: block;
+          font-size: 12px;
+          color: #84868c;
+        }
+      }
+    }
   }
 
   &-icon-box {
@@ -405,6 +445,10 @@
   &-popup {
     width: 100vw;
     height: 100vh;
+
+    .#{$ns}PopUp-content {
+      overflow-x: hidden;
+    }
   }
 
   &-wrap {
