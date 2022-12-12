@@ -810,7 +810,7 @@ export class EventControl extends React.Component<
                       <div onClick={this.delEvent.bind(this, eventKey)}>
                         <Icon className="icon" icon="delete-bold-btn" />
                       </div>
-                      {/* <div
+                      <div
                         onClick={this.activeEventDialog.bind(this, {
                           eventName: eventKey,
                           eventLabel:
@@ -818,8 +818,8 @@ export class EventControl extends React.Component<
                           ...eventSnapshot[eventKey]
                         })}
                       >
-                        <Icon className="icon" icon="edit-full-btn" />
-                      </div> */}
+                        <Icon className="icon" icon="event-setting" />
+                      </div>
                       <div
                         onClick={this.toggleActivePanel.bind(this, eventKey)}
                       >
@@ -943,14 +943,14 @@ export class EventControl extends React.Component<
                     },
                     body: [
                       {
-                        label: '设置触发频率',
+                        label: '事件防重',
                         type: 'switch',
                         name: 'debounce.open',
                         description:
-                          '设置触发频率后，单位时间内多次触发事件只会执行最后一次'
+                          '开启事件防重后，防重时间内多次触发事件只会执行最后一次'
                       },
                       {
-                        label: '触发频率',
+                        label: '防重时间',
                         required: true,
                         hiddenOn: '!debounce.open',
                         name: 'debounce.wait',
