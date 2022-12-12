@@ -1383,6 +1383,113 @@
   --Checkbox-onDisabled-bg: var(--colors-neutral-fill-10);
   --Checkbox-size: var(--checkbox-checkbox-default-height);
 
+  // 列表
+  --listSelect-base-default-top-border-color: var(--colors-neutral-line-8);
+  --listSelect-base-default-top-border-width: var(--borders-width-2);
+  --listSelect-base-default-top-border-style: var(--borders-style-2);
+  --listSelect-base-default-right-border-color: var(--colors-neutral-line-8);
+  --listSelect-base-default-right-border-width: var(--borders-width-2);
+  --listSelect-base-default-right-border-style: var(--borders-style-2);
+  --listSelect-base-default-bottom-border-color: var(--colors-neutral-line-8);
+  --listSelect-base-default-bottom-border-width: var(--borders-width-2);
+  --listSelect-base-default-bottom-border-style: var(--borders-style-2);
+  --listSelect-base-default-left-border-color: var(--colors-neutral-line-8);
+  --listSelect-base-default-left-border-width: var(--borders-width-2);
+  --listSelect-base-default-left-border-style: var(--borders-style-2);
+  --listSelect-base-default-top-right-border-radius: var(--borders-radius-3);
+  --listSelect-base-default-top-left-border-radius: var(--borders-radius-3);
+  --listSelect-base-default-bottom-right-border-radius: var(--borders-radius-3);
+  --listSelect-base-default-bottom-left-border-radius: var(--borders-radius-3);
+  --listSelect-base-default-paddingTop: var(--sizes-size-4);
+  --listSelect-base-default-paddingBottom: var(--sizes-size-4);
+  --listSelect-base-default-paddingLeft: var(--sizes-size-6);
+  --listSelect-base-default-paddingRight: var(--sizes-size-6);
+  --listSelect-base-default-color: var(--colors-brand-4);
+  --listSelect-base-default-bg-color: transparent;
+  --listSelect-base-hover-top-border-color: var(--colors-brand-5);
+  --listSelect-base-hover-top-border-width: var(--borders-width-2);
+  --listSelect-base-hover-top-border-style: var(--borders-style-2);
+  --listSelect-base-hover-right-border-color: var(--colors-brand-5);
+  --listSelect-base-hover-right-border-width: var(--borders-width-2);
+  --listSelect-base-hover-right-border-style: var(--borders-style-2);
+  --listSelect-base-hover-bottom-border-color: var(--colors-brand-5);
+  --listSelect-base-hover-bottom-border-width: var(--borders-width-2);
+  --listSelect-base-hover-bottom-border-style: var(--borders-style-2);
+  --listSelect-base-hover-left-border-color: var(--colors-brand-5);
+  --listSelect-base-hover-left-border-width: var(--borders-width-2);
+  --listSelect-base-hover-left-border-style: var(--borders-style-2);
+  --listSelect-base-hover-top-right-border-radius: var(--borders-radius-3);
+  --listSelect-base-hover-top-left-border-radius: var(--borders-radius-3);
+  --listSelect-base-hover-bottom-right-border-radius: var(--borders-radius-3);
+  --listSelect-base-hover-bottom-left-border-radius: var(--borders-radius-3);
+  --listSelect-base-hover-paddingTop: var(--sizes-size-3);
+  --listSelect-base-hover-paddingBottom: var(--sizes-size-3);
+  --listSelect-base-hover-paddingLeft: var(--sizes-size-7);
+  --listSelect-base-hover-paddingRight: var(--sizes-size-7);
+  --listSelect-base-hover-bg-color: transparent;
+  --listSelect-base-active-top-border-color: var(--colors-brand-5);
+  --listSelect-base-active-top-border-width: var(--borders-width-2);
+  --listSelect-base-active-top-border-style: var(--borders-style-2);
+  --listSelect-base-active-right-border-color: var(--colors-brand-5);
+  --listSelect-base-active-right-border-width: var(--borders-width-2);
+  --listSelect-base-active-right-border-style: var(--borders-style-2);
+  --listSelect-base-active-bottom-border-color: var(--colors-brand-5);
+  --listSelect-base-active-bottom-border-width: var(--borders-width-2);
+  --listSelect-base-active-bottom-border-style: var(--borders-style-2);
+  --listSelect-base-active-left-border-color: var(--colors-brand-5);
+  --listSelect-base-active-left-border-width: var(--borders-width-2);
+  --listSelect-base-active-left-border-style: var(--borders-style-2);
+  --listSelect-base-active-top-right-border-radius: var(--borders-radius-3);
+  --listSelect-base-active-top-left-border-radius: var(--borders-radius-3);
+  --listSelect-base-active-bottom-right-border-radius: var(--borders-radius-3);
+  --listSelect-base-active-bottom-left-border-radius: var(--borders-radius-3);
+  --listSelect-base-active-paddingTop: var(--sizes-size-3);
+  --listSelect-base-active-paddingBottom: var(--sizes-size-3);
+  --listSelect-base-active-paddingLeft: var(--sizes-size-7);
+  --listSelect-base-active-paddingRight: var(--sizes-size-7);
+  --listSelect-base-active-shadow: var(--Form-input-boxShadow);
+  --listSelect-base-active-bg-color: transparent;
+  --listSelect-base-disabled-top-border-color: var(--colors-neutral-line-8);
+  --listSelect-base-disabled-top-border-width: var(--borders-width-2);
+  --listSelect-base-disabled-top-border-style: var(--borders-style-2);
+  --listSelect-base-disabled-right-border-color: var(--colors-neutral-line-8);
+  --listSelect-base-disabled-right-border-width: var(--borders-width-2);
+  --listSelect-base-disabled-right-border-style: var(--borders-style-2);
+  --listSelect-base-disabled-bottom-border-color: var(--colors-neutral-line-8);
+  --listSelect-base-disabled-bottom-border-width: var(--borders-width-2);
+  --listSelect-base-disabled-bottom-border-style: var(--borders-style-2);
+  --listSelect-base-disabled-left-border-color: var(--colors-neutral-line-8);
+  --listSelect-base-disabled-left-border-width: var(--borders-width-2);
+  --listSelect-base-disabled-left-border-style: var(--borders-style-2);
+  --listSelect-base-disabled-top-right-border-radius: var(--borders-radius-3);
+  --listSelect-base-disabled-top-left-border-radius: var(--borders-radius-3);
+  --listSelect-base-disabled-bottom-right-border-radius: var(
+    --borders-radius-3
+  );
+  --listSelect-base-disabled-bottom-left-border-radius: var(--borders-radius-3);
+  --listSelect-base-disabled-paddingTop: var(--sizes-size-3);
+  --listSelect-base-disabled-paddingBottom: var(--sizes-size-3);
+  --listSelect-base-disabled-paddingLeft: var(--sizes-size-7);
+  --listSelect-base-disabled-paddingRight: var(--sizes-size-7);
+  --listSelect-base-disabled-bg-color: var(--colors-neutral-fill-10);
+  --ListControl-item-onHover-color: var(
+    --listSelect-base-hover-top-border-color
+  );
+  --ListControl-item-onHover-borderColor: var(
+    --listSelect-base-hover-top-border-color
+  );
+  --ListControl-item-onActive-color: var(
+    --listSelect-base-active-top-border-color
+  );
+  --ListControl-item-onActive-onHover-bg: var(--colors-neutral-fill-11);
+  --ListControl-item-onActive-color: var(
+    --listSelect-base-active-top-border-color
+  );
+  --ListControl-item-onDisabled-color: var(--colors-neutral-text-6);
+  --ListControl-item-onActive-before-bg: var(--listSelect-base-default-color);
+  --ListControl-item-paddingX: var(--listSelect-base-default-paddingLeft);
+  --ListControl-item-paddingY: var(--listSelect-base-default-paddingTop);
+
   // 链接
   --link-color: var(--colors-link-4);
   --link-fontSize: var(--fonts-size-7);
