@@ -20,10 +20,10 @@
       var(--ListControl-item-borderColor);
     background: var(--ListControl-item-bg);
     padding: var(--ListControl-item-paddingY) var(--ListControl-item-paddingX);
+    color: var(--ListControl-item-color);
     transition: var(--ListControl-item-transition);
     max-width: calc(#{px2rem(200px)} + 2 * var(--ListControl-item-paddingX));
     border-radius: var(--ListControl-item-borderRadius);
-    color: var(--ListControl-item-color);
     padding: var(--listSelect-base-default-paddingTop)
       var(--listSelect-base-default-paddingRight)
       var(--listSelect-base-default-paddingBottom)
