@@ -1008,6 +1008,12 @@ $remFactor: 16px;
   --QuickEdit-onHover-iconColor: inherit;
 
   --Radio--sm-size: var(--Checkbox--sm-size);
+  --Radio-color: var(--radio-default-default-color);
+  --Radio-inner-size: var(--radio-default-default-point-inner-size);
+  --Radio-onHover-color: var(--radio-default-active-color);
+  --Radio-size: var(--radio-default-default-point-size);
+  --Radio-onDisabled-bg: var(--radio-default-disabled-bg-color);
+  --Radio-onDisabled-color: var(--radio-default-disabled-color);
   --Radio-onFocus-boxShadow: none;
 
   --Remark-bg: var(--colors-neutral-text-11);
@@ -1051,34 +1057,28 @@ $remFactor: 16px;
   --Spinner-width: #{px2rem(32px)};
   --Spinner-color: var(--colors-brand-5);
 
+  --Switch-bgColor: var(--switch-default-off-bg-color);
   --Switch-borderColor: var(--colors-neutral-line-6);
-  --Switch-gap: var(--gap-sm);
-  --Switch-height: var(--sizes-base-10);
-  --Switch-onActive-bgColor: var(--colors-brand-5);
+  --Switch-gap: var(--switch-option-marginLeft);
+  --Switch-height: var(--switch-size-default-height);
+  --Switch-onActive-bgColor: var(--switch-default-on-bg-color);
   --Switch-onDisabled-bgColor: var(--colors-brand-9);
   --Switch-onDisabled-circle-BackgroundColor: var(--colors-neutral-fill-11);
   --Switch-onDisabled-color: var(--colors-neutral-text-11);
-  --Switch-valueColor: var(--colors-neutral-text-11);
-  --Switch-width: var(--sizes-base-22);
-  --Switch-slider-margin: #{px2rem(1px)};
-  --Switch-slider-width: calc(
-    var(--Switch-height) - var(--Switch-slider-margin) * 2
-  );
-  --Switch-slider-transition: margin-left var(--animation-duration);
-  --Switch-text-marginRight: #{px2rem(8px)};
-  --Switch-text-marginLeft: #{px2rem(25px)};
-  --Switch-width--sm: #{px2rem(28px)};
-  --Switch-height--sm: #{px2rem(16px)};
-  --Switch-slider-width--sm: calc(
-    var(--Switch-height--sm) - var(--Switch-slider-margin) * 2
-  );
-  --Switch-text-marginRight--sm: calc(
-    var(--Switch-slider-margin) * 2 + var(--Switch-text-marginRight) / 2
-  );
-  --Switch-text-marginLeft--sm: calc(
-    var(--Switch-slider-margin) * 2 + var(--Switch-text-marginLeft) / 2
-  );
-  --Switch-checked-bgColor: var(--colors-brand-5);
+  --Switch-onHover-bgColor: var(--switch-default-off-hover-bg-color);
+  --Switch-valueColor: var(--switch-text-off-color);
+  --Switch-width: var(--switch-size-default-minWidth);
+  --Switch-slider-margin: var(--switch-size-default-slider-margin);
+  --Switch-slider-width: var(--switch-size-default-slider-width);
+  --Switch-slider-transition: all 0.5s ease;
+  --Switch-text-marginRight: var(--switch-text-off-marginRight);
+  --Switch-text-marginLeft: var(--switch-text-off-marginLeft);
+  --Switch-width--sm: var(--switch-size-sm-minWidth);
+  --Switch-height--sm: var(--switch-size-sm-height);
+  --Switch-slider-width--sm: var(--switch-size-sm-slider-width);
+  --Switch-text-marginRight--sm: var(--switch-text-off-marginRight);
+  --Switch-text-marginLeft--sm: var(--switch-text-off-marginLeft);
+  --Switch-checked-bgColor: var(--switch-default-on-bg-color);
   --Switch-checked-onHover-bgColor: var(--colors-brand-4);
   --Switch-checked-onActive-bgColor: var(--colors-brand-4);
 

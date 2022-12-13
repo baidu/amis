@@ -2,14 +2,14 @@
   cursor: pointer;
   position: relative;
   display: inline-block;
-  height: var(--switch-size-default-height);
-  min-width: var(--switch-size-default-minWidth);
+  height: var(--Switch-height);
+  min-width: var(--Switch-width);
   overflow: hidden;
   border-radius: var(--switch-size-default-top-left-border-radius)
     var(--switch-size-default-top-right-border-radius)
     var(--switch-size-default-bottom-right-border-radius)
     var(--switch-size-default-bottom-left-border-radius);
-  background: var(--switch-default-off-bg-color);
+  background: var(--Switch-bgColor);
   margin: 0;
   vertical-align: middle;
   text-align: left;
@@ -21,14 +21,14 @@
   }
 
   .text {
-    margin: var(--switch-text-off-marginTop) var(--switch-text-off-marginRight)
-      var(--switch-text-off-marginBottom) var(--switch-text-off-marginLeft);
-    color: var(--switch-text-off-color);
+    margin: var(--switch-text-off-marginTop) var(--Switch-text-marginRight)
+      var(--switch-text-off-marginBottom) var(--Switch-text-marginLeft);
+    color: var(--Switch-valueColor);
     text-indent: var(--gap-xs);
     text-transform: uppercase;
     font-size: var(--switch-text-off-fontSize);
     font-weight: var(--switch-text-off-fontWeight);
-    line-height: var(--switch-size-default-height);
+    line-height: var(--Switch-height);
     vertical-align: super;
     font-style: normal;
     transition: all var(--animation-duration);
@@ -48,28 +48,27 @@
       content: '';
       position: absolute;
       background: var(--switch-default-off-slider-color);
-      width: var(--switch-size-default-slider-width);
-      top: var(--switch-size-default-slider-margin);
-      bottom: var(--switch-size-default-slider-margin);
-      left: var(--switch-size-default-slider-margin);
+      width: var(--Switch-slider-width);
+      top: var(--Switch-slider-margin);
+      bottom: var(--Switch-slider-margin);
+      left: var(--Switch-slider-margin);
       border-radius: 50%;
-      transition: all 0.5s ease;
+      transition: var(--Switch-slider-transition);
     }
   }
 
   &:hover {
-    background: var(--switch-default-off-hover-bg-color);
+    background: var(--Switch-onHover-bgColor);
   }
 
   &.is-checked {
-    background: var(--switch-default-on-bg-color);
+    background: var(--Switch-checked-bgColor);
 
     .slider::before {
       left: calc(
-        100% - var(--switch-size-default-slider-width) -
-          var(--switch-size-default-slider-margin)
+        100% - var(--Switch-slider-width) - var(--Switch-slider-margin)
       );
-      right: var(--switch-size-default-slider-margin);
+      right: var(--Switch-slider-margin);
       border-width: 0;
       background: var(--switch-default-on-slider-color);
     }
@@ -90,9 +89,7 @@
       background: var(--Switch-checked-onActive-bgColor);
       .slider::before {
         left: calc(
-          100% - (var(--switch-size-default-height) + #{px2rem(2px)}) - #{px2rem(
-              2px
-            )}
+          100% - (var(--Switch-height) + #{px2rem(2px)}) - #{px2rem(2px)}
         );
       }
     }
@@ -114,25 +111,25 @@
   }
 
   &--sm {
-    height: var(--switch-size-sm-height);
-    min-width: var(--switch-size-sm-minWidth);
+    height: var(--Switch-height--sm);
+    min-width: var(--Switch-width--sm);
     border-radius: var(--switch-size-sm-top-left-border-radius)
       var(--switch-size-sm-top-right-border-radius)
       var(--switch-size-sm-bottom-right-border-radius)
       var(--switch-size-sm-bottom-left-border-radius);
 
     .text {
-      line-height: var(--switch-size-sm-height);
+      line-height: var(--Switch-height--sm);
+      margin: var(--switch-text-off-marginTop) var(--Switch-text-marginRight)
+        var(--switch-text-off-marginBottom) var(--Switch-text-marginLeft);
 
       > svg {
-        margin-top: calc(
-          (var(--switch-size-sm-height) - var(--fontSizeSm)) / 2
-        );
+        margin-top: calc((var(--Switch-height--sm) - var(--fontSizeSm)) / 2);
       }
     }
 
     .slider::before {
-      width: var(--switch-size-sm-slider-width);
+      width: var(--Switch-slider-width--sm);
       top: var(--switch-size-sm-slider-margin);
       bottom: var(--switch-size-sm-slider-margin);
       left: var(--switch-size-sm-slider-margin);
@@ -142,7 +139,7 @@
     &.is-checked {
       .slider::before {
         left: calc(
-          100% - var(--switch-size-sm-slider-width) -
+          100% - var(--Switch-slider-width--sm) -
             var(--switch-size-sm-slider-margin)
         );
         right: var(--switch-size-sm-slider-margin);
@@ -152,7 +149,7 @@
 
   &:active {
     .slider::before {
-      width: calc(var(--switch-size-default-height) + #{px2rem(2px)});
+      width: calc(var(--Switch-height) + #{px2rem(2px)});
       border-radius: 10px;
     }
   }
@@ -165,7 +162,7 @@
   line-height: var(--switch-option-lineHeight);
   color: var(--switch-option-color);
   margin: var(--switch-option-marginTop) var(--switch-option-marginRight)
-    var(--switch-option-marginBottom) var(--switch-option-marginLeft);
+    var(--switch-option-marginBottom) var(--Switch-gap);
 
   &:first-child {
     margin-left: 0;
@@ -185,9 +182,7 @@
 }
 
 .#{$ns}SwitchControl {
-  padding-top: calc(
-    (var(--Form-input-height) - var(--switch-size-default-height)) / 2
-  );
+  padding-top: calc((var(--Form-input-height) - var(--Switch-height)) / 2);
 
   &.is-inline {
     display: inline-block;
