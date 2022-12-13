@@ -190,7 +190,7 @@
 
       &:active {
         & > i:before {
-          background: var(--Switch-checked-onHover-bgColor);
+          background: var(--Checkbox-checked-onHover-bgColor);
         }
       }
     }
@@ -218,10 +218,10 @@
 
     &:active {
       input:checked + i {
-        background: var(--Switch-checked-onHover-bgColor);
+        background: var(--Checkbox-checked-onHover-bgColor);
 
         &:before {
-          background: var(--Switch-checked-onHover-bgColor);
+          background: var(--Checkbox-checked-onHover-bgColor);
         }
       }
     }
@@ -345,8 +345,8 @@
     &:active {
       input:checked + i {
         background: transparent;
-        border-color: var(--Switch-checked-onHover-bgColor) transparent
-          transparent var(--Switch-checked-onHover-bgColor);
+        border-color: var(--Checkbox-checked-onHover-bgColor) transparent
+          transparent var(--Checkbox-checked-onHover-bgColor);
       }
     }
 
@@ -423,9 +423,9 @@
       box-shadow: -1px 0 0 0 var(--menu-active-color);
     }
     &:active {
-      border-color: var(--Switch-checked-onHover-bgColor);
-      color: var(--Switch-checked-onHover-bgColor);
-      box-shadow: -1px 0 0 0 var(--Switch-checked-onHover-bgColor);
+      border-color: var(--Checkbox-checked-onHover-bgColor);
+      color: var(--Checkbox-checked-onHover-bgColor);
+      box-shadow: -1px 0 0 0 var(--Checkbox-checked-onHover-bgColor);
     }
   }
   &--button--disabled--unchecked.#{$ns}Checkbox--checkbox {
@@ -450,6 +450,11 @@
 
       &:checked + i {
         border-color: var(--Radio-onHover-color);
+        background-color: var(--radio-default-active-bg-color);
+
+        + span {
+          color: var(--radio-default-active-text-color);
+        }
 
         &:before {
           width: var(--Radio-inner-size);
@@ -471,7 +476,7 @@
 
       &[disabled] + i + span {
         cursor: not-allowed;
-        color: var(--text--muted-color);
+        color: var(--radio-default-disabled-text-color);
       }
 
       &:focus + i {
@@ -487,6 +492,28 @@
       margin-left: calc(var(--Radio-size) * -1);
       margin-top: px2rem(-2px);
       border-radius: 50%;
+      background: var(--radio-default-default-bg-color);
+
+      + span {
+        color: var(--radio-default-default-text-color);
+        font-size: var(--radio-default-default-fontSize);
+        font-weight: var(--radio-default-default-fontWeight);
+        line-height: var(--radio-default-default-lineHeight);
+        margin-left: var(--radio-default-default-distance);
+      }
+    }
+
+    &:hover input:not(:disabled) + i {
+      border-color: var(--radio-default-hover-color);
+      background-color: var(--radio-default-hover-bg-color);
+
+      &:before {
+        background: var(--radio-default-hover-color);
+      }
+
+      + span {
+        color: var(--radio-default-hover-text-color);
+      }
     }
 
     &.#{$ns}Checkbox--button--disabled--unchecked.#{$ns}Checkbox--full {
@@ -568,7 +595,44 @@
   ); // 3px 是空白的高度
 }
 
-.#{$ns}RadiosControl,
+.#{$ns}RadiosControl {
+  .#{$ns}Checkbox {
+    display: block;
+    margin: var(--radio-default-vertical-marginTop)
+      var(--radio-default-vertical-marginRight)
+      var(--radio-default-vertical-marginBottom)
+      var(--radio-default-vertical-marginLeft);
+  }
+
+  .#{$ns}Checkbox--button {
+    margin-bottom: 0;
+
+    &--disabled--unchecked {
+      background: var(--FileControl-onDisabled-bg);
+    }
+
+    &-checked {
+      &:active {
+        border-color: var(--Checkbox-checked-onHover-bgColor);
+      }
+    }
+  }
+
+  &.is-inline .#{$ns}Checkbox {
+    display: inline-block;
+    margin: var(--radio-default-default-marginTop)
+      var(--radio-default-default-marginRight)
+      var(--radio-default-default-marginBottom)
+      var(--radio-default-default-marginLeft);
+  }
+
+  &.is-inline .#{$ns}Checkbox--button {
+    display: inline-block;
+    margin-right: 0;
+    margin-bottom: 0;
+  }
+}
+
 .#{$ns}CheckboxesControl {
   .#{$ns}Checkbox {
     display: block;
@@ -584,7 +648,7 @@
 
     &-checked {
       &:active {
-        border-color: var(--Switch-checked-onHover-bgColor);
+        border-color: var(--Checkbox-checked-onHover-bgColor);
       }
     }
   }

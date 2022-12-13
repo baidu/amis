@@ -664,7 +664,7 @@
   --button-size-default-top-right-border-radius: var(--borders-radius-3);
   --button-size-default-bottom-left-border-radius: var(--borders-radius-3);
   --button-size-default-bottom-right-border-radius: var(--borders-radius-3);
-  --button-size-default-height: var(--sizes-base-17);
+  --button-size-default-height: var(--sizes-base-16);
   --button-size-default-fontSize: var(--fonts-size-7);
   --button-size-default-minWidth: var(--sizes-size-1);
   --button-size-default-icon-size: var(--sizes-size-8);
@@ -683,7 +683,7 @@
   --button-size-xs-top-right-border-radius: var(--borders-radius-3);
   --button-size-xs-bottom-left-border-radius: var(--borders-radius-3);
   --button-size-xs-bottom-right-border-radius: var(--borders-radius-3);
-  --button-size-xs-height: var(--sizes-base-12);
+  --button-size-xs-height: var(--sizes-base-11);
   --button-size-xs-fontSize: var(--fonts-size-8);
   --button-size-xs-minWidth: var(--sizes-size-1);
   --button-size-xs-icon-size: var(--sizes-size-8);
@@ -702,7 +702,7 @@
   --button-size-sm-top-right-border-radius: var(--borders-radius-3);
   --button-size-sm-bottom-left-border-radius: var(--borders-radius-3);
   --button-size-sm-bottom-right-border-radius: var(--borders-radius-3);
-  --button-size-sm-height: var(--sizes-base-16);
+  --button-size-sm-height: var(--sizes-base-15);
   --button-size-sm-fontSize: var(--fonts-size-8);
   --button-size-sm-minWidth: var(--sizes-size-1);
   --button-size-sm-icon-size: var(--sizes-size-8);
@@ -721,7 +721,7 @@
   --button-size-md-top-right-border-radius: var(--borders-radius-3);
   --button-size-md-bottom-left-border-radius: var(--borders-radius-3);
   --button-size-md-bottom-right-border-radius: var(--borders-radius-3);
-  --button-size-md-height: var(--sizes-base-17);
+  --button-size-md-height: var(--sizes-base-16);
   --button-size-md-fontSize: var(--fonts-size-7);
   --button-size-md-minWidth: var(--sizes-size-1);
   --button-size-md-icon-size: var(--sizes-size-8);
@@ -740,7 +740,7 @@
   --button-size-lg-top-right-border-radius: var(--borders-radius-3);
   --button-size-lg-bottom-left-border-radius: var(--borders-radius-3);
   --button-size-lg-bottom-right-border-radius: var(--borders-radius-3);
-  --button-size-lg-height: var(--sizes-base-20);
+  --button-size-lg-height: var(--sizes-base-19);
   --button-size-lg-fontSize: var(--fonts-size-7);
   --button-size-lg-minWidth: var(--sizes-size-1);
   --button-size-lg-icon-size: var(--sizes-size-8);
@@ -896,7 +896,6 @@
   --transfer-chained-marginBottom: var(--sizes-size-1);
   --transfer-chained-paddingRight: var(--sizes-size-6);
   --transfer-chained-paddingBottom: var(--sizes-size-5);
-
   --input-default-default-top-border-color: var(--colors-neutral-line-8);
   --input-default-default-top-border-width: var(--borders-width-2);
   --input-default-default-top-border-style: var(--borders-style-2);
@@ -1002,7 +1001,7 @@
   --input-textarea-paddingTop: var(--sizes-size-3);
   --input-textarea-paddingBottom: var(--sizes-size-3);
   --input-textarea-paddingLeft: var(--sizes-size-6);
-  --input-textarea-paddingRight: var(--sizes-base-12);
+  --input-textarea-paddingRight: var(--sizes-base-11);
   --input-addon-text-bg-color-default: transparent;
   --input-addon-text-bg-color-hover: transparent;
   --input-addon-text-top-border-color: var(--colors-neutral-line-8);
@@ -1017,14 +1016,14 @@
   --input-addon-text-left-border-color: var(--colors-neutral-line-8);
   --input-addon-text-left-border-width: var(--borders-width-1);
   --input-addon-text-left-border-style: var(--borders-style-2);
-  --input-size-sm-height: var(--sizes-base-16);
-  --input-size-default-height: var(--sizes-base-17);
-  --input-size-md-height: var(--sizes-base-17);
-  --input-size-lg-height: var(--sizes-base-20);
+  --input-size-sm-height: var(--sizes-base-15);
+  --input-size-default-height: var(--sizes-base-16);
+  --input-size-md-height: var(--sizes-base-16);
+  --input-size-lg-height: var(--sizes-base-19);
 
   // 数字输入框
-  --Form-inputNumber-base-width: var(--sizes-base-13);
-  --Form-inputNumber-base-height: var(--sizes-base-17);
+  --Form-inputNumber-base-width: var(--sizes-base-12);
+  --Form-inputNumber-base-height: var(--sizes-base-16);
 
   --inputNumber-base-default-top-border-color: var(--colors-neutral-line-8);
   --inputNumber-base-default-top-border-width: var(--borders-width-2);
@@ -1138,10 +1137,10 @@
   );
   --inputNumber-base-default-unit-paddingLeft: var(--sizes-size-6);
   --inputNumber-base-default-unit-paddingRight: 0;
-  --inputNumber-size-sm-height: var(--sizes-base-17);
-  --inputNumber-size-default-height: var(--sizes-base-17);
-  --inputNumber-size-md-height: var(--sizes-base-17);
-  --inputNumber-size-lg-height: var(--sizes-base-17);
+  --inputNumber-size-sm-height: var(--sizes-base-16);
+  --inputNumber-size-default-height: var(--sizes-base-16);
+  --inputNumber-size-md-height: var(--sizes-base-16);
+  --inputNumber-size-lg-height: var(--sizes-base-16);
   --Number-handler-bg: var(--inputNumber-base-default-step-bg);
   --Number-handler-fontSize: var(--inputNumber-base-default-icon-fontSize);
   --Number-handler-color: var(--inputNumber-base-default-icon-color);
@@ -1518,7 +1517,7 @@
 
   // 表单
   --Form-item-marginTop: var(--sizes-size-0);
-  --Form-item-marginBottom: var(--sizes-base-13);
+  --Form-item-marginBottom: var(--sizes-base-12);
   --Form-item-marginLeft: var(--sizes-size-0);
   --Form-item-marginRight: var(--sizes-size-0);
   --Form-item-gap: var(--Form-item-marginBottom);
@@ -1561,9 +1560,9 @@
   --Form--horizontal-label-marginBottom: var(--sizes-size-0);
   --Form--horizontal-label-marginLeft: var(--sizes-size-5);
   --Form--horizontal-label-marginRight: var(--sizes-size-5);
-  --Form--horizontal-label-widthBase: var(--sizes-base-50);
-  --Form--horizontal-label-widthXs: var(--sizes-base-26);
-  --Form--horizontal-label-widthSm: var(--sizes-base-36);
+  --Form--horizontal-label-widthBase: var(--sizes-base-49);
+  --Form--horizontal-label-widthXs: var(--sizes-base-25);
+  --Form--horizontal-label-widthSm: var(--sizes-base-35);
   --Form--horizontal-label-widthMd: 8.5rem;
   --Form--horizontal-label-widthLg: 12.5rem;
   --Form--horizontal-value-marginTop: var(--sizes-size-0);
@@ -1642,7 +1641,7 @@
     --InputRange-label-top-right-border-radius
   );
   --InputRange-label-position-bottom: calc(100% + 8px);
-  --InputRange-input-width: var(--sizes-base-41);
+  --InputRange-input-width: var(--sizes-base-40);
   --InputRange-input-marginTop: var(--sizes-size-0);
   --InputRange-input-marginBottom: var(--sizes-size-0);
   --InputRange-input-marginLeft: var(--sizes-size-5);
@@ -1654,11 +1653,81 @@
 
   // 评分
   --Rating-star-margin: var(--sizes-size-5);
-  --Rating-star-size: var(--sizes-base-13);
+  --Rating-star-size: var(--sizes-base-12);
   --Rating-star-icon: '<svg class="icon" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path fill="currentColor" d="M4.99672493,4.37617062 L1.28100904,4.93702533 C0.463702827,5.06039054 -0.102812689,5.85030962 0.0156612291,6.70135899 C0.0628630935,7.04043042 0.216147743,7.35382434 0.451761131,7.59297508 L3.14101949,10.3226082 L3.14101949,10.3226082 L2.50531937,14.1787855 C2.3655991,15.0263332 2.91216489,15.8313483 3.72610824,15.9768371 C4.05030943,16.0347866 4.38381497,15.9798039 4.67496871,15.8204054 L7.99934906,14.0003997 L7.99934906,14.0003997 L11.3254267,15.8208814 C12.0564401,16.2209912 12.9605363,15.9282748 13.3447823,15.167081 C13.4978067,14.8639388 13.5505833,14.5167196 13.4949403,14.1791872 L12.859174,10.3226082 L12.859174,10.3226082 L15.5482634,7.59400813 C16.1397301,6.99385103 16.1519752,6.00805341 15.5756136,5.39216751 C15.3460036,5.14681192 15.0450939,4.98715562 14.7195072,4.93793566 L11.0034685,4.37617062 L11.0034685,4.37617062 L9.34151455,0.868493275 C8.97611971,0.0973002947 8.07952072,-0.219434766 7.33890469,0.161045701 C7.04395753,0.312570398 6.80521255,0.561123051 6.65963735,0.868217393 L4.99672493,4.37617062 L4.99672493,4.37617062 Z"></path></svg>';
   --Rating-colors: '[{"value":"#abadb1","id":2},{"value":"#787b81","id":3},{"value":"#ffa900","id":5}]';
   --Rating-text-color: var(--colors-neutral-text-2);
   --Rating-text-fontSize: var(--fonts-size-7);
   --Rating-text-fontWeight: var(--fonts-weight-6);
   --Rating-text-lineHeight: var(--fonts-lineHeight-2);
+  --radio-default-default-color: var(--colors-neutral-text-8);
+  --radio-default-default-text-color: var(--colors-neutral-text-1);
+  --radio-default-default-bg-color: transparent;
+  --radio-default-default-fontSize: var(--fonts-size-7);
+  --radio-default-default-fontWeight: var(--fonts-weight-6);
+  --radio-default-default-lineHeight: var(--fonts-lineHeight-2);
+  --radio-default-default-point-size: var(--sizes-size-9);
+  --radio-default-default-point-inner-size: var(--sizes-size-5);
+  --radio-default-default-marginTop: var(--sizes-size-0);
+  --radio-default-default-marginBottom: var(--sizes-size-4);
+  --radio-default-default-marginLeft: var(--sizes-size-0);
+  --radio-default-default-marginRight: var(--sizes-size-9);
+  --radio-default-default-distance: var(--sizes-size-5);
+  --radio-default-hover-color: var(--colors-brand-5);
+  --radio-default-hover-text-color: var(--colors-neutral-text-1);
+  --radio-default-hover-bg-color: transparent;
+  --radio-default-active-color: var(--colors-brand-5);
+  --radio-default-active-text-color: var(--colors-neutral-text-1);
+  --radio-default-active-bg-color: transparent;
+  --radio-default-disabled-color: var(--colors-neutral-text-6);
+  --radio-default-disabled-text-color: var(--colors-neutral-text-6);
+  --radio-default-disabled-bg-color: var(--colors-neutral-fill-8);
+  --radio-default-vertical-marginTop: var(--sizes-size-0);
+  --radio-default-vertical-marginBottom: var(--sizes-size-4);
+  --radio-default-vertical-marginLeft: var(--sizes-size-0);
+  --radio-default-vertical-marginRight: var(--sizes-size-5);
+  --switch-default-off-bg-color: var(--colors-neutral-fill-7);
+  --switch-default-off-hover-bg-color: var(--colors-neutral-fill-6);
+  --switch-default-off-slider-color: var(--colors-neutral-fill-11);
+  --switch-default-on-bg-color: var(--colors-brand-5);
+  --switch-default-on-hover-bg-color: var(--colors-brand-4);
+  --switch-default-on-slider-color: var(--colors-neutral-fill-11);
+  --switch-option-fontSize: var(--fonts-size-7);
+  --switch-option-fontWeight: var(--fonts-weight-6);
+  --switch-option-lineHeight: var(--fonts-lineHeight-2);
+  --switch-option-color: var(--colors-neutral-text-1);
+  --switch-option-marginTop: var(--sizes-size-0);
+  --switch-option-marginBottom: var(--sizes-size-0);
+  --switch-option-marginLeft: var(--sizes-size-5);
+  --switch-option-marginRight: var(--sizes-size-0);
+  --switch-text-off-fontSize: var(--fonts-size-8);
+  --switch-text-off-fontWeight: var(--fonts-weight-3);
+  --switch-text-off-color: var(--colors-neutral-text-11);
+  --switch-text-off-marginTop: var(--sizes-size-0);
+  --switch-text-off-marginBottom: var(--sizes-size-0);
+  --switch-text-off-marginLeft: var(--sizes-base-12);
+  --switch-text-off-marginRight: var(--sizes-size-5);
+  --switch-text-on-fontSize: var(--fonts-size-8);
+  --switch-text-on-fontWeight: var(--fonts-weight-3);
+  --switch-text-on-color: var(--colors-neutral-text-11);
+  --switch-text-on-marginTop: var(--sizes-size-0);
+  --switch-text-on-marginBottom: var(--sizes-size-0);
+  --switch-text-on-marginLeft: var(--sizes-base-4);
+  --switch-text-on-marginRight: var(--sizes-base-12);
+  --switch-size-default-height: var(--sizes-base-10);
+  --switch-size-default-minWidth: var(--sizes-base-22);
+  --switch-size-default-slider-width: var(--sizes-size-9);
+  --switch-size-default-slider-margin: var(--sizes-size-2);
+  --switch-size-default-top-right-border-radius: var(--sizes-base-15);
+  --switch-size-default-top-left-border-radius: var(--sizes-base-15);
+  --switch-size-default-bottom-right-border-radius: var(--sizes-base-15);
+  --switch-size-default-bottom-left-border-radius: var(--sizes-base-15);
+  --switch-size-sm-height: var(--sizes-size-9);
+  --switch-size-sm-minWidth: var(--sizes-base-14);
+  --switch-size-sm-slider-width: var(--sizes-size-9);
+  --switch-size-sm-slider-margin: var(--sizes-size-2);
+  --switch-size-sm-top-right-border-radius: var(--sizes-base-15);
+  --switch-size-sm-top-left-border-radius: var(--sizes-base-15);
+  --switch-size-sm-bottom-right-border-radius: var(--sizes-base-15);
+  --switch-size-sm-bottom-left-border-radius: var(--sizes-base-15);
 }
