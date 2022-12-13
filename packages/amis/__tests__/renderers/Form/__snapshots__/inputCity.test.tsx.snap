@@ -89,7 +89,7 @@ exports[`Renderer:inputCity 1`] = `
                         >
                           <icon-mock
                             classname="icon icon-input-clear"
-    +                       icon="input-clear"
+                            icon="input-clear"
                           />
                         </a>
                         <span
@@ -123,7 +123,7 @@ exports[`Renderer:inputCity 1`] = `
                         >
                           <icon-mock
                             classname="icon icon-input-clear"
-    +                       icon="input-clear"
+                            icon="input-clear"
                           />
                         </a>
                         <span
@@ -157,7 +157,7 @@ exports[`Renderer:inputCity 1`] = `
                         >
                           <icon-mock
                             classname="icon icon-input-clear"
-    +                       icon="input-clear"
+                            icon="input-clear"
                           />
                         </a>
                         <span
