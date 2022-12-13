@@ -7,6 +7,8 @@
 :root {
   --Layout-header-boxShadow: 0 0.125rem 0.125rem rgba(0, 0, 0, 0.05),
     0 1px 0 rgba(0, 0, 0, 0.05);
+  --Layout-aside-bg: var(--colors-brand-1);
+  --Layout-brand-bg: var(--colors-brand-1);
   --Layout-asideLink-color: #b4b6bd;
   --Layout-asideLink-onHover-color: #fff;
   --Layout-asideLink-onHover-iconColor: #fff;
