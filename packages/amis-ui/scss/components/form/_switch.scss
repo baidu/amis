@@ -2,11 +2,14 @@
   cursor: pointer;
   position: relative;
   display: inline-block;
-  height: var(--Switch-height);
-  min-width: var(--Switch-width);
+  height: var(--switch-size-default-height);
+  min-width: var(--switch-size-default-minWidth);
   overflow: hidden;
-  border-radius: px2rem(30px);
-  background: var(--Switch-bgColor);
+  border-radius: var(--switch-size-default-top-left-border-radius)
+    var(--switch-size-default-top-right-border-radius)
+    var(--switch-size-default-bottom-right-border-radius)
+    var(--switch-size-default-bottom-left-border-radius);
+  background: var(--switch-default-off-bg-color);
   margin: 0;
   vertical-align: middle;
   text-align: left;
@@ -18,21 +21,25 @@
   }
 
   .text {
-    margin: 0 var(--Switch-text-marginRight) 0 var(--Switch-text-marginLeft);
-    color: var(--Switch-valueColor);
+    margin: var(--switch-text-off-marginTop) var(--switch-text-off-marginRight)
+      var(--switch-text-off-marginBottom) var(--switch-text-off-marginLeft);
+    color: var(--switch-text-off-color);
     text-indent: var(--gap-xs);
     text-transform: uppercase;
-    font-size: var(--fontSizeSm);
-    line-height: var(--Switch-height);
+    font-size: var(--switch-text-off-fontSize);
+    font-weight: var(--switch-text-off-fontWeight);
+    line-height: var(--switch-size-default-height);
     vertical-align: super;
     font-style: normal;
-    font-weight: bold;
     transition: all var(--animation-duration);
 
     > svg {
-      width: var(--fontSizeSm);
-      height: var(--fontSizeSm);
-      margin-top: calc((var(--Switch-height) - var(--fontSizeSm)) / 2);
+      width: var(--switch-text-off-fontSize);
+      height: var(--switch-text-off-fontSize);
+      margin-top: calc(
+        (var(--switch-text-off-lineHeight) - var(--switch-text-off-fontSize)) /
+          2
+      );
     }
   }
 
@@ -40,43 +47,52 @@
     &:before {
       content: '';
       position: absolute;
-      background: var(--white);
-      width: var(--Switch-slider-width);
-      top: var(--Switch-slider-margin);
-      bottom: var(--Switch-slider-margin);
-      left: var(--Switch-slider-margin);
+      background: var(--switch-default-off-slider-color);
+      width: var(--switch-size-default-slider-width);
+      top: var(--switch-size-default-slider-margin);
+      bottom: var(--switch-size-default-slider-margin);
+      left: var(--switch-size-default-slider-margin);
       border-radius: 50%;
-      transition: var(--Switch-slider-transition);
+      transition: all 0.5s ease;
     }
   }
 
   &:hover {
-    background: var(--Switch-onHover-bgColor);
+    background: var(--switch-default-off-hover-bg-color);
   }
 
   &.is-checked {
-    background: var(--Switch-onActive-bgColor);
+    background: var(--switch-default-on-bg-color);
 
     .slider::before {
-      left: auto;
-      right: var(--Switch-slider-margin);
+      left: calc(
+        100% - var(--switch-size-default-slider-width) -
+          var(--switch-size-default-slider-margin)
+      );
+      right: var(--switch-size-default-slider-margin);
       border-width: 0;
+      background: var(--switch-default-on-slider-color);
     }
 
     .text {
-      color: var(--white);
-      margin: 0 var(--Switch-text-marginLeft) 0 var(--Switch-text-marginRight);
+      margin: var(--switch-text-on-marginTop) var(--switch-text-on-marginRight)
+        var(--switch-text-on-marginBottom) var(--switch-text-on-marginLeft);
+      color: var(--switch-text-on-color);
+      font-size: var(--switch-text-on-fontSize);
+      font-weight: var(--switch-text-on-fontWeight);
     }
 
     &:hover {
-      background: var(--Switch-checked-onHover-bgColor);
+      background: var(--switch-default-on-hover-bg-color);
     }
 
     &:active {
       background: var(--Switch-checked-onActive-bgColor);
       .slider::before {
         left: calc(
-          100% - (var(--Switch-height) + #{px2rem(2px)}) - #{px2rem(2px)}
+          100% - (var(--switch-size-default-height) + #{px2rem(2px)}) - #{px2rem(
+              2px
+            )}
         );
       }
     }
@@ -98,73 +114,58 @@
   }
 
   &--sm {
-    height: var(--Switch-height--sm);
-    min-width: var(--Switch-width--sm);
+    height: var(--switch-size-sm-height);
+    min-width: var(--switch-size-sm-minWidth);
+    border-radius: var(--switch-size-sm-top-left-border-radius)
+      var(--switch-size-sm-top-right-border-radius)
+      var(--switch-size-sm-bottom-right-border-radius)
+      var(--switch-size-sm-bottom-left-border-radius);
 
     .text {
-      line-height: var(--Switch-height--sm);
-      margin: 0 var(--Switch-text-marginRight--sm) 0
-        var(--Switch-text-marginLeft--sm);
+      line-height: var(--switch-size-sm-height);
 
       > svg {
-        margin-top: calc((var(--Switch-height--sm) - var(--fontSizeSm)) / 2);
+        margin-top: calc(
+          (var(--switch-size-sm-height) - var(--fontSizeSm)) / 2
+        );
       }
     }
 
     .slider::before {
-      width: var(--Switch-slider-width--sm);
+      width: var(--switch-size-sm-slider-width);
+      top: var(--switch-size-sm-slider-margin);
+      bottom: var(--switch-size-sm-slider-margin);
+      left: var(--switch-size-sm-slider-margin);
+      right: auto;
     }
 
     &.is-checked {
       .slider::before {
-        right: var(--Switch-slider-margin);
-      }
-
-      .text {
-        margin: 0 var(--Switch-text-marginLeft--sm) 0
-          var(--Switch-text-marginRight--sm);
+        left: calc(
+          100% - var(--switch-size-sm-slider-width) -
+            var(--switch-size-sm-slider-margin)
+        );
+        right: var(--switch-size-sm-slider-margin);
       }
     }
   }
 
-  .text {
-    margin: 0 px2rem(8px) 0 px2rem(25px);
-    vertical-align: super;
-  }
-  .slider {
-    &:before {
-      width: calc(var(--Switch-height) - #{px2rem(4px)});
-      top: px2rem(2px);
-      bottom: px2rem(2px);
-      left: px2rem(2px);
-      transition: all 0.5s ease;
-    }
-  }
   &:active {
     .slider::before {
-      width: calc(var(--Switch-height) + #{px2rem(2px)});
+      width: calc(var(--switch-size-default-height) + #{px2rem(2px)});
       border-radius: 10px;
-    }
-  }
-  &.is-checked {
-    background: var(--Switch-checked-bgColor);
-
-    .slider::before {
-      right: auto;
-      left: calc(
-        100% - (var(--Switch-height) - #{px2rem(4px)}) - #{px2rem(2px)}
-      );
-    }
-
-    .text {
-      margin: 0 px2rem(25px) 0 px2rem(8px);
     }
   }
 }
 
 .#{$ns}Switch-option {
   vertical-align: middle;
-  margin-left: var(--Switch-gap);
+  font-size: var(--switch-option-fontSize);
+  font-weight: var(--switch-option-fontWeight);
+  line-height: var(--switch-option-lineHeight);
+  color: var(--switch-option-color);
+  margin: var(--switch-option-marginTop) var(--switch-option-marginRight)
+    var(--switch-option-marginBottom) var(--switch-option-marginLeft);
 
   &:first-child {
     margin-left: 0;
@@ -184,7 +185,9 @@
 }
 
 .#{$ns}SwitchControl {
-  padding-top: calc((var(--Form-input-height) - var(--Switch-height)) / 2);
+  padding-top: calc(
+    (var(--Form-input-height) - var(--switch-size-default-height)) / 2
+  );
 
   &.is-inline {
     display: inline-block;

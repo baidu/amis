@@ -443,35 +443,40 @@
     }
   }
   &--radio {
-    padding-left: var(--Radio-size);
+    padding-left: var(--radio-default-default-point-size);
 
     input {
-      margin-left: calc(var(--Radio-size) * -1);
+      margin-left: calc(var(--radio-default-default-point-size) * -1);
 
       &:checked + i {
-        border-color: var(--Radio-onHover-color);
+        border-color: var(--radio-default-active-color);
+        background-color: var(--radio-default-active-bg-color);
+
+        + span {
+          color: var(--radio-default-active-text-color);
+        }
 
         &:before {
-          width: var(--Radio-inner-size);
-          height: var(--Radio-inner-size);
-          background: var(--Radio-onHover-color);
+          width: var(--radio-default-default-point-inner-size);
+          height: var(--radio-default-default-point-inner-size);
+          background: var(--radio-default-active-color);
           border-radius: 50%;
         }
       }
 
       &[disabled] + i {
-        border-color: var(--Radio-onDisabled-color);
-        background: var(--Radio-onDisabled-bg);
+        border-color: var(--radio-default-disabled-color);
+        background: var(--radio-default-disabled-bg-color);
         cursor: not-allowed;
 
         &:before {
-          background: var(--Radio-onDisabled-color);
+          background: var(--radio-default-disabled-color);
         }
       }
 
       &[disabled] + i + span {
         cursor: not-allowed;
-        color: var(--text--muted-color);
+        color: var(--radio-default-disabled-text-color);
       }
 
       &:focus + i {
@@ -481,12 +486,34 @@
 
     > i {
       cursor: pointer;
-      width: var(--Radio-size);
-      height: var(--Radio-size);
-      border: px2rem(1px) solid var(--Radio-color);
-      margin-left: calc(var(--Radio-size) * -1);
+      width: var(--radio-default-default-point-size);
+      height: var(--radio-default-default-point-size);
+      border: px2rem(1px) solid var(--radio-default-default-color);
+      margin-left: calc(var(--radio-default-default-point-size) * -1);
       margin-top: px2rem(-2px);
       border-radius: 50%;
+      background: var(--radio-default-default-bg-color);
+
+      + span {
+        color: var(--radio-default-default-text-color);
+        font-size: var(--radio-default-default-fontSize);
+        font-weight: var(--radio-default-default-fontWeight);
+        line-height: var(--radio-default-default-lineHeight);
+        margin-left: var(--radio-default-default-distance);
+      }
+    }
+
+    &:hover input:not(:disabled) + i {
+      border-color: var(--radio-default-hover-color);
+      background-color: var(--radio-default-hover-bg-color);
+
+      &:before {
+        background: var(--radio-default-hover-color);
+      }
+
+      + span {
+        color: var(--radio-default-hover-text-color);
+      }
     }
 
     &.#{$ns}Checkbox--button--disabled--unchecked.#{$ns}Checkbox--full {
@@ -568,7 +595,44 @@
   ); // 3px 是空白的高度
 }
 
-.#{$ns}RadiosControl,
+.#{$ns}RadiosControl {
+  .#{$ns}Checkbox {
+    display: block;
+    margin: var(--radio-default-vertical-marginTop)
+      var(--radio-default-vertical-marginRight)
+      var(--radio-default-vertical-marginBottom)
+      var(--radio-default-vertical-marginLeft);
+  }
+
+  .#{$ns}Checkbox--button {
+    margin-bottom: 0;
+
+    &--disabled--unchecked {
+      background: var(--FileControl-onDisabled-bg);
+    }
+
+    &-checked {
+      &:active {
+        border-color: var(--Switch-checked-onHover-bgColor);
+      }
+    }
+  }
+
+  &.is-inline .#{$ns}Checkbox {
+    display: inline-block;
+    margin: var(--radio-default-default-marginTop)
+      var(--radio-default-default-marginRight)
+      var(--radio-default-default-marginBottom)
+      var(--radio-default-default-marginLeft);
+  }
+
+  &.is-inline .#{$ns}Checkbox--button {
+    display: inline-block;
+    margin-right: 0;
+    margin-bottom: 0;
+  }
+}
+
 .#{$ns}CheckboxesControl {
   .#{$ns}Checkbox {
     display: block;
