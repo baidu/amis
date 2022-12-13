@@ -245,7 +245,7 @@ export default class App extends React.Component<AppProps, object> {
     if (isEffectiveApi(api, store.data)) {
       const json = await store.fetchInitData(api, store.data, {});
       if (env.replaceText) {
-        replaceText(json.data, env.replaceText, env.replaceTextIgnoreKeys);
+        json.data = replaceText(json.data, env.replaceText, env.replaceTextIgnoreKeys);
       }
 
       if (json?.data.pages) {
