@@ -504,7 +504,7 @@ setSchemaTpl('theme:font', (option: any = {}) => {
     type: 'amis-theme-font-editor',
     label: '文字',
     name: `css.className.font`,
-    needCustom: true,
+    needColorCustom: true,
     ...option
   };
 });
