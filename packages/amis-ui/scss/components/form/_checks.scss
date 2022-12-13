@@ -190,7 +190,7 @@
 
       &:active {
         & > i:before {
-          background: var(--Switch-checked-onHover-bgColor);
+          background: var(--Checkbox-checked-onHover-bgColor);
         }
       }
     }
@@ -218,10 +218,10 @@
 
     &:active {
       input:checked + i {
-        background: var(--Switch-checked-onHover-bgColor);
+        background: var(--Checkbox-checked-onHover-bgColor);
 
         &:before {
-          background: var(--Switch-checked-onHover-bgColor);
+          background: var(--Checkbox-checked-onHover-bgColor);
         }
       }
     }
@@ -345,8 +345,8 @@
     &:active {
       input:checked + i {
         background: transparent;
-        border-color: var(--Switch-checked-onHover-bgColor) transparent
-          transparent var(--Switch-checked-onHover-bgColor);
+        border-color: var(--Checkbox-checked-onHover-bgColor) transparent
+          transparent var(--Checkbox-checked-onHover-bgColor);
       }
     }
 
@@ -423,9 +423,9 @@
       box-shadow: -1px 0 0 0 var(--menu-active-color);
     }
     &:active {
-      border-color: var(--Switch-checked-onHover-bgColor);
-      color: var(--Switch-checked-onHover-bgColor);
-      box-shadow: -1px 0 0 0 var(--Switch-checked-onHover-bgColor);
+      border-color: var(--Checkbox-checked-onHover-bgColor);
+      color: var(--Checkbox-checked-onHover-bgColor);
+      box-shadow: -1px 0 0 0 var(--Checkbox-checked-onHover-bgColor);
     }
   }
   &--button--disabled--unchecked.#{$ns}Checkbox--checkbox {
@@ -613,7 +613,7 @@
 
     &-checked {
       &:active {
-        border-color: var(--Switch-checked-onHover-bgColor);
+        border-color: var(--Checkbox-checked-onHover-bgColor);
       }
     }
   }
@@ -648,7 +648,7 @@
 
     &-checked {
       &:active {
-        border-color: var(--Switch-checked-onHover-bgColor);
+        border-color: var(--Checkbox-checked-onHover-bgColor);
       }
     }
   }

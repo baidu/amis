@@ -347,6 +347,7 @@ $remFactor: 16px;
   --Checkbox-button-height: #{px2rem(32px)};
   --Checkbox-button-line-height: #{px2rem(28px)};
   --Checkbox-button-min-width: #{px2rem(80px)};
+  --Checkbox-checked-onHover-bgColor: var(--colors-brand-4);
 
   --ColorPicker-bg: var(--colors-neutral-fill-11);
   --ColorPicker-borderColor: var(--Form-input-borderColor);
@@ -1079,7 +1080,7 @@ $remFactor: 16px;
   --Switch-text-marginRight--sm: var(--switch-text-off-marginRight);
   --Switch-text-marginLeft--sm: var(--switch-text-off-marginLeft);
   --Switch-checked-bgColor: var(--switch-default-on-bg-color);
-  --Switch-checked-onHover-bgColor: var(--colors-brand-4);
+  --Switch-checked-onHover-bgColor: var(--switch-default-on-hover-bg-color);
   --Switch-checked-onActive-bgColor: var(--colors-brand-4);
 
   --Table--unsaved-heading-bg: #e8f0fe;

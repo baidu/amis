@@ -37,8 +37,7 @@
       width: var(--switch-text-off-fontSize);
       height: var(--switch-text-off-fontSize);
       margin-top: calc(
-        (var(--switch-text-off-lineHeight) - var(--switch-text-off-fontSize)) /
-          2
+        (var(--Switch-height) - var(--switch-text-off-fontSize)) / 2
       );
     }
   }
@@ -82,7 +81,7 @@
     }
 
     &:hover {
-      background: var(--switch-default-on-hover-bg-color);
+      background: var(--Switch-checked-onHover-bgColor);
     }
 
     &:active {
@@ -120,8 +119,9 @@
 
     .text {
       line-height: var(--Switch-height--sm);
-      margin: var(--switch-text-off-marginTop) var(--Switch-text-marginRight)
-        var(--switch-text-off-marginBottom) var(--Switch-text-marginLeft);
+      margin: var(--switch-text-off-marginTop)
+        var(--Switch-text-marginRight--sm) var(--switch-text-off-marginBottom)
+        var(--Switch-text-marginLeft--sm);
 
       > svg {
         margin-top: calc((var(--Switch-height--sm) - var(--fontSizeSm)) / 2);
