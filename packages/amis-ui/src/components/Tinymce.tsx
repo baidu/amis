@@ -13,6 +13,7 @@ import 'tinymce/models/dom/model';
 // Any plugins you want to use has to be imported
 import 'tinymce/plugins/advlist';
 import 'tinymce/plugins/autolink';
+import 'tinymce/plugins/autoresize';
 import 'tinymce/plugins/lists';
 import 'tinymce/plugins/link';
 import 'tinymce/plugins/image';
@@ -71,6 +72,7 @@ export default class TinymceEditor extends React.Component<TinymceEditorProps> {
       plugins: [
         'advlist',
         'autolink',
+        'autoresize',
         'link',
         'image',
         'lists',
