@@ -4,6 +4,9 @@
     position: absolute;
     left: px2rem(-38px);
   }
+  .is-group {
+    overflow: auto;
+  }
 }
 .ThemeClassName-editor {
   height: auto;
@@ -27,5 +30,11 @@
   &-content {
     height: px2rem(500px);
     width: 100%;
+  }
+}
+.Theme-FontEditor {
+  .Theme-Wrapper-header-left {
+    font-weight: 400;
+    color: #5c5f66;
   }
 }
