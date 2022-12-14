@@ -1176,10 +1176,11 @@ export abstract class BasePlugin implements PluginInterface {
     }
   }
 
-  renderPlaceholder(text: string, key?: any) {
+  renderPlaceholder(text: string, key?: any, style?: any) {
     return React.createElement('div', {
       key,
       className: 'wrapper-sm b-a b-light m-b-sm',
+      style: style,
       children: React.createElement('span', {
         className: 'text-muted',
         children: text

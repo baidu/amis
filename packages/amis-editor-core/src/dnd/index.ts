@@ -248,11 +248,12 @@ export class EditorDNDManager {
         toastWarning('请先选择一个元素作为插入的位置。');
         return;
       }
-
+      /*
       if (curNode?.schema?.type === 'flex') {
         toastWarning('布局容器组件不支持拖拽插入子元素。');
         return;
       }
+      */
     } else {
       toastWarning('请先选择一个元素作为插入的位置。');
       return;

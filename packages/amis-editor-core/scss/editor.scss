@@ -98,7 +98,8 @@
 }
 
 // 公共组件占位样式
-.ae-Editor-common-config div[class*='Wrapper']:empty {
+.ae-Editor-common-config div[class*='Wrapper']:empty,
+.ae-Editor-common-config div[class*='Container']:empty {
   margin: 4px;
   min-height: 88px;
   background: #f7f7f8;

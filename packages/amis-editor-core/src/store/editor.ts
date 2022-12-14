@@ -984,6 +984,13 @@ export const MainStore = types
 
         const child = JSONPipeIn(event.context.data);
 
+        if (parent?.isFreeContainer) {
+          child.style = {
+            position: 'absolute',
+            inset: "10px auto auto 10px"
+          }
+        }
+
         const arr = Array.isArray(parent[region])
           ? parent[region].concat()
           : parent[region]
