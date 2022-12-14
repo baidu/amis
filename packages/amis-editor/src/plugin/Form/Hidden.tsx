@@ -34,11 +34,8 @@ export class HiddenControlPlugin extends BasePlugin {
   ];
 
   renderRenderer(props: any) {
-    return (
-      <div key={props.key} className="wrapper-sm b-a b-light m-b-sm">
-        <span className="text-muted">功能组件（隐藏字段）</span>
-      </div>
-    );
+    console.log('props:', props);
+    return this.renderPlaceholder('功能组件（隐藏字段）', props.key, props.style);
   }
 }
 

@@ -16,6 +16,7 @@ import {autobind, JSONGetById, EditorStoreType} from 'amis-editor-core';
 interface TableViewEditorProps {
   schema: TableViewSchema;
   manager: EditorManager;
+  children?: any;
 }
 
 interface TableViewEditorState {
@@ -517,6 +518,7 @@ export class TableViewEditor extends React.Component<
   }
 
   render() {
+    const {children, schema} = this.props;
     let rowLines = this.state.trIds.map((id: string) => (
       <div
         className="ae-TableViewEditor-rowLine"
@@ -536,8 +538,8 @@ export class TableViewEditor extends React.Component<
     ));
 
     return (
-      <div className="ae-TableViewEditor" ref={this.tableViewWrapperRef}>
-        {this.props.children}
+      <div className="ae-TableViewEditor" ref={this.tableViewWrapperRef} style={schema?.style}>
+        {children}
         {this.renderMergeIcon()}
         {rowLines}
         {colLines}

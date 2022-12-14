@@ -5,15 +5,14 @@ export default class Layout_scroll_x extends FlexPluginBase {
   name = 'x轴滚动容器';
   isBaseComponent = true;
   pluginIcon = 'layout-3cols-plugin';
-  description = '常见布局：x轴滚动容器（基于 CSS Flex 实现的布局容器）。';
-  tags = ['常见布局'];
+  description = 'x轴滚动容器: 基于 CSS Flex 实现的布局容器。';
   order = 505;
   scaffold: any = {
     type: 'flex',
     className: 'p-1',
     items: [
       {
-        type: 'wrapper',
+        type: 'container',
         size: 'xs',
         body: [],
         style: {
@@ -26,7 +25,7 @@ export default class Layout_scroll_x extends FlexPluginBase {
         }
       },
       {
-        type: 'wrapper',
+        type: 'container',
         size: 'xs',
         body: [],
         style: {
@@ -39,7 +38,7 @@ export default class Layout_scroll_x extends FlexPluginBase {
         }
       },
       {
-        type: 'wrapper',
+        type: 'container',
         size: 'xs',
         body: [],
         style: {
@@ -52,7 +51,7 @@ export default class Layout_scroll_x extends FlexPluginBase {
         }
       },
       {
-        type: 'wrapper',
+        type: 'container',
         size: 'xs',
         body: [],
         style: {
@@ -65,7 +64,7 @@ export default class Layout_scroll_x extends FlexPluginBase {
         }
       },
       {
-        type: 'wrapper',
+        type: 'container',
         size: 'xs',
         body: [],
         style: {
@@ -78,7 +77,7 @@ export default class Layout_scroll_x extends FlexPluginBase {
         }
       },
       {
-        type: 'wrapper',
+        type: 'container',
         size: 'xs',
         body: [],
         style: {
@@ -91,7 +90,7 @@ export default class Layout_scroll_x extends FlexPluginBase {
         }
       },
       {
-        type: 'wrapper',
+        type: 'container',
         size: 'xs',
         body: [],
         style: {

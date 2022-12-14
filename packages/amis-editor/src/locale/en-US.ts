@@ -3546,5 +3546,30 @@ extendLocale('en-US', {
   '2bd921d0ea7a73b77ee0fcddb1afcc84': 'Minimum height',
   'eb7366583485f478e3d8c2b105ea51ff':
     'Defines the magnification of the item. If it is set to 0, it will not be magnified even if there is space left in the parent container.',
-  '5d3d48de1ba22368eacdc1c69fb044ce': 'Component inner layer CSS class name'
+  '5d3d48de1ba22368eacdc1c69fb044ce': 'Component inner layer CSS class name',
+  '72c32b47c5e4dcd58ddabdb8fde761a0':
+    'Suspended container: a special layout container based on CSS Flex implementation.',
+  'a03384e93b62e3110aa92c9e345111ba':
+    'Bottom suction container: a layout container based on CSS Flex.',
+  'f564e3e66dd2aca0e080cb6484c95a5e':
+    'Ceiling container: a layout container based on CSS Flex.',
+  'db805d4e361ac2d3fc6047eaea1a7c69': 'Free container',
+  '9ccbfde404798593fa6fdeac9dbef200':
+    'Free container: its direct child elements support dragging to adjust the position.',
+  'f20ca09e513399510ce34ba2cb05b7d9':
+    'X axis rolling container: a layout container based on CSS Flex implementation.',
+  '47ef0cec2c3436377a42390e10de4567':
+    'Y-axis rolling container: a layout container based on CSS Flex.',
+  '8c2bb89f516205027b9ed6609fb17726': 'Blocking condition',
+  '46a3c6ab94da0b16a707bdd3b74c9e09':
+    'When the conditions are met, the execution of subsequent actions of the current event will be blocked',
+  '6e6d4269d0dc3324d551062350a2ae9f': 'Silent request',
+  '56e13c39822a814ab39b0d5a0867d7dc':
+    'When enabled, the service request will be sent in a silent mode, that is, no success or error message will pop up.',
+  '7f019b96ffb7d72ec8d6ce8d76e5362f': 'Expression configured',
+  '699829ed5bab67dfb360764c3bbaed4e': '{{@1}} - Event Configuration',
+  '5ba999eb762f60324033b735e55d989c': 'Event weight prevention',
+  '7fe94616be0e8fb5ef5ab40a7397f0aa':
+    'After event anti duplication is enabled, only the last event will be executed when triggered multiple times within the anti duplication time',
+  '91b72e901f1663637157cda638ac4dcc': 'Anti gravity time'
 });

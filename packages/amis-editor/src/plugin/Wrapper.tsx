@@ -83,7 +83,6 @@ export class WrapperPlugin extends BasePlugin {
                   getSchemaTpl('layout:inset', {
                     mode: 'vertical'
                   }),
-                  getSchemaTpl('layout:z-index'),
                   getSchemaTpl('layout:display'),
                   getSchemaTpl('layout:flexDirection', {
                     visibleOn: 'data.style && data.style.display === "flex"'
@@ -153,8 +152,8 @@ export class WrapperPlugin extends BasePlugin {
                       isFlexItem && !isFlexColumnItem
                     } && data.style.flex === '0 0 auto')`
                   }),
-
-                  !isFlexItem ? getSchemaTpl('layout:margin-center') : null
+                  !isFlexItem ? getSchemaTpl('layout:margin-center') : null,
+                  getSchemaTpl('layout:z-index')
                 ]
               },
               {
