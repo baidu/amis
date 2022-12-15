@@ -26,6 +26,11 @@ const pages: TreeArray = [
     label: '表单',
     children: [
       {
+        label: '受控表单',
+        path: '/form/controlled-form',
+        component: React.lazy(() => import('./form/ControlledForm'))
+      },
+      {
         label: 'InputTable',
         path: '/form/input-table',
         component: React.lazy(() => import('./form/InputTable'))

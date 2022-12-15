@@ -1302,7 +1302,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
                 ? value.length
                 : value != null && value !== resetValue) ? (
                 <a onClick={this.clearValue} className={cx('Select-clear')}>
-                  <Icon icon="close-small" className="icon" />
+                  <Icon icon="input-clear" className="icon" />
                 </a>
               ) : null}
               {loading ? (
