@@ -14,6 +14,7 @@ import Transition, {
 import {autobind} from 'amis-core';
 import {isClickOnInput} from 'amis-core';
 import {TranslateFn} from 'amis-core';
+import {Icon} from './icons';
 
 const collapseStyles: {
   [propName: string]: string;
@@ -189,7 +190,13 @@ export class Collapse extends React.Component<CollapseProps, CollapseState> {
                 )
               })
             ) : (
-              <span className={cx('Collapse-arrow')} />
+              <span className={cx('Collapse-arrow-wrap')}>
+                <Icon
+                  icon="right-arrow-bold"
+                  className={cx('Collapse-arrow')}
+                  iconContent="Collapse-arrow"
+                />
+              </span>
             )
           ) : (
             ''
