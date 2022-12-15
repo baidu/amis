@@ -1,7 +1,7 @@
 import {PlainObject} from '../types';
 import {uuid} from './helper';
 
-const valueMap: PlainObject = {
+export const valueMap: PlainObject = {
   'marginTop': 'margin-top',
   'marginRight': 'margin-right',
   'marginBottom': 'margin-bottom',
