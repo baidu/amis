@@ -25,10 +25,10 @@ class AnchorNavSectionComponent extends React.PureComponent<AnchorNavSectionProp
   contentRef = (ref: any) => (this.contentDom = ref);
 
   render() {
-    const {classnames: cx, children, className, style} = this.props;
+    const {classnames: cx, children, className} = this.props;
 
     return (
-      <div ref={this.contentRef} className={cx('AnchorNav-section', className)} style={style}>
+      <div ref={this.contentRef} className={cx('AnchorNav-section', className)}>
         {children}
       </div>
     );
@@ -246,6 +246,7 @@ export class AnchorNav extends React.Component<AnchorNavProps, AnchorNavState> {
     const {
       classnames: cx,
       className,
+      style,
       linkClassName,
       sectionClassName,
       children,
@@ -265,6 +266,7 @@ export class AnchorNav extends React.Component<AnchorNavProps, AnchorNavState> {
           },
           className
         )}
+        style={style}
       >
         <ul
           className={cx('AnchorNav-link-wrap', linkClassName)}

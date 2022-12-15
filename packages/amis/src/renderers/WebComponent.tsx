@@ -49,7 +49,7 @@ export default class WebComponent extends React.Component<RendererProps> {
       }
     });
     const Component = (tag as keyof JSX.IntrinsicElements) || 'div';
-    return <Component {...propsValues} >{this.renderBody()}</Component>;
+    return <Component {...propsValues} style={style}>{this.renderBody()}</Component>;
   }
 }
 
