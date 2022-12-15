@@ -547,7 +547,8 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
       placeholder,
       itemHeight,
       virtualThreshold,
-      rightMode
+      rightMode,
+      labelField,
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载
@@ -598,6 +599,7 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
           itemHeight={itemHeight}
           virtualThreshold={virtualThreshold}
           virtualListHeight={266}
+          labelField={labelField}
         />
 
         <Spinner overlay key="info" show={loading} />
