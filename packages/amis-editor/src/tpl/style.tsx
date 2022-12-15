@@ -554,3 +554,93 @@ setSchemaTpl('theme:radius', (option: any = {}) => {
     ...option
   };
 });
+
+setSchemaTpl(
+  'theme:common',
+  (exclude: string[] | string, include: string[] | string) => {
+    // key统一转换成Kebab case，eg: boxShadow => bos-shadow
+    exclude = (
+      exclude ? (Array.isArray(exclude) ? exclude : [exclude]) : []
+    ).map((key: string) => kebabCase(key));
+
+    include = (
+      include ? (Array.isArray(include) ? include : [include]) : []
+    ).map((key: string) => kebabCase(key));
+    return [
+      {
+        header: '布局',
+        key: 'layout',
+        body: [
+          {
+            type: 'style-display',
+            label: false,
+            name: 'style'
+          }
+        ].filter(comp => !~exclude.indexOf(comp.type.replace(/^style-/i, '')))
+      },
+      {
+        header: '边框',
+        key: 'border',
+        body: [
+          {
+            mode: 'default',
+            type: 'amis-theme-border',
+            label: false,
+            name: 'style',
+            needColorCustom: true
+          }
+        ]
+      },
+      {
+        header: '圆角',
+        key: 'radius',
+        body: [
+          {
+            mode: 'default',
+            type: 'amis-theme-radius',
+            label: false,
+            name: 'style.radius'
+          }
+        ]
+      },
+      {
+        header: '间距',
+        key: 'box-model',
+        body: [
+          {
+            mode: 'default',
+            type: 'amis-theme-padding-and-margin',
+            label: false,
+            name: 'style'
+          }
+        ]
+      },
+      {
+        header: '背景',
+        key: 'background',
+        body: [
+          {
+            mode: 'default',
+            type: 'amis-theme-color-picker',
+            label: false,
+            name: 'style.background',
+            needCustom: true,
+            labelMode: 'input'
+          }
+        ]
+      },
+      {
+        header: '阴影',
+        key: 'box-shadow',
+        body: [
+          {
+            type: 'amis-theme-shadow-editor',
+            label: false,
+            name: 'style.boxShadow',
+            hasSenior: true
+          }
+        ]
+      }
+    ];
+  }
+);
