@@ -75,6 +75,7 @@ export default class ColorControl extends React.PureComponent<
   render() {
     const {
       className,
+      style,
       classPrefix: ns,
       value,
       env,

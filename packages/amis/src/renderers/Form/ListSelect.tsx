@@ -173,6 +173,7 @@ export default class ListControl extends React.Component<ListProps, any> {
       itemClassName,
       classnames: cx,
       className,
+      style,
       disabled,
       options,
       placeholder,

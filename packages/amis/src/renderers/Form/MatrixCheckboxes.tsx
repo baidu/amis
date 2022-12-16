@@ -359,7 +359,7 @@ export default class MatrixCheckbox extends React.Component<
 
   @supportStatic()
   render() {
-    const {className, render, classnames: cx} = this.props;
+    const {className, style, render, classnames: cx} = this.props;
     const {error, loading} = this.state;
 
     return (

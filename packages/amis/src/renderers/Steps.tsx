@@ -94,6 +94,7 @@ export interface StepsProps
 export function StepsCmpt(props: StepsProps) {
   const {
     className,
+    style,
     steps,
     status,
     mode,
@@ -163,6 +164,7 @@ export function StepsCmpt(props: StepsProps) {
       current={currentValue}
       steps={resolveSteps}
       className={className}
+      style={style}
       status={statusValue}
       mode={mode}
       progressDot={progressDot}

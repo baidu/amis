@@ -206,9 +206,10 @@ export const MappingField = withStore(props =>
       }
     }
 
-    renderSingleValue(key: any, reactKey?: number) {
+    renderSingleValue(key: any, reactKey?: number, needStyle?: boolean) {
       const {
         className,
+        style,
         placeholder,
         classnames: cx,
         store
@@ -221,6 +222,7 @@ export const MappingField = withStore(props =>
       let value: any = undefined;
       // trim 一下，干掉一些空白字符。
       key = typeof key === 'string' ? key.trim() : key;
+      const curStyle = needStyle ? style : undefined;
       if (
         typeof key !== 'undefined' &&
         map &&
@@ -236,7 +238,7 @@ export const MappingField = withStore(props =>
       }
 
       return (
-        <span key={`map-${reactKey}`} className={cx('MappingField', className)}>
+        <span key={`map-${reactKey}`} className={cx('MappingField', className)} style={curStyle}>
           {viewValue}
         </span>
       );
@@ -277,17 +279,18 @@ export const MappingField = withStore(props =>
     }
 
     render() {
+      const {style} = this.props;
       const mapKey = getPropValue(this.props);
       if (Array.isArray(mapKey)) {
         return (
-          <span>
+          <span style={style}>
             {mapKey.map((singleKey: string, index: number) =>
               this.renderSingleValue(singleKey, index)
             )}
           </span>
         );
       } else {
-        return this.renderSingleValue(mapKey, 0);
+        return this.renderSingleValue(mapKey, 0, true);
       }
     }
   }

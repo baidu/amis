@@ -2920,6 +2920,7 @@ export default class Table extends React.Component<TableProps, object> {
   render() {
     const {
       className,
+      style,
       store,
       classnames: cx,
       affixColumns,
@@ -2941,6 +2942,7 @@ export default class Table extends React.Component<TableProps, object> {
           'Table--unsaved': !!store.modified || !!store.moved,
           'Table--autoFillHeight': autoFillHeight
         })}
+        style={style}
       >
         {autoGenerateFilter ? this.renderAutoFilterForm() : null}
         {header}

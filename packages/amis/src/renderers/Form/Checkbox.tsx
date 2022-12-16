@@ -127,6 +127,7 @@ export default class CheckboxControl extends React.Component<
   render() {
     const {
       className,
+      style,
       value,
       trueValue,
       falseValue,

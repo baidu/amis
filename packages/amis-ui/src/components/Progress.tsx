@@ -96,6 +96,7 @@ export class Progress extends React.Component<ProgressProps, Object> {
   render() {
     const {
       className,
+      style,
       progressClassName,
       type,
       value,
@@ -208,7 +209,7 @@ export class Progress extends React.Component<ProgressProps, Object> {
       ];
     }
 
-    return <div className={cx('Progress', className)}>{viewValue}</div>;
+    return <div className={cx('Progress', className)} style={style}>{viewValue}</div>;
   }
 }
 

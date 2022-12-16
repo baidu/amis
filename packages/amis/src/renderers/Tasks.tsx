@@ -353,6 +353,7 @@ export default class Task extends React.Component<TaskProps, TaskState> {
     const {
       classnames: cx,
       className,
+      style,
       tableClassName,
       taskNameLabel,
       operationLabel,
@@ -374,7 +375,7 @@ export default class Task extends React.Component<TaskProps, TaskState> {
     const error = this.state.error;
 
     return (
-      <div className={cx('Table-content', className)}>
+      <div className={cx('Table-content', className)} style={style}>
         <table className={cx('Table-table', tableClassName)}>
           <thead>
             <tr>

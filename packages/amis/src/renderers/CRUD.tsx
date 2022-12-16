@@ -2126,6 +2126,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   render() {
     const {
       className,
+      style,
       bodyClassName,
       filter,
       render,
@@ -2160,6 +2161,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         className={cx('Crud', className, {
           'is-loading': store.loading
         })}
+        style={style}
       >
         {filter && (!store.filterTogggable || store.filterVisible)
           ? render(

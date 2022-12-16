@@ -298,6 +298,7 @@ export class Log extends React.Component<LogProps, LogState> {
     const {
       source,
       className,
+      style,
       classnames: cx,
       placeholder,
       height,
@@ -350,7 +351,7 @@ export class Log extends React.Component<LogProps, LogState> {
     }
 
     return (
-      <div className={cx('Log', className)}>
+      <div className={cx('Log', className)} style={style}>
         <div className={cx('Log-operation')}>
           {operation && operation?.length > 0 && (
             <>

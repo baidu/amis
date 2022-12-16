@@ -39,12 +39,12 @@ export interface BarCodeProps
 
 export class BarCodeField extends React.Component<BarCodeProps, object> {
   render() {
-    const {className, width, height, classnames: cx, options} = this.props;
+    const {className, style, width, height, classnames: cx, options} = this.props;
     const value = getPropValue(this.props);
 
     return (
       <Suspense fallback={<div>...</div>}>
-        <div data-testid="barcode" className={cx('BarCode', className)}>
+        <div data-testid="barcode" className={cx('BarCode', className)} style={style}>
           <BarCode value={value} options={options}></BarCode>
         </div>
       </Suspense>

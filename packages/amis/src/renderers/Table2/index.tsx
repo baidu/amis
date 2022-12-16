@@ -1498,14 +1498,14 @@ export default class Table2 extends React.Component<Table2Props, object> {
   }
 
   render() {
-    const {classnames: cx, loading = false} = this.props;
+    const {classnames: cx, style, loading = false} = this.props;
 
     this.renderedToolbars = []; // 用来记录哪些 toolbar 已经渲染了
 
     const heading = this.renderHeading();
 
     return (
-      <div className={cx('Table-render-wrapper')}>
+      <div className={cx('Table-render-wrapper')} style={style}>
         {this.renderActions('header')}
         {heading}
         {this.renderTable()}
