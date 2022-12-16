@@ -554,7 +554,9 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
       rightMode,
       loadingConfig,
       labelField,
-      showInvalidMatch
+      showInvalidMatch,
+      checkAll,
+      checkAllLabel
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载
@@ -607,6 +609,8 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
           virtualListHeight={266}
           labelField={labelField}
           showInvalidMatch={showInvalidMatch}
+          checkAllLabel={checkAllLabel}
+          checkAll={checkAll}
         />
 
         <Spinner
