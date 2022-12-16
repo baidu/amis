@@ -128,6 +128,7 @@ import './plugin/Tasks';
 import './plugin/Time';
 import './plugin/Timeline';
 import './plugin/Tpl';
+import './plugin/Tag';
 import './plugin/AnchorNav';
 import './plugin/Video';
 import './plugin/Wizard';
@@ -148,6 +149,7 @@ import './plugin/Layout/Layout1_2_v4';
 import {GridPlugin} from './plugin/Grid';
 
 import './renderer/OptionControl';
+import './renderer/MapSourceControl';
 import './renderer/TimelineItemControl';
 import './renderer/APIControl';
 import './renderer/ValidationControl';
