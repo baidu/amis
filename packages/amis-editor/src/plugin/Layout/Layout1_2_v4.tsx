@@ -15,6 +15,7 @@ export default class Layout1_2_v4 extends FlexPluginBase {
         type: 'container',
         size: 'xs',
         body: [],
+        wrapperBody: false,
         style: {
           flex: '0 0 auto',
           display: 'block'
@@ -27,6 +28,7 @@ export default class Layout1_2_v4 extends FlexPluginBase {
             type: 'container',
             size: 'xs',
             body: [],
+            wrapperBody: false,
             style: {
               flex: '0 0 auto',
               flexBasis: '250px',
@@ -40,6 +42,7 @@ export default class Layout1_2_v4 extends FlexPluginBase {
                 type: 'container',
                 size: 'xs',
                 body: [],
+                wrapperBody: false,
                 style: {
                   flex: '1 1 auto',
                   flexBasis: 'auto',
@@ -51,6 +54,7 @@ export default class Layout1_2_v4 extends FlexPluginBase {
                 type: 'container',
                 size: 'xs',
                 body: [],
+                wrapperBody: false,
                 style: {
                   flex: '1 1 auto',
                   flexBasis: 'auto',

@@ -1150,3 +1150,26 @@ setSchemaTpl(
     }
   }
 );
+
+setSchemaTpl('layout:sorption', {
+  type: 'button-group-select',
+  label: '吸附位置',
+  name: 'sorptionPosition',
+  options: [
+    {
+      label: '吸顶',
+      value: 'top'
+    },
+    {
+      label: '吸底',
+      value: 'bottom'
+    }
+  ],
+  onChange: (value: string, oldValue: string, model: any, form: any) => {
+    if (value === 'top') {
+      form.setValueByName('style.inset', '0 auto auto 0');
+    } else if (value === 'bottom') {
+      form.setValueByName('style.inset', 'auto auto 0 0');
+    }
+  }
+});

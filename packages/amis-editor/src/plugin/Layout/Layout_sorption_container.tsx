@@ -2,14 +2,16 @@ import {registerEditorPlugin} from 'amis-editor-core';
 import {FlexPluginBase, defaultFlexColumnSchema} from './FlexPluginBase';
 
 export default class Layout_fixed_top extends FlexPluginBase {
-  name = '吸顶容器';
+  name = '吸附容器';
   isBaseComponent = true;
   pluginIcon = 'flex-container-plugin';
-  description = '吸顶容器: 基于 CSS Flex 实现的布局容器。';
+  description = '吸附容器: 可设置成吸顶或者吸顶展示。';
   order = 502;
   scaffold: any = {
     type: 'flex',
-    title: '吸顶容器',
+    title: '吸附容器',
+    isSorptionContainer: true,
+    sorptionPosition: 'top',
     className: 'p-1',
     items: [
       defaultFlexColumnSchema(),
@@ -32,7 +34,7 @@ export default class Layout_fixed_top extends FlexPluginBase {
     isFixedHeight: false,
     originPosition: 'right-bottom'
   };
-  panelTitle = '吸顶容器';
+  panelTitle = '吸附容器';
 }
 
 registerEditorPlugin(Layout_fixed_top);

@@ -25,6 +25,7 @@ export const defaultFlexColumnSchema = (title?: string) => {
       flexGrow: 1,
       flexBasis: 'auto'
     },
+    wrapperBody: false,
     isFixedHeight: false,
     isFixedWidth: false
   };
@@ -76,6 +77,16 @@ export class FlexPluginBase extends BasePlugin {
       curRendererSchema?.direction === 'row-reverse';
     const isFlexItem = this.manager?.isFlexItem(context?.id);
     const isFlexColumnItem = this.manager?.isFlexColumnItem(context?.id);
+    // 判断是否为吸附容器
+    const isSorptionContainer = curRendererSchema?.isSorptionContainer || false;
+
+    const positionTpl = [
+      getSchemaTpl('layout:position'),
+      getSchemaTpl('layout:originPosition'),
+      getSchemaTpl('layout:inset', {
+        mode: 'vertical'
+      }),
+    ];
 
     return [
       getSchemaTpl('tabs', [
@@ -87,6 +98,7 @@ export class FlexPluginBase extends BasePlugin {
               {
                 title: '布局',
                 body: [
+                  isSorptionContainer ? getSchemaTpl('layout:sorption') : null,
                   isFlexItem
                     ? getSchemaTpl('layout:flex', {
                         isFlexColumnItem,
@@ -116,11 +128,10 @@ export class FlexPluginBase extends BasePlugin {
                           'data.style && (data.style.position === "static" || data.style.position === "relative") && data.style.flex === "0 0 auto"'
                       })
                     : null,
-                  getSchemaTpl('layout:position'),
-                  getSchemaTpl('layout:originPosition'),
-                  getSchemaTpl('layout:inset', {
-                    mode: 'vertical'
-                  }),
+
+                  // 吸附容器不显示定位相关配置项
+                  ...(isSorptionContainer ? [] : positionTpl),
+
                   getSchemaTpl('layout:flexDirection', {
                     name: 'direction'
                   }),
