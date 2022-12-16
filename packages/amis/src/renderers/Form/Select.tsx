@@ -135,6 +135,16 @@ export interface SelectControlSchema
    * 选项的自定义CSS类名
    */
   optionClassName?: SchemaClassName;
+
+  /**
+   * 下拉框 Popover 的对齐方式
+   */
+  overlayAlign?: 'left' | 'center' | 'right';
+
+  /**
+   * 下拉框 Popover 的宽度设置，数字或者数字加 '%'、'px' 结尾的字符串
+   */
+  overlayWidth?: number | string;
 }
 
 export interface SelectProps extends OptionsControlProps, SpinnerExtraProps {
@@ -449,6 +459,8 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       selectMode,
       env,
       useMobileUI,
+      overlayAlign,
+      overlayWidth,
       ...rest
     } = this.props;
 
@@ -496,13 +508,14 @@ export default class SelectControl extends React.Component<SelectProps, any> {
             loading={loading}
             noResultsText={noResultsText}
             renderMenu={menuTpl ? this.renderMenu : undefined}
+            overlayAlign={overlayAlign}
+            overlayWidth={overlayWidth}
           />
         )}
       </div>
     );
   }
 }
-
 export interface TransferDropDownProps
   extends OptionsControlProps,
     Omit<
@@ -554,7 +567,9 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
       rightMode,
       loadingConfig,
       labelField,
-      showInvalidMatch
+      showInvalidMatch,
+      overlayAlign,
+      overlayWidth
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载
@@ -607,6 +622,8 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
           virtualListHeight={266}
           labelField={labelField}
           showInvalidMatch={showInvalidMatch}
+          overlayAlign={overlayAlign}
+          overlayWidth={overlayWidth}
         />
 
         <Spinner

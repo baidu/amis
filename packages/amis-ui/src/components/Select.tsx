@@ -41,6 +41,7 @@ import type {Option, Options} from 'amis-core';
 import {RemoteOptionsProps, withRemoteConfig} from './WithRemoteConfig';
 import Picker from './Picker';
 import PopUp from './PopUp';
+import BasePopover, {OverlayAlignType} from './PopOverContainer';
 
 import type {TooltipObject} from '../components/TooltipWrapper';
 
@@ -339,6 +340,8 @@ interface SelectProps
   popOverContainer?: any;
   popOverContainerSelector?: string;
   overlayPlacement?: string;
+  overlayWidth?: string;
+  overlayAlign?: OverlayAlignType;
   onChange: (value: void | string | Option | Array<Option>) => void;
   onFocus?: Function;
   onBlur?: Function;
@@ -964,7 +967,9 @@ export class Select extends React.Component<SelectProps, SelectState> {
       renderMenu,
       mobileClassName,
       virtualThreshold = 100,
-      useMobileUI = false
+      useMobileUI = false,
+      overlayWidth,
+      overlayAlign
     } = this.props;
     const {selection} = this.state;
 
@@ -1218,14 +1223,20 @@ export class Select extends React.Component<SelectProps, SelectState> {
         container={popOverContainer || this.getTarget}
         containerSelector={popOverContainerSelector}
         target={this.getTarget}
-        placement={overlayPlacement}
+        placement={
+          overlayPlacement === 'auto'
+            ? BasePopover.alignToPlacement(overlayAlign)
+            : overlayPlacement
+        }
         show
       >
         <PopOver
           overlay
           className={cx('Select-popover')}
           style={{
-            width: this.target ? this.target.offsetWidth : 'auto'
+            width:
+              BasePopover.calcOverlayWidth(overlayWidth) ||
+              (this.target ? this.target.offsetWidth : 'auto')
           }}
           onHide={this.close}
         >
