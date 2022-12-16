@@ -27,12 +27,14 @@ export class BasicToolbarPlugin extends BasePlugin {
     const node = store.getNodeById(id)!;
     const parent = store.getSchemaParentById(id);
     const draggableContainer = this.manager.draggableContainer(id);
+    // 判断是否为吸附容器
+    const isSorptionContainer = schema?.isSorptionContainer || false;
     // let vertical = true;
     const regionNode = node.parent as EditorNodeType; // 父级节点
     if ((Array.isArray(parent) && regionNode?.isRegion) || draggableContainer) {
       const host = node.host as EditorNodeType;
 
-      if (node.draggable || draggableContainer) {
+      if ((node.draggable || draggableContainer) && !isSorptionContainer) {
         toolbars.push({
           iconSvg: 'drag-btn',
           icon: 'fa fa-arrows',

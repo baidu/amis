@@ -106,6 +106,13 @@
   border: 1px dashed rgb(206, 208, 211);
 }
 
+.ae-Editor-common-config div[class*='Container']:empty {
+  margin: 4px;
+  min-height: 88px;
+  background: #f7f7f8;
+  border: 1px dashed rgb(206, 208, 211);
+}
+
 // 弹窗编辑器面板
 .subEditor-dialog {
   overflow: hidden;
