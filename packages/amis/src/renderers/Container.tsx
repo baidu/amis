@@ -34,6 +34,11 @@ export interface ContainerSchema extends BaseSchema {
    * 使用的标签
    */
   wrapperComponent?: string;
+
+  /**
+   * 是否需要对body加一层div包裹，默认为 true
+   */
+  wrapperBody?: boolean;
 }
 
 export interface ContainerProps
@@ -58,20 +63,29 @@ export default class Container<T> extends React.Component<
       render,
       classnames: cx,
       bodyClassName,
-      disabled
+      disabled,
+      wrapperBody
     } = this.props;
 
-    return (
-      <div className={cx('Container-body', bodyClassName)}>
-        {children
-          ? typeof children === 'function'
-            ? ((children as any)(this.props) as JSX.Element)
-            : (children as any)
-          : body
-          ? (render('body', body as any, {disabled}) as JSX.Element)
-          : null}
-      </div>
-    );
+    const isWrapperBody = wrapperBody ?? true;
+
+    const containerBody = children
+      ? typeof children === 'function'
+        ? ((children as any)(this.props) as JSX.Element)
+        : (children as any)
+      : body
+      ? (render('body', body as any, {disabled}) as JSX.Element)
+      : null;
+
+    if (isWrapperBody) {
+      return (
+        <div className={cx('Container-body', bodyClassName)}>
+          {containerBody}
+        </div>
+      );
+    } else {
+      return containerBody;
+    }
   }
 
   render() {
