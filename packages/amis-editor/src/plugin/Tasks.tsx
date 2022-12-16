@@ -1,4 +1,4 @@
-import {registerEditorPlugin} from 'amis-editor-core';
+import {BaseEventContext, registerEditorPlugin} from 'amis-editor-core';
 import {BasePlugin} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 
@@ -43,8 +43,8 @@ export class TasksPlugin extends BasePlugin {
   };
 
   panelTitle = '异步任务';
-  panelBody = [
-    getSchemaTpl('tabs', [
+  panelBodyCreator = (context: BaseEventContext) => {
+    return getSchemaTpl('tabs', [
       {
         title: '常规',
         body: [
@@ -110,6 +110,12 @@ export class TasksPlugin extends BasePlugin {
             name: 'reSubmitApi',
             label: '重试接口'
           }),
+
+          getSchemaTpl('loadingConfig', {}, {context}),
+
+          {
+            type: 'divider'
+          },
 
           {
             name: 'taskNameLabel',
@@ -268,8 +274,8 @@ export class TasksPlugin extends BasePlugin {
         title: '显隐',
         body: [getSchemaTpl('visible')]
       }
-    ])
-  ];
+    ]);
+  };
 }
 
 registerEditorPlugin(TasksPlugin);

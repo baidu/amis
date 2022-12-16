@@ -195,7 +195,14 @@ export class CheckboxesControlPlugin extends BasePlugin {
                 form: {
                   body: [getSchemaTpl('deleteApi')]
                 }
-              })
+              }),
+              getSchemaTpl(
+                'loadingConfig',
+                {
+                  visibleOn: 'this.source || !this.options'
+                },
+                {context}
+              )
             ]
           },
           getSchemaTpl('status', {isFormItem: true}),

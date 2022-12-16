@@ -741,7 +741,13 @@ export class Table2Plugin extends BasePlugin {
                 })
               ]
             }
-          ])
+          ]),
+
+          isCRUDBody
+            ? null
+            : {
+                type: 'divider'
+              }
         ]
       },
       {

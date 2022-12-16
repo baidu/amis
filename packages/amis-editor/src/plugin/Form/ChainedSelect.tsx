@@ -158,6 +158,14 @@ export class ChainedSelectControlPlugin extends BasePlugin {
                 )
               }),
 
+              getSchemaTpl(
+                'loadingConfig',
+                {
+                  visibleOn: 'this.source || !this.options'
+                },
+                {context}
+              ),
+
               {
                 type: 'input-text',
                 name: 'labelField',

@@ -305,7 +305,16 @@ export class NestedSelectControlPlugin extends BasePlugin {
           },
           {
             title: '选项',
-            body: [getSchemaTpl('treeOptionControl')]
+            body: [
+              getSchemaTpl('treeOptionControl'),
+              getSchemaTpl(
+                'loadingConfig',
+                {
+                  visibleOn: 'this.source || !this.options'
+                },
+                {context}
+              )
+            ]
           },
           getSchemaTpl('status', {isFormItem: true}),
           getSchemaTpl('validation', {
