@@ -34,6 +34,7 @@ function FormField(props: FormFieldProps) {
     children,
     classnames: cx,
     className,
+    style,
     hasError,
     isRequired,
     label,
@@ -60,6 +61,7 @@ function FormField(props: FormFieldProps) {
           [`is-required`]: isRequired,
           'Form-item--horizontal-justify': horizontal.justify
         })}
+        // style={style}
       >
         {label !== false ? (
           <label
@@ -120,6 +122,7 @@ function FormField(props: FormFieldProps) {
         'is-error': hasError,
         [`is-required`]: isRequired
       })}
+      // style={style}
     >
       {label ? (
         <label className={cx(`Form-label`, labelClassName)}>

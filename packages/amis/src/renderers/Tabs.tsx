@@ -709,6 +709,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       linksClassName,
       tabRender,
       className,
+      style,
       render,
       data,
       mode: dMode,
@@ -821,6 +822,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         mode={mode}
         closable={closable}
         className={className}
+        style={style}
         contentClassName={contentClassName}
         linksClassName={linksClassName}
         onSelect={this.handleSelect}

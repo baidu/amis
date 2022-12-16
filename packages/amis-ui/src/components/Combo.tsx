@@ -133,6 +133,7 @@ export function Combo({
   description,
   fieldClassName,
   className,
+  style,
   multiLine,
   itemsWrapperClassName,
   itemClassName,
@@ -232,6 +233,7 @@ export function Combo({
           className,
           multiLine ? `Combo--ver` : `Combo--hor`
         )}
+        // style={style}
       >
         <div className={cx(`Combo-items`, itemsWrapperClassName)}>
           {fields.map((field, index) => (
@@ -289,6 +291,7 @@ export function Combo({
   ) : (
     <FormField
       className={fieldClassName}
+      style={style}
       label={label}
       labelAlign={labelAlign}
       labelClassName={labelClassName}

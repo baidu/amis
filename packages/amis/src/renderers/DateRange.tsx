@@ -58,7 +58,8 @@ export class DateRangeField extends React.Component<DateRangeProps, Object> {
       valueFormat,
       format = 'YYYY-MM-DD',
       classnames: cx,
-      className
+      className,
+      style
     } = this.props;
 
     if (!value) {
@@ -85,6 +86,7 @@ export class DateRangeField extends React.Component<DateRangeProps, Object> {
     return (
       <span
         className={cx('DateRangeField', className)}
+        style={style}
       >
         {[startTime, endTime].join(` ${connector} `)}
       </span>

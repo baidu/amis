@@ -312,6 +312,7 @@ export class FormulaPicker extends React.Component<
       disabled,
       allowInput = true,
       className,
+      style,
       onChange,
       size,
       borderMode,
@@ -349,6 +350,7 @@ export class FormulaPicker extends React.Component<
               className,
               mode === 'input-group' ? 'is-input-group' : ''
             )}
+            style={style}
           >
             {mode === 'button' && (
               <Button

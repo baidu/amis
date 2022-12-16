@@ -98,6 +98,7 @@ export class PaginationWrapper extends React.Component<PaginationWrapProps> {
       render,
       store,
       classnames: cx,
+      style,
       body,
       translate: __
     } = this.props;
@@ -121,7 +122,7 @@ export class PaginationWrapper extends React.Component<PaginationWrapProps> {
         : null;
 
     return (
-      <div className={cx('PaginationWrapper')}>
+      <div className={cx('PaginationWrapper')} style={style}>
         {position === 'top' ? pagination : null}
         {body ? (
           render('body', body, {

@@ -89,7 +89,11 @@ export default class Container<T> extends React.Component<
 
     return (
       <Component
-        className={cx('Container', className)}
+        className={cx(
+          'Container',
+          size && size !== 'none' ? `Container--${size}` : '',
+          className
+        )}
         style={buildStyle(style, data)}
       >
         {this.renderBody()}

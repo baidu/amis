@@ -1337,6 +1337,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       descriptionClassName,
       hideUploadButton,
       className,
+      style,
       btnClassName,
       btnUploadClassName,
       classnames: cx,

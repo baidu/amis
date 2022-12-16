@@ -208,6 +208,7 @@ const GridNav: React.FC<GridNavProps> = ({
       className={cx(`GridNav ${className || ''}`, {
         'GridNav-top u-hairline': props.border && !props.gutter
       })}
+      
     >
       {React.Children.toArray(children)
         .filter(Boolean)

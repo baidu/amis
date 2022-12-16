@@ -267,6 +267,7 @@ export default class RichTextControl extends React.Component<
   render() {
     const {
       className,
+      style,
       classPrefix: ns,
       value,
       onChange,

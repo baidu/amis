@@ -22,6 +22,7 @@ export interface CollapseGroupProps {
   expandIconPosition?: 'left' | 'right';
   body?: Array<React.ReactElement>;
   className?: string;
+  style?: any;
   classnames: ClassNamesFn;
   classPrefix: string;
 }
@@ -132,6 +133,7 @@ class CollapseGroup extends React.Component<
     const {
       classnames: cx,
       className,
+      style,
       expandIconPosition,
       children
     } = this.props;
@@ -145,6 +147,7 @@ class CollapseGroup extends React.Component<
           },
           className
         )}
+        style={style}
       >
         {this.getItems(children)}
       </div>

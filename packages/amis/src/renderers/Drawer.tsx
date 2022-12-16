@@ -533,6 +533,7 @@ export default class Drawer extends React.Component<DrawerProps> {
     const store = this.props.store;
     const {
       className,
+      style,
       size,
       closeOnEsc,
       position,
@@ -566,6 +567,7 @@ export default class Drawer extends React.Component<DrawerProps> {
         resizable={resizable}
         classPrefix={ns}
         className={className}
+        style={style}
         size={size}
         onHide={this.handleSelfClose}
         disabled={store.loading}

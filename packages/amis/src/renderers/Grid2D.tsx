@@ -172,7 +172,7 @@ export default class Grid2D extends React.Component<Grid2DProps, object> {
   }
 
   render() {
-    const {grids, cols, gap, gapRow, width, rowHeight} = this.props;
+    const {grids, cols, gap, gapRow, width, rowHeight, style} = this.props;
 
     const templateColumns = new Array(cols);
     templateColumns.fill('1fr');
@@ -204,7 +204,8 @@ export default class Grid2D extends React.Component<Grid2DProps, object> {
       }
     });
 
-    const style = {
+    const curStyle = {
+      ...style,
       display: 'grid',
       columnGap: gap,
       rowGap: typeof gapRow === 'undefined' ? gap : gapRow,
@@ -213,7 +214,7 @@ export default class Grid2D extends React.Component<Grid2DProps, object> {
       gridTemplateRows: templateRows.join(' ')
     };
 
-    return <div style={style}>{this.renderGrids()}</div>;
+    return <div style={curStyle}>{this.renderGrids()}</div>;
   }
 }
 

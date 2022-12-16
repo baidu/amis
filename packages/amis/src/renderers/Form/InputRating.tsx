@@ -124,6 +124,7 @@ export default class RatingControl extends React.Component<RatingProps, any> {
   renderStatic() {
     const {
       className,
+      style,
       value,
       count,
       half,

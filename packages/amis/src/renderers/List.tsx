@@ -996,6 +996,7 @@ export default class List extends React.Component<ListProps, object> {
   render() {
     const {
       className,
+      style,
       itemClassName,
       store,
       placeholder,
@@ -1023,6 +1024,7 @@ export default class List extends React.Component<ListProps, object> {
           [`List--${size}`]: size,
           'List--unsaved': !!store.modified || !!store.moved
         })}
+        style={style}
         ref={this.bodyRef}
       >
         {affixHeader && heading && header ? (

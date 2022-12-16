@@ -250,6 +250,7 @@ export default class ExcelControl extends React.PureComponent<
   render() {
     const {
       className,
+      style,
       classnames: cx,
       classPrefix: ns,
       value,

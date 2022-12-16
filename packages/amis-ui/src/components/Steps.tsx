@@ -97,6 +97,7 @@ export function Steps(props: StepsProps) {
     steps: stepsRow,
     classnames: cx,
     className,
+    style,
     current,
     status,
     mode = 'horizontal',
@@ -153,6 +154,7 @@ export function Steps(props: StepsProps) {
         mobileUI ? 'Steps-mobile' : '',
         className
       )}
+      style={style}
     >
       {stepsRow.map((step, i) => {
         const {stepStatus, icon} = getStepStatus(step, i);

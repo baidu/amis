@@ -23,7 +23,7 @@ export default class Divider extends React.Component<DividerProps, object> {
   };
 
   render() {
-    const {classnames: cx, className, lineStyle} = this.props;
+    const {classnames: cx, className, style, lineStyle} = this.props;
     return (
       <div
         className={cx(
@@ -31,6 +31,7 @@ export default class Divider extends React.Component<DividerProps, object> {
           lineStyle ? `Divider--${lineStyle}` : '',
           className
         )}
+        style={style}
       />
     );
   }
