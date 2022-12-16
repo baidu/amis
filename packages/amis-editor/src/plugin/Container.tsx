@@ -12,6 +12,7 @@ export class ContainerPlugin extends BasePlugin {
   isBaseComponent = true;
   description = '一个简单的容器，可以将多个渲染器放置在一起。';
   tags = ['容器'];
+  order = -2;
   withDataSource = false;
   icon = 'fa fa-square-o';
   pluginIcon = 'container-plugin';
@@ -192,7 +193,9 @@ export class ContainerPlugin extends BasePlugin {
                 } && data.style.flex === '0 0 auto')`
               }),
               !isFlexItem ? getSchemaTpl('layout:margin-center') : null,
-              getSchemaTpl('layout:z-index')
+              getSchemaTpl('layout:z-index'),
+              getSchemaTpl('layout:sticky'),
+              getSchemaTpl('layout:stickyPosition')
             ]
           },
           getSchemaTpl('status')

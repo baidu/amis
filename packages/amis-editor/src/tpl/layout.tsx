@@ -1154,6 +1154,7 @@ setSchemaTpl(
 setSchemaTpl('layout:sorption', {
   type: 'button-group-select',
   label: '吸附位置',
+  size: 'xs',
   name: 'sorptionPosition',
   options: [
     {
@@ -1170,6 +1171,53 @@ setSchemaTpl('layout:sorption', {
       form.setValueByName('style.inset', '0 auto auto 0');
     } else if (value === 'bottom') {
       form.setValueByName('style.inset', 'auto auto 0 0');
+    }
+  }
+});
+
+setSchemaTpl('layout:sticky', {
+  type: 'switch',
+  label: tipedLabel(
+    '滚动吸附',
+    '开启滚动吸附后，当滚动至父容器上下边沿时会自动开启吸附模式。'
+  ),
+  name: 'stickyStatus',
+  inputClassName: 'inline-flex justify-between',
+  onChange: (value: boolean, oldValue: boolean, model: any, form: any) => {
+    if (value) {
+      form.setValueByName('style.position', 'sticky');
+      form.setValueByName('style.inset', '0px auto auto auto');
+    } else {
+      form.setValueByName('style.position', 'static');
+      form.setValueByName('style.inset', undefined);
+    }
+  }
+});
+
+setSchemaTpl('layout:stickyPosition', {
+  type: 'button-group-select',
+  size: 'xs',
+  label: tipedLabel(
+    '吸附位置',
+    '用于设置滚动吸附时的位置'
+  ),
+  name: 'stickyPosition',
+  visibleOn: 'data.stickyStatus',
+  options: [
+    {
+      label: '吸顶',
+      value: 'top'
+    },
+    {
+      label: '吸底',
+      value: 'bottom'
+    }
+  ],
+  onChange: (value: string, oldValue: string, model: any, form: any) => {
+    if (value === 'top') {
+      form.setValueByName('style.inset', '0px auto auto auto');
+    } else if (value === 'bottom') {
+      form.setValueByName('style.inset', 'auto auto 0px auto');
     }
   }
 });

@@ -203,7 +203,9 @@ export class FlexPluginBase extends BasePlugin {
                     } && data.style.flex === '0 0 auto')`
                   }),
                   !isFlexItem ? getSchemaTpl('layout:margin-center') : null,
-                  getSchemaTpl('layout:z-index')
+                  getSchemaTpl('layout:z-index'),
+                  !isSorptionContainer && getSchemaTpl('layout:sticky'),
+                  getSchemaTpl('layout:stickyPosition')
                 ]
               },
               getSchemaTpl('status')
