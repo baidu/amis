@@ -249,7 +249,10 @@ export abstract class DSBuilder {
     setting: any;
   }): SchemaObject | void;
 
-  abstract makeTableColumnsByFields(fields: any[]): SchemaObject[];
+  abstract makeTableColumnsByFields(
+    fields: any[],
+    relations: any[]
+  ): SchemaObject[];
 
   /**
    * 当前上下文中使用的字段
