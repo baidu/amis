@@ -15,7 +15,7 @@ import type {
 // 默认的列容器Schema
 export const defaultFlexColumnSchema = (title?: string) => {
   return {
-    type: 'wrapper',
+    type: 'container',
     body: [],
     size: 'xs',
     style: {
@@ -59,13 +59,13 @@ export class FlexPluginBase extends BasePlugin {
   description =
     '布局容器 是基于 CSS Flex 实现的布局效果，它比 Grid 和 HBox 对子节点位置的可控性更强，比用 CSS 类的方式更易用';
   docLink = '/amis/zh-CN/components/flex';
-  tags = ['常见布局'];
+  tags = ['布局'];
   scaffold: any = defaultFlexContainerSchema;
   previewSchema = {
     ...this.scaffold
   };
 
-  panelTitle = 'Flex';
+  panelTitle = '布局容器';
 
   panelJustify = true; // 右侧配置项默认左右展示
 
@@ -121,7 +121,6 @@ export class FlexPluginBase extends BasePlugin {
                   getSchemaTpl('layout:inset', {
                     mode: 'vertical'
                   }),
-                  getSchemaTpl('layout:z-index'),
                   getSchemaTpl('layout:flexDirection', {
                     name: 'direction'
                   }),
@@ -192,8 +191,8 @@ export class FlexPluginBase extends BasePlugin {
                       isFlexItem && !isFlexColumnItem
                     } && data.style.flex === '0 0 auto')`
                   }),
-
-                  !isFlexItem ? getSchemaTpl('layout:margin-center') : null
+                  !isFlexItem ? getSchemaTpl('layout:margin-center') : null,
+                  getSchemaTpl('layout:z-index')
                 ]
               },
               getSchemaTpl('status')

@@ -2,8 +2,10 @@ import {Button} from 'amis';
 import {
   defaultValue,
   getSchemaTpl,
-  RendererPluginAction
+  RendererPluginAction,
+  tipedLabel
 } from 'amis-editor-core';
+
 import React from 'react';
 import {normalizeApi} from 'amis-core';
 import {
@@ -511,24 +513,17 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   {
                     name: 'options',
                     type: 'combo',
-                    label: false,
+                    label: tipedLabel('静默请求', '开启后，服务请求将以静默模式发送，即不会弹出成功或报错提示。'),
                     mode: 'horizontal',
                     items: [
                       {
-                        type: 'checkbox',
+                        type: 'switch',
                         name: 'silent',
-                        option: '静默模式',
-                        mode: 'inline',
-                        className: 'm-r-none',
-                        value: false,
-                        remark: {
-                          className: 'ae-BaseRemark',
-                          icon: 'fa fa-question-circle',
-                          shape: 'circle',
-                          placement: 'left',
-                          content:
-                            '勾选后，服务请求将以静默模式发送，即不会弹出成功或报错提示。'
-                        }
+                        label: false,
+                        onText: '开启',
+                        offText: '关闭',
+                        mode: 'horizontal',
+                        pipeIn: defaultValue(false)
                       }
                     ]
                   }
@@ -637,6 +632,20 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   </div>
                 );
               }
+            },
+            {
+              actionType: 'visibility',
+              descDetail: (info: any) => {
+                return (
+                  <div>
+                    组件
+                    <span className="variable-left variable-right">
+                      {info?.rendererLabel || '-'}
+                    </span>
+                    表达式已配置
+                  </div>
+                );
+              }
             }
           ],
           supportComponents: '*',
@@ -644,13 +653,33 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             ...renderCmptSelect('目标组件', true),
             {
               type: 'radios',
-              label: '显示/隐藏',
+              label: '条件',
               name: 'groupType',
+              mode: 'horizontal',
+              value: 'static',
+              required: true,
+              inputClassName: 'event-action-radio',
+              options: [
+                {
+                  label: '静态',
+                  value: 'static'
+                },
+                {
+                  label: '表达式',
+                  value: 'visibility'
+                }
+              ]
+            },
+            {
+              type: 'radios',
+              label: '显示/隐藏',
+              name: '__statusType',
               mode: 'horizontal',
               value: 'show',
               required: true,
               pipeIn: defaultValue('show'),
               inputClassName: 'event-action-radio',
+              visibleOn: "this.groupType === 'static'",
               options: [
                 {
                   label: '显示',
@@ -661,6 +690,17 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   value: 'hidden'
                 }
               ]
+            },
+            {
+              type: 'ae-expressionFormulaControl',
+              mode: 'horizontal',
+              label: '表达式',
+              required: true,
+              size: 'lg',
+              variables: '${variables}',
+              evalMode: true,
+              name: '__actionExpression',
+              visibleOn: "this.groupType === 'visibility'"
             }
           ]
         },
@@ -696,6 +736,20 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   </div>
                 );
               }
+            },
+            {
+              actionType: 'usability',
+              descDetail: (info: any) => {
+                return (
+                  <div>
+                    组件
+                    <span className="variable-left variable-right">
+                      {info?.rendererLabel || '-'}
+                    </span>
+                    表达式已配置
+                  </div>
+                );
+              }
             }
           ],
           supportComponents: [
@@ -707,13 +761,33 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             ...renderCmptSelect('目标组件', true),
             {
               type: 'radios',
-              label: '启用/禁用',
+              label: '条件',
               name: 'groupType',
+              mode: 'horizontal',
+              inputClassName: 'event-action-radio',
+              value: 'static',
+              required: true,
+              options: [
+                {
+                  label: '静态',
+                  value: 'static'
+                },
+                {
+                  label: '表达式',
+                  value: 'usability'
+                }
+              ]
+            },
+            {
+              type: 'radios',
+              label: '启用/禁用',
+              name: '__statusType',
               mode: 'horizontal',
               inputClassName: 'event-action-radio',
               value: 'enabled',
               required: true,
               pipeIn: defaultValue('enabled'),
+              visibleOn: "this.groupType === 'static'",
               options: [
                 {
                   label: '启用',
@@ -724,6 +798,16 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   value: 'disabled'
                 }
               ]
+            },
+            {
+              type: 'ae-expressionFormulaControl',
+              mode: 'horizontal',
+              label: '表达式',
+              required: true,
+              size: 'lg',
+              evalMode: true,
+              name: '__actionExpression',
+              visibleOn: "this.groupType === 'usability'"
             }
           ]
         },
@@ -737,7 +821,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               descDetail: (info: any) => {
                 return (
                   <div>
-                    <span className="variable-left variable-right">
+                    <span className="variable-right">
                       {info?.rendererLabel}
                     </span>
                     组件切换为静态
@@ -750,7 +834,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               descDetail: (info: any) => {
                 return (
                   <div>
-                    <span className="variable-left variable-right">
+                    <span className="variable-right">
                       {info?.rendererLabel}
                     </span>
                     组件切换为输入态
@@ -815,14 +899,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             {
               type: 'switch',
               name: '__resetPage',
-              label: '重置页码',
-              labelRemark: {
-                className: 'm-l-xs',
-                icon: 'fa fa-question-circle',
-                rootClose: true,
-                content: '选择“是”时，将重新请求第一页数据。',
-                placement: 'top'
-              },
+              label: tipedLabel('重置页码', '选择“是”时，将重新请求第一页数据。'),
               onText: '是',
               offText: '否',
               mode: 'horizontal',
@@ -832,14 +909,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             {
               type: 'switch',
               name: '__addParam',
-              label: '追加数据',
-              labelRemark: {
-                className: 'm-l-xs',
-                icon: 'fa fa-question-circle',
-                rootClose: true,
-                content: `当选择“是”，且目标组件是增删改查组件时，数据接口请求时将带上这些数据，其他类型的目标组件只有在数据接口是post请求时才会带上这些数据。`,
-                placement: 'top'
-              },
+              label: tipedLabel('追加数据', '当选择“是”，且目标组件是增删改查组件时，数据接口请求时将带上这些数据，其他类型的目标组件只有在数据接口是post请求时才会带上这些数据。'),
               onText: '是',
               offText: '否',
               mode: 'horizontal',
@@ -849,14 +919,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             {
               type: 'switch',
               name: '__customData',
-              label: '自定义数据',
-              labelRemark: {
-                className: 'm-l-xs',
-                icon: 'fa fa-question-circle',
-                rootClose: true,
-                content: `数据默认为源组件所在数据域，开启“自定义”可以定制所需数据`,
-                placement: 'top'
-              },
+              label: tipedLabel('自定义数据', '数据默认为源组件所在数据域，开启“自定义”可以定制所需数据'),
               onText: '是',
               offText: '否',
               mode: 'horizontal',
@@ -957,14 +1020,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               type: 'radios',
               name: 'dataMergeMode',
               mode: 'horizontal',
-              label: '追加方式',
-              labelRemark: {
-                className: 'm-l-xs',
-                icon: 'fa fa-question-circle',
-                rootClose: true,
-                content: `选择“合并”时，会将数据合并到目标组件的数据域。<br/>选择“覆盖”时，数据会直接覆盖目标组件的数据域。`,
-                placement: 'top'
-              },
+              label: tipedLabel('追加方式', '选择“合并”时，会将数据合并到目标组件的数据域。<br/>选择“覆盖”时，数据会直接覆盖目标组件的数据域。'),
               pipeIn: defaultValue('merge'),
               visibleOn: `data.__addParam && data.actionType === "reload" && ${IS_DATA_CONTAINER}`,
               options: [

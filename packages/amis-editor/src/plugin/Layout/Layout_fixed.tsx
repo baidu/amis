@@ -5,8 +5,7 @@ export default class Layout_fixed extends FlexPluginBase {
   name = '悬浮容器';
   isBaseComponent = true;
   pluginIcon = 'layout-fixed-plugin';
-  description = '常见布局：悬浮容器（基于 CSS Flex 实现的布局容器）。';
-  tags = ['常见布局'];
+  description = '悬浮容器: 基于 CSS Flex 实现的特殊布局容器。';
   order = 503;
   scaffold: any = {
     type: 'container',
@@ -22,6 +21,7 @@ export default class Layout_fixed extends FlexPluginBase {
     },
     originPosition: 'right-bottom'
   };
+  panelTitle = '悬浮容器';
 }
 
 registerEditorPlugin(Layout_fixed);

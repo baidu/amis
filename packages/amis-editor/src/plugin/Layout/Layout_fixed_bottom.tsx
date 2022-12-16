@@ -5,11 +5,11 @@ export default class Layout_fixed_bottom extends FlexPluginBase {
   name = '吸底容器';
   isBaseComponent = true;
   pluginIcon = 'flex-container-plugin';
-  description = '常见布局：吸底容器（基于 CSS Flex 实现的布局容器）。';
-  tags = ['常见布局'];
+  description = '吸底容器: 基于 CSS Flex 实现的布局容器。';
   order = 501;
   scaffold: any = {
     type: 'flex',
+    title: '吸底容器',
     className: 'p-1',
     items: [
       defaultFlexColumnSchema(),
@@ -34,6 +34,7 @@ export default class Layout_fixed_bottom extends FlexPluginBase {
     isFixedHeight: false,
     originPosition: 'right-bottom'
   };
+  panelTitle = '吸底容器';
 }
 
 registerEditorPlugin(Layout_fixed_bottom);

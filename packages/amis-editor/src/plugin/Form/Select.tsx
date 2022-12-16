@@ -251,6 +251,13 @@ export class SelectControlPlugin extends BasePlugin {
             title: '选项',
             body: [
               getSchemaTpl('optionControlV2'),
+              getSchemaTpl(
+                'loadingConfig',
+                {
+                  visibleOn: 'this.source || !this.options'
+                },
+                {context}
+              ),
               // 模板
               getSchemaTpl('optionsMenuTpl', {
                 manager: this.manager,

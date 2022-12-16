@@ -544,7 +544,13 @@ export class WizardPlugin extends BasePlugin {
               visibleOn: 'data.asyncApi != null',
               description:
                 '设置此属性后，表单提交发送保存接口后，还会继续轮训请求该接口，直到返回 finished 属性为 true 才 结束'
-            })
+            }),
+
+            {
+              type: 'divider'
+            },
+
+            getSchemaTpl('loadingConfig', {}, {context})
           ]
         },
 

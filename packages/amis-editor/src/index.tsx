@@ -145,6 +145,7 @@ import './plugin/Layout/Layout_fixed';
 import './plugin/Layout/Layout_scroll_x';
 import './plugin/Layout/Layout_scroll_y';
 import './plugin/Layout/Layout1_2_v4';
+import './plugin/Layout/Layout_free_container';
 
 import {GridPlugin} from './plugin/Grid';
 

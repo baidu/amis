@@ -43,8 +43,39 @@ export class ContainerPlugin extends BasePlugin {
     const isRowContent =
       curRendererSchema?.direction === 'row' ||
       curRendererSchema?.direction === 'row-reverse';
+    const isFreeContainer = curRendererSchema?.isFreeContainer || false;
     const isFlexItem = this.manager?.isFlexItem(context?.id);
     const isFlexColumnItem = this.manager?.isFlexColumnItem(context?.id);
+
+    const displayTpl = [
+      getSchemaTpl('layout:display'),
+      getSchemaTpl('layout:flexDirection', {
+        visibleOn: 'data.style && data.style.display === "flex"'
+      }),
+      getSchemaTpl('layout:justifyContent', {
+        label: '水平对齐方式',
+        visibleOn:
+          'data.style && data.style.display === "flex" && data.style.flexDirection === "row" || data.style.flexDirection === "row-reverse"'
+      }),
+      getSchemaTpl('layout:justifyContent', {
+        label: '垂直对齐方式',
+        visibleOn:
+          'data.style && data.style.display === "flex" && (data.style.flexDirection === "column" || data.style.flexDirection === "column-reverse")'
+      }),
+      getSchemaTpl('layout:alignItems', {
+        label: '水平对齐方式',
+        visibleOn:
+          'data.style && data.style.display === "flex" && (data.style.flexDirection === "column" || data.style.flexDirection === "column-reverse")'
+      }),
+      getSchemaTpl('layout:alignItems', {
+        label: '垂直对齐方式',
+        visibleOn:
+          'data.style && data.style.display === "flex" && (data.style.flexDirection === "row" || data.style.flexDirection === "row-reverse")'
+      }),
+      getSchemaTpl('layout:flex-wrap', {
+        visibleOn: 'data.style && data.style.display === "flex"'
+      }),
+    ];
 
     return getSchemaTpl('tabs', [
       {
@@ -117,37 +148,9 @@ export class ContainerPlugin extends BasePlugin {
               getSchemaTpl('layout:inset', {
                 mode: 'vertical'
               }),
-              getSchemaTpl('layout:z-index'),
-              getSchemaTpl('layout:display'),
 
-              getSchemaTpl('layout:flexDirection', {
-                visibleOn: 'data.style && data.style.display === "flex"'
-              }),
-
-              getSchemaTpl('layout:justifyContent', {
-                label: '水平对齐方式',
-                visibleOn:
-                  'data.style && data.style.display === "flex" && data.style.flexDirection === "row" || data.style.flexDirection === "row-reverse"'
-              }),
-              getSchemaTpl('layout:justifyContent', {
-                label: '垂直对齐方式',
-                visibleOn:
-                  'data.style && data.style.display === "flex" && (data.style.flexDirection === "column" || data.style.flexDirection === "column-reverse")'
-              }),
-              getSchemaTpl('layout:alignItems', {
-                label: '水平对齐方式',
-                visibleOn:
-                  'data.style && data.style.display === "flex" && (data.style.flexDirection === "column" || data.style.flexDirection === "column-reverse")'
-              }),
-              getSchemaTpl('layout:alignItems', {
-                label: '垂直对齐方式',
-                visibleOn:
-                  'data.style && data.style.display === "flex" && (data.style.flexDirection === "row" || data.style.flexDirection === "row-reverse")'
-              }),
-
-              getSchemaTpl('layout:flex-wrap', {
-                visibleOn: 'data.style && data.style.display === "flex"'
-              }),
+              // 自由容器不需要 display 相关配置项
+              ...(!isFreeContainer ? displayTpl : []),
 
               getSchemaTpl('layout:isFixedHeight', {
                 visibleOn: `${!isFlexItem || !isFlexColumnItem}`
@@ -188,8 +191,8 @@ export class ContainerPlugin extends BasePlugin {
                   isFlexItem && !isFlexColumnItem
                 } && data.style.flex === '0 0 auto')`
               }),
-
-              !isFlexItem ? getSchemaTpl('layout:margin-center') : null
+              !isFlexItem ? getSchemaTpl('layout:margin-center') : null,
+              getSchemaTpl('layout:z-index')
             ]
           },
           getSchemaTpl('status')

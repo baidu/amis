@@ -6,14 +6,13 @@ export default class Layout1_2_v4 extends FlexPluginBase {
   isBaseComponent = true;
   pluginIcon = 'layout-3-1-plugin';
   description = '常见布局：经典布局（基于 CSS Flex 实现的布局容器）。';
-  tags = ['常见布局'];
   order = 307;
   scaffold: any = {
     type: 'flex',
     className: 'p-1',
     items: [
       {
-        type: 'wrapper',
+        type: 'container',
         size: 'xs',
         body: [],
         style: {
@@ -25,7 +24,7 @@ export default class Layout1_2_v4 extends FlexPluginBase {
         type: 'flex',
         items: [
           {
-            type: 'wrapper',
+            type: 'container',
             size: 'xs',
             body: [],
             style: {
@@ -38,7 +37,7 @@ export default class Layout1_2_v4 extends FlexPluginBase {
             type: 'flex',
             items: [
               {
-                type: 'wrapper',
+                type: 'container',
                 size: 'xs',
                 body: [],
                 style: {
@@ -49,7 +48,7 @@ export default class Layout1_2_v4 extends FlexPluginBase {
                 }
               },
               {
-                type: 'wrapper',
+                type: 'container',
                 size: 'xs',
                 body: [],
                 style: {

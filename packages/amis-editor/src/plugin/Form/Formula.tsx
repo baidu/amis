@@ -67,7 +67,7 @@ export class FormulaControlPlugin extends BasePlugin {
   ];
 
   renderRenderer(props: any) {
-    return this.renderPlaceholder('功能组件（公式）', props.key);
+    return this.renderPlaceholder('功能组件（公式）', props.key, props.style);
   }
 }
 

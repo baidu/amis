@@ -174,6 +174,11 @@ export class ImagePlugin extends BasePlugin {
             }),
 
             getSchemaTpl('className', {
+              name: 'innerClassName',
+              label: '组件内层 CSS 类名'
+            }),
+
+            getSchemaTpl('className', {
               name: 'imageClassName',
               label: '图片 CSS 类名'
             }),
