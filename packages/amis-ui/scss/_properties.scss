@@ -413,23 +413,25 @@ $remFactor: 16px;
   --Copyable-iconColor: var(--icon-color);
   --Copyable-onHover-iconColor: var(--icon-onHover-color);
 
-  --Collapse-border: var(--borders-width-2) solid var(--colors-neutral-line-8);
-  --Collapse-border-color: var(--colors-neutral-line-8);
-  --Collapse-header-fontSize: var(--fonts-size-7);
-  --Collapse-header-fontWeight: var(--fonts-weight-6);
-  --Collapse-header-padding: var(--sizes-size-9);
-  --Collapse-header-bg: var(--colors-neutral-fill-10);
-  --Collapse-header-onHover-bg: var(--colors-neutral-fill-9);
-  --Collapse-header-collapsed-border: var(--borderWidth) solid
-    var(--Collapse-border-color);
+  --Collapse-header-fontSize: var(--collapse-default-header-color);
+  --Collapse-header-fontWeight: var(--collapse-default-header-fontWeight);
+  --Collapse-header-padding: var(--collapse-default-header-paddingTop)
+    var(--collapse-default-header-paddingRight)
+    var(--collapse-default-header-paddingBottom)
+    var(--collapse-default-header-paddingLeft);
+  --Collapse-header-bg: var(--collapse-default-header-bg-color);
+  --Collapse-header-onHover-bg: var(--collapse-default-header-hover-bg-color);
   --Collapse-header-collapsed-borderTop: none;
-  --Collapse-header-collapsed-borderBottom: none
+  --Collapse-header-collapsed-borderBottom: none;
   --Collapse-header-wrapper-direction: row-reverse;
-  --Collapse-header-bg-disabled-color: var(--colors-neutral-fill-6);
-  --Collapse-content-padding: var(--sizes-size-9);
-  --Collapse-content-color: var(--colors-neutral-text-4);
-  --Collapse-content-fontSize: var(--fonts-size-8);
-  --Collapse-content-fontWeight: var(--fonts-weight-6);
+  --Collapse-header-bg-disabled-color: var(--collapse-disabled-header-hover-bg-color);
+  --Collapse-content-padding: var(--collapse-default-content-paddingTop)
+    var(--collapse-default-content-paddingRight)
+    var(--collapse-default-content-paddingBottom)
+    var(--collapse-default-content-paddingLeft);
+  --Collapse-content-color: var(--collapse-default-content-color);
+  --Collapse-content-fontSize: var(--collapse-default-content-fontSize);
+  --Collapse-content-fontWeight: var(--collapse-default-content-fontWeight);
 
   --Crud-toolbar-gap: var(--sizes-size-6);
   --Crud-toolbar-height: #{px2rem(30px)};
