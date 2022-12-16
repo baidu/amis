@@ -617,7 +617,7 @@ export class CRUDPlugin extends BasePlugin {
 
       // 可能会出错，但是cards table2 list 配置面板结构统一，因此
       (context.data as any).tabs.forEach((tab: any) => {
-        if (tab.title === '属性') {
+        if (tab.title === '属性' || tab.title === '常规') {
           tab.body[0].body.forEach((collapse: any) => {
             if (collapse.title === '基本') {
               // 在标题后面插入过滤条件
@@ -698,25 +698,25 @@ export class CRUDPlugin extends BasePlugin {
     });
 
     // 只有表格才能找到操作列放这个内容，卡片和列表不知道位置
-    if (context.schema.mode === 'table2') {
-      DataOperators.forEach(op => {
-        if (!builder.features.includes(op.value)) {
-          return;
-        }
-        operators.push({
-          ...op,
-          remove: (schema: any) => {
-            deepRemove(schema.columns, item => item.behavior === op.value);
-          },
-          add: (data: any) => {
-            this.addDataOperatorSchema(data, op.resolveSchema(data, builder));
-          },
-          isActive: (data: any) => {
-            return this.isFeatActive(data, op.value, 'columns');
-          }
-        });
-      });
-    }
+    // if (context.schema.mode === 'table2') {
+    //   DataOperators.forEach(op => {
+    //     if (!builder.features.includes(op.value)) {
+    //       return;
+    //     }
+    //     operators.push({
+    //       ...op,
+    //       remove: (schema: any) => {
+    //         deepRemove(schema.columns, item => item.behavior === op.value);
+    //       },
+    //       add: (data: any) => {
+    //         this.addDataOperatorSchema(data, op.resolveSchema(data, builder));
+    //       },
+    //       isActive: (data: any) => {
+    //         return this.isFeatActive(data, op.value, 'columns');
+    //       }
+    //     });
+    //   });
+    // }
 
     return operators;
   }
@@ -764,38 +764,41 @@ export class CRUDPlugin extends BasePlugin {
     // 实时获取，否则点击预览再回到编辑的时context中的node失效
     const node = this.manager.store.getNodeById(context.id);
 
-    if (!node) {
+    if (!node?.schema?.columns) {
       return columns;
     }
 
-    const existCols =
-      node!.children.find(child => child.type === 'table2')?.children[0]
-        ?.children || [];
-    const hasOperatorCol = node!.schema.columns?.some(
-      (col: any) => col.type === 'operation'
-    );
-
-    existCols.some((col: EditorNodeType, index: number) => {
-      // 严格来说是单元格的集合，因此要屏蔽掉
-      if (index !== 0 && col.id === existCols[0].id) {
-        return true;
+    const existColumnNames: any = {};
+    let hasOperatorCol: boolean = false;
+    node.schema.columns?.forEach((col: any) => {
+      if (col.key) {
+        existColumnNames[col.key] = true;
       }
-      col.schema &&
+
+      // 已有的可以从 table columns 中生成，从 node 中实时获取有可能schema为空
+      col.$$id &&
+        col.title &&
         columns.push({
-          label: col.schema.title,
-          value: col.id
+          label: col.title,
+          value: col.$$id
         });
-      col.schema?.key && existColsName.push(col.schema.key);
-      return false;
+
+      if (!hasOperatorCol || col.type === 'operation') {
+        hasOperatorCol = true;
+      }
     });
 
-    if (node!.schema.__fields) {
+    const fields = node!.schema.__fields; // || node!.schema?.$$m?.listFields;
+
+    if (fields) {
+      // 通过 fields 生成可使用的 column 配置，以便增删
       const appendCols = builder.makeTableColumnsByFields(
-        node!.schema.__fields
+        fields,
+        node!.schema.__relations
       );
       if (appendCols?.length) {
         appendCols.forEach((col: any) => {
-          if (existColsName.includes(col.name)) {
+          if (existColumnNames[col.key]) {
             return;
           }
 
@@ -859,294 +862,150 @@ export class CRUDPlugin extends BasePlugin {
     );
 
     body.tabs.forEach((tab: any) => {
-      if (tab.title === '属性') {
-        tab.body[0].body.forEach((collapse: any) => {
-          if (collapse.title === '基本') {
-            collapse.body.unshift(
-              ...builder.makeSourceSettingForm({
-                name: 'api',
-                label: '数据源',
-                feat: 'List',
-                inCrud: true
-              }),
-              getSchemaTpl('interval'),
-
-              getSchemaTpl('switch', {
-                name: 'syncLocation',
-                label: tipedLabel(
-                  '同步地址栏',
-                  '开启后会把查询条件数据和分页信息同步到地址栏中，页面中出现多个时，建议只保留一个同步地址栏，否则会相互影响。'
-                ),
-                pipeIn: defaultValue(true)
-              }),
-
-              getSchemaTpl('switch', {
-                label: '可选择',
-                name: 'rowSelection',
-                pipeIn: (item: any) => !!item,
-                pipeOut: (item: any) =>
-                  item
-                    ? this.resolveRowSelection(context.context.schema)
-                    : undefined
-              }),
-
-              getSchemaTpl('switch', {
-                name: 'keepItemSelectionOnPageChange',
-                label: tipedLabel(
-                  '保留选择项',
-                  '默认切换页面、搜索后，用户选择项会被清空，开启此功能后会保留用户选择，可以实现跨页面批量操作。'
-                ),
-                visbileOn: 'this.selectable'
-              })
-            );
-          }
-
-          if (collapse.title === '列设置') {
-            collapse.body.unshift(
-              getSchemaTpl('switch', {
-                name: 'columnsTogglable',
-                label: tipedLabel(
-                  '自定义显示列',
-                  '自动即列数量大于10自动开启。'
-                ),
-                onChange: (
-                  value: boolean,
-                  oldValue: any,
-                  model: any,
-                  form: any
-                ) => {
-                  const schema = cloneDeep(form.data);
-                  if (value === true) {
-                    this.addFeatToToolbar(
-                      schema,
-                      {type: 'column-toggler'},
-                      'header',
-                      'right'
-                    );
-                  } else {
-                    deepRemove(
-                      schema.headerToolbar,
-                      item => item.type === 'column-toggler'
-                    );
-                  }
-                  form.setValues(schema);
-                  return undefined;
-                }
-              })
-            );
-
-            collapse.body.unshift({
-              type: 'ae-feature-control',
-              label: false,
-              features: () => {
-                return this.filterColumns(builder, context.context);
-              },
-              goFeatureComp: (feat: any) => feat.value,
-              removeFeature: (feat: any) => {
-                this.manager.del(feat.value);
-              },
-              manager: this.manager,
-              addable: true,
-              removeable: true
-            });
-          }
-        });
-
-        const moreCollapse = getSchemaTpl('collapseGroup', [
-          {
-            title: '搜索设置',
-            order: 2,
-            body: FilterTypes.map(item => {
-              // 当前数据源可能不开启这个功能
-              if (!builder.features.includes(item.value)) {
-                return null;
-              }
-
-              const fields: any = [];
-              // await builder.getContextFileds({
-              //   schema: context.node.schema,
-              //   feat: item.value,
-              //   sourceKey: 'api'
-              // });
-
-              // 开关配置
-              // const moreConfig = builder.makeFieldsSettingForm({
-              //   feat: item.value,
-              //   inCrud: true,
-              //   inScaffold: false
-              // });
-
-              const base = {
-                label: item.label,
-                name: `__${item.value}`, // 没有真实作用，只是有这个才触发onChange
-                pipeIn: (value: any, form: any) => {
-                  if (item.value === 'FuzzyQuery') {
-                    return this.isFeatActive(
-                      form.data,
-                      item.value,
-                      'headerToolbar',
-                      'footerToolvar'
-                    );
-                  }
-                  return this.isFeatActive(form.data, item.value, 'filter');
-                },
-                onChange: (
-                  value: boolean,
-                  oldValue: any,
-                  model: any,
-                  form: any
-                ) => {
-                  const schema = cloneDeep(form.data);
-                  if (value === true) {
-                    if (item.value === 'FuzzyQuery') {
-                      this.addFeatToToolbar(
-                        schema,
-                        item.resolveSchema(schema, builder),
-                        'header',
-                        'right'
-                      );
-                    } else {
-                      schema.filter.push(item.resolveSchema(schema, builder));
-                    }
-                  } else if (value === false) {
-                    this.removeFeatSchema(schema, item.value);
-                  }
-                  form.setValues(schema);
-                  return undefined;
-                }
-              };
-              return fields && fields.length
-                ? {
-                    ...base,
-                    type: 'ae-switch-more',
-                    formType: 'extend',
-                    mode: 'normal',
-                    form: {
-                      body: fields
-                    }
-                  }
-                : getSchemaTpl('switch', base);
-            })
-          },
-          {
-            title: '操作设置',
-            order: 3,
-            body: [
-              {
-                type: 'ae-feature-control',
-                label: false,
-                features: this.filterOperators(builder, context.context),
-                goFeatureComp: (feat: any) => {
-                  let node = context.context.node;
-                  if (node.isSecondFactor) {
-                    node = node.parent;
-                  }
-                  return findTree(
-                    node.children,
-                    item => item.schema.behavior === feat.value
-                  )?.id;
-                },
-                manager: this.manager,
-                addable: true,
-                addText: '添加操作',
-                removeable: true
-              }
-            ]
-          },
-          {
-            title: '更多与分页',
-            order: 4,
-            body: [
-              {
-                type: 'select',
-                label: '分页方式',
-                name: '__pgType',
-                options: [
-                  {label: '无', value: 'none'},
-                  {label: '分页', value: 'Pagination'},
-                  {label: '加载更多', value: 'LoadMore'}
-                ].filter(i => i),
-                pipeIn: (value: any, form: any) => {
-                  const pg = findObj(
-                    []
-                      .concat(form.data.headerToolbar)
-                      .concat(form.data.footerToolbar),
-                    item =>
-                      item && ['Pagination', 'LoadMore'].includes(item.behavior)
-                  );
-                  return pg?.behavior || 'none';
-                },
-                onChange: (
-                  value: string,
-                  oldValue: any,
-                  model: any,
-                  form: any
-                ) => {
-                  const schema = cloneDeep(form.data);
-                  const region = []
-                    .concat(schema.headerToolbar)
-                    .concat(schema.footerToolbar);
-
-                  if (value === 'none') {
-                    deepRemove(
-                      region,
-                      item =>
-                        item &&
-                        ['Pagination', 'LoadMore'].includes(item.behavior)
-                    );
-                  } else {
-                    let remove: string;
-                    let content: any;
-                    if (value === 'Pagination') {
-                      remove = 'LoadMore';
-                      content = {
-                        type: 'pagination',
-                        behavior: value,
-                        layout: ['total', 'perPage', 'pager', 'go']
-                      };
-                    } else {
-                      remove = 'Pagination';
-                      content = {
-                        type: 'button',
-                        behavior: value,
-                        label: '加载更多',
-                        onEvent: {
-                          click: {
-                            actions: [
-                              {
-                                actionType: 'loadMore',
-                                componentId: schema.id
-                              }
-                            ]
-                          }
-                        }
-                      };
-                    }
-                    deepRemove(
-                      region,
-                      item => item && item.behavior === remove
-                    );
-                    this.addFeatToToolbar(schema, content, 'footer', 'right');
-                  }
-                  form.setValues(schema);
-                  return undefined;
-                }
-              },
-              getSchemaTpl('switch', {
-                label: tipedLabel(
-                  '前端分页',
-                  '数据一次性加载到浏览器，而非每次请求后端用户所请求的当页数据，不建议开启，对性能影响较大'
-                ),
-                name: ''
-              })
-            ]
-          }
-        ]);
-        tab.body[0].body.splice(1, 0, ...moreCollapse.body);
-        // 让折叠器默认都展开
-        tab.body[0].activeKey.push(...moreCollapse.activeKey);
+      if (tab.title === '属性' || tab.title === '常规') {
+        tab.className = 'p-none';
+        tab.body = [
+          getSchemaTpl('collapseGroup', this.addBaseCrudPanel(context))
+        ];
       }
     });
+  }
+
+  sortPanelOrder(arr: any[]) {
+    return arr.sort((a: any, b: any) => (a.order ?? 100) - (b.order ?? 101));
+  }
+
+  // 基础通用配置，table、cards、list 都可以用
+  // 组件独有的配置在各自类里实现
+  addBaseCrudPanel(context: AfterBuildPanelBody) {
+    const body = context.data as any;
+    const builder = this.dsBuilderMgr.resolveBuilderBySchema(
+      context.context.schema,
+      'api'
+    );
+    return [
+      {
+        title: '基本',
+        order: 1,
+        body: [
+          ...builder.makeSourceSettingForm({
+            name: 'api',
+            label: '数据源',
+            feat: 'List',
+            inCrud: true
+          }),
+          {
+            name: 'placeholder',
+            pipeIn: defaultValue('暂无数据'),
+            type: 'input-text',
+            label: '占位内容'
+          }
+        ]
+      },
+      {
+        order: 10,
+        title: '搜索设置',
+        body: FilterTypes.map(item => {
+          // 当前数据源可能不开启这个功能
+          if (!builder.features.includes(item.value)) {
+            return null;
+          }
+
+          const fields: any = [];
+          // await builder.getContextFileds({
+          //   schema: context.node.schema,
+          //   feat: item.value,
+          //   sourceKey: 'api'
+          // });
+
+          // 开关配置
+          // const moreConfig = builder.makeFieldsSettingForm({
+          //   feat: item.value,
+          //   inCrud: true,
+          //   inScaffold: false
+          // });
+
+          const base = {
+            label: item.label,
+            name: `__${item.value}`, // 没有真实作用，只是有这个才触发onChange
+            pipeIn: (value: any, form: any) => {
+              if (item.value === 'FuzzyQuery') {
+                return this.isFeatActive(
+                  form.data,
+                  item.value,
+                  'headerToolbar',
+                  'footerToolvar'
+                );
+              }
+              return this.isFeatActive(form.data, item.value, 'filter');
+            },
+            onChange: (
+              value: boolean,
+              oldValue: any,
+              model: any,
+              form: any
+            ) => {
+              const schema = cloneDeep(form.data);
+              if (value === true) {
+                if (item.value === 'FuzzyQuery') {
+                  this.addFeatToToolbar(
+                    schema,
+                    item.resolveSchema(schema, builder),
+                    'header',
+                    'right'
+                  );
+                } else {
+                  schema.filter && Array.isArray(schema.filter)
+                    ? schema.filter.push(item.resolveSchema(schema, builder))
+                    : (schema.filter = [item.resolveSchema(schema, builder)]);
+                }
+              } else if (value === false) {
+                this.removeFeatSchema(schema, item.value);
+              }
+              form.setValues(schema);
+              return undefined;
+            }
+          };
+          return fields && fields.length
+            ? {
+                ...base,
+                type: 'ae-switch-more',
+                formType: 'extend',
+                mode: 'normal',
+                form: {
+                  body: fields
+                }
+              }
+            : getSchemaTpl('switch', base);
+        })
+      },
+      {
+        order: 20,
+        title: '工具栏',
+        body: [
+          {
+            type: 'ae-feature-control',
+            label: false,
+            features: this.filterOperators(builder, context.context),
+            goFeatureComp: (feat: any) => {
+              let node = context.context.node;
+              if (node.isSecondFactor) {
+                node = node.parent;
+              }
+              return findTree(
+                node.children,
+                item => item.schema.behavior === feat.value
+              )?.id;
+            },
+            manager: this.manager,
+            addable: true,
+            addText: '添加操作',
+            removeable: true
+          }
+        ]
+      },
+      getSchemaTpl('status', {readonly: true})
+    ];
   }
 
   dsBuilderMgr: DSBuilderManager;
@@ -1571,7 +1430,7 @@ export class CRUDPlugin extends BasePlugin {
       $id: 'crud2',
       type: 'object',
       properties: {
-        ...items.properties,
+        ...items?.properties,
         items: {
           ...items,
           title: '全部数据'
@@ -1669,6 +1528,188 @@ export class TableCRUDPlugin extends CRUDPlugin {
     ]
   };
 
+  panelTitle: '表格';
+
+  addListPanelSetting(context: AfterBuildPanelBody) {
+    const body = context.data as any;
+    const builder = this.dsBuilderMgr.resolveBuilderBySchema(
+      context.context.schema,
+      'api'
+    );
+
+    body.tabs.forEach((tab: any) => {
+      if (tab.title === '属性') {
+        tab.body = [
+          getSchemaTpl(
+            'collapseGroup',
+            this.sortPanelOrder([
+              ...this.addBaseCrudPanel(context),
+              {
+                title: '列设置',
+                order: 3,
+                body: [
+                  getSchemaTpl('switch', {
+                    name: 'columnsTogglable',
+                    label: tipedLabel(
+                      '自定义显示列',
+                      '自动即列数量大于10自动开启。'
+                    ),
+                    onChange: (
+                      value: boolean,
+                      oldValue: any,
+                      model: any,
+                      form: any
+                    ) => {
+                      const schema = cloneDeep(form.data);
+                      if (value === true) {
+                        this.addFeatToToolbar(
+                          schema,
+                          {type: 'column-toggler'},
+                          'header',
+                          'right'
+                        );
+                      } else {
+                        deepRemove(
+                          schema.headerToolbar,
+                          item => item.type === 'column-toggler'
+                        );
+                      }
+                      form.setValues(schema);
+                      return undefined;
+                    }
+                  }),
+                  {
+                    type: 'ae-feature-control',
+                    label: false,
+                    features: () => {
+                      return this.filterColumns(builder, context.context);
+                    },
+                    goFeatureComp: (feat: any) => feat.value,
+                    removeFeature: (feat: any) => {
+                      this.manager.del(feat.value);
+                    },
+                    manager: this.manager,
+                    addable: true,
+                    removeable: true
+                  }
+                ]
+              },
+              {
+                title: '表格设置',
+                order: 90,
+                body: [
+                  getSchemaTpl('switch', {
+                    name: 'title',
+                    label: '显示标题',
+                    pipeIn: (value: any) => !!value,
+                    pipeOut: (value: any) => {
+                      if (value) {
+                        return {
+                          type: 'container',
+                          body: [
+                            {
+                              type: 'tpl',
+                              tpl: '表格标题',
+                              inline: false,
+                              style: {
+                                fontSize: 14
+                              }
+                            }
+                          ]
+                        };
+                      }
+                      return null;
+                    }
+                  }),
+
+                  getSchemaTpl('switch', {
+                    name: 'showHeader',
+                    label: '显示表头',
+                    value: true,
+                    pipeIn: (value: any) => !!value,
+                    pipeOut: (value: any) => !!value
+                  }),
+
+                  getSchemaTpl('switch', {
+                    visibleOn: 'this.showHeader !== false',
+                    name: 'sticky',
+                    label: '冻结表头',
+                    pipeIn: defaultValue(false)
+                  }),
+
+                  getSchemaTpl('switch', {
+                    name: 'footer',
+                    label: '显示表尾',
+                    pipeIn: (value: any) => !!value,
+                    pipeOut: (value: any) => {
+                      if (value) {
+                        return {
+                          type: 'container',
+                          body: [
+                            {
+                              type: 'tpl',
+                              tpl: '表格尾部',
+                              inline: false,
+                              style: {
+                                fontSize: 14
+                              }
+                            }
+                          ]
+                        };
+                      }
+                      return null;
+                    }
+                  }),
+                  getSchemaTpl('interval'),
+                  getSchemaTpl('switch', {
+                    name: 'syncLocation',
+                    label: tipedLabel(
+                      '同步地址栏',
+                      '开启后会把查询条件数据和分页信息同步到地址栏中，页面中出现多个时，建议只保留一个同步地址栏，否则会相互影响。'
+                    ),
+                    pipeIn: defaultValue(true)
+                  }),
+                  getSchemaTpl('apiControl', {
+                    label: '快速保存',
+                    name: 'quickSaveApi'
+                  }),
+
+                  getSchemaTpl('apiControl', {
+                    label: '快速保存单条',
+                    name: 'quickSaveItemApi'
+                  })
+                ]
+              },
+              {
+                title: '行设置',
+                order: 80,
+                body: [
+                  getSchemaTpl('switch', {
+                    label: '可选择',
+                    name: 'rowSelection',
+                    pipeIn: (item: any) => !!item,
+                    pipeOut: (item: any) =>
+                      item
+                        ? this.resolveRowSelection(context.context.schema)
+                        : undefined
+                  }),
+                  getSchemaTpl('switch', {
+                    name: 'keepItemSelectionOnPageChange',
+                    label: tipedLabel(
+                      '保留选择项',
+                      '默认切换页面、搜索后，用户选择项会被清空，开启此功能后会保留用户选择，可以实现跨页面批量操作。'
+                    ),
+                    visbileOn: 'this.selectable'
+                  })
+                ]
+              }
+            ])
+          )
+        ];
+      }
+    });
+  }
+
   resolveListField(setting: any, schema: any, builder: DSBuilder) {
     // builder.resolveTableSchema({schema, setting, inCrud: true});
 
@@ -1692,8 +1733,6 @@ export class TableCRUDPlugin extends CRUDPlugin {
       });
     }
   }
-
-  panelTitle: '表格';
 }
 
 export class CardsCRUDPlugin extends CRUDPlugin {
@@ -1770,6 +1809,8 @@ export class CardsCRUDPlugin extends CRUDPlugin {
       ]
     }
   };
+
+  panelTitle: '卡片列表';
 
   resolveListField(setting: any, schema: any, builder: DSBuilder) {
     let fields = setting.listFields;

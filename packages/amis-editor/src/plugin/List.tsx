@@ -22,6 +22,7 @@ export class ListPlugin extends BasePlugin {
   // 组件名称
   name = '列表';
   isBaseComponent = true;
+  panelJustify = true;
   description =
     '展示一个列表，可以自定标题、副标题，内容及按钮组部分。当前组件需要配置数据源，不自带数据拉取，请优先使用 「CRUD」 组件。';
   docLink = '/amis/zh-CN/components/list';
@@ -56,7 +57,7 @@ export class ListPlugin extends BasePlugin {
 
   panelTitle = '列表';
   panelBodyCreator = (context: BaseEventContext) => {
-    const isCRUDBody = context.schema.type === 'crud';
+    const isCRUDBody = ['crud', 'crud2'].includes(context.schema.type);
 
     return getSchemaTpl('tabs', [
       {
@@ -251,7 +252,7 @@ export class ListPlugin extends BasePlugin {
     const {renderer, schema} = context;
     if (
       !schema.$$id &&
-      schema.$$editor?.renderer.name === 'crud' &&
+      ['crud', 'crud2'].includes(schema.$$editor?.renderer.name) &&
       renderer.name === 'list'
     ) {
       return {

@@ -23,6 +23,7 @@ import {remarkTpl} from '../component/BaseControl';
 export class TableCell2Plugin extends BasePlugin {
   panelTitle = '列配置';
   panelIcon = 'fa fa-columns';
+  panelJustify = true;
 
   afterBuildPanelBody(event: PluginEvent<AfterBuildPanelBody>) {
     const {context, data} = event.context;
@@ -60,10 +61,7 @@ export class TableCell2Plugin extends BasePlugin {
         name: 'name',
         type: 'ae-DataBindingControl',
         label: '列字段',
-        onBindingChange(
-          field: DSField,
-          onBulkChange: (value: any) => void
-        ) {
+        onBindingChange(field: DSField, onBulkChange: (value: any) => void) {
           const schema = field?.resolveColumnSchema?.('List') || {
             title: field.label
           };
@@ -492,6 +490,10 @@ export class TableCell2Plugin extends BasePlugin {
 
     (data as TabsSchema).tabs?.forEach((tab: any) => {
       if (tab.title === '属性') {
+        const advancedItems = fromPairs(
+          advanced.map(item => [item.sameName ?? item.name, item])
+        );
+
         tab.body[0].body.forEach((collapse: any) => {
           if (collapse.title === '基本') {
             const appendItems = fromPairs(
@@ -501,6 +503,12 @@ export class TableCell2Plugin extends BasePlugin {
             const removeIndex: number[] = [];
             collapse.body.forEach((item: any, index: number) => {
               const key = item.name;
+
+              // advanced 中有的属性，就不在 基本 中重复了
+              if (advancedItems.hasOwnProperty(key)) {
+                removeIndex.push(index);
+                return;
+              }
 
               // 重复意义的配置用现在的表达文案替换一下
               if (appendItems.hasOwnProperty(key)) {
@@ -532,9 +540,9 @@ export class TableCell2Plugin extends BasePlugin {
             body: advanced
           }
         ]);
-        tab.body[0].body.splice(1, 0, ...moreCollapse.body);
+        tab.body[0].body?.splice(1, 0, ...moreCollapse.body);
         // 让折叠器默认都展开
-        tab.body[0].activeKey.push(...moreCollapse.activeKey);
+        tab.body[0].activeKey?.push(...moreCollapse.activeKey);
       }
 
       if (tab.title === '外观') {
@@ -544,9 +552,9 @@ export class TableCell2Plugin extends BasePlugin {
             body: baseStyle
           }
         ]);
-        tab.body[0].body.splice(1, 0, ...moreCollapse.body);
+        tab.body[0].body?.splice(1, 0, ...moreCollapse.body);
         // 让折叠器默认都展开
-        tab.body[0].activeKey.push(...moreCollapse.activeKey);
+        tab.body[0].activeKey?.push(...moreCollapse.activeKey);
       }
     });
   }
