@@ -119,6 +119,7 @@ import Combo from './Combo';
 import InputTable from './InputTable';
 import type {InputTableColumnProps} from './InputTable';
 import ConfirmBox from './ConfirmBox';
+import DndContainer from './DndContainer';
 
 export {
   NotFound,
@@ -241,5 +242,6 @@ export {
   Controller,
   Combo,
   InputTable,
-  InputTableColumnProps
+  InputTableColumnProps,
+  DndContainer
 };
