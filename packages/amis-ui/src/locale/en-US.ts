@@ -200,6 +200,7 @@ register('en-US', {
   'Checkboxes.selectAll': 'Select/Deselect All',
   'Select.checkAll': 'Check all',
   'Select.clear': 'Clear',
+  'Select.edit': 'Edit',
   'Select.upload': 'Re upload',
   'Select.clearAll': 'Clear all',
   'Select.createLabel': 'New option',

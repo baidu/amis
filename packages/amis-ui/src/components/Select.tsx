@@ -1098,7 +1098,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
             </a>
           ) : null}
           {editable ? (
-            <a data-tooltip="编辑" data-position="left">
+            <a data-tooltip={__('Select.edit')} data-position="left">
               <Icon
                 icon="pencil"
                 className="icon"
