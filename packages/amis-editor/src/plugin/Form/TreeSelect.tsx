@@ -345,6 +345,13 @@ export class TreeSelectControlPlugin extends BasePlugin {
                 label: '数据',
                 showIconField: true
               }),
+              getSchemaTpl(
+                'loadingConfig',
+                {
+                  visibleOn: 'this.source || !this.options'
+                },
+                {context}
+              ),
               getSchemaTpl('switch', {
                 label: '只可选择叶子节点',
                 name: 'onlyLeaf'

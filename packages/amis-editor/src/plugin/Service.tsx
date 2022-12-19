@@ -97,6 +97,9 @@ export class ServicePlugin extends BasePlugin {
   panelTitle = '服务';
 
   panelBodyCreator = (context: BaseEventContext) => {
+    console.log(context);
+    console.log(context.node.parent);
+    console.log(context.node.parent.getComponent());
     return getSchemaTpl('tabs', [
       {
         title: '属性',
@@ -186,6 +189,7 @@ export class ServicePlugin extends BasePlugin {
             {
               title: '全局配置',
               body: [
+                getSchemaTpl('loadingConfig', {}, {context}),
                 getSchemaTpl('data'),
                 {
                   type: 'js-editor',

@@ -324,6 +324,13 @@ export class TabsTransferPlugin extends BasePlugin {
                 name: 'options'
               },
               getSchemaTpl('source'),
+              getSchemaTpl(
+                'loadingConfig',
+                {
+                  visibleOn: 'this.source || !this.options'
+                },
+                {context}
+              ),
               getSchemaTpl('joinValues'),
               getSchemaTpl('delimiter'),
               getSchemaTpl('extractValue'),

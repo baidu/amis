@@ -202,7 +202,8 @@ export class MatrixControlPlugin extends BasePlugin {
                 label: tipedLabel('接口', '获取矩阵数据接口'),
                 name: 'source',
                 mode: 'normal'
-              })
+              }),
+              getSchemaTpl('loadingConfig', {}, {context})
               // getSchemaTpl('value')
             ]
           },

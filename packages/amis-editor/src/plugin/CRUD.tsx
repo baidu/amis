@@ -899,6 +899,12 @@ export class CRUDPlugin extends BasePlugin {
             type: 'divider'
           },
 
+          getSchemaTpl('loadingConfig', {}, {context}),
+
+          {
+            type: 'divider'
+          },
+
           {
             label: '默认消息提示',
             type: 'combo',
