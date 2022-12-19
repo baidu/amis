@@ -304,6 +304,7 @@ export default class ChainedSelectControl extends React.Component<
       options,
       classPrefix: ns,
       className,
+      style,
       inline,
       loading,
       value,

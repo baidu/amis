@@ -218,7 +218,8 @@ export class WordsField extends React.Component<WordsProps, object> {
   render() {
     const {
       classnames: cx,
-      className
+      className,
+      style
     } = this.props;
 
     const words = this.getWords();
@@ -243,7 +244,7 @@ export class WordsField extends React.Component<WordsProps, object> {
         : this.renderPart(words);
     }
 
-    return <div className={cx('Words-field', className)}>{body}</div>
+    return <div className={cx('Words-field', className)} style={style}>{body}</div>
   }
 }
 

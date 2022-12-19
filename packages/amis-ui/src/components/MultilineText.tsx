@@ -95,6 +95,7 @@ export class MultilineText extends React.Component<MultilineTextProps, Multiline
   render() {
     const {
       className,
+      style,
       text,
       classnames: cx,
       maxRows = 5,
@@ -114,6 +115,7 @@ export class MultilineText extends React.Component<MultilineTextProps, Multiline
     return (
       <div
         className={cx('MultilineText', className)}
+        style={style}
       >
         {/* 用于计算高度 */}
         <div

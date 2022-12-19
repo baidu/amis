@@ -1,4 +1,5 @@
-.#{$ns}Wrapper {
+.#{$ns}Wrapper,
+.#{$ns}Container {
   &--xs {
     padding: var(--gap-xs);
   }

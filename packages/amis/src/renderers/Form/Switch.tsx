@@ -130,6 +130,7 @@ export default class SwitchControl extends React.Component<SwitchProps, any> {
     const {
       size,
       className,
+      style,
       classPrefix: ns,
       classnames: cx,
       value,

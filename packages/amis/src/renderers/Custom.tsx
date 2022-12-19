@@ -183,6 +183,7 @@ export class Custom extends React.Component<CustomProps, object> {
   render() {
     const {
       className,
+      style,
       html,
       id,
       wrapperComponent,
@@ -195,6 +196,7 @@ export class Custom extends React.Component<CustomProps, object> {
       <Component
         ref={this.dom}
         className={cx(className)}
+        style={style}
         id={id}
         dangerouslySetInnerHTML={{__html: html ? html : ''}}
       ></Component>

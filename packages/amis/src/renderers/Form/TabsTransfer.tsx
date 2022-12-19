@@ -285,6 +285,7 @@ export class TabsTransferRenderer extends BaseTabsTransferRenderer<TabsTransferP
   render() {
     const {
       className,
+      style,
       classnames: cx,
       options,
       selectedOptions,

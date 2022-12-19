@@ -436,6 +436,7 @@ export class Input extends React.Component<RangeItemProps, any> {
   render() {
     const {
       classnames: cx,
+      style,
       value,
       multiple,
       type,

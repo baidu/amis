@@ -1091,6 +1091,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
   renderWizard() {
     const {
       className,
+      style,
       steps,
       render,
       store,
@@ -1111,6 +1112,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
           `${ns}Panel ${ns}Panel--default ${ns}Wizard ${ns}Wizard--${mode}`,
           className
         )}
+        style={style}
       >
         <div className={`${ns}Wizard-step`}>
           {this.renderSteps()}

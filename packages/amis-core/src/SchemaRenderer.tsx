@@ -23,6 +23,7 @@ import {bindEvent, dispatchEvent, RendererEvent} from './utils/renderer-event';
 import {isAlive} from 'mobx-state-tree';
 import {reaction} from 'mobx';
 import {resolveVariableAndFilter} from './utils/tpl-builtin';
+import {buildStyle} from './utils/style';
 
 interface SchemaRendererProps extends Partial<RendererProps> {
   schema: Schema;
@@ -35,6 +36,7 @@ const defaultOmitList = [
   'name',
   '$ref',
   'className',
+  'style',
   'data',
   'children',
   'ref',
@@ -400,6 +402,11 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     // 这里处理反而导致了问题
     if (renderer.storeType) {
       exprProps = {};
+    }
+
+    // style 支持公式
+    if (schema.style) {
+      schema.style = buildStyle(schema.style, detectData);
     }
 
     const isClassComponent = Component.prototype?.isReactComponent;

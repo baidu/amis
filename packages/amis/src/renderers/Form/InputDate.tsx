@@ -465,6 +465,7 @@ export default class DateControl extends React.PureComponent<
   render() {
     let {
       className,
+      style,
       defaultValue,
       defaultData,
       classnames: cx,

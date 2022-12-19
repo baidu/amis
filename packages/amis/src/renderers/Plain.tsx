@@ -47,6 +47,7 @@ export class Plain extends React.Component<PlainProps, object> {
   render() {
     const {
       className,
+      style,
       wrapperComponent,
       text,
       data,
@@ -60,7 +61,7 @@ export class Plain extends React.Component<PlainProps, object> {
     const Component = wrapperComponent || (inline ? 'span' : 'div');
 
     return (
-      <Component className={cx('PlainField', className)}>
+      <Component className={cx('PlainField', className)} style={style}>
         {tpl || text ? (
           filter(tpl || (text as string), data)
         ) : typeof value === 'undefined' || value === '' || value === null ? (

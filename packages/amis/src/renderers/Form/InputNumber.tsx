@@ -351,6 +351,7 @@ export default class NumberControl extends React.Component<
   render() {
     const {
       className,
+      style,
       classPrefix: ns,
       value,
       step,

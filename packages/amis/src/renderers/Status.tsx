@@ -81,7 +81,7 @@ export class StatusField extends React.Component<StatusProps, object> {
   };
 
   render() {
-    const {className, placeholder, classnames: cx, data} = this.props;
+    const {className, style, placeholder, classnames: cx, data} = this.props;
     const map = merge(StatusField.defaultProps.map, this.props?.map);
     const labelMap = merge(
       StatusField.defaultProps.labelMap,
@@ -140,7 +140,7 @@ export class StatusField extends React.Component<StatusProps, object> {
     }
 
     return (
-      <span className={cx('StatusField', wrapClassName, className)}>
+      <span className={cx('StatusField', wrapClassName, className)} style={style}>
         {viewValue}
       </span>
     );
