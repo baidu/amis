@@ -19,14 +19,12 @@ export function getSchemaTpl(
   if (typeof tpl === 'function') {
     schema = tpl(patch, rendererSchema);
   } else {
-    schema = tpl
-      ? patch
-        ? {
-            ...tpl,
-            ...patch
-          }
-        : tpl
-      : null;
+    schema = patch
+      ? {
+          ...tpl,
+          ...patch
+        }
+      : tpl;
   }
 
   return schema;
