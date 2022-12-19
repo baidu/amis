@@ -10,6 +10,7 @@
   }
 
   &-item {
+    width: var(--listSelect-base-image-width);
     position: relative;
     user-select: none;
     font-size: var(--ListControl-fontSize);
@@ -31,6 +32,10 @@
 
     .b-inherit {
       border-color: var(--ListControl-item-color);
+    }
+
+    &:hover {
+      color: var(--listSelect-base-hover-color);
     }
   }
 
