@@ -1088,21 +1088,21 @@ export class Select extends React.Component<SelectProps, SelectState> {
               {item.tip}
             </span>
           )}
-          {removable ? (
-            <a data-tooltip={__('Select.clear')} data-position="left">
-              <Icon
-                icon="close"
-                className="icon"
-                onClick={(e: any) => this.handleDeleteClick(e, item)}
-              />
-            </a>
-          ) : null}
           {editable ? (
             <a data-tooltip={__('Select.edit')} data-position="left">
               <Icon
                 icon="pencil"
                 className="icon"
                 onClick={(e: any) => this.handleEditClick(e, item)}
+              />
+            </a>
+          ) : null}
+          {removable ? (
+            <a data-tooltip={__('Select.clear')} data-position="left">
+              <Icon
+                icon="close"
+                className="icon"
+                onClick={(e: any) => this.handleDeleteClick(e, item)}
               />
             </a>
           ) : null}
