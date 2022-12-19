@@ -10,6 +10,7 @@ export class FormulaControlPlugin extends BasePlugin {
   // 组件名称
   name = '公式';
   isBaseComponent = true;
+  disabledRendererPlugin = true;
   icon = 'fa fa-calculator';
   pluginIcon = 'formula-plugin';
   description = '通过公式计算指定的变量值，并将其结果作用到指定的变量中';
