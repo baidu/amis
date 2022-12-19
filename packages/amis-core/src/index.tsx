@@ -230,7 +230,7 @@ export function render(
     props.useMobileUI = true;
   }
 
-  replaceText(schema, env.replaceText, env.replaceTextIgnoreKeys);
+  schema = replaceText(schema, options.replaceText, env.replaceTextIgnoreKeys);
 
   return (
     <EnvContext.Provider value={env}>

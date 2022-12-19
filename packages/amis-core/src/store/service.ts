@@ -429,7 +429,11 @@ export const ServiceStore = iRendererStore
         } else {
           if (json.data) {
             const env = getEnv(self);
-            replaceText(json.data, env.replaceText, env.replaceTextIgnoreKeys);
+            json.data = replaceText(
+              json.data,
+              env.replaceText,
+              env.replaceTextIgnoreKeys
+            );
 
             self.schema = Array.isArray(json.data)
               ? json.data
