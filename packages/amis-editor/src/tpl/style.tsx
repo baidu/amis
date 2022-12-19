@@ -579,60 +579,37 @@ setSchemaTpl(
         ].filter(comp => !~exclude.indexOf(comp.type.replace(/^style-/i, '')))
       },
       {
-        header: '边框',
-        key: 'border',
+        header: '样式',
+        key: 'style',
         body: [
           {
             mode: 'default',
             type: 'amis-theme-border',
-            label: false,
+            label: '边框',
             name: 'style',
             needColorCustom: true
-          }
-        ]
-      },
-      {
-        header: '圆角',
-        key: 'radius',
-        body: [
+          },
           {
             mode: 'default',
             type: 'amis-theme-radius',
-            label: false,
+            label: '圆角',
             name: 'style.radius'
-          }
-        ]
-      },
-      {
-        header: '间距',
-        key: 'box-model',
-        body: [
+          },
           {
             mode: 'default',
             type: 'amis-theme-padding-and-margin',
-            label: false,
+            label: '边距',
             name: 'style'
-          }
-        ]
-      },
-      {
-        header: '背景',
-        key: 'background',
-        body: [
+          },
           {
             mode: 'default',
             type: 'amis-theme-color-picker',
-            label: false,
+            label: '背景',
             name: 'style.background',
             needCustom: true,
+            needGradient: true,
             labelMode: 'input'
-          }
-        ]
-      },
-      {
-        header: '阴影',
-        key: 'box-shadow',
-        body: [
+          },
           {
             type: 'amis-theme-shadow-editor',
             label: false,
@@ -640,7 +617,29 @@ setSchemaTpl(
             hasSenior: true
           }
         ]
+      },
+      {
+        header: '圆角',
+        key: 'radius',
+        body: []
+      },
+      {
+        header: '间距',
+        key: 'box-model',
+        body: []
+      },
+      {
+        header: '背景',
+        key: 'background',
+        body: []
+      },
+      {
+        header: '阴影',
+        key: 'box-shadow',
+        body: []
       }
-    ];
+    ].filter(item =>
+      include.length ? ~include.indexOf(item.key) : !~exclude.indexOf(item.key)
+    );
   }
 );
