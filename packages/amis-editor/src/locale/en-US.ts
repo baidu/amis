@@ -3582,5 +3582,13 @@ extendLocale('en-US', {
   '1c5ea0ffb2b15713cb22c41a02576924':
     'When rolling adsorption is enabled, the adsorption mode will be automatically enabled when rolling to the upper and lower edges of the parent container.',
   '5f9be0002394f0b58952969d5952e24c':
-    'Used to set the position of rolling adsorption'
+    'Used to set the position of rolling adsorption',
+  '28968f372fe88c0ef855c7f79f42bbad': 'uniform distribution',
+  'd481ed97681365f18cf20ef914473a02': 'Align Start',
+  '02f6ac7a3bf6a8b4440a2a1c3e1daeea': 'Align End',
+  'cbac406a3f51abad691702015b0784ba': 'Full height',
+  '5a4e41af91746f8a3905aa9f66048955': 'Load Settings',
+  '6ade3082696deb00357f5c0359093cd4': 'Merge to upper loading',
+  'b6ac896eff6a6502e4ae7079b3e507a5': 'Not displaying loading',
+  '0e9ffe1f1cf3f7a620970ea75dba9f39': 'Use page global loading'
 });
