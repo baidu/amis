@@ -34,114 +34,112 @@ export class MappingPlugin extends BasePlugin {
   };
 
   panelTitle = '映射';
+  panelJustify = true;
   panelBodyCreator = (context: BaseEventContext) => {
     const isUnderField = /\/field\/\w+$/.test(context.path as string);
     return [
       getSchemaTpl('tabs', [
         {
-          title: '常规',
-          body: [
-            isUnderField
-              ? {
-                  type: 'tpl',
-                  inline: false,
-                  className: 'text-info text-sm',
-                  tpl: '<p>当前为字段内容节点配置，选择上层还有更多的配置。</p>'
-                }
-              : null,
-
+          title: '属性',
+          body: getSchemaTpl('collapseGroup', [
             {
-              label: '映射表',
-              type: 'combo',
-              scaffold: {
-                key: 'key-{index}',
-                value: 'value-{index}'
-              },
-              required: true,
-              name: 'map',
-              descriptionClassName: 'help-block text-xs m-b-none',
-              description:
-                '<p>当值命中左侧 Key 时，展示右侧内容，当没有命中时，默认实现 Key 为 <code>*</code>的内容</div>(请确保key值唯一)',
-              multiple: true,
-              pipeIn: (value: any) => {
-                if (!isObject(value)) {
-                  return [
-                    {
-                      key: '*',
-                      value: '通配值'
+              title: '基本',
+              body: [
+                isUnderField
+                  ? {
+                      type: 'tpl',
+                      inline: false,
+                      className: 'text-info text-sm',
+                      tpl: '<p>当前为字段内容节点配置，选择上层还有更多配置</p>'
                     }
-                  ];
-                }
+                  : null,
 
-                let arr: Array<any> = [];
-
-                Object.keys(value).forEach(key => {
-                  arr.push({
-                    key: key || '',
-                    value:
-                      typeof value[key] === 'string'
-                        ? value[key]
-                        : JSON.stringify(value[key])
-                  });
-                });
-                return arr;
-              },
-              pipeOut: (value: any) => {
-                if (!Array.isArray(value)) {
-                  return value;
-                }
-                let obj: any = {};
-
-                value.forEach((item: any, idx: number) => {
-                  let key: string = item.key || '';
-                  let value: any = item.value;
-                  if (key === 'key-{index}' && value === 'value-{index}') {
-                    key = key.replace('-{index}', `${idx}`);
-                    value = value.replace('-{index}', `${idx}`);
-                  }
-                  try {
-                    value = JSON.parse(value);
-                  } catch (e) {}
-
-                  obj[key] = value;
-                });
-
-                return obj;
-              },
-              items: [
                 {
-                  placeholder: 'Key',
-                  type: 'input-text',
-                  unique: true,
-                  name: 'key',
+                  label: '映射表',
+                  type: 'combo',
+                  mode: "col",
+                  scaffold: {
+                    key: 'key-{index}',
+                    value: 'value-{index}'
+                  },
                   required: true,
-                  columnClassName: 'w-xs'
-                },
+                  name: 'map',
+                  descriptionClassName: 'help-block text-xs m-b-none',
+                  description:
+                    '<p>当值命中左侧 Key 时，展示右侧内容，当没有命中时，默认实现 Key 为 <code>*</code>的内容</div>(请确保key值唯一)',
+                  multiple: true,
+                  pipeIn: (value: any) => {
+                    if (!isObject(value)) {
+                      return [
+                        {
+                          key: '*',
+                          value: '通配值'
+                        }
+                      ];
+                    }
 
-                {
-                  placeholder: '内容',
-                  type: 'input-text',
-                  name: 'value'
-                }
+                    let arr: Array<any> = [];
+
+                    Object.keys(value).forEach(key => {
+                      arr.push({
+                        key: key || '',
+                        value:
+                          typeof value[key] === 'string'
+                            ? value[key]
+                            : JSON.stringify(value[key])
+                      });
+                    });
+                    return arr;
+                  },
+                  pipeOut: (value: any) => {
+                    if (!Array.isArray(value)) {
+                      return value;
+                    }
+                    let obj: any = {};
+
+                    value.forEach((item: any, idx: number) => {
+                      let key: string = item.key || '';
+                      let value: any = item.value;
+                      if (key === 'key-{index}' && value === 'value-{index}') {
+                        key = key.replace('-{index}', `${idx}`);
+                        value = value.replace('-{index}', `${idx}`);
+                      }
+                      try {
+                        value = JSON.parse(value);
+                      } catch (e) {}
+
+                      obj[key] = value;
+                    });
+
+                    return obj;
+                  },
+                  items: [
+                    {
+                      placeholder: 'Key',
+                      type: 'input-text',
+                      unique: true,
+                      name: 'key',
+                      required: true,
+                      columnClassName: 'w-xs'
+                    },
+
+                    {
+                      placeholder: '内容',
+                      type: 'input-text',
+                      name: 'value'
+                    }
+                  ]
+                },
+                getSchemaTpl('placeholder', {
+                  pipeIn: defaultValue('-'),
+                  label: '占位符'
+                })
               ]
             },
-
-            {
-              name: 'placeholder',
-              type: 'input-text',
-              pipeIn: defaultValue('-'),
-              label: '占位符'
-            }
-          ]
+            getSchemaTpl('status')
+          ])
         },
-        {
-          title: '外观',
-          body: [getSchemaTpl('className')]
-        },
-        {
-          title: '显隐',
-          body: [getSchemaTpl('ref'), getSchemaTpl('visible')]
-        }
+        getSchemaTpl('onlyClassNameTab')
       ])
     ];
   };
