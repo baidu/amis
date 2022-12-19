@@ -1,3 +1,12 @@
+/**
+ * 组件名称：PopOver 弹出提示
+ * 单测内容：
+ * 1. 在 table 中使用
+ * 2. 触发方式 & 是否显示icon & 标题 & 位置 & 触发条件
+ * 3. offset 偏移量
+ * 4. 展示模式和尺寸
+ */
+
 import React from 'react';
 import {
   render,
