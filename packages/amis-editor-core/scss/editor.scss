@@ -1679,3 +1679,8 @@ div.ae-DragImage {
     }
   }
 }
+
+// 空表单组样式优化
+div[class*='Form-group']:empty {
+  margin-bottom: 0 !important;
+}
