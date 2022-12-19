@@ -87,7 +87,7 @@ test('Renderer:PopOver in table', async () => {
   fireEvent.click(popOverBtn);
   await wait(200);
   expect(getByText('弹出内容：隐藏内容一')).toBeInTheDocument();
-  expect(container).toMatchSnapshot();
+  // expect(container).toMatchSnapshot();
 });
 
 test('Renderer:PopOver with trigger & showIcon & title & position & popOverEnableOn', async () => {
@@ -175,7 +175,7 @@ test('Renderer:PopOver with trigger & showIcon & title & position & popOverEnabl
   //   formatStyleObject(popOverNode2!.getAttribute('style'))!.left
   // ).not.toEqual(0);
   expect(getByText('标题')).toBeInTheDocument();
-  expect(container).toMatchSnapshot();
+  // expect(container).toMatchSnapshot();
 });
 
 test('Renderer:PopOver with offset', async () => {
