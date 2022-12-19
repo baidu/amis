@@ -1,7 +1,6 @@
 /**
  * 对文本进行替换
  */
-
 import {cloneDeep} from 'lodash';
 import {isObject, JSONTraverse} from './helper';
 
@@ -10,17 +9,19 @@ export function replaceText(
   replaceText?: {[propName: string]: string},
   replaceTextIgnoreKeys?: String[]
 ) {
-  if (!replaceText) {
-    return schema;
-  }
-  const _schema = cloneDeep(schema);
   // 进行文本替换
   if (replaceText && isObject(replaceText)) {
+    let _schema = cloneDeep(schema);
     const replaceKeys = Object.keys(replaceText);
     replaceKeys.sort((a, b) => b.length - a.length); // 避免用户将短的放前面
     const IgnoreKeys = new Set(replaceTextIgnoreKeys || []);
     JSONTraverse(_schema, (value: any, key: string, object: any) => {
-      if (typeof value === 'string' && !IgnoreKeys.has(key)) {
+      const descriptor = Object.getOwnPropertyDescriptor(object, key);
+      if (
+        typeof value === 'string' &&
+        !IgnoreKeys.has(key) &&
+        descriptor?.writable
+      ) {
         for (const replaceKey of replaceKeys) {
           if (~value.indexOf(replaceKey)) {
             value = object[key] = value.replaceAll(
@@ -31,6 +32,8 @@ export function replaceText(
         }
       }
     });
+
+    return _schema;
   }
-  return _schema;
+  return schema;
 }
