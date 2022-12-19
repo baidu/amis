@@ -139,6 +139,28 @@ export class FlexPluginBase extends BasePlugin {
                   getSchemaTpl('layout:justifyContent', {
                     name: 'justify',
                     label: '水平对齐方式',
+                    options: [
+                      {
+                        label: '左对齐',
+                        value: 'flex-start'
+                      },
+                      {
+                        label: '居中对齐',
+                        value: 'center'
+                      },
+                      {
+                        label: '右对齐',
+                        value: 'flex-end'
+                      },
+                      {
+                        label: '两端对齐',
+                        value: 'space-between'
+                      },
+                      {
+                        label: '均匀分布',
+                        value: 'space-evenly'
+                      }
+                    ],
                     visibleOn:
                       'data.direction === "row" || data.direction === "row-reverse"'
                   }),
@@ -146,18 +168,84 @@ export class FlexPluginBase extends BasePlugin {
                   getSchemaTpl('layout:justifyContent', {
                     name: 'justify',
                     label: '垂直对齐方式',
+                    options: [
+                      {
+                        label: '起点对齐',
+                        value: 'flex-start'
+                      },
+                      {
+                        label: '居中对齐',
+                        value: 'center'
+                      },
+                      {
+                        label: '终点对齐',
+                        value: 'flex-end'
+                      },
+                      {
+                        label: '两端对齐',
+                        value: 'space-between'
+                      },
+                      {
+                        label: '均匀分布',
+                        value: 'space-evenly'
+                      }
+                    ],
                     visibleOn:
                       'data.direction === "column" || data.direction === "column-reverse"'
                   }),
                   getSchemaTpl('layout:alignItems', {
                     name: 'alignItems',
                     label: '水平对齐方式',
+                    options: [
+                      {
+                        label: '左对齐',
+                        value: 'flex-start'
+                      },
+                      {
+                        label: '居中对齐',
+                        value: 'center'
+                      },
+                      {
+                        label: '右对齐',
+                        value: 'flex-end'
+                      },
+                      {
+                        label: '基线对齐',
+                        value: 'baseline'
+                      },
+                      {
+                        label: '自动拉伸',
+                        value: 'stretch'
+                      }
+                    ],
                     visibleOn:
                       'data.direction === "column" || data.direction === "column-reverse"'
                   }),
                   getSchemaTpl('layout:alignItems', {
                     name: 'alignItems',
                     label: '垂直对齐方式',
+                    options: [
+                      {
+                        label: '起点对齐',
+                        value: 'flex-start'
+                      },
+                      {
+                        label: '居中对齐',
+                        value: 'center'
+                      },
+                      {
+                        label: '终点对齐',
+                        value: 'flex-end'
+                      },
+                      {
+                        label: '基线对齐',
+                        value: 'baseline'
+                      },
+                      {
+                        label: '高度撑满',
+                        value: 'stretch'
+                      }
+                    ],
                     visibleOn:
                       'data.direction === "row" || data.direction === "row-reverse"'
                   }),
@@ -216,7 +304,7 @@ export class FlexPluginBase extends BasePlugin {
           title: '外观',
           className: 'p-none',
           body: getSchemaTpl('collapseGroup', [
-            ...getSchemaTpl('style:common', ['display']),
+            ...getSchemaTpl('style:common', []),
             {
               title: 'CSS 类名',
               body: [getSchemaTpl('className', {label: '外层CSS类名'})]

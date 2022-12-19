@@ -302,10 +302,43 @@ setSchemaTpl(
     label?: string; // 表单项 label
     name?: string; // 表单项 name
     value?: string;
+    options?: any;
     visibleOn?: string; // 用于控制显示的表达式
     pipeIn?: (value: any, data: any) => void;
     pipeOut?: (value: any, data: any) => void;
   }) => {
+
+    const defaultOptions = [
+      {
+        label: '起始端对齐',
+        value: 'flex-start'
+      },
+      {
+        label: '居中对齐',
+        value: 'center'
+      },
+      {
+        label: '末尾端对齐',
+        value: 'flex-end'
+      },
+      {
+        label: '均匀分布（首尾留空）',
+        value: 'space-around'
+      },
+      {
+        label: '均匀分布（首尾对齐）',
+        value: 'space-between'
+      },
+      {
+        label: '均匀分布（元素等间距）',
+        value: 'space-evenly'
+      },
+      {
+        label: '均匀分布（自动拉伸）',
+        value: 'stretch'
+      }
+    ];
+
     const configSchema = {
       type: 'select',
       label:
@@ -316,36 +349,7 @@ setSchemaTpl(
       visibleOn: config?.visibleOn,
       pipeIn: config?.pipeIn,
       pipeOut: config?.pipeOut,
-      options: [
-        {
-          label: '起始端对齐',
-          value: 'flex-start'
-        },
-        {
-          label: '居中对齐',
-          value: 'center'
-        },
-        {
-          label: '末尾端对齐',
-          value: 'flex-end'
-        },
-        {
-          label: '均匀分布（首尾留空）',
-          value: 'space-around'
-        },
-        {
-          label: '均匀分布（首尾对齐）',
-          value: 'space-between'
-        },
-        {
-          label: '均匀分布（元素等间距）',
-          value: 'space-evenly'
-        },
-        {
-          label: '均匀分布（自动拉伸）',
-          value: 'stretch'
-        }
-      ]
+      options: config?.options || defaultOptions
     };
 
     if (config?.mode === 'vertical') {
@@ -375,10 +379,34 @@ setSchemaTpl(
     label?: string;
     name?: string;
     value?: string;
+    options?: any;
     visibleOn?: string;
     pipeIn?: (value: any, data: any) => void;
     pipeOut?: (value: any, data: any) => void;
   }) => {
+    const defaultOptions = [
+      {
+        label: '起始端对齐',
+        value: 'flex-start'
+      },
+      {
+        label: '居中对齐',
+        value: 'center'
+      },
+      {
+        label: '末尾端对齐',
+        value: 'flex-end'
+      },
+      {
+        label: '基线对齐',
+        value: 'baseline'
+      },
+      {
+        label: '自动拉伸',
+        value: 'stretch'
+      }
+    ];
+
     const configSchema = {
       type: 'select',
       label:
@@ -389,28 +417,7 @@ setSchemaTpl(
       visibleOn: config?.visibleOn,
       pipeIn: config?.pipeIn,
       pipeOut: config?.pipeOut,
-      options: [
-        {
-          label: '起始端对齐',
-          value: 'flex-start'
-        },
-        {
-          label: '居中对齐',
-          value: 'center'
-        },
-        {
-          label: '末尾端对齐',
-          value: 'flex-end'
-        },
-        {
-          label: '基线对齐',
-          value: 'baseline'
-        },
-        {
-          label: '自动拉伸',
-          value: 'stretch'
-        }
-      ]
+      options: config?.options || defaultOptions
     };
 
     if (config?.mode === 'vertical') {
