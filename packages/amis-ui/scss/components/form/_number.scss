@@ -334,7 +334,9 @@
     var(--inputNumber-enhance-default-top-right-border-radius)
     var(--inputNumber-enhance-default-bottom-right-border-radius)
     var(--inputNumber-enhance-default-bottom-left-border-radius);
-  background: var(--inputNumber-enhance-default-bg-color);
+  .#{$ns}Number--enhance-input {
+    background: var(--inputNumber-enhance-default-bg-color);
+  }
 
   &:hover {
     border-width: var(--inputNumber-enhance-hover-top-border-width)
@@ -353,7 +355,9 @@
       var(--inputNumber-enhance-hover-top-right-border-radius)
       var(--inputNumber-enhance-hover-bottom-right-border-radius)
       var(--inputNumber-enhance-hover-bottom-left-border-radius);
-    background: var(--inputNumber-enhance-hover-bg-color);
+    .#{$ns}Number--enhance-input {
+      background: var(--inputNumber-enhance-hover-bg-color);
+    }
   }
 
   &:focus-within {
@@ -373,7 +377,9 @@
       var(--inputNumber-enhance-active-top-right-border-radius)
       var(--inputNumber-enhance-active-bottom-right-border-radius)
       var(--inputNumber-enhance-active-bottom-left-border-radius);
-    background: var(--inputNumber-enhance-active-bg-color);
+    .#{$ns}Number--enhance-input {
+      background: var(--inputNumber-enhance-active-bg-color);
+    }
   }
 
   &-disabled {
@@ -393,7 +399,9 @@
       var(--inputNumber-enhance-disabled-top-right-border-radius)
       var(--inputNumber-enhance-disabled-bottom-right-border-radius)
       var(--inputNumber-enhance-disabled-bottom-left-border-radius);
-    background: var(--inputNumber-enhance-disabled-bg-color);
+    .#{$ns}Number--enhance-input {
+      background: var(--inputNumber-enhance-disabled-bg-color);
+    }
   }
 
   .#{$ns}Number-input {
