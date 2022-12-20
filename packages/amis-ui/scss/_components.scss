@@ -1141,7 +1141,7 @@
   --inputNumber-size-default-height: var(--sizes-base-16);
   --inputNumber-size-md-height: var(--sizes-base-16);
   --inputNumber-size-lg-height: var(--sizes-base-16);
-  --Number-handler-bg: var(--inputNumber-base-default-step-bg);
+  --Number-handler-bg: var(--inputNumber-base-default-bg-color);
   --Number-handler-fontSize: var(--inputNumber-base-default-icon-fontSize);
   --Number-handler-color: var(--inputNumber-base-default-icon-color);
   --Number-handler-onHover-bg: var(--inputNumber-base-hover-step-bg);
@@ -1295,7 +1295,7 @@
 
   // 勾选框
   --checkbox-checkbox-default-height: var(--sizes-size-9);
-  --checkbox-checkbox-default-bg-color: var(--colors-brand-5);
+  --checkbox-checkbox-default-bg-color: transparent;
   --checkbox-checkbox-default-color: var(--colors-neutral-text-2);
   --checkbox-checkbox-default-fontSize: var(--sizes-size-8);
   --checkbox-checkbox-default-top-border-color: var(--colors-neutral-line-8);
@@ -1315,7 +1315,7 @@
   --checkbox-checkbox-default-bottom-right-border-radius: var(--sizes-size-2);
   --checkbox-checkbox-default-bottom-left-border-radius: var(--sizes-size-2);
   --checkbox-checkbox-hover-height: var(--sizes-size-9);
-  --checkbox-checkbox-hover-bg-color: var(--colors-brand-6);
+  --checkbox-checkbox-hover-bg-color: transparent;
   --checkbox-checkbox-hover-color: var(--colors-neutral-text-2);
   --checkbox-checkbox-hover-fontSize: var(--sizes-size-8);
   --checkbox-checkbox-hover-top-border-color: var(--colors-brand-5);
@@ -1335,7 +1335,7 @@
   --checkbox-checkbox-hover-bottom-right-border-radius: var(--sizes-size-2);
   --checkbox-checkbox-hover-bottom-left-border-radius: var(--sizes-size-2);
   --checkbox-checkbox-active-height: var(--sizes-size-9);
-  --checkbox-checkbox-active-bg-color: var(--colors-brand-6);
+  --checkbox-checkbox-active-bg-color: transparent;
   --checkbox-checkbox-active-color: var(--colors-neutral-text-2);
   --checkbox-checkbox-active-fontSize: var(--sizes-size-8);
   --checkbox-checkbox-active-top-border-color: var(--colors-brand-5);
@@ -1376,9 +1376,89 @@
   --checkbox-checkbox-disabled-top-left-border-radius: var(--sizes-size-2);
   --checkbox-checkbox-disabled-bottom-right-border-radius: var(--sizes-size-2);
   --checkbox-checkbox-disabled-bottom-left-border-radius: var(--sizes-size-2);
-
-  --Checkbox-onHover-color: var(--checkbox-checkbox-default-bg-color);
-  --button-primary-hover-bg-color: var(--colors-brand-6);
+  --checkbox-checked-default-height: var(--sizes-size-9);
+  --checkbox-checked-default-bg-color: var(--colors-brand-5);
+  --checkbox-checked-default-color: var(--colors-neutral-text-2);
+  --checkbox-checked-default-fontSize: var(--sizes-size-8);
+  --checkbox-checked-default-top-border-color: var(--colors-neutral-line-8);
+  --checkbox-checked-default-top-border-width: var(--borders-width-2);
+  --checkbox-checked-default-top-border-style: var(--borders-style-2);
+  --checkbox-checked-default-right-border-color: var(--colors-neutral-line-8);
+  --checkbox-checked-default-right-border-width: var(--borders-width-2);
+  --checkbox-checked-default-right-border-style: var(--borders-style-2);
+  --checkbox-checked-default-bottom-border-color: var(--colors-neutral-line-8);
+  --checkbox-checked-default-bottom-border-width: var(--borders-width-2);
+  --checkbox-checked-default-bottom-border-style: var(--borders-style-2);
+  --checkbox-checked-default-left-border-color: var(--colors-neutral-line-8);
+  --checkbox-checked-default-left-border-width: var(--borders-width-2);
+  --checkbox-checked-default-left-border-style: var(--borders-style-2);
+  --checkbox-checked-default-top-right-border-radius: var(--sizes-size-2);
+  --checkbox-checked-default-top-left-border-radius: var(--sizes-size-2);
+  --checkbox-checked-default-bottom-right-border-radius: var(--sizes-size-2);
+  --checkbox-checked-default-bottom-left-border-radius: var(--sizes-size-2);
+  --checkbox-checked-hover-height: var(--sizes-size-9);
+  --checkbox-checked-hover-bg-color: var(--colors-brand-6);
+  --checkbox-checked-hover-color: var(--colors-neutral-text-2);
+  --checkbox-checked-hover-fontSize: var(--sizes-size-8);
+  --checkbox-checked-hover-top-border-color: var(--colors-brand-5);
+  --checkbox-checked-hover-top-border-width: var(--borders-width-2);
+  --checkbox-checked-hover-top-border-style: var(--borders-style-2);
+  --checkbox-checked-hover-right-border-color: var(--colors-brand-5);
+  --checkbox-checked-hover-right-border-width: var(--borders-width-2);
+  --checkbox-checked-hover-right-border-style: var(--borders-style-2);
+  --checkbox-checked-hover-bottom-border-color: var(--colors-brand-5);
+  --checkbox-checked-hover-bottom-border-width: var(--borders-width-2);
+  --checkbox-checked-hover-bottom-border-style: var(--borders-style-2);
+  --checkbox-checked-hover-left-border-color: var(--colors-brand-5);
+  --checkbox-checked-hover-left-border-width: var(--borders-width-2);
+  --checkbox-checked-hover-left-border-style: var(--borders-style-2);
+  --checkbox-checked-hover-top-right-border-radius: var(--sizes-size-2);
+  --checkbox-checked-hover-top-left-border-radius: var(--sizes-size-2);
+  --checkbox-checked-hover-bottom-right-border-radius: var(--sizes-size-2);
+  --checkbox-checked-hover-bottom-left-border-radius: var(--sizes-size-2);
+  --checkbox-checked-active-height: var(--sizes-size-9);
+  --checkbox-checked-active-bg-color: var(--colors-brand-4);
+  --checkbox-checked-active-color: var(--colors-neutral-text-2);
+  --checkbox-checked-active-fontSize: var(--sizes-size-8);
+  --checkbox-checked-active-top-border-color: var(--colors-brand-5);
+  --checkbox-checked-active-top-border-width: var(--borders-width-2);
+  --checkbox-checked-active-top-border-style: var(--borders-style-2);
+  --checkbox-checked-active-right-border-color: var(--colors-brand-5);
+  --checkbox-checked-active-right-border-width: var(--borders-width-2);
+  --checkbox-checked-active-right-border-style: var(--borders-style-2);
+  --checkbox-checked-active-bottom-border-color: var(--colors-brand-5);
+  --checkbox-checked-active-bottom-border-width: var(--borders-width-2);
+  --checkbox-checked-active-bottom-border-style: var(--borders-style-2);
+  --checkbox-checked-active-left-border-color: var(--colors-brand-5);
+  --checkbox-checked-active-left-border-width: var(--borders-width-2);
+  --checkbox-checked-active-left-border-style: var(--borders-style-2);
+  --checkbox-checked-active-top-right-border-radius: var(--sizes-size-2);
+  --checkbox-checked-active-top-left-border-radius: var(--sizes-size-2);
+  --checkbox-checked-active-bottom-right-border-radius: var(--sizes-size-2);
+  --checkbox-checked-active-bottom-left-border-radius: var(--sizes-size-2);
+  --checkbox-checked-disabled-height: var(--sizes-size-9);
+  --checkbox-checked-disabled-bg-color: transparent;
+  --checkbox-checked-disabled-color: var(--colors-neutral-text-2);
+  --checkbox-checked-disabled-fontSize: var(--sizes-size-8);
+  --checkbox-checked-disabled-top-border-color: var(--colors-neutral-line-8);
+  --checkbox-checked-disabled-top-border-width: var(--borders-width-2);
+  --checkbox-checked-disabled-top-border-style: var(--borders-style-2);
+  --checkbox-checked-disabled-right-border-color: var(--colors-neutral-line-8);
+  --checkbox-checked-disabled-right-border-width: var(--borders-width-2);
+  --checkbox-checked-disabled-right-border-style: var(--borders-style-2);
+  --checkbox-checked-disabled-bottom-border-color: var(--colors-neutral-line-8);
+  --checkbox-checked-disabled-bottom-border-width: var(--borders-width-2);
+  --checkbox-checked-disabled-bottom-border-style: var(--borders-style-2);
+  --checkbox-checked-disabled-left-border-color: var(--colors-neutral-line-8);
+  --checkbox-checked-disabled-left-border-width: var(--borders-width-2);
+  --checkbox-checked-disabled-left-border-style: var(--borders-style-2);
+  --checkbox-checked-disabled-top-right-border-radius: var(--sizes-size-2);
+  --checkbox-checked-disabled-top-left-border-radius: var(--sizes-size-2);
+  --checkbox-checked-disabled-bottom-right-border-radius: var(--sizes-size-2);
+  --checkbox-checked-disabled-bottom-left-border-radius: var(--sizes-size-2);
+  --Checkbox-onHover-color: var(--checkbox-checked-default-bg-color);
+  --button-primary-hover-bg-color: var(--checkbox-checked-hover-bg-color);
+  --Checkbox-checked-onHover-bgColor: var(--checkbox-checked-active-bg-color);
   --Checkbox-onDisabled-bg: var(--colors-neutral-fill-10);
   --Checkbox-size: var(--checkbox-checkbox-default-height);
 
@@ -1403,7 +1483,7 @@
   --listSelect-base-default-paddingBottom: var(--sizes-size-4);
   --listSelect-base-default-paddingLeft: var(--sizes-size-6);
   --listSelect-base-default-paddingRight: var(--sizes-size-6);
-  --listSelect-base-default-color: var(--colors-brand-4);
+  --listSelect-base-default-color: var(--colors-neutral-text-2);
   --listSelect-base-default-bg-color: transparent;
   --listSelect-base-hover-top-border-color: var(--colors-brand-5);
   --listSelect-base-hover-top-border-width: var(--borders-width-2);
@@ -1425,6 +1505,7 @@
   --listSelect-base-hover-paddingBottom: var(--sizes-size-3);
   --listSelect-base-hover-paddingLeft: var(--sizes-size-7);
   --listSelect-base-hover-paddingRight: var(--sizes-size-7);
+  --listSelect-base-hover-color: var(--colors-neutral-text-2);
   --listSelect-base-hover-bg-color: transparent;
   --listSelect-base-active-top-border-color: var(--colors-brand-5);
   --listSelect-base-active-top-border-width: var(--borders-width-2);
@@ -1447,6 +1528,7 @@
   --listSelect-base-active-paddingLeft: var(--sizes-size-7);
   --listSelect-base-active-paddingRight: var(--sizes-size-7);
   --listSelect-base-active-shadow: var(--Form-input-boxShadow);
+  --listSelect-base-active-color: var(--colors-neutral-text-2);
   --listSelect-base-active-bg-color: transparent;
   --listSelect-base-disabled-top-border-color: var(--colors-neutral-line-8);
   --listSelect-base-disabled-top-border-width: var(--borders-width-2);
@@ -1470,7 +1552,9 @@
   --listSelect-base-disabled-paddingBottom: var(--sizes-size-3);
   --listSelect-base-disabled-paddingLeft: var(--sizes-size-7);
   --listSelect-base-disabled-paddingRight: var(--sizes-size-7);
+  --listSelect-base-disabled-color: var(--colors-neutral-text-6);
   --listSelect-base-disabled-bg-color: var(--colors-neutral-fill-10);
+  --listSelect-base-image-width: var(--sizes-size-1);
   --ListControl-item-onHover-color: var(
     --listSelect-base-hover-top-border-color
   );
@@ -1485,7 +1569,9 @@
     --listSelect-base-active-top-border-color
   );
   --ListControl-item-onDisabled-color: var(--colors-neutral-text-6);
-  --ListControl-item-onActive-before-bg: var(--listSelect-base-default-color);
+  --ListControl-item-onActive-before-bg: var(--colors-brand-4);
+  --ListControl-item-color: var(--listSelect-base-default-color);
+  --ListControl-item-onDisabled-color: var(--listSelect-base-disabled-color);
   --ListControl-item-paddingX: var(--listSelect-base-default-paddingLeft);
   --ListControl-item-paddingY: var(--listSelect-base-default-paddingTop);
 

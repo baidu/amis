@@ -76,22 +76,41 @@
       margin-left: calc(var(--Checkbox-size) * -1);
 
       &:checked + i {
-        border-width: var(--checkbox-checkbox-hover-top-border-width)
-          var(--checkbox-checkbox-hover-right-border-width)
-          var(--checkbox-checkbox-hover-bottom-border-width)
-          var(--checkbox-checkbox-hover-left-border-width);
-        border-style: var(--checkbox-checkbox-hover-top-border-style)
-          var(--checkbox-checkbox-hover-right-border-style)
-          var(--checkbox-checkbox-hover-bottom-border-style)
-          var(--checkbox-checkbox-hover-left-border-style);
-        border-color: var(--checkbox-checkbox-hover-top-border-color)
-          var(--checkbox-checkbox-hover-right-border-color)
-          var(--checkbox-checkbox-hover-bottom-border-color)
-          var(--checkbox-checkbox-hover-left-border-color);
-        border-radius: var(--checkbox-checkbox-hover-top-left-border-radius)
-          var(--checkbox-checkbox-hover-top-right-border-radius)
-          var(--checkbox-checkbox-hover-bottom-right-border-radius)
-          var(--checkbox-checkbox-hover-bottom-left-border-radius);
+        border-width: var(--checkbox-checked-default-top-border-width)
+          var(--checkbox-checked-default-right-border-width)
+          var(--checkbox-checked-default-bottom-border-width)
+          var(--checkbox-checked-default-left-border-width);
+        border-style: var(--checkbox-checked-default-top-border-style)
+          var(--checkbox-checked-default-right-border-style)
+          var(--checkbox-checked-default-bottom-border-style)
+          var(--checkbox-checked-default-left-border-style);
+        border-color: var(--checkbox-checked-default-top-border-color)
+          var(--checkbox-checked-default-right-border-color)
+          var(--checkbox-checked-default-bottom-border-color)
+          var(--checkbox-checked-default-left-border-color);
+        border-radius: var(--checkbox-checked-default-top-left-border-radius)
+          var(--checkbox-checked-default-top-right-border-radius)
+          var(--checkbox-checked-default-bottom-right-border-radius)
+          var(--checkbox-checked-default-bottom-left-border-radius);
+
+        &:hover {
+          border-width: var(--checkbox-checkbox-hover-top-border-width)
+            var(--checkbox-checkbox-hover-right-border-width)
+            var(--checkbox-checkbox-hover-bottom-border-width)
+            var(--checkbox-checkbox-hover-left-border-width);
+          border-style: var(--checkbox-checkbox-hover-top-border-style)
+            var(--checkbox-checkbox-hover-right-border-style)
+            var(--checkbox-checkbox-hover-bottom-border-style)
+            var(--checkbox-checkbox-hover-left-border-style);
+          border-color: var(--checkbox-checkbox-hover-top-border-color)
+            var(--checkbox-checkbox-hover-right-border-color)
+            var(--checkbox-checkbox-hover-bottom-border-color)
+            var(--checkbox-checkbox-hover-left-border-color);
+          border-radius: var(--checkbox-checkbox-hover-top-left-border-radius)
+            var(--checkbox-checkbox-hover-top-right-border-radius)
+            var(--checkbox-checkbox-hover-bottom-right-border-radius)
+            var(--checkbox-checkbox-hover-bottom-left-border-radius);
+        }
 
         &:before {
           width: var(--Checkbox-inner-size);
@@ -139,6 +158,7 @@
         var(--checkbox-checkbox-default-top-right-border-radius)
         var(--checkbox-checkbox-default-bottom-right-border-radius)
         var(--checkbox-checkbox-default-bottom-left-border-radius);
+      background: var(--checkbox-checkbox-default-bg-color);
 
       &:hover {
         border-width: var(--checkbox-checkbox-hover-top-border-width)
@@ -157,6 +177,7 @@
           var(--checkbox-checkbox-hover-top-right-border-radius)
           var(--checkbox-checkbox-hover-bottom-right-border-radius)
           var(--checkbox-checkbox-hover-bottom-left-border-radius);
+        background: var(--checkbox-checkbox-hover-bg-color);
       }
       &:active {
         border-width: var(--checkbox-checkbox-active-top-border-width)
@@ -175,6 +196,7 @@
           var(--checkbox-checkbox-active-top-right-border-radius)
           var(--checkbox-checkbox-active-bottom-right-border-radius)
           var(--checkbox-checkbox-active-bottom-left-border-radius);
+        background: var(--checkbox-checkbox-active-bg-color);
       }
     }
 
