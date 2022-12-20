@@ -64,7 +64,6 @@ export class TransferDropDown extends Transfer<TransferDropDownProps> {
         popOverContainer={popOverContainer}
         overlayWidth={overlayWidth}
         align={overlayAlign}
-        overlayWidthChar="width"
         popOverClassName={cx('TransferDropDown-popover')}
         popOverRender={({onClose}) => (
           <div

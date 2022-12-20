@@ -17,7 +17,7 @@ export interface PopOverContainerProps {
   useMobileUI?: boolean;
   placement?: string;
   overlayWidth?: number | string;
-  overlayWidthChar?: 'minWidth' | 'width';
+  overlayWidthField?: 'minWidth' | 'width';
   // 相当于 placement 的简化版
   align?: OverlayAlignType;
   /** Popover层隐藏前触发的事件 */
@@ -105,10 +105,10 @@ export class PopOverContainer extends React.Component<
 
   // 可以自定义下拉框宽度
   getOverlayStyle() {
-    const {overlayWidth, overlayWidthChar} = this.props;
+    const {overlayWidth, overlayWidthField} = this.props;
 
     return {
-      [overlayWidthChar || 'minWidth']:
+      [overlayWidthField || 'minWidth']:
         PopOverContainer.calcOverlayWidth(overlayWidth) ||
         (this.target ? Math.max(this.target.offsetWidth, 100) : 'auto')
     };
