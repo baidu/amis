@@ -382,20 +382,7 @@ export class ComboControlPlugin extends BasePlugin {
                 getSchemaTpl('remark'),
 
                 getSchemaTpl('placeholder'),
-                getSchemaTpl('description'),
-
-                {
-                  type: 'container',
-                  className: 'ae-ExtendMore mb-3',
-                  visibleOn: 'data.tabsMode',
-                  body: [
-                    {
-                      type: 'ae-formulaControl',
-                      name: 'tabsLabelTpl',
-                      label: '标题模版'
-                    }
-                  ]
-                },
+                getSchemaTpl('description')
               ]
             },
             getSchemaTpl('status', {
