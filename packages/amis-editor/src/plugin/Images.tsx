@@ -44,8 +44,9 @@ export class ImagesPlugin extends BasePlugin {
         {
           title: '常规',
           body: (isUnderField
-            ? []
+            ? [getSchemaTpl('layout:originPosition', {value: 'left-top'})]
             : [
+                getSchemaTpl('layout:originPosition', {value: 'left-top'}),
                 {
                   type: 'formula',
                   name: '__mode',

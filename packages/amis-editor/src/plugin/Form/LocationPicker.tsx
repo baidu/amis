@@ -37,6 +37,7 @@ export class LocationControlPlugin extends BasePlugin {
 
   panelBodyCreator = (context: BaseEventContext) => {
     return [
+      getSchemaTpl('layout:originPosition', {value: 'left-top'}),
       getSchemaTpl('clearable'),
       {
         type: 'input-text',

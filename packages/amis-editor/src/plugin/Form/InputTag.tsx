@@ -136,6 +136,7 @@ export class TagControlPlugin extends BasePlugin {
         common: {
           replace: true,
           body: [
+            getSchemaTpl('layout:originPosition', {value: 'left-top'}),
             getSchemaTpl('formItemName', {
               required: true
             }),

@@ -202,6 +202,7 @@ export class DateRangeControlPlugin extends BasePlugin {
             {
               title: '基本',
               body: [
+                getSchemaTpl('layout:originPosition', {value: 'left-top'}),
                 getSchemaTpl('formItemName', {
                   required: true
                 }),

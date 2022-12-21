@@ -33,6 +33,7 @@ export class VideoPlugin extends BasePlugin {
       {
         title: '常规',
         body: [
+          getSchemaTpl('layout:originPosition', {value: 'left-top'}),
           {
             name: 'src',
             type: 'input-text',

@@ -524,6 +524,7 @@ export class CRUDPlugin extends BasePlugin {
       {
         title: '常规',
         body: [
+          getSchemaTpl('layout:originPosition', {value: 'left-top'}),
           getSchemaTpl('switch', {
             name: 'filter',
             label: '启用查询条件',

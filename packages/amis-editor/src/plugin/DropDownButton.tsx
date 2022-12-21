@@ -59,6 +59,7 @@ export class DropDownButtonPlugin extends BasePlugin {
           {
             title: '基本',
             body: [
+              getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               {
                 children: (
                   <div className="mb-3">

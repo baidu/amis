@@ -297,6 +297,7 @@ export class WizardPlugin extends BasePlugin {
         {
           title: '常规',
           body: [
+            getSchemaTpl('layout:originPosition', {value: 'left-top'}),
             {
               name: 'steps',
               label: '步骤设置',

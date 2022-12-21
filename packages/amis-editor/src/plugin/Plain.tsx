@@ -36,6 +36,7 @@ export class PlainPlugin extends BasePlugin {
       {
         title: '常规',
         body: [
+          getSchemaTpl('layout:originPosition', {value: 'left-top'}),
           {
             label: '内容',
             type: 'textarea',

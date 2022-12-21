@@ -163,6 +163,7 @@ export class ComboControlPlugin extends BasePlugin {
   panelTitle = '组合输入';
   panelBodyCreator = (context: BaseEventContext) => {
     return [
+      getSchemaTpl('layout:originPosition', {value: 'left-top'}),
       {
         name: 'conditions',
         type: 'button-group-select',

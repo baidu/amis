@@ -389,6 +389,7 @@ export class GridPlugin extends BasePlugin {
             className: 'p-none',
             body: [
               getSchemaTpl('collapseGroup', [
+                getSchemaTpl('layout:originPosition', {value: 'left-top'}),
                 {
                   title: '插入',
                   body: [

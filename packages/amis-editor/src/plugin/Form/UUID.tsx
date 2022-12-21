@@ -1,5 +1,5 @@
 import React from 'react';
-import {registerEditorPlugin} from 'amis-editor-core';
+import {registerEditorPlugin, getSchemaTpl} from 'amis-editor-core';
 import {
   BasePlugin,
   BasicSubRenderInfo,
@@ -35,7 +35,10 @@ export class UUIDControlPlugin extends BasePlugin {
   };
 
   panelTitle = 'UUID';
-  panelBody = [{type: 'static', value: '自动按 UUID v4 格式生成，无需配置'}];
+  panelBody = [
+    getSchemaTpl('layout:originPosition', {value: 'left-top'}),
+    {type: 'static', value: '自动按 UUID v4 格式生成，无需配置'}
+  ];
 
   renderRenderer(props: any) {
     return this.renderPlaceholder('UUID（展现将隐藏）', props.key, props.style);

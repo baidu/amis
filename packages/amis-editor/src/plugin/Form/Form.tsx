@@ -429,6 +429,7 @@ export class FormPlugin extends BasePlugin {
         {
           title: '常规',
           body: [
+            getSchemaTpl('layout:originPosition', {value: 'left-top'}),
             {
               name: 'title',
               type: 'input-text',

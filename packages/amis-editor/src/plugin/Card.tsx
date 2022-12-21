@@ -77,6 +77,7 @@ export class CardPlugin extends BasePlugin {
         {
           title: '常规',
           body: flatten([
+            getSchemaTpl('layout:originPosition', {value: 'left-top'}),
             {
               children: (
                 <Button

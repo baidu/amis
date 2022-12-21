@@ -285,7 +285,10 @@ export class ConditionBilderPlugin extends BasePlugin {
 
   panelTitle = '条件组件';
   panelBodyCreator = (context: BaseEventContext) => {
-    return [getSchemaTpl('source')];
+    return [
+      getSchemaTpl('layout:originPosition', {value: 'left-top'}),
+      getSchemaTpl('source')
+    ];
   };
 
   buildSubRenderers(

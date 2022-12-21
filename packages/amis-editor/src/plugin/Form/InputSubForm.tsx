@@ -54,6 +54,7 @@ export class SubFormControlPlugin extends BasePlugin {
   panelTitle = '子表单项';
   panelBodyCreator = (context: BaseEventContext) => {
     return [
+      getSchemaTpl('layout:originPosition', {value: 'left-top'}),
       {
         children: ({value, onChange}: any) => {
           return (

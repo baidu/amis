@@ -42,6 +42,7 @@ export class CollapsePlugin extends BasePlugin {
           {
             title: '基本',
             body: [
+              getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               {
                 name: 'header',
                 label: '标题',

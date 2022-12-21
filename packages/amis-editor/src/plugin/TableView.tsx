@@ -329,6 +329,7 @@ export class TableViewPlugin extends BasePlugin {
             className: 'p-none',
             body: [
               getSchemaTpl('collapseGroup', [
+                getSchemaTpl('layout:originPosition', {value: 'left-top'}),
                 {
                   title: '显示',
                   body: [

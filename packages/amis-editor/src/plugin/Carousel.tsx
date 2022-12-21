@@ -43,6 +43,7 @@ export class CarouselPlugin extends BasePlugin {
         {
           title: '常规',
           body: [
+            getSchemaTpl('layout:originPosition', {value: 'left-top'}),
             isUnderField
               ? {
                   type: 'tpl',

@@ -402,6 +402,7 @@ export class Table2Plugin extends BasePlugin {
             {
               title: '基本',
               body: [
+                getSchemaTpl('layout:originPosition', {value: 'left-top'}),
                 {
                   name: 'source',
                   type: 'input-text',

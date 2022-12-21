@@ -53,6 +53,7 @@ export class CustomPlugin extends BasePlugin {
 
   panelTitle = '自定义代码';
   panelBody = [
+    getSchemaTpl('layout:originPosition', {value: 'left-top'}),
     getSchemaTpl('fieldSet', {
       title: 'HTML 内容',
       body: [

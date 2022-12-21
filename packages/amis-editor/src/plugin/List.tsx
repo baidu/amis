@@ -62,6 +62,7 @@ export class ListPlugin extends BasePlugin {
       {
         title: '常规',
         body: [
+          getSchemaTpl('layout:originPosition', {value: 'left-top'}),
           {
             children: (
               <Button

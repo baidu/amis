@@ -170,7 +170,7 @@ export class FlexPluginBase extends BasePlugin {
                     label: '垂直对齐方式',
                     options: [
                       {
-                        label: '起点对齐',
+                        label: '顶部对齐',
                         value: 'flex-start'
                       },
                       {
@@ -178,7 +178,7 @@ export class FlexPluginBase extends BasePlugin {
                         value: 'center'
                       },
                       {
-                        label: '终点对齐',
+                        label: '底部对齐',
                         value: 'flex-end'
                       },
                       {
@@ -226,7 +226,7 @@ export class FlexPluginBase extends BasePlugin {
                     label: '垂直对齐方式',
                     options: [
                       {
-                        label: '起点对齐',
+                        label: '顶部对齐',
                         value: 'flex-start'
                       },
                       {
@@ -234,7 +234,7 @@ export class FlexPluginBase extends BasePlugin {
                         value: 'center'
                       },
                       {
-                        label: '终点对齐',
+                        label: '底部对齐',
                         value: 'flex-end'
                       },
                       {

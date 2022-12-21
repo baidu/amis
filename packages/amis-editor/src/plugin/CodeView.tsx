@@ -33,6 +33,7 @@ export class CodeViewPlugin extends BasePlugin {
       {
         title: '常规',
         body: [
+          getSchemaTpl('layout:originPosition', {value: 'left-top'}),
           {
             type: 'input-text',
             label: '名称',

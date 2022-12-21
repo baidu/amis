@@ -49,6 +49,7 @@ export class InputGroupControlPlugin extends BasePlugin {
   panelTitle = 'Input 组合';
   panelBody = [
     [
+      getSchemaTpl('layout:originPosition', {value: 'left-top'}),
       {
         name: 'body',
         type: 'combo',

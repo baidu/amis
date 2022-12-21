@@ -48,6 +48,7 @@ export class TasksPlugin extends BasePlugin {
       {
         title: '常规',
         body: [
+          getSchemaTpl('layout:originPosition', {value: 'left-top'}),
           {
             name: 'items',
             label: '初始任务信息',

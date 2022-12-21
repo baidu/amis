@@ -174,6 +174,7 @@ export class TableControlPlugin extends BasePlugin {
           //     </div>
           //   )
           // },
+          getSchemaTpl('layout:originPosition', {value: 'left-top'}),
           getSchemaTpl('formItemName', {
             required: true
           }),

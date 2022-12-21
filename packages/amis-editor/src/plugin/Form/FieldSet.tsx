@@ -58,6 +58,7 @@ export class FieldSetControlPlugin extends BasePlugin {
   panelTitle = '字段集';
   panelBodyCreator = (context: BaseEventContext) => {
     return [
+      getSchemaTpl('layout:originPosition', {value: 'left-top'}),
       {
         label: '标题',
         name: 'title',

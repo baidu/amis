@@ -26,6 +26,7 @@ export class FormulaControlPlugin extends BasePlugin {
 
   panelTitle = '公式';
   panelBody = [
+    getSchemaTpl('layout:originPosition', {value: 'left-top'}),
     {
       label: '字段名',
       name: 'name',

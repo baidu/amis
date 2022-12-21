@@ -52,6 +52,7 @@ export class AvatarPlugin extends BasePlugin {
         title: '属性',
         body: [
           getSchemaTpl('collapseGroup', [
+            getSchemaTpl('layout:originPosition', {value: 'left-top'}),
             {
               className: 'p-none',
               title: '基本',

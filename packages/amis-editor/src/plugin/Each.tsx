@@ -40,6 +40,7 @@ export class EachPlugin extends BasePlugin {
   panelTitle = '循环';
   panelBodyCreator = (context: BaseEventContext) => {
     return [
+      getSchemaTpl('layout:originPosition', {value: 'left-top'}),
       {
         type: 'input-text',
         name: 'name',

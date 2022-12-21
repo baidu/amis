@@ -32,6 +32,7 @@ export class LogPlugin extends BasePlugin {
       {
         title: '常规',
         body: [
+          getSchemaTpl('layout:originPosition', {value: 'left-top'}),
           getSchemaTpl('api', {
             label: '日志数据源',
             name: 'source'

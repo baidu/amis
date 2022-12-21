@@ -45,6 +45,7 @@ export class StepsPlugin extends BasePlugin {
       {
         title: '常规',
         body: [
+          getSchemaTpl('layout:originPosition', {value: 'left-top'}),
           getSchemaTpl('combo-container', {
             name: 'steps',
             label: '步骤列表',
@@ -81,7 +82,7 @@ export class StepsPlugin extends BasePlugin {
             name: 'value',
             type: 'input-text',
             label: '当前步骤',
-            description: '以零为起点'
+            description: '以零为头部'
           },
           {
             name: 'status',

@@ -11,13 +11,12 @@ export default class Layout_free_container extends ContainerPlugin {
   tags = ['布局'];
   scaffold: any = {
     type: 'container',
-    title: '自由容器',
     isFreeContainer: true,
     size: 'xs',
     body: [],
     wrapperBody: false,
     style: {
-      position: 'static',
+      position: 'relative',
       minHeight: '200px'
     },
   };

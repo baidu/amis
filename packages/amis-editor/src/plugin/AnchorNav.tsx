@@ -75,6 +75,7 @@ export class AnchorNavPlugin extends BasePlugin {
           {
             title: '基本',
             body: [
+              getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               getSchemaTpl('combo-container', {
                 type: 'combo',
                 name: 'links',

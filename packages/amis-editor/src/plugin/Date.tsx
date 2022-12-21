@@ -32,6 +32,7 @@ export class DatePlugin extends BasePlugin {
         {
           title: '常规',
           body: [
+            getSchemaTpl('layout:originPosition', {value: 'left-top'}),
             {
               type: 'input-date',
               name: 'value',

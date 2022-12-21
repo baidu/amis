@@ -134,6 +134,7 @@ export class TplPlugin extends BasePlugin {
           {
             title: '基本',
             body: [
+              getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               !isInTable ? getSchemaTpl('tpl:wrapperComponent') : null,
               getSchemaTpl('switch', {
                 label: tipedLabel(
