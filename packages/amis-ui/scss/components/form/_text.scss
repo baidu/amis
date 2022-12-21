@@ -421,7 +421,7 @@
 
   &-inputPrefix,
   &-inputSuffix {
-    color: var(-input-prefix-color);
+    color: var(--input-prefix-color);
     font-size: var(--input-prefix-fontSize);
   }
 
