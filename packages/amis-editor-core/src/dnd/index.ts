@@ -135,7 +135,10 @@ export class EditorDNDManager {
     // 获取当前拖拽的元素schema数据
     const json = store.dragSchema;
 
-    if (config?.accept?.(json) === false) {
+    if (
+      config?.accept?.(json) === false ||
+      node.host?.memberImmutable(region)
+    ) {
       return false;
     }
 

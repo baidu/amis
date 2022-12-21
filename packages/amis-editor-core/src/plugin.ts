@@ -1168,7 +1168,7 @@ export abstract class BasePlugin implements PluginInterface {
     const plugin: PluginInterface = this;
     if (
       info.plugin === plugin &&
-      (plugin.scaffoldForm?.canRebuild || info.scaffoldForm?.canRebuild)
+      (info.scaffoldForm?.canRebuild ?? plugin.scaffoldForm?.canRebuild)
     ) {
       toolbars.push({
         iconSvg: 'harmmer',

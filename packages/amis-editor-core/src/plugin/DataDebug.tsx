@@ -7,6 +7,8 @@ import JsonView, {InteractionProps} from 'react-json-view';
  * 添加调试功能
  */
 export class DataDebugPlugin extends BasePlugin {
+  static id = 'data-debug';
+
   buildEditorToolbar(
     {id, schema, node}: BaseEventContext,
     toolbars: Array<BasicToolbarItem>

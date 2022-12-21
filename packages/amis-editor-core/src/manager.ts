@@ -75,7 +75,7 @@ export interface PluginClass {
 
 const builtInPlugins: Array<PluginClass> = [];
 
-declare const window: Window & { AMISEditorCustomPlugins: any };
+declare const window: Window & {AMISEditorCustomPlugins: any};
 
 /**
  * 自动加载预先注册的自定义插件
@@ -88,7 +88,7 @@ export function autoPreRegisterEditorCustomPlugins() {
       if (curEditorPlugin) {
         registerEditorPlugin(curEditorPlugin);
       }
-    })
+    });
   }
 }
 
@@ -182,6 +182,13 @@ export class EditorManager {
       parent?.plugins ||
       (config.disableBultinPlugin ? [] : builtInPlugins) // 页面设计器注册的插件列表
         .concat(config.plugins || [])
+        .filter(p =>
+          config.disablePluginList
+            ? typeof config.disablePluginList === 'function'
+              ? !config.disablePluginList(p.id || '', p)
+              : !config.disablePluginList.includes(p.id || 'unkown')
+            : true
+        )
         .map(Editor => {
           const plugin = new Editor(this); // 进行一次实例化
           plugin.order = plugin.order ?? 0;

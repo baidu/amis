@@ -56,6 +56,10 @@ export interface EditorProps extends PluginEventListener {
    */
   disableBultinPlugin?: boolean;
 
+  disablePluginList?:
+    | Array<string>
+    | ((id: string, plugin: PluginClass) => boolean);
+
   plugins?: Array<PluginClass>;
 
   /**
