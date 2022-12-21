@@ -954,9 +954,15 @@ export abstract class BasePlugin implements PluginInterface {
       plugin.rendererName &&
       plugin.rendererName === renderer.name // renderer.name 会从 renderer.type 中取值
     ) {
+      let curPluginName = plugin.name;
+      if (schema?.isFreeContainer) {
+        curPluginName = '自由容器';
+      } else if (schema?.isSorptionContainer) {
+        curPluginName = '吸附容器';
+      }
       // 复制部分信息出去
       return {
-        name: plugin.name,
+        name: curPluginName,
         regions: plugin.regions,
         patchContainers: plugin.patchContainers,
         // wrapper: plugin.wrapper,

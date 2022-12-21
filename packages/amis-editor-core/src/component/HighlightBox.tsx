@@ -260,7 +260,7 @@ export default class HighlightBox extends React.Component<HighlightBoxProps> {
               ) : null}
 
               <div key="tip" className="ae-Editor-tip current">
-                {node?.schema?.title || title}
+                {title}
               </div>
 
               {node.firstChild ? (
