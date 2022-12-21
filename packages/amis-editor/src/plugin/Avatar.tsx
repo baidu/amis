@@ -52,11 +52,11 @@ export class AvatarPlugin extends BasePlugin {
         title: '属性',
         body: [
           getSchemaTpl('collapseGroup', [
-            getSchemaTpl('layout:originPosition', {value: 'left-top'}),
             {
               className: 'p-none',
               title: '基本',
               body: [
+                getSchemaTpl('layout:originPosition', {value: 'left-top'}),
                 // 如果同时存在 src、text 和 icon，会优先用 src、接着 text、最后 icon
                 {
                   type: 'button-group-select',

@@ -187,6 +187,7 @@ export class TableViewPlugin extends BasePlugin {
             {
               title: '基本',
               body: [
+                getSchemaTpl('layout:originPosition', {value: 'left-top'}),
                 {
                   label: '标题',
                   name: 'caption',
@@ -329,7 +330,6 @@ export class TableViewPlugin extends BasePlugin {
             className: 'p-none',
             body: [
               getSchemaTpl('collapseGroup', [
-                getSchemaTpl('layout:originPosition', {value: 'left-top'}),
                 {
                   title: '显示',
                   body: [
