@@ -55,85 +55,96 @@ export class ListPlugin extends BasePlugin {
   };
 
   panelTitle = '列表';
+  panelJustify = true;
   panelBodyCreator = (context: BaseEventContext) => {
     const isCRUDBody = context.schema.type === 'crud';
-
     return getSchemaTpl('tabs', [
       {
-        title: '常规',
-        body: [
+        title: '属性',
+        body: getSchemaTpl('collapseGroup', [
           {
-            children: (
-              <Button
-                level="danger"
-                size="sm"
-                block
-                onClick={this.editDetail.bind(this, context.id)}
-              >
-                配置成员详情
-              </Button>
-            )
-          },
-          {
-            type: 'divider'
-          },
-          {
-            name: 'title',
-            type: 'input-text',
-            label: '标题'
-          },
-          isCRUDBody
-            ? null
-            : {
-                name: 'source',
-                type: 'input-text',
-                label: '数据源',
-                pipeIn: defaultValue('${items}'),
-                description: '绑定当前环境变量'
+            title: '基本',
+            body: [
+              {
+                children: (
+                  <Button
+                    level="danger"
+                    size="sm"
+                    block
+                    onClick={this.editDetail.bind(this, context.id)}
+                  >
+                    配置成员详情
+                  </Button>
+                )
               },
-          {
-            name: 'placeholder',
-            pipeIn: defaultValue('没有数据'),
-            type: 'input-text',
-            label: '无数据提示'
-          }
-        ]
+              {
+                type: 'divider'
+              },
+              {
+                name: 'title',
+                type: 'input-text',
+                label: '标题'
+              },
+              isCRUDBody
+                ? null
+                : {
+                    name: 'source',
+                    type: 'input-text',
+                    label: '数据源',
+                    pipeIn: defaultValue('${items}'),
+                    description: '绑定当前环境变量'
+                  },
+              {
+                name: 'placeholder',
+                pipeIn: defaultValue('没有数据'),
+                type: 'input-text',
+                label: '无数据提示'
+              }
+            ]
+          },
+          getSchemaTpl('status')
+        ])
       },
       {
         title: '外观',
-        body: [
-          getSchemaTpl('switch', {
-            name: 'showHeader',
-            label: '是否显示头部',
-            pipeIn: defaultValue(true)
-          }),
+        body: getSchemaTpl('collapseGroup', [
+          {
+            title: '基本',
+            body: [
+              getSchemaTpl('switch', {
+                name: 'showHeader',
+                label: '是否显示头部',
+                pipeIn: defaultValue(true)
+              }),
 
-          getSchemaTpl('switch', {
-            name: 'showFooter',
-            label: '是否显示底部',
-            pipeIn: defaultValue(true)
-          }),
-
-          getSchemaTpl('className', {
-            label: 'CSS 类名'
-          }),
-          getSchemaTpl('className', {
-            name: 'listClassName',
-            label: 'List div CSS 类名'
-          }),
-          getSchemaTpl('className', {
-            name: 'headerClassName',
-            label: '头部 CSS 类名'
-          }),
-          getSchemaTpl('className', {
-            name: 'footerClassName',
-            label: '底部 CSS 类名'
-          })
-        ]
-      },
-      {
-        title: '显隐',
-        body: [getSchemaTpl('ref'), getSchemaTpl('visible')]
+              getSchemaTpl('switch', {
+                name: 'showFooter',
+                label: '是否显示底部',
+                pipeIn: defaultValue(true)
+              })
+            ]
+          },
+          {
+            title: 'CSS类名',
+            body: [
+              getSchemaTpl('className', {
+                label: '外层'
+              }),
+              getSchemaTpl('className', {
+                name: 'listClassName',
+                label: 'List'
+              }),
+              getSchemaTpl('className', {
+                name: 'headerClassName',
+                label: '头部'
+              }),
+              getSchemaTpl('className', {
+                name: 'footerClassName',
+                label: '底部'
+              })
+            ]
+          }
+        ])
       }
     ]);
   };

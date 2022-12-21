@@ -1200,7 +1200,9 @@ export const getEventControlConfig = (
         }
       }
 
-      if (['show', 'hidden', 'enabled', 'disabled'].includes(action.actionType)) {
+      if (
+        ['show', 'hidden', 'enabled', 'disabled'].includes(action.actionType)
+      ) {
         // 兼容老逻辑，初始化actionType
         config.__statusType = action.actionType;
         config.__actionType = 'static';
@@ -1262,6 +1264,17 @@ export const getEventControlConfig = (
       }
 
       delete config.data;
+
+      // 处理下 combo - addItem 的初始化
+      if (
+        action.actionType === 'addItem' &&
+        typeof action.args?.item === 'object'
+      ) {
+        config.args = {
+          ...config.args,
+          item: objectToComboArray(action.args?.item)
+        };
+      }
 
       // 还原args为可视化配置结构(args + addOnArgs)
       if (config.args) {
@@ -1434,10 +1447,11 @@ export const getEventControlConfig = (
                 value: action.__actionExpression
               }
             : undefined;
-        action.actionType === 'static' && (action.actionType = config.__statusType);
+        action.actionType === 'static' &&
+          (action.actionType = config.__statusType);
         delete action.__actionExpression;
         delete action.__statusType;
-      };
+      }
 
       delete action.config;
 

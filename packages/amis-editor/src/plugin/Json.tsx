@@ -30,38 +30,38 @@ export class JsonPlugin extends BasePlugin {
   };
 
   panelTitle = 'JSON';
+  panelJustify = true;
   panelBodyCreator = (context: BaseEventContext) => {
     const isUnderField = /\/field\/\w+$/.test(context.path as string);
     return [
       getSchemaTpl('tabs', [
         {
-          title: '常规',
-          body: flatten([
-            isUnderField
-              ? {
-                  type: 'tpl',
-                  inline: false,
-                  className: 'text-info text-sm',
-                  tpl: '<p>当前为字段内容节点配置，选择上层还有更多的配置。</p>'
-                }
-              : null,
-
+          title: '属性',
+          body: getSchemaTpl('collapseGroup', [
             {
-              name: 'levelExpand',
-              type: 'input-number',
-              label: '默认展开级别',
-              pipeIn: defaultValue(1)
-            }
+              title: '基本',
+              body: [
+                isUnderField
+                  ? {
+                      type: 'tpl',
+                      inline: false,
+                      className: 'text-info text-sm',
+                      tpl: '<p>当前为字段内容节点配置，选择上层还有更多配置</p>'
+                    }
+                  : null,
+
+                {
+                  name: 'levelExpand',
+                  type: 'input-number',
+                  label: '默认展开级别',
+                  pipeIn: defaultValue(1)
+                }
+              ]
+            },
+            getSchemaTpl('status')
           ])
         },
-        {
-          title: '外观',
-          body: flatten([getSchemaTpl('className')])
-        },
-        {
-          title: '显隐',
-          body: flatten([getSchemaTpl('ref'), getSchemaTpl('visible')])
-        }
+        getSchemaTpl('onlyClassNameTab')
       ])
     ];
   };
