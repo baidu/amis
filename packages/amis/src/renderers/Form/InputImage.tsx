@@ -511,12 +511,8 @@ export default class ImageControl extends React.Component<
       this.setState(
         {
           files: (this.files = files)
-        },
-        this.syncAutoFill
+        } // , this.syncAutoFill
       );
-    } else if (prevProps.value !== props.value && !this.initAutoFill) {
-      this.initAutoFill = true;
-      this.syncAutoFill();
     }
 
     if (prevProps.crop !== props.crop) {
@@ -1247,8 +1243,7 @@ export default class ImageControl extends React.Component<
         this.setState(
           {
             files: (this.files = files)
-          },
-          !needUploading ? this.onChange : undefined
+          } // , !needUploading ? this.onChange : undefined
         );
     };
     img.src = imgDom.src;
