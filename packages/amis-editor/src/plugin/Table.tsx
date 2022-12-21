@@ -626,7 +626,7 @@ export class TablePlugin extends BasePlugin {
       item => item.isRegion && item.region === 'columns'
     );
 
-    for (let current of columns.children) {
+    for (let current of columns?.children) {
       const schema = current.schema;
       if (schema.name) {
         itemsSchema.properties[schema.name] = current.info?.plugin
