@@ -511,7 +511,8 @@ export default class ImageControl extends React.Component<
       this.setState(
         {
           files: (this.files = files)
-        } // , this.syncAutoFill
+        },
+        this.initAutoFill ? this.syncAutoFill : () => {}
       );
     }
 
