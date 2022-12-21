@@ -227,7 +227,6 @@
       &.active > a:first-child,
       &.is-active > a:first-child {
         color: var(--Tabs-onActive-color);
-        background: var(--Tabs-onActive-bg);
         border-color: var(--Tabs-onActive-borderColor);
         border-bottom-color: transparent;
       }
@@ -916,6 +915,36 @@
             position: relative;
             border: none;
             padding: var(--Tabs--simple-split-size);
+            &:not(.is-disabled) > a {
+              font-size: var(--Tabs--simple-fontSize);
+              color: var(--Tabs--simple-color);
+              font-weight: var(--Tabs--simple-fontWeight);
+              line-height: var(--Tabs--simple-lineHeight);
+            }
+            &:not(.is-disabled):hover {
+              > a {
+                font-size: var(--Tabs--simple-hover-fontSize);
+                color: var(--Tabs--simple-hover-color) !important;
+                font-weight: var(--Tabs--simple-hover-fontWeight);
+                line-height: var(--Tabs--simple-hover-lineHeight);
+              }
+            }
+            &.is-disabled {
+              > a {
+                font-size: var(--Tabs--simple-disabled-fontSize);
+                color: var(--Tabs--simple-disabled-color) !important;
+                font-weight: var(--Tabs--simple-disabled-fontWeight);
+                line-height: var(--Tabs--simple-disabled-lineHeight);
+              }
+            }
+            &.is-active {
+              > a {
+                font-size: var(--Tabs--simple-active-fontSize);
+                color: var(--Tabs--simple-active-color) !important;
+                font-weight: var(--Tabs--simple-active-fontWeight);
+                line-height: var(--Tabs--simple-active-lineHeight);
+              }
+            }
 
             &::after {
               content: '';
@@ -923,7 +952,7 @@
               top: 50%;
               right: 0;
               width: var(--Tabs--simple-split-width);
-              height: var(--Tabs-add-icon-size);
+              height: var(--Tabs--simple-split-height);
               transform: translateY(-50%);
               background-color: var(--Tabs--simple-split-color);
             }
@@ -934,21 +963,6 @@
 
             &:last-of-type::after {
               content: none;
-            }
-
-            &.is-active,
-            &:not(.is-disabled):hover {
-              > a:first-child,
-              > a:first-child:hover,
-              > a:first-child:focus {
-                color: var(--Tabs--line-onHover-color);
-                border: none;
-              }
-
-              > a:first-child:hover:active {
-                color: #144bcc;
-                border-color: #144bcc;
-              }
             }
 
             &:not(.is-disabled):hover .#{$ns}Tabs-link-close {
@@ -1045,33 +1059,98 @@
         > .#{$ns}Tabs-linksContainer-main
           > .#{$ns}Tabs-links
           > .#{$ns}Tabs-link {
-          margin-right: var(--Tabs--card-arrow-gap);
-          padding: var(--Tabs--card-arrow-gap) var(--Tabs--card-add-gap);
-          background: var(--Tabs-onActive-bg);
-          border-top-left-radius: var(--Tabs-borderRadius);
-          border-top-right-radius: var(--Tabs-borderRadius);
-          border: var(--Tabs-borderWidth) solid var(--Tabs--simple-split-color);
+          margin: var(--Tabs--strong-marginTop) var(--Tabs--strong-marginRight)
+            var(--Tabs--strong-marginBottom) var(--Tabs--strong-marginLeft);
+          padding: var(--Tabs--strong-paddingTop)
+            var(--Tabs--strong-paddingRight) var(--Tabs--strong-paddingBottom)
+            var(--Tabs--strong-paddingLeft);
+          background: var(--Tabs--strong-bg);
+          border-radius: var(--Tabs--strong-top-left-border-radius)
+            var(--Tabs--strong-top-right-border-radius)
+            var(--Tabs--strong-bottom-right-border-radius)
+            var(--Tabs--strong-bottom-left-border-radius);
+          border-color: var(--Tabs--strong-top-border-color)
+            var(--Tabs--strong-right-border-color)
+            var(--Tabs--strong-bottom-border-color)
+            var(--Tabs--strong-left-border-color);
+          border-style: var(--Tabs--strong-top-border-style)
+            var(--Tabs--strong-right-border-style)
+            var(--Tabs--strong-bottom-border-style)
+            var(--Tabs--strong-left-border-style);
+          border-width: var(--Tabs--strong-top-border-width)
+            var(--Tabs--strong-right-border-width)
+            var(--Tabs--strong-bottom-border-width)
+            var(--Tabs--strong-left-border-width);
           cursor: pointer;
 
-          &.is-active {
-            border-bottom-color: var(--Tabs-onActive-bg);
+          &:not(.is-disabled) > a {
+            font-size: var(--Tabs--strong-fontSize);
+            color: var(--Tabs--strong-color);
+            font-weight: var(--Tabs--strong-fontWeight);
+            line-height: var(--Tabs--strong-lineHeight);
           }
-
+          &:not(.is-disabled):hover {
+            background: var(--Tabs--strong-hover-bg);
+            border-color: var(--Tabs--strong-hover-top-border-color)
+              var(--Tabs--strong-hover-right-border-color)
+              var(--Tabs--strong-hover-bottom-border-color)
+              var(--Tabs--strong-hover-left-border-color);
+            border-style: var(--Tabs--strong-hover-top-border-style)
+              var(--Tabs--strong-hover-right-border-style)
+              var(--Tabs--strong-hover-bottom-border-style)
+              var(--Tabs--strong-hover-left-border-style);
+            border-width: var(--Tabs--strong-hover-top-border-width)
+              var(--Tabs--strong-hover-right-border-width)
+              var(--Tabs--strong-hover-bottom-border-width)
+              var(--Tabs--strong-hover-left-border-width);
+            > a {
+              font-size: var(--Tabs--strong-hover-fontSize);
+              color: var(--Tabs--strong-hover-color) !important;
+              font-weight: var(--Tabs--strong-hover-fontWeight);
+              line-height: var(--Tabs--strong-hover-lineHeight);
+            }
+          }
           &.is-disabled {
             cursor: not-allowed;
-          }
-
-          &.is-active,
-          &:not(.is-disabled):hover {
-            > a:first-child,
-            > a:first-child:hover,
-            > a:first-child:focus {
-              color: var(--Tabs--line-onHover-color);
+            background: var(--Tabs--strong-disabled-bg);
+            border-color: var(--Tabs--strong-disabled-top-border-color)
+              var(--Tabs--strong-disabled-right-border-color)
+              var(--Tabs--strong-disabled-bottom-border-color)
+              var(--Tabs--strong-disabled-left-border-color);
+            border-style: var(--Tabs--strong-disabled-top-border-style)
+              var(--Tabs--strong-disabled-right-border-style)
+              var(--Tabs--strong-disabled-bottom-border-style)
+              var(--Tabs--strong-disabled-left-border-style);
+            border-width: var(--Tabs--strong-disabled-top-border-width)
+              var(--Tabs--strong-disabled-right-border-width)
+              var(--Tabs--strong-disabled-bottom-border-width)
+              var(--Tabs--strong-disabled-left-border-width);
+            > a {
+              font-size: var(--Tabs--strong-disabled-fontSize);
+              color: var(--Tabs--strong-disabled-color) !important;
+              font-weight: var(--Tabs--strong-disabled-fontWeight);
+              line-height: var(--Tabs--strong-disabled-lineHeight);
             }
-
-            > a:first-child:hover:active {
-              color: #144bcc;
-              border-color: #144bcc;
+          }
+          &.is-active {
+            background: var(--Tabs--strong-active-bg);
+            border-color: var(--Tabs--strong-active-top-border-color)
+              var(--Tabs--strong-active-right-border-color)
+              var(--Tabs--strong-active-bottom-border-color)
+              var(--Tabs--strong-active-left-border-color);
+            border-style: var(--Tabs--strong-active-top-border-style)
+              var(--Tabs--strong-active-right-border-style)
+              var(--Tabs--strong-active-bottom-border-style)
+              var(--Tabs--strong-active-left-border-style);
+            border-width: var(--Tabs--strong-active-top-border-width)
+              var(--Tabs--strong-active-right-border-width)
+              var(--Tabs--strong-active-bottom-border-width)
+              var(--Tabs--strong-active-left-border-width);
+            > a {
+              font-size: var(--Tabs--strong-active-fontSize);
+              color: var(--Tabs--strong-active-color) !important;
+              font-weight: var(--Tabs--strong-active-fontWeight);
+              line-height: var(--Tabs--strong-active-lineHeight);
             }
           }
 
