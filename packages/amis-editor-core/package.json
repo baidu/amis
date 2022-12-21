@@ -68,7 +68,6 @@
     "css-loader": "^6.2.0",
     "faker": "^5.5.3",
     "husky": "^7.0.0",
-    "i18n-runtime": "0.0.12",
     "lint-staged": "^12.1.2",
     "mini-css-extract-plugin": "^2.3.0",
     "postcss-import": "^14.1.0",
