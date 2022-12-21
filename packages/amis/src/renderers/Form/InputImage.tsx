@@ -408,7 +408,7 @@ export default class ImageControl extends React.Component<
     const joinValues = props.joinValues;
     const delimiter = props.delimiter as string;
     let files: Array<FileValue> = [];
-    this.initAutoFill = !!props.initAutoFill;
+    this.initAutoFill = !!(props.initAutoFill ?? true);
 
     if (value) {
       // files = (multiple && Array.isArray(value) ? value : joinValues ? (value as string).split(delimiter) : [value])
