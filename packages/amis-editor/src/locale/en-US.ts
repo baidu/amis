@@ -1652,7 +1652,7 @@ extendLocale('en-US', {
   'da1b972efb29f850b50e219ad4d98ba5': 'Justified alignment',
   '11b7fc50778c89572391ec4c6c4b55e1': 'Vertical alignment',
   '2a6ad292447e6354ca39ee7f40d2fcc8': 'Top alignment',
-  'd68c21b6b65e7a2e361762b65b8a5032': 'Top alignment',
+  'd68c21b6b65e7a2e361762b65b8a5032': 'Bottom alignment',
   '0d9eb53682343f1cbd562c9a944ef5bf': 'Insert a column on the left',
   '814276d30e338eccbaee96c3e6bacb61': 'Insert a column on the right',
   '2a3e7f5c382c56faf261a87573658325': 'Manual',
@@ -3590,5 +3590,9 @@ extendLocale('en-US', {
   '5a4e41af91746f8a3905aa9f66048955': 'Load Settings',
   '6ade3082696deb00357f5c0359093cd4': 'Merge to upper loading',
   'b6ac896eff6a6502e4ae7079b3e507a5': 'Not displaying loading',
-  '0e9ffe1f1cf3f7a620970ea75dba9f39': 'Use page global loading'
+  '0e9ffe1f1cf3f7a620970ea75dba9f39': 'Use page global loading',
+  'b1119174b1beedd2218e0b359ef14aec': 'Form submission',
+  'c6a65a86cd2bd74a6f72df0a7b81d3cb':
+    'After the event is configured, the default verification, submission to the api or target and other behaviors will not be triggered when the form is submitted. All behaviors need to be configured by yourself',
+  'c207ba29769aca6ffd45db9f80bcb29e': 'Zero as head'
 });

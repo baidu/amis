@@ -3175,5 +3175,9 @@ extendLocale('zh-CN', {
   '5a4e41af91746f8a3905aa9f66048955': '加载设置',
   '6ade3082696deb00357f5c0359093cd4': '合并到上层loading',
   'b6ac896eff6a6502e4ae7079b3e507a5': '不展示loading',
-  '0e9ffe1f1cf3f7a620970ea75dba9f39': '使用页面全局loading'
+  '0e9ffe1f1cf3f7a620970ea75dba9f39': '使用页面全局loading',
+  'b1119174b1beedd2218e0b359ef14aec': '表单提交',
+  'c6a65a86cd2bd74a6f72df0a7b81d3cb':
+    '配置该事件后将不会触发表单提交时默认的校验、提交到api或者target等行为，所有行为需要自己配置',
+  'c207ba29769aca6ffd45db9f80bcb29e': '以零为头部'
 });
