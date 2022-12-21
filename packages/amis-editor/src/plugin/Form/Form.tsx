@@ -111,7 +111,7 @@ const autoAddOptions = (values: any) => {
           }
         ];
       } else if (formItem.type === 'form' || formItem.type === 'group') {
-        autoAddOptions(formItem); 
+        autoAddOptions(formItem);
       }
     });
   }
@@ -335,22 +335,22 @@ export class FormPlugin extends BasePlugin {
         }
       ]
     },
-    // {
-    //   eventName: 'submit',
-    //   eventLabel: '表单提交',
-    //   strongDesc: '配置该事件后将不会触发表单提交时默认的校验、提交到api或者target等行为，所有行为需要自己配置',
-    //   dataSchema: [
-    //     {
-    //       type: 'object',
-    //       properties: {
-    //         'event.data': {
-    //           type: 'object',
-    //           title: '当前表单数据'
-    //         }
-    //       }
-    //     }
-    //   ]
-    // },
+    {
+      eventName: 'submit',
+      eventLabel: '表单提交',
+      strongDesc: '配置该事件后将不会触发表单提交时默认的校验、提交到api或者target等行为，所有行为需要自己配置',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            'event.data': {
+              type: 'object',
+              title: '当前表单数据'
+            }
+          }
+        }
+      ]
+    },
     {
       eventName: 'submitSucc',
       eventLabel: '提交成功',
