@@ -50,6 +50,17 @@ export default class MapSourceControl extends React.Component<
     };
   }
 
+  componentDidUpdate(prevProps: Readonly<MapSourceControlProps>, prevState: Readonly<MapSourceControlState>, snapshot?: any): void {
+    const isArrayOld = Array.isArray(prevProps.data?.map);
+    const isArrayNew = Array.isArray(this.props.data?.map);
+    // map 类型改变了
+    if (isArrayOld !== isArrayNew) {
+      this.setState({
+        map: this.props.data?.map
+      });
+    }
+  }
+
   /**
   * 更新map字段的统一出口
   */
