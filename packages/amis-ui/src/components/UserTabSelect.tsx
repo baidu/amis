@@ -254,6 +254,7 @@ export class UserTabSelect extends React.Component<
                     className="TabsTransfer-tab"
                   >
                     <UserSelect
+                      isTab={true}
                       selection={this.state.selection}
                       showResultBox={false}
                       {...item}

@@ -14,6 +14,7 @@ import find from 'lodash/find';
 import {createObject, autobind} from 'amis-core';
 import {PlainObject} from 'amis-core';
 import {FormOptionsSchema} from '../../Schema';
+import {supportStatic} from './StaticHoc';
 
 /**
  * UserSelect 移动端人员选择。
@@ -205,6 +206,12 @@ export default class UserSelectControl extends React.Component<
     onChange(newValue);
   }
 
+  renderStatic() {
+    const {selectedOptions, labelField = 'label'} = this.props;
+    return selectedOptions.map((item: Option) => item[labelField]).join(',');
+  }
+
+  @supportStatic()
   render() {
     let {
       showNav,
@@ -222,7 +229,8 @@ export default class UserSelectControl extends React.Component<
       searchPlaceholder,
       tabMode,
       data,
-      displayFields
+      displayFields,
+      labelField
     } = this.props;
     tabOptions?.forEach((item: any) => {
       item.deferLoad = this.deferLoad;
@@ -257,6 +265,7 @@ export default class UserSelectControl extends React.Component<
             onChange={this.changeValue}
             onSearch={this.onSearch}
             displayFields={displayFields}
+            labelField={labelField}
             isDep={isDep}
             isRef={isRef}
           />

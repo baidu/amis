@@ -40,6 +40,7 @@ export interface UserSelectProps extends ThemeProps, LocaleProps {
   searchPlaceholder?: string;
   controlled?: boolean;
   displayFields: Array<string>;
+  isTab?: boolean;
   fetcher?: (
     api: Api,
     data?: any,
@@ -74,6 +75,12 @@ export interface UserSelectState {
   searchLoading: boolean;
   isEdit: boolean;
 }
+
+const defaultIcons = [
+  'user-default-department',
+  'user-default-role',
+  'user-default-post'
+];
 
 export class UserSelect extends React.Component<
   UserSelectProps,
@@ -383,6 +390,7 @@ export class UserSelect extends React.Component<
     const {controlled} = this.props;
     this.setState({
       isSelectOpened: true,
+      isEdit: true,
       tempSelection: controlled
         ? this.props.selection?.slice() || []
         : this.state.selection.slice()
@@ -434,9 +442,10 @@ export class UserSelect extends React.Component<
         (item2: Option) => item2[valueField] === item[valueField]
       );
       if (res) {
-        res[labelField] = item[labelField];
+        res.label = item[labelField];
       }
     });
+    console.log('getResult=====', labelField, _selection);
     return _selection;
   }
 
@@ -512,7 +521,9 @@ export class UserSelect extends React.Component<
       isRef,
       translate: __,
       controlled,
-      displayFields
+      displayFields,
+      isTab,
+      multiple
     } = this.props;
     let selection = controlled
       ? this.props.selection || []
@@ -547,8 +558,11 @@ export class UserSelect extends React.Component<
             }
 
             return (
-              <li key={index}>
-                {checkVisible ? (
+              <li
+                key={index}
+                className={restFiedls.length === 2 ? cx(`UserSelect-h2`) : ''}
+              >
+                {(isTab || multiple) && checkVisible ? (
                   <Checkbox
                     size="sm"
                     checked={checkValues.includes(option[valueField])}
@@ -564,7 +578,9 @@ export class UserSelect extends React.Component<
                       : hasChildren && this.handleExpand(option)
                   }
                 >
-                  {!avatar && userIcon && !option.isRef ? (
+                  {!avatar &&
+                  userIcon &&
+                  (isDep || defaultIcons.includes(option.icon)) ? (
                     <span className={cx('UserSelect-userPic-box')}>
                       {userIcon}
                     </span>
@@ -572,15 +588,26 @@ export class UserSelect extends React.Component<
 
                   {!option.isRef ? (
                     <span className={cx('UserSelect-label')}>
-                      {option[labelField]}
+                      {option.label}
                     </span>
                   ) : null}
 
-                  {option.isRef && avatar ? (
+                  {avatar && option.isRef ? (
                     option.avatar ? (
-                      <img className="option-avatar-img" src={option.avatar} />
+                      <img
+                        className={`option-avatar-img ${
+                          restFiedls.length === 2 ? 'avatar-2' : ''
+                        }`}
+                        src={option.avatar}
+                      />
                     ) : (
-                      <span className="option-avatar-txt">{first}</span>
+                      <span
+                        className={`option-avatar-txt ${
+                          restFiedls.length === 2 ? 'avatar-2' : ''
+                        }`}
+                      >
+                        {first}
+                      </span>
                     )
                   ) : null}
 
@@ -621,6 +648,7 @@ export class UserSelect extends React.Component<
       labelField = 'label',
       valueField = 'value',
       displayFields,
+      isDep,
       translate: __
     } = this.props;
     const {isEdit} = this.state;
@@ -652,7 +680,10 @@ export class UserSelect extends React.Component<
             }
 
             return (
-              <li key={index}>
+              <li
+                key={index}
+                className={restFiedls.length === 2 ? cx(`UserSelect-h2`) : ''}
+              >
                 {isEdit ? (
                   <span
                     className={cx(`UserSelect-del`)}
@@ -663,25 +694,54 @@ export class UserSelect extends React.Component<
                 ) : null}
 
                 <span className={cx(`UserSelect-memberName`)}>
-                  {!avatar && userIcon && !option.isRef ? (
+                  {!avatar &&
+                  userIcon &&
+                  (isDep || defaultIcons.includes(option.icon)) ? (
                     <span className={cx('UserSelect-userPic-box')}>
                       {userIcon}
                     </span>
                   ) : null}
 
+                  {}
+
                   {!option.isRef ? (
-                    <span className={cx('UserSelect-label')}>
-                      {originOption
-                        ? originOption[labelField]
-                        : option[labelField]}
-                    </span>
+                    labelField === 'avatar' ? (
+                      option[labelField] ? (
+                        <img
+                          className={cx('UserSelect-avatar-img')}
+                          src={option[labelField]}
+                          alt=""
+                        />
+                      ) : (
+                        <span className={cx('UserSelect-avatar-text')}>
+                          {option[valueField].slice(0, 1).toLocaleUpperCase()}
+                        </span>
+                      )
+                    ) : (
+                      <span className={cx('UserSelect-label')}>
+                        {originOption
+                          ? originOption[labelField]
+                          : option[labelField]}
+                      </span>
+                    )
                   ) : null}
 
                   {avatar && option.isRef ? (
                     option.avatar ? (
-                      <img className="option-avatar-img" src={option.avatar} />
+                      <img
+                        className={`option-avatar-img ${
+                          restFiedls.length === 2 ? 'avatar-2' : ''
+                        }`}
+                        src={option.avatar}
+                      />
                     ) : (
-                      <span className="option-avatar-txt">{first}</span>
+                      <span
+                        className={`option-avatar-txt ${
+                          restFiedls.length === 2 ? 'avatar-2' : ''
+                        }`}
+                      >
+                        {first}
+                      </span>
                     )
                   ) : null}
 
@@ -722,6 +782,7 @@ export class UserSelect extends React.Component<
       labelField = 'label',
       valueField = 'value',
       classnames: cx,
+      multiple,
       translate: __
     } = this.props;
 
@@ -771,7 +832,7 @@ export class UserSelect extends React.Component<
                   key={index}
                   onClick={() => this.handleBreadChange(item, index)}
                 >
-                  {item[labelField]}
+                  {item.label}
                 </span>
               ))
               .reduce((prev, curr, index) => [
@@ -788,6 +849,7 @@ export class UserSelect extends React.Component<
 
         {selection?.length ? (
           <div className={cx(`UserSelect-resultBox`)}>
+            <div className={cx(`UserSelect-resultBox-shadow`)}></div>
             <ul className={cx(`UserSelect-selectList`)}>
               {selection.map((item: Option, index) => {
                 const originOption = findTree(
@@ -796,11 +858,26 @@ export class UserSelect extends React.Component<
                 );
                 return (
                   <li key={index} className={cx('UserSelect-selectList-item')}>
-                    <span>
-                      {originOption
-                        ? originOption[labelField]
-                        : item[labelField]}
-                    </span>
+                    {labelField === 'avatar' ? (
+                      item[labelField] ? (
+                        <img
+                          className={cx('UserSelect-avatar-img')}
+                          src={item[labelField]}
+                          alt=""
+                        />
+                      ) : (
+                        <span className={cx('UserSelect-avatar-text')}>
+                          {item[valueField].slice(0, 1).toLocaleUpperCase()}
+                        </span>
+                      )
+                    ) : (
+                      <span>
+                        {originOption
+                          ? originOption[labelField]
+                          : item[labelField]}
+                      </span>
+                    )}
+
                     <span
                       className={cx('UserSelect-selectList-item-closeBox')}
                       onClick={() => this.onDelete(item)}
@@ -811,15 +888,17 @@ export class UserSelect extends React.Component<
                 );
               })}
             </ul>
-            <span
-              className={cx('UserSelect-selectSort-box')}
-              onClick={this.handleSort}
-            >
-              <Icon
-                icon="menu"
-                className={cx('UserSelect-selectSort', 'icon')}
-              />
-            </span>
+            {multiple ? (
+              <span
+                className={cx('UserSelect-selectSort-box')}
+                onClick={this.handleSort}
+              >
+                <Icon
+                  icon="menu"
+                  className={cx('UserSelect-selectSort', 'icon')}
+                />
+              </span>
+            ) : null}
           </div>
         ) : null}
 
@@ -884,7 +963,9 @@ export class UserSelect extends React.Component<
       classnames: cx,
       translate: __,
       placeholder = '请选择',
-      showResultBox
+      showResultBox,
+      labelField = 'label',
+      valueField = 'value'
     } = this.props;
 
     const {isOpened, isEdit, isSelectOpened} = this.state;
@@ -896,6 +977,28 @@ export class UserSelect extends React.Component<
             className={cx('UserSelect-input', isOpened ? 'is-active' : '')}
             allowInput={false}
             result={this.getResult()}
+            itemRender={(option: any) => {
+              if (labelField !== 'avatar') {
+                return (
+                  <span>{`${option.scopeLabel || ''}${option.label}`}</span>
+                );
+              } else {
+                if (option[labelField]) {
+                  return (
+                    <img
+                      className={cx('UserSelect-avatar-img')}
+                      src={option[labelField]}
+                      alt=""
+                    />
+                  );
+                }
+                return (
+                  <span className={cx('UserSelect-avatar-text')}>
+                    {option[valueField].slice(0, 1).toLocaleUpperCase()}
+                  </span>
+                );
+              }
+            }}
             onResultChange={value => this.handleSelectChange(value, true)}
             onResultClick={this.onOpen}
             placeholder={placeholder}
