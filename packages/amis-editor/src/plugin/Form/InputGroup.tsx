@@ -91,7 +91,7 @@ export class InputGroupControlPlugin extends BasePlugin {
               renderer: context.info.renderer,
               schema: [
                 getSchemaTpl('switch', {
-                  label: '表单项内联',
+                  label: '内联模式',
                   name: 'inline',
                   pipeIn: defaultValue(false)
                 }),
