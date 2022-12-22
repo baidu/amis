@@ -527,7 +527,7 @@ export class Navigation extends React.Component<
     );
   }
 
-  renderOverflowNavs(overflowConfig: NavOverflow) {
+  renderOverflowNavs(overflowConfig: NavOverflow & {__id?: string | number}) {
     const {render, classnames: cx, className, loading, links = []} = this.props;
     const {
       overflowClassName,
@@ -603,7 +603,7 @@ export class Navigation extends React.Component<
                     )}
                     onClick={onClick}
                   >
-                    <a data-id={guid()} data-depth={1}>
+                    <a data-id={overflowConfig.__id ?? guid()} data-depth={1}>
                       {getIcon(overflowIndicator!) ? (
                         <Icon icon={overflowIndicator} className="icon" />
                       ) : (
