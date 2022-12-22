@@ -551,29 +551,57 @@ setSchemaTpl(
     offText?: string;
   }) => {
     return {
-      type: 'switch',
-      label:
-        config?.label ||
-        tipedLabel('弹性模式', '开启弹性模式后，自动适配当前所在区域'),
+      type: 'button-group-select',
+      size: 'xs',
       name: config?.name || 'style.flex',
+      options: [
+        {
+          label: '弹性',
+          value: '1 1 auto'
+        },
+        {
+          label: '固定',
+          value: '0 0 150px'
+        },
+        {
+          label: '适配',
+          value: '0 0 auto'
+        }
+      ],
+      label: config?.label || '弹性设置',
       value: config?.value || '0 0 auto',
-      trueValue: '1 1 auto',
-      falseValue: '0 0 auto',
-      onText: config?.onText || '开启',
-      offText: config?.offText || '关闭',
       inputClassName: 'inline-flex justify-between',
       visibleOn: config?.visibleOn,
       onChange: (value: any, oldValue: boolean, model: any, form: any) => {
-        if (!value || value === '0 0 auto') {
-          // 固定宽度模式下，剔除占比设置
+        if (value === '1 1 auto') {
+          // 弹性
+          if (config?.isFlexColumnItem) {
+            form.setValueByName('style.overflowY', 'auto');
+            form.setValueByName('style.height', undefined);
+          } else {
+            form.setValueByName('style.overflowX', 'auto');
+            form.setValueByName('style.width', undefined);
+          }
+        } else if (value === '0 0 150px') {
+          // 固定
           form.setValueByName('style.flexGrow', undefined);
-        }
-        if (config?.isFlexColumnItem) {
-          form.setValueByName('style.overflowY', 'auto');
-          form.setValueByName('style.height', undefined);
-        } else {
-          form.setValueByName('style.overflowX', 'auto');
-          form.setValueByName('style.width', undefined);
+          form.setValueByName('style.flexBasis', '150px');
+
+          if (config?.isFlexColumnItem) {
+            form.setValueByName('style.height', undefined);
+          } else {
+            form.setValueByName('style.width', undefined);
+          }
+        } else if (value === '0 0 auto') {
+          // 适配
+          form.setValueByName('style.flexGrow', undefined);
+          form.setValueByName('style.flexBasis', undefined);
+
+          if (config?.isFlexColumnItem) {
+            form.setValueByName('style.height', undefined);
+          } else {
+            form.setValueByName('style.width', undefined);
+          }
         }
       }
     };
@@ -660,10 +688,21 @@ setSchemaTpl(
     pipeOut?: (value: any, data: any) => void;
   }) => {
     return {
-      type: 'switch',
-      label: config?.label || '固定宽度',
+      type: 'button-group-select',
+      label: config?.label || '宽度设置',
+      size: 'xs',
       name: config?.name || 'isFixedWidth',
-      value: config?.value || false,
+      options: [
+        {
+          label: '固定',
+          value: true
+        },
+        {
+          label: '适配',
+          value: false
+        }
+      ],
+      value: config?.value ?? false,
       visibleOn: config?.visibleOn,
       inputClassName: 'inline-flex justify-between',
       pipeIn: config?.pipeIn,
@@ -851,10 +890,21 @@ setSchemaTpl(
     pipeOut?: (value: any, data: any) => void;
   }) => {
     return {
-      type: 'switch',
-      label: config?.label || '固定高度',
+      type: 'button-group-select',
+      label: config?.label || '高度设置',
+      size: 'xs',
       name: config?.name || 'isFixedHeight',
-      value: config?.value || false,
+      options: [
+        {
+          label: '固定',
+          value: true
+        },
+        {
+          label: '适配',
+          value: false
+        }
+      ],
+      value: config?.value ?? false,
       visibleOn: config?.visibleOn,
       inputClassName: 'inline-flex justify-between',
       pipeIn: config?.pipeIn,
@@ -1158,6 +1208,7 @@ setSchemaTpl(
   }
 );
 
+// 吸附位置配置项
 setSchemaTpl('layout:sorption', {
   type: 'button-group-select',
   label: '吸附位置',
@@ -1182,6 +1233,7 @@ setSchemaTpl('layout:sorption', {
   }
 });
 
+// 滚动吸附配置项
 setSchemaTpl('layout:sticky', {
   type: 'switch',
   label: tipedLabel(
@@ -1201,6 +1253,7 @@ setSchemaTpl('layout:sticky', {
   }
 });
 
+// 滚动吸附位置配置项
 setSchemaTpl('layout:stickyPosition', {
   type: 'button-group-select',
   size: 'xs',

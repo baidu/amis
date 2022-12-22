@@ -16,6 +16,7 @@ export default class Layout_fixed_top extends FlexPluginBase {
       defaultFlexColumnSchema(),
       defaultFlexColumnSchema(),
       defaultFlexColumnSchema(),
+      defaultFlexColumnSchema(),
     ],
     style: {
       position: 'fixed',

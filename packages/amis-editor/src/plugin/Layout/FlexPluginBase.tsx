@@ -99,35 +99,6 @@ export class FlexPluginBase extends BasePlugin {
                 title: '布局',
                 body: [
                   isSorptionContainer ? getSchemaTpl('layout:sorption') : null,
-                  isFlexItem
-                    ? getSchemaTpl('layout:flex', {
-                        isFlexColumnItem,
-                        onText: isFlexColumnItem ? '弹性高度' : '弹性宽度',
-                        offText: isFlexColumnItem ? '固定高度' : '固定宽度',
-                        visibleOn:
-                          'data.style && (data.style.position === "static" || data.style.position === "relative")'
-                      })
-                    : null,
-                  isFlexItem
-                    ? getSchemaTpl('layout:flex-grow', {
-                        visibleOn:
-                          'data.style && data.style.flex !== "0 0 auto" && (data.style.position === "static" || data.style.position === "relative")'
-                      })
-                    : null,
-                  isFlexItem
-                    ? getSchemaTpl('layout:flex-basis', {
-                        label: isFlexColumnItem ? '弹性高度' : '弹性宽度',
-                        visibleOn:
-                          'data.style && (data.style.position === "static" || data.style.position === "relative") && data.style.flex === "1 1 auto"'
-                      })
-                    : null,
-                  isFlexItem
-                    ? getSchemaTpl('layout:flex-basis', {
-                        label: isFlexColumnItem ? '固定高度' : '固定宽度',
-                        visibleOn:
-                          'data.style && (data.style.position === "static" || data.style.position === "relative") && data.style.flex === "0 0 auto"'
-                      })
-                    : null,
 
                   // 吸附容器不显示定位相关配置项
                   ...(isSorptionContainer ? [] : positionTpl),
@@ -251,6 +222,41 @@ export class FlexPluginBase extends BasePlugin {
                   }),
                   getSchemaTpl('layout:flex-wrap'),
 
+                  isFlexItem
+                  ? getSchemaTpl('layout:flex', {
+                      isFlexColumnItem,
+                      label: isFlexColumnItem ? '高度设置' : '宽度设置',
+                      visibleOn:
+                        'data.style && (data.style.position === "static" || data.style.position === "relative")'
+                    })
+                  : null,
+                  isFlexItem
+                  ? getSchemaTpl('layout:flex-grow', {
+                      visibleOn:
+                        'data.style && data.style.flex === "1 1 auto" && (data.style.position === "static" || data.style.position === "relative")'
+                    })
+                  : null,
+                  isFlexItem
+                  ? getSchemaTpl('layout:flex-basis', {
+                      label: isFlexColumnItem ? '弹性高度' : '弹性宽度',
+                      visibleOn:
+                        'data.style && (data.style.position === "static" || data.style.position === "relative") && data.style.flex === "1 1 auto"'
+                    })
+                  : null,
+                  isFlexItem
+                  ? getSchemaTpl('layout:flex-basis', {
+                      label: isFlexColumnItem ? '固定高度' : '固定宽度',
+                      visibleOn:
+                        'data.style && (data.style.position === "static" || data.style.position === "relative") && data.style.flex === "0 0 150px"'
+                    })
+                  : null,
+
+                  getSchemaTpl('layout:overflow-x', {
+                    visibleOn: `${
+                      isFlexItem && !isFlexColumnItem
+                    } && data.style.flex === '0 0 150px'`
+                  }),
+
                   getSchemaTpl('layout:isFixedHeight', {
                     visibleOn: `${!isFlexItem || !isFlexColumnItem}`
                   }),
@@ -263,12 +269,13 @@ export class FlexPluginBase extends BasePlugin {
                   getSchemaTpl('layout:min-height', {
                     visibleOn: `${!isFlexItem || !isFlexColumnItem}`
                   }),
+
                   getSchemaTpl('layout:overflow-y', {
                     visibleOn: `${
                       !isFlexItem || !isFlexColumnItem
                     } && (data.isFixedHeight || data.style && data.style.maxHeight) || (${
                       isFlexItem && isFlexColumnItem
-                    } && data.style.flex === '0 0 auto')`
+                    } && data.style.flex === '0 0 150px')`
                   }),
 
                   getSchemaTpl('layout:isFixedWidth', {
@@ -283,13 +290,13 @@ export class FlexPluginBase extends BasePlugin {
                   getSchemaTpl('layout:min-width', {
                     visibleOn: `${!isFlexItem || isFlexColumnItem}`
                   }),
+                  
                   getSchemaTpl('layout:overflow-x', {
                     visibleOn: `${
                       !isFlexItem || isFlexColumnItem
-                    } && (data.isFixedWidth || data.style && data.style.maxWidth) || (${
-                      isFlexItem && !isFlexColumnItem
-                    } && data.style.flex === '0 0 auto')`
+                    } && (data.isFixedWidth || data.style && data.style.maxWidth)`
                   }),
+
                   !isFlexItem ? getSchemaTpl('layout:margin-center') : null,
                   getSchemaTpl('layout:z-index'),
                   !isSorptionContainer && getSchemaTpl('layout:sticky'),

@@ -3594,5 +3594,9 @@ extendLocale('en-US', {
   'b1119174b1beedd2218e0b359ef14aec': 'Form submission',
   'c6a65a86cd2bd74a6f72df0a7b81d3cb':
     'After the event is configured, the default verification, submission to the api or target and other behaviors will not be triggered when the form is submitted. All behaviors need to be configured by yourself',
-  'c207ba29769aca6ffd45db9f80bcb29e': 'Zero as head'
+  'c207ba29769aca6ffd45db9f80bcb29e': 'Zero as head',
+  'f02f876ee64cc016d97fa4dc498d4857': 'Height setting',
+  '091885db07e43ff7cbe60c3b664b0b50': 'elastic',
+  '363165ccee78341a65f1d42174e8b08f': 'Adaptation',
+  'eb44269adb6ba70569cd62ea88cb2750': 'Elastic Settings'
 });

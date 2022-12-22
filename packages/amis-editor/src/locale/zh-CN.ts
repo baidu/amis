@@ -3179,5 +3179,9 @@ extendLocale('zh-CN', {
   'b1119174b1beedd2218e0b359ef14aec': '表单提交',
   'c6a65a86cd2bd74a6f72df0a7b81d3cb':
     '配置该事件后将不会触发表单提交时默认的校验、提交到api或者target等行为，所有行为需要自己配置',
-  'c207ba29769aca6ffd45db9f80bcb29e': '以零为头部'
+  'c207ba29769aca6ffd45db9f80bcb29e': '以零为头部',
+  'f02f876ee64cc016d97fa4dc498d4857': '高度设置',
+  '091885db07e43ff7cbe60c3b664b0b50': '弹性',
+  '363165ccee78341a65f1d42174e8b08f': '适配',
+  'eb44269adb6ba70569cd62ea88cb2750': '弹性设置'
 });
