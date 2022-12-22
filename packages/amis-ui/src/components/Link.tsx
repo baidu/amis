@@ -46,6 +46,7 @@ export class Link extends React.Component<LinkProps, object> {
   render() {
     const {
       className,
+      style,
       href,
       classnames: cx,
       disabled,
@@ -71,6 +72,7 @@ export class Link extends React.Component<LinkProps, object> {
           },
           className
         )}
+        style={style}
         title={title}
         onClick={this.handleClick}
       >

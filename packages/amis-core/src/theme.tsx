@@ -122,6 +122,7 @@ export function getTheme(theme: string): ThemeInstance {
 
 export interface ThemeProps {
   className?: string;
+  style?: any;
   classPrefix: string;
   classnames: ClassNamesFn;
   theme?: string;
@@ -130,6 +131,7 @@ export interface ThemeProps {
 export interface ThemeOutterProps {
   theme?: string;
   className?: string;
+  style?: any;
   classPrefix?: string;
   classnames?: ClassNamesFn;
 }

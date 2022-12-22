@@ -860,6 +860,8 @@ export class FormItemWrap extends React.Component<FormItemProps> {
 
   renderControl(): JSX.Element | null {
     const {
+      // 这里解构，不可轻易删除，避免被rest传到子组件
+      inputClassName,
       formItem: model,
       classnames: cx,
       children,
@@ -879,7 +881,6 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       return renderControl({
         ...rest,
         onOpenDialog: this.handleOpenDialog,
-
         type,
         classnames: cx,
         formItem: model,
@@ -917,6 +918,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
     horizontal: (props: FormItemProps, renderControl: () => JSX.Element) => {
       let {
         className,
+        style,
         classnames: cx,
         description,
         descriptionClassName,
@@ -966,6 +968,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
             },
             model?.errClassNames
           )}
+          style={style}
         >
           {label !== false ? (
             <label
@@ -1072,6 +1075,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
     normal: (props: FormItemProps, renderControl: () => JSX.Element) => {
       let {
         className,
+        style,
         classnames: cx,
         desc,
         description,
@@ -1108,6 +1112,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
             },
             model?.errClassNames
           )}
+          style={style}
         >
           {label && renderLabel !== false ? (
             <label className={cx(`Form-label`, getItemLabelClassName(props))}>
@@ -1190,6 +1195,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
     inline: (props: FormItemProps, renderControl: () => JSX.Element) => {
       let {
         className,
+        style,
         classnames: cx,
         desc,
         description,
@@ -1226,6 +1232,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
             },
             model?.errClassNames
           )}
+          style={style}
         >
           {label && renderLabel !== false ? (
             <label
@@ -1314,6 +1321,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
     row: (props: FormItemProps, renderControl: () => JSX.Element) => {
       let {
         className,
+        style,
         classnames: cx,
         desc,
         description,
@@ -1350,6 +1358,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
             },
             model?.errClassNames
           )}
+          style={style}
         >
           <div className={cx('Form-rowInner')}>
             {label && renderLabel !== false ? (
@@ -1641,6 +1650,8 @@ export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
 
           renderControl() {
             const {
+              // 这里解构，不可轻易删除，避免被rest传到子组件
+              inputClassName,
               formItem: model,
               classnames: cx,
               children,

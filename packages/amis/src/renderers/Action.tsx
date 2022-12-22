@@ -755,6 +755,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
       countDownTpl,
       block,
       className,
+      style,
       componentClass,
       tooltip,
       disabledTip,
@@ -793,6 +794,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
         >
           <div
             className={cx('Action', className)}
+            style={style}
             onClick={this.handleAction}
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
@@ -833,6 +835,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
         className={cx(className, {
           [activeClassName || 'is-active']: isActive
         })}
+        style={style}
         size={size}
         level={
           activeLevel && isActive

@@ -223,7 +223,7 @@ export default class RepeatControl extends React.Component<RepeatProps, any> {
   }
 
   render() {
-    const {className, classPrefix: ns} = this.props;
+    const {className, style, classPrefix: ns} = this.props;
 
     return (
       <div className={cx(`${ns}RepeatControl`, className)}>

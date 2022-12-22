@@ -898,7 +898,7 @@ false       true           -        'a/b/c'
 false       false        false      {label: 'A/B/C', value: 'a/b/c'}
 true        true           -        'a/b/c,a/d'
 true        false        true       ['a/b/c', 'a/d']
-true        false        true       [{label: 'A/B/C', value: 'a/b/c'},{label: 'A/D', value: 'a/d'}]
+true        false        false      [{label: 'A/B/C', value: 'a/b/c'},{label: 'A/D', value: 'a/d'}]
 ```
 
 ```schema: scope="body"

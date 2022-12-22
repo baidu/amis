@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Renderer:nav 1`] = `
+exports[`Renderer:Nav 1`] = `
 <div>
   <div
     class="cxd-Nav"
@@ -101,6 +101,979 @@ exports[`Renderer:nav 1`] = `
             外部地址
           </a>
         </div>
+      </li>
+    </ul>
+  </div>
+</div>
+`;
+
+exports[`Renderer:Nav with itemActions 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <div
+            class="cxd-Nav"
+          >
+            <ul
+              class="cxd-Nav-list w-md cxd-Nav-list--stacked"
+            >
+              <li
+                class="cxd-Nav-item is-disabled"
+                data-id="1"
+              >
+                <a
+                  data-depth="1"
+                  data-id="1"
+                  style="padding-left: 24px;"
+                  title="Nav 1"
+                >
+                  <i
+                    class="cxd-Nav-itemIcon fa fa-user"
+                  />
+                  Nav 1
+                </a>
+                <div
+                  class="cxd-Nav-item-atcions"
+                >
+                  <i
+                    class="fa fa-cloud"
+                  />
+                  <div
+                    class="cxd-DropDown "
+                  >
+                    <button
+                      class="cxd-Button cxd-Button--link cxd-Button--size-default"
+                    >
+                      <i
+                        class="m-r-xs fa fa-ellipsis-h"
+                      />
+                    </button>
+                  </div>
+                </div>
+              </li>
+              <li
+                class="cxd-Nav-item is-disabled is-unfolded has-sub"
+                data-id="2"
+              >
+                <a
+                  data-depth="1"
+                  data-id="2"
+                  style="padding-left: 24px;"
+                  title="Nav 2"
+                >
+                  <span
+                    class="cxd-Nav-itemToggler"
+                  >
+                    <icon-mock
+                      classname="icon icon-caret"
+                      icon="caret"
+                    />
+                  </span>
+                  Nav 2
+                </a>
+                <div
+                  class="cxd-Nav-item-atcions"
+                >
+                  <div
+                    class="cxd-DropDown "
+                  >
+                    <button
+                      class="cxd-Button cxd-Button--link cxd-Button--size-default"
+                    >
+                      <i
+                        class="m-r-xs fa fa-ellipsis-h"
+                      />
+                    </button>
+                  </div>
+                </div>
+                <ul
+                  class="cxd-Nav-subItems"
+                >
+                  <li
+                    class="cxd-Nav-item is-disabled has-sub"
+                    data-id="2.1"
+                  >
+                    <a
+                      data-depth="2"
+                      data-id="2.1"
+                      style="padding-left: 48px;"
+                      title="Nav 2-1"
+                    >
+                      <span
+                        class="cxd-Nav-itemToggler"
+                      >
+                        <icon-mock
+                          classname="icon icon-caret"
+                          icon="caret"
+                        />
+                      </span>
+                      Nav 2-1
+                    </a>
+                    <div
+                      class="cxd-Nav-item-atcions"
+                    >
+                      <div
+                        class="cxd-DropDown "
+                      >
+                        <button
+                          class="cxd-Button cxd-Button--link cxd-Button--size-default"
+                        >
+                          <i
+                            class="m-r-xs fa fa-ellipsis-h"
+                          />
+                        </button>
+                      </div>
+                    </div>
+                    <ul
+                      class="cxd-Nav-subItems"
+                    >
+                      <li
+                        class="cxd-Nav-item is-disabled"
+                        data-id="2.11"
+                      >
+                        <a
+                          data-depth="3"
+                          data-id="2.11"
+                          style="padding-left: 72px;"
+                          title="Nav 2-1-1"
+                        >
+                          Nav 2-1-1
+                        </a>
+                        <div
+                          class="cxd-Nav-item-atcions"
+                        >
+                          <div
+                            class="cxd-DropDown "
+                          >
+                            <button
+                              class="cxd-Button cxd-Button--link cxd-Button--size-default"
+                            >
+                              <i
+                                class="m-r-xs fa fa-ellipsis-h"
+                              />
+                            </button>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </li>
+                  <li
+                    class="cxd-Nav-item is-disabled"
+                    data-id="2.2"
+                  >
+                    <a
+                      data-depth="2"
+                      data-id="2.2"
+                      style="padding-left: 48px;"
+                      title="Nav 2-2"
+                    >
+                      Nav 2-2
+                    </a>
+                    <div
+                      class="cxd-Nav-item-atcions"
+                    >
+                      <div
+                        class="cxd-DropDown "
+                      >
+                        <button
+                          class="cxd-Button cxd-Button--link cxd-Button--size-default"
+                        >
+                          <i
+                            class="m-r-xs fa fa-ellipsis-h"
+                          />
+                        </button>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+              <li
+                class="cxd-Nav-item is-disabled has-sub"
+                data-id="3"
+              >
+                <a
+                  data-depth="1"
+                  data-id="3"
+                  style="padding-left: 24px;"
+                  title="Nav 3"
+                >
+                  <span
+                    class="cxd-Nav-itemToggler"
+                  >
+                    <icon-mock
+                      classname="icon icon-caret"
+                      icon="caret"
+                    />
+                  </span>
+                  Nav 3
+                </a>
+                <div
+                  class="cxd-Nav-item-atcions"
+                >
+                  <div
+                    class="cxd-DropDown "
+                  >
+                    <button
+                      class="cxd-Button cxd-Button--link cxd-Button--size-default"
+                    >
+                      <i
+                        class="m-r-xs fa fa-ellipsis-h"
+                      />
+                    </button>
+                  </div>
+                </div>
+              </li>
+              <div
+                class="cxd-Spinner-overlay in"
+              />
+              <div
+                class="cxd-Spinner cxd-Spinner--overlay in"
+                data-testid="spinner"
+              >
+                <div
+                  class="cxd-Spinner-icon cxd-Spinner-icon--default"
+                />
+              </div>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:Nav with itemActions 2`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <div
+            class="cxd-Nav"
+          >
+            <ul
+              class="cxd-Nav-list w-md cxd-Nav-list--stacked"
+            >
+              <li
+                class="cxd-Nav-item"
+                data-id="1"
+              >
+                <a
+                  data-depth="1"
+                  data-id="1"
+                  style="padding-left: 24px;"
+                  title="Nav 1"
+                >
+                  <div
+                    class="cxd-Nav-itemDrager"
+                    draggable="true"
+                  >
+                    <icon-mock
+                      classname="icon icon-drag-bar"
+                      icon="drag-bar"
+                    />
+                  </div>
+                  <i
+                    class="cxd-Nav-itemIcon fa fa-user"
+                  />
+                  Nav 1
+                </a>
+                <div
+                  class="cxd-Nav-item-atcions"
+                >
+                  <i
+                    class="fa fa-cloud"
+                  />
+                  <div
+                    class="cxd-DropDown  is-opened"
+                  >
+                    <button
+                      class="cxd-Button cxd-Button--link cxd-Button--size-default"
+                    >
+                      <i
+                        class="m-r-xs fa fa-ellipsis-h"
+                      />
+                    </button>
+                    <ul
+                      class="cxd-DropDown-menu-root cxd-DropDown-menu"
+                    >
+                      <li
+                        class="cxd-DropDown-button"
+                      >
+                        <a
+                          class=""
+                        >
+                          <span>
+                            编辑
+                          </span>
+                        </a>
+                      </li>
+                      <li
+                        class="cxd-DropDown-button"
+                      >
+                        <a
+                          class=""
+                        >
+                          <span>
+                            删除
+                          </span>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </li>
+              <li
+                class="cxd-Nav-item is-unfolded has-sub"
+                data-id="2"
+              >
+                <a
+                  data-depth="1"
+                  data-id="2"
+                  style="padding-left: 24px;"
+                  title="Nav 2"
+                >
+                  <div
+                    class="cxd-Nav-itemDrager"
+                    draggable="true"
+                  >
+                    <icon-mock
+                      classname="icon icon-drag-bar"
+                      icon="drag-bar"
+                    />
+                  </div>
+                  <span
+                    class="cxd-Nav-itemToggler"
+                  >
+                    <icon-mock
+                      classname="icon icon-caret"
+                      icon="caret"
+                    />
+                  </span>
+                  Nav 2
+                </a>
+                <div
+                  class="cxd-Nav-item-atcions"
+                >
+                  <div
+                    class="cxd-DropDown "
+                  >
+                    <button
+                      class="cxd-Button cxd-Button--link cxd-Button--size-default"
+                    >
+                      <i
+                        class="m-r-xs fa fa-ellipsis-h"
+                      />
+                    </button>
+                  </div>
+                </div>
+                <ul
+                  class="cxd-Nav-subItems"
+                >
+                  <li
+                    class="cxd-Nav-item has-sub"
+                    data-id="2.1"
+                  >
+                    <a
+                      data-depth="2"
+                      data-id="2.1"
+                      style="padding-left: 48px;"
+                      title="Nav 2-1"
+                    >
+                      <div
+                        class="cxd-Nav-itemDrager"
+                        draggable="true"
+                      >
+                        <icon-mock
+                          classname="icon icon-drag-bar"
+                          icon="drag-bar"
+                        />
+                      </div>
+                      <span
+                        class="cxd-Nav-itemToggler"
+                      >
+                        <icon-mock
+                          classname="icon icon-caret"
+                          icon="caret"
+                        />
+                      </span>
+                      Nav 2-1
+                    </a>
+                    <div
+                      class="cxd-Nav-item-atcions"
+                    >
+                      <div
+                        class="cxd-DropDown "
+                      >
+                        <button
+                          class="cxd-Button cxd-Button--link cxd-Button--size-default"
+                        >
+                          <i
+                            class="m-r-xs fa fa-ellipsis-h"
+                          />
+                        </button>
+                      </div>
+                    </div>
+                    <ul
+                      class="cxd-Nav-subItems"
+                    >
+                      <li
+                        class="cxd-Nav-item"
+                        data-id="2.11"
+                      >
+                        <a
+                          data-depth="3"
+                          data-id="2.11"
+                          style="padding-left: 72px;"
+                          title="Nav 2-1-1"
+                        >
+                          <div
+                            class="cxd-Nav-itemDrager"
+                            draggable="true"
+                          >
+                            <icon-mock
+                              classname="icon icon-drag-bar"
+                              icon="drag-bar"
+                            />
+                          </div>
+                          Nav 2-1-1
+                        </a>
+                        <div
+                          class="cxd-Nav-item-atcions"
+                        >
+                          <div
+                            class="cxd-DropDown "
+                          >
+                            <button
+                              class="cxd-Button cxd-Button--link cxd-Button--size-default"
+                            >
+                              <i
+                                class="m-r-xs fa fa-ellipsis-h"
+                              />
+                            </button>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </li>
+                  <li
+                    class="cxd-Nav-item"
+                    data-id="2.2"
+                  >
+                    <a
+                      data-depth="2"
+                      data-id="2.2"
+                      style="padding-left: 48px;"
+                      title="Nav 2-2"
+                    >
+                      <div
+                        class="cxd-Nav-itemDrager"
+                        draggable="true"
+                      >
+                        <icon-mock
+                          classname="icon icon-drag-bar"
+                          icon="drag-bar"
+                        />
+                      </div>
+                      Nav 2-2
+                    </a>
+                    <div
+                      class="cxd-Nav-item-atcions"
+                    >
+                      <div
+                        class="cxd-DropDown "
+                      >
+                        <button
+                          class="cxd-Button cxd-Button--link cxd-Button--size-default"
+                        >
+                          <i
+                            class="m-r-xs fa fa-ellipsis-h"
+                          />
+                        </button>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+              <li
+                class="cxd-Nav-item has-sub"
+                data-id="3"
+              >
+                <a
+                  data-depth="1"
+                  data-id="3"
+                  style="padding-left: 24px;"
+                  title="Nav 3"
+                >
+                  <div
+                    class="cxd-Nav-itemDrager"
+                    draggable="true"
+                  >
+                    <icon-mock
+                      classname="icon icon-drag-bar"
+                      icon="drag-bar"
+                    />
+                  </div>
+                  <span
+                    class="cxd-Nav-itemToggler"
+                  >
+                    <icon-mock
+                      classname="icon icon-caret"
+                      icon="caret"
+                    />
+                  </span>
+                  Nav 3
+                </a>
+                <div
+                  class="cxd-Nav-item-atcions"
+                >
+                  <div
+                    class="cxd-DropDown "
+                  >
+                    <button
+                      class="cxd-Button cxd-Button--link cxd-Button--size-default"
+                    >
+                      <i
+                        class="m-r-xs fa fa-ellipsis-h"
+                      />
+                    </button>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:Nav with multi-level 1`] = `
+<div>
+  <div
+    class="cxd-Nav"
+  >
+    <ul
+      class="cxd-Nav-list w-md cxd-Nav-list--stacked"
+    >
+      <li
+        class="cxd-Nav-item is-active"
+        data-id="1"
+      >
+        <a
+          data-depth="1"
+          data-id="1"
+          style="padding-left: 24px;"
+          title="Nav 1"
+        >
+          <i
+            class="cxd-Nav-itemIcon fa fa-user"
+          />
+          Nav 1
+        </a>
+      </li>
+      <li
+        class="cxd-Nav-item is-unfolded has-sub"
+        data-id="2"
+      >
+        <a
+          data-depth="1"
+          data-id="2"
+          style="padding-left: 24px;"
+          title="Nav 2"
+        >
+          <span
+            class="cxd-Nav-itemToggler"
+          >
+            <icon-mock
+              classname="icon icon-caret"
+              icon="caret"
+            />
+          </span>
+          Nav 2
+        </a>
+        <ul
+          class="cxd-Nav-subItems"
+        >
+          <li
+            class="cxd-Nav-item has-sub"
+            data-id="2.1"
+          >
+            <a
+              data-depth="2"
+              data-id="2.1"
+              style="padding-left: 48px;"
+              title="Nav 2-1"
+            >
+              <span
+                class="cxd-Nav-itemToggler"
+              >
+                <icon-mock
+                  classname="icon icon-caret"
+                  icon="caret"
+                />
+              </span>
+              Nav 2-1
+            </a>
+            <ul
+              class="cxd-Nav-subItems"
+            >
+              <li
+                class="cxd-Nav-item"
+                data-id="2.11"
+              >
+                <a
+                  data-depth="3"
+                  data-id="2.11"
+                  style="padding-left: 72px;"
+                  title="Nav 2-1-1"
+                >
+                  Nav 2-1-1
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li
+            class="cxd-Nav-item"
+            data-id="2.2"
+          >
+            <a
+              data-depth="2"
+              data-id="2.2"
+              style="padding-left: 48px;"
+              title="Nav 2-2"
+            >
+              Nav 2-2
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li
+        class="cxd-Nav-item"
+        data-id="3"
+      >
+        <a
+          data-depth="1"
+          data-id="3"
+          style="padding-left: 24px;"
+          title="Nav 3"
+        >
+          Nav 3
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+`;
+
+exports[`Renderer:Nav with overflow 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <div
+            class="cxd-Nav"
+          >
+            <section
+              class="cxd-Nav-list cxd-Nav-list--tabs has-popover"
+              style="color: red;"
+            >
+              <li
+                class="cxd-Nav-item"
+                data-id="1"
+              >
+                <a
+                  data-depth="1"
+                  data-id="1"
+                  style="padding-left: 24px;"
+                  title="Nav 1"
+                >
+                  Nav 1
+                </a>
+              </li>
+              <li
+                class="cxd-Nav-item"
+                data-id="2"
+              >
+                <a
+                  data-depth="1"
+                  data-id="2"
+                  style="padding-left: 24px;"
+                  title="Nav 2"
+                >
+                  Nav 2
+                </a>
+              </li>
+              <li
+                class="cxd-Nav-item cxd-Nav-item-overflow is-overflow-opened thisisoverflowClassName"
+                style="position: relative;"
+              >
+                <a
+                  data-depth="1"
+                  data-id="overflowid"
+                >
+                  <i
+                    class="cxd-Nav-itemIcon fas fa-angle-double-down"
+                  />
+                  点击展开
+                </a>
+                <div
+                  class="resize-sensor"
+                  style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+                >
+                  
+  
+                  <div
+                    class="resize-sensor-expand"
+                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                  >
+                    
+    
+                    <div
+                      style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                    />
+                    
+  
+                  </div>
+                  
+  
+                  <div
+                    class="resize-sensor-shrink"
+                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                  >
+                    
+    
+                    <div
+                      style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                    />
+                    
+  
+                  </div>
+                  
+  
+                  <div
+                    class="resize-sensor-appear"
+                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                  />
+                </div>
+              </li>
+              <div
+                class="cxd-PopOver cxd-Nav-item-overflow-popover thisisoverflowPopoverClassName cxd-PopOver--leftBottomLeftTop"
+                style="display: block; min-width: 100px; left: 0px; top: 0px; position: relative;"
+                theme="cxd"
+              >
+                <div
+                  class="cxd-PopOver-overlay"
+                />
+                <div
+                  class="cxd-Nav-list cxd-Nav-list--stacked cxd-Nav-list-overflow thisisoverflowListClassName"
+                >
+                  <li
+                    class="cxd-Nav-item"
+                    data-id="3"
+                  >
+                    <a
+                      data-depth="1"
+                      data-id="3"
+                      style="padding-left: 24px;"
+                      title="Nav 3"
+                    >
+                      Nav 3
+                    </a>
+                  </li>
+                  <li
+                    class="cxd-Nav-item"
+                    data-id="4"
+                  >
+                    <a
+                      data-depth="1"
+                      data-id="4"
+                      style="padding-left: 24px;"
+                      title="Nav 4"
+                    >
+                      Nav 4
+                    </a>
+                  </li>
+                  <li
+                    class="cxd-Nav-item"
+                    data-id="5"
+                  >
+                    <a
+                      data-depth="1"
+                      data-id="5"
+                      style="padding-left: 24px;"
+                      title="Nav 5"
+                    >
+                      Nav 5
+                    </a>
+                  </li>
+                  <li
+                    class="cxd-Nav-item"
+                    data-id="6"
+                  >
+                    <a
+                      data-depth="1"
+                      data-id="6"
+                      style="padding-left: 24px;"
+                      title="Nav 6"
+                    >
+                      Nav 6
+                    </a>
+                  </li>
+                  <li
+                    class="cxd-Nav-item"
+                    data-id="7"
+                  >
+                    <a
+                      data-depth="1"
+                      data-id="7"
+                      style="padding-left: 24px;"
+                      title="Nav 7"
+                    >
+                      Nav 7
+                    </a>
+                  </li>
+                  <li
+                    class="cxd-Nav-item"
+                    data-id="8"
+                  >
+                    <a
+                      data-depth="1"
+                      data-id="8"
+                      style="padding-left: 24px;"
+                      title="Nav 8"
+                    >
+                      Nav 8
+                    </a>
+                  </li>
+                </div>
+                <div
+                  class="resize-sensor"
+                  style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+                >
+                  
+  
+                  <div
+                    class="resize-sensor-expand"
+                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                  >
+                    
+    
+                    <div
+                      style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                    />
+                    
+  
+                  </div>
+                  
+  
+                  <div
+                    class="resize-sensor-shrink"
+                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                  >
+                    
+    
+                    <div
+                      style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                    />
+                    
+  
+                  </div>
+                  
+  
+                  <div
+                    class="resize-sensor-appear"
+                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                  />
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:Nav with stacked 1`] = `
+<div>
+  <div
+    class="cxd-Nav"
+  >
+    <ul
+      class="cxd-Nav-list cxd-Nav-list--tabs"
+    >
+      <li
+        class="cxd-Nav-item"
+        data-id="1"
+      >
+        <a
+          data-depth="1"
+          data-id="1"
+          style="padding-left: 24px;"
+          title="Nav 1"
+        >
+          <i
+            class="cxd-Nav-itemIcon fa fa-user"
+          />
+          Nav 1
+        </a>
+      </li>
+      <li
+        class="cxd-Nav-item"
+        data-id="2"
+      >
+        <a
+          data-depth="1"
+          data-id="2"
+          style="padding-left: 24px;"
+          title="Nav 2"
+        >
+          Nav 2
+        </a>
+      </li>
+      <li
+        class="cxd-Nav-item"
+        data-id="3"
+      >
+        <a
+          data-depth="1"
+          data-id="3"
+          style="padding-left: 24px;"
+          title="Nav 3"
+        >
+          Nav 3
+        </a>
       </li>
     </ul>
   </div>

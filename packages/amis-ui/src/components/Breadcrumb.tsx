@@ -60,7 +60,7 @@ export class Breadcrumb extends React.Component<BreadcrumbProps> {
 
   render() {
     const cx = this.props.classnames;
-    const {className, separatorClassName, items, separator, ...restProps} =
+    const {className, style, separatorClassName, items, separator, ...restProps} =
       this.props;
 
     const crumbsLength = items?.length;
@@ -97,7 +97,7 @@ export class Breadcrumb extends React.Component<BreadcrumbProps> {
         curr
       ]);
 
-    return <div className={cx('Breadcrumb', className)}>{crumbs}</div>;
+    return <div className={cx('Breadcrumb', className)} style={style}>{crumbs}</div>;
   }
 }
 

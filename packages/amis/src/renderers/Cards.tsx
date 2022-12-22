@@ -974,6 +974,7 @@ export default class Cards extends React.Component<GridProps, object> {
   render() {
     const {
       className,
+      style,
       store,
       columnsCount,
       itemClassName,
@@ -1019,6 +1020,7 @@ export default class Cards extends React.Component<GridProps, object> {
         className={cx('Cards', className, {
           'Cards--unsaved': !!store.modified || !!store.moved
         })}
+        style={style}
       >
         {affixHeader ? (
           <div className={cx('Cards-fixedTop')}>

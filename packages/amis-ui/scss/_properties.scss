@@ -15,9 +15,9 @@ $remFactor: 16px;
   --success-onHover: var(--colors-success-6);
   --success-onActive: var(--colors-success-4);
 
-  --info: var(--colors-brand-5);
-  --info-onHover: var(--colors-brand-6);
-  --info-onActive: var(--colors-brand-4);
+  --info: var(--colors-info-5);
+  --info-onHover: var(--colors-info-6);
+  --info-onActive: var(--colors-info-4);
 
   --warning: var(--colors-warning-5);
   --warning-onHover: var(--colors-warning-6);
@@ -804,7 +804,7 @@ $remFactor: 16px;
   --Layout-asideLink-fontSize: var(--fonts-size-8);
   --Layout-asideLink-arrowFontSize: var(--fonts-size-8);
   --Layout-asideLink-arrowColor: var(--colors-neutral-text-5);
-  --Layout-asideLink-iconColor: rgba(255, 255, 255, 0.6);
+  --Layout-asideLink-iconColor: inherit;
   --Layout-asideLink-onActive-arrowColor: var(
     --Layout-asideLink-onActive-color
   );
@@ -813,10 +813,10 @@ $remFactor: 16px;
   --Layout-asideLink-onHover-iconColor: (--colors-brand-6);
   --Layout-asideLink-onHover-iconSize: var(--sizes-size-9);
   --Layout-asideLink-onHover-arrowColor: var(--colors-neutral-text-11);
-  --Layout-brand-bg: var(--colors-brand-1);
+  --Layout-brand-bg: var(--colors-neutral-fill-2);
   --Layout-brand-color: var(--colors-neutral-text-11);
   --Layout-brandBar-color: #{desaturate(lighten($dark, 40%), 10%)};
-  --Layout-header-bg: var(--colors-neutral-text-10);
+  --Layout-header-bg: var(--colors-neutral-fill-10);
   --Layout-header-boxShadow: none;
   --Layout-header-height: #{px2rem(50px)};
   --Layout-headerBar-borderBottom: none;
@@ -1439,7 +1439,7 @@ $remFactor: 16px;
   --TabsTransfer-border-color: #e8e9eb;
 
   --Tree-indent: var(--gap-md);
-  --Tree-icon-gap: vvar(--sizes-size-5);
+  --Tree-icon-gap: var(--sizes-size-5);
   --Tree-icon-margin-right: #{px2rem(8px)};
   --Tree-inputHeight: calc(var(--Form-input-height) * 0.85);
   --Tree-item-onHover-bg: var(--colors-neutral-fill-10);

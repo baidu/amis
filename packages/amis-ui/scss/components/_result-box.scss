@@ -196,8 +196,6 @@
     padding: 0 var(--gap-base);
 
     &.is-group {
-      padding: var(--gap-xs);
-
       > .#{$ns}TransferDropDown-icon {
         margin-right: var(--gap-sm);
       }

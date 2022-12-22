@@ -100,6 +100,7 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
   render() {
     const {
       className,
+      style,
       classPrefix: ns,
       value,
       onChange,

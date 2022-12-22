@@ -609,6 +609,7 @@ export default class TreeSelectControl extends React.Component<
   render() {
     const {
       className,
+      style,
       disabled,
       inline,
       loading,

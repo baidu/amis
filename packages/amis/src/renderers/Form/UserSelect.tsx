@@ -219,6 +219,7 @@ export default class UserSelectControl extends React.Component<
       searchable,
       options,
       className,
+      style,
       selectedOptions,
       tabOptions,
       multi,

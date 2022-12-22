@@ -126,6 +126,7 @@ export class LocationControl extends React.Component<LocationControlProps> {
 
   @supportStatic()
   render() {
+    const {style} = this.props;
     return (
       <div className={this.props.classnames('LocationControl')}>
         <LocationPicker

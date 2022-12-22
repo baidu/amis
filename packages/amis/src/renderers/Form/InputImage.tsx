@@ -1332,6 +1332,7 @@ export default class ImageControl extends React.Component<
   render() {
     const {
       className,
+      style,
       classnames: cx,
       placeholder,
       disabled,

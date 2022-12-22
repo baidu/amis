@@ -20,6 +20,7 @@ export default class YearRangeControl extends InputDateRange {
   render() {
     const {
       className,
+      style,
       classPrefix: ns,
       minDate,
       maxDate,

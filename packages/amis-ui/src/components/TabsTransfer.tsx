@@ -48,6 +48,7 @@ export interface TabsTransferProps
   ) => JSX.Element;
   onTabChange: (key: number) => void;
   activeKey: number;
+  onlyChildren?: boolean;
 }
 
 export interface TabsTransferState {
@@ -60,7 +61,8 @@ export class TabsTransfer extends React.Component<
   TabsTransferState
 > {
   static defaultProps = {
-    multiple: true
+    multiple: true,
+    onlyChildren: true
   };
 
   state = {
@@ -160,7 +162,8 @@ export class TabsTransfer extends React.Component<
       cellRender,
       optionItemRender,
       itemHeight,
-      virtualThreshold
+      virtualThreshold,
+      onlyChildren
     } = this.props;
     const options = searchResult || [];
     const mode = searchResultMode;
@@ -188,6 +191,7 @@ export class TabsTransfer extends React.Component<
         disabled={disabled}
         onChange={onChange!}
         joinValues={false}
+        onlyChildren={onlyChildren}
         showIcon={false}
         multiple={true}
         cascade={true}
@@ -319,7 +323,8 @@ export class TabsTransfer extends React.Component<
       translate: __,
       optionItemRender,
       itemHeight,
-      virtualThreshold
+      virtualThreshold,
+      onlyChildren
     } = this.props;
 
     return option.selectMode === 'table' ? (
@@ -347,6 +352,7 @@ export class TabsTransfer extends React.Component<
         onChange={onChange!}
         joinValues={false}
         showIcon={false}
+        onlyChildren={option.onlyChildren ?? onlyChildren}
         cascade={true}
         onDeferLoad={onDeferLoad}
         itemRender={

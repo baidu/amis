@@ -186,6 +186,7 @@ export default class Grid<T> extends React.Component<GridProps & T, object> {
   render() {
     const {
       className,
+      style,
       classnames: cx,
       gap,
       valign: vAlign,
@@ -203,6 +204,7 @@ export default class Grid<T> extends React.Component<GridProps & T, object> {
           },
           className
         )}
+        style={style}
       >
         {this.renderColumns(this.props.columns)}
         <Spinner overlay show={loading} />
