@@ -925,7 +925,10 @@ export class ActionRenderer extends React.Component<ActionRendererProps> {
     let mergedData = data;
 
     if (action?.actionType === 'click' && isObject(action?.args)) {
-      mergedData = createObject(data, action.args);
+      mergedData = createObject(data, {
+        ...action.args,
+        nativeEvent: e
+      });
     }
 
     const hasOnEvent = $schema.onEvent && Object.keys($schema.onEvent).length;
@@ -973,12 +976,24 @@ export class ActionRenderer extends React.Component<ActionRendererProps> {
 
   @autobind
   handleMouseEnter(e: React.MouseEvent<any>) {
-    this.props.dispatchEvent(e, this.props.data);
+    const {dispatchEvent, data} = this.props;
+    dispatchEvent(
+      e,
+      createObject(data, {
+        nativeEvent: e
+      })
+    );
   }
 
   @autobind
   handleMouseLeave(e: React.MouseEvent<any>) {
-    this.props.dispatchEvent(e, this.props.data);
+    const {dispatchEvent, data} = this.props;
+    dispatchEvent(
+      e,
+      createObject(data, {
+        nativeEvent: e
+      })
+    );
   }
 
   @autobind
