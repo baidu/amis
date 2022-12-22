@@ -157,7 +157,7 @@ exports[`Renderer:condition-builder 1`] = `
                   type="submit"
                 >
                   <span>
-                    提交
+                    Submit
                   </span>
                 </button>
               </div>
