@@ -339,8 +339,14 @@ export class ComboControlPlugin extends BasePlugin {
                         }
                       ],
                       onChange: (value: any, oldValue: any, model: any, form: any) => {
-                        if (!value) {
+                        if (value === 'icon') {
                           form.setValueByName('deleteBtn', undefined);
+                        }
+                        else if (value === 'button'){
+                          form.setValueByName('deleteBtn', {
+                            label: '删除',
+                            level: 'default'
+                          });
                         }
                       }
                     },
