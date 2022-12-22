@@ -191,23 +191,24 @@ export default class MapSourceControl extends React.Component<
   renderOtherFields() {
     return [{
       label: tipedLabel(
-        '值字段',
-        '映射表是数组对象，且对象有多个key时，用来匹配值的字段'
+        '值匹配字段',
+        '映射表是数组对象，且对象有多个key时，用来匹配值的字段, 默认为value'
       ),
       type: 'input-text',
       name: 'valueField',
-      placeholder: '匹配值的字段',
+      placeholder: '匹配字段，默认为value',
       onChange: this.handleValueFieldChange,
     },
     {
       label: tipedLabel(
         '显示字段',
-        '映射表是数组对象时，用作显示的字段，显示多字段请使用自定义显示模板'
+        '映射表是数组对象时，用作显示的字段，显示多字段请使用自定义显示模板，默认为label'
       ),
       type: 'input-text',
       name: 'labelField',
-      placeholder: '用作显示的字段',
-      onChange: this.handleLabelFieldChange
+      placeholder: '显示字段，默认为label',
+      onChange: this.handleLabelFieldChange,
+      visibleOn: '${!itemSchema}'
     }]
   }
 
