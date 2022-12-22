@@ -445,7 +445,6 @@ export class UserSelect extends React.Component<
         res.label = item[labelField];
       }
     });
-    console.log('getResult=====', labelField, _selection);
     return _selection;
   }
 
