@@ -1,6 +1,11 @@
-import {registerEditorPlugin} from 'amis-editor-core';
+import {
+  registerEditorPlugin,
+  RendererPluginAction,
+  RendererPluginEvent
+} from 'amis-editor-core';
 import {BaseEventContext, BasePlugin} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
+import {getEventControlConfig} from '../renderer/event-control/helper';
 
 export class PlainPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -29,6 +34,63 @@ export class PlainPlugin extends BasePlugin {
   };
 
   panelTitle = '纯文本';
+
+  // 事件定义
+  events: RendererPluginEvent[] = [
+    {
+      eventName: 'click',
+      eventLabel: '点击',
+      description: '点击时触发',
+      defaultShow: true,
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            nativeEvent: {
+              type: 'object',
+              title: '鼠标事件对象'
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'mouseenter',
+      eventLabel: '鼠标移入',
+      description: '鼠标移入时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            nativeEvent: {
+              type: 'object',
+              title: '鼠标事件对象'
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'mouseleave',
+      eventLabel: '鼠标移出',
+      description: '鼠标移出时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            nativeEvent: {
+              type: 'object',
+              title: '鼠标事件对象'
+            }
+          }
+        }
+      ]
+    }
+  ];
+
+  // 动作定义
+  actions: RendererPluginAction[] = [];
+
   panelBodyCreator = (context: BaseEventContext) => {
     const isTableCell = context.info.renderer.name === 'table-cell';
 
@@ -75,7 +137,17 @@ export class PlainPlugin extends BasePlugin {
         : {
             title: '显隐',
             body: [getSchemaTpl('ref'), getSchemaTpl('visible')]
-          }
+          },
+      {
+        title: '事件',
+        className: 'p-none',
+        body: [
+          getSchemaTpl('eventControl', {
+            name: 'onEvent',
+            ...getEventControlConfig(this.manager, context)
+          })
+        ]
+      }
     ]);
   };
 }
