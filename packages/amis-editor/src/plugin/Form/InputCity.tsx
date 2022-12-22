@@ -164,8 +164,7 @@ export class CityControlPlugin extends BasePlugin {
               getSchemaTpl('loadingConfig', {}, {context}),
               getSchemaTpl('labelRemark'),
               getSchemaTpl('remark'),
-              getSchemaTpl('description'),
-              getSchemaTpl('autoFillApi')
+              getSchemaTpl('description')
             ]
           },
           getSchemaTpl('status', {isFormItem: true}),
