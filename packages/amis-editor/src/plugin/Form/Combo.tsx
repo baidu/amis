@@ -227,7 +227,7 @@ export class ComboControlPlugin extends BasePlugin {
                 getSchemaTpl('valueFormula', {
                   rendererSchema: {
                     ...context?.schema,
-                    type: 'input-text'
+                    type: 'textarea'
                   },
                   label: tipedLabel(
                     '默认值',
@@ -303,31 +303,6 @@ export class ComboControlPlugin extends BasePlugin {
                     }
                   }
                 }),
-                {
-                  type: 'container',
-                  className: 'ae-ExtendMore mb-3',
-                  visibleOn: 'data.addable',
-                  body: [
-                    {
-                      label: '文案',
-                      name: 'addBtn.label',
-                      type: 'input-text'
-                    },
-                    getSchemaTpl('icon', {
-                      name: 'addBtn.icon',
-                      label: '左侧图标'
-                    }),
-                    getSchemaTpl('buttonLevel', {
-                      label: '样式',
-                      name: 'addBtn.level'
-                    }),
-
-                    getSchemaTpl('size', {
-                      name: 'addBtn.size',
-                      label: '尺寸'
-                    })
-                  ]
-                },
 
                 // 可删除
                 getSchemaTpl('switch', {
@@ -338,7 +313,8 @@ export class ComboControlPlugin extends BasePlugin {
                   onChange: (value: any, oldValue: any, model: any, form: any) => {
                     if (value) {
                       form.setValueByName('removableMode', 'icon');
-                      form.setValueByName('deleteIcon', 'fa fa-status-close');
+                      form.setValueByName('deleteIcon', undefined);
+                      form.setValueByName('deleteBtn', undefined);
                     }
                   }
                 }),
@@ -347,7 +323,7 @@ export class ComboControlPlugin extends BasePlugin {
                   className: 'ae-ExtendMore mb-3',
                   visibleOn: 'data.removable',
                   body: [
-                    // 自定义新增按钮开关
+                    // 自定义删除按钮开关
                     {
                       type: 'button-group-select',
                       name: 'removableMode',
@@ -368,11 +344,11 @@ export class ComboControlPlugin extends BasePlugin {
                         }
                       }
                     },
-                    getSchemaTpl('icon', {
-                      name: 'deleteIcon',
-                      label: '图标',
-                      visibleOn: 'data.removableMode === "icon"'
-                    }),
+                    // getSchemaTpl('icon', {
+                    //   name: 'deleteIcon',
+                    //   label: '图标',
+                    //   visibleOn: 'data.removableMode === "icon"'
+                    // }),
                     {
                       label: '文案',
                       name: 'deleteBtn.label',
@@ -406,20 +382,7 @@ export class ComboControlPlugin extends BasePlugin {
                 getSchemaTpl('remark'),
 
                 getSchemaTpl('placeholder'),
-                getSchemaTpl('description'),
-
-                {
-                  type: 'container',
-                  className: 'ae-ExtendMore mb-3',
-                  visibleOn: 'data.tabsMode',
-                  body: [
-                    {
-                      type: 'ae-formulaControl',
-                      name: 'tabsLabelTpl',
-                      label: '标题模版'
-                    }
-                  ]
-                },
+                getSchemaTpl('description')
               ]
             },
             getSchemaTpl('status', {
@@ -523,22 +486,27 @@ export class ComboControlPlugin extends BasePlugin {
                 visibleOn: 'data.tabsMode',
                 body: [
                   {
-                    type: 'button-group-select',
+                    type: 'select',
                     name: 'tabsStyle',
-                    label: '展示形式',
+                    label: '样式',
+                    pipeIn: defaultValue(''),
                     options: [
                       {
-                        value: 'normal',
-                        label: '正常'
+                        label: '默认',
+                        value: ''
                       },
                       {
-                        value: 'horizontal',
-                        label: '水平'
+                        label: '线型',
+                        value: 'line'
                       },
                       {
-                        value: 'inline',
-                        label: '内联'
+                        label: '卡片',
+                        value: 'card'
                       },
+                      {
+                        label: '选择器',
+                        value: 'radio'
+                      }
                     ]
                   },
                   {
@@ -565,14 +533,19 @@ export class ComboControlPlugin extends BasePlugin {
                 name: 'noBorder',
                 label: '去掉边框',
                 pipeIn: defaultValue(false)
-              }),
-              getSchemaTpl('subFormItemMode', {
-                visibleOn: 'data.multiLine',
-                label: '展示模式'
-              }),
+              })
             ]
           },
-          getSchemaTpl('style:formItem', {renderer: context.info.renderer}),
+          getSchemaTpl('style:formItem', {
+            renderer: context.info.renderer,
+            schema: [
+              getSchemaTpl('subFormItemMode', {
+                visibleOn: 'data.multiLine',
+                type: 'select',
+                label: '子表单',
+              })
+            ]
+          }),
           getSchemaTpl('style:classNames'),
         ])
       },

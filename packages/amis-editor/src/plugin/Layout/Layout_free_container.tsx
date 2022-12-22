@@ -7,7 +7,7 @@ export default class Layout_free_container extends ContainerPlugin {
   isBaseComponent = true;
   pluginIcon = 'layout-fixed-plugin';
   description = '自由容器: 其直接子元素支持拖拽调整位置。';
-  order = 503;
+  order = -1;
   tags = ['布局'];
   scaffold: any = {
     type: 'container',
@@ -15,6 +15,7 @@ export default class Layout_free_container extends ContainerPlugin {
     isFreeContainer: true,
     size: 'xs',
     body: [],
+    wrapperBody: false,
     style: {
       position: 'static',
       minHeight: '200px'

@@ -12,6 +12,7 @@ export class ContainerPlugin extends BasePlugin {
   isBaseComponent = true;
   description = '一个简单的容器，可以将多个渲染器放置在一起。';
   tags = ['容器'];
+  order = -2;
   withDataSource = false;
   icon = 'fa fa-square-o';
   pluginIcon = 'container-plugin';
@@ -54,21 +55,109 @@ export class ContainerPlugin extends BasePlugin {
       }),
       getSchemaTpl('layout:justifyContent', {
         label: '水平对齐方式',
+        options: [
+          {
+            label: '左对齐',
+            value: 'flex-start'
+          },
+          {
+            label: '居中对齐',
+            value: 'center'
+          },
+          {
+            label: '右对齐',
+            value: 'flex-end'
+          },
+          {
+            label: '两端对齐',
+            value: 'space-between'
+          },
+          {
+            label: '均匀分布',
+            value: 'space-evenly'
+          }
+        ],
         visibleOn:
           'data.style && data.style.display === "flex" && data.style.flexDirection === "row" || data.style.flexDirection === "row-reverse"'
       }),
       getSchemaTpl('layout:justifyContent', {
         label: '垂直对齐方式',
+        options: [
+          {
+            label: '起点对齐',
+            value: 'flex-start'
+          },
+          {
+            label: '居中对齐',
+            value: 'center'
+          },
+          {
+            label: '终点对齐',
+            value: 'flex-end'
+          },
+          {
+            label: '两端对齐',
+            value: 'space-between'
+          },
+          {
+            label: '均匀分布',
+            value: 'space-evenly'
+          }
+        ],
         visibleOn:
           'data.style && data.style.display === "flex" && (data.style.flexDirection === "column" || data.style.flexDirection === "column-reverse")'
       }),
       getSchemaTpl('layout:alignItems', {
         label: '水平对齐方式',
+        options: [
+          {
+            label: '左对齐',
+            value: 'flex-start'
+          },
+          {
+            label: '居中对齐',
+            value: 'center'
+          },
+          {
+            label: '右对齐',
+            value: 'flex-end'
+          },
+          {
+            label: '基线对齐',
+            value: 'baseline'
+          },
+          {
+            label: '自动拉伸',
+            value: 'stretch'
+          }
+        ],
         visibleOn:
           'data.style && data.style.display === "flex" && (data.style.flexDirection === "column" || data.style.flexDirection === "column-reverse")'
       }),
       getSchemaTpl('layout:alignItems', {
         label: '垂直对齐方式',
+        options: [
+          {
+            label: '起点对齐',
+            value: 'flex-start'
+          },
+          {
+            label: '居中对齐',
+            value: 'center'
+          },
+          {
+            label: '终点对齐',
+            value: 'flex-end'
+          },
+          {
+            label: '基线对齐',
+            value: 'baseline'
+          },
+          {
+            label: '高度撑满',
+            value: 'stretch'
+          }
+        ],
         visibleOn:
           'data.style && data.style.display === "flex" && (data.style.flexDirection === "row" || data.style.flexDirection === "row-reverse")'
       }),
@@ -192,7 +281,9 @@ export class ContainerPlugin extends BasePlugin {
                 } && data.style.flex === '0 0 auto')`
               }),
               !isFlexItem ? getSchemaTpl('layout:margin-center') : null,
-              getSchemaTpl('layout:z-index')
+              getSchemaTpl('layout:z-index'),
+              getSchemaTpl('layout:sticky'),
+              getSchemaTpl('layout:stickyPosition')
             ]
           },
           getSchemaTpl('status')

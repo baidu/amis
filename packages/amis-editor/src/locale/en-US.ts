@@ -3571,5 +3571,24 @@ extendLocale('en-US', {
   '5ba999eb762f60324033b735e55d989c': 'Event weight prevention',
   '7fe94616be0e8fb5ef5ab40a7397f0aa':
     'After event anti duplication is enabled, only the last event will be executed when triggered multiple times within the anti duplication time',
-  '91b72e901f1663637157cda638ac4dcc': 'Anti gravity time'
+  '91b72e901f1663637157cda638ac4dcc': 'Anti gravity time',
+  '969e9e56b3812abffa3994f35ea31835': 'Adsorption vessel',
+  'bb0e1fea25aafbe731886295fcef9a2e':
+    'Adsorption container: It can be set as a ceiling or ceiling display.',
+  '7d30297d4e1f310c73b27be88c748026': 'Adsorption position',
+  '2ea76e2ffc1b92911d6f7decfa993360': 'Ceiling',
+  '8cfc818a76662085cb64752d6d592fbe': 'Bottom suction',
+  'e2f6535e21570a0703c7c65f41b30eaa': 'Rolling adsorption',
+  '1c5ea0ffb2b15713cb22c41a02576924':
+    'When rolling adsorption is enabled, the adsorption mode will be automatically enabled when rolling to the upper and lower edges of the parent container.',
+  '5f9be0002394f0b58952969d5952e24c':
+    'Used to set the position of rolling adsorption',
+  '28968f372fe88c0ef855c7f79f42bbad': 'uniform distribution',
+  'd481ed97681365f18cf20ef914473a02': 'Align Start',
+  '02f6ac7a3bf6a8b4440a2a1c3e1daeea': 'Align End',
+  'cbac406a3f51abad691702015b0784ba': 'Full height',
+  '5a4e41af91746f8a3905aa9f66048955': 'Load Settings',
+  '6ade3082696deb00357f5c0359093cd4': 'Merge to upper loading',
+  'b6ac896eff6a6502e4ae7079b3e507a5': 'Not displaying loading',
+  '0e9ffe1f1cf3f7a620970ea75dba9f39': 'Use page global loading'
 });

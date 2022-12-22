@@ -19,6 +19,7 @@ export default class Layout_fixed extends FlexPluginBase {
       minHeight: '80px',
       display: 'block'
     },
+    wrapperBody: false,
     originPosition: 'right-bottom'
   };
   panelTitle = '悬浮容器';
