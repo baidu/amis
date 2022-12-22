@@ -14,7 +14,7 @@ export class DataDebugPlugin extends BasePlugin {
     toolbars: Array<BasicToolbarItem>
   ) {
     const comp = node.getComponent();
-    if (!comp || !comp.props.data || !comp.props.store) {
+    if (!comp || !comp.props || !comp.props.data || !comp.props.store) {
       return;
     }
 

@@ -258,5 +258,7 @@ extendLocale('en-US', {
     'The layout container component does not support dragging and inserting child elements.',
   '52e6abbe5c11e7cbf14788c1540f8bf2': 'Copied',
   '372ea9fd27fb7cfacfe1b4ca3046f8d0': 'Configuration Item',
-  '2a6287664de5ab46c65220c7182878ff': 'Cut'
+  '2a6287664de5ab46c65220c7182878ff': 'Cut',
+  'db805d4e361ac2d3fc6047eaea1a7c69': 'Free container',
+  '969e9e56b3812abffa3994f35ea31835': 'Adsorption vessel'
 });
