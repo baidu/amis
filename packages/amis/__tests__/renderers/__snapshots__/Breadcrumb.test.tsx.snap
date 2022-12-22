@@ -356,6 +356,9 @@ exports[`Renderer:breadcrumb tooltip labelMaxLength 1`] = `
                 />
                 <span
                   className="cxd-TplField"
+                  onClick={[Function]}
+                  onMouseEnter={[Function]}
+                  onMouseLeave={[Function]}
                 />
               </a>
             </span>
@@ -376,6 +379,9 @@ exports[`Renderer:breadcrumb tooltip labelMaxLength 1`] = `
               >
                 <span
                   className="cxd-TplField"
+                  onClick={[Function]}
+                  onMouseEnter={[Function]}
+                  onMouseLeave={[Function]}
                 >
                   上级页面上级页面上级页面上级页面...
                 </span>
@@ -394,6 +400,9 @@ exports[`Renderer:breadcrumb tooltip labelMaxLength 1`] = `
               >
                 <span
                   className="cxd-TplField"
+                  onClick={[Function]}
+                  onMouseEnter={[Function]}
+                  onMouseLeave={[Function]}
                 >
                   当前页面
                 </span>
@@ -443,6 +452,9 @@ exports[`Renderer:breadcrumb tooltip labelMaxLength 2`] = `
                 />
                 <span
                   className="cxd-TplField"
+                  onClick={[Function]}
+                  onMouseEnter={[Function]}
+                  onMouseLeave={[Function]}
                 />
               </a>
             </span>
@@ -463,6 +475,9 @@ exports[`Renderer:breadcrumb tooltip labelMaxLength 2`] = `
               >
                 <span
                   className="cxd-TplField"
+                  onClick={[Function]}
+                  onMouseEnter={[Function]}
+                  onMouseLeave={[Function]}
                 >
                   上级页面上级页面上级页面上级页面...
                 </span>
@@ -481,6 +496,9 @@ exports[`Renderer:breadcrumb tooltip labelMaxLength 2`] = `
               >
                 <span
                   className="cxd-TplField"
+                  onClick={[Function]}
+                  onMouseEnter={[Function]}
+                  onMouseLeave={[Function]}
                 >
                   当前页面
                 </span>
@@ -530,6 +548,9 @@ exports[`Renderer:breadcrumb tooltip labelMaxLength 3`] = `
                 />
                 <span
                   className="cxd-TplField"
+                  onClick={[Function]}
+                  onMouseEnter={[Function]}
+                  onMouseLeave={[Function]}
                 />
               </a>
             </span>
@@ -550,6 +571,9 @@ exports[`Renderer:breadcrumb tooltip labelMaxLength 3`] = `
               >
                 <span
                   className="cxd-TplField"
+                  onClick={[Function]}
+                  onMouseEnter={[Function]}
+                  onMouseLeave={[Function]}
                 >
                   上级页面上级页面上级页面上级页面...
                 </span>
@@ -568,6 +592,9 @@ exports[`Renderer:breadcrumb tooltip labelMaxLength 3`] = `
               >
                 <span
                   className="cxd-TplField"
+                  onClick={[Function]}
+                  onMouseEnter={[Function]}
+                  onMouseLeave={[Function]}
                 >
                   当前页面
                 </span>
@@ -617,6 +644,9 @@ exports[`Renderer:breadcrumb tooltip labelMaxLength 4`] = `
                 />
                 <span
                   className="cxd-TplField"
+                  onClick={[Function]}
+                  onMouseEnter={[Function]}
+                  onMouseLeave={[Function]}
                 />
               </a>
             </span>
@@ -637,6 +667,9 @@ exports[`Renderer:breadcrumb tooltip labelMaxLength 4`] = `
               >
                 <span
                   className="cxd-TplField"
+                  onClick={[Function]}
+                  onMouseEnter={[Function]}
+                  onMouseLeave={[Function]}
                 >
                   上级页面上级页面上级页面上级页面...
                 </span>
@@ -655,6 +688,9 @@ exports[`Renderer:breadcrumb tooltip labelMaxLength 4`] = `
               >
                 <span
                   className="cxd-TplField"
+                  onClick={[Function]}
+                  onMouseEnter={[Function]}
+                  onMouseLeave={[Function]}
                 >
                   当前页面
                 </span>
