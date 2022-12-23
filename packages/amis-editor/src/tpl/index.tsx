@@ -5,5 +5,6 @@ import './api';
 import './options';
 import './validations';
 import './style';
+import './crudFilterOperator';
 
 export * from './style';

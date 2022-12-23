@@ -136,6 +136,7 @@ export class TagControlPlugin extends BasePlugin {
               required: true
             }),
             getSchemaTpl('label'),
+            getSchemaTpl('crudFilterOperator', {context}),
             getSchemaTpl('clearable'),
             {
               type: 'input-text',

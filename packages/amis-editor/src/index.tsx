@@ -162,6 +162,7 @@ import './renderer/DataBindingControl';
 import './renderer/DataMappingControl';
 import './renderer/DataPickerControl';
 import './renderer/FeatureControl';
+import './renderer/TableColumnWidthControl';
 import './renderer/event-control/index';
 import './renderer/TreeOptionControl';
 import './renderer/TransferTableControl';

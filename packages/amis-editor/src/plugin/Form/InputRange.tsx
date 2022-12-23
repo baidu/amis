@@ -128,6 +128,8 @@ export class RangeControlPlugin extends BasePlugin {
                 type: 'input-text'
               },
 
+              getSchemaTpl('crudFilterOperator', {context}),
+
               {
                 label: '方式',
                 name: 'multiple',

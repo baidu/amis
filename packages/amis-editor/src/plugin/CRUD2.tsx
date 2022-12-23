@@ -888,11 +888,32 @@ export class CRUDPlugin extends BasePlugin {
         title: '基本',
         order: 1,
         body: [
-          ...builder.makeSourceSettingForm({
-            name: 'api',
+          this.dsBuilderMgr.getDSSwitch({
+            type: 'select',
             label: '数据源',
-            feat: 'List',
-            inCrud: true
+            onChange: (value: any, oldValue: any, model: any, form: any) => {
+              if (value !== oldValue) {
+                const data = form.data;
+                Object.keys(data).forEach(key => {
+                  if (key.endsWith('Fields') || key.endsWith('api')) {
+                    form.deleteValueByName(key);
+                  }
+                });
+                form.deleteValueByName('__fields');
+              }
+              return value;
+            }
+          }),
+          // 数据源选择
+          ...this.dsBuilderMgr.collectFromBuilders((builder, builderFlag) => {
+            return {
+              type: 'container',
+              visibleOn: `dsType == null || dsType === '${builderFlag}'`,
+              body: builder.makeSourceSettingForm({
+                feat: 'List',
+                inCrud: true
+              })
+            };
           }),
           {
             name: 'placeholder',
@@ -1499,6 +1520,8 @@ export class TableCRUDPlugin extends CRUDPlugin {
   order = -1000;
   icon = 'fa fa-table';
 
+  disabledRendererPlugin = true;
+
   previewSchema: any = generatePreviewSchema('table2');
 
   scaffold: any = {
@@ -1670,11 +1693,13 @@ export class TableCRUDPlugin extends CRUDPlugin {
                     pipeIn: defaultValue(true)
                   }),
                   getSchemaTpl('apiControl', {
+                    mode: 'normal',
                     label: '快速保存',
                     name: 'quickSaveApi'
                   }),
 
                   getSchemaTpl('apiControl', {
+                    mode: 'normal',
                     label: '快速保存单条',
                     name: 'quickSaveItemApi'
                   })
@@ -1737,13 +1762,15 @@ export class TableCRUDPlugin extends CRUDPlugin {
 
 export class CardsCRUDPlugin extends CRUDPlugin {
   // 组件名称
-  name = '卡片';
+  name = '卡片列表';
   isBaseComponent = true;
   description =
     '围绕卡片列表的数据增删改查. 负责数据的拉取，分页，单条操作，批量操作，排序，快速编辑等等功能，集成查询条件。';
 
   order = -1000;
   icon = 'fa fa-list-alt';
+
+  disabledRendererPlugin = true;
 
   previewSchema: any = generatePreviewSchema('cards');
 
@@ -1867,6 +1894,8 @@ export class ListCRUDPlugin extends CRUDPlugin {
 
   order = -1000;
   icon = 'fa fa-list';
+
+  disabledRendererPlugin = true;
 
   previewSchema: any = generatePreviewSchema('list');
 

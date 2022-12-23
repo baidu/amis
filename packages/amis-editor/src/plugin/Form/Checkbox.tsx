@@ -14,10 +14,7 @@ import {
   tipedLabel
 } from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
-import {
-  RendererPluginAction,
-  RendererPluginEvent
-} from 'amis-editor-core';
+import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 
 setSchemaTpl('option', {
@@ -108,6 +105,7 @@ export class CheckboxControlPlugin extends BasePlugin {
                 required: true
               }),
               getSchemaTpl('label'),
+              getSchemaTpl('crudFilterOperator', {context}),
               getSchemaTpl('option'),
               {
                 type: 'ae-switch-more',

@@ -190,6 +190,7 @@ export class DateRangeControlPlugin extends BasePlugin {
                   required: true
                 }),
                 getSchemaTpl('label'),
+                getSchemaTpl('crudFilterOperator', {context}),
                 getSchemaTpl('selectDateRangeType', {
                   value: this.scaffold.type,
                   onChange: (
@@ -308,14 +309,14 @@ export class DateRangeControlPlugin extends BasePlugin {
                 getSchemaTpl('dateShortCutControl', {
                   mode: 'normal',
                   normalDropDownOption: {
-                    'yesterday': '昨天',
-                    'thisweek': '这个周',
-                    'prevweek': '上周',
-                    'thismonth': '这个月',
-                    'prevmonth': '上个月',
-                    'thisquarter': '这个季度',
-                    'prevquarter': '上个季度',
-                    'thisyear': '今年'
+                    yesterday: '昨天',
+                    thisweek: '这个周',
+                    prevweek: '上周',
+                    thismonth: '这个月',
+                    prevmonth: '上个月',
+                    thisquarter: '这个季度',
+                    prevquarter: '上个季度',
+                    thisyear: '今年'
                   },
                   customDropDownOption: {
                     daysago: '最近n天',

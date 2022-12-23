@@ -27,6 +27,8 @@ import {SchemaObject} from 'amis/lib/Schema';
 import {getArgsWrapper} from '../renderer/event-control/helper';
 import type {EditorManager} from 'amis-editor-core';
 
+import {isCrudContext} from '../util';
+
 export class Table2Plugin extends BasePlugin {
   // 关联渲染器名字
   rendererName = 'table2';
@@ -375,7 +377,7 @@ export class Table2Plugin extends BasePlugin {
   }
 
   panelBodyCreator = (context: BaseEventContext) => {
-    const isCRUDBody = ['crud', 'crud2'].includes(context.schema.type);
+    const isCRUDBody = isCrudContext(context);
 
     return getSchemaTpl('tabs', [
       {
@@ -861,11 +863,7 @@ export class Table2Plugin extends BasePlugin {
     const plugin: PluginInterface = this;
     const {schema, renderer} = context;
 
-    if (
-      !schema.$$id &&
-      ['crud', 'crud2'].includes(schema.$$editor?.renderer.name) &&
-      renderer.name === 'table2'
-    ) {
+    if (!schema.$$id && isCrudContext(context) && renderer.name === 'table2') {
       return {
         ...({id: schema.$$editor.id} as any),
         name: plugin.name!,

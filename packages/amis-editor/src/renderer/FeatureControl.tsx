@@ -28,8 +28,10 @@ interface FeatureControlProps extends FormControlProps {
   addText?: string;
   sortable?: boolean;
   features: Array<FeatureOption> | ((schema: any) => Array<FeatureOption>);
-  goFeatureComp?: (item: FeatureOption) => string; // 去子组件
-  onSort?: (value: FeatureOption[]) => void;
+  goFeatureComp?: (item: FeatureOption, index: number) => string; // 去子组件
+  onSort?: (data: any, value: {oldIndex: number; newIndex: number}) => void;
+  // 自定义添加内容，按钮变成普通按钮
+  customAdd?: (schema: any) => any;
 }
 
 interface FeatureControlState {
@@ -96,7 +98,6 @@ export default class FeatureControl extends React.Component<
   handleRemove(item: FeatureOption, index: number) {
     const {removeFeature, data, onBulkChange} = this.props;
     const {inUseFeat, unUseFeat} = this.state;
-
     item.remove?.(data);
     removeFeature?.(item, data);
     onBulkChange?.(data);
@@ -105,6 +106,12 @@ export default class FeatureControl extends React.Component<
     item.add && unUseFeat.push(item);
 
     this.setState({inUseFeat, unUseFeat});
+  }
+
+  handleSort(e: any) {
+    const {data, onBulkChange, onSort} = this.props;
+    onSort?.(data, e);
+    onBulkChange?.(data);
   }
 
   @autobind
@@ -118,6 +125,14 @@ export default class FeatureControl extends React.Component<
     const schema = clone(data);
     item.add?.(schema);
     addFeature?.(item, schema);
+    onBulkChange?.(schema);
+  }
+
+  @autobind
+  handleCustomAdd() {
+    const {addFeature, data, onBulkChange, customAdd} = this.props;
+    const schema = clone(data);
+    customAdd?.(schema);
     onBulkChange?.(schema);
   }
 
@@ -172,7 +187,10 @@ export default class FeatureControl extends React.Component<
           const value = this.state.inUseFeat.concat();
           value[e.oldIndex] = value.splice(e.newIndex, 1, value[e.oldIndex])[0];
           this.setState({inUseFeat: value}, () => {
-            this.props.onSort?.(value);
+            this.handleSort({
+              oldIndex: e.oldIndex,
+              newIndex: e.newIndex
+            });
           });
         }
       }
@@ -198,7 +216,7 @@ export default class FeatureControl extends React.Component<
           className={cx(`${klass}Item-go`)}
           label={item.label}
           manager={manager}
-          compId={() => goFeatureComp(item)}
+          compId={() => goFeatureComp(item, index)}
         />
       );
     } else {
@@ -224,9 +242,19 @@ export default class FeatureControl extends React.Component<
   }
 
   renderAction() {
-    const {addable, addText, render} = this.props;
+    const {addable, addText, render, customAdd} = this.props;
     if (!addable) {
       return null;
+    }
+
+    if (customAdd && typeof customAdd === 'function') {
+      return render('custom-add', {
+        type: 'button',
+        label: '添加' || addText,
+        className: `${klass}-action`,
+        btnClassName: `${klass}-action--btn`,
+        onClick: this.handleCustomAdd
+      });
     }
 
     return render('action', {

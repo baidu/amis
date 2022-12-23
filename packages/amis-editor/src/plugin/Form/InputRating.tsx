@@ -104,6 +104,7 @@ export class RateControlPlugin extends BasePlugin {
                 type: 'input-text'
               },
 
+              getSchemaTpl('crudFilterOperator', {context}),
               getSchemaTpl('valueFormula', {
                 rendererSchema: {
                   ...context?.schema,

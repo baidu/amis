@@ -265,6 +265,7 @@ export class TreeSelectControlPlugin extends BasePlugin {
                 required: true
               }),
               getSchemaTpl('label'),
+              getSchemaTpl('crudFilterOperator', {context}),
 
               getSchemaTpl('clearable', {
                 mode: 'horizontal',

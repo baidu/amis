@@ -17,6 +17,8 @@ import {
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {diff, JSONPipeOut, repeatArray} from 'amis-editor-core';
 
+import {isCrudContext} from '../util';
+
 export class CardsPlugin extends BasePlugin {
   // 关联渲染器名字
   rendererName = 'cards';
@@ -73,7 +75,7 @@ export class CardsPlugin extends BasePlugin {
 
   panelTitle = '卡片集';
   panelBodyCreator = (context: BaseEventContext) => {
-    const isCRUDBody = ['crud', 'crud2'].includes(context.schema.type);
+    const isCRUDBody = isCrudContext(context);
     return getSchemaTpl('tabs', [
       {
         title: '常规',
@@ -286,11 +288,7 @@ export class CardsPlugin extends BasePlugin {
   ): BasicRendererInfo | void {
     const plugin: PluginInterface = this;
     const {renderer, schema} = context;
-    if (
-      !schema.$$id &&
-      ['crud', 'crud2'].includes(schema.$$editor?.renderer.name) &&
-      renderer.name === 'cards'
-    ) {
+    if (!schema.$$id && isCrudContext(context) && renderer.name === 'cards') {
       return {
         ...({id: schema.$$editor.id} as any),
         name: plugin.name!,
