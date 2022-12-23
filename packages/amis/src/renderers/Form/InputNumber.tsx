@@ -95,6 +95,8 @@ export interface NumberControlSchema extends FormBaseControlSchema {
   displayMode?: 'base' | 'enhance';
 }
 
+const numberFormatter = new Intl.NumberFormat();
+
 export interface NumberProps extends FormControlProps {
   placeholder?: string;
   max?: number | string;
@@ -339,12 +341,24 @@ export default class NumberControl extends React.Component<
   }
 
   renderStatic(displayValue = '-') {
-    const {unit, value} = this.props;
-    const finalValue =
+    let {value, kilobitSeparator, prefix, suffix} = this.props;
+    if (value == null) {
+      return displayValue;
+    }
+    const unit = this.state?.unit || '';
+    // 处理单位
+    let finalValue =
       unit && value && typeof value === 'string'
         ? value.replace(unit, '')
         : value;
-    return <>{finalValue || displayValue}</>;
+
+    // 增加千分分隔
+    if (kilobitSeparator && finalValue) {
+      finalValue = numberFormatter.format(finalValue);
+    }
+    // 增加前后缀
+    finalValue = (prefix ? prefix : '') + finalValue + (suffix ? suffix : '');
+    return <>{finalValue + unit}</>;
   }
 
   @supportStatic()
@@ -378,7 +392,7 @@ export default class NumberControl extends React.Component<
     const formatter = (value: string | number) => {
       // 增加千分分隔
       if (kilobitSeparator && value) {
-        value = (value + '').replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        value = numberFormatter.format(value as number);
       }
       return (prefix ? prefix : '') + value + (suffix ? suffix : '');
     };
