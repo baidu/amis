@@ -123,14 +123,7 @@ export class ListControlPlugin extends BasePlugin {
           body: [
             getSchemaTpl('optionControlV2', {
               description: '设置选项后，输入时会下拉这些选项供用户参考。'
-            }),
-            getSchemaTpl(
-              'loadingConfig',
-              {
-                visibleOn: 'this.source'
-              },
-              {context}
-            )
+            })
           ]
         },
         status: {}
