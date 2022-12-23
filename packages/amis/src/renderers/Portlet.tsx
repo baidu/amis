@@ -144,11 +144,9 @@ export interface PortletSchema extends Omit<BaseSchema, 'type'> {
   /**
    * 自定义样式
    */
-  style?:
-    | string
-    | {
-        [propName: string]: any;
-      };
+  style?: {
+    [propName: string]: any;
+  };
 }
 
 export interface PortletProps

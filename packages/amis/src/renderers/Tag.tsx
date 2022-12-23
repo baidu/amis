@@ -22,7 +22,9 @@ export interface TagSchema extends BaseSchema {
   /**
    * 自定义样式
    */
-  style?: React.CSSProperties;
+  style?: {
+    [propName: string]: any;
+  };
 
   /**
    * 标签颜色
