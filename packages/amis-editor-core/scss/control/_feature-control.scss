@@ -5,6 +5,7 @@
   }
 
   &Item {
+    position: relative;
     display: flex;
     height: 30px;
     margin-bottom: 12px;
@@ -42,6 +43,20 @@
         }
       }
     }
+
+    &-dragBar {
+      position: absolute;
+      display: none;
+      z-index: 2;
+      top: 50%;
+      transform: translateY(-50%);
+      left: 3px;
+      cursor: pointer;
+    }
+
+    &:hover &-dragBar {
+      display: block;
+    }
   }
 
   &-action {
@@ -60,5 +75,4 @@
       text-align: center;
     }
   }
-
 }
