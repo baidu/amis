@@ -933,3 +933,10 @@ export function unitFormula(insetStr: string, offsetVal: number) {
   const newOffsetVal = insetNum + curOffsetVal;
   return `${newOffsetVal >= 0 ? newOffsetVal : '0'}${insetUnit}`;
 }
+
+/**
+ * 过滤搜索字段中的特殊字符
+ */
+export function stringRegExp(keyword: string) {
+  return keyword.replace(/[|\\{}()[\]^$+*?.]/g, '');
+}

@@ -8,6 +8,7 @@ import {
   JSONTraverse,
   patchDiff,
   unitFormula,
+  stringRegExp,
   guid,
   reGenerateID
 } from '../../src/util';
@@ -634,7 +635,8 @@ export const MainStore = types
         const grouped: {
           [propName: string]: Array<SubRendererInfo>;
         } = {};
-        const regular = keywords ? new RegExp(keywords, 'i') : null;
+
+        const regular = keywords ? new RegExp(stringRegExp(keywords), 'i') : null;
 
         subRenderers.forEach(item => {
           if (
@@ -746,8 +748,11 @@ export const MainStore = types
         } = {
           全部: []
         };
-        const keywords = self.insertRenderersKeywords;
-        const r = new RegExp(keywords, 'i');
+        let keywords = self.insertRenderersKeywords;
+        if (keywords) {
+          keywords = keywords.replace(/[|\\{}()[\]^$+*?.]/g, '');
+        }
+        const r = new RegExp(stringRegExp(keywords), 'i');
 
         self.insertRenderers
           .concat()

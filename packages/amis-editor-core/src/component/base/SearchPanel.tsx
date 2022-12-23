@@ -2,7 +2,7 @@ import React from 'react';
 import {observer} from 'mobx-react';
 import {Icon, InputBox} from 'amis';
 import cx from 'classnames';
-import {autobind} from '../../util';
+import {autobind, stringRegExp} from '../../util';
 import isString from 'lodash/isString';
 
 /**
@@ -188,12 +188,12 @@ export default class SearchPanel extends React.Component<
     let curSearchResultByTag: {
       [propName: string]: any[];
     } = {};
-    const curKeyword = keywords ? keywords : this.state.curKeyword;
+    let curKeyword = keywords ? keywords : this.state.curKeyword;
     const curTagKey = this.props.tagKey || 'tags';
     const grouped: {
       [propName: string]: any[];
     } = {};
-    const regular = curKeyword ? new RegExp(curKeyword, 'i') : null;
+    const regular = curKeyword ? new RegExp(stringRegExp(curKeyword), 'i') : null;
 
     allResult.forEach(item => {
       if (isString(item) && regular && regular.test(item)) {
