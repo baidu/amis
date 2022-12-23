@@ -408,7 +408,7 @@ export default class ImageControl extends React.Component<
     const joinValues = props.joinValues;
     const delimiter = props.delimiter as string;
     let files: Array<FileValue> = [];
-    this.initAutoFill = !!props.initAutoFill;
+    this.initAutoFill = !!(props.initAutoFill ?? true);
 
     if (value) {
       // files = (multiple && Array.isArray(value) ? value : joinValues ? (value as string).split(delimiter) : [value])
@@ -512,11 +512,8 @@ export default class ImageControl extends React.Component<
         {
           files: (this.files = files)
         },
-        this.syncAutoFill
+        this.initAutoFill ? this.syncAutoFill : () => {}
       );
-    } else if (prevProps.value !== props.value && !this.initAutoFill) {
-      this.initAutoFill = true;
-      this.syncAutoFill();
     }
 
     if (prevProps.crop !== props.crop) {
@@ -786,7 +783,7 @@ export default class ImageControl extends React.Component<
     });
   }
 
-  async onChange(changeImmediately?: boolean, changeEvent: boolean = true) {
+  async onChange(changeImmediately?: boolean, changeEvent: boolean = true, initAutoFill?: boolean) {
     const {
       multiple,
       onChange,
@@ -795,6 +792,7 @@ export default class ImageControl extends React.Component<
       delimiter,
       valueField
     } = this.props;
+    const curInitAutoFill = initAutoFill ?? true;
 
     const files = this.files.filter(
       file => file.state == 'uploaded' || file.state == 'init'
@@ -828,7 +826,7 @@ export default class ImageControl extends React.Component<
     }
 
     onChange((this.emitValue = newValue || ''), undefined, changeImmediately);
-    this.syncAutoFill();
+    curInitAutoFill && this.syncAutoFill();
   }
 
   syncAutoFill() {
@@ -1247,8 +1245,11 @@ export default class ImageControl extends React.Component<
         this.setState(
           {
             files: (this.files = files)
-          },
-          !needUploading ? this.onChange : undefined
+          }, () => {
+            if (!needUploading) {
+              this.onChange(false, true, this.initAutoFill);
+            }
+          }
         );
     };
     img.src = imgDom.src;

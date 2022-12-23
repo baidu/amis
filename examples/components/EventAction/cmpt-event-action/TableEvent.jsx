@@ -266,6 +266,88 @@ export default {
       ]
     },
     {
+      type: 'tpl',
+      tpl: '数据元素点击、鼠标移入、鼠标移出事件(元素可监听事件与元素的组件类型相关)',
+      inline: false,
+      wrapperComponent: 'h2'
+    },
+    {
+      type: 'service',
+      api: '/api/mock2/sample?perPage=10',
+      body: [
+        {
+          type: 'table',
+          source: '$rows',
+          columns: [
+            {
+              name: 'id',
+              label: 'ID'
+            },
+
+            {
+              name: 'browser',
+              label: 'Browser',
+              type: 'tpl',
+              onEvent: {
+                mouseenter: {
+                  weight: 0,
+                  actions: [
+                    {
+                      args: {
+                        msgType: 'info',
+                        position: 'top-right',
+                        closeButton: true,
+                        showIcon: true,
+                        msg: '${nativeEvent.clientX}'
+                      },
+                      actionType: 'toast'
+                    }
+                  ]
+                },
+                mouseleave: {
+                  weight: 0,
+                  actions: [
+                    {
+                      args: {
+                        msgType: 'info',
+                        position: 'top-right',
+                        closeButton: true,
+                        showIcon: true,
+                        msg: '${nativeEvent.type}'
+                      },
+                      actionType: 'toast'
+                    }
+                  ]
+                }
+              }
+            },
+
+            {
+              name: 'version',
+              label: 'Version',
+              onEvent: {
+                click: {
+                  weight: 0,
+                  actions: [
+                    {
+                      args: {
+                        msgType: 'info',
+                        position: 'top-right',
+                        closeButton: true,
+                        showIcon: true,
+                        msg: '${id},${browser},${version}'
+                      },
+                      actionType: 'toast'
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
       type: 'divider'
     },
     {

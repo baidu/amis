@@ -1,5 +1,5 @@
 import React from 'react';
-import {Renderer, RendererProps} from 'amis-core';
+import {autobind, createObject, Renderer, RendererProps} from 'amis-core';
 import {filter} from 'amis-core';
 import cx from 'classnames';
 import {BaseSchema, SchemaTpl} from '../Schema';
@@ -44,6 +44,39 @@ export class Plain extends React.Component<PlainProps, object> {
     placeholder: '-'
   };
 
+  @autobind
+  handleClick(e: React.MouseEvent<HTMLDivElement>) {
+    const {dispatchEvent, data} = this.props;
+    dispatchEvent(
+      'click',
+      createObject(data, {
+        nativeEvent: e
+      })
+    );
+  }
+
+  @autobind
+  handleMouseEnter(e: React.MouseEvent<any>) {
+    const {dispatchEvent, data} = this.props;
+    dispatchEvent(
+      e,
+      createObject(data, {
+        nativeEvent: e
+      })
+    );
+  }
+
+  @autobind
+  handleMouseLeave(e: React.MouseEvent<any>) {
+    const {dispatchEvent, data} = this.props;
+    dispatchEvent(
+      e,
+      createObject(data, {
+        nativeEvent: e
+      })
+    );
+  }
+
   render() {
     const {
       className,
@@ -61,7 +94,13 @@ export class Plain extends React.Component<PlainProps, object> {
     const Component = wrapperComponent || (inline ? 'span' : 'div');
 
     return (
-      <Component className={cx('PlainField', className)} style={style}>
+      <Component
+        className={cx('PlainField', className)}
+        style={style}
+        onClick={this.handleClick}
+        onMouseEnter={this.handleMouseEnter}
+        onMouseLeave={this.handleMouseLeave}
+      >
         {tpl || text ? (
           filter(tpl || (text as string), data)
         ) : typeof value === 'undefined' || value === '' || value === null ? (
