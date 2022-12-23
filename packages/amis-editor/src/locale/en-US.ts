@@ -3598,5 +3598,6 @@ extendLocale('en-US', {
   'f02f876ee64cc016d97fa4dc498d4857': 'Height setting',
   '091885db07e43ff7cbe60c3b664b0b50': 'elastic',
   '363165ccee78341a65f1d42174e8b08f': 'Adaptation',
-  'eb44269adb6ba70569cd62ea88cb2750': 'Elastic Settings'
+  'eb44269adb6ba70569cd62ea88cb2750': 'Elastic Settings',
+  '64561733c68085af3d09315c1d4d7ed6': 'Mouse Event Object'
 });
