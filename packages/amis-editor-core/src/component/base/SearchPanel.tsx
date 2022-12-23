@@ -188,7 +188,7 @@ export default class SearchPanel extends React.Component<
     let curSearchResultByTag: {
       [propName: string]: any[];
     } = {};
-    let curKeyword = keywords ? keywords : this.state.curKeyword;
+    const curKeyword = keywords ? keywords : this.state.curKeyword;
     const curTagKey = this.props.tagKey || 'tags';
     const grouped: {
       [propName: string]: any[];

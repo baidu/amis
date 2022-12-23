@@ -748,10 +748,7 @@ export const MainStore = types
         } = {
           全部: []
         };
-        let keywords = self.insertRenderersKeywords;
-        if (keywords) {
-          keywords = keywords.replace(/[|\\{}()[\]^$+*?.]/g, '');
-        }
+        const keywords = self.insertRenderersKeywords;
         const r = new RegExp(stringRegExp(keywords), 'i');
 
         self.insertRenderers
