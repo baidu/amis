@@ -710,6 +710,7 @@ export class Tabs extends React.Component<TabsProps, any> {
       classnames: cx,
       contentClassName,
       className,
+      style,
       mode: dMode,
       tabsMode,
       children,
@@ -754,6 +755,7 @@ export class Tabs extends React.Component<TabsProps, any> {
           },
           className
         )}
+        style={style}
       >
         {!['vertical', 'sidebar', 'chrome'].includes(mode) ? (
           <div

@@ -341,7 +341,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
       class="cxd-Modal-overlay in"
     />
     <div
-      class="cxd-Modal-content"
+      class="cxd-Modal-content in"
     >
       <div
         class="cxd-Modal-header"
@@ -484,7 +484,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                             />
                           </div>
                           <label
-                            class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--sm"
+                            class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
                           >
                             <input
                               type="checkbox"

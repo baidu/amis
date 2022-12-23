@@ -500,7 +500,8 @@ export class TreeSelector extends React.Component<
 
           while (true) {
             const parent = getTreeParent(props.options, toCheck);
-            if (parent?.value) {
+            // 判断 parent 节点是否已经勾选，避免重复值
+            if (parent?.value && !~value.indexOf(parent)) {
               // 如果所有孩子节点都勾选了，应该自动勾选父级。
 
               if (

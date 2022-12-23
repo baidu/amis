@@ -22,6 +22,7 @@ import {
 } from './factory';
 import type {RenderOptions, RendererConfig, RendererProps} from './factory';
 import './renderers/builtin';
+import './renderers/register';
 export * from './utils/index';
 export * from './types';
 export * from './store';
@@ -229,7 +230,7 @@ export function render(
     props.useMobileUI = true;
   }
 
-  replaceText(schema, env.replaceText, env.replaceTextIgnoreKeys);
+  schema = replaceText(schema, options.replaceText, env.replaceTextIgnoreKeys);
 
   return (
     <EnvContext.Provider value={env}>

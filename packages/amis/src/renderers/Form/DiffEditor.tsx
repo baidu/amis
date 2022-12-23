@@ -290,6 +290,7 @@ export class DiffEditor extends React.Component<DiffEditorProps, any> {
   render() {
     const {
       className,
+      style,
       value,
       onChange,
       disabled,

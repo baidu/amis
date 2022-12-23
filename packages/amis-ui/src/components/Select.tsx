@@ -1021,25 +1021,6 @@ export class Select extends React.Component<SelectProps, SelectState> {
             'is-active': checked
           })}
         >
-          {removable ? (
-            <a data-tooltip={__('Select.clear')} data-position="left">
-              <Icon
-                icon="close"
-                className="icon"
-                onClick={(e: any) => this.handleDeleteClick(e, item)}
-              />
-            </a>
-          ) : null}
-          {editable ? (
-            <a data-tooltip="编辑" data-position="left">
-              <Icon
-                icon="pencil"
-                className="icon"
-                onClick={(e: any) => this.handleEditClick(e, item)}
-              />
-            </a>
-          ) : null}
-
           {renderMenu ? (
             multiple ? (
               <Checkbox
@@ -1113,6 +1094,24 @@ export class Select extends React.Component<SelectProps, SelectState> {
               {item.tip}
             </span>
           )}
+          {editable ? (
+            <a data-tooltip={__('Select.edit')} data-position="left">
+              <Icon
+                icon="pencil"
+                className="icon"
+                onClick={(e: any) => this.handleEditClick(e, item)}
+              />
+            </a>
+          ) : null}
+          {removable ? (
+            <a data-tooltip={__('Select.clear')} data-position="left">
+              <Icon
+                icon="close"
+                className="icon"
+                onClick={(e: any) => this.handleDeleteClick(e, item)}
+              />
+            </a>
+          ) : null}
         </div>
       );
     };
@@ -1308,7 +1307,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
                 ? value.length
                 : value != null && value !== resetValue) ? (
                 <a onClick={this.clearValue} className={cx('Select-clear')}>
-                  <Icon icon="close-small" className="icon" />
+                  <Icon icon="input-clear" className="icon" />
                 </a>
               ) : null}
               {loading ? (

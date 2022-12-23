@@ -206,6 +206,7 @@ register('zh-CN', {
   'Checkboxes.selectAll': '全选/不选',
   'Select.checkAll': '全选',
   'Select.clear': '移除',
+  'Select.edit': '编辑',
   'Select.upload': '重新上传',
   'Select.clearAll': '移除所有',
   'Select.createLabel': '新增选项',

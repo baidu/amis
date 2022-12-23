@@ -95,7 +95,7 @@ export interface TimelineProps
     Omit<TimelineSchema, 'className'> {}
 
 export function TimelineCmpt(props: TimelineProps) {
-  const {items, mode, direction, reverse, data, config, source, render} = props;
+  const {items, mode, style, direction, reverse, data, config, source, render} = props;
 
   // 获取源数据
   const timelineItemsRow: Array<TimelineItemSchema> = config || items || [];
@@ -126,6 +126,7 @@ export function TimelineCmpt(props: TimelineProps) {
       direction={direction}
       reverse={reverse}
       mode={mode}
+      style={style}
     />
   );
 }

@@ -32,6 +32,7 @@ export interface CollapseProps {
   mountOnEnter?: boolean;
   unmountOnExit?: boolean;
   className?: string;
+  style?: any;
   classPrefix: string;
   classnames: ClassNamesFn;
   headerPosition?: 'top' | 'bottom';
@@ -155,6 +156,7 @@ export class Collapse extends React.Component<CollapseProps, CollapseState> {
       wrapperComponent: WrapperComponent,
       headingComponent: HeadingComponent,
       className,
+      style,
       headingClassName,
       headerPosition,
       collapseHeader,
@@ -251,6 +253,7 @@ export class Collapse extends React.Component<CollapseProps, CollapseState> {
           },
           className
         )}
+        style={style}
       >
         {dom}
       </WrapperComponent>

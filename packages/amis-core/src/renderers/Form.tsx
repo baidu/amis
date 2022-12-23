@@ -809,6 +809,11 @@ export default class Form extends React.Component<FormProps, object> {
       });
   }
 
+  setErrors(errors: {[propName: string]: string}, tag = 'remote') {
+    const {store} = this.props;
+    store.setFormItemErrors(errors, tag);
+  }
+
   clearErrors() {
     const {store} = this.props;
 
@@ -1837,10 +1842,7 @@ export class FormRenderer extends Form {
     // 配了submit事件的表示将提交逻辑全部托管给事件
     const {dispatchEvent, onEvent} = this.props;
     const submitEvent = onEvent?.submit?.actions?.length;
-    const dispatcher = await dispatchEvent(
-      'submit',
-      this.props.data
-    );
+    const dispatcher = await dispatchEvent('submit', this.props.data);
     if (dispatcher?.prevented || submitEvent) {
       return;
     }

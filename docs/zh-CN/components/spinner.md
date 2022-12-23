@@ -182,18 +182,21 @@ order: 64
 
 ## Spinner 在组件树中的默认表现
 
-当在一棵树中，父组件和自组件同时在 `loading` 状态时，只有父组件的 `loading` 会生效，父组件的 `loading` 结束后才去根据自组件中的`loading`状态，来决定子组件中的`Spinner`是否需要进入`loading`
+当在一棵树中，父组件和子组件同时在 `loading` 状态时，只有父组件的 `loading` 会生效；父组件的 `loading` 结束后才会根据子组件中的`loading`状态，来决定子组件中的`Spinner`是否需要进入`loading`。
 
 ```schema
 {
 type: 'service',
-api: '/api/mock2/sample?orderBy=id&orderDir=desc&perPage=10&waitSeconds=10',
+api: '/api/mock2/sample?orderBy=id&orderDir=desc&perPage=10&waitSeconds=5',
 body: {
  type: 'page',
  initApi:
    '/api/mock2/sample?orderBy=id&orderDir=desc&perPage=10&waitSeconds=10',
  }
+}
 ```
+
+在这个例子中，`service` 会先进入 `loading` ，5秒后 `page` 组件开始 `loading`
 
 ## 属性表
 

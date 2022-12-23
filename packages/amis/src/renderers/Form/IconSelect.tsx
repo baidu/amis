@@ -363,7 +363,7 @@ export default class IconSelectControl extends React.PureComponent<
   }
 
   render() {
-    const {className, classPrefix: ns, disabled, translate: __} = this.props;
+    const {className, style, classPrefix: ns, disabled, translate: __} = this.props;
 
     return (
       <div

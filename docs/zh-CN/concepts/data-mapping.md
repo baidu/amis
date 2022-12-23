@@ -1306,6 +1306,43 @@ ${xxx | bytes}
 }
 ```
 
+##### 指定换算间隔参数
+
+```
+${xxx | bytes[:step]}
+```
+
+```schema
+{
+  "type": "page",
+  "data": {
+    "bytes1": 2333,
+    "bytes2": 2333333,
+    "bytes3": 2333333333
+  },
+  "body": [
+    {
+        "type": "tpl",
+        "tpl": "bytes1 is ${bytes1|bytes:1024}"
+    },
+    {
+        "type": "divider"
+    },
+    {
+        "type": "tpl",
+        "tpl": "bytes2 is ${bytes2|bytes:1024}"
+    },
+    {
+        "type": "divider"
+    },
+    {
+        "type": "tpl",
+        "tpl": "bytes3 is ${bytes3|bytes:1024}"
+    }
+  ]
+}
+```
+
 ### asArray
 
 将数据包成数组

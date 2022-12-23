@@ -1035,7 +1035,7 @@ exports[`Renderer:combo with conditions: add button open 1`] = `
                                         class="cxd-Number-input-wrap"
                                       >
                                         <input
-                                          aria-valuenow="1239"
+                                          aria-valuenow="0"
                                           autocomplete="off"
                                           class="cxd-Number-input"
                                           role="spinbutton"

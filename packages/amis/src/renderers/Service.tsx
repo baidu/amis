@@ -723,6 +723,7 @@ export default class Service extends React.Component<ServiceProps> {
   render() {
     const {
       className,
+      style,
       store,
       render,
       classPrefix: ns,
@@ -730,7 +731,7 @@ export default class Service extends React.Component<ServiceProps> {
     } = this.props;
 
     return (
-      <div className={cx(`${ns}Service`, className)}>
+      <div className={cx(`${ns}Service`, className)} style={style}>
         {store.error ? (
           <div className={cx(`Alert Alert--danger`)}>
             <button

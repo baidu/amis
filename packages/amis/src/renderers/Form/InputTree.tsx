@@ -185,6 +185,7 @@ export default class TreeControl extends React.Component<TreeProps> {
   render() {
     const {
       className,
+      style,
       treeContainerClassName,
       classPrefix: ns,
       value,

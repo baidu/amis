@@ -2,10 +2,18 @@ import {ListenerAction, ListenerContext, runActions} from '../actions/Action';
 import {RendererProps} from '../factory';
 import {IScopedContext} from '../Scoped';
 import {createObject} from './object';
+import debounce from 'lodash/debounce';
 
+export interface debounceConfig {
+  maxWait?: number;
+  wait?: number;
+  leading?: boolean;
+  trailing?: boolean;
+}
 // 事件监听器
 export interface EventListeners {
   [propName: string]: {
+    debounce?: debounceConfig;
     weight?: number; // 权重
     actions: ListenerAction[]; // 执行的动作集
   };
@@ -16,7 +24,8 @@ export interface OnEventProps {
   onEvent?: {
     [propName: string]: {
       weight?: number; // 权重
-      actions: ListenerAction[]; // 执行的动作集
+      actions: ListenerAction[]; // 执行的动作集,
+      debounce?: debounceConfig;
     };
   };
 }
@@ -26,9 +35,11 @@ export interface RendererEventListener {
   renderer: React.Component<RendererProps>;
   type: string;
   weight: number;
+  debounce: debounceConfig | null;
   actions: ListenerAction[];
+  executing?: boolean;
+  debounceInstance?: any;
 }
-
 // 将事件上下文转成事件对象
 export type RendererEvent<T, P = any> = {
   context: T;
@@ -86,14 +97,31 @@ export const bindEvent = (renderer: any) => {
   if (listeners) {
     // 暂存
     for (let key of Object.keys(listeners)) {
-      const listener = rendererEventListeners.some(
+      const listener = rendererEventListeners.find(
         (item: RendererEventListener) =>
           item.renderer === renderer && item.type === key
       );
+      if (listener?.executing) {
+        listener?.debounceInstance?.cancel?.();
+        rendererEventListeners = rendererEventListeners.filter(
+          (item: RendererEventListener) =>
+            !(
+              item.renderer === listener.renderer && item.type === listener.type
+            )
+        );
+        rendererEventListeners.push({
+          renderer,
+          type: key,
+          debounce: listener.debounce || null,
+          weight: listener.weight || 0,
+          actions: listener.actions
+        });
+      }
       if (!listener) {
         rendererEventListeners.push({
           renderer,
           type: key,
+          debounce: listeners[key].debounce || null,
           weight: listeners[key].weight || 0,
           actions: listeners[key].actions
         });
@@ -118,7 +146,7 @@ export async function dispatchEvent(
   data: any,
   broadcast?: RendererEvent<any>
 ): Promise<RendererEvent<any> | void> {
-  let unbindEvent = null;
+  let unbindEvent: (() => void) | null | undefined = null;
   const eventName = typeof e === 'string' ? e : e.type;
 
   renderer?.props?.env?.beforeDispatchEvent?.(
@@ -163,18 +191,54 @@ export async function dispatchEvent(
       (prev: RendererEventListener, next: RendererEventListener) =>
         next.weight - prev.weight
     );
-
+  let executedCount = 0;
+  const checkExecuted = () => {
+    executedCount++;
+    if (executedCount === listeners.length) {
+      unbindEvent?.();
+    }
+  };
   for (let listener of listeners) {
-    await runActions(listener.actions, listener.renderer, rendererEvent);
+    const {
+      wait = 100,
+      trailing = true,
+      leading = false,
+      maxWait = 10000
+    } = listener?.debounce || {};
+    if (listener?.debounce) {
+      const debounced = debounce(
+        async () => {
+          await runActions(listener.actions, listener.renderer, rendererEvent);
+          checkExecuted();
+        },
+        wait,
+        {
+          trailing,
+          leading,
+          maxWait
+        }
+      );
+      rendererEventListeners.forEach(item => {
+        // 找到事件队列中正在执行的事件加上标识，下次待执行队列就会把这个事件过滤掉
+        if (
+          item.renderer === listener.renderer &&
+          listener.type === item.type
+        ) {
+          item.executing = true;
+          item.debounceInstance = debounced;
+        }
+      });
+      debounced();
+    } else {
+      await runActions(listener.actions, listener.renderer, rendererEvent);
+      checkExecuted();
+    }
 
     // 停止后续监听器执行
     if (rendererEvent.stoped) {
       break;
     }
   }
-
-  unbindEvent?.();
-
   return Promise.resolve(rendererEvent);
 }
 

@@ -523,9 +523,10 @@ test('Renderer:combo with conditions', async () => {
   const addBtn = container.querySelector('.cxd-Combo-toolbar .cxd-Button')!;
   expect(addBtn).toBeInTheDocument();
   fireEvent.click(addBtn);
-  await wait(10);
+  await waitFor(() => {
+    expect(container).toMatchSnapshot('add button open');
+  });
 
-  expect(container).toMatchSnapshot('add button open');
   fireEvent.click(
     await within(document.querySelector('.cxd-Combo-toolbar')!).findByText(
       '文本'

@@ -1673,10 +1673,12 @@ export function JSONTraverse(
 ) {
   Object.keys(json).forEach(key => {
     const value: any = json[key];
-    if (isPlainObject(value) || Array.isArray(value)) {
-      JSONTraverse(value, mapper);
-    } else {
-      mapper(value, key, json);
+    if (!isObservable(value)) {
+      if (isPlainObject(value) || Array.isArray(value)) {
+        JSONTraverse(value, mapper);
+      } else {
+        mapper(value, key, json);
+      }
     }
   });
 }

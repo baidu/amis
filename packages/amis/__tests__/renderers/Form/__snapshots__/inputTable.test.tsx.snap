@@ -449,13 +449,13 @@ exports[`Renderer:input-table with combo column 1`] = `
                                                   class="cxd-Number-input-wrap"
                                                 >
                                                   <input
-                                                    aria-valuenow="99"
+                                                    aria-valuenow="88"
                                                     autocomplete="off"
                                                     class="cxd-Number-input"
                                                     placeholder="请手动输入分数"
                                                     role="spinbutton"
                                                     step="1"
-                                                    value="99"
+                                                    value="88"
                                                   />
                                                 </div>
                                               </div>
@@ -486,7 +486,7 @@ exports[`Renderer:input-table with combo column 1`] = `
                                                   placeholder="请手动输入意见"
                                                   size="10"
                                                   type="text"
-                                                  value="this is comment msg!"
+                                                  value="this is comment msg!!"
                                                 />
                                               </div>
                                             </div>

@@ -74,6 +74,7 @@ export class SparkLine extends React.Component<SparkLineProps> {
     const {
       classnames: cx,
       className,
+      style,
       value,
       width,
       height,
@@ -89,6 +90,7 @@ export class SparkLine extends React.Component<SparkLineProps> {
           className,
           onClick ? 'Sparkline--clickable' : ''
         )}
+        style={style}
         onClick={onClick}
       >
         {Array.isArray(value) && value.length > 1 ? (

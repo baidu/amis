@@ -435,6 +435,7 @@ export class BaseTransferRenderer<
   render() {
     let {
       className,
+      style,
       classnames: cx,
       selectedOptions,
       showArrow,

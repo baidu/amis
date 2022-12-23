@@ -132,6 +132,15 @@ test(`filter:bytes`, () => {
     })
   ).toBe('234 KB');
 });
+
+test(`filter:bytes:step`, () => {
+  expect(
+    resolveVariableAndFilter('${a|bytes:1024}', {
+      a: 234343
+    })
+  ).toBe('229 KB');
+});
+
 test(`filter:round`, () => {
   expect(
     resolveVariableAndFilter('${a|round}', {

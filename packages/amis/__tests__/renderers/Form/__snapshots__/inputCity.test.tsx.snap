@@ -71,7 +71,7 @@ exports[`Renderer:inputCity 1`] = `
                         aria-expanded="false"
                         aria-haspopup="listbox"
                         aria-labelledby="downshift-0-label"
-                        class="cxd-Select is-focused"
+                        class="cxd-Select"
                         role="combobox"
                         tabindex="0"
                       >
@@ -88,8 +88,8 @@ exports[`Renderer:inputCity 1`] = `
                           class="cxd-Select-clear"
                         >
                           <icon-mock
-                            classname="icon icon-close-small"
-                            icon="close-small"
+                            classname="icon icon-input-clear"
+                            icon="input-clear"
                           />
                         </a>
                         <span
@@ -122,8 +122,8 @@ exports[`Renderer:inputCity 1`] = `
                           class="cxd-Select-clear"
                         >
                           <icon-mock
-                            classname="icon icon-close-small"
-                            icon="close-small"
+                            classname="icon icon-input-clear"
+                            icon="input-clear"
                           />
                         </a>
                         <span
@@ -139,7 +139,7 @@ exports[`Renderer:inputCity 1`] = `
                         aria-expanded="false"
                         aria-haspopup="listbox"
                         aria-labelledby="downshift-2-label"
-                        class="cxd-Select"
+                        class="cxd-Select is-focused"
                         role="combobox"
                         tabindex="0"
                       >
@@ -156,8 +156,8 @@ exports[`Renderer:inputCity 1`] = `
                           class="cxd-Select-clear"
                         >
                           <icon-mock
-                            classname="icon icon-close-small"
-                            icon="close-small"
+                            classname="icon icon-input-clear"
+                            icon="input-clear"
                           />
                         </a>
                         <span

@@ -657,6 +657,7 @@ export default class TextControl extends React.PureComponent<
   renderSugestMode() {
     const {
       className,
+      style,
       inputControlClassName,
       nativeInputClassName,
       inputOnly,
@@ -875,6 +876,7 @@ export default class TextControl extends React.PureComponent<
       classPrefix: ns,
       classnames: cx,
       className,
+      style,
       inputControlClassName,
       nativeInputClassName,
       inputOnly,
@@ -992,6 +994,7 @@ export default class TextControl extends React.PureComponent<
     const {
       classnames: cx,
       className,
+      style,
       classPrefix: ns,
       addOn: addOnRaw,
       render,

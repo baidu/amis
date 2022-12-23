@@ -118,5 +118,7 @@ test('Renderer:chained-select', async () => {
   fireEvent.click(getByText('请选择'));
   expect(getByText('未找到任何结果')).toBeInTheDocument();
 
-  expect(container).toMatchSnapshot();
+  await waitFor(() => {
+    expect(container).toMatchSnapshot();
+  });
 });

@@ -23,6 +23,9 @@ exports[`Renderer:Page 1`] = `
             >
               <span
                 className="cxd-TplField"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
               >
                 <span
                   dangerouslySetInnerHTML={
@@ -54,6 +57,9 @@ exports[`Renderer:Page 1`] = `
             >
               <span
                 className="cxd-TplField"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
               >
                 <span
                   dangerouslySetInnerHTML={
@@ -70,6 +76,9 @@ exports[`Renderer:Page 1`] = `
           >
             <span
               className="cxd-TplField"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
             >
               <span
                 dangerouslySetInnerHTML={
@@ -89,6 +98,9 @@ exports[`Renderer:Page 1`] = `
           />
           <span
             className="cxd-TplField"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
           >
             <span
               dangerouslySetInnerHTML={
@@ -1006,6 +1018,9 @@ exports[`Renderer:Page initApi reFetch when condition changes 1`] = `
           />
           <span
             className="cxd-TplField"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
           >
             <span
               dangerouslySetInnerHTML={
@@ -1045,6 +1060,9 @@ exports[`Renderer:Page initApi reFetch when condition changes 2`] = `
           />
           <span
             className="cxd-TplField"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
           >
             <span
               dangerouslySetInnerHTML={
@@ -1993,6 +2011,9 @@ exports[`Renderer:Page initData 1`] = `
           />
           <span
             className="cxd-TplField"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
           >
             <span
               dangerouslySetInnerHTML={
@@ -2032,6 +2053,9 @@ exports[`Renderer:Page initFetchOn trigger initApi fetch when condition becomes 
           />
           <span
             className="cxd-TplField"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
           >
             <span
               dangerouslySetInnerHTML={
@@ -2071,6 +2095,9 @@ exports[`Renderer:Page location query 1`] = `
           />
           <span
             className="cxd-TplField"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
           >
             <span
               dangerouslySetInnerHTML={
@@ -2110,6 +2137,9 @@ exports[`Renderer:Page location query 2`] = `
           />
           <span
             className="cxd-TplField"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
           >
             <span
               dangerouslySetInnerHTML={

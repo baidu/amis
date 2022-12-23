@@ -152,6 +152,7 @@ class Remark extends React.Component<RemarkProps> {
   render() {
     const {
       className,
+      style,
       icon,
       label,
       shape,
@@ -182,6 +183,7 @@ class Remark extends React.Component<RemarkProps> {
             `Remark`,
             (tooltip && tooltip.className) || className || `Remark--warning`
           )}
+          style={style}
           onClick={this.showModalTip(parsedTip)}
         >
           {this.renderLabel(finalIcon, finalLabel, cx, finalShape)}
@@ -208,6 +210,7 @@ class Remark extends React.Component<RemarkProps> {
             `Remark`,
             (tooltip && tooltip.className) || className || `Remark--warning`
           )}
+          style={style}
         >
           {this.renderLabel(finalIcon, finalLabel, cx, finalShape)}
         </div>

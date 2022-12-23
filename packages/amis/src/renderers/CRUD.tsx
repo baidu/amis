@@ -410,6 +410,9 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
   timer: ReturnType<typeof setTimeout>;
   mounted: boolean;
+  /** 父容器, 主要用于定位CRUD内部popover的挂载点 */
+  parentContainer: Element | null;
+
   constructor(props: CRUDProps) {
     super(props);
 
@@ -500,6 +503,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     if (this.props.pickerMode && (val = getPropValue(this.props))) {
       store.setSelectedItems(val);
     }
+
+    this.parentContainer = this.getClosestParentContainer();
   }
 
   componentDidUpdate(prevProps: CRUDProps) {
@@ -1747,7 +1752,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       return null;
     }
 
-    const container = this.getClosestParentContainer();
     const extraProps: Pick<
       PaginationProps,
       'showPageInput' | 'maxButtons' | 'layout' | 'popOverContainerSelector'
@@ -1782,7 +1786,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             hasNext: store.hasNext,
             mode: store.mode,
             perPage: store.perPage,
-            popOverContainer: container,
+            popOverContainer: this.parentContainer,
             onPageChange: this.handleChangePage
           }
         )}
@@ -1834,7 +1838,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         value: item + ''
       })
     );
-    const container = this.getClosestParentContainer();
 
     return (
       <div className={cx('Crud-pageSwitch')}>
@@ -1847,7 +1850,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           value={store.perPage + ''}
           onChange={(value: any) => this.handleChangePage(1, value.value)}
           clearable={false}
-          popOverContainer={container}
+          popOverContainer={this.parentContainer}
         />
       </div>
     );
@@ -2123,6 +2126,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   render() {
     const {
       className,
+      style,
       bodyClassName,
       filter,
       render,
@@ -2157,6 +2161,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         className={cx('Crud', className, {
           'is-loading': store.loading
         })}
+        style={style}
       >
         {filter && (!store.filterTogggable || store.filterVisible)
           ? render(
