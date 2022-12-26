@@ -238,13 +238,21 @@ export class EditorDNDManager {
   dragEnter(e: DragEvent) {
     const store = this.store;
     this.dragEnterCount++;
+    const activeId = store.activeId;
 
     if (this.curDragId && this.manager.draggableContainer(this.curDragId)) {
       // 特殊布局元素拖拽位置时，不需要 switchToRegion
+      // 判断父级容器是否自由容器
+      const curNode = store.getNodeById(activeId);
+      if (curNode) {
+        const parentNode = curNode.parentId ? store.getNodeById(curNode.parentId) : undefined;
+        if (parentNode?.schema?.isFreeContainer) {
+          store.setDropId(curNode.parentId, 'body');
+        }
+      }
       return;
     }
 
-    const activeId = store.activeId;
     if (activeId) {
       const curNode = store.getNodeById(activeId);
       if (!curNode) {
@@ -428,6 +436,7 @@ export class EditorDNDManager {
       this.manager.updateContainerStyleByDrag(this.curDragId, dx, dy);
       // 重置拖拽ID，避免影响其他拖拽元素
       this.curDragId = '';
+      this.store.setDropId('');
       return;
     }
 
