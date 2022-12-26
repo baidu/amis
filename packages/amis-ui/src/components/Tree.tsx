@@ -240,6 +240,7 @@ export class TreeSelector extends React.Component<
     };
 
     this.syncUnFolded(props);
+    this.flattenOptions(props, true);
   }
 
   componentDidMount() {
@@ -247,8 +248,6 @@ export class TreeSelector extends React.Component<
 
     // onRef只有渲染器的情况才会使用
     this.props.onRef?.(this);
-    // 初始化
-    this.flattenOptions();
     enableNodePath && this.expandLazyLoadNodes();
   }
 
@@ -257,6 +256,7 @@ export class TreeSelector extends React.Component<
 
     if (prevProps.options !== props.options) {
       this.syncUnFolded(props);
+      this.flattenOptions(props);
     }
 
     if (
@@ -326,7 +326,6 @@ export class TreeSelector extends React.Component<
       }
     });
 
-    this.flattenOptions();
     initFoldedLevel && this.forceUpdate();
 
     return unfolded;
@@ -832,7 +831,10 @@ export class TreeSelector extends React.Component<
   /**
    * TODO: this.unfolded => reaction 更加合理
    */
-  flattenOptions(props?: TreeSelectorProps): void | Option[] {
+  flattenOptions(
+    props?: TreeSelectorProps,
+    initial?: boolean
+  ): void | Option[] {
     let flattenedOptions: Option[] = [];
 
     eachTree(
@@ -855,7 +857,7 @@ export class TreeSelector extends React.Component<
         }
       }
     );
-    if (!this.state.flattenedOptions.length && flattenedOptions.length) {
+    if (initial) {
       // 初始化
       this.state = {...this.state, flattenedOptions};
     } else {
