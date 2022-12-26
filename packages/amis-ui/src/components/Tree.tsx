@@ -855,7 +855,7 @@ export class TreeSelector extends React.Component<
         }
       }
     );
-    if (!this.state.flattenedOptions) {
+    if (!this.state.flattenedOptions.length && flattenedOptions.length) {
       // 初始化
       this.state = {...this.state, flattenedOptions};
     } else {

@@ -75,7 +75,9 @@ export interface CityPickerProps
   allowDistrict: boolean;
   allowStreet: boolean;
   useMobileUI?: boolean;
-  style?: any;
+  style?: {
+    [propName: string]: any;
+  };
 }
 
 export interface CityDb {
