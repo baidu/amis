@@ -617,8 +617,6 @@ export function isApiOutdated(
 ): nextApi is Api {
   if (!nextApi) {
     return false;
-  } else if (!prevApi) {
-    return true;
   }
 
   nextApi = normalizeApi(nextApi);
@@ -628,22 +626,30 @@ export function isApiOutdated(
   }
 
   const trackExpression = nextApi.trackExpression ?? nextApi.url;
-
   if (typeof trackExpression !== 'string' || !~trackExpression.indexOf('$')) {
     return false;
   }
-  prevApi = normalizeApi(prevApi);
 
   let isModified = false;
 
-  if (nextApi.trackExpression || prevApi.trackExpression) {
-    isModified =
-      tokenize(prevApi.trackExpression || '', prevData) !==
-      tokenize(nextApi.trackExpression || '', nextData);
+  if (prevApi) {
+    prevApi = normalizeApi(prevApi);
+
+    if (nextApi.trackExpression || prevApi.trackExpression) {
+      isModified =
+        tokenize(prevApi.trackExpression || '', prevData) !==
+        tokenize(nextApi.trackExpression || '', nextData);
+    } else {
+      prevApi = buildApi(prevApi as Api, prevData as object, {
+        ignoreData: true
+      });
+      nextApi = buildApi(nextApi as Api, nextData as object, {
+        ignoreData: true
+      });
+      isModified = prevApi.url !== nextApi.url;
+    }
   } else {
-    prevApi = buildApi(prevApi as Api, prevData as object, {ignoreData: true});
-    nextApi = buildApi(nextApi as Api, nextData as object, {ignoreData: true});
-    isModified = prevApi.url !== nextApi.url;
+    isModified = true;
   }
 
   return !!(
