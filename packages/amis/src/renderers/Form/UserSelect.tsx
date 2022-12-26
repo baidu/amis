@@ -207,7 +207,17 @@ export default class UserSelectControl extends React.Component<
   }
 
   renderStatic() {
-    const {selectedOptions, labelField = 'label'} = this.props;
+    const {selectedOptions, labelField = 'label', classnames: cx} = this.props;
+    if (labelField === 'avatar') {
+      return selectedOptions.map((item: Option, index: number) => (
+        <img
+          key={index}
+          className={cx('UserSelect-avatar-img')}
+          src={item[labelField]}
+          alt=""
+        />
+      ));
+    }
     return selectedOptions.map((item: Option) => item[labelField]).join(',');
   }
 
