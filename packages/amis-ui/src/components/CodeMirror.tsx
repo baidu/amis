@@ -6,6 +6,7 @@ import {resizeSensor} from 'amis-core';
 
 export interface CodeMirrorEditorProps {
   className?: string;
+  style?: any;
   value?: string;
   onChange?: (value: string) => void;
   onFocus?: (e: any) => void;
@@ -104,8 +105,8 @@ export class CodeMirrorEditor extends React.Component<CodeMirrorEditorProps> {
   }
 
   render() {
-    const {className} = this.props;
-    return <div className={className} ref={this.dom}></div>;
+    const {className, style} = this.props;
+    return <div className={className} style={style} ref={this.dom}></div>;
   }
 }
 

@@ -180,6 +180,7 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
       value,
       clearable,
       className,
+      style,
       classPrefix: ns,
       classnames: cx,
       allowInput = true,

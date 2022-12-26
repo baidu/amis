@@ -12,6 +12,7 @@ export interface AlertProps {
   level: 'danger' | 'info' | 'success' | 'warning';
   title?: string;
   className?: string;
+  style?: any;
   showCloseButton: boolean;
   showIcon?: boolean;
   icon?: string | React.ReactNode;
@@ -64,6 +65,7 @@ export class Alert extends React.Component<AlertProps, AlertState> {
     const {
       classnames: cx,
       className,
+      style,
       level,
       children,
       showCloseButton,
@@ -99,6 +101,7 @@ export class Alert extends React.Component<AlertProps, AlertState> {
           title ? 'Alert-has-title' : '',
           className
         )}
+        style={style}
       >
         {showIcon && iconNode ? (
           <div className={cx('Alert-icon', iconClassName)}>{iconNode}</div>

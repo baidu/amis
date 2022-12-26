@@ -442,6 +442,7 @@ export default class TagControl extends React.PureComponent<
   render() {
     const {
       className,
+      style,
       classnames: cx,
       disabled,
       placeholder,

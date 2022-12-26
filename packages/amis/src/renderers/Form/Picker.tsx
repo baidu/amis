@@ -498,6 +498,7 @@ export default class PickerControl extends React.PureComponent<
   render() {
     const {
       className,
+      style,
       modalClassName,
       classnames: cx,
       disabled,

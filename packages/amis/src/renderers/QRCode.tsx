@@ -122,6 +122,7 @@ export default class QRCode extends React.Component<QRCodeProps, any> {
   render() {
     const {
       className,
+      style,
       qrcodeClassName,
       codeSize,
       backgroundColor,
@@ -139,7 +140,7 @@ export default class QRCode extends React.Component<QRCodeProps, any> {
     );
 
     return (
-      <div className={cx(`${ns}QrCode`, className)}>
+      <div className={cx(`${ns}QrCode`, className)} style={style}>
         {!finalValue ? (
           <span className={`${ns}QrCode--placeholder`}>{placeholder}</span>
         ) : finalValue.length > 2953 ? (

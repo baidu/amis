@@ -755,6 +755,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
       countDownTpl,
       block,
       className,
+      style,
       componentClass,
       tooltip,
       disabledTip,
@@ -793,6 +794,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
         >
           <div
             className={cx('Action', className)}
+            style={style}
             onClick={this.handleAction}
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
@@ -833,6 +835,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
         className={cx(className, {
           [activeClassName || 'is-active']: isActive
         })}
+        style={style}
         size={size}
         level={
           activeLevel && isActive
@@ -922,7 +925,10 @@ export class ActionRenderer extends React.Component<ActionRendererProps> {
     let mergedData = data;
 
     if (action?.actionType === 'click' && isObject(action?.args)) {
-      mergedData = createObject(data, action.args);
+      mergedData = createObject(data, {
+        ...action.args,
+        nativeEvent: e
+      });
     }
 
     const hasOnEvent = $schema.onEvent && Object.keys($schema.onEvent).length;
@@ -970,12 +976,24 @@ export class ActionRenderer extends React.Component<ActionRendererProps> {
 
   @autobind
   handleMouseEnter(e: React.MouseEvent<any>) {
-    this.props.dispatchEvent(e, this.props.data);
+    const {dispatchEvent, data} = this.props;
+    dispatchEvent(
+      e,
+      createObject(data, {
+        nativeEvent: e
+      })
+    );
   }
 
   @autobind
   handleMouseLeave(e: React.MouseEvent<any>) {
-    this.props.dispatchEvent(e, this.props.data);
+    const {dispatchEvent, data} = this.props;
+    dispatchEvent(
+      e,
+      createObject(data, {
+        nativeEvent: e
+      })
+    );
   }
 
   @autobind

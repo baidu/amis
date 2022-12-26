@@ -63,7 +63,6 @@ function createHeaders(headers) {
     'Content-Type': 'Application/json',
     'Access-Control-Allow-Headers': 'x-requested-with,content-type',
     'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE,OPTIONS,HEAD',
-    'Access-Control-Allow-Credentials': 'true',
     'Access-Control-Allow-Origin': referer ? `${referer}` : '*'
   };
 }

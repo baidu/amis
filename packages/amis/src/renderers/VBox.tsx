@@ -47,10 +47,10 @@ export default class VBox extends React.Component<HBoxProps, object> {
   }
 
   render() {
-    const {className, rows, classPrefix: ns} = this.props;
+    const {className, style, rows, classPrefix: ns} = this.props;
 
     return (
-      <div className={cx(`${ns}Vbox`, className)}>
+      <div className={cx(`${ns}Vbox`, className)} style={style}>
         {Array.isArray(rows)
           ? rows.map((row, key) => (
               <div

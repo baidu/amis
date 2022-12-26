@@ -235,6 +235,7 @@ export default class Panel extends React.Component<PanelProps> {
     const {
       type,
       className,
+      style,
       data,
       header,
       body,
@@ -288,7 +289,7 @@ export default class Panel extends React.Component<PanelProps> {
     ) : null;
 
     return (
-      <div className={cx(`Panel`, className || `Panel--default`)}>
+      <div className={cx(`Panel`, className || `Panel--default`)} style={style}>
         {header ? (
           <div className={cx(headerClassName || `Panel-heading`)}>
             {render('header', header, subProps)}

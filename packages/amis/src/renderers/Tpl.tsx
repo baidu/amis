@@ -1,5 +1,5 @@
 import React from 'react';
-import {Renderer, RendererProps} from 'amis-core';
+import {autobind, createObject, Renderer, RendererProps} from 'amis-core';
 import {filter} from 'amis-core';
 import cx from 'classnames';
 import {anyChanged, getPropValue} from 'amis-core';
@@ -105,6 +105,39 @@ export class Tpl extends React.Component<TplProps, object> {
     return title;
   }
 
+  @autobind
+  handleClick(e: React.MouseEvent<HTMLDivElement>) {
+    const {dispatchEvent, data} = this.props;
+    dispatchEvent(
+      'click',
+      createObject(data, {
+        nativeEvent: e
+      })
+    );
+  }
+
+  @autobind
+  handleMouseEnter(e: React.MouseEvent<any>) {
+    const {dispatchEvent, data} = this.props;
+    dispatchEvent(
+      e,
+      createObject(data, {
+        nativeEvent: e
+      })
+    );
+  }
+
+  @autobind
+  handleMouseLeave(e: React.MouseEvent<any>) {
+    const {dispatchEvent, data} = this.props;
+    dispatchEvent(
+      e,
+      createObject(data, {
+        nativeEvent: e
+      })
+    );
+  }
+
   render() {
     const {
       className,
@@ -124,6 +157,9 @@ export class Tpl extends React.Component<TplProps, object> {
         className={cx('TplField', className)}
         style={buildStyle(style, data)}
         {...(showNativeTitle ? {title: this.getTitle(content)} : {})}
+        onClick={this.handleClick}
+        onMouseEnter={this.handleMouseEnter}
+        onMouseLeave={this.handleMouseLeave}
       >
         <span
           dangerouslySetInnerHTML={{__html: env.filterHtml(content)}}

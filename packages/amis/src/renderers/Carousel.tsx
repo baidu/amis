@@ -381,6 +381,7 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
     const {
       render,
       className,
+      style,
       classnames: cx,
       itemSchema,
       animation,
@@ -397,7 +398,7 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
     let body: JSX.Element | null = null;
     let carouselStyles: {
       [propName: string]: string;
-    } = {};
+    } = style || {};
     width ? (carouselStyles.width = width + 'px') : '';
     height ? (carouselStyles.height = height + 'px') : '';
     const [dots, arrows] = [

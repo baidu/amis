@@ -99,6 +99,7 @@ export default class StaticControl extends React.Component<StaticProps, any> {
   render() {
     const {
       className,
+      style,
       value,
       label,
       type,
@@ -215,7 +216,6 @@ export class StaticFieldRenderer extends TableCell {
 
     return (
       <Component
-        style={style}
         className={className}
         tabIndex={tabIndex}
         onKeyUp={onKeyUp}

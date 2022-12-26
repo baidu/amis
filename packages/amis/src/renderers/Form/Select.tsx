@@ -428,6 +428,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       showInvalidMatch,
       options,
       className,
+      style,
       loading,
       value,
       selectedOptions,

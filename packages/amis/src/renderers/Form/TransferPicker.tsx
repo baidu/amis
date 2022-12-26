@@ -63,6 +63,7 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
   render() {
     const {
       className,
+      style,
       classnames: cx,
       selectedOptions,
       sortable,

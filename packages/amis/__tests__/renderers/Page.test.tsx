@@ -1,5 +1,3 @@
-import React = require('react');
-import PageRenderer from '../../src/renderers/Page';
 import * as renderer from 'react-test-renderer';
 import {render, fireEvent, cleanup, waitFor} from '@testing-library/react';
 import '../../src';

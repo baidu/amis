@@ -277,6 +277,7 @@ export default class EditorControl extends React.Component<EditorProps, any> {
   render() {
     const {
       className,
+      style,
       classPrefix: ns,
       classnames: cx,
       value,

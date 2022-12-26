@@ -159,9 +159,11 @@ export class Spinner extends React.Component<
   loadingChecker = reaction(
     () => store.spinningContainers.size,
     () => {
-      this.setState({
-        spinning: store.checkLoading(this.parent) && this.loadingTriggered
-      });
+      if (this.parent) {
+        this.setState({
+          spinning: store.checkLoading(this.parent) && this.loadingTriggered
+        });
+      }
     }
   );
 

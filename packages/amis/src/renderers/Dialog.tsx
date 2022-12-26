@@ -510,6 +510,7 @@ export default class Dialog extends React.Component<DialogProps> {
     const store = this.props.store;
     const {
       className,
+      style,
       size,
       height,
       width,
@@ -540,6 +541,7 @@ export default class Dialog extends React.Component<DialogProps> {
       <Wrapper
         classPrefix={classPrefix}
         className={cx(className)}
+        style={style}
         size={size}
         height={height}
         width={width}

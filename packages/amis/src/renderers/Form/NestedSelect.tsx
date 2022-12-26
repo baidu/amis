@@ -865,6 +865,7 @@ export default class NestedSelectControl extends React.Component<
   render() {
     const {
       className,
+      style,
       disabled,
       classnames: cx,
       multiple,

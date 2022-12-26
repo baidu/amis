@@ -59,6 +59,7 @@ export class CollapseGroupRender extends React.Component<
       expandIconPosition,
       body,
       className,
+      style,
       render
     } = this.props;
     return (
@@ -68,6 +69,7 @@ export class CollapseGroupRender extends React.Component<
         expandIcon={expandIcon}
         expandIconPosition={expandIconPosition}
         className={className}
+        style={style}
       >
         {render('body', body || '')}
       </CollapseGroup>

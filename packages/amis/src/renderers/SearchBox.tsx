@@ -192,7 +192,8 @@ export class SearchBoxRenderer extends React.Component<
       searchImediately,
       placeholder,
       onChange,
-      className
+      className,
+      style
     } = this.props;
 
     const value = this.state.value;
@@ -200,6 +201,7 @@ export class SearchBoxRenderer extends React.Component<
     return (
       <SearchBox
         className={className}
+        style={style}
         name={name}
         disabled={!onQuery}
         defaultActive={!!value}

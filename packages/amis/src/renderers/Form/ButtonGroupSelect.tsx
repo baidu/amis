@@ -75,6 +75,7 @@ export default class ButtonGroupControl extends React.Component<
       classPrefix: ns,
       classnames: cx,
       className,
+      style,
       disabled,
       options,
       value,
@@ -159,6 +160,7 @@ export default class ButtonGroupControl extends React.Component<
           },
           className
         )}
+        style={style}
       >
         {body.length ? (
           body

@@ -75,6 +75,9 @@ export interface CityPickerProps
   allowDistrict: boolean;
   allowStreet: boolean;
   useMobileUI?: boolean;
+  style?: {
+    [propName: string]: any;
+  };
 }
 
 export interface CityDb {
@@ -397,6 +400,7 @@ export class CityPicker extends React.Component<
     const {
       classnames: cx,
       className,
+      style,
       disabled,
       allowCity,
       allowDistrict,

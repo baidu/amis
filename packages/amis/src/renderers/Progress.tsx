@@ -121,6 +121,7 @@ export class ProgressField extends React.Component<ProgressProps, object> {
       data,
       mode,
       className,
+      style,
       placeholder,
       progressClassName,
       map,
@@ -171,6 +172,7 @@ export class ProgressField extends React.Component<ProgressProps, object> {
         gapDegree={gapDegree}
         gapPosition={gapPosition}
         className={className}
+        style={style}
         progressClassName={progressClassName}
         threshold={threshold}
         showThresholdText={showThresholdText}
