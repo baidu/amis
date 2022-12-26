@@ -175,7 +175,7 @@ export function buildApi(
     api.method === 'put' ||
     api.method === 'patch'
   ) {
-    api.body = api.data = cloneObject(data);
+    api.body = api.data = data;
   }
 
   // get 类请求，把 data 附带到 url 上。
