@@ -1120,7 +1120,10 @@ export default class ImageControl extends React.Component<
 
         const dispatcher = await this.dispatchEvent('success', {
           ...file, // 保留历史结构
-          item: file,
+          item: {
+            ...file,
+            ...ret.data
+          },
           value: obj.value
         });
         if (dispatcher?.prevented) {
