@@ -1092,38 +1092,39 @@ setSchemaTpl(
     pipeOut?: (value: any, data: any) => void;
   }) => {
     return {
-      type: 'switch',
+      type: 'button-group-select',
+      size: 'xs',
       label:
         config?.label ||
-        tipedLabel('居中显示', '通过将设置 margin: 0 auto 来达到居中显示'),
+        tipedLabel('对齐方式', '通过 margin 数值来设置对齐方式，其中 margin: 0 auto 用于设置居中对齐'),
       name: config?.name || 'style.margin',
       value: config?.value || '0',
       inputClassName: 'inline-flex justify-between',
       visibleOn:
         config?.visibleOn ??
         'data.isFixedWidth || data.style && data.style.maxWidth',
-      pipeIn: (value: any) => {
-        let curValue = value || '0';
-        if (isNumber(curValue)) {
-          curValue = curValue.toString();
+      options: [
+        {
+          label: '靠左',
+          value: 'auto auto auto 0px'
+        },
+        {
+          label: '居中',
+          value: '0px auto'
+        },
+        {
+          label: '靠右',
+          value: 'auto 0px auto auto'
+        },
+      ],
+      onChange: (value: string, oldValue: string, model: any, form: any) => {
+        if (value === 'left') {
+          form.setValueByName('style.margin', 'auto auto auto 0px');
+        } else if (value === 'center') {
+          form.setValueByName('style.margin', '0px auto');
+        } else if (value === 'right') {
+          form.setValueByName('style.margin', 'auto 0px auto auto');
         }
-        if (!isString(curValue)) {
-          curValue = '0';
-        }
-        const margin = value.split(' ');
-        const curMargin = {
-          top: margin[0] || '0',
-          right: margin[1] || '0',
-          bottom: margin[2] || margin[0] || '0',
-          left: margin[3] || margin[1] || '0'
-        };
-        // 当左右margin数值相同时，则可认为是居中模式
-        return curMargin.left !== '0' && curMargin.left === curMargin.right
-          ? true
-          : false;
-      },
-      pipeOut: (value: boolean) => {
-        return value ? '0 auto' : '0';
       }
     };
   }
@@ -1271,13 +1272,19 @@ setSchemaTpl('layout:stickyPosition', {
     {
       label: '吸底',
       value: 'bottom'
-    }
+    },
+    {
+      label: '自动',
+      value: 'auto'
+    },
   ],
   onChange: (value: string, oldValue: string, model: any, form: any) => {
     if (value === 'top') {
       form.setValueByName('style.inset', '0px auto auto auto');
     } else if (value === 'bottom') {
       form.setValueByName('style.inset', 'auto auto 0px auto');
+    } else if (value === 'auto') {
+      form.setValueByName('style.inset', '0px auto 0px auto');
     }
   }
 });

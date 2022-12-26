@@ -3599,5 +3599,9 @@ extendLocale('en-US', {
   '091885db07e43ff7cbe60c3b664b0b50': 'elastic',
   '363165ccee78341a65f1d42174e8b08f': 'Adaptation',
   'eb44269adb6ba70569cd62ea88cb2750': 'Elastic Settings',
-  '64561733c68085af3d09315c1d4d7ed6': 'Mouse Event Object'
+  '64561733c68085af3d09315c1d4d7ed6': 'Mouse Event Object',
+  '052f93928af33d4d7035e7c8e8a73f17':
+    'The alignment is set by the margin value, where margin: 0 auto is used to set the center alignment',
+  'a738a8594bd2b71002d09277b84d86dd': 'Left',
+  'fc0f19e9e47e352d36d36cf6eb653210': 'Right'
 });
