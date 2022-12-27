@@ -29,6 +29,11 @@ export class ContainerWrapper extends React.Component<ContainerWrapperProps> {
     const {render, $$editor, $$node} = this.props;
 
     const child = render(region, node, props);
+
+    if ($$node?.memberImmutable(region)) {
+      return child;
+    }
+
     const config = find(
       $$editor.regions,
       item => item.key === region && !item.matchRegion && !item.renderMethod

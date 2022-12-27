@@ -182,14 +182,18 @@
       border-radius: 4px;
       transform: scale(1);
       transform-origin: center top;
+      display: flex;
+      flex-direction: column;
 
       > *:first-child {
         // min-width: 100%;
         position: relative;
-        min-height: calc(100vh - 131px); // 确保能撑开画布区
+        // min-height: calc(100vh - 131px); // 确保能撑开画布区
+        flex: 1;
         height: auto;
         background: white;
         box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.2);
+        margin-bottom: 0;
       }
     }
 

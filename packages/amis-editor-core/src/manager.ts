@@ -1250,7 +1250,7 @@ export class EditorManager {
       ...commonContext,
       sourceId: node.id,
       direction: 'down',
-      beforeId: node.nextSibling?.id,
+      beforeId: node.nextSibling?.nextSibling?.id,
       region: regionNode.region
     };
 

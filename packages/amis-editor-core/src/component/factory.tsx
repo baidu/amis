@@ -516,6 +516,18 @@ function insertRegion(
   info: RendererInfo,
   manager: EditorManager
 ): JSX.Element {
+  // 如果没有开启这些区域的内容修改功能，则跳过插入逻辑
+  if (info.memberImmutable === true) {
+    return dom;
+  } else if (
+    Array.isArray(info.memberImmutable) &&
+    regions.every(reg =>
+      (info.memberImmutable as Array<string>).includes(reg.key)
+    )
+  ) {
+    return dom;
+  }
+
   const rootRegion = find(regions, r => !r.matchRegion);
 
   if (rootRegion) {

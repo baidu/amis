@@ -659,7 +659,7 @@ export interface PluginEventListener {
    * 移动节点的时候触发，包括上移，下移
    */
   beforeMove?: (event: PluginEvent<MoveEventContext>) => false | void;
-  aftterMove?: (event: PluginEvent<MoveEventContext>) => void;
+  afterMove?: (event: PluginEvent<MoveEventContext>) => void;
 
   /**
    * 删除的时候触发
