@@ -1594,30 +1594,39 @@
   --ListControl-item-paddingY: var(--listSelect-base-default-paddingTop);
 
   // 链接
-  --link-color: var(--colors-link-4);
-  --link-fontSize: var(--fonts-size-7);
-  --link-text-decoration: none;
-  --link-decoration: var(--link-text-decoration); // 原变量
-  --link-font-style: none;
-  --link-bg-color: transparent;
-  --link-onHover-color: var(--colors-link-5);
-  --link-onHover-fontSize: var(--fonts-size-7);
-  --link-onHover-text-decoration: none;
-  --link-onHover-font-style: none;
-  --link-onHover-bg-color: transparent;
-  --link-onClick-color: var(--colors-link-3);
+
+  --link-onClick-color: var(--colors-link-4);
   --link-onClick-fontSize: var(--fonts-size-7);
-  --link-onClick-text-decoration: none;
-  --link-onHover-decoration: var(--link-onClick-text-decoration);
   --link-onClick-font-style: none;
+  --link-onClick-fontWeight: var(--fonts-weight-6);
+  --link-onClick-lineHeight: var(--fonts-lineHeight-2);
+  --link-onClick-text-decoration: none;
   --link-onClick-bg-color: transparent;
-  --link-disabled-color: var(--colors-link-3);
+  --link-onHover-color: var(--colors-link-6);
+  --link-onHover-fontSize: var(--fonts-size-7);
+  --link-onHover-font-style: none;
+  --link-onHover-fontWeight: var(--fonts-weight-6);
+  --link-onHover-lineHeight: var(--fonts-lineHeight-2);
+  --link-onHover-text-decoration: none;
+  --link-onHover-bg-color: transparent;
+  --link-color: var(--colors-link-5);
+  --link-fontSize: var(--fonts-size-7);
+  --link-font-style: none;
+  --link-fontWeight: var(--fonts-weight-6);
+  --link-lineHeight: var(--fonts-lineHeight-2);
+  --link-text-decoration: none;
+  --link-bg-color: transparent;
+  --link-disabled-color: var(--colors-neutral-text-6);
   --link-disabled-fontSize: var(--fonts-size-7);
-  --link-disabled-text-decoration: none;
   --link-disabled-font-style: none;
+  --link-disabled-fontWeight: var(--fonts-weight-6);
+  --link-disabled-lineHeight: var(--fonts-lineHeight-2);
+  --link-disabled-text-decoration: none;
   --link-disabled-bg-color: transparent;
   --link-icon-size: var(--sizes-size-8);
   --link-icon-margin: var(--sizes-size-3);
+  --link-decoration: var(--link-text-decoration); // 原变量
+  --link-onHover-decoration: var(--link-onClick-text-decoration);
 
   // 表单
   --Form-item-marginTop: var(--sizes-size-0);
