@@ -13,7 +13,6 @@ import uniqBy from 'lodash/uniqBy';
 import isEqual from 'lodash/isEqual';
 import isPlainObject from 'lodash/isPlainObject';
 import {EvaluatorOptions, FilterContext, FilterMap, FunctionMap} from './types';
-import {functions} from 'lodash';
 
 export class Evaluator {
   readonly filters: FilterMap;
