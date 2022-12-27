@@ -571,6 +571,8 @@ export class TablePlugin extends BasePlugin {
       props.value = arr.slice(0, 10);
     }
 
+    // 编辑模式，不允许表格调整宽度
+    props.resizable = false;
     return props;
   }
 
