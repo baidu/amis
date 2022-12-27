@@ -358,7 +358,8 @@ export class NumberInput extends React.Component<NumberProps, any> {
             >
               <Icon
                 icon="minus"
-                className={cx('InputNumber-enhance-minus icon')}
+                className="icon"
+                wrapClassName={cx('InputNumber-enhance-minus icon')}
                 iconContent="InputNumber-enhance-minus"
               />
             </div>
@@ -374,7 +375,8 @@ export class NumberInput extends React.Component<NumberProps, any> {
             >
               <Icon
                 icon="plus"
-                className={cx('InputNumber-enhance-plus icon')}
+                className="icon"
+                wrapClassName={cx('InputNumber-enhance-plus icon')}
                 iconContent="InputNumber-enhance-plus"
               />
             </div>
