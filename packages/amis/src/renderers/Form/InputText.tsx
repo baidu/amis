@@ -108,8 +108,6 @@ export interface TextControlSchema extends FormOptionsSchema {
 
   /** 在内容为空的时候清除值 */
   clearValueOnEmpty?: boolean;
-
-  size?: 'sm' | 'md' | 'lg';
 }
 
 export type InputTextRendererEvent =
@@ -680,7 +678,6 @@ export default class TextControl extends React.PureComponent<
       showCounter,
       maxLength,
       minLength,
-      size,
       translate: __
     } = this.props;
     let type = this.props.type?.replace(/^(?:native|input)\-/, '');
@@ -736,7 +733,6 @@ export default class TextControl extends React.PureComponent<
                 `TextControl-input TextControl-input--withAC`,
                 inputControlClassName,
                 inputOnly ? className : '',
-                size ? `TextControl-input--${size}-size` : '',
                 {
                   'is-opened': isOpen,
                   'TextControl-input--multiple': multiple,
@@ -898,8 +894,7 @@ export default class TextControl extends React.PureComponent<
       data,
       showCounter,
       maxLength,
-      minLength,
-      size
+      minLength
     } = this.props;
 
     const type = this.props.type?.replace(/^(?:native|input)\-/, '');
@@ -912,8 +907,7 @@ export default class TextControl extends React.PureComponent<
             [`TextControl-input--border${ucFirst(borderMode)}`]: borderMode
           },
           inputControlClassName,
-          inputOnly ? className : '',
-          size ? `TextControl-input--${size}-size` : ''
+          inputOnly ? className : ''
         )}
       >
         {prefix ? (
@@ -1120,28 +1114,24 @@ export function mapItemIndex(
 }
 
 @OptionsControl({
-  type: 'input-text',
-  sizeMutable: false
+  type: 'input-text'
 })
 export class TextControlRenderer extends TextControl {}
 
 @OptionsControl({
-  type: 'input-password',
-  sizeMutable: false
+  type: 'input-password'
 })
 export class PasswordControlRenderer extends TextControl {}
 
 @OptionsControl({
   type: 'input-email',
-  validations: 'isEmail',
-  sizeMutable: false
+  validations: 'isEmail'
 })
 export class EmailControlRenderer extends TextControl {}
 
 @OptionsControl({
   type: 'input-url',
-  validations: 'isUrl',
-  sizeMutable: false
+  validations: 'isUrl'
 })
 export class UrlControlRenderer extends TextControl {}
 

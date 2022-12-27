@@ -116,20 +116,6 @@
     background: var(--input-default-disabled-bg-color);
   }
 
-  &-input--sm-size {
-    height: var(--input-size-sm-height);
-    font-size: 12px;
-  }
-
-  &-input--md-size {
-    height: var(--input-size-md-height);
-  }
-
-  &-input--lg-size {
-    height: var(--input-size-lg-height);
-    font-size: 16px;
-  }
-
   &-input input {
     overflow: hidden;
     white-space: nowrap;
