@@ -6,7 +6,7 @@
 import React from 'react';
 import find from 'lodash/find';
 import hoistNonReactStatic from 'hoist-non-react-statics';
-import {dataMapping} from './utils/tpl-builtin';
+import {dataMapping, registerFunction} from './utils/tpl-builtin';
 import {RendererEnv, RendererProps} from './factory';
 import {
   autobind,
@@ -14,7 +14,8 @@ import {
   qsparse,
   findTree,
   TreeItem,
-  parseQuery
+  parseQuery,
+  getVariable
 } from './utils/helper';
 import {RendererData, ActionObject} from './types';
 
@@ -250,6 +251,32 @@ function createScopedTools(
       }
     }
   };
+
+  registerFunction(
+    'GETDATA',
+    (componentId: string, path?: string, scoped: any = self) => {
+      const component = scoped.getComponentById(componentId);
+      const data = component?.getData?.();
+      if (path) {
+        const variable = getVariable(data, path);
+        return variable;
+      }
+      return data;
+    }
+  );
+
+  registerFunction(
+    'GETPROP',
+    (componentId: string, path?: string, scoped: any = self) => {
+      const component = scoped.getComponentById(componentId);
+      const props = component?.props;
+      if (path) {
+        const variable = getVariable(props, path);
+        return variable;
+      }
+      return props;
+    }
+  );
 
   if (!parent) {
     return self;

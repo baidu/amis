@@ -1977,4 +1977,9 @@ export class FormRenderer extends Form {
     onChange &&
       onChange(store.data, difference(store.data, store.pristine), this.props);
   }
+
+  getData() {
+    const {store} = this.props;
+    return store.data;
+  }
 }

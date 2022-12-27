@@ -84,6 +84,33 @@ export default {
       }
     },
     {
+      type: 'action',
+      label: '将第一个表单中的姓名赋值给下面的输入框（我的名称）',
+      level: 'primary',
+      className: 'mr-3 mb-3',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'setValue',
+              componentId: 'u:text_001',
+              args: {
+                value: '${GETDATA("form-action-receiver", "name")}'
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      type: 'input-text',
+      name: 'name',
+      label: '我的姓名',
+      className: 'mt-3',
+      mode: 'horizontal',
+      id: 'u:text_001'
+    },
+    {
       name: 'form-action-receiver',
       id: 'form-action-receiver',
       title: '表单：用于接收上面按钮的动作，派发form本身的事件',
@@ -281,7 +308,8 @@ export default {
       type: 'form',
       debug: true,
       api: '/api/mock2/form/saveForm',
-      title: "表单：配置submit事件后，点击提交按钮或者触发表单提交动作时将不会触发表单校验、提交到api或者target等行为，所有行为需要自己配置",
+      title:
+        '表单：配置submit事件后，点击提交按钮或者触发表单提交动作时将不会触发表单校验、提交到api或者target等行为，所有行为需要自己配置',
       body: [
         {
           type: 'input-text',
@@ -311,7 +339,7 @@ export default {
               }
             }
           ]
-        },
+        }
       }
     }
   ]

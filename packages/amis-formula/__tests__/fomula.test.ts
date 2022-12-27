@@ -1,5 +1,5 @@
 import moment from 'moment';
-import {evaluate, parse} from '../src';
+import {evaluate, parse, registerFunction} from '../src';
 
 const defaultContext = {
   a: 1,
@@ -209,4 +209,9 @@ test('formula:last', () => {
 
 test('formula:basename', () => {
   expect(evalFormual('BASENAME("/home/amis/a.json")')).toBe('a.json');
+});
+
+test('formula:customFunction', () => {
+  registerFunction('CUSTOMFUNCTION', input => input);
+  expect(evalFormual('CUSTOMFUNCTION("func")')).toBe('func');
 });

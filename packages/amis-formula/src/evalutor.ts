@@ -13,6 +13,7 @@ import uniqBy from 'lodash/uniqBy';
 import isEqual from 'lodash/isEqual';
 import isPlainObject from 'lodash/isPlainObject';
 import {EvaluatorOptions, FilterContext, FilterMap, FunctionMap} from './types';
+import {functions} from 'lodash';
 
 export class Evaluator {
   readonly filters: FilterMap;
@@ -27,6 +28,13 @@ export class Evaluator {
     Evaluator.defaultFilters = {
       ...Evaluator.defaultFilters,
       ...filters
+    };
+  }
+  static defaultFunctions: FunctionMap = {};
+  static setDefaultFunctions(funtions: FunctionMap) {
+    Evaluator.defaultFunctions = {
+      ...Evaluator.defaultFunctions,
+      ...funtions
     };
   }
 
@@ -49,6 +57,7 @@ export class Evaluator {
       ...options?.filters
     };
     this.functions = {
+      ...Evaluator.defaultFunctions,
       ...this.functions,
       ...options?.functions
     };
@@ -61,7 +70,6 @@ export class Evaluator {
         l.toUpperCase()
       );
       const fn = this.functions[name] || (this as any)[name];
-
       if (!fn) {
         throw new Error(`${ast.type} unkown.`);
       }
@@ -439,6 +447,7 @@ export class Evaluator {
     const fnName = `fn${ast.identifier}`;
     const fn =
       this.functions[fnName] ||
+      this.functions[ast.identifier] ||
       this[fnName] ||
       (this.filters.hasOwnProperty(ast.identifier) &&
         this.filters[ast.identifier]);
