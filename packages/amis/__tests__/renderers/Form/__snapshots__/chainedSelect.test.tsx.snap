@@ -317,7 +317,7 @@ exports[`Renderer:chained-select 1`] = `
               </span>
               <div
                 class="cxd-PopOver cxd-Select-popover cxd-PopOver--leftBottomLeftTop"
-                style="display: block; width: auto; left: 0px; top: 0px; position: relative;"
+                style="display: block; width: 0px; left: 0px; top: 0px; position: relative;"
                 theme="cxd"
               >
                 <div
