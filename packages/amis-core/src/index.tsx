@@ -36,6 +36,7 @@ import {
   makeTranslator,
   register as registerLocale,
   extendLocale,
+  removeLocaleData,
   localeable
 } from './locale';
 import type {LocaleProps, TranslateFn} from './locale';
@@ -140,6 +141,7 @@ export {
   registerLocale,
   makeTranslator,
   extendLocale,
+  removeLocaleData,
   localeable,
   LocaleProps,
   TranslateFn,
