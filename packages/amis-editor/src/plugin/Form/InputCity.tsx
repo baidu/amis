@@ -121,9 +121,7 @@ export class CityControlPlugin extends BasePlugin {
                 name: 'searchable',
                 label: '是否出搜索框',
                 pipeIn: defaultValue(false)
-              }),
-
-              getSchemaTpl('loadingConfig', {}, {context})
+              })
             ]
           },
           getSchemaTpl('status', {isFormItem: true}),
