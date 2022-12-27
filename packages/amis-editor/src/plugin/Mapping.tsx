@@ -64,12 +64,7 @@ export class MappingPlugin extends BasePlugin {
                       tpl: '<p>当前为字段内容节点配置，选择上层还有更多配置</p>'
                     }
                   : null,
-                {
-                  type: 'ae-mapSourceControl',
-                  label: '映射表',
-                  mode: 'normal',
-                  name: 'source'
-                },
+                getSchemaTpl('mapSourceControl'),
                 {
                   type: 'ae-switch-more',
                   mode: 'normal',

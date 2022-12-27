@@ -311,6 +311,16 @@ setSchemaTpl('optionControlV2', {
 });
 
 /**
+ * mapping组件映射源
+ */
+setSchemaTpl('mapSourceControl', {
+  type: 'ae-mapSourceControl',
+  label: '映射表',
+  mode: 'normal',
+  name: 'source'
+});
+
+/**
  * 时间轴组件选项控件
  */
 setSchemaTpl('timelineItemControl', {
