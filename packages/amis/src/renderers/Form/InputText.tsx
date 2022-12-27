@@ -799,7 +799,8 @@ export default class TextControl extends React.PureComponent<
                 <a onClick={this.clearValue}>
                   <Icon
                     icon="input-clear"
-                    className={cx('TextControl-clear')}
+                    className="icon"
+                    wrapClassName={cx('TextControl-clear')}
                     iconContent="InputBox-clear"
                   />
                 </a>
@@ -946,7 +947,8 @@ export default class TextControl extends React.PureComponent<
           <a onClick={this.clearValue}>
             <Icon
               icon="input-clear"
-              className={cx('TextControl-clear')}
+              className="icon"
+              wrapClassName={cx('TextControl-clear')}
               iconContent="InputText-clear"
             />
           </a>
@@ -956,7 +958,8 @@ export default class TextControl extends React.PureComponent<
             {this.state.revealPassword ? (
               <Icon
                 icon="view"
-                className={cx(
+                className="icon"
+                wrapClassName={cx(
                   'TextControl-revealPassword',
                   'TextControl-icon-view'
                 )}
@@ -965,7 +968,8 @@ export default class TextControl extends React.PureComponent<
             ) : (
               <Icon
                 icon="invisible"
-                className={cx(
+                className="icon"
+                wrapClassName={cx(
                   'TextControl-revealPassword',
                   'TextControl-icon-invisible'
                 )}
