@@ -32,8 +32,8 @@ export const RootStore = ServiceStore.named('RootStore')
       self.runtimeError = error;
       self.runtimeErrorStack = errorStack;
     },
-    updateLocation(location?: any) {
-      self.query = parseQuery(location);
+    updateLocation(location?: any, parseFn?: Function) {
+      self.query = parseFn ? parseFn(location) : parseQuery(location);
     },
     setVisible(id: string, value: boolean) {
       const state = {
