@@ -106,6 +106,10 @@ export interface RendererEnv {
    * 文本替换的黑名单，因为属性太多了所以改成黑名单的 fangs
    */
   replaceTextIgnoreKeys?: String[];
+  /**
+   * 解析url参数
+   */
+  parseLocation?: (location: any) => Object;
 }
 
 export const EnvContext = React.createContext<RendererEnv | void>(undefined);
