@@ -29,6 +29,13 @@ export class Evaluator {
       ...filters
     };
   }
+  static defaultFunctions: FunctionMap = {};
+  static setDefaultFunctions(funtions: FunctionMap) {
+    Evaluator.defaultFunctions = {
+      ...Evaluator.defaultFunctions,
+      ...funtions
+    };
+  }
 
   constructor(
     context: {
@@ -49,6 +56,7 @@ export class Evaluator {
       ...options?.filters
     };
     this.functions = {
+      ...Evaluator.defaultFunctions,
       ...this.functions,
       ...options?.functions
     };
@@ -61,7 +69,6 @@ export class Evaluator {
         l.toUpperCase()
       );
       const fn = this.functions[name] || (this as any)[name];
-
       if (!fn) {
         throw new Error(`${ast.type} unkown.`);
       }

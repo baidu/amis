@@ -18,22 +18,30 @@ export interface InputExcelControlSchema extends FormBaseControlSchema {
   /**
    * 是否解析所有 sheet，默认情况下只解析第一个
    */
-  allSheets: boolean;
+  allSheets?: boolean;
 
   /**
    * 解析模式，array 是解析成二维数组，object 是将第一列作为字段名，解析为对象数组
    */
-  parseMode: 'array' | 'object';
+  parseMode?: 'array' | 'object';
 
   /**
    * 是否包含空内容，主要用于二维数组模式
    */
-  includeEmpty: boolean;
+  includeEmpty?: boolean;
 
   /**
    * 纯文本模式
    */
-  plainText: boolean;
+  plainText?: boolean;
+
+  /**
+   * 解析图片
+   */
+  parseImage?: boolean;
+
+  /** 图片解析结果使用 data URI 格式 */
+  imageDataURI?: boolean;
 }
 
 export interface ExcelProps
@@ -57,7 +65,9 @@ export default class ExcelControl extends React.PureComponent<
     allSheets: false,
     parseMode: 'object',
     includeEmpty: true,
-    plainText: true
+    plainText: true,
+    parseImage: false,
+    imageDataURI: true
   };
 
   state: ExcelControlState = {
@@ -74,7 +84,7 @@ export default class ExcelControl extends React.PureComponent<
 
   @autobind
   handleDrop(files: File[]) {
-    const {allSheets, onChange, dispatchEvent} = this.props;
+    const {allSheets, onChange, parseImage} = this.props;
     const excel = files[0];
     const reader = new FileReader();
     reader.readAsArrayBuffer(excel);
@@ -84,17 +94,34 @@ export default class ExcelControl extends React.PureComponent<
           this.ExcelJS = ExcelJS;
           const workbook = new ExcelJS.Workbook();
           await workbook.xlsx.load(reader.result);
-          let sheetsResult: any[] = [];
+          let sheetsResult: any = [];
           if (allSheets) {
             workbook.eachSheet((worksheet: any) => {
-              sheetsResult.push({
-                sheetName: worksheet.name,
-                data: this.readWorksheet(worksheet)
-              });
+              if (parseImage) {
+                sheetsResult.push({
+                  sheetName: worksheet.name,
+                  data: this.readWorksheet(worksheet),
+                  images: this.readImages(worksheet, workbook)
+                });
+              } else {
+                sheetsResult.push({
+                  sheetName: worksheet.name,
+                  data: this.readWorksheet(worksheet)
+                });
+              }
             });
           } else {
             const worksheet = workbook.worksheets[0];
-            sheetsResult = this.readWorksheet(worksheet);
+
+            if (parseImage) {
+              const images = this.readImages(worksheet, workbook);
+              sheetsResult = {
+                data: this.readWorksheet(worksheet),
+                images
+              };
+            } else {
+              sheetsResult = this.readWorksheet(worksheet);
+            }
           }
           const dispatcher = await this.dispatchEvent('change', sheetsResult);
           if (dispatcher?.prevented) {
@@ -105,6 +132,31 @@ export default class ExcelControl extends React.PureComponent<
         });
       }
     };
+  }
+
+  /** 读取工作表里的图片 */
+  readImages(worksheet: any, workbook: any) {
+    const {imageDataURI} = this.props;
+    const images = worksheet.getImages();
+    const imgResult: string[] = [];
+    for (const image of images) {
+      const img = workbook.getImage(+image.imageId);
+      const imgBase64 = this.encodeBase64Bytes(img.buffer);
+      if (imageDataURI) {
+        const extension = img.extension || 'png';
+        imgResult.push(`data:image/${extension};base64,` + imgBase64);
+      } else {
+        imgResult.push(imgBase64);
+      }
+    }
+    return imgResult;
+  }
+
+  /** 将 buffer 转成 base64 */
+  encodeBase64Bytes(bytes: Uint8Array): string {
+    return btoa(
+      bytes.reduce((acc, current) => acc + String.fromCharCode(current), '')
+    );
   }
 
   async dispatchEvent(eventName: string, eventData?: Record<string, any>) {

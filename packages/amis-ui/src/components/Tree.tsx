@@ -32,7 +32,7 @@ import {themeable, ThemeProps, highlight} from 'amis-core';
 import {Icon, getIcon} from './icons';
 import Checkbox from './Checkbox';
 import {LocaleProps, localeable} from 'amis-core';
-import Spinner from './Spinner';
+import Spinner, {SpinnerExtraProps} from './Spinner';
 import {ItemRenderStates} from './Selection';
 import VirtualList from './virtual-list';
 
@@ -50,7 +50,7 @@ export interface IDropInfo {
   indicator: IDropIndicator;
 }
 
-interface TreeSelectorProps extends ThemeProps, LocaleProps {
+interface TreeSelectorProps extends ThemeProps, LocaleProps, SpinnerExtraProps {
   highlightTxt?: string;
 
   onRef?: any;
@@ -1029,7 +1029,8 @@ export class TreeSelector extends React.Component<
       removeTip,
       translate: __,
       itemRender,
-      draggable
+      draggable,
+      loadingConfig
     } = this.props;
 
     const item = this.state.flattenedOptions[index];
@@ -1104,6 +1105,7 @@ export class TreeSelector extends React.Component<
               show
               icon="reload"
               spinnerClassName={cx('Tree-spinner')}
+              loadingConfig={loadingConfig}
             />
           ) : !isLeaf || (item.defer && !item.loaded) ? (
             <div

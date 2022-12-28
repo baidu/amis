@@ -6,7 +6,7 @@ import {Renderer, RendererProps} from 'amis-core';
 import {SchemaNode, ActionObject, Schema} from 'amis-core';
 import forEach from 'lodash/forEach';
 import {evalExpression, filter} from 'amis-core';
-import {BadgeObject, Checkbox, Spinner} from 'amis-ui';
+import {BadgeObject, Checkbox, Spinner, SpinnerExtraProps} from 'amis-ui';
 import {Button} from 'amis-ui';
 import {TableStore, ITableStore, padArr} from 'amis-core';
 import {
@@ -316,7 +316,7 @@ export interface TableSchema extends BaseSchema {
   autoFillHeight?: boolean | AutoFillHeightObject;
 }
 
-export interface TableProps extends RendererProps {
+export interface TableProps extends RendererProps, SpinnerExtraProps {
   title?: string; // 标题
   header?: SchemaNode;
   footer?: SchemaNode;
@@ -2819,7 +2819,8 @@ export default class Table extends React.Component<TableProps, object> {
       itemActions,
       dispatchEvent,
       onEvent,
-      loading = false
+      loading = false,
+      loadingConfig
     } = this.props;
 
     // 理论上来说 store.rows 应该也行啊
@@ -2878,7 +2879,7 @@ export default class Table extends React.Component<TableProps, object> {
           loading={loading}
         />
 
-        <Spinner overlay show={loading} />
+        <Spinner loadingConfig={loadingConfig} overlay show={loading} />
       </>
     );
   }

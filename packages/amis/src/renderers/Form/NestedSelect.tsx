@@ -1,6 +1,6 @@
 import React from 'react';
 import {Overlay, resolveEventData} from 'amis-core';
-import {Checkbox} from 'amis-ui';
+import {Checkbox, SpinnerExtraProps} from 'amis-ui';
 import {PopOver} from 'amis-core';
 import {PopUp} from 'amis-ui';
 import {Icon} from 'amis-ui';
@@ -74,7 +74,9 @@ export interface NestedSelectControlSchema extends FormOptionsSchema {
   hideNodePathLabel?: boolean;
 }
 
-export interface NestedSelectProps extends OptionsControlProps {
+export interface NestedSelectProps
+  extends OptionsControlProps,
+    SpinnerExtraProps {
   cascade?: boolean;
   noResultsText?: string;
   withChildren?: boolean;
@@ -879,7 +881,8 @@ export default class NestedSelectControl extends React.Component<
       loading,
       borderMode,
       useMobileUI,
-      env
+      env,
+      loadingConfig
     } = this.props;
 
     const mobileUI = useMobileUI && isMobile();
@@ -921,7 +924,9 @@ export default class NestedSelectControl extends React.Component<
           hasDropDownArrow={true}
           allowInput={searchable}
         >
-          {loading ? <Spinner size="sm" /> : undefined}
+          {loading ? (
+            <Spinner loadingConfig={loadingConfig} size="sm" />
+          ) : undefined}
         </ResultBox>
         {mobileUI ? (
           <PopUp

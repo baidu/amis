@@ -96,6 +96,7 @@ exports[`Renderers:Action all levels 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <button
             class="cxd-Button cxd-Button--link cxd-Button--size-default"
@@ -370,6 +371,7 @@ exports[`Renderers:Action tooltip 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <button
             class="cxd-Button cxd-Button--default cxd-Button--size-default"
@@ -467,6 +469,7 @@ exports[`Renderers:Action with confirmText & actionType ajax 1`] = `
         >
           <div
             class="cxd-Page-body"
+            role="page-body"
           >
             <button
               class="cxd-Button cxd-Button--default cxd-Button--size-default"
@@ -544,6 +547,7 @@ exports[`Renderers:Action with disabledTip 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Button cxd-Button--default cxd-Button--size-default is-disabled"

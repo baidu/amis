@@ -4,7 +4,7 @@ import pick from 'lodash/pick';
 import {BaseSchema, SchemaClassName, SchemaCollection} from '../Schema';
 
 import {ucFirst} from 'amis-core';
-import {Spinner} from 'amis-ui';
+import {Spinner, SpinnerExtraProps} from 'amis-ui';
 
 export const ColProps = ['lg', 'md', 'sm', 'xs'];
 
@@ -89,7 +89,8 @@ export interface GridSchema extends BaseSchema {
 
 export interface GridProps
   extends RendererProps,
-    Omit<GridSchema, 'type' | 'className' | 'columnClassName'> {
+    Omit<GridSchema, 'type' | 'className' | 'columnClassName'>,
+    SpinnerExtraProps {
   itemRender?: (item: any, length: number, props: any) => JSX.Element;
 }
 
@@ -191,7 +192,8 @@ export default class Grid<T> extends React.Component<GridProps & T, object> {
       gap,
       valign: vAlign,
       align: hAlign,
-      loading = false
+      loading = false,
+      loadingConfig
     } = this.props;
     return (
       <div
@@ -207,7 +209,7 @@ export default class Grid<T> extends React.Component<GridProps & T, object> {
         style={style}
       >
         {this.renderColumns(this.props.columns)}
-        <Spinner overlay show={loading} />
+        <Spinner loadingConfig={loadingConfig} overlay show={loading} />
       </div>
     );
   }

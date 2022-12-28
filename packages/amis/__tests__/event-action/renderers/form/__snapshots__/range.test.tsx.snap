@@ -13,6 +13,7 @@ exports[`EventAction:inputRange 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Form-item cxd-Form-item--normal"

@@ -27,6 +27,7 @@ import ChainedSelection from './ChainedSelection';
 import {ItemRenderStates as ResultItemRenderStates} from './ResultList';
 import ResultTableList from './ResultTableList';
 import ResultTreeList from './ResultTreeList';
+import {SpinnerExtraProps} from './Spinner';
 
 export type SelectMode =
   | 'table'
@@ -39,6 +40,7 @@ export type SelectMode =
 export interface TransferProps
   extends ThemeProps,
     LocaleProps,
+    SpinnerExtraProps,
     Omit<BaseSelectionProps, 'itemRender'> {
   inline?: boolean;
   statistics?: boolean;
@@ -572,7 +574,8 @@ export class Transfer<
       labelField,
       virtualThreshold,
       itemHeight,
-      virtualListHeight
+      virtualListHeight,
+      loadingConfig
     } = props;
 
     return selectMode === 'table' ? (
@@ -609,6 +612,7 @@ export class Transfer<
         labelField={labelField}
         virtualThreshold={virtualThreshold}
         itemHeight={itemHeight}
+        loadingConfig={loadingConfig}
       />
     ) : selectMode === 'chained' ? (
       <ChainedSelection
@@ -625,6 +629,7 @@ export class Transfer<
         virtualThreshold={virtualThreshold}
         itemHeight={itemHeight}
         virtualListHeight={virtualListHeight}
+        loadingConfig={loadingConfig}
       />
     ) : selectMode === 'associated' ? (
       <AssociatedSelection
@@ -646,6 +651,7 @@ export class Transfer<
         virtualThreshold={virtualThreshold}
         itemHeight={itemHeight}
         virtualListHeight={virtualListHeight}
+        loadingConfig={loadingConfig}
       />
     ) : (
       <GroupedSelection
@@ -685,7 +691,8 @@ export class Transfer<
       translate: __,
       placeholder = __('Transfer.selectFromLeft'),
       virtualThreshold,
-      itemHeight
+      itemHeight,
+      loadingConfig
     } = this.props;
 
     const {resultSelectMode, isTreeDeferLoad} = this.state;
@@ -715,6 +722,7 @@ export class Transfer<
       case 'tree':
         return (
           <ResultTreeList
+            loadingConfig={loadingConfig}
             classnames={cx}
             className={cx('Transfer-value')}
             options={options}

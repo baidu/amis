@@ -2,7 +2,7 @@ import React, {Fragment} from 'react';
 import {findDOMNode} from 'react-dom';
 import {Renderer, RendererProps} from 'amis-core';
 import {SchemaNode, Schema, ActionObject} from 'amis-core';
-import {Button, Spinner} from 'amis-ui';
+import {Button, Spinner, SpinnerExtraProps} from 'amis-ui';
 import {ListStore, IListStore} from 'amis-core';
 import {Action} from '../types';
 import {
@@ -34,7 +34,7 @@ import type {IItem} from 'amis-core/lib/store/list';
  * Cards 卡片集合渲染器。
  * 文档：https://baidu.gitee.io/amis/docs/components/card
  */
-export interface CardsSchema extends BaseSchema {
+export interface CardsSchema extends BaseSchema, SpinnerExtraProps {
   /**
    * 指定为 cards 类型
    */
@@ -986,7 +986,8 @@ export default class Cards extends React.Component<GridProps, object> {
       itemsClassName,
       classnames: cx,
       translate: __,
-      loading = false
+      loading = false,
+      loadingConfig
     } = this.props;
 
     this.renderedToolbars = []; // 用来记录哪些 toolbar 已经渲染了，已经渲染了就不重复渲染了。
@@ -1046,7 +1047,7 @@ export default class Cards extends React.Component<GridProps, object> {
         )}
 
         {footer}
-        <Spinner overlay show={loading} />
+        <Spinner loadingConfig={loadingConfig} overlay show={loading} />
       </div>
     );
   }

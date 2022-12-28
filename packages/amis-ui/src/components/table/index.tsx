@@ -25,7 +25,7 @@ import {
 } from 'amis-core';
 import {Icon} from '../icons';
 import CheckBox from '../Checkbox';
-import Spinner from '../Spinner';
+import Spinner, {SpinnerExtraProps} from '../Spinner';
 
 import HeadCellSort from './HeadCellSort';
 import HeadCellFilter from './HeadCellFilter';
@@ -117,7 +117,7 @@ export interface SortProps {
   order: string;
 }
 
-export interface TableProps extends ThemeProps, LocaleProps {
+export interface TableProps extends ThemeProps, LocaleProps, SpinnerExtraProps {
   title: string | React.ReactNode | Function;
   footer: string | React.ReactNode | Function;
   className?: string;
@@ -1815,10 +1815,14 @@ export class Table extends React.PureComponent<TableProps, TableState> {
   }
 
   renderLoading() {
-    const {classnames: cx, loading} = this.props;
+    const {classnames: cx, loading, loadingConfig} = this.props;
     return (
       <div className={cx('Table-loading')}>
-        {typeof loading === 'boolean' ? <Spinner></Spinner> : loading}
+        {typeof loading === 'boolean' ? (
+          <Spinner loadingConfig={loadingConfig} />
+        ) : (
+          loading
+        )}
       </div>
     );
   }

@@ -1,5 +1,5 @@
 import React from 'react';
-import {AsideNav, Html, NotFound, Spinner} from 'amis-ui';
+import {AsideNav, Html, NotFound, Spinner, SpinnerExtraProps} from 'amis-ui';
 import {Layout} from 'amis-ui';
 import {Renderer, RendererProps, replaceText} from 'amis-core';
 import {
@@ -10,12 +10,11 @@ import {
 } from '../Schema';
 import {IScopedContext, ScopedContext} from 'amis-core';
 import {AppStore, IAppStore} from 'amis-core';
-import {Api, SchemaNode} from 'amis-core';
 import {isApiOutdated, isEffectiveApi} from 'amis-core';
 import {autobind} from 'amis-core';
 import {generateIcon} from 'amis-core';
 
-export interface AppPage {
+export interface AppPage extends SpinnerExtraProps {
   /**
    * 菜单文字
    */
@@ -84,7 +83,7 @@ export interface AppPage {
  * App 渲染器，适合 JSSDK 用来做多页渲染。
  * 文档：https://baidu.gitee.io/amis/docs/components/app
  */
-export interface AppSchema extends BaseSchema {
+export interface AppSchema extends BaseSchema, SpinnerExtraProps {
   /**
    * 指定为 app 类型。
    */
@@ -413,12 +412,11 @@ export default class App extends React.Component<AppProps, object> {
 
   render() {
     const {
-      className,
-      size,
       classnames: cx,
       store,
       render,
-      showBreadcrumb = true
+      showBreadcrumb = true,
+      loadingConfig
     } = this.props;
 
     return (
@@ -461,7 +459,12 @@ export default class App extends React.Component<AppProps, object> {
             <div className="text-center">页面不存在</div>
           </NotFound>
         ) : null}
-        <Spinner overlay show={store.loading || !store.pages} size="lg" />
+        <Spinner
+          loadingConfig={loadingConfig}
+          overlay
+          show={store.loading || !store.pages}
+          size="lg"
+        />
       </Layout>
     );
   }
@@ -488,5 +491,10 @@ export class AppRenderer extends App {
 
   setData(values: object, replace?: boolean) {
     return this.props.store.updateData(values, undefined, replace);
+  }
+
+  getData() {
+    const {store} = this.props;
+    return store.data;
   }
 }

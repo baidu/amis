@@ -7,9 +7,10 @@ import React from 'react';
 import TooltipWrapper, {TooltipObject, Trigger} from './TooltipWrapper';
 import {pickEventsProps} from 'amis-core';
 import {ClassNamesFn, themeable} from 'amis-core';
-import {Icon} from './icons';
-import Spinner from './Spinner';
-interface ButtonProps extends React.DOMAttributes<HTMLButtonElement> {
+import Spinner, {SpinnerExtraProps} from './Spinner';
+interface ButtonProps
+  extends React.DOMAttributes<HTMLButtonElement>,
+    SpinnerExtraProps {
   id?: string;
   className?: string;
   style?: any;
@@ -74,6 +75,7 @@ export class Button extends React.Component<ButtonProps> {
       loading,
       loadingClassName,
       overrideClassName,
+      loadingConfig,
       ...rest
     } = this.props;
 
@@ -109,6 +111,7 @@ export class Button extends React.Component<ButtonProps> {
       >
         {loading && !disabled && (
           <Spinner
+            loadingConfig={loadingConfig}
             size="sm"
             show
             icon="loading-outline"

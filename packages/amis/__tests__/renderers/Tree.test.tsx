@@ -246,3 +246,48 @@ test('Tree: cascade = true', () => {
 
   expect(container.querySelectorAll('.is-checked').length).toBe(4);
 });
+
+test('Tree source', async () => {
+  const fetcher = jest.fn().mockImplementation(() => {
+    return Promise.resolve({
+      status: 0,
+      msg: 'ok',
+      data: {
+        options: [
+          {label: 'Option A', value: 'a'},
+          {label: 'Option B', value: 'b'},
+          {label: 'Option C', value: 'c'},
+          {label: 'Option D', value: 'd'},
+          {label: 'Option E', value: 'e'},
+          {label: 'Option F', value: 'f'},
+          {label: 'Option G', value: 'g'},
+          {label: 'Option H', value: 'h'},
+          {label: 'Option I', value: 'i'},
+          {label: 'Option J', value: 'j'},
+          {label: 'Option K', value: 'k'},
+          {label: 'Option L', value: 'l'},
+          {label: 'Option M', value: 'm'},
+          {label: 'Option N', value: 'n'},
+          {label: 'Option O', value: 'o'},
+          {label: 'Option P', value: 'p'},
+          {label: 'Option Q', value: 'q'}
+        ]
+      }
+    });
+  });
+
+  const {getByText} = render(
+    amisRender(
+      {
+        type: 'input-tree',
+        name: 'tree',
+        label: 'Tree',
+        source: '/api'
+      },
+      {},
+      makeEnv({fetcher})
+    )
+  );
+
+  await waitFor(() => getByText('Option A'));
+});

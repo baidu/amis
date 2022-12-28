@@ -5,11 +5,13 @@ import {uncontrollable} from 'amis-core';
 import Checkbox from './Checkbox';
 import {Option} from './Select';
 import {autobind, eachTree, everyTree} from 'amis-core';
-import Spinner from './Spinner';
+import Spinner, {SpinnerExtraProps} from './Spinner';
 import {localeable} from 'amis-core';
 import {Icon} from './icons';
 
-export interface TreeSelectionProps extends BaseSelectionProps {
+export interface TreeSelectionProps
+  extends BaseSelectionProps,
+    SpinnerExtraProps {
   expand?: 'all' | 'first' | 'root' | 'none';
 }
 
@@ -169,7 +171,8 @@ export class TreeSelection extends BaseSelection<
       classnames: cx,
       itemClassName,
       itemRender,
-      multiple
+      multiple,
+      loadingConfig
     } = this.props;
     const id = indexes.join('-');
     const valueArray = this.valueArray;
@@ -238,7 +241,9 @@ export class TreeSelection extends BaseSelection<
             </a>
           ) : null}
 
-          {option.defer && option.loading ? <Spinner show size="sm" /> : null}
+          {option.defer && option.loading ? (
+            <Spinner loadingConfig={loadingConfig} show size="sm" />
+          ) : null}
 
           {multiple && (!option.defer || option.loaded) ? (
             <Checkbox
@@ -261,7 +266,9 @@ export class TreeSelection extends BaseSelection<
             })}
           </div>
 
-          {option.defer && option.loading ? <Spinner show size="sm" /> : null}
+          {option.defer && option.loading ? (
+            <Spinner loadingConfig={loadingConfig} show size="sm" />
+          ) : null}
         </div>
         {hasChildren ? (
           <div className={cx('TreeSelection-sublist')}>

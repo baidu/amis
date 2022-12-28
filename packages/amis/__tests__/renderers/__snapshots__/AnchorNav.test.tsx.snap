@@ -13,6 +13,7 @@ exports[`Renderer:anchorNav 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-AnchorNav cxd-AnchorNav--vertical"
@@ -700,6 +701,7 @@ exports[`Renderer:anchorNav with horizontal 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-AnchorNav cxd-AnchorNav--horizontal"
