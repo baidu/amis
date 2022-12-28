@@ -164,7 +164,6 @@ export class WordsField extends React.Component<WordsProps, object> {
   }
 
   renderPart(words: Words) {
-    console.log('renderPart');
     const {
       expendButtonText = '展开',
       expendButton,
