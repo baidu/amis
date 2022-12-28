@@ -1046,4 +1046,9 @@ export class PageRenderer extends Page {
   setData(values: object, replace?: boolean) {
     return this.props.store.updateData(values, undefined, replace);
   }
+
+  getData() {
+    const {store} = this.props;
+    return store.data;
+  }
 }

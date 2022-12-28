@@ -631,4 +631,9 @@ export class ChartRenderer extends Chart {
     // 重新渲染
     this.renderChart(this.props.config, values);
   }
+
+  getData() {
+    const {store} = this.props;
+    return store.data;
+  }
 }

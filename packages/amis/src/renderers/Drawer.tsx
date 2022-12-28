@@ -960,4 +960,9 @@ export class DrawerRenderer extends Drawer {
   setData(values: object) {
     return this.props.store.updateData(values);
   }
+
+  getData() {
+    const {store} = this.props;
+    return store.data;
+  }
 }
