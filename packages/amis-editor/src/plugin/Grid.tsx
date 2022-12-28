@@ -232,6 +232,7 @@ export class GridPlugin extends BasePlugin {
               {
                 title: '布局',
                 body: [
+                  getSchemaTpl('layout:originPosition', {value: 'left-top'}),
                   {
                     label: '列数',
                     name: 'columns',
