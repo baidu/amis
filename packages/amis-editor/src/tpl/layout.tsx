@@ -1118,12 +1118,20 @@ setSchemaTpl(
         },
       ],
       onChange: (value: string, oldValue: string, model: any, form: any) => {
-        if (value === 'left') {
-          form.setValueByName('style.margin', 'auto auto auto 0px');
-        } else if (value === 'center') {
-          form.setValueByName('style.margin', '0px auto');
-        } else if (value === 'right') {
-          form.setValueByName('style.margin', 'auto 0px auto auto');
+        if (form?.data?.style?.position === 'fixed' || form?.data?.style?.position === 'absolute') {
+          // 吸附容器
+          if (value === '0px auto') {
+            form.setValueByName('style.inset', undefined);
+            form.setValueByName('style.left', '50%');
+            form.setValueByName('style.transform', 'translateX(-50%)');
+          } else {
+            form.setValueByName('style.inset', value);
+            form.setValueByName('style.left', undefined);
+            form.setValueByName('style.transform', undefined);
+          }
+        } else {
+          form.setValueByName('style.left', undefined);
+          form.setValueByName('style.transform', undefined);
         }
       }
     };
