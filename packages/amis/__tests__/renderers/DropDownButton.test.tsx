@@ -193,7 +193,6 @@ test('Renderer:dropdown-button with closeOnClick & closeOnOutside', async () => 
     )
   );
 
-  expect(container).toMatchSnapshot();
   fireEvent.click(getByText('按钮1'));
   await wait(500);
   isMenuExist(false);
