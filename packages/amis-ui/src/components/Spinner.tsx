@@ -23,7 +23,7 @@ const fadeStyles: {
 
 // Spinner Props
 export interface SpinnerProps extends ThemeProps, SpinnerExtraProps {
-  show: boolean; // 控制Spinner显示与隐藏
+  show?: boolean; // 控制Spinner显示与隐藏
   className?: string; // 自定义最外层元素class
   spinnerClassName?: string; // spin图标位置包裹元素的自定义class
   /**
@@ -115,7 +115,7 @@ export class Spinner extends React.Component<
     tipPlacement: 'bottom' as 'bottom',
     delay: 0,
     overlay: false,
-    loadingConfig: {} as SpinnerExtraProps
+    loadingConfig: {}
   };
 
   state = {
