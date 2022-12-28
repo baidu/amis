@@ -1723,12 +1723,12 @@ export class CRUDPlugin extends BasePlugin {
   }
 
   renderRenderer(props: any) {
-    const $$editor = props.$$editor;
+    const {$$editor, style, ...rest} = props;
     const renderer = $$editor.renderer;
     return (
-      <div className="ae-CRUDEditor">
+      <div className="ae-CRUDEditor" style={style}>
         {this.renderEditableComponents(props)}
-        <renderer.component {...props} />
+        <renderer.component {...rest} />
       </div>
     );
   }
