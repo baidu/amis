@@ -994,7 +994,8 @@ export const MainStore = types
           }
 
           // 特殊元素，需要补上默认宽度
-          if(needDefaultWidth(self.schema?.type)) {
+          console.log('self.schema?.type:', child?.type)
+          if(needDefaultWidth(child.type)) {
             child.style.width = '300px';
           }
         }
