@@ -1,6 +1,6 @@
 import {resolveVariable} from 'amis';
 
-import {setVariable} from 'amis-core';
+import {setVariable, someTree} from 'amis-core';
 import {
   BasePlugin,
   BaseEventContext,
@@ -327,7 +327,11 @@ export class Table2Plugin extends BasePlugin {
     }
   ];
 
-  async buildDataSchemas(node: EditorNodeType, region?: EditorNodeType) {
+  async buildDataSchemas(
+    node: EditorNodeType,
+    region?: EditorNodeType,
+    trigger?: EditorNodeType
+  ) {
     const itemsSchema: any = {
       $id: 'tableRow',
       type: 'object',
@@ -353,11 +357,21 @@ export class Table2Plugin extends BasePlugin {
       }
     }
 
+    let cellProperties = {};
+    if (trigger) {
+      const isColumnChild = someTree(
+        columns?.children,
+        item => item.id === trigger.id
+      );
+
+      isColumnChild && (cellProperties = itemsSchema.properties);
+    }
+
     const result: any = {
       $id: 'table2',
       type: 'object',
       properties: {
-        ...itemsSchema.properties,
+        ...cellProperties,
         rows: {
           type: 'array',
           title: '数据列表',

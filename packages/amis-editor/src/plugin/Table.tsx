@@ -654,7 +654,7 @@ export class TablePlugin extends BasePlugin {
     let cellProperties = {};
     if (trigger) {
       const isColumnChild = someTree(
-        columns.children,
+        columns?.children,
         item => item.id === trigger.id
       );
 
