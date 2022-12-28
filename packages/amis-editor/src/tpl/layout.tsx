@@ -63,6 +63,10 @@ setSchemaTpl(
           form.setValueByName('style.inset', 'auto');
           form.setValueByName('originPosition', undefined);
         }
+        if (value !== 'sticky') {
+          // 非滚动吸附定位
+          form.setValueByName('stickyStatus', undefined);
+        }
       },
       options: [
         {

@@ -81,7 +81,9 @@ export class FlexPluginBase extends BasePlugin {
     const isSorptionContainer = curRendererSchema?.isSorptionContainer || false;
 
     const positionTpl = [
-      getSchemaTpl('layout:position'),
+      getSchemaTpl('layout:position', {
+        visibleOn: '!data.stickyStatus'
+      }),
       getSchemaTpl('layout:originPosition'),
       getSchemaTpl('layout:inset', {
         mode: 'vertical'
