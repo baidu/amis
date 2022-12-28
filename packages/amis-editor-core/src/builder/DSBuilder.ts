@@ -249,10 +249,10 @@ export abstract class DSBuilder {
     setting: any;
   }): SchemaObject | void;
 
-  abstract makeTableColumnsByFields<T, U>(
-    fields: T,
-    relations: U
-  ): Array<SchemaObject>;
+  abstract makeTableColumnsByFields<
+    T = Record<string, any>,
+    U = Record<string, any>
+  >(fields: T[], relations: U[]): Array<SchemaObject>;
 
   /**
    * 当前上下文中使用的字段
