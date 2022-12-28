@@ -77,25 +77,22 @@
   // }
 
   &.is-active &-arrow {
-    transform: rotate(90deg);
+    transform: rotate(var(--collapse-icon-rotate));
     transform-origin: 50% 50%;
   }
   &.is-active > * > &-icon-tranform {
-    transform: rotate(90deg);
+    transform: rotate(var(--collapse-icon-rotate));
   }
 
   &--disabled > &-header {
     cursor: not-allowed;
     user-select: none;
-    color: var(--collapse-disabled-header-color);
-    font-size: var(--collapse-disabled-header-fontSize);
-    font-weight: var(--Collapse-disabled-header-fontWeight);
-    line-height: var(--collapse-disabled-header-lineHeight);
-    background: var(--collapse-disabled-header-bg-color);
+    color: var(--collapse-default-disabled-color);
+    background: var(--collapse-default-disabled-header-bg-color);
   }
 
-  &--disabled > * > &-arrow:before {
-    border-color: var(--collapse-disabled-header-color);
+  &--disabled &-arrow-wrap svg {
+    color: var(--collapse-default-disabled-color);
   }
 
   // title 显示在底部的模式
@@ -112,12 +109,12 @@
 
   &--title-bottom &-arrow {
     top: px2rem(-4px);
-    transform: rotate(90deg);
+    transform: rotate(var(--collapse-icon-rotate));
   }
 
   &--title-bottom.is-active &-arrow {
     top: 0;
-    transform: rotate(-90deg);
+    transform: rotate(calc(-1 * var(--collapse-icon-rotate)));
   }
 
   &-contentWrapper {
@@ -135,14 +132,6 @@
     font-weight: var(--Collapse-content-fontWeight);
     line-height: var(--collapse-default-content-lineHeight);
     background: var(--collapse-default-bg-color);
-  }
-
-  &--disabled > &-content {
-    color: var(--collapse-disabled-content-color);
-    font-size: var(--collapse-disabled-content-fontSize);
-    font-weight: var(--collapse-disabled-content-fontWeight);
-    line-height: var(--collapse-disabled-content-lineHeight);
-    background: var(--collapse-disabled-bg-color);
   }
 }
 
