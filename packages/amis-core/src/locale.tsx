@@ -27,6 +27,19 @@ export function extendLocale(name: string, config: LocaleConfig) {
   };
 }
 
+/** 删除语料数据 */
+export function removeLocaleData(name: string, key: Array<string> | string) {
+  if (Array.isArray(key)) {
+    key.forEach(item => {
+      removeLocaleData(name, item);
+    });
+    return;
+  }
+  if (locales?.[name]?.[key]) {
+    delete locales[name][key];
+  }
+}
+
 const fns: {
   [propName: string]: TranslateFn;
 } = {};
