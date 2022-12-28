@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import {FormItem, Renderer} from 'amis-core';
 
