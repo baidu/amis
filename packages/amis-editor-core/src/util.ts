@@ -953,7 +953,8 @@ export function needDefaultWidth(elemType: string) {
     'picker',
     'table',
     'table-view',
-    'grid'
+    'grid',
+    'cards'
   ];
   if (needDefaultWidthElemType.indexOf(elemType) > -1) {
     return true;
