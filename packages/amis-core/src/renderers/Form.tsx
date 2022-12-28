@@ -1733,6 +1733,7 @@ export default class Form extends React.Component<FormProps, object> {
       actionsClassName,
       bodyClassName,
       classnames: cx,
+      style,
       affixFooter,
       lazyLoad,
       translate: __,
@@ -1750,6 +1751,7 @@ export default class Form extends React.Component<FormProps, object> {
         },
         {
           className: cx(panelClassName, 'Panel--form'),
+          style: style,
           formStore: this.props.store,
           children: body,
           actions: this.buildActions(),
