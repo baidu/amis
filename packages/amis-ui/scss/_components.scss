@@ -1629,11 +1629,7 @@
   --link-onHover-decoration: var(--link-onClick-text-decoration);
 
   // 表单
-  --Form-item-marginTop: var(--sizes-size-0);
-  --Form-item-marginBottom: var(--sizes-base-12);
-  --Form-item-marginLeft: var(--sizes-size-0);
-  --Form-item-marginRight: var(--sizes-size-0);
-  --Form-item-gap: var(--Form-item-marginBottom);
+  --Form-item-gap: var(--sizes-base-12);
   --Form-item-color: var(--colors-neutral-text-4);
   --Form-item-fontColor: var(--Form-item-color);
   --Form-item-fontSize: var(--fonts-size-7);
@@ -1645,10 +1641,7 @@
   --Form-description-fontSize: var(--fonts-size-8);
   --Form-description-fontWeight: var(--fonts-weight-6);
   --Form-description-lineHeight: var(--fonts-lineHeight-2);
-  --Form-description-marginTop: var(--sizes-size-3);
-  --Form-description-marginBottom: var(--sizes-size-0);
-  --Form-description-marginLeft: var(--sizes-size-0);
-  --Form-description-marginRight: var(--sizes-size-0);
+  --Form-description-gap: var(--sizes-size-3);
   --Form-item-onError-color: var(--colors-brand-5);
   --Form-item-onError-borderColor: var(--colors-error-5);
   --Form-item-onError-bg: var(--colors-neutral-fill-11);
@@ -1656,23 +1649,10 @@
   --Form-feedBack-fontSize: var(--fonts-size-8);
   --Form-feedBack-fontWeight: var(--fonts-weight-6);
   --Form-feedBack-lineHeight: var(--fonts-lineHeight-2);
-  --Form-feedBack-paddingTop: var(--sizes-size-0);
-  --Form-feedBack-paddingBottom: var(--sizes-size-0);
-  --Form-feedBack-paddingLeft: var(--sizes-size-7);
-  --Form-feedBack-paddingRight: var(--sizes-size-0);
-  --Form-feedBack-marginTop: var(--sizes-size-3);
-  --Form-feedBack-marginBottom: var(--sizes-size-0);
-  --Form-feedBack-marginLeft: var(--sizes-size-0);
-  --Form-feedBack-marginRight: var(--sizes-size-0);
-  --Form-mode-default-marginTop: var(--sizes-size-0);
-  --Form-mode-default-marginBottom: var(--sizes-size-5);
-  --Form-mode-default-marginLeft: var(--sizes-size-0);
-  --Form-mode-default-marginRight: var(--sizes-size-0);
+  --Form-feedBack-gap: var(--sizes-size-3);
+  --Form-mode-default-labelGap: var(--sizes-size-5);
   --Form-mode-default-width: 100%;
-  --Form--horizontal-label-marginTop: 5.5px;
-  --Form--horizontal-label-marginBottom: var(--sizes-size-0);
-  --Form--horizontal-label-marginLeft: var(--sizes-size-5);
-  --Form--horizontal-label-marginRight: var(--sizes-size-5);
+  --Form--horizontal-label-gap: var(--sizes-base-8);
   --Form--horizontal-label-widthBase: var(--sizes-base-49);
   --Form--horizontal-label-widthXs: var(--sizes-base-25);
   --Form--horizontal-label-widthSm: var(--sizes-base-35);
@@ -1685,14 +1665,8 @@
   --Form--horizontal-value-maxWidth: 100%;
   --Form--horizontal-value-minWidth: var(--sizes-size-0);
   --Form--horizontal-value-minWidth: var(--sizes-size-0);
-  --Form-mode-inline-item-marginTop: var(--sizes-size-0);
-  --Form-mode-inline-item-marginBottom: var(--sizes-size-5);
-  --Form-mode-inline-item-marginLeft: var(--sizes-size-0);
-  --Form-mode-inline-item-marginRight: var(--sizes-size-0);
-  --Form-mode-inline-label-marginTop: 5.5px;
-  --Form-mode-inline-label-marginBottom: var(--sizes-size-0);
-  --Form-mode-inline-label-marginLeft: var(--sizes-size-5);
-  --Form-mode-inline-label-marginRight: var(--sizes-size-5);
+  --Form-mode-inline-item-gap: var(--sizes-base-8);
+  --Form-mode-inline-label-gap: var(--sizes-base-8);
 
   // 滑块
   --InputRange-track-bg: var(--colors-neutral-fill-8);
@@ -1986,8 +1960,8 @@
     var(--Tabs--simple-paddingRight) var(--Tabs--simple-paddingBottom)
     var(--Tabs--simple-paddingLeft);
   --Tabs--simple-split-width: var(--borders-width-2);
-  --Tabs--simple-split-height: 0.9375rem;
-  --Tabs--simple-split-color: var(--colors-neutral-text-8);
+  --Tabs--simple-split-style: var(--borders-style-2);
+  --Tabs--simple-split-color: var(--colors-neutral-line-8);
   --Tabs--simple-color: var(--colors-neutral-text-2);
   --Tabs--simple-fontSize: var(--fonts-size-7);
   --Tabs--simple-fontWeight: var(--fonts-weight-6);
@@ -2420,7 +2394,7 @@
   --Panel-footer-paddingBottom: var(--sizes-size-5);
   --Panel-footer-paddingLeft: var(--sizes-size-7);
   --Panel-footer-paddingRight: var(--sizes-size-7);
-  --Panel-footer-bg: transparent;
+  --Panel-footer-bg: var(--colors-neutral-fill-11);
   --Panel-footer-top-border-color: var(--colors-neutral-line-8);
   --Panel-footer-top-border-width: var(--borders-width-2);
   --Panel-footer-top-border-style: var(--borders-style-2);

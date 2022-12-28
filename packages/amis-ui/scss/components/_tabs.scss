@@ -1141,10 +1141,10 @@
               position: absolute;
               top: 50%;
               right: 0;
-              width: var(--Tabs--simple-split-width);
-              height: var(--Tabs--simple-split-height);
+              height: var(--Tabs--simple-fontSize);
               transform: translateY(-50%);
-              background-color: var(--Tabs--simple-split-color);
+              border: var(--Tabs--simple-split-width)
+                var(--Tabs--simple-split-style) var(--Tabs--simple-split-color);
             }
 
             & > .#{$ns}Tabs-link-close {
