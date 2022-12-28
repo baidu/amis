@@ -1115,7 +1115,7 @@ setSchemaTpl('eventControl', (schema: object = {}) => {
 setSchemaTpl('data', {
   type: 'input-kv',
   name: 'data',
-  label: '初始静态数据'
+  label: '组件静态数据'
 });
 
 setSchemaTpl('app-page', {
