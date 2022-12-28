@@ -3598,5 +3598,15 @@ extendLocale('en-US', {
   'f02f876ee64cc016d97fa4dc498d4857': 'Height setting',
   '091885db07e43ff7cbe60c3b664b0b50': 'elastic',
   '363165ccee78341a65f1d42174e8b08f': 'Adaptation',
-  'eb44269adb6ba70569cd62ea88cb2750': 'Elastic Settings'
+  'eb44269adb6ba70569cd62ea88cb2750': 'Elastic Settings',
+  '64561733c68085af3d09315c1d4d7ed6': 'Mouse Event Object',
+  'f01c3cd99ecb0c534cc47081d3433c9f': 'custom style',
+  'f7e3d7e3146bb53b5e6f09f7c90dea3a': 'Input Box Style',
+  'a39a2916d17f2b9ba11853066b4225f3': 'AddOn Style',
+  '9b6425cd2d496c9cb5a6c6b8ff125d1b': 'Input box',
+  'b9745a6b870f02a0483a4a4f74814c68': 'Custom style source code',
+  'ec8f3e4a298160dface2fda5c0125df2': 'Please enter the class name',
+  '7e8eb474f73b6fd60c9aa5082f75e008': 'Label Style',
+  'ef55ff12fb0d3efa3491236fee4dabc2': 'Description Style',
+  '60bac4c0a381a42b320a703227be59eb': 'spacing'
 });

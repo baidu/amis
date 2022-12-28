@@ -3183,5 +3183,15 @@ extendLocale('zh-CN', {
   'f02f876ee64cc016d97fa4dc498d4857': '高度设置',
   '091885db07e43ff7cbe60c3b664b0b50': '弹性',
   '363165ccee78341a65f1d42174e8b08f': '适配',
-  'eb44269adb6ba70569cd62ea88cb2750': '弹性设置'
+  'eb44269adb6ba70569cd62ea88cb2750': '弹性设置',
+  '64561733c68085af3d09315c1d4d7ed6': '鼠标事件对象',
+  'f01c3cd99ecb0c534cc47081d3433c9f': '自定义样式',
+  'f7e3d7e3146bb53b5e6f09f7c90dea3a': '输入框样式',
+  'a39a2916d17f2b9ba11853066b4225f3': 'AddOn样式',
+  '9b6425cd2d496c9cb5a6c6b8ff125d1b': '输入框',
+  'b9745a6b870f02a0483a4a4f74814c68': '自定义样式源码',
+  'ec8f3e4a298160dface2fda5c0125df2': '请输入类名',
+  '7e8eb474f73b6fd60c9aa5082f75e008': 'Label样式',
+  'ef55ff12fb0d3efa3491236fee4dabc2': '描述样式',
+  '60bac4c0a381a42b320a703227be59eb': '间距'
 });
