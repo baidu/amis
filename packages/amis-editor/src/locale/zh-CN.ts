@@ -3188,5 +3188,6 @@ extendLocale('zh-CN', {
   '052f93928af33d4d7035e7c8e8a73f17':
     '通过 margin 数值来设置对齐方式，其中 margin: 0 auto 用于设置居中对齐',
   'a738a8594bd2b71002d09277b84d86dd': '靠左',
-  'fc0f19e9e47e352d36d36cf6eb653210': '靠右'
+  'fc0f19e9e47e352d36d36cf6eb653210': '靠右',
+  'c70638412c6cffd150117ae403dea939': '组件静态数据'
 });

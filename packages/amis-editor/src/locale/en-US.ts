@@ -3603,5 +3603,6 @@ extendLocale('en-US', {
   '052f93928af33d4d7035e7c8e8a73f17':
     'The alignment is set by the margin value, where margin: 0 auto is used to set the center alignment',
   'a738a8594bd2b71002d09277b84d86dd': 'Left',
-  'fc0f19e9e47e352d36d36cf6eb653210': 'Right'
+  'fc0f19e9e47e352d36d36cf6eb653210': 'Right',
+  'c70638412c6cffd150117ae403dea939': 'Component static data'
 });

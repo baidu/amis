@@ -222,7 +222,7 @@ export class PagePlugin extends BasePlugin {
                     type: 'input-kv',
                     mode: 'normal',
                     name: 'data',
-                    label: '初始化静态数据'
+                    label: '组件静态数据'
                   }),
                   getSchemaTpl('apiControl', {
                     name: 'initApi',
