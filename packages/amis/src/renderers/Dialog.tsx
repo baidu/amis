@@ -1007,4 +1007,9 @@ export class DialogRenderer extends Dialog {
   setData(values: object) {
     return this.props.store.updateData(values);
   }
+
+  getData() {
+    const {store} = this.props;
+    return store.data;
+  }
 }

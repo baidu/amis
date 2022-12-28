@@ -34,7 +34,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
     }) as IRootStore;
 
     this.store.initData(props.data);
-    this.store.updateLocation(props.location);
+    this.store.updateLocation(props.location, this.props.env?.parseLocation);
 
     bulkBindFunctions<RootRenderer /*为毛 this 的类型自动识别不出来？*/>(this, [
       'handleAction',

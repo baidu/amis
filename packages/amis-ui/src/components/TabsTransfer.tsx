@@ -355,6 +355,7 @@ export class TabsTransfer extends React.Component<
         onlyChildren={option.onlyChildren ?? onlyChildren}
         cascade={true}
         onDeferLoad={onDeferLoad}
+        autoCheckChildren={option.autoCheckChildren}
         itemRender={
           optionItemRender
             ? (item: Option, states: ItemRenderStates) =>
