@@ -940,3 +940,22 @@ export function unitFormula(insetStr: string, offsetVal: number) {
 export function stringRegExp(keyword: string) {
   return keyword.replace(/[|\\{}()[\]^$+*?.]/g, '');
 }
+
+/**
+ * 过滤搜索字段中的特殊字符
+ */
+export function needDefaultWidth(elemType: string) {
+  const needDefaultWidthElemType: Array<string> = [
+    'divider',
+    'crud2',
+    'crud',
+    'list',
+    'picker',
+    'table',
+    'table-view'
+  ];
+  if (needDefaultWidthElemType.indexOf(elemType) > -1) {
+    return true;
+  }
+  return false;
+}

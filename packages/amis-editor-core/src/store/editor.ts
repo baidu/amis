@@ -9,6 +9,7 @@ import {
   patchDiff,
   unitFormula,
   stringRegExp,
+  needDefaultWidth,
   guid,
   reGenerateID
 } from '../../src/util';
@@ -990,6 +991,11 @@ export const MainStore = types
           child.style = {
             position: 'absolute',
             inset: "10px auto auto 10px"
+          }
+
+          // 特殊元素，需要补上默认宽度
+          if(needDefaultWidth(self.schema?.type)) {
+            child.style.width = '300px';
           }
         }
 
