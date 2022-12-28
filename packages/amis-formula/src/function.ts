@@ -7,6 +7,6 @@ export function registerFunction(
   name: string,
   fn: (input: any, ...args: any[]) => any
 ): void {
-  functions[name] = fn;
+  functions[`fn${name}`] = fn;
   Evaluator.setDefaultFunctions(functions);
 }

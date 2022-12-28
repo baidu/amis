@@ -446,7 +446,6 @@ export class Evaluator {
     const fnName = `fn${ast.identifier}`;
     const fn =
       this.functions[fnName] ||
-      this.functions[ast.identifier] ||
       this[fnName] ||
       (this.filters.hasOwnProperty(ast.identifier) &&
         this.filters[ast.identifier]);

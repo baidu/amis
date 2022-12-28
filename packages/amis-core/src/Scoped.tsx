@@ -253,7 +253,7 @@ function createScopedTools(
   };
 
   registerFunction(
-    'GETDATA',
+    'GETRENDERERDATA',
     (componentId: string, path?: string, scoped: any = self) => {
       const component = scoped.getComponentById(componentId);
       const data = component?.getData?.();
@@ -266,7 +266,7 @@ function createScopedTools(
   );
 
   registerFunction(
-    'GETPROP',
+    'GETRENDERERPROP',
     (componentId: string, path?: string, scoped: any = self) => {
       const component = scoped.getComponentById(componentId);
       const props = component?.props;

@@ -95,7 +95,7 @@ export default {
               actionType: 'setValue',
               componentId: 'u:text_001',
               args: {
-                value: '${GETDATA("form-action-receiver", "name")}'
+                value: '${GETRENDERERDATA("form-action-receiver", "name")}'
               }
             }
           ]
