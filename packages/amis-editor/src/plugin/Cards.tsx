@@ -78,7 +78,6 @@ export class CardsPlugin extends BasePlugin {
         {
           title: '常规',
           body: [
-            getSchemaTpl('layout:originPosition', {value: 'left-top'}),
             {
               children: (
                 <div className="m-b">
@@ -93,7 +92,6 @@ export class CardsPlugin extends BasePlugin {
                 </div>
               )
             },
-
             {
               type: 'divider'
             },
@@ -130,6 +128,7 @@ export class CardsPlugin extends BasePlugin {
         {
           title: '外观',
           body: [
+            getSchemaTpl('layout:originPosition', {value: 'left-top'}),
             getSchemaTpl('switch', {
               name: 'showHeader',
               label: '是否显示头部',

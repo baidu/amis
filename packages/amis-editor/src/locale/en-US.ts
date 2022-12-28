@@ -1249,7 +1249,7 @@ extendLocale('en-US', {
   'f2996845b6bf0a07fe26f74f35e42ebe': 'Units',
   'e48d95a94e49b81b12a0113a5c253d8f': 'Value label',
   'a465db53b8c98f42caa15ca5662f9c90': 'Direction',
-  '3aed2c11e95a9c0ea1d853d4aee72e8c': 'Automatic',
+  '3aed2c11e95a9c0ea1d853d4aee72e8c': 'Auto',
   '1d1a0bd85740653320d80f0d6e0918e7': 'Inputtable',
   'd22aa5f57ff8679ee7b7d473ef31417d': 'Resettable',
   '15628d1d85aee23c229c528a70419414': 'Track',
@@ -3576,8 +3576,8 @@ extendLocale('en-US', {
   'bb0e1fea25aafbe731886295fcef9a2e':
     'Adsorption container: It can be set as a ceiling or ceiling display.',
   '7d30297d4e1f310c73b27be88c748026': 'Adsorption position',
-  '2ea76e2ffc1b92911d6f7decfa993360': 'Ceiling',
-  '8cfc818a76662085cb64752d6d592fbe': 'Bottom suction',
+  '2ea76e2ffc1b92911d6f7decfa993360': 'Top',
+  '8cfc818a76662085cb64752d6d592fbe': 'Bottom',
   'e2f6535e21570a0703c7c65f41b30eaa': 'Rolling adsorption',
   '1c5ea0ffb2b15713cb22c41a02576924':
     'When rolling adsorption is enabled, the adsorption mode will be automatically enabled when rolling to the upper and lower edges of the parent container.',
@@ -3596,7 +3596,7 @@ extendLocale('en-US', {
     'After the event is configured, the default verification, submission to the api or target and other behaviors will not be triggered when the form is submitted. All behaviors need to be configured by yourself',
   'c207ba29769aca6ffd45db9f80bcb29e': 'Zero as head',
   'f02f876ee64cc016d97fa4dc498d4857': 'Height setting',
-  '091885db07e43ff7cbe60c3b664b0b50': 'elastic',
+  '091885db07e43ff7cbe60c3b664b0b50': 'Elastic',
   '363165ccee78341a65f1d42174e8b08f': 'Adaptation',
   'eb44269adb6ba70569cd62ea88cb2750': 'Elastic Settings',
   '64561733c68085af3d09315c1d4d7ed6': 'Mouse Event Object',
