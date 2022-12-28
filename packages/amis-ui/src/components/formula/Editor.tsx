@@ -281,6 +281,10 @@ export class FormulaEditor extends React.Component<
       return;
     }
 
+    if (!item.value) {
+      return;
+    }
+
     this.editorPlugin?.insertContent(
       {
         key: item.value,
