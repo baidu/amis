@@ -1,6 +1,5 @@
 import React from 'react';
 import extend from 'lodash/extend';
-import {SpinnerExtraProps} from 'amis-ui';
 import {Renderer, RendererProps} from '../factory';
 import {FormStore, IFormStore} from '../store/form';
 import {
@@ -351,8 +350,7 @@ export interface FormGroupArray extends Array<FormGroupNode> {}
 
 export interface FormProps
   extends RendererProps,
-    Omit<FormSchemaBase, 'mode' | 'className'>,
-    SpinnerExtraProps {
+    Omit<FormSchemaBase, 'mode' | 'className'> {
   data: any;
   store: IFormStore;
   wrapperComponent: React.ElementType;
@@ -381,6 +379,11 @@ export interface FormProps
   }>;
   lazyChange?: boolean; // 表单项的
   formLazyChange?: boolean; // 表单的
+  // Spinner 配置
+  loadingConfig?: {
+    root?: string;
+    show?: boolean;
+  };
 }
 export default class Form extends React.Component<FormProps, object> {
   static defaultProps = {
