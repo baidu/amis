@@ -125,7 +125,7 @@ export class EventControl extends React.Component<
     } = {};
 
     const pluginEvents =
-      events[data.type === 'text' ? 'plain' : data.type] || [];
+      events[!data.type || data.type === 'text' ? 'plain' : data.type] || [];
 
     pluginEvents.forEach((event: RendererPluginEvent) => {
       eventPanelActive[event.eventName] = true;

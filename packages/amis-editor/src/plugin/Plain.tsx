@@ -41,7 +41,6 @@ export class PlainPlugin extends BasePlugin {
       eventName: 'click',
       eventLabel: '点击',
       description: '点击时触发',
-      defaultShow: true,
       dataSchema: [
         {
           type: 'object',

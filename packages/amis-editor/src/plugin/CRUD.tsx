@@ -1756,7 +1756,11 @@ export class CRUDPlugin extends BasePlugin {
     }
   }
 
-  async buildDataSchemas(node: EditorNodeType, region?: EditorNodeType) {
+  async buildDataSchemas(
+    node: EditorNodeType,
+    region?: EditorNodeType,
+    trigger?: EditorNodeType
+  ) {
     const child: EditorNodeType = node.children.find(
       item => !!~['table', 'table2', 'cards', 'list'].indexOf(item.type)
     );
@@ -1764,7 +1768,8 @@ export class CRUDPlugin extends BasePlugin {
     if (!child?.info?.plugin?.buildDataSchemas) {
       return;
     }
-    return child.info.plugin.buildDataSchemas(child);
+
+    return child.info.plugin.buildDataSchemas(child, undefined, trigger);
   }
 }
 
