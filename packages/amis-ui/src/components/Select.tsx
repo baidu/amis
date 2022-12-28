@@ -566,14 +566,18 @@ export class Select extends React.Component<SelectProps, SelectState> {
       simpleValue,
       checkAllBySearch,
       labelField,
-      valueField
+      valueField,
+      translate: __
     } = this.props;
     const inputValue = this.state.inputValue;
     let {selection} = this.state;
+    const labelKey = labelField || 'label';
+    const valueKey = valueField || 'value';
     let filtedOptions: Array<Option> =
       inputValue && checkAllBySearch
+        // 全选过滤，也得国际化下
         ? matchSorter(options, inputValue, {
-            keys: [labelField || 'label', valueField || 'value']
+            keys: [item => __(item[labelKey]), item => item[valueKey]]
           })
         : options.concat();
     const optionsValues = filtedOptions.map(option => option.value);
@@ -734,6 +738,11 @@ export class Select extends React.Component<SelectProps, SelectState> {
     onDelete && onDelete(item);
   }
 
+  renderLabel(item: Option) {
+    const {translate: __, labelField} = this.props;
+    return __(item[labelField || 'label']);
+  }
+
   renderValue({inputValue, isOpen}: ControllerStateAndHelpers<any>) {
     const {
       classnames: cx,
@@ -803,7 +812,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
                             })}
                           >
                             <span className={cx('Select-valueLabel')}>
-                              {item[labelField || 'label']}
+                              {this.renderLabel(item)}
                             </span>
                             <span
                               className={cx('Select-valueIcon', {
@@ -830,7 +839,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
                 } /** 避免点击查看浮窗时呼出下拉菜单 */
               >
                 <span className={cx('Select-valueLabel')}>
-                  {item[labelField || 'label']}
+                  {this.renderLabel(item)}
                 </span>
               </div>
             </TooltipWrapper>
@@ -840,7 +849,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
         return (
           <TooltipWrapper
             placement={'top'}
-            tooltip={item[labelField || 'label']}
+            tooltip={this.renderLabel(item)}
             trigger={'hover'}
             key={index}
           >
@@ -851,7 +860,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
               })}
             >
               <span className={cx('Select-valueLabel')}>
-                {item[labelField || 'label']}
+                {this.renderLabel(item)}
               </span>
               <span
                 className={cx('Select-valueIcon', {
@@ -877,19 +886,19 @@ export class Select extends React.Component<SelectProps, SelectState> {
             })}
             key={index}
           >
-            {item[labelField || 'label']}
+            {this.renderLabel(item)}
           </div>
         );
       }
 
       return valuesNoWrap ? (
-        `${item[labelField || 'label']}${
+        `${this.renderLabel(item)}${
           index === selection.length - 1 ? '' : ' + '
         }`
       ) : (
         <TooltipWrapper
           placement={'top'}
-          tooltip={item[labelField || 'label']}
+          tooltip={this.renderLabel(item)}
           trigger={'hover'}
           key={index}
         >
@@ -900,7 +909,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
             })}
           >
             <span className={cx('Select-valueLabel')}>
-              {item[labelField || 'label']}
+              {this.renderLabel(item)}
             </span>
             <span
               className={cx('Select-valueIcon', {
@@ -960,10 +969,12 @@ export class Select extends React.Component<SelectProps, SelectState> {
 
     let checkedAll = false;
     let checkedPartial = false;
+    const labelKey = labelField || 'label';
+    const valueKey = valueField || 'value';
     let filtedOptions: Array<Option> = (
       inputValue && isOpen && !loadOptions
         ? matchSorter(options, inputValue, {
-            keys: [labelField || 'label', valueField || 'value']
+            keys: [item => __(item[labelKey]), item => item[valueKey]]
           })
         : options.concat()
     ).filter((option: Option) => !option.hidden && option.visible !== false);
@@ -1048,7 +1059,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
             )
           ) : multiple ? (
             <div
-              title={item[labelField]}
+              title={__(item[labelField])}
               className={cx('Select-option-checkbox')}
             >
               <Checkbox
@@ -1061,9 +1072,9 @@ export class Select extends React.Component<SelectProps, SelectState> {
                 size="sm"
               >
                 {item.disabled
-                  ? item[labelField]
+                  ? __(item[labelField])
                   : highlight(
-                      item[labelField],
+                      __(item[labelField]),
                       inputValue as string,
                       cx('Select-option-hl')
                     )}
@@ -1075,13 +1086,13 @@ export class Select extends React.Component<SelectProps, SelectState> {
             <span
               className={cx('Select-option-content')}
               title={
-                typeof item[labelField] === 'string' ? item[labelField] : ''
+                typeof __(item[labelField]) === 'string' ? __(item[labelField]) : ''
               }
             >
               {item.disabled
-                ? item[labelField]
+                ? __(item[labelField])
                 : highlight(
-                    item[labelField],
+                    __(item[labelField]),
                     inputValue as string,
                     cx('Select-option-hl')
                   )}

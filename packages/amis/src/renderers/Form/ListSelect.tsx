@@ -105,7 +105,8 @@ export default class ListControl extends React.Component<ListProps, any> {
       selectedOptions,
       classnames: cx,
       render,
-      data
+      data,
+      translate: __
     } = this.props;
 
     if (!selectedOptions.length) {
@@ -114,7 +115,7 @@ export default class ListControl extends React.Component<ListProps, any> {
 
     const itemRender = (option: Option, key: number) => {
       let label = option[labelField || 'label'];
-      label = label || `选项${key + 1}`;
+      label = __(label || `选项${key + 1}`);
       if (itemSchema || option.body || option.image) {
         return (
           <div
@@ -220,13 +221,13 @@ export default class ListControl extends React.Component<ListProps, any> {
                       >
                         <img
                           src={option.image}
-                          alt={option[labelField || 'label']}
+                          alt={__(option[labelField || 'label'])}
                         />
                       </div>
                     ) : null,
                     option[labelField || 'label'] ? (
                       <div key="label" className={cx('ListControl-itemLabel')}>
-                        {String(option[labelField || 'label'])}
+                        {__(String(option[labelField || 'label']))}
                       </div>
                     ) : null
                     // {/* {option.tip ? (<div className={`${ns}ListControl-tip`}>{option.tip}</div>) : null} */}

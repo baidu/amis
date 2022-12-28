@@ -21,9 +21,9 @@ import Button from './Button';
 import {value2array, OptionProps, Option} from './Select';
 import chunk from 'lodash/chunk';
 import {ClassNamesFn, themeable} from 'amis-core';
-import {columnsSplit} from 'amis-core';
+import {columnsSplit, LocaleProps} from 'amis-core';
 
-interface RadioProps extends OptionProps {
+interface RadioProps extends OptionProps, LocaleProps {
   id?: string;
   type: string;
   optionType?: string;
@@ -113,7 +113,8 @@ export class Radios extends React.Component<RadioProps, any> {
       optionType,
       level,
       btnActiveLevel,
-      classPrefix: ns
+      classPrefix: ns,
+      translate: __
     } = this.props;
 
     if (optionType === 'button') {
@@ -127,7 +128,7 @@ export class Radios extends React.Component<RadioProps, any> {
           disabled={disabled || option.disabled}
           level={(active ? btnActiveLevel : '') || level}
         >
-          <span>{`${option[labelField || 'label']}`}</span>
+          <span>{__(`${option[labelField || 'label']}`)}</span>
         </Button>
       );
     }
@@ -144,7 +145,7 @@ export class Radios extends React.Component<RadioProps, any> {
         inline={inline}
         labelClassName={labelClassName}
       >
-        {`${option[labelField || 'label']}`}
+        {__(`${option[labelField || 'label']}`)}
       </Checkbox>
     );
   }

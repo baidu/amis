@@ -106,7 +106,7 @@ export default class ButtonGroupControl extends React.Component<
         return render(
           `option/${key}`,
           {
-            label: option[labelField || 'label'],
+            label: __(option[labelField || 'label']),
             icon: option.icon,
             size: option.size || size,
             type: 'button',

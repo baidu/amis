@@ -518,8 +518,8 @@ export interface TransferDropDownProps
 class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProps> {
   @autobind
   renderItem(item: Option): any {
-    const {labelField} = this.props;
-    return `${item.scopeLabel || ''}${item[labelField || 'label']}`;
+    const {labelField, translate: __} = this.props;
+    return `${__(item.scopeLabel) || ''}${__(item[labelField || 'label'])}`;
   }
 
   render() {

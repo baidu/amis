@@ -120,6 +120,7 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
       labelField,
       valueField,
       translate: __,
+      locale,
       optionType,
       level
     } = this.props;
@@ -145,6 +146,8 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
         itemClassName={itemClassName}
         optionType={optionType}
         level={level}
+        locale={locale}
+        translate={__}
       />
     );
   }

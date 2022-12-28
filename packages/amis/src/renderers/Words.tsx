@@ -66,6 +66,7 @@ function getLabel(item: Option, index: number, {
   enableNodePath,
   hideNodePathLabel,
   pathSeparator = '/',
+  translate: __
 }: any): string {
   if (enableNodePath
       || (type === 'nested-select' && !hideNodePathLabel)
@@ -75,11 +76,11 @@ function getLabel(item: Option, index: number, {
     return `${
       ancestors
         ? ancestors.map(item => `${item[labelField || 'label']}`).join(` ${pathSeparator} `)
-        : item[labelField || 'label']
+        : __(item[labelField || 'label'])
     }`;
   }
 
-  return item[labelField] || `选项${index}`;
+  return __(item[labelField] || `选项${index}`);
 }
 
 export class WordsField extends React.Component<WordsProps, object> {
@@ -163,6 +164,7 @@ export class WordsField extends React.Component<WordsProps, object> {
   }
 
   renderPart(words: Words) {
+    console.log('renderPart');
     const {
       expendButtonText = '展开',
       expendButton,

@@ -275,7 +275,7 @@ export default class CheckboxesControl extends React.Component<
           ? render(`checkboxes/${index}`, menuTpl, {
               data: createObject(data, option)
             })
-          : labelText}
+          : __(labelText)}
         {removable && hasAbility(option, 'removable') ? (
           <a data-tooltip={__('Select.clear')} data-position="left">
             <Icon

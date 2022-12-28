@@ -365,8 +365,8 @@ export default class TagControl extends React.PureComponent<
 
   @autobind
   renderItem(item: Option): any {
-    const {labelField} = this.props;
-    return `${item[labelField || 'label']}`;
+    const {labelField, translate: __} = this.props;
+    return `${__(item[labelField || 'label'])}`;
   }
 
   @autobind
@@ -560,7 +560,7 @@ export default class TagControl extends React.PureComponent<
                       key={index}
                       onClick={this.addItem.bind(this, item)}
                     >
-                      {item.label}
+                      {__(item.label)}
                     </div>
                   ))}
                 </div>
