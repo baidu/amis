@@ -806,13 +806,14 @@ export interface PluginInterface
   panelControlsCreator?: (context: BaseEventContext) => Array<any>;
   panelBodyCreator?: (context: BaseEventContext) => SchemaCollection;
 
-  /**
-   * panel还需要合并目标插件提供的配置，冲突时以当前plugin为准
-   */
-  panelBodyMergeable?: (
-    context: BaseEventContext,
-    plugin: PluginInterface
-  ) => boolean;
+  // 好像没用，先注释了
+  // /**
+  //  * panel还需要合并目标插件提供的配置，冲突时以当前plugin为准
+  //  */
+  // panelBodyMergeable?: (
+  //   context: BaseEventContext,
+  //   plugin: PluginInterface
+  // ) => boolean;
 
   popOverBody?: Array<any>;
   popOverBodyCreator?: (context: BaseEventContext) => Array<any>;
