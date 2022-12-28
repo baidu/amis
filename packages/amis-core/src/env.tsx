@@ -110,6 +110,10 @@ export interface RendererEnv {
    * 解析url参数
    */
   parseLocation?: (location: any) => Object;
+  /**
+   * 更新页面变量
+   */
+  updatePageParams?: () => Object;
 }
 
 export const EnvContext = React.createContext<RendererEnv | void>(undefined);

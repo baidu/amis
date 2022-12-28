@@ -7,6 +7,7 @@ export const RootStore = ServiceStore.named('RootStore')
     runtimeError: types.frozen(),
     runtimeErrorStack: types.frozen(),
     query: types.frozen(),
+    pageParams: types.frozen(), // 页面变量
     visibleState: types.optional(types.frozen(), {}),
     disableState: types.optional(types.frozen(), {}),
     staticState: types.optional(types.frozen(), {})
@@ -19,7 +20,9 @@ export const RootStore = ServiceStore.named('RootStore')
               self.data && self.data.__super ? self.data.__super : null,
               {
                 ...self.query,
-                __query: self.query
+                ...self.pageParams,
+                __query: self.query,
+                __page: self.pageParams
               }
             ),
             self.data
@@ -34,6 +37,11 @@ export const RootStore = ServiceStore.named('RootStore')
     },
     updateLocation(location?: any, parseFn?: Function) {
       self.query = parseFn ? parseFn(location) : parseQuery(location);
+    },
+    updatePageParams(params?: Object) {
+      if (params) {
+        self.pageParams = params;
+      }
     },
     setVisible(id: string, value: boolean) {
       const state = {
