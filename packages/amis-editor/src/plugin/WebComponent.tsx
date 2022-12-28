@@ -53,11 +53,11 @@ export class WebComponentPlugin extends BasePlugin {
         title: '属性',
         body: [
           getSchemaTpl('collapseGroup', [
-            getSchemaTpl('layout:originPosition', {value: 'left-top'}),
             {
               className: 'p-none',
               title: '基本',
               body: [
+                getSchemaTpl('layout:originPosition', {value: 'left-top'}),
                 {
                   type: 'input-text',
                   label: '标签',
