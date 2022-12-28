@@ -885,7 +885,8 @@ export interface PluginInterface
    */
   buildDataSchemas?: (
     node: EditorNodeType,
-    region?: EditorNodeType
+    region?: EditorNodeType,
+    trigger?: EditorNodeType
   ) => any | Promise<any>;
 
   rendererBeforeDispatchEvent?: (

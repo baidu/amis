@@ -1768,6 +1768,7 @@ export class EditorManager {
     let scope: DataScope | void;
     let from = node;
     let region = node;
+    const trigger = node;
 
     // 查找最近一层的数据域
     while (!scope && from) {
@@ -1796,7 +1797,8 @@ export class EditorManager {
 
       const jsonschema = await node?.info?.plugin?.buildDataSchemas?.(
         node,
-        region
+        region,
+        trigger
       );
       if (jsonschema) {
         scope.removeSchema(jsonschema.$id);
