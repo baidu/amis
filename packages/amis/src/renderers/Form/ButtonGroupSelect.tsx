@@ -160,7 +160,6 @@ export default class ButtonGroupControl extends React.Component<
           },
           className
         )}
-        style={style}
       >
         {body.length ? (
           body
