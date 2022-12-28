@@ -36,7 +36,7 @@ import {ClassNamesFn, themeable, ThemeProps} from 'amis-core';
 import Checkbox from './Checkbox';
 import Input from './Input';
 import {LocaleProps, localeable} from 'amis-core';
-import Spinner from './Spinner';
+import Spinner, {SpinnerExtraProps} from './Spinner';
 import type {Option, Options} from 'amis-core';
 import {RemoteOptionsProps, withRemoteConfig} from './WithRemoteConfig';
 import Picker from './Picker';
@@ -295,7 +295,11 @@ export function normalizeOptions(
 
 const DownshiftChangeTypes = Downshift.stateChangeTypes;
 
-interface SelectProps extends OptionProps, ThemeProps, LocaleProps {
+interface SelectProps
+  extends OptionProps,
+    ThemeProps,
+    LocaleProps,
+    SpinnerExtraProps {
   className?: string;
   popoverClassName?: string;
   showInvalidMatch?: boolean;
@@ -1242,7 +1246,8 @@ export class Select extends React.Component<SelectProps, SelectState> {
       checkAll,
       borderMode,
       useMobileUI,
-      hasError
+      hasError,
+      loadingConfig
     } = this.props;
 
     const selection = this.state.selection;
@@ -1310,6 +1315,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
                   icon="reload"
                   size="sm"
                   spinnerClassName={cx('Select-spinner')}
+                  loadingConfig={loadingConfig}
                 />
               ) : null}
 

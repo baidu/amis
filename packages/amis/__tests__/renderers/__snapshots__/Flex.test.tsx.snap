@@ -52,6 +52,7 @@ exports[`Renderer:flex justify 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <span
             class="cxd-TplField"

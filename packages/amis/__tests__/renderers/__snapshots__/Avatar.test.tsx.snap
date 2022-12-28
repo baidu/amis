@@ -13,6 +13,7 @@ exports[`Renderer:avatar fit 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <span
             class="cxd-Avatar cxd-Avatar--circle"
@@ -74,6 +75,7 @@ exports[`Renderer:avatar gap 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <span
             class="cxd-Avatar cxd-Avatar--circle"
@@ -127,6 +129,7 @@ exports[`Renderer:avatar shape 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <span
             class="cxd-Avatar cxd-Avatar--square"
@@ -169,6 +172,7 @@ exports[`Renderer:avatar size 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <span
             class="cxd-Avatar cxd-Avatar--circle cxd-Avatar--lg"
@@ -268,6 +272,7 @@ exports[`Renderer:avatar var 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <span
             class="cxd-Avatar cxd-Avatar--circle"

@@ -1,9 +1,9 @@
-import {Spinner} from 'amis-ui';
+import {Spinner, SpinnerExtraProps} from 'amis-ui';
 import {Renderer, RendererProps} from 'amis-core';
 import React from 'react';
 import {BaseSchema, SchemaCollection} from '../Schema';
 
-export interface SpinnerSchema extends BaseSchema {
+export interface SpinnerSchema extends BaseSchema, SpinnerExtraProps {
   /**
    * 组件类型
    */

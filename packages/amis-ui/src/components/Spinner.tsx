@@ -6,6 +6,7 @@
  */
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 import {themeable, ThemeProps} from 'amis-core';
 import Transition, {ENTERED, ENTERING} from 'react-transition-group/Transition';
 import {Icon, hasIcon} from './icons';
@@ -21,7 +22,7 @@ const fadeStyles: {
 };
 
 // Spinner Props
-export interface SpinnerProps extends ThemeProps {
+export interface SpinnerProps extends ThemeProps, SpinnerExtraProps {
   show: boolean; // 控制Spinner显示与隐藏
   className?: string; // 自定义最外层元素class
   spinnerClassName?: string; // spin图标位置包裹元素的自定义class
@@ -35,6 +36,13 @@ export interface SpinnerProps extends ThemeProps {
   tipPlacement?: 'top' | 'right' | 'bottom' | 'left'; // spinner文案位置
   delay?: number; // 延迟显示
   overlay?: boolean; // 是否显示遮罩层，有children属性才生效
+}
+
+export interface SpinnerExtraProps {
+  loadingConfig?: {
+    root?: string;
+    show?: boolean;
+  };
 }
 
 const SpinnerSharedStore = types
@@ -106,7 +114,8 @@ export class Spinner extends React.Component<
     tip: '',
     tipPlacement: 'bottom' as 'bottom',
     delay: 0,
-    overlay: false
+    overlay: false,
+    loadingConfig: {} as SpinnerExtraProps
   };
 
   state = {
@@ -129,7 +138,16 @@ export class Spinner extends React.Component<
   };
 
   componentDidUpdate() {
-    if (this.parent) {
+    const showLoading =
+      this.props.loadingConfig?.show === true ||
+      typeof this.props.loadingConfig?.show === 'undefined';
+
+    const root = this.props.loadingConfig?.root;
+    if (!this.parent && root) {
+      this.parent = document.querySelector(root);
+    }
+
+    if (this.parent && showLoading) {
       if (this.props.show) {
         this.loadingTriggered = true;
         store.push(this.parent);
@@ -167,7 +185,7 @@ export class Spinner extends React.Component<
     }
   );
 
-  render() {
+  renderBody() {
     const {
       classnames: cx,
       className,
@@ -175,78 +193,100 @@ export class Spinner extends React.Component<
       size = '',
       overlay,
       delay,
-      icon,
+      icon: iconConfig,
       tip,
-      tipPlacement = ''
+      tipPlacement = '',
+      loadingConfig
     } = this.props;
+    // 调整挂载位置时使用默认loading
+    const icon = loadingConfig?.root ? iconConfig : '';
     const isCustomIcon = icon && React.isValidElement(icon);
     const timeout = {enter: delay, exit: 0};
+
+    const showOverlay = loadingConfig?.root || overlay;
+
+    return (
+      <Transition
+        mountOnEnter
+        unmountOnExit
+        in={this.state.spinning}
+        timeout={timeout}
+      >
+        {(status: string) => {
+          return (
+            <>
+              {/* 遮罩层 */}
+              {showOverlay ? (
+                <div className={cx(`Spinner-overlay`, fadeStyles[status])} />
+              ) : null}
+
+              {/* spinner图标和文案 */}
+              <div
+                data-testid="spinner"
+                className={cx(
+                  `Spinner`,
+                  tip && {
+                    [`Spinner-tip--${tipPlacement}`]: [
+                      'top',
+                      'right',
+                      'bottom',
+                      'left'
+                    ].includes(tipPlacement)
+                  },
+                  {[`Spinner--overlay`]: showOverlay},
+                  fadeStyles[status],
+                  className
+                )}
+              >
+                <div
+                  className={cx(
+                    `Spinner-icon`,
+                    {
+                      [`Spinner-icon--${size}`]: ['lg', 'sm'].includes(size),
+                      [`Spinner-icon--default`]: !icon,
+                      [`Spinner-icon--simple`]: !isCustomIcon && icon,
+                      [`Spinner-icon--custom`]: isCustomIcon
+                    },
+                    spinnerClassName
+                  )}
+                >
+                  {icon ? (
+                    isCustomIcon ? (
+                      icon
+                    ) : hasIcon(icon as string) ? (
+                      <Icon icon={icon} className="icon" />
+                    ) : (
+                      generateIcon(cx, icon as string, 'icon')
+                    )
+                  ) : null}
+                </div>
+                {tip ? <span className={cx(`Spinner-tip`)}>{tip}</span> : ''}
+              </div>
+            </>
+          );
+        }}
+      </Transition>
+    );
+  }
+
+  render() {
+    const {classnames: cx, loadingConfig} = this.props;
+
+    const spinnerBody = this.renderBody();
+    const root = loadingConfig?.root;
+    const doms = root ? document.querySelectorAll(root) : null;
+
+    if (doms?.length) {
+      // TODO: 找到准确的 元素
+      return ReactDOM.createPortal(spinnerBody, doms[doms.length - 1]);
+    }
 
     return (
       <>
         {this.state.showMarker && (
           <span className={cx('Spinner-mark')} ref={this.spinnerRef as any} />
         )}
-        <Transition
-          mountOnEnter
-          unmountOnExit
-          in={this.state.spinning}
-          timeout={timeout}
-        >
-          {(status: string) => {
-            return (
-              <>
-                {/* 遮罩层 */}
-                {overlay ? (
-                  <div className={cx(`Spinner-overlay`, fadeStyles[status])} />
-                ) : null}
-
-                {/* spinner图标和文案 */}
-                <div
-                  data-testid="spinner"
-                  className={cx(
-                    `Spinner`,
-                    tip && {
-                      [`Spinner-tip--${tipPlacement}`]: [
-                        'top',
-                        'right',
-                        'bottom',
-                        'left'
-                      ].includes(tipPlacement)
-                    },
-                    {[`Spinner--overlay`]: overlay},
-                    fadeStyles[status],
-                    className
-                  )}
-                >
-                  <div
-                    className={cx(
-                      `Spinner-icon`,
-                      {
-                        [`Spinner-icon--${size}`]: ['lg', 'sm'].includes(size),
-                        [`Spinner-icon--default`]: !icon,
-                        [`Spinner-icon--simple`]: !isCustomIcon && icon,
-                        [`Spinner-icon--custom`]: isCustomIcon
-                      },
-                      spinnerClassName
-                    )}
-                  >
-                    {icon ? (
-                      isCustomIcon ? (
-                        icon
-                      ) : hasIcon(icon as string) ? (
-                        <Icon icon={icon} className="icon" />
-                      ) : (
-                        generateIcon(cx, icon as string, 'icon')
-                      )
-                    ) : null}
-                  </div>
-                  {tip ? <span className={cx(`Spinner-tip`)}>{tip}</span> : ''}
-                </div>
-              </>
-            );
-          }}
-        </Transition>
+        {spinnerBody}
       </>
     );
   }

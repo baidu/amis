@@ -1,6 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
-import {Tree as TreeSelector} from 'amis-ui';
+import {SpinnerExtraProps, Tree as TreeSelector} from 'amis-ui';
 import {
   OptionsControl,
   OptionsControlProps,
@@ -110,7 +110,8 @@ export interface TreeProps
       | 'inputClassName'
       | 'descriptionClassName'
       | 'deferApi'
-    > {
+    >,
+    SpinnerExtraProps {
   enableNodePath?: boolean;
   pathSeparator?: string;
 }
@@ -234,7 +235,8 @@ export default class TreeControl extends React.Component<TreeProps> {
       translate: __,
       data,
       virtualThreshold,
-      itemHeight
+      itemHeight,
+      loadingConfig
     } = this.props;
     let {highlightTxt} = this.props;
 
@@ -246,7 +248,12 @@ export default class TreeControl extends React.Component<TreeProps> {
       <div
         className={cx(`${ns}TreeControl`, className, treeContainerClassName)}
       >
-        <Spinner size="sm" key="info" show={loading} />
+        <Spinner
+          size="sm"
+          key="info"
+          show={loading}
+          loadingConfig={loadingConfig}
+        />
         {loading ? null : (
           <TreeSelector
             classPrefix={ns}

@@ -1,5 +1,6 @@
 import React from 'react';
 import extend from 'lodash/extend';
+import {SpinnerExtraProps} from 'amis-ui';
 import {Renderer, RendererProps} from '../factory';
 import {FormStore, IFormStore} from '../store/form';
 import {
@@ -350,7 +351,8 @@ export interface FormGroupArray extends Array<FormGroupNode> {}
 
 export interface FormProps
   extends RendererProps,
-    Omit<FormSchemaBase, 'mode' | 'className'> {
+    Omit<FormSchemaBase, 'mode' | 'className'>,
+    SpinnerExtraProps {
   data: any;
   store: IFormStore;
   wrapperComponent: React.ElementType;
@@ -1365,7 +1367,13 @@ export default class Form extends React.Component<FormProps, object> {
   }
 
   buildActions() {
-    const {actions, submitText, body, translate: __} = this.props;
+    const {
+      actions,
+      submitText,
+      body,
+      translate: __,
+      loadingConfig
+    } = this.props;
 
     if (
       typeof actions !== 'undefined' ||
@@ -1388,7 +1396,8 @@ export default class Form extends React.Component<FormProps, object> {
       {
         type: 'submit',
         label: __(submitText),
-        primary: true
+        primary: true,
+        loadingConfig
       }
     ];
   }
@@ -1596,7 +1605,8 @@ export default class Form extends React.Component<FormProps, object> {
       columnCount,
       render,
       staticClassName,
-      static: isStatic = false
+      static: isStatic = false,
+      loadingConfig
     } = this.props;
 
     const {restError} = store;
@@ -1653,7 +1663,8 @@ export default class Form extends React.Component<FormProps, object> {
           {type: 'spinner'},
           {
             overlay: true,
-            show: store.loading
+            show: store.loading,
+            loadingConfig
           }
         )}
 
