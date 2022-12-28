@@ -252,6 +252,7 @@ exports[`Renderer:dropdown-button with closeOnClick & closeOnOutside 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-DropDown  is-opened"
