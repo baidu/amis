@@ -1212,7 +1212,7 @@ setSchemaTpl(
     label?: string;
     name?: string;
     value?: string;
-    visibleOn?: string;
+    visibleOn?: string | boolean;
     pipeIn?: (value: any, data: any) => void;
     pipeOut?: (value: any, data: any) => void;
   }) => {

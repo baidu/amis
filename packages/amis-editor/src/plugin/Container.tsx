@@ -286,13 +286,7 @@ export class ContainerPlugin extends BasePlugin {
               getSchemaTpl('layout:min-width', {
                 visibleOn: `${!isFlexItem || isFlexColumnItem}`
               }),
-
-
-              getSchemaTpl('layout:overflow-x', {
-                visibleOn: `${
-                  isFlexItem && !isFlexColumnItem
-                } && data.style.flex === '0 0 150px'`
-              }),
+  
               getSchemaTpl('layout:overflow-x', {
                 visibleOn: `${
                   !isFlexItem || isFlexColumnItem

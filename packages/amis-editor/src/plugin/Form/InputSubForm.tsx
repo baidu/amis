@@ -7,7 +7,8 @@ import {
   BasePlugin,
   BasicToolbarItem,
   ContextMenuEventContext,
-  ContextMenuItem
+  ContextMenuItem,
+  getSchemaTpl
 } from 'amis-editor-core';
 import {diff, JSONPipeOut} from 'amis-editor-core';
 
