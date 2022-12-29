@@ -120,6 +120,7 @@ exports[`Renderer:Nav with itemActions 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Nav"
@@ -366,6 +367,7 @@ exports[`Renderer:Nav with itemActions 2`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Nav"
@@ -799,6 +801,7 @@ exports[`Renderer:Nav with overflow 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Nav"

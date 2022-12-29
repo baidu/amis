@@ -13,6 +13,7 @@ exports[`Renderer:tableview 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Service"
@@ -142,6 +143,7 @@ exports[`Renderer:tableview layout 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <table
             class="cxd-TableView"

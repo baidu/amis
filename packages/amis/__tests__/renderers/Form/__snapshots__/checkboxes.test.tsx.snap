@@ -2116,6 +2116,7 @@ exports[`Renderer:checkboxes with creatable & createBtnLabel & addControls & add
       </div>
       <div
         class="cxd-Modal-body"
+        role="dialog-body"
       >
         <div
           class="cxd-Form cxd-Form--horizontal"
@@ -2738,6 +2739,7 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: dialog open
       </div>
       <div
         class="cxd-Modal-body"
+        role="dialog-body"
       >
         <div
           class="cxd-Form cxd-Form--horizontal"

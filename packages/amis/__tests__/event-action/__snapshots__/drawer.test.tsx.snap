@@ -13,6 +13,7 @@ exports[`EventAction:drawer 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <button
             class="cxd-Button cxd-Button--default cxd-Button--size-default"
@@ -112,6 +113,7 @@ exports[`EventAction:drawer 2`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <button
             class="cxd-Button cxd-Button--default cxd-Button--size-default"
@@ -141,6 +143,7 @@ exports[`EventAction:drawer 3`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <button
             class="cxd-Button cxd-Button--default cxd-Button--size-default"
@@ -170,6 +173,7 @@ exports[`EventAction:drawer 4`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <button
             class="cxd-Button cxd-Button--default cxd-Button--size-default"
@@ -199,6 +203,7 @@ exports[`EventAction:drawer 5`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <button
             class="cxd-Button cxd-Button--default cxd-Button--size-default"
@@ -228,6 +233,7 @@ exports[`EventAction:drawer 6`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <button
             class="cxd-Button cxd-Button--default cxd-Button--size-default"
@@ -257,6 +263,7 @@ exports[`EventAction:drawer 7`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <button
             class="cxd-Button cxd-Button--default cxd-Button--size-default"

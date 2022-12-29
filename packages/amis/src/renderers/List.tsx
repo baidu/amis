@@ -2,7 +2,7 @@ import React from 'react';
 import {findDOMNode} from 'react-dom';
 import Sortable from 'sortablejs';
 import omit from 'lodash/omit';
-import {Button, Spinner, Checkbox, Icon} from 'amis-ui';
+import {Button, Spinner, Checkbox, Icon, SpinnerExtraProps} from 'amis-ui';
 import {
   ListStore,
   IListStore,
@@ -233,7 +233,8 @@ export interface Column {
 
 export interface ListProps
   extends RendererProps,
-    Omit<ListSchema, 'type' | 'className'> {
+    Omit<ListSchema, 'type' | 'className'>,
+    SpinnerExtraProps {
   store: IListStore;
   selectable?: boolean;
   selected?: Array<any>;
@@ -1011,7 +1012,8 @@ export default class List extends React.Component<ListProps, object> {
       classnames: cx,
       size,
       translate: __,
-      loading = false
+      loading = false,
+      loadingConfig
     } = this.props;
 
     this.renderedToolbars = [];
@@ -1049,7 +1051,7 @@ export default class List extends React.Component<ListProps, object> {
         )}
 
         {this.renderFooter()}
-        <Spinner overlay show={loading} />
+        <Spinner overlay show={loading} loadingConfig={loadingConfig} />
       </div>
     );
   }

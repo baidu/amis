@@ -16,12 +16,15 @@ import debounce from 'lodash/debounce';
 import {autobind, findTree} from 'amis-core';
 import Checkbox from './Checkbox';
 import {optionValueCompare, value2array} from './Select';
-import Spinner from './Spinner';
+import Spinner, {SpinnerExtraProps} from './Spinner';
 import flatten from 'lodash/flatten';
 import {findDOMNode} from 'react-dom';
 import {Api, PlainObject} from 'amis-core';
 
-export interface UserSelectProps extends ThemeProps, LocaleProps {
+export interface UserSelectProps
+  extends ThemeProps,
+    LocaleProps,
+    SpinnerExtraProps {
   showNav?: boolean;
   navTitle?: string;
   options: Array<any>;
@@ -782,7 +785,8 @@ export class UserSelect extends React.Component<
       valueField = 'value',
       classnames: cx,
       multiple,
-      translate: __
+      translate: __,
+      loadingConfig
     } = this.props;
 
     const {breadList, options, isSearch, searchList, searchLoading} =
@@ -904,7 +908,7 @@ export class UserSelect extends React.Component<
         {isSearch ? (
           searchLoading ? (
             <div className={cx(`UserSelect-searchLoadingBox`)}>
-              <Spinner />
+              <Spinner loadingConfig={loadingConfig} />
             </div>
           ) : (
             <div className={cx('UserSelect-searchResult')}>
@@ -934,7 +938,7 @@ export class UserSelect extends React.Component<
                   this.renderList(children, option[valueField])
                 ) : (
                   <div className={cx(`UserSelect-spinnerBox`)} key={index}>
-                    <Spinner />
+                    <Spinner loadingConfig={loadingConfig} />
                   </div>
                 );
               })}

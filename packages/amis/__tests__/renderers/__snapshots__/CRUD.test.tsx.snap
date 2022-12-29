@@ -13,6 +13,7 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Crud"
@@ -1373,6 +1374,7 @@ exports[`Renderer: crud sortable & orderBy & orderDir & orderField 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Crud"
@@ -2135,6 +2137,7 @@ exports[`Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Crud"
@@ -2945,6 +2948,7 @@ exports[`Renderer:crud cards 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Crud"
@@ -3825,6 +3829,7 @@ exports[`Renderer:crud list 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Crud"
@@ -4227,6 +4232,7 @@ exports[`Renderer:crud source & alwaysShowPagination 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Crud"

@@ -10,7 +10,7 @@ import {
   ScopedContext
 } from 'amis-core';
 import {filter} from 'amis-core';
-import {BadgeObject, Button} from 'amis-ui';
+import {BadgeObject, Button, SpinnerExtraProps} from 'amis-ui';
 import pick from 'lodash/pick';
 import omit from 'lodash/omit';
 
@@ -562,7 +562,8 @@ export interface ActionProps
       | 'iconClassName'
       | 'rightIconClassName'
       | 'loadingClassName'
-    > {
+    >,
+    SpinnerExtraProps {
   actionType: any;
   onAction?: (
     e: React.MouseEvent<any> | void | null,
@@ -778,7 +779,8 @@ export class Action extends React.Component<ActionProps, ActionState> {
       onMouseEnter,
       onMouseLeave,
       classnames: cx,
-      classPrefix: ns
+      classPrefix: ns,
+      loadingConfig
     } = this.props;
 
     if (actionType !== 'email' && body) {
@@ -832,6 +834,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
 
     return (
       <Button
+        loadingConfig={loadingConfig}
         className={cx(className, {
           [activeClassName || 'is-active']: isActive
         })}

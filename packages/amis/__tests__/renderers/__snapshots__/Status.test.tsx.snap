@@ -13,6 +13,7 @@ exports[`Renderer:status 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <span
             class="cxd-StatusField cxd-StatusField--0"

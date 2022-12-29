@@ -3,7 +3,7 @@ import {ScopedContext, IScopedContext} from 'amis-core';
 import {Renderer, RendererProps} from 'amis-core';
 import {SchemaNode, Schema, ActionObject} from 'amis-core';
 import {filter} from 'amis-core';
-import {Modal} from 'amis-ui';
+import {Modal, SpinnerExtraProps} from 'amis-ui';
 import {
   guid,
   isVisible,
@@ -111,7 +111,8 @@ export type DialogSchemaBase = Omit<DialogSchema, 'type'>;
 
 export interface DialogProps
   extends RendererProps,
-    Omit<DialogSchema, 'className'> {
+    Omit<DialogSchema, 'className'>,
+    SpinnerExtraProps {
   onClose: (confirmed?: boolean) => void;
   onConfirm: (
     values: Array<object>,
@@ -530,11 +531,12 @@ export default class Dialog extends React.Component<DialogProps> {
       env,
       classnames: cx,
       classPrefix,
-      translate: __
+      translate: __,
+      loadingConfig
     } = {
       ...this.props,
       ...store.schema
-    } as any;
+    } as DialogProps;
 
     const Wrapper = wrapperComponent || Modal;
     return (
@@ -609,11 +611,12 @@ export default class Dialog extends React.Component<DialogProps> {
           : null}
 
         {(!store.entered && lazyRender) || (lazySchema && !body) ? (
-          <div className={cx('Modal-body', bodyClassName)}>
-            <Spinner overlay show size="lg" />
+          <div className={cx('Modal-body', bodyClassName)} role="dialog-body">
+            <Spinner overlay show size="lg" loadingConfig={loadingConfig} />
           </div>
         ) : body ? (
-          <div className={cx('Modal-body', bodyClassName)}>
+          // dialog-body 用于在 editor 中定位元素
+          <div className={cx('Modal-body', bodyClassName)} role="dialog-body">
             {this.renderBody(body, 'body')}
           </div>
         ) : null}

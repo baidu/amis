@@ -140,6 +140,7 @@ exports[`Renderer:inputDate with clearable: clearable false 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
@@ -295,6 +296,7 @@ exports[`Renderer:inputDate with clearable: clearable true 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
@@ -481,6 +483,7 @@ exports[`Renderer:inputDate with format & inputFormat 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
