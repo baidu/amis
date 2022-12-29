@@ -21,9 +21,11 @@ import {
   RendererPluginAction,
   RendererPluginEvent
 } from 'amis-editor-core';
-import {getEventControlConfig} from '../renderer/event-control/helper';
+import {
+  getEventControlConfig,
+  getArgsWrapper
+} from '../renderer/event-control/helper';
 import {SchemaObject} from 'amis/lib/Schema';
-import {getArgsWrapper} from '../renderer/event-control/helper';
 
 export class Table2Plugin extends BasePlugin {
   // 关联渲染器名字

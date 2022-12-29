@@ -4,7 +4,7 @@ import {
   RendererPluginAction
 } from 'amis-editor-core';
 import {filterTree, mapTree} from 'amis';
-import ACTION_TYPE_TREE from './renderer/event-control/actions';
+import {ACTION_TYPE_TREE} from './renderer/event-control/helper';
 import {ActionConfig, ComponentInfo} from './renderer/event-control/types';
 import {
   COMMON_ACTION_SCHEMA_MAP,
