@@ -770,6 +770,9 @@ export function patchDiff(left: any, changes: Array<DiffChange> | undefined) {
   );
 }
 
+/**
+ * 因为左侧是个不可变动的对象，所以先 copy 了对应的属性，再传给 DeepDiff.applyChange
+ */
 function applyChange(target: any, source: any, change: DiffChange) {
   if (target && Array.isArray(change?.path)) {
     target = target === source ? {...target} : target;
