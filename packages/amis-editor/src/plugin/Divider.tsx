@@ -28,7 +28,7 @@ export class DividerPlugin extends BasePlugin {
       title: '外观',
       body: [
         getSchemaTpl('layout:originPosition', {value: 'left-top'}),
-        getSchemaTpl('layout:width', {
+        getSchemaTpl('layout:width:v2', {
           visibleOn: 'data.style && data.style.position && (data.style.position === "fixed" || data.style.position === "absolute")',
         }),
         getSchemaTpl('className')

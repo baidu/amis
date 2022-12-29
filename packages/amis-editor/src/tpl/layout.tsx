@@ -761,6 +761,40 @@ setSchemaTpl(
   }
 );
 
+// 宽度设置(不关联固定宽度配置项)
+setSchemaTpl(
+  'layout:width:v2',
+  (config?: {
+    label?: string;
+    name?: string;
+    value?: string;
+    visibleOn?: string;
+    unitOptions?: Array<string>;
+    pipeIn?: (value: any, data: any) => void;
+    pipeOut?: (value: any, data: any) => void;
+  }) => {
+    return {
+      type: 'input-number',
+      label: config?.label || '宽度',
+      name: config?.name || 'style.width',
+      value: config?.value || '300px',
+      visibleOn: config?.visibleOn || true,
+      clearable: true,
+      unitOptions: config?.unitOptions ?? LayoutUnitOptions,
+      pipeIn: config?.pipeIn,
+      // pipeOut: config?.pipeOut,
+      pipeOut: (value: string) => {
+        const curValue = parseInt(value);
+        if (value === 'auto' || curValue || curValue === 0) {
+          return value;
+        } else {
+          return undefined;
+        }
+      }
+    };
+  }
+);
+
 // 最大宽度设置
 setSchemaTpl(
   'layout:max-width',
