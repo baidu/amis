@@ -955,7 +955,9 @@ export function needDefaultWidth(elemType: string) {
     'table-view',
     'grid',
     'cards',
-    'form'
+    'card',
+    'form',
+    'progress'
   ];
   if (needDefaultWidthElemType.indexOf(elemType) > -1) {
     return true;
