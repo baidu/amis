@@ -19,8 +19,8 @@ import {mockValue} from 'amis-editor-core';
 import {EditorNodeType} from 'amis-editor-core';
 import {SchemaObject} from 'amis/lib/Schema';
 import {
-  getArgsWrapper,
-  getEventControlConfig
+  getEventControlConfig,
+  getArgsWrapper
 } from '../renderer/event-control/helper';
 
 export class TablePlugin extends BasePlugin {
