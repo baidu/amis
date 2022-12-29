@@ -1125,16 +1125,44 @@ setSchemaTpl(
         if (form?.data?.style?.position === 'fixed' || form?.data?.style?.position === 'absolute') {
           // 吸附容器
           if (value === '0px auto') {
-            form.setValueByName('style.inset', undefined);
-            form.setValueByName('style.left', '50%');
+            // 居中
+            if (form.data?.sorptionPosition === 'top') {
+              // 吸顶
+              form.setValueByName('style.inset', '0px auto auto 50%');
+            } else if (form.data?.sorptionPosition === 'bottom') {
+              // 吸底
+              form.setValueByName('style.inset', 'auto auto 0px 50%');
+            } else {
+              form.setValueByName('style.inset', 'auto auto auto 50%');
+            }
             form.setValueByName('style.transform', 'translateX(-50%)');
+          } else if (value === 'auto 0px auto auto') {
+            // 靠右
+            if (form.data?.sorptionPosition === 'top') {
+              // 吸顶
+              form.setValueByName('style.inset', '0px 0px auto auto');
+            } else if (form.data?.sorptionPosition === 'bottom') {
+              // 吸底
+              form.setValueByName('style.inset', 'auto 0px 0px auto');
+            } else {
+              form.setValueByName('style.inset', 'auto 0px auto auto');
+            }
+            form.setValueByName('style.transform', undefined);
           } else {
-            form.setValueByName('style.inset', value);
-            form.setValueByName('style.left', undefined);
+            // 靠左
+            if (form.data?.sorptionPosition === 'top') {
+              // 吸顶
+              form.setValueByName('style.inset', '0px auto auto 0px');
+            } else if (form.data?.sorptionPosition === 'bottom') {
+              // 吸底
+              form.setValueByName('style.inset', 'auto auto 0px 0px');
+            } else {
+              form.setValueByName('style.inset', 'auto auto auto 0px');
+            }
             form.setValueByName('style.transform', undefined);
           }
         } else {
-          form.setValueByName('style.left', undefined);
+          // 靠左
           form.setValueByName('style.transform', undefined);
         }
       }
