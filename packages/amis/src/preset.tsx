@@ -7,14 +7,7 @@ import {
   ThemeProps
 } from 'amis-core';
 
-import {
-  alert,
-  confirm,
-  setRenderSchemaFn,
-  toast,
-  ImageGallery,
-  Spinner
-} from 'amis-ui';
+import {alert, confirm, setRenderSchemaFn, toast, ImageGallery} from 'amis-ui';
 import React from 'react';
 
 extendDefaultEnv({

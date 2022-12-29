@@ -128,6 +128,10 @@ const loadingBody = {
           type: 'crud',
           api: '/api/mock2/sample?orderBy=id&orderDir=desc&waitSeconds=30',
           syncLocation: false,
+          loadingConfig: {
+            show: true,
+            root: 'body'
+          },
           columns: [
             {
               name: 'id',

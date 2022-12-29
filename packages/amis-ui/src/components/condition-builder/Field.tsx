@@ -16,8 +16,12 @@ import {
 import {Icon} from '../icons';
 import SearchBox from '../SearchBox';
 import TreeSelection from '../TreeSelection';
+import {SpinnerExtraProps} from '../Spinner';
 
-export interface ConditionFieldProps extends ThemeProps, LocaleProps {
+export interface ConditionFieldProps
+  extends ThemeProps,
+    LocaleProps,
+    SpinnerExtraProps {
   options: Array<any>;
   value: any;
   onChange: (value: any) => void;
@@ -99,7 +103,8 @@ export class ConditionField extends React.Component<
       translate: __,
       searchable,
       popOverContainer,
-      selectMode = 'list'
+      selectMode = 'list',
+      loadingConfig
     } = this.props;
 
     return (
@@ -116,6 +121,7 @@ export class ConditionField extends React.Component<
                 multiple={false}
                 options={this.filterOptions(this.props.options)}
                 value={value}
+                loadingConfig={loadingConfig}
                 onChange={(value: any) => {
                   this.onPopClose(onClose);
                   onChange(value.name);

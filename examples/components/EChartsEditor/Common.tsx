@@ -285,7 +285,7 @@ export const viewportControl = (
           value: 3
         }
       ],
-      pipeIn: value => {
+      pipeIn: (value: any) => {
         if (typeof value === 'undefined') {
           return keywordList[0];
         }
@@ -301,7 +301,7 @@ export const viewportControl = (
           return keywordList[0];
         }
       },
-      pipeOut: value => {
+      pipeOut: (value: number) => {
         if (value === 1) {
           return keywordList[0];
         } else if (value === 2) {
@@ -697,7 +697,7 @@ export const keywordOrNumber = (
         type: 'switch',
         label: labelForSwitch,
         name: name,
-        pipeIn: (value: any, data) => {
+        pipeIn: (value: any, data: any) => {
           if (typeof data[name] === 'undefined') {
             return false;
           }
@@ -1135,7 +1135,7 @@ const buildOneOption = (scope: string, name: string, option: any) => {
   }
 
   if (name in FIX_LABEL) {
-    label = FIX_LABEL[name];
+    label = FIX_LABEL[name as keyof typeof FIX_LABEL];
   }
 
   remark = `「${name}」${remark}`;
@@ -1193,7 +1193,7 @@ export const buildGroupOptions = (
   parentName: string,
   options: any
 ) => {
-  let controls = [];
+  let controls: any[] = [];
   for (const name in options) {
     if (name.startsWith(parentName + '.')) {
       const control = buildOneOption(scope, name, options[name]);

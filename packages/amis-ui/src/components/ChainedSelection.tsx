@@ -9,11 +9,13 @@ import Checkbox from './Checkbox';
 import {Option} from './Select';
 import {getTreeDepth} from 'amis-core';
 import times from 'lodash/times';
-import Spinner from './Spinner';
+import Spinner, {SpinnerExtraProps} from './Spinner';
 import {localeable} from 'amis-core';
 import VirtualList, {AutoSizer} from './virtual-list';
 
-export interface ChainedSelectionProps extends BaseSelectionProps {
+export interface ChainedSelectionProps
+  extends BaseSelectionProps,
+    SpinnerExtraProps {
   defaultSelectedIndex?: string;
 }
 
@@ -124,7 +126,8 @@ export class ChainedSelection extends BaseSelection<
       itemClassName,
       itemRender,
       multiple,
-      labelField
+      labelField,
+      loadingConfig
     } = this.props;
     const valueArray = this.valueArray;
 
@@ -153,7 +156,9 @@ export class ChainedSelection extends BaseSelection<
             })}
           </div>
 
-          {option.defer && option.loading ? <Spinner size="sm" show /> : null}
+          {option.defer && option.loading ? (
+            <Spinner loadingConfig={loadingConfig} size="sm" show />
+          ) : null}
         </div>
       );
     }

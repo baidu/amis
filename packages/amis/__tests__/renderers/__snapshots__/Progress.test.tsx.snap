@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Renderer:progress 1`] = `
+exports[`Renderer:Progress 1`] = `
 <div>
   <div
     class="cxd-Progress"
@@ -29,6 +29,428 @@ exports[`Renderer:progress 1`] = `
         </span>
       </span>
     </span>
+  </div>
+</div>
+`;
+
+exports[`Renderer:Progress as form item 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    style="position: relative;"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            表单
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  进度
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-Form-static"
+          >
+            <div
+              class="cxd-Form-control"
+            >
+              <div
+                class="cxd-Progress"
+              >
+                <div
+                  class="cxd-Progress-line"
+                >
+                  <div
+                    class="cxd-Progress-line-inter"
+                  >
+                    <div
+                      class="cxd-Progress-line-bar bg-success"
+                      style="width: 61%;"
+                      title="61%"
+                    />
+                  </div>
+                </div>
+                <span
+                  class="cxd-Progress-line-text"
+                >
+                  <span
+                    class="cxd-TplField"
+                  >
+                    <span>
+                      61%
+                    </span>
+                  </span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div
+      class="cxd-Panel-footerWrap"
+    >
+      <div
+        class="cxd-Panel-btnToolbar cxd-Panel-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+          type="submit"
+        >
+          <span>
+            提交
+          </span>
+        </button>
+      </div>
+    </div>
+    <div
+      class="resize-sensor"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+    >
+      
+  
+      <div
+        class="resize-sensor-expand"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-shrink"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:Progress with map 1`] = `
+<div>
+  <div
+    class="cxd-Progress"
+  >
+    <div
+      class="cxd-Progress-line"
+    >
+      <div
+        class="cxd-Progress-line-inter"
+      >
+        <div
+          class="cxd-Progress-line-bar"
+          style="width: 60%; background-color: rgb(249, 109, 62);"
+          title="60%"
+        />
+      </div>
+    </div>
+    <span
+      class="cxd-Progress-line-text"
+    >
+      <span
+        class="cxd-TplField"
+      >
+        <span>
+          60%
+        </span>
+      </span>
+    </span>
+  </div>
+</div>
+`;
+
+exports[`Renderer:Progress with mode 1`] = `
+<div>
+  <div
+    class="cxd-Progress"
+  >
+    <div
+      class="cxd-Progress-circle"
+      style="width: 80px; height: 80px;"
+    >
+      <svg
+        class="bg-success-circle"
+        role="presentation"
+        style="width: 80px; height: 80px;"
+        viewBox="-50 -50 100 100"
+      >
+        <circle
+          class="bg-success-circle-trail"
+          cx="0"
+          cy="0"
+          r="46"
+          stroke="#D9D9D9"
+          stroke-linecap="round"
+          stroke-width="8"
+          style="stroke: #D9D9D9; stroke-dasharray: 289.02652413026095px 289.02652413026095; stroke-dashoffset: 0; transform: rotate(-90deg); transform-origin: 0 0; transition: stroke-dashoffset .3s ease 0s, stroke-dasharray .3s ease 0s, stroke .3s, stroke-width .06s ease .3s, opacity .3s ease 0s; fill-opacity: 0;"
+        />
+        <circle
+          class="bg-success-circle-path"
+          cx="0"
+          cy="0"
+          opacity="1"
+          r="46"
+          stroke-linecap="round"
+          stroke-width="8"
+          style="stroke-dasharray: 289.02652413026095px 289.02652413026095; stroke-dashoffset: 110.93981392819656; transform: rotate(-90deg); transform-origin: 0 0; transition: stroke-dashoffset .3s ease 0s, stroke-dasharray .3s ease 0s, stroke .3s, stroke-width .06s ease .3s, opacity .3s ease 0s; fill-opacity: 0; transition-duration: 0s, 0s;"
+        />
+      </svg>
+      <span
+        class="cxd-Progress-circle-text"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            63%
+          </span>
+        </span>
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:Progress with mode 2`] = `
+<div>
+  <div
+    class="cxd-Progress"
+  >
+    <div
+      class="cxd-Progress-circle"
+      style="width: 80px; height: 80px;"
+    >
+      <svg
+        class="bg-success-circle"
+        role="presentation"
+        style="width: 80px; height: 80px;"
+        viewBox="-50 -50 100 100"
+      >
+        <circle
+          class="bg-success-circle-trail"
+          cx="0"
+          cy="0"
+          r="46"
+          stroke="#D9D9D9"
+          stroke-linecap="round"
+          stroke-width="8"
+          style="stroke: #D9D9D9; stroke-dasharray: 208.7413785385218px 289.02652413026095; stroke-dashoffset: 0; transform: rotate(230deg); transform-origin: 0 0; transition: stroke-dashoffset .3s ease 0s, stroke-dasharray .3s ease 0s, stroke .3s, stroke-width .06s ease .3s, opacity .3s ease 0s; fill-opacity: 0;"
+        />
+        <circle
+          class="bg-success-circle-path"
+          cx="0"
+          cy="0"
+          opacity="1"
+          r="46"
+          stroke-linecap="round"
+          stroke-width="8"
+          style="stroke-dasharray: 208.7413785385218px 289.02652413026095; stroke-dashoffset: 79.14689627386784; transform: rotate(230deg); transform-origin: 0 0; transition: stroke-dashoffset .3s ease 0s, stroke-dasharray .3s ease 0s, stroke .3s, stroke-width .06s ease .3s, opacity .3s ease 0s; fill-opacity: 0; transition-duration: 0s, 0s;"
+        />
+      </svg>
+      <span
+        class="cxd-Progress-circle-text"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            64%
+          </span>
+        </span>
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:Progress with stripe & animate 1`] = `
+<div>
+  <div
+    class="cxd-Progress"
+  >
+    <div
+      class="cxd-Progress-line"
+    >
+      <div
+        class="cxd-Progress-line-inter"
+      >
+        <div
+          class="cxd-Progress-line-bar bg-success cxd-Progress-line-bar--stripe cxd-Progress-line-bar--stripe-animate"
+          style="width: 62%;"
+          title="62%"
+        />
+      </div>
+    </div>
+    <span
+      class="cxd-Progress-line-text"
+    >
+      <span
+        class="cxd-TplField"
+      >
+        <span>
+          62%
+        </span>
+      </span>
+    </span>
+  </div>
+</div>
+`;
+
+exports[`Renderer:Progress with threshold & showThresholdText 1`] = `
+<div>
+  <div
+    class="cxd-Progress"
+  >
+    <div
+      class="cxd-Progress-line"
+    >
+      <div
+        class="cxd-Progress-line-threshold"
+        style="left: 30%; border-color: red;"
+      >
+        <span
+          class="cxd-Progress-line-threshold-text"
+        >
+          30%
+        </span>
+      </div>
+      <div
+        class="cxd-Progress-line-threshold"
+        style="left: 90%; border-color: blue;"
+      >
+        <span
+          class="cxd-Progress-line-threshold-text"
+        >
+          90%
+        </span>
+      </div>
+      <div
+        class="cxd-Progress-line-inter"
+      >
+        <div
+          class="cxd-Progress-line-bar bg-info"
+          style="width: 60%;"
+          title="60%"
+        />
+      </div>
+    </div>
+    <span
+      class="cxd-Progress-line-text"
+    >
+      <span
+        class="cxd-TplField"
+      >
+        <span>
+          60%
+        </span>
+      </span>
+    </span>
+  </div>
+</div>
+`;
+
+exports[`Renderer:Progress with valueTpl 1`] = `
+<div>
+  <div
+    class="cxd-Progress"
+  >
+    <div
+      class="cxd-Progress-circle"
+      style="width: 80px; height: 80px;"
+    >
+      <svg
+        class="bg-success-circle"
+        role="presentation"
+        style="width: 80px; height: 80px;"
+        viewBox="-50 -50 100 100"
+      >
+        <circle
+          class="bg-success-circle-trail"
+          cx="0"
+          cy="0"
+          r="46"
+          stroke="#D9D9D9"
+          stroke-linecap="round"
+          stroke-width="8"
+          style="stroke: #D9D9D9; stroke-dasharray: 289.02652413026095px 289.02652413026095; stroke-dashoffset: 0; transform: rotate(-90deg); transform-origin: 0 0; transition: stroke-dashoffset .3s ease 0s, stroke-dasharray .3s ease 0s, stroke .3s, stroke-width .06s ease .3s, opacity .3s ease 0s; fill-opacity: 0;"
+        />
+        <circle
+          class="bg-success-circle-path"
+          cx="0"
+          cy="0"
+          opacity="1"
+          r="46"
+          stroke-linecap="round"
+          stroke-width="8"
+          style="stroke-dasharray: 289.02652413026095px 289.02652413026095; stroke-dashoffset: 99.37875296298611; transform: rotate(-90deg); transform-origin: 0 0; transition: stroke-dashoffset .3s ease 0s, stroke-dasharray .3s ease 0s, stroke .3s, stroke-width .06s ease .3s, opacity .3s ease 0s; fill-opacity: 0; transition-duration: 0s, 0s;"
+        />
+      </svg>
+      <span
+        class="cxd-Progress-circle-text"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            67个
+          </span>
+        </span>
+      </span>
+    </div>
   </div>
 </div>
 `;

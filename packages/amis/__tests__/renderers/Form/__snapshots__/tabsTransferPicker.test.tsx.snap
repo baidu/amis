@@ -17,6 +17,7 @@ exports[`Renderer:TabsTransferPicker 1`] = `
         >
           <div
             class="cxd-Page-body"
+            role="page-body"
           >
             <div
               class="cxd-Panel cxd-Panel--default cxd-Panel--form"
@@ -192,6 +193,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
         >
           <div
             class="cxd-Page-body"
+            role="page-body"
           >
             <div
               class="cxd-Panel cxd-Panel--default cxd-Panel--form"
