@@ -1489,6 +1489,7 @@ export const detectProps = [
   'addOn',
   'btnClassName',
   'btnLabel',
+  'style',
   'btnDisabled',
   'className',
   'clearable',
