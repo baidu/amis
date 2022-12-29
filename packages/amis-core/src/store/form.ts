@@ -1,5 +1,6 @@
 import {types, getEnv, flow, isAlive, Instance} from 'mobx-state-tree';
 import debounce from 'lodash/debounce';
+import throttle from 'lodash/throttle';
 import toPairs from 'lodash/toPairs';
 import pick from 'lodash/pick';
 import {ServiceStore} from './service';
@@ -480,6 +481,19 @@ export const FormStore = ServiceStore.named('FormStore')
       );
     };
 
+    // 10s 内不要重复弹同一个错误
+    const toastValidateError = throttle(
+      msg => {
+        const env = getEnv(self);
+        env.notify('error', msg);
+      },
+      10000,
+      {
+        trailing: false,
+        leading: true
+      }
+    );
+
     const submit: (
       fn?: (values: object) => Promise<any>,
       hooks?: Array<() => Promise<any>>,
@@ -506,13 +520,12 @@ export const FormStore = ServiceStore.named('FormStore')
           self.restError.length
         ) {
           let msg = failedMessage ?? self.__('Form.validateFailed');
-          const env = getEnv(self);
           let dispatcher: any = validateErrCb && validateErrCb();
           if (dispatcher?.then) {
             dispatcher = yield dispatcher;
           }
           if (!dispatcher?.prevented) {
-            msg && env.notify('error', msg);
+            msg && toastValidateError(msg);
           }
           throw new Error(msg);
         }
@@ -709,6 +722,7 @@ export const FormStore = ServiceStore.named('FormStore')
       clearRestError,
       beforeDestroy() {
         syncOptions.cancel();
+        toastValidateError.cancel();
       }
     };
   });
