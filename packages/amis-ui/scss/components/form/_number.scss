@@ -405,7 +405,9 @@
   }
 
   .#{$ns}Number-input {
-    padding: 0 var(--inputNumber-enhance-default-paddingRight) 0
+    padding: var(--inputNumber-enhance-default-paddingTop)
+      var(--inputNumber-enhance-default-paddingRight)
+      var(--inputNumber-enhance-default-paddingBottom)
       var(--inputNumber-enhance-default-paddingLeft);
   }
 
