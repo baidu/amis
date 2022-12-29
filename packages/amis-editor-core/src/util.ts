@@ -960,7 +960,10 @@ export function needDefaultWidth(elemType: string) {
     'cards',
     'card',
     'form',
-    'progress'
+    'progress',
+    'diff-editor',
+    'editor',
+    'input-range'
   ];
   if (needDefaultWidthElemType.indexOf(elemType) > -1) {
     return true;

@@ -480,6 +480,7 @@ export class EditorDNDManager {
   @autobind
   dragLeave(e: DragEvent) {
     this.dragEnterCount--;
+    this.store.setDropId('');
   }
 
   /**
