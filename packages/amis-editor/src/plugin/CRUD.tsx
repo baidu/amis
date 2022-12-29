@@ -1728,7 +1728,7 @@ export class CRUDPlugin extends BasePlugin {
     return (
       <div className="ae-CRUDEditor" style={style}>
         {this.renderEditableComponents(props)}
-        <renderer.component {...rest} />
+        <renderer.component {...props}/>
       </div>
     );
   }
