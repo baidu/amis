@@ -154,6 +154,11 @@ export function makeWrapper(
     renderChild(region: string, node: Schema, props: any) {
       const {render} = this.props; // render: amis渲染器
 
+      // $$id 变化，渲染器最好也变化
+      if (node.$$id) {
+        props.key = node.$$id || props.key;
+      }
+
       return render(region, node, {...props, $$editor: info});
     }
 

@@ -637,7 +637,9 @@ export const MainStore = types
           [propName: string]: Array<SubRendererInfo>;
         } = {};
 
-        const regular = keywords ? new RegExp(stringRegExp(keywords), 'i') : null;
+        const regular = keywords
+          ? new RegExp(stringRegExp(keywords), 'i')
+          : null;
 
         subRenderers.forEach(item => {
           if (
@@ -965,7 +967,29 @@ export const MainStore = types
             newSchema,
             (path, key) => key === '$$id'
           );
-          self.schema = patchDiff(self.schema, changes);
+
+          const schema = patchDiff(self.schema, changes);
+
+          // 有数组变动且是新增或者删除成员的时候
+          // 这个时候通常不知道具体是哪个成员发生了变化
+          // 所以让所有成员都重新生成 $$id
+          if (
+            changes?.[0]?.kind === 'A' &&
+            (changes[0].item.kind === 'D' || changes[0].item.kind === 'N') &&
+            Array.isArray(changes[0].path)
+          ) {
+            const path = changes[0].path;
+            const last = path.pop();
+            const host = path.reduce((schema, key) => {
+              return schema[key];
+            }, schema);
+            host[last] = host[last].map((item: any) => ({
+              ...item,
+              $$id: guid()
+            }));
+          }
+
+          self.schema = schema;
         } else {
           self.schema = newSchema;
         }
@@ -990,11 +1014,11 @@ export const MainStore = types
         if (parent?.isFreeContainer) {
           child.style = {
             position: 'absolute',
-            inset: "10px auto auto 10px"
-          }
+            inset: '10px auto auto 10px'
+          };
 
           // 特殊元素，需要补上默认宽度
-          if(needDefaultWidth(child.type)) {
+          if (needDefaultWidth(child.type)) {
             child.style.width = '300px';
           }
         }
