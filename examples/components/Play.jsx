@@ -160,7 +160,6 @@ export default class PlayGround extends React.Component {
         let {url, method, data, responseType, config, headers} = api;
         config = config || {};
         config.url = url;
-        config.withCredentials = true;
         responseType && (config.responseType = responseType);
 
         if (config.cancelExecutor) {
