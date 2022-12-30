@@ -130,7 +130,9 @@ extendsFilters({
   ) => {
     if (!(input instanceof Date)) {
       // input 有可能是上下文获取的 日期字符串
-      input = moment(input).isValid() ? new Date(input) : new Date();
+      input = moment(input).isValid()
+        ? moment(input).toDate()
+        : moment().toDate();
     }
 
     if (modifier === 'endOf' || modifier === 'startOf') {
