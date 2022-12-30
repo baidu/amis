@@ -1,10 +1,16 @@
-import React = require('react');
+import React from 'react';
 import PageRenderer from '../../../../amis-core/src/renderers/Form';
 import * as renderer from 'react-test-renderer';
-import {render, fireEvent, waitFor, getByText} from '@testing-library/react';
+import {
+  render,
+  fireEvent,
+  waitFor,
+  getByText,
+  within
+} from '@testing-library/react';
 import '../../../src';
 import {render as amisRender} from '../../../src';
-import {makeEnv} from '../../helper';
+import {makeEnv, wait} from '../../helper';
 import moment from 'moment';
 
 test('Renderer:inputMonth click', async () => {
@@ -55,4 +61,64 @@ test('Renderer:inputMonth click', async () => {
   ) as HTMLInputElement;
 
   expect(input.value).toEqual(lastYearMonth);
+});
+
+test('Renderer:inputMonth with dynamic minDate & maxDate', async () => {
+  const {container} = render(
+    amisRender(
+      {
+        type: 'form',
+        body: [
+          {
+            label: '开始日期',
+            type: 'input-month',
+            name: 'startTime',
+            size: 'md',
+            format: 'X',
+            maxDate: '${endTime}',
+            value: '2000-05'
+          },
+          {
+            type: 'input-month',
+            label: '结束日期',
+            size: 'md',
+            name: 'endTime',
+            format: 'X',
+            minDate: '${startTime}',
+            maxDate: '${startTime} +1year',
+            value: '2000-10'
+          }
+        ],
+        title: 'The form',
+        actions: []
+      },
+      {},
+      makeEnv({})
+    )
+  );
+
+  const items = container.querySelectorAll('.cxd-DatePicker');
+  expect(items.length).toBe(2);
+
+  const [start, end] = items;
+
+  fireEvent.click(end);
+
+  await wait(200);
+  expect(end.querySelector('.rdtMonth:not(.rdtDisabled)')!).toHaveTextContent(
+    '5月'
+  );
+  fireEvent.click(start);
+  await wait(200);
+  fireEvent.click(await within(start as HTMLElement).getByText('8月'));
+  await wait(400);
+
+  // 这里两次 click 才能打开  popover
+  fireEvent.click(end);
+  fireEvent.click(end);
+
+  await wait(400);
+  expect(end.querySelector('.rdtMonth:not(.rdtDisabled)')!).toHaveTextContent(
+    '8月'
+  );
 });
