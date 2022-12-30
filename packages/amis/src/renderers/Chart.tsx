@@ -378,14 +378,13 @@ export class Chart extends React.Component<ChartProps> {
         if (onChartWillMount) {
           await onChartWillMount(echarts);
         }
-
-        (echarts as any).registerTransform(
-          (ecStat as any).transform.regression
-        );
-        (echarts as any).registerTransform((ecStat as any).transform.histogram);
-        (echarts as any).registerTransform(
-          (ecStat as any).transform.clustering
-        );
+        
+        if((ecStat as any).transform){
+          (echarts as any).registerTransform((ecStat as any).transform.regression);
+          (echarts as any).registerTransform((ecStat as any).transform.histogram);
+          (echarts as any).registerTransform((ecStat as any).transform.clustering);
+        }
+       
 
         if (env.loadChartExtends) {
           await env.loadChartExtends();
