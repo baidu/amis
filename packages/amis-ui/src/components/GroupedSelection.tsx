@@ -26,7 +26,7 @@ export class GroupedSelection extends BaseSelection<BaseSelectionProps> {
     } = this.props;
 
     if (Array.isArray(option.children)) {
-      if (!option.label) {
+      if (!option[labelField || 'label']) {
         return (
           <>
             {option.children.map((child: Option, index: number) =>
