@@ -49,7 +49,9 @@ export class WrapperPlugin extends BasePlugin {
               {
                 title: '布局',
                 body: [
-                  getSchemaTpl('layout:position'),
+                  getSchemaTpl('layout:position', {
+                    visibleOn: '!data.stickyStatus'
+                  }),
                   getSchemaTpl('layout:originPosition'),
                   getSchemaTpl('layout:inset', {
                     mode: 'vertical'
