@@ -13,6 +13,7 @@ exports[`Renderer:condition-builder 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
@@ -157,7 +158,7 @@ exports[`Renderer:condition-builder 1`] = `
                   type="submit"
                 >
                   <span>
-                    提交
+                    Submit
                   </span>
                 </button>
               </div>

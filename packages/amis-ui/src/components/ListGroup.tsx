@@ -7,6 +7,9 @@ export interface ListGroupProps
   expand?: boolean;
   items?: Array<any>;
   itemClassName?: string;
+  style?: {
+    [propName: string]: any;
+  };
   itemRender: (item: any, index: number) => JSX.Element;
   placeholder?: JSX.Element;
   getItemProps?: (props: {item: any; index: number}) => any;

@@ -36,7 +36,7 @@ import {ClassNamesFn, themeable, ThemeProps} from 'amis-core';
 import Checkbox from './Checkbox';
 import Input from './Input';
 import {LocaleProps, localeable} from 'amis-core';
-import Spinner from './Spinner';
+import Spinner, {SpinnerExtraProps} from './Spinner';
 import type {Option, Options} from 'amis-core';
 import {RemoteOptionsProps, withRemoteConfig} from './WithRemoteConfig';
 import Picker from './Picker';
@@ -295,7 +295,11 @@ export function normalizeOptions(
 
 const DownshiftChangeTypes = Downshift.stateChangeTypes;
 
-interface SelectProps extends OptionProps, ThemeProps, LocaleProps {
+interface SelectProps
+  extends OptionProps,
+    ThemeProps,
+    LocaleProps,
+    SpinnerExtraProps {
   className?: string;
   popoverClassName?: string;
   showInvalidMatch?: boolean;
@@ -1015,25 +1019,6 @@ export class Select extends React.Component<SelectProps, SelectState> {
             'is-active': checked
           })}
         >
-          {removable ? (
-            <a data-tooltip={__('Select.clear')} data-position="top">
-              <Icon
-                icon="close"
-                className="icon"
-                onClick={(e: any) => this.handleDeleteClick(e, item)}
-              />
-            </a>
-          ) : null}
-          {editable ? (
-            <a data-tooltip="编辑" data-position="top">
-              <Icon
-                icon="pencil"
-                className="icon"
-                onClick={(e: any) => this.handleEditClick(e, item)}
-              />
-            </a>
-          ) : null}
-
           {renderMenu ? (
             multiple ? (
               <Checkbox
@@ -1107,6 +1092,24 @@ export class Select extends React.Component<SelectProps, SelectState> {
               {item.tip}
             </span>
           )}
+          {editable ? (
+            <a data-tooltip={__('Select.edit')} data-position="left">
+              <Icon
+                icon="pencil"
+                className="icon"
+                onClick={(e: any) => this.handleEditClick(e, item)}
+              />
+            </a>
+          ) : null}
+          {removable ? (
+            <a data-tooltip={__('Select.clear')} data-position="left">
+              <Icon
+                icon="close"
+                className="icon"
+                onClick={(e: any) => this.handleDeleteClick(e, item)}
+              />
+            </a>
+          ) : null}
         </div>
       );
     };
@@ -1243,7 +1246,8 @@ export class Select extends React.Component<SelectProps, SelectState> {
       checkAll,
       borderMode,
       useMobileUI,
-      hasError
+      hasError,
+      loadingConfig
     } = this.props;
 
     const selection = this.state.selection;
@@ -1311,6 +1315,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
                   icon="reload"
                   size="sm"
                   spinnerClassName={cx('Select-spinner')}
+                  loadingConfig={loadingConfig}
                 />
               ) : null}
 

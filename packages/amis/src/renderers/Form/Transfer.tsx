@@ -7,7 +7,7 @@ import {
   FormOptionsControl,
   resolveEventData
 } from 'amis-core';
-import {Transfer} from 'amis-ui';
+import {SpinnerExtraProps, Transfer} from 'amis-ui';
 import type {Option} from 'amis-core';
 import {
   autobind,
@@ -33,7 +33,9 @@ import {supportStatic} from './StaticHoc';
  * Transfer
  * 文档：https://baidu.gitee.io/amis/docs/components/form/transfer
  */
-export interface TransferControlSchema extends FormOptionsSchema {
+export interface TransferControlSchema
+  extends FormOptionsSchema,
+    SpinnerExtraProps {
   type: 'transfer';
 
   /**
@@ -156,14 +158,17 @@ export interface BaseTransferProps
       | 'className'
       | 'descriptionClassName'
       | 'inputClassName'
-    > {
+    >,
+    SpinnerExtraProps {
   resultItemRender?: (option: Option) => JSX.Element;
   virtualThreshold?: number;
   itemHeight?: number;
 }
 
+type OptionsControlWithSpinnerProps = OptionsControlProps & SpinnerExtraProps;
+
 export class BaseTransferRenderer<
-  T extends OptionsControlProps = BaseTransferProps
+  T extends OptionsControlWithSpinnerProps = BaseTransferProps
 > extends React.Component<T> {
   tranferRef?: any;
 
@@ -435,6 +440,7 @@ export class BaseTransferRenderer<
   render() {
     let {
       className,
+      style,
       classnames: cx,
       selectedOptions,
       showArrow,
@@ -459,7 +465,8 @@ export class BaseTransferRenderer<
       statistics,
       labelField,
       virtualThreshold,
-      itemHeight
+      itemHeight,
+      loadingConfig
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载
@@ -516,9 +523,15 @@ export class BaseTransferRenderer<
           itemHeight={
             toNumber(itemHeight) > 0 ? toNumber(itemHeight) : undefined
           }
+          loadingConfig={loadingConfig}
         />
 
-        <Spinner overlay key="info" show={loading} />
+        <Spinner
+          overlay
+          key="info"
+          loadingConfig={loadingConfig}
+          show={loading}
+        />
       </div>
     );
   }

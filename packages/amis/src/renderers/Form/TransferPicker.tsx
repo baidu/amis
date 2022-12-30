@@ -1,6 +1,6 @@
 import {OptionsControlProps, OptionsControl, resolveEventData} from 'amis-core';
 import React from 'react';
-import {Spinner} from 'amis-ui';
+import {Spinner, SpinnerExtraProps} from 'amis-ui';
 import {BaseTransferRenderer, TransferControlSchema} from './Transfer';
 import {TransferPicker} from 'amis-ui';
 import {autobind, createObject} from 'amis-core';
@@ -12,7 +12,8 @@ import {supportStatic} from './StaticHoc';
  * 文档：https://baidu.gitee.io/amis/docs/components/form/transfer-picker
  */
 export interface TransferPickerControlSchema
-  extends Omit<TransferControlSchema, 'type'> {
+  extends Omit<TransferControlSchema, 'type'>,
+    SpinnerExtraProps {
   type: 'transfer-picker';
   /**
    * 边框模式，全边框，还是半边框，或者没边框。
@@ -63,6 +64,7 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
   render() {
     const {
       className,
+      style,
       classnames: cx,
       selectedOptions,
       sortable,
@@ -80,7 +82,8 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
       selectMode,
       borderMode,
       itemHeight,
-      virtualThreshold
+      virtualThreshold,
+      loadingConfig
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载
@@ -130,7 +133,12 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
           virtualThreshold={virtualThreshold}
         />
 
-        <Spinner overlay key="info" show={loading} />
+        <Spinner
+          loadingConfig={loadingConfig}
+          overlay
+          key="info"
+          show={loading}
+        />
       </div>
     );
   }

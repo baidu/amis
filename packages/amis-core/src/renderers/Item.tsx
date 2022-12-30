@@ -881,7 +881,6 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       return renderControl({
         ...rest,
         onOpenDialog: this.handleOpenDialog,
-
         type,
         classnames: cx,
         formItem: model,
@@ -919,6 +918,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
     horizontal: (props: FormItemProps, renderControl: () => JSX.Element) => {
       let {
         className,
+        style,
         classnames: cx,
         description,
         descriptionClassName,
@@ -968,6 +968,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
             },
             model?.errClassNames
           )}
+          style={style}
         >
           {label !== false ? (
             <label
@@ -1074,6 +1075,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
     normal: (props: FormItemProps, renderControl: () => JSX.Element) => {
       let {
         className,
+        style,
         classnames: cx,
         desc,
         description,
@@ -1110,6 +1112,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
             },
             model?.errClassNames
           )}
+          style={style}
         >
           {label && renderLabel !== false ? (
             <label className={cx(`Form-label`, getItemLabelClassName(props))}>
@@ -1192,6 +1195,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
     inline: (props: FormItemProps, renderControl: () => JSX.Element) => {
       let {
         className,
+        style,
         classnames: cx,
         desc,
         description,
@@ -1228,6 +1232,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
             },
             model?.errClassNames
           )}
+          style={style}
         >
           {label && renderLabel !== false ? (
             <label
@@ -1316,6 +1321,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
     row: (props: FormItemProps, renderControl: () => JSX.Element) => {
       let {
         className,
+        style,
         classnames: cx,
         desc,
         description,
@@ -1352,6 +1358,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
             },
             model?.errClassNames
           )}
+          style={style}
         >
           <div className={cx('Form-rowInner')}>
             {label && renderLabel !== false ? (
@@ -1482,6 +1489,7 @@ export const detectProps = [
   'addOn',
   'btnClassName',
   'btnLabel',
+  'style',
   'btnDisabled',
   'className',
   'clearable',

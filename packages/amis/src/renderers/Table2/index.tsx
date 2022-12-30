@@ -26,7 +26,7 @@ import {
   IRow2,
   ClassNamesFn
 } from 'amis-core';
-import {Icon, Table, Spinner, BadgeObject} from 'amis-ui';
+import {Icon, Table, Spinner, BadgeObject, SpinnerExtraProps} from 'amis-ui';
 import type {
   SortProps,
   ColumnProps,
@@ -382,7 +382,7 @@ export type Table2RendererAction =
   | 'select'
   | 'expand';
 
-export interface Table2Props extends RendererProps {
+export interface Table2Props extends RendererProps, SpinnerExtraProps {
   title?: string;
   columns: Array<ColumnSchema | ColumnProps>;
   onSelect?: Function;
@@ -1498,19 +1498,19 @@ export default class Table2 extends React.Component<Table2Props, object> {
   }
 
   render() {
-    const {classnames: cx, loading = false} = this.props;
+    const {classnames: cx, style, loading = false, loadingConfig} = this.props;
 
     this.renderedToolbars = []; // 用来记录哪些 toolbar 已经渲染了
 
     const heading = this.renderHeading();
 
     return (
-      <div className={cx('Table-render-wrapper')}>
+      <div className={cx('Table-render-wrapper')} style={style}>
         {this.renderActions('header')}
         {heading}
         {this.renderTable()}
 
-        <Spinner overlay show={loading} />
+        <Spinner overlay show={loading} loadingConfig={loadingConfig} />
       </div>
     );
   }

@@ -87,6 +87,7 @@ const CityArea = memo<AreaProps>(props => {
     // 默认北京东城区
     value = 110101,
     classnames: cx,
+    style,
     translate: __,
     disabled = false,
     popOverContainer,
@@ -273,7 +274,7 @@ const CityArea = memo<AreaProps>(props => {
     .join(delimiter);
 
   return (
-    <div className={cx(`CityArea`)}>
+    <div className={cx(`CityArea`)} style={style}>
       <ResultBox
         className={cx('CityArea-Input', isOpened ? 'is-active' : '')}
         allowInput={false}

@@ -42,7 +42,7 @@ export default class ButtonToolbar extends React.Component<
   }
 
   render() {
-    const {buttons, className, classnames: cx, render} = this.props;
+    const {buttons, className, classnames: cx, render, style} = this.props;
 
     return (
       <div className={cx('ButtonToolbar', className)}>

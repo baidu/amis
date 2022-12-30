@@ -2,7 +2,14 @@ import React from 'react';
 import cx from 'classnames';
 import {matchSorter} from 'match-sorter';
 import {FormItem, FormControlProps, autobind} from 'amis-core';
-import {Modal, Button, Spinner, SearchBox, Icon} from 'amis-ui';
+import {
+  Modal,
+  Button,
+  Spinner,
+  SearchBox,
+  Icon,
+  SpinnerExtraProps
+} from 'amis-ui';
 
 import debounce from 'lodash/debounce';
 import {FormBaseControlSchema} from '../../Schema';
@@ -20,7 +27,7 @@ export interface IconSelectControlSchema extends FormBaseControlSchema {
   clearable?: boolean;
 }
 
-export interface IconSelectProps extends FormControlProps {
+export interface IconSelectProps extends FormControlProps, SpinnerExtraProps {
   placeholder?: string;
   disabled?: boolean;
   noDataTip?: string;
@@ -254,7 +261,7 @@ export default class IconSelectControl extends React.PureComponent<
 
   @autobind
   renderModalContent() {
-    const {render, classPrefix: ns} = this.props;
+    const {render, classPrefix: ns, loadingConfig} = this.props;
 
     const icons = this.getIconsByType();
 
@@ -289,6 +296,7 @@ export default class IconSelectControl extends React.PureComponent<
         <div className={cx(`${ns}IconSelectControl-Modal-content`)}>
           <Spinner
             size="lg"
+            loadingConfig={loadingConfig}
             overlay
             key="info"
             show={this.state.isRefreshLoading}
@@ -338,7 +346,7 @@ export default class IconSelectControl extends React.PureComponent<
   }
 
   render() {
-    const {className, classPrefix: ns, disabled, translate: __} = this.props;
+    const {className, style, classPrefix: ns, disabled, translate: __} = this.props;
 
     return (
       <div

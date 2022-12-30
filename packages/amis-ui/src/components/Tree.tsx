@@ -32,7 +32,7 @@ import {themeable, ThemeProps, highlight} from 'amis-core';
 import {Icon, getIcon} from './icons';
 import Checkbox from './Checkbox';
 import {LocaleProps, localeable} from 'amis-core';
-import Spinner from './Spinner';
+import Spinner, {SpinnerExtraProps} from './Spinner';
 import {ItemRenderStates} from './Selection';
 import VirtualList from './virtual-list';
 
@@ -50,7 +50,7 @@ export interface IDropInfo {
   indicator: IDropIndicator;
 }
 
-interface TreeSelectorProps extends ThemeProps, LocaleProps {
+interface TreeSelectorProps extends ThemeProps, LocaleProps, SpinnerExtraProps {
   highlightTxt?: string;
 
   onRef?: any;
@@ -240,6 +240,7 @@ export class TreeSelector extends React.Component<
     };
 
     this.syncUnFolded(props);
+    this.flattenOptions(props, true);
   }
 
   componentDidMount() {
@@ -247,8 +248,6 @@ export class TreeSelector extends React.Component<
 
     // onRef只有渲染器的情况才会使用
     this.props.onRef?.(this);
-    // 初始化
-    this.flattenOptions();
     enableNodePath && this.expandLazyLoadNodes();
   }
 
@@ -257,6 +256,7 @@ export class TreeSelector extends React.Component<
 
     if (prevProps.options !== props.options) {
       this.syncUnFolded(props);
+      this.flattenOptions(props);
     }
 
     if (
@@ -326,7 +326,6 @@ export class TreeSelector extends React.Component<
       }
     });
 
-    this.flattenOptions();
     initFoldedLevel && this.forceUpdate();
 
     return unfolded;
@@ -832,7 +831,10 @@ export class TreeSelector extends React.Component<
   /**
    * TODO: this.unfolded => reaction 更加合理
    */
-  flattenOptions(props?: TreeSelectorProps): void | Option[] {
+  flattenOptions(
+    props?: TreeSelectorProps,
+    initial?: boolean
+  ): void | Option[] {
     let flattenedOptions: Option[] = [];
 
     eachTree(
@@ -855,7 +857,7 @@ export class TreeSelector extends React.Component<
         }
       }
     );
-    if (!this.state.flattenedOptions) {
+    if (initial) {
       // 初始化
       this.state = {...this.state, flattenedOptions};
     } else {
@@ -1027,7 +1029,8 @@ export class TreeSelector extends React.Component<
       removeTip,
       translate: __,
       itemRender,
-      draggable
+      draggable,
+      loadingConfig
     } = this.props;
 
     const item = this.state.flattenedOptions[index];
@@ -1102,6 +1105,7 @@ export class TreeSelector extends React.Component<
               show
               icon="reload"
               spinnerClassName={cx('Tree-spinner')}
+              loadingConfig={loadingConfig}
             />
           ) : !isLeaf || (item.defer && !item.loaded) ? (
             <div

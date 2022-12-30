@@ -1236,6 +1236,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   render() {
     const {
       className,
+      style,
       value,
       showAddBtn,
       disabled,

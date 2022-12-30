@@ -36,7 +36,7 @@ export class Icon extends React.Component<IconProps, object> {
   };
 
   render() {
-    const {vendor, classnames: cx, className, data} = this.props;
+    const {vendor, classnames: cx, className, style, data} = this.props;
     let icon = this.props.icon;
 
     icon = filter(icon, data);
@@ -48,7 +48,7 @@ export class Icon extends React.Component<IconProps, object> {
         (icon as IconCheckedSchema).id.startsWith('svg-')
       ) {
         return (
-          <svg className={cx('icon', className)}>
+          <svg className={cx('icon', className)} style={style}>
             <use
               xlinkHref={`#${(icon as IconCheckedSchema).id.replace(
                 /^svg-/,
@@ -64,7 +64,7 @@ export class Icon extends React.Component<IconProps, object> {
 
     let CustomIcon = getIcon(icon);
     if (CustomIcon) {
-      return <CustomIcon className={cx(className, `icon-${icon}`)} />;
+      return <CustomIcon className={cx(className, `icon-${icon}`)} style={style}/>;
     }
 
     const isURLIcon = icon?.indexOf('.') !== -1;
@@ -79,9 +79,9 @@ export class Icon extends React.Component<IconProps, object> {
       iconPrefix = `${icon}`;
     }
     return isURLIcon ? (
-      <img className={cx('Icon')} src={icon} />
+      <img className={cx('Icon')} src={icon} style={style}/>
     ) : (
-      <i className={cx(iconPrefix, className)} />
+      <i className={cx(iconPrefix, className)} style={style}/>
     );
   }
 }

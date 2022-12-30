@@ -21,7 +21,7 @@ import {findDOMNode} from 'react-dom';
 import {evalExpression, filter} from 'amis-core';
 import {isEffectiveApi, isApiOutdated} from 'amis-core';
 import findIndex from 'lodash/findIndex';
-import {Html} from 'amis-ui';
+import {Html, SpinnerExtraProps} from 'amis-ui';
 import {
   BaseSchema,
   SchemaApi,
@@ -39,7 +39,7 @@ import {upperFirst} from 'lodash';
 
 export type CRUDRendererEvent = 'search';
 
-export interface CRUD2CommonSchema extends BaseSchema {
+export interface CRUD2CommonSchema extends BaseSchema, SpinnerExtraProps {
   /**
    *  指定为 CRUD2 渲染器。
    */
@@ -187,7 +187,8 @@ export type CRUD2Schema = CRUD2CardsSchema | CRUD2ListSchema | CRUD2TableSchema;
 
 export interface CRUD2Props
   extends RendererProps,
-    Omit<CRUD2CommonSchema, 'type' | 'className'> {
+    Omit<CRUD2CommonSchema, 'type' | 'className'>,
+    SpinnerExtraProps {
   store: ICRUDStore;
   pickerMode?: boolean; // 选择模式，用做表单中的选择操作
 }
@@ -1083,6 +1084,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     const {
       columns,
       className,
+      style,
       bodyClassName,
       filter,
       render,
@@ -1120,6 +1122,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
         className={cx('Crud2', className, {
           'is-loading': store.loading
         })}
+        style={style}
       >
         <div className={cx('Crud2-filter')}>{this.renderFilter(filter)}</div>
 

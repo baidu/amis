@@ -207,6 +207,7 @@ export class ImageThumb extends React.Component<
     const {
       classnames: cx,
       className,
+      style,
       imageClassName,
       thumbClassName,
       thumbMode,
@@ -274,6 +275,7 @@ export class ImageThumb extends React.Component<
           imageMode === 'original' ? 'Image--original' : 'Image--thumb',
           className
         )}
+        style={href ? undefined : style} // 避免重复设置style
       >
         {imageMode === 'original' ? (
           <div
@@ -328,6 +330,7 @@ export class ImageThumb extends React.Component<
           href={href}
           target={htmlTarget || (blank ? '_blank' : '_self')}
           className={cx('Link', className)}
+          style={style}
           title={title}
         >
           {image}
@@ -429,6 +432,7 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
   render() {
     const {
       className,
+      style,
       innerClassName,
       defaultImage,
       imageCaption,
@@ -464,6 +468,7 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
             : 'ImageField--thumb',
           className
         )}
+        style={style}
         onClick={this.handleClick}
       >
         {value ? (

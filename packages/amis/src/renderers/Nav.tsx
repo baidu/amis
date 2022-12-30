@@ -18,7 +18,7 @@ import {
 import {generateIcon} from 'amis-core';
 import {isEffectiveApi} from 'amis-core';
 import {themeable, ThemeProps} from 'amis-core';
-import {Icon, getIcon} from 'amis-ui';
+import {Icon, getIcon, SpinnerExtraProps} from 'amis-ui';
 import {Badge, BadgeObject} from 'amis-ui';
 import {RemoteOptionsProps, withRemoteConfig} from 'amis-ui';
 import {Spinner} from 'amis-ui';
@@ -222,7 +222,8 @@ export interface NavigationState {
 
 export interface NavigationProps
   extends ThemeProps,
-    Omit<NavSchema, 'type' | 'className'> {
+    Omit<NavSchema, 'type' | 'className'>,
+    SpinnerExtraProps {
   onSelect?: (item: Link) => void | false;
   onToggle?: (item: Link, forceFold?: boolean) => void;
   onDragUpdate?: (dropInfo: IDropInfo) => void;
@@ -527,7 +528,7 @@ export class Navigation extends React.Component<
     );
   }
 
-  renderOverflowNavs(overflowConfig: NavOverflow) {
+  renderOverflowNavs(overflowConfig: NavOverflow & {__id?: string | number}) {
     const {render, classnames: cx, className, loading, links = []} = this.props;
     const {
       overflowClassName,
@@ -603,7 +604,7 @@ export class Navigation extends React.Component<
                     )}
                     onClick={onClick}
                   >
-                    <a data-id={guid()} data-depth={1}>
+                    <a data-id={overflowConfig.__id ?? guid()} data-depth={1}>
                       {getIcon(overflowIndicator!) ? (
                         <Icon icon={overflowIndicator} className="icon" />
                       ) : (
@@ -631,16 +632,18 @@ export class Navigation extends React.Component<
   render(): JSX.Element {
     const {
       className,
+      style,
       stacked,
       classnames: cx,
       links,
       loading,
-      overflow
+      overflow,
+      loadingConfig
     } = this.props;
     const {dropIndicator} = this.state;
 
     return (
-      <div className={cx('Nav')}>
+      <div className={cx('Nav')} style={style}>
         {overflow && isObject(overflow) && overflow.enable ? (
           this.renderOverflowNavs({
             overflowIndicator: 'fa fa-ellipsis',
@@ -661,7 +664,7 @@ export class Navigation extends React.Component<
                 ? links.map((item, index) => this.renderItem(item, index))
                 : null}
 
-              <Spinner show={!!loading} overlay />
+              <Spinner show={!!loading} overlay loadingConfig={loadingConfig} />
             </ul>
             {dropIndicator ? (
               <div className={cx('Nav-dropIndicator')} style={dropIndicator} />

@@ -160,6 +160,30 @@ order: 14
 ]
 ```
 
+## 解析图片
+
+> 2.6.0 及以上版本
+
+通过配置 `parseImage` 来支持解析 excel 里的图片
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "debug": true,
+    "body": [
+        {
+            "type": "input-excel",
+            "name": "excel",
+            "parseImage": true,
+            "label": "上传 Excel"
+        }
+    ]
+}
+```
+
+默认情况下解析结果是 data URI 格式，如果不想要这个前缀可以通过 `"imageDataURI": false` 关闭
+
 ## 富文本模式
 
 默认情况下 Excel 内容将会解析为纯文本，如果要使用富文本格式，可以通过 `plainText` 属性控制

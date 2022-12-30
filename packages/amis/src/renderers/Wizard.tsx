@@ -15,7 +15,7 @@ import {
 } from 'amis-core';
 import {isApiOutdated, isEffectiveApi} from 'amis-core';
 import {IFormStore} from 'amis-core';
-import {Spinner} from 'amis-ui';
+import {Spinner, SpinnerExtraProps} from 'amis-ui';
 import {Icon} from 'amis-ui';
 import {findDOMNode} from 'react-dom';
 import {resizeSensor} from 'amis-core';
@@ -84,7 +84,7 @@ export type WizardStepSchema = Omit<FormSchema, 'type'> & {
  * 表单向导
  * 文档：https://baidu.gitee.io/amis/docs/components/wizard
  */
-export interface WizardSchema extends BaseSchema {
+export interface WizardSchema extends BaseSchema, SpinnerExtraProps {
   /**
    * 指定为表单向导
    */
@@ -1091,6 +1091,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
   renderWizard() {
     const {
       className,
+      style,
       steps,
       render,
       store,
@@ -1098,7 +1099,8 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
       classnames: cx,
       popOverContainer,
       mode,
-      translate: __
+      translate: __,
+      loadingConfig
     } = this.props;
 
     const currentStep = this.state.currentStep;
@@ -1111,6 +1113,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
           `${ns}Panel ${ns}Panel--default ${ns}Wizard ${ns}Wizard--${mode}`,
           className
         )}
+        style={style}
       >
         <div className={`${ns}Wizard-step`}>
           {this.renderSteps()}
@@ -1168,7 +1171,13 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
             show: store.dialogOpen
           }
         )}
-        <Spinner size="lg" overlay key="info" show={store.loading} />
+        <Spinner
+          loadingConfig={loadingConfig}
+          size="lg"
+          overlay
+          key="info"
+          show={store.loading}
+        />
       </div>
     );
   }
@@ -1251,5 +1260,10 @@ export class WizardRenderer extends Wizard {
 
   setData(values: object, replace?: boolean) {
     return this.props.store.updateData(values, undefined, replace);
+  }
+
+  getData() {
+    const {store} = this.props;
+    return store.data;
   }
 }

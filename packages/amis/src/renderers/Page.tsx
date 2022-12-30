@@ -20,7 +20,7 @@ import {
   createObject
 } from 'amis-core';
 import {ScopedContext, IScopedContext} from 'amis-core';
-import {Alert2 as Alert} from 'amis-ui';
+import {Alert2 as Alert, SpinnerExtraProps} from 'amis-ui';
 import {isApiOutdated, isEffectiveApi} from 'amis-core';
 import {Spinner} from 'amis-ui';
 import {
@@ -58,7 +58,7 @@ interface CSSRule {
 /**
  * amis Page 渲染器。详情请见：https://baidu.gitee.io/amis/docs/components/page
  */
-export interface PageSchema extends BaseSchema {
+export interface PageSchema extends BaseSchema, SpinnerExtraProps {
   /**
    * 指定为 page 渲染器。
    */
@@ -797,7 +797,6 @@ export default class Page extends React.Component<PageProps> {
       aside,
       asideClassName,
       classnames: cx,
-      header,
       showErrorMsg,
       initApi,
       regions,
@@ -806,7 +805,8 @@ export default class Page extends React.Component<PageProps> {
       asideResizor,
       pullRefresh,
       useMobileUI,
-      translate: __
+      translate: __,
+      loadingConfig
     } = this.props;
 
     const subProps = {
@@ -827,8 +827,15 @@ export default class Page extends React.Component<PageProps> {
       <div className={cx('Page-content')}>
         <div className={cx('Page-main')}>
           {this.renderHeader()}
-          <div className={cx(`Page-body`, bodyClassName)}>
-            <Spinner size="lg" overlay key="info" show={store.loading} />
+          {/* role 用于 editor 定位 Spinner */}
+          <div className={cx(`Page-body`, bodyClassName)} role="page-body">
+            <Spinner
+              size="lg"
+              overlay
+              key="info"
+              show={store.loading}
+              loadingConfig={loadingConfig}
+            />
 
             {store.error && showErrorMsg !== false ? (
               <Alert
@@ -1045,5 +1052,10 @@ export class PageRenderer extends Page {
 
   setData(values: object, replace?: boolean) {
     return this.props.store.updateData(values, undefined, replace);
+  }
+
+  getData() {
+    const {store} = this.props;
+    return store.data;
   }
 }

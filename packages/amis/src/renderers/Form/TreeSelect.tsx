@@ -1,7 +1,7 @@
 import React from 'react';
 import {Overlay, resolveEventData} from 'amis-core';
 import {PopOver} from 'amis-core';
-import {PopUp} from 'amis-ui';
+import {PopUp, SpinnerExtraProps} from 'amis-ui';
 
 import {
   OptionsControl,
@@ -110,7 +110,9 @@ export interface TreeSelectControlSchema extends FormOptionsSchema {
   overflowTagPopover?: TooltipWrapperSchema;
 }
 
-export interface TreeSelectProps extends OptionsControlProps {
+export interface TreeSelectProps
+  extends OptionsControlProps,
+    SpinnerExtraProps {
   placeholder?: any;
   autoComplete?: Api;
   hideNodePathLabel?: boolean;
@@ -609,6 +611,7 @@ export default class TreeSelectControl extends React.Component<
   render() {
     const {
       className,
+      style,
       disabled,
       inline,
       loading,
@@ -626,7 +629,8 @@ export default class TreeSelectControl extends React.Component<
       maxTagCount,
       overflowTagPopover,
       translate: __,
-      env
+      env,
+      loadingConfig
     } = this.props;
 
     const {isOpened} = this.state;
@@ -669,7 +673,9 @@ export default class TreeSelectControl extends React.Component<
           allowInput={searchable || isEffectiveApi(autoComplete)}
           hasDropDownArrow
         >
-          {loading ? <Spinner size="sm" /> : undefined}
+          {loading ? (
+            <Spinner loadingConfig={loadingConfig} size="sm" />
+          ) : undefined}
         </ResultBox>
         {!mobileUI && isOpened ? (
           <Overlay

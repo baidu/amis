@@ -10,7 +10,7 @@ import find from 'lodash/find';
 import isInteger from 'lodash/isInteger';
 import unionWith from 'lodash/unionWith';
 import {findDOMNode} from 'react-dom';
-import {ResultBox} from 'amis-ui';
+import {ResultBox, SpinnerExtraProps} from 'amis-ui';
 import {autobind, filterTree, createObject} from 'amis-core';
 import {Spinner} from 'amis-ui';
 import {Overlay} from 'amis-core';
@@ -73,7 +73,7 @@ export interface TagControlSchema extends FormOptionsSchema {
 
 export type InputTagValidationType = 'max' | 'maxLength';
 
-export interface TagProps extends OptionsControlProps {
+export interface TagProps extends OptionsControlProps, SpinnerExtraProps {
   placeholder?: string;
   clearable: boolean;
   resetValue?: any;
@@ -442,6 +442,7 @@ export default class TagControl extends React.PureComponent<
   render() {
     const {
       className,
+      style,
       classnames: cx,
       disabled,
       placeholder,
@@ -455,7 +456,8 @@ export default class TagControl extends React.PureComponent<
       optionsTip,
       maxTagCount,
       overflowTagPopover,
-      translate: __
+      translate: __,
+      loadingConfig
     } = this.props;
 
     const finnalOptions = Array.isArray(options)
@@ -505,7 +507,9 @@ export default class TagControl extends React.PureComponent<
                 overflowTagPopover={overflowTagPopover}
                 allowInput
               >
-                {loading ? <Spinner size="sm" /> : undefined}
+                {loading ? (
+                  <Spinner loadingConfig={loadingConfig} size="sm" />
+                ) : undefined}
               </ResultBox>
 
               {dropdown !== false ? (

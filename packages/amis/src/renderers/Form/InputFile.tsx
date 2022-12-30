@@ -850,7 +850,10 @@ export default class FileControl extends React.Component<FileProps, FileState> {
 
         const dispatcher = await this.dispatchEvent('success', {
           ...file, // 保留历史结构
-          item: file,
+          item: {
+            ...file,
+            ...ret.data
+          },
           value
         });
         if (dispatcher?.prevented) {
@@ -1337,6 +1340,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       descriptionClassName,
       hideUploadButton,
       className,
+      style,
       btnClassName,
       btnUploadClassName,
       classnames: cx,

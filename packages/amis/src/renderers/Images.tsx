@@ -163,6 +163,7 @@ export class ImagesField extends React.Component<ImagesProps> {
   render() {
     const {
       className,
+      style,
       defaultImage,
       thumbMode,
       thumbRatio,
@@ -204,7 +205,7 @@ export class ImagesField extends React.Component<ImagesProps> {
     this.list = list;
 
     return (
-      <div className={cx('ImagesField', className)}>
+      <div className={cx('ImagesField', className)} style={style}>
         {Array.isArray(list) ? (
           <div className={cx('Images', listClassName)}>
             {list.map((item: any, index: number) => (

@@ -36,6 +36,7 @@ import {
   makeTranslator,
   register as registerLocale,
   extendLocale,
+  removeLocaleData,
   localeable
 } from './locale';
 import type {LocaleProps, TranslateFn} from './locale';
@@ -83,7 +84,8 @@ import {
   getFilters,
   lexer,
   parse,
-  registerFilter
+  registerFilter,
+  registerFunction
 } from 'amis-formula';
 import type {FilterContext} from 'amis-formula';
 import LazyComponent from './components/LazyComponent';
@@ -140,6 +142,7 @@ export {
   registerLocale,
   makeTranslator,
   extendLocale,
+  removeLocaleData,
   localeable,
   LocaleProps,
   TranslateFn,
@@ -153,6 +156,7 @@ export {
   getFilters,
   registerFilter,
   extendsFilters,
+  registerFunction,
   evaluate,
   // 其他
   LazyComponent,
@@ -230,7 +234,7 @@ export function render(
     props.useMobileUI = true;
   }
 
-  replaceText(schema, env.replaceText, env.replaceTextIgnoreKeys);
+  schema = replaceText(schema, options.replaceText, env.replaceTextIgnoreKeys);
 
   return (
     <EnvContext.Provider value={env}>

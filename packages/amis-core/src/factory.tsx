@@ -73,6 +73,9 @@ export interface RendererProps extends ThemeProps, LocaleProps, OnEventProps {
   };
   defaultData?: object;
   className?: any;
+  style?: {
+    [propName: string]: any;
+  };
   [propName: string]: any;
 }
 

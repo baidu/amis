@@ -327,6 +327,7 @@ export default class CheckboxesControl extends React.Component<
   render() {
     const {
       className,
+      style,
       disabled,
       placeholder,
       options,

@@ -36,10 +36,10 @@ export class OperationField extends React.Component<OperationProps, object> {
   static defaultProps: Partial<OperationProps> = {};
 
   render() {
-    const {className, buttons, render, classnames: cx} = this.props;
+    const {className, style, buttons, render, classnames: cx} = this.props;
 
     return (
-      <div className={cx('OperationField', className)}>
+      <div className={cx('OperationField', className)} style={style}>
         {Array.isArray(buttons)
           ? buttons.map((button, index) =>
               render(

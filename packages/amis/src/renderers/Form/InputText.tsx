@@ -12,7 +12,7 @@ import {matchSorter} from 'match-sorter';
 import debouce from 'lodash/debounce';
 import {filter} from 'amis-core';
 import find from 'lodash/find';
-import {Icon} from 'amis-ui';
+import {Icon, SpinnerExtraProps} from 'amis-ui';
 import {Input} from 'amis-ui';
 import {autobind, createObject, setVariable, ucFirst} from 'amis-core';
 import {isEffectiveApi} from 'amis-core';
@@ -116,7 +116,7 @@ export type InputTextRendererEvent =
   | 'change'
   | 'enter';
 
-export interface TextProps extends OptionsControlProps {
+export interface TextProps extends OptionsControlProps, SpinnerExtraProps {
   placeholder?: string;
   addOn?: ActionObject & {
     position?: 'left' | 'right';
@@ -654,6 +654,7 @@ export default class TextControl extends React.PureComponent<
   renderSugestMode() {
     const {
       className,
+      style,
       inputControlClassName,
       nativeInputClassName,
       inputOnly,
@@ -676,7 +677,8 @@ export default class TextControl extends React.PureComponent<
       showCounter,
       maxLength,
       minLength,
-      translate: __
+      translate: __,
+      loadingConfig
     } = this.props;
     let type = this.props.type?.replace(/^(?:native|input)\-/, '');
 
@@ -814,6 +816,7 @@ export default class TextControl extends React.PureComponent<
                   icon="reload"
                   size="sm"
                   spinnerClassName={cx('TextControl-spinner')}
+                  loadingConfig={loadingConfig}
                 />
               ) : null}
 
@@ -869,6 +872,7 @@ export default class TextControl extends React.PureComponent<
       classPrefix: ns,
       classnames: cx,
       className,
+      style,
       inputControlClassName,
       nativeInputClassName,
       inputOnly,
@@ -969,6 +973,7 @@ export default class TextControl extends React.PureComponent<
     const {
       classnames: cx,
       className,
+      style,
       classPrefix: ns,
       addOn: addOnRaw,
       render,

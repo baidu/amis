@@ -327,6 +327,7 @@ export default class DropDownButton extends React.Component<
       level,
       primary,
       className,
+      style,
       classnames: cx,
       align,
       iconOnly,
@@ -350,6 +351,7 @@ export default class DropDownButton extends React.Component<
           },
           className
         )}
+        style={style}
         onMouseEnter={trigger === 'hover' ? this.open : () => {}}
         onMouseLeave={trigger === 'hover' ? this.close : () => {}}
         ref={this.domRef}

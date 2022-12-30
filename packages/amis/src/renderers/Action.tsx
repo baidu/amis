@@ -10,7 +10,7 @@ import {
   ScopedContext
 } from 'amis-core';
 import {filter} from 'amis-core';
-import {BadgeObject, Button} from 'amis-ui';
+import {BadgeObject, Button, SpinnerExtraProps} from 'amis-ui';
 import pick from 'lodash/pick';
 import omit from 'lodash/omit';
 
@@ -562,7 +562,8 @@ export interface ActionProps
       | 'iconClassName'
       | 'rightIconClassName'
       | 'loadingClassName'
-    > {
+    >,
+    SpinnerExtraProps {
   actionType: any;
   onAction?: (
     e: React.MouseEvent<any> | void | null,
@@ -755,6 +756,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
       countDownTpl,
       block,
       className,
+      style,
       componentClass,
       tooltip,
       disabledTip,
@@ -777,7 +779,8 @@ export class Action extends React.Component<ActionProps, ActionState> {
       onMouseEnter,
       onMouseLeave,
       classnames: cx,
-      classPrefix: ns
+      classPrefix: ns,
+      loadingConfig
     } = this.props;
 
     if (actionType !== 'email' && body) {
@@ -793,6 +796,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
         >
           <div
             className={cx('Action', className)}
+            style={style}
             onClick={this.handleAction}
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
@@ -830,9 +834,11 @@ export class Action extends React.Component<ActionProps, ActionState> {
 
     return (
       <Button
+        loadingConfig={loadingConfig}
         className={cx(className, {
           [activeClassName || 'is-active']: isActive
         })}
+        style={style}
         size={size}
         level={
           activeLevel && isActive
@@ -922,7 +928,10 @@ export class ActionRenderer extends React.Component<ActionRendererProps> {
     let mergedData = data;
 
     if (action?.actionType === 'click' && isObject(action?.args)) {
-      mergedData = createObject(data, action.args);
+      mergedData = createObject(data, {
+        ...action.args,
+        nativeEvent: e
+      });
     }
 
     const hasOnEvent = $schema.onEvent && Object.keys($schema.onEvent).length;
@@ -970,12 +979,24 @@ export class ActionRenderer extends React.Component<ActionRendererProps> {
 
   @autobind
   handleMouseEnter(e: React.MouseEvent<any>) {
-    this.props.dispatchEvent(e, this.props.data);
+    const {dispatchEvent, data} = this.props;
+    dispatchEvent(
+      e,
+      createObject(data, {
+        nativeEvent: e
+      })
+    );
   }
 
   @autobind
   handleMouseLeave(e: React.MouseEvent<any>) {
-    this.props.dispatchEvent(e, this.props.data);
+    const {dispatchEvent, data} = this.props;
+    dispatchEvent(
+      e,
+      createObject(data, {
+        nativeEvent: e
+      })
+    );
   }
 
   @autobind

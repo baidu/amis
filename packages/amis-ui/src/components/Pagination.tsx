@@ -264,6 +264,7 @@ export class Pagination extends React.Component<
       classnames: cx,
       showPageInput,
       className,
+      style,
       disabled,
       hasNext,
       popOverContainer,
@@ -283,6 +284,7 @@ export class Pagination extends React.Component<
             {disabled: disabled},
             className
           )}
+          style={style}
         >
           <ul
             key="pager-items"
