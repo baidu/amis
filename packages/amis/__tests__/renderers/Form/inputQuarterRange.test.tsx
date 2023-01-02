@@ -49,7 +49,7 @@ test('Renderer:InputQuarterRange click', async () => {
   fireEvent.click(
     await within(
       document.querySelector('.cxd-DateRangePicker-start')!
-    ).findByText('Q2')
+    ).findByText('Q1')
   );
 
   fireEvent.click(
@@ -62,7 +62,7 @@ test('Renderer:InputQuarterRange click', async () => {
 
   const thisYear = moment().format('YYYY');
 
-  expect((inputs[0] as HTMLInputElement).value).toEqual(`${thisYear}-Q2`);
+  expect((inputs[0] as HTMLInputElement).value).toEqual(`${thisYear}-Q1`);
   expect((inputs[1] as HTMLInputElement).value).toEqual(`${thisYear}-Q4`);
 });
 
