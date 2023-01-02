@@ -1,8 +1,17 @@
 /**
  * 组件名称：TooltipWrapper 文字提示容器
- * 
+ *
  * 单测内容：
- 1. 点击切换
+ * 1. trigger & title
+ * 2. placement
+ * 3. offset
+ * 4. showArrow
+ * 5. tooltipTheme
+ * 6. mouseEnterDelay & mouseLeaveDelay
+ * 7. 上下文获取
+ * 8. inline
+ * 9. style & tooltipStyle
+ * 10. wrapperComponent
  */
 
 import {
