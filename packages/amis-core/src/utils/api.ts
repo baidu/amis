@@ -206,7 +206,7 @@ export function buildApi(
       }
     }
 
-    if (api.data && api.attachDataToQuery !== false) {
+    if (api.data && (api.attachDataToQuery !== false || api.jsonql)) {
       const idx = api.url.indexOf('?');
       if (~idx) {
         let params = (api.query = {
@@ -239,6 +239,9 @@ export function buildApi(
         variables: cloneObject(api.data)
       };
     }
+  } else if (api.jsonql) {
+    api.method = 'post';
+    api.body = api.data = api.jsonql;
   }
 
   return api;
