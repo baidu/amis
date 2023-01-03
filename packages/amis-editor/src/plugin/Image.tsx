@@ -43,6 +43,16 @@ export class ImagePlugin extends BasePlugin {
             title: '基本',
             body: [
               {
+                name: 'title',
+                type: 'input-text',
+                label: '图片标题'
+              },
+              {
+                name: 'imageCaption',
+                type: 'input-text',
+                label: '图片描述'
+              },
+              {
                 name: 'imageMode',
                 label: '展示模式',
                 type: 'select',
@@ -58,17 +68,6 @@ export class ImagePlugin extends BasePlugin {
                   }
                 ]
               },
-              {
-                name: 'title',
-                type: 'input-text',
-                label: '图片标题'
-              },
-              {
-                name: 'imageCaption',
-                type: 'input-text',
-                label: '图片描述'
-              },
-
               {
                 name: 'width',
                 label: '宽度',
