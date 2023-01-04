@@ -97,17 +97,21 @@ const formItemOptions = [
 
 // 自动为form中子元素（单选框、复选框）补上默认options
 const autoAddOptions = (values: any) => {
-  if (values && (values.type === 'form' || values.type === 'group') && values.body?.length > 0) {
+  if (
+    values &&
+    (values.type === 'form' || values.type === 'group') &&
+    values.body?.length > 0
+  ) {
     values.body.forEach((formItem: any) => {
       if (formItem.type === 'radios' || formItem.type === 'checkboxes') {
         formItem.options = [
           {
-            label: "选项A",
-            value: "A"
+            label: '选项A',
+            value: 'A'
           },
           {
-            label: "选项B",
-            value: "B"
+            label: '选项B',
+            value: 'B'
           }
         ];
       } else if (formItem.type === 'form' || formItem.type === 'group') {
@@ -115,7 +119,7 @@ const autoAddOptions = (values: any) => {
       }
     });
   }
-}
+};
 
 export class FormPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -338,7 +342,8 @@ export class FormPlugin extends BasePlugin {
     {
       eventName: 'submit',
       eventLabel: '表单提交',
-      strongDesc: '配置该事件后将不会触发表单提交时默认的校验、提交到api或者target等行为，所有行为需要自己配置',
+      strongDesc:
+        '配置该事件后将不会触发表单提交时默认的校验、提交到api或者target等行为，所有行为需要自己配置',
       dataSchema: [
         {
           type: 'object',
