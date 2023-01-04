@@ -1865,11 +1865,9 @@ export class EditorManager {
   ) {
     originHook?.(e, component, scoped, data, broadcasts);
 
-    if (component.props.$$id) {
-      const node = this.store.getNodeById(
-        component.props.$$id,
-        component.props.type
-      );
+    const id = component.props.$$id || component.props.$$editor?.id;
+    if (id) {
+      const node = this.store.getNodeById(id, component.props.type);
       node?.info?.plugin?.rendererBeforeDispatchEvent?.(
         node,
         e,
