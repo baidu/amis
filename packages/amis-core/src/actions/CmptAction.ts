@@ -19,6 +19,8 @@ export interface ICmptAction extends ListenerAction {
     | 'usability'
     | 'reload';
   args: {
+    /** actionType为setValue时，目标变量的path */
+    path?: string;
     value?: string | {[key: string]: string};
     index?: number; // setValue支持更新指定索引的数据，一般用于数组类型
   };
@@ -69,8 +71,24 @@ export class CmptAction implements RendererAction {
       return renderer.props.topStore.setDisable(action.componentId, usability);
     }
 
-    // 数据更新
     if (action.actionType === 'setValue') {
+      const beforeSetData = renderer?.props?.env?.beforeSetData;
+      const path = action.args?.path;
+
+      /** 如果args中携带path参数, 则认为是全局变量赋值, 否则认为是组件变量赋值 */
+      if (
+        path &&
+        typeof path === 'string' &&
+        beforeSetData &&
+        typeof beforeSetData === 'function'
+      ) {
+        const res = await beforeSetData(renderer, action, event);
+
+        if (res === false) {
+          return;
+        }
+      }
+
       if (component?.setData) {
         return component?.setData(
           action.args?.value,
