@@ -430,7 +430,7 @@ export class TreeSelector extends React.Component<
       return;
     }
 
-    if (onlyLeaf && node.children) {
+    if (onlyLeaf && (Array.isArray(node.children) && node.children.length)) {
       return;
     }
 
@@ -1066,7 +1066,7 @@ export class TreeSelector extends React.Component<
     const isLeaf =
       (!item.children || !item.children.length) && !item.placeholder;
 
-    const iconValue = item[iconField] || (item.children ? 'folder' : 'file');
+    const iconValue = item[iconField] || ((Array.isArray(item.children) && item.children.length) ? 'folder' : 'file');
 
     const level = item.level ? item.level - 1 : 0;
 
@@ -1127,7 +1127,7 @@ export class TreeSelector extends React.Component<
               <i
                 className={cx(
                   `Tree-itemIcon ${
-                    item.children ? 'Tree-folderIcon' : 'Tree-leafIcon'
+                    (Array.isArray(item.children) && item.children.length) ? 'Tree-folderIcon' : 'Tree-leafIcon'
                   }`
                 )}
                 onClick={() =>
