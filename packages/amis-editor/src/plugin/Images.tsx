@@ -58,9 +58,7 @@ export class ImagesPlugin extends BasePlugin {
                 label: '数据源',
                 name: '__mode',
                 type: 'button-group-select',
-                size: 'xs',
-                mode: 'inline',
-                className: 'w-full',
+                size: 'sm',
                 options: [
                   {
                     label: '关联字段',
@@ -100,6 +98,7 @@ export class ImagesPlugin extends BasePlugin {
                 multiLine: true,
                 addable: true,
                 removable: true,
+                value: [{}],
                 items: [
                   getSchemaTpl('imageUrl', {
                     name: 'image',
