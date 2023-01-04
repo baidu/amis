@@ -67,7 +67,7 @@ export default [
             maxSize: 10
           })
         ]
-      }),
+      })
     ])
   },
   {
@@ -97,7 +97,8 @@ function transpileDynamicImportForCJS(options) {
 
       return {
         left: 'Promise.resolve().then(function() {return new Promise(function(fullfill) {require([',
-        right: '], function(mod) {fullfill(tslib.__importStar(mod))})})})'
+        right:
+          '], function(mod) {fullfill(require("tslib").__importStar(mod))})})})'
       };
 
       // return {
