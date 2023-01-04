@@ -1371,11 +1371,10 @@ export class EditorManager {
     const commonContext = this.buildEventContext(id);
 
     // 填充id，有些脚手架生成了复杂的布局等，这里都填充一下id
-    JSONTraverse(json, (value: any) => {
-      if (isPlainObject(value) && value.type && !value.id) {
-        value.id = generateNodeId();
-      }
-    });
+    if (isPlainObject(json) && json.type && !json.id) {
+      json = {...json, id: 'u:' + guid()};
+      json = reGenerateID(json);
+    }
 
     if (beforeId) {
       const arr = commonContext.schema[region];
