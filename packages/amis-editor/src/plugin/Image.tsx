@@ -6,7 +6,7 @@ import {
   PluginEvent,
   ResizeMoveEventContext
 } from 'amis-editor-core';
-import {defaultValue, getSchemaTpl} from 'amis-editor-core';
+import {defaultValue, getSchemaTpl, tipedLabel} from 'amis-editor-core';
 import {mockValue} from 'amis-editor-core';
 
 export class ImagePlugin extends BasePlugin {
@@ -88,30 +88,11 @@ export class ImagePlugin extends BasePlugin {
                     description: '如果已绑定字段名，可以不用设置，支持用变量。'
                   }),
               {
-                type: 'input-text',
-                label: '打开外部链接',
-                name: 'href'
-              },
-              getSchemaTpl('imageUrl', {
-                name: 'defaultImage',
-                label: '无数据时显示的图片'
-              })
-            ]
-          },
-          getSchemaTpl('status')
-        ])
-      },
-      {
-        title: '外观',
-        body: getSchemaTpl('collapseGroup', [
-          {
-            title: '基本',
-            body: [
-              {
                 type: 'ae-switch-more',
                 mode: 'normal',
                 name: 'enlargeAble',
-                label: '图片放大功能',
+                label: tipedLabel(
+                  '图片放大功能', '放大功能和打开外部链接功能是冲突的，若要点击时打开外部链接请先关闭此功能'),
                 value: false,
                 hiddenOnDefault: false,
                 formType: 'extend',
@@ -126,16 +107,44 @@ export class ImagePlugin extends BasePlugin {
                   ]
                 }
               },
-
-              getSchemaTpl('switch', {
-                name: 'showDimensions',
-                label: '显示图片尺寸'
-              }),
+              {
+                type: 'input-text',
+                label: '打开外部链接',
+                name: 'href',
+                hiddenOn: "this.enlargeAble",
+                clearValueOnHidden: true
+              },
+              getSchemaTpl('imageUrl', {
+                name: 'defaultImage',
+                label: tipedLabel('占位图', '无数据时显示的图片')
+              })
+            ]
+          },
+          getSchemaTpl('status')
+        ])
+      },
+      {
+        title: '外观',
+        body: getSchemaTpl('collapseGroup', [
+          {
+            title: '基本',
+            body: [
+              // amis 已废弃
+              // getSchemaTpl('switch', {
+              //   name: 'showDimensions',
+              //   label: '显示图片尺寸'
+              // }),
 
               {
                 name: 'thumbMode',
                 type: 'select',
                 label: '缩略图展示模式',
+                mode: 'horizontal',
+                labelAlign: 'left',
+                horizontal: {
+                  left: 5,
+                  right: 7
+                },
                 pipeIn: defaultValue('contain'),
                 options: [
                   {

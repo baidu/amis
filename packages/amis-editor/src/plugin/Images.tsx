@@ -1,6 +1,6 @@
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BaseEventContext, BasePlugin} from 'amis-editor-core';
-import {defaultValue, getSchemaTpl} from 'amis-editor-core';
+import {defaultValue, getSchemaTpl, tipedLabel} from 'amis-editor-core';
 import {mockValue} from 'amis-editor-core';
 
 export class ImagesPlugin extends BasePlugin {
@@ -120,11 +120,15 @@ export class ImagesPlugin extends BasePlugin {
                     name: 'caption'
                   }
                 ]
-              }
+              },
+              getSchemaTpl('switch', {
+                name: 'enlargeAble',
+                label: '图片放大功能'
+              })
             ]).concat([
               getSchemaTpl('imageUrl', {
                 name: 'defaultImage',
-                label: '无数据时显示的图片'
+                label: tipedLabel('占位图', '无数据时显示的图片')
               })
             ])
           },
@@ -137,37 +141,22 @@ export class ImagesPlugin extends BasePlugin {
           {
             title: '基本',
             body: [
-              {
-                type: 'ae-switch-more',
-                mode: 'normal',
-                name: 'enlargeAble',
-                label: '图片放大功能',
-                value: false,
-                hiddenOnDefault: false,
-                formType: 'extend',
-                pipeIn: (value: any) => !!value,
-                form: {
-                  body: [
-                    {
-                      name: 'originalSrc',
-                      visibleOn: 'this.enlargeAble',
-                      type: 'input-text',
-                      label: '原图地址',
-                      description: '如果不配置将默认使用缩略图地址。'
-                    }
-                  ]
-                }
-              },
-
-              getSchemaTpl('switch', {
-                name: 'showDimensions',
-                label: '显示图片尺寸'
-              }),
+              // 已废弃
+              // getSchemaTpl('switch', {
+              //   name: 'showDimensions',
+              //   label: '显示图片尺寸'
+              // }),
 
               {
                 name: 'thumbMode',
                 type: 'select',
                 label: '缩略图展示模式',
+                mode: 'horizontal',
+                labelAlign: 'left',
+                horizontal: {
+                  left: 5,
+                  right: 7
+                },
                 pipeIn: defaultValue('contain'),
                 options: [
                   {
