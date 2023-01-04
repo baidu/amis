@@ -660,7 +660,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       {
         editIndex: -1,
         items: items,
-        raw: undefined
+        raw: undefined,
+        columns: this.buildColumns(this.props)
       },
       this.emitValue
     );
@@ -679,7 +680,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       {
         editIndex: -1,
         raw: undefined,
-        items: items
+        items: items,
+        columns: this.buildColumns(this.props)
       },
       this.emitValue
     );

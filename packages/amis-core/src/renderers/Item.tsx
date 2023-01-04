@@ -1095,7 +1095,9 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         data,
         showErrorMsg,
         useMobileUI,
-        translate: __
+        translate: __,
+        static: isStatic,
+        staticClassName
       } = props;
 
       description = description || desc;
@@ -1105,7 +1107,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
           data-role="form-item"
           className={cx(
             `Form-item Form-item--normal`,
-            className,
+            isStatic && staticClassName ? staticClassName : className,
             {
               'is-error': model && !model.valid,
               [`is-required`]: required
@@ -1215,7 +1217,9 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         data,
         showErrorMsg,
         useMobileUI,
-        translate: __
+        translate: __,
+        static: isStatic,
+        staticClassName
       } = props;
       const labelWidth = props.labelWidth || props.formLabelWidth;
       description = description || desc;
@@ -1225,7 +1229,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
           data-role="form-item"
           className={cx(
             `Form-item Form-item--inline`,
-            className,
+            isStatic && staticClassName ? staticClassName : className,
             {
               'is-error': model && !model.valid,
               [`is-required`]: required
@@ -1341,7 +1345,9 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         data,
         showErrorMsg,
         useMobileUI,
-        translate: __
+        translate: __,
+        static: isStatic,
+        staticClassName
       } = props;
       const labelWidth = props.labelWidth || props.formLabelWidth;
       description = description || desc;
@@ -1351,7 +1357,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
           data-role="form-item"
           className={cx(
             `Form-item Form-item--row`,
-            className,
+            isStatic && staticClassName ? staticClassName : className,
             {
               'is-error': model && !model.valid,
               [`is-required`]: required
@@ -1489,6 +1495,7 @@ export const detectProps = [
   'addOn',
   'btnClassName',
   'btnLabel',
+  'style',
   'btnDisabled',
   'className',
   'clearable',

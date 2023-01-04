@@ -179,6 +179,7 @@ export default class Panel extends React.Component<PanelProps> {
     const {
       type,
       className,
+      style,
       data,
       header,
       body,

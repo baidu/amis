@@ -1,7 +1,7 @@
 import {OptionsControlProps, OptionsControl, resolveEventData} from 'amis-core';
 import React from 'react';
 import find from 'lodash/find';
-import {Spinner} from 'amis-ui';
+import {Spinner, SpinnerExtraProps} from 'amis-ui';
 import {BaseTransferRenderer, TransferControlSchema} from './Transfer';
 import {TabsTransfer} from 'amis-ui';
 import {Option, optionValueCompare} from 'amis-core';
@@ -24,7 +24,8 @@ import {supportStatic} from './StaticHoc';
  * 文档：https://baidu.gitee.io/amis/docs/components/form/tabs-transfer
  */
 export interface TabsTransferControlSchema
-  extends Omit<TransferControlSchema, 'type'> {
+  extends Omit<TransferControlSchema, 'type'>,
+    SpinnerExtraProps {
   type: 'tabs-transfer';
 }
 
@@ -37,7 +38,8 @@ export interface TabsTransferProps
       | 'inputClassName'
       | 'className'
       | 'descriptionClassName'
-    > {}
+    >,
+    SpinnerExtraProps {}
 
 interface BaseTransferState {
   activeKey: number;
@@ -300,7 +302,8 @@ export class TabsTransferRenderer extends BaseTabsTransferRenderer<TabsTransferP
       resultTitle,
       itemHeight,
       virtualThreshold,
-      onlyChildren
+      onlyChildren,
+      loadingConfig
     } = this.props;
 
     return (
@@ -330,7 +333,12 @@ export class TabsTransferRenderer extends BaseTabsTransferRenderer<TabsTransferP
           virtualThreshold={virtualThreshold}
         />
 
-        <Spinner overlay key="info" show={loading} />
+        <Spinner
+          overlay
+          key="info"
+          show={loading}
+          loadingConfig={loadingConfig}
+        />
       </div>
     );
   }

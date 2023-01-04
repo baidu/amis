@@ -172,6 +172,7 @@ exports[`Renderer:breadcrumb dropdown 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Breadcrumb"
@@ -258,6 +259,7 @@ exports[`Renderer:breadcrumb separator 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Breadcrumb"
@@ -337,6 +339,7 @@ exports[`Renderer:breadcrumb tooltip labelMaxLength 1`] = `
       >
         <div
           className="cxd-Page-body"
+          role="page-body"
         >
           <span
             className="cxd-Spinner-mark"
@@ -424,6 +427,7 @@ exports[`Renderer:breadcrumb tooltip labelMaxLength 2`] = `
       >
         <div
           className="cxd-Page-body"
+          role="page-body"
         >
           <span
             className="cxd-Spinner-mark"
@@ -511,6 +515,7 @@ exports[`Renderer:breadcrumb tooltip labelMaxLength 3`] = `
       >
         <div
           className="cxd-Page-body"
+          role="page-body"
         >
           <span
             className="cxd-Spinner-mark"
@@ -598,6 +603,7 @@ exports[`Renderer:breadcrumb tooltip labelMaxLength 4`] = `
       >
         <div
           className="cxd-Page-body"
+          role="page-body"
         >
           <span
             className="cxd-Spinner-mark"
@@ -684,6 +690,7 @@ exports[`Renderer:breadcrumb var 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Breadcrumb"

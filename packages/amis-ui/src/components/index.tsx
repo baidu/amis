@@ -40,7 +40,7 @@ import Rating from './Rating';
 // import RichText from './RichText';
 import Select from './Select';
 import SparkLine from './SparkLine';
-import Spinner from './Spinner';
+import {default as Spinner, type SpinnerExtraProps} from './Spinner';
 import Switch from './Switch';
 import Textarea from './Textarea';
 import TitleBar from './TitleBar';
@@ -119,6 +119,7 @@ import Combo from './Combo';
 import InputTable from './InputTable';
 import type {InputTableColumnProps} from './InputTable';
 import ConfirmBox from './ConfirmBox';
+import DndContainer from './DndContainer';
 
 export {
   NotFound,
@@ -158,6 +159,7 @@ export {
   Select,
   SparkLine,
   Spinner,
+  SpinnerExtraProps,
   Switch,
   Textarea,
   TitleBar,
@@ -241,5 +243,6 @@ export {
   Controller,
   Combo,
   InputTable,
-  InputTableColumnProps
+  InputTableColumnProps,
+  DndContainer
 };

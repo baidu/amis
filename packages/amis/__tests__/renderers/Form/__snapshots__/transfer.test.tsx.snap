@@ -13,6 +13,7 @@ exports[`Renderer:transfer 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
@@ -897,6 +898,7 @@ exports[`Renderer:transfer chained 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
@@ -1997,6 +1999,7 @@ exports[`Renderer:transfer left tree 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
@@ -2535,6 +2538,7 @@ exports[`Renderer:transfer table 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
@@ -4369,6 +4373,7 @@ exports[`Renderer:transfer tree 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"

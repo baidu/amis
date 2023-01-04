@@ -3,7 +3,6 @@ import type {JSONSchema7} from 'json-schema';
 import {ListenerAction} from './actions/Action';
 import {debounceConfig} from './utils/renderer-event';
 
-
 export interface Option {
   /**
    * 用来显示的文字
@@ -213,6 +212,7 @@ export interface ApiObject extends BaseApiObject {
     withCredentials?: boolean;
     cancelExecutor?: (cancel: Function) => void;
   };
+  jsonql?: any;
   graphql?: string;
   operationName?: string;
   body?: PlainObject;
@@ -594,7 +594,7 @@ export interface BaseSchemaWithoutType {
     [propName: string]: {
       weight?: number; // 权重
       actions: ListenerAction[]; // 执行的动作集
-      debounce?: debounceConfig,
+      debounce?: debounceConfig;
     };
   };
   /**

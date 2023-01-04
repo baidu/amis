@@ -378,14 +378,13 @@ export class Chart extends React.Component<ChartProps> {
         if (onChartWillMount) {
           await onChartWillMount(echarts);
         }
-
-        (echarts as any).registerTransform(
-          (ecStat as any).transform.regression
-        );
-        (echarts as any).registerTransform((ecStat as any).transform.histogram);
-        (echarts as any).registerTransform(
-          (ecStat as any).transform.clustering
-        );
+        
+        if((ecStat as any).transform){
+          (echarts as any).registerTransform((ecStat as any).transform.regression);
+          (echarts as any).registerTransform((ecStat as any).transform.histogram);
+          (echarts as any).registerTransform((ecStat as any).transform.clustering);
+        }
+       
 
         if (env.loadChartExtends) {
           await env.loadChartExtends();
@@ -630,5 +629,10 @@ export class ChartRenderer extends Chart {
     store.updateData(values, undefined, replace);
     // 重新渲染
     this.renderChart(this.props.config, values);
+  }
+
+  getData() {
+    const {store} = this.props;
+    return store.data;
   }
 }

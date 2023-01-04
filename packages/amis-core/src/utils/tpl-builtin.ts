@@ -1,5 +1,11 @@
 import {Enginer} from './tpl';
-import {parse, getFilters, registerFilter, Evaluator} from 'amis-formula';
+import {
+  parse,
+  getFilters,
+  registerFilter,
+  registerFunction,
+  Evaluator
+} from 'amis-formula';
 import {prettyBytes} from './prettyBytes';
 import {escapeHtml} from './escapeHtml';
 import {formatDuration} from './formatDuration';
@@ -22,6 +28,7 @@ export {
   parseDuration,
   getFilters,
   registerFilter,
+  registerFunction,
   pickValues,
   isPureVariable,
   stripNumber,

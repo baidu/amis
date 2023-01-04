@@ -5,6 +5,7 @@
  * This source code is licensed under the Apache license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
 import {
   Renderer,
   getRendererByName,
@@ -84,7 +85,8 @@ import {
   getFilters,
   lexer,
   parse,
-  registerFilter
+  registerFilter,
+  registerFunction
 } from 'amis-formula';
 import type {FilterContext} from 'amis-formula';
 import LazyComponent from './components/LazyComponent';
@@ -155,6 +157,7 @@ export {
   getFilters,
   registerFilter,
   extendsFilters,
+  registerFunction,
   evaluate,
   // 其他
   LazyComponent,

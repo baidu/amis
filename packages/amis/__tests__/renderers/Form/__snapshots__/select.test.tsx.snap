@@ -13,6 +13,7 @@ exports[`Renderer: chained select 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
@@ -170,6 +171,7 @@ exports[`Renderer:select associated 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
@@ -858,6 +860,7 @@ exports[`Renderer:select chained 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
@@ -1474,6 +1477,7 @@ exports[`Renderer:select group 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
@@ -1999,6 +2003,7 @@ exports[`Renderer:select menutpl 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
@@ -2156,6 +2161,7 @@ exports[`Renderer:select table 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
@@ -3178,6 +3184,7 @@ exports[`Renderer:select tree 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"

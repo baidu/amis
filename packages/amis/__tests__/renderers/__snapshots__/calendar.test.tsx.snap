@@ -13,6 +13,7 @@ exports[`Renderer:calendar 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Form-item cxd-Form-item--normal"
@@ -521,6 +522,7 @@ exports[`Renderer:calendar largeMode 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Form-item cxd-Form-item--normal"
@@ -1177,6 +1179,7 @@ exports[`Renderer:calendar scheduleAction 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Form-item cxd-Form-item--normal"

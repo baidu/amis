@@ -368,6 +368,7 @@ order: 12
 - `window` 即全局变量
 - `ls` 即 localStorage， 如果值是 json 对象，可以直接当对象用比如：`${ls:xxxxxlocalStrorageKey.xxxx}`
 - `ss` 即 sessionStorage，同上。
+- `cookie` 即 cookies，同上。
 
 ```schema
 {

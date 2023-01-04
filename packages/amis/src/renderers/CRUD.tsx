@@ -1,5 +1,6 @@
 import React from 'react';
 import isEqual from 'lodash/isEqual';
+import pickBy from 'lodash/pickBy';
 import {Renderer, RendererProps} from 'amis-core';
 import {SchemaNode, Schema, ActionObject, PlainObject} from 'amis-core';
 import {CRUDStore, ICRUDStore} from 'amis-core';
@@ -16,7 +17,7 @@ import {
   isArrayChildrenModified
 } from 'amis-core';
 import {ScopedContext, IScopedContext} from 'amis-core';
-import {Button} from 'amis-ui';
+import {Button, SpinnerExtraProps} from 'amis-ui';
 import {Select} from 'amis-ui';
 import {getExprProperties} from 'amis-core';
 import pick from 'lodash/pick';
@@ -27,7 +28,6 @@ import omit from 'lodash/omit';
 import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
 import {Html} from 'amis-ui';
-import {Spinner} from 'amis-ui';
 import {Icon} from 'amis-ui';
 import {
   BaseSchema,
@@ -74,7 +74,7 @@ export type CRUDToolbarObject = {
   align?: 'left' | 'right';
 };
 
-export interface CRUDCommonSchema extends BaseSchema {
+export interface CRUDCommonSchema extends BaseSchema, SpinnerExtraProps {
   /**
    *  指定为 CRUD 渲染器。
    */
@@ -326,7 +326,8 @@ export type CRUDSchema = CRUDCardsSchema | CRUDListSchema | CRUDTableSchema;
 
 export interface CRUDProps
   extends RendererProps,
-    Omit<CRUDCommonSchema, 'type' | 'className'> {
+    Omit<CRUDCommonSchema, 'type' | 'className'>,
+    SpinnerExtraProps {
   store: ICRUDStore;
   pickerMode?: boolean; // 选择模式，用做表单中的选择操作
 }
@@ -872,7 +873,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   }
 
   handleFilterSubmit(
-    values: object,
+    values: Record<string, any>,
     jumpToFirstPage: boolean = true,
     replaceLocation: boolean = false,
     search: boolean = true
@@ -886,6 +887,14 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       loadDataOnceFetchOnFilter
     } = this.props;
 
+    /** 找出clearValueOnHidden的字段, 保证updateQuery时不会使用上次的保留值 */
+    values = {
+      ...values,
+      ...pickBy(
+        values?.__super?.diff ?? {},
+        (value) => value === undefined
+      )
+    };
     values = syncLocation
       ? qsparse(qsstringify(values, undefined, true))
       : values;
@@ -2247,9 +2256,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             loading: store.loading
           }
         )}
-        {/* spinner可以交给孩子处理 */}
-        {/* <Spinner overlay size="lg" key="info" show={store.loading} /> */}
-
         {render(
           'dialog',
           {

@@ -7,7 +7,7 @@ import {
   FormOptionsControl,
   resolveEventData
 } from 'amis-core';
-import {UserSelect} from 'amis-ui';
+import {SpinnerExtraProps, UserSelect} from 'amis-ui';
 import {UserTabSelect} from 'amis-ui';
 import {isEffectiveApi} from 'amis-core';
 import find from 'lodash/find';
@@ -23,7 +23,9 @@ export interface UserSelectControlSchema extends FormOptionsSchema {
   type: 'users-select';
 }
 
-export interface UserSelectProps extends OptionsControlProps {
+export interface UserSelectProps
+  extends OptionsControlProps,
+    SpinnerExtraProps {
   /**
    * 部门可选
    */
@@ -241,7 +243,8 @@ export default class UserSelectControl extends React.Component<
       tabMode,
       data,
       displayFields,
-      labelField
+      labelField,
+      loadingConfig
     } = this.props;
     tabOptions?.forEach((item: any) => {
       item.deferLoad = this.deferLoad;
@@ -263,6 +266,7 @@ export default class UserSelectControl extends React.Component<
           />
         ) : (
           <UserSelect
+            loadingConfig={loadingConfig}
             showNav={showNav}
             navTitle={navTitle}
             selection={selectedOptions}

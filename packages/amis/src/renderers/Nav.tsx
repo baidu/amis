@@ -18,7 +18,7 @@ import {
 import {generateIcon} from 'amis-core';
 import {isEffectiveApi} from 'amis-core';
 import {themeable, ThemeProps} from 'amis-core';
-import {Icon, getIcon} from 'amis-ui';
+import {Icon, getIcon, SpinnerExtraProps} from 'amis-ui';
 import {Badge, BadgeObject} from 'amis-ui';
 import {RemoteOptionsProps, withRemoteConfig} from 'amis-ui';
 import {Spinner} from 'amis-ui';
@@ -222,7 +222,8 @@ export interface NavigationState {
 
 export interface NavigationProps
   extends ThemeProps,
-    Omit<NavSchema, 'type' | 'className'> {
+    Omit<NavSchema, 'type' | 'className'>,
+    SpinnerExtraProps {
   onSelect?: (item: Link) => void | false;
   onToggle?: (item: Link, forceFold?: boolean) => void;
   onDragUpdate?: (dropInfo: IDropInfo) => void;
@@ -636,7 +637,8 @@ export class Navigation extends React.Component<
       classnames: cx,
       links,
       loading,
-      overflow
+      overflow,
+      loadingConfig
     } = this.props;
     const {dropIndicator} = this.state;
 
@@ -662,7 +664,7 @@ export class Navigation extends React.Component<
                 ? links.map((item, index) => this.renderItem(item, index))
                 : null}
 
-              <Spinner show={!!loading} overlay />
+              <Spinner show={!!loading} overlay loadingConfig={loadingConfig} />
             </ul>
             {dropIndicator ? (
               <div className={cx('Nav-dropIndicator')} style={dropIndicator} />

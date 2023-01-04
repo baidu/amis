@@ -1,5 +1,4 @@
 import {observer} from 'mobx-react';
-import {getEnv} from 'mobx-state-tree';
 import React from 'react';
 import type {RootProps} from './Root';
 import {IScopedContext, ScopedContext} from './Scoped';

@@ -15,8 +15,11 @@ import {
   ToastLevel
 } from './types';
 import hoistNonReactStatic from 'hoist-non-react-statics';
-import {IScopedContext} from './Scoped';
-import {RendererEvent} from './utils/renderer-event';
+
+import type {IScopedContext} from './Scoped';
+import type {RendererEvent} from './utils/renderer-event';
+import type {ListenerContext} from './actions/Action';
+import type {ICmptAction} from './actions/CmptAction';
 
 export interface wsObject {
   url: string;
@@ -25,6 +28,7 @@ export interface wsObject {
 }
 
 export interface RendererEnv {
+  session?: string;
   fetcher: (api: Api, data?: any, options?: object) => Promise<Payload>;
   isCancel: (val: any) => boolean;
   wsFetcher: (
@@ -102,14 +106,23 @@ export interface RendererEnv {
    * 替换文本，用于实现 URL 替换、语言替换等
    */
   replaceText?: {[propName: string]: any};
+
   /**
-   * 文本替换的黑名单，因为属性太多了所以改成黑名单的 fangs
+   * 文本替换的黑名单，因为属性太多了所以改成黑名单的 flags
    */
   replaceTextIgnoreKeys?: String[];
+
   /**
    * 解析url参数
    */
   parseLocation?: (location: any) => Object;
+
+  /** 数据更新前触发的Hook */
+  beforeSetData?: (
+    renderer: ListenerContext,
+    action: ICmptAction,
+    event: RendererEvent<any, any>
+  ) => Promise<void | boolean>;
 }
 
 export const EnvContext = React.createContext<RendererEnv | void>(undefined);

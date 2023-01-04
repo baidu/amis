@@ -914,6 +914,7 @@ exports[`Renderer:table children 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Service"
@@ -2789,6 +2790,7 @@ exports[`Renderer:table combine Renderer:table combineNum only 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Service"
@@ -3495,6 +3497,7 @@ exports[`Renderer:table combine Renderer:table combineNum with fromIndex 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Service"
@@ -4271,6 +4274,7 @@ exports[`Renderer:table groupName-default 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Service"
@@ -5236,6 +5240,7 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Service"
@@ -6193,6 +6198,7 @@ exports[`Renderer:table groupName-startNoGroupName 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Service"
@@ -7119,6 +7125,7 @@ exports[`Renderer:table groupName-withTpl 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Service"

@@ -21,7 +21,7 @@ export enum LoopStatus {
 export interface ListenerAction {
   actionType: string; // 动作类型 逻辑动作|自定义（脚本支撑）|reload|url|ajax|dialog|drawer 其他扩充的组件动作
   description?: string; // 事件描述，actionType: broadcast
-  componentId?: string; // 组件ID，用于直接执行指定组件的动作
+  componentId?: string; // 组件ID，用于直接执行指定组件的动作，指定多个组件时使用英文逗号分隔
   args?: Record<string, any>; // 动作配置，可以配置数据映射
   data?: Record<string, any> | null; // 动作数据参数，可以配置数据映射
   dataMergeMode?: 'merge' | 'override'; // 参数模式，合并或者覆盖

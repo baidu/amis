@@ -379,6 +379,11 @@ export interface FormProps
   }>;
   lazyChange?: boolean; // 表单项的
   formLazyChange?: boolean; // 表单的
+  // Spinner 配置
+  loadingConfig?: {
+    root?: string;
+    show?: boolean;
+  };
 }
 export default class Form extends React.Component<FormProps, object> {
   static defaultProps = {
@@ -1365,7 +1370,13 @@ export default class Form extends React.Component<FormProps, object> {
   }
 
   buildActions() {
-    const {actions, submitText, body, translate: __} = this.props;
+    const {
+      actions,
+      submitText,
+      body,
+      translate: __,
+      loadingConfig
+    } = this.props;
 
     if (
       typeof actions !== 'undefined' ||
@@ -1388,7 +1399,8 @@ export default class Form extends React.Component<FormProps, object> {
       {
         type: 'submit',
         label: __(submitText),
-        primary: true
+        primary: true,
+        loadingConfig
       }
     ];
   }
@@ -1596,7 +1608,8 @@ export default class Form extends React.Component<FormProps, object> {
       columnCount,
       render,
       staticClassName,
-      static: isStatic = false
+      static: isStatic = false,
+      loadingConfig
     } = this.props;
 
     const {restError} = store;
@@ -1653,7 +1666,8 @@ export default class Form extends React.Component<FormProps, object> {
           {type: 'spinner'},
           {
             overlay: true,
-            show: store.loading
+            show: store.loading,
+            loadingConfig
           }
         )}
 
@@ -1722,6 +1736,7 @@ export default class Form extends React.Component<FormProps, object> {
       actionsClassName,
       bodyClassName,
       classnames: cx,
+      style,
       affixFooter,
       lazyLoad,
       translate: __,
@@ -1739,6 +1754,7 @@ export default class Form extends React.Component<FormProps, object> {
         },
         {
           className: cx(panelClassName, 'Panel--form'),
+          style: style,
           formStore: this.props.store,
           children: body,
           actions: this.buildActions(),
@@ -1976,5 +1992,10 @@ export class FormRenderer extends Form {
     // 触发表单change
     onChange &&
       onChange(store.data, difference(store.data, store.pristine), this.props);
+  }
+
+  getData() {
+    const {store} = this.props;
+    return store.data;
   }
 }
