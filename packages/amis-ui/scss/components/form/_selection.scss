@@ -48,9 +48,12 @@
   padding: var(--gap-xs) 0;
 
   &-group > &-itemLabel {
-    height: px2rem(32px);
-    padding: var(--gap-xs) var(--gap-base);
-    color: var(--FileControl-icon-color);
+    padding: var(--select-group-paddingTop) var(--select-group-paddingRight)
+      var(--select-group-paddingBottom) var(--select-group-paddingLeft);
+    color: var(--select-group-color);
+    font-size: var(--select-group-fontSize);
+    font-weight: var(--select-group-fontWeight);
+    line-height: var(--select-group-lineHeight);
   }
 
   &-item {
@@ -142,24 +145,31 @@
 
   .#{$ns}Table-table > thead > tr > th,
   .#{$ns}Table-table > tbody > tr > td {
-    font-size: var(--fontSizeSm);
-    padding-top: var(--gap-xs);
-    padding-bottom: px2rem(6px);
+    color: var(--select-table-color);
+    font-size: var(--select-table-fontSize);
     vertical-align: middle;
   }
 
   .#{$ns}Table-table > thead > tr > th {
-    padding-top: px2rem(6px);
+    padding: var(--select-table-header-paddingTop)
+      var(--select-table-header-paddingLeft)
+      var(--select-table-header-paddingBottom)
+      var(--select-table-header-paddingLeft);
   }
 
-  .#{$ns}Table-table > thead > tr > th:first-child,
-  .#{$ns}Table-table > tbody > tr > td:first-child {
-    padding-left: px2rem(10px);
+  .#{$ns}Table-table > tbody > tr > td {
+    padding: var(--select-table-option-paddingTop)
+      var(--select-table-option-paddingLeft)
+      var(--select-table-option-paddingBottom)
+      var(--select-table-option-paddingLeft);
   }
 
-  .#{$ns}Table-table > thead > tr > th:last-child,
+  .#{$ns}Table-table > thead > tr > th:last-child {
+    padding-right: var(--select-table-header-paddingRight);
+  }
+
   .#{$ns}Table-table > tbody > tr > td:last-child {
-    padding-right: var(--gap-md);
+    padding-right: var(--select-table-option-paddingRight);
   }
 
   .#{$ns}Table-table > tbody > tr.is-active {
@@ -270,12 +280,12 @@
   &-item {
     display: flex;
     // height: var(--Form-input-height);
-    line-height: var(--Form-input-lineHeight);
-    font-size: var(--Form-input-fontSize);
+    font-size: var(--select-chained-fontSize);
+    color: var(--select-chained-color);
     padding: calc(
         (
             var(--Form-input-height) - var(--Form-input-lineHeight) *
-              var(--Form-input-fontSize)
+              var(--select-chained-fontSize)
           ) / 2
       )
       var(--gap-sm);
@@ -293,7 +303,7 @@
     }
 
     &:hover {
-      background: var(--Tree-item-onHover-bg);
+      background: var(--select-chained-hover-bg-color);
     }
 
     &.is-disabled {
