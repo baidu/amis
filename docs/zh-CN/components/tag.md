@@ -83,7 +83,7 @@ icon:
 
 ## 标签颜色
 
-标签有几种预设的色彩样式，可以通过设置color属性为active、inactive、error、success、iprocessing、warning用作不同场景使用。如果预设值不能满足需求，可以设置为具体的色值
+标签有几种预设的色彩样式，可以通过设置 color 属性为 active、inactive、error、success、iprocessing、warning 用作不同场景使用。如果预设值不能满足需求，可以设置为具体的色值
 
 ```schema
 {
@@ -128,7 +128,6 @@ icon:
     ]
 }
 ```
-
 
 ## 自定义样式
 
@@ -184,3 +183,15 @@ icon:
 | icon        | `SchemaIcon`                                                                               | `dot 图标` | status 模式下的前置图标                    |
 | className   | `string`                                                                                   |            | 自定义 CSS 样式类名                        |
 | style       | `object`                                                                                   | {}         | 自定义样式（行内样式），优先级最高         |
+
+## 事件表
+
+> 2.6.1 及以上版本
+
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，详细查看[事件动作](../../docs/concepts/event-action)。
+
+| 事件名称   | 事件参数                 | 说明           |
+| ---------- | ------------------------ | -------------- |
+| click      | nativeEvent 鼠标事件对象 | 点击时触发     |
+| mouseenter | nativeEvent 鼠标事件对象 | 鼠标移入时触发 |
+| mouseleave | nativeEvent 鼠标事件对象 | 鼠标移出时触发 |
