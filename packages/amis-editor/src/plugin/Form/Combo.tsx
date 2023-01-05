@@ -244,23 +244,56 @@ export class ComboControlPlugin extends BasePlugin {
                   }
                 }),
                 // 多选模式和条数绑定了，所以设定了多选，条数开启
-                getSchemaTpl('multiple', {
+                getSchemaTpl('switch', {
+                  name: 'multiple',
+                  label: '可多选',
+                  pipeIn: defaultValue(true),
+                  onChange: (
+                    value: any,
+                    oldValue: any,
+                    model: any,
+                    form: any
+                  ) => {
+                    form.setValueByName('addable', value);
+                    form.setValueByName('removable', value);
+                    form.setValueByName('flat', false);
+                  }
+                }),
+                {
+                  type: 'container',
+                  className: 'ae-ExtendMore mb-3',
+                  visibleOn: 'data.multiple',
                   body: [
                     {
                       label: '最多条数',
                       name: 'maxLength',
                       type: 'input-number',
-                      visibleOn: 'data.multiple'
                     },
                     {
                       label: '最少条数',
                       name: 'minLength',
                       type: 'input-number',
-                      visibleOn: 'data.multiple'
                     }
                   ]
+                },
+                getSchemaTpl('switch', {
+                  name: 'flat',
+                  label: tipedLabel(
+                    '打平值',
+                    '默认数组内的数据结构为对象，如果只有一个表单项，可以配置将值打平，那么数组内放置的就是那个表单项的值'
+                  ),
+                  visibleOn:
+                    'Array.isArray(data.items) && data.items.length === 1 && data.multiple'
                 }),
-
+                {
+                  type: 'container',
+                  className: 'ae-ExtendMore mb-3',
+                  visibleOn: 'data.multiple && data.flat',
+                  body: [
+                    getSchemaTpl('joinValues'),
+                    getSchemaTpl('delimiter')
+                  ]
+                },
                 // 可排序，排序和新增无关，和多选模式有关
                 getSchemaTpl('switch', {
                   name: 'draggable',
