@@ -555,66 +555,6 @@ $remFactor: 16px;
   );
   --Form-row-gutterWidth: #{px2rem(10px)};
 
-  --Form-select-bg: var(--colors-neutral-fill-11);
-  --Form-select-height: var(--Form-select-outer-top);
-  --Form-select-borderColor: var(--Form-input-borderColor);
-  --Form-select-borderRadius: var(--borders-radius-3);
-  --Form-select-borderWidth: var(--borders-width-2);
-  --Form-select-caret-iconColor: var(--colors-neutral-text-5);
-  --Form-select-caret-onHover-iconColor: var(--colors-neutral-text-5);
-  --Form-select-caret-fontSize: var(--fonts-size-8);
-  --Form-select-checkall-bottomBorder: #eceff8;
-  --Form-select-color: var(--colors-neutral-text-2);
-  --Form-select-input-fontSize: var(--fontSizeSm);
-  --Form-select-menu-bg: var(--colors-neutral-fill-11);
-  --Form-select-menu-color: var(--colors-neutral-text-2);
-  --Form-select-menu-height: var(--sizes-base-12);
-  --Form-select-menu-onActive-bg: transparent;
-  --Form-select-menu-onActive-color: var(--colors-brand-5);
-  --Form-select-menu-onDisabled-bg: transparent;
-  --Form-select-menu-onDisabled-color: var(--text--muted-color);
-  --Form-select-menu-onHover-bg: var(--colors-brand-10);
-  --Form-select-menu-onHover-color: var(--colors-neutral-text-2);
-  --Form-select-group-color: var(--Form-select-caret-iconColor);
-  --Form-select-onError-borderColor: var(--Form-input-onError-borderColor);
-  --Form-select-onFocused-borderColor: var(--Form-input-onFocused-borderColor);
-  --Form-select-onFocused-color: var(--Form-select-color);
-  --Form-select-onHover-bg: var(--colors-neutral-fill-11);
-  --Form-select-onHover-borderColor: var(--colors-brand-5);
-  --Form-select-outer-borderWidth: var(--borders-width-1);
-  --Form-select-outer-top: var(--sizes-base-16);
-  --Form-select-outer-boxShadow: var(--shadows-shadow-normal);
-  --Form-select-paddingX: var(--Form-input-paddingX);
-  --Form-select-placeholderColor: var(--Form-input-placeholderColor);
-  --Form-select-popoverGap: var(--borders-radius-3);
-  --Form-select-icon-rigin: var(--sizes-size-9);
-  --Form-select-search-height: var(--sizes-base-15);
-  --Form-select-value-bgColor: var(--Form-input-onDisabled-bg);
-  --Form-select-value-bgColor--dark: var(--colors-neutral-fill-4);
-  --Form-select-value-borderColor: var(--colors-neutral-line-9);
-  --Form-select-valueIcon-color: var(--colors-neutral-text-4);
-  --Form-select-valueIcon-color--dark: var(--colors-neutral-text-8);
-  --Form-select-valueIcon-onHover-color: var(--Form-select-color);
-  --Form-select-multiple-bgColor: var(--colors-neutral-fill-10);
-  --Form-selectOption-height: var(--Form-select-height);
-  --Form-selectValue-bg: #{saturate(lighten($info, 40%), 2.5%)};
-  --Form-selectValue-onHover-bgColor: var(--Form-select-borderColor);
-  --Form-selectValue-borderColor: var(--colors-brand-7);
-  --Form-selectValue-color: var(--colors-brand-5);
-  --Form-selectValue-fontSize: var(--fontSizeSm);
-  --Form-selectValue-onDisable-bg: #{lighten(
-      saturate(lighten($info, 40%), 2.5%),
-      5%
-    )};
-  --Form-selectValue-onHover-bg: #{darken(
-      saturate(lighten($info, 40%), 2.5%),
-      5%
-    )};
-  --Form-selectValue-onDisabled-color: var(--Form-select-caret-iconColor);
-  --Form-selectValue-onInvalid-color: var(--danger);
-  --Form-valueLabel-maxWidth: #{px2rem(120px)};
-  --Form-select-onFocus-boxShadow: none;
-
   --IconPicker-content-maxHeight: #{px2rem(350px)};
   --IconPicker-padding: var(--gap-xs);
   --IconPicker-selectedIcon-marginRight: var(--gap-xs);
@@ -647,10 +587,10 @@ $remFactor: 16px;
   );
   --InputGroup-select-arrowColor: var(--colors-neutral-text-5);
   --InputGroup-select-bg: var(--colors-neutral-fill-11);
-  --InputGroup-select-borderColor: var(--Form-select-borderColor);
-  --InputGroup-select-borderRadius: var(--Form-select-borderRadius);
+  --InputGroup-select-borderColor: var(--borderColor);
+  --InputGroup-select-borderRadius: var(--borders-radius-3);
   --InputGroup-select-borderWidth: var(--borders-width-2);
-  --InputGroup-select-color: var(--Form-select-color);
+  --InputGroup-select-color: var(--colors-neutral-text-2);
   --InputGroup-select-onFocused-arrowColor: var(--colors-brand-5);
   --InputGroup-select-onFocused-bg: var(--colors-brand-10);
   --InputGroup-select-onFocused-color: var(--colors-brand-5);
@@ -945,19 +885,6 @@ $remFactor: 16px;
   --Remark-onHover-iconColor: var(--colors-neutral-text-11);
   --Remark-width: var(--sizes-size-9);
 
-  --ResultBox-tag-height: #{px2rem(24px)};
-  --ResultBox-tag-marginBottom: #{px2rem(2px)};
-  --ResultBox-icon--onDisabled-color: #ebebeb;
-  --ResultBox-icon--onHover-color: #666666;
-  --ResultBox-icon-color: var(--colors-neutral-text-6);
-  --ResultBox-value--onDisabled-color: #cccccc;
-  --ResultBox-value--onHover-bg: rgba(0, 145, 255, 0.1);
-  --ResultBox-value--onHover-bg--dark: #b8babf;
-  --ResultBox-value-bg: var(--colors-neutral-fill-10);
-  --ResultBox-value-color: #000;
-  --ResultBox-value-clear-bg: var(--colors-neutral-fill-8);
-  --ResultBox-value-clear-hover-bg: var(--colors-neutral-fill-9);
-
   --Satus-icon-width: var(--sizes-size-8);
   --Satus-icon-height: var(--Satus-icon-width);
 
@@ -1183,23 +1110,6 @@ $remFactor: 16px;
 
   --TabsTransfer-title-bg: #f7f7f9;
   --TabsTransfer-border-color: #e8e9eb;
-
-  --Tree-indent: var(--gap-md);
-  --Tree-icon-gap: var(--sizes-size-5);
-  --Tree-icon-margin-right: #{px2rem(8px)};
-  --Tree-inputHeight: calc(var(--Form-input-height) * 0.85);
-  --Tree-item-onHover-bg: var(--colors-neutral-fill-10);
-  --Tree-item-onHover-bg-pure: var(--colors-neutral-fill-10);
-  --Tree-itemArrowWidth: #{px2rem(16px)};
-  --Tree-itemHeight: var(--sizes-base-12);
-  --Tree-itemLabel--onChecked-color: var(--Form-selectValue-color);
-  --TreeSelect-popover-bg: var(--colors-neutral-fill-11);
-  --Tree-item-text-max-height: #{px2rem(250px)};
-  --Tree-item-text-top: #{px2rem(4px)};
-  --Tree-item-arrow-padding-left: #{px2rem(4px)};
-  --Tree-item-arrow-color: #84868c;
-  --Tree-item-onChekced-bg: var(--colors-brand-10);
-  --Tree-item-onChekced-bg-borderRadius: var(--borders-radius-2);
 
   --Wizard-badge-bg: var(--colors-neutral-fill-11);
   --Wizard-badge-border: var(--borders-width-2) var(--borders-style-2)

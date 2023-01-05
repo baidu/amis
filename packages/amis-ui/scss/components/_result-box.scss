@@ -137,16 +137,21 @@
   &-value {
     background: var(--ResultBox-value-bg);
     color: var(--ResultBox-value-color);
-    font-size: var(--Form-input-fontSize);
-    padding: 0 var(--gap-xs);
+    font-size: var(--select-multiple-fontSize);
     min-height: var(--ResultBox-tag-height);
     flex-wrap: nowrap;
     display: inline-flex;
     align-items: center;
-    margin-right: var(--gap-xs);
-    margin-bottom: var(--ResultBox-tag-marginBottom);
+    padding: var(--select-multiple-paddingTop)
+      var(--select-multiple-paddingRight) var(--select-multiple-paddingBottom)
+      var(--select-multiple-paddingLeft);
+    margin: var(--select-multiple-marginTop) var(--select-multiple-marginRight)
+      var(--ResultBox-tag-marginBottom) var(--select-multiple-marginLeft);
     user-select: none;
-    border-radius: #{px2rem(2px)};
+    border-radius: var(--select-multiple-top-left-border-radius)
+      var(--select-multiple-top-right-border-radius)
+      var(--select-multiple-bottom-right-border-radius)
+      var(--select-multiple-bottom-left-border-radius);
 
     > a {
       cursor: pointer;
