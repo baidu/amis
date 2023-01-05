@@ -1,8 +1,8 @@
-import {resolveVariable} from 'amis';
+import {Button, resolveVariable} from 'amis';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {setVariable} from 'amis-core';
 
-import {registerEditorPlugin, repeatArray} from 'amis-editor-core';
+import {registerEditorPlugin, repeatArray, diff} from 'amis-editor-core';
 import {
   BasePlugin,
   BaseEventContext,
@@ -14,7 +14,7 @@ import {
   InsertEventContext,
   ScaffoldForm
 } from 'amis-editor-core';
-import {defaultValue, getSchemaTpl} from 'amis-editor-core';
+import {defaultValue, getSchemaTpl, tipedLabel} from 'amis-editor-core';
 import {mockValue} from 'amis-editor-core';
 import {EditorNodeType} from 'amis-editor-core';
 import {SchemaObject} from 'amis/lib/Schema';
@@ -361,11 +361,63 @@ export class TablePlugin extends BasePlugin {
 
               {
                 name: 'combineNum',
-                label: '自动合并单元格',
-                type: 'input-number',
-                placeholder: '设置列数',
-                description:
+                label: tipedLabel(
+                  '自动合并单元格',
                   '设置从左到右多少列内启用自动合并单元格，根据字段值是否相同来决定是否合并。'
+                ),
+                type: 'input-number',
+                labelAlign: 'left',
+                horizontal: {
+                  left: 5,
+                  right: 7
+                },
+                placeholder: '设置列数'
+              },
+              {
+                type: 'ae-switch-more',
+                mode: 'normal',
+                formType: 'extend',
+                label: '头部',
+                name: 'showHeader',
+                form: {
+                  body: [
+                    {
+                      children: (
+                        <Button
+                          level="primary"
+                          size="sm"
+                          block
+                          onClick={this.editHeaderDetail.bind(this, context.id)}
+                        >
+                          配置头部
+                        </Button>
+                      )
+                    }
+                  ]
+                }
+              },
+              {
+                type: 'ae-switch-more',
+                mode: 'normal',
+                formType: 'extend',
+                label: '底部',
+                name: 'showFooter',
+                form: {
+                  body: [
+                    {
+                      children: (
+                        <Button
+                          level="primary"
+                          size="sm"
+                          block
+                          onClick={this.editFooterDetail.bind(this, context.id)}
+                        >
+                          配置底部
+                        </Button>
+                      )
+                    }
+                  ]
+                }
               }
 
               // {
@@ -414,9 +466,12 @@ export class TablePlugin extends BasePlugin {
                 label: '展示列显示开关',
                 type: 'button-group-select',
                 pipeIn: defaultValue('auto'),
-                mode: 'inline',
-                className: 'w-full',
-                size: 'xs',
+                size: 'sm',
+                labelAlign: 'left',
+                horizontal: {
+                  left: 5,
+                  right: 7
+                },
                 options: [
                   {
                     label: '自动',
@@ -443,22 +498,11 @@ export class TablePlugin extends BasePlugin {
               }),
 
               getSchemaTpl('switch', {
-                name: 'showHeader',
-                label: '是否显示头部',
-                pipeIn: defaultValue(true)
-              }),
-
-              getSchemaTpl('switch', {
-                name: 'showFooter',
-                label: '是否显示底部',
-                pipeIn: defaultValue(true)
-              }),
-
-              getSchemaTpl('switch', {
                 name: 'footable',
-                label: '是否开启单条底部展示',
-                description:
-                  '如果列太多显示会很臃肿，可以考虑把部分列放在当前行的底部展示',
+                label: tipedLabel(
+                  '是否开启单条底部展示',
+                  '如果列太多显示会很臃肿，可以考虑把部分列放在当前行的底部展示'
+                ),
                 pipeIn: (value: any) => !!value
               }),
 
@@ -659,6 +703,50 @@ export class TablePlugin extends BasePlugin {
         }
       }
     };
+  }
+
+  editHeaderDetail(id: string) {
+    const manager = this.manager;
+    const store = manager.store;
+    const node = store.getNodeById(id);
+    const value = store.getValueOf(id);
+
+    node &&
+      value &&
+      this.manager.openSubEditor({
+        title: '配置头部',
+        value: value.header,
+        slot: {
+          type: 'container',
+          body: '$$'
+        },
+        onChange: newValue => {
+          newValue = {...value, header: newValue};
+          manager.panelChangeValue(newValue, diff(value, newValue));
+        }
+      });
+  }
+
+  editFooterDetail(id: string) {
+    const manager = this.manager;
+    const store = manager.store;
+    const node = store.getNodeById(id);
+    const value = store.getValueOf(id);
+
+    node &&
+      value &&
+      this.manager.openSubEditor({
+        title: '配置底部',
+        value: value.footer,
+        slot: {
+          type: 'container',
+          body: '$$'
+        },
+        onChange: newValue => {
+          newValue = {...value, footer: newValue};
+          manager.panelChangeValue(newValue, diff(value, newValue));
+        }
+      });
   }
 }
 

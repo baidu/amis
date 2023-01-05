@@ -68,7 +68,7 @@ export class ListPlugin extends BasePlugin {
               {
                 children: (
                   <Button
-                    level="danger"
+                    level="primary"
                     size="sm"
                     block
                     onClick={this.editDetail.bind(this, context.id)}
@@ -99,7 +99,53 @@ export class ListPlugin extends BasePlugin {
                 pipeIn: defaultValue('没有数据'),
                 type: 'input-text',
                 label: '无数据提示'
-              }
+              },
+              {
+                type: 'ae-switch-more',
+                mode: 'normal',
+                formType: 'extend',
+                label: '头部',
+                name: 'showHeader',
+                form: {
+                  body: [
+                    {
+                      children: (
+                        <Button
+                          level="primary"
+                          size="sm"
+                          block
+                          onClick={this.editHeaderDetail.bind(this, context.id)}
+                        >
+                          配置头部
+                        </Button>
+                      )
+                    }
+                  ]
+                }
+              },
+              {
+                type: 'ae-switch-more',
+                mode: 'normal',
+                formType: 'extend',
+                label: '底部',
+                name: 'showFooter',
+                form: {
+                  body: [
+                    {
+                      children: (
+                        <Button
+                          level="primary"
+                          size="sm"
+                          block
+                          onClick={this.editFooterDetail.bind(this, context.id)}
+                        >
+                          配置底部
+                        </Button>
+                      )
+                    }
+                  ]
+                }
+              },
             ]
           },
           getSchemaTpl('status')
@@ -108,22 +154,6 @@ export class ListPlugin extends BasePlugin {
       {
         title: '外观',
         body: getSchemaTpl('collapseGroup', [
-          {
-            title: '基本',
-            body: [
-              getSchemaTpl('switch', {
-                name: 'showHeader',
-                label: '是否显示头部',
-                pipeIn: defaultValue(true)
-              }),
-
-              getSchemaTpl('switch', {
-                name: 'showFooter',
-                label: '是否显示底部',
-                pipeIn: defaultValue(true)
-              })
-            ]
-          },
           {
             title: 'CSS类名',
             body: [
@@ -189,6 +219,50 @@ export class ListPlugin extends BasePlugin {
       a: '假数据',
       b: '假数据'
     };
+  }
+
+  editHeaderDetail(id: string) {
+    const manager = this.manager;
+    const store = manager.store;
+    const node = store.getNodeById(id);
+    const value = store.getValueOf(id);
+
+    node &&
+      value &&
+      this.manager.openSubEditor({
+        title: '配置头部',
+        value: value.header,
+        slot: {
+          type: 'container',
+          body: '$$'
+        },
+        onChange: newValue => {
+          newValue = {...value, header: newValue};
+          manager.panelChangeValue(newValue, diff(value, newValue));
+        }
+      });
+  }
+
+  editFooterDetail(id: string) {
+    const manager = this.manager;
+    const store = manager.store;
+    const node = store.getNodeById(id);
+    const value = store.getValueOf(id);
+
+    node &&
+      value &&
+      this.manager.openSubEditor({
+        title: '配置底部',
+        value: value.footer,
+        slot: {
+          type: 'container',
+          body: '$$'
+        },
+        onChange: newValue => {
+          newValue = {...value, footer: newValue};
+          manager.panelChangeValue(newValue, diff(value, newValue));
+        }
+      });
   }
 
   editDetail(id: string) {
