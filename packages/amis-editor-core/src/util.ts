@@ -558,8 +558,11 @@ export function reGenerateID(
 
 // 遍历json，每层元素自动生成uid。
 export function JsonGenerateID(json: any) {
+  if (Object.isFrozen(json)) {
+    return;
+  }
   if (Array.isArray(json)) {
-    json.map((item: any) => JsonGenerateID(item));
+    json.forEach((item: any) => JsonGenerateID(item));
   }
   if (!isObject(json) || isObservable(json)) {
     return;
@@ -572,6 +575,7 @@ export function JsonGenerateID(json: any) {
   Object.keys(json).forEach(key => {
     let curElem = json[key];
     if (isObject(curElem) || Array.isArray(curElem)) {
+      // 非对象和数组类型字段不进入递归
       JsonGenerateID(curElem);
     }
   });
