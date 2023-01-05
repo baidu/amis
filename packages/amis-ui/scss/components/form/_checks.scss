@@ -229,7 +229,7 @@
         border-color: transparent;
 
         &:before {
-          background: var(--button-primary-hover-bg-color);
+          background: var(--checkbox-checked-hover-bg-color);
         }
       }
 
@@ -252,6 +252,9 @@
       &:checked + i {
         border-color: var(--Checkbox-onHover-color);
         background: var(--Checkbox-onHover-color);
+        &:hover {
+          background: var(--checkbox-checked-hover-bg-color);
+        }
 
         &:before {
           width: var(--Checkbox--full-inner-size);
@@ -262,7 +265,7 @@
 
       &[disabled] + i {
         border-color: var(--Checkbox-color);
-        background: var(--Checkbox-onDisabled-bg);
+        background: var(--checkbox-checkbox-disabled-bg-color);
       }
 
       &[disabled]:checked + i {
