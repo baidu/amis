@@ -109,16 +109,10 @@ export class ImagesPlugin extends BasePlugin {
                       name: 'src',
                       label: '原图'
                     }),
-                    {
-                      type: 'input-text',
-                      label: '图片标题',
-                      name: 'title'
-                    },
-                    {
-                      type: 'textarea',
-                      label: '图片描述',
-                      name: 'caption'
-                    }
+                    getSchemaTpl('title', {
+                      label: '图片标题'
+                    }),
+                    getSchemaTpl('imgCaption')
                   ]
                 }
               ]

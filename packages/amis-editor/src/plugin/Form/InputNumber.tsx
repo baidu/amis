@@ -196,46 +196,9 @@ export class NumberControlPlugin extends BasePlugin {
                   min: 1,
                   max: 100
                 },
-                {
-                  type: 'input-text',
-                  name: 'prefix',
-                  label: tipedLabel('前缀', '输入内容前展示，不包含在数据值中')
-                },
-                {
-                  type: 'input-text',
-                  name: 'suffix',
-                  label: tipedLabel('后缀', '输入内容后展示，不包含在数据值中')
-                },
-
-                getSchemaTpl('combo-container', {
-                  type: 'combo',
-                  label: '单位选项',
-                  mode: 'normal',
-                  name: 'unitOptions',
-                  flat: true,
-                  items: [
-                    {
-                      placeholder: '单位选项',
-                      type: 'input-text',
-                      name: 'text'
-                    }
-                  ],
-                  draggable: false,
-                  multiple: true,
-                  pipeIn: (value: any) => {
-                    if (!isObject(value)) {
-                      return Array.isArray(value) ? value : [];
-                    }
-                    const res = value.map((item: any) => item.value);
-                    return res;
-                  },
-                  pipeOut: (value: any[]) => {
-                    if (!value.length) {
-                      return undefined;
-                    }
-                    return value;
-                  }
-                }),
+                getSchemaTpl('prefix'),
+                getSchemaTpl('suffix'),
+                getSchemaTpl('unitOptions'),
                 getSchemaTpl('labelRemark'),
                 getSchemaTpl('remark'),
                 getSchemaTpl('placeholder'),

@@ -78,11 +78,7 @@ export class ListPlugin extends BasePlugin {
           {
             type: 'divider'
           },
-          {
-            name: 'title',
-            type: 'input-text',
-            label: '标题'
-          },
+          getSchemaTpl('title'),
           isCRUDBody
             ? null
             : {

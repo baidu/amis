@@ -22,6 +22,7 @@ import {
   getEventControlConfig,
   getArgsWrapper
 } from '../renderer/event-control/helper';
+import {getEnv} from 'mobx-state-tree';
 
 export class TablePlugin extends BasePlugin {
   // 关联渲染器名字
@@ -80,80 +81,83 @@ export class TablePlugin extends BasePlugin {
     ]
   };
 
-  scaffoldForm: ScaffoldForm = {
-    title: '快速构建表格',
-    body: [
-      {
-        name: 'columns',
-        type: 'combo',
-        multiple: true,
-        label: false,
-        addButtonText: '新增一列',
-        draggable: true,
-        items: [
-          {
-            type: 'input-text',
-            name: 'label',
-            placeholder: '标题'
-          },
-          {
-            type: 'input-text',
-            name: 'name',
-            placeholder: '绑定字段名'
-          },
-          {
-            type: 'select',
-            name: 'type',
-            placeholder: '类型',
-            value: 'text',
-            options: [
-              {
-                value: 'text',
-                label: '纯文本'
-              },
-              {
-                value: 'tpl',
-                label: '模板'
-              },
-              {
-                value: 'image',
-                label: '图片'
-              },
-              {
-                value: 'date',
-                label: '日期'
-              },
-              // {
-              //     value: 'datetime',
-              //     label: '日期时间'
-              // },
-              // {
-              //     value: 'time',
-              //     label: '时间'
-              // },
-              {
-                value: 'progress',
-                label: '进度'
-              },
-              {
-                value: 'status',
-                label: '状态'
-              },
-              {
-                value: 'mapping',
-                label: '映射'
-              },
-              {
-                value: 'operation',
-                label: '操作栏'
-              }
-            ]
-          }
-        ]
-      }
-    ],
-    canRebuild: true
-  };
+  get scaffoldForm(): ScaffoldForm {
+    const {i18nEnabled} = getEnv((window as any).editorStore);
+    return {
+      title: '快速构建表格',
+      body: [
+        {
+          name: 'columns',
+          type: 'combo',
+          multiple: true,
+          label: false,
+          addButtonText: '新增一列',
+          draggable: true,
+          items: [
+            {
+              type: i18nEnabled ? 'input-text-i18n' : 'input-text',
+              name: 'label',
+              placeholder: '标题'
+            },
+            {
+              type: 'input-text',
+              name: 'name',
+              placeholder: '绑定字段名'
+            },
+            {
+              type: 'select',
+              name: 'type',
+              placeholder: '类型',
+              value: 'text',
+              options: [
+                {
+                  value: 'text',
+                  label: '纯文本'
+                },
+                {
+                  value: 'tpl',
+                  label: '模板'
+                },
+                {
+                  value: 'image',
+                  label: '图片'
+                },
+                {
+                  value: 'date',
+                  label: '日期'
+                },
+                // {
+                //     value: 'datetime',
+                //     label: '日期时间'
+                // },
+                // {
+                //     value: 'time',
+                //     label: '时间'
+                // },
+                {
+                  value: 'progress',
+                  label: '进度'
+                },
+                {
+                  value: 'status',
+                  label: '状态'
+                },
+                {
+                  value: 'mapping',
+                  label: '映射'
+                },
+                {
+                  value: 'operation',
+                  label: '操作栏'
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      canRebuild: true
+    };
+  }
 
   panelTitle = '表格';
 
@@ -342,12 +346,7 @@ export class TablePlugin extends BasePlugin {
         title: '常规',
         body: [
           getSchemaTpl('layout:originPosition', {value: 'left-top'}),
-          {
-            name: 'title',
-            type: 'input-text',
-            label: '标题'
-          },
-
+          getSchemaTpl('title'),
           isCRUDBody
             ? null
             : {
@@ -488,12 +487,7 @@ export class TablePlugin extends BasePlugin {
             ]
           },
 
-          {
-            name: 'placeholder',
-            pipeIn: defaultValue('暂无数据'),
-            type: 'input-text',
-            label: '无数据提示'
-          },
+          getSchemaTpl('tablePlaceholder'),
           {
             name: 'rowClassNameExpr',
             type: 'input-text',

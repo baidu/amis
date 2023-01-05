@@ -157,16 +157,8 @@ export class PagePlugin extends BasePlugin {
                       }
                     ]
                   },
-                  {
-                    label: '页面标题',
-                    name: 'title',
-                    type: 'input-text'
-                  },
-                  {
-                    label: '副标题',
-                    name: 'subTitle',
-                    type: 'textarea'
-                  },
+                  getSchemaTpl('pageTitle'),
+                  getSchemaTpl('pageSubTitle'),
                   getSchemaTpl('remark', {
                     label: '标题提示',
                     hiddenOn:

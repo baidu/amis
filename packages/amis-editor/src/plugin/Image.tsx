@@ -56,17 +56,10 @@ export class ImagePlugin extends BasePlugin {
                 }
               ]
             },
-            {
-              name: 'title',
-              type: 'input-text',
+            getSchemaTpl('title', {
               label: '图片标题'
-            },
-            {
-              name: 'imageCaption',
-              type: 'input-text',
-              label: '图片描述'
-            },
-
+            }),
+            getSchemaTpl('imageCaption'),
             {
               name: 'width',
               label: '宽度',

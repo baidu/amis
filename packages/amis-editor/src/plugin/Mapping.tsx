@@ -126,12 +126,10 @@ export class MappingPlugin extends BasePlugin {
               ]
             },
 
-            {
-              name: 'placeholder',
-              type: 'input-text',
+            getSchemaTpl('placeholder', {
+              label: '占位符',
               pipeIn: defaultValue('-'),
-              label: '占位符'
-            }
+            })
           ]
         },
         {

@@ -142,12 +142,7 @@ export class TagControlPlugin extends BasePlugin {
             }),
             getSchemaTpl('label'),
             getSchemaTpl('clearable'),
-            {
-              type: 'input-text',
-              name: 'optionsTip',
-              label: '选项提示',
-              value: '最近您使用的标签'
-            },
+            getSchemaTpl('optionsTip'),
             getSchemaTpl('valueFormula', {
               rendererSchema: context?.schema,
               mode: 'vertical' // 改成上下展示模式

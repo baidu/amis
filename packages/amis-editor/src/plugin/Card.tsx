@@ -120,30 +120,15 @@ export class CardPlugin extends BasePlugin {
             {
               type: 'divider'
             },
-            {
-              name: 'header.title',
-              type: 'input-text',
-              label: '标题',
-              description: '支持模板语法如： <code>\\${xxx}</code>'
-            },
-            {
-              name: 'header.subTitle',
-              type: 'input-text',
-              label: '副标题',
-              description: '支持模板语法如： <code>\\${xxx}</code>'
-            },
+            getSchemaTpl('cardTitle'),
+            getSchemaTpl('cardSubTitle'),
             {
               name: 'header.avatar',
               type: 'input-text',
               label: '图片地址',
               description: '支持模板语法如： <code>\\${xxx}</code>'
             },
-            {
-              name: 'header.desc',
-              type: 'textarea',
-              label: '描述',
-              description: '支持模板语法如： <code>\\${xxx}</code>'
-            },
+            getSchemaTpl('cardDesc'),
             {
               name: 'header.highlight',
               type: 'input-text',

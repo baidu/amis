@@ -64,14 +64,12 @@ export class EachPlugin extends BasePlugin {
         )
       },
 
-      {
-        name: 'placeholder',
-        type: 'input-text',
+      getSchemaTpl('placeholder', {
         label: '占位符',
         pipeIn: defaultValue('暂无内容'),
         description:
           '当没有关联变量，或者目标变量不是数组或者对象时显示此占位信息'
-      },
+      }),
 
       getSchemaTpl('className')
     ];

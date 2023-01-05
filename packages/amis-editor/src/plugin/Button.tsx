@@ -119,12 +119,9 @@ export class ButtonPlugin extends BasePlugin {
             title: '基本',
             body: [
               getSchemaTpl('layout:originPosition', {value: 'left-top'}),
-              {
-                label: '名称',
-                type: 'input-text',
-                name: 'label'
-              },
-
+              getSchemaTpl('label', {
+                label: '名称'
+              }),
               {
                 label: '类型',
                 type: 'button-group-select',

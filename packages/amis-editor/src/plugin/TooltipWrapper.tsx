@@ -62,16 +62,10 @@ export class TooltipWrapperPlugin extends BasePlugin {
                 title: '基本',
                 body: [
                   getSchemaTpl('layout:originPosition', {value: 'left-top'}),
-                  {
-                    type: 'input-text',
-                    name: 'title',
+                  getSchemaTpl('title', {
                     label: '提示标题'
-                  },
-                  {
-                    type: 'textarea',
-                    name: 'tooltip',
-                    label: '提示内容'
-                  },
+                  }),
+                  getSchemaTpl('tooltip'),
 
                   {
                     name: 'trigger',

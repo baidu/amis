@@ -102,11 +102,7 @@ export class CardsPlugin extends BasePlugin {
             {
               type: 'divider'
             },
-            {
-              name: 'title',
-              type: 'input-text',
-              label: '标题'
-            },
+            getSchemaTpl('title'),
             {
               name: 'href',
               type: 'input-text',
@@ -123,13 +119,7 @@ export class CardsPlugin extends BasePlugin {
                   description: '绑定当前环境变量',
                   test: !isCRUDBody
                 },
-
-            {
-              name: 'placeholder',
-              value: '暂无数据',
-              type: 'input-text',
-              label: '无数据提示'
-            }
+            getSchemaTpl('cardsPlaceholder')
           ]
         },
         {

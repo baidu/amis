@@ -5,7 +5,8 @@ import {
   isObject,
   tipedLabel,
   DSField,
-  EditorManager
+  EditorManager,
+  BaseEventContext
 } from 'amis-editor-core';
 import {remarkTpl} from '../component/BaseControl';
 import {SchemaObject} from 'amis/lib/Schema';
@@ -178,6 +179,14 @@ setSchemaTpl('label', {
   }
 });
 
+/** 文件上传按钮名称 btnLabel */
+setSchemaTpl('btnLabel', {
+  type: 'input-text',
+  name: 'btnLabel',
+  label: '按钮名称',
+  value: '文件上传'
+});
+
 setSchemaTpl('labelHide', () =>
   getSchemaTpl('switch', {
     name: 'label',
@@ -194,6 +203,20 @@ setSchemaTpl('placeholder', {
   name: 'placeholder',
   type: 'input-text',
   placeholder: '空内容提示占位'
+});
+
+setSchemaTpl('startPlaceholder', {
+  type: 'input-text',
+  name: 'startPlaceholder',
+  label: '前占位提示',
+  pipeIn: defaultValue('开始时间')
+});
+
+setSchemaTpl('endPlaceholder', {
+  type: 'input-text',
+  name: 'endPlaceholder',
+  label: '后占位提示',
+  pipeIn: defaultValue('结束时间')
 });
 
 setSchemaTpl(
@@ -684,6 +707,68 @@ setSchemaTpl('combo-container', (config: SchemaObject) => {
   }
   return config;
 });
+
+setSchemaTpl(
+  'texts',
+  getSchemaTpl('combo-container', {
+    type: 'combo',
+    label: '描述',
+    mode: 'normal',
+    name: 'texts',
+    items: [
+      {
+        placeholder: 'Key',
+        type: 'input-number',
+        unique: true,
+        name: 'key',
+        columnClassName: 'w-xs flex-none',
+        min: 0,
+        step: 1,
+        max: 10,
+        precision: 0
+      },
+
+      {
+        placeholder: '描述内容',
+        type: 'input-text',
+        name: 'value'
+      }
+    ]
+  })
+);
+
+setSchemaTpl(
+  'unitOptions',
+  getSchemaTpl('combo-container', {
+    type: 'combo',
+    label: '单位选项',
+    mode: 'normal',
+    name: 'unitOptions',
+    flat: true,
+    items: [
+      {
+        placeholder: '单位选项',
+        type: 'input-text',
+        name: 'text'
+      }
+    ],
+    draggable: false,
+    multiple: true,
+    pipeIn: (value: any) => {
+      if (!isObject(value)) {
+        return Array.isArray(value) ? value : [];
+      }
+      const res = value.map((item: any) => item.value);
+      return res;
+    },
+    pipeOut: (value: any[]) => {
+      if (!value.length) {
+        return undefined;
+      }
+      return value;
+    }
+  })
+);
 
 /**
  * 所有组件的状态
@@ -1209,4 +1294,349 @@ setSchemaTpl('virtualItemHeight', {
   precision: 0,
   label: tipedLabel('选项高度', '开启虚拟列表时每个选项的高度'),
   pipeOut: (value: any) => value || undefined
+});
+
+setSchemaTpl('pageTitle', {
+  label: '页面标题',
+  name: 'title',
+  type: 'input-text'
+});
+
+setSchemaTpl('pageSubTitle', {
+  label: '副标题',
+  name: 'subTitle',
+  type: 'textarea'
+});
+
+setSchemaTpl('textareaDefaultValue', {
+  type: 'ae-textareaFormulaControl',
+  label: '默认值',
+  name: 'value',
+  mode: 'normal'
+});
+
+setSchemaTpl('prefix', {
+  type: 'input-text',
+  name: 'prefix',
+  label: tipedLabel('前缀', '输入内容前展示，不包含在数据值中')
+});
+
+setSchemaTpl('suffix', {
+  type: 'input-text',
+  name: 'suffix',
+  label: tipedLabel('后缀', '输入内容后展示，不包含在数据值中')
+});
+
+setSchemaTpl('unit', {
+  type: 'input-text',
+  name: 'unit',
+  label: '单位',
+  value: ''
+});
+
+setSchemaTpl('optionsTip', {
+  type: 'input-text',
+  name: 'optionsTip',
+  label: '选项提示',
+  value: '最近您使用的标签'
+});
+
+setSchemaTpl('remark', {
+  name: 'remark',
+  label: '提示',
+  type: 'input-text',
+  description: '显示一个提示图标，鼠标放上去会提示该内容。'
+});
+
+setSchemaTpl('title', {
+  type: 'input-text',
+  name: 'title',
+  label: '标题'
+});
+
+setSchemaTpl('caption', {
+  type: 'input-text',
+  name: 'caption',
+  label: '标题'
+});
+
+setSchemaTpl('imageCaption', {
+  type: 'input-text',
+  name: 'imageCaption',
+  label: '图片描述'
+});
+
+setSchemaTpl('inputBody', {
+  type: 'input-text',
+  name: 'body',
+  label: tipedLabel('内容', '不填写时，自动使用目标地址值')
+});
+
+setSchemaTpl('stepSubTitle', {
+  type: 'input-text',
+  name: 'subTitle',
+  label: false,
+  placeholder: '副标题'
+});
+
+setSchemaTpl('stepDescription', {
+  type: 'input-text',
+  name: 'description',
+  label: false,
+  placeholder: '描述'
+});
+
+setSchemaTpl('taskNameLabel', {
+  type: 'input-text',
+  name: 'taskNameLabel',
+  pipeIn: defaultValue('任务名称'),
+  label: '任务名称栏标题'
+});
+
+setSchemaTpl('operationLabel', {
+  type: 'input-text',
+  name: 'operationLabel',
+  pipeIn: defaultValue('操作'),
+  label: '操作栏标题'
+});
+
+setSchemaTpl('statusLabel', {
+  type: 'input-text',
+  name: 'statusLabel',
+  pipeIn: defaultValue('状态'),
+  label: '状态栏标题'
+});
+
+setSchemaTpl('remarkLabel', {
+  type: 'input-text',
+  name: 'remarkLabel',
+  pipeIn: defaultValue('备注说明'),
+  label: '备注栏标题'
+});
+
+setSchemaTpl('inputArrayItem', {
+  type: 'input-text',
+  placeholder: '名称'
+});
+
+setSchemaTpl('actionPrevLabel', {
+  type: 'input-text',
+  name: 'actionPrevLabel',
+  label: '上一步按钮名称',
+  pipeIn: defaultValue('上一步')
+});
+
+setSchemaTpl('actionNextLabel', {
+  type: 'input-text',
+  name: 'actionNextLabel',
+  label: '下一步按钮名称',
+  pipeIn: defaultValue('下一步')
+});
+
+setSchemaTpl('actionNextSaveLabel', {
+  type: 'input-text',
+  name: 'actionNextSaveLabel',
+  label: '保存并下一步按钮名称',
+  pipeIn: defaultValue('保存并下一步')
+});
+
+setSchemaTpl('actionFinishLabel', {
+  type: 'input-text',
+  name: 'actionFinishLabel',
+  label: '完成按钮名称',
+  pipeIn: defaultValue('完成')
+});
+
+setSchemaTpl('imgCaption', {
+  type: 'textarea',
+  name: 'caption',
+  label: '图片描述'
+});
+
+setSchemaTpl('taskRemark', {
+  type: 'textarea',
+  name: 'remark',
+  label: '任务说明'
+});
+
+setSchemaTpl('tooltip', {
+  type: 'textarea',
+  name: 'tooltip',
+  label: '提示内容'
+});
+
+setSchemaTpl('anchorTitle', {
+  type: 'input-text',
+  name: 'title',
+  required: true,
+  placeholder: '请输入锚点标题'
+});
+
+setSchemaTpl('avatarText', {
+  label: '文字',
+  name: 'text',
+  type: 'input-text',
+  pipeOut: (value: any) => (value === '' ? undefined : value),
+  visibleOn: 'data.showtype === "text"'
+});
+
+setSchemaTpl('cardTitle', {
+  name: 'header.title',
+  type: 'input-text',
+  label: '标题',
+  description: '支持模板语法如： <code>\\${xxx}</code>'
+});
+
+setSchemaTpl('cardSubTitle', {
+  name: 'header.subTitle',
+  type: 'input-text',
+  label: '副标题',
+  description: '支持模板语法如： <code>\\${xxx}</code>'
+});
+
+setSchemaTpl('cardsPlaceholder', {
+  name: 'placeholder',
+  value: '暂无数据',
+  type: 'input-text',
+  label: '无数据提示'
+});
+
+setSchemaTpl('cardDesc', {
+  name: 'header.desc',
+  type: 'textarea',
+  label: '描述',
+  description: '支持模板语法如： <code>\\${xxx}</code>'
+});
+
+setSchemaTpl('imageTitle', {
+  type: 'input-text',
+  label: '图片标题',
+  name: 'title',
+  visibleOn: 'this.type == "image"'
+});
+
+setSchemaTpl('imageDesc', {
+  type: 'textarea',
+  label: '图片描述',
+  name: 'description',
+  visibleOn: 'this.type == "image"'
+});
+
+setSchemaTpl('fetchSuccess', {
+  label: '获取成功提示',
+  type: 'input-text',
+  name: 'fetchSuccess'
+});
+
+setSchemaTpl('fetchFailed', {
+  label: '获取失败提示',
+  type: 'input-text',
+  name: 'fetchFailed'
+});
+
+setSchemaTpl('saveOrderSuccess', {
+  label: '保存顺序成功提示',
+  type: 'input-text',
+  name: 'saveOrderSuccess'
+});
+
+setSchemaTpl('saveOrderFailed', {
+  label: '保存顺序失败提示',
+  type: 'input-text',
+  name: 'saveOrderFailed'
+});
+
+setSchemaTpl('quickSaveSuccess', {
+  label: '快速保存成功提示',
+  type: 'input-text',
+  name: 'quickSaveSuccess'
+});
+
+setSchemaTpl('quickSaveFailed', {
+  label: '快速保存失败提示',
+  type: 'input-text',
+  name: 'quickSaveFailed'
+});
+
+setSchemaTpl('saveSuccess', {
+  label: '保存成功提示',
+  name: 'saveSuccess',
+  type: 'input-text'
+});
+
+setSchemaTpl('saveFailed', {
+  label: '保存失败提示',
+  name: 'saveFailed',
+  type: 'input-text'
+});
+
+setSchemaTpl('validateFailed', {
+  label: '验证失败提示',
+  name: 'validateFailed',
+  type: 'input-text'
+});
+
+setSchemaTpl('tablePlaceholder', {
+  name: 'placeholder',
+  pipeIn: defaultValue('暂无数据'),
+  type: 'input-text',
+  label: '无数据提示'
+});
+
+setSchemaTpl('collapseHeader', (context: BaseEventContext) => {
+  return {
+    name: 'header',
+    label: '标题',
+    type: 'input-text',
+    pipeIn: defaultValue(
+      context?.schema?.title || context?.schema?.header || ''
+    ),
+    onChange: (value: any, oldValue: any, model: any, form: any) => {
+      // 转换一下旧版本的title字段
+      form.setValueByName('header', value);
+      form.setValueByName('title', undefined);
+    }
+  };
+});
+
+setSchemaTpl('collapseOpenHeader', {
+  name: 'collapseHeader',
+  label: tipedLabel('展开标题', '折叠器处于展开状态时的标题'),
+  type: 'input-text'
+});
+
+setSchemaTpl('matrixColumnLabel', {
+  type: 'input-text',
+  name: 'label',
+  placeholder: '列说明'
+});
+
+setSchemaTpl('matrixRowLabel', {
+  type: 'input-text',
+  name: 'label',
+  placeholder: '行说明'
+});
+
+setSchemaTpl('matrixRowTitle', {
+  name: 'rowLabel',
+  label: '行标题文字',
+  type: 'input-text'
+});
+
+setSchemaTpl('submitText', {
+  name: 'submitText',
+  label: '提交按钮名称',
+  type: 'input-text'
+});
+
+setSchemaTpl('tpl:btnLabel', {
+  type: 'tpl',
+  tpl: '<span class="label label-success">${label}</span>',
+  columnClassName: 'p-t-xs'
+});
+
+setSchemaTpl('option', {
+  type: 'input-text',
+  name: 'option',
+  label: '说明'
 });
