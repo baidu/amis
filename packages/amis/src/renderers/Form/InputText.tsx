@@ -938,35 +938,31 @@ export default class TextControl extends React.PureComponent<
           })}
         />
         {clearable && !disabled && !readOnly && value ? (
-          <a onClick={this.clearValue}>
+          <a onClick={this.clearValue} className={cx('TextControl-clear')}>
             <Icon
               icon="input-clear"
               className="icon"
-              wrapClassName={cx('TextControl-clear')}
               iconContent="InputText-clear"
             />
           </a>
         ) : null}
         {type === 'password' && revealPassword && !disabled ? (
-          <a onClick={this.toggleRevealPassword}>
+          <a
+            onClick={this.toggleRevealPassword}
+            className={cx('TextControl-revealPassword')}
+          >
             {this.state.revealPassword ? (
               <Icon
                 icon="view"
-                className="icon"
-                wrapClassName={cx(
-                  'TextControl-revealPassword',
-                  'TextControl-icon-view'
-                )}
+                className={cx('TextControl-icon-view')}
+                wrapClassName={cx('TextControl-icon-view')}
                 iconContent="InputText-view"
               />
             ) : (
               <Icon
                 icon="invisible"
-                className="icon"
-                wrapClassName={cx(
-                  'TextControl-revealPassword',
-                  'TextControl-icon-invisible'
-                )}
+                className={cx('TextControl-icon-invisible')}
+                wrapClassName={cx('TextControl-icon-invisible')}
                 iconContent="InputText-invisible"
               />
             )}

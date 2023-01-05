@@ -5,9 +5,15 @@
     content: var(--input-clearable-icon);
   }
 
+  &-clear {
+    padding: 0 var(--Form-input-clearBtn-padding);
+  }
+
   .#{$ns}TextControl-clear svg {
     font-size: var(--input-clearable-icon-size);
     fill: var(--input-clearable-default-color);
+    width: var(--input-clearable-icon-size);
+    height: var(--input-clearable-icon-size);
     &:hover {
       fill: var(--input-clearable-hover-color);
     }
@@ -423,7 +429,7 @@
   }
 
   &-revealPassword {
-    padding: var(--Form-input-clearBtn-padding);
+    padding: 0 var(--Form-input-clearBtn-padding);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -432,8 +438,6 @@
     text-decoration: none;
 
     svg {
-      width: var(--Form-input-password-icon-size);
-      height: var(--Form-input-password-icon-size);
       cursor: pointer;
     }
   }
@@ -449,11 +453,29 @@
   &-icon-view {
     font-size: var(--input-password-view-icon-size);
     fill: var(--input-password-view-icon-color);
+    color: var(--input-password-view-icon-color);
+    width: var(--input-password-view-icon-size);
+    height: var(--input-password-view-icon-size);
+    display: flex;
+    align-items: center;
+    svg {
+      width: var(--input-password-view-icon-size);
+      height: var(--input-password-view-icon-size);
+    }
   }
 
   &-icon-invisible {
     font-size: var(--input-password-invisible-icon-size);
     fill: var(--input-password-invisible-icon-color);
+    color: var(--input-password-invisible-icon-color);
+    width: var(--input-password-invisible-icon-size);
+    height: var(--input-password-invisible-icon-size);
+    display: flex;
+    align-items: center;
+    svg {
+      width: var(--input-password-invisible-icon-size);
+      height: var(--input-password-invisible-icon-size);
+    }
   }
 }
 
