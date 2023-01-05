@@ -322,7 +322,7 @@ order: 60
 | focus        | `[name]: string` 组件的值                                                                        | 输入框获取焦点时触发         |
 | add          | `[name]: object` 新增的节点信息<br/>``items: object[]`选项集合（< 2.3.2 及以下版本 为`options`） | 新增节点提交时触发           |
 | edit         | `[name]: object` 编辑的节点信息<br/>``items: object[]`选项集合（< 2.3.2 及以下版本 为`options`） | 编辑节点提交时触发           |
-| delete       | `[name]: object` 编辑的节点信息<br/>``items: object[]`选项集合（< 2.3.2 及以下版本 为`options`） | 编辑节点提交时触发           |
+| delete       | `[name]: object` 删除的节点信息<br/>``items: object[]`选项集合（< 2.3.2 及以下版本 为`options`） | 删除节点提交时触发           |
 | loadFinished | `[name]: object` deferApi 懒加载远程请求成功后返回的数据                                         | 懒加载接口远程请求成功时触发 |
 
 ## 动作表
