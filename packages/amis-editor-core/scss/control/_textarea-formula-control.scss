@@ -147,6 +147,15 @@
         }
       }
     }
+
+    &-overlay {
+      position: absolute;
+      top: 1px;
+      left: 1px;
+      width: calc(100% - 4px);
+      height: calc(100% - 4px);
+      cursor: pointer;
+    }
   }
 
   &.is-fullscreen {
