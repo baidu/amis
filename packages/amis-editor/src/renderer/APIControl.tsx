@@ -985,7 +985,8 @@ export default class APIControl extends React.Component<
       labelField = 'label',
       useMobileUI,
       popOverContainer,
-      env
+      env,
+      renderLabel
     } = this.props;
     let {apiStr, selectedItem, loading} = this.state;
     selectedItem =
@@ -1003,7 +1004,7 @@ export default class APIControl extends React.Component<
             })
           ) : (
             <>
-              {this.renderHeader()}
+              {!renderLabel && this.renderHeader()}
 
               <div className="ae-ApiControl-content" key="content">
                 <div className={cx('ae-ApiControl-input')}>
