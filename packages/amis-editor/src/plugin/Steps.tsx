@@ -58,24 +58,12 @@ export class StepsPlugin extends BasePlugin {
             multiple: true,
             draggable: true,
             items: [
-              {
-                type: 'input-text',
-                name: 'title',
+              getSchemaTpl('title', {
                 label: false,
                 placeholder: '标题'
-              },
-              {
-                type: 'input-text',
-                name: 'subTitle',
-                label: false,
-                placeholder: '副标题'
-              },
-              {
-                type: 'input-text',
-                name: 'description',
-                label: false,
-                placeholder: '描述'
-              }
+              }),
+              getSchemaTpl('stepSubTitle'),
+              getSchemaTpl('stepDescription')
             ]
           }),
           {

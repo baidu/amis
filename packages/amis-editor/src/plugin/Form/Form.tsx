@@ -13,87 +13,90 @@ import {EditorNodeType} from 'amis-editor-core';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {setVariable} from 'amis-core';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
+import {getEnv} from 'mobx-state-tree';
 
 // 用于脚手架的常用表单控件
-const formItemOptions = [
-  {
-    name: 'type',
-    label: '控件类型',
-    type: 'select',
-    required: true,
-    options: [
-      {
-        label: '单行文本框',
-        value: 'input-text'
-      },
-      {
-        label: '多行文本',
-        value: 'textarea'
-      },
-      {
-        label: '分组',
-        value: 'group'
-      },
-      {
-        label: '数字输入',
-        value: 'input-number'
-      },
-      {
-        label: '单选框',
-        value: 'radios'
-      },
-      {
-        label: '勾选框',
-        value: 'checkbox'
-      },
-      {
-        label: '复选框',
-        value: 'checkboxes'
-      },
-      {
-        label: '下拉框',
-        value: 'select'
-      },
-      {
-        label: '开关',
-        value: 'switch'
-      },
-      {
-        label: '日期',
-        value: 'input-date'
-      },
-      {
-        label: '表格',
-        value: 'input-table'
-      },
-      {
-        label: '文件上传',
-        value: 'input-file'
-      },
-      {
-        label: '图片上传',
-        value: 'input-image'
-      },
-      {
-        label: '富文本编辑器',
-        value: 'input-rich-text'
-      }
-    ]
-  },
-  {
-    name: 'label',
-    label: '显示名称',
-    type: 'input-text',
-    hiddenOn: 'data.type === "group"'
-  },
-  {
-    name: 'name',
-    label: '提交字段名',
-    required: true,
-    type: 'input-text',
-    hiddenOn: 'data.type === "group"'
-  }
-];
+const getFormItemOptions = ({i18nEnabled}: {i18nEnabled?: boolean}) => {
+  return [
+    {
+      name: 'type',
+      label: '控件类型',
+      type: 'select',
+      required: true,
+      options: [
+        {
+          label: '单行文本框',
+          value: 'input-text'
+        },
+        {
+          label: '多行文本',
+          value: 'textarea'
+        },
+        {
+          label: '分组',
+          value: 'group'
+        },
+        {
+          label: '数字输入',
+          value: 'input-number'
+        },
+        {
+          label: '单选框',
+          value: 'radios'
+        },
+        {
+          label: '勾选框',
+          value: 'checkbox'
+        },
+        {
+          label: '复选框',
+          value: 'checkboxes'
+        },
+        {
+          label: '下拉框',
+          value: 'select'
+        },
+        {
+          label: '开关',
+          value: 'switch'
+        },
+        {
+          label: '日期',
+          value: 'input-date'
+        },
+        {
+          label: '表格',
+          value: 'input-table'
+        },
+        {
+          label: '文件上传',
+          value: 'input-file'
+        },
+        {
+          label: '图片上传',
+          value: 'input-image'
+        },
+        {
+          label: '富文本编辑器',
+          value: 'input-rich-text'
+        }
+      ]
+    },
+    {
+      name: 'label',
+      label: '显示名称',
+      type: i18nEnabled ? 'input-text-i18n' : 'input-text',
+      hiddenOn: 'data.type === "group"'
+    },
+    {
+      name: 'name',
+      label: '提交字段名',
+      required: true,
+      type: 'input-text',
+      hiddenOn: 'data.type === "group"'
+    }
+  ];
+};
 
 // 自动为form中子元素（单选框、复选框）补上默认options
 const autoAddOptions = (values: any) => {
@@ -161,59 +164,62 @@ export class FormPlugin extends BasePlugin {
     ]
   };
 
-  scaffoldForm: ScaffoldForm = {
-    title: '快速创建表单',
-    body: [
-      getSchemaTpl('apiControl', {
-        label: '提交地址'
-      }),
-      {
-        name: 'mode',
-        label: '文字与输入框展示模式',
-        type: 'button-group-select',
-        pipeIn: defaultValue('normal', false),
-        options: [
-          {
-            label: '上下',
-            value: 'normal'
-          },
-          {
-            label: '左右摆放',
-            value: 'horizontal'
-          },
-          {
-            label: '内联',
-            value: 'inline'
-          }
-        ]
-      },
-      {
-        label: '表单控件',
-        type: 'combo',
-        name: 'body',
-        multiple: true,
-        draggable: true,
-        multiLine: false,
-        items: [
-          ...formItemOptions,
-          {
-            visibleOn: 'data.type === "group"',
-            type: 'combo',
-            name: 'body',
-            label: '分组内的控件',
-            multiple: true,
-            draggable: true,
-            multiLine: true,
-            items: [...formItemOptions]
-          }
-        ]
+  get scaffoldForm(): ScaffoldForm {
+    const {i18nEnabled} = getEnv((window as any).editorStore);
+    return {
+      title: '快速创建表单',
+      body: [
+        getSchemaTpl('apiControl', {
+          label: '提交地址'
+        }),
+        {
+          name: 'mode',
+          label: '文字与输入框展示模式',
+          type: 'button-group-select',
+          pipeIn: defaultValue('normal', false),
+          options: [
+            {
+              label: '上下',
+              value: 'normal'
+            },
+            {
+              label: '左右摆放',
+              value: 'horizontal'
+            },
+            {
+              label: '内联',
+              value: 'inline'
+            }
+          ]
+        },
+        {
+          label: '表单控件',
+          type: 'combo',
+          name: 'body',
+          multiple: true,
+          draggable: true,
+          multiLine: false,
+          items: [
+            ...getFormItemOptions({i18nEnabled}),
+            {
+              visibleOn: 'data.type === "group"',
+              type: 'combo',
+              name: 'body',
+              label: '分组内的控件',
+              multiple: true,
+              draggable: true,
+              multiLine: true,
+              items: [...getFormItemOptions({i18nEnabled})]
+            }
+          ]
+        }
+      ],
+      pipeOut: (values: any) => {
+        autoAddOptions(values);
+        return values;
       }
-    ],
-    pipeOut: (values: any) => {
-      autoAddOptions(values);
-      return values;
-    }
-  };
+    };
+  }
 
   // scaffoldForm: ScaffoldForm = {
   //   title: '配置表单信息',
@@ -435,20 +441,14 @@ export class FormPlugin extends BasePlugin {
           title: '常规',
           body: [
             getSchemaTpl('layout:originPosition', {value: 'left-top'}),
-            {
-              name: 'title',
-              type: 'input-text',
-              label: '标题',
+            getSchemaTpl('title', {
               visibleOn: `this.wrapWithPanel !== false`
-            },
-            {
-              name: 'submitText',
-              type: 'input-text',
-              label: '提交按钮名称',
+            }),
+            getSchemaTpl('submitText', {
               pipeIn: defaultValue('提交'),
               visibleOn: `this.wrapWithPanel !== false && !this.actions && (!Array.isArray(this.body) || !this.body.some(function(item) {return !!~['submit','button','reset','button-group'].indexOf(item.type);}))`,
               description: '当没有自定义按钮时有效。'
-            },
+            }),
 
             getSchemaTpl('switch', {
               name: 'autoFocus',
@@ -779,31 +779,11 @@ export class FormPlugin extends BasePlugin {
                       description:
                         '可以不设置，接口返回的 msg 字段，优先级更高',
                       items: [
-                        {
-                          label: '获取成功提示',
-                          name: 'fetchSuccess',
-                          type: 'input-text'
-                        },
-                        {
-                          label: '获取失败提示',
-                          name: 'fetchFailed',
-                          type: 'input-text'
-                        },
-                        {
-                          label: '保存成功提示',
-                          name: 'saveSuccess',
-                          type: 'input-text'
-                        },
-                        {
-                          label: '保存失败提示',
-                          name: 'saveFailed',
-                          type: 'input-text'
-                        },
-                        {
-                          label: '验证失败提示',
-                          name: 'validateFailed',
-                          type: 'input-text'
-                        }
+                        getSchemaTpl('fetchSuccess'),
+                        getSchemaTpl('fetchFailed'),
+                        getSchemaTpl('saveSuccess'),
+                        getSchemaTpl('saveFailed'),
+                        getSchemaTpl('validateFailed')
                       ]
                     }
               ]

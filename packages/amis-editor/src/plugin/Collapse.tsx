@@ -43,29 +43,8 @@ export class CollapsePlugin extends BasePlugin {
             title: '基本',
             body: [
               getSchemaTpl('layout:originPosition', {value: 'left-top'}),
-              {
-                name: 'header',
-                label: '标题',
-                type: 'input-text',
-                pipeIn: defaultValue(
-                  context?.schema?.title || context?.schema?.header || ''
-                ),
-                onChange: (
-                  value: any,
-                  oldValue: any,
-                  model: any,
-                  form: any
-                ) => {
-                  // 转换一下旧版本的title字段
-                  form.setValueByName('header', value);
-                  form.setValueByName('title', undefined);
-                }
-              },
-              {
-                name: 'collapseHeader',
-                label: tipedLabel('展开标题', '折叠器处于展开状态时的标题'),
-                type: 'input-text'
-              },
+              getSchemaTpl('collapseHeader'),
+              getSchemaTpl('collapseOpenHeader'),
               {
                 name: 'headerPosition',
                 label: '标题位置',

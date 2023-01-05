@@ -9,7 +9,7 @@ import {autobind, FormControlProps, Schema} from 'amis-core';
 import CodeMirrorEditor from 'amis-ui/lib/components/CodeMirror';
 import {FormulaPlugin, editorFactory} from './plugin';
 
-import FormulaPicker from './FormulaPicker';
+import FormulaPicker, {CustomFormulaPickerProps} from './FormulaPicker';
 import debounce from 'lodash/debounce';
 import CodeMirror from 'codemirror';
 import {getVariables} from './utils';
@@ -46,6 +46,16 @@ export interface TextareaFormulaControlProps extends FormControlProps {
     icon?: string; // 图标
     className?: string; //外层类名
   }>;
+
+  /**
+   * 整体点击长文本公式输入框
+   */
+  onOverallClick?: () => void;
+
+  /**
+   * 自定义fx面板
+   */
+  customFormulaPicker?: React.FC<CustomFormulaPickerProps>;
 }
 
 interface TextareaFormulaControlState {
@@ -158,6 +168,9 @@ export class TextareaFormulaControl extends React.Component<
 
   @autobind
   handleFullscreenModeChange() {
+    if (this.props.onOverallClick) {
+      return;
+    }
     this.setState({
       isFullscreen: !this.state.isFullscreen
     });
@@ -165,6 +178,9 @@ export class TextareaFormulaControl extends React.Component<
 
   @autobind
   handleFormulaClick() {
+    if (this.props.onOverallClick) {
+      return;
+    }
     this.setState({
       formulaPickerOpen: true,
       formulaPickerValue: '',
@@ -185,6 +201,8 @@ export class TextareaFormulaControl extends React.Component<
       placeholder,
       height,
       additionalMenus,
+      onOverallClick,
+      customFormulaPicker,
       ...rest
     } = this.props;
     const {
@@ -194,6 +212,8 @@ export class TextareaFormulaControl extends React.Component<
       isFullscreen,
       variables
     } = this.state;
+
+    const FormulaPickerCmp = customFormulaPicker ?? FormulaPicker;
 
     // 输入框样式
     let resultBoxStyle: {[key in string]: string} = {};
@@ -211,7 +231,10 @@ export class TextareaFormulaControl extends React.Component<
           className
         )}
       >
-        <div className={cx('ae-TextareaResultBox')} style={resultBoxStyle}>
+        <div
+          className={cx('ae-TextareaResultBox')}
+          style={resultBoxStyle}
+        >
           <CodeMirrorEditor
             className="ae-TextareaResultBox-editor"
             value={value}
@@ -264,8 +287,17 @@ export class TextareaFormulaControl extends React.Component<
               })}
           </ul>
         </div>
+
+        {!!onOverallClick ? (
+          <div
+            className={cx('ae-TextareaResultBox-overlay')}
+            onClick={onOverallClick}
+          ></div>
+        ) : null}
+
         {formulaPickerOpen ? (
-          <FormulaPicker
+          <FormulaPickerCmp
+            {...this.props}
             value={formulaPickerValue}
             initable={true}
             variables={variables}

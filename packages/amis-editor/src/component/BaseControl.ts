@@ -390,6 +390,7 @@ export function remarkTpl(config: {
   name: 'remark' | 'labelRemark';
   label: string;
   labelRemark?: string;
+  i18nEnabled?: boolean;
 }) {
   return {
     type: 'ae-switch-more',
@@ -437,13 +438,13 @@ export function remarkTpl(config: {
             body: [
               {
                 name: 'title',
-                type: 'input-text',
+                type: !config.i18nEnabled ? 'input-text' : 'input-text-i18n',
                 label: '提示标题',
                 placeholder: '请输入提示标题'
               },
               {
                 name: 'content',
-                type: 'textarea',
+                type: !config.i18nEnabled ? 'textarea' : 'textarea-i18n',
                 label: '内容'
               }
             ]

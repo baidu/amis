@@ -156,7 +156,12 @@ export class TabsPlugin extends BasePlugin {
                     inline: false
                   }
                 },
-                items: [{type: 'input-text', name: 'title', required: true}]
+                items: [
+                  getSchemaTpl('title', {
+                    label: false,
+                    required: true
+                  })
+                ]
               }),
 
               getSchemaTpl('switch', {
