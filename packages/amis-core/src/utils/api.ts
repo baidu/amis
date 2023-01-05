@@ -242,12 +242,16 @@ export function buildApi(
   } else if (api.jsonql) {
     api.method = 'post';
 
-    if (api.jsonql.set === '__payload') {
-      api.jsonql.set = api.data || data;
-    } else if (api.jsonql.values === '__payload') {
-      api.jsonql.values = api.data || data;
+    if (api.jsonql.set) {
+      api.jsonql.set = dataMapping(api.jsonql.set, data, undefined, false);
+    } else if (api.jsonql.values) {
+      api.jsonql.values = dataMapping(
+        api.jsonql.values,
+        data,
+        undefined,
+        false
+      );
     }
-
     api.body = api.data = api.jsonql;
   }
 
