@@ -18,7 +18,7 @@ export function resolveMapping(
       ? tokenize(value, data, defaultFilter)
       : value;
 
-  if (ignoreIfNotMatch && !result) {
+  if (ignoreIfNotMatch && (result == null || result === '')) {
     return value;
   }
 
