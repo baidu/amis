@@ -291,7 +291,9 @@ export class TreeSelectControlPlugin extends BasePlugin {
                 inputClassName: 'is-inline ',
                 visibleOn: 'data.type === "tree-select"'
               }),
-              getSchemaTpl('searchable', {
+              getSchemaTpl('switch', {
+                label: '可检索',
+                name: 'searchable',
                 visibleOn: 'data.type === "tree-select"'
               }),
               getSchemaTpl('multiple', {
