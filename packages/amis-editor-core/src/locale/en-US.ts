@@ -260,5 +260,6 @@ extendLocale('en-US', {
   '372ea9fd27fb7cfacfe1b4ca3046f8d0': 'Configuration Item',
   '2a6287664de5ab46c65220c7182878ff': 'Cut',
   'db805d4e361ac2d3fc6047eaea1a7c69': 'Free container',
-  '969e9e56b3812abffa3994f35ea31835': 'Adsorption vessel'
+  '969e9e56b3812abffa3994f35ea31835': 'Adsorption vessel',
+  '5b804b05e14aaacc75033a4f77fc2844': 'Source code'
 });
