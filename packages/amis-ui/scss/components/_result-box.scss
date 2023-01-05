@@ -179,6 +179,10 @@
         color: var(--ResultBox-icon--onDisabled-color);
       }
     }
+
+    &.is-invalid {
+      color: var(--Form-selectValue-onInvalid-color);
+    }
   }
 
   &-placeholder {
