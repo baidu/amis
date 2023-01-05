@@ -3190,5 +3190,14 @@ extendLocale('zh-CN', {
   'a738a8594bd2b71002d09277b84d86dd': '靠左',
   'fc0f19e9e47e352d36d36cf6eb653210': '靠右',
   'c70638412c6cffd150117ae403dea939': '组件静态数据',
-  '77fdd35933c099cdcb64b71f3fbe7a6c': '数据列表'
+  '77fdd35933c099cdcb64b71f3fbe7a6c': '数据列表',
+  'f01c3cd99ecb0c534cc47081d3433c9f': '自定义样式',
+  'f7e3d7e3146bb53b5e6f09f7c90dea3a': '输入框样式',
+  'a39a2916d17f2b9ba11853066b4225f3': 'AddOn样式',
+  '9b6425cd2d496c9cb5a6c6b8ff125d1b': '输入框',
+  'b9745a6b870f02a0483a4a4f74814c68': '自定义样式源码',
+  'ec8f3e4a298160dface2fda5c0125df2': '请输入类名',
+  '7e8eb474f73b6fd60c9aa5082f75e008': 'Label样式',
+  'ef55ff12fb0d3efa3491236fee4dabc2': '描述样式',
+  '60bac4c0a381a42b320a703227be59eb': '间距'
 });
