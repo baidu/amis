@@ -556,6 +556,27 @@ export function reGenerateID(
   return json;
 }
 
+// 遍历json，每层元素自动生成uid。
+export function JsonGenerateID(json: any) {
+  if (Array.isArray(json)) {
+    json.map((item: any) => JsonGenerateID(item));
+  }
+  if (!isObject(json) || isObservable(json)) {
+    return;
+  }
+
+  if (json.type && !json.id) {
+    json.id = generateNodeId();
+  }
+
+  Object.keys(json).forEach(key => {
+    let curElem = json[key];
+    if (isObject(curElem) || Array.isArray(curElem)) {
+      JsonGenerateID(curElem);
+    }
+  });
+}
+
 export function createElementFromHTML(htmlString: string): HTMLElement {
   var div = document.createElement('div');
   // bca-disable-next-line

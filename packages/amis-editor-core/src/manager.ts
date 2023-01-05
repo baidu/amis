@@ -43,6 +43,7 @@ import {
   guid,
   reactionWithOldValue,
   reGenerateID,
+  JsonGenerateID,
   isString,
   isObject,
   isLayoutPlugin,
@@ -63,7 +64,7 @@ import {EditorDNDManager} from './dnd';
 import {IScopedContext} from 'amis';
 import {SchemaObject, SchemaCollection} from 'amis/lib/Schema';
 import type {RendererConfig} from 'amis-core/lib/factory';
-import {isPlainObject} from 'lodash';
+import isPlainObject from 'lodash/isPlainObject';
 
 export interface EditorManagerConfig
   extends Omit<EditorProps, 'value' | 'onChange'> {}
@@ -1370,11 +1371,8 @@ export class EditorManager {
     let index: number = -1;
     const commonContext = this.buildEventContext(id);
 
-    // 填充id，有些脚手架生成了复杂的布局等，这里都填充一下id
-    if (isPlainObject(json) && json.type && !json.id) {
-      json = {...json, id: 'u:' + guid()};
-      json = reGenerateID(json);
-    }
+    // 填充id，有些脚手架生成了复杂的布局等，自动填充一下id
+    JsonGenerateID(json);
 
     if (beforeId) {
       const arr = commonContext.schema[region];
