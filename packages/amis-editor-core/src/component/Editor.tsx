@@ -28,6 +28,10 @@ export interface EditorProps extends PluginEventListener {
   $schemaUrl?: string;
   schemas?: Array<any>;
   theme?: string;
+  /** 应用语言类型 */
+  appLocale?: string;
+  /** 是否开启多语言 */
+  i18nEnabled?: boolean;
   showCustomRenderersPanel?: boolean;
   amisDocHost?: string;
   superEditorData?: any;
@@ -484,12 +488,15 @@ export default class Editor extends Component<EditorProps> {
       isMobile,
       className,
       theme,
+      appLocale,
       data,
       iframeUrl,
       previewProps,
       autoFocus,
-      isSubEditor
+      isSubEditor,
+      amisEnv
     } = this.props;
+
     return (
       <div
         ref={this.mainRef}
@@ -522,7 +529,9 @@ export default class Editor extends Component<EditorProps> {
               store={this.store}
               manager={this.manager}
               theme={theme}
+              appLocale={appLocale}
               data={data}
+              amisEnv={amisEnv}
               autoFocus={autoFocus}
               toolbarContainer={this.getToolbarContainer}
             ></Preview>
