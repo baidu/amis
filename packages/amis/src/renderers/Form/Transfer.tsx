@@ -252,7 +252,7 @@ export class BaseTransferRenderer<
       }
     }
 
-    // 是否是有懒加载额树，这时不能将 value 添加到 options。因为有可能 value 在懒加载结果中
+    // 是否是有懒加载的树，这时不能将 value 添加到 options。因为有可能 value 在懒加载结果中
     const isTreeDefer =
       selectMode === 'tree' &&
       (!!deferApi || !!findTree(options, (option: Option) => option.deferApi));
