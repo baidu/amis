@@ -1140,7 +1140,7 @@
   --inputNumber-size-default-height: var(--sizes-base-16);
   --inputNumber-size-md-height: var(--sizes-base-16);
   --inputNumber-size-lg-height: var(--sizes-base-16);
-  --Number-handler-bg: var(--inputNumber-base-default-bg-color);
+  --Number-handler-bg: var(--inputNumber-base-default-step-bg);
   --Number-handler-fontSize: var(--inputNumber-base-default-icon-fontSize);
   --Number-handler-color: var(--inputNumber-base-default-icon-color);
   --Number-handler-onHover-bg: var(--inputNumber-base-hover-step-bg);
@@ -1354,7 +1354,7 @@
   --checkbox-checkbox-active-bottom-right-border-radius: var(--sizes-size-2);
   --checkbox-checkbox-active-bottom-left-border-radius: var(--sizes-size-2);
   --checkbox-checkbox-disabled-height: var(--sizes-size-9);
-  --checkbox-checkbox-disabled-bg-color: transparent;
+  --checkbox-checkbox-disabled-bg-color: var(--colors-neutral-fill-10);
   --checkbox-checkbox-disabled-color: var(--colors-neutral-text-2);
   --checkbox-checkbox-disabled-fontSize: var(--sizes-size-8);
   --checkbox-checkbox-disabled-top-border-color: var(--colors-neutral-line-8);
@@ -1523,7 +1523,7 @@
   --listSelect-base-hover-paddingBottom: var(--sizes-size-3);
   --listSelect-base-hover-paddingLeft: var(--sizes-size-7);
   --listSelect-base-hover-paddingRight: var(--sizes-size-7);
-  --listSelect-base-hover-color: var(--colors-neutral-text-2);
+  --listSelect-base-hover-color: var(--colors-brand-5);
   --listSelect-base-hover-bg-color: transparent;
   --listSelect-base-active-top-border-color: var(--colors-brand-5);
   --listSelect-base-active-top-border-width: var(--borders-width-2);
@@ -1546,7 +1546,7 @@
   --listSelect-base-active-paddingLeft: var(--sizes-size-7);
   --listSelect-base-active-paddingRight: var(--sizes-size-7);
   --listSelect-base-active-shadow: var(--Form-input-boxShadow);
-  --listSelect-base-active-color: var(--colors-neutral-text-2);
+  --listSelect-base-active-color: var(--colors-brand-5);
   --listSelect-base-active-bg-color: transparent;
   --listSelect-base-disabled-top-border-color: var(--colors-neutral-line-8);
   --listSelect-base-disabled-top-border-width: var(--borders-width-2);
@@ -1573,20 +1573,15 @@
   --listSelect-base-disabled-color: var(--colors-neutral-text-6);
   --listSelect-base-disabled-bg-color: var(--colors-neutral-fill-10);
   --listSelect-base-image-width: var(--sizes-size-1);
-  --ListControl-item-onHover-color: var(
-    --listSelect-base-hover-top-border-color
-  );
+  --ListControl-item-onHover-color: var(--listSelect-base-hover-color);
   --ListControl-item-onHover-borderColor: var(
     --listSelect-base-hover-top-border-color
   );
-  --ListControl-item-onActive-color: var(
-    --listSelect-base-active-top-border-color
-  );
+  --ListControl-item-onActive-color: var(--listSelect-base-active-color);
   --ListControl-item-onActive-onHover-bg: var(--colors-neutral-fill-11);
   --ListControl-item-onActive-color: var(
     --listSelect-base-active-top-border-color
   );
-  --ListControl-item-onDisabled-color: var(--colors-neutral-text-6);
   --ListControl-item-onActive-before-bg: var(--colors-brand-4);
   --ListControl-item-color: var(--listSelect-base-default-color);
   --ListControl-item-onDisabled-color: var(--listSelect-base-disabled-color);
