@@ -206,7 +206,7 @@ export function buildApi(
       }
     }
 
-    if (api.data && (api.attachDataToQuery !== false || api.jsonql)) {
+    if (api.data && api.attachDataToQuery !== false) {
       const idx = api.url.indexOf('?');
       if (~idx) {
         let params = (api.query = {
@@ -241,6 +241,13 @@ export function buildApi(
     }
   } else if (api.jsonql) {
     api.method = 'post';
+
+    if (api.jsonql.set === '__payload') {
+      api.jsonql.set = api.data || data;
+    } else if (api.jsonql.values === '__payload') {
+      api.jsonql.values = api.data || data;
+    }
+
     api.body = api.data = api.jsonql;
   }
 
