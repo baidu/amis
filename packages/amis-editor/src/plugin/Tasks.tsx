@@ -48,6 +48,7 @@ export class TasksPlugin extends BasePlugin {
       {
         title: '常规',
         body: [
+          getSchemaTpl('layout:originPosition', {value: 'left-top'}),
           {
             name: 'items',
             label: '初始任务信息',
@@ -55,11 +56,9 @@ export class TasksPlugin extends BasePlugin {
             multiple: true,
             multiLine: true,
             items: [
-              {
-                name: 'label',
-                type: 'input-text',
+              getSchemaTpl('label', {
                 label: '任务名称'
-              },
+              }),
               {
                 name: 'key',
                 type: 'input-text',
@@ -70,11 +69,7 @@ export class TasksPlugin extends BasePlugin {
                 type: 'input-number',
                 label: '任务状态'
               },
-              {
-                name: 'remark',
-                type: 'textarea',
-                label: '任务说明'
-              }
+              getSchemaTpl('taskRemark')
             ],
             addButtonText: '新增任务信息',
             scaffold: {
@@ -117,33 +112,13 @@ export class TasksPlugin extends BasePlugin {
             type: 'divider'
           },
 
-          {
-            name: 'taskNameLabel',
-            type: 'input-text',
-            pipeIn: defaultValue('任务名称'),
-            label: '任务名称栏标题'
-          },
+          getSchemaTpl('taskNameLabel'),
 
-          {
-            name: 'operationLabel',
-            type: 'input-text',
-            pipeIn: defaultValue('操作'),
-            label: '操作栏标题'
-          },
+          getSchemaTpl('operationLabel'),
 
-          {
-            name: 'statusLabel',
-            type: 'input-text',
-            pipeIn: defaultValue('状态'),
-            label: '状态栏标题'
-          },
+          getSchemaTpl('statusLabel'),
 
-          {
-            name: 'remarkLabel',
-            type: 'input-text',
-            pipeIn: defaultValue('备注说明'),
-            label: '备注栏标题'
-          },
+          getSchemaTpl('remarkLabel'),
 
           {
             name: 'btnText',
@@ -174,10 +149,7 @@ export class TasksPlugin extends BasePlugin {
             multiple: true,
             addable: false,
             removable: false,
-            items: {
-              type: 'input-text',
-              placeholder: '名称'
-            }
+            items: getSchemaTpl('inputArrayItem')
           },
 
           {

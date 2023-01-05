@@ -82,16 +82,13 @@ export class SwitchControlPlugin extends BasePlugin {
           {
             title: '基本',
             body: [
+              getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               getSchemaTpl('formItemName', {
                 required: true
               }),
               getSchemaTpl('label'),
 
-              {
-                name: 'option',
-                type: 'input-text',
-                label: '说明'
-              },
+              getSchemaTpl('option'),
 
               {
                 type: 'ae-switch-more',

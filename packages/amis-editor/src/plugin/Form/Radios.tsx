@@ -115,6 +115,7 @@ export class RadiosControlPlugin extends BasePlugin {
           {
             title: '基本',
             body: [
+              getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               getSchemaTpl('formItemName', {
                 required: true
               }),
@@ -140,14 +141,7 @@ export class RadiosControlPlugin extends BasePlugin {
                 name: 'selectFirst',
                 horizontal: {justify: true, left: 5},
                 visibleOn: '!this.options'
-              }),
-              getSchemaTpl(
-                'loadingConfig',
-                {
-                  visibleOn: 'this.source || !this.options'
-                },
-                {context}
-              )
+              })
             ]
           },
           getSchemaTpl('status', {isFormItem: true}),

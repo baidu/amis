@@ -145,7 +145,7 @@ export class ListPlugin extends BasePlugin {
                     }
                   ]
                 }
-              },
+              }
             ]
           },
           getSchemaTpl('status')

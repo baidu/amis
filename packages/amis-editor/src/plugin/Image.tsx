@@ -92,7 +92,9 @@ export class ImagePlugin extends BasePlugin {
                 mode: 'normal',
                 name: 'enlargeAble',
                 label: tipedLabel(
-                  '图片放大功能', '放大功能和打开外部链接功能是冲突的，若要点击时打开外部链接请先关闭此功能'),
+                  '图片放大功能',
+                  '放大功能和打开外部链接功能是冲突的，若要点击时打开外部链接请先关闭此功能'
+                ),
                 value: false,
                 hiddenOnDefault: false,
                 formType: 'extend',
@@ -111,7 +113,7 @@ export class ImagePlugin extends BasePlugin {
                 type: 'input-text',
                 label: '打开外部链接',
                 name: 'href',
-                hiddenOn: "this.enlargeAble",
+                hiddenOn: 'this.enlargeAble',
                 clearValueOnHidden: true
               },
               getSchemaTpl('imageUrl', {

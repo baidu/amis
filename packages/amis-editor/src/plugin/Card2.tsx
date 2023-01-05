@@ -50,6 +50,7 @@ export class Card2Plugin extends BasePlugin {
             {
               title: '基本',
               body: [
+                getSchemaTpl('layout:originPosition', {value: 'left-top'}),
                 {
                   type: 'button-group-select',
                   label: tipedLabel('选择区域', '点击触发选中或取消选中的区域'),

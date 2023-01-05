@@ -180,6 +180,7 @@ export class ChartPlugin extends BasePlugin {
         {
           title: '常规',
           body: [
+            getSchemaTpl('layout:originPosition', {value: 'left-top'}),
             getSchemaTpl('api', {
               label: '接口拉取',
               description:

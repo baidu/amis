@@ -52,12 +52,10 @@ export class NavPlugin extends BasePlugin {
         to: ''
       },
       items: [
-        {
-          type: 'input-text',
-          name: 'label',
+        getSchemaTpl('label', {
           label: '名称',
           required: true
-        },
+        }),
 
         {
           type: 'input-text',
@@ -145,6 +143,7 @@ export class NavPlugin extends BasePlugin {
       {
         title: '常规',
         body: [
+          getSchemaTpl('layout:originPosition', {value: 'left-top'}),
           {
             $ref: 'links',
             name: 'links'

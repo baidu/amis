@@ -73,11 +73,18 @@ export class CardsPlugin extends BasePlugin {
   panelTitle = '卡片集';
   panelBodyCreator = (context: BaseEventContext) => {
     const isCRUDBody = context.schema.type === 'crud';
+    const curPosition = context?.schema?.style?.position;
+    const isAbsolute = curPosition === 'fixed' || curPosition === 'absolute';
+
     return [
       getSchemaTpl('tabs', [
         {
           title: '常规',
           body: [
+            getSchemaTpl('layout:originPosition', {
+              visibleOn: isAbsolute ? isAbsolute : undefined,
+              value: 'left-top'
+            }),
             {
               children: (
                 <div className="m-b">
@@ -92,15 +99,10 @@ export class CardsPlugin extends BasePlugin {
                 </div>
               )
             },
-
             {
               type: 'divider'
             },
-            {
-              name: 'title',
-              type: 'input-text',
-              label: '标题'
-            },
+            getSchemaTpl('title'),
             {
               name: 'href',
               type: 'input-text',
@@ -117,13 +119,7 @@ export class CardsPlugin extends BasePlugin {
                   description: '绑定当前环境变量',
                   test: !isCRUDBody
                 },
-
-            {
-              name: 'placeholder',
-              value: '暂无数据',
-              type: 'input-text',
-              label: '无数据提示'
-            }
+            getSchemaTpl('cardsPlaceholder')
           ]
         },
         {

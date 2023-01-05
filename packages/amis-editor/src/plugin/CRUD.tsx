@@ -185,285 +185,290 @@ export class CRUDPlugin extends BasePlugin {
     }
   };
 
-  scaffoldForm: ScaffoldForm = {
-    title: '增删改查快速开始-CRUD',
-    body: [
-      getSchemaTpl('apiControl', {
-        label: '接口地址',
-        sampleBuilder: (schema: any) =>
-          JSON.stringify(
-            {
-              status: 0,
-              msg: '',
-              data: [
-                {id: 1, name: 'Jack'},
-                {id: 2, name: 'Rose'}
-              ]
-            },
-            null,
-            2
-          )
-      }),
-      {
-        type: 'button',
-        label: '格式校验并自动生成列配置',
-        className: 'm-t-xs m-b-xs',
-        onClick: async (e: Event, props: any) => {
-          const data = props.data;
-          const schemaFilter = getEnv((window as any).editorStore).schemaFilter;
-          let api: any = data.api;
-          // 主要是给爱速搭中替换 url
-          if (schemaFilter) {
-            api = schemaFilter({
-              api: data.api
-            }).api;
-          }
-          const result = await props.env.fetcher(api, data);
+  get scaffoldForm(): ScaffoldForm {
+    const {i18nEnabled} = getEnv((window as any).editorStore);
+    return {
+      title: '增删改查快速开始-CRUD',
+      body: [
+        getSchemaTpl('apiControl', {
+          label: '接口地址',
+          sampleBuilder: (schema: any) =>
+            JSON.stringify(
+              {
+                status: 0,
+                msg: '',
+                data: [
+                  {id: 1, name: 'Jack'},
+                  {id: 2, name: 'Rose'}
+                ]
+              },
+              null,
+              2
+            )
+        }),
+        {
+          type: 'button',
+          label: '格式校验并自动生成列配置',
+          className: 'm-t-xs m-b-xs',
+          onClick: async (e: Event, props: any) => {
+            const data = props.data;
+            const schemaFilter = getEnv(
+              (window as any).editorStore
+            ).schemaFilter;
+            let api: any = data.api;
+            // 主要是给爱速搭中替换 url
+            if (schemaFilter) {
+              api = schemaFilter({
+                api: data.api
+              }).api;
+            }
+            const result = await props.env.fetcher(api, data);
 
-          let autoFillKeyValues: Array<any> = [];
-          const items = result.data?.rows || result.data?.items;
-          if (items?.length) {
-            Object.keys(items[0]).forEach((key: any) => {
-              const value = items[0][key];
-              autoFillKeyValues.push({
-                label: key,
-                type: 'text',
-                name: key
+            let autoFillKeyValues: Array<any> = [];
+            const items = result.data?.rows || result.data?.items;
+            if (items?.length) {
+              Object.keys(items[0]).forEach((key: any) => {
+                const value = items[0][key];
+                autoFillKeyValues.push({
+                  label: key,
+                  type: 'text',
+                  name: key
+                });
               });
-            });
-            props.formStore.setValues({
-              columns: autoFillKeyValues
-            });
-            // 查询条件的字段列表
-            props.formStore.setValues({
-              filterSettingSource: autoFillKeyValues.map(column => {
-                return column.name;
-              })
-            });
-          } else {
-            toast.warning(
-              'API返回格式不正确，请点击接口地址右侧示例的问号查看示例'
-            );
+              props.formStore.setValues({
+                columns: autoFillKeyValues
+              });
+              // 查询条件的字段列表
+              props.formStore.setValues({
+                filterSettingSource: autoFillKeyValues.map(column => {
+                  return column.name;
+                })
+              });
+            } else {
+              toast.warning(
+                'API返回格式不正确，请点击接口地址右侧示例的问号查看示例'
+              );
+            }
           }
+        },
+        {
+          name: 'features',
+          label: '启用功能',
+          type: 'checkboxes',
+          joinValues: false,
+          extractValue: true,
+          itemClassName: 'max-w-lg',
+          options: [
+            {label: '新增', value: 'create'},
+            {label: '查询', value: 'filter'},
+            {label: '批量删除', value: 'bulkDelete'},
+            {label: '批量修改', value: 'bulkUpdate'},
+            {label: '操作栏-编辑', value: 'update'},
+            {label: '操作栏-查看详情', value: 'view'},
+            {label: '操作栏-删除', value: 'delete'}
+          ]
+        },
+        {
+          type: 'group',
+          body: [
+            {
+              columnRatio: 10,
+              type: 'checkboxes',
+              label: '启用的查询字段',
+              name: 'filterEnabledList',
+              joinValues: false,
+              source: '${filterSettingSource}'
+            },
+            {
+              columnRatio: 2,
+              type: 'input-number',
+              label: '每列显示几个字段',
+              value: 3,
+              name: 'filterColumnCount'
+            }
+          ],
+          visibleOn: 'data.features && data.features.includes("filter")'
+        },
+        {
+          name: 'columns',
+          type: 'input-table',
+          label: false,
+          addable: true,
+          removable: true,
+          needConfirm: false,
+          columns: [
+            {
+              type: i18nEnabled ? 'input-text-i18n' : 'input-text',
+              name: 'label',
+              label: '标题'
+            },
+            {
+              type: 'input-text',
+              name: 'name',
+              label: '绑定字段名'
+            },
+            {
+              type: 'select',
+              name: 'type',
+              label: '类型',
+              value: 'text',
+              options: [
+                {
+                  value: 'text',
+                  label: '纯文本'
+                },
+                {
+                  value: 'tpl',
+                  label: '模板'
+                },
+                {
+                  value: 'image',
+                  label: '图片'
+                },
+                {
+                  value: 'date',
+                  label: '日期'
+                },
+                {
+                  value: 'progress',
+                  label: '进度'
+                },
+                {
+                  value: 'status',
+                  label: '状态'
+                },
+                {
+                  value: 'mapping',
+                  label: '映射'
+                },
+                {
+                  value: 'operation',
+                  label: '操作栏'
+                }
+              ]
+            }
+          ]
         }
-      },
-      {
-        name: 'features',
-        label: '启用功能',
-        type: 'checkboxes',
-        joinValues: false,
-        extractValue: true,
-        itemClassName: 'max-w-lg',
-        options: [
-          {label: '新增', value: 'create'},
-          {label: '查询', value: 'filter'},
-          {label: '批量删除', value: 'bulkDelete'},
-          {label: '批量修改', value: 'bulkUpdate'},
-          {label: '操作栏-编辑', value: 'update'},
-          {label: '操作栏-查看详情', value: 'view'},
-          {label: '操作栏-删除', value: 'delete'}
-        ]
-      },
-      {
-        type: 'group',
-        body: [
-          {
-            columnRatio: 10,
-            type: 'checkboxes',
-            label: '启用的查询字段',
-            name: 'filterEnabledList',
-            joinValues: false,
-            source: '${filterSettingSource}'
-          },
-          {
-            columnRatio: 2,
-            type: 'input-number',
-            label: '每列显示几个字段',
-            value: 3,
-            name: 'filterColumnCount'
-          }
-        ],
-        visibleOn: 'data.features && data.features.includes("filter")'
-      },
-      {
-        name: 'columns',
-        type: 'input-table',
-        label: false,
-        addable: true,
-        removable: true,
-        needConfirm: false,
-        columns: [
-          {
-            type: 'input-text',
-            name: 'label',
-            label: '标题'
-          },
-          {
-            type: 'input-text',
-            name: 'name',
-            label: '绑定字段名'
-          },
-          {
-            type: 'select',
-            name: 'type',
-            label: '类型',
-            value: 'text',
-            options: [
-              {
-                value: 'text',
-                label: '纯文本'
-              },
-              {
-                value: 'tpl',
-                label: '模板'
-              },
-              {
-                value: 'image',
-                label: '图片'
-              },
-              {
-                value: 'date',
-                label: '日期'
-              },
-              {
-                value: 'progress',
-                label: '进度'
-              },
-              {
-                value: 'status',
-                label: '状态'
-              },
-              {
-                value: 'mapping',
-                label: '映射'
-              },
-              {
-                value: 'operation',
-                label: '操作栏'
-              }
-            ]
-          }
-        ]
-      }
-    ],
-    pipeOut: (value: any) => {
-      let valueSchema = cloneDeep(value);
-      // 查看/删除 操作，可选择是否使用接口返回值预填充
-      const features: Array<any> = valueSchema.features;
-      const oper: {
-        type: 'operation';
-        label?: string;
-        buttons: Array<ActionSchema>;
-      } = {
-        type: 'operation',
-        label: '操作',
-        buttons: []
-      };
-      const itemBtns: Array<string> = ['update', 'view', 'delete'];
-      const hasFeatures = get(features, 'length');
+      ],
+      pipeOut: (value: any) => {
+        let valueSchema = cloneDeep(value);
+        // 查看/删除 操作，可选择是否使用接口返回值预填充
+        const features: Array<any> = valueSchema.features;
+        const oper: {
+          type: 'operation';
+          label?: string;
+          buttons: Array<ActionSchema>;
+        } = {
+          type: 'operation',
+          label: '操作',
+          buttons: []
+        };
+        const itemBtns: Array<string> = ['update', 'view', 'delete'];
+        const hasFeatures = get(features, 'length');
 
-      valueSchema.bulkActions = [];
-      /** 统一api格式 */
-      valueSchema.api =
-        typeof valueSchema.api === 'string'
-          ? normalizeApi(valueSchema.api)
-          : valueSchema.api;
-      hasFeatures &&
-        features.forEach((item: string) => {
-          if (itemBtns.includes(item)) {
-            let schema;
+        valueSchema.bulkActions = [];
+        /** 统一api格式 */
+        valueSchema.api =
+          typeof valueSchema.api === 'string'
+            ? normalizeApi(valueSchema.api)
+            : valueSchema.api;
+        hasFeatures &&
+          features.forEach((item: string) => {
+            if (itemBtns.includes(item)) {
+              let schema;
 
-            if (item === 'update') {
-              schema = cloneDeep(this.btnSchemas.update);
-              schema.dialog.body.body = value.columns
-                .filter(
-                  ({type}: any) => type !== 'progress' && type !== 'operation'
-                )
-                .map(({type, ...rest}: any) => ({
-                  ...rest,
-                  type: viewTypeToEditType(type)
-                }));
-            } else if (item === 'view') {
-              schema = cloneDeep(this.btnSchemas.view);
-              schema.dialog.body.body = value.columns.map(
-                ({type, ...rest}: any) => ({
-                  ...rest,
-                  type: 'static'
-                })
-              );
-            } else if (item === 'delete') {
-              schema = cloneDeep(this.btnSchemas.delete);
-              schema.api = valueSchema.api?.method?.match(/^(post|delete)$/i)
-                ? valueSchema.api
-                : {...valueSchema.api, method: 'post'};
-            }
-
-            // 添加操作按钮
-            this.addItem(oper.buttons, schema);
-          } else {
-            // 批量操作
-            if (item === 'bulkUpdate') {
-              this.addItem(
-                valueSchema.bulkActions,
-                cloneDeep(this.btnSchemas.bulkUpdate)
-              );
-            }
-
-            if (item === 'bulkDelete') {
-              this.addItem(
-                valueSchema.bulkActions,
-                cloneDeep(this.btnSchemas.bulkDelete)
-              );
-            }
-
-            // 创建
-            if (item === 'create') {
-              const createSchemaBase = this.btnSchemas.create;
-              createSchemaBase.dialog.body = {
-                type: 'form',
-                api: valueSchema.api?.method?.match(/^(post|put)$/i)
+              if (item === 'update') {
+                schema = cloneDeep(this.btnSchemas.update);
+                schema.dialog.body.body = value.columns
+                  .filter(
+                    ({type}: any) => type !== 'progress' && type !== 'operation'
+                  )
+                  .map(({type, ...rest}: any) => ({
+                    ...rest,
+                    type: viewTypeToEditType(type)
+                  }));
+              } else if (item === 'view') {
+                schema = cloneDeep(this.btnSchemas.view);
+                schema.dialog.body.body = value.columns.map(
+                  ({type, ...rest}: any) => ({
+                    ...rest,
+                    type: 'static'
+                  })
+                );
+              } else if (item === 'delete') {
+                schema = cloneDeep(this.btnSchemas.delete);
+                schema.api = valueSchema.api?.method?.match(/^(post|delete)$/i)
                   ? valueSchema.api
-                  : {...valueSchema.api, method: 'post'},
-                body: valueSchema.columns.map((column: ColumnItem) => {
-                  const type = column.type;
-                  return {
-                    type: viewTypeToEditType(type),
-                    name: column.name,
-                    label: column.label
-                  };
-                })
-              };
-              valueSchema.headerToolbar = [createSchemaBase, 'bulkActions'];
-            }
-            let keysFilter = Object.keys(valueSchema.filter || {});
-            if (item === 'filter' && !keysFilter.length) {
-              if (valueSchema.filterEnabledList) {
-                valueSchema.filter = {
-                  title: '查询条件'
-                };
-                valueSchema.filter.columnCount = value.filterColumnCount;
-                valueSchema.filter.mode = 'horizontal';
-                valueSchema.filter.body = valueSchema.filterEnabledList.map(
-                  (item: any) => {
-                    return {
-                      type: 'input-text',
-                      label: item.label,
-                      name: item.value
-                    };
-                  }
+                  : {...valueSchema.api, method: 'post'};
+              }
+
+              // 添加操作按钮
+              this.addItem(oper.buttons, schema);
+            } else {
+              // 批量操作
+              if (item === 'bulkUpdate') {
+                this.addItem(
+                  valueSchema.bulkActions,
+                  cloneDeep(this.btnSchemas.bulkUpdate)
                 );
               }
+
+              if (item === 'bulkDelete') {
+                this.addItem(
+                  valueSchema.bulkActions,
+                  cloneDeep(this.btnSchemas.bulkDelete)
+                );
+              }
+
+              // 创建
+              if (item === 'create') {
+                const createSchemaBase = this.btnSchemas.create;
+                createSchemaBase.dialog.body = {
+                  type: 'form',
+                  api: valueSchema.api?.method?.match(/^(post|put)$/i)
+                    ? valueSchema.api
+                    : {...valueSchema.api, method: 'post'},
+                  body: valueSchema.columns.map((column: ColumnItem) => {
+                    const type = column.type;
+                    return {
+                      type: viewTypeToEditType(type),
+                      name: column.name,
+                      label: column.label
+                    };
+                  })
+                };
+                valueSchema.headerToolbar = [createSchemaBase, 'bulkActions'];
+              }
+              let keysFilter = Object.keys(valueSchema.filter || {});
+              if (item === 'filter' && !keysFilter.length) {
+                if (valueSchema.filterEnabledList) {
+                  valueSchema.filter = {
+                    title: '查询条件'
+                  };
+                  valueSchema.filter.columnCount = value.filterColumnCount;
+                  valueSchema.filter.mode = 'horizontal';
+                  valueSchema.filter.body = valueSchema.filterEnabledList.map(
+                    (item: any) => {
+                      return {
+                        type: 'input-text',
+                        label: item.label,
+                        name: item.value
+                      };
+                    }
+                  );
+                }
+              }
             }
-          }
-        });
-      const hasOperate = valueSchema.columns.find(
-        (item: any) => item.type === 'operation'
-      );
-      hasFeatures && !hasOperate && valueSchema.columns.push(oper);
-      return valueSchema;
-    },
-    canRebuild: true
-  };
+          });
+        const hasOperate = valueSchema.columns.find(
+          (item: any) => item.type === 'operation'
+        );
+        hasFeatures && !hasOperate && valueSchema.columns.push(oper);
+        return valueSchema;
+      },
+      canRebuild: true
+    };
+  }
 
   addItem(source: any, target: any) {
     const canAdd = source.find((item: any) => item.label === target.label);
@@ -524,6 +529,7 @@ export class CRUDPlugin extends BasePlugin {
       {
         title: '常规',
         body: [
+          getSchemaTpl('layout:originPosition', {value: 'left-top'}),
           getSchemaTpl('switch', {
             name: 'filter',
             label: '启用查询条件',
@@ -579,11 +585,7 @@ export class CRUDPlugin extends BasePlugin {
               placement: 'left'
             },
             items: [
-              {
-                type: 'tpl',
-                tpl: '<span class="label label-success">${label}</span>',
-                columnClassName: 'p-t-xs'
-              },
+              getSchemaTpl('tpl:btnLabel'),
 
               {
                 columnClassName: 'p-t-xs col-edit',
@@ -633,11 +635,7 @@ export class CRUDPlugin extends BasePlugin {
               type: 'button'
             },
             items: [
-              {
-                type: 'tpl',
-                tpl: '<span class="label label-success">${label}</span>',
-                columnClassName: 'p-t-xs'
-              },
+              getSchemaTpl('tpl:btnLabel'),
 
               {
                 type: 'checkbox',
@@ -913,41 +911,12 @@ export class CRUDPlugin extends BasePlugin {
             description:
               '覆盖默认消息提示，但如果 api 返回 msg 则会优先使用这个 msg',
             items: [
-              {
-                label: '获取成功提示',
-                type: 'input-text',
-                name: 'fetchSuccess'
-              },
-
-              {
-                label: '获取失败提示',
-                type: 'input-text',
-                name: 'fetchFailed'
-              },
-
-              {
-                label: '保存顺序成功提示',
-                type: 'input-text',
-                name: 'saveOrderSuccess'
-              },
-
-              {
-                label: '保存顺序失败提示',
-                type: 'input-text',
-                name: 'saveOrderFailed'
-              },
-
-              {
-                label: '快速保存成功提示',
-                type: 'input-text',
-                name: 'quickSaveSuccess'
-              },
-
-              {
-                label: '快速保存失败提示',
-                type: 'input-text',
-                name: 'quickSaveFailed'
-              }
+              getSchemaTpl('fetchSuccess'),
+              getSchemaTpl('fetchFailed'),
+              getSchemaTpl('saveOrderSuccess'),
+              getSchemaTpl('saveOrderFailed'),
+              getSchemaTpl('quickSaveSuccess'),
+              getSchemaTpl('quickSaveFailed')
             ]
           }
         ]
@@ -1722,12 +1691,12 @@ export class CRUDPlugin extends BasePlugin {
   }
 
   renderRenderer(props: any) {
-    const $$editor = props.$$editor;
+    const {$$editor, style, ...rest} = props;
     const renderer = $$editor.renderer;
     return (
-      <div className="ae-CRUDEditor">
+      <div className="ae-CRUDEditor" style={style}>
         {this.renderEditableComponents(props)}
-        <renderer.component {...props} />
+        <renderer.component $$editor={$$editor} {...rest} />
       </div>
     );
   }
@@ -1755,7 +1724,11 @@ export class CRUDPlugin extends BasePlugin {
     }
   }
 
-  async buildDataSchemas(node: EditorNodeType, region?: EditorNodeType) {
+  async buildDataSchemas(
+    node: EditorNodeType,
+    region?: EditorNodeType,
+    trigger?: EditorNodeType
+  ) {
     const child: EditorNodeType = node.children.find(
       item => !!~['table', 'table2', 'cards', 'list'].indexOf(item.type)
     );
@@ -1763,7 +1736,8 @@ export class CRUDPlugin extends BasePlugin {
     if (!child?.info?.plugin?.buildDataSchemas) {
       return;
     }
-    return child.info.plugin.buildDataSchemas(child);
+
+    return child.info.plugin.buildDataSchemas(child, undefined, trigger);
   }
 }
 

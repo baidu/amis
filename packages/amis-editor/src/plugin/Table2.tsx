@@ -1,6 +1,6 @@
 import {resolveVariable} from 'amis';
 
-import {setVariable} from 'amis-core';
+import {setVariable, someTree} from 'amis-core';
 import {
   BasePlugin,
   BaseEventContext,
@@ -21,9 +21,11 @@ import {
   RendererPluginAction,
   RendererPluginEvent
 } from 'amis-editor-core';
-import {getEventControlConfig} from '../renderer/event-control/helper';
+import {
+  getEventControlConfig,
+  getArgsWrapper
+} from '../renderer/event-control/helper';
 import {SchemaObject} from 'amis/lib/Schema';
-import {getArgsWrapper} from '../renderer/event-control/helper';
 
 export class Table2Plugin extends BasePlugin {
   // 关联渲染器名字
@@ -327,7 +329,11 @@ export class Table2Plugin extends BasePlugin {
     }
   ];
 
-  async buildDataSchemas(node: EditorNodeType, region?: EditorNodeType) {
+  async buildDataSchemas(
+    node: EditorNodeType,
+    region?: EditorNodeType,
+    trigger?: EditorNodeType
+  ) {
     const itemsSchema: any = {
       $id: 'tableRow',
       type: 'object',
@@ -336,11 +342,12 @@ export class Table2Plugin extends BasePlugin {
     const columns: EditorNodeType = node.children.find(
       item => item.isRegion && item.region === 'columns'
     );
+
     if (columns) {
       for (let current of columns.children) {
         const schema = current.schema;
-        if (schema && schema.key) {
-          itemsSchema.properties[schema.key] = current.info?.plugin
+        if (schema?.name) {
+          itemsSchema.properties[schema.name] = current.info?.plugin
             ?.buildDataSchemas
             ? await current.info.plugin.buildDataSchemas(current, region)
             : {
@@ -352,13 +359,24 @@ export class Table2Plugin extends BasePlugin {
       }
     }
 
+    let cellProperties = {};
+    if (trigger) {
+      const isColumnChild = someTree(
+        columns?.children,
+        item => item.id === trigger.id
+      );
+
+      isColumnChild && (cellProperties = itemsSchema.properties);
+    }
+
     const result: any = {
       $id: 'table2',
       type: 'object',
       properties: {
-        items: {
+        ...cellProperties,
+        rows: {
           type: 'array',
-          title: '表格数据',
+          title: '数据列表',
           items: itemsSchema
         }
       }
@@ -402,6 +420,7 @@ export class Table2Plugin extends BasePlugin {
             {
               title: '基本',
               body: [
+                getSchemaTpl('layout:originPosition', {value: 'left-top'}),
                 {
                   name: 'source',
                   type: 'input-text',
@@ -549,12 +568,7 @@ export class Table2Plugin extends BasePlugin {
                   ]
                 },
 
-                {
-                  name: 'placeholder',
-                  pipeIn: defaultValue('暂无数据'),
-                  type: 'input-text',
-                  label: '占位内容'
-                }
+                getSchemaTpl('tablePlaceholder')
               ]
             },
             {

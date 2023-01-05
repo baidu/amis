@@ -14,7 +14,7 @@ export class TimePlugin extends DatePlugin {
   scaffold = {
     type: 'time',
     value: Math.round(Date.now() / 1000),
-    format: 'HH:mm:ss',
+    format: 'HH:mm:ss'
   };
 
   previewSchema = {
@@ -34,7 +34,7 @@ export class TimePlugin extends DatePlugin {
               body: [
                 {
                   type: 'input-time',
-                  name: 'value', 
+                  name: 'value',
                   inputFormat: 'HH:mm:ss',
                   timeFormat: 'HH:mm:ss',
                   label: '时间数值'

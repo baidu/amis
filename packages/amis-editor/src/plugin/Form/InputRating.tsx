@@ -94,15 +94,14 @@ export class RateControlPlugin extends BasePlugin {
           {
             title: '基本',
             body: [
+              getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               getSchemaTpl('formItemName', {
                 required: true
               }),
 
-              {
+              getSchemaTpl('label', {
                 label: 'Label',
-                name: 'label',
-                type: 'input-text'
-              },
+              }),
 
               getSchemaTpl('valueFormula', {
                 rendererSchema: {
@@ -143,31 +142,7 @@ export class RateControlPlugin extends BasePlugin {
               getSchemaTpl('labelRemark'),
 
               getSchemaTpl('remark'),
-
-              getSchemaTpl('combo-container', {
-                type: 'combo',
-                label: '描述',
-                mode: 'normal',
-                name: 'texts',
-                items: [
-                  {
-                    placeholder: 'Key',
-                    type: 'input-number',
-                    unique: true,
-                    name: 'key',
-                    columnClassName: 'w-xs flex-none',
-                    min: 0,
-                    step: 1,
-                    max: 10,
-                    precision: 0
-                  },
-
-                  {
-                    placeholder: '描述内容',
-                    type: 'input-text',
-                    name: 'value'
-                  }
-                ],
+              getSchemaTpl('texts', {
                 draggable: false,
                 multiple: true,
                 pipeIn: (value: any) => {
@@ -212,7 +187,6 @@ export class RateControlPlugin extends BasePlugin {
                       res[key] = item?.value || '';
                     }
                   });
-
                   return res;
                 }
               }),

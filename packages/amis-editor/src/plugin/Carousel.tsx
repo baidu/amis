@@ -43,6 +43,7 @@ export class CarouselPlugin extends BasePlugin {
         {
           title: '常规',
           body: [
+            getSchemaTpl('layout:originPosition', {value: 'left-top'}),
             isUnderField
               ? {
                   type: 'tpl',
@@ -101,23 +102,13 @@ export class CarouselPlugin extends BasePlugin {
                     getSchemaTpl('imageUrl', {
                       name: 'content'
                     }),
-                    {
-                      type: 'input-text',
-                      label: '图片标题',
-                      name: 'title',
-                      visibleOn: 'this.type == "image"'
-                    },
+                    getSchemaTpl('imageTitle'),
                     getSchemaTpl('className', {
                       label: '图片标题类名',
                       name: 'titleClassName',
                       visibleOn: 'this.type == "image"'
                     }),
-                    {
-                      type: 'textarea',
-                      label: '图片描述',
-                      name: 'description',
-                      visibleOn: 'this.type == "image"'
-                    },
+                    getSchemaTpl('imageDesc'),
                     getSchemaTpl('className', {
                       label: '图片描述类名',
                       name: 'descriptionClassName',

@@ -91,7 +91,9 @@ export class MappingPlugin extends BasePlugin {
                     if (value === true) {
                       return {
                         type: 'tag',
-                        label: `\${${this.getDisplayField(data)} | default: "-"}`
+                        label: `\${${this.getDisplayField(
+                          data
+                        )} | default: "-"}`
                       };
                     }
                     return value ? value : undefined;
@@ -130,13 +132,11 @@ export class MappingPlugin extends BasePlugin {
 
   getDisplayField(data: any) {
     if (
-      data.source
-      || (
-        data.map
-        && Array.isArray(data.map)
-        && data.map[0]
-        && Object.keys(data.map[0]).length > 1
-      )
+      data.source ||
+      (data.map &&
+        Array.isArray(data.map) &&
+        data.map[0] &&
+        Object.keys(data.map[0]).length > 1)
     ) {
       return data.labelField ?? 'label';
     }

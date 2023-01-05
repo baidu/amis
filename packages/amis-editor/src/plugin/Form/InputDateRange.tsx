@@ -202,6 +202,7 @@ export class DateRangeControlPlugin extends BasePlugin {
             {
               title: '基本',
               body: [
+                getSchemaTpl('layout:originPosition', {value: 'left-top'}),
                 getSchemaTpl('formItemName', {
                   required: true
                 }),
@@ -358,18 +359,8 @@ export class DateRangeControlPlugin extends BasePlugin {
                 }),
                 getSchemaTpl('remark'),
                 getSchemaTpl('labelRemark'),
-                {
-                  type: 'input-text',
-                  name: 'startPlaceholder',
-                  label: '前占位提示',
-                  pipeIn: defaultValue('开始时间')
-                },
-                {
-                  type: 'input-text',
-                  name: 'endPlaceholder',
-                  label: '后占位提示',
-                  pipeIn: defaultValue('结束时间')
-                },
+                getSchemaTpl('startPlaceholder'),
+                getSchemaTpl('endPlaceholder'),
                 getSchemaTpl('autoFillApi')
               ]
             },

@@ -1249,7 +1249,7 @@ extendLocale('en-US', {
   'f2996845b6bf0a07fe26f74f35e42ebe': 'Units',
   'e48d95a94e49b81b12a0113a5c253d8f': 'Value label',
   'a465db53b8c98f42caa15ca5662f9c90': 'Direction',
-  '3aed2c11e95a9c0ea1d853d4aee72e8c': 'Automatic',
+  '3aed2c11e95a9c0ea1d853d4aee72e8c': 'Auto',
   '1d1a0bd85740653320d80f0d6e0918e7': 'Inputtable',
   'd22aa5f57ff8679ee7b7d473ef31417d': 'Resettable',
   '15628d1d85aee23c229c528a70419414': 'Track',
@@ -1652,7 +1652,7 @@ extendLocale('en-US', {
   'da1b972efb29f850b50e219ad4d98ba5': 'Justified alignment',
   '11b7fc50778c89572391ec4c6c4b55e1': 'Vertical alignment',
   '2a6ad292447e6354ca39ee7f40d2fcc8': 'Top alignment',
-  'd68c21b6b65e7a2e361762b65b8a5032': 'Top alignment',
+  'd68c21b6b65e7a2e361762b65b8a5032': 'Bottom alignment',
   '0d9eb53682343f1cbd562c9a944ef5bf': 'Insert a column on the left',
   '814276d30e338eccbaee96c3e6bacb61': 'Insert a column on the right',
   '2a3e7f5c382c56faf261a87573658325': 'Manual',
@@ -3576,8 +3576,8 @@ extendLocale('en-US', {
   'bb0e1fea25aafbe731886295fcef9a2e':
     'Adsorption container: It can be set as a ceiling or ceiling display.',
   '7d30297d4e1f310c73b27be88c748026': 'Adsorption position',
-  '2ea76e2ffc1b92911d6f7decfa993360': 'Ceiling',
-  '8cfc818a76662085cb64752d6d592fbe': 'Bottom suction',
+  '2ea76e2ffc1b92911d6f7decfa993360': 'Top',
+  '8cfc818a76662085cb64752d6d592fbe': 'Bottom',
   'e2f6535e21570a0703c7c65f41b30eaa': 'Rolling adsorption',
   '1c5ea0ffb2b15713cb22c41a02576924':
     'When rolling adsorption is enabled, the adsorption mode will be automatically enabled when rolling to the upper and lower edges of the parent container.',
@@ -3590,5 +3590,20 @@ extendLocale('en-US', {
   '5a4e41af91746f8a3905aa9f66048955': 'Load Settings',
   '6ade3082696deb00357f5c0359093cd4': 'Merge to upper loading',
   'b6ac896eff6a6502e4ae7079b3e507a5': 'Not displaying loading',
-  '0e9ffe1f1cf3f7a620970ea75dba9f39': 'Use page global loading'
+  '0e9ffe1f1cf3f7a620970ea75dba9f39': 'Use page global loading',
+  'b1119174b1beedd2218e0b359ef14aec': 'Form submission',
+  'c6a65a86cd2bd74a6f72df0a7b81d3cb':
+    'After the event is configured, the default verification, submission to the api or target and other behaviors will not be triggered when the form is submitted. All behaviors need to be configured by yourself',
+  'c207ba29769aca6ffd45db9f80bcb29e': 'Zero as head',
+  'f02f876ee64cc016d97fa4dc498d4857': 'Height setting',
+  '091885db07e43ff7cbe60c3b664b0b50': 'Elastic',
+  '363165ccee78341a65f1d42174e8b08f': 'Adaptation',
+  'eb44269adb6ba70569cd62ea88cb2750': 'Elastic Settings',
+  '64561733c68085af3d09315c1d4d7ed6': 'Mouse Event Object',
+  '052f93928af33d4d7035e7c8e8a73f17':
+    'The alignment is set by the margin value, where margin: 0 auto is used to set the center alignment',
+  'a738a8594bd2b71002d09277b84d86dd': 'Left',
+  'fc0f19e9e47e352d36d36cf6eb653210': 'Right',
+  'c70638412c6cffd150117ae403dea939': 'Component static data',
+  '77fdd35933c099cdcb64b71f3fbe7a6c': 'Data List'
 });

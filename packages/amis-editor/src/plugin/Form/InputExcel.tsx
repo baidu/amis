@@ -89,6 +89,7 @@ export class ExcelControlPlugin extends BasePlugin {
       {
         common: {
           body: [
+            getSchemaTpl('layout:originPosition', {value: 'left-top'}),
             {
               label: '解析模式',
               name: 'parseMode',

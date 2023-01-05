@@ -232,6 +232,7 @@ export class GridPlugin extends BasePlugin {
               {
                 title: '布局',
                 body: [
+                  getSchemaTpl('layout:originPosition', {value: 'left-top'}),
                   {
                     label: '列数',
                     name: 'columns',
@@ -389,6 +390,7 @@ export class GridPlugin extends BasePlugin {
             className: 'p-none',
             body: [
               getSchemaTpl('collapseGroup', [
+                getSchemaTpl('layout:originPosition', {value: 'left-top'}),
                 {
                   title: '插入',
                   body: [

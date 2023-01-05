@@ -32,6 +32,7 @@ export class StatusPlugin extends BasePlugin {
         {
           title: '常规',
           body: [
+            getSchemaTpl('layout:originPosition', {value: 'left-top'}),
             isUnderField
               ? {
                   type: 'tpl',
@@ -53,12 +54,10 @@ export class StatusPlugin extends BasePlugin {
                 'fa fa-check text-success'
               ])
             },
-            {
-              name: 'placeholder',
-              type: 'input-text',
+            getSchemaTpl('placeholder', {
+              label: '占位符',
               pipeIn: defaultValue('-'),
-              label: '占位符'
-            }
+            })
           ]
         },
         {

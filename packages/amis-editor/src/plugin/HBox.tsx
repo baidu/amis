@@ -67,6 +67,7 @@ export class HBoxPlugin extends BasePlugin {
       {
         title: '常规',
         body: [
+          getSchemaTpl('layout:originPosition', {value: 'left-top'}),
           getSchemaTpl('fieldSet', {
             title: '插入',
             collapsable: false,

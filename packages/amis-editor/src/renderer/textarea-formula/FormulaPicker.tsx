@@ -13,6 +13,10 @@ export interface FormulaPickerProps {
   evalMode?: boolean;
 }
 
+export interface CustomFormulaPickerProps extends FormulaPickerProps {
+  [propName: string]: any;
+}
+
 const FormulaPicker: React.FC<FormulaPickerProps> = props => {
   const {variables, variableMode, evalMode = true} = props;
   const [formula, setFormula] = React.useState('');

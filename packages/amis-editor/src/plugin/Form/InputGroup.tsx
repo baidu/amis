@@ -53,13 +53,15 @@ export class InputGroupControlPlugin extends BasePlugin {
 
   panelTitle = 'Input 组合';
 
-  regions = [{
-    key: 'body',
-    label: '内容区',
-    preferTag: '内容区',
-    renderMethod: 'render',
-    matchRegion: (elem: JSX.Element) => !!elem,
-  }];
+  regions = [
+    {
+      key: 'body',
+      label: '内容区',
+      preferTag: '内容区',
+      renderMethod: 'render',
+      matchRegion: (elem: JSX.Element) => !!elem
+    }
+  ];
 
   notRenderFormZone = true;
 
@@ -94,7 +96,7 @@ export class InputGroupControlPlugin extends BasePlugin {
                   label: '内联模式',
                   name: 'inline',
                   pipeIn: defaultValue(false)
-                }),
+                })
               ]
             }),
             getSchemaTpl('style:classNames')

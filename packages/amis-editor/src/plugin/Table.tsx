@@ -1,6 +1,6 @@
 import {Button, resolveVariable} from 'amis';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
-import {setVariable} from 'amis-core';
+import {findTree, setVariable, someTree} from 'amis-core';
 
 import {registerEditorPlugin, repeatArray, diff} from 'amis-editor-core';
 import {
@@ -19,9 +19,10 @@ import {mockValue} from 'amis-editor-core';
 import {EditorNodeType} from 'amis-editor-core';
 import {SchemaObject} from 'amis/lib/Schema';
 import {
-  getArgsWrapper,
-  getEventControlConfig
+  getEventControlConfig,
+  getArgsWrapper
 } from '../renderer/event-control/helper';
+import {getEnv} from 'mobx-state-tree';
 
 export class TablePlugin extends BasePlugin {
   // 关联渲染器名字
@@ -80,80 +81,83 @@ export class TablePlugin extends BasePlugin {
     ]
   };
 
-  scaffoldForm: ScaffoldForm = {
-    title: '快速构建表格',
-    body: [
-      {
-        name: 'columns',
-        type: 'combo',
-        multiple: true,
-        label: false,
-        addButtonText: '新增一列',
-        draggable: true,
-        items: [
-          {
-            type: 'input-text',
-            name: 'label',
-            placeholder: '标题'
-          },
-          {
-            type: 'input-text',
-            name: 'name',
-            placeholder: '绑定字段名'
-          },
-          {
-            type: 'select',
-            name: 'type',
-            placeholder: '类型',
-            value: 'text',
-            options: [
-              {
-                value: 'text',
-                label: '纯文本'
-              },
-              {
-                value: 'tpl',
-                label: '模板'
-              },
-              {
-                value: 'image',
-                label: '图片'
-              },
-              {
-                value: 'date',
-                label: '日期'
-              },
-              // {
-              //     value: 'datetime',
-              //     label: '日期时间'
-              // },
-              // {
-              //     value: 'time',
-              //     label: '时间'
-              // },
-              {
-                value: 'progress',
-                label: '进度'
-              },
-              {
-                value: 'status',
-                label: '状态'
-              },
-              {
-                value: 'mapping',
-                label: '映射'
-              },
-              {
-                value: 'operation',
-                label: '操作栏'
-              }
-            ]
-          }
-        ]
-      }
-    ],
-    canRebuild: true
-  };
+  get scaffoldForm(): ScaffoldForm {
+    const {i18nEnabled} = getEnv((window as any).editorStore);
+    return {
+      title: '快速构建表格',
+      body: [
+        {
+          name: 'columns',
+          type: 'combo',
+          multiple: true,
+          label: false,
+          addButtonText: '新增一列',
+          draggable: true,
+          items: [
+            {
+              type: i18nEnabled ? 'input-text-i18n' : 'input-text',
+              name: 'label',
+              placeholder: '标题'
+            },
+            {
+              type: 'input-text',
+              name: 'name',
+              placeholder: '绑定字段名'
+            },
+            {
+              type: 'select',
+              name: 'type',
+              placeholder: '类型',
+              value: 'text',
+              options: [
+                {
+                  value: 'text',
+                  label: '纯文本'
+                },
+                {
+                  value: 'tpl',
+                  label: '模板'
+                },
+                {
+                  value: 'image',
+                  label: '图片'
+                },
+                {
+                  value: 'date',
+                  label: '日期'
+                },
+                // {
+                //     value: 'datetime',
+                //     label: '日期时间'
+                // },
+                // {
+                //     value: 'time',
+                //     label: '时间'
+                // },
+                {
+                  value: 'progress',
+                  label: '进度'
+                },
+                {
+                  value: 'status',
+                  label: '状态'
+                },
+                {
+                  value: 'mapping',
+                  label: '映射'
+                },
+                {
+                  value: 'operation',
+                  label: '操作栏'
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      canRebuild: true
+    };
+  }
 
   panelTitle = '表格';
 
@@ -619,6 +623,8 @@ export class TablePlugin extends BasePlugin {
       props.value = arr.slice(0, 10);
     }
 
+    // 编辑模式，不允许表格调整宽度
+    props.resizable = false;
     return props;
   }
 
@@ -665,7 +671,11 @@ export class TablePlugin extends BasePlugin {
     }
   }
 
-  async buildDataSchemas(node: EditorNodeType, region?: EditorNodeType) {
+  async buildDataSchemas(
+    node: EditorNodeType,
+    region?: EditorNodeType,
+    trigger?: EditorNodeType
+  ) {
     const itemsSchema: any = {
       $id: 'tableRow',
       type: 'object',
@@ -675,7 +685,7 @@ export class TablePlugin extends BasePlugin {
       item => item.isRegion && item.region === 'columns'
     );
 
-    for (let current of columns.children) {
+    for (let current of columns?.children) {
       const schema = current.schema;
       if (schema.name) {
         itemsSchema.properties[schema.name] = current.info?.plugin
@@ -693,12 +703,24 @@ export class TablePlugin extends BasePlugin {
       return itemsSchema;
     }
 
+    let cellProperties = {};
+    if (trigger) {
+      const isColumnChild = someTree(
+        columns?.children,
+        item => item.id === trigger.id
+      );
+
+      isColumnChild && (cellProperties = itemsSchema.properties);
+    }
+
     return {
       $id: 'table',
       type: 'object',
       properties: {
-        items: {
+        ...cellProperties,
+        rows: {
           type: 'array',
+          title: '数据列表',
           items: itemsSchema
         }
       }

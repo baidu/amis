@@ -17,6 +17,7 @@ import {
 import {setVariable} from 'amis-core';
 import {repeatArray} from 'amis-editor-core';
 import {mockValue} from 'amis-editor-core';
+import {getEnv} from 'mobx-state-tree';
 
 export class TableControlPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -77,80 +78,83 @@ export class TableControlPlugin extends BasePlugin {
     }
   };
 
-  scaffoldForm: ScaffoldForm = {
-    title: '快速构建表格',
-    body: [
-      {
-        name: 'columns',
-        type: 'combo',
-        multiple: true,
-        label: false,
-        addButtonText: '新增一列',
-        draggable: true,
-        items: [
-          {
-            type: 'input-text',
-            name: 'label',
-            placeholder: '标题'
-          },
-          {
-            type: 'input-text',
-            name: 'name',
-            placeholder: '绑定字段名'
-          },
-          {
-            type: 'select',
-            name: 'type',
-            placeholder: '类型',
-            value: 'text',
-            options: [
-              {
-                value: 'text',
-                label: '纯文本'
-              },
-              {
-                value: 'tpl',
-                label: '模板'
-              },
-              {
-                value: 'image',
-                label: '图片'
-              },
-              {
-                value: 'date',
-                label: '日期'
-              },
-              // {
-              //     value: 'datetime',
-              //     label: '日期时间'
-              // },
-              // {
-              //     value: 'time',
-              //     label: '时间'
-              // },
-              {
-                value: 'progress',
-                label: '进度'
-              },
-              {
-                value: 'status',
-                label: '状态'
-              },
-              {
-                value: 'mapping',
-                label: '映射'
-              },
-              {
-                value: 'operation',
-                label: '操作栏'
-              }
-            ]
-          }
-        ]
-      }
-    ],
-    canRebuild: true
-  };
+  get scaffoldForm(): ScaffoldForm {
+    const {i18nEnabled} = getEnv((window as any).editorStore);
+    return {
+      title: '快速构建表格',
+      body: [
+        {
+          name: 'columns',
+          type: 'combo',
+          multiple: true,
+          label: false,
+          addButtonText: '新增一列',
+          draggable: true,
+          items: [
+            {
+              type: i18nEnabled ? 'input-text-i18n' : 'input-text',
+              name: 'label',
+              placeholder: '标题'
+            },
+            {
+              type: 'input-text',
+              name: 'name',
+              placeholder: '绑定字段名'
+            },
+            {
+              type: 'select',
+              name: 'type',
+              placeholder: '类型',
+              value: 'text',
+              options: [
+                {
+                  value: 'text',
+                  label: '纯文本'
+                },
+                {
+                  value: 'tpl',
+                  label: '模板'
+                },
+                {
+                  value: 'image',
+                  label: '图片'
+                },
+                {
+                  value: 'date',
+                  label: '日期'
+                },
+                // {
+                //     value: 'datetime',
+                //     label: '日期时间'
+                // },
+                // {
+                //     value: 'time',
+                //     label: '时间'
+                // },
+                {
+                  value: 'progress',
+                  label: '进度'
+                },
+                {
+                  value: 'status',
+                  label: '状态'
+                },
+                {
+                  value: 'mapping',
+                  label: '映射'
+                },
+                {
+                  value: 'operation',
+                  label: '操作栏'
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      canRebuild: true
+    };
+  }
 
   panelTitle = '表格编辑';
   panelBodyCreator = (context: BaseEventContext) => {
@@ -174,6 +178,7 @@ export class TableControlPlugin extends BasePlugin {
           //     </div>
           //   )
           // },
+          getSchemaTpl('layout:originPosition', {value: 'left-top'}),
           getSchemaTpl('formItemName', {
             required: true
           }),

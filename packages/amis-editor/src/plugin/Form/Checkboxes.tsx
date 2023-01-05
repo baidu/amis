@@ -121,6 +121,7 @@ export class CheckboxesControlPlugin extends BasePlugin {
           {
             title: '基本',
             body: [
+              getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               getSchemaTpl('formItemName', {
                 required: true
               }),
@@ -195,14 +196,7 @@ export class CheckboxesControlPlugin extends BasePlugin {
                 form: {
                   body: [getSchemaTpl('deleteApi')]
                 }
-              }),
-              getSchemaTpl(
-                'loadingConfig',
-                {
-                  visibleOn: 'this.source || !this.options'
-                },
-                {context}
-              )
+              })
             ]
           },
           getSchemaTpl('status', {isFormItem: true}),

@@ -34,6 +34,7 @@ export class LinkPlugin extends BasePlugin {
           {
             title: '基本',
             body: [
+              getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               {
                 name: 'href',
                 type: 'input-text',
@@ -42,11 +43,7 @@ export class LinkPlugin extends BasePlugin {
                   '支持取变量，如果已绑定字段名，可以不用设置'
                 )
               },
-              {
-                name: 'body',
-                type: 'input-text',
-                label: tipedLabel('内容', '不填写时，自动使用目标地址值')
-              },
+              getSchemaTpl('inputBody'),
               getSchemaTpl('switch', {
                 name: 'blank',
                 label: '在新窗口打开'

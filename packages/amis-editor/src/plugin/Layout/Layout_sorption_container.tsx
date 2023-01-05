@@ -9,11 +9,11 @@ export default class Layout_fixed_top extends FlexPluginBase {
   order = 502;
   scaffold: any = {
     type: 'flex',
-    title: '吸附容器',
     isSorptionContainer: true,
     sorptionPosition: 'top',
     className: 'p-1',
     items: [
+      defaultFlexColumnSchema(),
       defaultFlexColumnSchema(),
       defaultFlexColumnSchema(),
       defaultFlexColumnSchema(),

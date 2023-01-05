@@ -14,7 +14,10 @@ import {
 import {setVariable} from 'amis-core';
 
 import {ValidatorTag} from '../../validator';
-import {getArgsWrapper, getEventControlConfig} from '../../renderer/event-control/helper';
+import {
+  getArgsWrapper,
+  getEventControlConfig
+} from '../../renderer/event-control/helper';
 
 export class ComboControlPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -182,7 +185,7 @@ export class ComboControlPlugin extends BasePlugin {
             type: 'input-text',
             required: true,
             placeholder: '变量名',
-            source: '${__setValueDs}',
+            source: '${__setValueDs}'
           },
           {
             name: 'val',
@@ -209,7 +212,6 @@ export class ComboControlPlugin extends BasePlugin {
   panelJustify = true;
 
   panelBodyCreator = (context: BaseEventContext) => {
-
     return getSchemaTpl('tabs', [
       {
         title: '属性',
@@ -236,11 +238,10 @@ export class ComboControlPlugin extends BasePlugin {
                   pipeOut: (value: any) => {
                     try {
                       return JSON.parse(value);
-                    }
-                    catch (err) {
+                    } catch (err) {
                       return value;
                     }
-                  } 
+                  }
                 }),
                 // 多选模式和条数绑定了，所以设定了多选，条数开启
                 getSchemaTpl('multiple', {
@@ -249,13 +250,13 @@ export class ComboControlPlugin extends BasePlugin {
                       label: '最多条数',
                       name: 'maxLength',
                       type: 'input-number',
-                      visibleOn: 'data.multiple',
+                      visibleOn: 'data.multiple'
                     },
                     {
                       label: '最少条数',
                       name: 'minLength',
                       type: 'input-number',
-                      visibleOn: 'data.multiple',
+                      visibleOn: 'data.multiple'
                     }
                   ]
                 }),
@@ -275,14 +276,11 @@ export class ComboControlPlugin extends BasePlugin {
                     {
                       type: 'input-text',
                       name: 'draggableTip',
-                      label: tipedLabel(
-                        '提示文字',
-                        '拖拽排序的提示文字'
-                      )
+                      label: tipedLabel('提示文字', '拖拽排序的提示文字')
                     }
                   ]
                 },
-                
+
                 // 可新增
                 getSchemaTpl('switch', {
                   name: 'addable',
@@ -292,7 +290,12 @@ export class ComboControlPlugin extends BasePlugin {
                   ),
                   visibleOn: 'data.multiple',
                   pipeIn: defaultValue(false),
-                  onChange: (value: any, oldValue: any, model: any, form: any) => {
+                  onChange: (
+                    value: any,
+                    oldValue: any,
+                    model: any,
+                    form: any
+                  ) => {
                     if (value) {
                       form.setValueByName('addBtn', {
                         label: '新增',
@@ -310,7 +313,12 @@ export class ComboControlPlugin extends BasePlugin {
                   label: '可删除',
                   pipeIn: defaultValue(false),
                   visibleOn: 'data.multiple',
-                  onChange: (value: any, oldValue: any, model: any, form: any) => {
+                  onChange: (
+                    value: any,
+                    oldValue: any,
+                    model: any,
+                    form: any
+                  ) => {
                     if (value) {
                       form.setValueByName('removableMode', 'icon');
                       form.setValueByName('deleteIcon', undefined);
@@ -338,11 +346,15 @@ export class ComboControlPlugin extends BasePlugin {
                           value: 'button'
                         }
                       ],
-                      onChange: (value: any, oldValue: any, model: any, form: any) => {
+                      onChange: (
+                        value: any,
+                        oldValue: any,
+                        model: any,
+                        form: any
+                      ) => {
                         if (value === 'icon') {
                           form.setValueByName('deleteBtn', undefined);
-                        }
-                        else if (value === 'button'){
+                        } else if (value === 'button') {
                           form.setValueByName('deleteBtn', {
                             label: '删除',
                             level: 'default'
@@ -383,7 +395,7 @@ export class ComboControlPlugin extends BasePlugin {
                     }
                   ]
                 },
-                
+
                 getSchemaTpl('labelRemark'),
                 getSchemaTpl('remark'),
 
@@ -438,11 +450,10 @@ export class ComboControlPlugin extends BasePlugin {
                       return (value ?? []).map(item => ({field: item}));
                     },
                     pipeOut(value?: Array<{field: string}>) {
-                      return (value ?? [])
-                        .map(item => {
-                          const keys = Object.keys(item);
-                          return keys.length > 0 ? item.field : '';
-                        });
+                      return (value ?? []).map(item => {
+                        const keys = Object.keys(item);
+                        return keys.length > 0 ? item.field : '';
+                      });
                     }
                   }),
 
@@ -453,11 +464,11 @@ export class ComboControlPlugin extends BasePlugin {
                       '如果数据比较多，比较卡顿时，可开启此配置项'
                     ),
                     pipeIn: defaultValue(false),
-                    visibleOn: 'data.multiple && !data.tabsMode',
+                    visibleOn: 'data.multiple && !data.tabsMode'
                   })
                 ]
-              }]
-            ),
+              }
+            ])
           ])
         ]
       },
@@ -480,11 +491,16 @@ export class ComboControlPlugin extends BasePlugin {
                   {label: '选项卡', value: true}
                 ],
                 pipeIn: defaultValue(false),
-                onChange: (value: any, oldValue: any, model: any, form: any) => {
+                onChange: (
+                  value: any,
+                  oldValue: any,
+                  model: any,
+                  form: any
+                ) => {
                   if (value) {
                     form.setValueByName('lazyLoad', undefined);
                   }
-                },
+                }
               },
               {
                 type: 'container',
@@ -527,7 +543,12 @@ export class ComboControlPlugin extends BasePlugin {
                 name: 'multiLine',
                 label: '多行展示',
                 pipeIn: defaultValue(false),
-                onChange: (value: boolean, oldValue: any, model: any, form: any) => {
+                onChange: (
+                  value: boolean,
+                  oldValue: any,
+                  model: any,
+                  form: any
+                ) => {
                   if (!value) {
                     form.setValueByName('subFormMode', undefined);
                     form.setValueByName('noBorder', undefined);
@@ -548,11 +569,11 @@ export class ComboControlPlugin extends BasePlugin {
               getSchemaTpl('subFormItemMode', {
                 visibleOn: 'data.multiLine',
                 type: 'select',
-                label: '子表单',
+                label: '子表单'
               })
             ]
           }),
-          getSchemaTpl('style:classNames'),
+          getSchemaTpl('style:classNames')
         ])
       },
       {

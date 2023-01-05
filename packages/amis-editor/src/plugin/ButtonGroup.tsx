@@ -53,6 +53,7 @@ export class ButtonGroupPlugin extends BasePlugin {
           {
             title: '基本',
             body: [
+              getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               {
                 type: 'button-group-select',
                 name: 'vertical',

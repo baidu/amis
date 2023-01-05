@@ -297,6 +297,7 @@ export class WizardPlugin extends BasePlugin {
         {
           title: '常规',
           body: [
+            getSchemaTpl('layout:originPosition', {value: 'left-top'}),
             {
               name: 'steps',
               label: '步骤设置',
@@ -578,33 +579,13 @@ export class WizardPlugin extends BasePlugin {
               ]
             },
 
-            {
-              name: 'actionPrevLabel',
-              label: '上一步按钮名称',
-              type: 'input-text',
-              pipeIn: defaultValue('上一步')
-            },
+            getSchemaTpl('actionPrevLabel'),
 
-            {
-              name: 'actionNextLabel',
-              label: '下一步按钮名称',
-              type: 'input-text',
-              pipeIn: defaultValue('下一步')
-            },
+            getSchemaTpl('actionNextLabel'),
 
-            {
-              name: 'actionNextSaveLabel',
-              label: '保存并下一步按钮名称',
-              type: 'input-text',
-              pipeIn: defaultValue('保存并下一步')
-            },
+            getSchemaTpl('actionNextSaveLabel'),
 
-            {
-              name: 'actionFinishLabel',
-              label: '完成按钮名称',
-              type: 'input-text',
-              pipeIn: defaultValue('完成')
-            },
+            getSchemaTpl('actionFinishLabel'),
 
             // {
             //   type: 'alert',
@@ -725,12 +706,9 @@ export class WizardPlugin extends BasePlugin {
         {
           title: '常规',
           body: [
-            {
-              name: 'title',
-              type: 'input-text',
-              label: '标题',
+            getSchemaTpl('title', {
               pipeIn: (value: any, data: any) => value || data.label
-            },
+            }),
             getSchemaTpl('api', {
               label: '保存接口',
               description:

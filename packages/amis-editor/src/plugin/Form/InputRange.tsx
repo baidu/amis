@@ -118,15 +118,14 @@ export class RangeControlPlugin extends BasePlugin {
           {
             title: '基本',
             body: [
+              getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               getSchemaTpl('formItemName', {
                 required: true
               }),
 
-              {
+              getSchemaTpl('label', {
                 label: 'Label',
-                name: 'label',
-                type: 'input-text'
-              },
+              }),
 
               {
                 label: '方式',
@@ -217,12 +216,7 @@ export class RangeControlPlugin extends BasePlugin {
                 }
               },
 
-              {
-                type: 'input-text',
-                name: 'unit',
-                label: '单位',
-                value: ''
-              },
+              getSchemaTpl('unit'),
 
               // tooltipVisible 为true时，会一直显示，为undefined时，才会鼠标移入显示
               getSchemaTpl('switch', {

@@ -106,6 +106,7 @@ export class KVControlPlugin extends BasePlugin {
 
   panelTitle = 'KV 键值对';
   panelBody = [
+    getSchemaTpl('layout:originPosition', {value: 'left-top'}),
     {
       type: 'input-text',
       name: 'valueType',

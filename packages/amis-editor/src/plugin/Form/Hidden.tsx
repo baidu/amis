@@ -1,6 +1,6 @@
 import React from 'react';
 import {registerEditorPlugin} from 'amis-editor-core';
-import {BasePlugin} from 'amis-editor-core';
+import {BasePlugin, getSchemaTpl} from 'amis-editor-core';
 
 export class HiddenControlPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -26,6 +26,7 @@ export class HiddenControlPlugin extends BasePlugin {
 
   panelTitle = '隐藏域';
   panelBody = [
+    getSchemaTpl('layout:originPosition', {value: 'left-top'}),
     {
       type: 'input-text',
       name: 'value',
@@ -34,7 +35,6 @@ export class HiddenControlPlugin extends BasePlugin {
   ];
 
   renderRenderer(props: any) {
-    console.log('props:', props);
     return this.renderPlaceholder('功能组件（隐藏字段）', props.key, props.style);
   }
 }

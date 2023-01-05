@@ -225,12 +225,11 @@ export class TabsTransferPlugin extends BasePlugin {
         {
           type: 'group',
           body: [
-            {
-              type: 'input-text',
-              name: 'label',
+            getSchemaTpl('label', {
+              label: false,
               placeholder: '名称',
               required: true
-            },
+            }),
 
             {
               type: 'input-text',
@@ -262,6 +261,7 @@ export class TabsTransferPlugin extends BasePlugin {
           {
             title: '基本',
             body: [
+              getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               getSchemaTpl('formItemName', {
                 required: true
               }),

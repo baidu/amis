@@ -157,16 +157,8 @@ export class PagePlugin extends BasePlugin {
                       }
                     ]
                   },
-                  {
-                    label: '页面标题',
-                    name: 'title',
-                    type: 'input-text'
-                  },
-                  {
-                    label: '副标题',
-                    name: 'subTitle',
-                    type: 'textarea'
-                  },
+                  getSchemaTpl('pageTitle'),
+                  getSchemaTpl('pageSubTitle'),
                   getSchemaTpl('remark', {
                     label: '标题提示',
                     hiddenOn:
@@ -222,7 +214,7 @@ export class PagePlugin extends BasePlugin {
                     type: 'input-kv',
                     mode: 'normal',
                     name: 'data',
-                    label: '初始化静态数据'
+                    label: '组件静态数据'
                   }),
                   getSchemaTpl('apiControl', {
                     name: 'initApi',
@@ -378,6 +370,16 @@ export class PagePlugin extends BasePlugin {
   };
 
   rendererBeforeDispatchEvent(node: EditorNodeType, e: any, data: any) {
+    if (e === 'init') {
+      const scope = this.manager.dataSchema.getScope(`${node.id}-${node.type}`);
+      const jsonschema: any = {
+        $id: 'pageInitData',
+        ...jsonToJsonSchema(data)
+      };
+
+      scope?.removeSchema(jsonschema.$id);
+      scope?.addSchema(jsonschema);
+    }
     if (e === 'inited') {
       const scope = this.manager.dataSchema.getScope(`${node.id}-${node.type}`);
       const jsonschema: any = {

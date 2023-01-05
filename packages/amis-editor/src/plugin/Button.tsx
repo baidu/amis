@@ -46,17 +46,50 @@ export class ButtonPlugin extends BasePlugin {
       eventName: 'click',
       eventLabel: '点击',
       description: '点击时触发',
-      defaultShow: true
+      defaultShow: true,
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            nativeEvent: {
+              type: 'object',
+              title: '鼠标事件对象'
+            }
+          }
+        }
+      ]
     },
     {
       eventName: 'mouseenter',
       eventLabel: '鼠标移入',
-      description: '鼠标移入时触发'
+      description: '鼠标移入时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            nativeEvent: {
+              type: 'object',
+              title: '鼠标事件对象'
+            }
+          }
+        }
+      ]
     },
     {
       eventName: 'mouseleave',
       eventLabel: '鼠标移出',
-      description: '鼠标移出时触发'
+      description: '鼠标移出时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            nativeEvent: {
+              type: 'object',
+              title: '鼠标事件对象'
+            }
+          }
+        }
+      ]
     }
     // {
     //   eventName: 'doubleClick',
@@ -85,12 +118,10 @@ export class ButtonPlugin extends BasePlugin {
           {
             title: '基本',
             body: [
-              {
-                label: '名称',
-                type: 'input-text',
-                name: 'label'
-              },
-
+              getSchemaTpl('layout:originPosition', {value: 'left-top'}),
+              getSchemaTpl('label', {
+                label: '名称'
+              }),
               {
                 label: '类型',
                 type: 'button-group-select',

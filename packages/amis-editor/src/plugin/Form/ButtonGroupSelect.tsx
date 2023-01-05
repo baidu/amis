@@ -110,6 +110,7 @@ export class ButtonGroupControlPlugin extends BasePlugin {
             {
               title: '基本',
               body: [
+                getSchemaTpl('layout:originPosition', {value: 'left-top'}),
                 getSchemaTpl('formItemName', {
                   required: true
                 }),
@@ -124,16 +125,7 @@ export class ButtonGroupControlPlugin extends BasePlugin {
             },
             {
               title: '按钮管理',
-              body: [
-                getSchemaTpl('optionControlV2'),
-                getSchemaTpl(
-                  'loadingConfig',
-                  {
-                    visibleOn: 'this.source || !this.options'
-                  },
-                  {context}
-                )
-              ]
+              body: [getSchemaTpl('optionControlV2')]
             },
             getSchemaTpl('status', {
               isFormItem: true

@@ -1,6 +1,11 @@
-import {registerEditorPlugin} from 'amis-editor-core';
+import {
+  registerEditorPlugin,
+  RendererPluginAction,
+  RendererPluginEvent
+} from 'amis-editor-core';
 import {BaseEventContext, BasePlugin} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
+import {getEventControlConfig} from '../renderer/event-control/helper';
 
 export class PlainPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -44,7 +49,8 @@ export class PlainPlugin extends BasePlugin {
                   label: '内容',
                   type: 'textarea',
                   mode: 'col',
-                  pipeIn: (value: any, data: any) => value || (data && data.text),
+                  pipeIn: (value: any, data: any) =>
+                    value || (data && data.text),
                   name: 'tpl',
                   description:
                     '如果当前字段有值，请不要设置，否则覆盖。支持使用 <code>\\${xxx}</code> 来获取变量，或者用 lodash.template 语法来写模板逻辑。<a target="_blank" href="/amis/zh-CN/docs/concepts/template">详情</a>'
@@ -58,27 +64,27 @@ export class PlainPlugin extends BasePlugin {
             isTableCell ? null : getSchemaTpl('status')
           ])
         },
-        isTableCell ? null : {
-          title: '外观',
-          body: getSchemaTpl('collapseGroup', [
-            {
-              title: '基本',
-              body: [
-                getSchemaTpl('switch', {
-                  name: 'inline',
-                  label: '内联模式',
-                  value: true
-                })
-              ]
-            },
-            {
-              title: 'CSS类名',
-              body: [
-                getSchemaTpl('className')
-              ]
+        isTableCell
+          ? null
+          : {
+              title: '外观',
+              body: getSchemaTpl('collapseGroup', [
+                {
+                  title: '基本',
+                  body: [
+                    getSchemaTpl('switch', {
+                      name: 'inline',
+                      label: '内联模式',
+                      value: true
+                    })
+                  ]
+                },
+                {
+                  title: 'CSS类名',
+                  body: [getSchemaTpl('className')]
+                }
+              ])
             }
-          ])
-        }
       ])
     ];
   };

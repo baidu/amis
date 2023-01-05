@@ -46,85 +46,88 @@ export class ImagesPlugin extends BasePlugin {
         body: getSchemaTpl('collapseGroup', [
           {
             title: '基本',
-            body: (isUnderField ? [] : [
-              {
-                type: 'formula',
-                name: '__mode',
-                autoSet: false,
-                formula:
-                  '!this.name && !this.source && Array.isArray(this.options) ? 2 : 1'
-              },
-              {
-                label: '数据源',
-                name: '__mode',
-                type: 'button-group-select',
-                size: 'sm',
-                options: [
+            body: (isUnderField
+              ? []
+              : [
                   {
-                    label: '关联字段',
-                    value: 1
+                    type: 'formula',
+                    name: '__mode',
+                    autoSet: false,
+                    formula:
+                      '!this.name && !this.source && Array.isArray(this.options) ? 2 : 1'
                   },
                   {
-                    label: '静态设置',
-                    value: 2
-                  }
-                ],
-                onChange: (
-                  value: any,
-                  oldValue: any,
-                  model: any,
-                  form: any
-                ) => {
-                  if (value !== oldValue && value == 1) {
-                    form.deleteValueByName('options');
-                  }
-                }
-              },
-              {
-                name: 'source',
-                type: 'input-text',
-                label: '关联数据',
-                description:
-                  '比如：\\${listVar}，用来关联作用域中的已有数据。',
-                visibleOn: 'this.__mode == 1'
-              },
-              {
-                type: 'combo',
-                name: 'options',
-                visibleOn: 'this.__mode == 2',
-                minLength: 1,
-                label: '图片集数据',
-                multiple: true,
-                multiLine: true,
-                addable: true,
-                removable: true,
-                value: [{}],
-                items: [
-                  getSchemaTpl('imageUrl', {
-                    name: 'image',
-                    label: '缩略图'
-                  }),
-                  getSchemaTpl('imageUrl', {
-                    name: 'src',
-                    label: '原图'
-                  }),
+                    label: '数据源',
+                    name: '__mode',
+                    type: 'button-group-select',
+                    size: 'sm',
+                    options: [
+                      {
+                        label: '关联字段',
+                        value: 1
+                      },
+                      {
+                        label: '静态设置',
+                        value: 2
+                      }
+                    ],
+                    onChange: (
+                      value: any,
+                      oldValue: any,
+                      model: any,
+                      form: any
+                    ) => {
+                      if (value !== oldValue && value == 1) {
+                        form.deleteValueByName('options');
+                      }
+                    }
+                  },
                   {
+                    name: 'source',
                     type: 'input-text',
-                    label: '图片标题',
-                    name: 'title'
+                    label: '关联数据',
+                    description:
+                      '比如：\\${listVar}，用来关联作用域中的已有数据。',
+                    visibleOn: 'this.__mode == 1'
                   },
                   {
-                    type: 'textarea',
-                    label: '图片描述',
-                    name: 'caption'
-                  }
+                    type: 'combo',
+                    name: 'options',
+                    visibleOn: 'this.__mode == 2',
+                    minLength: 1,
+                    label: '图片集数据',
+                    multiple: true,
+                    multiLine: true,
+                    addable: true,
+                    removable: true,
+                    value: [{}],
+                    items: [
+                      getSchemaTpl('imageUrl', {
+                        name: 'image',
+                        label: '缩略图'
+                      }),
+                      getSchemaTpl('imageUrl', {
+                        name: 'src',
+                        label: '原图'
+                      }),
+                      {
+                        type: 'input-text',
+                        label: '图片标题',
+                        name: 'title'
+                      },
+                      {
+                        type: 'textarea',
+                        label: '图片描述',
+                        name: 'caption'
+                      }
+                    ]
+                  },
+                  getSchemaTpl('switch', {
+                    name: 'enlargeAble',
+                    label: '图片放大功能'
+                  })
                 ]
-              },
-              getSchemaTpl('switch', {
-                name: 'enlargeAble',
-                label: '图片放大功能'
-              })
-            ]).concat([
+            ).concat([
               getSchemaTpl('imageUrl', {
                 name: 'defaultImage',
                 label: tipedLabel('占位图', '无数据时显示的图片')

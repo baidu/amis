@@ -63,6 +63,10 @@ setSchemaTpl(
           form.setValueByName('style.inset', 'auto');
           form.setValueByName('originPosition', undefined);
         }
+        if (value !== 'sticky') {
+          // 非滚动吸附定位
+          form.setValueByName('stickyStatus', undefined);
+        }
       },
       options: [
         {
@@ -551,29 +555,57 @@ setSchemaTpl(
     offText?: string;
   }) => {
     return {
-      type: 'switch',
-      label:
-        config?.label ||
-        tipedLabel('弹性模式', '开启弹性模式后，自动适配当前所在区域'),
+      type: 'button-group-select',
+      size: 'xs',
       name: config?.name || 'style.flex',
+      options: [
+        {
+          label: '弹性',
+          value: '1 1 auto'
+        },
+        {
+          label: '固定',
+          value: '0 0 150px'
+        },
+        {
+          label: '适配',
+          value: '0 0 auto'
+        }
+      ],
+      label: config?.label || '弹性设置',
       value: config?.value || '0 0 auto',
-      trueValue: '1 1 auto',
-      falseValue: '0 0 auto',
-      onText: config?.onText || '开启',
-      offText: config?.offText || '关闭',
       inputClassName: 'inline-flex justify-between',
       visibleOn: config?.visibleOn,
       onChange: (value: any, oldValue: boolean, model: any, form: any) => {
-        if (!value || value === '0 0 auto') {
-          // 固定宽度模式下，剔除占比设置
+        if (value === '1 1 auto') {
+          // 弹性
+          if (config?.isFlexColumnItem) {
+            form.setValueByName('style.overflowY', 'auto');
+            form.setValueByName('style.height', undefined);
+          } else {
+            form.setValueByName('style.overflowX', 'auto');
+            form.setValueByName('style.width', undefined);
+          }
+        } else if (value === '0 0 150px') {
+          // 固定
           form.setValueByName('style.flexGrow', undefined);
-        }
-        if (config?.isFlexColumnItem) {
-          form.setValueByName('style.overflowY', 'auto');
-          form.setValueByName('style.height', undefined);
-        } else {
-          form.setValueByName('style.overflowX', 'auto');
-          form.setValueByName('style.width', undefined);
+          form.setValueByName('style.flexBasis', '150px');
+
+          if (config?.isFlexColumnItem) {
+            form.setValueByName('style.height', undefined);
+          } else {
+            form.setValueByName('style.width', undefined);
+          }
+        } else if (value === '0 0 auto') {
+          // 适配
+          form.setValueByName('style.flexGrow', undefined);
+          form.setValueByName('style.flexBasis', undefined);
+
+          if (config?.isFlexColumnItem) {
+            form.setValueByName('style.height', undefined);
+          } else {
+            form.setValueByName('style.width', undefined);
+          }
         }
       }
     };
@@ -660,10 +692,21 @@ setSchemaTpl(
     pipeOut?: (value: any, data: any) => void;
   }) => {
     return {
-      type: 'switch',
-      label: config?.label || '固定宽度',
+      type: 'button-group-select',
+      label: config?.label || '宽度设置',
+      size: 'xs',
       name: config?.name || 'isFixedWidth',
-      value: config?.value || false,
+      options: [
+        {
+          label: '固定',
+          value: true
+        },
+        {
+          label: '适配',
+          value: false
+        }
+      ],
+      value: config?.value ?? false,
       visibleOn: config?.visibleOn,
       inputClassName: 'inline-flex justify-between',
       pipeIn: config?.pipeIn,
@@ -702,6 +745,40 @@ setSchemaTpl(
       visibleOn: config?.visibleOn
         ? `${config?.visibleOn} && data.isFixedWidth`
         : 'data.isFixedWidth',
+      clearable: true,
+      unitOptions: config?.unitOptions ?? LayoutUnitOptions,
+      pipeIn: config?.pipeIn,
+      // pipeOut: config?.pipeOut,
+      pipeOut: (value: string) => {
+        const curValue = parseInt(value);
+        if (value === 'auto' || curValue || curValue === 0) {
+          return value;
+        } else {
+          return undefined;
+        }
+      }
+    };
+  }
+);
+
+// 宽度设置(不关联固定宽度配置项)
+setSchemaTpl(
+  'layout:width:v2',
+  (config?: {
+    label?: string;
+    name?: string;
+    value?: string;
+    visibleOn?: string;
+    unitOptions?: Array<string>;
+    pipeIn?: (value: any, data: any) => void;
+    pipeOut?: (value: any, data: any) => void;
+  }) => {
+    return {
+      type: 'input-number',
+      label: config?.label || '宽度',
+      name: config?.name || 'style.width',
+      value: config?.value || '300px',
+      visibleOn: config?.visibleOn || true,
       clearable: true,
       unitOptions: config?.unitOptions ?? LayoutUnitOptions,
       pipeIn: config?.pipeIn,
@@ -851,10 +928,21 @@ setSchemaTpl(
     pipeOut?: (value: any, data: any) => void;
   }) => {
     return {
-      type: 'switch',
-      label: config?.label || '固定高度',
+      type: 'button-group-select',
+      label: config?.label || '高度设置',
+      size: 'xs',
       name: config?.name || 'isFixedHeight',
-      value: config?.value || false,
+      options: [
+        {
+          label: '固定',
+          value: true
+        },
+        {
+          label: '适配',
+          value: false
+        }
+      ],
+      value: config?.value ?? false,
       visibleOn: config?.visibleOn,
       inputClassName: 'inline-flex justify-between',
       pipeIn: config?.pipeIn,
@@ -1042,38 +1130,75 @@ setSchemaTpl(
     pipeOut?: (value: any, data: any) => void;
   }) => {
     return {
-      type: 'switch',
+      type: 'button-group-select',
+      size: 'xs',
       label:
         config?.label ||
-        tipedLabel('居中显示', '通过将设置 margin: 0 auto 来达到居中显示'),
+        tipedLabel('对齐方式', '通过 margin 数值来设置对齐方式，其中 margin: 0 auto 用于设置居中对齐'),
       name: config?.name || 'style.margin',
       value: config?.value || '0',
       inputClassName: 'inline-flex justify-between',
       visibleOn:
         config?.visibleOn ??
         'data.isFixedWidth || data.style && data.style.maxWidth',
-      pipeIn: (value: any) => {
-        let curValue = value || '0';
-        if (isNumber(curValue)) {
-          curValue = curValue.toString();
+      options: [
+        {
+          label: '靠左',
+          value: 'auto auto auto 0px'
+        },
+        {
+          label: '居中',
+          value: '0px auto'
+        },
+        {
+          label: '靠右',
+          value: 'auto 0px auto auto'
+        },
+      ],
+      onChange: (value: string, oldValue: string, model: any, form: any) => {
+        if (form?.data?.style?.position === 'fixed' || form?.data?.style?.position === 'absolute') {
+          // 吸附容器
+          if (value === '0px auto') {
+            // 居中
+            if (form.data?.sorptionPosition === 'top') {
+              // 吸顶
+              form.setValueByName('style.inset', '0px auto auto 50%');
+            } else if (form.data?.sorptionPosition === 'bottom') {
+              // 吸底
+              form.setValueByName('style.inset', 'auto auto 0px 50%');
+            } else {
+              form.setValueByName('style.inset', 'auto auto auto 50%');
+            }
+            form.setValueByName('style.transform', 'translateX(-50%)');
+          } else if (value === 'auto 0px auto auto') {
+            // 靠右
+            if (form.data?.sorptionPosition === 'top') {
+              // 吸顶
+              form.setValueByName('style.inset', '0px 0px auto auto');
+            } else if (form.data?.sorptionPosition === 'bottom') {
+              // 吸底
+              form.setValueByName('style.inset', 'auto 0px 0px auto');
+            } else {
+              form.setValueByName('style.inset', 'auto 0px auto auto');
+            }
+            form.setValueByName('style.transform', undefined);
+          } else {
+            // 靠左
+            if (form.data?.sorptionPosition === 'top') {
+              // 吸顶
+              form.setValueByName('style.inset', '0px auto auto 0px');
+            } else if (form.data?.sorptionPosition === 'bottom') {
+              // 吸底
+              form.setValueByName('style.inset', 'auto auto 0px 0px');
+            } else {
+              form.setValueByName('style.inset', 'auto auto auto 0px');
+            }
+            form.setValueByName('style.transform', undefined);
+          }
+        } else {
+          // 靠左
+          form.setValueByName('style.transform', undefined);
         }
-        if (!isString(curValue)) {
-          curValue = '0';
-        }
-        const margin = value.split(' ');
-        const curMargin = {
-          top: margin[0] || '0',
-          right: margin[1] || '0',
-          bottom: margin[2] || margin[0] || '0',
-          left: margin[3] || margin[1] || '0'
-        };
-        // 当左右margin数值相同时，则可认为是居中模式
-        return curMargin.left !== '0' && curMargin.left === curMargin.right
-          ? true
-          : false;
-      },
-      pipeOut: (value: boolean) => {
-        return value ? '0 auto' : '0';
       }
     };
   }
@@ -1087,7 +1212,7 @@ setSchemaTpl(
     label?: string;
     name?: string;
     value?: string;
-    visibleOn?: string;
+    visibleOn?: string | boolean;
     pipeIn?: (value: any, data: any) => void;
     pipeOut?: (value: any, data: any) => void;
   }) => {
@@ -1158,6 +1283,7 @@ setSchemaTpl(
   }
 );
 
+// 吸附位置配置项
 setSchemaTpl('layout:sorption', {
   type: 'button-group-select',
   label: '吸附位置',
@@ -1182,6 +1308,7 @@ setSchemaTpl('layout:sorption', {
   }
 });
 
+// 滚动吸附配置项
 setSchemaTpl('layout:sticky', {
   type: 'switch',
   label: tipedLabel(
@@ -1201,6 +1328,7 @@ setSchemaTpl('layout:sticky', {
   }
 });
 
+// 滚动吸附位置配置项
 setSchemaTpl('layout:stickyPosition', {
   type: 'button-group-select',
   size: 'xs',
@@ -1218,13 +1346,19 @@ setSchemaTpl('layout:stickyPosition', {
     {
       label: '吸底',
       value: 'bottom'
-    }
+    },
+    {
+      label: '自动',
+      value: 'auto'
+    },
   ],
   onChange: (value: string, oldValue: string, model: any, form: any) => {
     if (value === 'top') {
       form.setValueByName('style.inset', '0px auto auto auto');
     } else if (value === 'bottom') {
       form.setValueByName('style.inset', 'auto auto 0px auto');
+    } else if (value === 'auto') {
+      form.setValueByName('style.inset', '0px auto 0px auto');
     }
   }
 });

@@ -138,6 +138,7 @@ export class TabsPlugin extends BasePlugin {
           {
             title: '基本',
             body: [
+              getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               getSchemaTpl('combo-container', {
                 type: 'combo',
                 label: '选项卡',
@@ -155,7 +156,12 @@ export class TabsPlugin extends BasePlugin {
                     inline: false
                   }
                 },
-                items: [{type: 'input-text', name: 'title', required: true}]
+                items: [
+                  getSchemaTpl('title', {
+                    label: false,
+                    required: true
+                  })
+                ]
               }),
 
               getSchemaTpl('switch', {
