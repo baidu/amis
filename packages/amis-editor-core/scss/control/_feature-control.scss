@@ -9,13 +9,15 @@
     display: flex;
     height: 30px;
     margin-bottom: 12px;
+    align-items: center;
 
     :not(:last-child) {
       margin-right: px2rem(8px);
     }
 
-    &-go {
+    &-content {
       flex-grow: 1;
+      position: relative;
     }
 
     &-label {

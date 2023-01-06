@@ -1593,6 +1593,13 @@ div.ae-DragImage {
   width: px2rem(700px);
   @include panel-sm-content();
 
+  --radio-default-default-fontSize: #{$Editor-right-panel-font-size};
+  --Table-thead-fontSize: #{$Editor-right-panel-font-size};
+  --button-size-default-fontSize: #{$Editor-right-panel-font-size};
+  --checkbox-checkbox-default-fontSize: #{$Editor-right-panel-font-size};
+  --Tabs--vertical-fontSize: #{$Editor-right-panel-font-size};
+  --Tabs--vertical-active-fontSize: #{$Editor-right-panel-font-size};
+
   .ae-Steps {
     margin: auto;
     max-width: px2rem(350px);
@@ -1602,6 +1609,7 @@ div.ae-DragImage {
       display: flex !important;
       width: px2rem(22px) !important;
       height: px2rem(22px) !important;
+      margin-top: px2rem(5px);
       font-size: px2rem(12px) !important;
       align-items: center;
       justify-content: center;

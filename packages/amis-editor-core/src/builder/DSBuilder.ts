@@ -5,6 +5,7 @@
 import {ButtonSchema} from 'amis/lib/renderers/Action';
 import {CRUD2Schema} from 'amis/lib/renderers/CRUD2';
 import {FormSchema, SchemaCollection, SchemaObject} from 'amis/lib/Schema';
+import pickBy from 'lodash/pickBy';
 import {EditorNodeType} from '../store/node';
 
 /**
@@ -138,6 +139,9 @@ export abstract class DSBuilder {
 
   /** 构造器排序权重，数字越小排序越靠前，支持负数 */
   public order: number;
+
+  /** 是否默认隐藏 */
+  defaultHidden?: boolean;
 
   /** 数据源支持的功能场景 */
   public features: Array<keyof typeof DSFeature>;
@@ -333,10 +337,30 @@ export class DSBuilderManager {
     return builderOptions[0].value;
   }
 
+  /** 获取可用的 builders */
+  filterBuilder(showHiddenBuilderNames?: string[]) {
+    return pickBy(
+      this.builders,
+      (builder: DSBuilder) =>
+        builder.defaultHidden !== true ||
+        (Array.isArray(showHiddenBuilderNames) &&
+          showHiddenBuilderNames.includes(builder.name))
+    );
+  }
+
   /** 获取数据源切换的schema */
-  getDSSwitch(setting: any = {}) {
-    const multiSource = this.builderNum > 1;
-    const builderOptions = Object.entries(this.builders).map(
+  getDSSwitch(
+    setting: any = {},
+    options?: {
+      showHiddenBuilderNames?: Array<string>;
+    }
+  ) {
+    const filterdBuilder = this.filterBuilder(
+      options && options.showHiddenBuilderNames
+    );
+
+    const multiSource = Object.keys(filterdBuilder).length > 1;
+    const builderOptions = Object.entries(filterdBuilder).map(
       ([key, builder]) => ({
         label: builder.name,
         value: key,
@@ -382,9 +406,14 @@ export class DSBuilderManager {
 
   /* 功能的额外配置面板  */
   collectFromBuilders(
-    callee: (builder: DSBuilder, builderName: string) => any
+    callee: (builder: DSBuilder, builderName: string) => any,
+    options?: {
+      showHiddenBuilderNames?: Array<string>;
+    }
   ) {
-    return Object.entries(this.builders).map(([name, builder]) => {
+    return Object.entries(
+      this.filterBuilder(options && options.showHiddenBuilderNames)
+    ).map(([name, builder]) => {
       return callee(builder, name);
     });
   }
