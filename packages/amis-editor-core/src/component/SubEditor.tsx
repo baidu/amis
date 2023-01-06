@@ -12,6 +12,7 @@ import {
   RendererInfoResolveEventContext
 } from '../plugin';
 import {autobind} from '../util';
+import {omit} from 'lodash';
 
 export interface SubEditorProps {
   store: EditorStoreType;
@@ -152,6 +153,8 @@ export class SubEditor extends React.Component<SubEditorProps> {
                     iframeUrl={config.iframeUrl}
                     ctx={store.ctx}
                     amisEnv={config.amisEnv}
+                    appLocale={config.appLocale}
+                    i18nEnabled={config.i18nEnabled}
                     plugins={config.plugins}
                     showCustomRenderersPanel={
                       store.showCustomRenderersPanel ?? true
@@ -224,7 +227,7 @@ export class SubEditor extends React.Component<SubEditorProps> {
         }
       },
       {
-        ...manager.env,
+        ...omit(manager.env, 'replaceText'),
         session: 'editor-dialog',
         theme: theme
       }

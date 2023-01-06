@@ -11,7 +11,8 @@ import {
   stringRegExp,
   needDefaultWidth,
   guid,
-  reGenerateID
+  reGenerateID,
+  addStyleClassName
 } from '../../src/util';
 import {
   InsertEventContext,
@@ -43,6 +44,7 @@ import isPlainObject from 'lodash/isPlainObject';
 import {EditorManagerConfig} from '../manager';
 import {EditorNode, EditorNodeType} from './node';
 import findIndex from 'lodash/findIndex';
+import {cloneDeep} from 'lodash';
 
 export interface SchemaHistory {
   versionId: number;
@@ -501,7 +503,9 @@ export const MainStore = types
       },
 
       getValueOf(id: string) {
-        return JSONPipeOut(JSONGetById(self.schema, id), false);
+        const schema = JSONGetById(self.schema, id);
+        const res = JSONPipeOut(schema, false);
+        return res;
       },
 
       get valueWithoutHiddenProps() {
@@ -517,7 +521,9 @@ export const MainStore = types
                 key !== '$$comments' &&
                 key !== '$$commonSchema') ||
               typeof props === 'function' || // pipeIn 和 pipeOut
-              key.substring(0, 2) === '__')
+              key.substring(0, 2) === '__' ||
+              key === 'css' ||
+              key === 'editorState') // 样式不需要出现做json中,
         );
       },
 
@@ -1287,12 +1293,22 @@ export const MainStore = types
         if (diff) {
           const result = patchDiff(origin, diff);
           this.traceableSetSchema(
-            JSONUpdate(self.schema, id, JSONPipeIn(result), true),
+            JSONUpdate(
+              self.schema,
+              id,
+              addStyleClassName(JSONPipeIn(result)),
+              true
+            ),
             noTrace
           );
         } else {
           this.traceableSetSchema(
-            JSONUpdate(self.schema, id, JSONPipeIn(value), replace),
+            JSONUpdate(
+              self.schema,
+              id,
+              addStyleClassName(JSONPipeIn(value)),
+              replace
+            ),
             noTrace
           );
         }
