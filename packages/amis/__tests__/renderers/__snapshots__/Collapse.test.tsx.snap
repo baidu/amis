@@ -12,8 +12,17 @@ exports[`Renderer:Collapse 1`] = `
         class="cxd-Collapse-header"
       >
         <span
-          class="cxd-Collapse-arrow"
-        />
+          class="cxd-Collapse-arrow-wrap"
+        >
+          <div
+            class="cxd-Collapse-arrow Collapse-arrow"
+            style="display: none;"
+          />
+          <icon-mock
+            classname="cxd-Collapse-arrow icon icon-right-arrow-bold"
+            icon="right-arrow-bold"
+          />
+        </span>
         <span
           class="cxd-TplField"
         >
@@ -49,8 +58,17 @@ exports[`Renderer:Collapse 1`] = `
         class="cxd-Collapse-header"
       >
         <span
-          class="cxd-Collapse-arrow"
-        />
+          class="cxd-Collapse-arrow-wrap"
+        >
+          <div
+            class="cxd-Collapse-arrow Collapse-arrow"
+            style="display: none;"
+          />
+          <icon-mock
+            classname="cxd-Collapse-arrow icon icon-right-arrow-bold"
+            icon="right-arrow-bold"
+          />
+        </span>
         <span
           class="cxd-TplField"
         >
@@ -86,8 +104,17 @@ exports[`Renderer:Collapse 1`] = `
         class="cxd-Collapse-header"
       >
         <span
-          class="cxd-Collapse-arrow"
-        />
+          class="cxd-Collapse-arrow-wrap"
+        >
+          <div
+            class="cxd-Collapse-arrow Collapse-arrow"
+            style="display: none;"
+          />
+          <icon-mock
+            classname="cxd-Collapse-arrow icon icon-right-arrow-bold"
+            icon="right-arrow-bold"
+          />
+        </span>
         <span
           class="cxd-TplField"
         >
@@ -133,8 +160,17 @@ exports[`Renderer:Collapse with disabled & panel nesting 1`] = `
         class="cxd-Collapse-header"
       >
         <span
-          class="cxd-Collapse-arrow"
-        />
+          class="cxd-Collapse-arrow-wrap"
+        >
+          <div
+            class="cxd-Collapse-arrow Collapse-arrow"
+            style="display: none;"
+          />
+          <icon-mock
+            classname="cxd-Collapse-arrow icon icon-right-arrow-bold"
+            icon="right-arrow-bold"
+          />
+        </span>
         <span
           class="cxd-TplField"
         >
@@ -162,8 +198,17 @@ exports[`Renderer:Collapse with disabled & panel nesting 1`] = `
                   class="cxd-Collapse-header"
                 >
                   <span
-                    class="cxd-Collapse-arrow"
-                  />
+                    class="cxd-Collapse-arrow-wrap"
+                  >
+                    <div
+                      class="cxd-Collapse-arrow Collapse-arrow"
+                      style="display: none;"
+                    />
+                    <icon-mock
+                      classname="cxd-Collapse-arrow icon icon-right-arrow-bold"
+                      icon="right-arrow-bold"
+                    />
+                  </span>
                   <span
                     class="cxd-TplField"
                   >
@@ -204,8 +249,17 @@ exports[`Renderer:Collapse with disabled & panel nesting 1`] = `
         class="cxd-Collapse-header"
       >
         <span
-          class="cxd-Collapse-arrow"
-        />
+          class="cxd-Collapse-arrow-wrap"
+        >
+          <div
+            class="cxd-Collapse-arrow Collapse-arrow"
+            style="display: none;"
+          />
+          <icon-mock
+            classname="cxd-Collapse-arrow icon icon-right-arrow-bold"
+            icon="right-arrow-bold"
+          />
+        </span>
         <span
           class="cxd-TplField"
         >
