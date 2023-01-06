@@ -333,7 +333,6 @@ describe('Renderer:image', () => {
         }
       })
     );
-
     fireEvent.click(container.querySelector('.cxd-Image-thumbWrap')!);
     expect(getByText('这是一个弹框')!).toBeInTheDocument();
   });
