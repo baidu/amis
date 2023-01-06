@@ -129,6 +129,19 @@ export function buildApi(
     );
   };
 
+  // 是否过滤空字符串 query
+  const queryStringify = (query: any) =>
+    qsstringify(
+      query,
+      (api as ApiObject)?.filterEmptyQuery
+        ? {
+            filter: (key: string, value: any) => {
+              return value === '' ? undefined : value;
+            }
+          }
+        : undefined
+    );
+
   if (~idx) {
     const hashIdx = url.indexOf('#');
     const params = qsparse(
@@ -146,10 +159,13 @@ export function buildApi(
     });
 
     const left = replaceExpression(url.substring(0, idx), 'raw', '');
+
+    // 追加
+    Object.assign(params, api.query);
     api.url =
       left +
       (~left.indexOf('?') ? '&' : '?') +
-      qsstringify(
+      queryStringify(
         (api.query = dataMapping(params, data, undefined, api.convertKeyToPath))
       ) +
       (~hashIdx && hashIdx > idx
@@ -178,13 +194,22 @@ export function buildApi(
     api.body = api.data = data;
   }
 
+  // 给 query 做数据映射
+  if (api.query) {
+    api.query = dataMapping(api.query, data, undefined, api.convertKeyToPath);
+  }
+
   // get 类请求，把 data 附带到 url 上。
   if (api.method === 'get' || api.method === 'jsonp' || api.method === 'js') {
     if (
       !api.data &&
       ((!~raw.indexOf('$') && autoAppend) || api.forceAppendDataToQuery)
     ) {
-      api.query = api.data = data;
+      api.data = data;
+      api.query = {
+        ...api.query,
+        ...data
+      };
     } else if (
       api.attachDataToQuery === false &&
       api.data &&
@@ -194,12 +219,13 @@ export function buildApi(
       if (~idx) {
         let params = (api.query = {
           ...qsparse(api.url.substring(idx + 1)),
+          ...api.query,
           ...data
         });
-        api.url = api.url.substring(0, idx) + '?' + qsstringify(params);
+        api.url = api.url.substring(0, idx) + '?' + queryStringify(params);
       } else {
-        api.query = data;
-        const query = qsstringify(data);
+        api.query = {...api.query, ...data};
+        const query = queryStringify(data);
         if (query) {
           api.url = `${api.url}?${query}`;
         }
@@ -211,17 +237,34 @@ export function buildApi(
       if (~idx) {
         let params = (api.query = {
           ...qsparse(api.url.substring(idx + 1)),
+          ...api.query,
           ...api.data
         });
-        api.url = api.url.substring(0, idx) + '?' + qsstringify(params);
+        api.url = api.url.substring(0, idx) + '?' + queryStringify(params);
       } else {
-        api.query = api.data;
-        const query = qsstringify(api.data);
+        api.query = {...api.query, ...api.data};
+        const query = queryStringify(api.query);
         if (query) {
           api.url = `${api.url}?${query}`;
         }
       }
       delete api.data;
+    }
+  }
+  // 非 get 类请求也可以携带参数到 url，只要 query 有值
+  else if (api.method) {
+    const idx = api.url.indexOf('?');
+    if (~idx) {
+      let params = (api.query = {
+        ...qsparse(api.url.substring(idx + 1)),
+        ...api.query
+      });
+      api.url = api.url.substring(0, idx) + '?' + queryStringify(params);
+    } else {
+      const query = queryStringify(api.query);
+      if (query) {
+        api.url = `${api.url}?${query}`;
+      }
     }
   }
 
