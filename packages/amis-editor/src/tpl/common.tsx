@@ -356,6 +356,7 @@ setSchemaTpl(
     valueType?: string; // 用于设置期望数值类型
     visibleOn?: string; // 用于控制显示的表达式
     evalMode?: boolean; // 为false时，则会用 ${这里面才是表达式} 包裹变量
+    className?: string; // 外层类名
   }) => {
     let curRendererSchema = config?.rendererSchema;
     if (
@@ -374,6 +375,7 @@ setSchemaTpl(
       return {
         type: 'group',
         mode: 'vertical',
+        className: config?.className,
         visibleOn: config?.visibleOn,
         body: [
           {
@@ -394,6 +396,7 @@ setSchemaTpl(
         type: 'ae-formulaControl',
         label: config?.label || '默认值',
         name: config?.name || 'value',
+        className: config?.className,
         rendererSchema: curRendererSchema,
         rendererWrapper: config?.rendererWrapper,
         needDeleteValue: config?.needDeleteValue,

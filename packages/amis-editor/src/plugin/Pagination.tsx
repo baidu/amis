@@ -115,7 +115,7 @@ export class PaginationPlugin extends BasePlugin {
                   '启用功能',
                   '选中表示启用该项，可以拖拽排序调整功能的顺序'
                 ),
-                visibleOn: 'data.mode === "normal"',
+                visibleOn: '!data.mode || data.mode === "normal"',
                 mode: 'normal',
                 multiple: true,
                 multiLine: false,
@@ -169,7 +169,7 @@ export class PaginationPlugin extends BasePlugin {
                 type: 'combo',
                 label: '每页条数选项',
                 visibleOn:
-                  'data.mode === "normal" && data.layout && data.layout.includes("perPage")',
+                  '(!data.mode || data.mode === "normal") && data.layout && data.layout.includes("perPage")',
                 mode: 'normal',
                 multiple: true,
                 multiLine: false,
@@ -199,7 +199,7 @@ export class PaginationPlugin extends BasePlugin {
                 type: 'input-text',
                 label: '默认每页条数',
                 visibleOn:
-                  'data.mode === "normal" && data.layout?.includes("perPage")'
+                  '(!data.mode || data.mode === "normal") && data.layout?.includes("perPage")'
               },
               {
                 name: 'maxButtons',
@@ -211,7 +211,7 @@ export class PaginationPlugin extends BasePlugin {
                 min: 5,
                 max: 20,
                 pipeOut: (value: any) => value || 5,
-                visibleOn: 'data.mode === "normal"'
+                visibleOn: '!data.mode || data.mode === "normal"'
               }
             ]
           },

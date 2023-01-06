@@ -51,9 +51,7 @@ setSchemaTpl(
   (props: {context: BaseEventContext; type: string}) => {
     const {context, type = 'all'} = props;
 
-    const isInCrudFilter =
-      context?.node?.parent?.type === 'form' &&
-      context?.node?.parent?.parent?.type === 'crud2';
+    const isInCrudFilter = context?.node?.path?.includes('crud2/filter');
 
     const addFilters =
       type === 'all'

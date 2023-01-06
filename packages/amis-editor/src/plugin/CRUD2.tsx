@@ -1596,6 +1596,11 @@ export class TableCRUDPlugin extends CRUDPlugin {
                           schema.headerToolbar,
                           item => item.type === 'column-toggler'
                         );
+                        schema.columns.forEach((item: any) => {
+                          if (item.toggled !== undefined) {
+                            delete item.toggled;
+                          }
+                        });
                       }
                       form.setValues(schema);
                       return undefined;
@@ -1613,7 +1618,70 @@ export class TableCRUDPlugin extends CRUDPlugin {
                     },
                     manager: this.manager,
                     addable: true,
-                    removeable: true
+                    removeable: true,
+                    sortable: true,
+                    onSort: (schema: any, e: any) => {
+                      if (schema?.columns?.length > 1) {
+                        schema.columns[e.oldIndex] = schema.columns.splice(
+                          e.newIndex,
+                          1,
+                          schema.columns[e.oldIndex]
+                        )[0];
+                      }
+                    },
+                    checkableOn: 'data.columnsTogglable',
+                    isItemChecked: (item: any, index: number, schema: any) => {
+                      console.log('isItemChecked', item);
+                      return schema.columns[index]?.toggled !== false;
+                    },
+                    onItemCheck: (
+                      checked: boolean,
+                      index: number,
+                      schema: any
+                    ) => {
+                      schema.columns[index].toggled = checked;
+                    },
+                    customAction: (props: any) => {
+                      const {onBulkChange, schema} = props;
+                      return {
+                        type: 'flex',
+                        items: [
+                          {
+                            type: 'button',
+                            label: '添加列',
+                            level: 'link',
+                            onClick: () => {
+                              schema?.columns?.push({
+                                title: '新添加列'
+                              });
+                              onBulkChange(schema);
+                            }
+                          },
+                          {
+                            type: 'button',
+                            label: '添加操作列',
+                            level: 'link',
+                            onClick: () => {
+                              schema?.columns?.push({
+                                type: 'operation',
+                                title: '操作',
+                                buttons: [
+                                  {
+                                    label: '操作按钮',
+                                    type: 'button',
+                                    level: 'link'
+                                  }
+                                ]
+                              });
+                              onBulkChange(schema);
+                            }
+                          }
+                        ],
+                        justify: 'space-between',
+                        alignItems: 'center',
+                        direction: 'row'
+                      };
+                    }
                   }
                 ]
               },
@@ -1966,7 +2034,7 @@ export class ListCRUDPlugin extends CRUDPlugin {
     return findObj(schema.listItem.body, item => item.behavior === feat);
   }
 }
-
-registerEditorPlugin(TableCRUDPlugin);
-registerEditorPlugin(CardsCRUDPlugin);
-registerEditorPlugin(ListCRUDPlugin);
+// 还是得去掉注册，否则脚手架一些配置会从这边取
+// registerEditorPlugin(TableCRUDPlugin);
+// registerEditorPlugin(CardsCRUDPlugin);
+// registerEditorPlugin(ListCRUDPlugin);

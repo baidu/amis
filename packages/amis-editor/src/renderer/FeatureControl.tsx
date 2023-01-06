@@ -7,9 +7,11 @@ import {findDOMNode} from 'react-dom';
 import cx from 'classnames';
 import {FormItem, Button, Icon, FormControlProps, autobind} from 'amis';
 
-import {clone, remove} from 'lodash';
+import {clone, isPlainObject, remove} from 'lodash';
 import {GoConfigControl} from './GoConfigControl';
 import Sortable from 'sortablejs';
+import {Checkbox} from 'amis-ui';
+import {evalExpression} from 'amis-core';
 
 const klass = 'ae-FeatureControl';
 export type FeatureOption = {
@@ -27,11 +29,14 @@ interface FeatureControlProps extends FormControlProps {
   addable?: boolean;
   addText?: string;
   sortable?: boolean;
+  checkable?: boolean;
+  checkableOn?: string;
   features: Array<FeatureOption> | ((schema: any) => Array<FeatureOption>);
   goFeatureComp?: (item: FeatureOption, index: number) => string; // 去子组件
   onSort?: (data: any, value: {oldIndex: number; newIndex: number}) => void;
   // 自定义添加内容，按钮变成普通按钮
-  customAdd?: (schema: any) => any;
+  customAction?: (props: {schema: any; onBulkChange: any}) => any;
+  onItemCheck?: (checked: boolean, index: number, schema: any) => void;
 }
 
 interface FeatureControlState {
@@ -128,14 +133,6 @@ export default class FeatureControl extends React.Component<
     onBulkChange?.(schema);
   }
 
-  @autobind
-  handleCustomAdd() {
-    const {addFeature, data, onBulkChange, customAdd} = this.props;
-    const schema = clone(data);
-    customAdd?.(schema);
-    onBulkChange?.(schema);
-  }
-
   sortable?: Sortable;
   drag?: HTMLElement | null;
   @autobind
@@ -204,8 +201,24 @@ export default class FeatureControl extends React.Component<
     this.sortable && this.sortable.destroy();
   }
 
-  renderItem(item: FeatureOption, index: number) {
-    const {sortable, goFeatureComp, node, manager} = this.props;
+  @autobind
+  handleCheck(res: boolean, index: number) {
+    const {data, onBulkChange, onItemCheck} = this.props;
+    const schema = clone(data);
+    onItemCheck?.(res, index, schema);
+    onBulkChange?.(schema);
+  }
+
+  renderItem(item: FeatureOption, index: number, checkable: boolean) {
+    const {
+      sortable,
+      goFeatureComp,
+      node,
+      manager,
+      onItemCheck,
+      isItemChecked,
+      data
+    } = this.props;
 
     let content = null;
 
@@ -225,12 +238,21 @@ export default class FeatureControl extends React.Component<
 
     return (
       <li className={klass + 'Item'} key={index}>
-        {sortable && (
-          <a className={klass + 'Item-dragBar'}>
-            <Icon icon="drag-bar" className="icon" />
-          </a>
+        {checkable && onItemCheck && (
+          <Checkbox
+            checked={isItemChecked(item, index, data)}
+            onChange={val => this.handleCheck(val, index)}
+          />
         )}
-        {content}
+
+        <div className={klass + 'Item-content'}>
+          {sortable && (
+            <a className={klass + 'Item-dragBar'}>
+              <Icon icon="drag-bar" className="icon" />
+            </a>
+          )}
+          {content}
+        </div>
         <Button
           className={klass + 'Item-action'}
           onClick={() => this.handleRemove(item, index)}
@@ -242,19 +264,18 @@ export default class FeatureControl extends React.Component<
   }
 
   renderAction() {
-    const {addable, addText, render, customAdd} = this.props;
+    const {addable, addText, render, customAction, data, onBulkChange} =
+      this.props;
     if (!addable) {
       return null;
     }
 
-    if (customAdd && typeof customAdd === 'function') {
-      return render('custom-add', {
-        type: 'button',
-        label: '添加' || addText,
-        className: `${klass}-action`,
-        btnClassName: `${klass}-action--btn`,
-        onClick: this.handleCustomAdd
-      });
+    if (customAction && typeof customAction === 'function') {
+      const schema = customAction({onBulkChange, schema: clone(data)});
+
+      if (isPlainObject(schema) && typeof schema.type === 'string') {
+        return render('custom-action', schema);
+      }
     }
 
     return render('action', {
@@ -279,13 +300,21 @@ export default class FeatureControl extends React.Component<
   }
 
   render() {
-    const {className} = this.props;
+    const {className, checkable, checkableOn, data} = this.props;
+
+    let isCheckable = false;
+
+    if (checkable !== undefined) {
+      isCheckable = checkable;
+    } else if (checkableOn) {
+      isCheckable = evalExpression(checkableOn, data) === true;
+    }
 
     return (
       <div className={cx('ae-FeatureControl', className)}>
         <ul className={cx('ae-FeatureControl-features')} ref={this.dragRef}>
           {this.state.inUseFeat.map((item, index) =>
-            this.renderItem(item, index)
+            this.renderItem(item, index, isCheckable)
           )}
         </ul>
 
