@@ -259,7 +259,7 @@ export const resolveEventData = (props: any, data: any, valueKey?: string) => {
       ? {
           ...data,
           [props.name]: data[valueKey],
-          $$: {
+          __rendererData: {
             ...props.data,
             [props.name]: data[valueKey]
           }

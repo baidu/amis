@@ -190,7 +190,7 @@ export const runAction = async (
   if (!event.data.$$) {
     additional = {
       event,
-      $$: renderer.props.data // 部分组件交互后会有更新，如果想要获取那部分数据，可以通过事件数据获取
+      __rendererData: renderer.props.data // 部分组件交互后会有更新，如果想要获取那部分数据，可以通过事件数据获取
     };
   }
 
