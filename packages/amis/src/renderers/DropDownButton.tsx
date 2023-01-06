@@ -1,5 +1,5 @@
 import React from 'react';
-import {Renderer, RendererProps} from 'amis-core';
+import {createObject, Renderer, RendererProps} from 'amis-core';
 import {Overlay} from 'amis-core';
 import {PopOver} from 'amis-core';
 import {TooltipWrapper} from 'amis-ui';
@@ -180,9 +180,13 @@ export default class DropDownButton extends React.Component<
   }
 
   async open() {
-    await this.props.dispatchEvent('mouseenter', {
-      items: this.props.buttons // 为了保持名字统一
-    });
+    const {dispatchEvent, data, buttons} = this.props;
+    await dispatchEvent(
+      'mouseenter',
+      createObject(data, {
+        items: buttons // 为了保持名字统一
+      })
+    );
     this.setState({
       isOpened: true
     });
@@ -190,7 +194,10 @@ export default class DropDownButton extends React.Component<
 
   close() {
     this.timer = setTimeout(() => {
-      this.props.dispatchEvent('mouseleave', {items: this.props.buttons});
+      this.props.dispatchEvent(
+        'mouseleave',
+        createObject(this.props.data, {items: this.props.buttons})
+      );
       this.setState({
         isOpened: false
       });

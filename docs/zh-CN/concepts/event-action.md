@@ -12,25 +12,66 @@ order: 9
 
 上一节我们介绍了如何实现联动，是比较基础和局限的，而事件动作是更简单、更灵活、更高级的用法，可以解决复杂的 UI 交互场景，支持渲染器事件监听和响应设计，无需关心组件层级关系。例如：
 
-- 传递数据
-  - 点击「按钮」，发送一个远程请求，返回的数据回填给一个表单
-  - 弹窗提交后，将弹窗内表单数据回填给另一个表单
-- 联动刷新
-  - 下拉选择不同项，联动刷新表单数据
-- 状态控制
-  - 勾选不同按钮，控制相应组件的显示/隐藏
-  - 勾选不同按钮，控制相应组件的启用/禁用
-- 多个组件监听同一个事件做出不同响应
-  - 下拉选择不同项，组件 A 监听后发送一个远程请求，组件 B 监听后进行刷新
-- 逻辑编排
-  - 针对监听到的事件，循环执行一些动作作为响应，还可以控制循环跳出或跳过
-  - 针对监听到的事件，根据条件选择性的执行动作响应
-  - 针对监听到的事件，并行执行多个动作作为响应
-  - 执行完当前动作后，可以选择是否继续执行后续动作，是否关闭事件默认行为的执行
+- http 请求：发送 http 请求
+- 弹窗提示：执行弹窗、抽屉打开和 toast 提示
+- 页面跳转：页面链接跳转
+- 浏览器相关：回退、前进、后退、刷新
+- 刷新组件：联动刷新表单数据，即数据重新加载
+- 组件状态：控制指定组件的显示/隐藏、启用/禁用、展示态/编辑态
+- 组件特性动作：执行指定组件的专有动作，例如执行表单的提交动作
+- 组件数据：更新指定组件的数据域
+- 广播：多个组件监听同一个事件做出不同响应
+- JS 脚本：通过编写 JS 代码片段实现所需逻辑，同时支持 JS 代码内执行动作
+- 逻辑编排：条件、循环、排他、并行
 
 ## 基本使用
 
+### onEvent
+
 通过`onEvent`属性实现渲染器事件与响应动作的绑定。`onEvent`内配置事件和动作映射关系，`actions`是事件对应的响应动作的集合。
+
+```json
+{
+  "type": "button",
+  "label": "尝试点击、鼠标移入/移出",
+  "level": "primary",
+  "onEvent": {
+    "click": { // 监听点击事件
+      "actions": [ // 执行的动作列表
+        {
+          "actionType": "toast", // 执行toast提示动作
+          "args": { // 动作参数
+            "msgType": "info",
+            "msg": "派发点击事件"
+          }
+        }
+      ]
+    },
+    "mouseenter": {{ // 监听鼠标移入事件
+      "actions": [
+        {
+          "actionType": "toast",
+          "args": {
+            "msgType": "info",
+            "msg": "派发鼠标移入事件"
+          }
+        }
+      ]
+    },
+    "mouseleave": {{ // 监听鼠标移出事件
+      "actions": [
+        {
+          "actionType": "toast",
+          "args": {
+            "msgType": "info",
+            "msg": "派发鼠标移出事件"
+          }
+        }
+      ]
+    }
+  }
+}
+```
 
 ```schema
 {
@@ -80,6 +121,94 @@ order: 9
 }
 ```
 
+### 上下文
+
+执行动作时，可以通过`${event.data}`获取事件对象的数据、通过`${$$}`获取组件当前数据域，例如：
+
+```schema
+{
+  "type": "page",
+  data: {
+    p1: 'p1'
+  },
+  "body": {
+    "type": "form",
+    debug: true,
+    "api": {
+      url: "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+      method: "post",
+      data: {
+        "&": '$$',
+        job: 'coder'
+      }
+    },
+    data: {
+      job: 'hr'
+    },
+    "body": [
+      {
+        type: 'alert',
+        "body": "监听姓名值变化，执行动作时读取输入的内容；监听年龄值变化，执行动作时读取input-text组件当前数据域（表单数据）",
+        "level": "info",
+        "className": "mb-1"
+      },
+      {
+        "type": "input-text",
+        "name": "name",
+        "label": "姓名：",
+        onEvent: {
+          change: {
+            actions: [
+              {
+                actionType: 'toast',
+                args: {
+                  msg: '${name}'
+                }
+              }
+            ]
+          }
+        }
+      },
+      {
+        "type": "input-text",
+        "name": "age",
+        "label": "年龄：",
+        onEvent: {
+          change: {
+            actions: [
+              {
+                actionType: 'toast',
+                args: {
+                  msg: '${$$|json}'
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    onEvent: {
+      submitSucc: {
+        actions: [
+          {
+            actionType: 'toast',
+            args: {
+              msg: '${event.data|json}'
+            }
+          },
+          {
+            actionType: 'toast',
+            args: {
+              msg: '${$$|json}'
+            }
+          }
+        ]
+      }
+    }
+  }
+}
+```
+
 ### 运行日志
 
 可以在浏览器控制台查看运行日志，类似如下
@@ -92,9 +221,9 @@ run action ajax
 
 代表运行了 ajax 动作，第二行是传递的参数和数据，第三行是执行完动作之后的 `event` 值，可以用做后续动作的参数。
 
-## 事件与动作
+## 事件与动作分类
 
-事件包含`渲染器事件`和`广播事件`，监听这些事件时，可以通过`event.data`来获取事件对象的数据。
+事件包含`渲染器事件`和`广播事件`。
 
 - 渲染器事件，由具体的渲染器组件提供，每个渲染器组件暴露的事件可以查看具体的[组件文档的事件表](../../components/page#事件表)；
 - 广播事件，即自定义事件，可以自定义派发的事件名称`eventName`，其他渲染器可以监听该自定义事件并配置响应动作。
@@ -1991,7 +2120,7 @@ registerAction('my-action', new MyAction());
 
 通过配置`actionType: 'for'`实现循环逻辑。
 
-**单层循环**
+### 单层循环
 
 ```schema
 {
@@ -2043,7 +2172,7 @@ registerAction('my-action', new MyAction());
 }
 ```
 
-**嵌套循环**
+### 嵌套循环
 
 ```schema
 {
@@ -2152,7 +2281,7 @@ registerAction('my-action', new MyAction());
 | -------- | ---------------------------------------------------- | ------ | ------------------------------------- |
 | children | Array<[动作](../../docs/concepts/event-action#动作)> | -      | 子动作，可以通过`break动作`来跳出循环 |
 
-## Break 动作
+### Break 动作
 
 通过配置`actionType: 'for'`和`actionType: 'break'`实现循环跳出。
 
@@ -2219,7 +2348,7 @@ registerAction('my-action', new MyAction());
 }
 ```
 
-## Continue 动作
+### Continue 动作
 
 通过配置`actionType: 'for'`和`actionType: 'continue'`实现循环跳过。
 

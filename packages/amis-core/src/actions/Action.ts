@@ -181,19 +181,31 @@ export const runAction = async (
   renderer: ListenerContext,
   event: any
 ) => {
+  // 追加数据
+  let additional: any = {
+    event
+  };
+
+  // $$默认为renderer.props.data，兼容表单项值变化时的data读取
+  if (!event.data.$$) {
+    additional = {
+      event,
+      $$: renderer.props.data // 部分组件交互后会有更新，如果想要获取那部分数据，可以通过事件数据获取
+    };
+  }
+
   // 用户可能，需要用到事件数据和当前域的数据，因此merge事件数据和当前渲染器数据
   // 需要保持渲染器数据链完整
   // 注意：并行ajax请求结果必须通过event取值
   const mergeData = createObject(
     createObject(
       renderer.props.data.__super
-        ? createObject(renderer.props.data.__super, {event})
-        : {event},
+        ? createObject(renderer.props.data.__super, additional)
+        : additional,
       renderer.props.data
     ),
     event.data
   );
-
   // 兼容一下1.9.0之前的版本
   const expression = actionConfig.expression ?? actionConfig.execOn;
 

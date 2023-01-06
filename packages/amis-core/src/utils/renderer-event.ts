@@ -258,7 +258,11 @@ export const resolveEventData = (props: any, data: any, valueKey?: string) => {
     props.name && valueKey
       ? {
           ...data,
-          [props.name]: data[valueKey]
+          [props.name]: data[valueKey],
+          $$: {
+            ...props.data,
+            [props.name]: data[valueKey]
+          }
         }
       : data
   );
