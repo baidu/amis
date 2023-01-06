@@ -111,6 +111,36 @@ export class ButtonPlugin extends BasePlugin {
     // const isInDropdown = /(?:\/|^)dropdown-button\/.+$/.test(context.path);
     const isInDropdown = /^button-group\/.+$/.test(context.path);
 
+    const buttonStateFunc = (visibleOn: string, state: string) => {
+      return [
+        getSchemaTpl('theme:font', {
+          label: '文字',
+          name: `css.className.font:${state}`,
+          visibleOn: visibleOn
+        }),
+        getSchemaTpl('theme:colorPicker', {
+          label: '背景',
+          name: `css.className.background:${state}`,
+          labelMode: 'input',
+          needGradient: true,
+          visibleOn: visibleOn
+        }),
+        getSchemaTpl('theme:border', {
+          name: `css.className.border:${state}`,
+          visibleOn: visibleOn
+        }),
+        getSchemaTpl('theme:paddingAndMargin', {
+          name: `css.className.padding-and-margin:${state}`,
+
+          visibleOn: visibleOn
+        }),
+        getSchemaTpl('theme:radius', {
+          name: `css.className.radius:${state}`,
+          visibleOn: visibleOn
+        })
+      ];
+    };
+
     return getSchemaTpl('tabs', [
       {
         title: '属性',
@@ -299,21 +329,38 @@ export class ButtonPlugin extends BasePlugin {
               })
             ]
           },
-          getSchemaTpl('style:classNames', {
-            isFormItem: false,
-            schema: [
-              getSchemaTpl('className', {
-                name: 'iconClassName',
-                label: '左侧图标',
-                visibleOn: 'this.icon'
-              }),
-              getSchemaTpl('className', {
-                name: 'rightIconClassName',
-                label: '右侧图标',
-                visibleOn: 'this.rightIcon'
-              })
+          {
+            title: '自定义样式',
+            body: [
+              {
+                type: 'select',
+                name: 'editorState',
+                label: '状态',
+                selectFirst: true,
+                options: [
+                  {
+                    label: '常规',
+                    value: 'default'
+                  },
+                  {
+                    label: '悬浮',
+                    value: 'hover'
+                  },
+                  {
+                    label: '点击',
+                    value: 'active'
+                  }
+                ]
+              },
+              ...buttonStateFunc(
+                "${editorState == 'default' || !editorState}",
+                'default'
+              ),
+              ...buttonStateFunc("${editorState == 'hover'}", 'hover'),
+              ...buttonStateFunc("${editorState == 'active'}", 'active')
             ]
-          })
+          },
+          getSchemaTpl('theme:classNames', {isFormItem: false})
         ])
       },
       {

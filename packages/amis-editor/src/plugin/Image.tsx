@@ -6,7 +6,7 @@ import {
   PluginEvent,
   ResizeMoveEventContext
 } from 'amis-editor-core';
-import {defaultValue, getSchemaTpl} from 'amis-editor-core';
+import {defaultValue, getSchemaTpl, tipedLabel} from 'amis-editor-core';
 import {mockValue} from 'amis-editor-core';
 
 export class ImagePlugin extends BasePlugin {
@@ -32,166 +32,190 @@ export class ImagePlugin extends BasePlugin {
   };
 
   panelTitle = '图片';
+  panelJustify = true;
   panelBodyCreator = (context: BaseEventContext) => {
     const isUnderField = /\/field\/\w+$/.test(context.path as string);
-    return [
-      getSchemaTpl('tabs', [
-        {
-          title: '常规',
-          body: [
-            getSchemaTpl('layout:originPosition', {value: 'left-top'}),
-            {
-              name: 'imageMode',
-              label: '展示模式',
-              type: 'select',
-              pipeIn: defaultValue('thumb'),
-              options: [
-                {
-                  label: '缩率图',
-                  value: 'thumb'
-                },
-                {
-                  label: '原图',
-                  value: 'original'
+    return getSchemaTpl('tabs', [
+      {
+        title: '属性',
+        body: getSchemaTpl('collapseGroup', [
+          {
+            title: '基本',
+            body: [
+              {
+                name: 'title',
+                type: 'input-text',
+                label: '图片标题'
+              },
+              {
+                name: 'imageCaption',
+                type: 'input-text',
+                label: '图片描述'
+              },
+              {
+                name: 'imageMode',
+                label: '展示模式',
+                type: 'select',
+                pipeIn: defaultValue('thumb'),
+                options: [
+                  {
+                    label: '缩率图',
+                    value: 'thumb'
+                  },
+                  {
+                    label: '原图',
+                    value: 'original'
+                  }
+                ]
+              },
+              {
+                name: 'width',
+                label: '宽度',
+                type: 'input-number'
+              },
+              {
+                name: 'height',
+                label: '高度',
+                type: 'input-number'
+              },
+
+              isUnderField
+                ? null
+                : getSchemaTpl('imageUrl', {
+                    name: 'src',
+                    type: 'input-text',
+                    label: '缩略图地址',
+                    description: '如果已绑定字段名，可以不用设置，支持用变量。'
+                  }),
+              {
+                type: 'ae-switch-more',
+                mode: 'normal',
+                name: 'enlargeAble',
+                label: tipedLabel(
+                  '图片放大功能',
+                  '放大功能和打开外部链接功能是冲突的，若要点击时打开外部链接请先关闭此功能'
+                ),
+                value: false,
+                hiddenOnDefault: false,
+                formType: 'extend',
+                pipeIn: (value: any) => !!value,
+                form: {
+                  body: [
+                    getSchemaTpl('imageUrl', {
+                      name: 'originalSrc',
+                      label: '原图地址',
+                      description: '如果不配置将默认使用缩略图地址。'
+                    })
+                  ]
                 }
-              ]
-            },
-            getSchemaTpl('title', {
-              label: '图片标题'
-            }),
-            getSchemaTpl('imageCaption'),
-            {
-              name: 'width',
-              label: '宽度',
-              type: 'input-number'
-            },
-            {
-              name: 'height',
-              label: '高度',
-              type: 'input-number'
-            },
+              },
+              {
+                type: 'input-text',
+                label: '打开外部链接',
+                name: 'href',
+                hiddenOn: 'this.enlargeAble',
+                clearValueOnHidden: true
+              },
+              getSchemaTpl('imageUrl', {
+                name: 'defaultImage',
+                label: tipedLabel('占位图', '无数据时显示的图片')
+              })
+            ]
+          },
+          getSchemaTpl('status')
+        ])
+      },
+      {
+        title: '外观',
+        body: getSchemaTpl('collapseGroup', [
+          {
+            title: '基本',
+            body: [
+              // amis 已废弃
+              // getSchemaTpl('switch', {
+              //   name: 'showDimensions',
+              //   label: '显示图片尺寸'
+              // }),
 
-            isUnderField
-              ? null
-              : getSchemaTpl('imageUrl', {
-                  name: 'src',
-                  type: 'input-text',
-                  label: '缩略图地址',
-                  description: '如果已绑定字段名，可以不用设置，支持用变量。'
-                }),
-            {
-              type: 'input-text',
-              label: '打开外部链接',
-              name: 'href'
-            },
-            getSchemaTpl('imageUrl', {
-              name: 'defaultImage',
-              label: '无数据时显示的图片'
-            })
-          ]
-        },
-        {
-          title: '外观',
-          body: [
-            getSchemaTpl('switch', {
-              name: 'enlargeAble',
-              label: '开启图片放大功能'
-            }),
-
-            getSchemaTpl('imageUrl', {
-              name: 'originalSrc',
-              visibleOn: 'this.enlargeAble',
-              label: '原图地址',
-              description: '如果不配置将默认使用缩略图地址。'
-            }),
-
-            getSchemaTpl('switch', {
-              name: 'showDimensions',
-              label: '是否显示图片尺寸'
-            }),
-
-            {
-              name: 'thumbMode',
-              type: 'button-group-select',
-              label: '缩略图展示模式',
-              size: 'sm',
-              pipeIn: defaultValue('contain'),
-              options: [
-                {
-                  label: '宽度占满',
-                  value: 'w-full'
+              {
+                name: 'thumbMode',
+                type: 'select',
+                label: '缩略图展示模式',
+                mode: 'horizontal',
+                labelAlign: 'left',
+                horizontal: {
+                  left: 5,
+                  right: 7
                 },
+                pipeIn: defaultValue('contain'),
+                options: [
+                  {
+                    label: '宽度占满',
+                    value: 'w-full'
+                  },
 
-                {
-                  label: '高度占满',
-                  value: 'h-full'
-                },
+                  {
+                    label: '高度占满',
+                    value: 'h-full'
+                  },
 
-                {
-                  label: '包含',
-                  value: 'contain'
-                },
+                  {
+                    label: '包含',
+                    value: 'contain'
+                  },
 
-                {
-                  label: '铺满',
-                  value: 'cover'
-                }
-              ]
-            },
+                  {
+                    label: '铺满',
+                    value: 'cover'
+                  }
+                ]
+              },
+              {
+                name: 'thumbRatio',
+                type: 'button-group-select',
+                label: '缩略图比率',
+                size: 'sm',
+                pipeIn: defaultValue('1:1'),
+                options: [
+                  {
+                    label: '1:1',
+                    value: '1:1'
+                  },
 
-            {
-              name: 'thumbRatio',
-              type: 'button-group-select',
-              label: '缩略图比率',
-              size: 'sm',
-              pipeIn: defaultValue('1:1'),
-              options: [
-                {
-                  label: '1:1',
-                  value: '1:1'
-                },
+                  {
+                    label: '4:3',
+                    value: '4:3'
+                  },
 
-                {
-                  label: '4:3',
-                  value: '4:3'
-                },
+                  {
+                    label: '16:9',
+                    value: '16:9'
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            title: 'CSS类名',
+            body: [
+              getSchemaTpl('className', {
+                label: '外层'
+              }),
 
-                {
-                  label: '16:9',
-                  value: '16:9'
-                }
-              ]
-            },
+              getSchemaTpl('className', {
+                name: 'imageClassName',
+                label: '图片'
+              }),
 
-            getSchemaTpl('className', {
-              autoComplete: false
-            }),
-
-            getSchemaTpl('className', {
-              name: 'innerClassName',
-              label: '组件内层 CSS 类名'
-            }),
-
-            getSchemaTpl('className', {
-              name: 'imageClassName',
-              label: '图片 CSS 类名'
-            }),
-
-            getSchemaTpl('className', {
-              name: 'thumbClassName',
-              label: '缩略图 CSS 类名'
-            })
-          ]
-        },
-        {
-          title: '显隐',
-          body: [
-            // getSchemaTpl('ref'),
-            getSchemaTpl('visible')
-          ]
-        }
-      ])
-    ];
+              getSchemaTpl('className', {
+                name: 'thumbClassName',
+                label: '缩略图'
+              })
+            ]
+          }
+        ])
+      }
+    ]);
   };
 
   onActive(event: PluginEvent<ActiveEventContext>) {
