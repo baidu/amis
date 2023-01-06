@@ -288,6 +288,7 @@
   }
 
   .#{$ns}Select {
+    min-width: var(--inputNumber-base-default-unit-width);
     padding: var(--inputNumber-base-default-unit-paddingTop)
       var(--inputNumber-base-default-unit-paddingRight)
       var(--inputNumber-base-default-unit-paddingBottom)
@@ -437,8 +438,8 @@
       content: var(--inputNumber-enhance-leftIcon-default-icon);
     }
     svg {
-      width: var(--inputNumber-enhance-leftIcon-default-height);
-      height: var(--inputNumber-enhance-leftIcon-default-width);
+      width: var(--inputNumber-enhance-leftIcon-default-width);
+      height: var(--inputNumber-enhance-leftIcon-default-height);
       color: var(--inputNumber-enhance-leftIcon-default-color);
       &:hover {
         color: var(--inputNumber-enhance-leftIcon-hover-color);

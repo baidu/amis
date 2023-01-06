@@ -1122,6 +1122,7 @@
   --inputNumber-base-default-step-bg: var(--colors-neutral-fill-11);
   --inputNumber-base-hover-step-bg: var(--colors-neutral-fill-11);
   --inputNumber-base-active-step-bg: var(--colors-neutral-fill-11);
+  --inputNumber-base-default-unit-width: var(--sizes-base-28);
   --inputNumber-base-default-unit-paddingTop: calc(
     (
         var(--Form-selectOption-height) - var(--Form-input-lineHeight) *
