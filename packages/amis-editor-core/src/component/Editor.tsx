@@ -548,7 +548,12 @@ export default class Editor extends Component<EditorProps> {
           {!preview && <ContextMenuPanel store={this.store} />}
         </div>
 
-        <SubEditor store={this.store} manager={this.manager} theme={theme} />
+        <SubEditor
+          store={this.store}
+          manager={this.manager}
+          theme={theme}
+          amisEnv={amisEnv}
+        />
         <ScaffoldModal
           store={this.store}
           manager={this.manager}
