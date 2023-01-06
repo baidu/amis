@@ -288,6 +288,7 @@
   }
 
   .#{$ns}Select {
+    min-width: var(--inputNumber-base-default-unit-width);
     padding: var(--inputNumber-base-default-unit-paddingTop)
       var(--inputNumber-base-default-unit-paddingRight)
       var(--inputNumber-base-default-unit-paddingBottom)
