@@ -123,7 +123,7 @@ order: 9
 
 ### 上下文
 
-执行动作时，可以通过`${event.data}`获取事件对象的数据、通过`${$$}`获取组件当前数据域，例如：
+执行动作时，可以通过`${event.data}`获取事件对象的数据、通过`${__rendererData}`获取组件当前数据域，例如：
 
 ```schema
 {
@@ -179,7 +179,7 @@ order: 9
               {
                 actionType: 'toast',
                 args: {
-                  msg: '${$$|json}'
+                  msg: '${__rendererData|json}'
                 }
               }
             ]
@@ -199,7 +199,7 @@ order: 9
           {
             actionType: 'toast',
             args: {
-              msg: '${$$|json}'
+              msg: '${__rendererData|json}'
             }
           }
         ]
