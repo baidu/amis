@@ -140,15 +140,19 @@ export class Rating extends React.Component<RatingProps, any> {
     let tempColor = colors;
     if (this.ratingRef.current) {
       const style = getComputedStyle(this.ratingRef.current);
-      let defaultColors = JSON.parse(
-        JSON.parse(style.getPropertyValue('content'))
-      );
-
+      let defaultColors = [];
+      try {
+        defaultColors = JSON.parse(
+          JSON.parse(style.getPropertyValue('content'))
+        );
+      } catch (e) {
+        console.warn(e);
+      }
       const obj: any = {};
       defaultColors.forEach((item: any) => {
         obj[item.id] = item.value;
       });
-      if (isEmpty(colors)) {
+      if (isEmpty(colors) && !isEmpty(obj)) {
         tempColor = obj;
       }
     }
