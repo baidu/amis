@@ -321,6 +321,7 @@ interface SelectProps
       searchable?: boolean;
     }
   ) => JSX.Element;
+  renderValueLabel?: (item: Option) => JSX.Element;
   searchable?: boolean;
   options: Array<Option>;
   value: any;
@@ -749,6 +750,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       maxTagCount,
       overflowTagPopover,
       showInvalidMatch,
+      renderValueLabel,
       translate: __
     } = this.props;
     const selection = this.state.selection;
@@ -807,7 +809,9 @@ export class Select extends React.Component<SelectProps, SelectState> {
                             })}
                           >
                             <span className={cx('Select-valueLabel')}>
-                              {item[labelField || 'label']}
+                              {renderValueLabel
+                                ? renderValueLabel(item)
+                                : item[labelField || 'label']}
                             </span>
                             <span
                               className={cx('Select-valueIcon', {
@@ -834,7 +838,9 @@ export class Select extends React.Component<SelectProps, SelectState> {
                 } /** 避免点击查看浮窗时呼出下拉菜单 */
               >
                 <span className={cx('Select-valueLabel')}>
-                  {item[labelField || 'label']}
+                  {renderValueLabel
+                    ? renderValueLabel(item)
+                    : item[labelField || 'label']}
                 </span>
               </div>
             </TooltipWrapper>
@@ -855,7 +861,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
               })}
             >
               <span className={cx('Select-valueLabel')}>
-                {item[labelField || 'label']}
+                {renderValueLabel ? renderValueLabel(item) : item[labelField || 'label']}
               </span>
               <span
                 className={cx('Select-valueIcon', {
@@ -881,7 +887,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
             })}
             key={index}
           >
-            {item[labelField || 'label']}
+            {renderValueLabel ? renderValueLabel(item) : item[labelField || 'label']}
           </div>
         );
       }
@@ -904,7 +910,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
             })}
           >
             <span className={cx('Select-valueLabel')}>
-              {item[labelField || 'label']}
+              {renderValueLabel ? renderValueLabel(item) : item[labelField || 'label']}
             </span>
             <span
               className={cx('Select-valueIcon', {

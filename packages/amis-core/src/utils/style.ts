@@ -5,6 +5,7 @@
 import {resolveVariableAndFilter} from './tpl-builtin';
 import mapValues from 'lodash/mapValues';
 import camelCase from 'lodash/camelCase';
+import {valueMap} from './style-helper';
 
 function autoAddImageURL(image: string) {
   // 只支持单个的情况，并简单滤掉 linear-gradient 等情况
@@ -34,8 +35,19 @@ export function buildStyle(style: any, data: any) {
       : mapValues(style, s => resolveVariableAndFilter(s, data, '| raw') || s);
 
   Object.keys(styleVar).forEach((key: string) => {
+    if (key === 'radius') {
+      styleVar['borderRadius'] =
+        styleVar.radius['top-left-border-radius'] +
+        ' ' +
+        styleVar.radius['top-right-border-radius'] +
+        ' ' +
+        styleVar.radius['bottom-right-border-radius'] +
+        ' ' +
+        styleVar.radius['bottom-left-border-radius'];
+      delete styleVar['radius'];
+    }
     if (key.indexOf('-') !== -1) {
-      styleVar[camelCase(key)] = styleVar[key];
+      styleVar[camelCase(valueMap[key] || key)] = styleVar[key];
       delete styleVar[key];
     }
   });

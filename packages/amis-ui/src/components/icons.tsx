@@ -3,7 +3,7 @@
  * @description
  * @author fex
  */
-import React from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import cx from 'classnames';
 import CloseIcon from '../icons/close.svg';
 import CloseSmallIcon from '../icons/close-small.svg';
@@ -243,21 +243,59 @@ registerIcon('scale-origin', ScaleOrigin);
 export function Icon({
   icon,
   className,
+  wrapClassName,
   classPrefix = '',
+  iconContent,
   ...rest
 }: {
   icon: string;
+  iconContent?: string;
 } & React.ComponentProps<any>) {
   // jest 运行环境下，把指定的 icon 也输出到 snapshot 中。
   if (typeof jest !== 'undefined') {
     rest.icon = icon;
   }
 
+  const [showCssIcon, setShowCssIcon] = useState(false);
+
+  function refFn(dom: any) {
+    if (dom) {
+      const style = getComputedStyle(dom);
+      const svgStr = style.getPropertyValue('content');
+      const svg = /(<svg.*<\/svg>)/.exec(svgStr);
+
+      if (svg) {
+        const svgHTML = svg[0].replaceAll('\\"', '"');
+        if (dom.svgHTMLClone !== svgHTML) {
+          dom.innerHTML = svgHTML;
+          // 存储svg，不直接用innerHTML是防止<circle />渲染后变成<circle></circle>的情况
+          dom.svgHTMLClone = svgHTML;
+          dom.style.display = '';
+          setShowCssIcon(true);
+        }
+      } else {
+        // 当传入svg为空时，隐藏div，展示原icon
+        dom.style.display = 'none';
+        setShowCssIcon(false);
+      }
+    }
+  }
+
   const Component = getIcon(icon);
   const isURLIcon = typeof icon === 'string' && icon?.indexOf('.') !== -1;
 
   return Component ? (
-    <Component {...rest} className={`${className || ''} icon-${icon}`} />
+    <>
+      {iconContent ? (
+        <div
+          className={`${wrapClassName || ''}` + ' ' + iconContent}
+          ref={refFn}
+        ></div>
+      ) : null}
+      {!showCssIcon ? (
+        <Component {...rest} className={`${className || ''} icon-${icon}`} />
+      ) : null}
+    </>
   ) : isURLIcon ? (
     <img className={cx(`${classPrefix}Icon`, className)} src={icon} />
   ) : (
