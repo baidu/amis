@@ -7,7 +7,7 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    border-bottom: var(--Tabs-borderWidth) solid var(--Tabs--simple-split-color);
+    border-bottom: var(--Tabs-borderWidth) solid var(--Tabs-borderColor);
   }
 
   &-linksContainer-wrapper {
@@ -276,7 +276,7 @@
     background: var(--Tabs-content-bg);
     border-style: solid;
     border-width: 0 var(--Tabs-borderWidth) var(--Tabs-borderWidth);
-    border-color: var(--Tabs--simple-split-color);
+    border-color: var(--Tabs-borderColor);
   }
 
   &-pane {
@@ -618,7 +618,7 @@
     }
 
     > .#{$ns}Tabs-content {
-      border-top: var(--Tabs-borderWidth) solid var(--Tabs--simple-split-color);
+      border-top: var(--Tabs-borderWidth) solid var(--Tabs-borderColor);
     }
   }
 
@@ -641,7 +641,7 @@
           justify-content: center;
           border-width: var(--Tabs-borderWidth);
           border-style: solid;
-          border-color: var(--Tabs--simple-split-color);
+          border-color: var(--Tabs-borderColor);
         }
 
         &.#{$ns}Tabs-linksContainer--overflow
@@ -662,7 +662,7 @@
         margin-left: 0;
         white-space: nowrap;
         border-style: solid;
-        border-color: var(--Tabs--simple-split-color);
+        border-color: var(--Tabs-borderColor);
         border-width: var(--Tabs-borderWidth);
         border-left-width: 0;
       }
@@ -1181,8 +1181,7 @@
   &--strong {
     & > .#{$ns}Tabs-linksContainer-wrapper {
       align-items: stretch;
-      border-bottom: var(--Tabs-borderWidth) solid
-        var(--Tabs--simple-split-color);
+      border-bottom: var(--Tabs-borderWidth) solid var(--Tabs-borderColor);
 
       .#{$ns}Tabs-addable {
         width: var(--Tabs--strong-add-size);
@@ -1192,7 +1191,7 @@
         align-items: center;
         justify-content: center;
         font-size: 0;
-        border: var(--Tabs-borderWidth) solid var(--Tabs--simple-split-color);
+        border: var(--Tabs-borderWidth) solid var(--Tabs-borderColor);
         border-top-left-radius: var(--Tabs-borderRadius);
         border-top-right-radius: var(--Tabs-borderRadius);
         flex: none;
@@ -1229,7 +1228,7 @@
           margin-bottom: 0;
           padding: 0;
           justify-content: center;
-          border: var(--Tabs-borderWidth) solid var(--Tabs--simple-split-color);
+          border: var(--Tabs-borderWidth) solid var(--Tabs-borderColor);
           border-top-right-radius: var(--Tabs-borderRadius);
           box-sizing: border-box;
 
