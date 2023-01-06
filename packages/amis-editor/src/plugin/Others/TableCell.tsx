@@ -42,7 +42,7 @@ export class TableCellPlugin extends BasePlugin {
               label: '绑定字段名'
             }),
 
-            getSchemaTpl('remark'),
+            getSchemaTpl('tableCellRemark'),
 
             {
               name: 'placeholder',

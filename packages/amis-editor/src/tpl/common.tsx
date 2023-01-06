@@ -693,12 +693,10 @@ setSchemaTpl('onlyClassNameTab', (label = '外层') => {
     body: getSchemaTpl('collapseGroup', [
       {
         title: 'CSS类名',
-        body: [
-          getSchemaTpl('className', {label})
-        ]
+        body: [getSchemaTpl('className', {label})]
       }
     ])
-  }
+  };
 });
 
 /**
@@ -1355,7 +1353,7 @@ setSchemaTpl('optionsTip', {
   value: '最近您使用的标签'
 });
 
-setSchemaTpl('remark', {
+setSchemaTpl('tableCellRemark', {
   name: 'remark',
   label: '提示',
   type: 'input-text',
@@ -1649,7 +1647,7 @@ setSchemaTpl('tpl:btnLabel', {
   columnClassName: 'p-t-xs'
 });
 
-setSchemaTpl('option', {
+setSchemaTpl('switchOption', {
   type: 'input-text',
   name: 'option',
   label: '说明'

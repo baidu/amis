@@ -88,7 +88,7 @@ export class SwitchControlPlugin extends BasePlugin {
               }),
               getSchemaTpl('label'),
 
-              getSchemaTpl('option'),
+              getSchemaTpl('switchOption'),
 
               {
                 type: 'ae-switch-more',
