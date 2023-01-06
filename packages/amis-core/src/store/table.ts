@@ -1115,10 +1115,23 @@ export const TableStore = iRendererStore
           self.expandConfig.expand === 'all' &&
           !self.expandConfig.accordion)
       ) {
-        self.expandedRows.replace(self.rows.map(item => item.id));
+        self.expandedRows.replace(getExpandAllTreeIds(self.rows));
       }
 
       self.dragging = false;
+    }
+
+    // 获取所有层级的子节点id
+    function getExpandAllTreeIds(arr: Array<SRow>): string[] {
+      return arr.reduce((result: string[], current) => {
+        result.push(current.id);
+
+        if (current.children && current.children.length) {
+          result = result.concat(getExpandAllTreeIds(current.children));
+        }
+
+        return result;
+      }, []);
     }
 
     // 尽可能的复用 row
