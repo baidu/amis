@@ -2,7 +2,7 @@ import React from 'react';
 import {EditorManager} from '../manager';
 import {EditorStoreType} from '../store/editor';
 import {render} from 'amis';
-import {createObject} from 'amis-core';
+import {createObject, RenderOptions} from 'amis-core';
 
 import {observer} from 'mobx-react';
 import Editor from './Editor';
@@ -18,6 +18,7 @@ export interface SubEditorProps {
   store: EditorStoreType;
   manager: EditorManager;
   theme?: string;
+  amisEnv?: RenderOptions;
 }
 
 @observer
@@ -96,7 +97,7 @@ export class SubEditor extends React.Component<SubEditorProps> {
   }
 
   buildSchema() {
-    const {store, manager} = this.props;
+    const {store, manager, amisEnv} = this.props;
     const subEditorContext = store.subEditorContext;
     const config = manager.config;
     let superEditorData: any = store.superEditorData;
@@ -152,7 +153,7 @@ export class SubEditor extends React.Component<SubEditorProps> {
                     isSubEditor={true}
                     iframeUrl={config.iframeUrl}
                     ctx={store.ctx}
-                    amisEnv={config.amisEnv}
+                    amisEnv={amisEnv || config.amisEnv}
                     appLocale={config.appLocale}
                     i18nEnabled={config.i18nEnabled}
                     plugins={config.plugins}
