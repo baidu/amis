@@ -313,7 +313,6 @@ test('Renderer:TooltipWrapper with wrapperComponent', async () => {
       body: "function HelloWorld() {\n    console.log('Hello World');\n}"
     })
   );
-
   expect(container.querySelector('pre.cxd-TooltipWrapper')).toBeInTheDocument();
   expect(container).toHaveTextContent(
     `function HelloWorld() { console.log('Hello World'); }`
