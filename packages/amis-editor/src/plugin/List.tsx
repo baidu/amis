@@ -227,11 +227,17 @@ export class ListPlugin extends BasePlugin {
     const node = store.getNodeById(id);
     const value = store.getValueOf(id);
 
+    const defaultHeader = {
+      type: 'tpl',
+      tpl: '头部',
+      wrapperComponent: ''
+    };
+
     node &&
       value &&
       this.manager.openSubEditor({
         title: '配置头部',
-        value: value.header,
+        value: value.header ?? defaultHeader,
         slot: {
           type: 'container',
           body: '$$'
@@ -249,11 +255,17 @@ export class ListPlugin extends BasePlugin {
     const node = store.getNodeById(id);
     const value = store.getValueOf(id);
 
+    const defaultFooter = {
+      type: 'tpl',
+      tpl: '底部',
+      wrapperComponent: ''
+    };
+
     node &&
       value &&
       this.manager.openSubEditor({
         title: '配置底部',
-        value: value.footer,
+        value: value.footer ?? defaultFooter,
         slot: {
           type: 'container',
           body: '$$'

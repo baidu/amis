@@ -693,10 +693,12 @@ setSchemaTpl('onlyClassNameTab', (label = '外层') => {
     body: getSchemaTpl('collapseGroup', [
       {
         title: 'CSS类名',
-        body: [getSchemaTpl('className', {label})]
+        body: [
+          getSchemaTpl('className', {label})
+        ]
       }
     ])
-  };
+  }
 });
 
 /**
