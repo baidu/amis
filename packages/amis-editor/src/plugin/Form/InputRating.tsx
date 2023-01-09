@@ -9,6 +9,7 @@ import {BasePlugin, BaseEventContext, tipedLabel} from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
+import {getEnv} from 'mobx-state-tree';
 
 export class RateControlPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -87,6 +88,7 @@ export class RateControlPlugin extends BasePlugin {
 
   panelJustify = true;
   panelBodyCreator = (context: BaseEventContext) => {
+    const {i18nEnabled} = getEnv((window as any).editorStore);
     return getSchemaTpl('tabs', [
       {
         title: '属性',
@@ -100,7 +102,7 @@ export class RateControlPlugin extends BasePlugin {
               }),
 
               getSchemaTpl('label', {
-                label: 'Label',
+                label: 'Label'
               }),
 
               getSchemaTpl('valueFormula', {
@@ -142,7 +144,29 @@ export class RateControlPlugin extends BasePlugin {
               getSchemaTpl('labelRemark'),
 
               getSchemaTpl('remark'),
-              getSchemaTpl('texts', {
+              getSchemaTpl('combo-container', {
+                type: 'combo',
+                label: '描述',
+                mode: 'normal',
+                name: 'texts',
+                items: [
+                  {
+                    placeholder: 'Key',
+                    type: 'input-number',
+                    unique: true,
+                    name: 'key',
+                    columnClassName: 'w-xs flex-none',
+                    min: 0,
+                    step: 1,
+                    max: 10,
+                    precision: 0
+                  },
+                  {
+                    placeholder: '描述内容',
+                    type: i18nEnabled ? 'input-text-i18n' : 'input-text',
+                    name: 'value'
+                  }
+                ],
                 draggable: false,
                 multiple: true,
                 pipeIn: (value: any) => {

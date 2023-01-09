@@ -693,12 +693,10 @@ setSchemaTpl('onlyClassNameTab', (label = '外层') => {
     body: getSchemaTpl('collapseGroup', [
       {
         title: 'CSS类名',
-        body: [
-          getSchemaTpl('className', {label})
-        ]
+        body: [getSchemaTpl('className', {label})]
       }
     ])
-  }
+  };
 });
 
 /**
@@ -721,68 +719,6 @@ setSchemaTpl('combo-container', (config: SchemaObject) => {
   }
   return config;
 });
-
-setSchemaTpl(
-  'texts',
-  getSchemaTpl('combo-container', {
-    type: 'combo',
-    label: '描述',
-    mode: 'normal',
-    name: 'texts',
-    items: [
-      {
-        placeholder: 'Key',
-        type: 'input-number',
-        unique: true,
-        name: 'key',
-        columnClassName: 'w-xs flex-none',
-        min: 0,
-        step: 1,
-        max: 10,
-        precision: 0
-      },
-
-      {
-        placeholder: '描述内容',
-        type: 'input-text',
-        name: 'value'
-      }
-    ]
-  })
-);
-
-setSchemaTpl(
-  'unitOptions',
-  getSchemaTpl('combo-container', {
-    type: 'combo',
-    label: '单位选项',
-    mode: 'normal',
-    name: 'unitOptions',
-    flat: true,
-    items: [
-      {
-        placeholder: '单位选项',
-        type: 'input-text',
-        name: 'text'
-      }
-    ],
-    draggable: false,
-    multiple: true,
-    pipeIn: (value: any) => {
-      if (!isObject(value)) {
-        return Array.isArray(value) ? value : [];
-      }
-      const res = value.map((item: any) => item.value);
-      return res;
-    },
-    pipeOut: (value: any[]) => {
-      if (!value.length) {
-        return undefined;
-      }
-      return value;
-    }
-  })
-);
 
 /**
  * 所有组件的状态
@@ -1595,22 +1531,6 @@ setSchemaTpl('tablePlaceholder', {
   pipeIn: defaultValue('暂无数据'),
   type: 'input-text',
   label: '无数据提示'
-});
-
-setSchemaTpl('collapseHeader', (context: BaseEventContext) => {
-  return {
-    name: 'header',
-    label: '标题',
-    type: 'input-text',
-    pipeIn: defaultValue(
-      context?.schema?.title || context?.schema?.header || ''
-    ),
-    onChange: (value: any, oldValue: any, model: any, form: any) => {
-      // 转换一下旧版本的title字段
-      form.setValueByName('header', value);
-      form.setValueByName('title', undefined);
-    }
-  };
 });
 
 setSchemaTpl('collapseOpenHeader', {

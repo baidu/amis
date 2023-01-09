@@ -2,6 +2,7 @@ import {registerEditorPlugin} from 'amis-editor-core';
 import {BasePlugin, RegionConfig, BaseEventContext} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {tipedLabel} from 'amis-editor-core';
+import {getEnv} from 'mobx-state-tree';
 
 export class CollapsePlugin extends BasePlugin {
   // 关联渲染器名字
@@ -35,6 +36,7 @@ export class CollapsePlugin extends BasePlugin {
   panelJustify = true;
 
   panelBodyCreator = (context: BaseEventContext) => {
+    const {i18nEnabled} = getEnv((window as any).editorStore);
     return getSchemaTpl('tabs', [
       {
         title: '属性',
@@ -43,7 +45,24 @@ export class CollapsePlugin extends BasePlugin {
             title: '基本',
             body: [
               getSchemaTpl('layout:originPosition', {value: 'left-top'}),
-              getSchemaTpl('collapseHeader'),
+              {
+                name: 'header',
+                label: '标题',
+                type: i18nEnabled ? 'input-text-i18n' : 'input-text',
+                pipeIn: defaultValue(
+                  context?.schema?.title || context?.schema?.header || ''
+                ),
+                onChange: (
+                  value: any,
+                  oldValue: any,
+                  model: any,
+                  form: any
+                ) => {
+                  // 转换一下旧版本的title字段
+                  form.setValueByName('header', value);
+                  form.setValueByName('title', undefined);
+                }
+              },
               getSchemaTpl('collapseOpenHeader'),
               {
                 name: 'headerPosition',

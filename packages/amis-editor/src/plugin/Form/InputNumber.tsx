@@ -13,6 +13,7 @@ import {
 import {defaultValue, getSchemaTpl, tipedLabel} from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
+import {getEnv} from 'mobx-state-tree';
 
 export class NumberControlPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -125,6 +126,7 @@ export class NumberControlPlugin extends BasePlugin {
   ];
 
   panelBodyCreator = (context: BaseEventContext) => {
+    const {i18nEnabled} = getEnv((window as any).editorStore);
     return getSchemaTpl('tabs', [
       {
         title: '属性',
@@ -198,7 +200,35 @@ export class NumberControlPlugin extends BasePlugin {
                 },
                 getSchemaTpl('prefix'),
                 getSchemaTpl('suffix'),
-                getSchemaTpl('unitOptions'),
+                getSchemaTpl('combo-container', {
+                  type: 'combo',
+                  label: '单位选项',
+                  mode: 'normal',
+                  name: 'unitOptions',
+                  flat: true,
+                  items: [
+                    {
+                      placeholder: '单位选项',
+                      type: i18nEnabled ? 'input-text-i18n' : 'input-text',
+                      name: 'text'
+                    }
+                  ],
+                  draggable: false,
+                  multiple: true,
+                  pipeIn: (value: any) => {
+                    if (!isObject(value)) {
+                      return Array.isArray(value) ? value : [];
+                    }
+                    const res = value.map((item: any) => item.value);
+                    return res;
+                  },
+                  pipeOut: (value: any[]) => {
+                    if (!value.length) {
+                      return undefined;
+                    }
+                    return value;
+                  }
+                }),
                 getSchemaTpl('labelRemark'),
                 getSchemaTpl('remark'),
                 getSchemaTpl('placeholder'),
