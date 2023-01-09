@@ -846,13 +846,13 @@ export class TreeSelector extends React.Component<
         }
         if (paths.length === 1) {
           // 父节点
-          item.key = item.key || key;
+          item.key = key;
           flattenedOptions.push(item);
         } else if (this.isUnfolded(parent)) {
           this.relations.set(item, parent);
           // 父节点是展开的状态
           item.level = level;
-          item.key = item.key || `${parent.key}-${key}`;
+          item.key = `${parent.key}-${key}`;
           flattenedOptions.push(item);
         }
       }
