@@ -143,7 +143,15 @@
     }
 
     &-tabs {
-      --Tabs-linkFontSize: var(--fontSizeSm);
+      --Tabs--line-fontSize: var(--fontSizeSm);
+      --Tabs--line-active-fontSize: var(--fontSizeSm);
+      --Tabs--line-hover-fontSize: var(--fontSizeSm);
+      --Tabs--line-lineHeight: 30px;
+      --Tabs--line-active-lineHeight: 30px;
+      --Tabs--line-hover-lineHeight: 30px;
+      --Tabs--line-fontWeight: 500;
+      --Tabs--line-active-fontWeight: 500;
+      --Tabs--line-hover-fontWeight: 500;
       --Tabs--card-linkPadding: #{px2rem(5px)};
 
       max-height: 100%;
