@@ -162,7 +162,6 @@ export class CityControlPlugin extends BasePlugin {
                 pipeIn: defaultValue(false)
               }),
 
-              getSchemaTpl('loadingConfig', {}, {context}),
               getSchemaTpl('labelRemark'),
               getSchemaTpl('remark'),
               getSchemaTpl('description')
