@@ -237,7 +237,10 @@ export class ComboControlPlugin extends BasePlugin {
                   ),
                   pipeOut: (value: any) => {
                     try {
-                      return JSON.parse(value);
+                      
+                      return typeof JSON.parse(value) === 'number'
+                        ? value
+                        : JSON.parse(value);
                     } catch (err) {
                       return value;
                     }
@@ -256,6 +259,7 @@ export class ComboControlPlugin extends BasePlugin {
                   ) => {
                     form.setValueByName('addable', value);
                     form.setValueByName('removable', value);
+                    !!value && form.setValueByName('draggable', false);
                     form.setValueByName('flat', false);
                   }
                 }),
