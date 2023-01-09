@@ -1,6 +1,11 @@
-import {registerEditorPlugin} from 'amis-editor-core';
+import {
+  registerEditorPlugin,
+  RendererPluginAction,
+  RendererPluginEvent
+} from 'amis-editor-core';
 import {BaseEventContext, BasePlugin} from 'amis-editor-core';
 import {undefinedPipeOut, getSchemaTpl} from 'amis-editor-core';
+import {getEventControlConfig} from '../renderer/event-control/helper';
 
 const presetColors = [
   '#2468f2',
@@ -39,6 +44,62 @@ export class TagPlugin extends BasePlugin {
 
   panelTitle = '标签';
   panelJustify = true;
+
+  // 事件定义
+  events: RendererPluginEvent[] = [
+    {
+      eventName: 'click',
+      eventLabel: '点击',
+      description: '点击时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            nativeEvent: {
+              type: 'object',
+              title: '鼠标事件对象'
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'mouseenter',
+      eventLabel: '鼠标移入',
+      description: '鼠标移入时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            nativeEvent: {
+              type: 'object',
+              title: '鼠标事件对象'
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'mouseleave',
+      eventLabel: '鼠标移出',
+      description: '鼠标移出时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            nativeEvent: {
+              type: 'object',
+              title: '鼠标事件对象'
+            }
+          }
+        }
+      ]
+    }
+  ];
+
+  // 动作定义
+  actions: RendererPluginAction[] = [];
+
   panelBodyCreator = (context: BaseEventContext) => {
 
     return getSchemaTpl('tabs', [
@@ -119,6 +180,16 @@ export class TagPlugin extends BasePlugin {
             isFormItem: false
           })
         ])
+      },
+      {
+        title: '事件',
+        className: 'p-none',
+        body: [
+          getSchemaTpl('eventControl', {
+            name: 'onEvent',
+            ...getEventControlConfig(this.manager, context)
+          })
+        ]
       }
     ]);
   };
