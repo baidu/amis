@@ -8,6 +8,7 @@ import {EditorManager, EditorManagerConfig, PluginClass} from '../manager';
 import {reaction} from 'mobx';
 import {RenderOptions, toast} from 'amis';
 import {PluginEventListener, RendererPluginAction} from '../plugin';
+import {reGenerateID} from '../util';
 import {SubEditor} from './SubEditor';
 import Breadcrumb from './Breadcrumb';
 import {destroy} from 'mobx-state-tree';
@@ -470,9 +471,9 @@ export default class Editor extends Component<EditorProps> {
       );
       if (this.store.activeId === this.curCopySchemaData.$$id) {
         // 复制和粘贴是同一个元素，则直接追加到当前元素后面
-        this.manager.appendSiblingSchema(curSimpleSchema);
+        this.manager.appendSiblingSchema(reGenerateID(curSimpleSchema));
       } else {
-        this.manager.addElem(curSimpleSchema);
+        this.manager.addElem(reGenerateID(curSimpleSchema));
       }
     }
   }
