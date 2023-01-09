@@ -464,6 +464,12 @@ export class CRUDPlugin extends BasePlugin {
           (item: any) => item.type === 'operation'
         );
         hasFeatures && !hasOperate && valueSchema.columns.push(oper);
+        
+        setTimeout(() => {
+          // 更新
+          this.manager.buildPanels();
+          this.manager.buildToolbars();
+        }, 20);
         return valueSchema;
       },
       canRebuild: true
