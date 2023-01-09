@@ -186,7 +186,7 @@ export const runAction = async (
     event
   };
 
-  // $$默认为renderer.props.data，兼容表单项值变化时的data读取
+  // __rendererData默认为renderer.props.data，兼容表单项值变化时的data读取
   if (!event.data.__rendererData) {
     additional = {
       event,
@@ -223,7 +223,9 @@ export const runAction = async (
 
   // 动作配置
   const args = dataMapping(actionConfig.args, mergeData, key =>
-    ['adaptor', 'responseAdaptor', 'requestAdaptor'].includes(key)
+    ['adaptor', 'responseAdaptor', 'requestAdaptor', 'responseData'].includes(
+      key
+    )
   );
   const afterMappingData = dataMapping(actionConfig.data, mergeData);
 
