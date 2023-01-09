@@ -279,8 +279,13 @@ export const MappingField = withStore(props =>
     }
 
     render() {
-      const {style} = this.props;
-      const mapKey = getPropValue(this.props);
+      const {style, defaultValue, data} = this.props;
+      let mapKey = getPropValue(this.props);
+      // 让默认值支持表达式
+      if (defaultValue && isPureVariable(defaultValue) && defaultValue === mapKey) {
+        mapKey = resolveVariableAndFilter(defaultValue, data, '| raw');
+      }
+
       if (Array.isArray(mapKey)) {
         return (
           <span style={style}>
