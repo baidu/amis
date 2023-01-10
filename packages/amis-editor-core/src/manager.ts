@@ -1554,6 +1554,7 @@ export class EditorManager {
     this.replaceChild(id, replaceWith);
   }
 
+  // 根据元素ID实时拿取上下文数据
   async reScaffoldV2(id: string) {
     const commonContext = this.buildEventContext(id);
     const scaffoldForm = commonContext.info?.scaffoldForm;
