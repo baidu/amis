@@ -232,7 +232,7 @@ export function buildApi(
       }
     }
 
-    if (api.data && (api.attachDataToQuery !== false || api.jsonql)) {
+    if (api.data && api.attachDataToQuery !== false) {
       const idx = api.url.indexOf('?');
       if (~idx) {
         let params = (api.query = {
@@ -284,6 +284,16 @@ export function buildApi(
     }
   } else if (api.jsonql) {
     api.method = 'post';
+    api.jsonql = dataMapping(
+      api.jsonql,
+      {
+        ...api.query,
+        ...data
+      },
+      undefined,
+      false,
+      true
+    );
     api.body = api.data = api.jsonql;
   }
 
