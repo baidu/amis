@@ -1176,12 +1176,14 @@ export abstract class BasePlugin implements PluginInterface {
         iconSvg: 'harmmer',
         tooltip: `快速构建「${info.plugin.name}」`,
         placement: 'bottom',
-        onClick: () =>
-          this.manager.reScaffold(
-            id,
-            info.scaffoldForm || plugin.scaffoldForm!,
-            schema
-          )
+        onClick: () => this.manager.reScaffoldV2(id)
+        /*
+        this.manager.reScaffold(
+          id,
+          info.scaffoldForm || plugin.scaffoldForm!,
+          schema
+        )
+        */
       });
     }
   }
