@@ -1539,7 +1539,7 @@ export class EditorManager {
     this.dnd.startDrag(id, e.nativeEvent);
   }
 
-  async scaffold(form: ScaffoldForm, value: any): Promise<SchemaObject> {
+  async scaffold(form: any, value: any): Promise<SchemaObject> {
     return new Promise(resolve => {
       this.store.openScaffoldForm({
         ...form,
@@ -1551,6 +1551,15 @@ export class EditorManager {
 
   async reScaffold(id: string, form: ScaffoldForm, value: any) {
     const replaceWith = await this.scaffold(form, value);
+    this.replaceChild(id, replaceWith);
+  }
+
+  // 根据元素ID实时拿取上下文数据
+  async reScaffoldV2(id: string) {
+    const commonContext = this.buildEventContext(id);
+    const scaffoldForm = commonContext.info?.scaffoldForm;
+    const curSchema = commonContext.schema;
+    const replaceWith = await this.scaffold(scaffoldForm, curSchema);
     this.replaceChild(id, replaceWith);
   }
 
