@@ -91,13 +91,13 @@ order: 73
           "time": "2019-02-07",
           "title": "节点数据error",
           "detail": "error",
-          "icon": "status-fail"
+          "icon": "fail"
         },
         {
           "time": "2019-02-08",
           "title": "节点数据success",
           "detail": "success",
-          "icon": "status-success"
+          "icon": "success"
         },
         {
           "time": "2019-02-09",
