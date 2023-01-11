@@ -31,12 +31,14 @@ export class ServicePlugin extends BasePlugin {
       {
         type: 'tpl',
         tpl: '内容',
+        wrapperComponent: '',
         inline: false
       }
     ]
   };
   previewSchema = {
     type: 'tpl',
+    wrapperComponent: '',
     tpl: '功能性组件，用于数据拉取。'
   };
 

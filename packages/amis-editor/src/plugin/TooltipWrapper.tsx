@@ -26,6 +26,7 @@ export class TooltipWrapperPlugin extends BasePlugin {
     body: [
       {
         type: 'tpl',
+        wrapperComponent: '',
         tpl: '内容'
       }
     ],

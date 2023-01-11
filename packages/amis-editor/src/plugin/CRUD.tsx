@@ -1032,7 +1032,8 @@ export class CRUDPlugin extends BasePlugin {
                     body: [
                       {
                         type: 'tpl',
-                        tpl: '简单的展示数据：$a $b'
+                        tpl: '简单的展示数据：$a $b',
+                        wrapperComponent: ''
                       }
                     ],
                     actions: [
@@ -1100,7 +1101,7 @@ export class CRUDPlugin extends BasePlugin {
                 } else if (typeof item === 'string') {
                   type = 'tpl';
                   item =
-                    typeof item === 'string' ? {type: 'tpl', tpl: item} : item;
+                    typeof item === 'string' ? {type: 'tpl', tpl: item, wrapperComponent: ''} : item;
                 }
                 return {
                   type,
@@ -1121,6 +1122,7 @@ export class CRUDPlugin extends BasePlugin {
                     return JSONPipeIn({
                       type: 'tpl',
                       tpl: '内容',
+                      wrapperComponent: '',
                       ...item
                     });
                   }
@@ -1133,6 +1135,7 @@ export class CRUDPlugin extends BasePlugin {
             },
             scaffold: {
               type: 'tpl',
+              wrapperComponent: '',
               tpl: '内容'
             },
             multiple: true,
@@ -1277,7 +1280,7 @@ export class CRUDPlugin extends BasePlugin {
                 } else if (typeof item === 'string') {
                   type = 'tpl';
                   item =
-                    typeof item === 'string' ? {type: 'tpl', tpl: item} : item;
+                    typeof item === 'string' ? {type: 'tpl', tpl: item, wrapperComponent: ''} : item;
                 }
 
                 return {
@@ -1299,6 +1302,7 @@ export class CRUDPlugin extends BasePlugin {
                     return JSONPipeIn({
                       type: 'tpl',
                       tpl: '内容',
+                      wrapperComponent: '',
                       ...item
                     });
                   }
@@ -1311,7 +1315,8 @@ export class CRUDPlugin extends BasePlugin {
             },
             scaffold: {
               type: 'tpl',
-              tpl: '内容'
+              tpl: '内容',
+              wrapperComponent: ''
             },
             multiple: true,
             items: [

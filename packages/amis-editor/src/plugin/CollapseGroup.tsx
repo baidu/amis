@@ -31,6 +31,7 @@ export class CollapseGroupPlugin extends BasePlugin {
           {
             type: 'tpl',
             tpl: '这里是内容1',
+            wrapperComponent: '',
             inline: false
           }
         ]
@@ -43,6 +44,7 @@ export class CollapseGroupPlugin extends BasePlugin {
           {
             type: 'tpl',
             tpl: '这里是内容1',
+            wrapperComponent: '',
             inline: false
           }
         ]
@@ -213,6 +215,7 @@ export class CollapseGroupPlugin extends BasePlugin {
                       {
                         type: 'tpl',
                         tpl: '内容',
+                        wrapperComponent: '',
                         inline: false
                       }
                     ],

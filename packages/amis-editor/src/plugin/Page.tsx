@@ -33,7 +33,8 @@ export class PagePlugin extends BasePlugin {
     body: [
       {
         type: 'tpl',
-        tpl: '内容'
+        tpl: '内容',
+        wrapperComponent: ''
       }
     ]
   };
@@ -333,7 +334,7 @@ export class PagePlugin extends BasePlugin {
         //             ...obj,
         //             [current.key || '']: current.value
         //               ? current.value
-        //               : {type: 'tpl', tpl: '内容'}
+        //               : {type: 'tpl', tpl: '内容', wrapperComponent: ''}
         //           }),
         //           {}
         //         )

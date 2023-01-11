@@ -362,7 +362,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               required: true,
               pipeIn: defaultValue({
                 title: '弹框标题',
-                body: '<p>对，你刚刚点击了</p>',
+                body: '对，你刚刚点击了',
                 showCloseButton: true,
                 showErrorMsg: true,
                 showLoading: true
@@ -395,7 +395,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               required: true,
               pipeIn: defaultValue({
                 title: '弹框标题',
-                body: '<p>对，你刚刚点击了</p>'
+                body: '对，你刚刚点击了'
               }),
               asFormItem: true,
               visibleOn: 'data.groupType === "drawer"',
@@ -2325,7 +2325,7 @@ export const getOldActionSchema = (
                 name: 'dialog',
                 pipeIn: defaultValue({
                   title: '弹框标题',
-                  body: '<p>对，你刚刚点击了</p>',
+                  body: '对，你刚刚点击了',
                   showCloseButton: true,
                   showErrorMsg: true,
                   showLoading: true
@@ -2356,7 +2356,7 @@ export const getOldActionSchema = (
                 name: 'drawer',
                 pipeIn: defaultValue({
                   title: '弹框标题',
-                  body: '<p>对，你刚刚点击了</p>'
+                  body: '对，你刚刚点击了'
                 }),
                 asFormItem: true,
                 children: ({value, onChange, data}: any) =>
@@ -2388,7 +2388,7 @@ export const getOldActionSchema = (
                 name: 'feedback',
                 pipeIn: defaultValue({
                   title: '弹框标题',
-                  body: '<p>内容</p>'
+                  body: '内容'
                 }),
                 asFormItem: true,
                 children: ({onChange, value, data}: any) =>

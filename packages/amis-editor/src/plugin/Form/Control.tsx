@@ -28,6 +28,7 @@ export class ControlPlugin extends BasePlugin {
     body: [
       {
         type: 'tpl',
+        wrapperComponent: '',
         tpl: 'a'
       }
     ]
