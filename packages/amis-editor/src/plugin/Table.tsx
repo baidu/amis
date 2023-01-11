@@ -694,8 +694,7 @@ export class TablePlugin extends BasePlugin {
           ? await current.info.plugin.buildDataSchemas(current, region)
           : {
               type: 'string',
-              title: schema.label || schema.name,
-              description: schema.description
+              title: schema.label || schema.name
             };
       }
     }

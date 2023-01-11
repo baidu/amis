@@ -927,8 +927,7 @@ export class FormPlugin extends BasePlugin {
             : {
                 type: 'string',
                 title: schema.label || schema.name,
-                originalValue: schema.value, // 记录原始值，循环引用检测需要
-                description: schema.description
+                originalValue: schema.value // 记录原始值，循环引用检测需要
               };
         }
       } else {

@@ -1,4 +1,4 @@
-import {isExpression, mapTree, resolveVariableAndFilter} from 'amis-core';
+import {isExpression, resolveVariableAndFilter} from 'amis-core';
 
 /**
  * 从amis数据域中取变量数据
@@ -11,10 +11,6 @@ export async function resolveVariablesFromScope(node: any, manager: any) {
   const dataPropsAsOptions = manager?.dataSchema?.getDataPropsAsOptions();
 
   if (dataPropsAsOptions) {
-    mapTree(dataPropsAsOptions, item => {
-      item.tag = item.type;
-      return item;
-    });
     return dataPropsAsOptions
       .map((item: any) => ({
         selectMode: 'tree',

@@ -352,8 +352,7 @@ export class Table2Plugin extends BasePlugin {
             ? await current.info.plugin.buildDataSchemas(current, region)
             : {
                 type: 'string',
-                title: schema.label || schema.title,
-                description: schema.description
+                title: schema.label || schema.title
               };
         }
       }
