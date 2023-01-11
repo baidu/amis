@@ -286,14 +286,6 @@
   &:not(.is-inline) > .#{$ns}Number {
     display: block;
   }
-
-  .#{$ns}Select {
-    min-width: var(--inputNumber-base-default-unit-width);
-    padding: var(--inputNumber-base-default-unit-paddingTop)
-      var(--inputNumber-base-default-unit-paddingRight)
-      var(--inputNumber-base-default-unit-paddingBottom)
-      var(--inputNumber-base-default-unit-paddingLeft);
-  }
 }
 
 .#{$ns}Number--borderHalf,
@@ -305,11 +297,64 @@
 
 .#{$ns}NumberControl--withUnit {
   display: flex;
+  &:hover {
+    .#{$ns}Number,
+    .#{$ns}NumberControl-unit {
+      border-width: var(--inputNumber-base-hover-top-border-width)
+        var(--inputNumber-base-hover-right-border-width)
+        var(--inputNumber-base-hover-bottom-border-width)
+        var(--inputNumber-base-hover-left-border-width);
+      border-style: var(--inputNumber-base-hover-top-border-style)
+        var(--inputNumber-base-hover-right-border-style)
+        var(--inputNumber-base-hover-bottom-border-style)
+        var(--inputNumber-base-hover-left-border-style);
+      border-color: var(--inputNumber-base-hover-top-border-color)
+        var(--inputNumber-base-hover-right-border-color)
+        var(--inputNumber-base-hover-bottom-border-color)
+        var(--inputNumber-base-hover-left-border-color);
+      border-radius: var(--inputNumber-base-hover-top-left-border-radius)
+        var(--inputNumber-base-hover-top-right-border-radius)
+        var(--inputNumber-base-hover-bottom-right-border-radius)
+        var(--inputNumber-base-hover-bottom-left-border-radius);
+    }
+  }
   .#{$ns}Number {
     flex-grow: 1;
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    border-right: none !important;
   }
-  .#{$ns}Select {
-    border-left: 0;
+
+  .#{$ns}Number-focused + .#{$ns}NumberControl-unit {
+    border-width: var(--inputNumber-base-active-top-border-width)
+      var(--inputNumber-base-active-right-border-width)
+      var(--inputNumber-base-active-bottom-border-width)
+      var(--inputNumber-base-active-left-border-width);
+    border-style: var(--inputNumber-base-active-top-border-style)
+      var(--inputNumber-base-active-right-border-style)
+      var(--inputNumber-base-active-bottom-border-style)
+      var(--inputNumber-base-active-left-border-style);
+    border-color: var(--inputNumber-base-active-top-border-color)
+      var(--inputNumber-base-active-right-border-color)
+      var(--inputNumber-base-active-bottom-border-color)
+      var(--inputNumber-base-active-left-border-color);
+    border-radius: var(--inputNumber-base-active-top-left-border-radius)
+      var(--inputNumber-base-active-top-right-border-radius)
+      var(--inputNumber-base-active-bottom-right-border-radius)
+      var(--inputNumber-base-active-bottom-left-border-radius);
+  }
+
+  & .#{$ns}NumberControl-unit {
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+    min-width: var(--inputNumber-base-default-unit-width);
+    padding: var(--inputNumber-base-default-unit-paddingTop)
+      var(--inputNumber-base-default-unit-paddingRight)
+      var(--inputNumber-base-default-unit-paddingBottom)
+      var(--inputNumber-base-default-unit-paddingLeft);
+  }
+  .#{$ns}NumberControl-single-unit {
+    cursor: default;
   }
 }
 .#{$ns}Number--enhance {

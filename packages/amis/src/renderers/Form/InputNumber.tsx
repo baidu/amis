@@ -444,12 +444,27 @@ export default class NumberControl extends React.Component<
           big={big}
         />
         {unitOptions ? (
-          <Select
-            value={unit}
-            clearable={false}
-            options={this.state.unitOptions || []}
-            onChange={this.handleChangeUnit}
-          />
+          unitOptions.length > 1 ? (
+            <Select
+              value={unit}
+              clearable={false}
+              options={this.state.unitOptions || []}
+              onChange={this.handleChangeUnit}
+              className={`${ns}NumberControl-unit`}
+            />
+          ) : (
+            <div
+              className={cx(
+                `${ns}NumberControl-unit`,
+                ` ${ns}NumberControl-single-unit`,
+                `${ns}Select`
+              )}
+            >
+              {typeof unitOptions[0] === 'string'
+                ? unitOptions[0]
+                : unitOptions[0].label}
+            </div>
+          )
         ) : null}
       </div>
     );
