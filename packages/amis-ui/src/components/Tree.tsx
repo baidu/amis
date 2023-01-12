@@ -307,7 +307,13 @@ export class TreeSelector extends React.Component<
       if (node.children && node.children.length) {
         let ret: any = true;
 
-        if (node.defer && node.loaded && !initFoldedLevel) {
+        if (
+          node.defer &&
+          node.loaded &&
+          !initFoldedLevel &&
+          unfoldedField &&
+          node[unfoldedField] !== false
+        ) {
           ret = true;
         } else if (
           unfoldedField &&
@@ -334,11 +340,16 @@ export class TreeSelector extends React.Component<
   @autobind
   toggleUnfolded(node: any) {
     const unfolded = this.unfolded;
-    const {onDeferLoad} = this.props;
+    const {onDeferLoad, unfoldedField} = this.props;
 
     if (node.defer && !node.loaded) {
       onDeferLoad?.(node);
       return;
+    }
+    // TODO: 操作store区更新option属性
+    // hack: 在node上直接添加属性
+    if (node.defer && node.loaded) {
+      node[unfoldedField] = !unfolded.get(node);
     }
 
     unfolded.set(node, !unfolded.get(node));
