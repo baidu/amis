@@ -47,7 +47,8 @@ export class TransferDropDown extends Transfer<TransferDropDownProps> {
       maxTagCount,
       overflowTagPopover,
       itemHeight,
-      virtualThreshold
+      virtualThreshold,
+      showInvalidMatch
     } = this.props;
     const {inputValue, searchResult} = this.state;
     const mobileUI = useMobileUI && isMobile();
@@ -130,6 +131,7 @@ export class TransferDropDown extends Transfer<TransferDropDownProps> {
             itemRender={itemRender}
             useMobileUI={useMobileUI}
             hasDropDownArrow={!mobileUI}
+            showInvalidMatch={showInvalidMatch}
           />
         )}
       </PopOverContainer>

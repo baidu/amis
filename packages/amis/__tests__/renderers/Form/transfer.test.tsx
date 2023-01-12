@@ -741,3 +741,70 @@ test('Renderer:transfer associated mode with virtual', async () => {
   expect(await queryByText('label-100')).toBeNull();
   expect(container).toMatchSnapshot();
 });
+
+test('Renderer:transfer with showInvalidMatch & unmatched do not add', async () => {
+  const schema = {
+    label: '默认',
+    type: 'transfer',
+    name: 'transfer',
+    value: 'v,w,x,y,z',
+    selectMode: 'tree',
+    options: [
+      {
+        label: '诸葛亮',
+        value: 'zhugeliang'
+      },
+      {
+        label: '曹操',
+        value: 'caocao'
+      },
+      {
+        label: '钟无艳',
+        value: 'zhongwuyan'
+      }
+    ]
+  };
+
+  const {container, getByText, queryByText, rerender} = await setup({
+    ...schema,
+    deferApi: 'xxx'
+  });
+
+  function leftItems() {
+    return container.querySelectorAll('.cxd-Transfer-select .cxd-Tree-item');
+  }
+
+  function rightItems() {
+    return container.querySelectorAll(
+      '.cxd-Transfer-result .cxd-Selections-item'
+    );
+  }
+
+  expect(leftItems()!.length).toBe(3);
+  expect(rightItems()!.length).toBe(5);
+
+  expect(
+    rightItems()[0]!.querySelector('.cxd-Selections-label')!
+  ).not.toHaveClass('is-invalid');
+  fireEvent.click(rightItems()[0]!.querySelector('.cxd-Selections-delBtn')!);
+
+  await wait(500);
+
+  expect(leftItems()!.length).toBe(3);
+  expect(rightItems()!.length).toBe(4);
+
+  rerender(amisRender({...schema, showInvalidMatch: true}));
+
+  await wait(500);
+  expect(rightItems()[0]!.querySelector('.cxd-Selections-label')!).toHaveClass(
+    'is-invalid'
+  );
+  fireEvent.click(rightItems()[0]!.querySelector('.cxd-Selections-delBtn')!);
+
+  await wait(500);
+
+  expect(container).toMatchSnapshot();
+
+  expect(leftItems()!.length).toBe(7);
+  expect(rightItems()!.length).toBe(4);
+});
