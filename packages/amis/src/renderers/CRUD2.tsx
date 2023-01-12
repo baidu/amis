@@ -1162,7 +1162,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
                 : undefined,
             keepItemSelectionOnPageChange,
             maxKeepItemSelectionLength,
-            valueField: valueField || primaryField,
+            // valueField: valueField || primaryField,
             primaryField: primaryField,
             items: store.data.items,
             query: store.query,
