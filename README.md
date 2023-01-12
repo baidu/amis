@@ -21,7 +21,7 @@
 
 <div align="center">
 
-![build](https://img.shields.io/github/workflow/status/baidu/amis/gh-pages/master)
+![build](https://img.shields.io/github/actions/workflow/status/baidu/amis/gh-pages.yml)
 ![license](https://img.shields.io/github/license/baidu/amis.svg)
 ![version](https://img.shields.io/npm/v/amis)
 ![language](https://img.shields.io/github/languages/top/baidu/amis)
