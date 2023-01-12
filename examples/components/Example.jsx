@@ -104,6 +104,7 @@ import SyncUpdateActionSchema from './EventAction/update-data/SyncUpdate';
 import DataAutoFillActionSchema from './EventAction/update-data/DataAutoFill';
 import SetVariable from './EventAction/update-data/SetVariable';
 import PreventFormActionSchema from './EventAction/prevent-defalut/PreventForm';
+import InputTableEventSchema from './EventAction/cmpt-event-action/InputTableEventAction';
 import WizardSchema from './Wizard';
 import ChartSchema from './Chart';
 import EChartsEditorSchema from './ECharts';
@@ -750,6 +751,11 @@ export const examples = [
                 label: 'SearchBox组件',
                 path: 'examples/event/searchbox',
                 component: makeSchemaRenderer(SearchBoxEventSchema)
+              },
+              {
+                label: 'InputTable组件',
+                path: 'examples/event/inputtable',
+                component: makeSchemaRenderer(InputTableEventSchema)
               }
             ]
           },
