@@ -599,6 +599,93 @@ order: 31
 }
 ```
 
+## 选项搜索
+
+配置`"searchable": true`后，输入框内输入内容时，下拉数据源会进行前端过滤，过滤的关键字段默认为`value`或`label`。如果通过[`valueField`](./options#选项值字段-valuefield)或[`labelField`](./options#选项标签字段-labelfield)属性，则会选择对应的字段进行过滤。
+
+```schema: scope="body"
+{
+  type: 'form',
+  api: '/api/mock2/form/saveForm',
+  body: [
+    {
+      type: 'nested-select',
+      name: 'nestedSelect1',
+      label: '级联选择器（单选）',
+      options: [
+        {
+          label: 'A',
+          value: 'a'
+        },
+        {
+          label: 'B',
+          value: 'b',
+          children: [
+            {
+              label: 'B-1',
+              value: 'b1'
+            },
+            {
+              label: 'B-2',
+              value: 'b2'
+            },
+            {
+              label: 'B-3',
+              value: 'b3'
+            }
+          ]
+        },
+        {
+          label: 'C',
+          value: 'c'
+        }
+      ],
+      searchable: true,
+      multiple: false,
+      joinValues: true,
+      clearable: true
+    },
+    {
+      type: 'nested-select',
+      name: 'nestedSelect2',
+      label: '级联选择器（多选）',
+      options: [
+        {
+          label: 'A',
+          value: 'a'
+        },
+        {
+          label: 'B',
+          value: 'b',
+          children: [
+            {
+              label: 'B-1',
+              value: 'b1'
+            },
+            {
+              label: 'B-2',
+              value: 'b2'
+            },
+            {
+              label: 'B-3',
+              value: 'b3'
+            }
+          ]
+        },
+        {
+          label: 'C',
+          value: 'c'
+        }
+      ],
+      searchable: true,
+      multiple: false,
+      joinValues: true,
+      clearable: true
+    }
+  ]
+}
+```
+
 ## 属性表
 
 当做选择器表单项使用时，除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
