@@ -579,7 +579,9 @@ export default class Table2 extends React.Component<Table2Props, object> {
       // table2的拆开了 就不需要再设置div的width了
       // 否则加上padding 就超出单元格的区域了
       // children属性在schema里是一个关键字 在渲染器schema中 自定义的children没有用 去掉
-      const {width, children, ...rest} = schema;
+
+      // title 需要去掉，否则部分组件会将其渲染出来
+      const {width, children, title, ...rest} = schema;
       return render(
         'cell-field',
         {
