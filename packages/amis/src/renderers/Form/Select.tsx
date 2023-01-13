@@ -553,6 +553,7 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
       virtualThreshold,
       rightMode,
       loadingConfig,
+      labelField,
       showInvalidMatch
     } = this.props;
 
@@ -604,6 +605,7 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
           itemHeight={itemHeight}
           virtualThreshold={virtualThreshold}
           virtualListHeight={266}
+          labelField={labelField}
           showInvalidMatch={showInvalidMatch}
         />
 

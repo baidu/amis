@@ -22,11 +22,11 @@ export class GroupedSelection extends BaseSelection<BaseSelectionProps> {
       classnames: cx,
       itemRender,
       multiple,
-      labelField
+      labelField = 'label'
     } = this.props;
 
     if (Array.isArray(option.children)) {
-      if (!option.label) {
+      if (!option[labelField]) {
         return (
           <>
             {option.children.map((child: Option, index: number) =>
