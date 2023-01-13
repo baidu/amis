@@ -35,7 +35,7 @@ import {ListSchema} from './List';
 import {TableSchema2} from './Table2';
 import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
 import {SchemaCollection} from '../Schema';
-import {upperFirst} from 'lodash';
+import upperFirst from 'lodash/upperFirst';
 
 export type CRUDRendererEvent = 'search';
 
@@ -425,9 +425,12 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     replaceQuery?: boolean;
   }) {
     const {store, syncLocation, env, pageField, perPageField} = this.props;
-    let {query, resetQuery, replaceQuery} = data;
+    let {query, resetQuery, replaceQuery} = data || {};
 
-    query = syncLocation ? qsparse(qsstringify(query, undefined, true)) : query;
+    query =
+      syncLocation && query
+        ? qsparse(qsstringify(query, undefined, true))
+        : query;
 
     store.updateQuery(
       resetQuery ? this.props.store.pristineQuery : query,
@@ -917,7 +920,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
   doAction(action: Action, data: object, throwErrors: boolean = false) {
     if (
       action.actionType &&
-      ~['stopAutoRefresh', 'reload', 'search', 'startAutoRefresh'].includes(
+      ['stopAutoRefresh', 'reload', 'search', 'startAutoRefresh'].includes(
         action.actionType
       )
     ) {
@@ -1159,14 +1162,14 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
                 : undefined,
             keepItemSelectionOnPageChange,
             maxKeepItemSelectionLength,
-            valueField: valueField || primaryField,
+            // valueField: valueField || primaryField,
             primaryField: primaryField,
             items: store.data.items,
             query: store.query,
             orderBy: store.query.orderBy,
             orderDir: store.query.orderDir,
             popOverContainer,
-            onSave: this.handleSave,
+            onSave: this.handleSave.bind(this),
             onSaveOrder: this.handleSaveOrder,
             onSearch: this.handleTableQuery,
             onSort: this.handleTableQuery,

@@ -219,6 +219,8 @@ export interface ApiObject extends BaseApiObject {
   query?: PlainObject;
   adaptor?: (payload: object, response: fetcherResult, api: ApiObject) => any;
   requestAdaptor?: (api: ApiObject) => ApiObject;
+  /** 是否过滤为空字符串的 query 参数 */
+  filterEmptyQuery?: boolean;
 }
 export type ApiString = string;
 export type Api = ApiString | ApiObject;

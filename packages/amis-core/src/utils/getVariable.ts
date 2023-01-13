@@ -5,7 +5,7 @@ export function getVariable(
   key: string | undefined,
   canAccessSuper: boolean = true
 ): any {
-  if (!data || !key) {
+  if (!data || !key || typeof data !== 'object') {
     return undefined;
   } else if (canAccessSuper ? key in data : data.hasOwnProperty(key)) {
     return data[key];
