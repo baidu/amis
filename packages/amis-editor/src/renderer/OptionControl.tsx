@@ -8,7 +8,7 @@ import cx from 'classnames';
 import uniqBy from 'lodash/uniqBy';
 import omit from 'lodash/omit';
 import Sortable from 'sortablejs';
-import {FormItem, Button, Checkbox, Icon, InputBox} from 'amis';
+import {FormItem, Button, Checkbox, Icon, InputBox, render as amisRender} from 'amis';
 import {value2array} from 'amis-ui/lib/components/Select';
 
 import {autobind} from 'amis-editor-core';
@@ -20,6 +20,7 @@ import type {FormControlProps} from 'amis-core';
 import type {TextControlSchema} from 'amis/lib/renderers/Form/inputText';
 import type {OptionValue} from 'amis-core';
 import {SchemaApi} from 'amis/lib/Schema';
+import {getEnv} from 'mobx-state-tree';
 
 export type valueType = 'text' | 'boolean' | 'number';
 
@@ -488,6 +489,7 @@ export default class OptionControl extends React.Component<
     const render = this.props.render;
     const ctx: Partial<TextControlSchema> = this.props.data;
     const isMultiple = ctx?.multiple === true || multipleProps;
+    const {i18nEnabled} = getEnv((window as any).editorStore);
 
     const label = this.transformOptionValue(props.label);
     const value = this.transformOptionValue(props.value);
@@ -507,7 +509,7 @@ export default class OptionControl extends React.Component<
               onClick: () => this.toggleEdit(index)
             },
             {
-              type: 'input-text',
+              type: i18nEnabled ? 'input-text-i18n' : 'input-text',
               placeholder: '请输入显示文本',
               label: '文本',
               mode: 'horizontal',
@@ -617,13 +619,25 @@ export default class OptionControl extends React.Component<
                 />
               </span>
             )}
-          <InputBox
+          {/* <InputBox
             className="ae-OptionControlItem-input"
             value={label}
             placeholder="请输入文本/值"
             clearable={false}
             onChange={(value: string) => this.handleEditLabel(index, value)}
-          />
+          /> */}
+          {
+            amisRender({
+              type: i18nEnabled ? 'input-text-i18n' : 'input-text',
+              className: 'ae-OptionControlItem-input',
+              value: label,
+              placeholder: '请输入文本/值',
+              clearable: false,
+              onChange: (value: string) => {
+                this.handleEditLabel(index, value);
+              }
+            })
+          }
           {render(
             'dropdown',
             {

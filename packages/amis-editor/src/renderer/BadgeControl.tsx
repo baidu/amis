@@ -13,6 +13,7 @@ import {defaultValue, tipedLabel} from 'amis-editor-core';
 
 import type {FormControlProps} from 'amis-core';
 import type {SchemaExpression} from 'amis/lib/Schema';
+import {getEnv} from 'mobx-state-tree';
 
 export interface BadgeControlProps extends FormControlProps {
   /**
@@ -186,7 +187,7 @@ export default class BadgeControl extends React.Component<
   renderBody() {
     const {render} = this.props;
     const data = this.transformBadgeValue();
-
+    const {i18nEnabled} = getEnv((window as any).editorStore);
     return render(
       'badge-form',
       {
@@ -218,7 +219,7 @@ export default class BadgeControl extends React.Component<
           {
             label: '文本内容',
             name: 'text',
-            type: 'input-text',
+            type: i18nEnabled ? 'input-text-i18n' : 'input-text',
             mode: 'row',
             visibleOn: "data.mode !== 'dot'",
             pipeOut: (value: any) => {

@@ -1298,6 +1298,14 @@ setSchemaTpl('tableCellRemark', {
   description: '显示一个提示图标，鼠标放上去会提示该内容。'
 });
 
+setSchemaTpl('tableCellPlaceholder', {
+  name: 'placeholder',
+  type: 'input-text',
+  label: '占位符',
+  value: '-',
+  description: '当没有值时用这个来替代展示'
+});
+
 setSchemaTpl('title', {
   type: 'input-text',
   name: 'title',
@@ -1573,4 +1581,64 @@ setSchemaTpl('switchOption', {
   type: 'input-text',
   name: 'option',
   label: '说明'
+});
+
+setSchemaTpl('addOnLabel', {
+  name: 'label',
+  label: '文字',
+  type: 'input-text'
+});
+
+setSchemaTpl('onText', {
+  name: 'onText',
+  type: 'input-text',
+  label: '开启时'
+});
+
+setSchemaTpl('offText', {
+  name: 'offText',
+  type: 'input-text',
+  label: '关闭时'
+});
+
+setSchemaTpl('propertyTitle', {
+  label: '标题',
+  type: 'input-text',
+  name: 'title'
+});
+
+setSchemaTpl('propertyLabel', {
+  type: 'input-text',
+  mode: 'inline',
+  size: 'sm',
+  label: '属性名',
+  name: 'label'
+});
+
+setSchemaTpl('propertyContent', {
+  type: 'input-text',
+  mode: 'inline',
+  size: 'sm',
+  label: '属性值',
+  name: 'content'
+});
+
+setSchemaTpl('draggableTip', {
+  type: 'input-text',
+  name: 'draggableTip',
+  label: tipedLabel('提示文字', '拖拽排序的提示文字')
+});
+
+setSchemaTpl('deleteConfirmText', {
+  label: tipedLabel('确认文案', '删除确认文案，当配置删除接口生效'),
+  name: 'deleteConfirmText',
+  type: 'input-text',
+  pipeIn: defaultValue('确认要删除吗？')
+});
+
+setSchemaTpl('optionsLabel', {
+  type: 'input-text',
+  name: 'label',
+  placeholder: '名称',
+  required: true
 });

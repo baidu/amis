@@ -5,6 +5,7 @@ import {BaseEventContext, BasePlugin} from 'amis-editor-core';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {ValidatorTag} from '../../validator';
 import {tipedLabel} from 'amis-editor-core';
+import {getEnv} from 'mobx-state-tree';
 
 export class TreeSelectControlPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -225,12 +226,7 @@ export class TreeSelectControlPlugin extends BasePlugin {
         {
           type: 'group',
           body: [
-            {
-              type: 'input-text',
-              name: 'label',
-              placeholder: '名称',
-              required: true
-            },
+            getSchemaTpl('optionsLabel'),
 
             {
               type: 'input-text',
@@ -254,6 +250,7 @@ export class TreeSelectControlPlugin extends BasePlugin {
 
   panelBodyCreator = (context: BaseEventContext) => {
     const renderer: any = context.info.renderer;
+    const {i18nEnabled} = getEnv((window as any).editorStore);
 
     return getSchemaTpl('tabs', [
       {
@@ -458,7 +455,7 @@ export class TreeSelectControlPlugin extends BasePlugin {
                 form: {
                   body: [
                     {
-                      type: 'input-text',
+                      type: i18nEnabled ? 'input-text-i18n' : 'input-text',
                       label: '节点文案',
                       value: '顶级',
                       name: 'rootLabel'

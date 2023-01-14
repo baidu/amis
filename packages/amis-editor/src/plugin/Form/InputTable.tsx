@@ -159,6 +159,7 @@ export class TableControlPlugin extends BasePlugin {
   panelTitle = '表格编辑';
   panelBodyCreator = (context: BaseEventContext) => {
     const isCRUDBody = context.schema.type === 'crud';
+    const {i18nEnabled} = getEnv((window as any).editorStore);
 
     return getSchemaTpl('tabs', [
       {
@@ -189,7 +190,7 @@ export class TableControlPlugin extends BasePlugin {
             name: 'addable'
           }),
           {
-            type: 'input-text',
+            type: i18nEnabled ? 'input-text-i18n' : 'input-text',
             name: 'addBtnLabel',
             label: '增加按钮名称',
             visibleOn: 'data.addable',
@@ -211,7 +212,7 @@ export class TableControlPlugin extends BasePlugin {
             name: 'removable'
           }),
           {
-            type: 'input-text',
+            type: i18nEnabled ? 'input-text-i18n' : 'input-text',
             name: 'deleteBtnLabel',
             label: '删除按钮名称',
             visibleOn: 'data.removable',
@@ -233,7 +234,7 @@ export class TableControlPlugin extends BasePlugin {
             name: 'editable'
           }),
           {
-            type: 'input-text',
+            type: i18nEnabled ? 'input-text-i18n' : 'input-text',
             name: 'editBtnLabel',
             label: '编辑按钮名称',
             visibleOn: 'data.editable',
@@ -250,7 +251,7 @@ export class TableControlPlugin extends BasePlugin {
             name: 'copyable'
           }),
           {
-            type: 'input-text',
+            type: i18nEnabled ? 'input-text-i18n' : 'input-text',
             name: 'copyBtnLabel',
             label: '复制按钮名称',
             visibleOn: 'data.copyable',
@@ -268,7 +269,7 @@ export class TableControlPlugin extends BasePlugin {
             visibleOn: 'data.editable'
           }),
           {
-            type: 'input-text',
+            type: i18nEnabled ? 'input-text-i18n' : 'input-text',
             name: 'confirmBtnLabel',
             label: '确认编辑按钮名称',
             visibleOn: 'data.editable',
@@ -281,7 +282,7 @@ export class TableControlPlugin extends BasePlugin {
             visibleOn: 'data.editable'
           }),
           {
-            type: 'input-text',
+            type: i18nEnabled ? 'input-text-i18n' : 'input-text',
             name: 'cancelBtnLabel',
             label: '取消编辑按钮名称',
             visibleOn: 'data.editable',

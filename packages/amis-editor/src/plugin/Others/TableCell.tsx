@@ -44,13 +44,7 @@ export class TableCellPlugin extends BasePlugin {
 
             getSchemaTpl('tableCellRemark'),
 
-            {
-              name: 'placeholder',
-              type: 'input-text',
-              label: '占位符',
-              value: '-',
-              description: '当没有值时用这个来替代展示'
-            },
+            getSchemaTpl('tableCellPlaceholder'),
 
             getSchemaTpl('switch', {
               name: 'sortable',

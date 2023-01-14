@@ -13,6 +13,7 @@ import {getSchemaTpl} from 'amis-editor-core';
 import type {FormControlProps} from 'amis-core';
 import {SchemaApi} from 'amis/lib/Schema';
 import {isObject} from 'lodash';
+import {getEnv} from 'mobx-state-tree';
 
 type TimelineItem = {
   title: string;
@@ -139,9 +140,10 @@ export default class TimelineItemControl extends React.Component<
   }
 
   buildAddOrEditSchema(props?: Partial<TimelineItem>) {
+    const {i18nEnabled} = getEnv((window as any).editorStore);
     return [
       {
-        type: 'input-text',
+        type: i18nEnabled ? 'input-text-i18n' : 'input-text',
         name: 'time',
         required: true,
         placeholder: '请输入时间',
@@ -149,7 +151,7 @@ export default class TimelineItemControl extends React.Component<
         value: props?.['time']
       },
       {
-        type: 'input-text',
+        type: i18nEnabled ? 'input-text-i18n' : 'input-text',
         name: 'title',
         required: true,
         placeholder: '请输入标题',
@@ -397,13 +399,14 @@ export default class TimelineItemControl extends React.Component<
   renderOption(props: TimelineItem & {index: number}) {
     const {time, title, index} = props;
     const delDisabled = !(this.state.items.length > 2);
+    const {i18nEnabled} = getEnv((window as any).editorStore);
     return (
       <li className="ae-TimelineItemControlItem" key={index}>
         <div className="ae-TimelineItemControlItem-Main">
           <a className="ae-TimelineItemControlItem-dragBar">
             <Icon icon="drag-bar" className="icon" />
           </a>
-          <InputBox
+          {/* <InputBox
             className="ae-TimelineItemControlItem-input"
             value={time}
             placeholder="请输入显示时间"
@@ -411,7 +414,16 @@ export default class TimelineItemControl extends React.Component<
             onChange={(value: string) =>
               this.handleEditLabel(index, value, 'time')
             }
-          />
+          /> */}
+          {amisRender({
+            type: i18nEnabled ? 'input-text-i18n' : 'input-text',
+            className: 'ae-TimelineItemControlItem-input',
+            value: time,
+            placeholder: '请输入显示时间',
+            clearable: false,
+            onChange: (value: string) =>
+              this.handleEditLabel(index, value, 'time')
+          })}
           {/* {amisRender(
             {
               type: "input-date",
@@ -484,7 +496,7 @@ export default class TimelineItemControl extends React.Component<
           )}
         </div>
         <div className="ae-TimelineItemControlItem-Main">
-          <InputBox
+          {/* <InputBox
             className="ae-TimelineItemControlItem-input-title"
             value={title}
             clearable={false}
@@ -492,7 +504,16 @@ export default class TimelineItemControl extends React.Component<
             onChange={(value: string) =>
               this.handleEditLabel(index, value, 'title')
             }
-          />
+          /> */}
+          {amisRender({
+            type: i18nEnabled ? 'input-text-i18n' : 'input-text',
+            className: 'ae-TimelineItemControlItem-input-title',
+            value: title,
+            clearable: false,
+            placeholder: '请输入标题',
+            onChange: (value: string) =>
+              this.handleEditLabel(index, value, 'title')
+          })}
         </div>
       </li>
     );

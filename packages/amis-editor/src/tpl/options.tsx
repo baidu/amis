@@ -3,85 +3,89 @@ import {tipedLabel} from 'amis-editor-core';
 import {SchemaObject} from 'amis/lib/Schema';
 import assign from 'lodash/assign';
 import cloneDeep from 'lodash/cloneDeep';
+import {getEnv} from 'mobx-state-tree';
 
-setSchemaTpl('options', {
-  label: '选项 Options',
-  name: 'options',
-  type: 'combo',
-  multiple: true,
-  draggable: true,
-  addButtonText: '新增选项',
-  scaffold: {
-    label: '',
-    value: ''
-  },
-  items: [
-    {
-      type: 'input-text',
-      name: 'label',
-      placeholder: '名称',
-      required: true
+setSchemaTpl('options', () => {
+  const {i18nEnabled} = getEnv((window as any).editorStore);
+  return {
+    label: '选项 Options',
+    name: 'options',
+    type: 'combo',
+    multiple: true,
+    draggable: true,
+    addButtonText: '新增选项',
+    scaffold: {
+      label: '',
+      value: ''
     },
-    {
-      type: 'select',
-      name: 'value',
-      pipeIn: (value: any) => {
-        if (typeof value === 'string') {
-          return 'text';
-        }
-        if (typeof value === 'boolean') {
-          return 'boolean';
-        }
-        if (typeof value === 'number') {
-          return 'number';
-        }
-        return 'text';
+    items: [
+      {
+        type: i18nEnabled ? 'input-text-i18n' : 'input-text',
+        name: 'label',
+        placeholder: '名称',
+        required: true
       },
-      pipeOut: (value: any, oldValue: any) => {
-        if (value === 'text') {
-          return String(oldValue);
-        }
-        if (value === 'number') {
-          const convertTo = Number(oldValue);
-          if (isNaN(convertTo)) {
-            return 0;
+      {
+        type: 'select',
+        name: 'value',
+        pipeIn: (value: any) => {
+          if (typeof value === 'string') {
+            return 'text';
           }
-          return convertTo;
-        }
-        if (value === 'boolean') {
-          return Boolean(oldValue);
-        }
-        return '';
+          if (typeof value === 'boolean') {
+            return 'boolean';
+          }
+          if (typeof value === 'number') {
+            return 'number';
+          }
+          return 'text';
+        },
+        pipeOut: (value: any, oldValue: any) => {
+          if (value === 'text') {
+            return String(oldValue);
+          }
+          if (value === 'number') {
+            const convertTo = Number(oldValue);
+            if (isNaN(convertTo)) {
+              return 0;
+            }
+            return convertTo;
+          }
+          if (value === 'boolean') {
+            return Boolean(oldValue);
+          }
+          return '';
+        },
+        options: [
+          {label: '文本', value: 'text'},
+          {label: '数字', value: 'number'},
+          {label: '布尔', value: 'boolean'}
+        ]
       },
-      options: [
-        {label: '文本', value: 'text'},
-        {label: '数字', value: 'number'},
-        {label: '布尔', value: 'boolean'}
-      ]
-    },
-    {
-      type: 'input-number',
-      name: 'value',
-      placeholder: '值',
-      visibleOn: 'typeof data.value === "number"',
-      unique: true
-    },
-    {
-      type: 'switch',
-      name: 'value',
-      placeholder: '值',
-      visibleOn: 'typeof data.value === "boolean"',
-      unique: true
-    },
-    {
-      type: 'input-text',
-      name: 'value',
-      placeholder: '值',
-      visibleOn:
-        'typeof data.value === "undefined" || typeof data.value === "string"',
-      unique: true
-    }
-  ]
+      {
+        type: 'input-number',
+        name: 'value',
+        placeholder: '值',
+        visibleOn: 'typeof data.value === "number"',
+        unique: true
+      },
+      {
+        type: 'switch',
+        name: 'value',
+        placeholder: '值',
+        visibleOn: 'typeof data.value === "boolean"',
+        unique: true
+      },
+      {
+        type: 'input-text',
+        name: 'value',
+        placeholder: '值',
+        visibleOn:
+          'typeof data.value === "undefined" || typeof data.value === "string"',
+        unique: true
+      }
+    ]
+  }
 });
 
 setSchemaTpl('tree', {
@@ -98,13 +102,7 @@ setSchemaTpl('tree', {
     value: ''
   },
   items: [
-    {
-      type: 'input-text',
-      name: 'label',
-      placeholder: '名称',
-      required: true
-    },
-
+    getSchemaTpl('optionsLabel'),
     {
       type: 'input-text',
       name: 'value',
@@ -137,6 +135,14 @@ setSchemaTpl('multiple', (schema: any = {}) => {
   };
 });
 
+setSchemaTpl('checkAllLabel', {
+  type: 'input-text',
+  name: 'checkAllLabel',
+  label: '选项文案',
+  value: '全选',
+  mode: 'row'
+});
+
 setSchemaTpl('checkAll', () => {
   return [
     getSchemaTpl('switch', {
@@ -155,13 +161,7 @@ setSchemaTpl('checkAll', () => {
           name: 'defaultCheckAll',
           value: false
         }),
-        {
-          type: 'input-text',
-          name: 'checkAllLabel',
-          label: '选项文案',
-          value: '全选',
-          mode: 'row'
-        }
+        getSchemaTpl('checkAllLabel')
       ]
     }
   ];

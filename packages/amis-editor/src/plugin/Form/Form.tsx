@@ -434,6 +434,7 @@ export class FormPlugin extends BasePlugin {
   panelBodyCreator = (context: BaseEventContext) => {
     const isCRUDFilter: boolean = /\/crud\/filter\/form$/.test(context.path);
     const isInDialog: boolean = /(?:\/|^)dialog\/.+$/.test(context.path);
+    const {i18nEnabled} = getEnv((window as any).editorStore);
 
     return [
       getSchemaTpl('tabs', [
@@ -583,7 +584,7 @@ export class FormPlugin extends BasePlugin {
                 {
                   name: 'message',
                   label: '报错提示',
-                  type: 'input-text'
+                  type: i18nEnabled ? 'input-text-i18n' : 'input-text'
                 }
               ]
             }
@@ -754,16 +755,8 @@ export class FormPlugin extends BasePlugin {
                       description:
                         '可以不设置，接口返回的 msg 字段，优先级更高',
                       items: [
-                        {
-                          label: '获取成功提示',
-                          name: 'fetchSuccess',
-                          type: 'input-text'
-                        },
-                        {
-                          label: '获取失败提示',
-                          name: 'fetchFailed',
-                          type: 'input-text'
-                        }
+                        getSchemaTpl('fetchSuccess'),
+                        getSchemaTpl('fetchFailed')
                       ]
                     }
                   : {

@@ -21,6 +21,7 @@ import {
   getArgsWrapper,
   getEventControlConfig
 } from '../renderer/event-control/helper';
+import {getEnv} from 'mobx-state-tree';
 
 export class WizardPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -292,6 +293,7 @@ export class WizardPlugin extends BasePlugin {
 
   panelTitle = '向导';
   panelBodyCreator = (context: BaseEventContext) => {
+    const {i18nEnabled} = getEnv((window as any).editorStore);
     return [
       getSchemaTpl('tabs', [
         {
@@ -318,7 +320,7 @@ export class WizardPlugin extends BasePlugin {
               items: [
                 {
                   name: 'title',
-                  type: 'input-text',
+                  type: i18nEnabled ? 'input-text-i18n' : 'input-text',
                   label: '标题',
                   pipeIn: (value: any, data: any) => value || data.label
                 },

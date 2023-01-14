@@ -11,6 +11,7 @@ import {ValidatorTag} from '../validator';
 import find from 'lodash/find';
 import reduce from 'lodash/reduce';
 import forEach from 'lodash/forEach';
+import {getEnv} from 'mobx-state-tree';
 
 setSchemaTpl('validations', function () {
   const options = [
@@ -270,6 +271,7 @@ setSchemaTpl('validations', function () {
 });
 
 setSchemaTpl('validationErrors', function () {
+  const {i18nEnabled} = getEnv((window as any).editorStore);
   const options = [
     // {
     //     label: '必填',
@@ -459,7 +461,7 @@ setSchemaTpl('validationErrors', function () {
       },
 
       {
-        type: 'input-text',
+        type: i18nEnabled ? 'input-text-i18n' : 'input-text',
         name: 'msg',
         placeholder: '提示信息'
       },

@@ -5,7 +5,8 @@ import {
   tipedLabel,
   defaultValue,
   getSchemaTpl,
-  registerEditorPlugin
+  registerEditorPlugin,
+  translateSchema
 } from 'amis-editor-core';
 import {BUTTON_DEFAULT_ACTION} from '../component/BaseControl';
 
@@ -90,6 +91,7 @@ export class ButtonGroupPlugin extends BasePlugin {
                 minLength: 1,
                 draggable: true,
                 editable: false,
+                pipeIn: (value: any, data: any) => translateSchema(value),
                 items: [
                   {
                     type: 'tpl',
