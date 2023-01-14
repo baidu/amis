@@ -201,7 +201,13 @@ export const MainStore = types
     // 自动收集可以供 target/reload 使用的名称列表
     targetNames: types.optional(types.array(types.frozen<TargetName>()), []),
 
-    ctx: types.frozen()
+    ctx: types.frozen(),
+    /** 应用语言 */
+    appLocale: types.optional(types.string, 'zh-CN'),
+    /** 应用语料 */
+    appCorpusData: types.optional(types.frozen(), {}),
+    /** 应用多语言状态，用于其它组件进行订阅 */
+    appLocaleState: types.optional(types.number, 0)
   })
   .views(self => {
     return {
@@ -1735,6 +1741,26 @@ export const MainStore = types
           }
         });
         this.traceableSetSchema(json);
+      },
+
+      /** 更改应用多语言的状态 */
+      updateAppLocaleState() {
+        self.appLocaleState += 1;
+      },
+
+      /** 设置应用语言，支持应用国际化 */
+      setAppLocale(locale?: string) {
+        if (!locale) {
+          return;
+        }
+        self.appLocale = locale;
+        this.updateAppLocaleState();
+      },
+
+      /** 设置应用的语料数据 */
+      setAppCorpusData(data: any = {}) {
+        self.appCorpusData = data;
+        this.updateAppLocaleState();
       }
     };
   });

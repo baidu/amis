@@ -139,7 +139,9 @@ export default class Editor extends Component<EditorProps> {
         isSubEditor,
         amisDocHost: props.amisDocHost,
         ctx: props.ctx,
-        superEditorData
+        superEditorData,
+        appLocale: props.appLocale,
+        appCorpusData: props?.amisEnv?.replaceText
       },
       config
     );
@@ -211,6 +213,14 @@ export default class Editor extends Component<EditorProps> {
 
     if (props.ctx !== prevProps.ctx) {
       this.store.setCtx(props.ctx);
+    }
+
+    if (props.appLocale !== prevProps.appLocale) {
+      this.store.setAppLocale(props.appLocale);
+    }
+
+    if (props?.amisEnv?.replaceText !== prevProps?.amisEnv?.replaceText) {
+      this.store.setAppCorpusData(props?.amisEnv?.replaceText);
     }
   }
 
@@ -543,6 +553,8 @@ export default class Editor extends Component<EditorProps> {
               store={this.store}
               manager={this.manager}
               theme={theme}
+              appLocale={appLocale}
+              amisEnv={amisEnv}
             />
           )}
 

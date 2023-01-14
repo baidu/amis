@@ -14,6 +14,8 @@ interface RightPanelsProps {
   store: EditorStoreType;
   manager: EditorManager;
   theme?: string;
+  appLocale?: string;
+  amisEnv?: any;
 }
 
 interface RightPanelsStates {

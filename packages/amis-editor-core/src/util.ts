@@ -1,7 +1,7 @@
 /**
  * @file 功能类函数集合。
  */
-import {utils, hasIcon} from 'amis';
+import {utils, hasIcon, mapObject} from 'amis';
 import isEqual from 'lodash/isEqual';
 import {isObservable, reaction} from 'mobx';
 import DeepDiff, {Diff} from 'deep-diff';
@@ -1028,4 +1028,15 @@ export function needDefaultWidth(elemType: string) {
     return true;
   }
   return false;
+}
+
+/** schema 翻译方法 */
+export function translateSchema(schema: any, replaceData?: any) {
+  replaceData = replaceData || (window as any)?.editorStore?.appCorpusData;
+  if (!isPlainObject(replaceData)) {
+    return schema;
+  }
+  return mapObject(schema, (item: any) => {
+    return replaceData[item] || item;
+  });
 }
