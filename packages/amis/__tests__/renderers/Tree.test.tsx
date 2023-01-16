@@ -375,3 +375,58 @@ test('Tree defer load data', async () => {
     'is-folded'
   );
 });
+
+test('Tree: add child & cancel', async () => {
+  const {container, getByText} = render(
+    amisRender(
+      {
+        type: 'form',
+        api: '/api/mock2/form/saveForm',
+        body: [
+          {
+            type: 'input-tree',
+            name: 'tree',
+            label: 'Tree',
+            creatable: true,
+            removable: true,
+            editable: true,
+            options: [
+              {
+                label: 'Folder A',
+                value: 1,
+                children: [
+                  {
+                    label: 'file A',
+                    value: 2
+                  },
+                  {
+                    label: 'file B',
+                    value: 3
+                  }
+                ]
+              },
+              {
+                label: 'file C',
+                value: 4
+              },
+              {
+                label: 'file D',
+                value: 5
+              }
+            ]
+          }
+        ]
+      },
+      {},
+      makeEnv({})
+    )
+  );
+  const targetNode = container.querySelector('.cxd-Tree-addTopBtn')!;
+
+  fireEvent.click(targetNode);
+  await waitFor(() => container.querySelector('input'));
+  fireEvent.click(container.querySelector('[icon="close"]')!);
+  await waitFor(() =>
+    expect(!!container.querySelector('[icon="close"]')).toBeFalsy()
+  );
+});

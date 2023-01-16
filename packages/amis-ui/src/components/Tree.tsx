@@ -686,10 +686,15 @@ export class TreeSelector extends React.Component<
 
   @autobind
   handleCancel() {
+    const {flattenedOptions} = this.state;
+    const flattenedOptionsWithoutAdding = flattenedOptions.filter(
+      item => !item.isAdding
+    );
     this.setState({
       inputValue: '',
       isAdding: false,
-      isEditing: false
+      isEditing: false,
+      flattenedOptions: flattenedOptionsWithoutAdding
     });
   }
 
