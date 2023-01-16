@@ -827,6 +827,11 @@ export function registerOptionsControl(config: OptionsConfig) {
         return;
       }
 
+      if (option.loaded) {
+        formItem?.updateOptions(option, createObject(data, option));
+        return;
+      }
+
       const json = await formItem?.deferLoadOptions(
         option,
         api,

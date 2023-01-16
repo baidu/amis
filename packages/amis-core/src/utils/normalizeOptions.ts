@@ -14,10 +14,10 @@ export function normalizeOptions(
 ): Options {
   if (typeof options === 'string') {
     return options.split(',').map(item => {
-      const idx = share.values.indexOf(item);
-      if (~idx) {
-        return share.options[idx];
-      }
+      // const idx = share.values.indexOf(item);
+      // if (~idx) {
+      //   return share.options[idx];
+      // }
 
       const option = {
         label: item,
@@ -36,10 +36,10 @@ export function normalizeOptions(
     typeof (options as Array<string>)[0] === 'string'
   ) {
     return (options as Array<string>).map(item => {
-      const idx = share.values.indexOf(item);
-      if (~idx) {
-        return share.options[idx];
-      }
+      // const idx = share.values.indexOf(item);
+      // if (~idx) {
+      //   return share.options[idx];
+      // }
 
       const option = {
         label: item,
@@ -55,14 +55,14 @@ export function normalizeOptions(
     return (options as Options).map(item => {
       const value = item && item[valueField];
 
-      const idx =
-        value !== undefined && !item.children
-          ? share.values.indexOf(value)
-          : -1;
+      // const idx =
+      //   value !== undefined && !item.children
+      //     ? share.values.indexOf(value)
+      //     : -1;
 
-      if (~idx) {
-        return share.options[idx];
-      }
+      // if (~idx) {
+      //   return share.options[idx];
+      // }
 
       const option = {
         ...item,
@@ -80,10 +80,10 @@ export function normalizeOptions(
     });
   } else if (isPlainObject(options)) {
     return Object.keys(options).map(key => {
-      const idx = share.values.indexOf(key);
-      if (~idx) {
-        return share.options[idx];
-      }
+      // const idx = share.values.indexOf(key);
+      // if (~idx) {
+      //   return share.options[idx];
+      // }
 
       const option = {
         label: (options as {[propName: string]: string})[key] as string,

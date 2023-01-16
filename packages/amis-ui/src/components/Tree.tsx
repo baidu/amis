@@ -25,7 +25,8 @@ import {
   findTreeIndex,
   hasAbility,
   getTreeParent,
-  getTreeAncestors
+  getTreeAncestors,
+  uuidv4
 } from 'amis-core';
 import {Option, Options, value2array} from './Select';
 import {themeable, ThemeProps, highlight} from 'amis-core';
@@ -203,6 +204,10 @@ export class TreeSelector extends React.Component<
   unfolded: WeakMap<Object, boolean> = new WeakMap();
   // key: child option, value: parent option;
   relations: WeakMap<Option, Option> = new WeakMap();
+  // holds the level of the item;
+  levelCache: WeakMap<Option, number> = new WeakMap();
+  // holds the key of the item;
+  keyCache: WeakMap<Option, string> = new WeakMap();
 
   dragNode: Option | null;
   dropInfo: IDropInfo | null;
@@ -346,10 +351,10 @@ export class TreeSelector extends React.Component<
       onDeferLoad?.(node);
       return;
     }
-    // TODO: 操作store区更新option属性
-    // hack: 在node上直接添加属性
+    // loaded, 将 unfoldedField 更新到 node 上
     if (node.defer && node.loaded) {
-      node[unfoldedField] = !unfolded.get(node);
+      onDeferLoad?.({...node, [unfoldedField]: !unfolded.get(node)});
+      return;
     }
 
     unfolded.set(node, !unfolded.get(node));
@@ -463,7 +468,6 @@ export class TreeSelector extends React.Component<
 
   @autobind
   handleCheck(item: any, checked: boolean) {
-    // TODO: 重新梳理这里的逻辑
     const props = this.props;
     const value = this.state.value.concat();
     const idx = value.indexOf(item);
@@ -839,9 +843,6 @@ export class TreeSelector extends React.Component<
     };
   }
 
-  /**
-   * TODO: this.unfolded => reaction 更加合理
-   */
   flattenOptions(
     props?: TreeSelectorProps,
     initial?: boolean
@@ -857,13 +858,13 @@ export class TreeSelector extends React.Component<
         }
         if (paths.length === 1) {
           // 父节点
-          item.key = key;
+          this.addKeyCache(item);
           flattenedOptions.push(item);
         } else if (this.isUnfolded(parent)) {
-          this.relations.set(item, parent);
           // 父节点是展开的状态
-          item.level = level;
-          item.key = `${parent.key}-${key}`;
+          this.relations.set(item, parent);
+          this.levelCache.set(item, level);
+          this.addKeyCache(item);
           flattenedOptions.push(item);
         }
       }
@@ -1079,7 +1080,9 @@ export class TreeSelector extends React.Component<
 
     const iconValue = item[iconField] || (item.children ? 'folder' : 'file');
 
-    const level = item.level ? item.level - 1 : 0;
+    const itemLevel = this.levelCache.get(item);
+    const level = itemLevel ? itemLevel - 1 : 0;
+    const itemKey = this.keyCache.get(item)!;
 
     let body = null;
 
@@ -1110,7 +1113,7 @@ export class TreeSelector extends React.Component<
             </a>
           )}
 
-          {item.loading ? (
+          {item.loading && !item.loaded ? (
             <Spinner
               size="sm"
               show
@@ -1172,7 +1175,7 @@ export class TreeSelector extends React.Component<
                 ? highlight(`${item[labelField]}`, highlightTxt)
                 : itemRender
                 ? itemRender(item, {
-                    index: item.key,
+                    index: itemKey,
                     multiple: multiple,
                     checked: checked,
                     onChange: () => this.handleCheck(item, !checked),
@@ -1224,7 +1227,7 @@ export class TreeSelector extends React.Component<
 
     return (
       <li
-        key={item.key}
+        key={itemKey}
         className={cx(`Tree-item ${itemClassName || ''}`, {
           'Tree-item--isLeaf': isLeaf
         })}
@@ -1380,6 +1383,13 @@ export class TreeSelector extends React.Component<
       </div>
     );
   }
+
+  // 向key中增加缓存
+  private addKeyCache = (item: Option) => {
+    if (!this.keyCache.has(item)) {
+      this.keyCache.set(item, uuidv4());
+    }
+  };
 }
 
 export default themeable(localeable(TreeSelector));

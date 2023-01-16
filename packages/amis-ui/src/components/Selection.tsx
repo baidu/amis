@@ -44,7 +44,7 @@ export interface BaseSelectionProps extends ThemeProps, LocaleProps {
 }
 
 export interface ItemRenderStates {
-  index: number;
+  index: number | string;
   labelField?: string;
   multiple?: boolean;
   checked: boolean;

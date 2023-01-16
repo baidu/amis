@@ -29,7 +29,8 @@ export default {
       // "type": "nested-select",
       name: 'output_fields',
       label: '输出字段',
-      description: '输出字段中的制表符会转换为"\\t",换行符会转换为"\
+      description:
+        '输出字段中的制表符会转换为"\\t",换行符会转换为"\
     "',
       mode: 'horizontal',
       multiple: true,
@@ -53,6 +54,24 @@ export default {
       multiple: true,
       menuTpl: '<div>${label} 值：${value}, 当前是否选中: ${checked}</div>',
       options: options
+    },
+    {
+      type: 'input-tree',
+      name: 'tree',
+      label: 'Tree',
+      deferApi: '/api/mock2/form/deferOptions?label=${label}&waitSeconds=2',
+      options: [
+        {
+          label: 'lazy1',
+          value: 4,
+          defer: true
+        },
+        {
+          label: 'lazy2',
+          value: 5,
+          defer: true
+        }
+      ]
     }
   ]
 };

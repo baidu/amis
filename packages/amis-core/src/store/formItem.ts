@@ -919,6 +919,40 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       return json;
     });
 
+    const updateOptions = (option: any, data?: object) => {
+      const labelField = self.labelField || 'label';
+      const valueField = self.valueField || 'value';
+      const indexes = findTreeIndex(
+        self.options,
+        item =>
+          item === option ||
+          /** tree-select中会对option添加collapsed, visible属性，导致item === option不通过 */
+          isEqualWith(
+            item,
+            option,
+            (source, target) =>
+              source?.[valueField] != null &&
+              target?.[valueField] != null &&
+              source?.[labelField] === target?.[labelField] &&
+              source?.[valueField] === target?.[valueField]
+          )
+      );
+      if (!indexes) {
+        return false;
+      }
+
+      setOptions(
+        spliceTree(self.options, indexes, 1, {
+          ...option,
+          loading: !option.loaded
+        }),
+        undefined,
+        data
+      );
+
+      return true;
+    };
+
     /**
      * 根据当前节点路径展开树形组件父节点
      */
@@ -1253,7 +1287,8 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       changeEmitedValue,
       addSubFormItem,
       removeSubFormItem,
-      loadAutoUpdateData
+      loadAutoUpdateData,
+      updateOptions
     };
   });
 
