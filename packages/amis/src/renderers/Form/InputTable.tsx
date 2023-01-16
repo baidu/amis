@@ -152,7 +152,7 @@ export interface TableControlSchema
   /**
    * 更新 API
    */
-  updateApi?: SchemaApi;
+  editApi?: SchemaApi;
 
   /**
    * 初始值，新增的时候
@@ -223,13 +223,13 @@ export type FormTableRendererEvent =
   | 'addFail'
   | 'edit'
   | 'editConfirm'
-  | 'updateSuccess'
-  | 'updateFail'
+  | 'editSuccess'
+  | 'editFail'
   | 'delete'
   | 'deleteSuccess'
   | 'deleteFail';
 
-export type FormTableRendererAction = 'addItem' | 'deleteItem' | 'resetValue' | 'clear';
+export type FormTableRendererAction = 'add' | 'delete' | 'reset' | 'clear';
 
 export default class FormTable extends React.Component<TableProps, TableState> {
   static defaultProps = {
@@ -258,7 +258,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     'copyable',
     'editable',
     'addApi',
-    'updateApi',
+    'editApi',
     'deleteApi',
     'needConfirm',
     'canAccessSuperData',
@@ -698,10 +698,10 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       eventName,
       resolveEventData(
         this.props,
-        {value: {
+        {
           ...eventData,
           value: items
-        }},
+        },
         'value'
       )
     );
@@ -722,7 +722,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   }
 
   async confirmEdit() {
-    const {addApi, updateApi, data, env, translate: __} = this.props;
+    const {addApi, editApi, data, env, translate: __} = this.props;
 
     // form 是 lazyChange 的，先让他们 flush, 即把未提交的数据提交。
     const subForms: Array<any> = [];
@@ -735,7 +735,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     let item = {
       ...items[this.state.editIndex]
     };
-    const isNew = item.__isPlaceholder;
+    const isNew = !!item.__isPlaceholder;
     const confirmEventName = isNew ? 'addConfirm' : 'editConfirm';
     this.dispatchEvent(confirmEventName, {index: this.state.editIndex, item});
 
@@ -744,28 +744,28 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     if (isNew && isEffectiveApi(addApi, createObject(data, item))) {
       remote = await env.fetcher(addApi, createObject(data, item));
       apiMsg = (addApi as ApiObject)?.messages?.failed;
-    } else if (isEffectiveApi(updateApi, createObject(data, item))) {
-      remote = await env.fetcher(updateApi, createObject(data, item));
-      apiMsg = (updateApi as ApiObject)?.messages?.failed;
+    } else if (isEffectiveApi(editApi, createObject(data, item))) {
+      remote = await env.fetcher(editApi, createObject(data, item));
+      apiMsg = (editApi as ApiObject)?.messages?.failed;
     }
 
     if (remote && !remote.ok) {
       env.notify('error', apiMsg ?? (remote.msg || __('saveFailed')));
-      const failEventName = isNew ? 'addFail' : 'updateFail';
-      this.dispatchEvent(failEventName, {index: this.state.editIndex, item});
+      const failEventName = isNew ? 'addFail' : 'editFail';
+      this.dispatchEvent(failEventName, {index: this.state.editIndex, item, remote});
       return;
     } else if (remote && remote.ok) {
       item = merge(
         {},
-        ((isNew ? addApi : updateApi) as ApiObject).replaceData ? {} : item,
+        ((isNew ? addApi : editApi) as ApiObject).replaceData ? {} : item,
         remote.data
       );
     }
 
     delete item.__isPlaceholder;
     items.splice(this.state.editIndex, 1, item);
-    const successEventName = isNew ? 'addSuccess' : 'updateSuccess';
-    this.dispatchEvent(successEventName, {index: this.state.editIndex, item});
+    const successEventName = isNew ? 'addSuccess' : 'editSuccess';
+    this.dispatchEvent(successEventName, {index: this.state.editIndex, item, remote});
 
     this.setState(
       {

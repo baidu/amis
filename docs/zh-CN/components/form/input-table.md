@@ -798,7 +798,7 @@ order: 54
 | removable                    | `boolean`                      | `false`    | 是否可删除                                                                                           |
 | showAddBtn                   | `boolean`                      | `true`     | 是否显示添加按钮                                                                                     |
 | addApi                       | [API](../../../docs/types/api) | -          | 新增时提交的 API                                                                                     |
-| updateApi                    | [API](../../../docs/types/api) | -          | 修改时提交的 API                                                                                     |
+| editApi                    | [API](../../../docs/types/api) | -          | 修改时提交的 API                                                                                     |
 | deleteApi                    | [API](../../../docs/types/api) | -          | 删除时提交的 API                                                                                     |
 | addBtnLabel                  | `string`                       |            | 增加按钮名称                                                                                         |
 | addBtnIcon                   | `string`                       | `"plus"`   | 增加按钮图标                                                                                         |
@@ -828,18 +828,18 @@ order: 54
 
 |事件名称|	事件参数|	说明 |
 |----|-------|----|
-|add|[name]: object[] 组件现有数据| 点击左下角添加按钮 或 某一行右侧操作栏添加按钮时触发|
-|addConfirm|index: number 添加项的行索引 <br /> item: object 添加项数据 <br/> [name]: object[]组件现有数据|开启`needConfirm`，点击添加按钮，填入数据后点击“保存”按钮后触发|
-|addSuccess|index: number 添加项的行索引 <br /> item: object 添加项数据 <br/> [name]: object[]组件现有数据|开启`needConfirm`并且配置`addApi`，点击“保存”后调用接口成功时触发|
-|addFail|index: number 添加项的行索引 <br /> item: object 添加项数据 <br/> [name]: object[]组件现有数据|开启`needConfirm`并且配置`addApi`，点击“保存”后调用接口失败时触发|
-|edit|index: number 编辑项的行索引 <br /> item: object 编辑项数据 <br/> [name]: object[]组件现有数据|点击某一行右侧操作栏“编辑”按钮时触发|
-|editConfirm|index: number 编辑项的行索引 <br /> item: object 编辑项数据 <br/> [name]: object[]组件现有数据|开启`needConfirm`，点击“编辑”按钮，填入数据后点击“保存”按钮后触发|
-|updateSuccess|index: number 编辑项的行索引 <br /> item: object 编辑项数据 <br/> [name]: object[]组件现有数据|开启`needConfirm`并且配置`updateApi`，点击“保存”后调用接口成功时触发|
-|updateFail|index: number 编辑项的行索引 <br /> item: object 编辑项数据 <br/> [name]: object[]组件现有数据|开启`needConfirm`并且配置`updateApi`，点击“保存”后调用接口失败时触发|
-|delete|index: number 删除项的行索引 <br /> item: object 删除的行数据 <br/> [name]: object[]组件现有数据|点击某一行右侧操作栏“删除”按钮时触发|
-|deleteSuccess|index: number 删除项的行索引 <br /> item: object 删除的行数据 <br/> [name]: object[]组件现有数据|配置了`deleteApi`，调用接口成功时触发|
-|deleteFail|index: number 编辑项的行索引 <br /> item: object 编辑项数据 <br/> [name]: object[]组件现有数据|配置了`deleteApi`，调用接口失败时触发|
-|change|[name]: object[] 组件数据 |组件数据发生改变时触发| 
+|add|[name]: object[] 表格数据| 点击左下角添加按钮 或 某一行右侧操作栏添加按钮时触发|
+|addConfirm|index: number 添加项的行索引 <br /> item: object 添加项数据 <br/> [name]: object[]表格数据|开启`needConfirm`，点击添加按钮，填入数据后点击“保存”按钮后触发|
+|addSuccess|index: number 添加项的行索引 <br /> item: object 添加项数据 <br/> [name]: object[]表格数据|开启`needConfirm`并且配置`addApi`，点击“保存”后调用接口成功时触发|
+|addFail|index: number 添加项的行索引 <br /> item: object 添加项数据 <br/> [name]: object[]表格数据|开启`needConfirm`并且配置`addApi`，点击“保存”后调用接口失败时触发|
+|edit|index: number 编辑项的行索引 <br /> item: object 编辑项数据 <br/> [name]: object[]表格数据|点击某一行右侧操作栏“编辑”按钮时触发|
+|editConfirm|index: number 编辑项的行索引 <br /> item: object 编辑项数据 <br/> [name]: object[]表格数据|开启`needConfirm`，点击“编辑”按钮，填入数据后点击“保存”按钮后触发|
+|editSuccess|index: number 编辑项的行索引 <br /> item: object 编辑项数据 <br/> [name]: object[]表格数据|开启`needConfirm`并且配置`edit`，点击“保存”后调用接口成功时触发|
+|editFail|index: number 编辑项的行索引 <br /> item: object 编辑项数据 <br/> [name]: object[]表格数据|开启`needConfirm`并且配置`editApi`，点击“保存”后调用接口失败时触发|
+|delete|index: number 删除项的行索引 <br /> item: object 删除的行数据 <br/> [name]: object[]表格数据|点击某一行右侧操作栏“删除”按钮时触发|
+|deleteSuccess|index: number 删除项的行索引 <br /> item: object 删除的行数据 <br/> [name]: object[]表格数据|配置了`deleteApi`，调用接口成功时触发|
+|deleteFail|index: number 编辑项的行索引 <br /> item: object 编辑项数据 <br/> [name]: object[]表格数据|配置了`deleteApi`，调用接口失败时触发|
+|change|[name]: object[] 表格数据 |组件数据发生改变时触发| 
 
 ## 动作表
 
