@@ -757,7 +757,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     if (remote && !remote.ok) {
       env.notify('error', apiMsg ?? (remote.msg || __('saveFailed')));
       const failEventName = isNew ? 'addFail' : 'editFail';
-      this.dispatchEvent(failEventName, {index: this.state.editIndex, item, remote});
+      this.dispatchEvent(failEventName, {index: this.state.editIndex, item, error: remote});
       return;
     } else if (remote && remote.ok) {
       item = merge(
@@ -770,7 +770,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     delete item.__isPlaceholder;
     items.splice(this.state.editIndex, 1, item);
     const successEventName = isNew ? 'addSuccess' : 'editSuccess';
-    this.dispatchEvent(successEventName, {index: this.state.editIndex, item, remote});
+    this.dispatchEvent(successEventName, {index: this.state.editIndex, item});
 
     this.setState(
       {
@@ -840,7 +840,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
           'error',
           (deleteApi as ApiObject)?.messages?.failed ?? __('deleteFailed')
         );
-        this.dispatchEvent('deleteFail', {index, item});
+        this.dispatchEvent('deleteFail', {index, item, error: result});
         return;
       }
     }
