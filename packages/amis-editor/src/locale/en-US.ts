@@ -3614,5 +3614,83 @@ extendLocale('en-US', {
   'ec8f3e4a298160dface2fda5c0125df2': 'Please enter the class name',
   '7e8eb474f73b6fd60c9aa5082f75e008': 'Label Style',
   'ef55ff12fb0d3efa3491236fee4dabc2': 'Description Style',
-  '60bac4c0a381a42b320a703227be59eb': 'spacing'
+  '60bac4c0a381a42b320a703227be59eb': 'spacing',
+  '00d1a6230e9a31664c895e95fde707d3': 'Add Item',
+  'cf3f7c0c1e6c77197bb0b6508a9173aa': 'Add a new item',
+  '3a553b1123f403cf1f81eb28b3e4b814': 'Maximum number',
+  '93bc4888bc13bb6e6c49b34b54077438': 'Minimum number',
+  'e61c32382d879b867938086a50ef094e': 'Flat value',
+  '30d4e9f1c60f2d5851f77463476d568b':
+    'If you need to expand the user-defined new functions, you can expand them by configuring components-new items',
+  '405a48545938c075e62eafb80b732769': 'Button mode',
+  'f4b06bd9e4f5ceaac7fbb0e17fffc518': 'Copywriting',
+  '178bf4dd4b8d56370e2fc8275f9dc9e4':
+    'Delete the confirmation document. When the configuration deletion interface takes effect',
+  'cb8f7758eb03574f9b8402659c0f02b2': 'Are you sure you want to delete?',
+  'f7894f17d0eba299011d856ce3efea73': 'Automatically populate parent variables',
+  '7fc8dab2069004acb8f5c98c27ee0883': 'Sync Fields',
+  '8e32c9ffc35059f8ac5254ffaf3c99b0': 'Title template',
+  '21766034147682a2435ecc766de5ea22': 'Multiline display',
+  'd8848daffd80dbb21ace876ade2ea8a8': 'Administrative code',
+  '977cfa6e8c7f036674afedfcc19ec7a2': 'Object structure',
+  '05fcf03ba044a04ce81bdbe6eaf49d17': 'Optional cities',
+  '912beb37a3785e50d6483852be41111f':
+    'Tree structure selection, supporting the appearance switch between [Embedded Mode] and [Floating Layer Mode]',
+  '0b52d7d00ed28e41f4845fec1622d056':
+    'Tree, tree drop-down, tree drop-down box, tree-select',
+  'ea687c59ff7d980afc55427853af864a': 'Tree selection box - embedded mode',
+  'ce0e89aa6a8e17562c265714b33b4f82': 'Edit mode',
+  'ba1a077af717cb3c4788849c2342200b':
+    'The configuration interface for immediate saving is given separately. If it is not configured, quickSaveItemApi is used by default.',
+  'cf8774ca07f11ecb14b3b59c3891e9cc':
+    '<p>The current component has stopped maintenance. It is recommended that you use<a href=“ https://baidu.gitee.io/amis/zh-CN/components/form/formitem#%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81%E5%B1%95%E7%A4%BA " target="_ Blank ">Static display</a>The new feature implements the static display of form items</p>',
+  '26122d95c72204c83ebdc37cd16a96f9': 'Picture enlargement function',
+  'a19769d02b8de60a1e3b46c3ef96f122':
+    'There is a conflict between the zoom function and the open external link function. If you want to open the external link when clicking, please close this function first',
+  'd196eb8f65e84003b7ca64d5dd8fc737': 'Occupy bitmap',
+  'd98b3f3d11e6dce8eac1a041247fbc50': 'Picture list',
+  '8e1fee898434093aad55f5888497f970':
+    '<p>Currently, it is configured for the field content node. There are more configurations for selecting the upper layer</p>',
+  '86aafaa75b388deb4a4cbdab2293c099': 'head',
+  'e6aa1b827415217c524ae9d9b665cca5': 'Configure header',
+  'a2ecfd5a0db9c855f59eea75083678e6': 'Configure bottom',
+  '1d3d7de6b84f4d5d4a4e126e145af132': 'Text encoding',
+  'd55bbcd785be46c3182dcd7663c3c041':
+    'Returns the character encoding of the content, such as UTF-8, ISO-8859-2, KOI8-R, GBK, and so on. Default UTF-8',
+  '0021bd6b2290ddca1ad6a9c8848377bc': 'Load prompt',
+  'f013ea9dcba3f5ca1278aa850931fec8': 'Loading',
+  'd7eb1e98e6cfbe38ab3b242c4dda1b7b': 'Follow bottom',
+  'ab2dd531871defe1ef7d8d06548411f3':
+    'Automatically scroll to the bottom to view the latest log content',
+  '41058383885336fbe750665044e4e38a':
+    'The following action buttons can be added at the top of the log',
+  '095e938e2a09eaddc8db146b86879f4a': 'stop it',
+  '0cee3cd1e0b0956fb3447d7188553e4b': 'Hide line number',
+  'c2f42bd2a149bbeb4627b1e1b5fabedb': 'performance optimization',
+  '45f14d9548decc8a1df4e470efcf8d08': 'Height of each row',
+  '7a5d14c5f61745f08700ba315609cf9a': 'Show rows',
+  'bddc8f2d9bdcc083bb4f3dd38eaba459': 'Display area height',
+  '0218cbc88086353118fea07e364334d4': 'happy',
+  '8167b3dd560a83cdc757d1022ff111e2': 'anger',
+  '8fa28f95c03faa7cc87e487a89a35a72': 'Sad',
+  'd246bdddaf59436cb2160837f7bef634': 'apathy',
+  '2ab01e418dca1500dcb133d50656deea': 'commonly',
+  '3585e4dd456b41fb8aec43f927b6a27c': 'Custom Display Template',
+  '25e4c39320150bca74b4c05c7740e365': 'Configure display templates',
+  '9e25d776a57c610940bcc1c19847b97d': 'Top outer layer',
+  '2ec1b0bb189b486945e79c167a4a024d': 'Bottom outer layer',
+  '77ad0879912d0a306724c319eed113e2': 'Label for marking and selection',
+  'ee66d7a2d02188816d633d11cf1a8b27': 'General label',
+  '092c4410e162bb3371f2aab804501f24': 'Front icon',
+  '3e7392ab43c6c76f294f41c3058c2ab1': 'Value matching field',
+  '2135be5a60fc3c6fe864e159e289af51':
+    'When the mapping table is an array object and the object has multiple keys, the field used to match the value is value by default',
+  '6a1ca1c113a9b5bee58ea009e40f5954': 'Matching field, default is value',
+  'dc7becbad712786c9e4766636047e509':
+    'When the mapping table is an array object, it is used as the display field. Please use a custom display template to display multiple fields. The default is label',
+  '1140acc9ac4b803b733f70445e7d495a': 'Display field, default is label',
+  '55497c5de8558f1a164e437205cd510b':
+    '<p>When the value hits the left key, display the content on the right<br/>When the value does not hit, display the content with the key<code>*</code>by default</div><br/>(please ensure that the key value is unique)',
+  '94124fa72dbfbb81611496cada6ebf4c':
+    'Please keep the array member structure the same'
 });
