@@ -165,7 +165,8 @@ export class FormPlugin extends BasePlugin {
   };
 
   get scaffoldForm(): ScaffoldForm {
-    const {i18nEnabled} = getEnv((window as any).editorStore);
+    const editorStore = (window as any)?.editorStore;
+    const i18nEnabled = editorStore ? editorStore.i18nEnabled : false;
     return {
       title: '快速创建表单',
       body: [
@@ -434,6 +435,8 @@ export class FormPlugin extends BasePlugin {
   panelBodyCreator = (context: BaseEventContext) => {
     const isCRUDFilter: boolean = /\/crud\/filter\/form$/.test(context.path);
     const isInDialog: boolean = /(?:\/|^)dialog\/.+$/.test(context.path);
+    const editorStore = (window as any)?.editorStore;
+    const i18nEnabled = editorStore ? editorStore.i18nEnabled : false;
 
     return [
       getSchemaTpl('tabs', [
