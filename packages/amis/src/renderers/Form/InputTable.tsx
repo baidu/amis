@@ -31,6 +31,7 @@ import findIndex from 'lodash/findIndex';
 import cloneDeep from 'lodash/cloneDeep';
 import isEqual from 'lodash/isEqual';
 import inRange from 'lodash/inRange';
+import map from 'lodash/map';
 import {TableSchema} from '../Table';
 import {SchemaApi} from '../../Schema';
 import find from 'lodash/find';
@@ -694,13 +695,17 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   async dispatchEvent(eventName: string, eventData: any = {}) {
     const {dispatchEvent} = this.props;
     const {items} = this.state;
+    const value = map(cloneDeep(items), item => {
+      delete item.__isPlaceholder;
+      return item;
+    });
     const rendererEvent = await dispatchEvent(
       eventName,
       resolveEventData(
         this.props,
         {
           ...eventData,
-          value: items
+          value
         },
         'value'
       )
