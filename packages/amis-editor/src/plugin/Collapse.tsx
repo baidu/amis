@@ -36,7 +36,8 @@ export class CollapsePlugin extends BasePlugin {
   panelJustify = true;
 
   panelBodyCreator = (context: BaseEventContext) => {
-    const {i18nEnabled} = getEnv((window as any).editorStore);
+    const editorStore = (window as any)?.editorStore;
+    const i18nEnabled = editorStore ? editorStore.i18nEnabled : false;
     return getSchemaTpl('tabs', [
       {
         title: '属性',

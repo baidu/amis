@@ -555,6 +555,17 @@ setSchemaTpl('theme:radius', (option: any = {}) => {
   };
 });
 
+// 阴影选择器
+setSchemaTpl('theme:shadow', (option: any = {}) => {
+  return {
+    type: 'amis-theme-shadow-editor',
+    label: false,
+    name: `css.className.boxShadow`,
+    hasSenior: true,
+    ...option
+  };
+});
+
 setSchemaTpl(
   'theme:common',
   (exclude: string[] | string, include: string[] | string) => {
@@ -582,40 +593,25 @@ setSchemaTpl(
         header: '样式',
         key: 'style',
         body: [
-          {
-            mode: 'default',
-            type: 'amis-theme-border',
-            label: '边框',
-            name: 'style',
-            needColorCustom: true
-          },
-          {
-            mode: 'default',
-            type: 'amis-theme-radius',
-            label: '圆角',
-            name: 'style.radius'
-          },
-          {
-            mode: 'default',
-            type: 'amis-theme-padding-and-margin',
-            label: '边距',
+          getSchemaTpl('theme:border', {
             name: 'style'
-          },
-          {
-            mode: 'default',
-            type: 'amis-theme-color-picker',
-            label: '背景',
+          }),
+          getSchemaTpl('theme:radius', {
+            name: 'style.radius'
+          }),
+          getSchemaTpl('theme:paddingAndMargin', {
+            name: 'style'
+          }),
+          getSchemaTpl('theme:colorPicker', {
             name: 'style.background',
+            label: '背景',
             needCustom: true,
             needGradient: true,
             labelMode: 'input'
-          },
-          {
-            type: 'amis-theme-shadow-editor',
-            label: false,
-            name: 'style.boxShadow',
-            hasSenior: true
-          }
+          }),
+          getSchemaTpl('theme:shadow', {
+            name: 'style.boxShadow'
+          })
         ]
       },
       {
