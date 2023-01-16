@@ -186,7 +186,8 @@ export class CRUDPlugin extends BasePlugin {
   };
 
   get scaffoldForm(): ScaffoldForm {
-    const {i18nEnabled} = getEnv((window as any).editorStore);
+    const editorStore = (window as any)?.editorStore;
+    const i18nEnabled = editorStore ? editorStore.i18nEnabled : false;
     return {
       title: '增删改查快速开始-CRUD',
       body: [
