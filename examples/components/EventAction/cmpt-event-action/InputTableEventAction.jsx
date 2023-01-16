@@ -7,32 +7,21 @@ export default {
   "body": [
     {
       "type": "button",
-      "label": "input-table赋值",
-      "onEvent": {
-        "click": {
-          "actions": [
-          ]
-        }
-      },
-      "id": "u:ce6be67e2007"
-    },
-    {
-      "type": "button",
-      "label": "combo赋值",
+      "label": "setValue 未指定index",
       "onEvent": {
         "click": {
           "actions": [
             {
-              "componentId": "u:d8819450ebba",
+              "componentId": "u:39c47c713ae6",
               "args": {
                 "value": [
                   {
-                    "value": "B",
-                    "key": "1111"
+                    "name": "zzl",
+                    "color": "#ff0000"
                   },
                   {
-                    "key": "2222",
-                    "value": "A"
+                    "name": "zzl测试下setValue动作",
+                    "color": "#00ff00"
                   }
                 ]
               },
@@ -41,22 +30,162 @@ export default {
           ]
         }
       },
-      "id": "u:75e931359b4f"
+      "id": "u:691a43978f4e"
+    },
+    {
+      "type": "button",
+      "label": "setValue 指定index",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "componentId": "u:39c47c713ae6",
+              "args": {
+                "index": 2,
+                "value": {
+                  "name": "setValue 指定index",
+                  "color": "#00ff00"
+                }
+              },
+              "actionType": "setValue"
+            }
+          ]
+        }
+      },
+      "id": "u:691a43978f4e"
+    },
+    {
+      "type": "button",
+      "label": "addItem 未指定index",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "componentId": "u:39c47c713ae6",
+              "args": {
+                "item": [
+                  {
+                    "name": "插入1",
+                    "color": "#ffffff"
+                  },
+                  {
+                    "name": "插入2",
+                    "color": "#2468f2"
+                  }
+                ]
+              },
+              "actionType": "addItem"
+            }
+          ]
+        }
+      },
+      "id": "u:691a43978f4e"
+    },
+    {
+      "type": "button",
+      "label": "addItem 指定index",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "componentId": "u:39c47c713ae6",
+              "args": {
+                "index": 2,
+                "item": [
+                  {
+                    "name": "插入1",
+                    "color": "#ffffff"
+                  },
+                  {
+                    "name": "插入2",
+                    "color": "#2468f2"
+                  }
+                ]
+              },
+              "actionType": "addItem"
+            }
+          ]
+        }
+      },
+      "id": "u:691a43978f4e"
+    },
+    {
+      "type": "button",
+      "label": "deleteItem",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "componentId": "u:39c47c713ae6",
+              "args": {
+                "name": "zzl"
+              },
+              "actionType": "deleteItem"
+            }
+          ]
+        }
+      },
+      "id": "u:691a43978f4e"
+    },
+    {
+      "type": "button",
+      "label": "clear",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "componentId": "u:39c47c713ae6",
+              "actionType": "clear"
+            }
+          ]
+        }
+      },
+      "id": "u:691a43978f4e"
+    },
+    {
+      "type": "button",
+      "label": "reset",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "componentId": "u:39c47c713ae6",
+              "actionType": "reset"
+            }
+          ]
+        }
+      },
+      "id": "u:691a43978f4e"
+    },
+    {
+      "type": "input-text",
+      "label": "测试获取父级数据",
+      "name": "name",
+      "id": "u:5aea6935a4f2",
+      "value": "23455656"
     },
     {
       "type": "input-table",
       "name": "table",
       "label": "表格表单",
+      "canAccessSuperData": true,
+      // "valueField": "name",
+      "resetValue": [
+        {
+          name: 'resetValue',
+          color: '#ffffff'
+        }
+      ],
       "columns": [
         {
           "label": "color",
           "name": "color",
           "quickEdit": {
             "type": "input-color",
-            "id": "u:b93874d69023"
+            "id": "u:1d828c468cbd"
           },
           "type": "text",
-          "id": "u:45a6745f4478"
+          "id": "u:d2dc063d4a3e"
         },
         {
           "label": "说明文字",
@@ -64,86 +193,36 @@ export default {
           "quickEdit": {
             "type": "input-text",
             "mode": "inline",
-            "id": "u:b8bb0af95a9f"
+            "id": "u:c9db91691264"
           },
           "type": "text",
-          "id": "u:c5ca880372b7"
+          "id": "u:6b9d980a101d"
         }
       ],
       "strictMode": false,
-      "id": "u:2b1e4872a28e",
-      "addable": true,
-      "editable": true,
-      "removable": true,
+      "id": "u:39c47c713ae6",
       "needConfirm": true,
+      "addable": true,
+      "copyable": false,
+      "editable": true,
+      "removable": false,
+      "draggable": false,
       "onEvent": {
-        "add": {
-          "weight": 0,
-          "actions": [
-            {
-              actionType: 'toast',
-              args: {
-                msg: '触发add ${event.data.value|json}'
-              }
-            }
-          ]
-        },
-        "edit": {
-          "weight": 0,
-          "actions": [
-            {
-              actionType: 'toast',
-              args: {
-                msg: '触发edit ${event.data.value|json}'
-              }
-            }
-          ]
-        },
-        "addConfirm": {
-          "weight": 0,
-          "actions": [
-            {
-              actionType: 'toast',
-              args: {
-                msg: '触发addConfirm ${event.data.value|json}'
-              }
-            }
-          ]
-        },
-        "editConfirm": {
-          "weight": 0,
-          "actions": [
-            {
-              actionType: 'toast',
-              args: {
-                msg: '触发editConfirm ${event.data.value|json}'
-              }
-            }
-          ]
-        },
-        "delete": {
-          "weight": 0,
-          "actions": [
-            {
-              actionType: 'toast',
-              args: {
-                msg: '触发delete ${event.data.value|json}'
-              }
-            }
-          ]
-        },
-        "change": {
-          "weight": 0,
-          "actions": [
-            {
-              actionType: 'toast',
-              args: {
-                msg: '触发change ${event.data.value|json}'
-              }
-            }
-          ]
-        }
-      }
+      },
+      // "addApi": {
+      //   "url": "http://localhost:3000/form/input/table",
+      //   "method": "post",
+      //   "messages": {
+      //   },
+      //   "dataType": "json"
+      // },
+      // "updateApi": {
+      //   "url": "http://localhost:3000/form/input/table",
+      //   "method": "put",
+      //   "messages": {
+      //   },
+      //   "dataType": "json"
+      // }
     }
   ],
   "id": "u:6bbc05138917"
