@@ -469,6 +469,10 @@ export class EditorManager {
     let id = curRendererId || this.store.activeId;
     let panels: Array<BasicPanelItem> = [];
 
+    if (!id && this.store?.schema) {
+      id = this.store?.schema.$$id; // 默认使用根节点id
+    }
+
     if (id || this.store.selections.length) {
       id = id || this.store.selections[0];
       const node = this.store.getNodeById(id);
