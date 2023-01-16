@@ -1050,7 +1050,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
                     <HeadCellSort
                       column={item}
                       active={
-                        this.state.sort?.orderBy &&
+                        !!this.state.sort?.orderBy &&
                         this.state.sort.orderBy === item?.name
                       }
                       onSort={(payload: SortProps) => {
