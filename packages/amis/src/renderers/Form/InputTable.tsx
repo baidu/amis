@@ -22,7 +22,8 @@ import {
   ITableStore,
   generateIcon,
   isPureVariable,
-  resolveVariableAndFilter
+  resolveVariableAndFilter,
+  resolveEventData
 } from 'amis-core';
 import {Button, Icon} from 'amis-ui';
 import omit from 'lodash/omit';
@@ -214,6 +215,21 @@ export interface TableState {
   isCreateMode?: boolean;
   page?: number;
 }
+
+export type FormTableRendererEvent =
+  'add'
+  | 'addConfirm'
+  | 'addSuccess'
+  | 'addFail'
+  | 'edit'
+  | 'editConfirm'
+  | 'updateSuccess'
+  | 'updateFail'
+  | 'delete'
+  | 'deleteSuccess'
+  | 'deleteFail';
+
+export type FormTableRendererAction = 'addItem' | 'deleteItem' | 'resetValue' | 'clear';
 
 export default class FormTable extends React.Component<TableProps, TableState> {
   static defaultProps = {
@@ -411,101 +427,129 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   emitValue() {
     const items = this.state.items.filter(item => !item.__isPlaceholder);
     const {onChange} = this.props;
-
+    this.dispatchEvent('change', {items});
     onChange?.(items);
   }
 
   async doAction(action: ActionObject, ctx: RendererData, ...rest: Array<any>) {
     const {
-      onAction,
+      onAction
+    } = this.props;
+
+    switch(action.actionType) {
+      case 'add':
+        this.addAction(action, ctx, ...rest);
+        break;
+      case 'remove':
+        this.deleteOrRemoveAction(action, ctx, ...rest);
+        break;
+      case 'delete':
+        this.deleteOrRemoveAction(action, ctx, ...rest);
+        break;
+      case 'reset':
+        this.resetAction();
+        break;
+      case 'clear':
+        this.clearAction();
+        break;
+      default:
+        onAction && onAction(action, ctx, ...rest);
+        break;
+    }
+  }
+
+  async deleteOrRemoveAction(action: ActionObject, ctx: RendererData, ...rest: Array<any>) {
+    const {
       valueField,
       env,
-      onChange,
-      editable,
+      deleteApi,
+      translate: __
+    } = this.props;
+    if (!valueField) {
+      return env.alert(__('Table.valueField'));
+    } else if (!action.payload) {
+      return env.alert(__('Table.playload'));
+    }
+
+    const items = this.state.items.concat();
+    let toRemove: any = dataMapping(action.payload, ctx);
+    toRemove = Array.isArray(toRemove) ? toRemove : [toRemove];
+
+    if (isEffectiveApi(deleteApi, ctx)) {
+      const payload = await env.fetcher(deleteApi, ctx);
+      if (payload && !payload.ok) {
+        env.notify(
+          'error',
+          (deleteApi as ApiObject)?.messages?.failed ??
+            (payload.msg || __('fetchFailed'))
+        );
+        return;
+      }
+    }
+
+    toRemove.forEach((toRemove: any) => {
+      const idx = findIndex(
+        items,
+        item => item[valueField as string] == toRemove[valueField as string]
+      );
+      if (~idx) {
+        items.splice(idx, 1);
+      }
+    });
+
+    this.setState(
+      {
+        items
+      },
+      () => this.emitValue()
+    );
+  }
+
+  async addAction(action: ActionObject, ctx: RendererData, ...rest: Array<any>) {
+    const {
+      valueField,
+      env,
       needConfirm,
       addable,
       addApi,
       translate: __
     } = this.props;
+    if (addable === false) {
+      return;
+    }
 
-    if (action.actionType === 'add') {
-      if (addable === false) {
-        return;
-      }
+    const items = this.state.items.concat();
 
-      const items = this.state.items.concat();
+    if (addApi || action.payload) {
+      let toAdd = null;
 
-      if (addApi || action.payload) {
-        let toAdd = null;
-
-        if (isEffectiveApi(addApi, ctx)) {
-          const payload = await env.fetcher(addApi, ctx);
-          if (payload && !payload.ok) {
-            env.notify(
-              'error',
-              (addApi as ApiObject)?.messages?.failed ??
-                (payload.msg || __('fetchFailed'))
-            );
-            return;
-          } else if (payload && payload.ok) {
-            toAdd = payload.data;
-          }
-        } else {
-          toAdd = dataMapping(action.payload, ctx);
+      if (isEffectiveApi(addApi, ctx)) {
+        const payload = await env.fetcher(addApi, ctx);
+        if (payload && !payload.ok) {
+          env.notify(
+            'error',
+            (addApi as ApiObject)?.messages?.failed ??
+              (payload.msg || __('fetchFailed'))
+          );
+          return;
+        } else if (payload && payload.ok) {
+          toAdd = payload.data;
         }
-
-        toAdd = Array.isArray(toAdd) ? toAdd : [toAdd];
-        toAdd.forEach((toAdd: any) => {
-          if (
-            !valueField ||
-            !find(
-              items,
-              item => item[valueField as string] == toAdd[valueField as string]
-            )
-          ) {
-            // 不要重复加入
-            items.push(toAdd);
-          }
-        });
-
-        this.setState(
-          {
-            items
-          },
-          () => {
-            this.emitValue();
-
-            if (toAdd.length === 1 && needConfirm !== false) {
-              this.startEdit(items.length - 1, true);
-            }
-          }
-        );
-
-        return;
       } else {
-        return this.addItem(items.length - 1);
-      }
-    } else if (
-      action.actionType === 'remove' ||
-      action.actionType === 'delete'
-    ) {
-      if (!valueField) {
-        return env.alert(__('Table.valueField'));
-      } else if (!action.payload) {
-        return env.alert(__('Table.playload'));
+        toAdd = dataMapping(action.payload, ctx);
       }
 
-      const items = this.state.items.concat();
-      let toRemove: any = dataMapping(action.payload, ctx);
-      toRemove = Array.isArray(toRemove) ? toRemove : [toRemove];
-
-      toRemove.forEach((toRemove: any) => {
-        const idx = findIndex(
-          items,
-          item => item[valueField as string] == toRemove[valueField as string]
-        );
-        if (~idx) {
-          items.splice(idx, 1);
+      toAdd = Array.isArray(toAdd) ? toAdd : [toAdd];
+      toAdd.forEach((toAdd: any) => {
+        if (
+          !valueField ||
+          !find(
+            items,
+            item => item[valueField as string] == toAdd[valueField as string]
+          )
+        ) {
+          // 不要重复加入
+          items.push(toAdd);
         }
       });
 
@@ -513,14 +557,37 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         {
           items
         },
-        () => this.emitValue()
+        () => {
+          this.emitValue();
+
+          if (toAdd.length === 1 && needConfirm !== false) {
+            this.startEdit(items.length - 1, true);
+          }
+        }
       );
-
-      // todo 如果配置删除 Api 怎么办？
-      return;
+    } else {
+      this.addItem(items.length - 1);
     }
+  }
 
-    return onAction && onAction(action, ctx, ...rest);
+  async resetAction() {
+    const {
+      resetValue
+    } = this.props;
+
+    this.setState({
+      items: Array.isArray(resetValue) ? resetValue : []
+    }, () => {
+      this.emitValue();
+    });
+  }
+
+  async clearAction() {
+    this.setState({
+      items: []
+    }, () => {
+      this.emitValue();
+    });
   }
 
   copyItem(index: number) {
@@ -599,11 +666,49 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       () => {
         if (needConfirm === false) {
           this.emitValue();
+          this.dispatchEvent('add', {index});
         } else {
           this.startEdit(index, true);
         }
       }
     );
+  }
+
+  /**
+   * 点击“编辑”按钮
+   * @param index 编辑的行索引
+   */
+  editItem(index: number) {
+    const {items} = this.state;
+    const item = items[index];
+    this.startEdit(index, true);
+    this.dispatchEvent('edit', {index, item});
+  }
+
+  /**
+   * 派发事件
+   * @param eventName 事件名称
+   * @param eventData 事件数据
+   * @returns
+   */
+  async dispatchEvent(eventName: string, eventData: any = {}) {
+    const {dispatchEvent} = this.props;
+    const {items} = this.state;
+    const rendererEvent = await dispatchEvent(
+      eventName,
+      resolveEventData(
+        this.props,
+        {value: {
+          ...eventData,
+          items
+        }},
+        'value'
+      )
+    );
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
   }
 
   startEdit(index: number, isCreate: boolean = false, isCopy: boolean = false) {
@@ -631,6 +736,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       ...items[this.state.editIndex]
     };
     const isNew = item.__isPlaceholder;
+    const confirmEventName = isNew ? 'addConfirm' : 'editConfirm';
+    this.dispatchEvent(confirmEventName, {index: this.state.editIndex, item});
 
     let remote: Payload | null = null;
     let apiMsg = undefined;
@@ -644,6 +751,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
     if (remote && !remote.ok) {
       env.notify('error', apiMsg ?? (remote.msg || __('saveFailed')));
+      const failEventName = isNew ? 'addFail' : 'updateFail';
+      this.dispatchEvent(failEventName, {index: this.state.editIndex, item});
       return;
     } else if (remote && remote.ok) {
       item = merge(
@@ -655,6 +764,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
     delete item.__isPlaceholder;
     items.splice(this.state.editIndex, 1, item);
+    const successEventName = isNew ? 'addSuccess' : 'updateSuccess';
+    this.dispatchEvent(successEventName, {index: this.state.editIndex, item});
 
     this.setState(
       {
@@ -705,6 +816,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       return;
     }
 
+    this.dispatchEvent('delete', {index, item});
+
     const ctx = createObject(data, item);
     if (isEffectiveApi(deleteApi, ctx)) {
       const confirmed = await env.confirm(
@@ -722,12 +835,14 @@ export default class FormTable extends React.Component<TableProps, TableState> {
           'error',
           (deleteApi as ApiObject)?.messages?.failed ?? __('deleteFailed')
         );
+        this.dispatchEvent('deleteFail', {index, item});
         return;
       }
     }
 
     this.removeEntry(item);
     newValue.splice(index, 1);
+    this.dispatchEvent('deleteSuccess', {index, item});
     onChange(newValue);
   }
 
@@ -904,7 +1019,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                     ? env.getModalContainer
                     : undefined
                 }
-                onClick={() => this.startEdit(rowIndex + offset)}
+                onClick={() => this.editItem(rowIndex + offset)}
               >
                 {/* 兼容之前的写法 */}
                 {typeof props.updateBtnIcon !== 'undefined' ? (
