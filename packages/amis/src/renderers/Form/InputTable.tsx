@@ -700,7 +700,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         this.props,
         {value: {
           ...eventData,
-          items
+          value: items
         }},
         'value'
       )
