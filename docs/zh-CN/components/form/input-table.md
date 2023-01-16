@@ -847,8 +847,8 @@ order: 54
 
 |动作名称|动作配置|说明|
 |----|----|----|
-|add|`item: object\|Array<object>` 添加的数据<br />`index: number` 指定添加的位置，如果未指定则在数据尾端插入|在已有数据的基础上插入数据|
-|remove|`valueField: string` 删除行的关键字所在的key <br />`value: any` 删除行的关键字| 删除某一行数据|
-|setValue|`value: object \| Array<object>` 替换的值<br /> `index?: number` 可选，从第几行开始替换，如果没有指定，则替换全部表格数据|替换表格数据|
+|addItem|`item: object\|Array<object>` 添加的数据<br />`index: number` 指定添加的位置，如果未指定则在数据尾端插入|在已有数据的基础上插入数据|
+|deleteItem|`valueField: string` 删除行的关键字所在的key <br />`value: any` 删除行的关键字| 删除某一行数据|
+|setValue|`value: object \| Array<object>` 替换的值<br /> `index?: number` 可选，替换第几行数据，如果没有指定，则替换全部表格数据|替换表格数据|
 |clear|-|清空表格数据|
 |reset|-|将表格数据重置为`resetValue`，若没有配置`resetValue`，则清空表格数据|
