@@ -3,6 +3,7 @@ import React from 'react';
 import {findDOMNode} from 'react-dom';
 import {EditorManager} from '../manager';
 import {RegionConfig, RendererInfo} from '../plugin';
+import {needFillPlaceholder} from '../util';
 import {EditorStoreType} from '../store/editor';
 import {EditorNodeContext, EditorNodeType} from '../store/node';
 
@@ -105,12 +106,18 @@ export class RegionWrapper extends React.Component<RegionWrapperProps> {
     const isLayoutItem =
       this.props.rendererName === 'wrapper' ||
       this.props.rendererName === 'container';
+    let isNeedFillPlaceholder = false;
+    if (needFillPlaceholder(this.props)) {
+      isNeedFillPlaceholder = true;
+    }
     return (
       <EditorNodeContext.Provider value={this.editorNode}>
         {this.props.children}
         <span
           className={`ae-Region-placeholder ${
             isLayoutItem ? 'layout-content' : ''
+          } ${
+            isNeedFillPlaceholder ? 'fill-placeholder' : ''
           }`}
         >
           {this.props.placeholder || this.props.label}

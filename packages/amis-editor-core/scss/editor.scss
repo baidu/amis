@@ -1111,6 +1111,14 @@
     background: #f7f7f8;
   }
 
+  &.fill-placeholder {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: calc(100% - 8px) !important;
+    height: calc(100% - 8px) !important;
+  }
+
   &:first-child {
     display: flex;
     align-items: center;

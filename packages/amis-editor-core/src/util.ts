@@ -1040,3 +1040,28 @@ export function translateSchema(schema: any, replaceData?: any) {
     return replaceData[item] || item;
   });
 }
+
+/**
+ * 判断是否需要给组件增加填充占位样式
+ */
+export function needFillPlaceholder(curProps: any) {
+  let needFillPlaceholder = false;
+  if (!curProps) {
+    return false;
+  }
+  // 识别page中的aside、body
+  if (curProps.rendererName === 'page' && (curProps.name === 'aside' || curProps.name === 'body')) {
+    return true;
+  }
+  // 识别自由容器
+  if (curProps.node?.schema?.isFreeContainer) {
+    return true;
+  }
+  // 支持在plugin中配置
+  if (curProps.$$editor?.needFillPlaceholder) {
+    needFillPlaceholder = true;
+  } else if (curProps.regionConfig?.needFillPlaceholder ) {
+    needFillPlaceholder = true;
+  }
+  return needFillPlaceholder;
+}
