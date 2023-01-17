@@ -141,7 +141,8 @@ export default class Editor extends Component<EditorProps> {
         ctx: props.ctx,
         superEditorData,
         appLocale: props.appLocale,
-        appCorpusData: props?.amisEnv?.replaceText
+        appCorpusData: props?.amisEnv?.replaceText,
+        i18nEnabled: props?.i18nEnabled ?? false
       },
       config
     );

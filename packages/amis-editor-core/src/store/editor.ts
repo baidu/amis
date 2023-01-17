@@ -202,6 +202,8 @@ export const MainStore = types
     targetNames: types.optional(types.array(types.frozen<TargetName>()), []),
 
     ctx: types.frozen(),
+    /** 是否开启应用多语言 */
+    i18nEnabled: types.optional(types.boolean, false),
     /** 应用语言 */
     appLocale: types.optional(types.string, 'zh-CN'),
     /** 应用语料 */

@@ -1030,6 +1030,11 @@ export function needDefaultWidth(elemType: string) {
   return false;
 }
 
+/** 是否开启应用国际化 */
+export function getI18nEnabled() {
+  return (window as any)?.editorStore?.i18nEnabled ?? false;
+}
+
 /** schema 翻译方法 */
 export function translateSchema(schema: any, replaceData?: any) {
   replaceData = replaceData || (window as any)?.editorStore?.appCorpusData;
@@ -1050,7 +1055,10 @@ export function needFillPlaceholder(curProps: any) {
     return false;
   }
   // 识别page中的aside、body
-  if (curProps.rendererName === 'page' && (curProps.name === 'aside' || curProps.name === 'body')) {
+  if (
+    curProps.rendererName === 'page' &&
+    (curProps.name === 'aside' || curProps.name === 'body')
+  ) {
     return true;
   }
   // 识别自由容器
@@ -1060,7 +1068,7 @@ export function needFillPlaceholder(curProps: any) {
   // 支持在plugin中配置
   if (curProps.$$editor?.needFillPlaceholder) {
     needFillPlaceholder = true;
-  } else if (curProps.regionConfig?.needFillPlaceholder ) {
+  } else if (curProps.regionConfig?.needFillPlaceholder) {
     needFillPlaceholder = true;
   }
   return needFillPlaceholder;
