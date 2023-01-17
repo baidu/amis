@@ -1,12 +1,11 @@
-import {setSchemaTpl, getSchemaTpl, defaultValue} from 'amis-editor-core';
+import {setSchemaTpl, getSchemaTpl, defaultValue, getI18nEnabled} from 'amis-editor-core';
 import {tipedLabel} from 'amis-editor-core';
 import {SchemaObject} from 'amis/lib/Schema';
 import assign from 'lodash/assign';
 import cloneDeep from 'lodash/cloneDeep';
-import {getEnv} from 'mobx-state-tree';
 
 setSchemaTpl('options', () => {
-  const {i18nEnabled} = getEnv((window as any).editorStore);
+  const i18nEnabled = getI18nEnabled();
   return {
     label: '选项 Options',
     name: 'options',

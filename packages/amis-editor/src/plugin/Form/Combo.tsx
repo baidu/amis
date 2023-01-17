@@ -8,7 +8,8 @@ import {
   RendererPluginAction,
   tipedLabel,
   mockValue,
-  RegionConfig
+  RegionConfig,
+  getI18nEnabled
 } from 'amis-editor-core';
 
 import {setVariable} from 'amis-core';
@@ -18,7 +19,6 @@ import {
   getArgsWrapper,
   getEventControlConfig
 } from '../../renderer/event-control/helper';
-import {getEnv} from 'mobx-state-tree';
 
 export class ComboControlPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -213,7 +213,7 @@ export class ComboControlPlugin extends BasePlugin {
   panelJustify = true;
 
   panelBodyCreator = (context: BaseEventContext) => {
-    const {i18nEnabled} = getEnv((window as any).editorStore);
+    const i18nEnabled = getI18nEnabled();
     return getSchemaTpl('tabs', [
       {
         title: '属性',

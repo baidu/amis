@@ -18,13 +18,12 @@ import {
   render as amisRender
 } from 'amis';
 
-import {autobind} from 'amis-editor-core';
+import {autobind, getI18nEnabled} from 'amis-editor-core';
 import {getSchemaTpl, tipedLabel} from 'amis-editor-core';
 
 import type {Option} from 'amis';
 import type {FormControlProps} from 'amis-core';
 import {SchemaApi, SchemaObject} from 'amis/lib/Schema';
-import {getEnv} from 'mobx-state-tree';
 
 export type OptionControlItem = Option & {checked?: boolean; _key?: string};
 
@@ -305,7 +304,7 @@ export default class TreeOptionControl extends React.Component<
   @autobind
   renderOptions(option: any, key: number, indexes: number[]): React.ReactNode {
     const {render} = this.props;
-    const {i18nEnabled} = getEnv((window as any).editorStore);
+    const i18nEnabled = getI18nEnabled();
     const path = indexes.join('-');
     if (option.children && option.children.length) {
       const parent = cloneDeep(option);

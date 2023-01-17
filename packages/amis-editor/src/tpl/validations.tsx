@@ -2,7 +2,8 @@ import {
   setSchemaTpl,
   isObject,
   defaultValue,
-  getSchemaTpl
+  getSchemaTpl,
+  getI18nEnabled
 } from 'amis-editor-core';
 import {ValidationOptions} from '../component/BaseControl';
 import {str2rules} from 'amis';
@@ -11,7 +12,6 @@ import {ValidatorTag} from '../validator';
 import find from 'lodash/find';
 import reduce from 'lodash/reduce';
 import forEach from 'lodash/forEach';
-import {getEnv} from 'mobx-state-tree';
 
 setSchemaTpl('validations', function () {
   const options = [
@@ -271,7 +271,7 @@ setSchemaTpl('validations', function () {
 });
 
 setSchemaTpl('validationErrors', function () {
-  const {i18nEnabled} = getEnv((window as any).editorStore);
+  const i18nEnabled = getI18nEnabled();
   const options = [
     // {
     //     label: '必填',

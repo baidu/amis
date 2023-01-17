@@ -1,4 +1,4 @@
-import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
+import {getI18nEnabled, RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BaseEventContext, BasePlugin} from 'amis-editor-core';
@@ -6,7 +6,6 @@ import cloneDeep from 'lodash/cloneDeep';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {ValidatorTag} from '../../validator';
 import {tipedLabel} from 'amis-editor-core';
-import {getEnv} from 'mobx-state-tree';
 
 export class TreeSelectControlPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -251,7 +250,7 @@ export class TreeSelectControlPlugin extends BasePlugin {
 
   panelBodyCreator = (context: BaseEventContext) => {
     const renderer: any = context.info.renderer;
-    const {i18nEnabled} = getEnv((window as any).editorStore);
+    const i18nEnabled = getI18nEnabled();
 
     return getSchemaTpl('tabs', [
       {

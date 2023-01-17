@@ -7,13 +7,12 @@ import cx from 'classnames';
 import uniqBy from 'lodash/uniqBy';
 import Sortable from 'sortablejs';
 import {render as amisRender, FormItem, Icon, InputBox} from 'amis';
-import {tipedLabel} from 'amis-editor-core';
+import {getI18nEnabled, tipedLabel} from 'amis-editor-core';
 import {autobind} from 'amis-editor-core';
 import {getSchemaTpl} from 'amis-editor-core';
 import type {FormControlProps} from 'amis-core';
 import {SchemaApi} from 'amis/lib/Schema';
 import {isObject} from 'lodash';
-import {getEnv} from 'mobx-state-tree';
 
 type TimelineItem = {
   title: string;
@@ -140,7 +139,7 @@ export default class TimelineItemControl extends React.Component<
   }
 
   buildAddOrEditSchema(props?: Partial<TimelineItem>) {
-    const {i18nEnabled} = getEnv((window as any).editorStore);
+    const i18nEnabled = getI18nEnabled();
     return [
       {
         type: i18nEnabled ? 'input-text-i18n' : 'input-text',
@@ -399,7 +398,7 @@ export default class TimelineItemControl extends React.Component<
   renderOption(props: TimelineItem & {index: number}) {
     const {time, title, index} = props;
     const delDisabled = !(this.state.items.length > 2);
-    const {i18nEnabled} = getEnv((window as any).editorStore);
+    const i18nEnabled = getI18nEnabled();
     return (
       <li className="ae-TimelineItemControlItem" key={index}>
         <div className="ae-TimelineItemControlItem-Main">

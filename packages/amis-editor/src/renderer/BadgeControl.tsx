@@ -8,12 +8,11 @@ import camelCase from 'lodash/camelCase';
 import mapKeys from 'lodash/mapKeys';
 import {FormItem, Switch} from 'amis';
 
-import {autobind, isObject, isEmpty, anyChanged} from 'amis-editor-core';
+import {autobind, isObject, isEmpty, anyChanged, getI18nEnabled} from 'amis-editor-core';
 import {defaultValue, tipedLabel} from 'amis-editor-core';
 
 import type {FormControlProps} from 'amis-core';
 import type {SchemaExpression} from 'amis/lib/Schema';
-import {getEnv} from 'mobx-state-tree';
 
 export interface BadgeControlProps extends FormControlProps {
   /**
@@ -187,7 +186,7 @@ export default class BadgeControl extends React.Component<
   renderBody() {
     const {render} = this.props;
     const data = this.transformBadgeValue();
-    const {i18nEnabled} = getEnv((window as any).editorStore);
+    const i18nEnabled = getI18nEnabled();
     return render(
       'badge-form',
       {

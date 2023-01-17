@@ -1,6 +1,6 @@
 import React from 'react';
 import {Button, resolveVariable} from 'amis';
-import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
+import {getI18nEnabled, RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {findTree, setVariable, someTree} from 'amis-core';
 
 import {registerEditorPlugin, repeatArray, diff} from 'amis-editor-core';
@@ -23,7 +23,6 @@ import {
   getEventControlConfig,
   getArgsWrapper
 } from '../renderer/event-control/helper';
-import {getEnv} from 'mobx-state-tree';
 
 export class TablePlugin extends BasePlugin {
   // 关联渲染器名字
@@ -83,8 +82,7 @@ export class TablePlugin extends BasePlugin {
   };
 
   get scaffoldForm(): ScaffoldForm {
-    const editorStore = (window as any)?.editorStore;
-    const i18nEnabled = editorStore ? editorStore.i18nEnabled : false;
+    const i18nEnabled = getI18nEnabled();
     return {
       title: '快速构建表格',
       body: [

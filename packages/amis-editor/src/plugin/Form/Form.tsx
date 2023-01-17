@@ -1,4 +1,4 @@
-import {registerEditorPlugin} from 'amis-editor-core';
+import {getI18nEnabled, registerEditorPlugin} from 'amis-editor-core';
 import {
   BasePlugin,
   ChangeEventContext,
@@ -13,7 +13,6 @@ import {EditorNodeType} from 'amis-editor-core';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {setVariable} from 'amis-core';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
-import {getEnv} from 'mobx-state-tree';
 
 // 用于脚手架的常用表单控件
 const getFormItemOptions = ({i18nEnabled}: {i18nEnabled?: boolean}) => {
@@ -165,8 +164,7 @@ export class FormPlugin extends BasePlugin {
   };
 
   get scaffoldForm(): ScaffoldForm {
-    const editorStore = (window as any)?.editorStore;
-    const i18nEnabled = editorStore ? editorStore.i18nEnabled : false;
+    const i18nEnabled = getI18nEnabled();
     return {
       title: '快速创建表单',
       body: [
@@ -435,8 +433,7 @@ export class FormPlugin extends BasePlugin {
   panelBodyCreator = (context: BaseEventContext) => {
     const isCRUDFilter: boolean = /\/crud\/filter\/form$/.test(context.path);
     const isInDialog: boolean = /(?:\/|^)dialog\/.+$/.test(context.path);
-    const editorStore = (window as any)?.editorStore;
-    const i18nEnabled = editorStore ? editorStore.i18nEnabled : false;
+    const i18nEnabled = getI18nEnabled();
 
     return [
       getSchemaTpl('tabs', [

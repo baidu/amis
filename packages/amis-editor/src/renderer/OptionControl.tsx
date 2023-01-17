@@ -11,7 +11,7 @@ import Sortable from 'sortablejs';
 import {FormItem, Button, Checkbox, Icon, InputBox, render as amisRender} from 'amis';
 import {value2array} from 'amis-ui/lib/components/Select';
 
-import {autobind} from 'amis-editor-core';
+import {autobind, getI18nEnabled} from 'amis-editor-core';
 import {getSchemaTpl} from 'amis-editor-core';
 import {tipedLabel} from 'amis-editor-core';
 
@@ -20,7 +20,6 @@ import type {FormControlProps} from 'amis-core';
 import type {TextControlSchema} from 'amis/lib/renderers/Form/inputText';
 import type {OptionValue} from 'amis-core';
 import {SchemaApi} from 'amis/lib/Schema';
-import {getEnv} from 'mobx-state-tree';
 
 export type valueType = 'text' | 'boolean' | 'number';
 
@@ -489,7 +488,7 @@ export default class OptionControl extends React.Component<
     const render = this.props.render;
     const ctx: Partial<TextControlSchema> = this.props.data;
     const isMultiple = ctx?.multiple === true || multipleProps;
-    const {i18nEnabled} = getEnv((window as any).editorStore);
+    const i18nEnabled = getI18nEnabled();
 
     const label = this.transformOptionValue(props.label);
     const value = this.transformOptionValue(props.value);

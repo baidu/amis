@@ -1,5 +1,6 @@
 import {
   EditorNodeType,
+  getI18nEnabled,
   jsonToJsonSchema,
   registerEditorPlugin
 } from 'amis-editor-core';
@@ -21,7 +22,6 @@ import {
   getArgsWrapper,
   getEventControlConfig
 } from '../renderer/event-control/helper';
-import {getEnv} from 'mobx-state-tree';
 
 export class WizardPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -293,7 +293,7 @@ export class WizardPlugin extends BasePlugin {
 
   panelTitle = '向导';
   panelBodyCreator = (context: BaseEventContext) => {
-    const {i18nEnabled} = getEnv((window as any).editorStore);
+    const i18nEnabled = getI18nEnabled();
     return [
       getSchemaTpl('tabs', [
         {

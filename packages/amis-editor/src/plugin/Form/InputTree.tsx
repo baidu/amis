@@ -1,5 +1,5 @@
 import React from 'react';
-import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
+import {getI18nEnabled, RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BaseEventContext, BasePlugin} from 'amis-editor-core';
@@ -10,7 +10,6 @@ import {
 } from '../../renderer/event-control/helper';
 import {tipedLabel} from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
-import {getEnv} from 'mobx-state-tree';
 
 export class TreeControlPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -269,7 +268,7 @@ export class TreeControlPlugin extends BasePlugin {
 
   panelBodyCreator = (context: BaseEventContext) => {
     const renderer: any = context.info.renderer;
-    const {i18nEnabled} = getEnv((window as any).editorStore);
+    const i18nEnabled = getI18nEnabled();
     return getSchemaTpl('tabs', [
       {
         title: '属性',

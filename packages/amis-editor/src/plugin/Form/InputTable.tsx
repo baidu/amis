@@ -1,7 +1,7 @@
 import React from 'react';
 import {resolveVariable, Button} from 'amis';
 import flatten from 'lodash/flatten';
-import {defaultValue, getSchemaTpl} from 'amis-editor-core';
+import {defaultValue, getI18nEnabled, getSchemaTpl} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {
   BaseEventContext,
@@ -17,7 +17,6 @@ import {
 import {setVariable} from 'amis-core';
 import {repeatArray} from 'amis-editor-core';
 import {mockValue} from 'amis-editor-core';
-import {getEnv} from 'mobx-state-tree';
 
 export class TableControlPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -79,8 +78,7 @@ export class TableControlPlugin extends BasePlugin {
   };
 
   get scaffoldForm(): ScaffoldForm {
-    const editorStore = (window as any)?.editorStore;
-    const i18nEnabled = editorStore ? editorStore.i18nEnabled : false;
+    const i18nEnabled = getI18nEnabled();
     return {
       title: '快速构建表格',
       body: [
@@ -160,7 +158,7 @@ export class TableControlPlugin extends BasePlugin {
   panelTitle = '表格编辑';
   panelBodyCreator = (context: BaseEventContext) => {
     const isCRUDBody = context.schema.type === 'crud';
-    const {i18nEnabled} = getEnv((window as any).editorStore);
+    const i18nEnabled = getI18nEnabled();
 
     return getSchemaTpl('tabs', [
       {
