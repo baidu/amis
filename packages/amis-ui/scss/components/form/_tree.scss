@@ -63,11 +63,16 @@
     position: relative;
   }
 
-  &--outline &-item--isLeaf {
+  &--outline &-item--isLeaf.is-child {
     &:before {
       position: absolute;
       top: -8px;
-      left: calc((var(--Tree-indent) - 5px) * -1);
+      left: calc(
+        (
+            var(--Tree-icon-gap) + var(--Tree-itemArrowWidth) +
+              var(--Tree-icon-margin-right)
+          ) / 2 - var(--Tree-indent)
+      );
       bottom: 0px;
       border-left: 1px solid var(--borderColor);
       content: '';

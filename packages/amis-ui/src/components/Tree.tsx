@@ -1231,7 +1231,8 @@ export class TreeSelector extends React.Component<
       <li
         key={item.key}
         className={cx(`Tree-item ${itemClassName || ''}`, {
-          'Tree-item--isLeaf': isLeaf
+          'Tree-item--isLeaf': isLeaf,
+          'is-child': this.relations.get(item)
         })}
         style={{
           ...style,
