@@ -2,6 +2,7 @@ import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BaseEventContext, BasePlugin} from 'amis-editor-core';
+import cloneDeep from 'lodash/cloneDeep';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {ValidatorTag} from '../../validator';
 import {tipedLabel} from 'amis-editor-core';
@@ -269,6 +270,35 @@ export class TreeSelectControlPlugin extends BasePlugin {
                 name: 'type',
                 label: '模式',
                 pipeIn: defaultValue('tree-select'),
+                onChange: (
+                  value: any,
+                  oldValue: any,
+                  model: any,
+                  form: any
+                ) => {
+                  const activeEvent = cloneDeep(
+                    form.getValueByName('onEvent') || {}
+                  );
+
+                  let eventList = this.events;
+                  if (value === 'input-tree') {
+                    const inputTreePlugin = this.manager.plugins.find(
+                      item => item.rendererName === 'input-tree'
+                    );
+
+                    eventList = inputTreePlugin?.events || [];
+                  }
+
+                  for (let key in activeEvent) {
+                    const hasEventKey = eventList.find(
+                      event => event.eventName === key
+                    );
+                    if (!hasEventKey) {
+                      delete activeEvent[key];
+                    }
+                  }
+                  form.setValueByName('onEvent', activeEvent);
+                },
                 options: [
                   {
                     label: '内嵌',
