@@ -53,7 +53,8 @@ const defaultOmitList = [
   'syncSuperStore',
   'mode',
   'body',
-  'id'
+  'id',
+  'inputOnly'
 ];
 
 const componentCache: SimpleMap = new SimpleMap();
