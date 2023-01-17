@@ -477,11 +477,7 @@ export function remarkTpl(config: {
                   }
                 ]
               },
-              {
-                type: 'icon-select',
-                name: 'icon',
-                label: '图标'
-              },
+              getSchemaTpl('icon'),
               {
                 name: 'className',
                 label: 'CSS 类名',

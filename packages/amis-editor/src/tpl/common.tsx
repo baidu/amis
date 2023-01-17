@@ -347,6 +347,15 @@ setSchemaTpl('hint', {
   description: '当输入框获得焦点的时候显示，用来提示用户输入内容。'
 });
 
+setSchemaTpl('icon', {
+  label: '图标',
+  type: 'icon-picker',
+  name: 'icon',
+  placeholder: '点击选择图标',
+  clearable: true,
+  description: ''
+});
+
 setSchemaTpl(
   'remark',
   remarkTpl({
@@ -612,15 +621,6 @@ setSchemaTpl('menuTpl', {
 setSchemaTpl('expression', {
   type: 'input-text',
   description: '支持 JS 表达式，如：`this.xxx == 1`'
-});
-
-setSchemaTpl('icon', {
-  label: '图标',
-  type: 'icon-select',
-  name: 'icon',
-  placeholder: '点击选择图标',
-  clearable: true,
-  description: ''
 });
 
 setSchemaTpl('size', {
