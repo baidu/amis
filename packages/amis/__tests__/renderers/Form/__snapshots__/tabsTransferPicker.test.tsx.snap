@@ -524,7 +524,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                         </div>
                       </li>
                       <li
-                        class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                        class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
                       >
                         <div
                           class="cxd-Tree-itemLabel is-checked"
@@ -630,7 +630,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                         </div>
                       </li>
                       <li
-                        class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                        class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
                       >
                         <div
                           class="cxd-Tree-itemLabel"
@@ -684,7 +684,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                         </div>
                       </li>
                       <li
-                        class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                        class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
                       >
                         <div
                           class="cxd-Tree-itemLabel"
@@ -790,7 +790,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                         </div>
                       </li>
                       <li
-                        class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                        class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
                       >
                         <div
                           class="cxd-Tree-itemLabel"
@@ -844,7 +844,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                         </div>
                       </li>
                       <li
-                        class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                        class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
                       >
                         <div
                           class="cxd-Tree-itemLabel"
@@ -898,7 +898,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                         </div>
                       </li>
                       <li
-                        class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                        class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
                       >
                         <div
                           class="cxd-Tree-itemLabel"
@@ -1152,7 +1152,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                         </div>
                       </li>
                       <li
-                        class="cxd-Tree-item "
+                        class="cxd-Tree-item  is-child"
                       >
                         <div
                           class="cxd-Tree-itemLabel"
@@ -1204,7 +1204,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                         </div>
                       </li>
                       <li
-                        class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                        class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
                       >
                         <div
                           class="cxd-Tree-itemLabel"
@@ -1251,7 +1251,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                         </div>
                       </li>
                       <li
-                        class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                        class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
                       >
                         <div
                           class="cxd-Tree-itemLabel"
@@ -1298,7 +1298,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                         </div>
                       </li>
                       <li
-                        class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                        class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
                       >
                         <div
                           class="cxd-Tree-itemLabel"
@@ -1345,7 +1345,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                         </div>
                       </li>
                       <li
-                        class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                        class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
                       >
                         <div
                           class="cxd-Tree-itemLabel"

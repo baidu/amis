@@ -492,7 +492,7 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
                           </div>
                         </li>
                         <li
-                          class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                          class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
                         >
                           <div
                             class="cxd-Tree-itemLabel"
@@ -561,7 +561,7 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
                           </div>
                         </li>
                         <li
-                          class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                          class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
                         >
                           <div
                             class="cxd-Tree-itemLabel"
@@ -593,7 +593,7 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
                           </div>
                         </li>
                         <li
-                          class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                          class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
                         >
                           <div
                             class="cxd-Tree-itemLabel is-checked"
@@ -2145,7 +2145,7 @@ exports[`Renderer:transfer left tree 1`] = `
                                   </div>
                                 </li>
                                 <li
-                                  class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                  class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
                                 >
                                   <div
                                     class="cxd-Tree-itemLabel"
@@ -2214,7 +2214,7 @@ exports[`Renderer:transfer left tree 1`] = `
                                   </div>
                                 </li>
                                 <li
-                                  class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                  class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
                                 >
                                   <div
                                     class="cxd-Tree-itemLabel"
@@ -2246,7 +2246,7 @@ exports[`Renderer:transfer left tree 1`] = `
                                   </div>
                                 </li>
                                 <li
-                                  class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                  class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
                                 >
                                   <div
                                     class="cxd-Tree-itemLabel"
@@ -2315,7 +2315,7 @@ exports[`Renderer:transfer left tree 1`] = `
                                   </div>
                                 </li>
                                 <li
-                                  class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                  class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
                                 >
                                   <div
                                     class="cxd-Tree-itemLabel"
@@ -2347,7 +2347,7 @@ exports[`Renderer:transfer left tree 1`] = `
                                   </div>
                                 </li>
                                 <li
-                                  class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                  class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
                                 >
                                   <div
                                     class="cxd-Tree-itemLabel"
@@ -2379,7 +2379,7 @@ exports[`Renderer:transfer left tree 1`] = `
                                   </div>
                                 </li>
                                 <li
-                                  class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                  class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
                                 >
                                   <div
                                     class="cxd-Tree-itemLabel"
@@ -4507,7 +4507,7 @@ exports[`Renderer:transfer tree 1`] = `
                               </div>
                             </li>
                             <li
-                              class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                              class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
                             >
                               <div
                                 class="cxd-Tree-itemLabel"
@@ -4590,7 +4590,7 @@ exports[`Renderer:transfer tree 1`] = `
                               </div>
                             </li>
                             <li
-                              class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                              class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
                             >
                               <div
                                 class="cxd-Tree-itemLabel"
@@ -4629,7 +4629,7 @@ exports[`Renderer:transfer tree 1`] = `
                               </div>
                             </li>
                             <li
-                              class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                              class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
                             >
                               <div
                                 class="cxd-Tree-itemLabel"
@@ -4712,7 +4712,7 @@ exports[`Renderer:transfer tree 1`] = `
                               </div>
                             </li>
                             <li
-                              class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                              class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
                             >
                               <div
                                 class="cxd-Tree-itemLabel"
@@ -4751,7 +4751,7 @@ exports[`Renderer:transfer tree 1`] = `
                               </div>
                             </li>
                             <li
-                              class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                              class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
                             >
                               <div
                                 class="cxd-Tree-itemLabel"
@@ -4790,7 +4790,7 @@ exports[`Renderer:transfer tree 1`] = `
                               </div>
                             </li>
                             <li
-                              class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                              class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
                             >
                               <div
                                 class="cxd-Tree-itemLabel"
