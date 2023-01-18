@@ -69,7 +69,23 @@ test('Renderer:crud basic interval headerToolbar footerToolbar', async () => {
           interval: 1000,
           perPage: 2,
           headerToolbar: ['export-excel', 'statistics'],
-          footerToolbar: ['pagination', 'export-excel'],
+          footerToolbar: [
+            'pagination',
+            {
+              type: 'pagination',
+              total: '${count}',
+              layout: 'total,perPage,pager,go',
+              mode: 'normal',
+              activePage: 2,
+              perPage: 10,
+              maxButtons: 7,
+              showPerPage: true,
+              perPageAvailable: [10, 20, 50, 100],
+              showPageInput: true,
+              disabled: false
+            },
+            'export-excel'
+          ],
           columns: [
             {
               name: '__id',
