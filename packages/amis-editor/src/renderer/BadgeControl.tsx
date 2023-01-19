@@ -136,10 +136,10 @@ export default class BadgeControl extends React.Component<
   }
 
   transformBadgeValue(): BadgeForm {
-    const {data: ctx} = this.props;
-    const badge = ctx?.badge ?? {};
+    const {data: ctx, name} = this.props;
+    const badge = ctx?.[name || 'badge'] ?? {};
     // 避免获取到上层的size
-    const size = ctx?.badge?.size;
+    const size = ctx?.[name || 'badge']?.size;
     const offset = [0, 0];
 
     // 转换成combo可以识别的格式
@@ -176,10 +176,10 @@ export default class BadgeControl extends React.Component<
   }
 
   handleSubmit(form: BadgeForm, action: any): void {
-    const {onBulkChange} = this.props;
+    const {onBulkChange, name} = this.props;
 
     if (action?.type === 'submit') {
-      onBulkChange?.({badge: this.normalizeBadgeValue(form)});
+      onBulkChange?.({[name || 'badge']: this.normalizeBadgeValue(form)});
     }
   }
 
@@ -351,6 +351,11 @@ export default class BadgeControl extends React.Component<
             type: 'switch',
             mode: 'row',
             inputClassName: 'inline-flex justify-between flex-row-reverse'
+          },
+          {
+            type: 'ae-formulaControl',
+            label: '显示条件',
+            name: 'visibleOn'
           }
         ]
       },

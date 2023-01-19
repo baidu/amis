@@ -337,7 +337,7 @@ export class EventControl extends React.Component<
     // 找到激活的事件面板
     Object.keys(onEvent)
       .filter((key: string) => {
-        return onEvent[key].actions.length && eventPanelActive[key];
+        return onEvent[key]?.actions?.length && eventPanelActive[key];
       })
       .forEach((key: string, index: number) => {
         if (!this.eventPanelSortMap[key]) {
@@ -764,7 +764,7 @@ export class EventControl extends React.Component<
                         className: 'event-item-desc'
                       })
                     : null}
-                  {enventSnapshot[eventKey].actions.length &&
+                  {enventSnapshot[eventKey]?.actions?.length &&
                   eventPanelActive[eventKey] ? (
                     <ul className="item-content">
                       {enventSnapshot[eventKey].actions.map(

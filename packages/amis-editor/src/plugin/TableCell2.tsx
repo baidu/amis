@@ -16,7 +16,7 @@ import {
   DSField,
   BaseEventContext
 } from 'amis-editor-core';
-import {fromPairs} from 'lodash';
+import get from 'lodash/get';
 import {TabsSchema} from 'amis/lib/renderers/Tabs';
 import {SchemaObject} from 'amis/lib/Schema';
 import {remarkTpl} from '../component/BaseControl';
@@ -243,11 +243,26 @@ export class TableCell2Plugin extends BasePlugin {
                 ]
               },
 
-              getSchemaTpl('switch', {
+              {
+                type: 'select',
                 name: 'fixed',
+                label: '固定当前列',
                 hidden: isOperationColumn,
-                label: '固定当前列'
-              }),
+                options: [
+                  {
+                    label: '不固定',
+                    value: false
+                  },
+                  {
+                    label: '左侧固定',
+                    value: 'left'
+                  },
+                  {
+                    label: '右侧固定',
+                    value: 'right'
+                  }
+                ]
+              },
 
               getSchemaTpl('switch', {
                 name: 'sorter',
@@ -332,7 +347,16 @@ export class TableCell2Plugin extends BasePlugin {
                 formType: 'extend',
                 bulk: true,
                 defaultData: {
+                  quickEdit: {
+                    mode: 'popOver'
+                  }
+                },
+                trueValue: {
                   mode: 'popOver'
+                },
+                isChecked: (e: any) => {
+                  const {data, name} = e;
+                  return get(data, name);
                 },
                 form: {
                   body: [
@@ -423,6 +447,155 @@ export class TableCell2Plugin extends BasePlugin {
                             <span className="inline-flex items-center">
                               <Icon icon="edit" className="mr-1 w-3" />
                               配置编辑表单
+                            </span>
+                          </Button>
+                        );
+                      }
+                    }
+                  ]
+                }
+              },
+
+              {
+                hidden: isOperationColumn,
+                name: 'popOver',
+                label: '弹出框',
+                type: 'ae-switch-more',
+                mode: 'normal',
+                formType: 'extend',
+                bulk: true,
+                defaultData: {
+                  popOver: {
+                    mode: 'popOver'
+                  }
+                },
+                trueValue: {
+                  mode: 'popOver',
+                  body: [
+                    {
+                      type: 'tpl',
+                      tpl: '弹出框内容'
+                    }
+                  ]
+                },
+                isChecked: (e: any) => {
+                  const {data, name} = e;
+                  return get(data, name);
+                },
+                form: {
+                  body: [
+                    {
+                      name: 'popOver.mode',
+                      type: 'button-group-select',
+                      label: '模式',
+                      value: 'popOver',
+                      options: [
+                        {
+                          label: '提示',
+                          value: 'popOver'
+                        },
+                        {
+                          label: '弹窗',
+                          value: 'dialog'
+                        },
+                        {
+                          label: '抽屉',
+                          value: 'drawer'
+                        }
+                      ]
+                    },
+                    getSchemaTpl('formItemSize', {
+                      name: 'popOver.size',
+                      clearValueOnHidden: true,
+                      visibleOn: 'popOver.mode !== "popOver"'
+                    }),
+                    {
+                      type: 'select',
+                      name: 'popOver.position',
+                      label: '弹出位置',
+                      visibleOn: 'popOver.mode === "popOver"',
+                      options: [
+                        'center',
+                        'left-top',
+                        'right-top',
+                        'left-bottom',
+                        'right-bottom'
+                      ],
+                      clearValueOnHidden: true
+                    },
+                    {
+                      name: 'popOver.trigger',
+                      type: 'button-group-select',
+                      label: '触发方式',
+                      options: [
+                        {
+                          label: '点击',
+                          value: 'click'
+                        },
+                        {
+                          label: '鼠标移入',
+                          value: 'hover'
+                        }
+                      ],
+                      pipeIn: defaultValue('click')
+                    },
+                    getSchemaTpl('switch', {
+                      name: 'popOver.showIcon',
+                      label: '显示图标',
+                      value: true
+                    }),
+                    {
+                      type: 'input-text',
+                      name: 'popOver.title',
+                      label: '标题'
+                    },
+                    {
+                      name: 'popOver.body',
+                      asFormItem: true,
+                      label: false,
+                      children: ({
+                        value,
+                        onBulkChange,
+                        onChange,
+                        name,
+                        data
+                      }: any) => {
+                        value = {
+                          body:
+                            value && value.body
+                              ? value.body
+                              : [
+                                  {
+                                    type: 'tpl',
+                                    tpl: '弹出框内容'
+                                  }
+                                ]
+                        };
+
+                        return (
+                          <Button
+                            className="w-full flex flex-col items-center"
+                            onClick={() => {
+                              this.manager.openSubEditor({
+                                title: '配置弹出框',
+                                value: value,
+                                onChange: value => {
+                                  onChange(
+                                    value
+                                      ? Array.isArray(value)
+                                        ? value
+                                        : value?.body
+                                        ? value.body
+                                        : []
+                                      : []
+                                  );
+                                }
+                              });
+                            }}
+                          >
+                            <span className="inline-flex items-center">
+                              <Icon icon="edit" className="mr-1 w-3" />
+                              配置弹出框
                             </span>
                           </Button>
                         );

@@ -99,8 +99,13 @@ export class FormPlugin extends BasePlugin {
     }
     this.scaffoldFormCache = {
       title: '表单创建向导',
-      mode: 'horizontal',
-      className: 'ae-Scaffold-Modal ae-formItemControl',
+      mode: {
+        mode: 'horizontal',
+        horizontal: {
+          leftFixed: 'sm'
+        }
+      },
+      className: 'ae-Scaffold-Modal',
       body: [
         {
           type: 'radios',
