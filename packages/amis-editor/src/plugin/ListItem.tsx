@@ -1,5 +1,5 @@
 import React from 'react';
-import {registerEditorPlugin} from 'amis-editor-core';
+import {getI18nEnabled, registerEditorPlugin} from 'amis-editor-core';
 import {
   BaseEventContext,
   BasePlugin,
@@ -37,84 +37,55 @@ export class ListItemPlugin extends BasePlugin {
   ];
 
   panelTitle = '列表项';
-  panelBody = getSchemaTpl('tabs', [
-    {
-      title: '基本',
-      body: [
-        // {
-        //   children: (
-        //     <Button
-        //       size="sm"
-        //       className="m-b-sm"
-        //       level="info"
-        //       block
-        //       onClick={() => {
-        //         this.pickChild('actions', 'actions', undefined, ['button']);
-        //       }}
-        //     >
-        //       新增按钮
-        //     </Button>
-        //   )
-        // },
-        // {
-        //   children: (
-        //     <div>
-        //       <Button
-        //         level="primary"
-        //         size="sm"
-        //         block
-        //         onClick={this.handleAdd}
-        //       >
-        //         新增内容
-        //       </Button>
-        //     </div>
-        //   )
-        // },
-        // {
-        //   type: 'divider'
-        // },
-        getSchemaTpl('layout:originPosition', {value: 'left-top'}),
-        {
-          name: 'title',
-          type: 'input-text',
-          label: '标题',
-          descrition: '支持模板语法如： ${xxx}'
-        },
-        {
-          name: 'subTitle',
-          type: 'input-text',
-          label: '副标题',
-          descrition: '支持模板语法如： ${xxx}'
-        },
-        {
-          name: 'avatar',
-          type: 'input-text',
-          label: '图片地址',
-          descrition: '支持模板语法如： ${xxx}'
-        },
-        {
-          name: 'desc',
-          type: 'textarea',
-          label: '描述',
-          descrition: '支持模板语法如： ${xxx}'
-        }
-      ]
-    },
-    {
-      title: '外观',
-      body: [
-        getSchemaTpl('className', {
-          name: 'avatarClassName',
-          label: '图片 CSS 类名',
-          pipeIn: defaultValue('thumb-sm avatar m-r')
-        }),
-        getSchemaTpl('className', {
-          name: 'titleClassName',
-          label: '标题 CSS 类名'
-        })
-      ]
-    }
-  ]);
+  panelBodyCreator = (context: BaseEventContext) => {
+    const i18nEnabled = getI18nEnabled();
+    return getSchemaTpl('tabs', [
+      {
+        title: '基本',
+        body: [
+          getSchemaTpl('layout:originPosition', {value: 'left-top'}),
+          {
+            name: 'title',
+            type: i18nEnabled ? 'input-text-i18n' : 'input-text',
+            label: '标题',
+            descrition: '支持模板语法如： ${xxx}'
+          },
+          {
+            name: 'subTitle',
+            type:  i18nEnabled ? 'input-text-i18n' : 'input-text',
+            label: '副标题',
+            descrition: '支持模板语法如： ${xxx}'
+          },
+          {
+            name: 'avatar',
+            type: 'input-text',
+            label: '图片地址',
+            descrition: '支持模板语法如： ${xxx}'
+          },
+          {
+            name: 'desc',
+            type: i18nEnabled ? 'textarea-i18n' : 'textarea',
+            label: '描述',
+            descrition: '支持模板语法如： ${xxx}'
+          }
+        ]
+      },
+      {
+        title: '外观',
+        body: [
+          getSchemaTpl('className', {
+            name: 'avatarClassName',
+            label: '图片 CSS 类名',
+            pipeIn: defaultValue('thumb-sm avatar m-r')
+          }),
+          getSchemaTpl('className', {
+            name: 'titleClassName',
+            label: '标题 CSS 类名'
+          })
+        ]
+      }
+    ])
+  };
 
   getRendererInfo({
     renderer,
