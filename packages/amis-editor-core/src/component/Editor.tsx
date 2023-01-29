@@ -152,7 +152,10 @@ export default class Editor extends Component<EditorProps> {
     }
     this.manager = new EditorManager(config, this.store);
 
-    (window as any).editorStore = this.store;
+    // 子编辑器不再重新设置 editorStore
+    if (!(props.isSubEditor && (window as any).editorStore)) {
+      (window as any).editorStore = this.store;
+    }
 
     // 添加快捷键事件
     document.addEventListener('keydown', this.handleKeyDown);
