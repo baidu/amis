@@ -1,6 +1,6 @@
 import {Button, resolveVariable} from 'amis';
 import React from 'react';
-import {registerEditorPlugin} from 'amis-editor-core';
+import {getI18nEnabled, registerEditorPlugin} from 'amis-editor-core';
 import {
   BaseEventContext,
   BasePlugin,
@@ -58,6 +58,7 @@ export class ListPlugin extends BasePlugin {
   panelJustify = true;
   panelBodyCreator = (context: BaseEventContext) => {
     const isCRUDBody = context.schema.type === 'crud';
+    const i18nEnabled = getI18nEnabled();
     return getSchemaTpl('tabs', [
       {
         title: '属性',
@@ -82,7 +83,7 @@ export class ListPlugin extends BasePlugin {
               },
               {
                 name: 'title',
-                type: 'input-text',
+                type: i18nEnabled ? 'input-text-i18n' : 'input-text',
                 label: '标题'
               },
               isCRUDBody
@@ -97,7 +98,7 @@ export class ListPlugin extends BasePlugin {
               {
                 name: 'placeholder',
                 pipeIn: defaultValue('没有数据'),
-                type: 'input-text',
+                type:  i18nEnabled ? 'input-text-i18n' : 'input-text',
                 label: '无数据提示'
               },
               {
