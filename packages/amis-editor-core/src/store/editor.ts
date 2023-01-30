@@ -1,4 +1,10 @@
-import {findTree, getVariable, mapObject, createObject} from 'amis-core';
+import {
+  findTree,
+  getVariable,
+  mapObject,
+  mapTree,
+  extendObject
+} from 'amis-core';
 import {cast, getEnv, Instance, types} from 'mobx-state-tree';
 import {
   diff,
@@ -11,7 +17,6 @@ import {
   stringRegExp,
   needDefaultWidth,
   guid,
-  reGenerateID,
   addStyleClassName
 } from '../../src/util';
 import {
@@ -44,7 +49,6 @@ import isPlainObject from 'lodash/isPlainObject';
 import {EditorManagerConfig} from '../manager';
 import {EditorNode, EditorNodeType} from './node';
 import findIndex from 'lodash/findIndex';
-import {cloneDeep} from 'lodash';
 
 export interface SchemaHistory {
   versionId: number;
@@ -919,6 +923,40 @@ export const MainStore = types
       },
       get getSuperEditorData() {
         return self.superEditorData || {};
+      },
+      // 获取组件选择树
+      getComponentTreeSource() {
+        return mapTree(
+          self.root.children ?? [],
+          (item: any) => {
+            const schema = item.id
+              ? JSONGetById(self.schema, item.id)
+              : self.schema;
+            let cmptLabel = '';
+            if (item?.region) {
+              cmptLabel = item?.label;
+            } else {
+              const labelPrefix =
+                item.type !== 'cell' ? `<${item.label}>:` : `<列>:`;
+              cmptLabel = `${labelPrefix}${
+                schema?.label ?? schema?.title ?? item.label
+              }`;
+            }
+            cmptLabel = cmptLabel ?? item.label;
+            return {
+              id: item.id,
+              label: cmptLabel,
+              value: schema?.id ?? item.id,
+              type: schema?.type ?? item.type,
+              schema,
+              disabled: !!item.region,
+              visible: item.region ? !!item?.children.length : true,
+              children: item?.children
+            };
+          },
+          1,
+          true
+        );
       }
     };
   })
@@ -1505,9 +1543,12 @@ export const MainStore = types
         if (!self.activeId) {
           return;
         }
+
         self.subEditorContext = {
           ...context,
-          data: context.data || {}
+          data: extendObject(context.data, {
+            __superCmptTreeSource: self.getComponentTreeSource()
+          })
         };
       },
 
