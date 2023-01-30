@@ -30,6 +30,11 @@ export interface TplSchema extends BaseSchema {
   inline?: boolean;
 
   /**
+   * 标签类型
+   */
+  wrapperComponent?: any;
+
+  /**
    * 自定义样式
    */
   style?: {
@@ -45,8 +50,6 @@ export interface TplSchema extends BaseSchema {
 export interface TplProps extends RendererProps, TplSchema {
   className?: string;
   value?: string;
-  wrapperComponent?: any;
-  inline?: boolean;
 }
 
 export class Tpl extends React.Component<TplProps, object> {
