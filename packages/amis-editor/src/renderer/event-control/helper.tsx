@@ -2578,30 +2578,7 @@ export const getEventControlConfig = (
   const actionTree = manager?.config.actionOptions?.actionTreeGetter
     ? manager?.config.actionOptions?.actionTreeGetter(ACTION_TYPE_TREE(manager))
     : ACTION_TYPE_TREE(manager);
-  const allComponents = mapTree(
-    manager?.store?.outline ?? [],
-    (item: any) => {
-      const schema = manager?.store?.getSchema(item.id);
-      let cmptLabel = '';
-      if (item?.region) {
-        cmptLabel = item?.label;
-      } else {
-        cmptLabel = schema?.label ?? schema?.title;
-      }
-      cmptLabel = cmptLabel ?? item.label;
-      return {
-        id: item.id,
-        label: cmptLabel,
-        value: schema?.id ?? item.id,
-        type: schema?.type ?? item.type,
-        schema,
-        disabled: !!item.region,
-        children: item?.children
-      };
-    },
-    1,
-    true
-  );
+  const allComponents = manager?.store?.getComponentTreeSource();
   const checkComponent = (node: any, action: RendererPluginAction) => {
     const actionType = action.actionType!;
     const actions = manager?.pluginActions[node.type];
@@ -2787,11 +2764,14 @@ export const getEventControlConfig = (
       delete config.data;
 
       // 处理下 combo - addItem 的初始化
-      if (action.actionType === 'addItem' && typeof action.args?.item === 'object') {
-          config.args = {
-            ...config.args,
-            item: objectToComboArray(action.args?.item)
-          };
+      if (
+        action.actionType === 'addItem' &&
+        typeof action.args?.item === 'object'
+      ) {
+        config.args = {
+          ...config.args,
+          item: objectToComboArray(action.args?.item)
+        };
       }
 
       // 还原args为可视化配置结构(args + addOnArgs)
@@ -2957,7 +2937,10 @@ export const getEventControlConfig = (
         }
       }
 
-      if (action.actionType === 'addItem' && action.__rendererName === 'combo') {
+      if (
+        action.actionType === 'addItem' &&
+        action.__rendererName === 'combo'
+      ) {
         action.args = {
           ...action.args,
           item: comboArrayToObject(config.args?.item!)
