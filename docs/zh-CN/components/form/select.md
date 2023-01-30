@@ -958,6 +958,41 @@ leftOptions 动态加载，默认 source 接口是返回 options 部分，而 le
 }
 ```
 
+## 自定义下拉区域宽度与对齐方式
+
+```schema: scope="body"
+{
+  "type": "page",
+  "body": {
+    "type": "form",
+    "body": [
+      {
+        "label": "选项",
+        "type": "select",
+        "name": "select",
+        "menuTpl": "<div>${label} 值：${value}, 当前是否选中: ${checked}</div>",
+        "overlayWidth": "80%",
+        "overlayAlign": "right",
+        "options": [
+          {
+            "label": "A",
+            "value": "a"
+          },
+          {
+            "label": "B",
+            "value": "b"
+          },
+          {
+            "label": "C",
+            "value": "c"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
 ## searchApi
 
 **发送**

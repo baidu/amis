@@ -99,7 +99,6 @@ export class PopOverContainer extends React.Component<
   }
 
   static alignToPlacement(align?: 'left' | 'right' | 'center') {
-    debugger;
     return (align && PopOverContainer.alignPlacementMap[align]) || 'auto';
   }
 
