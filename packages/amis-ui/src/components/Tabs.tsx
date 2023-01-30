@@ -244,9 +244,8 @@ export class Tabs extends React.Component<TabsProps, any> {
         activeKey: this.props.activeKey,
         children: Array.isArray(this.props.children)
           ? this.props.children!.map(item => ({
-              key: item?.props.key,
-              eventKey: item?.props.eventKey,
-              label: item?.props.label
+              eventKey: item?.props?.eventKey,
+              title: item?.props?.title
             }))
           : this.props.children
       },
@@ -254,9 +253,8 @@ export class Tabs extends React.Component<TabsProps, any> {
         activeKey: preProps.activeKey,
         children: Array.isArray(preProps.children)
           ? preProps.children!.map((item: any) => ({
-              key: item?.props.key,
-              eventKey: item?.props.eventKey,
-              label: item?.props.label
+              eventKey: item?.props?.eventKey,
+              title: item?.props?.title
             }))
           : preProps.children
       }
