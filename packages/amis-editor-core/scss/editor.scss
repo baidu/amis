@@ -574,6 +574,11 @@
     z-index: 5;
   }
 
+  &.isFreeContainerElem {
+    // 自由容器的直接子元素拖拽剔除过渡
+    transition: none !important;
+  }
+
   .ae-Editor-toolbar {
     display: none;
     background: $Editor-hlbox-bg;
