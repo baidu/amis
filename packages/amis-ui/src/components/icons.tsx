@@ -200,6 +200,7 @@ registerIcon('alert-success', AlertSuccess);
 registerIcon('alert-info', AlertInfo);
 registerIcon('alert-warning', AlertWarning);
 registerIcon('alert-danger', AlertDanger);
+registerIcon('alert-fail', AlertDanger);
 registerIcon('tree-down', TreeDownIcon);
 registerIcon('function', FunctionIcon);
 registerIcon('input-clear', InputClearIcon);
