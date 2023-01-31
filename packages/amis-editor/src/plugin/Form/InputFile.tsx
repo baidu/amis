@@ -122,6 +122,11 @@ export class FileControlPlugin extends BasePlugin {
       actionType: 'clear',
       actionLabel: '清空数据',
       description: '清除选择的文件'
+    },
+    {
+      actionType: 'setValue',
+      actionLabel: '赋值',
+      description: '触发组件数据更新'
     }
   ];
 

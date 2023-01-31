@@ -2633,17 +2633,28 @@ export const getEventControlConfig = (
     },
     getComponents: (action: RendererPluginAction) => {
       let components = allComponents;
+      let finalCmpts: any[] = [];
       if (isSubEditor) {
-        let superTree = manager.store.getSuperEditorData;
-        while (superTree) {
-          if (superTree.__superCmptTreeSource) {
-            components = components.concat(superTree.__superCmptTreeSource);
+        let editorData = manager.store.getSuperEditorData;
+        while (components) {
+          if (editorData?.__curCmptTreeWrap) {
+            components = [{
+              ...editorData.__curCmptTreeWrap,
+              children: components
+            }];
           }
-          superTree = superTree.__super;
+          finalCmpts = [
+            ...finalCmpts,
+            ...components
+          ];
+          components = editorData?.__superCmptTreeSource;
+          editorData = editorData?.__super;
         }
+      } else {
+        finalCmpts = components;
       }
       const result = filterTree(
-        components,
+        finalCmpts,
         node => checkComponent(node, action),
         1,
         true
