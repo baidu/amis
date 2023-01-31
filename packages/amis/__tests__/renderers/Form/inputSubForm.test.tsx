@@ -117,7 +117,7 @@ test('Renderer:InputSubForm with multiple & maxLength & btnLabel', async () => {
     })
   );
 
-  async function addItem(val1, val2) {
+  async function addItem(val1: any, val2: any) {
     fireEvent.click(getByText('新增一项'));
 
     const inputs = baseElement.querySelectorAll(
