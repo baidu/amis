@@ -1543,10 +1543,13 @@ export const MainStore = types
         if (!self.activeId) {
           return;
         }
-
         self.subEditorContext = {
           ...context,
           data: extendObject(context.data, {
+            __curCmptTreeWrap: {
+              label: context.title,
+              disabled: true
+            },
             __superCmptTreeSource: self.getComponentTreeSource()
           })
         };
