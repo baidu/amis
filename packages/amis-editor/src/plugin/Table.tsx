@@ -514,12 +514,10 @@ export class TablePlugin extends BasePlugin {
               {
                 name: 'footable.expand',
                 type: 'button-group-select',
-                size: 'xs',
+                size: 'sm',
                 visibleOn: 'data.footable',
                 label: '底部默认展开',
                 pipeIn: defaultValue('none'),
-                mode: 'inline',
-                className: 'w-full',
                 options: [
                   {
                     label: '第一条',
