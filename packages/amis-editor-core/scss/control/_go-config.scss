@@ -5,7 +5,7 @@
   background-color: #fff;
   text-align: center;
   font-size: $Editor-right-panel-font-size;
-  border:  1px solid #e6e6e8;
+  border: 1px solid #e6e6e8;
   border-radius: $Editor-borderRadius;
 
   &-trigger {
@@ -15,7 +15,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    background-color: rgba($color: #000000, $alpha: .4);
+    background-color: rgba($color: #000000, $alpha: 0.4);
     color: #fff;
     cursor: pointer;
   }
@@ -25,5 +25,4 @@
       display: block;
     }
   }
-
 }

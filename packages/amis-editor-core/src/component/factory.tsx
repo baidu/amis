@@ -16,7 +16,7 @@ import {render as reactRender, unmountComponentAtNode} from 'react-dom';
 import {autobind, diff} from '../util';
 import {createObject} from 'amis-core';
 import {CommonConfigWrapper} from './CommonConfigWrapper';
-import {Schema} from 'amis/lib/types';
+import {Schema} from 'amis';
 import type {DataScope} from 'amis-core';
 import type {RendererConfig} from 'amis-core/lib/factory';
 import {SchemaCollection} from 'amis/lib/Schema';
@@ -53,7 +53,7 @@ export function makeWrapper(
     }
 
     UNSAFE_componentWillMount() {
-      const parent: EditorNodeType = this.context || store.root;
+      const parent: EditorNodeType = (this.context as any) || store.root;
       if (!info.id) {
         return;
       }
@@ -84,7 +84,7 @@ export function makeWrapper(
             closestScope = manager.dataSchema.getScope(
               `${from.id}-${from.type}`
             );
-          } 
+          }
 
           // node.parent 是找不到 root 那层的，所以需要自己加逻辑
           from = from.parentId === 'root' ? store.root : from.parent;
@@ -127,7 +127,7 @@ export function makeWrapper(
 
     componentWillUnmount() {
       if (this.editorNode && isAlive(this.editorNode)) {
-        const parent: EditorNodeType = this.context || store.root;
+        const parent: EditorNodeType = (this.context as any) || store.root;
         parent.removeChild(this.editorNode);
       }
 
@@ -153,6 +153,12 @@ export function makeWrapper(
     @autobind
     renderChild(region: string, node: Schema, props: any) {
       const {render} = this.props; // render: amis渲染器
+
+      // $$id 变化，渲染器最好也变化
+      if (node.$$id) {
+        props = props || {}; // props 可能为 undefined
+        props.key = node.$$id || props.key;
+      }
 
       return render(region, node, {...props, $$editor: info});
     }
@@ -183,7 +189,9 @@ export function makeWrapper(
         : NodeWrapper; /*)*/
 
       return (
-        <EditorNodeContext.Provider value={this.editorNode || this.context}>
+        <EditorNodeContext.Provider
+          value={this.editorNode || (this.context as any)}
+        >
           <Wrapper
             {...rest}
             render={this.renderChild}
@@ -285,8 +293,8 @@ function SchemaFrom({
     schema,
     {
       onFinished: (newValue: any) => {
-          const diffValue = diff(value, newValue);
-          onChange(newValue, diffValue);
+        const diffValue = diff(value, newValue);
+        onChange(newValue, diffValue);
       },
       data: value,
       node: node,
@@ -514,6 +522,18 @@ function insertRegion(
   info: RendererInfo,
   manager: EditorManager
 ): JSX.Element {
+  // 如果没有开启这些区域的内容修改功能，则跳过插入逻辑
+  if (info.memberImmutable === true) {
+    return dom;
+  } else if (
+    Array.isArray(info.memberImmutable) &&
+    regions.every(reg =>
+      (info.memberImmutable as Array<string>).includes(reg.key)
+    )
+  ) {
+    return dom;
+  }
+
   const rootRegion = find(regions, r => !r.matchRegion);
 
   if (rootRegion) {

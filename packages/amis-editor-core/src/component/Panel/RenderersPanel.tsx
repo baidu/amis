@@ -183,21 +183,15 @@ export default class RenderersPanel extends React.Component<
                             title={`点击添加「${item.name}」`}
                             onClick={this.handleClick}
                           >
-                            {
-                              usePluginIcon && (
-                                <Icon icon={item.pluginIcon} />
-                              )
-                            }
-                            {
-                              !usePluginIcon && (
-                                <i
-                                  className={cx(
-                                   'fa-fw',
-                                   item.icon || 'fa fa-circle-thin'
-                                  )}
-                                />
-                              )
-                            }
+                            {usePluginIcon && <Icon icon={item.pluginIcon} />}
+                            {!usePluginIcon && (
+                              <i
+                                className={cx(
+                                  'fa-fw',
+                                  item.icon || 'fa fa-circle-thin'
+                                )}
+                              />
+                            )}
                           </div>
                           <div
                             className="ae-RendererInfo"

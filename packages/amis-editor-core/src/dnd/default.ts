@@ -36,8 +36,8 @@ export class DefaultDNDMode implements DNDModeInterface {
     // 如果就在移动的元素所在的区域，那么把 ghost 放到原来的位置。
     if (dragEl && dragEl.closest('[data-region]') === this.dndContainer) {
       const list: Array<any> = Array.isArray(this.region.schema)
-      ? this.region.schema
-      : [];
+        ? this.region.schema
+        : [];
       const child = this.getChild(this.dndContainer, dragEl);
       const id = dragEl.getAttribute('data-editor-id')!;
       const idx = findIndex(list, (item: any) => item.$$id === id);
@@ -74,9 +74,7 @@ export class DefaultDNDMode implements DNDModeInterface {
     const target = this.getTarget(e);
     const wrapper = this.dndContainer;
     const elemSchema = this.region.schema;
-    const list: Array<any> = Array.isArray(elemSchema)
-      ? elemSchema
-      : [];
+    const list: Array<any> = Array.isArray(elemSchema) ? elemSchema : [];
     const dx = e.clientX - this.exchangeX;
     const dy = e.clientY - this.exchangeY;
     const vertical = Math.abs(dy) > Math.abs(dx);

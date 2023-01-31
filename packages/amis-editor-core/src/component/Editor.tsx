@@ -2,12 +2,13 @@ import React, {Component} from 'react';
 import cx from 'classnames';
 import Preview from './Preview';
 import {autobind} from '../util';
-import {EditorStore, EditorStoreType} from '../store/editor';
+import {MainStore, EditorStoreType} from '../store/editor';
 import {SchemaObject} from 'amis/lib/Schema';
 import {EditorManager, EditorManagerConfig, PluginClass} from '../manager';
 import {reaction} from 'mobx';
 import {RenderOptions, toast} from 'amis';
 import {PluginEventListener, RendererPluginAction} from '../plugin';
+import {reGenerateID} from '../util';
 import {SubEditor} from './SubEditor';
 import Breadcrumb from './Breadcrumb';
 import {destroy} from 'mobx-state-tree';
@@ -29,6 +30,10 @@ export interface EditorProps extends PluginEventListener {
   $schemaUrl?: string;
   schemas?: Array<any>;
   theme?: string;
+  /** 应用语言类型 */
+  appLocale?: string;
+  /** 是否开启多语言 */
+  i18nEnabled?: boolean;
   showCustomRenderersPanel?: boolean;
   amisDocHost?: string;
   superEditorData?: any;
@@ -56,6 +61,10 @@ export interface EditorProps extends PluginEventListener {
    * 是否禁用内置插件
    */
   disableBultinPlugin?: boolean;
+
+  disablePluginList?:
+    | Array<string>
+    | ((id: string, plugin: PluginClass) => boolean);
 
   plugins?: Array<PluginClass>;
 
@@ -129,7 +138,7 @@ export default class Editor extends Component<EditorProps> {
     const config: EditorManagerConfig = {
       ...rest
     };
-    this.store = EditorStore.create(
+    this.store = MainStore.create(
       {
         isMobile: props.isMobile,
         theme: props.theme,
@@ -468,9 +477,9 @@ export default class Editor extends Component<EditorProps> {
       );
       if (this.store.activeId === this.curCopySchemaData.$$id) {
         // 复制和粘贴是同一个元素，则直接追加到当前元素后面
-        this.manager.appendSiblingSchema(curSimpleSchema);
+        this.manager.appendSiblingSchema(reGenerateID(curSimpleSchema));
       } else {
-        this.manager.addElem(curSimpleSchema);
+        this.manager.addElem(reGenerateID(curSimpleSchema));
       }
     }
   }
@@ -486,12 +495,15 @@ export default class Editor extends Component<EditorProps> {
       isMobile,
       className,
       theme,
+      appLocale,
       data,
       iframeUrl,
       previewProps,
       autoFocus,
-      isSubEditor
+      isSubEditor,
+      amisEnv
     } = this.props;
+
     return (
       <div
         ref={this.mainRef}
@@ -524,7 +536,9 @@ export default class Editor extends Component<EditorProps> {
               store={this.store}
               manager={this.manager}
               theme={theme}
+              appLocale={appLocale}
               data={data}
+              amisEnv={amisEnv}
               autoFocus={autoFocus}
               toolbarContainer={this.getToolbarContainer}
             ></Preview>
@@ -541,7 +555,12 @@ export default class Editor extends Component<EditorProps> {
           {!preview && <ContextMenuPanel store={this.store} />}
         </div>
 
-        <SubEditor store={this.store} manager={this.manager} theme={theme} />
+        <SubEditor
+          store={this.store}
+          manager={this.manager}
+          theme={theme}
+          amisEnv={amisEnv}
+        />
         <ScaffoldModal
           store={this.store}
           manager={this.manager}

@@ -18,6 +18,7 @@ export interface RegionWrapperProps {
   regionConfig: RegionConfig;
   node?: EditorNodeType; // 虚拟dom节点信息
   $$editor?: RendererInfo; // 当前节点信息（info）
+  children?: React.ReactNode;
 }
 
 /**
@@ -30,7 +31,7 @@ export class RegionWrapper extends React.Component<RegionWrapperProps> {
   editorNode: EditorNodeType;
 
   UNSAFE_componentWillMount() {
-    this.parentNode = this.context!;
+    this.parentNode = (this.context as any)!;
 
     /**
      * 当前parent为空时尝试通过节点id获取当前上下文
@@ -101,10 +102,17 @@ export class RegionWrapper extends React.Component<RegionWrapperProps> {
   }
 
   render() {
+    const isLayoutItem =
+      this.props.rendererName === 'wrapper' ||
+      this.props.rendererName === 'container';
     return (
       <EditorNodeContext.Provider value={this.editorNode}>
         {this.props.children}
-        <span className="ae-Region-placeholder">
+        <span
+          className={`ae-Region-placeholder ${
+            isLayoutItem ? 'layout-content' : ''
+          }`}
+        >
           {this.props.placeholder || this.props.label}
         </span>
       </EditorNodeContext.Provider>
