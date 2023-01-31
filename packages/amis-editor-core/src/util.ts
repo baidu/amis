@@ -1022,7 +1022,8 @@ export function needDefaultWidth(elemType: string) {
     'progress',
     'diff-editor',
     'editor',
-    'input-range'
+    'input-range',
+    'flex'
   ];
   if (needDefaultWidthElemType.indexOf(elemType) > -1) {
     return true;

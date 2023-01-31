@@ -797,7 +797,8 @@ export class EditorManager {
     if (
       (node.type === 'wrapper' || node.type === 'container') &&
       node.schema?.body?.length === 0 &&
-      (schemaData?.type === 'flex' || subRenderer?.rendererName === 'flex')
+      (schemaData?.type === 'flex' || subRenderer?.rendererName === 'flex') &&
+      !node.schema?.isFreeContainer
     ) {
       const newSchemaData = schemaData || subRenderer?.scaffold;
       // 布局能力提升: 点击插入新元素，当wrapper为空插入布局容器时，自动改为置换，避免过多层级
