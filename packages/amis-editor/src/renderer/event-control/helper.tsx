@@ -1165,6 +1165,13 @@ export const getEventControlConfig = (
           }
         } else if (
           action.actionType === 'setValue' &&
+          typeof action.args?.path === 'string' &&
+          typeof action.args?.value === 'string'
+        ) {
+          /** 应用变量赋值 */
+          config.args['__containerType'] = 'all';
+        } else if (
+          action.actionType === 'setValue' &&
           typeof action.args?.value === 'string'
         ) {
           config.args['__containerType'] = 'all';
@@ -1355,35 +1362,49 @@ export const getEventControlConfig = (
 
       // 转换下格式
       if (action.actionType === 'setValue') {
-        if (config.args?.__valueInput !== undefined) {
+        if (config.args?.hasOwnProperty('path')) {
+          /** 应用变量赋值 */
           action.args = {
-            value: config.args?.__valueInput
+            path: config.args.path,
+            value: config.args?.value ?? ''
           };
-        } else if (Array.isArray(config.args?.value)) {
-          action.args = action.args ?? {};
-          if (
-            action.__rendererName === 'combo' &&
-            action.args?.index === undefined
-          ) {
-            // combo特殊处理
-            let tempArr: any = [];
-            config.args?.value.forEach((valueItem: any, index: number) => {
-              valueItem.item.forEach((item: any) => {
-                if (!tempArr[index]) {
-                  tempArr[index] = {};
-                }
-                tempArr[index][item.key] = item.val;
+
+          action.hasOwnProperty('componentId') && delete action.componentId;
+
+          return action;
+        } else {
+          action?.args?.hasOwnProperty('path') && delete action.args.path;
+
+          if (config.args?.__valueInput !== undefined) {
+            action.args = {
+              value: config.args?.__valueInput
+            };
+          } else if (Array.isArray(config.args?.value)) {
+            action.args = action.args ?? {};
+            if (
+              action.__rendererName === 'combo' &&
+              action.args?.index === undefined
+            ) {
+              // combo特殊处理
+              let tempArr: any = [];
+              config.args?.value.forEach((valueItem: any, index: number) => {
+                valueItem.item.forEach((item: any) => {
+                  if (!tempArr[index]) {
+                    tempArr[index] = {};
+                  }
+                  tempArr[index][item.key] = item.val;
+                });
               });
-            });
-            action.args = {
-              ...action.args,
-              value: tempArr
-            };
-          } else {
-            action.args = {
-              ...action.args,
-              value: comboArrayToObject(config.args?.value!)
-            };
+              action.args = {
+                ...action.args,
+                value: tempArr
+              };
+            } else {
+              action.args = {
+                ...action.args,
+                value: comboArrayToObject(config.args?.value!)
+              };
+            }
           }
         }
       }

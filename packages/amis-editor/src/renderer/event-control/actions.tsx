@@ -21,7 +21,6 @@ import type {EditorManager} from 'amis-editor-core';
 import {BaseLabelMark} from '../../component/BaseControl';
 import {i18n as _i18n} from 'i18n-runtime';
 
-
 const MSG_TYPES: {[key: string]: string} = {
   info: '提示',
   warning: '警告',
@@ -33,89 +32,8 @@ const ACTION_TYPE_TREE = (manager: EditorManager): RendererPluginAction[] => {
   const variableManager = manager?.variableManager;
   /** 变量列表 */
   const variableOptions = variableManager.getVariableOptions();
-  /** 存在变量时才展示变量赋值面板 */
-  const showVariablePanel =
-    Array.isArray(variableOptions) && variableOptions.length > 0;
 
   return [
-    ...(showVariablePanel
-      ? [
-          {
-            actionLabel: '变量',
-            children: [
-              {
-                actionLabel: '变量赋值',
-                actionType: 'setVariable',
-                description: '更新变量的值',
-                innerArgs: ['variablePath', 'value'],
-                descDetail: (info: {
-                  args: {
-                    value: any;
-                    variablePath: string;
-                  };
-                  [propName: string]: any;
-                }) => {
-                  return (
-                    <div>
-                      设置变量 「
-                      <span className="variable-left variable-right">
-                        {variableManager.getNameByPath(
-                          info?.args?.variablePath
-                        )}
-                      </span>
-                      」 的数据
-                    </div>
-                  );
-                },
-                schema: [
-                  getArgsWrapper([
-                    {
-                      type: 'wrapper',
-                      className: 'p-none',
-                      body: [
-                        {
-                          type: 'radios',
-                          label: '作用域',
-                          name: 'scope',
-                          mode: 'horizontal',
-                          options: [{label: '应用变量', value: 'application'}],
-                          required: true,
-                          value: 'application'
-                        },
-                        {
-                          type: 'tree-select',
-                          name: 'variablePath',
-                          label: '应用变量',
-                          multiple: false,
-                          mode: 'horizontal',
-                          required: true,
-                          placeholder: '请选择变量',
-                          showIcon: false,
-                          size: 'lg',
-                          options: variableOptions
-                        },
-                        {
-                          type: 'input-formula',
-                          name: 'value',
-                          label: '参数值',
-                          variables: '${variables}',
-                          evalMode: false,
-                          variableMode: 'tabs',
-                          inputMode: 'input-group',
-                          size: 'lg',
-                          mode: 'horizontal',
-                          required: true,
-                          placeholder: '请输入变量值'
-                        }
-                      ]
-                    }
-                  ])
-                ]
-              }
-            ]
-          }
-        ]
-      : []),
     {
       actionLabel: '页面',
       actionType: 'page',
@@ -994,10 +912,11 @@ const ACTION_TYPE_TREE = (manager: EditorManager): RendererPluginAction[] => {
           ]
         },
         {
-          actionLabel: '组件数据',
+          actionLabel: '变量赋值',
           actionType: 'setValue',
-          description: '更新目标组件的数据域或目标表单项的数据值',
+          description: '更新目标组件或变量的数据值',
           innerArgs: [
+            'path',
             'value',
             'index',
             '__valueInput',
@@ -1007,11 +926,24 @@ const ACTION_TYPE_TREE = (manager: EditorManager): RendererPluginAction[] => {
           descDetail: (info: any) => {
             return (
               <div>
-                设置
-                <span className="variable-left variable-right">
-                  {info?.rendererLabel || '-'}
-                </span>
-                的数据
+                {/* 只要path字段存在就认为是应用变量赋值，无论是否有值 */}
+                {typeof info?.args?.path === 'string' && !info?.componentId ? (
+                  <>
+                    设置变量「
+                    <span className="variable-left variable-right">
+                      {variableManager.getNameByPath(info.args.path)}
+                    </span>
+                    」的数据
+                  </>
+                ) : (
+                  <>
+                    设置组件「
+                    <span className="variable-left variable-right">
+                      {info?.rendererLabel || '-'}
+                    </span>
+                    」的数据
+                  </>
+                )}
                 {/* 值为
                 <span className="variable-left variable-right"> // 因为初始化时进行了格式化，会导致args的值发生变化并同步到右侧动作表，因此关闭详情
                   {info?.args?.value
@@ -1023,196 +955,272 @@ const ACTION_TYPE_TREE = (manager: EditorManager): RendererPluginAction[] => {
           },
           supportComponents: 'byComponent',
           schema: [
-            ...renderCmptActionSelect(
-              '目标组件',
-              true,
-              (value: string, oldVal: any, data: any, form: any) => {
-                form.setValueByName('args.__containerType', 'all');
-                form.setValueByName('args.__comboType', 'all');
+            {
+              name: '__actionSubType',
+              type: 'radios',
+              label: '动作类型',
+              mode: 'horizontal',
+              options: [
+                {label: '组件变量', value: 'cmpt'},
+                // TODO: 页面变量的变量列表
+                {label: '页面变量', value: 'page', disabled: true},
+                {label: '应用变量', value: 'app'}
+              ],
+              value: '${args.path && !componentId ? "app" : "cmpt"}',
+              onChange: (value: string, oldVal: any, data: any, form: any) => {
+                form.setValueByName('__valueInput', undefined);
+                form.setValueByName('args.value', undefined);
+
+                if (value === 'cmpt') {
+                  form.deleteValueByName('args.path');
+                }
               }
-            ),
-            getArgsWrapper({
-              type: 'wrapper',
-              className: 'p-none',
+            },
+            // 组件变量
+            {
+              type: 'container',
+              visibleOn: '__actionSubType === "cmpt"',
               body: [
-                {
-                  type: 'radios',
-                  name: '__containerType',
-                  mode: 'horizontal',
-                  label: '数据设置',
-                  pipeIn: defaultValue('all'),
-                  visibleOn: `${IS_DATA_CONTAINER}`,
-                  options: [
-                    {
-                      label: '直接赋值',
-                      value: 'all'
-                    },
-                    {
-                      label: '成员赋值',
-                      value: 'appoint'
-                    }
-                  ],
-                  onChange: (
-                    value: string,
-                    oldVal: any,
-                    data: any,
-                    form: any
-                  ) => {
-                    form.setValueByName('value', []);
-                    form.setValueByName('__valueInput', undefined);
+                ...renderCmptActionSelect(
+                  '目标组件',
+                  true,
+                  (value: string, oldVal: any, data: any, form: any) => {
+                    form.setValueByName('args.__containerType', 'all');
+                    form.setValueByName('args.__comboType', 'all');
                   }
-                },
-                {
-                  type: 'radios',
-                  name: '__comboType',
-                  inputClassName: 'event-action-radio',
-                  mode: 'horizontal',
-                  label: '数据设置',
-                  pipeIn: defaultValue('all'),
-                  visibleOn: `data.__rendererName === 'combo'`,
-                  options: [
+                ),
+                getArgsWrapper({
+                  type: 'wrapper',
+                  className: 'p-none',
+                  body: [
                     {
-                      label: '全量',
-                      value: 'all'
+                      type: 'radios',
+                      name: '__containerType',
+                      mode: 'horizontal',
+                      label: '数据设置',
+                      pipeIn: defaultValue('all'),
+                      visibleOn: `${IS_DATA_CONTAINER}`,
+                      options: [
+                        {
+                          label: '直接赋值',
+                          value: 'all'
+                        },
+                        {
+                          label: '成员赋值',
+                          value: 'appoint'
+                        }
+                      ],
+                      onChange: (
+                        value: string,
+                        oldVal: any,
+                        data: any,
+                        form: any
+                      ) => {
+                        form.setValueByName('value', []);
+                        form.setValueByName('__valueInput', undefined);
+                      }
                     },
                     {
-                      label: '指定序号',
-                      value: 'appoint'
-                    }
-                  ],
-                  onChange: (
-                    value: string,
-                    oldVal: any,
-                    data: any,
-                    form: any
-                  ) => {
-                    form.setValueByName('index', undefined);
-                    form.setValueByName('value', []);
-                    form.setValueByName('__valueInput', undefined);
-                  }
-                },
-                {
-                  type: 'input-number',
-                  required: true,
-                  name: 'index',
-                  mode: 'horizontal',
-                  label: '输入序号',
-                  size: 'lg',
-                  placeholder: '请输入待更新序号',
-                  visibleOn: `data.__comboType === 'appoint' && data.__rendererName === 'combo'`
-                },
-                {
-                  type: 'combo',
-                  name: 'value',
-                  label: '',
-                  multiple: true,
-                  removable: true,
-                  required: true,
-                  addable: true,
-                  strictMode: false,
-                  canAccessSuperData: true,
-                  size: 'lg',
-                  mode: 'horizontal',
-                  items: [
-                    {
-                      name: 'key',
-                      type: 'input-text',
-                      placeholder: '变量名',
-                      source: '${__setValueDs}',
-                      labelField: 'label',
-                      valueField: 'value',
-                      required: true
+                      type: 'radios',
+                      name: '__comboType',
+                      inputClassName: 'event-action-radio',
+                      mode: 'horizontal',
+                      label: '数据设置',
+                      pipeIn: defaultValue('all'),
+                      visibleOn: `data.__rendererName === 'combo'`,
+                      options: [
+                        {
+                          label: '全量',
+                          value: 'all'
+                        },
+                        {
+                          label: '指定序号',
+                          value: 'appoint'
+                        }
+                      ],
+                      onChange: (
+                        value: string,
+                        oldVal: any,
+                        data: any,
+                        form: any
+                      ) => {
+                        form.setValueByName('index', undefined);
+                        form.setValueByName('value', []);
+                        form.setValueByName('__valueInput', undefined);
+                      }
                     },
                     {
-                      name: 'val',
-                      type: 'input-formula',
-                      placeholder: '字段值',
-                      variables: '${variables}',
-                      evalMode: false,
-                      variableMode: 'tabs',
-                      inputMode: 'input-group'
-                    }
-                  ],
-                  visibleOn: `${IS_DATA_CONTAINER} && data.__containerType === 'appoint' || data.__comboType === 'appoint'`
-                },
-                {
-                  type: 'combo',
-                  name: 'value',
-                  label: '',
-                  multiple: true,
-                  removable: true,
-                  required: true,
-                  addable: true,
-                  strictMode: false,
-                  canAccessSuperData: true,
-                  mode: 'horizontal',
-                  size: 'lg',
-                  items: [
+                      type: 'input-number',
+                      required: true,
+                      name: 'index',
+                      mode: 'horizontal',
+                      label: '输入序号',
+                      size: 'lg',
+                      placeholder: '请输入待更新序号',
+                      visibleOn: `data.__comboType === 'appoint' && data.__rendererName === 'combo'`
+                    },
                     {
                       type: 'combo',
-                      name: 'item',
-                      label: false,
-                      renderLabel: false,
+                      name: 'value',
+                      label: '',
                       multiple: true,
                       removable: true,
                       required: true,
                       addable: true,
                       strictMode: false,
                       canAccessSuperData: true,
-                      className: 'm-l',
                       size: 'lg',
                       mode: 'horizontal',
                       items: [
                         {
                           name: 'key',
                           type: 'input-text',
+                          placeholder: '变量名',
                           source: '${__setValueDs}',
                           labelField: 'label',
                           valueField: 'value',
-                          required: true,
-                          visibleOn: `data.__rendererName`
+                          required: true
                         },
                         {
                           name: 'val',
                           type: 'input-formula',
+                          placeholder: '字段值',
                           variables: '${variables}',
                           evalMode: false,
                           variableMode: 'tabs',
                           inputMode: 'input-group'
                         }
-                      ]
+                      ],
+                      visibleOn: `${IS_DATA_CONTAINER} && data.__containerType === 'appoint' || data.__comboType === 'appoint'`
+                    },
+                    {
+                      type: 'combo',
+                      name: 'value',
+                      label: '',
+                      multiple: true,
+                      removable: true,
+                      required: true,
+                      addable: true,
+                      strictMode: false,
+                      canAccessSuperData: true,
+                      mode: 'horizontal',
+                      size: 'lg',
+                      items: [
+                        {
+                          type: 'combo',
+                          name: 'item',
+                          label: false,
+                          renderLabel: false,
+                          multiple: true,
+                          removable: true,
+                          required: true,
+                          addable: true,
+                          strictMode: false,
+                          canAccessSuperData: true,
+                          className: 'm-l',
+                          size: 'lg',
+                          mode: 'horizontal',
+                          items: [
+                            {
+                              name: 'key',
+                              type: 'input-text',
+                              source: '${__setValueDs}',
+                              labelField: 'label',
+                              valueField: 'value',
+                              required: true,
+                              visibleOn: `data.__rendererName`
+                            },
+                            {
+                              name: 'val',
+                              type: 'input-formula',
+                              variables: '${variables}',
+                              evalMode: false,
+                              variableMode: 'tabs',
+                              inputMode: 'input-group'
+                            }
+                          ]
+                        }
+                      ],
+                      visibleOn: `data.__rendererName === 'combo' && data.__comboType === 'all'`
+                    },
+                    {
+                      name: '__valueInput',
+                      type: 'input-formula',
+                      variables: '${variables}',
+                      evalMode: false,
+                      variableMode: 'tabs',
+                      inputMode: 'input-group',
+                      label: '',
+                      size: 'lg',
+                      mode: 'horizontal',
+                      visibleOn: `(${IS_DATA_CONTAINER} || ${SHOW_SELECT_PROP}) && data.__containerType === 'all'`,
+                      required: true
+                    },
+                    {
+                      name: '__valueInput',
+                      type: 'input-formula',
+                      variables: '${variables}',
+                      evalMode: false,
+                      variableMode: 'tabs',
+                      inputMode: 'input-group',
+                      label: '数据设置',
+                      size: 'lg',
+                      mode: 'horizontal',
+                      visibleOn: `data.__rendererName && !${IS_DATA_CONTAINER} && data.__rendererName !== 'combo'`,
+                      required: true
                     }
-                  ],
-                  visibleOn: `data.__rendererName === 'combo' && data.__comboType === 'all'`
-                },
-                {
-                  name: '__valueInput',
-                  type: 'input-formula',
-                  variables: '${variables}',
-                  evalMode: false,
-                  variableMode: 'tabs',
-                  inputMode: 'input-group',
-                  label: '',
-                  size: 'lg',
-                  mode: 'horizontal',
-                  visibleOn: `(${IS_DATA_CONTAINER} || ${SHOW_SELECT_PROP}) && data.__containerType === 'all'`,
-                  required: true
-                },
-                {
-                  name: '__valueInput',
-                  type: 'input-formula',
-                  variables: '${variables}',
-                  evalMode: false,
-                  variableMode: 'tabs',
-                  inputMode: 'input-group',
-                  label: '数据设置',
-                  size: 'lg',
-                  mode: 'horizontal',
-                  visibleOn: `data.__rendererName && !${IS_DATA_CONTAINER} && data.__rendererName !== 'combo'`,
-                  required: true
-                }
+                  ]
+                })
               ]
-            })
+            },
+            // 页面变量
+            {
+              type: 'container',
+              visibleOn: '__actionSubType === "page"',
+              body: []
+            },
+            // 应用变量
+            {
+              type: 'container',
+              visibleOn: '__actionSubType === "app"',
+              body: [
+                getArgsWrapper([
+                  {
+                    type: 'wrapper',
+                    className: 'p-none',
+                    body: [
+                      {
+                        type: 'tree-select',
+                        name: 'path',
+                        label: '应用变量',
+                        multiple: false,
+                        mode: 'horizontal',
+                        required: true,
+                        placeholder: '请选择变量',
+                        showIcon: false,
+                        size: 'lg',
+                        hideRoot: false,
+                        rootLabel: '应用变量',
+                        options: variableOptions
+                      },
+                      {
+                        type: 'input-formula',
+                        name: 'value',
+                        label: '数据设置',
+                        variables: '${variables}',
+                        evalMode: false,
+                        variableMode: 'tabs',
+                        inputMode: 'input-group',
+                        size: 'lg',
+                        mode: 'horizontal',
+                        required: true,
+                        placeholder: '请输入变量值'
+                      }
+                    ]
+                  }
+                ])
+              ]
+            }
           ]
         },
         {

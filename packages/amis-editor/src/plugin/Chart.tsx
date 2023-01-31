@@ -151,7 +151,7 @@ export class ChartPlugin extends BasePlugin {
     },
     {
       actionType: 'setValue',
-      actionLabel: '更新数据',
+      actionLabel: '变量赋值',
       description: '触发组件数据更新'
     }
     // 特性动作太多了，这里先不加了，可以通过写代码配置
