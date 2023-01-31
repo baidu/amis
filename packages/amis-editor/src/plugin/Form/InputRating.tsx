@@ -9,6 +9,7 @@ import {BasePlugin, BaseEventContext, tipedLabel} from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
+import {getEnv} from 'mobx-state-tree';
 
 export class RateControlPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -87,6 +88,8 @@ export class RateControlPlugin extends BasePlugin {
 
   panelJustify = true;
   panelBodyCreator = (context: BaseEventContext) => {
+    const editorStore = (window as any)?.editorStore;
+    const i18nEnabled = editorStore ? editorStore.i18nEnabled : false;
     return getSchemaTpl('tabs', [
       {
         title: '属性',
@@ -94,15 +97,14 @@ export class RateControlPlugin extends BasePlugin {
           {
             title: '基本',
             body: [
+              getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               getSchemaTpl('formItemName', {
                 required: true
               }),
 
-              {
-                label: 'Label',
-                name: 'label',
-                type: 'input-text'
-              },
+              getSchemaTpl('label', {
+                label: 'Label'
+              }),
 
               getSchemaTpl('valueFormula', {
                 rendererSchema: {
@@ -124,10 +126,7 @@ export class RateControlPlugin extends BasePlugin {
                   precision: 0
                 },
                 needDeleteProps: ['count'], // 避免自我限制
-                label: tipedLabel(
-                  '最大值',
-                  '请输入数字或使用 <code>\\${xxx}</code> 来获取变量，否则该配置不生效'
-                ),
+                label: '最大值',
                 valueType: 'number'
               }),
 
@@ -146,7 +145,6 @@ export class RateControlPlugin extends BasePlugin {
               getSchemaTpl('labelRemark'),
 
               getSchemaTpl('remark'),
-
               getSchemaTpl('combo-container', {
                 type: 'combo',
                 label: '描述',
@@ -164,10 +162,9 @@ export class RateControlPlugin extends BasePlugin {
                     max: 10,
                     precision: 0
                   },
-
                   {
                     placeholder: '描述内容',
-                    type: 'input-text',
+                    type: i18nEnabled ? 'input-text-i18n' : 'input-text',
                     name: 'value'
                   }
                 ],
@@ -215,7 +212,6 @@ export class RateControlPlugin extends BasePlugin {
                       res[key] = item?.value || '';
                     }
                   });
-
                   return res;
                 }
               }),

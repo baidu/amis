@@ -104,6 +104,7 @@ export class ListControlPlugin extends BasePlugin {
         common: {
           replace: true,
           body: [
+            getSchemaTpl('layout:originPosition', {value: 'left-top'}),
             getSchemaTpl('formItemName', {
               required: true
             }),
@@ -112,6 +113,7 @@ export class ListControlPlugin extends BasePlugin {
             getSchemaTpl('extractValue'),
             getSchemaTpl('valueFormula', {
               rendererSchema: context?.schema,
+              mode: 'vertical',
               useSelectMode: true, // 改用 Select 设置模式
               visibleOn: 'this.options && this.options.length > 0'
             })

@@ -30,6 +30,7 @@ export class SparklinePlugin extends BasePlugin {
 
   panelTitle = '走势图';
   panelBody = [
+    getSchemaTpl('layout:originPosition', {value: 'left-top'}),
     {
       name: 'height',
       type: 'input-number',

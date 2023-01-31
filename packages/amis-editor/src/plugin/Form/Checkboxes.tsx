@@ -14,10 +14,7 @@ import {
 } from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
 
-import {
-  RendererPluginAction,
-  RendererPluginEvent
-} from 'amis-editor-core';
+import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 
 export class CheckboxesControlPlugin extends BasePlugin {
@@ -124,6 +121,7 @@ export class CheckboxesControlPlugin extends BasePlugin {
           {
             title: '基本',
             body: [
+              getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               getSchemaTpl('formItemName', {
                 required: true
               }),

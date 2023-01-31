@@ -105,6 +105,7 @@ export class PickerControlPlugin extends BasePlugin {
       {
         title: '属性',
         body: [
+          getSchemaTpl('layout:originPosition', {value: 'left-top'}),
           getSchemaTpl('switch', {
             name: 'embed',
             label: '开启内嵌模式'

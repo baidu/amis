@@ -91,6 +91,7 @@ export class ItemPlugin extends BasePlugin {
         {
           title: '常规',
           body: [
+            getSchemaTpl('layout:originPosition', {value: 'left-top'}),
             ignoreName
               ? null
               : getSchemaTpl('formItemName', {

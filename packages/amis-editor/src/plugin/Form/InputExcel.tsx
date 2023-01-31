@@ -11,10 +11,7 @@ import {
   SubRendererInfo
 } from 'amis-editor-core';
 import {formItemControl} from '../../component/BaseControl';
-import {
-  RendererPluginAction,
-  RendererPluginEvent
-} from 'amis-editor-core';
+import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 
 export class ExcelControlPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -92,6 +89,7 @@ export class ExcelControlPlugin extends BasePlugin {
       {
         common: {
           body: [
+            getSchemaTpl('layout:originPosition', {value: 'left-top'}),
             {
               label: '解析模式',
               name: 'parseMode',

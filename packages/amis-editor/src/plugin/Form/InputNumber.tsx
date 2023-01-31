@@ -13,6 +13,7 @@ import {
 import {defaultValue, getSchemaTpl, tipedLabel} from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
+import {getEnv} from 'mobx-state-tree';
 
 export class NumberControlPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -125,6 +126,8 @@ export class NumberControlPlugin extends BasePlugin {
   ];
 
   panelBodyCreator = (context: BaseEventContext) => {
+    const editorStore = (window as any)?.editorStore;
+    const i18nEnabled = editorStore ? editorStore.i18nEnabled : false;
     return getSchemaTpl('tabs', [
       {
         title: '属性',
@@ -134,6 +137,7 @@ export class NumberControlPlugin extends BasePlugin {
             {
               title: '基本',
               body: [
+                getSchemaTpl('layout:originPosition', {value: 'left-top'}),
                 getSchemaTpl('formItemName', {
                   required: true
                 }),
@@ -195,17 +199,8 @@ export class NumberControlPlugin extends BasePlugin {
                   min: 1,
                   max: 100
                 },
-                {
-                  type: 'input-text',
-                  name: 'prefix',
-                  label: tipedLabel('前缀', '输入内容前展示，不包含在数据值中')
-                },
-                {
-                  type: 'input-text',
-                  name: 'suffix',
-                  label: tipedLabel('后缀', '输入内容后展示，不包含在数据值中')
-                },
-
+                getSchemaTpl('prefix'),
+                getSchemaTpl('suffix'),
                 getSchemaTpl('combo-container', {
                   type: 'combo',
                   label: '单位选项',
@@ -215,7 +210,7 @@ export class NumberControlPlugin extends BasePlugin {
                   items: [
                     {
                       placeholder: '单位选项',
-                      type: 'input-text',
+                      type: i18nEnabled ? 'input-text-i18n' : 'input-text',
                       name: 'text'
                     }
                   ],

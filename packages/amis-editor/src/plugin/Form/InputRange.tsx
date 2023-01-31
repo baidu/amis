@@ -118,15 +118,14 @@ export class RangeControlPlugin extends BasePlugin {
           {
             title: '基本',
             body: [
+              getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               getSchemaTpl('formItemName', {
                 required: true
               }),
 
-              {
+              getSchemaTpl('label', {
                 label: 'Label',
-                name: 'label',
-                type: 'input-text'
-              },
+              }),
 
               {
                 label: '方式',
@@ -164,10 +163,7 @@ export class RangeControlPlugin extends BasePlugin {
                 },
                 pipeIn: defaultValue(0),
                 needDeleteProps: ['min'], // 避免自我限制
-                label: tipedLabel(
-                  '最小值',
-                  '请输入数字或使用 <code>\\${xxx}</code> 来获取变量，否则该配置不生效'
-                ),
+                label: '最小值',
                 valueType: 'number'
               }),
 
@@ -179,10 +175,7 @@ export class RangeControlPlugin extends BasePlugin {
                 },
                 pipeIn: defaultValue(100),
                 needDeleteProps: ['max'], // 避免自我限制
-                label: tipedLabel(
-                  '最大值',
-                  '请输入数字或使用 <code>\\${xxx}</code> 来获取变量，否则该配置不生效'
-                ),
+                label: '最大值',
                 valueType: 'number'
               }),
 
@@ -223,12 +216,7 @@ export class RangeControlPlugin extends BasePlugin {
                 }
               },
 
-              {
-                type: 'input-text',
-                name: 'unit',
-                label: '单位',
-                value: ''
-              },
+              getSchemaTpl('unit'),
 
               // tooltipVisible 为true时，会一直显示，为undefined时，才会鼠标移入显示
               getSchemaTpl('switch', {
