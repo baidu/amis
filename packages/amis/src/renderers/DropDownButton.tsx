@@ -281,7 +281,10 @@ export default class DropDownButton extends React.Component<
                 'DropDown-menu',
                 menuClassName
               )}
-              onClick={closeOnClick ? this.close : noop}
+              onClick={(e: React.MouseEvent<any>) => {
+                closeOnClick ? this.close() : noop;
+                e.preventDefault();
+              }}
               onMouseEnter={this.keepOpen}
               ref={ref}
             >

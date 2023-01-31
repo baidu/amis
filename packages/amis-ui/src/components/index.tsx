@@ -105,7 +105,7 @@ import Link from './Link';
 import VirtualList, {AutoSizer} from './virtual-list';
 import {withStore} from './WithStore';
 import PopOverContainer from './PopOverContainer';
-import Pagination, {MODE_TYPE} from './Pagination';
+import Pagination from './Pagination';
 import Progress from './Progress';
 import Steps, {StepStatus} from './Steps';
 import Tag from './Tag';
@@ -120,6 +120,7 @@ import InputTable from './InputTable';
 import type {InputTableColumnProps} from './InputTable';
 import ConfirmBox from './ConfirmBox';
 import DndContainer from './DndContainer';
+import Menu from './menu';
 
 export {
   NotFound,
@@ -244,5 +245,6 @@ export {
   Combo,
   InputTable,
   InputTableColumnProps,
-  DndContainer
+  DndContainer,
+  Menu
 };
