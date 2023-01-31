@@ -890,10 +890,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     /** 找出clearValueOnHidden的字段, 保证updateQuery时不会使用上次的保留值 */
     values = {
       ...values,
-      ...pickBy(
-        values?.__super?.diff ?? {},
-        (value) => value === undefined
-      )
+      ...pickBy(values?.__super?.diff ?? {}, value => value === undefined)
     };
     values = syncLocation
       ? qsparse(qsstringify(values, undefined, true))
