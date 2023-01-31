@@ -498,7 +498,7 @@ export class TablePlugin extends BasePlugin {
 
               getSchemaTpl('switch', {
                 name: 'affixHeader',
-                label: '是否固顶表头',
+                label: '是否固定表头',
                 pipeIn: defaultValue(true)
               }),
 
