@@ -209,7 +209,7 @@ export default class HighlightBox extends React.Component<HighlightBoxProps> {
     const specialToolbars = store.sortedSpecialToolbars;
     const isActive = store.isActive(id);
     const isHover =
-      store.isHoved(id) || store.dropId === id || store.insertOrigId === id;
+      store.isHoved(id) || store.dropId === id || store.insertOrigId === id || store.parentIsFreeContainer() === id;
 
     // 获取当前高亮画布宽度
     const aePreviewOffsetWidth = document.getElementById(
