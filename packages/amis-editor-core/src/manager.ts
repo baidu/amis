@@ -1712,6 +1712,7 @@ export class EditorManager {
       dom: HTMLElement;
       node: EditorNodeType;
       resizer: HTMLElement;
+      store: EditorStoreType;
     }
   ) {
     return this.trigger('size-change-start', {

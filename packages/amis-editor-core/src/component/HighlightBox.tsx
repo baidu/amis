@@ -48,7 +48,7 @@ export default class HighlightBox extends React.Component<HighlightBoxProps> {
     if (!isLeftButton || e.defaultPrevented) return;
 
     e.preventDefault();
-    const {manager, id, node} = this.props;
+    const {manager, id, node, store} = this.props;
     if (!node) {
       return;
     }
@@ -69,6 +69,7 @@ export default class HighlightBox extends React.Component<HighlightBoxProps> {
     ](e, {
       dom: target as HTMLElement,
       node: node,
+      store: store,
       resizer:
         direction === 'both'
           ? this.resizerDom

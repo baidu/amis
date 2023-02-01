@@ -482,6 +482,7 @@
   background-color: #fff;
   transform: translate(-50%, -50%);
   position: absolute;
+  z-index: 100;
   pointer-events: all;
   display: none;
 }
