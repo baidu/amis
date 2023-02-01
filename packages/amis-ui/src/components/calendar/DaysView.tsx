@@ -596,23 +596,23 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
             inputValue={date.format(formatMap[type])}
           >
             {({getInputProps, openMenu, closeMenu}) => {
-              const inputProps = getInputProps({
-                onFocus: () => openMenu(),
-                onChange: (e: any) =>
-                  this.setTime(
-                    type,
-                    Math.max(
-                      min,
-                      Math.min(
-                        parseInt(
-                          e.currentTarget.value.replace(/\D/g, ''),
-                          10
-                        ) || 0,
-                        max
-                      )
-                    )
-                  )
-              });
+              // const inputProps = getInputProps({
+              //   onFocus: () => openMenu(),
+              //   onChange: (e: any) =>
+              //     this.setTime(
+              //       type,
+              //       Math.max(
+              //         min,
+              //         Math.min(
+              //           parseInt(
+              //             e.currentTarget.value.replace(/\D/g, ''),
+              //             10
+              //           ) || 0,
+              //           max
+              //         )
+              //       )
+              //     )
+              // });
               return (
                 <div
                   className={cx(
