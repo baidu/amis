@@ -690,6 +690,7 @@ setSchemaTpl(
     visibleOn?: string;
     pipeIn?: (value: any, data: any) => void;
     pipeOut?: (value: any, data: any) => void;
+    onChange?: (value: boolean) => void;
   }) => {
     return {
       type: 'button-group-select',
@@ -719,6 +720,9 @@ setSchemaTpl(
         } else {
           // 非固定宽度时，剔除宽度数值
           form.setValueByName('style.width', undefined);
+        }
+        if (config?.onChange) {
+          config.onChange(value);
         }
       }
     };
@@ -926,6 +930,7 @@ setSchemaTpl(
     visibleOn?: string;
     pipeIn?: (value: any, data: any) => void;
     pipeOut?: (value: any, data: any) => void;
+    onChange?: (value: boolean) => void;
   }) => {
     return {
       type: 'button-group-select',
@@ -955,6 +960,9 @@ setSchemaTpl(
         } else {
           // 非固定高度时，剔除高度数值
           form.setValueByName('style.height', undefined);
+        }
+        if (config?.onChange) {
+          config.onChange(value);
         }
       }
     };

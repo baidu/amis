@@ -1,8 +1,8 @@
 import {registerEditorPlugin} from 'amis-editor-core';
-import {BasePlugin, RegionConfig, BaseEventContext} from 'amis-editor-core';
+import {LayoutBasePlugin, RegionConfig, BaseEventContext} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 
-export class WrapperPlugin extends BasePlugin {
+export class WrapperPlugin extends LayoutBasePlugin {
   // 关联渲染器名字
   rendererName = 'wrapper';
   $schema = '/schemas/WrapperSchema.json';
@@ -210,7 +210,10 @@ export class WrapperPlugin extends BasePlugin {
                   }),
 
                   getSchemaTpl('layout:isFixedHeight', {
-                    visibleOn: `${!isFlexItem || !isFlexColumnItem}`
+                    visibleOn: `${!isFlexItem || !isFlexColumnItem}`,
+                    onChange: (value: boolean) => {
+                      context?.node.setHeightMutable(value);
+                    }
                   }),
                   getSchemaTpl('layout:height', {
                     visibleOn: `${!isFlexItem || !isFlexColumnItem}`
@@ -230,7 +233,10 @@ export class WrapperPlugin extends BasePlugin {
                   }),
 
                   getSchemaTpl('layout:isFixedWidth', {
-                    visibleOn: `${!isFlexItem || isFlexColumnItem}`
+                    visibleOn: `${!isFlexItem || isFlexColumnItem}`,
+                    onChange: (value: boolean) => {
+                      context?.node.setWidthMutable(value);
+                    }
                   }),
                   getSchemaTpl('layout:width', {
                     visibleOn: `${!isFlexItem || isFlexColumnItem}`
@@ -284,6 +290,7 @@ export class WrapperPlugin extends BasePlugin {
       ])
     ];
   };
+  
 }
 
 registerEditorPlugin(WrapperPlugin);
