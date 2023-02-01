@@ -1,8 +1,16 @@
-import {registerEditorPlugin} from 'amis-editor-core';
-import {BaseEventContext, BasePlugin, RegionConfig} from 'amis-editor-core';
-import {defaultValue, getSchemaTpl, tipedLabel} from 'amis-editor-core';
+import {
+  ActiveEventContext,
+  BaseEventContext,
+  LayoutBasePlugin,
+  RegionConfig,
+  PluginEvent,
+  ResizeMoveEventContext,
+  registerEditorPlugin,
+  defaultValue,
+  getSchemaTpl
+} from 'amis-editor-core';
 
-export class ContainerPlugin extends BasePlugin {
+export class ContainerPlugin extends LayoutBasePlugin {
   // 关联渲染器名字
   rendererName = 'container';
   $schema = '/schemas/ContainerSchema.json';
@@ -22,7 +30,8 @@ export class ContainerPlugin extends BasePlugin {
     style: {
       position: 'static',
       display: 'block'
-    }
+    },
+    wrapperBody: false
   };
   previewSchema = {
     ...this.scaffold
@@ -204,7 +213,8 @@ export class ContainerPlugin extends BasePlugin {
                   matchRegexp: 'HTML标签不合法，请重新输入'
                 },
                 validateOnChange: false
-              }
+              },
+              getSchemaTpl('layout:padding')
             ]
           },
           {
@@ -257,7 +267,10 @@ export class ContainerPlugin extends BasePlugin {
               }),
 
               getSchemaTpl('layout:isFixedHeight', {
-                visibleOn: `${!isFlexItem || !isFlexColumnItem}`
+                visibleOn: `${!isFlexItem || !isFlexColumnItem}`,
+                onChange: (value: boolean) => {
+                  context?.node.setHeightMutable(value);
+                }
               }),
               getSchemaTpl('layout:height', {
                 visibleOn: `${!isFlexItem || !isFlexColumnItem}`
@@ -277,7 +290,10 @@ export class ContainerPlugin extends BasePlugin {
               }),
 
               getSchemaTpl('layout:isFixedWidth', {
-                visibleOn: `${!isFlexItem || isFlexColumnItem}`
+                visibleOn: `${!isFlexItem || isFlexColumnItem}`,
+                onChange: (value: boolean) => {
+                  context?.node.setWidthMutable(value);
+                }
               }),
               getSchemaTpl('layout:width', {
                 visibleOn: `${!isFlexItem || isFlexColumnItem}`
@@ -296,6 +312,10 @@ export class ContainerPlugin extends BasePlugin {
               }),
 
               !isFlexItem ? getSchemaTpl('layout:margin-center') : null,
+              !isFlexItem ? getSchemaTpl('layout:textAlign', {
+                name: 'style.textAlign',
+                label: '内部对齐方式'
+              }) : null,
               getSchemaTpl('layout:z-index'),
               getSchemaTpl('layout:sticky'),
               getSchemaTpl('layout:stickyPosition')

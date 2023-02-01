@@ -1,8 +1,8 @@
 import {registerEditorPlugin} from 'amis-editor-core';
-import {BasePlugin, RegionConfig, BaseEventContext} from 'amis-editor-core';
+import {LayoutBasePlugin, RegionConfig, BaseEventContext} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 
-export class WrapperPlugin extends BasePlugin {
+export class WrapperPlugin extends LayoutBasePlugin {
   // 关联渲染器名字
   rendererName = 'wrapper';
   $schema = '/schemas/WrapperSchema.json';
@@ -210,7 +210,10 @@ export class WrapperPlugin extends BasePlugin {
                   }),
 
                   getSchemaTpl('layout:isFixedHeight', {
-                    visibleOn: `${!isFlexItem || !isFlexColumnItem}`
+                    visibleOn: `${!isFlexItem || !isFlexColumnItem}`,
+                    onChange: (value: boolean) => {
+                      context?.node.setHeightMutable(value);
+                    }
                   }),
                   getSchemaTpl('layout:height', {
                     visibleOn: `${!isFlexItem || !isFlexColumnItem}`
@@ -230,7 +233,10 @@ export class WrapperPlugin extends BasePlugin {
                   }),
 
                   getSchemaTpl('layout:isFixedWidth', {
-                    visibleOn: `${!isFlexItem || isFlexColumnItem}`
+                    visibleOn: `${!isFlexItem || isFlexColumnItem}`,
+                    onChange: (value: boolean) => {
+                      context?.node.setWidthMutable(value);
+                    }
                   }),
                   getSchemaTpl('layout:width', {
                     visibleOn: `${!isFlexItem || isFlexColumnItem}`
@@ -248,46 +254,17 @@ export class WrapperPlugin extends BasePlugin {
                     } && (data.isFixedWidth || data.style && data.style.maxWidth)`
                   }),
                   !isFlexItem ? getSchemaTpl('layout:margin-center') : null,
+                  !isFlexItem ? getSchemaTpl('layout:textAlign', {
+                    name: 'style.textAlign',
+                    label: '内部对齐方式'
+                  }) : null,
                   getSchemaTpl('layout:z-index')
                 ]
               },
               {
                 title: '常用',
                 body: [
-                  {
-                    label: '内间距',
-                    type: 'button-group-select',
-                    name: 'size',
-                    size: 'xs',
-                    mode: 'vertical',
-                    options: [
-                      {
-                        label: '极小',
-                        value: 'xs'
-                      },
-                      {
-                        label: '小',
-                        value: 'sm'
-                      },
-                      {
-                        label: '默认',
-                        value: ''
-                      },
-                      {
-                        label: '中',
-                        value: 'md'
-                      },
-                      {
-                        label: '大',
-                        value: 'lg'
-                      },
-                      {
-                        label: '无',
-                        value: 'none'
-                      }
-                    ],
-                    pipeIn: defaultValue('')
-                  }
+                  getSchemaTpl('layout:padding'),
                 ]
               },
               getSchemaTpl('status')
@@ -313,6 +290,7 @@ export class WrapperPlugin extends BasePlugin {
       ])
     ];
   };
+  
 }
 
 registerEditorPlugin(WrapperPlugin);

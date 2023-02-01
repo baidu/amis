@@ -1,7 +1,7 @@
 /**
  * @file Flex 常见布局 1:3
  */
-import {BasePlugin, PluginEvent} from 'amis-editor-core';
+import {LayoutBasePlugin, PluginEvent} from 'amis-editor-core';
 import {getSchemaTpl, tipedLabel} from 'amis-editor-core';
 import type {
   BaseEventContext,
@@ -47,7 +47,7 @@ const defaultFlexContainerSchema = {
   alignItems: 'stretch'
 };
 
-export class FlexPluginBase extends BasePlugin {
+export class FlexPluginBase extends LayoutBasePlugin {
   rendererName = 'flex';
   $schema = '/schemas/FlexSchema.json';
   disabledRendererPlugin = false;
@@ -260,7 +260,10 @@ export class FlexPluginBase extends BasePlugin {
                   }),
 
                   getSchemaTpl('layout:isFixedHeight', {
-                    visibleOn: `${!isFlexItem || !isFlexColumnItem}`
+                    visibleOn: `${!isFlexItem || !isFlexColumnItem}`,
+                    onChange: (value: boolean) => {
+                      context?.node.setHeightMutable(value);
+                    }
                   }),
                   getSchemaTpl('layout:height', {
                     visibleOn: `${!isFlexItem || !isFlexColumnItem}`
@@ -281,7 +284,10 @@ export class FlexPluginBase extends BasePlugin {
                   }),
 
                   getSchemaTpl('layout:isFixedWidth', {
-                    visibleOn: `${!isFlexItem || isFlexColumnItem}`
+                    visibleOn: `${!isFlexItem || isFlexColumnItem}`,
+                    onChange: (value: boolean) => {
+                      context?.node.setWidthMutable(value);
+                    }
                   }),
                   getSchemaTpl('layout:width', {
                     visibleOn: `${!isFlexItem || isFlexColumnItem}`
