@@ -204,7 +204,8 @@ export class ContainerPlugin extends BasePlugin {
                   matchRegexp: 'HTML标签不合法，请重新输入'
                 },
                 validateOnChange: false
-              }
+              },
+              getSchemaTpl('layout:padding')
             ]
           },
           {

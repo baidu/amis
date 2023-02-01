@@ -1362,3 +1362,53 @@ setSchemaTpl('layout:stickyPosition', {
     }
   }
 });
+
+// 默认内边距配置项
+setSchemaTpl(
+  'layout:padding',
+  (config?: {
+    label?: string;
+    name?: string;
+    mode?: string;
+    visibleOn?: string;
+    pipeIn?: (value: any, data: any) => void;
+    pipeOut?: (value: any, data: any) => void;
+  }) => {
+    return {
+      label: config?.label || '默认内间距',
+      type: 'button-group-select',
+      name: config?.name || 'size',
+      size: 'xs',
+      mode: config?.mode || 'horizontal', // horizontal、vertical
+      visibleOn: config?.visibleOn,
+      pipeIn: config?.pipeIn || defaultValue(''),
+      pipeOut: config?.pipeOut,
+      options: [
+        {
+          label: '默认',
+          value: ''
+        },
+        {
+          label: '极小',
+          value: 'xs'
+        },
+        {
+          label: '小',
+          value: 'sm'
+        },
+        {
+          label: '中',
+          value: 'md'
+        },
+        {
+          label: '大',
+          value: 'lg'
+        },
+        {
+          label: '无',
+          value: 'none'
+        }
+      ],
+    };
+  }
+);

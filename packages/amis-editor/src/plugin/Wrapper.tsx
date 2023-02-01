@@ -254,40 +254,7 @@ export class WrapperPlugin extends BasePlugin {
               {
                 title: '常用',
                 body: [
-                  {
-                    label: '内间距',
-                    type: 'button-group-select',
-                    name: 'size',
-                    size: 'xs',
-                    mode: 'vertical',
-                    options: [
-                      {
-                        label: '极小',
-                        value: 'xs'
-                      },
-                      {
-                        label: '小',
-                        value: 'sm'
-                      },
-                      {
-                        label: '默认',
-                        value: ''
-                      },
-                      {
-                        label: '中',
-                        value: 'md'
-                      },
-                      {
-                        label: '大',
-                        value: 'lg'
-                      },
-                      {
-                        label: '无',
-                        value: 'none'
-                      }
-                    ],
-                    pipeIn: defaultValue('')
-                  }
+                  getSchemaTpl('layout:padding'),
                 ]
               },
               getSchemaTpl('status')
