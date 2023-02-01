@@ -830,9 +830,8 @@ export class DateRangePicker extends React.Component<
 
   handelEndDateChange(newValue: moment.Moment) {
     const {embed, timeFormat, inputFormat, type} = this.props;
-    let {startDate, endDate, endDateOpenedFirst} = this.state;
+    let {endDate} = this.state;
     newValue = this.getEndDateByDuration(newValue);
-    const editState = endDateOpenedFirst ? 'start' : 'end';
 
     const date = this.filterDate(newValue, endDate, timeFormat, 'end');
     this.setState(
@@ -846,7 +845,7 @@ export class DateRangePicker extends React.Component<
     );
 
     if (type !== 'input-datetime-range') {
-      this.setState({editState});
+      this.setState({editState: 'start'});
     }
   }
 
@@ -1438,8 +1437,7 @@ export class DateRangePicker extends React.Component<
     const afterEndDate =
       editState === 'start' && currentDate.isAfter(endDate!, granularity);
     const beforeStartDate =
-      editState === 'end' &&
-      !currentDate.isSameOrAfter(startDate!, granularity);
+      editState === 'end' && currentDate.isBefore(startDate!, granularity);
 
     if (afterEndDate || beforeStartDate) {
       return {
