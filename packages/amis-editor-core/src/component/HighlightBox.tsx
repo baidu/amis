@@ -48,7 +48,7 @@ export default class HighlightBox extends React.Component<HighlightBoxProps> {
     if (!isLeftButton || e.defaultPrevented) return;
 
     e.preventDefault();
-    const {manager, id, node} = this.props;
+    const {manager, id, node, store} = this.props;
     if (!node) {
       return;
     }
@@ -69,6 +69,7 @@ export default class HighlightBox extends React.Component<HighlightBoxProps> {
     ](e, {
       dom: target as HTMLElement,
       node: node,
+      store: store,
       resizer:
         direction === 'both'
           ? this.resizerDom
@@ -208,8 +209,9 @@ export default class HighlightBox extends React.Component<HighlightBoxProps> {
     const secondaryToolbars = store.sortedSecondaryToolbars;
     const specialToolbars = store.sortedSpecialToolbars;
     const isActive = store.isActive(id);
+    const curFreeContainerId = store.parentIsFreeContainer();
     const isHover =
-      store.isHoved(id) || store.dropId === id || store.insertOrigId === id;
+      store.isHoved(id) || store.dropId === id || store.insertOrigId === id || curFreeContainerId === id;
 
     // 获取当前高亮画布宽度
     const aePreviewOffsetWidth = document.getElementById(
@@ -228,7 +230,8 @@ export default class HighlightBox extends React.Component<HighlightBoxProps> {
             hover: isHover,
             regionOn: node.childRegions.some(region =>
               store.isRegionHighlighted(region.id, region.region)
-            )
+            ),
+            isFreeContainerElem: !!curFreeContainerId
           },
           className
         )}

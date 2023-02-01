@@ -482,6 +482,7 @@
   background-color: #fff;
   transform: translate(-50%, -50%);
   position: absolute;
+  z-index: 100;
   pointer-events: all;
   display: none;
 }
@@ -572,6 +573,11 @@
   &.regionOn {
     background: transparent;
     z-index: 5;
+  }
+
+  &.isFreeContainerElem {
+    // 自由容器的直接子元素拖拽剔除过渡
+    transition: none !important;
   }
 
   .ae-Editor-toolbar {

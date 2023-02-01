@@ -333,7 +333,7 @@ export class EditorDNDManager {
     const region = curElem?.getAttribute('data-region');
 
     if (
-      d > 5 &&
+      d > 0 &&
       this.curDragId &&
       this.manager.draggableContainer(this.curDragId)
     ) {

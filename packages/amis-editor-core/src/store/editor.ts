@@ -334,6 +334,12 @@ export const MainStore = types
             : nodes.push.apply(nodes, self.selections);
         }
 
+        // 判断父元素是否为自由容器元素
+        const curFreeContainerId = this.parentIsFreeContainer(self.activeId);
+        if (curFreeContainerId) {
+          nodes.push(curFreeContainerId);
+        }
+
         if (self.insertMode === 'insert' && self.insertId) {
           nodes.push(self.insertId);
         }
@@ -921,6 +927,20 @@ export const MainStore = types
         }
         return false;
       },
+      // 判断父元素是否为自由容器元素，如果父级元素是自由容器则返回父元素ID
+      parentIsFreeContainer(id?: string) {
+        const activeId = id || self.activeId;
+        const curNode = this.getNodeById(activeId)!;
+        const parentNode = curNode?.parent;
+        if (!parentNode) {
+          return false;
+        }
+        const curSchema = this.getSchema(parentNode.id);
+        if (curSchema?.isFreeContainer) {
+          return parentNode.id;
+        }
+        return false;
+      },
       get getSuperEditorData() {
         return self.superEditorData || {};
       },
@@ -1158,7 +1178,7 @@ export const MainStore = types
         self.activeId = id;
         self.activeRegion = region;
         self.selections = selections;
-
+        
         // if (!self.panelKey && id) {
         //   self.panelKey = 'config';
         // }

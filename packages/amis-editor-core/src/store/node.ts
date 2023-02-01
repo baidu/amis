@@ -634,6 +634,24 @@ export const EditorNode = types
         root.changeValueById(info.id, schema);
       },
 
+      updateSchemaStyle(value: any) {
+        const info = self.info!;
+
+        if (info.editable === false) {
+          return;
+        }
+        const root = getRoot(self) as any;
+        let schema = root.getSchema(info.id);
+        schema = {
+          ...schema,
+          style: {
+            ...schema.style,
+            ...value
+          }
+        };
+        root.changeValueById(info.id, schema);
+      },
+
       setComponent(value: any) {
         component = value;
       },

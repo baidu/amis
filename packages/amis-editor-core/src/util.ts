@@ -993,7 +993,8 @@ export function unitFormula(insetStr: string, offsetVal: number) {
     insetUnit = 'px';
   }
   const newOffsetVal = insetNum + curOffsetVal;
-  return `${newOffsetVal >= 0 ? newOffsetVal : '0'}${insetUnit}`;
+  return `${newOffsetVal}${insetUnit}`;
+  // return `${newOffsetVal >= 0 ? newOffsetVal : '0'}${insetUnit}`; // 限制拖拽区域
 }
 
 /**
@@ -1022,7 +1023,8 @@ export function needDefaultWidth(elemType: string) {
     'progress',
     'diff-editor',
     'editor',
-    'input-range'
+    'input-range',
+    'flex'
   ];
   if (needDefaultWidthElemType.indexOf(elemType) > -1) {
     return true;
