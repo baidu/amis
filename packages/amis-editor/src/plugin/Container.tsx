@@ -297,6 +297,10 @@ export class ContainerPlugin extends BasePlugin {
               }),
 
               !isFlexItem ? getSchemaTpl('layout:margin-center') : null,
+              !isFlexItem ? getSchemaTpl('layout:textAlign', {
+                name: 'style.textAlign',
+                label: '内部对齐方式'
+              }) : null,
               getSchemaTpl('layout:z-index'),
               getSchemaTpl('layout:sticky'),
               getSchemaTpl('layout:stickyPosition')

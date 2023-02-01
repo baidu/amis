@@ -248,6 +248,10 @@ export class WrapperPlugin extends BasePlugin {
                     } && (data.isFixedWidth || data.style && data.style.maxWidth)`
                   }),
                   !isFlexItem ? getSchemaTpl('layout:margin-center') : null,
+                  !isFlexItem ? getSchemaTpl('layout:textAlign', {
+                    name: 'style.textAlign',
+                    label: '内部对齐方式'
+                  }) : null,
                   getSchemaTpl('layout:z-index')
                 ]
               },

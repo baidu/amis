@@ -1412,3 +1412,49 @@ setSchemaTpl(
     };
   }
 );
+
+// 内部水平对齐方式
+setSchemaTpl(
+  'layout:textAlign',
+  (config?: {
+    label?: string;
+    name?: string;
+    mode?: string;
+    visibleOn?: string;
+    pipeIn?: (value: any, data: any) => void;
+    pipeOut?: (value: any, data: any) => void;
+  }) => {
+    return {
+      label: config?.label || '对齐方式',
+      type: 'button-group-select',
+      name: config?.name || 'textAlign',
+      // size: 'xs',
+      mode: config?.mode || 'horizontal', // horizontal、vertical
+      visibleOn: config?.visibleOn,
+      pipeIn: config?.pipeIn || defaultValue(''),
+      pipeOut: config?.pipeOut,
+      options: [
+        {
+          label: '',
+          value: 'left',
+          icon: 'fa fa-align-left'
+        },
+        {
+          label: '',
+          value: 'center',
+          icon: 'fa fa-align-center'
+        },
+        {
+          label: '',
+          value: 'right',
+          icon: 'fa fa-align-right'
+        },
+        {
+          label: '',
+          value: 'justify',
+          icon: 'fa fa-align-justify'
+        }
+      ]
+    };
+  }
+);
