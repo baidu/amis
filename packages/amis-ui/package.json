@@ -3,7 +3,7 @@
   "main": "lib/index.js",
   "module": "esm/index.js",
   "types": "lib/index.d.ts",
-  "version": "2.7.0",
+  "version": "2.7.1",
   "description": "",
   "scripts": {
     "build": "npm run clean-dist && NODE_ENV=production rollup -c ",
