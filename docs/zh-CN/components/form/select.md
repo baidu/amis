@@ -960,6 +960,8 @@ leftOptions 动态加载，默认 source 接口是返回 options 部分，而 le
 
 ## 自定义下拉区域宽度与对齐方式
 
+> 2.7.1 以上版本
+
 ```schema: scope="body"
 {
   "type": "page",
@@ -1073,8 +1075,8 @@ leftOptions 动态加载，默认 source 接口是返回 options 部分，而 le
 | optionClassName          | `string`                                                                          |                                                                                    | 选项 CSS 类名                                                                                                                                                                                                |
 | popOverContainerSelector | `string`                                                                          |                                                                                    | 弹层挂载位置选择器，会通过`querySelector`获取                                                                                                                                                                |
 | clearable                | `boolean`                                                                         |                                                                                    | 是否展示清空图标                                                                                                                                                                                             |
-| overlayAlign             | `left` \| `center` \| `right`                                                     |                                                                                    | 弹层对齐方式                                                                                                                                                                                                 |
-| overlayWidth             | `string` \| `number`                                                              |                                                                                    | 弹层自定义宽度                                                                                                                                                                                               |
+| overlayAlign             | `left` \| `center` \| `right`                                                     |                                                                                    | 弹层对齐方式 `2.7.1 以上版本`                                                                                                                                                                                |
+| overlayWidth             | `string` \| `number`                                                              |                                                                                    | 弹层自定义宽度，支持百分百与数字。如：`80%`、`200`、`300px`。 `2.7.1 以上版本`                                                                                                                               |
 
 ## 事件表
 
