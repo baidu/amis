@@ -885,7 +885,7 @@ export const MainStore = types
       },
       // 判断当前元素定位是否为flex容器
       isFlexContainer(id: string) {
-        const activeId = id || self.activeId;
+        const activeId = id ?? self.activeId;
         const curSchema = this.getSchema(activeId);
         if (
           curSchema?.style?.display === 'flex' ||
@@ -897,7 +897,7 @@ export const MainStore = types
       },
       // 判断是否是布局容器中的列级元素
       isFlexItem(id: string) {
-        const activeId = id || self.activeId;
+        const activeId = id ?? self.activeId;
         const parentSchema = this.getSchemaParentById(activeId, true);
         if (
           parentSchema?.type === 'flex' ||
@@ -910,7 +910,7 @@ export const MainStore = types
       },
       // 判断父级布局容器是否为垂直排列
       isFlexColumnItem(id: string) {
-        const activeId = id || self.activeId;
+        const activeId = id ?? self.activeId;
         const parentSchema = this.getSchemaParentById(activeId, true);
         const isFlexItem =
           parentSchema?.type === 'flex' ||
@@ -941,7 +941,7 @@ export const MainStore = types
       },
       // 判断父元素是否为自由容器元素，如果父级元素是自由容器则返回父元素ID
       parentIsFreeContainer(id?: string) {
-        const activeId = id || self.activeId;
+        const activeId = id ?? self.activeId;
         const curNode = this.getNodeById(activeId)!;
         const parentNode = curNode?.parent;
         if (!parentNode) {

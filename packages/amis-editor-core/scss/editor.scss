@@ -578,6 +578,10 @@
   &.isFreeContainerElem {
     // 自由容器的直接子元素拖拽剔除过渡
     transition: none !important;
+
+    &.selected {
+      pointer-events: all; // 高亮区启用鼠标事件，支持拖拽
+    }
   }
 
   .ae-Editor-toolbar {

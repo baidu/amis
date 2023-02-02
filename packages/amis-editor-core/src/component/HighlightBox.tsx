@@ -189,6 +189,18 @@ export default class HighlightBox extends React.Component<HighlightBoxProps> {
     this.props.store.setHoverId(this.props.id);
   }
 
+  // 特殊布局元素和自由容器直接子元素直接拖拽调整位置
+  @autobind
+  handleDragStart(e: React.DragEvent) {
+    const {manager, id} = this.props;
+
+    if (manager.disableHover) {
+      return;
+    }
+
+    manager.startDrag(id, e);
+  }
+
   // @autobind
   // handleMouseLeave() {
   //   this.props.store.setHoverId(this.props.id);
@@ -246,6 +258,8 @@ export default class HighlightBox extends React.Component<HighlightBoxProps> {
         }}
         ref={this.mainRef}
         onMouseEnter={this.handleMouseEnter}
+        draggable={!!curFreeContainerId || isDraggableContainer}
+        onDragStart={this.handleDragStart}
       >
         {isActive ? (
           <div

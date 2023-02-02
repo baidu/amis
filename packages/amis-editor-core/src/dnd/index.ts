@@ -331,7 +331,7 @@ export class EditorDNDManager {
     const curElem = target.closest(`[data-region][data-region-host]`);
     const hostId = curElem?.getAttribute('data-region-host');
     const region = curElem?.getAttribute('data-region');
-
+    
     if (
       d > 0 &&
       this.curDragId &&
