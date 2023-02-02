@@ -47,7 +47,6 @@
   position: relative;
   font-size: var(--select-base-default-fontSize);
   font-weight: var(--select-base-default-fontWeight);
-  line-height: var(--select-base-default-lineHeight);
   border-width: var(--Form-select-borderWidth);
   border-style: var(--select-base-default-top-border-style)
     var(--select-base-default-right-border-style)
@@ -161,9 +160,6 @@
   }
 
   &-value {
-    line-height: calc(
-      var(--Form-input-lineHeight) * var(--Form-input-fontSize)
-    );
     white-space: nowrap;
     max-width: 100%;
     overflow: hidden;
@@ -180,7 +176,10 @@
   &--multi {
     height: auto;
     min-height: var(--Form-selectOption-height);
-    padding: var(--gap-xs) 0 var(--gap-xs) var(--gap-xs);
+    padding: var(--select-base-default-paddingTop)
+      var(--select-base-default-paddingRight)
+      var(--select-base-default-paddingBottom)
+      var(--select-base-default-paddingLeft);
 
     .#{$ns}Select-valueWrap {
       > input {
@@ -222,9 +221,6 @@
   }
 
   &-arrow {
-    margin-right: px2rem(12px);
-    // margin-right: var(--gap-xs);
-    // margin-left: var(--gap-xs);
     width: var(--gap-md);
     text-align: center;
     display: flex;
