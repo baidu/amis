@@ -36,7 +36,7 @@ export class WrapperPlugin extends LayoutBasePlugin {
 
   panelBodyCreator = (context: BaseEventContext) => {
     const curRendererSchema = context?.schema;
-    const isFlexContainer = this.manager?.isFlexContainer(context?.id);
+    // const isFlexContainer = this.manager?.isFlexContainer(context?.id);
     const isFlexItem = this.manager?.isFlexItem(context?.id);
     const isFlexColumnItem = this.manager?.isFlexColumnItem(context?.id);
 
@@ -255,9 +255,10 @@ export class WrapperPlugin extends LayoutBasePlugin {
                     } && (data.isFixedWidth || data.style && data.style.maxWidth)`
                   }),
                   !isFlexItem ? getSchemaTpl('layout:margin-center') : null,
-                  !isFlexItem && !isFlexContainer ? getSchemaTpl('layout:textAlign', {
+                  !isFlexItem ? getSchemaTpl('layout:textAlign', {
                     name: 'style.textAlign',
-                    label: '内部对齐方式'
+                    label: '内部对齐方式',
+                    visibleOn: 'data.style && (data.style.display !== "flex" && data.style.display !== "inline-flex")'
                   }) : null,
                   getSchemaTpl('layout:z-index')
                 ]
