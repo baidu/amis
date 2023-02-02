@@ -316,7 +316,7 @@ export class ContainerPlugin extends LayoutBasePlugin {
               !isFlexItem ? getSchemaTpl('layout:textAlign', {
                 name: 'style.textAlign',
                 label: '内部对齐方式',
-                visibleOn: 'data.style && (data.style.display !== "flex" && data.style.display !== "inline-flex")'
+                visibleOn: 'data.style && data.style.display !== "flex" && data.style.display !== "inline-flex"'
               }) : null,
               getSchemaTpl('layout:z-index'),
               getSchemaTpl('layout:sticky'),
