@@ -883,6 +883,18 @@ export const MainStore = types
         );
         return idx < self.schemaHistory.length - 1;
       },
+      // 判断当前元素定位是否为flex容器
+      isFlexContainer(id: string) {
+        const activeId = id || self.activeId;
+        const curSchema = this.getSchema(activeId);
+        if (
+          curSchema?.style?.display === 'flex' ||
+          curSchema?.style?.display === 'inline-flex'
+        ) {
+          return true;
+        }
+        return false;
+      },
       // 判断是否是布局容器中的列级元素
       isFlexItem(id: string) {
         const activeId = id || self.activeId;

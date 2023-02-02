@@ -1039,6 +1039,13 @@ export class EditorManager {
   }
 
   /**
+   * 判断当前元素定位是否为flex容器
+   */
+  isFlexContainer(id: string) {
+    return this.store.isFlexContainer(id);
+  }
+
+  /**
    * 判断当前元素是否为flex布局子容器
    * 备注: 以便额外增加布局相关配置项
    */
