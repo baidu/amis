@@ -212,6 +212,7 @@ export default class HighlightBox extends React.Component<HighlightBoxProps> {
     const curFreeContainerId = store.parentIsFreeContainer();
     const isHover =
       store.isHoved(id) || store.dropId === id || store.insertOrigId === id || curFreeContainerId === id;
+    const isDraggableContainer = store.draggableContainer(id);
 
     // 获取当前高亮画布宽度
     const aePreviewOffsetWidth = document.getElementById(
@@ -231,7 +232,7 @@ export default class HighlightBox extends React.Component<HighlightBoxProps> {
             regionOn: node.childRegions.some(region =>
               store.isRegionHighlighted(region.id, region.region)
             ),
-            isFreeContainerElem: !!curFreeContainerId
+            isFreeContainerElem: !!curFreeContainerId || isDraggableContainer
           },
           className
         )}
