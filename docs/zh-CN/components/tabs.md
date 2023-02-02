@@ -611,7 +611,7 @@ order: 68
   "type": "page",
   "data": {
     "defaultKey": 1,
-    "key": 2
+    "activeKey": 2
   },
   "body": [
     {
@@ -636,7 +636,7 @@ order: 68
     },
     {
       "type": "tabs",
-      "activeKey": "${key|toInt}",
+      "activeKey": "${activeKey|toInt}",
       "defaultKey": "${defaultKey|toInt}",
       "tabs": [
         {
