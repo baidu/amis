@@ -53,6 +53,7 @@ export class ContainerPlugin extends LayoutBasePlugin {
     const isRowContent =
       curRendererSchema?.direction === 'row' ||
       curRendererSchema?.direction === 'row-reverse';
+    const isFlexContainer = this.manager?.isFlexContainer(context?.id);
     const isFreeContainer = curRendererSchema?.isFreeContainer || false;
     const isFlexItem = this.manager?.isFlexItem(context?.id);
     const isFlexColumnItem = this.manager?.isFlexColumnItem(context?.id);
@@ -312,7 +313,7 @@ export class ContainerPlugin extends LayoutBasePlugin {
               }),
 
               !isFlexItem ? getSchemaTpl('layout:margin-center') : null,
-              !isFlexItem ? getSchemaTpl('layout:textAlign', {
+              !isFlexItem && !isFlexContainer ? getSchemaTpl('layout:textAlign', {
                 name: 'style.textAlign',
                 label: '内部对齐方式'
               }) : null,

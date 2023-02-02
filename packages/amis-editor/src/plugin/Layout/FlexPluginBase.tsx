@@ -75,6 +75,7 @@ export class FlexPluginBase extends LayoutBasePlugin {
     const isRowContent =
       curRendererSchema?.direction === 'row' ||
       curRendererSchema?.direction === 'row-reverse';
+    const isFlexContainer = this.manager?.isFlexContainer(context?.id);
     const isFlexItem = this.manager?.isFlexItem(context?.id);
     const isFlexColumnItem = this.manager?.isFlexColumnItem(context?.id);
     // 判断是否为吸附容器
