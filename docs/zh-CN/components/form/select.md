@@ -973,7 +973,7 @@ leftOptions 动态加载，默认 source 接口是返回 options 部分，而 le
         "type": "select",
         "name": "select",
         "menuTpl": "<div>${label} 值：${value}, 当前是否选中: ${checked}</div>",
-        "overlayWidth": "80%",
+        "overlayWidth": "70%",
         "overlayAlign": "right",
         "options": [
           {
