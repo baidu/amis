@@ -162,8 +162,8 @@ export class ListPlugin extends BasePlugin {
                 label: '外层'
               }),
               getSchemaTpl('className', {
-                name: 'listClassName',
-                label: 'List'
+                name: 'itemClassName',
+                label: 'ListItem'
               }),
               getSchemaTpl('className', {
                 name: 'headerClassName',
