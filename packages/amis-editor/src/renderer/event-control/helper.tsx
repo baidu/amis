@@ -186,6 +186,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
   const variableManager = manager?.variableManager;
   /** 变量列表 */
   const variableOptions = variableManager.getVariableOptions();
+  const pageVariableOptions = variableManager.getPageVariablesOptions();
 
   return [
     {
@@ -1217,6 +1218,8 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             'path',
             'value',
             'index',
+            'fromPage',
+            'fromApp',
             '__valueInput',
             '__comboType',
             '__containerType'
@@ -1261,16 +1264,22 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               options: [
                 {label: '组件变量', value: 'cmpt'},
                 // TODO: 页面变量的变量列表
-                {label: '页面变量', value: 'page', disabled: true},
+                {label: '页面变量', value: 'page'},
                 {label: '应用变量', value: 'app'}
               ],
-              value: '${args.path && !componentId ? "app" : "cmpt"}',
+              value:
+                '${args.fromApp ? "app" : args.fromPage ? "page" : "cmpt"}',
               onChange: (value: string, oldVal: any, data: any, form: any) => {
                 form.setValueByName('__valueInput', undefined);
                 form.setValueByName('args.value', undefined);
+                form.deleteValueByName('args.path');
 
-                if (value === 'cmpt') {
-                  form.deleteValueByName('args.path');
+                if (value === 'page') {
+                  form.deleteValueByName('args.fromApp');
+                  form.setValueByName('args.fromPage', true);
+                } else if (value === 'app') {
+                  form.deleteValueByName('args.fromPage');
+                  form.setValueByName('args.fromApp', true);
                 }
               }
             },
@@ -1515,7 +1524,43 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             {
               type: 'container',
               visibleOn: '__actionSubType === "page"',
-              body: []
+              body: [
+                getArgsWrapper([
+                  {
+                    type: 'wrapper',
+                    className: 'p-none',
+                    body: [
+                      {
+                        type: 'tree-select',
+                        name: 'path',
+                        label: '页面变量',
+                        multiple: false,
+                        mode: 'horizontal',
+                        required: true,
+                        placeholder: '请选择变量',
+                        showIcon: false,
+                        size: 'lg',
+                        hideRoot: false,
+                        rootLabel: '页面变量',
+                        options: pageVariableOptions
+                      },
+                      {
+                        type: 'input-formula',
+                        name: 'value',
+                        label: '数据设置',
+                        variables: '${variables}',
+                        evalMode: false,
+                        variableMode: 'tabs',
+                        inputMode: 'input-group',
+                        size: 'lg',
+                        mode: 'horizontal',
+                        required: true,
+                        placeholder: '请输入变量值'
+                      }
+                    ]
+                  }
+                ])
+              ]
             },
             // 应用变量
             {
@@ -3032,11 +3077,12 @@ export const getEventControlConfig = (
           /** 应用变量赋值 */
           action.args = {
             path: config.args.path,
-            value: config.args?.value ?? ''
+            value: config.args?.value ?? '',
+            fromPage: action.args?.fromPage,
+            fromApp: action.args?.fromApp
           };
 
           action.hasOwnProperty('componentId') && delete action.componentId;
-
           return action;
         } else {
           action?.args?.hasOwnProperty('path') && delete action.args.path;
