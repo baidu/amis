@@ -13,11 +13,14 @@ export interface SubEditorProps {
 }
 
 interface ScaffoldState {
-  step: number
+  step: number;
 }
 
 @observer
-export class ScaffoldModal extends React.Component<SubEditorProps, ScaffoldState> {
+export class ScaffoldModal extends React.Component<
+  SubEditorProps,
+  ScaffoldState
+> {
   constructor(props: SubEditorProps) {
     super(props);
 
@@ -56,7 +59,7 @@ export class ScaffoldModal extends React.Component<SubEditorProps, ScaffoldState
       body = [
         {
           type: 'steps',
-          name: '__steps',
+          name: '__step',
           className: 'ae-Steps',
           steps: body.map((step, index) => ({
             title: step.title,
@@ -69,7 +72,7 @@ export class ScaffoldModal extends React.Component<SubEditorProps, ScaffoldState
           visibleOn: `__step === ${index}`,
           body: step.body
         }))
-      ]
+      ];
     }
 
     let layout: object;
@@ -78,7 +81,7 @@ export class ScaffoldModal extends React.Component<SubEditorProps, ScaffoldState
     } else {
       layout = {
         mode: scaffoldFormContext.mode || 'normal'
-      }
+      };
     }
 
     return {
@@ -91,7 +94,7 @@ export class ScaffoldModal extends React.Component<SubEditorProps, ScaffoldState
       data: {
         __step: 0
       },
-      [scaffoldFormContext.controls ? 'controls' : 'body']: body,
+      [scaffoldFormContext.controls ? 'controls' : 'body']: body
     };
     // const {store} = this.props;
     // const scaffoldFormContext = store.scaffoldForm;
@@ -152,9 +155,11 @@ export class ScaffoldModal extends React.Component<SubEditorProps, ScaffoldState
     const step = this.state.step + 1;
     form.setValueByName('__step', step);
 
+    console.log('goToNextStep', form);
+
     // 控制按钮
     this.setState({
-     step
+      step
     });
   }
 
@@ -167,7 +172,7 @@ export class ScaffoldModal extends React.Component<SubEditorProps, ScaffoldState
 
     // 控制按钮
     this.setState({
-     step
+      step
     });
   }
 
@@ -211,8 +216,12 @@ export class ScaffoldModal extends React.Component<SubEditorProps, ScaffoldState
     const scaffoldFormContext = store.scaffoldForm;
     const cx = getTheme(theme || 'cxd').classnames;
 
-    const isStepBody = !! scaffoldFormContext?.stepsBody;
-    const isLastStep = isStepBody && this.state.step === scaffoldFormContext!.body.length - 1;
+    console.log('scaffoldFormContext', scaffoldFormContext);
+
+    const isStepBody = !!scaffoldFormContext?.stepsBody;
+    const canSkip = !!scaffoldFormContext?.canSkip;
+    const isLastStep =
+      isStepBody && this.state.step === scaffoldFormContext!.body.length - 1;
     const isFirstStep = isStepBody && this.state.step === 0;
 
     return (
@@ -269,37 +278,34 @@ export class ScaffoldModal extends React.Component<SubEditorProps, ScaffoldState
               ) : null}
             </div>
           ) : null}
-          {
-            isStepBody && !isFirstStep  && (
-              <Button
-                  level="primary"
-                  onClick={this.goToPrevStep}
-                >
-                  上一步
-                </Button>
-            )
-          }
-          {
-            isStepBody && !isLastStep && (
-              <Button
-                level="primary"
-                onClick={this.goToNextStep}
-              >
-                下一步
-              </Button>
-            )
-          }
-          {
-            (!isStepBody || isLastStep) && (
-              <Button
-                level="primary"
-                onClick={this.handleConfirmClick}
-                disabled={store.scaffoldFormBuzy}
-              >
-                确认
-              </Button>
-            )
-          }
+          {isStepBody && !isFirstStep && (
+            <Button level="primary" onClick={this.goToPrevStep}>
+              上一步
+            </Button>
+          )}
+          {isStepBody && !isLastStep && (
+            <Button level="primary" onClick={this.goToNextStep}>
+              下一步
+            </Button>
+          )}
+          {isStepBody && canSkip && isFirstStep && (
+            <Button
+              level="primary"
+              onClick={this.handleConfirmClick}
+              disabled={store.scaffoldFormBuzy}
+            >
+              跳过向导
+            </Button>
+          )}
+          {(!isStepBody || isLastStep) && (
+            <Button
+              level="primary"
+              onClick={this.handleConfirmClick}
+              disabled={store.scaffoldFormBuzy}
+            >
+              确认
+            </Button>
+          )}
           <Button onClick={this.handleCancelClick}>取消</Button>
         </div>
       </Modal>

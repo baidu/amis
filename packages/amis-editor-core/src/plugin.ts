@@ -312,6 +312,8 @@ export interface PopOverForm {
 export interface ScaffoldForm extends PopOverForm {
   // 内容是否是分步骤的，如果是，body必须是?: Array<{title: string,body: any[]}>
   stepsBody?: boolean;
+  // 是否可跳过创建向导直接创建
+  canSkip?: boolean;
   mode?:
     | 'normal'
     | 'horizontal'
