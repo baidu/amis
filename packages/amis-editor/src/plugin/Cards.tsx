@@ -275,10 +275,11 @@ export class CardsPlugin extends BasePlugin {
       }));
     }
 
-    const {$schema, ...rest} = props;
+    const {$schema, card, ...rest} = props;
 
     return {
       ...JSONPipeOut(rest),
+      card,
       $schema
     };
   }

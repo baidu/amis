@@ -163,10 +163,11 @@ export class ListPlugin extends BasePlugin {
       }));
     }
 
-    const {$schema, ...rest} = props;
+    const {$schema, listItem, ...rest} = props;
 
     return {
       ...JSONPipeOut(rest),
+      listItem,
       $schema
     };
   }
