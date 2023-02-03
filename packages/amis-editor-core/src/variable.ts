@@ -207,6 +207,22 @@ export class VariableManager {
   }
 
   /**
+   * 获取页面变量树形结构
+   * @returns
+   */
+  getPageVariablesOptions() {
+    let options: Option[] = [];
+
+    const pageScope = this.dataSchema?.root.children?.filter(
+      item => item.tag === '页面变量'
+    )[0];
+    if (pageScope) {
+      options = pageScope.getDataPropsAsOptions();
+    }
+    return options;
+  }
+
+  /**
    * 根据变量路径获取变量名称
    */
   getNameByPath(path: string, valueField = 'value', labelField = 'label') {
@@ -214,7 +230,10 @@ export class VariableManager {
       return '';
     }
 
-    const options = this.getVariableOptions();
+    const options = [
+      ...this.getVariableOptions(),
+      ...this.getPageVariablesOptions()
+    ];
     const node = findTree(
       options,
       item => item[valueField ?? 'value'] === path
