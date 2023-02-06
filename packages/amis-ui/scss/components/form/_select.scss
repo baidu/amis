@@ -124,12 +124,10 @@
     margin-top: px2rem(4px);
     .#{$ns}Select-menu {
       .#{$ns}Select-option {
-        height: px2rem(32px);
-        line-height: px2rem(32px);
+        line-height: var(--select-base-default-option-line-height);
       }
       .#{$ns}Select-addBtn {
-        height: px2rem(32px);
-        line-height: px2rem(30px);
+        line-height: var(--select-base-default-option-line-height);
       }
     }
   }
@@ -360,22 +358,16 @@
     &.is-active {
       color: var(--Form-select-menu-onActive-color);
       background: var(--Form-select-menu-onActive-bg);
-      font-size: var(--select-base-active-option-fontSize);
-      font-weight: var(--select-base-active-option-fontWeight);
     }
 
     &.is-highlight {
       color: var(--Form-select-menu-onHover-color);
       background: var(--Form-select-menu-onHover-bg);
-      font-size: var(--select-base-hover-option-fontSize);
-      font-weight: var(--select-base-hover-option-fontWeight);
     }
 
     &.is-disabled {
       color: var(--Form-select-menu-onDisabled-color);
       background: var(--Form-select-menu-onDisabled-bg);
-      font-size: var(--select-base-disabled-option-fontSize);
-      font-weight: var(--select-base-disabled-option-fontWeight);
     }
 
     > label {
@@ -424,13 +416,10 @@
   &-addBtn {
     display: block;
     cursor: pointer;
-    padding: calc(
-        (
-            var(--Form-select-menu-height) - var(--Form-input-lineHeight) *
-              var(--Form-input-fontSize)
-          ) / 2
-      )
-      var(--Form-select-paddingX);
+    padding: var(--select-base-default-option-paddingTop)
+      var(--select-base-default-option-paddingRight)
+      var(--select-base-default-option-paddingBottom)
+      var(--select-base-default-option-paddingLeft);
 
     &:hover {
       text-decoration: none;

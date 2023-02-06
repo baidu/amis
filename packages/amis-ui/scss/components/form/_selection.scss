@@ -58,16 +58,13 @@
 
   &-item {
     display: flex;
-    // height: var(--Form-input-height);
-    line-height: var(--Form-input-lineHeight);
-    font-size: var(--Form-input-fontSize);
-    padding: calc(
-        (
-            var(--Form-input-height) - var(--Form-input-lineHeight) *
-              var(--Form-input-fontSize)
-          ) / 2
-      )
-      var(--gap-sm);
+    line-height: var(--select-base-default-option-line-height);
+    font-size: var(--select-base-default-option-fontSize);
+    font-weight: var(--select-base-default-option-fontWeight);
+    padding: var(--select-base-default-option-paddingTop)
+      var(--select-base-default-option-paddingRight)
+      var(--select-base-default-option-paddingBottom)
+      var(--select-base-default-option-paddingLeft);
     flex-direction: row;
 
     > .#{$ns}Checkbox {
@@ -77,11 +74,13 @@
     user-select: none;
 
     &.is-active {
+      color: var(--Form-select-menu-onActive-color);
       background: var(--Form-select-menu-onActive-bg);
     }
 
     &:hover {
-      background: var(--Tree-item-onHover-bg);
+      color: var(--Form-select-menu-onHover-color);
+      background: var(--Form-select-menu-onHover-bg);
 
       i {
         border: 1px solid var(--menu-active-color);
@@ -90,7 +89,8 @@
 
     &.is-disabled {
       pointer-events: none;
-      color: var(--text--muted-color);
+      color: var(--Form-select-menu-onDisabled-color);
+      background: var(--Form-select-menu-onDisabled-bg);
     }
   }
 
@@ -172,9 +172,15 @@
     padding-right: var(--select-table-option-paddingRight);
   }
 
-  .#{$ns}Table-table > tbody > tr.is-active {
+  .#{$ns}Table-table > tbody > tr.is-active > td {
     color: var(--Form-select-menu-onActive-color);
     background: var(--Form-select-menu-onActive-bg);
+  }
+
+  .#{$ns}Table-table > tbody > tr:hover > td,
+  .#{$ns}Table-table > tbody > tr.is-hovered > td {
+    color: var(--Form-select-menu-onHover-color);
+    background: var(--Form-select-menu-onHover-bg);
   }
 }
 
@@ -282,13 +288,12 @@
     // height: var(--Form-input-height);
     font-size: var(--select-chained-fontSize);
     color: var(--select-chained-color);
-    padding: calc(
-        (
-            var(--Form-input-height) - var(--Form-input-lineHeight) *
-              var(--select-chained-fontSize)
-          ) / 2
-      )
-      var(--gap-sm);
+    line-height: var(--select-base-default-option-line-height);
+    font-weight: var(--select-base-default-option-fontWeight);
+    padding: var(--select-base-default-option-paddingTop)
+      var(--select-base-default-option-paddingRight)
+      var(--select-base-default-option-paddingBottom)
+      var(--select-base-default-option-paddingLeft);
     flex-direction: row;
 
     > .#{$ns}Checkbox {
@@ -303,12 +308,14 @@
     }
 
     &:hover {
-      background: var(--select-chained-hover-bg-color);
+      color: var(--Form-select-menu-onHover-color);
+      background: var(--Form-select-menu-onHover-bg);
     }
 
     &.is-disabled {
       pointer-events: none;
-      color: var(--text--muted-color);
+      color: var(--Form-select-menu-onDisabled-color);
+      background: var(--Form-select-menu-onDisabled-bg);
     }
   }
 
