@@ -832,7 +832,7 @@
   --transfer-group-font-color: var(--colors-neutral-text-5);
   --transfer-group-fontWeight: var(--fonts-weight-6);
   --transfer-group-lineHeight: var(--fonts-lineHeight-2);
-  --transfer-table-last-paddingRight: var(--sizes-size-10);
+  --transfer-table-last-paddingRight: var(--sizes-base-9);
   --transfer-table-header-marginTop: var(--sizes-size-1);
   --transfer-table-header-marginLeft: var(--sizes-size-1);
   --transfer-table-header-paddingTop: var(--sizes-size-5);
@@ -2609,6 +2609,7 @@
   --select-base-default-option-fontSize: var(--fonts-size-7);
   --select-base-default-option-fontWeight: var(--fonts-weight-6);
   --select-base-default-option-bg-color: transparent;
+  --select-base-default-option-line-height: var(--sizes-base-16);
   --select-base-hover-top-border-color: var(--colors-brand-5);
   --select-base-hover-top-border-width: var(--borders-width-2);
   --select-base-hover-top-border-style: var(--borders-style-2);
@@ -2623,8 +2624,6 @@
   --select-base-hover-left-border-style: var(--borders-style-2);
   --select-base-hover-bg-color: transparent;
   --select-base-hover-option-color: var(--colors-neutral-text-2);
-  --select-base-hover-option-fontSize: var(--fonts-size-7);
-  --select-base-hover-option-fontWeight: var(--fonts-weight-6);
   --select-base-hover-option-bg-color: var(--colors-brand-10);
   --select-base-active-top-border-color: var(--colors-brand-5);
   --select-base-active-top-border-width: var(--borders-width-2);
@@ -2641,8 +2640,6 @@
   --select-base-active-shadow: var(--shadows-shadow-none);
   --select-base-active-bg-color: transparent;
   --select-base-active-option-color: var(--colors-brand-5);
-  --select-base-active-option-fontSize: var(--fonts-size-7);
-  --select-base-active-option-fontWeight: var(--fonts-weight-6);
   --select-base-active-option-bg-color: transparent;
   --select-base-disabled-top-border-color: var(--colors-neutral-line-8);
   --select-base-disabled-top-border-width: var(--borders-width-2);
@@ -2658,8 +2655,6 @@
   --select-base-disabled-left-border-style: var(--borders-style-2);
   --select-base-disabled-bg-color: var(--colors-neutral-fill-10);
   --select-base-disabled-option-color: var(--colors-neutral-text-6);
-  --select-base-disabled-option-fontSize: var(--fonts-size-7);
-  --select-base-disabled-option-fontWeight: var(--fonts-weight-6);
   --select-base-disabled-option-bg-color: transparent;
   --select-multiple-top-right-border-radius: var(--borders-radius-2);
   --select-multiple-top-left-border-radius: var(--borders-radius-2);
@@ -2687,14 +2682,14 @@
   --select-group-paddingBottom: var(--sizes-size-3);
   --select-group-paddingLeft: var(--sizes-size-7);
   --select-group-paddingRight: var(--sizes-size-7);
-  --select-table-header-paddingTop: var(--sizes-size-4);
-  --select-table-header-paddingBottom: var(--sizes-size-4);
-  --select-table-header-paddingLeft: var(--sizes-size-6);
-  --select-table-header-paddingRight: var(--sizes-size-9);
-  --select-table-option-paddingTop: var(--sizes-size-3);
-  --select-table-option-paddingBottom: var(--sizes-size-4);
-  --select-table-option-paddingLeft: var(--sizes-size-6);
-  --select-table-option-paddingRight: var(--sizes-size-9);
+  --select-table-header-paddingTop: var(--sizes-size-5);
+  --select-table-header-paddingBottom: var(--sizes-size-5);
+  --select-table-header-paddingLeft: var(--sizes-size-7);
+  --select-table-header-paddingRight: var(--sizes-base-9);
+  --select-table-option-paddingTop: var(--sizes-size-4);
+  --select-table-option-paddingBottom: var(--sizes-size-5);
+  --select-table-option-paddingLeft: var(--sizes-size-7);
+  --select-table-option-paddingRight: var(--sizes-base-9);
   --select-table-color: var(--colors-neutral-text-2);
   --select-table-fontSize: var(--fonts-size-8);
   --select-tree-color: var(--colors-neutral-text-2);
@@ -2703,7 +2698,6 @@
   --select-tree-active-bg-color: var(--colors-brand-10);
   --select-chained-color: var(--colors-neutral-text-2);
   --select-chained-fontSize: var(--fonts-size-7);
-  --select-chained-hover-bg-color: var(--colors-neutral-fill-10);
 
   --Form-select-bg: var(--select-base-default-bg-color);
   --Form-select-height: var(--Form-select-outer-top);
