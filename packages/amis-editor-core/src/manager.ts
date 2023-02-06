@@ -65,6 +65,7 @@ import {IScopedContext} from 'amis';
 import {SchemaObject, SchemaCollection} from 'amis/lib/Schema';
 import type {RendererConfig} from 'amis-core/lib/factory';
 import isPlainObject from 'lodash/isPlainObject';
+import {omit} from 'lodash';
 
 export interface EditorManagerConfig
   extends Omit<EditorProps, 'value' | 'onChange'> {}
@@ -168,7 +169,7 @@ export class EditorManager {
     // 传给 amis 渲染器的默认 env
     this.env = {
       ...env, // 默认的 env 中带 jumpTo
-      ...config.amisEnv, // 用户也可以设置自定义环境配置，用于覆盖默认的 env
+      ...omit(config.amisEnv, 'replaceText'), // 用户也可以设置自定义环境配置，用于覆盖默认的 env
       theme: config.theme
     };
     this.env.beforeDispatchEvent = this.beforeDispatchEvent.bind(

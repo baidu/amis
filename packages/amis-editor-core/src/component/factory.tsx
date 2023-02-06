@@ -20,6 +20,7 @@ import {Schema} from 'amis';
 import type {DataScope} from 'amis-core';
 import type {RendererConfig} from 'amis-core/lib/factory';
 import {SchemaCollection} from 'amis/lib/Schema';
+import {omit} from 'lodash';
 
 // 创建 Node Store 并构建成树
 export function makeWrapper(
@@ -302,7 +303,7 @@ function SchemaFrom({
       popOverContainer
     },
     {
-      ...env
+      ...omit(env, 'replaceText')
       // theme: 'cxd' // 右侧属性配置面板固定使用cxd主题展示
     }
   );
