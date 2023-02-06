@@ -137,7 +137,7 @@ export default class HighlightBox extends React.Component<HighlightBoxProps> {
     if (ref) {
       ref.addEventListener('mousedown', this.handleWResizerMouseDown);
     } else {
-      this.wResizerDom.addEventListener(
+      this.wResizerDom?.addEventListener(
         'mousedown',
         this.handleWResizerMouseDown
       );
@@ -153,7 +153,7 @@ export default class HighlightBox extends React.Component<HighlightBoxProps> {
     if (ref) {
       ref.addEventListener('mousedown', this.handleHResizerMouseDown);
     } else {
-      this.hResizerDom.addEventListener(
+      this.hResizerDom?.addEventListener(
         'mousedown',
         this.handleHResizerMouseDown
       );
@@ -169,7 +169,7 @@ export default class HighlightBox extends React.Component<HighlightBoxProps> {
     if (ref) {
       ref.addEventListener('mousedown', this.handleResizerMouseDown);
     } else {
-      this.resizerDom.addEventListener(
+      this.resizerDom?.addEventListener(
         'mousedown',
         this.handleResizerMouseDown
       );
@@ -370,11 +370,17 @@ export default class HighlightBox extends React.Component<HighlightBoxProps> {
         {children}
 
         {node.widthMutable ? (
-          <span className="ae-WResizer" ref={this.wResizerRef}></span>
+          <>
+            <span className="ae-border-WResizer" ref={this.wResizerRef}></span>
+            <span className="ae-WResizer" ref={this.wResizerRef}></span>
+          </>
         ) : null}
 
         {node.heightMutable ? (
-          <span className="ae-HResizer" ref={this.hResizerRef}></span>
+          <>
+            <span className="ae-border-HResizer" ref={this.hResizerRef}></span>
+            <span className="ae-HResizer" ref={this.hResizerRef}></span>
+          </>
         ) : null}
 
         {node.widthMutable && node.heightMutable ? (
