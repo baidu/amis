@@ -256,7 +256,7 @@ export function Icon({
       const svg = /(<svg.*<\/svg>)/.exec(svgStr);
 
       if (svg) {
-        const svgHTML = svg[0].replaceAll('\\"', '"');
+        const svgHTML = svg[0].replace(/\\"/g, '"');
         if (dom.svgHTMLClone !== svgHTML) {
           dom.innerHTML = svgHTML;
           // 存储svg，不直接用innerHTML是防止<circle />渲染后变成<circle></circle>的情况
