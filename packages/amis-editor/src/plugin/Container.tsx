@@ -313,7 +313,7 @@ export class ContainerPlugin extends LayoutBasePlugin {
               }),
 
               !isFlexItem ? getSchemaTpl('layout:margin-center') : null,
-              !isFlexItem ? getSchemaTpl('layout:textAlign', {
+              !isFlexItem && !isFreeContainer ? getSchemaTpl('layout:textAlign', {
                 name: 'style.textAlign',
                 label: '内部对齐方式',
                 visibleOn: 'data.style && data.style.display !== "flex" && data.style.display !== "inline-flex"'

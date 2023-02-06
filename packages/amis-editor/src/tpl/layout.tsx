@@ -189,7 +189,7 @@ setSchemaTpl(
       label:
         config?.label ||
         tipedLabel(
-          '层级',
+          '显示层级',
           '指定元素的堆叠顺序，层级高的元素总是会处于较低层级元素的上面。'
         ),
       name: config?.name || 'style.zIndex',
