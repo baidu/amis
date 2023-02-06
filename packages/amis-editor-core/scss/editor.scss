@@ -485,6 +485,33 @@
   z-index: 100;
   pointer-events: all;
   display: none;
+
+  &[data-value]::before {
+    position: absolute;
+    content: '';
+    pointer-events: none;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    margin: 0;
+    padding: 0;
+    box-sizing: content-box;
+    border: 6px solid rgba(7, 12, 20, 0.85);
+    border-color: transparent transparent transparent rgba(7, 12, 20, 0.85);
+    z-index: 100;
+  }
+
+  &[data-value]:after {
+    position: absolute;
+    content: attr(data-value);
+    padding: 2px 8px;
+    color: #fff;
+    text-align: center;
+    background-color: rgba(7,12,20,0.85);
+    // background-color: $Editor-theme;
+    box-shadow: 0 2px 8px 0 rgba(7,12,20,0.12);
+  }
 }
 
 .ae-WResizer {
@@ -493,14 +520,9 @@
   cursor: ew-resize;
 
   &[data-value]:after {
-    position: absolute;
-    content: attr(data-value);
-    background-color: $Editor-theme;
-    right: 15px;
+    right: 20px;
     top: 50%;
     transform: translate(0, -50%);
-    padding: 2px 8px;
-    color: #fff;
   }
 }
 
@@ -509,15 +531,18 @@
   top: 100%;
   cursor: ns-resize;
 
+  &[data-value]::before {
+    right: 50%;
+    top: auto;
+    bottom: 8px;
+    transform: translate(50%, 0);
+    border-color: rgba(7, 12, 20, 0.85) transparent transparent transparent;
+  }
+
   &[data-value]:after {
-    position: absolute;
-    content: attr(data-value);
-    background-color: $Editor-theme;
-    bottom: 15px;
+    bottom: 20px;
     left: 50%;
     transform: translate(-50%, 0);
-    padding: 2px 8px;
-    color: #fff;
   }
 }
 
@@ -527,14 +552,8 @@
   cursor: nwse-resize;
 
   &[data-value]:after {
-    position: absolute;
-    content: attr(data-value);
-    background-color: $Editor-theme;
     bottom: 15px;
     right: 15px;
-    padding: 2px 8px;
-    color: #fff;
-    text-align: center;
   }
 }
 
@@ -578,9 +597,11 @@
   &.isFreeContainerElem {
     // 自由容器的直接子元素拖拽剔除过渡
     transition: none !important;
+    
 
     &.selected {
       pointer-events: all; // 高亮区启用鼠标事件，支持拖拽
+      cursor: move;
     }
   }
 
