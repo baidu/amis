@@ -578,6 +578,10 @@
   top: 100%;
   cursor: nwse-resize;
 
+  &[data-value]::before {
+    border-color: transparent;
+  }
+
   &[data-value]:after {
     bottom: 15px;
     right: 15px;
