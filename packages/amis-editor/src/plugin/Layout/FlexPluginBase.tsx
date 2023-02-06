@@ -360,7 +360,8 @@ export class FlexPluginBase extends LayoutBasePlugin {
       parent &&
       (info.renderer?.name === 'flex' || info.renderer?.name === 'container') &&
       !isFlexItem && // 备注：如果是列级元素就不需要显示了
-      !draggableContainer
+      !draggableContainer &&
+      !schema?.isFreeContainer
     ) {
       // 非特殊布局元素（fixed、absolute）支持前后插入追加布局元素功能icon
       if (!toolbarsTooltips['上方插入布局容器']) {
