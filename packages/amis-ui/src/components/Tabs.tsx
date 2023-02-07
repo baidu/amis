@@ -245,18 +245,21 @@ export class Tabs extends React.Component<TabsProps, any> {
         children: Array.isArray(this.props.children)
           ? this.props.children!.map(item => ({
               eventKey: item?.props?.eventKey,
-              title: item?.props?.title
+              // 这里 title 可能是 React.ReactNode，只对比 string
+              title:
+                typeof item?.props?.title === 'string' ? item.props.title : ''
             }))
-          : this.props.children
+          : []
       },
       {
         activeKey: preProps.activeKey,
         children: Array.isArray(preProps.children)
           ? preProps.children!.map((item: any) => ({
               eventKey: item?.props?.eventKey,
-              title: item?.props?.title
+              title:
+                typeof item?.props?.title === 'string' ? item.props.title : ''
             }))
-          : preProps.children
+          : []
       }
     );
 
