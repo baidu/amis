@@ -103,7 +103,8 @@ export class NumberInput extends React.Component<NumberProps, any> {
      */
     if (value == null) {
       if (typeof resetValue !== 'number') {
-        return resetValue ?? '';
+        // 清空输入相当于在表单项中干掉input-number绑定的字段
+        return undefined;
       }
 
       value = resetValue;
@@ -199,7 +200,7 @@ export class NumberInput extends React.Component<NumberProps, any> {
       min,
       max,
       finalPrecision,
-      resetValue,
+      '',
       this.isBig
     );
 
