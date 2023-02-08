@@ -378,6 +378,20 @@
           color: var(--Menu-light-fontColor-onActive) !important;
         }
       }
+
+      .#{$ns}Nav-Menu-submenu-actived {
+        > .#{$ns}Nav-Menu-submenu-title {
+          background-color: var(--Menu-light-backgroundColor-onHover);
+          @include selected-indicator(
+            var(--Menu-light-selectedIndicator-color)
+          );
+
+          .#{$ns}Nav-Menu-item-icon,
+          .#{$ns}Nav-Menu-item-label {
+            color: var(--Menu-light-fontColor-onActive) !important;
+          }
+        }
+      }
     }
   }
 
@@ -617,6 +631,14 @@
     @include popup-dark();
   }
 
+  &-submenu-popup {
+    .#{$ns}Nav-Menu-vertical {
+      .#{$ns}Nav-Menu-submenu-arrow {
+        width: px2rem(32px);
+      }
+    }
+  }
+
   .#{$ns}Nav-Menu-submenu-title,
   .#{$ns}Nav-Menu-item {
     cursor: pointer;
@@ -823,7 +845,7 @@
       position: absolute;
       right: 0;
       top: 0;
-      width: var(--Menu-Submenu-title-paddingX);
+      width: px2rem(18px);
       line-height: var(--Menu-item-height--vertical);
       transform: rotate(-90deg);
 
@@ -865,11 +887,9 @@
     }
   }
 
-  &-vertical-right,
-  &-horizontal {
+  &-vertical-right {
     .#{$ns}Nav-Menu-item {
-      padding: 0 var(--Menu-Submenu-title-paddingX) 0
-        calc(var(--Menu-Submenu-title-paddingX) - 1px);
+      padding: 0 var(--Menu-Submenu-item-paddingX);
     }
   }
 
@@ -884,6 +904,7 @@
     & .#{$ns}Nav-Menu-submenu-open > .#{$ns}Nav-Menu-submenu-title {
       .#{$ns}Nav-Menu-submenu-arrow {
         transform: rotate(180deg);
+        padding-bottom: px2rem(4px);
       }
     }
   }
@@ -894,14 +915,6 @@
         overflow: hidden;
       }
     }
-
-    // .#{$ns}Nav-Menu-submenu {
-    //   .#{$ns}Nav-Menu-submenu-title {
-    //     padding: 0 var(--Menu-Submenu-title-paddingX) 0
-    //       calc(var(--Menu-Submenu-title-paddingX) - 1px);
-    //     text-align: center;
-    //   }
-    // }
 
     .#{$ns}Nav-Menu-submenu-vertical.#{$ns}Nav-Menu-submenu {
       .#{$ns}Nav-Menu-submenu-title {
@@ -966,7 +979,7 @@
   @mixin item-disabled {
     cursor: not-allowed;
     color: var(--Menu-fontColor-onDisabled) !important;
-    pointer-events: none;
+    // pointer-events: none;
   }
 
   .#{$ns}Nav-Menu-item-disabled,
