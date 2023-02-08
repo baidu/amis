@@ -286,7 +286,7 @@ export interface NavigationProps
     Omit<NavSchema, 'type' | 'className'>,
     SpinnerExtraProps {
   onSelect?: (item: Link, depth: number) => void | false;
-  onToggle?: (item: Link, forceFold?: boolean) => void;
+  onToggle?: (item: Link, depth: number, forceFold?: boolean) => void;
   onDragUpdate?: (dropInfo: IDropInfo) => void;
   onOrderChange?: (res: Link[]) => void;
   togglerClassName?: string;
@@ -349,8 +349,8 @@ export class Navigation extends React.Component<
   }
 
   @autobind
-  toggleLink(target: Link, forceFold?: boolean) {
-    this.props.onToggle?.(target, forceFold);
+  toggleLink(target: Link, depth: number, forceFold?: boolean) {
+    this.props.onToggle?.(target, depth, forceFold);
   }
 
   @autobind
@@ -783,6 +783,9 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
       } = props;
 
       const isActive = (link: Link, depth: number) => {
+        if (!!link.disabled) {
+          return false;
+        }
         return motivation !== 'location-change' &&
           typeof link.active !== 'undefined'
           ? link.active
@@ -948,7 +951,7 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
       }
     }
 
-    async toggleLink(target: Link, forceFold?: boolean) {
+    async toggleLink(target: Link, depth: number, forceFold?: boolean) {
       const {
         config,
         updateConfig,
@@ -985,11 +988,17 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
                 }
               : {
                   ...link,
-                  unfolded: isAccordion ? false : link.unfolded
+                  unfolded: isAccordion
+                    ? !!findTree(link.children || [], item => item === target)
+                    : link.unfolded
                 }
           ),
           'toggle'
         );
+      }
+      // 如果父菜单项也配置了链接 同样要支持跳转
+      if (target.to) {
+        this.handleSelect(target, depth);
       }
     }
 

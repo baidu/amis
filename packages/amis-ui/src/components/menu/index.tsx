@@ -180,10 +180,10 @@ export interface MenuProps extends Omit<RcMenuProps, 'mode'> {
    */
   onToggleExpand?: (keys: String[]) => void;
 
-  // (link: any, depty: number) => boolean
+  // (link: any, depth: number) => boolean
   onSelect?: any;
 
-  onToggle: (link: any, forceFold?: boolean) => void;
+  onToggle: (link: any, depth: number, forceFold?: boolean) => void;
 
   onDragStart?: (
     link: any
@@ -239,7 +239,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     mode: 'inline',
     direction: 'ltr',
     prefix: '',
-    triggerSubMenuAction: 'click',
+    triggerSubMenuAction: 'hover',
     inlineIndent: 15,
     popOverContainer: () => document.body,
     renderLink: (link: MenuItemProps) => {
@@ -310,8 +310,8 @@ export class Menu extends React.Component<MenuProps, MenuState> {
   normalizeNavigations(props: MenuProps) {
     const {navigations, prefix, isActive, isOpen, stacked} = props;
     let id = 1;
-    const activeKey: Array<string> = [];
-    const openKey: Array<string> = [];
+    const activeKeys: Array<string> = [];
+    const openKeys: Array<string> = [];
 
     const transformedNav = mapTree(
       filterTree(
@@ -333,17 +333,13 @@ export class Menu extends React.Component<MenuProps, MenuState> {
         // 如果没有传入key，则为导航加一个自增key
         const navId = (item.id || item.key || id++).toString();
 
-        if (!activeKey.find(key => key === navId) && isActive(item, prefix)) {
-          activeKey?.push(navId);
+        if (!activeKeys.find(key => key === navId) && isActive(item, prefix)) {
+          activeKeys?.push(navId);
         }
 
         const open = isOpen(item as NavigationItem);
-        if (
-          !openKey.find(key => key === navId) &&
-          !activeKey.find(key => key === navId) &&
-          open
-        ) {
-          openKey.push(navId);
+        if (!openKeys.find(key => key === navId) && open) {
+          openKeys.push(navId);
         }
 
         return {
@@ -359,17 +355,9 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     );
 
     let activeKeyPaths: Array<string> = [];
-    activeKey.forEach(key => {
+    activeKeys.forEach(key => {
       activeKeyPaths = [
         ...activeKeyPaths,
-        ...this.getKeyPaths(transformedNav, key),
-        key
-      ];
-    });
-    let openKeyPaths: Array<string> = [];
-    openKey.forEach(key => {
-      openKeyPaths = [
-        ...openKeyPaths,
         ...this.getKeyPaths(transformedNav, key),
         key
       ];
@@ -377,9 +365,9 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 
     return {
       transformedNav,
-      activeKey: activeKeyPaths,
+      activeKey: activeKeys,
       defaultOpenKeys: activeKeyPaths,
-      openKeys: openKeyPaths
+      openKeys
     };
   }
 
@@ -446,11 +434,11 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 
     let openKeys = this.state.openKeys.concat();
     const isOpen = openKeys.includes(key);
+    const keyPaths = this.getKeyPaths(navigations, key);
     if (isOpen) {
       openKeys = openKeys.filter(item => item !== key);
     } else {
       if (isVericalInline && accordion) {
-        const keyPaths = this.getKeyPaths(navigations, key);
         openKeys = [...keyPaths, key];
       } else {
         openKeys = [...openKeys, key];
@@ -459,7 +447,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 
     const currentItem = findTree(navigations, item => item.id === key);
     // 因为Nav里只处理当前菜单项 因此新增一个onToggle事件
-    onToggle?.(currentItem?.link, isOpen);
+    onToggle?.(currentItem?.link, keyPaths.length, isOpen);
     onToggleExpand?.(uniq(openKeys));
   }
 
@@ -477,6 +465,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     const {disabled, eventKey, isOpen, isSubMenu} = ctx;
     let openKeys = this.state.openKeys.concat();
     const isVericalInline = stacked && mode === 'inline' && !collapsed;
+    const keyPaths = this.getKeyPaths(navigations, eventKey);
 
     if (isSubMenu && !disabled) {
       // isOpen是当前菜单的展开状态
@@ -485,7 +474,6 @@ export class Menu extends React.Component<MenuProps, MenuState> {
       } else {
         // 手风琴模式 仅展开
         if (isVericalInline && accordion) {
-          const keyPaths = this.getKeyPaths(navigations, eventKey);
           openKeys = [...keyPaths, eventKey];
         } else {
           openKeys.push(eventKey);
@@ -493,7 +481,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
       }
       const currentItem = findTree(navigations, item => item.id === eventKey);
       // 因为Nav里只处理当前菜单项 因此新增一个onToggle事件
-      onToggle?.(currentItem?.link, isOpen);
+      onToggle?.(currentItem?.link, keyPaths.length, isOpen);
       onToggleExpand?.(uniq(openKeys));
     }
   }
@@ -535,7 +523,8 @@ export class Menu extends React.Component<MenuProps, MenuState> {
       themeColor,
       disabled,
       badge,
-      data
+      data,
+      isActive
     } = this.props;
 
     return list.map(item => {
@@ -552,6 +541,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
             {...item}
             key={item.id}
             disabled={itemDisabled || link.loading}
+            active={isActive(item)}
             badge={badge}
             renderLink={renderLink}
           >

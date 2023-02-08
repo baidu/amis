@@ -228,17 +228,23 @@ export class SubMenu extends React.Component<SubMenuProps> {
   }
 
   render() {
-    const {className, popupClassName, classnames: cx, hidden} = this.props;
+    const {
+      className,
+      popupClassName,
+      classnames: cx,
+      hidden,
+      active
+    } = this.props;
 
     const isDarkTheme = this.context.themeColor === 'dark';
-
     return hidden ? null : (
       <RcSubMenu
         {...pick(this.props, this.internalProps)}
         className={cx(
           'Nav-Menu-submenu',
           {
-            ['Nav-Menu-submenu-dark']: isDarkTheme
+            ['Nav-Menu-submenu-dark']: isDarkTheme,
+            ['Nav-Menu-submenu-actived']: active
           },
           className
         )}
