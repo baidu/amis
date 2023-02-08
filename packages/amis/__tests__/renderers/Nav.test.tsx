@@ -10,7 +10,7 @@
  * 7. 更多操作
  */
 
-import {render, cleanup, fireEvent} from '@testing-library/react';
+import {render, cleanup, fireEvent, waitFor} from '@testing-library/react';
 import '../../src';
 import {render as amisRender} from '../../src';
 import {makeEnv, wait} from '../helper';
@@ -277,7 +277,9 @@ test('Renderer:Nav with overflow', async () => {
 
   fireEvent.click(btn!);
 
-  await wait(200);
+  await waitFor(() =>
+    expect(container.querySelector('.cxd-Spinner')).not.toBeInTheDocument()
+  );
   expect(container).toMatchSnapshot();
 });
 
@@ -509,7 +511,9 @@ test('Renderer:Nav with itemActions', async () => {
     container.querySelector('.cxd-Nav-Menu-item-extra .cxd-Button')!
   );
 
-  await wait(200);
+  await waitFor(() =>
+    expect(container.querySelector('.cxd-Spinner')).not.toBeInTheDocument()
+  );
   expect(container).toMatchSnapshot();
   expect(getByText('编辑')).toBeInTheDocument();
 });
