@@ -1048,6 +1048,14 @@ export function translateSchema(schema: any, replaceData?: any) {
   });
 }
 
+/** 应用级别的翻译方法 */
+export function appTranslate(value?: string) {
+  if (!isString(value)) {
+    return value;
+  }
+  return (window as any)?.editorStore?.appCorpusData?.[value!] || value;
+}
+
 /**
  * 判断是否需要给组件增加填充占位样式
  */
