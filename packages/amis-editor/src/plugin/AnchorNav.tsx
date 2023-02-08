@@ -1,5 +1,5 @@
 import React from 'react';
-import {registerEditorPlugin} from 'amis-editor-core';
+import {registerEditorPlugin, translateSchema} from 'amis-editor-core';
 import {getSchemaTpl} from 'amis-editor-core';
 import {BasePlugin, RendererInfo, VRendererConfig} from 'amis-editor-core';
 import {VRenderer} from 'amis-editor-core';
@@ -7,6 +7,8 @@ import {mapReactElement} from 'amis-editor-core';
 import findIndex from 'lodash/findIndex';
 import {RegionWrapper as Region} from 'amis-editor-core';
 import {AnchorNavSection} from 'amis-ui';
+import {registerFilter} from 'amis-formula';
+registerFilter('appTranslate', (input: any) => translateSchema(input));
 
 export class AnchorNavPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -141,7 +143,7 @@ export class AnchorNavPlugin extends BasePlugin {
                 name: 'active',
                 type: 'select',
                 label: '默认定位区域',
-                source: '${links}',
+                source: '${links|appTranslate}',
                 labelField: 'title',
                 valueField: 'href',
                 value: '1'
@@ -231,12 +233,7 @@ export class AnchorNavPlugin extends BasePlugin {
               {
                 title: '基本',
                 body: [
-                  {
-                    name: 'title',
-                    label: '标题',
-                    type: 'input-text',
-                    required: true
-                  }
+                  getSchemaTpl('anchorNavTitle')
                 ]
               }
             ])
