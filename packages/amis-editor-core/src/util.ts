@@ -695,12 +695,13 @@ export function filterSchemaForEditor(schema: any): any {
       mapped[key] = filtered;
 
       // 组件切换状态修改classname
-      if (/[C|c]lassName/.test(key) && schema.editorState) {
-        mapped[key] = mapped[key]
-          ? mapped[key] + ' ' + schema.editorState
-          : schema.editorState;
-        modified = true;
-      }
+      // TODO:切换状态暂时先不改变组件的样式
+      // if (/[C|c]lassName/.test(key) && schema.editorState) {
+      //   mapped[key] = mapped[key]
+      //     ? mapped[key] + ' ' + schema.editorState
+      //     : schema.editorState;
+      //   modified = true;
+      // }
 
       if (filtered !== value) {
         modified = true;
