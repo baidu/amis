@@ -14,6 +14,7 @@ import {defaultValue, getSchemaTpl, tipedLabel} from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {getEnv} from 'mobx-state-tree';
+import {inputStateTpl} from '../../renderer/style-control/helper';
 
 export class NumberControlPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -270,7 +271,21 @@ export class NumberControlPlugin extends BasePlugin {
                   }
                 ]
               }),
-              getSchemaTpl('style:classNames')
+              getSchemaTpl('theme:form-label'),
+              getSchemaTpl('theme:form-description'),
+              {
+                title: '数字输入框样式',
+                body: [...inputStateTpl('css.inputControlClassName')]
+              },
+              getSchemaTpl('theme:classNames', {
+                schema: [
+                  {
+                    type: 'theme-classname',
+                    label: '数字输入框',
+                    name: 'inputControlClassName'
+                  }
+                ]
+              })
             ],
             {...context?.schema, configTitle: 'style'}
           )
