@@ -241,7 +241,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       required?: boolean;
       unique?: boolean;
       value?: any;
-      isValueSchemaExp: boolean;
+      isValueSchemaExp?: boolean;
       rules?: string | {[propName: string]: any};
       messages?: {[propName: string]: string};
       multiple?: boolean;
