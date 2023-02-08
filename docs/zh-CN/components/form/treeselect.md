@@ -300,6 +300,28 @@ order: 60
 }
 ```
 
+## 搜索选项
+
+> `2.7.1` 及以上版本
+
+配置`autoComplete`接口可以实现从远程数据搜索目标结果，搜索的关键字段为`term`，注意搜索的逻辑需要在服务端实现。
+
+```schema: scope="body"
+{
+    "type":"form",
+    "api":"/api/mock2/form/saveForm",
+    "body":[
+        {
+            "type":"tree-select",
+            "name":"tree",
+            "label":"Tree",
+            "autoComplete":"/api/mock2/tree/search?term=$term",
+            "source":"/api/mock2/tree/search"
+        }
+    ]
+}
+```
+
 ## 属性表
 
 更多用法，见 [InputTree](./input-tree)
