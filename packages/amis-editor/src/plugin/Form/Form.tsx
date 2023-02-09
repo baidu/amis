@@ -128,22 +128,25 @@ export class FormPlugin extends BasePlugin {
         }),
         ...flatten(
           Features.map(feat =>
-            this.dsBuilderMgr.collectFromBuilders((builder, builderName) => ({
-              type: 'container',
-              className: 'form-item-gap',
-              visibleOn: `data.feat === '${feat.value}' && (!data.dsType || data.dsType === '${builderName}')`,
-              body: flatten([
-                builder.makeSourceSettingForm({
-                  feat: feat.value,
-                  label: builderName,
-                  inScaffold: true
-                }),
-                builder.makeFieldsSettingForm({
-                  feat: feat.value,
-                  inScaffold: true
-                })
-              ])
-            }))
+            this.dsBuilderMgr.collectFromBuilders((builder, builderName) => {
+              return {
+                type: 'container',
+                className: 'form-item-gap',
+                visibleOn: `data.feat === '${feat.value}' && (!data.dsType || data.dsType === '${builderName}')`,
+                body: flatten([
+                  builder.makeSourceSettingForm({
+                    feat: feat.value,
+                    label:
+                      builderName === 'model-entity' ? builderName : undefined,
+                    inScaffold: true
+                  }),
+                  builder.makeFieldsSettingForm({
+                    feat: feat.value,
+                    inScaffold: true
+                  })
+                ])
+              };
+            })
           )
         ),
         {
@@ -180,10 +183,12 @@ export class FormPlugin extends BasePlugin {
         let operators = clone(value.operators);
         operators.sort((p: any, n: any) => p.order - n.order);
 
-        let schema: FormSchema = {
+        let schema: any = {
           ...cloneDeep(this.scaffold),
           body: [],
           id,
+          dsType: value.dsType,
+          feat: value.feat,
           actions: operators.map((op: any) => {
             return {
               type: 'button',
@@ -450,7 +455,87 @@ export class FormPlugin extends BasePlugin {
               ? null
               : {
                   title: '数据源',
-                  body: builder.makeFormSourceSetting()
+                  body: [
+                    {
+                      type: 'select',
+                      name: 'feat',
+                      label: '使用场景',
+                      value: 'Insert',
+                      options: Features,
+                      onChange: (
+                        value: any,
+                        oldValue: any,
+                        model: any,
+                        form: any
+                      ) => {
+                        const data = form.data;
+                        if (value === 'Insert') {
+                          form.deleteValueByName('initApi');
+                        }
+
+                        if (data?.dsType === 'model-entity' && data.api) {
+                          form.setValueByName(
+                            'api.action',
+                            value === 'Insert' ? 'create' : 'update'
+                          );
+                        }
+                      }
+                    },
+                    this.dsBuilderMgr.getDSSwitch({
+                      type: 'select',
+                      label: '数据源',
+                      onChange: (
+                        value: any,
+                        oldValue: any,
+                        model: any,
+                        form: any
+                      ) => {
+                        const data = form.data;
+                        Object.keys(data).forEach(key => {
+                          if (key.endsWith('Fields') || key.endsWith('api')) {
+                            form.deleteValueByName(key);
+                          }
+                        });
+                        form.deleteValueByName('__fields');
+                        form.deleteValueByName('initApi');
+                        form.deleteValueByName('api');
+
+                        form.setValueByName(
+                          'api',
+                          value === 'model-entity'
+                            ? {
+                                action:
+                                  data?.feat === 'Insert' ? 'create' : 'update',
+                                limit: 'piece'
+                              }
+                            : ''
+                        );
+                        return value;
+                      }
+                    }),
+                    ...flatten(
+                      Features.map(feat =>
+                        this.dsBuilderMgr.collectFromBuilders(
+                          (builder, builderName) => ({
+                            type: 'container',
+                            className: 'form-item-gap',
+                            visibleOn: `data.feat === '${feat.value}' && (!data.dsType || data.dsType === '${builderName}')`,
+                            body: flatten([
+                              builder.makeSourceSettingForm({
+                                feat: feat.value,
+                                label:
+                                  builderName === 'model-entity'
+                                    ? builderName
+                                    : undefined,
+                                // @ts-ignore
+                                renderLabel: true
+                              })
+                            ])
+                          })
+                        )
+                      )
+                    )
+                  ]
                 },
             {
               title: '基本',
@@ -838,4 +923,4 @@ export class FormPlugin extends BasePlugin {
   }
 }
 
-registerEditorPlugin(FormPlugin);
+// registerEditorPlugin(FormPlugin);
