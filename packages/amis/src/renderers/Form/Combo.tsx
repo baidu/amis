@@ -1637,7 +1637,8 @@ export default class ComboControl extends React.Component<ComboProps> {
       subFormMode,
       changeImmediately,
       lazyLoad,
-      translate: __
+      translate: __,
+      static: isStatic
     } = this.props;
 
     // 单个
@@ -1654,6 +1655,7 @@ export default class ComboControl extends React.Component<ComboProps> {
         },
         {
           disabled: disabled,
+          static: isStatic,
           data,
           onChange: this.handleSingleFormChange,
           ref: this.makeFormRef(0),
@@ -1676,6 +1678,7 @@ export default class ComboControl extends React.Component<ComboProps> {
         {
           index,
           disabled,
+          static: isStatic,
           data,
           onChange: this.handleChange,
           onInit: this.handleFormInit,

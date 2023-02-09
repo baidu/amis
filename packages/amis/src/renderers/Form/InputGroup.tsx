@@ -105,7 +105,9 @@ export class InputGroup extends React.Component<
       formMode,
       formHorizontal,
       data,
-      classnames: cx
+      classnames: cx,
+      static: isStatic,
+      disabled
     } = this.props;
 
     formMode = mode || formMode;
@@ -153,6 +155,8 @@ export class InputGroup extends React.Component<
             formMode: 'normal',
             inputOnly: true,
             key: index,
+            static: isStatic,
+            disabled,
             onFocus: this.handleFocus,
             onBlur: this.handleBlur
           });
