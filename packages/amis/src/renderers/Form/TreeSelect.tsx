@@ -26,6 +26,7 @@ import {ActionObject} from 'amis-core';
 import {FormOptionsSchema} from '../../Schema';
 import {supportStatic} from './StaticHoc';
 import {TooltipWrapperSchema} from '../TooltipWrapper';
+import type {ItemRenderStates} from 'amis-ui/lib/components/Selection';
 
 /**
  * Tree 下拉选择框。
@@ -108,6 +109,16 @@ export interface TreeSelectControlSchema extends FormOptionsSchema {
    * 收纳标签的Popover配置
    */
   overflowTagPopover?: TooltipWrapperSchema;
+
+  /**
+   * 自定义选项
+   */
+  menuTpl?: string;
+
+  /**
+   * 是否为选项添加默认的Icon，默认值为true
+   */
+  enableDefaultIcon?: boolean;
 }
 
 export interface TreeSelectProps
@@ -484,6 +495,17 @@ export default class TreeSelectControl extends React.Component<
     onChange && onChange(value);
   }
 
+  /** 下拉框选项渲染 */
+  @autobind
+  renderOptionItem(option: Option, states: ItemRenderStates) {
+    const {menuTpl, render, data} = this.props;
+
+    return render(`option/${states.index}`, menuTpl, {
+      data: createObject(createObject(data, {...states}), option)
+    });
+  }
+
+  /** 输入框选项渲染 */
   @autobind
   renderItem(item: Option) {
     const {labelField, options, hideNodePathLabel} = this.props;
@@ -559,7 +581,9 @@ export default class TreeSelectControl extends React.Component<
       autoCheckChildren,
       hideRoot,
       virtualThreshold,
-      itemHeight
+      itemHeight,
+      menuTpl,
+      enableDefaultIcon
     } = this.props;
 
     let filtedOptions =
@@ -619,6 +643,8 @@ export default class TreeSelectControl extends React.Component<
         selfDisabledAffectChildren={selfDisabledAffectChildren}
         virtualThreshold={virtualThreshold}
         itemHeight={toNumber(itemHeight) > 0 ? toNumber(itemHeight) : undefined}
+        itemRender={menuTpl ? this.renderOptionItem : undefined}
+        enableDefaultIcon={enableDefaultIcon}
       />
     );
   }
