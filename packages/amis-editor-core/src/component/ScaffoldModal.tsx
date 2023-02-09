@@ -216,8 +216,6 @@ export class ScaffoldModal extends React.Component<
     const scaffoldFormContext = store.scaffoldForm;
     const cx = getTheme(theme || 'cxd').classnames;
 
-    console.log('scaffoldFormContext', scaffoldFormContext);
-
     const isStepBody = !!scaffoldFormContext?.stepsBody;
     const canSkip = !!scaffoldFormContext?.canSkip;
     const isLastStep =
