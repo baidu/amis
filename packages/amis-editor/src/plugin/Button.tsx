@@ -131,7 +131,6 @@ export class ButtonPlugin extends BasePlugin {
         }),
         getSchemaTpl('theme:paddingAndMargin', {
           name: `css.className.padding-and-margin:${state}`,
-
           visibleOn: visibleOn
         }),
         getSchemaTpl('theme:radius', {

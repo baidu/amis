@@ -57,7 +57,6 @@ export const inputStateFunc = (
     }),
     getSchemaTpl('theme:paddingAndMargin', {
       name: `${className}.padding-and-margin:${state}`,
-
       visibleOn: visibleOn
     }),
     getSchemaTpl('theme:radius', {
