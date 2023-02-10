@@ -3692,5 +3692,9 @@ extendLocale('en-US', {
   '55497c5de8558f1a164e437205cd510b':
     '<p>When the value hits the left key, display the content on the right<br/>When the value does not hit, display the content with the key<code>*</code>by default</div><br/>(please ensure that the key value is unique)',
   '94124fa72dbfbb81611496cada6ebf4c':
-    'Please keep the array member structure the same'
+    'Please keep the array member structure the same',
+  'a3221d2d224767df4afa7a8653ded8fe': 'Internal alignment',
+  'e8bb313fb86cf474c0e264794bc85896': 'Whether to fix the header',
+  '8e903bee4578f72bbecf9eb62d7b875c': 'Display level',
+  'c17fef27ea1d970fc66f4c4c3d442129': 'Default inner spacing'
 });

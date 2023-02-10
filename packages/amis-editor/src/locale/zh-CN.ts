@@ -3279,5 +3279,9 @@ extendLocale('zh-CN', {
   '1140acc9ac4b803b733f70445e7d495a': '显示字段，默认为label',
   '55497c5de8558f1a164e437205cd510b':
     '<p>当值命中左侧 Key 时，展示右侧内容<br />当没有命中时，默认展示 Key 为 <code>*</code>的内容</div><br />(请确保key值唯一)',
-  '94124fa72dbfbb81611496cada6ebf4c': '请保持数组成员结构相同'
+  '94124fa72dbfbb81611496cada6ebf4c': '请保持数组成员结构相同',
+  'a3221d2d224767df4afa7a8653ded8fe': '内部对齐方式',
+  'e8bb313fb86cf474c0e264794bc85896': '是否固定表头',
+  '8e903bee4578f72bbecf9eb62d7b875c': '显示层级',
+  'c17fef27ea1d970fc66f4c4c3d442129': '默认内间距'
 });
