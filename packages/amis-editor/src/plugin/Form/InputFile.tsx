@@ -23,16 +23,8 @@ export class FileControlPlugin extends BasePlugin {
     label: '文件上传',
     autoUpload: true,
     proxy: true,
-    uploadType: 'bos',
-    name: 'file',
-    asBase64: false,
-    asBlob: false,
-    bos: 'default',
-    btnLabel: '文件上传',
-    multiple: false,
-    useChunk: false,
-    accept: '',
-    drag: false
+    uploadType: 'fileReceptor',
+    name: 'file'
   };
   previewSchema: any = {
     type: 'form',

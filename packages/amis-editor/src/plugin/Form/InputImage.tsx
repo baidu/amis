@@ -31,9 +31,8 @@ export class ImageControlPlugin extends BasePlugin {
     name: 'image',
     autoUpload: true,
     proxy: true,
-    uploadType: 'bos',
-    imageClassName: 'r w-full',
-    bos: 'default'
+    uploadType: 'fileReceptor',
+    imageClassName: 'r w-full'
   };
   previewSchema: any = {
     type: 'form',
