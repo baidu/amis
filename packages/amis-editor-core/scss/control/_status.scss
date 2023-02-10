@@ -1,0 +1,57 @@
+// 状态组件页面设计器
+.ae-Status-label {
+  & > span {
+    display: flex;
+    align-items: center;
+  }
+  &-tip-icon {
+    margin-left: 0.25rem;
+    line-height: 16px;
+    .icon {
+      width: 16px;
+      height: 16px;
+      fill: #84868c;
+    }
+  }
+}
+.ae-Status-default-icon {
+  &-tooltip {
+    max-width: none;
+  }
+  &-tip {
+    font-size: 12px;
+  }
+}
+.ae-Status-control {
+  .cxd-Combo-itemInner {
+    .cxd-Form-row {
+      margin-right: 0;
+      .cxd-Form-col {
+        padding-left: 2px;
+        padding-right: 2px;
+        &:first-child {
+          flex-grow: 0;
+          min-width: 55px;
+          .cxd-IconSelectControl-input {
+            padding-left: 6px;
+          }
+          .cxd-IconSelectControl-clear {
+            right: 4px;
+          }
+        }
+        &:last-child {
+          flex-grow: 0;
+        }
+        .cxd-IconSelectControl-input-icon-id {
+          display: none;
+        }
+        .Theme-ColorPicker-label-out {
+          width: 1.35rem;
+          height: 1.35rem;
+          position: relative;
+          top: 0.2rem;
+        }
+      }
+    }
+  }
+}
