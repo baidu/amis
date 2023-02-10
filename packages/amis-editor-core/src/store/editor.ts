@@ -12,7 +12,8 @@ import {
   needDefaultWidth,
   guid,
   reGenerateID,
-  addStyleClassName
+  addStyleClassName,
+  setThemeDefaultData
 } from '../../src/util';
 import {
   InsertEventContext,
@@ -504,7 +505,8 @@ export const MainStore = types
 
       getValueOf(id: string) {
         const schema = JSONGetById(self.schema, id);
-        const res = JSONPipeOut(schema, false);
+        const data = JSONPipeOut(schema, false);
+        const res = setThemeDefaultData(data);
         return res;
       },
 

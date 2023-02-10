@@ -9,6 +9,7 @@ import isPlainObject from 'lodash/isPlainObject';
 import isNumber from 'lodash/isNumber';
 import type {Schema} from 'amis';
 import {SchemaObject} from 'amis/lib/Schema';
+import {cloneDeep} from 'lodash';
 
 const {
   guid,
@@ -38,6 +39,8 @@ export {
   eachTree,
   createObject
 };
+
+export let themeConfig: any = {};
 
 export function __uri(id: string) {
   return id;
@@ -1029,4 +1032,16 @@ export function needDefaultWidth(elemType: string) {
     return true;
   }
   return false;
+}
+
+// 设置主题数据
+export function setThemeConfig(config: any) {
+  themeConfig = config;
+}
+
+// 将主题数据传入组件的schema
+export function setThemeDefaultData(data: any) {
+  const schemaData = cloneDeep(data);
+  schemaData.themeConfig = themeConfig;
+  return schemaData;
 }
