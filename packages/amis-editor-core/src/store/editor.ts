@@ -17,7 +17,8 @@ import {
   stringRegExp,
   needDefaultWidth,
   guid,
-  addStyleClassName
+  addStyleClassName,
+  appTranslate
 } from '../../src/util';
 import {
   InsertEventContext,
@@ -965,16 +966,19 @@ export const MainStore = types
               ? JSONGetById(self.schema, item.id)
               : self.schema;
             let cmptLabel = '';
+            const itemLabel = appTranslate(item?.label);
+            const schemaLabel = appTranslate(schema?.label);
+            const schemaTitle = appTranslate(schema?.title);
             if (item?.region) {
-              cmptLabel = item?.label;
+              cmptLabel = itemLabel;
             } else {
               const labelPrefix =
-                item.type !== 'cell' ? `<${item.label}>:` : `<列>:`;
+                item.type !== 'cell' ? `<${itemLabel}>:` : `<列>:`;
               cmptLabel = `${labelPrefix}${
-                schema?.label ?? schema?.title ?? item.label
+                schemaLabel ?? schemaTitle ?? itemLabel
               }`;
             }
-            cmptLabel = cmptLabel ?? item.label;
+            cmptLabel = cmptLabel ?? itemLabel;
             return {
               id: item.id,
               label: cmptLabel,
@@ -1190,7 +1194,6 @@ export const MainStore = types
         self.activeId = id;
         self.activeRegion = region;
         self.selections = selections;
-        
         // if (!self.panelKey && id) {
         //   self.panelKey = 'config';
         // }
