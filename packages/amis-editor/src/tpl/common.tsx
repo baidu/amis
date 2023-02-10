@@ -1642,3 +1642,10 @@ setSchemaTpl('optionsLabel', {
   placeholder: '名称',
   required: true
 });
+
+setSchemaTpl('anchorNavTitle', {
+  name: 'title',
+  label: '标题',
+  type: 'input-text',
+  required: true
+});

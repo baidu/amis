@@ -2632,7 +2632,7 @@ export const getEventControlConfig = (
       return manager.dataSchema;
     },
     getComponents: (action: RendererPluginAction) => {
-      let components = allComponents;
+      let components = manager?.store?.getComponentTreeSource();
       let finalCmpts: any[] = [];
       if (isSubEditor) {
         let editorData = manager.store.getSuperEditorData;

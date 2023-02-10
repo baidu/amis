@@ -1,6 +1,6 @@
 import {Button} from 'amis';
 import React from 'react';
-import {registerEditorPlugin} from 'amis-editor-core';
+import {getI18nEnabled, registerEditorPlugin} from 'amis-editor-core';
 import {
   BasePlugin,
   BasicRendererInfo,
@@ -16,6 +16,7 @@ export class TableCellPlugin extends BasePlugin {
   panelTitle = '列配置';
   panelIcon = 'fa fa-columns';
   panelBodyCreator = (context: BaseEventContext) => {
+    const i18nEnabled = getI18nEnabled();
     return [
       getSchemaTpl('tabs', [
         {
@@ -59,7 +60,7 @@ export class TableCellPlugin extends BasePlugin {
             {
               name: 'groupName',
               label: '列分组名称',
-              type: 'input-text',
+              type: i18nEnabled ? 'input-text-i18n' : 'input-text',
               description:
                 '当多列的分组名称设置一致时，表格会在显示表头的上层显示超级表头，<a href="https://baidu.github.io/amis/crud/header-group" target="_blank">示例</a>'
             },
