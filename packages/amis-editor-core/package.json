@@ -15,8 +15,8 @@
       "import": "./esm/*"
     },
     "./scss/*": {
-      "require": "./lib/*",
-      "import": "./esm/*"
+      "require": "./scss/*",
+      "import": "./scss/*"
     },
     "./*": {
       "require": "./lib/*.js",
