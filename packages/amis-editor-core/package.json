@@ -1,6 +1,6 @@
 {
   "name": "amis-editor-core",
-  "version": "5.2.4-beta.28",
+  "version": "5.2.4-beta.30",
   "description": "amis 可视化编辑器",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -11,8 +11,12 @@
       "import": "./esm/index.js"
     },
     "./lib/*": {
-      "require": "./lib/*.js",
-      "import": "./esm/*.js"
+      "require": "./lib/*",
+      "import": "./esm/*"
+    },
+    "./scss/*": {
+      "require": "./lib/*",
+      "import": "./esm/*"
     },
     "./*": {
       "require": "./lib/*.js",
