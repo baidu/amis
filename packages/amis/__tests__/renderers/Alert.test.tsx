@@ -1,8 +1,12 @@
 /**
  * 组件名称：Alert 提示
- * 
+ *
  * 单测内容：
- 1. 点击切换
+ * 1. 基础使用
+ * 2. 获取上下文变量
+ * 3. 级别 level
+ * 4. title & showIcon & icon & iconClassName
+ * 5. showCloseButton & closeButtonClassName
  */
 
 import React from 'react';
