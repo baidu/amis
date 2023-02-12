@@ -1,3 +1,14 @@
+/**
+ * 组件名称：List 列表
+ * 单测内容：
+ * 1. 基础使用
+ * 2. title & header & footer & headerClassName & footerClassName
+ * 3. 行点击 itemAction
+ * 4. listItem -> title & titleClassName & subTitle & desc
+ * 5. listItem -> avatar & avatarClassName
+ * 6. listItem -> actions & actionsPosition
+ */
+
 import 'react';
 import {fireEvent, render} from '@testing-library/react';
 import '../../src';
