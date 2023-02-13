@@ -1264,6 +1264,9 @@ export default class Table extends React.Component<TableProps, object> {
     const dom = findDOMNode(this) as HTMLElement;
     const fixedLeft = dom.querySelectorAll(`.${ns}Table-fixedLeft`);
     const fixedRight = dom.querySelectorAll(`.${ns}Table-fixedRight`);
+    const theadHeight = outter
+      .querySelector('thead>tr')
+      ?.getBoundingClientRect()?.height;
 
     if (scrollLeft !== this.lastScrollLeft) {
       this.lastScrollLeft = scrollLeft;
@@ -1277,6 +1280,14 @@ export default class Table extends React.Component<TableProps, object> {
       if (fixedLeft && fixedLeft.length) {
         for (let i = 0, len = fixedLeft.length; i < len; i++) {
           let node = fixedLeft[i];
+
+          // 同步thead高度
+          forEach(node.querySelectorAll('thead>tr>th'), (item: HTMLElement) => {
+            if (theadHeight) {
+              item.style.height = `${theadHeight}px`;
+            }
+          });
+
           leading ? node.classList.remove('in') : node.classList.add('in');
         }
       }
@@ -1284,6 +1295,13 @@ export default class Table extends React.Component<TableProps, object> {
       if (fixedRight && fixedRight.length) {
         for (let i = 0, len = fixedRight.length; i < len; i++) {
           let node = fixedRight[i];
+
+          // 同步thead高度
+          forEach(node.querySelectorAll('thead>tr>th'), (item: HTMLElement) => {
+            if (theadHeight) {
+              item.style.height = `${theadHeight}px`;
+            }
+          });
           trailing ? node.classList.remove('in') : node.classList.add('in');
         }
       }
@@ -2370,10 +2388,11 @@ export default class Table extends React.Component<TableProps, object> {
           <tbody>
             <tr className={cx('Table-placeholder')}>
               <td colSpan={columns.length}>
-                {render(
+                {/* 表格主体已经有placeholder，固定列再展示重复了 */}
+                {/* {render(
                   'placeholder',
                   translate(placeholder || 'placeholder.noData')
-                )}
+                )} */}
               </td>
             </tr>
           </tbody>
