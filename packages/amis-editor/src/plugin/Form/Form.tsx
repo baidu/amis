@@ -923,4 +923,4 @@ export class FormPlugin extends BasePlugin {
   }
 }
 
-// registerEditorPlugin(FormPlugin);
+registerEditorPlugin(FormPlugin);
