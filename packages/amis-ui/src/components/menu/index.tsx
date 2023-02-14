@@ -428,8 +428,15 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     props: SubMenuProps;
   }) {
     const {navigations} = this.state;
-    const {stacked, mode, collapsed, accordion, onToggleExpand, onToggle} =
-      this.props;
+    const {
+      stacked,
+      mode,
+      collapsed,
+      accordion,
+      onToggleExpand,
+      onToggle,
+      onSelect
+    } = this.props;
     const isVericalInline = stacked && mode === 'inline' && !collapsed;
 
     let openKeys = this.state.openKeys.concat();
@@ -449,6 +456,8 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     // 因为Nav里只处理当前菜单项 因此新增一个onToggle事件
     onToggle?.(currentItem?.link, keyPaths.length, isOpen);
     onToggleExpand?.(uniq(openKeys));
+
+    onSelect?.(currentItem?.link || currentItem, keyPaths.length);
   }
 
   @autobind
@@ -598,11 +607,8 @@ export class Menu extends React.Component<MenuProps, MenuState> {
       onDragStart
     } = this.props;
     const {navigations, activeKey, defaultOpenKeys, openKeys} = this.state;
-
     const isDarkTheme = themeColor === 'dark';
-
     const disabledItem = findTree(navigations, item => !!item.disabled);
-
     const rcMode = stacked
       ? mode === 'float'
         ? 'vertical-right'
