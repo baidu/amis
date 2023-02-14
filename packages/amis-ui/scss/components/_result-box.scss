@@ -7,6 +7,7 @@
   align-items: center;
   border-radius: 3px;
   position: relative;
+  color: var(--Form-select-color);
   font-size: var(--select-base-default-fontSize);
   font-weight: var(--select-base-default-fontWeight);
   border-width: var(--Form-select-borderWidth);
@@ -46,7 +47,8 @@
       var(--select-base-hover-left-border-color);
   }
 
-  &.is-active {
+  &.is-active,
+  &.is-opened {
     border-width: var(--select-base-active-top-border-width)
       var(--select-base-active-right-border-width)
       var(--select-base-active-bottom-border-width)

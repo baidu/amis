@@ -726,7 +726,7 @@ td.rdtQuarter {
 
     > span {
       background: var(--inputDate-other-active-bg-color) !important;
-      color: var(--inputDate-other-active-color);
+      color: var(--inputDate-other-active-color) !important;
     }
   }
 

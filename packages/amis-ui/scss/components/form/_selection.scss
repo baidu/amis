@@ -58,6 +58,8 @@
 
   &-item {
     display: flex;
+    color: var(--select-base-default-option-color);
+    background: var(--select-base-default-option-bg-color);
     line-height: var(--select-base-default-option-line-height);
     font-size: var(--select-base-default-option-fontSize);
     font-weight: var(--select-base-default-option-fontWeight);
@@ -73,11 +75,6 @@
     cursor: pointer;
     user-select: none;
 
-    &.is-active {
-      color: var(--Form-select-menu-onActive-color);
-      background: var(--Form-select-menu-onActive-bg);
-    }
-
     &:hover {
       color: var(--Form-select-menu-onHover-color);
       background: var(--Form-select-menu-onHover-bg);
@@ -85,6 +82,13 @@
       i {
         border: 1px solid var(--menu-active-color);
       }
+    }
+
+    &.is-active,
+    &.is-focused,
+    &.is-opened {
+      color: var(--Form-select-menu-onActive-color);
+      background: var(--Form-select-menu-onActive-bg);
     }
 
     &.is-disabled {
@@ -286,10 +290,11 @@
   &-item {
     display: flex;
     // height: var(--Form-input-height);
-    font-size: var(--select-chained-fontSize);
-    color: var(--select-chained-color);
-    line-height: var(--select-base-default-option-line-height);
+    font-size: var(--select-base-default-option-fontSize);
     font-weight: var(--select-base-default-option-fontWeight);
+    color: var(--select-base-default-option-color);
+    background: var(--select-base-default-option-bg-color);
+    line-height: var(--select-base-default-option-line-height);
     padding: var(--select-base-default-option-paddingTop)
       var(--select-base-default-option-paddingRight)
       var(--select-base-default-option-paddingBottom)

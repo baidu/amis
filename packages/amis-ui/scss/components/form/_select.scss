@@ -15,11 +15,20 @@
       display: inline-block;
       vertical-align: middle;
       font-size: var(--Form-selectValue-fontSize);
+      font-weight: var(--select-multiple-fontWeight);
+      color: var(--select-multiple-color);
       background: var(--Form-select-value-bgColor);
       border: px2rem(1px) solid var(--Form-select-value-borderColor);
-      border-radius: px2rem(2px);
-      margin-right: var(--gap-xs);
-      margin-bottom: var(--gap-xs);
+      border-radius: var(--select-multiple-top-left-border-radius)
+        var(--select-multiple-top-right-border-radius)
+        var(--select-multiple-bottom-right-border-radius)
+        var(--select-multiple-bottom-left-border-radius);
+      padding: var(--select-multiple-paddingTop)
+        var(--select-multiple-paddingRight) var(--select-multiple-paddingBottom)
+        var(--select-multiple-paddingLeft);
+      margin: var(--select-multiple-marginTop)
+        var(--select-multiple-marginRight) var(--ResultBox-tag-marginBottom)
+        var(--select-multiple-marginLeft);
 
       &:hover {
         background-color: var(--Form-selectValue-onHover-bgColor);
@@ -29,7 +38,6 @@
     .#{$ns}Select-valueLabel {
       display: inline-block;
       max-width: var(--Form-valueLabel-maxWidth);
-      padding: 0 var(--gap-xs);
       overflow: hidden;
       vertical-align: top;
       text-overflow: ellipsis;
@@ -98,6 +106,25 @@
       var(--select-base-active-left-border-color);
     box-shadow: var(--select-base-active-shadow);
     background: var(--select-base-active-bg-color);
+  }
+
+  &.is-focused:not(.is-mobile),
+  &.is-opened:not(.is-mobile) {
+    border-width: var(--select-base-active-top-border-width)
+      var(--select-base-active-right-border-width)
+      var(--select-base-active-bottom-border-width)
+      var(--select-base-active-left-border-width);
+    border-style: var(--select-base-active-top-border-style)
+      var(--select-base-active-right-border-style)
+      var(--select-base-active-bottom-border-style)
+      var(--select-base-active-left-border-style);
+    border-color: var(--select-base-active-top-border-color)
+      var(--select-base-active-right-border-color)
+      var(--select-base-active-bottom-border-color)
+      var(--select-base-active-left-border-color);
+    box-shadow: var(--select-base-active-shadow);
+    background: var(--select-base-active-bg-color);
+    color: var(--Form-select-onFocused-color);
   }
 
   &.is-disabled {
@@ -198,7 +225,7 @@
   }
   &-valueIcon {
     cursor: pointer;
-    padding: 1px 5px;
+    margin-left: px2rem(10px);
     color: var(--Form-select-valueIcon-color);
 
     &:hover {
@@ -326,6 +353,7 @@
     font-size: var(--select-base-default-option-fontSize);
     font-weight: var(--select-base-default-option-fontWeight);
     background: var(--select-base-default-option-bg-color);
+    line-height: var(--select-base-default-option-line-height);
 
     &-checkbox {
       width: 100%;
@@ -351,6 +379,9 @@
           overflow: hidden;
           white-space: nowrap;
           width: 100%;
+          font-size: var(--select-base-default-option-fontSize);
+          font-weight: var(--select-base-default-option-fontWeight);
+          color: var(--select-base-default-option-color);
         }
       }
     }
@@ -358,16 +389,28 @@
     &.is-active {
       color: var(--Form-select-menu-onActive-color);
       background: var(--Form-select-menu-onActive-bg);
+
+      .#{$ns}Select-option-checkbox > label > span {
+        color: var(--Form-select-menu-onActive-color);
+      }
     }
 
     &.is-highlight {
       color: var(--Form-select-menu-onHover-color);
       background: var(--Form-select-menu-onHover-bg);
+
+      .#{$ns}Select-option-checkbox > label > span {
+        color: var(--Form-select-menu-onHover-color);
+      }
     }
 
     &.is-disabled {
       color: var(--Form-select-menu-onDisabled-color);
       background: var(--Form-select-menu-onDisabled-bg);
+
+      .#{$ns}Select-option-checkbox > label > span {
+        color: var(--Form-select-menu-onDisabled-color);
+      }
     }
 
     > label {
@@ -430,12 +473,6 @@
       height: px2rem(14px);
       margin-right: var(--Checkbox-gap);
     }
-  }
-
-  &.is-focused:not(.is-mobile),
-  &.is-opened:not(.is-mobile) {
-    border-color: var(--Form-input-onFocused-borderColor);
-    color: var(--Form-select-onFocused-color);
   }
 
   &-spinner {
