@@ -99,9 +99,106 @@ order: 65
 }
 ```
 
+## 自定义状态图标、文本、颜色
+
+> 2.7.3 及 以上版本
+
+如果默认提供的状态无法满足业务需求，可使用`source`自定义状态, 如下：
+
+```json
+{
+  "type": "status",
+  "source": {
+    "normal": {
+      "label": "正常",
+      "icon": "fa fa-times-circle",
+      "color": "#000"
+    },
+    "unusual": {
+      "label": "异常",
+      "icon": "fa fa-times-circle",
+      "color": "#f00"
+    }
+  },
+  "value": 0
+}
+```
+
+`source`配置类似于`mapping`映射，不同的`key`值匹配渲染不同状态，支持以下属性：
+
+| 属性名      | 类型     | 说明                            |
+| ----------- | -------- | ------------------------------- |
+| label | `string` | 显示文本                      |
+| icon  | `string` | 图标, 例如`fa fa-plus`      |
+| color | `string` | 状态颜色                    |
+| className | `string` | 状态的 独立 CSS 类名         |
+
+注意：自定义状态会和默认状态合并。
+
+```schema
+{
+  "type": "page",
+  "body": [
+    {
+      "type": "status",
+      "source": {
+        "0": {
+          "label": "正常",
+          "icon": "fa fa-times-circle",
+          "color": "#000"
+        },
+        "1": {
+          "label": "异常",
+          "icon": "fa fa-times-circle",
+          "color": "#f00"
+        }
+      },
+      "value": 0
+    }
+  ]
+}
+```
+
+`source` 属性也支持[数据映射](../../docs/concepts/data-mapping)，通过变量获取上下文中的变量
+
+```schema
+{
+  "type": "page",
+  "data": {
+    "mysource": {
+      "0": {
+        "label": "正常",
+        "icon": "fa fa-times-circle",
+        "color": "#000"
+      },
+      "1": {
+        "label": "异常",
+        "icon": "fa fa-times-circle",
+        "color": "#f00"
+      }
+    }
+  },
+  "body": [
+    {
+      "type": "status",
+      "source": "${mysource}",
+      "className": "mr-4",
+      "value": 0
+    },
+    {
+      "type": "status",
+      "source": "${mysource}",
+      "value": 1
+    }
+  ]
+}
+```
+
 ## 自定义状态图标和文本
 
-如果默认提供的状态无法满足业务需求，可以使用`map` 和 `labelMap`属性分别配置状态组件的**图标**和**展示文案**。用户自定义的`map` 和 `labelMap`会和默认属性进行 merge，如果只需要修改某一项配置时，无需全量覆盖。
+> 推荐使用新属性`source`配置  
+
+> 如果默认提供的状态无法满足业务需求，可以使用`map` 和 `labelMap`属性分别配置状态组件的**图标**和**展示文案**。用户自定义的`map` 和 `labelMap`会和默认属性进行 merge，如果只需要修改某一项配置时，无需全量覆盖。  
 
 ```schema
 {
@@ -138,9 +235,11 @@ order: 65
 
 ## 动态数据
 
-`map` 和 `labelMap`支持配置变量，通过数据映射获取上下文中的变量。
+> 推荐使用新属性`source`配置  
 
 > 2.3.0 及以上版本
+
+`map` 和 `labelMap`支持配置变量，通过数据映射获取上下文中的变量。
 
 ```schema
 {
@@ -230,3 +329,8 @@ order: 65
 | placeholder | `string` | `-`    | 占位文本                        |
 | map         | `object` |        | 映射图标                        |
 | labelMap    | `object` |        | 映射文本                        |
+| source      | `object` |        | 自定义映射状态，支持[数据映射](../../docs/concepts/data-mapping) |
+| source.label | `string` |        | 映射文本                       |
+| source.icon  | `string` |        | 映射图标                       |
+| source.color | `string` |        | 映射状态颜色                    |
+| source.className | `string` |    | 映射状态的 独立 CSS 类名         |
