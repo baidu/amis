@@ -1,4 +1,8 @@
-import {BaseEventContext, registerEditorPlugin} from 'amis-editor-core';
+import {
+  BaseEventContext,
+  getI18nEnabled,
+  registerEditorPlugin
+} from 'amis-editor-core';
 import {BasePlugin} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 
@@ -44,6 +48,7 @@ export class TasksPlugin extends BasePlugin {
 
   panelTitle = '异步任务';
   panelBodyCreator = (context: BaseEventContext) => {
+    const i18nEnabled = getI18nEnabled();
     return getSchemaTpl('tabs', [
       {
         title: '常规',
@@ -123,14 +128,14 @@ export class TasksPlugin extends BasePlugin {
           {
             name: 'btnText',
             label: '按钮名称',
-            type: 'input-text',
+            type: i18nEnabled ? 'input-text-i18n' : 'input-text',
             pipeIn: defaultValue('上线')
           },
 
           {
             name: 'retryBtnText',
             label: '重试按钮名称',
-            type: 'input-text',
+            type: i18nEnabled ? 'input-text-i18n' : 'input-text',
             pipeIn: defaultValue('重试')
           },
 
