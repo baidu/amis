@@ -7,7 +7,7 @@ import sortBy from 'lodash/sortBy';
 import cloneDeep from 'lodash/cloneDeep';
 import reverse from 'lodash/reverse';
 import pick from 'lodash/pick';
-import {JSONSchema, DataSchema, mapTree, findTree} from 'amis-core';
+import {JSONSchema, DataSchema, mapTree, findTree, eachTree} from 'amis-core';
 import type {Option} from 'amis-core';
 
 export interface VariableGroup {
@@ -174,6 +174,11 @@ export class VariableManager {
     if (onContextOptionChange && typeof onContextOptionChange === 'function') {
       options = onContextOptionChange(this, options, 'formula');
     }
+    eachTree(options, item => {
+      if (item.type === 'array') {
+        delete item.children;
+      }
+    });
 
     return reverseOrder ? options : reverse(options);
   }
@@ -219,6 +224,11 @@ export class VariableManager {
     if (pageScope) {
       options = pageScope.getDataPropsAsOptions();
     }
+    eachTree(options, item => {
+      if (item.type === 'array') {
+        delete item.children;
+      }
+    });
     return options;
   }
 
