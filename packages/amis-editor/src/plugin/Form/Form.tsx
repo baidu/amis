@@ -424,7 +424,7 @@ export class FormPlugin extends BasePlugin {
       description: '触发组件数据刷新并重新渲染'
     },
     {
-      actionLabel: '更新数据',
+      actionLabel: '变量赋值',
       actionType: 'setValue',
       description: '触发组件数据更新'
     }

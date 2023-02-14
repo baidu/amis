@@ -96,7 +96,7 @@ export class PagePlugin extends BasePlugin {
     },
     {
       actionType: 'setValue',
-      actionLabel: '更新数据',
+      actionLabel: '变量赋值',
       description: '触发组件数据更新'
     }
   ];

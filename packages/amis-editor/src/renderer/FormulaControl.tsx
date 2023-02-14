@@ -12,6 +12,7 @@ import isArray from 'lodash/isArray';
 import isString from 'lodash/isString';
 import isEqual from 'lodash/isEqual';
 import omit from 'lodash/omit';
+import last from 'lodash/last';
 import cx from 'classnames';
 import {
   FormItem,
