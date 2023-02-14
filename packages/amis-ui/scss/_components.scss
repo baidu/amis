@@ -2670,6 +2670,7 @@
   --select-multiple-marginRight: var(--sizes-size-3);
   --select-multiple-color: var(--colors-neutral-text-2);
   --select-multiple-fontSize: var(--fonts-size-8);
+  --select-multiple-fontWeight: var(--fonts-weight-6);
   --select-multiple-bg-color: var(--colors-neutral-fill-10);
   --select-multiple-hover-bg-color: var(--colors-brand-10);
   --select-multiple-icon-color: var(--colors-neutral-text-6);
@@ -2696,8 +2697,6 @@
   --select-tree-fontSize: var(--fonts-size-7);
   --select-tree-hover-bg-color: var(--colors-neutral-fill-10);
   --select-tree-active-bg-color: var(--colors-brand-10);
-  --select-chained-color: var(--colors-neutral-text-2);
-  --select-chained-fontSize: var(--fonts-size-7);
 
   --Form-select-bg: var(--select-base-default-bg-color);
   --Form-select-height: var(--Form-select-outer-top);
@@ -2742,19 +2741,21 @@
   --Form-select-popoverGap: var(--borders-radius-3);
   --Form-select-icon-rigin: var(--sizes-size-9);
   --Form-select-search-height: var(--sizes-base-15);
-  --Form-select-value-bgColor: var(--Form-input-onDisabled-bg);
+  --Form-select-value-bgColor: var(--select-multiple-bg-color);
   --Form-select-value-bgColor--dark: var(--colors-neutral-fill-4);
   --Form-select-value-borderColor: var(--colors-neutral-line-9);
-  --Form-select-valueIcon-color: var(--colors-neutral-text-4);
+  --Form-select-valueIcon-color: var(--select-multiple-icon-color);
   --Form-select-valueIcon-color--dark: var(--colors-neutral-text-8);
-  --Form-select-valueIcon-onHover-color: var(--Form-select-color);
+  --Form-select-valueIcon-onHover-color: var(
+    --select-multiple-icon-hover-color
+  );
   --Form-select-multiple-bgColor: var(--colors-neutral-fill-10);
   --Form-selectOption-height: var(--Form-select-height);
   --Form-selectValue-bg: #{saturate(lighten($info, 40%), 2.5%)};
-  --Form-selectValue-onHover-bgColor: var(--borderColor);
+  --Form-selectValue-onHover-bgColor: var(--select-multiple-hover-bg-color);
   --Form-selectValue-borderColor: var(--colors-brand-7);
   --Form-selectValue-color: var(--colors-brand-5);
-  --Form-selectValue-fontSize: var(--fontSizeSm);
+  --Form-selectValue-fontSize: var(--select-multiple-fontSize);
   --Form-selectValue-onDisable-bg: #{lighten(
       saturate(lighten($info, 40%), 2.5%),
       5%
