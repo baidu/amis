@@ -115,9 +115,6 @@ export class StatusField extends React.Component<StatusProps, object> {
     // 兼容旧版
     let oldSource: StatusSource = {};
     map && Object.entries(map).forEach(([value, icon]) => {
-      if (value === '' || value == null) {
-        return;
-      }
       if (!oldSource[value]) {
         oldSource[value] = {icon};
       } else {
@@ -125,9 +122,6 @@ export class StatusField extends React.Component<StatusProps, object> {
       }
     });
     labelMap && Object.entries(labelMap).forEach(([value, label]) => {
-      if (value === '' || value == null) {
-        return;
-      }
       if (!oldSource[value]) {
         oldSource[value] = {label};
       } else {
