@@ -276,6 +276,15 @@ export class ScaffoldModal extends React.Component<
               ) : null}
             </div>
           ) : null}
+
+          {isStepBody && canSkip && isFirstStep && (
+            <Button
+              onClick={this.handleConfirmClick}
+              disabled={store.scaffoldFormBuzy}
+            >
+              跳过向导
+            </Button>
+          )}
           {isStepBody && !isFirstStep && (
             <Button level="primary" onClick={this.goToPrevStep}>
               上一步
@@ -284,15 +293,6 @@ export class ScaffoldModal extends React.Component<
           {isStepBody && !isLastStep && (
             <Button level="primary" onClick={this.goToNextStep}>
               下一步
-            </Button>
-          )}
-          {isStepBody && canSkip && isFirstStep && (
-            <Button
-              level="primary"
-              onClick={this.handleConfirmClick}
-              disabled={store.scaffoldFormBuzy}
-            >
-              跳过向导
             </Button>
           )}
           {(!isStepBody || isLastStep) && (
