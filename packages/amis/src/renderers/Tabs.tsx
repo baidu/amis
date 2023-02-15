@@ -752,7 +752,8 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       translate: __,
       addBtnText,
       collapseOnExceed,
-      collapseBtnLabel
+      collapseBtnLabel,
+      disabled
     } = this.props;
 
     const mode = tabsMode || dMode;
@@ -774,7 +775,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
           <Tab
             {...(tab as any)}
             title={filter(tab.title, tab.ctx)}
-            disabled={isDisabled(tab, tab.ctx)}
+            disabled={disabled || isDisabled(tab, tab.ctx)}
             key={index}
             eventKey={index}
             mountOnEnter={mountOnEnter}
@@ -790,6 +791,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
               `item/${index}`,
               (tab as any)?.type ? (tab as any) : tab.tab || tab.body,
               {
+                disabled: disabled,
                 data: tab.ctx,
                 formMode: tab.mode || subFormMode || formMode,
                 formHorizontal:
@@ -805,7 +807,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
           <Tab
             {...(tab as any)}
             title={filter(tab.title, data)}
-            disabled={isDisabled(tab, data)}
+            disabled={disabled || isDisabled(tab, data)}
             key={index}
             eventKey={tab.hash || index}
             mountOnEnter={mountOnEnter}
@@ -825,6 +827,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
                   `tab/${index}`,
                   (tab as any)?.type ? (tab as any) : tab.tab || tab.body,
                   {
+                    disabled: disabled,
                     formMode: tab.mode || subFormMode || formMode,
                     formHorizontal:
                       tab.horizontal || subFormHorizontal || formHorizontal
