@@ -656,6 +656,7 @@ test('Renderer:checkboxes with creatable & createBtnLabel & addControls & addApi
     '.cxd-CheckboxesControl .cxd-Checkbox:last-of-type'
   )!;
 
+  expect(lastOption).toHaveTextContent('我是label啊');
   expect(container).toMatchSnapshot('create success');
 
   // 验证 value
