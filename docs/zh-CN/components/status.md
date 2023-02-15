@@ -120,7 +120,7 @@ order: 65
       "color": "#f00"
     }
   },
-  "value": 0
+  "value": "normal"
 }
 ```
 
@@ -322,15 +322,15 @@ order: 65
 
 ## 属性表
 
-| 属性名      | 类型     | 默认值 | 说明                            |
-| ----------- | -------- | ------ | ------------------------------- |
-| type        | `string` |        | `"status"` 指定为 Status 渲染器 |
-| className   | `string` |        | 外层 Dom 的 CSS 类名            |
-| placeholder | `string` | `-`    | 占位文本                        |
-| map         | `object` |        | 映射图标                        |
-| labelMap    | `object` |        | 映射文本                        |
-| source      | `object` |        | 自定义映射状态，支持[数据映射](../../docs/concepts/data-mapping) |
-| source.label | `string` |        | 映射文本                       |
-| source.icon  | `string` |        | 映射图标                       |
-| source.color | `string` |        | 映射状态颜色                    |
-| source.className | `string` |    | 映射状态的 独立 CSS 类名         |
+| 属性名      | 类型     | 默认值 | 版本 | 说明                            |
+| ----------- | -------- | ------ | --------- | ---------------------- |
+| type        | `string` |        |  |`"status"` 指定为 Status 渲染器 |
+| className   | `string` |        |  | 外层 Dom 的 CSS 类名            |
+| placeholder | `string` | `-`    |  | 占位文本                        |
+| map         | `object` |        | 2.3.0 | 映射图标                        |
+| labelMap    | `object` |        | 2.3.0 | 映射文本                        |
+| source      | `object` |        | 2.7.3 | 自定义映射状态，支持[数据映射](../../docs/concepts/data-mapping) |
+| source.label | `string` |       | 2.7.3 | 映射文本                       |
+| source.icon  | `string` |       | 2.7.3 | 映射图标                       |
+| source.color | `string` |       | 2.7.3 | 映射状态颜色                    |
+| source.className | `string` |   | 2.7.3 | 映射状态的 独立 CSS 类名         |
