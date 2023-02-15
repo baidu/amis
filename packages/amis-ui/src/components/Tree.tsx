@@ -348,8 +348,7 @@ export class TreeSelector extends React.Component<
       onDeferLoad?.(node);
       return;
     }
-    // TODO: 操作store区更新option属性
-    // hack: 在node上直接添加属性
+    // ！ hack: 在node上直接添加属性，options 在更新的时候旧的字段会保留
     if (node.defer && node.loaded) {
       node[unfoldedField] = !unfolded.get(node);
     }
@@ -847,6 +846,7 @@ export class TreeSelector extends React.Component<
   }
 
   /**
+   * 将树形接口转换为平铺结构，以支持虚拟列表
    * TODO: this.unfolded => reaction 更加合理
    */
   flattenOptions(
@@ -857,20 +857,18 @@ export class TreeSelector extends React.Component<
 
     eachTree(
       props?.options || this.props.options,
-      (item, key, level, paths: Option[]) => {
+      (item, index, level, paths: Option[]) => {
         const parent = paths[paths.length - 2];
         if (!isVisible(item)) {
           return;
         }
         if (paths.length === 1) {
           // 父节点
-          item.key = key;
           flattenedOptions.push(item);
         } else if (this.isUnfolded(parent)) {
           this.relations.set(item, parent);
           // 父节点是展开的状态
           item.level = level;
-          item.key = `${parent.key}-${key}`;
           flattenedOptions.push(item);
         }
       }
@@ -1049,7 +1047,8 @@ export class TreeSelector extends React.Component<
       itemRender,
       draggable,
       loadingConfig,
-      enableDefaultIcon
+      enableDefaultIcon,
+      valueField
     } = this.props;
 
     const item = this.state.flattenedOptions[index];
@@ -1084,7 +1083,13 @@ export class TreeSelector extends React.Component<
 
     const isLeaf =
       (!item.children || !item.children.length) && !item.placeholder;
-    const iconValue = item[iconField] || (enableDefaultIcon !== false ? (item.children ? 'folder' : 'file') : false);
+    const iconValue =
+      item[iconField] ||
+      (enableDefaultIcon !== false
+        ? item.children
+          ? 'folder'
+          : 'file'
+        : false);
     const level = item.level ? item.level - 1 : 0;
 
     let body = null;
@@ -1176,15 +1181,17 @@ export class TreeSelector extends React.Component<
               }
               title={item[labelField]}
             >
-              {
-                itemRender ? itemRender(item, {
-                  index: item.key,
-                  multiple: multiple,
-                  checked: checked,
-                  onChange: () => this.handleCheck(item, !checked),
-                  disabled: disabled || item.disabled
-                }) : (highlightTxt ? highlight(`${item[labelField]}`, highlightTxt) : `${item[labelField]}`)
-              }
+              {itemRender
+                ? itemRender(item, {
+                    index,
+                    multiple: multiple,
+                    checked: checked,
+                    onChange: () => this.handleCheck(item, !checked),
+                    disabled: disabled || item.disabled
+                  })
+                : highlightTxt
+                ? highlight(`${item[labelField]}`, highlightTxt)
+                : `${item[labelField]}`}
             </span>
 
             {!disabled &&
@@ -1230,7 +1237,7 @@ export class TreeSelector extends React.Component<
 
     return (
       <li
-        key={item.key}
+        key={item[valueField]}
         className={cx(`Tree-item ${itemClassName || ''}`, {
           'Tree-item--isLeaf': isLeaf,
           'is-child': this.relations.get(item)
