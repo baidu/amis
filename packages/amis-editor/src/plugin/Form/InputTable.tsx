@@ -778,6 +778,14 @@ export class TableControlPlugin extends BasePlugin {
                 label: '可拖拽',
                 pipeIn: defaultValue(false)
               }),
+              getSchemaTpl('valueFormula', {
+                name: 'rowClassNameExpr',
+                label: tipedLabel(
+                  '行高亮规则',
+                  '可以根据数据动态添加 CSS 类, 例如"color === \'#000000\' ? \'text-danger\' : \'\'" 表示'
+                  + '当行数据的 color 数据等于 #000000 的时候添加 text-danger CSS 类名，使得文字颜色变红'),
+                pipeIn: defaultValue(0)
+              })
             ]
           },
           {
@@ -816,14 +824,6 @@ export class TableControlPlugin extends BasePlugin {
               getSchemaTpl('className', {
                 name: 'rowClassName',
                 label: '行样式',
-              }),
-              getSchemaTpl('valueFormula', {
-                name: 'rowClassNameExpr',
-                label: tipedLabel(
-                  '行高亮规则',
-                  '可以根据数据动态添加 CSS 类, 例如"color === \'#000000\' ? \'text-danger\' : \'\'" 表示'
-                  + '当行数据的 color 数据等于 #000000 的时候添加 text-danger CSS 类名，使得文字颜色变红'),
-                pipeIn: defaultValue(0)
               })
             ]
           })
