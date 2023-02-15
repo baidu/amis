@@ -138,6 +138,7 @@ import './plugin/CodeView';
 import './plugin/WebComponent';
 import './plugin/CRUD2';
 import './plugin/ColumnToggler';
+import './plugin/SearchBox';
 
 import {GridPlugin} from './plugin/Grid';
 

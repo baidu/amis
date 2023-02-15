@@ -37,6 +37,8 @@ interface FeatureControlProps extends FormControlProps {
   // 自定义添加内容，按钮变成普通按钮
   customAction?: (props: {schema: any; onBulkChange: any}) => any;
   onItemCheck?: (checked: boolean, index: number, schema: any) => void;
+  // 所有都添加完成后，隐藏添加按钮
+  hideAddWhenAll?: boolean;
 }
 
 interface FeatureControlState {
@@ -241,7 +243,7 @@ export default class FeatureControl extends React.Component<
         {checkable && onItemCheck && (
           <Checkbox
             checked={isItemChecked(item, index, data)}
-            onChange={val => this.handleCheck(val, index)}
+            onChange={(val: any) => this.handleCheck(val, index)}
           />
         )}
 
@@ -264,8 +266,15 @@ export default class FeatureControl extends React.Component<
   }
 
   renderAction() {
-    const {addable, addText, render, customAction, data, onBulkChange} =
-      this.props;
+    const {
+      addable,
+      addText,
+      render,
+      customAction,
+      data,
+      onBulkChange,
+      hideAddWhenAll
+    } = this.props;
     if (!addable) {
       return null;
     }
@@ -276,6 +285,10 @@ export default class FeatureControl extends React.Component<
       if (isPlainObject(schema) && typeof schema.type === 'string') {
         return render('custom-action', schema);
       }
+    }
+
+    if (hideAddWhenAll && !this.state.unUseFeat.length) {
+      return null;
     }
 
     return render('action', {
