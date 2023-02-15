@@ -127,16 +127,16 @@ export class StatusPlugin extends BasePlugin {
                                       },
                                       columns: [
                                         {
-                                          name: 'value',
-                                          label: '默认value值'
+                                          name: 'icon',
+                                          label: '默认icon值'
                                         },
                                         {
                                           name: 'label',
                                           label: '默认label'
                                         },
                                         {
-                                          name: 'icon',
-                                          label: '默认icon值'
+                                          name: 'value',
+                                          label: '默认value值'
                                         },
                                         {
                                           name: 'status',
@@ -166,7 +166,15 @@ export class StatusPlugin extends BasePlugin {
                   items: [
                     getSchemaTpl('icon', {
                       label: '',
-                      placeholder: '图标'
+                      placeholder: '图标',
+                      onChange(value: any, oldValue: boolean, model: any, form: any) {
+                        // 选择图标时自动填充label
+                        if (value && value.name) {
+                          form.setValues({
+                            label: value.name
+                          });
+                        }
+                      }
                     }),
                     {
                       type: 'input-text',
