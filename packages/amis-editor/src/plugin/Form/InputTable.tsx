@@ -1,19 +1,23 @@
 import React from 'react';
 import {resolveVariable, Button} from 'amis';
-import {defaultValue, getSchemaTpl, RendererPluginAction, tipedLabel, getI18nEnabled} from 'amis-editor-core';
-import {registerEditorPlugin} from 'amis-editor-core';
 import {
+  registerEditorPlugin,
   BaseEventContext,
   BasePlugin,
   InsertEventContext,
   PluginEvent,
   ScaffoldForm,
   RegionConfig,
-  RendererPluginEvent
+  RendererPluginEvent,
+  defaultValue,
+  getSchemaTpl,
+  RendererPluginAction,
+  tipedLabel,
+  getI18nEnabled,
+  repeatArray,
+  mockValue
 } from 'amis-editor-core';
 import {setVariable} from 'amis-core';
-import {repeatArray} from 'amis-editor-core';
-import {mockValue} from 'amis-editor-core';
 import {getEnv} from 'mobx-state-tree';
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
@@ -542,6 +546,8 @@ export class TableControlPlugin extends BasePlugin {
   ];
 
   panelBodyCreator = (context: BaseEventContext) => {
+    const isCRUDBody = context.schema.type === 'crud';
+    const i18nEnabled = getI18nEnabled();
     return getSchemaTpl('tabs', [
       {
         title: '属性',
@@ -594,9 +600,9 @@ export class TableControlPlugin extends BasePlugin {
                 form: {
                   body: [
                     {
-                      type: 'input-text',
+                      type: i18nEnabled ? 'input-text-i18n' : 'input-text',
                       name: 'confirmBtnLabel',
-                      label: '确认名称',
+                      label: '确认按钮名称',
                       placeholder: '确认按钮名称'
                     },
                     getSchemaTpl('icon', {
@@ -614,10 +620,10 @@ export class TableControlPlugin extends BasePlugin {
                       })
                     }),
                     {
-                      type: 'input-text',
+                      type: i18nEnabled ? 'input-text-i18n' : 'input-text',
                       name: 'cancelBtnLabel',
-                      label: '取消文字',
-                      placeholder: '取消按钮图标',
+                      label: '取消按钮名称',
+                      placeholder: '取消按钮名称',
                     },
                     getSchemaTpl('icon', {
                       name: 'cancelBtnIcon',
@@ -646,7 +652,7 @@ export class TableControlPlugin extends BasePlugin {
                     {
                       label: '按钮名称',
                       name: 'addBtnLabel',
-                      type: 'input-text',
+                      type: i18nEnabled ? 'input-text-i18n' : 'input-text',
                       placeholder: '新增'
                     },
                     getSchemaTpl('icon', {
@@ -683,7 +689,7 @@ export class TableControlPlugin extends BasePlugin {
                     {
                       label: '按钮名称',
                       name: 'copyBtnLabel',
-                      type: 'input-text',
+                      type: i18nEnabled ? 'input-text-i18n' : 'input-text',
                       placeholder: '复制'
                     },
                     getSchemaTpl('icon', {
@@ -712,7 +718,7 @@ export class TableControlPlugin extends BasePlugin {
                     {
                       label: '按钮名称',
                       name: 'editBtnLabel',
-                      type: 'input-text',
+                      type: i18nEnabled ? 'input-text-i18n' : 'input-text',
                       placeholder: '编辑'
                     },
                     getSchemaTpl('icon', {
@@ -746,7 +752,7 @@ export class TableControlPlugin extends BasePlugin {
                     {
                       label: '按钮名称',
                       name: 'deleteBtnLabel',
-                      type: 'input-text',
+                      type: i18nEnabled ? 'input-text-i18n' : 'input-text',
                       placeholder: '删除'
                     },
                     getSchemaTpl('icon', {
