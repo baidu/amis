@@ -206,7 +206,6 @@ export class RichTextControlPlugin extends BasePlugin {
                       height: 400,
                       width: undefined,
                       menubar: true,
-                      inline: false,
                       quickInsertEnabled: undefined,
                       charCounterCount: undefined,
                       toolbarButtons: undefined,
@@ -221,7 +220,6 @@ export class RichTextControlPlugin extends BasePlugin {
                       width: undefined,
                       toolbar: undefined,
                       menubar: undefined,
-                      inline: undefined,
                       quickInsertEnabled: true,
                       charCounterCount: true
                     });
@@ -292,12 +290,6 @@ export class RichTextControlPlugin extends BasePlugin {
                 label: '显示菜单栏',
                 value: true,
                 name: 'options.menubar',
-                visibleOn: 'data.vendor === "tinymce"',
-              }),
-              getSchemaTpl('switch', {
-                label: '内嵌操作栏',
-                value: false,
-                name: 'options.inline',
                 visibleOn: 'data.vendor === "tinymce"',
               }),
 
