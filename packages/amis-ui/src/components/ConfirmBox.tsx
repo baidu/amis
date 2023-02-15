@@ -85,6 +85,9 @@ export function ConfirmBox({
       setLoading(false);
     }
   }, [onConfirm, beforeConfirm]);
+  React.useEffect(() => {
+    show && setError('');
+  }, [show]);
 
   function renderDialog() {
     return (
