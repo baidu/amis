@@ -6,6 +6,7 @@ import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {Icon, TooltipWrapper} from 'amis-ui';
 import cloneDeep from 'lodash/cloneDeep';
 import pick from 'lodash/pick';
+import {getI18nEnabled} from 'amis-editor-core';
 
 export class StatusPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -77,6 +78,7 @@ export class StatusPlugin extends BasePlugin {
   panelTitle = '状态';
   panelJustify = true;
   panelBodyCreator = (context: BaseEventContext) => {
+    const i18nEnabled = getI18nEnabled();
     return [
       getSchemaTpl('tabs', [
         {
@@ -168,7 +170,7 @@ export class StatusPlugin extends BasePlugin {
                       }
                     }),
                     {
-                      type: 'input-text',
+                      type: i18nEnabled ? 'input-text-i18n' : 'input-text',
                       name: 'label',
                       placeholder: 'label',
                     },
