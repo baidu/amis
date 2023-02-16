@@ -1268,7 +1268,6 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       static: isStatic
     } = this.props;
     const maxLength = this.resolveVariableProps(this.props, 'maxLength');
-    const isStatic = this.props.static;
 
     if (formInited === false) {
       return null;
