@@ -77,7 +77,6 @@ export class StatusPlugin extends BasePlugin {
   panelTitle = '状态';
   panelJustify = true;
   panelBodyCreator = (context: BaseEventContext) => {
-    const isUnderField: boolean = /\/field\/\w+$/.test(context.path as string);
     return [
       getSchemaTpl('tabs', [
         {
@@ -87,14 +86,6 @@ export class StatusPlugin extends BasePlugin {
               title: '基本',
               body: [
                 getSchemaTpl('layout:originPosition', {value: 'left-top'}),
-                isUnderField
-                  ? {
-                      type: 'tpl',
-                      inline: false,
-                      className: 'text-info text-sm',
-                      tpl: '<p>当前为字段内容节点配置，选择上层还有更多的配置。</p>'
-                    }
-                  : null,
                 getSchemaTpl('combo-container', {
                   type: 'combo',
                   name: '__source',
