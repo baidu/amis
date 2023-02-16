@@ -1858,7 +1858,7 @@ popOver 的其它配置请参考 [popover](./popover)
 | popOver  |                                               |        | 弹出框           |
 | copyable | `boolean` 或 `{icon: string, content:string}` |        | 是否可复制       |
 
-## 事件表
+## 列配置事件表
 
 > 2.6.1 及以上版本
 
