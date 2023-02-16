@@ -1,6 +1,6 @@
 {
   "name": "amis-editor",
-  "version": "5.2.1",
+  "version": "5.2.1-crud.7",
   "description": "amis 可视化编辑器",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "@webcomponents/webcomponentsjs": "^2.6.0",
-    "amis-editor-core": "^5.2.1",
+    "amis-editor-core": "^5.2.1-crud.7",
     "i18n-runtime": "*",
     "lodash": "^4.17.15"
   },

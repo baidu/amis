@@ -66,6 +66,7 @@ export class DataBindingControl extends React.Component<
   handleConfirm(result: DSField) {
     const {manager, data, onChange, onBulkChange, onBindingChange} = this.props;
 
+    /** TODO: 绑定字段后需要同步校验信息等逻辑 */
     if (result?.value) {
       onChange(result.value);
       onBulkChange && onBindingChange?.(result, onBulkChange);
