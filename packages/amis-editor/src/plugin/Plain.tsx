@@ -35,6 +35,62 @@ export class PlainPlugin extends BasePlugin {
 
   panelTitle = '纯文本';
   panelJustify = true;
+
+  // 事件定义
+  events: RendererPluginEvent[] = [
+    {
+      eventName: 'click',
+      eventLabel: '点击',
+      description: '点击时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            nativeEvent: {
+              type: 'object',
+              title: '鼠标事件对象'
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'mouseenter',
+      eventLabel: '鼠标移入',
+      description: '鼠标移入时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            nativeEvent: {
+              type: 'object',
+              title: '鼠标事件对象'
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'mouseleave',
+      eventLabel: '鼠标移出',
+      description: '鼠标移出时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            nativeEvent: {
+              type: 'object',
+              title: '鼠标事件对象'
+            }
+          }
+        }
+      ]
+    }
+  ];
+
+  // 动作定义
+  actions: RendererPluginAction[] = [];
+
   panelBodyCreator = (context: BaseEventContext) => {
     const isTableCell = context.info.renderer.name === 'table-cell';
     return [
@@ -81,7 +137,17 @@ export class PlainPlugin extends BasePlugin {
                 },
                 getSchemaTpl('style:classNames', {isFormItem: false})
               ])
-            }
+            },
+        {
+          title: '事件',
+          className: 'p-none',
+          body: [
+            getSchemaTpl('eventControl', {
+              name: 'onEvent',
+              ...getEventControlConfig(this.manager, context)
+            })
+          ]
+        }
       ])
     ];
   };
