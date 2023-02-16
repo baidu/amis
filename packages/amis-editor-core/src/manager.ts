@@ -2,7 +2,7 @@
  * @file 把一些功能性的东西放在了这个里面，辅助 compoennt/Editor.tsx 组件的。
  * 编辑器非 UI 相关的东西应该放在这。
  */
-import {getRenderers, RenderOptions} from 'amis-core';
+import {getRenderers, RenderOptions, mapTree} from 'amis-core';
 import {
   PluginInterface,
   BasicPanelItem,
@@ -55,16 +55,21 @@ import {reaction} from 'mobx';
 import {hackIn, makeSchemaFormRender, makeWrapper} from './component/factory';
 import {env} from './env';
 import debounce from 'lodash/debounce';
+import sortBy from 'lodash/sortBy';
+import reverse from 'lodash/reverse';
+import cloneDeep from 'lodash/cloneDeep';
 import {openContextMenus, toast, alert, DataScope, DataSchema} from 'amis';
 import {parse, stringify} from 'json-ast-comments';
 import {EditorNodeType} from './store/node';
 import {EditorProps} from './component/Editor';
 import findIndex from 'lodash/findIndex';
 import {EditorDNDManager} from './dnd';
+import {VariableManager} from './variable';
 import {IScopedContext} from 'amis';
 import {SchemaObject, SchemaCollection} from 'amis/lib/Schema';
 import type {RendererConfig} from 'amis-core/lib/factory';
 import isPlainObject from 'lodash/isPlainObject';
+import {omit} from 'lodash';
 
 export interface EditorManagerConfig
   extends Omit<EditorProps, 'value' | 'onChange'> {}
@@ -158,6 +163,9 @@ export class EditorManager {
   dataSchema: DataSchema;
   readonly isInFrame: boolean = false;
 
+  /** 变量管理 */
+  readonly variableManager;
+
   constructor(
     readonly config: EditorManagerConfig,
     readonly store: EditorStoreType,
@@ -168,7 +176,7 @@ export class EditorManager {
     // 传给 amis 渲染器的默认 env
     this.env = {
       ...env, // 默认的 env 中带 jumpTo
-      ...config.amisEnv, // 用户也可以设置自定义环境配置，用于覆盖默认的 env
+      ...omit(config.amisEnv, 'replaceText'), // 用户也可以设置自定义环境配置，用于覆盖默认的 env
       theme: config.theme
     };
     this.env.beforeDispatchEvent = this.beforeDispatchEvent.bind(
@@ -207,8 +215,15 @@ export class EditorManager {
     this.dnd = parent?.dnd || new EditorDNDManager(this, store);
     this.dataSchema =
       parent?.dataSchema || new DataSchema(config.schemas || []);
-
     this.dataSchema.current.tag = '系统变量';
+
+    /** 初始化变量管理 */
+    this.variableManager = new VariableManager(
+      this.dataSchema,
+      config?.variables,
+      config?.variableOptions
+    );
+
     if (isInFrame) {
       return;
     }
@@ -468,6 +483,10 @@ export class EditorManager {
   buildPanels(curRendererId?: string) {
     let id = curRendererId || this.store.activeId;
     let panels: Array<BasicPanelItem> = [];
+
+    if (!id && this.store?.schema) {
+      id = this.store?.schema.$$id; // 默认使用根节点id
+    }
 
     if (id || this.store.selections.length) {
       id = id || this.store.selections[0];
@@ -793,7 +812,8 @@ export class EditorManager {
     if (
       (node.type === 'wrapper' || node.type === 'container') &&
       node.schema?.body?.length === 0 &&
-      (schemaData?.type === 'flex' || subRenderer?.rendererName === 'flex')
+      (schemaData?.type === 'flex' || subRenderer?.rendererName === 'flex') &&
+      !node.schema?.isFreeContainer
     ) {
       const newSchemaData = schemaData || subRenderer?.scaffold;
       // 布局能力提升: 点击插入新元素，当wrapper为空插入布局容器时，自动改为置换，避免过多层级
@@ -1031,6 +1051,13 @@ export class EditorManager {
         this.rebuild();
       }, 4);
     }
+  }
+
+  /**
+   * 判断当前元素定位是否为flex容器
+   */
+  isFlexContainer(id: string) {
+    return this.store.isFlexContainer(id);
   }
 
   /**
@@ -1707,6 +1734,7 @@ export class EditorManager {
       dom: HTMLElement;
       node: EditorNodeType;
       resizer: HTMLElement;
+      store: EditorStoreType;
     }
   ) {
     return this.trigger('size-change-start', {

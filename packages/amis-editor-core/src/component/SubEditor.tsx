@@ -104,7 +104,7 @@ export class SubEditor extends React.Component<SubEditorProps> {
     if (!!subEditorContext) {
       superEditorData = createObject(
         store.superEditorData,
-        subEditorContext?.data?.__super
+        subEditorContext?.data
       );
     }
     return {
@@ -157,6 +157,7 @@ export class SubEditor extends React.Component<SubEditorProps> {
                     appLocale={config.appLocale}
                     i18nEnabled={config.i18nEnabled}
                     plugins={config.plugins}
+                    actionOptions={config.actionOptions}
                     showCustomRenderersPanel={
                       store.showCustomRenderersPanel ?? true
                     }

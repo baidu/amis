@@ -17,6 +17,7 @@ import {PopOverForm} from './PopOverForm';
 import {ContextMenuPanel} from './Panel/ContextMenuPanel';
 import {LeftPanels} from './Panel/LeftPanels';
 import {RightPanels} from './Panel/RightPanels';
+import type {VariableGroup, VariableOptions} from '../variable';
 
 export interface EditorProps extends PluginEventListener {
   value: SchemaObject;
@@ -98,6 +99,11 @@ export interface EditorProps extends PluginEventListener {
     };
   };
 
+  /** 上下文变量 */
+  variables?: VariableGroup[];
+  /** 变量配置 */
+  variableOptions?: VariableOptions;
+
   onUndo?: () => void; // 用于触发外部 undo 事件
   onRedo?: () => void; // 用于触发外部 redo 事件
   onSave?: () => void; // 用于触发外部 save 事件
@@ -139,7 +145,10 @@ export default class Editor extends Component<EditorProps> {
         isSubEditor,
         amisDocHost: props.amisDocHost,
         ctx: props.ctx,
-        superEditorData
+        superEditorData,
+        appLocale: props.appLocale,
+        appCorpusData: props?.amisEnv?.replaceText,
+        i18nEnabled: props?.i18nEnabled ?? false
       },
       config
     );
@@ -149,7 +158,10 @@ export default class Editor extends Component<EditorProps> {
     }
     this.manager = new EditorManager(config, this.store);
 
-    (window as any).editorStore = this.store;
+    // 子编辑器不再重新设置 editorStore
+    if (!(props.isSubEditor && (window as any).editorStore)) {
+      (window as any).editorStore = this.store;
+    }
 
     // 添加快捷键事件
     document.addEventListener('keydown', this.handleKeyDown);
@@ -211,6 +223,14 @@ export default class Editor extends Component<EditorProps> {
 
     if (props.ctx !== prevProps.ctx) {
       this.store.setCtx(props.ctx);
+    }
+
+    if (props.appLocale !== prevProps.appLocale) {
+      this.store.setAppLocale(props.appLocale);
+    }
+
+    if (props?.amisEnv?.replaceText !== prevProps?.amisEnv?.replaceText) {
+      this.store.setAppCorpusData(props?.amisEnv?.replaceText);
     }
   }
 
@@ -543,6 +563,8 @@ export default class Editor extends Component<EditorProps> {
               store={this.store}
               manager={this.manager}
               theme={theme}
+              appLocale={appLocale}
+              amisEnv={amisEnv}
             />
           )}
 

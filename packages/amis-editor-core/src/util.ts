@@ -1,7 +1,7 @@
 /**
  * @file 功能类函数集合。
  */
-import {utils, hasIcon} from 'amis';
+import {utils, hasIcon, mapObject} from 'amis';
 import isEqual from 'lodash/isEqual';
 import {isObservable, reaction} from 'mobx';
 import DeepDiff, {Diff} from 'deep-diff';
@@ -993,7 +993,8 @@ export function unitFormula(insetStr: string, offsetVal: number) {
     insetUnit = 'px';
   }
   const newOffsetVal = insetNum + curOffsetVal;
-  return `${newOffsetVal >= 0 ? newOffsetVal : '0'}${insetUnit}`;
+  return `${newOffsetVal}${insetUnit}`;
+  // return `${newOffsetVal >= 0 ? newOffsetVal : '0'}${insetUnit}`; // 限制拖拽区域
 }
 
 /**
@@ -1022,10 +1023,63 @@ export function needDefaultWidth(elemType: string) {
     'progress',
     'diff-editor',
     'editor',
-    'input-range'
+    'input-range',
+    'flex'
   ];
   if (needDefaultWidthElemType.indexOf(elemType) > -1) {
     return true;
   }
   return false;
+}
+
+/** 是否开启应用国际化 */
+export function getI18nEnabled() {
+  return (window as any)?.editorStore?.i18nEnabled ?? false;
+}
+
+/** schema 翻译方法 */
+export function translateSchema(schema: any, replaceData?: any) {
+  replaceData = replaceData || (window as any)?.editorStore?.appCorpusData;
+  if (!isPlainObject(replaceData)) {
+    return schema;
+  }
+  return mapObject(schema, (item: any) => {
+    return replaceData[item] || item;
+  });
+}
+
+/** 应用级别的翻译方法 */
+export function appTranslate(value?: string) {
+  if (!isString(value)) {
+    return value;
+  }
+  return (window as any)?.editorStore?.appCorpusData?.[value!] || value;
+}
+
+/**
+ * 判断是否需要给组件增加填充占位样式
+ */
+export function needFillPlaceholder(curProps: any) {
+  let needFillPlaceholder = false;
+  if (!curProps) {
+    return false;
+  }
+  // 识别page中的aside、body
+  if (
+    curProps.rendererName === 'page' &&
+    (curProps.name === 'aside' || curProps.name === 'body')
+  ) {
+    return true;
+  }
+  // 识别自由容器
+  if (curProps.node?.schema?.isFreeContainer) {
+    return true;
+  }
+  // 支持在plugin中配置
+  if (curProps.$$editor?.needFillPlaceholder) {
+    needFillPlaceholder = true;
+  } else if (curProps.regionConfig?.needFillPlaceholder) {
+    needFillPlaceholder = true;
+  }
+  return needFillPlaceholder;
 }

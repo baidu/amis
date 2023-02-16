@@ -48,7 +48,7 @@ export default class HighlightBox extends React.Component<HighlightBoxProps> {
     if (!isLeftButton || e.defaultPrevented) return;
 
     e.preventDefault();
-    const {manager, id, node} = this.props;
+    const {manager, id, node, store} = this.props;
     if (!node) {
       return;
     }
@@ -69,6 +69,7 @@ export default class HighlightBox extends React.Component<HighlightBoxProps> {
     ](e, {
       dom: target as HTMLElement,
       node: node,
+      store: store,
       resizer:
         direction === 'both'
           ? this.resizerDom
@@ -136,7 +137,7 @@ export default class HighlightBox extends React.Component<HighlightBoxProps> {
     if (ref) {
       ref.addEventListener('mousedown', this.handleWResizerMouseDown);
     } else {
-      this.wResizerDom.addEventListener(
+      this.wResizerDom?.addEventListener(
         'mousedown',
         this.handleWResizerMouseDown
       );
@@ -152,7 +153,7 @@ export default class HighlightBox extends React.Component<HighlightBoxProps> {
     if (ref) {
       ref.addEventListener('mousedown', this.handleHResizerMouseDown);
     } else {
-      this.hResizerDom.addEventListener(
+      this.hResizerDom?.addEventListener(
         'mousedown',
         this.handleHResizerMouseDown
       );
@@ -168,7 +169,7 @@ export default class HighlightBox extends React.Component<HighlightBoxProps> {
     if (ref) {
       ref.addEventListener('mousedown', this.handleResizerMouseDown);
     } else {
-      this.resizerDom.addEventListener(
+      this.resizerDom?.addEventListener(
         'mousedown',
         this.handleResizerMouseDown
       );
@@ -186,6 +187,18 @@ export default class HighlightBox extends React.Component<HighlightBoxProps> {
     }
 
     this.props.store.setHoverId(this.props.id);
+  }
+
+  // 特殊布局元素和自由容器直接子元素直接拖拽调整位置
+  @autobind
+  handleDragStart(e: React.DragEvent) {
+    const {manager, id} = this.props;
+
+    if (manager.disableHover) {
+      return;
+    }
+
+    manager.startDrag(id, e);
   }
 
   // @autobind
@@ -208,8 +221,10 @@ export default class HighlightBox extends React.Component<HighlightBoxProps> {
     const secondaryToolbars = store.sortedSecondaryToolbars;
     const specialToolbars = store.sortedSpecialToolbars;
     const isActive = store.isActive(id);
+    const curFreeContainerId = store.parentIsFreeContainer();
     const isHover =
-      store.isHoved(id) || store.dropId === id || store.insertOrigId === id;
+      store.isHoved(id) || store.dropId === id || store.insertOrigId === id || curFreeContainerId === id;
+    const isDraggableContainer = store.draggableContainer(id);
 
     // 获取当前高亮画布宽度
     const aePreviewOffsetWidth = document.getElementById(
@@ -228,7 +243,8 @@ export default class HighlightBox extends React.Component<HighlightBoxProps> {
             hover: isHover,
             regionOn: node.childRegions.some(region =>
               store.isRegionHighlighted(region.id, region.region)
-            )
+            ),
+            isFreeContainerElem: !!curFreeContainerId || isDraggableContainer
           },
           className
         )}
@@ -242,6 +258,8 @@ export default class HighlightBox extends React.Component<HighlightBoxProps> {
         }}
         ref={this.mainRef}
         onMouseEnter={this.handleMouseEnter}
+        draggable={!!curFreeContainerId || isDraggableContainer}
+        onDragStart={this.handleDragStart}
       >
         {isActive ? (
           <div
@@ -352,11 +370,17 @@ export default class HighlightBox extends React.Component<HighlightBoxProps> {
         {children}
 
         {node.widthMutable ? (
-          <span className="ae-WResizer" ref={this.wResizerRef}></span>
+          <>
+            <span className="ae-border-WResizer" ref={this.wResizerRef}></span>
+            <span className="ae-WResizer" ref={this.wResizerRef}></span>
+          </>
         ) : null}
 
         {node.heightMutable ? (
-          <span className="ae-HResizer" ref={this.hResizerRef}></span>
+          <>
+            <span className="ae-border-HResizer" ref={this.hResizerRef}></span>
+            <span className="ae-HResizer" ref={this.hResizerRef}></span>
+          </>
         ) : null}
 
         {node.widthMutable && node.heightMutable ? (

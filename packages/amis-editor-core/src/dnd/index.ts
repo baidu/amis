@@ -94,11 +94,11 @@ export class EditorDNDManager {
    * @param id
    * @param node
    */
-  createDragImage(id: string, node: EditorNodeType) {
+  createDragImage(id: string, node?: EditorNodeType) {
     const dragImage = document.createElement('div');
     dragImage.classList.add('ae-DragImage');
     // bca-disable-next-line
-    dragImage.innerHTML = `<span>${node.label}</span>`;
+    dragImage.innerHTML = `<span>${node?.label || id}</span>`;
     document.body.appendChild(dragImage);
     // dragImage.style.cssText += `width: ${node.w}px; height: ${node.h}px;`;
     this.dragImage = dragImage;
@@ -296,9 +296,15 @@ export class EditorDNDManager {
           // 如果当前选中了某个组件，则默认让其第一个区域处于拖入状态。
           if (containerId) {
             const node = store.getNodeById(containerId);
-
             if (node?.childRegions.length) {
-              this.switchToRegion(e, node.id, node.childRegions[0].region);
+              let slotIndex = 0;
+              node.childRegions.forEach((regionItem: any, index: number) => {
+                // 优先使用body作为插入子元素的位置
+                if (regionItem.region) {
+                  slotIndex = index;
+                }
+              });
+              this.switchToRegion(e, node.id, node.childRegions[slotIndex].region);
             }
           }
           break;
@@ -325,9 +331,9 @@ export class EditorDNDManager {
     const curElem = target.closest(`[data-region][data-region-host]`);
     const hostId = curElem?.getAttribute('data-region-host');
     const region = curElem?.getAttribute('data-region');
-
+    
     if (
-      d > 5 &&
+      d > 0 &&
       this.curDragId &&
       this.manager.draggableContainer(this.curDragId)
     ) {
