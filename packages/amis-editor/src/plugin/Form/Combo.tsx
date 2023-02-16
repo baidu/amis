@@ -8,7 +8,8 @@ import {
   RendererPluginAction,
   tipedLabel,
   mockValue,
-  RegionConfig
+  RegionConfig,
+  getI18nEnabled
 } from 'amis-editor-core';
 
 import {setVariable} from 'amis-core';
@@ -212,6 +213,7 @@ export class ComboControlPlugin extends BasePlugin {
   panelJustify = true;
 
   panelBodyCreator = (context: BaseEventContext) => {
+    const i18nEnabled = getI18nEnabled();
     return getSchemaTpl('tabs', [
       {
         title: '属性',
@@ -237,7 +239,6 @@ export class ComboControlPlugin extends BasePlugin {
                   ),
                   pipeOut: (value: any) => {
                     try {
-                      
                       return typeof JSON.parse(value) === 'number'
                         ? value
                         : JSON.parse(value);
@@ -271,12 +272,12 @@ export class ComboControlPlugin extends BasePlugin {
                     {
                       label: '最多条数',
                       name: 'maxLength',
-                      type: 'input-number',
+                      type: 'input-number'
                     },
                     {
                       label: '最少条数',
                       name: 'minLength',
-                      type: 'input-number',
+                      type: 'input-number'
                     }
                   ]
                 },
@@ -293,10 +294,7 @@ export class ComboControlPlugin extends BasePlugin {
                   type: 'container',
                   className: 'ae-ExtendMore mb-3',
                   visibleOn: 'data.multiple && data.flat',
-                  body: [
-                    getSchemaTpl('joinValues'),
-                    getSchemaTpl('delimiter')
-                  ]
+                  body: [getSchemaTpl('joinValues'), getSchemaTpl('delimiter')]
                 },
                 // 可排序，排序和新增无关，和多选模式有关
                 getSchemaTpl('switch', {
@@ -309,13 +307,7 @@ export class ComboControlPlugin extends BasePlugin {
                   type: 'container',
                   className: 'ae-ExtendMore mb-3',
                   visibleOn: 'data.draggable',
-                  body: [
-                    {
-                      type: 'input-text',
-                      name: 'draggableTip',
-                      label: tipedLabel('提示文字', '拖拽排序的提示文字')
-                    }
-                  ]
+                  body: [getSchemaTpl('draggableTip')]
                 },
 
                 // 可新增
@@ -407,7 +399,7 @@ export class ComboControlPlugin extends BasePlugin {
                     {
                       label: '文案',
                       name: 'deleteBtn.label',
-                      type: 'input-text',
+                      type: i18nEnabled ? 'input-text-i18n' : 'input-text',
                       visibleOn: 'data.removableMode === "button"'
                     },
                     getSchemaTpl('buttonLevel', {
@@ -421,15 +413,7 @@ export class ComboControlPlugin extends BasePlugin {
                       renderLabel: false,
                       mode: 'normal'
                     }),
-                    {
-                      label: tipedLabel(
-                        '确认文案',
-                        '删除确认文案，当配置删除接口生效'
-                      ),
-                      name: 'deleteConfirmText',
-                      type: 'input-text',
-                      pipeIn: defaultValue('确认要删除吗？')
-                    }
+                    getSchemaTpl('deleteConfirmText')
                   ]
                 },
 

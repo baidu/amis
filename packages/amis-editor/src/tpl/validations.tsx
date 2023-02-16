@@ -2,7 +2,8 @@ import {
   setSchemaTpl,
   isObject,
   defaultValue,
-  getSchemaTpl
+  getSchemaTpl,
+  getI18nEnabled
 } from 'amis-editor-core';
 import {ValidationOptions} from '../component/BaseControl';
 import {str2rules} from 'amis';
@@ -270,6 +271,7 @@ setSchemaTpl('validations', function () {
 });
 
 setSchemaTpl('validationErrors', function () {
+  const i18nEnabled = getI18nEnabled();
   const options = [
     // {
     //     label: '必填',
@@ -459,7 +461,7 @@ setSchemaTpl('validationErrors', function () {
       },
 
       {
-        type: 'input-text',
+        type: i18nEnabled ? 'input-text-i18n' : 'input-text',
         name: 'msg',
         placeholder: '提示信息'
       },

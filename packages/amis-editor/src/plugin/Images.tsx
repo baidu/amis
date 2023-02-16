@@ -1,4 +1,4 @@
-import {registerEditorPlugin} from 'amis-editor-core';
+import {getI18nEnabled, registerEditorPlugin} from 'amis-editor-core';
 import {BaseEventContext, BasePlugin} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl, tipedLabel} from 'amis-editor-core';
 import {mockValue} from 'amis-editor-core';
@@ -40,6 +40,7 @@ export class ImagesPlugin extends BasePlugin {
   panelJustify = true;
   panelBodyCreator = (context: BaseEventContext) => {
     const isUnderField = /\/field\/\w+$/.test(context.path as string);
+    const i18nEnabled = getI18nEnabled();
     return getSchemaTpl('tabs', [
       {
         title: '属性',
@@ -111,12 +112,12 @@ export class ImagesPlugin extends BasePlugin {
                         label: '原图'
                       }),
                       {
-                        type: 'input-text',
+                        type: i18nEnabled ? 'input-text-i18n' : 'input-text',
                         label: '图片标题',
                         name: 'title'
                       },
                       {
-                        type: 'textarea',
+                        type: i18nEnabled ? 'textarea-i18n' : 'textarea',
                         label: '图片描述',
                         name: 'caption'
                       }

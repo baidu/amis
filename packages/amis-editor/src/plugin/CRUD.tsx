@@ -3,7 +3,7 @@ import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
 import React from 'react';
 
-import {registerEditorPlugin} from 'amis-editor-core';
+import {getI18nEnabled, registerEditorPlugin} from 'amis-editor-core';
 import {
   BaseEventContext,
   BasePlugin,
@@ -186,7 +186,7 @@ export class CRUDPlugin extends BasePlugin {
   };
 
   get scaffoldForm(): ScaffoldForm {
-    const {i18nEnabled} = getEnv((window as any).editorStore);
+    const i18nEnabled = getI18nEnabled();
     return {
       title: '增删改查快速开始-CRUD',
       body: [

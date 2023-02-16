@@ -79,10 +79,7 @@ export class PlainPlugin extends BasePlugin {
                     })
                   ]
                 },
-                {
-                  title: 'CSS类名',
-                  body: [getSchemaTpl('className')]
-                }
+                getSchemaTpl('style:classNames', {isFormItem: false})
               ])
             }
       ])

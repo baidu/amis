@@ -131,13 +131,7 @@ export class TransferPlugin extends BasePlugin {
         {
           type: 'group',
           body: [
-            {
-              type: 'input-text',
-              name: 'label',
-              placeholder: '名称',
-              required: true
-            },
-
+            getSchemaTpl('optionsLabel'),
             {
               type: 'input-text',
               name: 'value',

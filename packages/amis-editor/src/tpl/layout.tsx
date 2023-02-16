@@ -189,7 +189,7 @@ setSchemaTpl(
       label:
         config?.label ||
         tipedLabel(
-          '层级',
+          '显示层级',
           '指定元素的堆叠顺序，层级高的元素总是会处于较低层级元素的上面。'
         ),
       name: config?.name || 'style.zIndex',
@@ -690,6 +690,7 @@ setSchemaTpl(
     visibleOn?: string;
     pipeIn?: (value: any, data: any) => void;
     pipeOut?: (value: any, data: any) => void;
+    onChange?: (value: boolean) => void;
   }) => {
     return {
       type: 'button-group-select',
@@ -719,6 +720,9 @@ setSchemaTpl(
         } else {
           // 非固定宽度时，剔除宽度数值
           form.setValueByName('style.width', undefined);
+        }
+        if (config?.onChange) {
+          config.onChange(value);
         }
       }
     };
@@ -926,6 +930,7 @@ setSchemaTpl(
     visibleOn?: string;
     pipeIn?: (value: any, data: any) => void;
     pipeOut?: (value: any, data: any) => void;
+    onChange?: (value: boolean) => void;
   }) => {
     return {
       type: 'button-group-select',
@@ -955,6 +960,9 @@ setSchemaTpl(
         } else {
           // 非固定高度时，剔除高度数值
           form.setValueByName('style.height', undefined);
+        }
+        if (config?.onChange) {
+          config.onChange(value);
         }
       }
     };
@@ -1362,3 +1370,99 @@ setSchemaTpl('layout:stickyPosition', {
     }
   }
 });
+
+// 默认内边距配置项
+setSchemaTpl(
+  'layout:padding',
+  (config?: {
+    label?: string;
+    name?: string;
+    mode?: string;
+    visibleOn?: string;
+    pipeIn?: (value: any, data: any) => void;
+    pipeOut?: (value: any, data: any) => void;
+  }) => {
+    return {
+      label: config?.label || '默认内间距',
+      type: 'button-group-select',
+      name: config?.name || 'size',
+      size: 'xs',
+      mode: config?.mode || 'horizontal', // horizontal、vertical
+      visibleOn: config?.visibleOn,
+      pipeIn: config?.pipeIn || defaultValue(''),
+      pipeOut: config?.pipeOut,
+      options: [
+        {
+          label: '默认',
+          value: ''
+        },
+        {
+          label: '极小',
+          value: 'xs'
+        },
+        {
+          label: '小',
+          value: 'sm'
+        },
+        {
+          label: '中',
+          value: 'md'
+        },
+        {
+          label: '大',
+          value: 'lg'
+        },
+        {
+          label: '无',
+          value: 'none'
+        }
+      ],
+    };
+  }
+);
+
+// 内部水平对齐方式
+setSchemaTpl(
+  'layout:textAlign',
+  (config?: {
+    label?: string;
+    name?: string;
+    mode?: string;
+    visibleOn?: string;
+    pipeIn?: (value: any, data: any) => void;
+    pipeOut?: (value: any, data: any) => void;
+  }) => {
+    return {
+      label: config?.label || '对齐方式',
+      type: 'button-group-select',
+      name: config?.name || 'textAlign',
+      // size: 'xs',
+      mode: config?.mode || 'horizontal', // horizontal、vertical
+      visibleOn: config?.visibleOn,
+      pipeIn: config?.pipeIn || defaultValue(''),
+      pipeOut: config?.pipeOut,
+      options: [
+        {
+          label: '',
+          value: 'left',
+          icon: 'fa fa-align-left'
+        },
+        {
+          label: '',
+          value: 'center',
+          icon: 'fa fa-align-center'
+        },
+        {
+          label: '',
+          value: 'right',
+          icon: 'fa fa-align-right'
+        },
+        {
+          label: '',
+          value: 'justify',
+          icon: 'fa fa-align-justify'
+        }
+      ]
+    };
+  }
+);

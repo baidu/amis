@@ -1,4 +1,6 @@
 import {isExpression, resolveVariableAndFilter} from 'amis-core';
+import {translateSchema} from 'amis-editor-core';
+import type {VariableItem} from 'amis-ui/lib/components/formula/Editor';
 
 /**
  * 从amis数据域中取变量数据
@@ -8,9 +10,31 @@ import {isExpression, resolveVariableAndFilter} from 'amis-core';
  */
 export async function resolveVariablesFromScope(node: any, manager: any) {
   await manager?.getContextSchemas(node);
-  const dataPropsAsOptions = manager?.dataSchema?.getDataPropsAsOptions();
+  const dataPropsAsOptions: VariableItem[] =
+    manager?.dataSchema?.getDataPropsAsOptions();
+  const variables: VariableItem[] =
+    manager?.variableManager?.getVariableFormulaOptions() || [];
 
   if (dataPropsAsOptions) {
+    // FIXME: 系统变量最好有个唯一标识符
+    const systemVarIndex = dataPropsAsOptions.findIndex(
+      item => item.label === '系统变量'
+    );
+
+    if (!!~systemVarIndex) {
+      variables.forEach(item => {
+        if (Array.isArray(item?.children) && item.children.length) {
+          dataPropsAsOptions.splice(systemVarIndex, 0, item);
+        }
+      });
+    } else {
+      variables.forEach(item => {
+        if (Array.isArray(item?.children) && item.children.length) {
+          dataPropsAsOptions.push(item);
+        }
+      });
+    }
+
     return dataPropsAsOptions
       .map((item: any) => ({
         selectMode: 'tree',
@@ -53,6 +77,11 @@ export async function getVariables(that: any) {
         ...variablesArr
       ];
     }
+  }
+
+  // 如果存在应用语言类型，则进行翻译
+  if (that.appLocale && that.appCorpusData) {
+    return translateSchema(variablesArr, that.appCorpusData);
   }
 
   return variablesArr;

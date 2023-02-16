@@ -262,7 +262,8 @@ export class StaticControlPlugin extends BasePlugin {
 
   // 组件名称
   name = '静态展示框';
-  isBaseComponent = false;
+  isBaseComponent = true;
+  disabledRendererPlugin = true;
   icon = 'fa fa-info';
   pluginIcon = 'static-plugin';
   description = '纯用来展示数据，可用来展示 json、date、image、progress 等数据';

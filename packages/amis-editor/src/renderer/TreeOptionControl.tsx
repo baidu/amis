@@ -8,9 +8,17 @@ import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
 import set from 'lodash/set';
 import Sortable from 'sortablejs';
-import {FormItem, Button, Icon, InputBox, Modal, toast} from 'amis';
+import {
+  FormItem,
+  Button,
+  Icon,
+  InputBox,
+  Modal,
+  toast,
+  render as amisRender
+} from 'amis';
 
-import {autobind} from 'amis-editor-core';
+import {autobind, getI18nEnabled} from 'amis-editor-core';
 import {getSchemaTpl, tipedLabel} from 'amis-editor-core';
 
 import type {Option} from 'amis';
@@ -296,6 +304,7 @@ export default class TreeOptionControl extends React.Component<
   @autobind
   renderOptions(option: any, key: number, indexes: number[]): React.ReactNode {
     const {render} = this.props;
+    const i18nEnabled = getI18nEnabled();
     const path = indexes.join('-');
     if (option.children && option.children.length) {
       const parent = cloneDeep(option);
@@ -327,16 +336,22 @@ export default class TreeOptionControl extends React.Component<
         <a className="ae-TreeOptionControlItem-dragBar">
           <Icon icon="drag-bar" className="icon" />
         </a>
-        <InputBox
-          className="ae-TreeOptionControlItem-input-label"
-          value={option.label}
-          placeholder="选项名称"
-          clearable={false}
-          onBlur={(event: any) => {
+        {amisRender({
+          type: i18nEnabled ? 'input-text-i18n' : 'input-text',
+          className: 'ae-TreeOptionControlItem-input-label',
+          value: option.label,
+          placeholder: '选项名称',
+          clearable: false,
+          onBlur: (event: any) => {
             // 这里使用onBlur替代onChange 减少渲染次数
             this.handleEditLabelOrValue(event.target.value, path, 'label');
-          }}
-        />
+          },
+          onI18nChange: i18nEnabled
+            ? (value: string) => {
+                this.handleEditLabelOrValue(value, path, 'label');
+              }
+            : undefined
+        })}
         <InputBox
           className="ae-TreeOptionControlItem-input-value"
           value={option.value}

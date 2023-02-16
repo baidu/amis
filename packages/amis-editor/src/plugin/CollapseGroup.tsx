@@ -1,4 +1,4 @@
-import {registerEditorPlugin} from 'amis-editor-core';
+import {getI18nEnabled, registerEditorPlugin} from 'amis-editor-core';
 import {BasePlugin, RegionConfig, BaseEventContext} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 
@@ -61,6 +61,7 @@ export class CollapseGroupPlugin extends BasePlugin {
   panelJustify = true;
 
   panelBodyCreator = (context: BaseEventContext) => {
+    const i18nEnabled = getI18nEnabled();
     return [
       getSchemaTpl('tabs', [
         {
@@ -170,7 +171,7 @@ export class CollapseGroupPlugin extends BasePlugin {
                     {
                       name: 'header',
                       placeholder: '标题',
-                      type: 'input-text'
+                      type: i18nEnabled ? 'input-text-i18n' : 'input-text'
                     }
                   ],
                   onChange: (

@@ -38,6 +38,7 @@ import {
 } from 'amis-editor-core';
 export * from './helper';
 import {i18n as _i18n} from 'i18n-runtime';
+import {reaction} from 'mobx';
 
 interface EventControlProps extends FormControlProps {
   actions: PluginActions; // 组件的动作列表
@@ -104,6 +105,7 @@ interface EventControlState {
       }
     | undefined;
   type: 'update' | 'add';
+  appLocaleState?: number;
 }
 
 export class EventControl extends React.Component<
@@ -115,6 +117,7 @@ export class EventControl extends React.Component<
     [prop: string]: Sortable;
   } = {};
   drag?: HTMLElement | null;
+  unReaction: any;
 
   constructor(props: EventControlProps) {
     super(props);
@@ -138,8 +141,25 @@ export class EventControl extends React.Component<
       showAcionDialog: false,
       showEventDialog: false,
       actionData: undefined,
-      type: 'add'
+      type: 'add',
+      appLocaleState: 0
     };
+  }
+
+  componentDidMount(): void {
+    const editorStore = (window as any).editorStore;
+    this.unReaction = reaction(
+      () => editorStore?.appLocaleState,
+      () => {
+        this.setState({
+          appLocaleState: editorStore?.appLocaleState
+        })
+      }
+    );
+  }
+
+  componentWillUnmount() {
+    this.unReaction?.();
   }
 
   componentDidUpdate(

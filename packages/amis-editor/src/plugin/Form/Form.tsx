@@ -1,4 +1,4 @@
-import {registerEditorPlugin} from 'amis-editor-core';
+import {getI18nEnabled, registerEditorPlugin} from 'amis-editor-core';
 import {
   BasePlugin,
   ChangeEventContext,
@@ -13,7 +13,6 @@ import {EditorNodeType} from 'amis-editor-core';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {setVariable} from 'amis-core';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
-import {getEnv} from 'mobx-state-tree';
 
 // 用于脚手架的常用表单控件
 const getFormItemOptions = ({i18nEnabled}: {i18nEnabled?: boolean}) => {
@@ -165,7 +164,7 @@ export class FormPlugin extends BasePlugin {
   };
 
   get scaffoldForm(): ScaffoldForm {
-    const {i18nEnabled} = getEnv((window as any).editorStore);
+    const i18nEnabled = getI18nEnabled();
     return {
       title: '快速创建表单',
       body: [
@@ -425,7 +424,7 @@ export class FormPlugin extends BasePlugin {
       description: '触发组件数据刷新并重新渲染'
     },
     {
-      actionLabel: '更新数据',
+      actionLabel: '变量赋值',
       actionType: 'setValue',
       description: '触发组件数据更新'
     }
@@ -434,6 +433,7 @@ export class FormPlugin extends BasePlugin {
   panelBodyCreator = (context: BaseEventContext) => {
     const isCRUDFilter: boolean = /\/crud\/filter\/form$/.test(context.path);
     const isInDialog: boolean = /(?:\/|^)dialog\/.+$/.test(context.path);
+    const i18nEnabled = getI18nEnabled();
 
     return [
       getSchemaTpl('tabs', [
@@ -583,7 +583,7 @@ export class FormPlugin extends BasePlugin {
                 {
                   name: 'message',
                   label: '报错提示',
-                  type: 'input-text'
+                  type: i18nEnabled ? 'input-text-i18n' : 'input-text'
                 }
               ]
             }
@@ -754,16 +754,8 @@ export class FormPlugin extends BasePlugin {
                       description:
                         '可以不设置，接口返回的 msg 字段，优先级更高',
                       items: [
-                        {
-                          label: '获取成功提示',
-                          name: 'fetchSuccess',
-                          type: 'input-text'
-                        },
-                        {
-                          label: '获取失败提示',
-                          name: 'fetchFailed',
-                          type: 'input-text'
-                        }
+                        getSchemaTpl('fetchSuccess'),
+                        getSchemaTpl('fetchFailed')
                       ]
                     }
                   : {

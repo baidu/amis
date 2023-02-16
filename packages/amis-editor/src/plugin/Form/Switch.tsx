@@ -97,19 +97,7 @@ export class SwitchControlPlugin extends BasePlugin {
                 label: '填充文本',
                 formType: 'extend',
                 form: {
-                  body: [
-                    {
-                      name: 'onText',
-                      type: 'input-text',
-                      label: '开启时'
-                    },
-
-                    {
-                      name: 'offText',
-                      type: 'input-text',
-                      label: '关闭时'
-                    }
-                  ]
+                  body: [getSchemaTpl('onText'), getSchemaTpl('offText')]
                 }
               },
 

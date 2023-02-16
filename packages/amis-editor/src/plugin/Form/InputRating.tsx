@@ -1,5 +1,6 @@
 import {
   defaultValue,
+  getI18nEnabled,
   getSchemaTpl,
   isObject,
   undefinedPipeOut
@@ -9,7 +10,6 @@ import {BasePlugin, BaseEventContext, tipedLabel} from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
-import {getEnv} from 'mobx-state-tree';
 
 export class RateControlPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -88,7 +88,7 @@ export class RateControlPlugin extends BasePlugin {
 
   panelJustify = true;
   panelBodyCreator = (context: BaseEventContext) => {
-    const {i18nEnabled} = getEnv((window as any).editorStore);
+    const i18nEnabled = getI18nEnabled();
     return getSchemaTpl('tabs', [
       {
         title: '属性',

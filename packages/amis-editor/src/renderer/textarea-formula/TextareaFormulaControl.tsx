@@ -14,6 +14,7 @@ import debounce from 'lodash/debounce';
 import CodeMirror from 'codemirror';
 import {getVariables} from './utils';
 import {VariableItem} from 'amis-ui/lib/components/formula/Editor';
+import {reaction} from 'mobx';
 
 export interface TextareaFormulaControlProps extends FormControlProps {
   /**
@@ -85,6 +86,9 @@ export class TextareaFormulaControl extends React.Component<
   isUnmount: boolean;
 
   editorPlugin?: FormulaPlugin;
+  unReaction: any;
+  appLocale: string;
+  appCorpusData: any;
 
   constructor(props: TextareaFormulaControlProps) {
     super(props);
@@ -98,6 +102,21 @@ export class TextareaFormulaControl extends React.Component<
   }
 
   async componentDidMount() {
+    const editorStore = (window as any).editorStore;
+    this.appLocale = editorStore?.appLocale;
+    this.appCorpusData = editorStore?.appCorpusData;
+    this.unReaction = reaction(
+      () => editorStore?.appLocaleState,
+      async () => {
+        this.appLocale = editorStore?.appLocale;
+        this.appCorpusData = editorStore?.appCorpusData;
+        const variablesArr = await getVariables(this);
+        this.setState({
+          variables: variablesArr
+        });
+      }
+    );
+
     const variablesArr = await getVariables(this);
     this.setState({
       variables: variablesArr
@@ -115,6 +134,7 @@ export class TextareaFormulaControl extends React.Component<
 
   componentWillUnmount() {
     this.isUnmount = true;
+    this.unReaction?.();
   }
 
   @autobind
@@ -231,10 +251,7 @@ export class TextareaFormulaControl extends React.Component<
           className
         )}
       >
-        <div
-          className={cx('ae-TextareaResultBox')}
-          style={resultBoxStyle}
-        >
+        <div className={cx('ae-TextareaResultBox')} style={resultBoxStyle}>
           <CodeMirrorEditor
             className="ae-TextareaResultBox-editor"
             value={value}

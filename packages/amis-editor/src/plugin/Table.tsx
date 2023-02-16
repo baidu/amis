@@ -1,6 +1,6 @@
 import React from 'react';
 import {Button, resolveVariable} from 'amis';
-import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
+import {getI18nEnabled, RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {findTree, setVariable, someTree} from 'amis-core';
 
 import {registerEditorPlugin, repeatArray, diff} from 'amis-editor-core';
@@ -23,7 +23,6 @@ import {
   getEventControlConfig,
   getArgsWrapper
 } from '../renderer/event-control/helper';
-import {getEnv} from 'mobx-state-tree';
 
 export class TablePlugin extends BasePlugin {
   // 关联渲染器名字
@@ -83,7 +82,7 @@ export class TablePlugin extends BasePlugin {
   };
 
   get scaffoldForm(): ScaffoldForm {
-    const {i18nEnabled} = getEnv((window as any).editorStore);
+    const i18nEnabled = getI18nEnabled();
     return {
       title: '快速构建表格',
       body: [
@@ -341,6 +340,7 @@ export class TablePlugin extends BasePlugin {
   panelJustify = true;
   panelBodyCreator = (context: BaseEventContext) => {
     const isCRUDBody = context.schema.type === 'crud';
+    const i18nEnabled = getI18nEnabled();
     return getSchemaTpl('tabs', [
       {
         title: '属性',
@@ -350,7 +350,7 @@ export class TablePlugin extends BasePlugin {
             body: [
               {
                 name: 'title',
-                type: 'input-text',
+                type: i18nEnabled ? 'input-text-i18n' : 'input-text',
                 label: '标题'
               },
 
@@ -498,7 +498,7 @@ export class TablePlugin extends BasePlugin {
 
               getSchemaTpl('switch', {
                 name: 'affixHeader',
-                label: '是否固顶表头',
+                label: '是否固定表头',
                 pipeIn: defaultValue(true)
               }),
 
@@ -514,12 +514,10 @@ export class TablePlugin extends BasePlugin {
               {
                 name: 'footable.expand',
                 type: 'button-group-select',
-                size: 'xs',
+                size: 'sm',
                 visibleOn: 'data.footable',
                 label: '底部默认展开',
                 pipeIn: defaultValue('none'),
-                mode: 'inline',
-                className: 'w-full',
                 options: [
                   {
                     label: '第一条',

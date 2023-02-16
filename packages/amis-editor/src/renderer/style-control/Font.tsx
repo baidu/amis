@@ -5,13 +5,11 @@
 
 import React from 'react';
 import pick from 'lodash/pick';
-import omit from 'lodash/omit';
 import mapValues from 'lodash/mapValues';
+import {getSchemaTpl} from 'amis-editor-core';
 import {fontFamilyList} from './font-family';
 import {string2CSSUnit, isObject} from 'amis-editor-core';
-
 import {FormItem} from 'amis';
-
 import type {FormControlProps} from 'amis-core';
 import type {PlainObject} from './types';
 
@@ -173,34 +171,10 @@ const Font: React.FC<FontProps> = props => {
               ]
             },
             // TODO: 添加'justify-all', 'start', 'end', 'match-parent'类型
-            {
-              name: 'textAlign',
+            getSchemaTpl('layout:textAlign', {
               label: '文字位置',
-              type: 'button-group-select',
               mode: 'row',
-              options: [
-                {
-                  label: '',
-                  value: 'left',
-                  icon: 'fa fa-align-left'
-                },
-                {
-                  label: '',
-                  value: 'center',
-                  icon: 'fa fa-align-center'
-                },
-                {
-                  label: '',
-                  value: 'right',
-                  icon: 'fa fa-align-right'
-                },
-                {
-                  label: '',
-                  value: 'justify',
-                  icon: 'fa fa-align-justify'
-                }
-              ]
-            },
+            }),
             {
               type: 'group',
               label: '文字排版',

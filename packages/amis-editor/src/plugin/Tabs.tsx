@@ -1,5 +1,5 @@
 import React from 'react';
-import {registerEditorPlugin} from 'amis-editor-core';
+import {getI18nEnabled, registerEditorPlugin} from 'amis-editor-core';
 import {
   BaseEventContext,
   BasePlugin,
@@ -336,6 +336,7 @@ export class TabsPlugin extends BasePlugin {
     panelTitle: '卡片',
     panelJustify: true,
     panelBodyCreator: (context: BaseEventContext) => {
+      const i18nEnabled = getI18nEnabled();
       return getSchemaTpl('tabs', [
         {
           title: '属性',
@@ -346,7 +347,7 @@ export class TabsPlugin extends BasePlugin {
                 {
                   name: 'title',
                   label: '标题',
-                  type: 'input-text',
+                  type: i18nEnabled ? 'input-text-i18n' : 'input-text',
                   required: true
                 },
 
