@@ -1858,7 +1858,21 @@ popOver 的其它配置请参考 [popover](./popover)
 | popOver  |                                               |        | 弹出框           |
 | copyable | `boolean` 或 `{icon: string, content:string}` |        | 是否可复制       |
 
-## 列配置事件表
+## 事件表
+
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，详细查看[事件动作](../../docs/concepts/event-action)。
+
+| 事件名称       | 事件参数                                                                | 说明                 |
+| -------------- | ----------------------------------------------------------------------- | -------------------- |
+| selectedChange | `selectedItems: item[]` 已选择行<br/>`unSelectedItems: item[]` 未选择行 | 手动选择表格项时触发 |
+| columnSort     | `orderBy: string` 列排序列名<br/>`orderDir: string` 列排序值            | 点击列排序时触发     |
+| columnFilter   | `filterName: string` 列筛选列名<br/>`filterValue: string` 列筛选值      | 点击列筛选时触发     |
+| columnSearch   | `searchName: string` 列搜索列名<br/>`searchValue: string` 列搜索数据    | 点击列搜索时触发     |
+| orderChange    | `movedItems: item[]` 已排序数据                                         | 手动拖拽行排序时触发 |
+| columnToggled  | `columns: item[]` 当前显示的列配置数据                                  | 点击自定义列时触发   |
+| rowClick       | `rowItem: object` 行点击数据                                            | 点击整行时触发       |
+
+### 列配置事件表
 
 > 2.6.1 及以上版本
 
@@ -1869,3 +1883,14 @@ popOver 的其它配置请参考 [popover](./popover)
 | click      | `nativeEvent: MouseEvent` 鼠标事件对象<br/>`[columnName]: string` 对应列名的值 | 监听表格列点击事件，表格数据点击时触发         |
 | mouseenter | `nativeEvent: MouseEvent` 鼠标事件对象<br/>`[columnName]: string` 对应列名的值 | 监听表格列鼠标移入事件，表格数据鼠标移入时触发 |
 | mouseleave | `nativeEvent: MouseEvent` 鼠标事件对象<br/>`[columnName]: string` 对应列名的值 | 监听表格列鼠标移出事件，表格数据鼠标移出时触发 |
+
+## 动作表
+
+当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
+
+| 动作名称  | 动作配置                                                                                                         | 说明                 |
+| --------- | ---------------------------------------------------------------------------------------------------------------- | -------------------- |
+| select    | `selected: string` 条件表达式，表达式中可以访问变量`record:行数据`和`rowIndex:行索引`，例如: data.rowIndex === 1 | 设置表格的选中项     |
+| selectAll | -                                                                                                                | 设置表格全部项选中   |
+| clearAll  | -                                                                                                                | 清空表格所有选中项   |
+| initDrag  | -                                                                                                                | 开启表格拖拽排序功能 |
