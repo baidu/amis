@@ -185,15 +185,6 @@ export class RichTextControlPlugin extends BasePlugin {
                 },
                 label: '默认值'
               }),
-              getSchemaTpl('labelRemark'),
-              getSchemaTpl('remark'),
-              getSchemaTpl('placeholder'),
-              getSchemaTpl('description'),
-            ]
-          },
-          {
-            title: '编辑器',
-            body: [
               {
                 type: 'select',
                 name: 'vendor',
@@ -212,7 +203,6 @@ export class RichTextControlPlugin extends BasePlugin {
                       toolbarButtonsMD: undefined,
                       toolbarButtonsSM: undefined
                     });
-                    form.setValueByName('customOtherSize', undefined)
                   }
                   else if (value === 'froala') {
                     form.changeValue('options', {
@@ -305,7 +295,7 @@ export class RichTextControlPlugin extends BasePlugin {
                   offset: [0, 5]
                 },
                 label: tipedLabel(
-                  '工具栏',
+                  '工具栏-大屏',
                   '屏幕宽度≥1200px，参考文档：https://froala.com/wysiwyg-editor/docs/options/'
                 ),
                 defaultCheckAll: true,
@@ -314,31 +304,11 @@ export class RichTextControlPlugin extends BasePlugin {
                 options: [...froalaOptions],
                 pipeOut: froalaOptionsPipeOut,
               },
-              getSchemaTpl('switch', {
-                label: '设定中小屏幕工具栏',
-                name: 'customOtherSize',
-                visibleOn: 'data.vendor === "froala"',
-                onChange: (value: any, oldValue: any, model: any, form: any) => {
-                  if (!value) {
-                    form.setValueByName('options.toolbarButtonsMD', undefined);
-                    form.setValueByName('options.toolbarButtonsSM', undefined);
-                  }
-                },
-                pipeIn: (value: string | boolean, form: any) => {
-                  if (typeof value === 'boolean') {
-                    return value;
-                  }
-                  const bool = !!(form.data?.options?.toolbarButtonsMD || form.data?.options?.toolbarButtonsSM);
-                  // 使用setTimeout跳过react更新检测，推进更新
-                  setTimeout(() => form.setValueByName('customOtherSize', bool));
-                  return bool;
-                }
-              }),
               {
                 type: 'select',
                 name: 'options.toolbarButtonsMD',
                 multiple: true,
-                visibleOn: 'data.customOtherSize',
+                visibleOn: 'data.vendor === "froala"',
                 maxTagCount: 5,
                 overflowTagPopover: {
                   title: '插件',
@@ -346,7 +316,7 @@ export class RichTextControlPlugin extends BasePlugin {
                 },
                 label: tipedLabel(
                   '工具栏-中屏',
-                  '屏幕宽度≥992px，参考文档：https://froala.com/wysiwyg-editor/docs/options/'
+                  '屏幕宽度≥992px，如果不配置就和大屏设置的工具栏一致，参考文档：https://froala.com/wysiwyg-editor/docs/options/'
                 ),
                 joinValues: false,
                 extractValue: true,
@@ -357,7 +327,7 @@ export class RichTextControlPlugin extends BasePlugin {
                 type: 'select',
                 name: 'options.toolbarButtonsSM',
                 multiple: true,
-                visibleOn: 'data.customOtherSize',
+                visibleOn: 'data.vendor === "froala"',
                 maxTagCount: 5,
                 overflowTagPopover: {
                   title: '插件',
@@ -365,7 +335,7 @@ export class RichTextControlPlugin extends BasePlugin {
                 },
                 label: tipedLabel(
                   '工具栏-小屏',
-                  '屏幕宽度≥768px，参考文档：https://froala.com/wysiwyg-editor/docs/options/'
+                  '屏幕宽度≥768px，如果不配置就和大屏设置的工具栏一致，参考文档：https://froala.com/wysiwyg-editor/docs/options/'
                 ),
                 joinValues: false,
                 extractValue: true,
@@ -409,6 +379,10 @@ export class RichTextControlPlugin extends BasePlugin {
                 label: '视频接收接口',
                 visibleOn: 'data.vendor === "froala"',
               }),
+              getSchemaTpl('labelRemark'),
+              getSchemaTpl('remark'),
+              getSchemaTpl('placeholder'),
+              getSchemaTpl('description'),
             ]
           },
           getSchemaTpl('status', {isFormItem: true}),
@@ -420,7 +394,7 @@ export class RichTextControlPlugin extends BasePlugin {
         body: [
           getSchemaTpl('collapseGroup', [
             {
-              title: '${verdor === "tinymce" ? "编辑器" : "编辑区域"}',
+              title: '${vendor === "tinymce" ? "编辑器" : "编辑区域"}',
               body: [
                 {
                   type: 'input-number',
