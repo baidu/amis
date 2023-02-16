@@ -41,7 +41,7 @@ import type {Option, Options} from 'amis-core';
 import {RemoteOptionsProps, withRemoteConfig} from './WithRemoteConfig';
 import Picker from './Picker';
 import PopUp from './PopUp';
-import BasePopover, {OverlayAlignType} from './PopOverContainer';
+import BasePopover, {PopOverOverlay} from './PopOverContainer';
 
 import type {TooltipObject} from '../components/TooltipWrapper';
 
@@ -340,8 +340,7 @@ interface SelectProps
   popOverContainer?: any;
   popOverContainerSelector?: string;
   overlayPlacement?: string;
-  overlayWidth?: string;
-  overlayAlign?: OverlayAlignType;
+  overlay?: PopOverOverlay;
   onChange: (value: void | string | Option | Array<Option>) => void;
   onFocus?: Function;
   onBlur?: Function;
@@ -864,7 +863,9 @@ export class Select extends React.Component<SelectProps, SelectState> {
               })}
             >
               <span className={cx('Select-valueLabel')}>
-                {renderValueLabel ? renderValueLabel(item) : item[labelField || 'label']}
+                {renderValueLabel
+                  ? renderValueLabel(item)
+                  : item[labelField || 'label']}
               </span>
               <span
                 className={cx('Select-valueIcon', {
@@ -890,7 +891,9 @@ export class Select extends React.Component<SelectProps, SelectState> {
             })}
             key={index}
           >
-            {renderValueLabel ? renderValueLabel(item) : item[labelField || 'label']}
+            {renderValueLabel
+              ? renderValueLabel(item)
+              : item[labelField || 'label']}
           </div>
         );
       }
@@ -913,7 +916,9 @@ export class Select extends React.Component<SelectProps, SelectState> {
             })}
           >
             <span className={cx('Select-valueLabel')}>
-              {renderValueLabel ? renderValueLabel(item) : item[labelField || 'label']}
+              {renderValueLabel
+                ? renderValueLabel(item)
+                : item[labelField || 'label']}
             </span>
             <span
               className={cx('Select-valueIcon', {
@@ -968,8 +973,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       mobileClassName,
       virtualThreshold = 100,
       useMobileUI = false,
-      overlayWidth,
-      overlayAlign
+      overlay
     } = this.props;
     const {selection} = this.state;
 
@@ -1225,7 +1229,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
         target={this.getTarget}
         placement={
           overlayPlacement === 'auto'
-            ? BasePopover.alignToPlacement(overlayAlign)
+            ? BasePopover.alignToPlacement(overlay)
             : overlayPlacement
         }
         show
@@ -1235,7 +1239,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
           className={cx('Select-popover')}
           style={{
             width:
-              BasePopover.calcOverlayWidth(overlayWidth) ||
+              BasePopover.calcOverlayWidth(overlay) ||
               (this.target ? this.target.offsetWidth : 'auto')
           }}
           onHide={this.close}

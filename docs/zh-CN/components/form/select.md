@@ -960,7 +960,9 @@ leftOptions 动态加载，默认 source 接口是返回 options 部分，而 le
 
 ## 自定义下拉区域宽度与对齐方式
 
-> 2.7.1 以上版本
+> 2.7.3 以上版本
+
+使用字符串或数字，使用数字时单位为`px`；支持单位: `%`、`px`、`rem`、`em`、`vw`。
 
 ```schema: scope="body"
 {
@@ -969,12 +971,75 @@ leftOptions 动态加载，默认 source 接口是返回 options 部分，而 le
     "type": "form",
     "body": [
       {
-        "label": "选项",
+        "label": "80% 宽度靠右对齐",
         "type": "select",
         "name": "select",
         "menuTpl": "<div>${label} 值：${value}, 当前是否选中: ${checked}</div>",
-        "overlayWidth": "70%",
-        "overlayAlign": "right",
+        "overlay": {
+          "width": "80%",
+          "align": "right"
+        },
+        "options": [
+          {
+            "label": "A",
+            "value": "a"
+          },
+          {
+            "label": "B",
+            "value": "b"
+          },
+          {
+            "label": "C",
+            "value": "c"
+          }
+        ]
+      },
+      {
+        "label": "300px 宽度中间对齐",
+        "type": "select",
+        "name": "select",
+        "menuTpl": "<div>${label} 值：${value}, 当前是否选中: ${checked}</div>",
+        "overlay": {
+          "width": 300,
+          "align": "center"
+        },
+        "options": [
+          {
+            "label": "A",
+            "value": "a"
+          },
+          {
+            "label": "B",
+            "value": "b"
+          },
+          {
+            "label": "C",
+            "value": "c"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+使用相对数值，如：`-20px` 表示 `100% - 20px`；`+10vw` 表示 `100% + 10vw`。支持如上相同单位。
+
+```schema: scope="body"
+{
+  "type": "page",
+  "body": {
+    "type": "form",
+    "body": [
+      {
+        "label": "相对窄 100px 向左对齐",
+        "type": "select",
+        "name": "select",
+        "menuTpl": "<div>${label} 值：${value}, 当前是否选中: ${checked}</div>",
+        "overlay": {
+          "width": "-100px",
+          "align": "left"
+        },
         "options": [
           {
             "label": "A",
@@ -1075,8 +1140,7 @@ leftOptions 动态加载，默认 source 接口是返回 options 部分，而 le
 | optionClassName          | `string`                                                                          |                                                                                    | 选项 CSS 类名                                                                                                                                                                                                |
 | popOverContainerSelector | `string`                                                                          |                                                                                    | 弹层挂载位置选择器，会通过`querySelector`获取                                                                                                                                                                |
 | clearable                | `boolean`                                                                         |                                                                                    | 是否展示清空图标                                                                                                                                                                                             |
-| overlayAlign             | `left` \| `center` \| `right`                                                     |                                                                                    | 弹层对齐方式 `2.7.1 以上版本`                                                                                                                                                                                |
-| overlayWidth             | `string` \| `number`                                                              |                                                                                    | 弹层自定义宽度，支持百分百与数字。如：`80%`、`200`、`300px`。 `2.7.1 以上版本`                                                                                                                               |
+| overlay                  | `{ width: string \| number, align: "left" \| "center" \| "right" }`               |                                                                                    | 弹层宽度与对齐方式 `2.7.3 以上版本`                                                                                                                                                                          |
 
 ## 事件表
 

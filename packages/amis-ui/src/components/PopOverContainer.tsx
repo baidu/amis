@@ -5,6 +5,11 @@ import {findDOMNode} from 'react-dom';
 
 export type OverlayAlignType = 'left' | 'center' | 'right';
 
+export interface PopOverOverlay {
+  width?: string | number;
+  align?: OverlayAlignType;
+}
+
 export interface PopOverContainerProps {
   children: (props: {
     onClick: (e: React.MouseEvent) => void;
@@ -85,20 +90,29 @@ export class PopOverContainer extends React.Component<
     return this.getTarget()?.parentElement;
   }
 
-  static calcOverlayWidth(overlayWidth?: number | string) {
+  static calcOverlayWidth(overlay?: PopOverOverlay) {
+    const overlayWidth = overlay && overlay.width;
+
     if (!overlayWidth) return;
     // 数字字符串需要转化下，否则不生效
     if (typeof overlayWidth === 'number' || /^\d+$/.test(overlayWidth)) {
       return toNumber(overlayWidth);
     }
-    if (/^\d+(px|%)$/.test(overlayWidth)) {
+    // 带单位，如: 80%、200px、30vw、5rem
+    if (/^\d+(px|%|rem|em|vw)$/.test(overlayWidth)) {
       return overlayWidth;
+    }
+    // 带单位的相对值
+    // 如: -100px 代表 100% - 100px。+10vw 代表 100% + 10vw
+    if (/^(\+|\-)\d+(px|%|rem|em|vw)$/.test(overlayWidth)) {
+      return overlayWidth.replace(/^(\+|\-)(.*)/, 'calc(100% $1 $2)');
     }
 
     return;
   }
 
-  static alignToPlacement(align?: 'left' | 'right' | 'center') {
+  static alignToPlacement(overlay?: PopOverOverlay) {
+    const align = overlay && overlay.align;
     return (align && PopOverContainer.alignPlacementMap[align]) || 'auto';
   }
 
@@ -108,7 +122,7 @@ export class PopOverContainer extends React.Component<
 
     return {
       [overlayWidthField || 'minWidth']:
-        PopOverContainer.calcOverlayWidth(overlayWidth) ||
+        PopOverContainer.calcOverlayWidth({width: overlayWidth}) ||
         (this.target ? Math.max(this.target.offsetWidth, 100) : 'auto')
     };
   }
@@ -144,7 +158,7 @@ export class PopOverContainer extends React.Component<
           <Overlay
             container={popOverContainer || this.getParent}
             target={this.getTarget}
-            placement={placement || PopOverContainer.alignToPlacement(align)}
+            placement={placement || PopOverContainer.alignToPlacement({align})}
             show={this.state.isOpened}
           >
             <PopOver

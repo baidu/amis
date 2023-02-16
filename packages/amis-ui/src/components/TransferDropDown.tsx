@@ -6,7 +6,10 @@ import React from 'react';
 import ResultBox from './ResultBox';
 import {Icon} from './icons';
 import InputBox from './InputBox';
-import PopOverContainer, {OverlayAlignType} from './PopOverContainer';
+import PopOverContainer, {
+  OverlayAlignType,
+  PopOverOverlay
+} from './PopOverContainer';
 import {isMobile} from 'amis-core';
 
 import type {TooltipObject} from './TooltipWrapper';
@@ -22,6 +25,7 @@ export interface TransferDropDownProps extends TransferProps {
   overflowTagPopover?: TooltipObject;
   overlayAlign?: OverlayAlignType;
   overlayWidth?: string;
+  overlay?: PopOverOverlay;
 }
 
 export class TransferDropDown extends Transfer<TransferDropDownProps> {
@@ -51,8 +55,7 @@ export class TransferDropDown extends Transfer<TransferDropDownProps> {
       itemHeight,
       virtualThreshold,
       showInvalidMatch,
-      overlayAlign,
-      overlayWidth
+      overlay
     } = this.props;
     const {inputValue, searchResult} = this.state;
     const mobileUI = useMobileUI && isMobile();
@@ -62,8 +65,8 @@ export class TransferDropDown extends Transfer<TransferDropDownProps> {
         onAfterHide={this.handleAfterPopoverHide}
         useMobileUI={useMobileUI}
         popOverContainer={popOverContainer}
-        overlayWidth={overlayWidth}
-        align={overlayAlign}
+        overlayWidth={overlay && overlay?.width}
+        align={overlay && overlay?.align}
         popOverClassName={cx('TransferDropDown-popover')}
         popOverRender={({onClose}) => (
           <div
