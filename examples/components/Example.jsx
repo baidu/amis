@@ -88,6 +88,7 @@ import CarouselEventSchema from './EventAction/cmpt-event-action/CarouselEvent';
 import TableEventSchema from './EventAction/cmpt-event-action/TableEvent';
 import ListEventSchema from './EventAction/cmpt-event-action/ListEvent';
 import ChartEventSchema from './EventAction/cmpt-event-action/ChartEvent';
+import InputTableEventSchema from './EventAction/cmpt-event-action/InputTableEventAction';
 import SearchBoxEventSchema from './EventAction/cmpt-event-action/SearchBoxEvent';
 import ReloadFormActionSchema from './EventAction/reload-action/ReloadForm';
 import ReloadSelectActionSchema from './EventAction/reload-action/ReloadSelect';
@@ -750,6 +751,11 @@ export const examples = [
                 label: 'SearchBox组件',
                 path: 'examples/event/searchbox',
                 component: makeSchemaRenderer(SearchBoxEventSchema)
+              },
+              {
+                label: 'InputTable组件',
+                path: 'examples/event/inputtable',
+                component: makeSchemaRenderer(InputTableEventSchema)
               }
             ]
           },
