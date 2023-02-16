@@ -767,7 +767,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     const showIndex = this.props.showIndex;
     const minLength = this.resolveVariableProps(this.props, 'minLength');
     const maxLength = this.resolveVariableProps(this.props, 'maxLength');
-    const isStatic = !!this.props.static;  // 有可能是undefined,需要转换成boolean
+    const isStatic = this.props.static;
 
     let btns = [];
     if (!isStatic && props.addable && props.showAddBtn !== false) {
@@ -1264,7 +1264,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       rowClassNameExpr,
       affixHeader = false,
       autoFillHeight = false,
-      tableContentClassName
+      tableContentClassName,
+      static: isStatic
     } = this.props;
     const maxLength = this.resolveVariableProps(this.props, 'maxLength');
     const isStatic = this.props.static;
