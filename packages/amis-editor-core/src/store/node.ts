@@ -12,7 +12,7 @@ import {
 } from 'mobx-state-tree';
 import uniq from 'lodash/uniq';
 import {RegionConfig, RendererInfo} from '../plugin';
-import {guid, JSONPipeIn} from '../util';
+import {guid, JSONPipeIn, eachTree} from '../util';
 import {filterSchema} from 'amis';
 import React from 'react';
 import {EditorStoreType} from './editor';
@@ -272,6 +272,27 @@ export const EditorNode = types
         const context = Object.keys(ancestorProps?.data ?? {});
 
         return uniq([...body.map((item: any) => item?.name ?? ''), ...context]);
+      },
+
+      /**
+       * 收集子节点的字段集合
+       */
+      get descendantFields() {
+        const getSchema = (getRoot(self) as EditorStoreType).getSchema;
+        const fields: Array<{label: string; name: string}> = [];
+
+        eachTree(self.children, (node: EditorNodeType) => {
+          const childSchema = getSchema(node.id);
+
+          if (childSchema && childSchema.name) {
+            fields.push({
+              label: childSchema.label ?? '',
+              name: childSchema.name
+            });
+          }
+        });
+
+        return fields;
       },
 
       get host(): any {
