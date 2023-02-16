@@ -65,8 +65,8 @@ order: 70
 
 当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，详细查看[事件动作](../../docs/concepts/event-action)。
 
-| 事件名称   | 事件参数                 | 说明           |
-| ---------- | ------------------------ | -------------- |
-| click      | nativeEvent 鼠标事件对象 | 点击时触发     |
-| mouseenter | nativeEvent 鼠标事件对象 | 鼠标移入时触发 |
-| mouseleave | nativeEvent 鼠标事件对象 | 鼠标移出时触发 |
+| 事件名称   | 事件参数                               | 说明           |
+| ---------- | -------------------------------------- | -------------- |
+| click      | `nativeEvent: MouseEvent` 鼠标事件对象 | 点击时触发     |
+| mouseenter | `nativeEvent: MouseEvent` 鼠标事件对象 | 鼠标移入时触发 |
+| mouseleave | `nativeEvent: MouseEvent` 鼠标事件对象 | 鼠标移出时触发 |

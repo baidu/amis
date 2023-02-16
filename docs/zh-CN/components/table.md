@@ -1857,3 +1857,15 @@ popOver 的其它配置请参考 [popover](./popover)
 | fixed    | `left` \| `right` \| `none`                   |        | 是否固定当前列   |
 | popOver  |                                               |        | 弹出框           |
 | copyable | `boolean` 或 `{icon: string, content:string}` |        | 是否可复制       |
+
+## 事件表
+
+> 2.6.1 及以上版本
+
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，详细查看[事件动作](../../docs/concepts/event-action)。
+
+| 事件名称   | 事件参数                                                                       | 说明                                           |
+| ---------- | ------------------------------------------------------------------------------ | ---------------------------------------------- |
+| click      | `nativeEvent: MouseEvent` 鼠标事件对象<br/>`[columnName]: string` 对应列名的值 | 监听表格列点击事件，表格数据点击时触发         |
+| mouseenter | `nativeEvent: MouseEvent` 鼠标事件对象<br/>`[columnName]: string` 对应列名的值 | 监听表格列鼠标移入事件，表格数据鼠标移入时触发 |
+| mouseleave | `nativeEvent: MouseEvent` 鼠标事件对象<br/>`[columnName]: string` 对应列名的值 | 监听表格列鼠标移出事件，表格数据鼠标移出时触发 |
