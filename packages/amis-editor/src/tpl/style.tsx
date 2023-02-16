@@ -48,7 +48,7 @@ setSchemaTpl(
               ? []
               : [
                   getSchemaTpl('className', {
-                    label: '表单项静态',
+                    label: '静态展示',
                     name: 'staticClassName'
                   })
                 ])
