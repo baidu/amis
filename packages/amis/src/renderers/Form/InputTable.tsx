@@ -206,12 +206,12 @@ export interface TableControlSchema
   /**
    * 底部新增按钮文本
    */
-  footerAddBtnLabel?: boolean;
+  footerAddBtnLabel?: string;
 
   /**
    * 底部新增按钮图标
    */
-  footerAddBtnIcon?: boolean;
+  footerAddBtnIcon?: string;
 }
 
 export interface TableProps
