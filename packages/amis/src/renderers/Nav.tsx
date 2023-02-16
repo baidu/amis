@@ -821,11 +821,12 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
           };
 
           item.unfolded =
-            isUnfolded(item, {unfoldedField, foldedField}) ||
-            (link.children &&
-              !!findTree(link.children, (child, i, d) =>
-                isActive(child, depth + d)
-              ));
+            typeof link.unfolded !== 'undefined'
+              ? isUnfolded(item, {unfoldedField, foldedField})
+              : link.children &&
+                !!findTree(link.children, (child, i, d) =>
+                  isActive(child, depth + d)
+                );
 
           return item;
         },
@@ -978,7 +979,7 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
       } else {
         updateConfig(
           mapTree(config, (link: Link) =>
-            target === link
+            target.__id === link.__id
               ? {
                   ...link,
                   unfolded:
@@ -995,10 +996,6 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
           ),
           'toggle'
         );
-      }
-      // 如果父菜单项也配置了链接 同样要支持跳转
-      if (target.to) {
-        this.handleSelect(target, depth);
       }
     }
 
