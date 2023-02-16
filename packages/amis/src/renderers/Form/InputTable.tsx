@@ -767,9 +767,10 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     const showIndex = this.props.showIndex;
     const minLength = this.resolveVariableProps(this.props, 'minLength');
     const maxLength = this.resolveVariableProps(this.props, 'maxLength');
+    const isStatic = !!this.props.static;  // 有可能是undefined,需要转换成boolean
 
     let btns = [];
-    if (props.addable && props.showAddBtn !== false) {
+    if (!isStatic && props.addable && props.showAddBtn !== false) {
       btns.push({
         children: ({
           key,
@@ -806,7 +807,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       });
     }
 
-    if (props.copyable && props.showCopyBtn !== false) {
+    if (!isStatic && props.copyable && props.showCopyBtn !== false) {
       btns.push({
         children: ({
           key,
@@ -878,7 +879,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             };
       });
 
-      props.editable &&
+      !isStatic && props.editable &&
         btns.push({
           children: ({
             key,
@@ -928,7 +929,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             )
         });
 
-      btns.push({
+      !isStatic && btns.push({
         children: ({
           key,
           rowIndex,
@@ -964,7 +965,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
           ) : null
       });
 
-      btns.push({
+      !isStatic && btns.push({
         children: ({
           key,
           rowIndex,
@@ -1001,7 +1002,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       });
     }
 
-    if (props.removable) {
+    if (!isStatic && props.removable) {
       btns.push({
         children: ({
           key,
@@ -1079,6 +1080,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   }
 
   columnToQuickEdit(column: any) {
+    const isStatic = this.props.static;
     const quickEdit: any = {
       type: 'input-text'
     };
@@ -1092,6 +1094,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     ) {
       return {
         ...column,
+        static: isStatic,
         label: ''
       };
     }
@@ -1264,12 +1267,16 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       tableContentClassName
     } = this.props;
     const maxLength = this.resolveVariableProps(this.props, 'maxLength');
+    const isStatic = this.props.static;
 
     if (formInited === false) {
       return null;
     }
 
-    let items = this.state.items;
+    // 如果static为true，则删掉正在新增的那一行
+    let items = isStatic ?
+      this.state.items.filter(item => !item.__isPlaceholder)
+      : this.state.items;
 
     let showPager = false;
     const page = this.state.page || 1;
@@ -1323,7 +1330,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             // onPristineChange: this.handlePristineChange
           }
         )}
-        {(addable &&
+        {(!isStatic && addable &&
           showAddBtn !== false &&
           (!maxLength || maxLength > items.length)) ||
         showPager ? (
