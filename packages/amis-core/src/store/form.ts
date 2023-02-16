@@ -581,14 +581,18 @@ export const FormStore = ServiceStore.named('FormStore')
           item.resetValidationStatus();
         }
 
-        // 验证过，或者是 unique 的表单项，或者强制验证，或者有远端校验api
+        /**
+         * 1. 验证过，或者是 unique 的表单项，或者强制验证，或者有远端校验api
+         * 2. 如果Schema的默认值为表达式，则需要基于联动计算结果重新校验
+         */
         if (
           !item.validated ||
           item.rules.equals ||
           item.rules.equalsField ||
           item.unique ||
           forceValidate ||
-          !!item.validateApi
+          !!item.validateApi ||
+          item.isValueSchemaExp
         ) {
           yield item.validate(self.data);
         }

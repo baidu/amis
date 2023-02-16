@@ -56,6 +56,8 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     unique: false,
     loading: false,
     required: false,
+    /** Schema默认值是否为表达式格式 */
+    isValueSchemaExp: types.optional(types.boolean, false),
     tmpValue: types.frozen(),
     emitedValue: types.frozen(),
     rules: types.optional(types.frozen(), {}),
@@ -216,6 +218,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       required,
       unique,
       value,
+      isValueSchemaExp,
       rules,
       messages,
       delimiter,
@@ -238,6 +241,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       required?: boolean;
       unique?: boolean;
       value?: any;
+      isValueSchemaExp?: boolean;
       rules?: string | {[propName: string]: any};
       messages?: {[propName: string]: string};
       multiple?: boolean;
@@ -284,6 +288,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       typeof validateOnChange !== 'undefined' &&
         (self.validateOnChange = !!validateOnChange);
       typeof label === 'string' && (self.label = label);
+      self.isValueSchemaExp = !!isValueSchemaExp;
 
       rules = {
         ...rules,

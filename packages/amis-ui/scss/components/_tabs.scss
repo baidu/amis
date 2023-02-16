@@ -856,6 +856,10 @@
       }
     }
 
+    > .#{$ns}Tabs-linksWrapper + .#{$ns}Tabs-content {
+      width: calc(100% - var(--Tabs--vertical-width));
+    }
+
     > .#{$ns}Tabs-content {
       border: none;
       flex-grow: 1;

@@ -85,6 +85,9 @@ export function ConfirmBox({
       setLoading(false);
     }
   }, [onConfirm, beforeConfirm]);
+  React.useEffect(() => {
+    show && setError('');
+  }, [show]);
 
   function renderDialog() {
     return (
@@ -119,8 +122,10 @@ export function ConfirmBox({
                 ) : null}
               </div>
             ) : null}
-            <Button onClick={onCancel}>{__('cancel')}</Button>
-            <Button onClick={handleConfirm} level="primary">
+            <Button disabled={loading} onClick={onCancel}>
+              {__('cancel')}
+            </Button>
+            <Button disabled={loading} onClick={handleConfirm} level="primary">
               {__('confirm')}
             </Button>
           </Modal.Footer>

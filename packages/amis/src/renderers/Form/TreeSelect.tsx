@@ -163,6 +163,9 @@ export default class TreeSelectControl extends React.Component<
   targetRef = (ref: any) =>
     (this.target = ref ? (findDOMNode(ref) as HTMLElement) : null);
 
+  /** source数据源是否已加载 */
+  sourceLoaded: boolean = false;
+
   constructor(props: TreeSelectProps) {
     super(props);
 
@@ -183,7 +186,6 @@ export default class TreeSelectControl extends React.Component<
       leading: false
     });
     this.handleInputKeyDown = this.handleInputKeyDown.bind(this);
-
     this.loadRemote = debouce(this.loadRemote.bind(this), 250, {
       trailing: true,
       leading: false
@@ -192,6 +194,10 @@ export default class TreeSelectControl extends React.Component<
 
   componentDidMount() {
     this.loadRemote('');
+  }
+
+  componentWillUnmount() {
+    this.sourceLoaded = false;
   }
 
   open(fn?: () => void) {
@@ -228,7 +234,11 @@ export default class TreeSelectControl extends React.Component<
   }
 
   handleKeyPress(e: React.KeyboardEvent) {
-    if (e.key === ' ') {
+    /**
+     * 考虑到label/value中有空格的case
+     * 这里使用组合键关闭 win：shift + space，mac：shift + space
+     */
+    if (e.key === ' ' && e.shiftKey) {
       this.handleOutClick(e as any);
       e.preventDefault();
     }
@@ -353,9 +363,15 @@ export default class TreeSelectControl extends React.Component<
   }
 
   async loadRemote(input: string) {
-    const {autoComplete, env, data, setOptions, setLoading} = this.props;
+    const {autoComplete, env, data, setOptions, setLoading, source} =
+      this.props;
 
-    if (!isEffectiveApi(autoComplete, data)) {
+    // 同时配置source和autoComplete时，首次渲染需要加载source数据
+    if (
+      !isEffectiveApi(autoComplete, data) ||
+      (!input && isEffectiveApi(source) && !this.sourceLoaded)
+    ) {
+      this.sourceLoaded = true;
       return;
     } else if (!env || !env.fetcher) {
       throw new Error('fetcher is required');

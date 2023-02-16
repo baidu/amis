@@ -51,3 +51,38 @@ test('Renderer:status', () => {
 
   expect(container).toMatchSnapshot();
 });
+
+test('Renderer:status source', async () => {
+  const setup = (value?: any) => render(
+    amisRender(
+      {
+        type: 'status',
+        source: {
+          11: {
+            label: 11,
+            icon: 'fa fa-check',
+            color: '#f0f'
+          },
+          success: {
+            label: 'custom success',
+            icon: 'fa fa-success',
+            color: '#ff0'
+          }
+        },
+        ...(value !== undefined ? {value} : {})
+      },
+      {},
+      makeEnv({})
+    )
+  ).container;
+
+  const value1 = setup(11).querySelector('.cxd-StatusField')!;
+  expect((value1 as HTMLElement).style.color).toBe('rgb(255, 0, 255)');
+  expect((value1.querySelector('.cxd-StatusField-label') as HTMLElement).innerHTML).toBe('11');
+  expect((value1.querySelector('i') as HTMLElement).classList.value).toBe('cxd-Status-icon fa fa-check');
+
+  const valueSuccess = setup('success').querySelector('.cxd-StatusField')!;
+  expect((valueSuccess as HTMLElement).style.color).toBe('rgb(255, 255, 0)');
+  expect((valueSuccess.querySelector('.cxd-StatusField-label') as HTMLElement).innerHTML).toBe('custom success');
+  expect((valueSuccess.querySelector('i') as HTMLElement).classList.value).toBe('cxd-Status-icon fa fa-success');
+});
