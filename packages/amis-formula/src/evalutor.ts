@@ -12,6 +12,7 @@ import uniqWith from 'lodash/uniqWith';
 import uniqBy from 'lodash/uniqBy';
 import isEqual from 'lodash/isEqual';
 import isPlainObject from 'lodash/isPlainObject';
+import get from 'lodash/get';
 import {EvaluatorOptions, FilterContext, FilterMap, FunctionMap} from './types';
 
 export class Evaluator {
@@ -1955,21 +1956,25 @@ export class Evaluator {
   }
 
   /**
-   * 获取数据的第n个元素，n为0表示取第一个元素
+   * 根据对象或者数组的path路径获取值。 如果解析 value 是 undefined 会以 defaultValue 取代
    *
    * 示例：
    *
-   * ARRAYNTH([0, 2, false], 1) 得到 2
+   * GET([0, 2, {name: 'amis', age: 18}], 1) 得到 2
+   * GET([0, 2, {name: 'amis', age: 18}], '2.name') 得到 'amis'
+   * GET([0, 2, {name: 'amis', age: 18}], '[2].name') 得到 'amis'
+   * GET({arr: [{name: 'amis', age: 18}]}, 'arr[0].name') 得到 'amis'
+   * GET({arr: [{name: 'amis', age: 18}]}, 'arr.0.name') 得到 'amis'
+   * GET({arr: [{name: 'amis', age: 18}]}, 'arr.1.name', 'not-found') 得到 'not-found'
    *
-   * @param {Array<any>} arr 数组
-   * @param {number} n 索引
-   * @namespace 数组
-   * @example ARRAYNTH(arr, 2)
+   * @param {any} obj 对象或数组
+   * @param {string} path 路径
+   * @namespace 其他
+   * @example GET(arr, 2)
    * @returns {any} 结果
    */
-  fnARRAYNTH(arr: any[], n: number) {
-    const tempArr = Array.isArray(arr) ? arr : [];
-    return tempArr.length ? tempArr[n > 0 ? n : tempArr.length + n] : undefined;
+  fnGET(obj: any, path: string, defaultValue?: any) {
+    return get(obj, path, defaultValue);
   }
 
   /**

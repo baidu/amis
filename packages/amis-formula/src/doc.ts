@@ -1614,26 +1614,26 @@ export const doc: {
     namespace: "数组"
   },
   {
-    name: "ARRAYNTH",
-    description: "获取数据的第n个元素，n为0表示取第一个元素\n\n示例：\n\nARRAYNTH([0, 2, false], 1) 得到 2",
-    example: "ARRAYNTH(arr, 2)",
+    name: "GET",
+    description: "根据对象或者数组的path路径获取值。 如果解析 value 是 undefined 会以 defaultValue 取代\n\n示例：\n\nGET([0, 2, {name: 'amis', age: 18}], 1) 得到 2\nGET([0, 2, {name: 'amis', age: 18}], '2.name') 得到 'amis'\nGET([0, 2, {name: 'amis', age: 18}], '[2].name') 得到 'amis'\nGET({arr: [{name: 'amis', age: 18}]}, 'arr[0].name') 得到 'amis'\nGET({arr: [{name: 'amis', age: 18}]}, 'arr.0.name') 得到 'amis'\nGET({arr: [{name: 'amis', age: 18}]}, 'arr.1.name', 'not-found') 得到 'not-found'",
+    example: "GET(arr, 2)",
     params: [
       {
-        type: "Array<any>",
-        name: "arr",
-        description: "数组"
+        type: "any",
+        name: "obj",
+        description: "对象或数组"
       },
       {
-        type: "number",
-        name: "n",
-        description: "索引"
+        type: "string",
+        name: "path",
+        description: "路径"
       }
     ],
     returns: {
       type: "any",
       description: "结果"
     },
-    namespace: "数组"
+    namespace: "其他"
   },
   {
     name: "COMPACT",

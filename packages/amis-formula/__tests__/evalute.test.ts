@@ -428,7 +428,22 @@ test('evalute:array:func', () => {
         id: 1.1,
         name: 1.3
       }
-    ]
+    ],
+    obj1: {
+      p1: 'name',
+      p2: 'age',
+      p3: 'obj',
+      p4: [
+        {
+          p41: 'Tom',
+          p42: 'Jerry'
+        },
+        {
+          p41: 'baidu',
+          p42: 'amis'
+        }
+      ]
+    }
   };
 
   expect(evaluate('${COMPACT(arr1)}', data)).toMatchObject([1, 2, 3]);
@@ -486,8 +501,13 @@ test('evalute:array:func', () => {
 
   expect(evaluate('${ARRAYINCLUDES(arr1, false)}', data)).toBe(true);
 
-  expect(evaluate('${ARRAYNTH(arr1, 1)}', data)).toBe(1);
-  expect(evaluate('${ARRAYNTH(arr1, -4)}', data)).toBe(false);
+  expect(evaluate('${GET(arr1, 2)}', data)).toBe(false);
+  expect(evaluate('${GET(arr1, 6, "not-found")}', data)).toBe('not-found');
+  expect(evaluate('${GET(arr5, "[2].name")}', data)).toBe(1.3);
+  expect(evaluate('${GET(arr5, "2.name")}', data)).toBe(1.3);
+  expect(evaluate('${GET(obj1, "p2")}', data)).toBe('age');
+  expect(evaluate('${GET(obj1, "p4.1.p42")}', data)).toBe('amis');
+  expect(evaluate('${GET(obj1, "p4[1].p42")}', data)).toBe('amis');
 });
 
 test('evalute:ISTYPE', () => {

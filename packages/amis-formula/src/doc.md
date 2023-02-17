@@ -942,21 +942,6 @@ ARRAYEVERY([0, 2, false], item => item === 2) 得到 false
 
 ARRAYINCLUDES([0, 2, false], 2) 得到 true
 
-### ARRAYNTH
-
-用法：`ARRAYNTH(arr, 2)`
-
- * `arr:Array<any>` 数组
- * `n:number` 索引
-
-返回：`any` 结果
-
-获取数据的第n个元素，n为0表示取第一个元素
-
-示例：
-
-ARRAYNTH([0, 2, false], 1) 得到 2
-
 ### COMPACT
 
 用法：`COMPACT(arr)`
@@ -1016,6 +1001,26 @@ CONCAT(['a', 'b', 'c'], ['1'], ['3']) 得到 ['a', 'b', 'c', '1', '3']
 UNIQ([{a: '1'}, {b: '2'}, {a: '1'}]， 'id')
 
 ## 其他
+
+### GET
+
+用法：`GET(arr, 2)`
+
+ * `obj:any` 对象或数组
+ * `path:string` 路径
+
+返回：`any` 结果
+
+根据对象或者数组的path路径获取值。 如果解析 value 是 undefined 会以 defaultValue 取代
+
+示例：
+
+GET([0, 2, {name: 'amis', age: 18}], 1) 得到 2
+GET([0, 2, {name: 'amis', age: 18}], '2.name') 得到 'amis'
+GET([0, 2, {name: 'amis', age: 18}], '[2].name') 得到 'amis'
+GET({arr: [{name: 'amis', age: 18}]}, 'arr[0].name') 得到 'amis'
+GET({arr: [{name: 'amis', age: 18}]}, 'arr.0.name') 得到 'amis'
+GET({arr: [{name: 'amis', age: 18}]}, 'arr.1.name', 'not-found') 得到 'not-found'
 
 ### ISTYPE
 
