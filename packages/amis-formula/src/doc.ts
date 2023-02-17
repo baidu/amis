@@ -1504,6 +1504,143 @@ export const doc: {
     namespace: "数组"
   },
   {
+    name: "ARRAYFINDINDEX",
+    description: "数据做数据查找，需要搭配箭头函数一起使用，注意箭头函数只支持单表达式用法。\n找出第二个箭头函数返回为 true 的成员的索引。\n\n示例：\n\nARRAYFINDINDEX([0, 2, false], item => item === 2) 得到 1",
+    example: "ARRAYFINDINDEX(arr, item => item === 2)",
+    params: [
+      {
+        type: "Array<any>",
+        name: "arr",
+        description: "数组"
+      },
+      {
+        type: "Array<any>",
+        name: "iterator",
+        description: "箭头函数"
+      }
+    ],
+    returns: {
+      type: "number",
+      description: "结果"
+    },
+    namespace: "数组"
+  },
+  {
+    name: "ARRAYFIND",
+    description: "数据做数据查找，需要搭配箭头函数一起使用，注意箭头函数只支持单表达式用法。\n找出第二个箭头函数返回为 true 的成员。\n\n示例：\n\nARRAYFIND([0, 2, false], item => item === 2) 得到 2",
+    example: "ARRAYFIND(arr, item => item === 2)",
+    params: [
+      {
+        type: "Array<any>",
+        name: "arr",
+        description: "数组"
+      },
+      {
+        type: "Array<any>",
+        name: "iterator",
+        description: "箭头函数"
+      }
+    ],
+    returns: {
+      type: "any",
+      description: "结果"
+    },
+    namespace: "数组"
+  },
+  {
+    name: "ARRAYSOME",
+    description: "数据做数据遍历判断，需要搭配箭头函数一起使用，注意箭头函数只支持单表达式用法。\n判断第二个箭头函数是否存在返回为 true 的成员。\n\n示例：\n\nARRAYSOME([0, 2, false], item => item === 2) 得到 true",
+    example: "ARRAYSOME(arr, item => item === 2)",
+    params: [
+      {
+        type: "Array<any>",
+        name: "arr",
+        description: "数组"
+      },
+      {
+        type: "Array<any>",
+        name: "iterator",
+        description: "箭头函数"
+      }
+    ],
+    returns: {
+      type: "boolean",
+      description: "结果"
+    },
+    namespace: "数组"
+  },
+  {
+    name: "ARRAYEVERY",
+    description: "数据做数据遍历判断，需要搭配箭头函数一起使用，注意箭头函数只支持单表达式用法。\n判断第二个箭头函数返回是否都为 true。\n\n示例：\n\nARRAYEVERY([0, 2, false], item => item === 2) 得到 false",
+    example: "ARRAYEVERY(arr, item => item === 2)",
+    params: [
+      {
+        type: "Array<any>",
+        name: "arr",
+        description: "数组"
+      },
+      {
+        type: "Array<any>",
+        name: "iterator",
+        description: "箭头函数"
+      }
+    ],
+    returns: {
+      type: "boolean",
+      description: "结果"
+    },
+    namespace: "数组"
+  },
+  {
+    name: "ARRAYINCLUDES",
+    description: "判断数据中是否存在指定元素\n\n示例：\n\nARRAYINCLUDES([0, 2, false], 2) 得到 true",
+    example: "ARRAYINCLUDES(arr, 2)",
+    params: [
+      {
+        type: "Array<any>",
+        name: "arr",
+        description: "数组"
+      },
+      {
+        type: "any",
+        name: "item",
+        description: "元素"
+      }
+    ],
+    returns: {
+      type: "any",
+      description: "结果"
+    },
+    namespace: "数组"
+  },
+  {
+    name: "GET",
+    description: "根据对象或者数组的path路径获取值。 如果解析 value 是 undefined 会以 defaultValue 取代\n\n示例：\n\nGET([0, 2, {name: 'amis', age: 18}], 1) 得到 2\nGET([0, 2, {name: 'amis', age: 18}], '2.name') 得到 'amis'\nGET({arr: [{name: 'amis', age: 18}]}, 'arr[0].name') 得到 'amis'\nGET({arr: [{name: 'amis', age: 18}]}, 'arr.0.name') 得到 'amis'\nGET({arr: [{name: 'amis', age: 18}]}, 'arr.1.name', 'not-found') 得到 'not-found'",
+    example: "GET(arr, 2)",
+    params: [
+      {
+        type: "any",
+        name: "obj",
+        description: "对象或数组"
+      },
+      {
+        type: "string",
+        name: "path",
+        description: "路径"
+      },
+      {
+        type: "any",
+        name: "defaultValue",
+        description: "如果解析不到则返回该值"
+      }
+    ],
+    returns: {
+      type: "any",
+      description: "结果"
+    },
+    namespace: "其他"
+  },
+  {
     name: "COMPACT",
     description: "数组过滤掉 false、null、0 和 \"\"\n\n示例：\n\nCOMPACT([0, 1, false, 2, '', 3]) 得到 [1, 2, 3]",
     example: "COMPACT(arr)",

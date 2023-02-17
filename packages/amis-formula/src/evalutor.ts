@@ -12,6 +12,7 @@ import uniqWith from 'lodash/uniqWith';
 import uniqBy from 'lodash/uniqBy';
 import isEqual from 'lodash/isEqual';
 import isPlainObject from 'lodash/isPlainObject';
+import get from 'lodash/get';
 import {EvaluatorOptions, FilterContext, FilterMap, FunctionMap} from './types';
 
 export class Evaluator {
@@ -1839,6 +1840,141 @@ export class Evaluator {
     return (Array.isArray(value) ? value : []).filter((item, index, arr) =>
       this.callAnonymousFunction(iterator, [item, index, arr])
     );
+  }
+
+  /**
+   * 数据做数据查找，需要搭配箭头函数一起使用，注意箭头函数只支持单表达式用法。
+   * 找出第二个箭头函数返回为 true 的成员的索引。
+   *
+   * 示例：
+   *
+   * ARRAYFINDINDEX([0, 2, false], item => item === 2) 得到 1
+   *
+   * @param {Array<any>} arr 数组
+   * @param {Function<any>} iterator 箭头函数
+   * @namespace 数组
+   * @example ARRAYFINDINDEX(arr, item => item === 2)
+   * @returns {number} 结果
+   */
+  fnARRAYFINDINDEX(arr: any[], iterator: any) {
+    if (!iterator || iterator.type !== 'anonymous_function') {
+      throw new Error('expected an anonymous function get ' + iterator);
+    }
+
+    return (Array.isArray(arr) ? arr : []).findIndex((item, index, arr) =>
+      this.callAnonymousFunction(iterator, [item, index, arr])
+    );
+  }
+
+  /**
+   * 数据做数据查找，需要搭配箭头函数一起使用，注意箭头函数只支持单表达式用法。
+   * 找出第二个箭头函数返回为 true 的成员。
+   *
+   * 示例：
+   *
+   * ARRAYFIND([0, 2, false], item => item === 2) 得到 2
+   *
+   * @param {Array<any>} arr 数组
+   * @param {Function<any>} iterator 箭头函数
+   * @namespace 数组
+   * @example ARRAYFIND(arr, item => item === 2)
+   * @returns {any} 结果
+   */
+  fnARRAYFIND(arr: any[], iterator: any) {
+    if (!iterator || iterator.type !== 'anonymous_function') {
+      throw new Error('expected an anonymous function get ' + iterator);
+    }
+
+    return (Array.isArray(arr) ? arr : []).find((item, index, arr) =>
+      this.callAnonymousFunction(iterator, [item, index, arr])
+    );
+  }
+
+  /**
+   * 数据做数据遍历判断，需要搭配箭头函数一起使用，注意箭头函数只支持单表达式用法。
+   * 判断第二个箭头函数是否存在返回为 true 的成员。
+   *
+   * 示例：
+   *
+   * ARRAYSOME([0, 2, false], item => item === 2) 得到 true
+   *
+   * @param {Array<any>} arr 数组
+   * @param {Function<any>} iterator 箭头函数
+   * @namespace 数组
+   * @example ARRAYSOME(arr, item => item === 2)
+   * @returns {boolean} 结果
+   */
+  fnARRAYSOME(arr: any[], iterator: any) {
+    if (!iterator || iterator.type !== 'anonymous_function') {
+      throw new Error('expected an anonymous function get ' + iterator);
+    }
+
+    return (Array.isArray(arr) ? arr : []).some((item, index, arr) =>
+      this.callAnonymousFunction(iterator, [item, index, arr])
+    );
+  }
+
+  /**
+   * 数据做数据遍历判断，需要搭配箭头函数一起使用，注意箭头函数只支持单表达式用法。
+   * 判断第二个箭头函数返回是否都为 true。
+   *
+   * 示例：
+   *
+   * ARRAYEVERY([0, 2, false], item => item === 2) 得到 false
+   *
+   * @param {Array<any>} arr 数组
+   * @param {Function<any>} iterator 箭头函数
+   * @namespace 数组
+   * @example ARRAYEVERY(arr, item => item === 2)
+   * @returns {boolean} 结果
+   */
+  fnARRAYEVERY(arr: any[], iterator: any) {
+    if (!iterator || iterator.type !== 'anonymous_function') {
+      throw new Error('expected an anonymous function get ' + iterator);
+    }
+
+    return (Array.isArray(arr) ? arr : []).every((item, index, arr) =>
+      this.callAnonymousFunction(iterator, [item, index, arr])
+    );
+  }
+
+  /**
+   * 判断数据中是否存在指定元素
+   *
+   * 示例：
+   *
+   * ARRAYINCLUDES([0, 2, false], 2) 得到 true
+   *
+   * @param {Array<any>} arr 数组
+   * @param {any} item 元素
+   * @namespace 数组
+   * @example ARRAYINCLUDES(arr, 2)
+   * @returns {any} 结果
+   */
+  fnARRAYINCLUDES(arr: any[], item: any) {
+    return (Array.isArray(arr) ? arr : []).includes(item);
+  }
+
+  /**
+   * 根据对象或者数组的path路径获取值。 如果解析 value 是 undefined 会以 defaultValue 取代
+   *
+   * 示例：
+   *
+   * GET([0, 2, {name: 'amis', age: 18}], 1) 得到 2
+   * GET([0, 2, {name: 'amis', age: 18}], '2.name') 得到 'amis'
+   * GET({arr: [{name: 'amis', age: 18}]}, 'arr[0].name') 得到 'amis'
+   * GET({arr: [{name: 'amis', age: 18}]}, 'arr.0.name') 得到 'amis'
+   * GET({arr: [{name: 'amis', age: 18}]}, 'arr.1.name', 'not-found') 得到 'not-found'
+   *
+   * @param {any} obj 对象或数组
+   * @param {string} path 路径
+   * @param {any} defaultValue 如果解析不到则返回该值
+   * @namespace 其他
+   * @example GET(arr, 2)
+   * @returns {any} 结果
+   */
+  fnGET(obj: any, path: string, defaultValue?: any) {
+    return get(obj, path, defaultValue);
   }
 
   /**
