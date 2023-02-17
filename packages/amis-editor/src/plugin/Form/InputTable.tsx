@@ -226,7 +226,8 @@ export class TableControlPlugin extends BasePlugin {
             ...column,
             type: column.type,
             quickEdit: {
-              type: column.quickEdit.type
+              type: column.quickEdit.type,
+              name: column.name
             }
           };
           rawColumns.push(rawColumn);
@@ -573,12 +574,13 @@ export class TableControlPlugin extends BasePlugin {
               getSchemaTpl('formItemName', {
                 required: true
               }),
+              getSchemaTpl('label'),
               {
                 type: 'ae-Switch-More',
                 name: 'needConfirm',
                 label: tipedLabel(
                   '确认模式',
-                  '在新增或编辑单行数据时生效。开启时，输入完内容后需要点击表格右侧的“保存”按钮后才能提交到数据域。未开启时，输入完内容后就能提交数据域。'
+                  '开启时，新增、编辑需要点击表格右侧的“保存”按钮才能变更组件数据。未开启时，新增、编辑、删除操作直接改变组件数据。'
                 ),
                 mode: 'normal',
                 formType: 'extend',
@@ -593,7 +595,7 @@ export class TableControlPlugin extends BasePlugin {
                     },
                     getSchemaTpl('icon', {
                       name: 'confirmBtnIcon',
-                      label: '确认图标'
+                      label: '确认按钮图标'
                     }),
                     {
                       type: i18nEnabled ? 'input-text-i18n' : 'input-text',
@@ -603,7 +605,7 @@ export class TableControlPlugin extends BasePlugin {
                     },
                     getSchemaTpl('icon', {
                       name: 'cancelBtnIcon',
-                      label: '取消图标'
+                      label: '取消按钮图标'
                     })
                   ]
                 },
@@ -619,20 +621,18 @@ export class TableControlPlugin extends BasePlugin {
               },
               getSchemaTpl('creatable', {
                 name: 'addable',
-                label: '可新增',
                 formType: 'extend',
                 hiddenOnDefault: true,
                 form: {
                   body: [
                     {
-                      label: '按钮名称',
+                      label: tipedLabel('按钮名称', '此配置项只作用于表格操作栏的“新增”按钮'),
                       name: 'addBtnLabel',
-                      type: i18nEnabled ? 'input-text-i18n' : 'input-text',
-                      placeholder: '新增'
+                      type: i18nEnabled ? 'input-text-i18n' : 'input-text'
                     },
                     getSchemaTpl('icon', {
                       name: 'addBtnIcon',
-                      label: '按钮图标'
+                      label: tipedLabel('按钮图标', '此配置项只作用于表格操作栏的“新增”按钮')
                     }),
                     getSchemaTpl('apiControl', {
                       label: '新增接口',
@@ -651,6 +651,39 @@ export class TableControlPlugin extends BasePlugin {
               }),
               {
                 type: 'ae-switch-more',
+                name: 'showFooterAddBtn',
+                label: '表格下方新增按钮',
+                mode: 'normal',
+                formType: 'extend',
+                hiddenOnDefault: true,
+                value: true,
+                visibleOn: 'this.addable',
+                form: {
+                  body: [
+                    {
+                      label: '按钮名称',
+                      name: 'footerAddBtnLabel',
+                      type: i18nEnabled ? 'input-text-i18n' : 'input-text',
+                      pipeIn: defaultValue('新增')
+                    },
+                    getSchemaTpl('icon', {
+                      name: 'footerAddBtnIcon',
+                      label: '按钮图标'
+                    }),
+                  ]
+                },
+                pipeIn: (value: any, form: any, props: any) => {
+                  if (!!value) {
+                    const icon = form.data.footerAddBtnIcon !== undefined
+                      ? form.data.footerAddBtnIcon
+                      : 'plus';
+                    form.setValueByName('footerAddBtnIcon', icon);
+                  }
+                  return !!value;
+                }
+              },
+              {
+                type: 'ae-switch-more',
                 name: 'copyable',
                 label: '可复制',
                 mode: 'normal',
@@ -661,8 +694,7 @@ export class TableControlPlugin extends BasePlugin {
                     {
                       label: '按钮名称',
                       name: 'copyBtnLabel',
-                      type: i18nEnabled ? 'input-text-i18n' : 'input-text',
-                      placeholder: '复制'
+                      type: i18nEnabled ? 'input-text-i18n' : 'input-text'
                     },
                     getSchemaTpl('icon', {
                       name: 'copyBtnLabel',
@@ -687,8 +719,7 @@ export class TableControlPlugin extends BasePlugin {
                     {
                       label: '按钮名称',
                       name: 'editBtnLabel',
-                      type: i18nEnabled ? 'input-text-i18n' : 'input-text',
-                      placeholder: '编辑'
+                      type: i18nEnabled ? 'input-text-i18n' : 'input-text'
                     },
                     getSchemaTpl('icon', {
                       name: 'editBtnIcon',
@@ -703,7 +734,7 @@ export class TableControlPlugin extends BasePlugin {
                 },
                 pipeIn: (value: any, form: any) => {
                   if (!!value) {
-                    const icon = form.data.editBtnIcon !== undefined ? form.data.editBtnIcon : 'edit';
+                    const icon = form.data.editBtnIcon !== undefined ? form.data.editBtnIcon : 'pencil';
                     form.setValueByName('editBtnIcon', icon);
                   }
                   return !!value;
@@ -718,8 +749,7 @@ export class TableControlPlugin extends BasePlugin {
                     {
                       label: '按钮名称',
                       name: 'deleteBtnLabel',
-                      type: i18nEnabled ? 'input-text-i18n' : 'input-text',
-                      placeholder: '删除'
+                      type: i18nEnabled ? 'input-text-i18n' : 'input-text'
                     },
                     getSchemaTpl('icon', {
                       name: 'deleteBtnIcon',
@@ -736,7 +766,6 @@ export class TableControlPlugin extends BasePlugin {
                   return !!value;
                 }
               }),
-              getSchemaTpl('label'),
               getSchemaTpl('description'),
               getSchemaTpl('placeholder', {
                 label: '空数据提示'
