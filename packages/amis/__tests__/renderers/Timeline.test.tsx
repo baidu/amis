@@ -1,4 +1,13 @@
-import React = require('react');
+/**
+ * 组件名称：Timeline 时间轴
+ * 单测内容：
+ * 1. mode & direction
+ * 2. items
+ * 3. source
+ * 4. reverse
+ */
+
+import 'react';
 import {render, cleanup, fireEvent, waitFor} from '@testing-library/react';
 import '../../src';
 import {render as amisRender} from '../../src';
@@ -152,4 +161,63 @@ test('Renderer:timeline source', async () => {
   );
   await waitFor(() => getByText('数据开发'));
   expect(container).toMatchSnapshot();
+});
+
+test('Renderer:timeline with reverse', async () => {
+  const {container, getByText, rerender} = render(
+    amisRender({
+      type: 'timeline',
+      items: [
+        {
+          time: '2019-02-07',
+          title: '节点数据'
+        },
+        {
+          time: '2019-02-08',
+          title: '节点数据'
+        },
+        {
+          time: '2019-02-09',
+          title: '节点数据'
+        },
+        {
+          time: '2019-02-10',
+          title: '节点数据'
+        }
+      ]
+    })
+  );
+
+  expect(container.querySelector('.cxd-TimelineItem-time')).toHaveTextContent(
+    '2019-02-07'
+  );
+
+  rerender(
+    amisRender({
+      type: 'timeline',
+      reverse: true,
+      items: [
+        {
+          time: '2019-02-07',
+          title: '节点数据'
+        },
+        {
+          time: '2019-02-08',
+          title: '节点数据'
+        },
+        {
+          time: '2019-02-09',
+          title: '节点数据'
+        },
+        {
+          time: '2019-02-10',
+          title: '节点数据'
+        }
+      ]
+    })
+  );
+
+  expect(container.querySelector('.cxd-TimelineItem-time')).toHaveTextContent(
+    '2019-02-10'
+  );
 });
