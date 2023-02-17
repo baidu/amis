@@ -128,11 +128,14 @@
 
   &--horizontal {
     > .#{$ns}Form-label {
-      text-align: var(--Form--horizontal-label-align);
+      // text-align: var(--Form--horizontal-label-align);
       white-space: var(--Form--horizontal-label-whiteSpace);
+      display: flex;
+      justify-content: end;
+      align-items: center;
 
       &--left {
-        text-align: left;
+        justify-content: start;
       }
     }
   }
@@ -141,8 +144,7 @@
     justify-content: space-between;
 
     > .#{$ns}Form-label {
-      text-align: var(--Form--horizontal-justify-label-align);
-      white-space: var(--Form--horizontal-justify-label-whiteSpace);
+      justify-content: start;
     }
     > .#{$ns}Form-value {
       text-align: var(--Form--horizontal-justify-value-align);
@@ -262,8 +264,8 @@
       }
 
       > .#{$ns}Form-label {
-        height: px2rem(32px);
-        line-height: px2rem(32px);
+        // height: px2rem(32px);
+        // line-height: px2rem(32px);
         margin: 0;
         margin-right: var(--Form--horizontal-label-gap);
         flex-shrink: 0;
