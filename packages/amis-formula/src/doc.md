@@ -1008,6 +1008,7 @@ UNIQ([{a: '1'}, {b: '2'}, {a: '1'}]， 'id')
 
  * `obj:any` 对象或数组
  * `path:string` 路径
+ * `defaultValue:any` 如果解析不到则返回该值
 
 返回：`any` 结果
 
@@ -1017,7 +1018,6 @@ UNIQ([{a: '1'}, {b: '2'}, {a: '1'}]， 'id')
 
 GET([0, 2, {name: 'amis', age: 18}], 1) 得到 2
 GET([0, 2, {name: 'amis', age: 18}], '2.name') 得到 'amis'
-GET([0, 2, {name: 'amis', age: 18}], '[2].name') 得到 'amis'
 GET({arr: [{name: 'amis', age: 18}]}, 'arr[0].name') 得到 'amis'
 GET({arr: [{name: 'amis', age: 18}]}, 'arr.0.name') 得到 'amis'
 GET({arr: [{name: 'amis', age: 18}]}, 'arr.1.name', 'not-found') 得到 'not-found'

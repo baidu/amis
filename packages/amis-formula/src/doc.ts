@@ -1615,7 +1615,7 @@ export const doc: {
   },
   {
     name: "GET",
-    description: "根据对象或者数组的path路径获取值。 如果解析 value 是 undefined 会以 defaultValue 取代\n\n示例：\n\nGET([0, 2, {name: 'amis', age: 18}], 1) 得到 2\nGET([0, 2, {name: 'amis', age: 18}], '2.name') 得到 'amis'\nGET([0, 2, {name: 'amis', age: 18}], '[2].name') 得到 'amis'\nGET({arr: [{name: 'amis', age: 18}]}, 'arr[0].name') 得到 'amis'\nGET({arr: [{name: 'amis', age: 18}]}, 'arr.0.name') 得到 'amis'\nGET({arr: [{name: 'amis', age: 18}]}, 'arr.1.name', 'not-found') 得到 'not-found'",
+    description: "根据对象或者数组的path路径获取值。 如果解析 value 是 undefined 会以 defaultValue 取代\n\n示例：\n\nGET([0, 2, {name: 'amis', age: 18}], 1) 得到 2\nGET([0, 2, {name: 'amis', age: 18}], '2.name') 得到 'amis'\nGET({arr: [{name: 'amis', age: 18}]}, 'arr[0].name') 得到 'amis'\nGET({arr: [{name: 'amis', age: 18}]}, 'arr.0.name') 得到 'amis'\nGET({arr: [{name: 'amis', age: 18}]}, 'arr.1.name', 'not-found') 得到 'not-found'",
     example: "GET(arr, 2)",
     params: [
       {
@@ -1627,6 +1627,11 @@ export const doc: {
         type: "string",
         name: "path",
         description: "路径"
+      },
+      {
+        type: "any",
+        name: "defaultValue",
+        description: "如果解析不到则返回该值"
       }
     ],
     returns: {

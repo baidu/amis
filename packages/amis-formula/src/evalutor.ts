@@ -1962,13 +1962,13 @@ export class Evaluator {
    *
    * GET([0, 2, {name: 'amis', age: 18}], 1) 得到 2
    * GET([0, 2, {name: 'amis', age: 18}], '2.name') 得到 'amis'
-   * GET([0, 2, {name: 'amis', age: 18}], '[2].name') 得到 'amis'
    * GET({arr: [{name: 'amis', age: 18}]}, 'arr[0].name') 得到 'amis'
    * GET({arr: [{name: 'amis', age: 18}]}, 'arr.0.name') 得到 'amis'
    * GET({arr: [{name: 'amis', age: 18}]}, 'arr.1.name', 'not-found') 得到 'not-found'
    *
    * @param {any} obj 对象或数组
    * @param {string} path 路径
+   * @param {any} defaultValue 如果解析不到则返回该值
    * @namespace 其他
    * @example GET(arr, 2)
    * @returns {any} 结果
