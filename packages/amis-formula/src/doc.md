@@ -863,6 +863,100 @@ DATEMODIFY(A, -2, 'month')
 数据做数据过滤，需要搭配箭头函数一起使用，注意箭头函数只支持单表达式用法。
 将第二个箭头函数返回为 false 的成员过滤掉。
 
+### ARRAYFINDINDEX
+
+用法：`ARRAYFINDINDEX(arr, item => item === 2)`
+
+ * `arr:Array<any>` 数组
+ * `iterator:Array<any>` 箭头函数
+
+返回：`number` 结果
+
+数据做数据查找，需要搭配箭头函数一起使用，注意箭头函数只支持单表达式用法。
+找出第二个箭头函数返回为 true 的成员的索引。
+
+示例：
+
+ARRAYFINDINDEX([0, 2, false], item => item === 2) 得到 1
+
+### ARRAYFIND
+
+用法：`ARRAYFIND(arr, item => item === 2)`
+
+ * `arr:Array<any>` 数组
+ * `iterator:Array<any>` 箭头函数
+
+返回：`any` 结果
+
+数据做数据查找，需要搭配箭头函数一起使用，注意箭头函数只支持单表达式用法。
+找出第二个箭头函数返回为 true 的成员。
+
+示例：
+
+ARRAYFIND([0, 2, false], item => item === 2) 得到 2
+
+### ARRAYSOME
+
+用法：`ARRAYSOME(arr, item => item === 2)`
+
+ * `arr:Array<any>` 数组
+ * `iterator:Array<any>` 箭头函数
+
+返回：`boolean` 结果
+
+数据做数据遍历判断，需要搭配箭头函数一起使用，注意箭头函数只支持单表达式用法。
+判断第二个箭头函数是否存在返回为 true 的成员。
+
+示例：
+
+ARRAYSOME([0, 2, false], item => item === 2) 得到 true
+
+### ARRAYEVERY
+
+用法：`ARRAYEVERY(arr, item => item === 2)`
+
+ * `arr:Array<any>` 数组
+ * `iterator:Array<any>` 箭头函数
+
+返回：`boolean` 结果
+
+数据做数据遍历判断，需要搭配箭头函数一起使用，注意箭头函数只支持单表达式用法。
+判断第二个箭头函数返回是否都为 true。
+
+示例：
+
+ARRAYEVERY([0, 2, false], item => item === 2) 得到 false
+
+### ARRAYINCLUDES
+
+用法：`ARRAYINCLUDES(arr, 2)`
+
+ * `arr:Array<any>` 数组
+ * `item:any` 元素
+
+返回：`any` 结果
+
+判断数据中是否存在指定元素
+
+示例：
+
+ARRAYINCLUDES([0, 2, false], 2) 得到 true
+
+### ARRAYNTH
+
+用法：`ARRAYNTH(arr, 2)`
+
+ * `arr:Array<any>` 数组
+ * `n:number` 索引
+
+返回：`any` 结果
+
+获取数据的第n个元素，n为0表示取第一个元素
+
+示例：
+
+ARRAYNTH([0, 2, false], 1) 得到 2
+
 ### COMPACT
 
 用法：`COMPACT(arr)`

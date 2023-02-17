@@ -466,6 +466,28 @@ test('evalute:array:func', () => {
   expect(
     evaluate('${ARRAYFILTER(arr1, item => item && item >=2)}', data)
   ).toMatchObject([2, 3]);
+
+  expect(evaluate('${ARRAYFINDINDEX(arr3, item => item === 2)}', data)).toBe(1);
+
+  expect(
+    evaluate('${ARRAYFIND(arr5, item => item.name === 1.3)}', data)
+  ).toMatchObject({
+    id: 1.1,
+    name: 1.3
+  });
+
+  expect(evaluate('${ARRAYSOME(arr5, item => item.name === 1.3)}', data)).toBe(
+    true
+  );
+
+  expect(evaluate('${ARRAYEVERY(arr5, item => item.name === 1.3)}', data)).toBe(
+    false
+  );
+
+  expect(evaluate('${ARRAYINCLUDES(arr1, false)}', data)).toBe(true);
+
+  expect(evaluate('${ARRAYNTH(arr1, 1)}', data)).toBe(1);
+  expect(evaluate('${ARRAYNTH(arr1, -4)}', data)).toBe(false);
 });
 
 test('evalute:ISTYPE', () => {
