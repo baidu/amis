@@ -224,6 +224,11 @@ export interface NavSchema extends BaseSchema {
   level?: number;
 
   /**
+   * 默认展开层级 小于等于该层数的节点默认全部打开
+   */
+  defaultOpenLevel?: number;
+
+  /**
    * 控制仅展示指定key菜单下的子菜单项
    */
   showKey?: string;
@@ -501,6 +506,7 @@ export class Navigation extends React.Component<
   normalizeNavigations(links: Links, depth: number): Array<NavigationItem> {
     const {
       level,
+      defaultOpenLevel,
       stacked,
       mode,
       itemActions,
@@ -591,7 +597,14 @@ export class Navigation extends React.Component<
           ? this.normalizeNavigations(children, depth + 1)
           : [],
         path: link.to,
-        open: link.unfolded,
+        // defaultOpenLevel depth <= defaultOpenLevel的默认全部展开
+        // 优先级比unfolded属性低 如果用户配置了unfolded为false 那么默认不展开
+        open:
+          defaultOpenLevel &&
+          depth <= defaultOpenLevel &&
+          typeof link.unfolded !== 'undefined'
+            ? true
+            : link.unfolded,
         extra: itemActions
           ? render('inline', itemActions, {
               data: createObject(data, link),

@@ -195,12 +195,7 @@
   &-item-icon {
     margin-right: var(--gap-sm);
     font-size: var(--Menu-icon-size);
-    width: var(--Menu-icon-size);
     color: var(--Menu-light-fontColor);
-    display: inline-block;
-    line-height: var(--Menu-item-height--vertical);
-    position: relative;
-    top: 1.5px;
 
     img {
       height: var(--Tabs-linkFontSize);
@@ -241,7 +236,6 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    vertical-align: middle;
     user-select: none;
 
     &-collapsed {
@@ -343,6 +337,16 @@
 
   &-item-extra {
     position: relative;
+
+    .#{$ns}DropDown {
+      > .#{$ns}Button {
+        padding: 0;
+
+        > i {
+          margin: 0;
+        }
+      }
+    }
   }
 
   &-inline {
@@ -539,7 +543,7 @@
   &-submenu-title {
     margin: 0;
     position: relative;
-    padding: 0;
+    padding: 0 var(--Menu-Submenu-item-paddingX) 0 px2rem(16px);
     line-height: var(--Nav-Item-height);
     display: block;
     white-space: nowrap;
@@ -593,6 +597,12 @@
     }
   }
 
+  &-item {
+    .#{$ns}Nav-Menu-item-label {
+      vertical-align: middle;
+    }
+  }
+
   &-collapsed > &-item,
   &-collapsed > &-submenu-title,
   &-collapsed > .#{$ns}Nav-Menu-submenu > &-submenu-title {
@@ -612,10 +622,6 @@
     &-popup {
       position: absolute;
       z-index: 1500;
-
-      .#{$ns}Nav-Menu-item {
-        padding: 0 var(--Menu-Submenu-item-paddingX);
-      }
     }
 
     > .#{$ns}Nav-Menu {
@@ -700,7 +706,7 @@
 
     & > .#{$ns}Nav-Menu-item-tooltip-wrap > .#{$ns}Nav-Menu-item,
     & > .#{$ns}Nav-Menu-submenu > .#{$ns}Nav-Menu-submenu-title {
-      padding: 0 20px;
+      padding: 0 px2rem(16px);
       height: var(--Menu-item-height--horizontal);
 
       .#{$ns}Nav-Menu-item-link {
@@ -710,11 +716,6 @@
       .#{$ns}Nav-Menu-item-icon,
       .#{$ns}Nav-Menu-item-label {
         line-height: var(--Menu-item-height--horizontal);
-      }
-
-      .#{$ns}Nav-Menu-item-label {
-        padding: 0;
-        top: 0;
       }
     }
 
@@ -763,8 +764,8 @@
     .#{$ns}Nav-Menu-submenu-arrow {
       display: inline-block;
       font-size: px2rem(9px);
-      vertical-align: baseline;
       text-align: center;
+      vertical-align: middle;
       text-transform: none;
       text-rendering: auto;
       line-height: px2rem(20px);
@@ -772,9 +773,12 @@
       color: var(--Menu-light-fontColor);
 
       & > svg {
-        text-align: center;
-        vertical-align: middle;
+        top: auto;
       }
+    }
+
+    .#{$ns}Nav-Menu-item-label {
+      vertical-align: middle;
     }
 
     &.#{$ns}Nav-Menu-dark {
@@ -845,13 +849,12 @@
       position: absolute;
       right: 0;
       top: 0;
-      width: px2rem(18px);
+      width: px2rem(12px);
       line-height: var(--Menu-item-height--vertical);
       transform: rotate(-90deg);
 
       & > svg {
-        text-align: center;
-        vertical-align: middle;
+        top: auto;
       }
 
       .#{$ns}Nav-Menu-rtl &,
@@ -865,7 +868,7 @@
       .#{$ns}Nav-Menu-submenu-title {
         .#{$ns}Nav-Menu-item-wrap {
           padding-right: 0;
-          padding-left: var(--Menu-Submenu-title-paddingX);
+          padding-left: px2rem(16px);
         }
       }
 
@@ -888,8 +891,8 @@
   }
 
   &-vertical-right {
-    .#{$ns}Nav-Menu-item {
-      padding: 0 var(--Menu-Submenu-item-paddingX);
+    .#{$ns}Nav-Menu-submenu-arrow {
+      right: px2rem(10px);
     }
   }
 
@@ -904,7 +907,6 @@
     & .#{$ns}Nav-Menu-submenu-open > .#{$ns}Nav-Menu-submenu-title {
       .#{$ns}Nav-Menu-submenu-arrow {
         transform: rotate(180deg);
-        padding-bottom: px2rem(4px);
       }
     }
   }
@@ -919,7 +921,7 @@
     .#{$ns}Nav-Menu-submenu-vertical.#{$ns}Nav-Menu-submenu {
       .#{$ns}Nav-Menu-submenu-title {
         padding: 0 var(--Menu-Submenu-title-paddingX) 0
-          calc(var(--Menu-Submenu-title-paddingX) - 1px);
+          calc(var(--Menu-Submenu-title-paddingX) - 2px);
         text-align: center;
       }
     }
@@ -933,10 +935,6 @@
   &-submenu-vertical-left.#{$ns}Nav-Menu-submenu,
   &-submenu-vertical-right.#{$ns}Nav-Menu-submenu {
     padding: 0;
-
-    .#{$ns}Nav-Menu-submenu-title {
-      padding: 0 var(--Menu-Submenu-item-paddingX);
-    }
 
     .#{$ns}Nav-Menu-submenu-rtl & {
       direction: rtl;
@@ -953,7 +951,6 @@
     & > .#{$ns}Nav-Menu-submenu > .#{$ns}Nav-Menu-submenu-title {
       padding-top: 0;
       padding-bottom: 0;
-      padding-right: 0;
       display: block;
       white-space: nowrap;
       overflow: hidden;

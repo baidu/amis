@@ -407,7 +407,7 @@ order: 73
 | 属性名              | 类型                                                    | 默认值    | 说明                                                        |
 | ------------------- | ------------------------------------------------------- | --------- | ----------------------------------------------------------- |
 | time                | `string `                                               |           | 节点时间                                                    |
-| title               | `string \| [SchemaNode](../../docs/types/schemanode)`   |           | 节点标题                                                    |
+| title               | `string` \| [SchemaNode](../../docs/types/schemanode)   |           | 节点标题                                                    |
 | detail              | `string`                                                |           | 节点详细描述（折叠）                                        |
 | detailCollapsedText | `string`                                                | `展开`    | 详细内容折叠时按钮文案                                      |
 | detailExpandedText  | `string`                                                | `折叠`    | 详细内容展开时按钮文案                                      |
