@@ -197,6 +197,21 @@ export interface TableControlSchema
    * 限制最小个数
    */
   minLength?: number | SchemaTokenizeableString;
+
+  /**
+   * 是否显示底部新增按钮
+   */
+  showFooterAddBtn?: boolean;
+
+  /**
+   * 底部新增按钮文本
+   */
+  footerAddBtnLabel?: string;
+
+  /**
+   * 底部新增按钮图标
+   */
+  footerAddBtnIcon?: string;
 }
 
 export interface TableProps
@@ -227,7 +242,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     cancelBtnIcon: 'close',
     valueField: '',
     minLength: 0,
-    maxLength: Infinity
+    maxLength: Infinity,
+    showFooterAddBtn: true,
+    footerAddBtnIcon: 'plus'
   };
 
   static propsList: Array<string> = [
@@ -767,9 +784,11 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     const showIndex = this.props.showIndex;
     const minLength = this.resolveVariableProps(this.props, 'minLength');
     const maxLength = this.resolveVariableProps(this.props, 'maxLength');
+    const isStatic = this.props.static;
+    const disabled = this.props.disabled;
 
     let btns = [];
-    if (props.addable && props.showAddBtn !== false) {
+    if (!isStatic && props.addable && props.showAddBtn !== false) {
       btns.push({
         children: ({
           key,
@@ -791,6 +810,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               tooltipContainer={
                 env && env.getModalContainer ? env.getModalContainer : undefined
               }
+              disabled={disabled}
               onClick={this.addItem.bind(this, rowIndex + offset, undefined)}
             >
               {props.addBtnLabel ? <span>{props.addBtnLabel}</span> : null}
@@ -806,7 +826,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       });
     }
 
-    if (props.copyable && props.showCopyBtn !== false) {
+    if (!isStatic && props.copyable && props.showCopyBtn !== false) {
       btns.push({
         children: ({
           key,
@@ -827,6 +847,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               tooltipContainer={
                 env && env.getModalContainer ? env.getModalContainer : undefined
               }
+              disabled={disabled}
               onClick={this.copyItem.bind(this, rowIndex + offset, undefined)}
             >
               {props.copyBtnLabel ? <span>{props.copyBtnLabel}</span> : null}
@@ -854,7 +875,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                 ...this.columnToQuickEdit(column),
                 ...quickEdit,
                 saveImmediately: true,
-                mode: 'inline'
+                mode: 'inline',
+                disabled
               }
             };
       });
@@ -873,12 +895,13 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                 ...this.columnToQuickEdit(column),
                 ...quickEdit,
                 saveImmediately: true,
-                mode: 'inline'
+                mode: 'inline',
+                disabled
               }
             };
       });
 
-      props.editable &&
+      !isStatic && props.editable &&
         btns.push({
           children: ({
             key,
@@ -903,6 +926,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                     ? env.getModalContainer
                     : undefined
                 }
+                disabled={disabled}
                 onClick={() => this.startEdit(rowIndex + offset)}
               >
                 {props.updateBtnLabel || props.editBtnLabel ? (
@@ -928,7 +952,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             )
         });
 
-      btns.push({
+      !isStatic && btns.push({
         children: ({
           key,
           rowIndex,
@@ -964,7 +988,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
           ) : null
       });
 
-      btns.push({
+      !isStatic && btns.push({
         children: ({
           key,
           rowIndex,
@@ -1001,7 +1025,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       });
     }
 
-    if (props.removable) {
+    if (!isStatic && props.removable) {
       btns.push({
         children: ({
           key,
@@ -1026,6 +1050,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               tooltipContainer={
                 env && env.getModalContainer ? env.getModalContainer : undefined
               }
+              disabled={disabled}
               onClick={this.removeItem.bind(this, rowIndex + offset)}
             >
               {props.deleteBtnLabel ? (
@@ -1079,6 +1104,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   }
 
   columnToQuickEdit(column: any) {
+    const isStatic = this.props.static;
     const quickEdit: any = {
       type: 'input-text'
     };
@@ -1092,6 +1118,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     ) {
       return {
         ...column,
+        static: isStatic,
         label: ''
       };
     }
@@ -1261,7 +1288,11 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       rowClassNameExpr,
       affixHeader = false,
       autoFillHeight = false,
-      tableContentClassName
+      tableContentClassName,
+      static: isStatic,
+      showFooterAddBtn,
+      footerAddBtnLabel,
+      footerAddBtnIcon
     } = this.props;
     const maxLength = this.resolveVariableProps(this.props, 'maxLength');
 
@@ -1269,7 +1300,10 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       return null;
     }
 
-    let items = this.state.items;
+    // 如果static为true，则删掉正在新增的那一行
+    let items = isStatic ?
+      this.state.items.filter(item => !item.__isPlaceholder)
+      : this.state.items;
 
     let showPager = false;
     const page = this.state.page || 1;
@@ -1323,19 +1357,23 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             // onPristineChange: this.handlePristineChange
           }
         )}
-        {(addable &&
-          showAddBtn !== false &&
+        {(!isStatic && addable &&
+          showAddBtn !== false && showFooterAddBtn !== false &&
           (!maxLength || maxLength > items.length)) ||
         showPager ? (
           <div className={cx('InputTable-toolbar')}>
-            {addable && showAddBtn !== false ? (
+            {addable && showFooterAddBtn !== false && showAddBtn !== false ? (
               <Button
                 disabled={disabled}
                 size="sm"
                 onClick={() => this.addItem(this.state.items.length)}
               >
-                <Icon icon="plus" className="icon" />
-                <span>{__('add')}</span>
+                {
+                  typeof footerAddBtnIcon === 'string' ?
+                  (<Icon icon={footerAddBtnIcon} className="icon" />)
+                  : generateIcon(cx, footerAddBtnIcon)
+                }
+                <span>{footerAddBtnLabel !== undefined ? footerAddBtnLabel : __('add')}</span>
               </Button>
             ) : null}
 

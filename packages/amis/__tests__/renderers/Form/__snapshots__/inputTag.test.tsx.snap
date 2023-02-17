@@ -332,7 +332,9 @@ exports[`Renderer:InputTag InputTag input with max quantity 2 1`] = `
 </div>
 `;
 
-exports[`Renderer:InputTag InputTag input with maxTagLength 5 1`] = `
+exports[`Renderer:InputTag InputTag input with maxTagLength 5 1`] = `<div />`;
+
+exports[`Renderer:InputTag InputTag input with maxTagLength 5 2`] = `
 <div>
   <form
     class="cxd-Form cxd-Form--normal"
