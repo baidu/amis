@@ -71,6 +71,32 @@ icon:
 }
 ```
 
+### 清除后立即搜索
+
+> `2.7.3` 及以上版本
+
+设置`"clearAndSubmit": true`后，清空搜索框内容后立即执行搜索，与`searchImediately`不同的是，`clearAndSubmit`仅作用于清空输入框的动作，而`searchImediately`会影响所有搜索动作。
+
+```schema
+{
+    "type": "page",
+    "initApi": "/api/mock2/page/initData?keywords=${keywords}",
+    "body": [
+      {
+        "type": "search-box",
+        "name": "keywords",
+        "clearable": true,
+        "clearAndSubmit": true
+      },
+
+      {
+        "type": "tpl",
+        "tpl": "<p>关键字：${keywords}</p><p>返回结果：${&|json}</p>"
+      }
+    ]
+}
+```
+
 ## mini 版本
 
 ```schema
@@ -164,12 +190,13 @@ icon:
 
 ## 属性表
 
-| 属性名           | 类型      | 默认值 | 说明             |
-| ---------------- | --------- | ------ | ---------------- |
-| type             | `string`  |        | `search-box`     |
-| className        | `string`  |        | 外层 CSS 类名    |
-| mini             | `boolean` |        | 是否为 mini 模式 |
-| searchImediately | `boolean` |        | 是否立即搜索     |
+| 属性名           | 类型      | 默认值 | 说明                         | 版本    |
+| ---------------- | --------- | ------ | ---------------------------- | ------- |
+| type             | `string`  |        | `search-box`                 |
+| className        | `string`  |        | 外层 CSS 类名                |
+| mini             | `boolean` |        | 是否为 mini 模式             |
+| searchImediately | `boolean` |        | 是否立即搜索                 |
+| clearAndSubmit   | `boolean` |        | 清空搜索框内容后立即执行搜索 | `2.7.3` |
 
 ## 事件表
 
