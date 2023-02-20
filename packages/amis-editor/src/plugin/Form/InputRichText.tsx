@@ -410,13 +410,7 @@ export class RichTextControlPlugin extends BasePlugin {
                   max: 400,
                   name: 'options.height',
                   visibleOn: 'data.vendor === "froala"',
-                },
-                {
-                  type: 'input-number',
-                  label: '宽度',
-                  min: 0,
-                  name: 'options.width'
-                },
+                }
               ]
             },
             getSchemaTpl('style:formItem', {
