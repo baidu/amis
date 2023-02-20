@@ -192,6 +192,66 @@ order: 32
 }
 ```
 
+## 内容清空时删除字段
+
+> 2.7.3 及以上版本
+
+如果设置了`"clearValueOnEmpty": true`，当输入框的值清空时，会从数据域中删除该表单项对应的值。比较常见的用法是在`combo`，`input-array`等组件中避免`input-number`清空后提交空字符串。
+
+```schema: scope="body"
+{
+  "type": "form",
+  "debug": true,
+  "debugConfig": {
+    "levelExpand": 2
+  },
+  "body": [
+    {
+        "type": "group",
+        "body": [
+            {
+                "name": "numberClear",
+                "type": "input-number",
+                "label": "清空",
+                "value": 123,
+                "clearValueOnEmpty": true
+            },
+            {
+                "name": "numberNotClear",
+                "type": "input-number",
+                "label": "不清空",
+                "value": 456
+            }
+        ]
+    },
+    {
+      "type": "combo",
+      "name": "user",
+      "label": "用户",
+      "items": [
+        {
+          "name": "text",
+          "label": "名字",
+          "type": "input-text"
+        },
+        {
+          "name": "gender",
+          "label": "性别",
+          "type": "select",
+          "options": ["男", "女"]
+        },
+        {
+          "name": "age",
+          "label": "年龄",
+          "type": "input-number",
+          "clearValueOnEmpty": true
+        }
+      ]
+    }
+  ]
+}
+```
+
 ## 原生数字组件
 
 原生数字组件将直接使用浏览器的实现，最终展现效果和浏览器有关，而且只支持 `min`、`max`、`step` 这几个属性设置。
@@ -214,20 +274,21 @@ order: 32
 
 当做选择器表单项使用时，除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
 
-| 属性名           | 类型                                    | 默认值 | 说明                                       |
-| ---------------- | --------------------------------------- | ------ | ------------------------------------------ |
-| min              | [模板](../../../docs/concepts/template) |        | 最小值                                     |
-| max              | [模板](../../../docs/concepts/template) |        | 最大值                                     |
-| step             | `number`                                |        | 步长                                       |
-| precision        | `number`                                |        | 精度，即小数点后几位，支持 0 和正整数      |
-| showSteps        | `boolean`                               |        | 是否显示上下点击按钮                       |
-| prefix           | `string`                                |        | 前缀                                       |
-| suffix           | `string`                                |        | 后缀                                       |
-| kilobitSeparator | `boolean`                               |        | 千分分隔                                   |
-| keyboard         | `boolean`                               |        | 键盘事件（方向上下）                       |
-| big              | `boolean`                               |        | 是否使用大数                               |
-| displayMode      | `string`                                |        | 样式类型                                   |
-| resetValue       | `any`                                   | `""`   | 清空输入内容时，组件值将设置为`resetValue` |
+| 属性名            | 类型                                    | 默认值  | 说明                                       | 版本    |
+| ----------------- | --------------------------------------- | ------- | ------------------------------------------ | ------- |
+| min               | [模板](../../../docs/concepts/template) |         | 最小值                                     |
+| max               | [模板](../../../docs/concepts/template) |         | 最大值                                     |
+| step              | `number`                                |         | 步长                                       |
+| precision         | `number`                                |         | 精度，即小数点后几位，支持 0 和正整数      |
+| showSteps         | `boolean`                               |         | 是否显示上下点击按钮                       |
+| prefix            | `string`                                |         | 前缀                                       |
+| suffix            | `string`                                |         | 后缀                                       |
+| kilobitSeparator  | `boolean`                               |         | 千分分隔                                   |
+| keyboard          | `boolean`                               |         | 键盘事件（方向上下）                       |
+| big               | `boolean`                               |         | 是否使用大数                               |
+| displayMode       | `string`                                |         | 样式类型                                   |
+| resetValue        | `number \| string`                      | `""`    | 清空输入内容时，组件值将设置为`resetValue` |
+| clearValueOnEmpty | `boolean`                               | `false` | 内容为空时从数据域中删除该表单项对应的值   | `2.7.3` |
 
 ## 事件表
 

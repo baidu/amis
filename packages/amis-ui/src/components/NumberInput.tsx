@@ -10,8 +10,7 @@ import getMiniDecimal, {
 } from '@rc-component/mini-decimal';
 
 import {Icon} from './icons';
-import {ThemeProps, themeable} from 'amis-core';
-import {autobind, ucFirst} from 'amis-core';
+import {ThemeProps, themeable, isNumeric, autobind, ucFirst} from 'amis-core';
 
 export type ValueType = string | number;
 
@@ -65,6 +64,11 @@ export interface NumberProps extends ThemeProps {
    * 清空输入内容时的值
    */
   resetValue?: any;
+
+  /**
+   * 是否在清空内容时从数据域中删除该表单项对应的值
+   */
+  clearValueOnEmpty?: boolean;
 }
 
 export class NumberInput extends React.Component<NumberProps, any> {
@@ -94,17 +98,17 @@ export class NumberInput extends React.Component<NumberProps, any> {
     max: ValueType | undefined,
     precision: number,
     resetValue: any,
-    isBig: boolean | undefined
+    clearValueOnEmpty?: boolean,
+    isBig?: boolean
   ) => {
     /**
      * 输入不合法时重置为resetValue
-     * 若resetValue为非数字，则直接重置
+     * 若resetValue为不合法数字，直接清空输入
      * 若resetValue为数字，则需要处理max，min，precision，保证抛出的值满足条件
      */
-    if (value == null) {
-      if (typeof resetValue !== 'number') {
-        // 清空输入相当于在表单项中干掉input-number绑定的字段
-        return undefined;
+    if (!isNumeric(value)) {
+      if (!isNumeric(resetValue)) {
+        return clearValueOnEmpty ? undefined : '';
       }
 
       value = resetValue;
@@ -193,14 +197,16 @@ export class NumberInput extends React.Component<NumberProps, any> {
 
   @autobind
   handleChange(value: any) {
-    const {min, max, step, precision, resetValue, onChange} = this.props;
+    const {min, max, step, precision, resetValue, clearValueOnEmpty, onChange} =
+      this.props;
     const finalPrecision = NumberInput.normalizePrecision(precision, step);
     const result = NumberInput.normalizeValue(
       value,
       min,
       max,
       finalPrecision,
-      '',
+      resetValue,
+      clearValueOnEmpty,
       this.isBig
     );
 
