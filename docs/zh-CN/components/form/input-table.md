@@ -426,6 +426,8 @@ order: 54
 
 ## 显示分页
 
+可以配置`perPage`属性设置一页显示多少条数据。如果不配置此属性，则不会显示分页器
+
 ```schema: scope="body"
 {
   "type": "form",
@@ -796,8 +798,10 @@ order: 54
 | addable                      | `boolean`                      | `false`    | 是否可增加一行                                                                                       |
 | editable                     | `boolean`                      | `false`    | 是否可编辑                                                                                           |
 | removable                    | `boolean`                      | `false`    | 是否可删除                                                                                           |
-| showAddBtn                   | `boolean`                      | `true`     | 是否显示添加按钮                                                                                     |
+| showTableAddBtn                   | `boolean`                      | `true`     | 是否显示表格操作栏添加按钮                                                                                     |
+| showFooterAddBtn                   | `boolean`                      | `true`     | 是否显示表格下方添加按钮                                                                                     |
 | addApi                       | [API](../../../docs/types/api) | -          | 新增时提交的 API                                                                                     |
+| footerAddBtn | [SchemaNode](../../docs/types/schemanode) | - | 底部新增按钮配置
 | updateApi                    | [API](../../../docs/types/api) | -          | 修改时提交的 API                                                                                     |
 | deleteApi                    | [API](../../../docs/types/api) | -          | 删除时提交的 API                                                                                     |
 | addBtnLabel                  | `string`                       |            | 增加按钮名称                                                                                         |
@@ -817,6 +821,7 @@ order: 54
 | strictMode                   | `boolean`                      | `true`     | 为了性能，默认其他表单项项值变化不会让当前表格更新，有时候为了同步获取其他表单项字段，需要开启这个。 |
 | minLength                    | `number`                       | `0`        | 最小行数, `2.4.1`版本后支持变量                                                                      |
 | maxLength                    | `number`                       | `Infinity` | 最大行数, `2.4.1`版本后支持变量                                                                      |
+| perPage | number        | -          | 每页展示几行数据，如果不配置则不会显示分页器                                                             |
 | columns                      | `array`                        | []         | 列信息                                                                                               |
 | columns[x].quickEdit         | `boolean` 或者 `object`        | -          | 配合 editable 为 true 一起使用                                                                       |
 | columns[x].quickEditOnUpdate | `boolean` 或者 `object`        | -          | 可以用来区分新建模式和更新模式的编辑配置                                                             |
