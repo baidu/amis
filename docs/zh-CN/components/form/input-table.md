@@ -792,36 +792,36 @@ order: 54
 
 ## 属性表
 
-| 属性名                       | 类型                           | 默认值     | 说明                                                                                                 |
-| ---------------------------- | ------------------------------ | ---------- | ---------------------------------------------------------------------------------------------------- |
-| type                         | `string`                       | `"table"`  | 指定为 Table 渲染器                                                                                  |
-| addable                      | `boolean`                      | `false`    | 是否可增加一行                                                                                       |
-| editable                     | `boolean`                      | `false`    | 是否可编辑                                                                                           |
-| removable                    | `boolean`                      | `false`    | 是否可删除                                                                                           |
-| showTableAddBtn                   | `boolean`                      | `true`     | 是否显示表格操作栏添加按钮                                                                                     |
-| showFooterAddBtn                   | `boolean`                      | `true`     | 是否显示表格下方添加按钮                                                                                     |
-| addApi                       | [API](../../../docs/types/api) | -          | 新增时提交的 API                                                                                     |
-| footerAddBtn | [SchemaNode](../../docs/types/schemanode) | - | 底部新增按钮配置
-| updateApi                    | [API](../../../docs/types/api) | -          | 修改时提交的 API                                                                                     |
-| deleteApi                    | [API](../../../docs/types/api) | -          | 删除时提交的 API                                                                                     |
-| addBtnLabel                  | `string`                       |            | 增加按钮名称                                                                                         |
-| addBtnIcon                   | `string`                       | `"plus"`   | 增加按钮图标                                                                                         |
-| copyBtnLabel                 | `string`                       |            | 复制按钮文字                                                                                         |
-| copyBtnIcon                  | `string`                       | `"copy"`   | 复制按钮图标                                                                                         |
-| editBtnLabel                 | `string`                       | `""`       | 编辑按钮名称                                                                                         |
-| editBtnIcon                  | `string`                       | `"pencil"` | 编辑按钮图标                                                                                         |
-| deleteBtnLabel               | `string`                       | `""`       | 删除按钮名称                                                                                         |
-| deleteBtnIcon                | `string`                       | `"minus"`  | 删除按钮图标                                                                                         |
-| confirmBtnLabel              | `string`                       | `""`       | 确认编辑按钮名称                                                                                     |
-| confirmBtnIcon               | `string`                       | `"check"`  | 确认编辑按钮图标                                                                                     |
-| cancelBtnLabel               | `string`                       | `""`       | 取消编辑按钮名称                                                                                     |
-| cancelBtnIcon                | `string`                       | `"times"`  | 取消编辑按钮图标                                                                                     |
-| needConfirm                  | `boolean`                      | `true`     | 是否需要确认操作，，可用来控控制表格的操作交互                                                       |
-| canAccessSuperData           | `boolean`                      | `false`    | 是否可以访问父级数据，也就是表单中的同级数据，通常需要跟 strictMode 搭配使用                         |
-| strictMode                   | `boolean`                      | `true`     | 为了性能，默认其他表单项项值变化不会让当前表格更新，有时候为了同步获取其他表单项字段，需要开启这个。 |
-| minLength                    | `number`                       | `0`        | 最小行数, `2.4.1`版本后支持变量                                                                      |
-| maxLength                    | `number`                       | `Infinity` | 最大行数, `2.4.1`版本后支持变量                                                                      |
-| perPage | number        | -          | 每页展示几行数据，如果不配置则不会显示分页器                                                             |
-| columns                      | `array`                        | []         | 列信息                                                                                               |
-| columns[x].quickEdit         | `boolean` 或者 `object`        | -          | 配合 editable 为 true 一起使用                                                                       |
-| columns[x].quickEditOnUpdate | `boolean` 或者 `object`        | -          | 可以用来区分新建模式和更新模式的编辑配置                                                             |
+| 属性名                       | 类型                                      | 默认值          | 说明                                                                                                 |
+| ---------------------------- | ----------------------------------------- | --------------- | ---------------------------------------------------------------------------------------------------- |
+| type                         | `string`                                  | `"input-table"` | 指定为 Table 渲染器                                                                                  |
+| addable                      | `boolean`                                 | `false`         | 是否可增加一行                                                                                       |
+| editable                     | `boolean`                                 | `false`         | 是否可编辑                                                                                           |
+| removable                    | `boolean`                                 | `false`         | 是否可删除                                                                                           |
+| showTableAddBtn              | `boolean`                                 | `true`          | 是否显示表格操作栏添加按钮                                                                           |
+| showFooterAddBtn             | `boolean`                                 | `true`          | 是否显示表格下方添加按钮                                                                             |
+| addApi                       | [API](../../../docs/types/api)            | -               | 新增时提交的 API                                                                                     |
+| footerAddBtn                 | [SchemaNode](../../docs/types/schemanode) | -               | 底部新增按钮配置                                                                                     |
+| updateApi                    | [API](../../../docs/types/api)            | -               | 修改时提交的 API                                                                                     |
+| deleteApi                    | [API](../../../docs/types/api)            | -               | 删除时提交的 API                                                                                     |
+| addBtnLabel                  | `string`                                  |                 | 增加按钮名称                                                                                         |
+| addBtnIcon                   | `string`                                  | `"plus"`        | 增加按钮图标                                                                                         |
+| copyBtnLabel                 | `string`                                  |                 | 复制按钮文字                                                                                         |
+| copyBtnIcon                  | `string`                                  | `"copy"`        | 复制按钮图标                                                                                         |
+| editBtnLabel                 | `string`                                  | `""`            | 编辑按钮名称                                                                                         |
+| editBtnIcon                  | `string`                                  | `"pencil"`      | 编辑按钮图标                                                                                         |
+| deleteBtnLabel               | `string`                                  | `""`            | 删除按钮名称                                                                                         |
+| deleteBtnIcon                | `string`                                  | `"minus"`       | 删除按钮图标                                                                                         |
+| confirmBtnLabel              | `string`                                  | `""`            | 确认编辑按钮名称                                                                                     |
+| confirmBtnIcon               | `string`                                  | `"check"`       | 确认编辑按钮图标                                                                                     |
+| cancelBtnLabel               | `string`                                  | `""`            | 取消编辑按钮名称                                                                                     |
+| cancelBtnIcon                | `string`                                  | `"times"`       | 取消编辑按钮图标                                                                                     |
+| needConfirm                  | `boolean`                                 | `true`          | 是否需要确认操作，，可用来控控制表格的操作交互                                                       |
+| canAccessSuperData           | `boolean`                                 | `false`         | 是否可以访问父级数据，也就是表单中的同级数据，通常需要跟 strictMode 搭配使用                         |
+| strictMode                   | `boolean`                                 | `true`          | 为了性能，默认其他表单项项值变化不会让当前表格更新，有时候为了同步获取其他表单项字段，需要开启这个。 |
+| minLength                    | `number`                                  | `0`             | 最小行数, `2.4.1`版本后支持变量                                                                      |
+| maxLength                    | `number`                                  | `Infinity`      | 最大行数, `2.4.1`版本后支持变量                                                                      |
+| perPage                      | `number`                                  | -               | 每页展示几行数据，如果不配置则不会显示分页器                                                         |
+| columns                      | `array`                                   | []              | 列信息                                                                                               |
+| columns[x].quickEdit         | `boolean` 或者 `object`                   | -               | 配合 editable 为 true 一起使用                                                                       |
+| columns[x].quickEditOnUpdate | `boolean` 或者 `object`                   | -               | 可以用来区分新建模式和更新模式的编辑配置                                                             |
