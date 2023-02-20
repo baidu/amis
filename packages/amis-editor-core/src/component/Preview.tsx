@@ -627,6 +627,19 @@ class SmartPreview extends React.Component<SmartPreviewProps> {
     }
   }
 
+  componentDidUpdate(prevProps: SmartPreviewProps) {
+    const props = this.props;
+
+    if (props.editable !== prevProps.editable) {
+      if (props.editable) {
+        // 当预览状态切换到设计状态
+        this.props.manager.trigger('preview2editor', {
+          data: this.props.manager
+        });
+      }
+    }
+  }
+
   render() {
     const {editable, store, appLocale, autoFocus, env, data, manager, ...rest} =
       this.props;
