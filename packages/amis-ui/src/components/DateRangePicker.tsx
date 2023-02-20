@@ -1655,10 +1655,15 @@ export class DateRangePicker extends React.Component<
           </a>
         ) : null}
 
-        <a className={`${ns}DateRangePicker-toggler`}>
+        <a className={cx(`DateRangePicker-toggler`)}>
           <Icon
             icon={viewMode === 'time' ? 'clock' : 'date'}
             className="icon"
+            iconContent={
+              viewMode === 'time'
+                ? 'DatePicker-toggler-clock'
+                : 'DatePicker-toggler-date'
+            }
           />
         </a>
 

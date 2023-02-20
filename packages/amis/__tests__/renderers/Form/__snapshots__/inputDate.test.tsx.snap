@@ -74,6 +74,10 @@ exports[`Renderer:inputDate 1`] = `
               <a
                 class="cxd-DatePicker-toggler"
               >
+                <div
+                  class=" DatePicker-toggler-date"
+                  style="display: none;"
+                />
                 <icon-mock
                   classname="icon icon-date"
                   icon="date"
@@ -209,6 +213,10 @@ exports[`Renderer:inputDate with clearable: clearable false 1`] = `
                         <a
                           class="cxd-DatePicker-toggler"
                         >
+                          <div
+                            class=" DatePicker-toggler-date"
+                            style="display: none;"
+                          />
                           <icon-mock
                             classname="icon icon-date"
                             icon="date"
@@ -365,6 +373,10 @@ exports[`Renderer:inputDate with clearable: clearable true 1`] = `
                         <a
                           class="cxd-DatePicker-toggler"
                         >
+                          <div
+                            class=" DatePicker-toggler-date"
+                            style="display: none;"
+                          />
                           <icon-mock
                             classname="icon icon-date"
                             icon="date"
@@ -560,6 +572,10 @@ exports[`Renderer:inputDate with format & inputFormat 1`] = `
                         <a
                           class="cxd-DatePicker-toggler"
                         >
+                          <div
+                            class=" DatePicker-toggler-date"
+                            style="display: none;"
+                          />
                           <icon-mock
                             classname="icon icon-date"
                             icon="date"

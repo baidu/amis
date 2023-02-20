@@ -303,7 +303,8 @@
     cursor: pointer;
     flex: 1 auto;
     display: inline-block;
-    color: var(--Form-input-color);
+    color: var(--select-tree-color);
+    font-size: var(--select-tree-fontSize);
     max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;

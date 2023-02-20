@@ -62,7 +62,10 @@
   cursor: pointer;
   > span {
     display: inline-block;
-    border-radius: 2px;
+    border-radius: var(--inputDate-default-option-top-left-border-radius)
+      var(--inputDate-default-option-top-right-border-radius)
+      var(--inputDate-default-option-bottom-right-border-radius)
+      var(--inputDate-default-option-bottom-left-border-radius);
     height: 24px;
     width: 24px;
   }
@@ -77,7 +80,10 @@
 }
 .rdtPicker td.rdtOld,
 .rdtPicker td.rdtNew {
-  color: #b8babf;
+  color: var(--inputDate-disabled-option-color);
+  span {
+    background: var(--inputDate-disabled-option-bg-color);
+  }
 }
 .rdtPicker td.rdtToday {
   position: relative;
