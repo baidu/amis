@@ -60,6 +60,11 @@ export type ListBodyFieldObject = {
   labelClassName?: SchemaClassName;
 
   /**
+   * 内层组件的CSS类名
+   */
+  innerClassName?: SchemaClassName;
+
+  /**
    * 绑定字段名
    */
   name?: string;
@@ -1040,9 +1045,7 @@ export default class List extends React.Component<ListProps, object> {
         {heading}
         {store.items.length ? (
           <div className={cx('List-items')}>
-            {store.items.map((item, index) =>
-              this.renderListItem(index, listItem, item, itemClassName)
-            )}
+            {store.items.map((item, index) => this.renderListItem(index, listItem, item, itemClassName))}
           </div>
         ) : (
           <div className={cx('List-placeholder')}>
