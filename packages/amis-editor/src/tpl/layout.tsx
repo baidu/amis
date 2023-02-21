@@ -1329,9 +1329,11 @@ setSchemaTpl('layout:sticky', {
     if (value) {
       form.setValueByName('style.position', 'sticky');
       form.setValueByName('style.inset', '0px auto auto auto');
+      form.setValueByName('style.zIndex', 10);
     } else {
       form.setValueByName('style.position', 'static');
       form.setValueByName('style.inset', undefined);
+      form.setValueByName('style.zIndex', undefined);
     }
   }
 });
