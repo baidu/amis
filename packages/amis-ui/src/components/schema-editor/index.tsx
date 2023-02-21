@@ -13,7 +13,9 @@ import {
 } from 'amis-core';
 import {uncontrollable} from 'amis-core';
 import {SchemaEditorItem} from './Item';
+import {schemaEditorItemPlaceholder} from './Common';
 import type {JSONSchema7TypeName} from 'json-schema';
+import type {SchemaEditorItemPlaceholder} from './Common';
 
 export interface SchemaEditorProps extends LocaleProps, ThemeProps {
   value?: JSONSchema;
@@ -63,6 +65,11 @@ export interface SchemaEditorProps extends LocaleProps, ThemeProps {
    * 是否开启高级配置
    */
   enableAdvancedSetting?: boolean;
+
+  /**
+   * 各属性输入控件的占位提示文本
+   */
+  placeholder?: SchemaEditorItemPlaceholder;
 }
 
 export class SchemaEditor extends React.Component<SchemaEditorProps> {
@@ -73,7 +80,8 @@ export class SchemaEditor extends React.Component<SchemaEditorProps> {
     defaultType: 'object',
     rootTypeMutable: false,
     showRootInfo: false,
-    disabledTypes: ['null']
+    disabledTypes: ['null'],
+    placeholder: schemaEditorItemPlaceholder
   };
 
   defaultTypes: Array<any>;
@@ -155,7 +163,8 @@ export class SchemaEditor extends React.Component<SchemaEditorProps> {
       showRootInfo,
       disabled,
       definitions,
-      enableAdvancedSetting
+      enableAdvancedSetting,
+      placeholder
     } = this.props;
     const value: JSONSchema = this.props.value || {
       type: defaultType || 'object'
@@ -213,6 +222,7 @@ export class SchemaEditor extends React.Component<SchemaEditorProps> {
           disabled={disabled}
           onTypeChange={this.handleTypeChange}
           enableAdvancedSetting={enableAdvancedSetting}
+          placeholder={placeholder}
         />
       </div>
     );
