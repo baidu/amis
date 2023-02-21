@@ -8,7 +8,11 @@ import React from 'react';
 import uniq from 'lodash/uniq';
 import isEqual from 'lodash/isEqual';
 import isEqualWith from 'lodash/isEqualWith';
-import RcMenu, {MenuProps as RcMenuProps, Divider as RcDivider} from 'rc-menu';
+import RcMenu, {
+  MenuProps as RcMenuProps,
+  Divider as RcDivider,
+  ItemGroup
+} from 'rc-menu';
 import Overflow from 'rc-overflow';
 import Sortable from 'sortablejs';
 import {
@@ -47,6 +51,7 @@ export interface NavigationItem {
   permission?: string;
   persistState?: boolean;
   keepInHistory?: boolean;
+  mode?: string; // 菜单项是否为分组标题 mode: group
   [propName: string]: any;
 }
 
@@ -537,6 +542,17 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     } = this.props;
 
     return list.map(item => {
+      if (item.mode && item.mode === 'group') {
+        return (
+          <ItemGroup
+            key={item.id}
+            title={item.label}
+            className={item.className}
+          >
+            {this.renderMenuContent(item.children || [])}
+          </ItemGroup>
+        );
+      }
       const itemDisabled =
         item.disabled === undefined ? disabled : item.disabled;
       const link = item.link;

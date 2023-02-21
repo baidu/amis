@@ -104,7 +104,7 @@
   --Menu-light-fontColor-onHover: var(--Layout-fontColor--onHover);
   --Menu-light-ancestor-fontColor-onActive: var(--Layout-light-fontColor);
   --Menu-light-fontColor-onActive: var(--Layout-fontColor--onActive);
-  --Menu-light-groupTitle-fontColor: #d8d8d8;
+  --Menu-light-groupTitle-fontColor: #84868c;
   --Menu-light-selectedIndicator-color: var(--Layout-fontColor--info);
 
   --Menu-dark-backgroundColor: var(--Layout-dark-backgroundColor);
@@ -113,7 +113,7 @@
   --Menu-dark-fontColor-onHover: var(--Layout-fontColor--onHover);
   --Menu-dark-ancestor-fontColor-onActive: var(--Layout-fontColor--onActive);
   --Menu-dark-fontColor-onActive: var(--Layout-dark-fontColor);
-  --Menu-dark-groupTitle-fontColor: #d8d8d8;
+  --Menu-dark-groupTitle-fontColor: #84868c;
   --Menu-dark-selectedIndicator-color: var(--Layout-dark-selected-color);
 
   outline: none;
@@ -172,7 +172,8 @@
   }
 
   &-root.#{$ns}Nav-Menu-collapsed {
-    .#{$ns}Nav-Menu-item {
+    .#{$ns}Nav-Menu-item,
+    .#{$ns}Nav-Menu-submenu-title {
       padding: 0;
       text-align: center;
     }
@@ -266,9 +267,10 @@
 
   &-item-group-title {
     color: var(--Menu-light-groupTitle-fontColor);
-    line-height: 1.5;
-    padding: 8px 10px;
-    border-bottom: 1px solid #dedede;
+    line-height: px2rem(20px);
+    padding: 0 var(--Menu-Submenu-item-paddingX) 0 px2rem(16px);
+    font-size: px2rem(12px);
+    margin: px2rem(12px) 0 px2rem(4px) 0;
 
     &.#{$ns}Nav-Menu-dark {
       color: var(--Menu-dark-groupTitle-fontColor);
@@ -915,14 +917,6 @@
     .#{$ns}Nav-Menu-item {
       &-wrap {
         overflow: hidden;
-      }
-    }
-
-    .#{$ns}Nav-Menu-submenu-vertical.#{$ns}Nav-Menu-submenu {
-      .#{$ns}Nav-Menu-submenu-title {
-        padding: 0 var(--Menu-Submenu-title-paddingX) 0
-          calc(var(--Menu-Submenu-title-paddingX) - 2px);
-        text-align: center;
       }
     }
 
