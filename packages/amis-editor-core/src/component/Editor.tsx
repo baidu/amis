@@ -166,26 +166,7 @@ export default class Editor extends Component<EditorProps> {
     // 添加快捷键事件
     document.addEventListener('keydown', this.handleKeyDown);
 
-    // 增加插件动态添加事件响应机制
-    window.addEventListener(
-      'message',
-      (event: any) => {
-        if (!event.data) {
-          return;
-        }
-        if (
-          event.data.type === 'amis-widget-register-event' &&
-          event.data.editorPluginName
-        ) {
-          console.info(
-            '[amis-editor]响应动态添加插件事件：',
-            event.data.editorPluginName
-          );
-          this.manager.dynamicAddPlugin(event.data.editorPluginName);
-        }
-      },
-      false
-    );
+    window.addEventListener('message', this.handleMessage, false);
 
     this.unReaction = reaction(
       () => this.store.schemaRaw,
@@ -236,6 +217,7 @@ export default class Editor extends Component<EditorProps> {
 
   componentWillUnmount() {
     document.removeEventListener('keydown', this.handleKeyDown);
+    document.removeEventListener('message', this.handleMessage);
     this.unReaction();
     this.manager.dispose();
     destroy(this.store);
@@ -373,6 +355,24 @@ export default class Editor extends Component<EditorProps> {
         }
       }
       return;
+    }
+  }
+
+  @autobind
+  handleMessage(event: any) {
+    if (!event.data) {
+      return;
+    }
+    // 增加插件动态添加事件响应机制
+    if (
+      event.data.type === 'amis-widget-register-event' &&
+      event.data.editorPluginName
+    ) {
+      console.info(
+        '[amis-editor]响应动态添加插件事件：',
+        event.data.editorPluginName
+      );
+      this.manager.dynamicAddPlugin(event.data.editorPluginName);
     }
   }
 
