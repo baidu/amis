@@ -217,7 +217,7 @@ export default class Editor extends Component<EditorProps> {
 
   componentWillUnmount() {
     document.removeEventListener('keydown', this.handleKeyDown);
-    document.removeEventListener('message', this.handleMessage);
+    window.removeEventListener('message', this.handleMessage);
     this.unReaction();
     this.manager.dispose();
     destroy(this.store);
