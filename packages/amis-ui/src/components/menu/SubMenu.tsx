@@ -165,7 +165,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
           title={isCollapsedNode ? '' : label}
           style={this.getDynamicStyle(!!iconNode)}
         >
-          {label}
+          {isCollapsedNode ? label.slice(0, 1) : label}
         </span>
       ) : React.isValidElement(label) ? (
         React.cloneElement(label as any, {

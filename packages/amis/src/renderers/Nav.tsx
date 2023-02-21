@@ -81,6 +81,8 @@ export type NavItemSchema = {
   className?: string; // 自定义菜单项样式
 
   accordion?: boolean; // 手风琴展开 仅垂直inline模式支持
+
+  mode?: string; // 菜单项模式 分组模式：group
 } & Omit<BaseSchema, 'type'>;
 
 export interface NavOverflow {
@@ -608,13 +610,16 @@ export class Navigation extends React.Component<
         extra: itemActions
           ? render('inline', itemActions, {
               data: createObject(data, link),
-              popOverContainer: () => document.body
+              popOverContainer: () => document.body,
+              // 点击操作之后 就关闭 因为close方法里执行了preventDefault
+              closeOnClick: true
             })
           : null,
         disabled: !!link.disabled,
         disabledTip: link.disabledTip,
         hidden: link.hidden,
-        className: link.className
+        className: link.className,
+        mode: link.mode
       };
     });
   }

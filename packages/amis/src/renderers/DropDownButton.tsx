@@ -269,7 +269,6 @@ export default class DropDownButton extends React.Component<
       closeOnOutside,
       menuClassName
     } = this.props;
-
     let body = (
       <RootClose
         disabled={!this.state.isOpened}
@@ -283,10 +282,7 @@ export default class DropDownButton extends React.Component<
                 'DropDown-menu',
                 menuClassName
               )}
-              onClick={(e: React.MouseEvent<any>) => {
-                closeOnClick ? this.close() : noop;
-                e.preventDefault();
-              }}
+              onClick={closeOnClick ? this.close : noop}
               onMouseEnter={this.keepOpen}
               ref={ref}
             >
