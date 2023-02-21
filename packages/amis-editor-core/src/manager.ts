@@ -1399,7 +1399,8 @@ export class EditorManager {
     const commonContext = this.buildEventContext(id);
 
     // 填充id，有些脚手架生成了复杂的布局等，自动填充一下id
-    JsonGenerateID(json);
+    let curChildJson = {...json};
+    JsonGenerateID(curChildJson);
 
     if (beforeId) {
       const arr = commonContext.schema[region];
@@ -1413,7 +1414,7 @@ export class EditorManager {
       beforeId: beforeId,
       index,
       region: region,
-      data: json,
+      data: curChildJson,
       subRenderer,
       dragInfo
     };
@@ -1474,7 +1475,7 @@ export class EditorManager {
   ): boolean {
     const context: ReplaceEventContext = {
       ...this.buildEventContext(id),
-      data: json,
+      data: {...json},
       subRenderer,
       region
     };
