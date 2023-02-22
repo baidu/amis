@@ -554,10 +554,15 @@ export const FormItemStore = StoreNode.named('FormItemStore')
                   (config && config.errorMessage)
               })
             );
+          let msg = json.msg;
+          // 如果没有 msg，就提示 status 信息
+          if (!msg) {
+            msg = `status: ${json.status}`;
+          }
           getEnv(self).notify(
             'error',
             apiObject.messages?.failed ??
-              (self.errors.join('') || `${apiObject.url}：${json.msg}`),
+              (self.errors.join('') || `${apiObject.url}: ${msg}`),
             json.msgTimeout !== undefined
               ? {
                   closeButton: true,
@@ -610,9 +615,9 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       ) => void,
       setErrorFlag?: boolean
     ) {
-      let json = yield fetchOptions(api, data, config, setErrorFlag);
+      let json: Payload = yield fetchOptions(api, data, config, setErrorFlag);
       if (!json) {
-        return;
+        return null;
       }
 
       clearError();
