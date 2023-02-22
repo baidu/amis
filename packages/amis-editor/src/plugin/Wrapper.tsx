@@ -1,5 +1,5 @@
 import {registerEditorPlugin} from 'amis-editor-core';
-import {BasePlugin, RegionConfig, RendererInfo} from 'amis-editor-core';
+import {BasePlugin, RegionConfig, BaseEventContext} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 
 export class WrapperPlugin extends BasePlugin {
@@ -31,97 +31,288 @@ export class WrapperPlugin extends BasePlugin {
   ];
 
   panelTitle = '包裹';
-  panelBody = [
-    getSchemaTpl('tabs', [
-      {
-        title: '属性',
-        className: 'p-none',
-        body: [
-          getSchemaTpl('collapseGroup', [
+
+  panelJustify = true;
+
+  panelBodyCreator = (context: BaseEventContext) => {
+    const curRendererSchema = context?.schema;
+    const isFlexItem = this.manager?.isFlexItem(context?.id);
+    const isFlexColumnItem = this.manager?.isFlexColumnItem(context?.id);
+
+    return [
+      getSchemaTpl('tabs', [
+        {
+          title: '属性',
+          className: 'p-none',
+          body: [
+            getSchemaTpl('collapseGroup', [
+              {
+                title: '布局',
+                body: [
+                  getSchemaTpl('layout:position', {
+                    visibleOn: '!data.stickyStatus'
+                  }),
+                  getSchemaTpl('layout:originPosition'),
+                  getSchemaTpl('layout:inset', {
+                    mode: 'vertical'
+                  }),
+                  getSchemaTpl('layout:display'),
+                  getSchemaTpl('layout:flexDirection', {
+                    visibleOn: 'data.style && data.style.display === "flex"'
+                  }),
+
+                  getSchemaTpl('layout:justifyContent', {
+                    label: '水平对齐方式',
+                    options: [
+                      {
+                        label: '左对齐',
+                        value: 'flex-start'
+                      },
+                      {
+                        label: '居中对齐',
+                        value: 'center'
+                      },
+                      {
+                        label: '右对齐',
+                        value: 'flex-end'
+                      },
+                      {
+                        label: '两端对齐',
+                        value: 'space-between'
+                      },
+                      {
+                        label: '均匀分布',
+                        value: 'space-evenly'
+                      }
+                    ],
+                    visibleOn:
+                      'data.style && data.style.display === "flex" && data.style.flexDirection === "row" || data.style.flexDirection === "row-reverse"'
+                  }),
+                  getSchemaTpl('layout:justifyContent', {
+                    label: '垂直对齐方式',
+                    options: [
+                      {
+                        label: '顶部对齐',
+                        value: 'flex-start'
+                      },
+                      {
+                        label: '居中对齐',
+                        value: 'center'
+                      },
+                      {
+                        label: '底部对齐',
+                        value: 'flex-end'
+                      },
+                      {
+                        label: '两端对齐',
+                        value: 'space-between'
+                      },
+                      {
+                        label: '均匀分布',
+                        value: 'space-evenly'
+                      }
+                    ],
+                    visibleOn:
+                      'data.style && data.style.display === "flex" && (data.style.flexDirection === "column" || data.style.flexDirection === "column-reverse")'
+                  }),
+                  getSchemaTpl('layout:alignItems', {
+                    label: '水平对齐方式',
+                    options: [
+                      {
+                        label: '左对齐',
+                        value: 'flex-start'
+                      },
+                      {
+                        label: '居中对齐',
+                        value: 'center'
+                      },
+                      {
+                        label: '右对齐',
+                        value: 'flex-end'
+                      },
+                      {
+                        label: '基线对齐',
+                        value: 'baseline'
+                      },
+                      {
+                        label: '自动拉伸',
+                        value: 'stretch'
+                      }
+                    ],
+                    visibleOn:
+                      'data.style && data.style.display === "flex" && (data.style.flexDirection === "column" || data.style.flexDirection === "column-reverse")'
+                  }),
+                  getSchemaTpl('layout:alignItems', {
+                    label: '垂直对齐方式',
+                    options: [
+                      {
+                        label: '顶部对齐',
+                        value: 'flex-start'
+                      },
+                      {
+                        label: '居中对齐',
+                        value: 'center'
+                      },
+                      {
+                        label: '底部对齐',
+                        value: 'flex-end'
+                      },
+                      {
+                        label: '基线对齐',
+                        value: 'baseline'
+                      },
+                      {
+                        label: '高度撑满',
+                        value: 'stretch'
+                      }
+                    ],
+                    visibleOn:
+                      'data.style && data.style.display === "flex" && (data.style.flexDirection === "row" || data.style.flexDirection === "row-reverse")'
+                  }),
+
+                  getSchemaTpl('layout:flex-wrap', {
+                    visibleOn: 'data.style && data.style.display === "flex"'
+                  }),
+
+                  isFlexItem
+                  ? getSchemaTpl('layout:flex', {
+                      isFlexColumnItem,
+                      label: isFlexColumnItem ? '高度设置' : '宽度设置',
+                      visibleOn:
+                        'data.style && (data.style.position === "static" || data.style.position === "relative")'
+                    })
+                  : null,
+                  isFlexItem
+                  ? getSchemaTpl('layout:flex-grow', {
+                      visibleOn:
+                        'data.style && data.style.flex === "1 1 auto" && (data.style.position === "static" || data.style.position === "relative")'
+                    })
+                  : null,
+                  isFlexItem
+                  ? getSchemaTpl('layout:flex-basis', {
+                      label: isFlexColumnItem ? '弹性高度' : '弹性宽度',
+                      visibleOn:
+                        'data.style && (data.style.position === "static" || data.style.position === "relative") && data.style.flex === "1 1 auto"'
+                    })
+                  : null,
+                  isFlexItem
+                  ? getSchemaTpl('layout:flex-basis', {
+                      label: isFlexColumnItem ? '固定高度' : '固定宽度',
+                      visibleOn:
+                        'data.style && (data.style.position === "static" || data.style.position === "relative") && data.style.flex === "0 0 150px"'
+                    })
+                  : null,
+
+                  getSchemaTpl('layout:overflow-x', {
+                    visibleOn: `${
+                      isFlexItem && !isFlexColumnItem
+                    } && data.style.flex === '0 0 150px'`
+                  }),
+
+                  getSchemaTpl('layout:isFixedHeight', {
+                    visibleOn: `${!isFlexItem || !isFlexColumnItem}`
+                  }),
+                  getSchemaTpl('layout:height', {
+                    visibleOn: `${!isFlexItem || !isFlexColumnItem}`
+                  }),
+                  getSchemaTpl('layout:max-height', {
+                    visibleOn: `${!isFlexItem || !isFlexColumnItem}`
+                  }),
+                  getSchemaTpl('layout:min-height', {
+                    visibleOn: `${!isFlexItem || !isFlexColumnItem}`
+                  }),
+                  getSchemaTpl('layout:overflow-y', {
+                    visibleOn: `${
+                      !isFlexItem || !isFlexColumnItem
+                    } && (data.isFixedHeight || data.style && data.style.maxHeight) || (${
+                      isFlexItem && isFlexColumnItem
+                    } && data.style.flex === '0 0 150px')`
+                  }),
+
+                  getSchemaTpl('layout:isFixedWidth', {
+                    visibleOn: `${!isFlexItem || isFlexColumnItem}`
+                  }),
+                  getSchemaTpl('layout:width', {
+                    visibleOn: `${!isFlexItem || isFlexColumnItem}`
+                  }),
+                  getSchemaTpl('layout:max-width', {
+                    visibleOn: `${!isFlexItem || isFlexColumnItem}`
+                  }),
+                  getSchemaTpl('layout:min-width', {
+                    visibleOn: `${!isFlexItem || isFlexColumnItem}`
+                  }),
+                  
+                  getSchemaTpl('layout:overflow-x', {
+                    visibleOn: `${
+                      !isFlexItem || isFlexColumnItem
+                    } && (data.isFixedWidth || data.style && data.style.maxWidth)`
+                  }),
+                  !isFlexItem ? getSchemaTpl('layout:margin-center') : null,
+                  getSchemaTpl('layout:z-index')
+                ]
+              },
+              {
+                title: '常用',
+                body: [
+                  {
+                    label: '内间距',
+                    type: 'button-group-select',
+                    name: 'size',
+                    size: 'xs',
+                    mode: 'vertical',
+                    options: [
+                      {
+                        label: '极小',
+                        value: 'xs'
+                      },
+                      {
+                        label: '小',
+                        value: 'sm'
+                      },
+                      {
+                        label: '默认',
+                        value: ''
+                      },
+                      {
+                        label: '中',
+                        value: 'md'
+                      },
+                      {
+                        label: '大',
+                        value: 'lg'
+                      },
+                      {
+                        label: '无',
+                        value: 'none'
+                      }
+                    ],
+                    pipeIn: defaultValue('')
+                  }
+                ]
+              },
+              getSchemaTpl('status')
+            ])
+          ]
+        },
+        {
+          title: '外观',
+          className: 'p-none',
+          body: getSchemaTpl('collapseGroup', [
+            ...getSchemaTpl('style:common', ['layout']),
             {
-              title: '基本',
+              title: 'CSS 类名',
               body: [
-                {
-                  label: '内间距',
-                  type: 'button-group-select',
-                  name: 'size',
-                  size: 'xs',
-                  mode: 'row',
-                  className: 'ae-buttonGroupSelect--justify',
-                  options: [
-                    {
-                      label: '极小',
-                      value: 'xs'
-                    },
-                    {
-                      label: '小',
-                      value: 'sm'
-                    },
-                    {
-                      label: '默认',
-                      value: ''
-                    },
-                    {
-                      label: '中',
-                      value: 'md'
-                    },
-                    {
-                      label: '大',
-                      value: 'lg'
-                    },
-                    {
-                      label: '无',
-                      value: 'none'
-                    }
-                  ],
-                  pipeIn: defaultValue('')
-                }
-              ]
-            },
-            {
-              title: '子节点管理',
-              body: [
-                {
-                  name: 'body',
-                  label: false,
-                  type: 'combo',
-                  scaffold: {
-                    type: 'tpl',
-                    tpl: '子节点',
-                    inline: false
-                  },
-                  multiple: true,
-                  draggableTip: '',
-                  items: [
-                    {
-                      type: 'tpl',
-                      tpl: '<span class="label label-default">子节点${index | plus}</span>'
-                    }
-                  ]
-                }
+                getSchemaTpl('className', {
+                  description: '设置样式后，大小设置将无效。',
+                  pipeIn: defaultValue('bg-white')
+                })
               ]
             }
           ])
-        ]
-      },
-      {
-        title: '外观',
-        className: 'p-none',
-        body: getSchemaTpl('collapseGroup', [
-          ...getSchemaTpl('style:common'),
-          {
-            title: 'CSS 类名',
-            body: [
-              getSchemaTpl('className', {
-                description: '设置样式后，大小设置将无效。',
-                pipeIn: defaultValue('bg-white')
-              })
-            ]
-          }
-        ])
-      }
-    ])
-  ];
+        }
+      ])
+    ];
+  };
 }
 
 registerEditorPlugin(WrapperPlugin);

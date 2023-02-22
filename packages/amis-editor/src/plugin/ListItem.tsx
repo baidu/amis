@@ -73,6 +73,7 @@ export class ListItemPlugin extends BasePlugin {
         // {
         //   type: 'divider'
         // },
+        getSchemaTpl('layout:originPosition', {value: 'left-top'}),
         {
           name: 'title',
           type: 'input-text',

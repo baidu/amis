@@ -101,6 +101,7 @@ export class CheckboxControlPlugin extends BasePlugin {
           {
             title: '基本',
             body: [
+              getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               getSchemaTpl('formItemName', {
                 required: true
               }),
@@ -137,6 +138,7 @@ export class CheckboxControlPlugin extends BasePlugin {
                   ...context?.schema,
                   type: 'switch'
                 },
+                needDeleteProps: ['option'],
                 label: '默认勾选',
                 rendererWrapper: true, // 浅色线框包裹一下，增加边界感
                 valueType: 'boolean',

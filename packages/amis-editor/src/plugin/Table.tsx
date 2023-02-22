@@ -1,8 +1,9 @@
-import {resolveVariable} from 'amis';
+import React from 'react';
+import {Button, resolveVariable} from 'amis';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
-import {setVariable} from 'amis-core';
+import {findTree, setVariable, someTree} from 'amis-core';
 
-import {registerEditorPlugin, repeatArray} from 'amis-editor-core';
+import {registerEditorPlugin, repeatArray, diff} from 'amis-editor-core';
 import {
   BasePlugin,
   BaseEventContext,
@@ -15,14 +16,15 @@ import {
   ScaffoldForm,
   DSBuilderManager
 } from 'amis-editor-core';
-import {defaultValue, getSchemaTpl} from 'amis-editor-core';
+import {defaultValue, getSchemaTpl, tipedLabel} from 'amis-editor-core';
 import {mockValue} from 'amis-editor-core';
 import {EditorNodeType} from 'amis-editor-core';
 import {SchemaObject} from 'amis/lib/Schema';
 import {
-  getArgsWrapper,
-  getEventControlConfig
+  getEventControlConfig,
+  getArgsWrapper
 } from '../renderer/event-control/helper';
+import {getEnv} from 'mobx-state-tree';
 
 import type {EditorManager} from 'amis-editor-core';
 
@@ -83,80 +85,84 @@ export class TablePlugin extends BasePlugin {
     ]
   };
 
-  scaffoldForm: ScaffoldForm = {
-    title: '快速构建表格',
-    body: [
-      {
-        name: 'columns',
-        type: 'combo',
-        multiple: true,
-        label: false,
-        addButtonText: '新增一列',
-        draggable: true,
-        items: [
-          {
-            type: 'input-text',
-            name: 'label',
-            placeholder: '标题'
-          },
-          {
-            type: 'input-text',
-            name: 'name',
-            placeholder: '绑定字段名'
-          },
-          {
-            type: 'select',
-            name: 'type',
-            placeholder: '类型',
-            value: 'text',
-            options: [
-              {
-                value: 'text',
-                label: '纯文本'
-              },
-              {
-                value: 'tpl',
-                label: '模板'
-              },
-              {
-                value: 'image',
-                label: '图片'
-              },
-              {
-                value: 'date',
-                label: '日期'
-              },
-              // {
-              //     value: 'datetime',
-              //     label: '日期时间'
-              // },
-              // {
-              //     value: 'time',
-              //     label: '时间'
-              // },
-              {
-                value: 'progress',
-                label: '进度'
-              },
-              {
-                value: 'status',
-                label: '状态'
-              },
-              {
-                value: 'mapping',
-                label: '映射'
-              },
-              {
-                value: 'operation',
-                label: '操作栏'
-              }
-            ]
-          }
-        ]
-      }
-    ],
-    canRebuild: true
-  };
+  get scaffoldForm(): ScaffoldForm {
+    const editorStore = (window as any)?.editorStore;
+    const i18nEnabled = editorStore ? editorStore.i18nEnabled : false;
+    return {
+      title: '快速构建表格',
+      body: [
+        {
+          name: 'columns',
+          type: 'combo',
+          multiple: true,
+          label: false,
+          addButtonText: '新增一列',
+          draggable: true,
+          items: [
+            {
+              type: i18nEnabled ? 'input-text-i18n' : 'input-text',
+              name: 'label',
+              placeholder: '标题'
+            },
+            {
+              type: 'input-text',
+              name: 'name',
+              placeholder: '绑定字段名'
+            },
+            {
+              type: 'select',
+              name: 'type',
+              placeholder: '类型',
+              value: 'text',
+              options: [
+                {
+                  value: 'text',
+                  label: '纯文本'
+                },
+                {
+                  value: 'tpl',
+                  label: '模板'
+                },
+                {
+                  value: 'image',
+                  label: '图片'
+                },
+                {
+                  value: 'date',
+                  label: '日期'
+                },
+                // {
+                //     value: 'datetime',
+                //     label: '日期时间'
+                // },
+                // {
+                //     value: 'time',
+                //     label: '时间'
+                // },
+                {
+                  value: 'progress',
+                  label: '进度'
+                },
+                {
+                  value: 'status',
+                  label: '状态'
+                },
+                {
+                  value: 'mapping',
+                  label: '映射'
+                },
+                {
+                  value: 'operation',
+                  label: '操作栏'
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      canRebuild: true
+    };
+  }
 
   panelTitle = '表格';
 
@@ -298,6 +304,7 @@ export class TablePlugin extends BasePlugin {
       description: '设置表格的选中项',
       innerArgs: ['selected'],
       schema: getArgsWrapper([
+        /*
         {
           type: 'input-formula',
           variables: '${variables}',
@@ -306,6 +313,15 @@ export class TablePlugin extends BasePlugin {
           label: '选中项',
           size: 'lg',
           name: 'selected',
+          mode: 'horizontal'
+        }
+        */
+        {
+          name: 'selected',
+          label: '选中项',
+          type: 'ae-formulaControl',
+          variables: '${variables}',
+          size: 'lg',
           mode: 'horizontal'
         }
       ])
@@ -326,202 +342,249 @@ export class TablePlugin extends BasePlugin {
       description: '开启表格拖拽排序功能'
     }
   ];
-
-  dsBuilderMgr: DSBuilderManager;
-
-  constructor(manager: EditorManager) {
-    super(manager);
-
-    this.dsBuilderMgr = new DSBuilderManager('table', 'api');
-  }
-
+  panelJustify = true;
   panelBodyCreator = (context: BaseEventContext) => {
     const isCRUDBody = context.schema.type === 'crud';
-
     return getSchemaTpl('tabs', [
       {
-        title: '常规',
-        body: [
+        title: '属性',
+        body: getSchemaTpl('collapseGroup', [
           {
-            name: 'title',
-            type: 'input-text',
-            label: '标题'
-          },
-
-          isCRUDBody
-            ? null
-            : {
-                name: 'source',
+            title: '基本',
+            body: [
+              {
+                name: 'title',
                 type: 'input-text',
-                label: '数据源',
-                pipeIn: defaultValue('${items}'),
-                description: '绑定当前环境变量'
+                label: '标题'
               },
 
-          {
-            name: 'combineNum',
-            label: '自动合并单元格',
-            type: 'input-number',
-            placeholder: '设置列数',
-            description:
-              '设置从左到右多少列内启用自动合并单元格，根据字段值是否相同来决定是否合并。'
-          }
+              isCRUDBody
+                ? null
+                : {
+                    name: 'source',
+                    type: 'input-text',
+                    label: '数据源',
+                    pipeIn: defaultValue('${items}'),
+                    description: '绑定当前环境变量'
+                  },
 
-          // {
-          //   children: (
-          //     <div>
-          //       <Button
-          //         level="info"
-          //         size="sm"
-          //         className="m-b-sm"
-          //         block
-          //         onClick={this.handleAdd}
-          //       >
-          //         新增一列
-          //       </Button>
-          //     </div>
-          //   )
-          // },
+              {
+                name: 'combineNum',
+                label: tipedLabel(
+                  '自动合并单元格',
+                  '设置从左到右多少列内启用自动合并单元格，根据字段值是否相同来决定是否合并。'
+                ),
+                type: 'input-number',
+                labelAlign: 'left',
+                horizontal: {
+                  left: 5,
+                  right: 7
+                },
+                placeholder: '设置列数'
+              },
+              {
+                type: 'ae-switch-more',
+                mode: 'normal',
+                formType: 'extend',
+                label: '头部',
+                name: 'showHeader',
+                form: {
+                  body: [
+                    {
+                      children: (
+                        <Button
+                          level="primary"
+                          size="sm"
+                          block
+                          onClick={this.editHeaderDetail.bind(this, context.id)}
+                        >
+                          配置头部
+                        </Button>
+                      )
+                    }
+                  ]
+                }
+              },
+              {
+                type: 'ae-switch-more',
+                mode: 'normal',
+                formType: 'extend',
+                label: '底部',
+                name: 'showFooter',
+                form: {
+                  body: [
+                    {
+                      children: (
+                        <Button
+                          level="primary"
+                          size="sm"
+                          block
+                          onClick={this.editFooterDetail.bind(this, context.id)}
+                        >
+                          配置底部
+                        </Button>
+                      )
+                    }
+                  ]
+                }
+              }
 
-          // {
-          //   children: (
-          //     <div>
-          //       <Button
-          //         level="success"
-          //         size="sm"
-          //         block
-          //         onClick={this.handleColumnsQuickEdit.bind(this)}
-          //       >
-          //         快速编辑列信息
-          //       </Button>
-          //     </div>
-          //   )
-          // }
-        ]
+              // {
+              //   children: (
+              //     <div>
+              //       <Button
+              //         level="info"
+              //         size="sm"
+              //         className="m-b-sm"
+              //         block
+              //         onClick={this.handleAdd}
+              //       >
+              //         新增一列
+              //       </Button>
+              //     </div>
+              //   )
+              // },
+
+              // {
+              //   children: (
+              //     <div>
+              //       <Button
+              //         level="success"
+              //         size="sm"
+              //         block
+              //         onClick={this.handleColumnsQuickEdit.bind(this)}
+              //       >
+              //         快速编辑列信息
+              //       </Button>
+              //     </div>
+              //   )
+              // }
+            ]
+          },
+          getSchemaTpl('status')
+        ])
       },
       {
         title: '外观',
-        body: [
+        body: getSchemaTpl('collapseGroup', [
           {
-            name: 'columnsTogglable',
-            label: '展示列显示开关',
-            type: 'button-group-select',
-            pipeIn: defaultValue('auto'),
-            mode: 'inline',
-            className: 'w-full',
-            size: 'xs',
-            options: [
+            title: '基本',
+            body: [
               {
-                label: '自动',
-                value: 'auto'
+                name: 'columnsTogglable',
+                label: '展示列显示开关',
+                type: 'button-group-select',
+                pipeIn: defaultValue('auto'),
+                size: 'sm',
+                labelAlign: 'left',
+                horizontal: {
+                  left: 5,
+                  right: 7
+                },
+                options: [
+                  {
+                    label: '自动',
+                    value: 'auto'
+                  },
+
+                  {
+                    label: '开启',
+                    value: true
+                  },
+
+                  {
+                    label: '关闭',
+                    value: false
+                  }
+                ],
+                description: '自动即列数量大于5个时自动开启'
+              },
+
+              getSchemaTpl('switch', {
+                name: 'affixHeader',
+                label: '是否固顶表头',
+                pipeIn: defaultValue(true)
+              }),
+
+              getSchemaTpl('switch', {
+                name: 'footable',
+                label: tipedLabel(
+                  '是否开启单条底部展示',
+                  '如果列太多显示会很臃肿，可以考虑把部分列放在当前行的底部展示'
+                ),
+                pipeIn: (value: any) => !!value
+              }),
+
+              {
+                name: 'footable.expand',
+                type: 'button-group-select',
+                size: 'xs',
+                visibleOn: 'data.footable',
+                label: '底部默认展开',
+                pipeIn: defaultValue('none'),
+                mode: 'inline',
+                className: 'w-full',
+                options: [
+                  {
+                    label: '第一条',
+                    value: 'first'
+                  },
+
+                  {
+                    label: '所有',
+                    value: 'all'
+                  },
+
+                  {
+                    label: '不展开',
+                    value: 'none'
+                  }
+                ]
               },
 
               {
-                label: '开启',
-                value: true
+                name: 'placeholder',
+                pipeIn: defaultValue('暂无数据'),
+                type: 'input-text',
+                label: '无数据提示'
               },
-
               {
-                label: '关闭',
-                value: false
-              }
-            ],
-            description: '自动即列数量大于5个时自动开启'
-          },
-
-          getSchemaTpl('switch', {
-            name: 'affixHeader',
-            label: '是否固顶表头',
-            pipeIn: defaultValue(true)
-          }),
-
-          getSchemaTpl('switch', {
-            name: 'showHeader',
-            label: '是否显示头部',
-            pipeIn: defaultValue(true)
-          }),
-
-          getSchemaTpl('switch', {
-            name: 'showFooter',
-            label: '是否显示底部',
-            pipeIn: defaultValue(true)
-          }),
-
-          getSchemaTpl('switch', {
-            name: 'footable',
-            label: '是否开启单条底部展示',
-            description:
-              '如果列太多显示会很臃肿，可以考虑把部分列放在当前行的底部展示',
-            pipeIn: (value: any) => !!value
-          }),
-
-          {
-            name: 'footable.expand',
-            type: 'button-group-select',
-            size: 'xs',
-            visibleOn: 'data.footable',
-            label: '底部默认展开',
-            pipeIn: defaultValue('none'),
-            mode: 'inline',
-            className: 'w-full',
-            options: [
-              {
-                label: '第一条',
-                value: 'first'
-              },
-
-              {
-                label: '所有',
-                value: 'all'
-              },
-
-              {
-                label: '不展开',
-                value: 'none'
+                name: 'rowClassNameExpr',
+                type: 'input-text',
+                label: '行高亮规则',
+                placeholder: `支持模板语法，如 <%= data.id % 2 ? 'bg-success' : '' %>`
               }
             ]
           },
-
           {
-            name: 'placeholder',
-            pipeIn: defaultValue('暂无数据'),
-            type: 'input-text',
-            label: '无数据提示'
-          },
-          {
-            name: 'rowClassNameExpr',
-            type: 'input-text',
-            label: '行高亮规则',
-            placeholder: `支持模板语法，如 <%= data.id % 2 ? 'bg-success' : '' %>`
-          },
-          getSchemaTpl('className', {
-            label: '外层 CSS 类名'
-          }),
+            title: 'CSS类名',
+            body: [
+              getSchemaTpl('className', {
+                label: '外层'
+              }),
 
-          getSchemaTpl('className', {
-            name: 'tableClassName',
-            label: '表格 CSS 类名'
-          }),
+              getSchemaTpl('className', {
+                name: 'tableClassName',
+                label: '表格'
+              }),
 
-          getSchemaTpl('className', {
-            name: 'headerClassName',
-            label: '顶部外层 CSS 类名'
-          }),
+              getSchemaTpl('className', {
+                name: 'headerClassName',
+                label: '顶部外层'
+              }),
 
-          getSchemaTpl('className', {
-            name: 'footerClassName',
-            label: '底部外层 CSS 类名'
-          }),
+              getSchemaTpl('className', {
+                name: 'footerClassName',
+                label: '底部外层'
+              }),
 
-          getSchemaTpl('className', {
-            name: 'toolbarClassName',
-            label: '工具栏 CSS 类名'
-          })
-        ]
-      },
-      {
-        title: '显隐',
-        body: [getSchemaTpl('ref'), getSchemaTpl('visible')]
+              getSchemaTpl('className', {
+                name: 'toolbarClassName',
+                label: '工具栏'
+              })
+            ]
+          }
+        ])
       },
       isCRUDBody
         ? null
@@ -565,6 +628,8 @@ export class TablePlugin extends BasePlugin {
       props.value = arr.slice(0, 10);
     }
 
+    // 编辑模式，不允许表格调整宽度
+    props.resizable = false;
     return props;
   }
 
@@ -611,7 +676,11 @@ export class TablePlugin extends BasePlugin {
     }
   }
 
-  async buildDataSchemas(node: EditorNodeType, region?: EditorNodeType) {
+  async buildDataSchemas(
+    node: EditorNodeType,
+    region?: EditorNodeType,
+    trigger?: EditorNodeType
+  ) {
     const itemsSchema: any = {
       $id: 'tableRow',
       type: 'object',
@@ -621,7 +690,7 @@ export class TablePlugin extends BasePlugin {
       item => item.isRegion && item.region === 'columns'
     );
 
-    for (let current of columns.children) {
+    for (let current of columns?.children) {
       const schema = current.schema;
       if (schema.name) {
         itemsSchema.properties[schema.name] = current.info?.plugin
@@ -639,16 +708,84 @@ export class TablePlugin extends BasePlugin {
       return itemsSchema;
     }
 
+    let cellProperties = {};
+    if (trigger) {
+      const isColumnChild = someTree(
+        columns?.children,
+        item => item.id === trigger.id
+      );
+
+      isColumnChild && (cellProperties = itemsSchema.properties);
+    }
+
     return {
       $id: 'table',
       type: 'object',
       properties: {
-        items: {
+        ...cellProperties,
+        rows: {
           type: 'array',
+          title: '数据列表',
           items: itemsSchema
         }
       }
     };
+  }
+
+  editHeaderDetail(id: string) {
+    const manager = this.manager;
+    const store = manager.store;
+    const node = store.getNodeById(id);
+    const value = store.getValueOf(id);
+
+    const defaultHeader = {
+      type: 'tpl',
+      tpl: '头部',
+      wrapperComponent: ''
+    };
+
+    node &&
+      value &&
+      this.manager.openSubEditor({
+        title: '配置头部',
+        value: value.header ?? defaultHeader,
+        slot: {
+          type: 'container',
+          body: '$$'
+        },
+        onChange: newValue => {
+          newValue = {...value, header: newValue};
+          manager.panelChangeValue(newValue, diff(value, newValue));
+        }
+      });
+  }
+
+  editFooterDetail(id: string) {
+    const manager = this.manager;
+    const store = manager.store;
+    const node = store.getNodeById(id);
+    const value = store.getValueOf(id);
+
+    const defaultFooter = {
+      type: 'tpl',
+      tpl: '底部',
+      wrapperComponent: ''
+    };
+
+    node &&
+      value &&
+      this.manager.openSubEditor({
+        title: '配置底部',
+        value: value.footer ?? defaultFooter,
+        slot: {
+          type: 'container',
+          body: '$$'
+        },
+        onChange: newValue => {
+          newValue = {...value, footer: newValue};
+          manager.panelChangeValue(newValue, diff(value, newValue));
+        }
+      });
   }
 
   async getAvailableContextFields(

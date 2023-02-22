@@ -44,12 +44,14 @@ setSchemaTpl(
               label: '控件',
               name: 'inputClassName'
             }),
-            ...unsupportStatic ? [] : [
-              getSchemaTpl('className', {
-                label: '表单项静态',
-                name: 'staticClassName'
-              })
-            ]
+            ...(unsupportStatic
+              ? []
+              : [
+                  getSchemaTpl('className', {
+                    label: '表单项静态',
+                    name: 'staticClassName'
+                  })
+                ])
           ]
         : [
             getSchemaTpl('className', {
@@ -418,3 +420,222 @@ export const styleTpl = {
     }
   ]
 };
+
+/**
+ * 新版主题
+ */
+
+// css类名
+setSchemaTpl(
+  'theme:classNames',
+  (config: {schema: any; isFormItem: boolean; unsupportStatic?: boolean}) => {
+    const {
+      isFormItem = true,
+      unsupportStatic = false,
+      schema = []
+    } = config || {};
+    return {
+      title: 'CSS 类名',
+      body: (isFormItem
+        ? [
+            {
+              type: 'theme-classname',
+              label: 'Label',
+              suffix: 'label',
+              name: 'labelClassName'
+            },
+            {
+              type: 'theme-classname',
+              label: '描述',
+              suffix: 'description',
+              name: 'descriptionClassName',
+              visibleOn: 'this.description'
+            }
+          ]
+        : [
+            {
+              type: 'theme-classname',
+              label: '外层',
+              name: 'className'
+            }
+          ]
+      ).concat(schema)
+    };
+  }
+);
+
+// form label
+setSchemaTpl('theme:form-label', () => {
+  return {
+    title: 'Label样式',
+    body: [
+      getSchemaTpl('theme:font', {
+        label: '文字',
+        name: 'css.labelClassName.font'
+      }),
+      getSchemaTpl('theme:paddingAndMargin', {
+        name: 'css.labelClassName.padding-and-margin'
+      })
+    ]
+  };
+});
+
+// form description
+setSchemaTpl('theme:form-description', () => {
+  return {
+    title: '描述样式',
+    visibleOn: 'this.description',
+    body: [
+      getSchemaTpl('theme:font', {
+        label: '文字',
+        name: 'css.descriptionClassName.font'
+      }),
+      getSchemaTpl('theme:paddingAndMargin', {
+        name: 'css.descriptionClassName.padding-and-margin'
+      })
+    ]
+  };
+});
+
+// 文字编辑器
+setSchemaTpl('theme:font', (option: any = {}) => {
+  return {
+    mode: 'default',
+    type: 'amis-theme-font-editor',
+    label: '文字',
+    name: `css.className.font`,
+    needColorCustom: true,
+    ...option
+  };
+});
+
+// 颜色选择器
+setSchemaTpl('theme:colorPicker', (option: any = {}) => {
+  return {
+    mode: 'default',
+    type: 'amis-theme-color-picker',
+    label: '颜色',
+    name: `css.className.color`,
+    needCustom: true,
+    ...option
+  };
+});
+
+// 边框选择器
+setSchemaTpl('theme:border', (option: any = {}) => {
+  return {
+    mode: 'default',
+    type: 'amis-theme-border',
+    label: '边框',
+    name: `css.className.border`,
+    needColorCustom: true,
+    ...option
+  };
+});
+
+// 边距选择器
+setSchemaTpl('theme:paddingAndMargin', (option: any = {}) => {
+  return {
+    mode: 'default',
+    type: 'amis-theme-padding-and-margin',
+    label: '边距',
+    name: `css.className.padding-and-margin`,
+    ...option
+  };
+});
+
+// 圆角选择器
+setSchemaTpl('theme:radius', (option: any = {}) => {
+  return {
+    mode: 'default',
+    type: 'amis-theme-radius',
+    label: '圆角',
+    name: `css.className.radius`,
+    ...option
+  };
+});
+
+// 阴影选择器
+setSchemaTpl('theme:shadow', (option: any = {}) => {
+  return {
+    type: 'amis-theme-shadow-editor',
+    label: false,
+    name: `css.className.boxShadow`,
+    hasSenior: true,
+    ...option
+  };
+});
+
+setSchemaTpl(
+  'theme:common',
+  (exclude: string[] | string, include: string[] | string) => {
+    // key统一转换成Kebab case，eg: boxShadow => bos-shadow
+    exclude = (
+      exclude ? (Array.isArray(exclude) ? exclude : [exclude]) : []
+    ).map((key: string) => kebabCase(key));
+
+    include = (
+      include ? (Array.isArray(include) ? include : [include]) : []
+    ).map((key: string) => kebabCase(key));
+    return [
+      {
+        header: '布局',
+        key: 'layout',
+        body: [
+          {
+            type: 'style-display',
+            label: false,
+            name: 'style'
+          }
+        ].filter(comp => !~exclude.indexOf(comp.type.replace(/^style-/i, '')))
+      },
+      {
+        header: '样式',
+        key: 'style',
+        body: [
+          getSchemaTpl('theme:border', {
+            name: 'style'
+          }),
+          getSchemaTpl('theme:radius', {
+            name: 'style.radius'
+          }),
+          getSchemaTpl('theme:paddingAndMargin', {
+            name: 'style'
+          }),
+          getSchemaTpl('theme:colorPicker', {
+            name: 'style.background',
+            label: '背景',
+            needCustom: true,
+            needGradient: true,
+            labelMode: 'input'
+          }),
+          getSchemaTpl('theme:shadow', {
+            name: 'style.boxShadow'
+          })
+        ]
+      },
+      {
+        header: '圆角',
+        key: 'radius',
+        body: []
+      },
+      {
+        header: '间距',
+        key: 'box-model',
+        body: []
+      },
+      {
+        header: '背景',
+        key: 'background',
+        body: []
+      },
+      {
+        header: '阴影',
+        key: 'box-shadow',
+        body: []
+      }
+    ].filter(item =>
+      include.length ? ~include.indexOf(item.key) : !~exclude.indexOf(item.key)
+    );
+  }
+);

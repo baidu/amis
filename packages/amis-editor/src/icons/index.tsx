@@ -9,6 +9,7 @@ import {registerIcon, Icon} from 'amis-editor-core';
  * 4. 展示类组件 icon x 23
  * 5. 表单类组件 icon x 53
  * 6. 其他类组件 icon x 3
+ * 7. 常见布局组件 icon x 12
  */
 
 // 功能类组件 icon x 11
@@ -135,6 +136,21 @@ import propertySheet from './other/property-sheet.svg';
 import tooltip from './other/tooltip.svg';
 import divider from './other/divider.svg';
 
+// 常见布局组件 icon x 12
+import layout_absolute from './layout/layout-absolute.svg';
+import layout_fixed from './layout/layout-fixed.svg';
+import layout_1with2 from './layout/layout-1with2.svg';
+import layout_2cols from './layout/layout-2cols.svg';
+import layout_2row from './layout/layout-2row.svg';
+import layout_2with1 from './layout/layout-2with1.svg';
+import layout_3cols from './layout/layout-3cols.svg';
+import layout_3row from './layout/layout-3row.svg';
+import layout_full from './layout/layout-full.svg';
+import layout_1_2 from './layout/layout1-2.svg';
+import layout_2_1 from './layout/layout2-1.svg';
+import layout_3_1 from './layout/layout3-1.svg';
+import layout_3_2 from './layout/layout3-2.svg';
+
 // 功能类组件 icon x 11
 registerIcon('audio-plugin', audio);
 registerIcon('custom-plugin', custom);
@@ -256,5 +272,20 @@ registerIcon('formula-plugin', formula);
 registerIcon('property-sheet-plugin', propertySheet);
 registerIcon('tooltip-plugin', tooltip);
 registerIcon('divider-plugin', divider);
+
+// 常见布局组件 icon x 13
+registerIcon('layout-absolute-plugin', layout_absolute);
+registerIcon('layout-fixed-plugin', layout_fixed);
+registerIcon('layout-1with2-plugin', layout_1with2);
+registerIcon('layout-2cols-plugin', layout_2cols);
+registerIcon('layout-2row-plugin', layout_2row);
+registerIcon('layout-2with1-plugin', layout_2with1);
+registerIcon('layout-3cols-plugin', layout_3cols);
+registerIcon('layout-3row-plugin', layout_3row);
+registerIcon('layout-full-plugin', layout_full);
+registerIcon('layout-1-2-plugin', layout_1_2);
+registerIcon('layout-2-1-plugin', layout_2_1);
+registerIcon('layout-3-1-plugin', layout_3_1);
+registerIcon('layout-3-2-plugin', layout_3_2);
 
 export {Icon};

@@ -535,10 +535,10 @@ extendLocale('en-US', {
   'c14ebcefcb02c97b925b762d8bacd1ee': 'Press ESC to close the pop-up box',
   '4cade75641878a17e2f1ff29ff0ac235':
     'Click the area outside the pop-up box to close the pop-up box',
-  '391b8fa9c747a1799353ab856e666ad5': 'Small',
-  '18c63459a2c069022c7790430f761214': 'Default',
-  'aed1dfbc31703955e64806b799b67645': 'Medium',
-  'ab18e30c0dc4093ceeda8961fac3d1f4': 'Big',
+  '391b8fa9c747a1799353ab856e666ad5': 'sm',
+  '18c63459a2c069022c7790430f761214': 'default',
+  'aed1dfbc31703955e64806b799b67645': 'md',
+  'ab18e30c0dc4093ceeda8961fac3d1f4': 'lg',
   '949934d97c42801151673a51d3adc421': 'Extra big',
   '5831b836c8132033f90b3f530fa433db': 'Whether to display the close button',
   '79e5818b205352166231217ea39c4f1f': 'Top CSS class name',
@@ -806,7 +806,7 @@ extendLocale('en-US', {
   'ec2a8ec81d1d2588db8c7827ba99e7d3': 'Whether to fold',
   'f315bd4984fd09c30581674d28287f12': 'Whether to fold by default',
   'ab2d2b13794ae1e2d7bf3bcd5af55dce': 'Control style',
-  '23ecf42cada8bf2715792d718544d107': 'Extremely small',
+  '23ecf42cada8bf2715792d718544d107': 'xs',
   'e5a226534fb99ab260865b936d3c85ba': 'CSS class name of content area ',
   '12b54e3fdccdbb5588785fce5534edbd':
     'Click to add a sub-form item in the left component panel',
@@ -1172,8 +1172,6 @@ extendLocale('en-US', {
   '2c4a34adf66f12d0a08716383304a66e':
     'It is implemented by hiphoto. For the custom interface, it is invalid.',
   '5d8ff202988e28795bc72ab60d67d79d': 'Compression configuration',
-  '99b57d8c9244ff9a695fcd519b4e2e57': 'Maximum width',
-  'fc2bc4193eea63128961d09497e07dc8': 'Maximum height',
   'd4efa8f599c1effe67bf6a7f38a9c40d': 'Whether to display compression option',
   'f8a68f636880acd097317f16aeacaedc': 'Turn on Cropping',
   '3d948d24bc4c29689c5a1d4bcb9f2b98':
@@ -1251,7 +1249,7 @@ extendLocale('en-US', {
   'f2996845b6bf0a07fe26f74f35e42ebe': 'Units',
   'e48d95a94e49b81b12a0113a5c253d8f': 'Value label',
   'a465db53b8c98f42caa15ca5662f9c90': 'Direction',
-  '3aed2c11e95a9c0ea1d853d4aee72e8c': 'Automatic',
+  '3aed2c11e95a9c0ea1d853d4aee72e8c': 'Auto',
   '1d1a0bd85740653320d80f0d6e0918e7': 'Inputtable',
   'd22aa5f57ff8679ee7b7d473ef31417d': 'Resettable',
   '15628d1d85aee23c229c528a70419414': 'Track',
@@ -1654,7 +1652,7 @@ extendLocale('en-US', {
   'da1b972efb29f850b50e219ad4d98ba5': 'Justified alignment',
   '11b7fc50778c89572391ec4c6c4b55e1': 'Vertical alignment',
   '2a6ad292447e6354ca39ee7f40d2fcc8': 'Top alignment',
-  'd68c21b6b65e7a2e361762b65b8a5032': 'Top alignment',
+  'd68c21b6b65e7a2e361762b65b8a5032': 'Bottom alignment',
   '0d9eb53682343f1cbd562c9a944ef5bf': 'Insert a column on the left',
   '814276d30e338eccbaee96c3e6bacb61': 'Insert a column on the right',
   '2a3e7f5c382c56faf261a87573658325': 'Manual',
@@ -2289,7 +2287,7 @@ extendLocale('en-US', {
   '1fc7d723b3a82ce32bfbbfa0a1761969':
     'For example, enter <code>\\${videoFrames}</code>. You can search for the videoFrames in the current application domain. If it is an object, a video screen-shot list is generated. After you click the list, click the screen-shot to redirect to the corresponding frame.',
   '1fa035e78c5408c9079c20637acdb2bb': 'It is used to render the Web Component.',
-  '8df7c8a1f9f579f0ddc35bb4ee50f166': 'Package?',
+  '8df7c8a1f9f579f0ddc35bb4ee50f166': 'Package',
   '5acec91385a3b9093e3c803f6b0d869a': 'Wizard',
   'c8c0339a6f9e105cfef45b76b788b635':
     'The form wizard can split multiple complex form items into multiple steps. Then, it can guide the user to fill the items  step by step.',
@@ -3004,8 +3002,6 @@ extendLocale('en-US', {
   'c7fa7f54ece94ae684aee1ee2088a5ae': 'Rotate during cropping',
   'bd698e3f47ede4e59aafb28a291b77e7': 'Zooming-in during cropping',
   'f785a357a820555445acd6f7051b1048': 'Cropping area',
-  'a2b62974f4d7564bb68b570116f25a10': 'Minimum width',
-  '2bd921d0ea7a73b77ee0fcddb1afcc84': 'Maximum height',
   'b7623c7e17098d5950694437aa7584ad': 'Aspect ratio',
   '204770091fd4b7cd0611ddc65bf21d37': 'Automatic selection of child node',
   'be7d848c40dfdd3e20f233c373af00a5':
@@ -3331,5 +3327,370 @@ extendLocale('en-US', {
   '951f802ebd0c0d795fbae6767a5ee9b3': 'Initialize interface request succeeded',
   'da0126992b4937a5fd847ef5366b02e6':
     'Data returned by initialization interface request successfully',
-  '70b8342d743374233bfee0f56c7f0fc7': 'Node Sample Data'
+  '70b8342d743374233bfee0f56c7f0fc7': 'Node Sample Data',
+  '38f85482d657cd4db1280c5efa1950fd': '{{@1}} Alignment',
+  '0a0574baedb8eb2abf7daf25159d8bb1':
+    'Set the alignment of sub elements on the spindle',
+  '5ccc4c05cd41195f202f550a4c307a64':
+    'Set the alignment of child elements on the cross axis',
+  'b1b98c19058af70d8bd499e1899e93bc': 'Layout Container',
+  '03097563d201ad3a29c79165226764e5':
+    'The layout container is a layout effect based on CSS Flex. It is more controllable than Grid and HBox for the location of child nodes, and easier to use than CSS classes',
+  'e151c86d57096bb74dcd390ade29362b': 'New column',
+  'e5f9b3a3655b8daddcee8b97b735887f': 'Insert Layout Container Forward',
+  '577b33bf128fba16ed8e9bf7c395f455': 'Insert Layout Container Backward',
+  '31f84d1bc6175fd0828a81b5bfd98736': 'Add column level element',
+  'cbc1d00cc640b67ee34a29a694ef162a':
+    'Left (upper) insert column level container',
+  'bb3cc092e17ff83e943554bde3d5771b':
+    'Insert column level container on the right (lower) side',
+  'b19b454fe603e03e98ad9772615c7c32': 'Positioning mode',
+  '8444f01399c0003fbb68eeff1310566c':
+    'Specifies the positioning type of the current container element',
+  '5ddea41072a27a74a1715549dfb79bc2': 'relative',
+  'e9513a013011450c57cfe3ef51b7d4b0': 'Fixed (relative to window)',
+  '3059599d8ebfec00a8ab53346d9b4fa3': 'Absolute (relative to parent container)',
+  '86a6b5a0a45bba5b6187cc2277e3375e': 'Layout Location',
+  '6e72759ed1cbf9f9e8523197dd93888f':
+    'Specifies the location of the current container element, which is used to configure top, right, bottom, and left.',
+  '6896da744f8ae9633263d55af0fceae1': 'Hierarchy',
+  '6f649980c839dffca1506f20d534fe3d':
+    'Specifies the stacking order of elements. Elements at higher levels will always be above elements at lower levels.',
+  'a8489cf57d7f44e889aff79434776f47':
+    'The default is block level, which can be set to elastic layout mode (flex layout container)',
+  '4180e30c34190007ffaa654e0959b8a3': 'Intra row flexible layout',
+  'ebe7bde5c9094813e2924473488d281a': 'In row block level',
+  'dde193342b8c350ae29795117c0c5b9a': 'Horizontal Alignment',
+  '5b15af1f73b4f2d5bb152410863602f4': 'Vertical Alignment',
+  '78d32d2bd35c0262fe77b517c5a4fb62': 'Arrangement direction',
+  '3fa460b81736c0360f6f7571801935b1':
+    'If the direction is set to horizontal arrangement, children are placed from left to right; If it is set to the vertical arrangement direction, the sub items will be set from top to bottom',
+  'fa228d6bec96d052de0ad369407f5241':
+    'Horizontal (starting point is at the right end)',
+  '2df3bc66ab3fcb0de1caf11831eff595': 'Vertical (starting point at lower edge)',
+  '98b2fea2d8f3ceb81e9ce32d66383f05': 'How to wrap lines',
+  '9af509c2a9636343199b9072e001826c': 'Default (no line breaks)',
+  'd4054144c4341872496e3550fdb1b826': 'Word wrap (reverse)',
+  'ee2df1c1a0d99094f641166535948d4b': 'Elastic mode',
+  '947c03e411c20563c7ac67d0a5ad741b':
+    'After the elastic mode is set, the current area is automatically adapted',
+  'f92626f9e56b3e2d0c47495a446acf71': 'Elastic width',
+  'cf8852316501c22ea19c4e432c59e7d7': 'Default Width',
+  '9cc69c8469b23b77519065d3df381113':
+    'Define the main size occupied by the project before allocating extra space',
+  '0ad8b3b736ae5b9e23cf16ac13e1e283': 'Proportion setting',
+  'fa6bb048a2f73975a40789b30c5b8a06':
+    'Defines the magnification of the project, which is 0 by default, that is, if there is any remaining space, it will not be magnified.',
+  'c19b79073b676b9bade80613aba2dbfa': 'Fixed height',
+  'd1b91a1a24f0d4935c2dd13e6a22b6d4':
+    'The maximum width is the maximum horizontal display area of the current element',
+  'c2ed47a1f0f45cf7e2d22bddffc8a732':
+    'Scroll mode for setting horizontal direction',
+  'cbc7af1d6422e88f4b87ade748e0f07d': 'Exceeding the display',
+  'b48a90c77b5e792260d830c2d68c527e': 'Beyond hiding',
+  'ddea62517e2bd1007712689746ebfe00': 'Scrolling',
+  '55becc96b40692cc9cf898b331d16976': 'Automatic adaptation',
+  'ede82efb4a69c35743185c6c73ab771e':
+    'The minimum width is the smallest horizontal display area of the current element',
+  '6f420734edfaff00a8210a4c762a9207':
+    'The maximum height is the display height with the most current elements',
+  '411f9d120093314cd38e6dd5cce398c6':
+    'The minimum height is the smallest vertical display area of the current element',
+  'b31c6aaa78f8e24df665ce80ab5301e2':
+    'Scroll mode for setting the vertical direction',
+  '4fc0e68b093db41b45a4ea706fbe56f3': 'Center Display',
+  '55efb233147f9539de019d9abc7653f9':
+    'Center display by setting margin: 0 auto',
+  '2bf5bcbe21f39b254a601664fb8b264d': 'Default (Wrap)',
+  'b2d418355cb59a5613ecff7b150c588f': 'nowrap ',
+  '7d1313925f158b747c094a7f2480e535': 'Reference position',
+  '41a7494315a528f0f9618646f7e0dddf':
+    'It can be set as upper left corner, upper right corner, lower right corner and lower left corner. The default is lower right corner',
+  '845c61ac8f51c6702dd22e5657c07e8d': 'Lower right corner (default)',
+  '2794fe303cf8ad4395fe93271fae7925':
+    'Layout containers are mainly used to design container components with complex layouts. The layout effect implemented based on CSS Flex is more controllable than Grid and HBox for the location of child nodes, and easier to use than using CSS classes',
+  'abbd790f85282349e2004df9fd494e31':
+    'Main size occupied by default before allocating extra space',
+  'dbb93e8f413074ead24b6ed822247d98': 'Insert Layout Container Above',
+  '5b5765b3fd7e72e04a5cd3e2ef6218a4': 'Insert Layout Container Below',
+  'ee466872b9a43e720e296813dbc5adee': '{{@1}} Insert Column Level Container',
+  '14c495b1248756310c75396cd41f4fe9': 'upper',
+  'e33ac3a4c1a95a02a18f1555038804da': 'Below',
+  'e731c52010266b8ade1e7e78e25cdccc': 'Common layouts',
+  'f80bd0a5546465336f4f9cafdfa8b67f': 'Default Height',
+  'ba9ccf1040d7abd0848046330ba3558c': 'Classic layout',
+  '230d65546ea0d299907943403608233c':
+    'Common layout: classic layout (layout container based on CSS Flex implementation).',
+  '9bbb7cfaeb34a2b5c095ac253355f028': 'Levitation vessel',
+  'a3e91631c1a3a43e09526ea7f6b8595c':
+    'Common layout: suspended container (layout container based on CSS Flex implementation).',
+  'd423930b823fc45f08c18922b19e4e9e': 'Bottom suction vessel',
+  'b8b4eb373d8ba6f98271b681fba2511d':
+    'Common layout: bottom suction container (a layout container based on CSS Flex implementation).',
+  'faaa6444a709917ff33e0d58948504dc': 'Ceiling container',
+  '1facf0bd0f56c66759857345e7434443':
+    'Common layout: ceiling container (a layout container based on CSS Flex implementation).',
+  'f416a3a2566dda04bc0ef67027e6f460': 'X axis rolling container',
+  'e3d9ad8453925764f2918dbfd6ff824e':
+    'Common layout: x-axis rolling container (based on the layout container implemented by CSS Flex).',
+  '053e0cbf18c8fe59b928d52fcd556b88': 'Y-axis rolling container',
+  'c9f089cefc06c217c6dddfe2fc772ea3':
+    'Common layout: y-axis rolling container (a layout container based on CSS Flex implementation).',
+  '3587540660a01f8a8aff6a2c0409a404':
+    'After the elastic mode is turned on, the current area is automatically adapted',
+  '2ea6f1f33dec7cb3c23a1bf1f9eab11a': 'Mouse click',
+  'fe9228649853d08eebee72ad5521a3dd': 'Triggered when the mouse clicks',
+  'a643d2fe12d205eb8fb5cffe92f62c35': 'Triggered on mouse over',
+  '764c134791952dd1acb0f23587e75421': 'Toggle legend selection status',
+  '262cd2f688751332c1907a659e686210':
+    'Triggered when the legend is switched to the selected state',
+  'fd312ae2f1c24b8a14d9412bb3c6bb76': 'Last n days',
+  '68cba5f27ab003cfada5eb4c1f29eb21': 'Within n days',
+  '34b06708894a178c440e6f6539e95e9e': 'Last n weeks',
+  'f0e1b8d8a6e731360d7348bc8301d44a': 'Within n weeks',
+  '5cad2778bb8f01d1a1b1226082eb2117': 'Last n months',
+  'ff76f60b3da86a0d2c6663b170a7955a': 'Within n months',
+  '9ff9b56c9ed633ee09396830e93113ad': 'Last n quarters',
+  '2b80b20008b3ae81136217ae10a1fbaf': 'Within n quarters',
+  '84752114d27119dc50d8a7b9ac0b788b': 'Last n years',
+  '5df2352afebd73d1f568ebaa81e2db28': 'Within n years',
+  '8572d14f815d840bd9e940cd8ee4e380':
+    'Add or subtract data values through up and down arrow keys on the keyboard',
+  '925d31bb30d63576600299475a910c33':
+    'Displayed before entering content, not included in data value',
+  '42677544e2cbee28f7e7df216e685543':
+    'Displayed after input, not included in data value',
+  '046c6233e03af774df7b90b4504fa96c': 'lately',
+  '249aba763258bbe488af3e79a381d265': 'day',
+  '2f8ab07bea442bc6ce8a9e99ff88e5c1': 'Within days',
+  'a657f46f5bb00961adfae80d12e41b3d': 'week',
+  'b1599eaa05dc9b3d90be5aebc5c84338': 'Within weeks',
+  'e42b99d59954ce6437e66f416850425a': 'month',
+  '3c690347976de82df1909750cbc82b80': 'Within months',
+  'b62ba98a627851e911bef8fbb005bd4a': 'Within quarter',
+  '465260fe80b0c3338d06194bb7a94446': 'year',
+  '137bcb84f52bbd48623c37d8dfdebdff': 'Within a year',
+  '279d93f2d745ed08e9034022941510dc': 'Common span',
+  '7a1e5f93e362d371519bcb2bfdb0fc9a': 'Custom Span',
+  '4a12e9b9fc5443e5e9999b5a7c56c19a': 'Default (full)',
+  '2cb472ff9cad0c89a033c53996b52053': 'Init',
+  '76ddcc0ad85aa4be6875b73244a64faf':
+    'Triggered when a component instance is created and inserted into the DOM',
+  '584e4b6108e132be92c9de09d7bbed72': 'Current Data Domain',
+  '9328b90ded33d16a873db5c0dbd815b8':
+    'Initial data interface request successful',
+  'f3b97bd71a77cca1e9288089a537cf3b':
+    'Triggered on successful remote initialization data interface request',
+  '9787088794f42c7e476cf7580f81447e':
+    'Initialize the data returned by a successful data interface request',
+  '029e280e119b028bffc51424d909c07d': 'SelectedItems',
+  'a6eebb9b4fc7148e2dc41335c74e6393':
+    'Initialization of Schema interface request successful',
+  '887954cd9bdb290003984fe9a6eb99e2':
+    'Triggered when remote initialization Schema interface request is successful',
+  '8f0064a9cfd7dcbb3c729f1357f11772': 'Send data',
+  '6d33298a54888a30753373ca5bfe3bc2': 'Return Data',
+  '542e06175ff4f7407c467bbde90de56a':
+    'Turn on this option if you need to do additional data processing on the data in the returned results',
+  '7c583ecdf795ce4f1f40d7960ead9344': 'Default prompt text',
+  '70941a02776496ec446f21f98ebf754e': 'Request successful',
+  'f50bf418323ee425eca7208c09a4577e': 'Request failed',
+  'f3dc08e3617d1e19cf8135be4412a80b':
+    'After clicking, ask the user first, and then execute the action after manual confirmation to avoid accidental touch. Values can be taken from data field variables.',
+  'faa29265819714253843e23437b9193e':
+    'The prompt content under normal status. If it is not filled, no prompt will pop up. Values can be taken from data field variables.',
+  'f855f46ce6146aa17a9ed423da16bfa2':
+    'Prompt content in disabled status. If it is not filled in, a normal prompt will pop up. Values can be taken from data field variables.',
+  '037becbe8bff2f8838d141cc7b6b2df7':
+    'Support such relative value usage as:<code>now,+3 days, - 2weeks,+1hour,+2years</code>, etc. (minute | min | hour | day | week | month | year | weekday | second | millisecond)',
+  '8f7ae284d0039fe05b9f57fd5ae3ede9': 'Please select a static value',
+  '98229308e2e9484583fde4ae363a979f': 'Expression or relative value',
+  '6b3c2a07db1bb3c229bbc5df48068792':
+    'Support such relative value usage as:<code>now,+3 days, - 2weeks,+1 hour,+2 years</code>(minute | hour | day | week | month | year | weekday | second | millisecond)',
+  'dcc94ea1715bd502c709c5d5092e9c82':
+    'Support such relative value usage as:<code>3days, 2weeks, 1hour, 2years</code>(minute | hour | day | week | month | year | weekday | second | millisecond)',
+  '13ce82d026daa5a30e50105bd2a204a6': 'Please enter a relative value',
+  '31c29c46536a5007522032d2a42db56a': 'Numerical template',
+  'a6a41d1bfb5896210eb527d183a07958':
+    'Value rendering template, which supports the use of JSX and data field variables. The default is ${value}%',
+  'eadd1d64cd6ceb2c50554281cd2d3be0':
+    'Dynamically re render the configured tabs based on this data',
+  '0d9d899edb456e8806a99850e9c38212': 'Configured Expression',
+  'fbb96f7ea104d34fc4b7bd625d892c45': 'Click Write Expression',
+  'e0c7ac5eb397512fdbe71600baa09dab': 'Please enter a static value',
+  '48942ef507ea38d8ead03f8bfdffae5a': 'Relative value configured',
+  '49041f245018a6d799fee3c6f177c782': 'Exit full screen',
+  '185926bf986c784d03a9a73102da6542': 'Full screen',
+  '891ec6336d4243714c25eecb2f8f774a': 'Option Text',
+  'fb7ea2b05ca7328ee16a562d90c2eb96': 'Option field',
+  '1ca87f0171481e27d94e81b477150b7d': 'Option Template',
+  'd6ecb32a380c91887a9346653c2427e9':
+    'Customized option rendering template, supporting the use of JSX and data field variables',
+  'cb048b2d8426afd464dc01b72c446342': 'Block level (default)',
+  '3b6e8d54b7b2ae890d5357b7eaaeaaf2': 'No line breaks (default)',
+  '0611733b53e0098e6fd880bd44b2806f':
+    'The minimum height is the smallest vertical display area of the current element',
+  '03bfb834c8a5fef58d885e448a4e13b4': 'Virtual List Threshold',
+  '50437e080edc71ab624c93d419472919':
+    'When the number of options exceeds the threshold, the virtual list is opened to optimize performance',
+  '02b9880e1d2df8a07e90e9878080c739': 'Option Height',
+  'a3f66655c3d2bcfecc6afba0e4424460':
+    'Height of each option when virtual list is turned on',
+  '183f00df0922a6be371fea58cd46a60a': 'Elastic height',
+  '9e7c8d1554f6449121a83f951cf21ca1': 'Elastic scale',
+  'ff9e9329fe186be342ef59ee711b9371': 'Y-axis scrolling mode',
+  'c18457fe4f249f06b48297ccfe6224e8': 'X-axis scrolling mode',
+  '99b57d8c9244ff9a695fcd519b4e2e57': 'Maximum width',
+  'fc2bc4193eea63128961d09497e07dc8': 'Maximum height',
+  'a2b62974f4d7564bb68b570116f25a10': 'Minimum width',
+  '2bd921d0ea7a73b77ee0fcddb1afcc84': 'Minimum height',
+  'eb7366583485f478e3d8c2b105ea51ff':
+    'Defines the magnification of the item. If it is set to 0, it will not be magnified even if there is space left in the parent container.',
+  '5d3d48de1ba22368eacdc1c69fb044ce': 'Component inner layer CSS class name',
+  '72c32b47c5e4dcd58ddabdb8fde761a0':
+    'Suspended container: a special layout container based on CSS Flex implementation.',
+  'a03384e93b62e3110aa92c9e345111ba':
+    'Bottom suction container: a layout container based on CSS Flex.',
+  'f564e3e66dd2aca0e080cb6484c95a5e':
+    'Ceiling container: a layout container based on CSS Flex.',
+  'db805d4e361ac2d3fc6047eaea1a7c69': 'Free container',
+  '9ccbfde404798593fa6fdeac9dbef200':
+    'Free container: its direct child elements support dragging to adjust the position.',
+  'f20ca09e513399510ce34ba2cb05b7d9':
+    'X axis rolling container: a layout container based on CSS Flex implementation.',
+  '47ef0cec2c3436377a42390e10de4567':
+    'Y-axis rolling container: a layout container based on CSS Flex.',
+  '8c2bb89f516205027b9ed6609fb17726': 'Blocking condition',
+  '46a3c6ab94da0b16a707bdd3b74c9e09':
+    'When the conditions are met, the execution of subsequent actions of the current event will be blocked',
+  '6e6d4269d0dc3324d551062350a2ae9f': 'Silent request',
+  '56e13c39822a814ab39b0d5a0867d7dc':
+    'When enabled, the service request will be sent in a silent mode, that is, no success or error message will pop up.',
+  '7f019b96ffb7d72ec8d6ce8d76e5362f': 'Expression configured',
+  '699829ed5bab67dfb360764c3bbaed4e': '{{@1}} - Event Configuration',
+  '5ba999eb762f60324033b735e55d989c': 'Event weight prevention',
+  '7fe94616be0e8fb5ef5ab40a7397f0aa':
+    'After event anti duplication is enabled, only the last event will be executed when triggered multiple times within the anti duplication time',
+  '91b72e901f1663637157cda638ac4dcc': 'Anti gravity time',
+  '969e9e56b3812abffa3994f35ea31835': 'Adsorption vessel',
+  'bb0e1fea25aafbe731886295fcef9a2e':
+    'Adsorption container: It can be set as a ceiling or ceiling display.',
+  '7d30297d4e1f310c73b27be88c748026': 'Adsorption position',
+  '2ea76e2ffc1b92911d6f7decfa993360': 'Top',
+  '8cfc818a76662085cb64752d6d592fbe': 'Bottom',
+  'e2f6535e21570a0703c7c65f41b30eaa': 'Rolling adsorption',
+  '1c5ea0ffb2b15713cb22c41a02576924':
+    'When rolling adsorption is enabled, the adsorption mode will be automatically enabled when rolling to the upper and lower edges of the parent container.',
+  '5f9be0002394f0b58952969d5952e24c':
+    'Used to set the position of rolling adsorption',
+  '28968f372fe88c0ef855c7f79f42bbad': 'uniform distribution',
+  'd481ed97681365f18cf20ef914473a02': 'Align Start',
+  '02f6ac7a3bf6a8b4440a2a1c3e1daeea': 'Align End',
+  'cbac406a3f51abad691702015b0784ba': 'Full height',
+  '5a4e41af91746f8a3905aa9f66048955': 'Load Settings',
+  '6ade3082696deb00357f5c0359093cd4': 'Merge to upper loading',
+  'b6ac896eff6a6502e4ae7079b3e507a5': 'Not displaying loading',
+  '0e9ffe1f1cf3f7a620970ea75dba9f39': 'Use page global loading',
+  'b1119174b1beedd2218e0b359ef14aec': 'Form submission',
+  'c6a65a86cd2bd74a6f72df0a7b81d3cb':
+    'After the event is configured, the default verification, submission to the api or target and other behaviors will not be triggered when the form is submitted. All behaviors need to be configured by yourself',
+  'c207ba29769aca6ffd45db9f80bcb29e': 'Zero as head',
+  'f02f876ee64cc016d97fa4dc498d4857': 'Height setting',
+  '091885db07e43ff7cbe60c3b664b0b50': 'Elastic',
+  '363165ccee78341a65f1d42174e8b08f': 'Adaptation',
+  'eb44269adb6ba70569cd62ea88cb2750': 'Elastic Settings',
+  '64561733c68085af3d09315c1d4d7ed6': 'Mouse Event Object',
+  '052f93928af33d4d7035e7c8e8a73f17':
+    'The alignment is set by the margin value, where margin: 0 auto is used to set the center alignment',
+  'a738a8594bd2b71002d09277b84d86dd': 'Left',
+  'fc0f19e9e47e352d36d36cf6eb653210': 'Right',
+  'c70638412c6cffd150117ae403dea939': 'Component static data',
+  '77fdd35933c099cdcb64b71f3fbe7a6c': 'Data List',
+  'f01c3cd99ecb0c534cc47081d3433c9f': 'custom style',
+  'f7e3d7e3146bb53b5e6f09f7c90dea3a': 'Input Box Style',
+  'a39a2916d17f2b9ba11853066b4225f3': 'AddOn Style',
+  '9b6425cd2d496c9cb5a6c6b8ff125d1b': 'Input box',
+  'b9745a6b870f02a0483a4a4f74814c68': 'Custom style source code',
+  'ec8f3e4a298160dface2fda5c0125df2': 'Please enter the class name',
+  '7e8eb474f73b6fd60c9aa5082f75e008': 'Label Style',
+  'ef55ff12fb0d3efa3491236fee4dabc2': 'Description Style',
+  '60bac4c0a381a42b320a703227be59eb': 'spacing',
+  '00d1a6230e9a31664c895e95fde707d3': 'Add Item',
+  'cf3f7c0c1e6c77197bb0b6508a9173aa': 'Add a new item',
+  '3a553b1123f403cf1f81eb28b3e4b814': 'Maximum number',
+  '93bc4888bc13bb6e6c49b34b54077438': 'Minimum number',
+  'e61c32382d879b867938086a50ef094e': 'Flat value',
+  '30d4e9f1c60f2d5851f77463476d568b':
+    'If you need to expand the user-defined new functions, you can expand them by configuring components-new items',
+  '405a48545938c075e62eafb80b732769': 'Button mode',
+  'f4b06bd9e4f5ceaac7fbb0e17fffc518': 'Copywriting',
+  '178bf4dd4b8d56370e2fc8275f9dc9e4':
+    'Delete the confirmation document. When the configuration deletion interface takes effect',
+  'cb8f7758eb03574f9b8402659c0f02b2': 'Are you sure you want to delete?',
+  'f7894f17d0eba299011d856ce3efea73': 'Automatically populate parent variables',
+  '7fc8dab2069004acb8f5c98c27ee0883': 'Sync Fields',
+  '8e32c9ffc35059f8ac5254ffaf3c99b0': 'Title template',
+  '21766034147682a2435ecc766de5ea22': 'Multiline display',
+  'd8848daffd80dbb21ace876ade2ea8a8': 'Administrative code',
+  '977cfa6e8c7f036674afedfcc19ec7a2': 'Object structure',
+  '05fcf03ba044a04ce81bdbe6eaf49d17': 'Optional cities',
+  '912beb37a3785e50d6483852be41111f':
+    'Tree structure selection, supporting the appearance switch between [Embedded Mode] and [Floating Layer Mode]',
+  '0b52d7d00ed28e41f4845fec1622d056':
+    'Tree, tree drop-down, tree drop-down box, tree-select',
+  'ea687c59ff7d980afc55427853af864a': 'Tree selection box - embedded mode',
+  'ce0e89aa6a8e17562c265714b33b4f82': 'Edit mode',
+  'ba1a077af717cb3c4788849c2342200b':
+    'The configuration interface for immediate saving is given separately. If it is not configured, quickSaveItemApi is used by default.',
+  'cf8774ca07f11ecb14b3b59c3891e9cc':
+    '<p>The current component has stopped maintenance. It is recommended that you use<a href=“ https://baidu.gitee.io/amis/zh-CN/components/form/formitem#%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81%E5%B1%95%E7%A4%BA " target="_ Blank ">Static display</a>The new feature implements the static display of form items</p>',
+  '26122d95c72204c83ebdc37cd16a96f9': 'Picture enlargement function',
+  'a19769d02b8de60a1e3b46c3ef96f122':
+    'There is a conflict between the zoom function and the open external link function. If you want to open the external link when clicking, please close this function first',
+  'd196eb8f65e84003b7ca64d5dd8fc737': 'Occupy bitmap',
+  'd98b3f3d11e6dce8eac1a041247fbc50': 'Picture list',
+  '8e1fee898434093aad55f5888497f970':
+    '<p>Currently, it is configured for the field content node. There are more configurations for selecting the upper layer</p>',
+  '86aafaa75b388deb4a4cbdab2293c099': 'head',
+  'e6aa1b827415217c524ae9d9b665cca5': 'Configure header',
+  'a2ecfd5a0db9c855f59eea75083678e6': 'Configure bottom',
+  '1d3d7de6b84f4d5d4a4e126e145af132': 'Text encoding',
+  'd55bbcd785be46c3182dcd7663c3c041':
+    'Returns the character encoding of the content, such as UTF-8, ISO-8859-2, KOI8-R, GBK, and so on. Default UTF-8',
+  '0021bd6b2290ddca1ad6a9c8848377bc': 'Load prompt',
+  'f013ea9dcba3f5ca1278aa850931fec8': 'Loading',
+  'd7eb1e98e6cfbe38ab3b242c4dda1b7b': 'Follow bottom',
+  'ab2dd531871defe1ef7d8d06548411f3':
+    'Automatically scroll to the bottom to view the latest log content',
+  '41058383885336fbe750665044e4e38a':
+    'The following action buttons can be added at the top of the log',
+  '095e938e2a09eaddc8db146b86879f4a': 'stop it',
+  '0cee3cd1e0b0956fb3447d7188553e4b': 'Hide line number',
+  'c2f42bd2a149bbeb4627b1e1b5fabedb': 'performance optimization',
+  '45f14d9548decc8a1df4e470efcf8d08': 'Height of each row',
+  '7a5d14c5f61745f08700ba315609cf9a': 'Show rows',
+  'bddc8f2d9bdcc083bb4f3dd38eaba459': 'Display area height',
+  '0218cbc88086353118fea07e364334d4': 'happy',
+  '8167b3dd560a83cdc757d1022ff111e2': 'anger',
+  '8fa28f95c03faa7cc87e487a89a35a72': 'Sad',
+  'd246bdddaf59436cb2160837f7bef634': 'apathy',
+  '2ab01e418dca1500dcb133d50656deea': 'commonly',
+  '3585e4dd456b41fb8aec43f927b6a27c': 'Custom Display Template',
+  '25e4c39320150bca74b4c05c7740e365': 'Configure display templates',
+  '9e25d776a57c610940bcc1c19847b97d': 'Top outer layer',
+  '2ec1b0bb189b486945e79c167a4a024d': 'Bottom outer layer',
+  '77ad0879912d0a306724c319eed113e2': 'Label for marking and selection',
+  'ee66d7a2d02188816d633d11cf1a8b27': 'General label',
+  '092c4410e162bb3371f2aab804501f24': 'Front icon',
+  '3e7392ab43c6c76f294f41c3058c2ab1': 'Value matching field',
+  '2135be5a60fc3c6fe864e159e289af51':
+    'When the mapping table is an array object and the object has multiple keys, the field used to match the value is value by default',
+  '6a1ca1c113a9b5bee58ea009e40f5954': 'Matching field, default is value',
+  'dc7becbad712786c9e4766636047e509':
+    'When the mapping table is an array object, it is used as the display field. Please use a custom display template to display multiple fields. The default is label',
+  '1140acc9ac4b803b733f70445e7d495a': 'Display field, default is label',
+  '55497c5de8558f1a164e437205cd510b':
+    '<p>When the value hits the left key, display the content on the right<br/>When the value does not hit, display the content with the key<code>*</code>by default</div><br/>(please ensure that the key value is unique)',
+  '94124fa72dbfbb81611496cada6ebf4c':
+    'Please keep the array member structure the same'
 });

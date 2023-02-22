@@ -26,47 +26,45 @@ export class DatePlugin extends BasePlugin {
   };
 
   panelTitle = '日期展示';
+  panelJustify = true;
   panelBodyCreator = (context: BaseEventContext) => {
     return [
       getSchemaTpl('tabs', [
         {
-          title: '常规',
-          body: [
+          title: '属性',
+          body: getSchemaTpl('collapseGroup', [
             {
-              type: 'input-date',
-              name: 'value',
-              label: '日期数值'
+              title: '基本',
+              body: [
+                {
+                  type: 'input-date',
+                  name: 'value',
+                  label: '日期数值'
+                },
+                {
+                  type: 'input-text',
+                  name: 'format',
+                  label: '显示日期格式',
+                  description: '请参考 moment 中的格式用法。',
+                  pipeIn: defaultValue('YYYY-MM-DD')
+                },
+                {
+                  type: 'input-text',
+                  name: 'valueFormat',
+                  label: '数据日期格式',
+                  description: '请参考 moment 中的格式用法。',
+                  pipeIn: defaultValue('X')
+                },
+                getSchemaTpl('placeholder', {
+                  pipeIn: defaultValue('-'),
+                  label: '占位符'
+                })
+              ]
             },
-            {
-              type: 'input-text',
-              name: 'format',
-              label: '显示日期格式',
-              description: '请参考 moment 中的格式用法。',
-              pipeIn: defaultValue('YYYY-MM-DD')
-            },
-            {
-              type: 'input-text',
-              name: 'valueFormat',
-              label: '数据日期格式',
-              description: '请参考 moment 中的格式用法。',
-              pipeIn: defaultValue('X')
-            },
-            {
-              name: 'placeholder',
-              type: 'input-text',
-              pipeIn: defaultValue('-'),
-              label: '占位符'
-            }
-          ]
+            getSchemaTpl('status')
+          ])
         },
-        {
-          title: '外观',
-          body: [getSchemaTpl('className')]
-        },
-        {
-          title: '显隐',
-          body: [getSchemaTpl('ref'), getSchemaTpl('visible')]
-        }
+        getSchemaTpl('onlyClassNameTab')
       ])
     ];
   };

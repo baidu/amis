@@ -40,6 +40,7 @@ export class RichTextControlPlugin extends BasePlugin {
     // 有设置这个就默认使用 froala
     const hasRichTextToken = this.manager.env?.richTextToken ? true : false;
     return [
+      getSchemaTpl('layout:originPosition', {value: 'left-top'}),
       getSchemaTpl('switchDefaultValue'),
       {
         type: 'textarea',

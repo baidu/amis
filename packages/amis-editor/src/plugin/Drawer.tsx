@@ -116,6 +116,7 @@ export class DrawerPlugin extends BasePlugin {
           {
             title: '基本',
             body: [
+              getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               {
                 label: '标题',
                 type: 'input-text',

@@ -13,7 +13,7 @@ import {
 } from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {EditorNodeType} from 'amis-editor-core';
-import {Schema} from 'amis/lib/types';
+import {Schema} from 'amis';
 import {VRenderer} from 'amis-editor-core';
 import {RegionWrapper as Region} from 'amis-editor-core';
 import {Icon} from 'amis-editor-core';
@@ -29,7 +29,8 @@ export class GridPlugin extends BasePlugin {
   isBaseComponent = true;
   description = '分栏布局';
   docLink = '/amis/zh-CN/components/grid';
-  tags = ['容器'];
+  tags = ['布局'];
+  order = 505;
   icon = 'fa fa-th';
   pluginIcon = 'grid-plugin';
 
@@ -231,6 +232,7 @@ export class GridPlugin extends BasePlugin {
               {
                 title: '布局',
                 body: [
+                  getSchemaTpl('layout:originPosition', {value: 'left-top'}),
                   {
                     label: '列数',
                     name: 'columns',
@@ -388,6 +390,7 @@ export class GridPlugin extends BasePlugin {
             className: 'p-none',
             body: [
               getSchemaTpl('collapseGroup', [
+                getSchemaTpl('layout:originPosition', {value: 'left-top'}),
                 {
                   title: '插入',
                   body: [

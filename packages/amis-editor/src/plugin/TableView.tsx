@@ -187,11 +187,8 @@ export class TableViewPlugin extends BasePlugin {
             {
               title: '基本',
               body: [
-                {
-                  label: '标题',
-                  name: 'caption',
-                  type: 'input-text'
-                },
+                getSchemaTpl('layout:originPosition', {value: 'left-top'}),
+                getSchemaTpl('caption'),
                 {
                   label: '标题位置',
                   name: 'captionSide',

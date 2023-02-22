@@ -47,6 +47,7 @@ export class AlertPlugin extends BasePlugin {
           {
             title: '基本',
             body: [
+              getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               {
                 label: '类型',
                 name: 'level',

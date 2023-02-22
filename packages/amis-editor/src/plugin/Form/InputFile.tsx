@@ -134,16 +134,12 @@ export class FileControlPlugin extends BasePlugin {
           {
             title: '基本',
             body: [
+              getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               getSchemaTpl('formItemName', {
                 required: true
               }),
               getSchemaTpl('label'),
-              {
-                type: 'input-text',
-                name: 'btnLabel',
-                label: '按钮名称',
-                value: '文件上传'
-              },
+              getSchemaTpl('btnLabel'),
               getSchemaTpl('multiple', {
                 replace: true,
                 body: [

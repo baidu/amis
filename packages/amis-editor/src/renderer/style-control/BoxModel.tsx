@@ -10,6 +10,7 @@ import camelCase from 'lodash/camelCase';
 import {FormItem} from 'amis';
 
 import {isNumeric} from 'amis-editor-core';
+import {isAuto} from '../../util';
 
 import type {FormControlProps} from 'amis-core';
 import type {PlainObject} from './types';
@@ -37,6 +38,7 @@ function BoxModel({
       // 数字类型或带有合法单位的字符串都支持
       if (
         isNumeric(inputValue) ||
+        isAuto(inputValue) ||
         /^(-?(\d*\.)?\d+)((px)|(em)|(%)|(ex)|(ch)|(rem)|(vw)|(vh)|(vmin)|(vmax)|(cm)|(mm)|(in)|(pt)|(pc))$/.test(
           inputValue
         )

@@ -1,4 +1,9 @@
-import {setSchemaTpl, getSchemaTpl, tipedLabel} from 'amis-editor-core';
+import {
+  setSchemaTpl,
+  getSchemaTpl,
+  tipedLabel,
+  BaseEventContext
+} from 'amis-editor-core';
 import React from 'react';
 import {buildApi, Html} from 'amis';
 import {get} from 'lodash';
@@ -524,3 +529,78 @@ setSchemaTpl('actionApiControl', (patch: any = {}) => {
     ...rest
   };
 });
+
+const enum LoadingOption {
+  HIDDEN,
+  MERGE,
+  GLOBAL
+}
+
+setSchemaTpl(
+  'loadingConfig',
+  (patch: any, {context}: {context: BaseEventContext}) => {
+    let globalSelector = '';
+    let parent = context.node.parent;
+
+    while (parent && !globalSelector) {
+      const parentNodeType = parent.type;
+
+      if (parentNodeType === 'dialog' || parentNodeType === 'drawer') {
+        globalSelector = '[role=dialog-body]';
+      } else if (parentNodeType === 'page') {
+        globalSelector = '[role=page-body]';
+      }
+
+      parent = parent.parent;
+    }
+
+    return {
+      name: 'loadingConfig',
+      type: 'select',
+      label: '加载设置',
+      options: [
+        {
+          label: '合并到上层loading',
+          value: LoadingOption.MERGE
+        },
+        {
+          label: '不展示loading',
+          value: LoadingOption.HIDDEN
+        },
+        {
+          label: '使用页面全局loading',
+          value: LoadingOption.GLOBAL
+        }
+      ],
+      ...patch,
+      pipeOut: (value: LoadingOption) => {
+        switch (value) {
+          case LoadingOption.HIDDEN:
+            return {
+              show: false
+            };
+          case LoadingOption.GLOBAL:
+            return {
+              show: true,
+              root: globalSelector
+            };
+          case LoadingOption.MERGE:
+            return {
+              show: true
+            };
+          default:
+            return {};
+        }
+      },
+      pipeIn: (value: any = {}) => {
+        if (value.root) {
+          return LoadingOption.GLOBAL;
+        }
+        if (value.show === false) {
+          return LoadingOption.HIDDEN;
+        }
+        return LoadingOption.MERGE;
+      }
+    };
+  }
+);

@@ -4,16 +4,21 @@ import {BasePlugin, BaseEventContext} from 'amis-editor-core';
 
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
+import {FormulaDateType} from '../../renderer/FormulaControl';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
+import {getRendererByName} from 'amis-core';
 
 const DateType: {
   [key: string]: {
     format: string;
     placeholder: string;
     ranges: string[];
+    sizeMutable?: boolean;
+    type?: string;
   };
 } = {
   date: {
+    ...getRendererByName('input-date-range'),
     format: 'YYYY-MM-DD',
     placeholder: '请选择日期范围',
     ranges: [
@@ -26,6 +31,7 @@ const DateType: {
     ]
   },
   datetime: {
+    ...getRendererByName('input-datetime-range'),
     format: 'YYYY-MM-DD HH:mm:ss',
     placeholder: '请选择日期时间范围',
     ranges: [
@@ -38,29 +44,39 @@ const DateType: {
     ]
   },
   time: {
+    ...getRendererByName('input-time-range'),
     format: 'HH:mm',
     placeholder: '请选择时间范围',
     ranges: []
   },
   month: {
+    ...getRendererByName('input-month-range'),
     format: 'YYYY-MM',
     placeholder: '请选择月份范围',
     ranges: []
   },
   quarter: {
+    ...getRendererByName('input-quarter-range'),
     format: 'YYYY [Q]Q',
     placeholder: '请选择季度范围',
     ranges: ['thisquarter', 'prevquarter']
   },
   year: {
+    ...getRendererByName('input-year-range'),
     format: 'YYYY',
     placeholder: '请选择年范围',
     ranges: ['thisyear', 'lastYear']
   }
 };
 
-const tipedLabelText =
-  '支持 <code>now、+1day、-2weeks、+1hours、+2years</code>这种相对值用法，同时支持变量如<code>\\${start_date}</code>';
+const dateTooltip =
+  '支持例如: <code>now、+3days、-2weeks、+1hour、+2years</code> 等（minute|hour|day|week|month|year|weekday|second|millisecond）这种相对值用法';
+const rangTooltip =
+  '支持例如: <code>3days、2weeks、1hour、2years</code> 等（minute|hour|day|week|month|year|weekday|second|millisecond）这种相对值用法';
+
+const sizeImmutableComponents = Object.values(DateType)
+  .map(item => (item?.sizeMutable === false ? item.type : null))
+  .filter(a => a);
 
 export class DateRangeControlPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -186,6 +202,7 @@ export class DateRangeControlPlugin extends BasePlugin {
             {
               title: '基本',
               body: [
+                getSchemaTpl('layout:originPosition', {value: 'left-top'}),
                 getSchemaTpl('formItemName', {
                   required: true
                 }),
@@ -207,7 +224,11 @@ export class DateRangeControlPlugin extends BasePlugin {
                       minDate: '',
                       maxDate: '',
                       value: '',
-                      ranges: DateType[type]?.ranges
+                      ranges: DateType[type]?.ranges,
+                      // size immutable 组件去除 size 字段
+                      size: sizeImmutableComponents.includes(value)
+                        ? undefined
+                        : form.data?.size
                     });
                   }
                 }),
@@ -248,63 +269,69 @@ export class DateRangeControlPlugin extends BasePlugin {
                 }),
 
                 getSchemaTpl('valueFormula', {
-                  /* 备注: 待 amis 日期组件优化
-                rendererSchema: {
-                  ...context?.schema,
-                  size: 'full', // 备注：目前样式还有问题，需要在amis端进行优化
-                  mode: "inline"
-                },
-                mode: 'vertical',
-                */
                   rendererSchema: {
-                    type: 'input-date'
+                    ...context?.schema,
+                    size: 'full',
+                    mode: 'inline'
                   },
-                  label: tipedLabel(
-                    '默认值',
-                    '支持 <code>now、+1day、-2weeks、+1hours、+2years</code>等这种相对值用法'
-                  )
+                  mode: 'vertical',
+                  header: '表达式或相对值',
+                  DateTimeType: FormulaDateType.IsRange,
+                  label: tipedLabel('默认值', dateTooltip)
                 }),
                 getSchemaTpl('valueFormula', {
                   name: 'minDate',
+                  header: '表达式或相对值',
+                  DateTimeType: FormulaDateType.IsDate,
                   rendererSchema: {
                     ...context?.schema,
                     value: context?.schema.minDate,
                     type: 'input-date'
                   },
+                  placeholder: '请选择静态值',
                   needDeleteProps: ['minDate'], // 避免自我限制
-                  label: tipedLabel('最小值', tipedLabelText)
+                  label: tipedLabel('最小值', dateTooltip)
                 }),
                 getSchemaTpl('valueFormula', {
                   name: 'maxDate',
+                  header: '表达式或相对值',
+                  DateTimeType: FormulaDateType.IsDate,
                   rendererSchema: {
                     ...context?.schema,
                     value: context?.schema.maxDate,
                     type: 'input-date'
                   },
+                  placeholder: '请选择静态值',
                   needDeleteProps: ['maxDate'], // 避免自我限制
-                  label: tipedLabel('最大值', tipedLabelText)
+                  label: tipedLabel('最大值', dateTooltip)
                 }),
 
                 getSchemaTpl('valueFormula', {
                   name: 'minDuration',
+                  header: '表达式',
+                  DateTimeType: FormulaDateType.NotDate,
                   rendererSchema: {
                     ...context?.schema,
                     value: context?.schema.minDuration,
                     type: 'input-text'
                   },
+                  placeholder: '请输入相对值',
                   needDeleteProps: ['minDuration'], // 避免自我限制
-                  label: tipedLabel('最小跨度', '例如 2days')
+                  label: tipedLabel('最小跨度', rangTooltip)
                 }),
 
                 getSchemaTpl('valueFormula', {
                   name: 'maxDuration',
+                  header: '表达式',
+                  DateTimeType: FormulaDateType.NotDate,
                   rendererSchema: {
                     ...context?.schema,
                     value: context?.schema.maxDuration,
                     type: 'input-text'
                   },
+                  placeholder: '请输入相对值',
                   needDeleteProps: ['maxDuration'], // 避免自我限制
-                  label: tipedLabel('最大跨度', '例如 1year')
+                  label: tipedLabel('最大跨度', rangTooltip)
                 }),
                 getSchemaTpl('dateShortCutControl', {
                   mode: 'normal',
@@ -331,20 +358,10 @@ export class DateRangeControlPlugin extends BasePlugin {
                     yearslater: 'n年以内'
                   }
                 }),
-                // getSchemaTpl('remark'),
-                // getSchemaTpl('labelRemark'),
-                {
-                  type: 'input-text',
-                  name: 'startPlaceholder',
-                  label: '前占位提示',
-                  pipeIn: defaultValue('开始时间')
-                },
-                {
-                  type: 'input-text',
-                  name: 'endPlaceholder',
-                  label: '后占位提示',
-                  pipeIn: defaultValue('结束时间')
-                },
+                getSchemaTpl('remark'),
+                getSchemaTpl('labelRemark'),
+                getSchemaTpl('startPlaceholder'),
+                getSchemaTpl('endPlaceholder'),
                 getSchemaTpl('autoFillApi')
               ]
             },
@@ -361,7 +378,17 @@ export class DateRangeControlPlugin extends BasePlugin {
         body: getSchemaTpl(
           'collapseGroup',
           [
-            getSchemaTpl('style:formItem', renderer),
+            getSchemaTpl('style:formItem', {
+              renderer: {...renderer, sizeMutable: false},
+              schema: [
+                // 需要作为一个字符串表达式传入，因为切换 type 后 panelBodyCreator 不会重新执行
+                getSchemaTpl('formItemSize', {
+                  hiddenOn: `["${sizeImmutableComponents.join(
+                    '","'
+                  )}"].includes(this.type)`
+                })
+              ]
+            }),
             getSchemaTpl('style:classNames', [
               getSchemaTpl('className', {
                 label: '描述',
@@ -381,7 +408,7 @@ export class DateRangeControlPlugin extends BasePlugin {
                 size: 'md',
                 label: '模式',
                 mode: 'row',
-                value: false,
+                pipeIn: defaultValue(false),
                 options: [
                   {
                     label: '浮层',
