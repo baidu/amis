@@ -7,8 +7,12 @@ import {
   JSONGetById,
   JSONTraverse,
   patchDiff,
+  unitFormula,
+  stringRegExp,
+  needDefaultWidth,
   guid,
-  reGenerateID
+  reGenerateID,
+  addStyleClassName
 } from '../../src/util';
 import {
   InsertEventContext,
@@ -31,7 +35,7 @@ import {
   JSONPipeOut,
   JSONUpdate
 } from '../util';
-import {Schema} from 'amis/lib/types';
+import {Schema} from 'amis';
 import {toast, resolveVariable} from 'amis';
 import find from 'lodash/find';
 import {InsertSubRendererPanel} from '../component/Panel/InsertSubRendererPanel';
@@ -40,6 +44,7 @@ import isPlainObject from 'lodash/isPlainObject';
 import {EditorManagerConfig} from '../manager';
 import {EditorNode, EditorNodeType} from './node';
 import findIndex from 'lodash/findIndex';
+import {cloneDeep} from 'lodash';
 
 export interface SchemaHistory {
   versionId: number;
@@ -105,7 +110,7 @@ export interface TargetName {
   editorId: string;
 }
 
-export const EditorStore = types
+export const MainStore = types
   .model('EditorRoot', {
     isMobile: false,
     isSubEditor: false,
@@ -307,7 +312,7 @@ export const EditorStore = types
 
         if (
           (self.activeId || self.selections.length) &&
-          !self.dragId &&
+          (!self.dragId || this.draggableContainer(self.dragId)) &&
           !self.insertOrigId &&
           !self.insertId &&
           !(self.hoverId && self.hoverRegion)
@@ -365,8 +370,8 @@ export const EditorStore = types
         return id ? JSONGetById(self.schema, id, idKey) : self.schema;
       },
 
-      getSchemaParentById(id: string) {
-        return JSONGetParentById(self.schema, id);
+      getSchemaParentById(id: string, skipArray: boolean = false) {
+        return JSONGetParentById(self.schema, id, skipArray);
       },
 
       getSchemaPath(id: string): string {
@@ -514,7 +519,9 @@ export const EditorStore = types
                 key !== '$$comments' &&
                 key !== '$$commonSchema') ||
               typeof props === 'function' || // pipeIn 和 pipeOut
-              key.substring(0, 2) === '__')
+              key.substring(0, 2) === '__' ||
+              key === 'css' ||
+              key === 'editorState') // 样式不需要出现做json中,
         );
       },
 
@@ -573,6 +580,9 @@ export const EditorStore = types
       },
 
       get dragging() {
+        if (this.draggableContainer(self.dragId)) {
+          return false;
+        }
         return !!(self.dragId || self.dropId);
       },
 
@@ -630,7 +640,10 @@ export const EditorStore = types
         const grouped: {
           [propName: string]: Array<SubRendererInfo>;
         } = {};
-        const regular = keywords ? new RegExp(keywords, 'i') : null;
+
+        const regular = keywords
+          ? new RegExp(stringRegExp(keywords), 'i')
+          : null;
 
         subRenderers.forEach(item => {
           if (
@@ -743,7 +756,7 @@ export const EditorStore = types
           全部: []
         };
         const keywords = self.insertRenderersKeywords;
-        const r = new RegExp(keywords, 'i');
+        const r = new RegExp(stringRegExp(keywords), 'i');
 
         self.insertRenderers
           .concat()
@@ -850,7 +863,50 @@ export const EditorStore = types
         );
         return idx < self.schemaHistory.length - 1;
       },
-
+      // 判断是否是布局容器中的列级元素
+      isFlexItem(id: string) {
+        const activeId = id || self.activeId;
+        const parentSchema = this.getSchemaParentById(activeId, true);
+        if (
+          parentSchema?.type === 'flex' ||
+          parentSchema?.style?.display === 'flex' ||
+          parentSchema?.style?.display === 'inline-flex'
+        ) {
+          return true;
+        }
+        return false;
+      },
+      // 判断父级布局容器是否为垂直排列
+      isFlexColumnItem(id: string) {
+        const activeId = id || self.activeId;
+        const parentSchema = this.getSchemaParentById(activeId, true);
+        const isFlexItem =
+          parentSchema?.type === 'flex' ||
+          parentSchema?.style?.display === 'flex' ||
+          parentSchema?.style?.display === 'inline-flex';
+        const isFlexColumn =
+          parentSchema?.direction === 'column' ||
+          parentSchema?.direction === 'column-reverse' ||
+          parentSchema?.style?.flexDirection === 'column' ||
+          parentSchema?.style?.flexDirection === 'column-reverse';
+        if (isFlexItem && isFlexColumn) {
+          return true;
+        }
+        return false;
+      },
+      // 判断是否可拖拽容器元素
+      draggableContainer(id?: string) {
+        const activeId = id || self.activeId;
+        const curSchema = this.getSchema(activeId);
+        const curSchemaStyle = curSchema?.style || {};
+        if (
+          curSchemaStyle?.position === 'fixed' ||
+          curSchemaStyle?.position === 'absolute'
+        ) {
+          return true;
+        }
+        return false;
+      },
       get getSuperEditorData() {
         return self.superEditorData || {};
       }
@@ -915,7 +971,29 @@ export const EditorStore = types
             newSchema,
             (path, key) => key === '$$id'
           );
-          self.schema = patchDiff(self.schema, changes);
+
+          const schema = patchDiff(self.schema, changes);
+
+          // 有数组变动且是新增或者删除成员的时候
+          // 这个时候通常不知道具体是哪个成员发生了变化
+          // 所以让所有成员都重新生成 $$id
+          if (
+            changes?.[0]?.kind === 'A' &&
+            (changes[0].item.kind === 'D' || changes[0].item.kind === 'N') &&
+            Array.isArray(changes[0].path)
+          ) {
+            const path = changes[0].path;
+            const last = path.pop();
+            const host = path.reduce((schema, key) => {
+              return schema[key];
+            }, schema);
+            host[last] = host[last].map((item: any) => ({
+              ...item,
+              $$id: guid()
+            }));
+          }
+
+          self.schema = schema;
         } else {
           self.schema = newSchema;
         }
@@ -936,6 +1014,18 @@ export const EditorStore = types
         }
 
         const child = JSONPipeIn(event.context.data);
+
+        if (parent?.isFreeContainer) {
+          child.style = {
+            position: 'absolute',
+            inset: '10px auto auto 10px'
+          };
+
+          // 特殊元素，需要补上默认宽度
+          if (needDefaultWidth(child.type)) {
+            child.style.width = '300px';
+          }
+        }
 
         const arr = Array.isArray(parent[region])
           ? parent[region].concat()
@@ -1201,14 +1291,69 @@ export const EditorStore = types
         if (diff) {
           const result = patchDiff(origin, diff);
           this.traceableSetSchema(
-            JSONUpdate(self.schema, id, JSONPipeIn(result), true),
+            JSONUpdate(
+              self.schema,
+              id,
+              addStyleClassName(JSONPipeIn(result)),
+              true
+            ),
             noTrace
           );
         } else {
           this.traceableSetSchema(
-            JSONUpdate(self.schema, id, JSONPipeIn(value), replace),
+            JSONUpdate(
+              self.schema,
+              id,
+              addStyleClassName(JSONPipeIn(value)),
+              replace
+            ),
             noTrace
           );
+        }
+      },
+
+      /**
+       * 更新特殊布局元素的位置（fixed、absolute）
+       */
+      updateContainerStyleByDrag(dragId: string, dx: number, dy: number) {
+        const curDragId = dragId || self.dragId;
+        if (!curDragId) {
+          return;
+        }
+        const curSchema = self.getSchema(curDragId);
+        const curSchemaStyle = curSchema?.style || {};
+        if (
+          (curDragId && curSchemaStyle?.position === 'fixed') ||
+          curSchemaStyle?.position === 'absolute'
+        ) {
+          let curInset = curSchemaStyle.inset || 'auto';
+
+          const insetArr = curInset.split(' ');
+          const inset = {
+            top: insetArr[0] || 'auto',
+            right: insetArr[1] || 'auto',
+            bottom: insetArr[2] || insetArr[0] || 'auto',
+            left: insetArr[3] || insetArr[1] || 'auto'
+          };
+
+          const newInset = `${
+            inset.top !== 'auto' ? unitFormula(inset.top, dy) : 'auto'
+          } ${
+            inset.right !== 'auto' ? unitFormula(inset.right, -dx) : 'auto'
+          } ${
+            inset.bottom !== 'auto' ? unitFormula(inset.bottom, -dy) : 'auto'
+          } ${inset.left !== 'auto' ? unitFormula(inset.left, dx) : 'auto'}`;
+
+          this.changeValueById(curDragId, {
+            ...curSchema,
+            style: {
+              ...curSchemaStyle,
+              inset: newInset
+            }
+          });
+
+          // 更新高亮位置
+          this.calculateHighlightBox([curDragId]);
         }
       },
 
@@ -1592,4 +1737,4 @@ export const EditorStore = types
     };
   });
 
-export type EditorStoreType = Instance<typeof EditorStore>;
+export type EditorStoreType = Instance<typeof MainStore>;

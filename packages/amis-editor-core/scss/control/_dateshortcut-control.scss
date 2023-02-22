@@ -35,11 +35,9 @@
       }
 
       button {
-        color: var(--Button--default-onHover-color);
-        background: var(--Button--default-onHover-bg);
-        border-color: var(--Button--default-onHover-border);
         width: 100%;
       }
+
       ul {
         width: 100%;
         min-width: unset;
@@ -55,7 +53,7 @@
     border-radius: $Editor-borderRadius;
     position: relative;
     background: #f7f7f9;
-  
+
     &::before {
       content: '';
       position: absolute;

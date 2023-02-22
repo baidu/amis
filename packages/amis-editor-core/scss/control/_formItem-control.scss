@@ -87,7 +87,7 @@
 
   &-content {
     padding-top: px2rem(12px);
-    > * {
+    > div {
       @include extend-more();
     }
   }

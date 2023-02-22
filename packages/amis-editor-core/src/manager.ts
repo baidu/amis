@@ -5,7 +5,6 @@
 
 import findIndex from 'lodash/findIndex';
 import debounce from 'lodash/debounce';
-import isPlainObject from 'lodash/isPlainObject';
 import uniqBy from 'lodash/uniqBy';
 import {getRenderers, RenderOptions} from 'amis-core';
 import {
@@ -48,8 +47,10 @@ import {
   guid,
   reactionWithOldValue,
   reGenerateID,
+  JsonGenerateID,
   isString,
   isObject,
+  isLayoutPlugin,
   JSONPipeOut,
   generateNodeId,
   JSONTraverse,
@@ -68,6 +69,7 @@ import {SchemaObject, SchemaCollection} from 'amis/lib/Schema';
 import {BasePlugin} from './plugin';
 
 import type {RendererConfig} from 'amis-core/lib/factory';
+import isPlainObject from 'lodash/isPlainObject';
 
 export interface EditorManagerConfig
   extends Omit<EditorProps, 'value' | 'onChange'> {}
@@ -79,8 +81,25 @@ export interface PluginClass {
 
 const builtInPlugins: Array<PluginClass> = [];
 
+declare const window: Window & {AMISEditorCustomPlugins: any};
+
 /**
- * 注册默认的插件。
+ * 自动加载预先注册的自定义插件
+ * 备注：新版 amis-widget[3.0.0] 需要
+ */
+export function autoPreRegisterEditorCustomPlugins() {
+  if (window.AMISEditorCustomPlugins) {
+    Object.keys(window.AMISEditorCustomPlugins).forEach(pluginName => {
+      const curEditorPlugin = window.AMISEditorCustomPlugins[pluginName];
+      if (curEditorPlugin) {
+        registerEditorPlugin(curEditorPlugin);
+      }
+    });
+  }
+}
+
+/**
+ * 注册Editor插件。
  * @param editor
  */
 export function registerEditorPlugin(klass: PluginClass) {
@@ -184,11 +203,20 @@ export class EditorManager {
       this.env.beforeDispatchEvent
     );
     this.hackIn = parent?.hackIn || hackIn;
+    // 自动加载预先注册的自定义组件
+    autoPreRegisterEditorCustomPlugins();
 
     this.plugins =
       parent?.plugins ||
       (config.disableBultinPlugin ? [] : builtInPlugins) // 页面设计器注册的插件列表
         .concat(config.plugins || [])
+        .filter(p =>
+          config.disablePluginList
+            ? typeof config.disablePluginList === 'function'
+              ? !config.disablePluginList(p.id || '', p)
+              : !config.disablePluginList.includes(p.id || 'unkown')
+            : true
+        )
         .map(Editor => {
           const plugin = new Editor(this); // 进行一次实例化
           plugin.order = plugin.order ?? 0;
@@ -295,7 +323,7 @@ export class EditorManager {
     );
   }
 
-  // 初始化plugins
+  // 动态注册 plugin
   dynamicAddPlugin(pluginName: string) {
     if (!pluginName) {
       return;
@@ -307,9 +335,13 @@ export class EditorManager {
       console.warn(`[amis-editor]当前已有${pluginName}插件`);
       return;
     }
-    const newPluginClass: any = builtInPlugins.find(
+    let newPluginClass: any = builtInPlugins.find(
       (Plugin: any) => Plugin.prototype && Plugin.prototype.name === pluginName
     );
+    // 支持 postMessage 间接动态注册自定义组件
+    if (!newPluginClass && window.AMISEditorCustomPlugins) {
+      newPluginClass = window.AMISEditorCustomPlugins[pluginName];
+    }
     if (newPluginClass) {
       const newPlugin = new newPluginClass(this); // 进行一次实例化
       newPlugin.order = newPlugin.order ?? 0;
@@ -463,6 +495,10 @@ export class EditorManager {
   buildPanels(curRendererId?: string) {
     let id = curRendererId || this.store.activeId;
     let panels: Array<BasicPanelItem> = [];
+
+    if (!id && this.store?.schema) {
+      id = this.store?.schema.$$id; // 默认使用根节点id
+    }
 
     if (id || this.store.selections.length) {
       id = id || this.store.selections[0];
@@ -752,7 +788,7 @@ export class EditorManager {
    * @param rendererIdOrSchema
    * 备注：可以根据渲染器ID添加新元素，也可以根据现有schema片段添加新元素
    */
-  async addElem(rendererIdOrSchema: string | Object) {
+  async addElem(rendererIdOrSchema: string | any) {
     if (!rendererIdOrSchema) {
       return;
     }
@@ -784,7 +820,19 @@ export class EditorManager {
       toast.warning('请先选择一个元素作为插入的位置。');
       return;
     }
-    const regionNode = node.parent as EditorNodeType; // 父级节点
+
+    if (
+      (node.type === 'wrapper' || node.type === 'container') &&
+      node.schema?.body?.length === 0 &&
+      (schemaData?.type === 'flex' || subRenderer?.rendererName === 'flex')
+    ) {
+      const newSchemaData = schemaData || subRenderer?.scaffold;
+      // 布局能力提升: 点击插入新元素，当wrapper为空插入布局容器时，自动改为置换，避免过多层级
+      this.replaceChild(id, newSchemaData);
+      return;
+    }
+
+    const parentNode = node.parent as EditorNodeType; // 父级节点
 
     // 插入新元素需要的字段
     let nextId = null;
@@ -798,20 +846,30 @@ export class EditorManager {
       // crud 和 table 等表格类容器
       regionNodeId = id;
       regionNodeRegion = 'columns';
+    } else if (node.schema.items && isLayoutPlugin(node.schema)) {
+      // 当前节点是布局类容器节点
+      regionNodeId = id;
+      regionNodeRegion = 'items';
     } else if (node.schema.body) {
       // 当前节点是容器节点
       regionNodeId = id;
       regionNodeRegion = 'body';
-    } else if (regionNode) {
+    } else if (parentNode) {
       // 存在父节点
-      regionNodeId = regionNode.id;
-      regionNodeRegion = regionNode.region;
+      regionNodeId = parentNode.id;
+      regionNodeRegion = parentNode.region;
 
       // 考虑特殊情况，比如「表单项容器」
-      if (!regionNode.region && regionNode.schema.body) {
+      if (!parentNode.region && parentNode.schema.body) {
         // 默认插入到父节点的body中
         regionNodeRegion = 'body';
-      } else if (!regionNode.region && !regionNode.schema.body) {
+      } else if (!parentNode.region && parentNode.schema.items) {
+        regionNodeRegion = 'items';
+      } else if (
+        !parentNode.region &&
+        !parentNode.schema.body &&
+        !parentNode.schema.items
+      ) {
         // 其他特殊情况暂时不考虑，给予提示
         toast.warning('当前节点不允许追加新组件。');
         return;
@@ -868,7 +926,11 @@ export class EditorManager {
    * 备注：目前主要用在复制&粘贴快捷功能键中
    * @param rendererSchema
    */
-  async appendSiblingSchema(rendererSchema: Object) {
+  async appendSiblingSchema(
+    rendererSchema: Object,
+    beforeInsert?: boolean,
+    disabledAutoSelectInsertElem?: boolean
+  ) {
     if (!rendererSchema) {
       return;
     }
@@ -896,6 +958,13 @@ export class EditorManager {
       if (!regionNode.region && regionNode.schema.body) {
         // 默认插入到父节点的body中
         regionNodeRegion = 'body';
+      } else if (
+        !regionNode.region &&
+        regionNode.schema?.type === 'flex' &&
+        regionNode.schema.items
+      ) {
+        // flex布局容器
+        regionNodeRegion = 'items';
       } else if (!regionNode.region && !regionNode.schema.body) {
         // 其他特殊情况暂时不考虑，给予提示
         toast.warning('当前节点不允许追加新组件。');
@@ -912,7 +981,7 @@ export class EditorManager {
         }
         return result;
       });
-      nextId = parent[beforeId + 1]?.$$id; // 下一个节点的ID（追加时需要）
+      nextId = parent[beforeInsert ? beforeId : beforeId + 1]?.$$id; // 下一个节点的ID（追加时需要）
 
       const child = this.addChild(
         regionNodeId,
@@ -920,7 +989,7 @@ export class EditorManager {
         rendererSchema,
         nextId
       );
-      if (child) {
+      if (child && !disabledAutoSelectInsertElem) {
         // mobx 修改数据是异步的
         setTimeout(() => {
           store.setActiveId(child.$$id);
@@ -993,6 +1062,33 @@ export class EditorManager {
         this.rebuild();
       }, 4);
     }
+  }
+
+  /**
+   * 判断当前元素是否为flex布局子容器
+   * 备注: 以便额外增加布局相关配置项
+   */
+  isFlexItem(id: string) {
+    return this.store.isFlexItem(id);
+  }
+
+  isFlexColumnItem(id: string) {
+    return this.store.isFlexColumnItem(id);
+  }
+
+  /**
+   * 判断当前元素是否为特殊布局元素（fixed、absolute）
+   * 备注: 以便支持拖拽位置
+   */
+  draggableContainer(id: string) {
+    return this.store.draggableContainer(id);
+  }
+
+  /**
+   * 更新特殊布局元素的位置（fixed、absolute）
+   */
+  updateContainerStyleByDrag(dragId: string, dx: number, dy: number) {
+    this.store.updateContainerStyleByDrag(dragId, dx, dy);
   }
 
   /**
@@ -1194,7 +1290,6 @@ export class EditorManager {
     if (!event.prevented) {
       store.moveUp(node.id);
       // this.buildToolbars();
-
       this.trigger('after-move', context);
       this.trigger('after-update', context);
     }
@@ -1217,7 +1312,7 @@ export class EditorManager {
     const context: MoveEventContext = {
       ...commonContext,
       sourceId: node.id,
-      direction: 'up',
+      direction: 'down',
       beforeId: node.nextSibling?.nextSibling?.id,
       region: regionNode.region
     };
@@ -1226,7 +1321,6 @@ export class EditorManager {
     if (!event.prevented) {
       store.moveDown(node.id);
       // this.buildToolbars();
-
       this.trigger('after-move', context);
       this.trigger('after-update', context);
     }
@@ -1339,12 +1433,8 @@ export class EditorManager {
     let index: number = -1;
     const commonContext = this.buildEventContext(id);
 
-    // 填充id，有些脚手架生成了复杂的布局等，这里都填充一下id
-    JSONTraverse(json, (value: any) => {
-      if (isPlainObject(value) && value.type && !value.id) {
-        value.id = generateNodeId();
-      }
-    });
+    // 填充id，有些脚手架生成了复杂的布局等，自动填充一下id
+    JsonGenerateID(json);
 
     if (beforeId) {
       const arr = commonContext.schema[region];
@@ -1511,7 +1601,7 @@ export class EditorManager {
     this.dnd.startDrag(id, e.nativeEvent);
   }
 
-  async scaffold(form: ScaffoldForm, value: any): Promise<SchemaObject> {
+  async scaffold(form: any, value: any): Promise<SchemaObject> {
     return new Promise(resolve => {
       this.store.openScaffoldForm({
         ...form,
@@ -1523,6 +1613,15 @@ export class EditorManager {
 
   async reScaffold(id: string, form: ScaffoldForm, value: any) {
     const replaceWith = await this.scaffold(form, value);
+    this.replaceChild(id, replaceWith);
+  }
+
+  // 根据元素ID实时拿取上下文数据
+  async reScaffoldV2(id: string) {
+    const commonContext = this.buildEventContext(id);
+    const scaffoldForm = commonContext.info?.scaffoldForm;
+    const curSchema = commonContext.schema;
+    const replaceWith = await this.scaffold(scaffoldForm, curSchema);
     this.replaceChild(id, replaceWith);
   }
 
@@ -1737,6 +1836,7 @@ export class EditorManager {
     let scope: DataScope | void;
     let from = node;
     let region = node;
+    const trigger = node;
 
     // 查找最近一层的数据域
     while (!scope && from) {
@@ -1765,7 +1865,8 @@ export class EditorManager {
 
       const jsonschema = await node?.info?.plugin?.buildDataSchemas?.(
         node,
-        region
+        region,
+        trigger
       );
       if (jsonschema) {
         scope.removeSchema(jsonschema.$id);
@@ -1832,11 +1933,9 @@ export class EditorManager {
   ) {
     originHook?.(e, component, scoped, data, broadcasts);
 
-    if (component.props.$$id) {
-      const node = this.store.getNodeById(
-        component.props.$$id,
-        component.props.type
-      );
+    const id = component.props.$$id || component.props.$$editor?.id;
+    if (id) {
+      const node = this.store.getNodeById(id, component.props.type);
       node?.info?.plugin?.rendererBeforeDispatchEvent?.(
         node,
         e,

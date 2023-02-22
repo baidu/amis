@@ -288,6 +288,8 @@ export interface RendererInfo extends RendererScaffoldInfo {
   // 如果是虚拟的渲染器
   hostId?: string;
   memberIndex?: number;
+
+  tipName?: string;
 }
 
 export type BasicRendererInfo = Omit<
@@ -439,7 +441,6 @@ export interface PanelItem {
   position?: 'left' | 'right';
   render?: (props: PanelProps) => JSX.Element;
   menus?: Array<any>;
-  isNotConfigPanel?: boolean; // 可用于标记非组件属性配置面板
 }
 
 export type BasicPanelItem = Omit<PanelItem, 'order'> &
@@ -667,7 +668,7 @@ export interface PluginEventListener {
    * 移动节点的时候触发，包括上移，下移
    */
   beforeMove?: (event: PluginEvent<MoveEventContext>) => false | void;
-  aftterMove?: (event: PluginEvent<MoveEventContext>) => void;
+  afterMove?: (event: PluginEvent<MoveEventContext>) => void;
 
   /**
    * 删除的时候触发
@@ -811,13 +812,14 @@ export interface PluginInterface
   panelControlsCreator?: (context: BaseEventContext) => Array<any>;
   panelBodyCreator?: (context: BaseEventContext) => SchemaCollection;
 
-  /**
-   * panel还需要合并目标插件提供的配置，冲突时以当前plugin为准
-   */
-  panelBodyMergeable?: (
-    context: BaseEventContext,
-    plugin: PluginInterface
-  ) => boolean;
+  // 好像没用，先注释了
+  // /**
+  //  * panel还需要合并目标插件提供的配置，冲突时以当前plugin为准
+  //  */
+  // panelBodyMergeable?: (
+  //   context: BaseEventContext,
+  //   plugin: PluginInterface
+  // ) => boolean;
 
   popOverBody?: Array<any>;
   popOverBodyCreator?: (context: BaseEventContext) => Array<any>;
@@ -889,7 +891,8 @@ export interface PluginInterface
    */
   buildDataSchemas?: (
     node: EditorNodeType,
-    region?: EditorNodeType
+    region?: EditorNodeType,
+    trigger?: EditorNodeType
   ) => any | Promise<any>;
 
   rendererBeforeDispatchEvent?: (
@@ -961,9 +964,15 @@ export abstract class BasePlugin implements PluginInterface {
       plugin.rendererName &&
       plugin.rendererName === renderer.name // renderer.name 会从 renderer.type 中取值
     ) {
+      let curPluginName = plugin.name;
+      if (schema?.isFreeContainer) {
+        curPluginName = '自由容器';
+      } else if (schema?.isSorptionContainer) {
+        curPluginName = '吸附容器';
+      }
       // 复制部分信息出去
       return {
-        name: plugin.name,
+        name: curPluginName,
         regions: plugin.regions,
         patchContainers: plugin.patchContainers,
         // wrapper: plugin.wrapper,
@@ -1069,21 +1078,7 @@ export abstract class BasePlugin implements PluginInterface {
       if (sameIdChild) {
         const subPanels = this.manager.collectPanels(sameIdChild, false, true);
         subPanels.forEach(panel => {
-          if (panel.key === 'code') {
-            const exists = panels.some(panel => panel.key === 'code');
-            exists || panels.push(panel);
-          } else if (panel.key === 'renderers') {
-            const exists = panels.some(panel => panel.key === 'renderers');
-            exists || panels.push(panel);
-          } else if (
-            panel.key === 'outline' ||
-            panel.key === 'commonConfig' ||
-            panel.key === 'page-setting' ||
-            panel.key === 'name-list' ||
-            panel.isNotConfigPanel
-          ) {
-            // do nothing
-          } else {
+          if (panel.key === 'config' || panel.key === 'vconfig') {
             panels.push({
               ...panel,
               key: `sub-${panel.key}`,
@@ -1181,26 +1176,29 @@ export abstract class BasePlugin implements PluginInterface {
     const plugin: PluginInterface = this;
     if (
       info.plugin === plugin &&
-      (plugin.scaffoldForm?.canRebuild || info.scaffoldForm?.canRebuild)
+      (info.scaffoldForm?.canRebuild ?? plugin.scaffoldForm?.canRebuild)
     ) {
       toolbars.push({
         iconSvg: 'harmmer',
         tooltip: `快速构建「${info.plugin.name}」`,
         placement: 'bottom',
-        onClick: () =>
-          this.manager.reScaffold(
-            id,
-            info.scaffoldForm || plugin.scaffoldForm!,
-            schema
-          )
+        onClick: () => this.manager.reScaffoldV2(id)
+        /*
+        this.manager.reScaffold(
+          id,
+          info.scaffoldForm || plugin.scaffoldForm!,
+          schema
+        )
+        */
       });
     }
   }
 
-  renderPlaceholder(text: string, key?: any) {
+  renderPlaceholder(text: string, key?: any, style?: any) {
     return React.createElement('div', {
       key,
       className: 'wrapper-sm b-a b-light m-b-sm',
+      style: style,
       children: React.createElement('span', {
         className: 'text-muted',
         children: text
