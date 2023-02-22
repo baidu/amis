@@ -12,7 +12,7 @@ import type {SchemaEditorItemPlaceholder} from 'amis-ui/lib/components/schema-ed
  * JSON Schema Editor
  * 文档：https://baidu.gitee.io/amis/docs/components/form/json-schema-editor
  */
-export interface JSONSchemaEditorControlSchema extends FormBaseControlSchema {
+export interface JSONSchemaEditorControlSchema extends Omit<FormBaseControlSchema, 'placeholder'> {
   /**
    * 指定为 JSON Schema Editor
    */
