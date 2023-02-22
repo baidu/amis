@@ -599,14 +599,7 @@ export class Navigation extends React.Component<
           ? this.normalizeNavigations(children, depth + 1)
           : [],
         path: link.to,
-        // defaultOpenLevel depth <= defaultOpenLevel的默认全部展开
-        // 优先级比unfolded属性低 如果用户配置了unfolded为false 那么默认不展开
-        open:
-          defaultOpenLevel &&
-          depth <= defaultOpenLevel &&
-          typeof link.unfolded !== 'undefined'
-            ? true
-            : link.unfolded,
+        open: link.unfolded,
         extra: itemActions
           ? render('inline', itemActions, {
               data: createObject(data, link),
@@ -796,6 +789,7 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
         foldedField,
         location,
         level,
+        defaultOpenLevel,
         config,
         dispatchEvent
       } = props;
@@ -838,9 +832,13 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
             __id: link.__id ?? guid()
           };
 
+          // defaultOpenLevel depth <= defaultOpenLevel的默认全部展开
+          // 优先级比unfolded属性低 如果用户配置了unfolded为false 那么默认不展开
           item.unfolded =
             typeof link.unfolded !== 'undefined'
               ? isUnfolded(item, {unfoldedField, foldedField})
+              : defaultOpenLevel && depth <= defaultOpenLevel
+              ? true
               : link.children &&
                 !!findTree(link.children, (child, i, d) =>
                   isActive(child, depth + d)

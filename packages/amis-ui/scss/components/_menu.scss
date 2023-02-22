@@ -923,6 +923,18 @@
     .#{$ns}Nav-Menu-submenu-arrow {
       display: none !important;
     }
+
+    .#{$ns}Nav-Menu-item-group-title {
+      display: none;
+    }
+
+    .#{$ns}Nav-Menu-item-group-list {
+      .#{$ns}Nav-Menu-item-divider {
+        height: 1px;
+        width: 60%;
+        margin: 0 auto;
+      }
+    }
   }
 
   &-submenu-vertical.#{$ns}Nav-Menu-submenu,

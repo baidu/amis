@@ -530,7 +530,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     );
   }
 
-  renderMenuContent(list: NavigationItem[]) {
+  renderMenuContent(list: NavigationItem[], level?: number) {
     const {
       renderLink,
       classnames: cx,
@@ -538,18 +538,21 @@ export class Menu extends React.Component<MenuProps, MenuState> {
       disabled,
       badge,
       data,
-      isActive
+      isActive,
+      collapsed
     } = this.props;
 
     return list.map(item => {
+      // 如果这一级是分组标题 那么level不递增
       if (item.mode && item.mode === 'group') {
         return (
           <ItemGroup
             key={item.id}
-            title={item.label}
+            title={collapsed ? '' : item.label}
             className={item.className}
           >
-            {this.renderMenuContent(item.children || [])}
+            {collapsed ? <RcDivider key={'group-divider' + item.id} /> : null}
+            {this.renderMenuContent(item.children || [], item.depth)}
           </ItemGroup>
         );
       }
@@ -569,8 +572,9 @@ export class Menu extends React.Component<MenuProps, MenuState> {
             active={isActive(item)}
             badge={badge}
             renderLink={renderLink}
+            depth={level || 1}
           >
-            {this.renderMenuContent(item.children || [])}
+            {this.renderMenuContent(item.children || [], item.depth + 1)}
           </SubMenu>
         );
       }
@@ -589,6 +593,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
           renderLink={renderLink}
           badge={badge}
           data={data}
+          depth={level || 1}
         />
       );
     });
