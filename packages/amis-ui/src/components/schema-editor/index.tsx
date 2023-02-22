@@ -75,7 +75,11 @@ export interface SchemaEditorProps extends LocaleProps, ThemeProps {
 export class SchemaEditor extends React.Component<SchemaEditorProps> {
   static defaultProps: Pick<
     SchemaEditorProps,
-    'defaultType' | 'rootTypeMutable' | 'showRootInfo' | 'disabledTypes'
+    | 'defaultType'
+    | 'rootTypeMutable'
+    | 'showRootInfo'
+    | 'disabledTypes'
+    | 'placeholder'
   > = {
     defaultType: 'object',
     rootTypeMutable: false,
