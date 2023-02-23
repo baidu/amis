@@ -38,6 +38,7 @@ import {
 } from 'amis-editor-core';
 export * from './helper';
 import {i18n as _i18n} from 'i18n-runtime';
+import type {VariableItem} from 'amis-ui/lib/components/formula/Editor';
 
 interface EventControlProps extends FormControlProps {
   actions: PluginActions; // 组件的动作列表
@@ -556,7 +557,8 @@ export class EventControl extends React.Component<
       actionConfigInitFormatter,
       getComponents,
       actionTree,
-      allComponents
+      allComponents,
+      manager
     } = this.props;
 
     let rawVariables = [];
@@ -568,7 +570,28 @@ export class EventControl extends React.Component<
 
     // 收集事件变量
     const eventVariables = this.getEventVariables(data);
+    const appVariables: VariableItem[] =
+      manager?.variableManager?.getVariableFormulaOptions() || [];
     const variables = [...eventVariables, ...rawVariables];
+    const systemVarIndex = variables.findIndex(
+      item => item.label === '系统变量'
+    );
+
+    // 插入应用变量
+    if (!!~systemVarIndex) {
+      appVariables.forEach(item => {
+        if (Array.isArray(item?.children) && item.children.length) {
+          variables.splice(systemVarIndex, 0, item);
+        }
+      });
+    } else {
+      appVariables.forEach(item => {
+        if (Array.isArray(item?.children) && item.children.length) {
+          variables.push(item);
+        }
+      });
+    }
+
     // 编辑操作，需要格式化动作配置
     if (data.type === 'update') {
       const action = data.actionData!.action!;
