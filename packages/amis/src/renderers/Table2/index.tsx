@@ -580,12 +580,14 @@ export default class Table2 extends React.Component<Table2Props, object> {
       // 否则加上padding 就超出单元格的区域了
       // children属性在schema里是一个关键字 在渲染器schema中 自定义的children没有用 去掉
 
-      // title 需要去掉，否则部分组件会将其渲染出来
+      // title 不应该传递到 cell-field 的 column 中，否则部分组件会将其渲染出来
+      // 但是 cell-field 需要这个字段，展示列的名称
       const {width, children, title, ...rest} = schema;
       return render(
         'cell-field',
         {
           ...rest,
+          title,
           type: 'cell-field',
           column: rest,
           data: props.data,
