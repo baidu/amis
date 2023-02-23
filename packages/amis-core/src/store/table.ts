@@ -1274,7 +1274,7 @@ export const TableStore = iRendererStore
         return;
       }
       const maxLength = self.maxKeepItemSelectionLength;
-      const selectedItems = self.data.selectedItems;
+      const selectedItems = self.data.selectedItems || [];
 
       self.selectedRows.map(item => item.setCheckdisable(false));
       if (maxLength && maxLength <= selectedItems.length) {

@@ -825,3 +825,25 @@ order: 54
 | columns                      | `array`                                   | []              | 列信息                                                                                               |
 | columns[x].quickEdit         | `boolean` 或者 `object`                   | -               | 配合 editable 为 true 一起使用                                                                       |
 | columns[x].quickEditOnUpdate | `boolean` 或者 `object`                   | -               | 可以用来区分新建模式和更新模式的编辑配置                                                             |
+| selectable                   | `boolean`                                 | `false`         | 支持勾选                                                                                             |
+| multiple                     | `boolean`                                 | `false`         | 勾选 icon 是否为多选样式`checkbox`， 默认为`radio`                                                   |
+
+## 事件表
+
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，详细查看[事件动作](../../docs/concepts/event-action)。
+
+| 事件名称       | 事件参数                                                                | 说明                 |
+| -------------- | ----------------------------------------------------------------------- | -------------------- |
+| selectedChange | `selectedItems: item[]` 已选择行<br/>`unSelectedItems: item[]` 未选择行 | 手动选择表格项时触发 |
+
+
+## 动作表
+
+当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
+
+| 动作名称  | 动作配置                                                                                                         | 说明               |
+| --------- | ---------------------------------------------------------------------------------------------------------------- | ------------------ |
+| select    | `selected: string` 条件表达式，表达式中可以访问变量`record:行数据`和`rowIndex:行索引`，例如: data.rowIndex === 1 | 设置表格的选中项   |
+| selectAll | -                                                                                                                | 设置表格全部项选中 |
+| clearAll  | -                                                                                                                | 清空表格所有选中项 |
+
