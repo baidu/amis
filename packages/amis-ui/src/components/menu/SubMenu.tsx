@@ -9,12 +9,11 @@ import pick from 'lodash/pick';
 import {SubMenu as RcSubMenu, SubMenuProps as RcSubMenuProps} from 'rc-menu';
 import {ClassNamesFn, themeable, autobind, createObject} from 'amis-core';
 
-import {getIcon} from '../icons';
+import {getIcon, Icon} from '../icons';
 import {Badge} from '../Badge';
 import {MenuContextProps, MenuContext} from './MenuContext';
 import type {NavigationItem} from './';
 
-const CaretIcon = getIcon('caret') as any;
 const DragIcon = getIcon('drag-bar') as any;
 
 interface MenuItemTitleInfo {
@@ -197,7 +196,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
           {labelNode}
           {!stacked ? (
             <span key="expand-toggle" className={cx('Nav-Menu-submenu-arrow')}>
-              <CaretIcon />
+              <Icon icon="right-arrow-bold" className="icon" />
             </span>
           ) : null}
         </>
@@ -228,13 +227,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
   }
 
   render() {
-    const {
-      className,
-      popupClassName,
-      classnames: cx,
-      hidden,
-      active
-    } = this.props;
+    const {className, popupClassName, classnames: cx, hidden} = this.props;
 
     const isDarkTheme = this.context.themeColor === 'dark';
     return hidden ? null : (
@@ -243,8 +236,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
         className={cx(
           'Nav-Menu-submenu',
           {
-            ['Nav-Menu-submenu-dark']: isDarkTheme,
-            ['Nav-Menu-submenu-actived']: active
+            ['Nav-Menu-submenu-dark']: isDarkTheme
           },
           className
         )}

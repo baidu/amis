@@ -24,13 +24,11 @@ import {
 } from 'amis-core';
 import {ClassNamesFn, themeable} from 'amis-core';
 
-import {getIcon} from '../icons';
+import {Icon} from '../icons';
 import {BadgeObject} from '../Badge';
 import MenuItem, {MenuItemProps} from './MenuItem';
 import SubMenu, {SubMenuProps} from './SubMenu';
 import {MenuContext} from './MenuContext';
-
-const CaretIcon = getIcon('caret') as any;
 
 export interface NavigationItem {
   id?: string;
@@ -509,7 +507,6 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     [propName: string]: any;
   }) {
     const {classnames: cx, expandIcon} = this.props;
-
     return (
       <span
         key="expand-toggle"
@@ -520,7 +517,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
         }}
       >
         {!expandIcon || !React.isValidElement(expandIcon) ? (
-          <CaretIcon />
+          <Icon icon="right-arrow-bold" className="icon" />
         ) : typeof expandIcon === 'string' ? (
           <i className={cx(expandIcon)} />
         ) : (
@@ -542,8 +539,9 @@ export class Menu extends React.Component<MenuProps, MenuState> {
       collapsed
     } = this.props;
 
-    return list.map(item => {
+    return list.map((item: NavigationItem, index: number) => {
       // 如果这一级是分组标题 那么level不递增
+      // 如果这一层第一个就是分组标题 那么收起状态下 不展示分割线
       if (item.mode && item.mode === 'group') {
         return (
           <ItemGroup
@@ -551,7 +549,9 @@ export class Menu extends React.Component<MenuProps, MenuState> {
             title={collapsed ? '' : item.label}
             className={item.className}
           >
-            {collapsed ? <RcDivider key={'group-divider' + item.id} /> : null}
+            {collapsed && index > 0 ? (
+              <RcDivider key={'group-divider' + item.id} />
+            ) : null}
             {this.renderMenuContent(item.children || [], item.depth)}
           </ItemGroup>
         );

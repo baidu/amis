@@ -226,7 +226,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
     const showToolTip =
       stacked && mode === 'inline' && collapsed && depth === 1;
 
-    // 多套一层div 是因为disabled情况下 RcItem触发不了tooltipwrapper的事件
+    // 多套一层ul 是因为disabled情况下 RcItem触发不了tooltipwrapper的事件
     return hidden ? null : (
       <TooltipWrapper
         tooltipClassName={cx('Nav-Menu-item-tooltip', tooltipClassName, {
@@ -238,14 +238,14 @@ export class MenuItem extends React.Component<MenuItemProps> {
         trigger={tooltipTrigger}
         rootClose
       >
-        <div className={cx('Nav-Menu-item-tooltip-wrap')}>
+        <ul className={cx('Nav-Menu-item-tooltip-wrap')}>
           <RcItem
             {...pick(this.props, this.internalProps)}
             className={cx(className)}
           >
             {this.renderMenuItem()}
           </RcItem>
-        </div>
+        </ul>
       </TooltipWrapper>
     );
   }
