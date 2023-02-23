@@ -177,14 +177,7 @@ export type TableColumnObject = {
 export type TableColumnWithType = SchemaObject & TableColumnObject;
 export type TableColumn = TableColumnWithType | TableColumnObject;
 
-type FixedAutoFillHeight = {
-  height: number;
-};
-type LimitedAutoFillHeight = {
-  maxHeight: number;
-};
-
-type AutoFillHeightObject = FixedAutoFillHeight | LimitedAutoFillHeight;
+type AutoFillHeightObject = Record<'height' | 'maxHeight', number>;
 /**
  * Table 表格渲染器。
  * 文档：https://baidu.gitee.io/amis/docs/components/table
@@ -731,14 +724,12 @@ export default class Table extends React.Component<TableProps, object> {
     }
 
     const heightField =
-      autoFillHeight && (autoFillHeight as LimitedAutoFillHeight).maxHeight
+      autoFillHeight && (autoFillHeight as AutoFillHeightObject).maxHeight
         ? 'maxHeight'
         : 'height';
 
     const heightValue = isObject(autoFillHeight)
-      ? heightField === 'maxHeight'
-        ? (autoFillHeight as LimitedAutoFillHeight).maxHeight
-        : (autoFillHeight as FixedAutoFillHeight).height
+      ? (autoFillHeight as AutoFillHeightObject)[heightField]
       : 0;
 
     const tableContentHeight = heightValue
