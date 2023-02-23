@@ -9,7 +9,8 @@ import isPlainObject from 'lodash/isPlainObject';
 import isNumber from 'lodash/isNumber';
 import type {Schema} from 'amis';
 import {SchemaObject} from 'amis/lib/Schema';
-import {cloneDeep} from 'lodash';
+import {assign, cloneDeep} from 'lodash';
+import {getGlobalData} from 'amis-theme-editor-helper';
 
 const {
   guid,
@@ -710,7 +711,11 @@ export function filterSchemaForEditor(schema: any): any {
         modified = true;
       }
     });
-    return modified ? mapped : schema;
+    const finalSchema = modified ? mapped : schema;
+    if (finalSchema?.type) {
+      return setThemeDefaultData(finalSchema);
+    }
+    return finalSchema;
   }
 
   return schema;
@@ -1043,5 +1048,6 @@ export function setThemeConfig(config: any) {
 export function setThemeDefaultData(data: any) {
   const schemaData = cloneDeep(data);
   schemaData.themeConfig = themeConfig;
+  assign(schemaData, getGlobalData(themeConfig));
   return schemaData;
 }

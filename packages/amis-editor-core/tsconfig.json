@@ -10,5 +10,9 @@
     ]
   },
   "include": ["src/**/*"],
-  "references": []
+  "references": [
+    {
+      "path": "../amis-theme-editor-helper"
+    }
+  ]
 }
