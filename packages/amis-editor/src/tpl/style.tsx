@@ -465,33 +465,39 @@ setSchemaTpl(
 );
 
 // form label
-setSchemaTpl('theme:form-label', () => {
+setSchemaTpl('theme:form-label', (option: any = {}) => {
+  const {fontOption = {}, pAmOption = {}} = option;
   return {
     title: 'Label样式',
     body: [
       getSchemaTpl('theme:font', {
         label: '文字',
-        name: 'css.labelClassName.font'
+        name: 'css.labelClassName.font',
+        ...fontOption
       }),
       getSchemaTpl('theme:paddingAndMargin', {
-        name: 'css.labelClassName.padding-and-margin'
+        name: 'css.labelClassName.padding-and-margin',
+        ...pAmOption
       })
     ]
   };
 });
 
 // form description
-setSchemaTpl('theme:form-description', () => {
+setSchemaTpl('theme:form-description', (option: any = {}) => {
+  const {fontOption = {}, pAmOption = {}} = option;
   return {
     title: '描述样式',
     visibleOn: 'this.description',
     body: [
       getSchemaTpl('theme:font', {
         label: '文字',
-        name: 'css.descriptionClassName.font'
+        name: 'css.descriptionClassName.font',
+        ...fontOption
       }),
       getSchemaTpl('theme:paddingAndMargin', {
-        name: 'css.descriptionClassName.padding-and-margin'
+        name: 'css.descriptionClassName.padding-and-margin',
+        ...pAmOption
       })
     ]
   };

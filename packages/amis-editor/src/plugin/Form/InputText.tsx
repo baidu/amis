@@ -358,11 +358,22 @@ export class TextControlPlugin extends BasePlugin {
           'collapseGroup',
           [
             getSchemaTpl('style:formItem', {renderer}),
-            getSchemaTpl('theme:form-label'),
-            getSchemaTpl('theme:form-description'),
+            getSchemaTpl('theme:form-label', {
+              fontOption: {editorThemePath: 'form.item.default.label.body.font'}
+            }),
+            getSchemaTpl('theme:form-description', {
+              fontOption: {
+                editorThemePath: 'form.item.default.description.body.font'
+              }
+            }),
             {
               title: '输入框样式',
-              body: [...inputStateTpl('css.inputControlClassName')]
+              body: [
+                ...inputStateTpl(
+                  'css.inputControlClassName',
+                  'input.base.default'
+                )
+              ]
             },
             {
               title: 'AddOn样式',
