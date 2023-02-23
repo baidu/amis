@@ -465,27 +465,24 @@ setSchemaTpl(
 );
 
 // form label
-setSchemaTpl('theme:form-label', (option: any = {}) => {
-  const {fontOption = {}, pAmOption = {}} = option;
+setSchemaTpl('theme:form-label', () => {
   return {
     title: 'Label样式',
     body: [
       getSchemaTpl('theme:font', {
         label: '文字',
         name: 'css.labelClassName.font',
-        ...fontOption
+        editorThemePath: 'form.item.default.label.body.font'
       }),
       getSchemaTpl('theme:paddingAndMargin', {
-        name: 'css.labelClassName.padding-and-margin',
-        ...pAmOption
+        name: 'css.labelClassName.padding-and-margin'
       })
     ]
   };
 });
 
 // form description
-setSchemaTpl('theme:form-description', (option: any = {}) => {
-  const {fontOption = {}, pAmOption = {}} = option;
+setSchemaTpl('theme:form-description', () => {
   return {
     title: '描述样式',
     visibleOn: 'this.description',
@@ -493,11 +490,10 @@ setSchemaTpl('theme:form-description', (option: any = {}) => {
       getSchemaTpl('theme:font', {
         label: '文字',
         name: 'css.descriptionClassName.font',
-        ...fontOption
+        editorThemePath: 'form.item.default.description.body.font'
       }),
       getSchemaTpl('theme:paddingAndMargin', {
-        name: 'css.descriptionClassName.padding-and-margin',
-        ...pAmOption
+        name: 'css.descriptionClassName.padding-and-margin'
       })
     ]
   };
