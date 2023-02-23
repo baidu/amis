@@ -177,10 +177,14 @@ export type TableColumnObject = {
 export type TableColumnWithType = SchemaObject & TableColumnObject;
 export type TableColumn = TableColumnWithType | TableColumnObject;
 
-interface AutoFillHeightObject {
+type FixedAutoFillHeight = {
   height: number;
-}
+};
+type LimitedAutoFillHeight = {
+  maxHeight: number;
+};
 
+type AutoFillHeightObject = FixedAutoFillHeight | LimitedAutoFillHeight;
 /**
  * Table 表格渲染器。
  * 文档：https://baidu.gitee.io/amis/docs/components/table
@@ -726,12 +730,19 @@ export default class Table extends React.Component<TableProps, object> {
       parentNode = parentNode.parentElement;
     }
 
-    const height = isObject(autoFillHeight)
-      ? (autoFillHeight as AutoFillHeightObject).height
+    const heightField =
+      autoFillHeight && (autoFillHeight as LimitedAutoFillHeight).maxHeight
+        ? 'maxHeight'
+        : 'height';
+
+    const heightValue = isObject(autoFillHeight)
+      ? heightField === 'maxHeight'
+        ? (autoFillHeight as LimitedAutoFillHeight).maxHeight
+        : (autoFillHeight as FixedAutoFillHeight).height
       : 0;
 
-    const tableContentHeight = height
-      ? `${height}px`
+    const tableContentHeight = heightValue
+      ? `${heightValue}px`
       : `${
           viewportHeight -
           tableContentTop -
@@ -740,14 +751,14 @@ export default class Table extends React.Component<TableProps, object> {
           allParentPaddingButtom
         }px`;
 
-    tableContent.style.height = tableContentHeight;
+    tableContent.style[heightField] = tableContentHeight;
     /**autoFillHeight开启后固定列会溢出Table高度，需要同步一下 */
     if (leftFixedColumns) {
-      leftFixedColumns.style.height = tableContentHeight;
+      leftFixedColumns.style[heightField] = tableContentHeight;
       leftFixedColumns.style.overflowY = 'auto';
     }
     if (rightFixedColumns) {
-      rightFixedColumns.style.height = tableContentHeight;
+      rightFixedColumns.style[heightField] = tableContentHeight;
       rightFixedColumns.style.overflowY = 'auto';
     }
   }
