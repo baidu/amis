@@ -42,17 +42,10 @@ import {PullRefresh} from 'amis-ui';
 import {scrollPosition, isMobile} from 'amis-core';
 
 /**
- * 样式属性名及值
- */
-interface Declaration {
-  [property: string]: string;
-}
-
-/**
  * css 定义
  */
 interface CSSRule {
-  [selector: string]: Declaration; // 定义
+  [selector: string]: Record<string, string> | Record<string, Record<string, string>>; // 定义
 }
 
 /**
@@ -333,7 +326,16 @@ export default class Page extends React.Component<PageProps> {
       const declaration = cssRules[selector];
       let declarationStr = '';
       for (const property in declaration) {
-        declarationStr += `  ${property}: ${declaration[property]};\n`;
+        let innerstr = ''
+        const innerValue=declaration[property]
+        if (typeof innerValue==='string') {
+          declarationStr += `  ${property}: ${innerValue};\n`;
+        } else {
+          for (const propsName in innerValue) {
+            innerstr+= ` ${propsName}:${innerValue[propsName]};`;
+          }
+          declarationStr += `  ${property} {${innerstr}}\n`; 
+        } 
       }
 
       css += `
