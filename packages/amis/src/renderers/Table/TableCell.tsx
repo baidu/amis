@@ -30,6 +30,8 @@ export class TableCell extends React.Component<RendererProps> {
     'remark'
   ];
 
+  readonly propsNeedRemove: string[] = [];
+
   render() {
     let {
       classnames: cx,
@@ -76,7 +78,7 @@ export class TableCell extends React.Component<RendererProps> {
     let body = children
       ? children
       : render('field', schema, {
-          ...omit(rest, Object.keys(schema)),
+          ...omit(rest, Object.keys(schema), this.propsNeedRemove),
           // inputOnly 属性不能传递给子组件，在 SchemaRenderer.renderChild 中处理掉了
           inputOnly: true,
           /** value没有返回值时设置默认值，避免错误获取到父级数据域的值 */
