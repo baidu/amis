@@ -12,7 +12,7 @@ exports[`Renderer:Nav 1`] = `
       role="menu"
       tabindex="0"
     >
-      <div
+      <ul
         class="cxd-Nav-Menu-item-tooltip-wrap"
       >
         <li
@@ -57,8 +57,8 @@ exports[`Renderer:Nav 1`] = `
             </div>
           </div>
         </li>
-      </div>
-      <div
+      </ul>
+      <ul
         class="cxd-Nav-Menu-item-tooltip-wrap"
       >
         <li
@@ -106,8 +106,8 @@ exports[`Renderer:Nav 1`] = `
             </div>
           </div>
         </li>
-      </div>
-      <div
+      </ul>
+      <ul
         class="cxd-Nav-Menu-item-tooltip-wrap"
       >
         <li
@@ -155,8 +155,8 @@ exports[`Renderer:Nav 1`] = `
             </div>
           </div>
         </li>
-      </div>
-      <div
+      </ul>
+      <ul
         class="cxd-Nav-Menu-item-tooltip-wrap"
       >
         <li
@@ -193,22 +193,22 @@ exports[`Renderer:Nav 1`] = `
             </div>
           </div>
         </li>
-      </div>
+      </ul>
     </ul>
     <div
       aria-hidden="true"
       style="display: none;"
     >
-      <div
+      <ul
         class="cxd-Nav-Menu-item-tooltip-wrap"
       />
-      <div
+      <ul
         class="cxd-Nav-Menu-item-tooltip-wrap"
       />
-      <div
+      <ul
         class="cxd-Nav-Menu-item-tooltip-wrap"
       />
-      <div
+      <ul
         class="cxd-Nav-Menu-item-tooltip-wrap"
       />
     </div>
@@ -241,7 +241,7 @@ exports[`Renderer:Nav with itemActions 1`] = `
               role="menu"
               tabindex="0"
             >
-              <div
+              <ul
                 class="cxd-Nav-Menu-item-tooltip-wrap"
               >
                 <li
@@ -305,7 +305,7 @@ exports[`Renderer:Nav with itemActions 1`] = `
                     </div>
                   </div>
                 </li>
-              </div>
+              </ul>
               <li
                 class="cxd-Nav-Menu-submenu cxd-Nav-Menu-submenu-inline cxd-Nav-Menu-submenu cxd-Nav-Menu-submenu-open"
                 role="none"
@@ -364,7 +364,10 @@ exports[`Renderer:Nav with itemActions 1`] = `
                   <span
                     class="cxd-Nav-Menu-submenu-arrow"
                   >
-                    <icon-mock />
+                    <icon-mock
+                      classname="icon icon-right-arrow-bold"
+                      icon="right-arrow-bold"
+                    />
                   </span>
                 </div>
                 <ul
@@ -431,11 +434,14 @@ exports[`Renderer:Nav with itemActions 1`] = `
                       <span
                         class="cxd-Nav-Menu-submenu-arrow"
                       >
-                        <icon-mock />
+                        <icon-mock
+                          classname="icon icon-right-arrow-bold"
+                          icon="right-arrow-bold"
+                        />
                       </span>
                     </div>
                   </li>
-                  <div
+                  <ul
                     class="cxd-Nav-Menu-item-tooltip-wrap"
                   >
                     <li
@@ -489,7 +495,7 @@ exports[`Renderer:Nav with itemActions 1`] = `
                         </div>
                       </div>
                     </li>
-                  </div>
+                  </ul>
                 </ul>
               </li>
               <li
@@ -550,7 +556,10 @@ exports[`Renderer:Nav with itemActions 1`] = `
                   <span
                     class="cxd-Nav-Menu-submenu-arrow"
                   >
-                    <icon-mock />
+                    <icon-mock
+                      classname="icon icon-right-arrow-bold"
+                      icon="right-arrow-bold"
+                    />
                   </span>
                 </div>
               </li>
@@ -559,13 +568,13 @@ exports[`Renderer:Nav with itemActions 1`] = `
               aria-hidden="true"
               style="display: none;"
             >
-              <div
+              <ul
                 class="cxd-Nav-Menu-item-tooltip-wrap"
               />
-              <div
+              <ul
                 class="cxd-Nav-Menu-item-tooltip-wrap"
               />
-              <div
+              <ul
                 class="cxd-Nav-Menu-item-tooltip-wrap"
               />
             </div>
@@ -613,7 +622,7 @@ exports[`Renderer:Nav with itemActions 2`] = `
               role="menu"
               tabindex="0"
             >
-              <div
+              <ul
                 class="cxd-Nav-Menu-item-tooltip-wrap"
               >
                 <li
@@ -717,7 +726,7 @@ exports[`Renderer:Nav with itemActions 2`] = `
                     </div>
                   </div>
                 </li>
-              </div>
+              </ul>
               <li
                 class="cxd-Nav-Menu-submenu cxd-Nav-Menu-submenu-inline cxd-Nav-Menu-submenu cxd-Nav-Menu-submenu-open"
                 role="none"
@@ -776,7 +785,10 @@ exports[`Renderer:Nav with itemActions 2`] = `
                   <span
                     class="cxd-Nav-Menu-submenu-arrow"
                   >
-                    <icon-mock />
+                    <icon-mock
+                      classname="icon icon-right-arrow-bold"
+                      icon="right-arrow-bold"
+                    />
                   </span>
                 </div>
                 <ul
@@ -843,11 +855,14 @@ exports[`Renderer:Nav with itemActions 2`] = `
                       <span
                         class="cxd-Nav-Menu-submenu-arrow"
                       >
-                        <icon-mock />
+                        <icon-mock
+                          classname="icon icon-right-arrow-bold"
+                          icon="right-arrow-bold"
+                        />
                       </span>
                     </div>
                   </li>
-                  <div
+                  <ul
                     class="cxd-Nav-Menu-item-tooltip-wrap"
                   >
                     <li
@@ -901,7 +916,7 @@ exports[`Renderer:Nav with itemActions 2`] = `
                         </div>
                       </div>
                     </li>
-                  </div>
+                  </ul>
                 </ul>
               </li>
               <li
@@ -962,7 +977,10 @@ exports[`Renderer:Nav with itemActions 2`] = `
                   <span
                     class="cxd-Nav-Menu-submenu-arrow"
                   >
-                    <icon-mock />
+                    <icon-mock
+                      classname="icon icon-right-arrow-bold"
+                      icon="right-arrow-bold"
+                    />
                   </span>
                 </div>
               </li>
@@ -971,13 +989,13 @@ exports[`Renderer:Nav with itemActions 2`] = `
               aria-hidden="true"
               style="display: none;"
             >
-              <div
+              <ul
                 class="cxd-Nav-Menu-item-tooltip-wrap"
               />
-              <div
+              <ul
                 class="cxd-Nav-Menu-item-tooltip-wrap"
               />
-              <div
+              <ul
                 class="cxd-Nav-Menu-item-tooltip-wrap"
               />
             </div>
@@ -1001,7 +1019,7 @@ exports[`Renderer:Nav with multi-level 1`] = `
       role="menu"
       tabindex="0"
     >
-      <div
+      <ul
         class="cxd-Nav-Menu-item-tooltip-wrap"
       >
         <li
@@ -1041,7 +1059,7 @@ exports[`Renderer:Nav with multi-level 1`] = `
             </a>
           </div>
         </li>
-      </div>
+      </ul>
       <li
         class="cxd-Nav-Menu-submenu cxd-Nav-Menu-submenu-inline cxd-Nav-Menu-submenu cxd-Nav-Menu-submenu-open"
         role="none"
@@ -1079,7 +1097,10 @@ exports[`Renderer:Nav with multi-level 1`] = `
           <span
             class="cxd-Nav-Menu-submenu-arrow"
           >
-            <icon-mock />
+            <icon-mock
+              classname="icon icon-right-arrow-bold"
+              icon="right-arrow-bold"
+            />
           </span>
         </div>
         <ul
@@ -1125,11 +1146,14 @@ exports[`Renderer:Nav with multi-level 1`] = `
               <span
                 class="cxd-Nav-Menu-submenu-arrow"
               >
-                <icon-mock />
+                <icon-mock
+                  classname="icon icon-right-arrow-bold"
+                  icon="right-arrow-bold"
+                />
               </span>
             </div>
           </li>
-          <div
+          <ul
             class="cxd-Nav-Menu-item-tooltip-wrap"
           >
             <li
@@ -1162,10 +1186,10 @@ exports[`Renderer:Nav with multi-level 1`] = `
                 </a>
               </div>
             </li>
-          </div>
+          </ul>
         </ul>
       </li>
-      <div
+      <ul
         class="cxd-Nav-Menu-item-tooltip-wrap"
       >
         <li
@@ -1198,22 +1222,22 @@ exports[`Renderer:Nav with multi-level 1`] = `
             </a>
           </div>
         </li>
-      </div>
+      </ul>
     </ul>
     <div
       aria-hidden="true"
       style="display: none;"
     >
-      <div
+      <ul
         class="cxd-Nav-Menu-item-tooltip-wrap"
       />
-      <div
+      <ul
         class="cxd-Nav-Menu-item-tooltip-wrap"
       />
-      <div
+      <ul
         class="cxd-Nav-Menu-item-tooltip-wrap"
       />
-      <div
+      <ul
         class="cxd-Nav-Menu-item-tooltip-wrap"
       />
     </div>
@@ -1247,7 +1271,7 @@ exports[`Renderer:Nav with overflow 1`] = `
               style="color: red;"
               tabindex="0"
             >
-              <div
+              <ul
                 class="cxd-Nav-Menu-item-tooltip-wrap"
               >
                 <li
@@ -1280,8 +1304,8 @@ exports[`Renderer:Nav with overflow 1`] = `
                     </a>
                   </div>
                 </li>
-              </div>
-              <div
+              </ul>
+              <ul
                 class="cxd-Nav-Menu-item-tooltip-wrap"
               >
                 <li
@@ -1313,7 +1337,7 @@ exports[`Renderer:Nav with overflow 1`] = `
                     </a>
                   </div>
                 </li>
-              </div>
+              </ul>
               <li
                 class="cxd-Nav-Menu-overflow-item cxd-Nav-Menu-overflow-item-rest cxd-Nav-Menu-submenu cxd-Nav-Menu-submenu-horizontal"
                 role="none"
@@ -1346,28 +1370,28 @@ exports[`Renderer:Nav with overflow 1`] = `
               aria-hidden="true"
               style="display: none;"
             >
-              <div
+              <ul
                 class="cxd-Nav-Menu-item-tooltip-wrap"
               />
-              <div
+              <ul
                 class="cxd-Nav-Menu-item-tooltip-wrap"
               />
-              <div
+              <ul
                 class="cxd-Nav-Menu-item-tooltip-wrap"
               />
-              <div
+              <ul
                 class="cxd-Nav-Menu-item-tooltip-wrap"
               />
-              <div
+              <ul
                 class="cxd-Nav-Menu-item-tooltip-wrap"
               />
-              <div
+              <ul
                 class="cxd-Nav-Menu-item-tooltip-wrap"
               />
-              <div
+              <ul
                 class="cxd-Nav-Menu-item-tooltip-wrap"
               />
-              <div
+              <ul
                 class="cxd-Nav-Menu-item-tooltip-wrap"
               />
             </div>
@@ -1404,7 +1428,7 @@ exports[`Renderer:Nav with source 1`] = `
               role="menu"
               tabindex="0"
             >
-              <div
+              <ul
                 class="cxd-Nav-Menu-item-tooltip-wrap"
               >
                 <li
@@ -1444,8 +1468,8 @@ exports[`Renderer:Nav with source 1`] = `
                     </a>
                   </div>
                 </li>
-              </div>
-              <div
+              </ul>
+              <ul
                 class="cxd-Nav-Menu-item-tooltip-wrap"
               >
                 <li
@@ -1478,8 +1502,8 @@ exports[`Renderer:Nav with source 1`] = `
                     </a>
                   </div>
                 </li>
-              </div>
-              <div
+              </ul>
+              <ul
                 class="cxd-Nav-Menu-item-tooltip-wrap"
               >
                 <li
@@ -1512,19 +1536,19 @@ exports[`Renderer:Nav with source 1`] = `
                     </a>
                   </div>
                 </li>
-              </div>
+              </ul>
             </ul>
             <div
               aria-hidden="true"
               style="display: none;"
             >
-              <div
+              <ul
                 class="cxd-Nav-Menu-item-tooltip-wrap"
               />
-              <div
+              <ul
                 class="cxd-Nav-Menu-item-tooltip-wrap"
               />
-              <div
+              <ul
                 class="cxd-Nav-Menu-item-tooltip-wrap"
               />
             </div>
@@ -1548,7 +1572,7 @@ exports[`Renderer:Nav with stacked 1`] = `
       role="menu"
       tabindex="0"
     >
-      <div
+      <ul
         class="cxd-Nav-Menu-item-tooltip-wrap"
       >
         <li
@@ -1588,8 +1612,8 @@ exports[`Renderer:Nav with stacked 1`] = `
             </a>
           </div>
         </li>
-      </div>
-      <div
+      </ul>
+      <ul
         class="cxd-Nav-Menu-item-tooltip-wrap"
       >
         <li
@@ -1621,8 +1645,8 @@ exports[`Renderer:Nav with stacked 1`] = `
             </a>
           </div>
         </li>
-      </div>
-      <div
+      </ul>
+      <ul
         class="cxd-Nav-Menu-item-tooltip-wrap"
       >
         <li
@@ -1654,7 +1678,7 @@ exports[`Renderer:Nav with stacked 1`] = `
             </a>
           </div>
         </li>
-      </div>
+      </ul>
       <li
         aria-hidden="true"
         class="cxd-Nav-Menu-overflow-item cxd-Nav-Menu-overflow-item-rest cxd-Nav-Menu-submenu cxd-Nav-Menu-submenu-horizontal"
@@ -1683,13 +1707,13 @@ exports[`Renderer:Nav with stacked 1`] = `
       aria-hidden="true"
       style="display: none;"
     >
-      <div
+      <ul
         class="cxd-Nav-Menu-item-tooltip-wrap"
       />
-      <div
+      <ul
         class="cxd-Nav-Menu-item-tooltip-wrap"
       />
-      <div
+      <ul
         class="cxd-Nav-Menu-item-tooltip-wrap"
       />
     </div>
