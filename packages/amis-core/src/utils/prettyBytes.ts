@@ -1,6 +1,14 @@
 const UNITS = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
 
 export const prettyBytes = (num: number, step = 1000) => {
+  if (num && typeof num === 'string') {
+    // 说明已经转过了
+    if ((num as string).endsWith('B')) {
+      return num;
+    }
+    num = parseFloat(num);
+  }
+
   if (!Number.isFinite(num)) {
     throw new TypeError(`Expected a finite number, got ${typeof num}: ${num}`);
   }
