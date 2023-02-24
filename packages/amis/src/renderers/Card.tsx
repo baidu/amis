@@ -795,6 +795,7 @@ export class CardItemFieldRenderer extends TableCell {
       render,
       style,
       wrapperComponent: Component,
+      contentsOnly,
       labelClassName,
       value,
       data,
@@ -832,9 +833,10 @@ export class CardItemFieldRenderer extends TableCell {
       );
     }
 
-    if (!Component) {
+    if (contentsOnly) {
       return body as JSX.Element;
     }
+    Component = Component || 'div';
 
     return (
       <Component

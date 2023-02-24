@@ -56,6 +56,7 @@ export interface StaticProps extends FormControlProps {
   placeholder?: string;
   tpl?: string;
   text?: string;
+  contentsOnly?: boolean;
 }
 
 export default class StaticControl extends React.Component<StaticProps, any> {
@@ -178,6 +179,7 @@ export class StaticFieldRenderer extends TableCell {
       render,
       style,
       wrapperComponent: Component,
+      contentsOnly,
       labelClassName,
       value,
       data,
@@ -210,16 +212,14 @@ export class StaticFieldRenderer extends TableCell {
       style.width = style.width || width;
     }
 
-    if (!Component) {
+    if (contentsOnly) {
       return body as JSX.Element;
     }
 
+    Component = Component || 'div';
+
     return (
-      <Component
-        className={className}
-        tabIndex={tabIndex}
-        onKeyUp={onKeyUp}
-      >
+      <Component className={className} tabIndex={tabIndex} onKeyUp={onKeyUp}>
         {body}
       </Component>
     );

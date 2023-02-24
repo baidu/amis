@@ -12,11 +12,11 @@ import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
 
 export interface TableCellProps extends RendererProps {
   wrapperComponent?: React.ReactType;
-  column: object;
+  column: any;
   contentsOnly?: boolean;
 }
 
-export class TableCell extends React.Component<RendererProps> {
+export class TableCell extends React.Component<TableCellProps> {
   static defaultProps = {
     wrapperComponent: 'td'
   };
