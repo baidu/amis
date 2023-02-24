@@ -124,6 +124,8 @@
   list-style: none;
   color: var(--Menu-light-fontColor);
   background-color: var(--Menu-light-backgroundColor);
+  transition: all 0.3s;
+  width: 100%;
 
   &.#{$ns}Nav-Menu-dark {
     color: var(--Menu-dark-fontColor);
@@ -180,7 +182,8 @@
   }
 
   &-item-link {
-    display: block;
+    display: flex;
+    align-items: center;
     height: var(--Nav-Item-height);
     flex-grow: 1;
   }
@@ -205,13 +208,13 @@
 
     &-collapsed {
       font-size: var(--Menu-fontSize--collapsed);
-      margin-right: 0;
+      margin: 0 auto;
     }
 
     &-svg {
       &-collapsed {
         font-size: var(--Menu-fontSize--collapsed);
-        margin-right: 0;
+        margin: 0 auto;
         height: var(--Menu-item-height--vertical);
       }
     }
@@ -241,6 +244,7 @@
 
     &-collapsed {
       font-size: var(--Menu-fontSize--collapsed);
+      margin: 0 auto;
       font-weight: 600;
     }
 
@@ -380,20 +384,17 @@
         @include selected-indicator(var(--Menu-light-selectedIndicator-color));
 
         .#{$ns}Nav-Menu-item-icon,
-        .#{$ns}Nav-Menu-item-label {
+        .#{$ns}Nav-Menu-item-label,
+        .#{$ns}Nav-Menu-submenu-arrow {
           color: var(--Menu-light-fontColor-onActive) !important;
         }
       }
 
-      .#{$ns}Nav-Menu-submenu-actived {
+      .#{$ns}Nav-Menu-submenu-selected {
         > .#{$ns}Nav-Menu-submenu-title {
-          background-color: var(--Menu-light-backgroundColor-onHover);
-          @include selected-indicator(
-            var(--Menu-light-selectedIndicator-color)
-          );
-
           .#{$ns}Nav-Menu-item-icon,
-          .#{$ns}Nav-Menu-item-label {
+          .#{$ns}Nav-Menu-item-label,
+          .#{$ns}Nav-Menu-submenu-arrow {
             color: var(--Menu-light-fontColor-onActive) !important;
           }
         }
@@ -425,8 +426,7 @@
 
       > .#{$ns}Nav-Menu-submenu-selected {
         & > .#{$ns}Nav-Menu-submenu-title {
-          background-color: var(--Menu-dark-backgroundColor-onHover);
-          @include selected-indicator(var(--Menu-dark-selectedIndicator-color));
+          color: var(--Menu-dark-fontColor-onActive);
         }
 
         .#{$ns}Nav-Menu-item-icon,
@@ -449,10 +449,7 @@
 
       > .#{$ns}Nav-Menu-submenu-selected {
         & > .#{$ns}Nav-Menu-submenu-title {
-          background-color: var(--Menu-light-backgroundColor-onHover);
-          @include selected-indicator(
-            var(--Menu-light-selectedIndicator-color)
-          );
+          color: var(--Menu-dark-fontColor-onActive);
         }
 
         .#{$ns}Nav-Menu-item-icon,
@@ -555,7 +552,8 @@
 
     &:hover {
       .#{$ns}Nav-Menu-item-label,
-      .#{$ns}Nav-Menu-item-icon {
+      .#{$ns}Nav-Menu-item-icon,
+      .#{$ns}Nav-Menu-submenu-arrow {
         color: var(--Menu-light-fontColor-onHover);
       }
 
@@ -582,7 +580,8 @@
 
       &:hover {
         .#{$ns}Nav-Menu-item-label,
-        .#{$ns}Nav-Menu-item-icon {
+        .#{$ns}Nav-Menu-item-icon,
+        .#{$ns}Nav-Menu-submenu-arrow {
           color: var(--Menu-light-fontColor-onHover);
         }
       }
@@ -599,10 +598,8 @@
     }
   }
 
-  &-item {
-    .#{$ns}Nav-Menu-item-label {
-      vertical-align: middle;
-    }
+  &-item-tooltip-wrap {
+    padding: 0;
   }
 
   &-collapsed > &-item,
@@ -637,14 +634,6 @@
 
   &-submenu-popup-dark {
     @include popup-dark();
-  }
-
-  &-submenu-popup {
-    .#{$ns}Nav-Menu-vertical {
-      .#{$ns}Nav-Menu-submenu-arrow {
-        width: px2rem(32px);
-      }
-    }
   }
 
   .#{$ns}Nav-Menu-submenu-title,
@@ -818,7 +807,8 @@
           border-bottom: 2px solid var(--Menu-light-selectedIndicator-color);
 
           .#{$ns}Nav-Menu-item-icon,
-          .#{$ns}Nav-Menu-item-label {
+          .#{$ns}Nav-Menu-item-label,
+          .#{$ns}Nav-Menu-submenu-arrow {
             color: var(--Menu-light-fontColor-onActive);
           }
         }
@@ -849,11 +839,9 @@
       text-transform: none;
       text-rendering: auto;
       position: absolute;
-      right: 0;
+      right: var(--Menu-Submenu-item-paddingX);
       top: 0;
-      width: px2rem(12px);
       line-height: var(--Menu-item-height--vertical);
-      transform: rotate(-90deg);
 
       & > svg {
         top: auto;
@@ -903,12 +891,12 @@
     .#{$ns}Nav-Menu-submenu-arrow {
       cursor: pointer;
       transition: transform 0.3s;
-      transform: rotate(0deg);
+      transform: rotate(90deg);
     }
 
     & .#{$ns}Nav-Menu-submenu-open > .#{$ns}Nav-Menu-submenu-title {
       .#{$ns}Nav-Menu-submenu-arrow {
-        transform: rotate(180deg);
+        transform: rotate(270deg);
       }
     }
   }
