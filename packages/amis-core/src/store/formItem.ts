@@ -161,7 +161,8 @@ export const FormItemStore = StoreNode.named('FormItemStore')
           ? nodeValueArray
           : Array.isArray(value)
           ? value
-          : typeof value === 'string'
+          : // 单选时不应该分割
+          typeof value === 'string' && self.multiple
           ? value.split(self.delimiter || ',')
           : [value];
         const selected = valueArray.map(item =>
