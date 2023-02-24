@@ -1333,7 +1333,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                       mode: 'horizontal',
                       label: '数据设置',
                       pipeIn: defaultValue('all'),
-                      visibleOn: `data.__rendererName === 'combo'`,
+                      visibleOn: `data.__rendererName === 'combo' || data.__rendererName === 'input-table'`,
                       options: [
                         {
                           label: '全量',
@@ -1363,7 +1363,8 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                       label: '输入序号',
                       size: 'lg',
                       placeholder: '请输入待更新序号',
-                      visibleOn: `data.__comboType === 'appoint' && data.__rendererName === 'combo'`
+                      visibleOn: `(data.__rendererName === 'input-table' || data.__rendererName === 'combo')
+                      && data.__comboType === 'appoint'`
                     },
                     {
                       type: 'combo',
@@ -1462,7 +1463,8 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                           ]
                         }
                       ],
-                      visibleOn: `data.__rendererName === 'combo' && data.__comboType === 'all'`
+                      visibleOn: `(data.__rendererName === 'combo' || data.__rendererName === 'input-table')
+                      && data.__comboType === 'all'`
                     },
                     /*
                     {
@@ -1512,7 +1514,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                       variables: '${variables}',
                       size: 'lg',
                       mode: 'horizontal',
-                      visibleOn: `data.__rendererName && !${IS_DATA_CONTAINER} && data.__rendererName !== 'combo'`,
+                      visibleOn: `data.__rendererName && !${IS_DATA_CONTAINER} && data.__rendererName !== 'combo' && data.__rendererName !== 'input-table'`,
                       required: true
                     }
                   ]
@@ -2052,7 +2054,7 @@ export const COMMON_ACTION_SCHEMA_MAP: {
               ]
             }
           ],
-          visibleOn: `data.__rendererName === 'combo'`
+          visibleOn: `data.__rendererName === 'combo' || data.__rendererName === 'input-table'`
         },
         /*
         {
@@ -2076,7 +2078,7 @@ export const COMMON_ACTION_SCHEMA_MAP: {
           variables: '${variables}',
           size: 'lg',
           mode: 'horizontal',
-          visibleOn: `!${IS_DATA_CONTAINER} && data.__rendererName !== 'combo'`,
+          visibleOn: `!${IS_DATA_CONTAINER} && data.__rendererName !== 'combo' && data.__rendererName !== 'input-table'`,
           required: true
         }
       ]
@@ -3080,10 +3082,10 @@ export const getEventControlConfig = (
           } else if (Array.isArray(config.args?.value)) {
             action.args = action.args ?? {};
             if (
-              action.__rendererName === 'combo' &&
+              (action.__rendererName === 'combo' || action.__rendererName === 'input-table') &&
               action.args?.index === undefined
             ) {
-              // combo特殊处理
+              // combo、input-table特殊处理
               let tempArr: any = [];
               config.args?.value.forEach((valueItem: any, index: number) => {
                 valueItem.item.forEach((item: any) => {
