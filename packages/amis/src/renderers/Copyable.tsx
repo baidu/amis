@@ -64,7 +64,7 @@ export const HocCopyable =
                 {...this.props}
                 className={cx(`Field--copyable`, className)}
               >
-                <Component {...this.props} wrapperComponent={''} noHoc />
+                <Component {...this.props} contentsOnly noHoc />
                 <TooltipWrapper
                   placement="right"
                   tooltip={'点击复制'}
