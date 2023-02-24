@@ -13,6 +13,7 @@ import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
 export interface TableCellProps extends RendererProps {
   wrapperComponent?: React.ReactType;
   column: object;
+  contentsOnly?: boolean;
 }
 
 export class TableCell extends React.Component<RendererProps> {
@@ -27,7 +28,8 @@ export class TableCell extends React.Component<RendererProps> {
     'body',
     'tpl',
     'rowSpan',
-    'remark'
+    'remark',
+    'contentsOnly'
   ];
 
   render() {
@@ -38,6 +40,7 @@ export class TableCell extends React.Component<RendererProps> {
       render,
       style = {},
       wrapperComponent: Component,
+      contentsOnly,
       column,
       value,
       data,
@@ -144,12 +147,14 @@ export class TableCell extends React.Component<RendererProps> {
       style.background = color;
     }
 
-    if (!Component) {
+    if (contentsOnly) {
       return body as JSX.Element;
     }
 
     if (isHead) {
       Component = 'th';
+    } else {
+      Component = Component || 'td';
     }
 
     return (
