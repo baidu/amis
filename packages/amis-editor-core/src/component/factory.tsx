@@ -20,6 +20,7 @@ import {Schema} from 'amis';
 import type {DataScope} from 'amis-core';
 import type {RendererConfig} from 'amis-core/lib/factory';
 import {SchemaCollection} from 'amis/lib/Schema';
+import {omit} from 'lodash';
 
 // 创建 Node Store 并构建成树
 export function makeWrapper(
@@ -220,7 +221,10 @@ function SchemaFrom({
   submitOnChange,
   node,
   manager,
-  justify
+  justify,
+  ctx,
+  pipeIn,
+  pipeOut
 }: {
   propKey: string;
   env: any;
@@ -239,6 +243,9 @@ function SchemaFrom({
   manager: EditorManager;
   panelById?: string;
   justify?: boolean;
+  ctx?: any;
+  pipeIn?: (value: any) => any;
+  pipeOut?: (value: any) => any;
 }) {
   let containerKey = 'body';
 
@@ -289,20 +296,23 @@ function SchemaFrom({
     };
   }
 
+  value = pipeIn ? pipeIn(value) : value;
+
   return render(
     schema,
     {
-      onFinished: (newValue: any) => {
+      onFinished: async (newValue: any) => {
+        newValue = pipeOut ? await pipeOut(newValue) : newValue;
         const diffValue = diff(value, newValue);
         onChange(newValue, diffValue);
       },
-      data: value,
+      data: ctx ? createObject(ctx, value) : value,
       node: node,
       manager: manager,
       popOverContainer
     },
     {
-      ...env
+      ...omit(env, 'replaceText')
       // theme: 'cxd' // 右侧属性配置面板固定使用cxd主题展示
     }
   );
@@ -319,6 +329,8 @@ export function makeSchemaFormRender(
     justify?: boolean;
     panelById?: string;
     formKey?: string;
+    pipeIn?: (value: any) => any;
+    pipeOut?: (value: any) => any;
   }
 ) {
   const env = {...manager.env, session: 'schema-form'};
@@ -365,7 +377,10 @@ export function makeSchemaFormRender(
               )
             : undefined
         }
-        value={createObject(ctx, value)}
+        value={value}
+        ctx={ctx}
+        pipeIn={schema.pipeIn}
+        pipeOut={schema.pipeOut}
         submitOnChange={schema.submitOnChange}
         onChange={onChange}
         env={env}

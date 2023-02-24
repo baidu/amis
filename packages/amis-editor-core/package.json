@@ -1,10 +1,28 @@
 {
   "name": "amis-editor-core",
-  "version": "5.2.1-alpha.6",
+  "version": "5.2.4-beta.32",
   "description": "amis 可视化编辑器",
   "main": "lib/index.js",
   "module": "esm/index.js",
   "types": "lib/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./lib/index.js",
+      "import": "./esm/index.js"
+    },
+    "./lib/*": {
+      "require": "./lib/*",
+      "import": "./esm/*"
+    },
+    "./scss/*": {
+      "require": "./scss/*",
+      "import": "./scss/*"
+    },
+    "./*": {
+      "require": "./lib/*.js",
+      "import": "./esm/*.js"
+    }
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npm run clean-dist && NODE_ENV=production rollup -c",

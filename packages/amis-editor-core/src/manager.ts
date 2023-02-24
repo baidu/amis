@@ -69,16 +69,19 @@ import {IScopedContext} from 'amis';
 import {SchemaObject, SchemaCollection} from 'amis/lib/Schema';
 import type {RendererConfig} from 'amis-core/lib/factory';
 import isPlainObject from 'lodash/isPlainObject';
+import {omit} from 'lodash';
 
 export interface EditorManagerConfig
   extends Omit<EditorProps, 'value' | 'onChange'> {}
 
 export interface PluginClass {
-  new (manager: EditorManager): PluginInterface;
+  new (manager: EditorManager, options?: any): PluginInterface;
   id?: string;
 }
 
-const builtInPlugins: Array<PluginClass> = [];
+const builtInPlugins: Array<
+  PluginClass | [PluginClass, Record<string, any> | (() => Record<string, any>)]
+> = [];
 
 declare const window: Window & {AMISEditorCustomPlugins: any};
 
@@ -104,8 +107,10 @@ export function autoPreRegisterEditorCustomPlugins() {
 export function registerEditorPlugin(klass: PluginClass) {
   let isExitPlugin: any = null;
   if (klass.prototype && klass.prototype.isNpmCustomWidget) {
-    isExitPlugin = builtInPlugins.find(
-      item => item.prototype.name === klass.prototype.name
+    isExitPlugin = builtInPlugins.find(item =>
+      Array.isArray(item)
+        ? item[0].prototype.name === klass.prototype.name
+        : item.prototype.name === klass.prototype.name
     );
   } else {
     // 待进一步优化
@@ -129,7 +134,9 @@ export function getEditorPlugins() {
  * 注销插件
  */
 export function unRegisterEditorPlugin(id: string) {
-  const idx = findIndex(builtInPlugins, item => item.id === id);
+  const idx = findIndex(builtInPlugins, item =>
+    Array.isArray(item) ? item[0].id === id : item.id === id
+  );
   ~idx && builtInPlugins.splice(idx, 1);
 }
 
@@ -175,7 +182,7 @@ export class EditorManager {
     // 传给 amis 渲染器的默认 env
     this.env = {
       ...env, // 默认的 env 中带 jumpTo
-      ...config.amisEnv, // 用户也可以设置自定义环境配置，用于覆盖默认的 env
+      ...omit(config.amisEnv, 'replaceText'), // 用户也可以设置自定义环境配置，用于覆盖默认的 env
       theme: config.theme
     };
     this.env.beforeDispatchEvent = this.beforeDispatchEvent.bind(
@@ -190,15 +197,23 @@ export class EditorManager {
       parent?.plugins ||
       (config.disableBultinPlugin ? [] : builtInPlugins) // 页面设计器注册的插件列表
         .concat(config.plugins || [])
-        .filter(p =>
-          config.disablePluginList
+        .filter(p => {
+          p = Array.isArray(p) ? p[0] : p;
+          return config.disablePluginList
             ? typeof config.disablePluginList === 'function'
               ? !config.disablePluginList(p.id || '', p)
               : !config.disablePluginList.includes(p.id || 'unkown')
-            : true
-        )
+            : true;
+        })
         .map(Editor => {
-          const plugin = new Editor(this); // 进行一次实例化
+          let pluginOptions: Record<string, any> = {};
+          if (Array.isArray(Editor)) {
+            pluginOptions =
+              typeof Editor[1] === 'function' ? Editor[1]() : Editor[1];
+            Editor = Editor[0];
+          }
+
+          const plugin = new Editor(this, pluginOptions); // 进行一次实例化
           plugin.order = plugin.order ?? 0;
 
           // 记录动作定义
@@ -537,7 +552,7 @@ export class EditorManager {
     // 此处换成for是为了解决异步问题
     for (let index = 0, size = this.plugins.length; index < size; index++) {
       const pluginItem = this.plugins[index];
-      let subRenderer = pluginItem.buildSubRenderers?.(
+      let subRenderer = await pluginItem.buildSubRenderers?.(
         contxt,
         subRenderers,
         getRenderers()
@@ -811,7 +826,8 @@ export class EditorManager {
     if (
       (node.type === 'wrapper' || node.type === 'container') &&
       node.schema?.body?.length === 0 &&
-      (schemaData?.type === 'flex' || subRenderer?.rendererName === 'flex')
+      (schemaData?.type === 'flex' || subRenderer?.rendererName === 'flex') &&
+      !node.schema?.isFreeContainer
     ) {
       const newSchemaData = schemaData || subRenderer?.scaffold;
       // 布局能力提升: 点击插入新元素，当wrapper为空插入布局容器时，自动改为置换，避免过多层级
@@ -1049,6 +1065,13 @@ export class EditorManager {
         this.rebuild();
       }, 4);
     }
+  }
+
+  /**
+   * 判断当前元素定位是否为flex容器
+   */
+  isFlexContainer(id: string) {
+    return this.store.isFlexContainer(id);
   }
 
   /**
@@ -1390,7 +1413,8 @@ export class EditorManager {
     const commonContext = this.buildEventContext(id);
 
     // 填充id，有些脚手架生成了复杂的布局等，自动填充一下id
-    JsonGenerateID(json);
+    let curChildJson = {...json};
+    JsonGenerateID(curChildJson);
 
     if (beforeId) {
       const arr = commonContext.schema[region];
@@ -1404,7 +1428,7 @@ export class EditorManager {
       beforeId: beforeId,
       index,
       region: region,
-      data: json,
+      data: curChildJson,
       subRenderer,
       dragInfo
     };
@@ -1465,7 +1489,7 @@ export class EditorManager {
   ): boolean {
     const context: ReplaceEventContext = {
       ...this.buildEventContext(id),
-      data: json,
+      data: {...json},
       subRenderer,
       region
     };
@@ -1687,6 +1711,8 @@ export class EditorManager {
     justify?: boolean;
     panelById?: string;
     formKey?: string;
+    pipeIn?: (value: any) => any;
+    pipeOut?: (value: any) => any;
   }) {
     return makeSchemaFormRender(this, schema);
   }
@@ -1725,6 +1751,7 @@ export class EditorManager {
       dom: HTMLElement;
       node: EditorNodeType;
       resizer: HTMLElement;
+      store: EditorStoreType;
     }
   ) {
     return this.trigger('size-change-start', {
@@ -1904,8 +1931,14 @@ export class EditorManager {
    * 销毁函数
    */
   dispose() {
+    // 有些插件需要销毁，靠这个事件
+    this.trigger('dispose', {
+      data: this
+    });
     this.toDispose.forEach(fn => fn());
     this.toDispose = [];
+    this.plugins.forEach(p => p.dispose?.());
+    this.plugins.splice(0, this.plugins.length);
     this.listeners.splice(0, this.listeners.length);
     this.broadcasts.splice(0, this.broadcasts.length);
     this.lazyPatchSchema.cancel();

@@ -1,4 +1,10 @@
-import {findTree, getVariable, mapObject, createObject} from 'amis-core';
+import {
+  findTree,
+  getVariable,
+  mapObject,
+  mapTree,
+  extendObject
+} from 'amis-core';
 import {cast, getEnv, Instance, types} from 'mobx-state-tree';
 import {
   diff,
@@ -11,8 +17,8 @@ import {
   stringRegExp,
   needDefaultWidth,
   guid,
-  reGenerateID,
-  addStyleClassName
+  addStyleClassName,
+  appTranslate
 } from '../../src/util';
 import {
   InsertEventContext,
@@ -44,7 +50,6 @@ import isPlainObject from 'lodash/isPlainObject';
 import {EditorManagerConfig} from '../manager';
 import {EditorNode, EditorNodeType} from './node';
 import findIndex from 'lodash/findIndex';
-import {cloneDeep} from 'lodash';
 
 export interface SchemaHistory {
   versionId: number;
@@ -201,7 +206,15 @@ export const MainStore = types
     // 自动收集可以供 target/reload 使用的名称列表
     targetNames: types.optional(types.array(types.frozen<TargetName>()), []),
 
-    ctx: types.frozen()
+    ctx: types.frozen(),
+    /** 是否开启应用多语言 */
+    i18nEnabled: types.optional(types.boolean, false),
+    /** 应用语言 */
+    appLocale: types.optional(types.string, 'zh-CN'),
+    /** 应用语料 */
+    appCorpusData: types.optional(types.frozen(), {}),
+    /** 应用多语言状态，用于其它组件进行订阅 */
+    appLocaleState: types.optional(types.number, 0)
   })
   .views(self => {
     return {
@@ -320,6 +333,12 @@ export const MainStore = types
           self.activeId
             ? nodes.push(self.activeId)
             : nodes.push.apply(nodes, self.selections);
+        }
+
+        // 判断父元素是否为自由容器元素
+        const curFreeContainerId = this.parentIsFreeContainer(self.activeId);
+        if (curFreeContainerId) {
+          nodes.push(curFreeContainerId);
         }
 
         if (self.insertMode === 'insert' && self.insertId) {
@@ -865,9 +884,21 @@ export const MainStore = types
         );
         return idx < self.schemaHistory.length - 1;
       },
+      // 判断当前元素定位是否为flex容器
+      isFlexContainer(id: string) {
+        const activeId = id ?? self.activeId;
+        const curSchema = this.getSchema(activeId);
+        if (
+          curSchema?.style?.display === 'flex' ||
+          curSchema?.style?.display === 'inline-flex'
+        ) {
+          return true;
+        }
+        return false;
+      },
       // 判断是否是布局容器中的列级元素
       isFlexItem(id: string) {
-        const activeId = id || self.activeId;
+        const activeId = id ?? self.activeId;
         const parentSchema = this.getSchemaParentById(activeId, true);
         if (
           parentSchema?.type === 'flex' ||
@@ -880,7 +911,7 @@ export const MainStore = types
       },
       // 判断父级布局容器是否为垂直排列
       isFlexColumnItem(id: string) {
-        const activeId = id || self.activeId;
+        const activeId = id ?? self.activeId;
         const parentSchema = this.getSchemaParentById(activeId, true);
         const isFlexItem =
           parentSchema?.type === 'flex' ||
@@ -909,8 +940,59 @@ export const MainStore = types
         }
         return false;
       },
+      // 判断父元素是否为自由容器元素，如果父级元素是自由容器则返回父元素ID
+      parentIsFreeContainer(id?: string) {
+        const activeId = id ?? self.activeId;
+        const curNode = this.getNodeById(activeId)!;
+        const parentNode = curNode?.parent;
+        if (!parentNode) {
+          return false;
+        }
+        const curSchema = this.getSchema(parentNode.id);
+        if (curSchema?.isFreeContainer) {
+          return parentNode.id;
+        }
+        return false;
+      },
       get getSuperEditorData() {
         return self.superEditorData || {};
+      },
+      // 获取组件选择树
+      getComponentTreeSource() {
+        return mapTree(
+          self.root.children ?? [],
+          (item: any) => {
+            const schema = item.id
+              ? JSONGetById(self.schema, item.id)
+              : self.schema;
+            let cmptLabel = '';
+            const itemLabel = appTranslate(item?.label);
+            const schemaLabel = appTranslate(schema?.label);
+            const schemaTitle = appTranslate(schema?.title);
+            if (item?.region) {
+              cmptLabel = itemLabel;
+            } else {
+              const labelPrefix =
+                item.type !== 'cell' ? `<${itemLabel}>:` : `<列>:`;
+              cmptLabel = `${labelPrefix}${
+                schemaLabel ?? schemaTitle ?? itemLabel
+              }`;
+            }
+            cmptLabel = cmptLabel ?? itemLabel;
+            return {
+              id: item.id,
+              label: cmptLabel,
+              value: schema?.id ?? item.id,
+              type: schema?.type ?? item.type,
+              schema,
+              disabled: !!item.region,
+              visible: item.region ? !!item?.children.length : true,
+              children: item?.children
+            };
+          },
+          1,
+          true
+        );
       }
     };
   })
@@ -1112,7 +1194,6 @@ export const MainStore = types
         self.activeId = id;
         self.activeRegion = region;
         self.selections = selections;
-
         // if (!self.panelKey && id) {
         //   self.panelKey = 'config';
         // }
@@ -1499,7 +1580,13 @@ export const MainStore = types
         }
         self.subEditorContext = {
           ...context,
-          data: context.data || {}
+          data: extendObject(context.data, {
+            __curCmptTreeWrap: {
+              label: context.title,
+              disabled: true
+            },
+            __superCmptTreeSource: self.getComponentTreeSource()
+          })
         };
       },
 
@@ -1735,6 +1822,26 @@ export const MainStore = types
           }
         });
         this.traceableSetSchema(json);
+      },
+
+      /** 更改应用多语言的状态 */
+      updateAppLocaleState() {
+        self.appLocaleState += 1;
+      },
+
+      /** 设置应用语言，支持应用国际化 */
+      setAppLocale(locale?: string) {
+        if (!locale) {
+          return;
+        }
+        self.appLocale = locale;
+        this.updateAppLocaleState();
+      },
+
+      /** 设置应用的语料数据 */
+      setAppCorpusData(data: any = {}) {
+        self.appCorpusData = data;
+        this.updateAppLocaleState();
       }
     };
   });

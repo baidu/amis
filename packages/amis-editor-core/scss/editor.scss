@@ -35,6 +35,7 @@
 @import './control/timeline_item_control';
 @import './control/tree_option_control';
 @import './control/_inpupt-file';
+@import './control/_status';
 
 /* 样式控件 */
 @import './style-control/box-model';
@@ -482,41 +483,94 @@
   background-color: #fff;
   transform: translate(-50%, -50%);
   position: absolute;
+  z-index: 100;
   pointer-events: all;
   display: none;
-}
 
-.ae-WResizer {
-  left: 100%;
-  top: 50%;
-  cursor: ew-resize;
+  &[data-value]::before {
+    position: absolute;
+    content: '';
+    pointer-events: none;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    margin: 0;
+    padding: 0;
+    box-sizing: content-box;
+    border: 6px solid rgba(7, 12, 20, 0.85);
+    border-color: transparent transparent transparent rgba(7, 12, 20, 0.85);
+    z-index: 100;
+  }
 
   &[data-value]:after {
     position: absolute;
     content: attr(data-value);
-    background-color: $Editor-theme;
-    right: 15px;
-    top: 50%;
-    transform: translate(0, -50%);
     padding: 2px 8px;
     color: #fff;
+    text-align: center;
+    background-color: rgba(7,12,20,0.85);
+    // background-color: $Editor-theme;
+    box-shadow: 0 2px 8px 0 rgba(7,12,20,0.12);
+  }
+}
+
+
+.ae-border-WResizer,
+.ae-border-HResizer {
+  position: absolute;
+  top: 0px;
+  right: -2px;
+  width: 2px;
+  height: 100%;
+  border-right: 2px solid $Editor-theme;
+  background-color: #fff;
+  z-index: 99;
+  pointer-events: all;
+  cursor: ew-resize;
+  display: none;
+}
+
+.ae-border-HResizer {
+  top: auto;
+  bottom: -2px;
+  right: 0px;
+  border-right: none;
+  border-bottom: 2px solid $Editor-theme;
+  width: 100%;
+  height: 2px;
+  cursor: ns-resize !important;
+}
+
+.ae-WResizer {
+  left: calc(100% + 1px);
+  top: 50%;
+  cursor: ew-resize;
+
+  &[data-value]:after {
+    right: 20px;
+    top: 50%;
+    transform: translate(0, -50%);
   }
 }
 
 .ae-HResizer {
   left: 50%;
-  top: 100%;
+  top: calc(100% + 1px);
   cursor: ns-resize;
 
+  &[data-value]::before {
+    right: 50%;
+    top: auto;
+    bottom: 8px;
+    transform: translate(50%, 0);
+    border-color: rgba(7, 12, 20, 0.85) transparent transparent transparent;
+  }
+
   &[data-value]:after {
-    position: absolute;
-    content: attr(data-value);
-    background-color: $Editor-theme;
-    bottom: 15px;
+    bottom: 20px;
     left: 50%;
     transform: translate(-50%, 0);
-    padding: 2px 8px;
-    color: #fff;
   }
 }
 
@@ -525,15 +579,13 @@
   top: 100%;
   cursor: nwse-resize;
 
+  &[data-value]::before {
+    border-color: transparent;
+  }
+
   &[data-value]:after {
-    position: absolute;
-    content: attr(data-value);
-    background-color: $Editor-theme;
     bottom: 15px;
     right: 15px;
-    padding: 2px 8px;
-    color: #fff;
-    text-align: center;
   }
 }
 
@@ -564,7 +616,9 @@
 
     .ae-WResizer,
     .ae-HResizer,
-    .ae-Resizer {
+    .ae-Resizer,
+    .ae-border-WResizer,
+    .ae-border-HResizer {
       display: block;
     }
   }
@@ -572,6 +626,17 @@
   &.regionOn {
     background: transparent;
     z-index: 5;
+  }
+
+  &.isFreeContainerElem {
+    // 自由容器的直接子元素拖拽剔除过渡
+    transition: none !important;
+    
+
+    &.selected {
+      pointer-events: all; // 高亮区启用鼠标事件，支持拖拽
+      cursor: move;
+    }
   }
 
   .ae-Editor-toolbar {
@@ -1111,6 +1176,14 @@
     background: #f7f7f8;
   }
 
+  &.fill-placeholder {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: calc(100% - 8px) !important;
+    height: calc(100% - 8px) !important;
+  }
+
   &:first-child {
     display: flex;
     align-items: center;
@@ -1362,7 +1435,7 @@ div.ae-DragImage {
   white-space: nowrap;
   width: 50px;
   height: 30px;
-  z-index: 100000;
+  z-index: -10;
 
   > span {
     position: absolute;

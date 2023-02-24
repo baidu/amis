@@ -6,6 +6,7 @@ import findIndex from 'lodash/findIndex';
 import {EditorDNDManager} from '.';
 import {renderThumbToGhost} from '../component/factory';
 import {EditorNodeType} from '../store/node';
+import {translateSchema} from '../util';
 import {DNDModeInterface} from './interface';
 
 export class DefaultDNDMode implements DNDModeInterface {
@@ -56,7 +57,12 @@ export class DefaultDNDMode implements DNDModeInterface {
     } else {
       const manager = this.dnd.manager;
       const store = manager.store;
-      renderThumbToGhost(ghost, this.region, store.dragSchema, manager);
+      renderThumbToGhost(
+        ghost,
+        this.region,
+        translateSchema(store.dragSchema),
+        manager
+      );
       this.dndContainer.appendChild(ghost);
     }
   }

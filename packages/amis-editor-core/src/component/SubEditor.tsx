@@ -104,7 +104,7 @@ export class SubEditor extends React.Component<SubEditorProps> {
     if (!!subEditorContext) {
       superEditorData = createObject(
         store.superEditorData,
-        subEditorContext?.data?.__super
+        subEditorContext?.data
       );
     }
     return {
