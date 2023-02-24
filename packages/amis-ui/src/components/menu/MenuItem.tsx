@@ -141,12 +141,12 @@ export class MenuItem extends React.Component<MenuItemProps> {
       ) : null
     ) : null;
     const labelNode =
-      label && typeof label === 'string' ? (
+      label && (typeof label === 'string' || Array.isArray(label)) ? (
         <span
           className={cx(`Nav-Menu-item-label`, {
             ['Nav-Menu-item-label-collapsed']: isCollapsedNode
           })}
-          title={isCollapsedNode ? '' : label}
+          title={isCollapsedNode || Array.isArray(label) ? '' : label}
           style={this.getDynamicStyle(!!iconNode)}
         >
           {isCollapsedNode ? label.slice(0, 1) : label}
