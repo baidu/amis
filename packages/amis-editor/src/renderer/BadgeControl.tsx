@@ -8,7 +8,7 @@ import camelCase from 'lodash/camelCase';
 import mapKeys from 'lodash/mapKeys';
 import {FormItem, Switch} from 'amis';
 
-import {autobind, isObject, isEmpty, anyChanged} from 'amis-editor-core';
+import {autobind, isObject, isEmpty, anyChanged, getI18nEnabled} from 'amis-editor-core';
 import {defaultValue, tipedLabel} from 'amis-editor-core';
 
 import type {FormControlProps} from 'amis-core';
@@ -186,7 +186,7 @@ export default class BadgeControl extends React.Component<
   renderBody() {
     const {render} = this.props;
     const data = this.transformBadgeValue();
-
+    const i18nEnabled = getI18nEnabled();
     return render(
       'badge-form',
       {
@@ -218,7 +218,7 @@ export default class BadgeControl extends React.Component<
           {
             label: '文本内容',
             name: 'text',
-            type: 'input-text',
+            type: i18nEnabled ? 'input-text-i18n' : 'input-text',
             mode: 'row',
             visibleOn: "data.mode !== 'dot'",
             pipeOut: (value: any) => {

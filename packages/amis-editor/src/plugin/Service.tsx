@@ -207,16 +207,8 @@ export class ServicePlugin extends BasePlugin {
                   description:
                     '设置 service 默认提示信息，当 service 没有返回 msg 信息时有用，如果 service 返回携带了 msg 值，则还是以 service 返回为主',
                   items: [
-                    {
-                      label: '获取成功',
-                      type: 'input-text',
-                      name: 'fetchSuccess'
-                    },
-                    {
-                      label: '获取失败',
-                      type: 'input-text',
-                      name: 'fetchFailed'
-                    }
+                    getSchemaTpl('fetchSuccess'),
+                    getSchemaTpl('fetchFailed')
                   ]
                 }
               ]

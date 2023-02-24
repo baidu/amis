@@ -6,11 +6,10 @@ import React from 'react';
 import cx from 'classnames';
 import {render, Button, Switch} from 'amis';
 
-import {autobind} from 'amis-editor-core';
+import {autobind, getI18nEnabled} from 'amis-editor-core';
 import {Validator} from '../validator';
 import {tipedLabel} from 'amis-editor-core';
 import {SchemaCollection} from 'amis/lib/Schema';
-import {getEnv} from 'mobx-state-tree';
 
 export type ValidatorData = {
   name: string;
@@ -135,7 +134,7 @@ export default class ValidationItem extends React.Component<
 
   renderInputControl() {
     const {value, message, checked} = this.state;
-    const {i18nEnabled} = getEnv((window as any).editorStore);
+    const i18nEnabled = getI18nEnabled();
     let control: any = [];
 
     if (!checked) {

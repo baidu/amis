@@ -1,4 +1,4 @@
-import {registerEditorPlugin} from 'amis-editor-core';
+import {getI18nEnabled, registerEditorPlugin} from 'amis-editor-core';
 import {
   BaseEventContext,
   BasePlugin,
@@ -14,7 +14,6 @@ import {isObject, isString} from 'lodash';
 import defaultConfig, {
   OperationMap
 } from 'amis-ui/lib/components/condition-builder/config';
-import {getEnv} from 'mobx-state-tree';
 
 export class ConditionBilderPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -98,8 +97,7 @@ export class ConditionBilderPlugin extends BasePlugin {
   };
 
   get scaffoldForm(): ScaffoldForm {
-    const editorStore = (window as any)?.editorStore;
-    const i18nEnabled = editorStore ? editorStore.i18nEnabled : false;
+    const i18nEnabled = getI18nEnabled();
     return {
       title: '快速开始-条件组合',
       body: [

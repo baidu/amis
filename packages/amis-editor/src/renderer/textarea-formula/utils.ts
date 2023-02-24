@@ -1,4 +1,5 @@
 import {isExpression, resolveVariableAndFilter} from 'amis-core';
+import {translateSchema} from 'amis-editor-core';
 import type {VariableItem} from 'amis-ui/lib/components/formula/Editor';
 
 /**
@@ -76,6 +77,11 @@ export async function getVariables(that: any) {
         ...variablesArr
       ];
     }
+  }
+
+  // 如果存在应用语言类型，则进行翻译
+  if (that.appLocale && that.appCorpusData) {
+    return translateSchema(variablesArr, that.appCorpusData);
   }
 
   return variablesArr;

@@ -26,7 +26,7 @@ import {FormulaExec, isExpression} from 'amis';
 import {PickerContainer, relativeValueRe} from 'amis';
 import {FormulaEditor} from 'amis-ui/lib/components/formula/Editor';
 
-import {autobind} from 'amis-editor-core';
+import {autobind, translateSchema} from 'amis-editor-core';
 
 import type {
   VariableItem,
@@ -35,6 +35,7 @@ import type {
 import {dataMapping, FormControlProps} from 'amis-core';
 import type {BaseEventContext} from 'amis-editor-core';
 import {EditorManager} from 'amis-editor-core';
+import {reaction} from 'mobx';
 import {getVariables} from './textarea-formula/utils';
 
 export enum FormulaDateType {
@@ -150,6 +151,9 @@ export default class FormulaControl extends React.Component<
     requiredDataPropsVariables: false
   };
   isUnmount: boolean;
+  unReaction: any;
+  appLocale: string;
+  appCorpusData: any;
 
   constructor(props: FormulaControlProps) {
     super(props);
@@ -160,6 +164,21 @@ export default class FormulaControl extends React.Component<
   }
 
   async componentDidMount() {
+    const editorStore = (window as any).editorStore;
+    this.appLocale = editorStore?.appLocale;
+    this.appCorpusData = editorStore?.appCorpusData;
+    this.unReaction = reaction(
+      () => editorStore?.appLocaleState,
+      async () => {
+        this.appLocale = editorStore?.appLocale;
+        this.appCorpusData = editorStore?.appCorpusData;
+        const variablesArr = await getVariables(this);
+        this.setState({
+          variables: variablesArr
+        });
+      }
+    );
+
     const variablesArr = await getVariables(this);
     this.setState({
       variables: variablesArr
@@ -177,6 +196,7 @@ export default class FormulaControl extends React.Component<
 
   componentWillUnmount() {
     this.isUnmount = true;
+    this.unReaction?.();
   }
 
   /**
@@ -423,6 +443,12 @@ export default class FormulaControl extends React.Component<
       // 设置popOverContainer
       curRendererSchema.popOverContainer = window.document.body;
     }
+
+    // 对 schema 进行国际化翻译
+    if (this.appLocale && this.appCorpusData) {
+      return translateSchema(curRendererSchema, this.appCorpusData);
+    }
+
     return curRendererSchema;
   }
 

@@ -24,11 +24,7 @@ export class FileControlPlugin extends BasePlugin {
     autoUpload: true,
     proxy: true,
     uploadType: 'fileReceptor',
-    name: 'file',
-    receiver: {
-      url: 'object-upload://default',
-      method: 'post'
-    }
+    name: 'file'
   };
   previewSchema: any = {
     type: 'form',
@@ -122,6 +118,11 @@ export class FileControlPlugin extends BasePlugin {
       actionType: 'clear',
       actionLabel: '清空数据',
       description: '清除选择的文件'
+    },
+    {
+      actionType: 'setValue',
+      actionLabel: '赋值',
+      description: '触发组件数据更新'
     }
   ];
 

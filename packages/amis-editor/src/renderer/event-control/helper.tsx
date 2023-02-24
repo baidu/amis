@@ -2716,30 +2716,7 @@ export const getEventControlConfig = (
   const actionTree = manager?.config.actionOptions?.actionTreeGetter
     ? manager?.config.actionOptions?.actionTreeGetter(ACTION_TYPE_TREE(manager))
     : ACTION_TYPE_TREE(manager);
-  const allComponents = mapTree(
-    manager?.store?.outline ?? [],
-    (item: any) => {
-      const schema = manager?.store?.getSchema(item.id);
-      let cmptLabel = '';
-      if (item?.region) {
-        cmptLabel = item?.label;
-      } else {
-        cmptLabel = schema?.label ?? schema?.title;
-      }
-      cmptLabel = cmptLabel ?? item.label;
-      return {
-        id: item.id,
-        label: cmptLabel,
-        value: schema?.id ?? item.id,
-        type: schema?.type ?? item.type,
-        schema,
-        disabled: !!item.region,
-        children: item?.children
-      };
-    },
-    1,
-    true
-  );
+  const allComponents = manager?.store?.getComponentTreeSource();
   const checkComponent = (node: any, action: RendererPluginAction) => {
     const actionType = action.actionType!;
     const actions = manager?.pluginActions[node.type];
@@ -2793,18 +2770,28 @@ export const getEventControlConfig = (
       return manager.dataSchema;
     },
     getComponents: (action: RendererPluginAction) => {
-      let components = allComponents;
+      let components = manager?.store?.getComponentTreeSource();
+      let finalCmpts: any[] = [];
       if (isSubEditor) {
-        let superTree = manager.store.getSuperEditorData;
-        while (superTree) {
-          if (superTree.__superCmptTreeSource) {
-            components = components.concat(superTree.__superCmptTreeSource);
+        let editorData = manager.store.getSuperEditorData;
+        while (components) {
+          if (editorData?.__curCmptTreeWrap) {
+            components = [
+              {
+                ...editorData.__curCmptTreeWrap,
+                children: components
+              }
+            ];
           }
-          superTree = superTree.__super;
+          finalCmpts = [...finalCmpts, ...components];
+          components = editorData?.__superCmptTreeSource;
+          editorData = editorData?.__super;
         }
+      } else {
+        finalCmpts = components;
       }
       const result = filterTree(
-        components,
+        finalCmpts,
         node => checkComponent(node, action),
         1,
         true
