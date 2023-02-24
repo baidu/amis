@@ -1031,13 +1031,13 @@ export const doc: {
   },
   {
     name: "DATETOSTR",
-    description: "将日期转成日期字符串",
+    description: "对日期、日期字符串、时间戳进行格式化\n\n示例：\n\nDATETOSTR('12/25/2022', 'YYYY-MM-DD') 得到 '2022.12.25'\nDATETOSTR(1676563200, 'YYYY.MM.DD') 得到 '2023.02.17'\nDATETOSTR(1676563200000, 'YYYY.MM.DD hh:mm:ss') 得到 '2023.02.17 12:00:00'\nDATETOSTR(DATE('2021-12-21'), 'YYYY.MM.DD hh:mm:ss') 得到 '2021.12.21 08:00:00'",
     example: "DATETOSTR(date, 'YYYY-MM-DD')",
     params: [
       {
-        type: "date",
+        type: "any",
         name: "date",
-        description: "日期对象"
+        description: "日期对象、日期字符串、时间戳"
       },
       {
         type: "string",
@@ -1046,7 +1046,34 @@ export const doc: {
       }
     ],
     returns: {
-      type: "number",
+      type: "string",
+      description: "日期字符串"
+    },
+    namespace: "日期函数"
+  },
+  {
+    name: "DATERANGESPLIT",
+    description: "获取日期范围字符串中的开始时间、结束时间\n\n示例：\n\nDATERANGESPLIT('1676563200, 1676735999', undefined , 'YYYY.MM.DD hh:mm:ss') 得到 '2023.02.17 12:00:00,2023.02.18 11:59:59'\nDATERANGESPLIT('1676563200, 1676735999', 0 , 'YYYY.MM.DD hh:mm:ss') 得到 '2023.02.17 12:00:00'\nDATERANGESPLIT('1676563200, 1676735999', 'start' , 'YYYY.MM.DD hh:mm:ss') 得到 '2023.02.17 12:00:00'\nDATERANGESPLIT('1676563200, 1676735999', 1 , 'YYYY.MM.DD hh:mm:ss') 得到 '2023.02.18 11:59:59'\nDATERANGESPLIT('1676563200, 1676735999', 'end' , 'YYYY.MM.DD hh:mm:ss') 得到 '2023.02.18 11:59:59'",
+    example: "DATERANGESPLIT(date, 'YYYY-MM-DD')",
+    params: [
+      {
+        type: "string",
+        name: "date",
+        description: "日期范围字符串"
+      },
+      {
+        type: "string",
+        name: "key",
+        description: "取值标识，0或'start'表示获取开始时间，1或'end'表示获取结束时间"
+      },
+      {
+        type: "string",
+        name: "format",
+        description: "日期格式，可选"
+      }
+    ],
+    returns: {
+      type: "string",
       description: "日期字符串"
     },
     namespace: "日期函数"

@@ -200,7 +200,44 @@ test('formula:date', () => {
   expect(evalFormual('DATETOSTR(NOW(), "YYYY-MM-DD")')).toBe(
     moment().format('YYYY-MM-DD')
   );
+  expect(evalFormual('DATETOSTR(1676563200, "YYYY-MM-DD")')).toBe(
+    moment(1676563200, 'X').format('YYYY-MM-DD')
+  );
+  expect(evalFormual('DATETOSTR(1676563200000, "YYYY-MM-DD")')).toBe(
+    moment(1676563200000, 'x').format('YYYY-MM-DD')
+  );
+  expect(evalFormual('DATETOSTR("12/25/2022", "YYYY-MM-DD")')).toBe(
+    moment('12/25/2022').format('YYYY-MM-DD')
+  );
   expect(evalFormual('YEAR(STRTODATE("2021-10-24 10:10:10"))')).toBe(2021);
+  expect(
+    evalFormual(
+      'DATERANGESPLIT("1676563200,1676735999", undefined, "YYYY.MM.DD hh:mm:ss")'
+    )
+  ).toBe('2023.02.17 12:00:00,2023.02.18 11:59:59');
+  expect(evalFormual('DATERANGESPLIT("1676563200,1676735999", 0)')).toBe(
+    '1676563200'
+  );
+  expect(
+    evalFormual(
+      'DATERANGESPLIT("1676563200,1676735999", 0 , "YYYY.MM.DD hh:mm:ss")'
+    )
+  ).toBe('2023.02.17 12:00:00');
+  expect(
+    evalFormual(
+      'DATERANGESPLIT("1676563200,1676735999", "start" , "YYYY.MM.DD hh:mm:ss")'
+    )
+  ).toBe('2023.02.17 12:00:00');
+  expect(
+    evalFormual(
+      'DATERANGESPLIT("1676563200,1676735999", 1 , "YYYY.MM.DD hh:mm:ss")'
+    )
+  ).toBe('2023.02.18 11:59:59');
+  expect(
+    evalFormual(
+      'DATERANGESPLIT("1676563200,1676735999", "end" , "YYYY.MM.DD hh:mm:ss")'
+    )
+  ).toBe('2023.02.18 11:59:59');
 });
 
 test('formula:last', () => {
