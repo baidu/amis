@@ -221,7 +221,10 @@ function SchemaFrom({
   submitOnChange,
   node,
   manager,
-  justify
+  justify,
+  ctx,
+  pipeIn,
+  pipeOut
 }: {
   propKey: string;
   env: any;
@@ -240,6 +243,9 @@ function SchemaFrom({
   manager: EditorManager;
   panelById?: string;
   justify?: boolean;
+  ctx?: any;
+  pipeIn?: (value: any) => any;
+  pipeOut?: (value: any) => any;
 }) {
   let containerKey = 'body';
 
@@ -290,14 +296,17 @@ function SchemaFrom({
     };
   }
 
+  value = pipeIn ? pipeIn(value) : value;
+
   return render(
     schema,
     {
-      onFinished: (newValue: any) => {
+      onFinished: async (newValue: any) => {
+        newValue = pipeOut ? await pipeOut(newValue) : newValue;
         const diffValue = diff(value, newValue);
         onChange(newValue, diffValue);
       },
-      data: value,
+      data: ctx ? createObject(ctx, value) : value,
       node: node,
       manager: manager,
       popOverContainer
@@ -320,6 +329,8 @@ export function makeSchemaFormRender(
     justify?: boolean;
     panelById?: string;
     formKey?: string;
+    pipeIn?: (value: any) => any;
+    pipeOut?: (value: any) => any;
   }
 ) {
   const env = {...manager.env, session: 'schema-form'};
@@ -366,7 +377,10 @@ export function makeSchemaFormRender(
               )
             : undefined
         }
-        value={createObject(ctx, value)}
+        value={value}
+        ctx={ctx}
+        pipeIn={schema.pipeIn}
+        pipeOut={schema.pipeOut}
         submitOnChange={schema.submitOnChange}
         onChange={onChange}
         env={env}

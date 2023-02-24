@@ -66,7 +66,10 @@ export interface EditorProps extends PluginEventListener {
     | Array<string>
     | ((id: string, plugin: PluginClass) => boolean);
 
-  plugins?: Array<PluginClass>;
+  plugins?: Array<
+    | PluginClass
+    | [PluginClass, Record<string, any> | (() => Record<string, any>)]
+  >;
 
   /**
    * 传给预览器的其他属性

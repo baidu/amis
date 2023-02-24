@@ -863,7 +863,11 @@ export interface PluginInterface
     context: RendererEventContext,
     subRenderers: Array<SubRendererInfo>,
     renderers: Array<RendererConfig>
-  ) => BasicSubRenderInfo | Array<BasicSubRenderInfo> | void;
+  ) =>
+    | BasicSubRenderInfo
+    | Array<BasicSubRenderInfo>
+    | void
+    | Promise<BasicSubRenderInfo | Array<BasicSubRenderInfo> | void>;
 
   /**
    * 更新NPM自定义组件分类和排序[异步方法]
@@ -894,6 +898,8 @@ export interface PluginInterface
     e: any,
     data: any
   ) => void;
+
+  dispose?: () => void;
 }
 
 export interface RendererPluginEvent {
@@ -1132,62 +1138,6 @@ export abstract class BasePlugin implements PluginInterface {
     }
   }
 
-  /**
-   * 构建当前选中组件的右键菜单
-   * @param id
-   * @param schema
-   * @param region
-   * @param info
-   * @param menus
-   */
-  buildEditorContextMenu(
-    {id, schema, region, info, selections}: ContextMenuEventContext,
-    menus: Array<ContextMenuItem>
-  ) {
-    const plugin: PluginInterface = this;
-    if (
-      info.plugin === plugin &&
-      !selections.length &&
-      (plugin.scaffoldForm?.canRebuild || info.scaffoldForm?.canRebuild)
-    ) {
-      menus.push({
-        label: `快速构建「${info.plugin.name}」`,
-        disabled: schema.$$commonSchema,
-        onSelect: () =>
-          this.manager.reScaffold(
-            id,
-            info.scaffoldForm || plugin.scaffoldForm!,
-            schema
-          )
-      });
-    }
-  }
-
-  buildEditorToolbar(
-    {id, schema, info}: BaseEventContext,
-    toolbars: Array<BasicToolbarItem>
-  ) {
-    const plugin: PluginInterface = this;
-    if (
-      info.plugin === plugin &&
-      (info.scaffoldForm?.canRebuild ?? plugin.scaffoldForm?.canRebuild)
-    ) {
-      toolbars.push({
-        iconSvg: 'harmmer',
-        tooltip: `快速构建「${info.plugin.name}」`,
-        placement: 'bottom',
-        onClick: () => this.manager.reScaffoldV2(id)
-        /*
-        this.manager.reScaffold(
-          id,
-          info.scaffoldForm || plugin.scaffoldForm!,
-          schema
-        )
-        */
-      });
-    }
-  }
-
   renderPlaceholder(text: string, key?: any, style?: any) {
     return React.createElement('div', {
       key,
@@ -1209,12 +1159,10 @@ export abstract class BasePlugin implements PluginInterface {
   }
 }
 
-
 /**
  * 布局相关组件基类，带宽高可拖拽功能。
  */
 export class LayoutBasePlugin extends BasePlugin {
-
   onActive(event: PluginEvent<ActiveEventContext>) {
     const context = event.context;
 

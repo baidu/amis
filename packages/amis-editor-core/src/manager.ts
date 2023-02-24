@@ -75,11 +75,13 @@ export interface EditorManagerConfig
   extends Omit<EditorProps, 'value' | 'onChange'> {}
 
 export interface PluginClass {
-  new (manager: EditorManager): PluginInterface;
+  new (manager: EditorManager, options?: any): PluginInterface;
   id?: string;
 }
 
-const builtInPlugins: Array<PluginClass> = [];
+const builtInPlugins: Array<
+  PluginClass | [PluginClass, Record<string, any> | (() => Record<string, any>)]
+> = [];
 
 declare const window: Window & {AMISEditorCustomPlugins: any};
 
@@ -105,8 +107,10 @@ export function autoPreRegisterEditorCustomPlugins() {
 export function registerEditorPlugin(klass: PluginClass) {
   let isExitPlugin: any = null;
   if (klass.prototype && klass.prototype.isNpmCustomWidget) {
-    isExitPlugin = builtInPlugins.find(
-      item => item.prototype.name === klass.prototype.name
+    isExitPlugin = builtInPlugins.find(item =>
+      Array.isArray(item)
+        ? item[0].prototype.name === klass.prototype.name
+        : item.prototype.name === klass.prototype.name
     );
   } else {
     // 待进一步优化
@@ -130,7 +134,9 @@ export function getEditorPlugins() {
  * 注销插件
  */
 export function unRegisterEditorPlugin(id: string) {
-  const idx = findIndex(builtInPlugins, item => item.id === id);
+  const idx = findIndex(builtInPlugins, item =>
+    Array.isArray(item) ? item[0].id === id : item.id === id
+  );
   ~idx && builtInPlugins.splice(idx, 1);
 }
 
@@ -191,15 +197,23 @@ export class EditorManager {
       parent?.plugins ||
       (config.disableBultinPlugin ? [] : builtInPlugins) // 页面设计器注册的插件列表
         .concat(config.plugins || [])
-        .filter(p =>
-          config.disablePluginList
+        .filter(p => {
+          p = Array.isArray(p) ? p[0] : p;
+          return config.disablePluginList
             ? typeof config.disablePluginList === 'function'
               ? !config.disablePluginList(p.id || '', p)
               : !config.disablePluginList.includes(p.id || 'unkown')
-            : true
-        )
+            : true;
+        })
         .map(Editor => {
-          const plugin = new Editor(this); // 进行一次实例化
+          let pluginOptions: Record<string, any> = {};
+          if (Array.isArray(Editor)) {
+            pluginOptions =
+              typeof Editor[1] === 'function' ? Editor[1]() : Editor[1];
+            Editor = Editor[0];
+          }
+
+          const plugin = new Editor(this, pluginOptions); // 进行一次实例化
           plugin.order = plugin.order ?? 0;
 
           // 记录动作定义
@@ -538,7 +552,7 @@ export class EditorManager {
     // 此处换成for是为了解决异步问题
     for (let index = 0, size = this.plugins.length; index < size; index++) {
       const pluginItem = this.plugins[index];
-      let subRenderer = pluginItem.buildSubRenderers?.(
+      let subRenderer = await pluginItem.buildSubRenderers?.(
         contxt,
         subRenderers,
         getRenderers()
@@ -1697,6 +1711,8 @@ export class EditorManager {
     justify?: boolean;
     panelById?: string;
     formKey?: string;
+    pipeIn?: (value: any) => any;
+    pipeOut?: (value: any) => any;
   }) {
     return makeSchemaFormRender(this, schema);
   }
@@ -1915,8 +1931,14 @@ export class EditorManager {
    * 销毁函数
    */
   dispose() {
+    // 有些插件需要销毁，靠这个事件
+    this.trigger('dispose', {
+      data: this
+    });
     this.toDispose.forEach(fn => fn());
     this.toDispose = [];
+    this.plugins.forEach(p => p.dispose?.());
+    this.plugins.splice(0, this.plugins.length);
     this.listeners.splice(0, this.listeners.length);
     this.broadcasts.splice(0, this.broadcasts.length);
     this.lazyPatchSchema.cancel();

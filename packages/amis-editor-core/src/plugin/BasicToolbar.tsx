@@ -7,7 +7,8 @@ import {
   BasicPanelItem,
   BuildPanelEventContext,
   PluginEvent,
-  InsertEventContext
+  InsertEventContext,
+  PluginInterface
 } from '../plugin';
 import {registerEditorPlugin} from '../manager';
 import type {MenuItem} from 'amis-ui/lib/components/ContextMenu';
@@ -20,7 +21,7 @@ export class BasicToolbarPlugin extends BasePlugin {
   order = -9999;
 
   buildEditorToolbar(
-    {id, schema}: BaseEventContext,
+    {id, schema, info}: BaseEventContext,
     toolbars: Array<BasicToolbarItem>
   ) {
     const store = this.manager.store;
@@ -218,10 +219,19 @@ export class BasicToolbarPlugin extends BasePlugin {
         }
       }
     });
+
+    if (info.scaffoldForm?.canRebuild ?? info.plugin.scaffoldForm?.canRebuild) {
+      toolbars.push({
+        iconSvg: 'harmmer',
+        tooltip: `快速构建「${info.plugin.name}」`,
+        placement: 'bottom',
+        onClick: () => this.manager.reScaffoldV2(id)
+      });
+    }
   }
 
   buildEditorContextMenu(
-    {id, schema, region, selections}: ContextMenuEventContext,
+    {id, schema, region, info, selections}: ContextMenuEventContext,
     menus: Array<ContextMenuItem>
   ) {
     const manager = this.manager;
@@ -521,6 +531,22 @@ export class BasicToolbarPlugin extends BasePlugin {
         onSelect: () => manager.showReplacePanel(id)
       });
       */
+    }
+
+    if (
+      !selections.length &&
+      (info.plugin.scaffoldForm?.canRebuild || info.scaffoldForm?.canRebuild)
+    ) {
+      menus.push({
+        label: `快速构建「${info.plugin.name}」`,
+        disabled: schema.$$commonSchema,
+        onSelect: () =>
+          this.manager.reScaffold(
+            id,
+            info.scaffoldForm || info.plugin.scaffoldForm!,
+            schema
+          )
+      });
     }
   }
 
