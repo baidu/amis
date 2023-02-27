@@ -34,6 +34,7 @@ export class AnchorNavPlugin extends BasePlugin {
           {
             type: 'tpl',
             tpl: '这里是锚点内容1',
+            wrapperComponent: '',
             inline: false
           }
         ]
@@ -45,6 +46,7 @@ export class AnchorNavPlugin extends BasePlugin {
           {
             type: 'tpl',
             tpl: '这里是锚点内容2',
+            wrapperComponent: '',
             inline: false
           }
         ]
@@ -56,6 +58,7 @@ export class AnchorNavPlugin extends BasePlugin {
           {
             type: 'tpl',
             tpl: '这里是锚点内容3',
+            wrapperComponent: '',
             inline: false
           }
         ]
@@ -98,6 +101,7 @@ export class AnchorNavPlugin extends BasePlugin {
                     {
                       type: 'tpl',
                       tpl: '这里是锚点内容',
+                      wrapperComponent: '',
                       inline: false
                     }
                   ]

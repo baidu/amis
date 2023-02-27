@@ -29,6 +29,7 @@ export class EachPlugin extends BasePlugin {
     items: {
       type: 'tpl',
       tpl: '<%= data.index + 1 %>. 内容：<%= data.item %>',
+      wrapperComponent: '',
       inline: false
     }
   };

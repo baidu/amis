@@ -34,7 +34,8 @@ export class ListPlugin extends BasePlugin {
       body: [
         {
           type: 'tpl',
-          tpl: '简单的展示数据：$a $b'
+          tpl: '简单的展示数据：$a $b',
+          wrapperComponent: ''
         }
       ],
       actions: [

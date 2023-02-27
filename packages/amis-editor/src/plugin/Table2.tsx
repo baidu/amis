@@ -439,6 +439,7 @@ export class Table2Plugin extends BasePlugin {
                         body: [
                           {
                             type: 'tpl',
+                            wrapperComponent: '',
                             tpl: '表格标题',
                             inline: false,
                             style: {
@@ -479,6 +480,7 @@ export class Table2Plugin extends BasePlugin {
                           {
                             type: 'tpl',
                             tpl: '表格尾部',
+                            wrapperComponent: '',
                             inline: false,
                             style: {
                               fontSize: 14
@@ -878,6 +880,7 @@ export class Table2Plugin extends BasePlugin {
           {
             type: 'tpl',
             tpl: '展开行内容',
+            wrapperComponent: '',
             inline: false
           }
         ];

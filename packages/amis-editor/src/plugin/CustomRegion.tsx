@@ -35,7 +35,8 @@ export class CustomPlugin extends BasePlugin {
     body: [
       {
         type: 'tpl',
-        tpl: '<p>自定义容器区域</p>'
+        wrapperComponent: '',
+        tpl: '自定义容器区域'
       }
     ]
   };

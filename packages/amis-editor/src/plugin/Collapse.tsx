@@ -22,6 +22,7 @@ export class CollapsePlugin extends BasePlugin {
       {
         type: 'tpl',
         tpl: '内容',
+        wrapperComponent: '',
         inline: false
       }
     ]
