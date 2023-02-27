@@ -1501,6 +1501,23 @@ export class Evaluator {
   }
 
   /**
+   * 获取日期的星期几，从0到6分别表示星期日、一、二...六
+   *
+   * 示例：
+   *
+   * WEEKDAY('2023-02-27') 得到 1
+   *
+   * @example WEEKDAY(date)
+   * @namespace 日期函数
+   * @param {any} date 日期
+   *
+   * @returns {number} 星期几的数字标识
+   */
+  fnWEEKDAY(date: Date | string | number) {
+    return moment(this.normalizeDate(date)).day();
+  }
+
+  /**
    * 对日期、日期字符串、时间戳进行格式化
    *
    * 示例：
@@ -1573,23 +1590,6 @@ export class Evaluator {
     }
 
     return dateArr;
-  }
-
-  /**
-   * 获取日期的星期几，从0到6分别表示星期日、一、二...六
-   *
-   * 示例：
-   *
-   * DATETOWEEK('2023-02-27') 得到 1
-   *
-   * @example DATETOWEEK(date)
-   * @namespace 日期函数
-   * @param {any} date 日期
-   *
-   * @returns {number} 星期几的数字标识
-   */
-  fnDATETOWEEK(date: Date | string | number) {
-    return moment(this.normalizeDate(date)).day();
   }
 
   /**
