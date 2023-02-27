@@ -1516,7 +1516,7 @@ export class Evaluator {
    */
   fnWEEKDAY(date: Date | string | number, type?: number) {
     const md = moment(this.normalizeDate(date));
-    return !type || type === 1 ? md.weekday() : md.isoWeekday();
+    return type === 2 ? md.isoWeekday() : md.weekday();
   }
 
   /**
