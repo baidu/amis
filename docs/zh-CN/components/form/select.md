@@ -960,7 +960,7 @@ leftOptions 动态加载，默认 source 接口是返回 options 部分，而 le
 
 ## 自定义下拉区域宽度与对齐方式
 
-> 2.7.3 以上版本
+> 2.8.0 以上版本
 
 使用字符串或数字，使用数字时单位为`px`；支持单位: `%`、`px`、`rem`、`em`、`vw`。
 
@@ -1140,7 +1140,7 @@ leftOptions 动态加载，默认 source 接口是返回 options 部分，而 le
 | optionClassName          | `string`                                                                          |                                                                                    | 选项 CSS 类名                                                                                                                                                                                                |
 | popOverContainerSelector | `string`                                                                          |                                                                                    | 弹层挂载位置选择器，会通过`querySelector`获取                                                                                                                                                                |
 | clearable                | `boolean`                                                                         |                                                                                    | 是否展示清空图标                                                                                                                                                                                             |
-| overlay                  | `{ width: string \| number, align: "left" \| "center" \| "right" }`               |                                                                                    | 弹层宽度与对齐方式 `2.7.3 以上版本`                                                                                                                                                                          |
+| overlay                  | `{ width: string \| number, align: "left" \| "center" \| "right" }`               |                                                                                    | 弹层宽度与对齐方式 `2.8.0 以上版本`                                                                                                                                                                          |
 
 ## 事件表
 

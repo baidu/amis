@@ -948,7 +948,7 @@ true        false        false      [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
 
 ## 自定义选项渲染
 
-> `2.7.3` 及以上版本
+> `2.8.0` 及以上版本
 
 使用`menuTpl`属性，自定义下拉选项的渲染内容。
 
@@ -998,7 +998,7 @@ true        false        false      [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
 
 ## 选项搜索
 
-> `2.7.3` 及以上版本
+> `2.8.0` 及以上版本
 
 开启`"searchable": true`后，支持搜索当前数据源内的选项
 
@@ -1071,7 +1071,7 @@ true        false        false      [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
 | editApi                | [API](../../../docs/types/api)               |                  | [配置编辑选项接口](./options#%E9%85%8D%E7%BD%AE%E7%BC%96%E8%BE%91%E6%8E%A5%E5%8F%A3-editapi)                                         |
 | removable              | `boolean`                                    | `false`          | [删除选项](./options#%E5%88%A0%E9%99%A4%E9%80%89%E9%A1%B9)                                                                           |
 | deleteApi              | [API](../../../docs/types/api)               |                  | [配置删除选项接口](./options#%E9%85%8D%E7%BD%AE%E5%88%A0%E9%99%A4%E6%8E%A5%E5%8F%A3-deleteapi)                                       |
-| searchable             | `boolean`                                    | `false`          | 是否可检索                                                                                                                           | `2.7.3`前仅`tree-select`支持 |
+| searchable             | `boolean`                                    | `false`          | 是否可检索                                                                                                                           | `2.8.0`前仅`tree-select`支持 |
 | hideRoot               | `boolean`                                    | `true`           | 如果想要显示个顶级节点，请设置为 `false`                                                                                             |
 | rootLabel              | `boolean`                                    | `"顶级"`         | 当 `hideRoot` 不为 `false` 时有用，用来设置顶级节点的文字。                                                                          |
 | showIcon               | `boolean`                                    | `true`           | 是否显示图标                                                                                                                         |
@@ -1094,8 +1094,8 @@ true        false        false      [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
 | highlightTxt           | `string`                                     |                  | 标签中需要高亮的字符，支持变量                                                                                                       |
 | itemHeight             | `number`                                     | `32`             | 每个选项的高度，用于虚拟渲染                                                                                                         |
 | virtualThreshold       | `number`                                     | `100`            | 在选项数量超过多少时开启虚拟渲染                                                                                                     |
-| menuTpl                | `string`                                     |                  | 选项自定义渲染 HTML 片段                                                                                                             | `2.7.3`                      |
-| enableDefaultIcon      | `boolean`                                    | `true`           | 是否为选项添加默认的前缀 Icon，父节点默认为`folder`，叶节点默认为`file`                                                              | `2.7.3`                      |
+| menuTpl                | `string`                                     |                  | 选项自定义渲染 HTML 片段                                                                                                             | `2.8.0`                      |
+| enableDefaultIcon      | `boolean`                                    | `true`           | 是否为选项添加默认的前缀 Icon，父节点默认为`folder`，叶节点默认为`file`                                                              | `2.8.0`                      |
 
 ## 事件表
 

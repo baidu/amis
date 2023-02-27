@@ -1841,7 +1841,7 @@ popOver 的其它配置请参考 [popover](./popover)
 | prefixRow        | `Array`                                                  |                           | 顶部总结行                                                                |                                   |
 | affixRow         | `Array`                                                  |                           | 底部总结行                                                                |                                   |
 | itemBadge        | [`BadgeSchema`](./badge)                                 |                           | 行角标配置                                                                |                                   |
-| autoFillHeight   | `boolean` 丨 `{height: number}` 丨 `{maxHeight: number}` |                           | 内容区域自适应高度，可选择自适应、固定高度和最大高度                      | `maxHeight` 需要 `2.7.3` 以上版本 |
+| autoFillHeight   | `boolean` 丨 `{height: number}` 丨 `{maxHeight: number}` |                           | 内容区域自适应高度，可选择自适应、固定高度和最大高度                      | `maxHeight` 需要 `2.8.0` 以上版本 |
 | resizable        | `boolean`                                                | `true`                    | 列宽度是否支持调整                                                        |                                   |
 | selectable       | `boolean`                                                | `false`                   | 支持勾选                                                                  |                                   |
 | multiple         | `boolean`                                                | `false`                   | 勾选 icon 是否为多选样式`checkbox`， 默认为`radio`                        |                                   |
