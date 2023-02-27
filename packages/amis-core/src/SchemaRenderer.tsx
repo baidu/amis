@@ -404,7 +404,8 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
 
     // style 支持公式
     if (schema.style) {
-      schema.style = buildStyle(schema.style, detectData);
+      // schema.style是readonly属性
+      schema = {...schema, style: buildStyle(schema.style, detectData)};
     }
 
     const isClassComponent = Component.prototype?.isReactComponent;
