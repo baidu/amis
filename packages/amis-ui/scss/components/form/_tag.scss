@@ -1,10 +1,6 @@
 .#{$ns}TagControl {
   position: relative;
 
-  &-input.is-focused {
-    border-radius: 0;
-  }
-
   &-input.is-disabled {
     border-style: dashed;
     background: transparent;
