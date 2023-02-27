@@ -1470,7 +1470,10 @@ export class Evaluator {
    * @returns {number} 时间戳
    */
   fnTIMESTAMP(date: Date, format?: 'x' | 'X') {
-    return parseInt(moment(date).format(format === 'x' ? 'x' : 'X'), 10);
+    return parseInt(
+      moment(this.normalizeDate(date)).format(format === 'x' ? 'x' : 'X'),
+      10
+    );
   }
 
   /**
@@ -1573,6 +1576,23 @@ export class Evaluator {
   }
 
   /**
+   * 获取日期的星期几，从0到6分别表示星期日、一、二...六
+   *
+   * 示例：
+   *
+   * DATETOWEEK('2023-02-27') 得到 1
+   *
+   * @example DATETOWEEK(date)
+   * @namespace 日期函数
+   * @param {any} date 日期
+   *
+   * @returns {number} 星期几的数字标识
+   */
+  fnDATETOWEEK(date: Date | string | number) {
+    return moment(this.normalizeDate(date)).day();
+  }
+
+  /**
    * 返回日期的指定范围的开端
    *
    * @namespace 日期函数
@@ -1582,7 +1602,7 @@ export class Evaluator {
    * @returns {date} 新的日期对象
    */
   fnSTARTOF(date: Date, unit?: any) {
-    return moment(date)
+    return moment(this.normalizeDate(date))
       .startOf(unit || 'day')
       .toDate();
   }
@@ -1596,7 +1616,7 @@ export class Evaluator {
    * @returns {date} 新的日期对象
    */
   fnENDOF(date: Date, unit?: any) {
-    return moment(date)
+    return moment(this.normalizeDate(date))
       .endOf(unit || 'day')
       .toDate();
   }

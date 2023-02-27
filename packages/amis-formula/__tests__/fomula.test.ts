@@ -265,6 +265,9 @@ test('formula:date', () => {
       'DATERANGESPLIT("1676563200,1676735999", "end" , "YYYY.MM.DD hh:mm:ss")'
     )
   ).toBe('2023.02.18 11:59:59');
+  expect(evalFormual('DATETOWEEK("2023-02-27")')).toBe(
+    moment('2023-02-27').day()
+  );
 });
 
 test('formula:last', () => {
