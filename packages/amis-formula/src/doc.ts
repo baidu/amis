@@ -1031,8 +1031,30 @@ export const doc: {
   },
   {
     name: "WEEKDAY",
-    description: "获取日期的星期几，从0到6分别表示星期日、一、二...六\n\n示例：\n\nWEEKDAY('2023-02-27') 得到 1",
+    description: "获取日期的星期几，\n\n示例：\n\nWEEKDAY('2023-02-27') 得到 1",
     example: "WEEKDAY(date)",
+    params: [
+      {
+        type: "any",
+        name: "date",
+        description: "日期"
+      },
+      {
+        type: "number",
+        name: "type",
+        description: "星期定义类型 1表示0至6代表星期一到星期日，2表示1至7代表星期一到星期天"
+      }
+    ],
+    returns: {
+      type: "number",
+      description: "星期几的数字标识"
+    },
+    namespace: "日期函数"
+  },
+  {
+    name: "WEEK",
+    description: "获取年份的星期，即第几周\n\n示例：\n\nWEEK('2023-03-05') 得到 10",
+    example: "WEEK(date)",
     params: [
       {
         type: "any",
