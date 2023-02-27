@@ -842,6 +842,10 @@ test('Renderer:select value contains delimiter when single', async () => {
               {
                 label: 'CLabel',
                 value: 'c'
+              },
+              {
+                label: 'DLabel',
+                value: 'd'
               }
             ]
           }
