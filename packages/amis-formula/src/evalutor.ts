@@ -1510,7 +1510,7 @@ export class Evaluator {
    * @example WEEKDAY(date)
    * @namespace 日期函数
    * @param {any} date 日期
-   * @param {number} type 星期定义类型，默认为1，1表示0至6代表星期一到星期日，2表示1至7代表星期一到星期天
+   * @param {number} type 星期定义类型，默认为1，1表示0至6代表星期一到星期日，2表示1至7代表星期一到星期日
    *
    * @returns {number} 星期几的数字标识
    */
