@@ -344,7 +344,8 @@ export default class DropDownButton extends React.Component<
       isActived,
       trigger,
       data,
-      hideCaret
+      hideCaret,
+      env
     } = this.props;
 
     return (
@@ -367,7 +368,7 @@ export default class DropDownButton extends React.Component<
         <TooltipWrapper
           placement={placement}
           tooltip={disabled ? disabledTip : tooltip}
-          container={tooltipContainer}
+          container={tooltipContainer || env?.getModalContainer}
           trigger={tooltipTrigger}
           rootClose={tooltipRootClose}
         >

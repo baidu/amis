@@ -124,6 +124,7 @@ export interface ColumnTogglerProps extends RendererProps {
   activeToggaleColumns: Array<IColumn | IColumn2>;
   onColumnToggle: (columns: Array<IColumn>) => void;
   modalContainer?: () => HTMLElement;
+  tooltipContainer?: any;
 }
 
 export interface ColumnTogglerState {
@@ -367,7 +368,8 @@ export default class ColumnToggler extends React.Component<
       draggable,
       overlay,
       translate: __,
-      footerBtnSize
+      footerBtnSize,
+      env
     } = this.props;
 
     const {enableSorting, tempColumns} = this.state;
@@ -405,6 +407,7 @@ export default class ColumnToggler extends React.Component<
                     tooltip={column.label || ''}
                     trigger={enableSorting ? [] : 'hover'}
                     key={column.index}
+                    container={modalContainer || env?.getModalContainer}
                   >
                     <li
                       className={cx('ColumnToggler-menuItem')}

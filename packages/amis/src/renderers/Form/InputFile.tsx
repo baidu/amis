@@ -1348,7 +1348,9 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       templateUrl,
       drag,
       documentation,
-      documentLink
+      documentLink,
+      env,
+      container
     } = this.props;
     let {files, uploading, error} = this.state;
     const nameField = this.props.nameField || 'name';
@@ -1490,6 +1492,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                 <li key={file.id}>
                   <TooltipWrapper
                     placement="bottom"
+                    container={container || env?.getModalContainer}
                     tooltipClassName={cx('FileControl-list-tooltip')}
                     tooltip={
                       file.state === 'invalid' || file.state === 'error'
