@@ -156,3 +156,14 @@
 .#{$ns}InputGroup:not(.is-inline) {
   display: flex;
 }
+
+.#{$ns}InputGroup-validation--full.is-error > .#{$ns}Form-control {
+  border-color: var(--Form-input-onError-borderColor);
+  transition: all var(--animation-duration);
+}
+
+.#{$ns}InputGroup-validation--partial.is-error > .#{$ns}Form-control.is-error {
+  border-color: var(--Form-input-onError-borderColor);
+  background: var(--Form-input-onError-bg);
+  transition: all var(--animation-duration);
+}

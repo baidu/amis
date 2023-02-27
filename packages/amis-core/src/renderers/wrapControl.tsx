@@ -118,6 +118,7 @@ export function wrapControl<
               store,
               onChange,
               data,
+              inputGroupControl,
               $schema: {
                 name,
                 id,
@@ -201,7 +202,8 @@ export function wrapControl<
               minLength,
               maxLength,
               validateOnChange,
-              label
+              label,
+              inputGroupControl
             });
 
             // issue 这个逻辑应该在 combo 里面自己实现。
@@ -335,7 +337,8 @@ export function wrapControl<
                 validateApi: props.$schema.validateApi,
                 minLength: props.$schema.minLength,
                 maxLength: props.$schema.maxLength,
-                label: props.$schema.label
+                label: props.$schema.label,
+                inputGroupControl: props?.inputGroupControl
               });
             }
 

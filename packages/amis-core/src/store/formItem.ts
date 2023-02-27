@@ -15,6 +15,7 @@ import {evalExpression} from '../utils/tpl';
 import {buildApi, isEffectiveApi} from '../utils/api';
 import findIndex from 'lodash/findIndex';
 import {
+  isObject,
   isArrayChildrenModified,
   createObject,
   isObjectShallowModified,
@@ -87,7 +88,9 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     dialogOpen: false,
     dialogData: types.frozen(),
     resetValue: types.optional(types.frozen(), ''),
-    validateOnChange: false
+    validateOnChange: false,
+    /** 当前表单项所属的InputGroup父元素, 用于收集InputGroup的子元素 */
+    inputGroupControl: types.optional(types.frozen(), {})
   })
   .views(self => {
     function getForm(): any {
@@ -236,7 +239,8 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       maxLength,
       minLength,
       validateOnChange,
-      label
+      label,
+      inputGroupControl
     }: {
       required?: boolean;
       unique?: boolean;
@@ -260,6 +264,11 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       maxLength?: number;
       validateOnChange?: boolean;
       label?: string;
+      inputGroupControl?: {
+        name: string;
+        path: string;
+        [propsName: string]: any;
+      };
     }) {
       if (typeof rules === 'string') {
         rules = str2rules(rules);
@@ -289,6 +298,9 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         (self.validateOnChange = !!validateOnChange);
       typeof label === 'string' && (self.label = label);
       self.isValueSchemaExp = !!isValueSchemaExp;
+      isObject(inputGroupControl) &&
+        inputGroupControl?.name != null &&
+        (self.inputGroupControl = inputGroupControl);
 
       rules = {
         ...rules,
