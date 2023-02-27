@@ -194,7 +194,7 @@ order: 32
 
 ## 内容清空时删除字段
 
-> 2.7.3 及以上版本
+> 2.8.0 及以上版本
 
 如果设置了`"clearValueOnEmpty": true`，当输入框的值清空时，会从数据域中删除该表单项对应的值。比较常见的用法是在`combo`，`input-array`等组件中避免`input-number`清空后提交空字符串。
 
@@ -288,7 +288,7 @@ order: 32
 | big               | `boolean`                               |         | 是否使用大数                               |
 | displayMode       | `string`                                |         | 样式类型                                   |
 | resetValue        | `number \| string`                      | `""`    | 清空输入内容时，组件值将设置为`resetValue` |
-| clearValueOnEmpty | `boolean`                               | `false` | 内容为空时从数据域中删除该表单项对应的值   | `2.7.3` |
+| clearValueOnEmpty | `boolean`                               | `false` | 内容为空时从数据域中删除该表单项对应的值   | `2.8.0` |
 
 ## 事件表
 

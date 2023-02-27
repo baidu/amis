@@ -146,6 +146,6 @@ input-group 配置校验方法较为特殊，需要配置下面步骤：
 | ---------------- | ----------------------------------------- | -------- | ----------------------------------------------------- | ------- |
 | className        | `string`                                  |          | CSS 类名                                              |         |
 | body             | Array<[表单项](./formitem)>               |          | 表单项集合                                            |         |
-| validationConfig | `Record<'errorMode' \| 'delimiter', any>` | -        | 校验相关配置, 具体配置属性如下                        | `2.7.3` |
-| +errorMode       | `"full" \| "partial"`                     | `"full"` | 错误提示风格, `full`整体飘红, `partial`仅错误元素飘红 | `2.7.3` |
-| +delimiter       | `string`                                  | `"; "`   | 单个子元素多条校验信息的分隔符                        | `2.7.3` |
+| validationConfig | `Record<'errorMode' \| 'delimiter', any>` | -        | 校验相关配置, 具体配置属性如下                        | `2.8.0` |
+| +errorMode       | `"full" \| "partial"`                     | `"full"` | 错误提示风格, `full`整体飘红, `partial`仅错误元素飘红 | `2.8.0` |
+| +delimiter       | `string`                                  | `"; "`   | 单个子元素多条校验信息的分隔符                        | `2.8.0` |
