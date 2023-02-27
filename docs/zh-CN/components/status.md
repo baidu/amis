@@ -101,7 +101,7 @@ order: 65
 
 ## 自定义状态图标、文本、颜色
 
-> 2.7.3 及 以上版本
+> 2.8.0 及 以上版本
 
 如果默认提供的状态无法满足业务需求，可使用`source`自定义状态, 如下：
 
@@ -126,12 +126,12 @@ order: 65
 
 `source`配置类似于`mapping`映射，不同的`key`值匹配渲染不同状态，支持以下属性：
 
-| 属性名      | 类型     | 说明                            |
-| ----------- | -------- | ------------------------------- |
-| label | `string` | 显示文本                      |
-| icon  | `string` | 图标, 例如`fa fa-plus`      |
-| color | `string` | 状态颜色                    |
-| className | `string` | 状态的 独立 CSS 类名         |
+| 属性名    | 类型     | 说明                   |
+| --------- | -------- | ---------------------- |
+| label     | `string` | 显示文本               |
+| icon      | `string` | 图标, 例如`fa fa-plus` |
+| color     | `string` | 状态颜色               |
+| className | `string` | 状态的 独立 CSS 类名   |
 
 注意：自定义状态会和默认状态合并。
 
@@ -196,9 +196,9 @@ order: 65
 
 ## 自定义状态图标和文本
 
-> 推荐使用新属性`source`配置  
+> 推荐使用新属性`source`配置
 
-> 如果默认提供的状态无法满足业务需求，可以使用`map` 和 `labelMap`属性分别配置状态组件的**图标**和**展示文案**。用户自定义的`map` 和 `labelMap`会和默认属性进行 merge，如果只需要修改某一项配置时，无需全量覆盖。  
+> 如果默认提供的状态无法满足业务需求，可以使用`map` 和 `labelMap`属性分别配置状态组件的**图标**和**展示文案**。用户自定义的`map` 和 `labelMap`会和默认属性进行 merge，如果只需要修改某一项配置时，无需全量覆盖。
 
 ```schema
 {
@@ -235,7 +235,7 @@ order: 65
 
 ## 动态数据
 
-> 推荐使用新属性`source`配置  
+> 推荐使用新属性`source`配置
 
 > 2.3.0 及以上版本
 
@@ -322,15 +322,15 @@ order: 65
 
 ## 属性表
 
-| 属性名      | 类型     | 默认值 | 版本 | 说明                            |
-| ----------- | -------- | ------ | --------- | ---------------------- |
-| type        | `string` |        |  |`"status"` 指定为 Status 渲染器 |
-| className   | `string` |        |  | 外层 Dom 的 CSS 类名            |
-| placeholder | `string` | `-`    |  | 占位文本                        |
-| map         | `object` |        | 2.3.0 | 映射图标                        |
-| labelMap    | `object` |        | 2.3.0 | 映射文本                        |
-| source      | `object` |        | 2.7.3 | 自定义映射状态，支持[数据映射](../../docs/concepts/data-mapping) |
-| source.label | `string` |       | 2.7.3 | 映射文本                       |
-| source.icon  | `string` |       | 2.7.3 | 映射图标                       |
-| source.color | `string` |       | 2.7.3 | 映射状态颜色                    |
-| source.className | `string` |   | 2.7.3 | 映射状态的 独立 CSS 类名         |
+| 属性名           | 类型     | 默认值 | 版本  | 说明                                                             |
+| ---------------- | -------- | ------ | ----- | ---------------------------------------------------------------- |
+| type             | `string` |        |       | `"status"` 指定为 Status 渲染器                                  |
+| className        | `string` |        |       | 外层 Dom 的 CSS 类名                                             |
+| placeholder      | `string` | `-`    |       | 占位文本                                                         |
+| map              | `object` |        | 2.3.0 | 映射图标                                                         |
+| labelMap         | `object` |        | 2.3.0 | 映射文本                                                         |
+| source           | `object` |        | 2.8.0 | 自定义映射状态，支持[数据映射](../../docs/concepts/data-mapping) |
+| source.label     | `string` |        | 2.8.0 | 映射文本                                                         |
+| source.icon      | `string` |        | 2.8.0 | 映射图标                                                         |
+| source.color     | `string` |        | 2.8.0 | 映射状态颜色                                                     |
+| source.className | `string` |        | 2.8.0 | 映射状态的 独立 CSS 类名                                         |

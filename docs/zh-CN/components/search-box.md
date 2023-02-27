@@ -73,7 +73,7 @@ icon:
 
 ### 清除后立即搜索
 
-> `2.7.3` 及以上版本
+> `2.8.0` 及以上版本
 
 设置`"clearAndSubmit": true`后，清空搜索框内容后立即执行搜索，与`searchImediately`不同的是，`clearAndSubmit`仅作用于清空输入框的动作，而`searchImediately`会影响所有搜索动作。
 
@@ -196,7 +196,7 @@ icon:
 | className        | `string`  |        | 外层 CSS 类名                |
 | mini             | `boolean` |        | 是否为 mini 模式             |
 | searchImediately | `boolean` |        | 是否立即搜索                 |
-| clearAndSubmit   | `boolean` |        | 清空搜索框内容后立即执行搜索 | `2.7.3` |
+| clearAndSubmit   | `boolean` |        | 清空搜索框内容后立即执行搜索 | `2.8.0` |
 
 ## 事件表
 

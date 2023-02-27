@@ -125,7 +125,7 @@ order: 61
 
 ## 占位提示
 
-> 2.7.3 及以上版本
+> 2.8.0 及以上版本
 
 设置`placeholder`属性，可以修改属性控件的默认占位提示文本，当前属性值会和默认值做合并
 
@@ -160,7 +160,7 @@ order: 61
 | showRootInfo    | `boolean`                     | false                                                                                    | 是否显示顶级类型信息                                                                             |
 | disabledTypes   | `Array<string>`               |                                                                                          | 用来禁用默认数据类型，默认类型有：string、number、interger、object、number、array、boolean、null |
 | definitions     | `object`                      |                                                                                          | 用来配置预设类型                                                                                 |
-| placeholder     | `SchemaEditorItemPlaceholder` | `{key: "字段名", title: "名称", description: "描述", default: "默认值", empty: "<空>",}` | 属性输入控件的占位提示文本                                                                       | `2.7.3` |
+| placeholder     | `SchemaEditorItemPlaceholder` | `{key: "字段名", title: "名称", description: "描述", default: "默认值", empty: "<空>",}` | 属性输入控件的占位提示文本                                                                       | `2.8.0` |
 
 ### SchemaEditorItemPlaceholder
 
