@@ -1030,6 +1030,23 @@ export const doc: {
     namespace: "日期函数"
   },
   {
+    name: "WEEKDAY",
+    description: "获取日期的星期几，从0到6分别表示星期日、一、二...六\n\n示例：\n\nWEEKDAY('2023-02-27') 得到 1",
+    example: "WEEKDAY(date)",
+    params: [
+      {
+        type: "any",
+        name: "date",
+        description: "日期"
+      }
+    ],
+    returns: {
+      type: "number",
+      description: "星期几的数字标识"
+    },
+    namespace: "日期函数"
+  },
+  {
     name: "DATETOSTR",
     description: "对日期、日期字符串、时间戳进行格式化\n\n示例：\n\nDATETOSTR('12/25/2022', 'YYYY-MM-DD') 得到 '2022.12.25'\nDATETOSTR(1676563200, 'YYYY.MM.DD') 得到 '2023.02.17'\nDATETOSTR(1676563200000, 'YYYY.MM.DD hh:mm:ss') 得到 '2023.02.17 12:00:00'\nDATETOSTR(DATE('2021-12-21'), 'YYYY.MM.DD hh:mm:ss') 得到 '2021.12.21 08:00:00'",
     example: "DATETOSTR(date, 'YYYY-MM-DD')",
@@ -1080,23 +1097,6 @@ export const doc: {
     returns: {
       type: "string",
       description: "日期字符串"
-    },
-    namespace: "日期函数"
-  },
-  {
-    name: "DATETOWEEK",
-    description: "获取日期的星期几，从0到6分别表示星期日、一、二...六\n\n示例：\n\nDATETOWEEK('2023-02-27') 得到 1",
-    example: "DATETOWEEK(date)",
-    params: [
-      {
-        type: "any",
-        name: "date",
-        description: "日期"
-      }
-    ],
-    returns: {
-      type: "number",
-      description: "星期几的数字标识"
     },
     namespace: "日期函数"
   },
