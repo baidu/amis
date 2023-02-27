@@ -833,7 +833,6 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               disabled={disabled}
               onClick={this.addItem.bind(this, rowIndex + offset, undefined)}
             >
-              {props.addBtnLabel ? <span>{props.addBtnLabel}</span> : null}
               {props.addBtnIcon ? (
                 typeof props.addBtnIcon === 'string' ? (
                   <Icon icon={props.addBtnIcon} className="icon" />
@@ -841,6 +840,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                   generateIcon(props.classnames, props.addBtnIcon)
                 )
               ) : null}
+              {props.addBtnLabel ? <span>{props.addBtnLabel}</span> : null}
             </Button>
           )
       });
@@ -870,7 +870,6 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               disabled={disabled}
               onClick={this.copyItem.bind(this, rowIndex + offset, undefined)}
             >
-              {props.copyBtnLabel ? <span>{props.copyBtnLabel}</span> : null}
               {props.copyBtnIcon ? (
                 typeof props.copyBtnIcon === 'string' ? (
                   <Icon icon={props.copyBtnIcon} className="icon" />
@@ -878,6 +877,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                   generateIcon(props.classnames, props.copyBtnIcon)
                 )
               ) : null}
+              {props.copyBtnLabel ? <span>{props.copyBtnLabel}</span> : null}
             </Button>
           )
       });
@@ -950,9 +950,6 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                 disabled={disabled}
                 onClick={() => this.startEdit(rowIndex + offset)}
               >
-                {props.updateBtnLabel || props.editBtnLabel ? (
-                  <span>{props.updateBtnLabel || props.editBtnLabel}</span>
-                ) : null}
                 {/* 兼容之前的写法 */}
                 {typeof props.updateBtnIcon !== 'undefined' ? (
                   props.updateBtnIcon ? (
@@ -968,6 +965,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                   ) : (
                     generateIcon(props.classnames, props.editBtnIcon)
                   )
+                ) : null}
+                {props.updateBtnLabel || props.editBtnLabel ? (
+                  <span>{props.updateBtnLabel || props.editBtnLabel}</span>
                 ) : null}
               </Button>
             )
@@ -995,15 +995,15 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               }
               onClick={this.confirmEdit}
             >
-              {props.confirmBtnLabel ? (
-                <span>{props.confirmBtnLabel}</span>
-              ) : null}
               {props.confirmBtnIcon ? (
                 typeof props.confirmBtnIcon === 'string' ? (
                   <Icon icon={props.confirmBtnIcon} className="icon" />
                 ) : (
                   generateIcon(props.classnames, props.confirmBtnIcon)
                 )
+              ) : null}
+              {props.confirmBtnLabel ? (
+                <span>{props.confirmBtnLabel}</span>
               ) : null}
             </Button>
           ) : null
@@ -1031,15 +1031,15 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               }
               onClick={this.cancelEdit}
             >
-              {props.cancelBtnLabel ? (
-                <span>{props.cancelBtnLabel}</span>
-              ) : null}
               {props.cancelBtnIcon ? (
                 typeof props.cancelBtnIcon === 'string' ? (
                   <Icon icon={props.cancelBtnIcon} className="icon" />
                 ) : (
                   generateIcon(props.classnames, props.cancelBtnIcon)
                 )
+              ) : null}
+              {props.cancelBtnLabel ? (
+                <span>{props.cancelBtnLabel}</span>
               ) : null}
             </Button>
           ) : null
@@ -1074,15 +1074,15 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               disabled={disabled}
               onClick={this.removeItem.bind(this, rowIndex + offset)}
             >
-              {props.deleteBtnLabel ? (
-                <span>{props.deleteBtnLabel}</span>
-              ) : null}
               {props.deleteBtnIcon ? (
                 typeof props.deleteBtnIcon === 'string' ? (
                   <Icon icon={props.deleteBtnIcon} className="icon" />
                 ) : (
                   generateIcon(props.classnames, props.deleteBtnIcon)
                 )
+              ) : null}
+              {props.deleteBtnLabel ? (
+                <span>{props.deleteBtnLabel}</span>
               ) : null}
             </Button>
           )
