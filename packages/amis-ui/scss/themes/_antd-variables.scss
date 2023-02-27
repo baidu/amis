@@ -69,7 +69,7 @@ $ns: 'antd-';
   --colors-brand-2: #003a8c;
   --colors-brand-3: #0050b3;
   --colors-brand-4: #096dd9;
-  --colors-brand-5: #1890ff;
+  --colors-brand-5: #1677ff;
   --colors-brand-6: #45a8ff;
   --colors-brand-7: #74c0ff;
   --colors-brand-8: #a2d7ff;
@@ -143,7 +143,7 @@ $ns: 'antd-';
   --borders-width-4: 4px;
   --borders-radius-1: 0px;
   --borders-radius-2: 1px;
-  --borders-radius-3: 2px;
+  --borders-radius-3: 6px;
   --borders-radius-4: 6px;
   --borders-radius-5: 8px;
   --borders-radius-6: 10px;
@@ -219,4 +219,7 @@ $ns: 'antd-';
   --shadows-shadow-xl: 0px 20px 25px -5px rgba(0, 0, 0, 0.1),
     0px 10px 10px -5px rgba(0, 0, 0, 0.04);
   --shadows-shadow-2xl: 0px 25px 50px -12px rgba(0, 0, 0, 0.25);
+
+  // input 激活时的 shadow
+  --input-default-active-shadow: 0 0 0 2px rgb(5 145 255 / 10%);
 }
