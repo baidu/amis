@@ -1549,36 +1549,27 @@ export class Evaluator {
     format?: string,
     delimiter = ','
   ) {
-    if (!daterange) {
-      return '';
+    if (!daterange || typeof daterange !== 'string') {
+      return daterange;
     }
 
-    const dateArr = daterange.split(delimiter);
-    let start: any = dateArr[0].trim();
-    let end: any = dateArr[1].trim();
+    const dateArr = daterange
+      .split(delimiter)
+      .map(item =>
+        item && format
+          ? moment(this.normalizeDate(item.trim())).format(format)
+          : item.trim()
+      );
 
-    if (key === undefined || ![0, 1, '0', '1', 'start', 'end'].includes(key)) {
-      if (format && start && end) {
-        start = this.normalizeDate(start);
-        end = this.normalizeDate(end);
-        return [
-          `${moment(start).format(format)}`,
-          `${moment(end).format(format)}`
-        ];
-      }
-
-      return dateArr;
+    if ([0, '0', 'start'].includes(key!)) {
+      return dateArr[0];
     }
 
-    if ([0, '0', 'start'].includes(key) && start) {
-      const startDate = this.normalizeDate(start);
-      return format ? moment(startDate).format(format) : start;
+    if ([1, '1', 'end'].includes(key!)) {
+      return dateArr[1];
     }
 
-    if ([1, '1', 'end'].includes(key) && end) {
-      const endDate = this.normalizeDate(end);
-      return format ? moment(endDate).format(format) : end;
-    }
+    return dateArr;
   }
 
   /**

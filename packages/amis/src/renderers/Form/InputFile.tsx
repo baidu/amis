@@ -850,10 +850,8 @@ export default class FileControl extends React.Component<FileProps, FileState> {
 
         const dispatcher = await this.dispatchEvent('success', {
           ...file, // 保留历史结构
-          item: {
-            ...file,
-            ...ret.data
-          },
+          item: file,
+          result: ret.data,
           value
         });
         if (dispatcher?.prevented) {
