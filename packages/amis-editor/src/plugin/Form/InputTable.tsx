@@ -624,7 +624,7 @@ export class TableControlPlugin extends BasePlugin {
                     getSchemaTpl('switch', {
                       name: 'showTableAddBtn',
                       label: '操作栏新增按钮',
-                      pipeIn: defaultValue(true),
+                      value: true
                     }),
                     {
                       label: '按钮名称',
