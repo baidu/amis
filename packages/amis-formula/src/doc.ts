@@ -1053,7 +1053,7 @@ export const doc: {
   },
   {
     name: "DATERANGESPLIT",
-    description: "获取日期范围字符串中的开始时间、结束时间\n\n示例：\n\nDATERANGESPLIT('1676563200, 1676735999', undefined , 'YYYY.MM.DD hh:mm:ss') 得到 '2023.02.17 12:00:00,2023.02.18 11:59:59'\nDATERANGESPLIT('1676563200, 1676735999', 0 , 'YYYY.MM.DD hh:mm:ss') 得到 '2023.02.17 12:00:00'\nDATERANGESPLIT('1676563200, 1676735999', 'start' , 'YYYY.MM.DD hh:mm:ss') 得到 '2023.02.17 12:00:00'\nDATERANGESPLIT('1676563200, 1676735999', 1 , 'YYYY.MM.DD hh:mm:ss') 得到 '2023.02.18 11:59:59'\nDATERANGESPLIT('1676563200, 1676735999', 'end' , 'YYYY.MM.DD hh:mm:ss') 得到 '2023.02.18 11:59:59'",
+    description: "获取日期范围字符串中的开始时间、结束时间\n\n示例：\n\nDATERANGESPLIT('1676563200, 1676735999') 得到 [1676563200, 1676735999]\nDATERANGESPLIT('1676563200, 1676735999', undefined , 'YYYY.MM.DD hh:mm:ss') 得到 [2023.02.17 12:00:00, 2023.02.18 11:59:59]\nDATERANGESPLIT('1676563200, 1676735999', 0 , 'YYYY.MM.DD hh:mm:ss') 得到 '2023.02.17 12:00:00'\nDATERANGESPLIT('1676563200, 1676735999', 'start' , 'YYYY.MM.DD hh:mm:ss') 得到 '2023.02.17 12:00:00'\nDATERANGESPLIT('1676563200, 1676735999', 1 , 'YYYY.MM.DD hh:mm:ss') 得到 '2023.02.18 11:59:59'\nDATERANGESPLIT('1676563200, 1676735999', 'end' , 'YYYY.MM.DD hh:mm:ss') 得到 '2023.02.18 11:59:59'",
     example: "DATERANGESPLIT(date, 'YYYY-MM-DD')",
     params: [
       {
@@ -1070,6 +1070,11 @@ export const doc: {
         type: "string",
         name: "format",
         description: "日期格式，可选"
+      },
+      {
+        type: "string",
+        name: "delimiter",
+        description: "分隔符，可选，默认为','"
       }
     ],
     returns: {

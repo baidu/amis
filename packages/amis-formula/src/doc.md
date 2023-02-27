@@ -637,6 +637,7 @@ DATETOSTR(DATE('2021-12-21'), 'YYYY.MM.DD hh:mm:ss') 得到 '2021.12.21 08:00:00
  * `date:string` 日期范围字符串
  * `key:string` 取值标识，0或'start'表示获取开始时间，1或'end'表示获取结束时间
  * `format:string` 日期格式，可选
+ * `delimiter:string` 分隔符，可选，默认为','
 
 返回：`string` 日期字符串
 
@@ -644,7 +645,8 @@ DATETOSTR(DATE('2021-12-21'), 'YYYY.MM.DD hh:mm:ss') 得到 '2021.12.21 08:00:00
 
 示例：
 
-DATERANGESPLIT('1676563200, 1676735999', undefined , 'YYYY.MM.DD hh:mm:ss') 得到 '2023.02.17 12:00:00,2023.02.18 11:59:59'
+DATERANGESPLIT('1676563200, 1676735999') 得到 [1676563200, 1676735999]
+DATERANGESPLIT('1676563200, 1676735999', undefined , 'YYYY.MM.DD hh:mm:ss') 得到 [2023.02.17 12:00:00, 2023.02.18 11:59:59]
 DATERANGESPLIT('1676563200, 1676735999', 0 , 'YYYY.MM.DD hh:mm:ss') 得到 '2023.02.17 12:00:00'
 DATERANGESPLIT('1676563200, 1676735999', 'start' , 'YYYY.MM.DD hh:mm:ss') 得到 '2023.02.17 12:00:00'
 DATERANGESPLIT('1676563200, 1676735999', 1 , 'YYYY.MM.DD hh:mm:ss') 得到 '2023.02.18 11:59:59'
