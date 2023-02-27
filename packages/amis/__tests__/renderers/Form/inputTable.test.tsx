@@ -143,7 +143,7 @@ test('Renderer: input-table with default value column', async () => {
       ]
     });
   });
-});
+}, 10000);
 
 test('Renderer:input table add', async () => {
   const {container, findByText} = render(

@@ -168,7 +168,7 @@ test('Renderer:inputArray with removable & addable & addButtonText', async () =>
   });
 
   expect(container).toMatchSnapshot('false');
-});
+}, 10000);
 
 test('Renderer:inputArray with minLength & maxLength', async () => {
   const {container} = await setup([

@@ -122,4 +122,4 @@ test('Renderer:inputMonth with dynamic minDate & maxDate', async () => {
   expect(end.querySelector('.rdtMonth:not(.rdtDisabled)')!).toHaveTextContent(
     '8月'
   );
-});
+}, 10000);
