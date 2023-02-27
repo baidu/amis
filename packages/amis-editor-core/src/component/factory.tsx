@@ -296,7 +296,7 @@ function SchemaFrom({
     };
   }
 
-  value = pipeIn ? pipeIn(value) : value;
+  const finalValue = pipeIn ? pipeIn(value) : value;
 
   return render(
     schema,
@@ -306,7 +306,7 @@ function SchemaFrom({
         const diffValue = diff(value, newValue);
         onChange(newValue, diffValue);
       },
-      data: ctx ? createObject(ctx, value) : value,
+      data: ctx ? createObject(ctx, finalValue) : finalValue,
       node: node,
       manager: manager,
       popOverContainer
