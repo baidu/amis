@@ -1,7 +1,13 @@
 import React from 'react';
 import merge from 'lodash/merge';
 import assign from 'lodash/assign';
-import {generateIcon, isPureVariable, Renderer, RendererProps, resolveVariableAndFilter} from 'amis-core';
+import {
+  generateIcon,
+  isPureVariable,
+  Renderer,
+  RendererProps,
+  resolveVariableAndFilter
+} from 'amis-core';
 import {filter} from 'amis-core';
 import {Icon} from 'amis-ui';
 import {BaseSchema} from '../Schema';
@@ -13,7 +19,7 @@ export interface StatusSource {
     label?: string;
     color?: string;
     className?: string;
-  }
+  };
 }
 
 /**
@@ -34,7 +40,7 @@ export interface StatusSchema extends BaseSchema {
 
   /**
    * 状态图标映射关系
-   * @deprecated 已废弃，2.7.3 废弃，兼容中
+   * @deprecated 已废弃，2.8.0 废弃，兼容中
    * @default {
    *    0: 'svg-fail',
    *    1: 'svg-success',
@@ -51,7 +57,7 @@ export interface StatusSchema extends BaseSchema {
 
   /**
    * 文字映射关系
-   * @deprecated 已废弃，2.7.3 废弃，兼容中
+   * @deprecated 已废弃，2.8.0 废弃，兼容中
    * @default {
    *     success: '成功',
    *     pending: '运行中',
@@ -67,7 +73,7 @@ export interface StatusSchema extends BaseSchema {
   /**
    * 新版配置映射源的字段
    * 可以兼容新版icon并且配置颜色
-   * 2.7.3 新增
+   * 2.8.0 新增
    */
   source?: StatusSource;
 }
@@ -114,20 +120,22 @@ export class StatusField extends React.Component<StatusProps, object> {
 
     // 兼容旧版
     let oldSource: StatusSource = {};
-    map && Object.entries(map).forEach(([value, icon]) => {
-      if (!oldSource[value]) {
-        oldSource[value] = {icon};
-      } else {
-        oldSource[value] = {...oldSource[value], icon};
-      }
-    });
-    labelMap && Object.entries(labelMap).forEach(([value, label]) => {
-      if (!oldSource[value]) {
-        oldSource[value] = {label};
-      } else {
-        oldSource[value] = {...oldSource[value], label};
-      }
-    });
+    map &&
+      Object.entries(map).forEach(([value, icon]) => {
+        if (!oldSource[value]) {
+          oldSource[value] = {icon};
+        } else {
+          oldSource[value] = {...oldSource[value], icon};
+        }
+      });
+    labelMap &&
+      Object.entries(labelMap).forEach(([value, label]) => {
+        if (!oldSource[value]) {
+          oldSource[value] = {label};
+        } else {
+          oldSource[value] = {...oldSource[value], label};
+        }
+      });
 
     // 合并source
     let source = this.props.source || {};
@@ -154,10 +162,7 @@ export class StatusField extends React.Component<StatusProps, object> {
 
     if (!status.icon && !status.label) {
       return (
-        <span className={cx(
-          'StatusField',
-          className
-        )} style={style}>
+        <span className={cx('StatusField', className)} style={style}>
           <span className="text-muted" key="status-value">
             {placeholder}
           </span>
@@ -210,15 +215,18 @@ export class StatusField extends React.Component<StatusProps, object> {
     }
 
     return (
-      <span className={cx(
-        'StatusField',
-        wrapClassName,
-        className,
-        status.className
-      )} style={{
-        ...style,
-        ...(status.color ? {color: filter(status.color, data)} : {})
-      }}>
+      <span
+        className={cx(
+          'StatusField',
+          wrapClassName,
+          className,
+          status.className
+        )}
+        style={{
+          ...style,
+          ...(status.color ? {color: filter(status.color, data)} : {})
+        }}
+      >
         {iconElement}
         {labelElement}
       </span>
