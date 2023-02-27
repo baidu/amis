@@ -396,6 +396,7 @@ export const EditorNode = types
             JSONPipeIn({
               type: 'tpl',
               tpl: container,
+              wrapperComponent: '',
               inline: false
             })
           ];
@@ -417,6 +418,7 @@ export const EditorNode = types
             return JSONPipeIn({
               type: 'tpl',
               tpl: item,
+              wrapperComponent: '',
               inline: false
             });
           } else if (paths.length) {
