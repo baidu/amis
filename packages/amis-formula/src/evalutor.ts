@@ -1501,7 +1501,7 @@ export class Evaluator {
   }
 
   /**
-   * 获取日期的星期几，从0到6分别表示星期日、一、二...六
+   * 获取日期的星期几，
    *
    * 示例：
    *
@@ -1510,11 +1510,35 @@ export class Evaluator {
    * @example WEEKDAY(date)
    * @namespace 日期函数
    * @param {any} date 日期
+   * @param {number} type 星期定义类型 1表示0至6代表星期一到星期日，2表示1至7代表星期一到星期天
    *
    * @returns {number} 星期几的数字标识
    */
-  fnWEEKDAY(date: Date | string | number) {
-    return moment(this.normalizeDate(date)).day();
+  fnWEEKDAY(date: Date | string | number, type?: number) {
+    const md = moment(this.normalizeDate(date));
+    if (type === 1) {
+      return md.weekday();
+    } else if (type === 2) {
+      return md.isoWeekday();
+    }
+    return md.weekday();
+  }
+
+  /**
+   * 获取年份的星期，即第几周
+   *
+   * 示例：
+   *
+   * WEEK('2023-03-05') 得到 10
+   *
+   * @example WEEK(date)
+   * @namespace 日期函数
+   * @param {any} date 日期
+   *
+   * @returns {number} 星期几的数字标识
+   */
+  fnWEEK(date: Date | string | number) {
+    return moment(this.normalizeDate(date)).week();
   }
 
   /**
