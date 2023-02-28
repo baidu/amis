@@ -387,6 +387,8 @@ Access-Control-Expose-Headers:  Content-Disposition
 
 主要用于发验证码的场景，通过设置倒计时 `countDown`（单位是秒），让点击按钮后禁用一段时间：
 
+> 如果同时使用多个倒计时组件时, 需要额外配置全局唯一的`name`或`id`属性, 避免多个组件之间的计时器冲突
+
 ```schema: scope="body"
 {
   "type": "form",
@@ -397,6 +399,7 @@ Access-Control-Expose-Headers:  Content-Disposition
       "required": true,
       "label": "手机号",
       "addOn": {
+        "name": "countdown1",
         "label": "发送验证码",
         "type": "button",
         "countDown": 60,
