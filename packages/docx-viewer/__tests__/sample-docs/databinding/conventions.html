@@ -1,0 +1,607 @@
+<?xml version="1.0" encoding="utf-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><head><style><!--
+
+						/*paged media */ 
+						div.header {display: none }
+						div.footer {display: none } 
+						/*@media print { */
+						
+
+						@page { size: A4; margin: 10%; @top-center {
+						content: element(header) } @bottom-center {
+						content: element(footer) } }
+
+
+						/*font definitions*/
+
+						/*element styles*/ del
+						{text-decoration:line-through;color:red;}
+						
+								ins {text-decoration:none;}
+							
+
+						/*class styles*/
+
+						
+						
+						/* Word style definitions */
+						
+ /* TABLE STYLES */ 
+
+ /* PARAGRAPH STYLES */ 
+.DocDefaults {display:block;space-after: 4mm;line-height: 115%;font-family: Calibri;font-size: 11.0pt;}
+.Normal {display:block;font-family: Arial;font-size: 8.0pt;}
+.Heading1 {display:block;page-break-after: avoid;space-before: 0.33in;space-after: 0in;font-weight: bold;color: #365F91;font-family: Calibri;font-size: 12.0pt;}
+.ListParagraph {display:block;position: relative; margin-left: 0.5in;}
+.First {display:block;text-align: justify;space-after: 1mm;line-height: 100%;font-family: Times New Roman;font-size: 10.0pt;}
+.Title {display:block;border-bottom-style: solid;border-bottom-width: 0.35mm;border-bottom-color: #4F81BD;space-after: 0.21in;line-height: 100%;color: #17365D;font-family: Calibri;font-size: 26.0pt;}
+
+ /* CHARACTER STYLES */ .DefaultParagraphFont {display:inline;}
+.Hyperlink {display:inline;color: #0000FF;text-decoration: none;}
+.apple-style-span {display:inline;}
+.apple-converted-space {display:inline;}
+
+
+						/* TABLE CELL STYLES */
+						--></style><script type="text/javascript">
+  			
+  			function toggleDiv(divid){
+    			if(document.getElementById(divid).style.display == 'none'){
+      				document.getElementById(divid).style.display = 'block';
+    			}else{
+      			document.getElementById(divid).style.display = 'none';
+    			}
+  			}
+  		</script></head><body>
+  
+  <p class="Title Normal DocDefaults "><span style="font-size: 20.0pt;">Sdt Content Control conventions for repeats &amp; conditionals</span><br clear="all" /><span style="font-size: 14.0pt;">OpenDoPE: Open Document Processing Ecosystem</span></p>
+  
+  <p class="Heading1 Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont ">Introduction</span></p>
+  
+  <p class="Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont " style="color: #000000;">Creating documents programmatically, or programmatically inserting data into a template, is a very common requirement.</span></p>
+  
+  <p class="Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont " style="color: #000000;">A naive approach for doing this is via search/replace.  This is problematic, for several reasons:</span></p>
+  
+  <p class="ListParagraph Normal DocDefaults "><span style="position: relative; margin-left: 0.5in;font-family: Symbol;"> </span><span class="apple-style-span DefaultParagraphFont " style="color: #000000;">Microsoft Word break your text string across several XML elements, so searches fail.</span></p>
+  
+  <p class="ListParagraph Normal DocDefaults "><span style="position: relative; margin-left: 0.5in;font-family: Symbol;"> </span><span class="apple-style-span DefaultParagraphFont " style="color: #000000;">It doesn't extend naturally to conditional inclusion/exclusion of existing paragraphs, nor to repeating table rows etc</span></p>
+  
+  <p class="Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont " style="color: #000000;">Legacy approaches use Microsoft Word fields, and bookmarks.</span></p>
+  
+  <p class="Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont " style="color: #000000;">In contrast, ISO/IEC 29500</span><span class="apple-converted-space DefaultParagraphFont " style="color: #000000;"><span style="white-space:pre-wrap;">  (OpenXML) and </span></span><span class="apple-style-span DefaultParagraphFont " style="color: #000000;">Word 2007's content control data binding provides a natural, modern way to insert text, for example</span><span style="white-space:pre-wrap;"> </span></p>
+  
+  <p class="Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont " style="color: #000000;">   <span style="white-space:pre-wrap;">Dear </span></span><span>Click here to enter text.</span></p>
+  
+  <p class="Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont " style="color: #000000;">That leaves the question of how to handle things like:</span><span style="white-space:pre-wrap;"> </span></p>
+  
+  <p class="ListParagraph Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont " style="font-weight: bold;color: #000000;">conditional inclusion</span><span class="apple-style-span DefaultParagraphFont " style="color: #000000;"><span style="white-space:pre-wrap;"> of paragraphs or other units of content</span></span><span style="white-space:pre-wrap;"> </span></p>
+  
+  <p class="ListParagraph Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont " style="font-weight: bold;color: #000000;">repeat</span><span class="apple-style-span DefaultParagraphFont " style="color: #000000;"><span style="white-space:pre-wrap;"> (eg of list items, table rows, or other units of content)</span></span></p>
+  
+  <p class="ListParagraph Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont " style="color: #000000;">inclusion of other documents (</span><span class="apple-style-span DefaultParagraphFont " style="font-weight: bold;color: #000000;">altChunk</span><span class="apple-style-span DefaultParagraphFont " style="color: #000000;">)</span><span style="white-space:pre-wrap;"> </span></p>
+  
+  <p class="Heading1 Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont ">What is content control data binding?</span></p>
+  
+  <p class="Normal DocDefaults ">A content control is a container for content.  A rich text content control can contain paragraphs and tables, or just a run of text.</p>
+  
+  <p class="Normal DocDefaults ">The OpenXML element for a content control is &lt;w:sdt&gt;.</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">A user can include an arbitrary XML document in their docx file - such an XML file is called a custom xml part.  </span></p>
+  
+  <p class="Normal DocDefaults ">A content control can be bound to an element in the custom xml file, via an XPath expression.  In this case, the content control includes a &lt;w:databinding&gt;:</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">    &lt;</span><span style="color: #A31515;">w:sdt</span>&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">      &lt;</span><span style="color: #A31515;">w:sdtPr</span>&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">        &lt;</span><span style="color: #A31515;">w:dataBinding</span><span style="white-space:pre-wrap;"> </span><span style="color: #FF0000;">w:xpath</span>="/invoice[1]/customer[1]/name[1]"/&gt;</p>
+  
+  <p class="Heading1 Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont ">The value of content control data binding</span></p>
+  
+  <p class="Normal DocDefaults " />
+  
+  <p class="Normal DocDefaults ">The beauty of this is that the binding is bi-directional:</p>
+  
+  <p class="ListParagraph Normal DocDefaults ">when you open a docx in Word, the contents of each content control is updated with the value of the XPath</p>
+  
+  <p class="ListParagraph Normal DocDefaults ">if the user types something else in the content control, Word automatically copies that value into the CustomXML document</p>
+  
+  <p class="Normal DocDefaults ">This means that users can change the XML "answer file" simply by working in Word.  No additional work is required by the programmer to enable this.</p>
+  
+  <p class="Normal DocDefaults ">Similarly, updates to the answer file are automatically reflected in the docx.  No additional work is required by the programmer.</p>
+  
+  <p class="Normal DocDefaults ">This capability is a natural basis for a modern document processing system.</p>
+  
+  <p class="Normal DocDefaults ">The other thing which is nice about custom xml, is that the XML can conform to whatever schema you wish to use in your business.  You aren't forced to use the proprietary schema of any vendor.</p>
+  
+  <p class="Heading1 Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont ">What are Repeats and Conditions?</span></p>
+  
+  <p class="Normal DocDefaults ">A document processing solution typically has to manage conditional inclusion, and repeats.</p>
+  
+  <p class="Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont " style="color: #000000;"><span style="white-space:pre-wrap;">A content control is said to be </span></span><span class="apple-style-span DefaultParagraphFont " style="font-weight: bold;color: #000000;font-style: italic;">conditional</span><span class="apple-style-span DefaultParagraphFont " style="color: #000000;"><span style="white-space:pre-wrap;"> if it (and its contents) are included/excluded from the document based on whether some condition is true or false.</span></span></p>
+  
+  <p class="Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont " style="color: #000000;"><span style="white-space:pre-wrap;">Without a way to say that a content control is conditional, an XML file can't control whether paragraphs, tables etc appear in a document.  </span></span></p>
+  
+  <p class="Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont " style="color: #000000;"><span style="white-space:pre-wrap;">A content control is a </span></span><span class="apple-style-span DefaultParagraphFont " style="font-weight: bold;color: #000000;font-style: italic;">repeat</span><span class="apple-style-span DefaultParagraphFont " style="color: #000000;"><span style="white-space:pre-wrap;"> if it designates that its contents are to be included more than once.</span></span></p>
+  
+  <p class="Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont " style="color: #000000;">For example, a row of a table for each invoice/order item, or person.</span></p>
+  
+  <p class="Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont " style="color: #000000;"><span style="white-space:pre-wrap;">Without a way to say that a content control is to be repeated, an XML file can't contain variable amounts of repetitive content.  </span></span></p>
+  
+  <p class="Heading1 Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont ">Problem Statement</span></p>
+  
+  <p class="Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont " style="color: #000000;">The problem is that the Open XML specification does not</span><span style="white-space:pre-wrap;"> </span><span class="apple-style-span DefaultParagraphFont " style="color: #000000;">standardise how conditionals and repeats can be done, and nor does Microsoft give any</span><span style="white-space:pre-wrap;"> </span><span class="apple-style-span DefaultParagraphFont " style="color: #000000;">guidance or convention.</span><span style="white-space:pre-wrap;"> </span></p>
+  
+  <p class="Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont " style="color: #000000;">This is a significant limitation on document generation, which each system typically has to address.</span></p>
+  
+  <p class="Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont " style="color: #000000;"><span style="white-space:pre-wrap;">A standardised way of doing repeats and conditionals would prevent businesses from re-inventing the wheel, and provide for enhanced interoperability. </span></span></p>
+  
+  <p class="Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont " style="color: #000000;">Further, the specification is silent on how to interact with the user to modify the XML data.</span></p>
+  
+  <p class="Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont " style="color: #000000;">In summary, this document provides a standard solution to the following requirements:</span></p>
+  
+  <p class="ListParagraph Normal DocDefaults "><span style="position: relative; margin-left: 0.25in;">1. </span>store user data in an XML format of their choice</p>
+  
+  <p class="ListParagraph Normal DocDefaults "><span style="position: relative; margin-left: 0.25in;">2. </span>include that data in the Word docx, as per OpenXML spec</p>
+  
+  <p class="ListParagraph Normal DocDefaults "><span style="position: relative; margin-left: 0.25in;">3. </span>provide a way of expressing:</p>
+  
+  <p class="ListParagraph Normal DocDefaults "><span style="position: relative; margin-left: 0.55in;">3.1. </span>conditional inclusion/exclusion</p>
+  
+  <p class="ListParagraph Normal DocDefaults "><span style="position: relative; margin-left: 0.55in;">3.2. </span>repeats</p>
+  
+  <p class="ListParagraph Normal DocDefaults "><span style="position: relative; margin-left: 0.55in;">3.3. </span>component document inclusion</p>
+  
+  <p class="ListParagraph Normal DocDefaults "><span style="position: relative; margin-left: 0.25in;">4. </span>facilitate both interactive and non-interactive processing of the above</p>
+  
+  <p class="Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont " style="color: #000000;">The purpose of this document is to suggest a convention, which various tools could implement.</span></p>
+  
+  <p class="Heading1 Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont ">Convention</span></p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">The convention is to use the Content Control's </span><span style="font-weight: bold;text-decoration: none;">tag</span><span style="white-space:pre-wrap;"> to indicate that that control is a condition, repeat, or component inclusion.  </span></p>
+  
+  <p class="Normal DocDefaults ">What we actually put there is a condition ID or repeat ID.</p>
+  
+  <p class="Normal DocDefaults ">The actual conditions and repeats are defined in their own XML parts.</p>
+  
+  <p class="Normal DocDefaults ">These parts are separate from the user's custom XML part, which is not altered by this convention.</p>
+  
+  <p class="Heading1 Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont ">Processing model</span></p>
+  
+  <p class="Normal DocDefaults ">The tag is preprocessed via an appropriate tool, to produce a new docx document.  This convention supports both:</p>
+  
+  <p class="ListParagraph Normal DocDefaults "><span style="position: relative; margin-left: 0.5in;font-family: Symbol;"> </span><span style="font-weight: bold;font-style: italic;">non-interactive</span><span style="white-space:pre-wrap;"> processing (whereby the custom xml answer file is processed to determine the docx content), and </span></p>
+  
+  <p class="ListParagraph Normal DocDefaults "><span style="position: relative; margin-left: 0.5in;font-family: Symbol;"> </span><span style="font-weight: bold;font-style: italic;">interactive</span><span style="white-space:pre-wrap;"> processing (whereby a user is asked a series of questions, to determine the docx content).</span></p>
+  
+  <p class="Normal DocDefaults ">Any content controls with a condition ID tag evaluated to false will be missing from this new docx document.</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">Any content controls which has repeat ID tag will have their content appear n times, where n is the number of child nodes </span></p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">Any content controls which has component ID tag will its content replaced by the docx specified.  This docx component can itself contain OpenDoPE markup, in which case it also needs to be processed. </span></p>
+  
+  <p class="Normal DocDefaults ">Interactive processing typically works by updating the user's custom XML part in response to the user's answers to questions; the user's custom XML part can then be processed in the same way it would be processed in non-interactive processing, to generate the document content proper.</p>
+  
+  <p class="Heading1 Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont ">Example documents</span></p>
+  
+  <p class="Normal DocDefaults "><span style="color: #000000;"><span style="white-space:pre-wrap;">An example can be found in </span></span><a href="http://dev.plutext.org/svn/docx4j/trunk/docx4j/sample-docs/databinding/"><span class="Hyperlink DefaultParagraphFont " style="font-size: 9.0pt;">http://dev.plutext.org/svn/docx4j/trunk/docx4j/sample-docs/databinding/</span></a></p>
+  
+  <p class="Normal DocDefaults ">invoice.docx contains examples of conditionals and repeats, using the proposed conventions.</p>
+  
+  <p class="Normal DocDefaults ">The custom xml used in the example is:</p>
+  
+  <p class="Normal DocDefaults "><span style="color: #0000FF;">&lt;</span>invoice<span style="color: #0000FF;">&gt;</span></p>
+  
+  <p class="Normal DocDefaults "><span style="color: #0000FF;"><span style="white-space:pre-wrap;">  &lt;</span></span>customer<span style="color: #0000FF;">&gt;</span></p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">    &lt;</span><span style="color: #A31515;">name</span>&gt;Joe Bloggs&lt;/<span style="color: #A31515;">name</span>&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="color: #0000FF;"><span style="white-space:pre-wrap;">  &lt;/</span></span>customer<span style="color: #0000FF;">&gt;</span></p>
+  
+  <p class="Normal DocDefaults " />
+  
+  <p class="Normal DocDefaults "><span style="color: #0000FF;"><span style="white-space:pre-wrap;">  &lt;</span></span>items<span style="color: #0000FF;">&gt;</span></p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">    &lt;</span><span style="color: #A31515;">item</span>&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">      &lt;</span><span style="color: #A31515;">name</span>&gt;apples&lt;/<span style="color: #A31515;">name</span>&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">      &lt;</span><span style="color: #A31515;">price</span>&gt;$20&lt;/<span style="color: #A31515;">price</span>&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">    &lt;/</span><span style="color: #A31515;">item</span>&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">    &lt;</span><span style="color: #A31515;">item</span>&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">      &lt;</span><span style="color: #A31515;">name</span>&gt;bananas&lt;/<span style="color: #A31515;">name</span>&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">      &lt;</span><span style="color: #A31515;">price</span>&gt;$30&lt;/<span style="color: #A31515;">price</span>&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">    &lt;/</span><span style="color: #A31515;">item</span>&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">    &lt;</span><span style="color: #A31515;">item</span>&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">      &lt;</span><span style="color: #A31515;">name</span>&gt;cherries&lt;/<span style="color: #A31515;">name</span>&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">      &lt;</span><span style="color: #A31515;">price</span>&gt;$40&lt;/<span style="color: #A31515;">price</span>&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">    &lt;/</span><span style="color: #A31515;">item</span>&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="color: #0000FF;"><span style="white-space:pre-wrap;">    &lt;</span></span>total<span style="color: #0000FF;">&gt;</span>$90<span style="color: #0000FF;">&lt;/</span>total<span style="color: #0000FF;">&gt;</span></p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">  &lt;/</span><span style="color: #A31515;">items</span>&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">  &lt;</span><span style="color: #A31515;">misc</span>&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="color: #0000FF;"><span style="white-space:pre-wrap;">    &lt;</span></span>includeBankDetails<span style="color: #0000FF;">&gt;</span>true<span style="color: #0000FF;">&lt;/</span>includeBankDetails<span style="color: #0000FF;">&gt;</span></p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">  &lt;/</span><span style="color: #A31515;">misc</span>&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">   </span></p>
+  
+  <p class="Normal DocDefaults "><span style="color: #0000FF;">&lt;/</span>invoice<span style="color: #0000FF;">&gt;</span></p>
+  
+  <p class="Normal DocDefaults " />
+  
+  <p class="Normal DocDefaults ">invoice_preprocessed_OUT.xml is the result of processing invoice.docx, using the docx4j implementation of this convention.</p>
+  
+  <p class="Normal DocDefaults ">invoice_bound_OUT.xml is the result of processing all the binding information (ie the equivalent of what Word does when opening invoice_preprocessed_OUT.xml).</p>
+  
+  <p class="Normal DocDefaults ">Notice that Word 2007 can open all 3 documents, and behaves as one would expect.</p>
+  
+  <p class="Heading1 Normal DocDefaults ">XPath definitions</p>
+  
+  <p class="Normal DocDefaults ">There is a Custom XML Part which specifies all the XPath expressions used, in repeats, conditions, and standard bindings.</p>
+  
+  <p class="Normal DocDefaults ">For example:</p>
+  
+  <p class="Normal DocDefaults ">&lt;<span style="color: #A31515;">od:xpaths</span><span style="white-space:pre-wrap;"> </span><span style="color: #FF0000;">xmlns:od</span>="http://opendope.org/xpaths"&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">  &lt;</span><span style="color: #A31515;">od:xpath</span><span style="white-space:pre-wrap;"> </span><span style="color: #FF0000;">id</span>="x1"&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">    &lt;</span><span style="color: #A31515;">od:dataBinding</span><span style="white-space:pre-wrap;"> </span><span style="color: #FF0000;">storeItemID</span><span style="white-space:pre-wrap;">="{8B049945-9DFE-4726-9DE9-CF5691E53858}" </span><span style="color: #FF0000;">xpath</span>="/invoice[1]/customer[1]/name[1]"/&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="color: #0000FF;"><span style="white-space:pre-wrap;">  &lt;/</span></span>od:xpath<span style="color: #0000FF;">&gt;</span></p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">  &lt;</span><span style="color: #A31515;">od:xpath</span><span style="white-space:pre-wrap;"> </span><span style="color: #FF0000;">id</span>="x2"&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">    &lt;</span><span style="color: #A31515;">od:dataBinding</span><span style="white-space:pre-wrap;"> </span><span style="color: #FF0000;">storeItemID</span><span style="white-space:pre-wrap;">="{8b049945-9dfe-4726-9de9-cf5691e53858}" </span><span style="color: #FF0000;">xpath</span>="/invoice[1]/items"/&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="color: #0000FF;"><span style="white-space:pre-wrap;">  &lt;/</span></span>od:xpath<span style="color: #0000FF;">&gt;</span></p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">  &lt;</span><span style="color: #A31515;">od:xpath</span><span style="white-space:pre-wrap;"> </span><span style="color: #FF0000;">id</span>="x3"&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">    &lt;</span><span style="color: #A31515;">od:dataBinding</span><span style="white-space:pre-wrap;"> </span><span style="color: #FF0000;">storeItemID</span><span style="white-space:pre-wrap;">="{8B049945-9DFE-4726-9DE9-CF5691E53858}" </span><span style="color: #FF0000;">xpath</span>="/invoice[1]/items/item[1]/name"/&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="color: #0000FF;"><span style="white-space:pre-wrap;">  &lt;/</span></span>od:xpath<span style="color: #0000FF;">&gt;</span></p>
+  
+  <p class="Normal DocDefaults "><span style="color: #0000FF;">&lt;/</span>od:xpaths<span style="color: #0000FF;">&gt;</span></p>
+  
+  <p class="Normal DocDefaults ">Because a repeat tag refers to an ID in this part, the entry in the tag can be kept short (which is important since Word 2007 has a 74 character limit on the tag length).</p>
+  
+  <p class="Normal DocDefaults ">If the document is setup for interactive processing, each entry in this part will also reference a questionID:</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">  &lt;</span><span style="color: #A31515;">od:xpath</span><span style="white-space:pre-wrap;"> </span><span style="color: #FF0000;">id</span><span style="white-space:pre-wrap;">="x1" </span><span style="color: #FF0000;">questionID</span>="q1"&gt;</p>
+  
+  <p class="Normal DocDefaults ">For this reason, content controls which are just standard binds also reference the XPaths part via their tag.</p>
+  
+  <p class="Heading1 Normal DocDefaults ">od:xpath tag</p>
+  
+  <p class="Normal DocDefaults ">As explained above, content controls which are just standard binds reference the XPaths part via their tag.  This is so that in interactive mode, their question can also be found by looking in the XPaths part.</p>
+  
+  <p class="Normal DocDefaults ">So a plain vanilla bind looks like:</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">      &lt;</span><span style="color: #A31515;">w:sdtPr</span>&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">        &lt;</span><span style="color: #A31515;">w:dataBinding</span><span style="white-space:pre-wrap;"> </span><span style="color: #FF0000;">w:storeItemID</span><span style="white-space:pre-wrap;">="{8B049945-9DFE-4726-9DE9-CF5691E53858}" </span><span style="color: #FF0000;">w:xpath</span>="/invoice[1]/customer[1]/name[1]"/&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">        &lt;</span><span style="color: #A31515;">w:tag</span><span style="white-space:pre-wrap;"> </span><span style="color: #FF0000;">w:val</span>="od:xpath=x1 "/&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">      &lt;/</span><span style="color: #A31515;">w:sdtPr</span>&gt;</p>
+  
+  <p class="Normal DocDefaults " />
+  
+  <p class="Normal DocDefaults ">with the XPaths part containing the same information:</p>
+  
+  <p class="Normal DocDefaults " />
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">  &lt;</span><span style="color: #A31515;">od:xpath</span><span style="white-space:pre-wrap;"> </span><span style="color: #FF0000;">id</span>="x1"&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">    &lt;</span><span style="color: #A31515;">od:dataBinding</span><span style="white-space:pre-wrap;"> </span><span style="color: #FF0000;">storeItemID</span><span style="white-space:pre-wrap;">="{8B049945-9DFE-4726-9DE9-CF5691E53858}" </span><span style="color: #FF0000;">xpath</span>="/invoice[1]/customer[1]/name[1]"/&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="color: #0000FF;"><span style="white-space:pre-wrap;">  &lt;/</span></span>od:xpath<span style="color: #0000FF;">&gt;</span></p>
+  
+  <p class="Normal DocDefaults " />
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">This is useful if there is a </span><span style="color: #FF0000;">@questionID</span><span style="white-space:pre-wrap;"> </span></p>
+  
+  <p class="Normal DocDefaults ">The other situation to consider is where the XPath expression does not evaluate to a single element (as required by the OpenXML spec).  Such an XPath expression would result in a databinding which is, in Word, always a "dangling reference". Accordingly, if the user creates such an expression in the Word Add-In, the corresponding databinding is not added (since it would be useless)- just the od:xpath tag is added.  The value of the expression will be inserted into the document in the pre-processing step.  Word can't update it later though.</p>
+  
+  <p class="Heading1 Normal DocDefaults ">Questions Part</p>
+  
+  <p class="First Normal DocDefaults "><span style="font-family: Arial;font-size: 8.0pt;"><span style="white-space:pre-wrap;">If the template is set up for interactive processing, an additional Custom XML Part specifies the questions which are used to elicit values from the user for insertion into the answer file Custom XML part.  </span></span></p>
+  
+  <p class="Normal DocDefaults " style="space-after: 0in;"><span style="color: #0000FF;">&lt;</span><span style="color: #A31515;">questionnaire</span><span style="color: #0000FF;"><span style="white-space:pre-wrap;"> </span></span><span style="color: #FF0000;">xmlns</span><span style="color: #0000FF;">=</span><span>"</span><span style="color: #0000FF;">http://opendope.org/questions</span><span>"</span><span style="color: #0000FF;">&gt;</span></p>
+  
+  <p class="Normal DocDefaults " style="space-after: 0in;"><span style="color: #0000FF;">   &lt;</span><span style="color: #A31515;">questions</span><span style="color: #0000FF;">&gt;</span></p>
+  
+  <p class="Normal DocDefaults " style="space-after: 0in;"><span style="color: #0000FF;">   <span style="white-space:pre-wrap;">     &lt;</span></span><span style="color: #A31515;">question</span><span style="color: #0000FF;"><span style="white-space:pre-wrap;"> </span></span><span style="color: #FF0000;">id</span><span style="color: #0000FF;">=</span><span>"</span><span style="color: #0000FF;">q1</span><span>"</span><span style="color: #0000FF;">&gt;</span></p>
+  
+  <p class="Normal DocDefaults " style="space-after: 0in;"><span style="color: #0000FF;">   <span style="white-space:pre-wrap;">        &lt;</span></span><span style="color: #A31515;">text</span><span style="color: #0000FF;">&gt;</span><span>Customer name?</span><span style="color: #0000FF;">&lt;/</span><span style="color: #A31515;">text</span><span style="color: #0000FF;">&gt;</span></p>
+  
+  <p class="Normal DocDefaults " style="space-after: 0in;"><span style="color: #0000FF;">   <span style="white-space:pre-wrap;">        &lt;</span></span><span style="color: #A31515;">response</span><span style="color: #0000FF;">&gt;</span></p>
+  
+  <p class="Normal DocDefaults " style="space-after: 0in;"><span style="color: #0000FF;">   </span><span style="color: #0000FF;">   <span style="white-space:pre-wrap;">    &lt;</span></span><span style="color: #A31515;">free</span><span style="color: #0000FF;">&gt;</span></p>
+  
+  <p class="Normal DocDefaults " style="space-after: 0in;"><span style="color: #0000FF;">   </span><span style="color: #0000FF;">   <span style="white-space:pre-wrap;">        &lt;</span></span><span style="color: #A31515;">format</span><span style="color: #0000FF;">&gt;</span><span>text</span><span style="color: #0000FF;">&lt;/</span><span style="color: #A31515;">format</span><span style="color: #0000FF;">&gt;</span></p>
+  
+  <p class="Normal DocDefaults " style="space-after: 0in;"><span style="color: #0000FF;">   </span><span style="color: #0000FF;">   <span style="white-space:pre-wrap;">    &lt;/</span></span><span style="color: #A31515;">free</span><span style="color: #0000FF;">&gt;</span></p>
+  
+  <p class="Normal DocDefaults " style="space-after: 0in;"><span style="color: #0000FF;">   </span><span style="color: #0000FF;">   &lt;/</span><span style="color: #A31515;">response</span><span style="color: #0000FF;">&gt;</span></p>
+  
+  <p class="Normal DocDefaults " style="space-after: 0in;"><span style="color: #0000FF;">   <span style="white-space:pre-wrap;">     &lt;/</span></span><span style="color: #A31515;">question</span><span style="color: #0000FF;">&gt;</span></p>
+  
+  <p class="Normal DocDefaults " style="space-after: 0in;"><span style="color: #0000FF;">   <span style="white-space:pre-wrap;">     &lt;</span></span><span style="color: #A31515;">question</span><span style="color: #0000FF;"><span style="white-space:pre-wrap;"> </span></span><span style="color: #FF0000;">id</span><span style="color: #0000FF;">=</span><span>"</span><span style="color: #0000FF;">q2</span><span>"</span><span style="color: #0000FF;">&gt;</span></p>
+  
+  <p class="Normal DocDefaults " style="space-after: 0in;"><span style="color: #0000FF;">   <span style="white-space:pre-wrap;">        &lt;</span></span><span style="color: #A31515;">text</span><span style="color: #0000FF;">&gt;</span><span>How many items?</span><span style="color: #0000FF;">&lt;/</span><span style="color: #A31515;">text</span><span style="color: #0000FF;">&gt;</span></p>
+  
+  <p class="Normal DocDefaults " style="space-after: 0in;"><span style="color: #0000FF;">   <span style="white-space:pre-wrap;">        &lt;</span></span><span style="color: #A31515;">response</span><span style="color: #0000FF;">&gt;</span></p>
+  
+  <p class="Normal DocDefaults " style="space-after: 0in;"><span style="color: #0000FF;">   </span><span style="color: #0000FF;">   <span style="white-space:pre-wrap;">    &lt;</span></span><span style="color: #A31515;">free</span><span style="color: #0000FF;">&gt;</span></p>
+  
+  <p class="Normal DocDefaults " style="space-after: 0in;"><span style="color: #0000FF;">   </span><span style="color: #0000FF;">   </span><span style="color: #0000FF;">   &lt;</span><span style="color: #A31515;">format</span><span style="color: #0000FF;">&gt;</span><span>integer</span><span style="color: #0000FF;">&lt;/</span><span style="color: #A31515;">format</span><span style="color: #0000FF;">&gt;</span></p>
+  
+  <p class="Normal DocDefaults " style="space-after: 0in;"><span style="color: #0000FF;">   </span><span style="color: #0000FF;">   <span style="white-space:pre-wrap;">    &lt;/</span></span><span style="color: #A31515;">free</span><span style="color: #0000FF;">&gt;</span></p>
+  
+  <p class="Normal DocDefaults " style="space-after: 0in;"><span style="color: #0000FF;">   </span><span style="color: #0000FF;">   &lt;/</span><span style="color: #A31515;">response</span><span style="color: #0000FF;">&gt;</span></p>
+  
+  <p class="Normal DocDefaults " style="space-after: 0in;"><span style="color: #0000FF;">   <span style="white-space:pre-wrap;">     &lt;/</span></span><span style="color: #A31515;">question</span><span style="color: #0000FF;">&gt;</span></p>
+  
+  <p class="Normal DocDefaults " style="space-after: 0in;"><span style="color: #0000FF;">   &lt;/</span><span style="color: #A31515;">questions</span><span style="color: #0000FF;">&gt;</span></p>
+  
+  <p class="Normal DocDefaults " style="space-after: 0in;"><span style="color: #0000FF;">&lt;/</span><span style="color: #A31515;">questionnaire</span><span style="color: #0000FF;">&gt;</span></p>
+  
+  <p class="Normal DocDefaults " />
+  
+  <p class="Heading1 Normal DocDefaults ">od:condition tag</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">Content controls can surround various things, including table rows and table cells.  </span></p>
+  
+  <p class="Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont " style="color: #000000;">The content control is included if its condition evaluates to true, and excluded if it is false.  In the case where:</span></p>
+  
+  <p class="ListParagraph Normal DocDefaults "><span style="position: relative; margin-left: 0.5in;font-family: Symbol;"> </span><span class="apple-style-span DefaultParagraphFont " style="color: #000000;"><span style="white-space:pre-wrap;">a content control surrounding a table row evaluates to false, the row is deleted. </span></span></p>
+  
+  <p class="ListParagraph Normal DocDefaults "><span style="position: relative; margin-left: 0.5in;font-family: Symbol;"> </span><span class="apple-style-span DefaultParagraphFont " style="color: #000000;">a content control surrounding a table cell evaluates to false, the cell is retained, but its contents are deleted.</span></p>
+  
+  <p class="Normal DocDefaults ">If you look at invoice.docx, you'll see it contains an sdt with:</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">      &lt;</span><span style="color: #A31515;">w:sdtPr</span>&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">        &lt;</span><span style="color: #A31515;">w:tag</span><span style="white-space:pre-wrap;"> </span><span style="color: #FF0000;">w:val</span>="od:condition=c5"/&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">      &lt;/</span><span style="color: #A31515;">w:sdtPr</span>&gt;</p>
+  
+  <p class="Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont " style="color: #000000;">A condition tag is generally attached to a rich text content control.</span></p>
+  
+  <p class="Normal DocDefaults ">This refers to the conditions CustomXML part:</p>
+  
+  <p class="Normal DocDefaults ">&lt;<span style="color: #A31515;">od:conditions</span><span style="white-space:pre-wrap;"> </span><span style="color: #FF0000;">xmlns:od</span>="http://opendope.org/conditions" &gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="color: #0000FF;"><span style="white-space:pre-wrap;">  &lt;</span></span>od:condition<span style="color: #0000FF;"><span style="white-space:pre-wrap;"> </span></span><span style="color: #FF0000;">id</span><span style="color: #0000FF;">=</span>"<span style="color: #0000FF;">c5</span>"<span style="color: #0000FF;">&gt;</span></p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">    &lt;</span><span style="color: #A31515;">od:xpathref</span><span style="white-space:pre-wrap;"> </span><span style="color: #FF0000;">id</span>="x5"/&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="color: #0000FF;"><span style="white-space:pre-wrap;">  &lt;/</span></span>od:condition<span style="color: #0000FF;">&gt;</span></p>
+  
+  <p class="Normal DocDefaults "><span style="color: #0000FF;"><span style="white-space:pre-wrap;">  &lt;</span></span>od:condition<span style="color: #0000FF;"><span style="white-space:pre-wrap;"> </span></span><span style="color: #FF0000;">id</span><span style="color: #0000FF;">=</span>"<span style="color: #0000FF;">c6</span>"<span style="color: #0000FF;">&gt;</span></p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">    &lt;</span><span style="color: #A31515;">od:xpathref</span><span style="white-space:pre-wrap;"> </span><span style="color: #FF0000;">id</span>="x6"/&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="color: #0000FF;"><span style="white-space:pre-wrap;">  &lt;/</span></span>od:condition<span style="color: #0000FF;">&gt;</span></p>
+  
+  <p class="Normal DocDefaults "><span style="color: #0000FF;">&lt;/</span>od:conditions<span style="color: #0000FF;">&gt;</span></p>
+  
+  <p class="Normal DocDefaults " />
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">In this example, the condition simply uses the string value of </span></p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">    &lt;</span><span style="color: #A31515;">od:xpath</span><span style="white-space:pre-wrap;"> </span><span style="color: #FF0000;">id</span>="x5"/&gt;</p>
+  
+  <p class="Normal DocDefaults ">That XPath expression could point to a text node containing the text 'true', or it could be a boolean, for example:</p>
+  
+  <p class="Normal DocDefaults ">   /invoice/total &gt; 1000</p>
+  
+  <p class="Normal DocDefaults ">The conditions xsd also permits you to construct a condition out of boolean combination of other conditions [TODO: add example].   Sometimes this will be a cleaner approach than a complex XPath expression.</p>
+  
+  <p class="Heading1 Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont ">Document Setup</span></p>
+  
+  <p class="Normal DocDefaults ">The free OpenDoPE Word Add-In is recommended for setting up data bindings as per these conventions.  You can download it from http://dev.plutext.org/opendope/setup.exe</p>
+  
+  <p class="Normal DocDefaults ">Please note you'll need to first install the full .NET 4.0 framework (the Client profile is not enough).</p>
+  
+  <p class="Heading1 Normal DocDefaults ">od:repeat tag</p>
+  
+  <p class="Normal DocDefaults " />
+  
+  <p class="Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont " style="color: #000000;">invoice.docx contains the following example:</span></p>
+  
+  <p class="Normal DocDefaults "><span style="color: #0000FF;">&lt;</span>w:sdt<span style="color: #0000FF;">&gt;</span></p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">        &lt;</span><span style="color: #A31515;">w:sdtPr</span>&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">          &lt;</span><span style="color: #A31515;">w:alias</span><span style="white-space:pre-wrap;"> </span><span style="color: #FF0000;">w:val</span>="Repeat"/&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">        &lt;</span><span style="color: #A31515;">w:tag</span><span style="white-space:pre-wrap;"> </span><span style="color: #FF0000;">w:val</span>="od:repeat=x2"/&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">        &lt;/</span><span style="color: #A31515;">w:sdtPr</span>&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="color: #0000FF;"><span style="white-space:pre-wrap;">        &lt;</span></span>w:sdtContent<span style="color: #0000FF;">&gt;</span></p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">          &lt;</span><span style="color: #A31515;">w:tr</span>&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">            &lt;</span><span style="color: #A31515;">w:sdt</span>&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">              &lt;</span><span style="color: #A31515;">w:sdtPr</span>&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">                &lt;</span><span style="color: #A31515;">w:dataBinding</span><span style="white-space:pre-wrap;"> </span><span style="color: #FF0000;">w:storeItemID</span><span style="white-space:pre-wrap;">="{8B049945-9DFE-4726-9DE9-CF5691E53858}" </span><span style="color: #FF0000;">w:xpath</span>="/invoice[1]/items/item[1]/name"/&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">                &lt;</span><span style="color: #A31515;">w:alias</span><span style="white-space:pre-wrap;"> </span><span style="color: #FF0000;">w:val</span>="Description"/&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">                &lt;</span><span style="color: #A31515;">w:tag</span><span style="white-space:pre-wrap;"> </span><span style="color: #FF0000;">w:val</span>="Description=Description<span style="color: #FF0000;">&amp;amp;</span>od:xpath=x3"/&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">                &lt;</span><span style="color: #A31515;">w:text</span>/&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">              &lt;/</span><span style="color: #A31515;">w:sdtPr</span>&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">              &lt;</span><span style="color: #A31515;">w:sdtContent</span>&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">                &lt;</span><span style="color: #A31515;">w:tc</span>&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">                  &lt;</span><span style="color: #A31515;">w:p</span>&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">                    &lt;</span><span style="color: #A31515;">w:r</span>&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">                      &lt;</span><span style="color: #A31515;">w:t</span>&gt;apples&lt;/<span style="color: #A31515;">w:t</span>&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">                    &lt;/</span><span style="color: #A31515;">w:r</span>&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">                  &lt;/</span><span style="color: #A31515;">w:p</span>&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">                &lt;/</span><span style="color: #A31515;">w:tc</span>&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">              &lt;/</span><span style="color: #A31515;">w:sdtContent</span>&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">            &lt;/</span><span style="color: #A31515;">w:sdt</span>&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">            &lt;</span><span style="color: #A31515;">w:sdt</span>&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">              &lt;</span><span style="color: #A31515;">w:sdtPr</span>&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">                &lt;</span><span style="color: #A31515;">w:dataBinding</span><span style="white-space:pre-wrap;"> </span><span style="color: #FF0000;">w:storeItemID</span><span style="white-space:pre-wrap;">="{8B049945-9DFE-4726-9DE9-CF5691E53858}" </span><span style="color: #FF0000;">w:xpath</span>="/invoice[1]/items/item[1]/price"/&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">                &lt;</span><span style="color: #A31515;">w:alias</span><span style="white-space:pre-wrap;"> </span><span style="color: #FF0000;">w:val</span>="Price"/&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">                &lt;</span><span style="color: #A31515;">w:tag</span><span style="white-space:pre-wrap;"> </span><span style="color: #FF0000;">w:val</span>="price=price<span style="color: #FF0000;">&amp;amp;</span>od:xpath=x4"/&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">              &lt;/</span><span style="color: #A31515;">w:sdtPr</span>&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">              &lt;</span><span style="color: #A31515;">w:sdtContent</span>&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">                &lt;</span><span style="color: #A31515;">w:tc</span>&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">                  &lt;</span><span style="color: #A31515;">w:p</span>&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">                    &lt;</span><span style="color: #A31515;">w:r</span>&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">                      &lt;</span><span style="color: #A31515;">w:t</span>&gt;$20&lt;/<span style="color: #A31515;">w:t</span>&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">                    &lt;/</span><span style="color: #A31515;">w:r</span>&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">                  &lt;/</span><span style="color: #A31515;">w:p</span>&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">                &lt;/</span><span style="color: #A31515;">w:tc</span>&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">              &lt;/</span><span style="color: #A31515;">w:sdtContent</span>&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">            &lt;/</span><span style="color: #A31515;">w:sdt</span>&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">          &lt;/</span><span style="color: #A31515;">w:tr</span>&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="color: #0000FF;"><span style="white-space:pre-wrap;">        &lt;/</span></span>w:sdtContent<span style="color: #0000FF;">&gt;</span></p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">      &lt;/</span><span style="color: #A31515;">w:sdt</span>&gt;</p>
+  
+  <p class="Normal DocDefaults " />
+  
+  <p class="Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont " style="color: #000000;">A repeat tag is generally attached to a rich text content control.</span></p>
+  
+  <p class="Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont " style="color: #000000;">od:repeat refers to XPath x2, which is:</span></p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">  &lt;</span><span style="color: #A31515;">od:xpath</span><span style="white-space:pre-wrap;"> </span><span style="color: #FF0000;">id</span>="x2"&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="white-space:pre-wrap;">    &lt;</span><span style="color: #A31515;">od:dataBinding</span><span style="white-space:pre-wrap;"> </span><span style="color: #FF0000;">storeItemID</span><span style="white-space:pre-wrap;">="{8b049945-9dfe-4726-9de9-cf5691e53858}" </span><span style="color: #FF0000;font-size: 10.0pt;">xpath</span><span style="font-size: 10.0pt;">="/invoice[1]/items/</span><span style="font-weight: bold;font-size: 10.0pt;">item</span><span style="font-size: 10.0pt;">"</span>/&gt;</p>
+  
+  <p class="Normal DocDefaults "><span style="color: #0000FF;"><span style="white-space:pre-wrap;">  &lt;/</span></span>od:xpath<span style="color: #0000FF;">&gt;</span></p>
+  
+  <p class="Normal DocDefaults " />
+  
+  <p class="Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont " style="color: #000000;"><span style="white-space:pre-wrap;">For non-interactive processing, the table row will be duplicated, once for each </span></span><span style="color: #0000FF;font-family: Consolas;font-size: 7.5pt;">/invoice[1]/items/item</span><span class="apple-style-span DefaultParagraphFont " style="color: #000000;">.</span></p>
+  
+  <p class="Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont " style="color: #000000;"><span style="white-space:pre-wrap;">For interactive processing, the number of </span></span><span style="color: #0000FF;font-family: Consolas;font-size: 7.5pt;">/invoice[1]/items/item</span><span class="apple-style-span DefaultParagraphFont " style="color: #000000;"><span style="white-space:pre-wrap;"> elements is determined interactively by the user. Processing then proceeds as per non-interactive processing.  A document should only have one od:xpath with a given </span></span><span style="color: #A31515;">od:dataBinding</span><span style="color: #FF0000;">/@</span><span style="color: #FF0000;font-size: 10.0pt;">xpath</span><span class="apple-style-span DefaultParagraphFont " style="color: #000000;"><span style="white-space:pre-wrap;"> for repeat purposes.</span></span></p>
+  
+  <p class="Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont " style="color: #000000;">When the repeat is being processed, any w:dataBinding on any child sdt will need to be altered to point at the nth item.</span></p>
+  
+  <p class="Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont " style="color: #000000;">If two content controls have the same repeat tag, each should affect the document as if the other isn't there.</span></p>
+  
+  <p class="Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont " style="color: #000000;">Various things can be repeated, including table rows and cells.</span></p>
+  
+  <p class="Heading1 Normal DocDefaults ">od:component tag</p>
+  
+  <p class="Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont " style="color: #000000;">An sdt which is to be replaced by the insertion of another docx will have:</span></p>
+  
+  <p class="Normal DocDefaults " style="space-after: 0in;line-height: 100%;"><span style="color: #0000FF;font-family: Consolas;font-size: 7.5pt;"><span style="white-space:pre-wrap;">            &lt;</span></span><span style="color: #A31515;font-family: Consolas;font-size: 7.5pt;">w:sdtPr</span><span style="color: #0000FF;font-family: Consolas;font-size: 7.5pt;">&gt;</span></p>
+  
+  <p class="Normal DocDefaults " style="space-after: 0in;line-height: 100%;"><span style="color: #0000FF;font-family: Consolas;font-size: 7.5pt;"><span style="white-space:pre-wrap;">              &lt;</span></span><span style="color: #A31515;font-family: Consolas;font-size: 7.5pt;">w:tag</span><span style="color: #0000FF;font-family: Consolas;font-size: 7.5pt;"><span style="white-space:pre-wrap;"> </span></span><span style="color: #FF0000;font-family: Consolas;font-size: 7.5pt;">w:val</span><span style="color: #0000FF;font-family: Consolas;font-size: 7.5pt;">=</span><span style="font-family: Consolas;font-size: 7.5pt;">"</span><span style="color: #0000FF;font-family: Consolas;font-size: 7.5pt;">od:component=comp1</span><span style="font-family: Consolas;font-size: 7.5pt;">"</span><span style="color: #0000FF;font-family: Consolas;font-size: 7.5pt;"><span style="white-space:pre-wrap;">/&gt; </span></span></p>
+  
+  <p class="Normal DocDefaults " style="space-after: 0in;line-height: 100%;"><span style="color: #0000FF;font-family: Consolas;font-size: 7.5pt;"><span style="white-space:pre-wrap;">            &lt;/</span></span><span style="color: #A31515;font-family: Consolas;font-size: 7.5pt;">w:sdtPr</span><span style="color: #0000FF;font-family: Consolas;font-size: 7.5pt;">&gt;</span></p>
+  
+  <p class="Normal DocDefaults " style="space-after: 0in;line-height: 100%;" />
+  
+  <p class="Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont " style="color: #000000;">The URL of the docx to be inserted is specified in the components Custom XML Part:</span></p>
+  
+  <p class="Normal DocDefaults " style="space-after: 0in;line-height: 100%;"><span style="color: #0000FF;font-family: Consolas;font-size: 7.5pt;"><span style="white-space:pre-wrap;">      &lt;</span></span><span style="color: #A31515;font-family: Consolas;font-size: 7.5pt;">components</span><span style="color: #0000FF;font-family: Consolas;font-size: 7.5pt;"><span style="white-space:pre-wrap;"> </span></span><span style="color: #FF0000;font-family: Consolas;font-size: 7.5pt;">xmlns</span><span style="color: #0000FF;font-family: Consolas;font-size: 7.5pt;">=</span><span style="font-family: Consolas;font-size: 7.5pt;">"</span><span style="color: #0000FF;font-family: Consolas;font-size: 7.5pt;">http://opendope.org/components</span><span style="font-family: Consolas;font-size: 7.5pt;">"</span><span style="color: #0000FF;font-family: Consolas;font-size: 7.5pt;">&gt;</span></p>
+  
+  <p class="Normal DocDefaults " style="space-after: 0in;line-height: 100%;"><span style="color: #0000FF;font-family: Consolas;font-size: 7.5pt;"><span style="white-space:pre-wrap;">        &lt;</span></span><span style="color: #A31515;font-family: Consolas;font-size: 7.5pt;">component</span><span style="color: #0000FF;font-family: Consolas;font-size: 7.5pt;"><span style="white-space:pre-wrap;"> </span></span><span style="color: #FF0000;font-family: Consolas;font-size: 7.5pt;">id</span><span style="color: #0000FF;font-family: Consolas;font-size: 7.5pt;">=</span><span style="font-family: Consolas;font-size: 7.5pt;">"</span><span style="color: #0000FF;font-family: Consolas;font-size: 7.5pt;">comp1</span><span style="font-family: Consolas;font-size: 7.5pt;">"</span><span style="color: #0000FF;font-family: Consolas;font-size: 7.5pt;"><span style="white-space:pre-wrap;"> </span></span><span style="color: #FF0000;font-family: Consolas;font-size: 7.5pt;">iri</span><span style="color: #0000FF;font-family: Consolas;font-size: 7.5pt;">=</span><span style="font-family: Consolas;font-size: 7.5pt;">"http://www.foo.com/</span><span style="color: #0000FF;font-family: Consolas;font-size: 7.5pt;">component-subdoc.docx</span><span style="font-family: Consolas;font-size: 7.5pt;">"</span><span style="color: #0000FF;font-family: Consolas;font-size: 7.5pt;">/&gt;</span></p>
+  
+  <p class="Normal DocDefaults " style="space-after: 0in;line-height: 100%;"><span style="color: #0000FF;font-family: Consolas;font-size: 7.5pt;"><span style="white-space:pre-wrap;">      &lt;/</span></span><span style="color: #A31515;font-family: Consolas;font-size: 7.5pt;">components</span><span style="color: #0000FF;font-family: Consolas;font-size: 7.5pt;">&gt;</span></p>
+  
+  <p class="Normal DocDefaults " />
+  
+  <p class="Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont " style="color: #000000;">When a component docx is included in the host docx, it is likely that Word will render a page break before and after.  The reason for this is that the default type of section break is "next page".  There are 2 ways to overcome this:</span></p>
+  
+  <p class="ListParagraph Normal DocDefaults "><span style="position: relative; margin-left: 0.25in;">1. </span><span class="apple-style-span DefaultParagraphFont " style="color: #000000;">Use an explicit section break type before the component and/or in the last sectPr in the component (although you can't do the latter in the Word interface!)</span></p>
+  
+  <p class="ListParagraph Normal DocDefaults "><span style="position: relative; margin-left: 0.25in;">2. </span><span class="apple-style-span DefaultParagraphFont " style="color: #000000;"><span style="white-space:pre-wrap;">Use </span></span><span style="color: #0000FF;font-family: Consolas;font-size: 7.5pt;"><span style="white-space:pre-wrap;">od:continuousBefore </span></span><span class="apple-style-span DefaultParagraphFont " style="color: #000000;"><span style="white-space:pre-wrap;">and/or </span></span><span style="color: #0000FF;font-family: Consolas;font-size: 7.5pt;"><span style="white-space:pre-wrap;">od:continuousAfter </span></span><span class="apple-style-span DefaultParagraphFont " style="color: #000000;">in the w:tag, for example</span><span class="apple-style-span DefaultParagraphFont " style="color: #000000;"><br clear="all" /></span><span class="apple-style-span DefaultParagraphFont " style="color: #000000;"><br clear="all" /></span><span style="color: #0000FF;font-family: Consolas;font-size: 7.5pt;"><span style="white-space:pre-wrap;">  &lt;</span></span><span style="color: #A31515;font-family: Consolas;font-size: 7.5pt;">w:tag</span><span style="color: #0000FF;font-family: Consolas;font-size: 7.5pt;"><span style="white-space:pre-wrap;"> </span></span><span style="color: #FF0000;font-family: Consolas;font-size: 7.5pt;">w:val</span><span style="color: #0000FF;font-family: Consolas;font-size: 7.5pt;">=</span><span style="font-family: Consolas;font-size: 7.5pt;">"</span><span style="color: #0000FF;font-family: Consolas;font-size: 7.5pt;">od:component=comp1&amp;amp;od:continuousBefore</span><span class="apple-style-span DefaultParagraphFont " style="color: #000000;font-family: Consolas;font-size: 7.5pt;">=true&amp;</span><span style="color: #0000FF;font-family: Consolas;font-size: 7.5pt;">amp;od:continuousAfter</span><span style="font-family: Consolas;font-size: 7.5pt;">=true"</span><span style="color: #0000FF;font-family: Consolas;font-size: 7.5pt;">/&gt;</span></p>
+  
+  <p class="Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont " style="color: #000000;">When a component docx is included in the host docx, its XPath, Condition, Question and Component parts (if any) are merged into the host's parts. Any entry with a duplicate ID is discarded.</span></p>
+  
+  <p class="Heading1 Normal DocDefaults ">Implementation</p>
+  
+  <p class="Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont " style="color: #000000;">This v2.2 of this convention is implemented in docx4j v2.6.0.</span></p>
+  
+  <p class="Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont " style="color: #000000;"><span style="white-space:pre-wrap;">Source code can be found at </span></span><a href="http://dev.plutext.org/svn/docx4j/trunk/docx4j/src/main/java/org/docx4j/model/datastorage/OpenDoPEHandler.java"><span class="Hyperlink DefaultParagraphFont ">http://dev.plutext.org/svn/docx4j/trunk/docx4j/src/main/java/org/docx4j/model/datastorage/OpenDoPEHandler.java</span></a></p>
+  
+  <p class="Normal DocDefaults " />
+  
+  <p class="Heading1 Normal DocDefaults ">Namespace</p>
+  
+  <p class="Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont " style="color: #000000;">There is an XSD for each of the following:</span></p>
+  
+  <p class="ListParagraph Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont " style="color: #000000;"><span style="white-space:pre-wrap;">the conditions part, </span></span></p>
+  
+  <p class="ListParagraph Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont " style="color: #000000;">the xpaths part,</span></p>
+  
+  <p class="ListParagraph Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont " style="color: #000000;">the components part,</span></p>
+  
+  <p class="ListParagraph Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont " style="color: #000000;">the questions part.</span></p>
+  
+  <p class="Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont " style="color: #000000;">The namespaces can be seen in the example XML above.</span></p>
+  
+  <p class="Normal DocDefaults " />
+  
+  <p class="Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont " style="color: #000000;">Jason Harrop</span><span class="apple-style-span DefaultParagraphFont " style="color: #000000;"><br clear="all" />Plutext</span></p>
+  
+  <p class="Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont " style="color: #000000;">document version v2.2</span><span class="apple-style-span DefaultParagraphFont " style="color: #000000;"><br clear="all" />16 November 2010</span></p>
+  
+  <p class="Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont " style="color: #000000;">This version supersedes the previous version 1 (which was implemented in docx4j v2.5.0).  Compared to version 1, there are three main improvements:</span></p>
+  
+  <p class="Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont " style="color: #000000;">1. content in the sdt tag is minimised, which is necessary since Word restricts the tag content to 64 characters</span></p>
+  
+  <p class="Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont " style="color: #000000;">2. supports conditions made up of boolean expressions</span></p>
+  
+  <p class="Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont " style="color: #000000;">3. supports interactive processing (ie user gets asked questions); v1 only supported non-interactive processing</span></p>
+  
+  <p class="Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont " style="color: #000000;">4. supports component inclusion</span></p>
+  
+  <p class="Normal DocDefaults "><span class="apple-style-span DefaultParagraphFont " style="color: #000000;">version 2.1 stipulates that a repeat xpath points to the element to be repeated, not to its parent container</span></p>
+  
+  </body></html>

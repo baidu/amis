@@ -1,7 +1,7 @@
 {
   "name": "docx-viewer",
   "version": "2.7.2",
-  "description": "将 docx 转成 html 来预览",
+  "description": "将 docx 转成 html 来在线预览",
   "main": "lib/index.js",
   "module": "esm/index.js",
   "types": "lib/index.d.ts",

@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<pkg:package xmlns:pkg="http://schemas.microsoft.com/office/2006/xmlPackage">
+    <pkg:part pkg:contentType="application/vnd.openxmlformats-package.relationships+xml" pkg:name="/_rels/.rels">
+        <pkg:xmlData>
+            <rel:Relationships xmlns:rel="http://schemas.openxmlformats.org/package/2006/relationships">
+                <rel:Relationship xmlns="" Id="rId1" Target="word/document.xml" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument"/>
+            </rel:Relationships>
+        </pkg:xmlData>
+    </pkg:part>
+    <pkg:part pkg:contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml" pkg:name="/word/document.xml">
+        <pkg:xmlData>
+            <w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:ns8="http://schemas.openxmlformats.org/schemaLibrary/2006/main" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing">
+                <w:body>
+                    <w:p>
+                        <w:r>
+                            <w:t>This document contains a simple header.</w:t>
+                        </w:r>
+                    </w:p>
+                    <w:p>
+                        <w:r>
+                            <w:br w:type="page"/>
+                        </w:r>
+                    </w:p>
+                    <w:p>
+                        <w:r>
+                            <w:lastRenderedPageBreak/>
+                            <w:t>The second page</w:t>
+                        </w:r>
+                    </w:p>
+                    <w:p>
+                        <w:r>
+                            <w:br w:type="page"/>
+                        </w:r>
+                    </w:p>
+                    <w:p>
+                        <w:r>
+                            <w:lastRenderedPageBreak/>
+                            <w:t xml:space="preserve">The third page. </w:t>
+                        </w:r>
+                    </w:p>
+                    <w:p>
+                        <w:pPr>
+                            <w:sectPr>
+<w:headerReference r:id="rId6" w:type="even"/>
+<w:headerReference r:id="rId7" w:type="default"/>
+<w:headerReference r:id="rId8" w:type="first"/>
+<w:pgSz w:h="15840" w:w="12240"/>
+<w:pgMar w:bottom="1440" w:footer="708" w:gutter="0" w:header="708" w:left="1440" w:right="1440" w:top="1440"/>
+<w:cols w:space="708"/>
+<w:titlePg/>
+<w:docGrid w:linePitch="360"/>
+                            </w:sectPr>
+                        </w:pPr>
+                    </w:p>
+                    <w:p>
+                        <w:r>
+                            <w:lastRenderedPageBreak/>
+                            <w:t>Section 2.  This document contains a simple header.</w:t>
+                        </w:r>
+                    </w:p>
+                    <w:p>
+                        <w:r>
+                            <w:br w:type="page"/>
+                        </w:r>
+                    </w:p>
+                    <w:p>
+                        <w:r>
+                            <w:lastRenderedPageBreak/>
+                            <w:t>The second page</w:t>
+                        </w:r>
+                    </w:p>
+                    <w:p>
+                        <w:r>
+                            <w:br w:type="page"/>
+                        </w:r>
+                    </w:p>
+                    <w:p>
+                        <w:r>
+                            <w:lastRenderedPageBreak/>
+                            <w:t>The third page.</w:t>
+                        </w:r>
+                    </w:p>
+                    <w:p/>
+                    <w:sectPr>
+                        <w:headerReference r:id="rId9" w:type="even"/>
+                        <w:headerReference r:id="rId10" w:type="default"/>
+                        <w:footerReference r:id="rId11" w:type="even"/>
+                        <w:headerReference r:id="rId12" w:type="first"/>
+                        <w:pgSz w:h="15840" w:w="12240"/>
+                        <w:pgMar w:bottom="1440" w:footer="708" w:gutter="0" w:header="708" w:left="1440" w:right="1440" w:top="1440"/>
+                        <w:cols w:space="708"/>
+                        <w:titlePg/>
+                        <w:docGrid w:linePitch="360"/>
+                    </w:sectPr>
+                </w:body>
+            </w:document>
+        </pkg:xmlData>
+    </pkg:part>
+    <pkg:part pkg:contentType="application/vnd.openxmlformats-package.relationships+xml" pkg:name="/word/_rels/document.xml.rels">
+        <pkg:xmlData>
+            <rel:Relationships xmlns:rel="http://schemas.openxmlformats.org/package/2006/relationships">
+                <rel:Relationship xmlns="" Id="rId8" Target="header3.xml" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/header"/>
+                <rel:Relationship xmlns="" Id="rId7" Target="header2.xml" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/header"/>
+                <rel:Relationship xmlns="" Id="rId12" Target="header6.xml" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/header"/>
+                <rel:Relationship xmlns="" Id="rId1" Target="styles.xml" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles"/>
+                <rel:Relationship xmlns="" Id="rId6" Target="header1.xml" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/header"/>
+                <rel:Relationship xmlns="" Id="rId10" Target="header5.xml" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/header"/>
+                <rel:Relationship xmlns="" Id="rId9" Target="header4.xml" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/header"/>
+            </rel:Relationships>
+        </pkg:xmlData>
+    </pkg:part>
+    <pkg:part pkg:contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.header+xml" pkg:name="/word/header3.xml">
+        <pkg:xmlData>
+            <w:hdr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:ns8="http://schemas.openxmlformats.org/schemaLibrary/2006/main" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing">
+                <w:p>
+                    <w:pPr>
+                        <w:pStyle w:val="Header"/>
+                    </w:pPr>
+                    <w:r>
+                        <w:t>First page header</w:t>
+                    </w:r>
+                </w:p>
+            </w:hdr>
+        </pkg:xmlData>
+    </pkg:part>
+    <pkg:part pkg:contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.header+xml" pkg:name="/word/header2.xml">
+        <pkg:xmlData>
+            <w:hdr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:ns8="http://schemas.openxmlformats.org/schemaLibrary/2006/main" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing">
+                <w:p>
+                    <w:pPr>
+                        <w:pStyle w:val="Header"/>
+                    </w:pPr>
+                    <w:r>
+                        <w:t>Odd header</w:t>
+                    </w:r>
+                </w:p>
+            </w:hdr>
+        </pkg:xmlData>
+    </pkg:part>
+    <pkg:part pkg:contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.header+xml" pkg:name="/word/header6.xml">
+        <pkg:xmlData>
+            <w:hdr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:ns8="http://schemas.openxmlformats.org/schemaLibrary/2006/main" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing">
+                <w:p>
+                    <w:pPr>
+                        <w:pStyle w:val="Header"/>
+                    </w:pPr>
+                    <w:r>
+                        <w:t>First page header, section 2</w:t>
+                    </w:r>
+                </w:p>
+            </w:hdr>
+        </pkg:xmlData>
+    </pkg:part>
+    <pkg:part pkg:contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml" pkg:name="/word/styles.xml">
+        <pkg:xmlData>
+            <w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:ns8="http://schemas.openxmlformats.org/schemaLibrary/2006/main" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing">
+                <w:docDefaults>
+                    <w:rPrDefault>
+                        <w:rPr>
+                            <w:rFonts w:asciiTheme="minorHAnsi" w:cstheme="minorBidi" w:eastAsiaTheme="minorHAnsi" w:hAnsiTheme="minorHAnsi"/>
+                            <w:sz w:val="22"/>
+                            <w:szCs w:val="22"/>
+                            <w:lang w:bidi="ar-SA" w:eastAsia="en-US" w:val="en-US"/>
+                        </w:rPr>
+                    </w:rPrDefault>
+                    <w:pPrDefault>
+                        <w:pPr>
+                            <w:spacing w:after="200" w:line="276" w:lineRule="auto"/>
+                        </w:pPr>
+                    </w:pPrDefault>
+                </w:docDefaults>
+                <w:latentStyles w:count="267" w:defLockedState="false" w:defQFormat="false" w:defSemiHidden="true" w:defUIPriority="99" w:defUnhideWhenUsed="true">
+                    <w:lsdException w:name="Normal" w:qFormat="true" w:semiHidden="false" w:uiPriority="0" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="heading 1" w:qFormat="true" w:semiHidden="false" w:uiPriority="9" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="heading 2" w:qFormat="true" w:uiPriority="9"/>
+                    <w:lsdException w:name="heading 3" w:qFormat="true" w:uiPriority="9"/>
+                    <w:lsdException w:name="heading 4" w:qFormat="true" w:uiPriority="9"/>
+                    <w:lsdException w:name="heading 5" w:qFormat="true" w:uiPriority="9"/>
+                    <w:lsdException w:name="heading 6" w:qFormat="true" w:uiPriority="9"/>
+                    <w:lsdException w:name="heading 7" w:qFormat="true" w:uiPriority="9"/>
+                    <w:lsdException w:name="heading 8" w:qFormat="true" w:uiPriority="9"/>
+                    <w:lsdException w:name="heading 9" w:qFormat="true" w:uiPriority="9"/>
+                    <w:lsdException w:name="toc 1" w:uiPriority="39"/>
+                    <w:lsdException w:name="toc 2" w:uiPriority="39"/>
+                    <w:lsdException w:name="toc 3" w:uiPriority="39"/>
+                    <w:lsdException w:name="toc 4" w:uiPriority="39"/>
+                    <w:lsdException w:name="toc 5" w:uiPriority="39"/>
+                    <w:lsdException w:name="toc 6" w:uiPriority="39"/>
+                    <w:lsdException w:name="toc 7" w:uiPriority="39"/>
+                    <w:lsdException w:name="toc 8" w:uiPriority="39"/>
+                    <w:lsdException w:name="toc 9" w:uiPriority="39"/>
+                    <w:lsdException w:name="caption" w:qFormat="true" w:uiPriority="35"/>
+                    <w:lsdException w:name="Title" w:qFormat="true" w:semiHidden="false" w:uiPriority="10" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Default Paragraph Font" w:uiPriority="1"/>
+                    <w:lsdException w:name="Subtitle" w:qFormat="true" w:semiHidden="false" w:uiPriority="11" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Strong" w:qFormat="true" w:semiHidden="false" w:uiPriority="22" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Emphasis" w:qFormat="true" w:semiHidden="false" w:uiPriority="20" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Table Grid" w:semiHidden="false" w:uiPriority="59" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Placeholder Text" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="No Spacing" w:qFormat="true" w:semiHidden="false" w:uiPriority="1" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Light Shading" w:semiHidden="false" w:uiPriority="60" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Light List" w:semiHidden="false" w:uiPriority="61" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Light Grid" w:semiHidden="false" w:uiPriority="62" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Medium Shading 1" w:semiHidden="false" w:uiPriority="63" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Medium Shading 2" w:semiHidden="false" w:uiPriority="64" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Medium List 1" w:semiHidden="false" w:uiPriority="65" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Medium List 2" w:semiHidden="false" w:uiPriority="66" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Medium Grid 1" w:semiHidden="false" w:uiPriority="67" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Medium Grid 2" w:semiHidden="false" w:uiPriority="68" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Medium Grid 3" w:semiHidden="false" w:uiPriority="69" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Dark List" w:semiHidden="false" w:uiPriority="70" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Colorful Shading" w:semiHidden="false" w:uiPriority="71" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Colorful List" w:semiHidden="false" w:uiPriority="72" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Colorful Grid" w:semiHidden="false" w:uiPriority="73" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Light Shading Accent 1" w:semiHidden="false" w:uiPriority="60" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Light List Accent 1" w:semiHidden="false" w:uiPriority="61" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Light Grid Accent 1" w:semiHidden="false" w:uiPriority="62" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Medium Shading 1 Accent 1" w:semiHidden="false" w:uiPriority="63" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Medium Shading 2 Accent 1" w:semiHidden="false" w:uiPriority="64" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Medium List 1 Accent 1" w:semiHidden="false" w:uiPriority="65" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Revision" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="List Paragraph" w:qFormat="true" w:semiHidden="false" w:uiPriority="34" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Quote" w:qFormat="true" w:semiHidden="false" w:uiPriority="29" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Intense Quote" w:qFormat="true" w:semiHidden="false" w:uiPriority="30" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Medium List 2 Accent 1" w:semiHidden="false" w:uiPriority="66" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Medium Grid 1 Accent 1" w:semiHidden="false" w:uiPriority="67" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Medium Grid 2 Accent 1" w:semiHidden="false" w:uiPriority="68" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Medium Grid 3 Accent 1" w:semiHidden="false" w:uiPriority="69" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Dark List Accent 1" w:semiHidden="false" w:uiPriority="70" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Colorful Shading Accent 1" w:semiHidden="false" w:uiPriority="71" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Colorful List Accent 1" w:semiHidden="false" w:uiPriority="72" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Colorful Grid Accent 1" w:semiHidden="false" w:uiPriority="73" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Light Shading Accent 2" w:semiHidden="false" w:uiPriority="60" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Light List Accent 2" w:semiHidden="false" w:uiPriority="61" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Light Grid Accent 2" w:semiHidden="false" w:uiPriority="62" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Medium Shading 1 Accent 2" w:semiHidden="false" w:uiPriority="63" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Medium Shading 2 Accent 2" w:semiHidden="false" w:uiPriority="64" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Medium List 1 Accent 2" w:semiHidden="false" w:uiPriority="65" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Medium List 2 Accent 2" w:semiHidden="false" w:uiPriority="66" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Medium Grid 1 Accent 2" w:semiHidden="false" w:uiPriority="67" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Medium Grid 2 Accent 2" w:semiHidden="false" w:uiPriority="68" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Medium Grid 3 Accent 2" w:semiHidden="false" w:uiPriority="69" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Dark List Accent 2" w:semiHidden="false" w:uiPriority="70" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Colorful Shading Accent 2" w:semiHidden="false" w:uiPriority="71" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Colorful List Accent 2" w:semiHidden="false" w:uiPriority="72" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Colorful Grid Accent 2" w:semiHidden="false" w:uiPriority="73" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Light Shading Accent 3" w:semiHidden="false" w:uiPriority="60" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Light List Accent 3" w:semiHidden="false" w:uiPriority="61" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Light Grid Accent 3" w:semiHidden="false" w:uiPriority="62" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Medium Shading 1 Accent 3" w:semiHidden="false" w:uiPriority="63" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Medium Shading 2 Accent 3" w:semiHidden="false" w:uiPriority="64" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Medium List 1 Accent 3" w:semiHidden="false" w:uiPriority="65" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Medium List 2 Accent 3" w:semiHidden="false" w:uiPriority="66" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Medium Grid 1 Accent 3" w:semiHidden="false" w:uiPriority="67" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Medium Grid 2 Accent 3" w:semiHidden="false" w:uiPriority="68" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Medium Grid 3 Accent 3" w:semiHidden="false" w:uiPriority="69" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Dark List Accent 3" w:semiHidden="false" w:uiPriority="70" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Colorful Shading Accent 3" w:semiHidden="false" w:uiPriority="71" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Colorful List Accent 3" w:semiHidden="false" w:uiPriority="72" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Colorful Grid Accent 3" w:semiHidden="false" w:uiPriority="73" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Light Shading Accent 4" w:semiHidden="false" w:uiPriority="60" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Light List Accent 4" w:semiHidden="false" w:uiPriority="61" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Light Grid Accent 4" w:semiHidden="false" w:uiPriority="62" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Medium Shading 1 Accent 4" w:semiHidden="false" w:uiPriority="63" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Medium Shading 2 Accent 4" w:semiHidden="false" w:uiPriority="64" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Medium List 1 Accent 4" w:semiHidden="false" w:uiPriority="65" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Medium List 2 Accent 4" w:semiHidden="false" w:uiPriority="66" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Medium Grid 1 Accent 4" w:semiHidden="false" w:uiPriority="67" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Medium Grid 2 Accent 4" w:semiHidden="false" w:uiPriority="68" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Medium Grid 3 Accent 4" w:semiHidden="false" w:uiPriority="69" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Dark List Accent 4" w:semiHidden="false" w:uiPriority="70" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Colorful Shading Accent 4" w:semiHidden="false" w:uiPriority="71" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Colorful List Accent 4" w:semiHidden="false" w:uiPriority="72" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Colorful Grid Accent 4" w:semiHidden="false" w:uiPriority="73" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Light Shading Accent 5" w:semiHidden="false" w:uiPriority="60" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Light List Accent 5" w:semiHidden="false" w:uiPriority="61" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Light Grid Accent 5" w:semiHidden="false" w:uiPriority="62" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Medium Shading 1 Accent 5" w:semiHidden="false" w:uiPriority="63" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Medium Shading 2 Accent 5" w:semiHidden="false" w:uiPriority="64" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Medium List 1 Accent 5" w:semiHidden="false" w:uiPriority="65" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Medium List 2 Accent 5" w:semiHidden="false" w:uiPriority="66" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Medium Grid 1 Accent 5" w:semiHidden="false" w:uiPriority="67" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Medium Grid 2 Accent 5" w:semiHidden="false" w:uiPriority="68" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Medium Grid 3 Accent 5" w:semiHidden="false" w:uiPriority="69" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Dark List Accent 5" w:semiHidden="false" w:uiPriority="70" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Colorful Shading Accent 5" w:semiHidden="false" w:uiPriority="71" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Colorful List Accent 5" w:semiHidden="false" w:uiPriority="72" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Colorful Grid Accent 5" w:semiHidden="false" w:uiPriority="73" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Light Shading Accent 6" w:semiHidden="false" w:uiPriority="60" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Light List Accent 6" w:semiHidden="false" w:uiPriority="61" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Light Grid Accent 6" w:semiHidden="false" w:uiPriority="62" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Medium Shading 1 Accent 6" w:semiHidden="false" w:uiPriority="63" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Medium Shading 2 Accent 6" w:semiHidden="false" w:uiPriority="64" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Medium List 1 Accent 6" w:semiHidden="false" w:uiPriority="65" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Medium List 2 Accent 6" w:semiHidden="false" w:uiPriority="66" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Medium Grid 1 Accent 6" w:semiHidden="false" w:uiPriority="67" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Medium Grid 2 Accent 6" w:semiHidden="false" w:uiPriority="68" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Medium Grid 3 Accent 6" w:semiHidden="false" w:uiPriority="69" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Dark List Accent 6" w:semiHidden="false" w:uiPriority="70" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Colorful Shading Accent 6" w:semiHidden="false" w:uiPriority="71" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Colorful List Accent 6" w:semiHidden="false" w:uiPriority="72" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Colorful Grid Accent 6" w:semiHidden="false" w:uiPriority="73" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Subtle Emphasis" w:qFormat="true" w:semiHidden="false" w:uiPriority="19" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Intense Emphasis" w:qFormat="true" w:semiHidden="false" w:uiPriority="21" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Subtle Reference" w:qFormat="true" w:semiHidden="false" w:uiPriority="31" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Intense Reference" w:qFormat="true" w:semiHidden="false" w:uiPriority="32" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Book Title" w:qFormat="true" w:semiHidden="false" w:uiPriority="33" w:unhideWhenUsed="false"/>
+                    <w:lsdException w:name="Bibliography" w:uiPriority="37"/>
+                    <w:lsdException w:name="TOC Heading" w:qFormat="true" w:uiPriority="39"/>
+                </w:latentStyles>
+                <w:style w:default="true" w:styleId="Normal" w:type="paragraph">
+                    <w:name w:val="Normal"/>
+                    <w:qFormat/>
+                </w:style>
+                <w:style w:default="true" w:styleId="DefaultParagraphFont" w:type="character">
+                    <w:name w:val="Default Paragraph Font"/>
+                    <w:uiPriority w:val="1"/>
+                    <w:semiHidden/>
+                    <w:unhideWhenUsed/>
+                </w:style>
+                <w:style w:default="true" w:styleId="TableNormal" w:type="table">
+                    <w:name w:val="Normal Table"/>
+                    <w:uiPriority w:val="99"/>
+                    <w:semiHidden/>
+                    <w:unhideWhenUsed/>
+                    <w:qFormat/>
+                    <w:tblPr>
+                        <w:tblInd w:type="dxa" w:w="0"/>
+                        <w:tblCellMar>
+                            <w:top w:type="dxa" w:w="0"/>
+                            <w:left w:type="dxa" w:w="108"/>
+                            <w:bottom w:type="dxa" w:w="0"/>
+                            <w:right w:type="dxa" w:w="108"/>
+                        </w:tblCellMar>
+                    </w:tblPr>
+                </w:style>
+                <w:style w:default="true" w:styleId="NoList" w:type="numbering">
+                    <w:name w:val="No List"/>
+                    <w:uiPriority w:val="99"/>
+                    <w:semiHidden/>
+                    <w:unhideWhenUsed/>
+                </w:style>
+                <w:style w:styleId="Header" w:type="paragraph">
+                    <w:name w:val="header"/>
+                    <w:basedOn w:val="Normal"/>
+                    <w:link w:val="HeaderChar"/>
+                    <w:uiPriority w:val="99"/>
+                    <w:semiHidden/>
+                    <w:unhideWhenUsed/>
+                    <w:pPr>
+                        <w:tabs>
+                            <w:tab w:pos="4680" w:val="center"/>
+                            <w:tab w:pos="9360" w:val="right"/>
+                        </w:tabs>
+                        <w:spacing w:after="0" w:line="240" w:lineRule="auto"/>
+                    </w:pPr>
+                </w:style>
+                <w:style w:customStyle="true" w:styleId="HeaderChar" w:type="character">
+                    <w:name w:val="Header Char"/>
+                    <w:basedOn w:val="DefaultParagraphFont"/>
+                    <w:link w:val="Header"/>
+                    <w:uiPriority w:val="99"/>
+                    <w:semiHidden/>
+                </w:style>
+                <w:style w:styleId="Footer" w:type="paragraph">
+                    <w:name w:val="footer"/>
+                    <w:basedOn w:val="Normal"/>
+                    <w:link w:val="FooterChar"/>
+                    <w:uiPriority w:val="99"/>
+                    <w:semiHidden/>
+                    <w:unhideWhenUsed/>
+                    <w:pPr>
+                        <w:tabs>
+                            <w:tab w:pos="4680" w:val="center"/>
+                            <w:tab w:pos="9360" w:val="right"/>
+                        </w:tabs>
+                        <w:spacing w:after="0" w:line="240" w:lineRule="auto"/>
+                    </w:pPr>
+                </w:style>
+                <w:style w:customStyle="true" w:styleId="FooterChar" w:type="character">
+                    <w:name w:val="Footer Char"/>
+                    <w:basedOn w:val="DefaultParagraphFont"/>
+                    <w:link w:val="Footer"/>
+                    <w:uiPriority w:val="99"/>
+                    <w:semiHidden/>
+                </w:style>
+            </w:styles>
+        </pkg:xmlData>
+    </pkg:part>
+    <pkg:part pkg:contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.header+xml" pkg:name="/word/header1.xml">
+        <pkg:xmlData>
+            <w:hdr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:ns8="http://schemas.openxmlformats.org/schemaLibrary/2006/main" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing">
+                <w:p>
+                    <w:pPr>
+                        <w:pStyle w:val="Header"/>
+                    </w:pPr>
+                    <w:r>
+                        <w:t>Even header</w:t>
+                    </w:r>
+                </w:p>
+            </w:hdr>
+        </pkg:xmlData>
+    </pkg:part>
+    <pkg:part pkg:contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.header+xml" pkg:name="/word/header5.xml">
+        <pkg:xmlData>
+            <w:hdr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:ns8="http://schemas.openxmlformats.org/schemaLibrary/2006/main" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing">
+                <w:p>
+                    <w:pPr>
+                        <w:pStyle w:val="Header"/>
+                    </w:pPr>
+                    <w:r>
+                        <w:t>Odd header, s2</w:t>
+                    </w:r>
+                </w:p>
+            </w:hdr>
+        </pkg:xmlData>
+    </pkg:part>
+    <pkg:part pkg:contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.header+xml" pkg:name="/word/header4.xml">
+        <pkg:xmlData>
+            <w:hdr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:ns8="http://schemas.openxmlformats.org/schemaLibrary/2006/main" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing">
+                <w:p>
+                    <w:pPr>
+                        <w:pStyle w:val="Header"/>
+                    </w:pPr>
+                    <w:r>
+                        <w:t>Even header, s2</w:t>
+                    </w:r>
+                </w:p>
+            </w:hdr>
+        </pkg:xmlData>
+    </pkg:part>
+</pkg:package>
