@@ -973,7 +973,7 @@ export const MainStore = types
               cmptLabel = itemLabel;
             } else {
               const labelPrefix =
-                item.type !== 'cell' ? `<${itemLabel}>:` : `<列>:`;
+                item.type !== 'cell' ? `<${itemLabel}>` : `<列>`;
               cmptLabel = `${labelPrefix}${
                 schemaLabel ?? schemaTitle ?? itemLabel
               }`;
