@@ -409,8 +409,10 @@ export class Navigation extends React.Component<
       overflow && overflow.enable ? overflow.wrapperComponent || 'ul' : 'ul';
     if (
       dragOnSameLevel &&
-      this.dragNode?.node.closest(wrapperComponent) !==
-        target?.closest(wrapperComponent)
+      // menu里原来menuItem套了一层div 后来改成了ul 这里的判断条件需要加限制
+      // 否则始终不相等
+      this.dragNode?.node.closest(`${wrapperComponent}[role="menu"]`) !==
+        target?.closest(`${wrapperComponent}[role="menu"]`)
     ) {
       this.setState({dropIndicator: undefined});
       this.dropInfo = null;
@@ -513,7 +515,6 @@ export class Navigation extends React.Component<
   normalizeNavigations(links: Links, depth: number): Array<NavigationItem> {
     const {
       level,
-      defaultOpenLevel,
       stacked,
       mode,
       itemActions,
@@ -1052,7 +1053,7 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
           ) as number[];
           // 插入节点之后
           if (position === 'bottom') {
-            idx.push((idx.pop() as number) + 1);
+            idx && idx.push((idx.pop() as number) + 1);
           }
           links = spliceTree(links, idx, 0, dragLink);
         }
