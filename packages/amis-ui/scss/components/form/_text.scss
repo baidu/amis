@@ -47,6 +47,13 @@
     background: var(--input-default-default-bg-color);
     height: var(--input-size-default-height);
 
+    input {
+      color: var(--input-default-default-color);
+      font-size: var(--input-default-default-fontSize);
+      font-weight: var(--input-default-default-fontWeight);
+      line-height: var(--input-default-default-lineHeight);
+    }
+
     &:hover,
     &.hover {
       border-width: var(--input-default-hover-top-border-width)
