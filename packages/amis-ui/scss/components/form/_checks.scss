@@ -241,10 +241,6 @@
     &:active {
       input:checked + i {
         background: var(--Checkbox-checked-onHover-bgColor);
-
-        &:before {
-          background: var(--Checkbox-checked-onHover-bgColor);
-        }
       }
     }
 
