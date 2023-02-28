@@ -8,7 +8,8 @@ import {
   isObject,
   Renderer,
   RendererProps,
-  ScopedContext
+  ScopedContext,
+  uuid
 } from 'amis-core';
 import {filter} from 'amis-core';
 import {BadgeObject, Button, SpinnerExtraProps} from 'amis-ui';
@@ -621,7 +622,10 @@ export class Action extends React.Component<ActionProps, ActionState> {
 
   constructor(props: ActionProps) {
     super(props);
-    this.localStorageKey = 'amis-countdownend-' + (this.props.name || '');
+    this.localStorageKey =
+      'amis-countdownend-' +
+      (this.props.name || '') +
+      (this.props?.$schema?.id || uuid());
     const countDownEnd = parseInt(
       localStorage.getItem(this.localStorageKey) || '0'
     );
