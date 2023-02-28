@@ -1732,33 +1732,6 @@ export const doc: {
     namespace: "数组"
   },
   {
-    name: "GET",
-    description: "根据对象或者数组的path路径获取值。 如果解析 value 是 undefined 会以 defaultValue 取代\n\n示例：\n\nGET([0, 2, {name: 'amis', age: 18}], 1) 得到 2\nGET([0, 2, {name: 'amis', age: 18}], '2.name') 得到 'amis'\nGET({arr: [{name: 'amis', age: 18}]}, 'arr[0].name') 得到 'amis'\nGET({arr: [{name: 'amis', age: 18}]}, 'arr.0.name') 得到 'amis'\nGET({arr: [{name: 'amis', age: 18}]}, 'arr.1.name', 'not-found') 得到 'not-found'",
-    example: "GET(arr, 2)",
-    params: [
-      {
-        type: "any",
-        name: "obj",
-        description: "对象或数组"
-      },
-      {
-        type: "string",
-        name: "path",
-        description: "路径"
-      },
-      {
-        type: "any",
-        name: "defaultValue",
-        description: "如果解析不到则返回该值"
-      }
-    ],
-    returns: {
-      type: "any",
-      description: "结果"
-    },
-    namespace: "其他"
-  },
-  {
     name: "COMPACT",
     description: "数组过滤掉 false、null、0 和 \"\"\n\n示例：\n\nCOMPACT([0, 1, false, 2, '', 3]) 得到 [1, 2, 3]",
     example: "COMPACT(arr)",
@@ -1844,14 +1817,14 @@ export const doc: {
       {
         type: "object",
         name: "obj",
-        description: "数组"
+        description: "JS对象"
       }
     ],
     returns: {
       type: "string",
       description: "结果"
     },
-    namespace: "数组"
+    namespace: "编码"
   },
   {
     name: "DECODEJSON",
@@ -1869,6 +1842,33 @@ export const doc: {
       description: "结果"
     },
     namespace: "编码"
+  },
+  {
+    name: "GET",
+    description: "根据对象或者数组的path路径获取值。 如果解析 value 是 undefined 会以 defaultValue 取代\n\n示例：\n\nGET([0, 2, {name: 'amis', age: 18}], 1) 得到 2\nGET([0, 2, {name: 'amis', age: 18}], '2.name') 得到 'amis'\nGET({arr: [{name: 'amis', age: 18}]}, 'arr[0].name') 得到 'amis'\nGET({arr: [{name: 'amis', age: 18}]}, 'arr.0.name') 得到 'amis'\nGET({arr: [{name: 'amis', age: 18}]}, 'arr.1.name', 'not-found') 得到 'not-found'",
+    example: "GET(arr, 2)",
+    params: [
+      {
+        type: "any",
+        name: "obj",
+        description: "对象或数组"
+      },
+      {
+        type: "string",
+        name: "path",
+        description: "路径"
+      },
+      {
+        type: "any",
+        name: "defaultValue",
+        description: "如果解析不到则返回该值"
+      }
+    ],
+    returns: {
+      type: "any",
+      description: "结果"
+    },
+    namespace: "其他"
   },
   {
     name: "ISTYPE",
