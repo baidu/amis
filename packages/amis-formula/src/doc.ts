@@ -1042,7 +1042,7 @@ export const doc: {
       {
         type: "number",
         name: "type",
-        description: "星期定义类型 1表示0至6代表星期一到星期日，2表示1至7代表星期一到星期天"
+        description: "星期定义类型，默认为1，1表示0至6代表星期一到星期日，2表示1至7代表星期一到星期日"
       }
     ],
     returns: {
@@ -1060,6 +1060,11 @@ export const doc: {
         type: "any",
         name: "date",
         description: "日期"
+      },
+      {
+        type: "boolean",
+        name: "isISO",
+        description: "是否ISO星期"
       }
     ],
     returns: {
@@ -1136,6 +1141,11 @@ export const doc: {
         type: "string",
         name: "unit",
         description: "比如可以传入 'day'、'month'、'year' 或者 `week` 等等"
+      },
+      {
+        type: "string",
+        name: "format",
+        description: "日期格式，可选"
       }
     ],
     returns: {
@@ -1158,6 +1168,11 @@ export const doc: {
         type: "string",
         name: "unit",
         description: "比如可以传入 'day'、'month'、'year' 或者 `week` 等等"
+      },
+      {
+        type: "string",
+        name: "format",
+        description: "日期格式，可选"
       }
     ],
     returns: {
@@ -1451,6 +1466,38 @@ export const doc: {
         type: "string",
         name: "unit",
         description: "单位，默认是 'day'， 即之比较到天"
+      }
+    ],
+    returns: {
+      type: "boolean",
+      description: "判断结果"
+    },
+    namespace: "日期函数"
+  },
+  {
+    name: "BETWEENRANGE",
+    description: "判断日期是否在指定范围内\n\n示例：BETWEENRANGE('2021/12/6', ['2021/12/5','2021/12/7'])",
+    example: "BETWEENRANGE(date, [start, end])",
+    params: [
+      {
+        type: "any",
+        name: "date",
+        description: "第一个日期"
+      },
+      {
+        type: "Array<any>",
+        name: "daterange",
+        description: "日期范围"
+      },
+      {
+        type: "string",
+        name: "unit",
+        description: "单位，默认是 'day'， 即之比较到天"
+      },
+      {
+        type: "string",
+        name: "inclusivity",
+        description: "包容性规则，默认为'[]'。[ 表示包含、( 表示排除，如果使用包容性参数，则必须传入两个指示符，如'()'表示左右范围都排除"
       }
     ],
     returns: {
@@ -1790,6 +1837,40 @@ export const doc: {
     namespace: "数组"
   },
   {
+    name: "ENCODEJSON",
+    description: "将JS对象转换成JSON字符串\n\n示例：\n\nENCODEJSON({name: 'amis'}) 得到 '{\"name\":\"amis\"}'",
+    example: "ENCODEJSON({name: 'amis'})",
+    params: [
+      {
+        type: "object",
+        name: "obj",
+        description: "数组"
+      }
+    ],
+    returns: {
+      type: "string",
+      description: "结果"
+    },
+    namespace: "数组"
+  },
+  {
+    name: "DECODEJSON",
+    description: "解析JSON编码数据，返回JS对象\n\n示例：\n\nDECODEJSON('{\\\"name\\\": \"amis\"}') 得到 {name: 'amis'}",
+    example: "DECODEJSON('{\\\"name\\\": \"amis\"}')",
+    params: [
+      {
+        type: "string",
+        name: "str",
+        description: "字符串"
+      }
+    ],
+    returns: {
+      type: "object",
+      description: "结果"
+    },
+    namespace: "编码"
+  },
+  {
     name: "ISTYPE",
     description: "判断是否为类型支持：string, number, array, date, plain-object。",
     example: "ISTYPE([{a: '1'}, {b: '2'}, {a: '1'}], 'array')",
@@ -1802,7 +1883,7 @@ export const doc: {
     ],
     returns: {
       type: "boolean",
-      description: "结果结果"
+      description: "结果"
     },
     namespace: "其他"
   }
