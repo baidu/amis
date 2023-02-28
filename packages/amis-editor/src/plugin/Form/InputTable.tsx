@@ -243,8 +243,8 @@ export class TableControlPlugin extends BasePlugin {
                     label: '城市选择器'
                   },
                   {
-                    value: 'input—tree',
-                    label: '树下拉框'
+                    value: 'input-tree',
+                    label: '树选择框'
                   }
                 ]
               },
