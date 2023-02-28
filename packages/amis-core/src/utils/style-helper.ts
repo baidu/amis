@@ -1,5 +1,6 @@
 import {PlainObject} from '../types';
 import {uuid} from './helper';
+import cloneDeep from 'lodash/cloneDeep';
 
 export const valueMap: PlainObject = {
   'marginTop': 'margin-top',
@@ -25,6 +26,11 @@ export const valueMap: PlainObject = {
   'fontSize': 'font-size',
   'fontWeight': 'font-weight',
   'lineHeight': 'line-height'
+};
+
+export const inheritValueMap: PlainObject = {
+  background: 'bg-color',
+  radius: 'border'
 };
 
 interface extra {
@@ -55,6 +61,41 @@ export function addStyle(style: string, id: string) {
   varStyleTag.innerHTML += style;
 }
 
+// 继承数据处理
+function handleInheritData(statusMap: any, data: any) {
+  if (!data) {
+    return;
+  }
+  // 检查是否存在inherit
+  ['hover', 'active'].forEach(status => {
+    for (let key in statusMap[status]) {
+      if (typeof statusMap[status][key] === 'object') {
+        for (let style in statusMap[status][key]) {
+          if (statusMap[status][key][style] === 'inherit') {
+            // 值为inherit时设置为default的值或者主题中的default值
+            if (statusMap['default'][key] && statusMap['default'][key][style]) {
+              statusMap[status][key][style] = statusMap.default[key][style];
+            } else {
+              const value = inheritValueMap[key] || key;
+              statusMap[status][key][style] =
+                data['default'].body[value][style];
+            }
+          }
+        }
+      } else {
+        if (statusMap[status][key] === 'inherit') {
+          if (statusMap['default'][key] && statusMap['default'][key]) {
+            statusMap[status][key] = statusMap.default[key];
+          } else {
+            const value = inheritValueMap[key] || key;
+            statusMap[status][key] = data['default'].body[value];
+          }
+        }
+      }
+    }
+  });
+}
+
 export function formatStyle(
   css: any,
   classNames: {
@@ -67,7 +108,8 @@ export function formatStyle(
       disabled?: extra;
     };
   }[],
-  id?: string
+  id?: string,
+  defaultData?: any
 ) {
   if (!css) {
     return {value: '', origin: []};
@@ -129,6 +171,7 @@ export function formatStyle(
           statusMap.default[key] = body[key];
         }
       }
+      handleInheritData(statusMap, defaultData);
 
       for (let status in statusMap) {
         const weights = weightsList[status];
@@ -204,11 +247,31 @@ export function insertCustomStyle(
       disabled?: extra;
     };
   }[],
-  id?: string
+  id?: string,
+  defaultData?: any
 ) {
   if (!css) {
     return;
   }
-  const {value} = formatStyle(css, classNames, id);
+  const {value} = formatStyle(css, classNames, id, defaultData);
   insertStyle(value, id?.replace('u:', '') || uuid());
+}
+
+/**
+ * 根据路径获取默认值
+ */
+export function getValueByPath(path: string, data: any) {
+  try {
+    if (!path || !data) {
+      return null;
+    }
+    const keys = path.split('.');
+    let value = cloneDeep(data.component);
+    for (let i = 0; i < keys.length; i++) {
+      value = value[keys[i]];
+    }
+    return value;
+  } catch (e) {
+    return null;
+  }
 }
