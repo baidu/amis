@@ -254,6 +254,11 @@ export interface NavSchema extends BaseSchema {
    * 自定义展开图标位置 默认在前面 before after
    */
   expandPosition?: string;
+
+  /**
+   * 主题配色 默认light
+   */
+  themeColor?: 'light' | 'dark';
 }
 
 export interface Link {
@@ -637,6 +642,7 @@ export class Navigation extends React.Component<
       indentSize,
       accordion,
       draggable,
+      themeColor,
       expandPosition,
       render
     } = this.props;
@@ -681,6 +687,7 @@ export class Navigation extends React.Component<
               isOpen={(item: NavigationItem) => !!item.open}
               stacked={!!stacked}
               mode={mode}
+              themeColor={themeColor}
               location={location}
               onSelect={this.handleClick}
               onToggle={this.toggleLink}
@@ -1177,7 +1184,6 @@ export class NavigationRenderer extends React.Component<RendererProps> {
     | {
         loadConfig: (ctx?: any) => Promise<any> | void;
         setConfig: (value: any) => void;
-        setFilterConfig: (value: any) => void;
       }
     | undefined = undefined;
 

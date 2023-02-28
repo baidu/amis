@@ -40,6 +40,14 @@
         .#{$ns}Nav-Menu-submenu-arrow {
           color: var(--Menu-dark-fontColor);
         }
+
+        &:hover {
+          .#{$ns}Nav-Menu-item-label,
+          .#{$ns}Nav-Menu-item-icon,
+          .#{$ns}Nav-Menu-submenu-arrow {
+            color: var(--Menu-dark-fontColor-onHover);
+          }
+        }
       }
     }
 
@@ -186,6 +194,7 @@
     align-items: center;
     height: var(--Nav-Item-height);
     flex-grow: 1;
+    overflow: hidden;
   }
 
   &-item-divider {
@@ -334,6 +343,9 @@
   &-submenu {
     .#{$ns}Badge {
       position: static;
+      flex: 1;
+      width: 0;
+      display: flex;
     }
     .#{$ns}Nav-Menu-item-wrap {
       display: flex;
@@ -542,7 +554,7 @@
   &-submenu-title {
     margin: 0;
     position: relative;
-    padding: 0 var(--Menu-Submenu-item-paddingX) 0 px2rem(16px);
+    padding: 0 px2rem(16px);
     line-height: var(--Nav-Item-height);
     display: block;
     white-space: nowrap;
@@ -568,7 +580,8 @@
 
       &:hover {
         .#{$ns}Nav-Menu-item-label,
-        .#{$ns}Nav-Menu-item-icon {
+        .#{$ns}Nav-Menu-item-icon,
+        .#{$ns}Nav-Menu-submenu-arrow {
           color: var(--Menu-dark-fontColor-onHover);
         }
       }
@@ -961,7 +974,8 @@
       color: var(--Menu-dark-ancestor-fontColor-onActive);
 
       .#{$ns}Nav-Menu-item-label,
-      .#{$ns}Nav-Menu-item-icon {
+      .#{$ns}Nav-Menu-item-icon,
+      .#{$ns}Nav-Menu-submenu-arrow {
         color: var(--Menu-dark-ancestor-fontColor-onActive);
       }
     }
