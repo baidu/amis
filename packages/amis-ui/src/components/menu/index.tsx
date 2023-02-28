@@ -242,7 +242,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     mode: 'inline',
     direction: 'ltr',
     prefix: '',
-    triggerSubMenuAction: 'hover',
+    triggerSubMenuAction: 'click',
     inlineIndent: 15,
     popOverContainer: () => document.body,
     renderLink: (link: MenuItemProps) => {
@@ -279,13 +279,17 @@ export class Menu extends React.Component<MenuProps, MenuState> {
   componentDidUpdate(prevProps: MenuProps, prevState: MenuState) {
     const props = this.props;
     const isOpen = prevProps.isOpen;
-
-    if (
-      !isEqualWith(prevProps.navigations, props.navigations, (prev, cur) =>
-        isEqual(prev, cur)
-      ) ||
-      !isEqual(prevProps.location, props.location)
-    ) {
+    let isNavDiff = prevProps.navigations.length !== props.navigations.length;
+    if (!isNavDiff) {
+      // 顺序也要保持一致
+      for (let [index, item] of props.navigations.entries()) {
+        if (!isEqual(item, prevProps.navigations[index])) {
+          isNavDiff = true;
+          break;
+        }
+      }
+    }
+    if (isNavDiff || !isEqual(prevProps.location, props.location)) {
       const {transformedNav, activeKey, defaultOpenKeys, openKeys} =
         this.normalizeNavigations({
           ...props,
