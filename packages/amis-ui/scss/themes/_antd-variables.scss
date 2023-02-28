@@ -74,7 +74,7 @@ $ns: 'antd-';
   --colors-brand-7: #74c0ff;
   --colors-brand-8: #a2d7ff;
   --colors-brand-9: #d1ecff;
-  --colors-brand-10: #e6f5ff;
+  --colors-brand-10: #fafafa;
   --colors-neutral-text-1: #070e14;
   --colors-neutral-text-2: #151e26;
   --colors-neutral-text-3: #303840;
@@ -88,7 +88,7 @@ $ns: 'antd-';
   --colors-neutral-text-11: #ffffff;
   --colors-neutral-fill-none: transparent;
   --colors-neutral-fill-1: #070e14;
-  --colors-neutral-fill-2: #151e26;
+  --colors-neutral-fill-2: #001529;
   --colors-neutral-fill-3: #303840;
   --colors-neutral-fill-4: #5c6166;
   --colors-neutral-fill-5: #84888c;
@@ -222,4 +222,15 @@ $ns: 'antd-';
 
   // input 激活时的 shadow
   --input-default-active-shadow: 0 0 0 2px rgb(5 145 255 / 10%);
+
+  // 左侧导航样式，基于暗色模式
+  --Layout-aside-onAcitve-bg: rgb(24, 144, 255);
+  --Layout-asideLink-onActive-color: #fff;
+  --Layout-asideLink-color: hsla(0, 0%, 100%, 0.75);
+  --Layout-aside-subList-bg: #000c17;
+
+  // 表格
+  --Table-thead-bg: #fafafa;
+  --Table-onChecked-bg: rgb(220, 244, 255);
+  --Table-onChecked-color: rgba(0, 0, 0, 0.85);
 }
