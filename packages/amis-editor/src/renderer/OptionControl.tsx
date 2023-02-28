@@ -219,8 +219,8 @@ export default class OptionControl extends React.Component<
     if (source === 'api' || source === 'apicenter') {
       const {api, labelField, valueField} = this.state;
       data.source = api;
-      data.labelField = labelField;
-      data.valueField = valueField;
+      data.labelField = labelField || undefined;
+      data.valueField = valueField || undefined;
     }
 
     onBulkChange && onBulkChange(data);
