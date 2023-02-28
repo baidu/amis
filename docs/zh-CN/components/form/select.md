@@ -1023,7 +1023,7 @@ leftOptions 动态加载，默认 source 接口是返回 options 部分，而 le
 }
 ```
 
-使用相对数值，如：`-20px` 表示 `100% - 20px`；`+10vw` 表示 `100% + 10vw`。支持如上相同单位。
+使用相对数值，如：`-20px` 相当于 `100% - 20px`；`+10vw` 相当于 `100% + 10vw`。支持如上相同单位。
 
 ```schema: scope="body"
 {
@@ -1035,11 +1035,11 @@ leftOptions 动态加载，默认 source 接口是返回 options 部分，而 le
         "label": "相对窄 100px 向左对齐",
         "type": "select",
         "name": "select",
-        "menuTpl": "<div>${label} 值：${value}, 当前是否选中: ${checked}</div>",
         "overlay": {
           "width": "-100px",
           "align": "left"
         },
+        "popOverContainerSelector": "body",
         "options": [
           {
             "label": "A",
