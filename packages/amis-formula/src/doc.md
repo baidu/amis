@@ -617,7 +617,7 @@
 用法：`WEEKDAY(date)`
 
  * `date:any` 日期
- * `type:number` 星期定义类型 1表示0至6代表星期一到星期日，2表示1至7代表星期一到星期天
+ * `type:number` 星期定义类型，默认为1，1表示0至6代表星期一到星期日，2表示1至7代表星期一到星期日
 
 返回：`number` 星期几的数字标识
 
@@ -632,6 +632,7 @@ WEEKDAY('2023-02-27') 得到 1
 用法：`WEEK(date)`
 
  * `date:any` 日期
+ * `isISO:boolean` 是否ISO星期
 
 返回：`number` 星期几的数字标识
 
@@ -687,6 +688,7 @@ DATERANGESPLIT('1676563200, 1676735999', 'end' , 'YYYY.MM.DD hh:mm:ss') 得到 '
 
  * `date:date` 日期对象
  * `unit:string` 比如可以传入 'day'、'month'、'year' 或者 `week` 等等
+ * `format:string` 日期格式，可选
 
 返回：`date` 新的日期对象
 
@@ -698,6 +700,7 @@ DATERANGESPLIT('1676563200, 1676735999', 'end' , 'YYYY.MM.DD hh:mm:ss') 得到 '
 
  * `date:date` 日期对象
  * `unit:string` 比如可以传入 'day'、'month'、'year' 或者 `week` 等等
+ * `format:string` 日期格式，可选
 
 返回：`date` 新的日期对象
 
@@ -861,6 +864,21 @@ DATEMODIFY(A, -2, 'month')
 返回：`boolean` 判断结果
 
 判断两个日期，是否第一个日期在第二个日期的后面
+
+### BETWEENRANGE
+
+用法：`BETWEENRANGE(date, [start, end])`
+
+ * `date:any` 第一个日期
+ * `daterange:Array<any>` 日期范围
+ * `unit:string` 单位，默认是 'day'， 即之比较到天
+ * `inclusivity:string` 包容性规则，默认为'[]'。[ 表示包含、( 表示排除，如果使用包容性参数，则必须传入两个指示符，如'()'表示左右范围都排除
+
+返回：`boolean` 判断结果
+
+判断日期是否在指定范围内
+
+示例：BETWEENRANGE('2021/12/6', ['2021/12/5','2021/12/7'])
 
 ### ISSAMEORBEFORE
 
@@ -1058,6 +1076,20 @@ CONCAT(['a', 'b', 'c'], ['1'], ['3']) 得到 ['a', 'b', 'c', '1', '3']
 
 UNIQ([{a: '1'}, {b: '2'}, {a: '1'}]， 'id')
 
+### ENCODEJSON
+
+用法：`ENCODEJSON({name: 'amis'})`
+
+ * `obj:object` 数组
+
+返回：`string` 结果
+
+将JS对象转换成JSON字符串
+
+示例：
+
+ENCODEJSON({name: 'amis'}) 得到 '{"name":"amis"}'
+
 ## 其他
 
 ### GET
@@ -1086,7 +1118,23 @@ GET({arr: [{name: 'amis', age: 18}]}, 'arr.1.name', 'not-found') 得到 'not-fou
 
  * `判断对象:string` null
 
-返回：`boolean` 结果结果
+返回：`boolean` 结果
 
 判断是否为类型支持：string, number, array, date, plain-object。
+
+## 编码
+
+### DECODEJSON
+
+用法：`DECODEJSON('{\"name\": "amis"}')`
+
+ * `str:string` 字符串
+
+返回：`object` 结果
+
+解析JSON编码数据，返回JS对象
+
+示例：
+
+DECODEJSON('{\"name\": "amis"}') 得到 {name: 'amis'}
 

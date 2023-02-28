@@ -508,6 +508,11 @@ test('evalute:array:func', () => {
   expect(evaluate('${GET(obj1, "p2")}', data)).toBe('age');
   expect(evaluate('${GET(obj1, "p4.1.p42")}', data)).toBe('amis');
   expect(evaluate('${GET(obj1, "p4[1].p42")}', data)).toBe('amis');
+
+  expect(evaluate('${ENCODEJSON(obj1)}', data)).toBe(JSON.stringify(data.obj1));
+  expect(
+    evaluate('${DECODEJSON("{\\"name\\":\\"amis\\"}")}', data)
+  ).toMatchObject(JSON.parse('{"name":"amis"}'));
 });
 
 test('evalute:ISTYPE', () => {
