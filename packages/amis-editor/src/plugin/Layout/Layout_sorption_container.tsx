@@ -4,7 +4,7 @@ import {FlexPluginBase, defaultFlexColumnSchema} from './FlexPluginBase';
 export default class Layout_fixed_top extends FlexPluginBase {
   name = '吸附容器';
   isBaseComponent = true;
-  pluginIcon = 'flex-container-plugin';
+  pluginIcon = 'layout-fixed-top';
   description = '吸附容器: 可设置成吸顶或者吸顶展示。';
   order = 502;
   scaffold: any = {
@@ -16,7 +16,7 @@ export default class Layout_fixed_top extends FlexPluginBase {
       defaultFlexColumnSchema(),
       defaultFlexColumnSchema(),
       defaultFlexColumnSchema(),
-      defaultFlexColumnSchema(),
+      defaultFlexColumnSchema()
     ],
     style: {
       position: 'fixed',

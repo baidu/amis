@@ -141,7 +141,7 @@ import './plugin/CRUD2';
 import './plugin/ColumnToggler';
 import './plugin/Layout/Layout_sorption_container';
 import './plugin/Layout/Layout_fixed';
-import './plugin/Layout/Layout1_2_v4';
+// import './plugin/Layout/Layout1_2_v4';
 import './plugin/Layout/Layout_free_container';
 
 import {GridPlugin} from './plugin/Grid';
