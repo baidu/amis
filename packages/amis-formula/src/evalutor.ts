@@ -2092,28 +2092,6 @@ export class Evaluator {
   }
 
   /**
-   * 根据对象或者数组的path路径获取值。 如果解析 value 是 undefined 会以 defaultValue 取代
-   *
-   * 示例：
-   *
-   * GET([0, 2, {name: 'amis', age: 18}], 1) 得到 2
-   * GET([0, 2, {name: 'amis', age: 18}], '2.name') 得到 'amis'
-   * GET({arr: [{name: 'amis', age: 18}]}, 'arr[0].name') 得到 'amis'
-   * GET({arr: [{name: 'amis', age: 18}]}, 'arr.0.name') 得到 'amis'
-   * GET({arr: [{name: 'amis', age: 18}]}, 'arr.1.name', 'not-found') 得到 'not-found'
-   *
-   * @param {any} obj 对象或数组
-   * @param {string} path 路径
-   * @param {any} defaultValue 如果解析不到则返回该值
-   * @namespace 其他
-   * @example GET(arr, 2)
-   * @returns {any} 结果
-   */
-  fnGET(obj: any, path: string, defaultValue?: any) {
-    return get(obj, path, defaultValue);
-  }
-
-  /**
    * 数组过滤掉 false、null、0 和 ""
    *
    * 示例：
@@ -2205,8 +2183,8 @@ export class Evaluator {
    *
    * ENCODEJSON({name: 'amis'}) 得到 '{"name":"amis"}'
    *
-   * @param {object} obj 数组
-   * @namespace 数组
+   * @param {object} obj JS对象
+   * @namespace 编码
    * @example ENCODEJSON({name: 'amis'})
    * @returns {string} 结果
    */
@@ -2228,6 +2206,28 @@ export class Evaluator {
    */
   fnDECODEJSON(str: string): object {
     return JSON.parse(str);
+  }
+
+  /**
+   * 根据对象或者数组的path路径获取值。 如果解析 value 是 undefined 会以 defaultValue 取代
+   *
+   * 示例：
+   *
+   * GET([0, 2, {name: 'amis', age: 18}], 1) 得到 2
+   * GET([0, 2, {name: 'amis', age: 18}], '2.name') 得到 'amis'
+   * GET({arr: [{name: 'amis', age: 18}]}, 'arr[0].name') 得到 'amis'
+   * GET({arr: [{name: 'amis', age: 18}]}, 'arr.0.name') 得到 'amis'
+   * GET({arr: [{name: 'amis', age: 18}]}, 'arr.1.name', 'not-found') 得到 'not-found'
+   *
+   * @param {any} obj 对象或数组
+   * @param {string} path 路径
+   * @param {any} defaultValue 如果解析不到则返回该值
+   * @namespace 其他
+   * @example GET(arr, 2)
+   * @returns {any} 结果
+   */
+  fnGET(obj: any, path: string, defaultValue?: any) {
+    return get(obj, path, defaultValue);
   }
 
   /**
