@@ -1529,11 +1529,13 @@ export class Evaluator {
    * @example WEEK(date)
    * @namespace 日期函数
    * @param {any} date 日期
+   * @param {boolean} isISO 是否ISO星期
    *
    * @returns {number} 星期几的数字标识
    */
-  fnWEEK(date: Date | string | number) {
-    return moment(this.normalizeDate(date)).week();
+  fnWEEK(date: Date | string | number, isISO = false) {
+    const md = moment(this.normalizeDate(date));
+    return isISO ? md.isoWeek() : md.week();
   }
 
   /**
@@ -1618,12 +1620,12 @@ export class Evaluator {
    * @example STARTOF(date[unit = "day"])
    * @param {date} date 日期对象
    * @param {string} unit 比如可以传入 'day'、'month'、'year' 或者 `week` 等等
+   * @param {string} format 日期格式，可选
    * @returns {date} 新的日期对象
    */
-  fnSTARTOF(date: Date, unit?: any) {
-    return moment(this.normalizeDate(date))
-      .startOf(unit || 'day')
-      .toDate();
+  fnSTARTOF(date: Date, unit?: any, format?: string) {
+    const md = moment(this.normalizeDate(date)).startOf(unit || 'day');
+    return format ? md.format(format) : md.toDate();
   }
 
   /**
@@ -1632,12 +1634,12 @@ export class Evaluator {
    * @example ENDOF(date[unit = "day"])
    * @param {date} date 日期对象
    * @param {string} unit 比如可以传入 'day'、'month'、'year' 或者 `week` 等等
+   * @param {string} format 日期格式，可选
    * @returns {date} 新的日期对象
    */
-  fnENDOF(date: Date, unit?: any) {
-    return moment(this.normalizeDate(date))
-      .endOf(unit || 'day')
-      .toDate();
+  fnENDOF(date: Date, unit?: any, format?: string) {
+    const md = moment(this.normalizeDate(date)).endOf(unit || 'day');
+    return format ? md.format(format) : md.toDate();
   }
 
   normalizeDate(raw: any): Date {
@@ -1660,6 +1662,12 @@ export class Evaluator {
     }
 
     return raw;
+  }
+
+  normalizeDateRange(raw: string | Date[]): Date[] {
+    return (Array.isArray(raw) ? raw : raw.split(',')).map((item: any) =>
+      this.normalizeDate(String(item).trim())
+    );
   }
 
   /**
@@ -1857,6 +1865,34 @@ export class Evaluator {
     a = this.normalizeDate(a);
     b = this.normalizeDate(b);
     return moment(a).isAfter(moment(b), unit);
+  }
+
+  /**
+   * 判断日期是否在指定范围内
+   *
+   * 示例：BETWEENRANGE('2021/12/6', ['2021/12/5','2021/12/7'])
+   *
+   * @param {any} date 第一个日期
+   * @param {any[]} daterange 日期范围
+   * @param {string} unit 单位，默认是 'day'， 即之比较到天
+   * @param {string} inclusivity 包容性规则，默认为'[]'。[ 表示包含、( 表示排除，如果使用包容性参数，则必须传入两个指示符，如'()'表示左右范围都排除
+   * @namespace 日期函数
+   * @example BETWEENRANGE(date, [start, end])
+   * @returns {boolean} 判断结果
+   */
+  fnBETWEENRANGE(
+    date: Date,
+    daterange: Date[],
+    unit: any = 'day',
+    inclusivity: '[]' | '()' | '(]' | '[)' = '[]'
+  ) {
+    const range = this.normalizeDateRange(daterange);
+    return moment(this.normalizeDate(date)).isBetween(
+      range[0],
+      range[1],
+      unit,
+      inclusivity
+    );
   }
 
   /**
@@ -2163,12 +2199,44 @@ export class Evaluator {
   }
 
   /**
+   * 将JS对象转换成JSON字符串
+   *
+   * 示例：
+   *
+   * ENCODEJSON({name: 'amis'}) 得到 '{"name":"amis"}'
+   *
+   * @param {object} obj 数组
+   * @namespace 数组
+   * @example ENCODEJSON({name: 'amis'})
+   * @returns {string} 结果
+   */
+  fnENCODEJSON(obj: object): string {
+    return JSON.stringify(obj);
+  }
+
+  /**
+   * 解析JSON编码数据，返回JS对象
+   *
+   * 示例：
+   *
+   * DECODEJSON('{\"name\": "amis"}') 得到 {name: 'amis'}
+   *
+   * @param {string} str 字符串
+   * @namespace 编码
+   * @example DECODEJSON('{\"name\": "amis"}')
+   * @returns {object} 结果
+   */
+  fnDECODEJSON(str: string): object {
+    return JSON.parse(str);
+  }
+
+  /**
    * 判断是否为类型支持：string, number, array, date, plain-object。
    *
    * @param {string} 判断对象
    * @namespace 其他
    * @example ISTYPE([{a: '1'}, {b: '2'}, {a: '1'}], 'array')
-   * @returns {boolean} 结果结果
+   * @returns {boolean} 结果
    */
   fnISTYPE(
     target: any,
