@@ -1196,10 +1196,6 @@ export default class Form extends React.Component<FormProps, object> {
           return values;
         })
         .catch(reason => {
-          if (reason instanceof SkipOperation) {
-            return;
-          }
-
           onFailed && onFailed(reason, store.errors);
 
           if (throwErrors) {
@@ -1563,8 +1559,7 @@ export default class Form extends React.Component<FormProps, object> {
        * 2. 表单子项 static: false 或 不配置，跟随父表单
        * 3. 动作控制 表单子项 时，无视配置，优先级最高
        */
-      ...(control as Schema).static || isStatic
-        ? {static: true} : {},
+      ...((control as Schema).static || isStatic ? {static: true} : {}),
       btnDisabled: disabled || form.loading || form.validating,
       onAction: this.handleAction,
       onQuery: this.handleQuery,
