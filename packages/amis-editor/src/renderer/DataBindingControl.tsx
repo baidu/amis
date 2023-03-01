@@ -132,7 +132,6 @@ export class DataBindingControl extends React.Component<
               />
             );
           }
-
           if (hint) {
             return <p className="ae-DataBindingList-hint">{hint}</p>;
           }
