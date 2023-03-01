@@ -12,7 +12,7 @@
   --button-default-default-bottom-border-style: var(--borders-style-2);
   --button-default-default-bottom-border-width: var(--borders-width-2);
   --button-default-default-shadow: var(--shadows-shadow-none);
-  --button-default-default-bg-color: transparent;
+  --button-default-default-bg-color: var(--colors-neutral-fill-11);
   --button-default-default-font-color: var(--colors-neutral-text-2);
   --button-default-hover-top-border-color: var(--colors-brand-5);
   --button-default-hover-top-border-style: var(--borders-style-2);
@@ -27,7 +27,7 @@
   --button-default-hover-bottom-border-style: var(--borders-style-2);
   --button-default-hover-bottom-border-width: var(--borders-width-2);
   --button-default-hover-shadow: var(--shadows-shadow-none);
-  --button-default-hover-bg-color: transparent;
+  --button-default-hover-bg-color: var(--colors-neutral-fill-11);
   --button-default-hover-font-color: var(--colors-brand-5);
   --button-default-active-top-border-color: var(--colors-brand-4);
   --button-default-active-top-border-style: var(--borders-style-2);
@@ -42,7 +42,7 @@
   --button-default-active-bottom-border-style: var(--borders-style-2);
   --button-default-active-bottom-border-width: var(--borders-width-2);
   --button-default-active-shadow: var(--shadows-shadow-none);
-  --button-default-active-bg-color: transparent;
+  --button-default-active-bg-color: var(--colors-neutral-fill-11);
   --button-default-active-font-color: var(--colors-brand-4);
   --button-default-disabled-top-border-color: var(--colors-neutral-line-10);
   --button-default-disabled-top-border-style: var(--borders-style-2);
@@ -194,7 +194,7 @@
   --button-enhance-default-bottom-border-style: var(--borders-style-2);
   --button-enhance-default-bottom-border-width: var(--borders-width-2);
   --button-enhance-default-shadow: var(--shadows-shadow-none);
-  --button-enhance-default-bg-color: transparent;
+  --button-enhance-default-bg-color: var(--colors-neutral-fill-11);
   --button-enhance-default-font-color: var(--colors-brand-5);
   --button-enhance-hover-top-border-color: var(--colors-brand-6);
   --button-enhance-hover-top-border-style: var(--borders-style-2);
@@ -209,7 +209,7 @@
   --button-enhance-hover-bottom-border-style: var(--borders-style-2);
   --button-enhance-hover-bottom-border-width: var(--borders-width-2);
   --button-enhance-hover-shadow: var(--shadows-shadow-none);
-  --button-enhance-hover-bg-color: transparent;
+  --button-enhance-hover-bg-color: var(--colors-neutral-fill-11);
   --button-enhance-hover-font-color: var(--colors-brand-6);
   --button-enhance-active-top-border-color: var(--colors-brand-4);
   --button-enhance-active-top-border-style: var(--borders-style-2);
@@ -224,7 +224,7 @@
   --button-enhance-active-bottom-border-style: var(--borders-style-2);
   --button-enhance-active-bottom-border-width: var(--borders-width-2);
   --button-enhance-active-shadow: var(--shadows-shadow-none);
-  --button-enhance-active-bg-color: transparent;
+  --button-enhance-active-bg-color: var(--colors-neutral-fill-11);
   --button-enhance-active-font-color: var(--colors-brand-4);
   --button-enhance-disabled-top-border-color: var(--colors-neutral-line-10);
   --button-enhance-disabled-top-border-style: var(--borders-style-2);
@@ -921,7 +921,7 @@
   --input-default-default-paddingBottom: var(--sizes-size-3);
   --input-default-default-paddingLeft: var(--sizes-size-6);
   --input-default-default-paddingRight: var(--sizes-size-6);
-  --input-default-default-bg-color: transparent;
+  --input-default-default-bg-color: var(--colors-neutral-fill-11);
   --input-default-hover-top-border-color: var(--colors-brand-5);
   --input-default-hover-top-border-width: var(--borders-width-2);
   --input-default-hover-top-border-style: var(--borders-style-2);
@@ -942,7 +942,7 @@
   --input-default-hover-paddingBottom: var(--sizes-size-3);
   --input-default-hover-paddingLeft: var(--sizes-size-6);
   --input-default-hover-paddingRight: var(--sizes-size-6);
-  --input-default-hover-bg-color: transparent;
+  --input-default-hover-bg-color: var(--colors-neutral-fill-11);
   --input-default-active-top-border-color: var(--colors-brand-5);
   --input-default-active-top-border-width: var(--borders-width-2);
   --input-default-active-top-border-style: var(--borders-style-2);
@@ -964,7 +964,7 @@
   --input-default-active-paddingLeft: var(--sizes-size-6);
   --input-default-active-paddingRight: var(--sizes-size-6);
   --input-default-active-shadow: var(--shadows-shadow-none);
-  --input-default-active-bg-color: transparent;
+  --input-default-active-bg-color: var(--colors-neutral-fill-11);
   --input-default-disabled-top-border-color: var(--colors-neutral-line-8);
   --input-default-disabled-top-border-width: var(--borders-width-2);
   --input-default-disabled-top-border-style: var(--borders-style-2);
@@ -1007,8 +1007,8 @@
   --input-textarea-paddingBottom: var(--sizes-size-3);
   --input-textarea-paddingLeft: var(--sizes-size-6);
   --input-textarea-paddingRight: var(--sizes-base-11);
-  --input-addon-text-bg-color-default: transparent;
-  --input-addon-text-bg-color-hover: transparent;
+  --input-addon-text-bg-color-default: var(--colors-neutral-text-11);
+  --input-addon-text-bg-color-hover: var(--colors-neutral-text-11);
   --input-addon-text-top-border-color: var(--colors-neutral-line-8);
   --input-addon-text-top-border-width: var(--borders-width-2);
   --input-addon-text-top-border-style: var(--borders-style-2);
@@ -1052,7 +1052,7 @@
   --inputNumber-base-default-paddingBottom: var(--sizes-size-3);
   --inputNumber-base-default-paddingLeft: var(--sizes-size-7);
   --inputNumber-base-default-paddingRight: var(--sizes-size-7);
-  --inputNumber-base-default-bg-color: transparent;
+  --inputNumber-base-default-bg-color: var(--colors-neutral-fill-11);
   --inputNumber-base-hover-top-border-color: var(--colors-brand-5);
   --inputNumber-base-hover-top-border-width: var(--borders-width-2);
   --inputNumber-base-hover-top-border-style: var(--borders-style-2);
@@ -1073,7 +1073,7 @@
   --inputNumber-base-hover-paddingBottom: var(--sizes-size-3);
   --inputNumber-base-hover-paddingLeft: var(--sizes-size-7);
   --inputNumber-base-hover-paddingRight: var(--sizes-size-7);
-  --inputNumber-base-hover-bg-color: transparent;
+  --inputNumber-base-hover-bg-color: var(--colors-neutral-fill-11);
   --inputNumber-base-active-top-border-color: var(--colors-brand-5);
   --inputNumber-base-active-top-border-width: var(--borders-width-2);
   --inputNumber-base-active-top-border-style: var(--borders-style-2);
@@ -1095,7 +1095,7 @@
   --inputNumber-base-active-paddingLeft: var(--sizes-size-7);
   --inputNumber-base-active-paddingRight: var(--sizes-size-7);
   --inputNumber-base-active-shadow: var(--Form-input-boxShadow);
-  --inputNumber-base-active-bg-color: transparent;
+  --inputNumber-base-active-bg-color: var(--colors-neutral-fill-11);
   --inputNumber-base-disabled-top-border-color: var(--colors-neutral-line-8);
   --inputNumber-base-disabled-top-border-width: var(--borders-width-2);
   --inputNumber-base-disabled-top-border-style: var(--borders-style-2);
@@ -1184,7 +1184,7 @@
   --inputNumber-enhance-default-paddingBottom: var(--sizes-size-3);
   --inputNumber-enhance-default-paddingLeft: var(--sizes-size-7);
   --inputNumber-enhance-default-paddingRight: var(--sizes-size-7);
-  --inputNumber-enhance-default-bg-color: transparent;
+  --inputNumber-enhance-default-bg-color: var(--colors-neutral-fill-11);
   --inputNumber-enhance-hover-top-border-color: var(--colors-brand-5);
   --inputNumber-enhance-hover-top-border-width: var(--borders-width-2);
   --inputNumber-enhance-hover-top-border-style: var(--borders-style-2);
@@ -1209,7 +1209,7 @@
   --inputNumber-enhance-hover-paddingBottom: var(--sizes-size-3);
   --inputNumber-enhance-hover-paddingLeft: var(--sizes-size-7);
   --inputNumber-enhance-hover-paddingRight: var(--sizes-size-7);
-  --inputNumber-enhance-hover-bg-color: transparent;
+  --inputNumber-enhance-hover-bg-color: var(--colors-neutral-fill-11);
   --inputNumber-enhance-active-top-border-color: var(--colors-brand-5);
   --inputNumber-enhance-active-top-border-width: var(--borders-width-2);
   --inputNumber-enhance-active-top-border-style: var(--borders-style-2);
@@ -1235,7 +1235,7 @@
   --inputNumber-enhance-active-paddingLeft: var(--sizes-size-7);
   --inputNumber-enhance-active-paddingRight: var(--sizes-size-7);
   --inputNumber-enhance-active-shadow: var(--shadows-shadow-none);
-  --inputNumber-enhance-active-bg-color: transparent;
+  --inputNumber-enhance-active-bg-color: var(--colors-neutral-fill-11);
   --inputNumber-enhance-disabled-top-border-color: var(--colors-neutral-line-8);
   --inputNumber-enhance-disabled-top-border-width: var(--borders-width-2);
   --inputNumber-enhance-disabled-top-border-style: var(--borders-style-2);
@@ -1310,7 +1310,7 @@
 
   // 勾选框
   --checkbox-checkbox-default-height: var(--sizes-size-9);
-  --checkbox-checkbox-default-bg-color: transparent;
+  --checkbox-checkbox-default-bg-color: var(--colors-neutral-fill-11);
   --checkbox-checkbox-default-color: var(--colors-neutral-text-2);
   --checkbox-checkbox-default-fontSize: var(--sizes-size-8);
   --checkbox-checkbox-default-top-border-color: var(--colors-neutral-line-8);
@@ -1330,7 +1330,7 @@
   --checkbox-checkbox-default-bottom-right-border-radius: var(--sizes-size-2);
   --checkbox-checkbox-default-bottom-left-border-radius: var(--sizes-size-2);
   --checkbox-checkbox-hover-height: var(--sizes-size-9);
-  --checkbox-checkbox-hover-bg-color: transparent;
+  --checkbox-checkbox-hover-bg-color: var(--colors-neutral-fill-11);
   --checkbox-checkbox-hover-color: var(--colors-neutral-text-2);
   --checkbox-checkbox-hover-fontSize: var(--sizes-size-8);
   --checkbox-checkbox-hover-top-border-color: var(--colors-brand-5);
@@ -1350,7 +1350,7 @@
   --checkbox-checkbox-hover-bottom-right-border-radius: var(--sizes-size-2);
   --checkbox-checkbox-hover-bottom-left-border-radius: var(--sizes-size-2);
   --checkbox-checkbox-active-height: var(--sizes-size-9);
-  --checkbox-checkbox-active-bg-color: transparent;
+  --checkbox-checkbox-active-bg-color: var(--colors-neutral-fill-11);
   --checkbox-checkbox-active-color: var(--colors-neutral-text-2);
   --checkbox-checkbox-active-fontSize: var(--sizes-size-8);
   --checkbox-checkbox-active-top-border-color: var(--colors-brand-5);
@@ -1452,7 +1452,7 @@
   --checkbox-checked-active-bottom-right-border-radius: var(--sizes-size-2);
   --checkbox-checked-active-bottom-left-border-radius: var(--sizes-size-2);
   --checkbox-checked-disabled-height: var(--sizes-size-9);
-  --checkbox-checked-disabled-bg-color: transparent;
+  --checkbox-checked-disabled-bg-color: var(--colors-neutral-fill-11);
   --checkbox-checked-disabled-color: var(--colors-neutral-text-2);
   --checkbox-checked-disabled-fontSize: var(--sizes-size-8);
   --checkbox-checked-disabled-top-border-color: var(--colors-neutral-line-8);
@@ -1537,7 +1537,7 @@
   --listSelect-base-default-paddingLeft: var(--sizes-size-6);
   --listSelect-base-default-paddingRight: var(--sizes-size-6);
   --listSelect-base-default-color: var(--colors-neutral-text-2);
-  --listSelect-base-default-bg-color: transparent;
+  --listSelect-base-default-bg-color: var(--colors-neutral-fill-11);
   --listSelect-base-hover-top-border-color: var(--colors-brand-5);
   --listSelect-base-hover-top-border-width: var(--borders-width-2);
   --listSelect-base-hover-top-border-style: var(--borders-style-2);
@@ -1559,7 +1559,7 @@
   --listSelect-base-hover-paddingLeft: var(--sizes-size-7);
   --listSelect-base-hover-paddingRight: var(--sizes-size-7);
   --listSelect-base-hover-color: var(--colors-brand-5);
-  --listSelect-base-hover-bg-color: transparent;
+  --listSelect-base-hover-bg-color: var(--colors-neutral-fill-11);
   --listSelect-base-active-top-border-color: var(--colors-brand-5);
   --listSelect-base-active-top-border-width: var(--borders-width-2);
   --listSelect-base-active-top-border-style: var(--borders-style-2);
@@ -1582,7 +1582,7 @@
   --listSelect-base-active-paddingRight: var(--sizes-size-7);
   --listSelect-base-active-shadow: var(--Form-input-boxShadow);
   --listSelect-base-active-color: var(--colors-brand-5);
-  --listSelect-base-active-bg-color: transparent;
+  --listSelect-base-active-bg-color: var(--colors-neutral-fill-11);
   --listSelect-base-disabled-top-border-color: var(--colors-neutral-line-8);
   --listSelect-base-disabled-top-border-width: var(--borders-width-2);
   --listSelect-base-disabled-top-border-style: var(--borders-style-2);
@@ -1868,7 +1868,7 @@
   --Rating-inactive-color: var(--colors-neutral-text-9);
   --radio-default-default-color: var(--colors-neutral-text-8);
   --radio-default-default-text-color: var(--colors-neutral-text-1);
-  --radio-default-default-bg-color: transparent;
+  --radio-default-default-bg-color: var(--colors-neutral-fill-11);
   --radio-default-default-fontSize: var(--fonts-size-7);
   --radio-default-default-fontWeight: var(--fonts-weight-6);
   --radio-default-default-lineHeight: var(--fonts-lineHeight-2);
@@ -1881,10 +1881,10 @@
   --radio-default-default-distance: var(--sizes-size-5);
   --radio-default-hover-color: var(--colors-brand-5);
   --radio-default-hover-text-color: var(--colors-neutral-text-1);
-  --radio-default-hover-bg-color: transparent;
+  --radio-default-hover-bg-color: var(--colors-neutral-fill-11);
   --radio-default-active-color: var(--colors-brand-5);
   --radio-default-active-text-color: var(--colors-neutral-text-1);
-  --radio-default-active-bg-color: transparent;
+  --radio-default-active-bg-color: var(--colors-neutral-fill-11);
   --radio-default-disabled-color: var(--colors-neutral-text-6);
   --radio-default-disabled-text-color: var(--colors-neutral-text-6);
   --radio-default-disabled-bg-color: var(--colors-neutral-fill-8);
@@ -2007,7 +2007,7 @@
   --collapse-default-content-fontSize: var(--fonts-size-8);
   --collapse-default-content-fontWeight: var(--fonts-weight-6);
   --collapse-default-content-lineHeight: var(--fonts-lineHeight-2);
-  --collapse-default-bg-color: transparent;
+  --collapse-default-bg-color: var(--colors-neutral-fill-11);
   --collapse-icon-icon: '<svg viewBox="0 0 99 176" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g transform="translate(-0.132812, 0.304688)" fill="currentColor" fill-rule="nonzero"><path d="M95.6353697,79.4031346 C95.3433678,79.1111326 95.037575,78.8417152 94.7219891,78.5906854 L19.819373,3.29993262 C15.6492004,-0.870040234 8.88818437,-0.870040234 4.71821172,3.29993262 C0.548238867,7.47010527 0.548238867,14.2309215 4.71821172,18.4010939 L72.9329621,87.0041811 L3.25320488,156.617783 C-0.916767969,160.787956 -0.916767969,167.548772 3.25320488,171.719144 C7.42317773,175.889117 14.1841937,175.889117 18.3543662,171.719144 L94.7211895,95.4180764 C95.0369754,95.1668467 95.342968,94.8976293 95.6351697,94.6054273 C97.7329475,92.5076496 98.7744412,89.7539166 98.7615739,87.0043809 C98.7746414,84.2544453 97.7331475,81.5009123 95.6353697,79.4031346 Z" id="路径"></path></g></svg>';
   --collapse-icon-size: var(--sizes-size-6);
   --collapse-icon-color: var(--colors-neutral-text-5);
@@ -2601,8 +2601,8 @@
   --inputFile-drag-icon-size: var(--sizes-base-24);
   --inputFile-drag-icon-color: var(--colors-neutral-fill-8);
   --inputFile-drag-icon-margin: var(--sizes-size-5);
-  --inputFile-drag-bg-color: transparent;
-  --inputFile-drag-bg-color-hover: transparent;
+  --inputFile-drag-bg-color: var(--colors-neutral-fill-11);
+  --inputFile-drag-bg-color-hover: var(--colors-neutral-text-11);
   --FileControl-danger-color: var(--colors-error-5);
   --FileControl-drag-color: var(--inputFile-drag-color);
   --FileControl-border-color: var(--inputFile-drag-top-border-color)
@@ -2639,7 +2639,7 @@
   --inputImage-base-default-icon-size: var(--sizes-base-12);
   --inputImage-base-default-icon-color: var(--colors-neutral-text-5);
   --inputImage-base-default-icon-margin: var(--sizes-size-5);
-  --inputImage-base-default-bg-color: transparent;
+  --inputImage-base-default-bg-color: var(--colors-neutral-fill-11);
   --inputImage-base-hover-top-border-color: var(--colors-brand-5);
   --inputImage-base-hover-top-border-width: var(--borders-width-2);
   --inputImage-base-hover-top-border-style: var(--borders-style-2);
@@ -2654,7 +2654,7 @@
   --inputImage-base-hover-left-border-style: var(--borders-style-2);
   --inputImage-base-hover-color: var(--colors-neutral-text-5);
   --inputImage-base-hover-icon-color: var(--colors-neutral-text-5);
-  --inputImage-base-hover-bg-color: transparent;
+  --inputImage-base-hover-bg-color: var(--colors-neutral-fill-11);
   --inputImage-base-active-top-border-color: var(--colors-brand-5);
   --inputImage-base-active-top-border-width: var(--borders-width-2);
   --inputImage-base-active-top-border-style: var(--borders-style-2);
@@ -2669,7 +2669,7 @@
   --inputImage-base-active-left-border-style: var(--borders-style-2);
   --inputImage-base-active-color: var(--colors-neutral-text-5);
   --inputImage-base-active-icon-color: var(--colors-neutral-text-5);
-  --inputImage-base-active-bg-color: transparent;
+  --inputImage-base-active-bg-color: var(--colors-neutral-fill-11);
   --inputImage-base-disabled-top-border-color: var(--colors-neutral-line-8);
   --inputImage-base-disabled-top-border-width: var(--borders-width-2);
   --inputImage-base-disabled-top-border-style: var(--borders-style-2);
@@ -2724,7 +2724,7 @@
   --select-base-default-color: var(--colors-neutral-text-2);
   --select-base-default-fontSize: var(--fonts-size-7);
   --select-base-default-fontWeight: var(--fonts-weight-6);
-  --select-base-default-bg-color: transparent;
+  --select-base-default-bg-color: var(--colors-neutral-fill-11);
   --select-base-default-option-paddingTop: var(--sizes-size-0);
   --select-base-default-option-paddingBottom: var(--sizes-size-0);
   --select-base-default-option-paddingLeft: var(--sizes-size-6);
@@ -2746,7 +2746,7 @@
   --select-base-hover-left-border-color: var(--colors-brand-5);
   --select-base-hover-left-border-width: var(--borders-width-2);
   --select-base-hover-left-border-style: var(--borders-style-2);
-  --select-base-hover-bg-color: transparent;
+  --select-base-hover-bg-color: var(--colors-neutral-fill-11);
   --select-base-hover-option-color: var(--colors-neutral-text-2);
   --select-base-hover-option-bg-color: var(--colors-brand-10);
   --select-base-active-top-border-color: var(--colors-brand-5);
@@ -2762,9 +2762,9 @@
   --select-base-active-left-border-width: var(--borders-width-2);
   --select-base-active-left-border-style: var(--borders-style-2);
   --select-base-active-shadow: var(--shadows-shadow-none);
-  --select-base-active-bg-color: transparent;
+  --select-base-active-bg-color: var(--colors-neutral-fill-11);
   --select-base-active-option-color: var(--colors-brand-5);
-  --select-base-active-option-bg-color: transparent;
+  --select-base-active-option-bg-color: var(--colors-neutral-fill-11);
   --select-base-disabled-top-border-color: var(--colors-neutral-line-8);
   --select-base-disabled-top-border-width: var(--borders-width-2);
   --select-base-disabled-top-border-style: var(--borders-style-2);
@@ -2779,7 +2779,7 @@
   --select-base-disabled-left-border-style: var(--borders-style-2);
   --select-base-disabled-bg-color: var(--colors-neutral-fill-10);
   --select-base-disabled-option-color: var(--colors-neutral-text-6);
-  --select-base-disabled-option-bg-color: transparent;
+  --select-base-disabled-option-bg-color: var(--colors-neutral-fill-11);
   --select-multiple-top-right-border-radius: var(--borders-radius-2);
   --select-multiple-top-left-border-radius: var(--borders-radius-2);
   --select-multiple-bottom-right-border-radius: var(--borders-radius-2);
@@ -3011,9 +3011,9 @@
   --inputDate-disabled-color: var(--colors-neutral-text-2);
   --inputDate-disabled-bg-color: var(--colors-neutral-fill-10);
   --inputDate-disabled-option-color: var(--colors-neutral-text-6);
-  --inputDate-disabled-option-bg-color: transparent;
+  --inputDate-disabled-option-bg-color: var(--colors-neutral-fill-11);
   --inputDate-other-color: var(--colors-neutral-text-2);
-  --inputDate-other-bg-color: transparent;
+  --inputDate-other-bg-color: var(--colors-neutral-fill-11);
   --inputDate-other-top-right-border-radius: var(--borders-radius-2);
   --inputDate-other-top-left-border-radius: var(--borders-radius-2);
   --inputDate-other-bottom-right-border-radius: var(--borders-radius-2);
@@ -3153,7 +3153,7 @@
   --inputTime-default-fontSize: var(--fonts-size-8);
   --inputTime-default-fontWeight: var(--fonts-weight-6);
   --inputTime-default-color: var(--colors-neutral-text-2);
-  --inputTime-default-bg-color: var(--colors-neutral-text-11);
+  --inputTime-default-bg-color: var(--colors-neutral-fill-11);
   --inputTime-hover-color: var(--colors-neutral-text-2);
   --inputTime-hover-bg-color: var(--colors-neutral-fill-10);
   --inputTime-active-color: var(--colors-neutral-text-2);
