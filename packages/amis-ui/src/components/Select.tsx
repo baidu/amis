@@ -1242,7 +1242,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
               (overlay &&
                 BasePopover.calcOverlayWidth(
                   overlay,
-                  this.target.offsetWidth
+                  this.target?.offsetWidth
                 )) ||
               (this.target ? this.target.offsetWidth : 'auto')
           }}

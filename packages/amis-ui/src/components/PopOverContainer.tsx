@@ -129,7 +129,7 @@ export class PopOverContainer extends React.Component<
       [overlayWidthField || 'minWidth']:
         PopOverContainer.calcOverlayWidth(
           {width: overlayWidth},
-          this.target.offsetWidth
+          this.target?.offsetWidth
         ) || (this.target ? Math.max(this.target.offsetWidth, 100) : 'auto')
     };
   }
