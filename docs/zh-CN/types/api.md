@@ -934,6 +934,8 @@ Access-Control-Expose-Headers: Content-Disposition
 之前的版本，配置的 api 默认就会具备自动刷新功能，除非显式的配置 `autoRefresh: false` 来关闭。自动刷新主要通过跟踪 api 的 url 属性来完成的，如果 url 中了使用了某个变量，而这个变量发生变化则会触发自动刷新。
 也就说这个 url 地址，既能控制 api 请求的 query 参数，同时又起到跟踪变量重新刷新接口的作用。这个设定大部分情况下都是合理的，但是有时候想要跟踪 url 参数以外的变量就做不到了。所以新增了此属性 `trackExpression`，显式的配置需要跟踪的变量如：
 
+> 如果`trackExpression` 追踪的数据是**对象数据**，可以使用[数据映射](../../docs/concepts/data-mapping)的`json`方法将数据序列化之后再比较，例如`"trackExpression": "${fieldToTrack|json}"`
+
 ```schema: scope="body"
 {
     "title": "",

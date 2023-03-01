@@ -9,7 +9,7 @@ import {
 } from 'amis-core';
 import {ServiceStore, IServiceStore} from 'amis-core';
 
-import {filter, evalExpression} from 'amis-core';
+import {filter} from 'amis-core';
 import cx from 'classnames';
 import {LazyComponent} from 'amis-core';
 import {resizeSensor} from 'amis-core';
@@ -378,13 +378,18 @@ export class Chart extends React.Component<ChartProps> {
         if (onChartWillMount) {
           await onChartWillMount(echarts);
         }
-        
-        if((ecStat as any).transform){
-          (echarts as any).registerTransform((ecStat as any).transform.regression);
-          (echarts as any).registerTransform((ecStat as any).transform.histogram);
-          (echarts as any).registerTransform((ecStat as any).transform.clustering);
+
+        if ((ecStat as any).transform) {
+          (echarts as any).registerTransform(
+            (ecStat as any).transform.regression
+          );
+          (echarts as any).registerTransform(
+            (ecStat as any).transform.histogram
+          );
+          (echarts as any).registerTransform(
+            (ecStat as any).transform.clustering
+          );
         }
-       
 
         if (env.loadChartExtends) {
           await env.loadChartExtends();
