@@ -11,6 +11,8 @@ import {
   types
 } from 'mobx-state-tree';
 import uniq from 'lodash/uniq';
+import uniqBy from 'lodash/uniqBy';
+import isPlainObject from 'lodash/isPlainObject';
 import {RegionConfig, RendererInfo} from '../plugin';
 import {guid, JSONPipeIn, eachTree} from '../util';
 import {filterSchema} from 'amis';
@@ -58,7 +60,10 @@ export const EditorNode = types
     children: types.optional(
       types.array(types.late((): IAnyModelType => EditorNode)),
       []
-    )
+    ),
+
+    /** 节点额外存储的信息 */
+    extra: types.optional(types.frozen(), {})
   })
   .volatile(() => ({
     getData: types.frozen<() => any>()
@@ -279,20 +284,30 @@ export const EditorNode = types
        */
       get descendantFields() {
         const getSchema = (getRoot(self) as EditorStoreType).getSchema;
-        const fields: Array<{label: string; name: string}> = [];
+        const fields: Array<{
+          label: string;
+          name: string;
+          path: string;
+          schema: Record<string, any>;
+          extra: Record<string, any>;
+        }> = [];
 
         eachTree(self.children, (node: EditorNodeType) => {
           const childSchema = getSchema(node.id);
 
           if (childSchema && childSchema.name) {
             fields.push({
+              schema: childSchema,
               label: childSchema.label ?? '',
-              name: childSchema.name
+              name: childSchema.name,
+              path: node.path,
+              extra: node.extra
             });
           }
         });
 
-        return fields;
+        // 基于path路径过滤一下, 多个组件绑定统一个字段的场景需要
+        return uniqBy(fields, 'path');
       },
 
       get host(): any {
@@ -716,6 +731,10 @@ export const EditorNode = types
 
       setHeightMutable(value: any) {
         self.heightMutable = !!value;
+      },
+
+      setExtraData(value: any) {
+        self.extra = isPlainObject(value) ? value : {data: value};
       }
     };
   });
