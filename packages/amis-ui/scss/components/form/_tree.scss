@@ -54,6 +54,15 @@
     position: relative;
 
     > div {
+      color: var(--inputTree-base-default-color);
+
+      &:hover {
+        color: var(--inputTree-base-hover-color);
+      }
+
+      &:active {
+        color: var(--inputTree-base-active-color);
+      }
       &:hover {
         text-decoration: none;
 
@@ -76,6 +85,12 @@
 
   &.is-disabled {
     pointer-events: none;
+    .#{$ns}Tree-itemLabel.is-disabled {
+      color: var(--inputTree-base-disabled-color);
+      .#{$ns}Tree-itemArrow > svg {
+        color: var(--inputTree-base-disabled-expandColor);
+      }
+    }
   }
 
   &.is-draggable {
@@ -141,6 +156,10 @@
           visibility: visible;
         }
       }
+    }
+
+    .#{$ns}Checkbox {
+      margin-right: var(--inputTree-checkboxes-size-marginRight);
     }
   }
 
@@ -268,7 +287,7 @@
     cursor: pointer;
     width: var(--Tree-itemArrowWidth);
     display: inline-flex;
-    margin-right: var(--Tree-icon-margin-right);
+    margin-right: var(--inputTree-base-size-expandMarginRight);
 
     // &:before {
     //   font-style: normal;
@@ -281,7 +300,15 @@
       display: block;
       transition: transform var(--animation-duration);
       top: 0;
-      color: var(--Tree-item-arrow-color);
+      color: var(--inputTree-base-default-expandColor);
+
+      &:hover {
+        color: var(--inputTree-base-hover-expandColor);
+      }
+
+      &:active {
+        color: var(--inputTree-base-hover-expandColor);
+      }
     }
 
     &.is-folded > svg {
@@ -305,7 +332,7 @@
 
   &-itemIcon {
     display: inline-flex;
-    margin-right: var(--Tree-icon-margin-right);
+    margin-right: var(--inputTree-base-size-nodeMarginRight);
   }
 
   &-rootIcon,
@@ -322,15 +349,22 @@
     cursor: pointer;
     flex: 1 auto;
     display: inline-block;
-    color: var(--select-tree-color);
+    color: var(--inputTree-base-default-color);
     font-size: var(--select-tree-fontSize);
     max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+
+    &:hover {
+      color: var(--inputTree-base-hover-color);
+    }
+    &:active {
+      color: var(--inputTree-base-active-color);
+    }
   }
   .is-disabled &-itemText {
-    color: var(--text--muted-color);
+    color: var(--inputTree-base-disabled-color);
   }
 
   &-placeholder {
