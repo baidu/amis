@@ -611,6 +611,7 @@ export class EventControl extends React.Component<
         }
       });
     }
+    variables.forEach(item => (item.selectMode = 'tree'));
 
     // 编辑操作，需要格式化动作配置
     if (data.type === 'update') {
