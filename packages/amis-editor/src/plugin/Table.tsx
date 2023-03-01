@@ -1,6 +1,10 @@
 import React from 'react';
 import {Button, resolveVariable} from 'amis';
-import {getI18nEnabled, RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
+import {
+  getI18nEnabled,
+  RendererPluginAction,
+  RendererPluginEvent
+} from 'amis-editor-core';
 import {findTree, setVariable, someTree} from 'amis-core';
 
 import {registerEditorPlugin, repeatArray, diff} from 'amis-editor-core';
@@ -311,14 +315,13 @@ export class TablePlugin extends BasePlugin {
           mode: 'horizontal'
         }
         */
-        {
+        getSchemaTpl('formulaControl', {
           name: 'selected',
           label: '选中项',
-          type: 'ae-formulaControl',
           variables: '${variables}',
           size: 'lg',
           mode: 'horizontal'
-        }
+        })
       ])
     },
     {

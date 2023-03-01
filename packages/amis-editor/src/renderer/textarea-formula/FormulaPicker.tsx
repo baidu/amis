@@ -49,6 +49,7 @@ const FormulaPicker: React.FC<FormulaPickerProps> = props => {
     >
       <Modal.Body>
         <FormulaEditor
+          {...props}
           header="表达式"
           variables={variables}
           variableMode={variableMode}

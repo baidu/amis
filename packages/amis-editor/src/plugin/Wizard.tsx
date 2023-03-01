@@ -268,15 +268,14 @@ export class WizardPlugin extends BasePlugin {
           mode: 'horizontal'
         }
         */
-        {
+        getSchemaTpl('formulaControl', {
           name: 'step',
           label: '目标步骤',
-          type: 'ae-formulaControl',
           variables: '${variables}',
           size: 'lg',
           mode: 'horizontal',
           required: true
-        }
+        })
       ])
     },
     {
