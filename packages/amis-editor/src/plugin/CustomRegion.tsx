@@ -30,13 +30,13 @@ export class CustomPlugin extends BasePlugin {
   icon = 'fa fa-gears';
   scaffold = {
     type: 'custom',
-    html:
-      '<div>\n<h2>hello, world!</h2>\n<div id="customBox">自定义容器区域</div>\n</div>',
+    html: '<div>\n<h2>hello, world!</h2>\n<div id="customBox">自定义容器区域</div>\n</div>',
     onMount: `this.renderChild('body', props.body, document.getElementById('customBox'));`,
     body: [
       {
         type: 'tpl',
-        tpl: '<p>自定义容器区域</p>'
+        wrapperComponent: '',
+        tpl: '自定义容器区域'
       }
     ]
   };
@@ -54,6 +54,7 @@ export class CustomPlugin extends BasePlugin {
 
   panelTitle = '自定义代码';
   panelBody = [
+    getSchemaTpl('layout:originPosition', {value: 'left-top'}),
     getSchemaTpl('fieldSet', {
       title: 'HTML 内容',
       body: [

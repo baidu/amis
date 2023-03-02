@@ -60,11 +60,8 @@ export class PropertyPlugin extends BasePlugin {
       {
         title: '常规',
         body: [
-          {
-            label: '标题',
-            type: 'input-text',
-            name: 'title'
-          },
+          getSchemaTpl('layout:originPosition', {value: 'left-top'}),
+          getSchemaTpl('propertyTitle'),
           {
             label: '每行显示几列',
             type: 'input-number',
@@ -99,20 +96,8 @@ export class PropertyPlugin extends BasePlugin {
             draggable: true,
             addButtonText: '新增',
             items: [
-              {
-                type: 'input-text',
-                mode: 'inline',
-                size: 'sm',
-                label: '属性名',
-                name: 'label'
-              },
-              {
-                type: 'input-text',
-                mode: 'inline',
-                size: 'sm',
-                label: '属性值',
-                name: 'content'
-              },
+              getSchemaTpl('propertyLabel'),
+              getSchemaTpl('propertyContent'),
               {
                 type: 'input-number',
                 mode: 'inline',

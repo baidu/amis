@@ -1,5 +1,6 @@
 import {
   defaultValue,
+  getI18nEnabled,
   getSchemaTpl,
   isObject,
   undefinedPipeOut
@@ -87,6 +88,7 @@ export class RateControlPlugin extends BasePlugin {
 
   panelJustify = true;
   panelBodyCreator = (context: BaseEventContext) => {
+    const i18nEnabled = getI18nEnabled();
     return getSchemaTpl('tabs', [
       {
         title: '属性',
@@ -94,15 +96,14 @@ export class RateControlPlugin extends BasePlugin {
           {
             title: '基本',
             body: [
+              getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               getSchemaTpl('formItemName', {
                 required: true
               }),
 
-              {
-                label: 'Label',
-                name: 'label',
-                type: 'input-text'
-              },
+              getSchemaTpl('label', {
+                label: 'Label'
+              }),
 
               getSchemaTpl('crudFilterOperator', {context}),
               getSchemaTpl('valueFormula', {
@@ -113,32 +114,19 @@ export class RateControlPlugin extends BasePlugin {
                 valueType: 'number', // 期望数值类型
                 visibleOn: '!data.multiple'
               }),
-
+              // 评分组件没有 min、max 属性，有 count 属性
               getSchemaTpl('valueFormula', {
-                name: 'min',
+                name: 'count',
                 rendererSchema: {
                   ...context?.schema,
-                  type: 'input-number'
+                  type: 'input-number',
+                  max: 10,
+                  min: 1,
+                  step: 1,
+                  precision: 0
                 },
-                needDeleteProps: ['min'], // 避免自我限制
-                label: tipedLabel(
-                  '最小值',
-                  '请输入数字或使用 <code>\\${xxx}</code> 来获取变量，否则该配置不生效'
-                ),
-                valueType: 'number'
-              }),
-
-              getSchemaTpl('valueFormula', {
-                name: 'max',
-                rendererSchema: {
-                  ...context?.schema,
-                  type: 'input-number'
-                },
-                needDeleteProps: ['max'], // 避免自我限制
-                label: tipedLabel(
-                  '最大值',
-                  '请输入数字或使用 <code>\\${xxx}</code> 来获取变量，否则该配置不生效'
-                ),
+                needDeleteProps: ['count'], // 避免自我限制
+                label: '最大值',
                 valueType: 'number'
               }),
 
@@ -157,7 +145,6 @@ export class RateControlPlugin extends BasePlugin {
               getSchemaTpl('labelRemark'),
 
               getSchemaTpl('remark'),
-
               getSchemaTpl('combo-container', {
                 type: 'combo',
                 label: '描述',
@@ -175,10 +162,9 @@ export class RateControlPlugin extends BasePlugin {
                     max: 10,
                     precision: 0
                   },
-
                   {
                     placeholder: '描述内容',
-                    type: 'input-text',
+                    type: i18nEnabled ? 'input-text-i18n' : 'input-text',
                     name: 'value'
                   }
                 ],
@@ -226,7 +212,6 @@ export class RateControlPlugin extends BasePlugin {
                       res[key] = item?.value || '';
                     }
                   });
-
                   return res;
                 }
               }),

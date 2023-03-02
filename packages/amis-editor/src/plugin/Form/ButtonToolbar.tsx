@@ -1,4 +1,4 @@
-import {registerEditorPlugin} from 'amis-editor-core';
+import {registerEditorPlugin, translateSchema} from 'amis-editor-core';
 import {BasePlugin, RegionConfig, BaseEventContext} from 'amis-editor-core';
 import {getSchemaTpl} from 'amis-editor-core';
 
@@ -70,6 +70,7 @@ export class ButtonToolbarControlPlugin extends BasePlugin {
             {
               title: '基本',
               body: [
+                getSchemaTpl('layout:originPosition', {value: 'left-top'}),
                 getSchemaTpl('label'),
                 getSchemaTpl('labelRemark'),
                 getSchemaTpl('remark'),
@@ -84,6 +85,7 @@ export class ButtonToolbarControlPlugin extends BasePlugin {
                   minLength: 1,
                   draggable: true,
                   editable: false,
+                  pipeIn: (value: any) => translateSchema(value),
                   items: [
                     {
                       type: 'tpl',

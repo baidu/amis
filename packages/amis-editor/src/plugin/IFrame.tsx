@@ -40,10 +40,12 @@ export class IFramePlugin extends BasePlugin {
           {
             title: '基本',
             body: [
+              getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               {
+                type: 'ae-textareaFormulaControl',
                 name: 'src',
-                label: '页面地址',
-                type: 'input-text'
+                mode: 'normal',
+                label: '页面地址'
               }
             ]
           },
@@ -86,7 +88,7 @@ export class IFramePlugin extends BasePlugin {
   };
 
   renderRenderer(props: any) {
-    return this.renderPlaceholder(`IFrame 页面（${props.src}）`);
+    return this.renderPlaceholder(`IFrame 页面（${props.src}）`, props.key, props.style);
   }
 }
 

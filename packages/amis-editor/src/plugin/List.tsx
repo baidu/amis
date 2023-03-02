@@ -1,6 +1,6 @@
 import {Button, resolveVariable} from 'amis';
 import React from 'react';
-import {registerEditorPlugin} from 'amis-editor-core';
+import {getI18nEnabled, registerEditorPlugin} from 'amis-editor-core';
 import {
   BaseEventContext,
   BasePlugin,
@@ -22,7 +22,6 @@ export class ListPlugin extends BasePlugin {
   // 组件名称
   name = '列表';
   isBaseComponent = true;
-  panelJustify = true;
   description =
     '展示一个列表，可以自定标题、副标题，内容及按钮组部分。当前组件需要配置数据源，不自带数据拉取，请优先使用 「CRUD」 组件。';
   docLink = '/amis/zh-CN/components/list';
@@ -35,7 +34,8 @@ export class ListPlugin extends BasePlugin {
       body: [
         {
           type: 'tpl',
-          tpl: '简单的展示数据：$a $b'
+          tpl: '简单的展示数据：$a $b',
+          wrapperComponent: ''
         }
       ],
       actions: [
@@ -56,85 +56,127 @@ export class ListPlugin extends BasePlugin {
   };
 
   panelTitle = '列表';
+  panelJustify = true;
   panelBodyCreator = (context: BaseEventContext) => {
     const isCRUDBody = ['crud', 'crud2'].includes(context.schema.type);
-
+    const i18nEnabled = getI18nEnabled();
     return getSchemaTpl('tabs', [
       {
-        title: '常规',
-        body: [
+        title: '属性',
+        body: getSchemaTpl('collapseGroup', [
           {
-            children: (
-              <Button
-                level="danger"
-                size="sm"
-                block
-                onClick={this.editDetail.bind(this, context.id)}
-              >
-                配置成员详情
-              </Button>
-            )
-          },
-          {
-            type: 'divider'
-          },
-          {
-            name: 'title',
-            type: 'input-text',
-            label: '标题'
-          },
-          isCRUDBody
-            ? null
-            : {
-                name: 'source',
-                type: 'input-text',
-                label: '数据源',
-                pipeIn: defaultValue('${items}'),
-                description: '绑定当前环境变量'
+            title: '基本',
+            body: [
+              {
+                children: (
+                  <Button
+                    level="primary"
+                    size="sm"
+                    block
+                    onClick={this.editDetail.bind(this, context.id)}
+                  >
+                    配置成员详情
+                  </Button>
+                )
               },
-          {
-            name: 'placeholder',
-            pipeIn: defaultValue('没有数据'),
-            type: 'input-text',
-            label: '无数据提示'
-          }
-        ]
+              {
+                type: 'divider'
+              },
+              {
+                name: 'title',
+                type: i18nEnabled ? 'input-text-i18n' : 'input-text',
+                label: '标题'
+              },
+              isCRUDBody
+                ? null
+                : {
+                    name: 'source',
+                    type: 'input-text',
+                    label: '数据源',
+                    pipeIn: defaultValue('${items}'),
+                    description: '绑定当前环境变量'
+                  },
+              {
+                name: 'placeholder',
+                pipeIn: defaultValue('没有数据'),
+                type: i18nEnabled ? 'input-text-i18n' : 'input-text',
+                label: '无数据提示'
+              },
+              {
+                type: 'ae-switch-more',
+                mode: 'normal',
+                formType: 'extend',
+                label: '头部',
+                name: 'showHeader',
+                form: {
+                  body: [
+                    {
+                      children: (
+                        <Button
+                          level="primary"
+                          size="sm"
+                          block
+                          onClick={this.editHeaderDetail.bind(this, context.id)}
+                        >
+                          配置头部
+                        </Button>
+                      )
+                    }
+                  ]
+                }
+              },
+              {
+                type: 'ae-switch-more',
+                mode: 'normal',
+                formType: 'extend',
+                label: '底部',
+                name: 'showFooter',
+                form: {
+                  body: [
+                    {
+                      children: (
+                        <Button
+                          level="primary"
+                          size="sm"
+                          block
+                          onClick={this.editFooterDetail.bind(this, context.id)}
+                        >
+                          配置底部
+                        </Button>
+                      )
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          getSchemaTpl('status')
+        ])
       },
       {
         title: '外观',
-        body: [
-          getSchemaTpl('switch', {
-            name: 'showHeader',
-            label: '是否显示头部',
-            pipeIn: defaultValue(true)
-          }),
-
-          getSchemaTpl('switch', {
-            name: 'showFooter',
-            label: '是否显示底部',
-            pipeIn: defaultValue(true)
-          }),
-
-          getSchemaTpl('className', {
-            label: 'CSS 类名'
-          }),
-          getSchemaTpl('className', {
-            name: 'listClassName',
-            label: 'List div CSS 类名'
-          }),
-          getSchemaTpl('className', {
-            name: 'headerClassName',
-            label: '头部 CSS 类名'
-          }),
-          getSchemaTpl('className', {
-            name: 'footerClassName',
-            label: '底部 CSS 类名'
-          })
-        ]
-      },
-      {
-        title: '显隐',
-        body: [getSchemaTpl('ref'), getSchemaTpl('visible')]
+        body: getSchemaTpl('collapseGroup', [
+          {
+            title: 'CSS类名',
+            body: [
+              getSchemaTpl('className', {
+                label: '外层'
+              }),
+              getSchemaTpl('className', {
+                name: 'itemClassName',
+                label: 'ListItem'
+              }),
+              getSchemaTpl('className', {
+                name: 'headerClassName',
+                label: '头部'
+              }),
+              getSchemaTpl('className', {
+                name: 'footerClassName',
+                label: '底部'
+              })
+            ]
+          }
+        ])
       }
     ]);
   };
@@ -180,6 +222,62 @@ export class ListPlugin extends BasePlugin {
       a: '假数据',
       b: '假数据'
     };
+  }
+
+  editHeaderDetail(id: string) {
+    const manager = this.manager;
+    const store = manager.store;
+    const node = store.getNodeById(id);
+    const value = store.getValueOf(id);
+
+    const defaultHeader = {
+      type: 'tpl',
+      tpl: '头部',
+      wrapperComponent: ''
+    };
+
+    node &&
+      value &&
+      this.manager.openSubEditor({
+        title: '配置头部',
+        value: value.header ?? defaultHeader,
+        slot: {
+          type: 'container',
+          body: '$$'
+        },
+        onChange: newValue => {
+          newValue = {...value, header: newValue};
+          manager.panelChangeValue(newValue, diff(value, newValue));
+        }
+      });
+  }
+
+  editFooterDetail(id: string) {
+    const manager = this.manager;
+    const store = manager.store;
+    const node = store.getNodeById(id);
+    const value = store.getValueOf(id);
+
+    const defaultFooter = {
+      type: 'tpl',
+      tpl: '底部',
+      wrapperComponent: ''
+    };
+
+    node &&
+      value &&
+      this.manager.openSubEditor({
+        title: '配置底部',
+        value: value.footer ?? defaultFooter,
+        slot: {
+          type: 'container',
+          body: '$$'
+        },
+        onChange: newValue => {
+          newValue = {...value, footer: newValue};
+          manager.panelChangeValue(newValue, diff(value, newValue));
+        }
+      });
   }
 
   editDetail(id: string) {

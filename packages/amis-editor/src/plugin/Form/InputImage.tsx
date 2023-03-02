@@ -32,11 +32,7 @@ export class ImageControlPlugin extends BasePlugin {
     autoUpload: true,
     proxy: true,
     uploadType: 'fileReceptor',
-    imageClassName: 'r w-full',
-    receiver: {
-      url: 'object-upload://default',
-      method: 'post'
-    }
+    imageClassName: 'r w-full'
   };
   previewSchema: any = {
     type: 'form',
@@ -129,6 +125,11 @@ export class ImageControlPlugin extends BasePlugin {
       actionType: 'clear',
       actionLabel: '清空数据',
       description: '清除选择的文件'
+    },
+    {
+      actionType: 'setValue',
+      actionLabel: '赋值',
+      description: '触发组件数据更新'
     }
   ];
 
@@ -142,6 +143,7 @@ export class ImageControlPlugin extends BasePlugin {
           {
             title: '基本',
             body: [
+              getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               getSchemaTpl('formItemName', {
                 required: true
               }),

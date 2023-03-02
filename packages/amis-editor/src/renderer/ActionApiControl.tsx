@@ -1,5 +1,5 @@
 import React from 'react';
-import merge from 'lodash/merge';
+import mergeWith from 'lodash/mergeWith';
 import cloneDeep from 'lodash/cloneDeep';
 import cx from 'classnames';
 import {FormItem, InputBox} from 'amis';
@@ -12,7 +12,7 @@ import {autobind, isObject, anyChanged, createObject} from 'amis-editor-core';
 import {tipedLabel} from 'amis-editor-core';
 
 import type {SchemaObject, SchemaCollection, SchemaApi} from 'amis/lib/Schema';
-import type {Api} from 'amis/lib/types';
+import type {Api} from 'amis';
 import type {FormControlProps} from 'amis-core';
 import type {ActionSchema} from 'amis/lib/renderers/Action';
 
@@ -195,7 +195,23 @@ export default class APIControl extends React.Component<
     }
 
     if (typeof value !== 'string' || typeof values !== 'string') {
-      api = merge({}, normalizeApi(value), normalizeApi(values));
+      api = mergeWith(
+        {},
+        normalizeApi(value),
+        normalizeApi(values),
+        (value, srcValue, key) => {
+          // 这三个支持删除单个key的属性需用新值完全替换
+          // 否则删除无效
+          if (['data', 'responseData', 'headers'].includes(key)) {
+            return srcValue;
+          }
+        }
+      );
+      ['data', 'responseData', 'headers'].forEach((item: keyof Api) => {
+        if (api[item] == null) {
+          delete api[item];
+        }
+      });
     }
 
     onChange?.(api);

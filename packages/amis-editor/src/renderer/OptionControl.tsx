@@ -8,10 +8,10 @@ import cx from 'classnames';
 import uniqBy from 'lodash/uniqBy';
 import omit from 'lodash/omit';
 import Sortable from 'sortablejs';
-import {FormItem, Button, Checkbox, Icon, InputBox} from 'amis';
+import {FormItem, Button, Checkbox, Icon, InputBox, render as amisRender} from 'amis';
 import {value2array} from 'amis-ui/lib/components/Select';
 
-import {autobind} from 'amis-editor-core';
+import {autobind, getI18nEnabled} from 'amis-editor-core';
 import {getSchemaTpl} from 'amis-editor-core';
 import {tipedLabel} from 'amis-editor-core';
 
@@ -59,7 +59,7 @@ export default class OptionControl extends React.Component<
 
     let source: 'custom' | 'api' | 'apicenter' = 'custom';
 
-    if (props.data.source) {
+    if (props.data.hasOwnProperty('source') && props.data.source) {
       const api = props.data.source;
       const url =
         typeof api === 'string'
@@ -219,8 +219,8 @@ export default class OptionControl extends React.Component<
     if (source === 'api' || source === 'apicenter') {
       const {api, labelField, valueField} = this.state;
       data.source = api;
-      data.labelField = labelField;
-      data.valueField = valueField;
+      data.labelField = labelField || undefined;
+      data.valueField = valueField || undefined;
     }
 
     onBulkChange && onBulkChange(data);
@@ -488,6 +488,7 @@ export default class OptionControl extends React.Component<
     const render = this.props.render;
     const ctx: Partial<TextControlSchema> = this.props.data;
     const isMultiple = ctx?.multiple === true || multipleProps;
+    const i18nEnabled = getI18nEnabled();
 
     const label = this.transformOptionValue(props.label);
     const value = this.transformOptionValue(props.value);
@@ -507,7 +508,7 @@ export default class OptionControl extends React.Component<
               onClick: () => this.toggleEdit(index)
             },
             {
-              type: 'input-text',
+              type: i18nEnabled ? 'input-text-i18n' : 'input-text',
               placeholder: '请输入显示文本',
               label: '文本',
               mode: 'horizontal',
@@ -617,13 +618,25 @@ export default class OptionControl extends React.Component<
                 />
               </span>
             )}
-          <InputBox
+          {/* <InputBox
             className="ae-OptionControlItem-input"
             value={label}
             placeholder="请输入文本/值"
             clearable={false}
             onChange={(value: string) => this.handleEditLabel(index, value)}
-          />
+          /> */}
+          {
+            amisRender({
+              type: i18nEnabled ? 'input-text-i18n' : 'input-text',
+              className: 'ae-OptionControlItem-input',
+              value: label,
+              placeholder: '请输入文本/值',
+              clearable: false,
+              onChange: (value: string) => {
+                this.handleEditLabel(index, value);
+              }
+            })
+          }
           {render(
             'dropdown',
             {

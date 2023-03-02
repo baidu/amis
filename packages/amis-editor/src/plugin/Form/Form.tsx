@@ -1,10 +1,6 @@
 import cx from 'classnames';
-import {
-  DSFeatureType,
-  generateNodeId,
-  registerEditorPlugin,
-  tipedLabel
-} from 'amis-editor-core';
+import {DSFeatureType, generateNodeId, tipedLabel} from 'amis-editor-core';
+import {getI18nEnabled, registerEditorPlugin} from 'amis-editor-core';
 import {
   BasePlugin,
   ChangeEventContext,
@@ -244,8 +240,8 @@ export class FormPlugin extends BasePlugin {
   events: RendererPluginEvent[] = [
     {
       eventName: 'inited',
-      eventLabel: '初始化接口请求成功',
-      description: '远程初始化接口请求成功时触发',
+      eventLabel: '初始化数据接口请求成功',
+      description: '远程初始化数据接口请求成功时触发',
       // 表单数据为表单变量
       dataSchema: [
         {
@@ -253,7 +249,7 @@ export class FormPlugin extends BasePlugin {
           properties: {
             'event.data': {
               type: 'object',
-              title: '初始化接口请求成功返回的数据'
+              title: '初始化数据接口请求成功返回的数据'
             }
           }
         }
@@ -339,22 +335,23 @@ export class FormPlugin extends BasePlugin {
         }
       ]
     },
-    // {
-    //   eventName: 'submit',
-    //   eventLabel: '表单提交',
-    //   strongDesc: '配置该事件后将不会触发表单提交时默认的校验、提交到api或者target等行为，所有行为需要自己配置',
-    //   dataSchema: [
-    //     {
-    //       type: 'object',
-    //       properties: {
-    //         'event.data': {
-    //           type: 'object',
-    //           title: '当前表单数据'
-    //         }
-    //       }
-    //     }
-    //   ]
-    // },
+    {
+      eventName: 'submit',
+      eventLabel: '表单提交',
+      strongDesc:
+        '配置该事件后将不会触发表单提交时默认的校验、提交到api或者target等行为，所有行为需要自己配置',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            'event.data': {
+              type: 'object',
+              title: '当前表单数据'
+            }
+          }
+        }
+      ]
+    },
     {
       eventName: 'submitSucc',
       eventLabel: '提交成功',
@@ -418,7 +415,7 @@ export class FormPlugin extends BasePlugin {
       description: '触发组件数据刷新并重新渲染'
     },
     {
-      actionLabel: '更新数据',
+      actionLabel: '变量赋值',
       actionType: 'setValue',
       description: '触发组件数据更新'
     }
@@ -446,6 +443,7 @@ export class FormPlugin extends BasePlugin {
         justify: true
       }
     });
+    const i18nEnabled = getI18nEnabled();
 
     return [
       getSchemaTpl('tabs', [
@@ -847,8 +845,7 @@ export class FormPlugin extends BasePlugin {
             : {
                 type: 'string',
                 title: schema.label || schema.name,
-                originalValue: schema.value, // 记录原始值，循环引用检测需要
-                description: schema.description
+                originalValue: schema.value // 记录原始值，循环引用检测需要
               };
         }
       } else {

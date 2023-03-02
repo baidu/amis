@@ -153,6 +153,36 @@ export class TextControlPlugin extends BasePlugin {
   panelBodyCreator = (context: BaseEventContext) => {
     const renderer: any = context.info.renderer;
 
+    const inputStateFunc = (visibleOn: string, state: string) => {
+      return [
+        getSchemaTpl('theme:font', {
+          label: '文字',
+          name: `css.inputControlClassName.font:${state}`,
+          visibleOn: visibleOn
+        }),
+        getSchemaTpl('theme:colorPicker', {
+          label: '背景',
+          name: `css.inputControlClassName.background:${state}`,
+          labelMode: 'input',
+          needGradient: true,
+          visibleOn: visibleOn
+        }),
+        getSchemaTpl('theme:border', {
+          name: `css.inputControlClassName.border:${state}`,
+          visibleOn: visibleOn
+        }),
+        getSchemaTpl('theme:paddingAndMargin', {
+          name: `css.inputControlClassName.padding-and-margin:${state}`,
+
+          visibleOn: visibleOn
+        }),
+        getSchemaTpl('theme:radius', {
+          name: `css.inputControlClassName.radius:${state}`,
+          visibleOn: visibleOn
+        })
+      ];
+    };
+
     return getSchemaTpl('tabs', [
       {
         title: '属性',
@@ -162,6 +192,7 @@ export class TextControlPlugin extends BasePlugin {
             {
               title: '基本',
               body: [
+                getSchemaTpl('layout:originPosition', {value: 'left-top'}),
                 getSchemaTpl('formItemName', {
                   required: true
                 }),
@@ -256,11 +287,7 @@ export class TextControlPlugin extends BasePlugin {
                         name: 'position',
                         pipeIn: defaultValue('right')
                       }),
-                      {
-                        name: 'label',
-                        label: '文字',
-                        type: 'input-text'
-                      },
+                      getSchemaTpl('addOnLabel'),
                       getSchemaTpl('icon')
                     ]
                   }
@@ -357,18 +384,66 @@ export class TextControlPlugin extends BasePlugin {
           'collapseGroup',
           [
             getSchemaTpl('style:formItem', {renderer}),
-            getSchemaTpl('style:classNames', {
-              schema: [
-                getSchemaTpl('className', {
-                  label: '描述',
-                  name: 'descriptionClassName',
-                  visibleOn: 'this.description'
+            getSchemaTpl('theme:form-label'),
+            getSchemaTpl('theme:form-description'),
+            {
+              title: '输入框样式',
+              body: [
+                {
+                  type: 'select',
+                  name: 'editorState',
+                  label: '状态',
+                  selectFirst: true,
+                  options: [
+                    {
+                      label: '常规',
+                      value: 'default'
+                    },
+                    {
+                      label: '悬浮',
+                      value: 'hover'
+                    },
+                    {
+                      label: '点击',
+                      value: 'active'
+                    }
+                  ]
+                },
+                ...inputStateFunc(
+                  "${editorState == 'default' || !editorState}",
+                  'default'
+                ),
+                ...inputStateFunc("${editorState == 'hover'}", 'hover'),
+                ...inputStateFunc("${editorState == 'active'}", 'active')
+              ]
+            },
+            {
+              title: 'AddOn样式',
+              visibleOn: 'this.addOn && this.addOn.type === "text"',
+              body: [
+                getSchemaTpl('theme:font', {
+                  label: '文字',
+                  name: 'css.addOnClassName.font'
                 }),
-                getSchemaTpl('className', {
-                  name: 'addOn.className',
+                getSchemaTpl('theme:paddingAndMargin', {
+                  name: 'css.addOnClassName.padding-and-margin'
+                })
+              ]
+            },
+            getSchemaTpl('theme:classNames', {
+              schema: [
+                {
+                  type: 'theme-classname',
+                  label: '输入框',
+                  name: 'inputControlClassName'
+                },
+                {
+                  type: 'theme-classname',
+                  name: 'addOnClassName',
+                  suffix: 'addOn',
                   label: 'AddOn',
                   visibleOn: 'this.addOn && this.addOn.type === "text"'
-                })
+                }
               ]
             })
           ],

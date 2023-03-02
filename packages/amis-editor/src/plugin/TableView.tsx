@@ -30,6 +30,7 @@ import {TableViewEditor} from '../component/TableViewEditor';
 const TD_TEMPLATE = {
   body: {
     type: 'tpl',
+    wrapperComponent: '',
     tpl: '---'
   }
 } as {body: {type: 'tpl'}};
@@ -105,18 +106,21 @@ export class TableViewPlugin extends BasePlugin {
           {
             body: {
               type: 'tpl',
+              wrapperComponent: '',
               tpl: '地区'
             }
           },
           {
             body: {
               type: 'tpl',
+              wrapperComponent: '',
               tpl: '城市'
             }
           },
           {
             body: {
               type: 'tpl',
+              wrapperComponent: '',
               tpl: '销量'
             }
           }
@@ -128,18 +132,21 @@ export class TableViewPlugin extends BasePlugin {
             rowspan: 2,
             body: {
               type: 'tpl',
+              wrapperComponent: '',
               tpl: '华北'
             }
           },
           {
             body: {
               type: 'tpl',
+              wrapperComponent: '',
               tpl: '北京'
             }
           },
           {
             body: {
               type: 'tpl',
+              wrapperComponent: '',
               tpl: '${beijing}'
             }
           }
@@ -150,12 +157,14 @@ export class TableViewPlugin extends BasePlugin {
           {
             body: {
               type: 'tpl',
+              wrapperComponent: '',
               tpl: '天津'
             }
           },
           {
             body: {
               type: 'tpl',
+              wrapperComponent: '',
               tpl: '${tianjing}'
             }
           }
@@ -187,11 +196,8 @@ export class TableViewPlugin extends BasePlugin {
             {
               title: '基本',
               body: [
-                {
-                  label: '标题',
-                  name: 'caption',
-                  type: 'input-text'
-                },
+                getSchemaTpl('layout:originPosition', {value: 'left-top'}),
+                getSchemaTpl('caption'),
                 {
                   label: '标题位置',
                   name: 'captionSide',

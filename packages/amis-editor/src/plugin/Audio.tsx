@@ -31,6 +31,7 @@ export class AudioPlugin extends BasePlugin {
         {
           title: '常规',
           body: [
+            getSchemaTpl('layout:originPosition', {value: 'left-top'}),
             isUnderField
               ? {
                   type: 'tpl',
@@ -39,7 +40,7 @@ export class AudioPlugin extends BasePlugin {
                   tpl: '<p>当前为字段内容节点配置，选择上层还有更多的配置。</p>'
                 }
               : null,
-            getSchemaTpl('audioUrl',{
+            getSchemaTpl('audioUrl', {
               name: 'src',
               type: 'input-text',
               label: '音频地址',

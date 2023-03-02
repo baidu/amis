@@ -5,7 +5,8 @@ import {
   tipedLabel,
   defaultValue,
   getSchemaTpl,
-  registerEditorPlugin
+  registerEditorPlugin,
+  translateSchema
 } from 'amis-editor-core';
 import {BUTTON_DEFAULT_ACTION} from '../component/BaseControl';
 
@@ -53,6 +54,7 @@ export class ButtonGroupPlugin extends BasePlugin {
           {
             title: '基本',
             body: [
+              getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               {
                 type: 'button-group-select',
                 name: 'vertical',
@@ -89,6 +91,7 @@ export class ButtonGroupPlugin extends BasePlugin {
                 minLength: 1,
                 draggable: true,
                 editable: false,
+                pipeIn: (value: any, data: any) => translateSchema(value),
                 items: [
                   {
                     type: 'tpl',

@@ -42,6 +42,7 @@ export class TimelinePlugin extends BasePlugin {
           {
             title: '基本',
             body: [
+              getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               getSchemaTpl('formItemName', {
                 required: true
               }),
@@ -52,6 +53,7 @@ export class TimelinePlugin extends BasePlugin {
                 value: false,
                 type: 'button-group-select',
                 inline: false,
+                size: 'sm',
                 options: [
                   {label: '正序', value: false},
                   {label: '反序', value: true}
@@ -62,6 +64,7 @@ export class TimelinePlugin extends BasePlugin {
                 name: 'direction',
                 value: 'vertical',
                 type: 'button-group-select',
+                size: 'sm',
                 inline: true,
                 options: [
                   {label: '垂直', value: 'vertical'},
@@ -74,6 +77,7 @@ export class TimelinePlugin extends BasePlugin {
                 value: 'right',
                 type: 'button-group-select',
                 visibleOn: 'data.direction === "vertical"',
+                size: 'sm',
                 options: [
                   {label: '左侧', value: 'right'},
                   {label: '右侧', value: 'left'},

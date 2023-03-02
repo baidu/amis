@@ -1,5 +1,5 @@
 import React from 'react';
-import {registerEditorPlugin} from 'amis-editor-core';
+import {registerEditorPlugin, translateSchema} from 'amis-editor-core';
 import {getSchemaTpl} from 'amis-editor-core';
 import {BasePlugin, RendererInfo, VRendererConfig} from 'amis-editor-core';
 import {VRenderer} from 'amis-editor-core';
@@ -7,6 +7,8 @@ import {mapReactElement} from 'amis-editor-core';
 import findIndex from 'lodash/findIndex';
 import {RegionWrapper as Region} from 'amis-editor-core';
 import {AnchorNavSection} from 'amis-ui';
+import {registerFilter} from 'amis-formula';
+registerFilter('appTranslate', (input: any) => translateSchema(input));
 
 export class AnchorNavPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -32,6 +34,7 @@ export class AnchorNavPlugin extends BasePlugin {
           {
             type: 'tpl',
             tpl: '这里是锚点内容1',
+            wrapperComponent: '',
             inline: false
           }
         ]
@@ -43,6 +46,7 @@ export class AnchorNavPlugin extends BasePlugin {
           {
             type: 'tpl',
             tpl: '这里是锚点内容2',
+            wrapperComponent: '',
             inline: false
           }
         ]
@@ -54,6 +58,7 @@ export class AnchorNavPlugin extends BasePlugin {
           {
             type: 'tpl',
             tpl: '这里是锚点内容3',
+            wrapperComponent: '',
             inline: false
           }
         ]
@@ -75,6 +80,7 @@ export class AnchorNavPlugin extends BasePlugin {
           {
             title: '基本',
             body: [
+              getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               getSchemaTpl('combo-container', {
                 type: 'combo',
                 name: 'links',
@@ -87,14 +93,7 @@ export class AnchorNavPlugin extends BasePlugin {
                 deleteBtn: {
                   icon: 'fa fa-trash'
                 },
-                items: [
-                  {
-                    type: 'input-text',
-                    name: 'title',
-                    required: true,
-                    placeholder: '请输入锚点标题'
-                  }
-                ],
+                items: [getSchemaTpl('anchorTitle')],
                 scaffold: {
                   title: '锚点',
                   href: '',
@@ -102,6 +101,7 @@ export class AnchorNavPlugin extends BasePlugin {
                     {
                       type: 'tpl',
                       tpl: '这里是锚点内容',
+                      wrapperComponent: '',
                       inline: false
                     }
                   ]
@@ -147,7 +147,7 @@ export class AnchorNavPlugin extends BasePlugin {
                 name: 'active',
                 type: 'select',
                 label: '默认定位区域',
-                source: '${links}',
+                source: '${links|appTranslate}',
                 labelField: 'title',
                 valueField: 'href',
                 value: '1'
@@ -237,12 +237,7 @@ export class AnchorNavPlugin extends BasePlugin {
               {
                 title: '基本',
                 body: [
-                  {
-                    name: 'title',
-                    label: '标题',
-                    type: 'input-text',
-                    required: true
-                  }
+                  getSchemaTpl('anchorNavTitle')
                 ]
               }
             ])

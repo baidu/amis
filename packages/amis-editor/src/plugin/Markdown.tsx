@@ -30,7 +30,10 @@ export class MarkdownPlugin extends BasePlugin {
       getSchemaTpl('tabs', [
         {
           title: '常规',
-          body: [getSchemaTpl('markdownBody')]
+          body: [
+            getSchemaTpl('layout:originPosition', {value: 'left-top'}),
+            getSchemaTpl('markdownBody')
+          ]
         },
         {
           title: '外观',

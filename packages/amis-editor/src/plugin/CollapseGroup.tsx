@@ -1,4 +1,4 @@
-import {registerEditorPlugin} from 'amis-editor-core';
+import {getI18nEnabled, registerEditorPlugin} from 'amis-editor-core';
 import {BasePlugin, RegionConfig, BaseEventContext} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 
@@ -31,6 +31,7 @@ export class CollapseGroupPlugin extends BasePlugin {
           {
             type: 'tpl',
             tpl: '这里是内容1',
+            wrapperComponent: '',
             inline: false
           }
         ]
@@ -43,6 +44,7 @@ export class CollapseGroupPlugin extends BasePlugin {
           {
             type: 'tpl',
             tpl: '这里是内容1',
+            wrapperComponent: '',
             inline: false
           }
         ]
@@ -59,6 +61,7 @@ export class CollapseGroupPlugin extends BasePlugin {
   panelJustify = true;
 
   panelBodyCreator = (context: BaseEventContext) => {
+    const i18nEnabled = getI18nEnabled();
     return [
       getSchemaTpl('tabs', [
         {
@@ -67,6 +70,7 @@ export class CollapseGroupPlugin extends BasePlugin {
             {
               title: '基本',
               body: [
+                getSchemaTpl('layout:originPosition', {value: 'left-top'}),
                 {
                   name: 'expandIconPosition',
                   label: '图标位置',
@@ -167,7 +171,7 @@ export class CollapseGroupPlugin extends BasePlugin {
                     {
                       name: 'header',
                       placeholder: '标题',
-                      type: 'input-text'
+                      type: i18nEnabled ? 'input-text-i18n' : 'input-text'
                     }
                   ],
                   onChange: (
@@ -212,6 +216,7 @@ export class CollapseGroupPlugin extends BasePlugin {
                       {
                         type: 'tpl',
                         tpl: '内容',
+                        wrapperComponent: '',
                         inline: false
                       }
                     ],

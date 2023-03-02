@@ -1,6 +1,11 @@
-import {registerEditorPlugin} from 'amis-editor-core';
+import {
+  registerEditorPlugin,
+  RendererPluginAction,
+  RendererPluginEvent
+} from 'amis-editor-core';
 import {BaseEventContext, BasePlugin} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
+import {getEventControlConfig} from '../renderer/event-control/helper';
 
 export class PlainPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -29,53 +34,122 @@ export class PlainPlugin extends BasePlugin {
   };
 
   panelTitle = '纯文本';
+  panelJustify = true;
+
+  // 事件定义
+  events: RendererPluginEvent[] = [
+    {
+      eventName: 'click',
+      eventLabel: '点击',
+      description: '点击时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            nativeEvent: {
+              type: 'object',
+              title: '鼠标事件对象'
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'mouseenter',
+      eventLabel: '鼠标移入',
+      description: '鼠标移入时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            nativeEvent: {
+              type: 'object',
+              title: '鼠标事件对象'
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'mouseleave',
+      eventLabel: '鼠标移出',
+      description: '鼠标移出时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            nativeEvent: {
+              type: 'object',
+              title: '鼠标事件对象'
+            }
+          }
+        }
+      ]
+    }
+  ];
+
+  // 动作定义
+  actions: RendererPluginAction[] = [];
+
   panelBodyCreator = (context: BaseEventContext) => {
     const isTableCell = context.info.renderer.name === 'table-cell';
-
-    return getSchemaTpl('tabs', [
-      {
-        title: '常规',
-        body: [
-          {
-            label: '内容',
-            type: 'textarea',
-            pipeIn: (value: any, data: any) => value || (data && data.text),
-            name: 'tpl',
-            description:
-              '如果当前字段有值，请不要设置，否则覆盖。支持使用 <code>\\${xxx}</code> 来获取变量，或者用 lodash.template 语法来写模板逻辑。<a target="_blank" href="/amis/zh-CN/docs/concepts/template">详情</a>'
-          },
-
-          {
-            name: 'placeholder',
-            label: '占位符',
-            type: 'input-text',
-            pipeIn: defaultValue('-')
-          }
-        ]
-      },
-
-      isTableCell
-        ? null
-        : {
-            title: '外观',
-            body: [
-              getSchemaTpl('switch', {
-                name: 'inline',
-                label: '内联模式',
-                value: true
-              }),
-
-              getSchemaTpl('className')
-            ]
-          },
-
-      isTableCell
-        ? null
-        : {
-            title: '显隐',
-            body: [getSchemaTpl('ref'), getSchemaTpl('visible')]
-          }
-    ]);
+    return [
+      getSchemaTpl('tabs', [
+        {
+          title: '属性',
+          body: getSchemaTpl('collapseGroup', [
+            {
+              title: '基本',
+              body: [
+                {
+                  label: '内容',
+                  type: 'textarea',
+                  mode: 'col',
+                  pipeIn: (value: any, data: any) =>
+                    value || (data && data.text),
+                  name: 'tpl',
+                  description:
+                    '如果当前字段有值，请不要设置，否则覆盖。支持使用 <code>\\${xxx}</code> 来获取变量，或者用 lodash.template 语法来写模板逻辑。<a target="_blank" href="/amis/zh-CN/docs/concepts/template">详情</a>'
+                },
+                getSchemaTpl('placeholder', {
+                  pipeIn: defaultValue('-'),
+                  label: '占位符'
+                })
+              ]
+            },
+            isTableCell ? null : getSchemaTpl('status')
+          ])
+        },
+        isTableCell
+          ? null
+          : {
+              title: '外观',
+              body: getSchemaTpl('collapseGroup', [
+                {
+                  title: '基本',
+                  body: [
+                    getSchemaTpl('switch', {
+                      name: 'inline',
+                      label: '内联模式',
+                      value: true
+                    })
+                  ]
+                },
+                getSchemaTpl('style:classNames', {isFormItem: false})
+              ])
+            },
+        {
+          title: '事件',
+          className: 'p-none',
+          body: [
+            getSchemaTpl('eventControl', {
+              name: 'onEvent',
+              ...getEventControlConfig(this.manager, context)
+            })
+          ]
+        }
+      ])
+    ];
   };
 }
 

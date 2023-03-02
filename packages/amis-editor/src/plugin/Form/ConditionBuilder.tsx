@@ -1,4 +1,4 @@
-import {registerEditorPlugin} from 'amis-editor-core';
+import {getI18nEnabled, registerEditorPlugin} from 'amis-editor-core';
 import {
   BaseEventContext,
   BasePlugin,
@@ -96,185 +96,188 @@ export class ConditionBilderPlugin extends BasePlugin {
     ]
   };
 
-  scaffoldForm: ScaffoldForm = {
-    title: '快速开始-条件组合',
-    body: [
-      {
-        type: 'combo',
-        name: 'fields',
-        multiple: true,
-        draggable: true,
-        multiLine: true,
-        items: [
-          {
-            type: 'group',
-            body: [
-              {
-                type: 'select',
-                name: 'type',
-                placeholder: '条件类型',
-                options: [
-                  {
-                    label: '文本',
-                    value: 'text'
-                  },
-                  {
-                    label: '数字',
-                    value: 'number'
-                  },
-                  {
-                    label: '布尔',
-                    value: 'boolean'
-                  },
-                  {
-                    label: '日期',
-                    value: 'date'
-                  },
-                  {
-                    label: '日期时间',
-                    value: 'datetime'
-                  },
-                  {
-                    label: '时间',
-                    value: 'time'
-                  },
-                  {
-                    label: '选项',
-                    value: 'select'
-                  }
-                ]
-              },
-              {
-                type: 'input-text',
-                name: 'name',
-                placeholder: '字段名'
-              },
-              {
-                type: 'input-text',
-                placeholder: '字段名称',
-                name: 'label'
-              }
-            ]
-          },
-
-          {
-            type: 'group',
-            visibleOn: 'data.type === "number"',
-            body: [
-              {
-                type: 'input-number',
-                name: 'minimum',
-                placeholder: '最小值'
-              },
-              {
-                type: 'input-number',
-                name: 'maximum',
-                placeholder: '最大值'
-              },
-              {
-                type: 'input-number',
-                name: 'step',
-                min: 0,
-                placeholder: '步长'
-              }
-            ]
-          },
-
-          {
-            type: 'group',
-            visibleOn: '!!~["date", "datetime", "time"].indexOf(data.type)',
-            body: [
-              {
-                type: 'input-text',
-                name: 'format',
-                placeholder: '值格式'
-              },
-              {
-                type: 'input-text',
-                name: 'inputFormat',
-                placeholder: '日期显示格式'
-              },
-              {
-                type: 'input-text',
-                name: 'timeFormat',
-                placeholder: '时间显示格式',
-                visibleOn: 'data.type === "datetime"'
-              }
-            ]
-          },
-
-          {
-            type: 'group',
-            visibleOn: 'data.type === "select"',
-            body: [
-              {
-                type: 'input-text',
-                name: 'source',
-                placeholder: '字段选项远程拉取，支持接口或数据映射'
-              }
-            ]
-          },
-
-          {
-            type: 'group',
-            body: [
-              {
-                type: 'input-text',
-                placeholder: '占位符',
-                name: 'placeholder'
-              },
-
-              {
-                name: 'operators',
-                placeholder: '操作符',
-                asFormItem: true,
-                children: ({data, render, onChange}: any) =>
-                  render(
-                    'operations',
+  get scaffoldForm(): ScaffoldForm {
+    const i18nEnabled = getI18nEnabled();
+    return {
+      title: '快速开始-条件组合',
+      body: [
+        {
+          type: 'combo',
+          name: 'fields',
+          multiple: true,
+          draggable: true,
+          multiLine: true,
+          items: [
+            {
+              type: 'group',
+              body: [
+                {
+                  type: 'select',
+                  name: 'type',
+                  placeholder: '条件类型',
+                  options: [
                     {
-                      type: 'select',
-                      name: 'operators',
-                      multiple: true,
-                      value:
-                        data.value ||
-                        defaultConfig.types[data.type]?.operators ||
-                        [],
-                      joinValues: false,
-                      extractValue: true,
-                      options: defaultConfig.types[data.type]?.operators.map(
-                        item => {
-                          if (isObject(item) && item.label && item.value) {
-                            return (
-                              {
-                                label: item.label,
-                                value: item.value
-                              } || []
-                            );
-                          } else if (isString(item)) {
-                            return (
-                              {
-                                label: OperationMap[item],
-                                value: item
-                              } || []
-                            );
-                          } else {
-                            return [];
-                          }
-                        }
-                      )
+                      label: '文本',
+                      value: 'text'
                     },
                     {
-                      onChange: (value: any) => onChange(value)
+                      label: '数字',
+                      value: 'number'
+                    },
+                    {
+                      label: '布尔',
+                      value: 'boolean'
+                    },
+                    {
+                      label: '日期',
+                      value: 'date'
+                    },
+                    {
+                      label: '日期时间',
+                      value: 'datetime'
+                    },
+                    {
+                      label: '时间',
+                      value: 'time'
+                    },
+                    {
+                      label: '选项',
+                      value: 'select'
                     }
-                  )
-              }
-            ]
-          }
-        ]
-      }
-    ],
-    canRebuild: true
-  };
+                  ]
+                },
+                {
+                  type: 'input-text',
+                  name: 'name',
+                  placeholder: '字段名'
+                },
+                {
+                  type: i18nEnabled ? 'input-text-i18n' : 'input-text',
+                  placeholder: '字段名称',
+                  name: 'label'
+                }
+              ]
+            },
+
+            {
+              type: 'group',
+              visibleOn: 'data.type === "number"',
+              body: [
+                {
+                  type: 'input-number',
+                  name: 'minimum',
+                  placeholder: '最小值'
+                },
+                {
+                  type: 'input-number',
+                  name: 'maximum',
+                  placeholder: '最大值'
+                },
+                {
+                  type: 'input-number',
+                  name: 'step',
+                  min: 0,
+                  placeholder: '步长'
+                }
+              ]
+            },
+
+            {
+              type: 'group',
+              visibleOn: '!!~["date", "datetime", "time"].indexOf(data.type)',
+              body: [
+                {
+                  type: 'input-text',
+                  name: 'format',
+                  placeholder: '值格式'
+                },
+                {
+                  type: 'input-text',
+                  name: 'inputFormat',
+                  placeholder: '日期显示格式'
+                },
+                {
+                  type: 'input-text',
+                  name: 'timeFormat',
+                  placeholder: '时间显示格式',
+                  visibleOn: 'data.type === "datetime"'
+                }
+              ]
+            },
+
+            {
+              type: 'group',
+              visibleOn: 'data.type === "select"',
+              body: [
+                {
+                  type: 'input-text',
+                  name: 'source',
+                  placeholder: '字段选项远程拉取，支持接口或数据映射'
+                }
+              ]
+            },
+
+            {
+              type: 'group',
+              body: [
+                {
+                  type: i18nEnabled ? 'input-text-i18n' : 'input-text',
+                  placeholder: '占位符',
+                  name: 'placeholder'
+                },
+
+                {
+                  name: 'operators',
+                  placeholder: '操作符',
+                  asFormItem: true,
+                  children: ({data, render, onChange}: any) =>
+                    render(
+                      'operations',
+                      {
+                        type: 'select',
+                        name: 'operators',
+                        multiple: true,
+                        value:
+                          data.value ||
+                          defaultConfig.types[data.type]?.operators ||
+                          [],
+                        joinValues: false,
+                        extractValue: true,
+                        options: defaultConfig.types[data.type]?.operators.map(
+                          item => {
+                            if (isObject(item) && item.label && item.value) {
+                              return (
+                                {
+                                  label: item.label,
+                                  value: item.value
+                                } || []
+                              );
+                            } else if (isString(item)) {
+                              return (
+                                {
+                                  label: OperationMap[item],
+                                  value: item
+                                } || []
+                              );
+                            } else {
+                              return [];
+                            }
+                          }
+                        )
+                      },
+                      {
+                        onChange: (value: any) => onChange(value)
+                      }
+                    )
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      canRebuild: true
+    };
+  }
 
   previewSchema: any = {
     type: 'form',
@@ -285,7 +288,10 @@ export class ConditionBilderPlugin extends BasePlugin {
 
   panelTitle = '条件组件';
   panelBodyCreator = (context: BaseEventContext) => {
-    return [getSchemaTpl('source')];
+    return [
+      getSchemaTpl('layout:originPosition', {value: 'left-top'}),
+      getSchemaTpl('source')
+    ];
   };
 
   buildSubRenderers(

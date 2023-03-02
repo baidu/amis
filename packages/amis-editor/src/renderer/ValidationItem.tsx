@@ -6,7 +6,7 @@ import React from 'react';
 import cx from 'classnames';
 import {render, Button, Switch} from 'amis';
 
-import {autobind} from 'amis-editor-core';
+import {autobind, getI18nEnabled} from 'amis-editor-core';
 import {Validator} from '../validator';
 import {tipedLabel} from 'amis-editor-core';
 import {SchemaCollection} from 'amis/lib/Schema';
@@ -134,6 +134,7 @@ export default class ValidationItem extends React.Component<
 
   renderInputControl() {
     const {value, message, checked} = this.state;
+    const i18nEnabled = getI18nEnabled();
     let control: any = [];
 
     if (!checked) {
@@ -147,7 +148,7 @@ export default class ValidationItem extends React.Component<
     if (this.validator.message) {
       control.push({
         name: 'message',
-        type: 'input-text',
+        type: i18nEnabled ? 'input-text-i18n' : 'input-text',
         label: tipedLabel(
           '错误提示',
           `系统默认提示：${this.validator.message}`

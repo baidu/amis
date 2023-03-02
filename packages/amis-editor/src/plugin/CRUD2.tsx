@@ -1309,16 +1309,28 @@ export class CRUDPlugin extends BasePlugin {
           </div>
         );
       },
-      schema: getArgsWrapper({
-        type: 'input-formula',
-        variables: '${variables}',
-        evalMode: false,
-        variableMode: 'tabs',
-        label: '查询条件',
-        size: 'md',
-        name: 'query',
-        mode: 'horizontal'
-      })
+      schema: getArgsWrapper(
+        /*
+          {
+            type: 'input-formula',
+            variables: '${variables}',
+            evalMode: false,
+            variableMode: 'tabs',
+            label: '查询条件',
+            size: 'md',
+            name: 'query',
+            mode: 'horizontal'
+          }
+        */
+        {
+          name: 'query',
+          label: '查询条件',
+          type: 'ae-formulaControl',
+          variables: '${variables}',
+          size: 'md',
+          mode: 'horizontal'
+        }
+      )
     },
     // {
     //   actionType: 'resetQuery',
@@ -1883,6 +1895,7 @@ export class CardsCRUDPlugin extends CRUDPlugin {
             //   type: 'tpl',
             //   tpl: '副标题内容',
             //   inline: false,
+            //   wrapperComponent: '',
             //   style: {
             //     color: '#9b9b9b',
             //     marginTop: '0',
@@ -1991,6 +2004,7 @@ export class ListCRUDPlugin extends CRUDPlugin {
               type: 'tpl',
               tpl: '副标题内容',
               inline: false,
+              wrapperComponent: '',
               style: {
                 color: '#9b9b9b',
                 marginTop: '0',

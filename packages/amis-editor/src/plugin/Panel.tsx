@@ -98,12 +98,8 @@ export class PanelPlugin extends BasePlugin {
                 className: 'p-none',
                 title: '基本',
                 body: [
-                  {
-                    label: '标题',
-                    name: 'title',
-                    type: 'input-text'
-                  },
-
+                  getSchemaTpl('layout:originPosition', {value: 'left-top'}),
+                  getSchemaTpl('title'),
                   isForm
                     ? null
                     : {

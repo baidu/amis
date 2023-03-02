@@ -23,6 +23,7 @@ export class AlertPlugin extends BasePlugin {
     body: {
       type: 'tpl',
       tpl: '提示内容',
+      wrapperComponent: '',
       inline: false
     },
     level: 'info'
@@ -47,6 +48,7 @@ export class AlertPlugin extends BasePlugin {
           {
             title: '基本',
             body: [
+              getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               {
                 label: '类型',
                 name: 'level',

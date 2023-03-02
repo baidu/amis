@@ -1,4 +1,8 @@
-import {registerEditorPlugin} from 'amis-editor-core';
+import {
+  BaseEventContext,
+  getI18nEnabled,
+  registerEditorPlugin
+} from 'amis-editor-core';
 import {BasePlugin} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 
@@ -43,11 +47,13 @@ export class TasksPlugin extends BasePlugin {
   };
 
   panelTitle = '异步任务';
-  panelBody = [
-    getSchemaTpl('tabs', [
+  panelBodyCreator = (context: BaseEventContext) => {
+    const i18nEnabled = getI18nEnabled();
+    return getSchemaTpl('tabs', [
       {
         title: '常规',
         body: [
+          getSchemaTpl('layout:originPosition', {value: 'left-top'}),
           {
             name: 'items',
             label: '初始任务信息',
@@ -55,11 +61,9 @@ export class TasksPlugin extends BasePlugin {
             multiple: true,
             multiLine: true,
             items: [
-              {
-                name: 'label',
-                type: 'input-text',
+              getSchemaTpl('label', {
                 label: '任务名称'
-              },
+              }),
               {
                 name: 'key',
                 type: 'input-text',
@@ -70,11 +74,7 @@ export class TasksPlugin extends BasePlugin {
                 type: 'input-number',
                 label: '任务状态'
               },
-              {
-                name: 'remark',
-                type: 'textarea',
-                label: '任务说明'
-              }
+              getSchemaTpl('taskRemark')
             ],
             addButtonText: '新增任务信息',
             scaffold: {
@@ -111,45 +111,31 @@ export class TasksPlugin extends BasePlugin {
             label: '重试接口'
           }),
 
-          {
-            name: 'taskNameLabel',
-            type: 'input-text',
-            pipeIn: defaultValue('任务名称'),
-            label: '任务名称栏标题'
-          },
+          getSchemaTpl('loadingConfig', {}, {context}),
 
           {
-            name: 'operationLabel',
-            type: 'input-text',
-            pipeIn: defaultValue('操作'),
-            label: '操作栏标题'
+            type: 'divider'
           },
 
-          {
-            name: 'statusLabel',
-            type: 'input-text',
-            pipeIn: defaultValue('状态'),
-            label: '状态栏标题'
-          },
+          getSchemaTpl('taskNameLabel'),
 
-          {
-            name: 'remarkLabel',
-            type: 'input-text',
-            pipeIn: defaultValue('备注说明'),
-            label: '备注栏标题'
-          },
+          getSchemaTpl('operationLabel'),
+
+          getSchemaTpl('statusLabel'),
+
+          getSchemaTpl('remarkLabel'),
 
           {
             name: 'btnText',
             label: '按钮名称',
-            type: 'input-text',
+            type: i18nEnabled ? 'input-text-i18n' : 'input-text',
             pipeIn: defaultValue('上线')
           },
 
           {
             name: 'retryBtnText',
             label: '重试按钮名称',
-            type: 'input-text',
+            type: i18nEnabled ? 'input-text-i18n' : 'input-text',
             pipeIn: defaultValue('重试')
           },
 
@@ -168,10 +154,7 @@ export class TasksPlugin extends BasePlugin {
             multiple: true,
             addable: false,
             removable: false,
-            items: {
-              type: 'input-text',
-              placeholder: '名称'
-            }
+            items: getSchemaTpl('inputArrayItem')
           },
 
           {
@@ -268,8 +251,8 @@ export class TasksPlugin extends BasePlugin {
         title: '显隐',
         body: [getSchemaTpl('visible')]
       }
-    ])
-  ];
+    ]);
+  };
 }
 
 registerEditorPlugin(TasksPlugin);

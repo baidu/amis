@@ -3,7 +3,10 @@
  */
 
 import flatten from 'lodash/flatten';
-import {getEventControlConfig, SUPPORT_STATIC_FORMITEM_CMPTS} from '../renderer/event-control/helper';
+import {
+  getEventControlConfig,
+  SUPPORT_STATIC_FORMITEM_CMPTS
+} from '../renderer/event-control/helper';
 import {getSchemaTpl, isObject, tipedLabel} from 'amis-editor-core';
 import type {BaseEventContext} from 'amis-editor-core';
 import {SchemaObject} from 'amis/lib/Schema';
@@ -340,12 +343,14 @@ export const formItemControl: (
                 name: 'descriptionClassName',
                 visibleOn: 'this.description'
               }),
-              ...!supportStatic ? [] : [
-                getSchemaTpl('className', {
-                  label: '静态 CSS 类名',
-                  name: 'staticClassName'
-                })
-              ]
+              ...(!supportStatic
+                ? []
+                : [
+                    getSchemaTpl('className', {
+                      label: '静态 CSS 类名',
+                      name: 'staticClassName'
+                    })
+                  ])
             ],
             panels?.style?.body,
             panels?.style?.replace,
@@ -385,6 +390,7 @@ export function remarkTpl(config: {
   name: 'remark' | 'labelRemark';
   label: string;
   labelRemark?: string;
+  i18nEnabled?: boolean;
 }) {
   return {
     type: 'ae-switch-more',
@@ -432,13 +438,13 @@ export function remarkTpl(config: {
             body: [
               {
                 name: 'title',
-                type: 'input-text',
+                type: !config.i18nEnabled ? 'input-text' : 'input-text-i18n',
                 label: '提示标题',
                 placeholder: '请输入提示标题'
               },
               {
                 name: 'content',
-                type: 'textarea',
+                type: !config.i18nEnabled ? 'textarea' : 'textarea-i18n',
                 label: '内容'
               }
             ]
@@ -471,10 +477,7 @@ export function remarkTpl(config: {
                   }
                 ]
               },
-              getSchemaTpl('icon', {
-                name: 'icon',
-                label: '图标'
-              }),
+              getSchemaTpl('icon'),
               {
                 name: 'className',
                 label: 'CSS 类名',

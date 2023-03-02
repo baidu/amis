@@ -10,6 +10,7 @@ export class FormulaControlPlugin extends BasePlugin {
   // 组件名称
   name = '公式';
   isBaseComponent = true;
+  disabledRendererPlugin = true;
   icon = 'fa fa-calculator';
   pluginIcon = 'formula-plugin';
   description = '通过公式计算指定的变量值，并将其结果作用到指定的变量中';
@@ -26,6 +27,7 @@ export class FormulaControlPlugin extends BasePlugin {
 
   panelTitle = '公式';
   panelBody = [
+    getSchemaTpl('layout:originPosition', {value: 'left-top'}),
     {
       label: '字段名',
       name: 'name',
@@ -67,7 +69,7 @@ export class FormulaControlPlugin extends BasePlugin {
   ];
 
   renderRenderer(props: any) {
-    return this.renderPlaceholder('功能组件（公式）', props.key);
+    return this.renderPlaceholder('功能组件（公式）', props.key, props.style);
   }
 }
 

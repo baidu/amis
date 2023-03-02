@@ -33,7 +33,8 @@ export class PagePlugin extends BasePlugin {
     body: [
       {
         type: 'tpl',
-        tpl: '内容'
+        tpl: '内容',
+        wrapperComponent: ''
       }
     ]
   };
@@ -49,16 +50,32 @@ export class PagePlugin extends BasePlugin {
 
   events: RendererPluginEvent[] = [
     {
-      eventName: 'inited',
-      eventLabel: '初始化接口请求成功',
-      description: '远程初始化接口请求成功时触发',
+      eventName: 'init',
+      eventLabel: '初始化',
+      description: '组件实例被创建并插入 DOM 中时触发',
       dataSchema: [
         {
           type: 'object',
           properties: {
             'event.data': {
               type: 'object',
-              title: '初始化接口请求成功返回的数据'
+              title: '当前数据域'
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'inited',
+      eventLabel: '初始化数据接口请求成功',
+      description: '远程初始化数据接口请求成功时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            'event.data': {
+              type: 'object',
+              title: '初始化数据接口请求成功返回的数据'
             }
           }
         }
@@ -80,7 +97,7 @@ export class PagePlugin extends BasePlugin {
     },
     {
       actionType: 'setValue',
-      actionLabel: '更新数据',
+      actionLabel: '变量赋值',
       description: '触发组件数据更新'
     }
   ];
@@ -141,16 +158,8 @@ export class PagePlugin extends BasePlugin {
                       }
                     ]
                   },
-                  {
-                    label: '页面标题',
-                    name: 'title',
-                    type: 'input-text'
-                  },
-                  {
-                    label: '副标题',
-                    name: 'subTitle',
-                    type: 'textarea'
-                  },
+                  getSchemaTpl('pageTitle'),
+                  getSchemaTpl('pageSubTitle'),
                   getSchemaTpl('remark', {
                     label: '标题提示',
                     hiddenOn:
@@ -206,10 +215,11 @@ export class PagePlugin extends BasePlugin {
                     type: 'input-kv',
                     mode: 'normal',
                     name: 'data',
-                    label: '初始化静态数据'
+                    label: '组件静态数据'
                   }),
                   getSchemaTpl('apiControl', {
                     name: 'initApi',
+                    mode: 'row',
                     labelClassName: 'none',
                     label: tipedLabel(
                       '初始化接口',
@@ -265,7 +275,7 @@ export class PagePlugin extends BasePlugin {
           className: 'p-none',
           body: [
             getSchemaTpl('collapseGroup', [
-              ...getSchemaTpl('style:common', ['layout']),
+              ...getSchemaTpl('theme:common', ['layout']),
               getSchemaTpl('style:classNames', {
                 isFormItem: false,
                 schema: [
@@ -324,7 +334,7 @@ export class PagePlugin extends BasePlugin {
         //             ...obj,
         //             [current.key || '']: current.value
         //               ? current.value
-        //               : {type: 'tpl', tpl: '内容'}
+        //               : {type: 'tpl', tpl: '内容', wrapperComponent: ''}
         //           }),
         //           {}
         //         )
@@ -361,6 +371,16 @@ export class PagePlugin extends BasePlugin {
   };
 
   rendererBeforeDispatchEvent(node: EditorNodeType, e: any, data: any) {
+    if (e === 'init') {
+      const scope = this.manager.dataSchema.getScope(`${node.id}-${node.type}`);
+      const jsonschema: any = {
+        $id: 'pageInitData',
+        ...jsonToJsonSchema(data)
+      };
+
+      scope?.removeSchema(jsonschema.$id);
+      scope?.addSchema(jsonschema);
+    }
     if (e === 'inited') {
       const scope = this.manager.dataSchema.getScope(`${node.id}-${node.type}`);
       const jsonschema: any = {

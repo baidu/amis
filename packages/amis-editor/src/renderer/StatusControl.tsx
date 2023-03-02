@@ -180,11 +180,13 @@ export class StatusControl extends React.Component<
                 ]
               },
               {
-                type: 'ae-formulaControl',
-                name: 'expression',
+                type: 'ae-expressionFormulaControl',
+                evalMode: false,
                 label: '表达式',
+                name: 'expression',
                 placeholder: `请输入${label}条件`,
-                visibleOn: 'this.statusType === 2'
+                visibleOn: 'this.statusType === 2',
+                onChange: (value: any) => {}
               }
             ]
           },

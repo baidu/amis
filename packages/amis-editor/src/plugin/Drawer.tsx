@@ -101,7 +101,7 @@ export class DrawerPlugin extends BasePlugin {
     },
     {
       actionType: 'setValue',
-      actionLabel: '更新数据',
+      actionLabel: '变量赋值',
       description: '触发组件数据更新'
     }
   ];
@@ -116,6 +116,7 @@ export class DrawerPlugin extends BasePlugin {
           {
             title: '基本',
             body: [
+              getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               {
                 label: '标题',
                 type: 'input-text',

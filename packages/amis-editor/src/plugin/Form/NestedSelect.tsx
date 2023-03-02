@@ -99,12 +99,7 @@ export class NestedSelectControlPlugin extends BasePlugin {
         {
           type: 'group',
           body: [
-            {
-              type: 'input-text',
-              name: 'label',
-              placeholder: '名称',
-              required: true
-            },
+            getSchemaTpl('optionsLabel'),
 
             {
               type: 'input-text',
@@ -208,6 +203,7 @@ export class NestedSelectControlPlugin extends BasePlugin {
           {
             title: '基本',
             body: [
+              getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               getSchemaTpl('formItemName', {
                 required: true
               }),
@@ -306,7 +302,16 @@ export class NestedSelectControlPlugin extends BasePlugin {
           },
           {
             title: '选项',
-            body: [getSchemaTpl('treeOptionControl')]
+            body: [
+              getSchemaTpl('treeOptionControl'),
+              getSchemaTpl(
+                'loadingConfig',
+                {
+                  visibleOn: 'this.source || !this.options'
+                },
+                {context}
+              )
+            ]
           },
           getSchemaTpl('status', {isFormItem: true}),
           getSchemaTpl('validation', {
