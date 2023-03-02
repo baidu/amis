@@ -226,12 +226,5 @@ extendLocale('zh-CN', {
   'f3c057f37fb9a4e7dd44b04919c12578': '请从左侧组件面板中点击添加新的元素。',
   'f942c7a6a35c4eb1381d2966462d0489':
     '<div class="wrapper-sm b-a b-light m-b-sm">拖入占位</div>',
-  '392342f7750a565f9a79c678c6b12421': '<隐藏状态>',
-  '8e44aba21d01c1e08cc79f4ebaf0b3f2': '布局容器组件不支持拖拽插入子元素。',
-  '52e6abbe5c11e7cbf14788c1540f8bf2': '已复制',
-  '372ea9fd27fb7cfacfe1b4ca3046f8d0': '配置项',
-  '2a6287664de5ab46c65220c7182878ff': '已剪切',
-  'db805d4e361ac2d3fc6047eaea1a7c69': '自由容器',
-  '969e9e56b3812abffa3994f35ea31835': '吸附容器',
-  '5b804b05e14aaacc75033a4f77fc2844': '源码'
+  '392342f7750a565f9a79c678c6b12421': '<隐藏状态>'
 });

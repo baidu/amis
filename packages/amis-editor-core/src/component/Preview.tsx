@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import cx from 'classnames';
 import {autobind, guid, noop, reactionWithOldValue} from '../util';
 import {clearStoresCache, RenderOptions} from 'amis-core';
-import {Schema} from 'amis';
+import {Schema} from 'amis/lib/types';
 import {EditorStoreType} from '../store/editor';
 import {observer} from 'mobx-react';
 import {findDOMNode} from 'react-dom';
@@ -26,8 +26,6 @@ export interface PreviewProps {
   // ) => boolean;
 
   theme?: string;
-  /** 应用语言类型 */
-  appLocale?: string;
   amisEnv?: any;
   className?: string;
   editable?: boolean;
@@ -62,7 +60,8 @@ export default class Preview extends Component<PreviewProps> {
     },
     theme: this.props.theme,
     session: `preview-${this.props.manager.id}`,
-    rendererResolver: this.rendererResolver.bind(this)
+    rendererResolver: this.rendererResolver.bind(this),
+    ...this.props.amisEnv
   };
 
   doingSelection = false;
@@ -81,35 +80,28 @@ export default class Preview extends Component<PreviewProps> {
   }
 
   componentWillUnmount() {
-    if (this.currentDom) {
-      this.currentDom.removeEventListener('mouseleave', this.handleMouseLeave);
-      this.currentDom.removeEventListener('mousemove', this.handleMouseMove);
-      this.currentDom.removeEventListener('click', this.handleClick);
-      this.currentDom.removeEventListener('mouseover', this.handeMouseOver);
-      this.currentDom.removeEventListener('mousedown', this.handeMouseDown);
-      this.props.manager.off('after-update', this.handlePanelChange);
-    }
-
-    this.scrollLayer?.removeEventListener('scroll', this.handlePanelChange);
+    this.currentDom.removeEventListener('mouseleave', this.handleMouseLeave);
+    this.currentDom.removeEventListener('mousemove', this.handleMouseMove);
+    this.currentDom.removeEventListener('click', this.handleClick);
+    this.currentDom.removeEventListener('mouseover', this.handeMouseOver);
+    this.currentDom.removeEventListener('mousedown', this.handeMouseDown);
+    this.props.manager.off('after-update', this.handlePanelChange);
 
     setTimeout(() => clearStoresCache([this.env.session!]), 500);
   }
 
   unSensor?: () => void;
   layer?: HTMLDivElement;
-  scrollLayer?: HTMLDivElement;
-
   @autobind
   contentsRef(ref: HTMLDivElement | null) {
     if (ref) {
-      this.scrollLayer = ref as HTMLDivElement;
-      this.scrollLayer.addEventListener('scroll', this.handlePanelChange);
       this.layer = ref!.querySelector('.ae-Preview-widgets') as HTMLDivElement;
       this.props.store.setLayer(this.layer);
 
-      this.unSensor = resizeSensor(ref, this.handlePanelChange);
+      this.unSensor = resizeSensor(ref, () =>
+        this.calculateHighlightBox(this.getHighlightNodes())
+      );
     } else {
-      delete this.scrollLayer;
       delete this.layer;
       this.unSensor?.();
       delete this.unSensor;
@@ -469,14 +461,8 @@ export default class Preview extends Component<PreviewProps> {
       iframeUrl,
       autoFocus,
       toolbarContainer,
-      appLocale,
       ...rest
     } = this.props;
-
-    const env = {
-      ...this.env,
-      ...amisEnv
-    };
 
     return (
       <div
@@ -498,7 +484,6 @@ export default class Preview extends Component<PreviewProps> {
             editable ? 'is-edting' : '',
             isMobile ? 'is-mobile' : 'is-pc hoverShowScrollBar'
           )}
-          ref={this.contentsRef}
         >
           {iframeUrl && isMobile && (
             <React.Fragment>
@@ -509,7 +494,7 @@ export default class Preview extends Component<PreviewProps> {
               <div className="mobile-open-btn"></div>
             </React.Fragment>
           )}
-          <div className="ae-Preview-inner">
+          <div className="ae-Preview-inner" ref={this.contentsRef}>
             {iframeUrl && isMobile ? (
               <IFrameBridge
                 {...rest}
@@ -518,7 +503,7 @@ export default class Preview extends Component<PreviewProps> {
                 editable={editable}
                 isMobile={isMobile}
                 store={store}
-                env={env}
+                env={this.env}
                 manager={manager}
                 url={iframeUrl}
                 theme={theme}
@@ -530,10 +515,9 @@ export default class Preview extends Component<PreviewProps> {
                 editable={editable}
                 autoFocus={autoFocus}
                 store={store}
-                env={env}
+                env={this.env}
                 manager={manager}
                 key="pc"
-                appLocale={appLocale}
               />
             )}
 
@@ -601,8 +585,6 @@ export interface SmartPreviewProps {
   env: any;
   data?: any;
   manager: EditorManager;
-  /** 应用语言类型 */
-  appLocale?: string;
 }
 @observer
 class SmartPreview extends React.Component<SmartPreviewProps> {
@@ -628,7 +610,7 @@ class SmartPreview extends React.Component<SmartPreviewProps> {
   }
 
   render() {
-    const {editable, store, appLocale, autoFocus, env, data, manager, ...rest} =
+    const {editable, store, autoFocus, env, data, manager, ...rest} =
       this.props;
 
     return render(
@@ -637,8 +619,7 @@ class SmartPreview extends React.Component<SmartPreviewProps> {
         ...rest,
         key: editable ? 'edit-mode' : 'preview-mode',
         theme: env.theme,
-        data: data ?? store.ctx,
-        locale: appLocale
+        data: data ?? store.ctx
       },
       env
     );

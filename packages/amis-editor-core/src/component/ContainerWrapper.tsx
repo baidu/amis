@@ -2,7 +2,7 @@ import {NodeWrapper, NodeWrapperProps} from './NodeWrapper';
 import React from 'react';
 import {observer} from 'mobx-react';
 import {autobind} from '../util';
-import {Schema} from 'amis';
+import {Schema} from 'amis/lib/types';
 import find from 'lodash/find';
 import {RegionWrapper} from './RegionWrapper';
 
@@ -29,11 +29,6 @@ export class ContainerWrapper extends React.Component<ContainerWrapperProps> {
     const {render, $$editor, $$node} = this.props;
 
     const child = render(region, node, props);
-
-    if ($$node?.memberImmutable(region)) {
-      return child;
-    }
-
     const config = find(
       $$editor.regions,
       item => item.key === region && !item.matchRegion && !item.renderMethod
@@ -83,8 +78,7 @@ export class ContainerWrapper extends React.Component<ContainerWrapperProps> {
         }
 
         let defaultRegion: any[] = [];
-        /**
-         * form表单的按钮组特殊处理
+        /** form表单的按钮组特殊处理
          * 原因：确保编辑态也显示默认的提交按钮
          */
         if (

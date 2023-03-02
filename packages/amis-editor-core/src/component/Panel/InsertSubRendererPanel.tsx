@@ -63,7 +63,7 @@ export class InsertSubRendererPanel extends React.Component<PanelProps> {
     const grouped = store.groupedInsertRenderers;
     const keys = Object.keys(grouped);
     const insertTag = store.insertTag || '全部';
-    const list = grouped[insertTag] || grouped['全部'];
+    const list = grouped[insertTag];
 
     return (
       <div className="ae-InsertPanel">

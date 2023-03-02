@@ -10,7 +10,6 @@ interface SearchCustomRendererProps {
 
 interface SearchCustomRendererStates {
   customRenderersByOrder: Array<SubRendererInfo>; // 仅获取一次
-  defaultKeyword: string;
 }
 
 @observer
@@ -27,22 +26,21 @@ export default class SearchCustomRendererPanel extends React.Component<
     customRenderersByOrder = customRenderersByOrder.filter(
       (item: SubRendererInfo) => !item.disabledRendererPlugin
     );
-    const {customRenderersKeywords, customRenderersTag} = props.store;
     this.state = {
-      customRenderersByOrder: customRenderersByOrder,
-      defaultKeyword: customRenderersKeywords || customRenderersTag || ''
+      customRenderersByOrder: customRenderersByOrder
     };
   }
 
   render() {
-    const {customRenderersByOrder, defaultKeyword} = this.state;
-    const {changeCustomRenderersKeywords, changeCustomRenderersTag} =
-      this.props.store;
+    const {customRenderersByOrder} = this.state;
+    const {
+      changeCustomRenderersKeywords,
+      changeCustomRenderersTag
+    } = this.props.store;
 
     return customRenderersByOrder && customRenderersByOrder.length > 0 ? (
       <SearchPanel
         allResult={customRenderersByOrder}
-        externalKeyword={defaultKeyword}
         searchPanelUUID={this.localStorageKey}
         onChange={changeCustomRenderersKeywords}
         onTagChange={changeCustomRenderersTag}

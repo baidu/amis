@@ -17,7 +17,6 @@ export interface HighlightBoxProps {
   toolbarContainer?: () => any;
   onSwitch?: (id: string) => void;
   manager: EditorManager;
-  children?: React.ReactNode;
 }
 
 @observer
@@ -232,7 +231,6 @@ export default class HighlightBox extends React.Component<HighlightBoxProps> {
           },
           className
         )}
-        data-hlbox-id={id}
         style={{
           display: node.w && node.h ? 'block' : 'none',
           top: node.y,

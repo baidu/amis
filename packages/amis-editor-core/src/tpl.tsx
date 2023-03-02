@@ -1,4 +1,4 @@
-import {SchemaObject} from 'amis/lib/Schema';
+import { SchemaObject } from "amis/lib/Schema";
 
 /**
  * @file amis schema 配置模板，主要很多地方都要全部配置的化，
@@ -19,12 +19,14 @@ export function getSchemaTpl(
   if (typeof tpl === 'function') {
     schema = tpl(patch, rendererSchema);
   } else {
-    schema = patch
-      ? {
-          ...tpl,
-          ...patch
-        }
-      : tpl;
+    schema = tpl
+      ? patch
+        ? {
+            ...tpl,
+            ...patch
+          }
+        : tpl
+      : null;
   }
 
   return schema;

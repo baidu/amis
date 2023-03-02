@@ -2,7 +2,7 @@ import React from 'react';
 import {observer} from 'mobx-react';
 import {Icon, InputBox} from 'amis';
 import cx from 'classnames';
-import {autobind, stringRegExp} from '../../util';
+import {autobind} from '../../util';
 import isString from 'lodash/isString';
 
 /**
@@ -87,6 +87,7 @@ export default class SearchPanel extends React.Component<
       this.curInputBox = this.ref.current.childNodes[0].childNodes[0];
       this.curInputBox.addEventListener('keyup', this.bindEnterEvent);
     }
+    this.updateCurKeyword('');
   }
 
   componentWillUnmount() {
@@ -193,7 +194,7 @@ export default class SearchPanel extends React.Component<
     const grouped: {
       [propName: string]: any[];
     } = {};
-    const regular = curKeyword ? new RegExp(stringRegExp(curKeyword), 'i') : null;
+    const regular = curKeyword ? new RegExp(curKeyword, 'i') : null;
 
     allResult.forEach(item => {
       if (isString(item) && regular && regular.test(item)) {

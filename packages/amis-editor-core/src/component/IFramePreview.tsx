@@ -4,7 +4,7 @@ import {EditorStoreType} from '../store/editor';
 import {render, toast, resolveRenderer, resizeSensor} from 'amis';
 import {autobind} from '../util';
 import {RenderOptions} from 'amis-core';
-import {Schema} from 'amis';
+import {Schema} from 'amis/lib/types';
 import {ErrorRenderer} from './base/ErrorRenderer';
 import cx from 'classnames';
 import {findDOMNode} from 'react-dom';
@@ -250,8 +250,15 @@ export default class IFramePreview extends React.Component<IFramePreviewProps> {
   }
 
   render() {
-    const {store, editable, manager, className, schema, data, ...rest} =
-      this.props;
+    const {
+      store,
+      editable,
+      manager,
+      className,
+      schema,
+      data,
+      ...rest
+    } = this.props;
 
     return (
       <div

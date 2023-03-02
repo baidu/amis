@@ -2,7 +2,6 @@ import {observer} from 'mobx-react';
 import {isAlive} from 'mobx-state-tree';
 import React from 'react';
 import {unmountComponentAtNode} from 'react-dom';
-// import {createRoot} from 'react-dom/client';
 import {EditorManager} from '../manager';
 import {EditorStoreType} from '../store/editor';
 import {autobind, guid} from '../util';
@@ -155,21 +154,12 @@ export function mountInIframe(
   }
 
   const bridgeName = location.hash.substring(1);
-
-  // react 18 版本以下的 render方法
   reactDom.render(
     <PreviewWrapper bridgeName={bridgeName} envCreator={envCreator} />,
     dom
   );
 
-  /*
-  // react 18 render方法
-  const root = createRoot(dom);
-  root.render(<PreviewWrapper bridgeName={bridgeName} envCreator={envCreator} />);
-  */
-
   window.onunload = function () {
     unmountComponentAtNode(dom);
-    // root.unmount(); // react18
   };
 }

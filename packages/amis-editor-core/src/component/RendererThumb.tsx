@@ -1,6 +1,7 @@
-import {LazyComponent, Schema} from 'amis-core';
+import {LazyComponent, Icon} from 'amis';
 import React from 'react';
-import {resizeSensor, render, Icon} from 'amis';
+import {resizeSensor, render} from 'amis';
+import {Schema} from 'amis/lib/types';
 
 interface ThumbProps {
   schema: Schema;
@@ -71,7 +72,7 @@ export class RendererThumb extends React.Component<ThumbProps, ThumbStates> {
       <LazyComponent
         unMountOnHidden={false}
         schema={schema}
-        component={({schema}: {schema: Schema; [key: string]: any}) => (
+        component={({schema}) => (
           <div
             className={`ae-RenderersPicker-thumb ${
               this.state.scale ? 'is-scaled' : ''

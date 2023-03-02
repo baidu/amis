@@ -37,8 +37,11 @@ export class LeftPanels extends React.Component<
 
   @autobind
   handleHidden() {
-    const {changeLeftPanelOpenStatus, leftPanelOpenStatus, changeLeftPanelKey} =
-      this.props.store;
+    const {
+      changeLeftPanelOpenStatus,
+      leftPanelOpenStatus,
+      changeLeftPanelKey
+    } = this.props.store;
     const nextStatus = !leftPanelOpenStatus;
     changeLeftPanelOpenStatus(nextStatus);
     if (nextStatus) {

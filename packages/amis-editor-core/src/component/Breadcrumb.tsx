@@ -214,9 +214,8 @@ export default class Breadcrumb extends React.Component<
           {bcn.length ? (
             <ul>
               {bcn.map((item, index) => {
-                const nearby: Array<EditorNodeType> = (
-                  item.parent as EditorNodeType
-                )?.uniqueChildren;
+                const nearby: Array<EditorNodeType> = (item.parent as EditorNodeType)
+                  ?.uniqueChildren;
 
                 return (
                   <li key={index}>
@@ -229,7 +228,7 @@ export default class Breadcrumb extends React.Component<
                       {item.label}
                     </span>
                     {nearby?.length > 1 ? (
-                      <ul className="hoverShowScrollBar">
+                      <ul className='hoverShowScrollBar'>
                         {nearby.map(child => (
                           <li key={`${child.id}-${child.region}`}>
                             <span

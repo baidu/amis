@@ -11,7 +11,6 @@ export interface VRendererProps extends RendererInfo {
   path: string;
   data?: any;
   widthMutable?: boolean;
-  children?: React.ReactNode;
 }
 
 export class VRenderer extends React.Component<VRendererProps> {
@@ -20,7 +19,7 @@ export class VRenderer extends React.Component<VRendererProps> {
 
   UNSAFE_componentWillMount() {
     const {data, path, widthMutable, ...info} = this.props;
-    const parent: EditorNodeType = this.context as any;
+    const parent: EditorNodeType = this.context;
     this.editorNode = parent.addChild({
       id: info.id,
       type: info.type,
@@ -44,7 +43,7 @@ export class VRenderer extends React.Component<VRendererProps> {
 
   componentWillUnmount() {
     if (this.editorNode && isAlive(this.editorNode)) {
-      const parent: EditorNodeType = this.context as any;
+      const parent: EditorNodeType = this.context;
       parent.removeChild(this.editorNode);
     }
   }
