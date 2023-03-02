@@ -1,9 +1,13 @@
-import {toast} from 'amis';
+import {toast, normalizeApiResponseData} from 'amis';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
 import React from 'react';
 
-import {getI18nEnabled, registerEditorPlugin} from 'amis-editor-core';
+import {
+  getI18nEnabled,
+  registerEditorPlugin,
+  tipedLabel
+} from 'amis-editor-core';
 import {
   BaseEventContext,
   BasePlugin,
@@ -222,11 +226,22 @@ export class CRUDPlugin extends BasePlugin {
                 api: data.api
               }).api;
             }
-            const result = await props.env.fetcher(api, data);
-
+            const response = await props.env.fetcher(api, data);
+            const result = normalizeApiResponseData(response.data);
             let autoFillKeyValues: Array<any> = [];
-            const items = result.data?.rows || result.data?.items;
-            if (items?.length) {
+            let items = result?.items ?? result?.rows;
+
+            /** 非标返回，取data中的第一个数组作为返回值，和AMIS中处理逻辑同步 */
+            if (!Array.isArray(items)) {
+              for (const key of Object.keys(result)) {
+                if (result.hasOwnProperty(key) && Array.isArray(result[key])) {
+                  items = result[key];
+                  break;
+                }
+              }
+            }
+
+            if (Array.isArray(items)) {
               Object.keys(items[0]).forEach((key: any) => {
                 const value = items[0][key];
                 autoFillKeyValues.push({
@@ -246,7 +261,7 @@ export class CRUDPlugin extends BasePlugin {
               });
             } else {
               toast.warning(
-                'API返回格式不正确，请点击接口地址右侧示例的问号查看示例'
+                'API返回格式不正确，请点击接口地址右侧示例查看CRUD数据接口结构要求'
               );
             }
           }
@@ -795,7 +810,7 @@ export class CRUDPlugin extends BasePlugin {
           },
 
           {
-            name: 'initFetch',
+            name: 'initFetchOn',
             autoComplete: false,
             visibleOn: 'typeof this.initFetch !== "boolean"',
             type: 'input-text',
@@ -866,7 +881,12 @@ export class CRUDPlugin extends BasePlugin {
           }),
 
           getSchemaTpl('apiControl', {
-            label: '顺序保存接口',
+            label: tipedLabel(
+              '顺序保存接口',
+              `<p><code>ids</code>: <span>用 id 来记录新的顺序</span></p>
+              <p><code>rows</code>: <span>数组格式，新的顺序，数组里面包含所有原始信息</span></p>
+              <p><code>insetAfter</code> / <code>insertBefore</code>: <span>这是 amis 生成的 diff 信息，对象格式，key 为目标成员的 primaryField 值，即 id，value 为数组，数组中存放成员 primaryField 值</span></p>`
+            ),
             name: 'saveOrderApi',
             visibleOn: 'data.draggable'
           }),
@@ -1101,7 +1121,9 @@ export class CRUDPlugin extends BasePlugin {
                 } else if (typeof item === 'string') {
                   type = 'tpl';
                   item =
-                    typeof item === 'string' ? {type: 'tpl', tpl: item, wrapperComponent: ''} : item;
+                    typeof item === 'string'
+                      ? {type: 'tpl', tpl: item, wrapperComponent: ''}
+                      : item;
                 }
                 return {
                   type,
@@ -1280,7 +1302,9 @@ export class CRUDPlugin extends BasePlugin {
                 } else if (typeof item === 'string') {
                   type = 'tpl';
                   item =
-                    typeof item === 'string' ? {type: 'tpl', tpl: item, wrapperComponent: ''} : item;
+                    typeof item === 'string'
+                      ? {type: 'tpl', tpl: item, wrapperComponent: ''}
+                      : item;
                 }
 
                 return {
@@ -1491,8 +1515,10 @@ export class CRUDPlugin extends BasePlugin {
             name: 'maxKeepItemSelectionLength',
             label: '最大选择数量',
             type: 'input-number',
-            mode: 'inline',
-            className: 'block'
+            mode: 'horizontal',
+            horizontal: {
+              justify: true
+            }
           },
 
           {

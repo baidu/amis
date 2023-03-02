@@ -507,7 +507,7 @@ export class WizardPlugin extends BasePlugin {
             },
 
             {
-              name: 'initFetch',
+              name: 'initFetchOn',
               autoComplete: false,
               visibleOn: 'typeof this.initFetch !== "boolean"',
               type: 'input-text',
