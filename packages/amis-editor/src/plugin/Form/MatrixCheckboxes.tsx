@@ -115,7 +115,6 @@ export class MatrixControlPlugin extends BasePlugin {
           {
             title: '基本',
             body: [
-              getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               getSchemaTpl('formItemName', {
                 required: true
               }),
@@ -168,9 +167,19 @@ export class MatrixControlPlugin extends BasePlugin {
                   scaffold: {
                     label: '列说明'
                   },
-                  items: [getSchemaTpl('matrixColumnLabel')]
+                  items: [
+                    {
+                      type: 'input-text',
+                      name: 'label',
+                      placeholder: '列说明'
+                    }
+                  ]
                 }),
-                getSchemaTpl('matrixRowTitle'),
+                {
+                  name: 'rowLabel',
+                  label: '行标题文字',
+                  type: 'input-text'
+                },
                 getSchemaTpl('combo-container', {
                   label: '行配置',
                   name: 'rows',
@@ -181,15 +190,20 @@ export class MatrixControlPlugin extends BasePlugin {
                     label: '行说明'
                   },
                   addButtonText: '添加一行',
-                  items: [getSchemaTpl('matrixRowLabel')]
+                  items: [
+                    {
+                      type: 'input-text',
+                      name: 'label',
+                      placeholder: '行说明'
+                    }
+                  ]
                 })
               ],
               getSchemaTpl('apiControl', {
                 label: tipedLabel('接口', '获取矩阵数据接口'),
                 name: 'source',
                 mode: 'normal'
-              }),
-              getSchemaTpl('loadingConfig', {}, {context})
+              })
               // getSchemaTpl('value')
             ]
           },

@@ -34,15 +34,22 @@ export class TableCellPlugin extends BasePlugin {
                 </Button>
               )
             },*/
-            getSchemaTpl('label', {
-              label: '列名称'
-            }),
+            {
+              name: 'label',
+              label: '列名称',
+              type: 'input-text'
+            },
 
             getSchemaTpl('formItemName', {
               label: '绑定字段名'
             }),
 
-            getSchemaTpl('tableCellRemark'),
+            {
+              name: 'remark',
+              label: '提示',
+              type: 'input-text',
+              description: '显示一个提示图标，鼠标放上去会提示该内容。'
+            },
 
             {
               name: 'placeholder',

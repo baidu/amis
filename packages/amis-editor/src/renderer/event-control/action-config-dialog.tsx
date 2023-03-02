@@ -2,7 +2,7 @@
  * 动作配置面板
  */
 
-import {PluginActions, RendererPluginAction, tipedLabel} from 'amis-editor-core';
+import {PluginActions, RendererPluginAction} from 'amis-editor-core';
 import React from 'react';
 import {ActionConfig, ComponentInfo} from './types';
 import ActionConfigPanel from './action-config-panel';
@@ -109,13 +109,14 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
         ) {
           groupType = 'closeDialog';
         }
-        if (value === 'visibility' && !['show', 'hidden', 'visibility'].includes(groupType)) {
+
+        if (value === 'visibility' && !['show', 'hidden'].includes(groupType)) {
           groupType = 'show';
         }
 
         if (
           value === 'usability' &&
-          !['enabled', 'disabled', 'usability'].includes(groupType)
+          !['enabled', 'disabled'].includes(groupType)
         ) {
           groupType = 'enabled';
         }
@@ -280,21 +281,14 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
                             visibleOn: 'data.actionType'
                           },
                           {
-                            name: 'stopPropagation',
-                            label: tipedLabel('阻断条件', '满足条件时，将会阻断当前事件的后续动作的执行'),
-                            type: 'ae-expressionFormulaControl',
-                            evalMode: true,
-                            variables: '${variables}',
-                            mode: 'horizontal',
-                            size: 'lg',
-                            visibleOn: 'data.actionType'
-                          },
-                          {
                             name: 'expression',
-                            label: '执行条件',
-                            type: 'ae-expressionFormulaControl',
-                            evalMode: true,
+                            title: '',
+                            type: 'input-formula',
+                            variableMode: 'tabs',
+                            inputMode: 'input-group',
                             variables: '${variables}',
+                            className: 'action-exec-on',
+                            label: '执行条件',
                             mode: 'horizontal',
                             size: 'lg',
                             placeholder: '默认执行该动作',

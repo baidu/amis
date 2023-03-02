@@ -170,7 +170,6 @@ export class TransferPlugin extends BasePlugin {
           {
             title: '基本',
             body: [
-              getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               getSchemaTpl('formItemName', {
                 required: true
               }),
@@ -230,18 +229,10 @@ export class TransferPlugin extends BasePlugin {
                 }
               },
 
-              getSchemaTpl('optionControlV2', {
+              getSchemaTpl('optionControl', {
                 visibleOn: 'data.selectMode === "list"',
                 multiple: true
               }),
-
-              getSchemaTpl(
-                'loadingConfig',
-                {
-                  visibleOn: 'this.source || !this.options'
-                },
-                {context}
-              ),
 
               {
                 type: 'ae-transferTableControl',
@@ -275,18 +266,20 @@ export class TransferPlugin extends BasePlugin {
                 name: 'searchable'
               }),
 
-              getSchemaTpl('optionsMenuTpl', {
-                manager: this.manager,
-                onChange: (value: any) => {},
+              getSchemaTpl('menuTpl', {
+                label: tipedLabel(
+                  '模板',
+                  '左侧选项渲染模板，支持JSX，变量使用\\${xx}'
+                ),
                 visibleOn: 'data.selectMode !== "table"'
               }),
 
-              {
+              getSchemaTpl('formulaControl', {
                 label: '标题',
                 name: 'selectTitle',
                 type: 'input-text',
                 inputClassName: 'is-inline '
-              }
+              })
             ]
           },
           {
@@ -324,26 +317,22 @@ export class TransferPlugin extends BasePlugin {
                   'data.selectMode === "list" && !data.resultListModeFollowSelect'
               }),
 
-              getSchemaTpl('optionsMenuTpl', {
+              getSchemaTpl('menuTpl', {
                 name: 'valueTpl',
-                manager: this.manager,
-                onChange: (value: any) => {},
+                label: tipedLabel(
+                  '模板',
+                  '结果选项渲染模板，支持JSX，变量使用\\${xx}'
+                ),
                 visibleOn:
                   '!(data.selectMode === "table" && data.resultListModeFollowSelect)'
               }),
-              {
+
+              getSchemaTpl('formulaControl', {
                 label: '标题',
                 name: 'resultTitle',
                 type: 'input-text',
                 inputClassName: 'is-inline '
-              }
-            ]
-          },
-          {
-            title: '高级',
-            body: [
-              getSchemaTpl('virtualThreshold'),
-              getSchemaTpl('virtualItemHeight')
+              })
             ]
           },
           getSchemaTpl('status', {isFormItem: true}),

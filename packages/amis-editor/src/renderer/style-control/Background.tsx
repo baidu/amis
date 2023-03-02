@@ -361,39 +361,12 @@ const Background: React.FC<BackgroundProps> = props => {
     setTabIndex(index);
   }
 
-  function handleChange(key: string, keyValue: string | number) {
+  function handleChange(key: string, keyValue: string) {
     const {value, onChange} = props;
-
-    let result = {};
-    if (key === 'backgroundColor') {
-      result = {
-        ...omit(value, [
-          'backgroundImage',
-          'backgroundPosition',
-          'backgroundSize',
-          'backgroundRepeat',
-          'angle'
-        ]),
-        [key]: keyValue
-      };
-    } else if (key === 'angle') {
-      keyValue = keyValue || 0;
-      const linearGradient = value?.backgroundImage;
-      let backgroundImage = linearGradient?.replace(
-        /(\d{1,})?deg/,
-        `${keyValue}deg`
-      );
-      result = {
-        ...value,
-        backgroundImage
-      };
-    } else {
-      result = {
-        ...value,
-        [key]: keyValue
-      };
-    }
-
+    const result = {
+      ...value,
+      [key]: keyValue
+    };
     onChange(result);
   }
 

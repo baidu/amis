@@ -1,6 +1,10 @@
 {
   "name": "amis-editor",
+<<<<<<< HEAD
   "version": "5.2.4-crud.11",
+=======
+  "version": "5.2.1-crud.7",
+>>>>>>> parent of fa58cbc9 ([amis-saas-8350]rebase master)
   "description": "amis 可视化编辑器",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -23,14 +27,19 @@
     "lib",
     "esm"
   ],
+  "lint-staged": {
+    "{src,scss,examples}/**/**/*.{js,jsx,ts,tsx,scss,json}": [
+      "prettier --write"
+    ],
+    "{src,scss,examples}/**/**/*.scss": [
+      "stylelint"
+    ]
+  },
   "dependencies": {
     "@webcomponents/webcomponentsjs": "^2.6.0",
-    "amis-editor-core": "*",
-    "amis-postcss": "1.0.0",
-    "amis-theme-editor": "*",
+    "amis-editor-core": "^5.2.1-crud.7",
     "i18n-runtime": "*",
-    "lodash": "^4.17.15",
-    "mobx-state-tree": "^3.17.3"
+    "lodash": "^4.17.15"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.15.3",
@@ -39,6 +48,7 @@
     "@rollup/plugin-node-resolve": "^13.3.0",
     "@rollup/plugin-typescript": "^8.3.2",
     "@svgr/rollup": "^6.2.1",
+    "@svgr/webpack": "^5.5.0",
     "@types/async": "^2.0.45",
     "@types/classnames": "^2.2.3",
     "@types/codemirror": "^5.60.5",
@@ -48,13 +58,17 @@
     "@types/lodash": "^4.14.76",
     "@types/node": "^14.0.24",
     "@types/qs": "^6.5.1",
-    "@types/react": "^18.0.24",
-    "@types/react-dom": "^18.0.8",
+    "@types/react": "^16.9.11",
+    "@types/react-dom": "^16.9.4",
     "@types/react-router": "^4.0.16",
     "@types/react-router-dom": "^5.1.7",
     "@types/sortablejs": "^1.10.7",
     "@types/tinycolor2": "^1.4.3",
     "ajv": "^8.8.2",
+    "amis": "2.5.1",
+    "amis-core": "2.5.1",
+    "amis-formula": "2.5.1",
+    "amis-ui": "2.5.1",
     "axios": "0.21.1",
     "concurrently": "^6.2.0",
     "css-loader": "^6.2.0",
@@ -63,8 +77,8 @@
     "lint-staged": "^12.1.2",
     "mini-css-extract-plugin": "^2.3.0",
     "prettier": "^2.2.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
     "react-overlays": "5.1.1",
     "react-router": "5.2.0",
     "react-router-dom": "5.2.0",
@@ -81,16 +95,17 @@
     "ts-loader": "^9.2.5",
     "ts-node": "^10.5.0",
     "tslib": "^2.3.1",
-    "typescript": "^4.6.4"
+    "typescript": "^4.6.4",
+    "webpack": "^5.52.1",
+    "webpack-bundle-analyzer": "^4.5.0",
+    "webpack-cli": "^4.8.0",
+    "webpack-node-externals": "^3.0.0"
   },
   "peerDependencies": {
     "amis": "*",
     "amis-core": "*",
     "amis-formula": "*",
-    "amis-theme-editor": "*",
     "amis-ui": "*",
-    "i18n-runtime": "*",
-    "react": ">=16.8.6",
-    "react-dom": ">=16.8.6"
+    "i18n-runtime": "*"
   }
 }

@@ -58,9 +58,12 @@ export class FieldSetControlPlugin extends BasePlugin {
   panelTitle = '字段集';
   panelBodyCreator = (context: BaseEventContext) => {
     return [
-      getSchemaTpl('layout:originPosition', {value: 'left-top'}),
-
-      getSchemaTpl('title'),
+      {
+        label: '标题',
+        name: 'title',
+        type: 'input-text'
+        // required: true
+      },
 
       getSchemaTpl('switch', {
         name: 'collapsable',

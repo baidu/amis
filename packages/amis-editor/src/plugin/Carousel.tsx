@@ -24,7 +24,8 @@ export class CarouselPlugin extends BasePlugin {
         image: mockValue({type: 'image'})
       },
       {
-        html: '<div style="width: 100%; height: 300px; background: #e3e3e3; text-align: center; line-height: 300px;">carousel data</div>'
+        html:
+          '<div style="width: 100%; height: 300px; background: #e3e3e3; text-align: center; line-height: 300px;">carousel data</div>'
       },
       {
         image: mockValue({type: 'image'})
@@ -43,7 +44,6 @@ export class CarouselPlugin extends BasePlugin {
         {
           title: '常规',
           body: [
-            getSchemaTpl('layout:originPosition', {value: 'left-top'}),
             isUnderField
               ? {
                   type: 'tpl',
@@ -102,13 +102,23 @@ export class CarouselPlugin extends BasePlugin {
                     getSchemaTpl('imageUrl', {
                       name: 'content'
                     }),
-                    getSchemaTpl('imageTitle'),
+                    {
+                      type: 'input-text',
+                      label: '图片标题',
+                      name: 'title',
+                      visibleOn: 'this.type == "image"'
+                    },
                     getSchemaTpl('className', {
                       label: '图片标题类名',
                       name: 'titleClassName',
                       visibleOn: 'this.type == "image"'
                     }),
-                    getSchemaTpl('imageDesc'),
+                    {
+                      type: 'textarea',
+                      label: '图片描述',
+                      name: 'description',
+                      visibleOn: 'this.type == "image"'
+                    },
                     getSchemaTpl('className', {
                       label: '图片描述类名',
                       name: 'descriptionClassName',

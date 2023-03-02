@@ -1,17 +1,15 @@
 import {Button} from 'amis';
 import {SchemaCollection} from 'amis/lib/Schema';
 import React from 'react';
+import {registerEditorPlugin} from 'amis-editor-core';
 import {
   BaseEventContext,
   BasePlugin,
   BasicToolbarItem,
   ContextMenuEventContext,
-  ContextMenuItem,
-  getSchemaTpl,
-  registerEditorPlugin,
-  diff,
-  JSONPipeOut
+  ContextMenuItem
 } from 'amis-editor-core';
+import {diff, JSONPipeOut} from 'amis-editor-core';
 
 export class SubFormControlPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -56,7 +54,6 @@ export class SubFormControlPlugin extends BasePlugin {
   panelTitle = '子表单项';
   panelBodyCreator = (context: BaseEventContext) => {
     return [
-      getSchemaTpl('layout:originPosition', {value: 'left-top'}),
       {
         children: ({value, onChange}: any) => {
           return (
@@ -79,10 +76,12 @@ export class SubFormControlPlugin extends BasePlugin {
         label: '名称字段名',
         description: '当值中存在这个字段，则按钮名称将使用此字段的值来展示。'
       },
-      getSchemaTpl('btnLabel', {
+      {
+        name: 'btnLabel',
         label: '按钮标签名',
-        value: '设置'
-      }),
+        value: '设置',
+        type: 'input-text'
+      },
       {
         name: 'minLength',
         visibleOn: 'data.multiple',

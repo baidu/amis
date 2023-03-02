@@ -16,7 +16,6 @@ import {autobind, JSONGetById, EditorStoreType} from 'amis-editor-core';
 interface TableViewEditorProps {
   schema: TableViewSchema;
   manager: EditorManager;
-  children?: any;
 }
 
 interface TableViewEditorState {
@@ -310,8 +309,13 @@ export class TableViewEditor extends React.Component<
   // 合并单元格操作
   @autobind
   handleMergeCell() {
-    const {firstCell, minRow, minCol, maxRow, maxCol} =
-      this.findFirstAndLastCell();
+    const {
+      firstCell,
+      minRow,
+      minCol,
+      maxRow,
+      maxCol
+    } = this.findFirstAndLastCell();
     if (!firstCell) {
       console.warn('找不到第一个 cell');
       return;
@@ -518,7 +522,6 @@ export class TableViewEditor extends React.Component<
   }
 
   render() {
-    const {children, schema} = this.props;
     let rowLines = this.state.trIds.map((id: string) => (
       <div
         className="ae-TableViewEditor-rowLine"
@@ -538,8 +541,8 @@ export class TableViewEditor extends React.Component<
     ));
 
     return (
-      <div className="ae-TableViewEditor" ref={this.tableViewWrapperRef} style={schema?.style}>
-        {children}
+      <div className="ae-TableViewEditor" ref={this.tableViewWrapperRef}>
+        {this.props.children}
         {this.renderMergeIcon()}
         {rowLines}
         {colLines}

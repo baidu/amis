@@ -1,6 +1,6 @@
 import {resolveVariable} from 'amis';
 
-import {setVariable, someTree} from 'amis-core';
+import {setVariable} from 'amis-core';
 import {
   BasePlugin,
   BaseEventContext,
@@ -22,11 +22,9 @@ import {
   RendererPluginEvent,
   DSBuilderManager
 } from 'amis-editor-core';
-import {
-  getEventControlConfig,
-  getArgsWrapper
-} from '../renderer/event-control/helper';
+import {getEventControlConfig} from '../renderer/event-control/helper';
 import {SchemaObject} from 'amis/lib/Schema';
+import {getArgsWrapper} from '../renderer/event-control/helper';
 import type {EditorManager} from 'amis-editor-core';
 
 import {isCrudContext} from '../util';
@@ -299,7 +297,6 @@ export class Table2Plugin extends BasePlugin {
       actionLabel: '设置选中项',
       description: '设置表格的选中项',
       schema: getArgsWrapper([
-        /*
         {
           type: 'input-formula',
           variables: '${variables}',
@@ -308,15 +305,6 @@ export class Table2Plugin extends BasePlugin {
           label: '选中项',
           size: 'lg',
           name: 'selected',
-          mode: 'horizontal'
-        }
-        */
-        {
-          name: 'selected',
-          label: '选中项',
-          type: 'ae-formulaControl',
-          variables: '${variables}',
-          size: 'lg',
           mode: 'horizontal'
         }
       ])
@@ -341,11 +329,7 @@ export class Table2Plugin extends BasePlugin {
     this.dsBuilderMgr = new DSBuilderManager('table', 'api');
   }
 
-  async buildDataSchemas(
-    node: EditorNodeType,
-    region?: EditorNodeType,
-    trigger?: EditorNodeType
-  ) {
+  async buildDataSchemas(node: EditorNodeType, region?: EditorNodeType) {
     const itemsSchema: any = {
       $id: 'tableRow',
       type: 'object',
@@ -354,12 +338,11 @@ export class Table2Plugin extends BasePlugin {
     const columns: EditorNodeType = node.children.find(
       item => item.isRegion && item.region === 'columns'
     );
-
     if (columns) {
       for (let current of columns.children) {
         const schema = current.schema;
-        if (schema?.name) {
-          itemsSchema.properties[schema.name] = current.info?.plugin
+        if (schema && schema.key) {
+          itemsSchema.properties[schema.key] = current.info?.plugin
             ?.buildDataSchemas
             ? await current.info.plugin.buildDataSchemas(current, region)
             : {
@@ -371,24 +354,13 @@ export class Table2Plugin extends BasePlugin {
       }
     }
 
-    let cellProperties = {};
-    if (trigger) {
-      const isColumnChild = someTree(
-        columns?.children,
-        item => item.id === trigger.id
-      );
-
-      isColumnChild && (cellProperties = itemsSchema.properties);
-    }
-
     const result: any = {
       $id: 'table2',
       type: 'object',
       properties: {
-        ...cellProperties,
-        rows: {
+        items: {
           type: 'array',
-          title: '数据列表',
+          title: '表格数据',
           items: itemsSchema
         }
       }
@@ -415,7 +387,6 @@ export class Table2Plugin extends BasePlugin {
             {
               title: '基本',
               body: [
-                getSchemaTpl('layout:originPosition', {value: 'left-top'}),
                 {
                   name: 'source',
                   type: 'input-text',
@@ -563,7 +534,12 @@ export class Table2Plugin extends BasePlugin {
                   ]
                 },
 
-                getSchemaTpl('tablePlaceholder')
+                {
+                  name: 'placeholder',
+                  pipeIn: defaultValue('暂无数据'),
+                  type: 'input-text',
+                  label: '占位内容'
+                }
               ]
             },
             {
@@ -750,13 +726,7 @@ export class Table2Plugin extends BasePlugin {
                 })
               ]
             }
-          ]),
-
-          isCRUDBody
-            ? null
-            : {
-                type: 'divider'
-              }
+          ])
         ]
       },
       {

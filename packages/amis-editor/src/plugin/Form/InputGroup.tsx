@@ -1,13 +1,8 @@
 import React from 'react';
-import {
-  defaultValue,
-  getSchemaTpl,
-  registerEditorPlugin,
-  BasePlugin,
-  BaseEventContext,
-  tipedLabel
-} from 'amis-editor-core';
-import {ValidatorTag} from '../../validator';
+import {Button} from 'amis';
+import {getSchemaTpl} from 'amis-editor-core';
+import {registerEditorPlugin} from 'amis-editor-core';
+import {BasePlugin} from 'amis-editor-core';
 
 export class InputGroupControlPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -52,59 +47,50 @@ export class InputGroupControlPlugin extends BasePlugin {
   };
 
   panelTitle = 'Input 组合';
-
-  regions = [
-    {
-      key: 'body',
-      label: '内容区',
-      preferTag: '内容区',
-      renderMethod: 'render',
-      matchRegion: (elem: JSX.Element) => !!elem
-    }
-  ];
-
-  notRenderFormZone = true;
-
-  panelJustify = true;
-
-  panelBodyCreator = (context: BaseEventContext) => {
-    return getSchemaTpl('tabs', [
+  panelBody = [
+    [
       {
-        title: '属性',
-        body: getSchemaTpl('collapseGroup', [
+        name: 'body',
+        type: 'combo',
+        // label: '子按钮',
+        multiple: true,
+        addable: false,
+        draggable: true,
+        draggableTip: '可排序、可移除、如要编辑请在预览区选中编辑',
+        editable: false,
+        visibleOn: 'this.body && this.body.length',
+        items: [
           {
-            title: '基本',
-            body: [
-              getSchemaTpl('label'),
-              getSchemaTpl('labelRemark'),
-              getSchemaTpl('remark'),
-              getSchemaTpl('description')
-            ]
-          },
-          getSchemaTpl('status', {isFormItem: true}),
-          getSchemaTpl('validation', {tag: ValidatorTag.MultiSelect})
-        ])
+            type: 'tpl',
+            inline: false,
+            className: 'p-t-xs',
+            tpl: '<%= data.label %><% if (data.icon) { %><i class="<%= data.icon %>"/><% }%>'
+          }
+        ]
       },
       {
-        title: '外观',
-        body: [
-          getSchemaTpl('collapseGroup', [
-            getSchemaTpl('style:formItem', {
-              renderer: context.info.renderer,
-              schema: [
-                getSchemaTpl('switch', {
-                  label: '内联模式',
-                  name: 'inline',
-                  pipeIn: defaultValue(false)
-                })
-              ]
-            }),
-            getSchemaTpl('style:classNames')
-          ])
-        ]
-      }
-    ]);
-  };
+        children: (
+          <Button
+            className="m-b"
+            // TODO：需要限制一下 body 的类型，之前是这些 'text', 'url', 'email', 'password', 'select', 'date', 'time', 'date-time', 'date-range', 'formula', 'color', 'city', 'icon', 'plain', 'tpl', 'button', 'submit', 'reset'
+            onClick={() => {
+              // this.manager.showInsertPanel('body')
+              this.manager.showRendererPanel('表单项'); // '请从左侧组件面板中点击添加表单项'
+            }}
+            level="danger"
+            tooltip="插入一个新的元素"
+            size="sm"
+            block
+          >
+            新增元素
+          </Button>
+        )
+      },
+      getSchemaTpl('formItemName', {
+        required: true
+      })
+    ]
+  ];
 }
 
 registerEditorPlugin(InputGroupControlPlugin);

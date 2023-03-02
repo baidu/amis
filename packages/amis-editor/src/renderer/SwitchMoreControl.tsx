@@ -11,7 +11,7 @@ import {FormItem, Button, Overlay, PopOver, Icon, Switch} from 'amis';
 
 import {isObject, autobind} from 'amis-editor-core';
 
-import type {Action} from 'amis';
+import type {Action} from 'amis/lib/types';
 import type {SchemaCollection} from 'amis/lib/Schema';
 import type {IScopedContext} from 'amis-core';
 import type {FormSchema} from 'amis/lib/schema';
@@ -370,7 +370,7 @@ export default class SwitchMore extends React.Component<
     return {
       type: 'input-sub-form',
       btnLabel: '',
-      className: 'inline-block m-0 h-6 bg-white ',
+      className: 'inline-block m-0 h-6',
       itemClassName: 'bg-white hover:bg-white m-0 p-0',
       icon: 'fa fa-cog',
       form: {

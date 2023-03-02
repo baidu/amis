@@ -22,8 +22,7 @@ export class ProgressPlugin extends BasePlugin {
   scaffold = {
     type: 'progress',
     value: 66,
-    strokeWidth: 6,
-    valueTpl: '${value}%'
+    strokeWidth: 6
   };
   previewSchema = {
     ...this.scaffold
@@ -42,13 +41,12 @@ export class ProgressPlugin extends BasePlugin {
           {
             title: '基本',
             body: [
-              getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               {
                 label: '类型',
                 name: 'mode',
                 type: 'select',
                 option: '继承',
-                pipeIn: defaultValue('line'),
+                value: 'line',
                 tiled: true,
                 options: [
                   {
@@ -81,33 +79,15 @@ export class ProgressPlugin extends BasePlugin {
                   }
                 }
               },
-              getSchemaTpl('valueFormula', {
-                rendererSchema: {
-                  ...context?.schema,
-                  type: 'input-number'
-                },
-                needDeleteProps: ['placeholder'],
-                valueType: 'number' // 期望数值类型，不过 amis中会尝试字符串 trans 数值类型
-              }),
+              {
+                type: 'input-number',
+                name: 'value',
+                label: '默认值',
+                min: 0,
+                max: 100
+              },
               getSchemaTpl('menuTpl', {
-                label: tipedLabel(
-                  '数值模板',
-                  '值渲染模板，支持JSX、数据域变量使用, 默认 ${value}%'
-                ),
-                name: 'valueTpl',
-                variables: [
-                  {
-                    label: '值字段',
-                    children: [
-                      {
-                        label: '进度值',
-                        value: 'value',
-                        tag: 'number'
-                      }
-                    ]
-                  }
-                ],
-                requiredDataPropsVariables: true
+                name: 'valueTpl'
               }),
 
               getSchemaTpl('switch', {

@@ -77,10 +77,6 @@ export class TagControlPlugin extends BasePlugin {
               type: 'string',
               title: '选中值'
             },
-            'event.data.selectedItems': {
-              type: 'array',
-              title: '选中的项'
-            },
             'event.data.items': {
               type: 'array',
               title: '选项集合'
@@ -136,14 +132,18 @@ export class TagControlPlugin extends BasePlugin {
         common: {
           replace: true,
           body: [
-            getSchemaTpl('layout:originPosition', {value: 'left-top'}),
             getSchemaTpl('formItemName', {
               required: true
             }),
             getSchemaTpl('label'),
             getSchemaTpl('crudFilterOperator', {context}),
             getSchemaTpl('clearable'),
-            getSchemaTpl('optionsTip'),
+            {
+              type: 'input-text',
+              name: 'optionsTip',
+              label: '选项提示',
+              value: '最近您使用的标签'
+            },
             getSchemaTpl('valueFormula', {
               rendererSchema: context?.schema,
               mode: 'vertical' // 改成上下展示模式

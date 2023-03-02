@@ -4,17 +4,12 @@ import {
   defaultValue,
   isObject,
   tipedLabel,
-  DSField,
-  EditorManager,
-  BaseEventContext
+  DSField
 } from 'amis-editor-core';
 import {remarkTpl} from '../component/BaseControl';
 import {SchemaObject} from 'amis/lib/Schema';
 import flatten from 'lodash/flatten';
-import _ from 'lodash';
 import {InputComponentName} from '../component/InputComponentName';
-import {FormulaDateType} from '../renderer/FormulaControl';
-import {VariableItem} from 'amis-ui/lib/components/formula/Editor';
 
 /**
  * @deprecated 兼容当前组件的switch
@@ -125,7 +120,7 @@ setSchemaTpl('formItemSize', {
   name: 'size',
   label: '控件宽度',
   type: 'select',
-  pipeIn: defaultValue('full'),
+  pipeIn: defaultValue(''),
   // mode: 'inline',
   // className: 'w-full',
   options: [
@@ -149,8 +144,12 @@ setSchemaTpl('formItemSize', {
       value: 'lg'
     },
     {
-      label: '默认（占满）',
+      label: '占满',
       value: 'full'
+    },
+    {
+      label: '默认',
+      value: ''
     }
   ]
 });
@@ -179,14 +178,6 @@ setSchemaTpl('label', {
   }
 });
 
-/** 文件上传按钮名称 btnLabel */
-setSchemaTpl('btnLabel', {
-  type: 'input-text',
-  name: 'btnLabel',
-  label: '按钮名称',
-  value: '文件上传'
-});
-
 setSchemaTpl('labelHide', () =>
   getSchemaTpl('switch', {
     name: 'label',
@@ -203,20 +194,6 @@ setSchemaTpl('placeholder', {
   name: 'placeholder',
   type: 'input-text',
   placeholder: '空内容提示占位'
-});
-
-setSchemaTpl('startPlaceholder', {
-  type: 'input-text',
-  name: 'startPlaceholder',
-  label: '前占位提示',
-  pipeIn: defaultValue('开始时间')
-});
-
-setSchemaTpl('endPlaceholder', {
-  type: 'input-text',
-  name: 'endPlaceholder',
-  label: '后占位提示',
-  pipeIn: defaultValue('结束时间')
 });
 
 setSchemaTpl(
@@ -347,15 +324,6 @@ setSchemaTpl('hint', {
   description: '当输入框获得焦点的时候显示，用来提示用户输入内容。'
 });
 
-setSchemaTpl('icon', {
-  label: '图标',
-  type: 'icon-picker',
-  name: 'icon',
-  placeholder: '点击选择图标',
-  clearable: true,
-  description: ''
-});
-
 setSchemaTpl(
   'remark',
   remarkTpl({
@@ -381,75 +349,62 @@ setSchemaTpl(
     mode?: string; // 自定义展示默认值，上下展示: vertical, 左右展示: horizontal
     label?: string; // 表单项 label
     name?: string; // 表单项 name
-    header?: string; // 表达式弹窗标题
-    placeholder?: string; // 表达式自定义渲染 占位符
     rendererSchema?: any;
     rendererWrapper?: boolean; // 自定义渲染器 是否需要浅色边框包裹
-    needDeleteProps?: string[]; // 需要剔除的其他属性，默认 deleteProps 中包含一些通用属性
+    needDeleteValue?: boolean; // 是否需要剔除默认值
     useSelectMode?: boolean; // 是否使用Select选择设置模式，需要确保 rendererSchema.options 不为 undefined
     valueType?: string; // 用于设置期望数值类型
     visibleOn?: string; // 用于控制显示的表达式
-    DateTimeType?: FormulaDateType; // 日期类组件要支持 表达式 & 相对值
-    variables?: Array<VariableItem> | Function; // 自定义变量集合
-    requiredDataPropsVariables?: boolean; // 是否再从amis数据域中取变量结合， 默认 false
-    variableMode?: 'tabs' | 'tree'; // 变量展现模式
+    evalMode?: boolean; // 为false时，则会用 ${这里面才是表达式} 包裹变量
     className?: string; // 外层类名
-    [key: string]: any; // 其他属性，例如包括表单项pipeIn\Out 等等
   }) => {
-    const {
-      rendererSchema,
-      useSelectMode,
-      mode,
-      visibleOn,
-      label,
-      name,
-      rendererWrapper,
-      needDeleteProps,
-      valueType,
-      header,
-      placeholder,
-      DateTimeType,
-      variables,
-      requiredDataPropsVariables,
-      variableMode,
-      className,
-      ...rest
-    } = config || {};
-    let curRendererSchema = rendererSchema;
-
-    if (useSelectMode && curRendererSchema && curRendererSchema.options) {
+    let curRendererSchema = config?.rendererSchema;
+    if (
+      config?.useSelectMode &&
+      curRendererSchema &&
+      curRendererSchema.options
+    ) {
       curRendererSchema = {
         ...curRendererSchema,
         type: 'select'
       };
     }
 
-    return {
-      type: 'group',
-      // 默认左右展示
+    if (config?.mode === 'vertical') {
       // 上下展示，可避免 自定义渲染器 出现挤压
-      mode: mode === 'vertical' ? 'vertical' : 'horizontal',
-      visibleOn,
-      className,
-      body: [
-        {
-          type: 'ae-formulaControl',
-          label: label ?? '默认值',
-          name: name || 'value',
-          rendererWrapper,
-          needDeleteProps,
-          valueType,
-          header,
-          placeholder,
-          rendererSchema: curRendererSchema,
-          variables,
-          requiredDataPropsVariables,
-          variableMode,
-          DateTimeType: DateTimeType ?? FormulaDateType.NotDate,
-          ...rest
-        }
-      ]
-    };
+      return {
+        type: 'group',
+        mode: 'vertical',
+        className: config?.className,
+        visibleOn: config?.visibleOn,
+        body: [
+          {
+            type: 'ae-formulaControl',
+            label: config?.label ?? '默认值',
+            name: config?.name || 'value',
+            rendererSchema: curRendererSchema,
+            rendererWrapper: config?.rendererWrapper,
+            needDeleteValue: config?.needDeleteValue,
+            valueType: config?.valueType,
+            evalMode: config?.evalMode ?? false // 默认需要${}包裹变量
+          }
+        ]
+      };
+    } else {
+      // 默认左右展示
+      return {
+        type: 'ae-formulaControl',
+        label: config?.label || '默认值',
+        name: config?.name || 'value',
+        className: config?.className,
+        rendererSchema: curRendererSchema,
+        rendererWrapper: config?.rendererWrapper,
+        needDeleteValue: config?.needDeleteValue,
+        valueType: config?.valueType,
+        visibleOn: config?.visibleOn,
+        evalMode: config?.evalMode ?? false // 默认需要${}包裹变量
+      };
+    }
   }
 );
 
@@ -544,86 +499,24 @@ setSchemaTpl('selectDateRangeType', {
   ]
 });
 
-setSchemaTpl(
-  'optionsMenuTpl',
-  (config: {manager: EditorManager; [key: string]: any}) => {
-    const {manager, ...rest} = config;
-    // 设置 options 中变量集合
-    function getOptionVars(that: any) {
-      let schema = manager.store.valueWithoutHiddenProps;
-      let children = [];
-      if (schema.labelField) {
-        children.push({
-          label: '显示字段',
-          value: schema.labelField,
-          tag: typeof schema.labelField
-        });
-      }
-      if (schema.valueField) {
-        children.push({
-          label: '值字段',
-          value: schema.valueField,
-          tag: typeof schema.valueField
-        });
-      }
-      if (schema.options) {
-        let optionItem = _.reduce(
-          schema.options,
-          function (result, item) {
-            return {...result, ...item};
-          },
-          {}
-        );
-        delete optionItem?.$$id;
-
-        optionItem = _.omit(
-          optionItem,
-          _.map(children, item => item?.label)
-        );
-
-        let otherItem = _.map(_.keys(optionItem), item => ({
-          label:
-            item === 'label' ? '选项文本' : item === 'value' ? '选项值' : item,
-          value: item,
-          tag: typeof optionItem[item]
-        }));
-
-        children.push(...otherItem);
-      }
-      let variablesArr = [
-        {
-          label: '选项字段',
-          children
-        }
-      ];
-      return variablesArr;
-    }
-
-    return {
-      type: 'ae-textareaFormulaControl',
-      mode: 'normal',
-      label: tipedLabel(
-        '选项模板',
-        '自定义选项渲染模板，支持JSX、数据域变量使用'
-      ),
-      name: 'menuTpl',
-      variables: getOptionVars,
-      requiredDataPropsVariables: true,
-      ...rest
-    };
-  }
-);
-
 setSchemaTpl('menuTpl', {
-  type: 'ae-textareaFormulaControl',
-  mode: 'normal',
-  label: tipedLabel('模板', '自定义选项渲染模板，支持JSX、数据域变量使用'),
+  type: 'ae-formulaControl',
+  label: tipedLabel('模板', '选项渲染模板，支持JSX，变量使用\\${xx}'),
   name: 'menuTpl'
 });
 
 setSchemaTpl('expression', {
   type: 'input-text',
   description: '支持 JS 表达式，如：`this.xxx == 1`'
+});
+
+setSchemaTpl('icon', {
+  label: '图标',
+  type: 'icon-select',
+  name: 'icon',
+  placeholder: '点击选择图标',
+  clearable: true,
+  description: ''
 });
 
 setSchemaTpl('size', {
@@ -687,18 +580,6 @@ setSchemaTpl('className', (schema: any) => {
       schema?.label || 'CSS 类名',
       '有哪些辅助类 CSS 类名？请前往 <a href="https://baidu.github.io/amis/docs/concepts/style" target="_blank">样式说明</a>，除此之外你可以添加自定义类名，然后在系统配置中添加自定义样式。'
     )
-  };
-});
-
-setSchemaTpl('onlyClassNameTab', (label = '外层') => {
-  return {
-    title: '外观',
-    body: getSchemaTpl('collapseGroup', [
-      {
-        title: 'CSS类名',
-        body: [getSchemaTpl('className', {label})]
-      }
-    ])
   };
 });
 
@@ -1125,7 +1006,6 @@ setSchemaTpl('badge', {
   type: 'ae-badge'
 });
 
-// 暂未使用
 setSchemaTpl('formulaControl', (schema: object = {}) => {
   return {
     type: 'ae-formulaControl',
@@ -1153,7 +1033,7 @@ setSchemaTpl('eventControl', (schema: object = {}) => {
 setSchemaTpl('data', {
   type: 'input-kv',
   name: 'data',
-  label: '组件静态数据'
+  label: '初始静态数据'
 });
 
 setSchemaTpl('app-page', {
@@ -1187,8 +1067,7 @@ setSchemaTpl('app-page-args', {
       valueField: 'value',
       required: true
     },
-    /*
-     {
+    {
       name: 'val',
       type: 'input-formula',
       placeholder: '参数值',
@@ -1197,383 +1076,20 @@ setSchemaTpl('app-page-args', {
       variableMode: 'tabs',
       inputMode: 'input-group'
     }
-     */
-    {
-      name: 'val',
-      type: 'ae-formulaControl',
-      variables: '${variables}',
-      placeholder: '参数值'
-    }
   ]
 });
 
 setSchemaTpl(
   'iconLink',
-  (schema: {
-    name: 'icon' | 'rightIcon';
-    visibleOn: boolean;
-    label?: string;
-  }) => {
-    const {name, visibleOn, label} = schema;
+  (schema: {name: 'icon' | 'rightIcon'; visibleOn: boolean}) => {
+    const {name, visibleOn} = schema;
     return getSchemaTpl('icon', {
       name: name,
       visibleOn,
-      label: label ?? '图标',
+      label: '图标',
       placeholder: '点击选择图标',
       clearable: true,
       description: ''
     });
   }
 );
-
-setSchemaTpl('virtualThreshold', {
-  name: 'virtualThreshold',
-  type: 'input-number',
-  min: 1,
-  step: 1,
-  precision: 0,
-  label: tipedLabel(
-    '虚拟列表阈值',
-    '当选项数量超过阈值后，会开启虚拟列表以优化性能'
-  ),
-  pipeOut: (value: any) => value || undefined
-});
-
-setSchemaTpl('virtualItemHeight', {
-  name: 'itemHeight',
-  type: 'input-number',
-  min: 1,
-  step: 1,
-  precision: 0,
-  label: tipedLabel('选项高度', '开启虚拟列表时每个选项的高度'),
-  pipeOut: (value: any) => value || undefined
-});
-
-setSchemaTpl('pageTitle', {
-  label: '页面标题',
-  name: 'title',
-  type: 'input-text'
-});
-
-setSchemaTpl('pageSubTitle', {
-  label: '副标题',
-  name: 'subTitle',
-  type: 'textarea'
-});
-
-setSchemaTpl('textareaDefaultValue', {
-  type: 'ae-textareaFormulaControl',
-  label: '默认值',
-  name: 'value',
-  mode: 'normal'
-});
-
-setSchemaTpl('prefix', {
-  type: 'input-text',
-  name: 'prefix',
-  label: tipedLabel('前缀', '输入内容前展示，不包含在数据值中')
-});
-
-setSchemaTpl('suffix', {
-  type: 'input-text',
-  name: 'suffix',
-  label: tipedLabel('后缀', '输入内容后展示，不包含在数据值中')
-});
-
-setSchemaTpl('unit', {
-  type: 'input-text',
-  name: 'unit',
-  label: '单位',
-  value: ''
-});
-
-setSchemaTpl('optionsTip', {
-  type: 'input-text',
-  name: 'optionsTip',
-  label: '选项提示',
-  value: '最近您使用的标签'
-});
-
-setSchemaTpl('tableCellRemark', {
-  name: 'remark',
-  label: '提示',
-  type: 'input-text',
-  description: '显示一个提示图标，鼠标放上去会提示该内容。'
-});
-
-setSchemaTpl('title', {
-  type: 'input-text',
-  name: 'title',
-  label: '标题'
-});
-
-setSchemaTpl('caption', {
-  type: 'input-text',
-  name: 'caption',
-  label: '标题'
-});
-
-setSchemaTpl('imageCaption', {
-  type: 'input-text',
-  name: 'imageCaption',
-  label: '图片描述'
-});
-
-setSchemaTpl('inputBody', {
-  type: 'input-text',
-  name: 'body',
-  label: tipedLabel('内容', '不填写时，自动使用目标地址值')
-});
-
-setSchemaTpl('stepSubTitle', {
-  type: 'input-text',
-  name: 'subTitle',
-  label: false,
-  placeholder: '副标题'
-});
-
-setSchemaTpl('stepDescription', {
-  type: 'input-text',
-  name: 'description',
-  label: false,
-  placeholder: '描述'
-});
-
-setSchemaTpl('taskNameLabel', {
-  type: 'input-text',
-  name: 'taskNameLabel',
-  pipeIn: defaultValue('任务名称'),
-  label: '任务名称栏标题'
-});
-
-setSchemaTpl('operationLabel', {
-  type: 'input-text',
-  name: 'operationLabel',
-  pipeIn: defaultValue('操作'),
-  label: '操作栏标题'
-});
-
-setSchemaTpl('statusLabel', {
-  type: 'input-text',
-  name: 'statusLabel',
-  pipeIn: defaultValue('状态'),
-  label: '状态栏标题'
-});
-
-setSchemaTpl('remarkLabel', {
-  type: 'input-text',
-  name: 'remarkLabel',
-  pipeIn: defaultValue('备注说明'),
-  label: '备注栏标题'
-});
-
-setSchemaTpl('inputArrayItem', {
-  type: 'input-text',
-  placeholder: '名称'
-});
-
-setSchemaTpl('actionPrevLabel', {
-  type: 'input-text',
-  name: 'actionPrevLabel',
-  label: '上一步按钮名称',
-  pipeIn: defaultValue('上一步')
-});
-
-setSchemaTpl('actionNextLabel', {
-  type: 'input-text',
-  name: 'actionNextLabel',
-  label: '下一步按钮名称',
-  pipeIn: defaultValue('下一步')
-});
-
-setSchemaTpl('actionNextSaveLabel', {
-  type: 'input-text',
-  name: 'actionNextSaveLabel',
-  label: '保存并下一步按钮名称',
-  pipeIn: defaultValue('保存并下一步')
-});
-
-setSchemaTpl('actionFinishLabel', {
-  type: 'input-text',
-  name: 'actionFinishLabel',
-  label: '完成按钮名称',
-  pipeIn: defaultValue('完成')
-});
-
-setSchemaTpl('imgCaption', {
-  type: 'textarea',
-  name: 'caption',
-  label: '图片描述'
-});
-
-setSchemaTpl('taskRemark', {
-  type: 'textarea',
-  name: 'remark',
-  label: '任务说明'
-});
-
-setSchemaTpl('tooltip', {
-  type: 'textarea',
-  name: 'tooltip',
-  label: '提示内容'
-});
-
-setSchemaTpl('anchorTitle', {
-  type: 'input-text',
-  name: 'title',
-  required: true,
-  placeholder: '请输入锚点标题'
-});
-
-setSchemaTpl('avatarText', {
-  label: '文字',
-  name: 'text',
-  type: 'input-text',
-  pipeOut: (value: any) => (value === '' ? undefined : value),
-  visibleOn: 'data.showtype === "text"'
-});
-
-setSchemaTpl('cardTitle', {
-  name: 'header.title',
-  type: 'input-text',
-  label: '标题',
-  description: '支持模板语法如： <code>\\${xxx}</code>'
-});
-
-setSchemaTpl('cardSubTitle', {
-  name: 'header.subTitle',
-  type: 'input-text',
-  label: '副标题',
-  description: '支持模板语法如： <code>\\${xxx}</code>'
-});
-
-setSchemaTpl('cardsPlaceholder', {
-  name: 'placeholder',
-  value: '暂无数据',
-  type: 'input-text',
-  label: '无数据提示'
-});
-
-setSchemaTpl('cardDesc', {
-  name: 'header.desc',
-  type: 'textarea',
-  label: '描述',
-  description: '支持模板语法如： <code>\\${xxx}</code>'
-});
-
-setSchemaTpl('imageTitle', {
-  type: 'input-text',
-  label: '图片标题',
-  name: 'title',
-  visibleOn: 'this.type == "image"'
-});
-
-setSchemaTpl('imageDesc', {
-  type: 'textarea',
-  label: '图片描述',
-  name: 'description',
-  visibleOn: 'this.type == "image"'
-});
-
-setSchemaTpl('fetchSuccess', {
-  label: '获取成功提示',
-  type: 'input-text',
-  name: 'fetchSuccess'
-});
-
-setSchemaTpl('fetchFailed', {
-  label: '获取失败提示',
-  type: 'input-text',
-  name: 'fetchFailed'
-});
-
-setSchemaTpl('saveOrderSuccess', {
-  label: '保存顺序成功提示',
-  type: 'input-text',
-  name: 'saveOrderSuccess'
-});
-
-setSchemaTpl('saveOrderFailed', {
-  label: '保存顺序失败提示',
-  type: 'input-text',
-  name: 'saveOrderFailed'
-});
-
-setSchemaTpl('quickSaveSuccess', {
-  label: '快速保存成功提示',
-  type: 'input-text',
-  name: 'quickSaveSuccess'
-});
-
-setSchemaTpl('quickSaveFailed', {
-  label: '快速保存失败提示',
-  type: 'input-text',
-  name: 'quickSaveFailed'
-});
-
-setSchemaTpl('saveSuccess', {
-  label: '保存成功提示',
-  name: 'saveSuccess',
-  type: 'input-text'
-});
-
-setSchemaTpl('saveFailed', {
-  label: '保存失败提示',
-  name: 'saveFailed',
-  type: 'input-text'
-});
-
-setSchemaTpl('validateFailed', {
-  label: '验证失败提示',
-  name: 'validateFailed',
-  type: 'input-text'
-});
-
-setSchemaTpl('tablePlaceholder', {
-  name: 'placeholder',
-  pipeIn: defaultValue('暂无数据'),
-  type: 'input-text',
-  label: '无数据提示'
-});
-
-setSchemaTpl('collapseOpenHeader', {
-  name: 'collapseHeader',
-  label: tipedLabel('展开标题', '折叠器处于展开状态时的标题'),
-  type: 'input-text'
-});
-
-setSchemaTpl('matrixColumnLabel', {
-  type: 'input-text',
-  name: 'label',
-  placeholder: '列说明'
-});
-
-setSchemaTpl('matrixRowLabel', {
-  type: 'input-text',
-  name: 'label',
-  placeholder: '行说明'
-});
-
-setSchemaTpl('matrixRowTitle', {
-  name: 'rowLabel',
-  label: '行标题文字',
-  type: 'input-text'
-});
-
-setSchemaTpl('submitText', {
-  name: 'submitText',
-  label: '提交按钮名称',
-  type: 'input-text'
-});
-
-setSchemaTpl('tpl:btnLabel', {
-  type: 'tpl',
-  tpl: '<span class="label label-success">${label}</span>',
-  columnClassName: 'p-t-xs'
-});
-
-setSchemaTpl('switchOption', {
-  type: 'input-text',
-  name: 'option',
-  label: '说明'
-});

@@ -46,50 +46,17 @@ export class ButtonPlugin extends BasePlugin {
       eventName: 'click',
       eventLabel: '点击',
       description: '点击时触发',
-      defaultShow: true,
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            nativeEvent: {
-              type: 'object',
-              title: '鼠标事件对象'
-            }
-          }
-        }
-      ]
+      defaultShow: true
     },
     {
       eventName: 'mouseenter',
       eventLabel: '鼠标移入',
-      description: '鼠标移入时触发',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            nativeEvent: {
-              type: 'object',
-              title: '鼠标事件对象'
-            }
-          }
-        }
-      ]
+      description: '鼠标移入时触发'
     },
     {
       eventName: 'mouseleave',
       eventLabel: '鼠标移出',
-      description: '鼠标移出时触发',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            nativeEvent: {
-              type: 'object',
-              title: '鼠标事件对象'
-            }
-          }
-        }
-      ]
+      description: '鼠标移出时触发'
     }
     // {
     //   eventName: 'doubleClick',
@@ -111,36 +78,6 @@ export class ButtonPlugin extends BasePlugin {
     // const isInDropdown = /(?:\/|^)dropdown-button\/.+$/.test(context.path);
     const isInDropdown = /^button-group\/.+$/.test(context.path);
 
-    const buttonStateFunc = (visibleOn: string, state: string) => {
-      return [
-        getSchemaTpl('theme:font', {
-          label: '文字',
-          name: `css.className.font:${state}`,
-          visibleOn: visibleOn
-        }),
-        getSchemaTpl('theme:colorPicker', {
-          label: '背景',
-          name: `css.className.background:${state}`,
-          labelMode: 'input',
-          needGradient: true,
-          visibleOn: visibleOn
-        }),
-        getSchemaTpl('theme:border', {
-          name: `css.className.border:${state}`,
-          visibleOn: visibleOn
-        }),
-        getSchemaTpl('theme:paddingAndMargin', {
-          name: `css.className.padding-and-margin:${state}`,
-
-          visibleOn: visibleOn
-        }),
-        getSchemaTpl('theme:radius', {
-          name: `css.className.radius:${state}`,
-          visibleOn: visibleOn
-        })
-      ];
-    };
-
     return getSchemaTpl('tabs', [
       {
         title: '属性',
@@ -148,10 +85,12 @@ export class ButtonPlugin extends BasePlugin {
           {
             title: '基本',
             body: [
-              getSchemaTpl('layout:originPosition', {value: 'left-top'}),
-              getSchemaTpl('label', {
-                label: '名称'
-              }),
+              {
+                label: '名称',
+                type: 'input-text',
+                name: 'label'
+              },
+
               {
                 label: '类型',
                 type: 'button-group-select',
@@ -193,15 +132,14 @@ export class ButtonPlugin extends BasePlugin {
                 formType: 'extend',
                 label: tipedLabel(
                   '二次确认',
-                  '点击后先询问用户，由手动确认后再执行动作，避免误触。可从数据域变量中取值。'
+                  '点击后先询问用户，由手动确认后再执行动作，避免误触。可用<code>\\${xxx}</code>取值。'
                 ),
                 form: {
                   body: [
                     {
-                      type: 'ae-textareaFormulaControl',
-                      label: '确认内容',
-                      mode: 'normal',
-                      name: 'confirmText'
+                      name: 'confirmText',
+                      type: 'input-text',
+                      label: '确认内容'
                     }
                   ]
                 }
@@ -216,21 +154,19 @@ export class ButtonPlugin extends BasePlugin {
                 form: {
                   body: [
                     {
-                      type: 'ae-textareaFormulaControl',
+                      type: 'input-text',
                       name: 'tooltip',
-                      mode: 'normal',
                       label: tipedLabel(
                         '正常提示',
-                        '正常状态下的提示内容，不填则不弹出提示。可从数据域变量中取值。'
+                        '正常状态下的提示内容，不填则不弹出提示。可用<code>\\${xxx}</code>取值。'
                       )
                     },
                     {
-                      type: 'ae-textareaFormulaControl',
+                      type: 'input-text',
                       name: 'disabledTip',
-                      mode: 'normal',
                       label: tipedLabel(
                         '禁用提示',
-                        '禁用状态下的提示内容，不填则弹出正常提示。可从数据域变量中取值。'
+                        '禁用状态下的提示内容，不填则弹出正常提示。可用<code>\\${xxx}</code>取值。'
                       ),
                       clearValueOnHidden: true,
                       visibleOn: 'data.tooltipTrigger !== "focus"'
@@ -329,38 +265,21 @@ export class ButtonPlugin extends BasePlugin {
               })
             ]
           },
-          {
-            title: '自定义样式',
-            body: [
-              {
-                type: 'select',
-                name: 'editorState',
-                label: '状态',
-                selectFirst: true,
-                options: [
-                  {
-                    label: '常规',
-                    value: 'default'
-                  },
-                  {
-                    label: '悬浮',
-                    value: 'hover'
-                  },
-                  {
-                    label: '点击',
-                    value: 'active'
-                  }
-                ]
-              },
-              ...buttonStateFunc(
-                "${editorState == 'default' || !editorState}",
-                'default'
-              ),
-              ...buttonStateFunc("${editorState == 'hover'}", 'hover'),
-              ...buttonStateFunc("${editorState == 'active'}", 'active')
+          getSchemaTpl('style:classNames', {
+            isFormItem: false,
+            schema: [
+              getSchemaTpl('className', {
+                name: 'iconClassName',
+                label: '左侧图标',
+                visibleOn: 'this.icon'
+              }),
+              getSchemaTpl('className', {
+                name: 'rightIconClassName',
+                label: '右侧图标',
+                visibleOn: 'this.rightIcon'
+              })
             ]
-          },
-          getSchemaTpl('theme:classNames', {isFormItem: false})
+          })
         ])
       },
       {

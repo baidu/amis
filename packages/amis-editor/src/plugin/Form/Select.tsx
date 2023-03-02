@@ -68,10 +68,6 @@ export class SelectControlPlugin extends BasePlugin {
               type: 'string',
               title: '选中值'
             },
-            'event.data.selectedItems': {
-              type: 'object', // 也可能是array
-              title: '选中的项'
-            },
             'event.data.items': {
               type: 'array',
               title: '选项集合'
@@ -215,7 +211,6 @@ export class SelectControlPlugin extends BasePlugin {
           {
             title: '基本',
             body: [
-              getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               getSchemaTpl('formItemName', {
                 required: true
               }),
@@ -253,18 +248,7 @@ export class SelectControlPlugin extends BasePlugin {
             title: '选项',
             body: [
               getSchemaTpl('optionControlV2'),
-              getSchemaTpl(
-                'loadingConfig',
-                {
-                  visibleOn: 'this.source || !this.options'
-                },
-                {context}
-              ),
-              // 模板
-              getSchemaTpl('optionsMenuTpl', {
-                manager: this.manager,
-                onChange: (value: any) => {}
-              }),
+              getSchemaTpl('menuTpl'),
               getSchemaTpl('creatable', {
                 formType: 'extend',
                 hiddenOnDefault: true,
@@ -321,9 +305,7 @@ export class SelectControlPlugin extends BasePlugin {
                   '开启后，当选项值未匹配到当前options中的选项时，选项文本飘红'
                 ),
                 name: 'showInvalidMatch'
-              }),
-              getSchemaTpl('virtualThreshold'),
-              getSchemaTpl('virtualItemHeight')
+              })
             ]
           },
           getSchemaTpl('status', {isFormItem: true}),

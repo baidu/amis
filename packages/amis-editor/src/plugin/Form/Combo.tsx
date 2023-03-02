@@ -1,23 +1,22 @@
+import {Button} from 'amis';
+import {registerEditorPlugin} from 'amis-editor-core';
 import {
   BaseEventContext,
   BasePlugin,
-  registerEditorPlugin,
-  defaultValue,
-  getSchemaTpl,
-  RendererPluginEvent,
-  RendererPluginAction,
-  tipedLabel,
-  mockValue,
-  RegionConfig
+  BasicSubRenderInfo,
+  BasicToolbarItem,
+  ContextMenuEventContext,
+  ContextMenuItem,
+  RendererEventContext,
+  SubRendererInfo
 } from 'amis-editor-core';
-
+import {defaultValue, getSchemaTpl, valuePipeOut} from 'amis-editor-core';
+import React from 'react';
+import {diff, JSONPipeIn} from 'amis-editor-core';
+import {JSONPipeOut} from 'amis-editor-core';
+import {mockValue} from 'amis-editor-core';
+import {RendererPluginEvent, RendererPluginAction} from 'amis-editor-core';
 import {setVariable} from 'amis-core';
-
-import {ValidatorTag} from '../../validator';
-import {
-  getArgsWrapper,
-  getEventControlConfig
-} from '../../renderer/event-control/helper';
 
 export class ComboControlPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -37,21 +36,13 @@ export class ComboControlPlugin extends BasePlugin {
     label: '组合输入',
     name: 'combo',
     multiple: true,
-    addable: true,
-    removable: true,
-    removableMode: 'icon',
-    addBtn: {
-      label: '新增',
-      icon: 'fa fa-plus',
-      level: 'primary',
-      size: 'sm'
-    },
     items: [
       {
         type: 'input-text',
         name: 'input-text',
         placeholder: '文本'
       },
+
       {
         type: 'select',
         name: 'select',
@@ -163,42 +154,6 @@ export class ComboControlPlugin extends BasePlugin {
       description: '将值重置为resetValue，若没有配置resetValue，则清空'
     },
     {
-      actionType: 'addItem',
-      actionLabel: '添加项',
-      description: '添加新的项',
-      innerArgs: ['item'],
-      schema: getArgsWrapper({
-        type: 'combo',
-        label: '添加项',
-        name: 'item',
-        draggable: false,
-        multiple: true,
-        removable: true,
-        required: true,
-        addable: true,
-        strictMode: false,
-        canAccessSuperData: true,
-        mode: 'horizontal',
-        items: [
-          {
-            name: 'key',
-            type: 'input-text',
-            required: true,
-            placeholder: '变量名',
-            source: '${__setValueDs}'
-          },
-          {
-            name: 'val',
-            type: 'input-formula',
-            variables: '${variables}',
-            evalMode: false,
-            variableMode: 'tabs',
-            inputMode: 'input-group'
-          }
-        ]
-      })
-    },
-    {
       actionType: 'setValue',
       actionLabel: '赋值',
       description: '触发组件数据更新'
@@ -206,451 +161,488 @@ export class ComboControlPlugin extends BasePlugin {
   ];
 
   panelTitle = '组合输入';
-
-  notRenderFormZone = true;
-
-  panelJustify = true;
-
   panelBodyCreator = (context: BaseEventContext) => {
-    return getSchemaTpl('tabs', [
+    return [
       {
-        title: '属性',
-        body: [
-          getSchemaTpl('collapseGroup', [
-            {
-              className: 'p-none',
-              title: '常用',
-              body: [
-                getSchemaTpl('formItemName', {
-                  required: true
-                }),
-                getSchemaTpl('label'),
-
-                getSchemaTpl('valueFormula', {
-                  rendererSchema: {
-                    ...context?.schema,
-                    type: 'textarea'
-                  },
-                  label: tipedLabel(
-                    '默认值',
-                    '支持 <code>now、+1day、-2weeks、+1hours、+2years</code>等这种相对值用法'
-                  ),
-                  pipeOut: (value: any) => {
-                    try {
-                      
-                      return typeof JSON.parse(value) === 'number'
-                        ? value
-                        : JSON.parse(value);
-                    } catch (err) {
-                      return value;
-                    }
-                  }
-                }),
-                // 多选模式和条数绑定了，所以设定了多选，条数开启
-                getSchemaTpl('switch', {
-                  name: 'multiple',
-                  label: '可多选',
-                  pipeIn: defaultValue(true),
-                  onChange: (
-                    value: any,
-                    oldValue: any,
-                    model: any,
-                    form: any
-                  ) => {
-                    form.setValueByName('addable', value);
-                    form.setValueByName('removable', value);
-                    !!value && form.setValueByName('draggable', false);
-                    form.setValueByName('flat', false);
-                  }
-                }),
-                {
-                  type: 'container',
-                  className: 'ae-ExtendMore mb-3',
-                  visibleOn: 'data.multiple',
-                  body: [
-                    {
-                      label: '最多条数',
-                      name: 'maxLength',
-                      type: 'input-number',
-                    },
-                    {
-                      label: '最少条数',
-                      name: 'minLength',
-                      type: 'input-number',
-                    }
-                  ]
-                },
-                getSchemaTpl('switch', {
-                  name: 'flat',
-                  label: tipedLabel(
-                    '打平值',
-                    '默认数组内的数据结构为对象，如果只有一个表单项，可以配置将值打平，那么数组内放置的就是那个表单项的值'
-                  ),
-                  visibleOn:
-                    'Array.isArray(data.items) && data.items.length === 1 && data.multiple'
-                }),
-                {
-                  type: 'container',
-                  className: 'ae-ExtendMore mb-3',
-                  visibleOn: 'data.multiple && data.flat',
-                  body: [
-                    getSchemaTpl('joinValues'),
-                    getSchemaTpl('delimiter')
-                  ]
-                },
-                // 可排序，排序和新增无关，和多选模式有关
-                getSchemaTpl('switch', {
-                  name: 'draggable',
-                  label: '可排序',
-                  pipeIn: defaultValue(false),
-                  visibleOn: 'data.multiple'
-                }),
-                {
-                  type: 'container',
-                  className: 'ae-ExtendMore mb-3',
-                  visibleOn: 'data.draggable',
-                  body: [
-                    {
-                      type: 'input-text',
-                      name: 'draggableTip',
-                      label: tipedLabel('提示文字', '拖拽排序的提示文字')
-                    }
-                  ]
-                },
-
-                // 可新增
-                getSchemaTpl('switch', {
-                  name: 'addable',
-                  label: tipedLabel(
-                    '可新增',
-                    '如需要拓展自定义的新增功能，可通过配置组件-新增项来拓展'
-                  ),
-                  visibleOn: 'data.multiple',
-                  pipeIn: defaultValue(false),
-                  onChange: (
-                    value: any,
-                    oldValue: any,
-                    model: any,
-                    form: any
-                  ) => {
-                    if (value) {
-                      form.setValueByName('addBtn', {
-                        label: '新增',
-                        icon: 'fa fa-plus',
-                        level: 'primary',
-                        size: 'sm'
-                      });
-                    }
-                  }
-                }),
-
-                // 可删除
-                getSchemaTpl('switch', {
-                  name: 'removable',
-                  label: '可删除',
-                  pipeIn: defaultValue(false),
-                  visibleOn: 'data.multiple',
-                  onChange: (
-                    value: any,
-                    oldValue: any,
-                    model: any,
-                    form: any
-                  ) => {
-                    if (value) {
-                      form.setValueByName('removableMode', 'icon');
-                      form.setValueByName('deleteIcon', undefined);
-                      form.setValueByName('deleteBtn', undefined);
-                    }
-                  }
-                }),
-                {
-                  type: 'container',
-                  className: 'ae-ExtendMore mb-3',
-                  visibleOn: 'data.removable',
-                  body: [
-                    // 自定义删除按钮开关
-                    {
-                      type: 'button-group-select',
-                      name: 'removableMode',
-                      label: '按钮模式',
-                      options: [
-                        {
-                          label: '图标',
-                          value: 'icon'
-                        },
-                        {
-                          label: '按钮',
-                          value: 'button'
-                        }
-                      ],
-                      onChange: (
-                        value: any,
-                        oldValue: any,
-                        model: any,
-                        form: any
-                      ) => {
-                        if (value === 'icon') {
-                          form.setValueByName('deleteBtn', undefined);
-                        } else if (value === 'button') {
-                          form.setValueByName('deleteBtn', {
-                            label: '删除',
-                            level: 'default'
-                          });
-                        }
-                      }
-                    },
-                    // getSchemaTpl('icon', {
-                    //   name: 'deleteIcon',
-                    //   label: '图标',
-                    //   visibleOn: 'data.removableMode === "icon"'
-                    // }),
-                    {
-                      label: '文案',
-                      name: 'deleteBtn.label',
-                      type: 'input-text',
-                      visibleOn: 'data.removableMode === "button"'
-                    },
-                    getSchemaTpl('buttonLevel', {
-                      label: '样式',
-                      name: 'deleteBtn.level',
-                      visibleOn: 'data.removableMode === "button"'
-                    }),
-                    getSchemaTpl('apiControl', {
-                      name: 'deleteApi',
-                      label: '删除',
-                      renderLabel: false,
-                      mode: 'normal'
-                    }),
-                    {
-                      label: tipedLabel(
-                        '确认文案',
-                        '删除确认文案，当配置删除接口生效'
-                      ),
-                      name: 'deleteConfirmText',
-                      type: 'input-text',
-                      pipeIn: defaultValue('确认要删除吗？')
-                    }
-                  ]
-                },
-
-                getSchemaTpl('labelRemark'),
-                getSchemaTpl('remark'),
-
-                getSchemaTpl('placeholder'),
-                getSchemaTpl('description')
-              ]
-            },
-            getSchemaTpl('status', {
-              isFormItem: true,
-              readonly: true
-            }),
-            getSchemaTpl('validation', {tag: ValidatorTag.MultiSelect}),
-            getSchemaTpl('collapseGroup', [
-              {
-                className: 'p-none',
-                title: '高级',
-                body: [
-                  getSchemaTpl('switch', {
-                    name: 'canAccessSuperData',
-                    label: '自动填充父级变量',
-                    pipeIn: defaultValue(false)
-                  }),
-
-                  getSchemaTpl('switch', {
-                    name: 'strictMode',
-                    label: tipedLabel(
-                      '严格模式',
-                      '如果你希望环境变量的值实时透传到 Combo 中，请关闭此选项。'
-                    ),
-                    value: true
-                  }),
-
-                  getSchemaTpl('combo-container', {
-                    name: 'syncFields',
-                    visibleOn: '!data.strictMode',
-                    label: tipedLabel(
-                      '同步字段',
-                      '如果 Combo 层级比较深，底层的获取外层的数据可能不同步。但是给 combo 配置这个属性就能同步下来。'
-                    ),
-                    type: 'combo',
-                    mode: 'normal',
-                    multiple: true,
-                    canAccessSuperData: true,
-                    items: [
-                      {
-                        name: 'field',
-                        type: 'input-text'
-                      }
-                    ],
-                    value: [],
-                    pipeIn(value?: Array<string>) {
-                      return (value ?? []).map(item => ({field: item}));
-                    },
-                    pipeOut(value?: Array<{field: string}>) {
-                      return (value ?? []).map(item => {
-                        const keys = Object.keys(item);
-                        return keys.length > 0 ? item.field : '';
-                      });
-                    }
-                  }),
-
-                  getSchemaTpl('switch', {
-                    name: 'lazyLoad',
-                    label: tipedLabel(
-                      '懒加载',
-                      '如果数据比较多，比较卡顿时，可开启此配置项'
-                    ),
-                    pipeIn: defaultValue(false),
-                    visibleOn: 'data.multiple && !data.tabsMode'
-                  })
-                ]
-              }
-            ])
-          ])
-        ]
-      },
-      {
-        title: '外观',
-        className: 'p-none',
-        body: getSchemaTpl('collapseGroup', [
+        name: 'conditions',
+        type: 'button-group-select',
+        size: 'sm',
+        mode: 'inline',
+        className: 'block',
+        options: [
           {
-            title: '基本',
-            visibleOn: 'data.multiple',
-            body: [
-              {
-                name: 'tabsMode',
-                label: '展示形式',
-                type: 'button-group-select',
-                inputClassName: 'items-center',
-                size: 'sm',
-                options: [
-                  {label: '表单', value: false},
-                  {label: '选项卡', value: true}
-                ],
-                pipeIn: defaultValue(false),
-                onChange: (
-                  value: any,
-                  oldValue: any,
-                  model: any,
-                  form: any
-                ) => {
-                  if (value) {
-                    form.setValueByName('lazyLoad', undefined);
-                  }
-                }
-              },
-              {
-                type: 'container',
-                className: 'ae-ExtendMore mb-3',
-                visibleOn: 'data.tabsMode',
-                body: [
-                  {
-                    type: 'select',
-                    name: 'tabsStyle',
-                    label: '样式',
-                    pipeIn: defaultValue(''),
-                    options: [
-                      {
-                        label: '默认',
-                        value: ''
-                      },
-                      {
-                        label: '线型',
-                        value: 'line'
-                      },
-                      {
-                        label: '卡片',
-                        value: 'card'
-                      },
-                      {
-                        label: '选择器',
-                        value: 'radio'
-                      }
-                    ]
-                  },
-                  {
-                    type: 'ae-formulaControl',
-                    label: '标题模版',
-                    name: 'tabsLabelTpl'
-                  }
-                ]
-              },
-              // 表单多行展示
-              getSchemaTpl('switch', {
-                name: 'multiLine',
-                label: '多行展示',
-                pipeIn: defaultValue(false),
-                onChange: (
-                  value: boolean,
-                  oldValue: any,
-                  model: any,
-                  form: any
-                ) => {
-                  if (!value) {
-                    form.setValueByName('subFormMode', undefined);
-                    form.setValueByName('noBorder', undefined);
-                  }
-                }
-              }),
-              getSchemaTpl('switch', {
-                visibleOn: 'data.multiLine',
-                name: 'noBorder',
-                label: '去掉边框',
-                pipeIn: defaultValue(false)
-              })
-            ]
+            label: '固定成员类型',
+            value: '1'
           },
-          getSchemaTpl('style:formItem', {
-            renderer: context.info.renderer,
-            schema: [
-              getSchemaTpl('subFormItemMode', {
-                visibleOn: 'data.multiLine',
-                type: 'select',
-                label: '子表单'
-              })
-            ]
-          }),
-          getSchemaTpl('style:classNames')
-        ])
+
+          {
+            label: '多分支',
+            value: '2'
+          }
+        ],
+        pipeIn: (value: any) => (value ? '2' : '1'),
+        pipeOut: (value: any) =>
+          value == 2
+            ? [
+                {
+                  label: '类型名称',
+                  test: '',
+                  items: [
+                    {
+                      type: 'input-text',
+                      label: '文本',
+                      name: 'text'
+                    }
+                  ],
+                  scaffold: {}
+                }
+              ]
+            : undefined
       },
+
       {
-        title: '事件',
-        className: 'p-none',
-        body: [
-          getSchemaTpl('eventControl', {
-            name: 'onEvent',
-            ...getEventControlConfig(this.manager, context)
-          })
+        name: 'conditions',
+        visibleOn: 'this.conditions',
+        type: 'combo',
+        label: '分支管理',
+        multiple: true,
+        multiLine: true,
+        minLength: 1,
+        items: [
+          {
+            label: '名称',
+            name: 'label',
+            type: 'input-text',
+            required: true
+          },
+          {
+            label: '命中条件',
+            name: 'test',
+            required: true,
+            type: 'input-text',
+            placeholder: '比如: this.type === "text"',
+            description: '根据成员数据判断是否使用此分支'
+          },
+
+          {
+            name: 'items',
+            asFormItem: true,
+            children: ({value, onChange}: any) => {
+              return (
+                <Button
+                  size="sm"
+                  level="danger"
+                  className="m-b"
+                  block
+                  onClick={() =>
+                    this.manager.openSubEditor({
+                      title: '配置子表单项',
+                      value: value,
+                      slot: {
+                        type: 'form',
+                        mode: 'normal',
+                        body: '$$',
+                        wrapWithPanel: false,
+                        className: 'wrapper'
+                      },
+                      onChange: onChange
+                    })
+                  }
+                >
+                  配置子表单集合
+                </Button>
+              );
+            }
+          },
+          {
+            type: 'textarea',
+            name: 'scaffold',
+            required: true,
+            label: '新增初始值',
+            pipeOut: valuePipeOut
+          }
+        ],
+        scaffold: {
+          label: '类型名称',
+          test: '',
+          items: [
+            {
+              type: 'input-text',
+              label: '文本',
+              name: 'text'
+            }
+          ],
+          scaffold: {}
+        }
+      },
+
+      getSchemaTpl('switch', {
+        name: 'typeSwitchable',
+        visibleOn: 'this.conditions',
+        label: '是否可切换类型',
+        pipeIn: defaultValue(true)
+      }),
+
+      {
+        name: 'items',
+        visibleOn: '!this.conditions',
+        asFormItem: true,
+        children: ({value, onChange}: any) => {
+          return (
+            <Button
+              size="sm"
+              level="danger"
+              className="m-b"
+              block
+              onClick={() => {
+                this.manager.openSubEditor({
+                  title: '配置子表单集合',
+                  value: value,
+                  slot: {
+                    type: 'form',
+                    mode: 'normal',
+                    body: '$$',
+                    wrapWithPanel: false,
+                    className: 'wrapper'
+                  },
+                  onChange: value => onChange(value)
+                });
+              }}
+            >
+              配置子表单集合
+            </Button>
+          );
+        }
+      },
+
+      getSchemaTpl('switchDefaultValue', {
+        visibleOn: '!this.defaultCheckAll'
+      }),
+
+      {
+        type: 'textarea',
+        name: 'value',
+        label: '默认值',
+        pipeOut: valuePipeOut,
+        visibleOn: 'typeof this.value !== "undefined"'
+      },
+
+      getSchemaTpl('switch', {
+        label: '多行模式',
+        name: 'multiLine',
+        value: false,
+        description: '即是否要换行'
+      }),
+
+      getSchemaTpl('multiple'),
+      getSchemaTpl('joinValues'),
+      getSchemaTpl('delimiter'),
+
+      getSchemaTpl('switch', {
+        name: 'flat',
+        label: '是否将值打平',
+        visibleOn:
+          'Array.isArray(data.items) && data.items.length === 1 && data.multiple',
+        description:
+          '默认数组内的数据结构为对象，如果只有一个表单项，可以配置将值打平，那么数组内放置的就是那个表单项的值'
+      }),
+
+      getSchemaTpl('switch', {
+        label: '是否可新增',
+        name: 'addable',
+        visibleOn: 'this.multiple',
+        pipeIn: defaultValue(true)
+      }),
+
+      {
+        type: 'textarea',
+        name: 'scaffold',
+        label: '新增初始值',
+        visibleOn: 'this.multiple && this.addable !== false',
+        pipeOut: valuePipeOut,
+        pipeIn: defaultValue({})
+      },
+
+      {
+        label: '新增按钮文字',
+        name: 'addButtonText',
+        type: 'input-text',
+        visibleOn: 'data.addable',
+        pipeIn: defaultValue('新增')
+      },
+
+      getSchemaTpl('switch', {
+        label: '是否可删除',
+        name: 'removable',
+        visibleOn: 'this.multiple',
+        pipeIn: defaultValue(true)
+      }),
+
+      getSchemaTpl('api', {
+        name: 'deleteApi',
+        label: '删除前的请求',
+        hiddenOn: '!data.removable'
+      }),
+
+      {
+        label: '删除确认提示',
+        name: 'deleteConfirmText',
+        type: 'input-text',
+        visibleOn: 'data.deleteApi',
+        pipeIn: defaultValue('确认要删除')
+      },
+
+      getSchemaTpl('switch', {
+        name: 'draggable',
+        label: '是否可拖拽排序',
+        visibleOn: 'this.multiple'
+      }),
+
+      {
+        label: '拖拽排序的提示文字',
+        name: 'draggableTip',
+        type: 'input-text',
+        visibleOn: 'data.draggable',
+        pipeIn: defaultValue('可通过拖动每行中的【交换】按钮进行顺序调整')
+      },
+
+      getSchemaTpl('switch', {
+        name: 'noBorder',
+        label: '去掉边框',
+        visibleOn: 'this.multiLine'
+      }),
+
+      {
+        name: 'minLength',
+        type: 'input-number',
+        label: '限制最小数量'
+      },
+
+      {
+        name: 'maxLength',
+        type: 'input-number',
+        label: '限制最大数量'
+      },
+
+      {
+        label: '默认消息提示',
+        type: 'combo',
+        name: 'messages',
+        multiLine: true,
+        description: '',
+        items: [
+          {
+            label: '有子表单项限制失败时提示',
+            type: 'input-text',
+            name: 'validateFailed'
+          },
+
+          {
+            label: '最小长度验证失败时提示',
+            type: 'input-text',
+            name: 'minLengthValidateFailed'
+          },
+
+          {
+            label: '最大长度验证失败时提示',
+            type: 'input-text',
+            name: 'maxLengthValidateFailed'
+          }
         ]
-      }
-    ]);
+      },
+
+      getSchemaTpl('switch', {
+        name: 'canAccessSuperData',
+        label: '是否自动填充父级同名变量',
+        pipeIn: defaultValue(false)
+      }),
+
+      getSchemaTpl('switch', {
+        name: 'tabsMode',
+        label: '采用 Tabs 展示方式',
+        pipeIn: defaultValue(false)
+      }),
+
+      {
+        name: 'tabsStyle',
+        label: 'Tabs 的展示模式',
+        visibleOn: 'data.tabsMode',
+        type: 'list-select',
+        options: [
+          {
+            label: '正常',
+            value: 'normal'
+          },
+          {
+            label: '水平',
+            value: 'horizontal'
+          },
+          {
+            label: '内联',
+            value: 'inline'
+          }
+        ],
+        mode: 'inline',
+        className: 'w-full'
+      },
+
+      {
+        name: 'tabsLabelTpl',
+        label: '选项卡标题的生成模板',
+        visibleOn: 'data.tabsMode',
+        type: 'input-text',
+        mode: 'inline',
+        className: 'w-full'
+      },
+
+      getSchemaTpl('switch', {
+        name: 'lazyLoad',
+        label: '懒加载',
+        pipeIn: defaultValue(false),
+        labelRemark: {
+          className: 'm-l-xs',
+          trigger: 'click',
+          rootClose: true,
+          placement: 'left',
+          content: '如果数据比较多，比较卡顿时，可开启此配置项。'
+        }
+      }),
+
+      getSchemaTpl('switch', {
+        name: 'strictMode',
+        label: '严格模式',
+        pipeIn: defaultValue(true),
+        labelRemark: {
+          className: 'm-l-xs',
+          trigger: 'click',
+          rootClose: true,
+          placement: 'left',
+          content: '如果你希望环境变量的值实时透传到 Combo 中，请关闭此选项。'
+        }
+      }),
+
+      {
+        name: 'syncFields',
+        visibleOn: '!data.strictMode',
+        label: '配置同步字段',
+        type: 'input-text',
+        multiple: true,
+        joinValues: false,
+        extractValue: true,
+        description:
+          '如果 Combo 层级比较深，底层的获取外层的数据可能不同步。但是给 combo 配置这个属性就能同步下来。'
+      },
+      getSchemaTpl('switch', {
+        name: 'nullable',
+        label: '允许为空',
+        pipeIn: defaultValue(false),
+        labelRemark: {
+          className: 'm-l-xs',
+          trigger: 'click',
+          rootClose: true,
+          placement: 'left',
+          content:
+            '如果子表单项里面配置验证器，且又是单条模式。可以允许用户选择清空（不填）。'
+        }
+      }),
+
+      {
+        name: 'items',
+        label: '各列 CSS 配置',
+        hiddenOn: 'this.multiLine',
+        type: 'combo',
+        addable: false,
+        removable: false,
+        multiple: true,
+        items: [
+          {
+            name: 'columnClassName',
+            placeholder: 'CSS 类名',
+            type: 'input-text'
+          }
+        ]
+      },
+      getSchemaTpl('subFormItemMode', {
+        visibleOn: 'this.multiLine'
+      }),
+      getSchemaTpl('subFormHorizontalMode'),
+      getSchemaTpl('subFormHorizontal')
+    ];
   };
 
   filterProps(props: any) {
+    props = JSONPipeOut(props);
+
     // 至少显示一个成员，否则啥都不显示。
-    if (props.multiple && !props.value && !props.$schema.value && !props.$ref) {
+    if (props.multiple && !props.value && !props.$ref) {
       const mockedData = {};
-      if (Array.isArray(props.items) && props.items.length === 0) {
+
+      if (Array.isArray(props.items)) {
         props.items.forEach((control: any) => {
           control.name &&
             setVariable(mockedData, control.name, mockValue(control));
         });
       }
+
       props.value = [mockedData];
-      return props;
     }
+
     return props;
   }
 
-  // 容器配置
-  regions: Array<RegionConfig> = [
-    {
-      key: 'items',
-      label: '内容区',
-      preferTag: '内容区',
-      renderMethod: 'renderItems'
+  buildEditorToolbar(
+    {id, info, schema}: BaseEventContext,
+    toolbars: Array<BasicToolbarItem>
+  ) {
+    if (info.renderer.name === 'combo' && !Array.isArray(schema.conditions)) {
+      toolbars.push({
+        icon: 'fa fa-expand',
+        order: 100,
+        tooltip: '配置子表单项',
+        onClick: this.editDetail.bind(this, id)
+      });
     }
-  ];
+  }
+
+  buildEditorContextMenu(
+    {id, schema, region, info}: ContextMenuEventContext,
+    menus: Array<ContextMenuItem>
+  ) {
+    if (info.renderer.name === 'combo' && !Array.isArray(schema.conditions)) {
+      menus.push('|', {
+        label: '配置成员渲染器',
+        onSelect: this.editDetail.bind(this, id)
+      });
+    }
+  }
+
+  editDetail(id: string) {
+    const manager = this.manager;
+    const store = manager.store;
+    const node = store.getNodeById(id);
+    const value = store.getValueOf(id);
+
+    node &&
+      value &&
+      this.manager.openSubEditor({
+        title: '配置子表单项',
+        value: value.items,
+        slot: {
+          type: 'form',
+          mode: 'normal',
+          body: '$$',
+          wrapWithPanel: false,
+          className: 'wrapper'
+        },
+        onChange: newValue => {
+          newValue = {
+            ...value,
+            items: newValue
+          };
+          manager.panelChangeValue(newValue, diff(value, newValue));
+        }
+      });
+  }
 }
 
 registerEditorPlugin(ComboControlPlugin);

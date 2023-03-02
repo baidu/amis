@@ -1,8 +1,11 @@
+import cx from 'classnames';
 import {
   DSFeatureType,
   generateNodeId,
   registerEditorPlugin,
-  tipedLabel,
+  tipedLabel
+} from 'amis-editor-core';
+import {
   BasePlugin,
   ChangeEventContext,
   BaseEventContext,
@@ -10,131 +13,17 @@ import {
   RegionConfig,
   ScaffoldForm,
   EditorManager,
-  DSBuilderManager,
-  defaultValue,
-  getSchemaTpl,
-  jsonToJsonSchema,
-  EditorNodeType,
-  RendererPluginAction,
-  RendererPluginEvent,
-  updateRegisteredEditorPlugin,
-  unRegisterEditorPlugin
+  DSBuilderManager
 } from 'amis-editor-core';
-import cx from 'classnames';
+import {defaultValue, getSchemaTpl} from 'amis-editor-core';
+import {jsonToJsonSchema} from 'amis-editor-core';
+import {EditorNodeType} from 'amis-editor-core';
+import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {setVariable} from 'amis-core';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
-import {getEnv} from 'mobx-state-tree';
+import {FormSchema} from 'amis/lib/Schema';
 import flatten from 'lodash/flatten';
 import {clone, cloneDeep} from 'lodash';
-
-// 用于脚手架的常用表单控件
-const getFormItemOptions = ({i18nEnabled}: {i18nEnabled?: boolean}) => {
-  return [
-    {
-      name: 'type',
-      label: '控件类型',
-      type: 'select',
-      required: true,
-      options: [
-        {
-          label: '单行文本框',
-          value: 'input-text'
-        },
-        {
-          label: '多行文本',
-          value: 'textarea'
-        },
-        {
-          label: '分组',
-          value: 'group'
-        },
-        {
-          label: '数字输入',
-          value: 'input-number'
-        },
-        {
-          label: '单选框',
-          value: 'radios'
-        },
-        {
-          label: '勾选框',
-          value: 'checkbox'
-        },
-        {
-          label: '复选框',
-          value: 'checkboxes'
-        },
-        {
-          label: '下拉框',
-          value: 'select'
-        },
-        {
-          label: '开关',
-          value: 'switch'
-        },
-        {
-          label: '日期',
-          value: 'input-date'
-        },
-        {
-          label: '表格',
-          value: 'input-table'
-        },
-        {
-          label: '文件上传',
-          value: 'input-file'
-        },
-        {
-          label: '图片上传',
-          value: 'input-image'
-        },
-        {
-          label: '富文本编辑器',
-          value: 'input-rich-text'
-        }
-      ]
-    },
-    {
-      name: 'label',
-      label: '显示名称',
-      type: i18nEnabled ? 'input-text-i18n' : 'input-text',
-      hiddenOn: 'data.type === "group"'
-    },
-    {
-      name: 'name',
-      label: '提交字段名',
-      required: true,
-      type: 'input-text',
-      hiddenOn: 'data.type === "group"'
-    }
-  ];
-};
-
-// 自动为form中子元素（单选框、复选框）补上默认options
-const autoAddOptions = (values: any) => {
-  if (
-    values &&
-    (values.type === 'form' || values.type === 'group') &&
-    values.body?.length > 0
-  ) {
-    values.body.forEach((formItem: any) => {
-      if (formItem.type === 'radios' || formItem.type === 'checkboxes') {
-        formItem.options = [
-          {
-            label: '选项A',
-            value: 'A'
-          },
-          {
-            label: '选项B',
-            value: 'B'
-          }
-        ];
-      } else if (formItem.type === 'form' || formItem.type === 'group') {
-        autoAddOptions(formItem);
-      }
-    });
-  }
-};
 
 const Features: Array<{
   label: string;
@@ -167,7 +56,8 @@ export class FormPlugin extends BasePlugin {
   tags = ['功能', '数据容器'];
   icon = 'fa fa-list-alt';
   pluginIcon = 'form-plugin';
-  scaffold = {
+
+  scaffold: FormSchema = {
     type: 'form',
     title: '表单',
     body: [
@@ -176,9 +66,13 @@ export class FormPlugin extends BasePlugin {
         type: 'input-text',
         name: 'text'
       }
+    ],
+    actions: [
+      {type: 'button', label: '提交', level: 'primary'},
+      {type: 'button', label: '重置'}
     ]
   };
-  previewSchema = {
+  previewSchema: FormSchema = {
     type: 'form',
     panelClassName: 'Panel--default text-left m-b-none',
     mode: 'horizontal',
@@ -187,6 +81,12 @@ export class FormPlugin extends BasePlugin {
         label: '文本',
         name: 'a',
         type: 'input-text'
+      }
+    ],
+    actions: [
+      {
+        type: 'button',
+        label: '提交'
       }
     ]
   };
@@ -321,12 +221,6 @@ export class FormPlugin extends BasePlugin {
     return this.scaffoldFormCache;
   }
 
-  // scaffoldForm: ScaffoldForm = {
-  //   title: '配置表单信息',
-  //   body: [getSchemaTpl('api')],
-  //   canRebuild: true
-  // };
-
   // 容器配置
   regions: Array<RegionConfig> = [
     {
@@ -338,9 +232,9 @@ export class FormPlugin extends BasePlugin {
     },
 
     {
-      label: '按钮组',
+      label: '操作区',
       key: 'actions',
-      preferTag: '按钮'
+      preferTag: '操作按钮'
     }
   ];
 
@@ -350,8 +244,8 @@ export class FormPlugin extends BasePlugin {
   events: RendererPluginEvent[] = [
     {
       eventName: 'inited',
-      eventLabel: '初始化数据接口请求成功',
-      description: '远程初始化数据接口请求成功时触发',
+      eventLabel: '初始化接口请求成功',
+      description: '远程初始化接口请求成功时触发',
       // 表单数据为表单变量
       dataSchema: [
         {
@@ -359,7 +253,7 @@ export class FormPlugin extends BasePlugin {
           properties: {
             'event.data': {
               type: 'object',
-              title: '初始化数据接口请求成功返回的数据'
+              title: '初始化接口请求成功返回的数据'
             }
           }
         }
@@ -445,23 +339,22 @@ export class FormPlugin extends BasePlugin {
         }
       ]
     },
-    {
-      eventName: 'submit',
-      eventLabel: '表单提交',
-      strongDesc:
-        '配置该事件后将不会触发表单提交时默认的校验、提交到api或者target等行为，所有行为需要自己配置',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            'event.data': {
-              type: 'object',
-              title: '当前表单数据'
-            }
-          }
-        }
-      ]
-    },
+    // {
+    //   eventName: 'submit',
+    //   eventLabel: '表单提交',
+    //   strongDesc: '配置该事件后将不会触发表单提交时默认的校验、提交到api或者target等行为，所有行为需要自己配置',
+    //   dataSchema: [
+    //     {
+    //       type: 'object',
+    //       properties: {
+    //         'event.data': {
+    //           type: 'object',
+    //           title: '当前表单数据'
+    //         }
+    //       }
+    //     }
+    //   ]
+    // },
     {
       eventName: 'submitSucc',
       eventLabel: '提交成功',

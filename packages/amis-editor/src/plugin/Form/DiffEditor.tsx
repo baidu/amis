@@ -135,7 +135,6 @@ export class DiffEditorControlPlugin extends BasePlugin {
           {
             title: '基本',
             body: [
-              getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               getSchemaTpl('formItemName', {
                 required: true
               }),
@@ -148,24 +147,19 @@ export class DiffEditorControlPlugin extends BasePlugin {
                 searchable: true,
                 options: availableLanguages.concat()
               },
-
-              getSchemaTpl('valueFormula', {
-                rendererSchema: {
-                  type: 'textarea',
-                  value: context?.schema.diffValue
-                },
-                label: '左侧默认值',
+              {
+                type: 'textarea',
                 name: 'diffValue',
-                mode: 'vertical' // 改成上下展示模式
-              }),
-              getSchemaTpl('valueFormula', {
-                rendererSchema: {
-                  type: 'textarea',
-                  value: context?.schema.value
-                },
+                label: '左侧默认值',
+                pipeOut: valuePipeOut,
+                placeholder: '支持使用 ${xxx} 来获取变量'
+              },
+              {
+                type: 'textarea',
+                name: 'value',
                 label: '右侧默认值',
-                mode: 'vertical' // 改成上下展示模式
-              }),
+                placeholder: '支持使用 ${xxx} 来获取变量'
+              },
               getSchemaTpl('labelRemark'),
               getSchemaTpl('remark'),
               getSchemaTpl('description'),

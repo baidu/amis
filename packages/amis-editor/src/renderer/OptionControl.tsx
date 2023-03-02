@@ -59,7 +59,7 @@ export default class OptionControl extends React.Component<
 
     let source: 'custom' | 'api' | 'apicenter' = 'custom';
 
-    if (props.data.hasOwnProperty('source') && props.data.source) {
+    if (props.data.source) {
       const api = props.data.source;
       const url =
         typeof api === 'string'

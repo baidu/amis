@@ -60,7 +60,6 @@ export class PropertyPlugin extends BasePlugin {
       {
         title: '常规',
         body: [
-          getSchemaTpl('layout:originPosition', {value: 'left-top'}),
           {
             label: '标题',
             type: 'input-text',

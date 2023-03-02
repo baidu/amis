@@ -1309,28 +1309,16 @@ export class CRUDPlugin extends BasePlugin {
           </div>
         );
       },
-      schema: getArgsWrapper(
-        /*
-          {
-            type: 'input-formula',
-            variables: '${variables}',
-            evalMode: false,
-            variableMode: 'tabs',
-            label: '查询条件',
-            size: 'md',
-            name: 'query',
-            mode: 'horizontal'
-          }
-        */
-        {
-          name: 'query',
-          label: '查询条件',
-          type: 'ae-formulaControl',
-          variables: '${variables}',
-          size: 'md',
-          mode: 'horizontal'
-        }
-      )
+      schema: getArgsWrapper({
+        type: 'input-formula',
+        variables: '${variables}',
+        evalMode: false,
+        variableMode: 'tabs',
+        label: '查询条件',
+        size: 'md',
+        name: 'query',
+        mode: 'horizontal'
+      })
     },
     // {
     //   actionType: 'resetQuery',

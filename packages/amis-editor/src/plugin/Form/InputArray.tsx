@@ -55,8 +55,8 @@ export class ArrayControlPlugin extends BasePlugin {
   panelTitle = '数组框';
   panelBodyCreator = (context: BaseEventContext) => {
     return [
-      getSchemaTpl('layout:originPosition', {value: 'left-top'}),
       getSchemaTpl('switchDefaultValue'),
+
       {
         type: 'textarea',
         name: 'value',
@@ -64,6 +64,7 @@ export class ArrayControlPlugin extends BasePlugin {
         visibleOn: 'typeof this.value !== "undefined"',
         pipeOut: valuePipeOut
       },
+
       {
         children: (
           <Button

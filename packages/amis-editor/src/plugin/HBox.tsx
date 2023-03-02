@@ -13,7 +13,7 @@ import {
 } from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {EditorNodeType} from 'amis-editor-core';
-import {Schema} from 'amis';
+import {Schema} from 'amis/lib/types';
 import {VRenderer} from 'amis-editor-core';
 import {RegionWrapper as Region} from 'amis-editor-core';
 import {JSONChangeInArray, JSONPipeIn, repeatArray} from 'amis-editor-core';
@@ -67,7 +67,6 @@ export class HBoxPlugin extends BasePlugin {
       {
         title: '常规',
         body: [
-          getSchemaTpl('layout:originPosition', {value: 'left-top'}),
           getSchemaTpl('fieldSet', {
             title: '插入',
             collapsable: false,

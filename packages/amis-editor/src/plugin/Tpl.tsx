@@ -1,18 +1,17 @@
-import {
-  registerEditorPlugin,
-  RendererPluginAction,
-  RendererPluginEvent
-} from 'amis-editor-core';
+import {registerEditorPlugin} from 'amis-editor-core';
 import {BaseEventContext, BasePlugin} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl, setSchemaTpl} from 'amis-editor-core';
 import {tipedLabel} from 'amis-editor-core';
-import {getEventControlConfig} from '../renderer/event-control/helper';
 import {ValidatorTag} from '../validator';
 
 setSchemaTpl('tpl:content', {
-  label: '文字内容',
-  type: 'ae-textareaFormulaControl',
-  mode: 'normal',
+  label: tipedLabel(
+    '文字内容',
+    '支持使用 <code>\\${xxx}</code> 来获取变量，或者用 lodash.template 语法来写模板逻辑。<a target="_blank" href="/amis/zh-CN/docs/concepts/template">详情</a>'
+  ),
+  type: 'textarea',
+  minRows: 5,
+  language: 'html',
   visibleOn: 'data.wrapperComponent !== undefined',
   pipeIn: (value: any, data: any) => value || (data && data.html),
   name: 'tpl'
@@ -128,62 +127,6 @@ export class TplPlugin extends BasePlugin {
 
   panelTitle = '文字';
   panelJustify = true;
-
-  // 事件定义
-  events: RendererPluginEvent[] = [
-    {
-      eventName: 'click',
-      eventLabel: '点击',
-      description: '点击时触发',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            nativeEvent: {
-              type: 'object',
-              title: '鼠标事件对象'
-            }
-          }
-        }
-      ]
-    },
-    {
-      eventName: 'mouseenter',
-      eventLabel: '鼠标移入',
-      description: '鼠标移入时触发',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            nativeEvent: {
-              type: 'object',
-              title: '鼠标事件对象'
-            }
-          }
-        }
-      ]
-    },
-    {
-      eventName: 'mouseleave',
-      eventLabel: '鼠标移出',
-      description: '鼠标移出时触发',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            nativeEvent: {
-              type: 'object',
-              title: '鼠标事件对象'
-            }
-          }
-        }
-      ]
-    }
-  ];
-
-  // 动作定义
-  actions: RendererPluginAction[] = [];
-
   panelBodyCreator = (context: BaseEventContext) => {
     // 在表格/CRUD/模型列表的一列里边
     const isInTable: boolean = /\/cell\/field\/tpl$/.test(context.path);
@@ -195,7 +138,6 @@ export class TplPlugin extends BasePlugin {
           {
             title: '基本',
             body: [
-              getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               !isInTable ? getSchemaTpl('tpl:wrapperComponent') : null,
               getSchemaTpl('switch', {
                 label: tipedLabel(
@@ -221,16 +163,6 @@ export class TplPlugin extends BasePlugin {
             isFormItem: false
           })
         ])
-      },
-      {
-        title: '事件',
-        className: 'p-none',
-        body: [
-          getSchemaTpl('eventControl', {
-            name: 'onEvent',
-            ...getEventControlConfig(this.manager, context)
-          })
-        ]
       }
     ]);
   };

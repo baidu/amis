@@ -118,17 +118,15 @@ export class TextareaControlPlugin extends BasePlugin {
           {
             title: '基本',
             body: [
-              getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               getSchemaTpl('formItemName', {
                 required: true
               }),
               getSchemaTpl('label'),
               getSchemaTpl('crudFilterOperator', {context}),
-              // getSchemaTpl('valueFormula', {
-              //   rendererSchema: context?.schema,
-              //   mode: 'vertical' // 改成上下展示模式
-              // }),
-              getSchemaTpl('textareaDefaultValue'),
+              getSchemaTpl('valueFormula', {
+                rendererSchema: context?.schema,
+                mode: 'vertical' // 改成上下展示模式
+              }),
               getSchemaTpl('switch', {
                 name: 'trimContents',
                 pipeIn: defaultValue(true),

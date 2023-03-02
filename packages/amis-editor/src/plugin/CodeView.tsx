@@ -28,12 +28,11 @@ export class CodeViewPlugin extends BasePlugin {
   };
 
   panelTitle = '代码高亮';
-  panelBodyCreator = (context: BaseEventContext) => {
-    return getSchemaTpl('tabs', [
+  panelBody = [
+    getSchemaTpl('tabs', [
       {
         title: '常规',
         body: [
-          getSchemaTpl('layout:originPosition', {value: 'left-top'}),
           {
             type: 'input-text',
             label: '名称',
@@ -56,7 +55,7 @@ export class CodeViewPlugin extends BasePlugin {
         body: [getSchemaTpl('ref'), getSchemaTpl('visible')]
       }
     ])
-  };
+  ];
 }
 
 registerEditorPlugin(CodeViewPlugin);

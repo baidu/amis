@@ -89,15 +89,15 @@ export class WizardPlugin extends BasePlugin {
   events: RendererPluginEvent[] = [
     {
       eventName: 'inited',
-      eventLabel: '初始化数据接口请求成功',
-      description: '远程初始化数据接口请求成功时触发',
+      eventLabel: '初始化接口请求成功',
+      description: '远程初始化接口请求成功时触发',
       dataSchema: [
         {
           type: 'object',
           properties: {
             'event.data': {
               type: 'object',
-              title: '初始化数据接口请求成功返回的数据'
+              title: '初始化接口请求成功返回的数据'
             }
           }
         }
@@ -254,7 +254,6 @@ export class WizardPlugin extends BasePlugin {
         );
       },
       schema: getArgsWrapper([
-        /*
         {
           type: 'input-formula',
           variables: '${variables}',
@@ -265,16 +264,6 @@ export class WizardPlugin extends BasePlugin {
           size: 'lg',
           name: 'step',
           mode: 'horizontal'
-        }
-        */
-        {
-          name: 'step',
-          label: '目标步骤',
-          type: 'ae-formulaControl',
-          variables: '${variables}',
-          size: 'lg',
-          mode: 'horizontal',
-          required: true
         }
       ])
     },
@@ -297,7 +286,6 @@ export class WizardPlugin extends BasePlugin {
         {
           title: '常规',
           body: [
-            getSchemaTpl('layout:originPosition', {value: 'left-top'}),
             {
               name: 'steps',
               label: '步骤设置',
@@ -545,13 +533,7 @@ export class WizardPlugin extends BasePlugin {
               visibleOn: 'data.asyncApi != null',
               description:
                 '设置此属性后，表单提交发送保存接口后，还会继续轮训请求该接口，直到返回 finished 属性为 true 才 结束'
-            }),
-
-            {
-              type: 'divider'
-            },
-
-            getSchemaTpl('loadingConfig', {}, {context})
+            })
           ]
         },
 
@@ -579,13 +561,33 @@ export class WizardPlugin extends BasePlugin {
               ]
             },
 
-            getSchemaTpl('actionPrevLabel'),
+            {
+              name: 'actionPrevLabel',
+              label: '上一步按钮名称',
+              type: 'input-text',
+              pipeIn: defaultValue('上一步')
+            },
 
-            getSchemaTpl('actionNextLabel'),
+            {
+              name: 'actionNextLabel',
+              label: '下一步按钮名称',
+              type: 'input-text',
+              pipeIn: defaultValue('下一步')
+            },
 
-            getSchemaTpl('actionNextSaveLabel'),
+            {
+              name: 'actionNextSaveLabel',
+              label: '保存并下一步按钮名称',
+              type: 'input-text',
+              pipeIn: defaultValue('保存并下一步')
+            },
 
-            getSchemaTpl('actionFinishLabel'),
+            {
+              name: 'actionFinishLabel',
+              label: '完成按钮名称',
+              type: 'input-text',
+              pipeIn: defaultValue('完成')
+            },
 
             // {
             //   type: 'alert',
@@ -706,9 +708,12 @@ export class WizardPlugin extends BasePlugin {
         {
           title: '常规',
           body: [
-            getSchemaTpl('title', {
+            {
+              name: 'title',
+              type: 'input-text',
+              label: '标题',
               pipeIn: (value: any, data: any) => value || data.label
-            }),
+            },
             getSchemaTpl('api', {
               label: '保存接口',
               description:

@@ -101,28 +101,16 @@ export class TabsPlugin extends BasePlugin {
           </div>
         );
       },
-      schema: getArgsWrapper(
-        /*
-        {
-          type: 'input-formula',
-          variables: '${variables}',
-          evalMode: false,
-          variableMode: 'tabs',
-          label: '激活项',
-          size: 'lg',
-          name: 'activeKey',
-          mode: 'horizontal'
-        }
-        */
-        {
-          name: 'activeKey',
-          label: '激活项',
-          type: 'ae-formulaControl',
-          variables: '${variables}',
-          size: 'lg',
-          mode: 'horizontal'
-        }
-      )
+      schema: getArgsWrapper({
+        type: 'input-formula',
+        variables: '${variables}',
+        evalMode: false,
+        variableMode: 'tabs',
+        label: '激活项',
+        size: 'lg',
+        name: 'activeKey',
+        mode: 'horizontal'
+      })
     }
   ];
 
@@ -138,7 +126,6 @@ export class TabsPlugin extends BasePlugin {
           {
             title: '基本',
             body: [
-              getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               getSchemaTpl('combo-container', {
                 type: 'combo',
                 label: '选项卡',
@@ -156,12 +143,7 @@ export class TabsPlugin extends BasePlugin {
                     inline: false
                   }
                 },
-                items: [
-                  getSchemaTpl('title', {
-                    label: false,
-                    required: true
-                  })
-                ]
+                items: [{type: 'input-text', name: 'title', required: true}]
               }),
 
               getSchemaTpl('switch', {
@@ -191,11 +173,10 @@ export class TabsPlugin extends BasePlugin {
             title: '高级',
             body: [
               {
-                type: 'ae-expressionFormulaControl',
-                evalMode: true,
+                type: 'ae-formulaControl',
                 label: tipedLabel(
                   '关联数据',
-                  '根据该数据来动态重复渲染所配置的选项卡'
+                  '可用<code>\\${xxx}</code>取值，根据该数据来动态重复渲染所配置的选项卡'
                 ),
                 name: 'source'
               },

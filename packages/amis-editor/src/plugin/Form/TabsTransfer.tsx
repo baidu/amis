@@ -215,7 +215,6 @@ export class TabsTransferPlugin extends BasePlugin {
       multiple: true,
       multiLine: true,
       draggable: true,
-      mode: 'normal',
       addButtonText: '新增选项',
       scaffold: {
         label: '',
@@ -225,11 +224,12 @@ export class TabsTransferPlugin extends BasePlugin {
         {
           type: 'group',
           body: [
-            getSchemaTpl('label', {
-              label: false,
+            {
+              type: 'input-text',
+              name: 'label',
               placeholder: '名称',
               required: true
-            }),
+            },
 
             {
               type: 'input-text',
@@ -261,7 +261,6 @@ export class TabsTransferPlugin extends BasePlugin {
           {
             title: '基本',
             body: [
-              getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               getSchemaTpl('formItemName', {
                 required: true
               }),
@@ -301,19 +300,19 @@ export class TabsTransferPlugin extends BasePlugin {
 
               getSchemaTpl('sortable'),
 
-              {
+              getSchemaTpl('formulaControl', {
                 label: '左侧选项标题',
                 name: 'selectTitle',
                 type: 'input-text',
                 inputClassName: 'is-inline '
-              },
+              }),
 
-              {
+              getSchemaTpl('formulaControl', {
                 label: '右侧结果标题',
                 name: 'resultTitle',
                 type: 'input-text',
                 inputClassName: 'is-inline '
-              }
+              })
             ]
           },
           {
@@ -324,13 +323,6 @@ export class TabsTransferPlugin extends BasePlugin {
                 name: 'options'
               },
               getSchemaTpl('source'),
-              getSchemaTpl(
-                'loadingConfig',
-                {
-                  visibleOn: 'this.source || !this.options'
-                },
-                {context}
-              ),
               getSchemaTpl('joinValues'),
               getSchemaTpl('delimiter'),
               getSchemaTpl('extractValue'),
@@ -342,13 +334,6 @@ export class TabsTransferPlugin extends BasePlugin {
                 visibleOn:
                   '!this.autoFill || !this.autoFill.scene && !this.autoFill.action'
               })
-            ]
-          },
-          {
-            title: '高级',
-            body: [
-              getSchemaTpl('virtualThreshold'),
-              getSchemaTpl('virtualItemHeight')
             ]
           },
           getSchemaTpl('status', {isFormItem: true})

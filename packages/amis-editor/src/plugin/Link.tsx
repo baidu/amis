@@ -34,7 +34,6 @@ export class LinkPlugin extends BasePlugin {
           {
             title: '基本',
             body: [
-              getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               {
                 name: 'href',
                 type: 'input-text',
@@ -43,21 +42,44 @@ export class LinkPlugin extends BasePlugin {
                   '支持取变量，如果已绑定字段名，可以不用设置'
                 )
               },
-              getSchemaTpl('inputBody'),
+              {
+                name: 'body',
+                type: 'input-text',
+                label: tipedLabel('内容', '不填写时，自动使用目标地址值')
+              },
               getSchemaTpl('switch', {
                 name: 'blank',
                 label: '在新窗口打开'
               }),
+              {
+                label: '图标位置',
+                type: 'button-group-select',
+                name: 'position',
+                pipeIn: defaultValue('rightIcon'),
+                size: 'sm',
+                value: 'rightIcon',
+                options: [
+                  {
+                  label: '左侧',
+                  value: 'icon'
+                  },
+
+                  {
+                  label: '右侧',
+                  value: 'rightIcon'
+                  }
+                ]
+              },
 
               getSchemaTpl('iconLink', {
                 name: 'icon',
-                label: '左侧图标'
+                visibleOn: 'this.position == "icon"'
               }),
 
               getSchemaTpl('iconLink', {
                 name: 'rightIcon',
-                label: '右侧图标'
-              })
+                visibleOn: 'this.position == "rightIcon"'
+              }),
             ]
           },
           getSchemaTpl('status', {

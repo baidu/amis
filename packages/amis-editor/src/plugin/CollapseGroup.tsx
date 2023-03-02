@@ -67,7 +67,6 @@ export class CollapseGroupPlugin extends BasePlugin {
             {
               title: '基本',
               body: [
-                getSchemaTpl('layout:originPosition', {value: 'left-top'}),
                 {
                   name: 'expandIconPosition',
                   label: '图标位置',

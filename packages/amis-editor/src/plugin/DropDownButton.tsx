@@ -59,25 +59,24 @@ export class DropDownButtonPlugin extends BasePlugin {
           {
             title: '基本',
             body: [
-              getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               {
                 children: (
-                  <div className="mb-3">
-                    <Button
-                      level="info"
-                      size="sm"
-                      className="m-b-sm"
-                      block
-                      onClick={this.editDetail.bind(this, context.id)}
-                    >
-                      配置下拉按钮集合
-                    </Button>
-                  </div>
+                  <Button
+                    level="info"
+                    size="sm"
+                    className="m-b-sm"
+                    block
+                    onClick={this.editDetail.bind(this, context.id)}
+                  >
+                    配置下拉按钮集合
+                  </Button>
                 )
               },
-              getSchemaTpl('label', {
+              {
                 label: '按钮文案',
-              }),
+                type: 'input-text',
+                name: 'label'
+              },
               {
                 type: 'button-group-select',
                 name: 'trigger',

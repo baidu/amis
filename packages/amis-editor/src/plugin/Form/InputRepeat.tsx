@@ -34,7 +34,6 @@ export class RepeatControlPlugin extends BasePlugin {
 
   panelTitle = '周期';
   panelBody = [
-    getSchemaTpl('layout:originPosition', {value: 'left-top'}),
     getSchemaTpl('switchDefaultValue'),
     {
       type: 'input-text',

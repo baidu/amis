@@ -22,17 +22,10 @@ export class DividerPlugin extends BasePlugin {
   };
 
   panelTitle = '分隔线';
-  panelJustify = true;
   panelBody = getSchemaTpl('tabs', [
     {
       title: '外观',
-      body: [
-        getSchemaTpl('layout:originPosition', {value: 'left-top'}),
-        getSchemaTpl('layout:width:v2', {
-          visibleOn: 'data.style && data.style.position && (data.style.position === "fixed" || data.style.position === "absolute")',
-        }),
-        getSchemaTpl('className')
-      ]
+      body: [getSchemaTpl('className')]
     },
     {
       title: '显隐',

@@ -66,7 +66,6 @@ export class PaginationPlugin extends BasePlugin {
           {
             title: '基本',
             body: [
-              getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               {
                 name: 'mode',
                 label: '模式',

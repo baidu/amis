@@ -129,7 +129,6 @@ export class CodeEditorControlPlugin extends BasePlugin {
           {
             title: '基本',
             body: [
-              getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               getSchemaTpl('formItemName', {
                 required: true
               }),
@@ -142,13 +141,11 @@ export class CodeEditorControlPlugin extends BasePlugin {
                 searchable: true,
                 options: availableLanguages.concat()
               },
-
-              getSchemaTpl('valueFormula', {
-                rendererSchema: {
-                  type: 'textarea'
-                },
-                mode: 'vertical' // 改成上下展示模式
-              }),
+              {
+                type: 'textarea',
+                name: 'value',
+                label: '默认值'
+              },
               getSchemaTpl('switch', {
                 label: '可全屏',
                 name: 'allowFullscreen',

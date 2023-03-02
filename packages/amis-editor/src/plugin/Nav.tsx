@@ -1,4 +1,4 @@
-import {BaseEventContext, registerEditorPlugin} from 'amis-editor-core';
+import {registerEditorPlugin} from 'amis-editor-core';
 import {BasePlugin} from 'amis-editor-core';
 import {getSchemaTpl} from 'amis-editor-core';
 
@@ -52,10 +52,12 @@ export class NavPlugin extends BasePlugin {
         to: ''
       },
       items: [
-        getSchemaTpl('label', {
+        {
+          type: 'input-text',
+          name: 'label',
           label: '名称',
           required: true
-        }),
+        },
 
         {
           type: 'input-text',
@@ -138,12 +140,11 @@ export class NavPlugin extends BasePlugin {
       ]
     }
   };
-  panelBodyCreator = (context: BaseEventContext) => {
-    return getSchemaTpl('tabs', [
+  panelBody = [
+    getSchemaTpl('tabs', [
       {
         title: '常规',
         body: [
-          getSchemaTpl('layout:originPosition', {value: 'left-top'}),
           {
             $ref: 'links',
             name: 'links'
@@ -155,8 +156,7 @@ export class NavPlugin extends BasePlugin {
             name: 'source',
             label: '获取菜单接口',
             description: '如果菜单地址希望可以动态设置，请在此填入接口地址'
-          }),
-          getSchemaTpl('loadingConfig', {}, {context})
+          })
         ]
       },
       {
@@ -174,8 +174,8 @@ export class NavPlugin extends BasePlugin {
         title: '显隐',
         body: [getSchemaTpl('ref'), getSchemaTpl('visible')]
       }
-    ]);
-  };
+    ])
+  ];
 }
 
 registerEditorPlugin(NavPlugin);

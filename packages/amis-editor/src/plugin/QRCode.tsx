@@ -29,7 +29,6 @@ export class QRCodePlugin extends BasePlugin {
       {
         title: '常规',
         body: [
-          getSchemaTpl('layout:originPosition', {value: 'left-top'}),
           {
             name: 'value',
             type: 'input-text',

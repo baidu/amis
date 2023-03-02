@@ -10,9 +10,6 @@ export interface ActionEventConfig {
     weight?: number; // 权重
     actions: ActionConfig[]; // 执行的动作集
     __isBroadcast?: boolean; // 区分一下广播事件
-    debounce?: {
-      wait: number;
-    };
   };
 }
 

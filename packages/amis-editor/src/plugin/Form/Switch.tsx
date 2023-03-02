@@ -82,14 +82,17 @@ export class SwitchControlPlugin extends BasePlugin {
           {
             title: '基本',
             body: [
-              getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               getSchemaTpl('formItemName', {
                 required: true
               }),
               getSchemaTpl('label'),
-              getSchemaTpl('crudFilterOperator', {context}),
 
-              getSchemaTpl('switchOption'),
+              getSchemaTpl('crudFilterOperator', {context}),
+              {
+                name: 'option',
+                type: 'input-text',
+                label: '说明'
+              },
 
               {
                 type: 'ae-switch-more',
@@ -180,23 +183,15 @@ export class SwitchControlPlugin extends BasePlugin {
               */
               getSchemaTpl('valueFormula', {
                 rendererSchema: context?.schema,
-                needDeleteProps: ['option'],
                 rendererWrapper: true, // 浅色线框包裹一下，增加边界感
-                // valueType: 'boolean',
+                valueType: 'boolean',
                 pipeIn: (value: any, data: any) => {
-                  const {trueValue = true, falseValue = false} =
-                    data.data || {};
-                  return value === trueValue
-                    ? true
-                    : value === falseValue
-                    ? false
-                    : value;
+                  const {trueValue = true} = data.data || {};
+                  return value === trueValue ? true : false;
                 },
                 pipeOut: (value: any, origin: any, data: any) => {
-                  return value && value === (data.trueValue || true)
+                  return value
                     ? data.trueValue || true
-                    : value && value !== (data.falseValue || false)
-                    ? value
                     : data.falseValue || false;
                 }
               }),

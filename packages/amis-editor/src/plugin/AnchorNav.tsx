@@ -75,7 +75,6 @@ export class AnchorNavPlugin extends BasePlugin {
           {
             title: '基本',
             body: [
-              getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               getSchemaTpl('combo-container', {
                 type: 'combo',
                 name: 'links',
@@ -88,7 +87,14 @@ export class AnchorNavPlugin extends BasePlugin {
                 deleteBtn: {
                   icon: 'fa fa-trash'
                 },
-                items: [getSchemaTpl('anchorTitle')],
+                items: [
+                  {
+                    type: 'input-text',
+                    name: 'title',
+                    required: true,
+                    placeholder: '请输入锚点标题'
+                  }
+                ],
                 scaffold: {
                   title: '锚点',
                   href: '',

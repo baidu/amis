@@ -163,11 +163,14 @@ export default class TimelineItemControl extends React.Component<
         placeholder: '请输入',
         label: '颜色'
       },
-      getSchemaTpl('icon', {
+      {
+        type: 'icon-picker',
+        name: 'icon',
         value: props?.['icon'],
         placeholder: '请输入',
         clearable: true,
         description: '',
+        label: '图标',
         className: 'fix-icon-picker-overflow',
         pipeIn: (value: any) => value?.icon,
         pipeOut: (value: any) => {
@@ -180,7 +183,7 @@ export default class TimelineItemControl extends React.Component<
           }
           return undefined;
         }
-      })
+      }
     ];
   }
 

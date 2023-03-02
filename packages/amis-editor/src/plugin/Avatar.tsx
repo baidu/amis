@@ -56,7 +56,6 @@ export class AvatarPlugin extends BasePlugin {
               className: 'p-none',
               title: '基本',
               body: [
-                getSchemaTpl('layout:originPosition', {value: 'left-top'}),
                 // 如果同时存在 src、text 和 icon，会优先用 src、接着 text、最后 icon
                 {
                   type: 'button-group-select',
@@ -141,7 +140,14 @@ export class AvatarPlugin extends BasePlugin {
                     },
 
                     // 文字
-                    getSchemaTpl('avatarText'),
+                    {
+                      label: '文字',
+                      name: 'text',
+                      type: 'input-text',
+                      pipeOut: (value: any) =>
+                        value === '' ? undefined : value,
+                      visibleOn: 'data.showtype === "text"'
+                    },
                     {
                       type: 'input-group',
                       name: 'gap',

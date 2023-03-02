@@ -40,7 +40,6 @@ export class EachPlugin extends BasePlugin {
   panelTitle = '循环';
   panelBodyCreator = (context: BaseEventContext) => {
     return [
-      getSchemaTpl('layout:originPosition', {value: 'left-top'}),
       {
         type: 'input-text',
         name: 'name',
@@ -64,12 +63,14 @@ export class EachPlugin extends BasePlugin {
         )
       },
 
-      getSchemaTpl('placeholder', {
+      {
+        name: 'placeholder',
+        type: 'input-text',
         label: '占位符',
         pipeIn: defaultValue('暂无内容'),
         description:
           '当没有关联变量，或者目标变量不是数组或者对象时显示此占位信息'
-      }),
+      },
 
       getSchemaTpl('className')
     ];
