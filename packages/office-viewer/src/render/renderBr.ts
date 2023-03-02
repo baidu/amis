@@ -6,7 +6,7 @@
 
 import {createElement} from '../util/dom';
 
-export function parseBr(data: any) {
+export function renderBr(data: any) {
   const br = createElement('br');
   return br;
 }

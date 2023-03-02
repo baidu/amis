@@ -43,7 +43,11 @@ export default class Word extends OOXML {
   }
 
   getClassName(styleName: string) {
-    return this.renderOptions.classPrefix + styleName;
+    if (styleName) {
+      return this.renderOptions.classPrefix + styleName;
+    } else {
+      return '';
+    }
   }
 
   async render(): Promise<HTMLElement> {

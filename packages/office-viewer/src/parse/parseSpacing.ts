@@ -2,10 +2,11 @@
  * 解析 spacing
  * http://officeopenxml.com/WPspacing.php
  */
+import {CSSStyle} from '../parts/Style';
 import {WAttr} from './Names';
 import {parseSize} from './parseSize';
 
-export function parseSpacing(data: any, style: Record<string, string>) {
+export function parseSpacing(data: any, style: CSSStyle) {
   const before = parseSize(data, WAttr.before);
   const after = parseSize(data, WAttr.after);
 

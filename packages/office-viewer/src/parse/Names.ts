@@ -1,3 +1,4 @@
+import {highlight} from 'amis-core';
 /**
  * 所有节点及名称列表，针对 fast-xml-parser 的解析结果
  * 主要目的是避免代码中大量字符串，拼错都不知道
@@ -22,7 +23,50 @@ export const WTag = {
   rPrDefault: 'w:rPrDefault',
   pPrDefault: 'w:pPrDefault',
   p: 'w:p',
-  tbl: 'w:tbl'
+  r: 'w:r',
+  t: 'w:t',
+  br: 'w:br',
+  tbl: 'w:tbl',
+  document: 'w:document',
+  body: 'w:body',
+  highlight: 'w:highlight',
+  vertAlign: 'w:vertAlign',
+  position: 'w:position',
+  trHeight: 'w:trHeight',
+  strike: 'w:strike',
+  dstrike: 'w:dstrike',
+  b: 'w:b',
+  bCs: 'w:bCs',
+  i: 'w:i',
+  iCs: 'w:iCs',
+  caps: 'w:caps',
+  smallCaps: 'w:smallCaps',
+  u: 'w:u',
+  tblInd: 'w:tblInd',
+  rFonts: 'w:rFonts',
+  tblBorders: 'w:tblBorders',
+  tblCellSpacing: 'w:tblCellSpacing',
+  bdr: 'w:bdr',
+  tcBorders: 'w:tcBorders',
+  vanish: 'w:vanish',
+  kern: 'w:kern',
+  noWrap: 'w:noWrap',
+  tblCellMar: 'w:tblCellMar',
+  tcMar: 'w:tcMar',
+  tblLayout: 'w:tblLayout',
+  vAlign: 'w:vAlign',
+  wordWrap: 'w:wordWrap',
+  sz: 'w:sz',
+  szCs: 'w:szCs',
+  lang: 'w:lang',
+  keepLines: 'w:keepLines',
+  keepNext: 'w:keepNext',
+  outlineLvl: 'w:outlineLvl',
+  pageBreakBefore: 'w:pageBreakBefore',
+  widowControl: 'w:widowControl',
+  contextualSpacing: 'w:contextualSpacing',
+  proofErr: 'w:proofErr',
+  noProof: 'w:noProof'
 };
 
 export const WAttr = {
@@ -41,5 +85,13 @@ export const WAttr = {
   lineRule: '@_w:lineRule',
   before: '@_w:before',
   after: '@_w:after',
-  styleId: '@_w:styleId'
+  styleId: '@_w:styleId',
+  hRule: '@_w:hRule',
+  ascii: '@_w:ascii',
+  cs: '@_w:cs',
+  eastAsia: '@_w:eastAsia',
+  asciiTheme: '@_w:asciiTheme',
+  eastAsiaTheme: '@_w:eastAsiaTheme',
+  csTheme: '@_w:csTheme',
+  w: '@_w:w'
 };

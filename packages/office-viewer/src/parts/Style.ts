@@ -6,6 +6,10 @@ import {WAttr, WTag} from '../parse/Names';
 import {parsePr} from '../parse/parsePr';
 import {loopChildren} from '../util/xml';
 
+export interface CSSStyle {
+  [key: string]: string;
+}
+
 export interface Style {
   id?: string;
   type?: 'paragraph' | 'character' | 'table' | 'numbering';
@@ -13,11 +17,11 @@ export interface Style {
   baseOn?: string;
 
   // 文本
-  r?: Record<string, string>;
+  rPr?: CSSStyle;
   // 段落
-  p?: Record<string, string>;
+  pPr?: CSSStyle;
 
-  tbl?: Record<string, string>;
+  tblPr?: CSSStyle;
 }
 
 export interface Styles {
@@ -30,13 +34,16 @@ export interface Styles {
 function parseDefaultStyle(data: any) {
   const defaultStyle: Style = {};
   if (WTag.rPrDefault in data) {
-    defaultStyle.r = parsePr(data[WTag.rPrDefault]);
+    const rPrDefaultData = data[WTag.rPrDefault];
+    if (rPrDefaultData && WTag.rPr in rPrDefaultData) {
+      defaultStyle.rPr = parsePr(rPrDefaultData[WTag.rPr]);
+    }
   }
-  if (
-    WTag.pPrDefault in data &&
-    Object.keys(data[WTag.pPrDefault]).length > 0
-  ) {
-    defaultStyle.p = parsePr(data[WTag.pPrDefault]);
+  if (WTag.pPrDefault in data) {
+    const pPrDefault = data[WTag.pPrDefault];
+    if (pPrDefault && WTag.pPr in pPrDefault) {
+      defaultStyle.pPr = parsePr(pPrDefault[WTag.pPr]);
+    }
   }
   return defaultStyle;
 }
@@ -44,13 +51,13 @@ function parseDefaultStyle(data: any) {
 function parseStyle(data: any) {
   const style: Style = {};
   if (WTag.rPr in data) {
-    style.r = parsePr(data[WTag.rPr]);
+    style.rPr = parsePr(data[WTag.rPr]);
   }
   if (WTag.pPr in data && Object.keys(data[WTag.pPr]).length > 0) {
-    style.p = parsePr(data[WTag.pPr]);
+    style.pPr = parsePr(data[WTag.pPr]);
   }
   if (WTag.tblPr in data && Object.keys(data[WTag.tblPr]).length > 0) {
-    style.tbl = parsePr(data[WTag.tblPr]);
+    style.tblPr = parsePr(data[WTag.tblPr]);
   }
   if (WTag.name in data) {
     style.name = data[WTag.name][WAttr.val];

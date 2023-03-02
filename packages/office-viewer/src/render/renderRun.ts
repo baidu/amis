@@ -3,33 +3,42 @@
  */
 
 import {WTag} from '../parse/Names';
-import {parseBr} from '../parse/parseBr';
-import {parsePr} from '../parse/parsePr';
+import {renderBr} from './renderBr';
+import {applyStyle, parsePr} from '../parse/parsePr';
 import {appendChild, createElement, setStyle} from '../util/dom';
 import Word from '../Word';
+import {loopChildren} from '../util/xml';
 
 export default function renderRun(word: Word, data: any) {
-  const span = createElement('span');
+  let span = createElement('span');
 
-  for (const key in data) {
-    const value = data[key];
-    if (key === WTag.t) {
-      if (typeof value === 'string') {
-        span.textContent = value;
-      } else if (typeof value === 'object') {
-        const xmlSpace = value['@_xml:space'];
-        if (xmlSpace === 'preserve') {
-          span.style.whiteSpace = 'pre';
+  loopChildren(data, (key, value) => {
+    switch (key) {
+      case WTag.t:
+        if (typeof value === 'string') {
+          span.textContent = value;
+        } else if (typeof value === 'number') {
+          span.textContent = String(value);
+        } else if (typeof value === 'object') {
+          const xmlSpace = value['@_xml:space'];
+          if (xmlSpace === 'preserve') {
+            span.style.whiteSpace = 'pre';
+          }
+          span.textContent = value['#text'] ?? '';
         }
-        span.textContent = value['#text'] ?? '';
-      }
-    } else if (key === WTag.rPr) {
-      setStyle(span, parsePr(value));
-    } else if (key === WTag.br) {
-      appendChild(span, parseBr(value));
-    } else {
-      console.warn(`renderRun: ${key} is not supported.`);
+        break;
+
+      case WTag.rPr:
+        span = applyStyle(word, span, value);
+        break;
+
+      case WTag.br:
+        appendChild(span, renderBr(value));
+
+      default:
+        console.warn(`renderRun: ${key} is not supported.`);
     }
-  }
+  });
+
   return span;
 }

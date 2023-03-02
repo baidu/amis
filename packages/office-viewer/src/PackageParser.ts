@@ -57,7 +57,7 @@ export default class PackageParser {
       'string'
     )) as string;
     const parser = new XMLParser(XMLOptions);
-    return parser.parse(this.replaceText(fileContent));
+    return parser.parse(fileContent);
   }
 
   replaceText(text: string) {

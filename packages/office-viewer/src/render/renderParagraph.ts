@@ -7,22 +7,27 @@ import Word from '../Word';
 import {loopChildren} from '../util/xml';
 import renderRun from './renderRun';
 
-import {getPStyle, parsePr} from '../parse/parsePr';
+import {applyStyle, getPStyle, parsePr} from '../parse/parsePr';
 
 export default function renderParagraph(word: Word, data: any) {
-  const p = createElement('p');
+  let p = createElement('p');
   loopChildren(data, (key, value) => {
-    if (key === WTag.r) {
-      const r = renderRun(word, value);
-      appendChild(p, r);
-    } else if (key === WTag.pPr) {
-      setStyle(p, parsePr(value));
-      const className = getPStyle(value);
-      if (className) {
-        p.className = className;
-      }
-    } else {
-      console.warn('renderParagraph Unknown key', key);
+    switch (key) {
+      case WTag.r:
+        const r = renderRun(word, value);
+        appendChild(p, r);
+        break;
+
+      case WTag.pPr:
+        p = applyStyle(word, p, value);
+
+      case WTag.proofErr:
+      case WTag.noProof:
+        // 语法检查
+        break;
+
+      default:
+        console.warn('renderParagraph Unknown key', key);
     }
   });
 

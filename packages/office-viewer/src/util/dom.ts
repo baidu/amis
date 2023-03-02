@@ -2,7 +2,9 @@
  * dom 相关的操作
  */
 
-export function setStyle(el: HTMLElement, style: Record<string, string>): void {
+import {CSSStyle} from '../parts/Style';
+
+export function setStyle(el: HTMLElement, style: CSSStyle): void {
   for (const key in style) {
     const value = style[key];
     if (value != null && value !== '') {
