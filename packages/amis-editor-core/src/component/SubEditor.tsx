@@ -2,7 +2,7 @@ import React from 'react';
 import {EditorManager} from '../manager';
 import {EditorStoreType} from '../store/editor';
 import {render} from 'amis';
-import {createObject} from 'amis-core';
+import {createObject, RenderOptions} from 'amis-core';
 
 import {observer} from 'mobx-react';
 import Editor from './Editor';
@@ -12,11 +12,13 @@ import {
   RendererInfoResolveEventContext
 } from '../plugin';
 import {autobind} from '../util';
+import {omit} from 'lodash';
 
 export interface SubEditorProps {
   store: EditorStoreType;
   manager: EditorManager;
   theme?: string;
+  amisEnv?: RenderOptions;
 }
 
 @observer
@@ -95,12 +97,15 @@ export class SubEditor extends React.Component<SubEditorProps> {
   }
 
   buildSchema() {
-    const {store, manager} = this.props;
+    const {store, manager, amisEnv} = this.props;
     const subEditorContext = store.subEditorContext;
     const config = manager.config;
     let superEditorData: any = store.superEditorData;
     if (!!subEditorContext) {
-      superEditorData = createObject(store.superEditorData, subEditorContext?.data?.__super);
+      superEditorData = createObject(
+        store.superEditorData,
+        subEditorContext?.data
+      );
     }
     return {
       size: 'full',
@@ -148,9 +153,14 @@ export class SubEditor extends React.Component<SubEditorProps> {
                     isSubEditor={true}
                     iframeUrl={config.iframeUrl}
                     ctx={store.ctx}
-                    amisEnv={config.amisEnv}
+                    amisEnv={amisEnv || config.amisEnv}
+                    appLocale={config.appLocale}
+                    i18nEnabled={config.i18nEnabled}
                     plugins={config.plugins}
-                    showCustomRenderersPanel={store.showCustomRenderersPanel ?? true}
+                    actionOptions={config.actionOptions}
+                    showCustomRenderersPanel={
+                      store.showCustomRenderersPanel ?? true
+                    }
                     isHiddenProps={config.isHiddenProps}
                     $schemaUrl={config.$schemaUrl}
                   />
@@ -219,7 +229,7 @@ export class SubEditor extends React.Component<SubEditorProps> {
         }
       },
       {
-        ...manager.env,
+        ...omit(manager.env, 'replaceText'),
         session: 'editor-dialog',
         theme: theme
       }

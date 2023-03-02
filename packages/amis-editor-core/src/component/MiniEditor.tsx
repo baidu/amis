@@ -29,7 +29,8 @@ export default class MiniEditor extends Editor {
   }
 
   render() {
-    const {preview, className, theme, data, isMobile} = this.props;
+    const {preview, className, theme, data, isMobile, autoFocus, previewProps} =
+      this.props;
 
     return (
       <div
@@ -44,12 +45,14 @@ export default class MiniEditor extends Editor {
         <div className="ae-Editor-inner" onContextMenu={this.handleContextMenu}>
           <div className="ae-Main">
             <Preview
+              {...previewProps}
               isMobile={isMobile}
               editable={!preview}
               store={this.store}
               manager={this.manager}
               theme={theme}
               data={data}
+              autoFocus={autoFocus}
             ></Preview>
           </div>
         </div>

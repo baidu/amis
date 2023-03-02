@@ -1,6 +1,6 @@
-@import 'amis-ui/scss/functions';
-@import 'amis-ui/scss/variables';
-@import 'amis-ui/scss/mixins';
+@import '../../../node_modules/amis-ui/scss/functions';
+@import '../../../node_modules/amis-ui/scss/variables';
+@import '../../../node_modules/amis-ui/scss/mixins';
 @import './mixin';
 @import './variables';
 @import './backTop';
@@ -24,6 +24,8 @@
 @import './control/validation-control';
 @import './control/formItem-control';
 @import './control/formula-control';
+@import './control/expression-formula-control';
+@import './control/textarea-formula-control';
 @import './control/dateshortcut-control';
 @import './control/badge-control';
 @import './control/go-config';
@@ -34,6 +36,7 @@
 @import './control/tree_option_control';
 @import './control/_inpupt-file';
 @import './control/table-column-width-control';
+@import './control/_status';
 
 /* 样式控件 */
 @import './style-control/box-model';
@@ -43,6 +46,7 @@
 @import './style-control/background';
 @import './style-control/size';
 @import './style-control/style-common';
+@import './style-control/theme_classname';
 
 @keyframes growing {
   0% {
@@ -96,6 +100,15 @@
   outline: 2px solid rgba($Editor-hlbox--onActiveConfig-bg, 0.2);
 }
 
+// 公共组件占位样式
+.ae-Editor-common-config div[class*='Wrapper']:empty,
+.ae-Editor-common-config div[class*='Container']:empty {
+  margin: 4px;
+  min-height: 88px;
+  background: #f7f7f8;
+  border: 1px dashed rgb(206, 208, 211);
+}
+
 // 弹窗编辑器面板
 .subEditor-dialog {
   overflow: hidden;
@@ -107,11 +120,10 @@
 .ae-Main {
   flex: 1 1 auto;
   min-width: 0; // 防止撑开
-  transform: scale(1); // 此后内部元素的fixed会相对此dom定位
-  transform-origin: center top;
   background-color: $default-bg-color;
   display: flex;
   flex-direction: column;
+  z-index: 0;
 
   .ant-back-top {
     bottom: 96px;
@@ -135,6 +147,8 @@
   flex-grow: 1;
   background-color: $default-bg-color;
   overflow: hidden;
+  transform: scale(1); // 此后内部元素的fixed会相对此dom定位
+  transform-origin: center top;
 
   .ae-Preview-body {
     position: relative;
@@ -164,19 +178,25 @@
 
     .ae-Preview-inner {
       position: relative;
-      display: flex;
+      // display: flex;
       min-height: 100%;
       background: #fff;
       box-shadow: 0 2px 6px 0 rgba(211, 211, 211, 0.5);
       border-radius: 4px;
+      transform: scale(1);
+      transform-origin: center top;
+      display: flex;
+      flex-direction: column;
 
       > *:first-child {
-        min-width: 100%;
+        // min-width: 100%;
         position: relative;
-        min-height: 100%;
+        // min-height: calc(100vh - 131px); // 确保能撑开画布区
+        flex: 1;
         height: auto;
         background: white;
         box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.2);
+        margin-bottom: 0;
       }
     }
 
@@ -215,6 +235,8 @@
         overflow-x: hidden;
         overflow-y: auto;
         padding: 0;
+        transform: scale(1);
+        transform-origin: center top;
 
         &::-webkit-scrollbar {
           display: none;
@@ -462,41 +484,93 @@
   background-color: #fff;
   transform: translate(-50%, -50%);
   position: absolute;
+  z-index: 100;
   pointer-events: all;
   display: none;
-}
 
-.ae-WResizer {
-  left: 100%;
-  top: 50%;
-  cursor: ew-resize;
+  &[data-value]::before {
+    position: absolute;
+    content: '';
+    pointer-events: none;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    margin: 0;
+    padding: 0;
+    box-sizing: content-box;
+    border: 6px solid rgba(7, 12, 20, 0.85);
+    border-color: transparent transparent transparent rgba(7, 12, 20, 0.85);
+    z-index: 100;
+  }
 
   &[data-value]:after {
     position: absolute;
     content: attr(data-value);
-    background-color: $Editor-theme;
-    right: 15px;
-    top: 50%;
-    transform: translate(0, -50%);
     padding: 2px 8px;
     color: #fff;
+    text-align: center;
+    background-color: rgba(7, 12, 20, 0.85);
+    // background-color: $Editor-theme;
+    box-shadow: 0 2px 8px 0 rgba(7, 12, 20, 0.12);
+  }
+}
+
+.ae-border-WResizer,
+.ae-border-HResizer {
+  position: absolute;
+  top: 0px;
+  right: -2px;
+  width: 2px;
+  height: 100%;
+  border-right: 2px solid $Editor-theme;
+  background-color: #fff;
+  z-index: 99;
+  pointer-events: all;
+  cursor: ew-resize;
+  display: none;
+}
+
+.ae-border-HResizer {
+  top: auto;
+  bottom: -2px;
+  right: 0px;
+  border-right: none;
+  border-bottom: 2px solid $Editor-theme;
+  width: 100%;
+  height: 2px;
+  cursor: ns-resize !important;
+}
+
+.ae-WResizer {
+  left: calc(100% + 1px);
+  top: 50%;
+  cursor: ew-resize;
+
+  &[data-value]:after {
+    right: 20px;
+    top: 50%;
+    transform: translate(0, -50%);
   }
 }
 
 .ae-HResizer {
   left: 50%;
-  top: 100%;
+  top: calc(100% + 1px);
   cursor: ns-resize;
 
+  &[data-value]::before {
+    right: 50%;
+    top: auto;
+    bottom: 8px;
+    transform: translate(50%, 0);
+    border-color: rgba(7, 12, 20, 0.85) transparent transparent transparent;
+  }
+
   &[data-value]:after {
-    position: absolute;
-    content: attr(data-value);
-    background-color: $Editor-theme;
-    bottom: 15px;
+    bottom: 20px;
     left: 50%;
     transform: translate(-50%, 0);
-    padding: 2px 8px;
-    color: #fff;
   }
 }
 
@@ -505,15 +579,13 @@
   top: 100%;
   cursor: nwse-resize;
 
+  &[data-value]::before {
+    border-color: transparent;
+  }
+
   &[data-value]:after {
-    position: absolute;
-    content: attr(data-value);
-    background-color: $Editor-theme;
     bottom: 15px;
     right: 15px;
-    padding: 2px 8px;
-    color: #fff;
-    text-align: center;
   }
 }
 
@@ -544,7 +616,9 @@
 
     .ae-WResizer,
     .ae-HResizer,
-    .ae-Resizer {
+    .ae-Resizer,
+    .ae-border-WResizer,
+    .ae-border-HResizer {
       display: block;
     }
   }
@@ -552,6 +626,16 @@
   &.regionOn {
     background: transparent;
     z-index: 5;
+  }
+
+  &.isFreeContainerElem {
+    // 自由容器的直接子元素拖拽剔除过渡
+    transition: none !important;
+
+    &.selected {
+      pointer-events: all; // 高亮区启用鼠标事件，支持拖拽
+      cursor: move;
+    }
   }
 
   .ae-Editor-toolbar {
@@ -587,21 +671,24 @@
 
     button {
       &.ae-InsertBefore,
-      &.ae-InsertAfter {
+      &.ae-InsertAfter,
+      &.ae-AppendChild {
         pointer-events: all;
         position: absolute;
+        margin: 0;
         background: $Editor-hlbox-bg;
         width: 20px;
         height: 20px;
         line-height: 20px;
-        border-radius: 500px;
-        top: 20%;
+        border-radius: 20px;
+        top: 50%;
+        transform: translate(0, -50%);
 
-        > span > svg {
-          width: 12px;
-          height: 12px;
+        > svg {
+          width: 16px;
+          height: 16px;
           position: absolute;
-          top: 50%;
+          top: 50% !important;
           left: 50%;
           transform: translate(-50%, -50%);
           transition: transform ease-out 0.3s;
@@ -613,7 +700,7 @@
         }
 
         &:hover {
-          > span > svg {
+          > svg {
             transform: translate(-50%, -50%) rotate(90deg);
           }
           box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.12),
@@ -636,6 +723,14 @@
           top: auto;
           bottom: -25px;
         }
+      }
+
+      &.ae-AppendChild {
+        top: 5px;
+        right: 5px;
+        left: auto;
+        bottom: auto;
+        transform: none;
       }
     }
   }
@@ -1051,10 +1146,17 @@
     left: 0;
     width: 100%;
     height: 100%;
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
   }
+}
+
+// 布局容器类元素隐藏标记样式
+[data-editor-id][data-visible='false'][style*='position: static'],
+[data-editor-id][data-visible='false'][style*='position:static'] {
+  position: relative !important;
 }
 
 .ae-Region-placeholder {
@@ -1066,6 +1168,20 @@
   text-transform: uppercase;
   border: 1px dashed rgb(206, 208, 211);
   background: rgba(10, 19, 37, 0.05);
+
+  &.layout-content {
+    height: 100%;
+    min-height: 88px;
+    background: #f7f7f8;
+  }
+
+  &.fill-placeholder {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: calc(100% - 8px) !important;
+    height: calc(100% - 8px) !important;
+  }
 
   &:first-child {
     display: flex;
@@ -1103,7 +1219,7 @@
   }
 
   &.is-dragenter {
-    background-color: #fff;
+    // background-color: #fff;
   }
 
   &.is-dragenter .ae-AddBtn {
@@ -1163,6 +1279,15 @@
       padding: 2px 5px;
     }
   }
+}
+
+// 优化画布区页面展示效果
+[data-region='aside'][data-renderer='page'] {
+  min-height: calc(100vh - 131px);
+}
+
+[data-region='body'][data-renderer='page'] {
+  min-height: calc(100vh - 165px);
 }
 
 .ae-Editor-rhlbox {
@@ -1243,13 +1368,9 @@
       margin: 0 6px;
     }
   }
-  // 区域仅有 [内容区]，也展示头部标签
-  > div.region-tip.is-only-child-region {
-    top: -19px;
-    border-radius: 3px 3px 0 0;
-  }
 
-  // 兼容方案，避免便签被遮挡
+  // 兼容方案，避免便签被遮挡: 区域仅有 [内容区]，头部标签放内部展示
+  > div.region-tip.is-only-child-region,
   &.region-label-within > .region-tip {
     top: 1px;
     border-radius: 0 0 3px 3px;
@@ -1313,7 +1434,7 @@ div.ae-DragImage {
   white-space: nowrap;
   width: 50px;
   height: 30px;
-  z-index: 100000;
+  z-index: -10;
 
   > span {
     position: absolute;
@@ -1647,4 +1768,9 @@ div.ae-DragImage {
       line-height: px2rem(30px);
     }
   }
+}
+
+// 空表单组样式优化
+div[class*='Form-group']:empty {
+  margin-bottom: 0 !important;
 }

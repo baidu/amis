@@ -16,7 +16,7 @@ export default class CodeEditorPanel extends React.Component<PanelProps> {
 
     return (
       <div className="ae-CodePanel">
-        <div className="panel-header">代码</div>
+        <div className="panel-header">源码</div>
         <div className="ae-CodePanel-content">
           <AMisCodeEditor
             value={store.valueWithoutHiddenProps}

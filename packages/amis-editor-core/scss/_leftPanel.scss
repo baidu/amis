@@ -229,6 +229,12 @@
   }
 }
 
+.editor-code-tabs,
+.editor-code-tabs-cont,
+.editor-code-tabs-cont .in {
+  height: 100%;
+}
+
 // 左侧面板悬浮模式时的占位，避免折叠状态遮挡内容区
 .editor-left-panel-fixed-placeholder {
   position: relative;

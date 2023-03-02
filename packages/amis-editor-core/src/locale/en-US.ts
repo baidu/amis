@@ -3,11 +3,11 @@ import {extendLocale} from 'i18n-runtime';
 extendLocale('en-US', {
   '4e7f76261f8c4c6d78998f85fc1f4c6e': 'Margin',
   '16a20243f9b741c08216dc9548de2968': 'Overall',
-  '23ecf42cada8bf2715792d718544d107': 'Extremely small',
-  '391b8fa9c747a1799353ab856e666ad5': 'Small',
-  'fd6e80f1e0199d6ecc3ee81ae04aa9ef': 'Normal',
-  'aed1dfbc31703955e64806b799b67645': 'Medium',
-  'ab18e30c0dc4093ceeda8961fac3d1f4': 'Big',
+  '23ecf42cada8bf2715792d718544d107': 'xs',
+  '391b8fa9c747a1799353ab856e666ad5': 'sm',
+  'fd6e80f1e0199d6ecc3ee81ae04aa9ef': 'default',
+  'aed1dfbc31703955e64806b799b67645': 'md',
+  'ab18e30c0dc4093ceeda8961fac3d1f4': 'lg',
   '461d364c67ec6a45e011ed13f2f7154f': 'Top margin',
   '31e3752986d64c8b36897c8641c8628d': 'Right margin',
   'eabe91d9426b6446f707cea3e7ab2418': 'Bottom margin',
@@ -253,5 +253,15 @@ extendLocale('en-US', {
   'a094e5b7699ea4b61094cc4120170423': 'Data source',
   'eeb6908870e058bc23d52c1e405a054e': 'Previous step',
   '38ce27d84639f3a6e07c00b3b4995c0e': 'Next step',
-  '392342f7750a565f9a79c678c6b12421': '<Hidden state>'
+  '392342f7750a565f9a79c678c6b12421': '<Hidden state>',
+  '8e44aba21d01c1e08cc79f4ebaf0b3f2':
+    'The layout container component does not support dragging and inserting child elements.',
+  '52e6abbe5c11e7cbf14788c1540f8bf2': 'Copied',
+  '372ea9fd27fb7cfacfe1b4ca3046f8d0': 'Configuration Item',
+  '2a6287664de5ab46c65220c7182878ff': 'Cut',
+  'db805d4e361ac2d3fc6047eaea1a7c69': 'Free container',
+  '969e9e56b3812abffa3994f35ea31835': 'Adsorption vessel',
+  '5b804b05e14aaacc75033a4f77fc2844': 'Source code',
+  '69a53230577258b6d97ee932befcc168': '<Column>:',
+  'cc6aeb073ebc3cb29734a49164f8964c': 'Page variables'
 });

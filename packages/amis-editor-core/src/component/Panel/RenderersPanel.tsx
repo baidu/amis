@@ -48,10 +48,20 @@ export default class RenderersPanel extends React.Component<
     manager.switchToRegion(region);
   }
 
-  handleDragStart(e: React.DragEvent) {
+  @autobind
+  handleDragStart(e: React.DragEvent, label: string) {
     const current = e.currentTarget;
     const id = current.getAttribute('data-id')!;
     e.dataTransfer.setData(`dnd-dom/[data-id="${id}"]`, '');
+    /*
+    // 增加默认拖拽过程中元素
+    e.dataTransfer!.effectAllowed = 'move';
+    e.dataTransfer!.setDragImage(
+      this.props.manager?.dnd?.createDragImage(label),
+      0,
+      0
+    );
+    */
   }
 
   // 组件点选使用
@@ -175,7 +185,7 @@ export default class RenderersPanel extends React.Component<
                           data-dnd-data={JSON.stringify(
                             item.scaffold || {type: item.type}
                           )}
-                          onDragStart={this.handleDragStart}
+                          onDragStart={(e: React.DragEvent) => this.handleDragStart(e, item.name)}
                         >
                           <div
                             className="icon-box"
@@ -183,21 +193,15 @@ export default class RenderersPanel extends React.Component<
                             title={`点击添加「${item.name}」`}
                             onClick={this.handleClick}
                           >
-                            {
-                              usePluginIcon && (
-                                <Icon icon={item.pluginIcon} />
-                              )
-                            }
-                            {
-                              !usePluginIcon && (
-                                <i
-                                  className={cx(
-                                   'fa-fw',
-                                   item.icon || 'fa fa-circle-thin'
-                                  )}
-                                />
-                              )
-                            }
+                            {usePluginIcon && <Icon icon={item.pluginIcon} />}
+                            {!usePluginIcon && (
+                              <i
+                                className={cx(
+                                  'fa-fw',
+                                  item.icon || 'fa fa-circle-thin'
+                                )}
+                              />
+                            )}
                           </div>
                           <div
                             className="ae-RendererInfo"

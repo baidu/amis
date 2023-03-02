@@ -1,4 +1,10 @@
-import {findTree, getVariable, mapObject, createObject} from 'amis-core';
+import {
+  findTree,
+  getVariable,
+  mapObject,
+  mapTree,
+  extendObject
+} from 'amis-core';
 import {cast, getEnv, Instance, types} from 'mobx-state-tree';
 import {
   diff,
@@ -7,8 +13,12 @@ import {
   JSONGetById,
   JSONTraverse,
   patchDiff,
+  unitFormula,
+  stringRegExp,
+  needDefaultWidth,
   guid,
-  reGenerateID
+  addStyleClassName,
+  appTranslate
 } from '../../src/util';
 import {
   InsertEventContext,
@@ -31,7 +41,7 @@ import {
   JSONPipeOut,
   JSONUpdate
 } from '../util';
-import {Schema} from 'amis/lib/types';
+import {Schema} from 'amis';
 import {toast, resolveVariable} from 'amis';
 import find from 'lodash/find';
 import {InsertSubRendererPanel} from '../component/Panel/InsertSubRendererPanel';
@@ -105,7 +115,7 @@ export interface TargetName {
   editorId: string;
 }
 
-export const EditorStore = types
+export const MainStore = types
   .model('EditorRoot', {
     isMobile: false,
     isSubEditor: false,
@@ -196,7 +206,15 @@ export const EditorStore = types
     // 自动收集可以供 target/reload 使用的名称列表
     targetNames: types.optional(types.array(types.frozen<TargetName>()), []),
 
-    ctx: types.frozen()
+    ctx: types.frozen(),
+    /** 是否开启应用多语言 */
+    i18nEnabled: types.optional(types.boolean, false),
+    /** 应用语言 */
+    appLocale: types.optional(types.string, 'zh-CN'),
+    /** 应用语料 */
+    appCorpusData: types.optional(types.frozen(), {}),
+    /** 应用多语言状态，用于其它组件进行订阅 */
+    appLocaleState: types.optional(types.number, 0)
   })
   .views(self => {
     return {
@@ -307,7 +325,7 @@ export const EditorStore = types
 
         if (
           (self.activeId || self.selections.length) &&
-          !self.dragId &&
+          (!self.dragId || this.draggableContainer(self.dragId)) &&
           !self.insertOrigId &&
           !self.insertId &&
           !(self.hoverId && self.hoverRegion)
@@ -315,6 +333,12 @@ export const EditorStore = types
           self.activeId
             ? nodes.push(self.activeId)
             : nodes.push.apply(nodes, self.selections);
+        }
+
+        // 判断父元素是否为自由容器元素
+        const curFreeContainerId = this.parentIsFreeContainer(self.activeId);
+        if (curFreeContainerId) {
+          nodes.push(curFreeContainerId);
         }
 
         if (self.insertMode === 'insert' && self.insertId) {
@@ -365,8 +389,8 @@ export const EditorStore = types
         return id ? JSONGetById(self.schema, id, idKey) : self.schema;
       },
 
-      getSchemaParentById(id: string) {
-        return JSONGetParentById(self.schema, id);
+      getSchemaParentById(id: string, skipArray: boolean = false) {
+        return JSONGetParentById(self.schema, id, skipArray);
       },
 
       getSchemaPath(id: string): string {
@@ -498,7 +522,9 @@ export const EditorStore = types
       },
 
       getValueOf(id: string) {
-        return JSONPipeOut(JSONGetById(self.schema, id), false);
+        const schema = JSONGetById(self.schema, id);
+        const res = JSONPipeOut(schema, false);
+        return res;
       },
 
       get valueWithoutHiddenProps() {
@@ -514,7 +540,9 @@ export const EditorStore = types
                 key !== '$$comments' &&
                 key !== '$$commonSchema') ||
               typeof props === 'function' || // pipeIn 和 pipeOut
-              key.substring(0, 2) === '__')
+              key.substring(0, 2) === '__' ||
+              key === 'css' ||
+              key === 'editorState') // 样式不需要出现做json中,
         );
       },
 
@@ -573,6 +601,9 @@ export const EditorStore = types
       },
 
       get dragging() {
+        if (this.draggableContainer(self.dragId)) {
+          return false;
+        }
         return !!(self.dragId || self.dropId);
       },
 
@@ -630,7 +661,10 @@ export const EditorStore = types
         const grouped: {
           [propName: string]: Array<SubRendererInfo>;
         } = {};
-        const regular = keywords ? new RegExp(keywords, 'i') : null;
+
+        const regular = keywords
+          ? new RegExp(stringRegExp(keywords), 'i')
+          : null;
 
         subRenderers.forEach(item => {
           if (
@@ -743,7 +777,7 @@ export const EditorStore = types
           全部: []
         };
         const keywords = self.insertRenderersKeywords;
-        const r = new RegExp(keywords, 'i');
+        const r = new RegExp(stringRegExp(keywords), 'i');
 
         self.insertRenderers
           .concat()
@@ -850,9 +884,115 @@ export const EditorStore = types
         );
         return idx < self.schemaHistory.length - 1;
       },
-
+      // 判断当前元素定位是否为flex容器
+      isFlexContainer(id: string) {
+        const activeId = id ?? self.activeId;
+        const curSchema = this.getSchema(activeId);
+        if (
+          curSchema?.style?.display === 'flex' ||
+          curSchema?.style?.display === 'inline-flex'
+        ) {
+          return true;
+        }
+        return false;
+      },
+      // 判断是否是布局容器中的列级元素
+      isFlexItem(id: string) {
+        const activeId = id ?? self.activeId;
+        const parentSchema = this.getSchemaParentById(activeId, true);
+        if (
+          parentSchema?.type === 'flex' ||
+          parentSchema?.style?.display === 'flex' ||
+          parentSchema?.style?.display === 'inline-flex'
+        ) {
+          return true;
+        }
+        return false;
+      },
+      // 判断父级布局容器是否为垂直排列
+      isFlexColumnItem(id: string) {
+        const activeId = id ?? self.activeId;
+        const parentSchema = this.getSchemaParentById(activeId, true);
+        const isFlexItem =
+          parentSchema?.type === 'flex' ||
+          parentSchema?.style?.display === 'flex' ||
+          parentSchema?.style?.display === 'inline-flex';
+        const isFlexColumn =
+          parentSchema?.direction === 'column' ||
+          parentSchema?.direction === 'column-reverse' ||
+          parentSchema?.style?.flexDirection === 'column' ||
+          parentSchema?.style?.flexDirection === 'column-reverse';
+        if (isFlexItem && isFlexColumn) {
+          return true;
+        }
+        return false;
+      },
+      // 判断是否可拖拽容器元素
+      draggableContainer(id?: string) {
+        const activeId = id || self.activeId;
+        const curSchema = this.getSchema(activeId);
+        const curSchemaStyle = curSchema?.style || {};
+        if (
+          curSchemaStyle?.position === 'fixed' ||
+          curSchemaStyle?.position === 'absolute'
+        ) {
+          return true;
+        }
+        return false;
+      },
+      // 判断父元素是否为自由容器元素，如果父级元素是自由容器则返回父元素ID
+      parentIsFreeContainer(id?: string) {
+        const activeId = id ?? self.activeId;
+        const curNode = this.getNodeById(activeId)!;
+        const parentNode = curNode?.parent;
+        if (!parentNode) {
+          return false;
+        }
+        const curSchema = this.getSchema(parentNode.id);
+        if (curSchema?.isFreeContainer) {
+          return parentNode.id;
+        }
+        return false;
+      },
       get getSuperEditorData() {
         return self.superEditorData || {};
+      },
+      // 获取组件选择树
+      getComponentTreeSource() {
+        return mapTree(
+          self.root.children ?? [],
+          (item: any) => {
+            const schema = item.id
+              ? JSONGetById(self.schema, item.id)
+              : self.schema;
+            let cmptLabel = '';
+            const itemLabel = appTranslate(item?.label);
+            const schemaLabel = appTranslate(schema?.label);
+            const schemaTitle = appTranslate(schema?.title);
+            if (item?.region) {
+              cmptLabel = itemLabel;
+            } else {
+              const labelPrefix =
+                item.type !== 'cell' ? `<${itemLabel}>` : `<列>`;
+              cmptLabel = `${labelPrefix}${
+                schemaLabel ?? schemaTitle ?? itemLabel
+              }`;
+            }
+            cmptLabel = cmptLabel ?? itemLabel;
+            return {
+              id: item.id,
+              label: cmptLabel,
+              value: schema?.id ?? item.id,
+              type: schema?.type ?? item.type,
+              schema,
+              disabled: !!item.region,
+              visible: item.region ? !!item?.children.length : true,
+              children: item?.children
+            };
+          },
+          1,
+          true
+        );
       }
     };
   })
@@ -915,7 +1055,29 @@ export const EditorStore = types
             newSchema,
             (path, key) => key === '$$id'
           );
-          self.schema = patchDiff(self.schema, changes);
+
+          const schema = patchDiff(self.schema, changes);
+
+          // 有数组变动且是新增或者删除成员的时候
+          // 这个时候通常不知道具体是哪个成员发生了变化
+          // 所以让所有成员都重新生成 $$id
+          if (
+            changes?.[0]?.kind === 'A' &&
+            (changes[0].item.kind === 'D' || changes[0].item.kind === 'N') &&
+            Array.isArray(changes[0].path)
+          ) {
+            const path = changes[0].path;
+            const last = path.pop();
+            const host = path.reduce((schema, key) => {
+              return schema[key];
+            }, schema);
+            host[last] = host[last].map((item: any) => ({
+              ...item,
+              $$id: guid()
+            }));
+          }
+
+          self.schema = schema;
         } else {
           self.schema = newSchema;
         }
@@ -936,6 +1098,18 @@ export const EditorStore = types
         }
 
         const child = JSONPipeIn(event.context.data);
+
+        if (parent?.isFreeContainer) {
+          child.style = {
+            position: 'absolute',
+            inset: '10px auto auto 10px'
+          };
+
+          // 特殊元素，需要补上默认宽度
+          if (needDefaultWidth(child.type)) {
+            child.style.width = '300px';
+          }
+        }
 
         const arr = Array.isArray(parent[region])
           ? parent[region].concat()
@@ -1020,7 +1194,6 @@ export const EditorStore = types
         self.activeId = id;
         self.activeRegion = region;
         self.selections = selections;
-
         // if (!self.panelKey && id) {
         //   self.panelKey = 'config';
         // }
@@ -1201,14 +1374,69 @@ export const EditorStore = types
         if (diff) {
           const result = patchDiff(origin, diff);
           this.traceableSetSchema(
-            JSONUpdate(self.schema, id, JSONPipeIn(result), true),
+            JSONUpdate(
+              self.schema,
+              id,
+              addStyleClassName(JSONPipeIn(result)),
+              true
+            ),
             noTrace
           );
         } else {
           this.traceableSetSchema(
-            JSONUpdate(self.schema, id, JSONPipeIn(value), replace),
+            JSONUpdate(
+              self.schema,
+              id,
+              addStyleClassName(JSONPipeIn(value)),
+              replace
+            ),
             noTrace
           );
+        }
+      },
+
+      /**
+       * 更新特殊布局元素的位置（fixed、absolute）
+       */
+      updateContainerStyleByDrag(dragId: string, dx: number, dy: number) {
+        const curDragId = dragId || self.dragId;
+        if (!curDragId) {
+          return;
+        }
+        const curSchema = self.getSchema(curDragId);
+        const curSchemaStyle = curSchema?.style || {};
+        if (
+          (curDragId && curSchemaStyle?.position === 'fixed') ||
+          curSchemaStyle?.position === 'absolute'
+        ) {
+          let curInset = curSchemaStyle.inset || 'auto';
+
+          const insetArr = curInset.split(' ');
+          const inset = {
+            top: insetArr[0] || 'auto',
+            right: insetArr[1] || 'auto',
+            bottom: insetArr[2] || insetArr[0] || 'auto',
+            left: insetArr[3] || insetArr[1] || 'auto'
+          };
+
+          const newInset = `${
+            inset.top !== 'auto' ? unitFormula(inset.top, dy) : 'auto'
+          } ${
+            inset.right !== 'auto' ? unitFormula(inset.right, -dx) : 'auto'
+          } ${
+            inset.bottom !== 'auto' ? unitFormula(inset.bottom, -dy) : 'auto'
+          } ${inset.left !== 'auto' ? unitFormula(inset.left, dx) : 'auto'}`;
+
+          this.changeValueById(curDragId, {
+            ...curSchema,
+            style: {
+              ...curSchemaStyle,
+              inset: newInset
+            }
+          });
+
+          // 更新高亮位置
+          this.calculateHighlightBox([curDragId]);
         }
       },
 
@@ -1352,7 +1580,13 @@ export const EditorStore = types
         }
         self.subEditorContext = {
           ...context,
-          data: context.data || {}
+          data: extendObject(context.data, {
+            __curCmptTreeWrap: {
+              label: context.title,
+              disabled: true
+            },
+            __superCmptTreeSource: self.getComponentTreeSource()
+          })
         };
       },
 
@@ -1588,8 +1822,28 @@ export const EditorStore = types
           }
         });
         this.traceableSetSchema(json);
+      },
+
+      /** 更改应用多语言的状态 */
+      updateAppLocaleState() {
+        self.appLocaleState += 1;
+      },
+
+      /** 设置应用语言，支持应用国际化 */
+      setAppLocale(locale?: string) {
+        if (!locale) {
+          return;
+        }
+        self.appLocale = locale;
+        this.updateAppLocaleState();
+      },
+
+      /** 设置应用的语料数据 */
+      setAppCorpusData(data: any = {}) {
+        self.appCorpusData = data;
+        this.updateAppLocaleState();
       }
     };
   });
 
-export type EditorStoreType = Instance<typeof EditorStore>;
+export type EditorStoreType = Instance<typeof MainStore>;

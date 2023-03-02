@@ -1,6 +1,6 @@
 import {FormItem, utils, Button, Overlay, PopOver, RendererProps} from 'amis';
 import React from 'react';
-import {Schema} from 'amis/lib/types';
+import {Schema} from 'amis';
 import {findDOMNode} from 'react-dom';
 
 interface ClassNameControlProps extends RendererProps {
@@ -962,7 +962,7 @@ export class ClassNameControl extends React.Component<
             key={index}
             onClick={() => this.handlePopOverChange(item)}
             className={cx(
-              'Button Button--xs',
+              'Button Button--size-xs',
               item.className,
               ~this.values.indexOf(item.value)
                 ? 'Button--primary'

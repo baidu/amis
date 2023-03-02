@@ -7,7 +7,8 @@ import {
   BasicPanelItem,
   BuildPanelEventContext,
   PluginEvent,
-  InsertEventContext
+  InsertEventContext,
+  PluginInterface
 } from '../plugin';
 import {registerEditorPlugin} from '../manager';
 import type {MenuItem} from 'amis-ui/lib/components/ContextMenu';
@@ -20,18 +21,21 @@ export class BasicToolbarPlugin extends BasePlugin {
   order = -9999;
 
   buildEditorToolbar(
-    {id, schema}: BaseEventContext,
+    {id, schema, info}: BaseEventContext,
     toolbars: Array<BasicToolbarItem>
   ) {
     const store = this.manager.store;
     const node = store.getNodeById(id)!;
     const parent = store.getSchemaParentById(id);
+    const draggableContainer = this.manager.draggableContainer(id);
+    // 判断是否为吸附容器
+    const isSorptionContainer = schema?.isSorptionContainer || false;
     // let vertical = true;
     const regionNode = node.parent as EditorNodeType; // 父级节点
-    if (Array.isArray(parent) && regionNode?.isRegion) {
+    if ((Array.isArray(parent) && regionNode?.isRegion) || draggableContainer) {
       const host = node.host as EditorNodeType;
 
-      if (node.draggable) {
+      if ((node.draggable || draggableContainer) && !isSorptionContainer) {
         toolbars.push({
           iconSvg: 'drag-btn',
           icon: 'fa fa-arrows',
@@ -43,7 +47,7 @@ export class BasicToolbarPlugin extends BasePlugin {
         });
       }
 
-      const idx = parent.indexOf(schema);
+      const idx = parent?.indexOf(schema);
 
       // if (idx > 0 && node.moveable) {
       //   let icon = 'fa fa-arrow-up';
@@ -215,10 +219,19 @@ export class BasicToolbarPlugin extends BasePlugin {
         }
       }
     });
+
+    if (info.scaffoldForm?.canRebuild ?? info.plugin.scaffoldForm?.canRebuild) {
+      toolbars.push({
+        iconSvg: 'harmmer',
+        tooltip: `快速构建「${info.plugin.name}」`,
+        placement: 'bottom',
+        onClick: () => this.manager.reScaffoldV2(id)
+      });
+    }
   }
 
   buildEditorContextMenu(
-    {id, schema, region, selections}: ContextMenuEventContext,
+    {id, schema, region, info, selections}: ContextMenuEventContext,
     menus: Array<ContextMenuItem>
   ) {
     const manager = this.manager;
@@ -359,19 +372,16 @@ export class BasicToolbarPlugin extends BasePlugin {
 
       menus.push({
         label: '向前移动',
-        disabled:
-          !(Array.isArray(parent) && idx > 0) ||
-          !node.moveable ||
-          !node.prevSibling,
+        disabled: !(Array.isArray(parent) && idx > 0) || !node.moveable,
+        // || !node.prevSibling,
         onSelect: () => manager.moveUp()
       });
 
       menus.push({
         label: '向后移动',
         disabled:
-          !(Array.isArray(parent) && idx < parent.length - 1) ||
-          !node.moveable ||
-          !node.nextSibling,
+          !(Array.isArray(parent) && idx < parent.length - 1) || !node.moveable,
+        // || !node.nextSibling,
         onSelect: () => manager.moveDown()
       });
 
@@ -521,6 +531,22 @@ export class BasicToolbarPlugin extends BasePlugin {
         onSelect: () => manager.showReplacePanel(id)
       });
       */
+    }
+
+    if (
+      !selections.length &&
+      (info.plugin.scaffoldForm?.canRebuild || info.scaffoldForm?.canRebuild)
+    ) {
+      menus.push({
+        label: `快速构建「${info.plugin.name}」`,
+        disabled: schema.$$commonSchema,
+        onSelect: () =>
+          this.manager.reScaffold(
+            id,
+            info.scaffoldForm || info.plugin.scaffoldForm!,
+            schema
+          )
+      });
     }
   }
 

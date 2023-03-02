@@ -14,6 +14,8 @@ interface RightPanelsProps {
   store: EditorStoreType;
   manager: EditorManager;
   theme?: string;
+  appLocale?: string;
+  amisEnv?: any;
 }
 
 interface RightPanelsStates {
@@ -144,16 +146,13 @@ export class RightPanels extends React.Component<
                         editor-tooltip={panel.title}
                         tooltip-position="left"
                       >
-                        {
-                          usePluginIcon && (
-                            <Icon icon={panel.pluginIcon} className='pluginIcon' />
-                          )
-                        }
-                        {
-                          !usePluginIcon && (
-                             <i className={`fa ${panel.icon}`} />
-                          )
-                        } 
+                        {usePluginIcon && (
+                          <Icon
+                            icon={panel.pluginIcon}
+                            className="pluginIcon"
+                          />
+                        )}
+                        {!usePluginIcon && <i className={`fa ${panel.icon}`} />}
                       </span>
                     }
                     className={`editorPanel-tabs-pane ae-Editor-${panel.key}Pane`}

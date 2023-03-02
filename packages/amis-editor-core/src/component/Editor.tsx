@@ -2,12 +2,13 @@ import React, {Component} from 'react';
 import cx from 'classnames';
 import Preview from './Preview';
 import {autobind} from '../util';
-import {EditorStore, EditorStoreType} from '../store/editor';
+import {MainStore, EditorStoreType} from '../store/editor';
 import {SchemaObject} from 'amis/lib/Schema';
 import {EditorManager, EditorManagerConfig, PluginClass} from '../manager';
 import {reaction} from 'mobx';
 import {RenderOptions, toast} from 'amis';
 import {PluginEventListener, RendererPluginAction} from '../plugin';
+import {reGenerateID} from '../util';
 import {SubEditor} from './SubEditor';
 import Breadcrumb from './Breadcrumb';
 import {destroy} from 'mobx-state-tree';
@@ -16,6 +17,7 @@ import {PopOverForm} from './PopOverForm';
 import {ContextMenuPanel} from './Panel/ContextMenuPanel';
 import {LeftPanels} from './Panel/LeftPanels';
 import {RightPanels} from './Panel/RightPanels';
+import type {VariableGroup, VariableOptions} from '../variable';
 
 export interface EditorProps extends PluginEventListener {
   value: SchemaObject;
@@ -28,6 +30,10 @@ export interface EditorProps extends PluginEventListener {
   $schemaUrl?: string;
   schemas?: Array<any>;
   theme?: string;
+  /** 应用语言类型 */
+  appLocale?: string;
+  /** 是否开启多语言 */
+  i18nEnabled?: boolean;
   showCustomRenderersPanel?: boolean;
   amisDocHost?: string;
   superEditorData?: any;
@@ -56,7 +62,14 @@ export interface EditorProps extends PluginEventListener {
    */
   disableBultinPlugin?: boolean;
 
-  plugins?: Array<PluginClass>;
+  disablePluginList?:
+    | Array<string>
+    | ((id: string, plugin: PluginClass) => boolean);
+
+  plugins?: Array<
+    | PluginClass
+    | [PluginClass, Record<string, any> | (() => Record<string, any>)]
+  >;
 
   /**
    * 传给预览器的其他属性
@@ -88,6 +101,11 @@ export interface EditorProps extends PluginEventListener {
       [propName: string]: RendererPluginAction;
     };
   };
+
+  /** 上下文变量 */
+  variables?: VariableGroup[];
+  /** 变量配置 */
+  variableOptions?: VariableOptions;
 
   onUndo?: () => void; // 用于触发外部 undo 事件
   onRedo?: () => void; // 用于触发外部 redo 事件
@@ -123,14 +141,17 @@ export default class Editor extends Component<EditorProps> {
     const config: EditorManagerConfig = {
       ...rest
     };
-    this.store = EditorStore.create(
+    this.store = MainStore.create(
       {
         isMobile: props.isMobile,
         theme: props.theme,
         isSubEditor,
         amisDocHost: props.amisDocHost,
         ctx: props.ctx,
-        superEditorData
+        superEditorData,
+        appLocale: props.appLocale,
+        appCorpusData: props?.amisEnv?.replaceText,
+        i18nEnabled: props?.i18nEnabled ?? false
       },
       config
     );
@@ -140,31 +161,15 @@ export default class Editor extends Component<EditorProps> {
     }
     this.manager = new EditorManager(config, this.store);
 
-    (window as any).editorStore = this.store;
+    // 子编辑器不再重新设置 editorStore
+    if (!(props.isSubEditor && (window as any).editorStore)) {
+      (window as any).editorStore = this.store;
+    }
 
     // 添加快捷键事件
     document.addEventListener('keydown', this.handleKeyDown);
 
-    // 增加插件动态添加事件响应机制
-    window.addEventListener(
-      'message',
-      (event: any) => {
-        if (!event.data) {
-          return;
-        }
-        if (
-          event.data.type === 'amis-widget-register-event' &&
-          event.data.editorPluginName
-        ) {
-          console.info(
-            '[amis-editor]响应动态添加插件事件：',
-            event.data.editorPluginName
-          );
-          this.manager.dynamicAddPlugin(event.data.editorPluginName);
-        }
-      },
-      false
-    );
+    window.addEventListener('message', this.handleMessage, false);
 
     this.unReaction = reaction(
       () => this.store.schemaRaw,
@@ -203,10 +208,19 @@ export default class Editor extends Component<EditorProps> {
     if (props.ctx !== prevProps.ctx) {
       this.store.setCtx(props.ctx);
     }
+
+    if (props.appLocale !== prevProps.appLocale) {
+      this.store.setAppLocale(props.appLocale);
+    }
+
+    if (props?.amisEnv?.replaceText !== prevProps?.amisEnv?.replaceText) {
+      this.store.setAppCorpusData(props?.amisEnv?.replaceText);
+    }
   }
 
   componentWillUnmount() {
     document.removeEventListener('keydown', this.handleKeyDown);
+    window.removeEventListener('message', this.handleMessage);
     this.unReaction();
     this.manager.dispose();
     destroy(this.store);
@@ -347,6 +361,24 @@ export default class Editor extends Component<EditorProps> {
     }
   }
 
+  @autobind
+  handleMessage(event: any) {
+    if (!event.data) {
+      return;
+    }
+    // 增加插件动态添加事件响应机制
+    if (
+      event.data.type === 'amis-widget-register-event' &&
+      event.data.editorPluginName
+    ) {
+      console.info(
+        '[amis-editor]响应动态添加插件事件：',
+        event.data.editorPluginName
+      );
+      this.manager.dynamicAddPlugin(event.data.editorPluginName);
+    }
+  }
+
   // 右键菜单
   @autobind
   handleContextMenu(e: React.MouseEvent<HTMLElement>) {
@@ -462,9 +494,9 @@ export default class Editor extends Component<EditorProps> {
       );
       if (this.store.activeId === this.curCopySchemaData.$$id) {
         // 复制和粘贴是同一个元素，则直接追加到当前元素后面
-        this.manager.appendSiblingSchema(curSimpleSchema);
+        this.manager.appendSiblingSchema(reGenerateID(curSimpleSchema));
       } else {
-        this.manager.addElem(curSimpleSchema);
+        this.manager.addElem(reGenerateID(curSimpleSchema));
       }
     }
   }
@@ -480,12 +512,15 @@ export default class Editor extends Component<EditorProps> {
       isMobile,
       className,
       theme,
+      appLocale,
       data,
       iframeUrl,
       previewProps,
       autoFocus,
-      isSubEditor
+      isSubEditor,
+      amisEnv
     } = this.props;
+
     return (
       <div
         ref={this.mainRef}
@@ -518,7 +553,9 @@ export default class Editor extends Component<EditorProps> {
               store={this.store}
               manager={this.manager}
               theme={theme}
+              appLocale={appLocale}
               data={data}
+              amisEnv={amisEnv}
               autoFocus={autoFocus}
               toolbarContainer={this.getToolbarContainer}
             ></Preview>
@@ -529,13 +566,20 @@ export default class Editor extends Component<EditorProps> {
               store={this.store}
               manager={this.manager}
               theme={theme}
+              appLocale={appLocale}
+              amisEnv={amisEnv}
             />
           )}
 
           {!preview && <ContextMenuPanel store={this.store} />}
         </div>
 
-        <SubEditor store={this.store} manager={this.manager} theme={theme} />
+        <SubEditor
+          store={this.store}
+          manager={this.manager}
+          theme={theme}
+          amisEnv={amisEnv}
+        />
         <ScaffoldModal
           store={this.store}
           manager={this.manager}

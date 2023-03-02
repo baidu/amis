@@ -1,13 +1,13 @@
 /**
  * @file 功能类函数集合。
  */
-import {utils, hasIcon} from 'amis';
+import {utils, hasIcon, mapObject} from 'amis';
 import isEqual from 'lodash/isEqual';
 import {isObservable, reaction} from 'mobx';
 import DeepDiff, {Diff} from 'deep-diff';
 import isPlainObject from 'lodash/isPlainObject';
 import isNumber from 'lodash/isNumber';
-import type {Schema} from 'amis/lib/types';
+import type {Schema} from 'amis';
 import {SchemaObject} from 'amis/lib/Schema';
 
 const {
@@ -197,6 +197,32 @@ export function JSONPipeOut(
   return obj;
 }
 
+/**
+ * 如果存在css属性，则给对应的className加上name
+ */
+export function addStyleClassName(obj: Schema) {
+  const css = obj.css;
+  if (!obj.css) {
+    return obj;
+  }
+  let toUpdate: any = {};
+  Object.keys(css).forEach(key => {
+    if (key !== '$$id') {
+      let classname = `${key}-${obj.id.replace('u:', '')}`;
+      if (!obj[key]) {
+        toUpdate[key] = classname;
+      } else if (!~obj[key].indexOf(classname)) {
+        toUpdate[key] = obj[key] + ' ' + classname;
+      }
+    }
+  });
+  obj = cleanUndefined({
+    ...obj,
+    ...toUpdate
+  });
+  return obj;
+}
+
 export function JSONGetByPath(
   json: any,
   paths: Array<string>,
@@ -211,7 +237,11 @@ export function JSONGetByPath(
   return target;
 }
 
-export function JSONGetPathById(json: any, id: string, idKey: string = '$$id'): Array<string> | null {
+export function JSONGetPathById(
+  json: any,
+  id: string,
+  idKey: string = '$$id'
+): Array<string> | null {
   let paths: Array<string> = [];
   let resolved: boolean = false;
   let stack: Array<any> = [
@@ -508,7 +538,6 @@ export function JSONMoveDownById(json: any, id: string) {
     if (index === arr.length - 1) {
       return;
     }
-
     arr.splice(index, 1);
     arr.splice(index + 1, 0, node);
   });
@@ -551,6 +580,31 @@ export function reGenerateID(
     return value;
   });
   return json;
+}
+
+// 遍历json，每层元素自动生成uid。
+export function JsonGenerateID(json: any) {
+  if (Object.isFrozen(json)) {
+    return;
+  }
+  if (Array.isArray(json)) {
+    json.forEach((item: any) => JsonGenerateID(item));
+  }
+  if (!isObject(json) || isObservable(json)) {
+    return;
+  }
+
+  if (json.type && !json.id) {
+    json.id = generateNodeId();
+  }
+
+  Object.keys(json).forEach(key => {
+    let curElem = json[key];
+    if (isObject(curElem) || Array.isArray(curElem)) {
+      // 非对象和数组类型字段不进入递归
+      JsonGenerateID(curElem);
+    }
+  });
 }
 
 export function createElementFromHTML(htmlString: string): HTMLElement {
@@ -639,6 +693,14 @@ export function filterSchemaForEditor(schema: any): any {
       }
       const filtered = filterSchemaForEditor(value);
       mapped[key] = filtered;
+
+      // 组件切换状态修改classname
+      if (/[C|c]lassName/.test(key) && schema.editorState) {
+        mapped[key] = mapped[key]
+          ? mapped[key] + ' ' + schema.editorState
+          : schema.editorState;
+        modified = true;
+      }
 
       if (filtered !== value) {
         modified = true;
@@ -767,6 +829,9 @@ export function patchDiff(left: any, changes: Array<DiffChange> | undefined) {
   );
 }
 
+/**
+ * 因为左侧是个不可变动的对象，所以先 copy 了对应的属性，再传给 DeepDiff.applyChange
+ */
 function applyChange(target: any, source: any, change: DiffChange) {
   if (target && Array.isArray(change?.path)) {
     target = target === source ? {...target} : target;
@@ -897,4 +962,124 @@ export function generateNodeId() {
 // 是否使用 plugin 自带的 svg 版 icon
 export function isHasPluginIcon(plugin: any) {
   return plugin.pluginIcon && hasIcon(plugin.pluginIcon);
+}
+
+/**
+ * 判断是否是布局容器类组件
+ * 备注：当前只有一个flex布局容器
+ */
+export function isLayoutPlugin(plugin: any) {
+  if (plugin && plugin.type === 'flex') {
+    return true;
+  }
+  return false;
+}
+
+/**
+ * 单位数值运算
+ * 备注：支持带单位的数值进行运算
+ */
+export function unitFormula(insetStr: string, offsetVal: number) {
+  if (insetStr === 'auto') {
+    return 'auto';
+  }
+  const insetNum = parseInt(insetStr);
+  let curOffsetVal = offsetVal;
+  if (!isNumber(offsetVal)) {
+    curOffsetVal = parseInt(offsetVal);
+  }
+  let insetUnit = insetStr.substring(insetNum.toString().length);
+  if (!insetUnit) {
+    insetUnit = 'px';
+  }
+  const newOffsetVal = insetNum + curOffsetVal;
+  return `${newOffsetVal}${insetUnit}`;
+  // return `${newOffsetVal >= 0 ? newOffsetVal : '0'}${insetUnit}`; // 限制拖拽区域
+}
+
+/**
+ * 过滤搜索字段中的特殊字符
+ */
+export function stringRegExp(keyword: string) {
+  return keyword.replace(/[|\\{}()[\]^$+*?.]/g, '');
+}
+
+/**
+ * 过滤搜索字段中的特殊字符
+ */
+export function needDefaultWidth(elemType: string) {
+  const needDefaultWidthElemType: Array<string> = [
+    'divider',
+    'crud2',
+    'crud',
+    'list',
+    'picker',
+    'table',
+    'table-view',
+    'grid',
+    'cards',
+    'card',
+    'form',
+    'progress',
+    'diff-editor',
+    'editor',
+    'input-range',
+    'flex'
+  ];
+  if (needDefaultWidthElemType.indexOf(elemType) > -1) {
+    return true;
+  }
+  return false;
+}
+
+/** 是否开启应用国际化 */
+export function getI18nEnabled() {
+  return (window as any)?.editorStore?.i18nEnabled ?? false;
+}
+
+/** schema 翻译方法 */
+export function translateSchema(schema: any, replaceData?: any) {
+  replaceData = replaceData || (window as any)?.editorStore?.appCorpusData;
+  if (!isPlainObject(replaceData)) {
+    return schema;
+  }
+  return mapObject(schema, (item: any) => {
+    return replaceData[item] || item;
+  });
+}
+
+/** 应用级别的翻译方法 */
+export function appTranslate(value?: string) {
+  if (!isString(value)) {
+    return value;
+  }
+  return (window as any)?.editorStore?.appCorpusData?.[value!] || value;
+}
+
+/**
+ * 判断是否需要给组件增加填充占位样式
+ */
+export function needFillPlaceholder(curProps: any) {
+  let needFillPlaceholder = false;
+  if (!curProps) {
+    return false;
+  }
+  // 识别page中的aside、body
+  if (
+    curProps.rendererName === 'page' &&
+    (curProps.name === 'aside' || curProps.name === 'body')
+  ) {
+    return true;
+  }
+  // 识别自由容器
+  if (curProps.node?.schema?.isFreeContainer) {
+    return true;
+  }
+  // 支持在plugin中配置
+  if (curProps.$$editor?.needFillPlaceholder) {
+    needFillPlaceholder = true;
+  } else if (curProps.regionConfig?.needFillPlaceholder) {
+    needFillPlaceholder = true;
+  }
+  return needFillPlaceholder;
 }

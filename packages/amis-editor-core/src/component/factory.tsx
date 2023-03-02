@@ -16,10 +16,11 @@ import {render as reactRender, unmountComponentAtNode} from 'react-dom';
 import {autobind, diff} from '../util';
 import {createObject} from 'amis-core';
 import {CommonConfigWrapper} from './CommonConfigWrapper';
-import {Schema} from 'amis/lib/types';
+import {Schema} from 'amis';
 import type {DataScope} from 'amis-core';
 import type {RendererConfig} from 'amis-core/lib/factory';
 import {SchemaCollection} from 'amis/lib/Schema';
+import {omit} from 'lodash';
 
 // 创建 Node Store 并构建成树
 export function makeWrapper(
@@ -53,7 +54,7 @@ export function makeWrapper(
     }
 
     UNSAFE_componentWillMount() {
-      const parent: EditorNodeType = this.context || store.root;
+      const parent: EditorNodeType = (this.context as any) || store.root;
       if (!info.id) {
         return;
       }
@@ -127,7 +128,7 @@ export function makeWrapper(
 
     componentWillUnmount() {
       if (this.editorNode && isAlive(this.editorNode)) {
-        const parent: EditorNodeType = this.context || store.root;
+        const parent: EditorNodeType = (this.context as any) || store.root;
         parent.removeChild(this.editorNode);
       }
 
@@ -153,6 +154,12 @@ export function makeWrapper(
     @autobind
     renderChild(region: string, node: Schema, props: any) {
       const {render} = this.props; // render: amis渲染器
+
+      // $$id 变化，渲染器最好也变化
+      if (node.$$id) {
+        props = props || {}; // props 可能为 undefined
+        props.key = node.$$id || props.key;
+      }
 
       return render(region, node, {...props, $$editor: info});
     }
@@ -183,7 +190,9 @@ export function makeWrapper(
         : NodeWrapper; /*)*/
 
       return (
-        <EditorNodeContext.Provider value={this.editorNode || this.context}>
+        <EditorNodeContext.Provider
+          value={this.editorNode || (this.context as any)}
+        >
           <Wrapper
             {...rest}
             render={this.renderChild}
@@ -212,7 +221,10 @@ function SchemaFrom({
   submitOnChange,
   node,
   manager,
-  justify
+  justify,
+  ctx,
+  pipeIn,
+  pipeOut
 }: {
   propKey: string;
   env: any;
@@ -231,6 +243,9 @@ function SchemaFrom({
   manager: EditorManager;
   panelById?: string;
   justify?: boolean;
+  ctx?: any;
+  pipeIn?: (value: any) => any;
+  pipeOut?: (value: any) => any;
 }) {
   let containerKey = 'body';
 
@@ -281,20 +296,23 @@ function SchemaFrom({
     };
   }
 
+  const finalValue = pipeIn ? pipeIn(value) : value;
+
   return render(
     schema,
     {
-      onFinished: (newValue: any) => {
+      onFinished: async (newValue: any) => {
+        newValue = pipeOut ? await pipeOut(newValue) : newValue;
         const diffValue = diff(value, newValue);
         onChange(newValue, diffValue);
       },
-      data: value,
+      data: ctx ? createObject(ctx, finalValue) : finalValue,
       node: node,
       manager: manager,
       popOverContainer
     },
     {
-      ...env
+      ...omit(env, 'replaceText')
       // theme: 'cxd' // 右侧属性配置面板固定使用cxd主题展示
     }
   );
@@ -311,6 +329,8 @@ export function makeSchemaFormRender(
     justify?: boolean;
     panelById?: string;
     formKey?: string;
+    pipeIn?: (value: any) => any;
+    pipeOut?: (value: any) => any;
   }
 ) {
   const env = {...manager.env, session: 'schema-form'};
@@ -357,7 +377,10 @@ export function makeSchemaFormRender(
               )
             : undefined
         }
-        value={createObject(ctx, value)}
+        value={value}
+        ctx={ctx}
+        pipeIn={schema.pipeIn}
+        pipeOut={schema.pipeOut}
         submitOnChange={schema.submitOnChange}
         onChange={onChange}
         env={env}
@@ -514,6 +537,18 @@ function insertRegion(
   info: RendererInfo,
   manager: EditorManager
 ): JSX.Element {
+  // 如果没有开启这些区域的内容修改功能，则跳过插入逻辑
+  if (info.memberImmutable === true) {
+    return dom;
+  } else if (
+    Array.isArray(info.memberImmutable) &&
+    regions.every(reg =>
+      (info.memberImmutable as Array<string>).includes(reg.key)
+    )
+  ) {
+    return dom;
+  }
+
   const rootRegion = find(regions, r => !r.matchRegion);
 
   if (rootRegion) {
