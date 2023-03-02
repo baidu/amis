@@ -343,8 +343,8 @@ setSchemaTpl('dataMap', {
     getSchemaTpl('switch', {
       label: tipedLabel(
         '数据映射',
-        '<div> 当开启数据映射时，弹框中的数据只会包含设置的部分，请绑定数据。如：{"a": "${a}", "b": 2}。</div>' +
-          '<div>当值为 __undefined时，表示删除对应的字段，可以结合{"&": "\$\$"}来达到黑名单效果。</div>'
+        '<div> 当开启数据映射时，弹框中的数据只会包含设置的部分，请绑定数据。如：{"a": "\\${a}", "b": 2}。</div>' +
+          '<div>当值为 __undefined时，表示删除对应的字段，可以结合{"&": "\\$$"}来达到黑名单效果。</div>'
       ),
       name: 'dataMapSwitch',
       pipeIn: defaultValue(false),
