@@ -25,7 +25,8 @@ import {
   findTreeIndex,
   hasAbility,
   getTreeParent,
-  getTreeAncestors
+  getTreeAncestors,
+  flattenTree
 } from 'amis-core';
 import {Option, Options, value2array} from './Select';
 import {themeable, ThemeProps, highlight} from 'amis-core';
@@ -143,6 +144,10 @@ interface TreeSelectorProps extends ThemeProps, LocaleProps, SpinnerExtraProps {
   draggable?: boolean;
   onMove?: (dropInfo: IDropInfo) => void;
   itemRender?: (option: Option, states: ItemRenderStates) => JSX.Element;
+  // 是否允许全选
+  checkAll?: boolean;
+  // 全选按钮文案
+  checkAllLabel?: string;
   enableDefaultIcon?: boolean;
 }
 
@@ -558,26 +563,28 @@ export class TreeSelector extends React.Component<
       {
         value
       },
-      () => {
-        const {
-          joinValues,
-          extractValue,
-          valueField,
-          delimiter,
-          onChange,
-          enableNodePath
-        } = props;
+      () => this.fireChange(value)
+    );
+  }
 
-        onChange(
-          enableNodePath
-            ? this.transform2NodePath(value)
-            : joinValues
-            ? value.map(item => item[valueField as string]).join(delimiter)
-            : extractValue
-            ? value.map(item => item[valueField as string])
-            : value
-        );
-      }
+  fireChange(value: Option[]) {
+    const {
+      joinValues,
+      extractValue,
+      valueField,
+      delimiter,
+      onChange,
+      enableNodePath
+    } = this.props;
+
+    onChange(
+      enableNodePath
+        ? this.transform2NodePath(value)
+        : joinValues
+        ? value.map(item => item[valueField as string]).join(delimiter)
+        : extractValue
+        ? value.map(item => item[valueField as string])
+        : value
     );
   }
 
@@ -1253,6 +1260,77 @@ export class TreeSelector extends React.Component<
     );
   }
 
+  isEmptyOrNotExist(obj: any) {
+    return obj === '' || obj === undefined || obj === null;
+  }
+
+  getAvailableOptions() {
+    const {options, onlyChildren, valueField} = this.props;
+    const flattendOptions = flattenTree(options, item =>
+      onlyChildren
+        ? item.children
+          ? null
+          : item
+        : this.isEmptyOrNotExist(item[valueField || 'value'])
+        ? null
+        : item
+    ).filter(a => a && !a.disabled);
+
+    return flattendOptions as Option[];
+  }
+
+  @autobind
+  handleCheckAll(availableOptions: Option[], checkedAll: boolean) {
+    this.setState(
+      {
+        value: checkedAll ? [] : availableOptions
+      },
+      () => this.fireChange(checkedAll ? [] : availableOptions)
+    );
+  }
+
+  renderCheckAll() {
+    const {
+      multiple,
+      checkAll,
+      checkAllLabel,
+      classnames: cx,
+      translate: __,
+      disabled
+    } = this.props;
+
+    if (!multiple || !checkAll) {
+      return null;
+    }
+
+    const availableOptions = this.getAvailableOptions();
+
+    const checkedAll = availableOptions.every(option =>
+      this.isItemChecked(option)
+    );
+    const checkedPartial = availableOptions.some(option =>
+      this.isItemChecked(option)
+    );
+
+    return (
+      <div
+        className={cx('Tree-itemLabel')}
+        onClick={() => this.handleCheckAll(availableOptions, checkedAll)}
+      >
+        <Checkbox
+          size="sm"
+          disabled={disabled}
+          checked={checkedPartial}
+          partial={checkedPartial && !checkedAll}
+        />
+
+        <div className={cx('Tree-itemLabel-item')}>
+          <span className={cx('Tree-itemText')}>{__(checkAllLabel)}</span>
+        </div>
+      </div>
+    );
+  }
+
   @autobind
   renderList(list: Options, value: any[]) {
     const {virtualThreshold, itemHeight = 32} = this.props;
@@ -1261,6 +1339,7 @@ export class TreeSelector extends React.Component<
         <VirtualList
           height={list.length > 8 ? 266 : list.length * itemHeight}
           itemCount={list.length}
+          prefix={this.renderCheckAll()}
           itemSize={itemHeight}
           //! hack: 让 VirtualList 重新渲染
           renderItem={this.renderItem.bind(this)}
@@ -1268,7 +1347,12 @@ export class TreeSelector extends React.Component<
       );
     }
 
-    return list.map((item, index) => this.renderItem({index}));
+    return (
+      <>
+        {this.renderCheckAll()}
+        {list.map((item, index) => this.renderItem({index}))}
+      </>
+    );
   }
 
   render() {
