@@ -31,7 +31,7 @@ import {withRootStore} from '../WithRootStore';
 import {FormBaseControl, FormItemWrap} from './Item';
 import {Api} from '../types';
 import {TableStore} from '../store/table';
-import {pick} from 'lodash';
+import pick from 'lodash/pick';
 
 export interface ControlOutterProps extends RendererProps {
   formStore?: IFormStore;
