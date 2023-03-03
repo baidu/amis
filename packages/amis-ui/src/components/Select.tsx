@@ -1239,7 +1239,11 @@ export class Select extends React.Component<SelectProps, SelectState> {
           className={cx('Select-popover')}
           style={{
             width:
-              BasePopover.calcOverlayWidth(overlay) ||
+              (overlay &&
+                BasePopover.calcOverlayWidth(
+                  overlay,
+                  this.target?.offsetWidth
+                )) ||
               (this.target ? this.target.offsetWidth : 'auto')
           }}
           onHide={this.close}
