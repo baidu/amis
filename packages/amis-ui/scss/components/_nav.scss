@@ -1,7 +1,7 @@
 .#{$ns}Nav {
   position: relative;
 
-  .#{$ns}Nav-itemIcon {
+  .#{$ns}Menu-item-icon {
     margin-right: var(--gap-sm);
   }
 
@@ -12,7 +12,7 @@
     padding: 0;
     position: relative;
 
-    img.#{$ns}Nav-itemIcon {
+    img.#{$ns}Menu-item-icon {
       height: var(--Tabs-linkFontSize);
       vertical-align: middle;
     }
