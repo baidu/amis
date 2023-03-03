@@ -70,19 +70,19 @@ setSchemaTpl(
       },
       options: [
         {
-          label: '默认',
+          label: '默认(static)',
           value: 'static'
         },
         {
-          label: '相对',
+          label: '相对(relative)',
           value: 'relative'
         },
         {
-          label: '固定(相对窗口)',
+          label: '固定(fixed)',
           value: 'fixed'
         },
         {
-          label: '绝对(相对父容器)',
+          label: '绝对(absolute)',
           value: 'absolute'
         }
       ]

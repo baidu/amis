@@ -20,9 +20,9 @@ export class PagePlugin extends BasePlugin {
   // 组件名称
   name = '页面';
   isBaseComponent = true;
-  // 注释掉是为了不让它在出现在组件列表中，因为只有顶级才会用到这个。
-  // description =
-  //   '页面渲染器，页面的顶级入口。包含多个区域，您可以选择在不同的区域里面放置不同的渲染器。';
+  // 只有顶级才会用到这个page组件
+  disabledRendererPlugin = true;
+  description = '页面渲染器，页面的顶级入口。包含多个区域，您可以选择在不同的区域里面放置不同的渲染器。';
   docLink = '/amis/zh-CN/components/page';
   tags = '容器';
   icon = 'fa fa-desktop';
@@ -33,8 +33,7 @@ export class PagePlugin extends BasePlugin {
     body: [
       {
         type: 'tpl',
-        tpl: '内容',
-        wrapperComponent: ''
+        tpl: '内容'
       }
     ]
   };

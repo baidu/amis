@@ -40,7 +40,7 @@ const defaultFlexContainerSchema = {
     defaultFlexColumnSchema('第三列')
   ],
   style: {
-    position: 'static',
+    position: 'relative',
   },
   direction: "row",
   justify: 'flex-start',
