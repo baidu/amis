@@ -385,7 +385,8 @@ export default class Page extends React.Component<PageProps> {
       messages,
       asideSticky,
       data,
-      dispatchEvent
+      dispatchEvent,
+      env
     } = this.props;
 
     this.mounted = true;
@@ -398,6 +399,11 @@ export default class Page extends React.Component<PageProps> {
     }
 
     const rendererEvent = await dispatchEvent('init', data, this);
+
+    // Page加载完成时触发 pageLoaded 事件
+    if (env?.tracker) {
+      env.tracker({eventType: 'pageLoaded'});
+    }
 
     if (rendererEvent?.prevented) {
       return;

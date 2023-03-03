@@ -436,6 +436,7 @@ export interface EventTrack {
     | 'reset-and-submit'
     | 'formItemChange'
     | 'tabChange'
+    | 'pageLoaded'
     | 'pageHidden'
     | 'pageVisible';
 
