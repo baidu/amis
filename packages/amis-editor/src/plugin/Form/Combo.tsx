@@ -564,6 +564,7 @@ export class ComboControlPlugin extends BasePlugin {
                 name: 'multiLine',
                 label: '多行展示',
                 pipeIn: defaultValue(false),
+                visibleOn: '!data.tabsMode',
                 onChange: (
                   value: boolean,
                   oldValue: any,
@@ -577,7 +578,7 @@ export class ComboControlPlugin extends BasePlugin {
                 }
               }),
               getSchemaTpl('switch', {
-                visibleOn: 'data.multiLine',
+                visibleOn: '!data.tabsMode && data.multiLine',
                 name: 'noBorder',
                 label: '去掉边框',
                 pipeIn: defaultValue(false)
