@@ -117,6 +117,32 @@ function parseMargin(data: any, style: CSSStyle) {
   });
 }
 
+/**
+ * 目前只有部分支持
+ * http://officeopenxml.com/WPparagraph-textFrames.php
+ */
+function parseFrame(data: any, style: CSSStyle) {
+  for (const key in data) {
+    const value = data[key];
+    switch (key) {
+      case WAttr.dropCap:
+        if (value === 'drop') {
+          style['float'] = 'left';
+        }
+        break;
+
+      case WAttr.h:
+        style['height'] = parseSize(value, WAttr.h);
+
+      case WAttr.w:
+        style['width'] = parseSize(value, WAttr.w);
+
+      default:
+        console.warn('parseFrame: unknown attribute ' + key);
+    }
+  }
+}
+
 const HighLightColor = 'transparent';
 
 /**
@@ -135,6 +161,10 @@ export function parsePr(data: any, type: 'r' | 'p' = 'p') {
 
       case WTag.jc:
         style['text-align'] = jcToTextAlign(value[WAttr.val]);
+        break;
+
+      case WTag.framePr:
+        parseFrame(value, style);
         break;
 
       case WTag.pBdr:

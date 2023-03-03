@@ -11,6 +11,7 @@ export const WTag = {
   color: 'w:color',
   shd: 'w:shd',
   spacing: 'w:spacing',
+  framePr: 'w:framePr',
   rPr: 'w:rPr',
   pPr: 'w:pPr',
   tblPr: 'w:tblPr',
@@ -116,8 +117,9 @@ export const WAttr = {
   eastAsiaTheme: '@_w:eastAsiaTheme',
   csTheme: '@_w:csTheme',
   w: '@_w:w',
-  rId: '@_r:id',
+  h: '@_w:h',
   anchor: '@_w:anchor',
+  dropCap: '@_w:dropCap',
   name: '@_w:name'
 };
 
