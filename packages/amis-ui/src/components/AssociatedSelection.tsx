@@ -126,7 +126,9 @@ export class AssociatedSelection extends BaseSelection<
       labelField,
       virtualThreshold,
       itemHeight,
-      loadingConfig
+      loadingConfig,
+      checkAll,
+      checkAllLabel
     } = this.props;
 
     const selectdOption = BaseSelection.resolveSelected(
@@ -214,6 +216,8 @@ export class AssociatedSelection extends BaseSelection<
                   virtualThreshold={virtualThreshold}
                   itemHeight={itemHeight}
                   loadingConfig={loadingConfig}
+                  checkAllLabel={checkAllLabel}
+                  checkAll={checkAll}
                 />
               ) : rightMode === 'chained' ? (
                 <ChainedSelection
@@ -228,6 +232,8 @@ export class AssociatedSelection extends BaseSelection<
                   virtualThreshold={virtualThreshold}
                   itemHeight={itemHeight}
                   loadingConfig={loadingConfig}
+                  checkAllLabel={checkAllLabel}
+                  checkAll={checkAll}
                 />
               ) : (
                 <GroupedSelection
@@ -241,6 +247,8 @@ export class AssociatedSelection extends BaseSelection<
                   labelField={labelField}
                   virtualThreshold={virtualThreshold}
                   itemHeight={itemHeight}
+                  checkAllLabel={checkAllLabel}
+                  checkAll={checkAll}
                 />
               )
             ) : (
