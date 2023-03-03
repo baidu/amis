@@ -240,6 +240,11 @@ export const MainStore = types
         return false;
       },
 
+      getRootId() {
+        const curSchema = this.getSchema();
+        return curSchema?.$$id;
+      },
+
       isHoved(id: string) {
         return id && self.hoverId === id;
       },
