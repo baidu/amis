@@ -2,21 +2,92 @@
  * 总入口，它将包括所有 word 文档信息，后续渲染的时候依赖它来获取关联信息
  */
 
-import OOXML, {RenderOptions} from './OOXML';
 import PackageParser, {PackageOptions} from './PackageParser';
-import {parseStyles} from './parts/Style';
-import {parseTheme} from './parts/Theme';
+import {parseRelationships, Relationship} from './parse/parseRelationship';
+import {ContentTypes, parseContentType} from './parts/ContentType';
+import {parseStyles, Styles} from './parts/Style';
+import {parseTheme, Theme} from './parts/Theme';
 
 import renderDocument from './render/renderDocument';
+import {blobToDataURL} from './util/blob';
 
-export interface WordRenderOptions extends PackageOptions, RenderOptions {}
+/**
+ * 渲染配置
+ */
+export interface WordRenderOptions {
+  /**
+   * css 类前缀
+   */
+  classPrefix: string;
+
+  /** 图片是否使用 data url */
+  imageDataURL: boolean;
+
+  /**
+   * 是否替换变量
+   */
+  replaceVar: boolean;
+
+  /**
+   * 上下文，用于替换变量的场景
+   */
+  data?: any;
+}
 
 const defaultRenderOptions: WordRenderOptions = {
-  classPrefix: '',
+  imageDataURL: false,
+  classPrefix: 'docx-viewer-',
   replaceVar: false
 };
 
-export default class Word extends OOXML {
+export default class Word {
+  /**
+   * zip 包
+   */
+  parser: PackageParser;
+
+  /**
+   * 解析 [Content_Types].xml 里的数据
+   */
+  conentTypes: ContentTypes;
+
+  /**
+   * 解析 theme 目录里的数据
+   */
+  themes: Theme[] = [];
+
+  /**
+   * 解析 styles.xml 里的数据
+   */
+  styles: Styles;
+
+  renderOptions: WordRenderOptions;
+
+  relationships: Record<string, Relationship>;
+
+  constructor(parser: PackageParser, renderOptions: WordRenderOptions) {
+    this.parser = parser;
+    this.renderOptions = renderOptions;
+  }
+
+  inited = false;
+  /**
+   * 初始化一些公共资源，比如
+   */
+  async init() {
+    if (this.inited) {
+      return;
+    }
+
+    // 先后顺序是有要求的，这个必须在最前面，
+    await this.initContentType();
+    await this.initTheme();
+    await this.initStyle();
+    await this.initRelation();
+
+    this.inited = true;
+  }
+
   static async load(
     docxFile: Blob | any,
     options: Partial<WordRenderOptions> = defaultRenderOptions
@@ -40,6 +111,51 @@ export default class Word extends OOXML {
 
   async initStyle() {
     this.styles = parseStyles(await this.parser.getXML('/word/styles.xml'));
+  }
+
+  async initRelation() {
+    const rels = parseRelationships(
+      (await this.parser.getXML('/_rels/.rels'))['Relationships'],
+      'root'
+    );
+    const documentRels = parseRelationships(
+      (await this.parser.getXML('/word/_rels/document.xml.rels'))[
+        'Relationships'
+      ],
+      'word'
+    );
+    this.relationships = {...rels, ...documentRels};
+  }
+
+  async initContentType() {
+    const contentType = await this.parser.getXML('[Content_Types].xml');
+    this.conentTypes = parseContentType(contentType);
+  }
+
+  getRelationship(id: string) {
+    return this.relationships[id];
+  }
+
+  async loadImage(relation: Relationship) {
+    let path = relation.target;
+    if (relation.part === 'word') {
+      path = 'word/' + path;
+    }
+
+    const data = await this.parser.getFileByType(path, 'blob');
+    if (data) {
+      if (this.renderOptions.imageDataURL) {
+        return await blobToDataURL(data as Blob);
+      } else {
+        return URL.createObjectURL(data as Blob);
+      }
+    }
+
+    return null;
+  }
+
+  async getXML(filePath: string): Promise<any> {
+    return this.parser.getXML(filePath);
   }
 
   getClassName(styleName: string) {

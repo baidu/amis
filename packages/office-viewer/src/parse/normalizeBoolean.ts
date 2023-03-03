@@ -26,8 +26,9 @@ export function normalizeBoolean(
         return true;
       case 'false':
         return false;
-      default:
-        return defaultValue;
+    }
+    if (typeof value === 'number') {
+      return value !== 0;
     }
   }
   return defaultValue;

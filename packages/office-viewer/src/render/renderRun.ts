@@ -8,11 +8,18 @@ import {applyStyle, parsePr} from '../parse/parsePr';
 import {appendChild, createElement, setStyle} from '../util/dom';
 import Word from '../Word';
 import {loopChildren} from '../util/xml';
+import {renderElement} from './renderElement';
 
 export default function renderRun(word: Word, data: any) {
   let span = createElement('span');
 
   loopChildren(data, (key, value) => {
+    const element = renderElement(word, key, value);
+    if (element) {
+      appendChild(span, element);
+      return;
+    }
+
     switch (key) {
       case WTag.t:
         if (typeof value === 'string') {

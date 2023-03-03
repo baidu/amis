@@ -134,7 +134,7 @@ export function parsePr(data: any, type: 'r' | 'p' = 'p') {
         break;
 
       case WTag.jc:
-        style['text-align'] = jcToTextAlign(value);
+        style['text-align'] = jcToTextAlign(value[WAttr.val]);
         break;
 
       case WTag.pBdr:
@@ -214,15 +214,18 @@ export function parsePr(data: any, type: 'r' | 'p' = 'p') {
           : 'none';
 
       case WTag.b:
-      case WTag.bCs:
         // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/b.html
         style['font-weight'] = normalizeBoolean(value[WAttr.val], true)
           ? 'bold'
           : 'normal';
         break;
 
-      case WTag.i:
+      case WTag.bCs:
       case WTag.iCs:
+        // 忽略，因为 CSS 没法按这个判断
+        break;
+
+      case WTag.i:
         // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/i.html
         style['font-style'] = normalizeBoolean(value[WAttr.val], true)
           ? 'italic'

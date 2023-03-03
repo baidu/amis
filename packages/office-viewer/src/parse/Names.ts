@@ -1,4 +1,3 @@
-import {highlight} from 'amis-core';
 /**
  * 所有节点及名称列表，针对 fast-xml-parser 的解析结果
  * 主要目的是避免代码中大量字符串，拼错都不知道
@@ -66,7 +65,30 @@ export const WTag = {
   widowControl: 'w:widowControl',
   contextualSpacing: 'w:contextualSpacing',
   proofErr: 'w:proofErr',
-  noProof: 'w:noProof'
+  noProof: 'w:noProof',
+  hyperlink: 'w:hyperlink',
+  bookmarkStart: 'w:bookmarkStart',
+  drawing: 'w:drawing'
+};
+
+export const WPTag = {
+  inline: 'wp:inline',
+  anchor: 'wp:anchor'
+};
+
+export const ATag = {
+  graphic: 'a:graphic',
+  graphicData: 'a:graphicData',
+  blip: 'a:blip',
+  xfrm: 'a:xfrm',
+  off: 'a:off',
+  ext: 'a:ext'
+};
+
+export const PicTag = {
+  pic: 'pic:pic',
+  blipFill: 'pic:blipFill',
+  spPr: 'pic:spPr'
 };
 
 export const WAttr = {
@@ -93,5 +115,20 @@ export const WAttr = {
   asciiTheme: '@_w:asciiTheme',
   eastAsiaTheme: '@_w:eastAsiaTheme',
   csTheme: '@_w:csTheme',
-  w: '@_w:w'
+  w: '@_w:w',
+  rId: '@_r:id',
+  anchor: '@_w:anchor',
+  name: '@_w:name'
+};
+
+export const RAttr = {
+  id: '@_r:id',
+  embed: '@_r:embed'
+};
+
+export const Attr = {
+  x: '@_x',
+  y: '@_y',
+  cx: '@_cx',
+  cy: '@_cy'
 };

@@ -17,6 +17,10 @@ export function createElement(tagName: string): HTMLElement {
   return document.createElement(tagName);
 }
 
+export function createDocumentFragment() {
+  return document.createDocumentFragment();
+}
+
 export function appendChild(parent: HTMLElement, child: HTMLElement): void {
   if (child) {
     parent.appendChild(child);
