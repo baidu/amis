@@ -16,5 +16,7 @@
     height: var(--link-icon-size);
     width: var(--link-icon-size);
     margin: 0 var(--link-icon-margin);
+    display: inline-block;
+    vertical-align: text-top;
   }
 }
