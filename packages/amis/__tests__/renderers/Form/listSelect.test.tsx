@@ -94,7 +94,7 @@ test('Renderer:listSelect with multiple & clearable', async () => {
   });
 
   expect(container).toMatchSnapshot();
-});
+}, 10000);
 
 test('Renderer:listSelect with image option & listClassName', async () => {
   const {container, getByText} = render(

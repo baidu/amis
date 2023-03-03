@@ -63,6 +63,10 @@
     justify-content: space-between;
     height: #{px2rem(250px)};
     margin-top: #{px2rem(10px)};
+
+    & > div {
+      width: 0;
+    }
   }
 
   &-settings.only-variable {
@@ -218,10 +222,16 @@
       display: flex;
       flex-flow: row nowrap;
       justify-content: space-between;
+      align-items: center;
       white-space: nowrap;
 
       & > label {
         white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        flex: 1;
+        width: 0;
+        display: inline-block;
       }
 
       &-tag {
@@ -231,6 +241,9 @@
         border-radius: var(--borderRadius);
         background: #f5f5f5;
         color: var(--black);
+        font-size: var(--fontSizeSm);
+        line-height: #{px2rem(24px)};
+        height: #{px2rem(24px)};
       }
     }
     .#{$ns}GroupedSelection {

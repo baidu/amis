@@ -31,7 +31,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import isEqual from 'lodash/isEqual';
 import inRange from 'lodash/inRange';
 import {TableSchema} from '../Table';
-import {SchemaApi} from '../../Schema';
+import {SchemaApi, SchemaCollection} from '../../Schema';
 import find from 'lodash/find';
 import moment from 'moment';
 import merge from 'lodash/merge';
@@ -87,11 +87,6 @@ export interface TableControlSchema
    * 新增按钮图标
    */
   addBtnIcon?: string;
-
-  /**
-   * 显示新增按钮
-   */
-  showAddBtn?: boolean;
 
   /**
    * 可否删除
@@ -197,6 +192,21 @@ export interface TableControlSchema
    * 限制最小个数
    */
   minLength?: number | SchemaTokenizeableString;
+
+  /**
+   * 是否显示底部新增按钮
+   */
+  showFooterAddBtn?: boolean;
+
+  /**
+   * 是否显示表格操作栏新增按钮
+   */
+  showTableAddBtn?: boolean;
+
+  /**
+   * 底部新增按钮配置
+   */
+  footerAddBtn?: SchemaCollection;
 }
 
 export interface TableProps
@@ -227,7 +237,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     cancelBtnIcon: 'close',
     valueField: '',
     minLength: 0,
-    maxLength: Infinity
+    maxLength: Infinity,
+    showFooterAddBtn: true,
+    showTableAddBtn: true
   };
 
   static propsList: Array<string> = [
@@ -236,7 +248,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     'columns',
     'label',
     'scaffold',
-    'showAddBtn',
+    'showTableAddBtn',
     'addable',
     'removable',
     'copyable',
@@ -280,6 +292,22 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   componentDidUpdate(nextProps: TableProps) {
     const props = this.props;
     let toUpdate: any = null;
+
+    // 如果static为true 或 disabled为true，
+    // 则删掉正在新增 或 编辑的那一行
+    let items = [];
+    if (
+      props.static !== nextProps.static
+      || props.disabled !== nextProps.disabled
+    ) {
+      items = this.state.items.filter(item => !item.__isPlaceholder);
+      toUpdate = {
+        ...toUpdate,
+        items,
+        editIndex: -1,
+        columns: this.buildColumns(props)
+      }
+    }
 
     if (props.columns !== nextProps.columns) {
       toUpdate = {
@@ -527,7 +555,15 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     const {needConfirm} = this.props;
     const items = this.state.items.concat();
 
-    items.splice(index + 1, 0, items[index]);
+    if (needConfirm === false) {
+      items.splice(index + 1, 0, items[index]);
+    } else {
+      // 复制相当于新增一行，需要同addItem一致添加__placeholder属性
+      items.splice(index + 1, 0, {
+        ...items[index],
+        __isPlaceholder: true
+      });
+    }
     index = Math.min(index + 1, items.length - 1);
     this.setState(
       {
@@ -767,9 +803,12 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     const showIndex = this.props.showIndex;
     const minLength = this.resolveVariableProps(this.props, 'minLength');
     const maxLength = this.resolveVariableProps(this.props, 'maxLength');
+    const isStatic = this.props.static;
+    const disabled = this.props.disabled;
+    const showTableAddBtn = this.props.showTableAddBtn;
 
     let btns = [];
-    if (props.addable && props.showAddBtn !== false) {
+    if (!isStatic && props.addable && props.showTableAddBtn !== false) {
       btns.push({
         children: ({
           key,
@@ -791,9 +830,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               tooltipContainer={
                 env && env.getModalContainer ? env.getModalContainer : undefined
               }
+              disabled={disabled}
               onClick={this.addItem.bind(this, rowIndex + offset, undefined)}
             >
-              {props.addBtnLabel ? <span>{props.addBtnLabel}</span> : null}
               {props.addBtnIcon ? (
                 typeof props.addBtnIcon === 'string' ? (
                   <Icon icon={props.addBtnIcon} className="icon" />
@@ -801,12 +840,13 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                   generateIcon(props.classnames, props.addBtnIcon)
                 )
               ) : null}
+              {props.addBtnLabel ? <span>{props.addBtnLabel}</span> : null}
             </Button>
           )
       });
     }
 
-    if (props.copyable && props.showCopyBtn !== false) {
+    if (!isStatic && props.copyable && props.showCopyBtn !== false) {
       btns.push({
         children: ({
           key,
@@ -827,9 +867,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               tooltipContainer={
                 env && env.getModalContainer ? env.getModalContainer : undefined
               }
+              disabled={disabled}
               onClick={this.copyItem.bind(this, rowIndex + offset, undefined)}
             >
-              {props.copyBtnLabel ? <span>{props.copyBtnLabel}</span> : null}
               {props.copyBtnIcon ? (
                 typeof props.copyBtnIcon === 'string' ? (
                   <Icon icon={props.copyBtnIcon} className="icon" />
@@ -837,6 +877,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                   generateIcon(props.classnames, props.copyBtnIcon)
                 )
               ) : null}
+              {props.copyBtnLabel ? <span>{props.copyBtnLabel}</span> : null}
             </Button>
           )
       });
@@ -854,7 +895,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                 ...this.columnToQuickEdit(column),
                 ...quickEdit,
                 saveImmediately: true,
-                mode: 'inline'
+                mode: 'inline',
+                disabled,
+                static: isStatic
               }
             };
       });
@@ -873,12 +916,13 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                 ...this.columnToQuickEdit(column),
                 ...quickEdit,
                 saveImmediately: true,
-                mode: 'inline'
+                mode: 'inline',
+                disabled
               }
             };
       });
 
-      props.editable &&
+      !isStatic && props.editable &&
         btns.push({
           children: ({
             key,
@@ -903,11 +947,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                     ? env.getModalContainer
                     : undefined
                 }
+                disabled={disabled}
                 onClick={() => this.startEdit(rowIndex + offset)}
               >
-                {props.updateBtnLabel || props.editBtnLabel ? (
-                  <span>{props.updateBtnLabel || props.editBtnLabel}</span>
-                ) : null}
                 {/* 兼容之前的写法 */}
                 {typeof props.updateBtnIcon !== 'undefined' ? (
                   props.updateBtnIcon ? (
@@ -924,11 +966,14 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                     generateIcon(props.classnames, props.editBtnIcon)
                   )
                 ) : null}
+                {props.updateBtnLabel || props.editBtnLabel ? (
+                  <span>{props.updateBtnLabel || props.editBtnLabel}</span>
+                ) : null}
               </Button>
             )
         });
 
-      btns.push({
+      !isStatic && btns.push({
         children: ({
           key,
           rowIndex,
@@ -950,9 +995,6 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               }
               onClick={this.confirmEdit}
             >
-              {props.confirmBtnLabel ? (
-                <span>{props.confirmBtnLabel}</span>
-              ) : null}
               {props.confirmBtnIcon ? (
                 typeof props.confirmBtnIcon === 'string' ? (
                   <Icon icon={props.confirmBtnIcon} className="icon" />
@@ -960,11 +1002,14 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                   generateIcon(props.classnames, props.confirmBtnIcon)
                 )
               ) : null}
+              {props.confirmBtnLabel ? (
+                <span>{props.confirmBtnLabel}</span>
+              ) : null}
             </Button>
           ) : null
       });
 
-      btns.push({
+      !isStatic && btns.push({
         children: ({
           key,
           rowIndex,
@@ -986,9 +1031,6 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               }
               onClick={this.cancelEdit}
             >
-              {props.cancelBtnLabel ? (
-                <span>{props.cancelBtnLabel}</span>
-              ) : null}
               {props.cancelBtnIcon ? (
                 typeof props.cancelBtnIcon === 'string' ? (
                   <Icon icon={props.cancelBtnIcon} className="icon" />
@@ -996,12 +1038,15 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                   generateIcon(props.classnames, props.cancelBtnIcon)
                 )
               ) : null}
+              {props.cancelBtnLabel ? (
+                <span>{props.cancelBtnLabel}</span>
+              ) : null}
             </Button>
           ) : null
       });
     }
 
-    if (props.removable) {
+    if (!isStatic && props.removable) {
       btns.push({
         children: ({
           key,
@@ -1026,17 +1071,18 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               tooltipContainer={
                 env && env.getModalContainer ? env.getModalContainer : undefined
               }
+              disabled={disabled}
               onClick={this.removeItem.bind(this, rowIndex + offset)}
             >
-              {props.deleteBtnLabel ? (
-                <span>{props.deleteBtnLabel}</span>
-              ) : null}
               {props.deleteBtnIcon ? (
                 typeof props.deleteBtnIcon === 'string' ? (
                   <Icon icon={props.deleteBtnIcon} className="icon" />
                 ) : (
                   generateIcon(props.classnames, props.deleteBtnIcon)
                 )
+              ) : null}
+              {props.deleteBtnLabel ? (
+                <span>{props.deleteBtnLabel}</span>
               ) : null}
             </Button>
           )
@@ -1240,7 +1286,6 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       className,
       style,
       value,
-      showAddBtn,
       disabled,
       render,
       placeholder,
@@ -1261,7 +1306,11 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       rowClassNameExpr,
       affixHeader = false,
       autoFillHeight = false,
-      tableContentClassName
+      tableContentClassName,
+      static: isStatic,
+      showFooterAddBtn,
+      showTableAddBtn,
+      footerAddBtn
     } = this.props;
     const maxLength = this.resolveVariableProps(this.props, 'maxLength');
 
@@ -1270,7 +1319,6 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     }
 
     let items = this.state.items;
-
     let showPager = false;
     const page = this.state.page || 1;
     let offset = 0;
@@ -1280,6 +1328,19 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       items = items.slice((page - 1) * perPage, page * perPage);
       showPager = true;
       offset = (page - 1) * perPage;
+    }
+
+    let footerAddBtnSchema = {
+      type: 'button',
+      level: 'primary',
+      size: 'sm',
+      label: '新增',
+      icon: 'fa fa-plus',
+      disabled
+    };
+
+    if (footerAddBtn !== undefined) {
+      footerAddBtnSchema = Object.assign(footerAddBtnSchema, footerAddBtn);
     }
 
     return (
@@ -1323,20 +1384,15 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             // onPristineChange: this.handlePristineChange
           }
         )}
-        {(addable &&
-          showAddBtn !== false &&
+        {(!isStatic && addable &&
+          showFooterAddBtn !== false &&
           (!maxLength || maxLength > items.length)) ||
         showPager ? (
           <div className={cx('InputTable-toolbar')}>
-            {addable && showAddBtn !== false ? (
-              <Button
-                disabled={disabled}
-                size="sm"
-                onClick={() => this.addItem(this.state.items.length)}
-              >
-                <Icon icon="plus" className="icon" />
-                <span>{__('add')}</span>
-              </Button>
+            {addable && showFooterAddBtn !== false ? (
+              render('button', footerAddBtnSchema, {
+                onClick: () => this.addItem(this.state.items.length)
+              })
             ) : null}
 
             {showPager

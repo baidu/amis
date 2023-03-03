@@ -144,11 +144,11 @@ interface TreeSelectorProps extends ThemeProps, LocaleProps, SpinnerExtraProps {
   draggable?: boolean;
   onMove?: (dropInfo: IDropInfo) => void;
   itemRender?: (option: Option, states: ItemRenderStates) => JSX.Element;
-
   // 是否允许全选
   checkAll?: boolean;
   // 全选按钮文案
   checkAllLabel?: string;
+  enableDefaultIcon?: boolean;
 }
 
 interface TreeSelectorState {
@@ -203,7 +203,8 @@ export class TreeSelector extends React.Component<
     pathSeparator: '/',
     nodePath: [],
     virtualThreshold: 100,
-    itemHeight: 32
+    itemHeight: 32,
+    enableDefaultIcon: true
   };
   // 展开的节点
   unfolded: WeakMap<Object, boolean> = new WeakMap();
@@ -1054,7 +1055,8 @@ export class TreeSelector extends React.Component<
       translate: __,
       itemRender,
       draggable,
-      loadingConfig
+      loadingConfig,
+      enableDefaultIcon
     } = this.props;
 
     const item = this.state.flattenedOptions[index];
@@ -1089,9 +1091,7 @@ export class TreeSelector extends React.Component<
 
     const isLeaf =
       (!item.children || !item.children.length) && !item.placeholder;
-
-    const iconValue = item[iconField] || (item.children ? 'folder' : 'file');
-
+    const iconValue = item[iconField] || (enableDefaultIcon !== false ? (item.children ? 'folder' : 'file') : false);
     const level = item.level ? item.level - 1 : 0;
 
     let body = null;
@@ -1161,13 +1161,15 @@ export class TreeSelector extends React.Component<
                     : this.handleSelect(item))
                 }
               >
-                {getIcon(iconValue) ? (
-                  <Icon icon={iconValue} className="icon" />
-                ) : React.isValidElement(iconValue) ? (
-                  iconValue
-                ) : (
-                  <i className={iconValue}></i>
-                )}
+                {iconValue ? (
+                  getIcon(iconValue) ? (
+                    <Icon icon={iconValue} className="icon" />
+                  ) : React.isValidElement(iconValue) ? (
+                    iconValue
+                  ) : (
+                    <i className={iconValue}></i>
+                  )
+                ) : null}
               </i>
             ) : null}
 
@@ -1181,17 +1183,15 @@ export class TreeSelector extends React.Component<
               }
               title={item[labelField]}
             >
-              {highlightTxt
-                ? highlight(`${item[labelField]}`, highlightTxt)
-                : itemRender
-                ? itemRender(item, {
-                    index: item.key,
-                    multiple: multiple,
-                    checked: checked,
-                    onChange: () => this.handleCheck(item, !checked),
-                    disabled: disabled || item.disabled
-                  })
-                : `${item[labelField]}`}
+              {
+                itemRender ? itemRender(item, {
+                  index: item.key,
+                  multiple: multiple,
+                  checked: checked,
+                  onChange: () => this.handleCheck(item, !checked),
+                  disabled: disabled || item.disabled
+                }) : (highlightTxt ? highlight(`${item[labelField]}`, highlightTxt) : `${item[labelField]}`)
+              }
             </span>
 
             {!disabled &&

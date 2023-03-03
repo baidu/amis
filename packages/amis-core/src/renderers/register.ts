@@ -86,9 +86,10 @@ function registerAmisRendererByUsage(curUsage: string, curAmisRenderer: any) {
     registerMap[curUsage]
   ) {
     registerMap[curUsage as keyof typeof registerMap]({
+      ...(curAmisRenderer.config || {}),
       type: curAmisRenderer.type,
       weight: curAmisRenderer.weight || 0,
-      autoVar: curAmisRenderer.autoVar || false,
+      autoVar: curAmisRenderer.autoVar || false
     })(curAmisRendererComponent);
   }
 }

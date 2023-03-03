@@ -192,7 +192,7 @@ export default class DropDownButton extends React.Component<
     });
   }
 
-  close() {
+  close(e?: React.MouseEvent<any>) {
     this.timer = setTimeout(() => {
       this.props.dispatchEvent(
         'mouseleave',
@@ -202,6 +202,8 @@ export default class DropDownButton extends React.Component<
         isOpened: false
       });
     }, 200);
+    // PopOver hide会直接调用close方法
+    e && e.preventDefault();
   }
 
   keepOpen() {
@@ -267,7 +269,6 @@ export default class DropDownButton extends React.Component<
       closeOnOutside,
       menuClassName
     } = this.props;
-
     let body = (
       <RootClose
         disabled={!this.state.isOpened}
@@ -343,7 +344,8 @@ export default class DropDownButton extends React.Component<
       isActived,
       trigger,
       data,
-      hideCaret
+      hideCaret,
+      env
     } = this.props;
 
     return (
@@ -366,7 +368,7 @@ export default class DropDownButton extends React.Component<
         <TooltipWrapper
           placement={placement}
           tooltip={disabled ? disabledTip : tooltip}
-          container={tooltipContainer}
+          container={tooltipContainer || env?.getModalContainer}
           trigger={tooltipTrigger}
           rootClose={tooltipRootClose}
         >

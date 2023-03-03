@@ -150,6 +150,40 @@ order: 56
 }
 ```
 
+## 设置组件的 CSS 类
+
+`className`属性会添加到组件外层 DOM 节点上，如果要在组件当前层级添加 CSS 类，请设置`innerClassName`属性
+
+```schema: scope="body"
+{
+  "type": "service",
+  "api": "/api/mock2/sample?perPage=5",
+  "body": [
+    {
+      "type": "panel",
+      "title": "简单 List 示例",
+      "body": {
+        "type": "list",
+        "source": "$rows",
+        "listItem": {
+          "body": {
+            "type": "wrapper",
+            "className": "border-4 border-solid border-primary",
+            "innerClassName": "border-4 border-solid border-success",
+            "body": [
+              {
+                "type": "tpl",
+                "tpl": "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+              }
+            ]
+          }
+        }
+      }
+    }
+  ]
+}
+```
+
 ## 属性表
 
 | 属性名                   | 类型                                 | 默认值                | 说明                                                                         |
@@ -168,9 +202,32 @@ order: 56
 | listItem.avatar          | [模板](../../docs/concepts/template) |                       | 图片地址                                                                     |
 | listItem.avatarClassName | `string`                             | `thumb-sm avatar m-r` | 图片 CSS 类名                                                                |
 | listItem.desc            | [模板](../../docs/concepts/template) |                       | 描述                                                                         |
-| listItem.body            | `Array`                              |                       | 内容容器，主要用来放置非表单项组件                                           |
+| listItem.body            | `ListBodyField[]`                    |                       | 内容容器，主要用来放置非表单项组件                                           |
 | listItem.actions         | Array<[Action](./action)>            |                       | 按钮区域                                                                     |
 | listItem.actionsPosition | 'left' or 'right'                    | 默认在右侧            | 按钮位置                                                                     |
+
+### ListBodyField
+
+```typescript
+interface ListBodyField {
+  /* 列标题 */
+  label?: string;
+  /* 外层DOM的CSS类名 */
+  className?: string;
+  /* label的CSS类名 */
+  labelClassName?: string;
+  /* 内层组件的CSS类名，className属性会添加到外层DOM，如果要在组件层级添加CSS类，请设置当前属性 */
+  innerClassName?: string;
+  /* 绑定字段名 */
+  name?: string;
+  /* 配置查看详情功能 */
+  popOver?: SchemaPopOver;
+  /* 配置快速编辑功能 */
+  quickEdit?: SchemaQuickEdit;
+  /* 配置点击复制功能 */
+  copyable?: SchemaCopyable;
+}
+```
 
 ## 事件表
 

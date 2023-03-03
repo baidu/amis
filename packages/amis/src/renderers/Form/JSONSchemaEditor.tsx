@@ -1,14 +1,18 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
+import pick from 'lodash/pick';
+import {FormItem, FormControlProps} from 'amis-core';
 import {JSONSchemaEditor} from 'amis-ui';
-import {autobind} from 'amis-core';
+import {autobind, isObject} from 'amis-core';
 import {FormBaseControlSchema} from '../../Schema';
+
+import {schemaEditorItemPlaceholder} from 'amis-ui/lib/components/schema-editor/Common';
+import type {SchemaEditorItemPlaceholder} from 'amis-ui/lib/components/schema-editor/Common';
 
 /**
  * JSON Schema Editor
  * 文档：https://baidu.gitee.io/amis/docs/components/form/json-schema-editor
  */
-export interface JSONSchemaEditorControlSchema extends FormBaseControlSchema {
+export interface JSONSchemaEditorControlSchema extends Omit<FormBaseControlSchema, 'placeholder'> {
   /**
    * 指定为 JSON Schema Editor
    */
@@ -66,6 +70,19 @@ export interface JSONSchemaEditorControlSchema extends FormBaseControlSchema {
   advancedSettings?: {
     [propName: string]: any;
   };
+
+  /**
+   * 各属性输入控件的占位提示文本
+   *
+   * {
+   *   key: "key placeholder",
+   *   title: "title placeholder",
+   *   description: "description placeholder",
+   *   default: "default placeholder"
+   * }
+   *
+   */
+  placeholder?: SchemaEditorItemPlaceholder;
 }
 
 export interface JSONSchemaEditorProps
@@ -77,8 +94,28 @@ export interface JSONSchemaEditorProps
 
 export default class JSONSchemaEditorControl extends React.PureComponent<JSONSchemaEditorProps> {
   static defaultProps = {
-    enableAdvancedSetting: false
+    enableAdvancedSetting: false,
+    placeholder: schemaEditorItemPlaceholder
   };
+
+  normalizePlaceholder(): SchemaEditorItemPlaceholder {
+    const {placeholder} = this.props;
+
+    if (isObject(placeholder)) {
+      return {
+        ...schemaEditorItemPlaceholder,
+        ...pick(placeholder, [
+          'key',
+          'title',
+          'description',
+          'default',
+          'empty'
+        ])
+      };
+    }
+
+    return schemaEditorItemPlaceholder;
+  }
 
   @autobind
   renderModalProps(value: any, onChange: (value: any) => void) {
@@ -105,6 +142,7 @@ export default class JSONSchemaEditorControl extends React.PureComponent<JSONSch
     return (
       <JSONSchemaEditor
         {...rest}
+        placeholder={this.normalizePlaceholder()}
         enableAdvancedSetting={enableAdvancedSetting}
         renderModalProps={this.renderModalProps}
       />

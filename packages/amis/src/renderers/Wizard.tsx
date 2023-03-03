@@ -602,11 +602,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
 
           action.reload && this.reloadTarget(action.reload, store.data);
         })
-        .catch(reason => {
-          if (reason instanceof SkipOperation) {
-            return;
-          }
-        });
+        .catch(reason => {});
     } else if (action.actionType === 'reload') {
       action.target && this.reloadTarget(action.target, data);
     } else if (action.actionType === 'goto-step') {
@@ -878,9 +874,6 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
           })
           .catch(reason => {
             this.dispatchEvent('stepSubmitFail', {error: reason});
-            if (reason instanceof SkipOperation) {
-              return;
-            }
             // do nothing
           });
       } else {

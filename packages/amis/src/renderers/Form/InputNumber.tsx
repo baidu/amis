@@ -138,6 +138,11 @@ export interface NumberProps extends FormControlProps {
    * 是否是大数，如果是的话输入输出都将是字符串
    */
   big?: boolean;
+
+  /**
+   * 是否在清空内容时从数据域中删除该表单项对应的值
+   */
+  clearValueOnEmpty?: boolean;
 }
 
 interface NumberState {
@@ -156,7 +161,8 @@ export default class NumberControl extends React.Component<
   input?: HTMLInputElement;
   static defaultProps: Partial<NumberProps> = {
     step: 1,
-    resetValue: ''
+    resetValue: '',
+    clearValueOnEmpty: false
   };
 
   constructor(props: NumberProps) {
@@ -199,10 +205,19 @@ export default class NumberControl extends React.Component<
    */
   doAction(action: ActionObject, args: any) {
     const actionType = action?.actionType as string;
-    const {min, max, precision, step, resetValue, big, onChange} = this.props;
+    const {
+      min,
+      max,
+      precision,
+      step,
+      resetValue,
+      big,
+      onChange,
+      clearValueOnEmpty
+    } = this.props;
 
     if (actionType === 'clear') {
-      onChange?.('');
+      onChange?.(clearValueOnEmpty ? undefined : '');
     } else if (actionType === 'reset') {
       const finalPrecision = NumberInput.normalizePrecision(
         this.filterNum(precision),
@@ -214,10 +229,11 @@ export default class NumberControl extends React.Component<
         this.filterNum(max, big),
         finalPrecision,
         resetValue ?? '',
+        clearValueOnEmpty,
         big
       );
 
-      onChange?.(value);
+      onChange?.(clearValueOnEmpty && value === '' ? undefined : value);
     }
   }
 
@@ -274,17 +290,18 @@ export default class NumberControl extends React.Component<
   }
 
   async handleChange(inputValue: any) {
-    const {onChange, dispatchEvent} = this.props;
+    const {onChange, dispatchEvent, clearValueOnEmpty} = this.props;
     const value = this.getValue(inputValue);
+    const resultValue = clearValueOnEmpty && value === '' ? undefined : value;
     const rendererEvent = await dispatchEvent(
       'change',
-      resolveEventData(this.props, {value}, 'value')
+      resolveEventData(this.props, {value: resultValue}, 'value')
     );
     if (rendererEvent?.prevented) {
       return;
     }
 
-    onChange(value);
+    onChange(resultValue);
   }
 
   filterNum(value: number | string | undefined): number | undefined;
@@ -384,7 +401,8 @@ export default class NumberControl extends React.Component<
       keyboard,
       displayMode,
       big,
-      resetValue
+      resetValue,
+      clearValueOnEmpty
     } = this.props;
     const finalPrecision = this.filterNum(precision);
     const unit = this.state?.unit;
@@ -442,6 +460,7 @@ export default class NumberControl extends React.Component<
           keyboard={keyboard}
           displayMode={displayMode}
           big={big}
+          clearValueOnEmpty={clearValueOnEmpty}
         />
         {unitOptions ? (
           <Select

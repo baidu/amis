@@ -2,7 +2,7 @@ name: gh-pages
 
 on:
   push:
-    branches: [master]
+    branches: ['**']
 
 jobs:
   build:
@@ -40,7 +40,7 @@ jobs:
           SINGLE_COMMIT: true
       - name: Generate coverage report
         env:
-          NODE_OPTIONS: "--max-old-space-size=8192"
+          NODE_OPTIONS: '--max-old-space-size=8192'
         run: |
           npm run coverage
       - uses: codecov/codecov-action@v2

@@ -292,27 +292,23 @@
 
   &-croperToolbar {
     display: inline-flex;
-    width: 50px;
     position: absolute;
     right: 0;
     bottom: 0;
     flex-direction: column;
     align-items: flex-end;
+    background: #fff;
+    border-radius: 4px;
+    margin: px2rem(8px);
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
 
     > a {
-      color: #fff;
+      color: var(--Form-item-fontColor);
       padding: 2px 5px;
       cursor: pointer;
-      font-size: 20px;
-
-      .icon-retry {
-        polygon {
-          fill: #fff;
-        }
-
-        path {
-          stroke: #fff;
-        }
+      font-size: 18px;
+      &:hover {
+        color: var(--link-color);
       }
     }
   }

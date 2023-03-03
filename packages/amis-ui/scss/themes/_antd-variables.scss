@@ -69,12 +69,12 @@ $ns: 'antd-';
   --colors-brand-2: #003a8c;
   --colors-brand-3: #0050b3;
   --colors-brand-4: #096dd9;
-  --colors-brand-5: #1890ff;
+  --colors-brand-5: #1677ff;
   --colors-brand-6: #45a8ff;
   --colors-brand-7: #74c0ff;
   --colors-brand-8: #a2d7ff;
   --colors-brand-9: #d1ecff;
-  --colors-brand-10: #e6f5ff;
+  --colors-brand-10: #fafafa;
   --colors-neutral-text-1: #070e14;
   --colors-neutral-text-2: #151e26;
   --colors-neutral-text-3: #303840;
@@ -88,7 +88,7 @@ $ns: 'antd-';
   --colors-neutral-text-11: #ffffff;
   --colors-neutral-fill-none: transparent;
   --colors-neutral-fill-1: #070e14;
-  --colors-neutral-fill-2: #151e26;
+  --colors-neutral-fill-2: #001529;
   --colors-neutral-fill-3: #303840;
   --colors-neutral-fill-4: #5c6166;
   --colors-neutral-fill-5: #84888c;
@@ -143,7 +143,7 @@ $ns: 'antd-';
   --borders-width-4: 4px;
   --borders-radius-1: 0px;
   --borders-radius-2: 1px;
-  --borders-radius-3: 2px;
+  --borders-radius-3: 6px;
   --borders-radius-4: 6px;
   --borders-radius-5: 8px;
   --borders-radius-6: 10px;
@@ -151,11 +151,11 @@ $ns: 'antd-';
   --sizes-size-0: 0rem;
   --sizes-size-1: auto;
   --sizes-size-2: 0.125rem;
-  --sizes-size-3: 0.25rem;
+  --sizes-size-3: 4px;
   --sizes-size-4: 0.375rem;
   --sizes-size-5: 0.5rem;
   --sizes-size-6: 0.625rem;
-  --sizes-size-7: 0.75rem;
+  --sizes-size-7: 15px;
   --sizes-size-8: 0.875rem;
   --sizes-size-9: 1rem;
   --sizes-base-1: 0.125rem;
@@ -219,4 +219,18 @@ $ns: 'antd-';
   --shadows-shadow-xl: 0px 20px 25px -5px rgba(0, 0, 0, 0.1),
     0px 10px 10px -5px rgba(0, 0, 0, 0.04);
   --shadows-shadow-2xl: 0px 25px 50px -12px rgba(0, 0, 0, 0.25);
+
+  // input 激活时的 shadow
+  --input-default-active-shadow: 0 0 0 2px rgb(5 145 255 / 10%);
+
+  // 左侧导航样式，基于暗色模式
+  --Layout-aside-onAcitve-bg: rgb(24, 144, 255);
+  --Layout-asideLink-onActive-color: #fff;
+  --Layout-asideLink-color: hsla(0, 0%, 100%, 0.75);
+  --Layout-aside-subList-bg: #000c17;
+
+  // 表格
+  --Table-thead-bg: #fafafa;
+  --Table-onChecked-bg: rgb(220, 244, 255);
+  --Table-onChecked-color: rgba(0, 0, 0, 0.85);
 }

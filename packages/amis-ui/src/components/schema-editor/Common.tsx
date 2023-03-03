@@ -10,6 +10,18 @@ import PickerContainer from '../PickerContainer';
 import Select from '../Select';
 import Textarea from '../Textarea';
 
+export const schemaEditorItemPlaceholder = {
+  key: 'JSONSchema.key',
+  title: 'JSONSchema.title',
+  description: 'JSONSchema.description',
+  default: 'JSONSchema.default',
+  empty: 'placeholder.empty'
+};
+
+export type SchemaEditorItemPlaceholder = Partial<
+  typeof schemaEditorItemPlaceholder
+>;
+
 export interface SchemaEditorItemCommonProps extends LocaleProps, ThemeProps {
   value?: JSONSchema;
   onChange: (value: JSONSchema) => void;
@@ -39,6 +51,8 @@ export interface SchemaEditorItemCommonProps extends LocaleProps, ThemeProps {
   prefix?: JSX.Element;
   affix?: JSX.Element;
   enableAdvancedSetting?: boolean;
+  /** 各属性输入控件的placeholder */
+  placeholder?: SchemaEditorItemPlaceholder;
 }
 
 export class SchemaEditorItemCommon<
@@ -85,7 +99,8 @@ export class SchemaEditorItemCommon<
       enableAdvancedSetting,
       prefix,
       affix,
-      types
+      types,
+      placeholder
     } = this.props;
 
     return (
@@ -131,7 +146,11 @@ export class SchemaEditorItemCommon<
                         rules={{maxLength: 20}}
                         isRequired
                         render={({field}) => (
-                          <InputBox {...field} disabled={disabled} />
+                          <InputBox
+                            {...field}
+                            disabled={disabled}
+                            placeholder={__(placeholder?.title ?? '')}
+                          />
                         )}
                       />
 
@@ -140,7 +159,11 @@ export class SchemaEditorItemCommon<
                         name="description"
                         control={control}
                         render={({field}) => (
-                          <Textarea {...field} disabled={disabled} />
+                          <Textarea
+                            {...field}
+                            disabled={disabled}
+                            placeholder={__(placeholder?.description ?? '')}
+                          />
                         )}
                       />
 
@@ -149,7 +172,11 @@ export class SchemaEditorItemCommon<
                         name="default"
                         control={control}
                         render={({field}) => (
-                          <InputBox {...field} disabled={disabled} />
+                          <InputBox
+                            {...field}
+                            disabled={disabled}
+                            placeholder={__(placeholder?.default ?? '')}
+                          />
                         )}
                       />
 

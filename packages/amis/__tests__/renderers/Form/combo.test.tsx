@@ -21,11 +21,18 @@ import {
   waitFor,
   screen,
   within,
-  getByText
+  getByText,
+  cleanup
 } from '@testing-library/react';
 import '../../../src';
-import {render as amisRender} from '../../../src';
+import {render as amisRender, clearStoresCache} from '../../../src';
 import {makeEnv, wait} from '../../helper';
+
+afterEach(() => {
+  cleanup();
+  clearStoresCache();
+  jest.useRealTimers();
+});
 
 const setup = async (items: any[] = [], env: any = {}) => {
   const onSubmit = jest.fn();

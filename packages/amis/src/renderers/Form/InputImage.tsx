@@ -783,7 +783,11 @@ export default class ImageControl extends React.Component<
     });
   }
 
-  async onChange(changeImmediately?: boolean, changeEvent: boolean = true, initAutoFill?: boolean) {
+  async onChange(
+    changeImmediately?: boolean,
+    changeEvent: boolean = true,
+    initAutoFill?: boolean
+  ) {
     const {
       multiple,
       onChange,
@@ -1120,10 +1124,8 @@ export default class ImageControl extends React.Component<
 
         const dispatcher = await this.dispatchEvent('success', {
           ...file, // 保留历史结构
-          item: {
-            ...file,
-            ...ret.data
-          },
+          item: file,
+          result: ret.data,
           value: obj.value
         });
         if (dispatcher?.prevented) {
@@ -1248,7 +1250,8 @@ export default class ImageControl extends React.Component<
         this.setState(
           {
             files: (this.files = files)
-          }, () => {
+          },
+          () => {
             if (!needUploading) {
               this.onChange(false, true, this.initAutoFill);
             }

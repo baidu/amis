@@ -26,6 +26,7 @@ import {ActionObject} from 'amis-core';
 import {FormOptionsSchema} from '../../Schema';
 import {supportStatic} from './StaticHoc';
 import {TooltipWrapperSchema} from '../TooltipWrapper';
+import type {ItemRenderStates} from 'amis-ui/lib/components/Selection';
 
 /**
  * Tree 下拉选择框。
@@ -108,6 +109,16 @@ export interface TreeSelectControlSchema extends FormOptionsSchema {
    * 收纳标签的Popover配置
    */
   overflowTagPopover?: TooltipWrapperSchema;
+
+  /**
+   * 自定义选项
+   */
+  menuTpl?: string;
+
+  /**
+   * 是否为选项添加默认的Icon，默认值为true
+   */
+  enableDefaultIcon?: boolean;
 }
 
 export interface TreeSelectProps
@@ -163,6 +174,9 @@ export default class TreeSelectControl extends React.Component<
   targetRef = (ref: any) =>
     (this.target = ref ? (findDOMNode(ref) as HTMLElement) : null);
 
+  /** source数据源是否已加载 */
+  sourceLoaded: boolean = false;
+
   constructor(props: TreeSelectProps) {
     super(props);
 
@@ -183,7 +197,6 @@ export default class TreeSelectControl extends React.Component<
       leading: false
     });
     this.handleInputKeyDown = this.handleInputKeyDown.bind(this);
-
     this.loadRemote = debouce(this.loadRemote.bind(this), 250, {
       trailing: true,
       leading: false
@@ -192,6 +205,10 @@ export default class TreeSelectControl extends React.Component<
 
   componentDidMount() {
     this.loadRemote('');
+  }
+
+  componentWillUnmount() {
+    this.sourceLoaded = false;
   }
 
   open(fn?: () => void) {
@@ -228,7 +245,11 @@ export default class TreeSelectControl extends React.Component<
   }
 
   handleKeyPress(e: React.KeyboardEvent) {
-    if (e.key === ' ') {
+    /**
+     * 考虑到label/value中有空格的case
+     * 这里使用组合键关闭 win：shift + space，mac：shift + space
+     */
+    if (e.key === ' ' && e.shiftKey) {
       this.handleOutClick(e as any);
       e.preventDefault();
     }
@@ -353,9 +374,15 @@ export default class TreeSelectControl extends React.Component<
   }
 
   async loadRemote(input: string) {
-    const {autoComplete, env, data, setOptions, setLoading} = this.props;
+    const {autoComplete, env, data, setOptions, setLoading, source} =
+      this.props;
 
-    if (!isEffectiveApi(autoComplete, data)) {
+    // 同时配置source和autoComplete时，首次渲染需要加载source数据
+    if (
+      !isEffectiveApi(autoComplete, data) ||
+      (!input && isEffectiveApi(source) && !this.sourceLoaded)
+    ) {
+      this.sourceLoaded = true;
       return;
     } else if (!env || !env.fetcher) {
       throw new Error('fetcher is required');
@@ -468,6 +495,17 @@ export default class TreeSelectControl extends React.Component<
     onChange && onChange(value);
   }
 
+  /** 下拉框选项渲染 */
+  @autobind
+  renderOptionItem(option: Option, states: ItemRenderStates) {
+    const {menuTpl, render, data} = this.props;
+
+    return render(`option/${states.index}`, menuTpl, {
+      data: createObject(createObject(data, {...states}), option)
+    });
+  }
+
+  /** 输入框选项渲染 */
   @autobind
   renderItem(item: Option) {
     const {labelField, options, hideNodePathLabel} = this.props;
@@ -543,7 +581,9 @@ export default class TreeSelectControl extends React.Component<
       autoCheckChildren,
       hideRoot,
       virtualThreshold,
-      itemHeight
+      itemHeight,
+      menuTpl,
+      enableDefaultIcon
     } = this.props;
 
     let filtedOptions =
@@ -603,6 +643,8 @@ export default class TreeSelectControl extends React.Component<
         selfDisabledAffectChildren={selfDisabledAffectChildren}
         virtualThreshold={virtualThreshold}
         itemHeight={toNumber(itemHeight) > 0 ? toNumber(itemHeight) : undefined}
+        itemRender={menuTpl ? this.renderOptionItem : undefined}
+        enableDefaultIcon={enableDefaultIcon}
       />
     );
   }

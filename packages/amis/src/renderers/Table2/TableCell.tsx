@@ -16,4 +16,7 @@ export class CellFieldRenderer extends TableCell {
     ...TableCell.defaultProps,
     wrapperComponent: 'div'
   };
+
+  // title 需要去掉，否则部分组件会将其渲染出来
+  readonly propsNeedRemove: string[] = ['title'];
 }
