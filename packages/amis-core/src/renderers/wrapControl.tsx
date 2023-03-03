@@ -31,6 +31,7 @@ import {withRootStore} from '../WithRootStore';
 import {FormBaseControl, FormItemWrap} from './Item';
 import {Api} from '../types';
 import {TableStore} from '../store/table';
+import {pick} from 'lodash';
 
 export interface ControlOutterProps extends RendererProps {
   formStore?: IFormStore;
@@ -180,6 +181,11 @@ export function wrapControl<
             // @issue 打算干掉这个
             formItem?.addSubFormItem(model);
             model.config({
+              // 理论上需要将渲染器的 defaultProps 全部生效，此处保险起见先只处理 multiple
+              ...pick(
+                {...ComposedComponent.defaultProps, ...this.props.$schema},
+                ['multiple']
+              ),
               id,
               type,
               required,
@@ -188,7 +194,6 @@ export function wrapControl<
               isValueSchemaExp: isExpression(value),
               rules: validations,
               messages: validationErrors,
-              multiple,
               delimiter,
               valueField,
               labelField,

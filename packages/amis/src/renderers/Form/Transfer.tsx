@@ -175,6 +175,10 @@ type OptionsControlWithSpinnerProps = OptionsControlProps & SpinnerExtraProps;
 export class BaseTransferRenderer<
   T extends OptionsControlWithSpinnerProps = BaseTransferProps
 > extends React.Component<T> {
+  static defaultProps = {
+    multiple: true
+  };
+
   tranferRef?: any;
 
   reload() {
