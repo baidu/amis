@@ -4,15 +4,15 @@
 
 用法：`IF(condition, consequent, alternate)`
 
- * `condition:expression` 条件表达式.
- * `consequent:any` 条件判断通过的返回结果
- * `alternate:any` 条件判断不通过的返回结果
+- `condition:expression` 条件表达式.
+- `consequent:any` 条件判断通过的返回结果
+- `alternate:any` 条件判断不通过的返回结果
 
 返回：`any` 根据条件返回不同的结果
 
 示例：IF(A, B, C)
 
-如果满足条件A，则返回B，否则返回C，支持多层嵌套IF函数。
+如果满足条件 A，则返回 B，否则返回 C，支持多层嵌套 IF 函数。
 
 也可以用表达式如：A ? B : C
 
@@ -20,9 +20,9 @@
 
 用法：`AND(expression1, expression2, ...expressionN)`
 
- * `conditions:...expression` 条件表达式.
+- `conditions:...expression` 条件表达式.
 
-返回：`boolean` 
+返回：`boolean`
 
 条件全部符合，返回 true，否则返回 false
 
@@ -36,9 +36,9 @@
 
 用法：`OR(expression1, expression2, ...expressionN)`
 
- * `conditions:...expression` 条件表达式.
+- `conditions:...expression` 条件表达式.
 
-返回：`boolean` 
+返回：`boolean`
 
 条件任意一个满足条件，返回 true，否则返回 false
 
@@ -52,10 +52,10 @@
 
 用法：`XOR(condition1, condition2)`
 
- * `condition1:expression` 条件表达式1
- * `condition2:expression` 条件表达式2
+- `condition1:expression` 条件表达式 1
+- `condition2:expression` 条件表达式 2
 
-返回：`boolean` 
+返回：`boolean`
 
 异或处理，多个表达式组中存在奇数个真时认为真。
 
@@ -63,7 +63,7 @@
 
 用法：`IFS(condition1, result1, condition2, result2,...conditionN, resultN)`
 
- * `args:...any` 条件，返回值集合
+- `args:...any` 条件，返回值集合
 
 返回：`any` 第一个满足条件的结果，没有命中的返回 false。
 
@@ -79,7 +79,7 @@
 
 用法：`ABS(num)`
 
- * `num:number` 数值
+- `num:number` 数值
 
 返回：`number` 传入数值的绝对值
 
@@ -89,7 +89,7 @@
 
 用法：`MAX(num1, num2, ...numN)`
 
- * `num:...number` 数值
+- `num:...number` 数值
 
 返回：`number` 所有传入值中最大的那个
 
@@ -99,7 +99,7 @@
 
 用法：`MIN(num1, num2, ...numN)`
 
- * `num:...number` 数值
+- `num:...number` 数值
 
 返回：`number` 所有传入值中最小的那个
 
@@ -109,7 +109,7 @@
 
 用法：`SUM(num1, num2, ...numN)`
 
- * `num:...number` 数值
+- `num:...number` 数值
 
 返回：`number` 所有传入数值的总和
 
@@ -119,7 +119,7 @@
 
 用法：`INT(num)`
 
- * `num:number` 数值
+- `num:number` 数值
 
 返回：`number` 数值对应的整形
 
@@ -129,8 +129,8 @@
 
 用法：`MOD(num, divisor)`
 
- * `num:number` 被除数
- * `divisor:number` 除数
+- `num:number` 被除数
+- `divisor:number` 除数
 
 返回：`number` 两数相除的余数
 
@@ -146,8 +146,8 @@
 
 用法：`ROUND(num[, numDigits = 2])`
 
- * `num:number` 要处理的数字
- * `numDigits:number` 小数位数
+- `num:number` 要处理的数字
+- `numDigits:number` 小数位数
 
 返回：`number` 传入数值四舍五入后的结果
 
@@ -157,8 +157,8 @@
 
 用法：`FLOOR(num[, numDigits=2])`
 
- * `num:number` 要处理的数字
- * `numDigits:number` 小数位数
+- `num:number` 要处理的数字
+- `numDigits:number` 小数位数
 
 返回：`number` 传入数值向下取整后的结果
 
@@ -168,8 +168,8 @@
 
 用法：`CEIL(num[, numDigits=2])`
 
- * `num:number` 要处理的数字
- * `numDigits:number` 小数位数
+- `num:number` 要处理的数字
+- `numDigits:number` 小数位数
 
 返回：`number` 传入数值向上取整后的结果
 
@@ -179,7 +179,7 @@
 
 用法：`SQRT(num)`
 
- * `num:number` 要处理的数字
+- `num:number` 要处理的数字
 
 返回：`number` 开平方的结果
 
@@ -189,7 +189,7 @@
 
 用法：`AVG(num1, num2, ...numN)`
 
- * `num:...number` 要处理的数字
+- `num:...number` 要处理的数字
 
 返回：`number` 所有数值的平均值
 
@@ -199,7 +199,7 @@
 
 用法：`DEVSQ(num1, num2, ...numN)`
 
- * `num:...number` 要处理的数字
+- `num:...number` 要处理的数字
 
 返回：`number` 所有数值的平均值
 
@@ -209,7 +209,7 @@
 
 用法：`AVEDEV(num1, num2, ...numN)`
 
- * `num:...number` 要处理的数字
+- `num:...number` 要处理的数字
 
 返回：`number` 所有数值的平均值
 
@@ -219,7 +219,7 @@
 
 用法：`HARMEAN(num1, num2, ...numN)`
 
- * `num:...number` 要处理的数字
+- `num:...number` 要处理的数字
 
 返回：`number` 所有数值的平均值
 
@@ -229,8 +229,8 @@
 
 用法：`LARGE(array, k)`
 
- * `nums:array` 要处理的数字
- * `k:number` 第几大
+- `nums:array` 要处理的数字
+- `k:number` 第几大
 
 返回：`number` 所有数值的平均值
 
@@ -240,7 +240,7 @@
 
 用法：`UPPERMONEY(num)`
 
- * `num:number` 要处理的数字
+- `num:number` 要处理的数字
 
 返回：`string` 数值中文大写字符
 
@@ -260,7 +260,7 @@
 
 用法：`LAST(array)`
 
- * `arr:...number` 要处理的数组
+- `arr:...number` 要处理的数组
 
 返回：`any` 最后一个值
 
@@ -272,8 +272,8 @@
 
 用法：`LEFT(text, len)`
 
- * `text:string` 要处理的文本
- * `len:number` 要处理的长度
+- `text:string` 要处理的文本
+- `len:number` 要处理的长度
 
 返回：`string` 对应字符串
 
@@ -283,8 +283,8 @@
 
 用法：`RIGHT(text, len)`
 
- * `text:string` 要处理的文本
- * `len:number` 要处理的长度
+- `text:string` 要处理的文本
+- `len:number` 要处理的长度
 
 返回：`string` 对应字符串
 
@@ -294,7 +294,7 @@
 
 用法：`LEN(text)`
 
- * `text:string` 要处理的文本
+- `text:string` 要处理的文本
 
 返回：`number` 长度
 
@@ -304,7 +304,7 @@
 
 用法：`LENGTH(textArr)`
 
- * `textArr:Array<string>` 要处理的文本集合
+- `textArr:Array<string>` 要处理的文本集合
 
 返回：`Array<number>` 长度集合
 
@@ -314,7 +314,7 @@
 
 用法：`ISEMPTY(text)`
 
- * `text:string` 要处理的文本
+- `text:string` 要处理的文本
 
 返回：`boolean` 判断结果
 
@@ -324,7 +324,7 @@
 
 用法：`CONCATENATE(text1, text2, ...textN)`
 
- * `text:...string` 文本集合
+- `text:...string` 文本集合
 
 返回：`string` 连接后的文本
 
@@ -334,7 +334,7 @@
 
 用法：`CHAR(code)`
 
- * `code:number` 编码值
+- `code:number` 编码值
 
 返回：`string` 指定位置的字符
 
@@ -346,7 +346,7 @@
 
 用法：`LOWER(text)`
 
- * `text:string` 文本
+- `text:string` 文本
 
 返回：`string` 结果文本
 
@@ -356,7 +356,7 @@
 
 用法：`UPPER(text)`
 
- * `text:string` 文本
+- `text:string` 文本
 
 返回：`string` 结果文本
 
@@ -366,7 +366,7 @@
 
 用法：`UPPERFIRST(text)`
 
- * `text:string` 文本
+- `text:string` 文本
 
 返回：`string` 结果文本
 
@@ -376,9 +376,9 @@
 
 用法：`PADSTART(text)`
 
- * `text:string` 文本
- * `num:number` 目标长度
- * `pad:string` 用于补齐的文本
+- `text:string` 文本
+- `num:number` 目标长度
+- `pad:string` 用于补齐的文本
 
 返回：`string` 结果文本
 
@@ -392,7 +392,7 @@
 
 用法：`CAPITALIZE(text)`
 
- * `text:string` 文本
+- `text:string` 文本
 
 返回：`string` 结果文本
 
@@ -406,7 +406,7 @@
 
 用法：`ESCAPE(text)`
 
- * `text:string` 文本
+- `text:string` 文本
 
 返回：`string` 结果文本
 
@@ -420,8 +420,8 @@
 
 用法：`TRUNCATE(text, 6)`
 
- * `text:string` 文本
- * `text:number` 最长长度
+- `text:string` 文本
+- `text:number` 最长长度
 
 返回：`string` 结果文本
 
@@ -435,8 +435,8 @@
 
 用法：`BEFORELAST(text, '.')`
 
- * `text:string` 文本
- * `delimiter:string` 结束文本
+- `text:string` 文本
+- `delimiter:string` 结束文本
 
 返回：`string` 判断结果
 
@@ -446,8 +446,8 @@
 
 用法：`SPLIT(text, ',')`
 
- * `text:string` 文本
- * `delimiter:string` 文本片段
+- `text:string` 文本
+- `delimiter:string` 文本片段
 
 返回：`Array<string>` 文本集
 
@@ -461,7 +461,7 @@
 
 用法：`TRIM(text)`
 
- * `text:string` 文本
+- `text:string` 文本
 
 返回：`string` 处理后的文本
 
@@ -471,7 +471,7 @@
 
 用法：`STRIPTAG(text)`
 
- * `text:string` 文本
+- `text:string` 文本
 
 返回：`string` 处理后的文本
 
@@ -485,7 +485,7 @@
 
 用法：`LINEBREAK(text)`
 
- * `text:string` 文本
+- `text:string` 文本
 
 返回：`string` 处理后的文本
 
@@ -499,8 +499,8 @@
 
 用法：`STARTSWITH(text, '片段')`
 
- * `text:string` 文本
- * `startString:string` 起始文本
+- `text:string` 文本
+- `startString:string` 起始文本
 
 返回：`string` 判断结果
 
@@ -510,8 +510,8 @@
 
 用法：`ENDSWITH(text, '片段')`
 
- * `text:string` 文本
- * `endString:string` 结束文本
+- `text:string` 文本
+- `endString:string` 结束文本
 
 返回：`string` 判断结果
 
@@ -521,8 +521,8 @@
 
 用法：`CONTAINS(text, searchText)`
 
- * `text:string` 文本
- * `searchText:string` 搜索文本
+- `text:string` 文本
+- `searchText:string` 搜索文本
 
 返回：`string` 判断结果
 
@@ -532,9 +532,9 @@
 
 用法：`REPLACE(text, search, replace)`
 
- * `text:string` 要处理的文本
- * `search:string` 要被替换的文本
- * `replace:string` 要替换的文本
+- `text:string` 要处理的文本
+- `search:string` 要被替换的文本
+- `replace:string` 要替换的文本
 
 返回：`string` 处理结果
 
@@ -544,9 +544,9 @@
 
 用法：`SEARCH(text, search, 0)`
 
- * `text:string` 要处理的文本
- * `search:string` 用来搜索的文本
- * `start:number` 起始位置
+- `text:string` 要处理的文本
+- `search:string` 用来搜索的文本
+- `start:number` 起始位置
 
 返回：`number` 命中的位置
 
@@ -556,9 +556,9 @@
 
 用法：`MID(text, from, len)`
 
- * `text:string` 要处理的文本
- * `from:number` 起始位置
- * `len:number` 处理长度
+- `text:string` 要处理的文本
+- `from:number` 起始位置
+- `len:number` 处理长度
 
 返回：`number` 命中的位置
 
@@ -568,7 +568,7 @@
 
 用法：`BASENAME(text)`
 
- * `text:string` 要处理的文本
+- `text:string` 要处理的文本
 
 返回：`string` 文件名
 
@@ -586,15 +586,15 @@
 
 创建日期对象，可以通过特定格式的字符串，或者数值。
 
-需要注意的是，其中月份的数值是从0开始的，也就是说，
-如果是12月份，你应该传入数值11。
+需要注意的是，其中月份的数值是从 0 开始的，也就是说，
+如果是 12 月份，你应该传入数值 11。
 
 ### TIMESTAMP
 
 用法：`TIMESTAMP(date, 'x')`
 
- * `date:date` 日期对象
- * `format:string` 时间戳格式，带毫秒传入 'x'。默认为 'X' 不带毫秒的。
+- `date:date` 日期对象
+- `format:string` 时间戳格式，带毫秒传入 'x'。默认为 'X' 不带毫秒的。
 
 返回：`number` 时间戳
 
@@ -612,23 +612,83 @@
 
 返回现在的日期
 
+### WEEKDAY
+
+用法：`WEEKDAY(date)`
+
+- `date:any` 日期
+- `type:number` 星期定义类型，默认为 1，1 表示 0 至 6 代表星期一到星期日，2 表示 1 至 7 代表星期一到星期日
+
+返回：`number` 星期几的数字标识
+
+获取日期的星期几，
+
+示例：
+
+WEEKDAY('2023-02-27') 得到 1
+
+### WEEK
+
+用法：`WEEK(date)`
+
+- `date:any` 日期
+- `isISO:boolean` 是否 ISO 星期
+
+返回：`number` 星期几的数字标识
+
+获取年份的星期，即第几周
+
+示例：
+
+WEEK('2023-03-05') 得到 10
+
 ### DATETOSTR
 
 用法：`DATETOSTR(date, 'YYYY-MM-DD')`
 
- * `date:date` 日期对象
- * `format:string` 日期格式，默认为 "YYYY-MM-DD HH:mm:ss"
+- `date:any` 日期对象、日期字符串、时间戳
+- `format:string` 日期格式，默认为 "YYYY-MM-DD HH:mm:ss"
 
-返回：`number` 日期字符串
+返回：`string` 日期字符串
 
-将日期转成日期字符串
+对日期、日期字符串、时间戳进行格式化
+
+示例：
+
+DATETOSTR('12/25/2022', 'YYYY-MM-DD') 得到 '2022.12.25'
+DATETOSTR(1676563200, 'YYYY.MM.DD') 得到 '2023.02.17'
+DATETOSTR(1676563200000, 'YYYY.MM.DD hh:mm:ss') 得到 '2023.02.17 12:00:00'
+DATETOSTR(DATE('2021-12-21'), 'YYYY.MM.DD hh:mm:ss') 得到 '2021.12.21 08:00:00'
+
+### DATERANGESPLIT
+
+用法：`DATERANGESPLIT(date, 'YYYY-MM-DD')`
+
+- `date:string` 日期范围字符串
+- `key:string` 取值标识，0 或'start'表示获取开始时间，1 或'end'表示获取结束时间
+- `format:string` 日期格式，可选
+- `delimiter:string` 分隔符，可选，默认为','
+
+返回：`string` 日期字符串
+
+获取日期范围字符串中的开始时间、结束时间
+
+示例：
+
+DATERANGESPLIT('1676563200, 1676735999') 得到 [1676563200, 1676735999]
+DATERANGESPLIT('1676563200, 1676735999', undefined , 'YYYY.MM.DD hh:mm:ss') 得到 [2023.02.17 12:00:00, 2023.02.18 11:59:59]
+DATERANGESPLIT('1676563200, 1676735999', 0 , 'YYYY.MM.DD hh:mm:ss') 得到 '2023.02.17 12:00:00'
+DATERANGESPLIT('1676563200, 1676735999', 'start' , 'YYYY.MM.DD hh:mm:ss') 得到 '2023.02.17 12:00:00'
+DATERANGESPLIT('1676563200, 1676735999', 1 , 'YYYY.MM.DD hh:mm:ss') 得到 '2023.02.18 11:59:59'
+DATERANGESPLIT('1676563200, 1676735999', 'end' , 'YYYY.MM.DD hh:mm:ss') 得到 '2023.02.18 11:59:59'
 
 ### STARTOF
 
 用法：`STARTOF(date[unit = "day"])`
 
- * `date:date` 日期对象
- * `unit:string` 比如可以传入 'day'、'month'、'year' 或者 `week` 等等
+- `date:date` 日期对象
+- `unit:string` 比如可以传入 'day'、'month'、'year' 或者 `week` 等等
+- `format:string` 日期格式，可选
 
 返回：`date` 新的日期对象
 
@@ -638,8 +698,9 @@
 
 用法：`ENDOF(date[unit = "day"])`
 
- * `date:date` 日期对象
- * `unit:string` 比如可以传入 'day'、'month'、'year' 或者 `week` 等等
+- `date:date` 日期对象
+- `unit:string` 比如可以传入 'day'、'month'、'year' 或者 `week` 等等
+- `format:string` 日期格式，可选
 
 返回：`date` 新的日期对象
 
@@ -649,7 +710,7 @@
 
 用法：`YEAR(date)`
 
- * `date:date` 日期对象
+- `date:date` 日期对象
 
 返回：`number` 数值
 
@@ -659,7 +720,7 @@
 
 用法：`MONTH(date)`
 
- * `date:date` 日期对象
+- `date:date` 日期对象
 
 返回：`number` 数值
 
@@ -669,7 +730,7 @@
 
 用法：`DAY(date)`
 
- * `date:date` 日期对象
+- `date:date` 日期对象
 
 返回：`number` 数值
 
@@ -679,7 +740,7 @@
 
 用法：`HOUR(date)`
 
- * `date:date` 日期对象
+- `date:date` 日期对象
 
 返回：`number` 数值
 
@@ -689,7 +750,7 @@
 
 用法：`MINUTE(date)`
 
- * `date:date` 日期对象
+- `date:date` 日期对象
 
 返回：`number` 数值
 
@@ -699,7 +760,7 @@
 
 用法：`SECOND(date)`
 
- * `date:date` 日期对象
+- `date:date` 日期对象
 
 返回：`number` 数值
 
@@ -709,8 +770,8 @@
 
 用法：`YEARS(endDate, startDate)`
 
- * `endDate:date` 日期对象
- * `startDate:date` 日期对象
+- `endDate:date` 日期对象
+- `startDate:date` 日期对象
 
 返回：`number` 数值
 
@@ -720,8 +781,8 @@
 
 用法：`MINUTES(endDate, startDate)`
 
- * `endDate:date` 日期对象
- * `startDate:date` 日期对象
+- `endDate:date` 日期对象
+- `startDate:date` 日期对象
 
 返回：`number` 数值
 
@@ -731,8 +792,8 @@
 
 用法：`DAYS(endDate, startDate)`
 
- * `endDate:date` 日期对象
- * `startDate:date` 日期对象
+- `endDate:date` 日期对象
+- `startDate:date` 日期对象
 
 返回：`number` 数值
 
@@ -742,8 +803,8 @@
 
 用法：`HOURS(endDate, startDate)`
 
- * `endDate:date` 日期对象
- * `startDate:date` 日期对象
+- `endDate:date` 日期对象
+- `startDate:date` 日期对象
 
 返回：`number` 数值
 
@@ -753,9 +814,9 @@
 
 用法：`DATEMODIFY(date, 2, 'days')`
 
- * `date:date` 日期对象
- * `num:number` 数值
- * `unit:string` 单位：支持年、月、天等等
+- `date:date` 日期对象
+- `num:number` 数值
+- `unit:string` 单位：支持年、月、天等等
 
 返回：`date` 日期对象
 
@@ -765,14 +826,14 @@
 
 DATEMODIFY(A, -2, 'month')
 
-对日期 A 进行往前减2月的操作。
+对日期 A 进行往前减 2 月的操作。
 
 ### STRTODATE
 
 用法：`STRTODATE(value[, format=""])`
 
- * `value:string` 日期字符
- * `format:string` 日期格式
+- `value:string` 日期字符
+- `format:string` 日期格式
 
 返回：`date` 日期对象
 
@@ -784,9 +845,9 @@ DATEMODIFY(A, -2, 'month')
 
 用法：`ISBEFORE(a, b)`
 
- * `a:date` 第一个日期
- * `b:date` 第二个日期
- * `unit:string` 单位，默认是 'day'， 即之比较到天
+- `a:date` 第一个日期
+- `b:date` 第二个日期
+- `unit:string` 单位，默认是 'day'， 即之比较到天
 
 返回：`boolean` 判断结果
 
@@ -796,21 +857,36 @@ DATEMODIFY(A, -2, 'month')
 
 用法：`ISAFTER(a, b)`
 
- * `a:date` 第一个日期
- * `b:date` 第二个日期
- * `unit:string` 单位，默认是 'day'， 即之比较到天
+- `a:date` 第一个日期
+- `b:date` 第二个日期
+- `unit:string` 单位，默认是 'day'， 即之比较到天
 
 返回：`boolean` 判断结果
 
 判断两个日期，是否第一个日期在第二个日期的后面
 
+### BETWEENRANGE
+
+用法：`BETWEENRANGE(date, [start, end])`
+
+- `date:any` 第一个日期
+- `daterange:Array<any>` 日期范围
+- `unit:string` 单位，默认是 'day'， 即之比较到天
+- `inclusivity:string` 包容性规则，默认为'[]'。[ 表示包含、( 表示排除，如果使用包容性参数，则必须传入两个指示符，如'()'表示左右范围都排除
+
+返回：`boolean` 判断结果
+
+判断日期是否在指定范围内
+
+示例：BETWEENRANGE('2021/12/6', ['2021/12/5','2021/12/7'])
+
 ### ISSAMEORBEFORE
 
 用法：`ISSAMEORBEFORE(a, b)`
 
- * `a:date` 第一个日期
- * `b:date` 第二个日期
- * `unit:string` 单位，默认是 'day'， 即之比较到天
+- `a:date` 第一个日期
+- `b:date` 第二个日期
+- `unit:string` 单位，默认是 'day'， 即之比较到天
 
 返回：`boolean` 判断结果
 
@@ -820,9 +896,9 @@ DATEMODIFY(A, -2, 'month')
 
 用法：`ISSAMEORAFTER(a, b)`
 
- * `a:date` 第一个日期
- * `b:date` 第二个日期
- * `unit:string` 单位，默认是 'day'， 即之比较到天
+- `a:date` 第一个日期
+- `b:date` 第二个日期
+- `unit:string` 单位，默认是 'day'， 即之比较到天
 
 返回：`boolean` 判断结果
 
@@ -834,7 +910,7 @@ DATEMODIFY(A, -2, 'month')
 
 用法：`COUNT(arr)`
 
- * `arr:Array<any>` 数组
+- `arr:Array<any>` 数组
 
 返回：`boolean` 结果
 
@@ -844,8 +920,8 @@ DATEMODIFY(A, -2, 'month')
 
 用法：`ARRAYMAP(arr, item => item)`
 
- * `arr:Array<any>` 数组
- * `iterator:Array<any>` 箭头函数
+- `arr:Array<any>` 数组
+- `iterator:Array<any>` 箭头函数
 
 返回：`boolean` 结果
 
@@ -855,19 +931,98 @@ DATEMODIFY(A, -2, 'month')
 
 用法：`ARRAYFILTER(arr, item => item)`
 
- * `arr:Array<any>` 数组
- * `iterator:Array<any>` 箭头函数
+- `arr:Array<any>` 数组
+- `iterator:Array<any>` 箭头函数
 
 返回：`boolean` 结果
 
 数据做数据过滤，需要搭配箭头函数一起使用，注意箭头函数只支持单表达式用法。
 将第二个箭头函数返回为 false 的成员过滤掉。
 
+### ARRAYFINDINDEX
+
+用法：`ARRAYFINDINDEX(arr, item => item === 2)`
+
+- `arr:Array<any>` 数组
+- `iterator:Array<any>` 箭头函数
+
+返回：`number` 结果
+
+数据做数据查找，需要搭配箭头函数一起使用，注意箭头函数只支持单表达式用法。
+找出第二个箭头函数返回为 true 的成员的索引。
+
+示例：
+
+ARRAYFINDINDEX([0, 2, false], item => item === 2) 得到 1
+
+### ARRAYFIND
+
+用法：`ARRAYFIND(arr, item => item === 2)`
+
+- `arr:Array<any>` 数组
+- `iterator:Array<any>` 箭头函数
+
+返回：`any` 结果
+
+数据做数据查找，需要搭配箭头函数一起使用，注意箭头函数只支持单表达式用法。
+找出第二个箭头函数返回为 true 的成员。
+
+示例：
+
+ARRAYFIND([0, 2, false], item => item === 2) 得到 2
+
+### ARRAYSOME
+
+用法：`ARRAYSOME(arr, item => item === 2)`
+
+- `arr:Array<any>` 数组
+- `iterator:Array<any>` 箭头函数
+
+返回：`boolean` 结果
+
+数据做数据遍历判断，需要搭配箭头函数一起使用，注意箭头函数只支持单表达式用法。
+判断第二个箭头函数是否存在返回为 true 的成员。
+
+示例：
+
+ARRAYSOME([0, 2, false], item => item === 2) 得到 true
+
+### ARRAYEVERY
+
+用法：`ARRAYEVERY(arr, item => item === 2)`
+
+- `arr:Array<any>` 数组
+- `iterator:Array<any>` 箭头函数
+
+返回：`boolean` 结果
+
+数据做数据遍历判断，需要搭配箭头函数一起使用，注意箭头函数只支持单表达式用法。
+判断第二个箭头函数返回是否都为 true。
+
+示例：
+
+ARRAYEVERY([0, 2, false], item => item === 2) 得到 false
+
+### ARRAYINCLUDES
+
+用法：`ARRAYINCLUDES(arr, 2)`
+
+- `arr:Array<any>` 数组
+- `item:any` 元素
+
+返回：`any` 结果
+
+判断数据中是否存在指定元素
+
+示例：
+
+ARRAYINCLUDES([0, 2, false], 2) 得到 true
+
 ### COMPACT
 
 用法：`COMPACT(arr)`
 
- * `arr:Array<any>` 数组
+- `arr:Array<any>` 数组
 
 返回：`Array<any>` 结果
 
@@ -881,8 +1036,8 @@ COMPACT([0, 1, false, 2, '', 3]) 得到 [1, 2, 3]
 
 用法：`JOIN(arr, string)`
 
- * `arr:Array<any>` 数组
- * `separator:String` 分隔符
+- `arr:Array<any>` 数组
+- `separator:String` 分隔符
 
 返回：`String` 结果
 
@@ -896,7 +1051,7 @@ JOIN(['a', 'b', 'c'], '=') 得到 'a=b=c'
 
 用法：`CONCAT(['a', 'b', 'c'], ['1'], ['3'])`
 
- * `arr:Array<any>` 数组
+- `arr:Array<any>` 数组
 
 返回：`Array<any>` 结果
 
@@ -910,8 +1065,8 @@ CONCAT(['a', 'b', 'c'], ['1'], ['3']) 得到 ['a', 'b', 'c', '1', '3']
 
 用法：`UNIQ([{a: '1'}, {b: '2'}, {a: '1'}], 'x')`
 
- * `arr:Array<any>` 数组
- * `field:string` 字段
+- `arr:Array<any>` 数组
+- `field:string` 字段
 
 返回：`Array<any>` 结果
 
@@ -921,15 +1076,64 @@ CONCAT(['a', 'b', 'c'], ['1'], ['3']) 得到 ['a', 'b', 'c', '1', '3']
 
 UNIQ([{a: '1'}, {b: '2'}, {a: '1'}]， 'id')
 
+## 编码
+
+### ENCODEJSON
+
+用法：`ENCODEJSON({name: 'amis'})`
+
+- `obj:object` JS 对象
+
+返回：`string` 结果
+
+将 JS 对象转换成 JSON 字符串
+
+示例：
+
+ENCODEJSON({name: 'amis'}) 得到 '{"name":"amis"}'
+
+### DECODEJSON
+
+用法：`DECODEJSON('{\"name\": "amis"}')`
+
+- `str:string` 字符串
+
+返回：`object` 结果
+
+解析 JSON 编码数据，返回 JS 对象
+
+示例：
+
+DECODEJSON('{\"name\": "amis"}') 得到 {name: 'amis'}
+
 ## 其他
+
+### GET
+
+用法：`GET(arr, 2)`
+
+- `obj:any` 对象或数组
+- `path:string` 路径
+- `defaultValue:any` 如果解析不到则返回该值
+
+返回：`any` 结果
+
+根据对象或者数组的 path 路径获取值。 如果解析 value 是 undefined 会以 defaultValue 取代
+
+示例：
+
+GET([0, 2, {name: 'amis', age: 18}], 1) 得到 2
+GET([0, 2, {name: 'amis', age: 18}], '2.name') 得到 'amis'
+GET({arr: [{name: 'amis', age: 18}]}, 'arr[0].name') 得到 'amis'
+GET({arr: [{name: 'amis', age: 18}]}, 'arr.0.name') 得到 'amis'
+GET({arr: [{name: 'amis', age: 18}]}, 'arr.1.name', 'not-found') 得到 'not-found'
 
 ### ISTYPE
 
 用法：`ISTYPE([{a: '1'}, {b: '2'}, {a: '1'}], 'array')`
 
- * `判断对象:string` null
+- `判断对象:string` null
 
-返回：`boolean` 结果结果
+返回：`boolean` 结果
 
 判断是否为类型支持：string, number, array, date, plain-object。
-

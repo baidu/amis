@@ -31,6 +31,7 @@ import {withRootStore} from '../WithRootStore';
 import {FormBaseControl, FormItemWrap} from './Item';
 import {Api} from '../types';
 import {TableStore} from '../store/table';
+import pick from 'lodash/pick';
 
 export interface ControlOutterProps extends RendererProps {
   formStore?: IFormStore;
@@ -118,6 +119,7 @@ export function wrapControl<
               store,
               onChange,
               data,
+              inputGroupControl,
               $schema: {
                 name,
                 id,
@@ -180,14 +182,19 @@ export function wrapControl<
             // @issue 打算干掉这个
             formItem?.addSubFormItem(model);
             model.config({
+              // 理论上需要将渲染器的 defaultProps 全部生效，此处保险起见先只处理 multiple
+              ...pick(
+                {...ComposedComponent.defaultProps, ...this.props.$schema},
+                ['multiple']
+              ),
               id,
               type,
               required,
               unique,
               value,
+              isValueSchemaExp: isExpression(value),
               rules: validations,
               messages: validationErrors,
-              multiple,
               delimiter,
               valueField,
               labelField,
@@ -200,7 +207,8 @@ export function wrapControl<
               minLength,
               maxLength,
               validateOnChange,
-              label
+              label,
+              inputGroupControl
             });
 
             // issue 这个逻辑应该在 combo 里面自己实现。
@@ -319,6 +327,7 @@ export function wrapControl<
                 id: props.$schema.id,
                 unique: props.$schema.unique,
                 value: props.$schema.value,
+                isValueSchemaExp: isExpression(props.$schema.value),
                 rules: props.$schema.validations,
                 multiple: props.$schema.multiple,
                 delimiter: props.$schema.delimiter,
@@ -333,7 +342,8 @@ export function wrapControl<
                 validateApi: props.$schema.validateApi,
                 minLength: props.$schema.minLength,
                 maxLength: props.$schema.maxLength,
-                label: props.$schema.label
+                label: props.$schema.label,
+                inputGroupControl: props?.inputGroupControl
               });
             }
 

@@ -1,5 +1,12 @@
 import React from 'react';
-import {Renderer, RendererProps, filter, IconCheckedSchema} from 'amis-core';
+import {
+  Renderer,
+  RendererProps,
+  filter,
+  IconCheckedSchema,
+  autobind,
+  createObject
+} from 'amis-core';
 import {BaseSchema, SchemaTpl} from '../Schema';
 import {BadgeObject, withBadge} from 'amis-ui';
 import {getIcon} from 'amis-ui';
@@ -35,6 +42,39 @@ export class Icon extends React.Component<IconProps, object> {
     vendor: 'fa'
   };
 
+  @autobind
+  handleClick(e: React.MouseEvent<any>) {
+    const {dispatchEvent, data} = this.props;
+    dispatchEvent(
+      'click',
+      createObject(data, {
+        nativeEvent: e
+      })
+    );
+  }
+
+  @autobind
+  handleMouseEnter(e: React.MouseEvent<any>) {
+    const {dispatchEvent, data} = this.props;
+    dispatchEvent(
+      e,
+      createObject(data, {
+        nativeEvent: e
+      })
+    );
+  }
+
+  @autobind
+  handleMouseLeave(e: React.MouseEvent<any>) {
+    const {dispatchEvent, data} = this.props;
+    dispatchEvent(
+      e,
+      createObject(data, {
+        nativeEvent: e
+      })
+    );
+  }
+
   render() {
     const {vendor, classnames: cx, className, style, data} = this.props;
     let icon = this.props.icon;
@@ -48,7 +88,13 @@ export class Icon extends React.Component<IconProps, object> {
         (icon as IconCheckedSchema).id.startsWith('svg-')
       ) {
         return (
-          <svg className={cx('icon', className)} style={style}>
+          <svg
+            className={cx('icon', className)}
+            style={style}
+            onClick={this.handleClick}
+            onMouseEnter={this.handleMouseEnter}
+            onMouseLeave={this.handleMouseLeave}
+          >
             <use
               xlinkHref={`#${(icon as IconCheckedSchema).id.replace(
                 /^svg-/,
@@ -64,7 +110,15 @@ export class Icon extends React.Component<IconProps, object> {
 
     let CustomIcon = getIcon(icon);
     if (CustomIcon) {
-      return <CustomIcon className={cx(className, `icon-${icon}`)} style={style}/>;
+      return (
+        <CustomIcon
+          className={cx(className, `icon-${icon}`)}
+          style={style}
+          onClick={this.handleClick}
+          onMouseEnter={this.handleMouseEnter}
+          onMouseLeave={this.handleMouseLeave}
+        />
+      );
     }
 
     const isURLIcon = icon?.indexOf('.') !== -1;
@@ -79,9 +133,22 @@ export class Icon extends React.Component<IconProps, object> {
       iconPrefix = `${icon}`;
     }
     return isURLIcon ? (
-      <img className={cx('Icon')} src={icon} style={style}/>
+      <img
+        className={cx('Icon')}
+        src={icon}
+        style={style}
+        onClick={this.handleClick}
+        onMouseEnter={this.handleMouseEnter}
+        onMouseLeave={this.handleMouseLeave}
+      />
     ) : (
-      <i className={cx(iconPrefix, className)} style={style}/>
+      <i
+        className={cx(iconPrefix, className)}
+        style={style}
+        onClick={this.handleClick}
+        onMouseEnter={this.handleMouseEnter}
+        onMouseLeave={this.handleMouseLeave}
+      />
     );
   }
 }

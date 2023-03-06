@@ -42,7 +42,7 @@ export interface ColumnProps {
   fixed?: boolean | string;
   width?: number | string;
   sorter?: (a: any, b: any) => number | boolean; // 设置为true时，执行onSort，否则执行前端排序
-  sortOrder?: string; // 升序ascend、降序descend
+  sortOrder?: string; // 升序asc、降序desc
   filters?: Array<any>; // 筛选数据源，配置了数据源才展示
   filterMode?: string; // menu/tree 默认menu 先只支持menu
   filterMultiple?: boolean; // 是否支持多选
@@ -173,6 +173,7 @@ export interface TableState {
     record: any;
     target: HTMLTableRowElement;
   } | null;
+  sort?: SortProps;
 }
 
 function getMaxLevelThRowSpan(columns: Array<ColumnProps>) {
@@ -1048,24 +1049,32 @@ export class Table extends React.PureComponent<TableProps, TableState> {
                   sort = (
                     <HeadCellSort
                       column={item}
-                      onSort={
-                        onSort
-                          ? onSort
-                          : (payload: SortProps) => {
-                              if (typeof item.sorter === 'function') {
-                                if (payload.orderBy) {
-                                  const sortList = [...this.state.dataSource];
-                                  this.setState({
-                                    dataSource: sortList.sort(
-                                      item.sorter as (a: any, b: any) => number
-                                    )
-                                  });
-                                } else {
-                                  this.setState({dataSource: [...dataSource]});
-                                }
-                              }
-                            }
+                      active={
+                        !!this.state.sort?.orderBy &&
+                        this.state.sort.orderBy === item?.name
                       }
+                      onSort={(payload: SortProps) => {
+                        this.setState({
+                          sort: payload
+                        });
+
+                        if (onSort) {
+                          onSort(payload);
+                        } else {
+                          if (typeof item.sorter === 'function') {
+                            if (payload.orderBy) {
+                              const sortList = [...this.state.dataSource];
+                              this.setState({
+                                dataSource: sortList.sort(
+                                  item.sorter as (a: any, b: any) => number
+                                )
+                              });
+                            } else {
+                              this.setState({dataSource: [...dataSource]});
+                            }
+                          }
+                        }
+                      }}
                     ></HeadCellSort>
                   );
                 }

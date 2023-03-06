@@ -3,7 +3,7 @@
  * @description
  * @author fex
  */
-import React from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import cx from 'classnames';
 import CloseIcon from '../icons/close.svg';
 import CloseSmallIcon from '../icons/close-small.svg';
@@ -27,10 +27,6 @@ import RetryIcon from '../icons/retry.svg';
 import UploadIcon from '../icons/upload.svg';
 import DownloadIcon from '../icons/download.svg';
 import FileIcon from '../icons/file.svg';
-import StatusSuccessIcon from '../icons/status-success.svg';
-import StatusFailIcon from '../icons/status-fail.svg';
-import StatusInfoIcon from '../icons/status-info.svg';
-import StatusWarningIcon from '../icons/status-warning.svg';
 import SuccessIcon from '../icons/success.svg';
 import FailIcon from '../icons/fail.svg';
 import SearchIcon from '../icons/search.svg';
@@ -45,7 +41,6 @@ import ColmunsIcon from '../icons/columns.svg';
 import CalendarIcon from '../icons/calendar.svg';
 import ClockIcon from '../icons/clock.svg';
 import TreeDownIcon from '../icons/tree-down.svg';
-import CheckCircle from '../icons/check-circle.svg';
 import CloudUploadIcon from '../icons/cloud-upload.svg';
 import ImageIcon from '../icons/image.svg';
 import RefreshIcon from '../icons/refresh.svg';
@@ -150,7 +145,6 @@ registerIcon('right-arrow', RightArrowIcon);
 registerIcon('prev', LeftArrowIcon);
 registerIcon('next', RightArrowIcon);
 registerIcon('check', CheckIcon);
-registerIcon('check-circle', CheckCircle);
 registerIcon('plus', PlusIcon);
 registerIcon('add', PlusIcon);
 registerIcon('minus', MinusIcon);
@@ -161,10 +155,6 @@ registerIcon('retry', RetryIcon);
 registerIcon('upload', UploadIcon);
 registerIcon('download', DownloadIcon);
 registerIcon('file', FileIcon);
-registerIcon('status-success', StatusSuccessIcon);
-registerIcon('status-fail', StatusFailIcon);
-registerIcon('status-info', StatusInfoIcon);
-registerIcon('status-warning', StatusWarningIcon);
 registerIcon('success', SuccessIcon);
 registerIcon('fail', FailIcon);
 registerIcon('warning', WarningIcon);
@@ -210,6 +200,7 @@ registerIcon('alert-success', AlertSuccess);
 registerIcon('alert-info', AlertInfo);
 registerIcon('alert-warning', AlertWarning);
 registerIcon('alert-danger', AlertDanger);
+registerIcon('alert-fail', AlertDanger);
 registerIcon('tree-down', TreeDownIcon);
 registerIcon('function', FunctionIcon);
 registerIcon('input-clear', InputClearIcon);
@@ -243,21 +234,59 @@ registerIcon('scale-origin', ScaleOrigin);
 export function Icon({
   icon,
   className,
+  wrapClassName,
   classPrefix = '',
+  iconContent,
   ...rest
 }: {
   icon: string;
+  iconContent?: string;
 } & React.ComponentProps<any>) {
   // jest 运行环境下，把指定的 icon 也输出到 snapshot 中。
   if (typeof jest !== 'undefined') {
     rest.icon = icon;
   }
 
+  const [showCssIcon, setShowCssIcon] = useState(false);
+
+  function refFn(dom: any) {
+    if (dom) {
+      const style = getComputedStyle(dom);
+      const svgStr = style.getPropertyValue('content');
+      const svg = /(<svg.*<\/svg>)/.exec(svgStr);
+
+      if (svg) {
+        const svgHTML = svg[0].replace(/\\"/g, '"');
+        if (dom.svgHTMLClone !== svgHTML) {
+          dom.innerHTML = svgHTML;
+          // 存储svg，不直接用innerHTML是防止<circle />渲染后变成<circle></circle>的情况
+          dom.svgHTMLClone = svgHTML;
+          dom.style.display = '';
+          setShowCssIcon(true);
+        }
+      } else {
+        // 当传入svg为空时，隐藏div，展示原icon
+        dom.style.display = 'none';
+        setShowCssIcon(false);
+      }
+    }
+  }
+
   const Component = getIcon(icon);
   const isURLIcon = typeof icon === 'string' && icon?.indexOf('.') !== -1;
 
   return Component ? (
-    <Component {...rest} className={`${className || ''} icon-${icon}`} />
+    <>
+      {iconContent ? (
+        <div
+          className={`${wrapClassName || ''}` + ' ' + iconContent}
+          ref={refFn}
+        ></div>
+      ) : null}
+      {!showCssIcon ? (
+        <Component {...rest} className={`${className || ''} icon-${icon}`} />
+      ) : null}
+    </>
   ) : isURLIcon ? (
     <img className={cx(`${classPrefix}Icon`, className)} src={icon} />
   ) : (

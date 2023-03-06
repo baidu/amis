@@ -35,7 +35,7 @@ import {ListSchema} from './List';
 import {TableSchema2} from './Table2';
 import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
 import {SchemaCollection} from '../Schema';
-import {upperFirst} from 'lodash';
+import upperFirst from 'lodash/upperFirst';
 
 export type CRUDRendererEvent = 'search';
 
@@ -425,9 +425,12 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     replaceQuery?: boolean;
   }) {
     const {store, syncLocation, env, pageField, perPageField} = this.props;
-    let {query, resetQuery, replaceQuery} = data;
+    let {query, resetQuery, replaceQuery} = data || {};
 
-    query = syncLocation ? qsparse(qsstringify(query, undefined, true)) : query;
+    query =
+      syncLocation && query
+        ? qsparse(qsstringify(query, undefined, true))
+        : query;
 
     store.updateQuery(
       resetQuery ? this.props.store.pristineQuery : query,
@@ -673,6 +676,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     }
   }
 
+  @autobind
   handleSaveOrder(moved: Array<object>, rows: Array<object>) {
     const {store, saveOrderApi, orderField, primaryField, env, reload} =
       this.props;
@@ -881,10 +885,10 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
   }
 
   /**
-   * 表格列上的筛选触发
+   * 更新Query筛选触发
    */
   @autobind
-  handleTableQuery(values: object, forceReload: boolean = false) {
+  handleQuerySearch(values: object, forceReload: boolean = false) {
     const {store, syncLocation, env, pageField, perPageField} = this.props;
 
     store.updateQuery(
@@ -910,16 +914,20 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
   }
 
   receive(values: object) {
-    this.handleTableQuery(values, true);
+    this.handleQuerySearch(values, true);
   }
 
   @autobind
   doAction(action: Action, data: object, throwErrors: boolean = false) {
     if (
       action.actionType &&
-      ~['stopAutoRefresh', 'reload', 'search', 'startAutoRefresh'].includes(
-        action.actionType
-      )
+      [
+        'stopAutoRefresh',
+        'reload',
+        'search',
+        'startAutoRefresh',
+        'loadMore'
+      ].includes(action.actionType)
     ) {
       // @ts-ignore
       return this[`handle${upperFirst(action.actionType)}`](data);
@@ -989,7 +997,9 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       onPageChange: this.handleChangePage,
       cols: store.columns, // 和grid的columns属性重复，ColumnsToggler的columns改一下名字 只有用store里的columns
       toggleAllColumns: this.toggleAllColumns,
-      toggleToggle: this.toggleToggle
+      toggleToggle: this.toggleToggle,
+      // 支持 onQuery，主要是给 searchBox 组件使用
+      onQuery: this.handleQuerySearch
       // onAction: onAction
     };
 
@@ -1159,17 +1169,17 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
                 : undefined,
             keepItemSelectionOnPageChange,
             maxKeepItemSelectionLength,
-            valueField: valueField || primaryField,
+            // valueField: valueField || primaryField,
             primaryField: primaryField,
             items: store.data.items,
             query: store.query,
             orderBy: store.query.orderBy,
             orderDir: store.query.orderDir,
             popOverContainer,
-            onSave: this.handleSave,
+            onSave: this.handleSave.bind(this),
             onSaveOrder: this.handleSaveOrder,
-            onSearch: this.handleTableQuery,
-            onSort: this.handleTableQuery,
+            onSearch: this.handleQuerySearch,
+            onSort: this.handleQuerySearch,
             onSelect: this.handleSelect,
             data: store.mergedData,
             loading: store.loading

@@ -1044,11 +1044,6 @@
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
-
-  .#{$ns}Button {
-    border-color: transparent;
-    color: var(--button-link-default-font-color);
-  }
 }
 
 .#{$ns}InputTable-pager {

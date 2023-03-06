@@ -344,7 +344,7 @@ export class ToastMessage extends React.Component<
       useMobileUI,
       translate: __
     } = this.props;
-    const iconName = useMobileUI ? '' : 'status-';
+    const iconName = useMobileUI ? '' : 'alert-';
 
     return (
       <Transition

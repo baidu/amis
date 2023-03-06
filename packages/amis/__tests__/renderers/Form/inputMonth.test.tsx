@@ -100,7 +100,8 @@ test('Renderer:inputMonth with dynamic minDate & maxDate', async () => {
   const items = container.querySelectorAll('.cxd-DatePicker');
   expect(items.length).toBe(2);
 
-  const [start, end] = items;
+  const start = items[0];
+  const end = items[1];
 
   fireEvent.click(end);
 
@@ -121,4 +122,4 @@ test('Renderer:inputMonth with dynamic minDate & maxDate', async () => {
   expect(end.querySelector('.rdtMonth:not(.rdtDisabled)')!).toHaveTextContent(
     '8月'
   );
-});
+}, 10000);

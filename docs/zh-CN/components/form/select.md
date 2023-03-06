@@ -958,6 +958,108 @@ leftOptions 动态加载，默认 source 接口是返回 options 部分，而 le
 }
 ```
 
+## 自定义下拉区域宽度与对齐方式
+
+> 2.8.0 以上版本
+
+使用字符串或数字，使用数字时单位为`px`；支持单位: `%`、`px`、`rem`、`em`、`vw`。
+
+```schema: scope="body"
+{
+  "type": "page",
+  "body": {
+    "type": "form",
+    "body": [
+      {
+        "label": "80% 宽度靠右对齐",
+        "type": "select",
+        "name": "select",
+        "menuTpl": "<div>${label} 值：${value}, 当前是否选中: ${checked}</div>",
+        "overlay": {
+          "width": "80%",
+          "align": "right"
+        },
+        "options": [
+          {
+            "label": "A",
+            "value": "a"
+          },
+          {
+            "label": "B",
+            "value": "b"
+          },
+          {
+            "label": "C",
+            "value": "c"
+          }
+        ]
+      },
+      {
+        "label": "300px 宽度中间对齐",
+        "type": "select",
+        "name": "select",
+        "menuTpl": "<div>${label} 值：${value}, 当前是否选中: ${checked}</div>",
+        "overlay": {
+          "width": 300,
+          "align": "center"
+        },
+        "options": [
+          {
+            "label": "A",
+            "value": "a"
+          },
+          {
+            "label": "B",
+            "value": "b"
+          },
+          {
+            "label": "C",
+            "value": "c"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+使用相对数值，如：`-20px` 相当于 `100% - 20px`；`+10vw` 相当于 `100% + 10vw`。支持如上相同单位。
+
+```schema: scope="body"
+{
+  "type": "page",
+  "body": {
+    "type": "form",
+    "body": [
+      {
+        "label": "相对窄 100px 向左对齐",
+        "type": "select",
+        "name": "select",
+        "overlay": {
+          "width": "-100px",
+          "align": "left"
+        },
+        "popOverContainerSelector": "body",
+        "options": [
+          {
+            "label": "A",
+            "value": "a"
+          },
+          {
+            "label": "B",
+            "value": "b"
+          },
+          {
+            "label": "C",
+            "value": "c"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
 ## searchApi
 
 **发送**
@@ -1037,7 +1139,8 @@ leftOptions 动态加载，默认 source 接口是返回 options 部分，而 le
 | overflowTagPopover       | `TooltipObject`                                                                   | `{"placement": "top", "trigger": "hover", "showArrow": false, "offset": [0, -10]}` | 收纳浮层的配置属性，详细配置参考[Tooltip](../tooltip#属性表)                                                                                                                                                 |
 | optionClassName          | `string`                                                                          |                                                                                    | 选项 CSS 类名                                                                                                                                                                                                |
 | popOverContainerSelector | `string`                                                                          |                                                                                    | 弹层挂载位置选择器，会通过`querySelector`获取                                                                                                                                                                |
-| clearable                | `boolean`                                                                         | 是否展示清空图标 ｜                                                                |
+| clearable                | `boolean`                                                                         |                                                                                    | 是否展示清空图标                                                                                                                                                                                             |
+| overlay                  | `{ width: string \| number, align: "left" \| "center" \| "right" }`               |                                                                                    | 弹层宽度与对齐方式 `2.8.0 以上版本`                                                                                                                                                                          |
 
 ## 事件表
 

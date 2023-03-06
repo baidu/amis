@@ -3,11 +3,13 @@ import hotkeys from 'hotkeys-js';
 import {
   ActionObject,
   extendObject,
+  insertCustomStyle,
   IScopedContext,
   isObject,
   Renderer,
   RendererProps,
-  ScopedContext
+  ScopedContext,
+  uuid
 } from 'amis-core';
 import {filter} from 'amis-core';
 import {BadgeObject, Button, SpinnerExtraProps} from 'amis-ui';
@@ -182,6 +184,11 @@ export interface AjaxActionSchema extends ButtonSchema {
   reload?: SchemaReload;
   redirect?: string;
   ignoreConfirm?: boolean;
+
+  /**
+   * 是否开启请求隔离, 主要用于隔离联动CRUD, Service的请求
+   */
+  isolateScope?: boolean;
 }
 
 export interface DownloadActionSchema
@@ -416,7 +423,8 @@ const ActionProps = [
   'payload',
   'requireSelected',
   'countDown',
-  'fileName'
+  'fileName',
+  'isolateScope'
 ];
 import {filterContents} from './Remark';
 import {ClassNamesFn, themeable, ThemeProps} from 'amis-core';
@@ -614,7 +622,10 @@ export class Action extends React.Component<ActionProps, ActionState> {
 
   constructor(props: ActionProps) {
     super(props);
-    this.localStorageKey = 'amis-countdownend-' + (this.props.name || '');
+    this.localStorageKey =
+      'amis-countdownend-' +
+      (this.props.name || '') +
+      (this.props?.$schema?.id || uuid());
     const countDownEnd = parseInt(
       localStorage.getItem(this.localStorageKey) || '0'
     );
@@ -780,8 +791,26 @@ export class Action extends React.Component<ActionProps, ActionState> {
       onMouseLeave,
       classnames: cx,
       classPrefix: ns,
-      loadingConfig
+      loadingConfig,
+      css,
+      id
     } = this.props;
+    insertCustomStyle(
+      css,
+      [
+        {
+          key: 'className',
+          value: className,
+          weights: {
+            hover: {
+              suf: ':not(:disabled):not(.is-disabled)'
+            },
+            active: {suf: ':not(:disabled):not(.is-disabled)'}
+          }
+        }
+      ],
+      id
+    );
 
     if (actionType !== 'email' && body) {
       return (

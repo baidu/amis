@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Renderer:fieldSet 1`] = `
+exports[`Renderer:InputGroup 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
@@ -53,7 +53,7 @@ exports[`Renderer:fieldSet 1`] = `
             class="cxd-Form-value"
           >
             <div
-              class="cxd-InputGroup cxd-Form-control"
+              class="cxd-InputGroup cxd-InputGroup-validation--full cxd-Form-control"
             >
               <div
                 class="cxd-TextControl-input cxd-Form-control"

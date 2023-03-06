@@ -28,6 +28,7 @@ export interface ResultBoxProps
   maxTagCount?: number;
   overflowTagPopover?: TooltipObject;
   actions?: JSX.Element | JSX.Element[];
+  showInvalidMatch?: boolean;
 }
 
 export class ResultBox extends React.Component<ResultBoxProps> {
@@ -107,7 +108,8 @@ export class ResultBox extends React.Component<ResultBoxProps> {
       maxTagCount,
       overflowTagPopover,
       itemRender,
-      classnames: cx
+      classnames: cx,
+      showInvalidMatch
     } = this.props;
 
     if (
@@ -133,6 +135,7 @@ export class ResultBox extends React.Component<ResultBoxProps> {
         ...tags.slice(0, maxVisibleCount),
         {label: `+ ${tags.length - maxVisibleCount} ...`}
       ].map((item, index) => {
+        const isShowInvalid = showInvalidMatch && item?.__unmatched;
         return index === maxVisibleCount ? (
           <TooltipWrapper
             key={tags.length}
@@ -146,7 +149,12 @@ export class ResultBox extends React.Component<ResultBoxProps> {
                       const itemIndex = index + maxVisibleCount;
 
                       return (
-                        <div className={cx('ResultBox-value')} key={itemIndex}>
+                        <div
+                          className={cx('ResultBox-value', {
+                            'is-invalid': showInvalidMatch && item?.__unmatched
+                          })}
+                          key={itemIndex}
+                        >
                           <span className={cx('ResultBox-valueLabel')}>
                             {itemRender(item)}
                           </span>
@@ -160,12 +168,22 @@ export class ResultBox extends React.Component<ResultBoxProps> {
               )
             }}
           >
-            <div className={cx('ResultBox-value')} key={index}>
+            <div
+              className={cx('ResultBox-value', {
+                'is-invalid': isShowInvalid
+              })}
+              key={index}
+            >
               <span className={cx('ResultBox-valueLabel')}>{item.label}</span>
             </div>
           </TooltipWrapper>
         ) : (
-          <div className={cx('ResultBox-value')} key={index}>
+          <div
+            className={cx('ResultBox-value', {
+              'is-invalid': isShowInvalid
+            })}
+            key={index}
+          >
             <span className={cx('ResultBox-valueLabel')}>
               {itemRender(item)}
             </span>
@@ -178,7 +196,12 @@ export class ResultBox extends React.Component<ResultBoxProps> {
     }
 
     return tags.map((item, index) => (
-      <div className={cx('ResultBox-value')} key={index}>
+      <div
+        className={cx('ResultBox-value', {
+          'is-invalid': showInvalidMatch && item?.__unmatched
+        })}
+        key={index}
+      >
         <span className={cx('ResultBox-valueLabel')}>{itemRender(item)}</span>
         <a data-index={index} onClick={this.removeItem}>
           <Icon icon="close" className="icon" />

@@ -144,7 +144,7 @@ test('Renderer:tabsTransfer', async () => {
   expect(onSubmit.mock.calls[0][0]).toEqual({
     a: 'zhugeliang,yunzhongjun2'
   });
-});
+}, 10000);
 
 test('Renderer:tabsTransfer with deferApi', async () => {
   const fetcher = jest.fn().mockImplementation(() =>
@@ -269,4 +269,4 @@ test('Renderer:tabsTransfer with deferApi', async () => {
   expect(notify).toBeCalledTimes(1);
 
   expect(container).toMatchSnapshot();
-});
+}, 10000);

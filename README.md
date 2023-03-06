@@ -13,15 +13,13 @@
 </div>
 
 <div align="center">
-  QQ 群: 1147750223（已满） |
-  QQ 群2: 651547026 |
   如流群：3395342 |
   如流群2：5511067|
 </div>
 
 <div align="center">
 
-![build](https://img.shields.io/github/workflow/status/baidu/amis/gh-pages/master)
+![build](https://img.shields.io/github/actions/workflow/status/baidu/amis/gh-pages.yml)
 ![license](https://img.shields.io/github/license/baidu/amis.svg)
 ![version](https://img.shields.io/npm/v/amis)
 ![language](https://img.shields.io/github/languages/top/baidu/amis)

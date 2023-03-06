@@ -79,12 +79,6 @@ $remFactor: 16px;
   --code-color: var(--danger);
   --code-background: var(--background);
   --pre-background: var(--background);
-  --link-color: var(--info);
-  --link-decoration: none;
-
-  --link-onHover-color: var(--colors-brand-5);
-  --link-onClick-color: var(--colors-brand-4);
-  --link-onHover-decoration: none;
 
   --body-bg: var(--light);
   --body-size: var(--fontSizeBase);
@@ -95,8 +89,8 @@ $remFactor: 16px;
   --gap-sm: var(--sizes-size-5);
   --gap-base: var(--sizes-size-7);
   --gap-md: var(--sizes-size-9);
-  --gap-lg: var(--sizes-base-11);
-  --gap-xl: var(--sizes-base-13);
+  --gap-lg: var(--sizes-base-10);
+  --gap-xl: var(--sizes-base-12);
 
   --icon-color: var(--colors-neutral-text-5);
   --icon-onHover-color: var(--colors-brand-5);
@@ -116,18 +110,18 @@ $remFactor: 16px;
 
   // 以下是分组件的
   --Alert--danger-bg: var(--colors-error-10);
-  --Alert--danger-borderColor: var(--colors-neutral-fill-none);
+  --Alert--danger-borderColor: transparent;
   --Alert--danger-color: var(--colors-neutral-text-2);
   --Alert--info-bg: var(--colors-info-10);
-  --Alert--info-borderColor: var(--colors-neutral-fill-none);
+  --Alert--info-borderColor: transparent;
   --Alert--info-color: var(--colors-neutral-text-2);
   --Alert--success-bg: var(--colors-success-10);
-  --Alert--success-borderColor: var(--colors-neutral-fill-none);
+  --Alert--success-borderColor: transparent;
   --Alert--success-color: var(--colors-neutral-text-2);
   --Alert--warning-bg: var(--colors-warning-10);
-  --Alert--warning-borderColor: var(--colors-neutral-fill-none);
+  --Alert--warning-borderColor: transparent;
   --Alert--warning-color: var(--colors-neutral-text-2);
-  --Alert-borderColor: var(--colors-neutral-fill-none);
+  --Alert-borderColor: transparent;
   --Alert-borderRadius: var(--borders-radius-3);
   --Alert-borderWidth: var(--borderWidth);
   --Alert-boxShadow: none;
@@ -137,7 +131,7 @@ $remFactor: 16px;
   --Alert-paddingY: var(--gap-xs);
   --Alert-fontColor: var(--colors-neutral-text-4);
   --Alert-title-fontColor: var(--colors-neutral-text-2);
-  --Alert-height: var(--sizes-base-21);
+  --Alert-height: var(--sizes-base-20);
 
   --Audio-border: #{px2rem(1px)} solid #dee2e6;
   --Audio-height: #{px2rem(50px)};
@@ -216,75 +210,6 @@ $remFactor: 16px;
   );
   --Breadcrumb-item-disabled-color: var(--colors-neutral-text-6);
 
-  --Calendar-btn-bg: var(--info);
-  --Calendar-btn-border: var(--Calendar-btn-bg);
-  --Calendar-btn-borderRadius: var(--Button-borderRadius);
-  --Calendar-btn-color: var(--colors-neutral-fill-11);
-  --Calendar-btn-fontSize: var(--fontSizeSm);
-  --Calendar-btn-height: #{px2rem(30px)};
-  --Calendar-btn-lineHeight: var(--lineHeightBase);
-  --Calendar-btn-onActive-bg: var(--colors-brand-4);
-  --Calendar-btn-onActive-border: var(--colors-brand-3);
-  --Calendar-btn-onActive-color: var(--Calendar-btn-color);
-  --Calendar-btn-onHover-bg: var(--colors-brand-4);
-  --Calendar-btn-onHover-border: var(--colors-brand-3);
-  --Calendar-btn-onHover-color: var(--Calendar-btn-color);
-  --Calendar-btn-paddingX: #{px2rem(10px)};
-  --Calendar-btn-paddingY: calc(
-    (
-        var(--Calendar-btn-height) - var(--Calendar-btn-lineHeight) *
-          var(--Calendar-btn-fontSize)
-      ) / 2
-  );
-  --Calendar-btnCancel-bg: var(--light);
-  --Calendar-btnCancel-border: var(--colors-neutral-line-7);
-  --Calendar-btnCancel-borderRadius: var(--borders-radius-3);
-  --Calendar-btnCancel-color: var(--text-color);
-  --Calendar-btnCancel-onActive-bg: var(--colors-neutral-fill-11);
-  --Calendar-btnCancel-onActive-border: var(--colors-brand-4);
-  --Calendar-btnCancel-onActive-color: var(--colors-brand-4);
-  --Calendar-btnCancel-onHover-bg: var(--colors-neutral-fill-11);
-  --Calendar-btnCancel-onHover-border: var(--colors-brand-6);
-  --Calendar-btnCancel-onHover-color: var(--colors-brand-6);
-  --Calendar-cell-bg: var(--colors-neutral-fill-11);
-  --Calendar-cell-onActive-bg: var(--info);
-  --Calendar-cell-onBetween-bg: #{rgba($info, 0.1)};
-  --Calendar-cell-onDisabled-bg: #f7f7f9;
-  --Calendar-cell-onHover-bg: #f7f7f9;
-  --Calendar-color: #151b26;
-  --Calendar-fontSize: var(--fontSizeSm);
-  --Calendar-input-borderColor: var(--borderColor);
-  --Calendar-input-borderRadius: var(--borders-radius-3);
-  --Calendar-input-color: var(--info);
-  --Calendar-input-fontSize: var(--fontSizeBase);
-  --Calendar-input-height: #{px2rem(40px)};
-  --Calendar-input-lineHeight: var(--lineHeightBase);
-  --Calendar-input-onFocused-borderColor: var(--info);
-  --Calendar-input-paddingX: #{px2rem(10px)};
-  --Calendar-input-paddingY: calc(
-    (
-        var(--Calendar-input-height) - var(--Calendar-input-lineHeight) *
-          var(--Calendar-input-fontSize)
-      ) / 2
-  );
-  --Calendar-shortcut-color: #151b26;
-  --Calendar-shortcut-decoration: none;
-  --Calendar-shortcut-onHover-color: var(--colors-brand-6);
-  --Calendar-shortcut-onHover-decoration: none;
-  --Calendar-shortcuts-bg: var(--colors-neutral-text-9);
-  --Calendar-shortcuts-height: var(--sizes-size-9);
-  --Calendar-wLabel-color: var(--colors-neutral-text-6);
-
-  --Calendar-icon-bottom: #{px2rem(-4px)};
-  --Calendar-icon-width: var(--sizes-size-6);
-  --Calendar-icon-height: var(--sizes-size-6);
-  --Calendar-borderWidth: var(--borders-width-2);
-  --Calendar-borderColor: var(--colors-brand-5);
-  --Calendar-rdt-day: var(--sizes-base-50);
-  --Calendar-schedule-content-padding: 0 var(--sizes-size-3);
-  --Calendar-schedule-content-height: var(--sizes-base-11);
-  --Calendar-schedule-content-color: (--colors-neutral-text-11);
-
   --Card-actions-borderColor: var(--colors-neutral-line-10);
   --Card-actions-fontSize: var(--fonts-size-8);
   --Card-actions-onChecked-onHover-bg: var(--colors-neutral-fill-11);
@@ -331,29 +256,6 @@ $remFactor: 16px;
   --Carousel-svg-width: var(--gap-lg);
   --Carousel-transitionDuration: var(--animation-duration);
 
-  --Checkbox--full-inner-size: var(--sizes-size-5);
-  --Checkbox--sm--full-inner-size: var(--sizes-size-5);
-  --Checkbox--sm-inner-size: var(--sizes-size-5);
-  --Checkbox--sm-size: var(--sizes-size-8);
-  --Checkbox-borderRadius: #{px2rem(2px)};
-  --Checkbox-color: var(--Form-input-borderColor);
-  --Checkbox-gap: var(--gap-xs);
-  --Checkbox-gb: #fff;
-  --Checkbox-size: #{px2rem(16px)};
-  --Checkbox-inner-size: var(--sizes-size-5);
-  --Checkbox-onHover-color: var(--info);
-  --Checkbox-onDisabled-bg: var(--colors-neutral-fill-10);
-  --Checkbox-onDisabled-color: var(--colors-neutral-text-6);
-  --Checkbox-inner-onDisabled-bg: #d4d6d9;
-  --Checkbox-inner-onDisabled-color: #ffffff;
-  --Checkbox-disabled-unchecked-bg: #f7f7f9;
-  --Checkbox-inner-disabled-checked-bg: #e8e9eb;
-  --Checkbox-border-width: var(--Form-input-borderWidth);
-  --Checkbox-paddingX: #{px2rem(12px)};
-  --Checkbox-button-height: #{px2rem(32px)};
-  --Checkbox-button-line-height: #{px2rem(28px)};
-  --Checkbox-button-min-width: #{px2rem(80px)};
-
   --ColorPicker-bg: var(--colors-neutral-fill-11);
   --ColorPicker-borderColor: var(--Form-input-borderColor);
   --ColorPicker-borderRadius: var(--borders-radius-3);
@@ -392,7 +294,8 @@ $remFactor: 16px;
   --Combo-addBtn-borderRadius: var(--borders-radius-3);
   --Combo-addBtn-color: var(--colors-neutral-text-11);
   --Combo-addBtn-fontSize: var(--fonts-size-8);
-  --Combo-addBtn-height: var(--sizes-base-14);
+  --Combo-addBtn-fontWeight: var(--fonts-weight-6);
+  --Combo-addBtn-height: var(--sizes-base-13);
   --Combo-addBtn-lineHeight: var(--fonts-lineHeight-2);
   --Combo-addBtn-onActive-bg: var(--colors-brand-4);
   --Combo-addBtn-onActive-border: var(--colors-neutral-line-4);
@@ -417,71 +320,14 @@ $remFactor: 16px;
   --Copyable-iconColor: var(--icon-color);
   --Copyable-onHover-iconColor: var(--icon-onHover-color);
 
-  --Collapse-border: var(--borders-width-2) solid var(--colors-neutral-line-8);
-  --Collapse-border-color: var(--colors-neutral-line-8);
-  --Collapse-header-fontSize: var(--fonts-size-7);
-  --Collapse-header-fontWeight: var(--fonts-weight-6);
-  --Collapse-header-padding: var(--sizes-size-9);
-  --Collapse-header-bg: var(--colors-neutral-fill-10);
-  --Collapse-header-onHover-bg: var(--colors-neutral-fill-9);
-  --Collapse-header-collapsed-border: var(--borderWidth) solid
-    var(--Collapse-border-color);
-  --Collapse-header-collapsed-borderTop: none;
-  --Collapse-header-collapsed-borderBottom: none;
-  --Collapse-header-wrapper-direction: row-reverse;
-  --Collapse-header-bg-disabled-color: var(--colors-neutral-fill-6);
-  --Collapse-content-padding: var(--sizes-size-9);
-  --Collapse-content-color: var(--colors-neutral-text-4);
-  --Collapse-content-fontSize: var(--fonts-size-8);
-  --Collapse-content-fontWeight: var(--fonts-weight-6);
-
   --Crud-toolbar-gap: var(--sizes-size-6);
   --Crud-toolbar-height: #{px2rem(30px)};
   --Crud-toolbar-lineHeight: var(--lineHeightBase);
 
-  --DatePicker-bg: var(--colors-neutral-fill-11);
-  --DatePicker-borderColor: var(--Form-input-borderColor);
-  --DatePicker-borderRadius: var(--borders-radius-3);
-  --DatePicker-borderWidth: var(--borders-width-2);
-  --DatePicker-color: var(--colors-neutral-text-2);
-  --DatePicker-header-onHover-color: var(--colors-brand-6);
-  --DatePicker-arrow-color: #84868c;
-  --DatePicker-fontSize: var(--fontSizeSm);
-  --DatePicker-header-select-borderColor: #fff;
-  --DatePicker-height: var(--Form-input-height);
-  --DatePicker-iconColor: var(--icon-color);
-  --DatePicker-lineHeight: var(--Form-input-lineHeight);
-  --DatePicker-onFocused-borderColor: var(--colors-brand-4);
-  --DatePicker-onHover-bg: var(--colors-neutral-fill-11);
-  --DatePicker-onHover-borderColor: var(--colors-brand-5);
-  --DatePicker-onDisabled-bg: var(--colors-neutral-text-9);
-  --DatePicker-onDisabled-color: var(--colors-neutral-text-6);
-  --DatePicker-onHover-iconColor: var(--colors-brand-5);
-  --DatePicker-paddingX: #{px2rem(12px)};
-  --DatePicker-paddingY: calc(
-    (
-        var(--DatePicker-height) - var(--DatePicker-lineHeight) *
-          var(--DatePicker-fontSize)
-      ) / 2 - var(--DatePicker-borderWidth)
-  );
-  --DatePicker-placeholderColor: var(--colors-neutral-text-6);
-  --DatePicker-minWidth: calc(
-    var(--fontSizeLg) * 5 + var(--DatePicker-paddingX) * 2 +
-      var(--Form-input-clearBtn-size) * 2
-  );
-  --DateRangePicker-minWidth: calc(
-    var(--fontSizeLg) * 8 + var(--DatePicker-paddingX) * 2 +
-      var(--Form-input-clearBtn-size) * 2
-  );
-  --DateRangePicker-activeCursor-color: var(--colors-brand-4);
-  --DateRangePicker-activeCursor-height: 2px;
-
   --LocationPicker-borderRadius: var(--borders-radius-3);
 
-  --Divider-borderStyle: solid;
-
   --Drawer-bg: var(--background);
-  --Drawer-body-padding: var(--sizes-base-13);
+  --Drawer-body-padding: var(--sizes-base-12);
   --Drawer-footer-margin: var(--sizes-size-9);
   --Drawer-close-color: var(--colors-neutral-text-2);
   --Drawer-close-onHover-color: var(--text-color);
@@ -493,7 +339,7 @@ $remFactor: 16px;
   --Drawer-footer-padding: var(--gap-base);
   --Drawer-header-bg: var(--colors-neutral-fill-11);
   --Drawer-header-borderColor: var(--colors-neutral-line-10);
-  --Drawer-header-padding: var(--sizes-size-9) var(--sizes-base-13);
+  --Drawer-header-padding: var(--sizes-size-9) var(--sizes-base-12);
   --Drawer-overlay-bg: rgba(0, 0, 0, 0.6);
   --Drawer-title-fontColor: var(--colors-neutral-text-2);
   --Drawer-title-fontSize: var(--fontSizeMd);
@@ -531,11 +377,6 @@ $remFactor: 16px;
   --Form--horizontal-gutterWidth: var(--gap-md);
   --Form--horizontal-label-align: right;
   --Form--horizontal-label-whiteSpace: normal;
-  --Form--horizontal-label-widthBase: var(--sizes-base-50);
-  --Form--horizontal-label-widthLg: #{px2rem(200px)};
-  --Form--horizontal-label-widthMd: #{px2rem(140px)};
-  --Form--horizontal-label-widthSm: var(--sizes-base-36);
-  --Form--horizontal-label-widthXs: var(--sizes-base-26);
 
   --Form--horizontal-justify-label-align: left;
   --Form--horizontal-justify-value-align: right;
@@ -546,12 +387,7 @@ $remFactor: 16px;
   --Form-control-widthSm: #{px2rem(160px)};
   --Form-control-widthXs: #{px2rem(80px)};
 
-  --Form-description-color: var(--colors-neutral-text-3);
-  --Form-description-fontSize: var(--fontSizeSm);
-
   --Form-fontSize: var(--fontSizeBase);
-  --Form-item-fontSize: var(--fontSizeBase);
-  --Form-item-fontColor: (--colors-neutral-text-4);
 
   --Form-group--lg-gutterWidth: #{px2rem(40px)};
   --Form-group--md-gutterWidth: #{px2rem(30px)};
@@ -569,7 +405,7 @@ $remFactor: 16px;
   --Form-input-boxShadow: none;
   --Form-input-color: var(--colors-neutral-text-2);
   --Form-input-fontSize: var(--Form-fontSize);
-  --Form-input-height: var(--sizes-base-17);
+  --Form-input-height: var(--sizes-base-16);
   --Form-input-iconColor: var(--colors-neutral-text-5);
   --Form-input-lineHeight: var(--fonts-lineHeight-2);
   --Form-input-marginBottom: var(--sizes-size-3);
@@ -590,11 +426,6 @@ $remFactor: 16px;
   --Form-input-password-icon-size: var(--sizes-size-9);
   --Form-input-password-icon-color: var(--colors-neutral-text-5);
 
-  --Form-inputNumber-paddingX: #{px2rem(12px)};
-  --Form-inputNumber-base-width: #{px2rem(24px)};
-  --Form-inputNumber-base-height: #{px2rem(32px)};
-  --Form-inputNumber-strong-disabled-color: #b4b6ba;
-
   --Form-input-paddingY: calc(
     (
         var(--Form-input-height) - var(--Form-input-lineHeight) *
@@ -610,8 +441,6 @@ $remFactor: 16px;
   --Form-input-clearBtn-color-onHover: var(--colors-neutral-text-4);
   --Form-input-clearBtn-color-onActive: var(--colors-neutral-text-3);
 
-  --Form-item-gap: var(--sizes-base-13);
-
   --Form-label-paddingTop: calc(
     (
         var(--Form-input-height) - var(--Form-input-lineHeight) *
@@ -619,66 +448,6 @@ $remFactor: 16px;
       ) / 2
   );
   --Form-row-gutterWidth: #{px2rem(10px)};
-
-  --Form-select-bg: var(--colors-neutral-fill-11);
-  --Form-select-height: var(--Form-select-outer-top);
-  --Form-select-borderColor: var(--Form-input-borderColor);
-  --Form-select-borderRadius: var(--borders-radius-3);
-  --Form-select-borderWidth: var(--borders-width-2);
-  --Form-select-caret-iconColor: var(--colors-neutral-text-5);
-  --Form-select-caret-onHover-iconColor: var(--colors-neutral-text-5);
-  --Form-select-caret-fontSize: var(--fonts-size-8);
-  --Form-select-checkall-bottomBorder: #eceff8;
-  --Form-select-color: var(--colors-neutral-text-2);
-  --Form-select-input-fontSize: var(--fontSizeSm);
-  --Form-select-menu-bg: var(--colors-neutral-fill-11);
-  --Form-select-menu-color: var(--colors-neutral-text-2);
-  --Form-select-menu-height: var(--sizes-base-13);
-  --Form-select-menu-onActive-bg: transparent;
-  --Form-select-menu-onActive-color: var(--colors-brand-5);
-  --Form-select-menu-onDisabled-bg: transparent;
-  --Form-select-menu-onDisabled-color: var(--text--muted-color);
-  --Form-select-menu-onHover-bg: var(--colors-brand-10);
-  --Form-select-menu-onHover-color: var(--colors-neutral-text-2);
-  --Form-select-group-color: var(--Form-select-caret-iconColor);
-  --Form-select-onError-borderColor: var(--Form-input-onError-borderColor);
-  --Form-select-onFocused-borderColor: var(--Form-input-onFocused-borderColor);
-  --Form-select-onFocused-color: var(--Form-select-color);
-  --Form-select-onHover-bg: (--colors-neutral-fill-11);
-  --Form-select-onHover-borderColor: var(--colors-brand-5);
-  --Form-select-outer-borderWidth: var(--borders-width-1);
-  --Form-select-outer-top: var(--sizes-base-17);
-  --Form-select-outer-boxShadow: var(--shadows-shadow-normal);
-  --Form-select-paddingX: var(--Form-input-paddingX);
-  --Form-select-placeholderColor: var(--Form-input-placeholderColor);
-  --Form-select-popoverGap: var(--borders-radius-3);
-  --Form-select-icon-rigin: var(--sizes-size-9);
-  --Form-select-search-height: var(--sizes-base-16);
-  --Form-select-value-bgColor: var(--Form-input-onDisabled-bg);
-  --Form-select-value-bgColor--dark: var(--colors-neutral-fill-4);
-  --Form-select-value-borderColor: var(--colors-neutral-line-9);
-  --Form-select-valueIcon-color: var(--colors-neutral-text-4);
-  --Form-select-valueIcon-color--dark: var(--colors-neutral-text-8);
-  --Form-select-valueIcon-onHover-color: var(--Form-select-color);
-  --Form-select-multiple-bgColor: var(--colors-neutral-fill-10);
-  --Form-selectOption-height: var(--Form-select-height);
-  --Form-selectValue-bg: #{saturate(lighten($info, 40%), 2.5%)};
-  --Form-selectValue-onHover-bgColor: var(--Form-select-borderColor);
-  --Form-selectValue-borderColor: var(--colors-brand-7);
-  --Form-selectValue-color: var(--colors-brand-5);
-  --Form-selectValue-fontSize: var(--fontSizeSm);
-  --Form-selectValue-onDisable-bg: #{lighten(
-      saturate(lighten($info, 40%), 2.5%),
-      5%
-    )};
-  --Form-selectValue-onHover-bg: #{darken(
-      saturate(lighten($info, 40%), 2.5%),
-      5%
-    )};
-  --Form-selectValue-onDisabled-color: var(--Form-select-caret-iconColor);
-  --Form-selectValue-onInvalid-color: var(--danger);
-  --Form-valueLabel-maxWidth: #{px2rem(120px)};
-  --Form-select-onFocus-boxShadow: none;
 
   --IconPicker-content-maxHeight: #{px2rem(350px)};
   --IconPicker-padding: var(--gap-xs);
@@ -691,32 +460,6 @@ $remFactor: 16px;
   --IconPicker-tab-onActive-bg: var(--colors-neutral-fill-11);
   --IconPicker-tab-padding: 0 #{px2rem(10px)};
   --IconPicker-tabs-bg: #f0f3f4;
-
-  --ImageControl-addBtn-bg: var(--colors-neutral-fill-11);
-  --ImageControl-addBtn-border: var(--colors-neutral-line-7);
-  --ImageControl-addBtn-borderRadius: var(--borders-radius-3);
-  --ImageControl-addBtn-color: var(--colors-neutral-text-5);
-  --ImageControl-addBtn-onActive-bg: var(--colors-neutral-fill-8);
-  --ImageControl-addBtn-onActive-border: var(--colors-brand-5);
-  --ImageControl-addBtn-onActive-color: var(--colors-brand-5);
-  --ImageControl-addBtn-onDisabled-bg: var(--colors-neutral-fill-10);
-  --ImageControl-addBtn-onDisabled-border: var(--colors-neutral-line-8);
-  --ImageControl-addBtn-onDisabled-color: var(--colors-neutral-text-6);
-  --ImageControl-addBtn-onHover-bg: var(--colors-neutral-fill-11);
-  --ImageControl-addBtn-onHover-border: var(--colors-brand-5);
-  --ImageControl-addBtn-onHover-color: var(--colors-brand-5);
-  --ImageControl-addBtn-upload-color: var(--colors-neutral-text-3);
-  --ImageControl-progress-borderRadius: var(--borders-radius-2);
-
-  --FileControl-danger-color: var(--colors-error-5);
-  --FileControl-drag-color: var(--colors-neutral-text-3);
-  --FileControl-border-color: var(--colors-neutral-line-8);
-  --FileControl-onDisabled-color: var(--colors-neutral-text-6);
-  --FileControl-onDisabled-bg: var(--colors-neutral-fill-10);
-  --FileControl-onHover-bg: var(--colors-neutral-fill-9);
-  --FileControl-icon-color: var(--colors-neutral-text-5);
-  --FileControl-icon-onHover-color: var(--colors-neutral-text-4);
-  --FileControl-progress-borderRadius: var(--borders-radius-2);
 
   --InputGroup-addOn-bg: var(--Form-input-addOnBg);
   --InputGroup-addOn-borderColor: var(--Form-input-borderColor);
@@ -738,55 +481,16 @@ $remFactor: 16px;
   );
   --InputGroup-select-arrowColor: var(--colors-neutral-text-5);
   --InputGroup-select-bg: var(--colors-neutral-fill-11);
-  --InputGroup-select-borderColor: var(--Form-select-borderColor);
-  --InputGroup-select-borderRadius: var(--Form-select-borderRadius);
+  --InputGroup-select-borderColor: var(--borderColor);
+  --InputGroup-select-borderRadius: var(--borders-radius-3);
   --InputGroup-select-borderWidth: var(--borders-width-2);
-  --InputGroup-select-color: var(--Form-select-color);
+  --InputGroup-select-color: var(--colors-neutral-text-2);
   --InputGroup-select-onFocused-arrowColor: var(--colors-brand-5);
   --InputGroup-select-onFocused-bg: var(--colors-brand-10);
   --InputGroup-select-onFocused-color: var(--colors-brand-5);
 
-  --InputRange-padding: #{px2rem(20px)};
-  --InputRange-onDisabled-color: var(--light);
-  --InputRange-primaryColor: var(--colors-brand-5);
-  --InputRange-track-height: #{px2rem(6px)};
-  --InputRange-track-bg: var(--colors-neutral-fill-8);
-  --InputRange-track-onDisabled-bg: var(--InputRange-onDisabled-color);
-  --InputRange-track-onActive-bg: var(--InputRange-primaryColor);
-  --InputRange-track-onActive-onDisabled-bg: var(--colors-neutral-fill-6);
-  --InputRange-track-onActive-transition: transform var(--animation-duration)
-    ease-out left;
-  --InputRange-track-border-radius: #{px2rem(4px)};
-  --InputRange-track-dot-width: #{px2rem(6px)};
-  --InputRange-track-dot-height: #{px2rem(6px)};
-  --InputRange-track-dot-bg: var(--colors-neutral-fill-11);
-  --InputRange-track-transition: left var(--animation-duration) ease-out,
-    width var(--animation-duration) ease-out;
-  --InputRange-handle-height: #{px2rem(16px)};
-  --InputRange-handle-width: #{px2rem(16px)};
-  --InputRange-handle-bg: var(--colors-neutral-fill-11);
-  --InputRange-handle-border: #{px2rem(1px)} solid var(--InputRange-primaryColor);
-  --InputRange-handle-onDisabled-border-color: #ceced1;
-  --InputRange-handle-onActive-transform: scale(1.3);
-  --InputRange-handle-onDrage-border-width: #{px2rem(2px)};
-  --InputRange-handle-onDisabled-bg: var(--InputRange-onDisabled-color);
-  --InputRange-handle-onDisabled-border: #{px2rem(1px)} solid var(--InputRange-onDisabled-color);
-  --InputRange-handle-onFocus-borderRadius: var(--borderRadiusMd);
-  --InputRange-handele-onFocus-boxShadow: 0 0 0
-    var(--InputRange-slider-onFocus-borderRadius) #{transparentize($info, 0.8)};
-  --InputRange-handle-transition: transform var(--animation-duration) ease-out,
-    box-shadow var(--animation-duration) ease-out;
-  --InputRange-handle-icon-width: #{px2rem(8px)};
-  --InputRange-handle-icon-height: #{px2rem(8px)};
-  --InputRange-label-padding: #{px2rem(8px)};
-  --InputRange-label-bg: #000;
-  --InputRange-label-color: var(--colors-neutral-fill-11);
-  --InputRange-label-font-size: #{px2rem(14px)};
-  --InputRange-label-border-radius: #{px2rem(4px)};
-  --InputRange-label-position-bottom: calc(100% + 8px);
-
   --Layout--offscreen-width: 75%;
-  --Layout-aside--folded-width: var(--sizes-base-31);
+  --Layout-aside--folded-width: var(--sizes-base-30);
   --Layout-aside--lg-width: #{px2rem(300px)};
   --Layout-aside--md-width: #{px2rem(250px)};
   --Layout-aside--sm-width: #{px2rem(150px)};
@@ -797,6 +501,7 @@ $remFactor: 16px;
   --Layout-aside-subList-bg: var(--colors-neutral-fill-2);
   --Layout-aside-onAcitve-onHover-bg: var(--Layout-aside-onAcitve-bg);
   --Layout-aside-width: #{px2rem(180px)};
+  --Layout-aside-width-collapsed: #{px2rem(60px)};
   --Layout-asideDivider-bg: var(--colors-neutral-line-3);
   --Layout-asideDivider-margin: 0 var(--sizes-size-6);
   --Layout-asideLabel-color: #{darken(desaturate(lighten($dark, 40%), 10%), 10%)};
@@ -810,7 +515,7 @@ $remFactor: 16px;
   );
   --Layout-asideLink-onActive-color: var(--colors-brand-4);
   --Layout-asideLink-onHover-color: var(--colors-brand-6);
-  --Layout-asideLink-onHover-iconColor: (--colors-brand-6);
+  --Layout-asideLink-onHover-iconColor: var(--colors-brand-6);
   --Layout-asideLink-onHover-iconSize: var(--sizes-size-9);
   --Layout-asideLink-onHover-arrowColor: var(--colors-neutral-text-11);
   --Layout-brand-bg: var(--colors-neutral-fill-2);
@@ -821,10 +526,23 @@ $remFactor: 16px;
   --Layout-header-height: #{px2rem(50px)};
   --Layout-headerBar-borderBottom: none;
   --Layout-footer-height: #{px2rem(50px)};
-  --Layout-nav--folded-height: var(--sizes-base-21);
+  --Layout-nav--folded-height: var(--sizes-base-20);
   --Layout-nav-height: #{px2rem(40px)};
   --Layout-nav-lgHeight: #{px2rem(50px)};
   --Layout-body-bg: var(--body-bg);
+  --Layout-paddingX: #{px2rem(25px)};
+  --Layout-icon-size: #{px2rem(14px)};
+  --Layout-light-backgroundColor: var(--colors-neutral-fill-11);
+  --Layout-light-bgColor-onHover: var(--colors-brand-10);
+  --Layout-light-fontColor: var(--colors-neutral-text-1);
+  --Layout-fontColor--onHover: var(--colors-brand-5);
+  --Layout-dark-fontColor: var(--colors-neutral-text-11);
+  --Layout-fontColor--onActive: var(--colors-brand-5);
+  --Layout-fontColor--info: var(--colors-brand-5);
+  --Layout-dark-backgroundColor: var(--colors-neutral-fill-2);
+  --Layout-dark-selected-color: var(--colors-brand-6);
+  --Layout-tooltip-fontSize: var(--fonts-size-8);
+  --Layout-dark-tooltip-backgroundColor: var(--colors-brand-1);
 
   --List--unsaved-heading-bg: #e8f0fe;
   --List--unsaved-heading-color: #4285f4;
@@ -891,7 +609,7 @@ $remFactor: 16px;
   --ListMenu-item--onHover-color: var(--colors-neutral-text-2);
   --ListMenu-item-bg: var(--colors-neutral-fill-11);
   --ListMenu-item-color: var(--colors-neutral-text-2);
-  --ListMenu-item-height: var(--sizes-base-16);
+  --ListMenu-item-height: var(--sizes-base-15);
 
   --Log-bg: #222;
   --Log-padding: var(--gap-sm) 0;
@@ -906,7 +624,7 @@ $remFactor: 16px;
   --Modal-body-borderTop: var(--borders-style-1) solid
     var(--colors-neutral-line-10);
   --Modal-body-paddingX: var(--sizes-size-0);
-  --Modal-body-paddingY: var(--sizes-base-13);
+  --Modal-body-paddingY: var(--sizes-base-12);
   --Modal-close-color: var(--text--muted-color);
   --Modal-close-width: #{px2rem(16px)};
   --Modal-content-borderColor: var(--borderColor);
@@ -938,10 +656,15 @@ $remFactor: 16px;
   --Nav-item-bg: transparent;
   --Nav-item-borderRadius: var(--borders-radius-1);
   --Nav-item-color: var(--text-color);
-  --Nav-item-fontSize: var(--fonts-size-6);
+  --Nav-item-fontSize: var(--fonts-size-7);
+  --Nav-item-collapsed-fontSize: var(--fonts-size-6);
+  --Nav-item-fontWeight: var(--fonts-weight-6);
+  --Nav-item-fontColor-onDisabled: var(--colors-neutral-fill-6);
   --Nav-item-onActive-bg: var(--colors-neutral-fill-10);
+  --Nav-item-onActive-backgroundColor: var(--colors-neutral-fill-12);
   --Nav-item-onActive-borderLeft: var(--borders-width-4) var(--borders-style-2)
     var(--colors-brand-5);
+  --Nav-item-onActive-borderColor: var(--colors-link-5);
   --Nav-item-onActive-color: var(--colors-brand-5);
   --Nav-item-onDisabled-color: var(--text--muted-color);
   --Nav-item-onHover-bg: rgba(0, 0, 0, 0.05);
@@ -951,6 +674,10 @@ $remFactor: 16px;
   --Nav-subItem-onActiveBeforeBg: var(--colors-brand-5);
   --Nav-Item-maxWidth--tabs: #{px2rem(160px)};
   --Nav-Item-height: #{px2rem(40px)};
+  --Nav-Item-height--horizontal: #{px2rem(50px)};
+  --Nav-Item-Badge-paddingRight: #{px2rem(10px)};
+  --Nav-Item-paddingX: #{px2rem(20px)};
+  --Nav-Item-Drag-color: var(--colors-neutral-text-5);
 
   --Number-bg: var(--Form-input-bg);
   --Number-borderColor: var(--colors-neutral-line-7);
@@ -970,7 +697,7 @@ $remFactor: 16px;
   --Number-handler-onDisabled-color: var(--text--muted-color);
   --Number-handler-onHover-bg: var(--colors-neutral-fill-11);
   --Number-handler-onHover-color: var(--colors-brand-5);
-  --Number-handler-width: var(--sizes-base-13);
+  --Number-handler-width: var(--sizes-base-12);
   --Number-onDisabled-bg: var(--Form-input-bg);
 
   --Page-aside-bg: var(--colors-neutral-fill-11);
@@ -1002,31 +729,6 @@ $remFactor: 16px;
 
   --Panel--default-badgeBg: var(--colors-neutral-fill-3);
   --Panel--default-badgeColor: var(--colors-neutral-fill-10);
-  --Panel--default-bg: var(--colors-neutral-fill-10);
-  --Panel--default-color: var(--text-color);
-  --Panel--default-headingBorderColor: var(--borderColor);
-  --Panel-bg: var(--colors-neutral-fill-11);
-  --Panel-bodyPadding: var(--gap-base);
-  --Panel-border: var(--borderWidth) solid transparent;
-  --Panel-borderRadius: var(--borders-radius-3);
-  --Panel-borderWidth: #{px2rem(1px)};
-  --Panel-boxShadow: 0 #{px2rem(1px)} #{px2rem(1px)} rgba(0, 0, 0, 0.05);
-  --Panel-btnToolbarTextAlign: right;
-  --Panel-fixedBottom-borderTop: none;
-  --Panel-fixedBottom-boxShadow: var(--shadows-shadow-normal);
-  --Panel-footerBg: transparent;
-  --Panel-footerBorderColor: var(--borderColorLight);
-  --Panel-footerBorderRadius: 0 0 #{px2rem(2px)} #{px2rem(2px)};
-  --Panel-footerButtonMarginLeft: var(--gap-sm);
-  --Panel-footerPadding: var(--gap-sm) var(--gap-base);
-  --Panel-headingBorderBottom: var(--borderWidth) solid transparent;
-  --Panel-headingBorderRadius: var(--borderRadius) var(--borderRadius) 0 0;
-  --Panel-headingPadding: var(--gap-sm) var(--gap-base);
-  --Panel-marginBottom: var(--gap-lg);
-  --Panel-titleColor: inherit;
-  --Panel-titleFontSize: var(--fontSizeMd);
-  --Panel-titleMarginBottom: 0;
-  --Panel-titleMarginTop: 0;
 
   --Picker-iconColor: var(--icon-color);
   --Picker-onHover-iconColor: var(--icon-onHover-color);
@@ -1066,15 +768,6 @@ $remFactor: 16px;
   --QuickEdit-onFocus-borderWidth: var(--borderWidth);
   --QuickEdit-onHover-iconColor: inherit;
 
-  --Radio--sm-size: var(--Checkbox--sm-size);
-  --Radio-color: var(--Checkbox-color);
-  --Radio-inner-size: var(--sizes-size-5);
-  --Radio-onHover-color: var(--Checkbox-onHover-color);
-  --Radio-size: var(--sizes-size-9);
-  --Radio-onDisabled-bg: #e5e7eb;
-  --Radio-onDisabled-color: var(--text--muted-color);
-  --Radio-onFocus-boxShadow: none;
-
   --Remark-bg: var(--colors-neutral-text-11);
   --Remark-borderColor: var(--colors-neutral-line-8);
   --Remark-borderWidth: var(--borders-width-2);
@@ -1085,24 +778,6 @@ $remFactor: 16px;
   --Remark-onHover-borderColor: var(--colors-warning-5);
   --Remark-onHover-iconColor: var(--colors-neutral-text-11);
   --Remark-width: var(--sizes-size-9);
-
-  --ResultBox-tag-height: #{px2rem(24px)};
-  --ResultBox-tag-marginBottom: #{px2rem(2px)};
-  --ResultBox-icon--onDisabled-color: #ebebeb;
-  --ResultBox-icon--onHover-color: #666666;
-  --ResultBox-icon-color: var(--colors-neutral-text-6);
-  --ResultBox-value--onDisabled-color: #cccccc;
-  --ResultBox-value--onHover-bg: rgba(0, 145, 255, 0.1);
-  --ResultBox-value--onHover-bg--dark: #b8babf;
-  --ResultBox-value-bg: var(--colors-neutral-fill-10);
-  --ResultBox-value-color: #000;
-  --ResultBox-value-clear-bg: var(--colors-neutral-fill-8);
-  --ResultBox-value-clear-hover-bg: var(--colors-neutral-fill-9);
-
-  --Rating-inactive-color: var(--colors-neutral-text-9);
-  --Rating-text-color: var(--colors-neutral-text-2);
-  --Rating-star-margin: #{px2rem(8px)};
-  --Rating-star-size: #{px2rem(24px)};
 
   --Satus-icon-width: var(--sizes-size-8);
   --Satus-icon-height: var(--Satus-icon-width);
@@ -1120,39 +795,6 @@ $remFactor: 16px;
   --Spinner-overlay-bg: rgba(255, 255, 255, 0.4);
   --Spinner-width: #{px2rem(32px)};
   --Spinner-color: var(--colors-brand-5);
-
-  --Switch-bgColor: var(--colors-neutral-fill-7);
-  --Switch-borderColor: var(--colors-neutral-line-6);
-  --Switch-gap: var(--gap-sm);
-  --Switch-height: var(--sizes-base-11);
-  --Switch-onActive-bgColor: var(--colors-brand-5);
-  --Switch-onDisabled-bgColor: var(--colors-brand-9);
-  --Switch-onDisabled-circle-BackgroundColor: var(--colors-neutral-fill-11);
-  --Switch-onDisabled-color: var(--colors-neutral-text-11);
-  --Switch-onHover-bgColor: var(--colors-neutral-fill-6);
-  --Switch-valueColor: var(--colors-neutral-text-11);
-  --Switch-width: var(--sizes-base-23);
-  --Switch-slider-margin: #{px2rem(1px)};
-  --Switch-slider-width: calc(
-    var(--Switch-height) - var(--Switch-slider-margin) * 2
-  );
-  --Switch-slider-transition: margin-left var(--animation-duration);
-  --Switch-text-marginRight: #{px2rem(8px)};
-  --Switch-text-marginLeft: #{px2rem(25px)};
-  --Switch-width--sm: #{px2rem(28px)};
-  --Switch-height--sm: #{px2rem(16px)};
-  --Switch-slider-width--sm: calc(
-    var(--Switch-height--sm) - var(--Switch-slider-margin) * 2
-  );
-  --Switch-text-marginRight--sm: calc(
-    var(--Switch-slider-margin) * 2 + var(--Switch-text-marginRight) / 2
-  );
-  --Switch-text-marginLeft--sm: calc(
-    var(--Switch-slider-margin) * 2 + var(--Switch-text-marginLeft) / 2
-  );
-  --Switch-checked-bgColor: var(--colors-brand-5);
-  --Switch-checked-onHover-bgColor: var(--colors-brand-4);
-  --Switch-checked-onActive-bgColor: var(--colors-brand-4);
 
   --Table--unsaved-heading-bg: #e8f0fe;
   --Table--unsaved-heading-color: #4285f4;
@@ -1187,7 +829,7 @@ $remFactor: 16px;
   --Table-onModified-borderColor: #{darken(#e8f0fe, 5%)};
   --Table-onModified-color: #4285f4;
   --Table-placeholder-height: #{px2rem(200px)};
-  --Table-strip-bg: var(--colors-neutral-fill-none);
+  --Table-strip-bg: transparent;
   --Table-tbody-borderTopColor: var(--colors-neutral-line-9);
   --Table-thead-bg: var(--colors-neutral-fill-10);
   --Table-thead-borderColor: var(--colors-neutral-line-11);
@@ -1209,7 +851,7 @@ $remFactor: 16px;
   --TableCell--edge-paddingX-default: var(--gap-base);
   --TableCell-filterBtn--onActive-color: var(--colors-brand-5);
   --TableCell-filterBtn-width: #{px2rem(16px)};
-  --TableCell-filterPopOver-dropDownItem-height: var(--sizes-base-16);
+  --TableCell-filterPopOver-dropDownItem-height: var(--sizes-base-15);
   --TableCell-filterPopOver-dropDownItem-padding: var(--sizes-size-0)
     var(--sizes-size-6);
   --TableCell-line-height-large: #{px2rem(40px)};
@@ -1255,89 +897,14 @@ $remFactor: 16px;
   --Table-fixedRightFirst-boxShadow: inset -10px 0 8px -8px #00000026;
   --Table-loading-padding: 30px 0px;
 
-  --Tabs--card-bg: var(--colors-neutral-fill-10);
-  --Tabs--card-borderTopColor: var(--borderColor);
-  --Tabs--card-linkMargin: 0 10px 0 0;
-  --Tabs--card-linkPadding: #{px2rem(10px)} #{px2rem(10px)};
-  --Tabs--card-onActive-bg: var(--background);
-  --Tabs--card-onActive-borderColor: var(--colors-neutral-line-11);
-  --Tabs--card-padding: #{px2rem(6px)} 0 0 #{px2rem(10px)};
-  --Tabs--card-add-gap: var(--gap-md);
-  --Tabs--card-add-gap-top: #{px2rem(7px)};
-  --Tabs--card-arrow-gap: var(--gap-sm);
-  --Tabs--line-borderColor: var(--borderColor);
-  --Tabs--line-borderWidth: #{px2rem(2px)};
-  --Tabs--line-content-bg: transparent;
-  --Tabs--line-content-padding: var(--gap-base) 0;
-  --Tabs--line-linkMargin: 0 32px 0 0;
-  --Tabs--line-linkPadding: 0 0 8px;
-  --Tabs--line-addPadding: 0 0 10px;
-  --Tabs--line-padding: var(--gap-md);
-  --Tabs--line-onHover-borderColor: var(--colors-brand-5);
-  --Tabs--line-onHover-color: var(--colors-brand-5);
-  --Tabs--radio-bg: var(--colors-neutral-fill-11);
-  --Tabs--vertical-onActive-borderColor: var(--colors-brand-5);
-  --Tabs--tiled-add-gap: var(--gap-base);
-  --Tabs--simple-split-width: #{px2rem(1px)};
-  --Tabs--strong-add-size: #{px2rem(32px)};
-  --Tabs--strong-arrow-size: #{px2rem(24px)};
-
-  --Tabs-borderColor: var(--colors-neutral-line-8);
-  --Tabs-link-disabled-color: var(--colors-neutral-text-6);
-  --Tabs--simple-split-size: var(--sizes-size-3) var(--sizes-size-9);
-  --Tabs--sidebar-iconColor: var(--colors-brand-5);
-
-  --Tabs--simple-split-color: var(--colors-neutral-text-8);
-  --Tabs-borderRadius: var(--borderRadius);
-  --Tabs-borderWidth: var(--borderWidth);
-  --Tabs-color: var(--text-color);
-  --Tabs-content-bg: var(--background);
-  --Tabs-linkFontSize: var(--fonts-size-7);
-  --Tabs-linkMargin: 0 #{px2rem(3px)} 0 0;
-  --Tabs-linkPadding: var(--gap-sm) var(--gap-base);
-  --Tabs-onActive-bg: var(--background);
-  --Tabs-onActive-borderColor: var(--borderColor);
-  --Tabs-onActive-color: var(--colors-neutral-text-2);
-  --Tabs-onDisabled-color: var(--colors-neutral-text-7);
-  --Tabs-onHover-borderColor: var(--colors-neutral-line-8);
-  --Tabs-add-icon-size: #{px2rem(15px)};
-  --Tabs-add-icon-padding: #{px2rem(1px)};
-  --Tabs-add-icon-margin: var(--gap-xs);
-  --Tabs-add-margin: var(--gap-lg);
-  --Tabs-gray-color: #83868c;
-  --Tabs-close-margin: #{var(--gap-xs)};
-  --Tabs-close-marginTop: #{px2rem(1px)};
-  --Tabs-close-size: #{px2rem(12px)};
-  --Tabs-link-maxWidth: #{px2rem(160px)};
-  --Tabs-icon-gap: var(--gap-sm);
-  --Tabs-animation-duration: var(--animation-duration);
-
-  --Tabs--sidebar-sideWidth: #{px2rem(62px)};
-  --Tabs--sidebar-sidePadding: #{px2rem(27px)};
-  --Tabs--sidebar-sideMargin: 0 0 #{px2rem(22px)} 0;
-  --Tabs--sidebar-iconSize: #{px2rem(24px)};
-  --Tabs--sidebar-iconMargin: #{px2rem(5px)};
-
-  --Tabs--vertical-bg: var(--Table-thead-bg);
-  --Tabs--vertical-width: #{px2rem(140px)};
-  --Tabs--vertical-onActive-color: var(--colors-brand-5);
-  --Tabs--vertical-onActive-border: var(--colors-brand-5);
-  --Tabs--vertical-onActive-bg: var(--Tabs--vertical-bg);
-  --Tabs--vertical-onActive-borderWidth: 0 0 0 #{px2rem(4px)};
-  --Tabs--vertical-onActive-container-borderRight: none;
-  --Tabs--vertical-onActive-container-bg: var(--Tabs--vertical-bg);
-  --Tabs--chrome-onHover-bg: var(--colors-neutral-fill-10);
-  --Tabs--chrome-bg: var(--colors-neutral-fill-10);
-  --Tabs--chrome-radius-size: #{px2rem(8px)};
-  --Tabs--chrome-right-border-color: var(--colors-neutral-line-5);
-
-  --TagControl-sugBtn-bg: var(--colors-neutral-fill-none);
+  --TagControl-sugBtn-bg: transparent;
   --TagControl-sugBtn-border: var(--colors-neutral-line-7);
   --TagControl-sugBtn-borderRadius: var(--borders-radius-2);
   --TagControl-sugBtn-borderWidth: var(--borders-width-2);
   --TagControl-sugBtn-color: var(--colors-neutral-text-2);
   --TagControl-sugBtn-fontSize: var(--fonts-size-8);
-  --TagControl-sugBtn-height: var(--sizes-base-16);
+  --TagControl-sugBtn-fontWeight: var(--fonts-weight-6);
+  --TagControl-sugBtn-height: var(--sizes-base-15);
   --TagControl-sugBtn-lineHeight: var(--fonts-lineHeight-2);
   --TagControl-sugBtn-onActive-bg: var(--colors-neutral-fill-8);
   --TagControl-sugBtn-onActive-border: var(--colors-neutral-line-5);
@@ -1381,7 +948,7 @@ $remFactor: 16px;
   --Toast-icon-height: var(--Toast-icon-width);
 
   --Toast-opacity: 1;
-  --Toast-paddingL: var(--sizes-base-14);
+  --Toast-paddingL: var(--sizes-base-13);
   --Toast-paddingX: var(--sizes-size-9);
   --Toast-paddingY: var(--gap-xs);
   --Toast-title-display: inline;
@@ -1438,23 +1005,6 @@ $remFactor: 16px;
   --TabsTransfer-title-bg: #f7f7f9;
   --TabsTransfer-border-color: #e8e9eb;
 
-  --Tree-indent: var(--gap-md);
-  --Tree-icon-gap: var(--sizes-size-5);
-  --Tree-icon-margin-right: #{px2rem(8px)};
-  --Tree-inputHeight: calc(var(--Form-input-height) * 0.85);
-  --Tree-item-onHover-bg: var(--colors-neutral-fill-10);
-  --Tree-item-onHover-bg-pure: var(--colors-neutral-fill-10);
-  --Tree-itemArrowWidth: #{px2rem(16px)};
-  --Tree-itemHeight: var(--sizes-base-13);
-  --Tree-itemLabel--onChecked-color: var(--Form-selectValue-color);
-  --TreeSelect-popover-bg: var(--colors-neutral-fill-11);
-  --Tree-item-text-max-height: #{px2rem(250px)};
-  --Tree-item-text-top: #{px2rem(4px)};
-  --Tree-item-arrow-padding-left: #{px2rem(4px)};
-  --Tree-item-arrow-color: #84868c;
-  --Tree-item-onChekced-bg: var(--colors-brand-10);
-  --Tree-item-onChekced-bg-borderRadius: var(--borders-radius-2);
-
   --Wizard-badge-bg: var(--colors-neutral-fill-11);
   --Wizard-badge-border: var(--borders-width-2) var(--borders-style-2)
     var(--colors-neutral-fill-6);
@@ -1464,11 +1014,11 @@ $remFactor: 16px;
   --Wizard-badge-marginRight: var(--sizes-size-4);
   --Wizard-badge-onActive-backgroundColor: var(--colors-neutral-text-3);
   --Wizard-badge-onComplete-backgroundColor: var(--colors-neutral-text-3);
-  --Wizard-badge-size: var(--sizes-base-14);
+  --Wizard-badge-size: var(--sizes-base-13);
   --Wizard-steps-bg--isComplete: var(--colors-neutral-fill-11);
   --Wizard-steps-bg: var(--colors-neutral-fill-11);
   --Wizard-steps-borderWidth: var(--borders-width-1);
-  --Wizard-steps-height: var(--sizes-base-31);
+  --Wizard-steps-height: var(--sizes-base-30);
   --Wizard-steps-li-onActive-arrow-bg: var(--colors-neutral-text-11);
   --Wizard-steps-li-onActive-bg: var(--colors-neutral-fill-11);
   --Wizard-steps-li-onActive-color: var(--colors-neutral-text-3);
@@ -1623,7 +1173,7 @@ $remFactor: 16px;
   --SearchBox-enhonce-icon-color: var(--colors-neutral-text-11);
   --SearchBox-clearable-icon-color: var(--colors-neutral-text-7);
   --SearchBox-clearable-icon-size: var(--sizes-size-9);
-  --SearchBox-height: var(--sizes-base-16);
+  --SearchBox-height: var(--sizes-base-15);
   --SearchBox-disabled-color: var(--colors-neutral-text-10);
   --SearchBox-enhonce-disabled-color: var(--colors-neutral-text-9);
   --SearchBox-enhonce-disabled-search-color: var(--colors-neutral-text-6);

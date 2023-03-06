@@ -7,6 +7,22 @@
   align-items: center;
   border-radius: 3px;
   position: relative;
+  color: var(--Form-select-color);
+  font-size: var(--select-base-default-fontSize);
+  font-weight: var(--select-base-default-fontWeight);
+  border-width: var(--Form-select-borderWidth);
+  border-style: var(--select-base-default-top-border-style)
+    var(--select-base-default-right-border-style)
+    var(--select-base-default-bottom-border-style)
+    var(--select-base-default-left-border-style);
+  border-color: var(--Form-select-borderColor);
+  background: var(--Form-select-bg);
+  border-radius: var(--Form-select-borderRadius);
+  min-height: var(--Form-selectOption-height);
+  padding: var(--select-base-default-paddingTop)
+    var(--select-base-default-paddingRight)
+    var(--select-base-default-paddingBottom)
+    var(--select-base-default-paddingLeft);
 
   &.is-error {
     border-color: var(--Form-input-onError-borderColor);
@@ -14,21 +30,58 @@
   }
 
   &.is-focused,
-  &.is-active,
   &:focus {
     outline: none;
-    border-color: var(--Form-input-onFocused-borderColor);
-    box-shadow: var(--Form-input-boxShadow);
-    background: var(--Form-input-onFocused-bg);
+    background: var(--Form-select-onHover-bg);
+    border-width: var(--select-base-hover-top-border-width)
+      var(--select-base-hover-right-border-width)
+      var(--select-base-hover-bottom-border-width)
+      var(--select-base-hover-left-border-width);
+    border-style: var(--select-base-hover-top-border-style)
+      var(--select-base-hover-right-border-style)
+      var(--select-base-hover-bottom-border-style)
+      var(--select-base-hover-left-border-style);
+    border-color: var(--select-base-hover-top-border-color)
+      var(--select-base-hover-right-border-color)
+      var(--select-base-hover-bottom-border-color)
+      var(--select-base-hover-left-border-color);
+  }
+
+  &.is-active,
+  &.is-opened {
+    border-width: var(--select-base-active-top-border-width)
+      var(--select-base-active-right-border-width)
+      var(--select-base-active-bottom-border-width)
+      var(--select-base-active-left-border-width);
+    border-style: var(--select-base-active-top-border-style)
+      var(--select-base-active-right-border-style)
+      var(--select-base-active-bottom-border-style)
+      var(--select-base-active-left-border-style);
+    border-color: var(--select-base-active-top-border-color)
+      var(--select-base-active-right-border-color)
+      var(--select-base-active-bottom-border-color)
+      var(--select-base-active-left-border-color);
+    box-shadow: var(--select-base-active-shadow);
+    background: var(--select-base-active-bg-color);
   }
 
   &.is-clickable:not(.is-disabled) {
     cursor: pointer;
 
     &:hover {
-      border-color: var(--Form-input-onFocused-borderColor);
-      box-shadow: var(--Form-input-boxShadow);
-      background: var(--Form-input-onFocused-bg);
+      background: var(--Form-select-onHover-bg);
+      border-width: var(--select-base-hover-top-border-width)
+        var(--select-base-hover-right-border-width)
+        var(--select-base-hover-bottom-border-width)
+        var(--select-base-hover-left-border-width);
+      border-style: var(--select-base-hover-top-border-style)
+        var(--select-base-hover-right-border-style)
+        var(--select-base-hover-bottom-border-style)
+        var(--select-base-hover-left-border-style);
+      border-color: var(--select-base-hover-top-border-color)
+        var(--select-base-hover-right-border-color)
+        var(--select-base-hover-bottom-border-color)
+        var(--select-base-hover-left-border-color);
     }
   }
 
@@ -38,10 +91,20 @@
 
   &.is-disabled {
     color: var(--text--muted-color);
-    background: var(--Form-input-onDisabled-bg);
-    border-color: var(--Form-input-onDisabled-borderColor);
     pointer-events: none;
-    background: var(--TabsTransfer-title-bg);
+    border-width: var(--select-base-disabled-top-border-width)
+      var(--select-base-disabled-right-border-width)
+      var(--select-base-disabled-bottom-border-width)
+      var(--select-base-disabled-left-border-width);
+    border-style: var(--select-base-disabled-top-border-style)
+      var(--select-base-disabled-right-border-style)
+      var(--select-base-disabled-bottom-border-style)
+      var(--select-base-disabled-left-border-style);
+    border-color: var(--select-base-disabled-top-border-color)
+      var(--select-base-disabled-right-border-color)
+      var(--select-base-disabled-bottom-border-color)
+      var(--select-base-disabled-left-border-color);
+    background: var(--select-base-disabled-bg-color);
 
     div.#{$ns}ResultBox-value {
       background: var(--TabsTransfer-border-color);
@@ -137,16 +200,21 @@
   &-value {
     background: var(--ResultBox-value-bg);
     color: var(--ResultBox-value-color);
-    font-size: var(--Form-input-fontSize);
-    padding: 0 var(--gap-xs);
+    font-size: var(--select-multiple-fontSize);
     min-height: var(--ResultBox-tag-height);
     flex-wrap: nowrap;
     display: inline-flex;
     align-items: center;
-    margin-right: var(--gap-xs);
-    margin-bottom: var(--ResultBox-tag-marginBottom);
+    padding: var(--select-multiple-paddingTop)
+      var(--select-multiple-paddingRight) var(--select-multiple-paddingBottom)
+      var(--select-multiple-paddingLeft);
+    margin: var(--select-multiple-marginTop) var(--select-multiple-marginRight)
+      var(--ResultBox-tag-marginBottom) var(--select-multiple-marginLeft);
     user-select: none;
-    border-radius: #{px2rem(2px)};
+    border-radius: var(--select-multiple-top-left-border-radius)
+      var(--select-multiple-top-right-border-radius)
+      var(--select-multiple-bottom-right-border-radius)
+      var(--select-multiple-bottom-left-border-radius);
 
     > a {
       cursor: pointer;
@@ -179,6 +247,10 @@
         color: var(--ResultBox-icon--onDisabled-color);
       }
     }
+
+    &.is-invalid {
+      color: var(--Form-selectValue-onInvalid-color);
+    }
   }
 
   &-placeholder {
@@ -193,8 +265,6 @@
   }
 
   &.#{$ns}TransferDropDown {
-    padding: 0 var(--gap-base);
-
     &.is-group {
       > .#{$ns}TransferDropDown-icon {
         margin-right: var(--gap-sm);

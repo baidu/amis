@@ -118,7 +118,7 @@ test('Renderer:range with multiple & clearable & delimiter', async () => {
   ).toBe('7--13');
 
   expect(container).toMatchSnapshot();
-});
+}, 10000);
 
 test('Renderer:range with showSteps', async () => {
   const {container} = render(

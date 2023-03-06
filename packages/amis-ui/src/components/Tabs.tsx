@@ -244,21 +244,22 @@ export class Tabs extends React.Component<TabsProps, any> {
         activeKey: this.props.activeKey,
         children: Array.isArray(this.props.children)
           ? this.props.children!.map(item => ({
-              key: item?.props.key,
-              eventKey: item?.props.eventKey,
-              label: item?.props.label
+              eventKey: item?.props?.eventKey,
+              // 这里 title 可能是 React.ReactNode，只对比 string
+              title:
+                typeof item?.props?.title === 'string' ? item.props.title : ''
             }))
-          : this.props.children
+          : []
       },
       {
         activeKey: preProps.activeKey,
         children: Array.isArray(preProps.children)
           ? preProps.children!.map((item: any) => ({
-              key: item?.props.key,
-              eventKey: item?.props.eventKey,
-              label: item?.props.label
+              eventKey: item?.props?.eventKey,
+              title:
+                typeof item?.props?.title === 'string' ? item.props.title : ''
             }))
-          : preProps.children
+          : []
       }
     );
 
@@ -492,6 +493,11 @@ export class Tabs extends React.Component<TabsProps, any> {
     this.scroll = true;
   }
 
+  // 处理 hash 作为 key 时重复的问题
+  generateTabKey(hash: any, eventKey: any, index: number) {
+    return (hash === eventKey ? 'hash-' : '') + (eventKey ?? index);
+  }
+
   renderNav(child: any, index: number, showClose: boolean) {
     if (!child) {
       return;
@@ -516,7 +522,8 @@ export class Tabs extends React.Component<TabsProps, any> {
       title,
       toolbar,
       tabClassName,
-      closable: tabClosable
+      closable: tabClosable,
+      hash
     } = child.props;
 
     const {editingIndex, editInputText} = this.state;
@@ -572,7 +579,7 @@ export class Tabs extends React.Component<TabsProps, any> {
           disabled ? 'is-disabled' : '',
           tabClassName
         )}
-        key={eventKey ?? index}
+        key={this.generateTabKey(hash, eventKey, index)}
         onClick={() => (disabled ? '' : this.handleSelect(eventKey))}
         onDoubleClick={() => {
           editable && this.handleStartEdit(index, title);
@@ -622,14 +629,15 @@ export class Tabs extends React.Component<TabsProps, any> {
       return;
     }
 
+    const {hash, eventKey} = child?.props || {};
+
     const {activeKey: activeKeyProp, classnames} = this.props;
-    const eventKey = child.props.eventKey;
     const activeKey =
       activeKeyProp === undefined && index === 0 ? eventKey : activeKeyProp;
 
     return React.cloneElement(child, {
       ...child.props,
-      key: eventKey,
+      key: this.generateTabKey(hash, eventKey, index),
       classnames: classnames,
       activeKey: activeKey
     });

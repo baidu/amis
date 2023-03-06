@@ -22,11 +22,11 @@ export class GroupedSelection extends BaseSelection<BaseSelectionProps> {
       classnames: cx,
       itemRender,
       multiple,
-      labelField
+      labelField = 'label'
     } = this.props;
 
     if (Array.isArray(option.children)) {
-      if (!option.label) {
+      if (!option[labelField]) {
         return (
           <>
             {option.children.map((child: Option, index: number) =>
@@ -168,6 +168,50 @@ export class GroupedSelection extends BaseSelection<BaseSelectionProps> {
     );
   }
 
+  renderCheckAll() {
+    const {
+      multiple,
+      checkAll,
+      checkAllLabel,
+      classnames: cx,
+      translate: __,
+      labelClassName,
+      itemClassName
+    } = this.props;
+
+    if (!multiple || !checkAll) {
+      return null;
+    }
+    const availableOptions = this.getAvailableOptions();
+
+    const valueArray = this.valueArray;
+
+    const checkedAll = availableOptions.every(
+      option => valueArray.indexOf(option) > -1
+    );
+    const checkedPartial = availableOptions.some(
+      option => valueArray.indexOf(option) > -1
+    );
+
+    return (
+      <div
+        className={cx('GroupedSelection-item', itemClassName)}
+        onClick={this.toggleAll}
+      >
+        <Checkbox
+          checked={checkedPartial}
+          partial={checkedPartial && !checkedAll}
+          size="sm"
+          labelClassName={labelClassName}
+        />
+
+        <div className={cx('GroupedSelection-itemLabel')}>
+          {__(checkAllLabel)}
+        </div>
+      </div>
+    );
+  }
+
   render() {
     const {
       value,
@@ -206,6 +250,7 @@ export class GroupedSelection extends BaseSelection<BaseSelectionProps> {
                 height={height}
                 itemCount={flattendOptions.length}
                 itemSize={itemHeight}
+                prefix={this.renderCheckAll()}
                 renderItem={({
                   index,
                   style
@@ -227,7 +272,10 @@ export class GroupedSelection extends BaseSelection<BaseSelectionProps> {
             )}
           </AutoSizer>
         ) : (
-          options.map((option, key) => this.renderOption(option, key))
+          <>
+            {this.renderCheckAll()}
+            {options.map((option, key) => this.renderOption(option, key))}
+          </>
         );
     }
 

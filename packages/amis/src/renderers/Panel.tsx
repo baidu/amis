@@ -198,6 +198,10 @@ export default class Panel extends React.Component<PanelProps> {
       subFormMode,
       subFormHorizontal,
       id,
+      // 不应该将 label、renderLabel 传递下去，否则内部的表单项组件会受到影响
+      label,
+      renderLabel,
+      inputOnly,
       ...rest
     } = this.props;
 

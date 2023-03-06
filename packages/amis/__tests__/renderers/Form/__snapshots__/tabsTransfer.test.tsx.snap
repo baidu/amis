@@ -225,7 +225,7 @@ exports[`Renderer:tabsTransfer 1`] = `
                                     </div>
                                   </li>
                                   <li
-                                    class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                    class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
                                   >
                                     <div
                                       class="cxd-Tree-itemLabel"
@@ -308,7 +308,7 @@ exports[`Renderer:tabsTransfer 1`] = `
                                     </div>
                                   </li>
                                   <li
-                                    class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                    class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
                                   >
                                     <div
                                       class="cxd-Tree-itemLabel"
@@ -347,7 +347,7 @@ exports[`Renderer:tabsTransfer 1`] = `
                                     </div>
                                   </li>
                                   <li
-                                    class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                    class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
                                   >
                                     <div
                                       class="cxd-Tree-itemLabel"
@@ -430,7 +430,7 @@ exports[`Renderer:tabsTransfer 1`] = `
                                     </div>
                                   </li>
                                   <li
-                                    class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                    class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
                                   >
                                     <div
                                       class="cxd-Tree-itemLabel"
@@ -469,7 +469,7 @@ exports[`Renderer:tabsTransfer 1`] = `
                                     </div>
                                   </li>
                                   <li
-                                    class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                    class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
                                   >
                                     <div
                                       class="cxd-Tree-itemLabel"
@@ -508,7 +508,7 @@ exports[`Renderer:tabsTransfer 1`] = `
                                     </div>
                                   </li>
                                   <li
-                                    class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                    class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
                                   >
                                     <div
                                       class="cxd-Tree-itemLabel"
@@ -930,7 +930,7 @@ exports[`Renderer:tabsTransfer with deferApi 1`] = `
                                         </div>
                                       </li>
                                       <li
-                                        class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                        class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
                                       >
                                         <div
                                           class="cxd-Tree-itemLabel"
@@ -962,7 +962,7 @@ exports[`Renderer:tabsTransfer with deferApi 1`] = `
                                         </div>
                                       </li>
                                       <li
-                                        class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                        class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
                                       >
                                         <div
                                           class="cxd-Tree-itemLabel is-checked"
@@ -994,7 +994,7 @@ exports[`Renderer:tabsTransfer with deferApi 1`] = `
                                         </div>
                                       </li>
                                       <li
-                                        class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                        class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
                                       >
                                         <div
                                           class="cxd-Tree-itemLabel"
@@ -1026,7 +1026,7 @@ exports[`Renderer:tabsTransfer with deferApi 1`] = `
                                         </div>
                                       </li>
                                       <li
-                                        class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                        class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
                                       >
                                         <div
                                           class="cxd-Tree-itemLabel"
@@ -1058,7 +1058,7 @@ exports[`Renderer:tabsTransfer with deferApi 1`] = `
                                         </div>
                                       </li>
                                       <li
-                                        class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                        class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
                                       >
                                         <div
                                           class="cxd-Tree-itemLabel"

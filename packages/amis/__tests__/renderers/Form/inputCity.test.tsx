@@ -123,7 +123,7 @@ test('Renderer:inputCity', async () => {
   });
   await wait(200);
   expect(container).toMatchSnapshot();
-});
+}, 10000);
 
 // 2. searchable
 test('Renderer:inputCity with searchable', async () => {

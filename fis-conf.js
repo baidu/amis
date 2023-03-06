@@ -299,6 +299,7 @@ if (fis.project.currentMedia() === 'dev') {
   });
 }
 
+fis.unhook('components');
 fis.hook('node_modules', {
   shimProcess: false,
   shimGlobal: false,

@@ -177,7 +177,7 @@ export default class AnchorNav extends React.Component<
             : render(`section/${index}`, section.body || '')}
         </AnchorNavSection>
       ) : null
-    );
+    ).filter(item => !!item);
 
     return (
       <CAnchorNav

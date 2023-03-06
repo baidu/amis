@@ -19,6 +19,8 @@ export interface TagProps extends ThemeProps {
   closeIcon?: string | React.ReactNode;
   onClose?: (e: React.MouseEvent) => void;
   onClick?: (e: React.MouseEvent) => void;
+  onMouseEnter?: (e: React.MouseEvent) => void;
+  onMouseLeave?: (e: React.MouseEvent) => void;
 }
 
 export interface CheckableTagProps extends TagProps {
@@ -87,6 +89,18 @@ export class Tag extends React.Component<TagProps> {
   handleClick(e: React.MouseEvent<HTMLElement>) {
     const {onClick} = this.props;
     onClick?.(e);
+  }
+
+  @autobind
+  handleMouseEnter(e: React.MouseEvent<any>) {
+    const {onMouseEnter} = this.props;
+    onMouseEnter?.(e);
+  }
+
+  @autobind
+  handleMouseLeave(e: React.MouseEvent<any>) {
+    const {onMouseLeave} = this.props;
+    onMouseLeave?.(e);
   }
 
   render() {

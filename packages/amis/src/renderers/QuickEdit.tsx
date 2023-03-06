@@ -564,7 +564,7 @@ export const HocQuickEdit =
               }
               onKeyUp={this.handleKeyUp}
             >
-              <Component {...this.props} wrapperComponent={''} noHoc />
+              <Component {...this.props} contentsOnly noHoc />
               <span
                 key="edit-btn"
                 className={cx('Field-quickEditBtn')}

@@ -37,7 +37,7 @@ export interface ScopedComponentType extends React.Component<RendererProps> {
   ) => void;
   context: any;
   setData?: (
-    value?: string | {[key: string]: string},
+    value?: object,
     replace?: boolean,
     index?: number
   ) => void;

@@ -440,7 +440,7 @@ export const validations: {
     return validations.matchRegexp(
       values,
       value,
-      regexp instanceof RegExp ? regexp : /^[a-zA-Z_]+[a-zA-Z0-9]*$/
+      regexp instanceof RegExp ? regexp : /^[a-zA-Z_]+[a-zA-Z0-9_]*$/
     );
   }
 };

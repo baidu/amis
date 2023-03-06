@@ -177,10 +177,7 @@ export type TableColumnObject = {
 export type TableColumnWithType = SchemaObject & TableColumnObject;
 export type TableColumn = TableColumnWithType | TableColumnObject;
 
-interface AutoFillHeightObject {
-  height: number;
-}
-
+type AutoFillHeightObject = Record<'height' | 'maxHeight', number>;
 /**
  * Table 表格渲染器。
  * 文档：https://baidu.gitee.io/amis/docs/components/table
@@ -726,12 +723,17 @@ export default class Table extends React.Component<TableProps, object> {
       parentNode = parentNode.parentElement;
     }
 
-    const height = isObject(autoFillHeight)
-      ? (autoFillHeight as AutoFillHeightObject).height
+    const heightField =
+      autoFillHeight && (autoFillHeight as AutoFillHeightObject).maxHeight
+        ? 'maxHeight'
+        : 'height';
+
+    const heightValue = isObject(autoFillHeight)
+      ? (autoFillHeight as AutoFillHeightObject)[heightField]
       : 0;
 
-    const tableContentHeight = height
-      ? `${height}px`
+    const tableContentHeight = heightValue
+      ? `${heightValue}px`
       : `${
           viewportHeight -
           tableContentTop -
@@ -740,14 +742,14 @@ export default class Table extends React.Component<TableProps, object> {
           allParentPaddingButtom
         }px`;
 
-    tableContent.style.height = tableContentHeight;
+    tableContent.style[heightField] = tableContentHeight;
     /**autoFillHeight开启后固定列会溢出Table高度，需要同步一下 */
     if (leftFixedColumns) {
-      leftFixedColumns.style.height = tableContentHeight;
+      leftFixedColumns.style[heightField] = tableContentHeight;
       leftFixedColumns.style.overflowY = 'auto';
     }
     if (rightFixedColumns) {
-      rightFixedColumns.style.height = tableContentHeight;
+      rightFixedColumns.style[heightField] = tableContentHeight;
       rightFixedColumns.style.overflowY = 'auto';
     }
   }
@@ -1264,6 +1266,9 @@ export default class Table extends React.Component<TableProps, object> {
     const dom = findDOMNode(this) as HTMLElement;
     const fixedLeft = dom.querySelectorAll(`.${ns}Table-fixedLeft`);
     const fixedRight = dom.querySelectorAll(`.${ns}Table-fixedRight`);
+    const theadHeight = outter
+      .querySelector('thead>tr')
+      ?.getBoundingClientRect()?.height;
 
     if (scrollLeft !== this.lastScrollLeft) {
       this.lastScrollLeft = scrollLeft;
@@ -1277,6 +1282,14 @@ export default class Table extends React.Component<TableProps, object> {
       if (fixedLeft && fixedLeft.length) {
         for (let i = 0, len = fixedLeft.length; i < len; i++) {
           let node = fixedLeft[i];
+
+          // 同步thead高度
+          forEach(node.querySelectorAll('thead>tr>th'), (item: HTMLElement) => {
+            if (theadHeight) {
+              item.style.height = `${theadHeight}px`;
+            }
+          });
+
           leading ? node.classList.remove('in') : node.classList.add('in');
         }
       }
@@ -1284,6 +1297,13 @@ export default class Table extends React.Component<TableProps, object> {
       if (fixedRight && fixedRight.length) {
         for (let i = 0, len = fixedRight.length; i < len; i++) {
           let node = fixedRight[i];
+
+          // 同步thead高度
+          forEach(node.querySelectorAll('thead>tr>th'), (item: HTMLElement) => {
+            if (theadHeight) {
+              item.style.height = `${theadHeight}px`;
+            }
+          });
           trailing ? node.classList.remove('in') : node.classList.add('in');
         }
       }
@@ -2370,10 +2390,11 @@ export default class Table extends React.Component<TableProps, object> {
           <tbody>
             <tr className={cx('Table-placeholder')}>
               <td colSpan={columns.length}>
-                {render(
+                {/* 表格主体已经有placeholder，固定列再展示重复了 */}
+                {/* {render(
                   'placeholder',
                   translate(placeholder || 'placeholder.noData')
-                )}
+                )} */}
               </td>
             </tr>
           </tbody>

@@ -62,10 +62,14 @@
     .#{$ns}NestedSelect-option {
       position: relative;
       padding-left: var(--gap-md);
-      min-height: var(--Form-input-height);
-      line-height: var(--Form-input-height);
+      min-height: var(--select-base-default-option-line-height);
+      line-height: var(--select-base-default-option-line-height);
       cursor: pointer;
       display: flex;
+      font-size: var(--select-base-default-option-fontSize);
+      font-weight: var(--select-base-default-option-fontWeight);
+      color: var(--select-base-default-option-color);
+      background: var(--select-base-default-option-bg-color);
 
       > .#{$ns}NestedSelect-optionLabel {
         flex: 1;

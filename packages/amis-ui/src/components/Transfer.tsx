@@ -110,6 +110,9 @@ export interface TransferProps
   itemHeight?: number; // 每个选项的高度，主要用于虚拟渲染
   virtualThreshold?: number; // 数据量多大的时候开启虚拟渲染`
   virtualListHeight?: number; // 虚拟渲染时，列表高度
+  showInvalidMatch?: boolean;
+  checkAll?: boolean;
+  checkAllLabel?: string;
 }
 
 export interface TransferState {
@@ -129,12 +132,14 @@ export class Transfer<
     | 'selectMode'
     | 'statistics'
     | 'virtualThreshold'
+    | 'checkAllLabel'
   > = {
     multiple: true,
     resultListModeFollowSelect: false,
     selectMode: 'list',
     statistics: true,
-    virtualThreshold: 100
+    virtualThreshold: 100,
+    checkAllLabel: 'Select.checkAll'
   };
 
   state: TransferState = {
@@ -472,7 +477,9 @@ export class Transfer<
       labelField,
       virtualThreshold,
       itemHeight,
-      virtualListHeight
+      virtualListHeight,
+      checkAll,
+      checkAllLabel
     } = props;
     const {isTreeDeferLoad, searchResult} = this.state;
     const options = searchResult ?? [];
@@ -516,6 +523,8 @@ export class Transfer<
         labelField={labelField}
         virtualThreshold={virtualThreshold}
         itemHeight={itemHeight}
+        checkAllLabel={checkAllLabel}
+        checkAll={checkAll}
       />
     ) : mode === 'chained' ? (
       <ChainedSelection
@@ -532,6 +541,8 @@ export class Transfer<
         virtualThreshold={virtualThreshold}
         itemHeight={itemHeight}
         virtualListHeight={virtualListHeight}
+        checkAllLabel={checkAllLabel}
+        checkAll={checkAll}
       />
     ) : (
       <GroupedSelection
@@ -548,6 +559,8 @@ export class Transfer<
         virtualThreshold={virtualThreshold}
         itemHeight={itemHeight}
         virtualListHeight={virtualListHeight}
+        checkAllLabel={checkAllLabel}
+        checkAll={checkAll}
       />
     );
   }
@@ -575,7 +588,9 @@ export class Transfer<
       virtualThreshold,
       itemHeight,
       virtualListHeight,
-      loadingConfig
+      loadingConfig,
+      checkAll,
+      checkAllLabel
     } = props;
 
     return selectMode === 'table' ? (
@@ -593,6 +608,8 @@ export class Transfer<
         virtualThreshold={virtualThreshold}
         itemHeight={itemHeight}
         virtualListHeight={virtualListHeight}
+        checkAllLabel={checkAllLabel}
+        checkAll={checkAll}
       />
     ) : selectMode === 'tree' ? (
       <Tree
@@ -613,6 +630,8 @@ export class Transfer<
         virtualThreshold={virtualThreshold}
         itemHeight={itemHeight}
         loadingConfig={loadingConfig}
+        checkAllLabel={checkAllLabel}
+        checkAll={checkAll}
       />
     ) : selectMode === 'chained' ? (
       <ChainedSelection
@@ -630,6 +649,8 @@ export class Transfer<
         itemHeight={itemHeight}
         virtualListHeight={virtualListHeight}
         loadingConfig={loadingConfig}
+        checkAllLabel={checkAllLabel}
+        checkAll={checkAll}
       />
     ) : selectMode === 'associated' ? (
       <AssociatedSelection
@@ -652,6 +673,8 @@ export class Transfer<
         itemHeight={itemHeight}
         virtualListHeight={virtualListHeight}
         loadingConfig={loadingConfig}
+        checkAllLabel={checkAllLabel}
+        checkAll={checkAll}
       />
     ) : (
       <GroupedSelection
@@ -668,6 +691,8 @@ export class Transfer<
         virtualThreshold={virtualThreshold}
         itemHeight={itemHeight}
         virtualListHeight={virtualListHeight}
+        checkAllLabel={checkAllLabel}
+        checkAll={checkAll}
       />
     );
   }
@@ -692,7 +717,8 @@ export class Transfer<
       placeholder = __('Transfer.selectFromLeft'),
       virtualThreshold,
       itemHeight,
-      loadingConfig
+      loadingConfig,
+      showInvalidMatch
     } = this.props;
 
     const {resultSelectMode, isTreeDeferLoad} = this.state;
@@ -755,6 +781,7 @@ export class Transfer<
             labelField={labelField}
             virtualThreshold={virtualThreshold}
             itemHeight={itemHeight}
+            showInvalidMatch={showInvalidMatch}
           />
         );
     }

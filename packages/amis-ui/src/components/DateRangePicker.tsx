@@ -21,6 +21,7 @@ import {isMobile, noop, ucFirst} from 'amis-core';
 import {LocaleProps, localeable} from 'amis-core';
 import CalendarMobile from './CalendarMobile';
 import Input from './Input';
+import Button from './Button';
 
 export interface DateRangePickerProps extends ThemeProps, LocaleProps {
   className?: string;
@@ -1410,26 +1411,19 @@ export class DateRangePicker extends React.Component<
 
         {embed ? null : (
           <div key="button" className={`${ns}DateRangePicker-actions`}>
-            <a
-              className={cx('Button', 'Button--default', 'Button--size-sm')}
-              onClick={() => this.close}
-            >
+            {/* this.close 这里不可以传参 */}
+            <Button size="sm" onClick={() => this.close()}>
               {__('cancel')}
-            </a>
-            <a
-              className={cx(
-                'Button',
-                'Button--primary',
-                'Button--size-sm',
-                'm-l-sm',
-                {
-                  'is-disabled': isConfirmBtnDisbaled
-                }
-              )}
+            </Button>
+            <Button
+              level="primary"
+              size="sm"
+              className={cx('m-l-sm')}
+              disabled={isConfirmBtnDisbaled}
               onClick={this.confirm}
             >
               {__('confirm')}
-            </a>
+            </Button>
           </div>
         )}
       </div>
@@ -1661,10 +1655,15 @@ export class DateRangePicker extends React.Component<
           </a>
         ) : null}
 
-        <a className={`${ns}DateRangePicker-toggler`}>
+        <a className={cx(`DateRangePicker-toggler`)}>
           <Icon
             icon={viewMode === 'time' ? 'clock' : 'date'}
             className="icon"
+            iconContent={
+              viewMode === 'time'
+                ? 'DatePicker-toggler-clock'
+                : 'DatePicker-toggler-date'
+            }
           />
         </a>
 

@@ -300,14 +300,108 @@ order: 60
 }
 ```
 
+## 搜索选项
+
+> `2.7.1` 及以上版本
+
+配置`autoComplete`接口可以实现从远程数据搜索目标结果，搜索的关键字段为`term`，注意搜索的逻辑需要在服务端实现。
+
+```schema: scope="body"
+{
+    "type":"form",
+    "api":"/api/mock2/form/saveForm",
+    "body":[
+        {
+            "type":"tree-select",
+            "name":"tree",
+            "label":"Tree",
+            "autoComplete":"/api/mock2/tree/search?term=$term",
+            "source":"/api/mock2/tree/search"
+        }
+    ]
+}
+```
+
+## 自定义选项渲染
+
+> `2.8.0` 及以上版本
+
+使用`menuTpl`属性，自定义下拉选项的渲染内容。
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+      "type": "tree-select",
+      "name": "tree",
+      "label": "Tree",
+      "menuTpl": "<div class='flex justify-between'><span>${label}</span><span class='bg-gray-200 rounded p-1 text-xs text-center w-24'>${tag}</span></div>",
+      "iconField": "icon",
+      "searchable": true,
+      "options": [
+        {
+          "label": "采购单",
+          "value": "order",
+          "tag": "数据模型",
+          "icon": "fa fa-database",
+          "children": [
+            {
+              "label": "ID",
+              "value": "id",
+              "tag": "数字",
+              "icon": "fa fa-check",
+            },
+            {
+              "label": "采购人",
+              "value": "name",
+              "tag": "字符串",
+              "icon": "fa fa-check",
+            },
+            {
+              "label": "采购时间",
+              "value": "time",
+              "tag": "日期时间",
+              "icon": "fa fa-check",
+            },
+            {
+              "label": "供应商",
+              "value": "vendor",
+              "tag": "数据模型(N:1)",
+              "icon": "fa fa-database",
+              "children": [
+                {
+                  "label": "供应商ID",
+                  "value": "vendor_id",
+                  "tag": "数字",
+                  "icon": "fa fa-check",
+                },
+                {
+                  "label": "供应商名称",
+                  "value": "vendor_name",
+                  "tag": "字符串",
+                  "icon": "fa fa-check",
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
+
 ## 属性表
 
-更多用法，见 [InputTree](./input-tree)
+下列属性为`tree-select`独占属性, 更多属性用法，参考[InputTree 树形选择框](./input-tree)
 
-| 属性名            | 类型      | 默认值  | 说明                                        |
-| ----------------- | --------- | ------- | ------------------------------------------- |
-| hideNodePathLabel | `boolean` | `false` | 是否隐藏选择框中已选择节点的路径 label 信息 |
-| onlyLeaf          | `boolean` | `false` | 只允许选择叶子节点                          |
+| 属性名            | 类型      | 默认值  | 说明                                              | 版本 |
+| ----------------- | --------- | ------- | ------------------------------------------------- | ---- |
+| hideNodePathLabel | `boolean` | `false` | 是否隐藏选择框中已选择节点的路径 label 信息       |      |
+| onlyLeaf          | `boolean` | `false` | 只允许选择叶子节点                                |      |
+| searchable        | `boolean` | `false` | 是否可检索，仅在 type 为 `tree-select` 的时候生效 |      |
 
 ## 事件表
 
@@ -322,7 +416,7 @@ order: 60
 | focus        | `[name]: string` 组件的值                                                                        | 输入框获取焦点时触发         |
 | add          | `[name]: object` 新增的节点信息<br/>``items: object[]`选项集合（< 2.3.2 及以下版本 为`options`） | 新增节点提交时触发           |
 | edit         | `[name]: object` 编辑的节点信息<br/>``items: object[]`选项集合（< 2.3.2 及以下版本 为`options`） | 编辑节点提交时触发           |
-| delete       | `[name]: object` 编辑的节点信息<br/>``items: object[]`选项集合（< 2.3.2 及以下版本 为`options`） | 编辑节点提交时触发           |
+| delete       | `[name]: object` 删除的节点信息<br/>``items: object[]`选项集合（< 2.3.2 及以下版本 为`options`） | 删除节点提交时触发           |
 | loadFinished | `[name]: object` deferApi 懒加载远程请求成功后返回的数据                                         | 懒加载接口远程请求成功时触发 |
 
 ## 动作表
