@@ -69,7 +69,8 @@
         color: var(--Menu-dark-ancestor-fontColor-onActive);
 
         .#{$ns}Nav-Menu-item-icon,
-        .#{$ns}Nav-Menu-item-label {
+        .#{$ns}Nav-Menu-item-label,
+        .#{$ns}Nav-Menu-submenu-arrow {
           color: var(--Menu-dark-ancestor-fontColor-onActive);
         }
       }
@@ -94,6 +95,7 @@
 }
 
 .#{$ns}Nav-Menu {
+  --Menu-width: var(--Layout-aside-width);
   --Menu-width--collapsed: var(--Layout-aside-width-collapsed);
   --Menu-fontSize: var(--Nav-item-fontSize);
   --Menu-fontSize--collapsed: var(--Nav-item-collapsed-fontSize);
@@ -396,8 +398,7 @@
         @include selected-indicator(var(--Menu-light-selectedIndicator-color));
 
         .#{$ns}Nav-Menu-item-icon,
-        .#{$ns}Nav-Menu-item-label,
-        .#{$ns}Nav-Menu-submenu-arrow {
+        .#{$ns}Nav-Menu-item-label {
           color: var(--Menu-light-fontColor-onActive) !important;
         }
       }
@@ -409,64 +410,6 @@
           .#{$ns}Nav-Menu-submenu-arrow {
             color: var(--Menu-light-fontColor-onActive) !important;
           }
-        }
-      }
-    }
-  }
-
-  &-root.#{$ns}Nav-Menu-vertical {
-    > .#{$ns}Nav-Menu-item-selected {
-      background-color: var(--Menu-light-backgroundColor-onHover);
-      @include selected-indicator(var(--Menu-light-selectedIndicator-color));
-
-      .#{$ns}Nav-Menu-item-icon,
-      .#{$ns}Nav-Menu-item-label {
-        color: var(--Menu-light-fontColor-onActive);
-      }
-    }
-
-    &.#{$ns}Nav-Menu-dark {
-      > .#{$ns}Nav-Menu-item-selected {
-        background-color: var(--Menu-dark-backgroundColor-onHover);
-        @include selected-indicator(var(--Menu-dark-selectedIndicator-color));
-
-        .#{$ns}Nav-Menu-item-icon,
-        .#{$ns}Nav-Menu-item-label {
-          color: var(--Menu-dark-fontColor-onActive);
-        }
-      }
-
-      > .#{$ns}Nav-Menu-submenu-selected {
-        & > .#{$ns}Nav-Menu-submenu-title {
-          color: var(--Menu-dark-fontColor-onActive);
-        }
-
-        .#{$ns}Nav-Menu-item-icon,
-        .#{$ns}Nav-Menu-item-label {
-          color: var(--Menu-dark-fontColor-onActive);
-        }
-      }
-    }
-
-    &.#{$ns}Nav-Menu-light {
-      > .#{$ns}Nav-Menu-item-selected {
-        background-color: var(--Menu-light-backgroundColor-onHover);
-        @include selected-indicator(var(--Menu-light-selectedIndicator-color));
-
-        .#{$ns}Nav-Menu-item-icon,
-        .#{$ns}Nav-Menu-item-label {
-          color: var(--Menu-light-fontColor-onActive);
-        }
-      }
-
-      > .#{$ns}Nav-Menu-submenu-selected {
-        & > .#{$ns}Nav-Menu-submenu-title {
-          color: var(--Menu-dark-fontColor-onActive);
-        }
-
-        .#{$ns}Nav-Menu-item-icon,
-        .#{$ns}Nav-Menu-item-label {
-          color: var(--Menu-light-fontColor-onActive);
         }
       }
     }
@@ -497,11 +440,6 @@
       & > .#{$ns}Nav-Menu-submenu-title {
         color: var(--Menu-light-ancestor-fontColor-onActive);
 
-        & > .#{$ns}Nav-Menu-item-label,
-        & > .#{$ns}Nav-Menu-item-icon {
-          color: var(--Menu-light-ancestor-fontColor-onActive);
-        }
-
         .#{$ns}Nav-Menu-item-label,
         .#{$ns}Nav-Menu-item-icon {
           color: var(--Menu-light-ancestor-fontColor-onActive);
@@ -514,40 +452,12 @@
     padding: 0;
   }
 
-  &-horizontal.#{$ns}Nav-Menu-sub,
-  &-vertical.#{$ns}Nav-Menu-sub,
-  &-vertical-left.#{$ns}Nav-Menu-sub,
-  &-vertical-right.#{$ns}Nav-Menu-sub {
+  &-vertical.#{$ns}Nav-Menu-sub {
     min-width: 160px;
     margin-top: 0;
     border-radius: 2px;
     box-shadow: 0 4px 5px 0 rgba(21, 26, 38, 0.06),
       0 1px 10px 0 rgba(21, 26, 38, 0.05), 0 2px 4px -1px rgba(21, 26, 38, 0.04);
-
-    .#{$ns}Nav-Menu-item-selected {
-      .#{$ns}Nav-Menu-item-icon,
-      .#{$ns}Nav-Menu-item-label {
-        color: var(--Menu-light-fontColor-onActive);
-      }
-    }
-
-    .#{$ns}Nav-Menu-dark & {
-      .#{$ns}Nav-Menu-item-selected {
-        .#{$ns}Nav-Menu-item-icon,
-        .#{$ns}Nav-Menu-item-label {
-          color: var(--Menu-dark-fontColor-onActive);
-        }
-      }
-    }
-
-    .#{$ns}Nav-Menu-light & {
-      .#{$ns}Nav-Menu-item-selected {
-        .#{$ns}Nav-Menu-item-icon,
-        .#{$ns}Nav-Menu-item-label {
-          color: var(--Menu-light-fontColor-onActive);
-        }
-      }
-    }
   }
 
   &-item,
@@ -946,6 +856,18 @@
     .#{$ns}Nav-Menu-submenu-rtl & {
       direction: rtl;
     }
+
+    &.#{$ns}Nav-Menu-submenu-selected {
+      & > .#{$ns}Nav-Menu-submenu-title {
+        color: var(--Menu-light-fontColor-onActive);
+      }
+
+      .#{$ns}Nav-Menu-item-icon,
+      .#{$ns}Nav-Menu-item-label,
+      .#{$ns}Nav-Menu-submenu-arrow {
+        color: var(--Menu-light-fontColor-onActive);
+      }
+    }
   }
 
   &-sub.#{$ns}Nav-Menu-inline {
@@ -1127,10 +1049,6 @@
       }
     }
   }
-}
-
-.#{$ns}Nav-Menu-overflow-menu-dark {
-  @include popup-dark();
 }
 
 .#{$ns}Nav-Menu-item-tooltip {
