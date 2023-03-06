@@ -105,6 +105,8 @@ export interface DropdownButtonSchema extends BaseSchema {
    * 菜单 CSS 样式
    */
   menuClassName?: string;
+
+  overlayPlacement?: string;
 }
 
 export interface DropDownButtonProps
@@ -140,11 +142,12 @@ export default class DropDownButton extends React.Component<
 
   static defaultProps: Pick<
     DropDownButtonProps,
-    'placement' | 'tooltipTrigger' | 'tooltipRootClose'
+    'placement' | 'tooltipTrigger' | 'tooltipRootClose' | 'overlayPlacement'
   > = {
     placement: 'top',
     tooltipTrigger: ['hover', 'focus'],
-    tooltipRootClose: false
+    tooltipRootClose: false,
+    overlayPlacement: 'auto'
   };
 
   target: any;
@@ -267,7 +270,8 @@ export default class DropDownButton extends React.Component<
       align,
       closeOnClick,
       closeOnOutside,
-      menuClassName
+      menuClassName,
+      overlayPlacement
     } = this.props;
     let body = (
       <RootClose
@@ -298,10 +302,14 @@ export default class DropDownButton extends React.Component<
         }}
       </RootClose>
     );
-
     if (popOverContainer) {
       return (
-        <Overlay container={popOverContainer} target={() => this.target} show>
+        <Overlay
+          container={popOverContainer}
+          target={() => this.target}
+          placement={overlayPlacement}
+          show
+        >
           <PopOver
             overlay
             onHide={this.close}

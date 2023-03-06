@@ -639,6 +639,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
         ? 'vertical-right'
         : 'vertical'
       : 'horizontal';
+    const disableOpen = collapsed || !stacked || (stacked && mode === 'float');
 
     return (
       <MenuContext.Provider
@@ -705,12 +706,8 @@ export class Menu extends React.Component<MenuProps, MenuState> {
           suffix={overflowSuffix ? overflowSuffix : null}
           itemWidth={overflowItemWidth ? overflowItemWidth : null}
           selectedKeys={activeKey != null ? activeKey : []}
-          defaultOpenKeys={defaultOpenKeys}
-          openKeys={
-            collapsed || !stacked || (stacked && mode === 'float')
-              ? undefined
-              : openKeys
-          }
+          defaultOpenKeys={disableOpen ? undefined : defaultOpenKeys}
+          openKeys={disableOpen ? undefined : openKeys}
           onClick={this.handleItemClick}
         >
           {this.renderMenuContent(navigations)}
