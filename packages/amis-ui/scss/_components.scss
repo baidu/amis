@@ -1496,6 +1496,25 @@
   --Checkbox-button-line-height: #{px2rem(28px)};
   --Checkbox-button-min-width: #{px2rem(80px)};
 
+  // 树形选择框
+  --inputTree-base-default-color: var(--colors-neutral-text-2);
+  --inputTree-base-default-expandColor: var(--default-icon-color);
+  --inputTree-base-hover-color: var(--colors-neutral-text-2);
+  --inputTree-base-hover-expandColor: var(--default-icon-color);
+  --inputTree-base-active-color: var(--colors-neutral-text-2);
+  --inputTree-base-active-expandColor: var(--default-icon-color);
+  --inputTree-base-disabled-color: var(--colors-neutral-text-6);
+  --inputTree-base-disabled-expandColor: var(--default-icon-color);
+  --inputTree-base-size-expandMarginRight: var(--sizes-size-5);
+  --inputTree-base-size-nodeMarginRight: var(--sizes-size-5);
+  --inputTree-checkboxes-size-marginRight: var(--sizes-size-5);
+  --inputTree-border-color: var(--colors-neutral-line-8);
+  --inputTree-border-radius: var(--borders-radius-3);
+  --inputTree-input-lineHeight: var(--fonts-lineHeight-2);
+  --inputTree-item-disabled-color: var(--colors-neutral-text-6);
+  --inputTree-fontSize: var(--fontSizeBase);
+  --inputTree-placeholder-color: var(--colors-neutral-text-6);
+
   // 列表
   --listSelect-base-default-top-border-color: var(--colors-neutral-line-8);
   --listSelect-base-default-top-border-width: var(--borders-width-2);
