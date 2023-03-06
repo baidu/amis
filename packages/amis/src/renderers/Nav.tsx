@@ -427,25 +427,40 @@ export class Navigation extends React.Component<
     }
     const ul = (findDOMNode(this) as HTMLElement).firstChild as HTMLElement;
     if (position === 'self') {
-      this.setState({
-        dropIndicator: {
-          top: rect.top - ul.getBoundingClientRect().top,
-          left,
-          width: ul.getBoundingClientRect().width - left,
-          height,
-          opacity: 0.2
-        }
-      });
+      const dropIndicator = {
+        top: rect.top - ul.getBoundingClientRect().top,
+        left,
+        width: ul.getBoundingClientRect().width - left,
+        height,
+        opacity: 0.2
+      };
+      // 尽量减少dropIndicator的更新 否则到saas里会比较卡
+      if (
+        !this.state.dropIndicator ||
+        (this.state.dropIndicator &&
+          !isEqual(this.state.dropIndicator, dropIndicator))
+      ) {
+        this.setState({
+          dropIndicator
+        });
+      }
     } else {
-      this.setState({
-        dropIndicator: {
-          top:
-            (position === 'bottom' ? rect.top + rect.height : rect.top) -
-            ul.getBoundingClientRect().top,
-          left,
-          width: ul.getBoundingClientRect().width - left
-        }
-      });
+      const dropIndicator = {
+        top:
+          (position === 'bottom' ? rect.top + rect.height : rect.top) -
+          ul.getBoundingClientRect().top,
+        left,
+        width: ul.getBoundingClientRect().width - left
+      };
+      if (
+        !this.state.dropIndicator ||
+        (this.state.dropIndicator &&
+          !isEqual(this.state.dropIndicator, dropIndicator))
+      ) {
+        this.setState({
+          dropIndicator
+        });
+      }
     }
   }
 
