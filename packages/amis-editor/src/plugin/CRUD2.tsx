@@ -1,6 +1,6 @@
-import cloneDeep from 'lodash/cloneDeep';
 import React from 'react';
-
+import uniqBy from 'lodash/uniqBy';
+import cloneDeep from 'lodash/cloneDeep';
 import {
   AfterBuildPanelBody,
   BaseEventContext,
@@ -19,9 +19,7 @@ import {
   DSBuilder,
   DSBuilderManager,
   DSFeature,
-  DSFeatureType,
-  RendererPluginAction,
-  RendererPluginEvent
+  DSFeatureType
 } from 'amis-editor-core';
 import {flattenDeep, fromPairs, isObject, remove} from 'lodash';
 import {ButtonSchema} from 'amis/lib/renderers/Action';
@@ -30,6 +28,9 @@ import {findTree} from 'amis';
 import {CRUD2Schema} from 'amis/lib/renderers/CRUD2';
 import {FeatureOption} from '../renderer/FeatureControl';
 import {getArgsWrapper} from '../renderer/event-control/helper';
+import {Table2RenderereEvent, Table2RendererAction} from './Table2';
+
+import type {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 
 const findObj = (
   obj: any,
@@ -564,7 +565,7 @@ const generatePreviewSchema = (mode: 'table2' | 'cards' | 'list') => {
   };
 };
 
-export class CRUDPlugin extends BasePlugin {
+export class CRUD2Plugin extends BasePlugin {
   constructor(manager: EditorManager) {
     super(manager);
     this.dsBuilderMgr = new DSBuilderManager('crud2', 'api');
@@ -1288,77 +1289,88 @@ export class CRUDPlugin extends BasePlugin {
     return this.scaffoldFormCache;
   }
 
-  events: RendererPluginEvent[] = [
-    {
-      eventName: 'get-data',
-      eventLabel: '数据加载',
-      description: '列表数据翻页'
-    }
-  ];
+  events: RendererPluginEvent[] = uniqBy(
+    [...Table2RenderereEvent],
+    'eventName'
+  );
 
-  actions: RendererPluginAction[] = [
-    {
-      actionType: 'search',
-      actionLabel: '数据查询',
-      description: '使用指定条件完成列表数据查询',
-      descDetail: (info: any) => {
-        return (
-          <div>
-            <span className="variable-right">{info?.__rendererLabel}</span>
-            触发数据查询
-          </div>
-        );
-      },
-      schema: getArgsWrapper(
-        /*
-          {
-            type: 'input-formula',
-            variables: '${variables}',
-            evalMode: false,
-            variableMode: 'tabs',
-            label: '查询条件',
-            size: 'md',
-            name: 'query',
-            mode: 'horizontal'
-          }
-        */
+  actions: RendererPluginAction[] = uniqBy(
+    [
+      {
+        actionType: 'search',
+        actionLabel: '数据查询',
+        description: '使用指定条件完成列表数据查询',
+        descDetail: (info: any) => {
+          return (
+            <div>
+              <span className="variable-right">{info?.__rendererLabel}</span>
+              触发数据查询
+            </div>
+          );
+        },
+        schema: getArgsWrapper(
+          /*
         {
-          name: 'query',
-          label: '查询条件',
-          type: 'ae-formulaControl',
+          type: 'input-formula',
           variables: '${variables}',
+          evalMode: false,
+          variableMode: 'tabs',
+          label: '查询条件',
           size: 'md',
+          name: 'query',
           mode: 'horizontal'
         }
-      )
-    },
-    // {
-    //   actionType: 'resetQuery',
-    //   actionLabel: '重置查询',
-    //   description: '重新恢复查询条件为初始值',
-    //   descDetail: (info: any) => {
-    //     return (
-    //       <div>
-    //         <span className="variable-right">{info?.__rendererLabel}</span>
-    //         重置初始查询条件
-    //       </div>
-    //     );
-    //   }
-    // },
-    {
-      actionType: 'loadMore',
-      actionLabel: '加载更多',
-      description: '加载更多条数据到列表容器',
-      descDetail: (info: any) => {
-        return (
-          <div>
-            <span className="variable-right">{info?.__rendererLabel}</span>
-            加载更多数据
-          </div>
-        );
-      }
-    }
-  ];
+      */
+          {
+            name: 'query',
+            label: '查询条件',
+            type: 'ae-formulaControl',
+            variables: '${variables}',
+            size: 'md',
+            mode: 'horizontal'
+          }
+        )
+      },
+      // {
+      //   actionType: 'resetQuery',
+      //   actionLabel: '重置查询',
+      //   description: '重新恢复查询条件为初始值',
+      //   descDetail: (info: any) => {
+      //     return (
+      //       <div>
+      //         <span className="variable-right">{info?.__rendererLabel}</span>
+      //         重置初始查询条件
+      //       </div>
+      //     );
+      //   }
+      // },
+      {
+        actionType: 'loadMore',
+        actionLabel: '加载更多',
+        description: '加载更多条数据到列表容器',
+        descDetail: (info: any) => {
+          return (
+            <div>
+              <span className="variable-right">{info?.__rendererLabel}</span>
+              加载更多数据
+            </div>
+          );
+        }
+      },
+      {
+        actionType: 'startAutoRefresh',
+        actionLabel: '启动自动刷新',
+        description: '启动自动刷新'
+      },
+      {
+        actionType: 'stopAutoRefresh',
+        actionLabel: '停止自动刷新',
+        description: '停止自动刷新'
+      },
+      ...Table2RendererAction
+    ],
+    'actionType'
+  );
 
   previewSchema: any = {
     syncLocation: false,
@@ -1522,7 +1534,7 @@ export class CRUDPlugin extends BasePlugin {
   }
 }
 
-export class TableCRUDPlugin extends CRUDPlugin {
+export class TableCRUDPlugin extends CRUD2Plugin {
   // 组件名称
   name = '表格';
   isBaseComponent = true;
@@ -1840,7 +1852,7 @@ export class TableCRUDPlugin extends CRUDPlugin {
   }
 }
 
-export class CardsCRUDPlugin extends CRUDPlugin {
+export class CardsCRUDPlugin extends CRUD2Plugin {
   // 组件名称
   name = '卡片列表';
   isBaseComponent = true;
@@ -1965,7 +1977,7 @@ export class CardsCRUDPlugin extends CRUDPlugin {
   }
 }
 
-export class ListCRUDPlugin extends CRUDPlugin {
+export class ListCRUDPlugin extends CRUD2Plugin {
   // 组件名称
   name = '列表';
   isBaseComponent = true;

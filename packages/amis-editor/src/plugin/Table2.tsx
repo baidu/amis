@@ -27,9 +27,180 @@ import {
   getArgsWrapper
 } from '../renderer/event-control/helper';
 import {SchemaObject} from 'amis/lib/Schema';
+import {isCrudContext} from '../util';
+
 import type {EditorManager} from 'amis-editor-core';
 
-import {isCrudContext} from '../util';
+export const Table2RenderereEvent: RendererPluginEvent[] = [
+  {
+    eventName: 'rowClick',
+    eventLabel: '行单击',
+    description: '点击整行事件',
+    dataSchema: [
+      {
+        type: 'object',
+        properties: {
+          'event.data.rowItem': {
+            type: 'object',
+            title: '点击行数据'
+          }
+        }
+      }
+    ]
+  },
+  {
+    eventName: 'selectedChange',
+    eventLabel: '选择表格项',
+    description: '手动选择表格项事件',
+    dataSchema: [
+      {
+        type: 'object',
+        properties: {
+          'event.data.selectedItems': {
+            type: 'array',
+            title: '已选择行数据集合'
+          },
+          'event.data.unSelectedItems': {
+            type: 'array',
+            title: '未选择行数据集合'
+          }
+        }
+      }
+    ]
+  },
+  {
+    eventName: 'orderChange',
+    eventLabel: '行排序',
+    description: '手动拖拽行排序事件',
+    dataSchema: [
+      {
+        type: 'object',
+        properties: {
+          'event.data.movedItems': {
+            type: 'array',
+            title: '已排序行数据集合'
+          }
+        }
+      }
+    ]
+  },
+  {
+    eventName: 'columnSort',
+    eventLabel: '列排序',
+    description: '点击列排序事件',
+    dataSchema: [
+      {
+        type: 'object',
+        properties: {
+          'event.data.orderBy': {
+            type: 'string',
+            title: '排序列名称'
+          },
+          'event.data.orderDir': {
+            type: 'string',
+            title: '排序方式'
+          }
+        }
+      }
+    ]
+  },
+  {
+    eventName: 'columnFilter',
+    eventLabel: '列筛选',
+    description: '点击列筛选事件',
+    dataSchema: [
+      {
+        type: 'object',
+        properties: {
+          'event.data.filterName': {
+            type: 'string',
+            title: '筛选列名称'
+          },
+          'event.data.filterValue': {
+            type: 'string',
+            title: '筛选列数据'
+          }
+        }
+      }
+    ]
+  },
+  {
+    eventName: 'columnSearch',
+    eventLabel: '列搜索',
+    description: '点击列搜索事件',
+    dataSchema: [
+      {
+        type: 'object',
+        properties: {
+          'event.data.searchName': {
+            type: 'string',
+            title: '搜索列名称'
+          },
+          'event.data.searchValue': {
+            type: 'object',
+            title: '搜索列数据'
+          }
+        }
+      }
+    ]
+  },
+  {
+    eventName: 'columnToggled',
+    eventLabel: '列显示变化',
+    description: '点击自定义列事件',
+    dataSchema: [
+      {
+        type: 'object',
+        properties: {
+          'event.data.columns': {
+            type: 'array',
+            title: '当前显示的列配置数据'
+          }
+        }
+      }
+    ]
+  }
+];
+
+export const Table2RendererAction: RendererPluginAction[] = [
+  {
+    actionType: 'select',
+    actionLabel: '设置选中项',
+    description: '设置表格的选中项',
+    schema: getArgsWrapper([
+      /*
+      {
+        type: 'input-formula',
+        variables: '${variables}',
+        evalMode: false,
+        variableMode: 'tabs',
+        label: '选中项',
+        size: 'lg',
+        name: 'selected',
+        mode: 'horizontal'
+      }
+      */
+      {
+        name: 'selected',
+        label: '选中项',
+        type: 'ae-formulaControl',
+        variables: '${variables}',
+        size: 'lg',
+        mode: 'horizontal'
+      }
+    ])
+  },
+  {
+    actionType: 'selectAll',
+    actionLabel: '设置全部选中',
+    description: '设置表格全部项选中'
+  },
+  {
+    actionType: 'clearAll',
+    actionLabel: '清空选中项',
+    description: '清空表格所有选中项'
+  }
+];
 
 export class Table2Plugin extends BasePlugin {
   // 关联渲染器名字
@@ -162,176 +333,9 @@ export class Table2Plugin extends BasePlugin {
 
   panelTitle = '表格';
 
-  events: RendererPluginEvent[] = [
-    {
-      eventName: 'selectedChange',
-      eventLabel: '选择表格项',
-      description: '手动选择表格项事件',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            'event.data.selectedItems': {
-              type: 'array',
-              title: '已选择行'
-            },
-            'event.data.unSelectedItems': {
-              type: 'array',
-              title: '未选择行'
-            }
-          }
-        }
-      ]
-    },
-    {
-      eventName: 'columnSort',
-      eventLabel: '列排序',
-      description: '点击列排序事件',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            'event.data.orderBy': {
-              type: 'string',
-              title: '列排序列名'
-            },
-            'event.data.orderDir': {
-              type: 'string',
-              title: '列排序值'
-            }
-          }
-        }
-      ]
-    },
-    {
-      eventName: 'columnFilter',
-      eventLabel: '列筛选',
-      description: '点击列筛选事件',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            'event.data.filterName': {
-              type: 'string',
-              title: '列筛选列名'
-            },
-            'event.data.filterValue': {
-              type: 'string',
-              title: '列筛选值'
-            }
-          }
-        }
-      ]
-    },
-    {
-      eventName: 'columnSearch',
-      eventLabel: '列搜索',
-      description: '点击列搜索事件',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            'event.data.searchName': {
-              type: 'string',
-              title: '列搜索列名'
-            },
-            'event.data.searchValue': {
-              type: 'object',
-              title: '列搜索数据'
-            }
-          }
-        }
-      ]
-    },
-    {
-      eventName: 'orderChange',
-      eventLabel: '行排序',
-      description: '手动拖拽行排序事件',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            'event.data.movedItems': {
-              type: 'array',
-              title: '已排序数据'
-            }
-          }
-        }
-      ]
-    },
-    {
-      eventName: 'columnToggled',
-      eventLabel: '列显示变化',
-      description: '点击自定义列事件',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            'event.data.columns': {
-              type: 'array',
-              title: '当前显示的列配置数据'
-            }
-          }
-        }
-      ]
-    },
-    {
-      eventName: 'rowClick',
-      eventLabel: '行单击',
-      description: '点击整行事件',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            'event.data.rowItem': {
-              type: 'object',
-              title: '行点击数据'
-            }
-          }
-        }
-      ]
-    }
-  ];
+  events: RendererPluginEvent[] = Table2RenderereEvent;
 
-  actions: RendererPluginAction[] = [
-    {
-      actionType: 'select',
-      actionLabel: '设置选中项',
-      description: '设置表格的选中项',
-      schema: getArgsWrapper([
-        /*
-        {
-          type: 'input-formula',
-          variables: '${variables}',
-          evalMode: false,
-          variableMode: 'tabs',
-          label: '选中项',
-          size: 'lg',
-          name: 'selected',
-          mode: 'horizontal'
-        }
-        */
-        {
-          name: 'selected',
-          label: '选中项',
-          type: 'ae-formulaControl',
-          variables: '${variables}',
-          size: 'lg',
-          mode: 'horizontal'
-        }
-      ])
-    },
-    {
-      actionType: 'selectAll',
-      actionLabel: '设置全部选中',
-      description: '设置表格全部项选中'
-    },
-    {
-      actionType: 'clearAll',
-      actionLabel: '清空选中项',
-      description: '清空表格所有选中项'
-    }
-  ];
+  actions: RendererPluginAction[] = Table2RendererAction;
 
   dsBuilderMgr: DSBuilderManager;
 
