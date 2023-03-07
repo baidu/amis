@@ -596,14 +596,6 @@ amis 的 API 配置，如果无法配置出你想要的请求结构，那么可�
 
 如果在 JSON 文件中配置的话，`requestAdaptor`只支持字符串形式。
 
-字符串形式实际上可以认为是外层包裹了一层函数，你需要补充内部的函数实现，并将修改好的 `api` 对象 `return` 出去：
-
-```js
-function (api) {
-  // 你的适配器代码
-}
-```
-
 用法示例：
 
 ```schema: scope="body"
@@ -642,6 +634,14 @@ return {
     foo: 'bar' // 新添加数据
   }
 };
+```
+
+字符串形式的适配器代码最后会自动包裹成函数，你只需要补充内部的函数实现，并将修改好的 `api` 对象 `return` 出去：
+
+```js
+function (api) {
+  // 你的适配器代码在这里
+}
 ```
 
 ##### 函数形式
@@ -703,14 +703,6 @@ const schema = {
 
 如果在 JSON 文件中配置的话，`adaptor`只支持字符串形式。
 
-字符串形式实际上可以认为是外层包裹了一层函数，你需要补充内部的函数实现，并将修改好的 `payload` 对象 `return` 出去：
-
-```js
-function (payload, response, api) {
-  // 你的适配器代码
-}
-```
-
 用法示例：
 
 ```json
@@ -747,6 +739,14 @@ return {
   ...payload,
   status: payload.code === 200 ? 0 : payload.code
 };
+```
+
+字符串形式的适配器代码最后会自动包裹成函数，你只需要补充内部的函数实现，并将修改好的 `payload` 对象 `return` 出去：
+
+```js
+function (payload, response, api) {
+  // 你的适配器代码在这里
+}
 ```
 
 ##### 函数形式
