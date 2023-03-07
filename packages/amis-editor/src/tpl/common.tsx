@@ -637,14 +637,13 @@ setSchemaTpl(
   }
 );
 
-setSchemaTpl(
-  'menuTpl',
-  getSchemaTpl('textareaFormulaControl', {
+setSchemaTpl('menuTpl', () => {
+  return getSchemaTpl('textareaFormulaControl', {
     mode: 'normal',
     label: tipedLabel('模板', '自定义选项渲染模板，支持JSX、数据域变量使用'),
     name: 'menuTpl'
-  })
-);
+  });
+});
 
 setSchemaTpl('expression', {
   type: 'input-text',
@@ -1277,14 +1276,13 @@ setSchemaTpl('pageSubTitle', {
   type: 'textarea'
 });
 
-setSchemaTpl(
-  'textareaDefaultValue',
-  getSchemaTpl('textareaFormulaControl', {
+setSchemaTpl('textareaDefaultValue', () => {
+  return getSchemaTpl('textareaFormulaControl', {
     label: '默认值',
     name: 'value',
     mode: 'normal'
-  })
-);
+  });
+});
 
 setSchemaTpl('prefix', {
   type: 'input-text',
