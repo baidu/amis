@@ -461,8 +461,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     onChange?.(items);
   }
 
-  async doAction(action: ListenerAction, args: any) {
+  async doAction(action: ActionObject, args: any, ...rest: Array<any>) {
     const {
+      onAction,
       valueField,
       env,
       needConfirm,
@@ -470,14 +471,112 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       addApi,
       deleteApi,
       resetValue,
-      translate: __,
-      data,
-      onAction
+      translate: __
     } = this.props;
-    const actionType = action.actionType;
-    if (
-      actionType === 'add' 
-      || actionType === 'addItem'
+
+    const actionType = action.actionType as string;
+
+    if (action.actionType === 'add') {
+      if (addable === false) {
+        return;
+      }
+
+      const items = this.state.items.concat();
+
+      if (addApi || action.payload) {
+        let toAdd = null;
+
+        if (isEffectiveApi(addApi, args)) {
+          const payload = await env.fetcher(addApi, args);
+          if (payload && !payload.ok) {
+            env.notify(
+              'error',
+              (addApi as ApiObject)?.messages?.failed ??
+                (payload.msg || __('fetchFailed'))
+            );
+            return;
+          } else if (payload && payload.ok) {
+            toAdd = payload.data;
+          }
+        } else {
+          toAdd = dataMapping(action.payload, ctx);
+        }
+
+        toAdd = Array.isArray(toAdd) ? toAdd : [toAdd];
+        toAdd.forEach((toAdd: any) => {
+          if (
+            !valueField ||
+            !find(
+              items,
+              item => item[valueField as string] == toAdd[valueField as string]
+            )
+          ) {
+            // 不要重复加入
+            items.push(toAdd);
+          }
+        });
+
+        this.setState(
+          {
+            items
+          },
+          () => {
+            this.emitValue();
+
+            if (toAdd.length === 1 && needConfirm !== false) {
+              this.startEdit(items.length - 1, true);
+            }
+          }
+        );
+
+        return;
+      } else {
+        return this.addItem(items.length - 1);
+      }
+    } else if (
+      action.actionType === 'remove' ||
+      action.actionType === 'delete'
+    ) {
+      if (!valueField) {
+        return env.alert(__('Table.valueField'));
+      } else if (!action.payload) {
+        return env.alert(__('Table.playload'));
+      }
+
+      const items = this.state.items.concat();
+      let toRemove: any = dataMapping(action.payload, args);
+      toRemove = Array.isArray(toRemove) ? toRemove : [toRemove];
+
+      toRemove.forEach((toRemove: any) => {
+        const idx = findIndex(
+          items,
+          item => item[valueField as string] == toRemove[valueField as string]
+        );
+        if (~idx) {
+          items.splice(idx, 1);
+        }
+      });
+
+      this.setState(
+        {
+          items
+        },
+        () => this.emitValue()
+      );
+
+      if (isEffectiveApi(deleteApi, toRemove)) {
+        const payload = await env.fetcher(deleteApi, toRemove);
+        if (payload && !payload.ok) {
+          env.notify(
+            'error',
+            (deleteApi as ApiObject)?.messages?.failed ??
+              (payload.msg || __('fetchFailed'))
+          );
+          return;
+        }
+      }
+      return;
+    } else if (actionType === 'addItem'
     ) {
       if (addable === false) {
         return;
@@ -515,8 +614,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               item => item[valueField as string] == toAdd[i][valueField as string]
             )
           ) {
-            // 不要重复加入
-            items.splice(i + pushIndex, -1, toAdd[i]);
+            items.splice(i + pushIndex, 0, toAdd[i]);
           }
         }
 
@@ -535,11 +633,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       } else {
         this.addItem(items.length - 1);
       }
-    }  else if (
-      actionType === 'remove' 
-      || actionType === 'delete' 
-      || actionType === 'deleteItem'
-    ) {
+    } else if (actionType === 'deleteItem') {
       const items = [...this.state.items];
       const rawItems: any = [];
       const deleteItem: any = [];
@@ -563,7 +657,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         })
       }
 
-      if (isEffectiveApi(deleteApi, args)) {
+      if (isEffectiveApi(deleteApi, deleteItem)) {
         const payload = await env.fetcher(deleteApi, deleteItem);
         if (payload && !payload.ok) {
           env.notify(
@@ -594,7 +688,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         this.emitValue();
       });
     } else {
-      onAction(undefined, action, data);
+      onAction(undefined, action, args, ...rest);
     }
   }
 
