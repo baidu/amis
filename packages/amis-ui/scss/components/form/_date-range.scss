@@ -156,6 +156,7 @@
     @include input-clear();
     line-height: 1;
     svg {
+      top: 0;
       width: var(--inputDate-default-icon-size);
       height: var(--inputDate-default-icon-size);
     }
