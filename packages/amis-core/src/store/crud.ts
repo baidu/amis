@@ -399,7 +399,11 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
 
     function changePage(page: number, perPage?: number | string) {
       self.page = page;
-      perPage && (self.perPage = parseInt(perPage as string, 10));
+      perPage && changePerPage(perPage);
+    }
+
+    function changePerPage(perPage: number | string) {
+      self.perPage = parseInt(perPage as string, 10);
     }
 
     function selectAction(action: ActionObject) {
@@ -611,6 +615,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       updateQuery,
       fetchInitData,
       changePage,
+      changePerPage,
       selectAction,
       saveRemote,
       setFilterTogglable,
