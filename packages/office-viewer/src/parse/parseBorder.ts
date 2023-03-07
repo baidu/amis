@@ -1,15 +1,14 @@
 /**
  * 解析边框转成 css 样式 http://officeopenxml.com/WPborders.php
  */
-import {CSSStyle} from '../parts/Style';
-import {loopChildren} from '../util/xml';
-import {WAttr} from './Names';
+import {CSSStyle} from '../openxml/Style';
+import {WAttr, XMLData, loopChildren} from '../OpenXML';
 import {parseColorAttr} from './parseColor';
 import {LengthUsage, parseSize} from './parseSize';
 
 const DEFAULT_BORDER_COLOR = 'black';
 
-export function parseBorder(data: any) {
+export function parseBorder(data: XMLData) {
   const type = data[WAttr.val];
 
   if (type === 'nil' || type === 'none') {
@@ -49,8 +48,11 @@ export function parseBorder(data: any) {
   return `${size} solid ${color == 'auto' ? DEFAULT_BORDER_COLOR : color}`;
 }
 
-export function parseBorders(data: any, style: CSSStyle) {
+export function parseBorders(data: XMLData, style: CSSStyle) {
   loopChildren(data, (key, value) => {
+    if (typeof value !== 'object') {
+      return;
+    }
     switch (key) {
       case 'start':
       case 'left':

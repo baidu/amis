@@ -2,7 +2,7 @@
  * 单位相关的解析，参考了 docxjs 里的实现
  */
 
-import {WAttr} from './Names';
+import {WAttr, XMLData, XMLKeys} from '../OpenXML';
 
 export type LengthType = 'px' | 'pt' | '%' | '';
 
@@ -53,11 +53,11 @@ export function convertPercentage(val: string): number {
 }
 
 export function parseSize(
-  data: any,
-  attrName: string = WAttr.sz,
+  data: XMLData,
+  attrName: XMLKeys = WAttr.sz,
   usage: LengthUsageType = LengthUsage.Dxa
 ) {
-  const size = data[attrName];
+  const size = String(data[attrName]);
   if (size) {
     return convertLength(size, usage);
   }

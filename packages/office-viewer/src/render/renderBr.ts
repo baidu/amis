@@ -4,9 +4,10 @@
  * @returns 生成的 dom 结构
  */
 
+import {Break} from '../openxml/word/Break';
 import {createElement} from '../util/dom';
 
-export function renderBr(data: any) {
+export function renderBr(brak: Break) {
   const br = createElement('br');
   return br;
 }

@@ -2,15 +2,7 @@
  * 目前使用的方案是在获取文件的时候直接转成 json，而不是使用 XML DOM，因为这样可以避免频繁调用 DOM 函数，性能更好
  */
 import * as JSZip from 'jszip';
-import {parse, evaluate} from 'amis-formula';
-
-import {XMLParser, XMLBuilder} from 'fast-xml-parser';
-
-const XMLOptions = {
-  ignoreAttributes: false,
-  allowBooleanAttributes: true,
-  trimValues: false
-};
+import {parseXML} from './util/xml';
 
 export interface PackageOptions {
   /**
@@ -56,20 +48,7 @@ export default class PackageParser {
       filePath,
       'string'
     )) as string;
-    const parser = new XMLParser(XMLOptions);
-    return parser.parse(fileContent);
-  }
-
-  replaceText(text: string) {
-    if (!this.options.replaceVar) {
-      return text;
-    }
-    // 将 {{xxx}} 替换成 ${xxx}，为啥要这样呢，因为输入 $ 可能会变成两段文本
-    text = text.replace(/{{/g, '${').replace(/}}/g, '}');
-
-    return evaluate(text, this.options.data, {
-      defaultFilter: 'raw'
-    });
+    return parseXML(fileContent);
   }
 
   /**

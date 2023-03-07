@@ -3,13 +3,13 @@
  * http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/rFonts.html
  */
 
-import {WAttr} from './Names';
+import {WAttr, XMLData} from '../OpenXML';
 
 function themeFont(font: string) {
   return `var(--docx-theme-font-${font})`;
 }
 
-export function parseFont(data: any) {
+export function parseFont(data: XMLData) {
   const fonts = [];
   if (WAttr.ascii in data) {
     fonts.push(data[WAttr.ascii]);
@@ -24,15 +24,15 @@ export function parseFont(data: any) {
   }
 
   if (WAttr.asciiTheme in data) {
-    fonts.push(themeFont(data[WAttr.asciiTheme]));
+    fonts.push(themeFont(data[WAttr.asciiTheme] as string));
   }
 
   if (WAttr.csTheme in data) {
-    fonts.push(themeFont(data[WAttr.csTheme]));
+    fonts.push(themeFont(data[WAttr.csTheme] as string));
   }
 
   if (WAttr.eastAsiaTheme in data) {
-    fonts.push(themeFont(data[WAttr.eastAsiaTheme]));
+    fonts.push(themeFont(data[WAttr.eastAsiaTheme] as string));
   }
 
   // hint 之类的不支持，因为也很难控制到这个粒度了

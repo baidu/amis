@@ -2,7 +2,7 @@
  * dom 相关的操作
  */
 
-import {CSSStyle} from '../parts/Style';
+import {CSSStyle} from '../openxml/Style';
 
 export function setStyle(el: HTMLElement, style: CSSStyle): void {
   for (const key in style) {
@@ -21,7 +21,10 @@ export function createDocumentFragment() {
   return document.createDocumentFragment();
 }
 
-export function appendChild(parent: HTMLElement, child: HTMLElement): void {
+export function appendChild(
+  parent: HTMLElement,
+  child: HTMLElement | null
+): void {
   if (child) {
     parent.appendChild(child);
   }

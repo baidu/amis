@@ -1,17 +1,27 @@
 import {createElement, appendChild} from '../util/dom';
 import Word from '../Word';
-import {loopChildren} from '../util/xml';
-import {renderElement} from './renderElement';
+import {Body} from '../openxml/word/Body';
+import {Paragraph} from '../openxml/word/Paragraph';
+import {Table} from '../openxml/word/Table';
+import {Hyperlink} from '../openxml/word/Hyperlink';
+import renderParagraph from './renderParagraph';
 
-export default function renderBody(word: Word, data: any) {
-  const body = createElement('div');
-  loopChildren(data, (key, value) => {
-    const element = renderElement(word, key, value);
-    if (element) {
-      appendChild(body, element);
-      return;
+export default function renderBody(
+  word: Word,
+  parent: HTMLElement,
+  body: Body
+) {
+  for (const section of body.sections) {
+    const sectionEl = createElement('section');
+    appendChild(parent, sectionEl);
+    for (const child of section.children) {
+      if (child instanceof Paragraph) {
+        const p = renderParagraph(word, child);
+        appendChild(sectionEl, p);
+      } else if (child instanceof Table) {
+      } else if (child instanceof Hyperlink) {
+      }
     }
-    console.warn('renderBody Unknown key', key);
-  });
-  return body;
+    appendChild(parent, sectionEl);
+  }
 }

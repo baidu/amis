@@ -2,50 +2,45 @@
  * run 相关的 http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/Run_1.html
  */
 
-import {WTag} from '../parse/Names';
 import {renderBr} from './renderBr';
-import {applyStyle, parsePr} from '../parse/parsePr';
 import {appendChild, createElement, setStyle} from '../util/dom';
 import Word from '../Word';
-import {loopChildren} from '../util/xml';
-import {renderElement} from './renderElement';
+import {Run, Text} from '../openxml/word/Run';
+import {Break} from '../openxml/word/Break';
+import {Drawing} from '../openxml/word/drawing/Drawing';
+import {renderDrawing} from './renderDrawing';
 
-export default function renderRun(word: Word, data: any) {
-  let span = createElement('span');
+export default function renderRun(word: Word, run: Run) {
+  const span = createElement('span');
 
-  loopChildren(data, (key, value) => {
-    const element = renderElement(word, key, value);
-    if (element) {
-      appendChild(span, element);
-      return;
+  const properties = run.properties;
+  if (properties.cssStyle) {
+    setStyle(span, properties.cssStyle);
+  }
+
+  if (run.children.length === 1 && run.children[0] instanceof Text) {
+    const text = run.children[0] as Text;
+    if (text.preserveSpace) {
+      span.style.whiteSpace = 'pre';
     }
-
-    switch (key) {
-      case WTag.t:
-        if (typeof value === 'string') {
-          span.textContent = value;
-        } else if (typeof value === 'number') {
-          span.textContent = String(value);
-        } else if (typeof value === 'object') {
-          const xmlSpace = value['@_xml:space'];
-          if (xmlSpace === 'preserve') {
-            span.style.whiteSpace = 'pre';
-          }
-          span.textContent = value['#text'] ?? '';
+    span.textContent = text.text;
+  } else {
+    for (const child of run.children) {
+      if (child instanceof Text) {
+        let newSpan = createElement('span');
+        newSpan.textContent = child.text;
+        if (child.preserveSpace) {
+          newSpan.style.whiteSpace = 'pre';
         }
-        break;
-
-      case WTag.rPr:
-        span = applyStyle(word, span, value);
-        break;
-
-      case WTag.br:
-        appendChild(span, renderBr(value));
-
-      default:
-        console.warn(`renderRun: ${key} is not supported.`);
+        appendChild(span, newSpan);
+      } else if (child instanceof Break) {
+        const br = renderBr(child);
+        appendChild(span, br);
+      } else if (child instanceof Drawing) {
+        appendChild(span, renderDrawing(word, child));
+      }
     }
-  });
+  }
 
   return span;
 }

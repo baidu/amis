@@ -12,3 +12,8 @@ docx 渲染器，原理是将 docx 里的 xml 格式转成 html
 - [标签的在线文档](http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/index.html)
 
 日常开发可以使用 [OOXML viewer](https://marketplace.visualstudio.com/items?itemName=yuenm18.ooxml-viewer) 插件查看
+
+开发过程啊参考了
+
+- [docx](https://github.com/dolanmiu/docx) 的类型定义
+- [docxjs](https://github.com/zVolodymyr/docxjs) 里格式的实现

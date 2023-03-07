@@ -3,11 +3,10 @@
  */
 
 import {LengthUsage} from './parseSize';
-import {CSSStyle} from '../parts/Style';
+import {CSSStyle} from '../openxml/Style';
 import {createElement, setStyle} from '../util/dom';
-import {loopChildren} from '../util/xml';
 import Word from '../Word';
-import {WAttr, WTag} from './Names';
+import {WAttr, WTag, XMLData, XMLKeys, loopChildren, getVal} from '../OpenXML';
 import {parseBorder, parseBorders} from './parseBorder';
 import {parseColor, parseColorAttr} from './parseColor';
 import {parseInd} from './parseInd';
@@ -42,7 +41,7 @@ function jcToTextAlign(jc: string) {
  * 解析 underline 并附上样式
  * http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/u.html
  */
-function parseUnderline(data: any, style: CSSStyle) {
+function parseUnderline(word: Word, data: XMLData, style: CSSStyle) {
   const val = data[WAttr.val];
 
   if (val == null) return;
@@ -88,15 +87,18 @@ function parseUnderline(data: any, style: CSSStyle) {
       break;
   }
 
-  const color = parseColorAttr(data);
+  const color = parseColorAttr(word, data);
 
   if (color) {
     style['text-decoration-color'] = color;
   }
 }
 
-function parseMargin(data: any, style: CSSStyle) {
+function parseMargin(data: XMLData, style: CSSStyle) {
   loopChildren(data, (key, value) => {
+    if (typeof value !== 'object') {
+      return;
+    }
     switch (key) {
       case 'left':
         style['padding-left'] = parseSize(value, WAttr.w);
@@ -121,9 +123,9 @@ function parseMargin(data: any, style: CSSStyle) {
  * 目前只有部分支持
  * http://officeopenxml.com/WPparagraph-textFrames.php
  */
-function parseFrame(data: any, style: CSSStyle) {
+function parseFrame(data: XMLData, style: CSSStyle) {
   for (const key in data) {
-    const value = data[key];
+    const value = data[key as XMLKeys];
     switch (key) {
       case WAttr.dropCap:
         if (value === 'drop') {
@@ -132,10 +134,14 @@ function parseFrame(data: any, style: CSSStyle) {
         break;
 
       case WAttr.h:
-        style['height'] = parseSize(value, WAttr.h);
+        if (typeof value === 'object' && !Array.isArray(value)) {
+          style['height'] = parseSize(value, WAttr.h);
+        }
 
       case WAttr.w:
-        style['width'] = parseSize(value, WAttr.w);
+        if (typeof value === 'object' && !Array.isArray(value)) {
+          style['width'] = parseSize(value, WAttr.w);
+        }
 
       default:
         console.warn('parseFrame: unknown attribute ' + key);
@@ -150,37 +156,43 @@ const HighLightColor = 'transparent';
  * @param type 所属类型
  * @returns 样式
  */
-export function parsePr(data: any, type: 'r' | 'p' = 'p') {
+export function parsePr(word: Word, data: XMLData, type: 'r' | 'p' = 'p') {
   let style: CSSStyle = {};
   loopChildren(data, (key, value) => {
     switch (key) {
       case WTag.sz:
       case WTag.szCs:
-        style['font-size'] = parseSize(value, WAttr.val, LengthUsage.FontSize);
+        style['font-size'] = parseSize(
+          value as XMLData,
+          WAttr.val,
+          LengthUsage.FontSize
+        );
         break;
 
       case WTag.jc:
-        style['text-align'] = jcToTextAlign(value[WAttr.val]);
+        style['text-align'] = jcToTextAlign(
+          (value as XMLData)[WAttr.val] as string
+        );
         break;
 
       case WTag.framePr:
-        parseFrame(value, style);
+        parseFrame(value as XMLData, style);
         break;
 
       case WTag.pBdr:
       case WTag.tblBorders:
       case WTag.pBdr:
       case WTag.tcBorders:
-        parseBorders(value, style);
+        parseBorders(value as XMLData, style);
         break;
 
       case WTag.ind:
       case WTag.tblInd:
-        parseInd(value, style);
+        parseInd(value as XMLData, style);
         break;
 
       case WTag.color:
-        style['color'] = parseColor(value);
+        style['color'] = parseColor(word, value as XMLData);
         break;
 
       case WTag.shd:
@@ -188,7 +200,8 @@ export function parsePr(data: any, type: 'r' | 'p' = 'p') {
         if (!('background-color' in style)) {
           // http://officeopenxml.com/WPshading.php
           style['background-color'] = parseColorAttr(
-            value,
+            word,
+            value as XMLData,
             WAttr.fill,
             'inherit'
           );
@@ -196,14 +209,15 @@ export function parsePr(data: any, type: 'r' | 'p' = 'p') {
         }
 
       case WTag.spacing:
-        parseSpacing(value, style);
+        parseSpacing(value as XMLData, style);
         break;
 
       case WTag.highlight:
         // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/highlight.html
         // 这个按文档是重要性高于 shd
         style['background-color'] = parseColorAttr(
-          value,
+          word,
+          value as XMLData,
           WAttr.fill,
           HighLightColor
         );
@@ -217,7 +231,7 @@ export function parsePr(data: any, type: 'r' | 'p' = 'p') {
       case WTag.position:
         // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/position.html
         style['vertical-align'] = parseSize(
-          value,
+          value as XMLData,
           WAttr.val,
           LengthUsage.FontSize
         );
@@ -225,27 +239,28 @@ export function parsePr(data: any, type: 'r' | 'p' = 'p') {
 
       case WTag.trHeight:
         // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/trHeight.html
-        const trHeight = parseSize(value, WAttr.val);
-        const hRule = value[WAttr.hRule];
+        const trHeight = value as XMLData;
+        const height = parseSize(trHeight, WAttr.val);
+        const hRule = trHeight[WAttr.hRule];
         if (hRule === 'exact') {
-          style['height'] = trHeight;
+          style['height'] = height;
         } else if (hRule === 'atLeast') {
           // tr 设置 min-height 似乎是没效果的
-          style['height'] = trHeight;
-          style['min-height'] = trHeight;
+          style['height'] = height;
+          style['min-height'] = height;
         }
         break;
       case WTag.strike:
       case WTag.dstrike:
         // 其实不支持 dstrike，都统一为 strike
         // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/dstrike.html
-        style['text-decoration'] = normalizeBoolean(value[WAttr.val], true)
+        style['text-decoration'] = normalizeBoolean(getVal(value), true)
           ? 'line-through'
           : 'none';
 
       case WTag.b:
         // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/b.html
-        style['font-weight'] = normalizeBoolean(value[WAttr.val], true)
+        style['font-weight'] = normalizeBoolean(getVal(value), true)
           ? 'bold'
           : 'normal';
         break;
@@ -257,47 +272,47 @@ export function parsePr(data: any, type: 'r' | 'p' = 'p') {
 
       case WTag.i:
         // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/i.html
-        style['font-style'] = normalizeBoolean(value[WAttr.val], true)
+        style['font-style'] = normalizeBoolean(getVal(value), true)
           ? 'italic'
           : 'normal';
         break;
 
       case WTag.caps:
         // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/caps.html
-        style['text-transform'] = normalizeBoolean(value[WAttr.val], true)
+        style['text-transform'] = normalizeBoolean(getVal(value), true)
           ? 'uppercase'
           : 'normal';
         break;
 
       case WTag.smallCaps:
         // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/smallCaps.html
-        style['text-transform'] = normalizeBoolean(value[WAttr.val], true)
+        style['text-transform'] = normalizeBoolean(getVal(value), true)
           ? 'lowercase'
           : 'normal';
         break;
 
       case WTag.u:
         // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/u.html
-        parseUnderline(value, style);
+        parseUnderline(word, value as XMLData, style);
         break;
 
       case WTag.rFonts:
-        style['font-family'] = parseFont(value);
+        style['font-family'] = parseFont(value as XMLData);
         break;
 
       case WTag.tblCellSpacing:
         // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/tblCellSpacing_1.html
-        style['border-spacing'] = parseSize(value, WAttr.w);
+        style['border-spacing'] = parseSize(value as XMLData, WAttr.w);
         style['border-collapse'] = 'separate';
         break;
 
       case WTag.bdr:
         // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/bdr.html
-        style['border'] = parseBorder(value);
+        style['border'] = parseBorder(value as XMLData);
         break;
 
       case WTag.vanish:
-        if (normalizeBoolean(value[WAttr.val], true)) {
+        if (normalizeBoolean(getVal(value), true)) {
           // 这里其实没试过 word 里到底是不是 none
           style['display'] = 'none';
         }
@@ -305,7 +320,7 @@ export function parsePr(data: any, type: 'r' | 'p' = 'p') {
 
       case WTag.kern:
         style['letter-spacing'] = parseSize(
-          value,
+          value as XMLData,
           WAttr.val,
           LengthUsage.FontSize
         );
@@ -314,7 +329,7 @@ export function parsePr(data: any, type: 'r' | 'p' = 'p') {
       case WTag.tblCellMar:
       case WTag.tcMar:
         // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/tblCellMar_1.html
-        parseMargin(value, style);
+        parseMargin(value as XMLData, style);
         break;
 
       case WTag.tblLayout:
@@ -358,9 +373,12 @@ export function parsePr(data: any, type: 'r' | 'p' = 'p') {
  * http://officeopenxml.com/WPstyleParStyles.php
  * @returns 如果找不到就返回空字符串
  */
-export function getPStyle(data: any) {
+export function getPStyle(data: XMLData) {
   if (WTag.pStyle in data) {
-    return data[WTag.pStyle][WAttr.val];
+    const pStyle = data[WTag.pStyle];
+    if (typeof pStyle === 'object' && WAttr.val in pStyle) {
+      return pStyle[WAttr.val] as string;
+    }
   }
   return '';
 }
@@ -374,9 +392,9 @@ export function getPStyle(data: any) {
 export function applyStyle(
   word: Word,
   element: HTMLElement,
-  pr: any
+  pr: XMLData
 ): HTMLElement {
-  const style = parsePr(pr);
+  const style = parsePr(word, pr);
   setStyle(element, style);
 
   const className = word.getClassName(getPStyle(pr));
@@ -385,15 +403,18 @@ export function applyStyle(
   }
 
   if (WTag.vertAlign in pr) {
-    const val = pr[WTag.vertAlign][WAttr.val];
-    if (val === 'superscript') {
-      const sup = createElement('sup');
-      element.appendChild(sup);
-      return sup;
-    } else if (val === 'subscript') {
-      const sub = createElement('sub');
-      element.appendChild(sub);
-      return sub;
+    const vertAlign = pr[WTag.vertAlign];
+    if (typeof vertAlign === 'object' && WAttr.val in vertAlign) {
+      const val = vertAlign[WAttr.val];
+      if (val === 'superscript') {
+        const sup = createElement('sup');
+        element.appendChild(sup);
+        return sup;
+      } else if (val === 'subscript') {
+        const sub = createElement('sub');
+        element.appendChild(sub);
+        return sub;
+      }
     }
   }
 

@@ -2,11 +2,11 @@
  * 解析缩进 http://officeopenxml.com/WPindentation.php
  */
 
-import {CSSStyle} from '../parts/Style';
-import {WAttr} from './Names';
+import {CSSStyle} from '../openxml/Style';
+import {WAttr, XMLData} from '../OpenXML';
 import {parseSize} from './parseSize';
 
-export function parseInd(data: any, style: CSSStyle) {
+export function parseInd(data: XMLData, style: CSSStyle) {
   const firstLine = parseSize(data, WAttr.firstLine);
   const hanging = parseSize(data, WAttr.hanging);
   const left = parseSize(data, WAttr.left);

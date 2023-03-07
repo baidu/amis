@@ -1,36 +1,46 @@
-import {WTag} from './../parse/Names';
 /**
  * 解析段落。类型装换部分参考了 docxjs 的代码
  */
+
 import {createElement, appendChild, setStyle} from '../util/dom';
 import Word from '../Word';
-import {loopChildren} from '../util/xml';
+
+import {Paragraph} from '../openxml/word/Paragraph';
+import {Run} from '../openxml/word/Run';
+import {Drawing} from '../openxml/word/drawing/Drawing';
+import {BookmarkStart} from './../openxml/word/Bookmark';
+import {Hyperlink} from '../openxml/word/Hyperlink';
 import renderRun from './renderRun';
+import {renderHyperLink} from './renderHyperLink';
+import {renderDrawing} from './renderDrawing';
+import {renderBookmarkStart} from './renderBookmark';
 
-import {applyStyle, getPStyle, parsePr} from '../parse/parsePr';
-import {renderElement} from './renderElement';
-
-export default function renderParagraph(word: Word, data: any) {
+export default function renderParagraph(word: Word, paragraph: Paragraph) {
   let p = createElement('p');
-  loopChildren(data, (key, value) => {
-    const element = renderElement(word, key, value);
-    if (element) {
-      appendChild(p, element);
-      return;
-    }
-    switch (key) {
-      case WTag.pPr:
-        p = applyStyle(word, p, value);
 
-      case WTag.proofErr:
-      case WTag.noProof:
-        // 语法检查
-        break;
+  const properties = paragraph.properties;
 
-      default:
-        console.warn('renderParagraph Unknown key', key);
+  if (properties.cssStyle) {
+    setStyle(p, properties.cssStyle);
+  }
+
+  if (properties.pStyle) {
+    const className = word.getClassName(properties.pStyle);
+    if (className) {
+      p.className = className;
     }
-  });
+  }
+
+  for (const child of paragraph.children) {
+    if (child instanceof Run) {
+      appendChild(p, renderRun(word, child));
+    } else if (child instanceof BookmarkStart) {
+      appendChild(p, renderBookmarkStart(word, child));
+    } else if (child instanceof Hyperlink) {
+      const hyperlink = renderHyperLink(word, child);
+      appendChild(p, hyperlink);
+    }
+  }
 
   return p;
 }

@@ -3,16 +3,14 @@
  * http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/document.html
  */
 
-import {WTag} from '../parse/Names';
 import {createElement} from '../util/dom';
 import Word from '../Word';
 import renderBody from './renderBody';
 
-export default async function renderDocument(word: Word, data: any) {
+import {Document} from '../openxml/word/Document';
+
+export default async function renderDocument(word: Word, document: Document) {
   const doc = createElement('article');
-  const wDocument = data[WTag.document];
-  const wBody = wDocument[WTag.body];
-  const body = renderBody(word, wBody);
-  doc.appendChild(body);
+  renderBody(word, doc, document.body);
   return doc;
 }

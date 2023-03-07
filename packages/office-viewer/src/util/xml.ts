@@ -1,28 +1,24 @@
 /**
- * xml 对象相关的辅助方法
+ * 目的是统一内部的 xml 解析格式
  */
 
-/**
- * xml 有时候子节点是数组，从上层获取时需要遍历
- * @param data
- * @param callback
- */
+import {XMLParser, XMLBuilder} from 'fast-xml-parser';
 
-export function loopChildren(
-  data: any,
-  callback: (key: string, value: any) => void
-) {
-  for (const key in data) {
-    if (key.startsWith('@_')) {
-      continue;
-    }
-    const value = data[key];
-    if (Array.isArray(value)) {
-      for (const item of value) {
-        callback(key, item);
-      }
-    } else {
-      callback(key, value);
-    }
-  }
+export const XMLOptions = {
+  ignoreAttributes: false,
+  allowBooleanAttributes: true,
+  trimValues: false,
+  alwaysCreateTextNode: true
+};
+
+const parser = new XMLParser(XMLOptions);
+
+const builder = new XMLBuilder(XMLOptions);
+
+export function parseXML(content: string) {
+  return parser.parse(content);
+}
+
+export function buildXML(content: string) {
+  return builder.build(content);
 }

@@ -2,11 +2,11 @@
  * 解析 spacing
  * http://officeopenxml.com/WPspacing.php
  */
-import {CSSStyle} from '../parts/Style';
-import {WAttr} from './Names';
+import {CSSStyle} from '../openxml/Style';
+import {WAttr, XMLData} from '../OpenXML';
 import {parseSize} from './parseSize';
 
-export function parseSpacing(data: any, style: CSSStyle) {
+export function parseSpacing(data: XMLData, style: CSSStyle) {
   const before = parseSize(data, WAttr.before);
   const after = parseSize(data, WAttr.after);
 
@@ -20,7 +20,7 @@ export function parseSpacing(data: any, style: CSSStyle) {
   }
 
   if (WAttr.line in data) {
-    const line = parseInt(data[WAttr.line], 10);
+    const line = parseInt(data[WAttr.line] as string, 10);
     switch (lineRule) {
       case 'auto':
         style['line-height'] = `${(line / 240).toFixed(2)}`;

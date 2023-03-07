@@ -1,4 +1,5 @@
-import {WAttr} from './Names';
+import {WAttr, XMLData, XMLKeys} from '../OpenXML';
+import Word from '../Word';
 /**
  * 解析颜色，转成
  */
@@ -31,8 +32,9 @@ const knownColors = [
  * @returns css 颜色
  */
 export function parseColorAttr(
-  data: any,
-  attrName: string = WAttr.color,
+  word: Word,
+  data: XMLData,
+  attrName: XMLKeys = WAttr.color,
   autoColor: string = 'black'
 ) {
   const color = data[attrName];
@@ -40,22 +42,22 @@ export function parseColorAttr(
   if (color) {
     if (color == 'auto') {
       return autoColor;
-    } else if (knownColors.includes(color)) {
+    } else if (typeof color === 'string' && knownColors.includes(color)) {
       return color;
     }
 
     return `#${color}`;
   }
 
-  var themeColor = data[WAttr.themeColor];
+  const themeColor = data[WAttr.themeColor] as string;
 
-  return themeColor ? `var(--docx-${themeColor}-color)` : '';
+  return themeColor ? word.getThemeColor(themeColor) : '';
 }
 
 /**
  * 解析 color 标签，比如 <w:color w:themeColor="accent3" />
  * @returns css 颜色
  */
-export function parseColor(data: any) {
-  return parseColorAttr(data, WAttr.val);
+export function parseColor(word: Word, data: XMLData) {
+  return parseColorAttr(word, data, WAttr.val);
 }

@@ -1,4 +1,4 @@
-import {loopChildren} from '../util/xml';
+import {XMLData, Attr, loopChildren} from '../OpenXML';
 
 export interface Relationship {
   id: string;
@@ -10,13 +10,13 @@ export interface Relationship {
 }
 
 export function parseRelationship(
-  data: any,
+  data: XMLData,
   part: 'root' | 'word'
 ): Relationship {
-  const id = data['@_Id'];
-  const type = data['@_Type'];
-  const target = data['@_Target'];
-  const targetMode = data['@_TargetMode'];
+  const id = data[Attr.Id] as string;
+  const type = data[Attr.Type] as string;
+  const target = data[Attr.Target] as string;
+  const targetMode = data[Attr.TargetMode] as string;
   return {
     id,
     type,
@@ -27,13 +27,13 @@ export function parseRelationship(
 }
 
 export function parseRelationships(
-  data: any,
+  data: XMLData,
   part: 'root' | 'word'
 ): Record<string, Relationship> {
   const relationships: Record<string, Relationship> = {};
   loopChildren(data, (key, value) => {
     if (key === 'Relationship') {
-      const relationship = parseRelationship(value, part);
+      const relationship = parseRelationship(value as XMLData, part);
       relationships[relationship.id] = relationship;
     }
   });

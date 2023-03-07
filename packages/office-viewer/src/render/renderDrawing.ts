@@ -5,70 +5,43 @@ import {LengthUsage} from './../parse/parseSize';
  *
  */
 
-import {ATag, Attr, PicTag, RAttr, WPTag} from '../parse/Names';
-import {parseSize} from '../parse/parseSize';
 import Word from '../Word';
+import {Drawing} from '../openxml/word/drawing/Drawing';
 
-function renderGraphic(word: Word, data: any) {
-  const graphic = data[ATag.graphicData];
-  if (graphic && PicTag.pic in graphic) {
-    const pic = graphic[PicTag.pic];
-    const blipFill = pic?.[PicTag.blipFill];
-    const blip = blipFill?.[ATag.blip];
+export function renderDrawing(
+  word: Word,
+  drawing: Drawing
+): HTMLElement | null {
+  const pic = drawing.inline?.graphic?.graphicData?.pic;
 
-    const spPr = pic?.[PicTag.spPr];
-    const xfrm = spPr?.[ATag.xfrm];
-
-    if (blip) {
-      const embed = blip[RAttr.embed];
-      const rel = word.getRelationship(embed);
-      if (rel) {
-        const img = document.createElement('img') as HTMLImageElement;
-        img.style.position = 'relative';
-        word.loadImage(rel).then(url => {
-          if (url) {
-            img.src = url;
-          }
-        });
-
-        if (xfrm) {
-          const off = xfrm[ATag.off];
-          if (off) {
-            img.style.left = parseSize(off, Attr.x, LengthUsage.Emu);
-            img.style.top = parseSize(off, Attr.y, LengthUsage.Emu);
-          }
-          const ext = xfrm[ATag.ext];
-          if (ext) {
-            img.style.width = parseSize(ext, Attr.cx, LengthUsage.Emu);
-            img.style.height = parseSize(ext, Attr.cy, LengthUsage.Emu);
-          }
+  if (pic) {
+    const blip = pic.blipFill?.blip;
+    if (blip && blip.embled) {
+      const img = document.createElement('img') as HTMLImageElement;
+      img.style.position = 'relative';
+      word.loadImage(blip.embled).then(url => {
+        if (url) {
+          img.src = url;
         }
+      });
 
-        return img;
+      const xfrm = pic.spPr?.xfrm;
+
+      if (xfrm) {
+        const off = xfrm.off;
+        if (off) {
+          img.style.left = off.x;
+          img.style.top = off.y;
+        }
+        const ext = xfrm.ext;
+        if (ext) {
+          img.style.width = ext.cx;
+          img.style.height = ext.cy;
+        }
       }
+
+      return img;
     }
-  }
-  return null;
-}
-
-/**
- * TODO: 还有大量格式不支持
- */
-export function renderDrawing(word: Word, data: any): HTMLElement | null {
-  let isAnchor = false;
-  let xmlData;
-  if (WPTag.inline in data) {
-    xmlData = data[WPTag.inline];
-  } else if (WPTag.anchor in data) {
-    xmlData = data[WPTag.anchor];
-    isAnchor = true;
-  } else {
-    console.log('renderDrawing: only support inline or anchor tag');
-    return null;
-  }
-
-  if (ATag.graphic in xmlData) {
-    return renderGraphic(word, xmlData[ATag.graphic]);
   }
 
   return null;

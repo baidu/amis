@@ -2,9 +2,8 @@
  * 解析共享样式 Style
  */
 
-import {WAttr, WTag} from '../parse/Names';
+import {WAttr, WTag, loopChildren, XMLData} from '../OpenXML';
 import {parsePr} from '../parse/parsePr';
-import {loopChildren} from '../util/xml';
 
 export interface CSSStyle {
   [key: string]: string;
@@ -31,43 +30,49 @@ export interface Styles {
   defaultStyle?: Style;
 }
 
-function parseDefaultStyle(data: any) {
+function parseDefaultStyle(data: XMLData) {
   const defaultStyle: Style = {};
   if (WTag.rPrDefault in data) {
     const rPrDefaultData = data[WTag.rPrDefault];
-    if (rPrDefaultData && WTag.rPr in rPrDefaultData) {
-      defaultStyle.rPr = parsePr(rPrDefaultData[WTag.rPr]);
+    if (typeof rPrDefaultData === 'object' && WTag.rPr in rPrDefaultData) {
+      defaultStyle.rPr = parsePr(rPrDefaultData[WTag.rPr] as XMLData);
     }
   }
   if (WTag.pPrDefault in data) {
     const pPrDefault = data[WTag.pPrDefault];
-    if (pPrDefault && WTag.pPr in pPrDefault) {
-      defaultStyle.pPr = parsePr(pPrDefault[WTag.pPr]);
+    if (typeof pPrDefault === 'object' && WTag.pPr in pPrDefault) {
+      defaultStyle.pPr = parsePr(pPrDefault[WTag.pPr] as XMLData);
     }
   }
   return defaultStyle;
 }
 
-function parseStyle(data: any) {
+function parseStyle(data: XMLData) {
   const style: Style = {};
   if (WTag.rPr in data) {
-    style.rPr = parsePr(data[WTag.rPr]);
+    style.rPr = parsePr(data[WTag.rPr] as XMLData);
   }
   if (WTag.pPr in data && Object.keys(data[WTag.pPr]).length > 0) {
-    style.pPr = parsePr(data[WTag.pPr]);
+    style.pPr = parsePr(data[WTag.pPr] as XMLData);
   }
   if (WTag.tblPr in data && Object.keys(data[WTag.tblPr]).length > 0) {
-    style.tblPr = parsePr(data[WTag.tblPr]);
+    style.tblPr = parsePr(data[WTag.tblPr] as XMLData);
   }
   if (WTag.name in data) {
-    style.name = data[WTag.name][WAttr.val];
+    const name = data[WTag.name];
+    if (typeof name === 'object' && WAttr.val in name) {
+      style.name = name[WAttr.val] as string;
+    }
   }
   if (WTag.baseOn in data) {
-    style.baseOn = data[WTag.baseOn][WAttr.val];
+    const baseOn = data[WTag.baseOn];
+    if (typeof baseOn === 'object' && WAttr.val in baseOn) {
+      style.baseOn = baseOn[WAttr.val] as string;
+    }
   }
 
   if (WAttr.styleId in data) {
-    style.id = data[WAttr.styleId];
+    style.id = data[WAttr.styleId] as string;
   }
   return style;
 }
@@ -76,8 +81,8 @@ function parseStyle(data: any) {
  * 解析 styles.xml
  * @param data
  */
-export function parseStyles(data: any): Styles {
-  const stylesData = data[WTag.styles];
+export function parseStyles(data: XMLData): Styles {
+  const stylesData = data[WTag.styles] as XMLData;
   const styles: Styles = {
     style: {}
   };

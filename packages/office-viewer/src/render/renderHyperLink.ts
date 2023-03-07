@@ -1,40 +1,34 @@
+import {Hyperlink} from './../openxml/word/Hyperlink';
 /**
  * 渲染链接
- * http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/hyperlink_2.html
- * http://officeopenxml.com/WPhyperlink.php
  */
 
-import {RAttr, WAttr} from '../parse/Names';
 import {appendChild, createElement} from '../util/dom';
-import {loopChildren} from '../util/xml';
 import Word from '../Word';
-import {renderElement} from './renderElement';
+import {Run} from '../openxml/word/Run';
+import renderRun from './renderRun';
 
-export function renderHyperLink(word: Word, data: any): HTMLElement {
+export function renderHyperLink(word: Word, hyperlink: Hyperlink): HTMLElement {
   const a = createElement('a') as HTMLAnchorElement;
 
-  const rId = data[RAttr.id];
-  if (rId) {
-    const rel = word.getRelationship(rId);
+  if (hyperlink.relation) {
+    const rel = hyperlink.relation;
     if (rel && rel.targetMode === 'External') {
       a.href = rel.target;
       a.target = '_blank';
     }
   }
 
-  if (WAttr.anchor in data) {
-    a.href = '#' + data[WAttr.anchor];
+  if (hyperlink.anchor) {
+    a.href = '#' + hyperlink.anchor;
   }
 
-  loopChildren(data, (key, value) => {
-    const element = renderElement(word, key, value);
-    if (element) {
-      appendChild(a, element);
-      return;
-    } else {
-      console.warn('renderHyperLink Unknown key', key);
+  for (const child of hyperlink.children) {
+    if (child instanceof Run) {
+      const span = renderRun(word, child);
+      appendChild(a, span);
     }
-  });
+  }
 
   return a;
 }

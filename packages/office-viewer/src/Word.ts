@@ -2,12 +2,14 @@
  * 总入口，它将包括所有 word 文档信息，后续渲染的时候依赖它来获取关联信息
  */
 
+import {parse, evaluate} from 'amis-formula';
 import PackageParser, {PackageOptions} from './PackageParser';
+import {XMLData} from './OpenXML';
 import {parseRelationships, Relationship} from './parse/parseRelationship';
-import {ContentTypes, parseContentType} from './parts/ContentType';
-import {parseStyles, Styles} from './parts/Style';
-import {parseTheme, Theme} from './parts/Theme';
-
+import {ContentTypes, parseContentType} from './openxml/ContentType';
+import {parseStyles, Styles} from './openxml/Style';
+import {parseTheme, Theme} from './openxml/Theme';
+import {Document} from './openxml/word/Document';
 import renderDocument from './render/renderDocument';
 import {blobToDataURL} from './util/blob';
 
@@ -42,6 +44,16 @@ const defaultRenderOptions: WordRenderOptions = {
 
 export default class Word {
   /**
+   * 全局 id，用于一个页面渲染多个 word 文档
+   */
+  static globalId = 0;
+
+  /**
+   * 当前渲染 id
+   */
+  id: number;
+
+  /**
    * zip 包
    */
   parser: PackageParser;
@@ -66,6 +78,7 @@ export default class Word {
   relationships: Record<string, Relationship>;
 
   constructor(parser: PackageParser, renderOptions: WordRenderOptions) {
+    this.id = Word.globalId++;
     this.parser = parser;
     this.renderOptions = renderOptions;
   }
@@ -136,6 +149,18 @@ export default class Word {
     return this.relationships[id];
   }
 
+  replaceText(text: string) {
+    if (!this.renderOptions.replaceVar) {
+      return text;
+    }
+    // 将 {{xxx}} 替换成 ${xxx}，为啥要这样呢，因为输入 $ 可能会变成两段文本
+    text = text.replace(/{{/g, '${').replace(/}}/g, '}');
+
+    return evaluate(text, this.renderOptions.data, {
+      defaultFilter: 'raw'
+    });
+  }
+
   async loadImage(relation: Relationship) {
     let path = relation.target;
     if (relation.part === 'word') {
@@ -154,16 +179,20 @@ export default class Word {
     return null;
   }
 
-  async getXML(filePath: string): Promise<any> {
+  async getXML(filePath: string): Promise<XMLData> {
     return this.parser.getXML(filePath);
   }
 
   getClassName(styleName: string) {
     if (styleName) {
-      return this.renderOptions.classPrefix + styleName;
+      return `${this.renderOptions.classPrefix}-${this.id}-${styleName}`;
     } else {
       return '';
     }
+  }
+
+  getThemeColor(name: string) {
+    return `var(--docx-${this.id}-theme-${name}-color)`;
   }
 
   async render(): Promise<HTMLElement> {
@@ -171,6 +200,8 @@ export default class Word {
     console.log(this);
     const documentData = await this.getXML('word/document.xml');
     console.log(documentData);
-    return renderDocument(this, documentData);
+    const document = Document.fromXML(this, documentData);
+    console.log(document);
+    return renderDocument(this, document);
   }
 }
