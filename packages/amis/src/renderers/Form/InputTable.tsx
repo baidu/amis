@@ -224,7 +224,6 @@ export interface TableProps
 
 export interface TableState {
   items: Array<any>;
-  raw?: any;
   columns: Array<any>;
   editIndex: number;
   isCreateMode?: boolean;
@@ -338,8 +337,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       toUpdate = {
         ...toUpdate,
         items: Array.isArray(props.value) ? props.value.concat() : [],
-        editIndex: -1,
-        raw: undefined
+        editIndex: -1
       };
     }
 
@@ -454,10 +452,13 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     );
   }
 
-  emitValue() {
+  async emitValue() {
     const items = this.state.items.filter(item => !item.__isPlaceholder);
     const {onChange} = this.props;
-    this.dispatchEvent('change', {items});
+    const isPrevented = await this.dispatchEvent('change', {items});
+    if (!isPrevented) {
+      return;
+    }
     onChange?.(items);
   }
 
@@ -476,15 +477,15 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
     const actionType = action.actionType as string;
 
-    if (action.actionType === 'add') {
+    if (actionType === 'add') {
       if (addable === false) {
         return;
       }
 
       const items = this.state.items.concat();
 
-      if (addApi || action.payload) {
-        let toAdd = null;
+      if (addApi || args) {
+        let toAdd: any = null;
 
         if (isEffectiveApi(addApi, args)) {
           const payload = await env.fetcher(addApi, args);
@@ -499,43 +500,41 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             toAdd = payload.data;
           }
         } else {
-          toAdd = dataMapping(action.payload, ctx);
+          toAdd = args.item;
         }
 
         toAdd = Array.isArray(toAdd) ? toAdd : [toAdd];
-        toAdd.forEach((toAdd: any) => {
+        // 如果没指定插入的位置（args.index），则默认在头部插入
+        const pushIndex = defaultTo(args.index, 0);
+        for (let i = 0; i < args.item.length; i++) {
           if (
             !valueField ||
             !find(
               items,
-              item => item[valueField as string] == toAdd[valueField as string]
+              item => item[valueField as string] == toAdd[i][valueField as string]
             )
           ) {
-            // 不要重复加入
-            items.push(toAdd);
+            items.splice(i + pushIndex, 0, toAdd[i]);
           }
-        });
+        }
 
         this.setState(
           {
             items
           },
           () => {
-            this.emitValue();
-
             if (toAdd.length === 1 && needConfirm !== false) {
               this.startEdit(items.length - 1, true);
             }
           }
         );
-
-        return;
       } else {
-        return this.addItem(items.length - 1);
+        // 指定false是为了不派发add事件
+        return this.addItem(items.length - 1, false);
       }
     } else if (
-      action.actionType === 'remove' ||
-      action.actionType === 'delete'
+      actionType === 'remove' ||
+      actionType === 'delete'
     ) {
       if (!valueField) {
         return env.alert(__('Table.valueField'));
@@ -557,13 +556,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         }
       });
 
-      this.setState(
-        {
-          items
-        },
-        () => this.emitValue()
-      );
-
+      // todo 如果配置删除 Api 怎么办？
+      // 删除api，目前不支持 如果匹配到的删除数据有多个，但api只支持删除一个 的场景
       if (isEffectiveApi(deleteApi, toRemove)) {
         const payload = await env.fetcher(deleteApi, toRemove);
         if (payload && !payload.ok) {
@@ -575,6 +569,14 @@ export default class FormTable extends React.Component<TableProps, TableState> {
           return;
         }
       }
+
+      this.setState(
+        {
+          items
+        },
+        () => this.emitValue()
+      );
+
       return;
     } else if (actionType === 'addItem'
     ) {
@@ -631,7 +633,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
           }
         );
       } else {
-        this.addItem(items.length - 1);
+        this.addItem(items.length - 1, false);
       }
     } else if (actionType === 'deleteItem') {
       const items = [...this.state.items];
@@ -657,6 +659,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         })
       }
 
+      // 删除api，目前不支持 如果匹配到的删除数据有多个，但api只支持删除一个 的场景
       if (isEffectiveApi(deleteApi, deleteItem)) {
         const payload = await env.fetcher(deleteApi, deleteItem);
         if (payload && !payload.ok) {
@@ -692,18 +695,24 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     }
   }
 
-  copyItem(index: number) {
+  async copyItem(index: number) {
     const {needConfirm} = this.props;
     const items = this.state.items.concat();
 
     if (needConfirm === false) {
       items.splice(index + 1, 0, items[index]);
     } else {
-      // 复制相当于新增一行，需要同addItem一致添加__placeholder属性
+      // 复制相当于新增一行
+      // 需要同addItem一致添加__placeholder属性
       items.splice(index + 1, 0, {
         ...items[index],
         __isPlaceholder: true
       });
+      // 派发add事件
+      const isPrevented = await this.dispatchEvent('add', {index});
+      if (isPrevented) {
+        return;
+      }
     }
     index = Math.min(index + 1, items.length - 1);
     this.setState(
@@ -714,13 +723,13 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         if (needConfirm === false) {
           this.emitValue();
         } else {
-          this.startEdit(index, true, true);
+          this.startEdit(index, true);
         }
       }
     );
   }
 
-  addItem(index: number) {
+  async addItem(index: number, isDispatch: boolean = true) {
     const {needConfirm, scaffold, columns, data} = this.props;
     const items = this.state.items.concat();
     let value: any = {
@@ -769,6 +778,13 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     items.splice(index + 1, 0, value);
     index = Math.min(index + 1, items.length - 1);
 
+    if (isDispatch) {
+      const isPrevented = await this.dispatchEvent('add', {index});
+      if (isPrevented) {
+        return;
+      }
+    }
+
     this.setState(
       {
         items
@@ -776,7 +792,6 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       () => {
         if (needConfirm === false) {
           this.emitValue();
-          this.dispatchEvent('add', {index});
         } else {
           this.startEdit(index, true);
         }
@@ -788,11 +803,11 @@ export default class FormTable extends React.Component<TableProps, TableState> {
    * 点击“编辑”按钮
    * @param index 编辑的行索引
    */
-  editItem(index: number) {
+  async editItem(index: number) {
     const {items} = this.state;
     const item = items[index];
-    this.startEdit(index, true);
-    this.dispatchEvent('edit', {index, item});
+    const isPrevented = await this.dispatchEvent('edit', {index, item});
+    !isPrevented && this.startEdit(index, true);
   }
 
   /**
@@ -820,17 +835,13 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       )
     );
 
-    if (rendererEvent?.prevented) {
-      return;
-    }
+    return !!rendererEvent?.prevented;
   }
 
-  startEdit(index: number, isCreate: boolean = false, isCopy: boolean = false) {
+  startEdit(index: number, isCreate: boolean = false) {
     this.setState({
       editIndex: index,
       isCreateMode: isCreate,
-      raw: isCopy ? undefined : this.state.items[index],
-
       columns: this.buildColumns(this.props, isCreate)
     });
   }
@@ -869,7 +880,10 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     };
     const isNew = !!item.__isPlaceholder;
     const confirmEventName = isNew ? 'addConfirm' : 'editConfirm';
-    this.dispatchEvent(confirmEventName, {index: this.state.editIndex, item});
+    let isPrevented = await this.dispatchEvent(confirmEventName, {index: this.state.editIndex, item});
+    if (isPrevented) {
+      return;
+    }
 
     let remote: Payload | null = null;
     let apiMsg = undefined;
@@ -897,13 +911,15 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     delete item.__isPlaceholder;
     items.splice(this.state.editIndex, 1, item);
     const successEventName = isNew ? 'addSuccess' : 'editSuccess';
-    this.dispatchEvent(successEventName, {index: this.state.editIndex, item});
+    isPrevented = await this.dispatchEvent(successEventName, {index: this.state.editIndex, item});
+    if (isPrevented) {
+      return;
+    }
 
     this.setState(
       {
         editIndex: -1,
         items: items,
-        raw: undefined,
         columns: this.buildColumns(this.props)
       },
       this.emitValue
@@ -912,17 +928,11 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
   cancelEdit() {
     let items = this.state.items.concat();
-
-    if (this.state.raw) {
-      items.splice(this.state.editIndex, 1, this.state.raw);
-    } else {
-      items.splice(this.state.editIndex, 1);
-    }
+    items.splice(this.state.editIndex, 1);
 
     this.setState(
       {
         editIndex: -1,
-        raw: undefined,
         items: items,
         columns: this.buildColumns(this.props)
       },
@@ -948,7 +958,10 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       return;
     }
 
-    this.dispatchEvent('delete', {index, item});
+    let isPrevented = await this.dispatchEvent('delete', {index, item});
+    if (isPrevented) {
+      return;
+    }
 
     const ctx = createObject(data, item);
     if (isEffectiveApi(deleteApi, ctx)) {
@@ -974,8 +987,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
     this.removeEntry(item);
     newValue.splice(index, 1);
-    this.dispatchEvent('deleteSuccess', {index, item});
-    onChange(newValue);
+    isPrevented = await this.dispatchEvent('deleteSuccess', {index, item});
+    !isPrevented && onChange?.(newValue);
   }
 
   buildItemProps(item: any, index: number) {
@@ -1016,7 +1029,6 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     const maxLength = this.resolveVariableProps(this.props, 'maxLength');
     const isStatic = this.props.static;
     const disabled = this.props.disabled;
-    const showTableAddBtn = this.props.showTableAddBtn;
 
     let btns = [];
     if (!isStatic && props.addable && props.showTableAddBtn !== false) {
@@ -1572,7 +1584,6 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       tableContentClassName,
       static: isStatic,
       showFooterAddBtn,
-      showTableAddBtn,
       footerAddBtn
     } = this.props;
     const maxLength = this.resolveVariableProps(this.props, 'maxLength');

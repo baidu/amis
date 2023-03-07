@@ -203,11 +203,31 @@ export default {
       "id": "u:39c47c713ae6",
       "needConfirm": true,
       "addable": true,
-      "copyable": false,
+      "copyable": true,
       "editable": true,
-      "removable": false,
+      "removable": true,
       "draggable": false,
       "onEvent": {
+        "add": {
+          "actions": [
+            {
+              "args": {
+                "msg": "${event.data.index}"
+              },
+              "actionType": "toast"
+            }
+          ],
+        },
+        // "addConfirm": {
+        //   "actions": [
+        //     {
+        //       "args": {
+        //         "msg": "${event.data.index}"
+        //       },
+        //       "actionType": "toast"
+        //     }
+        //   ]
+        // }
       },
       // "addApi": {
       //   "url": "http://localhost:3000/form/input/table",
