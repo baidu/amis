@@ -277,7 +277,9 @@ export class TreeSelector extends React.Component<
             multiple: props.multiple,
             delimiter: props.delimiter,
             valueField: props.valueField,
-            options: props.options
+            pathSeparator: props.pathSeparator,
+            options: props.options,
+            labelField: props.labelField
           },
           props.enableNodePath
         )
