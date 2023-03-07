@@ -22,6 +22,7 @@ const options = renderOptions(1000, index => {
 
 export default {
   type: 'form',
+  debug: true,
   body: [
     {
       // type: 'input-tree',
@@ -29,7 +30,8 @@ export default {
       // "type": "nested-select",
       name: 'output_fields',
       label: '输出字段',
-      description: '输出字段中的制表符会转换为"\\t",换行符会转换为"\
+      description:
+        '输出字段中的制表符会转换为"\\t",换行符会转换为"\
     "',
       mode: 'horizontal',
       multiple: true,
@@ -47,12 +49,24 @@ export default {
     },
     {
       label: '选项',
-      type: 'select',
-      name: 'select',
+      type: 'input-tree',
+      name: 'input-tree',
       searchable: true,
       multiple: true,
       menuTpl: '<div>${label} 值：${value}, 当前是否选中: ${checked}</div>',
       options: options
+    },
+    {
+      label: '选项',
+      type: 'input-tree',
+      name: 'radio',
+      options: options.map(item =>
+        item.children ? {...item, disabled: true} : item
+      ),
+      joinValues: false,
+      extractValues: false,
+      enableNodePath: true,
+      pathSeparator: '.'
     }
   ]
 };
