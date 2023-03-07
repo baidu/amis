@@ -470,10 +470,15 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       addApi,
       deleteApi,
       resetValue,
-      translate: __
+      translate: __,
+      data,
+      onAction
     } = this.props;
     const actionType = action.actionType;
-    if (actionType === 'addItem') {
+    if (
+      actionType === 'add' 
+      || actionType === 'addItem'
+    ) {
       if (addable === false) {
         return;
       }
@@ -530,7 +535,11 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       } else {
         this.addItem(items.length - 1);
       }
-    } else if (actionType === 'deleteItem') {
+    }  else if (
+      actionType === 'remove' 
+      || actionType === 'delete' 
+      || actionType === 'deleteItem'
+    ) {
       const items = [...this.state.items];
       const rawItems: any = [];
       const deleteItem: any = [];
@@ -584,6 +593,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       }, () => {
         this.emitValue();
       });
+    } else {
+      onAction(undefined, action, data);
     }
   }
 
