@@ -12,7 +12,6 @@
   .#{$ns}TextControl-clear svg {
     font-size: var(--input-clearable-icon-size);
     fill: var(--input-clearable-default-color);
-    color: var(--input-clearable-default-color);
     width: var(--input-clearable-icon-size);
     height: var(--input-clearable-icon-size);
     &:hover {
