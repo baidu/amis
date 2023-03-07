@@ -23,7 +23,10 @@ import {
   generateIcon,
   isPureVariable,
   resolveVariableAndFilter,
-  getRendererByName
+  getRendererByName,
+  resolveEventData,
+  ListenerAction,
+  evalExpression
 } from 'amis-core';
 import {Button, Icon} from 'amis-ui';
 import omit from 'lodash/omit';
@@ -31,6 +34,7 @@ import findIndex from 'lodash/findIndex';
 import cloneDeep from 'lodash/cloneDeep';
 import isEqual from 'lodash/isEqual';
 import inRange from 'lodash/inRange';
+import defaultTo from 'lodash/defaultTo';
 import {TableSchema} from '../Table';
 import {SchemaApi, SchemaCollection} from '../../Schema';
 import find from 'lodash/find';
@@ -227,6 +231,21 @@ export interface TableState {
   page?: number;
 }
 
+export type FormTableRendererEvent =
+  'add'
+  | 'addConfirm'
+  | 'addSuccess'
+  | 'addFail'
+  | 'edit'
+  | 'editConfirm'
+  | 'editSuccess'
+  | 'editFail'
+  | 'delete'
+  | 'deleteSuccess'
+  | 'deleteFail';
+
+export type FormTableRendererAction = 'add' | 'delete' | 'reset' | 'clear';
+
 export default class FormTable extends React.Component<TableProps, TableState> {
   static defaultProps = {
     placeholder: 'placeholder.empty',
@@ -239,9 +258,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     cancelBtnIcon: 'close',
     valueField: '',
     minLength: 0,
-    maxLength: Infinity,
-    showFooterAddBtn: true,
-    showTableAddBtn: true
+    maxLength: Infinity
   };
 
   static propsList: Array<string> = [
@@ -440,35 +457,34 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   emitValue() {
     const items = this.state.items.filter(item => !item.__isPlaceholder);
     const {onChange} = this.props;
-
+    this.dispatchEvent('change', {items});
     onChange?.(items);
   }
 
-  async doAction(action: ActionObject, ctx: RendererData, ...rest: Array<any>) {
+  async doAction(action: ListenerAction, args: any) {
     const {
-      onAction,
       valueField,
       env,
-      onChange,
-      editable,
       needConfirm,
       addable,
       addApi,
+      deleteApi,
+      resetValue,
       translate: __
     } = this.props;
-
-    if (action.actionType === 'add') {
+    const actionType = action.actionType;
+    if (actionType === 'addItem') {
       if (addable === false) {
         return;
       }
 
       const items = this.state.items.concat();
 
-      if (addApi || action.payload) {
-        let toAdd = null;
+      if (addApi || args) {
+        let toAdd: any = null;
 
-        if (isEffectiveApi(addApi, ctx)) {
-          const payload = await env.fetcher(addApi, ctx);
+        if (isEffectiveApi(addApi, args)) {
+          const payload = await env.fetcher(addApi, args);
           if (payload && !payload.ok) {
             env.notify(
               'error',
@@ -480,22 +496,24 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             toAdd = payload.data;
           }
         } else {
-          toAdd = dataMapping(action.payload, ctx);
+          toAdd = args.item;
         }
 
         toAdd = Array.isArray(toAdd) ? toAdd : [toAdd];
-        toAdd.forEach((toAdd: any) => {
+        // 如果没指定插入的位置（args.index），则默认在头部插入
+        const pushIndex = defaultTo(args.index, 0);
+        for (let i = 0; i < args.item.length; i++) {
           if (
             !valueField ||
             !find(
               items,
-              item => item[valueField as string] == toAdd[valueField as string]
+              item => item[valueField as string] == toAdd[i][valueField as string]
             )
           ) {
             // 不要重复加入
-            items.push(toAdd);
+            items.splice(i + pushIndex, -1, toAdd[i]);
           }
-        });
+        }
 
         this.setState(
           {
@@ -509,47 +527,64 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             }
           }
         );
-
-        return;
       } else {
-        return this.addItem(items.length - 1);
+        this.addItem(items.length - 1);
       }
-    } else if (
-      action.actionType === 'remove' ||
-      action.actionType === 'delete'
-    ) {
-      if (!valueField) {
-        return env.alert(__('Table.valueField'));
-      } else if (!action.payload) {
-        return env.alert(__('Table.playload'));
+    } else if (actionType === 'deleteItem') {
+      const items = [...this.state.items];
+      const rawItems: any = [];
+      const deleteItem: any = [];
+
+      if (args.condition) {
+        items.forEach((item, rowIndex) => {
+          const flag = evalExpression(args?.condition, {record: item, rowIndex});
+          if (!flag) {
+            rawItems.push(item);
+          } else {
+            deleteItem.push(item);
+          }
+        });
+      } else if (args.index) {
+        items.forEach((item, rowIndex) => {
+          if (args.index.includes(rowIndex)) {
+            deleteItem.push(item);
+          } else {
+            rawItems.push(item);
+          }
+        })
       }
 
-      const items = this.state.items.concat();
-      let toRemove: any = dataMapping(action.payload, ctx);
-      toRemove = Array.isArray(toRemove) ? toRemove : [toRemove];
-
-      toRemove.forEach((toRemove: any) => {
-        const idx = findIndex(
-          items,
-          item => item[valueField as string] == toRemove[valueField as string]
-        );
-        if (~idx) {
-          items.splice(idx, 1);
+      if (isEffectiveApi(deleteApi, args)) {
+        const payload = await env.fetcher(deleteApi, deleteItem);
+        if (payload && !payload.ok) {
+          env.notify(
+            'error',
+            (deleteApi as ApiObject)?.messages?.failed ??
+              (payload.msg || __('fetchFailed'))
+          );
+          return;
         }
-      });
+      }
 
       this.setState(
         {
-          items
+          items: rawItems
         },
         () => this.emitValue()
       );
-
-      // todo 如果配置删除 Api 怎么办？
-      return;
+    } else if (actionType === 'clear') {
+      this.setState({
+        items: []
+      }, () => {
+        this.emitValue();
+      });
+    } else if (actionType === 'reset') {
+      this.setState({
+        items: Array.isArray(resetValue) ? resetValue : []
+      }, () => {
+        this.emitValue();
+      });
     }
-
-    return onAction && onAction(action, ctx, ...rest);
   }
 
   copyItem(index: number) {
@@ -636,11 +671,53 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       () => {
         if (needConfirm === false) {
           this.emitValue();
+          this.dispatchEvent('add', {index});
         } else {
           this.startEdit(index, true);
         }
       }
     );
+  }
+
+  /**
+   * 点击“编辑”按钮
+   * @param index 编辑的行索引
+   */
+  editItem(index: number) {
+    const {items} = this.state;
+    const item = items[index];
+    this.startEdit(index, true);
+    this.dispatchEvent('edit', {index, item});
+  }
+
+  /**
+   * 派发事件
+   * @param eventName 事件名称
+   * @param eventData 事件数据
+   * @returns
+   */
+  async dispatchEvent(eventName: string, eventData: any = {}) {
+    const {dispatchEvent} = this.props;
+    const {items} = this.state;
+    const value = cloneDeep(items).map(item => {
+      delete item.__isPlaceholder;
+      return item;
+    });
+    const rendererEvent = await dispatchEvent(
+      eventName,
+      resolveEventData(
+        this.props,
+        {
+          ...eventData,
+          value
+        },
+        'value'
+      )
+    );
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
   }
 
   startEdit(index: number, isCreate: boolean = false, isCopy: boolean = false) {
@@ -685,7 +762,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     let item = {
       ...items[this.state.editIndex]
     };
-    const isNew = item.__isPlaceholder;
+    const isNew = !!item.__isPlaceholder;
+    const confirmEventName = isNew ? 'addConfirm' : 'editConfirm';
+    this.dispatchEvent(confirmEventName, {index: this.state.editIndex, item});
 
     let remote: Payload | null = null;
     let apiMsg = undefined;
@@ -699,6 +778,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
     if (remote && !remote.ok) {
       env.notify('error', apiMsg ?? (remote.msg || __('saveFailed')));
+      const failEventName = isNew ? 'addFail' : 'editFail';
+      this.dispatchEvent(failEventName, {index: this.state.editIndex, item, error: remote});
       return;
     } else if (remote && remote.ok) {
       item = merge(
@@ -710,6 +791,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
     delete item.__isPlaceholder;
     items.splice(this.state.editIndex, 1, item);
+    const successEventName = isNew ? 'addSuccess' : 'editSuccess';
+    this.dispatchEvent(successEventName, {index: this.state.editIndex, item});
 
     this.setState(
       {
@@ -760,6 +843,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       return;
     }
 
+    this.dispatchEvent('delete', {index, item});
+
     const ctx = createObject(data, item);
     if (isEffectiveApi(deleteApi, ctx)) {
       const confirmed = await env.confirm(
@@ -777,12 +862,14 @@ export default class FormTable extends React.Component<TableProps, TableState> {
           'error',
           (deleteApi as ApiObject)?.messages?.failed ?? __('deleteFailed')
         );
+        this.dispatchEvent('deleteFail', {index, item, error: result});
         return;
       }
     }
 
     this.removeEntry(item);
     newValue.splice(index, 1);
+    this.dispatchEvent('deleteSuccess', {index, item});
     onChange(newValue);
   }
 
@@ -920,7 +1007,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               }
             };
       });
-    } else if (props.addable || props.editable || isCreateMode) {
+    } else if (isStatic !== true && (props.addable || props.editable || isCreateMode)) {
       columns = columns.map(column => {
         const quickEdit =
           !isCreateMode && column.hasOwnProperty('quickEditOnUpdate')
@@ -970,7 +1057,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                     : undefined
                 }
                 disabled={disabled}
-                onClick={() => this.startEdit(rowIndex + offset)}
+                onClick={() => this.editItem(rowIndex + offset)}
               >
                 {/* 兼容之前的写法 */}
                 {typeof props.updateBtnIcon !== 'undefined' ? (
@@ -1493,4 +1580,22 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 @FormItem({
   type: 'input-table'
 })
-export class TableControlRenderer extends FormTable {}
+export class TableControlRenderer extends FormTable {
+  setData(value: any, replace?: boolean, index?: number) {
+    const {onChange} = this.props;
+    if (index !== undefined && ~index) {
+      // 如果setValue动作传入了index，更新指定索引的值
+      const items = cloneDeep(this.state.items);
+      const pushIndex = index >= items.length ? items.length : index;
+      items[pushIndex] = value;
+      this.setState({items});
+      onChange?.(items);
+    } else {
+      // 如果setValue动作没有传入index，则直接替换组件数据
+      this.setState({
+        items: [...value]
+      });
+      onChange?.(value);
+    }
+  }
+}
