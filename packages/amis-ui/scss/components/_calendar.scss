@@ -249,7 +249,9 @@
       height: px2rem(36px);
       margin: px2rem(7px) 0;
       border-radius: var(--borderRadiusMd);
-      display: block;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
     .is-disabled {
       opacity: 0.5;
