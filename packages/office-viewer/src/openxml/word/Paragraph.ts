@@ -5,21 +5,17 @@
 import {loopChildren, WAttr, WTag, XMLData} from '../../OpenXML';
 import {parsePr} from '../../parse/parsePr';
 import Word from '../../Word';
-import {CSSStyle} from '../Style';
 import {BookmarkStart} from './Bookmark';
-import {Drawing} from './drawing/Drawing';
 import {Hyperlink} from './Hyperlink';
+import {NumberProperties} from './numbering/NumberProperties';
+import {Properties} from './properties/Properties';
 import {Run, RunProperties} from './Run';
 
 /**
  * 这里简化了很多，如果能用 CSS 表示就直接用 CSS 表示
  */
-export interface ParagraphProperties {
-  /**
-   * 解析后的 css 样式
-   */
-  readonly cssStyle?: CSSStyle;
-  readonly pStyle?: string;
+export interface ParagraphProperties extends Properties {
+  readonly numPr?: NumberProperties;
   readonly runProperties?: RunProperties;
 }
 
@@ -62,7 +58,12 @@ export class Paragraph {
       }
     }
 
-    return {cssStyle, pStyle};
+    let numPr;
+    if (WTag.numPr in data) {
+      numPr = NumberProperties.fromXML(word, data[WTag.numPr] as XMLData);
+    }
+
+    return {cssStyle, pStyle, numPr};
   }
 
   static fromXML(word: Word, data: XMLData): Paragraph {

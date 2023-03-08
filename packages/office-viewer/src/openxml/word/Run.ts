@@ -5,15 +5,13 @@ import {CSSStyle} from '../Style';
 import {BorderOptions} from './Border';
 import {Break} from './Break';
 import {Drawing} from './drawing/Drawing';
+import {Properties} from './properties/Properties';
 /**
  * 一段文本
  * http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/Run_1.html
  */
 
-export interface RunProperties {
-  readonly cssStyle?: CSSStyle;
-  readonly rStyle?: string;
-}
+export interface RunProperties extends Properties {}
 
 export class Text {
   preserveSpace: boolean = false;

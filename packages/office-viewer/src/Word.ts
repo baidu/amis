@@ -12,6 +12,7 @@ import {parseTheme, Theme} from './openxml/Theme';
 import {Document} from './openxml/word/Document';
 import renderDocument from './render/renderDocument';
 import {blobToDataURL} from './util/blob';
+import {Numbering} from './openxml/word/numbering/Numbering';
 
 /**
  * 渲染配置
@@ -69,6 +70,11 @@ export default class Word {
   themes: Theme[] = [];
 
   /**
+   * 解析 numbering.xml 里的数据
+   */
+  numbering: Numbering;
+
+  /**
    * 解析 styles.xml 里的数据
    */
   styles: Styles;
@@ -97,6 +103,7 @@ export default class Word {
     await this.initTheme();
     await this.initStyle();
     await this.initRelation();
+    await this.initNumbering();
 
     this.inited = true;
   }
@@ -143,6 +150,11 @@ export default class Word {
   async initContentType() {
     const contentType = await this.parser.getXML('[Content_Types].xml');
     this.conentTypes = parseContentType(contentType);
+  }
+
+  async initNumbering() {
+    const numberingData = await this.parser.getXML('word/numbering.xml');
+    this.numbering = Numbering.fromXML(this, numberingData);
   }
 
   getRelationship(id: string) {

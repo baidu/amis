@@ -9,14 +9,12 @@ import {Run, Text} from '../openxml/word/Run';
 import {Break} from '../openxml/word/Break';
 import {Drawing} from '../openxml/word/drawing/Drawing';
 import {renderDrawing} from './renderDrawing';
+import {setElementStyle} from './setElementStyle';
 
 export default function renderRun(word: Word, run: Run) {
   const span = createElement('span');
 
-  const properties = run.properties;
-  if (properties.cssStyle) {
-    setStyle(span, properties.cssStyle);
-  }
+  setElementStyle(word, span, run.properties);
 
   if (run.children.length === 1 && run.children[0] instanceof Text) {
     const text = run.children[0] as Text;

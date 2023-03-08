@@ -183,7 +183,7 @@ export function parsePr(word: Word, data: XMLData, type: 'r' | 'p' = 'p') {
       case WTag.tblBorders:
       case WTag.pBdr:
       case WTag.tcBorders:
-        parseBorders(value as XMLData, style);
+        parseBorders(word, value as XMLData, style);
         break;
 
       case WTag.ind:
@@ -308,7 +308,7 @@ export function parsePr(word: Word, data: XMLData, type: 'r' | 'p' = 'p') {
 
       case WTag.bdr:
         // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/bdr.html
-        style['border'] = parseBorder(value as XMLData);
+        style['border'] = parseBorder(word, value as XMLData);
         break;
 
       case WTag.vanish:

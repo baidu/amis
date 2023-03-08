@@ -5,30 +5,26 @@
 import {createElement, appendChild, setStyle} from '../util/dom';
 import Word from '../Word';
 
-import {Paragraph} from '../openxml/word/Paragraph';
+import {Paragraph, ParagraphProperties} from '../openxml/word/Paragraph';
 import {Run} from '../openxml/word/Run';
-import {Drawing} from '../openxml/word/drawing/Drawing';
 import {BookmarkStart} from './../openxml/word/Bookmark';
 import {Hyperlink} from '../openxml/word/Hyperlink';
 import renderRun from './renderRun';
 import {renderHyperLink} from './renderHyperLink';
-import {renderDrawing} from './renderDrawing';
 import {renderBookmarkStart} from './renderBookmark';
+import {renderNumbering} from './renderNumbering';
+import {setElementStyle} from './setElementStyle';
 
 export default function renderParagraph(word: Word, paragraph: Paragraph) {
   let p = createElement('p');
 
   const properties = paragraph.properties;
 
-  if (properties.cssStyle) {
-    setStyle(p, properties.cssStyle);
-  }
+  setElementStyle(word, p, properties);
 
-  if (properties.pStyle) {
-    const className = word.getClassName(properties.pStyle);
-    if (className) {
-      p.className = className;
-    }
+  // 渲染列表前缀
+  if (properties.numPr) {
+    appendChild(p, renderNumbering(word, properties.numPr));
   }
 
   for (const child of paragraph.children) {

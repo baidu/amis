@@ -71,7 +71,29 @@ export const WTag = {
   bookmarkStart: 'w:bookmarkStart',
   bookmarkEnd: 'w:bookmarkEnd',
   drawing: 'w:drawing',
-  background: 'w:background'
+  background: 'w:background',
+  abstractNum: 'w:abstractNum',
+  num: 'w:num',
+  nsid: 'w:nsid',
+  multiLevelType: 'w:multiLevelType',
+  tmpl: 'w:tmpl',
+  lvl: 'w:lvl',
+  start: 'w:start',
+  left: 'w:left',
+  end: 'w:end',
+  right: 'w:right',
+  top: 'w:top',
+  bottom: 'w:bottom',
+  between: 'w:between',
+  numFmt: 'w:numFmt',
+  lvlText: 'w:lvlText',
+  lvlJc: 'w:lvlJc',
+  abstractNumId: 'w:abstractNumId',
+  lvlOverride: 'w:lvlOverride',
+  numbering: 'w:numbering',
+  numPr: 'w:numPr',
+  ilvl: 'w:ilvl',
+  numId: 'w:numId'
 } as const;
 
 export const WPTag = {
@@ -131,7 +153,10 @@ export const WAttr = {
   dropCap: '@_w:dropCap',
   name: '@_w:name',
   themeShade: '@_w:themeShade',
-  themeTint: '@_w:themeTint'
+  themeTint: '@_w:themeTint',
+  abstractNumId: '@_w:abstractNumId',
+  numId: '@_w:numId',
+  ilvl: '@_w:ilvl'
 } as const;
 
 export const RAttr = {
@@ -230,6 +255,10 @@ export function getVal(data: XMLData | string | number | boolean) {
     console.warn('get val error', data);
   }
   return '';
+}
+
+export function getValNumber(data: XMLData | string | number | boolean) {
+  return parseInt(getVal(data), 10);
 }
 
 function addText(run: XMLData, newRun: XMLData) {

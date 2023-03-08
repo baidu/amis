@@ -57,9 +57,9 @@ export function parseSize(
   attrName: XMLKeys = WAttr.sz,
   usage: LengthUsageType = LengthUsage.Dxa
 ) {
-  const size = String(data[attrName]);
+  const size = data[attrName];
   if (size) {
-    return convertLength(size, usage);
+    return convertLength(String(size), usage);
   }
   return '';
 }
