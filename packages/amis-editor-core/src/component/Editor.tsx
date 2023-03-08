@@ -48,7 +48,7 @@ export interface EditorProps extends PluginEventListener {
    * Preview 预览前可以修改配置。
    * 比如把api地址替换成 proxy 地址。
    */
-  schemaFilter?: (schema: any) => any;
+  schemaFilter?: (schema: any, preview?: boolean) => any;
   amisEnv?: RenderOptions;
 
   /**

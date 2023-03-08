@@ -2,6 +2,9 @@
  * @file 把一些功能性的东西放在了这个里面，辅助 compoennt/Editor.tsx 组件的。
  * 编辑器非 UI 相关的东西应该放在这。
  */
+
+import findIndex from 'lodash/findIndex';
+import uniqBy from 'lodash/uniqBy';
 import {getRenderers, RenderOptions, mapTree} from 'amis-core';
 import {
   PluginInterface,
@@ -55,13 +58,10 @@ import {
 import {reaction} from 'mobx';
 import {hackIn, makeSchemaFormRender, makeWrapper} from './component/factory';
 import {env} from './env';
-<<<<<<< HEAD
-=======
 import debounce from 'lodash/debounce';
 import sortBy from 'lodash/sortBy';
 import reverse from 'lodash/reverse';
 import cloneDeep from 'lodash/cloneDeep';
->>>>>>> origin/pre-release
 import {openContextMenus, toast, alert, DataScope, DataSchema} from 'amis';
 import {parse, stringify} from 'json-ast-comments';
 import {EditorNodeType} from './store/node';
