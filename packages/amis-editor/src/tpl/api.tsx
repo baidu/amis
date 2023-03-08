@@ -449,29 +449,42 @@ setSchemaTpl('apiControl', (patch: any = {}) => {
   };
 });
 
-setSchemaTpl('interval', (more: any = {}) => ({
-  type: 'ae-switch-more',
-  label: '定时刷新',
-  name: 'interval',
-  formType: 'extend',
-  bulk: true,
-  mode: 'normal',
-  form: {
-    body: [
-      getSchemaTpl('withUnit', {
-        label: '刷新间隔',
-        name: 'interval',
-        control: {
-          type: 'input-number',
+setSchemaTpl(
+  'interval',
+  ({
+    switchMoreConfig,
+    formItems,
+    intervalConfig
+  }: {
+    switchMoreConfig: any;
+    formItems: any[];
+    intervalConfig: any;
+  }) => ({
+    type: 'ae-switch-more',
+    label: '定时刷新',
+    name: 'interval',
+    formType: 'extend',
+    bulk: true,
+    mode: 'normal',
+    form: {
+      body: [
+        getSchemaTpl('withUnit', {
+          label: '刷新间隔',
           name: 'interval',
-          value: 1000
-        },
-        unit: '毫秒'
-      })
-    ]
-  },
-  ...more
-}));
+          control: {
+            type: 'input-number',
+            name: 'interval',
+            value: 1000
+          },
+          unit: '毫秒',
+          ...intervalConfig
+        }),
+        ...formItems
+      ]
+    },
+    ...switchMoreConfig
+  })
+);
 
 setSchemaTpl('silentPolling', () =>
   getSchemaTpl('switch', {
