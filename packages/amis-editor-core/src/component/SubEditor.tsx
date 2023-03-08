@@ -153,6 +153,8 @@ export class SubEditor extends React.Component<SubEditorProps> {
                     isSubEditor={true}
                     iframeUrl={config.iframeUrl}
                     ctx={store.ctx}
+                    schemas={manager.config?.schemas}
+                    variables={manager.config?.variables}
                     amisEnv={amisEnv || config.amisEnv}
                     appLocale={config.appLocale}
                     i18nEnabled={config.i18nEnabled}
