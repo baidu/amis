@@ -76,7 +76,18 @@ export interface TagSchema extends BaseSchema {
 
 export interface TagProps
   extends RendererProps,
-    Omit<TagSchema, 'type' | 'className'> {}
+    Omit<TagSchema, 'type' | 'className'> {
+  onClick?: (params: {
+    [propName: string]: any;
+    nativeEvent: React.MouseEvent<any>;
+    label: string;
+  }) => void;
+  onClose?: (params: {
+    [propName: string]: any;
+    nativeEvent: React.MouseEvent<any>;
+    label: string;
+  }) => void;
+}
 
 export class TagField extends React.Component<TagProps, object> {
   static defaultProps: Partial<TagProps> = {
@@ -84,41 +95,41 @@ export class TagField extends React.Component<TagProps, object> {
   };
 
   @autobind
-  handleClick(e: React.MouseEvent<any>) {
-    const {dispatchEvent, data} = this.props;
-    dispatchEvent(
-      'click',
-      createObject(data, {
-        nativeEvent: e
-      })
-    );
+  handleClick(nativeEvent: React.MouseEvent<any>) {
+    const {dispatchEvent, onClick} = this.props;
+    const params = this.getResolvedEventParams(nativeEvent);
+
+    dispatchEvent('click', params);
+    onClick?.(params);
   }
 
   @autobind
   handleMouseEnter(e: React.MouseEvent<any>) {
-    const {dispatchEvent, data} = this.props;
-    dispatchEvent(
-      e,
-      createObject(data, {
-        nativeEvent: e
-      })
-    );
+    const {dispatchEvent} = this.props;
+    const params = this.getResolvedEventParams(e);
+
+    dispatchEvent(e, params);
   }
 
   @autobind
   handleMouseLeave(e: React.MouseEvent<any>) {
-    const {dispatchEvent, data} = this.props;
-    dispatchEvent(
-      e,
-      createObject(data, {
-        nativeEvent: e
-      })
-    );
+    const {dispatchEvent} = this.props;
+    const params = this.getResolvedEventParams(e);
+
+    dispatchEvent(e, params);
+  }
+
+  @autobind
+  handleClose(nativeEvent: React.MouseEvent<HTMLElement>) {
+    const {dispatchEvent, onClose} = this.props;
+    const params = this.getResolvedEventParams(nativeEvent);
+
+    dispatchEvent('close', params);
+    onClose?.(params);
   }
 
   render() {
     let {
-      label,
       icon,
       displayMode,
       color,
@@ -128,9 +139,7 @@ export class TagField extends React.Component<TagProps, object> {
       style = {}
     } = this.props;
 
-    label =
-      getPropValue(this.props) ||
-      (label ? resolveVariableAndFilter(label, data, '| raw') : null);
+    const label = this.resolveLabel();
 
     if (isPureVariable(icon)) {
       icon = resolveVariableAndFilter(icon, data);
@@ -155,10 +164,32 @@ export class TagField extends React.Component<TagProps, object> {
         onClick={this.handleClick}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
+        onClose={this.handleClose}
       >
         {label}
       </Tag>
     );
+  }
+
+  private resolveLabel() {
+    const {label, data} = this.props;
+    return (
+      getPropValue(this.props) ||
+      (label ? resolveVariableAndFilter(label, data, '| raw') : null)
+    );
+  }
+
+  private getResolvedEventParams<T>(nativeEvent: T) {
+    const {data} = this.props;
+
+    return createObject(data, {
+      nativeEvent,
+      label: this.resolveLabel()
+    }) as {
+      [propName: string]: any;
+      nativeEvent: React.MouseEvent<T>;
+      label: string;
+    };
   }
 }
 
