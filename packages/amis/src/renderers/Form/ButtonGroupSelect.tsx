@@ -2,7 +2,8 @@ import React from 'react';
 import {
   OptionsControl,
   OptionsControlProps,
-  FormOptionsControl
+  FormOptionsControl,
+  filterVisibleOptions
 } from 'amis-core';
 import type {Option} from 'amis-core';
 import {ActionObject} from 'amis-core';
@@ -101,7 +102,7 @@ export default class ButtonGroupControl extends React.Component<
       (btnActiveLevel = getLevelFromClassName(btnActiveClassName));
 
     if (options && options.length) {
-      body = options.map((option, key) => {
+      body = filterVisibleOptions(options).map((option, key) => {
         const active = !!~selectedOptions.indexOf(option);
         return render(
           `option/${key}`,

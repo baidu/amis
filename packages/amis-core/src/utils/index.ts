@@ -52,6 +52,7 @@ export * from './validations';
 export * from './toNumber';
 export * from './decodeEntity';
 export * from './style-helper';
+export * from './filterVisibleOptions';
 
 import animation from './Animation';
 

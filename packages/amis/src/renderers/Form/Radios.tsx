@@ -6,7 +6,8 @@ import {
   OptionsControlProps,
   Option,
   FormOptionsControl,
-  resolveEventData
+  resolveEventData,
+  filterVisibleOptions
 } from 'amis-core';
 import {autobind, isEmpty, createObject} from 'amis-core';
 import {ActionObject} from 'amis-core';
@@ -139,7 +140,7 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
         labelField={labelField}
         valueField={valueField}
         placeholder={__(placeholder)}
-        options={options}
+        options={filterVisibleOptions(options)}
         columnsCount={columnsCount}
         classPrefix={classPrefix}
         itemClassName={itemClassName}

@@ -6,7 +6,8 @@ import {
   autobind,
   hasAbility,
   columnsSplit,
-  flattenTreeWithLeafNodes
+  flattenTreeWithLeafNodes,
+  filterVisibleOptions
 } from 'amis-core';
 import type {ActionObject, Api, OptionsControlProps, Option} from 'amis-core';
 import {Checkbox, Icon} from 'amis-ui';
@@ -350,7 +351,7 @@ export default class CheckboxesControl extends React.Component<
     let body: Array<React.ReactNode> = [];
 
     if (options && options.length) {
-      body = options.map((option, key) => this.renderItem(option, key));
+      body = filterVisibleOptions(options).map((option, key) => this.renderItem(option, key));
     }
 
     if (checkAll && body.length && optionType === 'default') {

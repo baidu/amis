@@ -5,7 +5,8 @@ import {
   highlight,
   FormOptionsControl,
   resolveEventData,
-  insertCustomStyle
+  insertCustomStyle,
+  filterVisibleOptions
 } from 'amis-core';
 import {ActionObject} from 'amis-core';
 import Downshift, {StateChangeOptions} from 'downshift';
@@ -727,6 +728,8 @@ export default class TextControl extends React.PureComponent<
               isNew: true
             });
           }
+
+          filtedOptions = filterVisibleOptions(filtedOptions);
 
           return (
             <div

@@ -3,7 +3,8 @@ import {
   OptionsControl,
   OptionsControlProps,
   Option,
-  resolveEventData
+  resolveEventData,
+  filterVisibleOption
 } from 'amis-core';
 import Downshift from 'downshift';
 import find from 'lodash/find';
@@ -465,7 +466,8 @@ export default class TagControl extends React.PureComponent<
           options,
           item =>
             (Array.isArray(item.children) && !!item.children.length) ||
-            (item.value !== undefined && !~selectedOptions.indexOf(item)),
+            (item.value !== undefined && !~selectedOptions.indexOf(item)) ||
+            filterVisibleOption(item),
           0,
           true
         )

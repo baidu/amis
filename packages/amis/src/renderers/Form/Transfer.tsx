@@ -5,7 +5,8 @@ import {
   OptionsControlProps,
   OptionsControl,
   FormOptionsControl,
-  resolveEventData
+  resolveEventData,
+  filterVisibleOptions
 } from 'amis-core';
 import {SpinnerExtraProps, Transfer} from 'amis-ui';
 import type {Option} from 'amis-core';
@@ -509,6 +510,15 @@ export class BaseTransferRenderer<
       leftDefaultValue = options[0].leftDefaultValue ?? leftDefaultValue;
       options = options[0].children;
     }
+
+    if (
+      selectMode === 'list' &&
+      options &&
+      options.length
+    ) {
+      options = filterVisibleOptions(options);
+    }
+
 
     return (
       <div className={cx('TransferControl', className)}>

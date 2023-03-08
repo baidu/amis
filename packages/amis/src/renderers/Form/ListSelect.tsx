@@ -3,7 +3,8 @@ import {
   OptionsControl,
   OptionsControlProps,
   Option,
-  FormOptionsControl
+  FormOptionsControl,
+  filterVisibleOptions
 } from 'amis-core';
 import {ActionObject, Schema} from 'amis-core';
 import {createObject, isEmpty} from 'amis-core';
@@ -192,7 +193,7 @@ export default class ListControl extends React.Component<ListProps, any> {
     if (options && options.length) {
       body = (
         <div className={cx('ListControl-items', listClassName)}>
-          {options.map((option, key) => (
+          {filterVisibleOptions(options).map((option, key) => (
             <div
               key={key}
               className={cx(`ListControl-item`, itemClassName, {
