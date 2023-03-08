@@ -47,27 +47,33 @@ const fontStyle = [
 ];
 
 function AmisStyleCodeEditor(props: FormControlProps) {
-  const {name, value: classname, suffix} = props;
+  const {name, value: classname, suffix, datat} = props;
   const [value, setValue] = useState('');
+
   function getCssAndSetValue(
     classname?: string,
     name?: string,
     suffix?: string
   ) {
     try {
-      const id =
-        classname?.replace(name + '-', '') + (suffix ? '-' + suffix : '');
-      const dom = document.getElementById(id || '') || null;
-      const content = dom?.innerHTML || '';
-      const ast = cssParse(content);
+      debugger;
       const nodes: any[] = [];
-      ast.nodes.forEach((node: any) => {
-        const selector = node.selector;
-        if (!selector.endsWith('.hover') && !selector.endsWith('.active')) {
-          nodes.push(node);
-        }
+      const ids = classname
+        ?.split(' ')
+        .map(n => n.replace(name + '-', '') + (suffix ? '-' + suffix : ''));
+      ids?.forEach(id => {
+        const dom = document.getElementById(id || '') || null;
+        const content = dom?.innerHTML || '';
+        const ast = cssParse(content);
+
+        ast.nodes.forEach((node: any) => {
+          const selector = node.selector;
+          if (!selector.endsWith('.hover') && !selector.endsWith('.active')) {
+            nodes.push(node);
+          }
+        });
+        ast.nodes = nodes;
       });
-      ast.nodes = nodes;
 
       const css = nodes
         .map(node => {
@@ -75,7 +81,7 @@ function AmisStyleCodeEditor(props: FormControlProps) {
           return `${node.selector} {\n  ${style.join('\n  ')}\n}`;
         })
         .join('\n\n');
-
+      debugger;
       setValue(css);
     } catch (error) {
       console.error(error);
@@ -149,15 +155,15 @@ function AmisStyleCodeEditor(props: FormControlProps) {
   });
 
   return (
-    <div className="ThemeClassName-editor">
-      <div className="ThemeClassName-editor-title">自定义样式源码</div>
-      <div className="ThemeClassName-editor-close">
+    <div className="ThemeCssCode-editor">
+      <div className="ThemeCssCode-editor-title">编辑样式源码</div>
+      <div className="ThemeCssCode-editor-close">
         <Button onClick={props.onHide} level="link">
           <Icon icon="close" className="icon" />
         </Button>
       </div>
 
-      <div className="ThemeClassName-editor-content">
+      <div className="ThemeCssCode-editor-content">
         <Editor
           value={value}
           language="css"
@@ -183,7 +189,7 @@ function AmisStyleCodeEditor(props: FormControlProps) {
   );
 }
 
-function ThemeClassName(props: FormControlProps) {
+function ThemeCssCode(props: FormControlProps) {
   const ref = useRef<HTMLDivElement>(null);
   const {value} = props;
   const [showEditor, setShowEditor] = useState(false);
@@ -192,24 +198,10 @@ function ThemeClassName(props: FormControlProps) {
   }
   return (
     <>
-      <div ref={ref} className="ThemeClassName">
-        <Button
-          onClick={handleShowEditor}
-          level="link"
-          className=":ThemeClassName-button"
-        >
-          <Icon icon="file" className="icon" />
+      <div ref={ref} className="ThemeCssCode">
+        <Button onClick={handleShowEditor} className=":ThemeCssCode-button">
+          编辑样式源码
         </Button>
-        {render({
-          type: 'input-tag',
-          name: 'class',
-          placeholder: '请输入类名',
-          delimiter: ' ',
-          value: value,
-          onChange: (value: string) => {
-            props.onChange && props.onChange(value);
-          }
-        })}
       </div>
       <Overlay
         container={document.body}
@@ -227,11 +219,11 @@ function ThemeClassName(props: FormControlProps) {
 }
 
 @FormItem({
-  type: 'theme-classname',
+  type: 'theme-cssCode',
   strictMode: false
 })
-export class BorderRenderer extends React.Component<FormControlProps> {
+export class ThemeCssCodeRenderer extends React.Component<FormControlProps> {
   render() {
-    return <ThemeClassName {...this.props} />;
+    return <ThemeCssCode {...this.props} />;
   }
 }

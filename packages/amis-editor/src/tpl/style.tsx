@@ -426,43 +426,18 @@ export const styleTpl = {
  */
 
 // css类名
-setSchemaTpl(
-  'theme:classNames',
-  (config: {schema: any; isFormItem: boolean; unsupportStatic?: boolean}) => {
-    const {
-      isFormItem = true,
-      unsupportStatic = false,
-      schema = []
-    } = config || {};
-    return {
-      title: 'CSS 类名',
-      body: (isFormItem
-        ? [
-            {
-              type: 'theme-classname',
-              label: 'Label',
-              suffix: 'label',
-              name: 'labelClassName'
-            },
-            {
-              type: 'theme-classname',
-              label: '描述',
-              suffix: 'description',
-              name: 'descriptionClassName',
-              visibleOn: 'this.description'
-            }
-          ]
-        : [
-            {
-              type: 'theme-classname',
-              label: '外层',
-              name: 'className'
-            }
-          ]
-      ).concat(schema)
-    };
-  }
-);
+setSchemaTpl('theme:cssCode', () => {
+  return {
+    title: '样式源码',
+    body: [
+      {
+        type: 'theme-cssCode',
+        label: false,
+        name: 'className'
+      }
+    ]
+  };
+});
 
 // form label
 setSchemaTpl('theme:form-label', () => {
