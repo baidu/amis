@@ -1,14 +1,13 @@
-.ThemeClassName {
+.ThemeCssCode {
   position: relative;
   &-button {
-    position: absolute;
-    left: px2rem(-38px);
+    width: 100%;
   }
   .is-group {
     overflow: auto;
   }
 }
-.ThemeClassName-editor {
+.ThemeCssCode-editor {
   height: auto;
   width: px2rem(400px);
   padding: px2rem(16px);
