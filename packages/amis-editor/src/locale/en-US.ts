@@ -1843,8 +1843,6 @@ extendLocale('en-US', {
   '348097cc50579e489f0bcb5433637d3a':
     'With this option enabled, you can sort them according to the current column sequence (backend sequence).',
   '9db64f772c11c614ee00bb3cc066f46f': 'Column group name',
-  'fea0f3f456153564218a9eefb78d8cec':
-    'When the group name of multiple column groups keeps consistent, the table displays the super table header at the top layer of the table header displayed.<a href="https://baidu.github.io/amis/crud/header-group" target="_blank">Example</a>',
   '19c4f5e98ad302574202de30dddbaf66': 'Enable quick edit',
   '15c3796e07e33afc7252df751f610c5d': 'Whether to save immediately',
   'ba5a0a1ff2c438ae7719ca48b0ce3af7': 'Enable “View more display options”',
@@ -3772,5 +3770,31 @@ extendLocale('en-US', {
   '5720057e62e80f7a04489dc4c035b4f1': 'Cancel button icon',
   '8985ea173dce8f9bee667b3cdf0b7bdf':
     'This configuration item only applies to the "Add" button in the table operation bar',
-  '3f64a567662a24714768237a3a6d0de7': 'New button below the table'
+  '3f64a567662a24714768237a3a6d0de7': 'New button below the table',
+  '522cddc343d72db3db80cf3d71f99210':
+    'The API return format is incorrect. Please click the example on the right side of the interface address to view the CRUD data interface structure requirements',
+  '5323ab3e5c12066101244f0577c30e22': 'Custom container area',
+  'b34422e637c90181d3fca4485a97c712': 'fraction',
+  '95e0d70d1809d5267c2419eda58e78ca': 'Grade',
+  'c13998e4c837dc40b8e90828d99561df':
+    'If it is blank, editing is not supported',
+  '738b58219dda4a849e293c0f75d06438': 'New button in operation bar',
+  '306abb77f96a1048cf6e61bfe6e7bae4':
+    'If it is empty, no paging will be performed',
+  '1a9aaf05889002e65708c4950012a652': 'Yes, you just clicked',
+  '243e91d5fbc5a03a5c54da6d8e662e4f':
+    'Page renderer, the top entry of the page. It contains multiple regions. You can choose to place different renderers in different regions.',
+  'aae5ccb98564e19c48f19c740c3c10b7': 'Default (static)',
+  '5d721446605f21bddb3b8e2ab2a3841c': 'Relative',
+  'b55b525d56fd0d4d3dcb9291e59e3433': 'Fixed',
+  '25ece43050dda20ad4d8dd058dd590d1': 'Absolute',
+  '22b47452f52254ce07507287d137d167':
+    '<div>When data mapping is enabled, the data in the pop-up box will only contain the set part. Please bind the data. For example: {"a": " ${a}", "b": 2}</ div>',
+  '68419387f5bb8487a848b818d78424ae':
+    '<div>When the value is__ When undefined, it means to delete the corresponding field. You can combine {"&": " $$"} to achieve the blacklist effect</ div>',
+  'cb65841ea7dec5ae0af20b3f5e52abfc': 'Raw data leveling',
+  '6922790f45faf064e063069816e4d2ec':
+    'After opening, all the original data will be flattened and set in the data, and customized on this basis',
+  '9791b05a4df9d72f1a01b81fa695fbc6':
+    'When the grouping names of multiple columns are consistent, the table will display the super header on the upper layer of the display header.<a href=“ https://baidu.github.io/amis/zh-CN/components/table#%E8%B6%85%E7%BA%A7%E8%A1%A8%E5%A4%B4 " target="_ Blank ">Example</a>'
 });

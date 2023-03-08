@@ -2840,8 +2840,6 @@ extendLocale('zh-CN', {
     '<span class="label label-warning">四</span>',
   'ce3fd44456123f571e9d083b98da9fcb':
     '<span class="label label-primary">五</span>',
-  'fea0f3f456153564218a9eefb78d8cec':
-    '当多列的分组名称设置一致时，表格会在显示表头的上层显示超级表头，<a href="https://baidu.github.io/amis/crud/header-group" target="_blank">示例</a>',
   'f8fc21a9fd40881e8fd3d7f15919465c':
     '如果当前字段有值，请不要设置，否则覆盖。支持使用 <code>\\${xxx}</code> 来获取变量，或者用 lodash.template 语法来写模板逻辑。<a target="_blank" href="/amis/zh-CN/docs/concepts/template">详情</a>',
   '2c8a99d35cb5704994cabcc61a4c3a4a':
@@ -3356,5 +3354,31 @@ extendLocale('zh-CN', {
   'c18169dd6fceab2f023216fa6f7d22c1': '确认按钮图标',
   '5720057e62e80f7a04489dc4c035b4f1': '取消按钮图标',
   '8985ea173dce8f9bee667b3cdf0b7bdf': '此配置项只作用于表格操作栏的“新增”按钮',
-  '3f64a567662a24714768237a3a6d0de7': '表格下方新增按钮'
+  '3f64a567662a24714768237a3a6d0de7': '表格下方新增按钮',
+  '522cddc343d72db3db80cf3d71f99210':
+    'API返回格式不正确，请点击接口地址右侧示例查看CRUD数据接口结构要求',
+  '9b39126b20e519bb1c6e9054f4b55784':
+    '<p><code>ids</code>: <span>用 id 来记录新的顺序</span></p>\n              <p><code>rows</code>: <span>数组格式，新的顺序，数组里面包含所有原始信息</span></p>\n              <p><code>insetAfter</code> / <code>insertBefore</code>: <span>这是 amis 生成的 diff 信息，对象格式，key 为目标成员的 primaryField 值，即 id，value 为数组，数组中存放成员 primaryField 值</span></p>',
+  '5323ab3e5c12066101244f0577c30e22': '自定义容器区域',
+  'b34422e637c90181d3fca4485a97c712': '分数',
+  '95e0d70d1809d5267c2419eda58e78ca': '等级',
+  'c13998e4c837dc40b8e90828d99561df': '为空则不支持编辑',
+  '738b58219dda4a849e293c0f75d06438': '操作栏新增按钮',
+  '306abb77f96a1048cf6e61bfe6e7bae4': '如果为空则不进行分页',
+  '1a9aaf05889002e65708c4950012a652': '对，你刚刚点击了',
+  '243e91d5fbc5a03a5c54da6d8e662e4f':
+    '页面渲染器，页面的顶级入口。包含多个区域，您可以选择在不同的区域里面放置不同的渲染器。',
+  'aae5ccb98564e19c48f19c740c3c10b7': '默认(static)',
+  '5d721446605f21bddb3b8e2ab2a3841c': '相对(relative)',
+  'b55b525d56fd0d4d3dcb9291e59e3433': '固定(fixed)',
+  '25ece43050dda20ad4d8dd058dd590d1': '绝对(absolute)',
+  '22b47452f52254ce07507287d137d167':
+    '<div> 当开启数据映射时，弹框中的数据只会包含设置的部分，请绑定数据。如：{"a": "\\${a}", "b": 2}。</div>',
+  '68419387f5bb8487a848b818d78424ae':
+    '<div>当值为 __undefined时，表示删除对应的字段，可以结合{"&": "\\$$"}来达到黑名单效果。</div>',
+  'cb65841ea7dec5ae0af20b3f5e52abfc': '原始数据打平',
+  '6922790f45faf064e063069816e4d2ec':
+    '开启后，会将所有原始数据打平设置到 data 中，并在此基础上定制',
+  '9791b05a4df9d72f1a01b81fa695fbc6':
+    '当多列的分组名称设置一致时，表格会在显示表头的上层显示超级表头，<a href="https://baidu.github.io/amis/zh-CN/components/table#%E8%B6%85%E7%BA%A7%E8%A1%A8%E5%A4%B4" target="_blank">示例</a>'
 });
