@@ -187,6 +187,7 @@ export const components = [
           import('../../docs/zh-CN/components/nav.md').then(wrapDoc)
         )
       },
+
       {
         label: 'AnchorNav 锚点导航',
         path: '/zh-CN/components/anchor-nav',
@@ -947,6 +948,13 @@ export const components = [
         path: '/zh-CN/components/mapping',
         component: React.lazy(() =>
           import('../../docs/zh-CN/components/mapping.md').then(wrapDoc)
+        )
+      },
+      {
+        label: 'Number 展示',
+        path: '/zh-CN/components/number',
+        component: React.lazy(() =>
+          import('../../docs/zh-CN/components/number.md').then(wrapDoc)
         )
       },
       {

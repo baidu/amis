@@ -190,6 +190,7 @@ export type SchemaType =
   | 'mapping'
   | 'markdown'
   | 'nav'
+  | 'number'
   | 'page'
   | 'pagination'
   | 'pagination-wrapper'
