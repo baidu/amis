@@ -364,7 +364,7 @@ export class TextControlPlugin extends BasePlugin {
               title: '输入框样式',
               body: [
                 ...inputStateTpl(
-                  'css.inputControlClassName',
+                  'themeCss.inputControlClassName',
                   'input.base.default'
                 )
               ]
@@ -375,28 +375,16 @@ export class TextControlPlugin extends BasePlugin {
               body: [
                 getSchemaTpl('theme:font', {
                   label: '文字',
-                  name: 'css.addOnClassName.font'
+                  name: 'themeCss.addOnClassName.font:default'
                 }),
                 getSchemaTpl('theme:paddingAndMargin', {
-                  name: 'css.addOnClassName.padding-and-margin'
+                  name: 'themeCss.addOnClassName.padding-and-margin:default'
                 })
               ]
             },
-            getSchemaTpl('theme:classNames', {
-              schema: [
-                {
-                  type: 'theme-classname',
-                  label: '输入框',
-                  name: 'inputControlClassName'
-                },
-                {
-                  type: 'theme-classname',
-                  name: 'addOnClassName',
-                  suffix: 'addOn',
-                  label: 'AddOn',
-                  visibleOn: 'this.addOn && this.addOn.type === "text"'
-                }
-              ]
+            getSchemaTpl('theme:cssCode', {
+              themeClass: ['addOn'],
+              isFormItem: true
             })
           ],
           {...context?.schema, configTitle: 'style'}

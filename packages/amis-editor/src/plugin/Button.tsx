@@ -115,7 +115,7 @@ export class ButtonPlugin extends BasePlugin {
       return [
         getSchemaTpl('theme:font', {
           label: '文字',
-          name: `css.className.font:${state}`,
+          name: `themeCss.className.font:${state}`,
           visibleOn: visibleOn,
           editorThemePath: [
             `button1.type.\${level}.${state}.body.font-color`,
@@ -124,24 +124,24 @@ export class ButtonPlugin extends BasePlugin {
         }),
         getSchemaTpl('theme:colorPicker', {
           label: '背景',
-          name: `css.className.background:${state}`,
+          name: `themeCss.className.background:${state}`,
           labelMode: 'input',
           needGradient: true,
           visibleOn: visibleOn,
           editorThemePath: `button1.type.\${level}.${state}.body.bg-color`
         }),
         getSchemaTpl('theme:border', {
-          name: `css.className.border:${state}`,
+          name: `themeCss.className.border:${state}`,
           visibleOn: visibleOn,
           editorThemePath: `button1.type.\${level}.${state}.body.border`
         }),
         getSchemaTpl('theme:paddingAndMargin', {
-          name: `css.className.padding-and-margin:${state}`,
+          name: `themeCss.className.padding-and-margin:${state}`,
           visibleOn: visibleOn,
           editorThemePath: `button1.size.\${size}.body.padding-and-margin`
         }),
         getSchemaTpl('theme:radius', {
-          name: `css.className.radius:${state}`,
+          name: `themeCss.className.radius:${state}`,
           visibleOn: visibleOn,
           editorThemePath: `button1.size.\${size}.body.border`
         })
@@ -367,7 +367,7 @@ export class ButtonPlugin extends BasePlugin {
               ...buttonStateFunc("${editorState == 'active'}", 'active')
             ]
           },
-          getSchemaTpl('theme:cssCode', {isFormItem: false})
+          getSchemaTpl('theme:cssCode')
         ])
       },
       {

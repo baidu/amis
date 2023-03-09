@@ -277,20 +277,12 @@ export class NumberControlPlugin extends BasePlugin {
                 title: '数字输入框样式',
                 body: [
                   ...inputStateTpl(
-                    'css.inputControlClassName',
+                    'themeCss.inputControlClassName',
                     'inputNumber.base.base'
                   )
                 ]
               },
-              getSchemaTpl('theme:classNames', {
-                schema: [
-                  {
-                    type: 'theme-classname',
-                    label: '数字输入框',
-                    name: 'inputControlClassName'
-                  }
-                ]
-              })
+              getSchemaTpl('theme:cssCode', {isFormItem: true})
             ],
             {...context?.schema, configTitle: 'style'}
           )

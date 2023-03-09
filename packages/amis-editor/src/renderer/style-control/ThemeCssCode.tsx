@@ -2,11 +2,12 @@
  * 类名输入框 + 自定义样式源码编辑器
  */
 import React, {useEffect, useRef, useState} from 'react';
-import {Button, Editor, Icon, Overlay, PopOver} from 'amis-ui';
-import {FormControlProps, FormItem, render} from 'amis-core';
+import {Button, Editor, Overlay, PopOver} from 'amis-ui';
+import {FormControlProps, FormItem} from 'amis-core';
 import {parse as cssParse} from 'amis-postcss';
 import {PlainObject} from './types';
 import {debounce} from 'lodash';
+import {Icon} from '../../icons/index';
 
 const valueMap: PlainObject = {
   'margin-top': 'marginTop',
@@ -47,20 +48,13 @@ const fontStyle = [
 ];
 
 function AmisStyleCodeEditor(props: FormControlProps) {
-  const {name, value: classname, suffix, datat} = props;
+  const {themeClass, data} = props;
+  const id = data.id.replace('u:', '');
   const [value, setValue] = useState('');
-
-  function getCssAndSetValue(
-    classname?: string,
-    name?: string,
-    suffix?: string
-  ) {
+  function getCssAndSetValue(themeClass: string[]) {
     try {
-      debugger;
       const nodes: any[] = [];
-      const ids = classname
-        ?.split(' ')
-        .map(n => n.replace(name + '-', '') + (suffix ? '-' + suffix : ''));
+      const ids = themeClass.map(n => (n ? id + '-' + n : id));
       ids?.forEach(id => {
         const dom = document.getElementById(id || '') || null;
         const content = dom?.innerHTML || '';
@@ -81,7 +75,6 @@ function AmisStyleCodeEditor(props: FormControlProps) {
           return `${node.selector} {\n  ${style.join('\n  ')}\n}`;
         })
         .join('\n\n');
-      debugger;
       setValue(css);
     } catch (error) {
       console.error(error);
@@ -89,23 +82,22 @@ function AmisStyleCodeEditor(props: FormControlProps) {
   }
 
   useEffect(() => {
-    getCssAndSetValue(classname, name, suffix);
+    getCssAndSetValue(themeClass);
   }, []);
-
-  function handleChange(value: string) {
-    setValue(value);
-    editorChange(value);
-  }
 
   const editorChange = debounce((value: string) => {
     try {
       const ast = cssParse(value);
-      const {data, onBulkChange, name} = props;
-      const sourceCss = data.css || {};
-      const className: PlainObject = {};
+      const {data, onBulkChange} = props;
+      const sourceCss = data.themeCss || data.css || {};
+
+      const newCss: any = {};
       ast.nodes.forEach((node: any) => {
         const nodes = node.nodes;
         const selector = node.selector;
+        const nameEtr = /\.(.*)\-/.exec(selector);
+        const cssCode: PlainObject = {};
+        let name = nameEtr ? nameEtr[1] : '';
         let state = 'default';
         if (!!~selector.indexOf(':hover:active')) {
           state = 'active';
@@ -117,42 +109,46 @@ function AmisStyleCodeEditor(props: FormControlProps) {
           const cssValue = item.value;
           if (!!~prop.indexOf('radius')) {
             const type = 'radius:' + state;
-            !className[type] && (className[type] = {});
+            !cssCode[type] && (cssCode[type] = {});
             const radius = cssValue.split(' ');
 
-            className[type]['top-left-border-radius'] = radius[0];
-            className[type]['top-right-border-radius'] = radius[1];
-            className[type]['bottom-right-border-radius'] = radius[2];
-            className[type]['bottom-left-border-radius'] = radius[3];
+            cssCode[type]['top-left-border-radius'] = radius[0];
+            cssCode[type]['top-right-border-radius'] = radius[1];
+            cssCode[type]['bottom-right-border-radius'] = radius[2];
+            cssCode[type]['bottom-left-border-radius'] = radius[3];
           } else if (!!~prop.indexOf('border')) {
-            !className['border:' + state] &&
-              (className['border:' + state] = {});
-            className['border:' + state][valueMap[prop] || prop] = cssValue;
+            !cssCode['border:' + state] && (cssCode['border:' + state] = {});
+            cssCode['border:' + state][valueMap[prop] || prop] = cssValue;
           } else if (!!~prop.indexOf('padding') || !!~prop.indexOf('margin')) {
-            !className['padding-and-margin:' + state] &&
-              (className['padding-and-margin:' + state] = {});
-            className['padding-and-margin:' + state][valueMap[prop] || prop] =
+            !cssCode['padding-and-margin:' + state] &&
+              (cssCode['padding-and-margin:' + state] = {});
+            cssCode['padding-and-margin:' + state][valueMap[prop] || prop] =
               cssValue;
           } else if (fontStyle.includes(prop)) {
-            !className['font:' + state] && (className['font:' + state] = {});
-            className['font:' + state][valueMap[prop] || prop] = cssValue;
+            !cssCode['font:' + state] && (cssCode['font:' + state] = {});
+            cssCode['font:' + state][valueMap[prop] || prop] = cssValue;
           } else {
-            className[(valueMap[prop] || prop) + ':' + state] = cssValue;
+            cssCode[(valueMap[prop] || prop) + ':' + state] = cssValue;
           }
         });
+        newCss[name] = cssCode;
       });
-      const newCss = {
-        ...sourceCss,
-        [name!]: className
-      };
       onBulkChange &&
         onBulkChange({
-          css: newCss
+          themeCss: {
+            ...sourceCss,
+            ...newCss
+          }
         });
     } catch (error) {
       console.error(error);
     }
   });
+
+  function handleChange(value: string) {
+    setValue(value);
+    editorChange(value);
+  }
 
   return (
     <div className="ThemeCssCode-editor">
@@ -166,7 +162,6 @@ function AmisStyleCodeEditor(props: FormControlProps) {
       <div className="ThemeCssCode-editor-content">
         <Editor
           value={value}
-          language="css"
           onChange={handleChange}
           options={{
             automaticLayout: true,
@@ -200,7 +195,7 @@ function ThemeCssCode(props: FormControlProps) {
     <>
       <div ref={ref} className="ThemeCssCode">
         <Button onClick={handleShowEditor} className=":ThemeCssCode-button">
-          编辑样式源码
+          <Icon icon="theme-css" className="icon" /> 编辑样式源码
         </Button>
       </div>
       <Overlay
