@@ -62,6 +62,7 @@ register('en-US', {
   'Date.hoursago': '{{hours}} hour(s) ago',
   'Date.hourslater': '{{hours}} hour(s) later',
   'Date.invalid': 'Invalid date',
+  'Number.invalid': 'Invalid number',
   'Date.monday': 'Monday',
   'Date.monthsago': '{{months}} month(s) ago',
   'Date.monthslater': '{{months}} month(s) later',
