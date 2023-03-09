@@ -126,6 +126,7 @@ import './renderers/SparkLine';
 import './renderers/Video';
 import './renderers/Audio';
 import './renderers/Nav';
+import './renderers/Number';
 import './renderers/Tasks';
 import './renderers/Drawer';
 import './renderers/Wrapper';
