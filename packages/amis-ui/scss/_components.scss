@@ -1815,6 +1815,47 @@
   --Modal-widthXl: 90%;
   --Model-close-onHover-color: var(--text-color);
 
+  // 抽屉
+  --drawer-header-height: var(--sizes-size-1);
+  --drawer-header-color: var(--colors-neutral-text-2);
+  --drawer-header-fontSize: var(--fonts-size-7);
+  --drawer-header-fontWeight: var(--fonts-weight-5);
+  --drawer-content-paddingTop: var(--sizes-base-12);
+  --drawer-content-paddingBottom: var(--sizes-base-12);
+  --drawer-content-paddingLeft: var(--sizes-base-12);
+  --drawer-content-paddingRight: var(--sizes-base-12);
+  --drawer-footer-height: var(--sizes-size-1);
+  --drawer-footer-margin-left: var(--sizes-size-9);
+  --drawer-size-xs-width: 12.5rem;
+  --drawer-size-sm-width: 18.75rem;
+  --drawer-size-md-width: 31.25rem;
+  --drawer-size-lg-width: 50rem;
+  --drawer-size-xl-width: 90%;
+
+  --Drawer-bg: var(--background);
+  --Drawer-body-padding: var(--sizes-base-12);
+  --Drawer-footer-margin: var(--sizes-size-9);
+  --Drawer-close-color: var(--colors-neutral-text-2);
+  --Drawer-close-onHover-color: var(--text-color);
+  --Drawer-close-size: #{px2rem(12px)};
+  --Drawer-content-borderColor: var(--borderColor);
+  --Drawer-content-borderRadius: 0;
+  --Drawer-content-borderWidth: var(--borderWidth);
+  --Drawer-footer-borderColor: var(--colors-neutral-line-10);
+  --Drawer-footer-padding: var(--gap-base);
+  --Drawer-header-bg: var(--colors-neutral-fill-11);
+  --Drawer-header-borderColor: var(--colors-neutral-line-10);
+  --Drawer-header-padding: var(--sizes-size-9) var(--sizes-base-12);
+  --Drawer-overlay-bg: rgba(0, 0, 0, 0.6);
+  --Drawer-title-fontColor: var(--colors-neutral-text-2);
+  --Drawer-title-fontSize: var(--fontSizeMd);
+  --Drawer-widthBase: #{px2rem(400px)};
+  --Drawer-widthLg: #{px2rem(800px)};
+  --Drawer-widthMd: #{px2rem(500px)};
+  --Drawer-widthSm: #{px2rem(300px)};
+  --Drawer-widthXl: 90%;
+  --Drawer-widthXs: #{px2rem(200px)};
+
   // 评分
   --Rating-star-margin: var(--sizes-size-5);
   --Rating-star-size: var(--sizes-base-12);
