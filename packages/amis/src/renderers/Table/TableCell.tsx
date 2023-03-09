@@ -57,8 +57,8 @@ export class TableCell extends React.Component<TableCellProps> {
       body: _body,
       tpl,
       remark,
-      prefix,
-      affix,
+      cellPrefix,
+      cellAffix,
       isHead,
       colIndex,
       row,
@@ -98,13 +98,13 @@ export class TableCell extends React.Component<TableCellProps> {
       if (!/%$/.test(String(style.width))) {
         body = (
           <div style={{width: style.width}}>
-            {prefix}
+            {cellPrefix}
             {body}
-            {affix}
+            {cellAffix}
           </div>
         );
-        prefix = null;
-        affix = null;
+        cellPrefix = null;
+        cellAffix = null;
         // delete style.width;
       }
     }
@@ -180,9 +180,9 @@ export class TableCell extends React.Component<TableCellProps> {
             data={row.data}
           />
         ) : null}
-        {prefix}
+        {cellPrefix}
         {body}
-        {affix}
+        {cellAffix}
       </Component>
     );
   }
