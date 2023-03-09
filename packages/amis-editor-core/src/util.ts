@@ -202,15 +202,16 @@ export function JSONPipeOut(
 }
 
 /**
- * 如果存在css属性，则给对应的className加上name
+ * 如果存在themeCss属性，则给对应的className加上name
  */
 export function addStyleClassName(obj: Schema) {
-  const css = obj.css;
-  if (!obj.css) {
+  const themeCss = obj.themeCss || obj.css;
+  // page暂时不做处理
+  if (!themeCss || obj.type === 'page') {
     return obj;
   }
   let toUpdate: any = {};
-  Object.keys(css).forEach(key => {
+  Object.keys(themeCss).forEach(key => {
     if (key !== '$$id') {
       let classname = `${key}-${obj.id.replace('u:', '')}`;
       if (!obj[key]) {
