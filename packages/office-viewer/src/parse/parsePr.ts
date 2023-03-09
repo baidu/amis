@@ -163,7 +163,11 @@ const HighLightColor = 'transparent';
  * @param type 所属类型
  * @returns 样式
  */
-export function parsePr(word: Word, data: XMLData, type: 'r' | 'p' = 'p') {
+export function parsePr(
+  word: Word,
+  data: XMLData,
+  type: 'r' | 'p' | 'tbl' = 'p'
+) {
   let style: CSSStyle = {};
   loopChildren(data, (key, value) => {
     switch (key) {
@@ -357,6 +361,12 @@ export function parsePr(word: Word, data: XMLData, type: 'r' | 'p' = 'p') {
 
       case WTag.contextualSpacing:
         // 还没空看
+        break;
+
+      case WTag.tblStyle:
+      case WTag.tblW:
+      case WTag.tblLook:
+        // 表格相关的在其它地方处理了
         break;
 
       default:

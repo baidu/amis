@@ -99,7 +99,10 @@ export const WTag = {
   pgSz: 'w:pgSz',
   pgMar: 'w:pgMar',
   cols: 'w:cols',
-  docGrid: 'w:docGrid'
+  docGrid: 'w:docGrid',
+  tblStyle: 'w:tblStyle',
+  tblW: 'w:tblW',
+  tblLook: 'w:tblLook'
 } as const;
 
 export const WPTag = {
