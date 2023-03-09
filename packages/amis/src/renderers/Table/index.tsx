@@ -2224,7 +2224,7 @@ export default class Table extends React.Component<TableProps, object> {
       popOverContainer: popOverContainer || this.getPopOverContainer,
       rowSpan: item.rowSpans[column.name as string],
       quickEditFormRef: this.subFormRef,
-      prefix,
+      cellPrefix: prefix,
       onImageEnlarge: this.handleImageEnlarge,
       canAccessSuperData,
       row: item,
