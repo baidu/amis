@@ -3076,6 +3076,9 @@
   --steps-dot-process-bg-color: var(--colors-brand-5);
   --steps-dot-finish-bg-color: var(--colors-neutral-fill-11);
   --steps-dot-error-bg-color: var(--colors-error-5);
+  --steps-simple-icon: '';
+  --steps-simple-icon-size: var(--sizes-size-8);
+
   --Steps-bg: var(--steps-status-wait-color);
   --Steps-status-success: var(--steps-status-finish-bg-color);
   --Steps-status-error: var(--steps-status-error-bg-color);

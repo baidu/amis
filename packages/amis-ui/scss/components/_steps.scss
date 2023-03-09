@@ -351,6 +351,36 @@
       border: 1px solid var(--steps-status-process-bg-color);
     }
   }
+
+  &--simple {
+    justify-content: center;
+
+    .#{$ns}StepsItem {
+      flex: none;
+    }
+
+    .#{$ns}StepsItem-containerWrapper
+      .#{$ns}StepsItem-body
+      .#{$ns}StepsItem-title:after {
+      display: none;
+    }
+
+    .#{$ns}StepsItem-icon-line {
+      display: inline-block;
+      vertical-align: top;
+      margin-left: px2rem(8px);
+
+      svg {
+        width: var(--steps-simple-icon-size);
+        height: var(--steps-simple-icon-size);
+        font-size: var(--steps-simple-icon-size);
+      }
+    }
+
+    .StepsItem-icon-line {
+      content: var(--steps-simple-icon);
+    }
+  }
 }
 
 .#{$ns}Steps-mobile.#{$ns}Steps--horizontal {
