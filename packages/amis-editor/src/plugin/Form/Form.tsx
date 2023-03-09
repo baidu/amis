@@ -134,7 +134,9 @@ export class FormPlugin extends BasePlugin {
                     feat: feat.value,
                     label:
                       builderName === 'model-entity' ? builderName : undefined,
-                    inScaffold: true
+                    inScaffold: true,
+                    // @ts-ignore
+                    userOrders: false
                   }),
                   builder.makeFieldsSettingForm({
                     feat: feat.value,
@@ -527,7 +529,8 @@ export class FormPlugin extends BasePlugin {
                                     ? builderName
                                     : undefined,
                                 // @ts-ignore
-                                renderLabel: true
+                                renderLabel: true,
+                                userOrders: false
                               })
                             ])
                           })

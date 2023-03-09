@@ -7,6 +7,7 @@ import cx from 'classnames';
 import findIndex from 'lodash/findIndex';
 import {FormControlProps, FormItem, TreeSelection} from 'amis';
 import {toNumber} from 'amis-core';
+import {getSchemaTpl} from 'amis-editor-core';
 
 interface optionType {
   label: string;
@@ -159,13 +160,20 @@ export default class TableColumnWidthControl extends React.Component<
       return null;
     }
     if (activeOption.value === 'fixed') {
-      return render('columnWidthControl-fixed', {
-        type: 'input-number',
-        min: 0,
-        label: '固定列宽',
-        value,
-        onChange: (val: number) => this.handleChange('fixed', val)
-      });
+      return render(
+        'columnWidthControl-fixed',
+        getSchemaTpl('withUnit', {
+          label: '固定列宽',
+          name: 'interval',
+          control: {
+            type: 'input-number',
+            min: 0,
+            value,
+            onChange: (val: number) => this.handleChange('fixed', val)
+          },
+          unit: 'px'
+        })
+      );
     }
 
     return render('columnWidthControl-fixed', {
