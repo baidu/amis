@@ -5,6 +5,7 @@ import {Paragraph} from '../openxml/word/Paragraph';
 import {Table} from '../openxml/word/Table';
 import {Hyperlink} from '../openxml/word/Hyperlink';
 import renderParagraph from './renderParagraph';
+import {renderSection} from './renderSection';
 
 export default function renderBody(
   word: Word,
@@ -12,7 +13,7 @@ export default function renderBody(
   body: Body
 ) {
   for (const section of body.sections) {
-    const sectionEl = createElement('section');
+    const sectionEl = renderSection(word, section);
     appendChild(parent, sectionEl);
     for (const child of section.children) {
       if (child instanceof Paragraph) {

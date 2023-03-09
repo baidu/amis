@@ -1,8 +1,6 @@
 import {loopChildren, WTag, Tag, Attr, XMLData} from '../../OpenXML';
 import {parsePr} from '../../parse/parsePr';
 import Word from '../../Word';
-import {CSSStyle} from '../Style';
-import {BorderOptions} from './Border';
 import {Break} from './Break';
 import {Drawing} from './drawing/Drawing';
 import {Properties} from './properties/Properties';

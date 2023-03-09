@@ -16,7 +16,7 @@ export const WTag = {
   pPr: 'w:pPr',
   tblPr: 'w:tblPr',
   name: 'w:name',
-  baseOn: 'w:baseOn',
+  basedOn: 'w:basedOn',
   style: 'w:style',
   styles: 'w:styles',
   docDefaults: 'w:docDefaults',
@@ -93,7 +93,13 @@ export const WTag = {
   numbering: 'w:numbering',
   numPr: 'w:numPr',
   ilvl: 'w:ilvl',
-  numId: 'w:numId'
+  numId: 'w:numId',
+  isLgl: 'w:isLgl',
+  sectPr: 'w:sectPr',
+  pgSz: 'w:pgSz',
+  pgMar: 'w:pgMar',
+  cols: 'w:cols',
+  docGrid: 'w:docGrid'
 } as const;
 
 export const WPTag = {
@@ -156,7 +162,13 @@ export const WAttr = {
   themeTint: '@_w:themeTint',
   abstractNumId: '@_w:abstractNumId',
   numId: '@_w:numId',
-  ilvl: '@_w:ilvl'
+  ilvl: '@_w:ilvl',
+  top: '@_w:top',
+  bottom: '@_w:bottom',
+  header: '@_w:header',
+  footer: '@_w:footer',
+  gutter: '@_w:gutter',
+  type: '@_w:type'
 } as const;
 
 export const RAttr = {
@@ -261,82 +273,45 @@ export function getValNumber(data: XMLData | string | number | boolean) {
   return parseInt(getVal(data), 10);
 }
 
-function addText(run: XMLData, newRun: XMLData) {
-  if (WTag.t in run && WTag.t in newRun) {
-    const t = run[WTag.t] as XMLData;
-    const newText = newRun[WTag.t] as XMLData;
-    t[Tag.text] += newText[Tag.text] as string;
-
-    if (Attr.xmlSpace in newRun) {
-      t[Attr.xmlSpace] = newRun[Attr.xmlSpace];
-    }
-  }
-}
-
 /**
- * 合并 p 下相同的文本，主要是为了方便替换变量
+ * 有可能是 on 或 off 之类的值，都归一化为 boolean
+ * @param value
+ * @param defaultValue 默认值
+ * @returns
  */
 
-export function mergeRunInP(p: XMLData) {
-  const newRuns: XMLData[] = [];
-  if (WTag.r in p && Array.isArray(p[WTag.r])) {
-    let lastRun = null;
-    for (const run of p[WTag.r] as XMLData[]) {
-      if (lastRun) {
-        const lastRunProps = lastRun[WTag.rPr];
-        const tProps = run[WTag.rPr];
-        if (!lastRunProps && !tProps) {
-          // 如果都没有样式设置，直接合并
-          addText(lastRun, run);
-        } else if (lastRunProps && tProps) {
-          if (JSON.stringify(lastRunProps) === JSON.stringify(tProps)) {
-            addText(lastRun, run);
-          } else {
-            lastRun = run;
-            newRuns.push(lastRun);
-          }
-        } else {
-          lastRun = run;
-          newRuns.push(lastRun);
-        }
-      } else {
-        // 说明是第一次运行
-        lastRun = run;
-        newRuns.push(run);
-      }
+export function normalizeBoolean(
+  value: string | boolean,
+  defaultValue: boolean = false
+): boolean {
+  if (typeof value === 'boolean') {
+    return value;
+  }
+  if (typeof value === 'string') {
+    switch (value) {
+      case '1':
+        return true;
+      case '0':
+        return false;
+      case 'on':
+        return true;
+      case 'off':
+        return false;
+      case 'true':
+        return true;
+      case 'false':
+        return false;
+    }
+    if (typeof value === 'number') {
+      return value !== 0;
     }
   }
-  if (newRuns.length) {
-    p[WTag.r] = newRuns;
-  }
+  return defaultValue;
 }
 
-export function findObjectsWithKey(document: XMLData, key: XMLKeys) {
-  const result: XMLData[] = [];
-
-  for (const xmlKey in document) {
-    const k = xmlKey as XMLKeys;
-    if (k === key) {
-      if (Array.isArray(document[k])) {
-        result.push(...(document[k] as XMLData[]));
-      } else {
-        result.push(document[k] as XMLData);
-      }
-    } else if (typeof document[k] === 'object') {
-      result.push(...findObjectsWithKey(document[k] as XMLData, key));
-    }
-  }
-
-  return result;
-}
-
-/**
- * 合并
- * @param document
- */
-export function mergeRun(document: XMLData) {
-  const ps = findObjectsWithKey(document, WTag.p);
-  for (const p of ps) {
-    mergeRunInP(p);
-  }
+export function getValBoolean(
+  data: XMLData | string | number | boolean,
+  defaultValue?: true
+) {
+  return normalizeBoolean(getVal(data), defaultValue);
 }

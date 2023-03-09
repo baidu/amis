@@ -4,12 +4,13 @@
  */
 
 import {WAttr, XMLData} from '../OpenXML';
+import {CSSStyle} from '../openxml/Style';
 
 function themeFont(font: string) {
   return `var(--docx-theme-font-${font})`;
 }
 
-export function parseFont(data: XMLData) {
+export function parseFont(data: XMLData, style: CSSStyle) {
   const fonts = [];
   if (WAttr.ascii in data) {
     fonts.push(data[WAttr.ascii]);
@@ -38,7 +39,6 @@ export function parseFont(data: XMLData) {
   // hint 之类的不支持，因为也很难控制到这个粒度了
 
   if (fonts.length) {
-    return Array.from(new Set(fonts)).join(', ');
+    style['font-family'] = Array.from(new Set(fonts)).join(', ');
   }
-  return '';
 }

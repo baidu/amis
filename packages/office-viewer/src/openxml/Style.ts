@@ -2,8 +2,10 @@
  * 解析共享样式 Style
  */
 
-import {WAttr, WTag, loopChildren, XMLData} from '../OpenXML';
+import {WAttr, WTag, loopChildren, XMLData, getVal} from '../OpenXML';
 import {parsePr} from '../parse/parsePr';
+import Word from '../Word';
+import {ST_StyleType} from './Types';
 
 export interface CSSStyle {
   [key: string]: string;
@@ -11,9 +13,9 @@ export interface CSSStyle {
 
 export interface Style {
   id?: string;
-  type?: 'paragraph' | 'character' | 'table' | 'numbering';
+  type?: ST_StyleType;
   name?: string;
-  baseOn?: string;
+  basedOn?: string;
 
   // 文本
   rPr?: CSSStyle;
@@ -25,50 +27,53 @@ export interface Style {
 
 export interface Styles {
   // 方便根据 id 获取 样式
-  style: Record<string, Style>;
+  styleMap: Record<string, Style>;
 
   defaultStyle?: Style;
 }
 
-function parseDefaultStyle(data: XMLData) {
+function parseDefaultStyle(word: Word, data: XMLData) {
   const defaultStyle: Style = {};
   if (WTag.rPrDefault in data) {
     const rPrDefaultData = data[WTag.rPrDefault];
     if (typeof rPrDefaultData === 'object' && WTag.rPr in rPrDefaultData) {
-      defaultStyle.rPr = parsePr(rPrDefaultData[WTag.rPr] as XMLData);
+      defaultStyle.rPr = parsePr(word, rPrDefaultData[WTag.rPr] as XMLData);
     }
   }
   if (WTag.pPrDefault in data) {
     const pPrDefault = data[WTag.pPrDefault];
     if (typeof pPrDefault === 'object' && WTag.pPr in pPrDefault) {
-      defaultStyle.pPr = parsePr(pPrDefault[WTag.pPr] as XMLData);
+      defaultStyle.pPr = parsePr(word, pPrDefault[WTag.pPr] as XMLData);
     }
   }
   return defaultStyle;
 }
 
-function parseStyle(data: XMLData) {
+function parseStyle(word: Word, data: XMLData) {
   const style: Style = {};
   if (WTag.rPr in data) {
-    style.rPr = parsePr(data[WTag.rPr] as XMLData);
+    style.rPr = parsePr(word, data[WTag.rPr] as XMLData);
   }
   if (WTag.pPr in data && Object.keys(data[WTag.pPr]).length > 0) {
-    style.pPr = parsePr(data[WTag.pPr] as XMLData);
+    style.pPr = parsePr(word, data[WTag.pPr] as XMLData);
   }
   if (WTag.tblPr in data && Object.keys(data[WTag.tblPr]).length > 0) {
-    style.tblPr = parsePr(data[WTag.tblPr] as XMLData);
+    style.tblPr = parsePr(word, data[WTag.tblPr] as XMLData);
   }
   if (WTag.name in data) {
-    const name = data[WTag.name];
+    const name = data[WTag.name] as XMLData;
     if (typeof name === 'object' && WAttr.val in name) {
       style.name = name[WAttr.val] as string;
     }
   }
-  if (WTag.baseOn in data) {
-    const baseOn = data[WTag.baseOn];
-    if (typeof baseOn === 'object' && WAttr.val in baseOn) {
-      style.baseOn = baseOn[WAttr.val] as string;
-    }
+
+  if (WAttr.type in data) {
+    style.type = data[WAttr.type] as ST_StyleType;
+  }
+
+  if (WTag.basedOn in data) {
+    const basedOn = data[WTag.basedOn] as XMLData;
+    style.basedOn = getVal(basedOn);
   }
 
   if (WAttr.styleId in data) {
@@ -81,20 +86,24 @@ function parseStyle(data: XMLData) {
  * 解析 styles.xml
  * @param data
  */
-export function parseStyles(data: XMLData): Styles {
+export function parseStyles(word: Word, data: XMLData): Styles {
   const stylesData = data[WTag.styles] as XMLData;
   const styles: Styles = {
-    style: {}
+    styleMap: {}
   };
 
   loopChildren(stylesData, function (key, value) {
+    if (typeof value !== 'object') {
+      return;
+    }
+
     if (key === WTag.style) {
-      const style = parseStyle(value);
+      const style = parseStyle(word, value);
       if (style.id) {
-        styles.style[style.id] = style;
+        styles.styleMap[style.id] = style;
       }
     } else if (key == WTag.docDefaults) {
-      styles.defaultStyle = parseDefaultStyle(value);
+      styles.defaultStyle = parseDefaultStyle(word, value);
     }
     // 还有个 w:latentStyles 并不知道是啥
   });

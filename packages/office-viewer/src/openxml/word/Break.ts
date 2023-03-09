@@ -4,28 +4,14 @@
 
 import {XMLData} from '../../OpenXML';
 import Word from '../../Word';
-
-// http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/ST_BrType.html
-export enum BreakType {
-  column = 'column',
-  page = 'page',
-  textWrapping = 'textWrapping'
-}
-
-// http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/ST_BrClear.html
-export enum BreakClear {
-  all = 'all',
-  left = 'left',
-  none = 'none',
-  right = 'right'
-}
+import {ST_BrClear, ST_BrType} from '../Types';
 
 export class Break {
   /**
    * 目前也只支持这种
    */
-  type: BreakType.textWrapping;
-  clear?: BreakClear;
+  type: ST_BrType = ST_BrType.textWrapping;
+  clear?: ST_BrClear;
 
   static fromXML(word: Word, data: XMLData): Break {
     return new Break();

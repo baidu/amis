@@ -4,38 +4,16 @@
 import * as JSZip from 'jszip';
 import {parseXML} from './util/xml';
 
-export interface PackageOptions {
-  /**
-   * 是否替换变量
-   */
-  replaceVar: boolean;
-
-  /**
-   * 上下文，用于替换变量的场景
-   */
-  data?: any;
-}
-
-const defaultPackageOptions: PackageOptions = {
-  replaceVar: false
-};
-
 export default class PackageParser {
   private zip: JSZip;
 
-  private options: PackageOptions;
-
-  constructor(zip: JSZip, packageOptions: PackageOptions) {
+  constructor(zip: JSZip) {
     this.zip = zip;
-    this.options = packageOptions;
   }
 
-  static async load(
-    docxFile: Blob | any,
-    packageOptions: PackageOptions = defaultPackageOptions
-  ): Promise<PackageParser> {
+  static async load(docxFile: Blob | any): Promise<PackageParser> {
     const jszip = (await JSZip.loadAsync(docxFile)) as JSZip;
-    return new PackageParser(jszip, packageOptions);
+    return new PackageParser(jszip);
   }
 
   /**

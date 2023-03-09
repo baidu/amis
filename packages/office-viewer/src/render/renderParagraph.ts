@@ -18,13 +18,15 @@ import {setElementStyle} from './setElementStyle';
 export default function renderParagraph(word: Word, paragraph: Paragraph) {
   let p = createElement('p');
 
+  p.classList.add('p');
+
   const properties = paragraph.properties;
 
   setElementStyle(word, p, properties);
 
   // 渲染列表前缀
   if (properties.numPr) {
-    appendChild(p, renderNumbering(word, properties.numPr));
+    appendChild(p, renderNumbering(p, word, properties.numPr));
   }
 
   for (const child of paragraph.children) {
@@ -36,6 +38,11 @@ export default function renderParagraph(word: Word, paragraph: Paragraph) {
       const hyperlink = renderHyperLink(word, child);
       appendChild(p, hyperlink);
     }
+  }
+
+  // 空行自动加个空格，不然会没高度
+  if (p.innerHTML === '') {
+    p.innerHTML = '&nbsp;';
   }
 
   return p;

@@ -1,5 +1,5 @@
 import {Properties} from '../openxml/word/properties/Properties';
-import {setStyle} from '../util/dom';
+import {addClassNames, setStyle} from '../util/dom';
 import Word from '../Word';
 
 /**
@@ -19,9 +19,6 @@ export function setElementStyle(
   }
 
   if (properties.pStyle) {
-    const className = word.getClassName(properties.pStyle);
-    if (className) {
-      element.className = className;
-    }
+    addClassNames(element, word.getStyleClassName(properties.pStyle));
   }
 }

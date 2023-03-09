@@ -4,16 +4,23 @@
 
 import {LengthUsage} from './parseSize';
 import {CSSStyle} from '../openxml/Style';
-import {createElement, setStyle} from '../util/dom';
+import {addClassName, createElement, setStyle} from '../util/dom';
 import Word from '../Word';
-import {WAttr, WTag, XMLData, XMLKeys, loopChildren, getVal} from '../OpenXML';
+import {
+  WAttr,
+  WTag,
+  XMLData,
+  XMLKeys,
+  loopChildren,
+  getVal,
+  getValBoolean
+} from '../OpenXML';
 import {parseBorder, parseBorders} from './parseBorder';
 import {parseColor, parseColorAttr} from './parseColor';
 import {parseInd} from './parseInd';
 import {parseSize} from './parseSize';
 import {parseSpacing} from './parseSpacing';
 import {parseFont} from './parseFont';
-import {normalizeBoolean} from './normalizeBoolean';
 
 /** 将 jc 转成 text-align
  *
@@ -254,15 +261,13 @@ export function parsePr(word: Word, data: XMLData, type: 'r' | 'p' = 'p') {
       case WTag.dstrike:
         // 其实不支持 dstrike，都统一为 strike
         // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/dstrike.html
-        style['text-decoration'] = normalizeBoolean(getVal(value), true)
+        style['text-decoration'] = getValBoolean(value)
           ? 'line-through'
           : 'none';
 
       case WTag.b:
         // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/b.html
-        style['font-weight'] = normalizeBoolean(getVal(value), true)
-          ? 'bold'
-          : 'normal';
+        style['font-weight'] = getValBoolean(value) ? 'bold' : 'normal';
         break;
 
       case WTag.bCs:
@@ -272,23 +277,17 @@ export function parsePr(word: Word, data: XMLData, type: 'r' | 'p' = 'p') {
 
       case WTag.i:
         // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/i.html
-        style['font-style'] = normalizeBoolean(getVal(value), true)
-          ? 'italic'
-          : 'normal';
+        style['font-style'] = getValBoolean(value) ? 'italic' : 'normal';
         break;
 
       case WTag.caps:
         // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/caps.html
-        style['text-transform'] = normalizeBoolean(getVal(value), true)
-          ? 'uppercase'
-          : 'normal';
+        style['text-transform'] = getValBoolean(value) ? 'uppercase' : 'normal';
         break;
 
       case WTag.smallCaps:
         // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/smallCaps.html
-        style['text-transform'] = normalizeBoolean(getVal(value), true)
-          ? 'lowercase'
-          : 'normal';
+        style['text-transform'] = getValBoolean(value) ? 'lowercase' : 'normal';
         break;
 
       case WTag.u:
@@ -297,7 +296,7 @@ export function parsePr(word: Word, data: XMLData, type: 'r' | 'p' = 'p') {
         break;
 
       case WTag.rFonts:
-        style['font-family'] = parseFont(value as XMLData);
+        parseFont(value as XMLData, style);
         break;
 
       case WTag.tblCellSpacing:
@@ -312,7 +311,7 @@ export function parsePr(word: Word, data: XMLData, type: 'r' | 'p' = 'p') {
         break;
 
       case WTag.vanish:
-        if (normalizeBoolean(getVal(value), true)) {
+        if (getValBoolean(value)) {
           // 这里其实没试过 word 里到底是不是 none
           style['display'] = 'none';
         }
@@ -397,10 +396,7 @@ export function applyStyle(
   const style = parsePr(word, pr);
   setStyle(element, style);
 
-  const className = word.getClassName(getPStyle(pr));
-  if (className) {
-    element.className = className;
-  }
+  addClassName(element, word.getStyleIdDisplayName(getPStyle(pr)));
 
   if (WTag.vertAlign in pr) {
     const vertAlign = pr[WTag.vertAlign];

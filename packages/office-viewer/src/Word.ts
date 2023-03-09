@@ -3,7 +3,7 @@
  */
 
 import {parse, evaluate} from 'amis-formula';
-import PackageParser, {PackageOptions} from './PackageParser';
+import PackageParser from './PackageParser';
 import {XMLData} from './OpenXML';
 import {parseRelationships, Relationship} from './parse/parseRelationship';
 import {ContentTypes, parseContentType} from './openxml/ContentType';
@@ -13,6 +13,9 @@ import {Document} from './openxml/word/Document';
 import renderDocument from './render/renderDocument';
 import {blobToDataURL} from './util/blob';
 import {Numbering} from './openxml/word/numbering/Numbering';
+import {appendChild, appendComment, createElement} from './util/dom';
+import {renderStyle} from './render/renderStyle';
+import {mergeRun} from './util/mergeRun';
 
 /**
  * 渲染配置
@@ -27,6 +30,16 @@ export interface WordRenderOptions {
   imageDataURL: boolean;
 
   /**
+   * 列表使用字体渲染，需要自行引入 Windings 字体
+   */
+  bulletUseFont: boolean;
+
+  /**
+   * 是否包裹出页面效果
+   */
+  inWrap: boolean;
+
+  /**
    * 是否替换变量
    */
   replaceVar: boolean;
@@ -35,11 +48,23 @@ export interface WordRenderOptions {
    * 上下文，用于替换变量的场景
    */
   data?: any;
+
+  /**
+   * 是否忽略文档宽度设置
+   */
+  ignoreWidth?: boolean;
+
+  /**
+   * 是否忽略文档高度设置
+   */
+  ignoreHeight?: boolean;
 }
 
 const defaultRenderOptions: WordRenderOptions = {
   imageDataURL: false,
-  classPrefix: 'docx-viewer-',
+  classPrefix: 'docx-viewer',
+  inWrap: true,
+  bulletUseFont: true,
   replaceVar: false
 };
 
@@ -83,10 +108,25 @@ export default class Word {
 
   relationships: Record<string, Relationship>;
 
-  constructor(parser: PackageParser, renderOptions: WordRenderOptions) {
+  /**
+   * 样式名映射，因为自定义样式名有可能不符合 css 命名规范，因此实际使用这个名字
+   */
+  styleIdMap: Record<string, string> = {};
+
+  /**
+   * 用于自动生成样式名时的计数，保证每次都是唯一的
+   */
+  styleIdNum: number = 0;
+
+  wrapClassName = 'docx-viewer-wrapper';
+
+  constructor(
+    parser: PackageParser,
+    renderOptions?: Partial<WordRenderOptions>
+  ) {
     this.id = Word.globalId++;
     this.parser = parser;
-    this.renderOptions = renderOptions;
+    this.renderOptions = {...defaultRenderOptions, ...renderOptions};
   }
 
   inited = false;
@@ -108,18 +148,20 @@ export default class Word {
     this.inited = true;
   }
 
+  /**
+   * 加载文档的主要入口
+   */
   static async load(
     docxFile: Blob | any,
     options: Partial<WordRenderOptions> = defaultRenderOptions
   ): Promise<Word> {
-    const renderOptions = {
-      ...defaultRenderOptions,
-      ...options
-    };
-    const parser = await PackageParser.load(docxFile, renderOptions);
-    return new Word(parser, renderOptions);
+    const parser = await PackageParser.load(docxFile);
+    return new Word(parser, options);
   }
 
+  /**
+   * 解析全局主题配置
+   */
   async initTheme() {
     for (const override of this.conentTypes.overrides) {
       if (override.partName.startsWith('/word/theme')) {
@@ -129,10 +171,19 @@ export default class Word {
     }
   }
 
+  /**
+   * 解析全局样式
+   */
   async initStyle() {
-    this.styles = parseStyles(await this.parser.getXML('/word/styles.xml'));
+    this.styles = parseStyles(
+      this,
+      await this.parser.getXML('/word/styles.xml')
+    );
   }
 
+  /**
+   * 解析关系
+   */
   async initRelation() {
     const rels = parseRelationships(
       (await this.parser.getXML('/_rels/.rels'))['Relationships'],
@@ -147,20 +198,32 @@ export default class Word {
     this.relationships = {...rels, ...documentRels};
   }
 
+  /**
+   * 解析全局配置
+   */
   async initContentType() {
     const contentType = await this.parser.getXML('[Content_Types].xml');
     this.conentTypes = parseContentType(contentType);
   }
 
+  /**
+   * 解析 numbering
+   */
   async initNumbering() {
     const numberingData = await this.parser.getXML('word/numbering.xml');
     this.numbering = Numbering.fromXML(this, numberingData);
   }
 
+  /**
+   * 根据 id 获取关系
+   */
   getRelationship(id: string) {
     return this.relationships[id];
   }
 
+  /**
+   * 进行文本替换
+   */
   replaceText(text: string) {
     if (!this.renderOptions.replaceVar) {
       return text;
@@ -173,6 +236,9 @@ export default class Word {
     });
   }
 
+  /**
+   * 加载图片
+   */
   async loadImage(relation: Relationship) {
     let path = relation.target;
     if (relation.part === 'word') {
@@ -191,29 +257,73 @@ export default class Word {
     return null;
   }
 
+  /**
+   * 解析 html
+   */
   async getXML(filePath: string): Promise<XMLData> {
     return this.parser.getXML(filePath);
   }
 
-  getClassName(styleName: string) {
-    if (styleName) {
-      return `${this.renderOptions.classPrefix}-${this.id}-${styleName}`;
-    } else {
-      return '';
+  /**
+   * 获取 styleId 的显示名称，因为这里可以自定义，理论上会出现 css 不支持的语法
+   */
+  getStyleIdDisplayName(styleId: string) {
+    // 如果只有数字和字母且字母开头，就直接使用
+    if (styleId.match(/^[a-zA-Z]+[a-zA-Z0-9]$/)) {
+      return styleId;
     }
+    if (styleId in this.styleIdMap) {
+      return this.styleIdMap[styleId];
+    } else {
+      this.styleIdMap[styleId] = 'styleId-' + this.styleIdNum++;
+      return this.styleIdMap[styleId];
+    }
+  }
+
+  /**
+   * 返回样式表名及它的父级样式表名
+   * @param styleId 样式表里的 style 名称
+   * @returns 返回 className 数组
+   */
+  getStyleClassName(stylId: string) {
+    const style = this.styles.styleMap[stylId];
+
+    if (!style) {
+      return [];
+    }
+
+    const classNames = [this.getStyleIdDisplayName(stylId)];
+    if (style.basedOn) {
+      classNames.unshift(this.getStyleIdDisplayName(style.basedOn));
+    }
+    return classNames;
+  }
+
+  getClassPrefix() {
+    return `${this.renderOptions.classPrefix}-${this.id}`;
   }
 
   getThemeColor(name: string) {
     return `var(--docx-${this.id}-theme-${name}-color)`;
   }
 
-  async render(): Promise<HTMLElement> {
+  async render(root: HTMLElement) {
     await this.init();
     console.log(this);
     const documentData = await this.getXML('word/document.xml');
-    console.log(documentData);
+
+    if (this.renderOptions.replaceVar) {
+      mergeRun(this, documentData);
+    }
+
     const document = Document.fromXML(this, documentData);
-    console.log(document);
-    return renderDocument(this, document);
+    const documentElement = await renderDocument(this, document);
+    root.classList.add(this.getClassPrefix());
+    if (this.renderOptions.inWrap) {
+      root.classList.add(this.wrapClassName);
+    }
+
+    appendChild(root, renderStyle(this));
+    appendChild(root, documentElement);
   }
 }

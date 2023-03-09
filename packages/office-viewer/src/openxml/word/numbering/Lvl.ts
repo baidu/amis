@@ -8,7 +8,8 @@ import {
   WTag,
   getValNumber,
   getVal,
-  loopChildren
+  loopChildren,
+  getValBoolean
 } from '../../../OpenXML';
 import {ST_Jc, ST_LevelSuffix, ST_NumberFormat} from '../../Types';
 import {Paragraph, ParagraphProperties} from '../Paragraph';
@@ -19,7 +20,8 @@ export class Lvl {
   start: number = 1;
   numFmt: ST_NumberFormat;
   lvlText: string = '%1.';
-  lvlJc: ST_Jc;
+  isLgl: boolean = false;
+  lvlJc: ST_Jc = ST_Jc.start;
   suff: ST_LevelSuffix = ST_LevelSuffix.space;
 
   pPr?: ParagraphProperties;
@@ -58,6 +60,10 @@ export class Lvl {
 
         case WTag.rPr:
           lvl.rPr = Run.parseRunProperties(word, value as XMLData);
+          break;
+
+        case WTag.isLgl:
+          lvl.isLgl = getValBoolean(value);
           break;
 
         default:

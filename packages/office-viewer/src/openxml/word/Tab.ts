@@ -1,25 +1,7 @@
-export enum TabType {
-  LEFT = 'left',
-  RIGHT = 'right',
-  CENTER = 'center',
-  BAR = 'bar',
-  CLEAR = 'clear',
-  DECIMAL = 'decimal',
-  END = 'end',
-  NUM = 'num',
-  START = 'start'
-}
-
-export enum LeaderType {
-  DOT = 'dot',
-  HYPHEN = 'hyphen',
-  MIDDLE_DOT = 'middleDot',
-  NONE = 'none',
-  UNDERSCORE = 'underscore'
-}
+import {ST_TabJc, ST_TabTlc} from '../Types';
 
 export interface Tab {
-  readonly type: TabType;
+  readonly type: ST_TabJc;
   readonly position: number;
-  readonly leader?: LeaderType;
+  readonly leader?: ST_TabTlc;
 }

@@ -1,5 +1,9 @@
+/**
+ * 渲染列表 http://officeopenxml.com/WPnumbering.php
+ */
+
 import {NumberProperties} from '../openxml/word/numbering/NumberProperties';
-import {createElement, setStyle} from '../util/dom';
+import {createElement} from '../util/dom';
 import Word from '../Word';
 import {ST_NumberFormat} from '../openxml/Types';
 import {setElementStyle} from './setElementStyle';
@@ -61,6 +65,7 @@ function convertNumToFormat(numFmt: ST_NumberFormat, num: number): string {
  * 生成列表的前缀，为了支持复杂场景，这里使用代码来直接生成内容
  */
 export function renderNumbering(
+  p: HTMLElement,
   word: Word,
   numPr: NumberProperties
 ): HTMLElement | null {
@@ -92,6 +97,7 @@ export function renderNumbering(
 
   const ilvlData = numbering.numData[numId];
 
+  // 还不支持 http://officeopenxml.com/WPnumbering-restart.php
   if (!ilvlData[ilvl]) {
     ilvlData[ilvl] = lvl.start;
   } else {
@@ -110,7 +116,12 @@ export function renderNumbering(
     const listNumber = ilvlData[i];
     if (listNumber) {
       const numFmt = lvls[i].numFmt;
-      const numText = convertNumToFormat(numFmt, listNumber);
+      let numText = convertNumToFormat(numFmt, listNumber);
+      // 强制数字显示 http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/isLgl.html
+      // http://officeopenxml.com/WPnumbering-isLgl.php
+      if (lvl.isLgl) {
+        numText = String(listNumber);
+      }
       levelNums.push(numText);
     }
   }
@@ -120,13 +131,36 @@ export function renderNumbering(
     lvlText = lvlText.replace(`%${i + 1}`, levelNum);
   }
 
-  setElementStyle(word, element, lvl.pPr);
+  // 这个 pPr 似乎是影响父级的
+  // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/pPr_6.html
+  // This element specifies the paragraph properties which shall be applied as part of a given numbering level within the parent numbering definition.
+  setElementStyle(word, p, lvl.pPr);
+
   setElementStyle(word, element, lvl.rPr);
 
-  if (lvl.numFmt !== ST_NumberFormat.bullet) {
-    element.innerHTML = lvlText;
+  // 还不支持 lvlJc
+
+  // 还不支持 image
+  // http://officeopenxml.com/WPnumbering-imagesAsSymbol.php
+  if (
+    lvl.numFmt !== ST_NumberFormat.bullet ||
+    word.renderOptions.bulletUseFont
+  ) {
+    element.innerText = lvlText;
   } else {
-    element.innerHTML = '&bull;';
+    // 如果没有字体只能尽可能模拟了
+    // 参考 https://www.w3schools.com/charsets/ref_utf_geometric.asp
+    let bulletText = '&bull;';
+    const unicodeString = lvlText.charCodeAt(0).toString(16).padStart(4, '0');
+    if (unicodeString === 'f06e') {
+      bulletText = '&#9632;';
+    } else if (unicodeString === 'f075') {
+      bulletText = '&#9670;';
+    } else if (unicodeString === 'f0d8') {
+      bulletText = '&#9658;';
+    }
+
+    element.innerHTML = bulletText;
   }
 
   if (lvl.suff === 'space') {

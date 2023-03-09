@@ -16,6 +16,10 @@ function parseClrScheme(data: XMLData): ClrScheme {
   scheme.name = data[Attr.name] as string;
 
   loopChildren(data, (key, colorData) => {
+    if (typeof colorData !== 'object') {
+      return;
+    }
+
     const keyName = key.replace('a:', '');
     if (ATag.srgbClr in colorData) {
       const srgbClr = colorData[ATag.srgbClr] as XMLData;

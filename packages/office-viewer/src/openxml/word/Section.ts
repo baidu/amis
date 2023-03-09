@@ -4,150 +4,52 @@
  * 参考了 docx 里的类型定义
  */
 
+import {loopChildren, WAttr, WTag, XMLData} from '../../OpenXML';
+import {parseSize} from '../../parse/parseSize';
+import {
+  ST_ChapterSep,
+  ST_DocGrid,
+  ST_LineNumberRestart,
+  ST_NumberFormat,
+  ST_PageBorderDisplay,
+  ST_PageBorderOffset,
+  ST_PageBorderZOrder,
+  ST_PageOrientation,
+  ST_SectionMark,
+  ST_TextDirection
+} from '../Types';
 import {BorderOptions} from './Border';
 import {Hyperlink} from './Hyperlink';
 import {Paragraph} from './Paragraph';
 import {Table} from './Table';
-import {NumberFormat} from './type/NumberFormat';
 import {VerticalAlign} from './VerticalAlign';
 
-export enum PageOrientation {
-  PORTRAIT = 'portrait',
-  LANDSCAPE = 'landscape'
-}
-
-export type IPageSizeAttributes = {
-  readonly width?: number;
-  readonly height?: number;
-  readonly orientation?: PageOrientation;
+export type PageSize = {
+  width: string;
+  height: string;
+  orientation?: ST_PageOrientation;
 };
 
-export type IPageMarginAttributes = {
-  readonly top?: number;
-  readonly right?: number;
-  readonly bottom?: number;
-  readonly left?: number;
-  readonly header?: number;
-  readonly footer?: number;
-  readonly gutter?: number;
-};
-
-export interface IPageNumberTypeAttributes {
-  readonly start?: number;
-  readonly formatType?: NumberFormat;
-  readonly separator?: PageNumberSeparator;
-}
-
-export enum PageNumberSeparator {
-  HYPHEN = 'hyphen',
-  PERIOD = 'period',
-  COLON = 'colon',
-  EM_DASH = 'emDash',
-  EN_DASH = 'endash'
-}
-
-export enum PageBorderDisplay {
-  ALL_PAGES = 'allPages',
-  FIRST_PAGE = 'firstPage',
-  NOT_FIRST_PAGE = 'notFirstPage'
-}
-
-export enum PageBorderOffsetFrom {
-  PAGE = 'page',
-  TEXT = 'text'
-}
-
-export enum PageBorderZOrder {
-  BACK = 'back',
-  FRONT = 'front'
-}
-
-export interface IPageBorderAttributes {
-  readonly display?: PageBorderDisplay;
-  readonly offsetFrom?: PageBorderOffsetFrom;
-  readonly zOrder?: PageBorderZOrder;
-}
-
-export interface IPageBordersOptions {
-  readonly pageBorders?: IPageBorderAttributes;
-  readonly pageBorderTop?: BorderOptions;
-  readonly pageBorderRight?: BorderOptions;
-  readonly pageBorderBottom?: BorderOptions;
-  readonly pageBorderLeft?: BorderOptions;
-}
-
-export enum DocumentGridType {
-  DEFAULT = 'default',
-  LINES = 'lines',
-  LINES_AND_CHARS = 'linesAndChars',
-  SNAP_TO_CHARS = 'snapToChars'
-}
-export interface IDocGridAttributesProperties {
-  readonly type?: DocumentGridType;
-  readonly linePitch?: number;
-  readonly charSpace?: number;
-}
-
-export enum PageTextDirectionType {
-  LEFT_TO_RIGHT_TOP_TO_BOTTOM = 'lrTb',
-  TOP_TO_BOTTOM_RIGHT_TO_LEFT = 'tbRl'
-}
-
-export enum LineNumberRestartFormat {
-  NEW_PAGE = 'newPage',
-  NEW_SECTION = 'newSection',
-  CONTINUOUS = 'continuous'
-}
-
-type IColumnAttributes = {
-  readonly width: number;
-  readonly space?: number;
+export type PageMargin = {
+  top?: string;
+  right?: string;
+  bottom?: string;
+  left?: string;
+  header?: string;
+  footer?: string;
+  gutter?: string;
 };
 
 export interface Column {
-  readonly width?: number;
-  readonly space?: number;
-}
-
-export type IColumnsAttributes = {
-  readonly space?: number;
-  readonly count?: number;
-  readonly separate?: boolean;
-  readonly equalWidth?: boolean;
-  readonly children?: readonly Column[];
-};
-
-export interface ILineNumberAttributes {
-  readonly countBy?: number;
-  readonly start?: number;
-  readonly restart?: LineNumberRestartFormat;
-  readonly distance?: number;
-}
-
-export enum SectionType {
-  NEXT_PAGE = 'nextPage',
-  NEXT_COLUMN = 'nextColumn',
-  CONTINUOUS = 'continuous',
-  EVEN_PAGE = 'evenPage',
-  ODD_PAGE = 'oddPage'
+  width?: number;
+  space?: number;
 }
 
 export type SectionChild = Paragraph | Table | Hyperlink;
 
 export interface SectionProperties {
-  readonly page?: {
-    readonly size?: IPageSizeAttributes;
-    readonly margin?: IPageMarginAttributes;
-    readonly pageNumbers?: IPageNumberTypeAttributes;
-    readonly borders?: IPageBordersOptions;
-    readonly textDirection?: PageTextDirectionType;
-  };
-  readonly grid?: IDocGridAttributesProperties;
-  readonly lineNumbers?: ILineNumberAttributes;
-  readonly titlePage?: boolean;
-  readonly verticalAlign?: VerticalAlign;
-  readonly column?: IColumnsAttributes;
-  readonly type?: SectionType;
+  pageSize?: PageSize;
+  pageMargin?: PageMargin;
 }
 
 export class Section {
@@ -156,5 +58,42 @@ export class Section {
 
   addChild(child: SectionChild) {
     this.children.push(child);
+  }
+
+  static parseProperties(data: XMLData): SectionProperties {
+    const properties: SectionProperties = {};
+
+    loopChildren(data, (key, value) => {
+      if (typeof value !== 'object') {
+        return;
+      }
+
+      switch (key) {
+        case WTag.pgSz:
+          properties.pageSize = {
+            width: parseSize(value, WAttr.w),
+            height: parseSize(value, WAttr.h)
+          };
+
+          break;
+
+        case WTag.pgMar:
+          properties.pageMargin = {
+            left: parseSize(value, WAttr.left),
+            right: parseSize(value, WAttr.right),
+            top: parseSize(value, WAttr.top),
+            bottom: parseSize(value, WAttr.bottom),
+            header: parseSize(value, WAttr.header),
+            footer: parseSize(value, WAttr.footer),
+            gutter: parseSize(value, WAttr.gutter)
+          };
+          break;
+
+        default:
+          break;
+      }
+    });
+
+    return properties;
   }
 }

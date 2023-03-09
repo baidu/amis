@@ -43,6 +43,9 @@ export class Body {
             body.addChild(paragraph);
             break;
 
+          case WTag.sectPr:
+            body.addSection(Section.parseProperties(value as XMLData));
+            break;
           default:
             break;
         }

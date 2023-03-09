@@ -26,11 +26,16 @@ export class Document {
         const wBackground = wDocument[WTag.background] as XMLData;
         const documentBackground: DocumentBackground = {};
         if (WAttr.color in wBackground) {
-          documentBackground.color = parseColorAttr(wBackground, WAttr.color);
+          documentBackground.color = parseColorAttr(
+            word,
+            wBackground,
+            WAttr.color
+          );
         }
 
         if (WAttr.themeColor in wBackground) {
           documentBackground.themeColor = parseColorAttr(
+            word,
             wBackground,
             WAttr.themeColor
           );
@@ -38,6 +43,7 @@ export class Document {
 
         if (WAttr.themeShade in wBackground) {
           documentBackground.themeShade = parseColorAttr(
+            word,
             wBackground,
             WAttr.themeShade
           );
@@ -45,6 +51,7 @@ export class Document {
 
         if (WAttr.themeTint in wBackground) {
           documentBackground.themeTint = parseColorAttr(
+            word,
             wBackground,
             WAttr.themeTint
           );
