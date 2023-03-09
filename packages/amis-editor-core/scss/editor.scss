@@ -1533,6 +1533,7 @@ div.ae-DragImage {
 
 // Pagination配置面板里的layout字段样式
 .ae-pagination-layout-item {
+  margin-top: px2rem(3px);
   input + div {
     > div:nth-child(1) {
       flex-basis: px2rem(32px);
