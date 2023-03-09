@@ -74,7 +74,7 @@ export class NumberField extends React.Component<NumberProps> {
     let value = getPropValue(this.props);
 
     if (value) {
-      // 设置了千分位，但是原始数据是字符串
+      // 设置了精度，但是原始数据是字符串，需要转成 float 之后再处理
       if (typeof value === 'string' && precision) {
         value = stripNumber(parseFloat(value));
       }
@@ -82,6 +82,7 @@ export class NumberField extends React.Component<NumberProps> {
       if (isNaN(value)) {
         viewValue = false;
       } else if (percent) {
+        // 如果是百分比展示
         value = parseFloat(value) || 0;
         const decimals = typeof percent === 'number' ? percent : 0;
 
