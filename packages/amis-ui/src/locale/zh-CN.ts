@@ -65,6 +65,7 @@ register('zh-CN', {
   'Date.hoursago': '{{hours}}小时前',
   'Date.hourslater': '{{hours}}小时后',
   'Date.invalid': '日期无效',
+  'Number.invalid': '数字无效',
   'Date.monday': '本周一',
   'Date.monthsago': '{{months}}月前',
   'Date.monthslater': '{{months}}月后',

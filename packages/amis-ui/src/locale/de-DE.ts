@@ -67,6 +67,7 @@ register('de-DE', {
   'Date.hoursago': 'Vor {{hours}} Stunde(n)',
   'Date.hourslater': '{{hours}} Stunde(n) später',
   'Date.invalid': 'Ungültiges Datum',
+  'Number.invalid': 'Ungültige Zahl',
   'Date.monday': 'Montag',
   'Date.monthsago': 'Vor {{months}} Monat(en)',
   'Date.monthslater': '{{months}} Monat(e) später',
