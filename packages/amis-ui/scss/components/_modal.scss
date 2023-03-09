@@ -93,7 +93,6 @@
     border-bottom: var(--Modal-body-borderTop);
     border-top-left-radius: var(--Modal-content-borderRadius);
     border-top-right-radius: var(--Modal-content-borderRadius);
-    z-index: 150; // 高于 Spinner 的 overlay
   }
 
   &-title {
@@ -108,6 +107,7 @@
     line-height: inherit;
     text-decoration: none;
     vertical-align: middle;
+    z-index: calc($zindex-spinner-overlay + 1);
 
     svg {
       width: var(--Modal-close-width);
