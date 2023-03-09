@@ -426,18 +426,32 @@ export const styleTpl = {
  */
 
 // css类名
-setSchemaTpl('theme:cssCode', () => {
-  return {
-    title: '样式源码',
-    body: [
-      {
-        type: 'theme-cssCode',
-        label: false,
-        name: 'className'
-      }
-    ]
-  };
-});
+setSchemaTpl(
+  'theme:cssCode',
+  ({
+    themeClass = [],
+    isFormItem
+  }: {
+    themeClass?: string[];
+    isFormItem?: boolean;
+  } = {}) => {
+    console.log(themeClass);
+    themeClass.push('');
+    if (isFormItem) {
+      themeClass.push(...['description', 'label']);
+    }
+    return {
+      title: '样式源码',
+      body: [
+        {
+          type: 'theme-cssCode',
+          label: false,
+          themeClass
+        }
+      ]
+    };
+  }
+);
 
 // form label
 setSchemaTpl('theme:form-label', () => {
@@ -446,11 +460,11 @@ setSchemaTpl('theme:form-label', () => {
     body: [
       getSchemaTpl('theme:font', {
         label: '文字',
-        name: 'css.labelClassName.font',
+        name: 'themeCss.labelClassName.font:default',
         editorThemePath: 'form.item.default.label.body.font'
       }),
       getSchemaTpl('theme:paddingAndMargin', {
-        name: 'css.labelClassName.padding-and-margin'
+        name: 'themeCss.labelClassName.padding-and-margin:default'
       })
     ]
   };
@@ -464,11 +478,11 @@ setSchemaTpl('theme:form-description', () => {
     body: [
       getSchemaTpl('theme:font', {
         label: '文字',
-        name: 'css.descriptionClassName.font',
+        name: 'themeCss.descriptionClassName.font:default',
         editorThemePath: 'form.item.default.description.body.font'
       }),
       getSchemaTpl('theme:paddingAndMargin', {
-        name: 'css.descriptionClassName.padding-and-margin'
+        name: 'themeCss.descriptionClassName.padding-and-margin:default'
       })
     ]
   };
@@ -480,7 +494,7 @@ setSchemaTpl('theme:font', (option: any = {}) => {
     mode: 'default',
     type: 'amis-theme-font-editor',
     label: '文字',
-    name: `css.className.font`,
+    name: `themeCss.className.font:default`,
     needColorCustom: true,
     ...option
   };
@@ -492,7 +506,7 @@ setSchemaTpl('theme:colorPicker', (option: any = {}) => {
     mode: 'default',
     type: 'amis-theme-color-picker',
     label: '颜色',
-    name: `css.className.color`,
+    name: `themeCss.className.color:default`,
     needCustom: true,
     ...option
   };
@@ -504,7 +518,7 @@ setSchemaTpl('theme:border', (option: any = {}) => {
     mode: 'default',
     type: 'amis-theme-border',
     label: '边框',
-    name: `css.className.border`,
+    name: `themeCss.className.border:default`,
     needColorCustom: true,
     ...option
   };
@@ -516,7 +530,7 @@ setSchemaTpl('theme:paddingAndMargin', (option: any = {}) => {
     mode: 'default',
     type: 'amis-theme-padding-and-margin',
     label: '边距',
-    name: `css.className.padding-and-margin`,
+    name: `themeCss.className.padding-and-margin:default`,
     ...option
   };
 });
@@ -527,7 +541,7 @@ setSchemaTpl('theme:radius', (option: any = {}) => {
     mode: 'default',
     type: 'amis-theme-radius',
     label: '圆角',
-    name: `css.className.radius`,
+    name: `themeCss.className.radius:default`,
     ...option
   };
 });
@@ -537,7 +551,7 @@ setSchemaTpl('theme:shadow', (option: any = {}) => {
   return {
     type: 'amis-theme-shadow-editor',
     label: false,
-    name: `css.className.boxShadow`,
+    name: `themeCss.className.boxShadow:default`,
     hasSenior: true,
     ...option
   };

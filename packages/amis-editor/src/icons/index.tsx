@@ -151,6 +151,9 @@ import layout_2_1 from './layout/layout2-1.svg';
 import layout_3_1 from './layout/layout3-1.svg';
 import layout_3_2 from './layout/layout3-2.svg';
 
+// 主题
+import themeCss from './theme/css.svg';
+
 // 功能类组件 icon x 11
 registerIcon('audio-plugin', audio);
 registerIcon('custom-plugin', custom);
@@ -287,5 +290,8 @@ registerIcon('layout-1-2-plugin', layout_1_2);
 registerIcon('layout-2-1-plugin', layout_2_1);
 registerIcon('layout-3-1-plugin', layout_3_1);
 registerIcon('layout-3-2-plugin', layout_3_2);
+
+// 主题
+registerIcon('theme-css', themeCss);
 
 export {Icon};
