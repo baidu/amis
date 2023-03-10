@@ -53,14 +53,14 @@
       .icon {
         width: 100%;
         height: 100%;
-        color: var(--Spinner-color);
+        color: var(--spinner-base-color);
       }
 
       svg.icon {
         top: 0;
 
         path {
-          fill: var(--Spinner-color);
+          fill: var(--spinner-base-color);
         }
       }
 
@@ -68,7 +68,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: var(--Spinner-width);
+        font-size: var(--spinner-size-size);
       }
     }
 
