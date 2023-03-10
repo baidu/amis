@@ -60,6 +60,7 @@ export class GridPlugin extends BasePlugin {
                 type: 'tpl',
                 tpl: '栏',
                 inline: false,
+                wrapperComponent: '',
                 className: 'bg-light wrapper'
               }
             ]
@@ -69,6 +70,7 @@ export class GridPlugin extends BasePlugin {
               {
                 type: 'tpl',
                 tpl: '栏',
+                wrapperComponent: '',
                 className: 'bg-light wrapper',
                 inline: false
               }
@@ -114,6 +116,7 @@ export class GridPlugin extends BasePlugin {
               {
                 type: 'tpl',
                 tpl: '栏',
+                wrapperComponent: '',
                 className: 'bg-light wrapper',
                 inline: false
               }
@@ -124,6 +127,7 @@ export class GridPlugin extends BasePlugin {
               {
                 type: 'tpl',
                 tpl: '栏',
+                wrapperComponent: '',
                 className: 'bg-light wrapper',
                 inline: false
               }
@@ -157,6 +161,7 @@ export class GridPlugin extends BasePlugin {
             type: 'tpl',
             tpl: '栏',
             inline: false,
+            wrapperComponent: '',
             className: 'bg-light wrapper'
           }
         ]
@@ -166,6 +171,7 @@ export class GridPlugin extends BasePlugin {
           {
             type: 'tpl',
             tpl: '栏',
+            wrapperComponent: '',
             className: 'bg-light wrapper',
             inline: false
           }

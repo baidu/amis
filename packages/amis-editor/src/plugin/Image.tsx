@@ -1,4 +1,4 @@
-import {registerEditorPlugin} from 'amis-editor-core';
+import {getI18nEnabled, registerEditorPlugin} from 'amis-editor-core';
 import {
   ActiveEventContext,
   BaseEventContext,
@@ -35,6 +35,7 @@ export class ImagePlugin extends BasePlugin {
   panelJustify = true;
   panelBodyCreator = (context: BaseEventContext) => {
     const isUnderField = /\/field\/\w+$/.test(context.path as string);
+    const i18nEnabled = getI18nEnabled();
     return getSchemaTpl('tabs', [
       {
         title: '属性',
@@ -44,12 +45,12 @@ export class ImagePlugin extends BasePlugin {
             body: [
               {
                 name: 'title',
-                type: 'input-text',
+                type: i18nEnabled ? 'input-text-i18n' : 'input-text',
                 label: '图片标题'
               },
               {
                 name: 'imageCaption',
-                type: 'input-text',
+                type: i18nEnabled ? 'input-text-i18n' : 'input-text',
                 label: '图片描述'
               },
               {

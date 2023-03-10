@@ -87,8 +87,13 @@ export class SwitchControlPlugin extends BasePlugin {
                 required: true
               }),
               getSchemaTpl('label'),
-              getSchemaTpl('crudFilterOperator', {context}),
 
+              getSchemaTpl('crudFilterOperator', {context}),
+              {
+                name: 'option',
+                type: 'input-text',
+                label: '说明'
+              },
               getSchemaTpl('switchOption'),
 
               {
@@ -98,19 +103,7 @@ export class SwitchControlPlugin extends BasePlugin {
                 label: '填充文本',
                 formType: 'extend',
                 form: {
-                  body: [
-                    {
-                      name: 'onText',
-                      type: 'input-text',
-                      label: '开启时'
-                    },
-
-                    {
-                      name: 'offText',
-                      type: 'input-text',
-                      label: '关闭时'
-                    }
-                  ]
+                  body: [getSchemaTpl('onText'), getSchemaTpl('offText')]
                 }
               },
 

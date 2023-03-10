@@ -9,6 +9,8 @@ import {
 } from 'amis-editor-core';
 
 export class ColumnToggler extends BasePlugin {
+  static id = 'ColumnToggler';
+
   // 关联渲染器名字
   rendererName = 'column-toggler';
   $schema = '/schemas/ColumnToggler.json';

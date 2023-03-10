@@ -9,6 +9,7 @@ import {FormItem, Button, Icon, PickerContainer} from 'amis';
 import {FormulaEditor} from 'amis-ui/lib/components/formula/Editor';
 import type {VariableItem} from 'amis-ui/lib/components/formula/Editor';
 import {getVariables} from './textarea-formula/utils';
+import {reaction} from 'mobx';
 
 interface ExpressionFormulaControlProps extends FormControlProps {
   /**
@@ -49,6 +50,9 @@ export default class ExpressionFormulaControl extends React.Component<
   };
 
   isUnmount: boolean;
+  unReaction: any;
+  appLocale: string;
+  appCorpusData: any;
 
   constructor(props: ExpressionFormulaControlProps) {
     super(props);
@@ -60,6 +64,22 @@ export default class ExpressionFormulaControl extends React.Component<
 
   async componentDidMount() {
     this.initFormulaPickerValue(this.props.value);
+    const editorStore = (window as any).editorStore;
+    this.appLocale = editorStore?.appLocale;
+    this.appCorpusData = editorStore?.appCorpusData;
+
+    this.unReaction = reaction(
+      () => editorStore?.appLocaleState,
+      async () => {
+        this.appLocale = editorStore?.appLocale;
+        this.appCorpusData = editorStore?.appCorpusData;
+        const variablesArr = await getVariables(this);
+        this.setState({
+          variables: variablesArr
+        });
+      }
+    );
+
     const variablesArr = await getVariables(this);
     this.setState({
       variables: variablesArr
@@ -80,6 +100,7 @@ export default class ExpressionFormulaControl extends React.Component<
 
   componentWillUnmount() {
     this.isUnmount = true;
+    this.unReaction?.();
   }
 
   @autobind

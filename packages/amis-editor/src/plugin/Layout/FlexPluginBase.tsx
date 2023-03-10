@@ -1,7 +1,7 @@
 /**
  * @file Flex 常见布局 1:3
  */
-import {BasePlugin, PluginEvent} from 'amis-editor-core';
+import {LayoutBasePlugin, PluginEvent} from 'amis-editor-core';
 import {getSchemaTpl, tipedLabel} from 'amis-editor-core';
 import type {
   BaseEventContext,
@@ -47,7 +47,7 @@ const defaultFlexContainerSchema = {
   alignItems: 'stretch'
 };
 
-export class FlexPluginBase extends BasePlugin {
+export class FlexPluginBase extends LayoutBasePlugin {
   rendererName = 'flex';
   $schema = '/schemas/FlexSchema.json';
   disabledRendererPlugin = false;
@@ -75,6 +75,7 @@ export class FlexPluginBase extends BasePlugin {
     const isRowContent =
       curRendererSchema?.direction === 'row' ||
       curRendererSchema?.direction === 'row-reverse';
+    const isFlexContainer = this.manager?.isFlexContainer(context?.id);
     const isFlexItem = this.manager?.isFlexItem(context?.id);
     const isFlexColumnItem = this.manager?.isFlexColumnItem(context?.id);
     // 判断是否为吸附容器
@@ -260,7 +261,10 @@ export class FlexPluginBase extends BasePlugin {
                   }),
 
                   getSchemaTpl('layout:isFixedHeight', {
-                    visibleOn: `${!isFlexItem || !isFlexColumnItem}`
+                    visibleOn: `${!isFlexItem || !isFlexColumnItem}`,
+                    onChange: (value: boolean) => {
+                      context?.node.setHeightMutable(value);
+                    }
                   }),
                   getSchemaTpl('layout:height', {
                     visibleOn: `${!isFlexItem || !isFlexColumnItem}`
@@ -281,7 +285,10 @@ export class FlexPluginBase extends BasePlugin {
                   }),
 
                   getSchemaTpl('layout:isFixedWidth', {
-                    visibleOn: `${!isFlexItem || isFlexColumnItem}`
+                    visibleOn: `${!isFlexItem || isFlexColumnItem}`,
+                    onChange: (value: boolean) => {
+                      context?.node.setWidthMutable(value);
+                    }
                   }),
                   getSchemaTpl('layout:width', {
                     visibleOn: `${!isFlexItem || isFlexColumnItem}`
@@ -353,7 +360,8 @@ export class FlexPluginBase extends BasePlugin {
       parent &&
       (info.renderer?.name === 'flex' || info.renderer?.name === 'container') &&
       !isFlexItem && // 备注：如果是列级元素就不需要显示了
-      !draggableContainer
+      !draggableContainer &&
+      !schema?.isFreeContainer
     ) {
       // 非特殊布局元素（fixed、absolute）支持前后插入追加布局元素功能icon
       if (!toolbarsTooltips['上方插入布局容器']) {

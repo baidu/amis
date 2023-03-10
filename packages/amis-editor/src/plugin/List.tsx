@@ -1,6 +1,6 @@
 import {Button, resolveVariable} from 'amis';
 import React from 'react';
-import {registerEditorPlugin} from 'amis-editor-core';
+import {getI18nEnabled, registerEditorPlugin} from 'amis-editor-core';
 import {
   BaseEventContext,
   BasePlugin,
@@ -22,7 +22,6 @@ export class ListPlugin extends BasePlugin {
   // 组件名称
   name = '列表';
   isBaseComponent = true;
-  panelJustify = true;
   description =
     '展示一个列表，可以自定标题、副标题，内容及按钮组部分。当前组件需要配置数据源，不自带数据拉取，请优先使用 「CRUD」 组件。';
   docLink = '/amis/zh-CN/components/list';
@@ -35,7 +34,8 @@ export class ListPlugin extends BasePlugin {
       body: [
         {
           type: 'tpl',
-          tpl: '简单的展示数据：$a $b'
+          tpl: '简单的展示数据：$a $b',
+          wrapperComponent: ''
         }
       ],
       actions: [
@@ -56,9 +56,10 @@ export class ListPlugin extends BasePlugin {
   };
 
   panelTitle = '列表';
+  panelJustify = true;
   panelBodyCreator = (context: BaseEventContext) => {
     const isCRUDBody = ['crud', 'crud2'].includes(context.schema.type);
-
+    const i18nEnabled = getI18nEnabled();
     return getSchemaTpl('tabs', [
       {
         title: '属性',
@@ -83,7 +84,7 @@ export class ListPlugin extends BasePlugin {
               },
               {
                 name: 'title',
-                type: 'input-text',
+                type: i18nEnabled ? 'input-text-i18n' : 'input-text',
                 label: '标题'
               },
               isCRUDBody
@@ -98,7 +99,7 @@ export class ListPlugin extends BasePlugin {
               {
                 name: 'placeholder',
                 pipeIn: defaultValue('没有数据'),
-                type: 'input-text',
+                type: i18nEnabled ? 'input-text-i18n' : 'input-text',
                 label: '无数据提示'
               },
               {
@@ -162,8 +163,8 @@ export class ListPlugin extends BasePlugin {
                 label: '外层'
               }),
               getSchemaTpl('className', {
-                name: 'listClassName',
-                label: 'List'
+                name: 'itemClassName',
+                label: 'ListItem'
               }),
               getSchemaTpl('className', {
                 name: 'headerClassName',

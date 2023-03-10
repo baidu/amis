@@ -3,7 +3,7 @@ import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
 import React from 'react';
 
-import {registerEditorPlugin} from 'amis-editor-core';
+import {getI18nEnabled, registerEditorPlugin} from 'amis-editor-core';
 import {
   BaseEventContext,
   BasePlugin,
@@ -186,8 +186,7 @@ export class CRUDPlugin extends BasePlugin {
   };
 
   get scaffoldForm(): ScaffoldForm {
-    const editorStore = (window as any)?.editorStore;
-    const i18nEnabled = editorStore ? editorStore.i18nEnabled : false;
+    const i18nEnabled = getI18nEnabled();
     return {
       title: '增删改查快速开始-CRUD',
       body: [
@@ -1033,7 +1032,8 @@ export class CRUDPlugin extends BasePlugin {
                     body: [
                       {
                         type: 'tpl',
-                        tpl: '简单的展示数据：$a $b'
+                        tpl: '简单的展示数据：$a $b',
+                        wrapperComponent: ''
                       }
                     ],
                     actions: [
@@ -1101,7 +1101,7 @@ export class CRUDPlugin extends BasePlugin {
                 } else if (typeof item === 'string') {
                   type = 'tpl';
                   item =
-                    typeof item === 'string' ? {type: 'tpl', tpl: item} : item;
+                    typeof item === 'string' ? {type: 'tpl', tpl: item, wrapperComponent: ''} : item;
                 }
                 return {
                   type,
@@ -1122,6 +1122,7 @@ export class CRUDPlugin extends BasePlugin {
                     return JSONPipeIn({
                       type: 'tpl',
                       tpl: '内容',
+                      wrapperComponent: '',
                       ...item
                     });
                   }
@@ -1134,6 +1135,7 @@ export class CRUDPlugin extends BasePlugin {
             },
             scaffold: {
               type: 'tpl',
+              wrapperComponent: '',
               tpl: '内容'
             },
             multiple: true,
@@ -1278,7 +1280,7 @@ export class CRUDPlugin extends BasePlugin {
                 } else if (typeof item === 'string') {
                   type = 'tpl';
                   item =
-                    typeof item === 'string' ? {type: 'tpl', tpl: item} : item;
+                    typeof item === 'string' ? {type: 'tpl', tpl: item, wrapperComponent: ''} : item;
                 }
 
                 return {
@@ -1300,6 +1302,7 @@ export class CRUDPlugin extends BasePlugin {
                     return JSONPipeIn({
                       type: 'tpl',
                       tpl: '内容',
+                      wrapperComponent: '',
                       ...item
                     });
                   }
@@ -1312,7 +1315,8 @@ export class CRUDPlugin extends BasePlugin {
             },
             scaffold: {
               type: 'tpl',
-              tpl: '内容'
+              tpl: '内容',
+              wrapperComponent: ''
             },
             multiple: true,
             items: [

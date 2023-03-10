@@ -5,7 +5,7 @@ import {ContainerPlugin} from '../Container';
 export default class Layout_free_container extends ContainerPlugin {
   name = '自由容器';
   isBaseComponent = true;
-  pluginIcon = 'layout-fixed-plugin';
+  pluginIcon = 'layout-free-container';
   description = '自由容器: 其直接子元素支持拖拽调整位置。';
   order = -1;
   tags = ['布局'];
@@ -18,7 +18,7 @@ export default class Layout_free_container extends ContainerPlugin {
     style: {
       position: 'relative',
       minHeight: '200px'
-    },
+    }
   };
 
   panelTitle = '自由容器';

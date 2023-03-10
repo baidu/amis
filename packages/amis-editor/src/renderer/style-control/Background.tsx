@@ -328,7 +328,7 @@ const Background: React.FC<BackgroundProps> = props => {
   }
   // 背景图尺寸设置
   function getbsValue() {
-    let backgroundSize = props.value?.backgroundSize;
+    let backgroundSize = props.value?.backgroundSize || 'auto';
     let backgroundRepeat = props.value?.backgroundRepeat;
     let returnVal = backgroundSize || '';
     if (backgroundSize === 'auto' && backgroundRepeat) {
@@ -569,6 +569,10 @@ const Background: React.FC<BackgroundProps> = props => {
                   placeholder: '图片尺寸',
                   value: getbsValue(),
                   options: [
+                    {
+                      label: '默认',
+                      value: 'auto'
+                    },
                     {
                       label: '充满',
                       value: 'cover'

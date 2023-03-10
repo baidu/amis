@@ -1,23 +1,26 @@
 import React from 'react';
 import {resolveVariable, Button} from 'amis';
-import flatten from 'lodash/flatten';
-import {defaultValue, getSchemaTpl} from 'amis-editor-core';
-import {registerEditorPlugin} from 'amis-editor-core';
 import {
+  registerEditorPlugin,
   BaseEventContext,
   BasePlugin,
-  BasicSubRenderInfo,
   InsertEventContext,
   PluginEvent,
-  RendererEventContext,
   ScaffoldForm,
-  SubRendererInfo,
-  RegionConfig
+  RegionConfig,
+  RendererPluginEvent,
+  defaultValue,
+  getSchemaTpl,
+  RendererPluginAction,
+  tipedLabel,
+  getI18nEnabled,
+  repeatArray,
+  mockValue
 } from 'amis-editor-core';
 import {setVariable} from 'amis-core';
-import {repeatArray} from 'amis-editor-core';
-import {mockValue} from 'amis-editor-core';
-import {getEnv} from 'mobx-state-tree';
+import {ValidatorTag} from '../../validator';
+import {getEventControlConfig, getArgsWrapper} from '../../renderer/event-control/helper';
+import cloneDeep from 'lodash/cloneDeep';
 
 export class TableControlPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -39,21 +42,50 @@ export class TableControlPlugin extends BasePlugin {
     label: '表格表单',
     columns: [
       {
-        label: 'color',
-        name: 'color',
-        quickEdit: {
-          type: 'input-color'
-        }
-      },
-      {
-        label: '说明文字',
+        label: '名称',
         name: 'name',
         quickEdit: {
           type: 'input-text',
-          mode: 'inline'
+          name: 'name1'
+        }
+      },
+      {
+        label: '分数',
+        name: 'score',
+        quickEdit: {
+          type: 'input-number',
+          mode: 'inline',
+          name: 'score'
+        }
+      },
+      {
+        label: '等级',
+        name: 'level',
+        quickEdit: {
+          type: 'select',
+          name: 'level',
+          options: [
+            {
+              label: 'A',
+              value: 'A'
+            },
+            {
+              label: 'B',
+              value: 'B'
+            },
+            {
+              label: 'C',
+              value: 'C'
+            }
+          ]
         }
       }
     ],
+    addable: false,
+    footerAddBtn: {
+      label: '新增',
+      icon: 'fa fa-plus'
+    },
     strictMode: true
   };
 
@@ -79,294 +111,675 @@ export class TableControlPlugin extends BasePlugin {
   };
 
   get scaffoldForm(): ScaffoldForm {
-    const editorStore = (window as any)?.editorStore;
-    const i18nEnabled = editorStore ? editorStore.i18nEnabled : false;
+    const i18nEnabled = getI18nEnabled();
     return {
-      title: '快速构建表格',
+      title: '快速构建表格编辑框',
       body: [
         {
           name: 'columns',
-          type: 'combo',
-          multiple: true,
+          type: 'input-table',
           label: false,
-          addButtonText: '新增一列',
-          draggable: true,
-          items: [
+          needConfirm: false,
+          addable: true,
+          removable: true,
+          columns: [
             {
-              type: i18nEnabled ? 'input-text-i18n' : 'input-text',
+              type: 'text',
               name: 'label',
-              placeholder: '标题'
+              label: '标题',
+              quickEdit: {
+                type: 'input-text',
+                mode: 'inline'
+              }
             },
             {
-              type: 'input-text',
+              type: 'text',
               name: 'name',
-              placeholder: '绑定字段名'
+              label: '绑定字段名',
+              quickEdit: {
+                type: 'input-text',
+                mode: 'inline'
+              }
             },
             {
-              type: 'select',
+              type: 'text',
               name: 'type',
-              placeholder: '类型',
-              value: 'text',
-              options: [
-                {
-                  value: 'text',
-                  label: '纯文本'
-                },
-                {
-                  value: 'tpl',
-                  label: '模板'
-                },
-                {
-                  value: 'image',
-                  label: '图片'
-                },
-                {
-                  value: 'date',
-                  label: '日期'
-                },
-                // {
-                //     value: 'datetime',
-                //     label: '日期时间'
-                // },
-                // {
-                //     value: 'time',
-                //     label: '时间'
-                // },
-                {
-                  value: 'progress',
-                  label: '进度'
-                },
-                {
-                  value: 'status',
-                  label: '状态'
-                },
-                {
-                  value: 'mapping',
-                  label: '映射'
-                },
-                {
-                  value: 'operation',
-                  label: '操作栏'
-                }
-              ]
+              label: '展示类型',
+              width: 140,
+              quickEdit: {
+                type: 'select',
+                options: [
+                  {
+                    value: 'text',
+                    label: '纯文本'
+                  },
+                  {
+                    value: 'tpl',
+                    label: '模板'
+                  },
+                  {
+                    value: 'container',
+                    label: '容器'
+                  },
+                  {
+                    value: 'image',
+                    label: '图片'
+                  },
+                  {
+                    value: 'date',
+                    label: '日期'
+                  },
+                  {
+                      value: 'datetime',
+                      label: '日期时间'
+                  },
+                  {
+                      value: 'time',
+                      label: '时间'
+                  },
+                  {
+                    value: 'status',
+                    label: '状态'
+                  },
+                  {
+                    value: 'mapping',
+                    label: '映射'
+                  }
+                ],
+                pipeIn: defaultValue('text')
+              }
+            },
+            {
+              type: 'text',
+              name: 'quickEdit.type',
+              label: '编辑类型',
+              quickEdit: {
+                type: 'select',
+                clearable: true,
+                placeholder: '为空则不支持编辑',
+                options: [
+                  {
+                    value: 'input-text',
+                    label: '文本框'
+                  },
+                  {
+                    value: 'input-number',
+                    label: '数字框'
+                  },
+                  {
+                    value: 'select',
+                    label: '选择框'
+                  },
+                  {
+                    value: 'input-color',
+                    label: '颜色选择框'
+                  },
+                  {
+                    value: 'checkboxes',
+                    label: '多选框'
+                  },
+                  {
+                    value: 'radios',
+                    label: '单选框'
+                  },
+                  {
+                    value: 'input-date',
+                    label: '日期'
+                  },
+                  {
+                    value: 'input-date-range',
+                    label: '日期范围'
+                  },
+                  {
+                    value: 'switch',
+                    label: '开关'
+                  },
+                  {
+                    value: 'nested-select',
+                    label: '级联选择器'
+                  },
+                  {
+                    value: 'input-city',
+                    label: '城市选择器'
+                  },
+                  {
+                    value: 'input-tree',
+                    label: '树选择框'
+                  }
+                ]
+              },
+              width: 210
             }
           ]
         }
       ],
+      pipeOut: (schema: any) => {
+        const columns = cloneDeep(schema.columns || []);
+        const rawColumns: any = [];
+        columns.forEach((column: any) => {
+          const rawColumn = {
+            ...column,
+            type: column.type,
+            quickEdit: column.quickEdit?.type ? {
+              type: column.quickEdit.type,
+              name: column.name
+            } : false
+          };
+          rawColumns.push(rawColumn);
+        });
+        schema.columns = rawColumns;
+        return {...schema};
+      },
       canRebuild: true
     };
   }
 
+  notRenderFormZone = true;
+
+  panelJustify = true;
   panelTitle = '表格编辑';
+
+  events: RendererPluginEvent[] = [
+    // {
+    //   eventName: 'addConfirm',
+    //   eventLabel: '确认添加',
+    //   description: '开启needConfirm，点击添加按钮，填入数据后点击“保存”按钮后触发',
+    //   dataSchema: [
+    //     {
+    //       type: 'object',
+    //       properties: {
+    //         'event.data.value': {
+    //           type: 'array',
+    //           title: '表格数据'
+    //         },
+    //         'event.data.item': {
+    //           type: 'object',
+    //           title: '添加项数据'
+    //         },
+    //         'event.data.index': {
+    //           type: 'number',
+    //           title: '添加项的行索引'
+    //         }
+    //       }
+    //     }
+    //   ]
+    // },
+    // {
+    //   eventName: 'addSuccess',
+    //   eventLabel: '添加成功',
+    //   description: '开启needConfirm并且配置addApi，点击“保存”后调用接口成功时触发',
+    //   dataSchema: [
+    //     {
+    //       type: 'object',
+    //       properties: {
+    //         'event.data.value': {
+    //           type: 'array',
+    //           title: '表格数据'
+    //         },
+    //         'event.data.item': {
+    //           type: 'object',
+    //           title: '添加项数据'
+    //         },
+    //         'event.data.index': {
+    //           type: 'number',
+    //           title: '添加项所在的行索引'
+    //         }
+    //       }
+    //     }
+    //   ]
+    // },
+    // {
+    //   eventName: 'addFail',
+    //   eventLabel: '添加失败',
+    //   description: '开启needConfirm并且配置addApi，点击“保存”后调用接口失败时触发',
+    //   dataSchema: [
+    //     {
+    //       type: 'object',
+    //       properties: {
+    //         'event.data.value': {
+    //           type: 'array',
+    //           title: '表格数据'
+    //         },
+    //         'event.data.item': {
+    //           type: 'object',
+    //           title: '添加项数据'
+    //         },
+    //         'event.data.index': {
+    //           type: 'number',
+    //           title: '添加项所在的行索引'
+    //         },
+    //         'event.data.error': {
+    //           type: 'object',
+    //           title: 'addApi请求失败后接口返回的错误信息'
+    //         }
+    //       }
+    //     }
+    //   ]
+    // },
+    // {
+    //   eventName: 'edit',
+    //   eventLabel: '编辑行',
+    //   description: '点击某一行右侧操作栏“编辑”按钮时触发',
+    //   dataSchema: [
+    //     {
+    //       type: 'object',
+    //       properties: {
+    //         'event.data.value': {
+    //           type: 'array',
+    //           title: '表格数据'
+    //         },
+    //         'event.data.item': {
+    //           type: 'object',
+    //           title: '编辑项数据'
+    //         },
+    //         'event.data.index': {
+    //           type: 'number',
+    //           title: '编辑项所在的行索引'
+    //         }
+    //       }
+    //     }
+    //   ]
+    // },
+    // {
+    //   eventName: 'editConfirm',
+    //   eventLabel: '编辑确认',
+    //   description: '开启needConfirm，点击“编辑”按钮，填入数据后点击“保存”按钮后触发',
+    //   dataSchema: [
+    //     {
+    //       type: 'object',
+    //       properties: {
+    //         'event.data.value': {
+    //           type: 'array',
+    //           title: '表格数据'
+    //         },
+    //         'event.data.item': {
+    //           type: 'object',
+    //           title: '编辑项数据'
+    //         },
+    //         'event.data.index': {
+    //           type: 'number',
+    //           title: '编辑项所在的行索引'
+    //         }
+    //       }
+    //     }
+    //   ]
+    // },
+    // {
+    //   eventName: 'editSuccess',
+    //   eventLabel: '编辑成功',
+    //   description: '开启needConfirm并且配置updateApi，点击“保存”后调用接口成功时触发',
+    //   dataSchema: [
+    //     {
+    //       type: 'object',
+    //       properties: {
+    //         'event.data.value': {
+    //           type: 'array',
+    //           title: '表格数据'
+    //         },
+    //         'event.data.item': {
+    //           type: 'object',
+    //           title: '编辑项数据'
+    //         },
+    //         'event.data.index': {
+    //           type: 'number',
+    //           title: '编辑项所在的行索引'
+    //         }
+    //       }
+    //     }
+    //   ]
+    // },
+    // {
+    //   eventName: 'editFail',
+    //   eventLabel: '编辑失败',
+    //   description: '开启needConfirm并且配置updateApi，点击“保存”后调用接口失败时触发',
+    //   dataSchema: [
+    //     {
+    //       type: 'object',
+    //       properties: {
+    //         'event.data.value': {
+    //           type: 'array',
+    //           title: '表格数据'
+    //         },
+    //         'event.data.item': {
+    //           type: 'object',
+    //           title: '编辑项数据'
+    //         },
+    //         'event.data.index': {
+    //           type: 'number',
+    //           title: '编辑项所在的行索引'
+    //         },
+    //         'event.data.error': {
+    //           type: 'object',
+    //           title: 'updateApi请求错误后返回的错误信息'
+    //         }
+    //       }
+    //     }
+    //   ]
+    // },
+    // {
+    //   eventName: 'delete',
+    //   eventLabel: '删除行',
+    //   description: '点击某一行右侧操作栏“删除”按钮时触发',
+    //   dataSchema: [
+    //     {
+    //       type: 'object',
+    //       properties: {
+    //         'event.data.value': {
+    //           type: 'array',
+    //           title: '表格数据'
+    //         },
+    //         'event.data.item': {
+    //           type: 'object',
+    //           title: '删除项数据'
+    //         },
+    //         'event.data.index': {
+    //           type: 'object',
+    //           title: '删除项所在的行索引'
+    //         }
+    //       }
+    //     }
+    //   ]
+    // },
+    // {
+    //   eventName: 'deleteSuccess',
+    //   eventLabel: '删除成功',
+    //   description: '配置了deleteApi，调用接口成功时触发',
+    //   dataSchema: [
+    //     {
+    //       type: 'object',
+    //       properties: {
+    //         'event.data.value': {
+    //           type: 'array',
+    //           title: '表格数据'
+    //         },
+    //         'event.data.item': {
+    //           type: 'object',
+    //           title: '删除项数据'
+    //         },
+    //         'event.data.index': {
+    //           type: 'object',
+    //           title: '删除项所在的行索引'
+    //         }
+    //       }
+    //     }
+    //   ]
+    // },
+    // {
+    //   eventName: 'deleteFail',
+    //   eventLabel: '删除失败',
+    //   description: '配置了deleteApi，调用接口失败时触发',
+    //   dataSchema: [
+    //     {
+    //       type: 'object',
+    //       properties: {
+    //         'event.data.value': {
+    //           type: 'array',
+    //           title: '表格数据'
+    //         },
+    //         'event.data.item': {
+    //           type: 'object',
+    //           title: '编辑项数据'
+    //         },
+    //         'event.data.index': {
+    //           type: 'object',
+    //           title: '编辑项所在的行索引'
+    //         }
+    //       }
+    //     }
+    //   ]
+    // },
+    // {
+    //   eventName: 'change',
+    //   eventLabel: '值变化',
+    //   description: '组件数据发生改变时触发',
+    //   dataSchema: [
+    //     {
+    //       type: 'object',
+    //       properties: {
+    //         'event.data.value': {
+    //           type: 'array',
+    //           title: '表格数据'
+    //         }
+    //       }
+    //     }
+    //   ]
+    // }
+  ];
+
+  actions: RendererPluginAction[] = [
+    {
+      actionType: 'setValue',
+      actionLabel: '赋值',
+      description: '触发组件数据更新'
+    }
+  ];
+
   panelBodyCreator = (context: BaseEventContext) => {
     const isCRUDBody = context.schema.type === 'crud';
-
+    const i18nEnabled = getI18nEnabled();
     return getSchemaTpl('tabs', [
       {
-        title: '常规',
-        body: flatten([
-          // {
-          //   children: (
-          //     <div className="m-b">
-          //       <Button
-          //         level="success"
-          //         size="sm"
-          //         block
-          //         onClick={() => this.handleEditFormItem()}
-          //       >
-          //         配置列信息
-          //       </Button>
-          //     </div>
-          //   )
-          // },
-          getSchemaTpl('layout:originPosition', {value: 'left-top'}),
-          getSchemaTpl('formItemName', {
-            required: true
-          }),
-          getSchemaTpl('label'),
-          getSchemaTpl('description'),
-          getSchemaTpl('switch', {
-            label: '是否可新增',
-            name: 'addable'
-          }),
+        title: '属性',
+        body: getSchemaTpl('collapseGroup', [
           {
-            type: 'input-text',
-            name: 'addBtnLabel',
-            label: '增加按钮名称',
-            visibleOn: 'data.addable',
-            pipeIn: defaultValue('')
+            title: '基本',
+            body: [
+              getSchemaTpl('layout:originPosition', {value: 'left-top'}),
+              getSchemaTpl('formItemName', {
+                required: true
+              }),
+              getSchemaTpl('label'),
+              {
+                type: 'ae-switch-more',
+                name: 'needConfirm',
+                label: tipedLabel(
+                  '确认模式',
+                  '开启时，新增、编辑需要点击表格右侧的“保存”按钮才能变更组件数据。未开启时，新增、编辑、删除操作直接改变组件数据。'
+                ),
+                mode: 'normal',
+                formType: 'extend',
+                hiddenOnDefault: true,
+                form: {
+                  body: [
+                    {
+                      type: i18nEnabled ? 'input-text-i18n' : 'input-text',
+                      name: 'confirmBtnLabel',
+                      label: '确认按钮名称',
+                      placeholder: '确认按钮名称'
+                    },
+                    getSchemaTpl('icon', {
+                      name: 'confirmBtnIcon',
+                      label: '确认按钮图标',
+                      pipeIn: defaultValue('check')
+                    }),
+                    {
+                      type: i18nEnabled ? 'input-text-i18n' : 'input-text',
+                      name: 'cancelBtnLabel',
+                      label: '取消按钮名称',
+                      placeholder: '取消按钮名称',
+                    },
+                    getSchemaTpl('icon', {
+                      name: 'cancelBtnIcon',
+                      label: '取消按钮图标',
+                      pipeIn: defaultValue('close')
+                    })
+                  ]
+                },
+                pipeIn: defaultValue(true)
+              },
+              {
+                type: 'ae-switch-more',
+                name: 'addable',
+                label: '可新增',
+                mode: 'normal',
+                formType: 'extend',
+                hiddenOnDefault: true,
+                form: {
+                  body: [
+                    getSchemaTpl('apiControl', {
+                      label: '新增接口',
+                      name: 'addApi',
+                      mode: 'row'
+                    }),
+                    getSchemaTpl('switch', {
+                      name: 'showTableAddBtn',
+                      label: '操作栏新增按钮',
+                      value: true
+                    }),
+                    {
+                      label: '按钮名称',
+                      name: 'addBtnLabel',
+                      visibleOn: 'this.showTableAddBtn',
+                      type: i18nEnabled ? 'input-text-i18n' : 'input-text'
+                    },
+                    getSchemaTpl('icon', {
+                      name: 'addBtnIcon',
+                      label: '按钮图标',
+                      visibleOn: 'this.showTableAddBtn',
+                      pipeIn: defaultValue('plus')
+                    })
+                  ]
+                }
+              },
+              {
+                type: 'ae-switch-more',
+                name: 'copyable',
+                label: '可复制',
+                mode: 'normal',
+                formType: 'extend',
+                hiddenOnDefault: true,
+                form: {
+                  body: [
+                    {
+                      label: '按钮名称',
+                      name: 'copyBtnLabel',
+                      type: i18nEnabled ? 'input-text-i18n' : 'input-text'
+                    },
+                    getSchemaTpl('icon', {
+                      name: 'copyBtnIcon',
+                      label: '按钮图标',
+                      pipeIn: defaultValue('copy')
+                    }),
+                  ]
+                }
+              },
+              {
+                type: 'ae-switch-more',
+                name: 'editable',
+                label: '可编辑',
+                mode: 'normal',
+                formType: 'extend',
+                hiddenOnDefault: true,
+                form: {
+                  body: [
+                    getSchemaTpl('apiControl', {
+                      label: '编辑接口',
+                      name: 'updateApi',
+                      mode: 'row'
+                    }),
+                    {
+                      label: '按钮名称',
+                      name: 'editBtnLabel',
+                      type: i18nEnabled ? 'input-text-i18n' : 'input-text'
+                    },
+                    getSchemaTpl('icon', {
+                      name: 'editBtnIcon',
+                      label: '按钮图标',
+                      pipeIn: defaultValue('pencil')
+                    })
+                  ]
+                }
+              },
+              {
+                type: 'ae-switch-more',
+                name: 'removable',
+                label: '可删除',
+                mode: 'normal',
+                formType: 'extend',
+                hiddenOnDefault: true,
+                form: {
+                  body: [
+                    getSchemaTpl('deleteApi'),
+                    {
+                      label: '按钮名称',
+                      name: 'deleteBtnLabel',
+                      type: i18nEnabled ? 'input-text-i18n' : 'input-text'
+                    },
+                    getSchemaTpl('icon', {
+                      name: 'deleteBtnIcon',
+                      label: '按钮图标',
+                      pipeIn: defaultValue('minus')
+                    })
+                  ]
+                }
+              },
+              getSchemaTpl('switch', {
+                name: 'showIndex',
+                label: '显示序号',
+                pipeIn: defaultValue(false)
+              }),
+              {
+                type: 'input-number',
+                name: 'perPage',
+                label: '每页展示条数',
+                placeholder: '如果为空则不进行分页'
+              },
+              {
+                type: 'input-number',
+                name: 'minLength',
+                label: '最小行数',
+                pipeIn: defaultValue(0)
+              },
+              {
+                type: 'input-number',
+                name: 'maxLength',
+                label: '最大行数'
+              },
+              getSchemaTpl('description'),
+              getSchemaTpl('placeholder'),
+              getSchemaTpl('labelRemark')
+            ]
           },
-          getSchemaTpl('icon', {
-            name: 'addBtnIcon',
-            label: '增加按钮图标',
-            className: 'fix-icon-picker-overflow',
-            visibleOn: 'data.addable'
-          }),
-          getSchemaTpl('api', {
-            name: 'addApi',
-            label: '新增时提交的 API',
-            visibleOn: 'data.addable'
-          }),
-          getSchemaTpl('switch', {
-            label: '是否可删除',
-            name: 'removable'
-          }),
           {
-            type: 'input-text',
-            name: 'deleteBtnLabel',
-            label: '删除按钮名称',
-            visibleOn: 'data.removable',
-            pipeIn: defaultValue('')
+            title: '高级',
+            body: [
+              getSchemaTpl('switch', {
+                name: 'strictMode',
+                label: tipedLabel(
+                  '严格模式',
+                  '为了性能，默认其他表单项项值变化不会让当前表格更新，有时候为了同步获取其他表单项字段，需要开启这个。'
+                ),
+                pipeIn: defaultValue(false)
+              }),
+              getSchemaTpl('switch', {
+                name: 'canAccessSuperData',
+                label: tipedLabel(
+                  '获取父级数据',
+                  '是否可以访问父级数据，也就是表单中的同级数据，通常需要跟 “严格模式”属性搭配使用。'
+                ),
+                pipeIn: defaultValue(false)
+              })
+            ]
           },
-          getSchemaTpl('icon', {
-            name: 'deleteBtnIcon',
-            label: '删除按钮图标',
-            className: 'fix-icon-picker-overflow',
-            visibleOn: 'data.removable'
-          }),
-          getSchemaTpl('api', {
-            name: 'deleteApi',
-            label: '删除时提交的 API',
-            visibleOn: 'data.removable'
-          }),
-          getSchemaTpl('switch', {
-            label: '是否可编辑',
-            name: 'editable'
-          }),
-          {
-            type: 'input-text',
-            name: 'editBtnLabel',
-            label: '编辑按钮名称',
-            visibleOn: 'data.editable',
-            pipeIn: defaultValue('')
-          },
-          getSchemaTpl('icon', {
-            name: 'editBtnIcon',
-            label: '编辑按钮图标',
-            className: 'fix-icon-picker-overflow',
-            visibleOn: 'data.editable'
-          }),
-          getSchemaTpl('switch', {
-            label: '是否可复制',
-            name: 'copyable'
-          }),
-          {
-            type: 'input-text',
-            name: 'copyBtnLabel',
-            label: '复制按钮名称',
-            visibleOn: 'data.copyable',
-            pipeIn: defaultValue('')
-          },
-          getSchemaTpl('icon', {
-            name: 'copyBtnIcon',
-            label: '复制按钮图标',
-            className: 'fix-icon-picker-overflow',
-            visibleOn: 'data.copyable'
-          }),
-          getSchemaTpl('api', {
-            name: 'updateApi',
-            label: '修改时提交的 API',
-            visibleOn: 'data.editable'
-          }),
-          {
-            type: 'input-text',
-            name: 'confirmBtnLabel',
-            label: '确认编辑按钮名称',
-            visibleOn: 'data.editable',
-            pipeIn: defaultValue('')
-          },
-          getSchemaTpl('icon', {
-            name: 'confirmBtnIcon',
-            label: '确认编辑按钮图标',
-            className: 'fix-icon-picker-overflow',
-            visibleOn: 'data.editable'
-          }),
-          {
-            type: 'input-text',
-            name: 'cancelBtnLabel',
-            label: '取消编辑按钮名称',
-            visibleOn: 'data.editable',
-            pipeIn: defaultValue('')
-          },
-          getSchemaTpl('icon', {
-            name: 'cancelBtnIcon',
-            label: '取消编辑按钮图标',
-            className: 'fix-icon-picker-overflow',
-            visibleOn: 'data.editable'
-          }),
-          getSchemaTpl('switch', {
-            label: '是否可拖拽排序',
-            name: 'draggable'
-          }),
-
-          getSchemaTpl('switch', {
-            label: '确认模式',
-            name: 'needConfirm'
-          }),
-          getSchemaTpl('switch', {
-            label: '严格模式',
-            name: 'strictMode', // 同时需要配置strictMode
-            value: true
-          }),
-
-          getSchemaTpl('switch', {
-            label: '获取父级数据',
-            labelRemark: {
-              trigger: 'click',
-              className: 'm-l-xs',
-              rootClose: true,
-              content:
-                '配置"canAccessSuperData": true 同时配置 "strictMode": false 开启此特性，初始会自动映射父级数据域的同名变量。需要注意的是，这里只会初始会映射，一旦修改过就是当前行数据为主了。也就是说，表单项类型的，只会起到初始值的作用',
-              placement: 'left'
-            },
-            onChange: (value: any, oldValue: any, model: any, form: any) => {
-              if (value && !oldValue) {
-                form.setValues({strictMode: false});
-              } else {
-                form.setValues({strictMode: true});
-              }
-            },
-            name: 'canAccessSuperData' // 同时需要配置strictMode
+          getSchemaTpl('status', {isFormItem: true}),
+          getSchemaTpl('validation', {
+            tag: ValidatorTag.MultiSelect
           })
         ])
       },
       {
         title: '外观',
-        body: [
-          getSchemaTpl('formItemMode'),
-          getSchemaTpl('horizontalMode'),
-          getSchemaTpl('horizontal', {
-            label: '',
-            visibleOn:
-              '(data.$$formMode == "horizontal" || data.mode == "horizontal") && data.label !== false && data.horizontal'
-          }),
-          getSchemaTpl('className'),
-          getSchemaTpl('className', {
-            label: 'Label CSS 类名',
-            name: 'labelClassName'
-          }),
-          getSchemaTpl('className', {
-            label: 'Input CSS 类名',
-            name: 'inputClassName'
-          }),
-          getSchemaTpl('className', {
-            label: '描述 CSS 类名',
-            name: 'descriptionClassName',
-            visibleOn: 'data.description'
+        body: getSchemaTpl('collapseGroup', [
+          getSchemaTpl('style:formItem', {renderer: context.info.renderer}),
+          getSchemaTpl('style:classNames', {
+            schema: [
+              getSchemaTpl('className', {
+                name: 'rowClassName',
+                label: '行样式',
+              })
+            ]
           })
-        ]
-      },
-      {
-        title: '显隐',
-        body: [getSchemaTpl('disabled'), getSchemaTpl('visible')]
-      },
-      {
-        title: '其他',
-        body: [
-          getSchemaTpl('required'),
-          getSchemaTpl('validateOnChange'),
-          getSchemaTpl('submitOnChange')
-        ]
+        ])
       }
     ]);
   };

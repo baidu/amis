@@ -1,6 +1,10 @@
 import React from 'react';
 import {Button, resolveVariable} from 'amis';
-import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
+import {
+  getI18nEnabled,
+  RendererPluginAction,
+  RendererPluginEvent
+} from 'amis-editor-core';
 import {findTree, setVariable, someTree} from 'amis-core';
 
 import {registerEditorPlugin, repeatArray, diff} from 'amis-editor-core';
@@ -24,7 +28,6 @@ import {
   getEventControlConfig,
   getArgsWrapper
 } from '../renderer/event-control/helper';
-import {getEnv} from 'mobx-state-tree';
 
 import type {EditorManager} from 'amis-editor-core';
 
@@ -34,7 +37,7 @@ export class TablePlugin extends BasePlugin {
   $schema = '/schemas/TableSchema.json';
 
   // 组件名称
-  name = '表格';
+  name = '原子表格';
   tags = ['展示'];
   isBaseComponent = true;
   description =
@@ -86,8 +89,7 @@ export class TablePlugin extends BasePlugin {
   };
 
   get scaffoldForm(): ScaffoldForm {
-    const editorStore = (window as any)?.editorStore;
-    const i18nEnabled = editorStore ? editorStore.i18nEnabled : false;
+    const i18nEnabled = getI18nEnabled();
     return {
       title: '快速构建表格',
       body: [
@@ -342,9 +344,19 @@ export class TablePlugin extends BasePlugin {
       description: '开启表格拖拽排序功能'
     }
   ];
+
+  dsBuilderMgr: DSBuilderManager;
+
+  constructor(manager: EditorManager) {
+    super(manager);
+
+    this.dsBuilderMgr = new DSBuilderManager('table', 'api');
+  }
+
   panelJustify = true;
   panelBodyCreator = (context: BaseEventContext) => {
     const isCRUDBody = context.schema.type === 'crud';
+    const i18nEnabled = getI18nEnabled();
     return getSchemaTpl('tabs', [
       {
         title: '属性',
@@ -354,7 +366,7 @@ export class TablePlugin extends BasePlugin {
             body: [
               {
                 name: 'title',
-                type: 'input-text',
+                type: i18nEnabled ? 'input-text-i18n' : 'input-text',
                 label: '标题'
               },
 
@@ -502,7 +514,7 @@ export class TablePlugin extends BasePlugin {
 
               getSchemaTpl('switch', {
                 name: 'affixHeader',
-                label: '是否固顶表头',
+                label: '是否固定表头',
                 pipeIn: defaultValue(true)
               }),
 
@@ -518,12 +530,10 @@ export class TablePlugin extends BasePlugin {
               {
                 name: 'footable.expand',
                 type: 'button-group-select',
-                size: 'xs',
+                size: 'sm',
                 visibleOn: 'data.footable',
                 label: '底部默认展开',
                 pipeIn: defaultValue('none'),
-                mode: 'inline',
-                className: 'w-full',
                 options: [
                   {
                     label: '第一条',
@@ -698,8 +708,7 @@ export class TablePlugin extends BasePlugin {
           ? await current.info.plugin.buildDataSchemas(current, region)
           : {
               type: 'string',
-              title: schema.label || schema.name,
-              description: schema.description
+              title: schema.label || schema.name
             };
       }
     }
@@ -732,6 +741,40 @@ export class TablePlugin extends BasePlugin {
     };
   }
 
+  async getAvailableContextFields(
+    scopeNode: EditorNodeType,
+    node: EditorNodeType,
+    region?: EditorNodeType
+  ) {
+    if (node?.info?.renderer?.name === 'table-cell') {
+      if (
+        scopeNode.parent?.type === 'service' &&
+        scopeNode.parent?.parent?.path?.endsWith('service')
+      ) {
+        return scopeNode.parent.parent.info.plugin.getAvailableContextFields?.(
+          scopeNode.parent.parent,
+          node,
+          region
+        );
+      }
+    }
+
+    const builder = this.dsBuilderMgr.resolveBuilderBySchema(
+      scopeNode.schema,
+      'api'
+    );
+
+    if (builder && scopeNode.schema.api) {
+      return builder.getAvailableContextFileds(
+        {
+          schema: scopeNode.schema,
+          sourceKey: 'api',
+          feat: 'List'
+        },
+        node
+      );
+    }
+  }
   editHeaderDetail(id: string) {
     const manager = this.manager;
     const store = manager.store;
@@ -786,41 +829,6 @@ export class TablePlugin extends BasePlugin {
           manager.panelChangeValue(newValue, diff(value, newValue));
         }
       });
-  }
-
-  async getAvailableContextFields(
-    scopeNode: EditorNodeType,
-    node: EditorNodeType,
-    region?: EditorNodeType
-  ) {
-    if (node?.info?.renderer?.name === 'table-cell') {
-      if (
-        scopeNode.parent?.type === 'service' &&
-        scopeNode.parent?.parent?.path?.endsWith('service')
-      ) {
-        return scopeNode.parent.parent.info.plugin.getAvailableContextFields?.(
-          scopeNode.parent.parent,
-          node,
-          region
-        );
-      }
-    }
-
-    const builder = this.dsBuilderMgr.resolveBuilderBySchema(
-      scopeNode.schema,
-      'api'
-    );
-
-    if (builder && scopeNode.schema.api) {
-      return builder.getAvailableContextFileds(
-        {
-          schema: scopeNode.schema,
-          sourceKey: 'api',
-          feat: 'List'
-        },
-        node
-      );
-    }
   }
 }
 

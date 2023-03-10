@@ -1,5 +1,6 @@
 import {
   EditorNodeType,
+  getI18nEnabled,
   jsonToJsonSchema,
   registerEditorPlugin
 } from 'amis-editor-core';
@@ -285,13 +286,14 @@ export class WizardPlugin extends BasePlugin {
     },
     {
       actionType: 'setValue',
-      actionLabel: '更新数据',
+      actionLabel: '变量赋值',
       description: '触发组件数据更新'
     }
   ];
 
   panelTitle = '向导';
   panelBodyCreator = (context: BaseEventContext) => {
+    const i18nEnabled = getI18nEnabled();
     return [
       getSchemaTpl('tabs', [
         {
@@ -318,7 +320,7 @@ export class WizardPlugin extends BasePlugin {
               items: [
                 {
                   name: 'title',
-                  type: 'input-text',
+                  type: i18nEnabled ? 'input-text-i18n' : 'input-text',
                   label: '标题',
                   pipeIn: (value: any, data: any) => value || data.label
                 },

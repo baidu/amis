@@ -150,6 +150,8 @@ import layout_1_2 from './layout/layout1-2.svg';
 import layout_2_1 from './layout/layout2-1.svg';
 import layout_3_1 from './layout/layout3-1.svg';
 import layout_3_2 from './layout/layout3-2.svg';
+import layout_free_container from './layout/layout-free-container.svg';
+import layout_fixed_top from './layout/layout-fixed-top.svg';
 
 // 功能类组件 icon x 11
 registerIcon('audio-plugin', audio);
@@ -287,5 +289,7 @@ registerIcon('layout-1-2-plugin', layout_1_2);
 registerIcon('layout-2-1-plugin', layout_2_1);
 registerIcon('layout-3-1-plugin', layout_3_1);
 registerIcon('layout-3-2-plugin', layout_3_2);
+registerIcon('layout-free-container', layout_free_container);
+registerIcon('layout-fixed-top', layout_fixed_top);
 
 export {Icon};

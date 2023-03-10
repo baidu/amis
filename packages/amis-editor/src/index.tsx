@@ -139,11 +139,11 @@ import './plugin/CodeView';
 import './plugin/WebComponent';
 import './plugin/CRUD2';
 import './plugin/ColumnToggler';
+import './plugin/SearchBox';
 import './plugin/Layout/Layout_sorption_container';
 import './plugin/Layout/Layout_fixed';
-import './plugin/Layout/Layout1_2_v4';
+// import './plugin/Layout/Layout1_2_v4';
 import './plugin/Layout/Layout_free_container';
-import './plugin/SearchBox';
 
 import {GridPlugin} from './plugin/Grid';
 

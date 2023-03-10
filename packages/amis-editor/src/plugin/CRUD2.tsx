@@ -1907,6 +1907,7 @@ export class CardsCRUDPlugin extends CRUD2Plugin {
             //   type: 'tpl',
             //   tpl: '副标题内容',
             //   inline: false,
+            //   wrapperComponent: '',
             //   style: {
             //     color: '#9b9b9b',
             //     marginTop: '0',
@@ -2015,6 +2016,7 @@ export class ListCRUDPlugin extends CRUD2Plugin {
               type: 'tpl',
               tpl: '副标题内容',
               inline: false,
+              wrapperComponent: '',
               style: {
                 color: '#9b9b9b',
                 marginTop: '0',

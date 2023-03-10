@@ -1,4 +1,4 @@
-import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
+import {getI18nEnabled, RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import flatten from 'lodash/flatten';
 import {ContainerWrapper} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
@@ -13,7 +13,6 @@ import {
 import {defaultValue, getSchemaTpl, tipedLabel} from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
-import {getEnv} from 'mobx-state-tree';
 
 export class NumberControlPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -126,8 +125,7 @@ export class NumberControlPlugin extends BasePlugin {
   ];
 
   panelBodyCreator = (context: BaseEventContext) => {
-    const editorStore = (window as any)?.editorStore;
-    const i18nEnabled = editorStore ? editorStore.i18nEnabled : false;
+    const i18nEnabled = getI18nEnabled();
     return getSchemaTpl('tabs', [
       {
         title: '属性',

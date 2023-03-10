@@ -208,7 +208,7 @@ export class Table2Plugin extends BasePlugin {
   $schema = '/schemas/TableSchema.json';
 
   // 组件名称
-  name = '表格2';
+  name = '表格';
   isBaseComponent = true;
   panelJustify = true;
   disabledRendererPlugin = true;
@@ -368,8 +368,7 @@ export class Table2Plugin extends BasePlugin {
             ? await current.info.plugin.buildDataSchemas(current, region)
             : {
                 type: 'string',
-                title: schema.label || schema.title,
-                description: schema.description
+                title: schema.label || schema.title
               };
         }
       }
@@ -439,6 +438,7 @@ export class Table2Plugin extends BasePlugin {
                         body: [
                           {
                             type: 'tpl',
+                            wrapperComponent: '',
                             tpl: '表格标题',
                             inline: false,
                             style: {
@@ -479,6 +479,7 @@ export class Table2Plugin extends BasePlugin {
                           {
                             type: 'tpl',
                             tpl: '表格尾部',
+                            wrapperComponent: '',
                             inline: false,
                             style: {
                               fontSize: 14
@@ -878,6 +879,7 @@ export class Table2Plugin extends BasePlugin {
           {
             type: 'tpl',
             tpl: '展开行内容',
+            wrapperComponent: '',
             inline: false
           }
         ];

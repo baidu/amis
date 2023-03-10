@@ -131,7 +131,8 @@ export class PaginationPlugin extends BasePlugin {
                   {
                     type: 'checkbox',
                     name: 'checked',
-                    className: 'm-t-n-xxs'
+                    className: 'm-t-n-xxs',
+                    inputClassName: 'p-t-none'
                   },
                   {
                     type: 'tpl',
@@ -192,7 +193,10 @@ export class PaginationPlugin extends BasePlugin {
                   return value?.map(v => ({value: v})) || [10];
                 },
                 pipeOut: (value: any[]) => {
-                  return value.map(v => v.value);
+                  const pages = value.map(v => v.value);
+                  return pages.map(
+                    page => page || Math.max(...pages.filter(Boolean)) + 5
+                  );
                 }
               }),
               {

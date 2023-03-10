@@ -124,6 +124,10 @@ export class TextareaControlPlugin extends BasePlugin {
               }),
               getSchemaTpl('label'),
               getSchemaTpl('crudFilterOperator', {context}),
+              getSchemaTpl('valueFormula', {
+                rendererSchema: context?.schema,
+                mode: 'vertical' // 改成上下展示模式
+              }),
               // getSchemaTpl('valueFormula', {
               //   rendererSchema: context?.schema,
               //   mode: 'vertical' // 改成上下展示模式

@@ -1,4 +1,4 @@
-import {registerEditorPlugin} from 'amis-editor-core';
+import {registerEditorPlugin, translateSchema} from 'amis-editor-core';
 import {BasePlugin, RegionConfig, BaseEventContext} from 'amis-editor-core';
 import {getSchemaTpl} from 'amis-editor-core';
 
@@ -85,6 +85,7 @@ export class ButtonToolbarControlPlugin extends BasePlugin {
                   minLength: 1,
                   draggable: true,
                   editable: false,
+                  pipeIn: (value: any) => translateSchema(value),
                   items: [
                     {
                       type: 'tpl',

@@ -3692,5 +3692,85 @@ extendLocale('en-US', {
   '55497c5de8558f1a164e437205cd510b':
     '<p>When the value hits the left key, display the content on the right<br/>When the value does not hit, display the content with the key<code>*</code>by default</div><br/>(please ensure that the key value is unique)',
   '94124fa72dbfbb81611496cada6ebf4c':
-    'Please keep the array member structure the same'
+    'Please keep the array member structure the same',
+  'a3221d2d224767df4afa7a8653ded8fe': 'Internal alignment',
+  'e8bb313fb86cf474c0e264794bc85896': 'Whether to fix the header',
+  '8e903bee4578f72bbecf9eb62d7b875c': 'Display level',
+  'c17fef27ea1d970fc66f4c4c3d442129': 'Default inner spacing',
+  '236b0cdd2e18418fd17d3cdfcace239e': 'plug-in unit',
+  'defe851634125bb16e762f26dbb6555f':
+    'see https://www.tiny.cloud/docs/general-configuration-guide/basic-setup/ file',
+  'df025e01cbbae804f7d720e6b932e8e8': 'Show menu bar',
+  'b74c3bbb8ec4f18896cd3b5a20ee9e2c': 'Toolbar - Large Screen',
+  'e08c3505f9779bf919628166a77d0d77':
+    'Screen width ≥ 1200px, reference document: https://froala.com/wysiwyg-editor/docs/options/',
+  '04f91b84d48285162d3e29205a194143': 'Toolbar - middle screen',
+  '9ac0e46a361565f0b8be2228bef4b679':
+    'Screen width ≥ 992px, if not configured, it will be consistent with the toolbar set for the large screen. Refer to the document: https://froala.com/wysiwyg-editor/docs/options/',
+  '70d3894aaed305d2fc67f91122d77759': 'Toolbar - small screen',
+  'a3133ac3b34da77e612bcb1763adae1e':
+    'Screen width ≥ 768px, if not configured, it is consistent with the toolbar set for large screen. Refer to the document: https://froala.com/wysiwyg-editor/docs/options/',
+  '194ab42ad1ca7fca9a6ef84fadf99490': 'Quick Insert',
+  '94621f44f98c996e49d5b214aebefffc': 'word count ',
+  'b720ed498f054a2539d496d0da68f85b': 'Picture receiving interface',
+  '376496a8918c57220159951e24d3b72d': 'Video receiving interface',
+  '555a9859e2c34b015438bdfb59a57c5b':
+    '${vendor==="tinymce"? "Editor": "edit area"}',
+  'afccc17d5d672b10a1292dcd671ef534': 'Quickly build a table edit box',
+  '1711a82f9b0825015c2c49d9659c9837': 'Display type',
+  '63bb911d6392cb2740140d406ab83d37': 'Edit Type',
+  '6530334ebf5ca810e576858eba168685': 'Selection box',
+  'f25cb224e4543c1dc0228fca8dbfaf1c': 'Color selection box',
+  '1145703a07e11b6e680ee2ec8afae0b4': 'Checkbox ',
+  'a877779dc422c5321057b638d6d520e5': 'City selector',
+  'e2c59e63f751088ad8b43a1439e4322a': 'Add single line data',
+  '41c1e36d5d202588511710ff0ccb9e8d': 'Delete single line data',
+  'f38b7eb6f78af9ae86c449153de2fe1f': 'Clear component data',
+  '5e2eb93cf353f5bfa0920553fc8a0087': 'Trigger table data update',
+  'efc47e9829b5831e4d0424191049b880': 'Delete data of a row',
+  '383c125a11b0dd070b04194b9e2e78fb':
+    'It takes effect when a single line of data is added or edited. When opening, after entering the content, you need to click the "Save" button on the right side of the form before submitting to the data field. If it is not enabled, the data field can be submitted after the content is entered.',
+  '1d96dc9b36793e242322dd1e092a010c': 'Confirm button name',
+  'c507f40ae40ad10fd0b99ac025a6e5d4': 'Confirm icon',
+  'e0698c2a2d5c568edfc5a0b1a1d298eb': 'Cancel button name',
+  '08f06b06a0db0e978e3acdf7741ccd86': 'Cancel icon',
+  'ffa655818f7dd46fb2a767c51618741b': 'Empty data prompt',
+  'd173fb23320acba326a4424133969256': 'Show sequence number',
+  '26eb498526ba909386befc43466db79d': 'Number of displays per page',
+  '078f9734eeef4ff8c06e0b639ce6bd8f':
+    'If it is empty, no paging will be performed',
+  '52029187eaa09f55193b6a15387e45ca': 'Minimum number of rows',
+  '3d99d1f17ebf865877e681397c61dc9d': 'Maximum number of rows',
+  'aa8b2a821e8e32196a720eaaa41b64d3':
+    'For performance, the default change of other form item values will not update the current table. Sometimes, in order to obtain other form item fields synchronously, you need to enable this.',
+  '2aa56a9b94ee3fde76a15711c94fdabc':
+    'Whether the parent data, that is, the peer data in the form, can be accessed, usually needs to be used with the "Strict Mode" attribute.',
+  '53a9db06d0b7e3482dc21e53f150e257': 'Row style',
+  'd679aea3aae1201e38c4baaaeef86efe': 'In operation',
+  'e5ac1d2029adff17ec123b86ea07ce26': 'Queuing',
+  'f406ef0ea3f09572835a9b1ec61f576a': 'Scheduling',
+  'acd5cb847a4aff235c9a01ddeb6f9770': 'fail',
+  '391299a1c1722a777991a182a44bccbf':
+    'The following states are supported by default and can be used without configuration. The custom state is merged with the default state.',
+  '33563f1d3d203bc682069a8c85506b86': 'Default icon value',
+  '2cc90d2f2cd9ba213f9aace88c386f3f': 'Default label',
+  'aad245582dc9f55cf71e3934bb3b1709': 'Default value value',
+  '2634cea5a95ece79e05b5a68c38cbd4d': 'Required ',
+  '2464e9d13bfc84169eb8333b6996203c':
+    'Update the data value of the target component or variable',
+  'c85c8d61a67014c4b5d44f25e49e87fc': 'Set variable',
+  'df24d894cd3331f53964bc75f5c192e2': '"',
+  '9e1bafbb00018beacc8f579c8ddfaa36': 'Set component',
+  '6c6e12c54723170f214527bedaf81f7d': 'Action type',
+  '1b7e6b2dbf3b7f4b1baf2c42e49a995d': 'Component variables',
+  '2eb4c7ac45befad0f1f9c750bda57166': 'Apply temporary variables',
+  '844a7a7aacc5be82d0fd6225edc6bf63': 'Please select a variable',
+  '85451d2eb59327a23e8f745161066d4a': 'Please enter variable value',
+  '3d4d83f05a12364e2522fcfb265d8ce8':
+    'When it is enabled, you need to click the "Save" button on the right side of the table to add or edit component data. When not enabled, add, edit and delete operations directly change component data.',
+  'c18169dd6fceab2f023216fa6f7d22c1': 'Confirm button icon',
+  '5720057e62e80f7a04489dc4c035b4f1': 'Cancel button icon',
+  '8985ea173dce8f9bee667b3cdf0b7bdf':
+    'This configuration item only applies to the "Add" button in the table operation bar',
+  '3f64a567662a24714768237a3a6d0de7': 'New button below the table'
 });

@@ -1,8 +1,6 @@
-import {registerEditorPlugin} from 'amis-editor-core';
+import {getI18nEnabled, registerEditorPlugin} from 'amis-editor-core';
 import {BasePlugin, RegionConfig, BaseEventContext} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
-import {tipedLabel} from 'amis-editor-core';
-import {getEnv} from 'mobx-state-tree';
 
 export class CollapsePlugin extends BasePlugin {
   // 关联渲染器名字
@@ -24,6 +22,7 @@ export class CollapsePlugin extends BasePlugin {
       {
         type: 'tpl',
         tpl: '内容',
+        wrapperComponent: '',
         inline: false
       }
     ]
@@ -36,8 +35,7 @@ export class CollapsePlugin extends BasePlugin {
   panelJustify = true;
 
   panelBodyCreator = (context: BaseEventContext) => {
-    const editorStore = (window as any)?.editorStore;
-    const i18nEnabled = editorStore ? editorStore.i18nEnabled : false;
+    const i18nEnabled = getI18nEnabled();
     return getSchemaTpl('tabs', [
       {
         title: '属性',

@@ -23,6 +23,9 @@ import type {
 import {getEventControlConfig} from '../renderer/event-control/helper';
 
 export class ServicePlugin extends BasePlugin {
+  // 为了在 saas 中覆盖，id 必不可少，不然找不到
+  static id = 'ServicePlugin';
+
   // 关联渲染器名字
   rendererName = 'service';
   $schema = '/schemas/ServiceSchema.json';

@@ -33,7 +33,8 @@ export class PagePlugin extends BasePlugin {
     body: [
       {
         type: 'tpl',
-        tpl: '内容'
+        tpl: '内容',
+        wrapperComponent: ''
       }
     ]
   };
@@ -96,7 +97,7 @@ export class PagePlugin extends BasePlugin {
     },
     {
       actionType: 'setValue',
-      actionLabel: '更新数据',
+      actionLabel: '变量赋值',
       description: '触发组件数据更新'
     }
   ];
@@ -333,7 +334,7 @@ export class PagePlugin extends BasePlugin {
         //             ...obj,
         //             [current.key || '']: current.value
         //               ? current.value
-        //               : {type: 'tpl', tpl: '内容'}
+        //               : {type: 'tpl', tpl: '内容', wrapperComponent: ''}
         //           }),
         //           {}
         //         )

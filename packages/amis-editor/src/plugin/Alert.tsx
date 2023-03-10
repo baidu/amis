@@ -23,6 +23,7 @@ export class AlertPlugin extends BasePlugin {
     body: {
       type: 'tpl',
       tpl: '提示内容',
+      wrapperComponent: '',
       inline: false
     },
     level: 'info'

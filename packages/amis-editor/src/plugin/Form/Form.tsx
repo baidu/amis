@@ -1,8 +1,7 @@
+import cx from 'classnames';
+import {DSFeatureType, generateNodeId, tipedLabel} from 'amis-editor-core';
+import {getI18nEnabled, registerEditorPlugin} from 'amis-editor-core';
 import {
-  DSFeatureType,
-  generateNodeId,
-  registerEditorPlugin,
-  tipedLabel,
   BasePlugin,
   ChangeEventContext,
   BaseEventContext,
@@ -10,131 +9,17 @@ import {
   RegionConfig,
   ScaffoldForm,
   EditorManager,
-  DSBuilderManager,
-  defaultValue,
-  getSchemaTpl,
-  jsonToJsonSchema,
-  EditorNodeType,
-  RendererPluginAction,
-  RendererPluginEvent,
-  updateRegisteredEditorPlugin,
-  unRegisterEditorPlugin
+  DSBuilderManager
 } from 'amis-editor-core';
-import cx from 'classnames';
+import {defaultValue, getSchemaTpl} from 'amis-editor-core';
+import {jsonToJsonSchema} from 'amis-editor-core';
+import {EditorNodeType} from 'amis-editor-core';
+import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {setVariable} from 'amis-core';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
-import {getEnv} from 'mobx-state-tree';
+import {FormSchema} from 'amis/lib/Schema';
 import flatten from 'lodash/flatten';
 import {clone, cloneDeep} from 'lodash';
-
-// 用于脚手架的常用表单控件
-const getFormItemOptions = ({i18nEnabled}: {i18nEnabled?: boolean}) => {
-  return [
-    {
-      name: 'type',
-      label: '控件类型',
-      type: 'select',
-      required: true,
-      options: [
-        {
-          label: '单行文本框',
-          value: 'input-text'
-        },
-        {
-          label: '多行文本',
-          value: 'textarea'
-        },
-        {
-          label: '分组',
-          value: 'group'
-        },
-        {
-          label: '数字输入',
-          value: 'input-number'
-        },
-        {
-          label: '单选框',
-          value: 'radios'
-        },
-        {
-          label: '勾选框',
-          value: 'checkbox'
-        },
-        {
-          label: '复选框',
-          value: 'checkboxes'
-        },
-        {
-          label: '下拉框',
-          value: 'select'
-        },
-        {
-          label: '开关',
-          value: 'switch'
-        },
-        {
-          label: '日期',
-          value: 'input-date'
-        },
-        {
-          label: '表格',
-          value: 'input-table'
-        },
-        {
-          label: '文件上传',
-          value: 'input-file'
-        },
-        {
-          label: '图片上传',
-          value: 'input-image'
-        },
-        {
-          label: '富文本编辑器',
-          value: 'input-rich-text'
-        }
-      ]
-    },
-    {
-      name: 'label',
-      label: '显示名称',
-      type: i18nEnabled ? 'input-text-i18n' : 'input-text',
-      hiddenOn: 'data.type === "group"'
-    },
-    {
-      name: 'name',
-      label: '提交字段名',
-      required: true,
-      type: 'input-text',
-      hiddenOn: 'data.type === "group"'
-    }
-  ];
-};
-
-// 自动为form中子元素（单选框、复选框）补上默认options
-const autoAddOptions = (values: any) => {
-  if (
-    values &&
-    (values.type === 'form' || values.type === 'group') &&
-    values.body?.length > 0
-  ) {
-    values.body.forEach((formItem: any) => {
-      if (formItem.type === 'radios' || formItem.type === 'checkboxes') {
-        formItem.options = [
-          {
-            label: '选项A',
-            value: 'A'
-          },
-          {
-            label: '选项B',
-            value: 'B'
-          }
-        ];
-      } else if (formItem.type === 'form' || formItem.type === 'group') {
-        autoAddOptions(formItem);
-      }
-    });
-  }
-};
 
 const Features: Array<{
   label: string;
@@ -167,7 +52,8 @@ export class FormPlugin extends BasePlugin {
   tags = ['功能', '数据容器'];
   icon = 'fa fa-list-alt';
   pluginIcon = 'form-plugin';
-  scaffold = {
+
+  scaffold: FormSchema = {
     type: 'form',
     title: '表单',
     body: [
@@ -176,9 +62,13 @@ export class FormPlugin extends BasePlugin {
         type: 'input-text',
         name: 'text'
       }
+    ],
+    actions: [
+      {type: 'button', label: '提交', level: 'primary'},
+      {type: 'button', label: '重置'}
     ]
   };
-  previewSchema = {
+  previewSchema: FormSchema = {
     type: 'form',
     panelClassName: 'Panel--default text-left m-b-none',
     mode: 'horizontal',
@@ -187,6 +77,12 @@ export class FormPlugin extends BasePlugin {
         label: '文本',
         name: 'a',
         type: 'input-text'
+      }
+    ],
+    actions: [
+      {
+        type: 'button',
+        label: '提交'
       }
     ]
   };
@@ -238,7 +134,9 @@ export class FormPlugin extends BasePlugin {
                     feat: feat.value,
                     label:
                       builderName === 'model-entity' ? builderName : undefined,
-                    inScaffold: true
+                    inScaffold: true,
+                    // @ts-ignore
+                    userOrders: false
                   }),
                   builder.makeFieldsSettingForm({
                     feat: feat.value,
@@ -321,12 +219,6 @@ export class FormPlugin extends BasePlugin {
     return this.scaffoldFormCache;
   }
 
-  // scaffoldForm: ScaffoldForm = {
-  //   title: '配置表单信息',
-  //   body: [getSchemaTpl('api')],
-  //   canRebuild: true
-  // };
-
   // 容器配置
   regions: Array<RegionConfig> = [
     {
@@ -338,9 +230,9 @@ export class FormPlugin extends BasePlugin {
     },
 
     {
-      label: '按钮组',
+      label: '操作区',
       key: 'actions',
-      preferTag: '按钮'
+      preferTag: '操作按钮'
     }
   ];
 
@@ -525,7 +417,7 @@ export class FormPlugin extends BasePlugin {
       description: '触发组件数据刷新并重新渲染'
     },
     {
-      actionLabel: '更新数据',
+      actionLabel: '变量赋值',
       actionType: 'setValue',
       description: '触发组件数据更新'
     }
@@ -553,6 +445,7 @@ export class FormPlugin extends BasePlugin {
         justify: true
       }
     });
+    const i18nEnabled = getI18nEnabled();
 
     return [
       getSchemaTpl('tabs', [
@@ -636,7 +529,8 @@ export class FormPlugin extends BasePlugin {
                                     ? builderName
                                     : undefined,
                                 // @ts-ignore
-                                renderLabel: true
+                                renderLabel: true,
+                                userOrders: false
                               })
                             ])
                           })
@@ -954,8 +848,7 @@ export class FormPlugin extends BasePlugin {
             : {
                 type: 'string',
                 title: schema.label || schema.name,
-                originalValue: schema.value, // 记录原始值，循环引用检测需要
-                description: schema.description
+                originalValue: schema.value // 记录原始值，循环引用检测需要
               };
         }
       } else {

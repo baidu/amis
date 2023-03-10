@@ -287,11 +287,7 @@ export class TextControlPlugin extends BasePlugin {
                         name: 'position',
                         pipeIn: defaultValue('right')
                       }),
-                      {
-                        name: 'label',
-                        label: '文字',
-                        type: 'input-text'
-                      },
+                      getSchemaTpl('addOnLabel'),
                       getSchemaTpl('icon')
                     ]
                   }
