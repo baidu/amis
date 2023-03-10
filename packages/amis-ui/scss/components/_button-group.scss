@@ -25,6 +25,15 @@
     }
   }
 
+  .#{$ns}Badge {
+    .#{$ns}Badge-text,
+    .#{$ns}Badge-dot,
+    .#{$ns}Badge-ribbon,
+    .#{$ns}Badge-dot {
+      z-index: 2;
+    }
+  }
+
   .#{$ns}Button + .#{$ns}Button,
   .#{$ns}Button + .#{$ns}ButtonGroup,
   .#{$ns}ButtonGroup + .#{$ns}Button,
