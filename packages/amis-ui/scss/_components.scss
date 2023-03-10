@@ -3279,4 +3279,50 @@
   --Spinner-overlay-bg: rgba(255, 255, 255, 0.4);
   --Spinner-width: var(--spinner-size-size);
   --Spinner-color: var(--spinner-base-color);
+
+
+
+  --tag-base-normal-color: var(--colors-neutral-text-6);
+  --tag-base-normal-fontSize: var(--fonts-size-8);
+  --tag-base-normal-fontWeight: var(--fonts-weight-6);
+  --tag-base-has-color-color: var(--colors-neutral-text-11);
+  --tag-base-has-color-fontSize: var(--fonts-size-8);
+  --tag-base-has-color-fontWeight: var(--fonts-weight-6);
+  --tag-base-text-color: var(--colors-neutral-text-2);
+  --tag-base-text-fontSize: var(--fonts-size-8);
+  --tag-base-text-fontWeight: var(--fonts-weight-6);
+  --tag-base-paddingTop: var(--sizes-size-0);
+  --tag-base-paddingBottom: var(--sizes-size-0);
+  --tag-base-paddingLeft: var(--sizes-size-5);
+  --tag-base-paddingRight: var(--sizes-size-5);
+  --tag-model-top-right-border-radius: 12px;
+  --tag-model-top-left-border-radius: 12px;
+  --tag-model-bottom-right-border-radius: 12px;
+  --tag-model-bottom-left-border-radius: 12px;
+  --tag-model-tag-height: var(--sizes-base-12);
+  --tag-color-active-color: var(--colors-brand-5);
+  --tag-color-inactive-color: var(--colors-neutral-fill-6);
+  --tag-color-error-color: var(--colors-error-5);
+  --tag-color-success-color: var(--colors-success-5);
+  --tag-color-processing-color: var(--colors-brand-6);
+  --tag-color-warning-color: var(--colors-warning-5);
+
+  // tag
+  --Tag-content-fontSize: var(--tag-base-normal-fontSize);
+  --Tag-height: var(--tag-model-tag-height);
+  --Tag-borderRadius: var(--tag-model-top-left-border-radius)
+    var(--tag-model-top-right-border-radius)
+    var(--tag-model-bottom-right-border-radius) 
+    var(--tag-model-bottom-left-border-radius);
+  --Tag-fontColor: var(--tag-base-normal-color);
+
+  --Tag-default-color: #f2f2f4;
+  --Tag-inactive-color: var(--tag-color-inactive-color);
+  --Tag-active-color: var(--tag-color-active-color);
+  --Tag-processing-color: var(--tag-color-processing-color);
+  --Tag-success-color: var(--tag-color-success-color);
+  --Tag-error-color: var(--tag-color-error-color);
+  --Tag-warning-color: var( --tag-color-warning-color);
+
+
 }
