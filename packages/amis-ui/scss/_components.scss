@@ -3282,47 +3282,47 @@
 
 
 
-  --tag-base-normal-color: var(--colors-neutral-text-6);
-  --tag-base-normal-fontSize: var(--fonts-size-8);
-  --tag-base-normal-fontWeight: var(--fonts-weight-6);
-  --tag-base-has-color-color: var(--colors-neutral-text-11);
-  --tag-base-has-color-fontSize: var(--fonts-size-8);
-  --tag-base-has-color-fontWeight: var(--fonts-weight-6);
-  --tag-base-text-color: var(--colors-neutral-text-2);
-  --tag-base-text-fontSize: var(--fonts-size-8);
-  --tag-base-text-fontWeight: var(--fonts-weight-6);
-  --tag-base-paddingTop: var(--sizes-size-0);
-  --tag-base-paddingBottom: var(--sizes-size-0);
-  --tag-base-paddingLeft: var(--sizes-size-5);
-  --tag-base-paddingRight: var(--sizes-size-5);
-  --tag-model-top-right-border-radius: 12px;
-  --tag-model-top-left-border-radius: 12px;
-  --tag-model-bottom-right-border-radius: 12px;
-  --tag-model-bottom-left-border-radius: 12px;
-  --tag-model-tag-height: var(--sizes-base-12);
-  --tag-color-active-color: var(--colors-brand-5);
-  --tag-color-inactive-color: var(--colors-neutral-fill-6);
-  --tag-color-error-color: var(--colors-error-5);
-  --tag-color-success-color: var(--colors-success-5);
-  --tag-color-processing-color: var(--colors-brand-6);
-  --tag-color-warning-color: var(--colors-warning-5);
+  --Tag-base-normal-color: var(--colors-neutral-text-6);
+  --Tag-base-normal-fontSize: var(--fonts-size-8);
+  --Tag-base-normal-fontWeight: var(--fonts-weight-6);
+  --Tag-base-has-color-color: var(--colors-neutral-text-11);
+  --Tag-base-has-color-fontSize: var(--fonts-size-8);
+  --Tag-base-has-color-fontWeight: var(--fonts-weight-6);
+  --Tag-base-text-color: var(--colors-neutral-text-2);
+  --Tag-base-text-fontSize: var(--fonts-size-8);
+  --Tag-base-text-fontWeight: var(--fonts-weight-6);
+  --Tag-base-paddingTop: var(--sizes-size-0);
+  --Tag-base-paddingBottom: var(--sizes-size-0);
+  --Tag-base-paddingLeft: var(--sizes-size-5);
+  --Tag-base-paddingRight: var(--sizes-size-5);
+  --Tag-model-top-right-border-radius: 12px;
+  --Tag-model-top-left-border-radius: 12px;
+  --Tag-model-bottom-right-border-radius: 12px;
+  --Tag-model-bottom-left-border-radius: 12px;
+  --Tag-model-tag-height: var(--sizes-base-12);
+  --Tag-color-active-color: var(--colors-brand-5);
+  --Tag-color-inactive-color: var(--colors-neutral-fill-6);
+  --Tag-color-error-color: var(--colors-error-5);
+  --Tag-color-success-color: var(--colors-success-5);
+  --Tag-color-processing-color: var(--colors-brand-6);
+  --Tag-color-warning-color: var(--colors-warning-5);
 
   // tag
-  --Tag-content-fontSize: var(--tag-base-normal-fontSize);
-  --Tag-height: var(--tag-model-tag-height);
-  --Tag-borderRadius: var(--tag-model-top-left-border-radius)
-    var(--tag-model-top-right-border-radius)
-    var(--tag-model-bottom-right-border-radius) 
-    var(--tag-model-bottom-left-border-radius);
-  --Tag-fontColor: var(--tag-base-normal-color);
+  --Tag-content-fontSize: var(--Tag-base-normal-fontSize);
+  --Tag-height: var(--Tag-model-tag-height);
+  --Tag-borderRadius: var(--Tag-model-top-left-border-radius)
+    var(--Tag-model-top-right-border-radius)
+    var(--Tag-model-bottom-right-border-radius) 
+    var(--Tag-model-bottom-left-border-radius);
+  --Tag-fontColor: var(--Tag-base-normal-color);
 
   --Tag-default-color: var(--colors-neutral-fill-9);
-  --Tag-inactive-color: var(--tag-color-inactive-color);
-  --Tag-active-color: var(--tag-color-active-color);
-  --Tag-processing-color: var(--tag-color-processing-color);
-  --Tag-success-color: var(--tag-color-success-color);
-  --Tag-error-color: var(--tag-color-error-color);
-  --Tag-warning-color: var( --tag-color-warning-color);
+  --Tag-inactive-color: var(--Tag-color-inactive-color);
+  --Tag-active-color: var(--Tag-color-active-color);
+  --Tag-processing-color: var(--Tag-color-processing-color);
+  --Tag-success-color: var(--Tag-color-success-color);
+  --Tag-error-color: var(--Tag-color-error-color);
+  --Tag-warning-color: var( --Tag-color-warning-color);
 
 
 }
