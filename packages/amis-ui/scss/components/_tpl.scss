@@ -2,17 +2,4 @@
   &.is-inline {
     display: inline;
   }
-
-  font-size: var(--tpl-base-font-fontSize);
-
-  color: var(--tpl-base-default-color);
-  background: var(--tpl-base-default-bgColor);
-  &:hover {
-    color: var(--tpl-base-hover-color);
-    background: var(--tpl-base-hover-bgColor);
-  }
-  &:active {
-    color: var(--tpl-base-active-color);
-    background: var(--tpl-base-active-bgColor);
-  }
 }

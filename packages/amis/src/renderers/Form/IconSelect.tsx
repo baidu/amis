@@ -285,7 +285,13 @@ export default class IconSelectControl extends React.PureComponent<
 
   @autobind
   renderModalContent() {
-    const {render, classPrefix: ns, loadingConfig, funcSchema} = this.props;
+    const {render, classPrefix: ns, loadingConfig} = this.props;
+
+    let funcSchema = {
+      type: "link",
+    href: "/www.baidu.com",
+    body: "<div style='color:#2468f2'>本地选择</div>"
+    }
 
     const icons = this.getIconsByType();
 
