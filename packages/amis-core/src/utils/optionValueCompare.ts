@@ -14,6 +14,8 @@ export function matchOptionValue(
       : a;
   return isObject(aValue)
     ? isEqual(aValue, b[valueField || 'value'])
+    : aValue === undefined && b[valueField || 'value'] === undefined // 当值均为 undefined 时，不应该判定相等
+    ? false
     : String(b[valueField || 'value']) === String(aValue);
 }
 

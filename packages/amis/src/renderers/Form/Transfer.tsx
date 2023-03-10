@@ -490,7 +490,8 @@ export class BaseTransferRenderer<
       virtualThreshold,
       itemHeight,
       loadingConfig,
-      showInvalidMatch
+      showInvalidMatch,
+      onlyChildren
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载
@@ -513,6 +514,7 @@ export class BaseTransferRenderer<
     return (
       <div className={cx('TransferControl', className)}>
         <Transfer
+          onlyChildren={onlyChildren}
           value={selectedOptions}
           options={options}
           disabled={disabled}
