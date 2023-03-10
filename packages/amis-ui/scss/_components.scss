@@ -3316,7 +3316,7 @@
     var(--tag-model-bottom-left-border-radius);
   --Tag-fontColor: var(--tag-base-normal-color);
 
-  --Tag-default-color: #f2f2f4;
+  --Tag-default-color: var(--colors-neutral-fill-9);
   --Tag-inactive-color: var(--tag-color-inactive-color);
   --Tag-active-color: var(--tag-color-active-color);
   --Tag-processing-color: var(--tag-color-processing-color);
