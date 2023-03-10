@@ -980,6 +980,11 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
         this.props.updateConfig(this.props.links, 'update');
       }
 
+      // 外部修改defaultOpenLevel 会影响菜单的unfolded属性
+      if (prevProps.defaultOpenLevel !== this.props.defaultOpenLevel) {
+        this.props.updateConfig(this.props.config, 'update');
+      }
+
       if (prevProps.collapsed !== this.props.collapsed) {
         this.setState({collapsed: this.props.collapsed});
       }

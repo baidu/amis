@@ -180,7 +180,11 @@ export class MenuItem extends React.Component<MenuItemProps> {
       <div className={cx('Nav-Menu-item-wrap')}>
         <Badge
           classnames={cx}
-          badge={badge ? {...badge, className: badgeClassName} : null}
+          badge={
+            badge && !isCollapsedNode // 收起模式下 不展示角标
+              ? {...badge, className: badgeClassName}
+              : null
+          }
           data={createObject(defaultData, link)}
         >
           <a
