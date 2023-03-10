@@ -242,7 +242,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     mode: 'inline',
     direction: 'ltr',
     prefix: '',
-    triggerSubMenuAction: 'click',
+    triggerSubMenuAction: 'hover',
     inlineIndent: 15,
     popOverContainer: () => document.body,
     renderLink: (link: MenuItemProps) => {
