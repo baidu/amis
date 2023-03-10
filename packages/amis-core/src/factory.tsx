@@ -194,6 +194,8 @@ export function registerRenderer(config: RendererConfig): RendererConfig {
 
 export function unRegisterRenderer(config: RendererConfig | string) {
   const name = (typeof config === 'string' ? config : config.name)!;
+  const idx = renderers.findIndex(item => item.name === name);
+  !idx && renderers.splice(idx, 1);
   delete renderersMap[name];
 
   // 清空渲染器定位缓存
