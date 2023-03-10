@@ -385,7 +385,7 @@ export class CardRenderer extends React.Component<CardProps> {
         <Checkbox
           key="check"
           className={cx('Card-checkbox')}
-          type={multiple ? 'checkbox' : 'radio'}
+          type={multiple !== false ? 'checkbox' : 'radio'}
           disabled={!checkable}
           checked={selected}
           onChange={checkOnItemClick ? noop : this.handleCheck}
