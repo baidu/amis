@@ -1024,19 +1024,6 @@ $remFactor: 16px;
   --UserSelect--border-color: #f7f7f9;
   --UserSelect--content-bg: #f5f7f8;
   --UserSelect--bread-color: #5e626a;
-  // tag
-  --Tag-content-fontSize: var(--fontSizeSm);
-  --Tag-height: #{px2rem(24px)};
-  --Tag-borderRadius: #{px2rem(2px)};
-  --Tag-fontColor: #151a26;
-
-  --Tag-default-color: #f2f2f4;
-  --Tag-inactive-color: #b8babf;
-  --Tag-active-color: var(--colors-brand-5);
-  --Tag-processing-color: var(--colors-brand-6);
-  --Tag-success-color: var(--colors-success-5);
-  --Tag-error-color: var(--colors-error-5);
-  --Tag-warning-color: var(--colors-warning-5);
 
   --Tag-checkable-bgColor: #f2f2f4;
   --Tag-checkable-bgColor-onDisable: #e6e6e8;
