@@ -63,7 +63,7 @@ export class Section {
   static parseProperties(data: XMLData): SectionProperties {
     const properties: SectionProperties = {};
 
-    loopChildren(data, (key, value) => {
+    loopChildren(data, (key, value, attr) => {
       if (typeof value !== 'object') {
         return;
       }
@@ -71,21 +71,21 @@ export class Section {
       switch (key) {
         case WTag.pgSz:
           properties.pageSize = {
-            width: parseSize(value, WAttr.w),
-            height: parseSize(value, WAttr.h)
+            width: parseSize(attr, WAttr.w),
+            height: parseSize(attr, WAttr.h)
           };
 
           break;
 
         case WTag.pgMar:
           properties.pageMargin = {
-            left: parseSize(value, WAttr.left),
-            right: parseSize(value, WAttr.right),
-            top: parseSize(value, WAttr.top),
-            bottom: parseSize(value, WAttr.bottom),
-            header: parseSize(value, WAttr.header),
-            footer: parseSize(value, WAttr.footer),
-            gutter: parseSize(value, WAttr.gutter)
+            left: parseSize(attr, WAttr.left),
+            right: parseSize(attr, WAttr.right),
+            top: parseSize(attr, WAttr.top),
+            bottom: parseSize(attr, WAttr.bottom),
+            header: parseSize(attr, WAttr.header),
+            footer: parseSize(attr, WAttr.footer),
+            gutter: parseSize(attr, WAttr.gutter)
           };
           break;
 

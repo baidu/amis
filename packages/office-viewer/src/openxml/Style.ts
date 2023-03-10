@@ -3,7 +3,6 @@
  */
 
 import {WAttr, WTag, loopChildren, XMLData, getVal} from '../OpenXML';
-import {parsePr} from '../parse/parsePr';
 import Word from '../Word';
 import {ST_StyleType} from './Types';
 import {Paragraph, ParagraphProperties} from './word/Paragraph';
