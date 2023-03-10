@@ -65,7 +65,8 @@ order: 14
         {
           "type": "input-excel",
           "name": "excel",
-          "label": "上传 Excel"
+          "label": "上传 Excel",
+          "placeholder": "请拖拽Excel文件到当前区域"
         },
         {
           "type": "input-table",
@@ -241,12 +242,13 @@ order: 14
 
 ## 属性表
 
-| 属性名       | 类型                    | 默认值   | 说明               |
-| ------------ | ----------------------- | -------- | ------------------ |
-| allSheets    | `boolean`               | false    | 是否解析所有 sheet |
-| parseMode    | `'array'` 或 `'object'` | 'object' | 解析模式           |
-| includeEmpty | `boolean`               | true     | 是否包含空值       |
-| plainText    | `boolean`               | true     | 是否解析为纯文本   |
+| 属性名       | 类型                    | 默认值                          | 说明               | 版本    |
+| ------------ | ----------------------- | ------------------------------- | ------------------ | ------- |
+| allSheets    | `boolean`               | false                           | 是否解析所有 sheet |
+| parseMode    | `'array'` 或 `'object'` | 'object'                        | 解析模式           |
+| includeEmpty | `boolean`               | true                            | 是否包含空值       |
+| plainText    | `boolean`               | true                            | 是否解析为纯文本   |
+| placeholder  | `string`                | `"拖拽 Excel 到这，或点击上传"` | 占位文本提示       | `2.8.1` |
 
 ## 事件表
 
