@@ -39,7 +39,7 @@
     transition: ease-out all var(--animation-duration);
 
     &--default {
-      background: var(--Spinner-bg);
+      background: var(--spinner-bg);
       background-size: 100%;
       animation: none;
     }
@@ -153,7 +153,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: var(--Spinner-overlay-bg);
+  background: var(--spinner-overlay-bg);
   transition: ease-out opacity var(--animation-duration);
   opacity: 0;
 

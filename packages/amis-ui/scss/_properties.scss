@@ -108,6 +108,31 @@ $remFactor: 16px;
 
   --scrollbar-width: #{px2rem(17px)};
 
+  // 以下是分组件的
+  --Alert--danger-bg: var(--colors-error-10);
+  --Alert--danger-borderColor: transparent;
+  --Alert--danger-color: var(--colors-neutral-text-2);
+  --Alert--info-bg: var(--colors-info-10);
+  --Alert--info-borderColor: transparent;
+  --Alert--info-color: var(--colors-neutral-text-2);
+  --Alert--success-bg: var(--colors-success-10);
+  --Alert--success-borderColor: transparent;
+  --Alert--success-color: var(--colors-neutral-text-2);
+  --Alert--warning-bg: var(--colors-warning-10);
+  --Alert--warning-borderColor: transparent;
+  --Alert--warning-color: var(--colors-neutral-text-2);
+  --Alert-borderColor: transparent;
+  --Alert-borderRadius: var(--borders-radius-3);
+  --Alert-borderWidth: var(--borderWidth);
+  --Alert-boxShadow: none;
+  --Alert-fontSize: var(--fonts-size-8);
+  --Alert-marginBottom: var(--sizes-size-9);
+  --Alert-paddingX: var(--sizes-size-9);
+  --Alert-paddingY: var(--gap-xs);
+  --Alert-fontColor: var(--colors-neutral-text-4);
+  --Alert-title-fontColor: var(--colors-neutral-text-2);
+  --Alert-height: var(--sizes-base-20);
+
   --Audio-border: #{px2rem(1px)} solid #dee2e6;
   --Audio-height: #{px2rem(50px)};
   --Audio-input-width: #{px2rem(80px)};
@@ -300,6 +325,30 @@ $remFactor: 16px;
   --Crud-toolbar-lineHeight: var(--lineHeightBase);
 
   --LocationPicker-borderRadius: var(--borders-radius-3);
+
+  --Drawer-bg: var(--background);
+  --Drawer-body-padding: var(--sizes-base-12);
+  --Drawer-footer-margin: var(--sizes-size-9);
+  --Drawer-close-color: var(--colors-neutral-text-2);
+  --Drawer-close-onHover-color: var(--text-color);
+  --Drawer-close-size: #{px2rem(12px)};
+  --Drawer-content-borderColor: var(--borderColor);
+  --Drawer-content-borderRadius: 0;
+  --Drawer-content-borderWidth: var(--borderWidth);
+  --Drawer-footer-borderColor: var(--colors-neutral-line-10);
+  --Drawer-footer-padding: var(--gap-base);
+  --Drawer-header-bg: var(--colors-neutral-fill-11);
+  --Drawer-header-borderColor: var(--colors-neutral-line-10);
+  --Drawer-header-padding: var(--sizes-size-9) var(--sizes-base-12);
+  --Drawer-overlay-bg: rgba(0, 0, 0, 0.6);
+  --Drawer-title-fontColor: var(--colors-neutral-text-2);
+  --Drawer-title-fontSize: var(--fontSizeMd);
+  --Drawer-widthBase: #{px2rem(400px)};
+  --Drawer-widthLg: #{px2rem(800px)};
+  --Drawer-widthMd: #{px2rem(500px)};
+  --Drawer-widthSm: #{px2rem(300px)};
+  --Drawer-widthXl: 90%;
+  --Drawer-widthXs: #{px2rem(200px)};
 
   --DropDown-caret-marginLeft: var(--gap-sm);
   --DropDown-menu-bg: var(--colors-neutral-fill-11);
@@ -568,6 +617,42 @@ $remFactor: 16px;
   --Log-color: #f1f1f1;
   --Log-line--onHover-bg: #444;
 
+  --Modal-bg: var(--background);
+  --Modal-body--noHeader-paddingTop: var(--gap-base);
+  --Modal-body-borderBottom: var(--borders-style-1) solid
+    var(--colors-neutral-line-10);
+  --Modal-body-borderTop: var(--borders-style-1) solid
+    var(--colors-neutral-line-10);
+  --Modal-body-paddingX: var(--sizes-size-0);
+  --Modal-body-paddingY: var(--sizes-base-12);
+  --Modal-close-color: var(--text--muted-color);
+  --Modal-close-width: #{px2rem(16px)};
+  --Modal-content-borderColor: var(--borderColor);
+  --Modal-content-borderRadius: var(--borders-radius-4);
+  --Modal-content-borderWidth: var(--borders-width-1);
+  --Modal-content-minHeight: #{px2rem(193px)};
+  --Modal-content-startMarginTop: #{px2rem(60px)};
+  --Modal-content-stepMarginTop: #{px2rem(30px)};
+  --Modal-footer-button-width: #{px2rem(72px)};
+  --Modal-footer-marginX: var(--sizes-size-0);
+  --Modal-footer-marginY: var(--sizes-size-0);
+  --Modal-footer-padding: var(--sizes-size-0);
+  --Modal-header-bg: var(--colors-neutral-fill-11);
+  --Modal-header-height: #{px2rem(40px)};
+  --Modal-header-paddingX: var(--sizes-size-0);
+  --Modal-header-paddingY: var(--sizes-size-0);
+  --Modal-overlay-bg: rgba(0, 0, 0, 0.7);
+  --Modal-title-color: var(--colors-neutral-text-2);
+  --Modal-title-fontSize: var(--fonts-size-7);
+  --Modal-title-fontWeight: var(--fonts-weight-5);
+  --Modal-title-lineHeight: var(--lineHeightBase);
+  --Modal-widthBase: #{px2rem(500px)};
+  --Modal-widthLg: #{px2rem(1100px)};
+  --Modal-widthMd: #{px2rem(800px)};
+  --Modal-widthSm: #{px2rem(350px)};
+  --Modal-widthXl: 90%;
+  --Model-close-onHover-color: var(--text-color);
+
   --Nav-item-bg: transparent;
   --Nav-item-borderRadius: var(--borders-radius-1);
   --Nav-item-color: var(--text-color);
@@ -699,11 +784,6 @@ $remFactor: 16px;
 
   --Sparkline-line-color: var(--info);
   --Sparkline-area-color: #{rgba($info, 0.1)};
-
-  // 修改自 https://github.com/SamHerbert/SVG-Loaders/blob/master/svg-loaders/tail-spin.svg
-  --Spinner-bg: url('data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjY0cHgiIGhlaWdodD0iNjRweCIgdmlld0JveD0iMCAwIDY0IDY0IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgogICAgPGcgaWQ9Iumhtemdoi0xIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4KICAgICAgICA8ZyBpZD0ibG9hZGluZyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMC41MDAwMDAsIDAuNTAwMDAwKSI+CiAgICAgICAgICAgIDxyZWN0IGlkPSLnn6nlvaIiIHN0cm9rZT0iIzk3OTc5NyIgZmlsbD0iI0Q4RDhEOCIgZmlsbC1ydWxlPSJub256ZXJvIiBvcGFjaXR5PSIwIiB4PSIwIiB5PSIwIiB3aWR0aD0iNjMiIGhlaWdodD0iNjMiPjwvcmVjdD4KICAgICAgICAgICAgPGcgaWQ9Iue8lue7hOWkh+S7vS02IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzLjk4MDAwMCwgMC43ODAwMDApIj4KICAgICAgICAgICAgICAgIDxwb2x5Z29uIGlkPSJmcmFtZSIgc3Ryb2tlPSIjMjQ2OEYyIiBzdHJva2Utd2lkdGg9IjMuMiIgcG9pbnRzPSIyNy41MiA1LjEyIDQ5LjY5MDI1MDMgMTcuOTIgNDkuNjkwMjUwMyA0My41MiAyNy41MiA1Ni4zMiA1LjM0OTc0OTY2IDQzLjUyIDUuMzQ5NzQ5NjYgMTcuOTIiIHN0cm9rZS1kYXNoYXJyYXk9IjE2MCAxNjAiIHN0cm9rZS1kYXNob2Zmc2V0PSIxNjAiPgogICAgICAgICAgICAgICAgICAgIDxhbmltYXRlIGlkPSJmcmFtZTEiIGF0dHJpYnV0ZU5hbWU9InN0cm9rZS1kYXNob2Zmc2V0IiBiZWdpbj0iLjQ1cztmcmFtZTIuZW5kIiBkdXI9Ii45cyIgdHlwZT0idHJhbnNsYXRlIiBmcm9tPSIxNjAiIHRvPSItMTYwIiBmaWxsPSJmcmVlemUiICBjYWxjTW9kZT0ic3BsaW5lIiBrZXlUaW1lcz0iMDsgMSIgIGtleVNwbGluZXM9Ii41IDAgLjUgMSIvPgogICAgICAgICAgICAgICAgICAgIDxhbmltYXRlIGlkPSJmcmFtZTIiIGF0dHJpYnV0ZU5hbWU9InN0cm9rZS1kYXNob2Zmc2V0IiBiZWdpbj0iZnJhbWUxLmVuZCIgZHVyPSIuOXMiIHR5cGU9InRyYW5zbGF0ZSIgZnJvbT0iMTYwIiB0bz0iMTYwIiBmaWxsPSJmcmVlemUiIGNhbGNNb2RlPSJzcGxpbmUiIGtleVRpbWVzPSIwOyAxIiAga2V5U3BsaW5lcz0iLjUgMCAuNSAxIi8+CiAgICAgICAgICAgICAgICA8L3BvbHlnb24+CiAgICAgICAgICAgICAgICA8Y2lyY2xlIGlkPSJjaXJjbGUxIiBmaWxsPSIjMjQ2OEYyIiBmaWxsLXJ1bGU9Im5vbnplcm8iIGN4PSIyNy41MiIgY3k9IjQuOCIgcj0iNC44Ij4KICAgICAgICAgICAgICAgICAgICA8YW5pbWF0ZVRyYW5zZm9ybSBpZD0iY2lyY2xlMW9uZSIgYXR0cmlidXRlTmFtZT0idHJhbnNmb3JtIiBiZWdpbj0iMHM7Y2lyY2xlMXR3by5lbmQiIGR1cj0iLjU0cyIgdHlwZT0idHJhbnNsYXRlIiBmcm9tPSIwIDI2IiB0bz0iMCAwIiBmaWxsPSJmcmVlemUiIGNhbGNNb2RlPSJzcGxpbmUiIGtleVRpbWVzPSIwOyAxIiAga2V5U3BsaW5lcz0iLjUgMCAuNSAxIi8+CiAgICAgICAgICAgICAgICAgICAgPGFuaW1hdGVUcmFuc2Zvcm0gaWQ9ImNpcmNsZTF0d28iIGF0dHJpYnV0ZU5hbWU9InRyYW5zZm9ybSIgYmVnaW49ImNpcmNsZTFvbmUuZW5kICsgLjcycyIgZHVyPSIuNTRzIiB0eXBlPSJ0cmFuc2xhdGUiIGZyb209IjAgMCIgdG89IjAgMjYiIGZpbGw9ImZyZWV6ZSIgY2FsY01vZGU9InNwbGluZSIga2V5VGltZXM9IjA7IDEiICBrZXlTcGxpbmVzPSIuNSAwIC41IDEiLz4KICAgICAgICAgICAgICAgIDwvY2lyY2xlPgogICAgICAgICAgICAgICAgPGNpcmNsZSBpZD0iY2lyY2xlMiIgZmlsbD0iIzI0NjhGMiIgZmlsbC1ydWxlPSJub256ZXJvIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg1MC4yNDAwMDAsIDE3LjI4MDAwMCkgcm90YXRlKC0xODAuMDAwMDAwKSB0cmFuc2xhdGUoLTUwLjI0MDAwMCwgLTE3LjI4MDAwMCkgIiBjeD0iNTAuMjQiIGN5PSIxNy4yOCIgcj0iNC44Ij4KICAgICAgICAgICAgICAgICAgICA8YW5pbWF0ZVRyYW5zZm9ybSBpZD0iY2lyY2xlMm9uZSIgYXR0cmlidXRlTmFtZT0idHJhbnNmb3JtIiBiZWdpbj0iMHM7Y2lyY2xlMnR3by5lbmQiIGR1cj0iLjU0cyIgdHlwZT0idHJhbnNsYXRlIiBmcm9tPSItMjIuNSAxMyIgdG89IjAgMCIgZmlsbD0iZnJlZXplIiBjYWxjTW9kZT0ic3BsaW5lIiBrZXlUaW1lcz0iMDsgMSIgIGtleVNwbGluZXM9Ii41IDAgLjUgMSIvPgogICAgICAgICAgICAgICAgICAgIDxhbmltYXRlVHJhbnNmb3JtIGlkPSJjaXJjbGUydHdvIiBhdHRyaWJ1dGVOYW1lPSJ0cmFuc2Zvcm0iIGJlZ2luPSJjaXJjbGUyb25lLmVuZCArIC43MnMiIGR1cj0iLjU0cyIgdHlwZT0idHJhbnNsYXRlIiBmcm9tPSIwIDAiIHRvPSItMjIuNSAxMyIgZmlsbD0iZnJlZXplIiBjYWxjTW9kZT0ic3BsaW5lIiBrZXlUaW1lcz0iMDsgMSIgIGtleVNwbGluZXM9Ii41IDAgLjUgMSIvPgogICAgICAgICAgICAgICAgPC9jaXJjbGU+CiAgICAgICAgICAgICAgICA8Y2lyY2xlIGlkPSJjaXJjbGUzIiBmaWxsPSIjMjQ2OEYyIiBmaWxsLXJ1bGU9Im5vbnplcm8iIHRyYW5zZm9ybT0idHJhbnNsYXRlKDUwLjI0MDAwMCwgNDMuMjAwMDAwKSByb3RhdGUoOTAuMDAwMDAwKSB0cmFuc2xhdGUoLTUwLjI0MDAwMCwgLTQzLjIwMDAwMCkgIiBjeD0iNTAuMjQiIGN5PSI0My4yIiByPSI0LjgiPgogICAgICAgICAgICAgICAgICAgIDxhbmltYXRlVHJhbnNmb3JtIGlkPSJjaXJjbGUzb25lIiBhdHRyaWJ1dGVOYW1lPSJ0cmFuc2Zvcm0iIGJlZ2luPSIwcztjaXJjbGUzdHdvLmVuZCIgZHVyPSIuNTRzIiB0eXBlPSJ0cmFuc2xhdGUiIGZyb209Ii0yMi41IC0xMyIgdG89IjAgMCIgZmlsbD0iZnJlZXplIiBjYWxjTW9kZT0ic3BsaW5lIiBrZXlUaW1lcz0iMDsgMSIgIGtleVNwbGluZXM9Ii41IDAgLjUgMSIvPgogICAgICAgICAgICAgICAgICAgIDxhbmltYXRlVHJhbnNmb3JtIGlkPSJjaXJjbGUzdHdvIiBhdHRyaWJ1dGVOYW1lPSJ0cmFuc2Zvcm0iIGJlZ2luPSJjaXJjbGUzb25lLmVuZCArIC43MnMiIGR1cj0iLjU0cyIgdHlwZT0idHJhbnNsYXRlIiBmcm9tPSIwIDAiIHRvPSItMjIuNSAtMTMiIGZpbGw9ImZyZWV6ZSIgY2FsY01vZGU9InNwbGluZSIga2V5VGltZXM9IjA7IDEiICBrZXlTcGxpbmVzPSIuNSAwIC41IDEiLz4KICAgICAgICAgICAgICAgIDwvY2lyY2xlPgogICAgICAgICAgICAgICAgPGNpcmNsZSBpZD0iY2lyY2xlNCIgZmlsbD0iIzI0NjhGMiIgZmlsbC1ydWxlPSJub256ZXJvIiBjeD0iMjcuNTIiIGN5PSI1Ni42NCIgcj0iNC44Ij4KICAgICAgICAgICAgICAgICAgICA8YW5pbWF0ZVRyYW5zZm9ybSBpZD0iY2lyY2xlMW9uZSIgYXR0cmlidXRlTmFtZT0idHJhbnNmb3JtIiBiZWdpbj0iMHM7Y2lyY2xlMXR3by5lbmQiIGR1cj0iLjU0cyIgdHlwZT0idHJhbnNsYXRlIiBmcm9tPSIwIC0yNiIgdG89IjAgMCIgZmlsbD0iZnJlZXplIiBjYWxjTW9kZT0ic3BsaW5lIiBrZXlUaW1lcz0iMDsgMSIgIGtleVNwbGluZXM9Ii41IDAgLjUgMSIvPgogICAgICAgICAgICAgICAgICAgIDxhbmltYXRlVHJhbnNmb3JtIGlkPSJjaXJjbGUxdHdvIiBhdHRyaWJ1dGVOYW1lPSJ0cmFuc2Zvcm0iIGJlZ2luPSJjaXJjbGUxb25lLmVuZCArIC43MnMiIGR1cj0iLjU0cyIgdHlwZT0idHJhbnNsYXRlIiBmcm9tPSIwIDAiIHRvPSIwIC0yNiIgZmlsbD0iZnJlZXplIiBjYWxjTW9kZT0ic3BsaW5lIiBrZXlUaW1lcz0iMDsgMSIgIGtleVNwbGluZXM9Ii41IDAgLjUgMSIvPgogICAgICAgICAgICAgICAgPC9jaXJjbGU+CiAgICAgICAgICAgICAgICA8Y2lyY2xlIGlkPSJjaXJjbGU1IiBmaWxsPSIjMjQ2OEYyIiBmaWxsLXJ1bGU9Im5vbnplcm8iIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQuODAwMDAwLCA0My4yMDAwMDApIHJvdGF0ZSgtMTgwLjAwMDAwMCkgdHJhbnNsYXRlKC00LjgwMDAwMCwgLTQzLjIwMDAwMCkgIiBjeD0iNC44IiBjeT0iNDMuMiIgcj0iNC44Ij4KICAgICAgICAgICAgICAgICAgICA8YW5pbWF0ZVRyYW5zZm9ybSBpZD0iY2lyY2xlNW9uZSIgYXR0cmlidXRlTmFtZT0idHJhbnNmb3JtIiBiZWdpbj0iMHM7Y2lyY2xlNXR3by5lbmQiIGR1cj0iLjU0cyIgdHlwZT0idHJhbnNsYXRlIiBmcm9tPSIyMi41IC0xMyIgdG89IjAgMCIgZmlsbD0iZnJlZXplIiBjYWxjTW9kZT0ic3BsaW5lIiBrZXlUaW1lcz0iMDsgMSIgIGtleVNwbGluZXM9Ii41IDAgLjUgMSIvPgogICAgICAgICAgICAgICAgICAgIDxhbmltYXRlVHJhbnNmb3JtIGlkPSJjaXJjbGU1dHdvIiBhdHRyaWJ1dGVOYW1lPSJ0cmFuc2Zvcm0iIGJlZ2luPSJjaXJjbGU1b25lLmVuZCArIC43MnMiIGR1cj0iLjU0cyIgdHlwZT0idHJhbnNsYXRlIiBmcm9tPSIwIDAiIHRvPSIyMi41IC0xMyIgZmlsbD0iZnJlZXplIiBjYWxjTW9kZT0ic3BsaW5lIiBrZXlUaW1lcz0iMDsgMSIgIGtleVNwbGluZXM9Ii41IDAgLjUgMSIvPgogICAgICAgICAgICAgICAgPC9jaXJjbGU+CiAgICAgICAgICAgICAgICA8Y2lyY2xlIGlkPSJjaXJjbGU2IiBmaWxsPSIjMjQ2OEYyIiBmaWxsLXJ1bGU9Im5vbnplcm8iIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQuODAwMDAwLCAxNy4yODAwMDApIHJvdGF0ZSg5MC4wMDAwMDApIHRyYW5zbGF0ZSgtNC44MDAwMDAsIC0xNy4yODAwMDApICIgY3g9IjQuOCIgY3k9IjE3LjI4IiByPSI0LjgiPgogICAgICAgICAgICAgICAgICAgIDxhbmltYXRlVHJhbnNmb3JtIGlkPSJjaXJjbGU2b25lIiBhdHRyaWJ1dGVOYW1lPSJ0cmFuc2Zvcm0iIGJlZ2luPSIwcztjaXJjbGU2dHdvLmVuZCIgZHVyPSIuNTRzIiB0eXBlPSJ0cmFuc2xhdGUiIGZyb209IjIyLjUgMTMiIHRvPSIwIDAiIGZpbGw9ImZyZWV6ZSIgY2FsY01vZGU9InNwbGluZSIga2V5VGltZXM9IjA7IDEiICBrZXlTcGxpbmVzPSIuNSAwIC41IDEiLz4KICAgICAgICAgICAgICAgICAgICA8YW5pbWF0ZVRyYW5zZm9ybSBpZD0iY2lyY2xlNnR3byIgYXR0cmlidXRlTmFtZT0idHJhbnNmb3JtIiBiZWdpbj0iY2lyY2xlNm9uZS5lbmQgKyAuNzJzIiBkdXI9Ii41NHMiIHR5cGU9InRyYW5zbGF0ZSIgZnJvbT0iMCAwIiB0bz0iMjIuNSAxMyIgZmlsbD0iZnJlZXplIiBjYWxjTW9kZT0ic3BsaW5lIiBrZXlUaW1lcz0iMDsgMSIgIGtleVNwbGluZXM9Ii41IDAgLjUgMSIvPgogICAgICAgICAgICAgICAgPC9jaXJjbGU+CiAgICAgICAgICAgIDwvZz4KICAgICAgICA8L2c+CiAgICA8L2c+Cjwvc3ZnPg==');
-  --Spinner-overlay-bg: rgba(255, 255, 255, 0.4);
-  --Spinner-color: var(--colors-brand-5);
 
   --Table--unsaved-heading-bg: #e8f0fe;
   --Table--unsaved-heading-color: #4285f4;
@@ -841,7 +921,7 @@ $remFactor: 16px;
   --Toast--success-bgColor: var(--colors-neutral-fill-11);
   --Toast--success-borderColor: var(--colors-neutral-line-11);
   --Toast--success-color: var(--colors-neutral-text-2);
-  --Toast--warning-bgColor: ar(--colors-neutral-fill-11);
+  --Toast--warning-bgColor: var(--colors-neutral-fill-11);
   --Toast--warning-borderColor: var(--colors-neutral-line-11);
   --Toast--warning-color: var(--colors-neutral-text-2);
 
@@ -941,6 +1021,20 @@ $remFactor: 16px;
 
   --AnchorNav-links-container-borderRight: #{px2rem(2px)} solid #d3dae0;
   --AnchorNav-onActive-borderWidth: 0 0 0 #{px2rem(2px)};
+
+  --Steps-bg: var(--borderColorDarken);
+  --Steps-status-success: var(--info);
+  --Steps-status-error: var(--Tag-error-color);
+  --Steps-status-wait: #84868c;
+  --Steps-icon-fontsize: var(--fontSizeLg);
+  --Steps-title-fontsize: var(--fontSizeMd);
+  --Steps-title-color: #151b26;
+  --Steps-sub-title-fontsize: var(--fontSizeBase);
+  --Steps-sub-title-color: var(--text-color);
+  --Steps-description-title-fontsize: var(--fontSizeSm);
+  --Steps-description-title-color: #84868c;
+  --Steps-line-bg: var(--Steps-bg);
+  --Steps-line-success-bg: var(--Steps-status-success);
 
   --Progress-borderRadius: var(--borderRadius);
   --Progress-animate-backgroundColor: #fff;
