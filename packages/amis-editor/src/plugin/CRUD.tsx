@@ -25,15 +25,19 @@ import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {isObject, JSONPipeIn} from 'amis-editor-core';
 import {setVariable} from 'amis-core';
 import {ActionSchema} from 'amis/lib/renderers/Action';
+import {CRUDCommonSchema} from 'amis/lib/renderers/CRUD';
 import {getEnv} from 'mobx-state-tree';
 import {EditorNodeType, RendererPluginAction} from 'amis-editor-core';
 import {normalizeApi} from 'amis-core';
+import isPlainObject from 'lodash/isPlainObject';
 
 interface ColumnItem {
   label: string;
   type: string;
   name: string;
 }
+
+type CRUDModes = CRUDCommonSchema['mode'];
 
 // 将展现控件转成编辑控件
 const viewTypeToEditType = (type: string) => {
@@ -990,16 +994,13 @@ export class CRUDPlugin extends BasePlugin {
                 }
                 form.setValues({
                   headerToolbar,
-                  columns: form.data.__columns || [
-                    {
-                      label: 'ID',
-                      name: 'id'
-                    },
-                    {
-                      label: '列信息',
-                      name: 'name'
-                    }
-                  ],
+                  columns:
+                    form.data.__columns ||
+                    this.transformByMode({
+                      from: oldValue,
+                      to: value,
+                      schema: form.data
+                    }),
                   __headerHasColumnsToggler: headerHasColumnsToggle,
                   __card: form.data.card || form.data.__card,
                   __listItem: form.data.listItem || form.data.__listItem
@@ -1013,29 +1014,13 @@ export class CRUDPlugin extends BasePlugin {
                   });
                 form.setValues({
                   headerToolbar,
-                  card: form.data.__card || {
-                    type: 'card',
-                    header: {
-                      title: '标题',
-                      subTitle: '副标题'
-                    },
-                    body: [
-                      {
-                        name: 'a',
-                        label: 'A'
-                      },
-                      {
-                        name: 'b',
-                        label: 'B'
-                      }
-                    ],
-                    actions: [
-                      {
-                        label: '详情',
-                        type: 'button'
-                      }
-                    ]
-                  },
+                  card:
+                    form.data.__card ||
+                    this.transformByMode({
+                      from: oldValue,
+                      to: value,
+                      schema: form.data
+                    }),
                   __columns: form.data.columns || form.data.__columns,
                   __listItem: form.data.listItem || form.data.__listItem
                 });
@@ -1048,21 +1033,13 @@ export class CRUDPlugin extends BasePlugin {
                   });
                 form.setValues({
                   headerToolbar,
-                  listItem: form.data.__listItem || {
-                    body: [
-                      {
-                        type: 'tpl',
-                        tpl: '简单的展示数据：$a $b',
-                        wrapperComponent: ''
-                      }
-                    ],
-                    actions: [
-                      {
-                        icon: 'fa fa-eye',
-                        type: 'button'
-                      }
-                    ]
-                  },
+                  listItem:
+                    form.data.__listItem ||
+                    this.transformByMode({
+                      from: oldValue,
+                      to: value,
+                      schema: form.data
+                    }),
                   __columns: form.data.columns || form.data.__columns,
                   __card: form.data.card || form.data.__card
                 });
@@ -1769,6 +1746,71 @@ export class CRUDPlugin extends BasePlugin {
     }
 
     return child.info.plugin.buildDataSchemas(child, undefined, trigger);
+  }
+
+  /** crud 不同 mode 之间转换时候，主体的转换 */
+  transformByMode({
+    from,
+    to,
+    schema
+  }: {
+    from: CRUDModes;
+    to: CRUDModes;
+    schema: any;
+  }) {
+    const fields = [];
+    const actions = [];
+
+    if (!from || from === 'table') {
+      (schema.columns || []).forEach((item: any) => {
+        if (!isPlainObject(item)) {
+          return;
+        } else if (item.type === 'operation') {
+          actions.push(...(item?.buttons || []));
+        } else {
+          fields.push(item);
+        }
+      });
+    } else {
+      const name = from === 'cards' ? 'card' : 'listItem';
+      fields.push(...(schema?.[name]?.body || []));
+      actions.push(...(schema?.[name]?.actions || []));
+    }
+
+    // 保底
+    fields.length ||
+      fields.concat([
+        {
+          name: 'a',
+          label: 'A'
+        },
+        {
+          name: 'b',
+          label: 'B'
+        }
+      ]);
+
+    if (to === 'table') {
+      return fields.concat({
+        type: 'operation',
+        label: '操作',
+        buttons: actions
+      });
+    } else if (to === 'cards') {
+      return {
+        type: 'card',
+        header: {
+          title: '标题',
+          subTitle: '副标题'
+        },
+        body: fields,
+        actions
+      };
+    }
+    return {
+      body: fields,
+      actions
+    };
   }
 }
 
