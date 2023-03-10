@@ -37,7 +37,7 @@ export class TablePlugin extends BasePlugin {
   $schema = '/schemas/TableSchema.json';
 
   // 组件名称
-  name = '表格';
+  name = '原子表格';
   tags = ['展示'];
   isBaseComponent = true;
   description =

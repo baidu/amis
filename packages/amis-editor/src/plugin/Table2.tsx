@@ -37,7 +37,7 @@ export class Table2Plugin extends BasePlugin {
   $schema = '/schemas/TableSchema.json';
 
   // 组件名称
-  name = '表格2';
+  name = '表格';
   isBaseComponent = true;
   panelJustify = true;
   disabledRendererPlugin = true;
