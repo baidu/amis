@@ -166,10 +166,10 @@ function convertSchema(fileName: string) {
                   }
                 }
               } else {
-                result.push(`export type ${name} = any;`);
+                result.push(`export type ${name} = any;\n`);
               }
             } else {
-              result.push(`export type ${name} = any;`);
+              result.push(`export type ${name} = any;\n`);
             }
           } else {
             result.push(`export type ${name} = {`);
@@ -235,7 +235,7 @@ function convertSchema(fileName: string) {
               for (const member of members) {
                 allusedTypes[member] = true;
               }
-              result.push(`export type ${name} = ${members.join(' | ')};`);
+              result.push(`export type ${name} = ${members.join(' | ')};\n`);
             }
           }
         } else if (key === 'xsd:group') {

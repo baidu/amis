@@ -6,6 +6,7 @@ import {Table} from '../openxml/word/Table';
 import {Hyperlink} from '../openxml/word/Hyperlink';
 import renderParagraph from './renderParagraph';
 import {renderSection} from './renderSection';
+import renderTable from './renderTable';
 
 export default function renderBody(
   word: Word,
@@ -20,6 +21,7 @@ export default function renderBody(
         const p = renderParagraph(word, child);
         appendChild(sectionEl, p);
       } else if (child instanceof Table) {
+        appendChild(sectionEl, renderTable(word, child));
       } else if (child instanceof Hyperlink) {
       }
     }

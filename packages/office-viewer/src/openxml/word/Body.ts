@@ -2,6 +2,7 @@ import {loopChildren, WTag, XMLData} from '../../OpenXML';
 import Word from '../../Word';
 import {Paragraph} from './Paragraph';
 import {Section, SectionChild, SectionProperties} from './Section';
+import {Table} from './Table';
 
 /**
  * body 类型定义
@@ -46,8 +47,13 @@ export class Body {
           case WTag.sectPr:
             body.addSection(Section.parseProperties(value as XMLData));
             break;
+
+          case WTag.tbl:
+            const table = Table.fromXML(word, value as XMLData);
+            body.addChild(table);
+
           default:
-            break;
+            console.warn('Body.fromXML Unknown key', key);
         }
       }
     });

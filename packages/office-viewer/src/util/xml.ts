@@ -8,6 +8,7 @@ export const XMLOptions = {
   ignoreAttributes: false,
   allowBooleanAttributes: true,
   trimValues: false,
+  preserveOrder: true,
   alwaysCreateTextNode: true
 };
 

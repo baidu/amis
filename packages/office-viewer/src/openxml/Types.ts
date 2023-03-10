@@ -21,10 +21,12 @@ export enum ST_CalendarType {
 
 export type ST_Guid = string;
 export type ST_OnOff = boolean;
+
 export type ST_String = string;
 export type ST_XmlName = string;
 export type ST_UnsignedDecimalNumber = number;
 export type ST_TwipsMeasure = ST_UnsignedDecimalNumber | ST_PositiveUniversalMeasure;
+
 export enum ST_VerticalAlignRun {
   baseline = 'baseline',
   superscript = 'superscript',
@@ -61,6 +63,7 @@ export type ST_FixedPercentage = ST_Percentage;
 export type ST_PositivePercentage = ST_Percentage;
 export type ST_PositiveFixedPercentage = ST_Percentage;
 export type CT_Empty = any;
+
 export type CT_OnOff = {
   val?: ST_OnOff;
 }
@@ -472,6 +475,7 @@ export type CT_ObjectLink = CT_ObjectEmbed & {
 }
 
 export type CT_Drawing = any;
+
 export type CT_SimpleField = {
   instr: ST_String;
   fldLock?: ST_OnOff;
@@ -502,6 +506,7 @@ export type CT_Hyperlink = {
 }
 
 export type CT_FFData = any;
+
 export type CT_FFHelpText = {
   type?: ST_InfoTextType;
   val?: ST_FFHelpTextVal;
@@ -622,7 +627,9 @@ export type CT_HdrFtrRef = CT_Rel & {
 }
 
 export type CT_HdrFtr = any;
+
 export type CT_SectPrBase = any;
+
 export type CT_SectPr = {
   sectPrChange?: CT_SectPrChange;
 }
@@ -660,6 +667,7 @@ export type CT_PermStart = CT_Perm & {
 }
 
 export type CT_Text = any;
+
 export type CT_R = {
   rsidRPr?: ST_LongHexNumber;
   rsidDel?: ST_LongHexNumber;
@@ -679,10 +687,13 @@ export type CT_Fonts = {
 }
 
 export type CT_RPr = any;
+
 export type CT_MathCtrlIns = CT_TrackChange;
 export type CT_MathCtrlDel = CT_TrackChange;
 export type CT_RPrOriginal = any;
+
 export type CT_ParaRPrOriginal = any;
+
 export type CT_ParaRPr = {
   rPrChange?: CT_ParaRPrChange;
 }
@@ -710,6 +721,7 @@ export type CT_RubyPr = {
 }
 
 export type CT_RubyContent = any;
+
 export type CT_Ruby = {
   rubyPr?: CT_RubyPr;
   rt?: CT_RubyContent;
@@ -786,6 +798,7 @@ export type CT_SdtPr = {
 }
 
 export type CT_SdtEndPr = any;
+
 export type CT_DirContentRun = {
   val?: ST_Direction;
 }
@@ -795,9 +808,13 @@ export type CT_BdoContentRun = {
 }
 
 export type CT_SdtContentRun = any;
+
 export type CT_SdtContentBlock = any;
+
 export type CT_SdtContentRow = any;
+
 export type CT_SdtContentCell = any;
+
 export type CT_SdtBlock = {
   sdtPr?: CT_SdtPr;
   sdtEndPr?: CT_SdtEndPr;
@@ -960,6 +977,7 @@ export type CT_Headers = {
 }
 
 export type CT_TrPrBase = any;
+
 export type CT_TrPr = CT_TrPrBase;
 export type CT_Row = {
   rsidRPr?: ST_LongHexNumber;
@@ -1635,6 +1653,7 @@ export type CT_DocPartBehavior = {
 }
 
 export type CT_DocPartBehaviors = any;
+
 export type CT_DocPartType = {
   val: ST_DocPartType;
 }
@@ -1658,12 +1677,14 @@ export type CT_DocPartName = {
 }
 
 export type CT_DocPartPr = any;
+
 export type CT_DocPart = {
   docPartPr?: CT_DocPartPr;
   docPartBody?: CT_Body;
 }
 
 export type CT_DocParts = any;
+
 export type CT_Caption = {
   name: ST_String;
   pos?: ST_CaptionPos;
@@ -1701,16 +1722,21 @@ export type ST_LongHexNumber = string;
 export type ST_ShortHexNumber = string;
 export type ST_UcharHexNumber = string;
 export type ST_DecimalNumberOrPercent = ST_Percentage;
+
 export type ST_DecimalNumber = number;
 export type ST_SignedTwipsMeasure = number | ST_UniversalMeasure;
+
 export type ST_PixelsMeasure = ST_UnsignedDecimalNumber;
 export type ST_HpsMeasure = ST_UnsignedDecimalNumber | ST_PositiveUniversalMeasure;
+
 export type ST_SignedHpsMeasure = number | ST_UniversalMeasure;
+
 export type ST_DateTime = string;
 export type ST_MacroName = string;
 export type ST_EighthPointMeasure = ST_UnsignedDecimalNumber;
 export type ST_PointMeasure = ST_UnsignedDecimalNumber;
 export type ST_TextScale = ST_TextScalePercent;
+
 export type ST_TextScalePercent = string;
 export enum ST_HighlightColor {
   black = 'black',
@@ -1737,6 +1763,7 @@ export enum ST_HexColorAuto {
 }
 
 export type ST_HexColor = ST_HexColorAuto | ST_HexColorRGB;
+
 export enum ST_Underline {
   single = 'single',
   words = 'words',
@@ -2454,6 +2481,7 @@ export enum ST_TblWidth {
 }
 
 export type ST_MeasurementOrPercent = ST_DecimalNumberOrPercent | ST_UniversalMeasure;
+
 export enum ST_Merge {
   continue = 'continue',
   restart = 'restart',

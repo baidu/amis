@@ -2,7 +2,7 @@
  * 渲染内置样式及自定义样式
  */
 
-import {appendComment, createElement, styleToText} from '../util/dom';
+import {createElement, styleToText} from '../util/dom';
 import Word from '../Word';
 
 /**
@@ -14,12 +14,12 @@ function generateDefaultStyle(word: Word) {
   let defaultPStyle = '';
 
   if (defaultStyle?.pPr) {
-    defaultPStyle = styleToText(defaultStyle.pPr);
+    defaultPStyle = styleToText(defaultStyle.pPr.cssStyle);
   }
 
   let defaultRStyle = '';
   if (defaultStyle?.rPr) {
-    defaultRStyle = styleToText(defaultStyle.rPr);
+    defaultRStyle = styleToText(defaultStyle.rPr.cssStyle);
   }
 
   const classPrefix = word.getClassPrefix();
@@ -31,7 +31,7 @@ function generateDefaultStyle(word: Word) {
     padding-bottom: 0px;
   }
 
-  .${word.wrapClassName} section {
+  .${word.wrapClassName} > article > section {
     background: white;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     margin-bottom: 30px;
@@ -60,14 +60,14 @@ function generateStyle(word: Word) {
 
   const classPrefix = word.getClassPrefix();
 
-  let styleText = '';
+  let styleResult = '';
   for (const styleId in styleMap) {
     const styleDisplayId = word.getStyleIdDisplayName(styleId);
     const styleData = styleMap[styleId];
     const pPr = styleData.pPr;
     let pStyleText = '';
     if (pPr) {
-      const pStyle = styleToText(pPr);
+      const pStyle = styleToText(pPr.cssStyle);
       pStyleText = `
       .${classPrefix} .${styleDisplayId} {
         ${pStyle}
@@ -76,19 +76,38 @@ function generateStyle(word: Word) {
     }
     let rStyleText = '';
     if (styleData.rPr) {
-      const rStyle = styleToText(styleData.rPr);
+      const rStyle = styleToText(styleData.rPr.cssStyle);
       rStyleText = `
-      .${classPrefix} .${styleDisplayId} .r {
+      .${classPrefix} .${styleDisplayId} > .r {
         ${rStyle}
       }
       `;
     }
 
-    styleText += `
+    let tblStyleText = '';
+    if (styleData.tblPr) {
+      const tblStyle = styleToText(styleData.tblPr.tblCSSStyle);
+      const tcStyle = styleToText(styleData.tblPr.tcCSSStyle);
+
+      tblStyleText = `
+     .${classPrefix}.${styleDisplayId} {
+      border-collapse: collapse;
+      ${tblStyle}
+     }
+
+     .${classPrefix}.${styleDisplayId} > tbody > tr > td {
+      ${tcStyle}
+     }s
+     `;
+    }
+
+    styleResult += `
     ${pStyleText}
     ${rStyleText}
+    ${tblStyleText}
     `;
   }
+  return styleResult;
 }
 
 /**

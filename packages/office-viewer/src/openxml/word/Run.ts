@@ -1,4 +1,4 @@
-import {loopChildren, WTag, Tag, Attr, XMLData} from '../../OpenXML';
+import {loopChildren, WTag, Tag, Attr, XMLData, getData} from '../../OpenXML';
 import {parsePr} from '../../parse/parsePr';
 import Word from '../../Word';
 import {Break} from './Break';
@@ -31,7 +31,7 @@ export class Run {
     }
   }
 
-  static parseRunProperties(word: Word, data: XMLData) {
+  static parseRunProperties(word: Word, data: XMLData): RunProperties {
     const cssStyle = parsePr(word, data, 'r');
     return {cssStyle};
   }
@@ -42,18 +42,11 @@ export class Run {
     loopChildren(data, (key, value) => {
       switch (key) {
         case WTag.t:
-          {
-            if (typeof value === 'string' || typeof value === 'number') {
-              run.addChild(new Text(value));
-            } else if (typeof value === 'object') {
-              const textContent = (value[Tag.text] as string) || '';
-              const xmlSpace = value[Attr.xmlSpace];
-              const text = new Text(textContent);
-              if (xmlSpace === 'preserve') {
-                text.preserveSpace = true;
-              }
-              run.addChild(text);
-            }
+          value = getData(value);
+          if (typeof value === 'object') {
+            const textContent = (value[Tag.text] as string) || '';
+            const text = new Text(textContent);
+            run.addChild(text);
           }
           break;
 

@@ -275,9 +275,16 @@ export default class Word {
     if (styleId in this.styleIdMap) {
       return this.styleIdMap[styleId];
     } else {
-      this.styleIdMap[styleId] = 'styleId-' + this.styleIdNum++;
+      this.styleIdMap[styleId] = this.genClassName();
       return this.styleIdMap[styleId];
     }
+  }
+
+  /**
+   * 生成个新的唯一的 class 名称
+   */
+  genClassName() {
+    return 'docx-classname-' + this.styleIdNum++;
   }
 
   /**
@@ -312,11 +319,15 @@ export default class Word {
     console.log(this);
     const documentData = await this.getXML('word/document.xml');
 
+    console.log(documentData);
+
     if (this.renderOptions.replaceVar) {
       mergeRun(this, documentData);
     }
 
     const document = Document.fromXML(this, documentData);
+
+    console.log(document);
     const documentElement = await renderDocument(this, document);
     root.classList.add(this.getClassPrefix());
     if (this.renderOptions.inWrap) {

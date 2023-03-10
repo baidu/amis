@@ -16,7 +16,7 @@ export class Document {
 
   static fromXML(word: Word, data: XMLData): Document {
     const doc = new Document();
-    const wDocument = data[WTag.document];
+    const wDocument = ((data[1] as XMLData)[WTag.document] as XMLData)[0];
     if (typeof wDocument === 'object') {
       if (WTag.body in wDocument) {
         doc.body = Body.fromXML(word, wDocument[WTag.body] as XMLData);

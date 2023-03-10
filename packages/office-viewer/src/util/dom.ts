@@ -4,7 +4,7 @@
 
 import {CSSStyle} from '../openxml/Style';
 
-export function styleToText(style: CSSStyle) {
+export function styleToText(style: CSSStyle = {}) {
   let text = '';
   for (const key in style) {
     const value = style[key];

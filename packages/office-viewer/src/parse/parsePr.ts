@@ -101,31 +101,6 @@ function parseUnderline(word: Word, data: XMLData, style: CSSStyle) {
   }
 }
 
-function parseMargin(data: XMLData, style: CSSStyle) {
-  loopChildren(data, (key, value) => {
-    if (typeof value !== 'object') {
-      return;
-    }
-    switch (key) {
-      case 'left':
-        style['padding-left'] = parseSize(value, WAttr.w);
-        break;
-
-      case 'right':
-        style['padding-right'] = parseSize(value, WAttr.w);
-        break;
-
-      case 'top':
-        style['padding-top'] = parseSize(value, WAttr.w);
-        break;
-
-      case 'bottom':
-        style['padding-bottom'] = parseSize(value, WAttr.w);
-        break;
-    }
-  });
-}
-
 /**
  * 目前只有部分支持
  * http://officeopenxml.com/WPparagraph-textFrames.php
@@ -159,51 +134,38 @@ function parseFrame(data: XMLData, style: CSSStyle) {
 const HighLightColor = 'transparent';
 
 /**
- * 解析各种 Pr，返回样式
+ * 解析各种 pPr 及 rPr，返回样式
  * @param type 所属类型
  * @returns 样式
  */
-export function parsePr(
-  word: Word,
-  data: XMLData,
-  type: 'r' | 'p' | 'tbl' = 'p'
-) {
+export function parsePr(word: Word, data: XMLData, type: 'r' | 'p' = 'p') {
   let style: CSSStyle = {};
-  loopChildren(data, (key, value) => {
+  loopChildren(data, (key, value, attr) => {
     switch (key) {
       case WTag.sz:
       case WTag.szCs:
-        style['font-size'] = parseSize(
-          value as XMLData,
-          WAttr.val,
-          LengthUsage.FontSize
-        );
+        style['font-size'] = parseSize(attr, WAttr.val, LengthUsage.FontSize);
         break;
 
       case WTag.jc:
-        style['text-align'] = jcToTextAlign(
-          (value as XMLData)[WAttr.val] as string
-        );
+        style['text-align'] = jcToTextAlign(getVal(attr));
         break;
 
       case WTag.framePr:
-        parseFrame(value as XMLData, style);
+        parseFrame(attr, style);
         break;
 
       case WTag.pBdr:
-      case WTag.tblBorders:
       case WTag.pBdr:
-      case WTag.tcBorders:
-        parseBorders(word, value as XMLData, style);
+        parseBorders(word, attr, style);
         break;
 
       case WTag.ind:
-      case WTag.tblInd:
-        parseInd(value as XMLData, style);
+        parseInd(attr, style);
         break;
 
       case WTag.color:
-        style['color'] = parseColor(word, value as XMLData);
+        style['color'] = parseColor(word, attr);
         break;
 
       case WTag.shd:
@@ -212,7 +174,7 @@ export function parsePr(
           // http://officeopenxml.com/WPshading.php
           style['background-color'] = parseColorAttr(
             word,
-            value as XMLData,
+            attr,
             WAttr.fill,
             'inherit'
           );
@@ -220,7 +182,7 @@ export function parsePr(
         }
 
       case WTag.spacing:
-        parseSpacing(value as XMLData, style);
+        parseSpacing(attr, style);
         break;
 
       case WTag.highlight:
@@ -228,7 +190,7 @@ export function parsePr(
         // 这个按文档是重要性高于 shd
         style['background-color'] = parseColorAttr(
           word,
-          value as XMLData,
+          attr,
           WAttr.fill,
           HighLightColor
         );
@@ -242,7 +204,7 @@ export function parsePr(
       case WTag.position:
         // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/position.html
         style['vertical-align'] = parseSize(
-          value as XMLData,
+          attr,
           WAttr.val,
           LengthUsage.FontSize
         );
@@ -250,7 +212,7 @@ export function parsePr(
 
       case WTag.trHeight:
         // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/trHeight.html
-        const trHeight = value as XMLData;
+        const trHeight = attr;
         const height = parseSize(trHeight, WAttr.val);
         const hRule = trHeight[WAttr.hRule];
         if (hRule === 'exact') {
@@ -265,13 +227,13 @@ export function parsePr(
       case WTag.dstrike:
         // 其实不支持 dstrike，都统一为 strike
         // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/dstrike.html
-        style['text-decoration'] = getValBoolean(value)
+        style['text-decoration'] = getValBoolean(attr)
           ? 'line-through'
           : 'none';
 
       case WTag.b:
         // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/b.html
-        style['font-weight'] = getValBoolean(value) ? 'bold' : 'normal';
+        style['font-weight'] = getValBoolean(attr) ? 'bold' : 'normal';
         break;
 
       case WTag.bCs:
@@ -281,41 +243,41 @@ export function parsePr(
 
       case WTag.i:
         // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/i.html
-        style['font-style'] = getValBoolean(value) ? 'italic' : 'normal';
+        style['font-style'] = getValBoolean(attr) ? 'italic' : 'normal';
         break;
 
       case WTag.caps:
         // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/caps.html
-        style['text-transform'] = getValBoolean(value) ? 'uppercase' : 'normal';
+        style['text-transform'] = getValBoolean(attr) ? 'uppercase' : 'normal';
         break;
 
       case WTag.smallCaps:
         // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/smallCaps.html
-        style['text-transform'] = getValBoolean(value) ? 'lowercase' : 'normal';
+        style['text-transform'] = getValBoolean(attr) ? 'lowercase' : 'normal';
         break;
 
       case WTag.u:
         // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/u.html
-        parseUnderline(word, value as XMLData, style);
+        parseUnderline(word, attr, style);
         break;
 
       case WTag.rFonts:
-        parseFont(value as XMLData, style);
+        parseFont(attr, style);
         break;
 
       case WTag.tblCellSpacing:
         // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/tblCellSpacing_1.html
-        style['border-spacing'] = parseSize(value as XMLData, WAttr.w);
+        style['border-spacing'] = parseSize(attr, WAttr.w);
         style['border-collapse'] = 'separate';
         break;
 
       case WTag.bdr:
         // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/bdr.html
-        style['border'] = parseBorder(word, value as XMLData);
+        style['border'] = parseBorder(word, attr);
         break;
 
       case WTag.vanish:
-        if (getValBoolean(value)) {
+        if (getValBoolean(attr)) {
           // 这里其实没试过 word 里到底是不是 none
           style['display'] = 'none';
         }
@@ -323,19 +285,10 @@ export function parsePr(
 
       case WTag.kern:
         style['letter-spacing'] = parseSize(
-          value as XMLData,
+          attr,
           WAttr.val,
           LengthUsage.FontSize
         );
-        break;
-
-      case WTag.tblCellMar:
-      case WTag.tcMar:
-        // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/tblCellMar_1.html
-        parseMargin(value as XMLData, style);
-        break;
-
-      case WTag.tblLayout:
         break;
 
       case WTag.pStyle:
@@ -361,12 +314,6 @@ export function parsePr(
 
       case WTag.contextualSpacing:
         // 还没空看
-        break;
-
-      case WTag.tblStyle:
-      case WTag.tblW:
-      case WTag.tblLook:
-        // 表格相关的在其它地方处理了
         break;
 
       default:

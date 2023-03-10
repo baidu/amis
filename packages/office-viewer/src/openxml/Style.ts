@@ -6,6 +6,9 @@ import {WAttr, WTag, loopChildren, XMLData, getVal} from '../OpenXML';
 import {parsePr} from '../parse/parsePr';
 import Word from '../Word';
 import {ST_StyleType} from './Types';
+import {Paragraph, ParagraphProperties} from './word/Paragraph';
+import {Run, RunProperties} from './word/Run';
+import {Table, TableProperties} from './word/Table';
 
 export interface CSSStyle {
   [key: string]: string;
@@ -18,11 +21,11 @@ export interface Style {
   basedOn?: string;
 
   // 文本
-  rPr?: CSSStyle;
+  rPr?: RunProperties;
   // 段落
-  pPr?: CSSStyle;
-
-  tblPr?: CSSStyle;
+  pPr?: ParagraphProperties;
+  // 表格
+  tblPr?: TableProperties;
 }
 
 export interface Styles {
@@ -37,13 +40,19 @@ function parseDefaultStyle(word: Word, data: XMLData) {
   if (WTag.rPrDefault in data) {
     const rPrDefaultData = data[WTag.rPrDefault];
     if (typeof rPrDefaultData === 'object' && WTag.rPr in rPrDefaultData) {
-      defaultStyle.rPr = parsePr(word, rPrDefaultData[WTag.rPr] as XMLData);
+      defaultStyle.rPr = Run.parseRunProperties(
+        word,
+        rPrDefaultData[WTag.rPr] as XMLData
+      );
     }
   }
   if (WTag.pPrDefault in data) {
     const pPrDefault = data[WTag.pPrDefault];
     if (typeof pPrDefault === 'object' && WTag.pPr in pPrDefault) {
-      defaultStyle.pPr = parsePr(word, pPrDefault[WTag.pPr] as XMLData);
+      defaultStyle.pPr = Paragraph.parseParagraphProperties(
+        word,
+        pPrDefault[WTag.pPr] as XMLData
+      );
     }
   }
   return defaultStyle;
@@ -52,13 +61,16 @@ function parseDefaultStyle(word: Word, data: XMLData) {
 function parseStyle(word: Word, data: XMLData) {
   const style: Style = {};
   if (WTag.rPr in data) {
-    style.rPr = parsePr(word, data[WTag.rPr] as XMLData);
+    style.rPr = Run.parseRunProperties(word, data[WTag.rPr] as XMLData);
   }
   if (WTag.pPr in data && Object.keys(data[WTag.pPr]).length > 0) {
-    style.pPr = parsePr(word, data[WTag.pPr] as XMLData);
+    style.pPr = Paragraph.parseParagraphProperties(
+      word,
+      data[WTag.pPr] as XMLData
+    );
   }
   if (WTag.tblPr in data && Object.keys(data[WTag.tblPr]).length > 0) {
-    style.tblPr = parsePr(word, data[WTag.tblPr] as XMLData);
+    style.tblPr = Table.parseTableProperties(word, data[WTag.tblPr] as XMLData);
   }
   if (WTag.name in data) {
     const name = data[WTag.name] as XMLData;

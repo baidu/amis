@@ -102,7 +102,20 @@ export const WTag = {
   docGrid: 'w:docGrid',
   tblStyle: 'w:tblStyle',
   tblW: 'w:tblW',
-  tblLook: 'w:tblLook'
+  tblLook: 'w:tblLook',
+  insideH: 'w:insideH',
+  insideV: 'w:insideV',
+  tblCaption: 'w:tblCaption',
+  tr: 'w:tr',
+  tc: 'w:tc',
+  tcPr: 'w:tcPr',
+  trPr: 'w:trPr',
+  tcW: 'w:tcW',
+  gridSpan: 'w:gridSpan',
+  vMerge: 'w:vMerge',
+  tblGrid: 'w:tblGrid',
+  gridCol: 'w:gridCol',
+  hidden: 'w:hidden'
 } as const;
 
 export const WPTag = {
@@ -200,7 +213,8 @@ export const Attr = {
   name: '@_name',
   xmlSpace: '@_xml:space',
   ContentType: '@_ContentType',
-  PartName: '@_PartName'
+  PartName: '@_PartName',
+  AT: ':@'
 } as const;
 
 export type TagNames =
@@ -218,7 +232,7 @@ export type AttrNames =
 export type XMLKeys = TagNames | AttrNames;
 
 export type XMLData = {
-  [key in XMLKeys]: XMLData | string | number | boolean | XMLData[];
+  [key in XMLKeys | number]: XMLData | string | number | boolean | XMLData[];
 };
 
 /**
@@ -229,20 +243,20 @@ export type XMLData = {
 
 export function loopChildren(
   data: XMLData,
-  callback: (key: string, value: string | number | boolean | XMLData) => void
+  callback: (
+    key: string,
+    value: string | number | boolean | XMLData,
+    attr: XMLData
+  ) => void
 ) {
-  for (const key in data) {
-    const k = key as XMLKeys;
-    if (key.startsWith('@_')) {
-      continue;
-    }
-    const value = data[k];
-    if (Array.isArray(value)) {
-      for (const item of value) {
-        callback(k, item);
+  // 基本肯定是数组了
+  if (Array.isArray(data)) {
+    for (const item in data) {
+      for (const key in data[item]) {
+        if (key !== ':@') {
+          callback(key, data[item][key], data[item][':@']);
+        }
       }
-    } else {
-      callback(k, value);
     }
   }
 }
@@ -317,4 +331,18 @@ export function getValBoolean(
   defaultValue?: true
 ) {
   return normalizeBoolean(getVal(data), defaultValue);
+}
+
+/**
+ * 加上 preserveOrder 参数后导致解析结果非常冗余，这个函数是去掉这一层没用的数组
+ */
+export function getData(data: any) {
+  if (Array.isArray(data)) {
+    if (data.length) {
+      return data[0];
+    } else {
+      return null;
+    }
+  }
+  return data;
 }
