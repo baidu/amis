@@ -17,6 +17,11 @@
       margin-left: var(--IconSelect-base-margin);
     }
 
+    &-func {
+      display: inline-block;
+      margin-left: 12px;
+    }
+
     &-content {
       display: flex;
       position: relative;

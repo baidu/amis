@@ -285,7 +285,7 @@ export default class IconSelectControl extends React.PureComponent<
 
   @autobind
   renderModalContent() {
-    const {render, classPrefix: ns, loadingConfig, onUpload} = this.props;
+    const {render, classPrefix: ns, loadingConfig, funcSchema} = this.props;
 
     const icons = this.getIconsByType();
 
@@ -317,12 +317,10 @@ export default class IconSelectControl extends React.PureComponent<
           )) ||
           null}
 
-        {(IconSelectStore.refreshIconList && (
-          <a className="ml-3" onClick={() => onUpload()}>
-            选择本地
-          </a>
-        )) ||
-        null}
+        {(
+          funcSchema
+          && render('func', funcSchema, {className: cx(`${ns}IconSelectControl-Modal-func`)})
+          ) || null}
 
         <div className={cx(`${ns}IconSelectControl-Modal-content`)}>
           <Spinner
