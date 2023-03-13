@@ -14,43 +14,42 @@ order: 54
 
 ```schema: scope="body"
 {
-    "type": "form",
-    "debug": true,
-    "data": {
-      "table": [
+  "type": "form",
+  "data": {
+    "table": [
         {
-          "ss_a": 1,
-          "ss_b": 2
+            "a": "a1",
+            "b": "b1"
+        },
+        {
+            "a": "a2",
+            "b": "b2"
+        },
+        {
+            "a": "a3",
+            "b": "b3"
         }
-      ]
-    },
-    "body": [
-      {
-        "showIndex": true,
-        "type": "input-table",
-        "name": "table",
-        "needConfirm": false,
-        "columns": [
-          {
-            "name": "ss_a",
-            "label": "分数一",
-            "type": "input-rating"
-          },
-          {
-            "name": "ss_b",
-            "label": "分数二",
-            "type": "input-rating"
-          },
-          {
-            "name": "ss",
-            "label": "总分",
-            "type": "input-number",
-            "value": "${ss_a + ss_b + 1}"
-          }
-        ]
-      }
     ]
-  }
+  },
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+      "showIndex": true,
+      "type":"input-table",
+      "name":"table",
+      "columns":[
+          {
+            "name": "a",
+            "label": "A"
+          },
+          {
+            "name": "b",
+            "label": "B"
+          }
+      ]
+    }
+  ]
+}
 ```
 
 我们为表单数据域设置了`table`变量，配置`table`表单项可以展示该数据

@@ -895,6 +895,9 @@ export default class Form extends React.Component<FormProps, object> {
     changePristine = false
   ) {
     const {store, formLazyChange, persistDataKeys} = this.props;
+    if (typeof name !== 'string') {
+      return;
+    }
     store.changeValue(name, value, changePristine);
     if (!changePristine) {
       (formLazyChange === false ? this.emitChange : this.lazyEmitChange)(
@@ -1098,6 +1101,7 @@ export default class Form extends React.Component<FormProps, object> {
           store.openDrawer(data);
         } else if (isEffectiveApi(action.api || api, values)) {
           let finnalAsyncApi = action.asyncApi || asyncApi;
+
           isEffectiveApi(finnalAsyncApi, store.data) &&
             store.updateData({
               [finishedField || 'finished']: false
