@@ -14,6 +14,65 @@ order: 54
 
 ```schema: scope="body"
 {
+  "type": "page",
+  "body": {
+    "type": "form",
+    "debug": "true",
+    "data": {
+      "table": [
+        {
+          "a": "a1",
+          "b": "b1",
+          "c": {
+            "c1": "123",
+            "c2": "222"
+          }
+        }
+      ]
+    },
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+      {
+        "type": "input-table",
+        "name": "table",
+        "columns": [
+          {
+            "name": "a",
+            "label": "A"
+          },
+          {
+            "name": "b",
+            "label": "B"
+          },
+          {
+            "type": "combo",
+            "name": "c",
+            "multiLine": true,
+            "multiple": false,
+            "items": [
+              {
+                "type": "input-text",
+                "name": "c1"
+              },
+              {
+                "type": "input-text",
+                "name": "c2"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+我们为表单数据域设置了`table`变量，配置`table`表单项可以展示该数据
+
+## 显示序号
+
+```schema: scope="body"
+{
   "type": "form",
   "data": {
     "table": [
@@ -48,35 +107,6 @@ order: 54
           }
       ]
     }
-  ]
-}
-```
-
-我们为表单数据域设置了`table`变量，配置`table`表单项可以展示该数据
-
-## 显示序号
-
-```schema: scope="body"
-{
-  "type": "form",
-  "debug": true,
-  "body": [
-          {
-            "name": "ss_a",
-            "label": "分数一",
-            "type": "input-rating"
-          },
-          {
-            "name": "ss_b",
-            "label": "分数二",
-            "type": "input-rating"
-          },
-          {
-            "name": "ss",
-            "label": "总分",
-            "type": "input-number",
-            "value": "${ss_a + ss_b + 1}"
-          }
   ]
 }
 ```
