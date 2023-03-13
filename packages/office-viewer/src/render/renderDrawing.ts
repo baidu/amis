@@ -12,7 +12,7 @@ export function renderDrawing(
   word: Word,
   drawing: Drawing
 ): HTMLElement | null {
-  const pic = drawing.inline?.graphic?.graphicData?.pic;
+  const pic = drawing.pic;
 
   if (pic) {
     const blip = pic.blipFill?.blip;

@@ -19,7 +19,11 @@ export function parseFont(element: Element, style: CSSStyle) {
       case 'w:ascii':
       case 'w:cs':
       case 'w:eastAsia':
-        fonts.push(value);
+        if (value.indexOf(' ') === -1) {
+          fonts.push(value);
+        } else {
+          fonts.push('"' + value + '"');
+        }
         break;
 
       case 'w:asciiTheme':

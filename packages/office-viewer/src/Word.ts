@@ -58,6 +58,11 @@ export interface WordRenderOptions {
    * 是否忽略文档高度设置
    */
   ignoreHeight?: boolean;
+
+  /**
+   * 最小行高
+   */
+  minLineHeight?: number;
 }
 
 const defaultRenderOptions: WordRenderOptions = {
@@ -65,7 +70,9 @@ const defaultRenderOptions: WordRenderOptions = {
   classPrefix: 'docx-viewer',
   inWrap: true,
   bulletUseFont: true,
-  replaceVar: false
+  replaceVar: false,
+  ignoreHeight: true,
+  minLineHeight: 1.0
 };
 
 export default class Word {
@@ -117,6 +124,11 @@ export default class Word {
    * 用于自动生成样式名时的计数，保证每次都是唯一的
    */
   styleIdNum: number = 0;
+
+  /**
+   * 渲染根节点
+   */
+  rootElement: HTMLElement;
 
   wrapClassName = 'docx-viewer-wrapper';
 
@@ -175,24 +187,35 @@ export default class Word {
    * 解析全局样式
    */
   async initStyle() {
-    this.styles = parseStyles(
-      this,
-      await this.parser.getXML('/word/styles.xml')
-    );
+    for (const override of this.conentTypes.overrides) {
+      if (override.partName.startsWith('/word/styles.xml')) {
+        this.styles = parseStyles(
+          this,
+          await this.parser.getXML('/word/styles.xml')
+        );
+      }
+    }
   }
 
   /**
    * 解析关系
    */
   async initRelation() {
-    const rels = parseRelationships(
-      await this.parser.getXML('/_rels/.rels'),
-      'root'
-    );
-    const documentRels = parseRelationships(
-      await this.parser.getXML('/word/_rels/document.xml.rels'),
-      'word'
-    );
+    let rels = {};
+    if (this.parser.fileExists('/_rels/.rels')) {
+      rels = parseRelationships(
+        await this.parser.getXML('/_rels/.rels'),
+        'root'
+      );
+    }
+
+    let documentRels = {};
+    if (this.parser.fileExists('/word/_rels/document.xml.rels')) {
+      documentRels = parseRelationships(
+        await this.parser.getXML('/word/_rels/document.xml.rels'),
+        'word'
+      );
+    }
     this.relationships = {...rels, ...documentRels};
   }
 
@@ -208,8 +231,12 @@ export default class Word {
    * 解析 numbering
    */
   async initNumbering() {
-    const numberingData = await this.parser.getXML('word/numbering.xml');
-    this.numbering = Numbering.fromXML(this, numberingData);
+    for (const override of this.conentTypes.overrides) {
+      if (override.partName.startsWith('/word/numbering')) {
+        const numberingData = await this.parser.getXML(override.partName);
+        this.numbering = Numbering.fromXML(this, numberingData);
+      }
+    }
   }
 
   /**
@@ -286,6 +313,15 @@ export default class Word {
   }
 
   /**
+   * 添加新样式，主要用于表格的单元格样式
+   */
+  appendStyle(style: string) {
+    const styleElement = document.createElement('style');
+    styleElement.innerHTML = style;
+    this.rootElement.appendChild(styleElement);
+  }
+
+  /**
    * 返回样式表名及它的父级样式表名
    * @param styleId 样式表里的 style 名称
    * @returns 返回 className 数组
@@ -315,6 +351,8 @@ export default class Word {
   async render(root: HTMLElement) {
     await this.init();
     console.log(this);
+    this.rootElement = root;
+    root.innerHTML = '';
     const documentData = await this.getXML('word/document.xml');
 
     if (this.renderOptions.replaceVar) {

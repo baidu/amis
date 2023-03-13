@@ -2,6 +2,7 @@
  * 渲染内置样式及自定义样式
  */
 
+import {TableProperties} from '../openxml/word/Table';
 import {createElement, styleToText} from '../util/dom';
 import Word from '../Word';
 
@@ -26,15 +27,11 @@ function generateDefaultStyle(word: Word) {
 
   return `
   .${word.wrapClassName} {
-    background: gray;
-    padding: 30px;
-    padding-bottom: 0px;
+
   }
 
   .${word.wrapClassName} > article > section {
     background: white;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    margin-bottom: 30px;
   }
 
   /** docDefaults **/
@@ -45,10 +42,51 @@ function generateDefaultStyle(word: Word) {
   }
 
   .${classPrefix} .r {
-    white-space: pre;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
     ${defaultRStyle}
   }
   `;
+}
+
+export function generateTableStyle(
+  classPrefix: string,
+  styleDisplayId: string,
+  tblPr: TableProperties
+) {
+  let tblStyleText = '';
+  const tblStyle = styleToText(tblPr.cssStyle);
+  const tcStyle = styleToText(tblPr.tcCSSStyle);
+
+  tblStyleText = `
+ .${classPrefix} .${styleDisplayId} {
+  border-collapse: collapse;
+  ${tblStyle}
+ }
+
+ .${classPrefix} .${styleDisplayId} > tbody > tr > td {
+  ${tcStyle}
+ }
+ `;
+
+  if (tblPr.insideBorder) {
+    const insideBorder = tblPr.insideBorder;
+    if (insideBorder.H) {
+      tblStyleText += `
+      .${classPrefix} .${styleDisplayId} > tbody > tr > td {
+        border-top: ${insideBorder.H};
+      }`;
+    }
+
+    if (insideBorder.V) {
+      tblStyleText += `
+      .${classPrefix} .${styleDisplayId} > tbody > tr > td {
+        border-left: ${insideBorder.V};
+      }`;
+    }
+  }
+
+  return tblStyleText;
 }
 
 /**
@@ -86,37 +124,11 @@ function generateStyle(word: Word) {
 
     let tblStyleText = '';
     if (styleData.tblPr) {
-      const tblPr = styleData.tblPr;
-      const tblStyle = styleToText(tblPr.cssStyle);
-      const tcStyle = styleToText(tblPr.tcCSSStyle);
-
-      tblStyleText = `
-     .${classPrefix} .${styleDisplayId} {
-      border-collapse: collapse;
-      ${tblStyle}
-     }
-
-     .${classPrefix} .${styleDisplayId} > tbody > tr > td {
-      ${tcStyle}
-     }
-     `;
-
-      if (tblPr.insideBorder) {
-        const insideBorder = tblPr.insideBorder;
-        if (insideBorder.H) {
-          tblStyleText += `
-          .${classPrefix} .${styleDisplayId} > tbody > tr > td {
-            border-top: ${insideBorder.H};
-          }`;
-        }
-
-        if (insideBorder.V) {
-          tblStyleText += `
-          .${classPrefix} .${styleDisplayId} > tbody > tr > td {
-            border-left: ${insideBorder.V};
-          }`;
-        }
-      }
+      tblStyleText = generateTableStyle(
+        classPrefix,
+        styleDisplayId,
+        styleData.tblPr
+      );
     }
 
     styleResult += `

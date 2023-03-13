@@ -3,6 +3,7 @@ import {Table} from '../openxml/word/Table';
 import {appendChild} from '../util/dom';
 import Word from '../Word';
 import renderParagraph from './renderParagraph';
+import {generateTableStyle} from './renderStyle';
 import {setElementStyle} from './setElementStyle';
 
 export default function renderTable(word: Word, table: Table) {
@@ -16,6 +17,14 @@ export default function renderTable(word: Word, table: Table) {
   }
 
   setElementStyle(word, tableEl, properties);
+
+  const customClass = word.genClassName();
+
+  tableEl.classList.add(customClass);
+
+  word.appendStyle(
+    generateTableStyle(word.getClassPrefix(), customClass, properties)
+  );
 
   // 这里或许应该生成 classname 来支持 tcCSSStyle
 

@@ -2,7 +2,6 @@
  * 目前使用的方案是在获取文件的时候直接转成 json，而不是使用 XML DOM，因为这样可以避免频繁调用 DOM 函数，性能更好
  */
 import * as JSZip from 'jszip';
-import {parseXML} from './util/xml';
 
 export default class PackageParser {
   private zip: JSZip;
@@ -49,5 +48,12 @@ export default class PackageParser {
     throw new Error('file not found');
   }
 
-  async getRelation() {}
+  fileExists(filePath: string) {
+    filePath = filePath.startsWith('/') ? filePath.slice(1) : filePath;
+    const file = this.zip.file(filePath);
+    if (file) {
+      return true;
+    }
+    return false;
+  }
 }

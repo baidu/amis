@@ -3,9 +3,10 @@
  * http://officeopenxml.com/WPspacing.php
  */
 import {CSSStyle} from '../openxml/Style';
+import Word from '../Word';
 import {parseSize} from './parseSize';
 
-export function parseSpacing(element: Element, style: CSSStyle) {
+export function parseSpacing(word: Word, element: Element, style: CSSStyle) {
   const before = parseSize(element, 'w:before');
   const after = parseSize(element, 'w:after');
 
@@ -18,13 +19,15 @@ export function parseSpacing(element: Element, style: CSSStyle) {
     style['margin-bottom'] = after;
   }
 
-  const line = parseSize(element, 'w:line');
+  const line = element.getAttribute('w:line');
 
   if (line) {
     const lineNum = parseInt(line, 10);
+    const minLineHeight = word.renderOptions.minLineHeight || 1.0;
     switch (lineRule) {
       case 'auto':
-        style['line-height'] = `${(lineNum / 240).toFixed(2)}`;
+        const lineHeight = Math.max(minLineHeight, lineNum / 240);
+        style['line-height'] = `${lineHeight.toFixed(2)}`;
         break;
 
       case 'atLeast':
@@ -32,7 +35,8 @@ export function parseSpacing(element: Element, style: CSSStyle) {
         break;
 
       default:
-        style['line-height'] = style['min-height'] = `${lineNum / 20}pt`;
+        const lineHeightMin = Math.max(minLineHeight, lineNum / 20);
+        style['line-height'] = style['min-height'] = `${lineHeightMin}pt`;
         break;
     }
   }

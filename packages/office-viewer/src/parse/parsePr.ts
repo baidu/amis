@@ -176,7 +176,7 @@ export function parsePr(word: Word, element: Element, type: 'r' | 'p' = 'p') {
         }
 
       case 'w:spacing':
-        parseSpacing(child, style);
+        parseSpacing(word, child, style);
         break;
 
       case 'w:highlight':

@@ -1,16 +1,13 @@
 import Word from '../../../Word';
-import {Inline} from './Inline';
+import {Pic} from './Pic';
 
 export class Drawing {
-  inline: Inline;
+  pic: Pic;
 
   static fromXML(word: Word, element: Element): Drawing | null {
     const drawing = new Drawing();
-    const inlineElement = element.querySelector('inline');
-    if (inlineElement) {
-      drawing.inline = Inline.fromXML(word, inlineElement);
-    }
-
+    const pic = element.querySelector('pic');
+    drawing.pic = Pic.fromXML(word, pic);
     return drawing;
   }
 }
