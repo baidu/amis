@@ -3,7 +3,6 @@
  */
 
 import {LengthUsage, parseSize} from '../../../parse/parseSize';
-import {XMLData, ATag, Attr} from '../../../OpenXML';
 import Word from '../../../Word';
 
 export interface Off {
@@ -20,22 +19,22 @@ export class Transform {
   off?: Off;
   ext?: Ext;
 
-  static fromXML(word: Word, xfrm: XMLData): Transform {
+  static fromXML(word: Word, element: Element): Transform {
     const transform = new Transform();
 
-    if (ATag.off in xfrm) {
-      const off = xfrm[ATag.off] as XMLData;
+    const off = element.querySelector('off');
+    if (off) {
       transform.off = {
-        x: parseSize(off, Attr.x, LengthUsage.Emu),
-        y: parseSize(off, Attr.y, LengthUsage.Emu)
+        x: parseSize(off, 'x', LengthUsage.Emu),
+        y: parseSize(off, 'y', LengthUsage.Emu)
       };
     }
 
-    if (ATag.ext in xfrm) {
-      const ext = xfrm[ATag.ext] as XMLData;
+    const ext = element.querySelector('ext');
+    if (ext) {
       transform.ext = {
-        cx: parseSize(ext, Attr.cx, LengthUsage.Emu),
-        cy: parseSize(ext, Attr.cy, LengthUsage.Emu)
+        cx: parseSize(ext, 'cx', LengthUsage.Emu),
+        cy: parseSize(ext, 'cy', LengthUsage.Emu)
       };
     }
     return transform;

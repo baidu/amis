@@ -2,7 +2,6 @@
  * http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/hyperlink_2.html
  */
 
-import {loopChildren, RAttr, WAttr, WTag, XMLData} from '../../OpenXML';
 import {Relationship} from '../../parse/parseRelationship';
 import Word from '../../Word';
 import {Run} from './Run';
@@ -16,10 +15,10 @@ export class Hyperlink {
     this.children.push(Run);
   }
 
-  static fromXML(word: Word, data: XMLData): Hyperlink {
+  static fromXML(word: Word, element: Element): Hyperlink {
     const hyperlink = new Hyperlink();
 
-    const rId = data[RAttr.id] as string;
+    const rId = element.getAttribute('r:id');
     if (rId) {
       const rel = word.getRelationship(rId);
       hyperlink.relation = rel;
@@ -27,22 +26,22 @@ export class Hyperlink {
       console.warn('Hyperlink without r:id');
     }
 
-    if (WAttr.anchor in data) {
-      hyperlink.anchor = data[WAttr.anchor] as string;
+    const anchor = element.getAttribute('anchor');
+    if (anchor) {
+      hyperlink.anchor = anchor;
     }
 
-    loopChildren(data, (key, value) => {
-      if (typeof value !== 'object') {
-        return;
-      }
-      switch (key) {
-        case WTag.r:
-          hyperlink.addChild(Run.fromXML(word, value));
+    for (const child of element.children) {
+      const tagName = child.tagName;
+      switch (tagName) {
+        case 'w:r':
+          hyperlink.addChild(Run.fromXML(word, child));
           break;
+
         default:
-          console.warn('parse Hyperlink: Unknown key', key);
+          console.warn('parse Hyperlink: Unknown key', tagName);
       }
-    });
+    }
 
     return hyperlink;
   }

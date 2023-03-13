@@ -1,16 +1,17 @@
 import {GraphicData} from './GraphicData';
-import {XMLData, ATag} from '../../../OpenXML';
+
 import Word from '../../../Word';
 
 export class Graphic {
   graphicData: GraphicData;
 
-  static fromXML(word: Word, data: XMLData): Graphic {
+  static fromXML(word: Word, element: Element): Graphic {
     const graphic = new Graphic();
-    graphic.graphicData = GraphicData.fromXML(
-      word,
-      data[ATag.graphicData] as XMLData
-    );
+    const graphicData = element.querySelector('graphicData');
+    if (graphicData) {
+      graphic.graphicData = GraphicData.fromXML(word, graphicData);
+    }
+
     return graphic;
   }
 }

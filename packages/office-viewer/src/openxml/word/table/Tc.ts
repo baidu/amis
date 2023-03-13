@@ -1,12 +1,4 @@
-import {
-  loopChildren,
-  XMLData,
-  WTag,
-  WAttr,
-  getValBoolean,
-  getValNumber,
-  getVal
-} from '../../../OpenXML';
+import {getValBoolean, getValNumber, getVal} from '../../../OpenXML';
 import Word from '../../../Word';
 import {CSSStyle} from '../../Style';
 import {Paragraph} from '../Paragraph';
@@ -31,35 +23,34 @@ export interface TcProperties {
 
 type TcChild = Paragraph | Table;
 
-export function parseCellMargin(data: XMLData, style: CSSStyle) {
-  loopChildren(data, (key, value) => {
-    if (typeof value !== 'object') {
-      return;
+// http://officeopenxml.com/WPtableCellProperties-Margins.php
+export function parseCellMargin(element: Element, style: CSSStyle) {
+  for (const child of element.children) {
+    const tagName = child.tagName;
+    switch (tagName) {
+      case 'w:left':
+      case 'w:start':
+        style['padding-left'] = parseSize(child, 'w:w');
+        break;
+
+      case 'w:right':
+      case 'w:end':
+        style['padding-right'] = parseSize(child, 'w:w');
+        break;
+
+      case 'w:top':
+        style['padding-top'] = parseSize(child, 'w:w');
+        break;
+
+      case 'w:bottom':
+        style['padding-bottom'] = parseSize(child, 'w:w');
+        break;
     }
-    switch (key) {
-      case 'left':
-      case 'start':
-        style['padding-left'] = parseSize(value, WAttr.w);
-        break;
-
-      case 'right':
-      case 'end':
-        style['padding-right'] = parseSize(value, WAttr.w);
-        break;
-
-      case 'top':
-        style['padding-top'] = parseSize(value, WAttr.w);
-        break;
-
-      case 'bottom':
-        style['padding-bottom'] = parseSize(value, WAttr.w);
-        break;
-    }
-  });
+  }
 }
 
-function parseVAlign(data: XMLData, style: CSSStyle) {
-  const vAlign = data[WAttr.val] as ST_VerticalJc;
+function parseVAlign(element: Element, style: CSSStyle) {
+  const vAlign = getVal(element) as ST_VerticalJc;
 
   switch (vAlign) {
     case ST_VerticalJc.bottom:
@@ -79,20 +70,20 @@ function parseVAlign(data: XMLData, style: CSSStyle) {
 /**
  * http://officeopenxml.com/WPtableWidth.php
  */
-export function parseTblWidth(data: XMLData) {
-  const type = data[WAttr.type] as ST_TblWidth;
+export function parseTblWidth(element: Element) {
+  const type = element.getAttribute('w:type') as ST_TblWidth;
   if (!type || type === ST_TblWidth.dxa) {
-    return parseSize(data, WAttr.w);
+    return parseSize(element, 'w:w');
   } else if (type === ST_TblWidth.pct) {
-    return parseSize(data, WAttr.w, LengthUsage.Percent);
+    return parseSize(element, 'w:w', LengthUsage.Percent);
   } else {
     console.warn('parseTblWidth: ignore type', type);
   }
   return '';
 }
 
-function parseTcW(data: XMLData, style: CSSStyle) {
-  const width = parseTblWidth(data);
+function parseTcW(element: Element, style: CSSStyle) {
+  const width = parseTblWidth(element);
   if (width) {
     style.width = width;
   }
@@ -108,84 +99,87 @@ export class Tc {
     }
   }
 
-  static parseTcProperties(word: Word, xml: XMLData) {
+  static parseTcProperties(word: Word, element: Element) {
     const properties: TcProperties = {};
     const style: CSSStyle = {};
     properties.cssStyle = style;
 
-    loopChildren(xml, (key, value) => {
-      switch (key) {
-        case WTag.tcMar:
-          parseCellMargin(value as XMLData, style);
+    for (const child of element.children) {
+      const tagName = child.tagName;
+      switch (tagName) {
+        case 'w:tcMar':
+          parseCellMargin(child, style);
           break;
 
-        case WTag.shd:
+        case 'w:shd':
           style['background-color'] = parseColorAttr(
             word,
-            value as XMLData,
-            WAttr.fill,
+            child,
+            'w:fill',
             'inherit'
           );
           break;
 
-        case WTag.tcW:
-          parseTcW(value as XMLData, style);
+        case 'w:tcW':
+          parseTcW(child, style);
           break;
 
-        case WTag.noWrap:
+        case 'w:noWrap':
           // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/noWrap.html
-          const noWrap = getValBoolean(value);
+          const noWrap = getValBoolean(child);
           if (noWrap) {
             style['white-space'] = 'nowrap';
           }
           break;
 
-        case WTag.vAlign:
-          parseVAlign(value as XMLData, style);
+        case 'w:vAlign':
+          parseVAlign(child, style);
           break;
 
-        case WTag.tcBorders:
-          parseBorders(word, value as XMLData, style);
+        case 'w:tcBorders':
+          parseBorders(word, child, style);
           break;
 
-        case WTag.gridSpan:
-          properties.gridSpan = getValNumber(value);
+        case 'w:gridSpan':
+          properties.gridSpan = getValNumber(child);
           break;
 
-        case WTag.vMerge:
-          properties.vMerge = (getVal(value) as ST_Merge) || ST_Merge.continue;
+        case 'w:vMerge':
+          properties.vMerge = (getVal(child) as ST_Merge) || ST_Merge.continue;
           break;
 
         default:
-          console.warn('parseTcProperties: ignore', key);
+          console.warn('parseTcProperties: ignore', tagName);
       }
-    });
+    }
+
     return properties;
   }
 
   static fromXML(
     word: Word,
-    xml: XMLData,
+    element: Element,
     colIndex: number,
     rowSpanMap: {[key: string]: Tc}
   ): Tc | null {
     const tc = new Tc();
 
-    loopChildren(xml, (key, value) => {
-      switch (key) {
-        case WTag.tcPr:
-          tc.properties = Tc.parseTcProperties(word, value as XMLData);
+    for (const child of element.children) {
+      const tagName = child.tagName;
+      switch (tagName) {
+        case 'w:tcPr':
+          tc.properties = Tc.parseTcProperties(word, child);
           break;
 
-        case WTag.p:
-          tc.add(Paragraph.fromXML(word, value as XMLData));
+        case 'w:p':
+          tc.add(Paragraph.fromXML(word, child));
           break;
 
-        case WTag.tbl:
-          tc.add(Table.fromXML(word, value as XMLData));
+        case 'w:tbl':
+          tc.add(Table.fromXML(word, child));
           break;
       }
-    });
+    }
 
     // 如果是 continue 意味着这个被合并了
     if (tc.properties.vMerge === ST_Merge.continue) {

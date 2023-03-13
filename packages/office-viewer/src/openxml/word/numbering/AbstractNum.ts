@@ -3,42 +3,35 @@
  * http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/abstractNum.html
  */
 
-import {XMLData, WTag, WAttr, loopChildren, getVal} from './../../../OpenXML';
-
 import {ST_MultiLevelType} from '../../Types';
 import {Lvl} from './Lvl';
 import Word from '../../../Word';
+import {getVal} from '../../../OpenXML';
 
 export class AbstractNum {
   abstractNumId: string;
   multiLevelType?: ST_MultiLevelType;
   lvls: Record<string, Lvl> = {};
 
-  static fromXML(word: Word, data: XMLData): AbstractNum {
+  static fromXML(word: Word, element: Element): AbstractNum {
     const abstractNum = new AbstractNum();
 
-    abstractNum.abstractNumId = data[WAttr.abstractNumId] as string;
-    abstractNum.multiLevelType = data[WTag.multiLevelType] as ST_MultiLevelType;
+    abstractNum.abstractNumId = element.getAttribute('w:abstractNumId') || '';
+    abstractNum.multiLevelType = element.getAttribute(
+      'w:multiLevelType'
+    ) as ST_MultiLevelType;
 
-    const lvl = data[WTag.lvl] as XMLData[];
+    const lvls = element.getElementsByTagName('w:lvl');
+    for (const child of lvls) {
+      const lvlId = child.getAttribute('w:ilvl') || '';
+      abstractNum.lvls[lvlId] = Lvl.fromXML(word, child);
+    }
 
-    loopChildren(data, (key, value) => {
-      if (typeof value !== 'object') {
-        return;
-      }
+    const multiLevelType = element.querySelector('multiLevelType');
 
-      switch (key) {
-        case WTag.multiLevelType:
-          abstractNum.multiLevelType = getVal(value) as ST_MultiLevelType;
-          break;
-
-        case WTag.lvl:
-          const lvlData = value as XMLData;
-          const lvlId = lvlData[WAttr.ilvl] as string;
-          abstractNum.lvls[lvlId] = Lvl.fromXML(word, lvlData);
-          break;
-      }
-    });
+    if (multiLevelType) {
+      abstractNum.multiLevelType = getVal(multiLevelType) as ST_MultiLevelType;
+    }
 
     return abstractNum;
   }

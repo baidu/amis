@@ -86,19 +86,37 @@ function generateStyle(word: Word) {
 
     let tblStyleText = '';
     if (styleData.tblPr) {
-      const tblStyle = styleToText(styleData.tblPr.tblCSSStyle);
-      const tcStyle = styleToText(styleData.tblPr.tcCSSStyle);
+      const tblPr = styleData.tblPr;
+      const tblStyle = styleToText(tblPr.cssStyle);
+      const tcStyle = styleToText(tblPr.tcCSSStyle);
 
       tblStyleText = `
-     .${classPrefix}.${styleDisplayId} {
+     .${classPrefix} .${styleDisplayId} {
       border-collapse: collapse;
       ${tblStyle}
      }
 
-     .${classPrefix}.${styleDisplayId} > tbody > tr > td {
+     .${classPrefix} .${styleDisplayId} > tbody > tr > td {
       ${tcStyle}
-     }s
+     }
      `;
+
+      if (tblPr.insideBorder) {
+        const insideBorder = tblPr.insideBorder;
+        if (insideBorder.H) {
+          tblStyleText += `
+          .${classPrefix} .${styleDisplayId} > tbody > tr > td {
+            border-top: ${insideBorder.H};
+          }`;
+        }
+
+        if (insideBorder.V) {
+          tblStyleText += `
+          .${classPrefix} .${styleDisplayId} > tbody > tr > td {
+            border-left: ${insideBorder.V};
+          }`;
+        }
+      }
     }
 
     styleResult += `

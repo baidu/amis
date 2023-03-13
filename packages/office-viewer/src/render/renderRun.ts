@@ -19,7 +19,6 @@ export default function renderRun(word: Word, run: Run) {
 
   if (run.children.length === 1 && run.children[0] instanceof Text) {
     const text = run.children[0] as Text;
-
     span.textContent = text.text;
   } else {
     for (const child of run.children) {

@@ -2,7 +2,7 @@
  * 段落的定义和解析
  */
 
-import {loopChildren, WAttr, WTag, XMLData} from '../../OpenXML';
+import {getVal} from '../../OpenXML';
 import {parsePr} from '../../parse/parsePr';
 import Word from '../../Word';
 import {BookmarkStart} from './Bookmark';
@@ -46,66 +46,63 @@ export class Paragraph {
 
   static parseParagraphProperties(
     word: Word,
-    data: XMLData
+    element: Element
   ): ParagraphProperties {
-    const cssStyle = parsePr(word, data, 'p');
+    const cssStyle = parsePr(word, element, 'p');
 
     let pStyle;
-    if (WTag.pStyle in data) {
-      const pStyleTag = data[WTag.pStyle] as XMLData;
-      if (typeof pStyleTag === 'object') {
-        pStyle = pStyleTag[WAttr.val] as string;
-      }
+    const pStyleTag = element.querySelector('pStyle');
+    if (pStyleTag) {
+      pStyle = getVal(pStyleTag);
     }
 
     let numPr;
-    if (WTag.numPr in data) {
-      numPr = NumberProperties.fromXML(word, data[WTag.numPr] as XMLData);
+    const numPrTag = element.querySelector('numPr');
+    if (numPrTag) {
+      numPr = NumberProperties.fromXML(word, numPrTag);
     }
 
     return {cssStyle, pStyle, numPr};
   }
 
-  static fromXML(word: Word, data: XMLData): Paragraph {
+  static fromXML(word: Word, element: Element): Paragraph {
     const paragraph = new Paragraph();
 
-    loopChildren(data, (key, value) => {
-      if (typeof value !== 'object') {
-        return;
-      }
-
-      switch (key) {
-        case WTag.pPr:
+    for (const child of element.children) {
+      const tagName = child.tagName;
+      switch (tagName) {
+        case 'w:pPr':
           paragraph.properties = Paragraph.parseParagraphProperties(
             word,
-            value
+            child
           );
           break;
 
-        case WTag.r:
-          paragraph.addChild(Run.fromXML(word, value));
+        case 'w:r':
+          paragraph.addChild(Run.fromXML(word, child));
           break;
 
-        case WTag.hyperlink:
-          paragraph.addChild(Hyperlink.fromXML(word, value));
+        case 'w:hyperlink':
+          paragraph.addChild(Hyperlink.fromXML(word, child));
           break;
 
-        case WTag.bookmarkStart:
-          paragraph.addChild(BookmarkStart.fromXML(word, value));
+        case 'w:bookmarkStart':
+          paragraph.addChild(BookmarkStart.fromXML(word, child));
 
-        case WTag.bookmarkEnd:
+        case 'w:bookmarkEnd':
           // 没啥用所以不解析了
           break;
 
-        case WTag.proofErr:
-        case WTag.noProof:
+        case 'w:proofErr':
+        case 'w:noProof':
           // 语法检查
           break;
 
         default:
-          console.warn('parse Paragraph: Unknown key', key);
+          console.warn('parse Paragraph: Unknown key', tagName);
       }
-    });
+    }
+
     return paragraph;
   }
 }

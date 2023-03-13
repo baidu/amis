@@ -1,13 +1,16 @@
-import {XMLData, WPTag} from '../../../OpenXML';
 import Word from '../../../Word';
 import {Inline} from './Inline';
 
 export class Drawing {
   inline: Inline;
 
-  static fromXML(word: Word, data: XMLData): Drawing | null {
+  static fromXML(word: Word, element: Element): Drawing | null {
     const drawing = new Drawing();
-    drawing.inline = Inline.fromXML(word, data[WPTag.inline] as XMLData);
+    const inlineElement = element.querySelector('inline');
+    if (inlineElement) {
+      drawing.inline = Inline.fromXML(word, inlineElement);
+    }
+
     return drawing;
   }
 }

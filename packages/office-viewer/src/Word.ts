@@ -4,18 +4,18 @@
 
 import {parse, evaluate} from 'amis-formula';
 import PackageParser from './PackageParser';
-import {XMLData} from './OpenXML';
 import {parseRelationships, Relationship} from './parse/parseRelationship';
 import {ContentTypes, parseContentType} from './openxml/ContentType';
 import {parseStyles, Styles} from './openxml/Style';
 import {parseTheme, Theme} from './openxml/Theme';
-import {Document} from './openxml/word/Document';
+
 import renderDocument from './render/renderDocument';
 import {blobToDataURL} from './util/blob';
 import {Numbering} from './openxml/word/numbering/Numbering';
 import {appendChild, appendComment, createElement} from './util/dom';
 import {renderStyle} from './render/renderStyle';
 import {mergeRun} from './util/mergeRun';
+import {WDocument} from './openxml/word/Document';
 
 /**
  * 渲染配置
@@ -186,13 +186,11 @@ export default class Word {
    */
   async initRelation() {
     const rels = parseRelationships(
-      (await this.parser.getXML('/_rels/.rels'))['Relationships'],
+      await this.parser.getXML('/_rels/.rels'),
       'root'
     );
     const documentRels = parseRelationships(
-      (await this.parser.getXML('/word/_rels/document.xml.rels'))[
-        'Relationships'
-      ],
+      await this.parser.getXML('/word/_rels/document.xml.rels'),
       'word'
     );
     this.relationships = {...rels, ...documentRels};
@@ -260,7 +258,7 @@ export default class Word {
   /**
    * 解析 html
    */
-  async getXML(filePath: string): Promise<XMLData> {
+  async getXML(filePath: string): Promise<Document> {
     return this.parser.getXML(filePath);
   }
 
@@ -319,13 +317,11 @@ export default class Word {
     console.log(this);
     const documentData = await this.getXML('word/document.xml');
 
-    console.log(documentData);
-
     if (this.renderOptions.replaceVar) {
-      mergeRun(this, documentData);
+      // mergeRun(this, documentData);
     }
 
-    const document = Document.fromXML(this, documentData);
+    const document = WDocument.fromXML(this, documentData);
 
     console.log(document);
     const documentElement = await renderDocument(this, document);

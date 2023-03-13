@@ -1,5 +1,5 @@
 import {CSSStyle} from '../../Style';
-import {getValBoolean, loopChildren, WTag, XMLData} from '../../../OpenXML';
+import {getValBoolean} from '../../../OpenXML';
 import {Tc} from './Tc';
 import Word from '../../../Word';
 
@@ -9,20 +9,24 @@ export interface TrProperties {
 
 export class Tr {
   properties: TrProperties;
-  children: Tc[] = [];
+  tcs: Tc[] = [];
 
-  static parseTrProperties(word: Word, data: XMLData): TrProperties {
+  static parseTrProperties(word: Word, element: Element): TrProperties {
     const cssStyle: CSSStyle = {};
 
-    loopChildren(data, (key, value) => {
-      switch (key) {
-        case WTag.hidden:
-          if (getValBoolean(value)) {
+    for (const child of element.children) {
+      const tagName = child.tagName;
+      switch (tagName) {
+        case 'w:hidden':
+          if (getValBoolean(child)) {
             cssStyle.display = 'none';
           }
           break;
+
+        default:
+          console.warn(`Tr: Unknown tag `, tagName);
       }
-    });
+    }
 
     return {
       cssStyle
@@ -31,26 +35,31 @@ export class Tr {
 
   static fromXML(
     word: Word,
-    xml: XMLData,
+    element: Element,
     rowSpanMap: {[key: string]: Tc}
   ): Tr {
     const tr = new Tr();
 
     let colIndex = 0;
-    loopChildren(xml, (key, value) => {
-      switch (key) {
-        case WTag.tc:
-          const tc = Tc.fromXML(word, value as XMLData, colIndex, rowSpanMap);
+
+    for (const child of element.children) {
+      const tagName = child.tagName;
+      switch (tagName) {
+        case 'w:tc':
+          const tc = Tc.fromXML(word, child, colIndex, rowSpanMap);
           if (tc) {
-            tr.children.push(tc);
+            tr.tcs.push(tc);
             const colSpan = tc.properties.gridSpan || 1;
             colIndex += colSpan;
           } else {
             colIndex += 1;
           }
           break;
+
+        default:
+          console.warn(`Tr: Unknown tag `, tagName);
       }
-    });
+    }
 
     return tr;
   }

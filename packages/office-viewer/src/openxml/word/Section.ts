@@ -4,7 +4,6 @@
  * 参考了 docx 里的类型定义
  */
 
-import {loopChildren, WAttr, WTag, XMLData} from '../../OpenXML';
 import {parseSize} from '../../parse/parseSize';
 import {
   ST_ChapterSep,
@@ -60,39 +59,36 @@ export class Section {
     this.children.push(child);
   }
 
-  static parseProperties(data: XMLData): SectionProperties {
+  static parseProperties(element: Element): SectionProperties {
     const properties: SectionProperties = {};
 
-    loopChildren(data, (key, value, attr) => {
-      if (typeof value !== 'object') {
-        return;
-      }
-
-      switch (key) {
-        case WTag.pgSz:
+    for (const child of element.children) {
+      const tagName = child.tagName;
+      switch (tagName) {
+        case 'w:pgSz':
           properties.pageSize = {
-            width: parseSize(attr, WAttr.w),
-            height: parseSize(attr, WAttr.h)
+            width: parseSize(child, 'w:w'),
+            height: parseSize(child, 'w:h')
           };
 
           break;
 
-        case WTag.pgMar:
+        case 'w:pgMar':
           properties.pageMargin = {
-            left: parseSize(attr, WAttr.left),
-            right: parseSize(attr, WAttr.right),
-            top: parseSize(attr, WAttr.top),
-            bottom: parseSize(attr, WAttr.bottom),
-            header: parseSize(attr, WAttr.header),
-            footer: parseSize(attr, WAttr.footer),
-            gutter: parseSize(attr, WAttr.gutter)
+            left: parseSize(child, 'w:left'),
+            right: parseSize(child, 'w:right'),
+            top: parseSize(child, 'w:top'),
+            bottom: parseSize(child, 'w:bottom'),
+            header: parseSize(child, 'w:header'),
+            footer: parseSize(child, 'w:footer'),
+            gutter: parseSize(child, 'w:gutter')
           };
           break;
 
         default:
           break;
       }
-    });
+    }
 
     return properties;
   }

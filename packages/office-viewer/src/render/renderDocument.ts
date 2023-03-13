@@ -7,9 +7,9 @@ import {createElement} from '../util/dom';
 import Word from '../Word';
 import renderBody from './renderBody';
 
-import {Document} from '../openxml/word/Document';
+import {WDocument} from '../openxml/word/Document';
 
-export default async function renderDocument(word: Word, document: Document) {
+export default async function renderDocument(word: Word, document: WDocument) {
   const doc = createElement('article');
   renderBody(word, doc, document.body);
   return doc;

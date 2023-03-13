@@ -2,7 +2,7 @@
  * 解析共享样式 Style
  */
 
-import {WAttr, WTag, loopChildren, XMLData, getVal} from '../OpenXML';
+import {getVal} from '../OpenXML';
 import Word from '../Word';
 import {ST_StyleType} from './Types';
 import {Paragraph, ParagraphProperties} from './word/Paragraph';
@@ -34,62 +34,69 @@ export interface Styles {
   defaultStyle?: Style;
 }
 
-function parseDefaultStyle(word: Word, data: XMLData) {
+function parseDefaultStyle(word: Word, element: Element | null) {
   const defaultStyle: Style = {};
-  if (WTag.rPrDefault in data) {
-    const rPrDefaultData = data[WTag.rPrDefault];
-    if (typeof rPrDefaultData === 'object' && WTag.rPr in rPrDefaultData) {
-      defaultStyle.rPr = Run.parseRunProperties(
-        word,
-        rPrDefaultData[WTag.rPr] as XMLData
-      );
+  if (!element) {
+    return defaultStyle;
+  }
+  const rPrDefault = element.querySelector('rPrDefault');
+  if (rPrDefault) {
+    const rPr = rPrDefault.querySelector('rPr');
+    if (rPr) {
+      defaultStyle.rPr = Run.parseRunProperties(word, rPr);
     }
   }
-  if (WTag.pPrDefault in data) {
-    const pPrDefault = data[WTag.pPrDefault];
-    if (typeof pPrDefault === 'object' && WTag.pPr in pPrDefault) {
-      defaultStyle.pPr = Paragraph.parseParagraphProperties(
-        word,
-        pPrDefault[WTag.pPr] as XMLData
-      );
+  const pPrDefault = element.querySelector('pPrDefault');
+  if (pPrDefault) {
+    const pPr = pPrDefault.querySelector('pPr');
+    if (pPr) {
+      defaultStyle.pPr = Paragraph.parseParagraphProperties(word, pPr);
     }
   }
   return defaultStyle;
 }
 
-function parseStyle(word: Word, data: XMLData) {
+function parseStyle(word: Word, element: Element) {
   const style: Style = {};
-  if (WTag.rPr in data) {
-    style.rPr = Run.parseRunProperties(word, data[WTag.rPr] as XMLData);
-  }
-  if (WTag.pPr in data && Object.keys(data[WTag.pPr]).length > 0) {
-    style.pPr = Paragraph.parseParagraphProperties(
-      word,
-      data[WTag.pPr] as XMLData
-    );
-  }
-  if (WTag.tblPr in data && Object.keys(data[WTag.tblPr]).length > 0) {
-    style.tblPr = Table.parseTableProperties(word, data[WTag.tblPr] as XMLData);
-  }
-  if (WTag.name in data) {
-    const name = data[WTag.name] as XMLData;
-    if (typeof name === 'object' && WAttr.val in name) {
-      style.name = name[WAttr.val] as string;
+
+  style.id = element.getAttribute('w:styleId') || '';
+  style.type = element.getAttribute('w:type') as ST_StyleType;
+
+  for (const child of element.children) {
+    const tag = child.tagName;
+    switch (tag) {
+      case 'w:name':
+        style.name = getVal(child);
+        break;
+
+      case 'w:basedOn':
+        style.basedOn = getVal(child);
+        break;
+
+      case 'w:rPr':
+        style.rPr = Run.parseRunProperties(word, child);
+        break;
+
+      case 'w:pPr':
+        style.pPr = Paragraph.parseParagraphProperties(word, child);
+        break;
+
+      case 'w:tblPr':
+        style.tblPr = Table.parseTableProperties(word, child);
+        break;
+
+      case 'w:next':
+      case 'w:link':
+      case 'w:unhideWhenUsed':
+      case 'w:qFormat':
+      case 'w:rsid':
+        break;
+
+      default:
+        console.warn('parseStyle Unknown tag', tag);
     }
   }
 
-  if (WAttr.type in data) {
-    style.type = data[WAttr.type] as ST_StyleType;
-  }
-
-  if (WTag.basedOn in data) {
-    const basedOn = data[WTag.basedOn] as XMLData;
-    style.basedOn = getVal(basedOn);
-  }
-
-  if (WAttr.styleId in data) {
-    style.id = data[WAttr.styleId] as string;
-  }
   return style;
 }
 
@@ -97,27 +104,24 @@ function parseStyle(word: Word, data: XMLData) {
  * 解析 styles.xml
  * @param data
  */
-export function parseStyles(word: Word, data: XMLData): Styles {
-  const stylesData = data[WTag.styles] as XMLData;
+export function parseStyles(word: Word, doc: Document): Styles {
   const styles: Styles = {
     styleMap: {}
   };
 
-  loopChildren(stylesData, function (key, value) {
-    if (typeof value !== 'object') {
-      return;
-    }
+  const stylesElement = Array.from(doc.getElementsByTagName('w:style'));
 
-    if (key === WTag.style) {
-      const style = parseStyle(word, value);
-      if (style.id) {
-        styles.styleMap[style.id] = style;
-      }
-    } else if (key == WTag.docDefaults) {
-      styles.defaultStyle = parseDefaultStyle(word, value);
+  for (let styleElement of stylesElement) {
+    const style = parseStyle(word, styleElement);
+    if (style.id) {
+      styles.styleMap[style.id] = style;
     }
-    // 还有个 w:latentStyles 并不知道是啥
-  });
+  }
+
+  styles.defaultStyle = parseDefaultStyle(
+    word,
+    doc.querySelector('docDefaults')
+  );
 
   return styles;
 }

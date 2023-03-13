@@ -1,4 +1,3 @@
-import {WAttr, XMLData} from '../../OpenXML';
 import Word from '../../Word';
 
 export class BookmarkStart {
@@ -8,8 +7,8 @@ export class BookmarkStart {
     this.name = name;
   }
 
-  static fromXML(word: Word, data: XMLData): BookmarkStart {
-    const name = data[WAttr.name] as string;
+  static fromXML(word: Word, element: Element): BookmarkStart {
+    const name = element.getAttribute('w:name');
     if (name) {
       return new BookmarkStart(name);
     } else {

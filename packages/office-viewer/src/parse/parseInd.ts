@@ -3,16 +3,16 @@
  */
 
 import {CSSStyle} from '../openxml/Style';
-import {WAttr, XMLData} from '../OpenXML';
+
 import {parseSize} from './parseSize';
 
-export function parseInd(data: XMLData, style: CSSStyle) {
-  const firstLine = parseSize(data, WAttr.firstLine);
-  const hanging = parseSize(data, WAttr.hanging);
-  const left = parseSize(data, WAttr.left);
-  const start = parseSize(data, WAttr.start);
-  const right = parseSize(data, WAttr.right);
-  const end = parseSize(data, WAttr.end);
+export function parseInd(element: Element, style: CSSStyle) {
+  const firstLine = parseSize(element, 'w:firstLine');
+  const hanging = parseSize(element, 'w:hanging');
+  const left = parseSize(element, 'w:left');
+  const start = parseSize(element, 'w:start');
+  const right = parseSize(element, 'w:right');
+  const end = parseSize(element, 'w:end');
 
   if (firstLine) {
     style['text-indent'] = firstLine;

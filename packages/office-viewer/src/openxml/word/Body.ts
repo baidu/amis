@@ -1,4 +1,3 @@
-import {loopChildren, WTag, XMLData} from '../../OpenXML';
 import Word from '../../Word';
 import {Paragraph} from './Paragraph';
 import {Section, SectionChild, SectionProperties} from './Section';
@@ -33,30 +32,30 @@ export class Body {
     this.sections.push(this.currentSection);
   }
 
-  static fromXML(word: Word, data: XMLData): Body {
+  static fromXML(word: Word, element: Element): Body {
     const body = new Body();
-    loopChildren(data, (key, value) => {
-      // 只支持标签
-      if (typeof value === 'object') {
-        switch (key) {
-          case WTag.p:
-            const paragraph = Paragraph.fromXML(word, value as XMLData);
-            body.addChild(paragraph);
-            break;
 
-          case WTag.sectPr:
-            body.addSection(Section.parseProperties(value as XMLData));
-            break;
+    for (const child of element.children) {
+      const tagName = child.tagName;
+      switch (tagName) {
+        case 'w:p':
+          const paragraph = Paragraph.fromXML(word, child);
+          body.addChild(paragraph);
+          break;
 
-          case WTag.tbl:
-            const table = Table.fromXML(word, value as XMLData);
-            body.addChild(table);
+        case 'w:sectPr':
+          body.addSection(Section.parseProperties(child));
+          break;
 
-          default:
-            console.warn('Body.fromXML Unknown key', key);
-        }
+        case 'w:tbl':
+          const table = Table.fromXML(word, child);
+          body.addChild(table);
+
+        default:
+          console.warn('Body.fromXML Unknown key', tagName);
       }
-    });
+    }
+
     return body;
   }
 }

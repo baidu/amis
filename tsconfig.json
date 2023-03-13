@@ -18,6 +18,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "skipLibCheck": true,
+    "downlevelIteration": true,
     "composite": true,
     "baseUrl": "./",
     "paths": {

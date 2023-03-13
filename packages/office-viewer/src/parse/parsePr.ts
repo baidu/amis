@@ -4,23 +4,15 @@
 
 import {LengthUsage} from './parseSize';
 import {CSSStyle} from '../openxml/Style';
-import {addClassName, createElement, setStyle} from '../util/dom';
 import Word from '../Word';
-import {
-  WAttr,
-  WTag,
-  XMLData,
-  XMLKeys,
-  loopChildren,
-  getVal,
-  getValBoolean
-} from '../OpenXML';
+import {getVal, getValBoolean} from '../OpenXML';
 import {parseBorder, parseBorders} from './parseBorder';
 import {parseColor, parseColorAttr} from './parseColor';
 import {parseInd} from './parseInd';
 import {parseSize} from './parseSize';
 import {parseSpacing} from './parseSpacing';
 import {parseFont} from './parseFont';
+import {ST_VerticalAlignRun} from '../openxml/Types';
 
 /** 将 jc 转成 text-align
  *
@@ -48,8 +40,8 @@ function jcToTextAlign(jc: string) {
  * 解析 underline 并附上样式
  * http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/u.html
  */
-function parseUnderline(word: Word, data: XMLData, style: CSSStyle) {
-  const val = data[WAttr.val];
+function parseUnderline(word: Word, element: Element, style: CSSStyle) {
+  const val = getVal(element);
 
   if (val == null) return;
 
@@ -94,7 +86,7 @@ function parseUnderline(word: Word, data: XMLData, style: CSSStyle) {
       break;
   }
 
-  const color = parseColorAttr(word, data);
+  const color = parseColorAttr(word, element);
 
   if (color) {
     style['text-decoration-color'] = color;
@@ -105,28 +97,29 @@ function parseUnderline(word: Word, data: XMLData, style: CSSStyle) {
  * 目前只有部分支持
  * http://officeopenxml.com/WPparagraph-textFrames.php
  */
-function parseFrame(data: XMLData, style: CSSStyle) {
-  for (const key in data) {
-    const value = data[key as XMLKeys];
-    switch (key) {
-      case WAttr.dropCap:
+function parseFrame(element: Element, style: CSSStyle) {
+  for (const attribute of element.attributes) {
+    const name = attribute.name;
+    const value = attribute.value;
+    switch (name) {
+      case 'w:dropCap':
         if (value === 'drop') {
           style['float'] = 'left';
         }
         break;
 
-      case WAttr.h:
+      case 'w:h':
         if (typeof value === 'object' && !Array.isArray(value)) {
-          style['height'] = parseSize(value, WAttr.h);
+          style['height'] = parseSize(value, 'w:h');
         }
 
-      case WAttr.w:
+      case 'w:w':
         if (typeof value === 'object' && !Array.isArray(value)) {
-          style['width'] = parseSize(value, WAttr.w);
+          style['width'] = parseSize(value, 'w:w');
         }
 
       default:
-        console.warn('parseFrame: unknown attribute ' + key);
+        console.warn('parseFrame: unknown attribute ' + name);
     }
   }
 }
@@ -138,83 +131,89 @@ const HighLightColor = 'transparent';
  * @param type 所属类型
  * @returns 样式
  */
-export function parsePr(word: Word, data: XMLData, type: 'r' | 'p' = 'p') {
+export function parsePr(word: Word, element: Element, type: 'r' | 'p' = 'p') {
   let style: CSSStyle = {};
-  loopChildren(data, (key, value, attr) => {
-    switch (key) {
-      case WTag.sz:
-      case WTag.szCs:
-        style['font-size'] = parseSize(attr, WAttr.val, LengthUsage.FontSize);
+  for (const child of element.children) {
+    const tagName = child.tagName;
+    switch (tagName) {
+      case 'w:sz':
+      case 'w:szCs':
+        style['font-size'] = parseSize(child, 'w:val', LengthUsage.FontSize);
         break;
 
-      case WTag.jc:
-        style['text-align'] = jcToTextAlign(getVal(attr));
+      case 'w:jc':
+        style['text-align'] = jcToTextAlign(getVal(child));
         break;
 
-      case WTag.framePr:
-        parseFrame(attr, style);
+      case 'w:framePr':
+        parseFrame(child, style);
         break;
 
-      case WTag.pBdr:
-      case WTag.pBdr:
-        parseBorders(word, attr, style);
+      case 'w:pBdr':
+      case 'w:pBdr':
+        parseBorders(word, child, style);
         break;
 
-      case WTag.ind:
-        parseInd(attr, style);
+      case 'w:ind':
+        parseInd(child, style);
         break;
 
-      case WTag.color:
-        style['color'] = parseColor(word, attr);
+      case 'w:color':
+        style['color'] = parseColor(word, child);
         break;
 
-      case WTag.shd:
+      case 'w:shd':
         // 如果已经有设置说明是 highlight
         if (!('background-color' in style)) {
           // http://officeopenxml.com/WPshading.php
           style['background-color'] = parseColorAttr(
             word,
-            attr,
-            WAttr.fill,
+            child,
+            'w:fill',
             'inherit'
           );
           break;
         }
 
-      case WTag.spacing:
-        parseSpacing(attr, style);
+      case 'w:spacing':
+        parseSpacing(child, style);
         break;
 
-      case WTag.highlight:
+      case 'w:highlight':
         // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/highlight.html
         // 这个按文档是重要性高于 shd
         style['background-color'] = parseColorAttr(
           word,
-          attr,
-          WAttr.fill,
+          child,
+          'w:fill',
           HighLightColor
         );
         break;
 
-      case WTag.vertAlign:
+      case 'w:vertAlign':
         // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/vertAlign.html
-        // 这个和 position 有冲突，所以先换成后面的 sub sup 标签实现了
+        // 这个其实和 position 有冲突，但预计这两个同时出现的概率不高
+        const vertAlign = getVal(child);
+        if (vertAlign === ST_VerticalAlignRun.superscript) {
+          style['vertical-align'] = 'super';
+        } else if (vertAlign === ST_VerticalAlignRun.subscript) {
+          style['vertical-align'] = 'sub';
+        }
         break;
 
-      case WTag.position:
+      case 'w:position':
         // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/position.html
         style['vertical-align'] = parseSize(
-          attr,
-          WAttr.val,
+          child,
+          'w:val',
           LengthUsage.FontSize
         );
         break;
 
-      case WTag.trHeight:
+      case 'w:trHeight':
         // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/trHeight.html
-        const trHeight = attr;
-        const height = parseSize(trHeight, WAttr.val);
-        const hRule = trHeight[WAttr.hRule];
+        const height = parseSize(child, 'w:val');
+        const hRule = child.getAttribute('w:hRule');
         if (hRule === 'exact') {
           style['height'] = height;
         } else if (hRule === 'atLeast') {
@@ -223,153 +222,103 @@ export function parsePr(word: Word, data: XMLData, type: 'r' | 'p' = 'p') {
           style['min-height'] = height;
         }
         break;
-      case WTag.strike:
-      case WTag.dstrike:
+      case 'w:strike':
+      case 'w:dstrike':
         // 其实不支持 dstrike，都统一为 strike
         // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/dstrike.html
-        style['text-decoration'] = getValBoolean(attr)
+        style['text-decoration'] = getValBoolean(child)
           ? 'line-through'
           : 'none';
 
-      case WTag.b:
+      case 'w:b':
         // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/b.html
-        style['font-weight'] = getValBoolean(attr) ? 'bold' : 'normal';
+        style['font-weight'] = getValBoolean(child) ? 'bold' : 'normal';
         break;
 
-      case WTag.bCs:
-      case WTag.iCs:
+      case 'w:bCs':
+      case 'w:iCs':
         // 忽略，因为 CSS 没法按这个判断
         break;
 
-      case WTag.i:
+      case 'w:i':
         // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/i.html
-        style['font-style'] = getValBoolean(attr) ? 'italic' : 'normal';
+        style['font-style'] = getValBoolean(child) ? 'italic' : 'normal';
         break;
 
-      case WTag.caps:
+      case 'w:caps':
         // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/caps.html
-        style['text-transform'] = getValBoolean(attr) ? 'uppercase' : 'normal';
+        style['text-transform'] = getValBoolean(child) ? 'uppercase' : 'normal';
         break;
 
-      case WTag.smallCaps:
+      case 'w:smallCaps':
         // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/smallCaps.html
-        style['text-transform'] = getValBoolean(attr) ? 'lowercase' : 'normal';
+        style['text-transform'] = getValBoolean(child) ? 'lowercase' : 'normal';
         break;
 
-      case WTag.u:
+      case 'w:u':
         // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/u.html
-        parseUnderline(word, attr, style);
+        parseUnderline(word, child, style);
         break;
 
-      case WTag.rFonts:
-        parseFont(attr, style);
+      case 'w:rFonts':
+        parseFont(child, style);
         break;
 
-      case WTag.tblCellSpacing:
+      case 'w:tblCellSpacing':
         // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/tblCellSpacing_1.html
-        style['border-spacing'] = parseSize(attr, WAttr.w);
+        style['border-spacing'] = parseSize(child, 'w:w');
         style['border-collapse'] = 'separate';
         break;
 
-      case WTag.bdr:
+      case 'w:bdr':
         // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/bdr.html
-        style['border'] = parseBorder(word, attr);
+        style['border'] = parseBorder(word, child);
         break;
 
-      case WTag.vanish:
-        if (getValBoolean(attr)) {
+      case 'w:vanish':
+        if (getValBoolean(child)) {
           // 这里其实没试过 word 里到底是不是 none
           style['display'] = 'none';
         }
         break;
 
-      case WTag.kern:
+      case 'w:kern':
         style['letter-spacing'] = parseSize(
-          attr,
-          WAttr.val,
+          child,
+          'w:val',
           LengthUsage.FontSize
         );
         break;
 
-      case WTag.pStyle:
+      case 'w:pStyle':
         // 这个需要特殊处理
         break;
 
-      case WTag.lang:
-      case WTag.noProof:
+      case 'w:lang':
+      case 'w:noProof':
         // 用于拼写检查
         // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/lang.html
         break;
 
-      case WTag.keepLines:
-      case WTag.keepNext:
-      case WTag.widowControl:
-      case WTag.pageBreakBefore:
+      case 'w:keepLines':
+      case 'w:keepNext':
+      case 'w:widowControl':
+      case 'w:pageBreakBefore':
         // 用于分页的场景，目前还不支持 TODO:
         break;
 
-      case WTag.outlineLvl:
+      case 'w:outlineLvl':
         // 似乎是用于目录的，目前还不支持
         break;
 
-      case WTag.contextualSpacing:
+      case 'w:contextualSpacing':
         // 还没空看
         break;
 
       default:
-        console.warn('parsePr Unknown key', key);
+        console.warn('parsePr Unknown tagName', tagName);
     }
-  });
+  }
 
   return style;
-}
-
-/**
- * 这个应该是通用 class
- * http://officeopenxml.com/WPstyleParStyles.php
- * @returns 如果找不到就返回空字符串
- */
-export function getPStyle(data: XMLData) {
-  if (WTag.pStyle in data) {
-    const pStyle = data[WTag.pStyle];
-    if (typeof pStyle === 'object' && WAttr.val in pStyle) {
-      return pStyle[WAttr.val] as string;
-    }
-  }
-  return '';
-}
-
-/**
- * 将样式应用到元素上，调用这个函数必须将返回结果赋值回 element
- * @param element
- * @param data
- * @return 封装后的元素
- */
-export function applyStyle(
-  word: Word,
-  element: HTMLElement,
-  pr: XMLData
-): HTMLElement {
-  const style = parsePr(word, pr);
-  setStyle(element, style);
-
-  addClassName(element, word.getStyleIdDisplayName(getPStyle(pr)));
-
-  if (WTag.vertAlign in pr) {
-    const vertAlign = pr[WTag.vertAlign];
-    if (typeof vertAlign === 'object' && WAttr.val in vertAlign) {
-      const val = vertAlign[WAttr.val];
-      if (val === 'superscript') {
-        const sup = createElement('sup');
-        element.appendChild(sup);
-        return sup;
-      } else if (val === 'subscript') {
-        const sub = createElement('sub');
-        element.appendChild(sub);
-        return sub;
-      }
-    }
-  }
-
-  return element;
 }

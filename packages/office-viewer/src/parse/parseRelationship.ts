@@ -1,5 +1,3 @@
-import {XMLData, Attr, loopChildren} from '../OpenXML';
-
 export interface Relationship {
   id: string;
   type: string;
@@ -10,13 +8,13 @@ export interface Relationship {
 }
 
 export function parseRelationship(
-  data: XMLData,
+  element: Element,
   part: 'root' | 'word'
 ): Relationship {
-  const id = data[Attr.Id] as string;
-  const type = data[Attr.Type] as string;
-  const target = data[Attr.Target] as string;
-  const targetMode = data[Attr.TargetMode] as string;
+  const id = element.getAttribute('Id') || '';
+  const type = element.getAttribute('Type') || '';
+  const target = element.getAttribute('Target') || '';
+  const targetMode = element.getAttribute('TargetMode') || '';
   return {
     id,
     type,
@@ -27,16 +25,16 @@ export function parseRelationship(
 }
 
 export function parseRelationships(
-  data: XMLData,
+  element: Document,
   part: 'root' | 'word'
 ): Record<string, Relationship> {
   const relationships: Record<string, Relationship> = {};
-  loopChildren(data, (key, value) => {
-    if (key === 'Relationship') {
-      const relationship = parseRelationship(value as XMLData, part);
-      relationships[relationship.id] = relationship;
-    }
-  });
+
+  const relationshipElements = element.getElementsByTagName('Relationship');
+  for (const relationshipElement of relationshipElements) {
+    const relationship = parseRelationship(relationshipElement, part);
+    relationships[relationship.id] = relationship;
+  }
 
   return relationships;
 }

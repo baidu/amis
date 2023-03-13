@@ -1,6 +1,7 @@
-import {loopChildren, WTag, Tag, Attr, XMLData, getData} from '../../OpenXML';
+import {getVal} from '../../OpenXML';
 import {parsePr} from '../../parse/parsePr';
 import Word from '../../Word';
+import {ST_VerticalAlignRun} from '../Types';
 import {Break} from './Break';
 import {Drawing} from './drawing/Drawing';
 import {Properties} from './properties/Properties';
@@ -9,7 +10,9 @@ import {Properties} from './properties/Properties';
  * http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/Run_1.html
  */
 
-export interface RunProperties extends Properties {}
+export interface RunProperties extends Properties {
+  vertAlign?: ST_VerticalAlignRun;
+}
 
 export class Text {
   preserveSpace: boolean = false;
@@ -31,41 +34,40 @@ export class Run {
     }
   }
 
-  static parseRunProperties(word: Word, data: XMLData): RunProperties {
-    const cssStyle = parsePr(word, data, 'r');
+  static parseRunProperties(word: Word, element: Element): RunProperties {
+    const cssStyle = parsePr(word, element, 'r');
     return {cssStyle};
   }
 
-  static fromXML(word: Word, data: XMLData): Run {
+  static fromXML(word: Word, element: Element): Run {
     const run = new Run();
 
-    loopChildren(data, (key, value) => {
-      switch (key) {
-        case WTag.t:
-          value = getData(value);
-          if (typeof value === 'object') {
-            const textContent = (value[Tag.text] as string) || '';
-            const text = new Text(textContent);
-            run.addChild(text);
-          }
+    for (const child of element.children) {
+      const tagName = child.tagName;
+      switch (tagName) {
+        case 'w:t':
+          const textContent = child.textContent || '';
+          const text = new Text(textContent);
+          run.addChild(text);
+
           break;
 
-        case WTag.rPr:
-          run.properties = Run.parseRunProperties(word, value as XMLData);
+        case 'w:rPr':
+          run.properties = Run.parseRunProperties(word, child);
           break;
 
-        case WTag.br:
-          run.addChild(Break.fromXML(word, value as XMLData));
+        case 'w:br':
+          run.addChild(Break.fromXML(word, child));
           break;
 
-        case WTag.drawing:
-          run.addChild(Drawing.fromXML(word, value as XMLData));
+        case 'w:drawing':
+          run.addChild(Drawing.fromXML(word, child));
           break;
 
         default:
-          console.warn('parse Run: Unknown key', key);
+          console.warn('parse Run: Unknown key', tagName);
       }
-    });
+    }
 
     return run;
   }

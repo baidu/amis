@@ -1,4 +1,3 @@
-import {WAttr, XMLData, XMLKeys} from '../OpenXML';
 import Word from '../Word';
 /**
  * 解析颜色，转成
@@ -33,11 +32,11 @@ const knownColors = [
  */
 export function parseColorAttr(
   word: Word,
-  data: XMLData,
-  attrName: XMLKeys = WAttr.color,
+  element: Element,
+  attrName: string = 'w:color',
   autoColor: string = 'black'
 ) {
-  const color = data[attrName];
+  const color = element.getAttribute(attrName);
 
   if (color) {
     if (color == 'auto') {
@@ -49,7 +48,7 @@ export function parseColorAttr(
     return `#${color}`;
   }
 
-  const themeColor = data[WAttr.themeColor] as string;
+  const themeColor = element.getAttribute('w:themeColor');
 
   return themeColor ? word.getThemeColor(themeColor) : '';
 }
@@ -58,6 +57,6 @@ export function parseColorAttr(
  * 解析 color 标签，比如 <w:color w:themeColor="accent3" />
  * @returns css 颜色
  */
-export function parseColor(word: Word, data: XMLData) {
-  return parseColorAttr(word, data, WAttr.val);
+export function parseColor(word: Word, element: Element) {
+  return parseColorAttr(word, element, 'w:val');
 }

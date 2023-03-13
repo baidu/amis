@@ -1,16 +1,22 @@
-import {XMLData, WTag, getVal} from '../../../OpenXML';
+import {getVal} from '../../../OpenXML';
 import Word from '../../../Word';
 
 export class NumberProperties {
   ilvl: string;
   numId: string;
 
-  static fromXML(word: Word, data: XMLData): NumberProperties {
+  static fromXML(word: Word, element: Element): NumberProperties {
     const numPr = new NumberProperties();
 
-    numPr.ilvl = getVal(data[WTag.ilvl] as XMLData);
-    numPr.numId = getVal(data[WTag.numId] as XMLData);
+    const ilvl = element.querySelector('ilvl');
+    if (ilvl) {
+      numPr.ilvl = getVal(ilvl);
+    }
 
+    const numId = element.querySelector('numId');
+    if (numId) {
+      numPr.numId = getVal(numId);
+    }
     return numPr;
   }
 }

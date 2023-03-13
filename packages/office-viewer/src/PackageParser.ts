@@ -21,12 +21,20 @@ export default class PackageParser {
    * @param filePath 文件路径
    * @returns 转成 json 的结果
    */
-  async getXML(filePath: string) {
+  async getXML(filePath: string): Promise<Document> {
     const fileContent = (await this.getFileByType(
       filePath,
       'string'
     )) as string;
-    return parseXML(fileContent);
+
+    const doc = new DOMParser().parseFromString(fileContent, 'application/xml');
+
+    const errorNode = doc.querySelector('parsererror');
+    if (errorNode) {
+      throw new Error(errorNode.textContent || "can't parse xml");
+    } else {
+      return doc;
+    }
   }
 
   /**

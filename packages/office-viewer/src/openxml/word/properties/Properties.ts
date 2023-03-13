@@ -8,7 +8,7 @@ export interface Properties {
   /**
    * 解析后的 css 样式
    */
-  readonly cssStyle?: CSSStyle;
+  cssStyle?: CSSStyle;
 
-  readonly pStyle?: string;
+  pStyle?: string;
 }

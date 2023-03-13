@@ -2,34 +2,30 @@
  * 主要参考 14.2.7 Theme Part
  */
 
-import {loopChildren, ATag, Attr, XMLData} from '../OpenXML';
-
 // http://webapp.docx4java.org/OnlineDemo/ecma376/DrawingML/clrScheme.html
 class ClrScheme {
   name?: string;
   colors: {[key: string]: string} = {};
 }
 
-function parseClrScheme(data: XMLData): ClrScheme {
+function parseClrScheme(doc: Element | null): ClrScheme {
   const scheme = new ClrScheme();
-
-  scheme.name = data[Attr.name] as string;
-
-  loopChildren(data, (key, colorData) => {
-    if (typeof colorData !== 'object') {
-      return;
+  if (!doc) {
+    return scheme;
+  }
+  scheme.name = doc.getAttribute('name') || '';
+  for (const child of doc.children) {
+    const colorName = child.tagName.replace('a:', '');
+    const clr = child.firstElementChild;
+    if (clr) {
+      const clrName = clr.nodeName.replace('a:', '');
+      if (clrName === 'sysClr') {
+        scheme.colors[colorName] = clr.getAttribute('lastClr') || '';
+      } else {
+        scheme.colors[colorName] = clr.getAttribute('val') || '';
+      }
     }
-
-    const keyName = key.replace('a:', '');
-    if (ATag.srgbClr in colorData) {
-      const srgbClr = colorData[ATag.srgbClr] as XMLData;
-      scheme.colors[keyName] = srgbClr[Attr.val] as string;
-    } else if (ATag.sysClr in colorData) {
-      const sysClr = colorData[ATag.sysClr] as XMLData;
-      scheme.colors[keyName] = sysClr[Attr.lastClr] as string;
-    }
-  });
-
+  }
   return scheme;
 }
 
@@ -37,13 +33,9 @@ interface FontScheme {
   name?: string;
 }
 
-function parseFontScheme(data: XMLData) {
+// TODO: 字体解析
+function parseFontScheme(doc: Element | null) {
   const scheme: FontScheme = {};
-
-  scheme.name = data[Attr.name] as string;
-
-  for (const key in data) {
-  }
 
   return scheme;
 }
@@ -52,14 +44,8 @@ interface FmtScheme {
   name?: string;
 }
 
-function parseFmtScheme(data: XMLData) {
+function parseFmtScheme(data: Element | null) {
   const scheme: FmtScheme = {};
-
-  scheme.name = data[Attr.name] as string;
-
-  for (const key in data) {
-  }
-
   return scheme;
 }
 
@@ -69,11 +55,19 @@ export interface ThemeElements {
   fmtScheme?: FmtScheme;
 }
 
-function parseThemeElements(data: XMLData) {
+function parseThemeElements(element: Element | null) {
   const themeElements: ThemeElements = {};
-  themeElements.clrScheme = parseClrScheme(data[ATag.clrScheme] as XMLData);
-  themeElements.fontScheme = parseFontScheme(data[ATag.fontScheme] as XMLData);
-  themeElements.fmtScheme = parseFmtScheme(data[ATag.fmtScheme] as XMLData);
+  if (element) {
+    themeElements.clrScheme = parseClrScheme(
+      element.querySelector('clrScheme')
+    );
+    themeElements.fontScheme = parseFontScheme(
+      element.querySelector('fontScheme')
+    );
+    themeElements.fmtScheme = parseFmtScheme(
+      element.querySelector('fmtScheme')
+    );
+  }
 
   return themeElements;
 }
@@ -84,12 +78,10 @@ export interface Theme {
   themeElements?: ThemeElements;
 }
 
-export function parseTheme(data: XMLData) {
-  const themeData = data[ATag.theme] as XMLData;
+export function parseTheme(doc: Document) {
   const theme: Theme = {};
-  theme.name = data[Attr.name] as string;
-  theme.themeElements = parseThemeElements(
-    themeData['a:themeElements'] as XMLData
-  );
+
+  theme.themeElements = parseThemeElements(doc.querySelector('themeElements'));
+
   return theme;
 }

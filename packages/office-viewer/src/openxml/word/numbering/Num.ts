@@ -1,4 +1,4 @@
-import {XMLData, WAttr, WTag, getVal, loopChildren} from '../../../OpenXML';
+import {getVal} from '../../../OpenXML';
 import Word from '../../../Word';
 import {Lvl} from './Lvl';
 
@@ -9,30 +9,30 @@ export class Num {
     lvls: Record<string, Lvl>;
   } = {lvls: {}};
 
-  static fromXML(word: Word, data: XMLData): Num {
+  static fromXML(word: Word, element: Element): Num {
     const num = new Num();
 
-    num.numId = getVal(data[WAttr.numId] as XMLData);
-    num.abstractNumId = getVal(data[WTag.abstractNumId] as XMLData);
+    num.numId = element.getAttribute('w:numId') || '';
+    const abstractNumId = element.querySelector('abstractNumId');
 
-    if (WTag.lvlOverride in data) {
-      const lvlOverride = data[WTag.lvlOverride] as XMLData;
-      loopChildren(lvlOverride, (key, value) => {
-        if (typeof value !== 'object') {
-          return;
-        }
+    if (abstractNumId) {
+      num.abstractNumId = getVal(abstractNumId);
+    }
 
-        switch (key) {
-          case WTag.lvl:
-            const lvlData = value as XMLData;
-            const lvlId = getVal(lvlData[WTag.ilvl] as XMLData);
-            num.lvlOverride.lvls[lvlId] = Lvl.fromXML(word, lvlData);
+    const lvlOverride = element.querySelector('lvlOverride');
+    if (lvlOverride) {
+      for (const child of lvlOverride.children) {
+        const tagName = child.tagName;
+        switch (tagName) {
+          case 'w:lvl':
+            const lvlId = child.getAttribute('w:lvlId') || '';
+            num.lvlOverride.lvls[lvlId] = Lvl.fromXML(word, child);
             break;
 
           default:
-            console.warn(`Num: Unknown tag `, key);
+            console.warn(`Num: Unknown tag `, tagName);
         }
-      });
+      }
     }
 
     return num;

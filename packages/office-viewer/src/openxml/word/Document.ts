@@ -4,57 +4,64 @@
  * http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/Main%20Document%20Story.html
  */
 
-import {WAttr, WTag, XMLData} from '../../OpenXML';
 import {parseColorAttr} from '../../parse/parseColor';
 import Word from '../../Word';
 import {DocumentBackground} from './Background';
 import {Body} from './Body';
 
-export class Document {
+export class WDocument {
   body: Body;
   documentBackground?: DocumentBackground;
 
-  static fromXML(word: Word, data: XMLData): Document {
-    const doc = new Document();
-    const wDocument = ((data[1] as XMLData)[WTag.document] as XMLData)[0];
-    if (typeof wDocument === 'object') {
-      if (WTag.body in wDocument) {
-        doc.body = Body.fromXML(word, wDocument[WTag.body] as XMLData);
-      }
+  static fromXML(word: Word, element: Document): WDocument {
+    const doc = new WDocument();
+    const body = element.querySelector('body');
+    if (body) {
+      doc.body = Body.fromXML(word, body);
+    }
 
-      if (WTag.background in wDocument) {
-        const wBackground = wDocument[WTag.background] as XMLData;
-        const documentBackground: DocumentBackground = {};
-        if (WAttr.color in wBackground) {
-          documentBackground.color = parseColorAttr(
-            word,
-            wBackground,
-            WAttr.color
-          );
-        }
+    const background = element.querySelector('background');
 
-        if (WAttr.themeColor in wBackground) {
-          documentBackground.themeColor = parseColorAttr(
-            word,
-            wBackground,
-            WAttr.themeColor
-          );
-        }
+    if (background) {
+      const documentBackground: DocumentBackground = {};
 
-        if (WAttr.themeShade in wBackground) {
-          documentBackground.themeShade = parseColorAttr(
-            word,
-            wBackground,
-            WAttr.themeShade
-          );
-        }
+      for (const attr of background.attributes) {
+        const name = attr.name;
+        switch (name) {
+          case 'w:color':
+            documentBackground.color = parseColorAttr(
+              word,
+              background,
+              'w:color'
+            );
+            break;
 
-        if (WAttr.themeTint in wBackground) {
-          documentBackground.themeTint = parseColorAttr(
-            word,
-            wBackground,
-            WAttr.themeTint
-          );
+          case 'w:themeColor':
+            documentBackground.themeColor = parseColorAttr(
+              word,
+              background,
+              'w:themeColor'
+            );
+            break;
+
+          case 'w:themeShade':
+            documentBackground.themeShade = parseColorAttr(
+              word,
+              background,
+              'w:themeShade'
+            );
+            break;
+
+          case 'w:themeTint':
+            documentBackground.themeTint = parseColorAttr(
+              word,
+              background,
+              'w:themeTint'
+            );
+            break;
+
+          default:
+            break;
         }
       }
     }

@@ -2,7 +2,7 @@
  * 解析边框转成 css 样式 http://officeopenxml.com/WPborders.php
  */
 import {CSSStyle} from '../openxml/Style';
-import {WAttr, XMLData, WTag, loopChildren} from '../OpenXML';
+import {getVal} from '../OpenXML';
 import {parseColorAttr} from './parseColor';
 import {LengthUsage, parseSize} from './parseSize';
 import Word from '../Word';
@@ -10,8 +10,8 @@ import {ST_Border} from '../openxml/Types';
 
 const DEFAULT_BORDER_COLOR = 'black';
 
-export function parseBorder(word: Word, data: XMLData) {
-  const type = data[WAttr.val];
+export function parseBorder(word: Word, element: Element) {
+  const type = getVal(element);
 
   if (type === ST_Border.nil || type === ST_Border.none) {
     return 'none';
@@ -43,39 +43,37 @@ export function parseBorder(word: Word, data: XMLData) {
       break;
   }
 
-  const color = parseColorAttr(word, data);
+  const color = parseColorAttr(word, element);
 
-  const size = parseSize(data, WAttr.sz, LengthUsage.Border);
+  const size = parseSize(element, 'w:sz', LengthUsage.Border);
 
   return `${size} solid ${color == 'auto' ? DEFAULT_BORDER_COLOR : color}`;
 }
 
-export function parseBorders(word: Word, data: XMLData, style: CSSStyle) {
-  loopChildren(data, (key, value) => {
-    if (typeof value !== 'object') {
-      return;
-    }
-    switch (key) {
-      case WTag.start:
-      case WTag.left:
-        style['border-left'] = parseBorder(word, value);
+export function parseBorders(word: Word, element: Element, style: CSSStyle) {
+  for (const child of element.children) {
+    const tagName = child.tagName;
+    switch (tagName) {
+      case 'w:start':
+      case 'w:left':
+        style['border-left'] = parseBorder(word, child);
         break;
-      case WTag.end:
-      case WTag.right:
-        style['border-right'] = parseBorder(word, value);
+      case 'w:end':
+      case 'w:right':
+        style['border-right'] = parseBorder(word, child);
         break;
 
-      case WTag.top:
-        style['border-top'] = parseBorder(word, value);
+      case 'w:top':
+        style['border-top'] = parseBorder(word, child);
         break;
 
-      case WTag.bottom:
-        style['border-bottom'] = parseBorder(word, value);
+      case 'w:bottom':
+        style['border-bottom'] = parseBorder(word, child);
         break;
 
       // TODO: 还有个 between 不知道是干啥的
       default:
         break;
     }
-  });
+  }
 }
