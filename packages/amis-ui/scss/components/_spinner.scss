@@ -78,20 +78,20 @@
     }
 
     &--lg {
-      width: var(--spinner-lg-size);
-      height: var(--spinner-lg-size);
+      width: var(--Spinner--lg-width);
+      height: var(--Spinner--lg-height);
 
       i.icon {
-        font-size: var(--spinner-lg-size);
+        font-size: var(--Spinner--lg-height);
       }
     }
 
     &--sm {
-      width: var(--spinner-sm-size);
-      height: var(--spinner-sm-size);
+      width: var(--Spinner--sm-width);
+      height: var(--Spinner--sm-height);
 
       i.icon {
-        font-size: var(--spinner-sm-size);
+        font-size: var(--Spinner--sm-height);
       }
     }
   }
