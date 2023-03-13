@@ -6,9 +6,7 @@ import {
   tipedLabel,
   DSField,
   EditorManager,
-  BaseEventContext
 } from 'amis-editor-core';
-import {remarkTpl} from '../component/BaseControl';
 import {SchemaObject} from 'amis/lib/Schema';
 import flatten from 'lodash/flatten';
 import _ from 'lodash';
