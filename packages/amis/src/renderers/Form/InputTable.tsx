@@ -22,7 +22,8 @@ import {
   ITableStore,
   generateIcon,
   isPureVariable,
-  resolveVariableAndFilter
+  resolveVariableAndFilter,
+  getFormItemByName
 } from 'amis-core';
 import {Button, Icon} from 'amis-ui';
 import omit from 'lodash/omit';
@@ -662,6 +663,15 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     );
     subForms.forEach(form => form.flush());
 
+    const results = await Promise.all(
+      subForms.map(item => item.validate())
+    );
+
+    // 有校验不通过的
+    if (~results.indexOf(false)) {
+      return;
+    }
+
     const items = this.state.items.concat();
     let item = {
       ...items[this.state.editIndex]
@@ -1044,6 +1054,13 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             </Button>
           ) : null
       });
+    } else {
+      columns = columns.map(column => {
+        return {
+          isTableFormItem: !!getFormItemByName(column?.type),
+          ...column
+        };
+      });
     }
 
     if (!isStatic && props.removable) {
@@ -1371,6 +1388,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             onSaveOrder: this.handleSaveTableOrder,
             buildItemProps: this.buildItemProps,
             quickEditFormRef: this.subFormRef,
+            tableFormItemRef: this.subFormRef,
             columnsTogglable: columnsTogglable,
             combineNum: combineNum,
             combineFromIndex: combineFromIndex,
