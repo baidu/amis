@@ -101,6 +101,35 @@ itemSchema: {
 }
 ```
 
+## 多图模式
+
+```schema: scope="body"
+{
+    "type": "carousel",
+    "auto": true,
+    "thumbMode": "cover",
+    "animation": "slide",
+    "multiple": {count: 3},
+    "interval": 0,
+    "duration": 5000,
+    "height": 300,
+    "options": [
+        {
+            "image": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80"
+        },
+        {
+            "image": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80"
+        },
+        {
+            "image": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80"
+        },
+        {
+            "image": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693379/8f2e79f82be0.jpeg@s_0,w_216,l_1,f_jpg,q_80"
+        }
+    ]
+}
+```
+
 ## 属性表
 
 | 属性名                       | 类型      | 默认值                 | 说明                                                    |
@@ -119,13 +148,16 @@ itemSchema: {
 | itemSchema                   | `object`  |                        | 自定义`schema`来展示数据                                |
 | auto                         | `boolean` | `true`                 | 是否自动轮播                                            |
 | interval                     | `string`  | `5s`                   | 切换动画间隔                                            |
-| duration                     | `string`  | `0.5s`                 | 切换动画时长                                            |
+| duration                     | `number`  | `500`                 | 切换动画时长（ms）                                       |
 | width                        | `string`  | `auto`                 | 宽度                                                    |
 | height                       | `string`  | `200px`                | 高度                                                    |
 | controls                     | `array`   | `['dots', 'arrows']`   | 显示左右箭头、底部圆点索引                              |
 | controlsTheme                | `string`  | `light`                | 左右箭头、底部圆点索引颜色，默认`light`，另有`dark`模式 |
 | animation                    | `string`  | fade                   | 切换动画效果，默认`fade`，另有`slide`模式               |
 | thumbMode                    | `string`  | `"cover" \| "contain"` | 图片默认缩放模式                                        |
+| multiple                    | `object`  | `{count: 1}`            | 多图模式，count表示展示的数量           |
+| alwaysShowArrow              | `boolean`  | `false` | 是否一直显示箭头，为false时鼠标hover才会显示              |
+| icons                    | {prev: `SchemaCollection`; next: `SchemaCollection`;}  | | 自定义箭头图标                          |
 
 ## 事件表
 
