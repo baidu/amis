@@ -31,15 +31,15 @@
   }
 
   .#{$ns}Spinner-icon {
-    width: var(--spinner-size-size);
-    height: var(--spinner-size-size);
+    width: var(--Spinner-width);
+    height: var(--Spinner-height);
     position: relative;
     transform: translateZ(0);
     animation: spin 2s linear infinite;
     transition: ease-out all var(--animation-duration);
 
     &--default {
-      background: var(--spinner-bg);
+      background: var(--Spinner-bg);
       background-size: 100%;
       animation: none;
     }
@@ -53,14 +53,14 @@
       .icon {
         width: 100%;
         height: 100%;
-        color: var(--spinner-base-color);
+        color: var(--Spinner-color);
       }
 
       svg.icon {
         top: 0;
 
         path {
-          fill: var(--spinner-base-color);
+          fill: var(--Spinner-color);
         }
       }
 
@@ -68,7 +68,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: var(--spinner-size-size);
+        font-size: var(--Spinner-width);
       }
     }
 
@@ -101,7 +101,7 @@
     word-break: keep-all;
     white-space: nowrap;
     font-size: var(--spinner-base-fontSize);
-    color: var(--spinner-base-color);
+    color: var(--Spinner-color);
     font-weight: var(--spinner-base-fontWeight);
   }
 
@@ -153,7 +153,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: var(--spinner-overlay-bg);
+  background: var(--Spinner-overlay-bg);
   transition: ease-out opacity var(--animation-duration);
   opacity: 0;
 
