@@ -1,5 +1,5 @@
 /**
- * @file tableFormItem.jsx.
+ * @file TableFormItem.jsx.
  * @author fex
  */
 
@@ -73,7 +73,6 @@ export const HocTableItem =
           ],
           actions: []
         };
-        console.log('buildschema', schema);
         return schema || 'error';
       }
 

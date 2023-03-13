@@ -23,7 +23,7 @@ import {
   generateIcon,
   isPureVariable,
   resolveVariableAndFilter,
-  getFormItemByName
+  getRendererByName
 } from 'amis-core';
 import {Button, Icon} from 'amis-ui';
 import omit from 'lodash/omit';
@@ -1056,8 +1056,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       });
     } else {
       columns = columns.map(column => {
+        const render = getRendererByName(column?.type);
         return {
-          isTableFormItem: !!getFormItemByName(column?.type),
+          isTableFormItem: !!render?.isFormItem,
           ...column
         };
       });
