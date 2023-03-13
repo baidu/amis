@@ -285,7 +285,7 @@ export default class IconSelectControl extends React.PureComponent<
 
   @autobind
   renderModalContent() {
-    const {render, classPrefix: ns, loadingConfig} = this.props;
+    const {render, classPrefix: ns, loadingConfig, funcSchema} = this.props;
 
     const icons = this.getIconsByType();
 
@@ -316,6 +316,11 @@ export default class IconSelectControl extends React.PureComponent<
             }
           )) ||
           null}
+
+        {(
+          funcSchema
+          && render('func', funcSchema, {className: cx(`${ns}IconSelectControl-Modal-func`)})
+          ) || null}
 
         <div className={cx(`${ns}IconSelectControl-Modal-content`)}>
           <Spinner
