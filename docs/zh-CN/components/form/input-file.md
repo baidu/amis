@@ -302,41 +302,81 @@ order: 21
 }
 ```
 
+## 编辑 默认数据展示
+
+第一种（文件名就是文件存储名字）
+
+组件默认的拼接值 用逗号分隔符则回自动做默认已存在的列表显示
+
+```
+https://xxxx.cdn.bcebos.com/images/JSSDK_page-111.zip,https://xxxx.cdn.bcebos.com/images/JSSDK_page-222.zip
+```
+
+第二种（可自定义文件名，列表显示的文件名和存储的可以不一致）
+
+关闭 joinValues 拼接值 使用对象 提交时候也是json对象提交，后台做处理或者直接存储
+
+编辑时候需要显示默认， 则后台返回json对象即可 实现
+
+```schema: scope="body"
+{
+    type: "input-file",
+    name: "file",
+    label: "附件",
+    joinValues: false,
+    multiple: true,
+    receiver: "/amis/api/upload",
+}
+```
+
+返回值是
+
+```json
+{
+    file:[{"url":"/uploads/4e02d217-e74f-4e76-b3c4-29419d8ee7d5.jpg","value":"/uploads/4e02d217-e74f-4e76-b3c4-29419d8ee7d5.jpg","filename":"文件1.jpg"}]
+}
+```
+
+则会显示默认值 并且自定义文件名  
+
+
+
+
 ## 属性表
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
 
-| 属性名           | 类型                           | 默认值                                                                                                     | 说明                                                                                                                                 |
-| ---------------- | ------------------------------ | ---------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| receiver         | [API](../../../docs/types/api) |                                                                                                            | 上传文件接口                                                                                                                         |
-| accept           | `string`                       | `text/plain`                                                                                               | 默认只支持纯文本，要支持其他类型，请配置此属性为文件后缀`.xxx`                                                                       |
-| asBase64         | `boolean`                      | `false`                                                                                                    | 将文件以`base64`的形式，赋值给当前组件                                                                                               |
-| asBlob           | `boolean`                      | `false`                                                                                                    | 将文件以二进制的形式，赋值给当前组件                                                                                                 |
-| maxSize          | `number`                       |                                                                                                            | 默认没有限制，当设置后，文件大小大于此值将不允许上传。单位为`B`                                                                      |
-| maxLength        | `number`                       |                                                                                                            | 默认没有限制，当设置后，一次只允许上传指定数量文件。                                                                                 |
-| multiple         | `boolean`                      | `false`                                                                                                    | 是否多选。                                                                                                                           |
-| drag             | `boolean`                      | `false`                                                                                                    | 是否为拖拽上传                                                                                                                       |
-| joinValues       | `boolean`                      | `true`                                                                                                     | [拼接值](./options#%E6%8B%BC%E6%8E%A5%E5%80%BC-joinvalues)                                                                           |
-| extractValue     | `boolean`                      | `false`                                                                                                    | [提取值](./options#%E6%8F%90%E5%8F%96%E5%A4%9A%E9%80%89%E5%80%BC-extractvalue)                                                       |
-| delimiter        | `string`                       | `,`                                                                                                        | [拼接符](./options#%E6%8B%BC%E6%8E%A5%E7%AC%A6-delimiter)                                                                            |
-| autoUpload       | `boolean`                      | `true`                                                                                                     | 否选择完就自动开始上传                                                                                                               |
-| hideUploadButton | `boolean`                      | `false`                                                                                                    | 隐藏上传按钮                                                                                                                         |
-| stateTextMap     | object                         | `{ init: '', pending: '等待上传', uploading: '上传中', error: '上传出错', uploaded: '已上传', ready: '' }` | 上传状态文案                                                                                                                         |
-| fileField        | `string`                       | `file`                                                                                                     | 如果你不想自己存储，则可以忽略此属性。                                                                                               |
-| nameField        | `string`                       | `name`                                                                                                     | 接口返回哪个字段用来标识文件名                                                                                                       |
-| valueField       | `string`                       | `value`                                                                                                    | 文件的值用那个字段来标识。                                                                                                           |
-| urlField         | `string`                       | `url`                                                                                                      | 文件下载地址的字段名。                                                                                                               |
-| btnLabel         | `string`                       |                                                                                                            | 上传按钮的文字                                                                                                                       |
-| downloadUrl      | `boolean`或`string`            | `""` 1.1.6 版本开始支持 `post:http://xxx.com/${value}` 这种写法                                            | 默认显示文件路径的时候会支持直接下载，可以支持加前缀如：`http://xx.dom/filename=` ，如果不希望这样，可以把当前配置项设置为 `false`。 |
-| useChunk         | `boolean`或`"auto"`            | `"auto"`                                                                                                   | amis 所在服务器，限制了文件上传大小不得超出 10M，所以 amis 在用户选择大文件的时候，自动会改成分块上传模式。                          |
-| chunkSize        | `number`                       | `5 * 1024 * 1024`                                                                                          | 分块大小                                                                                                                             |
-| startChunkApi    | [API](../../../docs/types/api) |                                                                                                            | startChunkApi                                                                                                                        |
-| chunkApi         | [API](../../../docs/types/api) |                                                                                                            | chunkApi                                                                                                                             |
-| finishChunkApi   | [API](../../../docs/types/api) |                                                                                                            | finishChunkApi                                                                                                                       |
-| concurrency      | `number`                       |                                                                                                            | 分块上传时并行个数                                                                                                                   |
-| documentation    | `string`                       |                                                                                                            | 文档内容                                                                                                                             |
-| documentLink     | `string`                       |                                                                                                            | 文档链接                                                                                                                             |
-| initAutoFill     | `boolean`                      | `true`                                                                                                     | 初表单反显时是否执行                                                                                                                 |
+| 属性名           | 类型                           | 默认值                                                       | 说明                                                         |
+| ---------------- | ------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| receiver         | [API](../../../docs/types/api) |                                                              | 上传文件接口                                                 |
+| accept           | `string`                       | `text/plain`                                                 | 默认只支持纯文本，要支持其他类型，请配置此属性为文件后缀`.xxx` |
+| asBase64         | `boolean`                      | `false`                                                      | 将文件以`base64`的形式，赋值给当前组件                       |
+| asBlob           | `boolean`                      | `false`                                                      | 将文件以二进制的形式，赋值给当前组件                         |
+| maxSize          | `number`                       |                                                              | 默认没有限制，当设置后，文件大小大于此值将不允许上传。单位为`B` |
+| maxLength        | `number`                       |                                                              | 默认没有限制，当设置后，一次只允许上传指定数量文件。         |
+| multiple         | `boolean`                      | `false`                                                      | 是否多选。                                                   |
+| drag             | `boolean`                      | `false`                                                      | 是否为拖拽上传                                               |
+| joinValues       | `boolean`                      | `true`                                                       | [拼接值](./options#%E6%8B%BC%E6%8E%A5%E5%80%BC-joinvalues)   关闭后不再用逗号拼接value 转为使用对象方式 |
+| extractValue     | `boolean`                      | `false`                                                      | [提取值](./options#%E6%8F%90%E5%8F%96%E5%A4%9A%E9%80%89%E5%80%BC-extractvalue) |
+| delimiter        | `string`                       | `,`                                                          | [拼接符](./options#%E6%8B%BC%E6%8E%A5%E7%AC%A6-delimiter)    |
+| autoUpload       | `boolean`                      | `true`                                                       | 否选择完就自动开始上传                                       |
+| hideUploadButton | `boolean`                      | `false`                                                      | 隐藏上传按钮                                                 |
+| stateTextMap     | object                         | `{ init: '', pending: '等待上传', uploading: '上传中', error: '上传出错', uploaded: '已上传', ready: '' }` | 上传状态文案                                                 |
+| fileField        | `string`                       | `file`                                                       | 如果你不想自己存储，则可以忽略此属性。                       |
+| nameField        | `string`                       | `name`                                                       | 接口返回哪个字段用来标识文件名                               |
+| valueField       | `string`                       | `value`                                                      | 文件的值用那个字段来标识。                                   |
+| urlField         | `string`                       | `url`                                                        | 文件下载地址的字段名。                                       |
+| btnLabel         | `string`                       |                                                              | 上传按钮的文字                                               |
+| downloadUrl      | `boolean`或`string`            | `""` 1.1.6 版本开始支持 `post:http://xxx.com/${value}` 这种写法 | 默认显示文件路径的时候会支持直接下载，可以支持加前缀如：`http://xx.dom/filename=` ，如果不希望这样，可以把当前配置项设置为 `false`。 |
+| useChunk         | `boolean`或`"auto"`            | `"auto"`                                                     | amis 所在服务器，限制了文件上传大小不得超出 10M，所以 amis 在用户选择大文件的时候，自动会改成分块上传模式。 |
+| chunkSize        | `number`                       | `5 * 1024 * 1024`                                            | 分块大小                                                     |
+| startChunkApi    | [API](../../../docs/types/api) |                                                              | startChunkApi                                                |
+| chunkApi         | [API](../../../docs/types/api) |                                                              | chunkApi                                                     |
+| finishChunkApi   | [API](../../../docs/types/api) |                                                              | finishChunkApi                                               |
+| concurrency      | `number`                       |                                                              | 分块上传时并行个数                                           |
+| documentation    | `string`                       |                                                              | 文档内容                                                     |
+| documentLink     | `string`                       |                                                              | 文档链接                                                     |
+| initAutoFill     | `boolean`                      | `true`                                                       | 初表单反显时是否执行                                         |
 
 ## 事件表
 
@@ -344,11 +384,11 @@ order: 21
 
 > `[name]`表示当前组件绑定的名称，即`name`属性，如果没有配置`name`属性，则通过`file`取值。
 
-| 事件名称 | 事件参数                                                                                                                                    | 说明                                     |
-| -------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
-| change   | `[name]: FileValue` \| `Array<FileValue>` 组件的值                                                                                          | 上传文件值变化时触发(上传失败同样会触发) |
-| remove   | `item: FileValue` 被移除的文件<br/>`[name]: FileValue` \| `Array<FileValue>` 组件的值                                                       | 移除文件时触发                           |
-| success  | `item: FileValue` 上传的文件<br/>`result: any` 远程上传请求成功后接口返回的结果数据<br/>`[name]: FileValue` \| `Array<FileValue>` 组件的值  | 上传成功时触发                           |
+| 事件名称 | 事件参数                                                     | 说明                                     |
+| -------- | ------------------------------------------------------------ | ---------------------------------------- |
+| change   | `[name]: FileValue` \| `Array<FileValue>` 组件的值           | 上传文件值变化时触发(上传失败同样会触发) |
+| remove   | `item: FileValue` 被移除的文件<br/>`[name]: FileValue` \| `Array<FileValue>` 组件的值 | 移除文件时触发                           |
+| success  | `item: FileValue` 上传的文件<br/>`result: any` 远程上传请求成功后接口返回的结果数据<br/>`[name]: FileValue` \| `Array<FileValue>` 组件的值 | 上传成功时触发                           |
 | fail     | `item: FileValue` 上传的文件 <br /> `error: object` 远程上传请求失败后返回的错误信息<br/>`[name]: FileValue` \| `Array<FileValue>` 组件的值 | 上传文件失败时触发                       |
 
 ### FileValue 属性表
