@@ -14,57 +14,43 @@ order: 54
 
 ```schema: scope="body"
 {
-  "type": "page",
-  "body": {
     "type": "form",
-    "debug": "true",
+    "debug": true,
     "data": {
       "table": [
         {
-          "a": "a1",
-          "b": "b1",
-          "c": {
-            "c1": "123",
-            "c2": "222"
-          }
+          "ss_a": 1,
+          "ss_b": 2
         }
       ]
     },
-    "api": "/api/mock2/form/saveForm",
     "body": [
       {
+        "showIndex": true,
         "type": "input-table",
         "name": "table",
+        "needConfirm": false,
         "columns": [
           {
-            "name": "a",
-            "label": "A"
+            "name": "ss_a",
+            "label": "分数一",
+            "type": "input-rating"
           },
           {
-            "name": "b",
-            "label": "B"
+            "name": "ss_b",
+            "label": "分数二",
+            "type": "input-rating"
           },
           {
-            "type": "combo",
-            "name": "c",
-            "multiLine": true,
-            "multiple": false,
-            "items": [
-              {
-                "type": "input-text",
-                "name": "c1"
-              },
-              {
-                "type": "input-text",
-                "name": "c2"
-              }
-            ]
+            "name": "ss",
+            "label": "总分",
+            "type": "input-number",
+            "value": "${ss_a + ss_b + 1}"
           }
         ]
       }
     ]
   }
-}
 ```
 
 我们为表单数据域设置了`table`变量，配置`table`表单项可以展示该数据
@@ -74,39 +60,24 @@ order: 54
 ```schema: scope="body"
 {
   "type": "form",
-  "data": {
-    "table": [
-        {
-            "a": "a1",
-            "b": "b1"
-        },
-        {
-            "a": "a2",
-            "b": "b2"
-        },
-        {
-            "a": "a3",
-            "b": "b3"
-        }
-    ]
-  },
-  "api": "/api/mock2/form/saveForm",
+  "debug": true,
   "body": [
-    {
-      "showIndex": true,
-      "type":"input-table",
-      "name":"table",
-      "columns":[
           {
-            "name": "a",
-            "label": "A"
+            "name": "ss_a",
+            "label": "分数一",
+            "type": "input-rating"
           },
           {
-            "name": "b",
-            "label": "B"
+            "name": "ss_b",
+            "label": "分数二",
+            "type": "input-rating"
+          },
+          {
+            "name": "ss",
+            "label": "总分",
+            "type": "input-number",
+            "value": "${ss_a + ss_b + 1}"
           }
-      ]
-    }
   ]
 }
 ```

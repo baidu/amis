@@ -895,9 +895,6 @@ export default class Form extends React.Component<FormProps, object> {
     changePristine = false
   ) {
     const {store, formLazyChange, persistDataKeys} = this.props;
-    if (typeof name !== 'string') {
-      return;
-    }
     store.changeValue(name, value, changePristine);
     if (!changePristine) {
       (formLazyChange === false ? this.emitChange : this.lazyEmitChange)(
@@ -921,17 +918,21 @@ export default class Form extends React.Component<FormProps, object> {
     if (!isAlive(store)) {
       return;
     }
+
+    // 提前准备好 onChange 的参数。
+    // 因为 store.data 会在 await 期间被 WithStore.componentDidUpdate 中的 store.initData 改变。导致数据丢失
+    const changeProps = [
+      store.data,
+      difference(store.data, store.pristine),
+      this.props
+    ];
+
     const dispatcher = await dispatchEvent(
       'change',
       createObject(data, store.data)
     );
     if (!dispatcher?.prevented) {
-      onChange &&
-        onChange(
-          store.data,
-          difference(store.data, store.pristine),
-          this.props
-        );
+      onChange && onChange.apply(null, changeProps);
     }
 
     store.clearRestError();
@@ -1097,7 +1098,6 @@ export default class Form extends React.Component<FormProps, object> {
           store.openDrawer(data);
         } else if (isEffectiveApi(action.api || api, values)) {
           let finnalAsyncApi = action.asyncApi || asyncApi;
-
           isEffectiveApi(finnalAsyncApi, store.data) &&
             store.updateData({
               [finishedField || 'finished']: false
