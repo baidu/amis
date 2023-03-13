@@ -304,7 +304,7 @@ export class StaticControlPlugin extends BasePlugin {
                 inline: false,
                 level: 'warning',
                 className: 'text-sm',
-                body: '<p>当前组件已停止维护，建议您使用<a href="https://baidu.gitee.io/amis/zh-CN/components/form/formitem#%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81%E5%B1%95%E7%A4%BA" target="_blank">静态展示</a>新特性实现表单项的静态展示。</p>'
+                body: '<p>当前组件已停止维护，建议您使用<a href="/amis/zh-CN/components/form/formitem#%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81%E5%B1%95%E7%A4%BA" target="_blank">静态展示</a>新特性实现表单项的静态展示。</p>'
               },
               getSchemaTpl('formItemName', {
                 required: false
