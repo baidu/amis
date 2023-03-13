@@ -167,7 +167,6 @@ export const runActions = async (
 
     // 这些节点的子节点运行逻辑由节点内部实现
     await runAction(actionInstrance, actionConfig, renderer, event);
-
     if (event.stoped) {
       break;
     }
@@ -252,7 +251,8 @@ export const runAction = async (
   console.group?.(`run action ${actionConfig.actionType}`);
   console.debug(`[${actionConfig.actionType}] action args, data`, args, data);
 
-  await actionInstrance.run(
+  let stoped = false;
+  const actionResult = await actionInstrance.run(
     {
       ...actionConfig,
       args,
@@ -262,12 +262,15 @@ export const runAction = async (
     event,
     mergeData
   );
-
+  // 二次确认弹窗如果取消，则终止后续动作
+  if (actionConfig?.actionType === 'confirmDialog' && !actionResult) {
+    stoped = true;
+  }
   console.debug(`[${actionConfig.actionType}] action end event`, event);
   console.groupEnd?.();
 
   // 阻止原有动作执行
   preventDefault && event.preventDefault();
   // 阻止后续动作执行
-  stopPropagation && event.stopPropagation();
+  (stopPropagation || stoped) && event.stopPropagation();
 };
