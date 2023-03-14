@@ -387,7 +387,6 @@ export const HocQuickEdit =
           };
         } else if (quickEdit) {
           if (quickEdit?.isFormMode) {
-            console.log(quickEdit?.isFormMode)
             schema = {
               mode: 'normal',
               type: 'form',
