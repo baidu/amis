@@ -663,8 +663,17 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     );
     subForms.forEach(form => form.flush());
 
+    const validateForms: Array<any> = [];
+    Object.keys(this.subForms).forEach(key => {
+      const arr = key.split('-');
+      const num = +arr[1];
+      if (num === this.state.editIndex && this.subForms[key]) {
+        validateForms.push(this.subForms[key]);
+      }
+    });
+
     const results = await Promise.all(
-      subForms.map(item => item.validate())
+      validateForms.map(item => item.validate())
     );
 
     // 有校验不通过的
@@ -918,6 +927,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             ? column.quickEditOnUpdate
             : column.quickEdit;
 
+        const render = getRendererByName(column?.type);
+
         return quickEdit === false
           ? omit(column, ['quickEdit'])
           : {
@@ -925,6 +936,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               quickEdit: {
                 ...this.columnToQuickEdit(column),
                 ...quickEdit,
+                isQuickEditFormMode: !!render?.isFormItem,
                 saveImmediately: true,
                 mode: 'inline',
                 disabled
@@ -1054,13 +1066,20 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             </Button>
           ) : null
       });
-    } else {
+    }
+    else {
       columns = columns.map(column => {
         const render = getRendererByName(column?.type);
-        return {
-          isTableFormItem: !!render?.isFormItem,
-          ...column
-        };
+        if (!!render?.isFormItem) {
+          return {
+            ...column,
+            quickEdit: {
+              ...column,
+              isFormMode: true
+            }
+          }
+        }
+        return column;
       });
     }
 
@@ -1389,7 +1408,6 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             onSaveOrder: this.handleSaveTableOrder,
             buildItemProps: this.buildItemProps,
             quickEditFormRef: this.subFormRef,
-            tableFormItemRef: this.subFormRef,
             columnsTogglable: columnsTogglable,
             combineNum: combineNum,
             combineFromIndex: combineFromIndex,

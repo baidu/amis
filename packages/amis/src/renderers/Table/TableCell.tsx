@@ -3,7 +3,6 @@ import {RendererProps, Renderer} from 'amis-core';
 import QuickEdit from '../QuickEdit';
 import Copyable from '../Copyable';
 import PopOverable from '../PopOver';
-import HocTableItem from '../TableFormItem';
 import {observer} from 'mobx-react';
 import omit from 'lodash/omit';
 import {filter} from 'amis-core';
@@ -194,7 +193,6 @@ export class TableCell extends React.Component<TableCellProps> {
   name: 'table-cell'
 })
 @QuickEdit()
-@HocTableItem()
 @PopOverable({
   targetOutter: true
 })
