@@ -553,7 +553,7 @@ export const HocQuickEdit =
           return <Component {...this.props} />;
         }
 
-        if ((quickEdit as QuickEditConfig).mode === 'inline') {
+        if ((quickEdit as QuickEditConfig).mode === 'inline' || (quickEdit as QuickEditConfig).isFormMode) {
           return (
             <Component {...this.props}>
               {render('inline-form', this.buildSchema(), {
@@ -569,23 +569,6 @@ export const HocQuickEdit =
               })}
             </Component>
           );
-        }
-        if ((quickEdit as QuickEditConfig).isFormMode) {
-          return (
-            <Component {...this.props}>
-              {render('inline-form', this.buildSchema(), {
-                value: undefined,
-                wrapperComponent: 'div',
-                className: cx('Form--quickEdit'),
-                ref: this.formRef,
-                simpleMode: true,
-                onInit: this.handleInit,
-                onChange: this.handleChange,
-                formLazyChange: false,
-                canAccessSuperData
-              })}
-            </Component>
-          )
         }
         else {
           return (

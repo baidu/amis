@@ -789,6 +789,73 @@ order: 54
     ]
   }
 ```
+## 单元格校验
+
+> 2.8.1 及以上版本
+
+在列信息的 `columns` 的对应项为表单项时，可以通过设置表单项的校验，来实现对单元格的校验，校验配置可以查看 [格式校验](../formitem#格式校验)
+
+```schema: scope="body"
+{
+  "type": "page",
+  "body": {
+    "type": "page",
+    "body": {
+      "type": "form",
+      "debug": true,
+      "data": {
+        "table": [
+          {
+            "input": 111,
+            "select": "s1",
+            "text": "text"
+          },
+          {}
+        ]
+      },
+      "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+      "body": [
+        {
+          "type": "input-table",
+          "name": "table",
+          "label": "Table",
+          "editable": true,
+          "columns": [
+            {
+              "label": "数字输入",
+              "name": "input",
+              "type": "input-text",
+              "placeholder": "请输入数字",
+              "required": true,
+              "validations": {
+                "isNumeric": true
+              },
+              "validationErrors": {
+                "isNumeric": "请输入数字"
+              },
+            },
+            {
+              "label": "选项",
+              "name": "select",
+              "type": "select",
+              "required": true,
+              "options": [
+                "s1",
+                "s2",
+                "s3"
+              ]
+            },
+            {
+              "label": "普通文本",
+              "name": "text"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
+```
 
 ## 属性表
 
