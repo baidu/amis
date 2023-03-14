@@ -3282,39 +3282,104 @@
 
 
 
-  --Tag-base-normal-color: var(--colors-neutral-text-6);
-  --Tag-base-normal-fontSize: var(--fonts-size-8);
-  --Tag-base-normal-fontWeight: var(--fonts-weight-6);
-  --Tag-base-has-color-color: var(--colors-neutral-text-11);
-  --Tag-base-has-color-fontSize: var(--fonts-size-8);
-  --Tag-base-has-color-fontWeight: var(--fonts-weight-6);
-  --Tag-base-text-color: var(--colors-neutral-text-2);
-  --Tag-base-text-fontSize: var(--fonts-size-8);
-  --Tag-base-text-fontWeight: var(--fonts-weight-6);
+  --Tag-base-fontSize: var(--fonts-size-8);
+  --Tag-base-fontWeight: var(--fonts-weight-6);
+  --Tag-base-height: var(--sizes-base-12);
   --Tag-base-paddingTop: var(--sizes-size-0);
   --Tag-base-paddingBottom: var(--sizes-size-0);
   --Tag-base-paddingLeft: var(--sizes-size-5);
   --Tag-base-paddingRight: var(--sizes-size-5);
-  --Tag-model-top-right-border-radius: 12px;
-  --Tag-model-top-left-border-radius: 12px;
-  --Tag-model-bottom-right-border-radius: 12px;
-  --Tag-model-bottom-left-border-radius: 12px;
-  --Tag-model-tag-height: var(--sizes-base-12);
-  --Tag-color-active-color: var(--colors-brand-5);
-  --Tag-color-inactive-color: var(--colors-neutral-fill-6);
-  --Tag-color-error-color: var(--colors-error-5);
-  --Tag-color-success-color: var(--colors-success-5);
-  --Tag-color-processing-color: var(--colors-brand-6);
-  --Tag-color-warning-color: var(--colors-warning-5);
+  --Tag-model-normal-top-border-color: var(--colors-neutral-line-6);
+  --Tag-model-normal-top-border-width: var(--borders-width-2);
+  --Tag-model-normal-top-border-style: var(--borders-style-1);
+  --Tag-model-normal-right-border-color: var(--colors-neutral-line-6);
+  --Tag-model-normal-right-border-width: var(--borders-width-2);
+  --Tag-model-normal-right-border-style: var(--borders-style-1);
+  --Tag-model-normal-bottom-border-color: var(--colors-neutral-line-6);
+  --Tag-model-normal-bottom-border-width: var(--borders-width-2);
+  --Tag-model-normal-bottom-border-style: var(--borders-style-1);
+  --Tag-model-normal-left-border-color: var(--colors-neutral-line-6);
+  --Tag-model-normal-left-border-width: var(--borders-width-2);
+  --Tag-model-normal-left-border-style: var(--borders-style-1);
+  --Tag-model-normal-top-right-border-radius: var(--borders-radius-1);
+  --Tag-model-normal-top-left-border-radius: var(--borders-radius-1);
+  --Tag-model-normal-bottom-right-border-radius: var(--borders-radius-1);
+  --Tag-model-normal-bottom-left-border-radius: var(--borders-radius-1);
+  --Tag-model-normal-status-size: var(--sizes-size-0);
+  --Tag-model-normal-status-margin: var(--sizes-size-0);
+  --Tag-model-normal-close-size: var(--sizes-size-0);
+  --Tag-model-normal-close-margin: var(--sizes-size-0);
+  --Tag-model-rounded-top-border-color: var(--colors-neutral-line-6);
+  --Tag-model-rounded-top-border-width: var(--borders-width-2);
+  --Tag-model-rounded-top-border-style: var(--borders-style-2);
+  --Tag-model-rounded-right-border-color: var(--colors-neutral-line-6);
+  --Tag-model-rounded-right-border-width: var(--borders-width-2);
+  --Tag-model-rounded-right-border-style: var(--borders-style-2);
+  --Tag-model-rounded-bottom-border-color: var(--colors-neutral-line-6);
+  --Tag-model-rounded-bottom-border-width: var(--borders-width-2);
+  --Tag-model-rounded-bottom-border-style: var(--borders-style-2);
+  --Tag-model-rounded-left-border-color: var(--colors-neutral-line-6);
+  --Tag-model-rounded-left-border-width: var(--borders-width-2);
+  --Tag-model-rounded-left-border-style: var(--borders-style-2);
+  --Tag-model-rounded-top-right-border-radius: 12px;
+  --Tag-model-rounded-top-left-border-radius: 12px;
+  --Tag-model-rounded-bottom-right-border-radius: 12px;
+  --Tag-model-rounded-bottom-left-border-radius: 12px;
+  --Tag-model-rounded-status-size: var(--sizes-size-0);
+  --Tag-model-rounded-status-margin: var(--sizes-size-0);
+  --Tag-model-rounded-close-size: var(--sizes-size-0);
+  --Tag-model-rounded-close-margin: var(--sizes-size-0);
+  --Tag-model-status-top-border-color: var(--colors-neutral-line-6);
+  --Tag-model-status-top-border-width: var(--borders-width-2);
+  --Tag-model-status-top-border-style: var(--borders-style-1);
+  --Tag-model-status-right-border-color: var(--colors-neutral-line-6);
+  --Tag-model-status-right-border-width: var(--borders-width-2);
+  --Tag-model-status-right-border-style: var(--borders-style-1);
+  --Tag-model-status-bottom-border-color: var(--colors-neutral-line-6);
+  --Tag-model-status-bottom-border-width: var(--borders-width-2);
+  --Tag-model-status-bottom-border-style: var(--borders-style-1);
+  --Tag-model-status-left-border-color: var(--colors-neutral-line-6);
+  --Tag-model-status-left-border-width: var(--borders-width-2);
+  --Tag-model-status-left-border-style: var(--borders-style-1);
+  --Tag-model-status-top-right-border-radius: var(--borders-radius-1);
+  --Tag-model-status-top-left-border-radius: var(--borders-radius-1);
+  --Tag-model-status-bottom-right-border-radius: var(--borders-radius-1);
+  --Tag-model-status-bottom-left-border-radius: var(--borders-radius-1);
+  --Tag-model-status-status-size: var(--sizes-size-5);
+  --Tag-model-status-status-margin: var(--sizes-size-5);
+  --Tag-model-status-close-size: var(--sizes-size-5);
+  --Tag-model-status-close-margin: var(--sizes-size-5);
+  --Tag-color-active-color: var(--colors-neutral-fill-11);
+  --Tag-color-active-bg-color: var(--colors-brand-5);
+  --Tag-color-inactive-color: var(--colors-neutral-fill-11);
+  --Tag-color-inactive-bg-color: var(--colors-neutral-fill-6);
+  --Tag-color-error-color: var(--colors-neutral-fill-11);
+  --Tag-color-error-bg-color: var(--colors-error-5);
+  --Tag-color-success-color: var(--colors-neutral-fill-11);
+  --Tag-color-success-bg-color: var(--colors-success-5);
+  --Tag-color-processing-color: var(--colors-neutral-fill-11);
+  --Tag-color-processing-bg-color: var(--colors-brand-6);
+  --Tag-color-warning-color: var(--colors-neutral-fill-11);
+  --Tag-color-warning-bg-color: var(--colors-warning-5);
 
   // tag
-  --Tag-content-fontSize: var(--Tag-base-normal-fontSize);
-  --Tag-height: var(--Tag-model-tag-height);
-  --Tag-borderRadius: var(--Tag-model-top-left-border-radius)
-    var(--Tag-model-top-right-border-radius)
-    var(--Tag-model-bottom-right-border-radius) 
-    var(--Tag-model-bottom-left-border-radius);
-  --Tag-fontColor: var(--Tag-base-normal-color);
+  --Tag-content-fontSize: var(--Tag-base-fontSize);
+  --Tag-height: var(--Tag-base-height);
+  --Tag-borderRadius: var(--Tag-model-normal-top-left-border-radius)
+    var(--Tag-model-normal-top-right-border-radius)
+    var(--Tag-model-normal-bottom-right-border-radius) 
+    var(--Tag-model-normal-bottom-left-border-radius);
+  --Tag-fontColor: var(--Tag-base-color);
+
+  --Tag-rounded-borderRadius: var(--Tag-model-rounded-top-left-border-radius)
+  var(--Tag-model-rounded-top-right-border-radius)
+  var(--Tag-model-rounded-bottom-right-border-radius) 
+  var(--Tag-model-rounded-bottom-left-border-radius);
+
+  --Tag-status-margin: var(--Tag-model-status-status-margin);
+  --Tag-status-size: var(--Tag-model-status-status-size);
+  --Tag-close-margin: var(--Tag-model-status-close-margin);
+  --Tag-close-size: var(--Tag-model-status-close-size);
 
   --Tag-default-color: var(--colors-neutral-fill-9);
   --Tag-inactive-color: var(--Tag-color-inactive-color);
@@ -3323,6 +3388,40 @@
   --Tag-success-color: var(--Tag-color-success-color);
   --Tag-error-color: var(--Tag-color-error-color);
   --Tag-warning-color: var( --Tag-color-warning-color);
+  --Tag-inactive-bg-color: var(--Tag-color-inactive-bg-color);
+  --Tag-active-bg-color: var(--Tag-color-active-bg-color);
+  --Tag-processing-bg-color: var(--Tag-color-processing-bg-color);
+  --Tag-success-bg-color: var(--Tag-color-success-bg-color);
+  --Tag-error-bg-color: var(--Tag-color-error-bg-color);
+  --Tag-warning-bg-color: var( --Tag-color-warning-bg-color);
+
+  --Tag-normal-borderWidth: var(--Tag-model-normal-top-border-width)
+   var(--Tag-model-normal-right-border-width)
+   var(--Tag-model-normal-bottom-border-width)
+   var(--Tag-model-normal-left-border-width);
+  --Tag-normal-borderRadius: var(--Tag-model-normal-top-left-border-radius)
+   var(--Tag-model-normal-top-right-border-radius)
+   var(--Tag-model-normal-bottom-right-border-radius)
+   var(--Tag-model-normal-bottom-left-border-radius);
+  --Tag-normal-borderColor: var(--Tag-model-normal-top-border-color)
+   var(--Tag-model-normal-right-border-color)
+   var(--Tag-model-normal-bottom-border-color)
+   var(--Tag-model-normal-left-border-color);
+  --Tag-normal-status-size: var(--Tag-model-normal-status-size);
+  --Tag-normal-status-margin: var(--Tag-model-normal-status-margin);
+
+  --Tag-rounded-borderWidth: var(--Tag-model-rounded-top-border-width)
+  var(--Tag-model-rounded-right-border-width)
+  var(--Tag-model-rounded-bottom-border-width)
+  var(--Tag-model-rounded-left-border-width);
+ --Tag-rounded-borderRadius: var(--Tag-model-rounded-top-left-border-radius)
+  var(--Tag-model-rounded-top-right-border-radius)
+  var(--Tag-model-rounded-bottom-right-border-radius)
+  var(--Tag-model-rounded-bottom-left-border-radius);
+ --Tag-rounded-borderColor: var(--Tag-model-rounded-top-border-color)
+  var(--Tag-model-rounded-right-border-color)
+  var(--Tag-model-rounded-bottom-border-color)
+  var(--Tag-model-rounded-left-border-color);
 
 
 }
