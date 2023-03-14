@@ -1445,22 +1445,23 @@ Form 支持轮询初始化接口，步骤如下：
 | inheritData                 | `boolean`                                                                 | `true`                                                                 | 默认表单是采用数据链的形式创建个自己的数据域，表单提交的时候只会发送自己这个数据域的数据，如果希望共用上层数据域可以设置这个属性为 false，这样上层数据域的数据不需要在表单中用隐藏域或者显式映射才能发送了。                                                                                                                                                 |
 | static                      | `boolean`                                                                 |                                                                        | `2.4.0` 整个表单静态方式展示，详情请查看[示例页](../../../examples/form/switchDisplay)                                                                                                                                                                                                                                                                       |
 | staticClassName             | `string`                                                                  |                                                                        | `2.4.0` 表单静态展示时使用的类名                                                                                                                                                                                                                                                                                                                             |
+| closeDialogOnSubmit         | `boolean`                                                                 |                                                                        | 提交的时候是否关闭弹窗。当 form 里面有且只有一个弹窗的时候，本身提交会触发弹窗关闭，此属性可以关闭此行为                                                                                                                                                                                                                                                     |
 
 ## 事件表
 
 当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`来获取事件产生的数据（`< 2.3.2 及以下版本 为 ${event.data.[事件参数名]}`），详细请查看[事件动作](../../docs/concepts/event-action)。
 
-| 事件名称              | 事件参数                                                     | 说明                         |
-| --------------------- | ------------------------------------------------------------ | ---------------------------- |
-| inited                | `event.data: object` initApi 远程请求返回的初始化数据        | 远程初始化接口请求成功时触发 |
-| change                | `event.data: object` 当前表单数据                            | 表单值变化时触发             |
-| formItemValidateSucc  | `event.data: object` 当前表单数据                            | 表单项校验成功时触发         |
-| formItemValidateError | `event.data: object` 当前表单数据                            | 表单项校验失败时触发         |
-| validateSucc          | `event.data: object` 当前表单数据                            | 表单校验成功时触发           |
-| validateError         | `event.data: object` 当前表单数据                            | 表单校验失败时触发           |
-| submit         | `event.data: object` 当前表单数据                            | 点击提交按钮或者触发表单提交动作的时候触发，配置了该事件后将不会触发表单提交时的校验、提交到api或者target等行为，所有行为需要自己配置           |
-| submitSucc            | `event.data.result: object` api 远程请求成功后返回的结果数据 | 提交成功时触发               |
-| submitFail            | `event.data.error: object` api 远程请求失败后返回的错误信息  | 提交失败时触发               |
+| 事件名称              | 事件参数                                                     | 说明                                                                                                                                      |
+| --------------------- | ------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| inited                | `event.data: object` initApi 远程请求返回的初始化数据        | 远程初始化接口请求成功时触发                                                                                                              |
+| change                | `event.data: object` 当前表单数据                            | 表单值变化时触发                                                                                                                          |
+| formItemValidateSucc  | `event.data: object` 当前表单数据                            | 表单项校验成功时触发                                                                                                                      |
+| formItemValidateError | `event.data: object` 当前表单数据                            | 表单项校验失败时触发                                                                                                                      |
+| validateSucc          | `event.data: object` 当前表单数据                            | 表单校验成功时触发                                                                                                                        |
+| validateError         | `event.data: object` 当前表单数据                            | 表单校验失败时触发                                                                                                                        |
+| submit                | `event.data: object` 当前表单数据                            | 点击提交按钮或者触发表单提交动作的时候触发，配置了该事件后将不会触发表单提交时的校验、提交到 api 或者 target 等行为，所有行为需要自己配置 |
+| submitSucc            | `event.data.result: object` api 远程请求成功后返回的结果数据 | 提交成功时触发                                                                                                                            |
+| submitFail            | `event.data.error: object` api 远程请求失败后返回的错误信息  | 提交失败时触发                                                                                                                            |
 
 ## 动作表
 

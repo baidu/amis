@@ -756,7 +756,8 @@ export class DialogRenderer extends Dialog {
             (action.type === 'submit' ||
               action.actionType === 'submit' ||
               action.actionType === 'confirm') &&
-            action.close !== false
+            action.close !== false &&
+            !targets.some(item => item.props.closeDialogOnSubmit === false)
           ) {
             onConfirm && onConfirm(values, rawAction || action, ctx, targets);
           } else if (action.close) {
