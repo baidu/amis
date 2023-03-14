@@ -152,6 +152,11 @@ export interface TransferControlSchema
    * 当在value值未匹配到当前options中的选项时，是否value值对应文本飘红显示
    */
   showInvalidMatch?: boolean;
+
+  /**
+   * 树形模式下，仅选中子节点
+   */
+  onlyChildren?: boolean;
 }
 
 export interface BaseTransferProps
@@ -486,7 +491,8 @@ export class BaseTransferRenderer<
       virtualThreshold,
       itemHeight,
       loadingConfig,
-      showInvalidMatch
+      showInvalidMatch,
+      onlyChildren
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载
@@ -509,6 +515,7 @@ export class BaseTransferRenderer<
     return (
       <div className={cx('TransferControl', className)}>
         <Transfer
+          onlyChildren={onlyChildren}
           value={selectedOptions}
           options={options}
           disabled={disabled}
