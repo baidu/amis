@@ -921,17 +921,21 @@ export default class Form extends React.Component<FormProps, object> {
     if (!isAlive(store)) {
       return;
     }
+
+    // 提前准备好 onChange 的参数。
+    // 因为 store.data 会在 await 期间被 WithStore.componentDidUpdate 中的 store.initData 改变。导致数据丢失
+    const changeProps = [
+      store.data,
+      difference(store.data, store.pristine),
+      this.props
+    ];
+
     const dispatcher = await dispatchEvent(
       'change',
       createObject(data, store.data)
     );
     if (!dispatcher?.prevented) {
-      onChange &&
-        onChange(
-          store.data,
-          difference(store.data, store.pristine),
-          this.props
-        );
+      onChange && onChange.apply(null, changeProps);
     }
 
     store.clearRestError();
