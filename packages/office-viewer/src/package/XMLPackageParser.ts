@@ -15,11 +15,11 @@ export default class XMLPackageParser implements PackageParser {
   /**
    * 加载 zip 文件
    */
-  load(fileContent: ArrayBuffer) {
-    this.xml = new DOMParser().parseFromString(
-      strFromU8(new Uint8Array(fileContent)),
-      'application/xml'
-    );
+  load(fileContent: ArrayBuffer | string) {
+    if (fileContent instanceof ArrayBuffer) {
+      fileContent = strFromU8(new Uint8Array(fileContent));
+    }
+    this.xml = new DOMParser().parseFromString(fileContent, 'application/xml');
     const errorNode = this.xml.querySelector('parsererror');
     if (errorNode) {
       throw new Error(errorNode.textContent || "can't parse xml");

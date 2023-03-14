@@ -90,6 +90,9 @@ function parseStyle(word: Word, element: Element) {
       case 'w:unhideWhenUsed':
       case 'w:qFormat':
       case 'w:rsid':
+      case 'w:uiPriority':
+      case 'w:semiHidden':
+        // 看起来和展现不相关的配置
         break;
 
       default:

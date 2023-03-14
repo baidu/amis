@@ -10,6 +10,8 @@ import {Break} from '../openxml/word/Break';
 import {Drawing} from '../openxml/word/drawing/Drawing';
 import {renderDrawing} from './renderDrawing';
 import {setElementStyle} from './setElementStyle';
+import {Tab} from '../openxml/word/Tab';
+import {renderTab} from './renderTab';
 
 const VARIABLE_CLASS_NAME = 'variable';
 
@@ -63,6 +65,8 @@ export default function renderRun(word: Word, run: Run) {
         appendChild(span, br);
       } else if (child instanceof Drawing) {
         appendChild(span, renderDrawing(word, child));
+      } else if (child instanceof Tab) {
+        appendChild(span, renderTab(word, child));
       }
     }
   }

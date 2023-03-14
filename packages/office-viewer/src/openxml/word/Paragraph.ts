@@ -10,13 +10,15 @@ import {Hyperlink} from './Hyperlink';
 import {NumberProperties} from './numbering/NumberProperties';
 import {Properties} from './properties/Properties';
 import {Run, RunProperties} from './Run';
+import {Tab} from './Tab';
 
 /**
  * 这里简化了很多，如果能用 CSS 表示就直接用 CSS 表示
  */
 export interface ParagraphProperties extends Properties {
-  readonly numPr?: NumberProperties;
-  readonly runProperties?: RunProperties;
+  numPr?: NumberProperties;
+  runProperties?: RunProperties;
+  tabs?: Tab[];
 }
 
 export type ParagraphChild = Run | BookmarkStart | Hyperlink;
@@ -62,7 +64,14 @@ export class Paragraph {
       numPr = NumberProperties.fromXML(word, numPrTag);
     }
 
-    return {cssStyle, pStyle, numPr};
+    const tabs = [];
+
+    const tabElements = element.getElementsByTagName('w:tab');
+    for (const tabElement of tabElements) {
+      tabs.push(Tab.fromXML(word, tabElement));
+    }
+
+    return {cssStyle, pStyle, numPr, tabs};
   }
 
   static fromXML(word: Word, element: Element): Paragraph {
@@ -96,6 +105,10 @@ export class Paragraph {
         case 'w:proofErr':
         case 'w:noProof':
           // 语法检查
+          break;
+
+        case 'w:del':
+          // del 看起来主要是用于跟踪历史的，先不支持
           break;
 
         default:

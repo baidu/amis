@@ -3,7 +3,7 @@
  */
 
 export interface PackageParser {
-  load(docxFile: ArrayBuffer): void;
+  load(docxFile: ArrayBuffer | string): void;
 
   /**
    * 读取 xml 文件，转成 json 对象

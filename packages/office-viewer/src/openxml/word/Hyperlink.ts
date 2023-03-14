@@ -22,8 +22,6 @@ export class Hyperlink {
     if (rId) {
       const rel = word.getRelationship(rId);
       hyperlink.relation = rel;
-    } else {
-      console.warn('Hyperlink without r:id');
     }
 
     const anchor = element.getAttribute('anchor');

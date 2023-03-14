@@ -60,6 +60,11 @@ export interface WordRenderOptions {
    * 进行模板替换的函数
    */
   replaceText?: (text: string) => string;
+
+  /**
+   * 是否开启调试模式
+   */
+  debug?: boolean;
 }
 
 const defaultRenderOptions: WordRenderOptions = {
@@ -68,7 +73,8 @@ const defaultRenderOptions: WordRenderOptions = {
   inWrap: true,
   bulletUseFont: true,
   ignoreHeight: true,
-  minLineHeight: 1.0
+  minLineHeight: 1.0,
+  debug: false
 };
 
 export default class Word {
@@ -128,10 +134,19 @@ export default class Word {
 
   wrapClassName = 'docx-viewer-wrapper';
 
+  /**
+   * 构建 word
+   *
+   * @param docxFile docx 文件
+   * @param options 渲染配置
+   * @param packaParser 包解析器
+   */
   constructor(
-    parser: PackageParser,
-    renderOptions?: Partial<WordRenderOptions>
+    docFile: ArrayBuffer | string,
+    renderOptions?: Partial<WordRenderOptions>,
+    parser: PackageParser = new ZipPackageParser()
   ) {
+    parser.load(docFile);
     this.id = Word.globalId++;
     this.parser = parser;
     this.renderOptions = {...defaultRenderOptions, ...renderOptions};
@@ -141,35 +156,20 @@ export default class Word {
   /**
    * 初始化一些公共资源，比如
    */
-  async init() {
+  init() {
     if (this.inited) {
       return;
     }
 
     // 这个必须在最前面，因为后面很多依赖它来查找文件的
-    await this.initContentType();
+    this.initContentType();
 
-    await this.initTheme();
-    await this.initStyle();
-    await this.initRelation();
-    await this.initNumbering();
+    this.initTheme();
+    this.initStyle();
+    this.initRelation();
+    this.initNumbering();
 
     this.inited = true;
-  }
-
-  /**
-   * 加载文档的主要入口
-   * @param docxFile docx 文件
-   * @param options 渲染配置
-   * @param packaParser 包解析器
-   */
-  static load(
-    docxFile: Blob | any,
-    options: Partial<WordRenderOptions> = defaultRenderOptions,
-    packaParser: PackageParser = new ZipPackageParser()
-  ): Word {
-    packaParser.load(docxFile);
-    return new Word(packaParser, options);
   }
 
   /**
@@ -381,11 +381,12 @@ export default class Word {
    * @param root 渲染的根节点
    */
   async render(root: HTMLElement) {
-    await this.init();
-    console.log(this);
+    this.init();
+    const isDebug = this.renderOptions.debug;
+    isDebug && console.log('init', this);
     this.rootElement = root;
     root.innerHTML = '';
-    const documentData = await this.getXML('word/document.xml');
+    const documentData = this.getXML('word/document.xml');
 
     if (this.renderOptions.replaceText) {
       mergeRun(this, documentData);
@@ -394,8 +395,8 @@ export default class Word {
 
     const document = WDocument.fromXML(this, documentData);
 
-    console.log(document);
-    const documentElement = await renderDocument(this, document);
+    isDebug && console.log('document', document);
+    const documentElement = renderDocument(this, document);
     root.classList.add(this.getClassPrefix());
     if (this.renderOptions.inWrap) {
       root.classList.add(this.wrapClassName);

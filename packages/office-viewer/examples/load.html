@@ -39,8 +39,13 @@
 
       async function renderWord(input) {
         const file = input.files[0];
-        const word = await Word.load(file);
-        await word.render(appElement);
+        const reader = new FileReader();
+        reader.onload = _e => {
+          const data = reader.result;
+          const word = new Word(data);
+          word.render(appElement);
+        };
+        reader.readAsArrayBuffer(file);
       }
 
       function printElement() {

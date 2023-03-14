@@ -13,28 +13,8 @@ import {parseSize} from './parseSize';
 import {parseSpacing} from './parseSpacing';
 import {parseFont} from './parseFont';
 import {ST_VerticalAlignRun} from '../openxml/Types';
-
-/** 将 jc 转成 text-align
- *
- * http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/ST_Jc.html
- */
-function jcToTextAlign(jc: string) {
-  switch (jc) {
-    case 'start':
-    case 'left':
-      return 'left';
-    case 'center':
-      return 'center';
-    case 'end':
-    case 'right':
-      return 'right';
-    case 'both':
-      return 'justify';
-    default:
-      'left';
-  }
-  return jc;
-}
+import {parseTrHeight} from './parseTrHeight';
+import {jcToTextAlign} from './jcToTextAlign';
 
 /**
  * 解析 underline 并附上样式
@@ -211,17 +191,9 @@ export function parsePr(word: Word, element: Element, type: 'r' | 'p' = 'p') {
         break;
 
       case 'w:trHeight':
-        // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/trHeight.html
-        const height = parseSize(child, 'w:val');
-        const hRule = child.getAttribute('w:hRule');
-        if (hRule === 'exact') {
-          style['height'] = height;
-        } else if (hRule === 'atLeast') {
-          // tr 设置 min-height 似乎是没效果的
-          style['height'] = height;
-          style['min-height'] = height;
-        }
+        parseTrHeight(child, style);
         break;
+
       case 'w:strike':
       case 'w:dstrike':
         // 其实不支持 dstrike，都统一为 strike
@@ -314,6 +286,27 @@ export function parsePr(word: Word, element: Element, type: 'r' | 'p' = 'p') {
 
       case 'w:contextualSpacing':
         // 还没空看
+        break;
+
+      case 'w:numPr':
+        // 这个在 parseParagraphProperties 里处理了
+        break;
+
+      case 'w:rPr':
+        // TODO: 这个有时候会不正确，需要再看看
+        break;
+
+      case 'w:rStyle':
+        // 在 Run 里地方处理了
+        break;
+
+      case 'w:webHidden':
+        // web 模式隐藏
+        style['display'] = 'none';
+        break;
+
+      case 'w:tabs':
+        // 这个在 parseParagraphProperties 里处理了
         break;
 
       default:

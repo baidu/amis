@@ -1,7 +1,9 @@
 import {CSSStyle} from '../../Style';
-import {getValBoolean} from '../../../OpenXML';
+import {getVal, getValBoolean} from '../../../OpenXML';
 import {Tc} from './Tc';
 import Word from '../../../Word';
+import {parseTrHeight} from '../../../parse/parseTrHeight';
+import {jcToTextAlign} from '../../../parse/jcToTextAlign';
 
 export interface TrProperties {
   cssStyle?: CSSStyle;
@@ -23,8 +25,20 @@ export class Tr {
           }
           break;
 
+        case 'w:trHeight':
+          parseTrHeight(child, cssStyle);
+          break;
+
+        case 'w:jc':
+          cssStyle['text-align'] = jcToTextAlign(getVal(child));
+          break;
+
+        case 'w:cantSplit':
+          // 目前也不支持分页
+          break;
+
         default:
-          console.warn(`Tr: Unknown tag `, tagName);
+          console.warn(`Tr: Unknown tag `, tagName, child.innerHTML);
       }
     }
 
@@ -54,6 +68,10 @@ export class Tr {
           } else {
             colIndex += 1;
           }
+          break;
+
+        case 'w:trPr':
+          tr.properties = Tr.parseTrProperties(word, child);
           break;
 
         default:

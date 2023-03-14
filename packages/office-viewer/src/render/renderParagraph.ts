@@ -10,6 +10,7 @@ import {renderHyperLink} from './renderHyperLink';
 import {renderBookmarkStart} from './renderBookmark';
 import {renderNumbering} from './renderNumbering';
 import {setElementStyle} from './setElementStyle';
+import {renderTab} from './renderTab';
 
 /**
  * 渲染段落
@@ -26,6 +27,12 @@ export default function renderParagraph(word: Word, paragraph: Paragraph) {
   // 渲染列表前缀
   if (properties.numPr) {
     appendChild(p, renderNumbering(p, word, properties.numPr));
+  }
+
+  if (properties.tabs) {
+    for (const tab of properties.tabs) {
+      appendChild(p, renderTab(word, tab));
+    }
   }
 
   for (const child of paragraph.children) {

@@ -50,6 +50,7 @@ export class Body {
         case 'w:tbl':
           const table = Table.fromXML(word, child);
           body.addChild(table);
+          break;
 
         default:
           console.warn('Body.fromXML Unknown key', tagName);

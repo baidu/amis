@@ -21,4 +21,8 @@ export function setElementStyle(
   if (properties.pStyle) {
     addClassNames(element, word.getStyleClassName(properties.pStyle));
   }
+
+  if (properties.rStyle) {
+    addClassNames(element, word.getStyleClassName(properties.rStyle));
+  }
 }

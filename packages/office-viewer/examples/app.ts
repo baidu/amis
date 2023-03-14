@@ -79,10 +79,14 @@ async function renderDocx(fileName: string) {
   const filePath = `${testDir}/${fileName}`;
   const file = await (await fetch(filePath)).arrayBuffer();
   let word: Word;
+  const renderOptions = {
+    debug: true,
+    replaceText
+  };
   if (filePath.endsWith('.xml')) {
-    word = Word.load(file, {replaceText}, new XMLPackageParser());
+    word = new Word(file, renderOptions, new XMLPackageParser());
   } else {
-    word = Word.load(file, {replaceText});
+    word = new Word(file, renderOptions);
   }
 
   const fileNameSplit = fileName.split('/');

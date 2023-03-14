@@ -12,5 +12,5 @@ export async function createWord(): Promise<Word> {
     path.join(__dirname, './docx/empty.xml'),
     'utf-8'
   );
-  return await Word.load(xmlContent, {}, new XMLPackageParser());
+  return new Word(xmlContent, {}, new XMLPackageParser());
 }
