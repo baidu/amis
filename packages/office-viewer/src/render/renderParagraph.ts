@@ -1,7 +1,3 @@
-/**
- * 解析段落。类型装换部分参考了 docxjs 的代码
- */
-
 import {createElement, appendChild, setStyle} from '../util/dom';
 import Word from '../Word';
 
@@ -15,6 +11,9 @@ import {renderBookmarkStart} from './renderBookmark';
 import {renderNumbering} from './renderNumbering';
 import {setElementStyle} from './setElementStyle';
 
+/**
+ * 渲染段落
+ */
 export default function renderParagraph(word: Word, paragraph: Paragraph) {
   let p = createElement('p');
 

@@ -1,7 +1,8 @@
 /**
  * zip 文件解析
  */
-import * as JSZip from 'jszip';
+import JSZip from 'jszip';
+
 import {PackageParser} from './PackageParser';
 
 export default class ZipPackageParser implements PackageParser {
@@ -57,5 +58,17 @@ export default class ZipPackageParser implements PackageParser {
       return true;
     }
     return false;
+  }
+
+  /**
+   * 生成新的 zip 文件
+   */
+  async generateZip(docContent: string) {
+    // 其实最好是生成个新的，后续再用户
+    this.zip.file('word/document.xml', docContent);
+
+    return this.zip.generateAsync({
+      type: 'blob'
+    });
   }
 }

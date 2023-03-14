@@ -1,14 +1,12 @@
-/**
- * 渲染列表 http://officeopenxml.com/WPnumbering.php
- */
-
 import {NumberProperties} from '../openxml/word/numbering/NumberProperties';
 import {createElement} from '../util/dom';
 import Word from '../Word';
 import {ST_NumberFormat} from '../openxml/Types';
 import {setElementStyle} from './setElementStyle';
 
-// https://stackoverflow.com/a/32851198
+/**
+ * 整数转成罗马数字，来自 https://stackoverflow.com/a/32851198
+ */
 function romanize(num: number) {
   let lookup = {
     M: 1000,
@@ -35,6 +33,9 @@ function romanize(num: number) {
   return roman;
 }
 
+/**
+ * 将数字转成列表格式，目前只支持少数几种格式，不支持的都直接返回数字
+ */
 function convertNumToFormat(numFmt: ST_NumberFormat, num: number): string {
   switch (numFmt) {
     case ST_NumberFormat.decimal:
@@ -62,7 +63,8 @@ function convertNumToFormat(numFmt: ST_NumberFormat, num: number): string {
 }
 
 /**
- * 生成列表的前缀，为了支持复杂场景，这里使用代码来直接生成内容
+ * 渲染列表 http://officeopenxml.com/WPnumbering.php
+ * 为了支持复杂场景，这里使用代码来直接生成内容
  */
 export function renderNumbering(
   p: HTMLElement,

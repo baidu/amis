@@ -1,12 +1,14 @@
 /**
- * 目的是统一内部的 xml 解析格式
+ * 解析 xml
  */
-
 export function parseXML(content: string) {
   return new DOMParser().parseFromString(content, 'application/xml');
 }
 
-export function buildXML(doc: Node) {
+/**
+ * 构建 xml 文本
+ */
+export function buildXML(doc: Node): string {
   const serializer = new XMLSerializer();
   return serializer.serializeToString(doc);
 }

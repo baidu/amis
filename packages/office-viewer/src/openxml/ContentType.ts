@@ -1,7 +1,3 @@
-/**
- * 解析 [Content_Types].xml
- */
-
 interface Override {
   partName: string;
   contentType: string;
@@ -11,6 +7,9 @@ export interface ContentTypes {
   overrides: Override[];
 }
 
+/**
+ * 解析 [Content_Types].xml
+ */
 export function parseContentType(doc: Document) {
   const types: ContentTypes = {overrides: []};
   doc.querySelectorAll('Override').forEach((item: Element) => {

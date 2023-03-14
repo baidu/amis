@@ -24,4 +24,11 @@ export interface PackageParser {
    * 文件是否存在
    */
   fileExists(filePath: string): boolean;
+
+  /**
+   * 生成新的 zip 文件
+   *
+   * @param docContent 新的 word/document.xml 文件内容
+   */
+  generateZip(docContent: string): Promise<Blob>;
 }

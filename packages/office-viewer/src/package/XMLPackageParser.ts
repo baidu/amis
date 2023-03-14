@@ -2,7 +2,9 @@
  * openxml 默认是 zip 格式，导致构造比较麻烦，所以增加了这种单一格式，所有内容都放在一个 xml 文件里
  */
 
-import {parseXML} from '../util/xml';
+import JSZip from 'jszip';
+
+import {buildXML, parseXML} from '../util/xml';
 import {PackageParser} from './PackageParser';
 
 export default class XMLPackageParser implements PackageParser {
@@ -80,5 +82,25 @@ export default class XMLPackageParser implements PackageParser {
       filePath = '/' + filePath;
     }
     return filePath in this.files;
+  }
+
+  /**
+   * 生成 zip 文件
+   */
+  async generateZip(docContent: string) {
+    const zip = JSZip();
+
+    zip.file('[Content_Types].xml', buildXML(this.contentTypesDoc));
+
+    for (const filePath in this.files) {
+      // 目前只支持 xml 文件
+      zip.file(filePath, buildXML(this.files[filePath] as unknown as Document));
+    }
+
+    zip.file('word/document.xml', docContent);
+
+    return zip.generateAsync({
+      type: 'blob'
+    });
   }
 }

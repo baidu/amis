@@ -2,20 +2,22 @@
  * 总入口，它将包括所有 word 文档信息，后续渲染的时候依赖它来获取关联信息
  */
 
-import ZipPackageParser from './package/ZipPackageParser';
 import {parseRelationships, Relationship} from './parse/parseRelationship';
 import {ContentTypes, parseContentType} from './openxml/ContentType';
 import {parseStyles, Styles} from './openxml/Style';
 import {parseTheme, Theme} from './openxml/Theme';
 
 import renderDocument from './render/renderDocument';
-import {blobToDataURL} from './util/blob';
+import {blobToDataURL, downloadBlob} from './util/blob';
 import {Numbering} from './openxml/word/numbering/Numbering';
-import {appendChild, appendComment, createElement} from './util/dom';
+import {appendChild} from './util/dom';
 import {renderStyle} from './render/renderStyle';
 import {mergeRun} from './util/mergeRun';
 import {WDocument} from './openxml/word/Document';
 import {PackageParser} from './package/PackageParser';
+import {updateVariableText} from './render/renderRun';
+import ZipPackageParser from './package/ZipPackageParser';
+import {buildXML} from './util/xml';
 
 /**
  * 渲染配置
@@ -38,16 +40,6 @@ export interface WordRenderOptions {
    * 是否包裹出页面效果
    */
   inWrap: boolean;
-
-  /**
-   * 是否替换变量
-   */
-  replaceVar: boolean;
-
-  /**
-   * 上下文，用于替换变量的场景
-   */
-  data?: any;
 
   /**
    * 是否忽略文档宽度设置
@@ -75,7 +67,6 @@ const defaultRenderOptions: WordRenderOptions = {
   classPrefix: 'docx-viewer',
   inWrap: true,
   bulletUseFont: true,
-  replaceVar: false,
   ignoreHeight: true,
   minLineHeight: 1.0
 };
@@ -155,8 +146,9 @@ export default class Word {
       return;
     }
 
-    // 先后顺序是有要求的，这个必须在最前面，
+    // 这个必须在最前面，因为后面很多依赖它来查找文件的
     await this.initContentType();
+
     await this.initTheme();
     await this.initStyle();
     await this.initRelation();
@@ -259,7 +251,7 @@ export default class Word {
    * 进行文本替换
    */
   replaceText(text: string) {
-    if (!this.renderOptions.replaceVar || !this.renderOptions.replaceText) {
+    if (!this.renderOptions.replaceText) {
       return text;
     }
     return this.renderOptions.replaceText(text);
@@ -344,14 +336,54 @@ export default class Word {
     return classNames;
   }
 
+  /**
+   * 渲染时的 css 类前缀
+   */
   getClassPrefix() {
     return `${this.renderOptions.classPrefix}-${this.id}`;
   }
 
+  /**
+   * 获取主题色，目前基于 css 变量实现，方便动态修改
+   */
   getThemeColor(name: string) {
     return `var(--docx-${this.id}-theme-${name}-color)`;
   }
 
+  /**
+   * 更新页面中的变量，这个要在 render 后运行
+   */
+  updateVariable() {
+    if (!this.rootElement || !this.renderOptions.replaceText) {
+      return;
+    }
+    updateVariableText(this);
+  }
+
+  /**
+   * 下载生成的文档，会对 word/document.xml 进行处理，替换文本
+   */
+  async download(fileName: string = 'document.docx') {
+    const documentData = await this.getXML('word/document.xml');
+
+    if (this.renderOptions.replaceText) {
+      mergeRun(this, documentData);
+      // 对文本进行替换
+      const ts = documentData.getElementsByTagName('w:t');
+      for (let i = 0; i < ts.length; i++) {
+        ts[i].textContent = this.replaceText(ts[i].textContent || '');
+      }
+    }
+
+    const blob = await this.parser.generateZip(buildXML(documentData));
+    downloadBlob(blob, fileName);
+  }
+
+  /**
+   * 渲染文档入口
+   *
+   * @param root 渲染的根节点
+   */
   async render(root: HTMLElement) {
     await this.init();
     console.log(this);
@@ -359,8 +391,9 @@ export default class Word {
     root.innerHTML = '';
     const documentData = await this.getXML('word/document.xml');
 
-    if (this.renderOptions.replaceVar) {
-      // mergeRun(this, documentData);
+    if (this.renderOptions.replaceText) {
+      mergeRun(this, documentData);
+      // 这里不进行变量替换，方便后续进行局部替换来更新变量
     }
 
     const document = WDocument.fromXML(this, documentData);

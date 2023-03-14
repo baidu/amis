@@ -1,7 +1,8 @@
-import Word from '../Word';
 /**
- * 解析颜色，转成
+ * 解析颜色，转成 css 的颜色
  */
+
+import Word from '../Word';
 
 const knownColors = [
   'black',

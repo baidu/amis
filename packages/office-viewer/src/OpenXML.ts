@@ -1,6 +1,5 @@
 /**
- * OpenXML 数据类型定义，针对 fast-xml-parser 的解析结果
- * 主要目的是避免到处都是 any 容易漏检查类型
+ * openxml 一些辅助函数
  */
 
 /**
@@ -10,6 +9,9 @@ export function getVal(element: Element) {
   return element.getAttribute('w:val') || '';
 }
 
+/**
+ * 获取 w:val 的值，转成 number 类型
+ */
 export function getValNumber(element: Element) {
   return parseInt(getVal(element), 10);
 }
@@ -20,7 +22,6 @@ export function getValNumber(element: Element) {
  * @param defaultValue 默认值
  * @returns
  */
-
 export function normalizeBoolean(
   value: string | boolean,
   defaultValue: boolean = false

@@ -2,6 +2,7 @@
  * 本地测试例子
  */
 
+import {evaluate} from 'amis-formula';
 import XMLPackageParser from '../src/package/XMLPackageParser';
 import Word from '../src/Word';
 
@@ -62,15 +63,31 @@ const fileLists = {
   });
 })();
 
+const data = {
+  var: 'amis'
+};
+
+function replaceText(text: string) {
+  // 将 {{xxx}} 替换成 ${xxx}，为啥要这样呢，因为输入 $ 可能会变成两段文本
+  text = text.replace(/{{/g, '${').replace(/}}/g, '}');
+  return evaluate(text, data, {
+    defaultFilter: 'raw'
+  });
+}
+
 async function renderDocx(fileName: string) {
   const filePath = `${testDir}/${fileName}`;
   const file = await (await fetch(filePath)).blob();
   let word: Word;
   if (filePath.endsWith('.xml')) {
-    word = await Word.load(file, {}, new XMLPackageParser());
+    word = await Word.load(file, {replaceText}, new XMLPackageParser());
   } else {
-    word = await Word.load(file, {});
+    word = await Word.load(file, {replaceText});
   }
+
+  (window as any).downloadDocx = () => {
+    word.download();
+  };
 
   await word.render(viewerElement);
 }

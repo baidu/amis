@@ -27,7 +27,8 @@ body {
 }
 
 .file-list {
-  width: 120px;
+  width: 140px;
+  padding-top: 4px;
   padding-left: 4px;
   white-space: nowrap;
   overflow: hidden;

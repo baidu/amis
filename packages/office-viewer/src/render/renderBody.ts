@@ -1,3 +1,7 @@
+/**
+ * 渲染 body 节点
+ */
+
 import {createElement, appendChild} from '../util/dom';
 import Word from '../Word';
 import {Body} from '../openxml/word/Body';

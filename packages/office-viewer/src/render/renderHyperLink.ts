@@ -1,13 +1,12 @@
 import {Hyperlink} from './../openxml/word/Hyperlink';
-/**
- * 渲染链接
- */
-
 import {appendChild, createElement} from '../util/dom';
 import Word from '../Word';
 import {Run} from '../openxml/word/Run';
 import renderRun from './renderRun';
 
+/**
+ * 渲染链接
+ */
 export function renderHyperLink(word: Word, hyperlink: Hyperlink): HTMLElement {
   const a = createElement('a') as HTMLAnchorElement;
 

@@ -1,11 +1,11 @@
-/**
- * 解析 spacing
- * http://officeopenxml.com/WPspacing.php
- */
 import {CSSStyle} from '../openxml/Style';
 import Word from '../Word';
 import {parseSize} from './parseSize';
 
+/**
+ * 解析 spacing
+ * http://officeopenxml.com/WPspacing.php
+ */
 export function parseSpacing(word: Word, element: Element, style: CSSStyle) {
   const before = parseSize(element, 'w:before');
   const after = parseSize(element, 'w:after');

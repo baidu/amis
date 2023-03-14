@@ -33,6 +33,7 @@
   },
   "homepage": "https://github.com/baidu/amis#readme",
   "dependencies": {
+    "fflate": "^0.7.4",
     "jszip": "^3.10.1"
   },
   "devDependencies": {

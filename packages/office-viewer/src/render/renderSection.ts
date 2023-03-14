@@ -2,6 +2,9 @@ import {Section} from '../openxml/word/Section';
 import {createElement} from '../util/dom';
 import Word from '../Word';
 
+/**
+ * 渲染「节」，在 word 中每个节都可以有自己的页边距和页面大小设置，但目前其实并没有实现分页展现，等后续再考虑
+ */
 export function renderSection(word: Word, section: Section) {
   const sectionEl = createElement('section') as HTMLElement;
 

@@ -1,3 +1,7 @@
+/**
+ * 解析 _rels/.rels 文件
+ */
+
 export interface Relationship {
   id: string;
   type: string;

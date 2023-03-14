@@ -6,6 +6,9 @@ import renderParagraph from './renderParagraph';
 import {generateTableStyle} from './renderStyle';
 import {setElementStyle} from './setElementStyle';
 
+/**
+ * 渲染表格
+ */
 export default function renderTable(word: Word, table: Table) {
   const tableEl = document.createElement('table');
   const properties = table.properties;

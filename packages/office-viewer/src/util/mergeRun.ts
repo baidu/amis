@@ -33,6 +33,9 @@ function mergeText(first: Element, second: Element) {
   }
 }
 
+/**
+ * 合并 p 下相同的文本
+ */
 export function mergeRunInP(word: Word, p: Element) {
   const newElements: Element[] = [];
   let lastRun: Element | null = null;

@@ -8,8 +8,12 @@ import {LengthUsage, parseSize} from './parseSize';
 import Word from '../Word';
 import {ST_Border} from '../openxml/Types';
 
+// 默认边框颜色
 const DEFAULT_BORDER_COLOR = 'black';
 
+/**
+ * 解析单个边框样式
+ */
 export function parseBorder(word: Word, element: Element) {
   const type = getVal(element);
 
@@ -50,6 +54,9 @@ export function parseBorder(word: Word, element: Element) {
   return `${size} solid ${color == 'auto' ? DEFAULT_BORDER_COLOR : color}`;
 }
 
+/**
+ * 解析边框
+ */
 export function parseBorders(word: Word, element: Element, style: CSSStyle) {
   for (const child of element.children) {
     const tagName = child.tagName;

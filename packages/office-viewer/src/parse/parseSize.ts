@@ -27,6 +27,9 @@ export function convertLength(
   return `${(parseInt(val) * usage.mul).toFixed(2)}${usage.unit}`;
 }
 
+/**
+ * 转换布尔值
+ */
 export function convertBoolean(v: string, defaultValue = false): boolean {
   switch (v) {
     case '1':
@@ -50,6 +53,13 @@ export function convertPercentage(val: string): number {
   return val ? parseInt(val) / 100 : 0;
 }
 
+/**
+ * 解析尺寸，返回 css 值
+ *
+ * @param element 节点
+ * @param attrName 属性名
+ * @param usage 类型
+ */
 export function parseSize(
   element: Element,
   attrName: string,

@@ -1,13 +1,11 @@
-import {LengthUsage} from './../parse/parseSize';
+import Word from '../Word';
+import {Drawing} from '../openxml/word/drawing/Drawing';
+
 /**
  * 渲染图片，目前只支持 picture
  * http://officeopenxml.com/drwOverview.php
  *
  */
-
-import Word from '../Word';
-import {Drawing} from '../openxml/word/drawing/Drawing';
-
 export function renderDrawing(
   word: Word,
   drawing: Drawing
