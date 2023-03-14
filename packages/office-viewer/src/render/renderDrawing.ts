@@ -17,7 +17,8 @@ export function renderDrawing(
     if (blip && blip.embled) {
       const img = document.createElement('img') as HTMLImageElement;
       img.style.position = 'relative';
-      word.loadImage(blip.embled).then(url => {
+
+      word.loadImage(blip.embled)?.then(url => {
         if (url) {
           img.src = url;
         }

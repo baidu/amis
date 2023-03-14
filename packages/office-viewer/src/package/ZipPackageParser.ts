@@ -1,18 +1,24 @@
 /**
  * zip 文件解析
  */
-import JSZip from 'jszip';
+
+import {zipSync, unzipSync, Unzipped, strFromU8, strToU8} from 'fflate';
 
 import {PackageParser} from './PackageParser';
 
 export default class ZipPackageParser implements PackageParser {
-  private zip: JSZip;
+  private zip: Unzipped;
 
   /**
    * 加载 zip 文件
    */
-  async load(docxFile: Blob | any) {
-    this.zip = (await JSZip.loadAsync(docxFile)) as JSZip;
+  load(docxFile: ArrayBuffer) {
+    this.zip = unzipSync(new Uint8Array(docxFile), {
+      filter(file) {
+        // 不解析大于 10 MiB 的文件
+        return file.originalSize <= 10_000_000;
+      }
+    });
   }
 
   /**
@@ -20,11 +26,8 @@ export default class ZipPackageParser implements PackageParser {
    * @param filePath 文件路径
    * @returns 转成 json 的结果
    */
-  async getXML(filePath: string): Promise<Document> {
-    const fileContent = (await this.getFileByType(
-      filePath,
-      'string'
-    )) as string;
+  getXML(filePath: string): Document {
+    const fileContent = this.getFileByType(filePath, 'string') as string;
 
     const doc = new DOMParser().parseFromString(fileContent, 'application/xml');
 
@@ -39,11 +42,15 @@ export default class ZipPackageParser implements PackageParser {
   /**
    * 根据类型读取文件
    */
-  async getFileByType(filePath: string, type: 'string' | 'blob' | 'base64') {
+  getFileByType(filePath: string, type: 'string' | 'blob') {
     filePath = filePath.startsWith('/') ? filePath.slice(1) : filePath;
-    const file = this.zip.file(filePath);
+    const file = this.zip[filePath];
     if (file) {
-      return await file.async(type);
+      if (type === 'string') {
+        return strFromU8(file);
+      } else if (type === 'blob') {
+        return new Blob([file]);
+      }
     }
     throw new Error('file not found');
   }
@@ -53,22 +60,16 @@ export default class ZipPackageParser implements PackageParser {
    */
   fileExists(filePath: string) {
     filePath = filePath.startsWith('/') ? filePath.slice(1) : filePath;
-    const file = this.zip.file(filePath);
-    if (file) {
-      return true;
-    }
-    return false;
+    return filePath in this.zip;
   }
 
   /**
    * 生成新的 zip 文件
    */
-  async generateZip(docContent: string) {
-    // 其实最好是生成个新的，后续再用户
-    this.zip.file('word/document.xml', docContent);
+  generateZip(docContent: string) {
+    // 其实最好是生成个新的，后续再优化
+    this.zip['word/document.xml'] = strToU8(docContent);
 
-    return this.zip.generateAsync({
-      type: 'blob'
-    });
+    return new Blob([zipSync(this.zip)]);
   }
 }

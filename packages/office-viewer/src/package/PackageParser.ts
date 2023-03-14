@@ -3,22 +3,19 @@
  */
 
 export interface PackageParser {
-  load(docxFile: Blob | any): Promise<void>;
+  load(docxFile: ArrayBuffer): void;
 
   /**
    * 读取 xml 文件，转成 json 对象
    * @param filePath 文件路径
    * @returns 转成 json 的结果
    */
-  getXML(filePath: string): Promise<Document>;
+  getXML(filePath: string): Document;
 
   /**
    * 根据类型读取文件
    */
-  getFileByType(
-    filePath: string,
-    type: 'string' | 'blob' | 'base64'
-  ): Promise<string | Blob>;
+  getFileByType(filePath: string, type: 'string' | 'blob'): string | Blob;
 
   /**
    * 文件是否存在
@@ -30,5 +27,5 @@ export interface PackageParser {
    *
    * @param docContent 新的 word/document.xml 文件内容
    */
-  generateZip(docContent: string): Promise<Blob>;
+  generateZip(docContent: string): Blob;
 }

@@ -50,7 +50,7 @@ const fileLists = {
     const dir = dirName as keyof typeof fileLists;
     for (const file of fileLists[dir]) {
       const fileName = file.split('.')[0];
-      fileListElement.innerHTML += `<div class="file" data-path="${dirName}/${file}" title="file">${fileName}</div>`;
+      fileListElement.innerHTML += `<div class="file" data-path="${dirName}/${file}" title="${file}">${fileName}</div>`;
     }
   }
 
@@ -77,19 +77,25 @@ function replaceText(text: string) {
 
 async function renderDocx(fileName: string) {
   const filePath = `${testDir}/${fileName}`;
-  const file = await (await fetch(filePath)).blob();
+  const file = await (await fetch(filePath)).arrayBuffer();
   let word: Word;
   if (filePath.endsWith('.xml')) {
-    word = await Word.load(file, {replaceText}, new XMLPackageParser());
+    word = Word.load(file, {replaceText}, new XMLPackageParser());
   } else {
-    word = await Word.load(file, {replaceText});
+    word = Word.load(file, {replaceText});
   }
 
+  const fileNameSplit = fileName.split('/');
+  const downloadName = fileNameSplit[fileNameSplit.length - 1].replace(
+    '.xml',
+    '.docx'
+  );
+
   (window as any).downloadDocx = () => {
-    word.download();
+    word.download(downloadName);
   };
 
-  await word.render(viewerElement);
+  word.render(viewerElement);
 }
 
 const url = new URL(location.href);

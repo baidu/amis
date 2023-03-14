@@ -163,22 +163,22 @@ export default class Word {
    * @param options 渲染配置
    * @param packaParser 包解析器
    */
-  static async load(
+  static load(
     docxFile: Blob | any,
     options: Partial<WordRenderOptions> = defaultRenderOptions,
     packaParser: PackageParser = new ZipPackageParser()
-  ): Promise<Word> {
-    await packaParser.load(docxFile);
+  ): Word {
+    packaParser.load(docxFile);
     return new Word(packaParser, options);
   }
 
   /**
    * 解析全局主题配置
    */
-  async initTheme() {
+  initTheme() {
     for (const override of this.conentTypes.overrides) {
       if (override.partName.startsWith('/word/theme')) {
-        const theme = await this.parser.getXML(override.partName);
+        const theme = this.parser.getXML(override.partName);
         this.themes.push(parseTheme(theme));
       }
     }
@@ -187,13 +187,10 @@ export default class Word {
   /**
    * 解析全局样式
    */
-  async initStyle() {
+  initStyle() {
     for (const override of this.conentTypes.overrides) {
       if (override.partName.startsWith('/word/styles.xml')) {
-        this.styles = parseStyles(
-          this,
-          await this.parser.getXML('/word/styles.xml')
-        );
+        this.styles = parseStyles(this, this.parser.getXML('/word/styles.xml'));
       }
     }
   }
@@ -201,19 +198,16 @@ export default class Word {
   /**
    * 解析关系
    */
-  async initRelation() {
+  initRelation() {
     let rels = {};
     if (this.parser.fileExists('/_rels/.rels')) {
-      rels = parseRelationships(
-        await this.parser.getXML('/_rels/.rels'),
-        'root'
-      );
+      rels = parseRelationships(this.parser.getXML('/_rels/.rels'), 'root');
     }
 
     let documentRels = {};
     if (this.parser.fileExists('/word/_rels/document.xml.rels')) {
       documentRels = parseRelationships(
-        await this.parser.getXML('/word/_rels/document.xml.rels'),
+        this.parser.getXML('/word/_rels/document.xml.rels'),
         'word'
       );
     }
@@ -223,18 +217,18 @@ export default class Word {
   /**
    * 解析全局配置
    */
-  async initContentType() {
-    const contentType = await this.parser.getXML('[Content_Types].xml');
+  initContentType() {
+    const contentType = this.parser.getXML('[Content_Types].xml');
     this.conentTypes = parseContentType(contentType);
   }
 
   /**
    * 解析 numbering
    */
-  async initNumbering() {
+  initNumbering() {
     for (const override of this.conentTypes.overrides) {
       if (override.partName.startsWith('/word/numbering')) {
-        const numberingData = await this.parser.getXML(override.partName);
+        const numberingData = this.parser.getXML(override.partName);
         this.numbering = Numbering.fromXML(this, numberingData);
       }
     }
@@ -260,18 +254,20 @@ export default class Word {
   /**
    * 加载图片
    */
-  async loadImage(relation: Relationship) {
+  loadImage(relation: Relationship): Promise<string> | null {
     let path = relation.target;
     if (relation.part === 'word') {
       path = 'word/' + path;
     }
 
-    const data = await this.parser.getFileByType(path, 'blob');
+    const data = this.parser.getFileByType(path, 'blob');
     if (data) {
       if (this.renderOptions.imageDataURL) {
-        return await blobToDataURL(data as Blob);
+        return blobToDataURL(data as Blob);
       } else {
-        return URL.createObjectURL(data as Blob);
+        return new Promise<string>((resolve, reject) => {
+          resolve(URL.createObjectURL(data as Blob));
+        });
       }
     }
 
@@ -281,7 +277,7 @@ export default class Word {
   /**
    * 解析 html
    */
-  async getXML(filePath: string): Promise<Document> {
+  getXML(filePath: string): Document {
     return this.parser.getXML(filePath);
   }
 
@@ -363,8 +359,8 @@ export default class Word {
   /**
    * 下载生成的文档，会对 word/document.xml 进行处理，替换文本
    */
-  async download(fileName: string = 'document.docx') {
-    const documentData = await this.getXML('word/document.xml');
+  download(fileName: string = 'document.docx') {
+    const documentData = this.getXML('word/document.xml');
 
     if (this.renderOptions.replaceText) {
       mergeRun(this, documentData);
@@ -375,7 +371,7 @@ export default class Word {
       }
     }
 
-    const blob = await this.parser.generateZip(buildXML(documentData));
+    const blob = this.parser.generateZip(buildXML(documentData));
     downloadBlob(blob, fileName);
   }
 

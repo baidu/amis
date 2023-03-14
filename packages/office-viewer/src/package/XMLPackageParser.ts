@@ -2,7 +2,7 @@
  * openxml 默认是 zip 格式，导致构造比较麻烦，所以增加了这种单一格式，所有内容都放在一个 xml 文件里
  */
 
-import JSZip from 'jszip';
+import {zipSync, Unzipped, strFromU8, strToU8} from 'fflate';
 
 import {buildXML, parseXML} from '../util/xml';
 import {PackageParser} from './PackageParser';
@@ -15,11 +15,11 @@ export default class XMLPackageParser implements PackageParser {
   /**
    * 加载 zip 文件
    */
-  async load(fileContent: Blob | string) {
-    if (fileContent instanceof Blob) {
-      fileContent = await fileContent.text();
-    }
-    this.xml = new DOMParser().parseFromString(fileContent, 'application/xml');
+  load(fileContent: ArrayBuffer) {
+    this.xml = new DOMParser().parseFromString(
+      strFromU8(new Uint8Array(fileContent)),
+      'application/xml'
+    );
     const errorNode = this.xml.querySelector('parsererror');
     if (errorNode) {
       throw new Error(errorNode.textContent || "can't parse xml");
@@ -53,7 +53,7 @@ export default class XMLPackageParser implements PackageParser {
    * @param filePath 文件路径
    * @returns 转成 json 的结果
    */
-  async getXML(filePath: string): Promise<Document> {
+  getXML(filePath: string): Document {
     if (filePath === '[Content_Types].xml') {
       return this.contentTypesDoc;
     }
@@ -70,7 +70,7 @@ export default class XMLPackageParser implements PackageParser {
   /**
    * 在 xml 下基本不用这个
    */
-  async getFileByType(filePath: string, type: 'string' | 'blob' | 'base64') {
+  getFileByType(filePath: string, type: 'string' | 'blob') {
     return '';
   }
 
@@ -87,20 +87,23 @@ export default class XMLPackageParser implements PackageParser {
   /**
    * 生成 zip 文件
    */
-  async generateZip(docContent: string) {
-    const zip = JSZip();
+  generateZip(docContent: string) {
+    const zip: Unzipped = {};
 
-    zip.file('[Content_Types].xml', buildXML(this.contentTypesDoc));
+    zip['[Content_Types].xml'] = strToU8(buildXML(this.contentTypesDoc));
 
-    for (const filePath in this.files) {
+    for (let filePath in this.files) {
+      const zipfilePath = filePath.startsWith('/')
+        ? filePath.slice(1)
+        : filePath;
       // 目前只支持 xml 文件
-      zip.file(filePath, buildXML(this.files[filePath] as unknown as Document));
+      zip[zipfilePath] = strToU8(
+        buildXML(this.files[filePath] as unknown as Document)
+      );
     }
 
-    zip.file('word/document.xml', docContent);
+    zip['word/document.xml'] = strToU8(docContent);
 
-    return zip.generateAsync({
-      type: 'blob'
-    });
+    return new Blob([zipSync(zip)]);
   }
 }
