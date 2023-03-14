@@ -80,19 +80,20 @@ order: 73
 
 ### step
 
-| 属性名            | 类型                                     | 默认值 | 说明                                                                                       |
-| ----------------- | ---------------------------------------- | ------ | ------------------------------------------------------------------------------------------ |
-| title             | `string`                                 |        | 步骤标题                                                                                   |
-| mode              | `string`                                 |        | 展示默认，跟 [Form](./Form/Form) 中的模式一样，选择： `normal`、`horizontal`或者`inline`。 |
-| horizontal        | `Object`                                 |        | 当为水平模式时，用来控制左右占比                                                           |
-| horizontal.label  | `number`                                 |        | 左边 label 的宽度占比                                                                      |
-| horizontal.right  | `number`                                 |        | 右边控制器的宽度占比。                                                                     |
-| horizontal.offset | `number`                                 |        | 当没有设置 label 时，右边控制器的偏移量                                                    |
-| api               | [API](../../docs/types/api)              |        | 当前步骤保存接口，可以不配置。                                                             |
-| initApi           | [API](../../docs/types/api)              |        | 当前步骤数据初始化接口。                                                                   |
-| initFetch         | `boolean`                                |        | 当前步骤数据初始化接口是否初始拉取。                                                       |
-| initFetchOn       | [表达式](../../docs/concepts/expression) |        | 当前步骤数据初始化接口是否初始拉取，用表达式来决定。                                       |
-| body              | Array<[FormItem](./form/formItem)>       |        | 当前步骤的表单项集合，请参考 [FormItem](./form/formItem)。                                 |
+| 属性名              | 类型                                     | 默认值 | 说明                                                                                                        |
+| ------------------- | ---------------------------------------- | ------ | ----------------------------------------------------------------------------------------------------------- |
+| title               | `string`                                 |        | 步骤标题                                                                                                    |
+| mode                | `string`                                 |        | 展示默认，跟 [Form](./Form/Form) 中的模式一样，选择： `normal`、`horizontal`或者`inline`。                  |
+| horizontal          | `Object`                                 |        | 当为水平模式时，用来控制左右占比                                                                            |
+| horizontal.label    | `number`                                 |        | 左边 label 的宽度占比                                                                                       |
+| horizontal.right    | `number`                                 |        | 右边控制器的宽度占比。                                                                                      |
+| horizontal.offset   | `number`                                 |        | 当没有设置 label 时，右边控制器的偏移量                                                                     |
+| api                 | [API](../../docs/types/api)              |        | 当前步骤保存接口，可以不配置。                                                                              |
+| initApi             | [API](../../docs/types/api)              |        | 当前步骤数据初始化接口。                                                                                    |
+| initFetch           | `boolean`                                |        | 当前步骤数据初始化接口是否初始拉取。                                                                        |
+| initFetchOn         | [表达式](../../docs/concepts/expression) |        | 当前步骤数据初始化接口是否初始拉取，用表达式来决定。                                                        |
+| body                | Array<[FormItem](./form/formItem)>       |        | 当前步骤的表单项集合，请参考 [FormItem](./form/formItem)。                                                  |
+| closeDialogOnSubmit | `boolean`                                |        | 提交的时候是否关闭弹窗。当 widzard 里面有且只有一个弹窗的时候，本身提交会触发弹窗关闭，此属性可以关闭此行为 |
 
 ## 事件表
 
