@@ -6,7 +6,7 @@ export function parseXML(content: string) {
   return new DOMParser().parseFromString(content, 'application/xml');
 }
 
-export function buildXML(doc: Document) {
+export function buildXML(doc: Node) {
   const serializer = new XMLSerializer();
   return serializer.serializeToString(doc);
 }

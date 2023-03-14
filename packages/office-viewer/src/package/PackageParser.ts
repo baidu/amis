@@ -1,0 +1,27 @@
+/**
+ * 文件加载器默认是直接读取 zip，如果要对文件做特殊加密处理，可以实现这个接口
+ */
+
+export interface PackageParser {
+  load(docxFile: Blob | any): Promise<void>;
+
+  /**
+   * 读取 xml 文件，转成 json 对象
+   * @param filePath 文件路径
+   * @returns 转成 json 的结果
+   */
+  getXML(filePath: string): Promise<Document>;
+
+  /**
+   * 根据类型读取文件
+   */
+  getFileByType(
+    filePath: string,
+    type: 'string' | 'blob' | 'base64'
+  ): Promise<string | Blob>;
+
+  /**
+   * 文件是否存在
+   */
+  fileExists(filePath: string): boolean;
+}

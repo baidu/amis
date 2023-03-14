@@ -18,6 +18,21 @@ function hasSomeStyle(
   return JSON.stringify(firstStyle) === JSON.stringify(secondStyle);
 }
 
+function mergeText(first: Element, second: Element) {
+  const firstT = first.getElementsByTagName('w:t')[0];
+  const secondT = second.getElementsByTagName('w:t')[0];
+  if (firstT && secondT) {
+    let secondText = secondT.textContent || '';
+    const space = secondT.getAttribute('xml:space');
+    if (space === 'preserve' && secondText === '') {
+      secondText = ' ';
+    } else {
+      secondText = secondText.trim();
+    }
+    firstT.textContent += secondText || '';
+  }
+}
+
 export function mergeRunInP(word: Word, p: Element) {
   const newElements: Element[] = [];
   let lastRun: Element | null = null;
@@ -26,10 +41,10 @@ export function mergeRunInP(word: Word, p: Element) {
     const tagName = child.tagName;
     if (tagName === 'w:r') {
       if (lastRun) {
-        const lastRunProps = lastRun.querySelector('rPr');
-        const thisProps = child.querySelector('rPr');
+        const lastRunProps = lastRun.getElementsByTagName('w:rPr')[0];
+        const thisProps = child.getElementsByTagName('w:rPr')[0];
         if (hasSomeStyle(word, lastRunProps, thisProps)) {
-          lastRun.textContent += child.textContent || '';
+          mergeText(lastRun, child);
         } else {
           lastRun = child;
           newElements.push(child);
@@ -40,7 +55,10 @@ export function mergeRunInP(word: Word, p: Element) {
         newElements.push(child);
       }
     } else {
-      newElements.push(child);
+      // 忽略这个标签
+      if (tagName !== 'w:proofErr') {
+        newElements.push(child);
+      }
     }
   }
 
@@ -56,7 +74,7 @@ export function mergeRunInP(word: Word, p: Element) {
  * @param document
  */
 export function mergeRun(word: Word, doc: Document) {
-  const ps = doc.getElementsByTagName('p');
+  const ps = doc.getElementsByTagName('w:p');
   for (const p of ps) {
     mergeRunInP(word, p);
   }

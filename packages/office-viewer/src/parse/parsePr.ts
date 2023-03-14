@@ -283,11 +283,12 @@ export function parsePr(word: Word, element: Element, type: 'r' | 'p' = 'p') {
         break;
 
       case 'w:kern':
-        style['letter-spacing'] = parseSize(
-          child,
-          'w:val',
-          LengthUsage.FontSize
-        );
+        // todo: 这里显示不正确
+        // style['letter-spacing'] = parseSize(
+        //   child,
+        //   'w:val',
+        //   LengthUsage.FontSize
+        // );
         break;
 
       case 'w:pStyle':

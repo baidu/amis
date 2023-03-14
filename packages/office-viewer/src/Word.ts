@@ -2,8 +2,7 @@
  * 总入口，它将包括所有 word 文档信息，后续渲染的时候依赖它来获取关联信息
  */
 
-import {parse, evaluate} from 'amis-formula';
-import PackageParser from './PackageParser';
+import ZipPackageParser from './package/ZipPackageParser';
 import {parseRelationships, Relationship} from './parse/parseRelationship';
 import {ContentTypes, parseContentType} from './openxml/ContentType';
 import {parseStyles, Styles} from './openxml/Style';
@@ -16,6 +15,7 @@ import {appendChild, appendComment, createElement} from './util/dom';
 import {renderStyle} from './render/renderStyle';
 import {mergeRun} from './util/mergeRun';
 import {WDocument} from './openxml/word/Document';
+import {PackageParser} from './package/PackageParser';
 
 /**
  * 渲染配置
@@ -63,6 +63,11 @@ export interface WordRenderOptions {
    * 最小行高
    */
   minLineHeight?: number;
+
+  /**
+   * 进行模板替换的函数
+   */
+  replaceText?: (text: string) => string;
 }
 
 const defaultRenderOptions: WordRenderOptions = {
@@ -87,7 +92,7 @@ export default class Word {
   id: number;
 
   /**
-   * zip 包
+   * openxml 包
    */
   parser: PackageParser;
 
@@ -162,13 +167,17 @@ export default class Word {
 
   /**
    * 加载文档的主要入口
+   * @param docxFile docx 文件
+   * @param options 渲染配置
+   * @param packaParser 包解析器
    */
   static async load(
     docxFile: Blob | any,
-    options: Partial<WordRenderOptions> = defaultRenderOptions
+    options: Partial<WordRenderOptions> = defaultRenderOptions,
+    packaParser: PackageParser = new ZipPackageParser()
   ): Promise<Word> {
-    const parser = await PackageParser.load(docxFile);
-    return new Word(parser, options);
+    await packaParser.load(docxFile);
+    return new Word(packaParser, options);
   }
 
   /**
@@ -250,15 +259,10 @@ export default class Word {
    * 进行文本替换
    */
   replaceText(text: string) {
-    if (!this.renderOptions.replaceVar) {
+    if (!this.renderOptions.replaceVar || !this.renderOptions.replaceText) {
       return text;
     }
-    // 将 {{xxx}} 替换成 ${xxx}，为啥要这样呢，因为输入 $ 可能会变成两段文本
-    text = text.replace(/{{/g, '${').replace(/}}/g, '}');
-
-    return evaluate(text, this.renderOptions.data, {
-      defaultFilter: 'raw'
-    });
+    return this.renderOptions.replaceText(text);
   }
 
   /**

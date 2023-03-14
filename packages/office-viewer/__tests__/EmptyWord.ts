@@ -3,22 +3,14 @@
  */
 
 import Word from '../src/Word';
-import {Document, Packer, Paragraph, Tab, TextRun} from 'docx';
-
-const doc = new Document({
-  sections: [
-    {
-      properties: {},
-      children: [
-        new Paragraph({
-          children: [new TextRun('Hello World')]
-        })
-      ]
-    }
-  ]
-});
+import fs from 'fs';
+import path from 'path';
+import XMLPackageParser from '../src/package/XMLPackageParser';
 
 export async function createWord(): Promise<Word> {
-  const buffer = await Packer.toBuffer(doc);
-  return await Word.load(buffer);
+  const xmlContent = fs.readFileSync(
+    path.join(__dirname, './docx/empty.xml'),
+    'utf-8'
+  );
+  return await Word.load(xmlContent, {}, new XMLPackageParser());
 }

@@ -4,26 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>docx viewer</title>
-    <style>
-      html,
-      body {
-        margin: 0;
-        padding: 0;
-      }
-
-      @font-face {
-        font-family: Wingdings;
-        src: url(/examples/static/font/wingding.ttf);
-      }
-
-      @font-face {
-        font-family: Symbol;
-        src: url(/examples/static/font/symbol.ttf);
-      }
-    </style>
+    <link rel="stylesheet" href="/examples/static/css/app.css" />
   </head>
   <body>
-    <div id="app"></div>
+    <div class="columns">
+      <div class="column file-list" id="fileList"></div>
+      <div class="column">
+        <div id="viewer"></div>
+      </div>
+    </div>
+
     <script type="module" src="/examples/app.ts"></script>
   </body>
 </html>

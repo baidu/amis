@@ -1,1 +1,1 @@
-export function render(element: Element) {}
+export * from './Word';

@@ -1,18 +1,17 @@
 /**
- * 目前使用的方案是在获取文件的时候直接转成 json，而不是使用 XML DOM，因为这样可以避免频繁调用 DOM 函数，性能更好
+ * zip 文件解析
  */
 import * as JSZip from 'jszip';
+import {PackageParser} from './PackageParser';
 
-export default class PackageParser {
+export default class ZipPackageParser implements PackageParser {
   private zip: JSZip;
 
-  constructor(zip: JSZip) {
-    this.zip = zip;
-  }
-
-  static async load(docxFile: Blob | any): Promise<PackageParser> {
-    const jszip = (await JSZip.loadAsync(docxFile)) as JSZip;
-    return new PackageParser(jszip);
+  /**
+   * 加载 zip 文件
+   */
+  async load(docxFile: Blob | any) {
+    this.zip = (await JSZip.loadAsync(docxFile)) as JSZip;
   }
 
   /**
@@ -48,6 +47,9 @@ export default class PackageParser {
     throw new Error('file not found');
   }
 
+  /**
+   * 判断文件是否存在
+   */
   fileExists(filePath: string) {
     filePath = filePath.startsWith('/') ? filePath.slice(1) : filePath;
     const file = this.zip.file(filePath);

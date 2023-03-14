@@ -2,9 +2,13 @@ import {createWord} from './EmptyWord';
 import {mergeRun} from '../src/util/mergeRun';
 import {parseXML, buildXML} from '../src/util/xml';
 
-test('merge text', async () => {
-  const xmlData = parseXML(`
-  <w:p w14:paraId="2687ACFD" w14:textId="0463E18B" w:rsidR="00BB6066" w:rsidRDefault="007A2EAB">
+test('proofErr', async () => {
+  const xmlDoc = parseXML(
+    `
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:body>
+    <w:p>
       <w:r>
         <w:t xml:space="preserve"> {{var</w:t>
       </w:r>
@@ -12,61 +16,75 @@ test('merge text', async () => {
       <w:r>
         <w:t>}}</w:t>
       </w:r>
-  </w:p>
-  `);
+    </w:p>
+  </w:body>
+</w:document>
+  `.trim()
+  );
 
   const word = await createWord();
 
-  console.log(JSON.stringify(xmlData));
+  mergeRun(word, xmlDoc);
 
-  mergeRun(word, xmlData);
-
-  // expect(buildXML(xmlData)).toBe(' {{var}}');
+  expect(xmlDoc.getElementsByTagName('w:t')[0]?.innerHTML).toBe(' {{var}}');
 });
 
-test('merge text font hint', async () => {
-  const xmlData = parseXML(`
-  <w:p w14:paraId="2687ACFD" w14:textId="0463E18B" w:rsidR="00BB6066" w:rsidRDefault="007A2EAB">
-    <w:r>
-      <w:rPr>
-        <w:rFonts w:hint="eastAsia"/>
-      </w:rPr>
-      <w:t>B</w:t>
-    </w:r>
-    <w:r>
-      <w:t>6</w:t>
-    </w:r>
-  </w:p>
-  `);
+test('font hint', async () => {
+  const xmlDoc = parseXML(
+    `
+    <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+      <w:body>
+        <w:p>
+          <w:r>
+            <w:rPr>
+              <w:rFonts w:hint="eastAsia"/>
+            </w:rPr>
+            <w:t>B</w:t>
+          </w:r>
+          <w:r>
+            <w:t>6</w:t>
+          </w:r>
+        </w:p>
+      </w:body>
+    </w:document>
+      `.trim()
+  );
 
   const word = await createWord();
-
-  mergeRun(word, xmlData);
-
-  // expect(buildXML(xmlData)).toBe(' {{var}}');
+  mergeRun(word, xmlDoc);
+  console.log(buildXML(xmlDoc));
+  expect(xmlDoc.getElementsByTagName('w:t')[0]?.innerHTML).toBe('B6');
 });
 
-test('merge text space', async () => {
-  const xmlData = parseXML(`
-  <w:p w14:paraId="2687ACFD" w14:textId="0463E18B" w:rsidR="00BB6066" w:rsidRDefault="007A2EAB">
-    <w:r>
-      <w:t>C</w:t>
-    </w:r>
-    <w:r w:rsidR="007D7B36">
-      <w:t>ustom</w:t>
-    </w:r>
-    <w:r>
-      <w:t xml:space="preserve">  </w:t>
-    </w:r>
-    <w:r w:rsidR="007D7B36">
-      <w:t>Style</w:t>
-    </w:r>
-  </w:p>
-  `);
+test('space', async () => {
+  const xmlDoc = parseXML(
+    `
+    <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+      <w:body>
+        <w:p>
+          <w:r>
+            <w:t>C</w:t>
+          </w:r>
+          <w:r w:rsidR="007D7B36">
+            <w:t>ustom</w:t>
+          </w:r>
+          <w:r>
+            <w:t xml:space="preserve">  </w:t>
+          </w:r>
+          <w:r w:rsidR="007D7B36">
+            <w:t>Style</w:t>
+          </w:r>
+        </w:p>
+      </w:body>
+    </w:document>
+      `.trim()
+  );
 
   const word = await createWord();
 
-  mergeRun(word, xmlData);
+  mergeRun(word, xmlDoc);
 
-  // expect(buildXML(xmlData)).toBe(' {{var}}');
+  expect(xmlDoc.getElementsByTagName('w:t')[0]?.innerHTML).toBe('CustomStyle');
 });
