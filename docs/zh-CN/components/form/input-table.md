@@ -789,11 +789,11 @@ order: 54
     ]
   }
 ```
-## 单元格校验
+## 表单项校验
 
 > 2.8.1 及以上版本
 
-在列信息的 `columns` 的对应项为表单项时，可以通过设置表单项的校验，来实现对单元格的校验，校验配置可以查看 [格式校验](../formitem#格式校验)
+列信息 `columns` 的对应项为表单项时，可以设置表单项的校验规则，来实现对该项的校验，校验配置可以查看 [格式校验](../formitem#格式校验)
 
 ```schema: scope="body"
 {
@@ -819,7 +819,6 @@ order: 54
           "type": "input-table",
           "name": "table",
           "label": "Table",
-          "editable": true,
           "columns": [
             {
               "label": "数字输入",
