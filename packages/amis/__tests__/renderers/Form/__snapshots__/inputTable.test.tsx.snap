@@ -380,7 +380,7 @@ exports[`Renderer:input-table with combo column 1`] = `
                           class=""
                         >
                           <div
-                            class="cxd-Form cxd-Form--normal cxd-Form--table-formItem"
+                            class="cxd-Form cxd-Form--normal cxd-Form--quickEdit"
                             novalidate=""
                           >
                             <input
