@@ -127,7 +127,7 @@ export function StepsCmpt(props: StepsProps) {
   const value = getPropValue(props) ?? 0;
   const resolveValue =
     typeof value === 'string' && isNaN(+value)
-      ? +(resolveVariable(value, data) as string) || +value
+      ? resolveVariable(value, data) || value
       : +value;
   const valueIndex = stepsRow.findIndex(
     item => item.value && item.value === resolveValue
@@ -174,15 +174,16 @@ export function StepsCmpt(props: StepsProps) {
   );
 }
 
-const StepsWithRemoteConfig = withRemoteConfig({
-  adaptor: data => data.steps || data
-})(
+const StepsWithRemoteConfig = withRemoteConfig()(
   class extends React.Component<
     RemoteOptionsProps & React.ComponentProps<typeof StepsCmpt>
   > {
     render() {
       const {config, deferLoad, loading, updateConfig, ...rest} = this.props;
-      return <StepsCmpt config={config} {...rest} />;
+      const {steps = [], value, status} = config || {};
+      return (
+        <StepsCmpt {...rest} config={steps} value={value} status={status} />
+      );
     }
   }
 );

@@ -26,7 +26,7 @@
           .icon {
             width: px2rem(9px);
             height: px2rem(9px);
-            position: relative; 
+            position: relative;
             top: 0;
           }
         }
@@ -77,7 +77,7 @@
             white-space: nowrap;
             position: relative;
             bottom: px2rem(20px);
-            >span {
+            > span {
               color: var(--Steps-description-title-color);
               font-size: var(--Steps-description-title-fontsize);
             }
@@ -108,7 +108,7 @@
           right: 0;
           top: px2rem(36px);
           height: 9999px;
-          left: px2rem(11px);
+          left: px2rem(14.5px);
           width: 1px;
           background-color: var(--Steps-line-bg);
         }
@@ -321,14 +321,14 @@
       border: 1px solid var(--Steps-bg);
     }
     .#{$ns}StepsItem-title,
-      .#{$ns}StepsItem-subTitle,
-      .#{$ns}StepsItem-description {
-        color: var(--Steps-status-wait);
-      }
+    .#{$ns}StepsItem-subTitle,
+    .#{$ns}StepsItem-description {
+      color: var(--Steps-status-wait);
+    }
   }
   .#{$ns}StepsItem.is-error {
     .#{$ns}StepsItem-icon {
-        background-color: var(--Steps-status-error);
+      background-color: var(--Steps-status-error);
       color: var(--white);
       border: 1px solid var(--Steps-status-error);
     }
