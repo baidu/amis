@@ -1087,10 +1087,11 @@ export default class Form extends React.Component<FormProps, object> {
         dispatchEvent('validateSucc', this.props.data);
 
         if (target) {
-          this.submitToTarget(target, values);
+          this.submitToTarget(filter(target, values), values);
           dispatchEvent('submitSucc', createObject(this.props.data, values));
         } else if (action.actionType === 'reload') {
-          action.target && this.reloadTarget(action.target, values);
+          action.target &&
+            this.reloadTarget(filter(action.target, values), values);
         } else if (action.actionType === 'dialog') {
           store.openDialog(data);
         } else if (action.actionType === 'drawer') {
@@ -1189,7 +1190,10 @@ export default class Form extends React.Component<FormProps, object> {
             );
             finalRedirect && env.jumpTo(finalRedirect, action);
           } else if (action.reload || reload) {
-            this.reloadTarget(action.reload || reload!, store.data);
+            this.reloadTarget(
+              filter(action.reload || reload!, store.data),
+              store.data
+            );
           }
 
           action.close && this.closeTarget(action.close);
@@ -1252,7 +1256,8 @@ export default class Form extends React.Component<FormProps, object> {
             action.redirect && filter(action.redirect, store.data);
           redirect && env.jumpTo(redirect, action);
 
-          action.reload && this.reloadTarget(action.reload, store.data);
+          action.reload &&
+            this.reloadTarget(filter(action.reload, store.data), store.data);
           action.close && this.closeTarget(action.close);
         })
         .catch(e => {
@@ -1264,7 +1269,7 @@ export default class Form extends React.Component<FormProps, object> {
     } else if (action.actionType === 'reload') {
       store.setCurrentAction(action);
       if (action.target) {
-        this.reloadTarget(action.target, data);
+        this.reloadTarget(filter(action.target, data), data);
       } else {
         this.receive(data);
       }

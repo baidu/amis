@@ -658,7 +658,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
           errorMessage: messages && messages.saveSuccess
         })
         .then(() => {
-          reload && this.reloadTarget(reload, data);
+          reload && this.reloadTarget(filter(reload, data), data);
           this.getData(undefined, undefined, true, true);
         })
         .catch(() => {});
@@ -678,7 +678,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       store
         .saveRemote(quickSaveItemApi, sendData)
         .then(() => {
-          reload && this.reloadTarget(reload, data);
+          reload && this.reloadTarget(filter(reload, data), data);
           this.getData(undefined, undefined, true, true);
         })
         .catch(() => {
@@ -784,7 +784,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       store
         .saveRemote(saveOrderApi, model)
         .then(() => {
-          reload && this.reloadTarget(reload, model);
+          reload && this.reloadTarget(filter(reload, model), model);
           this.getData(undefined, undefined, true, true);
         })
         .catch(() => {});
