@@ -6,8 +6,9 @@ import {Button, Editor, Overlay, PopOver} from 'amis-ui';
 import {FormControlProps, FormItem} from 'amis-core';
 import {parse as cssParse} from 'amis-postcss';
 import {PlainObject} from './types';
-import {debounce} from 'lodash';
+import {cloneDeep, debounce} from 'lodash';
 import {Icon} from '../../icons/index';
+import editorFactory from './themeLanguage';
 
 const valueMap: PlainObject = {
   'margin-top': 'marginTop',
@@ -47,10 +48,17 @@ const fontStyle = [
   'line-height'
 ];
 
+interface CssNode {
+  value: string;
+  selector: string;
+}
+
 function AmisStyleCodeEditor(props: FormControlProps) {
   const {themeClass, data} = props;
   const id = data.id.replace('u:', '');
+  const [cssNodes, setCssNodes] = useState<CssNode[]>([]);
   const [value, setValue] = useState('');
+  const [select, setSelect] = useState(0);
   function getCssAndSetValue(themeClass: string[]) {
     try {
       const nodes: any[] = [];
@@ -69,13 +77,15 @@ function AmisStyleCodeEditor(props: FormControlProps) {
         ast.nodes = nodes;
       });
 
-      const css = nodes
-        .map(node => {
-          const style = node.nodes.map((n: any) => `${n.prop}: ${n.value};`);
-          return `${node.selector} {\n  ${style.join('\n  ')}\n}`;
-        })
-        .join('\n\n');
-      setValue(css);
+      const css = nodes.map(node => {
+        const style = node.nodes.map((n: any) => `${n.prop}: ${n.value};`);
+        return {
+          selector: node.selector,
+          value: style.join('\n')
+        };
+      });
+      setValue(css[select].value);
+      setCssNodes(css);
     } catch (error) {
       console.error(error);
     }
@@ -85,15 +95,23 @@ function AmisStyleCodeEditor(props: FormControlProps) {
     getCssAndSetValue(themeClass);
   }, []);
 
-  const editorChange = debounce((value: string) => {
+  const editorChange = debounce((nodes: CssNode[]) => {
     try {
-      const ast = cssParse(value);
       const {data, onBulkChange} = props;
       const sourceCss = data.themeCss || data.css || {};
-
       const newCss: any = {};
-      ast.nodes.forEach((node: any) => {
-        const nodes = node.nodes;
+      nodes.forEach(node => {
+        const nodes = node.value
+          .replace(/\s/g, '')
+          .split(';')
+          .map(kv => {
+            const [prop, value] = kv.split(':');
+            return {
+              prop,
+              value
+            };
+          })
+          .filter(n => n.value);
         const selector = node.selector;
         const nameEtr = /\.(.*)\-/.exec(selector);
         const cssCode: PlainObject = {};
@@ -104,7 +122,7 @@ function AmisStyleCodeEditor(props: FormControlProps) {
         } else if (!!~selector.indexOf(':hover')) {
           state = 'hover';
         }
-        nodes.forEach((item: any) => {
+        nodes.forEach(item => {
           const prop = item.prop;
           const cssValue = item.value;
           if (!!~prop.indexOf('radius')) {
@@ -146,8 +164,11 @@ function AmisStyleCodeEditor(props: FormControlProps) {
   });
 
   function handleChange(value: string) {
+    const newCssNodes = cloneDeep(cssNodes);
+    newCssNodes[select].value = value;
+    setCssNodes(newCssNodes);
     setValue(value);
-    editorChange(value);
+    editorChange(newCssNodes);
   }
 
   return (
@@ -163,21 +184,7 @@ function AmisStyleCodeEditor(props: FormControlProps) {
         <Editor
           value={value}
           onChange={handleChange}
-          options={{
-            automaticLayout: true,
-            lineNumbers: 'off',
-            glyphMargin: false,
-            tabSize: 2,
-            wordWrap: 'on',
-            lineDecorationsWidth: 0,
-            lineNumbersMinChars: 0,
-            selectOnLineNumbers: true,
-            scrollBeyondLastLine: false,
-            folding: true,
-            minimap: {
-              enabled: false
-            }
-          }}
+          editorFactory={editorFactory}
         />
       </div>
     </div>
