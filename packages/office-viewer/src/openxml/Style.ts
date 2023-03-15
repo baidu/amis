@@ -4,27 +4,42 @@
 
 import {getVal} from '../OpenXML';
 import Word from '../Word';
-import {ST_StyleType} from './Types';
+import {ST_StyleType, ST_TblStyleOverrideType} from './Types';
 import {Paragraph, ParagraphProperties} from './word/Paragraph';
 import {Run, RunProperties} from './word/Run';
 import {Table, TableProperties} from './word/Table';
+import {Tc, TcProperties} from './word/table/Tc';
+import {Tr, TrProperties} from './word/table/Tr';
 
 export interface CSSStyle {
   [key: string]: string;
 }
 
-export interface Style {
+// http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/tblStylePr.html
+export interface TblStylePrStyle {
+  // 文本
+  rPr?: RunProperties;
+
+  // 段落
+  pPr?: ParagraphProperties;
+
+  // 表格
+  tblPr?: TableProperties;
+
+  // 行样式
+  trPr?: TrProperties;
+
+  // 单元格样式
+  tcPr?: TcProperties;
+}
+
+export interface Style extends TblStylePrStyle {
   id?: string;
   type?: ST_StyleType;
   name?: string;
   basedOn?: string;
 
-  // 文本
-  rPr?: RunProperties;
-  // 段落
-  pPr?: ParagraphProperties;
-  // 表格
-  tblPr?: TableProperties;
+  tblStylePr?: Record<ST_TblStyleOverrideType, TblStylePrStyle>;
 }
 
 export interface Styles {
@@ -56,11 +71,45 @@ function parseDefaultStyle(word: Word, element: Element | null) {
   return defaultStyle;
 }
 
+function parseTblStylePr(word: Word, element: Element) {
+  const style: TblStylePrStyle = {};
+  for (const child of element.children) {
+    const tag = child.tagName;
+    switch (tag) {
+      case 'w:rPr':
+        style.rPr = Run.parseRunProperties(word, child);
+        break;
+
+      case 'w:pPr':
+        style.pPr = Paragraph.parseParagraphProperties(word, child);
+        break;
+
+      case 'w:tblPr':
+        style.tblPr = Table.parseTableProperties(word, child);
+        break;
+
+      case 'w:tcPr':
+        style.tcPr = Tc.parseTcProperties(word, child);
+        break;
+
+      case 'w:trPr':
+        style.trPr = Tr.parseTrProperties(word, child);
+        break;
+    }
+  }
+
+  return style;
+}
+
 function parseStyle(word: Word, element: Element) {
   const style: Style = {};
 
   style.id = element.getAttribute('w:styleId') || '';
   style.type = element.getAttribute('w:type') as ST_StyleType;
+
+  style.tblStylePr = {} as Record<ST_TblStyleOverrideType, TblStylePrStyle>;
+
+  Object.assign(style, parseTblStylePr(word, element));
 
   for (const child of element.children) {
     const tag = child.tagName;
@@ -74,15 +123,16 @@ function parseStyle(word: Word, element: Element) {
         break;
 
       case 'w:rPr':
-        style.rPr = Run.parseRunProperties(word, child);
-        break;
-
       case 'w:pPr':
-        style.pPr = Paragraph.parseParagraphProperties(word, child);
+      case 'w:tblPr':
+      case 'w:tcPr':
+      case 'w:trPr':
+        // 这些在 parseTblStylePr 里实现了
         break;
 
-      case 'w:tblPr':
-        style.tblPr = Table.parseTableProperties(word, child);
+      case 'w:tblStylePr':
+        const type = child.getAttribute('w:type') as ST_TblStyleOverrideType;
+        style.tblStylePr[type] = parseTblStylePr(word, child);
         break;
 
       case 'w:next':
@@ -92,6 +142,7 @@ function parseStyle(word: Word, element: Element) {
       case 'w:rsid':
       case 'w:uiPriority':
       case 'w:semiHidden':
+      case 'w:autoRedefine':
         // 看起来和展现不相关的配置
         break;
 

@@ -2,16 +2,23 @@
  * http://officeopenxml.com/WPtable.php
  */
 
-import {getVal} from '../../OpenXML';
+import {getAttrBoolean, getVal, getValBoolean, getValHex} from '../../OpenXML';
 import {parseBorder, parseBorders} from '../../parse/parseBorder';
 import {parseColorAttr} from '../../parse/parseColor';
 import {LengthUsage, parseSize} from '../../parse/parseSize';
 import Word from '../../Word';
 import {CSSStyle} from '../Style';
-import {ST_TblLayoutType, ST_TblWidth} from '../Types';
+import {
+  CT_TblLook,
+  ST_TblLayoutType,
+  ST_TblStyleOverrideType,
+  ST_TblWidth
+} from '../Types';
 import {parseCellMargin, parseTblWidth, Tc} from './table/Tc';
 import {Properties} from './properties/Properties';
 import {Tr} from './table/Tr';
+
+export type CT_TblLookKey = keyof CT_TblLook;
 
 export interface TableProperties extends Properties {
   /**
@@ -31,6 +38,11 @@ export interface TableProperties extends Properties {
     H?: string;
     V?: string;
   };
+
+  /**
+   * 条件格式
+   */
+  tblLook?: Record<CT_TblLookKey, boolean>;
 }
 
 /**
@@ -123,6 +135,40 @@ function parseTblGrid(element: Element) {
   return gridCol;
 }
 
+// http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/ST_TblStyleOverrideType.html
+// val 是旧的格式
+function parseTblLook(child: Element) {
+  const tblLook: Record<CT_TblLookKey, boolean> = {} as Record<
+    CT_TblLookKey,
+    boolean
+  >;
+  const tblLookVal = getValHex(child);
+  if (getAttrBoolean(child, 'firstRow', false) || tblLookVal & 0x0020) {
+    tblLook['firstRow'] = true;
+  }
+  if (getAttrBoolean(child, 'lastRow', false) || tblLookVal & 0x0040) {
+    tblLook['lastRow'] = true;
+  }
+  if (getAttrBoolean(child, 'firstColumn', false) || tblLookVal & 0x0080) {
+    tblLook['firstColumn'] = true;
+  }
+  if (getAttrBoolean(child, 'lastColumn', false) || tblLookVal & 0x0100) {
+    tblLook['lastColumn'] = true;
+  }
+  if (getAttrBoolean(child, 'noHBand', false) || tblLookVal & 0x0200) {
+    tblLook['noHBand'] = true;
+  } else {
+    tblLook['noHBand'] = false;
+  }
+  if (getAttrBoolean(child, 'noVBand', false) || tblLookVal & 0x0400) {
+    tblLook['noVBand'] = true;
+  } else {
+    tblLook['noHBand'] = false;
+  }
+
+  return tblLook;
+}
+
 export class Table {
   properties: TableProperties = {};
   tblGrid: GridCol[] = [];
@@ -133,6 +179,8 @@ export class Table {
 
     const tableStyle: CSSStyle = {};
     const tcStyle: CSSStyle = {};
+
+    properties.tblLook = {} as Record<CT_TblLookKey, boolean>;
 
     properties.cssStyle = tableStyle;
     properties.tcCSSStyle = tcStyle;
@@ -191,6 +239,10 @@ export class Table {
 
         case 'w:tblLayout':
           parseTblLayout(child, tableStyle);
+          break;
+
+        case 'w:tblLook':
+          properties.tblLook = parseTblLook(child);
           break;
 
         default:

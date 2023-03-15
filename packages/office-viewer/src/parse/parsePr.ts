@@ -1,3 +1,4 @@
+import {ST_TextAlignment} from './../openxml/Types';
 /**
  * 包括 rPr 及 pPr 的解析，参考了 docxjs 里的实现
  */
@@ -307,6 +308,28 @@ export function parsePr(word: Word, element: Element, type: 'r' | 'p' = 'p') {
 
       case 'w:tabs':
         // 这个在 parseParagraphProperties 里处理了
+        break;
+
+      case 'w:snapToGrid':
+        // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/snapToGrid_2.html
+        // 目前还不支持 grid
+        break;
+
+      case 'w:wordWrap':
+        // 不太确定这里是用 word-break 还是 overflow-wrap
+        if (getValBoolean(child)) {
+          style['word-break'] = 'break-all';
+        }
+        break;
+
+      case 'w:textAlignment':
+        // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/textAlignment.html
+        const alignment = getVal(child) as ST_TextAlignment;
+        if (alignment === ST_TextAlignment.center) {
+          style['vertical-align'] = 'middle';
+        } else if (alignment !== ST_TextAlignment.auto) {
+          style['vertical-align'] = alignment;
+        }
         break;
 
       default:

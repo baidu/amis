@@ -285,8 +285,11 @@ export default class Word {
    * 获取 styleId 的显示名称，因为这里可以自定义，理论上会出现 css 不支持的语法
    */
   getStyleIdDisplayName(styleId: string) {
-    // 如果只有数字和字母且字母开头，就直接使用
-    if (styleId.match(/^[a-zA-Z]+[a-zA-Z0-9]$/)) {
+    /**
+     * 简单判断一下，如果是合法的 css 名称，就直接返回
+     * In CSS, identifiers (including element names, classes, and IDs in selectors) can contain only the characters [a-zA-Z0-9] and ISO 10646 characters U+00A0 and higher, plus the hyphen (-) and the underscore (_); they cannot start with a digit, two hyphens, or a hyphen followed by a digit. Identifiers can also contain escaped characters and any ISO 10646 character as a numeric code (see next item). For instance, the identifier "B&W?" may be written as "B\&W\?" or "B\26 W\3F".
+     */
+    if (styleId.match(/^[a-zA-Z]+[a-zA-Z0-9\-\_]$/)) {
       return styleId;
     }
     if (styleId in this.styleIdMap) {

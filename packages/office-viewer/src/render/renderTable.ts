@@ -1,10 +1,83 @@
+import {ST_TblStyleOverrideType} from '../openxml/Types';
 import {Paragraph} from '../openxml/word/Paragraph';
-import {Table} from '../openxml/word/Table';
-import {appendChild} from '../util/dom';
+import {CT_TblLookKey, Table} from '../openxml/word/Table';
+import {addClassName, appendChild} from '../util/dom';
 import Word from '../Word';
 import renderParagraph from './renderParagraph';
 import {generateTableStyle} from './renderStyle';
 import {setElementStyle} from './setElementStyle';
+
+/**
+ * 设置 td 的类，用于支持各种表格条件样式
+ * http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/ST_TblStyleOverrideType.html
+ */
+function setTdClassName(
+  rowIndex: number,
+  colIndex: number,
+  rowLength: number,
+  colLength: number,
+  element: Element
+) {
+  // 左上角
+  if (rowIndex === 0 && colIndex === 0) {
+    element.classList.add(ST_TblStyleOverrideType.nwCell);
+  }
+
+  // 右上角
+  if (rowIndex === 0 && colIndex === colLength - 1) {
+    element.classList.add(ST_TblStyleOverrideType.neCell);
+  }
+
+  // 左下角
+  if (rowIndex === rowLength - 1 && colIndex === 0) {
+    element.classList.add(ST_TblStyleOverrideType.swCell);
+  }
+
+  // 右下角
+  if (rowIndex === rowLength - 1 && colIndex === colLength - 1) {
+    element.classList.add(ST_TblStyleOverrideType.seCell);
+  }
+
+  // 第一行
+  if (rowIndex === 0) {
+    element.classList.add(ST_TblStyleOverrideType.firstRow);
+  }
+
+  // 最后一行
+  if (rowIndex === rowLength - 1) {
+    element.classList.add(ST_TblStyleOverrideType.lastRow);
+  }
+
+  // 第一列
+  if (colIndex === 0) {
+    element.classList.add(ST_TblStyleOverrideType.firstCol);
+  }
+
+  // 最后一列
+  if (colIndex === colLength - 1) {
+    element.classList.add(ST_TblStyleOverrideType.lastCol);
+  }
+
+  // 奇数行
+  if (rowIndex % 2 !== 0) {
+    element.classList.add(ST_TblStyleOverrideType.band1Horz);
+  }
+
+  // 偶数行
+  if (rowIndex % 2 === 0) {
+    element.classList.add(ST_TblStyleOverrideType.band2Horz);
+  }
+
+  // 奇数列
+  if (colIndex % 2 !== 0) {
+    element.classList.add(ST_TblStyleOverrideType.band1Vert);
+  }
+
+  // 偶数列
+  if (colIndex % 2 === 0) {
+    element.classList.add(ST_TblStyleOverrideType.band2Vert);
+  }
+}
 
 /**
  * 渲染表格
@@ -19,6 +92,23 @@ export default function renderTable(word: Word, table: Table) {
     tableEl.appendChild(caption);
   }
 
+  if (properties.tblLook) {
+    for (const key in properties.tblLook) {
+      // 这两个属性是反过来的
+      if (key === 'noHBand') {
+        if (!properties.tblLook[key]) {
+          addClassName(tableEl, 'enable-hBand');
+        }
+      } else if (key === 'noVBand') {
+        if (!properties.tblLook[key]) {
+          addClassName(tableEl, 'enable-vBand');
+        }
+      } else if (properties.tblLook[key as CT_TblLookKey]) {
+        addClassName(tableEl, 'enable-' + key);
+      }
+    }
+  }
+
   setElementStyle(word, tableEl, properties);
 
   const customClass = word.genClassName();
@@ -26,7 +116,7 @@ export default function renderTable(word: Word, table: Table) {
   tableEl.classList.add(customClass);
 
   word.appendStyle(
-    generateTableStyle(word.getClassPrefix(), customClass, properties)
+    generateTableStyle(word.getClassPrefix(), customClass, {tblPr: properties})
   );
 
   // 这里或许应该生成 classname 来支持 tcCSSStyle
@@ -34,13 +124,16 @@ export default function renderTable(word: Word, table: Table) {
   const tbody = document.createElement('tbody');
   tableEl.appendChild(tbody);
 
+  let rowIndex = 0;
   for (const tr of table.trs) {
     const trEl = document.createElement('tr');
     tbody.appendChild(trEl);
 
+    let colIndex = 0;
     for (const tc of tr.tcs) {
       const tdEl = document.createElement('td') as HTMLTableCellElement;
       trEl.appendChild(tdEl);
+      setTdClassName(rowIndex, colIndex, table.trs.length, tr.tcs.length, tdEl);
       const tcProperties = tc.properties;
       setElementStyle(word, tdEl, tcProperties);
       if (tcProperties.gridSpan) {
@@ -49,17 +142,27 @@ export default function renderTable(word: Word, table: Table) {
         tdEl.rowSpan = tcProperties.rowSpan;
       }
 
+      // 如果已经有表格的话，就不再渲染空段落了，避免底部多个空行
+      let hasTable = false;
       for (const tcChild of tc.children) {
         if (tcChild instanceof Paragraph) {
-          const p = renderParagraph(word, tcChild);
+          const p = renderParagraph(word, tcChild, !hasTable);
           appendChild(tdEl, p);
         } else if (tcChild instanceof Table) {
+          hasTable = true;
           appendChild(tdEl, renderTable(word, tcChild));
         } else {
           console.warn('unknown child type: ' + tcChild);
         }
       }
+
+      if (tcProperties.rowSpan) {
+        colIndex += tcProperties.rowSpan;
+      } else {
+        colIndex++;
+      }
     }
+    rowIndex++;
   }
 
   return tableEl;

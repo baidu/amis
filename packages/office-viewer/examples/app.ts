@@ -11,7 +11,12 @@ const viewerElement = document.getElementById('viewer') as HTMLElement;
 const testDir = '__tests__/docx';
 
 const fileLists = {
-  simple: ['helloworld.docx', 'list.docx', 'tableborder.docx'],
+  simple: [
+    'helloworld.docx',
+    'list.docx',
+    'tableborder.docx',
+    'tablestyle.docx'
+  ],
   docx4j: [
     'ArialUnicodeMS.docx',
     'DOCPROP_builtin.docx',

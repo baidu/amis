@@ -4,6 +4,7 @@ import {Tc} from './Tc';
 import Word from '../../../Word';
 import {parseTrHeight} from '../../../parse/parseTrHeight';
 import {jcToTextAlign} from '../../../parse/jcToTextAlign';
+import {Table} from '../Table';
 
 export interface TrProperties {
   cssStyle?: CSSStyle;
@@ -35,6 +36,12 @@ export class Tr {
 
         case 'w:cantSplit':
           // 目前也不支持分页
+          break;
+
+        case 'w:tblPrEx':
+          // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/tblPrEx_1.html
+          const tableProperties = Table.parseTableProperties(word, child);
+          Object.assign(cssStyle, tableProperties.cssStyle);
           break;
 
         default:

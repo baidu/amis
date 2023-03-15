@@ -23,7 +23,7 @@ export function getValNumber(element: Element) {
  * @returns
  */
 export function normalizeBoolean(
-  value: string | boolean,
+  value: string | boolean | null,
   defaultValue: boolean = false
 ): boolean {
   if (typeof value === 'boolean') {
@@ -53,4 +53,16 @@ export function normalizeBoolean(
 
 export function getValBoolean(element: Element, defaultValue: boolean = true) {
   return normalizeBoolean(getVal(element), defaultValue);
+}
+
+export function getAttrBoolean(
+  element: Element,
+  attr: string,
+  defaultValue: boolean = true
+) {
+  return normalizeBoolean(element.getAttribute(attr), defaultValue);
+}
+
+export function getValHex(element: Element) {
+  return parseInt(getVal(element) || '0', 16);
 }

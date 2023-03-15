@@ -14,8 +14,13 @@ import {renderTab} from './renderTab';
 
 /**
  * 渲染段落
+ * @param renderEmptySpace 如果是 true 的话，当内容为空时会自动加上 &nbsp;
  */
-export default function renderParagraph(word: Word, paragraph: Paragraph) {
+export default function renderParagraph(
+  word: Word,
+  paragraph: Paragraph,
+  renderEmptySpace = true
+) {
   let p = createElement('p');
 
   p.classList.add('p');
@@ -47,7 +52,7 @@ export default function renderParagraph(word: Word, paragraph: Paragraph) {
   }
 
   // 空行自动加个空格，不然会没高度
-  if (p.innerHTML === '') {
+  if (p.innerHTML === '' && renderEmptySpace) {
     p.innerHTML = '&nbsp;';
   }
 
