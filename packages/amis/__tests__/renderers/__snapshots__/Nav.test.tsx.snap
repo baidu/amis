@@ -14,6 +14,7 @@ exports[`Renderer:Nav 1`] = `
     >
       <ul
         class="cxd-Nav-Menu-item-tooltip-wrap"
+        style="order: 0;"
       >
         <li
           aria-disabled="false"
@@ -60,6 +61,7 @@ exports[`Renderer:Nav 1`] = `
       </ul>
       <ul
         class="cxd-Nav-Menu-item-tooltip-wrap"
+        style="order: 1;"
       >
         <li
           aria-disabled="false"
@@ -109,6 +111,7 @@ exports[`Renderer:Nav 1`] = `
       </ul>
       <ul
         class="cxd-Nav-Menu-item-tooltip-wrap"
+        style="order: 2;"
       >
         <li
           aria-disabled="false"
@@ -158,6 +161,7 @@ exports[`Renderer:Nav 1`] = `
       </ul>
       <ul
         class="cxd-Nav-Menu-item-tooltip-wrap"
+        style="order: 3;"
       >
         <li
           aria-disabled="false"
@@ -201,15 +205,19 @@ exports[`Renderer:Nav 1`] = `
     >
       <ul
         class="cxd-Nav-Menu-item-tooltip-wrap"
+        style="order: 0;"
       />
       <ul
         class="cxd-Nav-Menu-item-tooltip-wrap"
+        style="order: 1;"
       />
       <ul
         class="cxd-Nav-Menu-item-tooltip-wrap"
+        style="order: 2;"
       />
       <ul
         class="cxd-Nav-Menu-item-tooltip-wrap"
+        style="order: 3;"
       />
     </div>
   </div>
@@ -243,6 +251,7 @@ exports[`Renderer:Nav with itemActions 1`] = `
             >
               <ul
                 class="cxd-Nav-Menu-item-tooltip-wrap"
+                style="order: 0;"
               >
                 <li
                   aria-disabled="false"
@@ -443,6 +452,7 @@ exports[`Renderer:Nav with itemActions 1`] = `
                   </li>
                   <ul
                     class="cxd-Nav-Menu-item-tooltip-wrap"
+                    style="order: 1;"
                   >
                     <li
                       aria-disabled="false"
@@ -570,12 +580,15 @@ exports[`Renderer:Nav with itemActions 1`] = `
             >
               <ul
                 class="cxd-Nav-Menu-item-tooltip-wrap"
+                style="order: 0;"
               />
               <ul
                 class="cxd-Nav-Menu-item-tooltip-wrap"
+                style="order: 0;"
               />
               <ul
                 class="cxd-Nav-Menu-item-tooltip-wrap"
+                style="order: 1;"
               />
             </div>
             <div
@@ -624,6 +637,7 @@ exports[`Renderer:Nav with itemActions 2`] = `
             >
               <ul
                 class="cxd-Nav-Menu-item-tooltip-wrap"
+                style="order: 0;"
               >
                 <li
                   aria-disabled="false"
@@ -864,6 +878,7 @@ exports[`Renderer:Nav with itemActions 2`] = `
                   </li>
                   <ul
                     class="cxd-Nav-Menu-item-tooltip-wrap"
+                    style="order: 1;"
                   >
                     <li
                       aria-disabled="false"
@@ -991,12 +1006,15 @@ exports[`Renderer:Nav with itemActions 2`] = `
             >
               <ul
                 class="cxd-Nav-Menu-item-tooltip-wrap"
+                style="order: 0;"
               />
               <ul
                 class="cxd-Nav-Menu-item-tooltip-wrap"
+                style="order: 0;"
               />
               <ul
                 class="cxd-Nav-Menu-item-tooltip-wrap"
+                style="order: 1;"
               />
             </div>
           </div>
@@ -1021,6 +1039,7 @@ exports[`Renderer:Nav with multi-level 1`] = `
     >
       <ul
         class="cxd-Nav-Menu-item-tooltip-wrap"
+        style="order: 0;"
       >
         <li
           aria-disabled="false"
@@ -1155,6 +1174,7 @@ exports[`Renderer:Nav with multi-level 1`] = `
           </li>
           <ul
             class="cxd-Nav-Menu-item-tooltip-wrap"
+            style="order: 1;"
           >
             <li
               aria-disabled="false"
@@ -1191,6 +1211,7 @@ exports[`Renderer:Nav with multi-level 1`] = `
       </li>
       <ul
         class="cxd-Nav-Menu-item-tooltip-wrap"
+        style="order: 2;"
       >
         <li
           aria-disabled="false"
@@ -1230,15 +1251,19 @@ exports[`Renderer:Nav with multi-level 1`] = `
     >
       <ul
         class="cxd-Nav-Menu-item-tooltip-wrap"
+        style="order: 0;"
       />
       <ul
         class="cxd-Nav-Menu-item-tooltip-wrap"
+        style="order: 0;"
       />
       <ul
         class="cxd-Nav-Menu-item-tooltip-wrap"
+        style="order: 1;"
       />
       <ul
         class="cxd-Nav-Menu-item-tooltip-wrap"
+        style="order: 2;"
       />
     </div>
   </div>
@@ -1430,6 +1455,7 @@ exports[`Renderer:Nav with source 1`] = `
             >
               <ul
                 class="cxd-Nav-Menu-item-tooltip-wrap"
+                style="order: 0;"
               >
                 <li
                   aria-disabled="false"
@@ -1471,6 +1497,7 @@ exports[`Renderer:Nav with source 1`] = `
               </ul>
               <ul
                 class="cxd-Nav-Menu-item-tooltip-wrap"
+                style="order: 1;"
               >
                 <li
                   aria-disabled="false"
@@ -1505,6 +1532,7 @@ exports[`Renderer:Nav with source 1`] = `
               </ul>
               <ul
                 class="cxd-Nav-Menu-item-tooltip-wrap"
+                style="order: 2;"
               >
                 <li
                   aria-disabled="false"
@@ -1544,12 +1572,15 @@ exports[`Renderer:Nav with source 1`] = `
             >
               <ul
                 class="cxd-Nav-Menu-item-tooltip-wrap"
+                style="order: 0;"
               />
               <ul
                 class="cxd-Nav-Menu-item-tooltip-wrap"
+                style="order: 1;"
               />
               <ul
                 class="cxd-Nav-Menu-item-tooltip-wrap"
+                style="order: 2;"
               />
             </div>
           </div>
@@ -1574,6 +1605,7 @@ exports[`Renderer:Nav with stacked 1`] = `
     >
       <ul
         class="cxd-Nav-Menu-item-tooltip-wrap"
+        style="order: 0;"
       >
         <li
           aria-disabled="false"
@@ -1615,6 +1647,7 @@ exports[`Renderer:Nav with stacked 1`] = `
       </ul>
       <ul
         class="cxd-Nav-Menu-item-tooltip-wrap"
+        style="order: 1;"
       >
         <li
           aria-disabled="false"
@@ -1648,6 +1681,7 @@ exports[`Renderer:Nav with stacked 1`] = `
       </ul>
       <ul
         class="cxd-Nav-Menu-item-tooltip-wrap"
+        style="order: 2;"
       >
         <li
           aria-disabled="false"
@@ -1709,12 +1743,15 @@ exports[`Renderer:Nav with stacked 1`] = `
     >
       <ul
         class="cxd-Nav-Menu-item-tooltip-wrap"
+        style="order: 0;"
       />
       <ul
         class="cxd-Nav-Menu-item-tooltip-wrap"
+        style="order: 1;"
       />
       <ul
         class="cxd-Nav-Menu-item-tooltip-wrap"
+        style="order: 2;"
       />
     </div>
   </div>
