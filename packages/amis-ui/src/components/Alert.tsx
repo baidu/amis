@@ -18,6 +18,7 @@ export interface AlertProps extends ThemeProps, LocaleProps {
   title?: string;
   confirmBtnLevel?: string;
   alertBtnLevel?: string;
+  isolate?: boolean;
 }
 
 export interface AlertState {
@@ -54,6 +55,7 @@ export class Alert extends React.Component<AlertProps, AlertState> {
     content: '',
     confirm: false
   };
+  originInstance: Alert | null;
   constructor(props: AlertProps) {
     super(props);
 
@@ -64,7 +66,10 @@ export class Alert extends React.Component<AlertProps, AlertState> {
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.scopeRef = this.scopeRef.bind(this);
 
-    Alert.instance = this;
+    if (!props.isolate) {
+      this.originInstance = Alert.instance;
+      Alert.instance = this;
+    }
   }
 
   static defaultProps = {
@@ -86,7 +91,10 @@ export class Alert extends React.Component<AlertProps, AlertState> {
   }
 
   componentWillUnmount() {
-    Alert.instance = null;
+    if (Alert.instance === this) {
+      Alert.instance = this.originInstance || null;
+      this.originInstance = null;
+    }
   }
 
   schemaSope: any;
