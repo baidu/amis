@@ -16,7 +16,9 @@ function setTdClassName(
   colIndex: number,
   rowLength: number,
   colLength: number,
-  element: Element
+  element: Element,
+  rowBandSize: number = 1,
+  colBandSize: number = 1
 ) {
   // 左上角
   if (rowIndex === 0 && colIndex === 0) {
@@ -59,24 +61,32 @@ function setTdClassName(
   }
 
   // 奇数行
-  if (rowIndex % 2 !== 0) {
+  if (isOdd(rowIndex + 1, rowBandSize)) {
     element.classList.add(ST_TblStyleOverrideType.band1Horz);
   }
 
   // 偶数行
-  if (rowIndex % 2 === 0) {
+  if (!isOdd(rowIndex + 1, rowBandSize)) {
     element.classList.add(ST_TblStyleOverrideType.band2Horz);
   }
 
   // 奇数列
-  if (colIndex % 2 !== 0) {
+  if (isOdd(colIndex + 1, colBandSize)) {
     element.classList.add(ST_TblStyleOverrideType.band1Vert);
   }
 
   // 偶数列
-  if (colIndex % 2 === 0) {
+  if (!isOdd(colIndex + 1, colBandSize)) {
     element.classList.add(ST_TblStyleOverrideType.band2Vert);
   }
+}
+
+/**
+ * 根据倍数判断是否是奇数，目前看来似乎 word 编辑器也没提供 size 设置
+ * http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/tblStyleRowBandSize.html
+ */
+function isOdd(num: number, size: number) {
+  return !(num % 2);
 }
 
 /**
@@ -133,7 +143,15 @@ export default function renderTable(word: Word, table: Table) {
     for (const tc of tr.tcs) {
       const tdEl = document.createElement('td') as HTMLTableCellElement;
       trEl.appendChild(tdEl);
-      setTdClassName(rowIndex, colIndex, table.trs.length, tr.tcs.length, tdEl);
+      setTdClassName(
+        rowIndex,
+        colIndex,
+        table.trs.length,
+        tr.tcs.length,
+        tdEl,
+        properties.rowBandSize,
+        properties.colBandSize
+      );
       const tcProperties = tc.properties;
       setElementStyle(word, tdEl, tcProperties);
       if (tcProperties.gridSpan) {

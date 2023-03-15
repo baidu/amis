@@ -2,6 +2,8 @@
  * 解析颜色，转成 css 的颜色
  */
 
+import {getVal} from '../OpenXML';
+import {ST_Shd} from '../openxml/Types';
 import Word from '../Word';
 
 const knownColors = [
@@ -52,6 +54,83 @@ export function parseColorAttr(
   const themeColor = element.getAttribute('w:themeColor');
 
   return themeColor ? word.getThemeColor(themeColor) : '';
+}
+
+/**
+ * 专门用来支持 shd 的颜色
+ * http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/ST_Shd.html
+ */
+export function parseShdColor(word: Word, element: Element) {
+  let color = element.getAttribute('w:color') || '';
+
+  const val = getVal(element) as ST_Shd;
+
+  if (color === 'auto') {
+    color = '000000';
+  }
+
+  if (color.length === 6) {
+    switch (val) {
+      case ST_Shd.pct10:
+        return colorPercent(color, 0.1);
+      case ST_Shd.pct12:
+        return colorPercent(color, 0.125);
+      case ST_Shd.pct15:
+        return colorPercent(color, 0.15);
+      case ST_Shd.pct20:
+        return colorPercent(color, 0.2);
+      case ST_Shd.pct25:
+        return colorPercent(color, 0.25);
+      case ST_Shd.pct30:
+        return colorPercent(color, 0.3);
+      case ST_Shd.pct35:
+        return colorPercent(color, 0.35);
+      case ST_Shd.pct37:
+        return colorPercent(color, 0.375);
+      case ST_Shd.pct40:
+        return colorPercent(color, 0.4);
+      case ST_Shd.pct45:
+        return colorPercent(color, 0.45);
+      case ST_Shd.pct5:
+        return colorPercent(color, 0.05);
+      case ST_Shd.pct50:
+        return colorPercent(color, 0.5);
+      case ST_Shd.pct55:
+        return colorPercent(color, 0.55);
+      case ST_Shd.pct60:
+        return colorPercent(color, 0.6);
+      case ST_Shd.pct65:
+        return colorPercent(color, 0.65);
+      case ST_Shd.pct70:
+        return colorPercent(color, 0.7);
+      case ST_Shd.pct75:
+        return colorPercent(color, 0.75);
+      case ST_Shd.pct80:
+        return colorPercent(color, 0.8);
+      case ST_Shd.pct85:
+        return colorPercent(color, 0.85);
+      case ST_Shd.pct87:
+        return colorPercent(color, 0.87);
+      case ST_Shd.pct90:
+        return colorPercent(color, 0.9);
+      case ST_Shd.pct95:
+        return colorPercent(color, 0.95);
+
+      default:
+        console.warn('unsupport shd val', val);
+        return `#${color}`;
+    }
+  }
+
+  return '';
+}
+
+function colorPercent(color: string, percent: number): string {
+  const r = parseInt(color.substring(0, 2), 16);
+  const g = parseInt(color.substring(2, 4), 16);
+  const b = parseInt(color.substring(4, 6), 16);
+
+  return `rgba(${r}, ${g}, ${b}, ${percent})`;
 }
 
 /**

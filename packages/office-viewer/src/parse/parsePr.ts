@@ -8,7 +8,7 @@ import {CSSStyle} from '../openxml/Style';
 import Word from '../Word';
 import {getVal, getValBoolean} from '../OpenXML';
 import {parseBorder, parseBorders} from './parseBorder';
-import {parseColor, parseColorAttr} from './parseColor';
+import {parseColor, parseColorAttr, parseShdColor} from './parseColor';
 import {parseInd} from './parseInd';
 import {parseSize} from './parseSize';
 import {parseSpacing} from './parseSpacing';
@@ -147,12 +147,7 @@ export function parsePr(word: Word, element: Element, type: 'r' | 'p' = 'p') {
         // 如果已经有设置说明是 highlight
         if (!('background-color' in style)) {
           // http://officeopenxml.com/WPshading.php
-          style['background-color'] = parseColorAttr(
-            word,
-            child,
-            'w:fill',
-            'inherit'
-          );
+          style['background-color'] = parseShdColor(word, child);
           break;
         }
 

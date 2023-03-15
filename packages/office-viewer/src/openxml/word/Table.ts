@@ -2,9 +2,15 @@
  * http://officeopenxml.com/WPtable.php
  */
 
-import {getAttrBoolean, getVal, getValBoolean, getValHex} from '../../OpenXML';
+import {
+  getAttrBoolean,
+  getVal,
+  getValBoolean,
+  getValHex,
+  getValNumber
+} from '../../OpenXML';
 import {parseBorder, parseBorders} from '../../parse/parseBorder';
-import {parseColorAttr} from '../../parse/parseColor';
+import {parseColorAttr, parseShdColor} from '../../parse/parseColor';
 import {LengthUsage, parseSize} from '../../parse/parseSize';
 import Word from '../../Word';
 import {CSSStyle} from '../Style';
@@ -48,6 +54,16 @@ export interface TableProperties extends Properties {
    * 条件格式
    */
   tblLook?: Record<CT_TblLookKey, boolean>;
+
+  /**
+   * 行间隔
+   */
+  rowBandSize?: number;
+
+  /**
+   * 列间隔
+   */
+  colBandSize?: number;
 }
 
 /**
@@ -203,12 +219,7 @@ export class Table {
 
         case 'w:shd':
           // http://officeopenxml.com/WPtableShading.php
-          tableStyle['background-color'] = parseColorAttr(
-            word,
-            child,
-            'w:fill',
-            'inherit'
-          );
+          tableStyle['background-color'] = parseShdColor(word, child);
           break;
 
         case 'w:tblCaption':
@@ -225,6 +236,14 @@ export class Table {
 
         case 'w:tblLook':
           properties.tblLook = parseTblLook(child);
+          break;
+
+        case 'w:tblStyleRowBandSize':
+          properties.rowBandSize = getValNumber(child);
+          break;
+
+        case 'w:tblStyleColBandSize':
+          properties.colBandSize = getValNumber(child);
           break;
 
         default:

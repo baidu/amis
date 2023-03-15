@@ -4,7 +4,7 @@ import {CSSStyle} from '../../Style';
 import {Paragraph} from '../Paragraph';
 import {Table} from '../Table';
 import {LengthUsage, parseSize} from '../../../parse/parseSize';
-import {parseColorAttr} from '../../../parse/parseColor';
+import {parseColorAttr, parseShdColor} from '../../../parse/parseColor';
 import {parseBorder, parseBorders} from '../../../parse/parseBorder';
 import {ST_Merge, ST_TblWidth, ST_VerticalJc} from '../../Types';
 
@@ -143,12 +143,7 @@ export class Tc {
           break;
 
         case 'w:shd':
-          style['background-color'] = parseColorAttr(
-            word,
-            child,
-            'w:fill',
-            'inherit'
-          );
+          style['background-color'] = parseShdColor(word, child);
           break;
 
         case 'w:tcW':
