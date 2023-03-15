@@ -201,7 +201,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
           action.reload &&
             this.reloadTarget(
               delegate || this.context,
-              action.reload,
+              filter(action.reload, ctx),
               store.data
             );
         })

@@ -852,7 +852,8 @@ export class DrawerRenderer extends Drawer {
           const redirect =
             action.redirect && filter(action.redirect, store.data);
           redirect && env.jumpTo(redirect, action);
-          action.reload && this.reloadTarget(action.reload, store.data);
+          action.reload &&
+            this.reloadTarget(filter(action.reload, store.data), store.data);
           if (action.close) {
             this.handleSelfClose();
             this.closeTarget(action.close);
