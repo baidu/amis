@@ -845,7 +845,7 @@ export class EditorManager {
     if (store.activeRegion) {
       regionNodeId = id;
       regionNodeRegion = store.activeRegion;
-    } else if (node.schema.columns) {
+    } else if (node.schema.columns && node.type !== 'grid') {
       // crud 和 table 等表格类容器
       regionNodeId = id;
       regionNodeRegion = 'columns';
