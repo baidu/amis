@@ -540,7 +540,9 @@ export class Menu extends React.Component<MenuProps, MenuState> {
       badge,
       data,
       isActive,
-      collapsed
+      collapsed,
+      overflowedIndicator,
+      overflowMaxCount
     } = this.props;
 
     return list.map((item: NavigationItem, index: number) => {
@@ -598,6 +600,9 @@ export class Menu extends React.Component<MenuProps, MenuState> {
           badge={badge}
           data={data}
           depth={level || 1}
+          order={index}
+          overflowedIndicator={overflowedIndicator}
+          overflowMaxCount={overflowMaxCount}
         />
       );
     });
