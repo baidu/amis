@@ -35,6 +35,23 @@ icon:
             "type": "tag",
             "label": "这是一个很长长长长长长长长长长长长长的标签",
             "closable": true
+        },
+        {
+            type: 'tag',
+            label: '关闭了！',
+            closable: true,
+            onEvent: {
+                close: {
+                actions: [
+                    {
+                        actionType: 'toast',
+                        args: {
+                            msg: '${event.data.label}'
+                        }
+                    }
+                ]
+                }
+            }
         }
     ]
 }
@@ -175,14 +192,15 @@ icon:
 
 ## 属性表
 
-| 属性名      | 类型                                                                                       | 默认值     | 说明                                       |
-| ----------- | ------------------------------------------------------------------------------------------ | ---------- | ------------------------------------------ |
-| displayMode | `'normal' \| 'rounded' \| 'status'`                                                        | `normal`   | 展现模式                                   |
-| color       | `'active' \| 'inactive' \| 'error' \| 'success' \| 'processing' \| 'warning' \| 具体色值 ` |            | 颜色主题，提供默认主题，并支持自定义颜色值 |
-| label       | `string`                                                                                   | `-`        | 标签内容                                   |
-| icon        | `SchemaIcon`                                                                               | `dot 图标` | status 模式下的前置图标                    |
-| className   | `string`                                                                                   |            | 自定义 CSS 样式类名                        |
-| style       | `object`                                                                                   | {}         | 自定义样式（行内样式），优先级最高         |
+| 属性名      | 类型                                                                                      | 默认值     | 说明                                       |
+| ----------- | ----------------------------------------------------------------------------------------- | ---------- | ------------------------------------------ |
+| displayMode | `'normal' \| 'rounded' \| 'status'`                                                       | `normal`   | 展现模式                                   |
+| color       | `'active' \| 'inactive' \| 'error' \| 'success' \| 'processing' \| 'warning' \| 具体色值` |            | 颜色主题，提供默认主题，并支持自定义颜色值 |
+| label       | `string`                                                                                  | `-`        | 标签内容                                   |
+| icon        | `SchemaIcon`                                                                              | `dot 图标` | status 模式下的前置图标                    |
+| className   | `string`                                                                                  |            | 自定义 CSS 样式类名                        |
+| style       | `object`                                                                                  | {}         | 自定义样式（行内样式），优先级最高         |
+| closable    | `boolean`                                                                                 | `false`    | 是否展示关闭按钮                           |
 
 ## 事件表
 
@@ -190,8 +208,9 @@ icon:
 
 当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，详细查看[事件动作](../../docs/concepts/event-action)。
 
-| 事件名称   | 事件参数                               | 说明           |
-| ---------- | -------------------------------------- | -------------- |
-| click      | `nativeEvent: MouseEvent` 鼠标事件对象 | 点击时触发     |
-| mouseenter | `nativeEvent: MouseEvent` 鼠标事件对象 | 鼠标移入时触发 |
-| mouseleave | `nativeEvent: MouseEvent` 鼠标事件对象 | 鼠标移出时触发 |
+| 事件名称   | 事件参数                                                | 说明             |
+| ---------- | ------------------------------------------------------- | ---------------- |
+| click      | `{nativeEvent: MouseEvent, label: string}` 鼠标事件对象 | `点击`时触发     |
+| mouseenter | `{nativeEvent: MouseEvent, label: string}` 鼠标事件对象 | `鼠标移入`时触发 |
+| mouseleave | `{nativeEvent: MouseEvent, label: string}` 鼠标事件对象 | `鼠标移出`时触发 |
+| close      | `{nativeEvent: MouseEvent, label: string}` 鼠标事件对象 | `关闭`时触发     |
