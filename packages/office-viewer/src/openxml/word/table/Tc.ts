@@ -5,7 +5,7 @@ import {Paragraph} from '../Paragraph';
 import {Table} from '../Table';
 import {LengthUsage, parseSize} from '../../../parse/parseSize';
 import {parseColorAttr} from '../../../parse/parseColor';
-import {parseBorders} from '../../../parse/parseBorder';
+import {parseBorder, parseBorders} from '../../../parse/parseBorder';
 import {ST_Merge, ST_TblWidth, ST_VerticalJc} from '../../Types';
 
 export interface TcProperties {
@@ -19,6 +19,14 @@ export interface TcProperties {
   gridSpan?: number;
 
   rowSpan?: number;
+
+  /**
+   * 内部 border，需要作用于非第一列的单元格
+   */
+  insideBorder?: {
+    H?: string;
+    V?: string;
+  };
 }
 
 type TcChild = Paragraph | Table;
@@ -65,6 +73,29 @@ function parseVAlign(element: Element, style: CSSStyle) {
       style['vertical-align'] = 'top';
       break;
   }
+}
+
+/**
+ * parseBorders 不支持 insideH 和 insideV，所以单独支持一下
+ * 实际显示时需要过滤掉第一列
+ */
+export function parseInsideBorders(word: Word, element: Element) {
+  let H;
+  const insideH = element.querySelector('insideH');
+  if (insideH) {
+    H = parseBorder(word, insideH);
+  }
+
+  let V;
+  const insideV = element.querySelector('insideV');
+  if (insideV) {
+    V = parseBorder(word, insideV);
+  }
+
+  return {
+    H,
+    V
+  };
 }
 
 /**
@@ -138,6 +169,7 @@ export class Tc {
 
         case 'w:tcBorders':
           parseBorders(word, child, style);
+          properties.insideBorder = parseInsideBorders(word, child);
           break;
 
         case 'w:gridSpan':

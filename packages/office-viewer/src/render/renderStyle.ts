@@ -4,7 +4,6 @@
 
 import {TblStylePrStyle} from '../openxml/Style';
 import {ST_TblStyleOverrideType} from '../openxml/Types';
-import {TableProperties} from '../openxml/word/Table';
 import {createElement, styleToText} from '../util/dom';
 import Word from '../Word';
 
@@ -51,6 +50,9 @@ function generateDefaultStyle(word: Word) {
   `;
 }
 
+/**
+ * 生成表格级别样式
+ */
 export function generateTableStyle(
   classPrefix: string,
   styleDisplayId: string,
@@ -115,6 +117,7 @@ function genTblOverrideStyle(
   const trStyle = styleToText(tblStylePrStyle.trPr?.cssStyle);
 
   let enableType = '';
+  // 在 tblLook 里可以通过这些属性来控制是否启用
   switch (overrideType) {
     case ST_TblStyleOverrideType.firstCol:
       enableType = 'enable-firstColumn';
@@ -158,6 +161,31 @@ function genTblOverrideStyle(
        ${tcStyle}
     }
     `;
+    if (tblStylePrStyle.tcPr?.insideBorder) {
+      const insideBorder = tblStylePrStyle.tcPr?.insideBorder;
+      if (insideBorder.H) {
+        styleText += `
+          ${prefix}.${enableType} > tbody > tr > td.${overrideType} {
+            border-top: ${insideBorder.H};
+          }`;
+      }
+
+      if (insideBorder.V) {
+        // 这个主要是为了应对 GridTable5Dark-Accent5 里 firstRow 的情况，它其实有 right 设置，也得去掉
+        if (insideBorder.V === 'none') {
+          styleText += `
+          ${prefix}.${enableType} > tbody > tr > td.${overrideType} {
+            border-left: none;
+            border-right: none;
+          }`;
+        } else {
+          styleText += `
+          ${prefix}.${enableType} > tbody > tr > td.${overrideType} {
+            border-left: ${insideBorder.V};
+          }`;
+        }
+      }
+    }
   }
 
   const pStyle = styleToText(tblStylePrStyle.pPr?.cssStyle);

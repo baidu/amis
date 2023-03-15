@@ -14,7 +14,12 @@ import {
   ST_TblStyleOverrideType,
   ST_TblWidth
 } from '../Types';
-import {parseCellMargin, parseTblWidth, Tc} from './table/Tc';
+import {
+  parseCellMargin,
+  parseInsideBorders,
+  parseTblWidth,
+  Tc
+} from './table/Tc';
 import {Properties} from './properties/Properties';
 import {Tr} from './table/Tr';
 
@@ -60,29 +65,6 @@ function parseTblJc(element: Element, cssStyle: CSSStyle) {
     case 'end':
       cssStyle['float'] = 'right';
   }
-}
-
-/**
- * parseBorders 不支持 insideH 和 insideV，所以单独支持一下
- * 实际显示时需要过滤掉第一列
- */
-function parseInsideBorders(word: Word, element: Element) {
-  let H;
-  const insideH = element.querySelector('insideH');
-  if (insideH) {
-    H = parseBorder(word, insideH);
-  }
-
-  let V;
-  const insideV = element.querySelector('insideV');
-  if (insideV) {
-    V = parseBorder(word, insideV);
-  }
-
-  return {
-    H,
-    V
-  };
 }
 
 /**
@@ -163,7 +145,7 @@ function parseTblLook(child: Element) {
   if (getAttrBoolean(child, 'noVBand', false) || tblLookVal & 0x0400) {
     tblLook['noVBand'] = true;
   } else {
-    tblLook['noHBand'] = false;
+    tblLook['noVBand'] = false;
   }
 
   return tblLook;

@@ -33,6 +33,9 @@ export interface TblStylePrStyle {
   tcPr?: TcProperties;
 }
 
+/**
+ * 单个样式定义
+ */
 export interface Style extends TblStylePrStyle {
   id?: string;
   type?: ST_StyleType;
@@ -42,6 +45,9 @@ export interface Style extends TblStylePrStyle {
   tblStylePr?: Record<ST_TblStyleOverrideType, TblStylePrStyle>;
 }
 
+/**
+ * 所有样式定义及默认样式
+ */
 export interface Styles {
   // 方便根据 id 获取 样式
   styleMap: Record<string, Style>;
@@ -49,6 +55,9 @@ export interface Styles {
   defaultStyle?: Style;
 }
 
+/**
+ * 解析默认样式 docDefaults
+ */
 function parseDefaultStyle(word: Word, element: Element | null) {
   const defaultStyle: Style = {};
   if (!element) {
@@ -101,6 +110,9 @@ function parseTblStylePr(word: Word, element: Element) {
   return style;
 }
 
+/**
+ * 解析单个样式标签
+ */
 function parseStyle(word: Word, element: Element) {
   const style: Style = {};
 
@@ -156,7 +168,6 @@ function parseStyle(word: Word, element: Element) {
 
 /**
  * 解析 styles.xml
- * @param data
  */
 export function parseStyles(word: Word, doc: Document): Styles {
   const styles: Styles = {
