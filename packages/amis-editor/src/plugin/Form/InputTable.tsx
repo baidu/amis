@@ -128,7 +128,7 @@ export class TableControlPlugin extends BasePlugin {
               name: 'label',
               label: '标题',
               quickEdit: {
-                type: 'input-text',
+                type: i18nEnabled ? 'input-text-i18n' : 'input-text',
                 mode: 'inline'
               }
             },
