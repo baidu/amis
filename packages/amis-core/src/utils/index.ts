@@ -39,6 +39,7 @@ export * from './replaceText';
 export * from './resize-sensor';
 export * from './resolveVariable';
 export * from './resolveVariableAndFilter';
+export * from './resolveConditions';
 export * from './RootClose';
 export * from './scrollPosition';
 export * from './SimpleMap';

@@ -1744,3 +1744,17 @@ export function parseQuery(
 
   return merge(normalizedQuery, hashQuery);
 }
+
+export async function runSequence<T, U>(
+  arr: Array<T>,
+  fn: (item: T, index: number) => Promise<U>
+) {
+  const result: Array<U> = [];
+
+  await arr.reduce(async (promise, item: T, index: number) => {
+    await promise;
+    result.push(await fn(item, index));
+  }, Promise.resolve());
+
+  return result;
+}

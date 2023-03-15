@@ -79,14 +79,21 @@ import type {RendererEnv} from './env';
 import React from 'react';
 import {
   evaluate,
+  evaluateForAsync,
   Evaluator,
+  AsyncEvaluator,
   extendsFilters,
+  extendsFiltersForAsync,
   filters,
+  filtersForAsync,
   getFilters,
+  getFiltersForAsync,
   lexer,
   parse,
   registerFilter,
-  registerFunction
+  registerFilterForAsync,
+  registerFunction,
+  registerFunctionForAsync
 } from 'amis-formula';
 import type {FilterContext} from 'amis-formula';
 import LazyComponent from './components/LazyComponent';
@@ -152,13 +159,20 @@ export {
   parse,
   lexer,
   Evaluator,
+  AsyncEvaluator,
   FilterContext,
   filters,
+  filtersForAsync,
   getFilters,
+  getFiltersForAsync,
   registerFilter,
+  registerFilterForAsync,
   extendsFilters,
+  extendsFiltersForAsync,
   registerFunction,
+  registerFunctionForAsync,
   evaluate,
+  evaluateForAsync,
   // 其他
   LazyComponent,
   Overlay,
