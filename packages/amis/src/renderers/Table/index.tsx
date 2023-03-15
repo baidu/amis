@@ -172,6 +172,13 @@ export type TableColumnObject = {
    * 表格列单元格是否可以获取父级数据域值，默认为true，该配置对当前列内单元格生效
    */
   canAccessSuperData?: boolean;
+
+  /**
+   * 单元格内部组件自定义样式 style作为单元格自定义样式的配置
+   */
+  innerStyle?: {
+    [propName: string]: any;
+  };
 };
 
 export type TableColumnWithType = SchemaObject & TableColumnObject;
