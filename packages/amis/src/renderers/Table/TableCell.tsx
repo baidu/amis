@@ -68,6 +68,7 @@ export class TableCell extends React.Component<TableCellProps> {
     } = this.props;
     const schema = {
       ...column,
+      style: column.innerStyle, // column的innerStyle配置 作为内部组件的style 覆盖column的style
       className: innerClassName,
       type: (column && column.type) || 'plain'
     };
