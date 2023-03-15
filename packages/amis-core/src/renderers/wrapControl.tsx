@@ -658,6 +658,12 @@ export function wrapControl<
             ) {
               return;
             }
+
+            // onFormItemChange 可能会触发组件销毁，再次读取 this.model 为 undefined
+            if (!this.model) {
+              return;
+            }
+
             const validated = this.model.validated;
             onChange?.(value, name!, submitOnChange === true);
 
