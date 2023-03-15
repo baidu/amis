@@ -383,6 +383,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     'onChange',
     'onInit',
     'onSaved',
+    'onSave',
     'onQuery',
     'formStore',
     'autoFillHeight'
@@ -2159,6 +2160,15 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       onSelect,
       autoFillHeight,
       onEvent,
+      onSave,
+      onSaveOrder,
+      onPopOverOpened,
+      onPopOverClosed,
+      onSearchableFromReset,
+      onSearchableFromSubmit,
+      onSearchableFromInit,
+      headerToolbarRender,
+      footerToolbarRender,
       ...rest
     } = this.props;
 
