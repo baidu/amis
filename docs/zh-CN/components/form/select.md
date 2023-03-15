@@ -1095,6 +1095,30 @@ leftOptions 动态加载，默认 source 接口是返回 options 部分，而 le
 
 适用于需选择的数据/信息源较多时，用户可直观的知道自己所选择的数据/信息的场景，一般左侧框为数据/信息源，右侧为已选数据/信息，被选中信息同时存在于 2 个框内。
 
+## 多选全选
+
+开启全选后，默认开启`"checkAllBySearch": true`，检索状态下全选内容为当前过滤项。如果设置了`"checkAllBySearch": false`，则无论是否在检索状态下，全选都会选择全部数据源。
+
+> 2.8.1 及以上版本`checkAllBySearch`默认开启
+
+```schema: scope="body"
+{
+    "type": "form",
+    "body": [
+        {
+            "label": "多选",
+            "type": "select",
+            "name": "select2",
+            "searchable": true,
+            "checkAll": true,
+            "multiple": true,
+            "clearable": true,
+            "source": "/api/mock2/form/getOptions"
+        }
+    ]
+}
+```
+
 ## 属性表
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
@@ -1111,7 +1135,7 @@ leftOptions 动态加载，默认 source 接口是返回 options 部分，而 le
 | extractValue             | `boolean`                                                                         | `false`                                                                            | [提取值](./options#%E6%8F%90%E5%8F%96%E5%A4%9A%E9%80%89%E5%80%BC-extractvalue)                                                                                                                               |
 | checkAll                 | `boolean`                                                                         | `false`                                                                            | 是否支持全选                                                                                                                                                                                                 |
 | checkAllLabel            | `string`                                                                          | `全选`                                                                             | 全选的文字                                                                                                                                                                                                   |
-| checkAllBySearch         | `boolean`                                                                         | `false`                                                                            | 有检索时只全选检索命中的项                                                                                                                                                                                   |
+| checkAllBySearch         | `boolean`                                                                         | `true`                                                                             | 有检索时只全选检索命中的项                                                                                                                                                                                   |
 | defaultCheckAll          | `boolean`                                                                         | `false`                                                                            | 默认是否全选                                                                                                                                                                                                 |
 | creatable                | `boolean`                                                                         | `false`                                                                            | [新增选项](./options#%E5%89%8D%E7%AB%AF%E6%96%B0%E5%A2%9E-creatable)                                                                                                                                         |
 | multiple                 | `boolean`                                                                         | `false`                                                                            | [多选](./options#多选-multiple)                                                                                                                                                                              |
