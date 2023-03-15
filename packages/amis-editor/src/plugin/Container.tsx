@@ -318,7 +318,9 @@ export class ContainerPlugin extends LayoutBasePlugin {
                 visibleOn: 'data.style && data.style.display !== "flex" && data.style.display !== "inline-flex"'
               }) : null,
               getSchemaTpl('layout:z-index'),
-              getSchemaTpl('layout:sticky'),
+              getSchemaTpl('layout:sticky', {
+                visibleOn: 'data.style && (data.style.position !== "fixed" && data.style.position !== "absolute")'
+              }),
               getSchemaTpl('layout:stickyPosition')
             ]
           },

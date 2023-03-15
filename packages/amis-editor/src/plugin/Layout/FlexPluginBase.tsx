@@ -308,7 +308,9 @@ export class FlexPluginBase extends LayoutBasePlugin {
 
                   !isFlexItem ? getSchemaTpl('layout:margin-center') : null,
                   getSchemaTpl('layout:z-index'),
-                  !isSorptionContainer && getSchemaTpl('layout:sticky'),
+                  !isSorptionContainer && getSchemaTpl('layout:sticky', {
+                    visibleOn: 'data.style && (data.style.position !== "fixed" && data.style.position !== "absolute")'
+                  }),
                   getSchemaTpl('layout:stickyPosition')
                 ]
               },
