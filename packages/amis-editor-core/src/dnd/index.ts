@@ -200,6 +200,7 @@ export class EditorDNDManager {
       e.preventDefault();
       return;
     }
+    e.target?.addEventListener('dragend', this.dragEnd);
 
     this.lastX = e.clientX;
     this.lastY = e.clientY;
@@ -220,7 +221,6 @@ export class EditorDNDManager {
       0
     );
     e.dataTransfer!.setData(`dnd/ae-node-${id}`.toLowerCase(), ``);
-    e.target?.addEventListener('dragend', this.dragEnd);
 
     setTimeout(() => {
       this.store.setDragId(id);
@@ -239,19 +239,6 @@ export class EditorDNDManager {
     const store = this.store;
     this.dragEnterCount++;
     const activeId = store.activeId;
-
-    if (this.curDragId && this.manager.draggableContainer(this.curDragId)) {
-      // 特殊布局元素拖拽位置时，不需要 switchToRegion
-      // 判断父级容器是否自由容器
-      const curNode = store.getNodeById(activeId);
-      if (curNode) {
-        const parentNode = curNode.parentId ? store.getNodeById(curNode.parentId) : undefined;
-        if (parentNode?.schema?.isFreeContainer) {
-          store.setDropId(curNode.parentId, 'body');
-        }
-      }
-      return;
-    }
 
     if (activeId) {
       const curNode = store.getNodeById(activeId);
@@ -310,6 +297,19 @@ export class EditorDNDManager {
           break;
         }
       }
+    }
+
+    if (this.curDragId && this.manager.draggableContainer(this.curDragId)) {
+      // 特殊布局元素拖拽位置时，不需要 switchToRegion
+      // 判断父级容器是否自由容器
+      const curNode = store.getNodeById(activeId);
+      if (curNode) {
+        const parentNode = curNode.parentId ? store.getNodeById(curNode.parentId) : undefined;
+        if (parentNode?.schema?.isFreeContainer) {
+          store.setDropId(curNode.parentId, 'body');
+        }
+      }
+      return;
     }
   }
 
