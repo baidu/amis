@@ -430,15 +430,23 @@ setSchemaTpl(
   'theme:cssCode',
   ({
     themeClass = [],
-    isFormItem
+    isFormItem,
+    isLayout
   }: {
-    themeClass?: string[];
+    themeClass?: any[];
     isFormItem?: boolean;
   } = {}) => {
-    console.log(themeClass);
-    themeClass.push('');
     if (isFormItem) {
-      themeClass.push(...['description', 'label']);
+      themeClass.push(
+        ...[
+          {
+            name: 'description',
+            value: 'description',
+            className: 'descriptionClassName'
+          },
+          {name: 'label', value: 'label', className: 'labelClassName'}
+        ]
+      );
     }
     return {
       title: '样式源码',
@@ -581,8 +589,7 @@ setSchemaTpl(
         ].filter(comp => !~exclude.indexOf(comp.type.replace(/^style-/i, '')))
       },
       {
-        header: '样式',
-        key: 'style',
+        title: '自定义样式',
         body: [
           getSchemaTpl('theme:border', {
             name: 'style'
@@ -606,24 +613,14 @@ setSchemaTpl(
         ]
       },
       {
-        header: '圆角',
-        key: 'radius',
-        body: []
-      },
-      {
-        header: '间距',
-        key: 'box-model',
-        body: []
-      },
-      {
-        header: '背景',
-        key: 'background',
-        body: []
-      },
-      {
-        header: '阴影',
-        key: 'box-shadow',
-        body: []
+        title: '样式源码',
+        body: [
+          {
+            type: 'theme-cssCode',
+            label: false,
+            isLayout: true
+          }
+        ]
       }
     ].filter(item =>
       include.length ? ~include.indexOf(item.key) : !~exclude.indexOf(item.key)

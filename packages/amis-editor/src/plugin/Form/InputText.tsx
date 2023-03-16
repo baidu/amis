@@ -383,7 +383,19 @@ export class TextControlPlugin extends BasePlugin {
               ]
             },
             getSchemaTpl('theme:cssCode', {
-              themeClass: ['addOn'],
+              themeClass: [
+                {
+                  name: '输入框',
+                  value: '',
+                  className: 'inputControlClassName',
+                  state: ['default', 'hover', 'active']
+                },
+                {
+                  name: 'addOn',
+                  value: 'addOn',
+                  className: 'addOnClassName'
+                }
+              ],
               isFormItem: true
             })
           ],

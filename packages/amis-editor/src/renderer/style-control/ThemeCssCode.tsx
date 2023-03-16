@@ -3,12 +3,13 @@
  */
 import React, {useEffect, useRef, useState} from 'react';
 import {Button, Editor, Overlay, PopOver} from 'amis-ui';
-import {FormControlProps, FormItem} from 'amis-core';
+import {FormControlProps, FormItem, uuid} from 'amis-core';
 import {parse as cssParse} from 'amis-postcss';
 import {PlainObject} from './types';
-import {cloneDeep, debounce} from 'lodash';
+import {cloneDeep, debounce, isEmpty} from 'lodash';
 import {Icon} from '../../icons/index';
 import editorFactory from './themeLanguage';
+import cx from 'classnames';
 
 const valueMap: PlainObject = {
   'margin-top': 'marginTop',
@@ -53,39 +54,62 @@ interface CssNode {
   selector: string;
 }
 
-function AmisStyleCodeEditor(props: FormControlProps) {
+interface CssNodeTab {
+  name: string;
+  children: CssNode[];
+}
+
+function AmisThemeCssCodeEditor(props: FormControlProps) {
   const {themeClass, data} = props;
   const id = data.id.replace('u:', '');
-  const [cssNodes, setCssNodes] = useState<CssNode[]>([]);
-  const [value, setValue] = useState('');
-  const [select, setSelect] = useState(0);
-  function getCssAndSetValue(themeClass: string[]) {
+  const [cssNodes, setCssNodes] = useState<CssNodeTab[]>([]);
+  const [tabId, setTabId] = useState(0);
+  function getCssAndSetValue(themeClass: any[]) {
     try {
-      const nodes: any[] = [];
-      const ids = themeClass.map(n => (n ? id + '-' + n : id));
-      ids?.forEach(id => {
-        const dom = document.getElementById(id || '') || null;
+      const newCssNodes: CssNodeTab[] = [];
+      themeClass?.forEach(n => {
+        const classId = n.value ? id + '-' + n.value : id;
+        const state = n.state || ['default'];
+        const className = n.className || 'className';
+        const dom = document.getElementById(classId || '') || null;
         const content = dom?.innerHTML || '';
         const ast = cssParse(content);
-
+        const nodes: any[] = [];
         ast.nodes.forEach((node: any) => {
           const selector = node.selector;
           if (!selector.endsWith('.hover') && !selector.endsWith('.active')) {
             nodes.push(node);
           }
         });
-        ast.nodes = nodes;
-      });
 
-      const css = nodes.map(node => {
-        const style = node.nodes.map((n: any) => `${n.prop}: ${n.value};`);
-        return {
-          selector: node.selector,
-          value: style.join('\n')
-        };
+        const css: {selector: string; value: string; state: string}[] = [];
+        state.forEach((s: string) => {
+          css.push({
+            selector: `.${className}-${id}${s === 'default' ? '' : ':' + s}`,
+            state: s,
+            value: ''
+          });
+        });
+        nodes.forEach(node => {
+          const style = node.nodes.map((n: any) => `${n.prop}: ${n.value};`);
+          const item = css.find(c => {
+            if (
+              c.selector === node.selector ||
+              node.selector.endsWith(`:${c.state}`)
+            ) {
+              return c;
+            }
+            return false;
+          })!;
+          item.value = style.join('\n');
+        });
+
+        newCssNodes.push({
+          name: n.name || '自定义样式',
+          children: css
+        });
       });
-      setValue(css[select].value);
-      setCssNodes(css);
+      setCssNodes(newCssNodes);
     } catch (error) {
       console.error(error);
     }
@@ -95,61 +119,70 @@ function AmisStyleCodeEditor(props: FormControlProps) {
     getCssAndSetValue(themeClass);
   }, []);
 
-  const editorChange = debounce((nodes: CssNode[]) => {
+  const editorChange = debounce((nodeTabs: CssNodeTab[]) => {
     try {
       const {data, onBulkChange} = props;
       const sourceCss = data.themeCss || data.css || {};
       const newCss: any = {};
-      nodes.forEach(node => {
-        const nodes = node.value
-          .replace(/\s/g, '')
-          .split(';')
-          .map(kv => {
-            const [prop, value] = kv.split(':');
-            return {
-              prop,
-              value
-            };
-          })
-          .filter(n => n.value);
-        const selector = node.selector;
-        const nameEtr = /\.(.*)\-/.exec(selector);
-        const cssCode: PlainObject = {};
-        let name = nameEtr ? nameEtr[1] : '';
-        let state = 'default';
-        if (!!~selector.indexOf(':hover:active')) {
-          state = 'active';
-        } else if (!!~selector.indexOf(':hover')) {
-          state = 'hover';
-        }
-        nodes.forEach(item => {
-          const prop = item.prop;
-          const cssValue = item.value;
-          if (!!~prop.indexOf('radius')) {
-            const type = 'radius:' + state;
-            !cssCode[type] && (cssCode[type] = {});
-            const radius = cssValue.split(' ');
+      nodeTabs.forEach(tab => {
+        tab.children.forEach(node => {
+          const nodes = node.value
+            .replace(/\s/g, '')
+            .split(';')
+            .map(kv => {
+              const [prop, value] = kv.split(':');
+              return {
+                prop,
+                value
+              };
+            })
+            .filter(n => n.value);
+          const selector = node.selector;
+          const nameEtr = /\.(.*)\-/.exec(selector);
+          const cssCode: PlainObject = {};
+          let name = nameEtr ? nameEtr[1] : '';
+          let state = 'default';
+          if (!!~selector.indexOf(':active')) {
+            state = 'active';
+          } else if (!!~selector.indexOf(':hover')) {
+            state = 'hover';
+          }
+          nodes.forEach(item => {
+            const prop = item.prop;
+            const cssValue = item.value;
+            if (!!~prop.indexOf('radius')) {
+              const type = 'radius:' + state;
+              !cssCode[type] && (cssCode[type] = {});
+              const radius = cssValue.split(' ');
 
-            cssCode[type]['top-left-border-radius'] = radius[0];
-            cssCode[type]['top-right-border-radius'] = radius[1];
-            cssCode[type]['bottom-right-border-radius'] = radius[2];
-            cssCode[type]['bottom-left-border-radius'] = radius[3];
-          } else if (!!~prop.indexOf('border')) {
-            !cssCode['border:' + state] && (cssCode['border:' + state] = {});
-            cssCode['border:' + state][valueMap[prop] || prop] = cssValue;
-          } else if (!!~prop.indexOf('padding') || !!~prop.indexOf('margin')) {
-            !cssCode['padding-and-margin:' + state] &&
-              (cssCode['padding-and-margin:' + state] = {});
-            cssCode['padding-and-margin:' + state][valueMap[prop] || prop] =
-              cssValue;
-          } else if (fontStyle.includes(prop)) {
-            !cssCode['font:' + state] && (cssCode['font:' + state] = {});
-            cssCode['font:' + state][valueMap[prop] || prop] = cssValue;
+              cssCode[type]['top-left-border-radius'] = radius[0];
+              cssCode[type]['top-right-border-radius'] = radius[1];
+              cssCode[type]['bottom-right-border-radius'] = radius[2];
+              cssCode[type]['bottom-left-border-radius'] = radius[3];
+            } else if (!!~prop.indexOf('border')) {
+              !cssCode['border:' + state] && (cssCode['border:' + state] = {});
+              cssCode['border:' + state][valueMap[prop] || prop] = cssValue;
+            } else if (
+              !!~prop.indexOf('padding') ||
+              !!~prop.indexOf('margin')
+            ) {
+              !cssCode['padding-and-margin:' + state] &&
+                (cssCode['padding-and-margin:' + state] = {});
+              cssCode['padding-and-margin:' + state][valueMap[prop] || prop] =
+                cssValue;
+            } else if (fontStyle.includes(prop)) {
+              !cssCode['font:' + state] && (cssCode['font:' + state] = {});
+              cssCode['font:' + state][valueMap[prop] || prop] = cssValue;
+            } else {
+              cssCode[(valueMap[prop] || prop) + ':' + state] = cssValue;
+            }
+          });
+          if (newCss[name]) {
+            newCss[name] = Object.assign(newCss[name], cssCode);
           } else {
-            cssCode[(valueMap[prop] || prop) + ':' + state] = cssValue;
+            newCss[name] = cssCode;
           }
         });
-        newCss[name] = cssCode;
       });
       onBulkChange &&
         onBulkChange({
@@ -163,12 +196,21 @@ function AmisStyleCodeEditor(props: FormControlProps) {
     }
   });
 
-  function handleChange(value: string) {
-    const newCssNodes = cloneDeep(cssNodes);
-    newCssNodes[select].value = value;
-    setCssNodes(newCssNodes);
-    setValue(value);
+  function handleChange(value: string, i: number, j: number) {
+    const newCssNodes = cssNodes;
+    newCssNodes[i].children[j].value = value;
+    setCssNodes(newCssNodes); // 好像不需要这个?
     editorChange(newCssNodes);
+  }
+  function formateTitle(title: string) {
+    if (title.endsWith('hover')) {
+      return '悬浮态样式';
+    } else if (title.endsWith('active')) {
+      return '点击态样式';
+    } else if (title.endsWith('disabled')) {
+      return '禁用态样式';
+    }
+    return '常规态样式';
   }
 
   return (
@@ -179,12 +221,125 @@ function AmisStyleCodeEditor(props: FormControlProps) {
           <Icon icon="close" className="icon" />
         </Button>
       </div>
+      <div className="ThemeCssCode-editor-content">
+        <div className="ThemeCssCode-editor-content-header">
+          {cssNodes.map((node, index) => {
+            return (
+              <div
+                key={index}
+                onClick={() => setTabId(index)}
+                className={cx(
+                  'ThemeCssCode-editor-content-header-title',
+                  index === tabId &&
+                    'ThemeCssCode-editor-content-header-title--active'
+                )}
+              >
+                {node.name}
+              </div>
+            );
+          })}
+        </div>
+        <div className="ThemeCssCode-editor-content-main">
+          {cssNodes.map((node, i) => {
+            const children = node.children;
+            return (
+              <div
+                key={i}
+                className={cx(
+                  i !== tabId && 'ThemeCssCode-editor-content-body--hidden'
+                )}
+              >
+                {children.map((css, j) => {
+                  return (
+                    <div
+                      className="ThemeCssCode-editor-content-body"
+                      key={`${i}-${j}-${css.selector}`}
+                      id={`${i}-${j}-${css.selector}`}
+                    >
+                      {children.length > 1 ? (
+                        <div className="ThemeCssCode-editor-content-body-title">
+                          {formateTitle(css.selector)}
+                        </div>
+                      ) : null}
+                      <div className="ThemeCssCode-editor-content-body-editor">
+                        <Editor
+                          value={css.value}
+                          editorFactory={editorFactory}
+                          options={{
+                            onChange: (value: string) =>
+                              handleChange(value, i, j)
+                          }}
+                        />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
 
+function AmisStyleCodeEditor(props: FormControlProps) {
+  const {data, onBulkChange} = props;
+  const {style} = data;
+  const [value, setValue] = useState('');
+
+  function getCssAndSetValue(data: any) {
+    if (isEmpty(data)) {
+      return '';
+    }
+    let str = '';
+    for (let key in data) {
+      str += `${key}: ${data[key]};\n`;
+    }
+    return str;
+  }
+
+  useEffect(() => {
+    const res = getCssAndSetValue(style);
+    setValue(res);
+  }, []);
+
+  const editorChange = debounce((value: string) => {
+    const newStyle: PlainObject = {};
+    value
+      .replace(/\s/g, '')
+      .split(';')
+      .forEach(kv => {
+        const [prop, value] = kv.split(':');
+        if (value) {
+          newStyle[prop] = value;
+        }
+      });
+    onBulkChange &&
+      onBulkChange({
+        style: newStyle
+      });
+  });
+
+  function handleChange(value: string) {
+    editorChange(value);
+    setValue(value);
+  }
+  return (
+    <div className="ThemeCssCode-editor">
+      <div className="ThemeCssCode-editor-title">编辑样式源码</div>
+      <div className="ThemeCssCode-editor-close">
+        <Button onClick={props.onHide} level="link">
+          <Icon icon="close" className="icon" />
+        </Button>
+      </div>
       <div className="ThemeCssCode-editor-content">
         <Editor
           value={value}
-          onChange={handleChange}
           editorFactory={editorFactory}
+          options={{
+            onChange: handleChange
+          }}
         />
       </div>
     </div>
@@ -193,7 +348,6 @@ function AmisStyleCodeEditor(props: FormControlProps) {
 
 function ThemeCssCode(props: FormControlProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const {value} = props;
   const [showEditor, setShowEditor] = useState(false);
   function handleShowEditor() {
     setShowEditor(true);
@@ -213,7 +367,17 @@ function ThemeCssCode(props: FormControlProps) {
         rootClose={false}
       >
         <PopOver overlay onHide={() => setShowEditor(false)}>
-          <AmisStyleCodeEditor {...props} onHide={() => setShowEditor(false)} />
+          {props.isLayout ? (
+            <AmisStyleCodeEditor
+              {...props}
+              onHide={() => setShowEditor(false)}
+            />
+          ) : (
+            <AmisThemeCssCodeEditor
+              {...props}
+              onHide={() => setShowEditor(false)}
+            />
+          )}
         </PopOver>
       </Overlay>
     </>

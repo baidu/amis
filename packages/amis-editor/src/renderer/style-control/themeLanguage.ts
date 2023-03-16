@@ -1,7 +1,7 @@
 import {PlainObject} from 'amis-core';
-import {parse as cssParse} from 'amis-postcss';
+import {isEmpty} from 'lodash';
 
-const conf = {
+const conf: any = {
   ws: '[ \t\n\r\f]*',
   identifier:
     '-?-?([a-zA-Z]|(\\\\(([0-9a-fA-F]{1,6}\\s?)|[^[0-9a-fA-F])))([\\w\\-]|(\\\\(([0-9a-fA-F]{1,6}\\s?)|[^[0-9a-fA-F])))*',
@@ -3005,7 +3005,8 @@ const keywords: PlainObject = {
   }
 };
 
-function validate(model: any, monaco: any) {
+function validate(editor: any, monaco: any) {
+  const model = editor.getModel();
   const markers = [];
   const lineLen = model.getLineCount();
   for (let i = 1; i < lineLen + 1; i++) {
@@ -3060,81 +3061,90 @@ export default function editorFactory(
   monaco: any,
   options: any
 ) {
-  // 注册语言
-  monaco.languages.register({id: 'amisTheme'});
-  // 设置主题
-  monaco.editor.defineTheme('amisTheme', {base: 'vs'});
-  // 设置高亮
-  monaco.languages.setMonarchTokensProvider('amisTheme', conf);
-  // 设置提示
-  monaco.languages.registerCompletionItemProvider('amisTheme', {
-    provideCompletionItems: (model: any, position: any) => {
-      const {lineNumber, column} = position;
-      // 获取输入前的字符
-      const textBeforePointer = model.getValueInRange({
-        startLineNumber: lineNumber,
-        startColumn: 0,
-        endLineNumber: lineNumber,
-        endColumn: column
-      });
-      // 如果已经配置了key和value就不给建议了
-      if (/(.*):(.*);/.test(textBeforePointer)) {
-        return {suggestions: []};
-      }
-      const token = /(.*):/.exec(textBeforePointer) || [];
-      const valueTip = keywords[token[1]];
-      let suggestions;
+  if (!monaco.languages.getEncodedLanguageId('amisTheme')) {
+    // 注册语言
+    monaco.languages.register({id: 'amisTheme'});
+    // 设置高亮
+    monaco.languages.setMonarchTokensProvider('amisTheme', conf);
+    // 设置提示
+    monaco.languages.registerCompletionItemProvider('amisTheme', {
+      provideCompletionItems: (model: any, position: any) => {
+        const {lineNumber, column} = position;
+        // 获取输入前的字符
+        const textBeforePointer = model.getValueInRange({
+          startLineNumber: lineNumber,
+          startColumn: 0,
+          endLineNumber: lineNumber,
+          endColumn: column
+        });
+        // 如果已经配置了key和value就不给建议了
+        if (/(.*):(.*);/.test(textBeforePointer)) {
+          return {suggestions: []};
+        }
+        const token = /(.*):/.exec(textBeforePointer) || [];
+        const valueTip = keywords[token[1]];
+        let suggestions;
 
-      // 判断是需要提示key还是value
-      if (valueTip) {
-        suggestions = [
-          ...valueTip.values.map((k: string) => ({
-            label: k,
-            kind: monaco.languages.CompletionItemKind.Enum,
-            insertText: k + ';'
-          }))
-        ];
-      } else {
-        suggestions = [
-          ...Object.keys(keywords).map(k => ({
-            label: k,
-            kind: monaco.languages.CompletionItemKind.Keyword,
-            insertText: k + ': '
-          }))
-        ];
-      }
+        // 判断是需要提示key还是value
+        if (!isEmpty(valueTip)) {
+          suggestions = [
+            ...valueTip.values.map((k: string) => ({
+              label: k,
+              kind: monaco.languages.CompletionItemKind.Enum,
+              insertText: k + ';'
+            }))
+          ];
+        } else {
+          suggestions = [
+            ...Object.keys(keywords).map(k => ({
+              label: k,
+              kind: monaco.languages.CompletionItemKind.Keyword,
+              insertText: k + ': '
+            }))
+          ];
+        }
 
-      return {
-        suggestions: suggestions
-      };
-    },
-    triggerCharacters: [' ']
-  });
-
-  const model = monaco.editor.createModel('', 'amisTheme');
-
-  model.onDidChangeContent(() => {
-    validate(model, monaco);
-  });
-
-  return monaco.editor.create(containerElement, {
-    model,
-    language: 'amisTheme',
-    options: {
-      automaticLayout: true,
-      lineNumbers: 'off',
-      glyphMargin: false,
-      tabSize: 2,
-      wordWrap: 'on',
-      lineDecorationsWidth: 0,
-      lineNumbersMinChars: 0,
-      selectOnLineNumbers: true,
-      scrollBeyondLastLine: false,
-      folding: true,
-      minimap: {
-        enabled: false
+        return {
+          suggestions: suggestions
+        };
       },
-      ...options
-    }
+      triggerCharacters: [' ']
+    });
+  }
+  // const uri = monaco.Uri.parse(options.uri.replace(/:/g, '-'));
+  // let model: any = null;
+  // try {
+  //   model = monaco.editor.createModel(options.value, 'amisTheme', uri);
+  // } catch (error) {
+  //   model = monaco.editor.getModel(uri);
+  // }
+
+  const editor = monaco.editor.create(containerElement, {
+    ...options,
+    'language': 'amisTheme',
+    'autoIndent': true,
+    'formatOnType': true,
+    'formatOnPaste': true,
+    'selectOnLineNumbers': true,
+    'scrollBeyondLastLine': false,
+    'folding': true,
+    'minimap': {
+      enabled: false
+    },
+    'scrollbar': {
+      alwaysConsumeMouseWheel: false
+    },
+    'bracketPairColorization.enabled': true,
+    'automaticLayout': true,
+    'lineNumbers': 'off',
+    'glyphMargin': false,
+    'wordWrap': 'on',
+    'lineDecorationsWidth': 0,
+    'lineNumbersMinChars': 0
   });
+  editor.onDidChangeModelContent(() => {
+    validate(editor, monaco);
+    options.onChange && options.onChange(editor.getValue());
+  });
+  return editor;
 }

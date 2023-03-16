@@ -282,7 +282,17 @@ export class NumberControlPlugin extends BasePlugin {
                   )
                 ]
               },
-              getSchemaTpl('theme:cssCode', {isFormItem: true})
+              getSchemaTpl('theme:cssCode', {
+                themeClass: [
+                  {
+                    name: '数字输入框',
+                    value: '',
+                    className: 'inputControlClassName',
+                    state: ['default', 'hover', 'active']
+                  }
+                ],
+                isFormItem: true
+              })
             ],
             {...context?.schema, configTitle: 'style'}
           )
