@@ -778,6 +778,27 @@ export class Table2Plugin extends BasePlugin {
                 }),
 
                 {
+                  name: 'size',
+                  label: '控件尺寸',
+                  type: 'select',
+                  pipeIn: defaultValue('default'),
+                  options: [
+                    {
+                      label: '小',
+                      value: 'small'
+                    },
+                    {
+                      label: '默认',
+                      value: 'default'
+                    },
+                    {
+                      label: '大',
+                      value: 'large'
+                    }
+                  ]
+                },
+
+                {
                   name: 'scroll.x',
                   type: 'input-number',
                   label: '横向滚动'
@@ -810,8 +831,12 @@ export class Table2Plugin extends BasePlugin {
             },
 
             getSchemaTpl('style:classNames', {
-              isFormItem: true,
+              isFormItem: false,
               schema: [
+                getSchemaTpl('className', {
+                  label: '行类名',
+                  name: 'rowClassName'
+                }),
                 {
                   name: 'rowClassNameExpr',
                   type: 'ae-formulaControl',

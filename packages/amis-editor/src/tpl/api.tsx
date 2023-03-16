@@ -451,14 +451,10 @@ setSchemaTpl('apiControl', (patch: any = {}) => {
 
 setSchemaTpl(
   'interval',
-  ({
-    switchMoreConfig,
-    formItems,
-    intervalConfig
-  }: {
-    switchMoreConfig: any;
-    formItems: any[];
-    intervalConfig: any;
+  (config?: {
+    switchMoreConfig?: any;
+    formItems?: any[];
+    intervalConfig?: any;
   }) => ({
     type: 'ae-switch-more',
     label: '定时刷新',
@@ -477,12 +473,12 @@ setSchemaTpl(
             value: 1000
           },
           unit: '毫秒',
-          ...intervalConfig
+          ...((config && config.intervalConfig) || {})
         }),
-        ...formItems
+        ...((config && config.formItems) || [])
       ]
     },
-    ...switchMoreConfig
+    ...((config && config.switchMoreConfig) || {})
   })
 );
 

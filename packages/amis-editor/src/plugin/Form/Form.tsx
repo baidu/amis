@@ -456,6 +456,8 @@ export class FormPlugin extends BasePlugin {
               ? null
               : {
                   title: '数据源',
+                  hiddenOn:
+                    '(data.api && (api?.url ? api.url : api || "").startsWith("model://") || data.initApi && (initApi?.url ? initApi.url : initApi || "").startsWith("model://"))',
                   body: [
                     {
                       type: 'select',
@@ -463,6 +465,13 @@ export class FormPlugin extends BasePlugin {
                       label: '使用场景',
                       value: 'Insert',
                       options: Features,
+                      pipeIn: (value: any, form: any) => {
+                        if (value !== undefined) {
+                          return value;
+                        }
+                        const schema = form.data;
+                        return schema?.initApi ? 'Edit' : 'Insert';
+                      },
                       onChange: (
                         value: any,
                         oldValue: any,
@@ -485,6 +494,28 @@ export class FormPlugin extends BasePlugin {
                     this.dsBuilderMgr.getDSSwitch({
                       type: 'select',
                       label: '数据源',
+                      pipeIn: (value: any, form: any) => {
+                        if (value !== undefined) {
+                          return value;
+                        }
+
+                        const api = form.data?.api || form.data?.initApi;
+
+                        if (!api) {
+                          return;
+                        }
+
+                        if (typeof api === 'string') {
+                          return api.startsWith('api://') ? 'apicenter' : 'api';
+                        } else if (api?.url) {
+                          return api.url.startsWith('api://')
+                            ? 'apicenter'
+                            : 'api';
+                        } else if (api?.entity) {
+                          return 'model-entity';
+                        }
+                        return;
+                      },
                       onChange: (
                         value: any,
                         oldValue: any,
@@ -520,7 +551,7 @@ export class FormPlugin extends BasePlugin {
                           (builder, builderName) => ({
                             type: 'container',
                             className: 'form-item-gap',
-                            visibleOn: `data.feat === '${feat.value}' && (!data.dsType || data.dsType === '${builderName}')`,
+                            visibleOn: `data.feat === '${feat.value}' && (data.dsType === '${builderName}')`,
                             body: flatten([
                               builder.makeSourceSettingForm({
                                 feat: feat.value,

@@ -8,7 +8,13 @@ import camelCase from 'lodash/camelCase';
 import mapKeys from 'lodash/mapKeys';
 import {FormItem, Switch} from 'amis';
 
-import {autobind, isObject, isEmpty, anyChanged, getI18nEnabled} from 'amis-editor-core';
+import {
+  autobind,
+  isObject,
+  isEmpty,
+  anyChanged,
+  getI18nEnabled
+} from 'amis-editor-core';
 import {defaultValue, tipedLabel} from 'amis-editor-core';
 
 import type {FormControlProps} from 'amis-core';
@@ -66,6 +72,9 @@ export interface BadgeControlProps extends FormControlProps {
    * 提示类型
    */
   level?: 'info' | 'warning' | 'success' | 'danger' | SchemaExpression;
+
+  // 是否只显示内容
+  contentsOnly?: boolean;
 }
 
 interface BadgeControlState {
@@ -184,14 +193,14 @@ export default class BadgeControl extends React.Component<
   }
 
   renderBody() {
-    const {render} = this.props;
+    const {render, contentsOnly} = this.props;
     const data = this.transformBadgeValue();
     const i18nEnabled = getI18nEnabled();
     return render(
       'badge-form',
       {
         type: 'form',
-        className: 'ae-BadgeControl-form w-full',
+        className: contentsOnly ? '' : 'ae-BadgeControl-form w-full',
         wrapWithPanel: false,
         panelClassName: 'border-none shadow-none mb-0',
         bodyClassName: 'p-none',
@@ -218,7 +227,7 @@ export default class BadgeControl extends React.Component<
           {
             label: '文本内容',
             name: 'text',
-            type: i18nEnabled ? 'input-text-i18n' : 'input-text',
+            type: 'ae-formulaControl',
             mode: 'row',
             visibleOn: "data.mode !== 'dot'",
             pipeOut: (value: any) => {
@@ -367,23 +376,35 @@ export default class BadgeControl extends React.Component<
   }
 
   render() {
-    const {classPrefix, className, labelClassName, label, disabled} =
-      this.props;
+    const {
+      classPrefix,
+      className,
+      labelClassName,
+      label,
+      disabled,
+      contentsOnly
+    } = this.props;
     const {checked} = this.state;
 
     return (
       <div className={cx('ae-BadgeControl', className)}>
-        <div className={cx('ae-BadgeControl-switch')}>
-          <label className={cx(`${classPrefix}Form-label`, labelClassName)}>
-            {label || '角标'}
-          </label>
-          <Switch
-            value={checked}
-            onChange={this.handleSwitchChange}
-            disabled={disabled}
-          />
-        </div>
-        {checked ? this.renderBody() : null}
+        {contentsOnly ? (
+          this.renderBody()
+        ) : (
+          <>
+            <div className={cx('ae-BadgeControl-switch')}>
+              <label className={cx(`${classPrefix}Form-label`, labelClassName)}>
+                {label || '角标'}
+              </label>
+              <Switch
+                value={checked}
+                onChange={this.handleSwitchChange}
+                disabled={disabled}
+              />
+            </div>
+            {checked ? this.renderBody() : null}
+          </>
+        )}
       </div>
     );
   }
