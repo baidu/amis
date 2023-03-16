@@ -3341,14 +3341,14 @@
   --Tag-height: var(--Tag-base-height);
   --Tag-borderRadius: var(--Tag-model-normal-top-left-border-radius)
     var(--Tag-model-normal-top-right-border-radius)
-    var(--Tag-model-normal-bottom-right-border-radius) 
+    var(--Tag-model-normal-bottom-right-border-radius)
     var(--Tag-model-normal-bottom-left-border-radius);
   --Tag-fontColor: var(--Tag-base-color);
 
   --Tag-rounded-borderRadius: var(--Tag-model-rounded-top-left-border-radius)
-  var(--Tag-model-rounded-top-right-border-radius)
-  var(--Tag-model-rounded-bottom-right-border-radius) 
-  var(--Tag-model-rounded-bottom-left-border-radius);
+    var(--Tag-model-rounded-top-right-border-radius)
+    var(--Tag-model-rounded-bottom-right-border-radius)
+    var(--Tag-model-rounded-bottom-left-border-radius);
 
   --Tag-status-margin: var(--Tag-model-status-status-margin);
   --Tag-status-size: var(--Tag-model-status-status-size);
@@ -3361,41 +3361,41 @@
   --Tag-processing-color: var(--Tag-color-processing-color);
   --Tag-success-color: var(--Tag-color-success-color);
   --Tag-error-color: var(--Tag-color-error-color);
-  --Tag-warning-color: var( --Tag-color-warning-color);
+  --Tag-warning-color: var(--Tag-color-warning-color);
   --Tag-inactive-bg-color: var(--Tag-color-inactive-bg-color);
   --Tag-active-bg-color: var(--Tag-color-active-bg-color);
   --Tag-processing-bg-color: var(--Tag-color-processing-bg-color);
   --Tag-success-bg-color: var(--Tag-color-success-bg-color);
   --Tag-error-bg-color: var(--Tag-color-error-bg-color);
-  --Tag-warning-bg-color: var( --Tag-color-warning-bg-color);
+  --Tag-warning-bg-color: var(--Tag-color-warning-bg-color);
 
   --Tag-normal-borderWidth: var(--Tag-model-normal-top-border-width)
-   var(--Tag-model-normal-right-border-width)
-   var(--Tag-model-normal-bottom-border-width)
-   var(--Tag-model-normal-left-border-width);
+    var(--Tag-model-normal-right-border-width)
+    var(--Tag-model-normal-bottom-border-width)
+    var(--Tag-model-normal-left-border-width);
   --Tag-normal-borderRadius: var(--Tag-model-normal-top-left-border-radius)
-   var(--Tag-model-normal-top-right-border-radius)
-   var(--Tag-model-normal-bottom-right-border-radius)
-   var(--Tag-model-normal-bottom-left-border-radius);
+    var(--Tag-model-normal-top-right-border-radius)
+    var(--Tag-model-normal-bottom-right-border-radius)
+    var(--Tag-model-normal-bottom-left-border-radius);
   --Tag-normal-borderColor: var(--Tag-model-normal-top-border-color)
-   var(--Tag-model-normal-right-border-color)
-   var(--Tag-model-normal-bottom-border-color)
-   var(--Tag-model-normal-left-border-color);
+    var(--Tag-model-normal-right-border-color)
+    var(--Tag-model-normal-bottom-border-color)
+    var(--Tag-model-normal-left-border-color);
   --Tag-normal-status-size: var(--Tag-model-normal-status-size);
   --Tag-normal-status-margin: var(--Tag-model-normal-status-margin);
 
   --Tag-rounded-borderWidth: var(--Tag-model-rounded-top-border-width)
-  var(--Tag-model-rounded-right-border-width)
-  var(--Tag-model-rounded-bottom-border-width)
-  var(--Tag-model-rounded-left-border-width);
- --Tag-rounded-borderRadius: var(--Tag-model-rounded-top-left-border-radius)
-  var(--Tag-model-rounded-top-right-border-radius)
-  var(--Tag-model-rounded-bottom-right-border-radius)
-  var(--Tag-model-rounded-bottom-left-border-radius);
- --Tag-rounded-borderColor: var(--Tag-model-rounded-top-border-color)
-  var(--Tag-model-rounded-right-border-color)
-  var(--Tag-model-rounded-bottom-border-color)
-  var(--Tag-model-rounded-left-border-color);
+    var(--Tag-model-rounded-right-border-width)
+    var(--Tag-model-rounded-bottom-border-width)
+    var(--Tag-model-rounded-left-border-width);
+  --Tag-rounded-borderRadius: var(--Tag-model-rounded-top-left-border-radius)
+    var(--Tag-model-rounded-top-right-border-radius)
+    var(--Tag-model-rounded-bottom-right-border-radius)
+    var(--Tag-model-rounded-bottom-left-border-radius);
+  --Tag-rounded-borderColor: var(--Tag-model-rounded-top-border-color)
+    var(--Tag-model-rounded-right-border-color)
+    var(--Tag-model-rounded-bottom-border-color)
+    var(--Tag-model-rounded-left-border-color);
 
   --Toast-color: var(--colors-neutral-text-11);
   --Toast-paddingTop: var(--sizes-size-3);
@@ -3523,4 +3523,17 @@
   --Status-warning-color: var(--Status-queue-color);
   --Status-fail-color: var(--Status-fail-color);
   --Status-success-color: var(--Status-success-color);
+
+  --inputTag-option-height: var(--sizes-base-15);
+  --inputTag-option-color: var(--colors-neutral-text-2);
+  --inputTag-option-fontSize: var(--fonts-size-7);
+  --inputTag-option-fontWeight: var(--fonts-weight-6);
+  --inputTag-option-lineHeight: var(--fonts-lineHeight-2);
+  --inputTag-option-paddingTop: var(--sizes-size-3);
+  --inputTag-option-paddingBottom: var(--sizes-size-6);
+  --inputTag-option-paddingLeft: var(--sizes-size-3);
+  --inputTag-option-paddingRight: var(--sizes-size-6);
+  --inputTag-option-bg-color: var(--colors-neutral-fill-11);
+  --inputTag-option-hover-color: var(--colors-brand-5);
+  --inputTag-option-hover-bg-color: var(--colors-brand-10);
 }
