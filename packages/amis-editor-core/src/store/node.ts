@@ -574,6 +574,28 @@ export const EditorNode = types
       }
     }
 
+    /**
+     * 获取上层最近的数据容器节点
+     */
+    function getClosestEntityContainer() {
+      let cursor = self;
+
+      while (cursor) {
+        const nodeSchema = cursor.schema ?? {};
+
+        if (
+          ['service', 'crud2', 'form'].includes(nodeSchema?.type) &&
+          nodeSchema?.api?.entity &&
+          nodeSchema?.api?.sourceType === 'model-entity'
+        ) {
+          break;
+        }
+        cursor = cursor.parent;
+      }
+
+      return cursor;
+    }
+
     // 放到props会变成 frozen 的。
     let component: any;
 
@@ -583,6 +605,7 @@ export const EditorNode = types
 
     return {
       getClosestParentByType,
+      getClosestEntityContainer,
       updateIsCommonConfig,
       addChild(props: {
         id: string;
