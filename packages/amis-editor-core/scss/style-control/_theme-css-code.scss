@@ -12,7 +12,7 @@
 }
 .ThemeCssCode-editor {
   height: auto;
-  width: px2rem(400px);
+  width: px2rem(460px);
   padding: px2rem(16px);
   position: relative;
   &-title {
@@ -32,6 +32,41 @@
   &-content {
     height: px2rem(500px);
     width: 100%;
+    &-header {
+      display: flex;
+      margin-bottom: px2rem(10px);
+      border-bottom: 1px solid #e8e9eb;
+
+      &-title {
+        margin-right: px2rem(30px);
+        cursor: pointer;
+        padding-bottom: px2rem(10px);
+      }
+      &-title--active {
+        color: #2468f2;
+        border-bottom: 2px solid #2468f2;
+      }
+    }
+    &-main {
+      overflow: auto;
+      height: px2rem(460px);
+    }
+    &-body--hidden {
+      display: none;
+    }
+    &-body {
+      margin-bottom: px2rem(10px);
+      &-title {
+        margin-bottom: px2rem(10px);
+        margin-left: px2rem(16px);
+        font-size: 12px;
+      }
+      &-editor {
+        height: 200px;
+        margin-bottom: px2rem(10px);
+        border-bottom: 1px solid #e8e9eb;
+      }
+    }
   }
 }
 .editorPanel-inner {
