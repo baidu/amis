@@ -1255,7 +1255,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               options: [
                 {label: '组件变量', value: 'cmpt'},
                 {label: '页面变量', value: 'page'},
-                {label: '应用临时变量', value: 'app'}
+                {label: '内存变量', value: 'app'}
               ],
               value:
                 '${args.fromApp ? "app" : args.fromPage ? "page" : "cmpt"}',
@@ -1549,7 +1549,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 ])
               ]
             },
-            // 应用临时变量
+            // 内存变量
             {
               type: 'container',
               visibleOn: '__actionSubType === "app"',
@@ -1562,7 +1562,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                       {
                         type: 'tree-select',
                         name: 'path',
-                        label: '应用临时变量',
+                        label: '内存变量',
                         multiple: false,
                         mode: 'horizontal',
                         required: true,
@@ -1570,7 +1570,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                         showIcon: false,
                         size: 'lg',
                         hideRoot: false,
-                        rootLabel: '应用临时变量',
+                        rootLabel: '内存变量',
                         options: variableOptions
                       },
                       {
