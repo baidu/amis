@@ -3346,7 +3346,7 @@ extendLocale('zh-CN', {
   '9e1bafbb00018beacc8f579c8ddfaa36': '设置组件「',
   '6c6e12c54723170f214527bedaf81f7d': '动作类型',
   '1b7e6b2dbf3b7f4b1baf2c42e49a995d': '组件变量',
-  '2eb4c7ac45befad0f1f9c750bda57166': '应用临时变量',
+  '2eb4c7ac45befad0f1f9c750bda57166': '内存变量',
   '844a7a7aacc5be82d0fd6225edc6bf63': '请选择变量',
   '85451d2eb59327a23e8f745161066d4a': '请输入变量值',
   '3d4d83f05a12364e2522fcfb265d8ce8':
