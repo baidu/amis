@@ -7,8 +7,8 @@
   align-items: center;
 
   &-label {
-    font-size: var(--fontSizeSm);
-    margin-left: var(--gap-xs);
+    font-size: var(--Status-font-size);
+    margin-left: var(--Status-font-margin);
   }
 
   @keyframes animation-rolling_red {
@@ -40,8 +40,8 @@
   }
 
   svg.#{$ns}Status-icon {
-    width: var(--Satus-icon-width);
-    height: var(--Satus-icon-height);
+    width: var(--Status-icon-width);
+    height: var(--Status-icon-height);
     top: 0;
   }
 
@@ -56,7 +56,7 @@
       &::before {
         content: '';
         display: inline-block;
-        border: 5px solid var(--danger);
+        border: 5px solid var(--Status-pending-beforeColor);
         border-radius: 500px;
         position: absolute;
         top: 0;
@@ -68,7 +68,7 @@
       &::after {
         content: '';
         display: inline-block;
-        border: 5px solid var(--primary);
+        border: 5px solid var(--Status-pending-afterColor);
         border-radius: 500px;
         position: absolute;
         top: 0;
@@ -80,23 +80,39 @@
     }
 
     &.icon-warning {
-      color: var(--warning);
+      color: var(--Status-warning-color);
+    }
+
+    &.icon-fail {
+      color: var(--Status-fail-color)
+    }
+  
+    &.icon-success {
+      color: var(--Status-success-color)
+    }
+  
+    &.icon-schedule {
+      color: var(--Status-schedule-color)
     }
   }
 
   .#{$ns}Status-icon.rolling + &-label {
-    color: var(--warning);
+    color: var(--Status-warning-color);
   }
 
   .#{$ns}Status-icon.icon-success + &-label {
-    color: var(--success);
+    color: var(--Status-success-color);
   }
 
   .#{$ns}Status-icon.icon-fail + &-label {
-    color: var(--danger);
+    color: var(--Status-fail-color);
   }
 
   .#{$ns}Status-icon.icon-warning + &-label {
-    color: var(--warning);
+    color: var(--Status-warning-color);
+  }
+
+  .#{$ns}Status-icon.icon-schedule + &-label {
+    color: var(--Status-schedule-color);
   }
 }
