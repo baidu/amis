@@ -34,6 +34,24 @@ function mergeText(first: Element, second: Element) {
 }
 
 /**
+ * 只支持处理 w:r 下有 w:t 的情况
+ */
+export function canMerge(element: Element) {
+  const tagName = element.tagName;
+
+  const childChildren = element.children;
+
+  let hasText;
+  for (const childChild of childChildren) {
+    if (childChild.tagName === 'w:t') {
+      hasText = true;
+      break;
+    }
+  }
+  return tagName === 'w:r' && hasText;
+}
+
+/**
  * 合并 p 下相同的文本
  */
 export function mergeRunInP(word: Word, p: Element) {
@@ -42,7 +60,8 @@ export function mergeRunInP(word: Word, p: Element) {
 
   for (const child of p.children) {
     const tagName = child.tagName;
-    if (tagName === 'w:r') {
+    // 避免图片导致被合并了
+    if (canMerge(child)) {
       if (lastRun) {
         const lastRunProps = lastRun.getElementsByTagName('w:rPr')[0];
         const thisProps = child.getElementsByTagName('w:rPr')[0];

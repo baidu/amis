@@ -4,14 +4,16 @@ import Word from '../../Word';
 import {ST_VerticalAlignRun} from '../Types';
 import {Break} from './Break';
 import {Drawing} from './drawing/Drawing';
+import {Pict} from './Pict';
 import {Properties} from './properties/Properties';
+import {Ruby} from './Ruby';
 import {Tab} from './Tab';
 /**
  * 一段文本
  * http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/Run_1.html
  */
 
-export interface RunProperties extends Properties {
+export interface RunPr extends Properties {
   vertAlign?: ST_VerticalAlignRun;
 }
 
@@ -23,10 +25,10 @@ export class Text {
   }
 }
 
-type RunChild = Break | Drawing | Text | Tab;
+type RunChild = Break | Drawing | Text | Tab | Pict | Ruby;
 
 export class Run {
-  properties: RunProperties = {};
+  properties: RunPr = {};
   children: RunChild[] = [];
 
   addChild(child: RunChild | null) {
@@ -35,7 +37,7 @@ export class Run {
     }
   }
 
-  static parseRunProperties(word: Word, element: Element): RunProperties {
+  static parseRunPr(word: Word, element: Element): RunPr {
     const cssStyle = parsePr(word, element, 'r');
     let rStyle;
     const rStyleElement = element.getElementsByTagName('w:rStyle').item(0);
@@ -60,7 +62,7 @@ export class Run {
           break;
 
         case 'w:rPr':
-          run.properties = Run.parseRunProperties(word, child);
+          run.properties = Run.parseRunPr(word, child);
           break;
 
         case 'w:br':
@@ -80,14 +82,22 @@ export class Run {
           break;
 
         case 'w:instrText':
-          // 目前先当文本处理
-          const instrTextContent = child.textContent || '';
-          const instrText = new Text(instrTextContent);
-          run.addChild(instrText);
+          // 目前先不支持
+          // const instrTextContent = child.textContent || '';
+          // const instrText = new Text(instrTextContent);
+          // run.addChild(instrText);
           break;
 
         case 'w:lastRenderedPageBreak':
           // 目前也不支持分页显示
+          break;
+
+        case 'w:pict':
+          run.addChild(Pict.fromXML(word, child));
+          break;
+
+        case 'w:ruby':
+          run.addChild(Ruby.fromXML(word, child));
           break;
 
         default:

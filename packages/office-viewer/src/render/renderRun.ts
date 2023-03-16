@@ -12,6 +12,10 @@ import {renderDrawing} from './renderDrawing';
 import {setElementStyle} from './setElementStyle';
 import {Tab} from '../openxml/word/Tab';
 import {renderTab} from './renderTab';
+import {renderPict} from './renderPict';
+import {Pict} from '../openxml/word/Pict';
+import {Ruby} from '../openxml/word/Ruby';
+import {renderRuby} from './renderRuby';
 
 const VARIABLE_CLASS_NAME = 'variable';
 
@@ -67,6 +71,12 @@ export default function renderRun(word: Word, run: Run) {
         appendChild(span, renderDrawing(word, child));
       } else if (child instanceof Tab) {
         appendChild(span, renderTab(word, child));
+      } else if (child instanceof Pict) {
+        appendChild(span, renderPict(word, child));
+      } else if (child instanceof Ruby) {
+        appendChild(span, renderRuby(word, child));
+      } else {
+        console.warn('unknown child', child);
       }
     }
   }

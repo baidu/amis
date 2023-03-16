@@ -13,7 +13,7 @@ import {Numbering} from './openxml/word/numbering/Numbering';
 import {appendChild} from './util/dom';
 import {renderStyle} from './render/renderStyle';
 import {mergeRun} from './util/mergeRun';
-import {WDocument} from './openxml/word/Document';
+import {WDocument} from './openxml/word/WDocument';
 import {PackageParser} from './package/PackageParser';
 import {updateVariableText} from './render/renderRun';
 import ZipPackageParser from './package/ZipPackageParser';
@@ -65,6 +65,11 @@ export interface WordRenderOptions {
    * 是否开启调试模式
    */
   debug?: boolean;
+
+  /**
+   * 字体映射，用于替换文档中的字体
+   */
+  fontMapping?: Record<string, string>;
 }
 
 const defaultRenderOptions: WordRenderOptions = {
@@ -237,8 +242,11 @@ export default class Word {
   /**
    * 根据 id 获取关系
    */
-  getRelationship(id: string) {
-    return this.relationships[id];
+  getRelationship(id?: string) {
+    if (id) {
+      return this.relationships[id];
+    }
+    return null;
   }
 
   /**
@@ -390,6 +398,8 @@ export default class Word {
     this.rootElement = root;
     root.innerHTML = '';
     const documentData = this.getXML('word/document.xml');
+
+    isDebug && console.log('documentData', documentData);
 
     if (this.renderOptions.replaceText) {
       mergeRun(this, documentData);

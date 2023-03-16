@@ -15,7 +15,8 @@ const fileLists = {
     'helloworld.docx',
     'list.docx',
     'tableborder.docx',
-    'tablestyle.docx'
+    'tablestyle.docx',
+    'pinyin.docx'
   ],
   docx4j: [
     'ArialUnicodeMS.docx',

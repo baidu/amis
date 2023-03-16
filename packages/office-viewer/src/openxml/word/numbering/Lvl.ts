@@ -1,10 +1,10 @@
-import {Run, RunProperties} from './../Run';
+import {Run, RunPr} from './../Run';
 /**
  * http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/lvl_2.html
  */
 import {getValNumber, getVal, getValBoolean} from '../../../OpenXML';
 import {ST_Jc, ST_LevelSuffix, ST_NumberFormat} from '../../Types';
-import {Paragraph, ParagraphProperties} from '../Paragraph';
+import {Paragraph, ParagraphPr} from '../Paragraph';
 import Word from '../../../Word';
 
 export class Lvl {
@@ -16,8 +16,8 @@ export class Lvl {
   lvlJc: ST_Jc = ST_Jc.start;
   suff: ST_LevelSuffix = ST_LevelSuffix.space;
 
-  pPr?: ParagraphProperties;
-  rPr?: RunProperties;
+  pPr?: ParagraphPr;
+  rPr?: RunPr;
 
   static fromXML(word: Word, element: Element): Lvl {
     const lvl = new Lvl();
@@ -44,11 +44,11 @@ export class Lvl {
           break;
 
         case 'w:pPr':
-          lvl.pPr = Paragraph.parseParagraphProperties(word, child);
+          lvl.pPr = Paragraph.parseParagraphPr(word, child);
           break;
 
         case 'w:rPr':
-          lvl.rPr = Run.parseRunProperties(word, child);
+          lvl.rPr = Run.parseRunPr(word, child);
           break;
 
         case 'w:isLgl':

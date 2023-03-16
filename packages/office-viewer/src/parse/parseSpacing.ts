@@ -31,7 +31,8 @@ export function parseSpacing(word: Word, element: Element, style: CSSStyle) {
         break;
 
       case 'atLeast':
-        style['line-height'] = `calc(100% + ${lineNum / 20}pt)`;
+        // 不知道这样处理是否正确
+        // style['line-height'] = `calc(100% + ${lineNum / 20}pt)`;
         break;
 
       default:

@@ -8,7 +8,7 @@ import {parseColorAttr, parseShdColor} from '../../../parse/parseColor';
 import {parseBorder, parseBorders} from '../../../parse/parseBorder';
 import {ST_Merge, ST_TblWidth, ST_VerticalJc} from '../../Types';
 
-export interface TcProperties {
+export interface TcPr {
   cssStyle?: CSSStyle;
 
   // 如果为 true 的话就不自动加空格
@@ -121,7 +121,7 @@ function parseTcW(element: Element, style: CSSStyle) {
 }
 
 export class Tc {
-  properties: TcProperties = {};
+  properties: TcPr = {};
   children: TcChild[] = [];
 
   add(child: TcChild) {
@@ -130,8 +130,8 @@ export class Tc {
     }
   }
 
-  static parseTcProperties(word: Word, element: Element) {
-    const properties: TcProperties = {};
+  static parseTcPr(word: Word, element: Element) {
+    const properties: TcPr = {};
     const style: CSSStyle = {};
     properties.cssStyle = style;
 
@@ -176,7 +176,7 @@ export class Tc {
           break;
 
         default:
-          console.warn('parseTcProperties: ignore', tagName);
+          console.warn('parseTcPr: ignore', tagName);
       }
     }
 
@@ -195,7 +195,7 @@ export class Tc {
       const tagName = child.tagName;
       switch (tagName) {
         case 'w:tcPr':
-          tc.properties = Tc.parseTcProperties(word, child);
+          tc.properties = Tc.parseTcPr(word, child);
           break;
 
         case 'w:p':

@@ -6,15 +6,15 @@ import {parseTrHeight} from '../../../parse/parseTrHeight';
 import {jcToTextAlign} from '../../../parse/jcToTextAlign';
 import {Table} from '../Table';
 
-export interface TrProperties {
+export interface TrPr {
   cssStyle?: CSSStyle;
 }
 
 export class Tr {
-  properties: TrProperties;
+  properties: TrPr;
   tcs: Tc[] = [];
 
-  static parseTrProperties(word: Word, element: Element): TrProperties {
+  static parseTrPr(word: Word, element: Element): TrPr {
     const cssStyle: CSSStyle = {};
 
     for (const child of element.children) {
@@ -40,8 +40,8 @@ export class Tr {
 
         case 'w:tblPrEx':
           // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/tblPrEx_1.html
-          const tableProperties = Table.parseTableProperties(word, child);
-          Object.assign(cssStyle, tableProperties.cssStyle);
+          const tablePr = Table.parseTablePr(word, child);
+          Object.assign(cssStyle, tablePr.cssStyle);
           break;
 
         default:
@@ -78,7 +78,7 @@ export class Tr {
           break;
 
         case 'w:trPr':
-          tr.properties = Tr.parseTrProperties(word, child);
+          tr.properties = Tr.parseTrPr(word, child);
           break;
 
         default:

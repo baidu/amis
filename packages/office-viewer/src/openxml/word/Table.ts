@@ -31,7 +31,7 @@ import {Tr} from './table/Tr';
 
 export type CT_TblLookKey = keyof CT_TblLook;
 
-export interface TableProperties extends Properties {
+export interface TablePr extends Properties {
   /**
    * 表格标题
    */
@@ -168,12 +168,12 @@ function parseTblLook(child: Element) {
 }
 
 export class Table {
-  properties: TableProperties = {};
+  properties: TablePr = {};
   tblGrid: GridCol[] = [];
   trs: Tr[] = [];
 
-  static parseTableProperties(word: Word, element: Element): TableProperties {
-    const properties: TableProperties = {};
+  static parseTablePr(word: Word, element: Element): TablePr {
+    const properties: TablePr = {};
 
     const tableStyle: CSSStyle = {};
     const tcStyle: CSSStyle = {};
@@ -264,7 +264,7 @@ export class Table {
       const tagName = child.tagName;
       switch (tagName) {
         case 'w:tblPr':
-          table.properties = Table.parseTableProperties(word, child);
+          table.properties = Table.parseTablePr(word, child);
           break;
 
         case 'w:tr':

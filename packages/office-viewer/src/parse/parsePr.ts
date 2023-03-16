@@ -131,7 +131,7 @@ export function parsePr(word: Word, element: Element, type: 'r' | 'p' = 'p') {
         break;
 
       case 'w:pBdr':
-      case 'w:pBdr':
+      case 'w:bdr':
         parseBorders(word, child, style);
         break;
 
@@ -203,6 +203,11 @@ export function parsePr(word: Word, element: Element, type: 'r' | 'p' = 'p') {
         style['font-weight'] = getValBoolean(child) ? 'bold' : 'normal';
         break;
 
+      case 'w:adjustRightInd':
+        // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/adjustRightInd.html
+        // 似乎没法处理
+        break;
+
       case 'w:bCs':
       case 'w:iCs':
         // 忽略，因为 CSS 没法按这个判断
@@ -229,7 +234,7 @@ export function parsePr(word: Word, element: Element, type: 'r' | 'p' = 'p') {
         break;
 
       case 'w:rFonts':
-        parseFont(child, style);
+        parseFont(word, child, style);
         break;
 
       case 'w:tblCellSpacing':

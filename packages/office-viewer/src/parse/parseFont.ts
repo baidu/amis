@@ -4,21 +4,27 @@
  */
 
 import {CSSStyle} from '../openxml/Style';
+import Word from '../Word';
 
 function themeFont(font: string) {
   return `var(--docx-theme-font-${font})`;
 }
 
-export function parseFont(element: Element, style: CSSStyle) {
+export function parseFont(word: Word, element: Element, style: CSSStyle) {
   const fonts = [];
+
+  const fontMapping = word.renderOptions.fontMapping;
 
   for (const attribute of element.attributes) {
     const name = attribute.name;
-    const value = attribute.value;
+    let value = attribute.value;
     switch (name) {
       case 'w:ascii':
       case 'w:cs':
       case 'w:eastAsia':
+        if (fontMapping && value in fontMapping) {
+          value = fontMapping[value];
+        }
         if (value.indexOf(' ') === -1) {
           fonts.push(value);
         } else {

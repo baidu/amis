@@ -66,11 +66,13 @@ export function parseShdColor(word: Word, element: Element) {
   const val = getVal(element) as ST_Shd;
 
   if (color === 'auto') {
-    color = '000000';
+    color = 'inherit';
   }
 
   if (color.length === 6) {
     switch (val) {
+      case ST_Shd.clear:
+        return `#${color}`;
       case ST_Shd.pct10:
         return colorPercent(color, 0.1);
       case ST_Shd.pct12:
@@ -125,6 +127,9 @@ export function parseShdColor(word: Word, element: Element) {
   return '';
 }
 
+/**
+ * 用 alpha 来模拟 ptc 功能
+ */
 function colorPercent(color: string, percent: number): string {
   const r = parseInt(color.substring(0, 2), 16);
   const g = parseInt(color.substring(2, 4), 16);

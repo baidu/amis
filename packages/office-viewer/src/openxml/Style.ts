@@ -5,11 +5,11 @@
 import {getVal} from '../OpenXML';
 import Word from '../Word';
 import {ST_StyleType, ST_TblStyleOverrideType} from './Types';
-import {Paragraph, ParagraphProperties} from './word/Paragraph';
-import {Run, RunProperties} from './word/Run';
-import {Table, TableProperties} from './word/Table';
-import {Tc, TcProperties} from './word/table/Tc';
-import {Tr, TrProperties} from './word/table/Tr';
+import {Paragraph, ParagraphPr} from './word/Paragraph';
+import {Run, RunPr} from './word/Run';
+import {Table, TablePr} from './word/Table';
+import {Tc, TcPr} from './word/table/Tc';
+import {Tr, TrPr} from './word/table/Tr';
 
 export interface CSSStyle {
   [key: string]: string;
@@ -18,19 +18,19 @@ export interface CSSStyle {
 // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/tblStylePr.html
 export interface TblStylePrStyle {
   // 文本
-  rPr?: RunProperties;
+  rPr?: RunPr;
 
   // 段落
-  pPr?: ParagraphProperties;
+  pPr?: ParagraphPr;
 
   // 表格
-  tblPr?: TableProperties;
+  tblPr?: TablePr;
 
   // 行样式
-  trPr?: TrProperties;
+  trPr?: TrPr;
 
   // 单元格样式
-  tcPr?: TcProperties;
+  tcPr?: TcPr;
 }
 
 /**
@@ -67,14 +67,14 @@ function parseDefaultStyle(word: Word, element: Element | null) {
   if (rPrDefault) {
     const rPr = rPrDefault.querySelector('rPr');
     if (rPr) {
-      defaultStyle.rPr = Run.parseRunProperties(word, rPr);
+      defaultStyle.rPr = Run.parseRunPr(word, rPr);
     }
   }
   const pPrDefault = element.querySelector('pPrDefault');
   if (pPrDefault) {
     const pPr = pPrDefault.querySelector('pPr');
     if (pPr) {
-      defaultStyle.pPr = Paragraph.parseParagraphProperties(word, pPr);
+      defaultStyle.pPr = Paragraph.parseParagraphPr(word, pPr);
     }
   }
   return defaultStyle;
@@ -86,23 +86,23 @@ function parseTblStylePr(word: Word, element: Element) {
     const tag = child.tagName;
     switch (tag) {
       case 'w:rPr':
-        style.rPr = Run.parseRunProperties(word, child);
+        style.rPr = Run.parseRunPr(word, child);
         break;
 
       case 'w:pPr':
-        style.pPr = Paragraph.parseParagraphProperties(word, child);
+        style.pPr = Paragraph.parseParagraphPr(word, child);
         break;
 
       case 'w:tblPr':
-        style.tblPr = Table.parseTableProperties(word, child);
+        style.tblPr = Table.parseTablePr(word, child);
         break;
 
       case 'w:tcPr':
-        style.tcPr = Tc.parseTcProperties(word, child);
+        style.tcPr = Tc.parseTcPr(word, child);
         break;
 
       case 'w:trPr':
-        style.trPr = Tr.parseTrProperties(word, child);
+        style.trPr = Tr.parseTrPr(word, child);
         break;
     }
   }

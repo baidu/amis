@@ -1,4 +1,4 @@
-import {NumberProperties} from '../openxml/word/numbering/NumberProperties';
+import {NumberPr} from '../openxml/word/numbering/NumberProperties';
 import {createElement} from '../util/dom';
 import Word from '../Word';
 import {ST_NumberFormat} from '../openxml/Types';
@@ -69,7 +69,7 @@ function convertNumToFormat(numFmt: ST_NumberFormat, num: number): string {
 export function renderNumbering(
   p: HTMLElement,
   word: Word,
-  numPr: NumberProperties
+  numPr: NumberPr
 ): HTMLElement | null {
   const numbering = word.numbering;
   const numId = numPr.numId;

@@ -2,7 +2,7 @@ import {createElement} from '../util/dom';
 import Word from '../Word';
 import renderBody from './renderBody';
 
-import {WDocument} from '../openxml/word/Document';
+import {WDocument} from '../openxml/word/WDocument';
 
 /**
  * 渲染 document 主要入口

@@ -1,12 +1,12 @@
 import {getVal} from '../../../OpenXML';
 import Word from '../../../Word';
 
-export class NumberProperties {
+export class NumberPr {
   ilvl: string;
   numId: string;
 
-  static fromXML(word: Word, element: Element): NumberProperties {
-    const numPr = new NumberProperties();
+  static fromXML(word: Word, element: Element): NumberPr {
+    const numPr = new NumberPr();
 
     const ilvl = element.querySelector('ilvl');
     if (ilvl) {

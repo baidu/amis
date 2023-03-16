@@ -1,7 +1,7 @@
 import {createElement, appendChild, setStyle} from '../util/dom';
 import Word from '../Word';
 
-import {Paragraph, ParagraphProperties} from '../openxml/word/Paragraph';
+import {Paragraph, ParagraphPr} from '../openxml/word/Paragraph';
 import {Run} from '../openxml/word/Run';
 import {BookmarkStart} from './../openxml/word/Bookmark';
 import {Hyperlink} from '../openxml/word/Hyperlink';
@@ -11,6 +11,8 @@ import {renderBookmarkStart} from './renderBookmark';
 import {renderNumbering} from './renderNumbering';
 import {setElementStyle} from './setElementStyle';
 import {renderTab} from './renderTab';
+import {SmartTag} from '../openxml/word/SmartTag';
+import renderSmartTag from './renderSmartTag';
 
 /**
  * 渲染段落
@@ -48,6 +50,8 @@ export default function renderParagraph(
     } else if (child instanceof Hyperlink) {
       const hyperlink = renderHyperLink(word, child);
       appendChild(p, hyperlink);
+    } else if (child instanceof SmartTag) {
+      renderSmartTag(word, child, p);
     }
   }
 

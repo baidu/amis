@@ -152,12 +152,12 @@ export default function renderTable(word: Word, table: Table) {
         properties.rowBandSize,
         properties.colBandSize
       );
-      const tcProperties = tc.properties;
-      setElementStyle(word, tdEl, tcProperties);
-      if (tcProperties.gridSpan) {
-        tdEl.colSpan = tcProperties.gridSpan;
-      } else if (tcProperties.rowSpan) {
-        tdEl.rowSpan = tcProperties.rowSpan;
+      const tcPr = tc.properties;
+      setElementStyle(word, tdEl, tcPr);
+      if (tcPr.gridSpan) {
+        tdEl.colSpan = tcPr.gridSpan;
+      } else if (tcPr.rowSpan) {
+        tdEl.rowSpan = tcPr.rowSpan;
       }
 
       // 如果已经有表格的话，就不再渲染空段落了，避免底部多个空行
@@ -174,8 +174,8 @@ export default function renderTable(word: Word, table: Table) {
         }
       }
 
-      if (tcProperties.rowSpan) {
-        colIndex += tcProperties.rowSpan;
+      if (tcPr.rowSpan) {
+        colIndex += tcPr.rowSpan;
       } else {
         colIndex++;
       }

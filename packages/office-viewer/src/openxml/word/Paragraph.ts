@@ -7,21 +7,22 @@ import {parsePr} from '../../parse/parsePr';
 import Word from '../../Word';
 import {BookmarkStart} from './Bookmark';
 import {Hyperlink} from './Hyperlink';
-import {NumberProperties} from './numbering/NumberProperties';
+import {NumberPr} from './numbering/NumberProperties';
 import {Properties} from './properties/Properties';
-import {Run, RunProperties} from './Run';
+import {Run, RunPr} from './Run';
 import {Tab} from './Tab';
+import {SmartTag} from './SmartTag';
 
 /**
  * 这里简化了很多，如果能用 CSS 表示就直接用 CSS 表示
  */
-export interface ParagraphProperties extends Properties {
-  numPr?: NumberProperties;
-  runProperties?: RunProperties;
+export interface ParagraphPr extends Properties {
+  numPr?: NumberPr;
+  runPr?: RunPr;
   tabs?: Tab[];
 }
 
-export type ParagraphChild = Run | BookmarkStart | Hyperlink;
+export type ParagraphChild = Run | BookmarkStart | Hyperlink | SmartTag;
 // | SymbolRun
 // | PageBreak
 // | ColumnBreak
@@ -39,17 +40,14 @@ export type ParagraphChild = Run | BookmarkStart | Hyperlink;
 // | CommentReference;
 
 export class Paragraph {
-  properties: ParagraphProperties = {};
+  properties: ParagraphPr = {};
   children: ParagraphChild[] = [];
 
   addChild(child: ParagraphChild) {
     this.children.push(child);
   }
 
-  static parseParagraphProperties(
-    word: Word,
-    element: Element
-  ): ParagraphProperties {
+  static parseParagraphPr(word: Word, element: Element): ParagraphPr {
     const cssStyle = parsePr(word, element, 'p');
 
     let pStyle;
@@ -61,7 +59,7 @@ export class Paragraph {
     let numPr;
     const numPrTag = element.querySelector('numPr');
     if (numPrTag) {
-      numPr = NumberProperties.fromXML(word, numPrTag);
+      numPr = NumberPr.fromXML(word, numPrTag);
     }
 
     const tabs = [];
@@ -81,10 +79,7 @@ export class Paragraph {
       const tagName = child.tagName;
       switch (tagName) {
         case 'w:pPr':
-          paragraph.properties = Paragraph.parseParagraphProperties(
-            word,
-            child
-          );
+          paragraph.properties = Paragraph.parseParagraphPr(word, child);
           break;
 
         case 'w:r':
@@ -108,7 +103,14 @@ export class Paragraph {
           break;
 
         case 'w:del':
+        case 'w:moveTo':
+        case 'w:moveFrom':
           // del 看起来主要是用于跟踪历史的，先不支持
+          break;
+
+        case 'w:smartTag':
+        case 'w:customXml':
+          paragraph.addChild(SmartTag.fromXML(word, child));
           break;
 
         default:

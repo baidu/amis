@@ -5,15 +5,15 @@
 import Word from '../../../Word';
 import {Transform} from './Transform';
 
-export class ShapeProperties {
+export class ShapePr {
   xfrm?: Transform;
 
-  static fromXML(word: Word, element?: Element | null): ShapeProperties {
-    const shapeProperties = new ShapeProperties();
+  static fromXML(word: Word, element?: Element | null): ShapePr {
+    const shapePr = new ShapePr();
     const xfrm = element?.querySelector('xfrm');
     if (xfrm) {
-      shapeProperties.xfrm = Transform.fromXML(word, xfrm);
+      shapePr.xfrm = Transform.fromXML(word, xfrm);
     }
-    return shapeProperties;
+    return shapePr;
   }
 }

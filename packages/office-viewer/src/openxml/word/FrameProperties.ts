@@ -6,7 +6,7 @@ import {
   ST_Wrap
 } from '../Types';
 
-export interface FrameProperties {
+export interface FramePr {
   readonly anchorLock?: boolean;
   readonly dropCap?: ST_DropCap;
   readonly width: number;

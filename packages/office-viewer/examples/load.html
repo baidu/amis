@@ -37,8 +37,27 @@
 
       const appElement = document.getElementById('app');
 
-      async function renderWord(input) {
+      document.addEventListener('dragover', function (event) {
+        event.preventDefault();
+      });
+
+      document.addEventListener(
+        'drop',
+        e => {
+          e.preventDefault();
+          let dt = e.dataTransfer;
+          let files = dt.files;
+          renderWord(files[0]);
+        },
+        false
+      );
+
+      function renderInputFile(input) {
         const file = input.files[0];
+        renderWord(file);
+      }
+
+      function renderWord(file) {
         const reader = new FileReader();
         reader.onload = _e => {
           const data = reader.result;

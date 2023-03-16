@@ -46,21 +46,21 @@ export interface Column {
 
 export type SectionChild = Paragraph | Table | Hyperlink;
 
-export interface SectionProperties {
+export interface SectionPr {
   pageSize?: PageSize;
   pageMargin?: PageMargin;
 }
 
 export class Section {
-  properties: SectionProperties = {};
+  properties: SectionPr = {};
   children: SectionChild[] = [];
 
   addChild(child: SectionChild) {
     this.children.push(child);
   }
 
-  static parseProperties(element: Element): SectionProperties {
-    const properties: SectionProperties = {};
+  static parsePr(element: Element): SectionPr {
+    const properties: SectionPr = {};
 
     for (const child of element.children) {
       const tagName = child.tagName;

@@ -1,6 +1,6 @@
 import Word from '../../Word';
 import {Paragraph} from './Paragraph';
-import {Section, SectionChild, SectionProperties} from './Section';
+import {Section, SectionChild, SectionPr} from './Section';
 import {Table} from './Table';
 
 /**
@@ -26,7 +26,7 @@ export class Body {
    * 添加 secetion
    * @param properties 前一个 section 的属性
    */
-  addSection(properties: SectionProperties) {
+  addSection(properties: SectionPr) {
     this.currentSection.properties = properties;
     this.currentSection = new Section();
     this.sections.push(this.currentSection);
@@ -44,7 +44,7 @@ export class Body {
           break;
 
         case 'w:sectPr':
-          body.addSection(Section.parseProperties(child));
+          body.addSection(Section.parsePr(child));
           break;
 
         case 'w:tbl':
