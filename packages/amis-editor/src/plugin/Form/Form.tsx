@@ -447,17 +447,28 @@ export class FormPlugin extends BasePlugin {
     });
     const i18nEnabled = getI18nEnabled();
 
+    const schema = context?.node?.schema ?? context?.schema;
+
+    const isModelForm =
+      (schema.api &&
+        (schema.api?.url ? schema.api.url : schema.api || '').startsWith(
+          'model://'
+        )) ||
+      (schema.initApi &&
+        (schema.initApi?.url
+          ? schema.initApi.url
+          : schema.initApi || ''
+        ).startsWith('model://'));
+
     return [
       getSchemaTpl('tabs', [
         {
           title: '属性',
           body: getSchemaTpl('collapseGroup', [
-            isCRUDFilter
+            isCRUDFilter || isModelForm
               ? null
               : {
                   title: '数据源',
-                  hiddenOn:
-                    '(data.api && (api?.url ? api.url : api || "").startsWith("model://") || data.initApi && (initApi?.url ? initApi.url : initApi || "").startsWith("model://"))',
                   body: [
                     {
                       type: 'select',
@@ -470,7 +481,9 @@ export class FormPlugin extends BasePlugin {
                           return value;
                         }
                         const schema = form.data;
-                        return schema?.initApi ? 'Edit' : 'Insert';
+                        const feat = schema?.initApi ? 'Edit' : 'Insert';
+                        form.setValueByName('feat', feat);
+                        return feat;
                       },
                       onChange: (
                         value: any,
@@ -501,20 +514,25 @@ export class FormPlugin extends BasePlugin {
 
                         const api = form.data?.api || form.data?.initApi;
 
-                        if (!api) {
-                          return;
-                        }
+                        let dsType = 'api';
 
-                        if (typeof api === 'string') {
-                          return api.startsWith('api://') ? 'apicenter' : 'api';
+                        if (!api) {
+                        } else if (typeof api === 'string') {
+                          dsType = api.startsWith('api://')
+                            ? 'apicenter'
+                            : 'api';
                         } else if (api?.url) {
-                          return api.url.startsWith('api://')
+                          dsType = api.url.startsWith('api://')
                             ? 'apicenter'
                             : 'api';
                         } else if (api?.entity) {
-                          return 'model-entity';
+                          dsType = 'model-entity';
                         }
-                        return;
+
+                        // 需要 set 一下，否则 collectFromBuilders 里的内容条件不满足
+                        form.setValueByName('dsType', dsType);
+
+                        return dsType;
                       },
                       onChange: (
                         value: any,
@@ -548,10 +566,10 @@ export class FormPlugin extends BasePlugin {
                     ...flatten(
                       Features.map(feat =>
                         this.dsBuilderMgr.collectFromBuilders(
-                          (builder, builderName) => ({
+                          (builder, builderName, index) => ({
                             type: 'container',
                             className: 'form-item-gap',
-                            visibleOn: `data.feat === '${feat.value}' && (data.dsType === '${builderName}')`,
+                            visibleOn: `data.feat === '${feat.value}' && (${index}) === 0 || data.dsType === '${builderName})'`,
                             body: flatten([
                               builder.makeSourceSettingForm({
                                 feat: feat.value,
