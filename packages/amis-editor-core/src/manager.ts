@@ -805,33 +805,42 @@ export class EditorManager {
 
     const store = this.store;
     let subRenderer;
+    let curActiveId = store.activeId;
+    let node = store.getNodeById(curActiveId)!; // 默认插入当前选中节点
 
     if (rendererId) {
       // 当有 rendererId 时，获取渲染器信息
       subRenderer = store.getSubRendererById(rendererId);
+
+      // 点击添加悬浮容器，则直接插入当前页面根节点
+      const curElemStyle = subRenderer?.scaffold?.style || {};
+      if (curElemStyle.position === 'fixed') {
+        curActiveId = store.getRootId();
+        node = store.getNodeById(curActiveId)!; // 默认插入当前选中节点
+      }
     }
 
     if (!subRenderer && !schemaData) {
       // 当渲染器信息和 schemaData 都为空时，则不作任何处理
       return;
     }
-
-    const id = store.activeId;
-    const node = store.getNodeById(id)!; // 当前选中节点
+    
     if (!node) {
       toast.warning('请先选择一个元素作为插入的位置。');
       return;
     }
 
+    const curElemSchema = schemaData || subRenderer?.scaffold;
+    const isSpecialLayout = this.isSpecialLayout(curElemSchema);
     if (
       (node.type === 'wrapper' || node.type === 'container') &&
       node.schema?.body?.length === 0 &&
-      (schemaData?.type === 'flex' || subRenderer?.rendererName === 'flex') &&
-      !node.schema?.isFreeContainer
+      curElemSchema?.type === 'flex' &&
+      !node.schema?.isFreeContainer &&
+      !isSpecialLayout
     ) {
-      const newSchemaData = schemaData || subRenderer?.scaffold;
       // 布局能力提升: 点击插入新元素，当wrapper为空插入布局容器时，自动改为置换，避免过多层级
-      this.replaceChild(id, newSchemaData);
+      this.replaceChild(curActiveId, curElemSchema);
       return;
     }
 
@@ -843,19 +852,19 @@ export class EditorManager {
     let regionNodeRegion = null;
 
     if (store.activeRegion) {
-      regionNodeId = id;
+      regionNodeId = curActiveId;
       regionNodeRegion = store.activeRegion;
     } else if (node.schema.columns && node.type !== 'grid') {
       // crud 和 table 等表格类容器
-      regionNodeId = id;
+      regionNodeId = curActiveId;
       regionNodeRegion = 'columns';
     } else if (node.schema.items && isLayoutPlugin(node.schema)) {
       // 当前节点是布局类容器节点
-      regionNodeId = id;
+      regionNodeId = curActiveId;
       regionNodeRegion = 'items';
     } else if (node.schema.body) {
       // 当前节点是容器节点
-      regionNodeId = id;
+      regionNodeId = curActiveId;
       regionNodeRegion = 'body';
     } else if (parentNode) {
       // 存在父节点
@@ -878,11 +887,11 @@ export class EditorManager {
         return;
       }
 
-      const parent = store.getSchemaParentById(id); // 获取父节点
+      const parent = store.getSchemaParentById(curActiveId); // 获取父节点
       let beforeId = -1;
       parent.some((item: any, index: number) => {
         let result = false;
-        if (item.$$id === id) {
+        if (item.$$id === curActiveId) {
           beforeId = index;
           result = true;
         }
@@ -891,7 +900,7 @@ export class EditorManager {
       nextId = parent[beforeId + 1]?.$$id; // 下一个节点的ID（追加时需要）
     } else {
       // 当前选中的是根节点，默认插入到body中
-      regionNodeId = id;
+      regionNodeId = curActiveId;
       regionNodeRegion = 'body';
     }
 
@@ -1084,6 +1093,18 @@ export class EditorManager {
 
   isFlexColumnItem(id: string) {
     return this.store.isFlexColumnItem(id);
+  }
+
+  // 判断是否为特殊布局元素：绝对布局 or 固定布局
+  isSpecialLayout(curSchema: any) {
+    const curSchemaStyle = curSchema?.style || {};
+    if (
+      curSchemaStyle?.position === 'fixed' ||
+      curSchemaStyle?.position === 'absolute'
+    ) {
+      return true;
+    }
+    return false;
   }
 
   /**
