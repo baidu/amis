@@ -312,9 +312,7 @@ export class FlexPluginBase extends BasePlugin {
         {
           title: '外观',
           className: 'p-none',
-          body: getSchemaTpl('collapseGroup', [
-            ...getSchemaTpl('theme:common', [])
-          ])
+          body: getSchemaTpl('collapseGroup', [...getSchemaTpl('theme:common')])
         }
       ])
     ];

@@ -567,15 +567,39 @@ setSchemaTpl('theme:shadow', (option: any = {}) => {
 
 setSchemaTpl(
   'theme:common',
-  (exclude: string[] | string, include: string[] | string) => {
+  (exclude: string[] | string, include: string[]) => {
     // key统一转换成Kebab case，eg: boxShadow => bos-shadow
     exclude = (
       exclude ? (Array.isArray(exclude) ? exclude : [exclude]) : []
     ).map((key: string) => kebabCase(key));
 
-    include = (
-      include ? (Array.isArray(include) ? include : [include]) : []
-    ).map((key: string) => kebabCase(key));
+    const moreStyle =
+      include?.map(key =>
+        getSchemaTpl(`theme:${key}`, {
+          name: 'style'
+        })
+      ) || [];
+    const styles = moreStyle.concat([
+      getSchemaTpl('theme:border', {
+        name: 'style'
+      }),
+      getSchemaTpl('theme:radius', {
+        name: 'style.radius'
+      }),
+      getSchemaTpl('theme:paddingAndMargin', {
+        name: 'style'
+      }),
+      getSchemaTpl('theme:colorPicker', {
+        name: 'style.background',
+        label: '背景',
+        needCustom: true,
+        needGradient: true,
+        labelMode: 'input'
+      }),
+      getSchemaTpl('theme:shadow', {
+        name: 'style.boxShadow'
+      })
+    ]);
     return [
       {
         header: '布局',
@@ -590,27 +614,7 @@ setSchemaTpl(
       },
       {
         title: '自定义样式',
-        body: [
-          getSchemaTpl('theme:border', {
-            name: 'style'
-          }),
-          getSchemaTpl('theme:radius', {
-            name: 'style.radius'
-          }),
-          getSchemaTpl('theme:paddingAndMargin', {
-            name: 'style'
-          }),
-          getSchemaTpl('theme:colorPicker', {
-            name: 'style.background',
-            label: '背景',
-            needCustom: true,
-            needGradient: true,
-            labelMode: 'input'
-          }),
-          getSchemaTpl('theme:shadow', {
-            name: 'style.boxShadow'
-          })
-        ]
+        body: styles
       },
       {
         title: '样式源码',
@@ -622,8 +626,6 @@ setSchemaTpl(
           }
         ]
       }
-    ].filter(item =>
-      include.length ? ~include.indexOf(item.key) : !~exclude.indexOf(item.key)
-    );
+    ].filter(item => !~exclude.indexOf(item.key || ''));
   }
 );
