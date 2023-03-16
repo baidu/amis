@@ -236,13 +236,7 @@ export class TableViewPlugin extends BasePlugin {
       {
         title: '外观',
         className: 'p-none',
-        body: getSchemaTpl('collapseGroup', [
-          ...getSchemaTpl('style:common'),
-          {
-            title: 'CSS 类名',
-            body: [getSchemaTpl('className')]
-          }
-        ])
+        body: getSchemaTpl('collapseGroup', [...getSchemaTpl('theme:common')])
       },
       {
         title: '状态',
@@ -437,7 +431,7 @@ export class TableViewPlugin extends BasePlugin {
           {
             title: '外观',
             className: 'p-none',
-            body: getSchemaTpl('collapseGroup', getSchemaTpl('style:common'))
+            body: getSchemaTpl('collapseGroup', getSchemaTpl('theme:common'))
           }
         ])
       ];
@@ -467,7 +461,7 @@ export class TableViewPlugin extends BasePlugin {
           {
             title: '外观',
             className: 'p-none',
-            body: getSchemaTpl('collapseGroup', getSchemaTpl('style:common'))
+            body: getSchemaTpl('collapseGroup', getSchemaTpl('theme:common'))
           }
         ])
       ];

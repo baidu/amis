@@ -40,9 +40,9 @@ const defaultFlexContainerSchema = {
     defaultFlexColumnSchema('第三列')
   ],
   style: {
-    position: 'static',
+    position: 'static'
   },
-  direction: "row",
+  direction: 'row',
   justify: 'flex-start',
   alignItems: 'stretch'
 };
@@ -87,7 +87,7 @@ export class FlexPluginBase extends BasePlugin {
       getSchemaTpl('layout:originPosition'),
       getSchemaTpl('layout:inset', {
         mode: 'vertical'
-      }),
+      })
     ];
 
     return [
@@ -225,33 +225,33 @@ export class FlexPluginBase extends BasePlugin {
                   getSchemaTpl('layout:flex-wrap'),
 
                   isFlexItem
-                  ? getSchemaTpl('layout:flex', {
-                      isFlexColumnItem,
-                      label: isFlexColumnItem ? '高度设置' : '宽度设置',
-                      visibleOn:
-                        'data.style && (data.style.position === "static" || data.style.position === "relative")'
-                    })
-                  : null,
+                    ? getSchemaTpl('layout:flex', {
+                        isFlexColumnItem,
+                        label: isFlexColumnItem ? '高度设置' : '宽度设置',
+                        visibleOn:
+                          'data.style && (data.style.position === "static" || data.style.position === "relative")'
+                      })
+                    : null,
                   isFlexItem
-                  ? getSchemaTpl('layout:flex-grow', {
-                      visibleOn:
-                        'data.style && data.style.flex === "1 1 auto" && (data.style.position === "static" || data.style.position === "relative")'
-                    })
-                  : null,
+                    ? getSchemaTpl('layout:flex-grow', {
+                        visibleOn:
+                          'data.style && data.style.flex === "1 1 auto" && (data.style.position === "static" || data.style.position === "relative")'
+                      })
+                    : null,
                   isFlexItem
-                  ? getSchemaTpl('layout:flex-basis', {
-                      label: isFlexColumnItem ? '弹性高度' : '弹性宽度',
-                      visibleOn:
-                        'data.style && (data.style.position === "static" || data.style.position === "relative") && data.style.flex === "1 1 auto"'
-                    })
-                  : null,
+                    ? getSchemaTpl('layout:flex-basis', {
+                        label: isFlexColumnItem ? '弹性高度' : '弹性宽度',
+                        visibleOn:
+                          'data.style && (data.style.position === "static" || data.style.position === "relative") && data.style.flex === "1 1 auto"'
+                      })
+                    : null,
                   isFlexItem
-                  ? getSchemaTpl('layout:flex-basis', {
-                      label: isFlexColumnItem ? '固定高度' : '固定宽度',
-                      visibleOn:
-                        'data.style && (data.style.position === "static" || data.style.position === "relative") && data.style.flex === "0 0 150px"'
-                    })
-                  : null,
+                    ? getSchemaTpl('layout:flex-basis', {
+                        label: isFlexColumnItem ? '固定高度' : '固定宽度',
+                        visibleOn:
+                          'data.style && (data.style.position === "static" || data.style.position === "relative") && data.style.flex === "0 0 150px"'
+                      })
+                    : null,
 
                   getSchemaTpl('layout:overflow-x', {
                     visibleOn: `${
@@ -292,7 +292,7 @@ export class FlexPluginBase extends BasePlugin {
                   getSchemaTpl('layout:min-width', {
                     visibleOn: `${!isFlexItem || isFlexColumnItem}`
                   }),
-                  
+
                   getSchemaTpl('layout:overflow-x', {
                     visibleOn: `${
                       !isFlexItem || isFlexColumnItem
@@ -313,11 +313,7 @@ export class FlexPluginBase extends BasePlugin {
           title: '外观',
           className: 'p-none',
           body: getSchemaTpl('collapseGroup', [
-            ...getSchemaTpl('style:common', []),
-            {
-              title: 'CSS 类名',
-              body: [getSchemaTpl('className', {label: '外层CSS类名'})]
-            }
+            ...getSchemaTpl('theme:common', [])
           ])
         }
       ])
@@ -342,7 +338,7 @@ export class FlexPluginBase extends BasePlugin {
     const isFlexColumnItem = this.manager?.isFlexColumnItem(id);
     const newColumnSchema = defaultFlexColumnSchema('新的一列');
 
-    const toolbarsTooltips:any = {};
+    const toolbarsTooltips: any = {};
     toolbars.forEach(toolbar => {
       if (toolbar.tooltip) {
         toolbarsTooltips[toolbar.tooltip] = 1;
@@ -403,7 +399,9 @@ export class FlexPluginBase extends BasePlugin {
     }
 
     if (isFlexItem && !draggableContainer) {
-      if (!toolbarsTooltips[`${isFlexColumnItem ? '上方' : '左侧'}插入列级容器`]) {
+      if (
+        !toolbarsTooltips[`${isFlexColumnItem ? '上方' : '左侧'}插入列级容器`]
+      ) {
         // 布局容器的列级元素 增加左右插入icon
         toolbars.push(
           {

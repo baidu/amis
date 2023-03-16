@@ -163,7 +163,7 @@ export class ContainerPlugin extends BasePlugin {
       }),
       getSchemaTpl('layout:flex-wrap', {
         visibleOn: 'data.style && data.style.display === "flex"'
-      }),
+      })
     ];
 
     return getSchemaTpl('tabs', [
@@ -220,35 +220,35 @@ export class ContainerPlugin extends BasePlugin {
 
               // 自由容器不需要 display 相关配置项
               ...(!isFreeContainer ? displayTpl : []),
-              
+
               isFlexItem
-              ? getSchemaTpl('layout:flex', {
-                  isFlexColumnItem,
-                  label: isFlexColumnItem ? '高度设置' : '宽度设置',
-                  visibleOn:
-                    'data.style && (data.style.position === "static" || data.style.position === "relative")'
-                })
-              : null,
+                ? getSchemaTpl('layout:flex', {
+                    isFlexColumnItem,
+                    label: isFlexColumnItem ? '高度设置' : '宽度设置',
+                    visibleOn:
+                      'data.style && (data.style.position === "static" || data.style.position === "relative")'
+                  })
+                : null,
               isFlexItem
-              ? getSchemaTpl('layout:flex-grow', {
-                  visibleOn:
-                    'data.style && data.style.flex === "1 1 auto" && (data.style.position === "static" || data.style.position === "relative")'
-                })
-              : null,
+                ? getSchemaTpl('layout:flex-grow', {
+                    visibleOn:
+                      'data.style && data.style.flex === "1 1 auto" && (data.style.position === "static" || data.style.position === "relative")'
+                  })
+                : null,
               isFlexItem
-              ? getSchemaTpl('layout:flex-basis', {
-                  label: isFlexColumnItem ? '弹性高度' : '弹性宽度',
-                  visibleOn:
-                    'data.style && (data.style.position === "static" || data.style.position === "relative") && data.style.flex === "1 1 auto"'
-                })
-              : null,
+                ? getSchemaTpl('layout:flex-basis', {
+                    label: isFlexColumnItem ? '弹性高度' : '弹性宽度',
+                    visibleOn:
+                      'data.style && (data.style.position === "static" || data.style.position === "relative") && data.style.flex === "1 1 auto"'
+                  })
+                : null,
               isFlexItem
-              ? getSchemaTpl('layout:flex-basis', {
-                  label: isFlexColumnItem ? '固定高度' : '固定宽度',
-                  visibleOn:
-                    'data.style && (data.style.position === "static" || data.style.position === "relative") && data.style.flex === "0 0 150px"'
-                })
-              : null,
+                ? getSchemaTpl('layout:flex-basis', {
+                    label: isFlexColumnItem ? '固定高度' : '固定宽度',
+                    visibleOn:
+                      'data.style && (data.style.position === "static" || data.style.position === "relative") && data.style.flex === "0 0 150px"'
+                  })
+                : null,
 
               getSchemaTpl('layout:overflow-x', {
                 visibleOn: `${
@@ -288,7 +288,7 @@ export class ContainerPlugin extends BasePlugin {
               getSchemaTpl('layout:min-width', {
                 visibleOn: `${!isFlexItem || isFlexColumnItem}`
               }),
-  
+
               getSchemaTpl('layout:overflow-x', {
                 visibleOn: `${
                   !isFlexItem || isFlexColumnItem
@@ -308,16 +308,7 @@ export class ContainerPlugin extends BasePlugin {
         title: '外观',
         className: 'p-none',
         body: getSchemaTpl('collapseGroup', [
-          ...getSchemaTpl('style:common', ['layout']),
-          getSchemaTpl('style:classNames', {
-            isFormItem: false,
-            schema: [
-              getSchemaTpl('className', {
-                name: 'bodyClassName',
-                label: '内容区'
-              })
-            ]
-          })
+          ...getSchemaTpl('theme:common', ['layout'])
         ])
       }
     ]);
