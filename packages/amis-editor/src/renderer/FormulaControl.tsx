@@ -500,7 +500,8 @@ export default class FormulaControl extends React.Component<
     if (container) {
       const fields = cloneDeep(container?.schema?.api?.select ?? []);
       const apiPrefix = amisStore?.amisApp.apiPrefix;
-      const [dsKey, modelKey] = container?.schema?.api?.entity?.split('.');
+      const [dsKey, modelKey] =
+        container?.schema?.api?.entity?.value?.split('.');
       const api = entityFieldsApi
         ? buildApi(entityFieldsApi, ctx)
         : ({

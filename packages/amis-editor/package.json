@@ -1,6 +1,6 @@
 {
   "name": "amis-editor",
-  "version": "5.2.4-crud.15",
+  "version": "5.2.4-crud.16",
   "description": "amis 可视化编辑器",
   "main": "lib/index.js",
   "module": "esm/index.js",
