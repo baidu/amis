@@ -75,6 +75,13 @@ function parseVAlign(element: Element, style: CSSStyle) {
   }
 }
 
+export function parseTblCellSpacing(element: Element, style: CSSStyle) {
+  const width = parseTblWidth(element);
+  if (width) {
+    style['cell-spacing'] = width;
+  }
+}
+
 /**
  * parseBorders 不支持 insideH 和 insideV，所以单独支持一下
  * 实际显示时需要过滤掉第一列
@@ -107,8 +114,10 @@ export function parseTblWidth(element: Element) {
     return parseSize(element, 'w:w');
   } else if (type === ST_TblWidth.pct) {
     return parseSize(element, 'w:w', LengthUsage.Percent);
+  } else if (type === ST_TblWidth.auto) {
+    return 'auto';
   } else {
-    console.warn('parseTblWidth: ignore type', type);
+    console.warn('parseTblWidth: ignore type', type, element);
   }
   return '';
 }
@@ -176,7 +185,7 @@ export class Tc {
           break;
 
         default:
-          console.warn('parseTcPr: ignore', tagName);
+          console.warn('parseTcPr: ignore', tagName, child);
       }
     }
 
@@ -214,7 +223,12 @@ export class Tc {
       if (lastCol && lastCol.properties && lastCol.properties.rowSpan) {
         lastCol.properties.rowSpan = lastCol.properties.rowSpan + 1;
       } else {
-        console.warn('Tc.fromXML: continue but not found lastCol', colIndex);
+        console.warn(
+          'Tc.fromXML: continue but not found lastCol',
+          colIndex,
+          tc,
+          rowSpanMap
+        );
       }
       return null;
     } else if (tc.properties.vMerge === ST_Merge.restart) {

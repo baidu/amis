@@ -86,8 +86,8 @@ async function renderDocx(fileName: string) {
   const file = await (await fetch(filePath)).arrayBuffer();
   let word: Word;
   const renderOptions = {
-    debug: true,
-    replaceText
+    debug: true
+    // replaceText
   };
   if (filePath.endsWith('.xml')) {
     word = new Word(file, renderOptions, new XMLPackageParser());

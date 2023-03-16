@@ -100,7 +100,7 @@ function parseFrame(element: Element, style: CSSStyle) {
         }
 
       default:
-        console.warn('parseFrame: unknown attribute ' + name);
+        console.warn('parseFrame: unknown attribute ' + name, attribute);
     }
   }
 }
@@ -333,7 +333,7 @@ export function parsePr(word: Word, element: Element, type: 'r' | 'p' = 'p') {
         break;
 
       default:
-        console.warn('parsePr Unknown tagName', tagName);
+        console.warn('parsePr Unknown tagName', tagName, child);
     }
   }
 

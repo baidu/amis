@@ -159,7 +159,7 @@ function parseStyle(word: Word, element: Element) {
         break;
 
       default:
-        console.warn('parseStyle Unknown tag', tag);
+        console.warn('parseStyle Unknown tag', tag, child);
     }
   }
 

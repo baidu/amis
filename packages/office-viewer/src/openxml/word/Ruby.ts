@@ -26,7 +26,7 @@ class RubyBase {
           break;
 
         default:
-          console.warn('parse Ruby: Unknown key', tagName);
+          console.warn('parse Ruby: Unknown key', tagName, child);
       }
     }
 
@@ -60,7 +60,7 @@ export class Ruby {
           break;
 
         default:
-          console.warn('parse Ruby: Unknown key', tagName);
+          console.warn('parse Ruby: Unknown key', tagName, child);
       }
     }
 

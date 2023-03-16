@@ -1,23 +1,23 @@
-import {SmartTag} from './../openxml/word/SmartTag';
 import {appendChild} from '../util/dom';
 import Word from '../Word';
 
 import {Run} from '../openxml/word/Run';
-import {BookmarkStart} from './../openxml/word/Bookmark';
+import {BookmarkStart} from '../openxml/word/Bookmark';
 import {Hyperlink} from '../openxml/word/Hyperlink';
 import renderRun from './renderRun';
 import {renderHyperLink} from './renderHyperLink';
 import {renderBookmarkStart} from './renderBookmark';
+import {InlineText} from '../openxml/word/InlineText';
 
 /**
  * 渲染 smart tag
  */
-export default function renderSmartTag(
+export default function renderInlineText(
   word: Word,
-  smartTag: SmartTag,
+  inlineText: InlineText,
   parent: HTMLElement
 ) {
-  for (const child of smartTag.children) {
+  for (const child of inlineText.children) {
     if (child instanceof Run) {
       appendChild(parent, renderRun(word, child));
     } else if (child instanceof BookmarkStart) {

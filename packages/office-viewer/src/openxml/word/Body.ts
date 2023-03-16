@@ -53,7 +53,7 @@ export class Body {
           break;
 
         default:
-          console.warn('Body.fromXML Unknown key', tagName);
+          console.warn('Body.fromXML Unknown key', tagName, child);
       }
     }
 

@@ -4,6 +4,7 @@ import Word from '../../Word';
 import {ST_VerticalAlignRun} from '../Types';
 import {Break} from './Break';
 import {Drawing} from './drawing/Drawing';
+import {InstrText} from './InstrText';
 import {Pict} from './Pict';
 import {Properties} from './properties/Properties';
 import {Ruby} from './Ruby';
@@ -25,7 +26,7 @@ export class Text {
   }
 }
 
-type RunChild = Break | Drawing | Text | Tab | Pict | Ruby;
+type RunChild = Break | Drawing | Text | Tab | Pict | Ruby | InstrText;
 
 export class Run {
   properties: RunPr = {};
@@ -82,10 +83,7 @@ export class Run {
           break;
 
         case 'w:instrText':
-          // 目前先不支持
-          // const instrTextContent = child.textContent || '';
-          // const instrText = new Text(instrTextContent);
-          // run.addChild(instrText);
+          run.addChild(new InstrText(child.textContent || ''));
           break;
 
         case 'w:lastRenderedPageBreak':
@@ -101,7 +99,7 @@ export class Run {
           break;
 
         default:
-          console.warn('parse Run: Unknown key', tagName);
+          console.warn('parse Run: Unknown key', tagName, child);
       }
     }
 

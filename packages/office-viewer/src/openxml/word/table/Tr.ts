@@ -1,6 +1,6 @@
 import {CSSStyle} from '../../Style';
 import {getVal, getValBoolean} from '../../../OpenXML';
-import {Tc} from './Tc';
+import {parseTblCellSpacing, Tc} from './Tc';
 import Word from '../../../Word';
 import {parseTrHeight} from '../../../parse/parseTrHeight';
 import {jcToTextAlign} from '../../../parse/jcToTextAlign';
@@ -8,14 +8,20 @@ import {Table} from '../Table';
 
 export interface TrPr {
   cssStyle?: CSSStyle;
+
+  /**
+   * 单元格样式
+   */
+  tcStyle?: CSSStyle;
 }
 
 export class Tr {
-  properties: TrPr;
+  properties: TrPr = {};
   tcs: Tc[] = [];
 
   static parseTrPr(word: Word, element: Element): TrPr {
     const cssStyle: CSSStyle = {};
+    const tcStyle: CSSStyle = {};
 
     for (const child of element.children) {
       const tagName = child.tagName;
@@ -44,8 +50,12 @@ export class Tr {
           Object.assign(cssStyle, tablePr.cssStyle);
           break;
 
+        case 'w:tblCellSpacing':
+          parseTblCellSpacing(child, tcStyle);
+          break;
+
         default:
-          console.warn(`Tr: Unknown tag `, tagName, child.innerHTML);
+          console.warn(`Tr: Unknown tag `, tagName, child);
       }
     }
 
@@ -81,8 +91,14 @@ export class Tr {
           tr.properties = Tr.parseTrPr(word, child);
           break;
 
+        case 'w:tblPrEx':
+          // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/tblPrEx_1.html
+          const tablePr = Table.parseTablePr(word, child);
+          Object.assign(tr.properties.cssStyle || {}, tablePr.cssStyle);
+          break;
+
         default:
-          console.warn(`Tr: Unknown tag `, tagName);
+          console.warn(`Tr: Unknown tag `, tagName, child);
       }
     }
 

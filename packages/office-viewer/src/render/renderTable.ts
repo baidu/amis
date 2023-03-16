@@ -1,7 +1,7 @@
 import {ST_TblStyleOverrideType} from '../openxml/Types';
 import {Paragraph} from '../openxml/word/Paragraph';
 import {CT_TblLookKey, Table} from '../openxml/word/Table';
-import {addClassName, appendChild} from '../util/dom';
+import {addClassName, appendChild, setStyle} from '../util/dom';
 import Word from '../Word';
 import renderParagraph from './renderParagraph';
 import {generateTableStyle} from './renderStyle';
@@ -152,6 +152,11 @@ export default function renderTable(word: Word, table: Table) {
         properties.rowBandSize,
         properties.colBandSize
       );
+      // tr 也能设置 tc style，所以先应用这个
+      if (tr.properties.tcStyle) {
+        setStyle(tdEl, tr.properties.tcStyle);
+      }
+
       const tcPr = tc.properties;
       setElementStyle(word, tdEl, tcPr);
       if (tcPr.gridSpan) {

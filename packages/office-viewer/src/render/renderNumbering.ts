@@ -80,6 +80,11 @@ export function renderNumbering(
 
   const num = numbering.nums[numId];
 
+  if (!num) {
+    console.warn('renderNumbering: num is empty');
+    return null;
+  }
+
   const abstractNum = numbering.abstractNums[num.abstractNumId];
 
   let lvls = abstractNum.lvls;

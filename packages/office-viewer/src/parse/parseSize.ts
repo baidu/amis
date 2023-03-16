@@ -6,12 +6,14 @@ export type LengthType = 'px' | 'pt' | '%' | '';
 
 export type LengthUsageType = {mul: number; unit: LengthType};
 
+const ptToPx = 1.3333;
+
 export const LengthUsage: Record<string, LengthUsageType> = {
-  Dxa: {mul: 0.05, unit: 'pt'}, //twips
-  Emu: {mul: 1 / 12700, unit: 'pt'},
-  FontSize: {mul: 0.5, unit: 'pt'},
-  Border: {mul: 0.125, unit: 'pt'},
-  Point: {mul: 1, unit: 'pt'},
+  Dxa: {mul: ptToPx * 0.05, unit: 'px'}, //twips
+  Emu: {mul: (ptToPx * 1) / 12700, unit: 'px'},
+  FontSize: {mul: ptToPx * 0.5, unit: 'px'},
+  Border: {mul: ptToPx * 0.125, unit: 'px'},
+  Point: {mul: ptToPx * 1, unit: 'px'},
   Percent: {mul: 0.02, unit: '%'},
   LineHeight: {mul: 1 / 240, unit: ''},
   VmlEmu: {mul: 1 / 12700, unit: ''}

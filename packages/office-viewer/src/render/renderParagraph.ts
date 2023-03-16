@@ -12,7 +12,7 @@ import {renderNumbering} from './renderNumbering';
 import {setElementStyle} from './setElementStyle';
 import {renderTab} from './renderTab';
 import {SmartTag} from '../openxml/word/SmartTag';
-import renderSmartTag from './renderSmartTag';
+import renderInlineText from './renderInlineText';
 
 /**
  * 渲染段落
@@ -23,6 +23,7 @@ export default function renderParagraph(
   paragraph: Paragraph,
   renderEmptySpace = true
 ) {
+  word.currentParagraph = paragraph;
   let p = createElement('p');
 
   p.classList.add('p');
@@ -51,7 +52,7 @@ export default function renderParagraph(
       const hyperlink = renderHyperLink(word, child);
       appendChild(p, hyperlink);
     } else if (child instanceof SmartTag) {
-      renderSmartTag(word, child, p);
+      renderInlineText(word, child, p);
     }
   }
 

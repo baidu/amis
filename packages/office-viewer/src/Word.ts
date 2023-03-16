@@ -18,6 +18,7 @@ import {PackageParser} from './package/PackageParser';
 import {updateVariableText} from './render/renderRun';
 import ZipPackageParser from './package/ZipPackageParser';
 import {buildXML} from './util/xml';
+import {Paragraph} from './openxml/word/Paragraph';
 
 /**
  * 渲染配置
@@ -70,6 +71,11 @@ export interface WordRenderOptions {
    * 字体映射，用于替换文档中的字体
    */
   fontMapping?: Record<string, string>;
+
+  /**
+   * 强制行高，设置之后所有文本都使用这个行高，可以优化排版效果
+   */
+  forceLineHeight?: string;
 }
 
 const defaultRenderOptions: WordRenderOptions = {
@@ -138,6 +144,11 @@ export default class Word {
   rootElement: HTMLElement;
 
   wrapClassName = 'docx-viewer-wrapper';
+
+  /**
+   * 当前渲染的段落，主要用于获取 fldSimple
+   */
+  currentParagraph: Paragraph;
 
   /**
    * 构建 word

@@ -22,6 +22,12 @@ export function parseSpacing(word: Word, element: Element, style: CSSStyle) {
   const line = element.getAttribute('w:line');
 
   if (line) {
+    // 强制行高
+    if (word.renderOptions.forceLineHeight) {
+      style['line-height'] = word.renderOptions.forceLineHeight;
+      return;
+    }
+
     const lineNum = parseInt(line, 10);
     const minLineHeight = word.renderOptions.minLineHeight || 1.0;
     switch (lineRule) {
@@ -31,7 +37,7 @@ export function parseSpacing(word: Word, element: Element, style: CSSStyle) {
         break;
 
       case 'atLeast':
-        // 不知道这样处理是否正确
+        // 不知道这样处理是否正确，先用默认好了
         // style['line-height'] = `calc(100% + ${lineNum / 20}pt)`;
         break;
 

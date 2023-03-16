@@ -30,7 +30,7 @@ export class Num {
             break;
 
           default:
-            console.warn(`Num: Unknown tag `, tagName);
+            console.warn(`Num: Unknown tag `, tagName, child);
         }
       }
     }

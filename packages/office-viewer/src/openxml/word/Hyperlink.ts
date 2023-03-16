@@ -8,7 +8,7 @@ import {Run} from './Run';
 
 export class Hyperlink {
   anchor?: string;
-  relation: Relationship;
+  relation?: Relationship;
   children: Run[] = [];
 
   addChild(Run: Run): void {
@@ -21,7 +21,9 @@ export class Hyperlink {
     const rId = element.getAttribute('r:id');
     if (rId) {
       const rel = word.getRelationship(rId);
-      hyperlink.relation = rel;
+      if (rel) {
+        hyperlink.relation = rel;
+      }
     }
 
     const anchor = element.getAttribute('anchor');
@@ -37,7 +39,7 @@ export class Hyperlink {
           break;
 
         default:
-          console.warn('parse Hyperlink: Unknown key', tagName);
+          console.warn('parse Hyperlink: Unknown key', tagName, child);
       }
     }
 

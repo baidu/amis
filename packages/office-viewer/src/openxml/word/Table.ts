@@ -23,6 +23,7 @@ import {
 import {
   parseCellMargin,
   parseInsideBorders,
+  parseTblCellSpacing,
   parseTblWidth,
   Tc
 } from './table/Tc';
@@ -98,13 +99,6 @@ function parseTblW(element: Element, style: CSSStyle) {
   const width = parseTblWidth(element);
   if (width) {
     style['width'] = width;
-  }
-}
-
-function parseTblCellSpacing(element: Element, style: CSSStyle) {
-  const width = parseTblWidth(element);
-  if (width) {
-    style['cell-spacing'] = width;
   }
 }
 
@@ -247,7 +241,7 @@ export class Table {
           break;
 
         default:
-          console.warn('parseTableProperties unknown tag', tagName);
+          console.warn('parseTableProperties unknown tag', tagName, child);
       }
     }
 
@@ -276,7 +270,7 @@ export class Table {
           break;
 
         default:
-          console.warn('Table.fromXML unknown tag', tagName);
+          console.warn('Table.fromXML unknown tag', tagName, child);
       }
     }
 

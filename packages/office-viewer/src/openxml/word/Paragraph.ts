@@ -12,6 +12,7 @@ import {Properties} from './properties/Properties';
 import {Run, RunPr} from './Run';
 import {Tab} from './Tab';
 import {SmartTag} from './SmartTag';
+import {FldSimple} from './FldSimple';
 
 /**
  * 这里简化了很多，如果能用 CSS 表示就直接用 CSS 表示
@@ -22,7 +23,12 @@ export interface ParagraphPr extends Properties {
   tabs?: Tab[];
 }
 
-export type ParagraphChild = Run | BookmarkStart | Hyperlink | SmartTag;
+export type ParagraphChild =
+  | Run
+  | BookmarkStart
+  | Hyperlink
+  | SmartTag
+  | FldSimple;
 // | SymbolRun
 // | PageBreak
 // | ColumnBreak
@@ -42,6 +48,7 @@ export type ParagraphChild = Run | BookmarkStart | Hyperlink | SmartTag;
 export class Paragraph {
   properties: ParagraphPr = {};
   children: ParagraphChild[] = [];
+  fldSimples: FldSimple[] = [];
 
   addChild(child: ParagraphChild) {
     this.children.push(child);
@@ -74,6 +81,7 @@ export class Paragraph {
 
   static fromXML(word: Word, element: Element): Paragraph {
     const paragraph = new Paragraph();
+    paragraph.fldSimples = [];
 
     for (const child of element.children) {
       const tagName = child.tagName;
@@ -113,8 +121,13 @@ export class Paragraph {
           paragraph.addChild(SmartTag.fromXML(word, child));
           break;
 
+        case 'w:fldSimple':
+          // 这个目前还不想支持
+          paragraph.fldSimples.push(FldSimple.fromXML(word, child));
+          break;
+
         default:
-          console.warn('parse Paragraph: Unknown key', tagName);
+          console.warn('parse Paragraph: Unknown key', tagName, child);
       }
     }
 

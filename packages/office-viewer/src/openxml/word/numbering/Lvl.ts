@@ -56,7 +56,7 @@ export class Lvl {
           break;
 
         default:
-          console.warn(`Lvl: Unknown tag `, tagName);
+          console.warn(`Lvl: Unknown tag `, tagName, child);
       }
     }
 
