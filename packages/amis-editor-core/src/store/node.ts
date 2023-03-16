@@ -582,11 +582,12 @@ export const EditorNode = types
 
       while (cursor) {
         const nodeSchema = cursor.schema ?? {};
+        const sourceKey = nodeSchema?.type === 'form' ? 'initApi' : 'api';
 
         if (
           ['service', 'crud2', 'form'].includes(nodeSchema?.type) &&
-          nodeSchema?.api?.entity &&
-          nodeSchema?.api?.sourceType === 'model-entity'
+          nodeSchema?.[sourceKey]?.entity &&
+          nodeSchema?.[sourceKey]?.sourceType === 'model-entity'
         ) {
           break;
         }

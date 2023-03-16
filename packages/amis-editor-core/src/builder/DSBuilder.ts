@@ -406,15 +406,15 @@ export class DSBuilderManager {
 
   /* 功能的额外配置面板  */
   collectFromBuilders(
-    callee: (builder: DSBuilder, builderName: string) => any,
+    callee: (builder: DSBuilder, builderName: string, index?: number) => any,
     options?: {
       showHiddenBuilderNames?: Array<string>;
     }
   ) {
     return Object.entries(
       this.filterBuilder(options && options.showHiddenBuilderNames)
-    ).map(([name, builder]) => {
-      return callee(builder, name);
+    ).map(([name, builder], index: number) => {
+      return callee(builder, name, index);
     });
   }
 }
