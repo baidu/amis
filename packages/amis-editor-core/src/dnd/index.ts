@@ -262,39 +262,41 @@ export class EditorDNDManager {
     }
 
     const types = e.dataTransfer!.types;
-    for (let i = types.length - 1; i >= 0; i--) {
-      if (/^dnd-dom\/(.*)$/.test(types[i])) {
-        const selector = RegExp.$1;
-        const dom = document.querySelector(selector);
-        if (dom) {
-          dom.addEventListener('dragend', this.dragEnd);
-          const id = dom.getAttribute('data-dnd-id')!;
-          const type = dom.getAttribute('data-dnd-type')!;
-          const dataRaw = dom.getAttribute('data-dnd-data');
-          const schema = dataRaw
-            ? JSON.parse(dataRaw)
-            : {
-                type: 'tpl',
-                tpl: 'Unknown'
-              };
-          store.setDragId(id, 'copy', type, schema);
-          const containerId = store.activeContainerId;
-
-          // 如果当前选中了某个组件，则默认让其第一个区域处于拖入状态。
-          if (containerId) {
-            const node = store.getNodeById(containerId);
-            if (node?.childRegions.length) {
-              let slotIndex = 0;
-              node.childRegions.forEach((regionItem: any, index: number) => {
-                // 优先使用body作为插入子元素的位置
-                if (regionItem.region) {
-                  slotIndex = index;
-                }
-              });
-              this.switchToRegion(e, node.id, node.childRegions[slotIndex].region);
+    if (types.length > 0) {
+      for (let i = types.length - 1; i >= 0; i--) {
+        if (/^dnd-dom\/(.*)$/.test(types[i])) {
+          const selector = RegExp.$1;
+          const dom = document.querySelector(selector);
+          if (dom) {
+            dom.addEventListener('dragend', this.dragEnd);
+            const id = dom.getAttribute('data-dnd-id')!;
+            const type = dom.getAttribute('data-dnd-type')!;
+            const dataRaw = dom.getAttribute('data-dnd-data');
+            const schema = dataRaw
+              ? JSON.parse(dataRaw)
+              : {
+                  type: 'tpl',
+                  tpl: 'Unknown'
+                };
+            store.setDragId(id, 'copy', type, schema);
+            const containerId = store.activeContainerId;
+  
+            // 如果当前选中了某个组件，则默认让其第一个区域处于拖入状态。
+            if (containerId) {
+              const node = store.getNodeById(containerId);
+              if (node?.childRegions.length) {
+                let slotIndex = 0;
+                node.childRegions.forEach((regionItem: any, index: number) => {
+                  // 优先使用body作为插入子元素的位置
+                  if (regionItem.region) {
+                    slotIndex = index;
+                  }
+                });
+                this.switchToRegion(e, node.id, node.childRegions[slotIndex].region);
+              }
             }
+            break;
           }
-          break;
         }
       }
     }
@@ -339,54 +341,65 @@ export class EditorDNDManager {
     ) {
       // 特殊布局元素拖拽位置
       const doc = store.getDoc();
+      const parentDoc = parent?.window.document;
 
       // 实时调整高亮区域坐标值
-      const dragHlBoxItem = doc.querySelector(
+      let dragHlBoxItem = doc.querySelector(
         `[data-hlbox-id='${this.curDragId}']`
       ) as HTMLElement;
-      const hlBoxInset = dragHlBoxItem.style.inset || 'auto';
-      const hlBoxInsetArr = hlBoxInset.split(' ');
-      const hlBInset = {
-        top: dragHlBoxItem.style.top || hlBoxInsetArr[0] || 'auto',
-        right: dragHlBoxItem.style.right || hlBoxInsetArr[1] || 'auto',
-        bottom:
-          dragHlBoxItem.style.bottom ||
-          hlBoxInsetArr[2] ||
-          hlBoxInsetArr[0] ||
-          'auto',
-        left:
-          dragHlBoxItem.style.left ||
-          hlBoxInsetArr[3] ||
-          hlBoxInsetArr[1] ||
-          'auto'
-      };
-      dragHlBoxItem.style.inset = `${
-        hlBInset.top !== 'auto' ? unitFormula(hlBInset.top, dy) : 'auto'
-      } ${
-        hlBInset.right !== 'auto' ? unitFormula(hlBInset.right, -dx) : 'auto'
-      } ${
-        hlBInset.bottom !== 'auto' ? unitFormula(hlBInset.bottom, -dy) : 'auto'
-      } ${hlBInset.left !== 'auto' ? unitFormula(hlBInset.left, dx) : 'auto'}`;
+      
+      if (store.isMobile && !dragHlBoxItem && parentDoc) {
+        dragHlBoxItem = parentDoc.querySelector(
+          `[data-hlbox-id='${this.curDragId}']`
+        ) as HTMLElement;
+      }
 
+      if (dragHlBoxItem) {
+        const hlBoxInset = dragHlBoxItem.style.inset || 'auto';
+        const hlBoxInsetArr = hlBoxInset.split(' ');
+        const hlBInset = {
+          top: dragHlBoxItem.style.top || hlBoxInsetArr[0] || 'auto',
+          right: dragHlBoxItem.style.right || hlBoxInsetArr[1] || 'auto',
+          bottom:
+            dragHlBoxItem.style.bottom ||
+            hlBoxInsetArr[2] ||
+            hlBoxInsetArr[0] ||
+            'auto',
+          left:
+            dragHlBoxItem.style.left ||
+            hlBoxInsetArr[3] ||
+            hlBoxInsetArr[1] ||
+            'auto'
+        };
+        dragHlBoxItem.style.inset = `${
+          hlBInset.top !== 'auto' ? unitFormula(hlBInset.top, dy) : 'auto'
+        } ${
+          hlBInset.right !== 'auto' ? unitFormula(hlBInset.right, -dx) : 'auto'
+        } ${
+          hlBInset.bottom !== 'auto' ? unitFormula(hlBInset.bottom, -dy) : 'auto'
+        } ${hlBInset.left !== 'auto' ? unitFormula(hlBInset.left, dx) : 'auto'}`;
+      }
+      
       // 实时调整被拖拽元素的坐标值
       const dragContainerItem = doc.querySelector(
         `[data-editor-id='${this.curDragId}']`
       ) as HTMLElement;
-      const curInset = dragContainerItem.style.inset || 'auto';
-      const insetArr = curInset.split(' ');
-      const inset = {
-        top: insetArr[0] || 'auto',
-        right: insetArr[1] || 'auto',
-        bottom: insetArr[2] || insetArr[0] || 'auto',
-        left: insetArr[3] || insetArr[1] || 'auto'
-      };
 
-      dragContainerItem.style.inset = `${
-        inset.top !== 'auto' ? unitFormula(inset.top, dy) : 'auto'
-      } ${inset.right !== 'auto' ? unitFormula(inset.right, -dx) : 'auto'} ${
-        inset.bottom !== 'auto' ? unitFormula(inset.bottom, -dy) : 'auto'
-      } ${inset.left !== 'auto' ? unitFormula(inset.left, dx) : 'auto'}`;
-
+      if (dragContainerItem) {
+        const curInset = dragContainerItem.style.inset || 'auto';
+        const insetArr = curInset.split(' ');
+        const inset = {
+          top: insetArr[0] || 'auto',
+          right: insetArr[1] || 'auto',
+          bottom: insetArr[2] || insetArr[0] || 'auto',
+          left: insetArr[3] || insetArr[1] || 'auto'
+        };
+        dragContainerItem.style.inset = `${
+          inset.top !== 'auto' ? unitFormula(inset.top, dy) : 'auto'
+        } ${inset.right !== 'auto' ? unitFormula(inset.right, -dx) : 'auto'} ${
+          inset.bottom !== 'auto' ? unitFormula(inset.bottom, -dy) : 'auto'
+        } ${inset.left !== 'auto' ? unitFormula(inset.left, dx) : 'auto'}`;
+      }
       this.lastX = e.clientX;
       this.lastY = e.clientY;
       return;
