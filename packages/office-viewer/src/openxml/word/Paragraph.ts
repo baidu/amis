@@ -46,6 +46,8 @@ export type ParagraphChild =
 // | CommentReference;
 
 export class Paragraph {
+  // 主要是为了方便调试用的
+  paraId?: string;
   properties: ParagraphPr = {};
   children: ParagraphChild[] = [];
   fldSimples: FldSimple[] = [];
@@ -82,6 +84,7 @@ export class Paragraph {
   static fromXML(word: Word, element: Element): Paragraph {
     const paragraph = new Paragraph();
     paragraph.fldSimples = [];
+    paragraph.paraId = element.getAttribute('w14:paraId') || '';
 
     for (const child of element.children) {
       const tagName = child.tagName;

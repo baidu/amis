@@ -195,7 +195,7 @@ export class Tc {
   static fromXML(
     word: Word,
     element: Element,
-    colIndex: number,
+    currentCol: {index: number},
     rowSpanMap: {[key: string]: Tc}
   ): Tc | null {
     const tc = new Tc();
@@ -216,25 +216,33 @@ export class Tc {
           break;
       }
     }
-
+    const lastCol = rowSpanMap[currentCol.index];
     // 如果是 continue 意味着这个被合并了
-    if (tc.properties.vMerge === ST_Merge.continue) {
-      const lastCol = rowSpanMap[colIndex];
-      if (lastCol && lastCol.properties && lastCol.properties.rowSpan) {
-        lastCol.properties.rowSpan = lastCol.properties.rowSpan + 1;
-      } else {
-        console.warn(
-          'Tc.fromXML: continue but not found lastCol',
-          colIndex,
-          tc,
-          rowSpanMap
-        );
+    if (tc.properties.vMerge) {
+      if (tc.properties.vMerge === ST_Merge.restart) {
+        tc.properties.rowSpan = 1;
+        rowSpanMap[currentCol.index] = tc;
+      } else if (lastCol) {
+        if (lastCol.properties && lastCol.properties.rowSpan) {
+          lastCol.properties.rowSpan = lastCol.properties.rowSpan + 1;
+          const colSpan = tc.properties.gridSpan || 1;
+          currentCol.index += colSpan;
+          return null;
+        } else {
+          console.warn(
+            'Tc.fromXML: continue but not found lastCol',
+            currentCol.index,
+            tc,
+            rowSpanMap
+          );
+        }
       }
-      return null;
-    } else if (tc.properties.vMerge === ST_Merge.restart) {
-      tc.properties.rowSpan = 1;
-      rowSpanMap[colIndex] = tc;
+    } else {
+      delete rowSpanMap[currentCol.index];
     }
+
+    const colSpan = tc.properties.gridSpan || 1;
+    currentCol.index += colSpan;
 
     return tc;
   }

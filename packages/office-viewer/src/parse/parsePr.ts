@@ -93,11 +93,13 @@ function parseFrame(element: Element, style: CSSStyle) {
         if (typeof value === 'object' && !Array.isArray(value)) {
           style['height'] = parseSize(value, 'w:h');
         }
+        break;
 
       case 'w:w':
         if (typeof value === 'object' && !Array.isArray(value)) {
           style['width'] = parseSize(value, 'w:w');
         }
+        break;
 
       default:
         console.warn('parseFrame: unknown attribute ' + name, attribute);
@@ -131,7 +133,6 @@ export function parsePr(word: Word, element: Element, type: 'r' | 'p' = 'p') {
         break;
 
       case 'w:pBdr':
-      case 'w:bdr':
         parseBorders(word, child, style);
         break;
 
@@ -148,8 +149,8 @@ export function parsePr(word: Word, element: Element, type: 'r' | 'p' = 'p') {
         if (!('background-color' in style)) {
           // http://officeopenxml.com/WPshading.php
           style['background-color'] = parseShdColor(word, child);
-          break;
         }
+        break;
 
       case 'w:spacing':
         parseSpacing(word, child, style);
@@ -197,6 +198,7 @@ export function parsePr(word: Word, element: Element, type: 'r' | 'p' = 'p') {
         style['text-decoration'] = getValBoolean(child)
           ? 'line-through'
           : 'none';
+        break;
 
       case 'w:b':
         // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/b.html

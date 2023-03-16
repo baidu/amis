@@ -71,19 +71,18 @@ export class Tr {
   ): Tr {
     const tr = new Tr();
 
-    let colIndex = 0;
+    // 做成对象是为了传递引用来修改
+    const currentCol = {
+      index: 0
+    };
 
     for (const child of element.children) {
       const tagName = child.tagName;
       switch (tagName) {
         case 'w:tc':
-          const tc = Tc.fromXML(word, child, colIndex, rowSpanMap);
+          const tc = Tc.fromXML(word, child, currentCol, rowSpanMap);
           if (tc) {
             tr.tcs.push(tc);
-            const colSpan = tc.properties.gridSpan || 1;
-            colIndex += colSpan;
-          } else {
-            colIndex += 1;
           }
           break;
 

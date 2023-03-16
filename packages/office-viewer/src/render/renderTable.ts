@@ -161,7 +161,9 @@ export default function renderTable(word: Word, table: Table) {
       setElementStyle(word, tdEl, tcPr);
       if (tcPr.gridSpan) {
         tdEl.colSpan = tcPr.gridSpan;
-      } else if (tcPr.rowSpan) {
+      }
+
+      if (tcPr.rowSpan) {
         tdEl.rowSpan = tcPr.rowSpan;
       }
 
