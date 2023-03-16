@@ -274,30 +274,7 @@ export class PagePlugin extends BasePlugin {
           className: 'p-none',
           body: [
             getSchemaTpl('collapseGroup', [
-              ...getSchemaTpl('theme:common', ['layout']),
-              getSchemaTpl('style:classNames', {
-                isFormItem: false,
-                schema: [
-                  getSchemaTpl('className', {
-                    name: 'headerClassName',
-                    label: '顶部'
-                  }),
-                  getSchemaTpl('className', {
-                    name: 'bodyClassName',
-                    label: '内容区'
-                  }),
-
-                  getSchemaTpl('className', {
-                    name: 'asideClassName',
-                    label: '边栏'
-                  }),
-
-                  getSchemaTpl('className', {
-                    name: 'toolbarClassName',
-                    label: '工具栏'
-                  })
-                ]
-              })
+              ...getSchemaTpl('theme:common', ['layout'])
             ])
           ]
         },

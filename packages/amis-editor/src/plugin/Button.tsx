@@ -367,7 +367,14 @@ export class ButtonPlugin extends BasePlugin {
               ...buttonStateFunc("${editorState == 'active'}", 'active')
             ]
           },
-          getSchemaTpl('theme:cssCode')
+          getSchemaTpl('theme:cssCode', {
+            themeClass: [
+              {
+                value: '',
+                state: ['default', 'hover', 'active']
+              }
+            ]
+          })
         ])
       },
       {
