@@ -3523,4 +3523,28 @@
   --Toast-opacity: 1;
   --Toast-title-display: inline;
   --Toast-width: #{px2rem(400px)};
+
+  --Status-base-fontSize: var(--fonts-size-9);
+  --Status-base-icon-size: var(--sizes-size-8);
+  --Status-base-text-margin: var(--sizes-size-3);
+  --Status-fail-color: var(--colors-error-5);
+  --Status-success-color: var(--colors-success-5);
+  --Status-queue-color: var(--colors-warning-5);
+  --Status-schedule-color: var(--colors-neutral-fill-2);
+  --Status-pending-before-color: var(--colors-error-5);
+  --Status-pending-after-color: var(--colors-brand-5);
+
+  --Status-font-size: var(--Status-base-fontSize);
+  --Status-font-margin: var(--Status-base-text-margin);
+
+  --Status-icon-width: var(--Status-base-icon-size);
+  --Status-icon-height: var(--Status-base-icon-size);
+
+  --Status-pending-beforeColor: var(--Status-pending-before-color);
+  --Status-pending-afterColor: var(--Status-pending-after-color);
+
+  --Status-schedule-color: var(--Status-schedule-color);
+  --Status-warning-color: var(--Status-queue-color);
+  --Status-fail-color: var(--Status-fail-color);
+  --Status-success-color: var(--Status-success-color);
 }
