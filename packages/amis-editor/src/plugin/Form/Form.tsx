@@ -30,6 +30,8 @@ const Features: Array<{
 ];
 
 export class FormPlugin extends BasePlugin {
+  static id = 'FormPlugin';
+
   constructor(manager: EditorManager) {
     super(manager);
     this.dsBuilderMgr = new DSBuilderManager('form', 'api');
@@ -481,11 +483,9 @@ export class FormPlugin extends BasePlugin {
                       value: 'Insert',
                       options: Features,
                       pipeIn: (value: any, form: any) => {
-                        if (value !== undefined) {
-                          return value;
-                        }
-                        const schema = form.data;
-                        const feat = schema?.initApi ? 'Edit' : 'Insert';
+                        const feat =
+                          form.data?.initApi !== undefined ? 'Edit' : 'Insert';
+
                         form.setValueByName('feat', feat);
                         return feat;
                       },
@@ -498,6 +498,8 @@ export class FormPlugin extends BasePlugin {
                         const data = form.data;
                         if (value === 'Insert') {
                           form.deleteValueByName('initApi');
+                        } else {
+                          form.setValueByName('initApi', '');
                         }
 
                         if (data?.dsType === 'model-entity' && data.api) {
@@ -536,6 +538,8 @@ export class FormPlugin extends BasePlugin {
                         // 需要 set 一下，否则 collectFromBuilders 里的内容条件不满足
                         form.setValueByName('dsType', dsType);
 
+                        console.log('set dsType', dsType);
+
                         return dsType;
                       },
                       onChange: (
@@ -573,7 +577,7 @@ export class FormPlugin extends BasePlugin {
                           (builder, builderName, index) => ({
                             type: 'container',
                             className: 'form-item-gap',
-                            visibleOn: `data.feat === '${feat.value}' && (${index}) === 0 || data.dsType === '${builderName})'`,
+                            visibleOn: `console.log(data.dsType, data.feat) || data.feat === '${feat.value}' && ( data.dsType === '${builderName}' || (!data.dsType && ${index} === 0))`,
                             body: flatten([
                               builder.makeSourceSettingForm({
                                 feat: feat.value,
