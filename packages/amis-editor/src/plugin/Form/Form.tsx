@@ -449,16 +449,20 @@ export class FormPlugin extends BasePlugin {
 
     const schema = context?.node?.schema ?? context?.schema;
 
+    /** 是否是模型表单 */
     const isModelForm =
-      (schema.api &&
-        (schema.api?.url ? schema.api.url : schema.api || '').startsWith(
-          'model://'
-        )) ||
-      (schema.initApi &&
-        (schema.initApi?.url
-          ? schema.initApi.url
-          : schema.initApi || ''
-        ).startsWith('model://'));
+      (typeof schema?.api === 'string'
+        ? schema.api
+        : typeof schema?.api?.url === 'string'
+        ? schema.api.url
+        : ''
+      ).startsWith('model://') ||
+      (typeof schema?.initApi === 'string'
+        ? schema.initApi
+        : typeof schema?.initApi?.url === 'string'
+        ? schema.initApi.url
+        : ''
+      ).startsWith('model://');
 
     return [
       getSchemaTpl('tabs', [
