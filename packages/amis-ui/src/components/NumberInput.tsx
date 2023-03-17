@@ -69,17 +69,22 @@ export interface NumberProps extends ThemeProps {
    * 是否在清空内容时从数据域中删除该表单项对应的值
    */
   clearValueOnEmpty?: boolean;
+
+  /**
+   * 数字输入框类名
+   */
+  inputControlClassName?: string;
 }
 
 export class NumberInput extends React.Component<NumberProps, any> {
-  static defaultProps: Pick<
-    NumberProps,
-    'step' | 'readOnly' | 'borderMode' | 'resetValue'
-  > = {
+  static defaultProps:
+    | Pick<NumberProps, 'step' | 'readOnly' | 'borderMode' | 'resetValue'>
+    | {focused: boolean} = {
     step: 1,
     readOnly: false,
     borderMode: 'full',
-    resetValue: ''
+    resetValue: '',
+    focused: false
   };
 
   /**
@@ -216,12 +221,14 @@ export class NumberInput extends React.Component<NumberProps, any> {
   @autobind
   handleFocus(e: React.SyntheticEvent<HTMLElement>) {
     const {onFocus} = this.props;
+    this.setState({focused: true});
     onFocus && onFocus(e);
   }
 
   @autobind
   handleBlur(e: React.SyntheticEvent<HTMLElement>) {
     const {onBlur} = this.props;
+    this.setState({focused: false});
     onBlur && onBlur(e);
   }
 
@@ -292,7 +299,8 @@ export class NumberInput extends React.Component<NumberProps, any> {
       readOnly,
       displayMode,
       inputRef,
-      keyboard
+      keyboard,
+      inputControlClassName
     } = this.props;
     const precisionProps: any = {
       precision: NumberInput.normalizePrecision(precision, step)
@@ -303,7 +311,9 @@ export class NumberInput extends React.Component<NumberProps, any> {
         className={cx(
           className,
           showSteps === false ? 'no-steps' : '',
-          displayMode === 'enhance' ? 'Number--enhance-input' : '',
+          displayMode === 'enhance'
+            ? 'Number--enhance-input'
+            : inputControlClassName,
           {
             [`Number--border${ucFirst(borderMode)}`]: borderMode
           }
@@ -338,7 +348,8 @@ export class NumberInput extends React.Component<NumberProps, any> {
       showSteps,
       borderMode,
       readOnly,
-      displayMode
+      displayMode,
+      inputControlClassName
     } = this.props;
 
     return (
@@ -351,7 +362,9 @@ export class NumberInput extends React.Component<NumberProps, any> {
               showSteps === false ? 'Number--enhance-no-steps' : '',
               {
                 [`Number--enhance-border${ucFirst(borderMode)}`]: borderMode
-              }
+              },
+              inputControlClassName,
+              this.state?.focused && 'focused'
             )}
           >
             <div

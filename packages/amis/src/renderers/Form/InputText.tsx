@@ -1058,12 +1058,14 @@ export default class TextControl extends React.PureComponent<
       options,
       source,
       autoComplete,
+      themeCss,
       css,
       inputControlClassName,
       id,
       addOnClassName,
       editorPath,
-      themeConfig
+      themeConfig,
+      classPrefix: ns
     } = this.props;
     const editorDefaultData = getValueByPath(editorPath, themeConfig);
     let input =
@@ -1072,14 +1074,14 @@ export default class TextControl extends React.PureComponent<
         : this.renderNormal();
 
     insertCustomStyle(
-      css,
+      themeCss || css,
       [
         {
           key: 'inputControlClassName',
           value: inputControlClassName,
           weights: {
             active: {
-              pre: 'is-focused .'
+              pre: `${ns}TextControl.is-focused > .${inputControlClassName}, `
             }
           }
         }
@@ -1089,7 +1091,7 @@ export default class TextControl extends React.PureComponent<
     );
 
     insertCustomStyle(
-      css,
+      themeCss || css,
       [
         {
           key: 'addOnClassName',
