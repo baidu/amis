@@ -77,6 +77,7 @@ export interface EditorManagerConfig
 export interface PluginClass {
   new (manager: EditorManager, options?: any): PluginInterface;
   id?: string;
+  scene?: Array<string>;
 }
 
 const builtInPlugins: Array<
@@ -105,6 +106,9 @@ export function autoPreRegisterEditorCustomPlugins() {
  * @param editor
  */
 export function registerEditorPlugin(klass: PluginClass) {
+  // 处理插件身上的场景信息
+  const scene = Array.from(new Set(['global'].concat(klass.scene || 'global')));
+  klass.scene = scene;
   let isExitPlugin: any = null;
   if (klass.prototype && klass.prototype.isNpmCustomWidget) {
     isExitPlugin = builtInPlugins.find(item =>
@@ -126,8 +130,9 @@ export function registerEditorPlugin(klass: PluginClass) {
 /**
  * 获取当前已经注册的插件。
  */
-export function getEditorPlugins() {
-  return builtInPlugins.concat();
+export function getEditorPlugins(options: any = {}) {
+  const {scene = 'global'} = options;
+  return builtInPlugins.filter(item => item.scene?.includes(scene));
 }
 
 /**
@@ -192,11 +197,11 @@ export class EditorManager {
     this.hackIn = parent?.hackIn || hackIn;
     // 自动加载预先注册的自定义组件
     autoPreRegisterEditorCustomPlugins();
-
+    const scene = config.scene || 'global';
     this.plugins =
       parent?.plugins ||
       (config.disableBultinPlugin ? [] : builtInPlugins) // 页面设计器注册的插件列表
-        .concat(config.plugins || [])
+        .concat(this.normalizeScene(config?.plugins))
         .filter(p => {
           p = Array.isArray(p) ? p[0] : p;
           return config.disablePluginList
@@ -322,6 +327,19 @@ export class EditorManager {
           }
         }
       )
+    );
+  }
+
+  normalizeScene(plugins?: Array<PluginClass>) {
+    return (
+      plugins?.map((klass: PluginClass) => {
+        // 处理插件身上的场景信息
+        const scene = Array.from(
+          new Set(['global'].concat(klass.scene || 'global'))
+        );
+        klass.scene = scene;
+        return klass;
+      }) || []
     );
   }
 

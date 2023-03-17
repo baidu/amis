@@ -107,23 +107,6 @@ export class SubEditor extends React.Component<SubEditorProps> {
         subEditorContext?.data
       );
     }
-    const variables: any = [
-      ...(manager.config?.variables || []).filter(
-        item => item.title !== '页面变量'
-      ),
-      // 解决打开子编辑器 公式输入框汇总没有页面变量的问题
-      {
-        name: 'pageParams',
-        title: '页面变量',
-        parentId: 'root',
-        order: 0,
-        schema: {
-          type: 'object',
-          $id: 'pageParams',
-          properties: {}
-        }
-      }
-    ];
     return {
       size: 'full',
       title: store.subEditorContext?.title,
@@ -170,8 +153,6 @@ export class SubEditor extends React.Component<SubEditorProps> {
                     isSubEditor={true}
                     iframeUrl={config.iframeUrl}
                     ctx={store.ctx}
-                    schemas={manager.config?.schemas}
-                    variables={variables}
                     amisEnv={amisEnv || config.amisEnv}
                     appLocale={config.appLocale}
                     i18nEnabled={config.i18nEnabled}

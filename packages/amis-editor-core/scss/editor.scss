@@ -35,6 +35,7 @@
 @import './control/timeline_item_control';
 @import './control/tree_option_control';
 @import './control/_inpupt-file';
+@import './control/_nav-control';
 @import './control/_status';
 
 /* 样式控件 */
@@ -509,12 +510,11 @@
     padding: 2px 8px;
     color: #fff;
     text-align: center;
-    background-color: rgba(7,12,20,0.85);
+    background-color: rgba(7, 12, 20, 0.85);
     // background-color: $Editor-theme;
-    box-shadow: 0 2px 8px 0 rgba(7,12,20,0.12);
+    box-shadow: 0 2px 8px 0 rgba(7, 12, 20, 0.12);
   }
 }
-
 
 .ae-border-WResizer,
 .ae-border-HResizer {
@@ -631,7 +631,6 @@
   &.isFreeContainerElem {
     // 自由容器的直接子元素拖拽剔除过渡
     transition: none !important;
-    
 
     &.selected {
       pointer-events: all; // 高亮区启用鼠标事件，支持拖拽

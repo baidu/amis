@@ -8,6 +8,7 @@ import {BuildPanelEventContext, BasePlugin, BasicPanelItem} from '../plugin';
  * 添加源码编辑功能
  */
 export class AvailableRenderersPlugin extends BasePlugin {
+  static scene = ['layout'];
   order = -9999;
 
   buildEditorPanel(
