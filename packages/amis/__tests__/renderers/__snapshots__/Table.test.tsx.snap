@@ -914,6 +914,7 @@ exports[`Renderer:table children 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Service"
@@ -2789,6 +2790,7 @@ exports[`Renderer:table combine Renderer:table combineNum only 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Service"
@@ -3495,6 +3497,7 @@ exports[`Renderer:table combine Renderer:table combineNum with fromIndex 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Service"
@@ -4271,6 +4274,7 @@ exports[`Renderer:table groupName-default 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Service"
@@ -4288,7 +4292,7 @@ exports[`Renderer:table groupName-default 1`] = `
                     class="cxd-ColumnToggler is-actived"
                   >
                     <button
-                      class="cxd-Button cxd-Button--default cxd-Button--sm"
+                      class="cxd-Button cxd-Button--default cxd-Button--size-sm"
                     >
                       <icon-mock
                         classname="icon m-r-none icon-columns"
@@ -5019,7 +5023,7 @@ exports[`Renderer:table groupName-default 1`] = `
                       class="cxd-ColumnToggler is-actived"
                     >
                       <button
-                        class="cxd-Button cxd-Button--default cxd-Button--sm"
+                        class="cxd-Button cxd-Button--default cxd-Button--size-sm"
                       >
                         <icon-mock
                           classname="icon m-r-none icon-columns"
@@ -5236,6 +5240,7 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Service"
@@ -5253,7 +5258,7 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
                     class="cxd-ColumnToggler is-actived"
                   >
                     <button
-                      class="cxd-Button cxd-Button--default cxd-Button--sm"
+                      class="cxd-Button cxd-Button--default cxd-Button--size-sm"
                     >
                       <icon-mock
                         classname="icon m-r-none icon-columns"
@@ -5988,7 +5993,7 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
                       class="cxd-ColumnToggler is-actived"
                     >
                       <button
-                        class="cxd-Button cxd-Button--default cxd-Button--sm"
+                        class="cxd-Button cxd-Button--default cxd-Button--size-sm"
                       >
                         <icon-mock
                           classname="icon m-r-none icon-columns"
@@ -6193,6 +6198,7 @@ exports[`Renderer:table groupName-startNoGroupName 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Service"
@@ -6210,7 +6216,7 @@ exports[`Renderer:table groupName-startNoGroupName 1`] = `
                     class="cxd-ColumnToggler is-actived"
                   >
                     <button
-                      class="cxd-Button cxd-Button--default cxd-Button--sm"
+                      class="cxd-Button cxd-Button--default cxd-Button--size-sm"
                     >
                       <icon-mock
                         classname="icon m-r-none icon-columns"
@@ -6934,7 +6940,7 @@ exports[`Renderer:table groupName-startNoGroupName 1`] = `
                       class="cxd-ColumnToggler is-actived"
                     >
                       <button
-                        class="cxd-Button cxd-Button--default cxd-Button--sm"
+                        class="cxd-Button cxd-Button--default cxd-Button--size-sm"
                       >
                         <icon-mock
                           classname="icon m-r-none icon-columns"
@@ -7119,6 +7125,7 @@ exports[`Renderer:table groupName-withTpl 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Service"
@@ -7136,7 +7143,7 @@ exports[`Renderer:table groupName-withTpl 1`] = `
                     class="cxd-ColumnToggler is-actived"
                   >
                     <button
-                      class="cxd-Button cxd-Button--default cxd-Button--sm"
+                      class="cxd-Button cxd-Button--default cxd-Button--size-sm"
                     >
                       <icon-mock
                         classname="icon m-r-none icon-columns"
@@ -7867,7 +7874,7 @@ exports[`Renderer:table groupName-withTpl 1`] = `
                       class="cxd-ColumnToggler is-actived"
                     >
                       <button
-                        class="cxd-Button cxd-Button--default cxd-Button--sm"
+                        class="cxd-Button cxd-Button--default cxd-Button--size-sm"
                       >
                         <icon-mock
                           classname="icon m-r-none icon-columns"
@@ -8744,7 +8751,7 @@ exports[`Renderer:table list 1`] = `
           class="cxd-ColumnToggler"
         >
           <button
-            class="cxd-Button cxd-Button--default cxd-Button--sm"
+            class="cxd-Button cxd-Button--default cxd-Button--size-sm"
           >
             <icon-mock
               classname="icon m-r-none icon-columns"
@@ -9051,8 +9058,8 @@ exports[`Renderer:table list 1`] = `
                   class="cxd-StatusField cxd-StatusField--1"
                 >
                   <icon-mock
-                    classname="cxd-Status-icon icon icon icon-check-circle"
-                    icon="check-circle"
+                    classname="cxd-Status-icon icon icon icon-success"
+                    icon="success"
                   />
                 </span>
               </td>
@@ -9289,8 +9296,8 @@ exports[`Renderer:table list 1`] = `
                   class="cxd-StatusField cxd-StatusField--1"
                 >
                   <icon-mock
-                    classname="cxd-Status-icon icon icon icon-check-circle"
-                    icon="check-circle"
+                    classname="cxd-Status-icon icon icon icon-success"
+                    icon="success"
                   />
                 </span>
               </td>

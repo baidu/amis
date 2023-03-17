@@ -9,6 +9,7 @@ import {
 import Image, {ImageThumbProps, imagePlaceholder} from './Image';
 import {autobind, getPropValue} from 'amis-core';
 import {BaseSchema, SchemaClassName, SchemaUrlPath} from '../Schema';
+import type {ImageToolbarAction} from './Image';
 
 /**
  * 图片集展示控件。
@@ -86,17 +87,29 @@ export interface ImagesSchema extends BaseSchema {
    * 列表 CSS 类名
    */
   listClassName?: SchemaClassName;
+
+  /**
+   * 是否展示图片工具栏
+   */
+  showToolbar?: boolean;
+
+  /**
+   * 工具栏配置
+   */
+  toolbarActions?: ImageToolbarAction[];
 }
 
 export interface ImagesProps
   extends RendererProps,
     Omit<ImagesSchema, 'type' | 'className'> {
   delimiter: string;
-
   onEnlarge?: (
     info: ImageThumbProps & {
       list?: Array<
-        Pick<ImageThumbProps, 'src' | 'originalSrc' | 'title' | 'caption'>
+        Pick<
+          ImageThumbProps,
+          'src' | 'originalSrc' | 'title' | 'caption' | 'showToolbar'
+        >
       >;
     }
   ) => void;
@@ -150,6 +163,7 @@ export class ImagesField extends React.Component<ImagesProps> {
   render() {
     const {
       className,
+      style,
       defaultImage,
       thumbMode,
       thumbRatio,
@@ -163,7 +177,9 @@ export class ImagesField extends React.Component<ImagesProps> {
       src,
       originalSrc,
       listClassName,
-      options
+      options,
+      showToolbar,
+      toolbarActions
     } = this.props;
 
     let value: any;
@@ -189,7 +205,7 @@ export class ImagesField extends React.Component<ImagesProps> {
     this.list = list;
 
     return (
-      <div className={cx('ImagesField', className)}>
+      <div className={cx('ImagesField', className)} style={style}>
         {Array.isArray(list) ? (
           <div className={cx('Images', listClassName)}>
             {list.map((item: any, index: number) => (
@@ -212,6 +228,8 @@ export class ImagesField extends React.Component<ImagesProps> {
                 thumbRatio={thumbRatio}
                 enlargeAble={enlargeAble!}
                 onEnlarge={this.handleEnlarge}
+                showToolbar={showToolbar}
+                toolbarActions={toolbarActions}
               />
             ))}
           </div>

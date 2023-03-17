@@ -37,7 +37,7 @@ interface MapPickerProps {
     lng: number;
     city?: string;
   };
-  onChange: (value: any) => void;
+  onChange?: (value: any) => void;
 }
 
 interface LocationItem {
@@ -288,7 +288,7 @@ export class BaiduMapPicker extends React.Component<
     if (this.props.coordinatesType == 'gcj02') {
       this.covertPoint(point, COORDINATES_BD09, COORDINATES_GCJ02).then(
         (convertedPoint: any) => {
-          this.props?.onChange({
+          (typeof this.props?.onChange === 'function') && this.props.onChange({
             address: loc.address.trim() || loc.title,
             lat: convertedPoint.lat,
             lng: convertedPoint.lng,
@@ -297,7 +297,7 @@ export class BaiduMapPicker extends React.Component<
         }
       );
     } else {
-      this.props?.onChange({
+      (typeof this.props?.onChange === 'function') && this.props?.onChange({
         address: loc.address.trim() || loc.title,
         lat: loc.lat,
         lng: loc.lng,

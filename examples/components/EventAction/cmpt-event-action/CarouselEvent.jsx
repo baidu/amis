@@ -84,7 +84,7 @@ export default {
             {
               actionType: 'toast',
               args: {
-                msg: '滚动至${event.data.activeIndex}'
+                msg: '滚动至${activeIndex}'
               }
             }
           ]

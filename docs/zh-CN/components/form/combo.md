@@ -209,6 +209,46 @@ order: 12
 }
 ```
 
+也可以使用变量配置`minLength`和`maxLength`
+
+> 2.4.1 及以上版本
+
+```schema: scope="body"
+{
+  "type": "form",
+  "mode": "horizontal",
+  "api": "/api/mock2/form/saveForm",
+  "data": {
+    "minLength": 2,
+    "maxLength": 4
+  },
+  "body": [
+    {
+      "type": "combo",
+      "name": "combo1",
+      "label": "最少添加2条, 最多添加4条",
+      "mode": "normal",
+      "multiple": true,
+      "minLength": "${minLength}",
+      "maxLength": "${maxLength}",
+      "items": [
+        {
+          "name": "text",
+          "label": "文本",
+          "type": "input-text"
+        },
+        {
+          "name": "select",
+          "label": "选项",
+          "type": "select",
+          "options": ["a", "b", "c"]
+        }
+      ]
+    }
+  ]
+}
+```
+
 ## 值格式
 
 观察下例中表单数据域值的变化，可以发现：
@@ -866,51 +906,54 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
 
 当做选择器表单项使用时，除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
 
-| 属性名                   | 类型                               | 默认值                                         | 说明                                                                                                                                                                |
-| ------------------------ | ---------------------------------- | ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| formClassName            | `string`                           |                                                | 单组表单项的类名                                                                                                                                                    |
-| items                    | Array<[表单项](./formitem)>        |                                                | 组合展示的表单项                                                                                                                                                    |
-| items[x].columnClassName | `string`                           |                                                | 列的类名，可以用它配置列宽度。默认平均分配。                                                                                                                        |
-| items[x].unique          | `boolean`                          |                                                | 设置当前列值是否唯一，即不允许重复选择。                                                                                                                            |
-| noBorder                 | `boolean`                          | `false`                                        | 单组表单项是否显示边框                                                                                                                                              |
-| scaffold                 | `object`                           | `{}`                                           | 单组表单项初始值                                                                                                                                                    |
-| multiple                 | `boolean`                          | `false`                                        | 是否多选                                                                                                                                                            |
-| multiLine                | `boolean`                          | `false`                                        | 默认是横着展示一排，设置以后竖着展示                                                                                                                                |
-| minLength                | `number`                           |                                                | 最少添加的条数                                                                                                                                                      |
-| maxLength                | `number`                           |                                                | 最多添加的条数                                                                                                                                                      |
-| flat                     | `boolean`                          | `false`                                        | 是否将结果扁平化(去掉 name),只有当 items 的 length 为 1 且 multiple 为 true 的时候才有效。                                                                          |
-| joinValues               | `boolean`                          | `true`                                         | 默认为 `true` 当扁平化开启的时候，是否用分隔符的形式发送给后端，否则采用 array 的方式。                                                                             |
-| delimiter                | `string`                           | `false`                                        | 当扁平化开启并且 joinValues 为 true 时，用什么分隔符。                                                                                                              |
-| addable                  | `boolean`                          | `false`                                        | 是否可新增                                                                                                                                                          |
-| removable                | `boolean`                          | `false`                                        | 是否可删除                                                                                                                                                          |
-| deleteApi                | [API](../../../docs/types/api)     |                                                | 如果配置了，则删除前会发送一个 api，请求成功才完成删除                                                                                                              |
-| deleteConfirmText        | `string`                           | `"确认要删除？"`                               | 当配置 `deleteApi` 才生效！删除时用来做用户确认                                                                                                                     |
-| draggable                | `boolean`                          | `false`                                        | 是否可以拖动排序, 需要注意的是当启用拖动排序的时候，会多一个\$id 字段                                                                                               |
-| draggableTip             | `string`                           | `"可通过拖动每行中的【交换】按钮进行顺序调整"` | 可拖拽的提示文字                                                                                                                                                    |
-| subFormMode              | `string`                           | `"normal"`                                     | 可选`normal`、`horizontal`、`inline`                                                                                                                                |
-| placeholder              | `string`                           | ``                                             | 没有成员时显示。                                                                                                                                                    |
-| canAccessSuperData       | `boolean`                          | `false`                                        | 指定是否可以自动获取上层的数据并映射到表单项上                                                                                                                      |
-| conditions               | `object`                           |                                                | 数组的形式包含所有条件的渲染类型，单个数组内的`test` 为判断条件，数组内的`items`为符合该条件后渲染的`schema`                                                        |
-| typeSwitchable           | `boolean`                          | `false`                                        | 是否可切换条件，配合`conditions`使用                                                                                                                                |
-| strictMode               | `boolean`                          | `true`                                         | 默认为严格模式，设置为 false 时，当其他表单项更新是，里面的表单项也可以及时获取，否则不会。                                                                         |
-| syncFields               | `Array<string>`                    | `[]`                                           | 配置同步字段。只有 `strictMode` 为 `false` 时有效。如果 Combo 层级比较深，底层的获取外层的数据可能不同步。但是给 combo 配置这个属性就能同步下来。输入格式：`["os"]` |
-| nullable                 | `boolean`                          | `false`                                        | 允许为空，如果子表单项里面配置验证器，且又是单条模式。可以允许用户选择清空（不填）。                                                                                |
-| itemClassName            | `string`                           |                                                | 单组 CSS 类                                                                                                                                                         |
-| itemsWrapperClassName    | `string`                           |                                                | 组合区域 CSS 类                                                                                                                                                     |
-| deleteBtn                | [Button](../button.md) or `string` | 自定义删除按钮                                 | 只有当`removable`为 `true` 时有效; 如果为`string`则为按钮的文本；如果为`Button`则根据配置渲染删除按钮。                                                             |
-| addBtn                   | [Button](../button.md)             | 自定义新增按钮                                 | 可新增自定义配置渲染新增按钮，在`tabsMode: true`下不生效。                                                                                                          |
-| addButtonClassName       | `string`                           |                                                | 新增按钮 CSS 类名                                                                                                                                                   |
-| addButtonText            | `string`                           | `"新增"`                                       | 新增按钮文字                                                                                                                                                        |
+| 属性名                   | 类型                               | 默认值           | 说明                                                                                                                                                                |
+| ------------------------ | ---------------------------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| formClassName            | `string`                           |                  | 单组表单项的类名                                                                                                                                                    |
+| items                    | Array<[表单项](./formitem)>        |                  | 组合展示的表单项                                                                                                                                                    |
+| items[x].columnClassName | `string`                           |                  | 列的类名，可以用它配置列宽度。默认平均分配。                                                                                                                        |
+| items[x].unique          | `boolean`                          |                  | 设置当前列值是否唯一，即不允许重复选择。                                                                                                                            |
+| noBorder                 | `boolean`                          | `false`          | 单组表单项是否显示边框                                                                                                                                              |
+| scaffold                 | `object`                           | `{}`             | 单组表单项初始值                                                                                                                                                    |
+| multiple                 | `boolean`                          | `false`          | 是否多选                                                                                                                                                            |
+| multiLine                | `boolean`                          | `false`          | 默认是横着展示一排，设置以后竖着展示                                                                                                                                |
+| minLength                | `number`                           |                  | 最少添加的条数，`2.4.1` 版本后支持变量                                                                                                                              |
+| maxLength                | `number`                           |                  | 最多添加的条数，`2.4.1` 版本后支持变量                                                                                                                              |
+| flat                     | `boolean`                          | `false`          | 是否将结果扁平化(去掉 name),只有当 items 的 length 为 1 且 multiple 为 true 的时候才有效。                                                                          |
+| joinValues               | `boolean`                          | `true`           | 默认为 `true` 当扁平化开启的时候，是否用分隔符的形式发送给后端，否则采用 array 的方式。                                                                             |
+| delimiter                | `string`                           | `false`          | 当扁平化开启并且 joinValues 为 true 时，用什么分隔符。                                                                                                              |
+| addable                  | `boolean`                          | `false`          | 是否可新增                                                                                                                                                          |
+| addattop                 | `boolean`                          | `false`          | 在顶部添加                                                                                                                                                          |
+| removable                | `boolean`                          | `false`          | 是否可删除                                                                                                                                                          |
+| deleteApi                | [API](../../../docs/types/api)     |                  | 如果配置了，则删除前会发送一个 api，请求成功才完成删除                                                                                                              |
+| deleteConfirmText        | `string`                           | `"确认要删除？"` | 当配置 `deleteApi` 才生效！删除时用来做用户确认                                                                                                                     |
+| draggable                | `boolean`                          | `false`          | 是否可以拖动排序, 需要注意的是当启用拖动排序的时候，会多一个\$id 字段                                                                                               |
+| draggableTip             | `string`                           |                  | 可拖拽的提示文字                                                                                                                                                    |
+| subFormMode              | `string`                           | `"normal"`       | 可选`normal`、`horizontal`、`inline`                                                                                                                                |
+| placeholder              | `string`                           | ``               | 没有成员时显示。                                                                                                                                                    |
+| canAccessSuperData       | `boolean`                          | `false`          | 指定是否可以自动获取上层的数据并映射到表单项上                                                                                                                      |
+| conditions               | `object`                           |                  | 数组的形式包含所有条件的渲染类型，单个数组内的`test` 为判断条件，数组内的`items`为符合该条件后渲染的`schema`                                                        |
+| typeSwitchable           | `boolean`                          | `false`          | 是否可切换条件，配合`conditions`使用                                                                                                                                |
+| strictMode               | `boolean`                          | `true`           | 默认为严格模式，设置为 false 时，当其他表单项更新是，里面的表单项也可以及时获取，否则不会。                                                                         |
+| syncFields               | `Array<string>`                    | `[]`             | 配置同步字段。只有 `strictMode` 为 `false` 时有效。如果 Combo 层级比较深，底层的获取外层的数据可能不同步。但是给 combo 配置这个属性就能同步下来。输入格式：`["os"]` |
+| nullable                 | `boolean`                          | `false`          | 允许为空，如果子表单项里面配置验证器，且又是单条模式。可以允许用户选择清空（不填）。                                                                                |
+| itemClassName            | `string`                           |                  | 单组 CSS 类                                                                                                                                                         |
+| itemsWrapperClassName    | `string`                           |                  | 组合区域 CSS 类                                                                                                                                                     |
+| deleteBtn                | [Button](../button.md) or `string` | 自定义删除按钮   | 只有当`removable`为 `true` 时有效; 如果为`string`则为按钮的文本；如果为`Button`则根据配置渲染删除按钮。                                                             |
+| addBtn                   | [Button](../button.md)             | 自定义新增按钮   | 可新增自定义配置渲染新增按钮，在`tabsMode: true`下不生效。                                                                                                          |
+| addButtonClassName       | `string`                           |                  | 新增按钮 CSS 类名                                                                                                                                                   |
+| addButtonText            | `string`                           | `"新增"`         | 新增按钮文字                                                                                                                                                        |
 
 ## 事件表
 
-当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`event.data.xxx`事件参数变量来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`来获取事件产生的数据（`< 2.3.2 及以下版本 为 ${event.data.[事件参数名]}`），详细请查看[事件动作](../../docs/concepts/event-action)。
 
-| 事件名称   | 事件参数                                                                                       | 说明                                         |
-| ---------- | ---------------------------------------------------------------------------------------------- | -------------------------------------------- |
-| add        | `event.data.value: string \| string[]` 当前数据集                                              | 添加组合项时触发                             |
-| delete     | `event.data.key: number` 移除项的索引<br />`event.data.value: string \| string[]` 现有的数据集 | 删除组合项时触发                             |
-| tabsChange | `event.data.key: number` 选项卡索引                                                            | 当设置 tabsMode 为 true 时，切换选项卡时触发 |
+> `[name]`表示当前组件绑定的名称，即`name`属性，如果没有配置`name`属性，则通过`value`取值。
+
+| 事件名称   | 事件参数                                                                                         | 说明                                         |
+| ---------- | ------------------------------------------------------------------------------------------------ | -------------------------------------------- |
+| add        | `[name]: object \| object[]` 组件的值                                                            | 添加组合项时触发                             |
+| delete     | `key: number` 移除项的索引<br />`item: object` 移除项<br />`[name]: object \| object[]` 组件的值 | 删除组合项时触发                             |
+| tabsChange | `key: number` 选项卡索引<br />`item: object` 激活项<br />`[name]: object \| object[]` 组件的值   | 当设置 tabsMode 为 true 时，切换选项卡时触发 |
 
 ## 动作表
 
@@ -918,6 +961,7 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
 
 | 动作名称 | 动作配置                                                                                                  | 说明                                                                                              |
 | -------- | --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| addItem  | `item: object` 新增项的值                                                                                 | 只有开启`multiple`模式才能使用, `multiple`模式下，给新增项添加默认值                              |
 | clear    | -                                                                                                         | 清空                                                                                              |
 | reset    | -                                                                                                         | 将值重置为`resetValue`，若没有配置`resetValue`，则清空                                            |
 | setValue | `value: object \| Array<object>` 更新的值<br/>`index?: number` 指定更新的数据索引， 1.10.1 及以上版本引入 | 更新数据，对象数组针对开启`multiple`模式, `multiple`模式下可以通过指定`index`来更新指定索引的数据 |

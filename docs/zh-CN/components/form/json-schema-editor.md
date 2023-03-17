@@ -95,6 +95,7 @@ order: 61
 ```schema: scope="body"
 {
     "type": "form",
+    "debug": true,
     "body": [
         {
             "type": "json-schema-editor",
@@ -122,11 +123,58 @@ order: 61
 }
 ```
 
+## 占位提示
+
+> 2.8.0 及以上版本
+
+设置`placeholder`属性，可以修改属性控件的默认占位提示文本，当前属性值会和默认值做合并
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "debug": true,
+    "body": [
+        {
+            "type": "json-schema-editor",
+            "name": "schema",
+            "label": "字段类型",
+            "enableAdvancedSetting": true,
+            "placeholder": {
+                "key": "请输入字段名称",
+                "title": "请输入名称",
+                "description": "请输入描述信息",
+                "default": "",
+                "empty": "暂无字段"
+            }
+        }
+    ]
+}
+```
+
 ## 属性表
 
-| 属性名          | 类型            | 默认值 | 说明                                                                                             |
-| --------------- | --------------- | ------ | ------------------------------------------------------------------------------------------------ |
-| rootTypeMutable | `boolean`       | false  | 顶级类型是否可配置                                                                               |
-| showRootInfo    | `boolean`       | false  | 是否显示顶级类型信息                                                                             |
-| disabledTypes   | `Array<string>` |        | 用来禁用默认数据类型，默认类型有：string、number、interger、object、number、array、boolean、null |
-| definitions     | `object`        |        | 用来配置预设类型                                                                                 |
+| 属性名          | 类型                          | 默认值                                                                                   | 说明                                                                                             | 版本    |
+| --------------- | ----------------------------- | ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ | ------- |
+| rootTypeMutable | `boolean`                     | false                                                                                    | 顶级类型是否可配置                                                                               |
+| showRootInfo    | `boolean`                     | false                                                                                    | 是否显示顶级类型信息                                                                             |
+| disabledTypes   | `Array<string>`               |                                                                                          | 用来禁用默认数据类型，默认类型有：string、number、interger、object、number、array、boolean、null |
+| definitions     | `object`                      |                                                                                          | 用来配置预设类型                                                                                 |
+| placeholder     | `SchemaEditorItemPlaceholder` | `{key: "字段名", title: "名称", description: "描述", default: "默认值", empty: "<空>",}` | 属性输入控件的占位提示文本                                                                       | `2.8.0` |
+
+### SchemaEditorItemPlaceholder
+
+```typescript
+interface SchemaEditorItemPlaceholder {
+  /* 字段名称输入框占位文本 */
+  key?: string;
+  /* 名称输入框占位文本 */
+  title?: string;
+  /* 描述信息输入框占位文本 */
+  description?: string;
+  /* 默认值输入框占位文本 */
+  default?: string;
+  /* 默认值输入框占位文本 */
+  empty?: string;
+}
+```

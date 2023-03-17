@@ -1,7 +1,9 @@
 import React, {ReactNode, useState} from 'react';
 import {localeable, LocaleProps} from 'amis-core';
-import {themeable, ThemeProps} from 'amis-core';
+import {themeable, ThemeProps, generateIcon} from 'amis-core';
 import {Icon} from './icons';
+
+import type {IconCheckedSchema} from 'amis-core';
 
 export interface TimelineItemProps {
   /**
@@ -37,7 +39,10 @@ export interface TimelineItemProps {
   /**
    * 图标
    */
-  icon?: string | ReactNode;
+  icon?: string | IconCheckedSchema | ReactNode;
+
+  /** ICON的CSS类名 */
+  iconClassName?: string;
 }
 
 export interface TimelineItem
@@ -56,8 +61,10 @@ export function TimelineItem(props: TimelineItem) {
     detailExpandedText,
     color,
     icon,
+    iconClassName,
     classnames: cx,
     translate: __,
+    classPrefix,
     key
   } = props;
 
@@ -108,22 +115,20 @@ export function TimelineItem(props: TimelineItem) {
   return (
     <div className={cx('TimelineItem')} key={key}>
       <div className={cx('TimelineItem-axle')}>
-        <div
-          className={cx(
-            'TimelineItem-line',
-            icon ? 'TimelineItem-line-icon' : ''
-          )}
-        ></div>
+        <div className={cx('TimelineItem-line')}></div>
         {icon ? (
-          <div className={cx('TimelineItem-icon')}>
-            <Icon icon={icon} className="icon" />
+          <div className={cx('TimelineItem-icon', iconClassName)}>
+            {typeof icon === 'string' ? (
+              <Icon icon={icon} className="icon" classPrefix={classPrefix} />
+            ) : (
+              generateIcon(cx, icon as any)
+            )}
           </div>
         ) : (
           <div
-            className={cx(
-              'TimelineItem-round',
-              levelColor && `TimelineItem-round--${levelColor}`
-            )}
+            className={cx('TimelineItem-round', iconClassName, {
+              [`TimelineItem-round--${levelColor}`]: !!levelColor
+            })}
             style={isColorVal ? {backgroundColor: color} : undefined}
           ></div>
         )}

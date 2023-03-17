@@ -99,10 +99,10 @@ export class Markdown extends React.Component<MarkdownProps, MarkdownState> {
   }
 
   render() {
-    const {className, classnames: cx, options} = this.props;
+    const {className, style, classnames: cx, options} = this.props;
 
     return (
-      <div className={cx('Markdown', className)}>
+      <div className={cx('Markdown', className)} style={style}>
         <LazyComponent
           getComponent={loadComponent}
           content={this.state.content || ''}

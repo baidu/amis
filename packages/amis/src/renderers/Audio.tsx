@@ -450,6 +450,7 @@ export class Audio extends React.Component<AudioProps, AudioState> {
   render() {
     const {
       className,
+      style,
       inline,
       autoPlay,
       loop,
@@ -459,7 +460,7 @@ export class Audio extends React.Component<AudioProps, AudioState> {
     const {muted, src} = this.state;
 
     return (
-      <div className={cx('Audio', className, inline ? 'Audio--inline' : '')}>
+      <div className={cx('Audio', className, inline ? 'Audio--inline' : '')} style={style}>
         <audio
           className={cx('Audio-original')}
           ref={this.audioRef}

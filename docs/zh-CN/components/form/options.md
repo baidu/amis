@@ -1457,14 +1457,17 @@ order: 2
     "type": "form",
     "api": "/api/mock2/form/saveForm",
     "debug": true,
+    "debugConfig": {
+        "levelExpand": 2
+    },
     "body": [
         {
             "type": "select",
-            "label": "选项",
+            "label": "autoFill触发器",
             "name": "select",
             "autoFill": {
                 "option.instantValidate": "${label}",
-                "option.submitValidate": "${label}",
+                "option.submitValidate": "${label}"
             },
             "clearable": true,
             "options": [
@@ -1481,7 +1484,7 @@ order: 2
         {
             "type": "input-text",
             "name": "option.instantValidate",
-            "label": "选中项",
+            "label": "目标1",
             "description": "填充后立即校验",
             "required": true,
             "validateOnChange": true,
@@ -1495,7 +1498,7 @@ order: 2
         {
             "type": "input-text",
             "name": "option.submitValidate",
-            "label": "选中项1",
+            "label": "目标2",
             "description": "填充后提交表单时才校验",
             "required": true,
             "validations": {
@@ -1504,6 +1507,13 @@ order: 2
             "validationErrors": {
                 "equals": "校验失败，数据必须为Option B"
             }
+        },
+        {
+          "type": "input-text",
+          "name": "option.c",
+          "label": "表单项3",
+          "description":'不受autoFill影响的表单项',
+          "value": "abc",
         }
     ]
 }

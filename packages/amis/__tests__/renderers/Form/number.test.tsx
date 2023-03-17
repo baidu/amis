@@ -8,6 +8,7 @@
  * 5. 默认值的精度
  * 6. 加强版输入框
  * 7. 边框模式：无边框 & 半边框
+ * 8. 大数模式
  */
 
 import {render, fireEvent, waitFor} from '@testing-library/react';
@@ -240,4 +241,35 @@ test('Renderer:number with borderMode', async () => {
 
   expect(noBorder).toMatchSnapshot();
   expect(halfBorder).toMatchSnapshot();
+});
+
+test('Renderer:number with big value', async () => {
+  const {container, input} = await setup({
+    big: true,
+    max: '99999999999999999.99', // 整数部分 17 位
+    min: '9999999999999999.99', // 整数部分 16 位
+    precision: 2
+  });
+
+  fireEvent.change(input, {target: {value: 1}});
+  fireEvent.blur(input);
+  await wait(300);
+  expect(input.value).toEqual('9999999999999999.99'); // 最小值
+
+  fireEvent.change(input, {target: {value: '99999999999999990.99'}});
+  fireEvent.blur(input);
+  await wait(300);
+  expect(input.value).toEqual('99999999999999990.99'); // 整数部分 17 位，最小值最大值之间
+
+  fireEvent.change(input, {target: {value: '9999999999999999.999'}}); // 整数部分 17 位，会四舍五入
+  fireEvent.blur(input);
+  await wait(300);
+  expect(input.value).toEqual('10000000000000000');
+
+  fireEvent.change(input, {target: {value: '999999999999999999.99'}}); // 整数部分 18 大于最大值
+  fireEvent.blur(input);
+  await wait(300);
+  expect(input.value).toEqual('99999999999999999.99'); // 最大值
+
+  expect(container).toMatchSnapshot();
 });

@@ -41,7 +41,7 @@ export default {
     },
     {
       title: '动画',
-      body: [animation(null, false)]
+      body: [animation(undefined, false)]
     },
     {
       title: '文字样式',

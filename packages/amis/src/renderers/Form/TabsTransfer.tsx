@@ -1,7 +1,7 @@
-import {OptionsControlProps, OptionsControl} from 'amis-core';
+import {OptionsControlProps, OptionsControl, resolveEventData} from 'amis-core';
 import React from 'react';
 import find from 'lodash/find';
-import {Spinner} from 'amis-ui';
+import {Spinner, SpinnerExtraProps} from 'amis-ui';
 import {BaseTransferRenderer, TransferControlSchema} from './Transfer';
 import {TabsTransfer} from 'amis-ui';
 import {Option, optionValueCompare} from 'amis-core';
@@ -14,16 +14,18 @@ import {
   getTree,
   spliceTree
 } from 'amis-core';
-import {Selection as BaseSelection} from 'amis-ui';
-import {ActionObject} from 'amis-core';
+import {BaseSelection} from 'amis-ui/lib/components/Selection';
+import {ActionObject, toNumber} from 'amis-core';
 import type {ItemRenderStates} from 'amis-ui/lib/components/Selection';
+import {supportStatic} from './StaticHoc';
 
 /**
  * TabsTransfer
  * 文档：https://baidu.gitee.io/amis/docs/components/form/tabs-transfer
  */
 export interface TabsTransferControlSchema
-  extends Omit<TransferControlSchema, 'type'> {
+  extends Omit<TransferControlSchema, 'type'>,
+    SpinnerExtraProps {
   type: 'tabs-transfer';
 }
 
@@ -36,7 +38,8 @@ export interface TabsTransferProps
       | 'inputClassName'
       | 'className'
       | 'descriptionClassName'
-    > {}
+    >,
+    SpinnerExtraProps {}
 
 interface BaseTransferState {
   activeKey: number;
@@ -213,10 +216,18 @@ export class BaseTabsTransferRenderer<
       setOptions(newOptions, true);
 
     // 触发渲染器事件
-    const rendererEvent = await dispatchEvent('change', {
-      value: newValue,
-      options
-    });
+    const rendererEvent = await dispatchEvent(
+      'change',
+      resolveEventData(
+        this.props,
+        {
+          value: newValue,
+          options,
+          items: options // 为了保持名字统一
+        },
+        'value'
+      )
+    );
     if (rendererEvent?.prevented) {
       return;
     }
@@ -229,6 +240,10 @@ export class BaseTabsTransferRenderer<
   type: 'tabs-transfer'
 })
 export class TabsTransferRenderer extends BaseTabsTransferRenderer<TabsTransferProps> {
+  static defaultProps = {
+    multiple: true
+  };
+
   @autobind
   optionItemRender(option: any, states: ItemRenderStates) {
     const {menuTpl, render, data} = this.props;
@@ -268,9 +283,11 @@ export class TabsTransferRenderer extends BaseTabsTransferRenderer<TabsTransferP
     }
   }
 
+  @supportStatic()
   render() {
     const {
       className,
+      style,
       classnames: cx,
       options,
       selectedOptions,
@@ -282,12 +299,17 @@ export class TabsTransferRenderer extends BaseTabsTransferRenderer<TabsTransferP
       leftDeferLoad,
       disabled,
       selectTitle,
-      resultTitle
+      resultTitle,
+      itemHeight,
+      virtualThreshold,
+      onlyChildren,
+      loadingConfig
     } = this.props;
 
     return (
       <div className={cx('TabsTransferControl', className)}>
         <TabsTransfer
+          onlyChildren={onlyChildren}
           activeKey={this.state.activeKey}
           value={selectedOptions}
           disabled={disabled}
@@ -305,9 +327,18 @@ export class TabsTransferRenderer extends BaseTabsTransferRenderer<TabsTransferP
           optionItemRender={this.optionItemRender}
           resultItemRender={this.resultItemRender}
           onTabChange={this.onTabChange}
+          itemHeight={
+            toNumber(itemHeight) > 0 ? toNumber(itemHeight) : undefined
+          }
+          virtualThreshold={virtualThreshold}
         />
 
-        <Spinner overlay key="info" show={loading} />
+        <Spinner
+          overlay
+          key="info"
+          show={loading}
+          loadingConfig={loadingConfig}
+        />
       </div>
     );
   }

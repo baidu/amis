@@ -25,8 +25,10 @@
 
 .#{$ns}Form-static {
   min-height: var(--Form-input-height);
-  padding-top: var(--Form-label-paddingTop);
-  padding-bottom: var(--Form-label-paddingTop);
+  &:not(.is-noPaddingY-static) {
+    padding-top: var(--Form-label-paddingTop);
+    padding-bottom: var(--Form-label-paddingTop);
+  }
   margin-bottom: 0;
   word-break: break-word;
 
@@ -50,8 +52,9 @@
 }
 
 .#{$ns}Form-label {
-  font-weight: var(--fontWeightNormal);
-  margin-bottom: var(--gap-sm);
+  font-weight: var(--Form-item-fontWeight);
+  line-height: var(--Form-item-lineHeight);
+  margin-bottom: var(--Form-mode-default-labelGap);
   position: relative;
   font-size: var(--Form-item-fontSize);
   color: var(--Form-item-fontColor);
@@ -62,23 +65,27 @@
 }
 
 .#{$ns}Form-star {
-  color: var(--danger);
-  font-size: var(--fontSizeXs);
+  color: var(--Form-item-star-color);
+  font-size: var(--Form-item-star-size);
   line-height: 1;
 }
 
 .#{$ns}Form-feedback {
-  color: var(--danger);
-  margin: var(--Form-input-marginBottom) 0 0;
-  padding-left: var(--gap-base);
-  font-size: var(--fontSizeSm);
-  position: var(--Form-feedback-position);
+  color: var(--Form-feedBack-color);
+  list-style-type: none;
+  margin: 0;
+  margin-top: var(--Form-feedBack-gap);
+  padding: 0;
+  font-size: var(--Form-feedBack-fontSize);
 }
 
 .#{$ns}Form-description {
   display: block;
+  word-break: break-word;
   color: var(--Form-description-color);
-  margin: var(--Form-input-marginBottom) 0 0;
+  font-weight: var(--Form-description-fontWeight);
+  line-height: var(--Form-description-lineHeight);
+  margin-top: var(--Form-description-gap);
   font-size: var(--Form-description-fontSize);
 }
 
@@ -116,8 +123,7 @@
   }
 
   &--inline {
-    margin-bottom: calc(var(--Form-item-gap) / 2);
-    margin-right: calc(var(--Form-item-gap) / 2);
+    margin-right: var(--Form-mode-inline-item-gap);
   }
 
   &--horizontal {
@@ -150,7 +156,7 @@
   &--normal {
     > .#{$ns}Form-label {
       display: block;
-
+      width: var(--Form-mode-default-width);
       .#{$ns}Form-star {
         position: absolute;
         left: px2rem(-6px);
@@ -160,7 +166,7 @@
   }
 
   &.is-error > .#{$ns}Form-label {
-    color: var(--danger);
+    color: var(--Form-item-onError-color);
   }
 
   .#{$ns}Form-control--withSize {
@@ -237,19 +243,12 @@
     &--horizontal {
       display: flex;
       flex-wrap: nowrap;
-      margin-left: calc(var(--Form--horizontal-gutterWidth) / 2 * -1);
-      margin-right: calc(var(--Form--horizontal-gutterWidth) / 2 * -1);
-
-      > * {
-        padding-left: calc(var(--Form--horizontal-gutterWidth) / 2);
-        padding-right: calc(var(--Form--horizontal-gutterWidth) / 2);
-      }
 
       > .#{$ns}Form-value {
         flex-basis: 0;
         flex-grow: 1;
-        max-width: 100%;
-        min-width: 0;
+        max-width: var(--Form--horizontal-value-maxWidth);
+        min-width: var(--Form--horizontal-value-minWidth);
       }
 
       .#{$ns}Form-itemColumn--xs,
@@ -263,8 +262,9 @@
       }
 
       > .#{$ns}Form-label {
-        padding-top: var(--Form-label-paddingTop);
-        margin-bottom: 0;
+        line-height: px2rem(32px);
+        margin: 0;
+        margin-right: var(--Form--horizontal-label-gap);
         flex-shrink: 0;
 
         .#{$ns}Form-star {
@@ -318,9 +318,10 @@
       vertical-align: top;
 
       > .#{$ns}Form-label {
-        padding-top: var(--Form-label-paddingTop);
-        margin-bottom: 0;
-        margin-right: calc(var(--Form-item-gap) / 2);
+        height: px2rem(32px);
+        line-height: px2rem(32px);
+        margin: 0;
+        margin-right: var(--Form-mode-inline-label-gap);
 
         .#{$ns}Form-star {
           position: absolute;
@@ -403,9 +404,9 @@
   position: relative;
 }
 
-.#{$ns}Form--quickEdit {
-  min-width: var(--Form-control-widthSm);
-}
+// .#{$ns}Form--quickEdit {
+//   min-width: var(--Form-control-widthSm);
+// }
 
 .#{$ns}Form--column {
   display: flex;
@@ -526,6 +527,9 @@
         &.is-disabled > .#{$ns}TextControl-input {
           background: transparent;
         }
+      }
+      .#{$ns}SelectControl.#{$ns}Form-control {
+        overflow: hidden;
       }
 
       .#{$ns}Form-hint,

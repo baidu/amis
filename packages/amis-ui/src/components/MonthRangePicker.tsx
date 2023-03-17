@@ -479,7 +479,6 @@ export class MonthRangePicker extends React.Component<
     return (
       <div className={`${ns}DateRangePicker-wrap`}>
         {this.renderRanges(ranges)}
-        <div className={cx(`${ns}DateRangePicker-picker-wrap`)}>
         <Calendar
           className={`${ns}DateRangePicker-start`}
           value={startDate}
@@ -516,17 +515,29 @@ export class MonthRangePicker extends React.Component<
           renderMonth={this.renderMonth}
           locale={locale}
         />
-        </div>
 
         {embed ? null : (
           <div key="button" className={cx('DateRangePicker-actions')}>
-            <a className={cx('Button', 'Button--default')} onClick={this.close}>
+            <a
+              className={cx(
+                'Button',
+                'Button--default',
+                'Button--size-default'
+              )}
+              onClick={this.close}
+            >
               {__('cancel')}
             </a>
             <a
-              className={cx('Button', 'Button--primary', 'm-l-sm', {
-                'is-disabled': !this.state.startDate || !this.state.endDate
-              })}
+              className={cx(
+                'Button',
+                'Button--primary',
+                'Button--size-default',
+                'm-l-sm',
+                {
+                  'is-disabled': !this.state.startDate || !this.state.endDate
+                }
+              )}
               onClick={this.confirm}
             >
               {__('confirm')}

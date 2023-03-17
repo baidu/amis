@@ -129,6 +129,19 @@ export function buildApi(
     );
   };
 
+  // 是否过滤空字符串 query
+  const queryStringify = (query: any) =>
+    qsstringify(
+      query,
+      (api as ApiObject)?.filterEmptyQuery
+        ? {
+            filter: (key: string, value: any) => {
+              return value === '' ? undefined : value;
+            }
+          }
+        : undefined
+    );
+
   if (~idx) {
     const hashIdx = url.indexOf('#');
     const params = qsparse(
@@ -146,10 +159,13 @@ export function buildApi(
     });
 
     const left = replaceExpression(url.substring(0, idx), 'raw', '');
+
+    // 追加
+    Object.assign(params, api.query);
     api.url =
       left +
       (~left.indexOf('?') ? '&' : '?') +
-      qsstringify(
+      queryStringify(
         (api.query = dataMapping(params, data, undefined, api.convertKeyToPath))
       ) +
       (~hashIdx && hashIdx > idx
@@ -175,7 +191,12 @@ export function buildApi(
     api.method === 'put' ||
     api.method === 'patch'
   ) {
-    api.body = api.data = cloneObject(data);
+    api.body = api.data = data;
+  }
+
+  // 给 query 做数据映射
+  if (api.query) {
+    api.query = dataMapping(api.query, data, undefined, api.convertKeyToPath);
   }
 
   // get 类请求，把 data 附带到 url 上。
@@ -184,7 +205,11 @@ export function buildApi(
       !api.data &&
       ((!~raw.indexOf('$') && autoAppend) || api.forceAppendDataToQuery)
     ) {
-      api.query = api.data = data;
+      api.data = data;
+      api.query = {
+        ...api.query,
+        ...data
+      };
     } else if (
       api.attachDataToQuery === false &&
       api.data &&
@@ -194,12 +219,16 @@ export function buildApi(
       if (~idx) {
         let params = (api.query = {
           ...qsparse(api.url.substring(idx + 1)),
+          ...api.query,
           ...data
         });
-        api.url = api.url.substring(0, idx) + '?' + qsstringify(params);
+        api.url = api.url.substring(0, idx) + '?' + queryStringify(params);
       } else {
-        api.query = data;
-        api.url += '?' + qsstringify(data);
+        api.query = {...api.query, ...data};
+        const query = queryStringify(data);
+        if (query) {
+          api.url = `${api.url}?${query}`;
+        }
       }
     }
 
@@ -208,14 +237,34 @@ export function buildApi(
       if (~idx) {
         let params = (api.query = {
           ...qsparse(api.url.substring(idx + 1)),
+          ...api.query,
           ...api.data
         });
-        api.url = api.url.substring(0, idx) + '?' + qsstringify(params);
+        api.url = api.url.substring(0, idx) + '?' + queryStringify(params);
       } else {
-        api.query = api.data;
-        api.url += '?' + qsstringify(api.data);
+        api.query = {...api.query, ...api.data};
+        const query = queryStringify(api.query);
+        if (query) {
+          api.url = `${api.url}?${query}`;
+        }
       }
       delete api.data;
+    }
+  }
+  // 非 get 类请求也可以携带参数到 url，只要 query 有值
+  else if (api.method) {
+    const idx = api.url.indexOf('?');
+    if (~idx) {
+      let params = (api.query = {
+        ...qsparse(api.url.substring(idx + 1)),
+        ...api.query
+      });
+      api.url = api.url.substring(0, idx) + '?' + queryStringify(params);
+    } else {
+      const query = queryStringify(api.query);
+      if (query) {
+        api.url = `${api.url}?${query}`;
+      }
     }
   }
 
@@ -233,6 +282,19 @@ export function buildApi(
         variables: cloneObject(api.data)
       };
     }
+  } else if (api.jsonql) {
+    api.method = 'post';
+    api.jsonql = dataMapping(
+      api.jsonql,
+      {
+        ...api.query,
+        ...data
+      },
+      undefined,
+      false,
+      true
+    );
+    api.body = api.data = api.jsonql;
   }
 
   return api;
@@ -381,8 +443,13 @@ export function responseAdaptor(ret: fetcherResult, api: ApiObject) {
 export function wrapFetcher(
   fn: (config: fetcherConfig) => Promise<fetcherResult>,
   tracker?: (eventTrack: EventTrack, data: any) => void
-): (api: Api, data: object, options?: object) => Promise<Payload | void> {
-  return function (api, data, options) {
+) {
+  // 避免重复处理
+  if ((fn as any)._wrappedFetcher) {
+    return fn as any;
+  }
+
+  const wrappedFetcher = function (api: Api, data: object, options?: object) {
     api = buildApi(api, data, options) as ApiObject;
 
     if (api.requestAdaptor) {
@@ -454,6 +521,10 @@ export function wrapFetcher(
     }
     return wrapAdaptor(fn(api), api);
   };
+
+  (wrappedFetcher as any)._wrappedFetcher = true;
+
+  return wrappedFetcher;
 }
 
 export function wrapAdaptor(promise: Promise<fetcherResult>, api: ApiObject) {
@@ -602,8 +673,6 @@ export function isApiOutdated(
 ): nextApi is Api {
   if (!nextApi) {
     return false;
-  } else if (!prevApi) {
-    return true;
   }
 
   nextApi = normalizeApi(nextApi);
@@ -613,22 +682,30 @@ export function isApiOutdated(
   }
 
   const trackExpression = nextApi.trackExpression ?? nextApi.url;
-
   if (typeof trackExpression !== 'string' || !~trackExpression.indexOf('$')) {
     return false;
   }
-  prevApi = normalizeApi(prevApi);
 
   let isModified = false;
 
-  if (nextApi.trackExpression || prevApi.trackExpression) {
-    isModified =
-      tokenize(prevApi.trackExpression || '', prevData) !==
-      tokenize(nextApi.trackExpression || '', nextData);
+  if (prevApi) {
+    prevApi = normalizeApi(prevApi);
+
+    if (nextApi.trackExpression || prevApi.trackExpression) {
+      isModified =
+        tokenize(prevApi.trackExpression || '', prevData) !==
+        tokenize(nextApi.trackExpression || '', nextData);
+    } else {
+      prevApi = buildApi(prevApi as Api, prevData as object, {
+        ignoreData: true
+      });
+      nextApi = buildApi(nextApi as Api, nextData as object, {
+        ignoreData: true
+      });
+      isModified = prevApi.url !== nextApi.url;
+    }
   } else {
-    prevApi = buildApi(prevApi as Api, prevData as object, {ignoreData: true});
-    nextApi = buildApi(nextApi as Api, nextData as object, {ignoreData: true});
-    isModified = prevApi.url !== nextApi.url;
+    isModified = true;
   }
 
   return !!(

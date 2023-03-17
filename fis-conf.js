@@ -12,7 +12,8 @@ fis.set('project.ignore', [
   'scripts/**',
   'npm/**',
   'gh-pages/**',
-  '.*/**'
+  '.*/**',
+  'node_modules/**'
 ]);
 // 配置只编译哪些文件。
 
@@ -136,7 +137,7 @@ fis.match('monaco-editor/min/**.js', {
   ignoreDependencies: true
 });
 
-fis.match('/docs/**.md', {
+fis.match('{/docs,/packages/amis-ui/scss/helper}/**.md', {
   rExt: 'js',
   ignoreDependencies: true,
   parser: [
@@ -222,7 +223,7 @@ fis.match('*.html:jsx', {
 
 // 这些用了 esm
 fis.match(
-  '{echarts/extension/**.js,zrender/**.js,ansi-to-react/lib/index.js,markdown-it-html5-media/**.js}',
+  '{echarts/extension/**.js,zrender/**.js,markdown-it-html5-media/**.js,react-hook-form/**.js,qrcode.react/**.js,axios/**.js}',
   {
     parser: fis.plugin('typescript', {
       sourceMap: false,
@@ -287,8 +288,18 @@ if (fis.project.currentMedia() === 'dev') {
         }
       }
     });
+  fis.on('compile:end', function (file) {
+    if (file.subpath === '/packages/amis-core/src/index.tsx') {
+      file.setContent(
+        file
+          .getContent()
+          .replace(/__buildVersion/g, JSON.stringify(package.version))
+      );
+    }
+  });
 }
 
+fis.unhook('components');
 fis.hook('node_modules', {
   shimProcess: false,
   shimGlobal: false,
@@ -362,6 +373,12 @@ if (fis.project.currentMedia() === 'publish-sdk') {
       file.subpath === '/examples/loader.ts'
     ) {
       file.setContent(file.getContent().replace(/@version/g, package.version));
+    } else if (file.subpath === '/packages/amis-core/src/index.tsx') {
+      file.setContent(
+        file
+          .getContent()
+          .replace(/__buildVersion/g, JSON.stringify(package.version))
+      );
     }
   });
 
@@ -624,7 +641,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
     rExt: '.css'
   });
 
-  ghPages.match('/docs/**.md', {
+  ghPages.match('{/docs,/packages/amis-ui/scss/helper}/**.md', {
     rExt: 'js',
     isMod: true,
     useHash: true,

@@ -1,8 +1,12 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
+import {
+  FormItem,
+  FormControlProps,
+  prettyBytes,
+  resolveEventData
+} from 'amis-core';
 import find from 'lodash/find';
 import isPlainObject from 'lodash/isPlainObject';
-import ImageControl from './InputImage';
 import {Payload, ApiObject, ApiString, ActionObject} from 'amis-core';
 import {qsstringify, createObject, guid, isEmpty} from 'amis-core';
 import {
@@ -21,8 +25,7 @@ import {
   FormBaseControlSchema,
   SchemaApi,
   SchemaClassName,
-  SchemaTokenizeableString,
-  SchemaUrlPath
+  SchemaTokenizeableString
 } from '../../Schema';
 import merge from 'lodash/merge';
 import omit from 'lodash/omit';
@@ -515,8 +518,8 @@ export default class FileControl extends React.Component<FileProps, FileState> {
         // this.props.env.alert(
         //   __('File.maxSize', {
         //     filename: file[nameField as keyof typeof file] || file.name,
-        //     actualSize: ImageControl.formatFileSize(file.size),
-        //     maxSize: ImageControl.formatFileSize(maxSize)
+        //     actualSize: prettyBytes(file.size),
+        //     maxSize: prettyBytes(maxSize)
         //   })
         // );
         file.state = 'invalid';
@@ -846,9 +849,10 @@ export default class FileControl extends React.Component<FileProps, FileState> {
           (ret.data as any).value || (ret.data as any).url || ret.data;
 
         const dispatcher = await this.dispatchEvent('success', {
-          ...file,
-          value,
-          state: 'uploaded'
+          ...file, // 保留历史结构
+          item: file,
+          result: ret.data,
+          value
         });
         if (dispatcher?.prevented) {
           return;
@@ -861,7 +865,10 @@ export default class FileControl extends React.Component<FileProps, FileState> {
         });
       })
       .catch(async error => {
-        const dispatcher = await this.dispatchEvent('fail', {file, error});
+        const dispatcher = await this.dispatchEvent('fail', {
+          item: file,
+          error
+        });
         if (dispatcher?.prevented) {
           return;
         }
@@ -873,7 +880,10 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     const files = this.state.files.concat();
     const removeFile = files[index];
     // 触发移出文件事件
-    const dispatcher = await this.dispatchEvent('remove', removeFile);
+    const dispatcher = await this.dispatchEvent('remove', {
+      ...removeFile, // 保留历史结构
+      item: removeFile
+    });
     if (dispatcher?.prevented) {
       return;
     }
@@ -1281,21 +1291,27 @@ export default class FileControl extends React.Component<FileProps, FileState> {
   }
 
   async dispatchEvent(e: string, data?: Record<string, any>) {
-    const {dispatchEvent} = this.props;
+    const {dispatchEvent, multiple} = this.props;
     const getEventData = (item: Record<string, any>) => ({
       name: item.path || item.name,
       value: item.value,
       state: item.state,
       error: item.error
     });
-    const value = data
+    const value: any = data
       ? getEventData(data)
       : this.state.files.map(item => getEventData(item));
+
     return dispatchEvent(
       e,
-      createObject(this.props.data, {
-        file: value
-      })
+      resolveEventData(
+        this.props,
+        {
+          ...data,
+          file: multiple ? value : value?.[0]
+        },
+        'file'
+      )
     );
   }
 
@@ -1322,6 +1338,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       descriptionClassName,
       hideUploadButton,
       className,
+      style,
       btnClassName,
       btnUploadClassName,
       classnames: cx,
@@ -1331,7 +1348,9 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       templateUrl,
       drag,
       documentation,
-      documentLink
+      documentLink,
+      env,
+      container
     } = this.props;
     let {files, uploading, error} = this.state;
     const nameField = this.props.nameField || 'name';
@@ -1409,7 +1428,9 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                   </div>
                   {maxSize ? (
                     <div className={cx('FileControl-sizeTip')}>
-                      {__('File.sizeLimit', {maxSize})}
+                      {__('File.sizeLimit', {
+                        maxSize: prettyBytes(maxSize, 1024)
+                      })}
                     </div>
                   ) : null}
                 </div>
@@ -1456,7 +1477,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
 
         {maxSize && !drag ? (
           <div className={cx('FileControl-sizeTip')}>
-            {__('File.sizeLimit', {maxSize})}
+            {__('File.sizeLimit', {maxSize: prettyBytes(maxSize, 1024)})}
           </div>
         ) : null}
 
@@ -1471,6 +1492,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                 <li key={file.id}>
                   <TooltipWrapper
                     placement="bottom"
+                    container={container || env?.getModalContainer}
                     tooltipClassName={cx('FileControl-list-tooltip')}
                     tooltip={
                       file.state === 'invalid' || file.state === 'error'
@@ -1478,10 +1500,8 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                           (maxSize && file.size > maxSize
                             ? __('File.maxSize', {
                                 filename: file.name,
-                                actualSize: ImageControl.formatFileSize(
-                                  file.size
-                                ),
-                                maxSize: ImageControl.formatFileSize(maxSize)
+                                actualSize: prettyBytes(file.size, 1024),
+                                maxSize: prettyBytes(maxSize, 1024)
                               })
                             : '')
                         : ''

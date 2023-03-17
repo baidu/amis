@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`lexer:filter 1`] = `
-Array [
+[
   "<Raw> $abc is ",
   "<OpenScript> \${",
   "<Identifier> abc",
@@ -18,8 +18,29 @@ Array [
 ]
 `;
 
+exports[`lexer:filter 2`] = `
+[
+  "<Raw> $abc is ",
+  "<OpenScript> \${",
+  "<Identifier> abc",
+  "<OpenFilter> |",
+  "<Char>  ",
+  "<Identifier> isTrue",
+  "<Char>  ",
+  "<Punctuator> :",
+  "<Char>  ",
+  "<Identifier> trueValue",
+  "<Char>  ",
+  "<Punctuator> :",
+  "<Char>  ",
+  "<Identifier> falseValue",
+  "<CloseScript> }",
+  "<EOF> undefined",
+]
+`;
+
 exports[`lexer:simple 1`] = `
-Array [
+[
   "<Raw> expression result is ",
   "<OpenScript> \${",
   "<Identifier> a",

@@ -1,5 +1,6 @@
+import omit from 'lodash/omit';
 import {RendererProps} from '../factory';
-import {createObject, extendObject} from '../utils/helper';
+import {createObject} from '../utils/helper';
 import {RendererEvent} from '../utils/renderer-event';
 import {evalExpression} from '../utils/tpl';
 import {dataMapping} from '../utils/tpl-builtin';
@@ -20,8 +21,10 @@ export enum LoopStatus {
 export interface ListenerAction {
   actionType: string; // 动作类型 逻辑动作|自定义（脚本支撑）|reload|url|ajax|dialog|drawer 其他扩充的组件动作
   description?: string; // 事件描述，actionType: broadcast
-  componentId?: string; // 组件ID，用于直接执行指定组件的动作
-  args?: Record<string, any>; // 参数，可以配置数据映射
+  componentId?: string; // 组件ID，用于直接执行指定组件的动作，指定多个组件时使用英文逗号分隔
+  args?: Record<string, any>; // 动作配置，可以配置数据映射
+  data?: Record<string, any> | null; // 动作数据参数，可以配置数据映射
+  dataMergeMode?: 'merge' | 'override'; // 参数模式，合并或者覆盖
   outputVar?: string; // 输出数据变量名
   preventDefault?: boolean; // 阻止原有组件的动作行为
   stopPropagation?: boolean; // 阻止后续的事件处理器执行
@@ -69,6 +72,70 @@ export const getActionByType = (type: string) => {
   return ActionTypeMap[type];
 };
 
+// 根据动作类型获取属性排除列表
+const getOmitActionProp = (type: string) => {
+  let omitList: string[] = [];
+  switch (type) {
+    case 'toast':
+      omitList = [
+        'msgType',
+        'msg',
+        'position',
+        'closeButton',
+        'showIcon',
+        'timeout',
+        'title'
+      ];
+      break;
+    case 'alert':
+      omitList = ['msg'];
+      break;
+    case 'confirm':
+      omitList = ['msg', 'title'];
+      break;
+    case 'ajax':
+      omitList = ['api', 'messages', 'options'];
+      break;
+    case 'setValue':
+      omitList = ['value', 'index'];
+      break;
+    case 'copy':
+      omitList = ['content', 'copyFormat'];
+      break;
+    case 'email':
+      omitList = ['to', 'cc', 'bcc', 'subject', 'body'];
+      break;
+    case 'link':
+      omitList = ['link', 'blank', 'params'];
+      break;
+    case 'url':
+      omitList = ['url', 'blank', 'params'];
+      break;
+    case 'for':
+      omitList = ['loopName'];
+      break;
+    case 'goPage':
+      omitList = ['delta'];
+      break;
+    case 'custom':
+      omitList = ['script'];
+      break;
+    case 'broadcast':
+      omitList = ['eventName'];
+      break;
+    case 'dialog':
+      omitList = ['dialog'];
+      break;
+    case 'drawer':
+      omitList = ['drawer'];
+      break;
+    case 'reload':
+      omitList = ['resetPage'];
+      break;
+  }
+  return omitList;
+};
+
 export const runActions = async (
   actions: ListenerAction | ListenerAction[],
   renderer: ListenerContext,
@@ -100,7 +167,6 @@ export const runActions = async (
 
     // 这些节点的子节点运行逻辑由节点内部实现
     await runAction(actionInstrance, actionConfig, renderer, event);
-
     if (event.stoped) {
       break;
     }
@@ -114,22 +180,31 @@ export const runAction = async (
   renderer: ListenerContext,
   event: any
 ) => {
+  // 追加数据
+  let additional: any = {
+    event
+  };
+
+  // __rendererData默认为renderer.props.data，兼容表单项值变化时的data读取
+  if (!event.data.__rendererData) {
+    additional = {
+      event,
+      __rendererData: renderer.props.data // 部分组件交互后会有更新，如果想要获取那部分数据，可以通过事件数据获取
+    };
+  }
+
   // 用户可能，需要用到事件数据和当前域的数据，因此merge事件数据和当前渲染器数据
   // 需要保持渲染器数据链完整
-  const mergeData = renderer.props.data.__super
-    ? createObject(
-        createObject(renderer.props.data.__super, {
-          event
-        }),
-        renderer.props.data
-      )
-    : createObject(
-        {
-          event
-        },
-        renderer.props.data
-      );
-
+  // 注意：并行ajax请求结果必须通过event取值
+  const mergeData = createObject(
+    createObject(
+      renderer.props.data.__super
+        ? createObject(renderer.props.data.__super, additional)
+        : additional,
+      renderer.props.data
+    ),
+    event.data
+  );
   // 兼容一下1.9.0之前的版本
   const expression = actionConfig.expression ?? actionConfig.execOn;
 
@@ -145,27 +220,57 @@ export const runAction = async (
     actionConfig.stopPropagation &&
     evalExpression(String(actionConfig.stopPropagation), mergeData);
 
-  // 修正参数，处理数据映射
-  let args = event.data;
+  // 动作配置
+  const args = dataMapping(actionConfig.args, mergeData, key =>
+    ['adaptor', 'responseAdaptor', 'requestAdaptor', 'responseData'].includes(
+      key
+    )
+  );
+  const afterMappingData = dataMapping(actionConfig.data, mergeData);
 
-  if (actionConfig.args) {
-    args = dataMapping(actionConfig.args, mergeData, key =>
-      ['adaptor', 'responseAdaptor', 'requestAdaptor'].includes(key)
-    );
-  }
+  // 动作数据
+  const actionData =
+    args && Object.keys(args).length
+      ? omit(
+          {
+            ...args, // 兼容历史（动作配置与数据混在一起的情况）
+            ...(afterMappingData ?? {})
+          },
+          getOmitActionProp(actionConfig.actionType)
+        )
+      : afterMappingData;
 
-  await actionInstrance.run(
+  // 默认为事件数据
+  const data =
+    args && !Object.keys(args).length && actionConfig.data === undefined // 兼容历史
+      ? {}
+      : actionData !== undefined
+      ? actionData
+      : event.data;
+
+  console.group?.(`run action ${actionConfig.actionType}`);
+  console.debug(`[${actionConfig.actionType}] action args, data`, args, data);
+
+  let stoped = false;
+  const actionResult = await actionInstrance.run(
     {
       ...actionConfig,
-      args
+      args,
+      data
     },
     renderer,
     event,
     mergeData
   );
+  // 二次确认弹窗如果取消，则终止后续动作
+  if (actionConfig?.actionType === 'confirmDialog' && !actionResult) {
+    stoped = true;
+  }
+  console.debug(`[${actionConfig.actionType}] action end event`, event);
+  console.groupEnd?.();
 
   // 阻止原有动作执行
   preventDefault && event.preventDefault();
   // 阻止后续动作执行
-  stopPropagation && event.stopPropagation();
+  (stopPropagation || stoped) && event.stopPropagation();
 };

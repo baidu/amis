@@ -117,6 +117,7 @@ export class Value extends React.Component<ValueProps> {
         <Select
           simpleValue
           options={field.options!}
+          placeholder={__(field.placeholder) || 'Select.placeholder'}
           source={field.source}
           autoComplete={autoComplete}
           searchable={field.searchable}
@@ -138,11 +139,14 @@ export class Value extends React.Component<ValueProps> {
       );
     } else if (field.type === 'custom') {
       input = renderEtrValue
-        ? renderEtrValue(field.value, {
-            data,
-            onChange,
-            value: value ?? field.defaultValue
-          })
+        ? renderEtrValue(
+            {...field.value, name: field.name},
+            {
+              data,
+              onChange,
+              value: value ?? field.defaultValue
+            }
+          )
         : null;
     } else {
       const res = value ?? (field as any).defaultValue;

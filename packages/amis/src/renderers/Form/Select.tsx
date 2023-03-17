@@ -4,7 +4,8 @@ import {
   OptionsControl,
   OptionsControlProps,
   Option,
-  FormOptionsControl
+  FormOptionsControl,
+  resolveEventData
 } from 'amis-core';
 import {normalizeOptions} from 'amis-core';
 import find from 'lodash/find';
@@ -14,18 +15,22 @@ import {isEffectiveApi, isApiOutdated} from 'amis-core';
 import {isEmpty, createObject, autobind, isMobile} from 'amis-core';
 
 import {FormOptionsSchema, SchemaApi} from '../../Schema';
-import {Spinner, Select} from 'amis-ui';
+import {Spinner, Select, SpinnerExtraProps} from 'amis-ui';
 import {BaseTransferRenderer, TransferControlSchema} from './Transfer';
 import {TransferDropDown} from 'amis-ui';
 
 import type {SchemaClassName} from '../../Schema';
 import type {TooltipObject} from 'amis-ui/lib/components/TooltipWrapper';
+import type {PopOverOverlay} from 'amis-ui/lib/components/PopOverContainer';
+import {supportStatic} from './StaticHoc';
 
 /**
  * Select 下拉选择框。
  * 文档：https://baidu.gitee.io/amis/docs/components/form/select
  */
-export interface SelectControlSchema extends FormOptionsSchema {
+export interface SelectControlSchema
+  extends FormOptionsSchema,
+    SpinnerExtraProps {
   type: 'select' | 'multi-select';
 
   /**
@@ -131,9 +136,23 @@ export interface SelectControlSchema extends FormOptionsSchema {
    * 选项的自定义CSS类名
    */
   optionClassName?: SchemaClassName;
+
+  /**
+   * 下拉框 Popover 设置
+   */
+  overlay?: {
+    /**
+     * 下拉框 Popover 的宽度设置，支持单位 '%'、'px'、'rem'、'em'、'vw', 支持相对写法如 '+20px'
+     */
+    width?: number | string;
+    /**
+     * 下拉框 Popover 的对齐方式
+     */
+    align?: 'left' | 'center' | 'right';
+  };
 }
 
-export interface SelectProps extends OptionsControlProps {
+export interface SelectProps extends OptionsControlProps, SpinnerExtraProps {
   autoComplete?: Api;
   searchable?: boolean;
   showInvalidMatch?: boolean;
@@ -201,11 +220,13 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     this.input && this.input.focus();
   }
 
-  getValue(value: Option | Array<Option> | string | void) {
+  getValue(
+    value: Option | Array<Option> | string | void,
+    additonalOptions: Array<any> = []
+  ) {
     const {joinValues, extractValue, delimiter, multiple, valueField, options} =
       this.props;
     let newValue: string | Option | Array<Option> | void = value;
-    let additonalOptions: Array<any> = [];
 
     (Array.isArray(value) ? value : value ? [value] : []).forEach(
       (option: any) => {
@@ -247,16 +268,24 @@ export default class SelectControl extends React.Component<SelectProps, any> {
 
   async dispatchEvent(eventName: SelectRendererEvent, eventData: any = {}) {
     const event = 'on' + eventName.charAt(0).toUpperCase() + eventName.slice(1);
-    const {dispatchEvent, options, data} = this.props;
+    const {dispatchEvent, options, data, multiple, selectedOptions} =
+      this.props;
+
     // 触发渲染器事件
     const rendererEvent = await dispatchEvent(
       eventName,
-      createObject(data, {
-        options,
-        value: ['onEdit', 'onDelete'].includes(event)
-          ? eventData
-          : eventData && eventData.value
-      })
+      resolveEventData(
+        this.props,
+        {
+          options,
+          items: options, // 为了保持名字统一
+          value: ['onEdit', 'onDelete'].includes(event)
+            ? eventData
+            : eventData && eventData.value,
+          selectedItems: multiple ? selectedOptions : selectedOptions[0]
+        },
+        'value'
+      )
     );
     if (rendererEvent?.prevented) {
       return;
@@ -268,17 +297,27 @@ export default class SelectControl extends React.Component<SelectProps, any> {
   async changeValue(value: Option | Array<Option> | string | void) {
     const {onChange, setOptions, options, data, dispatchEvent} = this.props;
 
-    let newValue: string | Option | Array<Option> | void = this.getValue(value);
     let additonalOptions: Array<any> = [];
+    let newValue: string | Option | Array<Option> | void = this.getValue(
+      value,
+      additonalOptions
+    );
+
     // 不设置没法回显
     additonalOptions.length && setOptions(options.concat(additonalOptions));
 
     const rendererEvent = await dispatchEvent(
       'change',
-      createObject(data, {
-        value: newValue,
-        options
-      })
+      resolveEventData(
+        this.props,
+        {
+          value: newValue,
+          options,
+          items: options, // 为了保持名字统一
+          selectedItems: value
+        },
+        'value'
+      )
     );
     if (rendererEvent?.prevented) {
       return;
@@ -398,6 +437,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     }
   }
 
+  @supportStatic()
   render() {
     let {
       autoComplete,
@@ -405,6 +445,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       showInvalidMatch,
       options,
       className,
+      style,
       loading,
       value,
       selectedOptions,
@@ -423,6 +464,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       selectMode,
       env,
       useMobileUI,
+      overlay,
       ...rest
     } = this.props;
 
@@ -470,13 +512,13 @@ export default class SelectControl extends React.Component<SelectProps, any> {
             loading={loading}
             noResultsText={noResultsText}
             renderMenu={menuTpl ? this.renderMenu : undefined}
+            overlay={overlay}
           />
         )}
       </div>
     );
   }
 }
-
 export interface TransferDropDownProps
   extends OptionsControlProps,
     Omit<
@@ -486,7 +528,8 @@ export interface TransferDropDownProps
       | 'inputClassName'
       | 'className'
       | 'descriptionClassName'
-    > {
+    >,
+    SpinnerExtraProps {
   borderMode?: 'full' | 'half' | 'none';
   useMobileUI?: boolean;
 }
@@ -521,7 +564,16 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
       popOverContainer,
       maxTagCount,
       overflowTagPopover,
-      placeholder
+      placeholder,
+      itemHeight,
+      virtualThreshold,
+      rightMode,
+      loadingConfig,
+      labelField,
+      showInvalidMatch,
+      checkAll,
+      checkAllLabel,
+      overlay
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载
@@ -531,7 +583,7 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
     if (
       selectMode === 'associated' &&
       options &&
-      options.length === 1 &&
+      options.length &&
       options[0].leftOptions &&
       Array.isArray(options[0].children)
     ) {
@@ -561,6 +613,7 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
           multiple={multiple}
           columns={columns}
           leftMode={leftMode}
+          rightMode={rightMode}
           leftOptions={leftOptions}
           borderMode={borderMode}
           useMobileUI={useMobileUI}
@@ -568,9 +621,22 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
           maxTagCount={maxTagCount}
           overflowTagPopover={overflowTagPopover}
           placeholder={placeholder}
+          itemHeight={itemHeight}
+          virtualThreshold={virtualThreshold}
+          virtualListHeight={266}
+          labelField={labelField}
+          showInvalidMatch={showInvalidMatch}
+          checkAllLabel={checkAllLabel}
+          checkAll={checkAll}
+          overlay={overlay}
         />
 
-        <Spinner overlay key="info" show={loading} />
+        <Spinner
+          overlay
+          key="info"
+          show={loading}
+          loadingConfig={loadingConfig}
+        />
       </>
     );
   }

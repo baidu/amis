@@ -1,5 +1,4 @@
 import {observer} from 'mobx-react';
-import {getEnv} from 'mobx-state-tree';
 import React from 'react';
 import type {RootProps} from './Root';
 import {IScopedContext, ScopedContext} from './Scoped';
@@ -34,7 +33,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
     }) as IRootStore;
 
     this.store.initData(props.data);
-    this.store.updateLocation(props.location);
+    this.store.updateLocation(props.location, this.props.env?.parseLocation);
 
     bulkBindFunctions<RootRenderer /*为毛 this 的类型自动识别不出来？*/>(this, [
       'handleAction',
@@ -153,10 +152,10 @@ export class RootRenderer extends React.Component<RootRendererProps> {
       window.open(mailto);
     } else if (action.actionType === 'dialog') {
       store.setCurrentAction(action);
-      store.openDialog(ctx);
+      store.openDialog(ctx, undefined, undefined, delegate);
     } else if (action.actionType === 'drawer') {
       store.setCurrentAction(action);
-      store.openDrawer(ctx);
+      store.openDrawer(ctx, undefined, undefined, delegate);
     } else if (action.actionType === 'toast') {
       action.toast?.items?.forEach((item: any) => {
         env.notify(
@@ -202,7 +201,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
           action.reload &&
             this.reloadTarget(
               delegate || this.context,
-              action.reload,
+              filter(action.reload, ctx),
               store.data
             );
         })
@@ -225,7 +224,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
       const api = normalizeApi((action as any).api);
       if (typeof api.url === 'string') {
         let fileName = action.fileName || 'data.txt';
-        if (api.url.indexOf('.') !== -1) {
+        if (!action.fileName && api.url.indexOf('.') !== -1) {
           fileName = api.url.split('/').pop();
         }
         saveAs(api.url, fileName);
@@ -253,7 +252,15 @@ export class RootRenderer extends React.Component<RootRendererProps> {
       return;
     }
 
+    const dialogAction = store.action as ActionObject;
+    const reload = action.reload ?? dialogAction.reload;
+    const scoped = store.getDialogScoped() || this.context;
+
     store.closeDialog(true);
+
+    if (reload) {
+      scoped.reload(reload, store.data);
+    }
   }
 
   handleDialogClose(confirmed = false) {
@@ -281,7 +288,18 @@ export class RootRenderer extends React.Component<RootRendererProps> {
       return;
     }
 
+    const drawerAction = store.action as ActionObject;
+    const reload = action.reload ?? drawerAction.reload;
+    const scoped = store.getDrawerScoped() || (this.context as IScopedContext);
+
     store.closeDrawer();
+
+    // 稍等会，等动画结束。
+    setTimeout(() => {
+      if (reload) {
+        scoped.reload(reload, store.data);
+      }
+    }, 300);
   }
 
   handleDrawerClose() {

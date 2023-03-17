@@ -5,16 +5,20 @@
  */
 
 import React from 'react';
-import {uncontrollable} from 'amis-core';
-import Checkbox from './Checkbox';
-import chunk from 'lodash/chunk';
-import {ClassNamesFn, themeable, ThemeProps} from 'amis-core';
-import {Option, value2array, Options} from './Select';
-import find from 'lodash/find';
-import {autobind, findTree} from 'amis-core';
 import isEqual from 'lodash/isEqual';
-import {LocaleProps, localeable} from 'amis-core';
-// import isPlainObject from 'lodash/isPlainObject';
+import cx from 'classnames';
+import {
+  uncontrollable,
+  LocaleProps,
+  localeable,
+  themeable,
+  ThemeProps,
+  autobind,
+  findTree,
+  flattenTree
+} from 'amis-core';
+import Checkbox from './Checkbox';
+import {Option, Options} from './Select';
 
 export interface BaseSelectionProps extends ThemeProps, LocaleProps {
   options: Options;
@@ -23,6 +27,7 @@ export interface BaseSelectionProps extends ThemeProps, LocaleProps {
   value?: any | Array<any>;
   multiple?: boolean;
   clearable?: boolean;
+  labelField?: string;
   onChange?: (value: Array<any> | any) => void;
   onDeferLoad?: (option: Option) => void;
   onLeftDeferLoad?: (option: Option, leftOptions: Option) => void;
@@ -30,14 +35,20 @@ export interface BaseSelectionProps extends ThemeProps, LocaleProps {
   labelClassName?: string;
   option2value?: (option: Option) => any;
   itemClassName?: string;
+  itemHeight?: number; // 每个选项的高度，主要用于虚拟渲染
+  virtualThreshold?: number; // 数据量多大的时候开启虚拟渲染
+  virtualListHeight?: number; // 虚拟渲染时，列表高度
   itemRender: (option: Option, states: ItemRenderStates) => JSX.Element;
   disabled?: boolean;
   onClick?: (e: React.MouseEvent) => void;
   placeholderRender?: (props: any) => JSX.Element | null;
+  checkAll?: boolean;
+  checkAllLabel?: string;
 }
 
 export interface ItemRenderStates {
   index: number;
+  labelField?: string;
   multiple?: boolean;
   checked: boolean;
   onChange: () => void;
@@ -49,14 +60,21 @@ export class BaseSelection<
   S = any
 > extends React.Component<T, S> {
   static itemRender(option: Option, states: ItemRenderStates) {
-    return <span>{option.label}</span>;
+    return (
+      <span className={cx({'is-invalid': option?.__unmatched})}>
+        {option[states?.labelField || 'label']}
+        {option.tip || ''}
+      </span>
+    );
   }
 
   static defaultProps = {
     placeholder: 'placeholder.noOption',
-    itemRender: BaseSelection.itemRender,
+    itemRender: this.itemRender,
     multiple: true,
-    clearable: false
+    clearable: false,
+    virtualThreshold: 1000,
+    itemHeight: 32
   };
 
   static value2array(
@@ -138,13 +156,22 @@ export class BaseSelection<
     onChange && onChange(multiple ? newValue : newValue[0]);
   }
 
+  getAvailableOptions() {
+    const {options} = this.props;
+    const flattendOptions = flattenTree(options, item =>
+      item.children ? null : item
+    ).filter(a => a && !a.disabled);
+
+    return flattendOptions as Option[];
+  }
+
   @autobind
   toggleAll() {
     const {value, onChange, option2value, options} = this.props;
 
     let valueArray: Array<Option> = [];
 
-    const availableOptions = options.filter(option => !option.disabled);
+    const availableOptions = this.getAvailableOptions();
     const intersectOptions = this.intersectArray(value, availableOptions);
 
     if (!Array.isArray(value)) {
@@ -178,6 +205,7 @@ export class BaseSelection<
       itemClassName,
       itemRender,
       multiple,
+      labelField,
       onClick
     } = this.props;
 
@@ -203,6 +231,7 @@ export class BaseSelection<
             multiple: multiple,
             checked: !!~valueArray.indexOf(option),
             onChange: () => this.toggleOption(option),
+            labelField,
             disabled: disabled || option.disabled
           })}
         </Checkbox>

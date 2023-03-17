@@ -250,6 +250,8 @@ order: 56
 
 ## 前缀和后缀
 
+`prefix` 和 `suffix` 属性支持数据映射。
+
 ```schema: scope="body"
 {
     "type": "form",
@@ -281,9 +283,9 @@ order: 56
 }
 ```
 
-支持数据映射
-
 ## 显示计数器
+
+配置`"showCounter": true`后输入框将显示计数器，一般会配合`maxLength`属性以限制输入长度，如果不设置`maxLength`，则仅展示计数器，并不会限制用户的输入长度。
 
 ```schema: scope="body"
 {
@@ -294,14 +296,33 @@ order: 56
             "type": "input-text",
             "label": "A",
             "showCounter": true,
-            "placeholder": "请输入"
+            "placeholder": "请输入",
+            "showCounter": true,
+            "options": [
+                {
+                    "label": "aa",
+                    "value": "aa"
+                },
+                {
+                    "label": "bb",
+                    "value": "bb"
+                },
+                {
+                    "label": "cc",
+                    "value": "cc"
+                },
+                {
+                    "label": "dd",
+                    "value": "dd"
+                }
+            ]
         },
         {
             "name": "b",
             "type": "input-text",
             "label": "B",
             "showCounter": true,
-            "maxLength": 100,
+            "maxLength": 20,
             "placeholder": "请输入"
         }
     ]
@@ -343,6 +364,28 @@ order: 56
 }
 ```
 
+## 文本内容为空时去掉这个值
+
+> 2.4.0 及以上版本
+
+如果设置了 `"clearValueOnEmpty": true`，当输入框的值清空时，提交的表单项里就不会有这个值
+
+```schema: scope="body"
+{
+  "type": "form",
+  "debug": true,
+  "body": [
+    {
+      "name": "text",
+      "type": "input-text",
+      "label": "内容为空时清理这个表单项",
+      "value": "v",
+      "clearValueOnEmpty": true
+    }
+  ]
+}
+```
+
 ## 属性表
 
 当做选择器表单项使用时，除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
@@ -364,6 +407,7 @@ order: 56
 | addOn.position        | `'left' \| 'right'`                       | `'right'` | addOn 位置                                                                                  |
 | addOn.xxx             | `string`                                  |           | 其他参数请参考按钮文档                                                                      |
 | trimContents          | `boolean`                                 |           | 是否去除首尾空白文本。                                                                      |
+| clearValueOnEmpty     | `boolean`                                 |           | 文本内容为空时去掉这个值                                                                    |
 | creatable             | `boolean`                                 |           | 是否可以创建，默认为可以，除非设置为 false 即只能选择选项中的值                             |
 | clearable             | `boolean`                                 |           | 是否可清除                                                                                  |
 | resetValue            | `string`                                  | `""`      | 清除后设置此配置项给定的值。                                                                |
@@ -379,15 +423,17 @@ order: 56
 
 ## 事件表
 
-当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`event.data.xxx`事件参数变量来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`来获取事件产生的数据（`< 2.3.2 及以下版本 为 ${event.data.[事件参数名]}`），详细请查看[事件动作](../../docs/concepts/event-action)。
 
-| 事件名称 | 事件参数                           | 说明                                           |
-| -------- | --------------------------------- | --------------------------------------------- |
-| click    | `event.data.value: string` 输入值 | 点击输入框时触发，只针对选择器模式的输入框有效     |
-| enter    | `event.data.value: string` 输入值 | 回车时触发，只针对选择器模式的输入框有效          |
-| focus    | `event.data.value: string` 输入值 | 输入框获取焦点时触发                            |
-| blur     | `event.data.value: string` 输入值 | 输入框失去焦点时触发                            |
-| change   | `event.data.value: string` 输入值 | 值变化时触发                                   |
+> `[name]`表示当前组件绑定的名称，即`name`属性，如果没有配置`name`属性，则通过`value`取值。
+
+| 事件名称 | 事件参数                  | 说明                                           |
+| -------- | ------------------------- | ---------------------------------------------- |
+| click    | `[name]: string` 组件的值 | 点击输入框时触发，只针对选择器模式的输入框有效 |
+| enter    | `[name]: string` 组件的值 | 回车时触发，只针对选择器模式的输入框有效       |
+| focus    | `[name]: string` 组件的值 | 输入框获取焦点时触发                           |
+| blur     | `[name]: string` 组件的值 | 输入框失去焦点时触发                           |
+| change   | `[name]: string` 组件的值 | 值变化时触发                                   |
 
 ## 动作表
 

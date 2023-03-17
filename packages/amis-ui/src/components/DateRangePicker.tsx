@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import moment from 'moment';
+import moment, {unitOfTime} from 'moment';
 import omit from 'lodash/omit';
 import kebabCase from 'lodash/kebabCase';
 import {findDOMNode} from 'react-dom';
@@ -21,6 +21,7 @@ import {isMobile, noop, ucFirst} from 'amis-core';
 import {LocaleProps, localeable} from 'amis-core';
 import CalendarMobile from './CalendarMobile';
 import Input from './Input';
+import Button from './Button';
 
 export interface DateRangePickerProps extends ThemeProps, LocaleProps {
   className?: string;
@@ -1178,8 +1179,11 @@ export class DateRangePicker extends React.Component<
           ? minDate
           : startDate
         : minDate || startDate;
-
-    if (minDate && currentDate.isBefore(minDate, precision)) {
+    // 在 dateTimeRange 的场景下，如果选择了开始时间的时间点不为 0，比如 2020-10-1 10:10，这时 currentDate 传入的当天值是 2020-10-1 00:00，这个值在起始时间后面，导致没法再选这一天了，所以在这时需要先通过将时间都转成 00 再比较
+    if (
+      minDate &&
+      currentDate.startOf('day').isBefore(minDate.startOf('day'), precision)
+    ) {
       return false;
     } else if (maxDate && currentDate.isAfter(maxDate, precision)) {
       return false;
@@ -1202,9 +1206,6 @@ export class DateRangePicker extends React.Component<
 
   renderDay(props: any, currentDate: moment.Moment) {
     let {startDate, endDate} = this.state;
-    // 剔除掉 DaysView 中传递的参数
-    props = omit(props, ['todayActiveStyle']);
-    props.className = props.className.replace('rdtActive', '');
 
     if (
       startDate &&
@@ -1222,11 +1223,14 @@ export class DateRangePicker extends React.Component<
       props.className += ' rdtActive rdtEndDay';
     }
 
-    const {className, ...others} = this.getDisabledElementProps(currentDate);
+    const {className, ...others} = this.getDisabledElementProps(
+      currentDate,
+      'day'
+    );
     props.className += className;
 
     return (
-      <td {...props} {...others}>
+      <td {...omit(props, ['todayActiveStyle'])} {...others}>
         <span>{currentDate.date()}</span>
       </td>
     );
@@ -1249,7 +1253,10 @@ export class DateRangePicker extends React.Component<
       props.className += ' rdtBetween';
     }
 
-    const {className, ...others} = this.getDisabledElementProps(currentDate);
+    const {className, ...others} = this.getDisabledElementProps(
+      currentDate,
+      'month'
+    );
     props.className += className;
 
     return (
@@ -1271,7 +1278,10 @@ export class DateRangePicker extends React.Component<
       props.className += ' rdtBetween';
     }
 
-    const {className, ...others} = this.getDisabledElementProps(currentDate);
+    const {className, ...others} = this.getDisabledElementProps(
+      currentDate,
+      'quarter'
+    );
     props.className += className;
 
     return (
@@ -1292,7 +1302,10 @@ export class DateRangePicker extends React.Component<
       props.className += ' rdtBetween';
     }
 
-    const {className, ...others} = this.getDisabledElementProps(currentDate);
+    const {className, ...others} = this.getDisabledElementProps(
+      currentDate,
+      'year'
+    );
     props.className += className;
 
     return (
@@ -1398,30 +1411,35 @@ export class DateRangePicker extends React.Component<
 
         {embed ? null : (
           <div key="button" className={`${ns}DateRangePicker-actions`}>
-            <a
-              className={cx('Button', 'Button--default')}
-              onClick={() => this.close()}
-            >
+            {/* this.close 这里不可以传参 */}
+            <Button size="sm" onClick={() => this.close()}>
               {__('cancel')}
-            </a>
-            <a
-              className={cx('Button', 'Button--primary', 'm-l-sm', {
-                'is-disabled': isConfirmBtnDisbaled
-              })}
+            </Button>
+            <Button
+              level="primary"
+              size="sm"
+              className={cx('m-l-sm')}
+              disabled={isConfirmBtnDisbaled}
               onClick={this.confirm}
             >
               {__('confirm')}
-            </a>
+            </Button>
           </div>
         )}
       </div>
     );
   }
 
-  getDisabledElementProps(currentDate: moment.Moment) {
+  getDisabledElementProps(
+    currentDate: moment.Moment,
+    granularity?: unitOfTime.StartOf
+  ) {
     const {endDateOpenedFirst, endDate, startDate, editState} = this.state;
-    const afterEndDate = editState === 'start' && currentDate > endDate!;
-    const beforeStartDate = editState === 'end' && currentDate < startDate!;
+    const afterEndDate =
+      editState === 'start' && currentDate.isAfter(endDate!, granularity);
+    const beforeStartDate =
+      editState === 'end' &&
+      !currentDate.isSameOrAfter(startDate!, granularity);
 
     if (afterEndDate || beforeStartDate) {
       return {
@@ -1637,10 +1655,15 @@ export class DateRangePicker extends React.Component<
           </a>
         ) : null}
 
-        <a className={`${ns}DateRangePicker-toggler`}>
+        <a className={cx(`DateRangePicker-toggler`)}>
           <Icon
             icon={viewMode === 'time' ? 'clock' : 'date'}
             className="icon"
+            iconContent={
+              viewMode === 'time'
+                ? 'DatePicker-toggler-clock'
+                : 'DatePicker-toggler-date'
+            }
           />
         </a>
 

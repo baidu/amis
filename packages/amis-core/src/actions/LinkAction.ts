@@ -46,7 +46,7 @@ export class LinkAction implements RendererAction {
       },
       {
         ...(action.args?.params ?? {}),
-        ...omit(action.args ?? {}, ['params', 'blank', 'url', 'link'])
+        ...(action.data ?? {})
       },
       {
         autoAppend: true
@@ -60,7 +60,7 @@ export class LinkAction implements RendererAction {
         type: 'button',
         ...action.args
       },
-      action.args
+      action.data ?? {}
     );
   }
 }

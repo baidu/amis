@@ -1,6 +1,7 @@
 // https://json-schema.org/draft-07/json-schema-release-notes.html
 import type {JSONSchema7} from 'json-schema';
 import {ListenerAction} from './actions/Action';
+import {debounceConfig} from './utils/renderer-event';
 
 export interface Option {
   /**
@@ -190,6 +191,14 @@ export interface BaseApiObject {
    * autoFill 是否显示自动填充错误提示
    */
   silent?: boolean;
+
+  /**
+   * 提示信息
+   */
+  messages?: {
+    success?: string;
+    failed?: string;
+  };
 }
 
 export type ClassName =
@@ -203,12 +212,15 @@ export interface ApiObject extends BaseApiObject {
     withCredentials?: boolean;
     cancelExecutor?: (cancel: Function) => void;
   };
+  jsonql?: any;
   graphql?: string;
   operationName?: string;
   body?: PlainObject;
   query?: PlainObject;
   adaptor?: (payload: object, response: fetcherResult, api: ApiObject) => any;
   requestAdaptor?: (api: ApiObject) => ApiObject;
+  /** 是否过滤为空字符串的 query 参数 */
+  filterEmptyQuery?: boolean;
 }
 export type ApiString = string;
 export type Api = ApiString | ApiObject;
@@ -259,9 +271,11 @@ export interface Schema {
   visibleOn?: string;
   hiddenOn?: string;
   disabledOn?: string;
+  staticOn?: string;
   visible?: boolean;
   hidden?: boolean;
   disabled?: boolean;
+  static?: boolean;
   children?: JSX.Element | ((props: any, schema?: any) => JSX.Element) | null;
   definitions?: Definitions;
   [propName: string]: any;
@@ -422,6 +436,7 @@ export interface EventTrack {
     | 'reset-and-submit'
     | 'formItemChange'
     | 'tabChange'
+    | 'pageLoaded'
     | 'pageHidden'
     | 'pageVisible';
 
@@ -582,6 +597,32 @@ export interface BaseSchemaWithoutType {
     [propName: string]: {
       weight?: number; // 权重
       actions: ListenerAction[]; // 执行的动作集
+      debounce?: debounceConfig;
     };
   };
+  /**
+   * 是否静态展示
+   */
+  static?: boolean;
+  /**
+   * 是否静态展示表达式
+   */
+  staticOn?: SchemaExpression;
+  /**
+   * 静态展示空值占位
+   */
+  staticPlaceholder?: string;
+  /**
+   * 静态展示表单项类名
+   */
+  staticClassName?: SchemaClassName;
+  /**
+   * 静态展示表单项Label类名
+   */
+  staticLabelClassName?: SchemaClassName;
+  /**
+   * 静态展示表单项Value类名
+   */
+  staticInputClassName?: SchemaClassName;
+  staticSchema?: any;
 }

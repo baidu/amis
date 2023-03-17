@@ -13,15 +13,13 @@
 </div>
 
 <div align="center">
-  QQ 群: 1147750223（已满） |
-  QQ 群2: 651547026 |
-  如流群：3395342（已满）|
+  如流群：3395342 |
   如流群2：5511067|
 </div>
 
 <div align="center">
 
-![build](https://img.shields.io/github/workflow/status/baidu/amis/gh-pages/master)
+![build](https://img.shields.io/github/actions/workflow/status/baidu/amis/gh-pages.yml)
 ![license](https://img.shields.io/github/license/baidu/amis.svg)
 ![version](https://img.shields.io/npm/v/amis)
 ![language](https://img.shields.io/github/languages/top/baidu/amis)
@@ -44,9 +42,6 @@
 # 安装项目 npm 依赖，在 node 12 下会有报错但不影响正常使用。
 npm i --legacy-peer-deps
 
-# 因为需要 require 一个 formula/lib/doc.md 文件，所以需要先生成一下
-npm run build --workspace amis-formula
-
 # 启动项目，等编译结束后通过 http://127.0.0.1:8888/examples/pages/simple 访问。
 npm start
 ```
@@ -62,6 +57,9 @@ npm run build
 
 # 执行测试用例
 npm test --workspaces
+
+# 测试某个用例
+npm test --workspace amis inputImage
 
 # 查看测试用例覆盖率
 npm run coverage
@@ -104,4 +102,4 @@ npm run release
 
 ## 低代码平台
 
-amis 只能实现前端低代码，如果需要完整的低代码平台推荐使用[爱速搭](https://baidu.gitee.io/aisuda-docs/)。
+amis 只能实现前端低代码，如果需要完整的低代码平台推荐使用[爱速搭](https://aisuda.bce.baidu.com/aisuda-docs/)。

@@ -2,7 +2,7 @@
   border: 1px solid var(--Form-input-borderColor);
   padding: 6px 12px;
   border-radius: 2px;
-  max-height: 300px;
+  max-height: var(--Tree-max-height);
   overflow: auto;
 
   &.h-full {
@@ -12,6 +12,25 @@
 
   &.no-border {
     border: 0;
+  }
+
+  &.is-sticky {
+    max-height: unset;
+    overflow: unset;
+  }
+
+  &-searchbox {
+    margin-top: var(--gap-sm);
+    margin-bottom: var(--gap-md);
+
+    &.is-active {
+      width: 100%;
+    }
+  }
+
+  & > .#{$ns}Tree {
+    max-height: var(--Tree-max-height);
+    overflow: auto;
   }
 }
 
@@ -63,11 +82,16 @@
     position: relative;
   }
 
-  &--outline &-sublist &-item--isLeaf {
+  &--outline &-item--isLeaf.is-child {
     &:before {
       position: absolute;
       top: -8px;
-      left: calc((var(--Tree-indent) - 5px) * -1);
+      left: calc(
+        (
+            var(--Tree-icon-gap) + var(--Tree-itemArrowWidth) +
+              var(--Tree-icon-margin-right)
+          ) / 2 - var(--Tree-indent)
+      );
       bottom: 0px;
       border-left: 1px solid var(--borderColor);
       content: '';
@@ -298,7 +322,8 @@
     cursor: pointer;
     flex: 1 auto;
     display: inline-block;
-    color: var(--Form-input-color);
+    color: var(--select-tree-color);
+    font-size: var(--select-tree-fontSize);
     max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;

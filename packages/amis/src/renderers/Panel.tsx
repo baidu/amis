@@ -179,6 +179,7 @@ export default class Panel extends React.Component<PanelProps> {
     const {
       type,
       className,
+      style,
       data,
       header,
       body,
@@ -196,6 +197,11 @@ export default class Panel extends React.Component<PanelProps> {
       formHorizontal,
       subFormMode,
       subFormHorizontal,
+      id,
+      // 不应该将 label、renderLabel 传递下去，否则内部的表单项组件会受到影响
+      label,
+      renderLabel,
+      inputOnly,
       ...rest
     } = this.props;
 
@@ -234,6 +240,7 @@ export default class Panel extends React.Component<PanelProps> {
     const {
       type,
       className,
+      style,
       data,
       header,
       body,
@@ -249,6 +256,7 @@ export default class Panel extends React.Component<PanelProps> {
       affixFooter,
       classPrefix: ns,
       classnames: cx,
+      id,
       ...rest
     } = this.props;
 
@@ -286,7 +294,7 @@ export default class Panel extends React.Component<PanelProps> {
     ) : null;
 
     return (
-      <div className={cx(`Panel`, className || `Panel--default`)}>
+      <div className={cx(`Panel`, className || `Panel--default`)} style={style}>
         {header ? (
           <div className={cx(headerClassName || `Panel-heading`)}>
             {render('header', header, subProps)}

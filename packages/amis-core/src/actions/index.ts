@@ -18,7 +18,5 @@ import './EmailAction';
 import './LinkAction';
 import './ToastAction';
 import './PageAction';
-import './Decorators';
 
-export * from './Decorators';
 export * from './Action';

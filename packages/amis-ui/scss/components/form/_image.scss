@@ -13,39 +13,108 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border: var(--borderWidth) solid var(--borderColor);
-    border-radius: var(--ImageControl-addBtn-borderRadius);
+    border-radius: var(--inputImage-base-default-top-left-border-radius)
+      var(--inputImage-base-default-top-right-border-radius)
+      var(--inputImage-base-default-bottom-right-border-radius)
+      var(--inputImage-base-default-bottom-left-border-radius);
     cursor: pointer;
     margin-right: var(--gap-base);
 
     @include button-variant(
       var(--ImageControl-addBtn-bg),
-      var(--ImageControl-addBtn-border),
       var(--ImageControl-addBtn-color),
+      var(--inputImage-base-default-top-border-color),
+      var(--inputImage-base-default-right-border-color),
+      var(--inputImage-base-default-bottom-border-color),
+      var(--inputImage-base-default-left-border-color),
+      var(--inputImage-base-default-top-border-width),
+      var(--inputImage-base-default-right-border-width),
+      var(--inputImage-base-default-bottom-border-width),
+      var(--inputImage-base-default-left-border-width),
+      var(--inputImage-base-default-top-border-style),
+      var(--inputImage-base-default-right-border-style),
+      var(--inputImage-base-default-bottom-border-style),
+      var(--inputImage-base-default-left-border-style),
+      var(--shadows-shadow-none),
       var(--ImageControl-addBtn-onHover-bg),
-      var(--ImageControl-addBtn-onHover-border),
       var(--ImageControl-addBtn-onHover-color),
+      var(--inputImage-base-hover-top-border-color),
+      var(--inputImage-base-hover-right-border-color),
+      var(--inputImage-base-hover-bottom-border-color),
+      var(--inputImage-base-hover-left-border-color),
+      var(--inputImage-base-hover-top-border-width),
+      var(--inputImage-base-hover-right-border-width),
+      var(--inputImage-base-hover-bottom-border-width),
+      var(--inputImage-base-hover-left-border-width),
+      var(--inputImage-base-hover-top-border-style),
+      var(--inputImage-base-hover-right-border-style),
+      var(--inputImage-base-hover-bottom-border-style),
+      var(--inputImage-base-hover-left-border-style),
+      var(--shadows-shadow-none),
       var(--ImageControl-addBtn-onActive-bg),
-      var(--ImageControl-addBtn-onActive-border),
-      var(--ImageControl-addBtn-onActive-color)
+      var(--ImageControl-addBtn-onActive-color),
+      var(--inputImage-base-active-top-border-color),
+      var(--inputImage-base-active-right-border-color),
+      var(--inputImage-base-active-bottom-border-color),
+      var(--inputImage-base-active-left-border-color),
+      var(--inputImage-base-active-top-border-width),
+      var(--inputImage-base-active-right-border-width),
+      var(--inputImage-base-active-bottom-border-width),
+      var(--inputImage-base-active-left-border-width),
+      var(--inputImage-base-active-top-border-style),
+      var(--inputImage-base-active-right-border-style),
+      var(--inputImage-base-active-bottom-border-style),
+      var(--inputImage-base-active-left-border-style),
+      var(--shadows-shadow-none),
+      var(--ImageControl-addBtn-onDisabled-bg),
+      var(--ImageControl-addBtn-onDisabled-color),
+      var(--inputImage-base-disabled-top-border-color),
+      var(--inputImage-base-disabled-right-border-color),
+      var(--inputImage-base-disabled-bottom-border-color),
+      var(--inputImage-base-disabled-left-border-color),
+      var(--inputImage-base-disabled-top-border-width),
+      var(--inputImage-base-disabled-right-border-width),
+      var(--inputImage-base-disabled-bottom-border-width),
+      var(--inputImage-base-disabled-left-border-width),
+      var(--inputImage-base-disabled-top-border-style),
+      var(--inputImage-base-disabled-right-border-style),
+      var(--inputImage-base-disabled-bottom-border-style),
+      var(--inputImage-base-disabled-left-border-style),
+      var(--shadows-shadow-none)
     );
 
     > svg {
-      width: px2rem(24px);
-      height: px2rem(24px);
       top: 0;
-      margin-bottom: px2rem(8px);
+      margin-bottom: var(--inputImage-base-default-icon-margin);
+      font-size: var(--inputImage-base-default-icon-size);
+      color: var(--inputImage-base-default-icon-color);
     }
 
     &-text {
-      color: var(--ImageControl-addBtn-upload-color);
+      font-size: var(--inputImage-base-default-fontSize);
+      font-weight: var(--inputImage-base-default-fontWeight);
+    }
+
+    &:not(:disabled):not(.is-disabled) {
+      &:hover {
+        > svg {
+          color: var(--inputImage-base-hover-icon-color);
+        }
+      }
+
+      &:hover:active {
+        > svg {
+          color: var(--inputImage-base-active-icon-color);
+        }
+      }
     }
 
     &.is-disabled {
       pointer-events: none;
-      border: px2rem(1px) solid var(--ImageControl-addBtn-onDisabled-border);
-      background: var(--ImageControl-addBtn-onDisabled-bg);
-      color: var(--ImageControl-addBtn-onDisabled-color);
+
+      > svg {
+        color: var(--inputImage-base-disabled-icon-color);
+      }
     }
   }
 
@@ -71,18 +140,29 @@
   }
 
   &-dropzone:focus &-addBtn {
-    border-color: var(--ImageControl-addBtn-onHover-border);
-    background: var(--ImageControl-addBtn-onHover-bg);
-    color: var(--ImageControl-addBtn-onHover-color) !important;
-  }
-
-  &-dropzone:hover &-addBtn {
-    border-color: var(--ImageControl-addBtn-onHover-border);
+    border-color: var(--inputImage-base-hover-top-border-color)
+      var(--inputImage-base-hover-right-border-color)
+      var(--inputImage-base-hover-bottom-border-color)
+      var(--inputImage-base-hover-left-border-color);
     background: var(--ImageControl-addBtn-onHover-bg);
     color: var(--ImageControl-addBtn-onHover-color);
-    border-color: var(--ImageControl-addBtn-onHover-border);
-    &-text {
+
+    > svg {
+      color: var(--inputImage-base-hover-icon-color);
+    }
+  }
+
+  &-dropzone:hover {
+    &-addBtn:not(.is-disabled) {
+      border-color: var(--inputImage-base-hover-top-border-color)
+        var(--inputImage-base-hover-right-border-color)
+        var(--inputImage-base-hover-bottom-border-color)
+        var(--inputImage-base-hover-left-border-color);
+      background: var(--ImageControl-addBtn-onHover-bg);
       color: var(--ImageControl-addBtn-onHover-color);
+      .#{$ns}ImageControl-addBtn-text {
+        color: var(--ImageControl-addBtn-onHover-color);
+      }
     }
   }
 
@@ -212,27 +292,23 @@
 
   &-croperToolbar {
     display: inline-flex;
-    width: 50px;
     position: absolute;
     right: 0;
     bottom: 0;
     flex-direction: column;
     align-items: flex-end;
+    background: #fff;
+    border-radius: 4px;
+    margin: px2rem(8px);
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
 
     > a {
-      color: #fff;
+      color: var(--Form-item-fontColor);
       padding: 2px 5px;
       cursor: pointer;
-      font-size: 20px;
-
-      .icon-retry {
-        polygon {
-          fill: #fff;
-        }
-
-        path {
-          stroke: #fff;
-        }
+      font-size: 18px;
+      &:hover {
+        color: var(--link-color);
       }
     }
   }

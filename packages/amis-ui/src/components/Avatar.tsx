@@ -1,5 +1,11 @@
 import * as React from 'react';
-import {ClassNamesFn, themeable, ThemeProps} from 'amis-core';
+import {
+  ClassNamesFn,
+  themeable,
+  ThemeProps,
+  generateIcon,
+  IconCheckedSchema
+} from 'amis-core';
 
 /**
  * Avatar 属性
@@ -19,7 +25,7 @@ interface AvatarCmptProps extends ThemeProps {
   /**
    * 图标
    */
-  icon?: string | React.ReactNode;
+  icon?: string | React.ReactNode | IconCheckedSchema;
 
   /**
    * 图片相对于容器的缩放方式
@@ -224,8 +230,8 @@ export class Avatar extends React.Component<AvatarCmptProps, AvatarState> {
           {text}
         </span>
       );
-    } else if (typeof icon === 'string') {
-      childrenRender = <i className={icon} />;
+    } else if (['string', 'object'].includes(typeof icon)) {
+      childrenRender = generateIcon(cx, icon as any);
     } else if (isIconRender) {
       childrenRender = icon;
     } else {

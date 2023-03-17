@@ -40,13 +40,15 @@ export default {
           name: 'id',
           label: 'ID',
           remark: 'ID',
-          groupName: 'A'
+          groupName: 'A',
+          fixed: 'left'
         },
         {
           name: 'grade',
           label: 'CSS grade',
           remark: 'CSS grade',
-          groupName: 'A'
+          groupName: 'A',
+          fixed: 'left'
         },
         {
           name: 'engine',
@@ -69,7 +71,8 @@ export default {
           name: 'version',
           label: 'Engine version',
           remark: 'Engine version',
-          groupName: 'B'
+          groupName: 'B',
+          fixed: 'right'
         }
       ],
       data: {

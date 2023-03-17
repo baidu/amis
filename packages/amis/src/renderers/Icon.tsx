@@ -1,8 +1,17 @@
 import React from 'react';
-import {Renderer, RendererProps, filter} from 'amis-core';
+import {
+  Renderer,
+  RendererProps,
+  filter,
+  IconCheckedSchema,
+  autobind,
+  createObject,
+  insertCustomStyle
+} from 'amis-core';
 import {BaseSchema, SchemaTpl} from '../Schema';
 import {BadgeObject, withBadge} from 'amis-ui';
-import {getIcon} from 'amis-ui/lib/components/icons';
+import {getIcon} from 'amis-ui';
+import {isObject} from 'lodash';
 
 /**
  * Icon 图表渲染器
@@ -14,7 +23,7 @@ export interface IconSchema extends BaseSchema {
   /**
    * 按钮类型
    */
-  icon: SchemaTpl;
+  icon: SchemaTpl | IconCheckedSchema;
 
   vendor?: 'iconfont' | 'fa' | '';
 
@@ -34,15 +43,102 @@ export class Icon extends React.Component<IconProps, object> {
     vendor: 'fa'
   };
 
+  @autobind
+  handleClick(e: React.MouseEvent<any>) {
+    const {dispatchEvent, data} = this.props;
+    dispatchEvent(
+      'click',
+      createObject(data, {
+        nativeEvent: e
+      })
+    );
+  }
+
+  @autobind
+  handleMouseEnter(e: React.MouseEvent<any>) {
+    const {dispatchEvent, data} = this.props;
+    dispatchEvent(
+      e,
+      createObject(data, {
+        nativeEvent: e
+      })
+    );
+  }
+
+  @autobind
+  handleMouseLeave(e: React.MouseEvent<any>) {
+    const {dispatchEvent, data} = this.props;
+    dispatchEvent(
+      e,
+      createObject(data, {
+        nativeEvent: e
+      })
+    );
+  }
+
   render() {
-    const {vendor, classnames: cx, className, data} = this.props;
+    const {
+      vendor,
+      classnames: cx,
+      className,
+      style,
+      data,
+      css,
+      id
+    } = this.props;
     let icon = this.props.icon;
+
+    insertCustomStyle(
+      css,
+      [
+        {
+          key: 'className',
+          value: className
+        }
+      ],
+      id
+    );
+
+    if (typeof icon !== 'string') {
+      if (
+        isObject(icon) &&
+        typeof (icon as IconCheckedSchema).id === 'string' &&
+        (icon as IconCheckedSchema).id.startsWith('svg-')
+      ) {
+        return (
+          <svg
+            className={cx('icon', className)}
+            style={style}
+            onClick={this.handleClick}
+            onMouseEnter={this.handleMouseEnter}
+            onMouseLeave={this.handleMouseLeave}
+          >
+            <use
+              xlinkHref={`#${(icon as IconCheckedSchema).id.replace(
+                /^svg-/,
+                ''
+              )}`}
+            ></use>
+          </svg>
+        );
+      }
+
+      return;
+    }
 
     icon = filter(icon, data);
 
     let CustomIcon = getIcon(icon);
     if (CustomIcon) {
-      return <CustomIcon className={cx(className, `icon-${icon}`)} />;
+      return (
+        <CustomIcon
+          className={cx(className, `icon-${icon}`)}
+          style={style}
+          onClick={this.handleClick}
+          onMouseEnter={this.handleMouseEnter}
+          onMouseLeave={this.handleMouseLeave}
+        />
+      );
     }
 
     const isURLIcon = icon?.indexOf('.') !== -1;
@@ -57,9 +153,22 @@ export class Icon extends React.Component<IconProps, object> {
       iconPrefix = `${icon}`;
     }
     return isURLIcon ? (
-      <img className={cx('Icon')} src={icon} />
+      <img
+        className={cx('Icon')}
+        src={icon}
+        style={style}
+        onClick={this.handleClick}
+        onMouseEnter={this.handleMouseEnter}
+        onMouseLeave={this.handleMouseLeave}
+      />
     ) : (
-      <i className={cx(iconPrefix, className)} />
+      <i
+        className={cx(iconPrefix, className)}
+        style={style}
+        onClick={this.handleClick}
+        onMouseEnter={this.handleMouseEnter}
+        onMouseLeave={this.handleMouseLeave}
+      />
     );
   }
 }

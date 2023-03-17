@@ -1,5 +1,6 @@
 import {types, getEnv, flow, isAlive, Instance} from 'mobx-state-tree';
 import debounce from 'lodash/debounce';
+import throttle from 'lodash/throttle';
 import toPairs from 'lodash/toPairs';
 import pick from 'lodash/pick';
 import {ServiceStore} from './service';
@@ -78,8 +79,32 @@ export const FormStore = ServiceStore.named('FormStore')
           const current = pool.shift()!;
           if (current.storeType === 'FormItemStore') {
             formItems.push(current);
-          } else if (current.storeType !== 'ComboStore') {
+          } else if (
+            !['ComboStore', 'TableStore'].includes(current.storeType)
+          ) {
             pool.push(...current.children);
+          }
+        }
+
+        return formItems;
+      },
+
+      /** 获取InputGroup的子元素 */
+      get inputGroupItems() {
+        const formItems: Record<string, IFormItemStore[]> = {};
+        const children = self.children.concat();
+
+        while (children.length) {
+          const current = children.shift();
+
+          if (current.inputGroupControl && current.inputGroupControl?.name) {
+            const controlName = current.inputGroupControl?.name as string;
+
+            if (formItems.hasOwnProperty(controlName)) {
+              formItems[controlName].push(current);
+            } else {
+              formItems[controlName] = [current];
+            }
           }
         }
 
@@ -345,14 +370,17 @@ export const FormStore = ServiceStore.named('FormStore')
             setFormItemErrors(json.errors);
 
             self.updateMessage(
-              json.msg ??
+              (api as ApiObject)?.messages?.failed ??
+                json.msg ??
                 self.__(options && options.errorMessage) ??
                 self.__('Form.validateFailed'),
               true
             );
           } else {
             self.updateMessage(
-              json.msg ?? self.__(options && options.errorMessage),
+              (api as ApiObject)?.messages?.failed ??
+                json.msg ??
+                self.__(options && options.errorMessage),
               true
             );
           }
@@ -369,7 +397,8 @@ export const FormStore = ServiceStore.named('FormStore')
           }
           self.markSaving(false);
           self.updateMessage(
-            json.msg ??
+            (api as ApiObject)?.messages?.success ??
+              json.msg ??
               (options.successMessage === 'saveSuccess'
                 ? json.defaultMsg
                 : self.__(options && options.successMessage)) ??
@@ -474,6 +503,19 @@ export const FormStore = ServiceStore.named('FormStore')
       );
     };
 
+    // 10s 内不要重复弹同一个错误
+    const toastValidateError = throttle(
+      msg => {
+        const env = getEnv(self);
+        env.notify('error', msg);
+      },
+      10000,
+      {
+        trailing: false,
+        leading: true
+      }
+    );
+
     const submit: (
       fn?: (values: object) => Promise<any>,
       hooks?: Array<() => Promise<any>>,
@@ -500,13 +542,12 @@ export const FormStore = ServiceStore.named('FormStore')
           self.restError.length
         ) {
           let msg = failedMessage ?? self.__('Form.validateFailed');
-          const env = getEnv(self);
           let dispatcher: any = validateErrCb && validateErrCb();
           if (dispatcher?.then) {
             dispatcher = yield dispatcher;
           }
           if (!dispatcher?.prevented) {
-            msg && env.notify('error', msg);
+            msg && toastValidateError(msg);
           }
           throw new Error(msg);
         }
@@ -562,14 +603,18 @@ export const FormStore = ServiceStore.named('FormStore')
           item.resetValidationStatus();
         }
 
-        // 验证过，或者是 unique 的表单项，或者强制验证，或者有远端校验api
+        /**
+         * 1. 验证过，或者是 unique 的表单项，或者强制验证，或者有远端校验api
+         * 2. 如果Schema的默认值为表达式，则需要基于联动计算结果重新校验
+         */
         if (
           !item.validated ||
           item.rules.equals ||
           item.rules.equalsField ||
           item.unique ||
           forceValidate ||
-          !!item.validateApi
+          !!item.validateApi ||
+          item.isValueSchemaExp
         ) {
           yield item.validate(self.data);
         }
@@ -703,6 +748,7 @@ export const FormStore = ServiceStore.named('FormStore')
       clearRestError,
       beforeDestroy() {
         syncOptions.cancel();
+        toastValidateError.cancel();
       }
     };
   });

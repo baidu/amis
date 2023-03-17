@@ -3,7 +3,7 @@ export default {
   body: [
     {
       type: 'alert',
-      body: '当某组件的值发生变化时，联动去更新另一个组件的数据，可以通过event.data来获取事件产生的数据，例如输入框change事件的参数是value: string | string[]，则可以通过event.data.value来获取输入的值。',
+      body: '当某组件的值发生变化时，联动去更新另一个组件的数据，可以通过${responseResult}来获取事件产生的数据，例如输入框change事件可以通过${[name]}来获取输入的值，name是组件的名称。',
       level: 'info',
       className: 'mb-1'
     },
@@ -15,6 +15,7 @@ export default {
     },
     {
       type: 'input-text',
+      name: 'role',
       label: '输入角色',
       mode: 'horizontal',
       onEvent: {
@@ -25,7 +26,7 @@ export default {
               componentId: 'form_data_2',
               args: {
                 value: {
-                  myrole: '${event.data.value}'
+                  myrole: '${role}'
                 }
               }
             }
@@ -36,6 +37,7 @@ export default {
     {
       type: 'input-text',
       label: '输入年龄',
+      name: 'age',
       mode: 'horizontal',
       onEvent: {
         change: {
@@ -45,7 +47,7 @@ export default {
               componentId: 'form_data_2',
               args: {
                 value: {
-                  age: '${event.data.value}'
+                  age: '${age}'
                 }
               }
             }
@@ -107,7 +109,7 @@ export default {
               actionType: 'setValue',
               componentId: 'input_data_msg2',
               args: {
-                value: '${event.data.value}'
+                value: '${message}'
               }
             }
           ]
@@ -156,7 +158,7 @@ export default {
                   actionType: 'setValue',
                   args: {
                     value: {
-                      opts: '${optList[event.data.value]}'
+                      opts: '${optList[select1]}'
                     }
                   },
                   componentId: 'u:d731760b321e'

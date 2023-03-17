@@ -1,30 +1,30 @@
 import React from 'react';
+import cx from 'classnames';
+import omit from 'lodash/omit';
+import find from 'lodash/find';
+import isEqual from 'lodash/isEqual';
+import findIndex from 'lodash/findIndex';
 import {
   OptionsControl,
   OptionsControlProps,
-  Option,
-  FormOptionsControl
-} from 'amis-core';
-import cx from 'classnames';
-
-import {SchemaNode, Schema, ActionObject, PlainObject} from 'amis-core';
-import find from 'lodash/find';
-import {
-  anyChanged,
+  SchemaNode,
+  Schema,
+  ActionObject,
+  PlainObject,
   autobind,
   getVariable,
   noop,
   createObject,
-  isObjectShallowModified
+  filter,
+  isPureVariable,
+  resolveVariableAndFilter,
+  isApiOutdated,
+  isEffectiveApi,
+  resolveEventData
 } from 'amis-core';
-import findIndex from 'lodash/findIndex';
-import {Html} from 'amis-ui';
-import {filter} from 'amis-core';
-import {Icon} from 'amis-ui';
-import {dataMapping, isPureVariable, resolveVariableAndFilter} from 'amis-core';
-import {FormOptionsSchema, SchemaCollection, SchemaTpl} from '../../Schema';
-import {CRUDSchema} from '../CRUD';
-import {isApiOutdated, isEffectiveApi} from 'amis-core';
+import {Html, Icon} from 'amis-ui';
+import {FormOptionsSchema, SchemaTpl} from '../../Schema';
+import intersectionWith from 'lodash/intersectionWith';
 
 /**
  * Picker
@@ -124,8 +124,9 @@ export default class PickerControl extends React.PureComponent<
 
   componentDidUpdate(prevProps: PickerProps) {
     const props = this.props;
+    const detectedProps = ['multiple', 'source', 'pickerSchema'];
 
-    if (anyChanged(['pickerSchema', 'multiple', 'source'], prevProps, props)) {
+    if (detectedProps.some(key => !isEqual(prevProps[key], props[key]))) {
       this.setState({
         schema: this.buildSchema(props)
       });
@@ -227,7 +228,7 @@ export default class PickerControl extends React.PureComponent<
   }
 
   @autobind
-  handleModalConfirm(
+  async handleModalConfirm(
     values: Array<any>,
     action: ActionObject,
     ctx: any,
@@ -237,7 +238,8 @@ export default class PickerControl extends React.PureComponent<
       components,
       (item: any) => item.props.type === 'crud'
     );
-    this.handleChange(values[idx].items);
+
+    await this.handleChange(values[idx].items);
     this.close();
   }
 
@@ -252,10 +254,10 @@ export default class PickerControl extends React.PureComponent<
       options,
       data,
       dispatchEvent,
+      selectedOptions,
       setOptions,
       onChange
     } = this.props;
-
     let value: any = items;
 
     if (joinValues) {
@@ -283,15 +285,34 @@ export default class PickerControl extends React.PureComponent<
     });
 
     additionalOptions.length && setOptions(options.concat(additionalOptions));
+    const option = multiple ? items : items[0];
     const rendererEvent = await dispatchEvent(
       'change',
-      createObject(data, {value, option: items[0]})
+      resolveEventData(
+        this.props,
+        {value, option, selectedItems: option},
+        'value'
+      )
     );
     if (rendererEvent?.prevented) {
       return;
     }
 
     onChange(value);
+  }
+
+  @autobind
+  async handleItemClick(item: any) {
+    const {data, dispatchEvent} = this.props;
+
+    const rendererEvent = await dispatchEvent(
+      'itemClick',
+      createObject(data, {item})
+    );
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
   }
 
   removeItem(index: number) {
@@ -393,7 +414,13 @@ export default class PickerControl extends React.PureComponent<
             >
               ×
             </span>
-            <span className={`${ns}Picker-valueLabel`}>
+            <span
+              className={`${ns}Picker-valueLabel`}
+              onClick={e => {
+                e.stopPropagation();
+                this.handleItemClick(item);
+              }}
+            >
               {labelTpl ? (
                 <Html html={filter(labelTpl, item)} />
               ) : (
@@ -427,31 +454,67 @@ export default class PickerControl extends React.PureComponent<
       primaryField: valueField,
       options: source ? [] : options,
       multiple,
-      onSelect: embed ? this.handleChange : undefined,
+      onSelect: embed
+        ? (selectedItems: Array<any>, unSelectedItems: Array<any>) => {
+            // 选择行后，crud 会给出连续多次事件，且selectedItems会变化，会导致初始化和点击无效
+            // 过滤掉一些无用事件，否则会导致 value 错误
+            if (
+              !Array.isArray(selectedItems) ||
+              !Array.isArray(unSelectedItems) ||
+              (!selectedItems.length && !unSelectedItems.length)
+            ) {
+              return;
+            }
+
+            // 取交集，判断是否是无效事件，需要考虑顺序问题
+            const intersections = intersectionWith(
+              selectedItems,
+              selectedOptions,
+              (a: any, b: any) => {
+                // 需要考虑没有配置 valueField，而且值里面又没有 value 字段的情况
+                const aValue = a[valueField || 'value'];
+                const bValue = b[valueField || 'value'];
+                return aValue || bValue
+                  ? aValue === bValue
+                  : // selectedOptions 中有 Options 自动添加的 value 字段，所以去掉后才能比较
+                    isEqual(omit(a, 'value'), omit(b, 'value'));
+              }
+            );
+            if (
+              // 前后数量都一样说明是重复事件
+              intersections.length === selectedItems.length &&
+              intersections.length === selectedOptions.length
+            ) {
+              return;
+            }
+
+            this.handleChange(selectedItems);
+          }
+        : undefined,
       ref: this.crudRef,
       popOverContainer
     }) as JSX.Element;
   }
-
   render() {
     const {
       className,
+      style,
+      modalClassName,
       classnames: cx,
       disabled,
       render,
       modalMode,
       source,
       size,
-      env,
       clearable,
       multiple,
       placeholder,
       embed,
-      value,
       selectedOptions,
       translate: __,
       popOverContainer
     } = this.props;
+
     return (
       <div className={cx(`PickerControl`, className)}>
         {embed ? (
@@ -504,6 +567,7 @@ export default class PickerControl extends React.PureComponent<
                 title: __('Select.placeholder'),
                 size: size,
                 type: modalMode,
+                className: modalClassName,
                 body: {
                   children: this.renderBody
                 }

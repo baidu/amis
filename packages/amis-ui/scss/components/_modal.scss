@@ -45,6 +45,7 @@
     margin-right: auto;
     margin-top: var(--Modal-content-startMarginTop);
     margin-bottom: var(--gap-md);
+    padding: var(--Modal-body-paddingY) var(--Modal-body-paddingX);
     border: var(--Modal-content-borderWidth) solid
       var(--Modal-content-borderColor);
     border-radius: var(--Modal-content-borderRadius);
@@ -106,6 +107,7 @@
     line-height: inherit;
     text-decoration: none;
     vertical-align: middle;
+    z-index: calc($zindex-spinner-overlay + 1);
 
     svg {
       width: var(--Modal-close-width);

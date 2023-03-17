@@ -3,7 +3,13 @@ import {RendererStore, IRendererStore, IIRendererStore} from './store/index';
 import {getEnv, destroy} from 'mobx-state-tree';
 import {wrapFetcher} from './utils/api';
 import {normalizeLink} from './utils/normalizeLink';
-import {findIndex, promisify, qsparse, string2regExp} from './utils/helper';
+import {
+  findIndex,
+  promisify,
+  qsparse,
+  string2regExp,
+  parseQuery
+} from './utils/helper';
 import {
   fetcherResult,
   SchemaNode,
@@ -17,7 +23,7 @@ import {ThemeProps} from './theme';
 import find from 'lodash/find';
 import {LocaleProps} from './locale';
 import {HocStoreFactory} from './WithStore';
-import {RendererEnv} from './env';
+import type {RendererEnv} from './env';
 import {OnEventProps} from './utils/renderer-event';
 import {Placeholder} from './renderers/Placeholder';
 
@@ -67,6 +73,9 @@ export interface RendererProps extends ThemeProps, LocaleProps, OnEventProps {
   };
   defaultData?: object;
   className?: any;
+  style?: {
+    [propName: string]: any;
+  };
   [propName: string]: any;
 }
 
@@ -185,6 +194,8 @@ export function registerRenderer(config: RendererConfig): RendererConfig {
 
 export function unRegisterRenderer(config: RendererConfig | string) {
   const name = (typeof config === 'string' ? config : config.name)!;
+  const idx = renderers.findIndex(item => item.name === name);
+  ~idx && renderers.splice(idx, 1);
   delete renderersMap[name];
 
   // 清空渲染器定位缓存
@@ -302,7 +313,7 @@ export const defaultOptions: RenderOptions = {
         return false;
       }
       const query = qsparse(search.substring(1));
-      const currentQuery = qsparse(location.search.substring(1));
+      const currentQuery = parseQuery(location);
       return Object.keys(query).every(key => query[key] === currentQuery[key]);
     } else if (pathname === location.pathname) {
       return true;
@@ -400,7 +411,7 @@ export function resolveRenderer(
     return cache[type];
   } else if (cache[path]) {
     return cache[path];
-  } else if (path && path.length > 1024) {
+  } else if (path && path.length > 3072) {
     throw new Error('Path太长是不是死循环了？');
   }
 

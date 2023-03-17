@@ -134,11 +134,16 @@ export function HocStoreFactory(renderer: {
           this.unReaction = reaction(
             () =>
               JSON.stringify(
-                getExprProperties(rest, store.data, undefined, rest)
+                getExprProperties(this.props, store.data, undefined, this.props)
               ),
             () =>
               this.setState({
-                ...getExprProperties(rest, store.data, undefined, rest)
+                ...getExprProperties(
+                  this.props,
+                  store.data,
+                  undefined,
+                  this.props
+                )
               })
           );
         }

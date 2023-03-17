@@ -1,4 +1,21 @@
-import React = require('react');
+/**
+ * 组件名称：Tabs 选项卡
+ * 
+ * 单测内容：
+ 1. 点击切换
+ 2. 各种展示模式
+ 3. 通过 source 获取数据
+ 4. 配置toolbar实现顶部工具栏
+ 5. addable 可新增
+ 6. draggable 可拖拽
+ 7. showTip 提示信息
+ 8. editable 可编辑
+ 9. closable 可关闭标签
+ 10. disabled 可禁用
+ 11. tabs 作为表单项
+ 12. collapseOnExceed 配置超出折叠
+ */
+
 import {
   render,
   cleanup,
@@ -16,6 +33,7 @@ afterEach(() => {
   clearStoresCache();
 });
 
+// 1. 点击切换
 test('Renderer:tabs change active tab', async () => {
   const {container, getByText} = render(
     amisRender(
@@ -57,6 +75,7 @@ test('Renderer:tabs change active tab', async () => {
   expect(container).toMatchSnapshot();
 });
 
+// 2. 各种展示模式
 test('Renderer:tabs tabsMode', async () => {
   const baseSchema = {
     type: 'tabs',
@@ -107,6 +126,7 @@ test('Renderer:tabs tabsMode', async () => {
   expect(container).toMatchSnapshot();
 });
 
+// 3. 通过 source 获取数据
 test('Renderer:tabs source', async () => {
   const {getByText} = render(
     amisRender(
@@ -149,6 +169,7 @@ test('Renderer:tabs source', async () => {
   expect(!getByText('支出')).toBeFalsy();
 });
 
+// 4. 配置toolbar实现顶部工具栏
 test('Renderer:tabs toolbar', async () => {
   const {container, getByText} = render(
     amisRender(
@@ -198,6 +219,7 @@ test('Renderer:tabs toolbar', async () => {
   expect(container).toMatchSnapshot();
 });
 
+// 5. addable 可新增
 test('Renderer:tabs addable', async () => {
   const {container, getByText} = render(
     amisRender(
@@ -257,6 +279,7 @@ const fireMouseEvent = function (
   return elem.dispatchEvent(evt);
 };
 
+// 6. draggable 可拖拽
 test('Renderer:tabs draggable', async () => {
   const {container, getByText} = render(
     amisRender(
@@ -283,6 +306,7 @@ test('Renderer:tabs draggable', async () => {
   expect(container.querySelectorAll('[draggable=true]').length).toBe(1);
 });
 
+// 7. showTip 提示信息
 test('Renderer:tabs showTip', async () => {
   const {getByText, getAllByText} = render(
     amisRender(
@@ -313,6 +337,7 @@ test('Renderer:tabs showTip', async () => {
   expect(!document.querySelector('.showTipClassName')).toBeFalsy();
 });
 
+// 8. editable 可编辑
 test('Renderer:tabs editable', async () => {
   const {container, getByText} = render(
     amisRender(
@@ -342,6 +367,7 @@ test('Renderer:tabs editable', async () => {
   });
 });
 
+// 9. closable 可关闭标签
 test('Renderer:tabs closable', async () => {
   const {container, getByText} = render(
     amisRender(
@@ -376,6 +402,7 @@ test('Renderer:tabs closable', async () => {
   });
 });
 
+// 10. disabled 可禁用
 test('Renderer:tabs disabled', async () => {
   const {container, getByText} = render(
     amisRender(
@@ -407,4 +434,114 @@ test('Renderer:tabs disabled', async () => {
       .querySelectorAll('.cxd-Tabs-link')[0]
       .classList.contains('is-active')
   ).toBeTruthy();
+});
+
+// 11. tabs 作为表单项
+test('Renderer:tabs as form item', async () => {
+  const onSubmit = jest.fn();
+  const {container, getByText} = render(
+    amisRender(
+      {
+        type: 'form',
+        submitText: 'submitText',
+        body: [
+          {
+            type: 'tabs',
+            name: 'tab',
+            tabs: [
+              {
+                title: 'Tab 1',
+                tab: 'Content 1',
+                value: 1
+              },
+              {
+                title: 'Tab 2',
+                tab: 'Content 2'
+              }
+            ]
+          }
+        ]
+      },
+      {onSubmit},
+      makeEnv()
+    )
+  );
+
+  fireEvent.click(getByText('submitText'));
+  await wait(100);
+  expect(onSubmit).toBeCalled();
+  expect(onSubmit.mock.calls[0][0]).toEqual({
+    tab: 1
+  });
+
+  fireEvent.click(getByText('Tab 2'));
+  await wait(500);
+  fireEvent.click(getByText('submitText'));
+
+  await wait(100);
+  expect(onSubmit).toBeCalledTimes(2);
+  expect(onSubmit.mock.calls[1][0]).toEqual({
+    tab: 'Tab 2'
+  });
+
+  expect(container).toMatchSnapshot();
+});
+
+// 12. collapseOnExceed 配置超出折叠
+test('Renderer:tabs with collapseOnExceed', async () => {
+  const {container, getByText} = render(
+    amisRender(
+      {
+        type: 'tabs',
+        tabsMode: 'tiled',
+        tabs: [
+          {
+            title: 'Tab 1',
+            tab: 'Content 1'
+          },
+          {
+            title: 'Tab 2',
+            tab: 'Content 2'
+          },
+          {
+            title: 'Tab 3',
+            tab: 'Content 3'
+          },
+          {
+            title: 'Tab 4',
+            tab: 'Content 4'
+          },
+          {
+            title: 'Tab 5',
+            tab: 'Content 5'
+          }
+        ],
+        collapseOnExceed: 3
+      },
+      {},
+      makeEnv()
+    )
+  );
+
+  expect(container.querySelectorAll('.cxd-Tabs-link')!.length).toBe(3);
+  expect(
+    container.querySelector('.is-active.cxd-Tabs-pane')!
+  ).toHaveTextContent('Content 1');
+
+  const showMore = container.querySelector('.cxd-Tabs-link .cxd-Tabs-togglor')!;
+  expect(showMore).toBeInTheDocument();
+
+  fireEvent.click(showMore);
+  await wait(100);
+
+  expect(
+    container.querySelectorAll('.cxd-Tabs-PopOver .cxd-Tabs-link')!.length
+  ).toBe(3);
+  expect(container).toMatchSnapshot('popover show');
+
+  fireEvent.click(getByText('Tab 5'));
+  await wait(100);
+  expect(
+    container.querySelector('.is-active.cxd-Tabs-pane')!
+  ).toHaveTextContent('Content 5');
 });

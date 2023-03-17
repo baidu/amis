@@ -3,12 +3,14 @@
   "compilerOptions": {
     "rootDir": "./",
     "outDir": "./dist",
+    "baseUrl": "./",
     "allowSyntheticDefaultImports": true,
     "typeRoots": [
       "../../types",
       "./node_modules/@types",
       "../../node_modules/@types"
-    ]
+    ],
+    "paths": {}
   },
   "include": ["src/**/*", "scripts/**/*"],
   "references": []

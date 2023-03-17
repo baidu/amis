@@ -12,19 +12,16 @@ import {
   qsstringify,
   qsparse,
   isArrayChildrenModified,
-  autobind
+  autobind,
+  parseQuery
 } from 'amis-core';
 import {ScopedContext, IScopedContext} from 'amis-core';
-import Button from 'amis-ui';
-import Select from 'amis-ui';
-import {getExprProperties} from 'amis-core';
 import pick from 'lodash/pick';
 import {findDOMNode} from 'react-dom';
 import {evalExpression, filter} from 'amis-core';
 import {isEffectiveApi, isApiOutdated} from 'amis-core';
 import findIndex from 'lodash/findIndex';
-import {Html} from 'amis-ui';
-import {Spinner} from 'amis-ui';
+import {Html, SpinnerExtraProps} from 'amis-ui';
 import {
   BaseSchema,
   SchemaApi,
@@ -38,11 +35,11 @@ import {ListSchema} from './List';
 import {TableSchema2} from './Table2';
 import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
 import {SchemaCollection} from '../Schema';
-import {upperFirst} from 'lodash';
+import upperFirst from 'lodash/upperFirst';
 
 export type CRUDRendererEvent = 'search';
 
-export interface CRUD2CommonSchema extends BaseSchema {
+export interface CRUD2CommonSchema extends BaseSchema, SpinnerExtraProps {
   /**
    *  指定为 CRUD2 渲染器。
    */
@@ -190,7 +187,8 @@ export type CRUD2Schema = CRUD2CardsSchema | CRUD2ListSchema | CRUD2TableSchema;
 
 export interface CRUD2Props
   extends RendererProps,
-    Omit<CRUD2CommonSchema, 'type' | 'className'> {
+    Omit<CRUD2CommonSchema, 'type' | 'className'>,
+    SpinnerExtraProps {
   store: ICRUDStore;
   pickerMode?: boolean; // 选择模式，用做表单中的选择操作
 }
@@ -254,14 +252,14 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
 
     if (syncLocation && location && (location.query || location.search)) {
       store.updateQuery(
-        qsparse(location.search.substring(1)),
+        parseQuery(location),
         undefined,
         pageField,
         perPageField
       );
     } else if (syncLocation && !location && window.location.search) {
       store.updateQuery(
-        qsparse(window.location.search.substring(1)) as object,
+        parseQuery(window.location),
         undefined,
         pageField,
         perPageField
@@ -331,7 +329,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     ) {
       // 同步地址栏，那么直接检测 query 是否变了，变了就重新拉数据
       store.updateQuery(
-        qsparse(props.location.search.substring(1)),
+        parseQuery(props.location),
         undefined,
         props.pageField,
         props.perPageField
@@ -415,6 +413,9 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
    * 加载更多动作处理器
    */
   handleLoadMore() {
+    const {store, perPage} = this.props;
+
+    store.changePage(store.page + 1, perPage);
     this.getData(undefined, undefined, undefined, true);
   }
 
@@ -427,9 +428,12 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     replaceQuery?: boolean;
   }) {
     const {store, syncLocation, env, pageField, perPageField} = this.props;
-    let {query, resetQuery, replaceQuery} = data;
+    let {query, resetQuery, replaceQuery} = data || {};
 
-    query = syncLocation ? qsparse(qsstringify(query, undefined, true)) : query;
+    query =
+      syncLocation && query
+        ? qsparse(qsstringify(query, undefined, true))
+        : query;
 
     store.updateQuery(
       resetQuery ? this.props.store.pristineQuery : query,
@@ -499,7 +503,8 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       loadDataOnce,
       loadDataOnceFetchOnFilter,
       source,
-      columns
+      columns,
+      perPage
     } = this.props;
 
     // reload 需要清空用户选择
@@ -517,7 +522,14 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     this.lastQuery = store.query;
     const loadDataMode = loadMore ?? loadType === 'more';
 
-    const data = createObject(store.data, store.query);
+    const data: Record<string, any> = createObject(store.data, store.query);
+
+    // handleLoadMore 是在事件触发后才执行，首次加载并不走到 handleLoadMore
+    // 所以加载更多模式下，首次加载也需要使用设置的 perPage，避免前后 perPage 不一致导致的问题
+    if (loadDataMode && perPage) {
+      store.changePerPage(perPage);
+    }
+
     isEffectiveApi(api, data)
       ? store
           .fetchInitData(api, data, {
@@ -646,7 +658,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
           errorMessage: messages && messages.saveSuccess
         })
         .then(() => {
-          reload && this.reloadTarget(reload, data);
+          reload && this.reloadTarget(filter(reload, data), data);
           this.getData(undefined, undefined, true, true);
         })
         .catch(() => {});
@@ -666,7 +678,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       store
         .saveRemote(quickSaveItemApi, sendData)
         .then(() => {
-          reload && this.reloadTarget(reload, data);
+          reload && this.reloadTarget(filter(reload, data), data);
           this.getData(undefined, undefined, true, true);
         })
         .catch(() => {
@@ -675,6 +687,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     }
   }
 
+  @autobind
   handleSaveOrder(moved: Array<object>, rows: Array<object>) {
     const {store, saveOrderApi, orderField, primaryField, env, reload} =
       this.props;
@@ -771,7 +784,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       store
         .saveRemote(saveOrderApi, model)
         .then(() => {
-          reload && this.reloadTarget(reload, model);
+          reload && this.reloadTarget(filter(reload, model), model);
           this.getData(undefined, undefined, true, true);
         })
         .catch(() => {});
@@ -851,7 +864,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
           oldUnselectedItems.push(item);
         }
 
-        ~idx2 && oldItems.splice(idx2, 1);
+        !~idx && ~idx2 && oldItems.splice(idx2, 1);
       });
 
       newItems = oldItems;
@@ -883,10 +896,10 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
   }
 
   /**
-   * 表格列上的筛选触发
+   * 更新Query筛选触发
    */
   @autobind
-  handleTableQuery(values: object, forceReload: boolean = false) {
+  handleQuerySearch(values: object, forceReload: boolean = false) {
     const {store, syncLocation, env, pageField, perPageField} = this.props;
 
     store.updateQuery(
@@ -912,16 +925,20 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
   }
 
   receive(values: object) {
-    this.handleTableQuery(values, true);
+    this.handleQuerySearch(values, true);
   }
 
   @autobind
   doAction(action: Action, data: object, throwErrors: boolean = false) {
     if (
       action.actionType &&
-      ~['stopAutoRefresh', 'reload', 'search', 'startAutoRefresh'].includes(
-        action.actionType
-      )
+      [
+        'stopAutoRefresh',
+        'reload',
+        'search',
+        'startAutoRefresh',
+        'loadMore'
+      ].includes(action.actionType)
     ) {
       // @ts-ignore
       return this[`handle${upperFirst(action.actionType)}`](data);
@@ -991,7 +1008,9 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       onPageChange: this.handleChangePage,
       cols: store.columns, // 和grid的columns属性重复，ColumnsToggler的columns改一下名字 只有用store里的columns
       toggleAllColumns: this.toggleAllColumns,
-      toggleToggle: this.toggleToggle
+      toggleToggle: this.toggleToggle,
+      // 支持 onQuery，主要是给 searchBox 组件使用
+      onQuery: this.handleQuerySearch
       // onAction: onAction
     };
 
@@ -1086,6 +1105,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     const {
       columns,
       className,
+      style,
       bodyClassName,
       filter,
       render,
@@ -1123,6 +1143,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
         className={cx('Crud2', className, {
           'is-loading': store.loading
         })}
+        style={style}
       >
         <div className={cx('Crud2-filter')}>{this.renderFilter(filter)}</div>
 
@@ -1159,17 +1180,17 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
                 : undefined,
             keepItemSelectionOnPageChange,
             maxKeepItemSelectionLength,
-            valueField: valueField || primaryField,
+            // valueField: valueField || primaryField,
             primaryField: primaryField,
             items: store.data.items,
             query: store.query,
             orderBy: store.query.orderBy,
             orderDir: store.query.orderDir,
             popOverContainer,
-            onSave: this.handleSave,
+            onSave: this.handleSave.bind(this),
             onSaveOrder: this.handleSaveOrder,
-            onSearch: this.handleTableQuery,
-            onSort: this.handleTableQuery,
+            onSearch: this.handleQuerySearch,
+            onSort: this.handleQuerySearch,
             onSelect: this.handleSelect,
             data: store.mergedData,
             loading: store.loading

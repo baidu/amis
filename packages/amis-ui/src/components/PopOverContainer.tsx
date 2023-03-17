@@ -1,9 +1,15 @@
 import React from 'react';
-import {autobind, isMobile} from 'amis-core';
-import {Overlay} from 'amis-core';
-import {PopOver} from 'amis-core';
+import {autobind, isMobile, PopOver, Overlay, toNumber} from 'amis-core';
 import PopUp from './PopUp';
 import {findDOMNode} from 'react-dom';
+import isNumber from 'lodash/isNumber';
+
+export type OverlayAlignType = 'left' | 'center' | 'right';
+
+export interface PopOverOverlay {
+  width?: string | number;
+  align?: OverlayAlignType;
+}
 
 export interface PopOverContainerProps {
   children: (props: {
@@ -16,6 +22,14 @@ export interface PopOverContainerProps {
   popOverClassName?: string;
   useMobileUI?: boolean;
   placement?: string;
+  overlayWidth?: number | string;
+  overlayWidthField?: 'minWidth' | 'width';
+  // 相当于 placement 的简化版
+  align?: OverlayAlignType;
+  /** Popover层隐藏前触发的事件 */
+  onBeforeHide?: () => void;
+  /** Popover层隐藏后触发的事件 */
+  onAfterHide?: () => void;
 }
 
 export interface PopOverContainerState {
@@ -26,6 +40,12 @@ export class PopOverContainer extends React.Component<
   PopOverContainerProps,
   PopOverContainerState
 > {
+  static alignPlacementMap = {
+    left: 'left-bottom-left-top',
+    right: 'right-bottom-right-top',
+    center: 'center-bottom-center-top'
+  };
+
   state: PopOverContainerState = {
     isOpened: false
   };
@@ -46,9 +66,19 @@ export class PopOverContainer extends React.Component<
 
   @autobind
   close() {
+    const {onBeforeHide, onAfterHide} = this.props;
+
+    if (onBeforeHide && typeof onBeforeHide === 'function') {
+      onBeforeHide?.();
+    }
+
     this.setState({
       isOpened: false
     });
+
+    if (onAfterHide && typeof onAfterHide === 'function') {
+      onAfterHide?.();
+    }
   }
 
   @autobind
@@ -61,6 +91,49 @@ export class PopOverContainer extends React.Component<
     return this.getTarget()?.parentElement;
   }
 
+  static calcOverlayWidth(overlay: PopOverOverlay, targetWidth: number) {
+    const overlayWidth = overlay && overlay.width;
+
+    if (!overlayWidth || !isNumber(targetWidth) || targetWidth < 1) return;
+    // 数字字符串需要转化下，否则不生效
+    if (typeof overlayWidth === 'number' || /^\d+$/.test(overlayWidth)) {
+      return toNumber(overlayWidth);
+    }
+    // 带单位，如: 80%、200px、30vw、5rem
+    if (/^\d+(px|%|rem|em|vw)$/.test(overlayWidth)) {
+      return overlayWidth;
+    }
+    // 带单位的相对值
+    // 如: -100px 代表 100% - 100px。+10vw 代表 100% + 10vw
+    if (/^(\+|\-)\d+(px|%|rem|em|vw)$/.test(overlayWidth)) {
+      // 不能使用 calc(100% $1 $2)，需要考虑到 popOverContainer
+      return overlayWidth.replace(
+        /^(\+|\-)(.*)/,
+        `calc(${targetWidth}px $1 $2)`
+      );
+    }
+
+    return;
+  }
+
+  static alignToPlacement(overlay?: PopOverOverlay) {
+    const align = overlay && overlay.align;
+    return (align && PopOverContainer.alignPlacementMap[align]) || 'auto';
+  }
+
+  // 可以自定义下拉框宽度
+  getOverlayStyle() {
+    const {overlayWidth, overlayWidthField} = this.props;
+
+    return {
+      [overlayWidthField || 'minWidth']:
+        PopOverContainer.calcOverlayWidth(
+          {width: overlayWidth},
+          this.target?.offsetWidth
+        ) || (this.target ? Math.max(this.target.offsetWidth, 100) : 'auto')
+    };
+  }
+
   render() {
     const {
       useMobileUI,
@@ -68,7 +141,8 @@ export class PopOverContainer extends React.Component<
       popOverContainer,
       popOverClassName,
       popOverRender: dropdownRender,
-      placement
+      placement,
+      align
     } = this.props;
     const mobileUI = useMobileUI && isMobile();
     return (
@@ -91,17 +165,13 @@ export class PopOverContainer extends React.Component<
           <Overlay
             container={popOverContainer || this.getParent}
             target={this.getTarget}
-            placement={placement || 'auto'}
+            placement={placement || PopOverContainer.alignToPlacement({align})}
             show={this.state.isOpened}
           >
             <PopOver
               overlay
               className={popOverClassName}
-              style={{
-                minWidth: this.target
-                  ? Math.max(this.target.offsetWidth, 100)
-                  : 'auto'
-              }}
+              style={this.getOverlayStyle()}
               onHide={this.close}
             >
               {dropdownRender({onClose: this.close})}

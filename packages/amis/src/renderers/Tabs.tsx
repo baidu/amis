@@ -1,5 +1,5 @@
 import React from 'react';
-import {Renderer, RendererProps} from 'amis-core';
+import {Renderer, RendererProps, resolveEventData} from 'amis-core';
 import {ActionObject, Schema, SchemaNode} from 'amis-core';
 import find from 'lodash/find';
 import {
@@ -194,9 +194,14 @@ export interface TabsSchema extends BaseSchema {
   addBtnText?: string;
 
   /**
-   * 默认激活的选项卡，hash值或索引值，支持使用表达式
+   * 初始化激活的选项卡，hash值或索引值，支持使用表达式
    */
-  activeKey?: SchemaExpression;
+  defaultKey?: SchemaExpression | number;
+
+  /**
+   * 激活的选项卡，hash值或索引值，支持使用表达式
+   */
+  activeKey?: SchemaExpression | number;
 
   /**
    * 超过多少个时折叠按钮
@@ -213,6 +218,7 @@ export interface TabsProps
   extends RendererProps,
     Omit<TabsSchema, 'className' | 'contentClassName' | 'activeKey'> {
   activeKey?: string | number;
+  defaultKey?: string | number;
   location?: any;
   tabRender?: (tab: TabSchema, props: TabsProps, index: number) => JSX.Element;
 }
@@ -258,8 +264,16 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
 
       if (tab) {
         activeKey = tab.hash;
+      } else if (props.defaultKey !== undefined) {
+        activeKey =
+          typeof props.defaultKey === 'string'
+            ? resolveVariableAndFilter(props.defaultKey, props.data)
+            : props.defaultKey;
       } else if (props.defaultActiveKey) {
-        activeKey = tokenize(props.defaultActiveKey, props.data);
+        activeKey = resolveVariableAndFilter(
+          props.defaultActiveKey,
+          props.data
+        );
       }
 
       activeKey = activeKey || (tabs[0] && tabs[0].hash) || 0;
@@ -340,8 +354,14 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
   componentDidUpdate(preProps: TabsProps, prevState: any) {
     const props = this.props;
     let localTabs = this.state.localTabs;
-    const prevActiveKey = tokenize(preProps.defaultActiveKey, preProps.data);
-    const activeKey = tokenize(props.defaultActiveKey, props.data);
+    const prevActiveKey = resolveVariableAndFilter(
+      preProps.defaultActiveKey,
+      preProps.data
+    );
+    const activeKey = resolveVariableAndFilter(
+      props.defaultActiveKey,
+      props.data
+    );
 
     // 响应外部修改 tabs
     const isTabsModified = isObjectShallowModified(
@@ -438,7 +458,8 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         newActivedKey = activeKey;
       }
 
-      if (newActivedKey) {
+      // newActivedKey 可以为 0
+      if (newActivedKey !== null) {
         this.setState({
           prevKey: prevActiveKey,
           activeKey: (this.activeKey = newActivedKey)
@@ -619,9 +640,13 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
 
     const rendererEvent = await dispatchEvent(
       'change',
-      createObject(data, {
-        value: tab?.hash ? tab?.hash : key + 1
-      })
+      resolveEventData(
+        this.props,
+        {
+          value: tab?.hash ? tab?.hash : key + 1
+        },
+        'value'
+      )
     );
     if (rendererEvent?.prevented) {
       return;
@@ -705,6 +730,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       linksClassName,
       tabRender,
       className,
+      style,
       render,
       data,
       mode: dMode,
@@ -726,7 +752,8 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       translate: __,
       addBtnText,
       collapseOnExceed,
-      collapseBtnLabel
+      collapseBtnLabel,
+      disabled
     } = this.props;
 
     const mode = tabsMode || dMode;
@@ -748,7 +775,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
           <Tab
             {...(tab as any)}
             title={filter(tab.title, tab.ctx)}
-            disabled={isDisabled(tab, tab.ctx)}
+            disabled={disabled || isDisabled(tab, tab.ctx)}
             key={index}
             eventKey={index}
             mountOnEnter={mountOnEnter}
@@ -764,6 +791,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
               `item/${index}`,
               (tab as any)?.type ? (tab as any) : tab.tab || tab.body,
               {
+                disabled: disabled,
                 data: tab.ctx,
                 formMode: tab.mode || subFormMode || formMode,
                 formHorizontal:
@@ -779,7 +807,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
           <Tab
             {...(tab as any)}
             title={filter(tab.title, data)}
-            disabled={isDisabled(tab, data)}
+            disabled={disabled || isDisabled(tab, data)}
             key={index}
             eventKey={tab.hash || index}
             mountOnEnter={mountOnEnter}
@@ -799,6 +827,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
                   `tab/${index}`,
                   (tab as any)?.type ? (tab as any) : tab.tab || tab.body,
                   {
+                    disabled: disabled,
                     formMode: tab.mode || subFormMode || formMode,
                     formHorizontal:
                       tab.horizontal || subFormHorizontal || formHorizontal
@@ -817,6 +846,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         mode={mode}
         closable={closable}
         className={className}
+        style={style}
         contentClassName={contentClassName}
         linksClassName={linksClassName}
         onSelect={this.handleSelect}

@@ -1,6 +1,19 @@
 /**
  * @file Tree
  * @description 树形组件
+ *
+ * 情况列举：
+ * 1. 选中父节点时，连带选中子节点 : autoChildren = true 前提条件
+ *    1.1 交互
+ *        1.1.1 子节点不可以取消勾选 cascade = false,
+ *        1.1.2 子节点可以取消勾选 cascade = true, withChildren 失效
+ *    1.2 数据（state.value）
+ *        1.2.1 只提交父节点数据 cascade = false
+ *        1.2.2 只提交子节点的数据  onlyChildren = true
+ *        1.2.3 全部数据提交 withChildren = true || cascade = true
+ *
+ * 2. 选中节点时，只选中当前节点，没有联动效果
+ *
  * @author fex
  */
 
@@ -11,18 +24,18 @@ import {
   autobind,
   findTreeIndex,
   hasAbility,
-  createObject,
   getTreeParent,
   getTreeAncestors,
-  cloneObject
+  flattenTree
 } from 'amis-core';
 import {Option, Options, value2array} from './Select';
-import {ClassNamesFn, themeable, ThemeProps, highlight} from 'amis-core';
+import {themeable, ThemeProps, highlight} from 'amis-core';
 import {Icon, getIcon} from './icons';
 import Checkbox from './Checkbox';
 import {LocaleProps, localeable} from 'amis-core';
-import Spinner from './Spinner';
+import Spinner, {SpinnerExtraProps} from './Spinner';
 import {ItemRenderStates} from './Selection';
+import VirtualList from './virtual-list';
 
 interface IDropIndicator {
   left: number;
@@ -38,7 +51,7 @@ export interface IDropInfo {
   indicator: IDropIndicator;
 }
 
-interface TreeSelectorProps extends ThemeProps, LocaleProps {
+interface TreeSelectorProps extends ThemeProps, LocaleProps, SpinnerExtraProps {
   highlightTxt?: string;
 
   onRef?: any;
@@ -93,13 +106,16 @@ interface TreeSelectorProps extends ThemeProps, LocaleProps {
 
   /*
    * 该属性代表数据级联关系，autoCheckChildren为true时生效，默认为false，具体数据级联关系如下：
-   * 1.casacde为false，ui行为为级联选中子节点，子节点禁用；值只包含父节点的值
+   * 1.cascade 为false，ui行为为级联选中子节点，子节点禁用；值只包含父节点的值
    * 2.cascade为false，withChildren为true，ui行为为级联选中子节点，子节点禁用；值包含父子节点的值
    * 3.cascade为true，ui行为级联选中子节点，子节点可反选，值包含父子节点的值，此时withChildren属性失效
    * 4.cascade不论为true还是false，onlyChildren为true，ui行为级联选中子节点，子节点可反选，值只包含子节点的值
    */
   cascade?: boolean;
 
+  /**
+   * 是否使用 disable 字段
+   */
   selfDisabledAffectChildren?: boolean;
   minLength?: number;
   maxLength?: number;
@@ -109,6 +125,9 @@ interface TreeSelectorProps extends ThemeProps, LocaleProps {
   rootCreateTip?: string;
   creatable?: boolean;
   createTip?: string;
+  // 是否开启虚拟滚动
+  virtualThreshold?: number;
+  itemHeight?: number;
   onAdd?: (
     idx?: number | Array<number>,
     value?: any,
@@ -125,6 +144,11 @@ interface TreeSelectorProps extends ThemeProps, LocaleProps {
   draggable?: boolean;
   onMove?: (dropInfo: IDropInfo) => void;
   itemRender?: (option: Option, states: ItemRenderStates) => JSX.Element;
+  // 是否允许全选
+  checkAll?: boolean;
+  // 全选按钮文案
+  checkAllLabel?: string;
+  enableDefaultIcon?: boolean;
 }
 
 interface TreeSelectorState {
@@ -134,6 +158,9 @@ interface TreeSelectorState {
   isAdding: boolean;
   isEditing: boolean;
   editingItem: Option | null;
+
+  // 拍平的 Option list
+  flattenedOptions: Option[];
 
   // 拖拽指示器
   dropIndicator?: IDropIndicator;
@@ -174,10 +201,16 @@ export class TreeSelector extends React.Component<
     removeTip: 'Tree.removeNode',
     enableNodePath: false,
     pathSeparator: '/',
-    nodePath: []
+    nodePath: [],
+    virtualThreshold: 100,
+    itemHeight: 32,
+    enableDefaultIcon: true
   };
-
+  // 展开的节点
   unfolded: WeakMap<Object, boolean> = new WeakMap();
+  // key: child option, value: parent option;
+  relations: WeakMap<Option, Option> = new WeakMap();
+
   dragNode: Option | null;
   dropInfo: IDropInfo | null;
   startPoint: {
@@ -204,7 +237,7 @@ export class TreeSelector extends React.Component<
         },
         props.enableNodePath
       ),
-
+      flattenedOptions: [],
       inputValue: '',
       addingParent: null,
       isAdding: false,
@@ -214,6 +247,7 @@ export class TreeSelector extends React.Component<
     };
 
     this.syncUnFolded(props);
+    this.flattenOptions(props, true);
   }
 
   componentDidMount() {
@@ -229,6 +263,7 @@ export class TreeSelector extends React.Component<
 
     if (prevProps.options !== props.options) {
       this.syncUnFolded(props);
+      this.flattenOptions(props);
     }
 
     if (
@@ -242,7 +277,9 @@ export class TreeSelector extends React.Component<
             multiple: props.multiple,
             delimiter: props.delimiter,
             valueField: props.valueField,
-            options: props.options
+            pathSeparator: props.pathSeparator,
+            options: props.options,
+            labelField: props.labelField
           },
           props.enableNodePath
         )
@@ -279,7 +316,13 @@ export class TreeSelector extends React.Component<
       if (node.children && node.children.length) {
         let ret: any = true;
 
-        if (node.defer && node.loaded && !initFoldedLevel) {
+        if (
+          node.defer &&
+          node.loaded &&
+          !initFoldedLevel &&
+          unfoldedField &&
+          node[unfoldedField] !== false
+        ) {
           ret = true;
         } else if (
           unfoldedField &&
@@ -306,20 +349,29 @@ export class TreeSelector extends React.Component<
   @autobind
   toggleUnfolded(node: any) {
     const unfolded = this.unfolded;
-    const {onDeferLoad} = this.props;
+    const {onDeferLoad, unfoldedField} = this.props;
 
     if (node.defer && !node.loaded) {
       onDeferLoad?.(node);
       return;
     }
+    // ！ hack: 在node上直接添加属性，options 在更新的时候旧的字段会保留
+    if (node.defer && node.loaded) {
+      node[unfoldedField] = !unfolded.get(node);
+    }
 
     unfolded.set(node, !unfolded.get(node));
+    this.flattenOptions();
     this.forceUpdate();
   }
 
-  isUnfolded(node: any) {
+  isUnfolded(node: any): boolean {
     const unfolded = this.unfolded;
-    return unfolded.get(node);
+    const parent = this.relations.get(node);
+    if (parent) {
+      return !!unfolded.get(node) && this.isUnfolded(parent);
+    }
+    return !!unfolded.get(node);
   }
 
   @autobind
@@ -419,6 +471,7 @@ export class TreeSelector extends React.Component<
 
   @autobind
   handleCheck(item: any, checked: boolean) {
+    // TODO: 重新梳理这里的逻辑
     const props = this.props;
     const value = this.state.value.concat();
     const idx = value.indexOf(item);
@@ -465,7 +518,8 @@ export class TreeSelector extends React.Component<
 
           while (true) {
             const parent = getTreeParent(props.options, toCheck);
-            if (parent?.value) {
+            // 判断 parent 节点是否已经勾选，避免重复值
+            if (parent?.value && !~value.indexOf(parent)) {
               // 如果所有孩子节点都勾选了，应该自动勾选父级。
 
               if (
@@ -511,26 +565,28 @@ export class TreeSelector extends React.Component<
       {
         value
       },
-      () => {
-        const {
-          joinValues,
-          extractValue,
-          valueField,
-          delimiter,
-          onChange,
-          enableNodePath
-        } = props;
+      () => this.fireChange(value)
+    );
+  }
 
-        onChange(
-          enableNodePath
-            ? this.transform2NodePath(value)
-            : joinValues
-            ? value.map(item => item[valueField as string]).join(delimiter)
-            : extractValue
-            ? value.map(item => item[valueField as string])
-            : value
-        );
-      }
+  fireChange(value: Option[]) {
+    const {
+      joinValues,
+      extractValue,
+      valueField,
+      delimiter,
+      onChange,
+      enableNodePath
+    } = this.props;
+
+    onChange(
+      enableNodePath
+        ? this.transform2NodePath(value)
+        : joinValues
+        ? value.map(item => item[valueField as string]).join(delimiter)
+        : extractValue
+        ? value.map(item => item[valueField as string])
+        : value
     );
   }
 
@@ -542,11 +598,28 @@ export class TreeSelector extends React.Component<
       const idxes = findTreeIndex(options, item => item === parent) || [];
       return onAdd && onAdd(idxes.concat(0));
     } else {
-      this.setState({
-        isEditing: false,
-        isAdding: true,
-        addingParent: parent
-      });
+      this.setState(
+        {
+          isEditing: false,
+          isAdding: true,
+          addingParent: parent
+        },
+        () => {
+          if (!parent) {
+            return;
+          }
+
+          const result = [] as Option[];
+
+          for (let option of this.state.flattenedOptions) {
+            result.push(option);
+            if (option === parent) {
+              result.push({...option, isAdding: true});
+            }
+          }
+          this.setState({flattenedOptions: result});
+        }
+      );
     }
   }
 
@@ -593,7 +666,6 @@ export class TreeSelector extends React.Component<
     if (!value) {
       return;
     }
-
     const {labelField, onAdd, options, onEdit} = this.props;
     this.setState(
       {
@@ -624,10 +696,15 @@ export class TreeSelector extends React.Component<
 
   @autobind
   handleCancel() {
+    const {flattenedOptions} = this.state;
+    const flattenedOptionsWithoutAdding = flattenedOptions.filter(
+      item => !item.isAdding
+    );
     this.setState({
       inputValue: '',
       isAdding: false,
-      isEditing: false
+      isEditing: false,
+      flattenedOptions: flattenedOptionsWithoutAdding
     });
   }
 
@@ -710,7 +787,7 @@ export class TreeSelector extends React.Component<
 
   @autobind
   updateDropIndicator(e: React.DragEvent<Element>, node: Option) {
-    const gap = node?.children?.length ? 0 : 16;
+    // const gap = node?.children?.length ? 0 : 16;
     this.dropInfo = this.getDropInfo(e, node);
     let {dragNode, indicator} = this.dropInfo;
     if (node === dragNode) {
@@ -738,6 +815,7 @@ export class TreeSelector extends React.Component<
 
         if (node?.children?.length) {
           this.unfolded.set(node, false);
+          this.flattenOptions();
           this.forceUpdate();
         }
       } else {
@@ -776,31 +854,198 @@ export class TreeSelector extends React.Component<
     };
   }
 
+  /**
+   * 将树形接口转换为平铺结构，以支持虚拟列表
+   * TODO: this.unfolded => reaction 更加合理
+   */
+  flattenOptions(
+    props?: TreeSelectorProps,
+    initial?: boolean
+  ): void | Option[] {
+    let flattenedOptions: Option[] = [];
+
+    eachTree(
+      props?.options || this.props.options,
+      (item, index, level, paths: Option[]) => {
+        const parent = paths[paths.length - 2];
+        if (!isVisible(item)) {
+          return;
+        }
+        if (paths.length === 1) {
+          // 父节点
+          flattenedOptions.push(item);
+        } else if (this.isUnfolded(parent)) {
+          this.relations.set(item, parent);
+          // 父节点是展开的状态
+          item.level = level;
+          flattenedOptions.push(item);
+        }
+      }
+    );
+    if (initial) {
+      // 初始化
+      this.state = {...this.state, flattenedOptions};
+    } else {
+      this.setState({
+        flattenedOptions: flattenedOptions
+      });
+    }
+  }
+
+  /**
+   * 判断父元素是否勾选
+   * TODO: 递归可能需要优化
+   */
+  isParentChecked(item?: Option): boolean {
+    if (!item || !this.relations.get(item)) {
+      return false;
+    }
+    const itemParent = this.relations.get(item);
+    const {value} = this.state;
+    const checked = !!~value.indexOf(itemParent);
+
+    return checked || this.isParentChecked(itemParent);
+  }
+
+  /**
+   * 判断 子元素 是否全部选中
+   */
+  isItemChildrenChecked(item: Option) {
+    if (!item || !item.children) {
+      return true;
+    }
+    return !item.children.some(child => !this.isItemChecked(child));
+  }
+
+  /**
+   * 判断子元素 部分勾选
+   */
+  isItemChildrenPartialChecked(item: Option, checked: boolean): boolean {
+    if (!item || !item.children || checked) {
+      return false;
+    }
+    let checkedLength = 0;
+    let partialChildrenLength = 0;
+    for (const child of item.children) {
+      if (this.isItemChecked(child)) {
+        checkedLength++;
+      } else if (this.isItemChildrenPartialChecked(child, false)) {
+        partialChildrenLength++;
+      }
+    }
+
+    return checkedLength !== 0 || partialChildrenLength !== 0;
+  }
+
+  /**
+   * 判断元素是否选中：checked
+   */
+  isItemChecked(item?: Option): boolean {
+    if (!item) {
+      return false;
+    }
+
+    const {autoCheckChildren, onlyChildren, multiple, withChildren, cascade} =
+      this.props;
+    const {value} = this.state;
+    const checked = !!~value.indexOf(item);
+
+    if (checked) {
+      return true;
+    }
+
+    if (item.children?.length) {
+      if (
+        onlyChildren &&
+        autoCheckChildren &&
+        this.isItemChildrenChecked(item) // TODO: 优化这个逻辑
+      ) {
+        // 当前元素没有在 value 中，但是子组件全部勾选了
+        return true;
+      }
+    }
+    const itemParent = this.relations.get(item);
+    if (itemParent && multiple && autoCheckChildren) {
+      // 当前节点为子节点
+      if (withChildren) {
+        return false;
+      }
+      if (cascade) {
+        return false;
+      }
+      return this.isParentChecked(item);
+    }
+
+    // 判断父组件是否勾选
+    return false;
+  }
+
+  /**
+   * item 是否 disabled 状态
+   * props.disabled === true return;
+   *
+   */
+  isItemDisabled(item: Option, checked: boolean) {
+    const {
+      disabledField,
+      disabled,
+      autoCheckChildren,
+      valueField,
+      multiple,
+      maxLength,
+      minLength,
+      cascade,
+      onlyChildren
+    } = this.props;
+    const {value} = this.state;
+    const selfDisabled = item[disabledField];
+    const nodeDisabled =
+      !!disabled ||
+      selfDisabled ||
+      (multiple && !autoCheckChildren && !item[valueField]);
+
+    if (nodeDisabled) {
+      return true;
+    }
+
+    if (
+      (maxLength && !checked && value.length >= maxLength) ||
+      (minLength && checked && value.length <= minLength)
+    ) {
+      return true;
+    }
+
+    const itemParent = this.relations.get(item);
+
+    if (
+      autoCheckChildren &&
+      multiple &&
+      checked &&
+      itemParent &&
+      this.isItemChecked(itemParent)
+    ) {
+      // 子节点
+      if (onlyChildren) {
+        return false;
+      }
+      return !cascade;
+    }
+
+    return false;
+  }
+
   @autobind
-  renderList(
-    list: Options,
-    value: Option[],
-    uncheckable: boolean
-  ): {dom: Array<JSX.Element | null>; childrenChecked: number} {
+  renderItem({index, style}: {index: number; style?: Record<string, any>}) {
     const {
       itemClassName,
       showIcon,
       showRadio,
       multiple,
-      disabled,
       labelField,
-      valueField,
       iconField,
-      disabledField,
-      autoCheckChildren,
       cascade,
-      selfDisabledAffectChildren,
-      onlyChildren,
       classnames: cx,
       highlightTxt,
-      options,
-      maxLength,
-      minLength,
       creatable,
       editable,
       removable,
@@ -809,263 +1054,307 @@ export class TreeSelector extends React.Component<
       removeTip,
       translate: __,
       itemRender,
-      draggable
+      draggable,
+      loadingConfig,
+      enableDefaultIcon,
+      valueField
     } = this.props;
-    const {
-      value: stateValue,
-      isAdding,
-      addingParent,
-      editingItem,
-      isEditing
-    } = this.state;
 
-    let childrenChecked = 0;
-    let ret = list.map((item, key) => {
-      if (!isVisible(item as any, options)) {
-        return null;
-      }
-      const checked = !!~value.indexOf(item);
-      const selfDisabled = item[disabledField];
-      let selfChecked = !!uncheckable || checked;
-      let childrenItems = null;
-      let selfChildrenChecked = false;
-      if (item.children && item.children.length) {
-        childrenItems = this.renderList(
-          item.children,
-          value,
-          !autoCheckChildren || cascade
-            ? false
-            : uncheckable ||
-                (selfDisabledAffectChildren ? selfDisabled : false) ||
-                (multiple && checked)
-        );
-        selfChildrenChecked = !!childrenItems.childrenChecked;
-        if (
-          !selfChecked &&
-          onlyChildren &&
-          autoCheckChildren &&
-          item.children.length === childrenItems.childrenChecked
-        ) {
-          selfChecked = true;
-        }
-        childrenItems = childrenItems.dom;
-      }
+    const item = this.state.flattenedOptions[index];
 
-      if ((onlyChildren ? selfChecked : selfChildrenChecked) || checked) {
-        childrenChecked++;
-      }
+    if (!item) {
+      return null;
+    }
 
-      let nodeDisabled =
-        !!uncheckable ||
-        !!disabled ||
-        selfDisabled ||
-        (multiple && !autoCheckChildren && !item[valueField]);
+    const {isAdding, editingItem, isEditing} = this.state;
 
-      if (
-        !nodeDisabled &&
-        ((maxLength && !selfChecked && stateValue.length >= maxLength) ||
-          (minLength && selfChecked && stateValue.length <= minLength))
-      ) {
-        nodeDisabled = true;
-      }
-      const checkbox: JSX.Element | null = multiple ? (
-        <Checkbox
-          size="sm"
-          disabled={nodeDisabled}
-          checked={selfChecked || (autoCheckChildren && selfChildrenChecked)}
-          partial={!selfChecked}
-          onChange={this.handleCheck.bind(this, item, !selfChecked)}
-        />
-      ) : showRadio ? (
-        <Checkbox
-          size="sm"
-          disabled={nodeDisabled}
-          checked={checked}
-          onChange={this.handleSelect.bind(this, item)}
-        />
-      ) : null;
+    const checked = this.isItemChecked(item);
+    const disabled = this.isItemDisabled(item, checked);
+    const partial = this.isItemChildrenPartialChecked(item, checked);
+    const checkedInValue = !!~this.state.value.indexOf(item);
 
-      const isLeaf =
-        (!item.children || !item.children.length) && !item.placeholder;
+    const checkbox: JSX.Element | null = multiple ? (
+      <Checkbox
+        size="sm"
+        disabled={disabled}
+        checked={checked || partial}
+        partial={partial}
+        onChange={this.handleCheck.bind(this, item, !checked)}
+      />
+    ) : showRadio ? (
+      <Checkbox
+        size="sm"
+        disabled={disabled}
+        checked={checked}
+        onChange={this.handleSelect.bind(this, item)}
+      />
+    ) : null;
 
-      const iconValue = item[iconField] || (childrenItems ? 'folder' : 'file');
+    const isLeaf =
+      (!item.children || !item.children.length) && !item.placeholder;
+    const iconValue =
+      item[iconField] ||
+      (enableDefaultIcon !== false
+        ? item.children
+          ? 'folder'
+          : 'file'
+        : false);
+    const level = item.level ? item.level - 1 : 0;
 
-      return (
-        <li
-          key={key}
-          className={cx(`Tree-item ${itemClassName || ''}`, {
-            'Tree-item--isLeaf': isLeaf
+    let body = null;
+
+    if (isEditing && editingItem === item) {
+      body = this.renderInput(checkbox);
+    } else if (item.isAdding) {
+      body = this.renderInput(checkbox);
+    } else {
+      body = (
+        <div
+          className={cx('Tree-itemLabel', {
+            'is-children-checked':
+              multiple &&
+              !cascade &&
+              this.isItemChildrenChecked(item) &&
+              !disabled,
+            'is-checked': checkedInValue,
+            'is-disabled': disabled
           })}
+          draggable={draggable}
+          onDragStart={this.onDragStart(item)}
+          onDragOver={this.onDragOver(item)}
+          onDragEnd={this.onDragEnd(item)}
         >
-          {isEditing && editingItem === item ? (
-            this.renderInput(checkbox)
-          ) : (
+          {draggable && (
+            <a className={cx('Tree-itemDrager drag-bar')}>
+              <Icon icon="drag-bar" className="icon" />
+            </a>
+          )}
+
+          {item.loading ? (
+            <Spinner
+              size="sm"
+              show
+              icon="reload"
+              spinnerClassName={cx('Tree-spinner')}
+              loadingConfig={loadingConfig}
+            />
+          ) : !isLeaf || (item.defer && !item.loaded) ? (
             <div
-              className={cx('Tree-itemLabel', {
-                'is-children-checked':
-                  multiple && !cascade && selfChildrenChecked && !nodeDisabled,
-                'is-checked': checked,
-                'is-disabled': nodeDisabled
+              onClick={() => this.toggleUnfolded(item)}
+              className={cx('Tree-itemArrow', {
+                'is-folded': !this.isUnfolded(item)
               })}
-              draggable={draggable}
-              onDragStart={this.onDragStart(item)}
-              onDragOver={this.onDragOver(item)}
-              onDragEnd={this.onDragEnd(item)}
             >
-              {draggable && (
-                <a className={cx('Tree-itemDrager drag-bar')}>
-                  <Icon icon="drag-bar" className="icon" />
-                </a>
-              )}
+              <Icon icon="down-arrow-bold" className="icon" />
+            </div>
+          ) : (
+            <span className={cx('Tree-itemArrowPlaceholder')} />
+          )}
 
-              {item.loading ? (
-                <Spinner
-                  size="sm"
-                  show
-                  icon="reload"
-                  spinnerClassName={cx('Tree-spinner')}
-                />
-              ) : !isLeaf || (item.defer && !item.loaded) ? (
-                <div
-                  onClick={() => this.toggleUnfolded(item)}
-                  className={cx('Tree-itemArrow', {
-                    'is-folded': !this.isUnfolded(item)
-                  })}
-                >
-                  <Icon icon="down-arrow-bold" className="icon" />
-                </div>
-              ) : (
-                <span className={cx('Tree-itemArrowPlaceholder')} />
-              )}
+          {checkbox}
 
-              {checkbox}
+          <div className={cx('Tree-itemLabel-item')}>
+            {showIcon ? (
+              <i
+                className={cx(
+                  `Tree-itemIcon ${
+                    item.children ? 'Tree-folderIcon' : 'Tree-leafIcon'
+                  }`
+                )}
+                onClick={() =>
+                  !disabled &&
+                  (multiple
+                    ? this.handleCheck(item, !checked)
+                    : this.handleSelect(item))
+                }
+              >
+                {iconValue ? (
+                  getIcon(iconValue) ? (
+                    <Icon icon={iconValue} className="icon" />
+                  ) : React.isValidElement(iconValue) ? (
+                    iconValue
+                  ) : (
+                    <i className={iconValue}></i>
+                  )
+                ) : null}
+              </i>
+            ) : null}
 
-              <div className={cx(
-                'Tree-itemLabel-item'
-              )}>
-                {showIcon ? (
-                  <i
-                    className={cx(
-                      `Tree-itemIcon ${
-                        childrenItems ? 'Tree-folderIcon' : 'Tree-leafIcon'
-                      }`
-                    )}
-                    onClick={() =>
-                      !nodeDisabled &&
-                      (multiple
-                        ? this.handleCheck(item, !selfChecked)
-                        : this.handleSelect(item))
-                    }
+            <span
+              className={cx('Tree-itemText')}
+              onClick={() =>
+                !disabled &&
+                (multiple
+                  ? this.handleCheck(item, !checked)
+                  : this.handleSelect(item))
+              }
+              title={item[labelField]}
+            >
+              {itemRender
+                ? itemRender(item, {
+                    index,
+                    multiple: multiple,
+                    checked: checked,
+                    onChange: () => this.handleCheck(item, !checked),
+                    disabled: disabled || item.disabled
+                  })
+                : highlightTxt
+                ? highlight(`${item[labelField]}`, highlightTxt)
+                : `${item[labelField]}`}
+            </span>
+
+            {!disabled &&
+            !isAdding &&
+            !isEditing &&
+            !(item.defer && !item.loaded) ? (
+              <div className={cx('Tree-item-icons')}>
+                {creatable && hasAbility(item, 'creatable') ? (
+                  <a
+                    onClick={this.handleAdd.bind(this, item)}
+                    data-tooltip={__(createTip)}
+                    data-position="left"
                   >
-                    {getIcon(iconValue) ? (
-                      <Icon icon={iconValue} className="icon" />
-                    ) : React.isValidElement(iconValue) ? (
-                      iconValue
-                    ) : (
-                      <i className={iconValue}></i>
-                    )}
-                  </i>
+                    <Icon icon="plus" className="icon" />
+                  </a>
                 ) : null}
 
-                <span
-                  className={cx('Tree-itemText')}
-                  onClick={() =>
-                    !nodeDisabled &&
-                    (multiple
-                      ? this.handleCheck(item, !selfChecked)
-                      : this.handleSelect(item))
-                  }
-                  title={item[labelField]}
-                >
-                  {highlightTxt
-                    ? highlight(`${item[labelField]}`, highlightTxt)
-                    : itemRender
-                    ? itemRender(item, {
-                        index: key,
-                        multiple: multiple,
-                        checked: checked,
-                        onChange: () => this.handleCheck(item, !selfChecked),
-                        disabled: disabled || item.disabled
-                      })
-                    : `${item[labelField]}`}
-                </span>
+                {removable && hasAbility(item, 'removable') ? (
+                  <a
+                    onClick={this.handleRemove.bind(this, item)}
+                    data-tooltip={__(removeTip)}
+                    data-position="left"
+                  >
+                    <Icon icon="minus" className="icon" />
+                  </a>
+                ) : null}
 
-                {!nodeDisabled &&
-                !isAdding &&
-                !isEditing &&
-                !(item.defer && !item.loaded) ? (
-                  <div className={cx('Tree-item-icons')}>
-                    {creatable && hasAbility(item, 'creatable') ? (
-                      <a
-                        onClick={this.handleAdd.bind(this, item)}
-                        data-tooltip={__(createTip)}
-                        data-position="left"
-                      >
-                        <Icon icon="plus" className="icon" />
-                      </a>
-                    ) : null}
-
-                    {removable && hasAbility(item, 'removable') ? (
-                      <a
-                        onClick={this.handleRemove.bind(this, item)}
-                        data-tooltip={__(removeTip)}
-                        data-position="left"
-                      >
-                        <Icon icon="minus" className="icon" />
-                      </a>
-                    ) : null}
-
-                    {editable && hasAbility(item, 'editable') ? (
-                      <a
-                        onClick={this.handleEdit.bind(this, item)}
-                        data-tooltip={__(editTip)}
-                        data-position="left"
-                      >
-                        <Icon icon="new-edit" className="icon" />
-                      </a>
-                    ) : null}
-                  </div>
+                {editable && hasAbility(item, 'editable') ? (
+                  <a
+                    onClick={this.handleEdit.bind(this, item)}
+                    data-tooltip={__(editTip)}
+                    data-position="left"
+                  >
+                    <Icon icon="new-edit" className="icon" />
+                  </a>
                 ) : null}
               </div>
-              
-
-              
-              
-            </div>
-          )}
-          {/* 有children而且为展开状态 或者 添加child时 */}
-          {(childrenItems && this.isUnfolded(item)) ||
-          (isAdding && addingParent === item) ? (
-            <ul className={cx('Tree-sublist')}>
-              {isAdding && addingParent === item ? (
-                <li className={cx('Tree-item')}>
-                  {this.renderInput(
-                    checkbox
-                      ? React.cloneElement(checkbox, {
-                          checked: false,
-                          disabled: true
-                        })
-                      : null
-                  )}
-                </li>
-              ) : null}
-              {childrenItems}
-            </ul>
-          ) : !childrenItems && item.placeholder && this.isUnfolded(item) ? (
-            <ul className={cx('Tree-sublist')}>
-              <li className={cx('Tree-item')}>
-                <div className={cx('Tree-placeholder')}>{item.placeholder}</div>
-              </li>
-            </ul>
-          ) : null}
-        </li>
+            ) : null}
+          </div>
+        </div>
       );
-    });
+    }
 
-    return {
-      dom: ret,
-      childrenChecked
-    };
+    return (
+      <li
+        key={item[valueField]}
+        className={cx(`Tree-item ${itemClassName || ''}`, {
+          'Tree-item--isLeaf': isLeaf,
+          'is-child': this.relations.get(item)
+        })}
+        style={{
+          ...style,
+          left: `calc(${level} * var(--Tree-indent))`,
+          width: `calc(100% - ${level} * var(--Tree-indent))`
+        }}
+      >
+        {body}
+      </li>
+    );
+  }
+
+  isEmptyOrNotExist(obj: any) {
+    return obj === '' || obj === undefined || obj === null;
+  }
+
+  getAvailableOptions() {
+    const {options, onlyChildren, valueField} = this.props;
+    const flattendOptions = flattenTree(options, item =>
+      onlyChildren
+        ? item.children
+          ? null
+          : item
+        : this.isEmptyOrNotExist(item[valueField || 'value'])
+        ? null
+        : item
+    ).filter(a => a && !a.disabled);
+
+    return flattendOptions as Option[];
+  }
+
+  @autobind
+  handleCheckAll(availableOptions: Option[], checkedAll: boolean) {
+    this.setState(
+      {
+        value: checkedAll ? [] : availableOptions
+      },
+      () => this.fireChange(checkedAll ? [] : availableOptions)
+    );
+  }
+
+  renderCheckAll() {
+    const {
+      multiple,
+      checkAll,
+      checkAllLabel,
+      classnames: cx,
+      translate: __,
+      disabled
+    } = this.props;
+
+    if (!multiple || !checkAll) {
+      return null;
+    }
+
+    const availableOptions = this.getAvailableOptions();
+
+    const checkedAll = availableOptions.every(option =>
+      this.isItemChecked(option)
+    );
+    const checkedPartial = availableOptions.some(option =>
+      this.isItemChecked(option)
+    );
+
+    return (
+      <div
+        className={cx('Tree-itemLabel')}
+        onClick={() => this.handleCheckAll(availableOptions, checkedAll)}
+      >
+        <Checkbox
+          size="sm"
+          disabled={disabled}
+          checked={checkedPartial}
+          partial={checkedPartial && !checkedAll}
+        />
+
+        <div className={cx('Tree-itemLabel-item')}>
+          <span className={cx('Tree-itemText')}>{__(checkAllLabel)}</span>
+        </div>
+      </div>
+    );
+  }
+
+  @autobind
+  renderList(list: Options, value: any[]) {
+    const {virtualThreshold, itemHeight = 32} = this.props;
+    if (virtualThreshold && list.length > virtualThreshold) {
+      return (
+        <VirtualList
+          height={list.length > 8 ? 266 : list.length * itemHeight}
+          itemCount={list.length}
+          prefix={this.renderCheckAll()}
+          itemSize={itemHeight}
+          //! hack: 让 VirtualList 重新渲染
+          renderItem={this.renderItem.bind(this)}
+        />
+      );
+    }
+
+    return (
+      <>
+        {this.renderCheckAll()}
+        {list.map((item, index) => this.renderItem({index}))}
+      </>
+    );
   }
 
   render() {
@@ -1084,14 +1373,13 @@ export class TreeSelector extends React.Component<
       draggable,
       translate: __
     } = this.props;
-    let options = this.props.options;
     const {
       value,
       isAdding,
       addingParent,
       isEditing,
-      inputValue,
-      dropIndicator
+      dropIndicator,
+      flattenedOptions
     } = this.state;
 
     let addBtn = null;
@@ -1119,7 +1407,9 @@ export class TreeSelector extends React.Component<
         })}
         ref={this.root}
       >
-        {(options && options.length) || addBtn || hideRoot === false ? (
+        {(flattenedOptions && flattenedOptions.length) ||
+        addBtn ||
+        hideRoot === false ? (
           <ul className={cx('Tree-list')}>
             {hideRoot ? (
               <>
@@ -1127,7 +1417,8 @@ export class TreeSelector extends React.Component<
                 {isAdding && !addingParent ? (
                   <li className={cx('Tree-item')}>{this.renderInput()}</li>
                 ) : null}
-                {this.renderList(options, value, false).dom}
+
+                {this.renderList(flattenedOptions, value)}
               </>
             ) : (
               <li
@@ -1169,7 +1460,7 @@ export class TreeSelector extends React.Component<
                   {isAdding && !addingParent ? (
                     <li className={cx('Tree-item')}>{this.renderInput()}</li>
                   ) : null}
-                  {this.renderList(options, value, false).dom}
+                  {this.renderList(flattenedOptions, value)}
                 </ul>
               </li>
             )}

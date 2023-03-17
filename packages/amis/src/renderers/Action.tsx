@@ -3,14 +3,16 @@ import hotkeys from 'hotkeys-js';
 import {
   ActionObject,
   extendObject,
+  insertCustomStyle,
   IScopedContext,
   isObject,
   Renderer,
   RendererProps,
-  ScopedContext
+  ScopedContext,
+  uuid
 } from 'amis-core';
 import {filter} from 'amis-core';
-import {BadgeObject, Button} from 'amis-ui';
+import {BadgeObject, Button, SpinnerExtraProps} from 'amis-ui';
 import pick from 'lodash/pick';
 import omit from 'lodash/omit';
 
@@ -182,6 +184,11 @@ export interface AjaxActionSchema extends ButtonSchema {
   reload?: SchemaReload;
   redirect?: string;
   ignoreConfirm?: boolean;
+
+  /**
+   * 是否开启请求隔离, 主要用于隔离联动CRUD, Service的请求
+   */
+  isolateScope?: boolean;
 }
 
 export interface DownloadActionSchema
@@ -416,7 +423,8 @@ const ActionProps = [
   'payload',
   'requireSelected',
   'countDown',
-  'fileName'
+  'fileName',
+  'isolateScope'
 ];
 import {filterContents} from './Remark';
 import {ClassNamesFn, themeable, ThemeProps} from 'amis-core';
@@ -562,7 +570,8 @@ export interface ActionProps
       | 'iconClassName'
       | 'rightIconClassName'
       | 'loadingClassName'
-    > {
+    >,
+    SpinnerExtraProps {
   actionType: any;
   onAction?: (
     e: React.MouseEvent<any> | void | null,
@@ -613,7 +622,10 @@ export class Action extends React.Component<ActionProps, ActionState> {
 
   constructor(props: ActionProps) {
     super(props);
-    this.localStorageKey = 'amis-countdownend-' + (this.props.name || '');
+    this.localStorageKey =
+      'amis-countdownend-' +
+      (this.props.name || '') +
+      (this.props?.$schema?.id || uuid());
     const countDownEnd = parseInt(
       localStorage.getItem(this.localStorageKey) || '0'
     );
@@ -755,6 +767,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
       countDownTpl,
       block,
       className,
+      style,
       componentClass,
       tooltip,
       disabledTip,
@@ -777,8 +790,27 @@ export class Action extends React.Component<ActionProps, ActionState> {
       onMouseEnter,
       onMouseLeave,
       classnames: cx,
-      classPrefix: ns
+      classPrefix: ns,
+      loadingConfig,
+      css,
+      id
     } = this.props;
+    insertCustomStyle(
+      css,
+      [
+        {
+          key: 'className',
+          value: className,
+          weights: {
+            hover: {
+              suf: ':not(:disabled):not(.is-disabled)'
+            },
+            active: {suf: ':not(:disabled):not(.is-disabled)'}
+          }
+        }
+      ],
+      id
+    );
 
     if (actionType !== 'email' && body) {
       return (
@@ -793,6 +825,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
         >
           <div
             className={cx('Action', className)}
+            style={style}
             onClick={this.handleAction}
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
@@ -830,9 +863,11 @@ export class Action extends React.Component<ActionProps, ActionState> {
 
     return (
       <Button
+        loadingConfig={loadingConfig}
         className={cx(className, {
           [activeClassName || 'is-active']: isActive
         })}
+        style={style}
         size={size}
         level={
           activeLevel && isActive
@@ -922,13 +957,22 @@ export class ActionRenderer extends React.Component<ActionRendererProps> {
     let mergedData = data;
 
     if (action?.actionType === 'click' && isObject(action?.args)) {
-      mergedData = createObject(data, action.args);
+      mergedData = createObject(data, {
+        ...action.args,
+        nativeEvent: e
+      });
     }
 
     const hasOnEvent = $schema.onEvent && Object.keys($schema.onEvent).length;
+    let confirmText: string = '';
     // 有些组件虽然要求这里忽略二次确认，但是如果配了事件动作还是需要在这里等待二次确认提交才可以
-    if ((!ignoreConfirm || hasOnEvent) && action.confirmText && env.confirm) {
-      let confirmed = await env.confirm(filter(action.confirmText, mergedData));
+    if (
+      (!ignoreConfirm || hasOnEvent) &&
+      action.confirmText &&
+      env.confirm &&
+      (confirmText = filter(action.confirmText, mergedData))
+    ) {
+      let confirmed = await env.confirm(confirmText);
       if (confirmed) {
         // 触发渲染器事件
         const rendererEvent = await dispatchEvent(
@@ -942,7 +986,7 @@ export class ActionRenderer extends React.Component<ActionRendererProps> {
         }
 
         // 因为crud里面也会处理二次确认，所以如果按钮处理过了就跳过crud的二次确认
-        await onAction(e, {...action, ignoreConfirm: !!hasOnEvent}, mergedData);
+        onAction(e, {...action, ignoreConfirm: !!hasOnEvent}, mergedData);
       } else if (action.countDown) {
         throw new Error('cancel');
       }
@@ -958,18 +1002,30 @@ export class ActionRenderer extends React.Component<ActionRendererProps> {
         return;
       }
 
-      await onAction(e, action, mergedData);
+      onAction(e, action, mergedData);
     }
   }
 
   @autobind
   handleMouseEnter(e: React.MouseEvent<any>) {
-    this.props.dispatchEvent(e, this.props.data);
+    const {dispatchEvent, data} = this.props;
+    dispatchEvent(
+      e,
+      createObject(data, {
+        nativeEvent: e
+      })
+    );
   }
 
   @autobind
   handleMouseLeave(e: React.MouseEvent<any>) {
-    this.props.dispatchEvent(e, this.props.data);
+    const {dispatchEvent, data} = this.props;
+    dispatchEvent(
+      e,
+      createObject(data, {
+        nativeEvent: e
+      })
+    );
   }
 
   @autobind

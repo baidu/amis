@@ -32,6 +32,8 @@ export interface CBGroupOrItemProps extends ThemeProps {
   formula?: FormulaPickerProps;
   popOverContainer?: any;
   renderEtrValue?: any;
+  selectMode?: 'list' | 'tree';
+  isCollapsed?: boolean;
 }
 
 export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
@@ -79,7 +81,9 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
       onDragStart,
       formula,
       popOverContainer,
-      renderEtrValue
+      selectMode,
+      renderEtrValue,
+      isCollapsed
     } = this.props;
 
     return (
@@ -92,10 +96,9 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
         <div className={cx('CBGroupOrItem-body')}>
           {value?.conjunction ? (
             <div
-              className={cx(
-                'CBGroupOrItem-body-group',
-                this.state.hover && 'CBGroupOrItem-body-group--hover'
-              )}
+              className={cx('CBGroupOrItem-body-group', {
+                'is-hover': this.state.hover
+              })}
               onMouseOver={this.handlerHoverIn}
               onMouseOut={this.handlerHoverOut}
             >
@@ -109,6 +112,8 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
                 </a>
               ) : null}
               <ConditionGroup
+                isCollapsed={isCollapsed}
+                draggable={draggable}
                 disabled={disabled}
                 searchable={searchable}
                 onDragStart={onDragStart}
@@ -148,11 +153,13 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
                 formula={formula}
                 popOverContainer={popOverContainer}
                 renderEtrValue={renderEtrValue}
+                selectMode={selectMode}
               />
               <Button
                 className={cx('CBDelete')}
                 onClick={this.handleItemRemove}
                 disabled={disabled}
+                level="link"
               >
                 <Icon icon="remove" className="icon" />
               </Button>

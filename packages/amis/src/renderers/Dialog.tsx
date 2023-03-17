@@ -3,7 +3,7 @@ import {ScopedContext, IScopedContext} from 'amis-core';
 import {Renderer, RendererProps} from 'amis-core';
 import {SchemaNode, Schema, ActionObject} from 'amis-core';
 import {filter} from 'amis-core';
-import {Modal} from 'amis-ui';
+import {Modal, SpinnerExtraProps} from 'amis-ui';
 import {
   guid,
   isVisible,
@@ -111,7 +111,8 @@ export type DialogSchemaBase = Omit<DialogSchema, 'type'>;
 
 export interface DialogProps
   extends RendererProps,
-    Omit<DialogSchema, 'className'> {
+    Omit<DialogSchema, 'className'>,
+    SpinnerExtraProps {
   onClose: (confirmed?: boolean) => void;
   onConfirm: (
     values: Array<object>,
@@ -510,6 +511,7 @@ export default class Dialog extends React.Component<DialogProps> {
     const store = this.props.store;
     const {
       className,
+      style,
       size,
       height,
       width,
@@ -529,17 +531,19 @@ export default class Dialog extends React.Component<DialogProps> {
       env,
       classnames: cx,
       classPrefix,
-      translate: __
+      translate: __,
+      loadingConfig
     } = {
       ...this.props,
       ...store.schema
-    } as any;
+    } as DialogProps;
 
     const Wrapper = wrapperComponent || Modal;
     return (
       <Wrapper
         classPrefix={classPrefix}
         className={cx(className)}
+        style={style}
         size={size}
         height={height}
         width={width}
@@ -607,11 +611,12 @@ export default class Dialog extends React.Component<DialogProps> {
           : null}
 
         {(!store.entered && lazyRender) || (lazySchema && !body) ? (
-          <div className={cx('Modal-body', bodyClassName)}>
-            <Spinner overlay show size="lg" />
+          <div className={cx('Modal-body', bodyClassName)} role="dialog-body">
+            <Spinner overlay show size="lg" loadingConfig={loadingConfig} />
           </div>
         ) : body ? (
-          <div className={cx('Modal-body', bodyClassName)}>
+          // dialog-body 用于在 editor 中定位元素
+          <div className={cx('Modal-body', bodyClassName)} role="dialog-body">
             {this.renderBody(body, 'body')}
           </div>
         ) : null}
@@ -696,7 +701,6 @@ export class DialogRenderer extends Dialog {
     rawAction?: ActionObject
   ) {
     const scoped = this.context as IScopedContext;
-
     const targets: Array<any> = [];
     const {onConfirm, store} = this.props;
 
@@ -709,7 +713,8 @@ export class DialogRenderer extends Dialog {
       );
     }
 
-    if (!targets.length) {
+    /** 如果为隔离动作, 则不做联动处理, 继续交给handleAction */
+    if (action?.isolateScope !== true && !targets.length) {
       let components = scoped
         .getComponents()
         .filter(item => !~['drawer', 'dialog'].indexOf(item.props.type));
@@ -751,7 +756,8 @@ export class DialogRenderer extends Dialog {
             (action.type === 'submit' ||
               action.actionType === 'submit' ||
               action.actionType === 'confirm') &&
-            action.close !== false
+            action.close !== false &&
+            !targets.some(item => item.props.closeDialogOnSubmit === false)
           ) {
             onConfirm && onConfirm(values, rawAction || action, ctx, targets);
           } else if (action.close) {
@@ -786,7 +792,8 @@ export class DialogRenderer extends Dialog {
     throwErrors: boolean = false,
     delegate?: IScopedContext
   ) {
-    const {onAction, store, onConfirm, env, dispatchEvent} = this.props;
+    const {onAction, store, onConfirm, env, dispatchEvent, onClose} =
+      this.props;
     if (action.from === this.$$id) {
       return onAction
         ? onAction(e, action, data, throwErrors, delegate || this.context)
@@ -809,8 +816,11 @@ export class DialogRenderer extends Dialog {
       if (rendererEvent?.prevented) {
         return;
       }
+
       store.setCurrentAction(action);
-      this.handleSelfClose();
+      // clear error
+      store.updateMessage();
+      onClose();
       action.close && this.closeTarget(action.close);
     } else if (action.actionType === 'confirm') {
       const rendererEvent = await dispatchEvent(
@@ -820,15 +830,22 @@ export class DialogRenderer extends Dialog {
       if (rendererEvent?.prevented) {
         return;
       }
+
       store.setCurrentAction(action);
-      this.tryChildrenToHandle(
+      const handleResult = this.tryChildrenToHandle(
         {
           ...action,
           actionType: 'submit'
         },
         data,
         action
-      ) || this.handleSelfClose(undefined, true);
+      );
+
+      if (!handleResult) {
+        // clear error
+        store.updateMessage();
+        onClose(true);
+      }
     } else if (action.actionType === 'next' || action.actionType === 'prev') {
       store.setCurrentAction(action);
       if (action.type === 'submit') {
@@ -874,7 +891,8 @@ export class DialogRenderer extends Dialog {
           const reidrect =
             action.redirect && filter(action.redirect, store.data);
           reidrect && env.jumpTo(reidrect, action);
-          action.reload && this.reloadTarget(action.reload, store.data);
+          action.reload &&
+            this.reloadTarget(filter(action.reload, store.data), store.data);
           if (action.close) {
             this.handleSelfClose();
             this.closeTarget(action.close);
@@ -993,5 +1011,10 @@ export class DialogRenderer extends Dialog {
 
   setData(values: object) {
     return this.props.store.updateData(values);
+  }
+
+  getData() {
+    const {store} = this.props;
+    return store.data;
   }
 }

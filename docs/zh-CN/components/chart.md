@@ -174,6 +174,8 @@ api 返回支持两种格式，一种是直接返回完整 echarts 配置，数�
 
 有时候数据是在上层获取的，比如通过 service 中返回了数据，这时需要通过 `trackExpression` 来指定跟踪什么数据，比如下面的例子，数据是从 service 获取的就需要配置 `trackExpression`。
 
+> 如果`trackExpression` 追踪的数据是**对象数据**，可以使用[数据映射](../../docs/concepts/data-mapping)的`json`方法将数据序列化之后再比较，例如`"trackExpression": "${fieldToTrack|json}"`
+
 ```schema: scope="body"
 {
     "type": "service",
@@ -304,7 +306,7 @@ api 返回支持两种格式，一种是直接返回完整 echarts 配置，数�
             "body": [
                 {
                     "type": "tpl",
-                    "tpl": "<span>当前选中值 ${value|json}<span>"
+                    "tpl": "<p>当前选中值 ${value|json}</p> <p>seriesType ${seriesType}</p> <p>seriesIndex ${seriesIndex}</p> <p>seriesName ${seriesName}</p> <p>name ${name}</p> <p>dataIndex ${dataIndex}</p>"
                 },
                 {
                     "type": "chart",
@@ -314,6 +316,36 @@ api 返回支持两种格式，一种是直接返回完整 echarts 配置，数�
         }
     }
 }
+```
+
+具体能拿到的参数请参考 [Echarts](https://echarts.apache.org/handbook/zh/concepts/event#%E9%BC%A0%E6%A0%87%E4%BA%8B%E4%BB%B6%E7%9A%84%E5%A4%84%E7%90%86) 的文档，官方定义如下
+
+```typescript
+type EventParams = {
+  // 当前点击的图形元素所属的组件名称，
+  // 其值如 'series'、'markLine'、'markPoint'、'timeLine' 等。
+  componentType: string;
+  // 系列类型。值可能为：'line'、'bar'、'pie' 等。当 componentType 为 'series' 时有意义。
+  seriesType: string;
+  // 系列在传入的 option.series 中的 index。当 componentType 为 'series' 时有意义。
+  seriesIndex: number;
+  // 系列名称。当 componentType 为 'series' 时有意义。
+  seriesName: string;
+  // 数据名，类目名
+  name: string;
+  // 数据在传入的 data 数组中的 index
+  dataIndex: number;
+  // 传入的原始数据项
+  data: Object;
+  // sankey、graph 等图表同时含有 nodeData 和 edgeData 两种 data，
+  // dataType 的值会是 'node' 或者 'edge'，表示当前点击在 node 还是 edge 上。
+  // 其他大部分图表中只有一种 data，dataType 无意义。
+  dataType: string;
+  // 传入的数据值
+  value: number | Array;
+  // 数据图形的颜色。当 componentType 为 'series' 时有意义。
+  color: string;
+};
 ```
 
 ## 远程拉取动态配置项
@@ -431,7 +463,185 @@ ECharts 中有些配置项可以写函数，比如 formatter 和 sort，但在 J
 window.echarts = amisRequire('echarts');
 ```
 
-然后通过 script 标签引入这两个文件。
+然后通过 script 标签引入这两个文件，或者用下面的新版方法
+
+## 地图配置
+
+> 2.4.1 及以上版本
+
+新增了 `mapURL` 及 `mapName` 两个配置项
+
+```schema: scope="body"
+{
+      "type": "chart",
+      "mapURL": "/api/map/HK",
+      "mapName": "HK",
+      "height": 600,
+      "config": {
+        "title": {
+          "text": "Population Density of Hong Kong （2011）",
+          "subtext": "Data from Wikipedia"
+        },
+        "tooltip": {
+          "trigger": "item",
+          "formatter": "{b}<br/>{c} (p / km2)"
+        },
+        "toolbox": {
+          "show": true,
+          "orient": "vertical",
+          "left": "right",
+          "top": "center",
+          "feature": {
+            "dataView": {
+              "readOnly": false
+            },
+            "restore": {},
+            "saveAsImage": {}
+          }
+        },
+        "visualMap": {
+          "min": 800,
+          "max": 50000,
+          "text": [
+            "High",
+            "Low"
+          ],
+          "realtime": false,
+          "calculable": true,
+          "inRange": {
+            "color": [
+              "lightskyblue",
+              "yellow",
+              "orangered"
+            ]
+          }
+        },
+        "series": [
+          {
+            "name": "香港18区人口密度",
+            "type": "map",
+            "map": "HK",
+            "label": {
+              "show": true
+            },
+            "data": [
+              {
+                "name": "中西区",
+                "value": 20057.34
+              },
+              {
+                "name": "湾仔",
+                "value": 15477.48
+              },
+              {
+                "name": "东区",
+                "value": 31686.1
+              },
+              {
+                "name": "南区",
+                "value": 6992.6
+              },
+              {
+                "name": "油尖旺",
+                "value": 44045.49
+              },
+              {
+                "name": "深水埗",
+                "value": 40689.64
+              },
+              {
+                "name": "九龙城",
+                "value": 37659.78
+              },
+              {
+                "name": "黄大仙",
+                "value": 45180.97
+              },
+              {
+                "name": "观塘",
+                "value": 55204.26
+              },
+              {
+                "name": "葵青",
+                "value": 21900.9
+              },
+              {
+                "name": "荃湾",
+                "value": 4918.26
+              },
+              {
+                "name": "屯门",
+                "value": 5881.84
+              },
+              {
+                "name": "元朗",
+                "value": 4178.01
+              },
+              {
+                "name": "北区",
+                "value": 2227.92
+              },
+              {
+                "name": "大埔",
+                "value": 2180.98
+              },
+              {
+                "name": "沙田",
+                "value": 9172.94
+              },
+              {
+                "name": "西贡",
+                "value": 3368
+              },
+              {
+                "name": "离岛",
+                "value": 806.98
+              }
+            ],
+            "nameMap": {
+              "Central and Western": "中西区",
+              "Eastern": "东区",
+              "Islands": "离岛",
+              "Kowloon City": "九龙城",
+              "Kwai Tsing": "葵青",
+              "Kwun Tong": "观塘",
+              "North": "北区",
+              "Sai Kung": "西贡",
+              "Sha Tin": "沙田",
+              "Sham Shui Po": "深水埗",
+              "Southern": "南区",
+              "Tai Po": "大埔",
+              "Tsuen Wan": "荃湾",
+              "Tuen Mun": "屯门",
+              "Wan Chai": "湾仔",
+              "Wong Tai Sin": "黄大仙",
+              "Yau Tsim Mong": "油尖旺",
+              "Yuen Long": "元朗"
+            }
+          }
+        ]
+      }
+    }
+```
+
+## 加载百度地图
+
+配置 `loadBaiduMap` 后会加载百度地图，需要配置 `ak`
+
+```schema: scope="body"
+{
+  "type": "chart",
+  "loadBaiduMap": true,
+  "ak": "LiZT5dVbGTsPI91tFGcOlSpe5FDehpf7",
+  "config": {
+    "bmap": {
+      "center": [116.414, 39.915],
+      "zoom": 14,
+      "roam": true
+    }
+  }
+}
+```
 
 ## 动态处理 echart 配置
 
@@ -477,10 +687,30 @@ echarts 的 config 一般是静态配置的，支持简单的数据映射。如�
 | replaceChartOption | `boolean`                                    | `false`   | 每次更新是完全覆盖配置项还是追加？                                                                                                                                                       |
 | trackExpression    | `string`                                     |           | 当这个表达式的值有变化时更新图表                                                                                                                                                         |
 | dataFilter         | `string`                                     |           | 自定义 echart config 转换，函数签名：function(config, echarts, data) {return config;} 配置时直接写函数体。其中 config 是当前 echart 配置，echarts 就是 echarts 对象，data 为上下文数据。 |
+| mapURL             | [api](../../docs/types/api)                  |           | 地图 geo json 地址                                                                                                                                                                       |
+| mapName            | string                                       |           | 地图名称                                                                                                                                                                                 |
+| loadBaiduMap       | boolean                                      |           | 加载百度地图                                                                                                                                                                             |
+
+## 事件表
+
+> 2.4.1 及以上版本
+
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
+
+| 事件名称            | 事件参数                                                                             | 说明                                                |
+| ------------------- | ------------------------------------------------------------------------------------ | --------------------------------------------------- |
+| init                | -                                                                                    | 组件实例被创建并插入 DOM 中时触发。2.4.1 及以上版本 |
+| click               | 查看[ECharst 事件与行为文档](https://echarts.apache.org/handbook/zh/concepts/event/) | 鼠标点击时触发                                      |
+| mouseover           | 查看[ECharst 事件与行为文档](https://echarts.apache.org/handbook/zh/concepts/event/) | 鼠标悬浮时触发                                      |
+| legendselectchanged | 查看[ECharst 事件与行为文档](https://echarts.apache.org/handbook/zh/concepts/event/) | 切换图例选中状态时触发                              |
 
 ## 动作表
+
+当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
 
 | 动作名称 | 动作配置                   | 说明                                       |
 | -------- | -------------------------- | ------------------------------------------ |
 | reload   | -                          | 刷新（重新加载）                           |
 | setValue | `value: object` 更新的数据 | 更新数据，等于更新图表所依赖数据域中的变量 |
+
+2.4.1 及以上版本，除了以上动作，还支持直接触发[ECharts 组件行为](https://echarts.apache.org/handbook/zh/concepts/event/#%E4%BB%A3%E7%A0%81%E8%A7%A6%E5%8F%91-echarts-%E4%B8%AD%E7%BB%84%E4%BB%B6%E7%9A%84%E8%A1%8C%E4%B8%BA)，即通过`actionType`指定行为名称，行为配置通过`args: {动作配置项名称: xxx}`来配置具体的参数。

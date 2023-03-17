@@ -48,6 +48,7 @@ export interface ConditionItemProps extends ThemeProps, LocaleProps {
   formula?: FormulaPickerProps;
   popOverContainer?: any;
   renderEtrValue?: any;
+  selectMode?: 'list' | 'tree';
 }
 
 export class ConditionItem extends React.Component<ConditionItemProps> {
@@ -131,7 +132,8 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
       disabled,
       fieldClassName,
       searchable,
-      popOverContainer
+      popOverContainer,
+      selectMode
     } = this.props;
     return (
       <Expression
@@ -144,6 +146,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
         disabled={disabled}
         searchable={searchable}
         popOverContainer={popOverContainer}
+        selectMode={selectMode}
         allowedTypes={
           ['field', 'func'].filter(
             type => type === 'field' || type === 'func'

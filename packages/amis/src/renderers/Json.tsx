@@ -109,6 +109,7 @@ export class JSONField extends React.Component<JSONProps, object> {
   render() {
     const {
       className,
+      style,
       jsonTheme,
       classnames: cx,
       placeholder,
@@ -146,14 +147,14 @@ export class JSONField extends React.Component<JSONProps, object> {
     }
 
     // JsonView 只支持对象，所以不是对象格式需要转成对象格式。
-    if (data && ~['string', 'number'].indexOf(typeof data)) {
+    if (~['string', 'number', 'boolean'].indexOf(typeof data)) {
       data = {
         [typeof data]: data
       };
     }
 
     return (
-      <div className={cx('JsonField', className)}>
+      <div className={cx('JsonField', className)} style={style}>
         {typeof data === 'undefined' || data === null ? (
           placeholder
         ) : (

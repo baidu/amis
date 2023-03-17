@@ -61,7 +61,7 @@
     white-space: nowrap;
     text-align: center;
     padding: 0 6px;
-    border: 1px solid #FFFFFF;
+    border: 1px solid #ffffff;
   }
 
   // 只显示小红点
@@ -76,16 +76,16 @@
   &-ribbon-out {
     overflow: hidden;
     position: absolute;
-    top: 0;
+
     bottom: 0;
-    right: 0
+    right: 0;
   }
 
   &-ribbon {
     color: var(--Badge-color);
     height: var(--Badge-size);
     line-height: var(--Badge-size);
-    transform: translateX(calc(50% - 5px)) rotate(45deg) scale(.7);
+    transform: translateX(calc(50% - 5px)) rotate(45deg) scale(0.7);
     transform-origin: 50% 0;
     border-radius: 0;
     text-align: center;
@@ -93,19 +93,26 @@
     top: 5px;
   }
 
-  &-ribbon-out--top-left, &-ribbon-out--bottom-left {
-    left: 0;
-    right: auto
+  &-ribbon-out--top-left,
+  &-ribbon-out--top-right {
+    top: 0;
   }
 
-  &-ribbon--top-left {
-    transform: translateX(calc(-50% + 5px)) rotate(-45deg) scale(.7);
+  &-ribbon-out--top-left,
+  &-ribbon-out--bottom-left {
     left: 0;
     right: auto;
   }
 
-  &-ribbon--bottom-left {
-    transform: translateX(calc(-50% + 5px)) rotate(45deg) scale(.7);
+  &-ribbon--top-left {
+    transform: translateX(calc(-50% + 5px)) rotate(-45deg) scale(0.7);
+    left: 0;
+    right: auto;
+  }
+
+  &-ribbon--bottom-left,
+  &-ribbon-out--bottom--left {
+    transform: translateX(calc(-50% + 5px)) rotate(45deg) scale(0.7);
     transform-origin: 50% 100%;
     left: 0;
     right: auto;
@@ -113,8 +120,9 @@
     top: auto;
   }
 
-  &-ribbon--bottom-right {
-    transform: translateX(calc(50% - 5px)) rotate(-45deg) scale(.7);
+  &-ribbon--bottom-right,
+  &-ribbon-out--bottom--right {
+    transform: translateX(calc(50% - 5px)) rotate(-45deg) scale(0.7);
     transform-origin: 50% 100%;
     left: auto;
     right: 0;

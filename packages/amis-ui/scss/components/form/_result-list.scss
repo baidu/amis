@@ -53,6 +53,10 @@
     > label {
       flex-basis: px2rem(50px);
       flex-grow: 1;
+
+      &.is-invalid {
+        color: var(--Form-selectValue-onInvalid-color);
+      }
     }
 
     > .#{$ns}Selections-dragbar {

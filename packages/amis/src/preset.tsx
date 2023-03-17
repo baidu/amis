@@ -2,17 +2,12 @@ import {
   addRootWrapper,
   extendDefaultEnv,
   LazyComponent,
-  render
+  render,
+  themeable,
+  ThemeProps
 } from 'amis-core';
 
-import {
-  alert,
-  confirm,
-  setRenderSchemaFn,
-  toast,
-  ImageGallery,
-  Spinner
-} from 'amis-ui';
+import {alert, confirm, setRenderSchemaFn, toast, ImageGallery} from 'amis-ui';
 import React from 'react';
 
 extendDefaultEnv({
@@ -55,4 +50,30 @@ addRootWrapper((props: any) => {
   );
 });
 
-LazyComponent.defaultProps.placeholder = <Spinner />;
+const SimpleSpinner = themeable(
+  (
+    props: {
+      className?: string;
+      spinnerClassName?: string;
+    } & ThemeProps
+  ) => {
+    const cx = props.classnames;
+
+    return (
+      <div
+        data-testid="spinner"
+        className={cx(`Spinner`, 'in', props.className)}
+      >
+        <div
+          className={cx(
+            `Spinner-icon`,
+            'Spinner-icon--default',
+            props.spinnerClassName
+          )}
+        ></div>
+      </div>
+    );
+  }
+);
+
+LazyComponent.defaultProps.placeholder = <SimpleSpinner />;

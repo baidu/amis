@@ -3,7 +3,7 @@ import {Renderer, RendererProps} from 'amis-core';
 import {Api, SchemaNode, Schema, ActionObject} from 'amis-core';
 import cx from 'classnames';
 import {TooltipWrapper} from 'amis-ui';
-import {filter} from 'amis-core';
+import {filter, generateIcon} from 'amis-core';
 import {ClassNamesFn, themeable} from 'amis-core';
 import {hasIcon, Icon} from 'amis-ui';
 import {BaseSchema, SchemaClassName, SchemaIcon, SchemaTpl} from '../Schema';
@@ -131,7 +131,9 @@ class Remark extends React.Component<RemarkProps> {
       <>
         {finalLabel ? <span>{finalLabel}</span> : null}
         {finalIcon ? (
-          hasIcon(finalIcon) ? (
+          typeof finalIcon === 'object' ? (
+            generateIcon(cx, finalIcon)
+          ) : hasIcon(finalIcon) ? (
             <span className={cx('Remark-icon', shapeClass)}>
               <Icon icon={finalIcon} />
             </span>
@@ -150,6 +152,7 @@ class Remark extends React.Component<RemarkProps> {
   render() {
     const {
       className,
+      style,
       icon,
       label,
       shape,
@@ -180,6 +183,7 @@ class Remark extends React.Component<RemarkProps> {
             `Remark`,
             (tooltip && tooltip.className) || className || `Remark--warning`
           )}
+          style={style}
           onClick={this.showModalTip(parsedTip)}
         >
           {this.renderLabel(finalIcon, finalLabel, cx, finalShape)}
@@ -206,6 +210,7 @@ class Remark extends React.Component<RemarkProps> {
             `Remark`,
             (tooltip && tooltip.className) || className || `Remark--warning`
           )}
+          style={style}
         >
           {this.renderLabel(finalIcon, finalLabel, cx, finalShape)}
         </div>

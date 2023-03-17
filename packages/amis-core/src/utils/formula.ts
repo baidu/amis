@@ -170,7 +170,7 @@ export function formulaExec(
   const curValue = value.trim(); // 剔除前后空格
 
   // OpenFormulaExecEvalMode 为 true 时，非 ${ xxx } 格式也会尝试使用表达式运算器
-  if (OpenFormulaExecEvalMode && /^[0-9a-zA-z_]+$/.test(curValue)) {
+  if (OpenFormulaExecEvalMode && /^[0-9a-zA-Z_]+$/.test(curValue)) {
     // 普通字符串类型（非表达式），先试一下从上下文中获取数据
     const curValueTemp = FormulaExec['var'](curValue, data);
     // 备注: 其他特殊格式，比如邮箱、日期
@@ -221,11 +221,26 @@ export function isNeedFormula(
   prevData: {[propName: string]: any},
   curData: {[propName: string]: any}
 ): boolean {
-  const variables = FormulaExec.collect(expression);
-  return variables.some(
-    (variable: string) =>
-      FormulaExec.var(variable, prevData) !== FormulaExec.var(variable, curData)
-  );
+  try {
+    const variables = FormulaExec.collect(expression);
+    return variables.some(
+      (variable: string) =>
+        FormulaExec.var(variable, prevData) !== FormulaExec.var(variable, curData)
+    );
+  } catch (e) {
+    console.warn(
+      '[isNeedFormula]表达式执行异常，当前表达式: ',
+      expression,
+      '，当前上下文数据: ',
+      curData
+    );
+    return false;
+  }
+}
+
+export function isNowFormula(expression: string): boolean {
+  const block = expression.split(/\${|\||}/).filter(item => item);
+  return block[1] === 'now';
 }
 
 // 将 \${xx} 替换成 ${xx}

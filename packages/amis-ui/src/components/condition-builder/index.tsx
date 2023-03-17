@@ -45,6 +45,7 @@ export interface ConditionBuilderProps extends ThemeProps, LocaleProps {
   formula?: FormulaPickerProps;
   popOverContainer?: any;
   renderEtrValue?: any;
+  selectMode?: 'list' | 'tree';
 }
 
 export interface ConditionBuilderState {
@@ -224,9 +225,11 @@ export class QueryBuilder extends React.Component<
 
   @autobind
   highlightValue(value: ConditionGroupValue) {
-    const {classnames: cx} = this.props;
+    const {classnames: cx, translate: __} = this.props;
     const html = {
-      __html: `<span class="label label-info">已配置</span>`
+      __html: `<span class="label label-info">${__(
+        'Condition.configured'
+      )}</span>`
     };
 
     return (
@@ -251,7 +254,8 @@ export class QueryBuilder extends React.Component<
       searchable,
       builderMode,
       formula,
-      renderEtrValue
+      renderEtrValue,
+      selectMode
     } = this.props;
 
     const normalizedValue = Array.isArray(value?.children)
@@ -290,6 +294,7 @@ export class QueryBuilder extends React.Component<
         formula={formula}
         renderEtrValue={renderEtrValue}
         popOverContainer={popOverContainer}
+        selectMode={selectMode}
       />
     );
   }

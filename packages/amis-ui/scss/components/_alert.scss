@@ -16,7 +16,6 @@
     padding: var(--Alert-paddingX);
 
     .#{$ns}Alert-content {
-
       .#{$ns}Alert-title {
         line-height: #{px2rem(22px)};
       }

@@ -3,6 +3,10 @@
 
   &-popup {
     height: 100vh;
+
+    .#{$ns}PopUp-content {
+      overflow-x: hidden;
+    }
   }
 
   &-selectPopup {
@@ -13,10 +17,11 @@
 
   &-searchBox {
     height: px2rem(52px);
-    margin: 0 px2rem(16px);
+    padding: 0 px2rem(16px);
     flex: none;
     display: flex;
     align-items: center;
+    background: var(--white);
   }
 
   &-search {
@@ -30,6 +35,7 @@
     overflow-x: hidden;
     overflow-y: auto;
     background: var(--UserSelect--content-bg);
+    margin-bottom: px2rem(16px);
   }
 
   &-wrap {
@@ -38,6 +44,21 @@
     display: flex;
     flex-direction: column;
     text-align: left;
+    margin-bottom: px2rem(16px);
+    background: var(--UserSelect--content-bg);
+  }
+
+  &-footer {
+    background: var(--white);
+    padding: px2rem(10px) px2rem(16px) 0;
+
+    .#{$ns}Button {
+      width: 100%;
+      border-radius: px2rem(4px);
+      line-height: px2rem(44px);
+      font-size: px2rem(16px);
+      font-weight: 400;
+    }
   }
 
   &-navbar {
@@ -58,10 +79,12 @@
       transform: translateX(-50%);
       line-height: 44px;
       text-align: center;
+      font-size: px2rem(18px);
+      font-weight: 500;
     }
 
     &-btnEdit {
-      color: var(--UserSelect--bread-color);
+      color: var(--primary);
       font-size: px2rem(16px);
     }
   }
@@ -73,13 +96,15 @@
     flex: none;
     white-space: nowrap;
     overflow-x: auto;
+    background: var(--white);
 
     &-item {
       cursor: pointer;
-      color: var(--UserSelect--bread-color);
+      color: var(--primary);
+      font-size: px2rem(14px);
 
       &:last-child {
-        color: inherit;
+        color: #5e626a;
       }
     }
 
@@ -95,6 +120,8 @@
     position: relative;
     flex: 1;
     background: var(--UserSelect--content-bg);
+    margin-top: px2rem(16px);
+    margin-bottom: px2rem(16px);
   }
 
   &-scroll {
@@ -108,7 +135,6 @@
 
   &-memberList-box {
     width: 100vw;
-    margin-top: px2rem(16px);
   }
 
   &-memberList,
@@ -121,16 +147,16 @@
     overflow-x: hidden;
     overflow-y: auto;
     background: var(--white);
+    border-radius: px2rem(4px);
 
     li {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      height: px2rem(42px);
-      line-height: px2rem(42px);
+      height: px2rem(48px);
+      line-height: px2rem(48px);
       cursor: pointer;
       user-select: none;
-      padding: 0 px2rem(16px);
       border-bottom: px2rem(1px) solid var(--UserSelect--border-color);
 
       > span {
@@ -157,10 +183,60 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
-  }
 
-  &-label {
-    flex: 1;
+    .option-avatar-txt {
+      width: px2rem(28px);
+      height: px2rem(28px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 100%;
+      margin-right: px2rem(12px);
+      background-color: #528eff;
+      color: #fff !important;
+      border: 1px solid #eee;
+
+      &.avatar-2 {
+        width: px2rem(32px);
+        height: px2rem(32px);
+      }
+    }
+
+    .option-avatar-img {
+      width: px2rem(28px);
+      height: px2rem(28px);
+      margin-right: px2rem(12px);
+      border-radius: 100%;
+
+      &.avatar-2 {
+        width: px2rem(32px);
+        height: px2rem(32px);
+      }
+    }
+
+    .option-fields {
+      flex: 1;
+      line-height: px2rem(18px);
+
+      .option-item {
+        margin-right: px2rem(10px);
+
+        &:first-child {
+          color: var(--body-color);
+          font-size: var(--Form-fontSize);
+        }
+
+        &:nth-child(2n) {
+          margin-top: px2rem(4px);
+        }
+
+        &:last-child {
+          display: block;
+          font-size: 12px;
+          color: #84868c;
+        }
+      }
+    }
   }
 
   &-icon-box {
@@ -238,6 +314,17 @@
     flex: none;
     overflow: hidden;
     box-sizing: border-box;
+    background: var(--white);
+    position: relative;
+  }
+
+  &-resultBox-shadow {
+    position: absolute;
+    right: px2rem(50px);
+    top: px2rem(10px);
+    width: px2rem(10px);
+    height: px2rem(26px);
+    background: rgba(255, 255, 255, 0.5);
   }
 
   &-selectNum {
@@ -279,21 +366,31 @@
   }
 
   &-selectSort-box {
-    margin-left: px2rem(10px);
+    // margin-left: px2rem(10px);
     padding: px2rem(4px) px2rem(10px);
+    position: relative;
+
+    &::after {
+      content: '';
+      display: block;
+      position: absolute;
+      left: 0;
+      top: 0;
+      filter: blur(5px);
+    }
   }
 
   &-noRecord {
     width: 100vw;
     height: 100%;
     margin: 0 px2rem(16px);
-    margin-top: px2rem(16px);
     display: flex;
     align-items: center;
     justify-content: center;
     background: var(--white);
     padding: px2rem(100px) 0;
     box-sizing: border-box;
+    border-radius: px2rem(4px);
   }
 
   &-selectList-pop {
@@ -313,7 +410,7 @@
   &-del {
     text-align: right;
     flex: none !important;
-    padding: 0 10px;
+    padding: 0 10px 0 0;
   }
 
   &-dragBar {
@@ -375,20 +472,61 @@
     &-text {
       font-size: px2rem(16px);
       color: #151b26;
+      font-weight: 500;
     }
 
     &-btnClear {
-      color: var(--UserSelect--bread-color);
+      color: var(--primary);
       font-size: px2rem(16px);
+      font-weight: 400;
       cursor: pointer;
     }
   }
+
+  .#{$ns}ResultBox-valueLabel {
+    display: flex;
+    align-items: center;
+  }
+
+  .#{$ns}ResultBox-placeholder {
+    text-align: right;
+  }
+}
+
+.#{$ns}UserSelect-avatar-img {
+  width: px2rem(22px);
+  height: px2rem(22px);
+  border-radius: 50%;
+  margin-right: px2rem(10px);
+}
+
+.#{$ns}UserSelect-h2 {
+  height: px2rem(66px) !important;
+  line-height: px2rem(66px) !important;
+}
+
+.#{$ns}UserSelect-avatar-text {
+  display: flex;
+  font-size: px2rem(12px);
+  justify-content: center;
+  align-items: center;
+  width: px2rem(22px);
+  height: px2rem(22px);
+  border-radius: 50%;
+  background-color: #528eff;
+  color: #fff !important;
+  margin-right: px2rem(10px);
+  border: 1px solid #eee;
 }
 
 .#{$ns}UserTabSelect {
   &-popup {
     width: 100vw;
     height: 100vh;
+
+    .#{$ns}PopUp-content {
+      overflow-x: hidden;
+    }
   }
 
   &-wrap {
@@ -396,10 +534,63 @@
     flex-direction: column;
   }
 
+  .#{$ns}UserSelect-wrap {
+    height: calc(100% - 16px);
+  }
+
+  &-footer {
+    padding: px2rem(16px) px2rem(16px) 0;
+    background: var(--white);
+
+    .#{$ns}Button {
+      width: 100%;
+      border-radius: px2rem(4px);
+      line-height: px2rem(44px);
+      font-size: px2rem(16px);
+      font-weight: 400;
+    }
+  }
+
   &-tabs {
     flex: 1;
     display: flex;
     flex-direction: column;
+
+    .#{$ns}Tabs-links {
+      > li {
+        border-style: none !important;
+
+        a {
+          font-weight: 400 !important;
+          color: #303540 !important;
+          font-size: px2rem(16px) !important;
+        }
+
+        &.is-active {
+          position: relative;
+          a {
+            font-weight: 500 !important;
+            color: var(--primary) !important;
+          }
+
+          &::after {
+            content: '';
+            display: block;
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            width: px2rem(32px);
+            height: px2rem(2px);
+            background: var(--primary);
+          }
+        }
+      }
+    }
+
+    .#{$ns}Tabs-content {
+      background-color: var(--UserSelect--content-bg);
+    }
 
     > div {
       &:first-child {

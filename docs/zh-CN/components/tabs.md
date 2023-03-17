@@ -175,6 +175,60 @@ order: 68
 }
 ```
 
+## 作为表单项的值
+
+如果在表单里给 tabs 配置了 name，它可以作为一个表单提交项的值，默认情况下会取 title
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+            "type": "tabs",
+            "name": "tab",
+            "tabs": [
+                {
+                    "title": "Tab 1",
+                    "tab": "Content 1"
+                },
+                {
+                    "title": "Tab 2",
+                    "tab": "Content 2"
+                }
+            ]
+        }
+    ]
+}
+```
+
+如果不想使用 title，可以给每个 tab 设置 value，这样就会取这个 value 作为表单项的值
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+            "type": "tabs",
+            "name": "tab",
+            "tabs": [
+                {
+                    "title": "Tab 1",
+                    "tab": "Content 1",
+                    "value": 0
+                },
+                {
+                    "title": "Tab 2",
+                    "tab": "Content 2",
+                    "value": 1
+                }
+            ]
+        }
+    ]
+}
+```
+
 ## 展示模式
 
 ### 简约
@@ -501,31 +555,109 @@ order: 68
 
 ```schema
 {
-    "type": "page",
+  "type": "page",
     "data": {
-        "key": "tab2"
-    },
-    "body": [
+    "key": 2
+  },
+  "body": [
+    {
+      "type": "radios",
+      "name": "key",
+      "mode": "inline",
+      "label": "激活的选项卡",
+      "options": [
         {
-            "type": "tabs",
-            "activeKey": "${key}",
-            "tabs": [
-                {
-                    "title": "Tab 1",
-                    "hash": "tab1",
-                    "tab": "Content 1"
-                },
-
-                {
-                    "title": "Tab 2",
-                    "hash": "tab2",
-                    "tab": "Content 2"
-                }
-            ]
+          "label": "Tab 1",
+          "value": 0
+        },
+        {
+          "label": "Tab 2",
+          "value": 1
+        },
+        {
+          "label": "Tab 3",
+          "value": 2
         }
-    ]
+      ]
+    },
+    {
+      "type": "tabs",
+      "activeKey": "${key|toInt}",
+      "tabs": [
+        {
+          "title": "Tab 1",
+          "tab": "Content 1"
+        },
+        {
+          "title": "Tab 2",
+          "tab": "Content 2"
+        },
+        {
+          "title": "Tab 3",
+          "tab": "Content 3"
+        }
+      ]
+    }
+  ]
 }
 ```
+
+### 初始化设置默认选项卡
+
+> 2.7.1 以上版本
+
+```schema
+{
+  "type": "page",
+  "data": {
+    "defaultKey": 1,
+    "activeKey": 2
+  },
+  "body": [
+    {
+      "type": "radios",
+      "name": "key",
+      "mode": "inline",
+      "label": "激活的选项卡",
+      "options": [
+        {
+          "label": "Tab 1",
+          "value": 0
+        },
+        {
+          "label": "Tab 2",
+          "value": 1
+        },
+        {
+          "label": "Tab 3",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "type": "tabs",
+      "activeKey": "${activeKey|toInt}",
+      "defaultKey": "${defaultKey|toInt}",
+      "tabs": [
+        {
+          "title": "Tab 1",
+          "tab": "Content 1"
+        },
+        {
+          "title": "Tab 2",
+          "tab": "Content 2"
+        },
+        {
+          "title": "Tab 3",
+          "tab": "Content 3"
+        }
+      ]
+    }
+  ]
+}
+```
+
+> 初始化组件时 `defaultKey` 优先级高于 `activeKey`，但 `defaultKey` 仅作用于组件初始化时，不会响应上下文数据变化。
 
 ## 图标
 
@@ -625,6 +757,8 @@ order: 68
 | 属性名                | 类型                              | 默认值                              | 说明                                                                                                       |
 | --------------------- | --------------------------------- | ----------------------------------- | ---------------------------------------------------------------------------------------------------------- |
 | type                  | `string`                          | `"tabs"`                            | 指定为 Tabs 渲染器                                                                                         |
+| defaultKey            | `string` / `number`               |                                     | 组件初始化时激活的选项卡，hash 值或索引值，支持使用表达式 `2.7.1 以上版本`                                 |
+| activeKey             | `string` / `number`               |                                     | 激活的选项卡，hash 值或索引值，支持使用表达式，可响应上下文数据变化                                        |
 | className             | `string`                          |                                     | 外层 Dom 的类名                                                                                            |
 | tabsMode              | `string`                          |                                     | 展示模式，取值可以是 `line`、`card`、`radio`、`vertical`、`chrome`、`simple`、`strong`、`tiled`、`sidebar` |
 | tabsClassName         | `string`                          |                                     | Tabs Dom 的类名                                                                                            |
@@ -658,11 +792,13 @@ order: 68
 
 ## 事件表
 
-当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`event.data.xxx`事件参数变量来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`来获取事件产生的数据（`< 2.3.2 及以下版本 为 ${event.data.[事件参数名]}`），详细请查看[事件动作](../../docs/concepts/event-action)。
 
-| 事件名称 | 事件参数                                        | 说明             |
-| -------- | ----------------------------------------------- | ---------------- |
-| change   | `event.data.value: number \| string` 选项卡索引 | 切换选项卡时触发 |
+> `[name]`表示当前组件绑定的名称，即`name`属性，如果没有配置`name`属性，则通过`value`取值。
+
+| 事件名称 | 事件参数                              | 说明             |
+| -------- | ------------------------------------- | ---------------- |
+| change   | `[name]: number \| string` 选项卡索引 | 切换选项卡时触发 |
 
 ## 动作表
 

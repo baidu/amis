@@ -82,7 +82,7 @@ exports[`Renderer:container 1`] = `
                       class="cxd-TextControl-button"
                     >
                       <button
-                        class="cxd-Button cxd-Button--default"
+                        class="cxd-Button cxd-Button--default cxd-Button--size-default"
                         type="submit"
                       >
                         <span>

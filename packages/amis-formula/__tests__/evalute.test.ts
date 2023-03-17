@@ -428,7 +428,22 @@ test('evalute:array:func', () => {
         id: 1.1,
         name: 1.3
       }
-    ]
+    ],
+    obj1: {
+      p1: 'name',
+      p2: 'age',
+      p3: 'obj',
+      p4: [
+        {
+          p41: 'Tom',
+          p42: 'Jerry'
+        },
+        {
+          p41: 'baidu',
+          p42: 'amis'
+        }
+      ]
+    }
   };
 
   expect(evaluate('${COMPACT(arr1)}', data)).toMatchObject([1, 2, 3]);
@@ -459,4 +474,64 @@ test('evalute:array:func', () => {
     {id: 1.1},
     {id: 2.2}
   ]);
+
+  expect(evaluate('${ARRAYFILTER(arr1, item => item)}', data)).toMatchObject([
+    1, 2, 3
+  ]);
+  expect(
+    evaluate('${ARRAYFILTER(arr1, item => item && item >=2)}', data)
+  ).toMatchObject([2, 3]);
+
+  expect(evaluate('${ARRAYFINDINDEX(arr3, item => item === 2)}', data)).toBe(1);
+
+  expect(
+    evaluate('${ARRAYFIND(arr5, item => item.name === 1.3)}', data)
+  ).toMatchObject({
+    id: 1.1,
+    name: 1.3
+  });
+
+  expect(evaluate('${ARRAYSOME(arr5, item => item.name === 1.3)}', data)).toBe(
+    true
+  );
+
+  expect(evaluate('${ARRAYEVERY(arr5, item => item.name === 1.3)}', data)).toBe(
+    false
+  );
+
+  expect(evaluate('${ARRAYINCLUDES(arr1, false)}', data)).toBe(true);
+
+  expect(evaluate('${GET(arr1, 2)}', data)).toBe(false);
+  expect(evaluate('${GET(arr1, 6, "not-found")}', data)).toBe('not-found');
+  expect(evaluate('${GET(arr5, "[2].name")}', data)).toBe(1.3);
+  expect(evaluate('${GET(arr5, "2.name")}', data)).toBe(1.3);
+  expect(evaluate('${GET(obj1, "p2")}', data)).toBe('age');
+  expect(evaluate('${GET(obj1, "p4.1.p42")}', data)).toBe('amis');
+  expect(evaluate('${GET(obj1, "p4[1].p42")}', data)).toBe('amis');
+
+  expect(evaluate('${ENCODEJSON(obj1)}', data)).toBe(JSON.stringify(data.obj1));
+  expect(
+    evaluate('${DECODEJSON("{\\"name\\":\\"amis\\"}")}', data)
+  ).toMatchObject(JSON.parse('{"name":"amis"}'));
+});
+
+test('evalute:ISTYPE', () => {
+  const data = {
+    a: 1,
+    b: 'string',
+    c: null,
+    d: undefined,
+    e: [1, 2],
+    f: {a: 1, b: 2},
+    g: new Date()
+  };
+  expect(evaluate('${ISTYPE(a, "number")}', data)).toBe(true);
+  expect(evaluate('${ISTYPE(b, "number")}', data)).toBe(false);
+  expect(evaluate('${ISTYPE(b, "string")}', data)).toBe(true);
+  expect(evaluate('${ISTYPE(c, "nil")}', data)).toBe(true);
+  expect(evaluate('${ISTYPE(d, "nil")}', data)).toBe(true);
+  expect(evaluate('${ISTYPE(e, "array")}', data)).toBe(true);
+  expect(evaluate('${ISTYPE(f, "array")}', data)).toBe(false);
+  expect(evaluate('${ISTYPE(f, "plain-object")}', data)).toBe(true);
+  expect(evaluate('${ISTYPE(g, "date")}', data)).toBe(true);
 });

@@ -485,3 +485,160 @@ amis 会将返回的 `data` 写入表单数据域，因此下面的 `static` 组
 上例中点击按钮会刷新`target1`和`target2`组件。
 
 事实上，**组件间联动也可以实现上述任意的 [基本联动效果](./linkage#%E5%9F%BA%E6%9C%AC%E8%81%94%E5%8A%A8)（显隐联动、接口联动等其他联动）。**
+
+### 动态目标
+
+> 2.9.0 及以上版本
+
+刷新目标支持表达式，比如目标可以配置成 `form-${ xxx ? '1' : '2'}`。
+
+```schema: scope="body"
+[
+    {
+      "title": "查询条件",
+      "type": "form",
+      "target": "my_crud_${searchTarget}",
+      "body": [
+        {
+          "type": "radios",
+          "name": "searchTarget",
+          "label": "选择目标",
+          value: 1,
+          options: [
+            {
+              value: 1,
+              label: "列表 1"
+            },
+            {
+              value: 2,
+              label: "列表 2"
+            }
+          ],
+        },
+        {
+          "type": "input-text",
+          "name": "keywords",
+          "label": "关键字："
+        }
+      ],
+      "submitText": "搜索"
+    },
+    {
+      "type": "crud",
+      "api": "/api/mock2/sample",
+      "name": "my_crud_1",
+      "title": "列表 1",
+      "columns": [
+            {
+                "name": "id",
+                "label": "ID"
+            },
+            {
+                "name": "engine",
+                "label": "Rendering engine"
+            },
+            {
+                "name": "browser",
+                "label": "Browser"
+            },
+            {
+                "name": "platform",
+                "label": "Platform(s)"
+            },
+            {
+                "name": "version",
+                "label": "Engine version"
+            }
+        ]
+    },
+
+    {
+      "type": "crud",
+      "api": "/api/mock2/sample",
+      "name": "my_crud_2",
+      "title": "列表 2",
+      "columns": [
+            {
+                "name": "id",
+                "label": "ID"
+            },
+            {
+                "name": "engine",
+                "label": "Rendering engine"
+            },
+            {
+                "name": "browser",
+                "label": "Browser"
+            },
+            {
+                "name": "platform",
+                "label": "Platform(s)"
+            },
+            {
+                "name": "version",
+                "label": "Engine version"
+            }
+        ]
+    }
+]
+```
+
+如果目标组件在列表中，则实际渲染的时候会存在多份，通过某个固定名字没办法找到对应的组件。比如某个 crud 里面，某列设置的是一个 service，通过 service 拉取数据。如果想在操作栏里面某个操作完后刷新对应的 service，通过固定的名字是没办法找到对应的 service 的。所以名字 `name` 也支持动态名字。如: `my-service-${id}` 把行数据中动态的 id 设置进去。
+
+```schema: scope="body"
+{
+  type: 'crud',
+  api: "/api/mock2/sample",
+  columns: [
+    {
+      name: 'id',
+      label: 'ID'
+    },
+
+    {
+      type: 'service',
+      api: "/api/mock2/sample/${id}",
+      label: 'Service',
+      name: "my-servce-${id}",
+      body: [
+        {
+          type: "tpl",
+          tpl: "${browser}"
+        }
+      ]
+    },
+
+    {
+      type: 'operation',
+      label: '操作',
+      buttons: [
+        {
+          type: "button",
+          label: "编辑",
+          actionType: "dialog",
+          dialog: {
+            "title": "编辑",
+
+            body: [
+              {
+                type: 'form',
+                api: "/api/mock2/sample/${id}",
+                body: [
+                  {
+                    type: 'input-text',
+                    name: 'browser',
+                    label: 'Browser'
+                  }
+                ]
+              }
+            ]
+          },
+          reload: "my-servce-${id}"
+        }
+      ]
+    }
+  ]
+}
+```
+
+> 这个例子 api 是 mock 的，所以修改后刷新没效果。

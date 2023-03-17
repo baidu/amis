@@ -31,6 +31,7 @@ export interface ImageAction {
 export interface ImageGalleryProps extends ThemeProps, LocaleProps {
   children: React.ReactNode;
   modalContainer?: () => HTMLElement;
+  /** 操作栏 */
   actions?: ImageAction[];
 }
 
@@ -47,6 +48,10 @@ export interface ImageGalleryState {
   scale: number;
   /** 图片旋转角度 */
   rotate: number;
+  /** 是否开启操作栏 */
+  showToolbar?: boolean;
+  /** 工具栏配置 */
+  actions?: ImageAction[];
 }
 
 export class ImageGallery extends React.Component<
@@ -80,8 +85,42 @@ export class ImageGallery extends React.Component<
     index: -1,
     items: [],
     scale: 1,
-    rotate: 0
+    rotate: 0,
+    showToolbar: false,
+    actions: ImageGallery.defaultProps.actions
   };
+
+  galleryMain?: HTMLDivElement;
+  @autobind
+  galleryMainRef(ref: HTMLDivElement) {
+    if (ref) {
+      ref.addEventListener('wheel', this.onWheelScroll, {
+        passive: false
+      });
+    } else {
+      this.galleryMain?.removeEventListener('wheel', this.onWheelScroll);
+    }
+
+    this.galleryMain = ref;
+  }
+
+  @autobind
+  onWheelScroll(event: WheelEvent) {
+    const showToolbar = this.state?.showToolbar;
+
+    if (!showToolbar) {
+      return;
+    }
+
+    event.preventDefault();
+
+    /** 向上滚动放大，向下滚动缩小 */
+    if (event.deltaY > 0) {
+      this.handleToolbarAction({key: 'zoomOut'} as ImageAction);
+    } else if (event.deltaY < 0) {
+      this.handleToolbarAction({key: 'zoomIn'} as ImageAction);
+    }
+  }
 
   @autobind
   handleImageEnlarge(info: {
@@ -96,11 +135,24 @@ export class ImageGallery extends React.Component<
     title?: string;
     caption?: string;
     index?: number;
+    showToolbar?: boolean;
+    toolbarActions?: ImageAction[];
   }) {
+    const {actions} = this.props;
+    const validActionKeys = Object.values(ImageActionKey);
+
     this.setState({
       isOpened: true,
       items: info.list ? info.list : [info],
-      index: info.index || 0
+      index: info.index || 0,
+      /* children组件可以控制工具栏的展示 */
+      showToolbar: !!info.showToolbar,
+      /** 外部传入合法key值的actions才会生效 */
+      actions: Array.isArray(info.toolbarActions)
+        ? info.toolbarActions.filter(action =>
+            validActionKeys.includes(action?.key)
+          )
+        : actions
     });
   }
 
@@ -212,8 +264,8 @@ export class ImageGallery extends React.Component<
   }
 
   render() {
-    const {children, classnames: cx, modalContainer, actions} = this.props;
-    const {index, items, rotate, scale} = this.state;
+    const {children, classnames: cx, modalContainer} = this.props;
+    const {index, items, rotate, scale, showToolbar, actions} = this.state;
     const __ = this.props.translate;
 
     return (
@@ -243,13 +295,16 @@ export class ImageGallery extends React.Component<
               <div className={cx('ImageGallery-title')}>
                 {items[index].title}
               </div>
-              <div className={cx('ImageGallery-main')}>
+              <div
+                className={cx('ImageGallery-main')}
+                ref={this.galleryMainRef}
+              >
                 <img
                   src={items[index].originalSrc}
                   style={{transform: `scale(${scale}) rotate(${rotate}deg)`}}
                 />
 
-                {Array.isArray(actions) && actions.length > 0
+                {showToolbar && Array.isArray(actions) && actions.length > 0
                   ? this.renderToolbar(actions)
                   : null}
 

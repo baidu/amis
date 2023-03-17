@@ -132,6 +132,15 @@ test(`filter:bytes`, () => {
     })
   ).toBe('234 KB');
 });
+
+test(`filter:bytes:step`, () => {
+  expect(
+    resolveVariableAndFilter('${a|bytes:1024}', {
+      a: 234343
+    })
+  ).toBe('229 KB');
+});
+
 test(`filter:round`, () => {
   expect(
     resolveVariableAndFilter('${a|round}', {
@@ -156,15 +165,25 @@ test(`filter:url_encode`, () => {
   ).toBe('%3D');
 });
 
-test(`filter:url_encode`, () => {
-  expect(
-    resolveVariableAndFilter('${a|url_decode}', {
-      a: '%3D'
-    })
-  ).toBe('=');
+describe('filter:url_decode', () => {
+  test(`filter:url_decode:normal`, () => {
+    expect(
+      resolveVariableAndFilter('${a|url_decode}', {
+        a: '%3D'
+      })
+    ).toBe('=');
+  });
+
+  test(`filter:url_decode:error`, () => {
+    expect(
+      resolveVariableAndFilter('${a|url_decode}', {
+        a: '%'
+      })
+    ).toBe(undefined);
+  });
 });
 
-test(`filter:url_encode`, () => {
+test(`filter:default`, () => {
   expect(
     resolveVariableAndFilter('${a|default:-}', {
       a: ''
@@ -316,6 +335,20 @@ test('evalute:conditional', () => {
       }
     )
   ).toBe(false);
+
+  expect(
+    evaluate(
+      '${a | isTrue : trueValue : falseValue}',
+      {
+        a: true,
+        trueValue: 5,
+        falseValue: 10
+      },
+      {
+        defaultFilter: 'raw'
+      }
+    )
+  ).toBe(5);
 
   expect(
     evaluate(

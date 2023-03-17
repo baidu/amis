@@ -92,7 +92,7 @@ export default {
               actionType: 'toast',
               args: {
                 msgType: 'info',
-                msg: '切换至选项卡${event.data.value}'
+                msg: '切换至选项卡${tabs-change-receiver}'
               }
             }
           ]

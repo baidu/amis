@@ -36,11 +36,12 @@ import {ClassNamesFn, themeable, ThemeProps} from 'amis-core';
 import Checkbox from './Checkbox';
 import Input from './Input';
 import {LocaleProps, localeable} from 'amis-core';
-import Spinner from './Spinner';
+import Spinner, {SpinnerExtraProps} from './Spinner';
 import type {Option, Options} from 'amis-core';
 import {RemoteOptionsProps, withRemoteConfig} from './WithRemoteConfig';
 import Picker from './Picker';
 import PopUp from './PopUp';
+import BasePopover, {PopOverOverlay} from './PopOverContainer';
 
 import type {TooltipObject} from '../components/TooltipWrapper';
 
@@ -295,7 +296,11 @@ export function normalizeOptions(
 
 const DownshiftChangeTypes = Downshift.stateChangeTypes;
 
-interface SelectProps extends OptionProps, ThemeProps, LocaleProps {
+interface SelectProps
+  extends OptionProps,
+    ThemeProps,
+    LocaleProps,
+    SpinnerExtraProps {
   className?: string;
   popoverClassName?: string;
   showInvalidMatch?: boolean;
@@ -317,6 +322,7 @@ interface SelectProps extends OptionProps, ThemeProps, LocaleProps {
       searchable?: boolean;
     }
   ) => JSX.Element;
+  renderValueLabel?: (item: Option) => JSX.Element;
   searchable?: boolean;
   options: Array<Option>;
   value: any;
@@ -334,6 +340,7 @@ interface SelectProps extends OptionProps, ThemeProps, LocaleProps {
   popOverContainer?: any;
   popOverContainerSelector?: string;
   overlayPlacement?: string;
+  overlay?: PopOverOverlay;
   onChange: (value: void | string | Option | Array<Option>) => void;
   onFocus?: Function;
   onBlur?: Function;
@@ -571,7 +578,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
     const inputValue = this.state.inputValue;
     let {selection} = this.state;
     let filtedOptions: Array<Option> =
-      inputValue && checkAllBySearch
+      inputValue && checkAllBySearch !== false
         ? matchSorter(options, inputValue, {
             keys: [labelField || 'label', valueField || 'value']
           })
@@ -745,6 +752,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       maxTagCount,
       overflowTagPopover,
       showInvalidMatch,
+      renderValueLabel,
       translate: __
     } = this.props;
     const selection = this.state.selection;
@@ -803,7 +811,9 @@ export class Select extends React.Component<SelectProps, SelectState> {
                             })}
                           >
                             <span className={cx('Select-valueLabel')}>
-                              {item[labelField || 'label']}
+                              {renderValueLabel
+                                ? renderValueLabel(item)
+                                : item[labelField || 'label']}
                             </span>
                             <span
                               className={cx('Select-valueIcon', {
@@ -830,7 +840,9 @@ export class Select extends React.Component<SelectProps, SelectState> {
                 } /** 避免点击查看浮窗时呼出下拉菜单 */
               >
                 <span className={cx('Select-valueLabel')}>
-                  {item[labelField || 'label']}
+                  {renderValueLabel
+                    ? renderValueLabel(item)
+                    : item[labelField || 'label']}
                 </span>
               </div>
             </TooltipWrapper>
@@ -851,7 +863,9 @@ export class Select extends React.Component<SelectProps, SelectState> {
               })}
             >
               <span className={cx('Select-valueLabel')}>
-                {item[labelField || 'label']}
+                {renderValueLabel
+                  ? renderValueLabel(item)
+                  : item[labelField || 'label']}
               </span>
               <span
                 className={cx('Select-valueIcon', {
@@ -877,7 +891,9 @@ export class Select extends React.Component<SelectProps, SelectState> {
             })}
             key={index}
           >
-            {item[labelField || 'label']}
+            {renderValueLabel
+              ? renderValueLabel(item)
+              : item[labelField || 'label']}
           </div>
         );
       }
@@ -900,7 +916,9 @@ export class Select extends React.Component<SelectProps, SelectState> {
             })}
           >
             <span className={cx('Select-valueLabel')}>
-              {item[labelField || 'label']}
+              {renderValueLabel
+                ? renderValueLabel(item)
+                : item[labelField || 'label']}
             </span>
             <span
               className={cx('Select-valueIcon', {
@@ -954,7 +972,8 @@ export class Select extends React.Component<SelectProps, SelectState> {
       renderMenu,
       mobileClassName,
       virtualThreshold = 100,
-      useMobileUI = false
+      useMobileUI = false,
+      overlay
     } = this.props;
     const {selection} = this.state;
 
@@ -971,9 +990,9 @@ export class Select extends React.Component<SelectProps, SelectState> {
       filtedOptions.length && filtedOptions.length > virtualThreshold;
     const selectionValues = selection.map(select => select[valueField]);
     if (multiple && checkAll) {
-      const optionsValues = (checkAllBySearch ? filtedOptions : options).map(
-        option => option[valueField]
-      );
+      const optionsValues = (
+        checkAllBySearch !== false ? filtedOptions : options
+      ).map(option => option[valueField]);
 
       checkedAll = optionsValues.every(
         option => selectionValues.indexOf(option) > -1
@@ -1015,25 +1034,6 @@ export class Select extends React.Component<SelectProps, SelectState> {
             'is-active': checked
           })}
         >
-          {removable ? (
-            <a data-tooltip={__('Select.clear')} data-position="left">
-              <Icon
-                icon="close"
-                className="icon"
-                onClick={(e: any) => this.handleDeleteClick(e, item)}
-              />
-            </a>
-          ) : null}
-          {editable ? (
-            <a data-tooltip="编辑" data-position="left">
-              <Icon
-                icon="pencil"
-                className="icon"
-                onClick={(e: any) => this.handleEditClick(e, item)}
-              />
-            </a>
-          ) : null}
-
           {renderMenu ? (
             multiple ? (
               <Checkbox
@@ -1107,6 +1107,24 @@ export class Select extends React.Component<SelectProps, SelectState> {
               {item.tip}
             </span>
           )}
+          {editable ? (
+            <a data-tooltip={__('Select.edit')} data-position="left">
+              <Icon
+                icon="pencil"
+                className="icon"
+                onClick={(e: any) => this.handleEditClick(e, item)}
+              />
+            </a>
+          ) : null}
+          {removable ? (
+            <a data-tooltip={__('Select.clear')} data-position="left">
+              <Icon
+                icon="close"
+                className="icon"
+                onClick={(e: any) => this.handleDeleteClick(e, item)}
+              />
+            </a>
+          ) : null}
         </div>
       );
     };
@@ -1209,14 +1227,24 @@ export class Select extends React.Component<SelectProps, SelectState> {
         container={popOverContainer || this.getTarget}
         containerSelector={popOverContainerSelector}
         target={this.getTarget}
-        placement={overlayPlacement}
+        placement={
+          overlayPlacement === 'auto'
+            ? BasePopover.alignToPlacement(overlay)
+            : overlayPlacement
+        }
         show
       >
         <PopOver
           overlay
           className={cx('Select-popover')}
           style={{
-            width: this.target ? this.target.offsetWidth : 'auto'
+            width:
+              (overlay &&
+                BasePopover.calcOverlayWidth(
+                  overlay,
+                  this.target?.offsetWidth
+                )) ||
+              (this.target ? this.target.offsetWidth : 'auto')
           }}
           onHide={this.close}
         >
@@ -1243,7 +1271,8 @@ export class Select extends React.Component<SelectProps, SelectState> {
       checkAll,
       borderMode,
       useMobileUI,
-      hasError
+      hasError,
+      loadingConfig
     } = this.props;
 
     const selection = this.state.selection;
@@ -1302,7 +1331,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
                 ? value.length
                 : value != null && value !== resetValue) ? (
                 <a onClick={this.clearValue} className={cx('Select-clear')}>
-                  <Icon icon="close-small" className="icon" />
+                  <Icon icon="input-clear" className="icon" />
                 </a>
               ) : null}
               {loading ? (
@@ -1311,6 +1340,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
                   icon="reload"
                   size="sm"
                   spinnerClassName={cx('Select-spinner')}
+                  loadingConfig={loadingConfig}
                 />
               ) : null}
 

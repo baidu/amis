@@ -20,13 +20,14 @@ function conditionalFilter(
   filterContext: FilterContext,
   test: any,
   trueValue: any,
-  falseValue: any
+  falseValue: any,
+  astOffset: number = 1
 ) {
   (hasAlternate || test) && skipRestTest(filterContext.restFilters);
   const result = test ? trueValue : falseValue;
   const ast = test
-    ? filterContext.filter?.args[1]
-    : filterContext.filter?.args[2];
+    ? filterContext.filter?.args[0 + astOffset]
+    : filterContext.filter?.args[1 + astOffset];
 
   return test || hasAlternate
     ? getStrOrVariable(result, filterContext.data, ast) ?? result
@@ -100,13 +101,16 @@ extendsFilters({
       ? JSON.stringify(input, null, parseInt(tabSize as string, 10))
       : JSON.stringify(input),
   toJson: input => {
-    let ret;
-    try {
-      ret = JSON.parse(input);
-    } catch (e) {
-      ret = null;
+    // 如果不是字符串，不处理
+    if (typeof input !== 'string') {
+      return input;
     }
-    return ret;
+
+    try {
+      return JSON.parse(input);
+    } catch (e) {
+      return null;
+    }
   },
   toInt: input => (typeof input === 'string' ? parseInt(input, 10) : input),
   toFloat: input => (typeof input === 'string' ? parseFloat(input) : input),
@@ -125,7 +129,10 @@ extendsFilters({
     unit = 'days'
   ) => {
     if (!(input instanceof Date)) {
-      input = new Date();
+      // input 有可能是上下文获取的 日期字符串
+      input = moment(input).isValid()
+        ? moment(input).toDate()
+        : moment().toDate();
     }
 
     if (modifier === 'endOf' || modifier === 'startOf') {
@@ -158,7 +165,9 @@ extendsFilters({
     );
   },
   duration: input => (input ? formatDuration(input) : input),
-  bytes: input => (input ? prettyBytes(parseFloat(input)) : input),
+  bytes: (input, step = 1000) => {
+    return input ? prettyBytes(input, parseInt(step, 10) ?? 1000) : input;
+  },
   round: (input, decimals = 2) => {
     if (isNaN(input)) {
       return 0;
@@ -190,7 +199,18 @@ extendsFilters({
     }
     return encodeURIComponent(input);
   },
-  url_decode: input => decodeURIComponent(input),
+  url_decode: (input: string) => {
+    let result;
+
+    try {
+      result = decodeURIComponent(input);
+    } catch (e) {
+      console.warn(
+        `[amis] ${e?.name ?? 'URIError'}: input string is not valid.`
+      );
+    }
+    return result;
+  },
   default: (input, defaultValue, strict = false) =>
     (strict ? input : input ? input : undefined) ??
     (() => {
@@ -450,7 +470,8 @@ extendsFilters({
       this,
       !!input,
       trueValue,
-      falseValue
+      falseValue,
+      0
     );
   },
   isFalse(input, trueValue, falseValue) {
@@ -461,7 +482,8 @@ extendsFilters({
       this,
       !input,
       trueValue,
-      falseValue
+      falseValue,
+      0
     );
   },
   isMatch(input, matchArg, trueValue, falseValue) {

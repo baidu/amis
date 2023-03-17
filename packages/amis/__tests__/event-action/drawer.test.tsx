@@ -18,109 +18,113 @@ test('EventAction:drawer', async () => {
                 actions: [
                   {
                     actionType: 'drawer',
-                    drawer: {
-                      type: 'drawer',
-                      id: 'drawer_001',
-                      title: '模态抽屉',
-                      body: [
-                        {
-                          type: 'button',
-                          label: '打开子抽屉',
-                          onEvent: {
-                            click: {
-                              actions: [
-                                {
-                                  actionType: 'drawer',
-                                  drawer: {
-                                    type: 'drawer',
-                                    title: '模态子抽屉',
-                                    body: [
-                                      {
-                                        type: 'button',
-                                        label: '关闭父抽屉',
-                                        onEvent: {
-                                          click: {
-                                            actions: [
-                                              {
-                                                actionType: 'closeDrawer',
-                                                componentId: 'drawer_001'
+                    args: {
+                      drawer: {
+                        type: 'drawer',
+                        id: 'drawer_001',
+                        title: '模态抽屉',
+                        body: [
+                          {
+                            type: 'button',
+                            label: '打开子抽屉',
+                            onEvent: {
+                              click: {
+                                actions: [
+                                  {
+                                    actionType: 'drawer',
+                                    args: {
+                                      drawer: {
+                                        type: 'drawer',
+                                        title: '模态子抽屉',
+                                        body: [
+                                          {
+                                            type: 'button',
+                                            label: '关闭父抽屉',
+                                            onEvent: {
+                                              click: {
+                                                actions: [
+                                                  {
+                                                    actionType: 'closeDrawer',
+                                                    componentId: 'drawer_001'
+                                                  }
+                                                ]
                                               }
-                                            ]
+                                            }
                                           }
-                                        }
+                                        ]
                                       }
-                                    ]
+                                    }
                                   }
-                                }
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          type: 'button',
-                          label: '关闭当前抽屉',
-                          className: 'ml-2',
-                          onEvent: {
-                            click: {
-                              actions: [
-                                {
-                                  actionType: 'closeDrawer'
-                                }
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          type: 'button',
-                          label: '触发确认',
-                          className: 'ml-2',
-                          onEvent: {
-                            click: {
-                              actions: [
-                                {
-                                  actionType: 'confirm',
-                                  componentId: 'drawer_001'
-                                }
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          type: 'button',
-                          label: '触发取消',
-                          className: 'ml-2',
-                          onEvent: {
-                            click: {
-                              actions: [
-                                {
-                                  actionType: 'cancel',
-                                  componentId: 'drawer_001'
-                                }
-                              ]
-                            }
-                          }
-                        }
-                      ],
-                      onEvent: {
-                        confirm: {
-                          actions: [
-                            {
-                              actionType: 'toast',
-                              args: {
-                                msg: 'confirm'
+                                ]
                               }
                             }
-                          ]
-                        },
-                        cancel: {
-                          actions: [
-                            {
-                              actionType: 'toast',
-                              args: {
-                                msg: 'cancel'
+                          },
+                          {
+                            type: 'button',
+                            label: '关闭当前抽屉',
+                            className: 'ml-2',
+                            onEvent: {
+                              click: {
+                                actions: [
+                                  {
+                                    actionType: 'closeDrawer'
+                                  }
+                                ]
                               }
                             }
-                          ]
+                          },
+                          {
+                            type: 'button',
+                            label: '触发确认',
+                            className: 'ml-2',
+                            onEvent: {
+                              click: {
+                                actions: [
+                                  {
+                                    actionType: 'confirm',
+                                    componentId: 'drawer_001'
+                                  }
+                                ]
+                              }
+                            }
+                          },
+                          {
+                            type: 'button',
+                            label: '触发取消',
+                            className: 'ml-2',
+                            onEvent: {
+                              click: {
+                                actions: [
+                                  {
+                                    actionType: 'cancel',
+                                    componentId: 'drawer_001'
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        ],
+                        onEvent: {
+                          confirm: {
+                            actions: [
+                              {
+                                actionType: 'toast',
+                                args: {
+                                  msg: 'confirm'
+                                }
+                              }
+                            ]
+                          },
+                          cancel: {
+                            actions: [
+                              {
+                                actionType: 'toast',
+                                args: {
+                                  msg: 'cancel'
+                                }
+                              }
+                            ]
+                          }
                         }
                       }
                     }

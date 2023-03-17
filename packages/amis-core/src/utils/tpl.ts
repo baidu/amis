@@ -68,7 +68,7 @@ export function evalExpression(expression: string, data?: object): boolean {
       expression[expression.length - 1] === '}'
     ) {
       // 启用新版本的公式表达式
-      return evalFormula(expression, data);
+      return !!evalFormula(expression, data);
     }
 
     // 后续改用 FormulaExec['js']

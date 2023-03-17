@@ -11,8 +11,9 @@ import type {ItemRenderStates} from '../Selection';
 import type {Option} from '../Select';
 import type {TabsMode} from '../Tabs';
 import {Badge} from '../Badge';
+import {SpinnerExtraProps} from '../Spinner';
 
-export interface VariableListProps extends ThemeProps {
+export interface VariableListProps extends ThemeProps, SpinnerExtraProps {
   className?: string;
   itemClassName?: string;
   value?: any;
@@ -46,21 +47,24 @@ function VariableList(props: VariableListProps) {
       : (option: Option, states: ItemRenderStates): JSX.Element => {
           return (
             <span className={cx(`${classPrefix}-item`, itemClassName)}>
-              {option.label && (selfVariableName && option.value === selfVariableName) && (
-                <Badge
-                  classnames={cx}
-                  badge={{
-                    mode: 'text',
-                    text: 'self',
-                    offset: [15, 2]
-                  }}
-                >
+              {option.label &&
+                selfVariableName &&
+                option.value === selfVariableName && (
+                  <Badge
+                    classnames={cx}
+                    badge={{
+                      mode: 'text',
+                      text: 'self',
+                      offset: [15, 2]
+                    }}
+                  >
+                    <label>{option.label}</label>
+                  </Badge>
+                )}
+              {option.label &&
+                (!selfVariableName || option.value !== selfVariableName) && (
                   <label>{option.label}</label>
-                </Badge>
-              )}
-              {option.label && (!selfVariableName || option.value !== selfVariableName) && (
-                <label>{option.label}</label>
-              )}
+                )}
               {option?.tag ? (
                 <span className={cx(`${classPrefix}-item-tag`)}>
                   {option.tag}
@@ -72,7 +76,7 @@ function VariableList(props: VariableListProps) {
 
   function onSearch(term: string) {
     const tree = findTree(list, i => ~i.label.indexOf(term));
-    setFilterVars(!term ? list : tree ? [tree] : list);
+    setFilterVars(!term ? list : tree ? [tree] : []);
   }
 
   function renderSearchBox() {

@@ -137,7 +137,7 @@
 
   &--overlay {
     position: absolute;
-    z-index: 11;
+    z-index: $zindex-spinner-overlay;
     top: 50%;
     left: 50%;
     transform: translate3d(-50%, -50%, 0);
@@ -146,7 +146,7 @@
 
 .#{$ns}Spinner-overlay {
   position: absolute;
-  z-index: 10;
+  z-index: calc($zindex-spinner-overlay - 1);
   top: 0;
   left: 0;
   right: 0;
@@ -168,9 +168,15 @@
 
   .#{$ns}Spinner {
     position: absolute;
-    z-index: 11;
+    z-index: $zindex-spinner-overlay;
     top: 50%;
     left: 50%;
     transform: translate3d(-50%, -50%, 0);
   }
+}
+
+.#{$ns}Spinner-mark {
+  position: absolute;
+  z-index: -999;
+  opacity: 0;
 }

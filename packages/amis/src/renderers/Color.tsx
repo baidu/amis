@@ -39,17 +39,17 @@ export class ColorField extends React.Component<ColorProps, object> {
   };
 
   render() {
-    const {className, classnames: cx, defaultColor, showValue} = this.props;
+    const {className, style, classnames: cx, defaultColor, showValue} = this.props;
     const color = getPropValue(this.props);
 
     return (
-      <div className={cx('ColorField', className)}>
+      <div className={cx('ColorField', className)} style={style}>
         <i
           className={cx('ColorField-previewIcon')}
           style={{backgroundColor: color || defaultColor}}
         />
         {showValue ? (
-          <span className={cx('ColorField-value')}>{color}</span>
+          <span className={cx('ColorField-value')}>{color || defaultColor}</span>
         ) : null}
       </div>
     );

@@ -898,7 +898,7 @@ false       true           -        'a/b/c'
 false       false        false      {label: 'A/B/C', value: 'a/b/c'}
 true        true           -        'a/b/c,a/d'
 true        false        true       ['a/b/c', 'a/d']
-true        false        true       [{label: 'A/B/C', value: 'a/b/c'},{label: 'A/D', value: 'a/d'}]
+true        false        false      [{label: 'A/B/C', value: 'a/b/c'},{label: 'A/D', value: 'a/d'}]
 ```
 
 ```schema: scope="body"
@@ -946,12 +946,113 @@ true        false        true       [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
 }
 ```
 
+## 自定义选项渲染
+
+> `2.8.0` 及以上版本
+
+使用`menuTpl`属性，自定义下拉选项的渲染内容。
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+      "type": "input-tree",
+      "name": "tree",
+      "label": "Tree",
+      "menuTpl": "<div class='flex justify-between'><span>${label}</span><span class='bg-gray-200 rounded p-1 text-xs text-center w-14'>${tag}</span></div>",
+      "iconField": "icon",
+      "options": [
+        {
+          "label": "采购单",
+          "value": "order",
+          "tag": "数据模型",
+          "icon": "fa fa-database",
+          "children": [
+            {
+              "label": "ID",
+              "value": "id",
+              "tag": "数字",
+              "icon": "fa fa-check",
+            },
+            {
+              "label": "采购人",
+              "value": "name",
+              "tag": "字符串",
+              "icon": "fa fa-check",
+            },
+            {
+              "label": "采购时间",
+              "value": "time",
+              "tag": "日期时间",
+              "icon": "fa fa-check",
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
+
+## 选项搜索
+
+> `2.8.0` 及以上版本
+
+开启`"searchable": true`后，支持搜索当前数据源内的选项
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+      "type": "input-tree",
+      "name": "tree",
+      "label": "Tree",
+      "deferApi": "/api/mock2/form/deferOptions?label=${label}&waitSeconds=2",
+      "searchable": true,
+      "searchConfig": {
+        "sticky": true
+      },
+      "options": [
+        {
+          "label": "Folder A",
+          "value": 1,
+          "collapsed": true,
+          "children": [
+            {
+              "label": "file A",
+              "value": 2
+            },
+            {
+              "label": "file B",
+              "value": 3
+            }
+          ]
+        },
+        {
+          "label": "这下面是懒加载的",
+          "value": 4,
+          "defer": true
+        },
+        {
+          "label": "file D",
+          "value": 5
+        }
+      ]
+    }
+  ]
+}
+```
+
 ## 属性表
 
 当做选择器表单项使用时，除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
 
-| 属性名                 | 类型                                         | 默认值           | 说明                                                                                                                                 |
-| ---------------------- | -------------------------------------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| 属性名                 | 类型                                         | 默认值           | 说明                                                                                                                                 | 版本                         |
+| ---------------------- | -------------------------------------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------- |
 | options                | `Array<object>`或`Array<string>`             |                  | [选项组](./options#%E9%9D%99%E6%80%81%E9%80%89%E9%A1%B9%E7%BB%84-options)                                                            |
 | source                 | `string`或 [API](../../../../docs/types/api) |                  | [动态选项组](./options#%E5%8A%A8%E6%80%81%E9%80%89%E9%A1%B9%E7%BB%84-source)                                                         |
 | autoComplete           | [API](../../../../docs/types/api)            |                  | [自动提示补全](./options#%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8-autocomplete)                                                          |
@@ -970,7 +1071,7 @@ true        false        true       [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
 | editApi                | [API](../../../docs/types/api)               |                  | [配置编辑选项接口](./options#%E9%85%8D%E7%BD%AE%E7%BC%96%E8%BE%91%E6%8E%A5%E5%8F%A3-editapi)                                         |
 | removable              | `boolean`                                    | `false`          | [删除选项](./options#%E5%88%A0%E9%99%A4%E9%80%89%E9%A1%B9)                                                                           |
 | deleteApi              | [API](../../../docs/types/api)               |                  | [配置删除选项接口](./options#%E9%85%8D%E7%BD%AE%E5%88%A0%E9%99%A4%E6%8E%A5%E5%8F%A3-deleteapi)                                       |
-| searchable             | `boolean`                                    | `false`          | 是否可检索，仅在 type 为 `tree-select` 的时候生效                                                                                    |
+| searchable             | `boolean`                                    | `false`          | 是否可检索                                                                                                                           | `2.8.0`前仅`tree-select`支持 |
 | hideRoot               | `boolean`                                    | `true`           | 如果想要显示个顶级节点，请设置为 `false`                                                                                             |
 | rootLabel              | `boolean`                                    | `"顶级"`         | 当 `hideRoot` 不为 `false` 时有用，用来设置顶级节点的文字。                                                                          |
 | showIcon               | `boolean`                                    | `true`           | 是否显示图标                                                                                                                         |
@@ -991,27 +1092,33 @@ true        false        true       [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
 | enableNodePath         | `boolean`                                    | `false`          | 是否开启节点路径模式                                                                                                                 |
 | pathSeparator          | `string`                                     | `/`              | 节点路径的分隔符，`enableNodePath`为`true`时生效                                                                                     |
 | highlightTxt           | `string`                                     |                  | 标签中需要高亮的字符，支持变量                                                                                                       |
+| itemHeight             | `number`                                     | `32`             | 每个选项的高度，用于虚拟渲染                                                                                                         |
+| virtualThreshold       | `number`                                     | `100`            | 在选项数量超过多少时开启虚拟渲染                                                                                                     |
+| menuTpl                | `string`                                     |                  | 选项自定义渲染 HTML 片段                                                                                                             | `2.8.0`                      |
+| enableDefaultIcon      | `boolean`                                    | `true`           | 是否为选项添加默认的前缀 Icon，父节点默认为`folder`，叶节点默认为`file`                                                              | `2.8.0`                      |
 
 ## 事件表
 
-当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`event.data.xxx`事件参数变量来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`来获取事件产生的数据（`< 2.3.2 及以下版本 为 ${event.data.[事件参数名]}`），详细请查看[事件动作](../../docs/concepts/event-action)。
 
-| 事件名称     | 事件参数                                                                              | 说明                         |
-| ------------ | ------------------------------------------------------------------------------------- | ---------------------------- |
-| change       | `event.data.value: string` 选中节点的值                                               | 选中值变化时触发             |
-| add          | `event.data.options: Option[]` 选项集合<br/>`event.data.value: Option` 新增的节点信息 | 新增节点提交时触发           |
-| edit         | `event.data.options: Option[]` 选项集合<br/>`event.data.value: Option` 编辑的节点信息 | 编辑节点提交时触发           |
-| delete       | `event.data.options: Option[]` 选项集合<br/>`event.data.value: Option` 删除的节点信息 | 删除节点提交时触发           |
-| loadFinished | `event.data.value: object` deferApi 懒加载远程请求成功后返回的数据                    | 懒加载接口远程请求成功时触发 |
+> `[name]`表示当前组件绑定的名称，即`name`属性，如果没有配置`name`属性，则通过`value`取值。
+
+| 事件名称     | 事件参数                                                                                        | 说明                         |
+| ------------ | ----------------------------------------------------------------------------------------------- | ---------------------------- |
+| change       | `[name]: string` 组件的值                                                                       | 选中值变化时触发             |
+| add          | `items: object[]`选项集合（< 2.3.2 及以下版本 为`options`）<br/>`[name]: object` 新增的节点信息 | 新增节点提交时触发           |
+| edit         | `items: object[]`选项集合（< 2.3.2 及以下版本 为`options`）<br/>`[name]: object` 编辑的节点信息 | 编辑节点提交时触发           |
+| delete       | `items: object[]`选项集合（< 2.3.2 及以下版本 为`options`）<br/>`[name]: object` 删除的节点信息 | 删除节点提交时触发           |
+| loadFinished | `[name]: object` deferApi 懒加载远程请求成功后返回的数据                                        | 懒加载接口远程请求成功时触发 |
 
 ## 动作表
 
 当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
 
-| 动作名称 | 动作配置                 | 说明                                                   |
-| -------- | ------------------------ | ------------------------------------------------------ |
-| expand   | openLevel: `number`      | 展开指定层级                                           |
-| collapse | -                        | 收起                                                   |
-| clear    | -                        | 清空                                                   |
-| reset    | -                        | 将值重置为`resetValue`，若没有配置`resetValue`，则清空 |
-| setValue | `value: string` 更新的值 | 更新数据，开启`multiple`，多值用`,`分隔                |
+| 动作名称 | 动作配置                               | 说明                                                                                    |
+| -------- | -------------------------------------- | --------------------------------------------------------------------------------------- |
+| expand   | openLevel: `number`                    | 展开指定层级                                                                            |
+| collapse | -                                      | 收起                                                                                    |
+| clear    | -                                      | 清空                                                                                    |
+| reset    | -                                      | 将值重置为`resetValue`，若没有配置`resetValue`，则清空                                  |
+| setValue | `value: string` \| `string[]` 更新的值 | 更新数据，开启`multiple`支持设置多项，开启`joinValues`时，多值用`,`分隔，否则多值用数组 |

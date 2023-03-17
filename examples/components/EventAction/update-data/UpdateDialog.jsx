@@ -10,7 +10,7 @@ export default {
   body: [
     {
       type: 'alert',
-      body: '这种场景一般用在弹窗内某个异步操作后，数据的回填。请求返回的数据可以指定存储在`outputVar`变量里，其他动作可以通过event.data.{{outputVar}}直接获取该数据。',
+      body: '这种场景一般用在弹窗内某个异步操作后，数据的回填。请求返回的数据可以指定存储在`outputVar`变量里，其他动作可以通过${[outputVar]}直接获取该数据。',
       level: 'info',
       className: 'mb-1'
     },
@@ -77,7 +77,7 @@ export default {
                             componentId: 'dialog_003',
                             args: {
                               value: {
-                                username: '${event.data.myResult.name}'
+                                username: '${myResult.name}'
                               }
                             }
                           }

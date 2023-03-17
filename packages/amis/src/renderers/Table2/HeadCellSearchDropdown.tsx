@@ -73,6 +73,8 @@ export class HeadCellSearchDropDown extends React.Component<
             ? searchable.controls.concat()
             : undefined
         };
+      } else if (searchable?.type === 'form') {
+        schema = searchable;
       } else {
         schema = {
           title: '',
@@ -128,6 +130,8 @@ export class HeadCellSearchDropDown extends React.Component<
         ...schema,
         type: 'form',
         wrapperComponent: 'div',
+        wrapWithPanel: true,
+        title: false,
         actions: [
           {
             type: 'button',

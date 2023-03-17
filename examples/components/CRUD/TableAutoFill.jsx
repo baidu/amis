@@ -131,7 +131,13 @@ export default {
         align: 'right'
       }
     ],
-    footerToolbar: ['statistics', 'switch-per-page', 'pagination'],
+    footerToolbar: [
+      'statistics',
+      {
+        type: 'pagination',
+        layout: 'perPage,pager,go'
+      }
+    ],
     // rowClassNameExpr: '<%= data.id == 1 ? "bg-success" : "" %>',
     columns: [
       {

@@ -39,7 +39,7 @@ export default class WebComponent extends React.Component<RendererProps> {
   }
 
   render() {
-    const {tag, props, data} = this.props;
+    const {tag, props, data, style} = this.props;
 
     const propsValues = mapValues(props, s => {
       if (typeof s === 'string') {
@@ -49,7 +49,7 @@ export default class WebComponent extends React.Component<RendererProps> {
       }
     });
     const Component = (tag as keyof JSX.IntrinsicElements) || 'div';
-    return <Component {...propsValues}>{this.renderBody()}</Component>;
+    return <Component {...propsValues} style={style}>{this.renderBody()}</Component>;
   }
 }
 

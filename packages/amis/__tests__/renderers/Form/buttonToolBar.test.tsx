@@ -1,4 +1,9 @@
-import React = require('react');
+/**
+ * 组件名称：Button-Toolbar 按钮工具栏
+ * 单测内容：
+ * 1. 基础使用
+ */
+
 import {render, cleanup, fireEvent} from '@testing-library/react';
 import '../../../src';
 import {render as amisRender} from '../../../src';

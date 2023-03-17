@@ -13,9 +13,10 @@ exports[`EventAction:hidden 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -23,7 +24,7 @@ exports[`EventAction:hidden 1`] = `
             </span>
           </button>
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -31,7 +32,7 @@ exports[`EventAction:hidden 1`] = `
             </span>
           </button>
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>

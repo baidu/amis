@@ -20,7 +20,7 @@ import {
   createObject
 } from 'amis-core';
 import {ScopedContext, IScopedContext} from 'amis-core';
-import {Alert2 as Alert} from 'amis-ui';
+import {Alert2 as Alert, SpinnerExtraProps} from 'amis-ui';
 import {isApiOutdated, isEffectiveApi} from 'amis-core';
 import {Spinner} from 'amis-ui';
 import {
@@ -39,8 +39,7 @@ import mapValues from 'lodash/mapValues';
 import {resolveVariable} from 'amis-core';
 import {buildStyle} from 'amis-core';
 import {PullRefresh} from 'amis-ui';
-import position from 'amis-core';
-import {scrollPosition} from 'amis-core';
+import {scrollPosition, isMobile} from 'amis-core';
 
 /**
  * 样式属性名及值
@@ -59,7 +58,7 @@ interface CSSRule {
 /**
  * amis Page 渲染器。详情请见：https://baidu.gitee.io/amis/docs/components/page
  */
-export interface PageSchema extends BaseSchema {
+export interface PageSchema extends BaseSchema, SpinnerExtraProps {
   /**
    * 指定为 page 渲染器。
    */
@@ -377,11 +376,38 @@ export default class Page extends React.Component<PageProps> {
     }
   }
 
-  componentDidMount() {
-    const {initApi, initFetch, initFetchOn, store, messages, asideSticky} =
-      this.props;
+  async componentDidMount() {
+    const {
+      initApi,
+      initFetch,
+      initFetchOn,
+      store,
+      messages,
+      asideSticky,
+      data,
+      dispatchEvent,
+      env
+    } = this.props;
 
     this.mounted = true;
+
+    if (asideSticky && this.asideInner.current) {
+      const dom = this.asideInner.current!;
+      dom.style.cssText += `position: sticky; top: ${
+        scrollPosition(dom).top
+      }px;`;
+    }
+
+    const rendererEvent = await dispatchEvent('init', data, this);
+
+    // Page加载完成时触发 pageLoaded 事件
+    if (env?.tracker) {
+      env.tracker({eventType: 'pageLoaded'});
+    }
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
 
     if (isEffectiveApi(initApi, store.data, initFetch, initFetchOn)) {
       store
@@ -390,13 +416,6 @@ export default class Page extends React.Component<PageProps> {
           errorMessage: messages && messages.fetchFailed
         })
         .then(this.initInterval);
-    }
-
-    if (asideSticky && this.asideInner.current) {
-      const dom = this.asideInner.current!;
-      dom.style.cssText += `position: sticky; top: ${
-        scrollPosition(dom).top
-      }px;`;
     }
   }
 
@@ -461,10 +480,10 @@ export default class Page extends React.Component<PageProps> {
 
     if (action.actionType === 'dialog') {
       store.setCurrentAction(action);
-      store.openDialog(ctx);
+      store.openDialog(ctx, undefined, undefined, delegate);
     } else if (action.actionType === 'drawer') {
       store.setCurrentAction(action);
-      store.openDrawer(ctx);
+      store.openDrawer(ctx, undefined, undefined, delegate);
     } else if (action.actionType === 'ajax') {
       store.setCurrentAction(action);
 
@@ -489,7 +508,8 @@ export default class Page extends React.Component<PageProps> {
           const redirect =
             action.redirect && filter(action.redirect, store.data);
           redirect && env.jumpTo(redirect, action);
-          action.reload && this.reloadTarget(action.reload, store.data);
+          action.reload &&
+            this.reloadTarget(filter(action.reload, store.data), store.data);
         })
         .catch(e => {
           if (throwErrors || action.countDown) {
@@ -620,9 +640,15 @@ export default class Page extends React.Component<PageProps> {
     });
   }
 
-  reload(subpath?: any, query?: any, ctx?: any, silent?: boolean) {
+  reload(
+    subpath?: any,
+    query?: any,
+    ctx?: any,
+    silent?: boolean,
+    replace?: boolean
+  ) {
     if (query) {
-      return this.receive(query);
+      return this.receive(query, undefined, replace);
     }
 
     const {store, initApi} = this.props;
@@ -636,10 +662,10 @@ export default class Page extends React.Component<PageProps> {
         .then(this.initInterval);
   }
 
-  receive(values: object) {
+  receive(values: object, subPath?: string, replace?: boolean) {
     const {store} = this.props;
 
-    store.updateData(values);
+    store.updateData(values, undefined, replace);
     this.reload();
   }
 
@@ -778,7 +804,6 @@ export default class Page extends React.Component<PageProps> {
       aside,
       asideClassName,
       classnames: cx,
-      header,
       showErrorMsg,
       initApi,
       regions,
@@ -786,7 +811,9 @@ export default class Page extends React.Component<PageProps> {
       data,
       asideResizor,
       pullRefresh,
-      translate: __
+      useMobileUI,
+      translate: __,
+      loadingConfig
     } = this.props;
 
     const subProps = {
@@ -807,8 +834,15 @@ export default class Page extends React.Component<PageProps> {
       <div className={cx('Page-content')}>
         <div className={cx('Page-main')}>
           {this.renderHeader()}
-          <div className={cx(`Page-body`, bodyClassName)}>
-            <Spinner size="lg" overlay key="info" show={store.loading} />
+          {/* role 用于 editor 定位 Spinner */}
+          <div className={cx(`Page-body`, bodyClassName)} role="page-body">
+            <Spinner
+              size="lg"
+              overlay
+              key="info"
+              show={store.loading}
+              loadingConfig={loadingConfig}
+            />
 
             {store.error && showErrorMsg !== false ? (
               <Alert
@@ -862,7 +896,7 @@ export default class Page extends React.Component<PageProps> {
           </div>
         ) : null}
 
-        {pullRefresh && !pullRefresh.disabled ? (
+        {useMobileUI && isMobile() && pullRefresh && !pullRefresh.disabled ? (
           <PullRefresh
             {...pullRefresh}
             translate={__}
@@ -981,11 +1015,12 @@ export class PageRenderer extends Page {
     action: ActionObject,
     ...rest: Array<any>
   ) {
-    super.handleDialogConfirm(values, action, ...rest);
-    const scoped = this.context;
     const store = this.props.store;
     const dialogAction = store.action as ActionObject;
     const reload = action.reload ?? dialogAction.reload;
+    const scoped = store.getDialogScoped() || this.context;
+
+    super.handleDialogConfirm(values, action, ...rest);
 
     if (reload) {
       scoped.reload(reload, store.data);
@@ -1003,11 +1038,12 @@ export class PageRenderer extends Page {
     action: ActionObject,
     ...rest: Array<any>
   ) {
-    super.handleDrawerConfirm(values, action);
-    const scoped = this.context as IScopedContext;
     const store = this.props.store;
     const drawerAction = store.action as ActionObject;
     const reload = action.reload ?? drawerAction.reload;
+    const scoped = store.getDrawerScoped() || (this.context as IScopedContext);
+
+    super.handleDrawerConfirm(values, action);
 
     // 稍等会，等动画结束。
     setTimeout(() => {
@@ -1023,7 +1059,12 @@ export class PageRenderer extends Page {
     }, 300);
   }
 
-  setData(values: object) {
-    return this.props.store.updateData(values);
+  setData(values: object, replace?: boolean) {
+    return this.props.store.updateData(values, undefined, replace);
+  }
+
+  getData() {
+    const {store} = this.props;
+    return store.data;
   }
 }

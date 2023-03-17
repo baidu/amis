@@ -9,6 +9,6 @@
       "../../node_modules/@types"
     ]
   },
-  "include": ["src/**/*", "__tests__/**/*", "src/custom.d.ts"],
+  "include": ["src/**/*", "examples/**/*", "__tests__/**/*", "src/custom.d.ts"],
   "references": [{"path": "../amis-core"}]
 }

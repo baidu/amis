@@ -89,6 +89,14 @@ export default class FieldSetControl extends React.Component<
     collapsable: false
   };
 
+  static propsList: Array<string> = [
+    'collapsable',
+    'collapsed',
+    'collapseTitle',
+    'titlePosition',
+    'collapseTitle'
+  ];
+
   renderBody(): JSX.Element {
     const {
       body,
@@ -116,7 +124,6 @@ export default class FieldSetControl extends React.Component<
       formHorizontal: subFormHorizontal || formHorizontal
     };
     mode && (props.mode = mode);
-    typeof collapsable !== 'undefined' && (props.collapsable = collapsable);
     horizontal && (props.horizontal = horizontal);
 
     return (

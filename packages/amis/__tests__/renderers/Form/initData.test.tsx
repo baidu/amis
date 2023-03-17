@@ -99,14 +99,12 @@ test('Form:initData:super', async () => {
 
   await waitFor(() => {
     expect(onSubmit).toBeCalled();
-    expect(onSubmit.mock.calls[0][0]).toMatchInlineSnapshot(
-      `
-    Object {
-      "a": 1,
-      "b": 2,
-    }
-  `
-    );
+    expect(onSubmit.mock.calls[0][0]).toMatchInlineSnapshot(`
+      {
+        "a": 1,
+        "b": 2,
+      }
+    `);
   });
 });
 

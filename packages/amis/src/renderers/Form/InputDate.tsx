@@ -1,5 +1,10 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
+import {
+  FormItem,
+  FormControlProps,
+  FormBaseControl,
+  resolveEventData
+} from 'amis-core';
 import cx from 'classnames';
 import {filterDate, isPureVariable, resolveVariableAndFilter} from 'amis-core';
 import moment from 'moment';
@@ -8,6 +13,7 @@ import {DatePicker} from 'amis-ui';
 import {FormBaseControlSchema, SchemaObject} from '../../Schema';
 import {createObject, anyChanged, isMobile, autobind} from 'amis-core';
 import {ActionObject} from 'amis-core';
+import {supportStatic} from './StaticHoc';
 
 export interface InputDateBaseControlSchema extends FormBaseControlSchema {
   /**
@@ -423,8 +429,8 @@ export default class DateControl extends React.PureComponent<
   // 派发有event的事件
   @autobind
   dispatchEvent(e: React.SyntheticEvent<HTMLElement>) {
-    const {dispatchEvent, data} = this.props;
-    dispatchEvent(e, data);
+    const {dispatchEvent, value} = this.props;
+    dispatchEvent(e, resolveEventData(this.props, {value}, 'value'));
   }
 
   // 动作
@@ -444,10 +450,10 @@ export default class DateControl extends React.PureComponent<
   // 值的变化
   @autobind
   async handleChange(nextValue: any) {
-    const {dispatchEvent, data} = this.props;
+    const {dispatchEvent} = this.props;
     const dispatcher = dispatchEvent(
       'change',
-      createObject(data, {value: nextValue})
+      resolveEventData(this.props, {value: nextValue}, 'value')
     );
     if (dispatcher?.prevented) {
       return;
@@ -455,9 +461,11 @@ export default class DateControl extends React.PureComponent<
     this.props.onChange(nextValue);
   }
 
+  @supportStatic()
   render() {
     let {
       className,
+      style,
       defaultValue,
       defaultData,
       classnames: cx,
@@ -572,7 +580,8 @@ export class MonthControlRenderer extends DateControl {
     dateFormat: 'MM',
     timeFormat: '',
     viewMode: 'months',
-    closeOnSelect: true
+    closeOnSelect: true,
+    strictMode: false
   };
 }
 
@@ -587,7 +596,8 @@ export class QuarterControlRenderer extends DateControl {
     dateFormat: 'YYYY [Q]Q',
     timeFormat: '',
     viewMode: 'quarters',
-    closeOnSelect: true
+    closeOnSelect: true,
+    strictMode: false
   };
 }
 
@@ -602,6 +612,7 @@ export class YearControlRenderer extends DateControl {
     dateFormat: 'YYYY',
     timeFormat: '',
     viewMode: 'years',
-    closeOnSelect: true
+    closeOnSelect: true,
+    strictMode: false
   };
 }

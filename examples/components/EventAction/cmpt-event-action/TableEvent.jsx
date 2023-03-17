@@ -47,7 +47,7 @@ export default {
                   actionType: 'toast',
                   args: {
                     msgType: 'info',
-                    msg: '选中${event.data.selectedItems.length}项数据；未选中${event.data.unSelectedItems.length}项数据'
+                    msg: '选中${selectedItems.length}项数据；未选中${unSelectedItems.length}项数据'
                   }
                 }
               ]
@@ -80,10 +80,7 @@ export default {
               name: 'browser',
               label: 'Browser',
               filterable: {
-                options: [
-                  'Internet Explorer 4.0',
-                  'Internet Explorer 5.0'
-                ]
+                options: ['Internet Explorer 4.0', 'Internet Explorer 5.0']
               }
             },
 
@@ -100,7 +97,7 @@ export default {
                   actionType: 'toast',
                   args: {
                     msgType: 'info',
-                    msg: '列排序数据：${event.data|json}'
+                    msg: 'orderBy：${orderBy},orderDir：${orderDir}'
                   }
                 }
               ]
@@ -111,7 +108,7 @@ export default {
                   actionType: 'toast',
                   args: {
                     msgType: 'info',
-                    msg: '列筛选数据：${event.data|json}'
+                    msg: 'filterName：${filterName},filterValue：${filterValue}'
                   }
                 }
               ]
@@ -122,7 +119,7 @@ export default {
                   actionType: 'toast',
                   args: {
                     msgType: 'info',
-                    msg: '列搜索数据：${event.data|json}'
+                    msg: 'searchName：${searchName},searchValue：${searchValue|json}'
                   }
                 }
               ]
@@ -168,7 +165,7 @@ export default {
                   actionType: 'toast',
                   args: {
                     msgType: 'info',
-                    msg: '${event.data.movedItems.length}行发生移动'
+                    msg: '${movedItems.length}行发生移动'
                   }
                 }
               ]
@@ -214,7 +211,7 @@ export default {
                   actionType: 'toast',
                   args: {
                     msgType: 'info',
-                    msg: '当前显示${event.data.columns.length}列'
+                    msg: '当前显示${columns.length}列'
                   }
                 }
               ]
@@ -259,12 +256,94 @@ export default {
                   actionType: 'toast',
                   args: {
                     msgType: 'info',
-                    msg: '行单击数据：${event.data|json}'
+                    msg: '行单击数据：${rowItem|json}'
                   }
                 }
               ]
             }
           }
+        }
+      ]
+    },
+    {
+      type: 'tpl',
+      tpl: '数据元素点击、鼠标移入、鼠标移出事件(元素可监听事件与元素的组件类型相关)',
+      inline: false,
+      wrapperComponent: 'h2'
+    },
+    {
+      type: 'service',
+      api: '/api/mock2/sample?perPage=10',
+      body: [
+        {
+          type: 'table',
+          source: '$rows',
+          columns: [
+            {
+              name: 'id',
+              label: 'ID'
+            },
+
+            {
+              name: 'browser',
+              label: 'Browser',
+              type: 'tpl',
+              onEvent: {
+                mouseenter: {
+                  weight: 0,
+                  actions: [
+                    {
+                      args: {
+                        msgType: 'info',
+                        position: 'top-right',
+                        closeButton: true,
+                        showIcon: true,
+                        msg: '${nativeEvent.clientX}'
+                      },
+                      actionType: 'toast'
+                    }
+                  ]
+                },
+                mouseleave: {
+                  weight: 0,
+                  actions: [
+                    {
+                      args: {
+                        msgType: 'info',
+                        position: 'top-right',
+                        closeButton: true,
+                        showIcon: true,
+                        msg: '${nativeEvent.type}'
+                      },
+                      actionType: 'toast'
+                    }
+                  ]
+                }
+              }
+            },
+
+            {
+              name: 'version',
+              label: 'Version',
+              onEvent: {
+                click: {
+                  weight: 0,
+                  actions: [
+                    {
+                      args: {
+                        msgType: 'info',
+                        position: 'top-right',
+                        closeButton: true,
+                        showIcon: true,
+                        msg: '${id},${browser},${version}'
+                      },
+                      actionType: 'toast'
+                    }
+                  ]
+                }
+              }
+            }
+          ]
         }
       ]
     },

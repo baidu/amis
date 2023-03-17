@@ -1,12 +1,13 @@
 import {observer} from 'mobx-react';
 import React from 'react';
+import uniq from 'lodash/uniq';
 import type {IColumn, IRow} from 'amis-core/lib/store/table';
 import {RendererProps} from 'amis-core';
 import {Action} from '../Action';
 import {isClickOnInput, createObject} from 'amis-core';
 
 interface TableRowProps extends Pick<RendererProps, 'render'> {
-  onCheck: (item: IRow) => void;
+  onCheck: (item: IRow) => Promise<void>;
   classPrefix: string;
   renderCell: (
     region: string,
@@ -42,7 +43,8 @@ export class TableRow extends React.Component<TableRowProps> {
       return;
     }
 
-    const {itemAction, onAction, item, data, dispatchEvent} = this.props;
+    const {itemAction, onAction, item, data, dispatchEvent, onCheck} =
+      this.props;
 
     const rendererEvent = await dispatchEvent(
       'rowClick',
@@ -59,7 +61,9 @@ export class TableRow extends React.Component<TableRowProps> {
       onAction && onAction(e, itemAction, item?.data);
       item.toggle();
     } else {
-      this.props.onCheck(this.props.item);
+      if (item.checkable && item.isCheckAvaiableOnClick) {
+        onCheck?.(item);
+      }
     }
   }
 

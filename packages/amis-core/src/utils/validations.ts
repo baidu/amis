@@ -170,6 +170,11 @@ export const validations: {
     return validations.matchRegexp(values, value, /^[A-Z\s\u00C0-\u017F]+$/i);
   },
   isLength: function (values, value, length) {
+    // 此方法应该判断文本长度，如果传入数据为number，导致 maxLength 和 maximum 表现一致了，默认转成string
+    if (typeof value === 'number') {
+      value = String(value);
+    }
+
     return !isExisty(value) || isEmpty(value) || value.length === length;
   },
   equals: function (values, value, eql) {
@@ -186,6 +191,10 @@ export const validations: {
     return !isExisty(value) || value.length <= length;
   },
   minLength: function (values, value, length) {
+    // 此方法应该判断文本长度，如果传入数据为number，导致 maxLength 和 maximum 表现一致了，默认转成string
+    if (typeof value === 'number') {
+      value = String(value);
+    }
     return !isExisty(value) || isEmpty(value) || value.length >= length;
   },
   isUrlPath: function (values, value, regexp) {
@@ -426,6 +435,13 @@ export const validations: {
       granularity,
       inclusivity
     );
+  },
+  isVariableName: function (values, value, regexp) {
+    return validations.matchRegexp(
+      values,
+      value,
+      regexp instanceof RegExp ? regexp : /^[a-zA-Z_]+[a-zA-Z0-9_]*$/
+    );
   }
 };
 
@@ -454,6 +470,8 @@ export const validateMessages: {
   matchRegexp: 'validate.matchRegexp',
   minLength: 'validate.minLength',
   maxLength: 'validate.maxLength',
+  minLengthArray: 'validate.array.minLength',
+  maxLengthArray: 'validate.array.maxLength',
   maximum: 'validate.maximum',
   lt: 'validate.lt',
   minimum: 'validate.minimum',
@@ -478,7 +496,8 @@ export const validateMessages: {
   isTimeAfter: 'validate.isTimeAfter',
   isTimeSameOrBefore: 'validate.isTimeSameOrBefore',
   isTimeSameOrAfter: 'validate.isTimeSameOrAfter',
-  isTimeBetween: 'validate.isTimeBetween'
+  isTimeBetween: 'validate.isTimeBetween',
+  isVariableName: 'validate.isVariableName'
 };
 
 export function validate(
@@ -516,10 +535,19 @@ export function validate(
       });
 
       if (!fn(values, value, ...args)) {
+        let msgRuleName = ruleName;
+        if (Array.isArray(value)) {
+          msgRuleName = `${ruleName}Array`;
+        }
+
         errors.push({
           rule: ruleName,
           msg: filter(
-            __((messages && messages[ruleName]) || validateMessages[ruleName]),
+            __(
+              (messages && messages[ruleName]) ||
+                validateMessages[msgRuleName] ||
+                validateMessages[ruleName]
+            ),
             {
               ...[''].concat(args)
             }

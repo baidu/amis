@@ -12,7 +12,7 @@ import {
   SearchBox,
   InputBox
 } from 'amis';
-import {eachTree, mapTree} from 'amis-core';
+import {eachTree} from 'amis-core';
 import 'amis-ui/lib/locale/en-US';
 import {withRouter} from 'react-router';
 // @ts-ignore
@@ -58,11 +58,6 @@ const themes = [
     label: 'ang',
     ns: 'a-',
     value: 'ang'
-  },
-  {
-    label: 'Dark',
-    ns: 'dark-',
-    value: 'dark'
   }
 ];
 
@@ -558,7 +553,7 @@ export class App extends React.PureComponent<{
 
   renderContent() {
     const locale = 'zh-CN'; // 暂时不支持切换，因为目前只有中文文档
-    const theme = this.state.theme;
+    const {theme} = this.state;
 
     return (
       <React.Suspense

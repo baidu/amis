@@ -65,7 +65,8 @@ order: 14
         {
           "type": "input-excel",
           "name": "excel",
-          "label": "上传 Excel"
+          "label": "上传 Excel",
+          "placeholder": "请拖拽Excel文件到当前区域"
         },
         {
           "type": "input-table",
@@ -160,6 +161,30 @@ order: 14
 ]
 ```
 
+## 解析图片
+
+> 2.6.0 及以上版本
+
+通过配置 `parseImage` 来支持解析 excel 里的图片
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "debug": true,
+    "body": [
+        {
+            "type": "input-excel",
+            "name": "excel",
+            "parseImage": true,
+            "label": "上传 Excel"
+        }
+    ]
+}
+```
+
+默认情况下解析结果是 data URI 格式，如果不想要这个前缀可以通过 `"imageDataURI": false` 关闭
+
 ## 富文本模式
 
 默认情况下 Excel 内容将会解析为纯文本，如果要使用富文本格式，可以通过 `plainText` 属性控制
@@ -217,20 +242,23 @@ order: 14
 
 ## 属性表
 
-| 属性名       | 类型                    | 默认值   | 说明               |
-| ------------ | ----------------------- | -------- | ------------------ |
-| allSheets    | `boolean`               | false    | 是否解析所有 sheet |
-| parseMode    | `'array'` 或 `'object'` | 'object' | 解析模式           |
-| includeEmpty | `boolean`               | true     | 是否包含空值       |
-| plainText    | `boolean`               | true     | 是否解析为纯文本   |
+| 属性名       | 类型                    | 默认值                          | 说明               | 版本    |
+| ------------ | ----------------------- | ------------------------------- | ------------------ | ------- |
+| allSheets    | `boolean`               | false                           | 是否解析所有 sheet |
+| parseMode    | `'array'` 或 `'object'` | 'object'                        | 解析模式           |
+| includeEmpty | `boolean`               | true                            | 是否包含空值       |
+| plainText    | `boolean`               | true                            | 是否解析为纯文本   |
+| placeholder  | `string`                | `"拖拽 Excel 到这，或点击上传"` | 占位文本提示       | `2.8.1` |
 
 ## 事件表
 
-当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`event.data.xxx`事件参数变量来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`来获取事件产生的数据（`< 2.3.2 及以下版本 为 ${event.data.[事件参数名]}`），详细请查看[事件动作](../../docs/concepts/event-action)。
 
-| 事件名称 | 事件参数                                             | 说明                     |
-| -------- | ---------------------------------------------------- | ------------------------ |
-| change   | `event.data.value: Array<object>` excel 解析后的数据 | excel 上传解析完成后触发 |
+> `[name]`表示当前组件绑定的名称，即`name`属性，如果没有配置`name`属性，则通过`value`取值。
+
+| 事件名称 | 事件参数                                               | 说明                     |
+| -------- | ------------------------------------------------------ | ------------------------ |
+| change   | `[name]: Array<object>` 组件的值（excel 解析后的数据） | excel 上传解析完成后触发 |
 
 ## 动作表
 

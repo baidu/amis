@@ -1,5 +1,4 @@
-import omit from 'lodash/omit';
-import {Api} from '../types';
+import {Api, ApiObject} from '../types';
 import {normalizeApiResponseData} from '../utils/api';
 import {ServerError} from '../utils/errors';
 import {createObject, isEmpty} from '../utils/helper';
@@ -54,8 +53,8 @@ export class AjaxAction implements RendererAction {
     const env = event.context.env;
     try {
       const result = await env.fetcher(
-        action.args?.api as string,
-        omit(action.args ?? {}, ['api', 'options', 'messages']),
+        action.args?.api,
+        action.data ?? {},
         action.args?.options ?? {}
       );
       const responseData =
@@ -80,12 +79,17 @@ export class AjaxAction implements RendererAction {
       if (!action.args?.options?.silent) {
         if (!result.ok) {
           throw new ServerError(
-            action.args?.messages?.failed ?? result.msg,
+            (action.args?.api as ApiObject)?.messages?.failed ??
+              action.args?.messages?.failed ??
+              result.msg,
             result
           );
         } else {
           const msg =
-            action.args?.messages?.success ?? result.msg ?? result.defaultMsg;
+            (action.args?.api as ApiObject)?.messages?.success ??
+            action.args?.messages?.success ??
+            result.msg ??
+            result.defaultMsg;
           msg &&
             env.notify(
               'success',

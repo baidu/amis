@@ -2,9 +2,13 @@
   position: relative;
   display: inline-flex;
   flex-wrap: nowrap;
-  border: var(--DatePicker-borderWidth) solid var(--DatePicker-borderColor);
+  border-width: var(--DatePicker-borderWidth);
+  border-style: var(--DatePicker-borderStyle);
+  border-color: var(--DatePicker-borderColor);
   font-size: var(--DatePicker-fontSize);
-  padding: var(--DatePicker-paddingY) var(--DatePicker-paddingX);
+  padding: var(--inputDate-default-paddingTop)
+    var(--inputDate-default-paddingRight) var(--inputDate-default-paddingBottom)
+    var(--inputDate-default-paddingLeft);
   height: var(--DatePicker-height);
   outline: none;
   white-space: nowrap;
@@ -19,13 +23,16 @@
     background: none;
     padding: 0;
     border: 0;
+    font-size: var(--DatePicker-fontSize);
+    font-weight: var(--inputDate-default-fontWeight);
+    color: var(--inputDate-default-color);
     &:focus {
       border: none;
       outline: none;
       box-sizing: none;
     }
     &::placeholder {
-      color: #{$G6};
+      color: var(--colors-neutral-text-6);
     }
   }
 
@@ -41,6 +48,18 @@
     &:hover {
       background: var(--DatePicker-onHover-bg);
       border-color: var(--DatePicker-onHover-borderColor);
+      border-style: var(--inputDate-hover-top-border-style)
+        var(--inputDate-hover-right-border-style)
+        var(--inputDate-hover-bottom-border-style)
+        var(--inputDate-hover-left-border-style);
+      border-width: var(--inputDate-hover-top-border-width)
+        var(--inputDate-hover-right-border-width)
+        var(--inputDate-hover-bottom-border-width)
+        var(--inputDate-hover-left-border-width);
+
+      .#{$ns}DatePicker-input {
+        color: var(--inputDate-hover-color);
+      }
 
       .#{$ns}DatePicker-clear {
         display: flex;
@@ -52,16 +71,40 @@
     }
 
     &.is-focused {
+      background: var(--inputDate-active-bg-color);
       border-color: var(--DatePicker-onFocused-borderColor);
-      box-shadow: var(--Form-input-boxShadow);
+      box-shadow: var(--inputDate-active-shadow);
+      border-style: var(--inputDate-active-top-border-style)
+        var(--inputDate-active-right-border-style)
+        var(--inputDate-active-bottom-border-style)
+        var(--inputDate-active-left-border-style);
+      border-width: var(--inputDate-active-top-border-width)
+        var(--inputDate-active-right-border-width)
+        var(--inputDate-active-bottom-border-width)
+        var(--inputDate-active-left-border-width);
+      .#{$ns}DatePicker-input {
+        color: var(--inputDate-active-color);
+      }
     }
   }
 
   &.is-disabled {
-    background: $gray200;
+    background: var(--inputDate-disabled-bg-color);
+    border-width: var(--inputDate-disabled-top-border-width)
+      var(--inputDate-disabled-right-border-width)
+      var(--inputDate-disabled-bottom-border-width)
+      var(--inputDate-disabled-left-border-width);
+    border-style: var(--inputDate-disabled-top-border-style)
+      var(--inputDate-disabled-right-border-style)
+      var(--inputDate-disabled-bottom-border-style)
+      var(--inputDate-disabled-left-border-style);
+    border-color: var(--inputDate-disabled-top-border-color)
+      var(--inputDate-disabled-right-border-color)
+      var(--inputDate-disabled-bottom-border-color)
+      var(--inputDate-disabled-left-border-color);
 
     > .#{$ns}DatePicker-input {
-      color: var(--text--muted-color);
+      color: var(--inputDate-disabled-color);
     }
   }
 
@@ -83,11 +126,29 @@
   &-toggler {
     @include input-clear();
     line-height: 1;
+    svg {
+      color: var(--inputDate-default-icon-color);
+      width: var(--inputDate-default-icon-size);
+      height: var(--inputDate-default-icon-size);
+    }
+  }
+
+  .DatePicker-toggler-clock {
+    content: var(--inputTime-default-icon);
+  }
+
+  .DatePicker-toggler-date {
+    content: var(--inputDate-default-icon);
   }
 
   &-clear {
     @include input-clear();
     line-height: 1;
+    svg {
+      top: 0;
+      width: var(--inputDate-default-icon-size);
+      height: var(--inputDate-default-icon-size);
+    }
   }
 }
 
@@ -217,7 +278,6 @@
       height: #{px2rem(43px)};
       padding-top: #{px2rem(11px)};
       margin-left: #{px2rem(2px)};
-      border-bottom: 1px solid var(--Calendar-input-borderColor);
     }
   }
 
@@ -258,11 +318,15 @@
       background: var(--Calendar-cell-bg);
 
       &:hover span {
+        color: var(--inputDate-hover-option-color);
         background: var(--Calendar-cell-onHover-bg);
       }
     }
 
     td.rdtToday {
+      > span {
+        border: 1px solid var(--Calendar-borderColor);
+      }
       &:hover span {
         background: transparent;
       }
@@ -291,6 +355,7 @@
     td.rdtActive,
     td.rdtActive:hover {
       > span {
+        color: var(--inputDate-active-option-color);
         background: var(--Calendar-cell-onActive-bg);
       }
     }
@@ -359,8 +424,8 @@
   overflow: auto;
   .#{$ns}CalendarInput-sugs {
     list-style: none;
-    background: var(--Form-select-menu-bg);
-    color: var(--Form-select-menu-color);
+    background: var(--inputTime-default-bg-color);
+    color: var(--inputTime-default-color);
     left: px2rem(-1px);
     right: px2rem(-1px);
     top: 100%;
@@ -376,15 +441,17 @@
       text-align: center;
       height: 28px;
       line-height: 28px;
+      font-size: var(--inputTime-default-fontSize);
+      font-weight: var(--inputTime-default-fontWeight);
       cursor: pointer;
 
       &.is-highlight {
-        color: var(--Form-select-menu-onHover-color);
-        background: var(--Form-select-menu-onHover-bg);
+        color: var(--inputTime-active-color);
+        background: var(--inputTime-active-bg-color);
       }
       &:hover {
-        color: var(--Form-select-menu-onHover-color);
-        background: #f7f7f9;
+        color: var(--inputTime-hover-color);
+        background: var(--inputTime-hover-bg-color);
       }
     }
   }
@@ -567,7 +634,7 @@
 
   &:hover {
     text-decoration: none;
-    color: var(--DatePicker-color);
+    color: var(--inputDate-hover-title-arrow-color);
   }
 }
 
@@ -579,7 +646,7 @@
   text-align: center;
   cursor: pointer;
   font-weight: normal;
-  color: var(--DatePicker-color);
+  color: var(--inputDate-default-title-color);
 
   &:hover {
     color: var(--DatePicker-header-onHover-color);
@@ -633,6 +700,12 @@ td.rdtYear,
 td.rdtQuarter {
   > span {
     display: inline-block;
+    color: var(--inputDate-other-color);
+    background: var(--inputDate-other-bg-color);
+    border-radius: var(--inputDate-other-top-left-border-radius)
+      var(--inputDate-other-top-right-border-radius)
+      var(--inputDate-other-bottom-right-border-radius)
+      var(--inputDate-other-bottom-left-border-radius);
   }
 
   &.rdtBetween {
@@ -643,8 +716,8 @@ td.rdtQuarter {
     background: transparent;
 
     > span {
-      color: var(--Form-select-menu-onHover-color);
-      background: #f7f7f9;
+      color: var(--inputDate-other-hover-color);
+      background: var(--inputDate-other-hover-bg-color);
     }
   }
 
@@ -653,15 +726,19 @@ td.rdtQuarter {
     background: transparent;
 
     > span {
-      background: var(--info) !important;
-      color: var(--white);
+      background: var(--inputDate-other-active-bg-color) !important;
+      color: var(--inputDate-other-active-color) !important;
     }
   }
 
   &.rdtDisabled,
   &.rdtDisabled:hover {
-    background: var(--Calendar-cell-onDisabled-bg);
-    color: #b8babf;
+    background: var(--inputDate-other-disabled-bg-color);
+
+    > span {
+      background: var(--inputDate-other-disabled-bg-color);
+      color: var(--inputDate-other-disabled-color);
+    }
   }
 }
 

@@ -1,11 +1,12 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
+import isEqual from 'lodash/isEqual';
 import {ScopedContext, IScopedContext, SchemaExpression} from 'amis-core';
 import {Renderer, RendererProps} from 'amis-core';
 import {SchemaNode, ActionObject, Schema} from 'amis-core';
 import forEach from 'lodash/forEach';
 import {evalExpression, filter} from 'amis-core';
-import {BadgeObject, Checkbox, Spinner} from 'amis-ui';
+import {BadgeObject, Checkbox, Spinner, SpinnerExtraProps} from 'amis-ui';
 import {Button} from 'amis-ui';
 import {TableStore, ITableStore, padArr} from 'amis-core';
 import {
@@ -55,6 +56,7 @@ import {offset} from 'amis-core';
 import {getStyleNumber} from 'amis-core';
 import {exportExcel} from './exportExcel';
 import type {IColumn, IRow} from 'amis-core/lib/store/table';
+import intersection from 'lodash/intersection';
 
 /**
  * 表格列，不指定类型时默认为文本类型。
@@ -170,15 +172,19 @@ export type TableColumnObject = {
    * 表格列单元格是否可以获取父级数据域值，默认为true，该配置对当前列内单元格生效
    */
   canAccessSuperData?: boolean;
+
+  /**
+   * 单元格内部组件自定义样式 style作为单元格自定义样式的配置
+   */
+  innerStyle?: {
+    [propName: string]: any;
+  };
 };
 
 export type TableColumnWithType = SchemaObject & TableColumnObject;
 export type TableColumn = TableColumnWithType | TableColumnObject;
 
-interface AutoFillHeightObject {
-  height: number;
-}
-
+type AutoFillHeightObject = Record<'height' | 'maxHeight', number>;
 /**
  * Table 表格渲染器。
  * 文档：https://baidu.gitee.io/amis/docs/components/table
@@ -314,7 +320,7 @@ export interface TableSchema extends BaseSchema {
   autoFillHeight?: boolean | AutoFillHeightObject;
 }
 
-export interface TableProps extends RendererProps {
+export interface TableProps extends RendererProps, SpinnerExtraProps {
   title?: string; // 标题
   header?: SchemaNode;
   footer?: SchemaNode;
@@ -457,7 +463,8 @@ export default class Table extends React.Component<TableProps, object> {
     'autoFillHeight',
     'onSelect',
     'keepItemSelectionOnPageChange',
-    'maxKeepItemSelectionLength'
+    'maxKeepItemSelectionLength',
+    'autoGenerateFilter'
   ];
   static defaultProps: Partial<TableProps> = {
     className: '',
@@ -602,9 +609,10 @@ export default class Table extends React.Component<TableProps, object> {
     let rows: Array<object> = [];
     let updateRows = false;
 
+    // 要严格比较前后的value值，否则某些情况下会导致循环update无限渲染
     if (
       Array.isArray(value) &&
-      (!prevProps || (prevProps.value || prevProps.items) !== value)
+      (!prevProps || !isEqual(prevProps.value || prevProps.items, value))
     ) {
       updateRows = true;
       rows = value;
@@ -630,25 +638,7 @@ export default class Table extends React.Component<TableProps, object> {
 
   componentDidMount() {
     const currentNode = findDOMNode(this) as HTMLElement;
-    // 获取小于所有子元素高度之和的父元素
-    let parent: HTMLElement | Window | null = getScrollParent(
-      currentNode,
-      parent => {
-        if (parent.getAttribute('role') === 'dialog') {
-          /**
-           *
-           * * 兼容在 Dialog 中的场景,
-           * ! 有时 dialog 内容并没有撑出滚动条，这里需要做一下特殊处理
-           * TODO 有没有一种更好的方式来判断
-           */
-          return true;
-        }
-        // * 具备 overflow-*:auto 的父元素的高度小于当前元素
-        return (
-          parent.offsetHeight > 0 && parent.offsetHeight < parent.scrollHeight
-        );
-      }
-    );
+    let parent: HTMLElement | Window | null = getScrollParent(currentNode);
 
     if (!parent || parent === document.body) {
       parent = window;
@@ -740,12 +730,17 @@ export default class Table extends React.Component<TableProps, object> {
       parentNode = parentNode.parentElement;
     }
 
-    const height = isObject(autoFillHeight)
-      ? (autoFillHeight as AutoFillHeightObject).height
+    const heightField =
+      autoFillHeight && (autoFillHeight as AutoFillHeightObject).maxHeight
+        ? 'maxHeight'
+        : 'height';
+
+    const heightValue = isObject(autoFillHeight)
+      ? (autoFillHeight as AutoFillHeightObject)[heightField]
       : 0;
 
-    const tableContentHeight = height
-      ? `${height}px`
+    const tableContentHeight = heightValue
+      ? `${heightValue}px`
       : `${
           viewportHeight -
           tableContentTop -
@@ -754,14 +749,14 @@ export default class Table extends React.Component<TableProps, object> {
           allParentPaddingButtom
         }px`;
 
-    tableContent.style.height = tableContentHeight;
+    tableContent.style[heightField] = tableContentHeight;
     /**autoFillHeight开启后固定列会溢出Table高度，需要同步一下 */
     if (leftFixedColumns) {
-      leftFixedColumns.style.height = tableContentHeight;
+      leftFixedColumns.style[heightField] = tableContentHeight;
       leftFixedColumns.style.overflowY = 'auto';
     }
     if (rightFixedColumns) {
-      rightFixedColumns.style.height = tableContentHeight;
+      rightFixedColumns.style[heightField] = tableContentHeight;
       rightFixedColumns.style.overflowY = 'auto';
     }
   }
@@ -840,7 +835,8 @@ export default class Table extends React.Component<TableProps, object> {
       prevSelectedRows !== selectedRows && this.syncSelected();
     }
 
-    this.updateTableInfoLazy();
+    // 延迟执行，否则表格还没更新，拿到的宽度不对，导致表头错位
+    Promise.resolve().then(() => this.updateTableInfoLazy());
   }
 
   componentWillUnmount() {
@@ -1219,9 +1215,23 @@ export default class Table extends React.Component<TableProps, object> {
         forEach(
           table.querySelectorAll('thead>tr:first-child>th'),
           (item: HTMLElement) => {
-            const width = widths2[item.getAttribute('data-index') as string];
-            item.style.cssText += `width: ${width}px; height: ${heights.header2}px`;
-            totalWidth2 += width;
+            const rowSpan = Number(item.getAttribute('rowspan'));
+            const colSpan = Number(item.getAttribute('colspan'));
+            let thWidth = widths2[item.getAttribute('data-index') as string];
+            let thHeight = Number(heights.header2);
+
+            /* 考虑表头分组的情况，需要将固定列中对应的表头的高度按照rowSpan扩大指定倍数 */
+            if (!isNaN(thHeight) && !isNaN(rowSpan)) {
+              thHeight *= rowSpan;
+            }
+
+            /* 考虑表头分组的情况，需要将分组表头按照colSpan缩小至指定倍数 */
+            if (!isNaN(thWidth) && !isNaN(colSpan) && colSpan !== 0) {
+              thWidth /= colSpan;
+            }
+
+            item.style.cssText += `width: ${thWidth}px; height: ${thHeight}px`;
+            totalWidth2 += thWidth;
           }
         );
 
@@ -1263,6 +1273,9 @@ export default class Table extends React.Component<TableProps, object> {
     const dom = findDOMNode(this) as HTMLElement;
     const fixedLeft = dom.querySelectorAll(`.${ns}Table-fixedLeft`);
     const fixedRight = dom.querySelectorAll(`.${ns}Table-fixedRight`);
+    const theadHeight = outter
+      .querySelector('thead>tr')
+      ?.getBoundingClientRect()?.height;
 
     if (scrollLeft !== this.lastScrollLeft) {
       this.lastScrollLeft = scrollLeft;
@@ -1276,6 +1289,14 @@ export default class Table extends React.Component<TableProps, object> {
       if (fixedLeft && fixedLeft.length) {
         for (let i = 0, len = fixedLeft.length; i < len; i++) {
           let node = fixedLeft[i];
+
+          // 同步thead高度
+          forEach(node.querySelectorAll('thead>tr>th'), (item: HTMLElement) => {
+            if (theadHeight) {
+              item.style.height = `${theadHeight}px`;
+            }
+          });
+
           leading ? node.classList.remove('in') : node.classList.add('in');
         }
       }
@@ -1283,6 +1304,13 @@ export default class Table extends React.Component<TableProps, object> {
       if (fixedRight && fixedRight.length) {
         for (let i = 0, len = fixedRight.length; i < len; i++) {
           let node = fixedRight[i];
+
+          // 同步thead高度
+          forEach(node.querySelectorAll('thead>tr>th'), (item: HTMLElement) => {
+            if (theadHeight) {
+              item.style.height = `${theadHeight}px`;
+            }
+          });
           trailing ? node.classList.remove('in') : node.classList.add('in');
         }
       }
@@ -1784,27 +1812,49 @@ export default class Table extends React.Component<TableProps, object> {
       saveImmediately,
       headingClassName,
       quickSaveApi,
-      translate: __
+      translate: __,
+      columns
     } = this.props;
+
+    // 当被修改列的 column 开启 quickEdit.saveImmediately 时，不展示提交、放弃按钮
+    let isModifiedColumnSaveImmediately = false;
+    if (store.modifiedRows.length === 1) {
+      const saveImmediatelyColumnNames: string[] =
+        columns
+          ?.map(column =>
+            column?.quickEdit?.saveImmediately ? column?.name : ''
+          )
+          .filter(a => a) || [];
+
+      const item = store.modifiedRows[0];
+      const diff = difference(item.data, item.pristine);
+      if (intersection(saveImmediatelyColumnNames, Object.keys(diff)).length) {
+        isModifiedColumnSaveImmediately = true;
+      }
+    }
 
     if (
       title ||
       (quickSaveApi &&
         !saveImmediately &&
+        !isModifiedColumnSaveImmediately &&
         store.modified &&
         !hideQuickSaveBtn) ||
       store.moved
     ) {
       return (
         <div className={cx('Table-heading', headingClassName)} key="heading">
-          {!saveImmediately && store.modified && !hideQuickSaveBtn ? (
+          {!saveImmediately &&
+          store.modified &&
+          !hideQuickSaveBtn &&
+          !isModifiedColumnSaveImmediately ? (
             <span>
               {__('Table.modified', {
                 modified: store.modified
               })}
               <button
                 type="button"
-                className={cx('Button Button--xs Button--success m-l-sm')}
+                className={cx('Button Button--size-xs Button--success m-l-sm')}
                 onClick={this.handleSave}
               >
                 <Icon icon="check" className="icon m-r-xs" />
@@ -1812,7 +1862,7 @@ export default class Table extends React.Component<TableProps, object> {
               </button>
               <button
                 type="button"
-                className={cx('Button Button--xs Button--danger m-l-sm')}
+                className={cx('Button Button--size-xs Button--danger m-l-sm')}
                 onClick={this.reset}
               >
                 <Icon icon="close" className="icon m-r-xs" />
@@ -1877,7 +1927,7 @@ export default class Table extends React.Component<TableProps, object> {
               classPrefix={ns}
               partial={store.someChecked && !store.allChecked}
               checked={store.someChecked}
-              disabled={store.disabledHeadCheckbox}
+              disabled={store.isSelectionThresholdReached}
               onChange={this.handleCheckAll}
             />
           ) : (
@@ -1911,16 +1961,17 @@ export default class Table extends React.Component<TableProps, object> {
       );
     }
 
-    let affix = null;
+    let affix = [];
 
     if (column.searchable && column.name && !autoGenerateFilter) {
-      affix = (
+      affix.push(
         <HeadCellSearchDropDown
+          key="table-head-search"
           {...this.props}
           onQuery={onQuery}
           name={column.name}
           searchable={column.searchable}
-          sortable={column.sortable}
+          sortable={false}
           type={column.type}
           data={query}
           orderBy={store.orderBy}
@@ -1928,9 +1979,11 @@ export default class Table extends React.Component<TableProps, object> {
           popOverContainer={this.getPopOverContainer}
         />
       );
-    } else if (column.sortable && column.name) {
-      affix = (
+    }
+    if (column.sortable && column.name) {
+      affix.push(
         <span
+          key="table-head-sort"
           className={cx('TableCell-sortBtn')}
           onClick={async () => {
             let orderBy = '';
@@ -1997,9 +2050,11 @@ export default class Table extends React.Component<TableProps, object> {
           </i>
         </span>
       );
-    } else if (column.filterable && column.name) {
-      affix = (
+    }
+    if (!column.searchable && column.filterable && column.name) {
+      affix.push(
         <HeadCellFilterDropDown
+          key="table-head-filter"
           {...this.props}
           onQuery={onQuery}
           name={column.name}
@@ -2176,7 +2231,7 @@ export default class Table extends React.Component<TableProps, object> {
       popOverContainer: popOverContainer || this.getPopOverContainer,
       rowSpan: item.rowSpans[column.name as string],
       quickEditFormRef: this.subFormRef,
-      prefix,
+      cellPrefix: prefix,
       onImageEnlarge: this.handleImageEnlarge,
       canAccessSuperData,
       row: item,
@@ -2299,6 +2354,7 @@ export default class Table extends React.Component<TableProps, object> {
     } = this.props;
     const hideHeader = store.filteredColumns.every(column => !column.label);
     const columnsGroup = store.columnGroup;
+
     return (
       <table
         className={cx('Table-table', tableClassName, {
@@ -2341,10 +2397,11 @@ export default class Table extends React.Component<TableProps, object> {
           <tbody>
             <tr className={cx('Table-placeholder')}>
               <td colSpan={columns.length}>
-                {render(
+                {/* 表格主体已经有placeholder，固定列再展示重复了 */}
+                {/* {render(
                   'placeholder',
                   translate(placeholder || 'placeholder.noData')
-                )}
+                )} */}
               </td>
             </tr>
           </tbody>
@@ -2791,7 +2848,8 @@ export default class Table extends React.Component<TableProps, object> {
       itemActions,
       dispatchEvent,
       onEvent,
-      loading = false
+      loading = false,
+      loadingConfig
     } = this.props;
 
     // 理论上来说 store.rows 应该也行啊
@@ -2800,6 +2858,12 @@ export default class Table extends React.Component<TableProps, object> {
 
     return (
       <>
+        {TableContent.renderItemActions({
+          store,
+          classnames: cx,
+          render,
+          itemActions
+        })}
         <TableContent
           tableClassName={cx(
             {
@@ -2844,7 +2908,7 @@ export default class Table extends React.Component<TableProps, object> {
           loading={loading}
         />
 
-        <Spinner overlay show={loading} />
+        <Spinner loadingConfig={loadingConfig} overlay show={loading} />
       </>
     );
   }
@@ -2886,6 +2950,7 @@ export default class Table extends React.Component<TableProps, object> {
   render() {
     const {
       className,
+      style,
       store,
       classnames: cx,
       affixColumns,
@@ -2907,6 +2972,7 @@ export default class Table extends React.Component<TableProps, object> {
           'Table--unsaved': !!store.modified || !!store.moved,
           'Table--autoFillHeight': autoFillHeight
         })}
+        style={style}
       >
         {autoGenerateFilter ? this.renderAutoFilterForm() : null}
         {header}

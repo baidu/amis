@@ -18,109 +18,113 @@ test('EventAction:dialog', async () => {
                 actions: [
                   {
                     actionType: 'dialog',
-                    dialog: {
-                      type: 'dialog',
-                      id: 'dialog_001',
-                      title: '模态弹窗',
-                      body: [
-                        {
-                          type: 'button',
-                          label: '打开子弹窗',
-                          onEvent: {
-                            click: {
-                              actions: [
-                                {
-                                  actionType: 'dialog',
-                                  dialog: {
-                                    type: 'dialog',
-                                    title: '模态子弹窗',
-                                    body: [
-                                      {
-                                        type: 'button',
-                                        label: '关闭父弹窗',
-                                        onEvent: {
-                                          click: {
-                                            actions: [
-                                              {
-                                                actionType: 'closeDialog',
-                                                componentId: 'dialog_001'
+                    args: {
+                      dialog: {
+                        type: 'dialog',
+                        id: 'dialog_001',
+                        title: '模态弹窗',
+                        body: [
+                          {
+                            type: 'button',
+                            label: '打开子弹窗',
+                            onEvent: {
+                              click: {
+                                actions: [
+                                  {
+                                    actionType: 'dialog',
+                                    args: {
+                                      dialog: {
+                                        type: 'dialog',
+                                        title: '模态子弹窗',
+                                        body: [
+                                          {
+                                            type: 'button',
+                                            label: '关闭父弹窗',
+                                            onEvent: {
+                                              click: {
+                                                actions: [
+                                                  {
+                                                    actionType: 'closeDialog',
+                                                    componentId: 'dialog_001'
+                                                  }
+                                                ]
                                               }
-                                            ]
+                                            }
                                           }
-                                        }
+                                        ]
                                       }
-                                    ]
+                                    }
                                   }
-                                }
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          type: 'button',
-                          label: '关闭当前弹窗',
-                          className: 'ml-2',
-                          onEvent: {
-                            click: {
-                              actions: [
-                                {
-                                  actionType: 'closeDialog'
-                                }
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          type: 'button',
-                          label: '触发确认',
-                          className: 'ml-2',
-                          onEvent: {
-                            click: {
-                              actions: [
-                                {
-                                  actionType: 'confirm',
-                                  componentId: 'dialog_001'
-                                }
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          type: 'button',
-                          label: '触发取消',
-                          className: 'ml-2',
-                          onEvent: {
-                            click: {
-                              actions: [
-                                {
-                                  actionType: 'cancel',
-                                  componentId: 'dialog_001'
-                                }
-                              ]
-                            }
-                          }
-                        }
-                      ],
-                      onEvent: {
-                        confirm: {
-                          actions: [
-                            {
-                              actionType: 'toast',
-                              args: {
-                                msg: 'confirm'
+                                ]
                               }
                             }
-                          ]
-                        },
-                        cancel: {
-                          actions: [
-                            {
-                              actionType: 'toast',
-                              args: {
-                                msg: 'cancel'
+                          },
+                          {
+                            type: 'button',
+                            label: '关闭当前弹窗',
+                            className: 'ml-2',
+                            onEvent: {
+                              click: {
+                                actions: [
+                                  {
+                                    actionType: 'closeDialog'
+                                  }
+                                ]
                               }
                             }
-                          ]
+                          },
+                          {
+                            type: 'button',
+                            label: '触发确认',
+                            className: 'ml-2',
+                            onEvent: {
+                              click: {
+                                actions: [
+                                  {
+                                    actionType: 'confirm',
+                                    componentId: 'dialog_001'
+                                  }
+                                ]
+                              }
+                            }
+                          },
+                          {
+                            type: 'button',
+                            label: '触发取消',
+                            className: 'ml-2',
+                            onEvent: {
+                              click: {
+                                actions: [
+                                  {
+                                    actionType: 'cancel',
+                                    componentId: 'dialog_001'
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        ],
+                        onEvent: {
+                          confirm: {
+                            actions: [
+                              {
+                                actionType: 'toast',
+                                args: {
+                                  msg: 'confirm'
+                                }
+                              }
+                            ]
+                          },
+                          cancel: {
+                            actions: [
+                              {
+                                actionType: 'toast',
+                                args: {
+                                  msg: 'cancel'
+                                }
+                              }
+                            ]
+                          }
                         }
                       }
                     }

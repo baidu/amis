@@ -1,0 +1,19 @@
+{
+  "status": 0,
+  "msg": "success",
+  "data": {
+    "ProductName": "BOS",
+    "Banlance": 1234.888,
+    "ProductNum": 10,
+    "isOnline": true,
+    "ProductList": ["BCC", "CDN", "LSS"],
+    "PROFILE": {
+      "FirstName": "Amis",
+      "Age": 18,
+      "Address": {
+        "city": "Beijing",
+        "postcode": 100000
+      }
+    }
+  }
+}

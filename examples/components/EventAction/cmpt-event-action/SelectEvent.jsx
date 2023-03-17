@@ -1,14 +1,14 @@
-const change = {
+const change = name => ({
   actions: [
     {
       actionType: 'toast',
       args: {
         msgType: 'info',
-        msg: '派发change事件${event.data.value|json}'
+        msg: `派发change事件\${${name}|json\}`
       }
     }
   ]
-};
+});
 
 const add = {
   actions: [
@@ -16,7 +16,7 @@ const add = {
       actionType: 'toast',
       args: {
         msgType: 'info',
-        msg: '${event.data|json}'
+        msg: 'clear-select: ${clear-select|json},items: ${items|json}'
       }
     }
   ]
@@ -28,7 +28,7 @@ const edit = {
       actionType: 'toast',
       args: {
         msgType: 'info',
-        msg: '${event.data|json}'
+        msg: 'clear-select: ${clear-select|json},items: ${items|json}'
       }
     }
   ]
@@ -40,7 +40,7 @@ const del = {
       actionType: 'toast',
       args: {
         msgType: 'info',
-        msg: '${event.data|json}'
+        msg: 'clear-select: ${clear-select|json},items: ${items|json}'
       }
     }
   ]
@@ -135,7 +135,7 @@ export default {
               removable: true,
               options,
               onEvent: {
-                change,
+                change: change('clear-select'),
                 blur,
                 focus,
                 add,
@@ -188,7 +188,7 @@ export default {
               multiple: true,
               options,
               onEvent: {
-                change,
+                change: change('clear-input-tag'),
                 blur,
                 focus
               }
@@ -250,7 +250,7 @@ export default {
                 }
               ],
               onEvent: {
-                change
+                change: change('clear-matrix-checkboxes')
               }
             }
           ]
@@ -294,7 +294,7 @@ export default {
               type: 'radios',
               options,
               onEvent: {
-                change
+                change: change('clear-radios')
               }
             }
           ]
@@ -365,7 +365,7 @@ export default {
               joinValues: true,
               delimiter: '。',
               onEvent: {
-                change,
+                change: change('clear-nested-select'),
                 blur,
                 focus
               }
@@ -415,7 +415,7 @@ export default {
                 '/api/mock2/options/chainedOptions?waitSeconds=1&parentId=$parentId&level=$level&maxLevel=4',
               value: 'a,b',
               onEvent: {
-                change,
+                change: change('clear-chained-select'),
                 blur,
                 focus
               }
@@ -462,7 +462,7 @@ export default {
               label: 'clear动作测试',
               mode: 'row',
               onEvent: {
-                change
+                change: change('clear-input-city')
               }
             }
           ]
@@ -508,7 +508,7 @@ export default {
               mode: 'row',
               option: '勾选框',
               onEvent: {
-                change
+                change: change('clear-checkbox')
               }
             }
           ]
@@ -543,7 +543,7 @@ export default {
               label: 'clear动作测试',
               options,
               onEvent: {
-                change
+                change: change('clear-checkboxes')
               }
             }
           ]
@@ -590,7 +590,7 @@ export default {
                   type: 'button-group-select',
                   options,
                   onEvent: {
-                    change
+                    change: change('clear-options_001')
                   }
                 }
               ]
@@ -624,7 +624,7 @@ export default {
               type: 'list-select',
               options,
               onEvent: {
-                change
+                change: change('clear-options_002')
               }
             }
           ]

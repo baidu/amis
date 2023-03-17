@@ -11,6 +11,7 @@ import {ActionObject} from 'amis-core';
 import keycode from 'keycode';
 import {Overlay} from 'amis-core';
 import {PopOver} from 'amis-core';
+import omit from 'lodash/omit';
 import {Icon} from 'amis-ui';
 import {SchemaCollection, SchemaObject} from '../Schema';
 
@@ -80,6 +81,7 @@ export interface QuickEditConfig {
   body?: any;
   focusable?: boolean;
   popOverClassName?: string;
+  isFormMode?: boolean;
   [propName: string]: any;
 }
 
@@ -384,7 +386,20 @@ export const HocQuickEdit =
             ]
           };
         } else if (quickEdit) {
-          if (
+          if (quickEdit?.isFormMode) {
+            schema = {
+              mode: 'normal',
+              type: 'form',
+              wrapWithPanel: false,
+              body: [
+                {
+                  ...omit(quickEdit, 'isFormMode'),
+                  label: false
+                }
+              ]
+            }
+          }
+          else if (
             quickEdit.body &&
             !~['combo', 'group', 'panel', 'fieldSet', 'fieldset'].indexOf(
               (quickEdit as any).type
@@ -416,12 +431,15 @@ export const HocQuickEdit =
           }
         }
 
+        const isline = (quickEdit as QuickEditConfig).mode === 'inline';
+        const isFormMode = (quickEdit as QuickEditConfig)?.isFormMode;
+
         if (schema) {
           schema = {
             ...schema,
-            wrapWithPanel: (quickEdit as QuickEditConfig).mode !== 'inline',
+            wrapWithPanel: !(isline || isFormMode),
             actions:
-              (quickEdit as QuickEditConfig).mode === 'inline'
+              isline || isFormMode
                 ? []
                 : [
                     {
@@ -471,6 +489,7 @@ export const HocQuickEdit =
           >
             {render('quick-edit-form', this.buildSchema(), {
               value: undefined,
+              static: false,
               onSubmit: this.handleSubmit,
               onAction: this.handleAction,
               onChange: null,
@@ -518,20 +537,23 @@ export const HocQuickEdit =
           render,
           noHoc,
           canAccessSuperData,
-          disabled
+          disabled,
+          readOnly
         } = this.props;
 
         if (
           !quickEdit ||
           !onQuickChange ||
-          quickEditEnabled === false ||
+          (!(typeof quickEdit === 'object' && quickEdit?.isQuickEditFormMode)
+            && quickEditEnabled === false) ||
           noHoc ||
-          disabled
+          disabled ||
+          readOnly
         ) {
           return <Component {...this.props} />;
         }
 
-        if ((quickEdit as QuickEditConfig).mode === 'inline') {
+        if ((quickEdit as QuickEditConfig).mode === 'inline' || (quickEdit as QuickEditConfig).isFormMode) {
           return (
             <Component {...this.props}>
               {render('inline-form', this.buildSchema(), {
@@ -547,7 +569,8 @@ export const HocQuickEdit =
               })}
             </Component>
           );
-        } else {
+        }
+        else {
           return (
             <Component
               {...this.props}
@@ -561,7 +584,7 @@ export const HocQuickEdit =
               }
               onKeyUp={this.handleKeyUp}
             >
-              <Component {...this.props} wrapperComponent={''} noHoc />
+              <Component {...this.props} contentsOnly noHoc />
               <span
                 key="edit-btn"
                 className={cx('Field-quickEditBtn')}

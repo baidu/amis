@@ -638,34 +638,76 @@ ws.on('connection', function connection(ws) {
 }
 ```
 
+### 函数触发事件
+
+> 2.3.0 及以上版本
+
+```schema: scope="body"
+{
+    "type": "service",
+    "api": "/api/mock2/page/initData",
+    "dataProvider": {
+        "inited": "setData({ addedNumber: data.number + 1  })",
+        "onApiFetched": "setData({ year: new Date(data.date).getFullYear(),  })"
+    },
+    "data": {
+        "number": 8887
+    },
+    "body": {
+        "type": "panel",
+        "title": "$title",
+        "body": [
+            {
+                "type": "tpl",
+                "wrapperComponent": "p",
+                "tpl": "静态数字为：<strong>${addedNumber}</strong>"
+            },
+            {
+                "type": "tpl",
+                "wrapperComponent": "p",
+                "tpl": "接口返回值的日期为：<strong>${date}</strong>"
+            },
+            {
+                "type": "tpl",
+                "wrapperComponent": "p",
+                "tpl": "接口返回值的年份为：<strong>${year}</strong>"
+            },
+        ]
+    }
+}
+```
+
 ## 属性表
 
-| 属性名                | 类型                                      | 默认值         | 说明                                                                          |
-| --------------------- | ----------------------------------------- | -------------- | ----------------------------------------------------------------------------- |
-| type                  | `string`                                  | `"service"`    | 指定为 service 渲染器                                                         |
-| className             | `string`                                  |                | 外层 Dom 的类名                                                               |
-| body                  | [SchemaNode](../../docs/types/schemanode) |                | 内容容器                                                                      |
-| api                   | [api](../../docs/types/api)               |                | 初始化数据域接口地址                                                          |
-| ws                    | `string`                                  |                | WebScocket 地址                                                               |
-| dataProvider          | `string`                                  |                | 数据获取函数                                                                  |
-| initFetch             | `boolean`                                 |                | 是否默认拉取                                                                  |
-| schemaApi             | [api](../../docs/types/api)               |                | 用来获取远程 Schema 接口地址                                                  |
-| initFetchSchema       | `boolean`                                 |                | 是否默认拉取 Schema                                                           |
-| messages              | `Object`                                  |                | 消息提示覆写，默认消息读取的是接口返回的 toast 提示文字，但是在此可以覆写它。 |
-| messages.fetchSuccess | `string`                                  |                | 接口请求成功时的 toast 提示文字                                               |
-| messages.fetchFailed  | `string`                                  | `"初始化失败"` | 接口请求失败时 toast 提示文字                                                 |
-| interval              | `number`                                  |                | 轮询时间间隔，单位 ms(最低 1000)                                              |
-| silentPolling         | `boolean`                                 | `false`        | 配置轮询时是否显示加载动画                                                    |
-| stopAutoRefreshWhen   | [表达式](../../docs/concepts/expression)  |                | 配置停止轮询的条件                                                            |
+| 属性名                | 类型                                                                                            | 默认值         | 说明                                                                          | 版本                                                                                    |
+| --------------------- | ----------------------------------------------------------------------------------------------- | -------------- | ----------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| type                  | `string`                                                                                        | `"service"`    | 指定为 service 渲染器                                                         |
+| className             | `string`                                                                                        |                | 外层 Dom 的类名                                                               |
+| body                  | [SchemaNode](../../docs/types/schemanode)                                                       |                | 内容容器                                                                      |
+| api                   | [API](../../docs/types/api)                                                                     |                | 初始化数据域接口地址                                                          |
+| ws                    | `string`                                                                                        |                | WebScocket 地址                                                               |
+| dataProvider          | `string \| Record<"inited" \| "onApiFetched" \| "onSchemaApiFetched" \| "onWsFetched", string>` |                | 数据获取函数                                                                  | <ul><li>`1.4.0`</li><li>`1.8.0`支持`env`参数</li><li>`2.3.0` 支持基于事件触发</li></ul> |
+| initFetch             | `boolean`                                                                                       |                | 是否默认拉取                                                                  |
+| schemaApi             | [API](../../docs/types/api)                                                                     |                | 用来获取远程 Schema 接口地址                                                  |
+| initFetchSchema       | `boolean`                                                                                       |                | 是否默认拉取 Schema                                                           |
+| messages              | `Object`                                                                                        |                | 消息提示覆写，默认消息读取的是接口返回的 toast 提示文字，但是在此可以覆写它。 |
+| messages.fetchSuccess | `string`                                                                                        |                | 接口请求成功时的 toast 提示文字                                               |
+| messages.fetchFailed  | `string`                                                                                        | `"初始化失败"` | 接口请求失败时 toast 提示文字                                                 |
+| interval              | `number`                                                                                        |                | 轮询时间间隔，单位 ms(最低 1000)                                              |
+| silentPolling         | `boolean`                                                                                       | `false`        | 配置轮询时是否显示加载动画                                                    |
+| stopAutoRefreshWhen   | [表达式](../../docs/concepts/expression)                                                        |                | 配置停止轮询的条件                                                            |
 
 ## 事件表
 
-当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`event.data.xxx`事件参数变量来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
 
-| 事件名称          | 事件参数                                      | 说明                               |
-| ----------------- | --------------------------------------------- | ---------------------------------- |
-| fetchInited       | `event.data` api 远程请求返回的初始化数据     | 远程初始化接口请求成功时触发       |
-| fetchSchemaInited | `event.data` schemaApi 远程请求返回的 UI 内容 | 远程 schemaApi UI 内容接口请求成功 |
+> `[name]`为当前数据域中的字段名，例如：当前数据域为 {username: 'amis'}，则可以通过${username}获取对应的值。
+
+| 事件名称          | 事件参数                                                                                                                                                                               | 说明                                                |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
+| init              | -                                                                                                                                                                                      | 组件实例被创建并插入 DOM 中时触发。2.4.1 及以上版本 |
+| fetchInited       | `event.data` api 远程请求返回的初始化数据<br/>`[name]: any` 当前数据域中指定字段的值</br>`__response: {msg: string; error: boolean}`接口元数据, `msg`为消息体, `error`表示接口是否成功 | 远程初始化接口请求成功时触发                        |
+| fetchSchemaInited | `event.data` schemaApi 远程请求返回的 UI 内容<br/>`[name]: any` 当前数据域中指定字段的值`__response: {msg: string; error: boolean}`接口元数据, `msg`为消息体, `error`表示接口是否成功  | 远程 schemaApi UI 内容接口请求成功                  |
 
 ## 动作表
 

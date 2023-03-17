@@ -26,7 +26,7 @@ import {
   IRow2,
   ClassNamesFn
 } from 'amis-core';
-import {Icon, Table, Spinner, BadgeObject} from 'amis-ui';
+import {Icon, Table, Spinner, BadgeObject, SpinnerExtraProps} from 'amis-ui';
 import type {
   SortProps,
   ColumnProps,
@@ -356,6 +356,16 @@ export interface TableSchema2 extends BaseSchema {
    * 操作列配置
    */
   actions?: Array<ActionSchema>;
+
+  /**
+   * 批量操作最大限制数
+   */
+  maxKeepItemSelectionLength?: number;
+
+  /**
+   * 翻页是否保存数据
+   */
+  keepItemSelectionOnPageChange?: boolean;
 }
 
 export type Table2RendererEvent =
@@ -366,9 +376,13 @@ export type Table2RendererEvent =
   | 'columnToggled'
   | 'dragOver';
 
-export type Table2RendererAction = 'selectAll' | 'clearAll' | 'select';
+export type Table2RendererAction =
+  | 'selectAll'
+  | 'clearAll'
+  | 'select'
+  | 'expand';
 
-export interface Table2Props extends RendererProps {
+export interface Table2Props extends RendererProps, SpinnerExtraProps {
   title?: string;
   columns: Array<ColumnSchema | ColumnProps>;
   onSelect?: Function;
@@ -390,13 +404,15 @@ export interface Table2Props extends RendererProps {
   headSummary?: Array<SummaryProps | Array<SummaryProps>>;
   footSummary?: Array<SummaryProps | Array<SummaryProps>>;
   headingClassName?: string;
+  keepItemSelectionOnPageChange?: boolean;
+  maxKeepItemSelectionLength?: number;
 }
 
 export default class Table2 extends React.Component<Table2Props, object> {
   static contextType = ScopedContext;
 
   renderedToolbars: Array<string> = [];
-  control: any;
+  tableRef?: any;
 
   constructor(props: Table2Props, context: IScopedContext) {
     super(props);
@@ -404,25 +420,26 @@ export default class Table2 extends React.Component<Table2Props, object> {
     const scoped = context;
     scoped.registerComponent(this);
 
-    const {store, columnsTogglable, columns} = props;
+    const {
+      store,
+      columnsTogglable,
+      columns,
+      keepItemSelectionOnPageChange,
+      maxKeepItemSelectionLength
+    } = props;
 
-    store.update({columnsTogglable, columns});
+    store.update({
+      columnsTogglable,
+      columns,
+      keepItemSelectionOnPageChange,
+      maxKeepItemSelectionLength
+    });
     Table2.syncRows(store, props, undefined) && this.syncSelected();
   }
 
   componentWillUnmount() {
     const scoped = this.context as IScopedContext;
     scoped.unRegisterComponent(this);
-  }
-
-  @autobind
-  controlRef(control: any) {
-    // 因为 control 有可能被 n 层 hoc 包裹。
-    while (control && control.getWrappedInstance) {
-      control = control.getWrappedInstance();
-    }
-
-    this.control = control;
   }
 
   syncSelected() {
@@ -562,11 +579,15 @@ export default class Table2 extends React.Component<Table2Props, object> {
       // table2的拆开了 就不需要再设置div的width了
       // 否则加上padding 就超出单元格的区域了
       // children属性在schema里是一个关键字 在渲染器schema中 自定义的children没有用 去掉
-      const {width, children, ...rest} = schema;
+
+      // title 不应该传递到 cell-field 的 column 中，否则部分组件会将其渲染出来
+      // 但是 cell-field 需要这个字段，展示列的名称
+      const {width, children, title, ...rest} = schema;
       return render(
         'cell-field',
         {
           ...rest,
+          title,
           type: 'cell-field',
           column: rest,
           data: props.data,
@@ -889,7 +910,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
           errorMessage: messages && messages.saveSuccess
         })
         .then(() => {
-          reload && this.reloadTarget(reload, data);
+          reload && this.reloadTarget(filter(reload, data), data);
         })
         .catch(() => {});
     } else {
@@ -908,10 +929,10 @@ export default class Table2 extends React.Component<Table2Props, object> {
       store
         .saveRemote(quickSaveItemApi, sendData)
         .then(() => {
-          reload && this.reloadTarget(reload, data);
+          reload && this.reloadTarget(filter(reload, data), data);
         })
         .catch(() => {
-          options?.resetOnFailed && this.control.reset();
+          options?.resetOnFailed && this.reset();
         });
     }
   }
@@ -995,17 +1016,14 @@ export default class Table2 extends React.Component<Table2Props, object> {
       columnsTogglable,
       $path
     } = this.props;
-
-    // 如果table是在crud里面，自定义显示列配置在grid里，这里就不需要渲染了
-    const isInCrud = /(?:\/|^)crud2\//.test($path as string);
-
     actions = Array.isArray(actions) ? actions.concat() : [];
     const config = isObject(columnsTogglable) ? columnsTogglable : {};
 
     // 现在默认从crud里传进来的columnsTogglable是boolean类型
     // table单独配置的是SchemaNode类型
+    // 如果是在crud里 配置了columnsTogglable相关配置 那么还是在这里渲染
+    // 用户也可以在crud2的grid里配置 那么crud2里就不要再写了 否则就重复了
     if (
-      !isInCrud &&
       store.toggable &&
       region === 'header' &&
       !~this.renderedToolbars.indexOf('columns-toggler')
@@ -1057,7 +1075,9 @@ export default class Table2 extends React.Component<Table2Props, object> {
     selectedRowKeys: Array<string | number>,
     unSelectedRows: Array<string | number>
   ) {
-    const {dispatchEvent, data, rowSelection, onSelect, store} = this.props;
+    const {dispatchEvent, data, rowSelection, onSelect, store, keyField} =
+      this.props;
+
     const rendererEvent = await dispatchEvent(
       'selectedChange',
       createObject(data, {
@@ -1070,7 +1090,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
       return rendererEvent?.prevented;
     }
 
-    store.updateSelected(selectedRowKeys, rowSelection?.keyField);
+    store.updateSelected(selectedRowKeys, rowSelection?.keyField || keyField);
     onSelect && onSelect(selectedRows, unSelectedRows);
   }
 
@@ -1174,10 +1194,11 @@ export default class Table2 extends React.Component<Table2Props, object> {
   }
 
   doAction(action: ActionObject, args: any, throwErrors: boolean): any {
-    const {store, rowSelection, data} = this.props;
+    const {store, rowSelection, data, keyField: key, expandable} = this.props;
 
     const actionType = action?.actionType as string;
-    const keyField = rowSelection?.keyField;
+    const keyField = rowSelection?.keyField || key || 'key';
+    const dataSource = store.getData(data).items || [];
 
     switch (actionType) {
       case 'selectAll':
@@ -1187,22 +1208,69 @@ export default class Table2 extends React.Component<Table2Props, object> {
         store.updateSelected([], keyField);
         break;
       case 'select':
-        const dataSource = store.getData(data);
         const selected: Array<any> = [];
-        dataSource.items.forEach((item: any, rowIndex: number) => {
+        dataSource.forEach((item: any, rowIndex: number) => {
           const flag = evalExpression(args?.selectedRowKeysExpr, {
             record: item,
             rowIndex
           });
-          if (flag && keyField) {
+          if (flag) {
             selected.push(item[keyField]);
           }
         });
         store.updateSelected(selected, keyField);
         break;
+      case 'expand':
+        const expandableKey = expandable?.keyField || key || 'key';
+        const expanded: Array<any> = [];
+        const collapse: Array<any> = [];
+        // value值控制展开1个
+        if (args?.value) {
+          const rowIndex = dataSource.findIndex(
+            (d: any) => d[expandableKey] === args.value
+          );
+          const item = dataSource[rowIndex];
+          if (this.tableRef && this.tableRef.isExpandableRow(item, rowIndex)) {
+            if (this.tableRef.isExpanded(item)) {
+              collapse.push(item);
+            } else {
+              expanded.push(item);
+            }
+          }
+        } else if (args?.expandedRowsExpr) {
+          dataSource.forEach((item: any, rowIndex: number) => {
+            const flag = evalExpression(args?.expandedRowsExpr, {
+              record: item,
+              rowIndex
+            });
+            if (
+              flag &&
+              this.tableRef &&
+              this.tableRef.isExpandableRow(item, rowIndex)
+            ) {
+              if (this.tableRef.isExpanded(item)) {
+                collapse.push(item);
+              } else {
+                expanded.push(item);
+              }
+            }
+          });
+        }
+        if (expanded.length > 0) {
+          this.tableRef && this.tableRef.onExpandRows(expanded);
+        }
+        if (collapse.length > 0) {
+          this.tableRef && this.tableRef.onCollapseRows(collapse);
+        }
+        break;
       default:
         break;
     }
+  }
+
+  @autobind
+  getRef(ref: any) {
+    this.tableRef = ref;
   }
 
   renderTable() {
@@ -1220,6 +1288,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
       placeholder,
       rowClassNameExpr,
       itemActions,
+      keyField,
       onRow,
       store,
       ...rest
@@ -1259,21 +1328,27 @@ export default class Table2 extends React.Component<Table2Props, object> {
       const {selectedRowKeys, selections, ...rest} = rowSelection;
       rowSelectionConfig = {
         selectedRowKeys: store.currentSelectedRowKeys,
+        maxSelectedLength: store.maxKeepItemSelectionLength,
         ...rest
       };
 
-      if (rowSelection.disableOn) {
-        const disableOn = rowSelection.disableOn;
+      const disableOn = rowSelection.disableOn;
+      rowSelectionConfig.getCheckboxProps = (record: any, rowIndex: number) => {
+        return {
+          disabled:
+            (disableOn
+              ? evalExpression(disableOn, {record, rowIndex})
+              : false) ||
+            (store.maxKeepItemSelectionLength &&
+              store.currentSelectedRowKeys.length >=
+                store.maxKeepItemSelectionLength &&
+              !store.currentSelectedRowKeys.includes(
+                record[rowSelection.keyField || keyField || 'key']
+              ))
+        };
+      };
 
-        rowSelectionConfig.getCheckboxProps = (
-          record: any,
-          rowIndex: number
-        ) => ({
-          disabled: evalExpression(disableOn, {record, rowIndex})
-        });
-
-        delete rowSelectionConfig.disableOn;
-      }
+      disableOn && delete rowSelectionConfig.disableOn;
 
       if (selections && Array.isArray(selections)) {
         rowSelectionConfig.selections = [];
@@ -1361,6 +1436,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
     return (
       <Table
         {...rest}
+        onRef={this.getRef}
         title={this.renderSchema('title', title, {data: this.props.data})}
         footer={this.renderSchema('footer', footer, {data: this.props.data})}
         columns={this.buildColumns(store.filteredColumns)}
@@ -1378,6 +1454,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
         onFilter={this.handleFilter}
         onDrag={this.handleOrderChange}
         itemActions={itemActionsConfig}
+        keyField={keyField}
         onRow={{
           ...onRow,
           onRowClick: this.handleRowClick
@@ -1399,7 +1476,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
               })}
               <button
                 type="button"
-                className={cx('Button Button--xs Button--success m-l-sm')}
+                className={cx('Button Button--size-xs Button--success m-l-sm')}
                 onClick={this.handleSaveOrder}
               >
                 <Icon icon="check" className="icon m-r-xs" />
@@ -1407,7 +1484,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
               </button>
               <button
                 type="button"
-                className={cx('Button Button--xs Button--danger m-l-sm')}
+                className={cx('Button Button--size-xs Button--danger m-l-sm')}
                 onClick={this.reset}
               >
                 <Icon icon="close" className="icon m-r-xs" />
@@ -1423,19 +1500,19 @@ export default class Table2 extends React.Component<Table2Props, object> {
   }
 
   render() {
-    const {classnames: cx, loading = false} = this.props;
+    const {classnames: cx, style, loading = false, loadingConfig} = this.props;
 
     this.renderedToolbars = []; // 用来记录哪些 toolbar 已经渲染了
 
     const heading = this.renderHeading();
 
     return (
-      <div className={cx('Table-render-wrapper')}>
+      <div className={cx('Table-render-wrapper')} style={style}>
         {this.renderActions('header')}
         {heading}
         {this.renderTable()}
 
-        <Spinner overlay show={loading} />
+        <Spinner overlay show={loading} loadingConfig={loadingConfig} />
       </div>
     );
   }

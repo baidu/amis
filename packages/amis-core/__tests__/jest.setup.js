@@ -12,6 +12,8 @@ Object.defineProperty(window, 'DragEvent', {
   value: class DragEvent {}
 });
 
+global.__buildVersion = '';
+
 global.beforeAll(() => {
   console.warn = msg => {
     // warning 先关了，实在太吵。
@@ -24,6 +26,16 @@ global.beforeAll(() => {
     // }
     // originalWarn(msg);
   };
+
+  /**
+   * Jest环境下关闭Log, 避免影响输出
+   * 若要调试, 请使用@testing-library/react中的screen.debug方法
+   * screen.debug是console.log(prettyDOM())的shortcut, 所以console.log不能禁用
+   */
+  console.error = jest.fn();
+  console.debug = jest.fn();
+  console.group = jest.fn();
+  console.groupEnd = jest.fn();
 });
 global.afterAll(() => {
   console.warn = originalWarn;

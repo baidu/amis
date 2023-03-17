@@ -6,22 +6,35 @@ import {
   isAlive,
   Instance
 } from 'mobx-state-tree';
-import {iRendererStore, IIRendererStore, SIRendererStore} from './iRenderer';
-import {IServiceStore, ServiceStore} from './service';
-import {ComboStore, IComboStore} from './combo';
-import {FormStore, IFormStore} from './form';
-import {CRUDStore, ICRUDStore} from './crud';
-import {IColumn, IRow, ITableStore, TableStore} from './table';
-import {IColumn2, IRow2, ITableStore2, TableStore2} from './table2';
-import {IListStore, ListStore} from './list';
-import {IModalStore, ModalStore} from './modal';
+import {iRendererStore, SIRendererStore} from './iRenderer';
+import type {IIRendererStore} from './iRenderer';
+import {ServiceStore} from './service';
+import type {IServiceStore} from './service';
+import {ComboStore} from './combo';
+import type {IComboStore} from './combo';
+import {FormStore} from './form';
+import type {IFormStore} from './form';
+import {CRUDStore} from './crud';
+import type {ICRUDStore} from './crud';
+import {TableStore} from './table';
+import type {IColumn, IRow, ITableStore} from './table';
+import {TableStore2} from './table2';
+import type {IColumn2, IRow2, ITableStore2} from './table2';
+import {ListStore} from './list';
+import type {IListStore} from './list';
+import {ModalStore} from './modal';
+import type {IModalStore} from './modal';
 import {TranslateFn} from '../locale';
 import find from 'lodash/find';
-import {IStoreNode, StoreNode} from './node';
-import {FormItemStore, IFormItemStore} from './formItem';
+import {StoreNode} from './node';
+import type {IStoreNode} from './node';
+import {FormItemStore} from './formItem';
+import type {IFormItemStore} from './formItem';
 import {addStore, getStoreById, getStores, removeStore} from './manager';
-import {IPaginationStore, PaginationStore} from './pagination';
-import {AppStore, IAppStore} from './app';
+import {PaginationStore} from './pagination';
+import type {IPaginationStore} from './pagination';
+import {AppStore} from './app';
+import type {IAppStore} from './app';
 import {RootStore} from './root';
 
 setLivelinessChecking(

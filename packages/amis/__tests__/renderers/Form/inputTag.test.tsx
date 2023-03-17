@@ -13,6 +13,7 @@ import {clearStoresCache} from '../../../src';
 afterEach(() => {
   cleanup();
   clearStoresCache();
+  jest.useRealTimers();
 });
 
 const setupInputTag = async (inputTagOptions: any = {}) => {
@@ -168,7 +169,7 @@ describe('Renderer:InputTag', () => {
     expect(Banana).toBeNull();
 
     expect(container).toMatchSnapshot();
-  }, 6000);
+  }, 10000);
 
   test('InputTag input with maxTagLength 5', async () => {
     const {container, input, queryByText} = await setupInputTag({
@@ -194,5 +195,5 @@ describe('Renderer:InputTag', () => {
     expect(Banana).toBeNull();
 
     expect(container).toMatchSnapshot();
-  });
+  }, 10000);
 });

@@ -8,7 +8,7 @@ import {
   SchemaClassName,
   SchemaObject
 } from '../../Schema';
-import Form, {FormHorizontal} from 'amis-core';
+import {FormHorizontal} from 'amis-core';
 
 export type GroupSubControl = SchemaObject & {
   /**
@@ -95,7 +95,7 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
   }
 
   renderVertical(props = this.props) {
-    let {body, className, classnames: cx, mode, formMode, data} = props;
+    let {body, className, style, classnames: cx, mode, formMode, data} = props;
     formMode = mode || formMode;
 
     if (!Array.isArray(body)) {
@@ -126,6 +126,7 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
     let {
       body,
       className,
+      style,
       classPrefix: ns,
       classnames: cx,
       mode,
@@ -173,9 +174,10 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
           const controlMode = (control as FormBaseControl)?.mode || formMode;
 
           if (
-            controlMode === 'inline'
+            controlMode === 'inline' ||
             // hidden 直接渲染，否则会有个空 Form-groupColumn 层
-            || control?.type && ['formula', 'hidden'].includes((control as any).type)
+            (control?.type &&
+              ['formula', 'hidden'].includes((control as any).type))
           ) {
             return this.renderControl(control, index, {
               key: index,

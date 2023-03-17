@@ -368,6 +368,11 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
 
   componentDidMount() {
     this.props?.onRef?.(this);
+    const {value, format, inputFormat} = this.props;
+    if (value) {
+      let valueCache = normalizeValue(value, format);
+      this.inputValueCache = valueCache?.format(inputFormat) || '';
+    }
   }
 
   componentDidUpdate(prevProps: DateProps) {
@@ -513,7 +518,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
 
   // 手动输入日期
   inputChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const {onChange, inputFormat, format, utc} = this.props;
+    const {onChange, inputFormat, format, utc, minDate, maxDate} = this.props;
     const value = e.currentTarget.value;
     this.setState({inputValue: value});
     if (value === '') {
@@ -529,8 +534,16 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
         const dateValue = utc
           ? moment.utc(newDate).format(format)
           : newDate.format(format);
+
+        // 判断大小值是否是合法的日期，并且当前日期在范围内
+        const isMinDateValid = minDate?.isValid()
+          ? newDate.isSameOrAfter(minDate)
+          : true;
+        const isMaxDateValid = maxDate?.isValid()
+          ? newDate.isSameOrBefore(maxDate)
+          : true;
         // 小于 0 的日期丢弃
-        if (!dateValue.startsWith('-')) {
+        if (!dateValue.startsWith('-') && isMinDateValid && isMaxDateValid) {
           onChange(dateValue);
         }
       }
@@ -805,6 +818,11 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
           <Icon
             icon={viewMode === 'time' ? 'clock' : 'date'}
             className="icon"
+            iconContent={
+              viewMode === 'time'
+                ? 'DatePicker-toggler-clock'
+                : 'DatePicker-toggler-date'
+            }
           />
         </a>
 

@@ -99,7 +99,7 @@ export default class ConditionBuilderControl extends React.PureComponent<Conditi
   }
 
   render() {
-    const {className, classnames: cx, pickerIcon, ...rest} = this.props;
+    const {className, classnames: cx, style, pickerIcon, ...rest} = this.props;
 
     // 处理一下formula类型值的变量列表
     let formula = this.props.formula ? {...this.props.formula} : undefined;

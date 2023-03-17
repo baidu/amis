@@ -16,7 +16,6 @@ import {FormBaseControlSchema} from '../../Schema';
  */
 export interface IconPickerControlSchema extends FormBaseControlSchema {
   type: 'icon-picker';
-
   // 这就不应该成为一个 amis 控件。。。
 }
 
@@ -282,7 +281,9 @@ export default class IconPickerControl extends React.PureComponent<
                 {!value || (inputValue && isOpen) ? null : (
                   <div className={cx('IconPickerControl-value')}>
                     <i className={cx(value)} />
-                    {value}
+                    {
+                      typeof value === 'string' ? value : ''
+                    }
                   </div>
                 )}
 
@@ -374,7 +375,7 @@ export default class IconPickerControl extends React.PureComponent<
   }
 
   render(): JSX.Element {
-    const {className, classPrefix: ns, inputOnly, disabled} = this.props;
+    const {className, style, classPrefix: ns, inputOnly, disabled} = this.props;
 
     let input = this.renderFontIcons();
 

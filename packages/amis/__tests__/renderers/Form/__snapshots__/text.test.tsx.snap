@@ -76,7 +76,7 @@ exports[`Renderer:text 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -211,7 +211,7 @@ exports[`Renderer:text type is email: validate fail 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -339,7 +339,7 @@ exports[`Renderer:text type is email: validate success 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -467,7 +467,7 @@ exports[`Renderer:text type is password with revealPassword 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -586,8 +586,12 @@ exports[`Renderer:text type is password: password invisible 1`] = `
               <a
                 class="cxd-TextControl-revealPassword"
               >
+                <div
+                  class="cxd-TextControl-icon-invisible InputText-invisible"
+                  style="display: none;"
+                />
                 <icon-mock
-                  classname="icon icon-invisible"
+                  classname="cxd-TextControl-icon-invisible icon-invisible"
                   icon="invisible"
                 />
               </a>
@@ -603,7 +607,7 @@ exports[`Renderer:text type is password: password invisible 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -722,8 +726,12 @@ exports[`Renderer:text type is password: password visible 1`] = `
               <a
                 class="cxd-TextControl-revealPassword"
               >
+                <div
+                  class="cxd-TextControl-icon-view InputText-view"
+                  style="display: none;"
+                />
                 <icon-mock
-                  classname="icon icon-view"
+                  classname="cxd-TextControl-icon-view icon-view"
                   icon="view"
                 />
               </a>
@@ -739,7 +747,7 @@ exports[`Renderer:text type is password: password visible 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -874,7 +882,7 @@ exports[`Renderer:text type is url: validate fail 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -1002,7 +1010,7 @@ exports[`Renderer:text type is url: validate success 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -1123,7 +1131,7 @@ exports[`Renderer:text with addOn 1`] = `
               class="cxd-TextControl-button"
             >
               <button
-                class="cxd-Button cxd-Button--default"
+                class="cxd-Button cxd-Button--default cxd-Button--size-default"
                 type="button"
               >
                 <span>
@@ -1142,7 +1150,7 @@ exports[`Renderer:text with addOn 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -1261,6 +1269,10 @@ exports[`Renderer:text with clearable 1`] = `
               <a
                 class="cxd-TextControl-clear"
               >
+                <div
+                  class=" InputText-clear"
+                  style="display: none;"
+                />
                 <icon-mock
                   classname="icon icon-input-clear"
                   icon="input-clear"
@@ -1278,7 +1290,7 @@ exports[`Renderer:text with clearable 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -1411,7 +1423,7 @@ exports[`Renderer:text with counter 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -1544,7 +1556,7 @@ exports[`Renderer:text with counter 2`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -1654,6 +1666,7 @@ exports[`Renderer:text with counter and maxLength 1`] = `
               <input
                 autocomplete="off"
                 class=""
+                maxlength="10"
                 name="text"
                 placeholder=""
                 size="10"
@@ -1677,7 +1690,7 @@ exports[`Renderer:text with counter and maxLength 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -1787,6 +1800,7 @@ exports[`Renderer:text with counter and maxLength 2`] = `
               <input
                 autocomplete="off"
                 class=""
+                maxlength="10"
                 name="text"
                 placeholder=""
                 size="10"
@@ -1810,7 +1824,7 @@ exports[`Renderer:text with counter and maxLength 2`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -1920,6 +1934,8 @@ exports[`Renderer:text with minLength 1`] = `
               <input
                 autocomplete="off"
                 class="test-text-class-two"
+                maxlength="8"
+                minlength="5"
                 name="text"
                 placeholder=""
                 size="10"
@@ -1945,7 +1961,7 @@ exports[`Renderer:text with minLength 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -2079,7 +2095,7 @@ exports[`Renderer:text with options 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -2280,7 +2296,7 @@ exports[`Renderer:text with options and multiple and delimiter: first option sel
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -2482,7 +2498,7 @@ exports[`Renderer:text with options and multiple and delimiter: options is opene
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -2683,7 +2699,7 @@ exports[`Renderer:text with options and multiple and delimiter: options is opene
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -2887,7 +2903,7 @@ exports[`Renderer:text with options and multiple and delimiter: second option se
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -3078,7 +3094,7 @@ exports[`Renderer:text with options and multiple and delimiter: thrid option cre
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -3238,7 +3254,7 @@ exports[`Renderer:text with options: options is open 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -3374,7 +3390,7 @@ exports[`Renderer:text with options: select first option 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -3512,7 +3528,7 @@ exports[`Renderer:text with prefix and suffix 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>

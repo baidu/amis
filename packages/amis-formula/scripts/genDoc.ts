@@ -4,8 +4,8 @@ import doctrine from 'doctrine';
 
 const workDir = path.resolve(path.dirname(__dirname));
 const jsFile = path.join(workDir, 'src/evalutor.ts');
-const outputFile = path.join(workDir, 'lib/doc.js');
-const outputMD = path.join(workDir, 'lib/doc.md');
+const outputFile = path.join(workDir, 'src/doc.ts');
+const outputMD = path.join(workDir, 'src/doc.md');
 
 function getFormulaComments(contents: string) {
   const comments: Array<{
@@ -89,37 +89,29 @@ async function main(...params: Array<any>) {
 
   fs.writeFileSync(
     outputFile,
-    `/**\n * 公式文档\n */\nexports.doc = ${JSON.stringify(
-      result,
-      null,
-      2
-    )}`.replace(/\"(\w+)\"\:/g, (_, key) => `${key}:`),
-    'utf8'
-  );
-  console.log(`公式文档生成 > ${outputFile}`);
-  fs.writeFileSync(
-    outputFile.replace(/\.js$/, '.d.ts'),
-    //  可以通过以下命令生成
-    // tsc --declaration --emitDeclarationOnly --allowJs doc.js
-    [
-      `export var doc: {`,
+    `/**\n * 公式文档 请运行 \`npm run genDoc\` 自动生成\n */\nexport const doc: ${[
+      `{`,
       `  name: string;`,
       `  description: string;`,
       `  example: string;`,
       `  params: {`,
-      `      type: string;`,
-      `      name: string;`,
-      `      description: string;`,
+      `    type: string;`,
+      `    name: string;`,
+      `    description: string | null;`,
       `  }[];`,
       `  returns: {`,
-      `      type: string;`,
-      `      description: string;`,
+      `    type: string;`,
+      `    description: string | null;`,
       `  };`,
       `  namespace: string;`,
-      `}[];`
-    ].join('\n'),
+      `}[]`
+    ].join('\n')} = ${JSON.stringify(result, null, 2).replace(
+      /\"(\w+)\"\:/g,
+      (_, key) => `${key}:`
+    )};`,
     'utf8'
   );
+  console.log(`公式文档生成 > ${outputFile}`);
 
   const grouped: any = {};
   result.forEach((item: any) => {

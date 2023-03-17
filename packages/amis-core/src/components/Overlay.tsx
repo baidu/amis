@@ -35,7 +35,7 @@ class Position extends React.Component<any, any> {
   _lastTarget: any;
   resizeDispose: Array<() => void>;
   watchedTarget: any;
-  setState: (state: any) => void;
+  // setState: (state: any) => void;
 
   static defaultProps = {
     containerPadding: 0,
@@ -156,6 +156,8 @@ class Position extends React.Component<any, any> {
     return cloneElement(child, {
       ...props,
       ...arrowPosition,
+      // 防止 child offset 被 Overlay offset 覆盖
+      ...(child.props.offset ? {offset: child.props.offset} : {}),
       // FIXME: Don't forward `positionLeft` and `positionTop` via both props
       // and `props.style`.
       positionLeft,
@@ -175,6 +177,7 @@ interface OverlayProps {
   show?: boolean;
   transition?: React.ElementType;
   containerPadding?: number;
+  children?: any;
   shouldUpdatePosition?: boolean;
   rootClose?: boolean;
   onHide?(props: any, ...args: any[]): any;

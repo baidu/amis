@@ -157,6 +157,7 @@ class Preview extends React.Component {
 }
 
 export default function (doc) {
+  doc = doc.default || doc;
   return class extends React.Component {
     popoverDom = null;
 

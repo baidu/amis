@@ -1,5 +1,6 @@
 import React from 'react';
-
+import isEqual from 'lodash/isEqual';
+import pickBy from 'lodash/pickBy';
 import {Renderer, RendererProps} from 'amis-core';
 import {SchemaNode, Schema, ActionObject, PlainObject} from 'amis-core';
 import {CRUDStore, ICRUDStore} from 'amis-core';
@@ -16,7 +17,7 @@ import {
   isArrayChildrenModified
 } from 'amis-core';
 import {ScopedContext, IScopedContext} from 'amis-core';
-import {Button} from 'amis-ui';
+import {Button, SpinnerExtraProps} from 'amis-ui';
 import {Select} from 'amis-ui';
 import {getExprProperties} from 'amis-core';
 import pick from 'lodash/pick';
@@ -27,7 +28,6 @@ import omit from 'lodash/omit';
 import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
 import {Html} from 'amis-ui';
-import {Spinner} from 'amis-ui';
 import {Icon} from 'amis-ui';
 import {
   BaseSchema,
@@ -44,7 +44,7 @@ import {ActionSchema} from './Action';
 import {CardsSchema} from './Cards';
 import {ListSchema} from './List';
 import {TableSchema} from './Table';
-import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
+import {isPureVariable, resolveVariableAndFilter, parseQuery} from 'amis-core';
 
 import type {PaginationProps} from './Pagination';
 
@@ -74,7 +74,7 @@ export type CRUDToolbarObject = {
   align?: 'left' | 'right';
 };
 
-export interface CRUDCommonSchema extends BaseSchema {
+export interface CRUDCommonSchema extends BaseSchema, SpinnerExtraProps {
   /**
    *  指定为 CRUD 渲染器。
    */
@@ -326,7 +326,8 @@ export type CRUDSchema = CRUDCardsSchema | CRUDListSchema | CRUDTableSchema;
 
 export interface CRUDProps
   extends RendererProps,
-    Omit<CRUDCommonSchema, 'type' | 'className'> {
+    Omit<CRUDCommonSchema, 'type' | 'className'>,
+    SpinnerExtraProps {
   store: ICRUDStore;
   pickerMode?: boolean; // 选择模式，用做表单中的选择操作
 }
@@ -382,6 +383,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     'onChange',
     'onInit',
     'onSaved',
+    'onSave',
     'onQuery',
     'formStore',
     'autoFillHeight'
@@ -410,6 +412,9 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
   timer: ReturnType<typeof setTimeout>;
   mounted: boolean;
+  /** 父容器, 主要用于定位CRUD内部popover的挂载点 */
+  parentContainer: Element | null;
+
   constructor(props: CRUDProps) {
     super(props);
 
@@ -448,14 +453,14 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
     if (syncLocation && location && (location.query || location.search)) {
       store.updateQuery(
-        qsparse(location.search.substring(1)),
+        parseQuery(location),
         undefined,
         pageField,
         perPageField
       );
     } else if (syncLocation && !location && window.location.search) {
       store.updateQuery(
-        qsparse(window.location.search.substring(1)) as object,
+        parseQuery(window.location),
         undefined,
         pageField,
         perPageField
@@ -500,6 +505,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     if (this.props.pickerMode && (val = getPropValue(this.props))) {
       store.setSelectedItems(val);
     }
+
+    this.parentContainer = this.getClosestParentContainer();
   }
 
   componentDidUpdate(prevProps: CRUDProps) {
@@ -519,13 +526,19 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     }
 
     let val: any;
+
     if (
       this.props.pickerMode &&
       isArrayChildrenModified(
         (val = getPropValue(this.props)),
         getPropValue(prevProps)
-      )
+      ) &&
+      !isEqual(val, store.selectedItems.concat())
     ) {
+      /**
+       * 更新链：Table -> CRUD -> Picker -> Form
+       * 对于Picker模式来说，执行到这里的时候store.selectedItems已经更新过了，所以需要额外判断一下
+       */
       store.setSelectedItems(val);
     }
 
@@ -545,7 +558,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     ) {
       // 同步地址栏，那么直接检测 query 是否变了，变了就重新拉数据
       store.updateQuery(
-        qsparse(props.location.search.substring(1)),
+        parseQuery(props.location),
         undefined,
         props.pageField,
         props.perPageField
@@ -591,6 +604,14 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   componentWillUnmount() {
     this.mounted = false;
     clearTimeout(this.timer);
+  }
+
+  /** 查找CRUD最近层级的父窗口 */
+  getClosestParentContainer() {
+    const dom = findDOMNode(this) as HTMLElement;
+    const overlay = dom?.closest('[role=dialog]');
+
+    return overlay;
   }
 
   controlRef(control: any) {
@@ -659,7 +680,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           const redirect = action.redirect && filter(action.redirect, data);
           redirect && !action.blank && env.jumpTo(redirect, action);
           action.reload
-            ? this.reloadTarget(action.reload, data)
+            ? this.reloadTarget(filter(action.reload, data), data)
             : redirect
             ? null
             : this.search(undefined, undefined, true, true);
@@ -721,6 +742,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
     const ctx = createObject(store.mergedData, {
       ...selectedItems[0],
+      currentPageData: store.mergedData.items.concat(),
       rows: selectedItems,
       items: selectedItems,
       selectedItems,
@@ -757,7 +779,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
               }
 
               action.reload
-                ? this.reloadTarget(action.reload, data)
+                ? this.reloadTarget(filter(action.reload, data), data)
                 : this.search(
                     {[pageField || 'page']: 1},
                     undefined,
@@ -776,10 +798,14 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     };
 
     // Action如果配了事件动作也会处理二次确认，这里需要处理一下忽略
-    if (!action.ignoreConfirm && action.confirmText && env.confirm) {
-      env
-        .confirm(filter(action.confirmText, ctx))
-        .then((confirmed: boolean) => confirmed && fn());
+    let confirmText: string = '';
+    if (
+      !action.ignoreConfirm &&
+      action.confirmText &&
+      env.confirm &&
+      (confirmText = filter(action.confirmText, ctx))
+    ) {
+      env.confirm(confirmText).then((confirmed: boolean) => confirmed && fn());
     } else {
       fn();
     }
@@ -848,7 +874,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   }
 
   handleFilterSubmit(
-    values: object,
+    values: Record<string, any>,
     jumpToFirstPage: boolean = true,
     replaceLocation: boolean = false,
     search: boolean = true
@@ -862,6 +888,11 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       loadDataOnceFetchOnFilter
     } = this.props;
 
+    /** 找出clearValueOnHidden的字段, 保证updateQuery时不会使用上次的保留值 */
+    values = {
+      ...values,
+      ...pickBy(values?.__super?.diff ?? {}, value => value === undefined)
+    };
     values = syncLocation
       ? qsparse(qsstringify(values, undefined, true))
       : values;
@@ -889,10 +920,14 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   ) {
     const action = this.props.store.selectedAction;
     const env = this.props.env;
+    let confirmText: string = '';
 
-    if (action.confirmText) {
+    if (
+      action.confirmText &&
+      (confirmText = filter(action.confirmText, this.props.store.mergedData))
+    ) {
       return env
-        .confirm(action.confirmText)
+        .confirm(confirmText)
         .then(
           (confirmed: boolean) =>
             confirmed &&
@@ -1003,7 +1038,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
     const reload = action.reload ?? dialogAction.reload;
     if (reload) {
-      this.reloadTarget(reload, ctx);
+      this.reloadTarget(filter(reload, ctx), ctx);
     }
 
     let redirect = action.redirect ?? dialogAction.redirect;
@@ -1244,7 +1279,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         .then(() => {
           const finalReload = options?.reload ?? reload;
           finalReload
-            ? this.reloadTarget(finalReload, data)
+            ? this.reloadTarget(filter(finalReload, data), data)
             : this.search(undefined, undefined, true, true);
         })
         .catch(() => {});
@@ -1266,7 +1301,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         .then(() => {
           const finalReload = options?.reload ?? reload;
           finalReload
-            ? this.reloadTarget(finalReload, data)
+            ? this.reloadTarget(filter(finalReload, data), data)
             : this.search(undefined, undefined, true, true);
         })
         .catch(() => {
@@ -1371,7 +1406,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       store
         .saveRemote(saveOrderApi, model)
         .then(() => {
-          reload && this.reloadTarget(reload, model);
+          reload && this.reloadTarget(filter(reload, model), model);
           this.search(undefined, undefined, true, true);
         })
         .catch(() => {});
@@ -1386,7 +1421,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       pickerMode,
       onSelect
     } = this.props;
-
     let newItems = items;
     let newUnSelectedItems = unSelectedItems;
 
@@ -1444,8 +1478,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         } else {
           oldUnselectedItems.push(item);
         }
-
-        ~idx2 && oldItems.splice(idx2, 1);
+        !~idx && ~idx2 && oldItems.splice(idx2, 1);
       });
 
       newItems = oldItems;
@@ -1474,7 +1507,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
     store.setSelectedItems(newItems);
     store.setUnSelectedItems(newUnSelectedItems);
-    onSelect && onSelect(newItems);
+    onSelect && onSelect(newItems, newUnSelectedItems);
   }
 
   handleChildPopOverOpen(popOver: any) {
@@ -1504,33 +1537,51 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     }
   }
 
-  handleQuery(values: object, forceReload: boolean = false) {
+  handleQuery(
+    values: object,
+    forceReload: boolean = false,
+    replace?: boolean,
+    resetPage?: boolean
+  ) {
     const {store, syncLocation, env, pageField, perPageField} = this.props;
-
     store.updateQuery(
-      {
-        ...values,
-        [pageField || 'page']: 1
-      },
+      resetPage
+        ? {
+            // 有些交互场景完全不想重置
+            [pageField || 'page']: 1,
+            ...values
+          }
+        : values,
       syncLocation && env && env.updateLocation
         ? env.updateLocation
         : undefined,
       pageField,
-      perPageField
+      perPageField,
+      replace
     );
     this.search(undefined, undefined, undefined, forceReload);
   }
 
-  reload(subpath?: string, query?: any) {
+  reload(
+    subpath?: string,
+    query?: any,
+    replace?: boolean,
+    resetPage?: boolean
+  ) {
     if (query) {
-      return this.receive(query);
+      return this.receive(query, undefined, replace, resetPage);
     } else {
       this.search(undefined, undefined, true, true);
     }
   }
 
-  receive(values: object) {
-    this.handleQuery(values, true);
+  receive(
+    values: object,
+    subPath?: string,
+    replace?: boolean,
+    resetPage?: boolean
+  ) {
+    this.handleQuery(values, true, replace, resetPage);
   }
 
   reloadTarget(target: string, data: any) {
@@ -1613,6 +1664,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     let itemBtns: Array<ActionSchema> = [];
 
     const ctx = createObject(store.mergedData, {
+      currentPageData: store.mergedData.items.concat(),
       selectedItems: selectedItems.concat(),
       unSelectedItems: unSelectedItems.concat()
     });
@@ -1709,7 +1761,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
     const extraProps: Pick<
       PaginationProps,
-      'showPageInput' | 'maxButtons' | 'layout'
+      'showPageInput' | 'maxButtons' | 'layout' | 'popOverContainerSelector'
     > = {};
 
     /** 优先级：showPageInput显性配置 > (lastPage > 9) */
@@ -1720,6 +1772,9 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         showPageInput === true || (lastPage > 9 && showPageInput == null);
       extraProps.maxButtons = (toolbar as Schema).maxButtons;
       extraProps.layout = (toolbar as Schema).layout;
+      extraProps.popOverContainerSelector = (
+        toolbar as Schema
+      ).popOverContainerSelector;
     } else {
       extraProps.showPageInput = lastPage > 9;
     }
@@ -1738,6 +1793,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             hasNext: store.hasNext,
             mode: store.mode,
             perPage: store.perPage,
+            popOverContainer: this.parentContainer,
             onPageChange: this.handleChangePage
           }
         )}
@@ -1801,6 +1857,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           value={store.perPage + ''}
           onChange={(value: any) => this.handleChangePage(1, value.value)}
           clearable={false}
+          popOverContainer={this.parentContainer}
         />
       </div>
     );
@@ -1810,9 +1867,11 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     const {store, classPrefix: ns, classnames: cx, translate: __} = this.props;
     const {page, lastPage} = store;
 
-    return page < lastPage ? (
+    return (
       <div className={cx('Crud-loadMore')}>
         <Button
+          disabled={page >= lastPage}
+          disabledTip={__('CRUD.loadMoreDisableTip')}
           classPrefix={ns}
           onClick={() =>
             this.search({page: page + 1, loadDataMode: 'load-more'})
@@ -1822,8 +1881,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           {__('CRUD.loadMore')}
         </Button>
       </div>
-    ) : (
-      ''
     );
   }
 
@@ -1837,7 +1894,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     return (
       <button
         onClick={() => store.setFilterVisible(!store.filterVisible)}
-        className={cx('Button Button--sm Button--default', {
+        className={cx('Button Button--size-default Button--default', {
           'is-active': store.filterVisible
         })}
       >
@@ -1848,15 +1905,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   }
 
   renderExportCSV(toolbar: Schema) {
-    const {
-      store,
-      classPrefix: ns,
-      classnames: cx,
-      translate: __,
-      loadDataOnce,
-      data
-    } = this.props;
-
+    const {store, classPrefix: ns, translate: __, loadDataOnce} = this.props;
     const api = (toolbar as Schema).api;
 
     return (
@@ -1866,7 +1915,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           store.exportAsCSV({
             loadDataOnce,
             api,
-            data
+            data: store.filterData /* 因为filter区域可能设置了过滤字段值，所以query信息也要写入数据域 */
           })
         }
       >
@@ -2084,6 +2133,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   render() {
     const {
       className,
+      style,
       bodyClassName,
       filter,
       render,
@@ -2110,6 +2160,15 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       onSelect,
       autoFillHeight,
       onEvent,
+      onSave,
+      onSaveOrder,
+      onPopOverOpened,
+      onPopOverClosed,
+      onSearchableFromReset,
+      onSearchableFromSubmit,
+      onSearchableFromInit,
+      headerToolbarRender,
+      footerToolbarRender,
       ...rest
     } = this.props;
 
@@ -2118,6 +2177,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         className={cx('Crud', className, {
           'is-loading': store.loading
         })}
+        style={style}
       >
         {filter && (!store.filterTogggable || store.filterVisible)
           ? render(
@@ -2203,9 +2263,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             loading: store.loading
           }
         )}
-        {/* spinner可以交给孩子处理 */}
-        {/* <Spinner overlay size="lg" key="info" show={store.loading} /> */}
-
         {render(
           'dialog',
           {
@@ -2247,7 +2304,14 @@ export class CRUDRenderer extends CRUD {
     scoped.unRegisterComponent(this);
   }
 
-  reload(subpath?: string, query?: any, ctx?: any) {
+  reload(
+    subpath?: string,
+    query?: any,
+    ctx?: any,
+    silent?: boolean,
+    replace?: boolean,
+    args?: any
+  ) {
     const scoped = this.context as IScopedContext;
     if (subpath) {
       return scoped.reload(
@@ -2256,16 +2320,21 @@ export class CRUDRenderer extends CRUD {
       );
     }
 
-    return super.reload(subpath, query);
+    return super.reload(subpath, query, replace, args?.resetPage ?? true);
   }
 
-  receive(values: any, subPath?: string) {
+  receive(
+    values: any,
+    subPath?: string,
+    replace?: boolean,
+    resetPage?: boolean
+  ) {
     const scoped = this.context as IScopedContext;
     if (subPath) {
       return scoped.send(subPath, values);
     }
 
-    return super.receive(values);
+    return super.receive(values, undefined, replace, resetPage);
   }
 
   reloadTarget(target: string, data: any) {

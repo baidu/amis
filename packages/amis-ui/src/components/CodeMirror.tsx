@@ -6,6 +6,7 @@ import {resizeSensor} from 'amis-core';
 
 export interface CodeMirrorEditorProps {
   className?: string;
+  style?: any;
   value?: string;
   onChange?: (value: string) => void;
   onFocus?: (e: any) => void;
@@ -48,6 +49,8 @@ export class CodeMirrorEditor extends React.Component<CodeMirrorEditorProps> {
 
     this.props.editorDidMount?.(cm, this.editor);
     this.editor.on('change', this.handleChange);
+    this.editor.on('blur', this.handleBlur);
+    this.editor.on('focus', this.handleFocus);
 
     this.toDispose.push(
       resizeSensor(this.dom.current as HTMLElement, () =>
@@ -72,6 +75,8 @@ export class CodeMirrorEditor extends React.Component<CodeMirrorEditorProps> {
   componentWillUnmount() {
     this.unmounted = true;
     this.editor?.off('change', this.handleChange);
+    this.editor?.off('blur', this.handleBlur);
+    this.editor?.off('focus', this.handleFocus);
     this.toDispose.forEach(fn => fn());
     this.toDispose = [];
   }
@@ -79,6 +84,15 @@ export class CodeMirrorEditor extends React.Component<CodeMirrorEditorProps> {
   @autobind
   handleChange(editor: any) {
     this.props.onChange?.(editor.getValue());
+  }
+  @autobind
+  handleBlur(editor: any) {
+    this.props.onBlur?.(editor);
+  }
+
+  @autobind
+  handleFocus(editor: any) {
+    this.props.onFocus?.(editor);
   }
 
   setValue(value?: string) {
@@ -91,8 +105,8 @@ export class CodeMirrorEditor extends React.Component<CodeMirrorEditorProps> {
   }
 
   render() {
-    const {className} = this.props;
-    return <div className={className} ref={this.dom}></div>;
+    const {className, style} = this.props;
+    return <div className={className} style={style} ref={this.dom}></div>;
   }
 }
 

@@ -13,6 +13,7 @@ import 'tinymce/models/dom/model';
 // Any plugins you want to use has to be imported
 import 'tinymce/plugins/advlist';
 import 'tinymce/plugins/autolink';
+import 'tinymce/plugins/autoresize';
 import 'tinymce/plugins/lists';
 import 'tinymce/plugins/link';
 import 'tinymce/plugins/image';
@@ -34,6 +35,7 @@ import 'tinymce/plugins/template';
 import 'tinymce/plugins/nonbreaking';
 import 'tinymce/plugins/emoticons';
 import 'tinymce/plugins/emoticons/js/emojis';
+import 'tinymce/plugins/quickbars/plugin';
 import {LocaleProps} from 'amis-core';
 
 interface TinymceEditorProps extends LocaleProps {
@@ -70,6 +72,7 @@ export default class TinymceEditor extends React.Component<TinymceEditorProps> {
       plugins: [
         'advlist',
         'autolink',
+        'autoresize',
         'link',
         'image',
         'lists',
@@ -89,12 +92,15 @@ export default class TinymceEditor extends React.Component<TinymceEditorProps> {
         'table',
         'emoticons',
         'template',
-        'help'
+        'help',
+        'quickbars'
       ],
       toolbar:
         'undo redo | blocks | bold italic | alignleft aligncenter alignright alignjustify | ' +
         'bullist numlist outdent indent | link image | preview media | ' +
         'fontfamily fontsize forecolor backcolor emoticons | print help',
+      quickbars_selection_toolbar: 'bold italic | link h2 h3 blockquote',
+      quickbars_insert_toolbar: 'quickimage quicktable',
       menu: {
         file: {
           title: 'File',
@@ -133,6 +139,7 @@ export default class TinymceEditor extends React.Component<TinymceEditorProps> {
       ...this.props.config,
       target: this.elementRef.current,
       readOnly: this.props.disabled,
+      promotion: false,
       setup: (editor: any) => {
         this.editor = editor;
 

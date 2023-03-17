@@ -1,15 +1,20 @@
 import React from 'react';
-import {Renderer, RendererProps} from 'amis-core';
 import {
+  Renderer,
+  RendererProps,
+  filter,
+  isPureVariable,
+  resolveVariableAndFilter
+} from 'amis-core';
+import {RemoteOptionsProps, withRemoteConfig, Timeline} from 'amis-ui';
+
+import type {
   BaseSchema,
   SchemaApi,
   SchemaCollection,
   SchemaTokenizeableString
 } from '../Schema';
-import {resolveVariable} from 'amis-core';
-import {Timeline} from 'amis-ui';
-import {filter} from 'amis-core';
-import {RemoteOptionsProps, withRemoteConfig} from 'amis-ui';
+import type {IconCheckedSchema} from 'amis-core';
 
 export interface TimelineItemSchema extends Omit<BaseSchema, 'type'> {
   /**
@@ -45,7 +50,12 @@ export interface TimelineItemSchema extends Omit<BaseSchema, 'type'> {
   /**
    * 图标
    */
-  icon?: SchemaCollection;
+  icon?: string | IconCheckedSchema;
+
+  /**
+   * 图标的CSS类名
+   */
+  iconClassName?: string;
 }
 
 export interface TimelineSchema extends BaseSchema {
@@ -85,7 +95,7 @@ export interface TimelineProps
     Omit<TimelineSchema, 'className'> {}
 
 export function TimelineCmpt(props: TimelineProps) {
-  const {items, mode, direction, reverse, data, config, source, render} = props;
+  const {items, mode, style, direction, reverse, data, config, source, render} = props;
 
   // 获取源数据
   const timelineItemsRow: Array<TimelineItemSchema> = config || items || [];
@@ -97,10 +107,15 @@ export function TimelineCmpt(props: TimelineProps) {
   // 处理源数据
   const resolveTimelineItems = timelineItemsRow?.map(
     (timelineItem: TimelineItemSchema) => {
+      const {icon, iconClassName, title} = timelineItem;
+
       return {
         ...timelineItem,
-        icon: resolveRender('icon', timelineItem.icon),
-        title: resolveRender('title', timelineItem.title)
+        iconClassName,
+        icon: isPureVariable(icon)
+          ? resolveVariableAndFilter(icon, data, '| raw')
+          : icon,
+        title: resolveRender('title', title)
       };
     }
   );
@@ -111,6 +126,7 @@ export function TimelineCmpt(props: TimelineProps) {
       direction={direction}
       reverse={reverse}
       mode={mode}
+      style={style}
     />
   );
 }

@@ -13,6 +13,7 @@ order: 31
 ```schema: scope="body"
 {
   "type": "form",
+  "debug": true,
   "api": "/api/mock2/form/saveForm",
   "body": [
     {
@@ -91,6 +92,7 @@ order: 31
   },
   "body": {
     "type": "form",
+    "debug": true,
     "api": "/api/mock2/form/saveForm",
     "body": [
       {
@@ -111,6 +113,7 @@ order: 31
   "type": "page",
   "body": {
     "type": "form",
+    "debug": true,
     "api": "/api/mock2/form/saveForm",
     "body": [
       {
@@ -133,6 +136,7 @@ order: 31
 ```schema: scope="body"
 {
   "type": "form",
+  "debug": true,
   "api": "/api/mock2/form/saveForm",
   "body": [
     {
@@ -173,11 +177,12 @@ order: 31
 }
 ```
 
-在多选时，也可以通过 `onlyLeaf` 来设置只允许选择叶子节点，即便分支节点有 `value` 也不会有选中动作。
+在多选时，也可以通过 `onlyLeaf` 并且搭配 `cascade` 来设置只允许选择叶子节点，即便分支节点有 `value` 也不会有选中动作,
 
 ```schema: scope="body"
 {
   "type": "form",
+  "debug": true,
   "api": "/api/mock2/form/saveForm",
   "body": [
     {
@@ -185,6 +190,7 @@ order: 31
       "name": "nestedSelect",
       "label": "级联选择器",
       "onlyLeaf": true,
+      "cascade": true,
       "multiple": true,
       "options": [
         {
@@ -511,6 +517,7 @@ order: 31
 ```schema: scope="body"
 {
   "type": "form",
+  "debug": true,
   "api": "/api/mock2/form/saveForm",
   "body": [
     {
@@ -592,6 +599,93 @@ order: 31
 }
 ```
 
+## 选项搜索
+
+配置`"searchable": true`后，输入框内输入内容时，下拉数据源会进行前端过滤，过滤的关键字段默认为`value`或`label`。如果通过[`valueField`](./options#选项值字段-valuefield)或[`labelField`](./options#选项标签字段-labelfield)属性，则会选择对应的字段进行过滤。
+
+```schema: scope="body"
+{
+  type: 'form',
+  api: '/api/mock2/form/saveForm',
+  body: [
+    {
+      type: 'nested-select',
+      name: 'nestedSelect1',
+      label: '级联选择器（单选）',
+      options: [
+        {
+          label: 'A',
+          value: 'a'
+        },
+        {
+          label: 'B',
+          value: 'b',
+          children: [
+            {
+              label: 'B-1',
+              value: 'b1'
+            },
+            {
+              label: 'B-2',
+              value: 'b2'
+            },
+            {
+              label: 'B-3',
+              value: 'b3'
+            }
+          ]
+        },
+        {
+          label: 'C',
+          value: 'c'
+        }
+      ],
+      searchable: true,
+      multiple: false,
+      joinValues: true,
+      clearable: true
+    },
+    {
+      type: 'nested-select',
+      name: 'nestedSelect2',
+      label: '级联选择器（多选）',
+      options: [
+        {
+          label: 'A',
+          value: 'a'
+        },
+        {
+          label: 'B',
+          value: 'b',
+          children: [
+            {
+              label: 'B-1',
+              value: 'b1'
+            },
+            {
+              label: 'B-2',
+              value: 'b2'
+            },
+            {
+              label: 'B-3',
+              value: 'b3'
+            }
+          ]
+        },
+        {
+          label: 'C',
+          value: 'c'
+        }
+      ],
+      searchable: true,
+      multiple: false,
+      joinValues: true,
+      clearable: true
+    }
+  ]
+}
+```
+
 ## 属性表
 
 当做选择器表单项使用时，除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
@@ -618,13 +712,15 @@ order: 31
 
 ## 事件表
 
-当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`event.data.xxx`事件参数变量来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`来获取事件产生的数据（`< 2.3.2 及以下版本 为 ${event.data.[事件参数名]}`），详细请查看[事件动作](../../docs/concepts/event-action)。
 
-| 事件名称 | 事件参数                          | 说明                 |
-| -------- | --------------------------------- | -------------------- |
-| change   | `event.data.value: string` 选中值 | 选中值变化时触发     |
-| blur     | `event.data.value: string` 选中值 | 输入框失去焦点时触发 |
-| focus    | `event.data.value: string` 选中值 | 输入框获取焦点时触发 |
+> `[name]`表示当前组件绑定的名称，即`name`属性，如果没有配置`name`属性，则通过`value`取值。
+
+| 事件名称 | 事件参数                  | 说明                 |
+| -------- | ------------------------- | -------------------- |
+| change   | `[name]: string` 组件的值 | 选中值变化时触发     |
+| blur     | `[name]: string` 组件的值 | 输入框失去焦点时触发 |
+| focus    | `[name]: string` 组件的值 | 输入框获取焦点时触发 |
 
 ## 动作表
 

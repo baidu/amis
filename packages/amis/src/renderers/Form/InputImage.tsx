@@ -1,5 +1,11 @@
 import React, {Suspense} from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
+import {
+  FormItem,
+  FormControlProps,
+  FormBaseControl,
+  prettyBytes,
+  resolveEventData
+} from 'amis-core';
 // import 'cropperjs/dist/cropper.css';
 const Cropper = React.lazy(() => import('react-cropper'));
 import DropZone from 'react-dropzone';
@@ -333,6 +339,7 @@ export default class ImageControl extends React.Component<
     receiver: '/api/upload',
     hideUploadButton: false,
     placeholder: 'Image.placeholder',
+    placeholderPlacement: 'top',
     joinValues: true,
     extractValue: false,
     delimiter: ',',
@@ -340,20 +347,6 @@ export default class ImageControl extends React.Component<
     multiple: false,
     dropCrop: true
   };
-
-  static formatFileSize(
-    size: number | string,
-    units = [' B', ' KB', ' M', ' G']
-  ) {
-    size = parseInt(size as string, 10) || 0;
-
-    while (size > 1024 && units.length > 1) {
-      size /= 1024;
-      units.shift();
-    }
-
-    return size.toFixed(2) + units[0];
-  }
 
   static valueToFile(
     value: string | object,
@@ -416,7 +409,7 @@ export default class ImageControl extends React.Component<
     const joinValues = props.joinValues;
     const delimiter = props.delimiter as string;
     let files: Array<FileValue> = [];
-    this.initAutoFill = !!props.initAutoFill;
+    this.initAutoFill = !!(props.initAutoFill ?? true);
 
     if (value) {
       // files = (multiple && Array.isArray(value) ? value : joinValues ? (value as string).split(delimiter) : [value])
@@ -477,7 +470,7 @@ export default class ImageControl extends React.Component<
   componentDidUpdate(prevProps: ImageProps) {
     const props = this.props;
 
-    if (prevProps.value !== props.value && this.emitValue !== props.value) {
+    if (prevProps.value !== props.value) {
       const value: string | Array<string | FileValue> | FileValue = props.value;
       const multiple = props.multiple;
       const joinValues = props.joinValues;
@@ -520,11 +513,8 @@ export default class ImageControl extends React.Component<
         {
           files: (this.files = files)
         },
-        this.syncAutoFill
+        this.initAutoFill ? this.syncAutoFill : () => {}
       );
-    } else if (prevProps.value !== props.value && !this.initAutoFill) {
-      this.initAutoFill = true;
-      this.syncAutoFill();
     }
 
     if (prevProps.crop !== props.crop) {
@@ -738,7 +728,10 @@ export default class ImageControl extends React.Component<
 
   async removeFile(file: FileValue, index: number) {
     const files = this.files.concat();
-    const dispatcher = await this.dispatchEvent('remove', file);
+    const dispatcher = await this.dispatchEvent('remove', {
+      ...file, // 保留历史结构
+      item: file
+    });
     if (dispatcher?.prevented) {
       return;
     }
@@ -791,7 +784,11 @@ export default class ImageControl extends React.Component<
     });
   }
 
-  async onChange(changeImmediately?: boolean, changeEvent: boolean = true) {
+  async onChange(
+    changeImmediately?: boolean,
+    changeEvent: boolean = true,
+    initAutoFill?: boolean
+  ) {
     const {
       multiple,
       onChange,
@@ -800,6 +797,7 @@ export default class ImageControl extends React.Component<
       delimiter,
       valueField
     } = this.props;
+    const curInitAutoFill = initAutoFill ?? true;
 
     const files = this.files.filter(
       file => file.state == 'uploaded' || file.state == 'init'
@@ -833,7 +831,7 @@ export default class ImageControl extends React.Component<
     }
 
     onChange((this.emitValue = newValue || ''), undefined, changeImmediately);
-    this.syncAutoFill();
+    curInitAutoFill && this.syncAutoFill();
   }
 
   syncAutoFill() {
@@ -845,7 +843,7 @@ export default class ImageControl extends React.Component<
     // 排除自身的字段，否则会无限更新state
     const excludeSelfAutoFill = omit(autoFill, name || '');
 
-    if (!isEmpty(excludeSelfAutoFill) && onBulkChange && this.initAutoFill) {
+    if (!isEmpty(excludeSelfAutoFill) && onBulkChange) {
       const files = this.state.files.filter(
         file => ~['uploaded', 'init', 'ready'].indexOf(file.state as string)
       );
@@ -997,8 +995,8 @@ export default class ImageControl extends React.Component<
         this.props.env.alert(
           __('File.maxSize', {
             filename: file.name,
-            actualSize: ImageControl.formatFileSize(file.size),
-            maxSize: ImageControl.formatFileSize(maxSize)
+            actualSize: prettyBytes(file.size, 1024),
+            maxSize: prettyBytes(maxSize, 1024)
           })
         );
         return;
@@ -1092,7 +1090,10 @@ export default class ImageControl extends React.Component<
 
       if (error) {
         file.state = 'invalid';
-        const dispatcher = await this.dispatchEvent('fail', {file, error});
+        const dispatcher = await this.dispatchEvent('fail', {
+          item: file,
+          error
+        });
         if (dispatcher?.prevented) {
           return;
         }
@@ -1123,9 +1124,10 @@ export default class ImageControl extends React.Component<
         obj.value = obj.value || obj.url;
 
         const dispatcher = await this.dispatchEvent('success', {
-          ...file,
-          value: obj.value,
-          state: 'uploaded'
+          ...file, // 保留历史结构
+          item: file,
+          result: ret.data,
+          value: obj.value
         });
         if (dispatcher?.prevented) {
           return;
@@ -1134,7 +1136,7 @@ export default class ImageControl extends React.Component<
       })
       .catch(async error => {
         const dispatcher = await this.dispatchEvent('fail', {
-          file,
+          item: file,
           error
         });
         if (dispatcher?.prevented) {
@@ -1250,7 +1252,11 @@ export default class ImageControl extends React.Component<
           {
             files: (this.files = files)
           },
-          !needUploading ? this.onChange : undefined
+          () => {
+            if (!needUploading) {
+              this.onChange(false, true, this.initAutoFill);
+            }
+          }
         );
     };
     img.src = imgDom.src;
@@ -1296,17 +1302,24 @@ export default class ImageControl extends React.Component<
   }
 
   async dispatchEvent(e: string, data?: Record<string, any>) {
-    const {dispatchEvent} = this.props;
+    const {dispatchEvent, multiple} = this.props;
     const getEventData = (item: Record<string, any>) => ({
       name: item.path || item.name,
       value: item.value,
       state: item.state,
       error: item.error
     });
-    const value = data
+    const value: any = data
       ? getEventData(data)
       : this.files.map(item => getEventData(item));
-    return dispatchEvent(e, createObject(this.props.data, {file: value}));
+    return dispatchEvent(
+      e,
+      resolveEventData(
+        this.props,
+        {...data, file: multiple ? value : value?.[0]},
+        'file'
+      )
+    );
   }
 
   // 动作
@@ -1327,8 +1340,10 @@ export default class ImageControl extends React.Component<
   render() {
     const {
       className,
+      style,
       classnames: cx,
       placeholder,
+      placeholderPlacement,
       disabled,
       multiple,
       accept,
@@ -1350,7 +1365,6 @@ export default class ImageControl extends React.Component<
       frameImageStyle.width = frameImageWidth;
     }
     const filterFrameImage = filter(frameImage, this.props.data, '| raw');
-
     const hasPending = files.some(file => file.state == 'pending');
     return (
       <div className={cx(`ImageControl`, className)}>
@@ -1563,9 +1577,9 @@ export default class ImageControl extends React.Component<
                                           </div>,
                                           file.info.len ? (
                                             <div key="size">
-                                              {ImageControl.formatFileSize(
+                                              {prettyBytes(
                                                 file.info.len
-                                              )}
+                                              , 1024)}
                                             </div>
                                           ) : null
                                         ]
@@ -1670,7 +1684,7 @@ export default class ImageControl extends React.Component<
                         style={frameImageStyle}
                         onClick={this.handleSelect}
                         data-tooltip={__(placeholder)}
-                        data-position="right"
+                        data-position={placeholderPlacement}
                         ref={this.frameImageRef}
                       >
                         {filterFrameImage ? (

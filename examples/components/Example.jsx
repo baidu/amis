@@ -13,6 +13,7 @@ import ReactionFormSchema from './Form/Reaction';
 import ValidationFormSchema from './Form/Validation';
 import FullFormSchema from './Form/Full';
 import StaticFormSchema from './Form/Static';
+import SwitchFormDisplay from './Form/SwitchDisplay';
 import HintFormSchema from './Form/Hint';
 import FieldSetInTabsFormSchema from './Form/FieldSetInTabs';
 import ComboFormSchema from './Form/Combo';
@@ -70,6 +71,7 @@ import OptionsLocalPageSchema from './Linkage/OptionsLocal';
 import FormSubmitSchema from './Linkage/FormSubmit';
 import InputEventSchema from './EventAction/cmpt-event-action/InputEvent';
 import DateEventSchema from './EventAction/cmpt-event-action/DateEvent';
+import TagEvent from './EventAction/cmpt-event-action/TagEvent';
 import SwitchEventSchema from './EventAction/cmpt-event-action/SwitchEvent';
 import TabsEventSchema from './EventAction/cmpt-event-action/TabsEvent';
 import UploadEventSchema from './EventAction/cmpt-event-action/UploadEvent';
@@ -85,6 +87,9 @@ import TransferEventSchema from './EventAction/cmpt-event-action/TransferEvent';
 import ServiceEventSchema from './EventAction/cmpt-event-action/ServiceEvent';
 import CarouselEventSchema from './EventAction/cmpt-event-action/CarouselEvent';
 import TableEventSchema from './EventAction/cmpt-event-action/TableEvent';
+import ListEventSchema from './EventAction/cmpt-event-action/ListEvent';
+import ChartEventSchema from './EventAction/cmpt-event-action/ChartEvent';
+import SearchBoxEventSchema from './EventAction/cmpt-event-action/SearchBoxEvent';
 import ReloadFormActionSchema from './EventAction/reload-action/ReloadForm';
 import ReloadSelectActionSchema from './EventAction/reload-action/ReloadSelect';
 import ReloadChartActionSchema from './EventAction/reload-action/ReloadChart';
@@ -98,6 +103,7 @@ import UpdateButtonGroupSelectActionSchema from './EventAction/update-data/Updat
 import UpdateComboActionSchema from './EventAction/update-data/UpdateCombo';
 import SyncUpdateActionSchema from './EventAction/update-data/SyncUpdate';
 import DataAutoFillActionSchema from './EventAction/update-data/DataAutoFill';
+import SetVariable from './EventAction/update-data/SetVariable';
 import PreventFormActionSchema from './EventAction/prevent-defalut/PreventForm';
 import WizardSchema from './Wizard';
 import ChartSchema from './Chart';
@@ -118,6 +124,8 @@ import DynamicTabSchema from './Tabs/Dynamic';
 import Tab1Schema from './Tabs/Tab1';
 import Tab2Schema from './Tabs/Tab2';
 import Tab3Schema from './Tabs/Tab3';
+import Loading from './Loading';
+import CodeSchema from './Code';
 
 import {Switch} from 'react-router-dom';
 import {navigations2route} from './App';
@@ -171,6 +179,12 @@ export const examples = [
             label: '静态展示',
             path: '/examples/form/static',
             component: makeSchemaRenderer(StaticFormSchema)
+          },
+
+          {
+            label: '输入态、展示态切换',
+            path: '/examples/form/switchDisplay',
+            component: makeSchemaRenderer(SwitchFormDisplay)
           },
 
           {
@@ -622,6 +636,16 @@ export const examples = [
                 label: '数据回填',
                 path: '/examples/action/setdata/autofill',
                 component: makeSchemaRenderer(DataAutoFillActionSchema)
+              },
+              {
+                label: '更新全局变量数据',
+                path: '/examples/action/setdata/variable',
+                component: makeSchemaRenderer(
+                  SetVariable.schema,
+                  SetVariable.props ?? {},
+                  true,
+                  SetVariable.env
+                )
               }
             ]
           },
@@ -652,6 +676,11 @@ export const examples = [
                 label: '时间类组件',
                 path: 'examples/event/date',
                 component: makeSchemaRenderer(DateEventSchema)
+              },
+              {
+                label: '可关闭的tag group',
+                path: 'examples/event/each-tag',
+                component: makeSchemaRenderer(TagEvent)
               },
               {
                 label: '开关组件',
@@ -712,6 +741,21 @@ export const examples = [
                 label: '表格组件',
                 path: 'examples/event/table',
                 component: makeSchemaRenderer(TableEventSchema)
+              },
+              {
+                label: '列表展示类组件',
+                path: 'examples/event/list',
+                component: makeSchemaRenderer(ListEventSchema)
+              },
+              {
+                label: 'chart组件',
+                path: 'examples/event/chart',
+                component: makeSchemaRenderer(ChartEventSchema)
+              },
+              {
+                label: 'SearchBox组件',
+                path: 'examples/event/searchbox',
+                component: makeSchemaRenderer(SearchBoxEventSchema)
               }
             ]
           },
@@ -755,6 +799,13 @@ export const examples = [
         icon: 'fa fa-glasses',
         path: '/examples/theme',
         component: makeSchemaRenderer(ThemeSchema)
+      },
+
+      {
+        label: '代码高亮',
+        icon: 'fa fa-code',
+        path: '/examples/code',
+        component: makeSchemaRenderer(CodeSchema)
       },
 
       {
@@ -820,6 +871,13 @@ export const examples = [
         icon: 'fa fa-rocket',
         path: '/examples/sdk',
         component: SdkTest
+      },
+
+      {
+        label: '多 loading',
+        icon: 'fa fa-spinner',
+        path: '/examples/loading',
+        component: makeSchemaRenderer(Loading)
       },
 
       {

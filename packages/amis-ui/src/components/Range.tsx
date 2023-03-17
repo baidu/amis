@@ -133,7 +133,8 @@ class HandleItem extends React.Component<HandleItemProps, HandleItemState> {
     this.setState({
       isDrag: false
     });
-    this.props.onAfterChange();
+    const {onAfterChange} = this.props;
+    onAfterChange && onAfterChange();
     window.removeEventListener('mousemove', this.onMouseMove);
     window.removeEventListener('mouseup', this.onMouseUp);
   }
@@ -291,7 +292,8 @@ export class Range extends React.Component<RangeItemProps, any> {
    */
   @autobind
   updateValue(value: FormatValue) {
-    this.props.updateValue(value);
+    const {onChange} = this.props;
+    onChange && onChange(value);
   }
 
   /**

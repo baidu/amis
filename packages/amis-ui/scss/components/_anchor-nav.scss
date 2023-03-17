@@ -30,6 +30,8 @@
           margin-left: px2rem(-2px);
           height: px2rem(32px);
           line-height: px2rem(32px);
+          @include truncate();
+          max-width: var(--Tabs--vertical-width);
 
           &:hover {
             color: var(--primary);
@@ -46,8 +48,8 @@
             border-color: var(--primary);
           }
           > a:hover {
-            color: #528EFF;
-            border-color: #528EFF;
+            color: #528eff;
+            border-color: #528eff;
           }
           > a:active {
             color: #144bcc;
@@ -72,11 +74,16 @@
         display: inline-block;
         position: relative;
 
+        > a {
+          @include truncate();
+          max-width: var(--Tabs--vertical-width);
+        }
+
         > a:first-child {
           font-size: var(--Tabs-linkFontSize);
           outline: 0;
           border: var(--Tabs-borderWidth) solid transparent;
-          border-width: 0 0 var(--Tabs--line-borderWidth) 0;
+          border-width: 0 0 2px 0;
           border-top-left-radius: var(--Tabs-borderRadius);
           border-top-right-radius: var(--Tabs-borderRadius);
           color: var(--Tabs-color);
@@ -105,9 +112,9 @@
           > a:first-child:hover,
           > a:first-child:focus {
             font-size: var(--Tabs-linkFontSize);
-            border-width: 0 0 var(--Tabs--line-borderWidth) 0;
+            border-width: 0 0 2px 0;
             border-color: var(--Tabs--line-onHover-borderColor);
-            color: var(--Tabs--line-onHover-color);
+            color: var(--primary);
             background: transparent;
           }
         }

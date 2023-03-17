@@ -66,6 +66,7 @@ export class Card extends React.Component<CardProps> {
     const {
       classnames: cx,
       className,
+      style,
       headerClassName,
       bodyClassName,
       titleClassName,
@@ -155,6 +156,7 @@ export class Card extends React.Component<CardProps> {
         className={cx('Card', className, {
           'Card--link': onClick
         })}
+        style={style}
       >
         {media ? (
           <div className={cx(`Card-multiMedia--${mediaPosition}`)}>

@@ -340,12 +340,27 @@ template {
   display: none;
 }
 
+/** Browser Compatibility
+    ========================================================================== */
+
+/* 兼容Safari浏览器input disbaled状态下文字颜色不显示 */
+input[disabled],
+input:disabled,
+input.disabled,
+input.is-disabled {
+  -webkit-text-fill-color: var(--text--muted-color);
+}
+
 svg.icon {
   width: 1em;
   height: 1em;
   fill: currentColor;
   position: relative;
   top: 0.125em;
+}
+
+svg.icon-object {
+  top: 0;
 }
 
 svg.r90 {

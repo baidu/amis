@@ -3,6 +3,7 @@ import isEqual from 'lodash/isEqual';
 import isNaN from 'lodash/isNaN';
 import uniq from 'lodash/uniq';
 import last from 'lodash/last';
+import merge from 'lodash/merge';
 import {Schema, PlainObject, FunctionPropertyNames} from '../types';
 import {evalExpression} from './tpl';
 import qs from 'qs';
@@ -293,7 +294,16 @@ export function isArrayChildrenModified(
   }
 
   for (let i: number = prev.length - 1; i >= 0; i--) {
-    if (strictMode ? prev[i] !== next[i] : prev[i] != next[i]) {
+    if (
+      strictMode
+        ? prev[i] !== next[i]
+        : prev[i] != next[i] ||
+          isArrayChildrenModified(
+            prev[i].children,
+            next[i].children,
+            strictMode
+          )
+    ) {
       return true;
     }
   }
@@ -478,6 +488,10 @@ export function promisify<T extends Function>(
 ): (...args: Array<any>) => Promise<any> & {
   raw: T;
 } {
+  // 避免重复处理
+  if ((fn as any)._promisified) {
+    return fn as any;
+  }
   let promisified = function () {
     try {
       const ret = fn.apply(null, arguments);
@@ -497,6 +511,7 @@ export function promisify<T extends Function>(
     }
   };
   (promisified as any).raw = fn;
+  (promisified as any)._promisified = true;
   return promisified;
 }
 
@@ -1009,15 +1024,15 @@ export function someTree<T extends TreeItem>(
 export function flattenTree<T extends TreeItem>(tree: Array<T>): Array<T>;
 export function flattenTree<T extends TreeItem, U>(
   tree: Array<T>,
-  mapper: (value: T, index: number) => U
+  mapper: (value: T, index: number, level: number, paths?: Array<T>) => U
 ): Array<U>;
 export function flattenTree<T extends TreeItem, U>(
   tree: Array<T>,
-  mapper?: (value: T, index: number) => U
+  mapper?: (value: T, index: number, level: number, paths?: Array<T>) => U
 ): Array<U> {
   let flattened: Array<any> = [];
-  eachTree(tree, (item, index) =>
-    flattened.push(mapper ? mapper(item, index) : item)
+  eachTree(tree, (item, index, level, paths) =>
+    flattened.push(mapper ? mapper(item, index, level, paths) : item)
   );
   return flattened;
 }
@@ -1658,10 +1673,12 @@ export function JSONTraverse(
 ) {
   Object.keys(json).forEach(key => {
     const value: any = json[key];
-    if (isPlainObject(value) || Array.isArray(value)) {
-      JSONTraverse(value, mapper);
-    } else {
-      mapper(value, key, json);
+    if (!isObservable(value)) {
+      if (isPlainObject(value) || Array.isArray(value)) {
+        JSONTraverse(value, mapper);
+      } else {
+        mapper(value, key, json);
+      }
     }
   });
 }
@@ -1704,4 +1721,26 @@ export function isNumeric(value: any): boolean {
     return true;
   }
   return /^[-+]?(?:\d*[.])?\d+$/.test(value);
+}
+
+/**
+ * 获取URL链接中的query参数（包含hash mode）
+ *
+ * @param location Location对象，或者类Location结构的对象
+ */
+export function parseQuery(
+  location?: Location | {query?: any; search?: any; [propName: string]: any}
+): Record<string, any> {
+  const query =
+    (location && !(location instanceof Location) && location?.query) ||
+    (location && location?.search && qsparse(location.search.substring(1))) ||
+    (window.location.search && qsparse(window.location.search.substring(1)));
+  /* 处理hash中的query */
+  const hashQuery =
+    window.location?.hash && typeof window.location?.hash === 'string'
+      ? qsparse(window.location.hash.replace(/^#.*\?/gi, ''))
+      : {};
+  const normalizedQuery = isPlainObject(query) ? query : {};
+
+  return merge(normalizedQuery, hashQuery);
 }

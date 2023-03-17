@@ -13,6 +13,7 @@ exports[`Renderer:card 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Card className cxd-Card--link"
@@ -94,6 +95,7 @@ exports[`Renderer:cards color 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Cards"
@@ -371,6 +373,7 @@ exports[`Renderer:cards hightlight 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Card"
@@ -467,7 +470,7 @@ exports[`Renderer:cards hightlight 1`] = `
                         class="cxd-DropDown  cxd-Card-action pr-1 flex"
                       >
                         <button
-                          class="cxd-Button cxd-Button--link cxd-Button--sm"
+                          class="cxd-Button cxd-Button--link cxd-Button--size-sm"
                         >
                           <i
                             class="m-r-xs fa fa-ellipsis-h"
@@ -500,6 +503,7 @@ exports[`Renderer:cards hightlight 2`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Card"
@@ -596,7 +600,7 @@ exports[`Renderer:cards hightlight 2`] = `
                         class="cxd-DropDown  cxd-Card-action pr-1 flex"
                       >
                         <button
-                          class="cxd-Button cxd-Button--link cxd-Button--sm"
+                          class="cxd-Button cxd-Button--link cxd-Button--size-sm"
                         >
                           <i
                             class="m-r-xs fa fa-ellipsis-h"
@@ -629,6 +633,7 @@ exports[`Renderer:cards media 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Card"
@@ -722,7 +727,7 @@ exports[`Renderer:cards media 1`] = `
                         class="cxd-DropDown  cxd-Card-action pr-1 flex"
                       >
                         <button
-                          class="cxd-Button cxd-Button--link cxd-Button--sm"
+                          class="cxd-Button cxd-Button--link cxd-Button--size-sm"
                         >
                           <i
                             class="m-r-xs fa fa-ellipsis-h"

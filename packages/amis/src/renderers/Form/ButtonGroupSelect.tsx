@@ -8,6 +8,7 @@ import type {Option} from 'amis-core';
 import {ActionObject} from 'amis-core';
 import {getLevelFromClassName, autobind, isEmpty} from 'amis-core';
 import {ButtonGroupSchema} from '../ButtonGroup';
+import {supportStatic} from './StaticHoc';
 
 /**
  * 按钮组控件。
@@ -67,12 +68,14 @@ export default class ButtonGroupControl extends React.Component<
     reload && reload();
   }
 
+  @supportStatic()
   render(props = this.props) {
     const {
       render,
       classPrefix: ns,
       classnames: cx,
       className,
+      style,
       disabled,
       options,
       value,
@@ -106,6 +109,7 @@ export default class ButtonGroupControl extends React.Component<
             label: option[labelField || 'label'],
             icon: option.icon,
             size: option.size || size,
+            badge: option.badge,
             type: 'button',
             block: block
           },

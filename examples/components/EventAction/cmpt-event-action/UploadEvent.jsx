@@ -5,7 +5,7 @@ const getEventDesc = eventName => {
         actionType: 'toast',
         args: {
           msgType: 'info',
-          msg: `派发${eventName}事件` + '${event.data|json}'
+          msg: `派发${eventName}事件` + '${file|json}'
         }
       }
     ]
@@ -18,7 +18,7 @@ const change = {
       actionType: 'toast',
       args: {
         msgType: 'info',
-        msg: '派发change事件${event.data.file|json}'
+        msg: '派发change事件${file|json}'
       }
     }
   ]

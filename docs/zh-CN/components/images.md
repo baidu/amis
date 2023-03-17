@@ -66,12 +66,12 @@ order: 53
 
 ```ts
 Array<{
-    image: string; // 小图，预览图
-    src?: string; // 原图
-    title?: string; // 标题
-    description?: string; // 描述
-    [propName:string]: any; // 还可以有其他数据
-}>
+  image: string; // 小图，预览图
+  src?: string; // 原图
+  title?: string; // 标题
+  description?: string; // 描述
+  [propName: string]: any; // 还可以有其他数据
+}>;
 ```
 
 ### 配置预览图地址
@@ -454,18 +454,67 @@ List 的内容、Card 卡片的内容配置同上
 }
 ```
 
+## 工具栏
+
+> 2.2.0 及以上版本
+
+配置`"showToolbar": true`使图片在放大模式下开启图片工具栏。配置`"toolbarActions"`属性可以自定义工具栏的展示方式，具体配置参考[ImageAction](./image#imageaction)
+
+```schema
+{
+    "type": "page",
+    "data": {
+        "images": [
+            {
+                "image": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+                "a": "aaa1",
+                "b": "bbb1"
+            },
+            {
+                "image": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+                "a": "aaa2",
+                "b": "bbb2"
+            },
+            {
+                "image": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+                "a": "aaa3",
+                "b": "bbb3"
+            },
+            {
+                "image": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693379/8f2e79f82be0.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+                "a": "aaa4",
+                "b": "bbb4"
+            },
+            {
+                "image": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+                "a": "aaa5",
+                "b": "bbb5"
+            }
+        ]
+    },
+    "body": {
+        "type": "images",
+        "source": "${images}",
+        "enlargeAble": true,
+        "showToolbar": true
+    }
+}
+```
+
 ## 属性表
 
-| 属性名       | 类型                                       | 默认值    | 说明                                                                                     |
-| ------------ | ------------------------------------------ | --------- | ---------------------------------------------------------------------------------------- |
-| type         | `string`                                   | `images`  | 如果在 Table、Card 和 List 中，为`"images"`；在 Form 中用作静态展示，为`"static-images"` |
-| className    | `string`                                   |           | 外层 CSS 类名                                                                            |
-| defaultImage | `string`                                   |           | 默认展示图片                                                                             |
-| value        | `string`或`Array<string>`或`Array<object>` |           | 图片数组                                                                                 |
-| source       | `string`                                   |           | 数据源                                                                                   |
-| delimiter    | `string`                                   | `,`       | 分隔符，当 value 为字符串时，用该值进行分隔拆分                                          |
-| src          | `string`                                   |           | 预览图地址，支持数据映射获取对象中图片变量                                               |
-| originalSrc  | `string`                                   |           | 原图地址，支持数据映射获取对象中图片变量                                                 |
-| enlargeAble  | `boolean`                                  |           | 支持放大预览                                                                             |
-| thumbMode    | `string`                                   | `contain` | 预览图模式，可选：`'w-full'`, `'h-full'`, `'contain'`, `'cover'`                         |
-| thumbRatio   | `string`                                   | `1:1`     | 预览图比例，可选：`'1:1'`, `'4:3'`, `'16:9'`                                             |
+| 属性名         | 类型                                       | 默认值    | 说明                                                                                     | 版本    |
+| -------------- | ------------------------------------------ | --------- | ---------------------------------------------------------------------------------------- | ------- |
+| type           | `string`                                   | `images`  | 如果在 Table、Card 和 List 中，为`"images"`；在 Form 中用作静态展示，为`"static-images"` |
+| className      | `string`                                   |           | 外层 CSS 类名                                                                            |
+| defaultImage   | `string`                                   |           | 默认展示图片                                                                             |
+| value          | `string`或`Array<string>`或`Array<object>` |           | 图片数组                                                                                 |
+| source         | `string`                                   |           | 数据源                                                                                   |
+| delimiter      | `string`                                   | `,`       | 分隔符，当 value 为字符串时，用该值进行分隔拆分                                          |
+| src            | `string`                                   |           | 预览图地址，支持数据映射获取对象中图片变量                                               |
+| originalSrc    | `string`                                   |           | 原图地址，支持数据映射获取对象中图片变量                                                 |
+| enlargeAble    | `boolean`                                  |           | 支持放大预览                                                                             |
+| thumbMode      | `string`                                   | `contain` | 预览图模式，可选：`'w-full'`, `'h-full'`, `'contain'`, `'cover'`                         |
+| thumbRatio     | `string`                                   | `1:1`     | 预览图比例，可选：`'1:1'`, `'4:3'`, `'16:9'`                                             |
+| showToolbar    | `boolean`                                  | `false`   | 放大模式下是否展示图片的工具栏                                                           | `2.2.0` |
+| toolbarActions | `ImageAction[]`                            |           | 图片工具栏，支持旋转，缩放，默认操作全部开启                                             | `2.2.0` |

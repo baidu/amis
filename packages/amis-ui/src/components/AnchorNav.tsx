@@ -17,6 +17,7 @@ export interface AnchorNavSectionProps extends ThemeProps {
   name: string | number; // 标识
   body?: Schema; // Schema
   className?: string; // 样式名
+  style?: any;
 }
 
 class AnchorNavSectionComponent extends React.PureComponent<AnchorNavSectionProps> {
@@ -219,7 +220,7 @@ export class AnchorNav extends React.Component<AnchorNavProps, AnchorNavState> {
         key={index}
         onClick={() => this.handleSelect(name)}
       >
-        <a>{title}</a>
+        <a title={title}>{title}</a>
       </li>
     );
   }
@@ -245,6 +246,7 @@ export class AnchorNav extends React.Component<AnchorNavProps, AnchorNavState> {
     const {
       classnames: cx,
       className,
+      style,
       linkClassName,
       sectionClassName,
       children,
@@ -264,6 +266,7 @@ export class AnchorNav extends React.Component<AnchorNavProps, AnchorNavState> {
           },
           className
         )}
+        style={style}
       >
         <ul
           className={cx('AnchorNav-link-wrap', linkClassName)}

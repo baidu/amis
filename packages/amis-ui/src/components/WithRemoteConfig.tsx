@@ -5,7 +5,6 @@
 import React from 'react';
 import hoistNonReactStatic from 'hoist-non-react-statics';
 import debounce from 'lodash/debounce';
-import {withStore} from './WithStore';
 
 import {flow, Instance, isAlive, types} from 'mobx-state-tree';
 import {
@@ -20,6 +19,8 @@ import {isPureVariable, resolveVariableAndFilter, tokenize} from 'amis-core';
 import {reaction} from 'mobx';
 import {createObject, findTreeIndex, isObject} from 'amis-core';
 import {Api, ApiObject, Payload} from 'amis-core';
+
+import {withStore} from './WithStore';
 
 export const Store = types
   .model('RemoteConfigStore')
@@ -105,6 +106,7 @@ export interface OutterProps {
       | {
           loadConfig: (ctx?: any) => Promise<any> | void;
           setConfig: (value: any) => void;
+          syncConfig: () => void;
         }
       | undefined
   ) => void;
@@ -357,7 +359,7 @@ export function withRemoteConfig<P = any>(
                 data: undefined
               };
             }
-            const ret2 = config.afterDeferLoad?.(
+            const ret2 = await config.afterDeferLoad?.(
               item,
               indexes, // 只能假定还是那个 index 了
               response,

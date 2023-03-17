@@ -210,7 +210,9 @@ export const TableStore2 = ServiceStore.named('TableStore2')
     query: types.optional(types.frozen(), {}),
     pageNo: 1,
     pageSize: 10,
-    dragging: false
+    dragging: false,
+    keepItemSelectionOnPageChange: false,
+    maxKeepItemSelectionLength: 0
   })
   .views(self => {
     function getToggable() {
@@ -387,6 +389,12 @@ export const TableStore2 = ServiceStore.named('TableStore2')
           config.order === 'desc' ? 'desc' : 'asc'
         );
       }
+
+      config.maxKeepItemSelectionLength !== void 0 &&
+        (self.maxKeepItemSelectionLength = config.maxKeepItemSelectionLength);
+      config.keepItemSelectionOnPageChange !== void 0 &&
+        (self.keepItemSelectionOnPageChange =
+          config.keepItemSelectionOnPageChange);
 
       if (config.columns && Array.isArray(config.columns)) {
         self.columns.replace(updateColumns(config.columns) as any);
@@ -658,7 +666,10 @@ export const TableStore2 = ServiceStore.named('TableStore2')
 
         if (!json.ok) {
           self.updateMessage(
-            json.msg ?? options.errorMessage ?? self.__('saveFailed'),
+            (api as ApiObject)?.messages?.failed ??
+              json.msg ??
+              options.errorMessage ??
+              self.__('saveFailed'),
             true
           );
           getEnv(self).notify(
@@ -674,7 +685,10 @@ export const TableStore2 = ServiceStore.named('TableStore2')
           throw new ServerError(self.msg);
         } else {
           self.updateMessage(
-            json.msg ?? options.successMessage ?? json.defaultMsg
+            (api as ApiObject)?.messages?.success ??
+              json.msg ??
+              options.successMessage ??
+              json.defaultMsg
           );
           self.msg &&
             getEnv(self).notify(

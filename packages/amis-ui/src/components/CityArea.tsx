@@ -87,6 +87,7 @@ const CityArea = memo<AreaProps>(props => {
     // 默认北京东城区
     value = 110101,
     classnames: cx,
+    style,
     translate: __,
     disabled = false,
     popOverContainer,
@@ -172,11 +173,12 @@ const CityArea = memo<AreaProps>(props => {
   };
 
   const getPropsValue = () => {
-    // 最后一项的值
+    // 最后一项的值、默认北京东城区
     let code =
       (value && value.code) ||
       (typeof value === 'number' && value) ||
-      (typeof value === 'string' && /(\d{6})/.test(value) && RegExp.$1);
+      (typeof value === 'string' && /(\d{6})/.test(value) && RegExp.$1) ||
+      110101;
     const values: Array<number> = [];
     if (code && db[code]) {
       code = parseInt(code, 10);
@@ -195,6 +197,14 @@ const CityArea = memo<AreaProps>(props => {
         values[2] = code;
       }
       setValues(values);
+
+      if (props.value) {
+        const confirmValues = values.map((item: number) => ({
+          text: db[item],
+          value: item
+        }));
+        setConfirmValues(confirmValues);
+      }
     }
   };
 
@@ -247,8 +257,8 @@ const CityArea = memo<AreaProps>(props => {
   }, []);
 
   useEffect(() => {
-    isOpened && db && getPropsValue();
-  }, [db, isOpened]);
+    db && (props.value || isOpened) && getPropsValue();
+  }, [db, isOpened, props.value]);
 
   useEffect(() => {
     street && propsChange();
@@ -264,7 +274,7 @@ const CityArea = memo<AreaProps>(props => {
     .join(delimiter);
 
   return (
-    <div className={cx(`CityArea`)}>
+    <div className={cx(`CityArea`)} style={style}>
       <ResultBox
         className={cx('CityArea-Input', isOpened ? 'is-active' : '')}
         allowInput={false}

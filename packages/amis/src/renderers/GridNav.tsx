@@ -154,7 +154,7 @@ export default class List extends React.Component<ListProps, object> {
   }
 
   render() {
-    const {itemClassName, source, data, options, classnames} = this.props;
+    const {itemClassName, style, source, data, options, classnames} = this.props;
 
     let value = getPropValue(this.props);
     let list: any = [];

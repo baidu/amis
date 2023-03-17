@@ -1,5 +1,10 @@
 import React from 'react';
-import {Renderer, RendererProps} from 'amis-core';
+import {
+  Renderer,
+  RendererProps,
+  generateIcon,
+  IconCheckedSchema
+} from 'amis-core';
 import {Collapse as BasicCollapse} from 'amis-ui';
 import {BaseSchema, SchemaCollection, SchemaTpl, SchemaObject} from '../Schema';
 
@@ -100,6 +105,18 @@ export interface CollapseProps
 }
 
 export default class Collapse extends React.Component<CollapseProps, {}> {
+  static propsList: Array<string> = [
+    'collapsable',
+    'collapsed',
+    'collapseTitle',
+    'showArrow',
+    'headerPosition',
+    'bodyClassName',
+    'headingClassName',
+    'collapseHeader',
+    'size'
+  ];
+
   render() {
     const {
       id,
@@ -109,6 +126,7 @@ export default class Collapse extends React.Component<CollapseProps, {}> {
       wrapperComponent,
       headingComponent,
       className,
+      style,
       headingClassName,
       children,
       titlePosition,
@@ -143,6 +161,7 @@ export default class Collapse extends React.Component<CollapseProps, {}> {
         wrapperComponent={wrapperComponent}
         headingComponent={headingComponent}
         className={className}
+        style={style}
         headingClassName={headingClassName}
         bodyClassName={bodyClassName}
         headerPosition={titlePosition || headerPosition}
@@ -153,9 +172,11 @@ export default class Collapse extends React.Component<CollapseProps, {}> {
         propsUpdate={propsUpdate}
         expandIcon={
           expandIcon
-            ? render('arrow-icon', expandIcon || '', {
-                className: cx('Collapse-icon-tranform')
-              })
+            ? typeof (expandIcon as any).icon === 'object'
+              ? generateIcon(cx, (expandIcon as any).icon)
+              : render('arrow-icon', expandIcon || '', {
+                  className: cx('Collapse-icon-tranform')
+                })
             : null
         }
         collapseHeader={

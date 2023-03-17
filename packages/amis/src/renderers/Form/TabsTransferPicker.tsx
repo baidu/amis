@@ -1,20 +1,22 @@
-import {OptionsControlProps, OptionsControl} from 'amis-core';
+import {OptionsControlProps, OptionsControl, resolveEventData} from 'amis-core';
 import React from 'react';
-import {Spinner} from 'amis-ui';
+import {Spinner, SpinnerExtraProps} from 'amis-ui';
 import {BaseTabsTransferRenderer} from './TabsTransfer';
 import {TabsTransferPicker} from 'amis-ui';
 import {TabsTransferControlSchema} from './TabsTransfer';
 import {autobind, createObject} from 'amis-core';
 import {Selection as BaseSelection} from 'amis-ui';
-import {ActionObject} from 'amis-core';
+import {ActionObject, toNumber} from 'amis-core';
 import type {ItemRenderStates} from 'amis-ui/lib/components/Selection';
+import {supportStatic} from './StaticHoc';
 
 /**
  * TabsTransferPicker 穿梭器的弹框形态
  * 文档：https://baidu.gitee.io/amis/docs/components/form/tabs-transfer-picker
  */
 export interface TabsTransferPickerControlSchema
-  extends Omit<TabsTransferControlSchema, 'type'> {
+  extends Omit<TabsTransferControlSchema, 'type'>,
+    SpinnerExtraProps {
   type: 'tabs-transfer-picker';
 }
 
@@ -27,7 +29,8 @@ export interface TabsTransferProps
       | 'inputClassName'
       | 'className'
       | 'descriptionClassName'
-    > {}
+    >,
+    SpinnerExtraProps {}
 
 interface BaseTransferState {
   activeKey: number;
@@ -43,8 +46,8 @@ export class TabsTransferPickerRenderer extends BaseTabsTransferRenderer<TabsTra
 
   @autobind
   dispatchEvent(name: string) {
-    const {dispatchEvent, data} = this.props;
-    dispatchEvent(name, data);
+    const {dispatchEvent, value} = this.props;
+    dispatchEvent(name, resolveEventData(this.props, {value}, 'value'));
   }
 
   @autobind
@@ -80,9 +83,11 @@ export class TabsTransferPickerRenderer extends BaseTabsTransferRenderer<TabsTra
     }
   }
 
+  @supportStatic()
   render() {
     const {
       className,
+      style,
       classnames: cx,
       options,
       selectedOptions,
@@ -96,7 +101,10 @@ export class TabsTransferPickerRenderer extends BaseTabsTransferRenderer<TabsTra
       resultTitle,
       pickerSize,
       leftMode,
-      leftOptions
+      leftOptions,
+      itemHeight,
+      virtualThreshold,
+      loadingConfig
     } = this.props;
 
     return (
@@ -123,9 +131,18 @@ export class TabsTransferPickerRenderer extends BaseTabsTransferRenderer<TabsTra
           resultItemRender={this.resultItemRender}
           onFocus={() => this.dispatchEvent('focus')}
           onBlur={() => this.dispatchEvent('blur')}
+          itemHeight={
+            toNumber(itemHeight) > 0 ? toNumber(itemHeight) : undefined
+          }
+          virtualThreshold={virtualThreshold}
         />
 
-        <Spinner overlay key="info" show={loading} />
+        <Spinner
+          loadingConfig={loadingConfig}
+          overlay
+          key="info"
+          show={loading}
+        />
       </div>
     );
   }

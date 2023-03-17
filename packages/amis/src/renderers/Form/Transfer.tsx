@@ -4,9 +4,10 @@ import find from 'lodash/find';
 import {
   OptionsControlProps,
   OptionsControl,
-  FormOptionsControl
+  FormOptionsControl,
+  resolveEventData
 } from 'amis-core';
-import {Transfer} from 'amis-ui';
+import {SpinnerExtraProps, Transfer} from 'amis-ui';
 import type {Option} from 'amis-core';
 import {
   autobind,
@@ -24,14 +25,17 @@ import {resolveVariable} from 'amis-core';
 import {FormOptionsSchema, SchemaApi, SchemaObject} from '../../Schema';
 import {Selection as BaseSelection} from 'amis-ui';
 import {ResultList} from 'amis-ui';
-import {ActionObject} from 'amis-core';
+import {ActionObject, toNumber} from 'amis-core';
 import type {ItemRenderStates} from 'amis-ui/lib/components/Selection';
+import {supportStatic} from './StaticHoc';
 
 /**
  * Transfer
  * 文档：https://baidu.gitee.io/amis/docs/components/form/transfer
  */
-export interface TransferControlSchema extends FormOptionsSchema {
+export interface TransferControlSchema
+  extends FormOptionsSchema,
+    SpinnerExtraProps {
   type: 'transfer';
 
   /**
@@ -128,6 +132,31 @@ export interface TransferControlSchema extends FormOptionsSchema {
    * 右侧列表搜索框提示
    */
   resultSearchPlaceholder?: string;
+
+  /**
+   * 统计数字
+   */
+  statistics?: boolean;
+
+  /**
+   * 单个选项的高度，主要用于虚拟渲染
+   */
+  itemHeight?: number;
+
+  /**
+   * 在选项数量达到多少时开启虚拟渲染
+   */
+  virtualThreshold?: number;
+
+  /**
+   * 当在value值未匹配到当前options中的选项时，是否value值对应文本飘红显示
+   */
+  showInvalidMatch?: boolean;
+
+  /**
+   * 树形模式下，仅选中子节点
+   */
+  onlyChildren?: boolean;
 }
 
 export interface BaseTransferProps
@@ -139,13 +168,22 @@ export interface BaseTransferProps
       | 'className'
       | 'descriptionClassName'
       | 'inputClassName'
-    > {
+    >,
+    SpinnerExtraProps {
   resultItemRender?: (option: Option) => JSX.Element;
+  virtualThreshold?: number;
+  itemHeight?: number;
 }
 
+type OptionsControlWithSpinnerProps = OptionsControlProps & SpinnerExtraProps;
+
 export class BaseTransferRenderer<
-  T extends OptionsControlProps = BaseTransferProps
+  T extends OptionsControlWithSpinnerProps = BaseTransferProps
 > extends React.Component<T> {
+  static defaultProps = {
+    multiple: true
+  };
+
   tranferRef?: any;
 
   reload() {
@@ -164,7 +202,9 @@ export class BaseTransferRenderer<
       extractValue,
       options,
       dispatchEvent,
-      setOptions
+      setOptions,
+      selectMode,
+      deferApi
     } = this.props;
     let newValue: any = value;
     let newOptions = options.concat();
@@ -202,16 +242,51 @@ export class BaseTransferRenderer<
         joinValues || extractValue
           ? value[(valueField as string) || 'value']
           : value;
+      const indexes = findTreeIndex(
+        options,
+        optionValueCompare(
+          value[(valueField as string) || 'value'],
+          (valueField as string) || 'value'
+        )
+      );
+
+      if (!indexes) {
+        newOptions.push(value);
+      } else if (optionModified) {
+        const origin = getTree(newOptions, indexes);
+        newOptions = spliceTree(newOptions, indexes, 1, {
+          ...origin,
+          ...value
+        });
+      }
     }
 
-    (newOptions.length > options.length || optionModified) &&
-      setOptions(newOptions, true);
+    // 是否是有懒加载的树，这时不能将 value 添加到 options。因为有可能 value 在懒加载结果中
+    const isTreeDefer =
+      selectMode === 'tree' &&
+      (!!deferApi ||
+        !!findTree(
+          options,
+          (option: Option) => option.deferApi || option.defer
+        ));
+
+    isTreeDefer === true ||
+      ((newOptions.length > options.length || optionModified) &&
+        setOptions(newOptions, true));
 
     // 触发渲染器事件
-    const rendererEvent = await dispatchEvent('change', {
-      value: newValue,
-      options
-    });
+    const rendererEvent = await dispatchEvent(
+      'change',
+      resolveEventData(
+        this.props,
+        {
+          value: newValue,
+          options,
+          items: options // 为了保持名字统一
+        },
+        'value'
+      )
+    );
     if (rendererEvent?.prevented) {
       return;
     }
@@ -253,7 +328,7 @@ export class BaseTransferRenderer<
         const result =
           payload.data.options || payload.data.items || payload.data;
         if (!Array.isArray(result)) {
-          throw new Error('CRUD.invalidArray');
+          throw new Error(__('CRUD.invalidArray'));
         }
 
         return result.map(item => {
@@ -297,9 +372,11 @@ export class BaseTransferRenderer<
 
   @autobind
   handleResultSearch(term: string, item: Option) {
-    const {valueField} = this.props;
+    const {valueField, labelField} = this.props;
     const regexp = string2regExp(term);
-    return regexp.test(item[(valueField as string) || 'value']);
+    const labelTest = item[(labelField as string) || 'label'];
+    const valueTest = item[(valueField as string) || 'value'];
+    return regexp.test(labelTest) || regexp.test(valueTest);
   }
 
   @autobind
@@ -326,7 +403,7 @@ export class BaseTransferRenderer<
       });
     }
 
-    return ResultList.itemRender(option);
+    return ResultList.itemRender(option, states);
   }
 
   @autobind
@@ -340,11 +417,14 @@ export class BaseTransferRenderer<
     colIndex: number,
     rowIndex: number
   ) {
-    const {render, data} = this.props;
+    const {render, data, classnames: cx, showInvalidMatch} = this.props;
     return render(
       `cell/${colIndex}/${rowIndex}`,
       {
         type: 'text',
+        className: cx({
+          'is-invalid': showInvalidMatch ? option?.__unmatched : false
+        }),
         ...column
       },
       {
@@ -364,8 +444,8 @@ export class BaseTransferRenderer<
 
   @autobind
   onSelectAll(options: Option[]) {
-    const {dispatchEvent} = this.props;
-    dispatchEvent('selectAll', options);
+    const {dispatchEvent, data} = this.props;
+    dispatchEvent('selectAll', createObject(data, {items: options}));
   }
 
   // 动作
@@ -384,9 +464,11 @@ export class BaseTransferRenderer<
     }
   }
 
+  @supportStatic()
   render() {
     let {
       className,
+      style,
       classnames: cx,
       selectedOptions,
       showArrow,
@@ -407,7 +489,14 @@ export class BaseTransferRenderer<
       searchPlaceholder,
       resultListModeFollowSelect = false,
       resultSearchPlaceholder,
-      resultSearchable = false
+      resultSearchable = false,
+      statistics,
+      labelField,
+      virtualThreshold,
+      itemHeight,
+      loadingConfig,
+      showInvalidMatch,
+      onlyChildren
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载
@@ -430,6 +519,7 @@ export class BaseTransferRenderer<
     return (
       <div className={cx('TransferControl', className)}>
         <Transfer
+          onlyChildren={onlyChildren}
           value={selectedOptions}
           options={options}
           disabled={disabled}
@@ -454,13 +544,26 @@ export class BaseTransferRenderer<
           searchPlaceholder={searchPlaceholder}
           resultSearchable={resultSearchable}
           resultSearchPlaceholder={resultSearchPlaceholder}
+          statistics={statistics}
+          labelField={labelField}
           optionItemRender={this.optionItemRender}
           resultItemRender={this.resultItemRender}
           onSelectAll={this.onSelectAll}
           onRef={this.getRef}
+          virtualThreshold={virtualThreshold}
+          itemHeight={
+            toNumber(itemHeight) > 0 ? toNumber(itemHeight) : undefined
+          }
+          loadingConfig={loadingConfig}
+          showInvalidMatch={showInvalidMatch}
         />
 
-        <Spinner overlay key="info" show={loading} />
+        <Spinner
+          overlay
+          key="info"
+          loadingConfig={loadingConfig}
+          show={loading}
+        />
       </div>
     );
   }

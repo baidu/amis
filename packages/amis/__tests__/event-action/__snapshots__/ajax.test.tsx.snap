@@ -13,9 +13,10 @@ exports[`EventAction:ajax 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <button
-            class="cxd-Button cxd-Button--primary"
+            class="cxd-Button cxd-Button--primary cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -30,7 +31,7 @@ exports[`EventAction:ajax 1`] = `
             </span>
           </span>
           <button
-            class="cxd-Button cxd-Button--primary"
+            class="cxd-Button cxd-Button--primary cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -64,9 +65,10 @@ exports[`EventAction:ajax 2`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <button
-            class="cxd-Button cxd-Button--primary"
+            class="cxd-Button cxd-Button--primary cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -81,7 +83,7 @@ exports[`EventAction:ajax 2`] = `
             </span>
           </span>
           <button
-            class="cxd-Button cxd-Button--primary"
+            class="cxd-Button cxd-Button--primary cxd-Button--size-default"
             type="button"
           >
             <span>

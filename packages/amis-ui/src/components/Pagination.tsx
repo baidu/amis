@@ -98,7 +98,9 @@ export interface BasicPaginationProps {
 export interface PaginationProps
   extends BasicPaginationProps,
     ThemeProps,
-    LocaleProps {}
+    LocaleProps {
+  popOverContainer?: any;
+}
 export interface PaginationState {
   pageNum: string;
   perPage: number;
@@ -262,8 +264,10 @@ export class Pagination extends React.Component<
       classnames: cx,
       showPageInput,
       className,
+      style,
       disabled,
       hasNext,
+      popOverContainer,
       popOverContainerSelector,
       translate: __
     } = this.props;
@@ -280,6 +284,7 @@ export class Pagination extends React.Component<
             {disabled: disabled},
             className
           )}
+          style={style}
         >
           <ul
             key="pager-items"
@@ -478,11 +483,11 @@ export class Pagination extends React.Component<
       <Select
         key="perpage"
         className={cx('Pagination-perpage', 'Pagination-item')}
-        overlayPlacement="right-bottom-right-top"
         clearable={false}
         disabled={disabled}
         value={perPage}
         options={selection}
+        popOverContainer={popOverContainer}
         popOverContainerSelector={popOverContainerSelector}
         onChange={(p: any) => {
           this.setState({

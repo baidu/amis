@@ -14,41 +14,56 @@ order: 54
 
 ```schema: scope="body"
 {
-  "type": "form",
-  "debug": "true",
-  "data": {
-    "table": [
+  "type": "page",
+  "body": {
+    "type": "form",
+    "debug": "true",
+    "data": {
+      "table": [
         {
-            "a": "a1",
-            "b": "b1"
-        },
-        {
-            "a": "a2",
-            "b": "b2"
-        },
-        {
-            "a": "a3",
-            "b": "b3"
+          "a": "a1",
+          "b": "b1",
+          "c": {
+            "c1": "123",
+            "c2": "222"
+          }
         }
-    ]
-  },
-  "api": "/api/mock2/form/saveForm",
-  "body": [
-    {
-    "type":"input-table",
-    "name":"table",
-    "columns":[
-        {
-          "name": "a",
-          "label": "A"
-        },
-        {
-          "name": "b",
-          "label": "B"
-        }
+      ]
+    },
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+      {
+        "type": "input-table",
+        "name": "table",
+        "columns": [
+          {
+            "name": "a",
+            "label": "A"
+          },
+          {
+            "name": "b",
+            "label": "B"
+          },
+          {
+            "type": "combo",
+            "name": "c",
+            "multiLine": true,
+            "multiple": false,
+            "items": [
+              {
+                "type": "input-text",
+                "name": "c1"
+              },
+              {
+                "type": "input-text",
+                "name": "c2"
+              }
+            ]
+          }
+        ]
+      }
     ]
   }
-  ]
 }
 ```
 
@@ -313,7 +328,7 @@ order: 54
 
 > 这是 1.2.3 新增的合并写法，1.2.2 之前请用后面提到的 quickEdit
 
-每一列的都可以通过 type 来将其改造成可编辑的列，比如下面的例子（建议配合 `"needConfirm": false` 来改成非确认模式）
+每一列的都可以通过 type 来将其改造成可编辑的列，比如下面的例子（建议配合 `"needConfirm": false` 来改成[非确认模式](#非确认模式)）
 
 ```schema: scope="body"
 {
@@ -410,6 +425,8 @@ order: 54
 ```
 
 ## 显示分页
+
+可以配置`perPage`属性设置一页显示多少条数据。如果不配置此属性，则不会显示分页器
 
 ```schema: scope="body"
 {
@@ -508,9 +525,111 @@ order: 54
 }
 ```
 
+## 限制个数
+
+可以配置`minLength`和`maxLength`配置 InputTable 可添加的条数
+
+```schema: scope="body"
+{
+  "type": "form",
+  "data": {
+    "table": [
+      {
+        "a": "a1",
+        "b": "b1"
+      },
+      {
+        "a": "a2",
+        "b": "b2"
+      },
+      {
+        "a": "a3",
+        "b": "b3"
+      }
+    ]
+  },
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+      "type": "input-table",
+      "name": "table",
+      "label": "Table",
+      "minLength": 1,
+      "maxLength": 5,
+      "needConfirm": false,
+      "addable": true,
+      "removable": true,
+      "columns": [
+        {
+          "label": "A",
+          "name": "a",
+          "quickEdit": false
+        },
+        {
+          "label": "B",
+          "name": "b"
+        }
+      ]
+    }
+  ]
+}
+```
+
+也可以使用变量配置`minLength`和`maxLength`
+
+> 2.4.1 及以上版本
+
+```schema: scope="body"
+{
+  "type": "form",
+  "data": {
+    "table": [
+      {
+        "a": "a1",
+        "b": "b1"
+      },
+      {
+        "a": "a2",
+        "b": "b2"
+      },
+      {
+        "a": "a3",
+        "b": "b3"
+      }
+    ],
+    "minLength": 2,
+    "maxLength": 4
+  },
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+      "type": "input-table",
+      "name": "table",
+      "label": "Table",
+      "minLength": "${minLength}",
+      "maxLength": "${maxLength}",
+      "needConfirm": false,
+      "addable": true,
+      "removable": true,
+      "columns": [
+        {
+          "label": "A",
+          "name": "a",
+          "quickEdit": false
+        },
+        {
+          "label": "B",
+          "name": "b"
+        }
+      ]
+    }
+  ]
+}
+```
+
 ## 非确认模式
 
-配置`"needConfirm": false`，不需要确认，那么就是一直就是处于编辑形态。
+配置`"needConfirm": false`，以实现新增**单行数据**时不需要确认即可提交到数据域。
 
 ```schema: scope="body"
 {
@@ -670,34 +789,105 @@ order: 54
     ]
   }
 ```
+## 表单项校验
+
+> 2.8.1 及以上版本
+
+列信息 `columns` 的对应项为表单项时，可以设置表单项的校验规则，来实现对该项的校验，校验配置可以查看 [格式校验](../formitem#格式校验)
+
+```schema: scope="body"
+{
+  "type": "page",
+  "body": {
+    "type": "page",
+    "body": {
+      "type": "form",
+      "debug": true,
+      "data": {
+        "table": [
+          {
+            "input": 111,
+            "select": "s1",
+            "text": "text"
+          },
+          {}
+        ]
+      },
+      "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+      "body": [
+        {
+          "type": "input-table",
+          "name": "table",
+          "label": "Table",
+          "columns": [
+            {
+              "label": "数字输入",
+              "name": "input",
+              "type": "input-text",
+              "placeholder": "请输入数字",
+              "required": true,
+              "validations": {
+                "isNumeric": true
+              },
+              "validationErrors": {
+                "isNumeric": "请输入数字"
+              },
+            },
+            {
+              "label": "选项",
+              "name": "select",
+              "type": "select",
+              "required": true,
+              "options": [
+                "s1",
+                "s2",
+                "s3"
+              ]
+            },
+            {
+              "label": "普通文本",
+              "name": "text"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
+```
 
 ## 属性表
 
-| 属性名                       | 类型                           | 默认值     | 说明                                                                                                 |
-| ---------------------------- | ------------------------------ | ---------- | ---------------------------------------------------------------------------------------------------- |
-| type                         | `string`                       | `"table"`  | 指定为 Table 渲染器                                                                                  |
-| addable                      | `boolean`                      | `false`    | 是否可增加一行                                                                                       |
-| editable                     | `boolean`                      | `false`    | 是否可编辑                                                                                           |
-| removable                    | `boolean`                      | `false`    | 是否可删除                                                                                           |
-| showAddBtn                   | `boolean`                      | `true`     | 是否显示添加按钮                                                                                     |
-| addApi                       | [API](../../../docs/types/api) | -          | 新增时提交的 API                                                                                     |
-| updateApi                    | [API](../../../docs/types/api) | -          | 修改时提交的 API                                                                                     |
-| deleteApi                    | [API](../../../docs/types/api) | -          | 删除时提交的 API                                                                                     |
-| addBtnLabel                  | `string`                       |            | 增加按钮名称                                                                                         |
-| addBtnIcon                   | `string`                       | `"plus"`   | 增加按钮图标                                                                                         |
-| copyBtnLabel                 | `string`                       |            | 复制按钮文字                                                                                         |
-| copyBtnIcon                  | `string`                       | `"copy"`   | 复制按钮图标                                                                                         |
-| editBtnLabel                 | `string`                       | `""`       | 编辑按钮名称                                                                                         |
-| editBtnIcon                  | `string`                       | `"pencil"` | 编辑按钮图标                                                                                         |
-| deleteBtnLabel               | `string`                       | `""`       | 删除按钮名称                                                                                         |
-| deleteBtnIcon                | `string`                       | `"minus"`  | 删除按钮图标                                                                                         |
-| confirmBtnLabel              | `string`                       | `""`       | 确认编辑按钮名称                                                                                     |
-| confirmBtnIcon               | `string`                       | `"check"`  | 确认编辑按钮图标                                                                                     |
-| cancelBtnLabel               | `string`                       | `""`       | 取消编辑按钮名称                                                                                     |
-| cancelBtnIcon                | `string`                       | `"times"`  | 取消编辑按钮图标                                                                                     |
-| needConfirm                  | `boolean`                      | `true`     | 是否需要确认操作，，可用来控控制表格的操作交互                                                       |
-| canAccessSuperData           | `boolean`                      | `false`    | 是否可以访问父级数据，也就是表单中的同级数据，通常需要跟 strictMode 搭配使用                         |
-| strictMode                   | `boolean`                      | `true`     | 为了性能，默认其他表单项项值变化不会让当前表格更新，有时候为了同步获取其他表单项字段，需要开启这个。 |
-| columns                      | `array`                        | []         | 列信息                                                                                               |
-| columns[x].quickEdit         | `boolean` 或者 `object`        | -          | 配合 editable 为 true 一起使用                                                                       |
-| columns[x].quickEditOnUpdate | `boolean` 或者 `object`        | -          | 可以用来区分新建模式和更新模式的编辑配置                                                             |
+| 属性名                       | 类型                                      | 默认值          | 说明                                                                                                 |
+| ---------------------------- | ----------------------------------------- | --------------- | ---------------------------------------------------------------------------------------------------- |
+| type                         | `string`                                  | `"input-table"` | 指定为 Table 渲染器                                                                                  |
+| addable                      | `boolean`                                 | `false`         | 是否可增加一行                                                                                       |
+| editable                     | `boolean`                                 | `false`         | 是否可编辑                                                                                           |
+| removable                    | `boolean`                                 | `false`         | 是否可删除                                                                                           |
+| showTableAddBtn              | `boolean`                                 | `true`          | 是否显示表格操作栏添加按钮                                                                           |
+| showFooterAddBtn             | `boolean`                                 | `true`          | 是否显示表格下方添加按钮                                                                             |
+| addApi                       | [API](../../../docs/types/api)            | -               | 新增时提交的 API                                                                                     |
+| footerAddBtn                 | [SchemaNode](../../docs/types/schemanode) | -               | 底部新增按钮配置                                                                                     |
+| updateApi                    | [API](../../../docs/types/api)            | -               | 修改时提交的 API                                                                                     |
+| deleteApi                    | [API](../../../docs/types/api)            | -               | 删除时提交的 API                                                                                     |
+| addBtnLabel                  | `string`                                  |                 | 增加按钮名称                                                                                         |
+| addBtnIcon                   | `string`                                  | `"plus"`        | 增加按钮图标                                                                                         |
+| copyBtnLabel                 | `string`                                  |                 | 复制按钮文字                                                                                         |
+| copyBtnIcon                  | `string`                                  | `"copy"`        | 复制按钮图标                                                                                         |
+| editBtnLabel                 | `string`                                  | `""`            | 编辑按钮名称                                                                                         |
+| editBtnIcon                  | `string`                                  | `"pencil"`      | 编辑按钮图标                                                                                         |
+| deleteBtnLabel               | `string`                                  | `""`            | 删除按钮名称                                                                                         |
+| deleteBtnIcon                | `string`                                  | `"minus"`       | 删除按钮图标                                                                                         |
+| confirmBtnLabel              | `string`                                  | `""`            | 确认编辑按钮名称                                                                                     |
+| confirmBtnIcon               | `string`                                  | `"check"`       | 确认编辑按钮图标                                                                                     |
+| cancelBtnLabel               | `string`                                  | `""`            | 取消编辑按钮名称                                                                                     |
+| cancelBtnIcon                | `string`                                  | `"times"`       | 取消编辑按钮图标                                                                                     |
+| needConfirm                  | `boolean`                                 | `true`          | 是否需要确认操作，，可用来控控制表格的操作交互                                                       |
+| canAccessSuperData           | `boolean`                                 | `false`         | 是否可以访问父级数据，也就是表单中的同级数据，通常需要跟 strictMode 搭配使用                         |
+| strictMode                   | `boolean`                                 | `true`          | 为了性能，默认其他表单项项值变化不会让当前表格更新，有时候为了同步获取其他表单项字段，需要开启这个。 |
+| minLength                    | `number`                                  | `0`             | 最小行数, `2.4.1`版本后支持变量                                                                      |
+| maxLength                    | `number`                                  | `Infinity`      | 最大行数, `2.4.1`版本后支持变量                                                                      |
+| perPage                      | `number`                                  | -               | 每页展示几行数据，如果不配置则不会显示分页器                                                         |
+| columns                      | `array`                                   | []              | 列信息                                                                                               |
+| columns[x].quickEdit         | `boolean` 或者 `object`                   | -               | 配合 editable 为 true 一起使用                                                                       |
+| columns[x].quickEditOnUpdate | `boolean` 或者 `object`                   | -               | 可以用来区分新建模式和更新模式的编辑配置                                                             |
