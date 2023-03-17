@@ -106,6 +106,7 @@ export interface OutterProps {
       | {
           loadConfig: (ctx?: any) => Promise<any> | void;
           setConfig: (value: any) => void;
+          syncConfig: () => void;
         }
       | undefined
   ) => void;
