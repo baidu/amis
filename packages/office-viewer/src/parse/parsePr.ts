@@ -16,6 +16,7 @@ import {parseFont} from './parseFont';
 import {ST_VerticalAlignRun} from '../openxml/Types';
 import {parseTrHeight} from './parseTrHeight';
 import {jcToTextAlign} from './jcToTextAlign';
+import {parseTextDirection} from './parseTextDirection';
 
 /**
  * 解析 underline 并附上样式
@@ -332,6 +333,10 @@ export function parsePr(word: Word, element: Element, type: 'r' | 'p' = 'p') {
         } else if (alignment !== ST_TextAlignment.auto) {
           style['vertical-align'] = alignment;
         }
+        break;
+
+      case 'w:textDirection':
+        parseTextDirection(child, style);
         break;
 
       default:

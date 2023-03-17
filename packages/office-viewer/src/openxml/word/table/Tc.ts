@@ -6,6 +6,7 @@ import {Table} from '../Table';
 import {LengthUsage, parseSize} from '../../../parse/parseSize';
 import {parseColorAttr, parseShdColor} from '../../../parse/parseColor';
 import {parseBorder, parseBorders} from '../../../parse/parseBorder';
+import {parseTextDirection} from '../../../parse/parseTextDirection';
 import {ST_Merge, ST_TblWidth, ST_VerticalJc} from '../../Types';
 
 export interface TcPr {
@@ -182,6 +183,10 @@ export class Tc {
 
         case 'w:vMerge':
           properties.vMerge = (getVal(child) as ST_Merge) || ST_Merge.continue;
+          break;
+
+        case 'w:textDirection':
+          parseTextDirection(child, style);
           break;
 
         default:

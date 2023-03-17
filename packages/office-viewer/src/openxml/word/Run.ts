@@ -8,6 +8,7 @@ import {InstrText} from './InstrText';
 import {Pict} from './Pict';
 import {Properties} from './properties/Properties';
 import {Ruby} from './Ruby';
+import {Sym} from './Sym';
 import {Tab} from './Tab';
 /**
  * 一段文本
@@ -26,7 +27,7 @@ export class Text {
   }
 }
 
-type RunChild = Break | Drawing | Text | Tab | Pict | Ruby | InstrText;
+type RunChild = Break | Drawing | Text | Tab | Pict | Ruby | InstrText | Sym;
 
 export class Run {
   properties: RunPr = {};
@@ -96,6 +97,10 @@ export class Run {
 
         case 'w:ruby':
           run.addChild(Ruby.fromXML(word, child));
+          break;
+
+        case 'w:sym':
+          run.addChild(Sym.parseXML(child));
           break;
 
         default:

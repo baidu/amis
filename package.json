@@ -4,7 +4,8 @@
     "packages/amis-formula",
     "packages/amis-core",
     "packages/amis-ui",
-    "packages/amis"
+    "packages/amis",
+    "packages/office-viewer"
   ],
   "scripts": {
     "fis3-serve": "fis3 server start --www ./public --port 8888 --no-daemon --no-browse",

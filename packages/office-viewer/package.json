@@ -1,6 +1,6 @@
 {
   "name": "office-viewer",
-  "version": "2.7.2",
+  "version": "0.1.0",
   "description": "office 文档在线预览",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -43,7 +43,7 @@
     "ts-loader": "^9.2.3",
     "ts-node": "^10.4.0",
     "typescript": "^4.3.5",
-    "vite": "^4.1.4"
+    "vite": "^3.2.2"
   },
   "browserslist": "IE >= 11",
   "jest": {

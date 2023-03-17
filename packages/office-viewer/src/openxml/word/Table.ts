@@ -11,7 +11,7 @@ import {
 } from '../../OpenXML';
 import {parseBorder, parseBorders} from '../../parse/parseBorder';
 import {parseColorAttr, parseShdColor} from '../../parse/parseColor';
-import {LengthUsage, parseSize} from '../../parse/parseSize';
+import {addSize, LengthUsage, parseSize} from '../../parse/parseSize';
 import Word from '../../Word';
 import {CSSStyle} from '../Style';
 import {
@@ -161,6 +161,22 @@ function parseTblLook(child: Element) {
   return tblLook;
 }
 
+/**
+ * http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/tblpPr.html
+ * 只支持部分
+ */
+function parsetTlpPr(child: Element, style: CSSStyle) {
+  const topFromText = parseSize(child, 'w:topFromText');
+  const bottomFromText = parseSize(child, 'w:bottomFromText');
+  const rightFromText = parseSize(child, 'w:rightFromText');
+  const leftFromText = parseSize(child, 'w:leftFromText');
+  style['float'] = 'left';
+  style['margin-bottom'] = addSize(style['margin-bottom'], bottomFromText);
+  style['margin-left'] = addSize(style['margin-left'], leftFromText);
+  style['margin-right'] = addSize(style['margin-right'], rightFromText);
+  style['margin-top'] = addSize(style['margin-top'], topFromText);
+}
+
 export class Table {
   properties: TablePr = {};
   tblGrid: GridCol[] = [];
@@ -238,6 +254,10 @@ export class Table {
 
         case 'w:tblStyleColBandSize':
           properties.colBandSize = getValNumber(child);
+          break;
+
+        case 'w:tblpPr':
+          parsetTlpPr(child, tableStyle);
           break;
 
         default:

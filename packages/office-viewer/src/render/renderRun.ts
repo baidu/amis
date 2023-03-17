@@ -18,6 +18,8 @@ import {Ruby} from '../openxml/word/Ruby';
 import {renderRuby} from './renderRuby';
 import {InstrText} from '../openxml/word/InstrText';
 import {renderInstrText} from './renderInstrText';
+import {Sym} from '../openxml/word/Sym';
+import {renderSym} from './renderSym';
 
 const VARIABLE_CLASS_NAME = 'variable';
 
@@ -79,6 +81,8 @@ export default function renderRun(word: Word, run: Run) {
         appendChild(span, renderRuby(word, child));
       } else if (child instanceof InstrText) {
         appendChild(span, renderInstrText(word, child));
+      } else if (child instanceof Sym) {
+        appendChild(span, renderSym(word, child));
       } else {
         console.warn('unknown child', child);
       }

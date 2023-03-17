@@ -73,3 +73,12 @@ export function parseSize(
   }
   return '';
 }
+
+/**
+ * 参考 docxjs 的方法，后面可以优化一下，不使用 calc
+ */
+export function addSize(a: string, b: string): string {
+  if (a == null) return b;
+  if (b == null) return a;
+  return `calc(${a} + ${b})`;
+}
