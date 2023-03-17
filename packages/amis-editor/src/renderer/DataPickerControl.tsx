@@ -40,7 +40,6 @@ class DataPickerControl extends React.Component<FormControlProps> {
 
     return (
       <FormulaPicker
-        {...this.props}
         onPickerOpen={this.handlePickerOpen}
         evalMode={false}
         onConfirm={this.handleConfirm}

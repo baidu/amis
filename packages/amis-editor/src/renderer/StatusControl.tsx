@@ -6,7 +6,7 @@ import React from 'react';
 import cx from 'classnames';
 import {FormItem, Switch, Option} from 'amis';
 
-import {autobind, getSchemaTpl} from 'amis-editor-core';
+import {autobind} from 'amis-editor-core';
 import {BaseLabelMark} from '../component/BaseControl';
 
 import type {FormControlProps} from 'amis-core';
@@ -179,14 +179,15 @@ export class StatusControl extends React.Component<
                   }
                 ]
               },
-              getSchemaTpl('expressionFormulaControl', {
+              {
+                type: 'ae-expressionFormulaControl',
                 evalMode: false,
                 label: '表达式',
                 name: 'expression',
                 placeholder: `请输入${label}条件`,
                 visibleOn: 'this.statusType === 2',
                 onChange: (value: any) => {}
-              })
+              }
             ]
           },
           {

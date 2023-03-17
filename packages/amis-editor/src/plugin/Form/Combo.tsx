@@ -552,10 +552,11 @@ export class ComboControlPlugin extends BasePlugin {
                       }
                     ]
                   },
-                  getSchemaTpl('formulaControl', {
+                  {
+                    type: 'ae-formulaControl',
                     label: '标题模版',
                     name: 'tabsLabelTpl'
-                  })
+                  }
                 ]
               },
               // 表单多行展示

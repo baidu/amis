@@ -11,6 +11,7 @@ import {
 } from 'amis-editor-core';
 
 export class ContainerPlugin extends LayoutBasePlugin {
+  static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'container';
   $schema = '/schemas/ContainerSchema.json';
@@ -172,7 +173,7 @@ export class ContainerPlugin extends LayoutBasePlugin {
       }),
       getSchemaTpl('layout:flex-wrap', {
         visibleOn: 'data.style && data.style.display === "flex"'
-      }),
+      })
     ];
 
     return getSchemaTpl('tabs', [
@@ -230,35 +231,35 @@ export class ContainerPlugin extends LayoutBasePlugin {
 
               // 自由容器不需要 display 相关配置项
               ...(!isFreeContainer ? displayTpl : []),
-              
+
               isFlexItem
-              ? getSchemaTpl('layout:flex', {
-                  isFlexColumnItem,
-                  label: isFlexColumnItem ? '高度设置' : '宽度设置',
-                  visibleOn:
-                    'data.style && (data.style.position === "static" || data.style.position === "relative")'
-                })
-              : null,
+                ? getSchemaTpl('layout:flex', {
+                    isFlexColumnItem,
+                    label: isFlexColumnItem ? '高度设置' : '宽度设置',
+                    visibleOn:
+                      'data.style && (data.style.position === "static" || data.style.position === "relative")'
+                  })
+                : null,
               isFlexItem
-              ? getSchemaTpl('layout:flex-grow', {
-                  visibleOn:
-                    'data.style && data.style.flex === "1 1 auto" && (data.style.position === "static" || data.style.position === "relative")'
-                })
-              : null,
+                ? getSchemaTpl('layout:flex-grow', {
+                    visibleOn:
+                      'data.style && data.style.flex === "1 1 auto" && (data.style.position === "static" || data.style.position === "relative")'
+                  })
+                : null,
               isFlexItem
-              ? getSchemaTpl('layout:flex-basis', {
-                  label: isFlexColumnItem ? '弹性高度' : '弹性宽度',
-                  visibleOn:
-                    'data.style && (data.style.position === "static" || data.style.position === "relative") && data.style.flex === "1 1 auto"'
-                })
-              : null,
+                ? getSchemaTpl('layout:flex-basis', {
+                    label: isFlexColumnItem ? '弹性高度' : '弹性宽度',
+                    visibleOn:
+                      'data.style && (data.style.position === "static" || data.style.position === "relative") && data.style.flex === "1 1 auto"'
+                  })
+                : null,
               isFlexItem
-              ? getSchemaTpl('layout:flex-basis', {
-                  label: isFlexColumnItem ? '固定高度' : '固定宽度',
-                  visibleOn:
-                    'data.style && (data.style.position === "static" || data.style.position === "relative") && data.style.flex === "0 0 150px"'
-                })
-              : null,
+                ? getSchemaTpl('layout:flex-basis', {
+                    label: isFlexColumnItem ? '固定高度' : '固定宽度',
+                    visibleOn:
+                      'data.style && (data.style.position === "static" || data.style.position === "relative") && data.style.flex === "0 0 150px"'
+                  })
+                : null,
 
               getSchemaTpl('layout:overflow-x', {
                 visibleOn: `${
@@ -304,7 +305,7 @@ export class ContainerPlugin extends LayoutBasePlugin {
               getSchemaTpl('layout:min-width', {
                 visibleOn: `${!isFlexItem || isFlexColumnItem}`
               }),
-  
+
               getSchemaTpl('layout:overflow-x', {
                 visibleOn: `${
                   !isFlexItem || isFlexColumnItem
@@ -312,11 +313,14 @@ export class ContainerPlugin extends LayoutBasePlugin {
               }),
 
               !isFlexItem ? getSchemaTpl('layout:margin-center') : null,
-              !isFlexItem && !isFreeContainer ? getSchemaTpl('layout:textAlign', {
-                name: 'style.textAlign',
-                label: '内部对齐方式',
-                visibleOn: 'data.style && data.style.display !== "flex" && data.style.display !== "inline-flex"'
-              }) : null,
+              !isFlexItem && !isFreeContainer
+                ? getSchemaTpl('layout:textAlign', {
+                    name: 'style.textAlign',
+                    label: '内部对齐方式',
+                    visibleOn:
+                      'data.style && data.style.display !== "flex" && data.style.display !== "inline-flex"'
+                  })
+                : null,
               getSchemaTpl('layout:z-index'),
               getSchemaTpl('layout:sticky', {
                 visibleOn: 'data.style && (data.style.position !== "fixed" && data.style.position !== "absolute")'

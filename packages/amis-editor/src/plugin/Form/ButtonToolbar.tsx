@@ -8,6 +8,7 @@ import {
 } from '../../component/BaseControl';
 
 export class ButtonToolbarControlPlugin extends BasePlugin {
+  static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'button-toolbar';
   $schema = '/schemas/ButtonToolbarControlSchema.json';

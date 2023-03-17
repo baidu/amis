@@ -1339,13 +1339,14 @@ export class CRUDPlugin extends BasePlugin {
             mode: 'horizontal'
           }
         */
-        getSchemaTpl('formulaControl', {
+        {
           name: 'query',
           label: '查询条件',
+          type: 'ae-formulaControl',
           variables: '${variables}',
           size: 'md',
           mode: 'horizontal'
-        })
+        }
       )
     },
     // {

@@ -12,6 +12,7 @@ import {
 } from 'amis-editor-core';
 
 export class MappingPlugin extends BasePlugin {
+  static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'mapping';
   $schema = '/schemas/MappingSchema.json';

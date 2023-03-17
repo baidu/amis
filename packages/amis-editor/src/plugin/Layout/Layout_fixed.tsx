@@ -2,6 +2,8 @@ import {registerEditorPlugin} from 'amis-editor-core';
 import {FlexPluginBase} from './FlexPluginBase';
 
 export default class Layout_fixed extends FlexPluginBase {
+  static scene = ['layout'];
+
   name = '悬浮容器';
   isBaseComponent = true;
   pluginIcon = 'layout-fixed-plugin';

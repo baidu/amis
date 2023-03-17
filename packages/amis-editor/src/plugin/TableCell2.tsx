@@ -388,14 +388,16 @@ export class TableCell2Plugin extends BasePlugin {
         }
       },
 
-      getSchemaTpl('formulaControl', {
+      {
         name: 'rowSpanExpr',
+        type: 'ae-formulaControl',
         label: '合并行'
-      }),
-      getSchemaTpl('formulaControl', {
+      },
+      {
         name: 'colSpanExpr',
+        type: 'ae-formulaControl',
         label: '合并列'
-      })
+      }
     ];
 
     const baseStyle = [

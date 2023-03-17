@@ -5,7 +5,7 @@ import {
   isObject,
   tipedLabel,
   DSField,
-  EditorManager,
+  EditorManager
 } from 'amis-editor-core';
 import {SchemaObject} from 'amis/lib/Schema';
 import flatten from 'lodash/flatten';
@@ -435,7 +435,8 @@ setSchemaTpl(
       mode: mode === 'vertical' ? 'vertical' : 'horizontal',
       visibleOn,
       body: [
-        getSchemaTpl('formulaControl', {
+        {
+          type: 'ae-formulaControl',
           label: label ?? '默认值',
           name: name || 'value',
           rendererWrapper,
@@ -449,7 +450,7 @@ setSchemaTpl(
           variableMode,
           DateTimeType: DateTimeType ?? FormulaDateType.NotDate,
           ...rest
-        })
+        }
       ]
     };
   }
@@ -601,7 +602,8 @@ setSchemaTpl(
       return variablesArr;
     }
 
-    return getSchemaTpl('textareaFormulaControl', {
+    return {
+      type: 'ae-textareaFormulaControl',
       mode: 'normal',
       label: tipedLabel(
         '选项模板',
@@ -611,16 +613,15 @@ setSchemaTpl(
       variables: getOptionVars,
       requiredDataPropsVariables: true,
       ...rest
-    });
+    };
   }
 );
 
-setSchemaTpl('menuTpl', () => {
-  return getSchemaTpl('textareaFormulaControl', {
-    mode: 'normal',
-    label: tipedLabel('模板', '自定义选项渲染模板，支持JSX、数据域变量使用'),
-    name: 'menuTpl'
-  });
+setSchemaTpl('menuTpl', {
+  type: 'ae-textareaFormulaControl',
+  mode: 'normal',
+  label: tipedLabel('模板', '自定义选项渲染模板，支持JSX、数据域变量使用'),
+  name: 'menuTpl'
 });
 
 setSchemaTpl('expression', {
@@ -1127,6 +1128,23 @@ setSchemaTpl('badge', {
   type: 'ae-badge'
 });
 
+setSchemaTpl('nav-badge', {
+  label: '角标',
+  name: 'badge',
+  type: 'ae-nav-badge'
+});
+
+setSchemaTpl('nav-default-active', {
+  type: 'ae-nav-default-active'
+});
+// 暂未使用
+setSchemaTpl('formulaControl', (schema: object = {}) => {
+  return {
+    type: 'ae-formulaControl',
+    ...schema
+  };
+});
+
 /**
  * 日期范围快捷键组件
  */
@@ -1192,11 +1210,12 @@ setSchemaTpl('app-page-args', {
       inputMode: 'input-group'
     }
      */
-    getSchemaTpl('formulaControl', {
+    {
       name: 'val',
+      type: 'ae-formulaControl',
       variables: '${variables}',
       placeholder: '参数值'
-    })
+    }
   ]
 });
 
@@ -1254,12 +1273,11 @@ setSchemaTpl('pageSubTitle', {
   type: 'textarea'
 });
 
-setSchemaTpl('textareaDefaultValue', () => {
-  return getSchemaTpl('textareaFormulaControl', {
-    label: '默认值',
-    name: 'value',
-    mode: 'normal'
-  });
+setSchemaTpl('textareaDefaultValue', {
+  type: 'ae-textareaFormulaControl',
+  label: '默认值',
+  name: 'value',
+  mode: 'normal'
 });
 
 setSchemaTpl('prefix', {

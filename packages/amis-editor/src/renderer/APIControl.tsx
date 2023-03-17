@@ -13,8 +13,7 @@ import {
   autobind,
   createObject,
   tipedLabel,
-  anyChanged,
-  getSchemaTpl
+  anyChanged
 } from 'amis-editor-core';
 
 import type {SchemaObject, SchemaCollection, SchemaApi} from 'amis/lib/Schema';
@@ -834,10 +833,11 @@ export default class APIControl extends React.Component<
                       required: true
                     },
 
-                    getSchemaTpl('DataPickerControl', {
+                    {
                       placeholder: 'Value',
+                      type: 'ae-DataPickerControl',
                       name: 'value'
-                    })
+                    }
                   ]
                 },
                 {

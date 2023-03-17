@@ -1,10 +1,12 @@
 import React from 'react';
-import {registerEditorPlugin} from 'amis-editor-core';
+import {registerEditorPlugin, getEditorPlugins} from 'amis-editor-core';
 import {BaseEventContext, BasePlugin} from 'amis-editor-core';
 import {getSchemaTpl} from 'amis-editor-core';
 import {SchemaObject} from 'amis/lib/Schema';
 
 export class AlertPlugin extends BasePlugin {
+  static scene = ['layout'];
+
   // 关联渲染器名字
   rendererName = 'alert';
   $schema = '/schemas/AlertSchema.json';

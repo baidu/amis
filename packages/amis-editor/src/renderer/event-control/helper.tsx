@@ -227,16 +227,17 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   visibleOn: 'data.actionType === "url"'
                 },
                 */
-                getSchemaTpl('textareaFormulaControl', {
+                {
                   name: 'url',
                   label: '页面地址',
+                  type: 'ae-textareaFormulaControl',
                   variables: '${variables}',
                   mode: 'horizontal',
                   // placeholder: 'http://', 长文本暂不支持
                   size: 'lg',
                   required: true,
                   visibleOn: 'data.actionType === "url"'
-                }),
+                },
                 {
                   type: 'combo',
                   name: 'params',
@@ -262,12 +263,13 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                       size: 'xs'
                     },
                      */
-                    getSchemaTpl('formulaControl', {
+                    {
+                      type: 'ae-formulaControl',
                       variables: '${variables}',
                       name: 'val',
                       variableMode: 'tabs',
                       placeholder: '参数值'
-                    })
+                    }
                   ]
                 },
                 {
@@ -516,14 +518,15 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 required: true
               },
               */
-              getSchemaTpl('textareaFormulaControl', {
+              {
                 name: 'msg',
                 label: '消息内容',
+                type: 'ae-textareaFormulaControl',
                 mode: 'horizontal',
                 variables: '${variables}',
                 size: 'lg',
                 required: true
-              }),
+              },
               /*
             {
               name: 'title',
@@ -537,13 +540,14 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               mode: 'horizontal'
             },
             */
-              getSchemaTpl('textareaFormulaControl', {
+              {
                 name: 'title',
                 label: '标题内容',
+                type: 'ae-textareaFormulaControl',
                 variables: '${variables}',
                 mode: 'horizontal',
                 size: 'lg'
-              }),
+              },
               /*
             {
               name: 'timeout',
@@ -557,9 +561,10 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               mode: 'horizontal'
             },
             */
-              getSchemaTpl('formulaControl', {
+              {
                 name: 'timeout',
                 label: '持续时间(ms)',
+                type: 'ae-formulaControl',
                 rendererSchema: {
                   type: 'input-number'
                 },
@@ -567,7 +572,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 variables: '${variables}',
                 size: 'lg',
                 mode: 'horizontal'
-              }),
+              },
               {
                 type: 'button-group-select',
                 name: 'position',
@@ -848,7 +853,8 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 }
               ]
             },
-            getSchemaTpl('expressionFormulaControl', {
+            {
+              type: 'ae-expressionFormulaControl',
               mode: 'horizontal',
               label: '表达式',
               required: true,
@@ -857,7 +863,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               evalMode: true,
               name: '__actionExpression',
               visibleOn: "this.groupType === 'visibility'"
-            })
+            }
           ]
         },
         {
@@ -955,7 +961,8 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 }
               ]
             },
-            getSchemaTpl('expressionFormulaControl', {
+            {
+              type: 'ae-expressionFormulaControl',
               mode: 'horizontal',
               label: '表达式',
               required: true,
@@ -963,7 +970,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               evalMode: true,
               name: '__actionExpression',
               visibleOn: "this.groupType === 'usability'"
-            })
+            }
           ]
         },
         {
@@ -1130,15 +1137,16 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               visibleOn: `data.__addParam && data.__customData && data.__containerType === "all" && data.actionType === "reload" && ${IS_DATA_CONTAINER}`
             },
             */
-            getSchemaTpl('formulaControl', {
+            {
               name: '__valueInput',
               label: '',
+              type: 'ae-formulaControl',
               variables: '${variables}',
               size: 'lg',
               mode: 'horizontal',
               required: true,
               visibleOn: `data.__addParam && data.__customData && data.__containerType === "all" && data.actionType === "reload" && ${IS_DATA_CONTAINER}`
-            }),
+            },
             {
               type: 'combo',
               name: '__reloadParams',
@@ -1170,11 +1178,12 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   inputMode: 'input-group'
                 }
                 */
-                getSchemaTpl('formulaControl', {
+                {
                   name: 'val',
+                  type: 'ae-formulaControl',
                   variables: '${variables}',
                   placeholder: '参数值'
-                })
+                }
               ],
               visibleOn: `data.__addParam && data.__customData && data.__containerType === "appoint" && data.actionType === "reload" && ${IS_DATA_CONTAINER}`
             },
@@ -1390,11 +1399,12 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                           inputMode: 'input-group'
                         }
                         */
-                        getSchemaTpl('formulaControl', {
+                        {
                           name: 'val',
+                          type: 'ae-formulaControl',
                           variables: '${variables}',
                           placeholder: '字段值'
-                        })
+                        }
                       ],
                       visibleOn: `${IS_DATA_CONTAINER} && data.__containerType === 'appoint' || data.__comboType === 'appoint'`
                     },
@@ -1445,10 +1455,11 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                               inputMode: 'input-group'
                             }
                             */
-                            getSchemaTpl('formulaControl', {
+                            {
                               name: 'val',
+                              type: 'ae-formulaControl',
                               variables: '${variables}'
-                            })
+                            }
                           ]
                         }
                       ],
@@ -1470,15 +1481,17 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                       required: true
                     },
                     */
-                    getSchemaTpl('formulaControl', {
+                    {
                       name: '__valueInput',
                       label: '',
+                      type: 'ae-formulaControl',
                       variables: '${variables}',
                       size: 'lg',
                       mode: 'horizontal',
                       visibleOn: `(${IS_DATA_CONTAINER} || ${SHOW_SELECT_PROP}) && data.__containerType === 'all'`,
                       required: true
-                    }),
+                    },
+                    ,
                     /*
                     {
                       name: '__valueInput',
@@ -1494,15 +1507,16 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                       required: true
                     }
                    */
-                    getSchemaTpl('formulaControl', {
+                    {
                       name: '__valueInput',
                       label: '数据设置',
+                      type: 'ae-formulaControl',
                       variables: '${variables}',
                       size: 'lg',
                       mode: 'horizontal',
                       visibleOn: `data.__rendererName && !${IS_DATA_CONTAINER} && data.__rendererName !== 'combo' && data.__rendererName !== 'input-table'`,
                       required: true
-                    })
+                    }
                   ]
                 })
               ]
@@ -1712,15 +1726,16 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 required: true
               },
               */
-              getSchemaTpl('textareaFormulaControl', {
+              {
                 name: 'content',
                 label: '内容模板',
+                type: 'ae-textareaFormulaControl',
                 variables: '${variables}',
                 mode: 'horizontal',
                 size: 'lg',
                 visibleOn: 'data.actionType === "copy"',
                 required: true
-              }),
+              },
               {
                 type: 'select',
                 name: 'copyFormat',
@@ -1981,11 +1996,12 @@ export const COMMON_ACTION_SCHEMA_MAP: {
               inputMode: 'input-group'
             }
             */
-            getSchemaTpl('formulaControl', {
+            {
               name: 'val',
+              type: 'ae-formulaControl',
               variables: '${variables}',
               placeholder: '变量值'
-            })
+            }
           ],
           visibleOn: `${IS_DATA_CONTAINER}`
         },
@@ -2030,10 +2046,11 @@ export const COMMON_ACTION_SCHEMA_MAP: {
                   inputMode: 'input-group'
                 }
                 */
-                getSchemaTpl('formulaControl', {
+                {
                   name: 'val',
+                  type: 'ae-formulaControl',
                   variables: '${variables}'
-                })
+                }
               ]
             }
           ],
@@ -2054,15 +2071,16 @@ export const COMMON_ACTION_SCHEMA_MAP: {
           required: true
         }
         */
-        getSchemaTpl('formulaControl', {
+        {
           name: '__valueInput',
           label: '变量赋值',
+          type: 'ae-formulaControl',
           variables: '${variables}',
           size: 'lg',
           mode: 'horizontal',
           visibleOn: `!${IS_DATA_CONTAINER} && data.__rendererName !== 'combo' && data.__rendererName !== 'input-table'`,
           required: true
-        })
+        }
       ]
     })
   },
@@ -2797,7 +2815,6 @@ export const getEventControlConfig = (
           params: objectToComboArray(action.args?.params)
         };
       }
-
       if (['setValue'].includes(action.actionType) && action.args?.value) {
         !config.args && (config.args = {});
         if (Array.isArray(action.args?.value)) {

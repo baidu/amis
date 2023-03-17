@@ -1,7 +1,7 @@
 import {Renderer} from 'amis';
 import type {FormControlProps} from 'amis-core';
 import React from 'react';
-import {autobind, getSchemaTpl} from 'amis-editor-core';
+import {autobind} from 'amis-editor-core';
 
 export interface DataMappingProps extends FormControlProps {
   schema?: string;
@@ -14,10 +14,11 @@ export class DataMappingControl extends React.Component<DataMappingProps> {
 
     return render(
       'value',
-      getSchemaTpl('DataPickerControl', {
+      {
+        type: 'ae-DataPickerControl',
         inputOnly: true,
         name: 'any'
-      }),
+      },
       {
         value,
         onChange

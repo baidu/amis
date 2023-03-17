@@ -9,16 +9,14 @@ import {tipedLabel} from 'amis-editor-core';
 import {getEventControlConfig} from '../renderer/event-control/helper';
 import {ValidatorTag} from '../validator';
 
-setSchemaTpl(
-  'tpl:content',
-  getSchemaTpl('textareaFormulaControl', {
-    label: '文字内容',
-    mode: 'normal',
-    visibleOn: 'data.wrapperComponent !== undefined',
-    pipeIn: (value: any, data: any) => value || (data && data.html),
-    name: 'tpl'
-  })
-);
+setSchemaTpl('tpl:content', {
+  label: '文字内容',
+  type: 'ae-textareaFormulaControl',
+  mode: 'normal',
+  visibleOn: 'data.wrapperComponent !== undefined',
+  pipeIn: (value: any, data: any) => value || (data && data.html),
+  name: 'tpl'
+});
 
 setSchemaTpl('tpl:rich-text', {
   label: '内容',
@@ -105,6 +103,7 @@ setSchemaTpl('tpl:wrapperComponent', {
 });
 
 export class TplPlugin extends BasePlugin {
+  static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'tpl';
   $schema = '/schemas/TplSchema.json';

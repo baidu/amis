@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-  getI18nEnabled,
-  RendererPluginAction,
-  RendererPluginEvent
-} from 'amis-editor-core';
+import {getI18nEnabled, RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BaseEventContext, BasePlugin} from 'amis-editor-core';
@@ -201,13 +197,14 @@ export class TreeControlPlugin extends BasePlugin {
           mode: 'horizontal'
         },
        */
-        getSchemaTpl('formulaControl', {
+        {
           name: 'openLevel',
           label: '展开层级',
+          type: 'ae-formulaControl',
           variables: '${variables}',
           size: 'lg',
           mode: 'horizontal'
-        })
+        }
       )
     },
     {

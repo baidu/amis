@@ -250,7 +250,6 @@ export class RichTextControlPlugin extends BasePlugin {
                 name: 'options.plugins',
                 visibleOn: 'data.vendor === "tinymce"',
                 value: [...tinymceOptions].join(','),
-                searchable: true,
                 maxTagCount: 5,
                 overflowTagPopover: {
                   title: '插件',
@@ -263,7 +262,6 @@ export class RichTextControlPlugin extends BasePlugin {
                 name: 'options.toolbar',
                 multiple: true,
                 label: '工具栏',
-                searchable: true,
                 maxTagCount: 5,
                 overflowTagPopover: {
                   title: '插件',
