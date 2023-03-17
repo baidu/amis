@@ -255,7 +255,9 @@ export function insertCustomStyle(
     return;
   }
   const {value} = formatStyle(themeCss, classNames, id, defaultData);
-  insertStyle(value, id?.replace('u:', '') || uuid());
+  if (value) {
+    insertStyle(value, id?.replace('u:', '') || uuid());
+  }
 }
 
 /**
