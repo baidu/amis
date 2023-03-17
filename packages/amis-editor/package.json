@@ -41,7 +41,7 @@
     "@webcomponents/webcomponentsjs": "^2.6.0",
     "amis-editor-core": "*",
     "amis-postcss": "1.0.0",
-    "amis-theme-editor": "^5.2.4-alpha.18",
+    "amis-theme-editor": "*",
     "i18n-runtime": "*",
     "lodash": "^4.17.15",
     "mobx-state-tree": "^3.17.3"
