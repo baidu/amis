@@ -1,18 +1,18 @@
 import get from 'lodash/get';
 import {resolveVariableAndFilterForAsync} from '../resolveVariableAndFilterForAsync';
 
-export interface IPlugin {
+export interface BaseOpPlugin {
   compute: (left: any, right?: any) => boolean;
 }
 
 export interface PluginClass {
   op: string;
-  factory: IPlugin;
+  factory: BaseOpPlugin;
 }
 
 const pluginsFactory: Array<PluginClass> = [];
 
-export function registerOpPlugin(op: string, factory: IPlugin) {
+export function registerOpPlugin(op: string, factory: BaseOpPlugin) {
   pluginsFactory.push({
     op,
     factory
@@ -48,7 +48,7 @@ export class ConditionResolver {
   static instance: ConditionResolver;
   readonly plugins: Array<PluginClass> = [];
 
-  static create(options: ConditionResolverOptions) {
+  static create(options: ConditionResolverOptions = {}) {
     return this.instance || (this.instance = new ConditionResolver(options));
   }
 

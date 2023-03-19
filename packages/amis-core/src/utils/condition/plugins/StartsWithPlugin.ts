@@ -1,7 +1,7 @@
 import startsWith from 'lodash/startsWith';
-import {IPlugin, registerOpPlugin} from '../ConditionResolver';
+import {BaseOpPlugin, registerOpPlugin} from '../ConditionResolver';
 
-export class StartsWithPlugin implements IPlugin {
+export class StartsWithPlugin implements BaseOpPlugin {
   compute(left: any, right: any) {
     return startsWith(left, right);
   }

@@ -1,6 +1,6 @@
-import {registerOpPlugin, IPlugin} from '../ConditionResolver';
+import {registerOpPlugin, BaseOpPlugin} from '../ConditionResolver';
 
-export class NotLikePlugin implements IPlugin {
+export class NotLikePlugin implements BaseOpPlugin {
   compute(left: any, right: any) {
     return !~left.indexOf(right);
   }

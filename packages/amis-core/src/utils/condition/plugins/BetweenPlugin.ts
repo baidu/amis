@@ -1,6 +1,6 @@
-import {IPlugin, registerOpPlugin} from '../ConditionResolver';
+import {BaseOpPlugin, registerOpPlugin} from '../ConditionResolver';
 
-export class BetweenPlugin implements IPlugin {
+export class BetweenPlugin implements BaseOpPlugin {
   compute(left: any, right: any) {
     if (typeof left === 'number') {
       const [min, max] = right.sort();

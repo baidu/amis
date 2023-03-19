@@ -1,7 +1,7 @@
 import endsWith from 'lodash/endsWith';
-import {registerOpPlugin, IPlugin} from '../ConditionResolver';
+import {registerOpPlugin, BaseOpPlugin} from '../ConditionResolver';
 
-export class EndsWithPlugin implements IPlugin {
+export class EndsWithPlugin implements BaseOpPlugin {
   compute(left: any, right: any) {
     return endsWith(left, right);
   }

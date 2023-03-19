@@ -1,7 +1,7 @@
 import isEmpty from 'lodash/isEmpty';
-import {registerOpPlugin, IPlugin} from '../ConditionResolver';
+import {registerOpPlugin, BaseOpPlugin} from '../ConditionResolver';
 
-export class IsNotEmptyPlugin implements IPlugin {
+export class IsNotEmptyPlugin implements BaseOpPlugin {
   compute(left: any) {
     if (typeof left === 'string') {
       return !left;

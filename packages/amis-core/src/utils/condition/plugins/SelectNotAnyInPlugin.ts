@@ -1,6 +1,6 @@
-import {IPlugin, registerOpPlugin} from '../ConditionResolver';
+import {BaseOpPlugin, registerOpPlugin} from '../ConditionResolver';
 
-export class SelectNotAnyInPlugin implements IPlugin {
+export class SelectNotAnyInPlugin implements BaseOpPlugin {
   compute(left: any, right: any) {
     if (Array.isArray(left)) {
       return !right.every((item: any) => left.includes(item));

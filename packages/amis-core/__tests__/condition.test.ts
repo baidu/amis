@@ -1,7 +1,7 @@
 import {
   ConditionResolver,
   guid,
-  IPlugin,
+  BaseOpPlugin,
   registerOpPlugin
 } from '../src/utils/';
 
@@ -301,14 +301,14 @@ test(`condition`, async () => {
     ]
   };
 
-  class TestPlugin implements IPlugin {
+  class TestPlugin implements BaseOpPlugin {
     compute(left: any, right?: any) {
       return left * 2 > right;
     }
   }
   registerOpPlugin('abc', new TestPlugin());
 
-  class TestPlugin2 implements IPlugin {
+  class TestPlugin2 implements BaseOpPlugin {
     compute(left: any, right?: any) {
       return left * 4 < right;
     }

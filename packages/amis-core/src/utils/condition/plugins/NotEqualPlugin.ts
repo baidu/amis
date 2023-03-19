@@ -1,7 +1,7 @@
 import isEqual from 'lodash/isEqual';
-import {registerOpPlugin, IPlugin} from '../ConditionResolver';
+import {registerOpPlugin, BaseOpPlugin} from '../ConditionResolver';
 
-export class NotEqualPlugin implements IPlugin {
+export class NotEqualPlugin implements BaseOpPlugin {
   compute(left: any, right: any) {
     return !isEqual(left, right);
   }

@@ -1,6 +1,6 @@
-import {registerOpPlugin, IPlugin} from '../ConditionResolver';
+import {registerOpPlugin, BaseOpPlugin} from '../ConditionResolver';
 
-export class GreaterOrEqualPlugin implements IPlugin {
+export class GreaterOrEqualPlugin implements BaseOpPlugin {
   compute(left: any, right: any) {
     return parseFloat(left as any) >= parseFloat(right as any);
   }
