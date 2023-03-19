@@ -1,5 +1,6 @@
 import omit from 'lodash/omit';
 import {RendererProps} from '../factory';
+// import {ConditionGroupValue} from '../types';
 import {createObject} from '../utils/helper';
 import {RendererEvent} from '../utils/renderer-event';
 import {evalExpression} from '../utils/tpl';
@@ -211,6 +212,14 @@ export const runAction = async (
   if (expression && !evalExpression(expression, mergeData)) {
     return;
   }
+  // let isStop = false;
+  // if (expression) {
+  //   isStop = !(await evalExpressionWithConditionBuilder(expression, mergeData));
+  // }
+
+  // if (isStop) {
+  //   return;
+  // }
 
   // 支持表达式 >=1.10.0
   const preventDefault =
@@ -219,6 +228,21 @@ export const runAction = async (
   const stopPropagation =
     actionConfig.stopPropagation &&
     evalExpression(String(actionConfig.stopPropagation), mergeData);
+
+  // let preventDefault = false;
+  // if (actionConfig.preventDefault) {
+  //   preventDefault = await evalExpressionWithConditionBuilder(
+  //     String(actionConfig.preventDefault),
+  //     mergeData
+  //   );
+  // }
+  // let stopPropagation = false;
+  // if (actionConfig.stopPropagation) {
+  //   stopPropagation = await evalExpressionWithConditionBuilder(
+  //     String(actionConfig.stopPropagation),
+  //     mergeData
+  //   );
+  // }
 
   // 动作配置
   const args = dataMapping(actionConfig.args, mergeData, key =>
