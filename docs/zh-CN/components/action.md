@@ -1036,6 +1036,9 @@ action 还可以使用 `body` 来渲染其他组件，让那些不支持行为�
 | close              | `boolean` or `string`                | -           | 当`action`配置在`dialog`或`drawer`的`actions`中时，配置为`true`指定此次操作完后关闭当前`dialog`或`drawer`。当值为字符串，并且是祖先层弹框的名字的时候，会把祖先弹框关闭掉。 |
 | required           | `Array<string>`                      | -           | 配置字符串数组，指定在`form`中进行操作之前，需要指定的字段名的表单项通过验证                                                                                                |
 
+### TooltipObject
+参考 [tooltip-wrapper](../../docs/components/tooltip-wrapper)，不需要配置如下属性 `type`、`body`、`wrapperComponent`、`className`、`inline`
+
 ## 事件表
 
 当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，详细查看[事件动作](../../docs/concepts/event-action)。
