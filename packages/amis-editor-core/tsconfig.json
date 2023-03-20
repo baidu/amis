@@ -2,7 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "lib",
-    "rootDir": "./src",
+    "rootDir": "./",
     "typeRoots": [
       "../../types",
       "./node_modules/@types",
@@ -10,5 +10,5 @@
     ]
   },
   "include": ["src/**/*"],
-  "references": []
+  "references": [{"path": "../amis"}]
 }

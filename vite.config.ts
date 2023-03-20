@@ -66,8 +66,20 @@ export default defineConfig({
         replacement: path.resolve(__dirname, './packages/amis-core/src')
       },
       {
+        find: 'amis/lib',
+        replacement: path.resolve(__dirname, './packages/amis/src')
+      },
+      {
         find: 'amis',
         replacement: path.resolve(__dirname, './packages/amis/src')
+      },
+      {
+        find: 'amis-editor',
+        replacement: path.resolve(__dirname, './packages/amis-editor/src')
+      },
+      {
+        find: 'amis-editor-core',
+        replacement: path.resolve(__dirname, './packages/amis-editor-core/src')
       },
       {
         find: 'office-viewer',

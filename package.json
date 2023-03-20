@@ -5,6 +5,8 @@
     "packages/amis-core",
     "packages/amis-ui",
     "packages/amis",
+    "packages/amis-editor-core",
+    "packages/amis-editor",
     "packages/office-viewer"
   ],
   "scripts": {
