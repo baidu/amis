@@ -36,6 +36,7 @@ import {SchemaApi, SchemaCollection} from '../../Schema';
 import find from 'lodash/find';
 import moment from 'moment';
 import merge from 'lodash/merge';
+import mergeWith from 'lodash/mergeWith';
 
 import type {SchemaTokenizeableString} from '../../Schema';
 
@@ -1234,7 +1235,32 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       }
 
       const origin = getTree(items, indexes);
-      const data = merge({}, origin, diff);
+
+      const comboNames: Array<string> = [];
+      (this.props.$schema.columns ?? []).forEach((e: any) => {
+        if (e.type === 'combo' && !Array.isArray(diff)) {
+          comboNames.push(e.name);
+        }
+      });
+
+      const data = mergeWith({}, origin, diff, (
+        objValue: any,
+        srcValue: any,
+        key: string,
+        object: any,
+        source: any,
+        stack: any
+      ) => {
+        // 只对第一层做处理，如果不是combo，并且是数组，直接采用diff的值
+        if (
+          stack.size === 0
+          && comboNames.indexOf(key) === -1
+          && Array.isArray(objValue)
+          && Array.isArray(srcValue)) {
+          return srcValue;
+        }
+        // 不返回，默认走的mergeWith自身的merge
+      });
 
       items = spliceTree(items, indexes, 1, data);
       this.entries.set(data, this.entries.get(origin) || this.entityId++);
@@ -1317,6 +1343,17 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     this.tableStore = ref?.props?.store;
   }
 
+  computedAddBtnDisabled() {
+    const {disabled} = this.props;
+    if (disabled !== undefined) {
+      return disabled;
+    }
+    if (~this.state.editIndex) {
+      return true;
+    }
+    return false;
+  }
+
   render() {
     const {
       className,
@@ -1366,13 +1403,16 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       offset = (page - 1) * perPage;
     }
 
+    const footerAddBtnDisabled = this.computedAddBtnDisabled();
+
     let footerAddBtnSchema = {
       type: 'button',
       level: 'primary',
       size: 'sm',
       label: '新增',
       icon: 'fa fa-plus',
-      disabled
+      disabled: footerAddBtnDisabled,
+      ...(footerAddBtnDisabled ? {disabledTip: '请您先勾选新增项'} : {})
     };
 
     if (footerAddBtn !== undefined) {
