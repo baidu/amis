@@ -37,12 +37,20 @@ function generateDefaultStyle(word: Word) {
 
   /** docDefaults **/
 
-  .${classPrefix} .p {
+  .${classPrefix} p {
     margin: 0;
+    padding: 0;
+  }
+
+  .${classPrefix} table {
+    border-spacing: 0;
+  }
+
+  .${classPrefix} .${classPrefix}-p {
     ${defaultPStyle}
   }
 
-  .${classPrefix} .r {
+  .${classPrefix} .${classPrefix}-r {
     white-space: pre-wrap;
     overflow-wrap: break-word;
     ${defaultRStyle}

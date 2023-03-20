@@ -1,1 +1,3 @@
-export * from './Word';
+import Word from './Word';
+
+export {Word};

@@ -2,7 +2,6 @@
  * 本地测试例子
  */
 
-import {evaluate} from 'amis-formula';
 import XMLPackageParser from '../src/package/XMLPackageParser';
 import Word from '../src/Word';
 
@@ -76,9 +75,7 @@ const data = {
 function replaceText(text: string) {
   // 将 {{xxx}} 替换成 ${xxx}，为啥要这样呢，因为输入 $ 可能会变成两段文本
   text = text.replace(/{{/g, '${').replace(/}}/g, '}');
-  return evaluate(text, data, {
-    defaultFilter: 'raw'
-  });
+  return text;
 }
 
 async function renderDocx(fileName: string) {
@@ -103,6 +100,10 @@ async function renderDocx(fileName: string) {
 
   (window as any).downloadDocx = () => {
     word.download(downloadName);
+  };
+
+  (window as any).printDocx = () => {
+    word.print();
   };
 
   word.render(viewerElement);

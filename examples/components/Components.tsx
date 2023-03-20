@@ -957,6 +957,13 @@ export const components = [
         )
       },
       {
+        label: 'OfficeViewer 文档渲染',
+        path: '/zh-CN/components/office-viewer',
+        component: React.lazy(() =>
+          import('../../docs/zh-CN/components/office-viewer.md').then(wrapDoc)
+        )
+      },
+      {
         label: 'Progress 进度条',
         path: '/zh-CN/components/progress',
         component: React.lazy(() =>

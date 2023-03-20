@@ -86,5 +86,5 @@ test('space', async () => {
 
   mergeRun(word, xmlDoc);
 
-  expect(xmlDoc.getElementsByTagName('w:t')[0]?.innerHTML).toBe('CustomStyle');
+  expect(xmlDoc.getElementsByTagName('w:t')[0]?.innerHTML).toBe('Custom');
 });

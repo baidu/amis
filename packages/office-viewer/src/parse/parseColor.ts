@@ -61,7 +61,7 @@ export function parseColorAttr(
  * http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/ST_Shd.html
  */
 export function parseShdColor(word: Word, element: Element) {
-  let color = element.getAttribute('w:color') || '';
+  let color = element.getAttribute('w:fill') || '';
 
   const val = getVal(element) as ST_Shd;
 

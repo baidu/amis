@@ -26,7 +26,7 @@ export default function renderParagraph(
   word.currentParagraph = paragraph;
   let p = createElement('p');
 
-  p.classList.add('p');
+  word.addClass(p, 'p');
 
   const properties = paragraph.properties;
 

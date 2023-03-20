@@ -3,9 +3,19 @@
  */
 
 import React from 'react';
-import {BaseSchema, SchemaClassName, SchemaUrlPath} from '../Schema';
-import {Word, WordRenderOptions} from 'office-viewer';
-import {Renderer, RendererProps} from 'amis-core';
+import {BaseSchema} from '../Schema';
+import {evaluate} from 'amis-formula';
+import {Word} from 'office-viewer';
+import {
+  ActionObject,
+  isApiOutdated,
+  IScopedContext,
+  Renderer,
+  RendererProps,
+  resolveVariableAndFilter,
+  ScopedContext,
+  ServiceStore
+} from 'amis-core';
 
 export interface OfficeViewerSchema extends BaseSchema {
   type: 'office-viewer';
@@ -17,7 +27,12 @@ export interface OfficeViewerSchema extends BaseSchema {
   /**
    * word 文档的渲染配置
    */
-  wordOptions?: RendererProps;
+  wordOptions?: {};
+
+  /**
+   * 是否显示文档
+   */
+  display?: boolean;
 }
 
 export interface OfficeViewerProps
@@ -36,6 +51,8 @@ export default class OfficeViewer extends React.Component<
 
   word: Word;
 
+  fileName?: string;
+
   constructor(props: OfficeViewerProps) {
     super(props);
     this.rootElement = React.createRef();
@@ -47,20 +64,60 @@ export default class OfficeViewer extends React.Component<
     }
   }
 
+  componentDidUpdate(prevProps: OfficeViewerProps) {
+    const props = this.props;
+
+    if (isApiOutdated(prevProps.src, props.src, prevProps.data, props.data)) {
+      this.renderWord();
+    }
+
+    // 这个变量替换只会更新变化的部分，所以性能还能接受
+    this.word?.updateVariable();
+  }
+
+  doAction(action: ActionObject, args: any, throwErrors: boolean): any {
+    const actionType = action?.actionType as string;
+
+    if (actionType === 'saveAs') {
+      this.word?.download(args?.name || this.fileName);
+    }
+
+    if (actionType === 'print') {
+      this.word?.print();
+    }
+  }
+
+  replaceText(text: string) {
+    const {data} = this.props;
+    // 将 {{xxx}} 替换成 ${xxx}，为啥要这样呢，因为输入 $ 可能会变成两段文本
+    text = text.replace(/{{/g, '${').replace(/}}/g, '}');
+    return resolveVariableAndFilter(text, data, '| raw');
+  }
+
   async renderWord() {
-    const {wordOptions, env} = this.props;
+    const {wordOptions, env, data, display} = this.props;
     const src = this.props.src;
-    const response = await env.fetcher(
-      src,
-      {},
-      {
-        responseType: 'arraybuffer'
-      }
-    );
-    const word = new Word(response.data, {
-      ...wordOptions
+
+    const finalSrc = src
+      ? resolveVariableAndFilter(src, data, '| raw')
+      : undefined;
+
+    if (typeof finalSrc === 'string') {
+      this.fileName = finalSrc.split('/').pop();
+    }
+
+    const response = await env.fetcher(finalSrc, data, {
+      responseType: 'arraybuffer'
     });
-    word.render(this.rootElement.current);
+    const word = new Word(response.data, {
+      ...wordOptions,
+      replaceText: this.replaceText.bind(this)
+    });
+
+    if (display !== false) {
+      word.render(this.rootElement?.current!);
+    }
+
     this.word = word;
   }
 
@@ -73,4 +130,19 @@ export default class OfficeViewer extends React.Component<
 @Renderer({
   type: 'office-viewer'
 })
-export class OfficeViewerRenderer extends OfficeViewer {}
+export class OfficeViewerRenderer extends OfficeViewer {
+  static contextType = ScopedContext;
+
+  constructor(props: OfficeViewerProps, context: IScopedContext) {
+    super(props);
+
+    const scoped = context;
+    scoped.registerComponent(this);
+  }
+
+  componentWillUnmount() {
+    super.componentWillUnmount?.();
+    const scoped = this.context as IScopedContext;
+    scoped.unRegisterComponent(this);
+  }
+}

@@ -55,7 +55,8 @@ export function updateVariableText(word: Word) {
  */
 export default function renderRun(word: Word, run: Run) {
   const span = createElement('span');
-  span.classList.add('r');
+
+  word.addClass(span, 'r');
 
   setElementStyle(word, span, run.properties);
 

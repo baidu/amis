@@ -19,12 +19,17 @@ export function renderSection(word: Word, section: Section) {
     }
   }
 
-  const pageMargin = props.pageMargin;
-  if (pageMargin) {
-    sectionEl.style.paddingLeft = pageMargin.left || '0';
-    sectionEl.style.paddingRight = pageMargin.right || '0';
-    sectionEl.style.paddingTop = pageMargin.top || '0';
-    sectionEl.style.paddingBottom = pageMargin.bottom || '0';
+  // 强制控制 padding
+  if (word.renderOptions.padding) {
+    sectionEl.style.padding = word.renderOptions.padding;
+  } else {
+    const pageMargin = props.pageMargin;
+    if (pageMargin) {
+      sectionEl.style.paddingLeft = pageMargin.left || '0';
+      sectionEl.style.paddingRight = pageMargin.right || '0';
+      sectionEl.style.paddingTop = pageMargin.top || '0';
+      sectionEl.style.paddingBottom = pageMargin.bottom || '0';
+    }
   }
 
   return sectionEl;

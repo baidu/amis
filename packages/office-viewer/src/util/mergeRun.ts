@@ -18,17 +18,22 @@ function hasSomeStyle(
   return JSON.stringify(firstStyle) === JSON.stringify(secondStyle);
 }
 
+/**
+ * 是否 r 里的 t 有设置 xml:space
+ */
+function hasTSpace(element: Element) {
+  const t = element.getElementsByTagName('w:t')[0];
+  if (t) {
+    return t.getAttribute('xml:space') === 'preserve';
+  }
+  return false;
+}
+
 function mergeText(first: Element, second: Element) {
   const firstT = first.getElementsByTagName('w:t')[0];
   const secondT = second.getElementsByTagName('w:t')[0];
   if (firstT && secondT) {
     let secondText = secondT.textContent || '';
-    const space = secondT.getAttribute('xml:space');
-    if (space === 'preserve' && secondText === '') {
-      secondText = ' ';
-    } else {
-      secondText = secondText.trim();
-    }
     firstT.textContent += secondText || '';
   }
 }
@@ -41,14 +46,17 @@ export function canMerge(element: Element) {
 
   const childChildren = element.children;
 
-  let hasText;
+  let hasText = false;
+  let textHasSpace = false;
   for (const childChild of childChildren) {
     if (childChild.tagName === 'w:t') {
       hasText = true;
+      textHasSpace = childChild.getAttribute('xml:space') === 'preserve';
+      console.log('textHasSpace', childChild.textContent, textHasSpace);
       break;
     }
   }
-  return tagName === 'w:r' && hasText;
+  return tagName === 'w:r' && hasText && !textHasSpace;
 }
 
 /**
@@ -60,7 +68,7 @@ export function mergeRunInP(word: Word, p: Element) {
 
   for (const child of p.children) {
     const tagName = child.tagName;
-    // 避免图片导致被合并了
+    // 避免图片和空格被合并了
     if (canMerge(child)) {
       if (lastRun) {
         const lastRunProps = lastRun.getElementsByTagName('w:rPr')[0];
@@ -77,6 +85,7 @@ export function mergeRunInP(word: Word, p: Element) {
         newElements.push(child);
       }
     } else {
+      lastRun = null;
       // 忽略这个标签
       if (tagName !== 'w:proofErr') {
         newElements.push(child);

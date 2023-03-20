@@ -53,9 +53,19 @@ export interface WordRenderOptions {
   ignoreHeight?: boolean;
 
   /**
+   * 强制文档内边距设置
+   */
+  padding?: string;
+
+  /**
    * 最小行高
    */
   minLineHeight?: number;
+
+  /**
+   * 是否开启变量替换功能
+   */
+  enableVar?: boolean;
 
   /**
    * 进行模板替换的函数
@@ -84,7 +94,9 @@ const defaultRenderOptions: WordRenderOptions = {
   inWrap: true,
   bulletUseFont: true,
   ignoreHeight: true,
+  ignoreWidth: true,
   minLineHeight: 1.0,
+  enableVar: false,
   debug: false
 };
 
@@ -264,7 +276,10 @@ export default class Word {
    * 进行文本替换
    */
   replaceText(text: string) {
-    if (!this.renderOptions.replaceText) {
+    if (
+      this.renderOptions.enableVar === false ||
+      !this.renderOptions.replaceText
+    ) {
       return text;
     }
     return this.renderOptions.replaceText(text);
@@ -309,7 +324,7 @@ export default class Word {
      * In CSS, identifiers (including element names, classes, and IDs in selectors) can contain only the characters [a-zA-Z0-9] and ISO 10646 characters U+00A0 and higher, plus the hyphen (-) and the underscore (_); they cannot start with a digit, two hyphens, or a hyphen followed by a digit. Identifiers can also contain escaped characters and any ISO 10646 character as a numeric code (see next item). For instance, the identifier "B&W?" may be written as "B\&W\?" or "B\26 W\3F".
      */
     if (styleId.match(/^[a-zA-Z]+[a-zA-Z0-9\-\_]*$/)) {
-      return styleId;
+      return this.getClassPrefix() + '-' + styleId;
     }
     if (styleId in this.styleIdMap) {
       return this.styleIdMap[styleId];
@@ -368,11 +383,19 @@ export default class Word {
     return `var(--docx-${this.id}-theme-${name}-color)`;
   }
 
+  addClass(element: HTMLElement, className: string) {
+    element.classList.add(`${this.getClassPrefix()}-${className}`);
+  }
+
   /**
    * 更新页面中的变量，这个要在 render 后运行
    */
   updateVariable() {
-    if (!this.rootElement || !this.renderOptions.replaceText) {
+    if (
+      !this.rootElement ||
+      this.renderOptions.enableVar === false ||
+      !this.renderOptions.replaceText
+    ) {
       return;
     }
     updateVariableText(this);
@@ -384,7 +407,7 @@ export default class Word {
   download(fileName: string = 'document.docx') {
     const documentData = this.getXML('word/document.xml');
 
-    if (this.renderOptions.replaceText) {
+    if (this.renderOptions.enableVar && this.renderOptions.replaceText) {
       mergeRun(this, documentData);
       // 对文本进行替换
       const ts = documentData.getElementsByTagName('w:t');
@@ -398,13 +421,35 @@ export default class Word {
   }
 
   /**
+   * 打印功能
+   */
+  async print() {
+    const iframe = document.createElement('iframe') as HTMLIFrameElement;
+    iframe.style.position = 'absolute';
+    iframe.style.top = '-10000px';
+    document.body.appendChild(iframe);
+    iframe.contentDocument?.write('<div id="print"></div>');
+    await this.render(
+      iframe.contentDocument?.getElementById('print') as HTMLElement
+    );
+    setTimeout(function () {
+      iframe.focus();
+      iframe.contentWindow?.print();
+      iframe.parentNode?.removeChild(iframe);
+    }, 100);
+    window.focus();
+  }
+
+  /**
    * 渲染文档入口
    *
    * @param root 渲染的根节点
    */
   async render(root: HTMLElement) {
     this.init();
-    const isDebug = this.renderOptions.debug;
+    const renderOptions = this.renderOptions;
+
+    const isDebug = renderOptions.debug;
     isDebug && console.log('init', this);
     this.rootElement = root;
     root.innerHTML = '';
@@ -412,7 +457,7 @@ export default class Word {
 
     isDebug && console.log('documentData', documentData);
 
-    if (this.renderOptions.replaceText) {
+    if (renderOptions.enableVar && renderOptions.replaceText) {
       mergeRun(this, documentData);
       // 这里不进行变量替换，方便后续进行局部替换来更新变量
     }
@@ -422,7 +467,7 @@ export default class Word {
     isDebug && console.log('document', document);
     const documentElement = renderDocument(this, document);
     root.classList.add(this.getClassPrefix());
-    if (this.renderOptions.inWrap) {
+    if (renderOptions.inWrap) {
       root.classList.add(this.wrapClassName);
     }
 

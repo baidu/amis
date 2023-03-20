@@ -11,5 +11,9 @@
     ]
   },
   "include": ["src/**/*", "../amis-ui/src/custom.d.ts"],
-  "references": [{"path": "../amis-core"}, {"path": "../amis-ui"}]
+  "references": [
+    {"path": "../amis-core"},
+    {"path": "../amis-ui"},
+    {"path": "../office-viewer"}
+  ]
 }
