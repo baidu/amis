@@ -5,7 +5,9 @@ import isEqual from 'lodash/isEqual';
 import startsWith from 'lodash/startsWith';
 import {resolveVariableAndFilterForAsync} from './resolveVariableAndFilterForAsync';
 
-const opFuncs: {[op: string]: Function} = {};
+const conditionResolverMap: {
+  [op: string]: (left: any, right: any, fieldType?: string) => boolean;
+} = {};
 
 export async function resolveCondition(conditions: any, data: any) {
   if (
@@ -14,61 +16,74 @@ export async function resolveCondition(conditions: any, data: any) {
     !Array.isArray(conditions.children) ||
     !conditions.children.length
   ) {
-    return Promise.resolve();
+    return false;
   }
 
-  const expression = await computeConditions(
+  return await computeConditions(
     conditions.children,
     conditions.conjunction,
     data
   );
-
-  return eval(expression.join(' '));
 }
 
 async function computeConditions(
   conditions: any[],
   conjunction: 'or' | 'and' = 'and',
   data: any
-): Promise<any[]> {
-  const CONJUNCTION_MAP = {
-    and: '&&',
-    or: '||'
-  };
+): Promise<boolean> {
+  let computeResult = true;
+  for (let index = 0; index < conditions.length; index++) {
+    const item = conditions[index];
 
-  return await conditions.reduce(async (prev, item, index) => {
-    const prevResult = await prev;
     if (
       item.conjunction &&
       Array.isArray(item.children) &&
       item.children.length
     ) {
+      // get group result
       const result = await computeConditions(
         item.children,
         item.conjunction,
         data
       );
 
-      return prevResult.concat('(', result, ')');
+      if (!!result) {
+        if (conjunction === 'or') {
+          computeResult = true;
+          break;
+        } else if (conjunction === 'and') {
+          computeResult = computeResult && result;
+        }
+      } else {
+        if (conjunction === 'and') {
+          computeResult = false;
+          break;
+        } else if (conjunction === 'or') {
+          computeResult = computeResult || result;
+        }
+      }
     } else {
       // get result
       const result = await computeCondition(item, index, data);
-
-      if (prevResult[prevResult.length - 1] === ')') {
-        // operator
-        prev = prevResult.concat(CONJUNCTION_MAP[conjunction], result);
+      console.log(result);
+      if (!!result) {
+        if (conjunction === 'or') {
+          computeResult = true;
+          break;
+        } else if (conjunction === 'and') {
+          computeResult = index === 0 ? !!result : computeResult && !!result;
+        }
       } else {
-        prev = prevResult.concat(result);
+        if (conjunction === 'and') {
+          computeResult = false;
+          break;
+        } else if (conjunction === 'or') {
+          computeResult = index === 0 ? !!result : computeResult || !!result;
+        }
       }
-
-      // operator
-      if (index < conditions.length - 1) {
-        prev = prev.concat(CONJUNCTION_MAP[conjunction]);
-      }
-
-      return prev;
     }
-  }, []);
+  }
+  return computeResult;
 }
 
 async function computeCondition(
@@ -97,9 +112,11 @@ async function computeCondition(
     data
   );
 
-  const func = opFuncs[rule.op];
+  const func =
+    conditionResolverMap[`${rule.op}For${rule.left.type}`] ??
+    conditionResolverMap[rule.op];
 
-  return func ? func(leftValue, rightValue) : false;
+  return func ? func(leftValue, rightValue, rule.left.type) : false;
 }
 
 function startsWithFunc(left: any, right: any) {
@@ -198,27 +215,31 @@ function selectNotAnyInFunc(left: any, right: any) {
   return !right.includes(left);
 }
 
-export function registerOpFunc(op: string, func: Function) {
-  opFuncs[op] = func;
+export function registerConditionResolver(
+  op: string,
+  func: (left: any, right: any, fieldType?: string) => boolean,
+  fieldType?: string
+) {
+  conditionResolverMap[`${op}${fieldType ? 'For' + fieldType : ''}`] = func;
 }
 
-export function getPlugins() {
-  return opFuncs;
+export function getConditionResolvers() {
+  return conditionResolverMap;
 }
 
-registerOpFunc('between', betweenFunc);
-registerOpFunc('ends_with', endsWithFunc);
-registerOpFunc('equal', equalFunc);
-registerOpFunc('greater_or_equal', greaterOrEqualFunc);
-registerOpFunc('greater', greaterFunc);
-registerOpFunc('is_empty', isEmptyFunc);
-registerOpFunc('is_not_empty', isNotEmptyFunc);
-registerOpFunc('less_or_equal', lessOrEqualFunc);
-registerOpFunc('less', lessFunc);
-registerOpFunc('like', likeFunc);
-registerOpFunc('not_between', notBetweenFunc);
-registerOpFunc('not_equal', notEqualFunc);
-registerOpFunc('not_like', notLikeFunc);
-registerOpFunc('select_any_in', selectAnyInFunc);
-registerOpFunc('select_not_any_in', selectNotAnyInFunc);
-registerOpFunc('starts_with', startsWithFunc);
+registerConditionResolver('between', betweenFunc);
+registerConditionResolver('ends_with', endsWithFunc);
+registerConditionResolver('equal', equalFunc);
+registerConditionResolver('greater_or_equal', greaterOrEqualFunc);
+registerConditionResolver('greater', greaterFunc);
+registerConditionResolver('is_empty', isEmptyFunc);
+registerConditionResolver('is_not_empty', isNotEmptyFunc);
+registerConditionResolver('less_or_equal', lessOrEqualFunc);
+registerConditionResolver('less', lessFunc);
+registerConditionResolver('like', likeFunc);
+registerConditionResolver('not_between', notBetweenFunc);
+registerConditionResolver('not_equal', notEqualFunc);
+registerConditionResolver('not_like', notLikeFunc);
+registerConditionResolver('select_any_in', selectAnyInFunc);
+registerConditionResolver('select_not_any_in', selectNotAnyInFunc);
+registerConditionResolver('starts_with', startsWithFunc);
