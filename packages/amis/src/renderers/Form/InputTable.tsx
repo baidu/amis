@@ -1244,13 +1244,20 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         }
       });
 
-      const data = mergeWith({}, origin, diff, (objValue: any, srcValue: any, key: string, object: any, source: any, stack: any) => {
-        // 只对第一层做处理，如果是combo就合并（这里其实就是自身merge，看情况是否去掉）
-        if (stack.size === 0 && comboNames.indexOf(key) > -1) {
-          return merge({}, objValue, srcValue);
-        }
+      const data = mergeWith({}, origin, diff, (
+        objValue: any,
+        srcValue: any,
+        key: string,
+        object: any,
+        source: any,
+        stack: any
+      ) => {
         // 只对第一层做处理，如果不是combo，并且是数组，直接采用diff的值
-        if (stack.size === 0 && Array.isArray(objValue) && Array.isArray(srcValue)) {
+        if (
+          stack.size === 0
+          && comboNames.indexOf(key) === -1
+          && Array.isArray(objValue)
+          && Array.isArray(srcValue)) {
           return srcValue;
         }
         // 不返回，默认走的mergeWith自身的merge
