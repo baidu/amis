@@ -71,6 +71,12 @@ export default class OfficeViewer extends React.Component<
       this.renderWord();
     }
 
+    if (props.name) {
+      if (prevProps.data[props.name] !== props.data[props.name]) {
+        this.renderWord();
+      }
+    }
+
     // 这个变量替换只会更新变化的部分，所以性能还能接受
     this.word?.updateVariable();
   }
@@ -95,8 +101,21 @@ export default class OfficeViewer extends React.Component<
   }
 
   async renderWord() {
-    const {wordOptions, env, data, display} = this.props;
-    const src = this.props.src;
+    const {src, name} = this.props;
+    if (src) {
+      this.renderRemoteWord();
+    } else if (name) {
+      this.renderFormFile();
+    } else {
+      console.warn(`office-viewer must have src or name`);
+    }
+  }
+
+  /**
+   * 渲染远端文件
+   */
+  async renderRemoteWord() {
+    const {wordOptions, env, src, data, display} = this.props;
 
     const finalSrc = src
       ? resolveVariableAndFilter(src, data, '| raw')
@@ -119,6 +138,28 @@ export default class OfficeViewer extends React.Component<
     }
 
     this.word = word;
+  }
+
+  /**
+   * 渲染本地文件，用于预览 input-file
+   */
+  renderFormFile() {
+    const {wordOptions, name, data, display} = this.props;
+    const file = data[name];
+    if (file instanceof File) {
+      const reader = new FileReader();
+      reader.onload = _e => {
+        const data = reader.result as ArrayBuffer;
+        const word = new Word(data, {
+          ...wordOptions,
+          replaceText: this.replaceText.bind(this)
+        });
+        if (display !== false) {
+          word.render(this.rootElement?.current!);
+        }
+      };
+      reader.readAsArrayBuffer(file);
+    }
   }
 
   render() {

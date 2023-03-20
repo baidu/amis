@@ -8,18 +8,29 @@ icon:
 order: 23
 ---
 
-用于渲染 office 文档，目前只支持 docx 格式
+用于渲染 office 文档，目前只支持 docx 格式，通过前端转成 HTML 的方式进行渲染，支持以下功能：
+
+- 基础文本样式
+- 表格及表格样式
+- 内嵌图片
+- 列表
+- 注音
+- 链接
+
+不支持的功能：
+
+- 分页符
+- 形状
+- 艺术字
+- 域
+- 对象
 
 ## 基本用法
 
 ```schema: scope="body"
 {
   "type": "office-viewer",
-  "src": "../../../examples/static/exmple.docx",
-  "display": false,
-  "wordOptions": {
-    "padding": "8px"
-  }
+  "src": "../../../examples/static/exmple.docx"
 }
 ```
 
@@ -135,7 +146,7 @@ order: 23
 
 ## 下载文档
 
-下载功能需要配合事件动作来使用
+基于事件动作实现
 
 ```schema: scope="body"
 [
@@ -147,7 +158,7 @@ order: 23
           "actions": [
             {
               "actionType": "saveAs",
-              "componentId": "office-viewer"
+              "componentId": "office-viewer-download"
             }
           ]
         }
@@ -155,7 +166,7 @@ order: 23
   },
   {
     "type": "office-viewer",
-    "id": "office-viewer",
+    "id": "office-viewer-download",
     "display": false,
     "src": "../../../examples/static/exmple.docx"
   }
@@ -163,6 +174,8 @@ order: 23
 ```
 
 ## 打印文档
+
+基于事件动作实现
 
 ```schema: scope="body"
 [
@@ -174,7 +187,7 @@ order: 23
           "actions": [
             {
               "actionType": "print",
-              "componentId": "office-viewer"
+              "componentId": "office-viewer-print"
             }
           ]
         }
@@ -182,19 +195,46 @@ order: 23
   },
   {
     "type": "office-viewer",
-    "id": "office-viewer",
+    "id": "office-viewer-print",
     "display": false,
     "src": "../../../examples/static/exmple.docx"
   }
 ]
 ```
 
+## 配合文件上传实现预览功能
+
+配置和 `input-file` 相同的 `name` 即可
+
+```schema: scope="body"
+{
+  "type": "form",
+  "title": "",
+  "wrapWithPanel": false,
+  "body": [
+    {
+      "type": "input-file",
+      "name": "file",
+      "label": "File",
+      "asBlob": true,
+      "accept": ".docx"
+    },
+    {
+      "type": "office-viewer",
+      "id": "office-viewer",
+      "name": "file"
+    }
+  ]
+}
+```
+
 ## 属性表
 
-| 属性名            | 类型    | 默认值 | 说明     |
-| ----------------- | ------- | ------ | -------- |
-| src               | Api     |        | 文档地址 |
-| enableReplaceText | boolean |        | 文档地址 |
+| 属性名            | 类型      | 默认值 | 说明                 |
+| ----------------- | --------- | ------ | -------------------- |
+| src               | Api       |        | 文档地址             |
+| enableReplaceText | `boolean` |        | 是否开启变量替换功能 |
+| wordOptions       | `object`  |        | Word 渲染配置        |
 
 ## 动作表
 
