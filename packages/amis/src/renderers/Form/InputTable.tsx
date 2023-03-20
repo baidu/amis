@@ -295,18 +295,14 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
     // 如果static为true 或 disabled为true，
     // 则删掉正在新增 或 编辑的那一行
-    let items = [];
-    if (
-      props.static !== nextProps.static
-      || props.disabled !== nextProps.disabled
-    ) {
-      items = this.state.items.filter(item => !item.__isPlaceholder);
+    if (props.$schema.static || props.$schema.disabled) {
+      const items = this.state.items.filter(item => !item.__isPlaceholder);
       toUpdate = {
         ...toUpdate,
         items,
         editIndex: -1,
         columns: this.buildColumns(props)
-      }
+      };
     }
 
     if (props.columns !== nextProps.columns) {
