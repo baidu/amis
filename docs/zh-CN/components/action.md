@@ -1037,7 +1037,7 @@ action 还可以使用 `body` 来渲染其他组件，让那些不支持行为�
 | required           | `Array<string>`                      | -           | 配置字符串数组，指定在`form`中进行操作之前，需要指定的字段名的表单项通过验证                                                                                                |
 
 ### TooltipObject
-参考 [tooltip-wrapper](../../docs/components/tooltip-wrapper)，不需要配置如下属性 `type`、`body`、`wrapperComponent`、`className`、`inline`
+`TooltipObject` 为 [tooltip-wrapper](./tooltip) 属性配置，但是不需要配置如下属性 `type`、`body`、`wrapperComponent`、`className`、`inline`。
 
 ## 事件表
 
