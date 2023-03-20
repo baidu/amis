@@ -1950,7 +1950,8 @@ export class EditorManager {
     }
 
     while (scope) {
-      const [id, type] = scope.id.split('-');
+      const [id] = scope.id.split('-', 1);
+      const type = scope.id.replace(`${id}-`, '');
       const scopeNode = this.store.getNodeById(id, type);
 
       if (scopeNode) {
