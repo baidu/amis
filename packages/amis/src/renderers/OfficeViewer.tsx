@@ -4,8 +4,6 @@
 
 import React from 'react';
 import {BaseSchema} from '../Schema';
-import {evaluate} from 'amis-formula';
-import {Word} from 'office-viewer';
 import {
   ActionObject,
   isApiOutdated,
@@ -128,16 +126,20 @@ export default class OfficeViewer extends React.Component<
     const response = await env.fetcher(finalSrc, data, {
       responseType: 'arraybuffer'
     });
-    const word = new Word(response.data, {
-      ...wordOptions,
-      replaceText: this.replaceText.bind(this)
+
+    import('office-viewer').then(async (officeViewer: any) => {
+      const Word = officeViewer.Word;
+      const word = new Word(response.data, {
+        ...wordOptions,
+        replaceText: this.replaceText.bind(this)
+      });
+
+      if (display !== false) {
+        word.render(this.rootElement?.current!);
+      }
+
+      this.word = word;
     });
-
-    if (display !== false) {
-      word.render(this.rootElement?.current!);
-    }
-
-    this.word = word;
   }
 
   /**
@@ -150,13 +152,17 @@ export default class OfficeViewer extends React.Component<
       const reader = new FileReader();
       reader.onload = _e => {
         const data = reader.result as ArrayBuffer;
-        const word = new Word(data, {
-          ...wordOptions,
-          replaceText: this.replaceText.bind(this)
+
+        import('office-viewer').then(async (officeViewer: any) => {
+          const word = new Word(data, {
+            ...wordOptions,
+            replaceText: this.replaceText.bind(this)
+          });
+          if (display !== false) {
+            word.render(this.rootElement?.current!);
+          }
         });
-        if (display !== false) {
-          word.render(this.rootElement?.current!);
-        }
+
       };
       reader.readAsArrayBuffer(file);
     }

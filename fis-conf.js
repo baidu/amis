@@ -68,6 +68,7 @@ fis.set('project.files', [
   '/examples/static/*.svg',
   '/examples/static/*.jpg',
   '/examples/static/*.jpeg',
+  '/examples/static/*.docx',
   '/examples/static/photo/*.jpeg',
   '/examples/static/photo/*.png',
   '/examples/static/audio/*.mp3',
@@ -485,7 +486,9 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!uc.micro/**',
         '!markdown-it/**',
         '!markdown-it-html5-media/**',
-        '!punycode/**'
+        '!punycode/**',
+        '!office-viewer/**',
+        '!fflate/**'
       ],
 
       'rich-text.js': [
@@ -526,6 +529,8 @@ if (fis.project.currentMedia() === 'publish-sdk') {
 
       'charts.js': ['zrender/**', 'echarts/**', 'echarts-stat/**'],
 
+      'office-viewer.js': ['office-viewer/**', 'fflate/**'],
+
       'rest.js': [
         '*.js',
         '!monaco-editor/**',
@@ -546,7 +551,9 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!mdurl/**',
         '!uc.micro/**',
         '!markdown-it/**',
-        '!markdown-it-html5-media/**'
+        '!markdown-it-html5-media/**',
+        '!office-viewer/**',
+        '!fflate/**'
       ]
     }),
     postpackager: [
@@ -773,6 +780,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!markdown-it-html5-media/**',
         '!punycode/**',
         '!amis-formula/**',
+        '!fflate/**',
         '!office-viewer/**',
         '!amis-core/**',
         '!amis-ui/**',
@@ -831,6 +839,8 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!/examples/components/EChartsEditor/Example.tsx',
         '!/examples/components/EChartsEditor/Common.tsx'
       ],
+
+      'pkg/office-viewer.js': ['office-viewer/**', 'fflate/**'],
 
       'pkg/rest.js': [
         '**.{js,jsx,ts,tsx}',
