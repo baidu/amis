@@ -864,8 +864,8 @@ order: 54
 | addable                      | `boolean`                                 | `false`         | 是否可增加一行                                                                                       |
 | editable                     | `boolean`                                 | `false`         | 是否可编辑                                                                                           |
 | removable                    | `boolean`                                 | `false`         | 是否可删除                                                                                           |
-| showTableAddBtn              | `boolean`                                 | `true`          | 是否显示表格操作栏添加按钮                                                                           |
-| showFooterAddBtn             | `boolean`                                 | `true`          | 是否显示表格下方添加按钮                                                                             |
+| showTableAddBtn              | `boolean`                                 | `true`          | 是否显示表格操作栏添加按钮，前提是要开启可新增功能                                                                           |
+| showFooterAddBtn             | `boolean`                                 | `true`          | 是否显示表格下方添加按，前提是要开启可新增功能                                                                           |钮                                                                             |
 | addApi                       | [API](../../../docs/types/api)            | -               | 新增时提交的 API                                                                                     |
 | footerAddBtn                 | [SchemaNode](../../docs/types/schemanode) | -               | 底部新增按钮配置                                                                                     |
 | updateApi                    | [API](../../../docs/types/api)            | -               | 修改时提交的 API                                                                                     |
