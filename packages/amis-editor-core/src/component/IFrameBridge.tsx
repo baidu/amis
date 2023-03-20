@@ -156,17 +156,17 @@ export function mountInIframe(
 
   const bridgeName = location.hash.substring(1);
 
-  // react 18 版本以下的 render方法
-  reactDom.render(
-    <PreviewWrapper bridgeName={bridgeName} envCreator={envCreator} />,
-    dom
-  );
-
-  /*
-  // react 18 render方法
-  const root = createRoot(dom);
-  root.render(<PreviewWrapper bridgeName={bridgeName} envCreator={envCreator} />);
-  */
+  if (reactDom.render.length === 1) {
+    // react 18 版本以下的 render方法
+    reactDom.render(
+      <PreviewWrapper bridgeName={bridgeName} envCreator={envCreator} />
+    );
+  } else {
+    reactDom.render(
+      <PreviewWrapper bridgeName={bridgeName} envCreator={envCreator} />,
+      dom
+    );
+  }
 
   window.onunload = function () {
     unmountComponentAtNode(dom);

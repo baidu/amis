@@ -152,6 +152,7 @@ export default class OfficeViewer extends React.Component<
       const reader = new FileReader();
       reader.onload = _e => {
         const data = reader.result as ArrayBuffer;
+
         import('office-viewer').then(async (officeViewer: any) => {
           const word = new Word(data, {
             ...wordOptions,
@@ -161,6 +162,7 @@ export default class OfficeViewer extends React.Component<
             word.render(this.rootElement?.current!);
           }
         });
+
       };
       reader.readAsArrayBuffer(file);
     }
