@@ -10,7 +10,7 @@ test('proofErr', async () => {
   <w:body>
     <w:p>
       <w:r>
-        <w:t xml:space="preserve"> {{var</w:t>
+        <w:t>{{var</w:t>
       </w:r>
       <w:proofErr w:type="gramStart"/>
       <w:r>
@@ -26,7 +26,7 @@ test('proofErr', async () => {
 
   mergeRun(word, xmlDoc);
 
-  expect(xmlDoc.getElementsByTagName('w:t')[0]?.innerHTML).toBe(' {{var}}');
+  expect(xmlDoc.getElementsByTagName('w:t')[0]?.innerHTML).toBe('{{var}}');
 });
 
 test('font hint', async () => {

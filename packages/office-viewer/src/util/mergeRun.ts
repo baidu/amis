@@ -84,9 +84,9 @@ export function mergeRunInP(word: Word, p: Element) {
         newElements.push(child);
       }
     } else {
-      lastRun = null;
       // 忽略这个标签
       if (tagName !== 'w:proofErr') {
+        lastRun = null;
         newElements.push(child);
       }
     }
