@@ -248,6 +248,7 @@ export type SchemaType =
   | 'input-excel'
   | 'input-formula'
   | 'diff-editor'
+  | 'office-viewer'
 
   // editor 系列
   | 'editor'

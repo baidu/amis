@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>load docx</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      @font-face {
+        font-family: Wingdings;
+        src: url(./static/font/wingding.ttf);
+      }
+
+      @font-face {
+        font-family: Symbol;
+        src: url(./static/font/symbol.ttf);
+      }
+    </style>
+  </head>
+  <body>
+    <input
+      type="file"
+      id="upload"
+      accept="*.docx"
+      onchange="renderWord(this)"
+    />
+    <button type="button" onclick="printElement()">print</button>
+
+    <div id="app"></div>
+    <script type="module">
+      import Word from '../src/Word';
+
+      const appElement = document.getElementById('app');
+
+      document.addEventListener('dragover', function (event) {
+        event.preventDefault();
+      });
+
+      document.addEventListener(
+        'drop',
+        e => {
+          e.preventDefault();
+          let dt = e.dataTransfer;
+          let files = dt.files;
+          renderWord(files[0]);
+        },
+        false
+      );
+
+      function renderInputFile(input) {
+        const file = input.files[0];
+        renderWord(file);
+      }
+
+      function renderWord(file) {
+        const reader = new FileReader();
+        reader.onload = _e => {
+          const data = reader.result;
+          const word = new Word(data);
+          word.render(appElement);
+        };
+        reader.readAsArrayBuffer(file);
+      }
+
+      function printElement() {
+        var contentOfDiv = appElement.innerHTML;
+        var newWin = window.open('', '');
+        newWin.document.write('');
+        newWin.document.write(
+          '<title>Print Content of Div element by  using Javascript</title>'
+        );
+        newWin.document.write(contentOfDiv);
+        newWin.document.write('');
+        newWin.document.close();
+        newWin.print();
+      }
+
+      window.renderWord = renderWord;
+      window.printElement = printElement;
+    </script>
+  </body>
+</html>
