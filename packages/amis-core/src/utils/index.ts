@@ -53,7 +53,7 @@ export * from './validations';
 export * from './toNumber';
 export * from './decodeEntity';
 export * from './style-helper';
-export * from './condition';
+export * from './resolveCondition';
 
 import animation from './Animation';
 

@@ -1,7 +1,7 @@
 import {register as registerBulitin, getFilters} from './tpl-builtin';
 import {register as registerLodash} from './tpl-lodash';
 import {parse, evaluate} from 'amis-formula';
-import {ConditionResolver} from './condition/ConditionResolver';
+import {resolveCondition} from './resolveCondition';
 
 export interface Enginer {
   test: (tpl: string) => boolean;
@@ -111,8 +111,7 @@ export async function evalExpressionWithConditionBuilder(
 ): Promise<boolean> {
   if (Object.prototype.toString.call(expression) === '[object Object]') {
     // 支持ConditionBuilder
-    const cr = ConditionResolver.create();
-    const condition = await cr.resolve(expression, data);
+    const condition = await resolveCondition(expression, data);
     if (condition) {
       return evalExpression(condition);
     }

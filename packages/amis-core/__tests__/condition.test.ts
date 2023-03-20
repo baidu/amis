@@ -1,9 +1,4 @@
-import {
-  ConditionResolver,
-  guid,
-  BaseOpPlugin,
-  registerOpPlugin
-} from '../src/utils/';
+import {resolveCondition, guid, registerOpFunc} from '../src/utils/';
 
 test(`condition`, async () => {
   const data = {
@@ -301,25 +296,8 @@ test(`condition`, async () => {
     ]
   };
 
-  class TestPlugin implements BaseOpPlugin {
-    compute(left: any, right?: any) {
-      return left * 2 > right;
-    }
-  }
-  registerOpPlugin('abc', new TestPlugin());
-
-  class TestPlugin2 implements BaseOpPlugin {
-    compute(left: any, right?: any) {
-      return left * 4 < right;
-    }
-  }
-  const cr = ConditionResolver.create({
-    plugins: [
-      {
-        op: 'bcd',
-        factory: new TestPlugin2()
-      }
-    ]
+  registerOpFunc('abc', (left: any, right?: any) => {
+    return left * 2 > right;
   });
 
   const conditions9 = {
@@ -341,19 +319,19 @@ test(`condition`, async () => {
           type: 'field',
           field: 'num'
         },
-        op: 'bcd',
+        op: 'abc',
         right: '5'
       }
     ]
   };
 
-  expect(await cr.resolve(conditions1, data)).toBe(false);
-  expect(await cr.resolve(conditions2, data)).toBe(true);
-  expect(await cr.resolve(conditions3, data)).toBe(false);
-  expect(await cr.resolve(conditions4, data)).toBe(false);
-  expect(await cr.resolve(conditions5, data)).toBe(false);
-  expect(await cr.resolve(conditions6, data)).toBe(false);
-  expect(await cr.resolve(conditions7, data)).toBe(false);
-  expect(await cr.resolve(conditions8, data)).toBe(true);
-  expect(await cr.resolve(conditions9, data)).toBe(true);
+  expect(await resolveCondition(conditions1, data)).toBe(false);
+  expect(await resolveCondition(conditions2, data)).toBe(true);
+  expect(await resolveCondition(conditions3, data)).toBe(false);
+  expect(await resolveCondition(conditions4, data)).toBe(false);
+  expect(await resolveCondition(conditions5, data)).toBe(false);
+  expect(await resolveCondition(conditions6, data)).toBe(false);
+  expect(await resolveCondition(conditions7, data)).toBe(false);
+  expect(await resolveCondition(conditions8, data)).toBe(true);
+  expect(await resolveCondition(conditions9, data)).toBe(false);
 });

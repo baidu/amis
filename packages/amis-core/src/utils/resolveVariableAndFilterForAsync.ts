@@ -16,7 +16,7 @@ export const resolveVariableAndFilterForAsync = async (
       allowFilter: true
     });
 
-    const ret = new AsyncEvaluator(data, {
+    const ret = await new AsyncEvaluator(data, {
       defaultFilter
     }).evalute(ast);
 
