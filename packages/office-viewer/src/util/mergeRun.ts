@@ -52,7 +52,6 @@ export function canMerge(element: Element) {
     if (childChild.tagName === 'w:t') {
       hasText = true;
       textHasSpace = childChild.getAttribute('xml:space') === 'preserve';
-      console.log('textHasSpace', childChild.textContent, textHasSpace);
       break;
     }
   }

@@ -30,7 +30,7 @@ order: 23
 ```schema: scope="body"
 {
   "type": "office-viewer",
-  "src": "../../../examples/static/exmple.docx"
+  "src": "../../../examples/static/example.docx"
 }
 ```
 
@@ -168,7 +168,7 @@ order: 23
     "type": "office-viewer",
     "id": "office-viewer-download",
     "display": false,
-    "src": "../../../examples/static/exmple.docx"
+    "src": "../../../examples/static/example.docx"
   }
 ]
 ```
@@ -197,7 +197,7 @@ order: 23
     "type": "office-viewer",
     "id": "office-viewer-print",
     "display": false,
-    "src": "../../../examples/static/exmple.docx"
+    "src": "../../../examples/static/example.docx"
   }
 ]
 ```
