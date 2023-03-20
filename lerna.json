@@ -1,4 +1,10 @@
 {
-  "packages": ["packages/*"],
+  "packages": [
+    "packages/amis-formula",
+    "packages/amis-core",
+    "packages/amis-ui",
+    "packages/amis",
+    "packages/office-viewer"
+  ],
   "version": "2.8.0"
 }
