@@ -1,0 +1,46 @@
+.ae-BadgeControl {
+  &-switch {
+    @include flexBox();
+    margin-bottom: var(--gap-base);
+  }
+
+  &-form {
+    @include panel-group-bg();
+  }
+
+  &-combo {
+    background: #fafafa;
+    padding: var(--gap-sm);
+    border: 1px dashed transparent;
+    border-radius: #{$Editor-borderRadius};
+
+    &:hover {
+      border-color: #{$Editor-theme-color};
+    }
+  }
+
+  &-buttonGroup {
+    > div {
+      align-items: center;
+      justify-content: space-between;
+
+      > div {
+        flex-grow: 0 !important;
+      }
+    }
+  }
+
+  &-position {
+    &--clockwise {
+      > i {
+        transform: rotate(45deg);
+      }
+    }
+
+    &--antiClockwise {
+      > i {
+        transform: rotate(-45deg);
+      }
+    }
+  }
+}

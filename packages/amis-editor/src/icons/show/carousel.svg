@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="轮播" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linejoin="round">
+        <rect id="方形" stroke="currentColor" x="3.5" y="2.5" width="9" height="11"></rect>
+        <circle id="椭圆形" stroke="currentColor" cx="6.5" cy="6" r="1"></circle>
+        <path d="M13.0218949,4 L14.5006808,4 L14.5006808,12 L13.0218949,12 M2.99660899,12 L1.50068085,12 L1.50068085,4 L2.99660899,4" id="形状" stroke="currentColor" stroke-linecap="round"></path>
+        <path d="M3.5,9.5 C4.6045695,10.6045695 6.3954305,10.6045695 7.5,9.5 C8.66291474,8.33708526 10.4849956,8.15666371 11.8533936,9.06892908 L12.5,9.5 L12.5,9.5" id="直线" stroke="currentColor" stroke-linecap="round"></path>
+    </g>
+</svg>
