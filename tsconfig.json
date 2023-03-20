@@ -25,7 +25,6 @@
       "amis-core": ["./packages/amis-core/src/index.tsx"],
       "amis-formula": ["./packages/amis-formula/src/index.ts"],
       "amis-ui": ["./packages/amis-ui/src/index.tsx"],
-
       "amis": ["./packages/amis/src/index.tsx"],
       "office-viewer": ["./packages/office-viewer/src/index.ts"]
     }
