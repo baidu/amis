@@ -45,11 +45,10 @@ export interface ConditionResolverOptions {
 }
 
 export class ConditionResolver {
-  static instance: ConditionResolver;
   readonly plugins: Array<PluginClass> = [];
 
   static create(options: ConditionResolverOptions = {}) {
-    return this.instance || (this.instance = new ConditionResolver(options));
+    return new ConditionResolver(options);
   }
 
   constructor(readonly options: ConditionResolverOptions = {}) {
