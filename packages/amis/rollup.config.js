@@ -29,6 +29,7 @@ const external = id => {
         'react-dom',
         'rc-input-number',
         '@rc-component/mini-decimal',
+        'fflate',
         '@babel/runtime'
       ])
       .map(value =>
@@ -115,7 +116,12 @@ function transpileDynamicImportForCJS(options) {
 }
 
 function getPlugins(format = 'esm') {
-  const overridePaths = ['amis-formula', 'amis-core', 'amis-ui'].reduce(
+  const overridePaths = [
+    'amis-formula',
+    'amis-core',
+    'amis-ui',
+    'office-viewer'
+  ].reduce(
     (prev, current) => ({
       ...prev,
       [current]: [getCompiledEntryPath(current, format)]

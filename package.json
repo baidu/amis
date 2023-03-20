@@ -4,7 +4,8 @@
     "packages/amis-formula",
     "packages/amis-core",
     "packages/amis-ui",
-    "packages/amis"
+    "packages/amis",
+    "packages/office-viewer"
   ],
   "scripts": {
     "fis3-serve": "fis3 server start --www ./public --port 8888 --no-daemon --no-browse",
@@ -98,6 +99,7 @@
       "^amis\\-ui$": "<rootDir>/packages/amis-ui/src/index.tsx",
       "^amis\\-core$": "<rootDir>/packages/amis-core/src/index.tsx",
       "^amis\\-formula$": "<rootDir>/packages/amis-formula/src/index.ts",
+      "^office\\-viewer$": "<rootDir>/packages/office-viewer/src/index.ts",
       "^amis$": "<rootDir>/packages/amis/src/index.tsx"
     },
     "setupFilesAfterEnv": [
