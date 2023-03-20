@@ -773,6 +773,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!markdown-it-html5-media/**',
         '!punycode/**',
         '!amis-formula/**',
+        '!office-viewer/**',
         '!amis-core/**',
         '!amis-ui/**',
         '!amis/**'
