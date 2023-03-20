@@ -7,7 +7,7 @@ import {
 } from 'amis-core';
 import cx from 'classnames';
 import {filterDate, parseDuration} from 'amis-core';
-import 'moment/locale/zh-cn';
+import 'moment/dist/locale/zh-cn';
 import {DateRangePicker} from 'amis-ui';
 import {isMobile, createObject, autobind} from 'amis-core';
 import {ActionObject} from 'amis-core';
