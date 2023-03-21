@@ -231,6 +231,8 @@ register('en-US', {
   'Table.startSort': 'Click to start sorting',
   'Table.valueField': 'Must have valueField',
   'Table.index': 'Index',
+  'Table.add': 'Add',
+  'Table.addButtonDisabledTip': 'In content editing, please submit first and then create a new option',
   'Table.toggleColumn': 'Display columns',
   'Table.searchFields': 'Set query fields',
   'Tag.placeholder': 'No tag yet',

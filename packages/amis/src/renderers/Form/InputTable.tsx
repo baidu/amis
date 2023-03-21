@@ -1222,7 +1222,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
           && Array.isArray(srcValue)) {
           return srcValue;
         }
-        // 不返回，默认走的mergeWith自身的merge
+        // 直接return，默认走的mergeWith自身的merge
+        return;
       });
 
       items = spliceTree(items, indexes, 1, data);
@@ -1311,10 +1312,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     if (disabled !== undefined) {
       return disabled;
     }
-    if (~this.state.editIndex) {
-      return true;
-    }
-    return false;
+    return !!~this.state.editIndex;
   }
 
   render() {
@@ -1372,10 +1370,10 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       type: 'button',
       level: 'primary',
       size: 'sm',
-      label: '新增',
+      label: __('Table.add'),
       icon: 'fa fa-plus',
       disabled: footerAddBtnDisabled,
-      ...(footerAddBtnDisabled ? {disabledTip: '请您先勾选新增项'} : {})
+      ...(footerAddBtnDisabled ? {disabledTip: __('Table.addButtonDisabledTip')} : {})
     };
 
     if (footerAddBtn !== undefined) {

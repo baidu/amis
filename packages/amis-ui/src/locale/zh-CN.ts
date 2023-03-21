@@ -235,6 +235,8 @@ register('zh-CN', {
   'Table.startSort': '点击开始排序',
   'Table.valueField': '请配置 valueField',
   'Table.index': '序号',
+  'Table.add': '新增',
+  'Table.addButtonDisabledTip': '内容编辑中，请先提交后新建选项',
   'Table.toggleColumn': '显示列',
   'Table.searchFields': '设置查询字段',
   'Tag.placeholder': '请输入/选择标签',
