@@ -226,7 +226,7 @@
         color: var(--TimelineItem--text-primary-color);
         font-size: var(--Timeline-title-fontSize);
         font-weight: var(--Timeline-title-fontWeight);
-        margin-bottom: var(--Timeline--content-title-margin-bottom);
+        margin-bottom: var(--TimelineItem--content-title-margin-bottom);
       }
 
       .#{$ns}TimelineItem-detail {
