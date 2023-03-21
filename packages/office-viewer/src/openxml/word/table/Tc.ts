@@ -189,6 +189,10 @@ export class Tc {
           parseTextDirection(child, style);
           break;
 
+        case 'w:cnfStyle':
+          // 目前是自动计算的，所以不需要这个了
+          break;
+
         default:
           console.warn('parseTcPr: ignore', tagName, child);
       }

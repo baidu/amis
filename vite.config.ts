@@ -84,10 +84,6 @@ export default defineConfig({
       {
         find: 'office-viewer',
         replacement: path.resolve(__dirname, './packages/office-viewer/src')
-      },
-      {
-        find: 'office-viewer/lib',
-        replacement: path.resolve(__dirname, './packages/office-viewer/src')
       }
     ]
   }

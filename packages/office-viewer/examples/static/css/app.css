@@ -27,6 +27,7 @@ body {
 }
 
 .file-list {
+  flex: none;
   width: 140px;
   padding-top: 4px;
   padding-left: 4px;

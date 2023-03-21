@@ -53,7 +53,6 @@ test('font hint', async () => {
 
   const word = await createWord();
   mergeRun(word, xmlDoc);
-  console.log(buildXML(xmlDoc));
   expect(xmlDoc.getElementsByTagName('w:t')[0]?.innerHTML).toBe('B6');
 });
 

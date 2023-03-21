@@ -339,6 +339,10 @@ export function parsePr(word: Word, element: Element, type: 'r' | 'p' = 'p') {
         parseTextDirection(child, style);
         break;
 
+      case 'w:cnfStyle':
+        // 目前是自动计算的，所以不需要这个了
+        break;
+
       default:
         console.warn('parsePr Unknown tagName', tagName, child);
     }

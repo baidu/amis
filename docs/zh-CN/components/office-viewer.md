@@ -8,6 +8,8 @@ icon:
 order: 23
 ---
 
+> 2.9.0 及以上版本
+
 用于渲染 office 文档，目前只支持 docx 格式，通过前端转成 HTML 的方式进行渲染，支持以下功能：
 
 - 基础文本样式
@@ -30,7 +32,10 @@ order: 23
 ```schema: scope="body"
 {
   "type": "office-viewer",
-  "src": "/examples/static/example.docx"
+  "src": "https://suda.cdn.bcebos.com/docx/simple.docx",
+  "wordOptions": {
+    "padding": "8px"
+  }
 }
 ```
 
@@ -111,7 +116,7 @@ order: 23
     {
       "type": "office-viewer",
       "id": "office-viewer",
-      "src": "/examples/static/info.docx",
+      "src": "https://suda.cdn.bcebos.com/docx/info.docx",
       "wordOptions": {
         "enableVar": true,
         "padding": "8px"
@@ -127,7 +132,7 @@ order: 23
 {
   "type": "office-viewer",
   "id": "office-viewer",
-  "src": "/examples/static/info.docx",
+  "src": "https://suda.cdn.bcebos.com/docx/info.docx",
   "wordOptions": {
     "padding": "8px"
   }
@@ -168,7 +173,7 @@ order: 23
     "type": "office-viewer",
     "id": "office-viewer-download",
     "display": false,
-    "src": "/examples/static/example.docx"
+    "src": "https://suda.cdn.bcebos.com/docx/simple.docx"
   }
 ]
 ```
@@ -197,7 +202,7 @@ order: 23
     "type": "office-viewer",
     "id": "office-viewer-print",
     "display": false,
-    "src": "/examples/static/example.docx"
+    "src": "https://suda.cdn.bcebos.com/docx/simple.docx"
   }
 ]
 ```
