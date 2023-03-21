@@ -14,16 +14,13 @@ import {
   noop
 } from 'amis-core';
 import {uncontrollable} from 'amis-core';
-import {
-  ConditionBuilderFields,
-  ConditionGroupValue,
-  ConditionBuilderFuncs
-} from './types';
+import {ConditionBuilderFields, ConditionBuilderFuncs} from './types';
 import ConditionGroup from './Group';
 import defaultConfig, {ConditionBuilderConfig} from './config';
 import {FormulaPickerProps} from '../formula/Picker';
 import PickerContainer from '../PickerContainer';
 import ResultBox from '../ResultBox';
+import type {ConditionGroupValue} from 'amis-core';
 
 export interface ConditionBuilderProps extends ThemeProps, LocaleProps {
   builderMode?: 'simple' | 'full'; // 简单模式｜完整模式
