@@ -4,6 +4,8 @@ import isEmpty from 'lodash/isEmpty';
 import isEqual from 'lodash/isEqual';
 import startsWith from 'lodash/startsWith';
 import {resolveVariableAndFilterForAsync} from './resolveVariableAndFilterForAsync';
+import moment from 'moment';
+import capitalize from 'lodash/capitalize';
 
 const conditionResolverMap: {
   [op: string]: (left: any, right: any, fieldType?: string) => boolean;
@@ -70,7 +72,7 @@ async function computeCondition(
   );
 
   const func =
-    conditionResolverMap[`${rule.op}For${rule.left.type}`] ??
+    conditionResolverMap[`${rule.op}For${capitalize(rule.left.type)}`] ??
     conditionResolverMap[rule.op];
 
   return func ? func(leftValue, rightValue, rule.left.type) : false;
@@ -131,6 +133,46 @@ function greaterFunc(left: any, right: any) {
   return parseFloat(left as any) > parseFloat(right as any);
 }
 
+function normalizeDate(raw: any): Date {
+  if (typeof raw === 'string' || typeof raw === 'number') {
+    let formats = ['', 'YYYY-MM-DD HH:mm:ss', 'X'];
+
+    if (/^\d{10}((\.\d+)*)$/.test(raw.toString())) {
+      formats = ['X', 'x', 'YYYY-MM-DD HH:mm:ss', ''];
+    } else if (/^\d{13}((\.\d+)*)$/.test(raw.toString())) {
+      formats = ['x', 'X', 'YYYY-MM-DD HH:mm:ss', ''];
+    }
+    while (formats.length) {
+      const format = formats.shift()!;
+      const date = moment(raw, format);
+
+      if (date.isValid()) {
+        return date.toDate();
+      }
+    }
+  }
+
+  return raw;
+}
+
+function normalizeDateRange(raw: string | Date[]): Date[] {
+  return (Array.isArray(raw) ? raw : raw.split(',')).map((item: any) =>
+    normalizeDate(String(item).trim())
+  );
+}
+
+function greaterForDateFunc(left: any, right: any) {
+  left = normalizeDate(left);
+  right = normalizeDate(right);
+  return moment(left).isAfter(moment(right), 's');
+}
+
+function greaterOrEqualForDateFunc(left: any, right: any) {
+  left = normalizeDate(left);
+  right = normalizeDate(right);
+  return moment(left).isSameOrAfter(moment(right), 's');
+}
+
 function greaterOrEqualFunc(left: any, right: any) {
   if (left === undefined || right === undefined) {
     return false;
@@ -143,6 +185,18 @@ function lessFunc(left: any, right: any) {
     return false;
   }
   return parseFloat(left as any) < parseFloat(right as any);
+}
+
+function lessForDateFunc(left: any, right: any) {
+  left = normalizeDate(left);
+  right = normalizeDate(right);
+  return moment(left).isBefore(moment(right), 's');
+}
+
+function lessOrEqualForDateFunc(left: any, right: any) {
+  left = normalizeDate(left);
+  right = normalizeDate(right);
+  return moment(left).isSameOrBefore(moment(right), 's');
 }
 
 function lessOrEqualFunc(left: any, right: any) {
@@ -174,10 +228,26 @@ function betweenFunc(left: any, right: any) {
   return false;
 }
 
+function betweenForDateFunc(left: any, right: any) {
+  if (right !== undefined) {
+    const [min, max] = normalizeDateRange(right);
+    return moment(normalizeDate(left)).isBetween(min, max, 's', '[]');
+  }
+  return false;
+}
+
 function notBetweenFunc(left: any, right: any) {
   if (typeof left === 'number' && right !== undefined) {
     const [min, max] = right.sort();
     return left < parseFloat(min) && left > parseFloat(max);
+  }
+  return false;
+}
+
+function notBetweenForDateFunc(left: any, right: any) {
+  if (right !== undefined) {
+    const [min, max] = normalizeDateRange(right);
+    return !moment(normalizeDate(left)).isBetween(min, max, 's', '[]');
   }
   return false;
 }
@@ -209,26 +279,58 @@ export function registerConditionComputer(
   func: (left: any, right: any, fieldType?: string) => boolean,
   fieldType?: string
 ) {
-  conditionResolverMap[`${op}${fieldType ? 'For' + fieldType : ''}`] = func;
+  conditionResolverMap[
+    `${op}${fieldType ? 'For' + capitalize(fieldType) : ''}`
+  ] = func;
 }
 
 export function getConditionComputers() {
   return conditionResolverMap;
 }
 
-registerConditionComputer('between', betweenFunc);
-registerConditionComputer('ends_with', endsWithFunc);
-registerConditionComputer('equal', equalFunc);
-registerConditionComputer('greater_or_equal', greaterOrEqualFunc);
 registerConditionComputer('greater', greaterFunc);
+registerConditionComputer('greater', greaterForDateFunc, 'date');
+registerConditionComputer('greater', greaterForDateFunc, 'time');
+registerConditionComputer('greater', greaterForDateFunc, 'datetime');
+registerConditionComputer('greater_or_equal', greaterOrEqualFunc);
+registerConditionComputer(
+  'greater_or_equal',
+  greaterOrEqualForDateFunc,
+  'date'
+);
+registerConditionComputer(
+  'greater_or_equal',
+  greaterOrEqualForDateFunc,
+  'time'
+);
+registerConditionComputer(
+  'greater_or_equal',
+  greaterOrEqualForDateFunc,
+  'datetime'
+);
+registerConditionComputer('less', lessFunc);
+registerConditionComputer('less', lessForDateFunc, 'date');
+registerConditionComputer('less', lessForDateFunc, 'time');
+registerConditionComputer('less', lessForDateFunc, 'datetime');
+registerConditionComputer('less_or_equal', lessOrEqualFunc);
+registerConditionComputer('less_or_equal', lessOrEqualForDateFunc, 'date');
+registerConditionComputer('less_or_equal', lessOrEqualForDateFunc, 'time');
+registerConditionComputer('less_or_equal', lessOrEqualForDateFunc, 'datetime');
 registerConditionComputer('is_empty', isEmptyFunc);
 registerConditionComputer('is_not_empty', isNotEmptyFunc);
-registerConditionComputer('less_or_equal', lessOrEqualFunc);
-registerConditionComputer('less', lessFunc);
-registerConditionComputer('like', likeFunc);
+registerConditionComputer('between', betweenFunc);
+registerConditionComputer('between', betweenForDateFunc, 'date');
+registerConditionComputer('between', betweenForDateFunc, 'time');
+registerConditionComputer('between', betweenForDateFunc, 'datetime');
 registerConditionComputer('not_between', notBetweenFunc);
+registerConditionComputer('not_between', notBetweenForDateFunc, 'date');
+registerConditionComputer('not_between', notBetweenForDateFunc, 'time');
+registerConditionComputer('not_between', notBetweenForDateFunc, 'datetime');
+registerConditionComputer('equal', equalFunc);
 registerConditionComputer('not_equal', notEqualFunc);
+registerConditionComputer('like', likeFunc);
 registerConditionComputer('not_like', notLikeFunc);
 registerConditionComputer('select_any_in', selectAnyInFunc);
 registerConditionComputer('select_not_any_in', selectNotAnyInFunc);
 registerConditionComputer('starts_with', startsWithFunc);
+registerConditionComputer('ends_with', endsWithFunc);

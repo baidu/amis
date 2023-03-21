@@ -20,7 +20,9 @@ const data = {
     github: 'https://github.com/baidu/amis'
   },
   range: [1678723200, 1678895999],
-  date: '2023-03-19'
+  date: '2023-03-19',
+  datetime: '2023-03-20T04:55:00+08:00',
+  time: '00:05'
 };
 
 const equal1 = {
@@ -285,6 +287,98 @@ test(`condition`, async () => {
   expect(await resolveCondition(conditions7, data)).toBe(false);
 });
 
+test(`condition date`, async () => {
+  const conditions = {
+    id: guid(),
+    conjunction: 'and',
+    children: [
+      {
+        id: guid(),
+        left: {
+          type: 'date',
+          field: 'date'
+        },
+        op: 'less',
+        right: '2023-03-20'
+      },
+      {
+        id: guid(),
+        left: {
+          type: 'date',
+          field: 'datetime'
+        },
+        op: 'less',
+        right: '2023-03-21T04:55:00+08:00'
+      },
+      {
+        id: guid(),
+        left: {
+          type: 'date',
+          field: 'time'
+        },
+        op: 'less',
+        right: '00:08'
+      },
+      {
+        id: guid(),
+        left: {
+          type: 'date',
+          field: 'date'
+        },
+        op: 'less_or_equal',
+        right: '2023-03-19'
+      },
+      {
+        id: guid(),
+        left: {
+          type: 'date',
+          field: 'datetime'
+        },
+        op: 'less_or_equal',
+        right: '2023-03-20T04:55:00+08:00'
+      },
+      {
+        id: guid(),
+        left: {
+          type: 'date',
+          field: 'time'
+        },
+        op: 'less_or_equal',
+        right: '00:05'
+      },
+      {
+        id: guid(),
+        left: {
+          type: 'date',
+          field: 'date'
+        },
+        op: 'between',
+        right: '${["2023-03-19","2023-03-20"]}'
+      },
+      {
+        id: guid(),
+        left: {
+          type: 'date',
+          field: 'datetime'
+        },
+        op: 'between',
+        right: '${["2023-03-20T04:55:00+08:00","2023-03-21T04:55:00+08:00"]}'
+      },
+      {
+        id: guid(),
+        left: {
+          type: 'date',
+          field: 'time'
+        },
+        op: 'between',
+        right: '${["00:05","00:06"]}'
+      }
+    ]
+  };
+
+  expect(await resolveCondition(conditions, data)).toBe(true);
+});
+
 test(`condition tree`, async () => {
   const conditions8 = {
     id: guid(),
@@ -374,14 +468,13 @@ test(`condition tree`, async () => {
 
 test(`condition register`, async () => {
   registerConditionComputer(
-    'less',
+    'customless',
     (left: any, right?: any, fieldType?: string) => {
       if (fieldType === 'date') {
         return moment(left).isBefore(moment(right), 'day');
       }
       return left < right;
-    },
-    'date'
+    }
   );
 
   const conditions = {
@@ -394,7 +487,7 @@ test(`condition register`, async () => {
           type: 'date',
           field: 'date'
         },
-        op: 'less',
+        op: 'customless',
         right: '2023-03-20'
       },
       {
@@ -403,7 +496,7 @@ test(`condition register`, async () => {
           type: 'field',
           field: 'num'
         },
-        op: 'less',
+        op: 'customless',
         right: '5'
       }
     ]
