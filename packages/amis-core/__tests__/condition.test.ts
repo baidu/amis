@@ -19,7 +19,7 @@ const data = {
     version: '2.8.0',
     github: 'https://github.com/baidu/amis'
   },
-  range: [1678723200, 1678895999],
+  range: 1678723200,
   date: '2023-03-19',
   datetime: '2023-03-20T04:55:00+08:00',
   time: '00:05'
