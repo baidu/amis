@@ -33,14 +33,15 @@
 fieldset.#{$ns}Collapse {
   border: none;
   > legend {
-    font-weight: var(--fontWeightNormal);
-    padding: var(--gap-xs) 0;
-    font-size: var(--fontSizeMd);
-    color: var(--text--loud-color);
-    border-left: var(--primary) px2rem(4px) solid;
-    line-height: 1.2;
-    margin: var(--gap-base) 0;
-    padding: 0 0 0 14px;
+    border-left: var(--fieldSet-legend-border-color)
+      var(--fieldSet-legend-border-width) solid;
+    height: var(--fieldSet-legend-height);
+    line-height: var(--fieldSet-legend-height);
+    margin: var(--fieldSet-legend-marginTop) var(--fieldSet-legend-marginRight)
+      var(--fieldSet-legend-marginBottom) var(--fieldSet-legend-marginLeft);
+    padding: var(--fieldSet-legend-paddingTop)
+      var(--fieldSet-legend-paddingRight) var(--fieldSet-legend-paddingBottom)
+      var(--fieldSet-legend-paddingLeft);
     cursor: pointer;
     border-bottom: none !important;
     background: transparent;
@@ -48,6 +49,13 @@ fieldset.#{$ns}Collapse {
     flex-direction: row-reverse;
     justify-content: flex-end;
     // width: 100%;
+
+    .#{$ns}TplField {
+      font-weight: var(--fieldSet-legend-fontWeight);
+      font-size: var(--fieldSet-legend-fontSize);
+      color: var(--fieldSet-legend-color);
+    }
+
     &:hover {
       background: transparent;
     }
@@ -55,13 +63,18 @@ fieldset.#{$ns}Collapse {
 
   &--xs {
     @extend %fieldSetBase;
-    padding: 20px 5px 5px 5px;
+    padding: var(--fieldSet-size-xs-paddingTop)
+      var(--fieldSet-size-xs-paddingRight) var(--fieldSet-size-xs-paddingBottom)
+      var(--fieldSet-size-xs-paddingLeft);
 
     > legend {
-      left: 5px;
-      font-size: var(--fontSizeXs);
+      left: var(--fieldSet-size-xs-paddingLeft);
       padding: 0 3px;
       margin: 0 0 0 -3px;
+
+      .#{$ns}TplField {
+        font-size: var(--fieldSet-size-xs-fontSize);
+      }
 
       &:hover {
         background-color: var(--white);
@@ -69,20 +82,25 @@ fieldset.#{$ns}Collapse {
     }
 
     &:after {
-      top: 6px;
+      top: calc(var(--fieldSet-size-xs-fontSize) / 2);
     }
   }
 
   &--sm {
     @extend %fieldSetBase;
 
-    padding: 25px 10px 10px 10px;
+    padding: var(--fieldSet-size-sm-paddingTop)
+      var(--fieldSet-size-sm-paddingRight) var(--fieldSet-size-sm-paddingBottom)
+      var(--fieldSet-size-sm-paddingLeft);
 
     > legend {
-      left: 10px;
-      font-size: var(--fontSizeSm);
+      left: var(--fieldSet-size-sm-paddingLeft);
       padding: 0 5px;
       margin: 0 0 0 -5px;
+
+      .#{$ns}TplField {
+        font-size: var(--fieldSet-size-sm-fontSize);
+      }
 
       &:hover {
         background-color: var(--white);
@@ -90,20 +108,26 @@ fieldset.#{$ns}Collapse {
     }
 
     &:after {
-      top: 6px;
+      top: calc(var(--fieldSet-size-sm-fontSize) / 2);
     }
   }
 
   &--base {
     @extend %fieldSetBase;
 
-    padding: 30px var(--gap-md) var(--gap-md) var(--gap-md);
+    padding: var(--fieldSet-size-base-paddingTop)
+      var(--fieldSet-size-base-paddingRight)
+      var(--fieldSet-size-base-paddingBottom)
+      var(--fieldSet-size-base-paddingLeft);
 
     > legend {
-      left: var(--gap-md);
-      font-size: var(--fontSizeBase);
+      left: var(--fieldSet-size-base-paddingLeft);
       padding: 0 8px;
       margin: 0 0 0 -8px;
+
+      .#{$ns}TplField {
+        font-size: var(--fieldSet-size-base-fontSize);
+      }
 
       &:hover {
         background-color: var(--white);
@@ -111,19 +135,24 @@ fieldset.#{$ns}Collapse {
     }
 
     &:after {
-      top: 7px;
+      top: calc(var(--fieldSet-size-base-fontSize) / 2);
     }
   }
 
   &--md {
     @extend %fieldSetBase;
-    padding: 30px 20px 20px 20px;
+    padding: var(--fieldSet-size-md-paddingTop)
+      var(--fieldSet-size-md-paddingRight) var(--fieldSet-size-md-paddingBottom)
+      var(--fieldSet-size-md-paddingLeft);
 
     > legend {
-      left: 20px;
-      font-size: var(--fontSizeMd);
+      left: var(--fieldSet-size-md-paddingLeft);
       padding: 0 10px;
       margin: 0 0 0 -10px;
+
+      .#{$ns}TplField {
+        font-size: var(--fieldSet-size-md-fontSize);
+      }
 
       &:hover {
         background-color: var(--white);
@@ -131,19 +160,24 @@ fieldset.#{$ns}Collapse {
     }
 
     &:after {
-      top: 7px;
+      top: calc(var(--fieldSet-size-md-fontSize) / 2);
     }
   }
 
   &--lg {
     @extend %fieldSetBase;
-    padding: 40px 30px 30px 30px;
+    padding: var(--fieldSet-size-lg-paddingTop)
+      var(--fieldSet-size-lg-paddingRight) var(--fieldSet-size-lg-paddingBottom)
+      var(--fieldSet-size-lg-paddingLeft);
 
     > legend {
-      left: 30px;
-      font-size: var(--fontSizeLg);
+      left: var(--fieldSet-size-lg-paddingLeft);
       padding: 0 var(--gap-md);
       margin: 0 0 0 calc(var(--gap-md) * -1);
+
+      .#{$ns}TplField {
+        font-size: var(--fieldSet-size-lg-fontSize);
+      }
 
       &:hover {
         background-color: var(--white);
@@ -151,7 +185,7 @@ fieldset.#{$ns}Collapse {
     }
 
     &:after {
-      top: 9px;
+      top: calc(var(--fieldSet-size-lg-fontSize) / 2);
     }
   }
 }
