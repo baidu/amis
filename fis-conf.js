@@ -869,7 +869,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!fflate/**'
       ],
 
-      'pkg/npm.css': ['node_modules/*/**.css', '!monaco-editor/**'],
+      'pkg/npm.css': ['node_modules/*/**.css', '!monaco-editor/**', '!amis/**'],
 
       // css 打包
       'pkg/style.css': [
@@ -880,6 +880,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!/examples/style.scss',
         '!monaco-editor/**',
         '!scss/helper.scss',
+        '!amis/**',
         '/examples/style.scss' // 让它在最下面
       ]
     }),
