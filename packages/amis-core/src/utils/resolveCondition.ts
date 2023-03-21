@@ -15,7 +15,7 @@ const DEFAULT_RESULT = true;
 export async function resolveCondition(
   conditions: any,
   data: any,
-  defaultResult?: boolean
+  defaultResult: boolean = true
 ) {
   if (
     !conditions ||
@@ -23,7 +23,7 @@ export async function resolveCondition(
     !Array.isArray(conditions.children) ||
     !conditions.children.length
   ) {
-    return defaultResult === undefined ? DEFAULT_RESULT : defaultResult;
+    return defaultResult;
   }
 
   return await computeConditions(
