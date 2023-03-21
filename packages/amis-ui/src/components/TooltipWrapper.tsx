@@ -99,6 +99,7 @@ export interface TooltipWrapperProps {
    * 显示&隐藏时触发
    */
   onVisibleChange?: (visible: boolean) => void;
+  children?: JSX.Element;
 }
 
 interface TooltipWrapperState {

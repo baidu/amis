@@ -507,7 +507,7 @@ interface LinkItemProps {
   children?: Array<LinkItem>;
   path?: string;
   icon?: string;
-  component?: React.ReactType;
+  component?: React.ElementType;
 }
 
 export interface NavigationObject {
