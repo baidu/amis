@@ -626,3 +626,70 @@ export interface BaseSchemaWithoutType {
   staticInputClassName?: SchemaClassName;
   staticSchema?: any;
 }
+
+export type OperatorType =
+  | 'equal'
+  | 'not_equal'
+  | 'is_empty'
+  | 'is_not_empty'
+  | 'like'
+  | 'not_like'
+  | 'starts_with'
+  | 'ends_with'
+  | 'less'
+  | 'less_or_equal'
+  | 'greater'
+  | 'greater_or_equal'
+  | 'between'
+  | 'not_between'
+  | 'select_equals'
+  | 'select_not_equals'
+  | 'select_any_in'
+  | 'select_not_any_in'
+  | {
+      label: string;
+      value: string;
+    };
+
+export type ExpressionSimple = string | number | object | undefined;
+export type ExpressionValue =
+  | ExpressionSimple
+  | {
+      type: 'value';
+      value: ExpressionSimple;
+    };
+export type ExpressionFunc = {
+  type: 'func';
+  func: string;
+  args: Array<ExpressionComplex>;
+};
+export type ExpressionField = {
+  type: 'field';
+  field: string;
+};
+export type ExpressionFormula = {
+  type: 'formula';
+  value: string;
+};
+
+export type ExpressionComplex =
+  | ExpressionValue
+  | ExpressionFunc
+  | ExpressionField
+  | ExpressionFormula;
+
+export interface ConditionRule {
+  id: any;
+  left?: ExpressionComplex;
+  op?: OperatorType;
+  right?: ExpressionComplex | Array<ExpressionComplex>;
+}
+
+export interface ConditionGroupValue {
+  id: string;
+  conjunction: 'and' | 'or';
+  not?: boolean;
+  children?: Array<ConditionRule | ConditionGroupValue>;
+}
+
+export interface ConditionValue extends ConditionGroupValue {}

@@ -1,13 +1,8 @@
 import {
-  ExpressionComplex,
   ConditionBuilderField,
   ConditionBuilderFuncs,
   ConditionFieldFunc,
-  ExpressionFunc,
-  ConditionBuilderType,
-  FieldSimple,
-  FieldGroup,
-  OperatorType
+  FieldSimple
 } from './types';
 import React from 'react';
 import ConditionField from './Field';
@@ -27,6 +22,7 @@ import ConditionFunc from './Func';
 import {ConditionBuilderConfig} from './config';
 import Formula from './Formula';
 import {FormulaPickerProps} from '../formula/Picker';
+import type {ExpressionComplex, OperatorType, ExpressionFunc} from 'amis-core';
 
 /**
  * 支持4中表达式设置方式
