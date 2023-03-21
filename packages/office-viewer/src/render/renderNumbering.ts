@@ -109,6 +109,12 @@ export function renderNumbering(
     ilvlData[ilvl] = lvl.start;
   } else {
     ilvlData[ilvl] += 1;
+    // 加一之后，将比它大的都清空，这样才能每个级别重置
+    for (const ilvIndex in ilvlData) {
+      if (parseInt(ilvIndex) > parseInt(ilvl)) {
+        ilvlData[ilvIndex] = 0;
+      }
+    }
   }
 
   const element = createElement('span');
