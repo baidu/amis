@@ -6,8 +6,7 @@ import {
   RendererEnv,
   RendererProps,
   resolveVariableAndFilter,
-  ActionObject,
-  isPureVariable
+  ActionObject
 } from 'amis-core';
 import {getExprProperties} from 'amis-core';
 import {filter, evalExpression} from 'amis-core';
@@ -654,6 +653,7 @@ export class Navigation extends React.Component<
       badge,
       data,
       location,
+      location2,
       collapsed,
       expandIcon,
       indentSize,
@@ -697,7 +697,7 @@ export class Navigation extends React.Component<
                   return link.link.active;
                 }
                 const path = link.path;
-                const ret = location.pathname === path;
+                const ret = (location2 || location).pathname === path;
 
                 return !!ret;
               }}
@@ -705,7 +705,7 @@ export class Navigation extends React.Component<
               stacked={!!stacked}
               mode={mode}
               themeColor={themeColor}
-              location={location}
+              location={location2 || location}
               onSelect={this.handleClick}
               onToggle={this.toggleLink}
               renderLink={(link: MenuItemProps) => link.link}
@@ -811,7 +811,8 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
         env,
         unfoldedField,
         foldedField,
-        location,
+        location, // 当通过render方法渲染组件 配置面板如果给nav配置location属性 会被外层的location覆盖掉
+        location2, // 因此新增一个location2 可以在配置面板里自己设置 且优先级更高
         level,
         defaultOpenLevel,
         dispatchEvent,
@@ -838,7 +839,7 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
               : false) ||
               (link.activeOn
                 ? evalExpression(link.activeOn as string, data) ||
-                  evalExpression(link.activeOn as string, location)
+                  evalExpression(link.activeOn as string, location2 || location)
                 : !!(
                     link.hasOwnProperty('to') &&
                     env &&
@@ -934,6 +935,7 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
     RemoteOptionsProps &
       React.ComponentProps<typeof ThemedNavigation> & {
         location?: any;
+        location2?: any;
         env?: RendererEnv;
         data?: any;
         unfoldedField?: string;
@@ -964,7 +966,10 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
     }
 
     componentDidUpdate(prevProps: any, prevState: any) {
-      if (!isEqual(this.props.location, prevProps.location)) {
+      if (
+        !isEqual(this.props.location, prevProps.location) ||
+        !isEqual(this.props.location2, prevProps.location2)
+      ) {
         this.props.updateConfig(this.props.config, 'location-change');
       } else if (!isEqual(this.props.links, prevProps.links)) {
         this.props.updateConfig(this.props.links, 'update');
