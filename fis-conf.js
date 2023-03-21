@@ -118,9 +118,11 @@ fis.match('icons/**.svg', {
   ]
 });
 
-fis.match('/node_modules/**.js', {
-  isMod: true
+fis.match('/node_modules/**.{js,cjs}', {
+  isMod: true,
+  rExt: 'js'
 });
+fis.set('project.fileType.text', 'cjs');
 
 fis.match('tinymce/{tinymce.js,plugins/**.js,themes/silver/theme.js}', {
   ignoreDependencies: true
@@ -310,7 +312,7 @@ fis.hook('node_modules', {
 });
 fis.hook('commonjs', {
   sourceMap: false,
-  extList: ['.js', '.jsx', '.tsx', '.ts'],
+  extList: ['.js', '.jsx', '.tsx', '.ts', '.cjs'],
   paths: {
     'monaco-editor': '/examples/loadMonacoEditor'
   }
