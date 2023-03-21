@@ -107,11 +107,12 @@ export function evalExpression(expression: string, data?: object): boolean {
  */
 export async function evalExpressionWithConditionBuilder(
   expression: any,
-  data?: object
+  data?: object,
+  defaultResult?: boolean
 ): Promise<boolean> {
   // 支持ConditionBuilder
   if (Object.prototype.toString.call(expression) === '[object Object]') {
-    return await resolveCondition(expression, data);
+    return await resolveCondition(expression, data, defaultResult);
   }
 
   return evalExpression(expression, data);

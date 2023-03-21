@@ -212,7 +212,11 @@ export const runAction = async (
   let isStop = false;
 
   if (expression) {
-    isStop = !(await evalExpressionWithConditionBuilder(expression, mergeData));
+    isStop = !(await evalExpressionWithConditionBuilder(
+      expression,
+      mergeData,
+      true
+    ));
   }
 
   if (isStop) {
@@ -224,14 +228,16 @@ export const runAction = async (
   if (actionConfig.preventDefault) {
     preventDefault = await evalExpressionWithConditionBuilder(
       String(actionConfig.preventDefault),
-      mergeData
+      mergeData,
+      false
     );
   }
   let stopPropagation = false;
   if (actionConfig.stopPropagation) {
     stopPropagation = await evalExpressionWithConditionBuilder(
       String(actionConfig.stopPropagation),
-      mergeData
+      mergeData,
+      false
     );
   }
 

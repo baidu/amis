@@ -10,15 +10,20 @@ import capitalize from 'lodash/capitalize';
 const conditionResolverMap: {
   [op: string]: (left: any, right: any, fieldType?: string) => boolean;
 } = {};
+const DEFAULT_RESULT = true;
 
-export async function resolveCondition(conditions: any, data: any) {
+export async function resolveCondition(
+  conditions: any,
+  data: any,
+  defaultResult?: boolean
+) {
   if (
     !conditions ||
     !conditions.conjunction ||
     !Array.isArray(conditions.children) ||
     !conditions.children.length
   ) {
-    return false;
+    return defaultResult === undefined ? DEFAULT_RESULT : defaultResult;
   }
 
   return await computeConditions(
@@ -75,19 +80,19 @@ async function computeCondition(
     conditionResolverMap[`${rule.op}For${capitalize(rule.left.type)}`] ??
     conditionResolverMap[rule.op];
 
-  return func ? func(leftValue, rightValue, rule.left.type) : false;
+  return func ? func(leftValue, rightValue, rule.left.type) : DEFAULT_RESULT;
 }
 
 function startsWithFunc(left: any, right: any) {
   if (left === undefined || right === undefined) {
-    return false;
+    return DEFAULT_RESULT;
   }
   return startsWith(left, right);
 }
 
 function endsWithFunc(left: any, right: any) {
   if (left === undefined || right === undefined) {
-    return false;
+    return DEFAULT_RESULT;
   }
   return endsWith(left, right);
 }
@@ -110,7 +115,7 @@ function isEmptyFunc(left: any) {
   } else if (typeof left === 'object') {
     return isEmpty(left);
   }
-  return false;
+  return DEFAULT_RESULT;
 }
 
 function isNotEmptyFunc(left: any) {
@@ -123,12 +128,12 @@ function isNotEmptyFunc(left: any) {
   } else if (typeof left === 'object') {
     return !isEmpty(left);
   }
-  return false;
+  return DEFAULT_RESULT;
 }
 
 function greaterFunc(left: any, right: any) {
   if (left === undefined || right === undefined) {
-    return false;
+    return DEFAULT_RESULT;
   }
   return parseFloat(left as any) > parseFloat(right as any);
 }
@@ -175,14 +180,14 @@ function greaterOrEqualForDateFunc(left: any, right: any) {
 
 function greaterOrEqualFunc(left: any, right: any) {
   if (left === undefined || right === undefined) {
-    return false;
+    return DEFAULT_RESULT;
   }
   return parseFloat(left as any) >= parseFloat(right as any);
 }
 
 function lessFunc(left: any, right: any) {
   if (left === undefined || right === undefined) {
-    return false;
+    return DEFAULT_RESULT;
   }
   return parseFloat(left as any) < parseFloat(right as any);
 }
@@ -201,21 +206,21 @@ function lessOrEqualForDateFunc(left: any, right: any) {
 
 function lessOrEqualFunc(left: any, right: any) {
   if (left === undefined || right === undefined) {
-    return false;
+    return DEFAULT_RESULT;
   }
   return parseFloat(left as any) <= parseFloat(right as any);
 }
 
 function likeFunc(left: any, right: any) {
   if (left === undefined || right === undefined) {
-    return false;
+    return DEFAULT_RESULT;
   }
   return !!~left.indexOf(right);
 }
 
 function notLikeFunc(left: any, right: any) {
   if (left === undefined || right === undefined) {
-    return false;
+    return DEFAULT_RESULT;
   }
   return !~left.indexOf(right);
 }
@@ -225,7 +230,7 @@ function betweenFunc(left: any, right: any) {
     const [min, max] = right.sort();
     return left >= parseFloat(min) && left <= parseFloat(max);
   }
-  return false;
+  return DEFAULT_RESULT;
 }
 
 function betweenForDateFunc(left: any, right: any) {
@@ -233,7 +238,7 @@ function betweenForDateFunc(left: any, right: any) {
     const [min, max] = normalizeDateRange(right);
     return moment(normalizeDate(left)).isBetween(min, max, 's', '[]');
   }
-  return false;
+  return DEFAULT_RESULT;
 }
 
 function notBetweenFunc(left: any, right: any) {
@@ -241,7 +246,7 @@ function notBetweenFunc(left: any, right: any) {
     const [min, max] = right.sort();
     return left < parseFloat(min) && left > parseFloat(max);
   }
-  return false;
+  return DEFAULT_RESULT;
 }
 
 function notBetweenForDateFunc(left: any, right: any) {
@@ -249,12 +254,12 @@ function notBetweenForDateFunc(left: any, right: any) {
     const [min, max] = normalizeDateRange(right);
     return !moment(normalizeDate(left)).isBetween(min, max, 's', '[]');
   }
-  return false;
+  return DEFAULT_RESULT;
 }
 
 function selectAnyInFunc(left: any, right: any) {
   if (!Array.isArray(right)) {
-    return false;
+    return DEFAULT_RESULT;
   }
 
   if (Array.isArray(left)) {
@@ -265,7 +270,7 @@ function selectAnyInFunc(left: any, right: any) {
 
 function selectNotAnyInFunc(left: any, right: any) {
   if (!Array.isArray(right)) {
-    return false;
+    return DEFAULT_RESULT;
   }
 
   if (Array.isArray(left)) {
