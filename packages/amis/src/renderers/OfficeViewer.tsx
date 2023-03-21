@@ -11,9 +11,9 @@ import {
   Renderer,
   RendererProps,
   resolveVariableAndFilter,
-  ScopedContext,
-  ServiceStore
+  ScopedContext
 } from 'amis-core';
+import type {Word} from 'office-viewer';
 
 export interface OfficeViewerSchema extends BaseSchema {
   type: 'office-viewer';
@@ -154,6 +154,7 @@ export default class OfficeViewer extends React.Component<
         const data = reader.result as ArrayBuffer;
 
         import('office-viewer').then(async (officeViewer: any) => {
+          const Word = officeViewer.Word;
           const word = new Word(data, {
             ...wordOptions,
             replaceText: this.replaceText.bind(this)
@@ -162,7 +163,6 @@ export default class OfficeViewer extends React.Component<
             word.render(this.rootElement?.current!);
           }
         });
-
       };
       reader.readAsArrayBuffer(file);
     }

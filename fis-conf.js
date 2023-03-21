@@ -73,6 +73,7 @@ fis.set('project.files', [
   '/examples/static/photo/*.png',
   '/examples/static/audio/*.mp3',
   '/examples/static/video/*.mp4',
+  '/examples/static/font/*.ttf',
   'mock/**'
 ]);
 
@@ -862,7 +863,8 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!mdurl/**',
         '!uc.micro/**',
         '!markdown-it/**',
-        '!markdown-it-html5-media/**'
+        '!markdown-it-html5-media/**',
+        '!fflate/**'
       ],
 
       'pkg/npm.css': ['node_modules/*/**.css', '!monaco-editor/**'],
