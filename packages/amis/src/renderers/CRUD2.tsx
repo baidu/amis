@@ -413,6 +413,9 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
    * 加载更多动作处理器
    */
   handleLoadMore() {
+    const {store, perPage} = this.props;
+
+    store.changePage(store.page + 1, perPage);
     this.getData(undefined, undefined, undefined, true);
   }
 
@@ -500,7 +503,8 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       loadDataOnce,
       loadDataOnceFetchOnFilter,
       source,
-      columns
+      columns,
+      perPage
     } = this.props;
 
     // reload 需要清空用户选择
@@ -518,7 +522,14 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     this.lastQuery = store.query;
     const loadDataMode = loadMore ?? loadType === 'more';
 
-    const data = createObject(store.data, store.query);
+    const data: Record<string, any> = createObject(store.data, store.query);
+
+    // handleLoadMore 是在事件触发后才执行，首次加载并不走到 handleLoadMore
+    // 所以加载更多模式下，首次加载也需要使用设置的 perPage，避免前后 perPage 不一致导致的问题
+    if (loadDataMode && perPage) {
+      store.changePerPage(perPage);
+    }
+
     isEffectiveApi(api, data)
       ? store
           .fetchInitData(api, data, {
@@ -647,7 +658,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
           errorMessage: messages && messages.saveSuccess
         })
         .then(() => {
-          reload && this.reloadTarget(reload, data);
+          reload && this.reloadTarget(filter(reload, data), data);
           this.getData(undefined, undefined, true, true);
         })
         .catch(() => {});
@@ -667,7 +678,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       store
         .saveRemote(quickSaveItemApi, sendData)
         .then(() => {
-          reload && this.reloadTarget(reload, data);
+          reload && this.reloadTarget(filter(reload, data), data);
           this.getData(undefined, undefined, true, true);
         })
         .catch(() => {
@@ -773,7 +784,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       store
         .saveRemote(saveOrderApi, model)
         .then(() => {
-          reload && this.reloadTarget(reload, model);
+          reload && this.reloadTarget(filter(reload, model), model);
           this.getData(undefined, undefined, true, true);
         })
         .catch(() => {});

@@ -339,6 +339,7 @@ export default class ImageControl extends React.Component<
     receiver: '/api/upload',
     hideUploadButton: false,
     placeholder: 'Image.placeholder',
+    placeholderPlacement: 'top',
     joinValues: true,
     extractValue: false,
     delimiter: ',',
@@ -1342,6 +1343,7 @@ export default class ImageControl extends React.Component<
       style,
       classnames: cx,
       placeholder,
+      placeholderPlacement,
       disabled,
       multiple,
       accept,
@@ -1682,7 +1684,7 @@ export default class ImageControl extends React.Component<
                         style={frameImageStyle}
                         onClick={this.handleSelect}
                         data-tooltip={__(placeholder)}
-                        data-position="right"
+                        data-position={placeholderPlacement}
                         ref={this.frameImageRef}
                       >
                         {filterFrameImage ? (

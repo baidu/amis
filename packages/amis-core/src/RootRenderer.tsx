@@ -152,10 +152,10 @@ export class RootRenderer extends React.Component<RootRendererProps> {
       window.open(mailto);
     } else if (action.actionType === 'dialog') {
       store.setCurrentAction(action);
-      store.openDialog(ctx);
+      store.openDialog(ctx, undefined, undefined, delegate);
     } else if (action.actionType === 'drawer') {
       store.setCurrentAction(action);
-      store.openDrawer(ctx);
+      store.openDrawer(ctx, undefined, undefined, delegate);
     } else if (action.actionType === 'toast') {
       action.toast?.items?.forEach((item: any) => {
         env.notify(
@@ -201,7 +201,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
           action.reload &&
             this.reloadTarget(
               delegate || this.context,
-              action.reload,
+              filter(action.reload, ctx),
               store.data
             );
         })
@@ -252,7 +252,15 @@ export class RootRenderer extends React.Component<RootRendererProps> {
       return;
     }
 
+    const dialogAction = store.action as ActionObject;
+    const reload = action.reload ?? dialogAction.reload;
+    const scoped = store.getDialogScoped() || this.context;
+
     store.closeDialog(true);
+
+    if (reload) {
+      scoped.reload(reload, store.data);
+    }
   }
 
   handleDialogClose(confirmed = false) {
@@ -280,7 +288,18 @@ export class RootRenderer extends React.Component<RootRendererProps> {
       return;
     }
 
+    const drawerAction = store.action as ActionObject;
+    const reload = action.reload ?? drawerAction.reload;
+    const scoped = store.getDrawerScoped() || (this.context as IScopedContext);
+
     store.closeDrawer();
+
+    // 稍等会，等动画结束。
+    setTimeout(() => {
+      if (reload) {
+        scoped.reload(reload, store.data);
+      }
+    }, 300);
   }
 
   handleDrawerClose() {

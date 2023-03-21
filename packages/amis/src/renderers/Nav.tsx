@@ -1,11 +1,13 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
+import isEqual from 'lodash/isEqual';
 import {
   Renderer,
   RendererEnv,
   RendererProps,
   resolveVariableAndFilter,
-  ActionObject
+  ActionObject,
+  isPureVariable
 } from 'amis-core';
 import {getExprProperties} from 'amis-core';
 import {filter, evalExpression} from 'amis-core';
@@ -29,7 +31,6 @@ import {BadgeObject} from 'amis-ui';
 import {RemoteOptionsProps, withRemoteConfig} from 'amis-ui';
 import {Spinner, Menu} from 'amis-ui';
 import {ScopedContext, IScopedContext} from 'amis-core';
-import isEqual from 'lodash/isEqual';
 import type {NavigationItem} from 'amis-ui/lib/components/menu';
 import type {MenuItemProps} from 'amis-ui/lib/components/menu/MenuItem';
 
@@ -427,25 +428,40 @@ export class Navigation extends React.Component<
     }
     const ul = (findDOMNode(this) as HTMLElement).firstChild as HTMLElement;
     if (position === 'self') {
-      this.setState({
-        dropIndicator: {
-          top: rect.top - ul.getBoundingClientRect().top,
-          left,
-          width: ul.getBoundingClientRect().width - left,
-          height,
-          opacity: 0.2
-        }
-      });
+      const dropIndicator = {
+        top: rect.top - ul.getBoundingClientRect().top,
+        left,
+        width: ul.getBoundingClientRect().width - left,
+        height,
+        opacity: 0.2
+      };
+      // 尽量减少dropIndicator的更新 否则到saas里会比较卡
+      if (
+        !this.state.dropIndicator ||
+        (this.state.dropIndicator &&
+          !isEqual(this.state.dropIndicator, dropIndicator))
+      ) {
+        this.setState({
+          dropIndicator
+        });
+      }
     } else {
-      this.setState({
-        dropIndicator: {
-          top:
-            (position === 'bottom' ? rect.top + rect.height : rect.top) -
-            ul.getBoundingClientRect().top,
-          left,
-          width: ul.getBoundingClientRect().width - left
-        }
-      });
+      const dropIndicator = {
+        top:
+          (position === 'bottom' ? rect.top + rect.height : rect.top) -
+          ul.getBoundingClientRect().top,
+        left,
+        width: ul.getBoundingClientRect().width - left
+      };
+      if (
+        !this.state.dropIndicator ||
+        (this.state.dropIndicator &&
+          !isEqual(this.state.dropIndicator, dropIndicator))
+      ) {
+        this.setState({
+          dropIndicator
+        });
+      }
     }
   }
 
@@ -798,8 +814,8 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
         location,
         level,
         defaultOpenLevel,
-        config,
-        dispatchEvent
+        dispatchEvent,
+        store
       } = props;
 
       const isActive = (link: Link, depth: number) => {
@@ -859,11 +875,10 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
       );
 
       const currentActiveItems = getActiveItems(links, 1, level);
-      const prevActiveItems = getActiveItems(config, 1, level);
-
+      const prevActiveItems = getActiveItems(store.config, 1, level);
       setTimeout(() => {
         if (!isEqual(currentActiveItems, prevActiveItems)) {
-          dispatchEvent('change', {activeItems: currentActiveItems});
+          dispatchEvent('change', {value: currentActiveItems});
         }
       }, 0);
     }
@@ -948,21 +963,16 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
       }
     }
 
-    getCurrentLink(key: string) {
-      let link = null;
-      const {config, data} = this.props;
-      const id = resolveVariableAndFilter(key, data, '| raw');
-      if (key) {
-        link = findTree(config, item => item.label == id || item.key == id);
-      }
-      return link;
-    }
-
     componentDidUpdate(prevProps: any, prevState: any) {
       if (!isEqual(this.props.location, prevProps.location)) {
         this.props.updateConfig(this.props.config, 'location-change');
       } else if (!isEqual(this.props.links, prevProps.links)) {
         this.props.updateConfig(this.props.links, 'update');
+      }
+
+      // 外部修改defaultOpenLevel 会影响菜单的unfolded属性
+      if (prevProps.defaultOpenLevel !== this.props.defaultOpenLevel) {
+        this.props.updateConfig(this.props.config, 'update');
       }
 
       if (prevProps.collapsed !== this.props.collapsed) {
@@ -974,6 +984,16 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
           collapsed: this.state.collapsed
         });
       }
+    }
+
+    getCurrentLink(key: string) {
+      let link = null;
+      const {config, data} = this.props;
+      const id = resolveVariableAndFilter(key, data, '| raw');
+      if (key) {
+        link = findTree(config, item => item.label == id || item.key == id);
+      }
+      return link;
     }
 
     async toggleLink(target: Link, depth: number, forceFold?: boolean) {
@@ -1147,7 +1167,7 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
         return false;
       }
 
-      env?.jumpTo(filter(link.to as string, data), link as any);
+      !!link.to && env?.jumpTo(filter(link.to as string, data), link as any);
       return true;
     }
 
@@ -1185,6 +1205,7 @@ export class NavigationRenderer extends React.Component<RendererProps> {
     | {
         loadConfig: (ctx?: any) => Promise<any> | void;
         setConfig: (value: any) => void;
+        syncConfig: () => void;
       }
     | undefined = undefined;
 
@@ -1205,6 +1226,14 @@ export class NavigationRenderer extends React.Component<RendererProps> {
     scoped.registerComponent(this);
   }
 
+  componentDidUpdate(prevProps: any) {
+    // 在saas中 source可能切换 需要实时更新source数据源
+    // 仅支持source为变量情况下自动更新 如果source配置了api 需要配置trackExpression
+    if (this.remoteRef && this.props.source !== prevProps.source) {
+      this.remoteRef.syncConfig();
+    }
+  }
+
   componentWillUnmount() {
     const scoped = this.context as IScopedContext;
     scoped.unRegisterComponent(this);
@@ -1217,14 +1246,15 @@ export class NavigationRenderer extends React.Component<RendererProps> {
     }
   ) {
     const actionType = action?.actionType as any;
+    const value = args?.value || action.data.value;
     if (actionType === 'updateItems') {
       let children: Array<Link> = [];
-      if (args.value) {
-        if (Array.isArray(args.value)) {
+      if (value) {
+        if (Array.isArray(value)) {
           // 只展示触发项的children属性
           // 多个的话 默认只展示第一个
-          if (args.value.length > 0) {
-            const item = args.value.find(
+          if (value.length > 0) {
+            const item = value.find(
               item => item.children && item.children.length
             );
             if (item) {
@@ -1235,8 +1265,8 @@ export class NavigationRenderer extends React.Component<RendererProps> {
               }
             }
           }
-        } else if (typeof args.value === 'string') {
-          const currentLink = this.navRef.getCurrentLink(args.value);
+        } else if (typeof value === 'string') {
+          const currentLink = this.navRef.getCurrentLink(value);
           this.navRef.setState({
             currentKey: currentLink.key || currentLink.label
           });
@@ -1257,9 +1287,7 @@ export class NavigationRenderer extends React.Component<RendererProps> {
       }
     } else if (actionType === 'collapse') {
       const collapsed =
-        args && typeof args.value !== 'undefined'
-          ? args.value
-          : !this.navRef.state.collapsed;
+        typeof value !== 'undefined' ? value : !this.navRef.state.collapsed;
 
       this.navRef.setState({collapsed});
     } else if (actionType === 'reset') {

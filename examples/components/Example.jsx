@@ -71,6 +71,7 @@ import OptionsLocalPageSchema from './Linkage/OptionsLocal';
 import FormSubmitSchema from './Linkage/FormSubmit';
 import InputEventSchema from './EventAction/cmpt-event-action/InputEvent';
 import DateEventSchema from './EventAction/cmpt-event-action/DateEvent';
+import TagEvent from './EventAction/cmpt-event-action/TagEvent';
 import SwitchEventSchema from './EventAction/cmpt-event-action/SwitchEvent';
 import TabsEventSchema from './EventAction/cmpt-event-action/TabsEvent';
 import UploadEventSchema from './EventAction/cmpt-event-action/UploadEvent';
@@ -675,6 +676,11 @@ export const examples = [
                 label: '时间类组件',
                 path: 'examples/event/date',
                 component: makeSchemaRenderer(DateEventSchema)
+              },
+              {
+                label: '可关闭的tag group',
+                path: 'examples/event/each-tag',
+                component: makeSchemaRenderer(TagEvent)
               },
               {
                 label: '开关组件',

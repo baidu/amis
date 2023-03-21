@@ -22,7 +22,8 @@ import {
   ITableStore,
   generateIcon,
   isPureVariable,
-  resolveVariableAndFilter
+  resolveVariableAndFilter,
+  getRendererByName
 } from 'amis-core';
 import {Button, Icon} from 'amis-ui';
 import omit from 'lodash/omit';
@@ -35,6 +36,7 @@ import {SchemaApi, SchemaCollection} from '../../Schema';
 import find from 'lodash/find';
 import moment from 'moment';
 import merge from 'lodash/merge';
+import mergeWith from 'lodash/mergeWith';
 
 import type {SchemaTokenizeableString} from '../../Schema';
 
@@ -295,18 +297,17 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
     // 如果static为true 或 disabled为true，
     // 则删掉正在新增 或 编辑的那一行
-    let items = [];
     if (
-      props.static !== nextProps.static
-      || props.disabled !== nextProps.disabled
+      props.$schema.disabled !== nextProps.$schema.disabled
+      || props.$schema.static !== nextProps.$schema.static
     ) {
-      items = this.state.items.filter(item => !item.__isPlaceholder);
+      const items = this.state.items.filter(item => !item.__isPlaceholder);
       toUpdate = {
         ...toUpdate,
         items,
         editIndex: -1,
         columns: this.buildColumns(props)
-      }
+      };
     }
 
     if (props.columns !== nextProps.columns) {
@@ -662,6 +663,24 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     );
     subForms.forEach(form => form.flush());
 
+    const validateForms: Array<any> = [];
+    Object.keys(this.subForms).forEach(key => {
+      const arr = key.split('-');
+      const num = +arr[1];
+      if (num === this.state.editIndex && this.subForms[key]) {
+        validateForms.push(this.subForms[key]);
+      }
+    });
+
+    const results = await Promise.all(
+      validateForms.map(item => item.validate())
+    );
+
+    // 有校验不通过的
+    if (~results.indexOf(false)) {
+      return;
+    }
+
     const items = this.state.items.concat();
     let item = {
       ...items[this.state.editIndex]
@@ -908,6 +927,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             ? column.quickEditOnUpdate
             : column.quickEdit;
 
+        const render = getRendererByName(column?.type);
+
         return quickEdit === false
           ? omit(column, ['quickEdit'])
           : {
@@ -915,6 +936,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               quickEdit: {
                 ...this.columnToQuickEdit(column),
                 ...quickEdit,
+                isQuickEditFormMode: !!render?.isFormItem,
                 saveImmediately: true,
                 mode: 'inline',
                 disabled
@@ -1043,6 +1065,21 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               ) : null}
             </Button>
           ) : null
+      });
+    }
+    else {
+      columns = columns.map(column => {
+        const render = getRendererByName(column?.type);
+        if (!!render?.isFormItem) {
+          return {
+            ...column,
+            quickEdit: {
+              ...column,
+              isFormMode: true
+            }
+          }
+        }
+        return column;
       });
     }
 
@@ -1198,7 +1235,33 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       }
 
       const origin = getTree(items, indexes);
-      const data = merge({}, origin, diff);
+
+      const comboNames: Array<string> = [];
+      (this.props.$schema.columns ?? []).forEach((e: any) => {
+        if (e.type === 'combo' && !Array.isArray(diff)) {
+          comboNames.push(e.name);
+        }
+      });
+
+      const data = mergeWith({}, origin, diff, (
+        objValue: any,
+        srcValue: any,
+        key: string,
+        object: any,
+        source: any,
+        stack: any
+      ) => {
+        // 只对第一层做处理，如果不是combo，并且是数组，直接采用diff的值
+        if (
+          stack.size === 0
+          && comboNames.indexOf(key) === -1
+          && Array.isArray(objValue)
+          && Array.isArray(srcValue)) {
+          return srcValue;
+        }
+        // 直接return，默认走的mergeWith自身的merge
+        return;
+      });
 
       items = spliceTree(items, indexes, 1, data);
       this.entries.set(data, this.entries.get(origin) || this.entityId++);
@@ -1281,6 +1344,14 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     this.tableStore = ref?.props?.store;
   }
 
+  computedAddBtnDisabled() {
+    const {disabled} = this.props;
+    if (disabled !== undefined) {
+      return disabled;
+    }
+    return !!~this.state.editIndex;
+  }
+
   render() {
     const {
       className,
@@ -1330,13 +1401,16 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       offset = (page - 1) * perPage;
     }
 
+    const footerAddBtnDisabled = this.computedAddBtnDisabled();
+
     let footerAddBtnSchema = {
       type: 'button',
       level: 'primary',
       size: 'sm',
-      label: '新增',
+      label: __('Table.add'),
       icon: 'fa fa-plus',
-      disabled
+      disabled: footerAddBtnDisabled,
+      ...(footerAddBtnDisabled ? {disabledTip: __('Table.addButtonDisabledTip')} : {})
     };
 
     if (footerAddBtn !== undefined) {

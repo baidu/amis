@@ -115,7 +115,12 @@ function transpileDynamicImportForCJS(options) {
 }
 
 function getPlugins(format = 'esm') {
-  const overridePaths = ['amis-formula', 'amis-core', 'amis-ui'].reduce(
+  const overridePaths = [
+    'amis-formula',
+    'amis-core',
+    'amis-ui',
+    'office-viewer'
+  ].reduce(
     (prev, current) => ({
       ...prev,
       [current]: [getCompiledEntryPath(current, format)]

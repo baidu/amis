@@ -910,7 +910,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
           errorMessage: messages && messages.saveSuccess
         })
         .then(() => {
-          reload && this.reloadTarget(reload, data);
+          reload && this.reloadTarget(filter(reload, data), data);
         })
         .catch(() => {});
     } else {
@@ -929,7 +929,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
       store
         .saveRemote(quickSaveItemApi, sendData)
         .then(() => {
-          reload && this.reloadTarget(reload, data);
+          reload && this.reloadTarget(filter(reload, data), data);
         })
         .catch(() => {
           options?.resetOnFailed && this.reset();
@@ -1016,17 +1016,14 @@ export default class Table2 extends React.Component<Table2Props, object> {
       columnsTogglable,
       $path
     } = this.props;
-
-    // 如果table是在crud里面，自定义显示列配置在grid里，这里就不需要渲染了
-    const isInCrud = /(?:\/|^)crud2\//.test($path as string);
-
     actions = Array.isArray(actions) ? actions.concat() : [];
     const config = isObject(columnsTogglable) ? columnsTogglable : {};
 
     // 现在默认从crud里传进来的columnsTogglable是boolean类型
     // table单独配置的是SchemaNode类型
+    // 如果是在crud里 配置了columnsTogglable相关配置 那么还是在这里渲染
+    // 用户也可以在crud2的grid里配置 那么crud2里就不要再写了 否则就重复了
     if (
-      !isInCrud &&
       store.toggable &&
       region === 'header' &&
       !~this.renderedToolbars.indexOf('columns-toggler')
@@ -1457,6 +1454,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
         onFilter={this.handleFilter}
         onDrag={this.handleOrderChange}
         itemActions={itemActionsConfig}
+        keyField={keyField}
         onRow={{
           ...onRow,
           onRowClick: this.handleRowClick

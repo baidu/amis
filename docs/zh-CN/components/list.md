@@ -18,55 +18,122 @@ order: 56
   "api": "/api/mock2/sample?perPage=5",
   "body": [
     {
-      "type": "panel",
-      "title": "简单 List 示例",
-      "body": {
-        "type": "list",
-        "source": "$rows",
-        "listItem": {
-          "body": [
-            {
-              "type": "hbox",
-              "columns": [
-                {
-                  "label": "Engine",
-                  "name": "engine"
-                },
+      "type": "list",
+      "source": "$rows",
+      "listItem": {
+        "body": [
+          {
+            "type": "hbox",
+            "columns": [
+              {
+                "label": "Engine",
+                "name": "engine"
+              },
 
-                {
-                  "name": "version",
-                  "label": "Version"
-                }
-              ]
-            }
-          ],
-          "actions": [
-            {
-              "type": "button",
-              "level": "link",
-              "label": "查看详情",
-              "actionType": "dialog",
-              "dialog": {
-                "title": "查看详情",
-                "body": {
-                  "type": "form",
-                  "body": [
-                    {
-                      "label": "Engine",
-                      "name": "engine",
-                      "type": "static"
-                    },
-                    {
-                      "name": "version",
-                      "label": "Version",
-                      "type": "static"
-                    }
-                  ]
-                }
+              {
+                "name": "version",
+                "label": "Version"
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "type": "button",
+            "level": "link",
+            "label": "查看详情",
+            "actionType": "dialog",
+            "dialog": {
+              "title": "查看详情",
+              "body": {
+                "type": "form",
+                "body": [
+                  {
+                    "label": "Engine",
+                    "name": "engine",
+                    "type": "static"
+                  },
+                  {
+                    "name": "version",
+                    "label": "Version",
+                    "type": "static"
+                  }
+                ]
               }
             }
-          ]
-        }
+          }
+        ]
+      }
+    }
+  ]
+}
+```
+
+## 选择模式
+
+设置`"selectable": true`, 列表开启多选模式
+
+```schema: scope="body"
+{
+  "type": "service",
+  "api": "/api/mock2/sample?perPage=5",
+  "body": [
+    {
+      "type": "list",
+      "selectable": true,
+      "source": "$rows",
+      "listItem": {
+        "body": [
+          {
+            "type": "hbox",
+            "columns": [
+              {
+                "label": "Engine",
+                "name": "engine"
+              },
+
+              {
+                "name": "version",
+                "label": "Version"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
+```
+
+列表默认支持多选，设置`"multiple": false`开启单选模式
+
+```schema: scope="body"
+{
+  "type": "service",
+  "api": "/api/mock2/sample?perPage=5",
+  "body": [
+    {
+      "type": "list",
+      "selectable": true,
+      "multiple": false,
+      "source": "$rows",
+      "listItem": {
+        "body": [
+          {
+            "type": "hbox",
+            "columns": [
+              {
+                "label": "Engine",
+                "name": "engine"
+              },
+
+              {
+                "name": "version",
+                "label": "Version"
+              }
+            ]
+          }
+        ]
       }
     }
   ]
@@ -87,63 +154,59 @@ order: 56
   "api": "/api/mock2/sample?perPage=5",
   "body": [
     {
-      "type": "panel",
-      "title": "简单 List 示例",
-      "body": {
-        "type": "list",
-        "source": "$rows",
-        "itemAction": {
-          "type": "button",
-          "actionType": "dialog",
-          "dialog": {
-            "title": "详情",
-            "body": "当前行的数据 browser: ${browser}, version: ${version}"
-          }
-        },
-        "listItem": {
-          "body": [
-            {
-              "type": "hbox",
-              "columns": [
-                {
-                  "label": "Engine",
-                  "name": "engine"
-                },
+      "type": "list",
+      "source": "$rows",
+      "itemAction": {
+        "type": "button",
+        "actionType": "dialog",
+        "dialog": {
+          "title": "详情",
+          "body": "当前行的数据 browser: ${browser}, version: ${version}"
+        }
+      },
+      "listItem": {
+        "body": [
+          {
+            "type": "hbox",
+            "columns": [
+              {
+                "label": "Engine",
+                "name": "engine"
+              },
 
-                {
-                  "name": "version",
-                  "label": "Version"
-                }
-              ]
-            }
-          ],
-          "actions": [
-            {
-              "type": "button",
-              "level": "link",
-              "label": "查看详情",
-              "actionType": "dialog",
-              "dialog": {
-                "title": "查看详情",
-                "body": {
-                  "type": "form",
-                  "body": [
-                    {
-                      "label": "Engine",
-                      "name": "engine",
-                      "type": "static"
-                    },
-                    {
-                      "name": "version",
-                      "label": "Version",
-                      "type": "static"
-                    }
-                  ]
-                }
+              {
+                "name": "version",
+                "label": "Version"
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "type": "button",
+            "level": "link",
+            "label": "查看详情",
+            "actionType": "dialog",
+            "dialog": {
+              "title": "查看详情",
+              "body": {
+                "type": "form",
+                "body": [
+                  {
+                    "label": "Engine",
+                    "name": "engine",
+                    "type": "static"
+                  },
+                  {
+                    "name": "version",
+                    "label": "Version",
+                    "type": "static"
+                  }
+                ]
               }
             }
-          ]
-        }
+          }
+        ]
       }
     }
   ]
@@ -160,23 +223,19 @@ order: 56
   "api": "/api/mock2/sample?perPage=5",
   "body": [
     {
-      "type": "panel",
-      "title": "简单 List 示例",
-      "body": {
-        "type": "list",
-        "source": "$rows",
-        "listItem": {
-          "body": {
-            "type": "wrapper",
-            "className": "border-4 border-solid border-primary",
-            "innerClassName": "border-4 border-solid border-success",
-            "body": [
-              {
-                "type": "tpl",
-                "tpl": "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
-              }
-            ]
-          }
+      "type": "list",
+      "source": "$rows",
+      "listItem": {
+        "body": {
+          "type": "wrapper",
+          "className": "border-4 border-solid border-primary",
+          "innerClassName": "border-4 border-solid border-success",
+          "body": [
+            {
+              "type": "tpl",
+              "tpl": "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+            }
+          ]
         }
       }
     }
@@ -192,6 +251,8 @@ order: 56
 | title                    | `string`                             |                       | 标题                                                                         |
 | source                   | `string`                             | `${items}`            | 数据源, 获取当前数据域变量，支持[数据映射](../../docs/concepts/data-mapping) |
 | placeholder              | `string`                             | ‘暂无数据’            | 当没数据的时候的文字提示                                                     |
+| selectable               | `boolean`                            | `false`               | 列表是否可选                                                                 |
+| multiple                 | `boolean`                            | `true`                | 列表是否为多选                                                               |
 | className                | `string`                             |                       | 外层 CSS 类名                                                                |
 | headerClassName          | `string`                             | `amis-list-header`    | 顶部外层 CSS 类名                                                            |
 | footerClassName          | `string`                             | `amis-list-footer`    | 底部外层 CSS 类名                                                            |

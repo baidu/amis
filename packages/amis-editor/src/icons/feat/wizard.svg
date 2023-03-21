@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="向导" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linejoin="round">
+        <circle id="椭圆形" stroke="currentColor" cx="3.25" cy="3.25" r="1.25"></circle>
+        <circle id="椭圆形" stroke="currentColor" cx="3.25" cy="8" r="1.25"></circle>
+        <circle id="椭圆形" stroke="currentColor" cx="3.25" cy="12.75" r="1.25"></circle>
+        <line x1="6.5" y1="3.25" x2="14" y2="3.25" id="直线" stroke="currentColor" stroke-linecap="round"></line>
+        <line x1="6.5" y1="12.75" x2="14" y2="12.75" id="直线" stroke="currentColor" stroke-linecap="round"></line>
+        <line x1="6.5" y1="8" x2="14" y2="8" id="直线" stroke="currentColor" stroke-linecap="round"></line>
+        <line x1="3.25" y1="4.5" x2="3.25" y2="6.5" id="直线" stroke="currentColor" stroke-linecap="round"></line>
+        <line x1="3.25" y1="9.5" x2="3.25" y2="11.5" id="直线" stroke="currentColor" stroke-linecap="round"></line>
+    </g>
+</svg>

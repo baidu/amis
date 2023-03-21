@@ -9,7 +9,7 @@ import {
   unionWith
 } from 'lodash';
 
-import {ThemeProps, themeable} from 'amis-core';
+import {ThemeProps, themeable, findTree} from 'amis-core';
 import {BaseSelectionProps, BaseSelection, ItemRenderStates} from './Selection';
 import {Options, Option} from './Select';
 import {uncontrollable} from 'amis-core';
@@ -113,6 +113,8 @@ export interface TransferProps
   showInvalidMatch?: boolean;
   checkAll?: boolean;
   checkAllLabel?: string;
+  /** 树形模式下，给 tree 的属性 */
+  onlyChildren?: boolean;
 }
 
 export interface TransferState {
@@ -161,13 +163,12 @@ export class Transfer<
 
   static getDerivedStateFromProps(props: TransferProps) {
     // 计算是否是懒加载模式
-    let isTreeDeferLoad: boolean = false;
-    props.selectMode === 'tree' &&
-      props.options.forEach(item => {
-        if (item.defer) {
-          isTreeDeferLoad = true;
-        }
-      });
+    const isTreeDeferLoad =
+      props.selectMode === 'tree' &&
+      !!findTree(
+        props.options,
+        (option: Option) => option.deferApi || option.defer
+      );
 
     // 计算结果的selectMode
     let resultSelectMode = 'list';
@@ -479,7 +480,8 @@ export class Transfer<
       itemHeight,
       virtualListHeight,
       checkAll,
-      checkAllLabel
+      checkAllLabel,
+      onlyChildren
     } = props;
     const {isTreeDeferLoad, searchResult} = this.state;
     const options = searchResult ?? [];
@@ -518,7 +520,7 @@ export class Transfer<
         showIcon={false}
         multiple={multiple}
         cascade={true}
-        onlyChildren={!isTreeDeferLoad}
+        onlyChildren={onlyChildren ?? !isTreeDeferLoad}
         itemRender={optionItemRender}
         labelField={labelField}
         virtualThreshold={virtualThreshold}
@@ -590,7 +592,8 @@ export class Transfer<
       virtualListHeight,
       loadingConfig,
       checkAll,
-      checkAllLabel
+      checkAllLabel,
+      onlyChildren
     } = props;
 
     return selectMode === 'table' ? (
@@ -619,7 +622,7 @@ export class Transfer<
         options={options}
         value={value}
         onChange={onChange!}
-        onlyChildren={!this.state.isTreeDeferLoad}
+        onlyChildren={onlyChildren ?? !this.state.isTreeDeferLoad}
         itemRender={optionItemRender}
         onDeferLoad={onDeferLoad}
         joinValues={false}

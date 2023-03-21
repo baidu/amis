@@ -4,7 +4,10 @@
     "packages/amis-formula",
     "packages/amis-core",
     "packages/amis-ui",
-    "packages/amis"
+    "packages/amis",
+    "packages/amis-editor-core",
+    "packages/amis-editor",
+    "packages/office-viewer"
   ],
   "scripts": {
     "fis3-serve": "fis3 server start --www ./public --port 8888 --no-daemon --no-browse",
@@ -35,6 +38,7 @@
     "@types/js-yaml": "^4.0.5",
     "@types/marked": "^4.0.7",
     "@types/prismjs": "^1.26.0",
+    "@types/react": "^18.0.24",
     "@types/react-dom": "^18.0.8",
     "@vitejs/plugin-react": "^2.2.0",
     "copy-to-clipboard": "3.3.1",
@@ -98,6 +102,7 @@
       "^amis\\-ui$": "<rootDir>/packages/amis-ui/src/index.tsx",
       "^amis\\-core$": "<rootDir>/packages/amis-core/src/index.tsx",
       "^amis\\-formula$": "<rootDir>/packages/amis-formula/src/index.ts",
+      "^office\\-viewer$": "<rootDir>/packages/office-viewer/src/index.ts",
       "^amis$": "<rootDir>/packages/amis/src/index.tsx"
     },
     "setupFilesAfterEnv": [

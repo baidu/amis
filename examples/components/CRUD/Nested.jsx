@@ -5,7 +5,7 @@ export default {
     api: '/api/mock2/crud/table2',
     saveOrderApi: '/api/mock2/form/saveData',
     expandConfig: {
-      expand: 'first'
+      expand: 'all'
     },
     draggable: true,
     columns: [
