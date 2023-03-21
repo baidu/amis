@@ -756,147 +756,123 @@
   --button-size-lg-marginBottom: var(--sizes-size-0);
   --button-size-lg-paddingRight: var(--sizes-size-9);
   --button-size-lg-paddingBottom: var(--sizes-size-6);
-  --transfer-base-top-border-color: var(--colors-neutral-line-8);
-  --transfer-base-top-border-style: var(--borders-style-2);
-  --transfer-base-top-border-width: var(--borders-width-2);
-  --transfer-base-left-border-color: var(--colors-neutral-line-8);
-  --transfer-base-left-border-style: var(--borders-style-2);
-  --transfer-base-left-border-width: var(--borders-width-2);
-  --transfer-base-right-border-color: var(--colors-neutral-line-8);
-  --transfer-base-right-border-style: var(--borders-style-2);
-  --transfer-base-right-border-width: var(--borders-width-2);
-  --transfer-base-bottom-border-color: var(--colors-neutral-line-8);
-  --transfer-base-bottom-border-style: var(--borders-style-2);
-  --transfer-base-bottom-border-width: var(--borders-width-2);
-  --transfer-base-top-left-border-radius: var(--borders-radius-3);
-  --transfer-base-top-right-border-radius: var(--borders-radius-3);
-  --transfer-base-bottom-left-border-radius: var(--borders-radius-2);
-  --transfer-base-bottom-right-border-radius: var(--borders-radius-2);
-  --transfer-base-shadow: var(--shadows-shadow-none);
   --transfer-base-title-bg: var(--colors-neutral-fill-10);
+  --transfer-base-title-color: var(--colors-neutral-text-2);
   --transfer-base-title-fontSize: var(--fonts-size-7);
-  --transfer-base-content-fontSize: var(--fonts-size-7);
-  --transfer-base-title-font-color: var(--colors-neutral-text-2);
   --transfer-base-title-fontWeight: var(--fonts-weight-6);
   --transfer-base-title-lineHeight: var(--fonts-lineHeight-2);
-  --transfer-base-content-font-color: var(--colors-neutral-text-2);
+  --transfer-base-content-color: var(--colors-neutral-text-2);
+  --transfer-base-content-fontSize: var(--fonts-size-7);
   --transfer-base-content-fontWeight: var(--fonts-weight-6);
   --transfer-base-content-lineHeight: var(--fonts-lineHeight-2);
-  --transfer-base-body-marginTop: var(--sizes-size-1);
-  --transfer-base-body-marginLeft: var(--sizes-size-1);
-  --transfer-base-body-paddingTop: var(--sizes-size-1);
-  --transfer-base-body-marginRight: var(--sizes-size-1);
-  --transfer-base-body-paddingLeft: var(--sizes-size-1);
-  --transfer-base-body-marginBottom: var(--sizes-size-1);
-  --transfer-base-body-paddingRight: var(--sizes-size-1);
-  --transfer-base-body-paddingBottom: var(--sizes-size-1);
-  --transfer-base-header-marginTop: var(--sizes-size-1);
-  --transfer-base-header-marginLeft: var(--sizes-size-1);
+  --transfer-base-top-border-color: var(--colors-neutral-line-8);
+  --transfer-base-top-border-width: var(--borders-width-2);
+  --transfer-base-top-border-style: var(--borders-style-2);
+  --transfer-base-right-border-color: var(--colors-neutral-line-8);
+  --transfer-base-right-border-width: var(--borders-width-2);
+  --transfer-base-right-border-style: var(--borders-style-2);
+  --transfer-base-bottom-border-color: var(--colors-neutral-line-8);
+  --transfer-base-bottom-border-width: var(--borders-width-2);
+  --transfer-base-bottom-border-style: var(--borders-style-2);
+  --transfer-base-left-border-color: var(--colors-neutral-line-8);
+  --transfer-base-left-border-width: var(--borders-width-2);
+  --transfer-base-left-border-style: var(--borders-style-2);
+  --transfer-base-top-right-border-radius: var(--borders-radius-3);
+  --transfer-base-top-left-border-radius: var(--borders-radius-3);
+  --transfer-base-bottom-right-border-radius: var(--borders-radius-2);
+  --transfer-base-bottom-left-border-radius: var(--borders-radius-2);
   --transfer-base-header-paddingTop: var(--sizes-size-5);
-  --transfer-base-header-marginRight: var(--sizes-size-1);
-  --transfer-base-header-paddingLeft: var(--sizes-size-8);
-  --transfer-base-header-marginBottom: var(--sizes-size-1);
-  --transfer-base-header-paddingRight: var(--sizes-size-8);
   --transfer-base-header-paddingBottom: var(--sizes-size-5);
-  --transfer-base-option-marginTop: var(--sizes-size-1);
-  --transfer-base-option-marginLeft: var(--sizes-size-1);
+  --transfer-base-header-paddingLeft: var(--sizes-size-8);
+  --transfer-base-header-paddingRight: var(--sizes-size-8);
+  --transfer-base-body-paddingTop: var(--sizes-size-0);
+  --transfer-base-body-paddingBottom: var(--sizes-size-0);
+  --transfer-base-body-paddingLeft: var(--sizes-size-0);
+  --transfer-base-body-paddingRight: var(--sizes-size-0);
   --transfer-base-option-paddingTop: var(--sizes-size-5);
-  --transfer-base-option-marginRight: var(--sizes-size-1);
-  --transfer-base-option-paddingLeft: var(--sizes-size-8);
-  --transfer-base-option-marginBottom: var(--sizes-size-1);
-  --transfer-base-option-paddingRight: var(--sizes-size-8);
   --transfer-base-option-paddingBottom: var(--sizes-size-5);
-  --transfer-tree-top-left-border-radius: var(--borders-radius-2);
-  --transfer-tree-top-right-border-radius: var(--borders-radius-2);
-  --transfer-tree-bottom-left-border-radius: var(--borders-radius-2);
-  --transfer-tree-bottom-right-border-radius: var(--borders-radius-2);
-  --transfer-tree-bg-hover-color: var(--colors-neutral-fill-10);
-  --transfer-tree-bg-active-color: var(--colors-brand-10);
-  --transfer-tree-marginTop: var(--sizes-size-1);
-  --transfer-tree-marginLeft: var(--sizes-size-1);
-  --transfer-tree-paddingTop: var(--sizes-size-3);
-  --transfer-tree-marginRight: var(--sizes-size-1);
-  --transfer-tree-paddingLeft: var(--sizes-size-7);
-  --transfer-tree-marginBottom: var(--sizes-size-2);
-  --transfer-tree-paddingRight: var(--sizes-size-7);
-  --transfer-tree-paddingBottom: var(--sizes-size-3);
-  --transfer-tree-option-marginTop: var(--sizes-size-1);
-  --transfer-tree-option-marginLeft: var(--sizes-size-1);
-  --transfer-tree-option-paddingTop: var(--sizes-size-1);
-  --transfer-tree-option-marginRight: var(--sizes-size-1);
-  --transfer-tree-option-paddingLeft: var(--sizes-size-6);
-  --transfer-tree-option-marginBottom: var(--sizes-size-4);
-  --transfer-tree-option-paddingRight: var(--sizes-size-1);
-  --transfer-tree-option-paddingBottom: var(--sizes-size-1);
-  --transfer-group-fontSize: var(--fonts-size-7);
-  --transfer-group-font-color: var(--colors-neutral-text-5);
-  --transfer-group-fontWeight: var(--fonts-weight-6);
-  --transfer-group-lineHeight: var(--fonts-lineHeight-2);
-  --transfer-table-last-paddingRight: var(--sizes-base-9);
-  --transfer-table-header-marginTop: var(--sizes-size-1);
-  --transfer-table-header-marginLeft: var(--sizes-size-1);
-  --transfer-table-header-paddingTop: var(--sizes-size-5);
-  --transfer-table-header-marginRight: var(--sizes-size-1);
-  --transfer-table-header-paddingLeft: var(--sizes-size-7);
-  --transfer-table-header-marginBottom: var(--sizes-size-1);
-  --transfer-table-header-paddingRight: var(--sizes-size-7);
-  --transfer-table-header-paddingBottom: var(--sizes-size-5);
-  --transfer-table-option-marginTop: var(--sizes-size-1);
-  --transfer-table-option-marginLeft: var(--sizes-size-1);
-  --transfer-table-option-paddingTop: var(--sizes-size-4);
-  --transfer-table-option-marginRight: var(--sizes-size-1);
-  --transfer-table-option-paddingLeft: var(--sizes-size-7);
-  --transfer-table-option-marginBottom: var(--sizes-size-2);
-  --transfer-table-option-paddingRight: var(--sizes-size-7);
-  --transfer-table-option-paddingBottom: var(--sizes-size-5);
-  --transfer-search-top-border-color: var(--colors-neutral-line-8);
-  --transfer-search-top-border-style: var(--borders-style-2);
-  --transfer-search-top-border-width: var(--borders-width-2);
-  --transfer-search-left-border-color: var(--colors-neutral-line-8);
-  --transfer-search-left-border-style: var(--borders-style-2);
-  --transfer-search-left-border-width: var(--borders-width-2);
-  --transfer-search-right-border-color: var(--colors-neutral-line-8);
-  --transfer-search-right-border-style: var(--borders-style-2);
-  --transfer-search-right-border-width: var(--borders-width-2);
-  --transfer-search-bottom-border-color: var(--colors-neutral-line-8);
-  --transfer-search-bottom-border-style: var(--borders-style-2);
-  --transfer-search-bottom-border-width: var(--borders-width-2);
-  --transfer-search-top-left-border-radius: var(--borders-radius-3);
-  --transfer-search-top-right-border-radius: var(--borders-radius-3);
-  --transfer-search-bottom-left-border-radius: var(--borders-radius-3);
-  --transfer-search-bottom-right-border-radius: var(--borders-radius-3);
-  --transfer-search-shadow: var(--shadows-shadow-none);
+  --transfer-base-option-paddingLeft: var(--sizes-size-8);
+  --transfer-base-option-paddingRight: var(--sizes-size-8);
+  --transfer-base-option-marginTop: var(--sizes-size-0);
+  --transfer-base-option-marginBottom: var(--sizes-size-0);
+  --transfer-base-option-marginLeft: var(--sizes-size-0);
+  --transfer-base-option-marginRight: var(--sizes-size-0);
+  --transfer-base-shadow: var(--shadows-shadow-none);
+  --transfer-search-color: var(--colors-neutral-text-2);
   --transfer-search-fontSize: var(--fonts-size-7);
-  --transfer-search-font-color: var(--colors-neutral-text-2);
   --transfer-search-fontWeight: var(--fonts-weight-6);
   --transfer-search-lineHeight: var(--fonts-lineHeight-2);
-  --transfer-search-border-hover-color: var(--colors-brand-4);
-  --transfer-search-marginTop: var(--sizes-size-1);
-  --transfer-search-marginLeft: var(--sizes-size-1);
-  --transfer-search-paddingTop: var(--sizes-size-6);
-  --transfer-search-marginRight: var(--sizes-size-1);
-  --transfer-search-paddingLeft: var(--sizes-size-6);
-  --transfer-search-marginBottom: var(--sizes-size-1);
-  --transfer-search-paddingRight: var(--sizes-size-6);
-  --transfer-search-paddingBottom: var(--sizes-size-6);
-  --transfer-search-border-active-color: var(--colors-brand-4);
   --transfer-search-placeholder-font-color: var(--colors-neutral-text-6);
-  --transfer-search-input-marginTop: var(--sizes-size-1);
-  --transfer-search-input-marginLeft: var(--sizes-size-1);
+  --transfer-search-top-border-color: var(--colors-neutral-line-8);
+  --transfer-search-top-border-width: var(--borders-width-2);
+  --transfer-search-top-border-style: var(--borders-style-2);
+  --transfer-search-right-border-color: var(--colors-neutral-line-8);
+  --transfer-search-right-border-width: var(--borders-width-2);
+  --transfer-search-right-border-style: var(--borders-style-2);
+  --transfer-search-bottom-border-color: var(--colors-neutral-line-8);
+  --transfer-search-bottom-border-width: var(--borders-width-2);
+  --transfer-search-bottom-border-style: var(--borders-style-2);
+  --transfer-search-left-border-color: var(--colors-neutral-line-8);
+  --transfer-search-left-border-width: var(--borders-width-2);
+  --transfer-search-left-border-style: var(--borders-style-2);
+  --transfer-search-top-right-border-radius: var(--borders-radius-3);
+  --transfer-search-top-left-border-radius: var(--borders-radius-3);
+  --transfer-search-bottom-right-border-radius: var(--borders-radius-3);
+  --transfer-search-bottom-left-border-radius: var(--borders-radius-3);
+  --transfer-search-border-hover-color: var(--colors-brand-4);
+  --transfer-search-border-active-color: var(--colors-brand-4);
+  --transfer-search-paddingTop: var(--sizes-size-6);
+  --transfer-search-paddingBottom: var(--sizes-size-6);
+  --transfer-search-paddingLeft: var(--sizes-size-6);
+  --transfer-search-paddingRight: var(--sizes-size-6);
   --transfer-search-input-paddingTop: var(--sizes-size-4);
-  --transfer-search-input-marginRight: var(--sizes-size-1);
-  --transfer-search-input-paddingLeft: var(--sizes-size-7);
-  --transfer-search-input-marginBottom: var(--sizes-size-1);
-  --transfer-search-input-paddingRight: var(--sizes-size-7);
   --transfer-search-input-paddingBottom: var(--sizes-size-4);
-  --transfer-chained-marginTop: var(--sizes-size-1);
-  --transfer-chained-marginLeft: var(--sizes-size-1);
+  --transfer-search-input-paddingLeft: var(--sizes-size-7);
+  --transfer-search-input-paddingRight: var(--sizes-size-7);
+  --transfer-search-shadow: var(--shadows-shadow-none);
+  --transfer-group-color: var(--colors-neutral-text-5);
+  --transfer-group-fontSize: var(--fonts-size-7);
+  --transfer-group-fontWeight: var(--fonts-weight-6);
+  --transfer-group-lineHeight: var(--fonts-lineHeight-2);
+  --transfer-table-header-paddingTop: var(--sizes-size-5);
+  --transfer-table-header-paddingBottom: var(--sizes-size-5);
+  --transfer-table-header-paddingLeft: var(--sizes-size-7);
+  --transfer-table-header-paddingRight: var(--sizes-size-7);
+  --transfer-table-option-paddingTop: var(--sizes-size-4);
+  --transfer-table-option-paddingBottom: var(--sizes-size-5);
+  --transfer-table-option-paddingLeft: var(--sizes-size-7);
+  --transfer-table-option-paddingRight: var(--sizes-size-7);
+  --transfer-table-last-paddingRight: var(--sizes-base-9);
+  --transfer-tree-bg-hover-color: var(--colors-neutral-fill-10);
+  --transfer-tree-bg-active-color: var(--colors-brand-10);
+  --transfer-tree-top-right-border-radius: var(--borders-radius-2);
+  --transfer-tree-top-left-border-radius: var(--borders-radius-2);
+  --transfer-tree-bottom-right-border-radius: var(--borders-radius-2);
+  --transfer-tree-bottom-left-border-radius: var(--borders-radius-2);
+  --transfer-tree-paddingTop: var(--sizes-size-3);
+  --transfer-tree-paddingBottom: var(--sizes-size-3);
+  --transfer-tree-paddingLeft: var(--sizes-size-7);
+  --transfer-tree-paddingRight: var(--sizes-size-7);
+  --transfer-tree-marginTop: var(--sizes-size-0);
+  --transfer-tree-marginBottom: var(--sizes-size-2);
+  --transfer-tree-marginLeft: var(--sizes-size-0);
+  --transfer-tree-marginRight: var(--sizes-size-0);
+  --transfer-tree-option-paddingTop: var(--sizes-size-0);
+  --transfer-tree-option-paddingBottom: var(--sizes-size-0);
+  --transfer-tree-option-paddingLeft: var(--sizes-size-6);
+  --transfer-tree-option-paddingRight: var(--sizes-size-0);
+  --transfer-tree-option-marginTop: var(--sizes-size-0);
+  --transfer-tree-option-marginBottom: var(--sizes-size-4);
+  --transfer-tree-option-marginLeft: var(--sizes-size-0);
+  --transfer-tree-option-marginRight: var(--sizes-size-0);
   --transfer-chained-paddingTop: var(--sizes-size-5);
-  --transfer-chained-marginRight: var(--sizes-size-1);
-  --transfer-chained-paddingLeft: var(--sizes-size-6);
-  --transfer-chained-marginBottom: var(--sizes-size-1);
-  --transfer-chained-paddingRight: var(--sizes-size-6);
   --transfer-chained-paddingBottom: var(--sizes-size-5);
+  --transfer-chained-paddingLeft: var(--sizes-size-6);
+  --transfer-chained-paddingRight: var(--sizes-size-6);
+  --transfer-chained-marginTop: var(--sizes-size-0);
+  --transfer-chained-marginBottom: var(--sizes-size-0);
+  --transfer-chained-marginLeft: var(--sizes-size-0);
+  --transfer-chained-marginRight: var(--sizes-size-0);
   --input-default-default-top-border-color: var(--colors-neutral-line-8);
   --input-default-default-top-border-width: var(--borders-width-2);
   --input-default-default-top-border-style: var(--borders-style-2);
@@ -3365,14 +3341,14 @@
   --Tag-height: var(--Tag-base-height);
   --Tag-borderRadius: var(--Tag-model-normal-top-left-border-radius)
     var(--Tag-model-normal-top-right-border-radius)
-    var(--Tag-model-normal-bottom-right-border-radius) 
+    var(--Tag-model-normal-bottom-right-border-radius)
     var(--Tag-model-normal-bottom-left-border-radius);
   --Tag-fontColor: var(--Tag-base-color);
 
   --Tag-rounded-borderRadius: var(--Tag-model-rounded-top-left-border-radius)
-  var(--Tag-model-rounded-top-right-border-radius)
-  var(--Tag-model-rounded-bottom-right-border-radius) 
-  var(--Tag-model-rounded-bottom-left-border-radius);
+    var(--Tag-model-rounded-top-right-border-radius)
+    var(--Tag-model-rounded-bottom-right-border-radius)
+    var(--Tag-model-rounded-bottom-left-border-radius);
 
   --Tag-status-margin: var(--Tag-model-status-status-margin);
   --Tag-status-size: var(--Tag-model-status-status-size);
@@ -3385,41 +3361,41 @@
   --Tag-processing-color: var(--Tag-color-processing-color);
   --Tag-success-color: var(--Tag-color-success-color);
   --Tag-error-color: var(--Tag-color-error-color);
-  --Tag-warning-color: var( --Tag-color-warning-color);
+  --Tag-warning-color: var(--Tag-color-warning-color);
   --Tag-inactive-bg-color: var(--Tag-color-inactive-bg-color);
   --Tag-active-bg-color: var(--Tag-color-active-bg-color);
   --Tag-processing-bg-color: var(--Tag-color-processing-bg-color);
   --Tag-success-bg-color: var(--Tag-color-success-bg-color);
   --Tag-error-bg-color: var(--Tag-color-error-bg-color);
-  --Tag-warning-bg-color: var( --Tag-color-warning-bg-color);
+  --Tag-warning-bg-color: var(--Tag-color-warning-bg-color);
 
   --Tag-normal-borderWidth: var(--Tag-model-normal-top-border-width)
-   var(--Tag-model-normal-right-border-width)
-   var(--Tag-model-normal-bottom-border-width)
-   var(--Tag-model-normal-left-border-width);
+    var(--Tag-model-normal-right-border-width)
+    var(--Tag-model-normal-bottom-border-width)
+    var(--Tag-model-normal-left-border-width);
   --Tag-normal-borderRadius: var(--Tag-model-normal-top-left-border-radius)
-   var(--Tag-model-normal-top-right-border-radius)
-   var(--Tag-model-normal-bottom-right-border-radius)
-   var(--Tag-model-normal-bottom-left-border-radius);
+    var(--Tag-model-normal-top-right-border-radius)
+    var(--Tag-model-normal-bottom-right-border-radius)
+    var(--Tag-model-normal-bottom-left-border-radius);
   --Tag-normal-borderColor: var(--Tag-model-normal-top-border-color)
-   var(--Tag-model-normal-right-border-color)
-   var(--Tag-model-normal-bottom-border-color)
-   var(--Tag-model-normal-left-border-color);
+    var(--Tag-model-normal-right-border-color)
+    var(--Tag-model-normal-bottom-border-color)
+    var(--Tag-model-normal-left-border-color);
   --Tag-normal-status-size: var(--Tag-model-normal-status-size);
   --Tag-normal-status-margin: var(--Tag-model-normal-status-margin);
 
   --Tag-rounded-borderWidth: var(--Tag-model-rounded-top-border-width)
-  var(--Tag-model-rounded-right-border-width)
-  var(--Tag-model-rounded-bottom-border-width)
-  var(--Tag-model-rounded-left-border-width);
- --Tag-rounded-borderRadius: var(--Tag-model-rounded-top-left-border-radius)
-  var(--Tag-model-rounded-top-right-border-radius)
-  var(--Tag-model-rounded-bottom-right-border-radius)
-  var(--Tag-model-rounded-bottom-left-border-radius);
- --Tag-rounded-borderColor: var(--Tag-model-rounded-top-border-color)
-  var(--Tag-model-rounded-right-border-color)
-  var(--Tag-model-rounded-bottom-border-color)
-  var(--Tag-model-rounded-left-border-color);
+    var(--Tag-model-rounded-right-border-width)
+    var(--Tag-model-rounded-bottom-border-width)
+    var(--Tag-model-rounded-left-border-width);
+  --Tag-rounded-borderRadius: var(--Tag-model-rounded-top-left-border-radius)
+    var(--Tag-model-rounded-top-right-border-radius)
+    var(--Tag-model-rounded-bottom-right-border-radius)
+    var(--Tag-model-rounded-bottom-left-border-radius);
+  --Tag-rounded-borderColor: var(--Tag-model-rounded-top-border-color)
+    var(--Tag-model-rounded-right-border-color)
+    var(--Tag-model-rounded-bottom-border-color)
+    var(--Tag-model-rounded-left-border-color);
 
   --Toast-color: var(--colors-neutral-text-11);
   --Toast-paddingTop: var(--sizes-size-3);
@@ -3547,4 +3523,57 @@
   --Status-warning-color: var(--Status-queue-color);
   --Status-fail-color: var(--Status-fail-color);
   --Status-success-color: var(--Status-success-color);
+
+  --inputTag-option-height: var(--sizes-base-15);
+  --inputTag-option-color: var(--colors-neutral-text-2);
+  --inputTag-option-fontSize: var(--fonts-size-7);
+  --inputTag-option-fontWeight: var(--fonts-weight-6);
+  --inputTag-option-lineHeight: var(--fonts-lineHeight-2);
+  --inputTag-option-paddingTop: var(--sizes-size-3);
+  --inputTag-option-paddingBottom: var(--sizes-size-6);
+  --inputTag-option-paddingLeft: var(--sizes-size-3);
+  --inputTag-option-paddingRight: var(--sizes-size-6);
+  --inputTag-option-bg-color: var(--colors-neutral-fill-11);
+  --inputTag-option-hover-color: var(--colors-brand-5);
+  --inputTag-option-hover-bg-color: var(--colors-brand-10);
+
+  --fieldSet-legend-height: var(--sizes-size-9);
+  --fieldSet-legend-color: var(--colors-neutral-text-2);
+  --fieldSet-legend-fontSize: var(--fonts-size-7);
+  --fieldSet-legend-fontWeight: var(--fonts-weight-6);
+  --fieldSet-legend-paddingTop: var(--sizes-size-0);
+  --fieldSet-legend-paddingBottom: var(--sizes-size-0);
+  --fieldSet-legend-paddingLeft: var(--sizes-size-8);
+  --fieldSet-legend-paddingRight: var(--sizes-size-0);
+  --fieldSet-legend-marginTop: var(--sizes-size-7);
+  --fieldSet-legend-marginBottom: var(--sizes-size-7);
+  --fieldSet-legend-marginLeft: var(--sizes-size-0);
+  --fieldSet-legend-marginRight: var(--sizes-size-0);
+  --fieldSet-legend-border-color: var(--colors-brand-5);
+  --fieldSet-legend-border-width: var(--sizes-size-3);
+  --fieldSet-size-xs-paddingTop: var(--sizes-base-10);
+  --fieldSet-size-xs-paddingRight: var(--sizes-size-3);
+  --fieldSet-size-xs-paddingBottom: var(--sizes-size-3);
+  --fieldSet-size-xs-paddingLeft: var(--sizes-size-3);
+  --fieldSet-size-xs-fontSize: var(--fonts-size-8);
+  --fieldSet-size-sm-paddingTop: var(--sizes-base-12);
+  --fieldSet-size-sm-paddingRight: var(--sizes-size-6);
+  --fieldSet-size-sm-paddingBottom: var(--sizes-size-6);
+  --fieldSet-size-sm-paddingLeft: var(--sizes-size-6);
+  --fieldSet-size-sm-fontSize: var(--fonts-size-8);
+  --fieldSet-size-base-paddingTop: var(--sizes-base-15);
+  --fieldSet-size-base-paddingRight: var(--sizes-size-9);
+  --fieldSet-size-base-paddingBottom: var(--sizes-size-9);
+  --fieldSet-size-base-paddingLeft: var(--sizes-size-9);
+  --fieldSet-size-base-fontSize: var(--fonts-size-7);
+  --fieldSet-size-md-paddingTop: var(--sizes-base-15);
+  --fieldSet-size-md-paddingRight: var(--sizes-base-10);
+  --fieldSet-size-md-paddingBottom: var(--sizes-base-10);
+  --fieldSet-size-md-paddingLeft: var(--sizes-base-10);
+  --fieldSet-size-md-fontSize: var(--fonts-size-7);
+  --fieldSet-size-lg-paddingTop: var(--sizes-base-20);
+  --fieldSet-size-lg-paddingRight: var(--sizes-base-15);
+  --fieldSet-size-lg-paddingBottom: var(--sizes-base-15);
+  --fieldSet-size-lg-paddingLeft: var(--sizes-base-15);
+  --fieldSet-size-lg-fontSize: var(--fonts-size-6);
 }
