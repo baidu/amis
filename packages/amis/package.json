@@ -162,10 +162,12 @@
       "import": "./esm/index.js"
     },
     "./lib/helper.css": {
+      "style": "./lib/helper.css",
       "require": "./lib/helper.css",
       "import": "./lib/helper.css"
     },
     "./lib/themes/*": {
+      "style": "./lib/themes/*",
       "require": "./lib/themes/*",
       "import": "./lib/themes/*"
     },
@@ -174,6 +176,9 @@
       "import": "./esm/*.js"
     },
     "./sdk/*": {
+      "style": [
+        "./sdk/*"
+      ],
       "require": [
         "./sdk/*"
       ],

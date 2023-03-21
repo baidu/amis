@@ -10,11 +10,17 @@
       "require": "./lib/index.js",
       "import": "./esm/index.js"
     },
+    "./lib/style.css": {
+      "style": "./lib/style.css",
+      "require": "./lib/style.css",
+      "import": "./lib/style.css"
+    },
     "./lib/*": {
       "require": "./lib/*",
       "import": "./esm/*"
     },
     "./scss/*": {
+      "style": "./scss/*",
       "require": "./scss/*",
       "import": "./scss/*"
     },
@@ -24,7 +30,7 @@
     }
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "echo \"Warnings: no test specified\"",
     "build": "npm run clean-dist && NODE_ENV=production rollup -c",
     "clean-dist": "rimraf lib/* esm/*",
     "i18n:update": "npx i18n update --config=./i18nConfig.js",
