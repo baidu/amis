@@ -166,14 +166,15 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
             options.columns.forEach((column: any) => {
               let value: any;
               const key = column.name;
-              if (
-                column.searchable &&
-                key &&
-                (value = getVariable(self.query, key))
-              ) {
-                items = matchSorter(items, value, {
-                  keys: [key]
-                });
+
+              if ((column.searchable || column.filterable) && key) {
+                // value可能为null、undefined、''、0
+                value = getVariable(self.query, key);
+                if (value != null) {
+                  items = matchSorter(items, value, {
+                    keys: [key]
+                  });
+                }
               }
             });
           }

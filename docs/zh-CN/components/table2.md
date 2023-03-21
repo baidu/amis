@@ -1046,6 +1046,155 @@ order: 67
 }
 ```
 
+<!-- ```schema: scope="body"
+{
+    "type": "service",
+    "api": "/api/sample?perPage=10",
+    "body": [
+        {
+            "type": "table2",
+            "source": "$rows",
+            "columns": [
+                {
+                    "title": "序号",
+                    "name": "id"
+                },
+                {
+                    "title": "项目",
+                    "label": "项目",
+                    "name": "XM"
+                },
+                {
+                    "title": "分市场",
+                    "label": "项目",
+                    "name": "FSC",
+                    "children": [
+                        {
+                            "name": "JLDW",
+                            "title": "计量单位"
+                        },
+                        {
+                            "name": "HJ",
+                            "title": "合计"
+                        }
+                    ]
+                },
+                {
+                    "name": "JTN",
+                    "title": "集团内",
+                    "children": [
+                        {
+                            "title": "集团内小计",
+                            "name": "JTNXJ"
+                        },
+                        {
+                            "title": "胜利",
+                            "name": "SL",
+                            "children": [
+                                {
+                                    "title": "小计",
+                                    "name": "SLXJ"
+                                },
+                                {
+                                    "title": "其中",
+                                    "name": "SLQZ",
+                                    "children": [
+                                        {
+                                            "title": "东部",
+                                            "name": "SLQZDB"
+                                        },
+                                        {
+                                            "title": "新疆",
+                                            "name": "SLQZXJ"
+                                        },
+                                        {
+                                            "title": "雅动用",
+                                            "name": "YDY"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "title": "中原",
+                            "name": "ZY",
+                            "children": [
+                                {
+                                    "title": "小计",
+                                    "name": "ZYXJ"
+                                },
+                                {
+                                    "title": "其中",
+                                    "name": "ZYQZ",
+                                    "children": [
+                                        {
+                                            "title": "中原",
+                                            "name": "ZYQZZY"
+                                        },
+                                        {
+                                            "title": "普光",
+                                            "name": "ZYQZPG"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "title": "河南",
+                            "name": "HN",
+                            "children": [
+                                {
+                                    "title": "小计",
+                                    "name": "HNXJ"
+                                },
+                                {
+                                    "title": "其中",
+                                    "name": "HNQZ",
+                                    "children": [
+                                        {
+                                            "title": "河南",
+                                            "name": "HNQZHN"
+                                        },
+                                        {
+                                            "title": "春光",
+                                            "name": "HNQZCG"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "title": "江汉",
+                            "name": "JH",
+                            "children": [
+                                {
+                                    "title": "小计",
+                                    "name": "JHXJ"
+                                },
+                                {
+                                    "title": "其中",
+                                    "name": "JHQZ",
+                                    "children": [
+                                        {
+                                            "title": "清河",
+                                            "name": "JHQZQH"
+                                        },
+                                        {
+                                            "title": "涪陵",
+                                            "name": "JHQZFL"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+``` -->
+
 ## 拖拽排序
 
 支持手动拖动排序
@@ -1585,6 +1734,8 @@ order: 67
 
 ## 自定义列
 
+### 默认
+
 ```schema: scope="body"
 {
     "type": "service",
@@ -1594,6 +1745,57 @@ order: 67
             "type": "table2",
             "source": "$rows",
             "columnsTogglable": true,
+            "title": "表格的标题",
+            "columns": [
+                {
+                    "title": "Engine",
+                    "name": "engine",
+                    "width": 200
+                },
+                {
+                    "title": "Version",
+                    "name": "version",
+                    "width": 200
+                },
+                {
+                    "title": "Browser",
+                    "name": "browser",
+                    "width": 200,
+                    "children": [
+                        {
+                            "title": "Grade",
+                            "name": "grade",
+                            "width": 200
+                        }
+                    ]
+                },
+                {
+                    "title": "Badge",
+                    "name": "badgeText"
+                },
+                {
+                    "title": "Platform",
+                    "name": "platform"
+                }
+            ]
+        }
+    ]
+}
+```
+
+### 自定义图标
+
+```schema: scope="body"
+{
+    "type": "service",
+    "api": "/api/sample?perPage=6",
+    "body": [
+        {
+            "type": "table2",
+            "source": "$rows",
+            "columnsTogglable": {
+                "icon": "fa fa-user"
+            },
             "title": "表格的标题",
             "columns": [
                 {
