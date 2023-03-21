@@ -1,5 +1,5 @@
 import moment from 'moment';
-import {resolveCondition, guid, registerConditionResolver} from '../src/utils/';
+import {resolveCondition, guid, registerConditionComputer} from '../src/utils/';
 
 const data = {
   name: 'amis',
@@ -373,7 +373,7 @@ test(`condition tree`, async () => {
 });
 
 test(`condition register`, async () => {
-  registerConditionResolver(
+  registerConditionComputer(
     'less',
     (left: any, right?: any, fieldType?: string) => {
       if (fieldType === 'date') {

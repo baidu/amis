@@ -32,55 +32,20 @@ async function computeConditions(
   data: any
 ): Promise<boolean> {
   let computeResult = true;
-  for (let index = 0; index < conditions.length; index++) {
+  for (let index = 0, len = conditions.length; index < len; index++) {
     const item = conditions[index];
+    const result =
+      item.conjunction && Array.isArray(item.children) && item.children.length
+        ? await computeConditions(item.children, item.conjunction, data)
+        : await computeCondition(item, index, data);
+
+    computeResult = !!result;
 
     if (
-      item.conjunction &&
-      Array.isArray(item.children) &&
-      item.children.length
+      (result && conjunction === 'or') ||
+      (!result && conjunction === 'and')
     ) {
-      // get group result
-      const result = await computeConditions(
-        item.children,
-        item.conjunction,
-        data
-      );
-
-      if (!!result) {
-        if (conjunction === 'or') {
-          computeResult = true;
-          break;
-        } else if (conjunction === 'and') {
-          computeResult = computeResult && result;
-        }
-      } else {
-        if (conjunction === 'and') {
-          computeResult = false;
-          break;
-        } else if (conjunction === 'or') {
-          computeResult = computeResult || result;
-        }
-      }
-    } else {
-      // get result
-      const result = await computeCondition(item, index, data);
-      console.log(result);
-      if (!!result) {
-        if (conjunction === 'or') {
-          computeResult = true;
-          break;
-        } else if (conjunction === 'and') {
-          computeResult = index === 0 ? !!result : computeResult && !!result;
-        }
-      } else {
-        if (conjunction === 'and') {
-          computeResult = false;
-          break;
-        } else if (conjunction === 'or') {
-          computeResult = index === 0 ? !!result : computeResult || !!result;
-        }
-      }
+      break;
     }
   }
   return computeResult;
@@ -98,14 +63,6 @@ async function computeCondition(
   index: number,
   data: any
 ) {
-  if (
-    rule.op !== 'is_not_empty' &&
-    rule.op !== 'is_empty' &&
-    rule.right === undefined
-  ) {
-    return Promise.resolve();
-  }
-
   const leftValue = get(data, rule.left.field);
   const rightValue: any = await resolveVariableAndFilterForAsync(
     rule.right,
@@ -120,10 +77,16 @@ async function computeCondition(
 }
 
 function startsWithFunc(left: any, right: any) {
+  if (left === undefined || right === undefined) {
+    return false;
+  }
   return startsWith(left, right);
 }
 
 function endsWithFunc(left: any, right: any) {
+  if (left === undefined || right === undefined) {
+    return false;
+  }
   return endsWith(left, right);
 }
 
@@ -162,31 +125,49 @@ function isNotEmptyFunc(left: any) {
 }
 
 function greaterFunc(left: any, right: any) {
+  if (left === undefined || right === undefined) {
+    return false;
+  }
   return parseFloat(left as any) > parseFloat(right as any);
 }
 
 function greaterOrEqualFunc(left: any, right: any) {
+  if (left === undefined || right === undefined) {
+    return false;
+  }
   return parseFloat(left as any) >= parseFloat(right as any);
 }
 
 function lessFunc(left: any, right: any) {
+  if (left === undefined || right === undefined) {
+    return false;
+  }
   return parseFloat(left as any) < parseFloat(right as any);
 }
 
 function lessOrEqualFunc(left: any, right: any) {
+  if (left === undefined || right === undefined) {
+    return false;
+  }
   return parseFloat(left as any) <= parseFloat(right as any);
 }
 
 function likeFunc(left: any, right: any) {
+  if (left === undefined || right === undefined) {
+    return false;
+  }
   return !!~left.indexOf(right);
 }
 
 function notLikeFunc(left: any, right: any) {
+  if (left === undefined || right === undefined) {
+    return false;
+  }
   return !~left.indexOf(right);
 }
 
 function betweenFunc(left: any, right: any) {
-  if (typeof left === 'number') {
+  if (typeof left === 'number' && right !== undefined) {
     const [min, max] = right.sort();
     return left >= parseFloat(min) && left <= parseFloat(max);
   }
@@ -194,7 +175,7 @@ function betweenFunc(left: any, right: any) {
 }
 
 function notBetweenFunc(left: any, right: any) {
-  if (typeof left === 'number') {
+  if (typeof left === 'number' && right !== undefined) {
     const [min, max] = right.sort();
     return left < parseFloat(min) && left > parseFloat(max);
   }
@@ -202,6 +183,10 @@ function notBetweenFunc(left: any, right: any) {
 }
 
 function selectAnyInFunc(left: any, right: any) {
+  if (!Array.isArray(right)) {
+    return false;
+  }
+
   if (Array.isArray(left)) {
     return right.every((item: any) => left.includes(item));
   }
@@ -209,13 +194,17 @@ function selectAnyInFunc(left: any, right: any) {
 }
 
 function selectNotAnyInFunc(left: any, right: any) {
+  if (!Array.isArray(right)) {
+    return false;
+  }
+
   if (Array.isArray(left)) {
     return !right.every((item: any) => left.includes(item));
   }
   return !right.includes(left);
 }
 
-export function registerConditionResolver(
+export function registerConditionComputer(
   op: string,
   func: (left: any, right: any, fieldType?: string) => boolean,
   fieldType?: string
@@ -223,23 +212,23 @@ export function registerConditionResolver(
   conditionResolverMap[`${op}${fieldType ? 'For' + fieldType : ''}`] = func;
 }
 
-export function getConditionResolvers() {
+export function getConditionComputers() {
   return conditionResolverMap;
 }
 
-registerConditionResolver('between', betweenFunc);
-registerConditionResolver('ends_with', endsWithFunc);
-registerConditionResolver('equal', equalFunc);
-registerConditionResolver('greater_or_equal', greaterOrEqualFunc);
-registerConditionResolver('greater', greaterFunc);
-registerConditionResolver('is_empty', isEmptyFunc);
-registerConditionResolver('is_not_empty', isNotEmptyFunc);
-registerConditionResolver('less_or_equal', lessOrEqualFunc);
-registerConditionResolver('less', lessFunc);
-registerConditionResolver('like', likeFunc);
-registerConditionResolver('not_between', notBetweenFunc);
-registerConditionResolver('not_equal', notEqualFunc);
-registerConditionResolver('not_like', notLikeFunc);
-registerConditionResolver('select_any_in', selectAnyInFunc);
-registerConditionResolver('select_not_any_in', selectNotAnyInFunc);
-registerConditionResolver('starts_with', startsWithFunc);
+registerConditionComputer('between', betweenFunc);
+registerConditionComputer('ends_with', endsWithFunc);
+registerConditionComputer('equal', equalFunc);
+registerConditionComputer('greater_or_equal', greaterOrEqualFunc);
+registerConditionComputer('greater', greaterFunc);
+registerConditionComputer('is_empty', isEmptyFunc);
+registerConditionComputer('is_not_empty', isNotEmptyFunc);
+registerConditionComputer('less_or_equal', lessOrEqualFunc);
+registerConditionComputer('less', lessFunc);
+registerConditionComputer('like', likeFunc);
+registerConditionComputer('not_between', notBetweenFunc);
+registerConditionComputer('not_equal', notEqualFunc);
+registerConditionComputer('not_like', notLikeFunc);
+registerConditionComputer('select_any_in', selectAnyInFunc);
+registerConditionComputer('select_not_any_in', selectNotAnyInFunc);
+registerConditionComputer('starts_with', startsWithFunc);
