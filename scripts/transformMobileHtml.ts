@@ -14,7 +14,10 @@ export default function transformMobileHtml(options: {} = {}): Plugin {
     apply: 'serve',
 
     transformIndexHtml(html: string, file) {
-      if (file.path === '/examples/mobile.html') {
+      if (
+        file.path === '/examples/mobile.html' ||
+        file.path === '/examples/index.html'
+      ) {
         html = html.replace(/href=('|")(.*?)\1/g, (_, quote, value) => {
           if (
             /^(?:amis|amis\-core|amis\-formula|amis\-ui|office\-viewer)/.test(
