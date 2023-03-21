@@ -10,20 +10,11 @@
       "require": "./lib/index.js",
       "import": "./esm/index.js"
     },
-    "./lib/style.css": {
-      "style": "./lib/style.css",
-      "require": "./lib/style.css",
-      "import": "./lib/style.css"
-    },
     "./lib/*": {
       "require": "./lib/*",
       "import": "./esm/*"
     },
-    "./scss/*": {
-      "style": "./scss/*",
-      "require": "./scss/*",
-      "import": "./scss/*"
-    },
+    "./lib/style.css": "./lib/style.css",
     "./*": {
       "require": "./lib/*.js",
       "import": "./esm/*.js"
