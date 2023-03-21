@@ -343,6 +343,29 @@ export function parsePr(word: Word, element: Element, type: 'r' | 'p' = 'p') {
         // 目前是自动计算的，所以不需要这个了
         break;
 
+      case 'w:bidi':
+        // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/bidi_1.html
+        // TODO: 还不清楚和 w:textDirection 是什么关系
+        if (getValBoolean(child, true)) {
+          console.warn('w:bidi is not supported.');
+        }
+        break;
+
+      case 'w:autoSpaceDE':
+      case 'w:autoSpaceDN':
+        // 这个在其它地方实现了
+        break;
+
+      case 'w:kinsoku':
+        // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/kinsoku.html
+        // 控制不了所以忽略了
+        break;
+
+      case 'w:overflowPunct':
+        // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/overflowPunct.html
+        // 支持不了
+        break;
+
       default:
         console.warn('parsePr Unknown tagName', tagName, child);
     }

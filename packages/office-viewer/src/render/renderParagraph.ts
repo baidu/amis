@@ -45,11 +45,11 @@ export default function renderParagraph(
 
   for (const child of paragraph.children) {
     if (child instanceof Run) {
-      appendChild(p, renderRun(word, child));
+      appendChild(p, renderRun(word, child, paragraph));
     } else if (child instanceof BookmarkStart) {
       appendChild(p, renderBookmarkStart(word, child));
     } else if (child instanceof Hyperlink) {
-      const hyperlink = renderHyperLink(word, child);
+      const hyperlink = renderHyperLink(word, child, paragraph);
       appendChild(p, hyperlink);
     } else if (child instanceof SmartTag) {
       renderInlineText(word, child, p);

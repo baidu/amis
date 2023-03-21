@@ -20,16 +20,27 @@ import {InstrText} from '../openxml/word/InstrText';
 import {renderInstrText} from './renderInstrText';
 import {Sym} from '../openxml/word/Sym';
 import {renderSym} from './renderSym';
+import {cjkspace} from '../util/autoSpace';
+import type {Paragraph} from './../openxml/word/Paragraph';
 
 const VARIABLE_CLASS_NAME = 'variable';
 
 /**
  * 对文本进行替换
  */
-function renderText(span: HTMLElement, word: Word, text: string) {
+function renderText(
+  span: HTMLElement,
+  word: Word,
+  text: string,
+  paragraph?: Paragraph
+) {
   // 简单过滤一下提升性能
   if (text.indexOf('{{') === -1) {
-    span.textContent = text;
+    if (paragraph?.properties?.autoSpace) {
+      span.textContent = cjkspace(text.split(''));
+    } else {
+      span.textContent = text;
+    }
   } else {
     span.dataset.originText = text;
     // 加个标识，后续可以通过它来查找哪些变量需要替换，这样就不用重新渲染整个文档了
@@ -53,7 +64,7 @@ export function updateVariableText(word: Word) {
 /**
  * 渲染 run 节点
  */
-export default function renderRun(word: Word, run: Run) {
+export default function renderRun(word: Word, run: Run, paragraph?: Paragraph) {
   const span = createElement('span');
 
   word.addClass(span, 'r');
@@ -62,12 +73,12 @@ export default function renderRun(word: Word, run: Run) {
 
   if (run.children.length === 1 && run.children[0] instanceof Text) {
     const text = run.children[0] as Text;
-    renderText(span, word, text.text);
+    renderText(span, word, text.text, paragraph);
   } else {
     for (const child of run.children) {
       if (child instanceof Text) {
         let newSpan = createElement('span');
-        renderText(span, word, child.text);
+        renderText(span, word, child.text, paragraph);
         appendChild(span, newSpan);
       } else if (child instanceof Break) {
         const br = renderBr(child);
