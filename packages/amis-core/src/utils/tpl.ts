@@ -1,7 +1,7 @@
-import {createObject} from './helper';
 import {register as registerBulitin, getFilters} from './tpl-builtin';
 import {register as registerLodash} from './tpl-lodash';
 import {parse, evaluate} from 'amis-formula';
+import {resolveCondition} from './resolveCondition';
 
 export interface Enginer {
   test: (tpl: string) => boolean;
@@ -97,6 +97,24 @@ export function evalExpression(expression: string, data?: object): boolean {
     console.warn(expression, e);
     return false;
   }
+}
+
+/**
+ * 解析表达式（支持condition-builder）
+ * @param expression 表达式 or condition-builder对象
+ * @param data 上下文
+ * @returns
+ */
+export async function evalExpressionWithConditionBuilder(
+  expression: any,
+  data?: object
+): Promise<boolean> {
+  // 支持ConditionBuilder
+  if (Object.prototype.toString.call(expression) === '[object Object]') {
+    return await resolveCondition(expression, data);
+  }
+
+  return evalExpression(expression, data);
 }
 
 const AST_CACHE: {[key: string]: any} = {};
