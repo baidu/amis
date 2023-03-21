@@ -788,11 +788,12 @@ export class Action extends React.Component<ActionProps, ActionState> {
       classnames: cx,
       classPrefix: ns,
       loadingConfig,
+      themeCss,
       css,
       id
     } = this.props;
     insertCustomStyle(
-      css,
+      themeCss || css,
       [
         {
           key: 'className',

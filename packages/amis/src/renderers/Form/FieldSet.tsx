@@ -117,7 +117,7 @@ export default class FieldSetControl extends React.Component<
 
     let props: any = {
       store,
-      data: store!.data,
+      data: store?.data,
       render,
       disabled,
       formMode: subFormMode || formMode,

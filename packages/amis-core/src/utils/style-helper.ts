@@ -97,7 +97,7 @@ function handleInheritData(statusMap: any, data: any) {
 }
 
 export function formatStyle(
-  css: any,
+  themeCss: any,
   classNames: {
     key: string;
     value?: string;
@@ -111,7 +111,7 @@ export function formatStyle(
   id?: string,
   defaultData?: any
 ) {
-  if (!css) {
+  if (!themeCss) {
     return {value: '', origin: []};
   }
   const res = [];
@@ -123,7 +123,7 @@ export function formatStyle(
   };
 
   for (let item of classNames) {
-    const body = css[item.key];
+    const body = themeCss[item.key];
     const list = item.value?.split(' ');
     const classNameList: string[] = [];
 
@@ -219,12 +219,13 @@ export function formatStyle(
               '\n  '
             )}\n}`
           });
-          if (['hover', 'active', 'disabled'].includes(status)) {
-            res.push({
-              className: cx + '.' + status,
-              content: `.${cx}.${status} {\n  ${styles.join('\n  ')}\n}`
-            });
-          }
+          // TODO:切换状态暂时先不改变组件的样式
+          // if (['hover', 'active', 'disabled'].includes(status)) {
+          //   res.push({
+          //     className: cx + '.' + status,
+          //     content: `.${cx}.${status} {\n  ${styles.join('\n  ')}\n}`
+          //   });
+          // }
         }
       }
     }
@@ -236,7 +237,7 @@ export function formatStyle(
 }
 
 export function insertCustomStyle(
-  css: any,
+  themeCss: any,
   classNames: {
     key: string;
     value?: string;
@@ -250,11 +251,13 @@ export function insertCustomStyle(
   id?: string,
   defaultData?: any
 ) {
-  if (!css) {
+  if (!themeCss) {
     return;
   }
-  const {value} = formatStyle(css, classNames, id, defaultData);
-  insertStyle(value, id?.replace('u:', '') || uuid());
+  const {value} = formatStyle(themeCss, classNames, id, defaultData);
+  if (value) {
+    insertStyle(value, id?.replace('u:', '') || uuid());
+  }
 }
 
 /**
