@@ -208,13 +208,13 @@ export const runAction = async (
   );
   // 兼容一下1.9.0之前的版本
   const expression = actionConfig.expression ?? actionConfig.execOn;
-  debugger;
   // 执行条件
   let isStop = false;
+
   if (expression) {
     isStop = !(await evalExpressionWithConditionBuilder(expression, mergeData));
   }
-  debugger;
+
   if (isStop) {
     return;
   }
