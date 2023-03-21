@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <g id="按钮点选" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linejoin="round">
-        <rect id="方形" stroke="currentColor" x="2" y="2" width="12" height="12"></rect>
-        <polygon id="三角形" stroke="currentColor" transform="translate(6.941511, 6.934006) rotate(-45.000000) translate(-6.941511, -6.934006) " points="6.94151115 4.93400579 8.94151115 8.93400579 6.94151115 8.93400579 4.94151115 8.93400579"></polygon>
-        <line x1="8.35572471" y1="8.34821935" x2="10.4770451" y2="10.4695397" id="直线" stroke="currentColor" stroke-linecap="round"></line>
-    </g>
-</svg>

@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <g id="评分" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linejoin="round">
-        <polygon id="星形" stroke="currentColor" points="8 11.6984431 4.32634217 13.6297993 5.02794839 9.53912123 2.05589677 6.64208691 6.16317109 6.04526501 8 2.32344312 9.83682891 6.04526501 13.9441032 6.64208691 10.9720516 9.53912123 11.6736578 13.6297993"></polygon>
-    </g>
-</svg>

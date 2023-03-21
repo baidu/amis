@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <g id="视频" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linejoin="round">
-        <rect id="方形" stroke="currentColor" x="2" y="2" width="12" height="12"></rect>
-        <polygon id="三角形" stroke="currentColor" transform="translate(8.500000, 8.000000) rotate(-270.000000) translate(-8.500000, -8.000000) " points="8.5 6 11 10 6 10"></polygon>
-    </g>
-</svg>
