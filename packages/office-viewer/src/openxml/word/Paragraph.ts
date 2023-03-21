@@ -21,6 +21,11 @@ export interface ParagraphPr extends Properties {
   numPr?: NumberPr;
   runPr?: RunPr;
   tabs?: Tab[];
+
+  /**
+   * 其实是区分 autoSpaceDN 和 autoSpaceDE 的，但这里简化了
+   */
+  autoSpace?: boolean;
 }
 
 export type ParagraphChild =
@@ -44,6 +49,12 @@ export type ParagraphChild =
 // | CommentRangeStart
 // | CommentRangeEnd
 // | CommentReference;
+
+function parseAutoSpace(element: Element): boolean {
+  const autoSpaceDE = element.getElementsByTagName('w:autoSpaceDE').item(0);
+  const autoSpaceDN = element.getElementsByTagName('w:autoSpaceDN').item(0);
+  return !!autoSpaceDE || !!autoSpaceDN;
+}
 
 export class Paragraph {
   // 主要是为了方便调试用的
@@ -78,7 +89,9 @@ export class Paragraph {
       tabs.push(Tab.fromXML(word, tabElement));
     }
 
-    return {cssStyle, pStyle, numPr, tabs};
+    const autoSpace = parseAutoSpace(element);
+
+    return {cssStyle, pStyle, numPr, tabs, autoSpace};
   }
 
   static fromXML(word: Word, element: Element): Paragraph {
