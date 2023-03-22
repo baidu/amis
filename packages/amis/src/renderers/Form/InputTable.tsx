@@ -25,7 +25,6 @@ import {
   resolveVariableAndFilter,
   getRendererByName,
   resolveEventData,
-  ListenerAction,
   evalExpression
 } from 'amis-core';
 import {Button, Icon} from 'amis-ui';
@@ -34,7 +33,6 @@ import findIndex from 'lodash/findIndex';
 import cloneDeep from 'lodash/cloneDeep';
 import isEqual from 'lodash/isEqual';
 import inRange from 'lodash/inRange';
-import defaultTo from 'lodash/defaultTo';
 import {TableSchema} from '../Table';
 import {SchemaApi, SchemaCollection} from '../../Schema';
 import find from 'lodash/find';
@@ -43,6 +41,7 @@ import merge from 'lodash/merge';
 import mergeWith from 'lodash/mergeWith';
 
 import type {SchemaTokenizeableString} from '../../Schema';
+import { TimelineItem } from 'packages/amis-ui/src/components/TimelineItem';
 
 export interface TableControlSchema
   extends FormBaseControl,
@@ -257,7 +256,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     cancelBtnIcon: 'close',
     valueField: '',
     minLength: 0,
-    maxLength: Infinity
+    maxLength: Infinity,
+    showFooterAddBtn: true,
+    showTableAddBtn: true
   };
 
   static propsList: Array<string> = [
@@ -455,14 +456,14 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   async emitValue() {
     const items = this.state.items.filter(item => !item.__isPlaceholder);
     const {onChange} = this.props;
-    const isPrevented = await this.dispatchEvent('change', {items});
+    const isPrevented = await this.dispatchEvent('change');
     if (!isPrevented) {
       return;
     }
     onChange?.(items);
   }
 
-  async doAction(action: ActionObject, args: any, ...rest: Array<any>) {
+  async doAction(action: ActionObject, ctx: RendererData, ...rest: Array<any>) {
     const {
       onAction,
       valueField,
@@ -487,8 +488,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       if (addApi || action.payload) {
         let toAdd = null;
 
-        if (isEffectiveApi(addApi, args)) {
-          const payload = await env.fetcher(addApi, args);
+        if (isEffectiveApi(addApi, ctx)) {
+          const payload = await env.fetcher(addApi, ctx);
           if (payload && !payload.ok) {
             env.notify(
               'error',
@@ -500,7 +501,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             toAdd = payload.data;
           }
         } else {
-          toAdd = dataMapping(action.payload, args);
+          toAdd = dataMapping(action.payload, ctx);
         }
 
         toAdd = Array.isArray(toAdd) ? toAdd : [toAdd];
@@ -545,7 +546,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       }
 
       const items = this.state.items.concat();
-      let toRemove: any = dataMapping(action.payload, args);
+      let toRemove: any = dataMapping(action.payload, ctx);
       toRemove = Array.isArray(toRemove) ? toRemove : [toRemove];
 
       toRemove.forEach((toRemove: any) => {
@@ -557,19 +558,6 @@ export default class FormTable extends React.Component<TableProps, TableState> {
           items.splice(idx, 1);
         }
       });
-
-      // 删除api，目前不支持 如果匹配到的删除数据有多个，但api只支持删除一个 的场景
-      if (isEffectiveApi(deleteApi, toRemove)) {
-        const payload = await env.fetcher(deleteApi, toRemove);
-        if (payload && !payload.ok) {
-          env.notify(
-            'error',
-            (deleteApi as ApiObject)?.messages?.failed ??
-              (payload.msg || __('fetchFailed'))
-          );
-          return;
-        }
-      }
 
       this.setState(
         {
@@ -586,11 +574,11 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
       const items = this.state.items.concat();
 
-      if (addApi || args) {
+      if (addApi || ctx) {
         let toAdd: any = null;
 
-        if (isEffectiveApi(addApi, args)) {
-          const payload = await env.fetcher(addApi, args);
+        if (isEffectiveApi(addApi, ctx)) {
+          const payload = await env.fetcher(addApi, ctx);
           if (payload && !payload.ok) {
             env.notify(
               'error',
@@ -602,13 +590,13 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             toAdd = payload.data;
           }
         } else {
-          toAdd = args.item;
+          toAdd = ctx.item;
         }
 
         toAdd = Array.isArray(toAdd) ? toAdd : [toAdd];
         // 如果没指定插入的位置（args.index），则默认在头部插入
-        const pushIndex = defaultTo(args.index, 0);
-        for (let i = 0; i < args.item.length; i++) {
+        const pushIndex = ctx.index || 0;
+        for (let i = 0; i < ctx.item.length; i++) {
           if (
             !valueField ||
             !find(
@@ -638,26 +626,22 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       }
     } else if (actionType === 'deleteItem') {
       const items = [...this.state.items];
-      const rawItems: any = [];
+      let rawItems: any = [];
       const deleteItem: any = [];
 
-      if (args.condition) {
+      if (ctx.index) {
+        items[ctx.index] && deleteItem.push(items[ctx.index]);
+        rawItems = [...items];
+        rawItems.splice(ctx.index, 1);
+      } else if (ctx.condition) {
         items.forEach((item, rowIndex) => {
-          const flag = evalExpression(args?.condition, {record: item, rowIndex});
+          const flag = evalExpression(ctx?.condition, {...item, rowIndex});
           if (!flag) {
             rawItems.push(item);
           } else {
             deleteItem.push(item);
           }
         });
-      } else if (args.index) {
-        items.forEach((item, rowIndex) => {
-          if (args.index.includes(rowIndex)) {
-            deleteItem.push(item);
-          } else {
-            rawItems.push(item);
-          }
-        })
       }
 
       // 删除api，目前不支持 如果匹配到的删除数据有多个，但api只支持删除一个 的场景
@@ -695,7 +679,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       });
       return;
     }
-    return onAction && onAction(action, args, ...rest);
+    return onAction && onAction(action, ctx, ...rest);
   }
 
   async copyItem(index: number) {
@@ -822,17 +806,13 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   async dispatchEvent(eventName: string, eventData: any = {}) {
     const {dispatchEvent} = this.props;
     const {items} = this.state;
-    const value = cloneDeep(items).map(item => {
-      delete item.__isPlaceholder;
-      return item;
-    });
     const rendererEvent = await dispatchEvent(
       eventName,
       resolveEventData(
         this.props,
         {
           ...eventData,
-          value
+          value: [...items]
         },
         'value'
       )
@@ -1711,9 +1691,8 @@ export class TableControlRenderer extends FormTable {
     const {onChange} = this.props;
     if (index !== undefined && ~index) {
       // 如果setValue动作传入了index，更新指定索引的值
-      const items = this.state.items.concat();
-      const pushIndex = index >= items.length ? items.length : index;
-      items[pushIndex] = value;
+      const items = [...this.state.items];
+      items.splice(index, 1, value);
       this.setState({items});
       onChange?.(items);
     } else {
