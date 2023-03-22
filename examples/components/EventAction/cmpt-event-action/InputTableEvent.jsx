@@ -7,6 +7,42 @@ export default {
   "body": [
     {
       "type": "button",
+      "label": "add",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "componentId": "u:39c47c713ae6",
+              "actionType": "add",
+              "payload": {
+                "name": "zzzl"
+              }
+            }
+          ]
+        }
+      },
+      "id": "u:691a43978f4e"
+    },
+    {
+      "type": "button",
+      "label": "delete",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "componentId": "u:39c47c713ae6",
+              "actionType": "delete",
+              "payload": {
+                "name": "zzzl"
+              }
+            }
+          ]
+        }
+      },
+      "id": "u:691a43978f4e"
+    },
+    {
+      "type": "button",
       "label": "setValue 未指定index",
       "onEvent": {
         "click": {
@@ -168,7 +204,6 @@ export default {
       "type": "input-table",
       "name": "table",
       "label": "表格表单",
-      "canAccessSuperData": true,
       // "valueField": "name",
       "resetValue": [
         {
@@ -201,12 +236,13 @@ export default {
       ],
       "strictMode": false,
       "id": "u:39c47c713ae6",
-      "needConfirm": true,
+      "needConfirm": false,
       "addable": true,
       "copyable": true,
       "editable": true,
       "removable": true,
       "draggable": false,
+      "valueField": "name",
       "onEvent": {
         "add": {
           "actions": [
@@ -218,16 +254,46 @@ export default {
             }
           ],
         },
-        // "addConfirm": {
-        //   "actions": [
-        //     {
-        //       "args": {
-        //         "msg": "${event.data.index}"
-        //       },
-        //       "actionType": "toast"
-        //     }
-        //   ]
-        // }
+        "addConfirm": {
+          "actions": [
+            {
+              "args": {
+                "msg": "${event.data.index}"
+              },
+              "actionType": "toast"
+            }
+          ]
+        },
+        "addSuccess": {
+          "actions": [
+            {
+              "args": {
+                "msg": "${event.data.index}"
+              },
+              "actionType": "toast"
+            }
+          ]
+        },
+        "delete": {
+          "actions": [
+            {
+              "args": {
+                "msg": "${event.data.index}"
+              },
+              "actionType": "toast"
+            }
+          ]
+        },
+        "deleteSuccess": {
+          "actions": [
+            {
+              "args": {
+                "msg": "${event.data.index}"
+              },
+              "actionType": "toast"
+            }
+          ]
+        }
       },
       // "addApi": {
       //   "url": "http://localhost:3000/form/input/table",

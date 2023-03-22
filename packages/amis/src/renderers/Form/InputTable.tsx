@@ -484,8 +484,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
       const items = this.state.items.concat();
 
-      if (addApi || args) {
-        let toAdd: any = null;
+      if (addApi || action.payload) {
+        let toAdd = null;
 
         if (isEffectiveApi(addApi, args)) {
           const payload = await env.fetcher(addApi, args);
@@ -500,36 +500,38 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             toAdd = payload.data;
           }
         } else {
-          toAdd = args.item;
+          toAdd = dataMapping(action.payload, args);
         }
 
         toAdd = Array.isArray(toAdd) ? toAdd : [toAdd];
-        // 如果没指定插入的位置（args.index），则默认在头部插入
-        const pushIndex = defaultTo(args.index, 0);
-        for (let i = 0; i < args.item.length; i++) {
+        toAdd.forEach((toAdd: any) => {
           if (
             !valueField ||
             !find(
               items,
-              item => item[valueField as string] == toAdd[i][valueField as string]
+              item => item[valueField as string] == toAdd[valueField as string]
             )
           ) {
-            items.splice(i + pushIndex, 0, toAdd[i]);
+            // 不要重复加入
+            items.push(toAdd);
           }
-        }
+        });
 
         this.setState(
           {
             items
           },
           () => {
+            this.emitValue();
+
             if (toAdd.length === 1 && needConfirm !== false) {
               this.startEdit(items.length - 1, true);
             }
           }
         );
+
+        return;
       } else {
-        // 指定false是为了不派发add事件
         return this.addItem(items.length - 1, false);
       }
     } else if (
@@ -556,7 +558,6 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         }
       });
 
-      // todo 如果配置删除 Api 怎么办？
       // 删除api，目前不支持 如果匹配到的删除数据有多个，但api只支持删除一个 的场景
       if (isEffectiveApi(deleteApi, toRemove)) {
         const payload = await env.fetcher(deleteApi, toRemove);
@@ -578,8 +579,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       );
 
       return;
-    } else if (actionType === 'addItem'
-    ) {
+    } else if (actionType === 'addItem') {
       if (addable === false) {
         return;
       }
@@ -690,9 +690,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       }, () => {
         this.emitValue();
       });
-    } else {
-      onAction(undefined, action, args, ...rest);
     }
+    return onAction && onAction(action, args, ...rest);
   }
 
   async copyItem(index: number) {
@@ -942,8 +941,6 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
   async removeItem(index: number) {
     const {
-      value,
-      onChange,
       deleteApi,
       deleteConfirmText,
       env,
@@ -951,8 +948,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       translate: __
     } = this.props;
 
-    let newValue = Array.isArray(value) ? value.concat() : [];
-    const item = newValue[index];
+    let items = this.state.items.concat();
+    const item = items[index];
 
     if (!item) {
       return;
@@ -986,9 +983,18 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     }
 
     this.removeEntry(item);
-    newValue.splice(index, 1);
+    items.splice(index, 1);
     isPrevented = await this.dispatchEvent('deleteSuccess', {index, item});
-    !isPrevented && onChange?.(newValue);
+    if (isPrevented) {
+      return;
+    }
+
+    this.setState(
+      {
+        items
+      },
+      () => this.emitValue()
+    );
   }
 
   buildItemProps(item: any, index: number) {
@@ -1701,7 +1707,7 @@ export class TableControlRenderer extends FormTable {
     const {onChange} = this.props;
     if (index !== undefined && ~index) {
       // 如果setValue动作传入了index，更新指定索引的值
-      const items = cloneDeep(this.state.items);
+      const items = this.state.items.concat();
       const pushIndex = index >= items.length ? items.length : index;
       items[pushIndex] = value;
       this.setState({items});
