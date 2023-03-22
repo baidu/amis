@@ -632,8 +632,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             }
           }
         );
+        return;
       } else {
-        this.addItem(items.length - 1, false);
+        return this.addItem(items.length - 1, false);
       }
     } else if (actionType === 'deleteItem') {
       const items = [...this.state.items];
@@ -678,18 +679,21 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         },
         () => this.emitValue()
       );
+      return;
     } else if (actionType === 'clear') {
       this.setState({
         items: []
       }, () => {
         this.emitValue();
       });
+      return;
     } else if (actionType === 'reset') {
       this.setState({
         items: Array.isArray(resetValue) ? resetValue : []
       }, () => {
         this.emitValue();
       });
+      return;
     }
     return onAction && onAction(action, args, ...rest);
   }
