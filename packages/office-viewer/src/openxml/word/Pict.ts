@@ -11,7 +11,7 @@ export class Pict {
 
     if (imagedataElement) {
       const rId = imagedataElement.getAttribute('r:id') || '';
-      const rel = word.getRelationship(rId);
+      const rel = word.getDocumentRels(rId);
       if (rel) {
         pict.imagedata = rel;
       }

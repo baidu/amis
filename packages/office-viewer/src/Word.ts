@@ -138,7 +138,20 @@ export default class Word {
 
   renderOptions: WordRenderOptions;
 
+  /**
+   * 全局关系表
+   */
   relationships: Record<string, Relationship>;
+
+  /**
+   * 文档关系表
+   */
+  documentRels: Record<string, Relationship>;
+
+  /**
+   * 字体关系表
+   */
+  fontTableRels: Record<string, Relationship>;
 
   /**
    * 样式名映射，因为自定义样式名有可能不符合 css 命名规范，因此实际使用这个名字
@@ -232,6 +245,8 @@ export default class Word {
       rels = parseRelationships(this.parser.getXML('/_rels/.rels'), 'root');
     }
 
+    this.relationships = rels;
+
     let documentRels = {};
     if (this.parser.fileExists('/word/_rels/document.xml.rels')) {
       documentRels = parseRelationships(
@@ -239,7 +254,7 @@ export default class Word {
         'word'
       );
     }
-    this.relationships = {...rels, ...documentRels};
+    this.relationships = documentRels;
   }
 
   /**
@@ -263,11 +278,31 @@ export default class Word {
   }
 
   /**
-   * 根据 id 获取关系
+   * 获取全局关系
    */
   getRelationship(id?: string) {
     if (id) {
       return this.relationships[id];
+    }
+    return null;
+  }
+
+  /**
+   * 获取文档对应的关系
+   */
+  getDocumentRels(id?: string) {
+    if (id) {
+      return this.documentRels[id];
+    }
+    return null;
+  }
+
+  /**
+   * 获取字体对应的关系
+   */
+  getFontTableRels(id?: string) {
+    if (id) {
+      return this.fontTableRels[id];
     }
     return null;
   }
