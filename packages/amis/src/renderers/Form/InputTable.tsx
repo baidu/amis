@@ -1419,7 +1419,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       disabled: footerAddBtnDisabled ? footerAddBtnDisabled : undefined,
       ...(footerAddBtnDisabled ? {disabledTip: __('Table.addButtonDisabledTip')} : {})
     } : {
-      onClick: () => this.addItem(this.state.items.length),
+      onClick: () => this.addItem(this.state.items.length)
     };
 
 
