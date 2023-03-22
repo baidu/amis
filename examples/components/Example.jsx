@@ -128,8 +128,6 @@ import Loading from './Loading';
 import CodeSchema from './Code';
 import OfficeViewer from './OfficeViewer';
 import InputTableEvent from './EventAction/cmpt-event-action/InputTableEvent';
-import OfficeViewer from './OfficeViewer';
-import InputTableEvent from './EventAction/cmpt-event-action/InputTableEvent';
 
 import {Switch} from 'react-router-dom';
 import {navigations2route} from './App';
