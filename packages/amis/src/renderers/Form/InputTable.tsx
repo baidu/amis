@@ -1403,19 +1403,26 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
     const footerAddBtnDisabled = this.computedAddBtnDisabled();
 
-    let footerAddBtnSchema = {
-      type: 'button',
-      level: 'primary',
-      size: 'sm',
-      label: __('Table.add'),
-      icon: 'fa fa-plus',
-      disabled: footerAddBtnDisabled,
+    const footerAddBtnSchema = Object.assign(
+      {
+        type: 'button',
+        level: 'primary',
+        size: 'sm',
+        label: __('Table.add'),
+        icon: 'fa fa-plus'
+      },
+      footerAddBtn || {}
+    );
+
+    const footerAddBtnProps = footerAddBtnDisabled ? {
+      onClick: () => this.addItem(this.state.items.length),
+      disabled: footerAddBtnDisabled ? footerAddBtnDisabled : undefined,
       ...(footerAddBtnDisabled ? {disabledTip: __('Table.addButtonDisabledTip')} : {})
+    } : {
+      onClick: () => this.addItem(this.state.items.length),
     };
 
-    if (footerAddBtn !== undefined) {
-      footerAddBtnSchema = Object.assign(footerAddBtnSchema, footerAddBtn);
-    }
+
 
     return (
       <div className={cx('InputTable', className)}>
@@ -1464,9 +1471,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         showPager ? (
           <div className={cx('InputTable-toolbar')}>
             {addable && showFooterAddBtn !== false ? (
-              render('button', footerAddBtnSchema, {
-                onClick: () => this.addItem(this.state.items.length)
-              })
+              render('button', footerAddBtnSchema, footerAddBtnProps)
             ) : null}
 
             {showPager
