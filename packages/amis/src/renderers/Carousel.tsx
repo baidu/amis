@@ -129,7 +129,6 @@ export interface CarouselState {
   current: number;
   options: any[];
   nextAnimation: string;
-  loading: boolean;
 }
 
 const defaultSchema = {
@@ -195,9 +194,10 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
   state = {
     current: 0,
     options: this.props.options || getPropValue(this.props) || [],
-    nextAnimation: '',
-    loading: false
+    nextAnimation: ''
   };
+
+  loading: boolean = false;
 
   componentDidMount() {
     this.prepareAutoSlide();
@@ -322,7 +322,7 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
   @autobind
   next() {
     const multiple = this.props.multiple;
-    if (this.state.loading && multiple && multiple.count > 1) {
+    if (this.loading && multiple && multiple.count > 1) {
       return;
     }
     this.autoSlide('next');
@@ -331,7 +331,7 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
   @autobind
   prev() {
     const multiple = this.props.multiple;
-    if (this.state.loading && multiple && multiple.count > 1) {
+    if (this.loading && multiple && multiple.count > 1) {
       return;
     }
     this.autoSlide('prev');
@@ -345,10 +345,10 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
 
   @autobind
   async changeSlide(index: number) {
-    const {current, loading} = this.state;
+    const {current} = this.state;
     const {dispatchEvent, data, multiple} = this.props;
 
-    if (loading && multiple && multiple.count > 1) {
+    if (this.loading && multiple && multiple.count > 1) {
       return;
     }
 
@@ -459,7 +459,7 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
       alwaysShowArrow,
       icons
     } = this.props;
-    const {options, current, nextAnimation, loading} = this.state;
+    const {options, current, nextAnimation} = this.state;
 
     let body: JSX.Element | null = null;
     let carouselStyles: {
@@ -506,10 +506,10 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
                     );
                 }
                 if (multipleCount > 1) {
-                  if ((status === ENTERING || status === EXITING) && !loading) {
-                    this.setState({loading: true});
-                  } else if ((status === ENTERED || status === EXITED) && loading) {
-                    this.setState({loading: false});
+                  if ((status === ENTERING || status === EXITING) && !this.loading) {
+                    this.loading = true;
+                  } else if ((status === ENTERED || status === EXITED) && this.loading) {
+                    this.loading = false;
                   }
                 }
 
