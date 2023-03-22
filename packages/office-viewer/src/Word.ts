@@ -377,10 +377,18 @@ export default class Word {
   }
 
   /**
-   * 获取主题色，目前基于 css 变量实现，方便动态修改
+   * 获取主题色
    */
   getThemeColor(name: string) {
-    return `var(--docx-${this.id}-theme-${name}-color)`;
+    if (this.themes && this.themes.length > 0) {
+      const theme = this.themes[0];
+      const color = theme.themeElements?.clrScheme?.colors?.[name];
+      if (color) {
+        return color;
+      }
+    }
+
+    return '';
   }
 
   addClass(element: HTMLElement, className: string) {

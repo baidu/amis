@@ -21,8 +21,10 @@ function parseClrScheme(doc: Element | null): ClrScheme {
       const clrName = clr.nodeName.replace('a:', '');
       if (clrName === 'sysClr') {
         scheme.colors[colorName] = clr.getAttribute('lastClr') || '';
+      } else if (clrName === 'srgbClr') {
+        scheme.colors[colorName] = '#' + clr.getAttribute('val') || '';
       } else {
-        scheme.colors[colorName] = clr.getAttribute('val') || '';
+        console.error('unknown clr name', clrName);
       }
     }
   }

@@ -62,15 +62,15 @@ function parseVAlign(element: Element, style: CSSStyle) {
   const vAlign = getVal(element) as ST_VerticalJc;
 
   switch (vAlign) {
-    case ST_VerticalJc.bottom:
+    case 'bottom':
       style['vertical-align'] = 'bottom';
       break;
 
-    case ST_VerticalJc.center:
+    case 'center':
       style['vertical-align'] = 'middle';
       break;
 
-    case ST_VerticalJc.top:
+    case 'top':
       style['vertical-align'] = 'top';
       break;
   }
@@ -111,11 +111,11 @@ export function parseInsideBorders(word: Word, element: Element) {
  */
 export function parseTblWidth(element: Element) {
   const type = element.getAttribute('w:type') as ST_TblWidth;
-  if (!type || type === ST_TblWidth.dxa) {
+  if (!type || type === 'dxa') {
     return parseSize(element, 'w:w');
-  } else if (type === ST_TblWidth.pct) {
+  } else if (type === 'pct') {
     return parseSize(element, 'w:w', LengthUsage.Percent);
-  } else if (type === ST_TblWidth.auto) {
+  } else if (type === 'auto') {
     return 'auto';
   } else {
     console.warn('parseTblWidth: ignore type', type, element);
@@ -182,7 +182,7 @@ export class Tc {
           break;
 
         case 'w:vMerge':
-          properties.vMerge = (getVal(child) as ST_Merge) || ST_Merge.continue;
+          properties.vMerge = (getVal(child) as ST_Merge) || 'continue';
           break;
 
         case 'w:textDirection':
@@ -228,7 +228,7 @@ export class Tc {
     const lastCol = rowSpanMap[currentCol.index];
     // 如果是 continue 意味着这个被合并了
     if (tc.properties.vMerge) {
-      if (tc.properties.vMerge === ST_Merge.restart) {
+      if (tc.properties.vMerge === 'restart') {
         tc.properties.rowSpan = 1;
         rowSpanMap[currentCol.index] = tc;
       } else if (lastCol) {

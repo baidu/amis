@@ -12,7 +12,7 @@ export function renderTab(word: Word, tab: Tab) {
   tabElement.style.display = 'inline-block';
   tabElement.style.width = tab.pos;
   tabElement.innerHTML = '&nbsp;';
-  if (tab.leader === ST_TabTlc.dot) {
+  if (tab.leader === 'dot') {
     tabElement.style.borderBottom = '1px dotted';
   }
   return tabElement;

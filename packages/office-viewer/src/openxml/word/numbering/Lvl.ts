@@ -13,8 +13,8 @@ export class Lvl {
   numFmt: ST_NumberFormat;
   lvlText: string = '%1.';
   isLgl: boolean = false;
-  lvlJc: ST_Jc = ST_Jc.start;
-  suff: ST_LevelSuffix = ST_LevelSuffix.space;
+  lvlJc: ST_Jc = 'start';
+  suff: ST_LevelSuffix = 'space';
 
   pPr?: ParagraphPr;
   rPr?: RunPr;
@@ -41,6 +41,11 @@ export class Lvl {
 
         case 'w:lvlJc':
           lvl.lvlJc = getVal(child) as ST_Jc;
+          break;
+
+        case 'w:legacy':
+          // 老的属性应该不需要支持了
+          // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/legacy.html
           break;
 
         case 'w:pPr':

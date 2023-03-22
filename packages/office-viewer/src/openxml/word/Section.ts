@@ -5,23 +5,10 @@
  */
 
 import {parseSize} from '../../parse/parseSize';
-import {
-  ST_ChapterSep,
-  ST_DocGrid,
-  ST_LineNumberRestart,
-  ST_NumberFormat,
-  ST_PageBorderDisplay,
-  ST_PageBorderOffset,
-  ST_PageBorderZOrder,
-  ST_PageOrientation,
-  ST_SectionMark,
-  ST_TextDirection
-} from '../Types';
-import {BorderOptions} from './Border';
+import {ST_PageOrientation} from '../Types';
 import {Hyperlink} from './Hyperlink';
 import {Paragraph} from './Paragraph';
 import {Table} from './Table';
-import {VerticalAlign} from './VerticalAlign';
 
 export type PageSize = {
   width: string;

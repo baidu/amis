@@ -127,29 +127,29 @@ function genTblOverrideStyle(
   let enableType = '';
   // 在 tblLook 里可以通过这些属性来控制是否启用
   switch (overrideType) {
-    case ST_TblStyleOverrideType.firstCol:
+    case 'firstCol':
       enableType = 'enable-firstColumn';
       break;
 
-    case ST_TblStyleOverrideType.lastCol:
+    case 'lastCol':
       enableType = 'enable-lastColumn';
       break;
 
-    case ST_TblStyleOverrideType.firstRow:
+    case 'firstRow':
       enableType = 'enable-firstRow';
       break;
 
-    case ST_TblStyleOverrideType.lastRow:
+    case 'lastRow':
       enableType = 'enable-lastRow';
       break;
 
-    case ST_TblStyleOverrideType.band1Horz:
-    case ST_TblStyleOverrideType.band2Horz:
+    case 'band1Horz':
+    case 'band2Horz':
       enableType = 'enable-hBand';
       break;
 
-    case ST_TblStyleOverrideType.band1Vert:
-    case ST_TblStyleOverrideType.band2Vert:
+    case 'band1Vert':
+    case 'band2Vert':
       enableType = 'enable-vBand';
       break;
   }
@@ -221,19 +221,19 @@ function genTblOverrideStyle(
 
 // 表格覆盖样式的顺序，权重高的放后面
 const overrideTypeOrder: Set<ST_TblStyleOverrideType> = new Set([
-  ST_TblStyleOverrideType.wholeTable,
-  ST_TblStyleOverrideType.band1Horz,
-  ST_TblStyleOverrideType.band2Horz,
-  ST_TblStyleOverrideType.band1Vert,
-  ST_TblStyleOverrideType.band2Vert,
-  ST_TblStyleOverrideType.firstCol,
-  ST_TblStyleOverrideType.firstRow,
-  ST_TblStyleOverrideType.lastCol,
-  ST_TblStyleOverrideType.lastRow,
-  ST_TblStyleOverrideType.neCell,
-  ST_TblStyleOverrideType.nwCell,
-  ST_TblStyleOverrideType.seCell,
-  ST_TblStyleOverrideType.swCell
+  'wholeTable',
+  'band1Horz',
+  'band2Horz',
+  'band1Vert',
+  'band2Vert',
+  'firstCol',
+  'firstRow',
+  'lastCol',
+  'lastRow',
+  'neCell',
+  'nwCell',
+  'seCell',
+  'swCell'
 ]);
 
 // 生成表格覆盖样式

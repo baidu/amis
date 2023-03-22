@@ -1,4 +1,4 @@
-import {createElement, appendChild, setStyle} from '../util/dom';
+import {createElement, appendChild, applyStyle} from '../util/dom';
 import Word from '../Word';
 
 import {Paragraph, ParagraphPr} from '../openxml/word/Paragraph';

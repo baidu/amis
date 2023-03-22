@@ -2,1722 +2,48 @@
 export type ST_Lang = string;
 export type ST_HexColorRGB = string;
 export type ST_Panose = string;
-export enum ST_CalendarType {
-  gregorian = 'gregorian',
-  gregorianUs = 'gregorianUs',
-  gregorianMeFrench = 'gregorianMeFrench',
-  gregorianArabic = 'gregorianArabic',
-  hijri = 'hijri',
-  hebrew = 'hebrew',
-  taiwan = 'taiwan',
-  japan = 'japan',
-  thai = 'thai',
-  korea = 'korea',
-  saka = 'saka',
-  gregorianXlitEnglish = 'gregorianXlitEnglish',
-  gregorianXlitFrench = 'gregorianXlitFrench',
-  none = 'none',
-}
-
+export type ST_CalendarType =
+  | 'gregorian'
+  | 'gregorianUs'
+  | 'gregorianMeFrench'
+  | 'gregorianArabic'
+  | 'hijri'
+  | 'hebrew'
+  | 'taiwan'
+  | 'japan'
+  | 'thai'
+  | 'korea'
+  | 'saka'
+  | 'gregorianXlitEnglish'
+  | 'gregorianXlitFrench'
+  | 'none';
 export type ST_Guid = string;
 export type ST_OnOff = boolean;
 
 export type ST_String = string;
 export type ST_XmlName = string;
 export type ST_UnsignedDecimalNumber = number;
-export type ST_TwipsMeasure = ST_UnsignedDecimalNumber | ST_PositiveUniversalMeasure;
+export type ST_TwipsMeasure =
+  | ST_UnsignedDecimalNumber
+  | ST_PositiveUniversalMeasure;
 
-export enum ST_VerticalAlignRun {
-  baseline = 'baseline',
-  superscript = 'superscript',
-  subscript = 'subscript',
-}
-
+export type ST_VerticalAlignRun = 'baseline' | 'superscript' | 'subscript';
 export type ST_Xstring = string;
-export enum ST_XAlign {
-  left = 'left',
-  center = 'center',
-  right = 'right',
-  inside = 'inside',
-  outside = 'outside',
-}
-
-export enum ST_YAlign {
-  inline = 'inline',
-  top = 'top',
-  center = 'center',
-  bottom = 'bottom',
-  inside = 'inside',
-  outside = 'outside',
-}
-
-export enum ST_ConformanceClass {
-  strict = 'strict',
-  transitional = 'transitional',
-}
-
+export type ST_XAlign = 'left' | 'center' | 'right' | 'inside' | 'outside';
+export type ST_YAlign =
+  | 'inline'
+  | 'top'
+  | 'center'
+  | 'bottom'
+  | 'inside'
+  | 'outside';
+export type ST_ConformanceClass = 'strict' | 'transitional';
 export type ST_UniversalMeasure = string;
 export type ST_PositiveUniversalMeasure = ST_UniversalMeasure;
 export type ST_Percentage = string;
 export type ST_FixedPercentage = ST_Percentage;
 export type ST_PositivePercentage = ST_Percentage;
 export type ST_PositiveFixedPercentage = ST_Percentage;
-export type CT_Empty = any;
-
-export type CT_OnOff = {
-  val?: ST_OnOff;
-}
-
-export type CT_LongHexNumber = {
-  val: ST_LongHexNumber;
-}
-
-export type CT_Charset = {
-  characterSet?: ST_String;
-}
-
-export type CT_DecimalNumber = {
-  val: ST_DecimalNumber;
-}
-
-export type CT_UnsignedDecimalNumber = {
-  val: ST_UnsignedDecimalNumber;
-}
-
-export type CT_DecimalNumberOrPrecent = {
-  val: ST_DecimalNumberOrPercent;
-}
-
-export type CT_TwipsMeasure = {
-  val: ST_TwipsMeasure;
-}
-
-export type CT_SignedTwipsMeasure = {
-  val: ST_SignedTwipsMeasure;
-}
-
-export type CT_PixelsMeasure = {
-  val: ST_PixelsMeasure;
-}
-
-export type CT_HpsMeasure = {
-  val: ST_HpsMeasure;
-}
-
-export type CT_SignedHpsMeasure = {
-  val: ST_SignedHpsMeasure;
-}
-
-export type CT_MacroName = {
-  val: ST_MacroName;
-}
-
-export type CT_String = {
-  val: ST_String;
-}
-
-export type CT_TextScale = {
-  val?: ST_TextScale;
-}
-
-export type CT_Highlight = {
-  val: ST_HighlightColor;
-}
-
-export type CT_Color = {
-  val: ST_HexColor;
-  themeColor?: ST_ThemeColor;
-  themeTint?: ST_UcharHexNumber;
-  themeShade?: ST_UcharHexNumber;
-}
-
-export type CT_Lang = {
-  val: ST_Lang;
-}
-
-export type CT_Guid = {
-  val?: ST_Guid;
-}
-
-export type CT_Underline = {
-  val?: ST_Underline;
-  color?: ST_HexColor;
-  themeColor?: ST_ThemeColor;
-  themeTint?: ST_UcharHexNumber;
-  themeShade?: ST_UcharHexNumber;
-}
-
-export type CT_TextEffect = {
-  val: ST_TextEffect;
-}
-
-export type CT_Border = {
-  val: ST_Border;
-  color?: ST_HexColor;
-  themeColor?: ST_ThemeColor;
-  themeTint?: ST_UcharHexNumber;
-  themeShade?: ST_UcharHexNumber;
-  sz?: ST_EighthPointMeasure;
-  space?: ST_PointMeasure;
-  shadow?: ST_OnOff;
-  frame?: ST_OnOff;
-}
-
-export type CT_Shd = {
-  val: ST_Shd;
-  color?: ST_HexColor;
-  themeColor?: ST_ThemeColor;
-  themeTint?: ST_UcharHexNumber;
-  themeShade?: ST_UcharHexNumber;
-  fill?: ST_HexColor;
-  themeFill?: ST_ThemeColor;
-  themeFillTint?: ST_UcharHexNumber;
-  themeFillShade?: ST_UcharHexNumber;
-}
-
-export type CT_VerticalAlignRun = {
-  val: ST_VerticalAlignRun;
-}
-
-export type CT_FitText = {
-  val: ST_TwipsMeasure;
-  id?: ST_DecimalNumber;
-}
-
-export type CT_Em = {
-  val: ST_Em;
-}
-
-export type CT_Language = {
-  val?: ST_Lang;
-  eastAsia?: ST_Lang;
-  bidi?: ST_Lang;
-}
-
-export type CT_EastAsianLayout = {
-  id?: ST_DecimalNumber;
-  combine?: ST_OnOff;
-  combineBrackets?: ST_CombineBrackets;
-  vert?: ST_OnOff;
-  vertCompress?: ST_OnOff;
-}
-
-export type CT_FramePr = {
-  dropCap?: ST_DropCap;
-  lines?: ST_DecimalNumber;
-  w?: ST_TwipsMeasure;
-  h?: ST_TwipsMeasure;
-  vSpace?: ST_TwipsMeasure;
-  hSpace?: ST_TwipsMeasure;
-  wrap?: ST_Wrap;
-  hAnchor?: ST_HAnchor;
-  vAnchor?: ST_VAnchor;
-  x?: ST_SignedTwipsMeasure;
-  xAlign?: ST_XAlign;
-  y?: ST_SignedTwipsMeasure;
-  yAlign?: ST_YAlign;
-  hRule?: ST_HeightRule;
-  anchorLock?: ST_OnOff;
-}
-
-export type CT_TabStop = {
-  val: ST_TabJc;
-  leader?: ST_TabTlc;
-  pos: ST_SignedTwipsMeasure;
-}
-
-export type CT_Spacing = {
-  before?: ST_TwipsMeasure;
-  beforeLines?: ST_DecimalNumber;
-  beforeAutospacing?: ST_OnOff;
-  after?: ST_TwipsMeasure;
-  afterLines?: ST_DecimalNumber;
-  afterAutospacing?: ST_OnOff;
-  line?: ST_SignedTwipsMeasure;
-  lineRule?: ST_LineSpacingRule;
-}
-
-export type CT_Ind = {
-  start?: ST_SignedTwipsMeasure;
-  startChars?: ST_DecimalNumber;
-  end?: ST_SignedTwipsMeasure;
-  endChars?: ST_DecimalNumber;
-  hanging?: ST_TwipsMeasure;
-  hangingChars?: ST_DecimalNumber;
-  firstLine?: ST_TwipsMeasure;
-  firstLineChars?: ST_DecimalNumber;
-}
-
-export type CT_Jc = {
-  val: ST_Jc;
-}
-
-export type CT_JcTable = {
-  val: ST_JcTable;
-}
-
-export type CT_View = {
-  val: ST_View;
-}
-
-export type CT_Zoom = {
-  val?: ST_Zoom;
-  percent: ST_DecimalNumberOrPercent;
-}
-
-export type CT_WritingStyle = {
-  lang: ST_Lang;
-  vendorID: ST_String;
-  dllVersion: ST_String;
-  nlCheck?: ST_OnOff;
-  checkStyle: ST_OnOff;
-  appName: ST_String;
-}
-
-export type CT_Proof = {
-  spelling?: ST_Proof;
-  grammar?: ST_Proof;
-}
-
-export type CT_DocType = {
-  val: ST_DocType;
-}
-
-export type CT_DocProtect = {
-  edit?: ST_DocProtect;
-  formatting?: ST_OnOff;
-  enforcement?: ST_OnOff;
-}
-
-export type CT_MailMergeDocType = {
-  val: ST_MailMergeDocType;
-}
-
-export type CT_MailMergeDataType = {
-  val: ST_MailMergeDataType;
-}
-
-export type CT_MailMergeDest = {
-  val: ST_MailMergeDest;
-}
-
-export type CT_MailMergeOdsoFMDFieldType = {
-  val: ST_MailMergeOdsoFMDFieldType;
-}
-
-export type CT_TrackChangesView = {
-  markup?: ST_OnOff;
-  comments?: ST_OnOff;
-  insDel?: ST_OnOff;
-  formatting?: ST_OnOff;
-  inkAnnotations?: ST_OnOff;
-}
-
-export type CT_Kinsoku = {
-  lang: ST_Lang;
-  val: ST_String;
-}
-
-export type CT_TextDirection = {
-  val: ST_TextDirection;
-}
-
-export type CT_TextAlignment = {
-  val: ST_TextAlignment;
-}
-
-export type CT_Markup = {
-  id: ST_DecimalNumber;
-}
-
-export type CT_TrackChange = CT_Markup & {
-  author: ST_String;
-  date?: ST_DateTime;
-}
-
-export type CT_CellMergeTrackChange = CT_TrackChange & {
-  vMerge?: ST_AnnotationVMerge;
-  vMergeOrig?: ST_AnnotationVMerge;
-}
-
-export type CT_TrackChangeRange = CT_TrackChange & {
-  displacedByCustomXml?: ST_DisplacedByCustomXml;
-}
-
-export type CT_MarkupRange = CT_Markup & {
-  displacedByCustomXml?: ST_DisplacedByCustomXml;
-}
-
-export type CT_BookmarkRange = CT_MarkupRange & {
-  colFirst?: ST_DecimalNumber;
-  colLast?: ST_DecimalNumber;
-}
-
-export type CT_Bookmark = CT_BookmarkRange & {
-  name: ST_String;
-}
-
-export type CT_MoveBookmark = CT_Bookmark & {
-  author: ST_String;
-  date: ST_DateTime;
-}
-
-export type CT_Comment = CT_TrackChange & {
-  initials?: ST_String;
-}
-
-export type CT_TblPrExChange = CT_TrackChange;
-export type CT_TcPrChange = CT_TrackChange;
-export type CT_TrPrChange = CT_TrackChange;
-export type CT_TblGridChange = CT_Markup;
-export type CT_TblPrChange = CT_TrackChange;
-export type CT_SectPrChange = CT_TrackChange;
-export type CT_PPrChange = CT_TrackChange;
-export type CT_RPrChange = CT_TrackChange;
-export type CT_ParaRPrChange = CT_TrackChange;
-export type CT_RunTrackChange = CT_TrackChange;
-export type CT_NumPr = {
-  ilvl?: CT_DecimalNumber;
-  numId?: CT_DecimalNumber;
-  ins?: CT_TrackChange;
-}
-
-export type CT_PBdr = {
-  top?: CT_Border;
-  left?: CT_Border;
-  bottom?: CT_Border;
-  right?: CT_Border;
-  between?: CT_Border;
-  bar?: CT_Border;
-}
-
-export type CT_Tabs = {
-  tab?: CT_TabStop;
-}
-
-export type CT_TextboxTightWrap = {
-  val: ST_TextboxTightWrap;
-}
-
-export type CT_PPr = CT_PPrBase;
-export type CT_PPrBase = {
-  pStyle?: CT_String;
-  keepNext?: CT_OnOff;
-  keepLines?: CT_OnOff;
-  pageBreakBefore?: CT_OnOff;
-  framePr?: CT_FramePr;
-  widowControl?: CT_OnOff;
-  numPr?: CT_NumPr;
-  suppressLineNumbers?: CT_OnOff;
-  pBdr?: CT_PBdr;
-  shd?: CT_Shd;
-  tabs?: CT_Tabs;
-  suppressAutoHyphens?: CT_OnOff;
-  kinsoku?: CT_OnOff;
-  wordWrap?: CT_OnOff;
-  overflowPunct?: CT_OnOff;
-  topLinePunct?: CT_OnOff;
-  autoSpaceDE?: CT_OnOff;
-  autoSpaceDN?: CT_OnOff;
-  bidi?: CT_OnOff;
-  adjustRightInd?: CT_OnOff;
-  snapToGrid?: CT_OnOff;
-  spacing?: CT_Spacing;
-  ind?: CT_Ind;
-  contextualSpacing?: CT_OnOff;
-  mirrorIndents?: CT_OnOff;
-  suppressOverlap?: CT_OnOff;
-  jc?: CT_Jc;
-  textDirection?: CT_TextDirection;
-  textAlignment?: CT_TextAlignment;
-  textboxTightWrap?: CT_TextboxTightWrap;
-  outlineLvl?: CT_DecimalNumber;
-  divId?: CT_DecimalNumber;
-  cnfStyle?: CT_Cnf;
-}
-
-export type CT_PPrGeneral = CT_PPrBase;
-export type CT_Control = {
-  name?: ST_String;
-  shapeid?: ST_String;
-   rid?: string;
-}
-
-export type CT_Background = {
-  color?: ST_HexColor;
-  themeColor?: ST_ThemeColor;
-  themeTint?: ST_UcharHexNumber;
-  themeShade?: ST_UcharHexNumber;
-  drawing?: CT_Drawing;
-}
-
-export type CT_Rel = {
-  rid: string;
-}
-
-export type CT_Object = {
-  dxaOrig?: ST_TwipsMeasure;
-  dyaOrig?: ST_TwipsMeasure;
-  drawing?: CT_Drawing;
-}
-
-export type CT_ObjectEmbed = {
-  drawAspect?: ST_ObjectDrawAspect;
-  rid: string;
-  progId?: ST_String;
-  shapeId?: ST_String;
-  fieldCodes?: ST_String;
-}
-
-export type CT_ObjectLink = CT_ObjectEmbed & {
-  updateMode: ST_ObjectUpdateMode;
-  lockedField?: ST_OnOff;
-}
-
-export type CT_Drawing = any;
-
-export type CT_SimpleField = {
-  instr: ST_String;
-  fldLock?: ST_OnOff;
-  dirty?: ST_OnOff;
-}
-
-export type CT_FFTextType = {
-  val: ST_FFTextType;
-}
-
-export type CT_FFName = {
-  val?: ST_FFName;
-}
-
-export type CT_FldChar = {
-  fldCharType: ST_FldCharType;
-  fldLock?: ST_OnOff;
-  dirty?: ST_OnOff;
-}
-
-export type CT_Hyperlink = {
-  tgtFrame?: ST_String;
-  tooltip?: ST_String;
-  docLocation?: ST_String;
-  history?: ST_OnOff;
-  anchor?: ST_String;
-   rid?: string;
-}
-
-export type CT_FFData = any;
-
-export type CT_FFHelpText = {
-  type?: ST_InfoTextType;
-  val?: ST_FFHelpTextVal;
-}
-
-export type CT_FFStatusText = {
-  type?: ST_InfoTextType;
-  val?: ST_FFStatusTextVal;
-}
-
-export type CT_FFCheckBox = {
-  default?: CT_OnOff;
-  checked?: CT_OnOff;
-}
-
-export type CT_FFDDList = {
-  result?: CT_DecimalNumber;
-  default?: CT_DecimalNumber;
-  listEntry?: CT_String;
-}
-
-export type CT_FFTextInput = {
-  type?: CT_FFTextType;
-  default?: CT_String;
-  maxLength?: CT_DecimalNumber;
-  format?: CT_String;
-}
-
-export type CT_SectType = {
-  val?: ST_SectionMark;
-}
-
-export type CT_PaperSource = {
-  first?: ST_DecimalNumber;
-  other?: ST_DecimalNumber;
-}
-
-export type CT_PageSz = {
-  w?: ST_TwipsMeasure;
-  h?: ST_TwipsMeasure;
-  orient?: ST_PageOrientation;
-  code?: ST_DecimalNumber;
-}
-
-export type CT_PageMar = {
-  top: ST_SignedTwipsMeasure;
-  right: ST_TwipsMeasure;
-  bottom: ST_SignedTwipsMeasure;
-  left: ST_TwipsMeasure;
-  header: ST_TwipsMeasure;
-  footer: ST_TwipsMeasure;
-  gutter: ST_TwipsMeasure;
-}
-
-export type CT_PageBorders = {
-  zOrder?: ST_PageBorderZOrder;
-  display?: ST_PageBorderDisplay;
-  offsetFrom?: ST_PageBorderOffset;
-  top?: CT_TopPageBorder;
-  left?: CT_PageBorder;
-  bottom?: CT_BottomPageBorder;
-  right?: CT_PageBorder;
-}
-
-export type CT_PageBorder = CT_Border & {
-   rid?: string;
-}
-
-export type CT_BottomPageBorder = CT_PageBorder & {
-   rbottomLeft?: string;
-   rbottomRight?: string;
-}
-
-export type CT_TopPageBorder = CT_PageBorder & {
-   rtopLeft?: string;
-   rtopRight?: string;
-}
-
-export type CT_LineNumber = {
-  countBy?: ST_DecimalNumber;
-  start?: ST_DecimalNumber;
-  distance?: ST_TwipsMeasure;
-  restart?: ST_LineNumberRestart;
-}
-
-export type CT_PageNumber = {
-  fmt?: ST_NumberFormat;
-  start?: ST_DecimalNumber;
-  chapStyle?: ST_DecimalNumber;
-  chapSep?: ST_ChapterSep;
-}
-
-export type CT_Column = {
-  w?: ST_TwipsMeasure;
-  space?: ST_TwipsMeasure;
-}
-
-export type CT_Columns = {
-  equalWidth?: ST_OnOff;
-  space?: ST_TwipsMeasure;
-  num?: ST_DecimalNumber;
-  sep?: ST_OnOff;
-  col?: CT_Column;
-}
-
-export type CT_VerticalJc = {
-  val: ST_VerticalJc;
-}
-
-export type CT_DocGrid = {
-  type?: ST_DocGrid;
-  linePitch?: ST_DecimalNumber;
-  charSpace?: ST_DecimalNumber;
-}
-
-export type CT_HdrFtrRef = CT_Rel & {
-  type: ST_HdrFtr;
-}
-
-export type CT_HdrFtr = any;
-
-export type CT_SectPrBase = any;
-
-export type CT_SectPr = {
-  sectPrChange?: CT_SectPrChange;
-}
-
-export type CT_Br = {
-  type?: ST_BrType;
-  clear?: ST_BrClear;
-}
-
-export type CT_PTab = {
-  alignment: ST_PTabAlignment;
-  relativeTo: ST_PTabRelativeTo;
-  leader: ST_PTabLeader;
-}
-
-export type CT_Sym = {
-  font?: ST_String;
-  char?: ST_ShortHexNumber;
-}
-
-export type CT_ProofErr = {
-  type: ST_ProofErr;
-}
-
-export type CT_Perm = {
-  id: ST_String;
-  displacedByCustomXml?: ST_DisplacedByCustomXml;
-}
-
-export type CT_PermStart = CT_Perm & {
-  edGrp?: ST_EdGrp;
-  ed?: ST_String;
-  colFirst?: ST_DecimalNumber;
-  colLast?: ST_DecimalNumber;
-}
-
-export type CT_Text = any;
-
-export type CT_R = {
-  rsidRPr?: ST_LongHexNumber;
-  rsidDel?: ST_LongHexNumber;
-  rsidR?: ST_LongHexNumber;
-}
-
-export type CT_Fonts = {
-  hint?: ST_Hint;
-  ascii?: ST_String;
-  hAnsi?: ST_String;
-  eastAsia?: ST_String;
-  cs?: ST_String;
-  asciiTheme?: ST_Theme;
-  hAnsiTheme?: ST_Theme;
-  eastAsiaTheme?: ST_Theme;
-  cstheme?: ST_Theme;
-}
-
-export type CT_RPr = any;
-
-export type CT_MathCtrlIns = CT_TrackChange;
-export type CT_MathCtrlDel = CT_TrackChange;
-export type CT_RPrOriginal = any;
-
-export type CT_ParaRPrOriginal = any;
-
-export type CT_ParaRPr = {
-  rPrChange?: CT_ParaRPrChange;
-}
-
-export type CT_AltChunk = {
-   rid?: string;
-  altChunkPr?: CT_AltChunkPr;
-}
-
-export type CT_AltChunkPr = {
-  matchSrc?: CT_OnOff;
-}
-
-export type CT_RubyAlign = {
-  val: ST_RubyAlign;
-}
-
-export type CT_RubyPr = {
-  rubyAlign?: CT_RubyAlign;
-  hps?: CT_HpsMeasure;
-  hpsRaise?: CT_HpsMeasure;
-  hpsBaseText?: CT_HpsMeasure;
-  lid?: CT_Lang;
-  dirty?: CT_OnOff;
-}
-
-export type CT_RubyContent = any;
-
-export type CT_Ruby = {
-  rubyPr?: CT_RubyPr;
-  rt?: CT_RubyContent;
-  rubyBase?: CT_RubyContent;
-}
-
-export type CT_Lock = {
-  val?: ST_Lock;
-}
-
-export type CT_SdtListItem = {
-  displayText?: ST_String;
-  value?: ST_String;
-}
-
-export type CT_SdtDateMappingType = {
-  val?: ST_SdtDateMappingType;
-}
-
-export type CT_CalendarType = {
-  val?: ST_CalendarType;
-}
-
-export type CT_SdtDate = {
-  fullDate?: ST_DateTime;
-  dateFormat?: CT_String;
-  lid?: CT_Lang;
-  storeMappedDataAs?: CT_SdtDateMappingType;
-  calendar?: CT_CalendarType;
-}
-
-export type CT_SdtComboBox = {
-  lastValue?: ST_String;
-  listItem?: CT_SdtListItem;
-}
-
-export type CT_SdtDocPart = {
-  docPartGallery?: CT_String;
-  docPartCategory?: CT_String;
-  docPartUnique?: CT_OnOff;
-}
-
-export type CT_SdtDropDownList = {
-  lastValue?: ST_String;
-  listItem?: CT_SdtListItem;
-}
-
-export type CT_Placeholder = {
-  docPart?: CT_String;
-}
-
-export type CT_SdtText = {
-  multiLine?: ST_OnOff;
-}
-
-export type CT_DataBinding = {
-  prefixMappings?: ST_String;
-  xpath: ST_String;
-  storeItemID: ST_String;
-}
-
-export type CT_SdtPr = {
-  rPr?: CT_RPr;
-  alias?: CT_String;
-  tag?: CT_String;
-  id?: CT_DecimalNumber;
-  lock?: CT_Lock;
-  placeholder?: CT_Placeholder;
-  temporary?: CT_OnOff;
-  showingPlcHdr?: CT_OnOff;
-  dataBinding?: CT_DataBinding;
-  label?: CT_DecimalNumber;
-  tabIndex?: CT_UnsignedDecimalNumber;
-}
-
-export type CT_SdtEndPr = any;
-
-export type CT_DirContentRun = {
-  val?: ST_Direction;
-}
-
-export type CT_BdoContentRun = {
-  val?: ST_Direction;
-}
-
-export type CT_SdtContentRun = any;
-
-export type CT_SdtContentBlock = any;
-
-export type CT_SdtContentRow = any;
-
-export type CT_SdtContentCell = any;
-
-export type CT_SdtBlock = {
-  sdtPr?: CT_SdtPr;
-  sdtEndPr?: CT_SdtEndPr;
-  sdtContent?: CT_SdtContentBlock;
-}
-
-export type CT_SdtRun = {
-  sdtPr?: CT_SdtPr;
-  sdtEndPr?: CT_SdtEndPr;
-  sdtContent?: CT_SdtContentRun;
-}
-
-export type CT_SdtCell = {
-  sdtPr?: CT_SdtPr;
-  sdtEndPr?: CT_SdtEndPr;
-  sdtContent?: CT_SdtContentCell;
-}
-
-export type CT_SdtRow = {
-  sdtPr?: CT_SdtPr;
-  sdtEndPr?: CT_SdtEndPr;
-  sdtContent?: CT_SdtContentRow;
-}
-
-export type CT_Attr = {
-  uri?: ST_String;
-  name: ST_String;
-  val: ST_String;
-}
-
-export type CT_CustomXmlRun = {
-  uri?: ST_String;
-  element: ST_XmlName;
-  customXmlPr?: CT_CustomXmlPr;
-}
-
-export type CT_SmartTagRun = {
-  uri?: ST_String;
-  element: ST_XmlName;
-  smartTagPr?: CT_SmartTagPr;
-}
-
-export type CT_CustomXmlBlock = {
-  uri?: ST_String;
-  element: ST_XmlName;
-  customXmlPr?: CT_CustomXmlPr;
-}
-
-export type CT_CustomXmlPr = {
-  placeholder?: CT_String;
-  attr?: CT_Attr;
-}
-
-export type CT_CustomXmlRow = {
-  uri?: ST_String;
-  element: ST_XmlName;
-  customXmlPr?: CT_CustomXmlPr;
-}
-
-export type CT_CustomXmlCell = {
-  uri?: ST_String;
-  element: ST_XmlName;
-  customXmlPr?: CT_CustomXmlPr;
-}
-
-export type CT_SmartTagPr = {
-  attr?: CT_Attr;
-}
-
-export type CT_P = {
-  rsidRPr?: ST_LongHexNumber;
-  rsidR?: ST_LongHexNumber;
-  rsidDel?: ST_LongHexNumber;
-  rsidP?: ST_LongHexNumber;
-  rsidRDefault?: ST_LongHexNumber;
-  pPr?: CT_PPr;
-}
-
-export type CT_Height = {
-  val?: ST_TwipsMeasure;
-  hRule?: ST_HeightRule;
-}
-
-export type CT_TblWidth = {
-  w?: ST_MeasurementOrPercent;
-  type?: ST_TblWidth;
-}
-
-export type CT_TblGridCol = {
-  w?: ST_TwipsMeasure;
-}
-
-export type CT_TblGridBase = {
-  gridCol?: CT_TblGridCol;
-}
-
-export type CT_TblGrid = CT_TblGridBase;
-export type CT_TcBorders = {
-  top?: CT_Border;
-  start?: CT_Border;
-  bottom?: CT_Border;
-  end?: CT_Border;
-  insideH?: CT_Border;
-  insideV?: CT_Border;
-  tl2br?: CT_Border;
-  tr2bl?: CT_Border;
-}
-
-export type CT_TcMar = {
-  top?: CT_TblWidth;
-  start?: CT_TblWidth;
-  bottom?: CT_TblWidth;
-  end?: CT_TblWidth;
-}
-
-export type CT_VMerge = {
-  val?: ST_Merge;
-}
-
-export type CT_TcPrBase = {
-  cnfStyle?: CT_Cnf;
-  tcW?: CT_TblWidth;
-  gridSpan?: CT_DecimalNumber;
-  vMerge?: CT_VMerge;
-  tcBorders?: CT_TcBorders;
-  shd?: CT_Shd;
-  noWrap?: CT_OnOff;
-  tcMar?: CT_TcMar;
-  textDirection?: CT_TextDirection;
-  tcFitText?: CT_OnOff;
-  vAlign?: CT_VerticalJc;
-  hideMark?: CT_OnOff;
-  headers?: CT_Headers;
-}
-
-export type CT_TcPr = CT_TcPrInner;
-export type CT_TcPrInner = CT_TcPrBase & EG_CellMarkupElements;
-export type CT_Tc = {
-  id?: ST_String;
-  tcPr?: CT_TcPr;
-}
-
-export type CT_Cnf = {
-  firstRow?: ST_OnOff;
-  lastRow?: ST_OnOff;
-  firstColumn?: ST_OnOff;
-  lastColumn?: ST_OnOff;
-  oddVBand?: ST_OnOff;
-  evenVBand?: ST_OnOff;
-  oddHBand?: ST_OnOff;
-  evenHBand?: ST_OnOff;
-  firstRowFirstColumn?: ST_OnOff;
-  firstRowLastColumn?: ST_OnOff;
-  lastRowFirstColumn?: ST_OnOff;
-  lastRowLastColumn?: ST_OnOff;
-}
-
-export type CT_Headers = {
-  header?: CT_String;
-}
-
-export type CT_TrPrBase = any;
-
-export type CT_TrPr = CT_TrPrBase;
-export type CT_Row = {
-  rsidRPr?: ST_LongHexNumber;
-  rsidR?: ST_LongHexNumber;
-  rsidDel?: ST_LongHexNumber;
-  rsidTr?: ST_LongHexNumber;
-  tblPrEx?: CT_TblPrEx;
-  trPr?: CT_TrPr;
-}
-
-export type CT_TblLayoutType = {
-  type?: ST_TblLayoutType;
-}
-
-export type CT_TblOverlap = {
-  val: ST_TblOverlap;
-}
-
-export type CT_TblPPr = {
-  leftFromText?: ST_TwipsMeasure;
-  rightFromText?: ST_TwipsMeasure;
-  topFromText?: ST_TwipsMeasure;
-  bottomFromText?: ST_TwipsMeasure;
-  vertAnchor?: ST_VAnchor;
-  horzAnchor?: ST_HAnchor;
-  tblpXSpec?: ST_XAlign;
-  tblpX?: ST_SignedTwipsMeasure;
-  tblpYSpec?: ST_YAlign;
-  tblpY?: ST_SignedTwipsMeasure;
-}
-
-export type CT_TblCellMar = {
-  top?: CT_TblWidth;
-  start?: CT_TblWidth;
-  bottom?: CT_TblWidth;
-  end?: CT_TblWidth;
-}
-
-export type CT_TblBorders = {
-  top?: CT_Border;
-  start?: CT_Border;
-  bottom?: CT_Border;
-  end?: CT_Border;
-  insideH?: CT_Border;
-  insideV?: CT_Border;
-}
-
-export type CT_TblPrBase = {
-  tblStyle?: CT_String;
-  tblpPr?: CT_TblPPr;
-  tblOverlap?: CT_TblOverlap;
-  bidiVisual?: CT_OnOff;
-  tblStyleRowBandSize?: CT_DecimalNumber;
-  tblStyleColBandSize?: CT_DecimalNumber;
-  tblW?: CT_TblWidth;
-  jc?: CT_JcTable;
-  tblCellSpacing?: CT_TblWidth;
-  tblInd?: CT_TblWidth;
-  tblBorders?: CT_TblBorders;
-  shd?: CT_Shd;
-  tblLayout?: CT_TblLayoutType;
-  tblCellMar?: CT_TblCellMar;
-  tblLook?: CT_TblLook;
-  tblCaption?: CT_String;
-  tblDescription?: CT_String;
-}
-
-export type CT_TblPr = CT_TblPrBase;
-export type CT_TblPrExBase = {
-  tblW?: CT_TblWidth;
-  jc?: CT_JcTable;
-  tblCellSpacing?: CT_TblWidth;
-  tblInd?: CT_TblWidth;
-  tblBorders?: CT_TblBorders;
-  shd?: CT_Shd;
-  tblLayout?: CT_TblLayoutType;
-  tblCellMar?: CT_TblCellMar;
-  tblLook?: CT_TblLook;
-}
-
-export type CT_TblPrEx = CT_TblPrExBase;
-export type CT_Tbl = {
-  tblPr?: CT_TblPr;
-  tblGrid?: CT_TblGrid;
-}
-
-export type CT_TblLook = {
-  firstRow?: ST_OnOff;
-  lastRow?: ST_OnOff;
-  firstColumn?: ST_OnOff;
-  lastColumn?: ST_OnOff;
-  noHBand?: ST_OnOff;
-  noVBand?: ST_OnOff;
-}
-
-export type CT_FtnPos = {
-  val: ST_FtnPos;
-}
-
-export type CT_EdnPos = {
-  val: ST_EdnPos;
-}
-
-export type CT_NumFmt = {
-  val: ST_NumberFormat;
-  format?: ST_String;
-}
-
-export type CT_NumRestart = {
-  val: ST_RestartNumber;
-}
-
-export type CT_FtnEdnRef = {
-  customMarkFollows?: ST_OnOff;
-  id: ST_DecimalNumber;
-}
-
-export type CT_FtnEdnSepRef = {
-  id: ST_DecimalNumber;
-}
-
-export type CT_FtnEdn = {
-  type?: ST_FtnEdn;
-  id: ST_DecimalNumber;
-}
-
-export type CT_FtnProps = {
-  pos?: CT_FtnPos;
-  numFmt?: CT_NumFmt;
-}
-
-export type CT_EdnProps = {
-  pos?: CT_EdnPos;
-  numFmt?: CT_NumFmt;
-}
-
-export type CT_FtnDocProps = CT_FtnProps;
-export type CT_EdnDocProps = CT_EdnProps;
-export type CT_RecipientData = {
-  active?: CT_OnOff;
-  column?: CT_DecimalNumber;
-  uniqueTag?: CT_Base64Binary;
-}
-
-export type CT_Base64Binary = {
-  val: string;
-}
-
-export type CT_Recipients = {
-  recipientData?: CT_RecipientData;
-}
-
-export type CT_OdsoFieldMapData = {
-  type?: CT_MailMergeOdsoFMDFieldType;
-  name?: CT_String;
-  mappedName?: CT_String;
-  column?: CT_DecimalNumber;
-  lid?: CT_Lang;
-  dynamicAddress?: CT_OnOff;
-}
-
-export type CT_MailMergeSourceType = {
-  val: ST_MailMergeSourceType;
-}
-
-export type CT_Odso = {
-  udl?: CT_String;
-  table?: CT_String;
-  src?: CT_Rel;
-  colDelim?: CT_DecimalNumber;
-  type?: CT_MailMergeSourceType;
-  fHdr?: CT_OnOff;
-  fieldMapData?: CT_OdsoFieldMapData;
-  recipientData?: CT_Rel;
-}
-
-export type CT_MailMerge = {
-  mainDocumentType?: CT_MailMergeDocType;
-  linkToQuery?: CT_OnOff;
-  dataType?: CT_MailMergeDataType;
-  connectString?: CT_String;
-  query?: CT_String;
-  dataSource?: CT_Rel;
-  headerSource?: CT_Rel;
-  doNotSuppressBlankLines?: CT_OnOff;
-  destination?: CT_MailMergeDest;
-  addressFieldName?: CT_String;
-  mailSubject?: CT_String;
-  mailAsAttachment?: CT_OnOff;
-  viewMergedData?: CT_OnOff;
-  activeRecord?: CT_DecimalNumber;
-  checkErrors?: CT_DecimalNumber;
-  odso?: CT_Odso;
-}
-
-export type CT_TargetScreenSz = {
-  val: ST_TargetScreenSz;
-}
-
-export type CT_Compat = {
-  spaceForUL?: CT_OnOff;
-  balanceSingleByteDoubleByteWidth?: CT_OnOff;
-  doNotLeaveBackslashAlone?: CT_OnOff;
-  ulTrailSpace?: CT_OnOff;
-  doNotExpandShiftReturn?: CT_OnOff;
-  adjustLineHeightInTable?: CT_OnOff;
-  applyBreakingRules?: CT_OnOff;
-  compatSetting?: CT_CompatSetting;
-}
-
-export type CT_CompatSetting = {
-  name?: ST_String;
-  uri?: ST_String;
-  val?: ST_String;
-}
-
-export type CT_DocVar = {
-  name: ST_String;
-  val: ST_String;
-}
-
-export type CT_DocVars = {
-  docVar?: CT_DocVar;
-}
-
-export type CT_DocRsids = {
-  rsidRoot?: CT_LongHexNumber;
-  rsid?: CT_LongHexNumber;
-}
-
-export type CT_CharacterSpacing = {
-  val: ST_CharacterSpacing;
-}
-
-export type CT_SaveThroughXslt = {
-   rid?: string;
-  solutionID?: ST_String;
-}
-
-export type CT_RPrDefault = {
-  rPr?: CT_RPr;
-}
-
-export type CT_PPrDefault = {
-  pPr?: CT_PPrGeneral;
-}
-
-export type CT_DocDefaults = {
-  rPrDefault?: CT_RPrDefault;
-  pPrDefault?: CT_PPrDefault;
-}
-
-export type CT_ColorSchemeMapping = {
-  bg1?: ST_WmlColorSchemeIndex;
-  t1?: ST_WmlColorSchemeIndex;
-  bg2?: ST_WmlColorSchemeIndex;
-  t2?: ST_WmlColorSchemeIndex;
-  accent1?: ST_WmlColorSchemeIndex;
-  accent2?: ST_WmlColorSchemeIndex;
-  accent3?: ST_WmlColorSchemeIndex;
-  accent4?: ST_WmlColorSchemeIndex;
-  accent5?: ST_WmlColorSchemeIndex;
-  accent6?: ST_WmlColorSchemeIndex;
-  hyperlink?: ST_WmlColorSchemeIndex;
-  followedHyperlink?: ST_WmlColorSchemeIndex;
-}
-
-export type CT_ReadingModeInkLockDown = {
-  actualPg: ST_OnOff;
-  w: ST_PixelsMeasure;
-  h: ST_PixelsMeasure;
-  fontSz: ST_DecimalNumberOrPercent;
-}
-
-export type CT_WriteProtection = {
-  recommended?: ST_OnOff;
-}
-
-export type CT_Settings = {
-  writeProtection?: CT_WriteProtection;
-  view?: CT_View;
-  zoom?: CT_Zoom;
-  removePersonalInformation?: CT_OnOff;
-  removeDateAndTime?: CT_OnOff;
-  doNotDisplayPageBoundaries?: CT_OnOff;
-  displayBackgroundShape?: CT_OnOff;
-  printPostScriptOverText?: CT_OnOff;
-  printFractionalCharacterWidth?: CT_OnOff;
-  printFormsData?: CT_OnOff;
-  embedTrueTypeFonts?: CT_OnOff;
-  embedSystemFonts?: CT_OnOff;
-  saveSubsetFonts?: CT_OnOff;
-  saveFormsData?: CT_OnOff;
-  mirrorMargins?: CT_OnOff;
-  alignBordersAndEdges?: CT_OnOff;
-  bordersDoNotSurroundHeader?: CT_OnOff;
-  bordersDoNotSurroundFooter?: CT_OnOff;
-  gutterAtTop?: CT_OnOff;
-  hideSpellingErrors?: CT_OnOff;
-  hideGrammaticalErrors?: CT_OnOff;
-  activeWritingStyle?: CT_WritingStyle;
-  proofState?: CT_Proof;
-  formsDesign?: CT_OnOff;
-  attachedTemplate?: CT_Rel;
-  linkStyles?: CT_OnOff;
-  stylePaneFormatFilter?: CT_StylePaneFilter;
-  stylePaneSortMethod?: CT_StyleSort;
-  documentType?: CT_DocType;
-  mailMerge?: CT_MailMerge;
-  revisionView?: CT_TrackChangesView;
-  trackRevisions?: CT_OnOff;
-  doNotTrackMoves?: CT_OnOff;
-  doNotTrackFormatting?: CT_OnOff;
-  documentProtection?: CT_DocProtect;
-  autoFormatOverride?: CT_OnOff;
-  styleLockTheme?: CT_OnOff;
-  styleLockQFSet?: CT_OnOff;
-  defaultTabStop?: CT_TwipsMeasure;
-  autoHyphenation?: CT_OnOff;
-  consecutiveHyphenLimit?: CT_DecimalNumber;
-  hyphenationZone?: CT_TwipsMeasure;
-  doNotHyphenateCaps?: CT_OnOff;
-  showEnvelope?: CT_OnOff;
-  summaryLength?: CT_DecimalNumberOrPrecent;
-  clickAndTypeStyle?: CT_String;
-  defaultTableStyle?: CT_String;
-  evenAndOddHeaders?: CT_OnOff;
-  bookFoldRevPrinting?: CT_OnOff;
-  bookFoldPrinting?: CT_OnOff;
-  bookFoldPrintingSheets?: CT_DecimalNumber;
-  drawingGridHorizontalSpacing?: CT_TwipsMeasure;
-  drawingGridVerticalSpacing?: CT_TwipsMeasure;
-  displayHorizontalDrawingGridEvery?: CT_DecimalNumber;
-  displayVerticalDrawingGridEvery?: CT_DecimalNumber;
-  doNotUseMarginsForDrawingGridOrigin?: CT_OnOff;
-  drawingGridHorizontalOrigin?: CT_TwipsMeasure;
-  drawingGridVerticalOrigin?: CT_TwipsMeasure;
-  doNotShadeFormData?: CT_OnOff;
-  noPunctuationKerning?: CT_OnOff;
-  characterSpacingControl?: CT_CharacterSpacing;
-  printTwoOnOne?: CT_OnOff;
-  strictFirstAndLastChars?: CT_OnOff;
-  noLineBreaksAfter?: CT_Kinsoku;
-  noLineBreaksBefore?: CT_Kinsoku;
-  savePreviewPicture?: CT_OnOff;
-  doNotValidateAgainstSchema?: CT_OnOff;
-  saveInvalidXml?: CT_OnOff;
-  ignoreMixedContent?: CT_OnOff;
-  alwaysShowPlaceholderText?: CT_OnOff;
-  doNotDemarcateInvalidXml?: CT_OnOff;
-  saveXmlDataOnly?: CT_OnOff;
-  useXSLTWhenSaving?: CT_OnOff;
-  saveThroughXslt?: CT_SaveThroughXslt;
-  showXMLTags?: CT_OnOff;
-  alwaysMergeEmptyNamespace?: CT_OnOff;
-  updateFields?: CT_OnOff;
-  footnotePr?: CT_FtnDocProps;
-  endnotePr?: CT_EdnDocProps;
-  compat?: CT_Compat;
-  docVars?: CT_DocVars;
-  rsids?: CT_DocRsids;
-   mathPr?: string;
-  attachedSchema?: CT_String;
-  themeFontLang?: CT_Language;
-  clrSchemeMapping?: CT_ColorSchemeMapping;
-  doNotIncludeSubdocsInStats?: CT_OnOff;
-  doNotAutoCompressPictures?: CT_OnOff;
-  forceUpgrade?: CT_Empty;
-  captions?: CT_Captions;
-  readModeInkLockDown?: CT_ReadingModeInkLockDown;
-  smartTagType?: CT_SmartTagType;
-   schemaLibrary?: string;
-  doNotEmbedSmartTags?: CT_OnOff;
-  decimalSymbol?: CT_String;
-  listSeparator?: CT_String;
-}
-
-export type CT_StyleSort = {
-  val: ST_StyleSort;
-}
-
-export type CT_StylePaneFilter = {
-  allStyles?: ST_OnOff;
-  customStyles?: ST_OnOff;
-  latentStyles?: ST_OnOff;
-  stylesInUse?: ST_OnOff;
-  headingStyles?: ST_OnOff;
-  numberingStyles?: ST_OnOff;
-  tableStyles?: ST_OnOff;
-  directFormattingOnRuns?: ST_OnOff;
-  directFormattingOnParagraphs?: ST_OnOff;
-  directFormattingOnNumbering?: ST_OnOff;
-  directFormattingOnTables?: ST_OnOff;
-  clearFormatting?: ST_OnOff;
-  top3HeadingStyles?: ST_OnOff;
-  visibleStyles?: ST_OnOff;
-  alternateStyleNames?: ST_OnOff;
-}
-
-export type CT_WebSettings = {
-  frameset?: CT_Frameset;
-  divs?: CT_Divs;
-  encoding?: CT_String;
-  optimizeForBrowser?: CT_OptimizeForBrowser;
-  allowPNG?: CT_OnOff;
-  doNotRelyOnCSS?: CT_OnOff;
-  doNotSaveAsSingleFile?: CT_OnOff;
-  doNotOrganizeInFolder?: CT_OnOff;
-  doNotUseLongFileNames?: CT_OnOff;
-  pixelsPerInch?: CT_DecimalNumber;
-  targetScreenSz?: CT_TargetScreenSz;
-  saveSmartTagsAsXml?: CT_OnOff;
-}
-
-export type CT_FrameScrollbar = {
-  val: ST_FrameScrollbar;
-}
-
-export type CT_OptimizeForBrowser = CT_OnOff & {
-  target?: ST_String;
-}
-
-export type CT_Frame = {
-  sz?: CT_String;
-  name?: CT_String;
-  title?: CT_String;
-  longDesc?: CT_Rel;
-  sourceFileName?: CT_Rel;
-  marW?: CT_PixelsMeasure;
-  marH?: CT_PixelsMeasure;
-  scrollbar?: CT_FrameScrollbar;
-  noResizeAllowed?: CT_OnOff;
-  linkedToFile?: CT_OnOff;
-}
-
-export type CT_FrameLayout = {
-  val: ST_FrameLayout;
-}
-
-export type CT_FramesetSplitbar = {
-  w?: CT_TwipsMeasure;
-  color?: CT_Color;
-  noBorder?: CT_OnOff;
-  flatBorders?: CT_OnOff;
-}
-
-export type CT_Frameset = {
-  sz?: CT_String;
-  framesetSplitbar?: CT_FramesetSplitbar;
-  frameLayout?: CT_FrameLayout;
-  title?: CT_String;
-}
-
-export type CT_NumPicBullet = {
-  numPicBulletId: ST_DecimalNumber;
-}
-
-export type CT_LevelSuffix = {
-  val: ST_LevelSuffix;
-}
-
-export type CT_LevelText = {
-  val?: ST_String;
-  null?: ST_OnOff;
-}
-
-export type CT_Lvl = {
-  ilvl: ST_DecimalNumber;
-  tplc?: ST_LongHexNumber;
-  tentative?: ST_OnOff;
-  start?: CT_DecimalNumber;
-  numFmt?: CT_NumFmt;
-  lvlRestart?: CT_DecimalNumber;
-  pStyle?: CT_String;
-  isLgl?: CT_OnOff;
-  suff?: CT_LevelSuffix;
-  lvlText?: CT_LevelText;
-  lvlPicBulletId?: CT_DecimalNumber;
-  lvlJc?: CT_Jc;
-  pPr?: CT_PPrGeneral;
-  rPr?: CT_RPr;
-}
-
-export type CT_MultiLevelType = {
-  val: ST_MultiLevelType;
-}
-
-export type CT_AbstractNum = {
-  abstractNumId: ST_DecimalNumber;
-  nsid?: CT_LongHexNumber;
-  multiLevelType?: CT_MultiLevelType;
-  tmpl?: CT_LongHexNumber;
-  name?: CT_String;
-  styleLink?: CT_String;
-  numStyleLink?: CT_String;
-  lvl?: CT_Lvl;
-}
-
-export type CT_NumLvl = {
-  ilvl: ST_DecimalNumber;
-  startOverride?: CT_DecimalNumber;
-  lvl?: CT_Lvl;
-}
-
-export type CT_Num = {
-  numId: ST_DecimalNumber;
-  abstractNumId?: CT_DecimalNumber;
-  lvlOverride?: CT_NumLvl;
-}
-
-export type CT_Numbering = {
-  numPicBullet?: CT_NumPicBullet;
-  abstractNum?: CT_AbstractNum;
-  num?: CT_Num;
-  numIdMacAtCleanup?: CT_DecimalNumber;
-}
-
-export type CT_TblStylePr = {
-  type: ST_TblStyleOverrideType;
-  pPr?: CT_PPrGeneral;
-  rPr?: CT_RPr;
-  tblPr?: CT_TblPrBase;
-  trPr?: CT_TrPr;
-  tcPr?: CT_TcPr;
-}
-
-export type CT_Style = {
-  type?: ST_StyleType;
-  styleId?: ST_String;
-  default?: ST_OnOff;
-  customStyle?: ST_OnOff;
-  name?: CT_String;
-  aliases?: CT_String;
-  basedOn?: CT_String;
-  next?: CT_String;
-  link?: CT_String;
-  autoRedefine?: CT_OnOff;
-  hidden?: CT_OnOff;
-  uiPriority?: CT_DecimalNumber;
-  semiHidden?: CT_OnOff;
-  unhideWhenUsed?: CT_OnOff;
-  qFormat?: CT_OnOff;
-  locked?: CT_OnOff;
-  personal?: CT_OnOff;
-  personalCompose?: CT_OnOff;
-  personalReply?: CT_OnOff;
-  rsid?: CT_LongHexNumber;
-  pPr?: CT_PPrGeneral;
-  rPr?: CT_RPr;
-  tblPr?: CT_TblPrBase;
-  trPr?: CT_TrPr;
-  tcPr?: CT_TcPr;
-  tblStylePr?: CT_TblStylePr;
-}
-
-export type CT_LsdException = {
-  name: ST_String;
-  locked?: ST_OnOff;
-  uiPriority?: ST_DecimalNumber;
-  semiHidden?: ST_OnOff;
-  unhideWhenUsed?: ST_OnOff;
-  qFormat?: ST_OnOff;
-}
-
-export type CT_LatentStyles = {
-  defLockedState?: ST_OnOff;
-  defUIPriority?: ST_DecimalNumber;
-  defSemiHidden?: ST_OnOff;
-  defUnhideWhenUsed?: ST_OnOff;
-  defQFormat?: ST_OnOff;
-  count?: ST_DecimalNumber;
-  lsdException?: CT_LsdException;
-}
-
-export type CT_Styles = {
-  docDefaults?: CT_DocDefaults;
-  latentStyles?: CT_LatentStyles;
-  style?: CT_Style;
-}
-
-export type CT_Panose = {
-  val: ST_Panose;
-}
-
-export type CT_FontFamily = {
-  val: ST_FontFamily;
-}
-
-export type CT_Pitch = {
-  val: ST_Pitch;
-}
-
-export type CT_FontSig = {
-  usb0: ST_LongHexNumber;
-  usb1: ST_LongHexNumber;
-  usb2: ST_LongHexNumber;
-  usb3: ST_LongHexNumber;
-  csb0: ST_LongHexNumber;
-  csb1: ST_LongHexNumber;
-}
-
-export type CT_FontRel = CT_Rel & {
-  fontKey?: ST_Guid;
-  subsetted?: ST_OnOff;
-}
-
-export type CT_Font = {
-  name: ST_String;
-  altName?: CT_String;
-  panose1?: CT_Panose;
-  charset?: CT_Charset;
-  family?: CT_FontFamily;
-  notTrueType?: CT_OnOff;
-  pitch?: CT_Pitch;
-  sig?: CT_FontSig;
-  embedRegular?: CT_FontRel;
-  embedBold?: CT_FontRel;
-  embedItalic?: CT_FontRel;
-  embedBoldItalic?: CT_FontRel;
-}
-
-export type CT_FontsList = {
-  font?: CT_Font;
-}
-
-export type CT_DivBdr = {
-  top?: CT_Border;
-  left?: CT_Border;
-  bottom?: CT_Border;
-  right?: CT_Border;
-}
-
-export type CT_Div = {
-  id: ST_DecimalNumber;
-  blockQuote?: CT_OnOff;
-  bodyDiv?: CT_OnOff;
-  marLeft?: CT_SignedTwipsMeasure;
-  marRight?: CT_SignedTwipsMeasure;
-  marTop?: CT_SignedTwipsMeasure;
-  marBottom?: CT_SignedTwipsMeasure;
-  divBdr?: CT_DivBdr;
-  divsChild?: CT_Divs;
-}
-
-export type CT_Divs = {
-  div?: CT_Div;
-}
-
-export type CT_Body = {
-  sectPr?: CT_SectPr;
-}
-
-export type CT_Comments = {
-  comment?: CT_Comment;
-}
-
-export type CT_Footnotes = {
-  footnote?: CT_FtnEdn;
-}
-
-export type CT_Endnotes = {
-  endnote?: CT_FtnEdn;
-}
-
-export type CT_SmartTagType = {
-  namespaceuri?: ST_String;
-  name?: ST_String;
-  url?: ST_String;
-}
-
-export type CT_DocPartBehavior = {
-  val: ST_DocPartBehavior;
-}
-
-export type CT_DocPartBehaviors = any;
-
-export type CT_DocPartType = {
-  val: ST_DocPartType;
-}
-
-export type CT_DocPartTypes = {
-  all?: ST_OnOff;
-}
-
-export type CT_DocPartGallery = {
-  val: ST_DocPartGallery;
-}
-
-export type CT_DocPartCategory = {
-  name?: CT_String;
-  gallery?: CT_DocPartGallery;
-}
-
-export type CT_DocPartName = {
-  val: ST_String;
-  decorated?: ST_OnOff;
-}
-
-export type CT_DocPartPr = any;
-
-export type CT_DocPart = {
-  docPartPr?: CT_DocPartPr;
-  docPartBody?: CT_Body;
-}
-
-export type CT_DocParts = any;
-
-export type CT_Caption = {
-  name: ST_String;
-  pos?: ST_CaptionPos;
-  chapNum?: ST_OnOff;
-  heading?: ST_DecimalNumber;
-  noLabel?: ST_OnOff;
-  numFmt?: ST_NumberFormat;
-  sep?: ST_ChapterSep;
-}
-
-export type CT_AutoCaption = {
-  name: ST_String;
-  caption: ST_String;
-}
-
-export type CT_AutoCaptions = {
-  autoCaption?: CT_AutoCaption;
-}
-
-export type CT_Captions = {
-  caption?: CT_Caption;
-  autoCaptions?: CT_AutoCaptions;
-}
-
-export type CT_DocumentBase = {
-  background?: CT_Background;
-}
-
-export type CT_Document = CT_DocumentBase & {
-  conformance?: ST_ConformanceClass;
-}
-
-export type CT_GlossaryDocument = CT_DocumentBase;
 export type ST_LongHexNumber = string;
 export type ST_ShortHexNumber = string;
 export type ST_UcharHexNumber = string;
@@ -1727,7 +53,9 @@ export type ST_DecimalNumber = number;
 export type ST_SignedTwipsMeasure = number | ST_UniversalMeasure;
 
 export type ST_PixelsMeasure = ST_UnsignedDecimalNumber;
-export type ST_HpsMeasure = ST_UnsignedDecimalNumber | ST_PositiveUniversalMeasure;
+export type ST_HpsMeasure =
+  | ST_UnsignedDecimalNumber
+  | ST_PositiveUniversalMeasure;
 
 export type ST_SignedHpsMeasure = number | ST_UniversalMeasure;
 
@@ -1738,1146 +66,1581 @@ export type ST_PointMeasure = ST_UnsignedDecimalNumber;
 export type ST_TextScale = ST_TextScalePercent;
 
 export type ST_TextScalePercent = string;
-export enum ST_HighlightColor {
-  black = 'black',
-  blue = 'blue',
-  cyan = 'cyan',
-  green = 'green',
-  magenta = 'magenta',
-  red = 'red',
-  yellow = 'yellow',
-  white = 'white',
-  darkBlue = 'darkBlue',
-  darkCyan = 'darkCyan',
-  darkGreen = 'darkGreen',
-  darkMagenta = 'darkMagenta',
-  darkRed = 'darkRed',
-  darkYellow = 'darkYellow',
-  darkGray = 'darkGray',
-  lightGray = 'lightGray',
-  none = 'none',
-}
-
-export enum ST_HexColorAuto {
-  auto = 'auto',
-}
-
+export type ST_HighlightColor =
+  | 'black'
+  | 'blue'
+  | 'cyan'
+  | 'green'
+  | 'magenta'
+  | 'red'
+  | 'yellow'
+  | 'white'
+  | 'darkBlue'
+  | 'darkCyan'
+  | 'darkGreen'
+  | 'darkMagenta'
+  | 'darkRed'
+  | 'darkYellow'
+  | 'darkGray'
+  | 'lightGray'
+  | 'none';
+export type ST_HexColorAuto = 'auto';
 export type ST_HexColor = ST_HexColorAuto | ST_HexColorRGB;
 
-export enum ST_Underline {
-  single = 'single',
-  words = 'words',
-  double = 'double',
-  thick = 'thick',
-  dotted = 'dotted',
-  dottedHeavy = 'dottedHeavy',
-  dash = 'dash',
-  dashedHeavy = 'dashedHeavy',
-  dashLong = 'dashLong',
-  dashLongHeavy = 'dashLongHeavy',
-  dotDash = 'dotDash',
-  dashDotHeavy = 'dashDotHeavy',
-  dotDotDash = 'dotDotDash',
-  dashDotDotHeavy = 'dashDotDotHeavy',
-  wave = 'wave',
-  wavyHeavy = 'wavyHeavy',
-  wavyDouble = 'wavyDouble',
-  none = 'none',
-}
-
-export enum ST_TextEffect {
-  blinkBackground = 'blinkBackground',
-  lights = 'lights',
-  antsBlack = 'antsBlack',
-  antsRed = 'antsRed',
-  shimmer = 'shimmer',
-  sparkle = 'sparkle',
-  none = 'none',
-}
-
-export enum ST_Border {
-  nil = 'nil',
-  none = 'none',
-  single = 'single',
-  thick = 'thick',
-  double = 'double',
-  dotted = 'dotted',
-  dashed = 'dashed',
-  dotDash = 'dotDash',
-  dotDotDash = 'dotDotDash',
-  triple = 'triple',
-  thinThickSmallGap = 'thinThickSmallGap',
-  thickThinSmallGap = 'thickThinSmallGap',
-  thinThickThinSmallGap = 'thinThickThinSmallGap',
-  thinThickMediumGap = 'thinThickMediumGap',
-  thickThinMediumGap = 'thickThinMediumGap',
-  thinThickThinMediumGap = 'thinThickThinMediumGap',
-  thinThickLargeGap = 'thinThickLargeGap',
-  thickThinLargeGap = 'thickThinLargeGap',
-  thinThickThinLargeGap = 'thinThickThinLargeGap',
-  wave = 'wave',
-  doubleWave = 'doubleWave',
-  dashSmallGap = 'dashSmallGap',
-  dashDotStroked = 'dashDotStroked',
-  threeDEmboss = 'threeDEmboss',
-  threeDEngrave = 'threeDEngrave',
-  outset = 'outset',
-  inset = 'inset',
-  apples = 'apples',
-  archedScallops = 'archedScallops',
-  babyPacifier = 'babyPacifier',
-  babyRattle = 'babyRattle',
-  balloons3Colors = 'balloons3Colors',
-  balloonsHotAir = 'balloonsHotAir',
-  basicBlackDashes = 'basicBlackDashes',
-  basicBlackDots = 'basicBlackDots',
-  basicBlackSquares = 'basicBlackSquares',
-  basicThinLines = 'basicThinLines',
-  basicWhiteDashes = 'basicWhiteDashes',
-  basicWhiteDots = 'basicWhiteDots',
-  basicWhiteSquares = 'basicWhiteSquares',
-  basicWideInline = 'basicWideInline',
-  basicWideMidline = 'basicWideMidline',
-  basicWideOutline = 'basicWideOutline',
-  bats = 'bats',
-  birds = 'birds',
-  birdsFlight = 'birdsFlight',
-  cabins = 'cabins',
-  cakeSlice = 'cakeSlice',
-  candyCorn = 'candyCorn',
-  celticKnotwork = 'celticKnotwork',
-  certificateBanner = 'certificateBanner',
-  chainLink = 'chainLink',
-  champagneBottle = 'champagneBottle',
-  checkedBarBlack = 'checkedBarBlack',
-  checkedBarColor = 'checkedBarColor',
-  checkered = 'checkered',
-  christmasTree = 'christmasTree',
-  circlesLines = 'circlesLines',
-  circlesRectangles = 'circlesRectangles',
-  classicalWave = 'classicalWave',
-  clocks = 'clocks',
-  compass = 'compass',
-  confetti = 'confetti',
-  confettiGrays = 'confettiGrays',
-  confettiOutline = 'confettiOutline',
-  confettiStreamers = 'confettiStreamers',
-  confettiWhite = 'confettiWhite',
-  cornerTriangles = 'cornerTriangles',
-  couponCutoutDashes = 'couponCutoutDashes',
-  couponCutoutDots = 'couponCutoutDots',
-  crazyMaze = 'crazyMaze',
-  creaturesButterfly = 'creaturesButterfly',
-  creaturesFish = 'creaturesFish',
-  creaturesInsects = 'creaturesInsects',
-  creaturesLadyBug = 'creaturesLadyBug',
-  crossStitch = 'crossStitch',
-  cup = 'cup',
-  decoArch = 'decoArch',
-  decoArchColor = 'decoArchColor',
-  decoBlocks = 'decoBlocks',
-  diamondsGray = 'diamondsGray',
-  doubleD = 'doubleD',
-  doubleDiamonds = 'doubleDiamonds',
-  earth1 = 'earth1',
-  earth2 = 'earth2',
-  earth3 = 'earth3',
-  eclipsingSquares1 = 'eclipsingSquares1',
-  eclipsingSquares2 = 'eclipsingSquares2',
-  eggsBlack = 'eggsBlack',
-  fans = 'fans',
-  film = 'film',
-  firecrackers = 'firecrackers',
-  flowersBlockPrint = 'flowersBlockPrint',
-  flowersDaisies = 'flowersDaisies',
-  flowersModern1 = 'flowersModern1',
-  flowersModern2 = 'flowersModern2',
-  flowersPansy = 'flowersPansy',
-  flowersRedRose = 'flowersRedRose',
-  flowersRoses = 'flowersRoses',
-  flowersTeacup = 'flowersTeacup',
-  flowersTiny = 'flowersTiny',
-  gems = 'gems',
-  gingerbreadMan = 'gingerbreadMan',
-  gradient = 'gradient',
-  handmade1 = 'handmade1',
-  handmade2 = 'handmade2',
-  heartBalloon = 'heartBalloon',
-  heartGray = 'heartGray',
-  hearts = 'hearts',
-  heebieJeebies = 'heebieJeebies',
-  holly = 'holly',
-  houseFunky = 'houseFunky',
-  hypnotic = 'hypnotic',
-  iceCreamCones = 'iceCreamCones',
-  lightBulb = 'lightBulb',
-  lightning1 = 'lightning1',
-  lightning2 = 'lightning2',
-  mapPins = 'mapPins',
-  mapleLeaf = 'mapleLeaf',
-  mapleMuffins = 'mapleMuffins',
-  marquee = 'marquee',
-  marqueeToothed = 'marqueeToothed',
-  moons = 'moons',
-  mosaic = 'mosaic',
-  musicNotes = 'musicNotes',
-  northwest = 'northwest',
-  ovals = 'ovals',
-  packages = 'packages',
-  palmsBlack = 'palmsBlack',
-  palmsColor = 'palmsColor',
-  paperClips = 'paperClips',
-  papyrus = 'papyrus',
-  partyFavor = 'partyFavor',
-  partyGlass = 'partyGlass',
-  pencils = 'pencils',
-  people = 'people',
-  peopleWaving = 'peopleWaving',
-  peopleHats = 'peopleHats',
-  poinsettias = 'poinsettias',
-  postageStamp = 'postageStamp',
-  pumpkin1 = 'pumpkin1',
-  pushPinNote2 = 'pushPinNote2',
-  pushPinNote1 = 'pushPinNote1',
-  pyramids = 'pyramids',
-  pyramidsAbove = 'pyramidsAbove',
-  quadrants = 'quadrants',
-  rings = 'rings',
-  safari = 'safari',
-  sawtooth = 'sawtooth',
-  sawtoothGray = 'sawtoothGray',
-  scaredCat = 'scaredCat',
-  seattle = 'seattle',
-  shadowedSquares = 'shadowedSquares',
-  sharksTeeth = 'sharksTeeth',
-  shorebirdTracks = 'shorebirdTracks',
-  skyrocket = 'skyrocket',
-  snowflakeFancy = 'snowflakeFancy',
-  snowflakes = 'snowflakes',
-  sombrero = 'sombrero',
-  southwest = 'southwest',
-  stars = 'stars',
-  starsTop = 'starsTop',
-  stars3d = 'stars3d',
-  starsBlack = 'starsBlack',
-  starsShadowed = 'starsShadowed',
-  sun = 'sun',
-  swirligig = 'swirligig',
-  tornPaper = 'tornPaper',
-  tornPaperBlack = 'tornPaperBlack',
-  trees = 'trees',
-  triangleParty = 'triangleParty',
-  triangles = 'triangles',
-  triangle1 = 'triangle1',
-  triangle2 = 'triangle2',
-  triangleCircle1 = 'triangleCircle1',
-  triangleCircle2 = 'triangleCircle2',
-  shapes1 = 'shapes1',
-  shapes2 = 'shapes2',
-  twistedLines1 = 'twistedLines1',
-  twistedLines2 = 'twistedLines2',
-  vine = 'vine',
-  waveline = 'waveline',
-  weavingAngles = 'weavingAngles',
-  weavingBraid = 'weavingBraid',
-  weavingRibbon = 'weavingRibbon',
-  weavingStrips = 'weavingStrips',
-  whiteFlowers = 'whiteFlowers',
-  woodwork = 'woodwork',
-  xIllusions = 'xIllusions',
-  zanyTriangles = 'zanyTriangles',
-  zigZag = 'zigZag',
-  zigZagStitch = 'zigZagStitch',
-  custom = 'custom',
-}
-
-export enum ST_Shd {
-  nil = 'nil',
-  clear = 'clear',
-  solid = 'solid',
-  horzStripe = 'horzStripe',
-  vertStripe = 'vertStripe',
-  reverseDiagStripe = 'reverseDiagStripe',
-  diagStripe = 'diagStripe',
-  horzCross = 'horzCross',
-  diagCross = 'diagCross',
-  thinHorzStripe = 'thinHorzStripe',
-  thinVertStripe = 'thinVertStripe',
-  thinReverseDiagStripe = 'thinReverseDiagStripe',
-  thinDiagStripe = 'thinDiagStripe',
-  thinHorzCross = 'thinHorzCross',
-  thinDiagCross = 'thinDiagCross',
-  pct5 = 'pct5',
-  pct10 = 'pct10',
-  pct12 = 'pct12',
-  pct15 = 'pct15',
-  pct20 = 'pct20',
-  pct25 = 'pct25',
-  pct30 = 'pct30',
-  pct35 = 'pct35',
-  pct37 = 'pct37',
-  pct40 = 'pct40',
-  pct45 = 'pct45',
-  pct50 = 'pct50',
-  pct55 = 'pct55',
-  pct60 = 'pct60',
-  pct62 = 'pct62',
-  pct65 = 'pct65',
-  pct70 = 'pct70',
-  pct75 = 'pct75',
-  pct80 = 'pct80',
-  pct85 = 'pct85',
-  pct87 = 'pct87',
-  pct90 = 'pct90',
-  pct95 = 'pct95',
-}
-
-export enum ST_Em {
-  none = 'none',
-  dot = 'dot',
-  comma = 'comma',
-  circle = 'circle',
-  underDot = 'underDot',
-}
-
-export enum ST_CombineBrackets {
-  none = 'none',
-  round = 'round',
-  square = 'square',
-  angle = 'angle',
-  curly = 'curly',
-}
-
-export enum ST_HeightRule {
-  auto = 'auto',
-  exact = 'exact',
-  atLeast = 'atLeast',
-}
-
-export enum ST_Wrap {
-  auto = 'auto',
-  notBeside = 'notBeside',
-  around = 'around',
-  tight = 'tight',
-  through = 'through',
-  none = 'none',
-}
-
-export enum ST_VAnchor {
-  text = 'text',
-  margin = 'margin',
-  page = 'page',
-}
-
-export enum ST_HAnchor {
-  text = 'text',
-  margin = 'margin',
-  page = 'page',
-}
-
-export enum ST_DropCap {
-  none = 'none',
-  drop = 'drop',
-  margin = 'margin',
-}
-
-export enum ST_TabJc {
-  clear = 'clear',
-  start = 'start',
-  center = 'center',
-  end = 'end',
-  decimal = 'decimal',
-  bar = 'bar',
-  num = 'num',
-}
-
-export enum ST_TabTlc {
-  none = 'none',
-  dot = 'dot',
-  hyphen = 'hyphen',
-  underscore = 'underscore',
-  heavy = 'heavy',
-  middleDot = 'middleDot',
-}
-
-export enum ST_LineSpacingRule {
-  auto = 'auto',
-  exact = 'exact',
-  atLeast = 'atLeast',
-}
-
-export enum ST_Jc {
-  start = 'start',
-  center = 'center',
-  end = 'end',
-  both = 'both',
-  mediumKashida = 'mediumKashida',
-  distribute = 'distribute',
-  numTab = 'numTab',
-  highKashida = 'highKashida',
-  lowKashida = 'lowKashida',
-  thaiDistribute = 'thaiDistribute',
-}
-
-export enum ST_JcTable {
-  center = 'center',
-  end = 'end',
-  start = 'start',
-}
-
-export enum ST_View {
-  none = 'none',
-  print = 'print',
-  outline = 'outline',
-  masterPages = 'masterPages',
-  normal = 'normal',
-  web = 'web',
-}
-
-export enum ST_Zoom {
-  none = 'none',
-  fullPage = 'fullPage',
-  bestFit = 'bestFit',
-  textFit = 'textFit',
-}
-
-export enum ST_Proof {
-  clean = 'clean',
-  dirty = 'dirty',
-}
-
+export type ST_Underline =
+  | 'single'
+  | 'words'
+  | 'double'
+  | 'thick'
+  | 'dotted'
+  | 'dottedHeavy'
+  | 'dash'
+  | 'dashedHeavy'
+  | 'dashLong'
+  | 'dashLongHeavy'
+  | 'dotDash'
+  | 'dashDotHeavy'
+  | 'dotDotDash'
+  | 'dashDotDotHeavy'
+  | 'wave'
+  | 'wavyHeavy'
+  | 'wavyDouble'
+  | 'none';
+export type ST_TextEffect =
+  | 'blinkBackground'
+  | 'lights'
+  | 'antsBlack'
+  | 'antsRed'
+  | 'shimmer'
+  | 'sparkle'
+  | 'none';
+export type ST_Border =
+  | 'nil'
+  | 'none'
+  | 'single'
+  | 'thick'
+  | 'double'
+  | 'dotted'
+  | 'dashed'
+  | 'dotDash'
+  | 'dotDotDash'
+  | 'triple'
+  | 'thinThickSmallGap'
+  | 'thickThinSmallGap'
+  | 'thinThickThinSmallGap'
+  | 'thinThickMediumGap'
+  | 'thickThinMediumGap'
+  | 'thinThickThinMediumGap'
+  | 'thinThickLargeGap'
+  | 'thickThinLargeGap'
+  | 'thinThickThinLargeGap'
+  | 'wave'
+  | 'doubleWave'
+  | 'dashSmallGap'
+  | 'dashDotStroked'
+  | 'threeDEmboss'
+  | 'threeDEngrave'
+  | 'outset'
+  | 'inset'
+  | 'apples'
+  | 'archedScallops'
+  | 'babyPacifier'
+  | 'babyRattle'
+  | 'balloons3Colors'
+  | 'balloonsHotAir'
+  | 'basicBlackDashes'
+  | 'basicBlackDots'
+  | 'basicBlackSquares'
+  | 'basicThinLines'
+  | 'basicWhiteDashes'
+  | 'basicWhiteDots'
+  | 'basicWhiteSquares'
+  | 'basicWideInline'
+  | 'basicWideMidline'
+  | 'basicWideOutline'
+  | 'bats'
+  | 'birds'
+  | 'birdsFlight'
+  | 'cabins'
+  | 'cakeSlice'
+  | 'candyCorn'
+  | 'celticKnotwork'
+  | 'certificateBanner'
+  | 'chainLink'
+  | 'champagneBottle'
+  | 'checkedBarBlack'
+  | 'checkedBarColor'
+  | 'checkered'
+  | 'christmasTree'
+  | 'circlesLines'
+  | 'circlesRectangles'
+  | 'classicalWave'
+  | 'clocks'
+  | 'compass'
+  | 'confetti'
+  | 'confettiGrays'
+  | 'confettiOutline'
+  | 'confettiStreamers'
+  | 'confettiWhite'
+  | 'cornerTriangles'
+  | 'couponCutoutDashes'
+  | 'couponCutoutDots'
+  | 'crazyMaze'
+  | 'creaturesButterfly'
+  | 'creaturesFish'
+  | 'creaturesInsects'
+  | 'creaturesLadyBug'
+  | 'crossStitch'
+  | 'cup'
+  | 'decoArch'
+  | 'decoArchColor'
+  | 'decoBlocks'
+  | 'diamondsGray'
+  | 'doubleD'
+  | 'doubleDiamonds'
+  | 'earth1'
+  | 'earth2'
+  | 'earth3'
+  | 'eclipsingSquares1'
+  | 'eclipsingSquares2'
+  | 'eggsBlack'
+  | 'fans'
+  | 'film'
+  | 'firecrackers'
+  | 'flowersBlockPrint'
+  | 'flowersDaisies'
+  | 'flowersModern1'
+  | 'flowersModern2'
+  | 'flowersPansy'
+  | 'flowersRedRose'
+  | 'flowersRoses'
+  | 'flowersTeacup'
+  | 'flowersTiny'
+  | 'gems'
+  | 'gingerbreadMan'
+  | 'gradient'
+  | 'handmade1'
+  | 'handmade2'
+  | 'heartBalloon'
+  | 'heartGray'
+  | 'hearts'
+  | 'heebieJeebies'
+  | 'holly'
+  | 'houseFunky'
+  | 'hypnotic'
+  | 'iceCreamCones'
+  | 'lightBulb'
+  | 'lightning1'
+  | 'lightning2'
+  | 'mapPins'
+  | 'mapleLeaf'
+  | 'mapleMuffins'
+  | 'marquee'
+  | 'marqueeToothed'
+  | 'moons'
+  | 'mosaic'
+  | 'musicNotes'
+  | 'northwest'
+  | 'ovals'
+  | 'packages'
+  | 'palmsBlack'
+  | 'palmsColor'
+  | 'paperClips'
+  | 'papyrus'
+  | 'partyFavor'
+  | 'partyGlass'
+  | 'pencils'
+  | 'people'
+  | 'peopleWaving'
+  | 'peopleHats'
+  | 'poinsettias'
+  | 'postageStamp'
+  | 'pumpkin1'
+  | 'pushPinNote2'
+  | 'pushPinNote1'
+  | 'pyramids'
+  | 'pyramidsAbove'
+  | 'quadrants'
+  | 'rings'
+  | 'safari'
+  | 'sawtooth'
+  | 'sawtoothGray'
+  | 'scaredCat'
+  | 'seattle'
+  | 'shadowedSquares'
+  | 'sharksTeeth'
+  | 'shorebirdTracks'
+  | 'skyrocket'
+  | 'snowflakeFancy'
+  | 'snowflakes'
+  | 'sombrero'
+  | 'southwest'
+  | 'stars'
+  | 'starsTop'
+  | 'stars3d'
+  | 'starsBlack'
+  | 'starsShadowed'
+  | 'sun'
+  | 'swirligig'
+  | 'tornPaper'
+  | 'tornPaperBlack'
+  | 'trees'
+  | 'triangleParty'
+  | 'triangles'
+  | 'triangle1'
+  | 'triangle2'
+  | 'triangleCircle1'
+  | 'triangleCircle2'
+  | 'shapes1'
+  | 'shapes2'
+  | 'twistedLines1'
+  | 'twistedLines2'
+  | 'vine'
+  | 'waveline'
+  | 'weavingAngles'
+  | 'weavingBraid'
+  | 'weavingRibbon'
+  | 'weavingStrips'
+  | 'whiteFlowers'
+  | 'woodwork'
+  | 'xIllusions'
+  | 'zanyTriangles'
+  | 'zigZag'
+  | 'zigZagStitch'
+  | 'custom';
+export type ST_Shd =
+  | 'nil'
+  | 'clear'
+  | 'solid'
+  | 'horzStripe'
+  | 'vertStripe'
+  | 'reverseDiagStripe'
+  | 'diagStripe'
+  | 'horzCross'
+  | 'diagCross'
+  | 'thinHorzStripe'
+  | 'thinVertStripe'
+  | 'thinReverseDiagStripe'
+  | 'thinDiagStripe'
+  | 'thinHorzCross'
+  | 'thinDiagCross'
+  | 'pct5'
+  | 'pct10'
+  | 'pct12'
+  | 'pct15'
+  | 'pct20'
+  | 'pct25'
+  | 'pct30'
+  | 'pct35'
+  | 'pct37'
+  | 'pct40'
+  | 'pct45'
+  | 'pct50'
+  | 'pct55'
+  | 'pct60'
+  | 'pct62'
+  | 'pct65'
+  | 'pct70'
+  | 'pct75'
+  | 'pct80'
+  | 'pct85'
+  | 'pct87'
+  | 'pct90'
+  | 'pct95';
+export type ST_Em = 'none' | 'dot' | 'comma' | 'circle' | 'underDot';
+export type ST_CombineBrackets =
+  | 'none'
+  | 'round'
+  | 'square'
+  | 'angle'
+  | 'curly';
+export type ST_HeightRule = 'auto' | 'exact' | 'atLeast';
+export type ST_Wrap =
+  | 'auto'
+  | 'notBeside'
+  | 'around'
+  | 'tight'
+  | 'through'
+  | 'none';
+export type ST_VAnchor = 'text' | 'margin' | 'page';
+export type ST_HAnchor = 'text' | 'margin' | 'page';
+export type ST_DropCap = 'none' | 'drop' | 'margin';
+export type ST_TabJc =
+  | 'clear'
+  | 'start'
+  | 'center'
+  | 'end'
+  | 'decimal'
+  | 'bar'
+  | 'num';
+export type ST_TabTlc =
+  | 'none'
+  | 'dot'
+  | 'hyphen'
+  | 'underscore'
+  | 'heavy'
+  | 'middleDot';
+export type ST_LineSpacingRule = 'auto' | 'exact' | 'atLeast';
+export type ST_Jc =
+  | 'start'
+  | 'center'
+  | 'end'
+  | 'both'
+  | 'mediumKashida'
+  | 'distribute'
+  | 'numTab'
+  | 'highKashida'
+  | 'lowKashida'
+  | 'thaiDistribute';
+export type ST_JcTable = 'center' | 'end' | 'start';
+export type ST_View =
+  | 'none'
+  | 'print'
+  | 'outline'
+  | 'masterPages'
+  | 'normal'
+  | 'web';
+export type ST_Zoom = 'none' | 'fullPage' | 'bestFit' | 'textFit';
+export type ST_Proof = 'clean' | 'dirty';
 export type ST_DocType = string;
-export enum ST_DocProtect {
-  none = 'none',
-  readOnly = 'readOnly',
-  comments = 'comments',
-  trackedChanges = 'trackedChanges',
-  forms = 'forms',
-}
-
-export enum ST_MailMergeDocType {
-  catalog = 'catalog',
-  envelopes = 'envelopes',
-  mailingLabels = 'mailingLabels',
-  formLetters = 'formLetters',
-  email = 'email',
-  fax = 'fax',
-}
-
+export type ST_DocProtect =
+  | 'none'
+  | 'readOnly'
+  | 'comments'
+  | 'trackedChanges'
+  | 'forms';
+export type ST_MailMergeDocType =
+  | 'catalog'
+  | 'envelopes'
+  | 'mailingLabels'
+  | 'formLetters'
+  | 'email'
+  | 'fax';
 export type ST_MailMergeDataType = string;
-export enum ST_MailMergeDest {
-  newDocument = 'newDocument',
-  printer = 'printer',
-  email = 'email',
-  fax = 'fax',
-}
-
-export enum ST_MailMergeOdsoFMDFieldType {
-  null = 'null',
-  dbColumn = 'dbColumn',
-}
-
-export enum ST_TextDirection {
-  tb = 'tb',
-  rl = 'rl',
-  lr = 'lr',
-  tbV = 'tbV',
-  rlV = 'rlV',
-  lrV = 'lrV',
-}
-
-export enum ST_TextAlignment {
-  top = 'top',
-  center = 'center',
-  baseline = 'baseline',
-  bottom = 'bottom',
-  auto = 'auto',
-}
-
-export enum ST_DisplacedByCustomXml {
-  next = 'next',
-  prev = 'prev',
-}
-
-export enum ST_AnnotationVMerge {
-  cont = 'cont',
-  rest = 'rest',
-}
-
-export enum ST_TextboxTightWrap {
-  none = 'none',
-  allLines = 'allLines',
-  firstAndLastLine = 'firstAndLastLine',
-  firstLineOnly = 'firstLineOnly',
-  lastLineOnly = 'lastLineOnly',
-}
-
-export enum ST_ObjectDrawAspect {
-  content = 'content',
-  icon = 'icon',
-}
-
-export enum ST_ObjectUpdateMode {
-  always = 'always',
-  onCall = 'onCall',
-}
-
-export enum ST_FldCharType {
-  begin = 'begin',
-  separate = 'separate',
-  end = 'end',
-}
-
-export enum ST_InfoTextType {
-  text = 'text',
-  autoText = 'autoText',
-}
-
+export type ST_MailMergeDest = 'newDocument' | 'printer' | 'email' | 'fax';
+export type ST_MailMergeOdsoFMDFieldType = 'null' | 'dbColumn';
+export type ST_TextDirection = 'tb' | 'rl' | 'lr' | 'tbV' | 'rlV' | 'lrV';
+export type ST_TextAlignment =
+  | 'top'
+  | 'center'
+  | 'baseline'
+  | 'bottom'
+  | 'auto';
+export type ST_DisplacedByCustomXml = 'next' | 'prev';
+export type ST_AnnotationVMerge = 'cont' | 'rest';
+export type ST_TextboxTightWrap =
+  | 'none'
+  | 'allLines'
+  | 'firstAndLastLine'
+  | 'firstLineOnly'
+  | 'lastLineOnly';
+export type ST_ObjectDrawAspect = 'content' | 'icon';
+export type ST_ObjectUpdateMode = 'always' | 'onCall';
+export type ST_FldCharType = 'begin' | 'separate' | 'end';
+export type ST_InfoTextType = 'text' | 'autoText';
 export type ST_FFHelpTextVal = string;
 export type ST_FFStatusTextVal = string;
 export type ST_FFName = string;
-export enum ST_FFTextType {
-  regular = 'regular',
-  number = 'number',
-  date = 'date',
-  currentTime = 'currentTime',
-  currentDate = 'currentDate',
-  calculated = 'calculated',
-}
+export type ST_FFTextType =
+  | 'regular'
+  | 'number'
+  | 'date'
+  | 'currentTime'
+  | 'currentDate'
+  | 'calculated';
+export type ST_SectionMark =
+  | 'nextPage'
+  | 'nextColumn'
+  | 'continuous'
+  | 'evenPage'
+  | 'oddPage';
+export type ST_NumberFormat =
+  | 'decimal'
+  | 'upperRoman'
+  | 'lowerRoman'
+  | 'upperLetter'
+  | 'lowerLetter'
+  | 'ordinal'
+  | 'cardinalText'
+  | 'ordinalText'
+  | 'hex'
+  | 'chicago'
+  | 'ideographDigital'
+  | 'japaneseCounting'
+  | 'aiueo'
+  | 'iroha'
+  | 'decimalFullWidth'
+  | 'decimalHalfWidth'
+  | 'japaneseLegal'
+  | 'japaneseDigitalTenThousand'
+  | 'decimalEnclosedCircle'
+  | 'decimalFullWidth2'
+  | 'aiueoFullWidth'
+  | 'irohaFullWidth'
+  | 'decimalZero'
+  | 'bullet'
+  | 'ganada'
+  | 'chosung'
+  | 'decimalEnclosedFullstop'
+  | 'decimalEnclosedParen'
+  | 'decimalEnclosedCircleChinese'
+  | 'ideographEnclosedCircle'
+  | 'ideographTraditional'
+  | 'ideographZodiac'
+  | 'ideographZodiacTraditional'
+  | 'taiwaneseCounting'
+  | 'ideographLegalTraditional'
+  | 'taiwaneseCountingThousand'
+  | 'taiwaneseDigital'
+  | 'chineseCounting'
+  | 'chineseLegalSimplified'
+  | 'chineseCountingThousand'
+  | 'koreanDigital'
+  | 'koreanCounting'
+  | 'koreanLegal'
+  | 'koreanDigital2'
+  | 'vietnameseCounting'
+  | 'russianLower'
+  | 'russianUpper'
+  | 'none'
+  | 'numberInDash'
+  | 'hebrew1'
+  | 'hebrew2'
+  | 'arabicAlpha'
+  | 'arabicAbjad'
+  | 'hindiVowels'
+  | 'hindiConsonants'
+  | 'hindiNumbers'
+  | 'hindiCounting'
+  | 'thaiLetters'
+  | 'thaiNumbers'
+  | 'thaiCounting'
+  | 'bahtText'
+  | 'dollarText'
+  | 'custom';
+export type ST_PageOrientation = 'portrait' | 'landscape';
+export type ST_PageBorderZOrder = 'front' | 'back';
+export type ST_PageBorderDisplay = 'allPages' | 'firstPage' | 'notFirstPage';
+export type ST_PageBorderOffset = 'page' | 'text';
+export type ST_ChapterSep = 'hyphen' | 'period' | 'colon' | 'emDash' | 'enDash';
+export type ST_LineNumberRestart = 'newPage' | 'newSection' | 'continuous';
+export type ST_VerticalJc = 'top' | 'center' | 'both' | 'bottom';
+export type ST_DocGrid = 'default' | 'lines' | 'linesAndChars' | 'snapToChars';
+export type ST_HdrFtr = 'even' | 'default' | 'first';
+export type ST_FtnEdn =
+  | 'normal'
+  | 'separator'
+  | 'continuationSeparator'
+  | 'continuationNotice';
+export type ST_BrType = 'page' | 'column' | 'textWrapping';
+export type ST_BrClear = 'none' | 'left' | 'right' | 'all';
+export type ST_PTabAlignment = 'left' | 'center' | 'right';
+export type ST_PTabRelativeTo = 'margin' | 'indent';
+export type ST_PTabLeader =
+  | 'none'
+  | 'dot'
+  | 'hyphen'
+  | 'underscore'
+  | 'middleDot';
+export type ST_ProofErr = 'spellStart' | 'spellEnd' | 'gramStart' | 'gramEnd';
+export type ST_EdGrp =
+  | 'none'
+  | 'everyone'
+  | 'administrators'
+  | 'contributors'
+  | 'editors'
+  | 'owners'
+  | 'current';
+export type ST_Hint = 'default' | 'eastAsia';
+export type ST_Theme =
+  | 'majorEastAsia'
+  | 'majorBidi'
+  | 'majorAscii'
+  | 'majorHAnsi'
+  | 'minorEastAsia'
+  | 'minorBidi'
+  | 'minorAscii'
+  | 'minorHAnsi';
+export type ST_RubyAlign =
+  | 'center'
+  | 'distributeLetter'
+  | 'distributeSpace'
+  | 'left'
+  | 'right'
+  | 'rightVertical';
+export type ST_Lock =
+  | 'sdtLocked'
+  | 'contentLocked'
+  | 'unlocked'
+  | 'sdtContentLocked';
+export type ST_SdtDateMappingType = 'text' | 'date' | 'dateTime';
+export type ST_Direction = 'ltr' | 'rtl';
+export type ST_TblWidth = 'nil' | 'pct' | 'dxa' | 'auto';
+export type ST_MeasurementOrPercent =
+  | ST_DecimalNumberOrPercent
+  | ST_UniversalMeasure;
 
-export enum ST_SectionMark {
-  nextPage = 'nextPage',
-  nextColumn = 'nextColumn',
-  continuous = 'continuous',
-  evenPage = 'evenPage',
-  oddPage = 'oddPage',
-}
-
-export enum ST_NumberFormat {
-  decimal = 'decimal',
-  upperRoman = 'upperRoman',
-  lowerRoman = 'lowerRoman',
-  upperLetter = 'upperLetter',
-  lowerLetter = 'lowerLetter',
-  ordinal = 'ordinal',
-  cardinalText = 'cardinalText',
-  ordinalText = 'ordinalText',
-  hex = 'hex',
-  chicago = 'chicago',
-  ideographDigital = 'ideographDigital',
-  japaneseCounting = 'japaneseCounting',
-  aiueo = 'aiueo',
-  iroha = 'iroha',
-  decimalFullWidth = 'decimalFullWidth',
-  decimalHalfWidth = 'decimalHalfWidth',
-  japaneseLegal = 'japaneseLegal',
-  japaneseDigitalTenThousand = 'japaneseDigitalTenThousand',
-  decimalEnclosedCircle = 'decimalEnclosedCircle',
-  decimalFullWidth2 = 'decimalFullWidth2',
-  aiueoFullWidth = 'aiueoFullWidth',
-  irohaFullWidth = 'irohaFullWidth',
-  decimalZero = 'decimalZero',
-  bullet = 'bullet',
-  ganada = 'ganada',
-  chosung = 'chosung',
-  decimalEnclosedFullstop = 'decimalEnclosedFullstop',
-  decimalEnclosedParen = 'decimalEnclosedParen',
-  decimalEnclosedCircleChinese = 'decimalEnclosedCircleChinese',
-  ideographEnclosedCircle = 'ideographEnclosedCircle',
-  ideographTraditional = 'ideographTraditional',
-  ideographZodiac = 'ideographZodiac',
-  ideographZodiacTraditional = 'ideographZodiacTraditional',
-  taiwaneseCounting = 'taiwaneseCounting',
-  ideographLegalTraditional = 'ideographLegalTraditional',
-  taiwaneseCountingThousand = 'taiwaneseCountingThousand',
-  taiwaneseDigital = 'taiwaneseDigital',
-  chineseCounting = 'chineseCounting',
-  chineseLegalSimplified = 'chineseLegalSimplified',
-  chineseCountingThousand = 'chineseCountingThousand',
-  koreanDigital = 'koreanDigital',
-  koreanCounting = 'koreanCounting',
-  koreanLegal = 'koreanLegal',
-  koreanDigital2 = 'koreanDigital2',
-  vietnameseCounting = 'vietnameseCounting',
-  russianLower = 'russianLower',
-  russianUpper = 'russianUpper',
-  none = 'none',
-  numberInDash = 'numberInDash',
-  hebrew1 = 'hebrew1',
-  hebrew2 = 'hebrew2',
-  arabicAlpha = 'arabicAlpha',
-  arabicAbjad = 'arabicAbjad',
-  hindiVowels = 'hindiVowels',
-  hindiConsonants = 'hindiConsonants',
-  hindiNumbers = 'hindiNumbers',
-  hindiCounting = 'hindiCounting',
-  thaiLetters = 'thaiLetters',
-  thaiNumbers = 'thaiNumbers',
-  thaiCounting = 'thaiCounting',
-  bahtText = 'bahtText',
-  dollarText = 'dollarText',
-  custom = 'custom',
-}
-
-export enum ST_PageOrientation {
-  portrait = 'portrait',
-  landscape = 'landscape',
-}
-
-export enum ST_PageBorderZOrder {
-  front = 'front',
-  back = 'back',
-}
-
-export enum ST_PageBorderDisplay {
-  allPages = 'allPages',
-  firstPage = 'firstPage',
-  notFirstPage = 'notFirstPage',
-}
-
-export enum ST_PageBorderOffset {
-  page = 'page',
-  text = 'text',
-}
-
-export enum ST_ChapterSep {
-  hyphen = 'hyphen',
-  period = 'period',
-  colon = 'colon',
-  emDash = 'emDash',
-  enDash = 'enDash',
-}
-
-export enum ST_LineNumberRestart {
-  newPage = 'newPage',
-  newSection = 'newSection',
-  continuous = 'continuous',
-}
-
-export enum ST_VerticalJc {
-  top = 'top',
-  center = 'center',
-  both = 'both',
-  bottom = 'bottom',
-}
-
-export enum ST_DocGrid {
-  default = 'default',
-  lines = 'lines',
-  linesAndChars = 'linesAndChars',
-  snapToChars = 'snapToChars',
-}
-
-export enum ST_HdrFtr {
-  even = 'even',
-  default = 'default',
-  first = 'first',
-}
-
-export enum ST_FtnEdn {
-  normal = 'normal',
-  separator = 'separator',
-  continuationSeparator = 'continuationSeparator',
-  continuationNotice = 'continuationNotice',
-}
-
-export enum ST_BrType {
-  page = 'page',
-  column = 'column',
-  textWrapping = 'textWrapping',
-}
-
-export enum ST_BrClear {
-  none = 'none',
-  left = 'left',
-  right = 'right',
-  all = 'all',
-}
-
-export enum ST_PTabAlignment {
-  left = 'left',
-  center = 'center',
-  right = 'right',
-}
-
-export enum ST_PTabRelativeTo {
-  margin = 'margin',
-  indent = 'indent',
-}
-
-export enum ST_PTabLeader {
-  none = 'none',
-  dot = 'dot',
-  hyphen = 'hyphen',
-  underscore = 'underscore',
-  middleDot = 'middleDot',
-}
-
-export enum ST_ProofErr {
-  spellStart = 'spellStart',
-  spellEnd = 'spellEnd',
-  gramStart = 'gramStart',
-  gramEnd = 'gramEnd',
-}
-
-export enum ST_EdGrp {
-  none = 'none',
-  everyone = 'everyone',
-  administrators = 'administrators',
-  contributors = 'contributors',
-  editors = 'editors',
-  owners = 'owners',
-  current = 'current',
-}
-
-export enum ST_Hint {
-  default = 'default',
-  eastAsia = 'eastAsia',
-}
-
-export enum ST_Theme {
-  majorEastAsia = 'majorEastAsia',
-  majorBidi = 'majorBidi',
-  majorAscii = 'majorAscii',
-  majorHAnsi = 'majorHAnsi',
-  minorEastAsia = 'minorEastAsia',
-  minorBidi = 'minorBidi',
-  minorAscii = 'minorAscii',
-  minorHAnsi = 'minorHAnsi',
-}
-
-export enum ST_RubyAlign {
-  center = 'center',
-  distributeLetter = 'distributeLetter',
-  distributeSpace = 'distributeSpace',
-  left = 'left',
-  right = 'right',
-  rightVertical = 'rightVertical',
-}
-
-export enum ST_Lock {
-  sdtLocked = 'sdtLocked',
-  contentLocked = 'contentLocked',
-  unlocked = 'unlocked',
-  sdtContentLocked = 'sdtContentLocked',
-}
-
-export enum ST_SdtDateMappingType {
-  text = 'text',
-  date = 'date',
-  dateTime = 'dateTime',
-}
-
-export enum ST_Direction {
-  ltr = 'ltr',
-  rtl = 'rtl',
-}
-
-export enum ST_TblWidth {
-  nil = 'nil',
-  pct = 'pct',
-  dxa = 'dxa',
-  auto = 'auto',
-}
-
-export type ST_MeasurementOrPercent = ST_DecimalNumberOrPercent | ST_UniversalMeasure;
-
-export enum ST_Merge {
-  continue = 'continue',
-  restart = 'restart',
-}
-
-export enum ST_TblLayoutType {
-  fixed = 'fixed',
-  autofit = 'autofit',
-}
-
-export enum ST_TblOverlap {
-  never = 'never',
-  overlap = 'overlap',
-}
-
-export enum ST_FtnPos {
-  pageBottom = 'pageBottom',
-  beneathText = 'beneathText',
-  sectEnd = 'sectEnd',
-  docEnd = 'docEnd',
-}
-
-export enum ST_EdnPos {
-  sectEnd = 'sectEnd',
-  docEnd = 'docEnd',
-}
-
-export enum ST_RestartNumber {
-  continuous = 'continuous',
-  eachSect = 'eachSect',
-  eachPage = 'eachPage',
-}
-
-export enum ST_MailMergeSourceType {
-  database = 'database',
-  addressBook = 'addressBook',
-  document1 = 'document1',
-  document2 = 'document2',
-  text = 'text',
-  email = 'email',
-  native = 'native',
-  legacy = 'legacy',
-  master = 'master',
-}
-
+export type ST_Merge = 'continue' | 'restart';
+export type ST_TblLayoutType = 'fixed' | 'autofit';
+export type ST_TblOverlap = 'never' | 'overlap';
+export type ST_FtnPos = 'pageBottom' | 'beneathText' | 'sectEnd' | 'docEnd';
+export type ST_EdnPos = 'sectEnd' | 'docEnd';
+export type ST_RestartNumber = 'continuous' | 'eachSect' | 'eachPage';
+export type ST_MailMergeSourceType =
+  | 'database'
+  | 'addressBook'
+  | 'document1'
+  | 'document2'
+  | 'text'
+  | 'email'
+  | 'native'
+  | 'legacy'
+  | 'master';
 export type ST_TargetScreenSz = string;
-export enum ST_CharacterSpacing {
-  doNotCompress = 'doNotCompress',
-  compressPunctuation = 'compressPunctuation',
-  compressPunctuationAndJapaneseKana = 'compressPunctuationAndJapaneseKana',
-}
+export type ST_CharacterSpacing =
+  | 'doNotCompress'
+  | 'compressPunctuation'
+  | 'compressPunctuationAndJapaneseKana';
+export type ST_WmlColorSchemeIndex =
+  | 'dark1'
+  | 'light1'
+  | 'dark2'
+  | 'light2'
+  | 'accent1'
+  | 'accent2'
+  | 'accent3'
+  | 'accent4'
+  | 'accent5'
+  | 'accent6'
+  | 'hyperlink'
+  | 'followedHyperlink';
+export type ST_StyleSort =
+  | 'name'
+  | 'priority'
+  | 'default'
+  | 'font'
+  | 'basedOn'
+  | 'type';
+export type ST_FrameScrollbar = 'on' | 'off' | 'auto';
+export type ST_FrameLayout = 'rows' | 'cols' | 'none';
+export type ST_LevelSuffix = 'tab' | 'space' | 'nothing';
+export type ST_MultiLevelType =
+  | 'singleLevel'
+  | 'multilevel'
+  | 'hybridMultilevel';
+export type ST_TblStyleOverrideType =
+  | 'wholeTable'
+  | 'firstRow'
+  | 'lastRow'
+  | 'firstCol'
+  | 'lastCol'
+  | 'band1Vert'
+  | 'band2Vert'
+  | 'band1Horz'
+  | 'band2Horz'
+  | 'neCell'
+  | 'nwCell'
+  | 'seCell'
+  | 'swCell';
+export type ST_StyleType = 'paragraph' | 'character' | 'table' | 'numbering';
+export type ST_FontFamily =
+  | 'decorative'
+  | 'modern'
+  | 'roman'
+  | 'script'
+  | 'swiss'
+  | 'auto';
+export type ST_Pitch = 'fixed' | 'variable' | 'default';
+export type ST_ThemeColor =
+  | 'dark1'
+  | 'light1'
+  | 'dark2'
+  | 'light2'
+  | 'accent1'
+  | 'accent2'
+  | 'accent3'
+  | 'accent4'
+  | 'accent5'
+  | 'accent6'
+  | 'hyperlink'
+  | 'followedHyperlink'
+  | 'none'
+  | 'background1'
+  | 'text1'
+  | 'background2'
+  | 'text2';
+export type ST_DocPartBehavior = 'content' | 'p' | 'pg';
+export type ST_DocPartType =
+  | 'none'
+  | 'normal'
+  | 'autoExp'
+  | 'toolbar'
+  | 'speller'
+  | 'formFld'
+  | 'bbPlcHdr';
+export type ST_DocPartGallery =
+  | 'placeholder'
+  | 'any'
+  | 'default'
+  | 'docParts'
+  | 'coverPg'
+  | 'eq'
+  | 'ftrs'
+  | 'hdrs'
+  | 'pgNum'
+  | 'tbls'
+  | 'watermarks'
+  | 'autoTxt'
+  | 'txtBox'
+  | 'pgNumT'
+  | 'pgNumB'
+  | 'pgNumMargins'
+  | 'tblOfContents'
+  | 'bib'
+  | 'custQuickParts'
+  | 'custCoverPg'
+  | 'custEq'
+  | 'custFtrs'
+  | 'custHdrs'
+  | 'custPgNum'
+  | 'custTbls'
+  | 'custWatermarks'
+  | 'custAutoTxt'
+  | 'custTxtBox'
+  | 'custPgNumT'
+  | 'custPgNumB'
+  | 'custPgNumMargins'
+  | 'custTblOfContents'
+  | 'custBib'
+  | 'custom1'
+  | 'custom2'
+  | 'custom3'
+  | 'custom4'
+  | 'custom5';
+export type ST_CaptionPos = 'above' | 'below' | 'left' | 'right';
+export type ST_StyleMatrixColumnIndex = number;
+export type ST_FontCollectionIndex = 'major' | 'minor' | 'none';
+export type ST_ColorSchemeIndex =
+  | 'dk1'
+  | 'lt1'
+  | 'dk2'
+  | 'lt2'
+  | 'accent1'
+  | 'accent2'
+  | 'accent3'
+  | 'accent4'
+  | 'accent5'
+  | 'accent6'
+  | 'hlink'
+  | 'folHlink';
+export type ST_Coordinate = ST_CoordinateUnqualified | ST_UniversalMeasure;
 
-export enum ST_WmlColorSchemeIndex {
-  dark1 = 'dark1',
-  light1 = 'light1',
-  dark2 = 'dark2',
-  light2 = 'light2',
-  accent1 = 'accent1',
-  accent2 = 'accent2',
-  accent3 = 'accent3',
-  accent4 = 'accent4',
-  accent5 = 'accent5',
-  accent6 = 'accent6',
-  hyperlink = 'hyperlink',
-  followedHyperlink = 'followedHyperlink',
-}
+export type ST_CoordinateUnqualified = number;
+export type ST_Coordinate32 = ST_Coordinate32Unqualified | ST_UniversalMeasure;
 
-export enum ST_StyleSort {
-  name = 'name',
-  priority = 'priority',
-  default = 'default',
-  font = 'font',
-  basedOn = 'basedOn',
-  type = 'type',
-}
+export type ST_Coordinate32Unqualified = number;
+export type ST_PositiveCoordinate = number;
+export type ST_PositiveCoordinate32 = ST_Coordinate32Unqualified;
+export type ST_Angle = number;
+export type ST_FixedAngle = ST_Angle;
+export type ST_PositiveFixedAngle = ST_Angle;
+export type ST_SystemColorVal =
+  | 'scrollBar'
+  | 'background'
+  | 'activeCaption'
+  | 'inactiveCaption'
+  | 'menu'
+  | 'window'
+  | 'windowFrame'
+  | 'menuText'
+  | 'windowText'
+  | 'captionText'
+  | 'activeBorder'
+  | 'inactiveBorder'
+  | 'appWorkspace'
+  | 'highlight'
+  | 'highlightText'
+  | 'btnFace'
+  | 'btnShadow'
+  | 'grayText'
+  | 'btnText'
+  | 'inactiveCaptionText'
+  | 'btnHighlight'
+  | '3dDkShadow'
+  | '3dLight'
+  | 'infoText'
+  | 'infoBk'
+  | 'hotLight'
+  | 'gradientActiveCaption'
+  | 'gradientInactiveCaption'
+  | 'menuHighlight'
+  | 'menuBar';
+export type ST_SchemeColorVal =
+  | 'bg1'
+  | 'tx1'
+  | 'bg2'
+  | 'tx2'
+  | 'accent1'
+  | 'accent2'
+  | 'accent3'
+  | 'accent4'
+  | 'accent5'
+  | 'accent6'
+  | 'hlink'
+  | 'folHlink'
+  | 'phClr'
+  | 'dk1'
+  | 'lt1'
+  | 'dk2'
+  | 'lt2';
+export type ST_PresetColorVal =
+  | 'aliceBlue'
+  | 'antiqueWhite'
+  | 'aqua'
+  | 'aquamarine'
+  | 'azure'
+  | 'beige'
+  | 'bisque'
+  | 'black'
+  | 'blanchedAlmond'
+  | 'blue'
+  | 'blueViolet'
+  | 'brown'
+  | 'burlyWood'
+  | 'cadetBlue'
+  | 'chartreuse'
+  | 'chocolate'
+  | 'coral'
+  | 'cornflowerBlue'
+  | 'cornsilk'
+  | 'crimson'
+  | 'cyan'
+  | 'darkBlue'
+  | 'darkCyan'
+  | 'darkGoldenrod'
+  | 'darkGray'
+  | 'darkGrey'
+  | 'darkGreen'
+  | 'darkKhaki'
+  | 'darkMagenta'
+  | 'darkOliveGreen'
+  | 'darkOrange'
+  | 'darkOrchid'
+  | 'darkRed'
+  | 'darkSalmon'
+  | 'darkSeaGreen'
+  | 'darkSlateBlue'
+  | 'darkSlateGray'
+  | 'darkSlateGrey'
+  | 'darkTurquoise'
+  | 'darkViolet'
+  | 'dkBlue'
+  | 'dkCyan'
+  | 'dkGoldenrod'
+  | 'dkGray'
+  | 'dkGrey'
+  | 'dkGreen'
+  | 'dkKhaki'
+  | 'dkMagenta'
+  | 'dkOliveGreen'
+  | 'dkOrange'
+  | 'dkOrchid'
+  | 'dkRed'
+  | 'dkSalmon'
+  | 'dkSeaGreen'
+  | 'dkSlateBlue'
+  | 'dkSlateGray'
+  | 'dkSlateGrey'
+  | 'dkTurquoise'
+  | 'dkViolet'
+  | 'deepPink'
+  | 'deepSkyBlue'
+  | 'dimGray'
+  | 'dimGrey'
+  | 'dodgerBlue'
+  | 'firebrick'
+  | 'floralWhite'
+  | 'forestGreen'
+  | 'fuchsia'
+  | 'gainsboro'
+  | 'ghostWhite'
+  | 'gold'
+  | 'goldenrod'
+  | 'gray'
+  | 'grey'
+  | 'green'
+  | 'greenYellow'
+  | 'honeydew'
+  | 'hotPink'
+  | 'indianRed'
+  | 'indigo'
+  | 'ivory'
+  | 'khaki'
+  | 'lavender'
+  | 'lavenderBlush'
+  | 'lawnGreen'
+  | 'lemonChiffon'
+  | 'lightBlue'
+  | 'lightCoral'
+  | 'lightCyan'
+  | 'lightGoldenrodYellow'
+  | 'lightGray'
+  | 'lightGrey'
+  | 'lightGreen'
+  | 'lightPink'
+  | 'lightSalmon'
+  | 'lightSeaGreen'
+  | 'lightSkyBlue'
+  | 'lightSlateGray'
+  | 'lightSlateGrey'
+  | 'lightSteelBlue'
+  | 'lightYellow'
+  | 'ltBlue'
+  | 'ltCoral'
+  | 'ltCyan'
+  | 'ltGoldenrodYellow'
+  | 'ltGray'
+  | 'ltGrey'
+  | 'ltGreen'
+  | 'ltPink'
+  | 'ltSalmon'
+  | 'ltSeaGreen'
+  | 'ltSkyBlue'
+  | 'ltSlateGray'
+  | 'ltSlateGrey'
+  | 'ltSteelBlue'
+  | 'ltYellow'
+  | 'lime'
+  | 'limeGreen'
+  | 'linen'
+  | 'magenta'
+  | 'maroon'
+  | 'medAquamarine'
+  | 'medBlue'
+  | 'medOrchid'
+  | 'medPurple'
+  | 'medSeaGreen'
+  | 'medSlateBlue'
+  | 'medSpringGreen'
+  | 'medTurquoise'
+  | 'medVioletRed'
+  | 'mediumAquamarine'
+  | 'mediumBlue'
+  | 'mediumOrchid'
+  | 'mediumPurple'
+  | 'mediumSeaGreen'
+  | 'mediumSlateBlue'
+  | 'mediumSpringGreen'
+  | 'mediumTurquoise'
+  | 'mediumVioletRed'
+  | 'midnightBlue'
+  | 'mintCream'
+  | 'mistyRose'
+  | 'moccasin'
+  | 'navajoWhite'
+  | 'navy'
+  | 'oldLace'
+  | 'olive'
+  | 'oliveDrab'
+  | 'orange'
+  | 'orangeRed'
+  | 'orchid'
+  | 'paleGoldenrod'
+  | 'paleGreen'
+  | 'paleTurquoise'
+  | 'paleVioletRed'
+  | 'papayaWhip'
+  | 'peachPuff'
+  | 'peru'
+  | 'pink'
+  | 'plum'
+  | 'powderBlue'
+  | 'purple'
+  | 'red'
+  | 'rosyBrown'
+  | 'royalBlue'
+  | 'saddleBrown'
+  | 'salmon'
+  | 'sandyBrown'
+  | 'seaGreen'
+  | 'seaShell'
+  | 'sienna'
+  | 'silver'
+  | 'skyBlue'
+  | 'slateBlue'
+  | 'slateGray'
+  | 'slateGrey'
+  | 'snow'
+  | 'springGreen'
+  | 'steelBlue'
+  | 'tan'
+  | 'teal'
+  | 'thistle'
+  | 'tomato'
+  | 'turquoise'
+  | 'violet'
+  | 'wheat'
+  | 'white'
+  | 'whiteSmoke'
+  | 'yellow'
+  | 'yellowGreen';
+export type ST_RectAlignment =
+  | 'tl'
+  | 't'
+  | 'tr'
+  | 'l'
+  | 'ctr'
+  | 'r'
+  | 'bl'
+  | 'b'
+  | 'br';
+export type ST_BlackWhiteMode =
+  | 'clr'
+  | 'auto'
+  | 'gray'
+  | 'ltGray'
+  | 'invGray'
+  | 'grayWhite'
+  | 'blackGray'
+  | 'blackWhite'
+  | 'black'
+  | 'white'
+  | 'hidden';
+export type ST_DrawingElementId = number;
+export type ST_ChartBuildStep =
+  | 'category'
+  | 'ptInCategory'
+  | 'series'
+  | 'ptInSeries'
+  | 'allPts'
+  | 'gridLegend';
+export type ST_DgmBuildStep = 'sp' | 'bg';
+export type ST_AnimationBuildType = 'allAtOnce';
+export type ST_AnimationDgmOnlyBuildType = 'one' | 'lvlOne' | 'lvlAtOnce';
+export type ST_AnimationDgmBuildType =
+  | ST_AnimationBuildType
+  | ST_AnimationDgmOnlyBuildType;
 
-export enum ST_FrameScrollbar {
-  on = 'on',
-  off = 'off',
-  auto = 'auto',
-}
+export type ST_AnimationChartOnlyBuildType =
+  | 'series'
+  | 'category'
+  | 'seriesEl'
+  | 'categoryEl';
+export type ST_AnimationChartBuildType =
+  | ST_AnimationBuildType
+  | ST_AnimationChartOnlyBuildType;
 
-export enum ST_FrameLayout {
-  rows = 'rows',
-  cols = 'cols',
-  none = 'none',
-}
+export type ST_PresetCameraType =
+  | 'legacyObliqueTopLeft'
+  | 'legacyObliqueTop'
+  | 'legacyObliqueTopRight'
+  | 'legacyObliqueLeft'
+  | 'legacyObliqueFront'
+  | 'legacyObliqueRight'
+  | 'legacyObliqueBottomLeft'
+  | 'legacyObliqueBottom'
+  | 'legacyObliqueBottomRight'
+  | 'legacyPerspectiveTopLeft'
+  | 'legacyPerspectiveTop'
+  | 'legacyPerspectiveTopRight'
+  | 'legacyPerspectiveLeft'
+  | 'legacyPerspectiveFront'
+  | 'legacyPerspectiveRight'
+  | 'legacyPerspectiveBottomLeft'
+  | 'legacyPerspectiveBottom'
+  | 'legacyPerspectiveBottomRight'
+  | 'orthographicFront'
+  | 'isometricTopUp'
+  | 'isometricTopDown'
+  | 'isometricBottomUp'
+  | 'isometricBottomDown'
+  | 'isometricLeftUp'
+  | 'isometricLeftDown'
+  | 'isometricRightUp'
+  | 'isometricRightDown'
+  | 'isometricOffAxis1Left'
+  | 'isometricOffAxis1Right'
+  | 'isometricOffAxis1Top'
+  | 'isometricOffAxis2Left'
+  | 'isometricOffAxis2Right'
+  | 'isometricOffAxis2Top'
+  | 'isometricOffAxis3Left'
+  | 'isometricOffAxis3Right'
+  | 'isometricOffAxis3Bottom'
+  | 'isometricOffAxis4Left'
+  | 'isometricOffAxis4Right'
+  | 'isometricOffAxis4Bottom'
+  | 'obliqueTopLeft'
+  | 'obliqueTop'
+  | 'obliqueTopRight'
+  | 'obliqueLeft'
+  | 'obliqueRight'
+  | 'obliqueBottomLeft'
+  | 'obliqueBottom'
+  | 'obliqueBottomRight'
+  | 'perspectiveFront'
+  | 'perspectiveLeft'
+  | 'perspectiveRight'
+  | 'perspectiveAbove'
+  | 'perspectiveBelow'
+  | 'perspectiveAboveLeftFacing'
+  | 'perspectiveAboveRightFacing'
+  | 'perspectiveContrastingLeftFacing'
+  | 'perspectiveContrastingRightFacing'
+  | 'perspectiveHeroicLeftFacing'
+  | 'perspectiveHeroicRightFacing'
+  | 'perspectiveHeroicExtremeLeftFacing'
+  | 'perspectiveHeroicExtremeRightFacing'
+  | 'perspectiveRelaxed'
+  | 'perspectiveRelaxedModerately';
+export type ST_FOVAngle = ST_Angle;
+export type ST_LightRigDirection =
+  | 'tl'
+  | 't'
+  | 'tr'
+  | 'l'
+  | 'r'
+  | 'bl'
+  | 'b'
+  | 'br';
+export type ST_LightRigType =
+  | 'legacyFlat1'
+  | 'legacyFlat2'
+  | 'legacyFlat3'
+  | 'legacyFlat4'
+  | 'legacyNormal1'
+  | 'legacyNormal2'
+  | 'legacyNormal3'
+  | 'legacyNormal4'
+  | 'legacyHarsh1'
+  | 'legacyHarsh2'
+  | 'legacyHarsh3'
+  | 'legacyHarsh4'
+  | 'threePt'
+  | 'balanced'
+  | 'soft'
+  | 'harsh'
+  | 'flood'
+  | 'contrasting'
+  | 'morning'
+  | 'sunrise'
+  | 'sunset'
+  | 'chilly'
+  | 'freezing'
+  | 'flat'
+  | 'twoPt'
+  | 'glow'
+  | 'brightRoom';
+export type ST_BevelPresetType =
+  | 'relaxedInset'
+  | 'circle'
+  | 'slope'
+  | 'cross'
+  | 'angle'
+  | 'softRound'
+  | 'convex'
+  | 'coolSlant'
+  | 'divot'
+  | 'riblet'
+  | 'hardEdge'
+  | 'artDeco';
+export type ST_PresetMaterialType =
+  | 'legacyMatte'
+  | 'legacyPlastic'
+  | 'legacyMetal'
+  | 'legacyWireframe'
+  | 'matte'
+  | 'plastic'
+  | 'metal'
+  | 'warmMatte'
+  | 'translucentPowder'
+  | 'powder'
+  | 'dkEdge'
+  | 'softEdge'
+  | 'clear'
+  | 'flat'
+  | 'softmetal';
+export type ST_PresetShadowVal =
+  | 'shdw1'
+  | 'shdw2'
+  | 'shdw3'
+  | 'shdw4'
+  | 'shdw5'
+  | 'shdw6'
+  | 'shdw7'
+  | 'shdw8'
+  | 'shdw9'
+  | 'shdw10'
+  | 'shdw11'
+  | 'shdw12'
+  | 'shdw13'
+  | 'shdw14'
+  | 'shdw15'
+  | 'shdw16'
+  | 'shdw17'
+  | 'shdw18'
+  | 'shdw19'
+  | 'shdw20';
+export type ST_PathShadeType = 'shape' | 'circle' | 'rect';
+export type ST_TileFlipMode = 'none' | 'x' | 'y' | 'xy';
+export type ST_BlipCompression =
+  | 'email'
+  | 'screen'
+  | 'print'
+  | 'hqprint'
+  | 'none';
+export type ST_PresetPatternVal =
+  | 'pct5'
+  | 'pct10'
+  | 'pct20'
+  | 'pct25'
+  | 'pct30'
+  | 'pct40'
+  | 'pct50'
+  | 'pct60'
+  | 'pct70'
+  | 'pct75'
+  | 'pct80'
+  | 'pct90'
+  | 'horz'
+  | 'vert'
+  | 'ltHorz'
+  | 'ltVert'
+  | 'dkHorz'
+  | 'dkVert'
+  | 'narHorz'
+  | 'narVert'
+  | 'dashHorz'
+  | 'dashVert'
+  | 'cross'
+  | 'dnDiag'
+  | 'upDiag'
+  | 'ltDnDiag'
+  | 'ltUpDiag'
+  | 'dkDnDiag'
+  | 'dkUpDiag'
+  | 'wdDnDiag'
+  | 'wdUpDiag'
+  | 'dashDnDiag'
+  | 'dashUpDiag'
+  | 'diagCross'
+  | 'smCheck'
+  | 'lgCheck'
+  | 'smGrid'
+  | 'lgGrid'
+  | 'dotGrid'
+  | 'smConfetti'
+  | 'lgConfetti'
+  | 'horzBrick'
+  | 'diagBrick'
+  | 'solidDmnd'
+  | 'openDmnd'
+  | 'dotDmnd'
+  | 'plaid'
+  | 'sphere'
+  | 'weave'
+  | 'divot'
+  | 'shingle'
+  | 'wave'
+  | 'trellis'
+  | 'zigZag';
+export type ST_BlendMode = 'over' | 'mult' | 'screen' | 'darken' | 'lighten';
+export type ST_EffectContainerType = 'sib' | 'tree';
+export type ST_ShapeType =
+  | 'line'
+  | 'lineInv'
+  | 'triangle'
+  | 'rtTriangle'
+  | 'rect'
+  | 'diamond'
+  | 'parallelogram'
+  | 'trapezoid'
+  | 'nonIsoscelesTrapezoid'
+  | 'pentagon'
+  | 'hexagon'
+  | 'heptagon'
+  | 'octagon'
+  | 'decagon'
+  | 'dodecagon'
+  | 'star4'
+  | 'star5'
+  | 'star6'
+  | 'star7'
+  | 'star8'
+  | 'star10'
+  | 'star12'
+  | 'star16'
+  | 'star24'
+  | 'star32'
+  | 'roundRect'
+  | 'round1Rect'
+  | 'round2SameRect'
+  | 'round2DiagRect'
+  | 'snipRoundRect'
+  | 'snip1Rect'
+  | 'snip2SameRect'
+  | 'snip2DiagRect'
+  | 'plaque'
+  | 'ellipse'
+  | 'teardrop'
+  | 'homePlate'
+  | 'chevron'
+  | 'pieWedge'
+  | 'pie'
+  | 'blockArc'
+  | 'donut'
+  | 'noSmoking'
+  | 'rightArrow'
+  | 'leftArrow'
+  | 'upArrow'
+  | 'downArrow'
+  | 'stripedRightArrow'
+  | 'notchedRightArrow'
+  | 'bentUpArrow'
+  | 'leftRightArrow'
+  | 'upDownArrow'
+  | 'leftUpArrow'
+  | 'leftRightUpArrow'
+  | 'quadArrow'
+  | 'leftArrowCallout'
+  | 'rightArrowCallout'
+  | 'upArrowCallout'
+  | 'downArrowCallout'
+  | 'leftRightArrowCallout'
+  | 'upDownArrowCallout'
+  | 'quadArrowCallout'
+  | 'bentArrow'
+  | 'uturnArrow'
+  | 'circularArrow'
+  | 'leftCircularArrow'
+  | 'leftRightCircularArrow'
+  | 'curvedRightArrow'
+  | 'curvedLeftArrow'
+  | 'curvedUpArrow'
+  | 'curvedDownArrow'
+  | 'swooshArrow'
+  | 'cube'
+  | 'can'
+  | 'lightningBolt'
+  | 'heart'
+  | 'sun'
+  | 'moon'
+  | 'smileyFace'
+  | 'irregularSeal1'
+  | 'irregularSeal2'
+  | 'foldedCorner'
+  | 'bevel'
+  | 'frame'
+  | 'halfFrame'
+  | 'corner'
+  | 'diagStripe'
+  | 'chord'
+  | 'arc'
+  | 'leftBracket'
+  | 'rightBracket'
+  | 'leftBrace'
+  | 'rightBrace'
+  | 'bracketPair'
+  | 'bracePair'
+  | 'straightConnector1'
+  | 'bentConnector2'
+  | 'bentConnector3'
+  | 'bentConnector4'
+  | 'bentConnector5'
+  | 'curvedConnector2'
+  | 'curvedConnector3'
+  | 'curvedConnector4'
+  | 'curvedConnector5'
+  | 'callout1'
+  | 'callout2'
+  | 'callout3'
+  | 'accentCallout1'
+  | 'accentCallout2'
+  | 'accentCallout3'
+  | 'borderCallout1'
+  | 'borderCallout2'
+  | 'borderCallout3'
+  | 'accentBorderCallout1'
+  | 'accentBorderCallout2'
+  | 'accentBorderCallout3'
+  | 'wedgeRectCallout'
+  | 'wedgeRoundRectCallout'
+  | 'wedgeEllipseCallout'
+  | 'cloudCallout'
+  | 'cloud'
+  | 'ribbon'
+  | 'ribbon2'
+  | 'ellipseRibbon'
+  | 'ellipseRibbon2'
+  | 'leftRightRibbon'
+  | 'verticalScroll'
+  | 'horizontalScroll'
+  | 'wave'
+  | 'doubleWave'
+  | 'plus'
+  | 'flowChartProcess'
+  | 'flowChartDecision'
+  | 'flowChartInputOutput'
+  | 'flowChartPredefinedProcess'
+  | 'flowChartInternalStorage'
+  | 'flowChartDocument'
+  | 'flowChartMultidocument'
+  | 'flowChartTerminator'
+  | 'flowChartPreparation'
+  | 'flowChartManualInput'
+  | 'flowChartManualOperation'
+  | 'flowChartConnector'
+  | 'flowChartPunchedCard'
+  | 'flowChartPunchedTape'
+  | 'flowChartSummingJunction'
+  | 'flowChartOr'
+  | 'flowChartCollate'
+  | 'flowChartSort'
+  | 'flowChartExtract'
+  | 'flowChartMerge'
+  | 'flowChartOfflineStorage'
+  | 'flowChartOnlineStorage'
+  | 'flowChartMagneticTape'
+  | 'flowChartMagneticDisk'
+  | 'flowChartMagneticDrum'
+  | 'flowChartDisplay'
+  | 'flowChartDelay'
+  | 'flowChartAlternateProcess'
+  | 'flowChartOffpageConnector'
+  | 'actionButtonBlank'
+  | 'actionButtonHome'
+  | 'actionButtonHelp'
+  | 'actionButtonInformation'
+  | 'actionButtonForwardNext'
+  | 'actionButtonBackPrevious'
+  | 'actionButtonEnd'
+  | 'actionButtonBeginning'
+  | 'actionButtonReturn'
+  | 'actionButtonDocument'
+  | 'actionButtonSound'
+  | 'actionButtonMovie'
+  | 'gear6'
+  | 'gear9'
+  | 'funnel'
+  | 'mathPlus'
+  | 'mathMinus'
+  | 'mathMultiply'
+  | 'mathDivide'
+  | 'mathEqual'
+  | 'mathNotEqual'
+  | 'cornerTabs'
+  | 'squareTabs'
+  | 'plaqueTabs'
+  | 'chartX'
+  | 'chartStar'
+  | 'chartPlus';
+export type ST_TextShapeType =
+  | 'textNoShape'
+  | 'textPlain'
+  | 'textStop'
+  | 'textTriangle'
+  | 'textTriangleInverted'
+  | 'textChevron'
+  | 'textChevronInverted'
+  | 'textRingInside'
+  | 'textRingOutside'
+  | 'textArchUp'
+  | 'textArchDown'
+  | 'textCircle'
+  | 'textButton'
+  | 'textArchUpPour'
+  | 'textArchDownPour'
+  | 'textCirclePour'
+  | 'textButtonPour'
+  | 'textCurveUp'
+  | 'textCurveDown'
+  | 'textCanUp'
+  | 'textCanDown'
+  | 'textWave1'
+  | 'textWave2'
+  | 'textDoubleWave1'
+  | 'textWave4'
+  | 'textInflate'
+  | 'textDeflate'
+  | 'textInflateBottom'
+  | 'textDeflateBottom'
+  | 'textInflateTop'
+  | 'textDeflateTop'
+  | 'textDeflateInflate'
+  | 'textDeflateInflateDeflate'
+  | 'textFadeRight'
+  | 'textFadeLeft'
+  | 'textFadeUp'
+  | 'textFadeDown'
+  | 'textSlantUp'
+  | 'textSlantDown'
+  | 'textCascadeUp'
+  | 'textCascadeDown';
+export type ST_GeomGuideName = string;
+export type ST_GeomGuideFormula = string;
+export type ST_AdjCoordinate = ST_Coordinate | ST_GeomGuideName;
 
-export enum ST_LevelSuffix {
-  tab = 'tab',
-  space = 'space',
-  nothing = 'nothing',
-}
+export type ST_AdjAngle = ST_Angle | ST_GeomGuideName;
 
-export enum ST_MultiLevelType {
-  singleLevel = 'singleLevel',
-  multilevel = 'multilevel',
-  hybridMultilevel = 'hybridMultilevel',
-}
+export type ST_PathFillMode =
+  | 'none'
+  | 'norm'
+  | 'lighten'
+  | 'lightenLess'
+  | 'darken'
+  | 'darkenLess';
+export type ST_LineEndType =
+  | 'none'
+  | 'triangle'
+  | 'stealth'
+  | 'diamond'
+  | 'oval'
+  | 'arrow';
+export type ST_LineEndWidth = 'sm' | 'med' | 'lg';
+export type ST_LineEndLength = 'sm' | 'med' | 'lg';
+export type ST_PresetLineDashVal =
+  | 'solid'
+  | 'dot'
+  | 'dash'
+  | 'lgDash'
+  | 'dashDot'
+  | 'lgDashDot'
+  | 'lgDashDotDot'
+  | 'sysDash'
+  | 'sysDot'
+  | 'sysDashDot'
+  | 'sysDashDotDot';
+export type ST_LineCap = 'rnd' | 'sq' | 'flat';
+export type ST_LineWidth = ST_Coordinate32Unqualified;
+export type ST_PenAlignment = 'ctr' | 'in';
+export type ST_CompoundLine = 'sng' | 'dbl' | 'thickThin' | 'thinThick' | 'tri';
+export type ST_ShapeID = string;
+export type ST_OnOffStyleType = 'on' | 'off' | 'def';
+export type ST_TextAnchoringType = 't' | 'ctr' | 'b' | 'just' | 'dist';
+export type ST_TextVertOverflowType = 'overflow' | 'ellipsis' | 'clip';
+export type ST_TextHorzOverflowType = 'overflow' | 'clip';
+export type ST_TextVerticalType =
+  | 'horz'
+  | 'vert'
+  | 'vert270'
+  | 'wordArtVert'
+  | 'eaVert'
+  | 'mongolianVert'
+  | 'wordArtVertRtl';
+export type ST_TextWrappingType = 'none' | 'square';
+export type ST_TextColumnCount = number;
+export type ST_TextFontScalePercentOrPercentString = ST_Percentage;
 
-export enum ST_TblStyleOverrideType {
-  wholeTable = 'wholeTable',
-  firstRow = 'firstRow',
-  lastRow = 'lastRow',
-  firstCol = 'firstCol',
-  lastCol = 'lastCol',
-  band1Vert = 'band1Vert',
-  band2Vert = 'band2Vert',
-  band1Horz = 'band1Horz',
-  band2Horz = 'band2Horz',
-  neCell = 'neCell',
-  nwCell = 'nwCell',
-  seCell = 'seCell',
-  swCell = 'swCell',
-}
+export type ST_TextBulletStartAtNum = number;
+export type ST_TextAutonumberScheme =
+  | 'alphaLcParenBoth'
+  | 'alphaUcParenBoth'
+  | 'alphaLcParenR'
+  | 'alphaUcParenR'
+  | 'alphaLcPeriod'
+  | 'alphaUcPeriod'
+  | 'arabicParenBoth'
+  | 'arabicParenR'
+  | 'arabicPeriod'
+  | 'arabicPlain'
+  | 'romanLcParenBoth'
+  | 'romanUcParenBoth'
+  | 'romanLcParenR'
+  | 'romanUcParenR'
+  | 'romanLcPeriod'
+  | 'romanUcPeriod'
+  | 'circleNumDbPlain'
+  | 'circleNumWdBlackPlain'
+  | 'circleNumWdWhitePlain'
+  | 'arabicDbPeriod'
+  | 'arabicDbPlain'
+  | 'ea1ChsPeriod'
+  | 'ea1ChsPlain'
+  | 'ea1ChtPeriod'
+  | 'ea1ChtPlain'
+  | 'ea1JpnChsDbPeriod'
+  | 'ea1JpnKorPlain'
+  | 'ea1JpnKorPeriod'
+  | 'arabic1Minus'
+  | 'arabic2Minus'
+  | 'hebrew2Minus'
+  | 'thaiAlphaPeriod'
+  | 'thaiAlphaParenR'
+  | 'thaiAlphaParenBoth'
+  | 'thaiNumPeriod'
+  | 'thaiNumParenR'
+  | 'thaiNumParenBoth'
+  | 'hindiAlphaPeriod'
+  | 'hindiNumPeriod'
+  | 'hindiNumParenR'
+  | 'hindiAlpha1Period';
+export type ST_TextBulletSize = ST_TextBulletSizePercent;
 
-export enum ST_StyleType {
-  paragraph = 'paragraph',
-  character = 'character',
-  table = 'table',
-  numbering = 'numbering',
-}
+export type ST_TextBulletSizePercent = string;
+export type ST_TextPoint = ST_TextPointUnqualified | ST_UniversalMeasure;
 
-export enum ST_FontFamily {
-  decorative = 'decorative',
-  modern = 'modern',
-  roman = 'roman',
-  script = 'script',
-  swiss = 'swiss',
-  auto = 'auto',
-}
+export type ST_TextPointUnqualified = number;
+export type ST_TextNonNegativePoint = number;
+export type ST_TextFontSize = number;
+export type ST_TextTypeface = string;
+export type ST_PitchFamily = number;
+export type ST_TextUnderlineType =
+  | 'none'
+  | 'words'
+  | 'sng'
+  | 'dbl'
+  | 'heavy'
+  | 'dotted'
+  | 'dottedHeavy'
+  | 'dash'
+  | 'dashHeavy'
+  | 'dashLong'
+  | 'dashLongHeavy'
+  | 'dotDash'
+  | 'dotDashHeavy'
+  | 'dotDotDash'
+  | 'dotDotDashHeavy'
+  | 'wavy'
+  | 'wavyHeavy'
+  | 'wavyDbl';
+export type ST_TextStrikeType = 'noStrike' | 'sngStrike' | 'dblStrike';
+export type ST_TextCapsType = 'none' | 'small' | 'all';
+export type ST_TextSpacingPoint = number;
+export type ST_TextSpacingPercentOrPercentString = ST_Percentage;
 
-export enum ST_Pitch {
-  fixed = 'fixed',
-  variable = 'variable',
-  default = 'default',
-}
-
-export enum ST_ThemeColor {
-  dark1 = 'dark1',
-  light1 = 'light1',
-  dark2 = 'dark2',
-  light2 = 'light2',
-  accent1 = 'accent1',
-  accent2 = 'accent2',
-  accent3 = 'accent3',
-  accent4 = 'accent4',
-  accent5 = 'accent5',
-  accent6 = 'accent6',
-  hyperlink = 'hyperlink',
-  followedHyperlink = 'followedHyperlink',
-  none = 'none',
-  background1 = 'background1',
-  text1 = 'text1',
-  background2 = 'background2',
-  text2 = 'text2',
-}
-
-export enum ST_DocPartBehavior {
-  content = 'content',
-  p = 'p',
-  pg = 'pg',
-}
-
-export enum ST_DocPartType {
-  none = 'none',
-  normal = 'normal',
-  autoExp = 'autoExp',
-  toolbar = 'toolbar',
-  speller = 'speller',
-  formFld = 'formFld',
-  bbPlcHdr = 'bbPlcHdr',
-}
-
-export enum ST_DocPartGallery {
-  placeholder = 'placeholder',
-  any = 'any',
-  default = 'default',
-  docParts = 'docParts',
-  coverPg = 'coverPg',
-  eq = 'eq',
-  ftrs = 'ftrs',
-  hdrs = 'hdrs',
-  pgNum = 'pgNum',
-  tbls = 'tbls',
-  watermarks = 'watermarks',
-  autoTxt = 'autoTxt',
-  txtBox = 'txtBox',
-  pgNumT = 'pgNumT',
-  pgNumB = 'pgNumB',
-  pgNumMargins = 'pgNumMargins',
-  tblOfContents = 'tblOfContents',
-  bib = 'bib',
-  custQuickParts = 'custQuickParts',
-  custCoverPg = 'custCoverPg',
-  custEq = 'custEq',
-  custFtrs = 'custFtrs',
-  custHdrs = 'custHdrs',
-  custPgNum = 'custPgNum',
-  custTbls = 'custTbls',
-  custWatermarks = 'custWatermarks',
-  custAutoTxt = 'custAutoTxt',
-  custTxtBox = 'custTxtBox',
-  custPgNumT = 'custPgNumT',
-  custPgNumB = 'custPgNumB',
-  custPgNumMargins = 'custPgNumMargins',
-  custTblOfContents = 'custTblOfContents',
-  custBib = 'custBib',
-  custom1 = 'custom1',
-  custom2 = 'custom2',
-  custom3 = 'custom3',
-  custom4 = 'custom4',
-  custom5 = 'custom5',
-}
-
-export enum ST_CaptionPos {
-  above = 'above',
-  below = 'below',
-  left = 'left',
-  right = 'right',
-}
-
-export type EG_PContentBase = {
-  customXml?: CT_CustomXmlRun,
-  fldSimple?: CT_SimpleField,
-  hyperlink?: CT_Hyperlink,
-}
-
-export type EG_ContentRunContentBase = {
-  smartTag?: CT_SmartTagRun,
-  sdt?: CT_SdtRun,
-}
-
-export type EG_CellMarkupElements = {
-  cellIns?: CT_TrackChange,
-  cellDel?: CT_TrackChange,
-  cellMerge?: CT_CellMergeTrackChange,
-}
-
-export type EG_RangeMarkupElements = {
-  bookmarkStart?: CT_Bookmark,
-  bookmarkEnd?: CT_MarkupRange,
-  moveFromRangeStart?: CT_MoveBookmark,
-  moveFromRangeEnd?: CT_MarkupRange,
-  moveToRangeStart?: CT_MoveBookmark,
-  moveToRangeEnd?: CT_MarkupRange,
-  commentRangeStart?: CT_MarkupRange,
-  commentRangeEnd?: CT_MarkupRange,
-  customXmlInsRangeStart?: CT_TrackChange,
-  customXmlInsRangeEnd?: CT_Markup,
-  customXmlDelRangeStart?: CT_TrackChange,
-  customXmlDelRangeEnd?: CT_Markup,
-  customXmlMoveFromRangeStart?: CT_TrackChange,
-  customXmlMoveFromRangeEnd?: CT_Markup,
-  customXmlMoveToRangeStart?: CT_TrackChange,
-  customXmlMoveToRangeEnd?: CT_Markup,
-}
-
-export type EG_HdrFtrReferences = {
-  headerReference?: CT_HdrFtrRef,
-  footerReference?: CT_HdrFtrRef,
-}
-
-export type EG_RunInnerContent = {
-  br?: CT_Br,
-  t?: CT_Text,
-  contentPart?: CT_Rel,
-  delText?: CT_Text,
-  instrText?: CT_Text,
-  delInstrText?: CT_Text,
-  noBreakHyphen?: CT_Empty,
-  softHyphen?: CT_Empty,
-  dayShort?: CT_Empty,
-  monthShort?: CT_Empty,
-  yearShort?: CT_Empty,
-  dayLong?: CT_Empty,
-  monthLong?: CT_Empty,
-  yearLong?: CT_Empty,
-  annotationRef?: CT_Empty,
-  footnoteRef?: CT_Empty,
-  endnoteRef?: CT_Empty,
-  separator?: CT_Empty,
-  continuationSeparator?: CT_Empty,
-  sym?: CT_Sym,
-  pgNum?: CT_Empty,
-  cr?: CT_Empty,
-  tab?: CT_Empty,
-  object?: CT_Object,
-  fldChar?: CT_FldChar,
-  ruby?: CT_Ruby,
-  footnoteReference?: CT_FtnEdnRef,
-  endnoteReference?: CT_FtnEdnRef,
-  commentReference?: CT_Markup,
-  drawing?: CT_Drawing,
-  ptab?: CT_PTab,
-  lastRenderedPageBreak?: CT_Empty,
-}
-
-export type EG_RPrBase = {
-  rStyle?: CT_String,
-  rFonts?: CT_Fonts,
-  b?: CT_OnOff,
-  bCs?: CT_OnOff,
-  i?: CT_OnOff,
-  iCs?: CT_OnOff,
-  caps?: CT_OnOff,
-  smallCaps?: CT_OnOff,
-  strike?: CT_OnOff,
-  dstrike?: CT_OnOff,
-  outline?: CT_OnOff,
-  shadow?: CT_OnOff,
-  emboss?: CT_OnOff,
-  imprint?: CT_OnOff,
-  noProof?: CT_OnOff,
-  snapToGrid?: CT_OnOff,
-  vanish?: CT_OnOff,
-  webHidden?: CT_OnOff,
-  color?: CT_Color,
-  spacing?: CT_SignedTwipsMeasure,
-  w?: CT_TextScale,
-  kern?: CT_HpsMeasure,
-  position?: CT_SignedHpsMeasure,
-  sz?: CT_HpsMeasure,
-  szCs?: CT_HpsMeasure,
-  highlight?: CT_Highlight,
-  u?: CT_Underline,
-  effect?: CT_TextEffect,
-  bdr?: CT_Border,
-  shd?: CT_Shd,
-  fitText?: CT_FitText,
-  vertAlign?: CT_VerticalAlignRun,
-  rtl?: CT_OnOff,
-  cs?: CT_OnOff,
-  em?: CT_Em,
-  lang?: CT_Language,
-  eastAsianLayout?: CT_EastAsianLayout,
-  specVanish?: CT_OnOff,
-  oMath?: CT_OnOff,
-}
-
-export type EG_RPrMath = {
-  ins?: CT_MathCtrlIns,
-  del?: CT_MathCtrlDel,
-}
-
-export type EG_RubyContent = {
-  r?: CT_R,
-}
-
-export type EG_ContentRunContent = {
-  customXml?: CT_CustomXmlRun,
-  smartTag?: CT_SmartTagRun,
-  sdt?: CT_SdtRun,
-  dir?: CT_DirContentRun,
-  bdo?: CT_BdoContentRun,
-  r?: CT_R,
-}
-
-export type EG_ContentBlockContent = {
-  customXml?: CT_CustomXmlBlock,
-  sdt?: CT_SdtBlock,
-  p?: CT_P,
-  tbl?: CT_Tbl,
-}
-
-export type EG_ContentRowContent = {
-  tr?: CT_Row,
-  customXml?: CT_CustomXmlRow,
-  sdt?: CT_SdtRow,
-}
-
-export type EG_ContentCellContent = {
-  tc?: CT_Tc,
-  customXml?: CT_CustomXmlCell,
-  sdt?: CT_SdtCell,
-}
-
-export type EG_PContent = {
-  fldSimple?: CT_SimpleField,
-  hyperlink?: CT_Hyperlink,
-  subDoc?: CT_Rel,
-}
-
-export type EG_MathContent = {
-}
-
-export type EG_BlockLevelElts = {
-  altChunk?: CT_AltChunk,
-}
-
-export type EG_RunLevelElts = {
-  proofErr?: CT_ProofErr,
-  permStart?: CT_PermStart,
-  permEnd?: CT_Perm,
-  ins?: CT_RunTrackChange,
-  del?: CT_RunTrackChange,
-  moveFrom?: CT_RunTrackChange,
-  moveTo?: CT_RunTrackChange,
-}
+export type ST_TextMargin = ST_Coordinate32Unqualified;
+export type ST_TextIndent = ST_Coordinate32Unqualified;
+export type ST_TextTabAlignType = 'l' | 'ctr' | 'r' | 'dec';
+export type ST_TextAlignType =
+  | 'l'
+  | 'ctr'
+  | 'r'
+  | 'just'
+  | 'justLow'
+  | 'dist'
+  | 'thaiDist';
+export type ST_TextFontAlignType = 'auto' | 't' | 'ctr' | 'base' | 'b';
+export type ST_TextIndentLevelType = number;
+export type ST_WrapDistance = number;
+export type ST_WrapText = 'bothSides' | 'left' | 'right' | 'largest';
+export type ST_PositionOffset = number;
+export type ST_AlignH = 'left' | 'right' | 'center' | 'inside' | 'outside';
+export type ST_RelFromH =
+  | 'margin'
+  | 'page'
+  | 'column'
+  | 'character'
+  | 'leftMargin'
+  | 'rightMargin'
+  | 'insideMargin'
+  | 'outsideMargin';
+export type ST_AlignV = 'top' | 'bottom' | 'center' | 'inside' | 'outside';
+export type ST_RelFromV =
+  | 'margin'
+  | 'page'
+  | 'paragraph'
+  | 'line'
+  | 'topMargin'
+  | 'bottomMargin'
+  | 'insideMargin'
+  | 'outsideMargin';

@@ -14,12 +14,7 @@ import {parseColorAttr, parseShdColor} from '../../parse/parseColor';
 import {addSize, LengthUsage, parseSize} from '../../parse/parseSize';
 import Word from '../../Word';
 import {CSSStyle} from '../Style';
-import {
-  CT_TblLook,
-  ST_TblLayoutType,
-  ST_TblStyleOverrideType,
-  ST_TblWidth
-} from '../Types';
+import {ST_TblLayoutType, ST_TblStyleOverrideType, ST_TblWidth} from '../Types';
 import {
   parseCellMargin,
   parseInsideBorders,
@@ -30,7 +25,14 @@ import {
 import {Properties} from './properties/Properties';
 import {Tr} from './table/Tr';
 
-export type CT_TblLookKey = keyof CT_TblLook;
+export type TblLookKey =
+  | 'firstRow'
+  | 'firstRow'
+  | 'lastRow'
+  | 'firstColumn'
+  | 'lastColumn'
+  | 'noHBand'
+  | 'noVBand';
 
 export interface TablePr extends Properties {
   /**
@@ -54,7 +56,7 @@ export interface TablePr extends Properties {
   /**
    * 条件格式
    */
-  tblLook?: Record<CT_TblLookKey, boolean>;
+  tblLook?: Record<TblLookKey, boolean>;
 
   /**
    * 行间隔
@@ -109,7 +111,7 @@ function parseTblW(element: Element, style: CSSStyle) {
 function parseTblLayout(element: Element, style: CSSStyle) {
   const type = element.getAttribute('w:type') as ST_TblLayoutType;
 
-  if (type === ST_TblLayoutType.fixed) {
+  if (type === 'fixed') {
     style['table-layout'] = 'fixed';
   }
 }
@@ -131,8 +133,8 @@ function parseTblGrid(element: Element) {
 // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/ST_TblStyleOverrideType.html
 // val 是旧的格式
 function parseTblLook(child: Element) {
-  const tblLook: Record<CT_TblLookKey, boolean> = {} as Record<
-    CT_TblLookKey,
+  const tblLook: Record<TblLookKey, boolean> = {} as Record<
+    TblLookKey,
     boolean
   >;
   const tblLookVal = getValHex(child);
@@ -199,7 +201,7 @@ export class Table {
     const tableStyle: CSSStyle = {};
     const tcStyle: CSSStyle = {};
 
-    properties.tblLook = {} as Record<CT_TblLookKey, boolean>;
+    properties.tblLook = {} as Record<TblLookKey, boolean>;
 
     properties.cssStyle = tableStyle;
     properties.tcCSSStyle = tcStyle;
