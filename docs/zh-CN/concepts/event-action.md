@@ -2739,6 +2739,65 @@ http 请求动作执行结束后，后面的动作可以通过 `${responseResult
 }
 ```
 
+#### 获取组件相关数据
+
+可以通过表达式函数`GETRENDERERDATA(id, path)`和`GETRENDERERPROP(id, path)`分别获取指定组件的数据和属性。
+
+```schema
+{
+  type: 'page',
+  body: [
+    {
+      type: 'form',
+      id: 'form_get_render',
+      wrapWithPanel: false,
+      data: {
+        name: 'amis',
+        age: '18'
+      },
+      body: [
+        {
+          type: 'input-text',
+          name: 'name',
+          label: 'name'
+        },
+        {
+          type: 'input-text',
+          name: 'age',
+          label: 'age'
+        }
+      ],
+      className: 'mb-2',
+    },
+    {
+      type: 'button',
+      className: 'mt-2',
+      label: '获取表单相关数据',
+      level: 'primary',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'toast',
+              args: {
+                msg: 'name:${GETRENDERERDATA("form_get_render", "name")},type:${GETRENDERERPROP("form_get_render", "type")}'
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+该函数参数说明如下：
+
+| 参数名 | 说明                          |
+| ------ | ----------------------------- |
+| id     | 组件 ID，即组件的 id 属性的值 |
+| path   | 数据路径，即数据变量的路径    |
+
 # 事件动作干预
 
 事件动作干预是指执行完当前动作后，干预所监听事件默认处理逻辑和后续其他动作的执行。通过`preventDefault`、`stopPropagation`分别阻止监听事件默认行为和停止下一个动作执行。

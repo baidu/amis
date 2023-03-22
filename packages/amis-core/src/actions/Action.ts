@@ -227,7 +227,7 @@ export const runAction = async (
   let preventDefault = false;
   if (actionConfig.preventDefault) {
     preventDefault = await evalExpressionWithConditionBuilder(
-      String(actionConfig.preventDefault),
+      actionConfig.preventDefault,
       mergeData,
       false
     );
@@ -235,7 +235,7 @@ export const runAction = async (
   let stopPropagation = false;
   if (actionConfig.stopPropagation) {
     stopPropagation = await evalExpressionWithConditionBuilder(
-      String(actionConfig.stopPropagation),
+      actionConfig.stopPropagation,
       mergeData,
       false
     );

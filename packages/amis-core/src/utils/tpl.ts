@@ -115,7 +115,7 @@ export async function evalExpressionWithConditionBuilder(
     return await resolveCondition(expression, data, defaultResult);
   }
 
-  return evalExpression(expression, data);
+  return evalExpression(String(expression), data);
 }
 
 const AST_CACHE: {[key: string]: any} = {};
