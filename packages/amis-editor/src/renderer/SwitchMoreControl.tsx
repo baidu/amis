@@ -33,7 +33,7 @@ export interface SwitchMoreProps extends FormControlProps {
   // offset?: ((clip: object, offset: object) => Offset) | Offset;
   // style?: object;
   overlay?: boolean;
-  container?: React.ReactNode | Function;
+  container?: HTMLElement | (() => HTMLElement) | Function;
   target?: React.ReactNode | Function;
   trueValue?: any; // 开关开启时匹配的 value， 默认 true
   falseValue?: any; // 开关关闭时匹配的 value， 默认 flase

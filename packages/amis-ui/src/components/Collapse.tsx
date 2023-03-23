@@ -52,6 +52,8 @@ export interface CollapseProps {
   headingComponent?: any;
   translate?: TranslateFn;
   propsUpdate?: boolean;
+  partial?: boolean;
+  children?: React.ReactNode | Array<React.ReactNode>;
 }
 
 export interface CollapseState {

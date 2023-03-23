@@ -21,7 +21,7 @@ export function InputJSONSchemaArray(props: InputJSONSchemaItemProps) {
     collapsable,
     renderValue
   } = props;
-  const buildMembers = React.useCallback((schema: any, value) => {
+  const buildMembers = React.useCallback((schema: any, value: any) => {
     const members: Array<JSONSchemaArrayMember> = [];
 
     let len = Array.isArray(value) ? value.length : 1;

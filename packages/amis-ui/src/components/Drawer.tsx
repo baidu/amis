@@ -38,6 +38,7 @@ export interface DrawerProps {
   classPrefix: string;
   resizable?: boolean;
   classnames: ClassNamesFn;
+  children?: React.ReactNode | Array<React.ReactNode>;
   onExited?: () => void;
   onEntered?: () => void;
 }
