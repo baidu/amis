@@ -120,7 +120,9 @@
   }
 
   &-confirm {
+    color: var(--PopUp-confirmAction-color);
     margin-right: var(--gap-sm);
+    border: none;
   }
 
   &-content {
