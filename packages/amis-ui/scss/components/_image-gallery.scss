@@ -66,15 +66,15 @@
   &-prevBtn,
   &-nextBtn {
     > svg {
-      width: px2rem(48px);
-      height: px2rem(48px);
+      width: var(--image-images-item-size);
+      height: var(--image-images-item-size);
     }
 
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
-    color: #999;
+    color: var(--image-images-item-color);
     text-shadow: rgba(0, 0, 0, 0.3) 0px 0px 4px;
 
     &:hover {
@@ -206,11 +206,14 @@
 }
 
 .#{$ns}ImageGallery-toolbar {
-  background-color: var(--white);
-  border-radius: px2rem(4px);
+  background-color: var(--image-images-preview-bgColor);
+  border-radius: var(--image-images-preview-radius);
   display: flex;
   align-items: flex-start;
-  padding: px2rem(4px) px2rem(16px);
+  padding: var(--image-images-preview-paddingTop)
+    var(--image-images-preview-paddingRight)
+    var(--image-images-preview-paddingBottom)
+    var(--image-images-preview-paddingLeft);
   position: absolute;
   bottom: px2rem(20px);
   left: 50%;
