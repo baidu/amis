@@ -13,6 +13,8 @@ import {setElementStyle} from './setElementStyle';
 import {renderTab} from './renderTab';
 import {SmartTag} from '../openxml/word/SmartTag';
 import renderInlineText from './renderInlineText';
+import {OMath} from '../openxml/math/OMath';
+import {renderOMath} from './renderMath';
 
 /**
  * 渲染段落
@@ -53,6 +55,10 @@ export default function renderParagraph(
       appendChild(p, hyperlink);
     } else if (child instanceof SmartTag) {
       renderInlineText(word, child, p);
+    } else if (child instanceof OMath) {
+      appendChild(p, renderOMath(word, child));
+    } else {
+      console.warn('unknow pargraph type', child);
     }
   }
 

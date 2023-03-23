@@ -19,7 +19,8 @@ const fileLists = {
     'em.docx',
     'w.docx',
     'textbox.docx',
-    'embed-font.docx'
+    'embed-font.docx',
+    'math.docx'
   ],
   docx4j: [
     'ArialUnicodeMS.docx',

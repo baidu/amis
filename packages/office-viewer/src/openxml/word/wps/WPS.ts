@@ -7,6 +7,7 @@ import {ShapePr} from './../drawing/ShapeProperties';
 
 import Word from '../../../Word';
 import {Table} from '../Table';
+import {parseTable} from '../../../parse/parseTable';
 
 export type TxbxContentChild = Paragraph | Table;
 
@@ -44,7 +45,7 @@ export class WPS {
                   break;
 
                 case 'w:tbl':
-                  wps.txbxContent.push(Table.fromXML(word, txbxContentChild));
+                  wps.txbxContent.push(parseTable(word, txbxContentChild));
                   break;
               }
             }

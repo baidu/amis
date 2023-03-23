@@ -2,14 +2,17 @@
  * 解析共享样式 Style
  */
 
+import {parseTcPr} from '../parse/parseTcPr';
 import {getVal} from '../OpenXML';
 import Word from '../Word';
 import {ST_StyleType, ST_TblStyleOverrideType} from './Types';
 import {Paragraph, ParagraphPr} from './word/Paragraph';
 import {Run, RunPr} from './word/Run';
-import {Table, TablePr} from './word/Table';
-import {Tc, TcPr} from './word/table/Tc';
+import {TablePr} from './word/Table';
+import {TcPr} from './word/table/Tc';
 import {Tr, TrPr} from './word/table/Tr';
+import {parseTablePr} from '../parse/parseTablePr';
+import {parseTrPr} from '../parse/parseTrPr';
 
 export interface CSSStyle {
   [key: string]: string;
@@ -94,15 +97,15 @@ function parseTblStylePr(word: Word, element: Element) {
         break;
 
       case 'w:tblPr':
-        style.tblPr = Table.parseTablePr(word, child);
+        style.tblPr = parseTablePr(word, child);
         break;
 
       case 'w:tcPr':
-        style.tcPr = Tc.parseTcPr(word, child);
+        style.tcPr = parseTcPr(word, child);
         break;
 
       case 'w:trPr':
-        style.trPr = Tr.parseTrPr(word, child);
+        style.trPr = parseTrPr(word, child);
         break;
     }
   }
