@@ -116,7 +116,8 @@ export function generateTableStyle(
 
 // 用于生成表格 override 相关的样式，用于行或列
 function genTblOverrideStyle(
-  prefix: string,
+  tblPrefix: string,
+  classPrefix: string,
   overrideType: ST_TblStyleOverrideType,
   tblStylePrStyle: TblStylePrStyle
 ) {
@@ -156,7 +157,7 @@ function genTblOverrideStyle(
 
   if (trStyle) {
     styleText += `
-    ${prefix}.${enableType} > tbody > tr.${overrideType}{
+    ${tblPrefix}.${enableType} > tbody > tr.${overrideType}{
        ${trStyle}
     }
     `;
@@ -165,7 +166,7 @@ function genTblOverrideStyle(
   const tcStyle = styleToText(tblStylePrStyle.tcPr?.cssStyle);
   if (tcStyle) {
     styleText += `
-    ${prefix}.${enableType} > tbody > tr > td.${overrideType} {
+    ${tblPrefix}.${enableType} > tbody > tr > td.${overrideType} {
        ${tcStyle}
     }
     `;
@@ -173,7 +174,7 @@ function genTblOverrideStyle(
       const insideBorder = tblStylePrStyle.tcPr?.insideBorder;
       if (insideBorder.H) {
         styleText += `
-          ${prefix}.${enableType} > tbody > tr > td.${overrideType} {
+          ${tblPrefix}.${enableType} > tbody > tr > td.${overrideType} {
             border-top: ${insideBorder.H};
           }`;
       }
@@ -182,13 +183,13 @@ function genTblOverrideStyle(
         // 这个主要是为了应对 GridTable5Dark-Accent5 里 firstRow 的情况，它其实有 right 设置，也得去掉
         if (insideBorder.V === 'none') {
           styleText += `
-          ${prefix}.${enableType} > tbody > tr > td.${overrideType} {
+          ${tblPrefix}.${enableType} > tbody > tr > td.${overrideType} {
             border-left: none;
             border-right: none;
           }`;
         } else {
           styleText += `
-          ${prefix}.${enableType} > tbody > tr > td.${overrideType} {
+          ${tblPrefix}.${enableType} > tbody > tr > td.${overrideType} {
             border-left: ${insideBorder.V};
           }`;
         }
@@ -200,7 +201,7 @@ function genTblOverrideStyle(
 
   if (pStyle) {
     styleText += `
-    ${prefix}.${enableType} > tbody > tr > td.${overrideType} > .p {
+    ${tblPrefix}.${enableType} > tbody > tr > td.${overrideType} > .${classPrefix}-p {
        ${pStyle}
     }
     `;
@@ -210,7 +211,7 @@ function genTblOverrideStyle(
 
   if (rStyle) {
     styleText += `
-    ${prefix}.${enableType} > tbody > tr > td.${overrideType} > .p > .r {
+    ${tblPrefix}.${enableType} > tbody > tr > td.${overrideType} > .${classPrefix}-p > .${classPrefix}-r {
        ${rStyle}
     }
     `;
@@ -256,6 +257,7 @@ function genOverrideTblStylePr(
 
       tblStylePrText += genTblOverrideStyle(
         stylePrefix,
+        classPrefix,
         overrideType,
         overrideStylePr
       );
@@ -292,7 +294,7 @@ function generateStyle(word: Word) {
     if (styleData.rPr) {
       const rStyle = styleToText(styleData.rPr.cssStyle);
       rStyleText = `
-      .${classPrefix} .${styleDisplayId} > .r {
+      .${classPrefix} .${styleDisplayId} > .${classPrefix}-r {
         ${rStyle}
       }
       `;

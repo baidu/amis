@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml" xmlns:w15="http://schemas.microsoft.com/office/word/2012/wordml" xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup" xmlns:wpi="http://schemas.microsoft.com/office/word/2010/wordprocessingInk" xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml" xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape" mc:Ignorable="w14 w15 wp14">
+  <w:body>
+    <w:p w:rsidR="00D26E0C" w:rsidRPr="00D26E0C" w:rsidRDefault="00D26E0C" w:rsidP="00D26E0C">
+      <w:r w:rsidR="00C76D57">
+        <w:fldChar w:fldCharType="begin"/>
+      </w:r>
+      <w:r w:rsidR="00C76D57">
+        <w:instrText>HYPERLINK \l "_ENREF_95" \o "Kappos, 2010 #67"</w:instrText>
+      </w:r>
+      <w:r w:rsidR="00C76D57">
+        <w:fldChar w:fldCharType="separate"/>
+      </w:r>
+      <w:r w:rsidR="00C76D57">
+        <w:fldChar w:fldCharType="begin"/>
+      </w:r>
+      <w:r w:rsidR="00C76D57">
+        <w:instrText>HYPERLINK \l "_ENREF_2" \o "Kappos, 2010 #67"</w:instrText>
+      </w:r>
+      <w:r w:rsidR="00C76D57">
+        <w:fldChar w:fldCharType="separate"/>
+      </w:r>
+      <w:r w:rsidR="00C76D57">
+        <w:fldChar w:fldCharType="end"/>
+      </w:r>
+      <w:r w:rsidR="00C76D57">
+        <w:fldChar w:fldCharType="end"/>
+      </w:r>
+      <w:r w:rsidR="004C1AB8" w:rsidRPr="00E63F36">
+        <w:rPr>
+          <w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/>
+          <w:color w:val="auto"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+    </w:p>
+  </w:body>
+</w:document>

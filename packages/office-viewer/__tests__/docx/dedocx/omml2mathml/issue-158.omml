@@ -1,0 +1,343 @@
+<m:oMathPara xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas" xmlns:mo="http://schemas.microsoft.com/office/mac/office/2008/main" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mv="urn:schemas-microsoft-com:mac:vml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml" xmlns:w15="http://schemas.microsoft.com/office/word/2012/wordml" xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup" xmlns:wpi="http://schemas.microsoft.com/office/word/2010/wordprocessingInk" xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml" xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape">
+  <m:oMath>
+    <m:r>
+      <w:rPr>
+        <w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/>
+      </w:rPr>
+      <m:t>U=</m:t>
+    </m:r>
+    <m:d>
+      <m:dPr>
+        <m:begChr m:val="{"/>
+        <m:endChr m:val=""/>
+        <m:ctrlPr>
+          <w:rPr>
+            <w:rFonts w:ascii="Cambria Math" w:eastAsiaTheme="minorEastAsia" w:hAnsi="Cambria Math"/>
+            <w:i/>
+          </w:rPr>
+        </m:ctrlPr>
+      </m:dPr>
+      <m:e>
+        <m:eqArr>
+          <m:eqArrPr>
+            <m:ctrlPr>
+              <w:rPr>
+                <w:rFonts w:ascii="Cambria Math" w:eastAsiaTheme="minorEastAsia" w:hAnsi="Cambria Math"/>
+                <w:i/>
+              </w:rPr>
+            </m:ctrlPr>
+          </m:eqArrPr>
+          <m:e>
+            <m:sSub>
+              <m:sSubPr>
+                <m:ctrlPr>
+                  <w:rPr>
+                    <w:rFonts w:ascii="Cambria Math" w:eastAsiaTheme="minorEastAsia" w:hAnsi="Cambria Math"/>
+                    <w:i/>
+                  </w:rPr>
+                </m:ctrlPr>
+              </m:sSubPr>
+              <m:e>
+                <m:r>
+                  <w:rPr>
+                    <w:rFonts w:ascii="Cambria Math" w:eastAsiaTheme="minorEastAsia" w:hAnsi="Cambria Math"/>
+                  </w:rPr>
+                  <m:t>Q</m:t>
+                </m:r>
+              </m:e>
+              <m:sub>
+                <m:r>
+                  <w:rPr>
+                    <w:rFonts w:ascii="Cambria Math" w:eastAsiaTheme="minorEastAsia" w:hAnsi="Cambria Math"/>
+                  </w:rPr>
+                  <m:t>e</m:t>
+                </m:r>
+              </m:sub>
+            </m:sSub>
+            <m:r>
+              <w:rPr>
+                <w:rFonts w:ascii="Cambria Math" w:eastAsiaTheme="minorEastAsia" w:hAnsi="Cambria Math"/>
+              </w:rPr>
+              <m:t>*E</m:t>
+            </m:r>
+            <m:r>
+              <w:rPr>
+                <w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/>
+              </w:rPr>
+              <m:t>,  &amp;</m:t>
+            </m:r>
+            <m:r>
+              <m:rPr>
+                <m:nor/>
+              </m:rPr>
+              <w:rPr>
+                <w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/>
+              </w:rPr>
+              <m:t>if</m:t>
+            </m:r>
+            <m:r>
+              <w:rPr>
+                <w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/>
+              </w:rPr>
+              <m:t xml:space="preserve"> </m:t>
+            </m:r>
+            <m:sSub>
+              <m:sSubPr>
+                <m:ctrlPr>
+                  <w:rPr>
+                    <w:rFonts w:ascii="Cambria Math" w:eastAsiaTheme="minorEastAsia" w:hAnsi="Cambria Math"/>
+                    <w:i/>
+                  </w:rPr>
+                </m:ctrlPr>
+              </m:sSubPr>
+              <m:e>
+                <m:r>
+                  <w:rPr>
+                    <w:rFonts w:ascii="Cambria Math" w:eastAsiaTheme="minorEastAsia" w:hAnsi="Cambria Math"/>
+                  </w:rPr>
+                  <m:t>Q</m:t>
+                </m:r>
+              </m:e>
+              <m:sub>
+                <m:r>
+                  <w:rPr>
+                    <w:rFonts w:ascii="Cambria Math" w:eastAsiaTheme="minorEastAsia" w:hAnsi="Cambria Math"/>
+                  </w:rPr>
+                  <m:t>e</m:t>
+                </m:r>
+              </m:sub>
+            </m:sSub>
+            <m:r>
+              <w:rPr>
+                <w:rFonts w:ascii="Cambria Math" w:eastAsiaTheme="minorEastAsia" w:hAnsi="Cambria Math"/>
+              </w:rPr>
+              <m:t>&lt;1</m:t>
+            </m:r>
+          </m:e>
+          <m:e>
+            <m:r>
+              <w:rPr>
+                <w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/>
+              </w:rPr>
+              <m:t>E,  &amp;</m:t>
+            </m:r>
+            <m:r>
+              <m:rPr>
+                <m:nor/>
+              </m:rPr>
+              <w:rPr>
+                <w:rFonts w:ascii="Cambria Math" w:eastAsiaTheme="minorEastAsia" w:hAnsi="Cambria Math"/>
+              </w:rPr>
+              <m:t xml:space="preserve">if </m:t>
+            </m:r>
+            <m:sSub>
+              <m:sSubPr>
+                <m:ctrlPr>
+                  <w:rPr>
+                    <w:rFonts w:ascii="Cambria Math" w:eastAsiaTheme="minorEastAsia" w:hAnsi="Cambria Math"/>
+                    <w:i/>
+                  </w:rPr>
+                </m:ctrlPr>
+              </m:sSubPr>
+              <m:e>
+                <m:r>
+                  <w:rPr>
+                    <w:rFonts w:ascii="Cambria Math" w:eastAsiaTheme="minorEastAsia" w:hAnsi="Cambria Math"/>
+                  </w:rPr>
+                  <m:t>Q</m:t>
+                </m:r>
+              </m:e>
+              <m:sub>
+                <m:r>
+                  <w:rPr>
+                    <w:rFonts w:ascii="Cambria Math" w:eastAsiaTheme="minorEastAsia" w:hAnsi="Cambria Math"/>
+                  </w:rPr>
+                  <m:t>e</m:t>
+                </m:r>
+              </m:sub>
+            </m:sSub>
+            <m:r>
+              <w:rPr>
+                <w:rFonts w:ascii="Cambria Math" w:eastAsiaTheme="minorEastAsia" w:hAnsi="Cambria Math"/>
+              </w:rPr>
+              <m:t>&lt;S</m:t>
+            </m:r>
+            <m:ctrlPr>
+              <w:rPr>
+                <w:rFonts w:ascii="Cambria Math" w:eastAsia="Cambria Math" w:hAnsi="Cambria Math" w:cs="Cambria Math"/>
+                <w:i/>
+              </w:rPr>
+            </m:ctrlPr>
+          </m:e>
+          <m:e>
+            <m:d>
+              <m:dPr>
+                <m:ctrlPr>
+                  <w:rPr>
+                    <w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/>
+                    <w:i/>
+                  </w:rPr>
+                </m:ctrlPr>
+              </m:dPr>
+              <m:e>
+                <m:d>
+                  <m:dPr>
+                    <m:begChr m:val="⌊"/>
+                    <m:endChr m:val="⌋"/>
+                    <m:ctrlPr>
+                      <w:rPr>
+                        <w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/>
+                        <w:i/>
+                      </w:rPr>
+                    </m:ctrlPr>
+                  </m:dPr>
+                  <m:e>
+                    <m:f>
+                      <m:fPr>
+                        <m:ctrlPr>
+                          <w:rPr>
+                            <w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/>
+                            <w:i/>
+                          </w:rPr>
+                        </m:ctrlPr>
+                      </m:fPr>
+                      <m:num>
+                        <m:sSub>
+                          <m:sSubPr>
+                            <m:ctrlPr>
+                              <w:rPr>
+                                <w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/>
+                                <w:i/>
+                              </w:rPr>
+                            </m:ctrlPr>
+                          </m:sSubPr>
+                          <m:e>
+                            <m:r>
+                              <w:rPr>
+                                <w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/>
+                              </w:rPr>
+                              <m:t>Q</m:t>
+                            </m:r>
+                          </m:e>
+                          <m:sub>
+                            <m:r>
+                              <w:rPr>
+                                <w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/>
+                              </w:rPr>
+                              <m:t>e</m:t>
+                            </m:r>
+                          </m:sub>
+                        </m:sSub>
+                      </m:num>
+                      <m:den>
+                        <m:r>
+                          <w:rPr>
+                            <w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/>
+                          </w:rPr>
+                          <m:t>S</m:t>
+                        </m:r>
+                      </m:den>
+                    </m:f>
+                  </m:e>
+                </m:d>
+                <m:r>
+                  <w:rPr>
+                    <w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/>
+                  </w:rPr>
+                  <m:t>+</m:t>
+                </m:r>
+                <m:d>
+                  <m:dPr>
+                    <m:begChr m:val="⌈"/>
+                    <m:endChr m:val="⌉"/>
+                    <m:ctrlPr>
+                      <w:rPr>
+                        <w:rFonts w:ascii="Cambria Math" w:eastAsiaTheme="minorEastAsia" w:hAnsi="Cambria Math"/>
+                        <w:i/>
+                      </w:rPr>
+                    </m:ctrlPr>
+                  </m:dPr>
+                  <m:e>
+                    <m:f>
+                      <m:fPr>
+                        <m:ctrlPr>
+                          <w:rPr>
+                            <w:rFonts w:ascii="Cambria Math" w:eastAsiaTheme="minorEastAsia" w:hAnsi="Cambria Math"/>
+                            <w:i/>
+                          </w:rPr>
+                        </m:ctrlPr>
+                      </m:fPr>
+                      <m:num>
+                        <m:sSub>
+                          <m:sSubPr>
+                            <m:ctrlPr>
+                              <w:rPr>
+                                <w:rFonts w:ascii="Cambria Math" w:eastAsiaTheme="minorEastAsia" w:hAnsi="Cambria Math"/>
+                                <w:i/>
+                              </w:rPr>
+                            </m:ctrlPr>
+                          </m:sSubPr>
+                          <m:e>
+                            <m:r>
+                              <w:rPr>
+                                <w:rFonts w:ascii="Cambria Math" w:eastAsiaTheme="minorEastAsia" w:hAnsi="Cambria Math"/>
+                              </w:rPr>
+                              <m:t>Q</m:t>
+                            </m:r>
+                          </m:e>
+                          <m:sub>
+                            <m:r>
+                              <w:rPr>
+                                <w:rFonts w:ascii="Cambria Math" w:eastAsiaTheme="minorEastAsia" w:hAnsi="Cambria Math"/>
+                              </w:rPr>
+                              <m:t>e</m:t>
+                            </m:r>
+                          </m:sub>
+                        </m:sSub>
+                        <m:r>
+                          <w:rPr>
+                            <w:rFonts w:ascii="Cambria Math" w:eastAsiaTheme="minorEastAsia" w:hAnsi="Cambria Math"/>
+                          </w:rPr>
+                          <m:t xml:space="preserve"> mod S</m:t>
+                        </m:r>
+                      </m:num>
+                      <m:den>
+                        <m:r>
+                          <w:rPr>
+                            <w:rFonts w:ascii="Cambria Math" w:eastAsiaTheme="minorEastAsia" w:hAnsi="Cambria Math"/>
+                          </w:rPr>
+                          <m:t>S</m:t>
+                        </m:r>
+                      </m:den>
+                    </m:f>
+                  </m:e>
+                </m:d>
+                <m:r>
+                  <w:rPr>
+                    <w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/>
+                  </w:rPr>
+                  <m:t xml:space="preserve"> </m:t>
+                </m:r>
+              </m:e>
+            </m:d>
+            <m:r>
+              <w:rPr>
+                <w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/>
+              </w:rPr>
+              <m:t>E,  &amp;</m:t>
+            </m:r>
+            <m:r>
+              <m:rPr>
+                <m:nor/>
+              </m:rPr>
+              <w:rPr>
+                <w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/>
+              </w:rPr>
+              <m:t>otherwise</m:t>
+            </m:r>
+          </m:e>
+        </m:eqArr>
+      </m:e>
+    </m:d>
+  </m:oMath>
+</m:oMathPara>

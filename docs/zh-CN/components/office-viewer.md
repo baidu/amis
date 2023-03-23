@@ -19,14 +19,9 @@ order: 23
 - 注音
 - 链接
 - 文本框
+- 数学公式（依赖 MathML，需要比较新的浏览器，或者试试 [polyfill](https://github.com/w3c/mathml-polyfills)）
 
-不支持的功能：
-
-- 分页符
-- 形状
-- 艺术字
-- 域
-- 对象
+不支持的功能：分页符、形状、艺术字、域、对象、目录
 
 ## 基本用法
 
@@ -35,7 +30,8 @@ order: 23
   "type": "office-viewer",
   "src": "/examples/static/simple.docx",
   "wordOptions": {
-    "padding": "8px"
+    "padding": "8px",
+    "ignoreWidth": false
   }
 }
 ```
@@ -51,25 +47,37 @@ order: 23
   "type": "office-viewer",
   "wordOptions": {
     "padding": "8px",
-    "classPrefix": "docx"
+    "ignoreWidth": false
   }
 }
 ```
 
-| 属性名            | 类型      | 默认值        | 说明                                       |
-| ----------------- | --------- | ------------- | ------------------------------------------ |
-| classPrefix       | `string`  | 'docx-viewer' | 渲染的 class 类前缀                        |
-| bulletUseFont     | `boolean` | true          | 列表使用字体渲染，请参考下面的乱码说明     |
-| fontMapping       | `object`  |               | 字体映射，是个键值对，用于替换文档中的字体 |
-| forceLineHeight   | `string`  |               | 设置段落行高，忽略文档中的设置             |
-| padding           | `string`  |               | 设置页面间距，忽略文档中的设置             |
-| enableReplaceText | `boolean` | true          | 是否开启变量替换功能                       |
+| 属性名            | 类型      | 默认值        | 说明                                                       |
+| ----------------- | --------- | ------------- | ---------------------------------------------------------- |
+| classPrefix       | `string`  | 'docx-viewer' | 渲染的 class 类前缀                                        |
+| ignoreWidth       | `boolean` | false         | 忽略文档里的宽度设置，用于更好嵌入到页面里，但会减低还原度 |
+| padding           | `string`  |               | 设置页面间距，忽略文档中的设置                             |
+| bulletUseFont     | `boolean` | true          | 列表使用字体渲染，请参考下面的乱码说明                     |
+| fontMapping       | `object`  |               | 字体映射，是个键值对，用于替换文档中的字体                 |
+| forceLineHeight   | `string`  |               | 设置段落行高，忽略文档中的设置                             |
+| enableReplaceText | `boolean` | true          | 是否开启变量替换功能                                       |
+
+### 关于渲染效果差异
+
+目前的实现难以保证和本地 Word 渲染完全一致，会遇到以下问题：
+
+1. 字体大小不一致
+1. 单元格宽度不一致，表格完全依赖浏览器渲染
+1. 分页显示，目前的渲染不会分页，而是内容有多长就有多高
+1. 分栏显示，这个是因为没有分页导致的，不限制高度没法分栏
+
+如果追求完整效果打印，目前只能使用下载文件的方式用本地 Word 进行打印。
 
 ## 列表符号出现乱码问题
 
 默认情况下列表左侧的符号使用字体渲染，这样能做到最接近 Word 渲染效果，但如果用户的系统中没有这些字体就会显示乱码，为了解决这个问题需要手动在 amis 渲染的页面里导入对应的字体，比如
 
-```
+```html
 <style>
   @font-face {
     font-family: Wingdings;

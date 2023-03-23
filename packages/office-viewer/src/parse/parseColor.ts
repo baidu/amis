@@ -6,25 +6,27 @@ import {getVal} from '../OpenXML';
 import {ST_Shd} from '../openxml/Types';
 import Word from '../Word';
 
-export const knownColors = [
-  'black',
-  'blue',
-  'cyan',
-  'darkBlue',
-  'darkCyan',
-  'darkGray',
-  'darkGreen',
-  'darkMagenta',
-  'darkRed',
-  'darkYellow',
-  'green',
-  'lightGray',
-  'magenta',
-  'none',
-  'red',
-  'white',
-  'yellow'
-];
+/**
+ * css 里可以识别的颜色
+ */
+export const cssColors = ['black', 'blue', 'green', 'red', 'white', 'yellow'];
+
+/**
+ * 浏览器不支持的颜色名字转成 hex，其实这里不少 chrome 也支持，但是为了兼容性，还是转一下
+ */
+export const colorNameMap = {
+  cyan: '#00FFFF',
+  magenta: '#FF00FF',
+  darkBlue: '#00008B',
+  darkCyan: '#008B8B',
+  darkGray: '#A9A9A9',
+  darkGreen: '#006400',
+  darkMagenta: '#800080',
+  darkRed: '#8B0000',
+  darkYellow: '#808000',
+  lightGray: '#D3D3D3',
+  none: 'transparent'
+};
 
 /**
  *
@@ -44,8 +46,13 @@ export function parseColorAttr(
   if (color) {
     if (color == 'auto') {
       return autoColor;
-    } else if (typeof color === 'string' && knownColors.includes(color)) {
+      /**
+       * css 里可以识别的颜色
+       */
+    } else if (cssColors.includes(color)) {
       return color;
+    } else if (color in colorNameMap) {
+      return colorNameMap[color as keyof typeof colorNameMap];
     }
 
     return `#${color}`;

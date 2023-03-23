@@ -98,7 +98,7 @@ const defaultRenderOptions: WordRenderOptions = {
   inWrap: true,
   bulletUseFont: true,
   ignoreHeight: true,
-  ignoreWidth: true,
+  ignoreWidth: false,
   minLineHeight: 1.0,
   enableVar: false,
   debug: false,

@@ -1,4 +1,3 @@
-import {ST_Em, ST_TextAlignment} from './../openxml/Types';
 /**
  * 包括 rPr 及 pPr 的解析，参考了 docxjs 里的实现
  */
@@ -13,7 +12,7 @@ import {parseInd} from './parseInd';
 import {parseSize} from './parseSize';
 import {parseSpacing} from './parseSpacing';
 import {parseFont} from './parseFont';
-import {ST_VerticalAlignRun} from '../openxml/Types';
+import {ST_Em, ST_HighlightColor, ST_TextAlignment} from '../openxml/Types';
 import {parseTrHeight} from './parseTrHeight';
 import {jcToTextAlign} from './jcToTextAlign';
 import {parseTextDirection} from './parseTextDirection';
@@ -192,8 +191,8 @@ export function parsePr(word: Word, element: Element, type: 'r' | 'p' = 'p') {
         style['background-color'] = parseColorAttr(
           word,
           child,
-          'w:fill',
-          HighLightColor
+          'w:val',
+          'yellow'
         );
         break;
 
