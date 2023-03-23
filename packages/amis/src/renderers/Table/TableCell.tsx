@@ -11,7 +11,7 @@ import {ColorScale} from 'amis-core';
 import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
 
 export interface TableCellProps extends RendererProps {
-  wrapperComponent?: React.ReactType;
+  wrapperComponent?: React.ElementType;
   column: any;
   contentsOnly?: boolean;
 }

@@ -150,6 +150,7 @@ import './renderers/Words';
 import './renderers/Password';
 import './renderers/DateRange';
 import './renderers/MultilineText';
+import './renderers/OfficeViewer';
 
 import './compat';
 import './schemaExtend';

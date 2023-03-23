@@ -68,10 +68,12 @@ fis.set('project.files', [
   '/examples/static/*.svg',
   '/examples/static/*.jpg',
   '/examples/static/*.jpeg',
+  '/examples/static/*.docx',
   '/examples/static/photo/*.jpeg',
   '/examples/static/photo/*.png',
   '/examples/static/audio/*.mp3',
   '/examples/static/video/*.mp4',
+  '/examples/static/font/*.ttf',
   'mock/**'
 ]);
 
@@ -116,9 +118,11 @@ fis.match('icons/**.svg', {
   ]
 });
 
-fis.match('/node_modules/**.js', {
-  isMod: true
+fis.match('/node_modules/**.{js,cjs}', {
+  isMod: true,
+  rExt: 'js'
 });
+fis.set('project.fileType.text', 'cjs');
 
 fis.match('tinymce/{tinymce.js,plugins/**.js,themes/silver/theme.js}', {
   ignoreDependencies: true
@@ -308,7 +312,7 @@ fis.hook('node_modules', {
 });
 fis.hook('commonjs', {
   sourceMap: false,
-  extList: ['.js', '.jsx', '.tsx', '.ts'],
+  extList: ['.js', '.jsx', '.tsx', '.ts', '.cjs'],
   paths: {
     'monaco-editor': '/examples/loadMonacoEditor'
   }
@@ -485,7 +489,9 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!uc.micro/**',
         '!markdown-it/**',
         '!markdown-it-html5-media/**',
-        '!punycode/**'
+        '!punycode/**',
+        '!office-viewer/**',
+        '!fflate/**'
       ],
 
       'rich-text.js': [
@@ -526,6 +532,8 @@ if (fis.project.currentMedia() === 'publish-sdk') {
 
       'charts.js': ['zrender/**', 'echarts/**', 'echarts-stat/**'],
 
+      'office-viewer.js': ['office-viewer/**', 'fflate/**'],
+
       'rest.js': [
         '*.js',
         '!monaco-editor/**',
@@ -546,7 +554,9 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!mdurl/**',
         '!uc.micro/**',
         '!markdown-it/**',
-        '!markdown-it-html5-media/**'
+        '!markdown-it-html5-media/**',
+        '!office-viewer/**',
+        '!fflate/**'
       ]
     }),
     postpackager: [
@@ -773,6 +783,8 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!markdown-it-html5-media/**',
         '!punycode/**',
         '!amis-formula/**',
+        '!fflate/**',
+        '!office-viewer/**',
         '!amis-core/**',
         '!amis-ui/**',
         '!amis/**'
@@ -831,6 +843,8 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!/examples/components/EChartsEditor/Common.tsx'
       ],
 
+      'pkg/office-viewer.js': ['office-viewer/**', 'fflate/**'],
+
       'pkg/rest.js': [
         '**.{js,jsx,ts,tsx}',
         '!monaco-editor/**',
@@ -851,10 +865,11 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!mdurl/**',
         '!uc.micro/**',
         '!markdown-it/**',
-        '!markdown-it-html5-media/**'
+        '!markdown-it-html5-media/**',
+        '!fflate/**'
       ],
 
-      'pkg/npm.css': ['node_modules/*/**.css', '!monaco-editor/**'],
+      'pkg/npm.css': ['node_modules/*/**.css', '!monaco-editor/**', '!amis/**'],
 
       // css 打包
       'pkg/style.css': [
@@ -865,6 +880,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!/examples/style.scss',
         '!monaco-editor/**',
         '!scss/helper.scss',
+        '!amis/**',
         '/examples/style.scss' // 让它在最下面
       ]
     }),

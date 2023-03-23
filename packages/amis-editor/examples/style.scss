@@ -1,0 +1,288 @@
+@import '../../amis-ui/scss/functions';
+@import '../../amis-ui/scss/variables';
+@import '../../amis-ui/scss/helper';
+@import './corpus-i18n';
+
+$editor-default-color: #151b26; // 默认的字体色
+$editor-active-color: #2468f2;
+$editor-hover-color: #5086f5;
+$editor-border-color: #e8e9eb; // 默认的边框色
+$default-icon-color: #84868c; // 默认的icon颜色
+
+$active-bg-color: #e6f0ff; // 激活态的背景色
+$hover-bg-color: #f7f7f9; // 激活态的背景色
+
+$disabled-color: #b8babf; // 禁用文字颜色
+$disabled-bg-color: #f7f7f9; // 禁用背景颜色
+
+.page-play,
+.page-edit {
+  &:before {
+    display: table;
+    content: ' ';
+  }
+  &:after {
+    clear: both;
+    display: block;
+    content: '';
+    height: 0;
+  }
+  .app-content {
+    position: absolute;
+    top: 50px;
+    bottom: 0;
+    height: auto;
+    left: 0;
+    right: 0;
+  }
+  .app-content-body {
+    height: 100%;
+  }
+}
+
+.Editor-Demo {
+  position: relative;
+  height: 100vh;
+  min-height: 510px;
+  display: flex;
+  flex-direction: column;
+
+  .Editor-header {
+    flex: 0 0 48px;
+    position: relative;
+    background: #fff;
+    // box-shadow: 0 2px 7px 0 rgba(232,232,232,0.50);
+    display: flex;
+    border-bottom: 1px solid $editor-border-color;
+    box-sizing: border-box;
+    z-index: 1000;
+
+    svg {
+      display: inline-block;
+      width: 16px;
+    }
+
+    .Editor-title {
+      flex: 1 1 565px;
+      padding: 0 15px;
+      font-family: PingFangSC-Medium;
+      font-size: 16px;
+      font-weight: 500;
+      letter-spacing: 0;
+      user-select: none;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+    }
+
+    .Editor-view-mode-group-container {
+      flex: 0 1 150px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .Editor-view-mode-group {
+        font-size: 14px;
+        font-family: PingFangSC-Regular;
+        // color: #fff;
+        letter-spacing: 0;
+        text-align: center;
+        width: 100px;
+        height: 32px;
+        border-radius: 4px;
+        font-weight: 400;
+        background-color: #f2f2f4;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .Editor-view-mode-btn {
+          user-select: none;
+          padding: 0;
+          border-radius: 4px;
+          width: 40px;
+          height: 24px;
+          cursor: pointer;
+          transition: transform ease-out 0.2s;
+          display: inline-flex;
+          justify-content: center;
+          align-items: center;
+          margin-right: 12px;
+
+          svg {
+            color: $editor-default-color;
+          }
+
+          &:last-child {
+            margin-right: 0;
+          }
+
+          &:hover > svg {
+            color: $editor-active-color;
+          }
+
+          &.is-active {
+            background: $editor-active-color;
+
+            svg {
+              color: #fff;
+            }
+
+            &:hover {
+              background: #5086f5;
+            }
+          }
+        }
+      }
+    }
+
+    .Editor-header-actions {
+      flex: 1 1 565px;
+      padding: 0 24px;
+      font-size: 12px;
+      white-space: nowrap;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+
+      .header-action-item {
+        margin-left: 18px;
+        user-select: none;
+        cursor: pointer;
+        transition: transform ease-out 0.2s;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        > svg {
+          width: 16px;
+          fill: $editor-default-color;
+        }
+
+        &:hover > svg {
+          fill: $editor-active-color;
+        }
+
+        &.disabled {
+          cursor: not-allowed;
+
+          > svg {
+            fill: $disabled-color;
+          }
+        }
+
+        // 历史记录icon单独处理
+        > svg.icon-editor-history {
+          color: $editor-default-color;
+
+          &:hover {
+            color: $editor-active-color;
+          }
+
+          &.disabled,
+          &.disabled:hover {
+            cursor: not-allowed;
+            color: $disabled-color;
+          }
+        }
+      }
+
+      .header-action-btn {
+        margin-left: 8px;
+        user-select: none;
+        cursor: pointer;
+        padding: 0 16px;
+        min-width: 72px;
+        height: 32px;
+        font-family: PingFangSC-Regular;
+        font-size: 12px;
+        line-height: 20px;
+        color: #fff;
+        font-weight: 400;
+        background: $editor-active-color;
+        border-color: 1px solid $editor-active-color;
+        border-radius: 4px;
+        transition: transform ease-out 0.2s;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+
+        &.preview-btn {
+          color: #151a26;
+          border: 1px solid #dadbdd;
+          background: #fff;
+          border-radius: 4px;
+
+          &:hover {
+            color: $editor-active-color;
+            border-color: $editor-active-color;
+            background: #fff;
+          }
+        }
+
+        &:hover {
+          color: #fff;
+          background: $editor-hover-color;
+          border-color: $editor-hover-color;
+        }
+
+        &.disabled {
+          cursor: not-allowed;
+          color: $disabled-color;
+          background-color: $disabled-bg-color;
+          border-color: $disabled-bg-color;
+        }
+      }
+
+      .margin-left-space {
+        margin-left: 80px;
+      }
+    }
+  }
+  .Editor-inner {
+    position: relative;
+    flex: 1 1 auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+}
+
+.resizer {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin-left: -2px;
+  width: 4px;
+  background: lighten($dark, 20%);
+  z-index: 1;
+  cursor: col-resize;
+
+  &:hover {
+    background: $dark;
+  }
+}
+
+.doc-shcema-preview-popover {
+  box-shadow: none;
+  margin-top: -1px;
+  padding: 0 45px;
+  left: 0 !important;
+  width: 100%;
+  z-index: 1;
+  background: transparent;
+  border: none;
+
+  .doc-schema-preview {
+    border: 1px solid #ddd;
+    background: rgb(240, 243, 244);
+    position: relative;
+    height: 100%;
+    width: 100%;
+  }
+}
+
+#root > .a-Select-popover {
+  z-index: 1500;
+}

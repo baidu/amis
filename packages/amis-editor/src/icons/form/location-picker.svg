@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="地理位置选择" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linejoin="round">
+        <path d="M8,12.5 C11,9.82352092 12.5,7.65685425 12.5,6 C12.5,3.51471863 10.4852814,1.5 8,1.5 C5.51471863,1.5 3.5,3.51471863 3.5,6 C3.5,7.65685425 5,9.82352092 8,12.5 Z" id="椭圆形" stroke="currentColor"></path>
+        <circle id="椭圆形" stroke="currentColor" cx="8" cy="6" r="2"></circle>
+        <polyline id="路径" stroke="currentColor" stroke-linecap="round" points="12 11.5 13.5 14.5 2.5 14.5 4 11.5"></polyline>
+    </g>
+</svg>

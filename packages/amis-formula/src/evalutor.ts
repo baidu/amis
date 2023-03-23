@@ -2265,7 +2265,7 @@ export class Evaluator {
   }
 }
 
-function getCookie(name: string) {
+export function getCookie(name: string) {
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);
   if (parts.length === 2) {
@@ -2274,7 +2274,7 @@ function getCookie(name: string) {
   return undefined;
 }
 
-function parseJson(str: string, defaultValue?: any) {
+export function parseJson(str: string, defaultValue?: any) {
   try {
     return JSON.parse(str);
   } catch (e) {
@@ -2282,7 +2282,7 @@ function parseJson(str: string, defaultValue?: any) {
   }
 }
 
-function stripNumber(number: number) {
+export function stripNumber(number: number) {
   if (typeof number === 'number' && !Number.isInteger(number)) {
     return parseFloat(number.toPrecision(16));
   } else {
@@ -2292,7 +2292,7 @@ function stripNumber(number: number) {
 
 // 如果只有一个成员，同时第一个成员为 args
 // 则把它展开，当成是多个参数，毕竟公式里面还不支持 ...args 语法，
-function normalizeArgs(args: Array<any>) {
+export function normalizeArgs(args: Array<any>) {
   if (args.length === 1 && Array.isArray(args[0])) {
     args = args[0];
   }

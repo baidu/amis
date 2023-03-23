@@ -106,7 +106,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
       return;
     }
 
-    const scoped = delegate || this.context;
+    const scoped = delegate || (this.context as IScopedContext);
     if (action.actionType === 'reload') {
       action.target && scoped.reload(action.target, ctx);
     } else if (action.target) {
@@ -200,7 +200,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
           redirect && env.jumpTo(redirect, action);
           action.reload &&
             this.reloadTarget(
-              delegate || this.context,
+              delegate || (this.context as IScopedContext),
               filter(action.reload, ctx),
               store.data
             );
@@ -254,7 +254,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
 
     const dialogAction = store.action as ActionObject;
     const reload = action.reload ?? dialogAction.reload;
-    const scoped = store.getDialogScoped() || this.context;
+    const scoped = store.getDialogScoped() || (this.context as IScopedContext);
 
     store.closeDialog(true);
 

@@ -7,6 +7,7 @@ import replace from '@rollup/plugin-replace';
 import fis3 from './scripts/fis3plugin';
 import markdown from './scripts/markdownPlugin';
 import mockApi from './scripts/mockApiPlugin';
+import transformMobileHtml from './scripts/transformMobileHtml';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -14,6 +15,7 @@ export default defineConfig({
     fis3(),
     markdown(),
     mockApi(),
+    transformMobileHtml(),
 
     react({
       babel: {
@@ -66,8 +68,24 @@ export default defineConfig({
         replacement: path.resolve(__dirname, './packages/amis-core/src')
       },
       {
+        find: 'amis/lib',
+        replacement: path.resolve(__dirname, './packages/amis/src')
+      },
+      {
         find: 'amis',
         replacement: path.resolve(__dirname, './packages/amis/src')
+      },
+      {
+        find: 'amis-editor',
+        replacement: path.resolve(__dirname, './packages/amis-editor/src')
+      },
+      {
+        find: 'amis-editor-core',
+        replacement: path.resolve(__dirname, './packages/amis-editor-core/src')
+      },
+      {
+        find: 'office-viewer',
+        replacement: path.resolve(__dirname, './packages/office-viewer/src')
       }
     ]
   }

@@ -674,14 +674,16 @@ export class Navigation extends React.Component<
       } = overflow;
       overflowedIndicator = (
         <span className={cx(overflowClassName)}>
-          {getIcon(overflowIndicator!) ? (
-            <Icon icon={overflowIndicator} className="icon" />
-          ) : (
-            generateIcon(cx, overflowIndicator, 'Nav-itemIcon')
-          )}
-          {overflowLabel && isObject(overflowLabel)
-            ? render('nav-overflow-label', overflowLabel)
-            : overflowLabel}
+          <>
+            {getIcon(overflowIndicator!) ? (
+              <Icon icon={overflowIndicator} className="icon" />
+            ) : (
+              generateIcon(cx, overflowIndicator, 'Nav-itemIcon')
+            )}
+            {overflowLabel && isObject(overflowLabel)
+              ? render('nav-overflow-label', overflowLabel)
+              : overflowLabel}
+          </>
         </span>
       );
     }

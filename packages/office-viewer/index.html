@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>docx viewer</title>
+    <link rel="stylesheet" href="/examples/static/css/app.css" />
+  </head>
+  <body>
+    <div class="columns">
+      <div class="column file-list" id="fileList">
+        <button type="button" onclick="downloadDocx()">download</button>
+        <button type="button" onclick="printDocx()">print</button>
+      </div>
+      <div class="column">
+        <div id="viewer"></div>
+      </div>
+    </div>
+
+    <script type="module" src="/examples/app.ts"></script>
+  </body>
+</html>
