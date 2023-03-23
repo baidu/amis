@@ -585,14 +585,14 @@ export class Cascader extends React.Component<CascaderProps, CascaderState> {
         <div className={cx(`Cascader-btnGroup`)}>
           <Button
             className={cx(`Cascader-btnCancel`)}
-            level="text"
+            level="link"
             onClick={onClose}
           >
             {__('cancel')}
           </Button>
           <Button
             className={cx(`Cascader-btnConfirm`)}
-            level="text"
+            level="link"
             onClick={this.confirm}
             disabled={this.state.disableConfirm}
           >

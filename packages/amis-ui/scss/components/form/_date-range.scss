@@ -281,6 +281,11 @@
   border: 0;
   justify-content: flex-end;
 
+  &.is-focused,
+  &:hover {
+    border: none;
+  }
+
   span,
   a {
     &:focus {

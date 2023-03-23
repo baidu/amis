@@ -10,6 +10,7 @@ import Calendar from './calendar/Calendar';
 import {themeable, ThemeProps} from 'amis-core';
 import {LocaleProps, localeable} from 'amis-core';
 import {autobind} from 'amis-core';
+import Button from './Button';
 
 export interface CalendarMobileProps extends ThemeProps, LocaleProps {
   className?: string;
@@ -354,22 +355,18 @@ export class CalendarMobile extends React.Component<
         dateTime: newTime,
         startDate: endDate
           ? startDate
-          : startDate
-              ?.clone()
-              .set({
-                hour: newTime[0],
-                minute: newTime[1],
-                second: newTime[2] || 0
-              }),
+          : startDate?.clone().set({
+              hour: newTime[0],
+              minute: newTime[1],
+              second: newTime[2] || 0
+            }),
         endDate: !endDate
           ? endDate
-          : endDate
-              ?.clone()
-              .set({
-                hour: newTime[0],
-                minute: newTime[1],
-                second: newTime[2] || 0
-              })
+          : endDate?.clone().set({
+              hour: newTime[0],
+              minute: newTime[1],
+              second: newTime[2] || 0
+            })
       };
       this.setState(obj, () => {
         onChange && onChange(this.state);
@@ -761,17 +758,17 @@ export class CalendarMobile extends React.Component<
             {footerExtra}
           </div>
           {confirm && !embed && (
-            <a
-              className={cx('Button', 'Button--primary', 'date-range-confirm', {
-                'is-disabled': !startDate || !(endDate || isDatePicker)
-              })}
+            <Button
+              className={cx('date-range-confirm')}
+              level="primary"
+              disabled={!startDate || !(endDate || isDatePicker)}
               onClick={() => {
                 confirm(startDate, endDate);
                 close && close();
               }}
             >
               {__('confirm')}
-            </a>
+            </Button>
           )}
         </div>
       </div>

@@ -207,14 +207,15 @@
   }
 }
 
-.#{$ns}DatePicker-popup {
-  height: px2rem(300px);
-}
-
 // 移动端输入框样式
 .#{$ns}DatePicker.is-mobile {
   border: 0;
   justify-content: flex-end;
+
+  &.is-focused,
+  &:hover {
+    border: none;
+  }
 
   span,
   a {
@@ -245,6 +246,7 @@
 }
 
 .#{$ns}DatePicker-popup.#{$ns}DatePicker-mobile {
+  height: px2rem(320px);
   color: red;
   .rdt {
     width: 100%;

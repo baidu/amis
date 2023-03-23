@@ -12,7 +12,7 @@
 .#{$ns}Cascader-tab {
   flex: 1;
   width: calc((100vw - 20px) / 3);
-  height: px2rem(370px);
+  height: px2rem(260px);
   overflow-y: auto;
   display: inline-block;
   &::-webkit-scrollbar {
