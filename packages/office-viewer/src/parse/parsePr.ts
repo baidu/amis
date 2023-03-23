@@ -1,4 +1,3 @@
-import {ST_TextAlignment} from './../openxml/Types';
 /**
  * 包括 rPr 及 pPr 的解析，参考了 docxjs 里的实现
  */
@@ -6,14 +5,14 @@ import {ST_TextAlignment} from './../openxml/Types';
 import {LengthUsage} from './parseSize';
 import {CSSStyle} from '../openxml/Style';
 import Word from '../Word';
-import {getVal, getValBoolean} from '../OpenXML';
+import {getVal, getValBoolean, getValNumber} from '../OpenXML';
 import {parseBorder, parseBorders} from './parseBorder';
 import {parseColor, parseColorAttr, parseShdColor} from './parseColor';
 import {parseInd} from './parseInd';
 import {parseSize} from './parseSize';
 import {parseSpacing} from './parseSpacing';
 import {parseFont} from './parseFont';
-import {ST_VerticalAlignRun} from '../openxml/Types';
+import {ST_Em, ST_HighlightColor, ST_TextAlignment} from '../openxml/Types';
 import {parseTrHeight} from './parseTrHeight';
 import {jcToTextAlign} from './jcToTextAlign';
 import {parseTextDirection} from './parseTextDirection';
@@ -108,6 +107,35 @@ function parseFrame(element: Element, style: CSSStyle) {
   }
 }
 
+/**
+ * 将 em 转成 css 里对应的 text-emphasis 值
+ * http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/ST_Em.html
+ */
+function convertEm(em: ST_Em, style: CSSStyle) {
+  switch (em) {
+    case 'dot':
+      style['text-emphasis'] = 'filled';
+      // 按规范里描述应该是在文字上面，但在 word 实际显示的时候是在下面
+      // 怀疑是中文场景下做了特殊处理
+      style['text-emphasis-position'] = 'under right';
+      break;
+    case 'comma':
+      style['text-emphasis'] = 'filled sesame';
+      break;
+
+    case 'circle':
+      style['text-emphasis'] = 'open';
+      break;
+
+    case 'underDot':
+      style['text-emphasis'] = 'filled';
+      style['text-emphasis-position'] = 'under right';
+      break;
+    case 'none':
+      break;
+  }
+}
+
 const HighLightColor = 'transparent';
 
 /**
@@ -163,8 +191,8 @@ export function parsePr(word: Word, element: Element, type: 'r' | 'p' = 'p') {
         style['background-color'] = parseColorAttr(
           word,
           child,
-          'w:fill',
-          HighLightColor
+          'w:val',
+          'yellow'
         );
         break;
 
@@ -172,9 +200,9 @@ export function parsePr(word: Word, element: Element, type: 'r' | 'p' = 'p') {
         // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/vertAlign.html
         // 这个其实和 position 有冲突，但预计这两个同时出现的概率不高
         const vertAlign = getVal(child);
-        if (vertAlign === ST_VerticalAlignRun.superscript) {
+        if (vertAlign === 'superscript') {
           style['vertical-align'] = 'super';
-        } else if (vertAlign === ST_VerticalAlignRun.subscript) {
+        } else if (vertAlign === 'subscript') {
           style['vertical-align'] = 'sub';
         }
         break;
@@ -328,9 +356,9 @@ export function parsePr(word: Word, element: Element, type: 'r' | 'p' = 'p') {
       case 'w:textAlignment':
         // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/textAlignment.html
         const alignment = getVal(child) as ST_TextAlignment;
-        if (alignment === ST_TextAlignment.center) {
+        if (alignment === 'center') {
           style['vertical-align'] = 'middle';
-        } else if (alignment !== ST_TextAlignment.auto) {
+        } else if (alignment !== 'auto') {
           style['vertical-align'] = alignment;
         }
         break;
@@ -364,6 +392,22 @@ export function parsePr(word: Word, element: Element, type: 'r' | 'p' = 'p') {
       case 'w:overflowPunct':
         // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/overflowPunct.html
         // 支持不了
+        break;
+
+      case 'w:em':
+        convertEm(getVal(child) as ST_Em, style);
+        break;
+
+      case 'w:w':
+        // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/w_1.html
+        // 看起来应该是把文字拉伸
+        const w = getValNumber(child);
+        style['transform'] = `scaleX(${w / 100})`;
+        style['display'] = 'inline-block'; // 需要这样才能生效
+        break;
+
+      case 'w:webHidden':
+        // 虽然是 web 渲染但希望是按 word 显示，所以先不处理了
         break;
 
       default:

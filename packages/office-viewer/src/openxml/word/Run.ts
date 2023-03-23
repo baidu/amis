@@ -103,6 +103,13 @@ export class Run {
           run.addChild(Sym.parseXML(child));
           break;
 
+        case 'mc:AlternateContent':
+          const drawingChild = child.getElementsByTagName('w:drawing').item(0);
+          if (drawingChild) {
+            run.addChild(Drawing.fromXML(word, drawingChild));
+          }
+          break;
+
         default:
           console.warn('parse Run: Unknown key', tagName, child);
       }

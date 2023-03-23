@@ -9,7 +9,7 @@ export class Break {
   /**
    * 目前也只支持这种
    */
-  type: ST_BrType = ST_BrType.textWrapping;
+  type: ST_BrType = 'textWrapping';
   clear?: ST_BrClear;
 
   static fromXML(word: Word, element: Element): Break {

@@ -21,7 +21,10 @@ export function styleToText(style: CSSStyle = {}): string {
 /**
  * 设置元素样式
  */
-export function setStyle(el: HTMLElement, style: CSSStyle): void {
+export function applyStyle(el: HTMLElement, style?: CSSStyle): void {
+  if (!style) {
+    return;
+  }
   for (const key in style) {
     const value = style[key];
     if (value != null && value !== '') {
@@ -47,10 +50,7 @@ export function createDocumentFragment() {
 /**
  * 添加子节点，会做一些判断避免报错
  */
-export function appendChild(
-  parent: HTMLElement,
-  child: HTMLElement | null
-): void {
+export function appendChild(parent: HTMLElement, child?: Node | null): void {
   if (parent && child) {
     parent.appendChild(child);
   }

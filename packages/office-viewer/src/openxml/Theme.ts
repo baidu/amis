@@ -2,6 +2,8 @@
  * 主要参考 14.2.7 Theme Part
  */
 
+import {getAttrNumber, getAttrPercentage, getVal} from '../OpenXML';
+
 // http://webapp.docx4java.org/OnlineDemo/ecma376/DrawingML/clrScheme.html
 class ClrScheme {
   name?: string;
@@ -21,8 +23,26 @@ function parseClrScheme(doc: Element | null): ClrScheme {
       const clrName = clr.nodeName.replace('a:', '');
       if (clrName === 'sysClr') {
         scheme.colors[colorName] = clr.getAttribute('lastClr') || '';
+      } else if (clrName === 'srgbClr') {
+        scheme.colors[colorName] = '#' + clr.getAttribute('val') || '';
+      } else if (clrName === 'scrgbClr') {
+        // https://c-rex.net/projects/samples/ooxml/e1/Part4/OOXML_P4_DOCX_scrgbClr_topic_ID0EOOPJB.html
+        // 没测过
+        const r = getAttrPercentage(child, 'r') * 256;
+        const g = getAttrPercentage(child, 'g') * 256;
+        const b = getAttrPercentage(child, 'b') * 256;
+        scheme.colors[colorName] = `rgb(${r}, ${g}, ${b})`;
+      } else if (clrName === 'hslClr') {
+        // https://c-rex.net/projects/samples/ooxml/e1/Part4/OOXML_P4_DOCX_hslClr_topic_ID0EQ5FJB.html
+        // 没测过
+        const h = getAttrNumber(child, 'hue') / 60000;
+        const s = getAttrPercentage(child, 'sat') * 100;
+        const l = getAttrPercentage(child, 'lum') * 100;
+        scheme.colors[colorName] = `hsl(${h}, ${s}%, ${l}%)`;
+      } else if (clrName === 'prstClr') {
+        scheme.colors[colorName] = getVal(child);
       } else {
-        scheme.colors[colorName] = clr.getAttribute('val') || '';
+        console.error('unknown clr name', clrName);
       }
     }
   }

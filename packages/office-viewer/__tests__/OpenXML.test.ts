@@ -1,6 +1,6 @@
 import {createWord} from './EmptyWord';
 import {mergeRun} from '../src/util/mergeRun';
-import {parseXML, buildXML} from '../src/util/xml';
+import {parseXML} from '../src/util/xml';
 
 test('proofErr', async () => {
   const xmlDoc = parseXML(
