@@ -1159,8 +1159,8 @@
   );
   --inputNumber-enhance-default-paddingTop: var(--sizes-size-3);
   --inputNumber-enhance-default-paddingBottom: var(--sizes-size-3);
-  --inputNumber-enhance-default-paddingLeft: var(--sizes-size-7);
-  --inputNumber-enhance-default-paddingRight: var(--sizes-size-7);
+  --inputNumber-enhance-default-paddingLeft: var(--sizes-size-5);
+  --inputNumber-enhance-default-paddingRight: var(--sizes-size-5);
   --inputNumber-enhance-default-bg-color: var(--colors-neutral-fill-11);
   --inputNumber-enhance-hover-top-border-color: var(--colors-brand-5);
   --inputNumber-enhance-hover-top-border-width: var(--borders-width-2);
@@ -1273,6 +1273,12 @@
   );
   --inputNumber-enhance-leftIcon-default-icon: '<svg viewBox="0 0 12 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="icon icon-minus"><g id="minus" fill="currentColor" fill-rule="nonzero"><polygon id="path-1" points="0 1.6 0 0.4 12 0.4 12 1.6"></polygon></g></svg>';
   --inputNumber-enhance-rightIcon-default-icon: '<svg viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg" class="icon  icon-plus"><path d="M6.6 6.6V12H5.4V6.6H0V5.4h5.4V0h1.2v5.4H12v1.2z" fill="currentColor" fill-rule="nonzero"></path></svg>';
+  --inputNumber-enhance-mobile-input-width: #{px2rem(56px)};
+  --inputNumber-enhance-mobile-icon-width: #{px2rem(28px)};
+  --inputNumber-enhance-mobile-icon-height: #{px2rem(28px)};
+  --inputNumber-enhance-mobile-icon-inner-width: #{px2rem(27px)};
+  --inputNumber-enhance-mobile-icon-inner-height: #{px2rem(27px)};
+
   --Form-input-onHover-borderColor: var(--colors-brand-5);
   --Form-input-onFocused-borderColor: var(--colors-brand-5);
 

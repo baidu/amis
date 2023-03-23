@@ -260,6 +260,7 @@
     flex-shrink: 0;
 
     .date-range-confirm {
+      width: 100%;
       height: px2rem(36px);
       margin: px2rem(7px) 0;
       border-radius: var(--borderRadiusMd);
@@ -267,13 +268,7 @@
       justify-content: center;
       align-items: center;
     }
-    .is-disabled {
-      opacity: 0.5;
-      color: var(--Button--primary-color);
-      background: var(--Button--primary-bg);
-      border-color: var(--Button--primary-bg);
-      filter: none;
-    }
+
     &-toolbar {
       padding: 0 px2rem(16px);
     }
