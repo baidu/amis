@@ -18,7 +18,8 @@ const fileLists = {
     'pinyin.docx',
     'em.docx',
     'w.docx',
-    'textbox.docx'
+    'textbox.docx',
+    'embed-font.docx'
   ],
   docx4j: [
     'ArialUnicodeMS.docx',

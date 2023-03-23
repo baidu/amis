@@ -1,3 +1,4 @@
+import {FontTable} from './openxml/word/FontTable';
 /**
  * 总入口，它将包括所有 word 文档信息，后续渲染的时候依赖它来获取关联信息
  */
@@ -19,6 +20,8 @@ import {updateVariableText} from './render/renderRun';
 import ZipPackageParser from './package/ZipPackageParser';
 import {buildXML} from './util/xml';
 import {Paragraph} from './openxml/word/Paragraph';
+import {deobfuscate} from './openxml/word/Font';
+import {renderFont} from './render/renderFont';
 
 /**
  * 渲染配置
@@ -164,6 +167,11 @@ export default class Word {
   styleIdNum: number = 0;
 
   /**
+   * 内置字体标
+   */
+  fontTable?: FontTable;
+
+  /**
    * 渲染根节点
    */
   rootElement: HTMLElement;
@@ -204,10 +212,12 @@ export default class Word {
 
     // 这个必须在最前面，因为后面很多依赖它来查找文件的
     this.initContentType();
+    // relation 需要排第二
+    this.initRelation();
 
     this.initTheme();
+    this.initFontTable();
     this.initStyle();
-    this.initRelation();
     this.initNumbering();
 
     this.inited = true;
@@ -237,6 +247,20 @@ export default class Word {
   }
 
   /**
+   * 解析字体表
+   */
+  initFontTable() {
+    for (const override of this.conentTypes.overrides) {
+      if (override.partName.startsWith('/word/fontTable.xml')) {
+        this.fontTable = FontTable.fromXML(
+          this,
+          this.parser.getXML('/word/fontTable.xml')
+        );
+      }
+    }
+  }
+
+  /**
    * 解析关系
    */
   initRelation() {
@@ -254,7 +278,16 @@ export default class Word {
         'word'
       );
     }
-    this.relationships = documentRels;
+    this.documentRels = documentRels;
+
+    let fontTableRels = {};
+    if (this.parser.fileExists('/word/_rels/fontTable.xml.rels')) {
+      fontTableRels = parseRelationships(
+        this.parser.getXML('/word/_rels/fontTable.xml.rels'),
+        'word'
+      );
+    }
+    this.fontTableRels = fontTableRels;
   }
 
   /**
@@ -281,7 +314,7 @@ export default class Word {
    * 获取全局关系
    */
   getRelationship(id?: string) {
-    if (id) {
+    if (id && this.relationships) {
       return this.relationships[id];
     }
     return null;
@@ -291,7 +324,7 @@ export default class Word {
    * 获取文档对应的关系
    */
   getDocumentRels(id?: string) {
-    if (id) {
+    if (id && this.documentRels) {
       return this.documentRels[id];
     }
     return null;
@@ -301,7 +334,7 @@ export default class Word {
    * 获取字体对应的关系
    */
   getFontTableRels(id?: string) {
-    if (id) {
+    if (id && this.fontTableRels) {
       return this.fontTableRels[id];
     }
     return null;
@@ -338,6 +371,25 @@ export default class Word {
           resolve(URL.createObjectURL(data as Blob));
         });
       }
+    }
+
+    return null;
+  }
+
+  loadFont(rId: string, key: string) {
+    const relation = this.getFontTableRels(rId);
+    if (!relation) {
+      return null;
+    }
+
+    let path = relation.target;
+    if (relation.part === 'word') {
+      path = 'word/' + path;
+    }
+
+    const data = this.parser.getFileByType(path, 'uint8array') as Uint8Array;
+    if (data) {
+      return URL.createObjectURL(new Blob([deobfuscate(data, key)]));
     }
 
     return null;
@@ -515,6 +567,7 @@ export default class Word {
     }
 
     appendChild(root, renderStyle(this));
+    appendChild(root, renderFont(this.fontTable));
     appendChild(root, documentElement);
   }
 }

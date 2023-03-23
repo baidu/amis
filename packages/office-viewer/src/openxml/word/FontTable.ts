@@ -8,9 +8,10 @@ import {Font} from './Font';
 export class FontTable {
   fonts: Font[] = [];
 
-  static fromXML(word: Word, element: Element): FontTable {
+  static fromXML(word: Word, doc: Document): FontTable {
+    const fonts = Array.from(doc.getElementsByTagName('w:font'));
     const fontTable = new FontTable();
-    for (const child of element.children) {
+    for (const child of fonts) {
       const font = Font.fromXML(word, child);
       fontTable.fonts.push(font);
     }
