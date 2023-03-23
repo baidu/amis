@@ -4,6 +4,7 @@ import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {tipedLabel} from 'amis-editor-core';
 
 export class LinkPlugin extends BasePlugin {
+  static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'link';
   $schema = '/schemas/LinkSchema.json';

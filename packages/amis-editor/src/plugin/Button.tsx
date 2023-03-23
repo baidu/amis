@@ -15,6 +15,7 @@ import {SchemaObject} from 'amis/lib/Schema';
 import {getOldActionSchema} from '../renderer/event-control/helper';
 
 export class ButtonPlugin extends BasePlugin {
+  static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'button';
   $schema = '/schemas/ActionSchema.json';

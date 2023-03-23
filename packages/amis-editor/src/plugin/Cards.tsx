@@ -18,6 +18,7 @@ import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {diff, JSONPipeOut, repeatArray} from 'amis-editor-core';
 
 export class CardsPlugin extends BasePlugin {
+  static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'cards';
   $schema = '/schemas/CardsSchema.json';

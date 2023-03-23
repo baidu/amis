@@ -15,6 +15,7 @@ import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 
 export class CityControlPlugin extends BasePlugin {
+  static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'input-city';
   $schema = '/schemas/CityControlSchema.json';

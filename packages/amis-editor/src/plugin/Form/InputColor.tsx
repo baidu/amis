@@ -55,6 +55,7 @@ const presetColorsByFormat = colorFormat.reduce<{
   return res;
 }, {});
 export class ColorControlPlugin extends BasePlugin {
+  static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'input-color';
   $schema = '/schemas/ColorControlSchema.json';

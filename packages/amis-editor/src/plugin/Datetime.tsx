@@ -4,6 +4,7 @@ import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {DatePlugin} from './Date';
 
 export class DatetimePlugin extends DatePlugin {
+  static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'datetime';
 

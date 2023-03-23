@@ -5,6 +5,7 @@ import {registerEditorPlugin} from 'amis-editor-core';
 import {FlexPluginBase} from './Layout/FlexPluginBase';
 
 export class FlexPlugin extends FlexPluginBase {
+  static scene = ['layout'];
   name = '布局容器';
   pluginIcon = 'flex-container-plugin';
   description =

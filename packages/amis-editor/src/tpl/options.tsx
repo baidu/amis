@@ -292,6 +292,14 @@ setSchemaTpl('hideNodePathLabel', {
   inputClassName: 'is-inline'
 });
 
+setSchemaTpl('navControl', {
+  label: '数据',
+  mode: 'normal',
+  name: 'source',
+  type: 'ae-navSourceControl',
+  closeDefaultCheck: true // 关闭默认值设置
+});
+
 setSchemaTpl('optionControl', {
   label: '数据',
   mode: 'normal',

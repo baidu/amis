@@ -1,10 +1,6 @@
 import React from 'react';
 import {Button, resolveVariable} from 'amis';
-import {
-  getI18nEnabled,
-  RendererPluginAction,
-  RendererPluginEvent
-} from 'amis-editor-core';
+import {getI18nEnabled, RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {findTree, setVariable, someTree} from 'amis-core';
 
 import {registerEditorPlugin, repeatArray, diff} from 'amis-editor-core';

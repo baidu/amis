@@ -20,6 +20,7 @@ import {JSONChangeInArray, JSONPipeIn, repeatArray} from 'amis-editor-core';
 import {Icon} from 'amis-editor-core';
 
 export class HBoxPlugin extends BasePlugin {
+  static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'hbox';
   $schema = '/schemas/HBoxSchema.json';

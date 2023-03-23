@@ -1127,6 +1127,23 @@ setSchemaTpl('badge', {
   type: 'ae-badge'
 });
 
+setSchemaTpl('nav-badge', {
+  label: '角标',
+  name: 'badge',
+  type: 'ae-nav-badge'
+});
+
+setSchemaTpl('nav-default-active', {
+  type: 'ae-nav-default-active'
+});
+// 暂未使用
+setSchemaTpl('formulaControl', (schema: object = {}) => {
+  return {
+    type: 'ae-formulaControl',
+    ...schema
+  };
+});
+
 /**
  * 日期范围快捷键组件
  */

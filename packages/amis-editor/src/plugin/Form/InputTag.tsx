@@ -12,6 +12,7 @@ import {formItemControl} from '../../component/BaseControl';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 
 export class TagControlPlugin extends BasePlugin {
+  static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'input-tag';
   $schema = '/schemas/TagControlSchema.json';

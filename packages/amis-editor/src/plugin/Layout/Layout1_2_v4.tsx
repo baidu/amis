@@ -2,6 +2,8 @@ import {registerEditorPlugin} from 'amis-editor-core';
 import {FlexPluginBase} from './FlexPluginBase';
 
 export default class Layout1_2_v4 extends FlexPluginBase {
+  static scene = ['layout'];
+
   name = '经典布局';
   isBaseComponent = true;
   pluginIcon = 'layout-3-1-plugin';

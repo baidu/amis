@@ -105,6 +105,7 @@ setSchemaTpl('tpl:wrapperComponent', {
 });
 
 export class TplPlugin extends BasePlugin {
+  static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'tpl';
   $schema = '/schemas/TplSchema.json';

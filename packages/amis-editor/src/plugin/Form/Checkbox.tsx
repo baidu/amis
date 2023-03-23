@@ -23,6 +23,7 @@ setSchemaTpl('option', {
   label: tipedLabel('说明', '选项说明')
 });
 export class CheckboxControlPlugin extends BasePlugin {
+  static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'checkbox';
   $schema = '/schemas/CheckboxControlSchema.json';
