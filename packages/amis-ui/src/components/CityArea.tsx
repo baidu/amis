@@ -293,7 +293,7 @@ const CityArea = memo<AreaProps>(props => {
           }
           placeholder={__('City.street')}
           disabled={disabled}
-          readOnly
+          readOnly={true}
         />
       ) : null}
       <PopUp
