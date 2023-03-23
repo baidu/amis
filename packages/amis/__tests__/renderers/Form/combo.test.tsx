@@ -763,12 +763,13 @@ test('Renderer:combo with addable & addattop & addBtn & addButtonText & addButto
   fireEvent.click(
     container.querySelector('.addAtTopClass .cxd-Combo-toolbar button')!
   );
-  await wait(10);
-  expect(
-    (container.querySelector(
-      '.addAtTopClass .cxd-Combo-item .cxd-TextControl-input input'
-    ) as HTMLInputElement)!.value
-  ).toBe('');
+  await waitFor(() => {
+    expect(
+      (container.querySelector(
+        '.addAtTopClass .cxd-Combo-item .cxd-TextControl-input input'
+      ) as HTMLInputElement)!.value
+    ).toBe('');
+  });
 
   expect(
     container.querySelector('.addableClass .cxd-Combo-toolbar button')!
