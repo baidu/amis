@@ -1731,6 +1731,20 @@
   --InputRange-clearIcon-color: var(--colors-neutral-text-4);
   --InputRange-clearIcon-hoverColor: var(--colors-brand-5);
 
+  // 进度条
+  --Progress-line-bg: var(--colors-neutral-fill-8);
+  --Progress-line-theme-color: var(--colors-brand-5);
+  --Progress-line-color: var(--colors-neutral-text-2);
+  --Progress-line-fontSize: var(--fonts-size-8);
+  --Progress-circle-bg: var(--colors-neutral-fill-8);
+  --Progress-circle-theme-color: red;
+  --Progress-circle-color: var(--colors-neutral-text-2);
+  --Progress-circle-fontSize: var(--fonts-size-8);
+
+  --Progress-borderRadius: var(--borderRadius);
+  --Progress-animate-backgroundColor: #fff;
+  --Progress-bar-backgroundColor: var(--colors-neutral-fill-8);
+
   // 对话框
   --dialog-default-border-width: var(--sizes-size-0);
   --dialog-default-border-radius: var(--sizes-size-4);
@@ -3255,6 +3269,29 @@
   --Spinner-overlay-bg: rgba(255, 255, 255, 0.4);
   --Spinner-width: var(--spinner-size-size);
   --Spinner-color: var(--spinner-base-color);
+
+  // Image
+  --image-image-normal-paddingTop: var(--sizes-size-3);
+  --image-image-normal-paddingBottom: var(--sizes-size-3);
+  --image-image-normal-paddingLeft: var(--sizes-size-3);
+  --image-image-normal-paddingRight: var(--sizes-size-3);
+  --image-image-normal-color: var(--colors-neutral-text-2);
+  --image-image-normal-fontSize: var(--fonts-size-7);
+  --image-image-description-color: var(--colors-neutral-text-2);
+  --image-image-description-fontSize: var(--fonts-size-8);
+
+  --image-images-item-marginTop: var(--sizes-size-3);
+  --image-images-item-marginBottom: var(--sizes-size-3);
+  --image-images-item-marginLeft: var(--sizes-size-3);
+  --image-images-item-marginRight: var(--sizes-size-3);
+  --image-images-item-size: 3rem;
+  --image-images-item-color: var(--colors-neutral-text-5);
+  --image-images-preview-radius: var(--sizes-size-3);
+  --image-images-preview-bgColor: var(--colors-neutral-text-11);
+  --image-images-preview-paddingTop: var(--sizes-size-3);
+  --image-images-preview-paddingBottom: var(--sizes-size-3);
+  --image-images-preview-paddingLeft: var(--sizes-size-9);
+  --image-images-preview-paddingRight: var(--sizes-size-9);
 
   --Tag-base-fontSize: var(--fonts-size-8);
   --Tag-base-fontWeight: var(--fonts-weight-6);
