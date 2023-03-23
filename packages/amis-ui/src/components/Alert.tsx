@@ -19,7 +19,7 @@ export interface AlertProps extends ThemeProps, LocaleProps {
   confirmBtnLevel?: string;
   alertBtnLevel?: string;
   isolate?: boolean;
-  children?: JSX.Element;
+  children?: React.ReactElement;
 }
 
 export interface AlertState {

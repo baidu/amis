@@ -52,6 +52,7 @@ export interface TabProps extends ThemeProps {
   mountOnEnter?: boolean;
   unmountOnExit?: boolean;
   toolbar?: React.ReactNode;
+  children?: React.ReactNode | Array<React.ReactNode>;
 }
 
 class TabComponent extends React.PureComponent<TabProps> {
@@ -130,6 +131,7 @@ export interface TabsProps extends ThemeProps, LocaleProps {
   collapseOnExceed?: number;
   collapseBtnLabel?: string;
   popOverContainer?: any;
+  children?: React.ReactNode | Array<React.ReactNode>;
 }
 
 export interface IDragInfo {
@@ -244,10 +246,12 @@ export class Tabs extends React.Component<TabsProps, any> {
         activeKey: this.props.activeKey,
         children: Array.isArray(this.props.children)
           ? this.props.children!.map(item => ({
-              eventKey: item?.props?.eventKey,
+              eventKey: (item as JSX.Element)?.props?.eventKey,
               // 这里 title 可能是 React.ReactNode，只对比 string
               title:
-                typeof item?.props?.title === 'string' ? item.props.title : ''
+                typeof (item as JSX.Element)?.props?.title === 'string'
+                  ? (item as JSX.Element).props.title
+                  : ''
             }))
           : []
       },

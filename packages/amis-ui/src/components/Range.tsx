@@ -209,7 +209,7 @@ class HandleItem extends React.Component<HandleItemProps, HandleItemState> {
         <Overlay
           placement={tooltipPlacement}
           target={() => findDOMNode(this)}
-          container={() => findDOMNode(this)}
+          container={() => findDOMNode(this) as HTMLElement}
           rootClose={false}
           show={true}
         >

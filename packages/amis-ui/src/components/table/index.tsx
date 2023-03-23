@@ -365,7 +365,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
 
   @autobind
   getPopOverContainer() {
-    return findDOMNode(this);
+    return findDOMNode(this) as HTMLElement;
   }
 
   // 表头配置
@@ -1099,14 +1099,16 @@ export class Table extends React.PureComponent<TableProps, TableState> {
                 }
                 const children = !item.children?.length ? (
                   <span>
-                    {sort}
-                    {filter}
-                    {resizable ? (
-                      <i
-                        className={cx('Table-thead-resizable')}
-                        onMouseDown={e => this.onResizeMouseDown(e, cIndex)}
-                      ></i>
-                    ) : null}
+                    <>
+                      {sort}
+                      {filter}
+                      {resizable ? (
+                        <i
+                          className={cx('Table-thead-resizable')}
+                          onMouseDown={e => this.onResizeMouseDown(e, cIndex)}
+                        ></i>
+                      ) : null}
+                    </>
                   </span>
                 ) : null;
 

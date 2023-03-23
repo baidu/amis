@@ -26,7 +26,7 @@ export interface MenuItemProps
   classPrefix: string;
   classnames: ClassNamesFn;
   tooltipClassName?: string;
-  tooltipContainer?: React.ReactNode;
+  tooltipContainer?: HTMLElement | (() => HTMLElement);
   tooltipTrigger?: Trigger | Array<Trigger>;
   renderLink: Function;
   extra?: React.ReactNode;
