@@ -45,7 +45,9 @@ import {scrollPosition, isMobile} from 'amis-core';
  * css 定义
  */
 interface CSSRule {
-  [selector: string]: Record<string, string> | Record<string, Record<string, string>>; // 定义
+  [selector: string]:
+    | Record<string, string>
+    | Record<string, Record<string, string>>; // 定义
 }
 
 /**
@@ -326,16 +328,16 @@ export default class Page extends React.Component<PageProps> {
       const declaration = cssRules[selector];
       let declarationStr = '';
       for (const property in declaration) {
-        let innerstr = ''
-        const innerValue=declaration[property]
-        if (typeof innerValue==='string') {
+        let innerstr = '';
+        const innerValue = declaration[property];
+        if (typeof innerValue === 'string') {
           declarationStr += `  ${property}: ${innerValue};\n`;
         } else {
           for (const propsName in innerValue) {
-            innerstr+= ` ${propsName}:${innerValue[propsName]};`;
+            innerstr += ` ${propsName}:${innerValue[propsName]};`;
           }
-          declarationStr += `  ${property} {${innerstr}}\n`; 
-        } 
+          declarationStr += `  ${property} {${innerstr}}\n`;
+        }
       }
 
       css += `
@@ -1020,7 +1022,7 @@ export class PageRenderer extends Page {
     const store = this.props.store;
     const dialogAction = store.action as ActionObject;
     const reload = action.reload ?? dialogAction.reload;
-    const scoped = store.getDialogScoped() || this.context;
+    const scoped = store.getDialogScoped() || (this.context as IScopedContext);
 
     super.handleDialogConfirm(values, action, ...rest);
 

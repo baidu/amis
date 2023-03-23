@@ -73,6 +73,7 @@ export interface BadgeProps {
   badge?: BadgeObject;
   classnames: ClassNamesFn;
   data?: any;
+  children?: React.ReactNode | Array<React.ReactNode>;
 }
 
 export class Badge extends React.Component<BadgeProps, object> {

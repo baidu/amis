@@ -21,7 +21,7 @@ export interface AlertProps {
   onClose?: () => void;
   classnames: ClassNamesFn;
   classPrefix: string;
-  children?: JSX.Element;
+  children?: React.ReactNode | Array<React.ReactNode>;
 }
 
 export interface AlertState {

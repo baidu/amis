@@ -67,7 +67,7 @@ export interface TooltipObject {
   /**
    * 挂载容器元素
    */
-  container?: React.ReactNode;
+  container?: HTMLElement | (() => HTMLElement | null | undefined);
   /**
    * 浮层触发方式
    */
@@ -87,7 +87,7 @@ export interface TooltipWrapperProps {
   classPrefix: string;
   classnames: ClassNamesFn;
   placement: 'top' | 'right' | 'bottom' | 'left';
-  container?: React.ReactNode;
+  container?: HTMLElement | (() => HTMLElement | null | undefined);
   trigger: Trigger | Array<Trigger>;
   rootClose: boolean;
   overlay?: any;
@@ -99,7 +99,7 @@ export interface TooltipWrapperProps {
    * 显示&隐藏时触发
    */
   onVisibleChange?: (visible: boolean) => void;
-  children?: JSX.Element;
+  children?: React.ReactNode | Array<React.ReactNode>;
 }
 
 interface TooltipWrapperState {

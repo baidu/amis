@@ -226,7 +226,7 @@ export class Rating extends React.Component<RatingProps, any> {
   }
 
   saveRef(index: number) {
-    return (node: React.ReactNode) => {
+    return (node?: HTMLLIElement | null) => {
       this.starsNode[String(index)] = node;
     };
   }
