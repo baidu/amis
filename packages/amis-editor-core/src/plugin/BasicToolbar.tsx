@@ -18,6 +18,7 @@ import {EditorNodeType} from '../store/node';
  * 用来给当前选中的元素添加一些基本的工具栏按钮。
  */
 export class BasicToolbarPlugin extends BasePlugin {
+  static scene = ['layout'];
   order = -9999;
 
   buildEditorToolbar(

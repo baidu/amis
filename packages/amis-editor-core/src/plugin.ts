@@ -737,6 +737,11 @@ export interface PluginInterface
 
   order?: number;
 
+  /**
+   * 插件作用场景
+   */
+  scene?: Array<string>;
+
   // 是否可绑定数据，一般容器类型就没有
   withDataSource?: boolean;
 
@@ -947,6 +952,8 @@ export interface PluginActions {
  */
 export abstract class BasePlugin implements PluginInterface {
   constructor(readonly manager: EditorManager) {}
+
+  static scene = ['global'];
 
   /**
    * 如果配置里面有 rendererName 自动返回渲染器信息。

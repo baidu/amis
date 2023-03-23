@@ -62,6 +62,11 @@ export interface EditorProps extends PluginEventListener {
    */
   disableBultinPlugin?: boolean;
 
+  /**
+   * 插件场景
+   */
+  scene?: string;
+
   disablePluginList?:
     | Array<string>
     | ((id: string, plugin: PluginClass) => boolean);
