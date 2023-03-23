@@ -11,7 +11,7 @@ import {
   resolveRenderer
 } from './factory';
 import {asFormItem} from './renderers/Item';
-import {ScopedContext} from './Scoped';
+import {IScopedContext, ScopedContext} from './Scoped';
 import {Schema, SchemaNode} from './types';
 import {DebugWrapper} from './utils/debug';
 import getExprProperties from './utils/filter-schema';
@@ -207,7 +207,12 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     data: any,
     renderer?: React.Component<RendererProps> // for didmount
   ): Promise<RendererEvent<any> | void> {
-    return await dispatchEvent(e, this.cRef || renderer, this.context, data);
+    return await dispatchEvent(
+      e,
+      this.cRef || renderer,
+      this.context as IScopedContext,
+      data
+    );
   }
 
   renderChild(

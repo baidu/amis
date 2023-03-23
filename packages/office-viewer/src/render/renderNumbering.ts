@@ -78,6 +78,11 @@ export function renderNumbering(
     return null;
   }
 
+  if (!numbering) {
+    console.warn('renderNumbering: numbering is empty');
+    return null;
+  }
+
   const num = numbering.nums[numId];
 
   if (!num) {

@@ -585,7 +585,7 @@ export interface ActionProps
     | string
     | Function
     | null;
-  componentClass: React.ReactType;
+  componentClass: React.ElementType;
   tooltipContainer?: any;
   data?: any;
   isMenuItem?: boolean;
@@ -603,7 +603,7 @@ interface ActionState {
 export class Action extends React.Component<ActionProps, ActionState> {
   static defaultProps = {
     type: 'button' as 'button',
-    componentClass: 'button' as React.ReactType,
+    componentClass: 'button' as React.ElementType,
     tooltipPlacement: 'bottom' as 'bottom',
     activeClassName: 'is-active',
     countDownTpl: 'Action.countDown',

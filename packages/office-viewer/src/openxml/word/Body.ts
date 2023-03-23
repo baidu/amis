@@ -52,6 +52,9 @@ export class Body {
           body.addChild(table);
           break;
 
+        case 'w:bookmarkEnd':
+          break;
+
         default:
           console.warn('Body.fromXML Unknown key', tagName, child);
       }

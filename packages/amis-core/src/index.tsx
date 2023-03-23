@@ -79,7 +79,9 @@ import type {RendererEnv} from './env';
 import React from 'react';
 import {
   evaluate,
+  evaluateForAsync,
   Evaluator,
+  AsyncEvaluator,
   extendsFilters,
   filters,
   getFilters,
@@ -152,6 +154,7 @@ export {
   parse,
   lexer,
   Evaluator,
+  AsyncEvaluator,
   FilterContext,
   filters,
   getFilters,
@@ -159,6 +162,7 @@ export {
   extendsFilters,
   registerFunction,
   evaluate,
+  evaluateForAsync,
   // 其他
   LazyComponent,
   Overlay,

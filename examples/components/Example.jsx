@@ -126,6 +126,7 @@ import Tab2Schema from './Tabs/Tab2';
 import Tab3Schema from './Tabs/Tab3';
 import Loading from './Loading';
 import CodeSchema from './Code';
+import OfficeViewer from './OfficeViewer';
 
 import {Switch} from 'react-router-dom';
 import {navigations2route} from './App';
@@ -871,6 +872,13 @@ export const examples = [
         icon: 'fa fa-rocket',
         path: '/examples/sdk',
         component: SdkTest
+      },
+
+      {
+        label: 'Office 文档预览',
+        icon: 'fa fa-file-word',
+        path: '/examples/office-viwewer',
+        component: makeSchemaRenderer(OfficeViewer)
       },
 
       {

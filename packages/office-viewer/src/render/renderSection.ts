@@ -8,6 +8,8 @@ import Word from '../Word';
 export function renderSection(word: Word, section: Section) {
   const sectionEl = createElement('section') as HTMLElement;
 
+  // 用于后续绝对定位
+  sectionEl.style.position = 'relative';
   const props = section.properties;
   const pageSize = props.pageSize;
   if (pageSize) {

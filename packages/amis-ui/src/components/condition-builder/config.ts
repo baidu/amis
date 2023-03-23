@@ -1,10 +1,10 @@
 import {
   FieldTypes,
-  OperatorType,
   ConditionBuilderFuncs,
   ConditionBuilderFields,
   ConditionBuilderType
 } from './types';
+import type {OperatorType} from 'amis-core';
 
 export interface BaseFieldConfig {
   operations: Array<OperatorType>;

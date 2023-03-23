@@ -76,7 +76,8 @@ function parseTblJc(element: Element, cssStyle: CSSStyle) {
   switch (val) {
     case 'left':
     case 'start':
-      cssStyle['float'] = 'left';
+      // TODO: 会导致前面的文字掉下去，感觉还是不能支持这个功能
+      // cssStyle['float'] = 'left';
       break;
     case 'right':
     case 'end':
@@ -165,16 +166,26 @@ function parseTblLook(child: Element) {
  * http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/tblpPr.html
  * 只支持部分
  */
-function parsetTlpPr(child: Element, style: CSSStyle) {
-  const topFromText = parseSize(child, 'w:topFromText');
-  const bottomFromText = parseSize(child, 'w:bottomFromText');
-  const rightFromText = parseSize(child, 'w:rightFromText');
-  const leftFromText = parseSize(child, 'w:leftFromText');
-  style['float'] = 'left';
-  style['margin-bottom'] = addSize(style['margin-bottom'], bottomFromText);
-  style['margin-left'] = addSize(style['margin-left'], leftFromText);
-  style['margin-right'] = addSize(style['margin-right'], rightFromText);
-  style['margin-top'] = addSize(style['margin-top'], topFromText);
+function parsetTlpPr(word: Word, child: Element, style: CSSStyle) {
+  // 如果设置 padding 会导致绝对定位不准确，所以一旦设置就不支持
+  if (typeof word.renderOptions.padding === 'undefined') {
+    const tplpX = parseSize(child, 'w:tblpX');
+    const tplpY = parseSize(child, 'w:tblpY');
+    style.position = 'absolute';
+    style.top = tplpY;
+    style.left = tplpX;
+  }
+
+  // 之前想用 float 来实现，但是会导致文字掉下去
+  // const topFromText = parseSize(child, 'w:topFromText');
+  // const bottomFromText = parseSize(child, 'w:bottomFromText');
+  // const rightFromText = parseSize(child, 'w:rightFromText');
+  // const leftFromText = parseSize(child, 'w:leftFromText');
+  // style['float'] = 'left';
+  // style['margin-bottom'] = addSize(style['margin-bottom'], bottomFromText);
+  // style['margin-left'] = addSize(style['margin-left'], leftFromText);
+  // style['margin-right'] = addSize(style['margin-right'], rightFromText);
+  // style['margin-top'] = addSize(style['margin-top'], topFromText);
 }
 
 export class Table {
@@ -257,7 +268,7 @@ export class Table {
           break;
 
         case 'w:tblpPr':
-          parsetTlpPr(child, tableStyle);
+          parsetTlpPr(word, child, tableStyle);
           break;
 
         default:

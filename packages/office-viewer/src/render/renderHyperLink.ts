@@ -3,11 +3,16 @@ import {appendChild, createElement} from '../util/dom';
 import Word from '../Word';
 import {Run} from '../openxml/word/Run';
 import renderRun from './renderRun';
+import type {Paragraph} from '../openxml/word/Paragraph';
 
 /**
  * 渲染链接
  */
-export function renderHyperLink(word: Word, hyperlink: Hyperlink): HTMLElement {
+export function renderHyperLink(
+  word: Word,
+  hyperlink: Hyperlink,
+  paragraph?: Paragraph
+): HTMLElement {
   const a = createElement('a') as HTMLAnchorElement;
 
   if (hyperlink.relation) {
@@ -24,7 +29,7 @@ export function renderHyperLink(word: Word, hyperlink: Hyperlink): HTMLElement {
 
   for (const child of hyperlink.children) {
     if (child instanceof Run) {
-      const span = renderRun(word, child);
+      const span = renderRun(word, child, paragraph);
       appendChild(a, span);
     }
   }

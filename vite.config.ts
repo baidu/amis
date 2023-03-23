@@ -7,6 +7,7 @@ import replace from '@rollup/plugin-replace';
 import fis3 from './scripts/fis3plugin';
 import markdown from './scripts/markdownPlugin';
 import mockApi from './scripts/mockApiPlugin';
+import transformMobileHtml from './scripts/transformMobileHtml';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -14,6 +15,7 @@ export default defineConfig({
     fis3(),
     markdown(),
     mockApi(),
+    transformMobileHtml(),
 
     react({
       babel: {

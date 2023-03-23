@@ -1,8 +1,9 @@
 import omit from 'lodash/omit';
 import {RendererProps} from '../factory';
+import {ConditionGroupValue} from '../types';
 import {createObject} from '../utils/helper';
 import {RendererEvent} from '../utils/renderer-event';
-import {evalExpression} from '../utils/tpl';
+import {evalExpressionWithConditionBuilder} from '../utils/tpl';
 import {dataMapping} from '../utils/tpl-builtin';
 import {IBreakAction} from './BreakAction';
 import {IContinueAction} from './ContinueAction';
@@ -28,7 +29,7 @@ export interface ListenerAction {
   outputVar?: string; // 输出数据变量名
   preventDefault?: boolean; // 阻止原有组件的动作行为
   stopPropagation?: boolean; // 阻止后续的事件处理器执行
-  expression?: string; // 执行条件
+  expression?: string | ConditionGroupValue; // 执行条件
   execOn?: string; // 执行条件，1.9.0废弃
 }
 
@@ -207,18 +208,38 @@ export const runAction = async (
   );
   // 兼容一下1.9.0之前的版本
   const expression = actionConfig.expression ?? actionConfig.execOn;
+  // 执行条件
+  let isStop = false;
 
-  if (expression && !evalExpression(expression, mergeData)) {
+  if (expression) {
+    isStop = !(await evalExpressionWithConditionBuilder(
+      expression,
+      mergeData,
+      true
+    ));
+  }
+
+  if (isStop) {
     return;
   }
 
   // 支持表达式 >=1.10.0
-  const preventDefault =
-    actionConfig.preventDefault &&
-    evalExpression(String(actionConfig.preventDefault), mergeData);
-  const stopPropagation =
-    actionConfig.stopPropagation &&
-    evalExpression(String(actionConfig.stopPropagation), mergeData);
+  let preventDefault = false;
+  if (actionConfig.preventDefault) {
+    preventDefault = await evalExpressionWithConditionBuilder(
+      actionConfig.preventDefault,
+      mergeData,
+      false
+    );
+  }
+  let stopPropagation = false;
+  if (actionConfig.stopPropagation) {
+    stopPropagation = await evalExpressionWithConditionBuilder(
+      actionConfig.stopPropagation,
+      mergeData,
+      false
+    );
+  }
 
   // 动作配置
   const args = dataMapping(actionConfig.args, mergeData, key =>

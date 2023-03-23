@@ -1,5 +1,5 @@
 import React from 'react';
-import {FieldSimple, OperatorType} from './types';
+import {FieldSimple} from './types';
 import {ThemeProps, themeable, localeable, LocaleProps} from 'amis-core';
 import InputBox from '../InputBox';
 import NumberInput from '../NumberInput';
@@ -7,6 +7,7 @@ import DatePicker from '../DatePicker';
 import {SelectWithRemoteOptions as Select} from '../Select';
 import Switch from '../Switch';
 import {FormulaPicker, FormulaPickerProps} from '../formula/Picker';
+import type {OperatorType} from 'amis-core';
 
 export interface ValueProps extends ThemeProps, LocaleProps {
   value: any;

@@ -32,7 +32,7 @@ order: 23
 ```schema: scope="body"
 {
   "type": "office-viewer",
-  "src": "https://suda.cdn.bcebos.com/docx/simple.docx",
+  "src": "/examples/static/simple.docx",
   "wordOptions": {
     "padding": "8px"
   }
@@ -116,7 +116,7 @@ order: 23
     {
       "type": "office-viewer",
       "id": "office-viewer",
-      "src": "https://suda.cdn.bcebos.com/docx/info.docx",
+      "src": "/examples/static/info.docx",
       "wordOptions": {
         "enableVar": true,
         "padding": "8px"
@@ -132,7 +132,7 @@ order: 23
 {
   "type": "office-viewer",
   "id": "office-viewer",
-  "src": "https://suda.cdn.bcebos.com/docx/info.docx",
+  "src": "/examples/static/info.docx",
   "wordOptions": {
     "padding": "8px"
   }
@@ -173,7 +173,7 @@ order: 23
     "type": "office-viewer",
     "id": "office-viewer-download",
     "display": false,
-    "src": "https://suda.cdn.bcebos.com/docx/simple.docx"
+    "src": "/examples/static/simple.docx"
   }
 ]
 ```
@@ -202,7 +202,7 @@ order: 23
     "type": "office-viewer",
     "id": "office-viewer-print",
     "display": false,
-    "src": "https://suda.cdn.bcebos.com/docx/simple.docx"
+    "src": "/examples/static/simple.docx"
   }
 ]
 ```

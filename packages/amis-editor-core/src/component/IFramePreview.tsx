@@ -3,14 +3,13 @@ import {EditorManager} from '../manager';
 import {EditorStoreType} from '../store/editor';
 import {render, toast, resolveRenderer, resizeSensor} from 'amis';
 import {autobind} from '../util';
-import {RenderOptions} from 'amis-core';
+import {RendererConfig, RenderOptions} from 'amis-core';
 import {Schema} from 'amis';
 import {ErrorRenderer} from './base/ErrorRenderer';
 import cx from 'classnames';
 import {findDOMNode} from 'react-dom';
 import {isAlive} from 'mobx-state-tree';
 import {findTree} from 'amis-core';
-import {RendererConfig} from 'amis-core/lib/factory';
 
 export interface IFramePreviewProps {
   className: string;
