@@ -11,7 +11,7 @@ import {parseTheme, Theme} from './openxml/Theme';
 import renderDocument from './render/renderDocument';
 import {blobToDataURL, downloadBlob} from './util/blob';
 import {Numbering} from './openxml/word/numbering/Numbering';
-import {appendChild} from './util/dom';
+import {appendChild, createElement} from './util/dom';
 import {renderStyle} from './render/renderStyle';
 import {mergeRun} from './util/mergeRun';
 import {WDocument} from './openxml/word/WDocument';
@@ -31,9 +31,6 @@ export interface WordRenderOptions {
    * css 类前缀
    */
   classPrefix: string;
-
-  /** 图片是否使用 data url */
-  imageDataURL: boolean;
 
   /**
    * 列表使用字体渲染，需要自行引入 Windings 字体
@@ -89,10 +86,14 @@ export interface WordRenderOptions {
    * 强制行高，设置之后所有文本都使用这个行高，可以优化排版效果
    */
   forceLineHeight?: string;
+
+  /**
+   * 打印等待时间，单位毫秒，可能有的文档有很多图片，如果等待时间太短图片还没加载完，所以加这个配置项可控
+   */
+  printWaitTime?: number;
 }
 
 const defaultRenderOptions: WordRenderOptions = {
-  imageDataURL: false,
   classPrefix: 'docx-viewer',
   inWrap: true,
   bulletUseFont: true,
@@ -100,7 +101,8 @@ const defaultRenderOptions: WordRenderOptions = {
   ignoreWidth: true,
   minLineHeight: 1.0,
   enableVar: false,
-  debug: false
+  debug: false,
+  printWaitTime: 100
 };
 
 export default class Word {
@@ -356,7 +358,7 @@ export default class Word {
   /**
    * 加载图片
    */
-  loadImage(relation: Relationship): Promise<string> | null {
+  loadImage(relation: Relationship): string | null {
     let path = relation.target;
     if (relation.part === 'word') {
       path = 'word/' + path;
@@ -364,13 +366,7 @@ export default class Word {
 
     const data = this.parser.getFileByType(path, 'blob');
     if (data) {
-      if (this.renderOptions.imageDataURL) {
-        return blobToDataURL(data as Blob);
-      } else {
-        return new Promise<string>((resolve, reject) => {
-          resolve(URL.createObjectURL(data as Blob));
-        });
-      }
+      return URL.createObjectURL(data as Blob);
     }
 
     return null;
@@ -431,9 +427,9 @@ export default class Word {
   /**
    * 添加新样式，主要用于表格的单元格样式
    */
-  appendStyle(style: string) {
-    const styleElement = document.createElement('style');
-    styleElement.innerHTML = style;
+  appendStyle(style: string = '') {
+    const styleElement = createElement('style');
+    styleElement.textContent = style;
     this.rootElement.appendChild(styleElement);
   }
 
@@ -531,7 +527,7 @@ export default class Word {
       iframe.focus();
       iframe.contentWindow?.print();
       iframe.parentNode?.removeChild(iframe);
-    }, 100);
+    }, this.renderOptions.printWaitTime || 100); // 需要等一下图片渲染
     window.focus();
   }
 

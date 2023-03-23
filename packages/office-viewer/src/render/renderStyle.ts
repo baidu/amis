@@ -328,7 +328,7 @@ export function renderStyle(word: Word) {
   const docDefaults = generateDefaultStyle(word);
   const styleText = generateStyle(word);
 
-  style.innerHTML = `
+  style.textContent = `
   ${docDefaults}
 
   ${styleText}

@@ -16,7 +16,7 @@ export function renderFont(fontTable?: FontTable) {
   const style = createElement('style');
   let fontContent = '/** embedded fonts **/';
   for (const font of fontTable.fonts) {
-    const fontName = font.name;
+    const fontName = font.name.replace(/['\\]/g, ''); // 简单防止 xss
     const fontPath = font.url;
     if (fontName && fontPath) {
       fontContent += `

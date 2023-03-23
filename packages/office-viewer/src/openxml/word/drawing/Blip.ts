@@ -3,6 +3,7 @@ import Word from '../../../Word';
 
 export class Blip {
   embled?: Relationship;
+  src?: string | null;
 
   static fromXML(word: Word, element: Element): Blip {
     const blip = new Blip();
@@ -11,6 +12,7 @@ export class Blip {
     const rel = word.getDocumentRels(embedId);
     if (rel) {
       blip.embled = rel;
+      blip.src = word.loadImage(blip.embled);
     }
 
     return blip;

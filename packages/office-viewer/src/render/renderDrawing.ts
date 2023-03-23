@@ -12,15 +12,11 @@ import {Table} from '../openxml/word/Table';
  */
 function renderPic(pic: Pic, word: Word, drawing: Drawing) {
   const blip = pic.blipFill?.blip;
-  if (blip && blip.embled) {
+  if (blip && blip.src) {
     const img = document.createElement('img') as HTMLImageElement;
     img.style.position = 'relative';
 
-    word.loadImage(blip.embled)?.then(url => {
-      if (url) {
-        img.src = url;
-      }
-    });
+    img.src = blip.src;
 
     const xfrm = pic.spPr?.xfrm;
 
