@@ -1147,6 +1147,26 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       ...rest
     } = this.props;
 
+    const extraProps: any = {};
+    if (mode === 'table2') {
+      const {rowSelection, expandable} = this.props;
+
+      // Table2 中 rowSelection 属性与 本组件 selectable、multiple 等属性需要转换一层才能使用
+      // 目的是在 CRUD2 层面抹平 Table2、Cards、List 间的一些差异
+      selectable &&
+        (extraProps.rowSelection = {
+          ...(rowSelection || {}),
+          type: multiple === false ? 'radio' : 'checkbox',
+          keyField: primaryField
+        });
+
+      expandable &&
+        (extraProps.expandable = {
+          ...expandable,
+          keyField: primaryField
+        });
+    }
+
     return (
       <div
         className={cx('Crud2', className, {
@@ -1168,6 +1188,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
           'body',
           {
             ...rest,
+            ...extraProps,
             type: mode,
             columns: mode.startsWith('table')
               ? store.columns || columns
