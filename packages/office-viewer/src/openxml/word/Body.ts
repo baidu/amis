@@ -1,7 +1,7 @@
+import {parseTable} from '../../parse/parseTable';
 import Word from '../../Word';
 import {Paragraph} from './Paragraph';
 import {Section, SectionChild, SectionPr} from './Section';
-import {Table} from './Table';
 
 /**
  * body 类型定义
@@ -48,7 +48,7 @@ export class Body {
           break;
 
         case 'w:tbl':
-          const table = Table.fromXML(word, child);
+          const table = parseTable(word, child);
           body.addChild(table);
           break;
 

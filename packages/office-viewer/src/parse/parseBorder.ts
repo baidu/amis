@@ -15,9 +15,9 @@ const DEFAULT_BORDER_COLOR = 'black';
  * 解析单个边框样式
  */
 export function parseBorder(word: Word, element: Element) {
-  const type = getVal(element);
+  const type = getVal(element) as ST_Border;
 
-  if (type === ST_Border.nil || type === ST_Border.none) {
+  if (type === 'nil' || type === 'none') {
     return 'none';
   }
 
@@ -25,24 +25,24 @@ export function parseBorder(word: Word, element: Element) {
 
   // 这里和 css 不完全一致，css 能表现的要少很多，也是导致展现效果难以一致的原因
   switch (type) {
-    case ST_Border.dashed:
-    case ST_Border.dashDotStroked:
-    case ST_Border.dashSmallGap:
+    case 'dashed':
+    case 'dashDotStroked':
+    case 'dashSmallGap':
       cssType = 'dashed';
       break;
-    case ST_Border.dotDash:
-    case ST_Border.dotDotDash:
-    case ST_Border.dotted:
+    case 'dotDash':
+    case 'dotDotDash':
+    case 'dotted':
       cssType = 'dotted';
       break;
-    case ST_Border.double:
-    case ST_Border.doubleWave:
+    case 'double':
+    case 'doubleWave':
       cssType = 'double';
       break;
-    case ST_Border.inset:
+    case 'inset':
       cssType = 'inset';
       break;
-    case ST_Border.outset:
+    case 'outset':
       cssType = 'outset';
       break;
   }

@@ -41,7 +41,7 @@ export default {
           }
         ],
         onEvent: {
-          itemclick: {
+          itemClick: {
             actions: [
               {
                 actionType: 'alert',
@@ -298,7 +298,7 @@ export default {
           ]
         },
         onEvent: {
-          itemclick: {
+          itemClick: {
             actions: [
               {
                 actionType: 'alert',

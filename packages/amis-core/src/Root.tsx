@@ -31,7 +31,7 @@ export interface RootProps {
 
 export interface RootWrapperProps {
   env: RendererEnv;
-  children: React.ReactNode;
+  children: React.ReactNode | Array<React.ReactNode>;
   schema: SchemaNode;
   rootStore: IRendererStore;
   theme: string;

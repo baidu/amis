@@ -24,7 +24,7 @@ export interface PullRefreshProps {
   loading?: boolean;
   successDuration?: number;
   loadingDuration?: number;
-  children?: JSX.Element;
+  children?: React.ReactNode | Array<React.ReactNode>;
 }
 
 type statusText = 'normal' | 'pulling' | 'loosing' | 'success' | 'loading';

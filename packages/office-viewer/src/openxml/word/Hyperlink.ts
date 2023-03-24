@@ -20,7 +20,7 @@ export class Hyperlink {
 
     const rId = element.getAttribute('r:id');
     if (rId) {
-      const rel = word.getRelationship(rId);
+      const rel = word.getDocumentRels(rId);
       if (rel) {
         hyperlink.relation = rel;
       }

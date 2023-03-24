@@ -3,7 +3,7 @@
  */
 
 import {renderBr} from './renderBr';
-import {appendChild, createElement, setStyle} from '../util/dom';
+import {appendChild, createElement, applyStyle} from '../util/dom';
 import Word from '../Word';
 import {Run, Text} from '../openxml/word/Run';
 import {Break} from '../openxml/word/Break';

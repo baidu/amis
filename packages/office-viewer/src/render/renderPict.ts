@@ -6,16 +6,10 @@ import Word from '../Word';
  */
 
 export function renderPict(word: Word, pict: Pict) {
-  if (pict.imagedata) {
+  if (pict.src) {
     const img = document.createElement('img') as HTMLImageElement;
     img.style.position = 'relative';
-
-    word.loadImage(pict.imagedata)?.then(url => {
-      if (url) {
-        img.src = url;
-      }
-    });
-
+    img.src = pict.src;
     return img;
   }
   return null;
