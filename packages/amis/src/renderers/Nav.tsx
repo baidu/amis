@@ -6,8 +6,7 @@ import {
   RendererEnv,
   RendererProps,
   resolveVariableAndFilter,
-  ActionObject,
-  isPureVariable
+  ActionObject
 } from 'amis-core';
 import {getExprProperties} from 'amis-core';
 import {filter, evalExpression} from 'amis-core';
@@ -357,8 +356,8 @@ export class Navigation extends React.Component<
       });
     }
 
-    const result = await onSelect?.(link, depth);
-    return result;
+    await onSelect?.(link, depth);
+    return false;
   }
 
   @autobind
@@ -705,7 +704,6 @@ export class Navigation extends React.Component<
               stacked={!!stacked}
               mode={mode}
               themeColor={themeColor}
-              location={location}
               onSelect={this.handleClick}
               onToggle={this.toggleLink}
               renderLink={(link: MenuItemProps) => link.link}
@@ -1141,11 +1139,11 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
       });
 
       if (rendererEvent?.prevented) {
-        return true;
+        return;
       }
 
       if (onSelect && onSelect(link) === false) {
-        return true;
+        return;
       }
 
       // 叶子节点点击也会默认选中
@@ -1159,16 +1157,18 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
           }),
           'select'
         );
-        return true;
+        return;
       }
 
       if (link.expandMore) {
         this.expandLink(link);
-        return false;
+        return;
       }
 
-      !!link.to && env?.jumpTo(filter(link.to as string, data), link as any);
-      return true;
+      if (!link.to) {
+        return;
+      }
+      env?.jumpTo(filter(link.to as string, data), link as any);
     }
 
     render() {
