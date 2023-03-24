@@ -5,6 +5,7 @@ import {ST_VerticalAlignRun} from '../Types';
 import {Break} from './Break';
 import {Drawing} from './drawing/Drawing';
 import {InstrText} from './InstrText';
+import {NoBreakHyphen} from './NoBreakHyphen';
 import {Pict} from './Pict';
 import {Properties} from './properties/Properties';
 import {Ruby} from './Ruby';
@@ -37,7 +38,8 @@ type RunChild =
   | Ruby
   | InstrText
   | Sym
-  | SoftHyphen;
+  | SoftHyphen
+  | NoBreakHyphen;
 
 export class Run {
   properties: RunPr = {};
@@ -122,6 +124,10 @@ export class Run {
 
         case 'w:softHyphen':
           run.addChild(new SoftHyphen());
+          break;
+
+        case 'w:noBreakHyphen':
+          run.addChild(new NoBreakHyphen());
           break;
 
         default:

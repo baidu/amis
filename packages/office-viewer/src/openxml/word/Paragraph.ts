@@ -11,7 +11,6 @@ import {NumberPr} from './numbering/NumberProperties';
 import {Properties} from './properties/Properties';
 import {Run, RunPr} from './Run';
 import {Tab} from './Tab';
-import {SmartTag} from './SmartTag';
 import {FldSimple} from './FldSimple';
 import {OMath} from '../math/OMath';
 
@@ -33,7 +32,6 @@ export type ParagraphChild =
   | Run
   | BookmarkStart
   | Hyperlink
-  | SmartTag
   | FldSimple
   | OMath;
 // | SymbolRun

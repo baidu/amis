@@ -25,7 +25,8 @@ const fileLists = {
     'hideMark.docx',
     'br.docx',
     'sym.docx',
-    'drop-cap.docx'
+    'drop-cap.docx',
+    'noBreakHyphen.xml'
   ],
   docx4j: [
     'ArialUnicodeMS.docx',
