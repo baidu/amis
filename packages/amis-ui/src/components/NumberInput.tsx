@@ -74,9 +74,10 @@ export interface NumberProps extends ThemeProps {
 export class NumberInput extends React.Component<NumberProps, any> {
   static defaultProps: Pick<
     NumberProps,
-    'step' | 'readOnly' | 'borderMode' | 'resetValue'
+    'step' | 'precision' | 'readOnly' | 'borderMode' | 'resetValue'
   > = {
     step: 1,
+    precision: 2,
     readOnly: false,
     borderMode: 'full',
     resetValue: ''
@@ -170,11 +171,6 @@ export class NumberInput extends React.Component<NumberProps, any> {
     // 如果设置了step，就基于step和precision，选取更高精度
     if (step != null) {
       return Math.max(0, getNumberPrecision(step));
-    }
-
-    //兼容1.x 没设置精度时候，可以输入小数点。
-    if (precision == undefined) {
-      return 16;
     }
 
     return 0;
