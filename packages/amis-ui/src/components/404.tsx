@@ -13,6 +13,7 @@ interface NotFoundProps {
   footerText?: React.ReactNode;
   classPrefix: string;
   classnames: ClassNamesFn;
+  children?: React.ReactElement;
 }
 
 export class NotFound extends React.Component<NotFoundProps, any> {

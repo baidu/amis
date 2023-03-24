@@ -2,7 +2,18 @@
  * 基于 xsd 文件生成 typescript 定义，简化开发
  */
 
-import {parseXML} from '../src/util/xml';
+import {XMLParser} from 'fast-xml-parser';
+
+const parser = new XMLParser({
+  ignoreAttributes: false,
+  allowBooleanAttributes: true,
+  trimValues: false,
+  alwaysCreateTextNode: true
+});
+
+function parseXML(xml: string) {
+  return parser.parse(xml);
+}
 
 import * as fs from 'fs';
 
@@ -20,6 +31,15 @@ outputFile.push(
   )
 );
 outputFile.push(...convertSchema('./OfficeOpenXML-XMLSchema-Strict/wml.xsd'));
+outputFile.push(
+  ...convertSchema('./OfficeOpenXML-XMLSchema-Strict/dml-main.xsd')
+);
+
+outputFile.push(
+  ...convertSchema(
+    './OfficeOpenXML-XMLSchema-Strict/dml-wordprocessingDrawing.xsd'
+  )
+);
 
 function generateField(attributes: any[]) {
   const result: string[] = [];
@@ -30,7 +50,9 @@ function generateField(attributes: any[]) {
   for (const attribute of attributes) {
     const attributeName = attribute['@_name'];
     if (attributeName) {
-      let attributeType = attribute['@_type'].replace(/s:/g, '');
+      let attributeType = attribute['@_type']
+        .replace(/s:/g, '')
+        .replace(/a:/g, '');
       allusedTypes[attributeType] = true;
       if (attributeType.startsWith('xsd:')) {
         attributeType = toJavaScriptType(attributeType);
@@ -45,10 +67,14 @@ function generateField(attributes: any[]) {
 
     let ref = attribute['@_ref'];
     if (ref) {
-      ref = ref.replace(/r:/g, 'r').replace(/m:/g, '').replace(/sl:/g, '');
+      ref = ref
+        .replace(/r:/g, 'r')
+        .replace(/m:/g, '')
+        .replace(/sl:/g, '')
+        .replace(/a:/g, '');
       const use = attribute['@_use'];
       if (ref.indexOf(':') !== -1) {
-        throw new Error('type has : ' + ref);
+        continue;
       }
       if (use === 'required') {
         result.push(`  ${ref}: string;`);
@@ -72,8 +98,13 @@ function toJavaScriptType(type: string) {
     return 'string';
   } else if (
     type === 'xsd:integer' ||
+    type === 'xsd:int' ||
     type === 'xsd:unsignedInt' ||
-    type === 'xsd:unsignedLong'
+    type === 'xsd:unsignedLong' ||
+    type === 'xsd:unsignedShort' ||
+    type === 'xsd:long' ||
+    type === 'xsd:byte' ||
+    type === 'xsd:unsignedByte'
   ) {
     return 'number';
   } else if (type === 'xsd:boolean') {
@@ -100,6 +131,10 @@ function convertSchema(fileName: string) {
       // 需要执行两边，第一遍是检查基础类型的基础类型
       for (const item of value) {
         const name = item['@_name'];
+        // 目前仅处理简单类型
+        if (name && !name.startsWith('ST_')) {
+          continue;
+        }
         definedTypes[name] = true;
         if (key === 'xsd:complexType') {
           definedTypes[name] = true;
@@ -158,11 +193,15 @@ function convertSchema(fileName: string) {
                           )};`
                         );
                       } else {
-                        result.push(`export type ${name} = ${base};`);
+                        if (name !== base) {
+                          result.push(`export type ${name} = ${base};`);
+                        }
                       }
                     }
                   } else {
-                    result.push(`export type ${name} = ${base};`);
+                    if (name !== base) {
+                      result.push(`export type ${name} = ${base};`);
+                    }
                   }
                 }
               } else {
@@ -195,12 +234,15 @@ function convertSchema(fileName: string) {
                   if (enumeration[0]['@_value'].match(/^[0-9]/)) {
                     result.push(`export type ${name} = string;`);
                   } else {
-                    result.push(`export enum ${name} {`);
+                    const enumNames = [];
                     for (const enumItem of enumeration) {
                       const enumName = enumItem['@_value'];
-                      result.push(`  ${enumName} = '${enumName}',`);
+                      enumNames.push(enumName);
                     }
-                    result.push('}\n');
+                    // 这里用 union 代替 enum，可以减少生成体积
+                    result.push(
+                      `export type ${name} = '${enumNames.join("' | '")}'`
+                    );
                   }
                 } else {
                   result.push(`export type ${name} = string;`);
@@ -211,7 +253,9 @@ function convertSchema(fileName: string) {
             } else if (base.startsWith('s:') || base.startsWith('ST_')) {
               const baseType = base.replace('s:', '');
               allusedTypes[baseType] = true;
-              result.push(`export type ${name} = ${baseType};`);
+              if (name !== baseType) {
+                result.push(`export type ${name} = ${baseType};`);
+              }
             } else {
               throw new Error('Unknown base type: ' + base);
             }
@@ -235,7 +279,10 @@ function convertSchema(fileName: string) {
               for (const member of members) {
                 allusedTypes[member] = true;
               }
-              result.push(`export type ${name} = ${members.join(' | ')};\n`);
+              const membersStr = members.join(' | ');
+              if (name !== membersStr) {
+                result.push(`export type ${name} = ${membersStr};\n`);
+              }
             }
           }
         } else if (key === 'xsd:group') {
@@ -252,7 +299,7 @@ function convertSchema(fileName: string) {
                 const elementType = element['@_type'];
                 if (elementType) {
                   allusedTypes[elementType] = true;
-                  result.push(`  ${elementName}?: ${elementType},`);
+                  result.push(`  ${elementName}?: ${elementType};`);
                 } else {
                   console.warn("can't find type: " + name);
                 }

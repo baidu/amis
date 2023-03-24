@@ -181,7 +181,7 @@ interface OverlayProps {
   shouldUpdatePosition?: boolean;
   rootClose?: boolean;
   onHide?(props: any, ...args: any[]): any;
-  container?: React.ReactNode | Function;
+  container?: HTMLElement | (() => HTMLElement | null | undefined);
   containerSelector?: string;
   target?: React.ReactNode | Function;
   watchTargetSizeChange?: boolean;

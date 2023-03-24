@@ -51,7 +51,7 @@ interface InputOption {
 
 const ShortCutItemWrap = (props: {
   index: number;
-  children: React.ReactNode;
+  children: React.ReactNode | Array<React.ReactNode>;
   handleDelete: (index: number, e: React.SyntheticEvent<any>) => void;
 }) => {
   return (

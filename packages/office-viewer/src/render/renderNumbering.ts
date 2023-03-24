@@ -38,22 +38,22 @@ function romanize(num: number) {
  */
 function convertNumToFormat(numFmt: ST_NumberFormat, num: number): string {
   switch (numFmt) {
-    case ST_NumberFormat.decimal:
+    case 'decimal':
       return num.toString();
 
-    case ST_NumberFormat.lowerLetter:
+    case 'lowerLetter':
       return String.fromCharCode(96 + num);
 
-    case ST_NumberFormat.upperLetter:
+    case 'upperLetter':
       return String.fromCharCode(64 + num);
 
-    case ST_NumberFormat.lowerRoman:
+    case 'lowerRoman':
       return romanize(num).toLowerCase();
 
-    case ST_NumberFormat.upperRoman:
+    case 'upperRoman':
       return romanize(num).toUpperCase();
 
-    case ST_NumberFormat.bullet:
+    case 'bullet':
       // 原本其实是用
       return '&bull;';
 
@@ -160,10 +160,7 @@ export function renderNumbering(
 
   // 还不支持 image
   // http://officeopenxml.com/WPnumbering-imagesAsSymbol.php
-  if (
-    lvl.numFmt !== ST_NumberFormat.bullet ||
-    word.renderOptions.bulletUseFont
-  ) {
+  if (lvl.numFmt !== 'bullet' || word.renderOptions.bulletUseFont) {
     element.innerText = lvlText;
   } else {
     // 如果没有字体只能尽可能模拟了

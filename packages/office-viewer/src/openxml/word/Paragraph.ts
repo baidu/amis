@@ -13,6 +13,7 @@ import {Run, RunPr} from './Run';
 import {Tab} from './Tab';
 import {SmartTag} from './SmartTag';
 import {FldSimple} from './FldSimple';
+import {OMath} from '../math/OMath';
 
 /**
  * 这里简化了很多，如果能用 CSS 表示就直接用 CSS 表示
@@ -33,7 +34,8 @@ export type ParagraphChild =
   | BookmarkStart
   | Hyperlink
   | SmartTag
-  | FldSimple;
+  | FldSimple
+  | OMath;
 // | SymbolRun
 // | PageBreak
 // | ColumnBreak
@@ -140,6 +142,10 @@ export class Paragraph {
         case 'w:fldSimple':
           // 这个目前还不想支持
           paragraph.fldSimples.push(FldSimple.fromXML(word, child));
+          break;
+
+        case 'm:oMathPara':
+          paragraph.addChild(OMath.fromXML(word, child));
           break;
 
         default:

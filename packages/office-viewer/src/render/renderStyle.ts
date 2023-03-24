@@ -116,7 +116,8 @@ export function generateTableStyle(
 
 // 用于生成表格 override 相关的样式，用于行或列
 function genTblOverrideStyle(
-  prefix: string,
+  tblPrefix: string,
+  classPrefix: string,
   overrideType: ST_TblStyleOverrideType,
   tblStylePrStyle: TblStylePrStyle
 ) {
@@ -127,36 +128,36 @@ function genTblOverrideStyle(
   let enableType = '';
   // 在 tblLook 里可以通过这些属性来控制是否启用
   switch (overrideType) {
-    case ST_TblStyleOverrideType.firstCol:
+    case 'firstCol':
       enableType = 'enable-firstColumn';
       break;
 
-    case ST_TblStyleOverrideType.lastCol:
+    case 'lastCol':
       enableType = 'enable-lastColumn';
       break;
 
-    case ST_TblStyleOverrideType.firstRow:
+    case 'firstRow':
       enableType = 'enable-firstRow';
       break;
 
-    case ST_TblStyleOverrideType.lastRow:
+    case 'lastRow':
       enableType = 'enable-lastRow';
       break;
 
-    case ST_TblStyleOverrideType.band1Horz:
-    case ST_TblStyleOverrideType.band2Horz:
+    case 'band1Horz':
+    case 'band2Horz':
       enableType = 'enable-hBand';
       break;
 
-    case ST_TblStyleOverrideType.band1Vert:
-    case ST_TblStyleOverrideType.band2Vert:
+    case 'band1Vert':
+    case 'band2Vert':
       enableType = 'enable-vBand';
       break;
   }
 
   if (trStyle) {
     styleText += `
-    ${prefix}.${enableType} > tbody > tr.${overrideType}{
+    ${tblPrefix}.${enableType} > tbody > tr.${overrideType}{
        ${trStyle}
     }
     `;
@@ -165,7 +166,7 @@ function genTblOverrideStyle(
   const tcStyle = styleToText(tblStylePrStyle.tcPr?.cssStyle);
   if (tcStyle) {
     styleText += `
-    ${prefix}.${enableType} > tbody > tr > td.${overrideType} {
+    ${tblPrefix}.${enableType} > tbody > tr > td.${overrideType} {
        ${tcStyle}
     }
     `;
@@ -173,7 +174,7 @@ function genTblOverrideStyle(
       const insideBorder = tblStylePrStyle.tcPr?.insideBorder;
       if (insideBorder.H) {
         styleText += `
-          ${prefix}.${enableType} > tbody > tr > td.${overrideType} {
+          ${tblPrefix}.${enableType} > tbody > tr > td.${overrideType} {
             border-top: ${insideBorder.H};
           }`;
       }
@@ -182,13 +183,13 @@ function genTblOverrideStyle(
         // 这个主要是为了应对 GridTable5Dark-Accent5 里 firstRow 的情况，它其实有 right 设置，也得去掉
         if (insideBorder.V === 'none') {
           styleText += `
-          ${prefix}.${enableType} > tbody > tr > td.${overrideType} {
+          ${tblPrefix}.${enableType} > tbody > tr > td.${overrideType} {
             border-left: none;
             border-right: none;
           }`;
         } else {
           styleText += `
-          ${prefix}.${enableType} > tbody > tr > td.${overrideType} {
+          ${tblPrefix}.${enableType} > tbody > tr > td.${overrideType} {
             border-left: ${insideBorder.V};
           }`;
         }
@@ -200,7 +201,7 @@ function genTblOverrideStyle(
 
   if (pStyle) {
     styleText += `
-    ${prefix}.${enableType} > tbody > tr > td.${overrideType} > .p {
+    ${tblPrefix}.${enableType} > tbody > tr > td.${overrideType} > .${classPrefix}-p {
        ${pStyle}
     }
     `;
@@ -210,7 +211,7 @@ function genTblOverrideStyle(
 
   if (rStyle) {
     styleText += `
-    ${prefix}.${enableType} > tbody > tr > td.${overrideType} > .p > .r {
+    ${tblPrefix}.${enableType} > tbody > tr > td.${overrideType} > .${classPrefix}-p > .${classPrefix}-r {
        ${rStyle}
     }
     `;
@@ -221,19 +222,19 @@ function genTblOverrideStyle(
 
 // 表格覆盖样式的顺序，权重高的放后面
 const overrideTypeOrder: Set<ST_TblStyleOverrideType> = new Set([
-  ST_TblStyleOverrideType.wholeTable,
-  ST_TblStyleOverrideType.band1Horz,
-  ST_TblStyleOverrideType.band2Horz,
-  ST_TblStyleOverrideType.band1Vert,
-  ST_TblStyleOverrideType.band2Vert,
-  ST_TblStyleOverrideType.firstCol,
-  ST_TblStyleOverrideType.firstRow,
-  ST_TblStyleOverrideType.lastCol,
-  ST_TblStyleOverrideType.lastRow,
-  ST_TblStyleOverrideType.neCell,
-  ST_TblStyleOverrideType.nwCell,
-  ST_TblStyleOverrideType.seCell,
-  ST_TblStyleOverrideType.swCell
+  'wholeTable',
+  'band1Horz',
+  'band2Horz',
+  'band1Vert',
+  'band2Vert',
+  'firstCol',
+  'firstRow',
+  'lastCol',
+  'lastRow',
+  'neCell',
+  'nwCell',
+  'seCell',
+  'swCell'
 ]);
 
 // 生成表格覆盖样式
@@ -256,6 +257,7 @@ function genOverrideTblStylePr(
 
       tblStylePrText += genTblOverrideStyle(
         stylePrefix,
+        classPrefix,
         overrideType,
         overrideStylePr
       );
@@ -292,7 +294,7 @@ function generateStyle(word: Word) {
     if (styleData.rPr) {
       const rStyle = styleToText(styleData.rPr.cssStyle);
       rStyleText = `
-      .${classPrefix} .${styleDisplayId} > .r {
+      .${classPrefix} .${styleDisplayId} > .${classPrefix}-r {
         ${rStyle}
       }
       `;
@@ -328,7 +330,7 @@ export function renderStyle(word: Word) {
   const docDefaults = generateDefaultStyle(word);
   const styleText = generateStyle(word);
 
-  style.innerHTML = `
+  style.textContent = `
   ${docDefaults}
 
   ${styleText}

@@ -42,7 +42,7 @@ export default class ZipPackageParser implements PackageParser {
   /**
    * 根据类型读取文件
    */
-  getFileByType(filePath: string, type: 'string' | 'blob') {
+  getFileByType(filePath: string, type: 'string' | 'blob' | 'uint8array') {
     filePath = filePath.startsWith('/') ? filePath.slice(1) : filePath;
     const file = this.zip[filePath];
     if (file) {
@@ -50,6 +50,8 @@ export default class ZipPackageParser implements PackageParser {
         return strFromU8(file);
       } else if (type === 'blob') {
         return new Blob([file]);
+      } else if (type === 'uint8array') {
+        return file;
       }
     }
     throw new Error('file not found');

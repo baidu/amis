@@ -42,7 +42,12 @@ export interface CustomMonthsViewProps extends LocaleProps {
   setDate?: (date: string) => void;
   updateSelectedMonth?: () => void;
   updateSelectedDate: (event: React.MouseEvent<any>, close?: boolean) => void;
-  renderMonth?: (props: any, month: number, year: number, date: any) => void;
+  renderMonth?: (
+    props: any,
+    month: number,
+    year: number,
+    date: any
+  ) => React.ReactNode;
   onConfirm?: (value: number[], types?: string[]) => void;
   getColumns: (types: DateType[], dateBoundary: void) => any;
   isValidDate?(value: any): boolean;
@@ -78,7 +83,7 @@ export class CustomMonthsView extends React.Component<CustomMonthsViewProps> {
       year = this.props.viewDate.year(),
       rows = [],
       i = 0,
-      months = [],
+      months: Array<React.ReactNode> = [],
       renderer = this.props.renderMonth || this.renderMonth,
       isValid = this.props.isValidDate || this.alwaysValidDate,
       classes,

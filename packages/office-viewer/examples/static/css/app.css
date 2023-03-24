@@ -6,12 +6,12 @@ body {
 
 @font-face {
   font-family: Wingdings;
-  src: url(/examples/static/font/wingding.ttf);
+  src: url(/examples/static/font/wingding.ttf) format('truetype');
 }
 
 @font-face {
   font-family: Symbol;
-  src: url(/examples/static/font/symbol.ttf);
+  src: url(/examples/static/font/symbol.ttf) format('truetype');
 }
 
 /** 参考 bulma 的命名 */

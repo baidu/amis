@@ -1,7 +1,7 @@
 import {ST_TblStyleOverrideType} from '../openxml/Types';
 import {Paragraph} from '../openxml/word/Paragraph';
-import {CT_TblLookKey, Table} from '../openxml/word/Table';
-import {addClassName, appendChild, setStyle} from '../util/dom';
+import {TblLookKey, Table} from '../openxml/word/Table';
+import {addClassName, appendChild, applyStyle} from '../util/dom';
 import Word from '../Word';
 import renderParagraph from './renderParagraph';
 import {generateTableStyle} from './renderStyle';
@@ -22,62 +22,62 @@ function setTdClassName(
 ) {
   // 左上角
   if (rowIndex === 0 && colIndex === 0) {
-    element.classList.add(ST_TblStyleOverrideType.nwCell);
+    element.classList.add('nwCell');
   }
 
   // 右上角
   if (rowIndex === 0 && colIndex === colLength - 1) {
-    element.classList.add(ST_TblStyleOverrideType.neCell);
+    element.classList.add('neCell');
   }
 
   // 左下角
   if (rowIndex === rowLength - 1 && colIndex === 0) {
-    element.classList.add(ST_TblStyleOverrideType.swCell);
+    element.classList.add('swCell');
   }
 
   // 右下角
   if (rowIndex === rowLength - 1 && colIndex === colLength - 1) {
-    element.classList.add(ST_TblStyleOverrideType.seCell);
+    element.classList.add('seCell');
   }
 
   // 第一行
   if (rowIndex === 0) {
-    element.classList.add(ST_TblStyleOverrideType.firstRow);
+    element.classList.add('firstRow');
   }
 
   // 最后一行
   if (rowIndex === rowLength - 1) {
-    element.classList.add(ST_TblStyleOverrideType.lastRow);
+    element.classList.add('lastRow');
   }
 
   // 第一列
   if (colIndex === 0) {
-    element.classList.add(ST_TblStyleOverrideType.firstCol);
+    element.classList.add('firstCol');
   }
 
   // 最后一列
   if (colIndex === colLength - 1) {
-    element.classList.add(ST_TblStyleOverrideType.lastCol);
+    element.classList.add('lastCol');
   }
 
   // 奇数行
   if (isOdd(rowIndex + 1, rowBandSize)) {
-    element.classList.add(ST_TblStyleOverrideType.band1Horz);
+    element.classList.add('band1Horz');
   }
 
   // 偶数行
   if (!isOdd(rowIndex + 1, rowBandSize)) {
-    element.classList.add(ST_TblStyleOverrideType.band2Horz);
+    element.classList.add('band2Horz');
   }
 
   // 奇数列
   if (isOdd(colIndex + 1, colBandSize)) {
-    element.classList.add(ST_TblStyleOverrideType.band1Vert);
+    element.classList.add('band1Vert');
   }
 
   // 偶数列
   if (!isOdd(colIndex + 1, colBandSize)) {
-    element.classList.add(ST_TblStyleOverrideType.band2Vert);
+    element.classList.add('band2Vert');
   }
 }
 
@@ -113,7 +113,7 @@ export default function renderTable(word: Word, table: Table) {
         if (!properties.tblLook[key]) {
           addClassName(tableEl, 'enable-vBand');
         }
-      } else if (properties.tblLook[key as CT_TblLookKey]) {
+      } else if (properties.tblLook[key as TblLookKey]) {
         addClassName(tableEl, 'enable-' + key);
       }
     }
@@ -154,7 +154,7 @@ export default function renderTable(word: Word, table: Table) {
       );
       // tr 也能设置 tc style，所以先应用这个
       if (tr.properties.tcStyle) {
-        setStyle(tdEl, tr.properties.tcStyle);
+        applyStyle(tdEl, tr.properties.tcStyle);
       }
 
       const tcPr = tc.properties;
