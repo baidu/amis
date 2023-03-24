@@ -1,3 +1,4 @@
+import {parseSdt} from '../../parse/parseSdt';
 import {parseTable} from '../../parse/parseTable';
 import Word from '../../Word';
 import {Paragraph} from './Paragraph';
@@ -35,7 +36,8 @@ export class Body {
   static fromXML(word: Word, element: Element): Body {
     const body = new Body();
 
-    for (const child of element.children) {
+    const arr = [].slice.call(element.children);
+    for (const child of arr) {
       const tagName = child.tagName;
       switch (tagName) {
         case 'w:p':
@@ -53,6 +55,14 @@ export class Body {
           break;
 
         case 'w:bookmarkEnd':
+          break;
+
+        case 'w:sdt':
+          parseSdt(child, arr);
+          break;
+
+        case 'w:customXml':
+          arr.push(...[].slice.call(child.children));
           break;
 
         default:

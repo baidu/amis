@@ -96,6 +96,10 @@ export function parseTcPr(word: Word, element: Element) {
         // 目前是自动计算的，所以不需要这个了
         break;
 
+      case 'w:hideMark':
+        properties.hideMark = getValBoolean(child, true);
+        break;
+
       default:
         console.warn('parseTcPr: ignore', tagName, child);
     }

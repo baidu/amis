@@ -21,7 +21,9 @@ import {renderInstrText} from './renderInstrText';
 import {Sym} from '../openxml/word/Sym';
 import {renderSym} from './renderSym';
 import {cjkspace} from '../util/autoSpace';
-import type {Paragraph} from './../openxml/word/Paragraph';
+import type {Paragraph} from '../openxml/word/Paragraph';
+import {renderSoftHyphen} from './renderSoftHyphen';
+import {SoftHyphen} from '../openxml/word/SoftHyphen';
 
 const VARIABLE_CLASS_NAME = 'variable';
 
@@ -78,7 +80,7 @@ export default function renderRun(word: Word, run: Run, paragraph?: Paragraph) {
     for (const child of run.children) {
       if (child instanceof Text) {
         let newSpan = createElement('span');
-        renderText(span, word, child.text, paragraph);
+        renderText(newSpan, word, child.text, paragraph);
         appendChild(span, newSpan);
       } else if (child instanceof Break) {
         const br = renderBr(child);
@@ -95,6 +97,8 @@ export default function renderRun(word: Word, run: Run, paragraph?: Paragraph) {
         appendChild(span, renderInstrText(word, child));
       } else if (child instanceof Sym) {
         appendChild(span, renderSym(word, child));
+      } else if (child instanceof SoftHyphen) {
+        appendChild(span, renderSoftHyphen());
       } else {
         console.warn('unknown child', child);
       }

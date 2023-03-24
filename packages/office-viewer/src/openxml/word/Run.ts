@@ -8,6 +8,7 @@ import {InstrText} from './InstrText';
 import {Pict} from './Pict';
 import {Properties} from './properties/Properties';
 import {Ruby} from './Ruby';
+import {SoftHyphen} from './SoftHyphen';
 import {Sym} from './Sym';
 import {Tab} from './Tab';
 /**
@@ -27,7 +28,16 @@ export class Text {
   }
 }
 
-type RunChild = Break | Drawing | Text | Tab | Pict | Ruby | InstrText | Sym;
+type RunChild =
+  | Break
+  | Drawing
+  | Text
+  | Tab
+  | Pict
+  | Ruby
+  | InstrText
+  | Sym
+  | SoftHyphen;
 
 export class Run {
   properties: RunPr = {};
@@ -108,6 +118,10 @@ export class Run {
           if (drawingChild) {
             run.addChild(Drawing.fromXML(word, drawingChild));
           }
+          break;
+
+        case 'w:softHyphen':
+          run.addChild(new SoftHyphen());
           break;
 
         default:

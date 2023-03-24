@@ -406,10 +406,6 @@ export function parsePr(word: Word, element: Element, type: 'r' | 'p' = 'p') {
         style['display'] = 'inline-block'; // 需要这样才能生效
         break;
 
-      case 'w:webHidden':
-        // 虽然是 web 渲染但希望是按 word 显示，所以先不处理了
-        break;
-
       default:
         console.warn('parsePr Unknown tagName', tagName, child);
     }

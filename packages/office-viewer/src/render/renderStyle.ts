@@ -40,6 +40,7 @@ function generateDefaultStyle(word: Word) {
   .${classPrefix} p {
     margin: 0;
     padding: 0;
+    line-height: 1.5;
   }
 
   .${classPrefix} table {
