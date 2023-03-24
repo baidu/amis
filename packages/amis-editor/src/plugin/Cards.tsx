@@ -1,4 +1,4 @@
-import {Button, resolveVariableAndFilter} from 'amis';
+import {Button} from 'amis';
 import React from 'react';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {

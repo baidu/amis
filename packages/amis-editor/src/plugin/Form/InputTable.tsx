@@ -1,5 +1,5 @@
 import React from 'react';
-import {resolveVariableAndFilter, Button} from 'amis';
+import {Button} from 'amis';
 import {
   registerEditorPlugin,
   BaseEventContext,
