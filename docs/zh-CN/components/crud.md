@@ -2592,7 +2592,7 @@ CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一
 
 ## 前端一次性加载
 
-如果你的数据并不是很大，而且后端不方便做分页和条件过滤操作，那么通过配置`loadDataOnce`实现前端一次性加载并支持分页和条件过滤操作
+如果你的数据并不是很大，而且后端不方便做分页和条件过滤操作，那么通过配置`loadDataOnce`实现前端一次性加载并支持分页和条件过滤操作。
 
 ```schema: scope="body"
 {
@@ -2630,7 +2630,7 @@ CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一
 }
 ```
 
-配置一次性加载后，基本的分页、快速排序操作将会在前端进行完成。如果想实现前端检索，需要用到[数据映射](../../docs/concepts/data-mapping)功能：
+配置一次性加载后，基本的分页、快速排序操作将会在前端进行完成。如果想实现前端检索(目前是模糊搜索)，可以在 table 的 `columns` 对应项配置 `searchable` 来实现。
 
 ```schema: scope="body"
 {
@@ -2638,16 +2638,8 @@ CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一
     "syncLocation": false,
     "api": "/api/mock2/sample",
     "loadDataOnce": true,
-    "source": "${rows | filter:engine:match:keywords}",
-    "filter":{
-        "body": [
-            {
-                "type": "input-text",
-                "name": "keywords",
-                "label": "引擎"
-            }
-        ]
-    },
+    "autoGenerateFilter": true,
+    "filterSettingSource": ["browser", "version"],
     "columns": [
         {
             "name": "id",
@@ -2667,7 +2659,23 @@ CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一
         },
         {
             "name": "version",
-            "label": "Engine version"
+            "label": "Engine version",
+            "searchable": {
+                "type": "select",
+                "name": "version",
+                "label": "Engine version",
+                "clearable": true,
+                "multiple": true,
+                "searchable": true,
+                "checkAll": true,
+                "options": ["1.7", "3.3", "5.6"],
+                "maxTagCount": 10,
+                "extractValue": true,
+                "joinValues": false,
+                "delimiter": ',',
+                "defaultCheckAll": false,
+                "checkAllLabel": "全选"
+              }
         },
         {
             "name": "grade",
@@ -2676,8 +2684,6 @@ CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一
     ]
 }
 ```
-
-上例使用了数据映射中的`filter`过滤器，在前端实现了`engine`列的搜索功能。
 
 > **注意：**如果你的数据量较大，请务必使用服务端分页的方案，过多的前端数据展示，会显著影响前端页面的性能
 
