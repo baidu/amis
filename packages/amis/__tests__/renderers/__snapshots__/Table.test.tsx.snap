@@ -375,7 +375,7 @@ exports[`Renderer:table 1`] = `
       >
         <table
           class="cxd-Table-table"
-          style="width: 0px; table-layout: auto; transform: translateX(-0px);"
+          style="width: 0px; table-layout: fixed; transform: translateX(-0px);"
         >
           <colgroup>
             <col
@@ -434,10 +434,6 @@ exports[`Renderer:table 1`] = `
         </table>
       </div>
     </div>
-    <div
-      class="cxd-Table-fixedTop-shadow"
-      style=""
-    />
   </div>
 </div>
 `;
@@ -841,7 +837,7 @@ exports[`Renderer:table align 1`] = `
       >
         <table
           class="cxd-Table-table"
-          style="width: 0px; table-layout: auto; transform: translateX(-0px);"
+          style="width: 0px; table-layout: fixed; transform: translateX(-0px);"
         >
           <colgroup>
             <col
@@ -893,10 +889,6 @@ exports[`Renderer:table align 1`] = `
         </table>
       </div>
     </div>
-    <div
-      class="cxd-Table-fixedTop-shadow"
-      style=""
-    />
   </div>
 </div>
 `;
@@ -1491,7 +1483,7 @@ exports[`Renderer:table children 1`] = `
                 >
                   <table
                     class="cxd-Table-table"
-                    style="width: 0px; table-layout: auto; transform: translateX(-0px);"
+                    style="width: 0px; table-layout: fixed; transform: translateX(-0px);"
                   >
                     <colgroup>
                       <col
@@ -1664,10 +1656,6 @@ exports[`Renderer:table children 1`] = `
                   </table>
                 </div>
               </div>
-              <div
-                class="cxd-Table-fixedTop-shadow"
-                style=""
-              />
             </div>
           </div>
         </div>
@@ -2052,7 +2040,7 @@ exports[`Renderer:table classNameExpr 1`] = `
       >
         <table
           class="cxd-Table-table"
-          style="width: 0px; table-layout: auto; transform: translateX(-0px);"
+          style="width: 0px; table-layout: fixed; transform: translateX(-0px);"
         >
           <colgroup>
             <col
@@ -2111,10 +2099,6 @@ exports[`Renderer:table classNameExpr 1`] = `
         </table>
       </div>
     </div>
-    <div
-      class="cxd-Table-fixedTop-shadow"
-      style=""
-    />
   </div>
 </div>
 `;
@@ -2140,7 +2124,7 @@ exports[`Renderer:table column head style className 1`] = `
       >
         <table
           class="cxd-Table-table cxd-Table-table tableClassName"
-          style="width: 0px; table-layout: auto;"
+          style="width: 0px; table-layout: fixed;"
         >
           <thead>
             <tr
@@ -2674,7 +2658,7 @@ exports[`Renderer:table column head style className 1`] = `
       >
         <table
           class="cxd-Table-table cxd-Table-table tableClassName"
-          style="width: 0px; table-layout: auto;"
+          style="width: 0px; table-layout: fixed;"
         >
           <thead>
             <tr
@@ -2710,7 +2694,7 @@ exports[`Renderer:table column head style className 1`] = `
       >
         <table
           class="cxd-Table-table tableClassName"
-          style="width: 0px; table-layout: auto; transform: translateX(-0px);"
+          style="width: 0px; table-layout: fixed; transform: translateX(-0px);"
         >
           <colgroup>
             <col
@@ -2769,10 +2753,6 @@ exports[`Renderer:table column head style className 1`] = `
         </table>
       </div>
     </div>
-    <div
-      class="cxd-Table-fixedTop-shadow"
-      style=""
-    />
   </div>
 </div>
 `;
@@ -3340,7 +3320,7 @@ exports[`Renderer:table combine Renderer:table combineNum only 1`] = `
                 >
                   <table
                     class="cxd-Table-table cxd-Table-table--withCombine"
-                    style="width: 0px; table-layout: auto; transform: translateX(-0px);"
+                    style="width: 0px; table-layout: fixed; transform: translateX(-0px);"
                   >
                     <colgroup>
                       <col
@@ -3471,10 +3451,6 @@ exports[`Renderer:table combine Renderer:table combineNum only 1`] = `
                   </table>
                 </div>
               </div>
-              <div
-                class="cxd-Table-fixedTop-shadow"
-                style=""
-              />
             </div>
           </div>
         </div>
@@ -4117,7 +4093,7 @@ exports[`Renderer:table combine Renderer:table combineNum with fromIndex 1`] = `
                 >
                   <table
                     class="cxd-Table-table cxd-Table-table--withCombine"
-                    style="width: 0px; table-layout: auto; transform: translateX(-0px);"
+                    style="width: 0px; table-layout: fixed; transform: translateX(-0px);"
                   >
                     <colgroup>
                       <col
@@ -4248,10 +4224,6 @@ exports[`Renderer:table combine Renderer:table combineNum with fromIndex 1`] = `
                   </table>
                 </div>
               </div>
-              <div
-                class="cxd-Table-fixedTop-shadow"
-                style=""
-              />
             </div>
           </div>
         </div>
@@ -5053,7 +5025,7 @@ exports[`Renderer:table groupName-default 1`] = `
                 >
                   <table
                     class="cxd-Table-table"
-                    style="width: 0px; table-layout: auto; transform: translateX(-0px);"
+                    style="width: 0px; table-layout: fixed; transform: translateX(-0px);"
                   >
                     <colgroup>
                       <col
@@ -5062,7 +5034,7 @@ exports[`Renderer:table groupName-default 1`] = `
                       />
                       <col
                         data-index="4"
-                        width="0"
+                        width="undefined"
                       />
                       <col
                         data-index="5"
@@ -5070,11 +5042,11 @@ exports[`Renderer:table groupName-default 1`] = `
                       />
                       <col
                         data-index="6"
-                        width="0"
+                        width="undefined"
                       />
                       <col
                         data-index="8"
-                        width="0"
+                        width="undefined"
                       />
                     </colgroup>
                     <thead>
@@ -5214,10 +5186,6 @@ exports[`Renderer:table groupName-default 1`] = `
                   </table>
                 </div>
               </div>
-              <div
-                class="cxd-Table-fixedTop-shadow"
-                style=""
-              />
             </div>
           </div>
         </div>
@@ -6023,7 +5991,7 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
                 >
                   <table
                     class="cxd-Table-table"
-                    style="width: 0px; table-layout: auto; transform: translateX(-0px);"
+                    style="width: 0px; table-layout: fixed; transform: translateX(-0px);"
                   >
                     <colgroup>
                       <col
@@ -6032,11 +6000,11 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
                       />
                       <col
                         data-index="4"
-                        width="undefined"
+                        width="0"
                       />
                       <col
                         data-index="5"
-                        width="undefined"
+                        width="0"
                       />
                       <col
                         data-index="6"
@@ -6044,7 +6012,7 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
                       />
                       <col
                         data-index="8"
-                        width="0"
+                        width="undefined"
                       />
                     </colgroup>
                     <thead>
@@ -6172,10 +6140,6 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
                   </table>
                 </div>
               </div>
-              <div
-                class="cxd-Table-fixedTop-shadow"
-                style=""
-              />
             </div>
           </div>
         </div>
@@ -6970,20 +6934,20 @@ exports[`Renderer:table groupName-startNoGroupName 1`] = `
                 >
                   <table
                     class="cxd-Table-table"
-                    style="width: 0px; table-layout: auto; transform: translateX(-0px);"
+                    style="width: 0px; table-layout: fixed; transform: translateX(-0px);"
                   >
                     <colgroup>
                       <col
                         data-index="3"
-                        width="undefined"
+                        width="0"
                       />
                       <col
                         data-index="4"
-                        width="undefined"
+                        width="0"
                       />
                       <col
                         data-index="5"
-                        width="undefined"
+                        width="0"
                       />
                       <col
                         data-index="6"
@@ -6991,7 +6955,7 @@ exports[`Renderer:table groupName-startNoGroupName 1`] = `
                       />
                       <col
                         data-index="8"
-                        width="0"
+                        width="undefined"
                       />
                     </colgroup>
                     <thead>
@@ -7099,10 +7063,6 @@ exports[`Renderer:table groupName-startNoGroupName 1`] = `
                   </table>
                 </div>
               </div>
-              <div
-                class="cxd-Table-fixedTop-shadow"
-                style=""
-              />
             </div>
           </div>
         </div>
@@ -7904,7 +7864,7 @@ exports[`Renderer:table groupName-withTpl 1`] = `
                 >
                   <table
                     class="cxd-Table-table"
-                    style="width: 0px; table-layout: auto; transform: translateX(-0px);"
+                    style="width: 0px; table-layout: fixed; transform: translateX(-0px);"
                   >
                     <colgroup>
                       <col
@@ -7913,7 +7873,7 @@ exports[`Renderer:table groupName-withTpl 1`] = `
                       />
                       <col
                         data-index="4"
-                        width="0"
+                        width="undefined"
                       />
                       <col
                         data-index="5"
@@ -7921,11 +7881,11 @@ exports[`Renderer:table groupName-withTpl 1`] = `
                       />
                       <col
                         data-index="6"
-                        width="0"
+                        width="undefined"
                       />
                       <col
                         data-index="8"
-                        width="0"
+                        width="undefined"
                       />
                     </colgroup>
                     <thead>
@@ -8065,10 +8025,6 @@ exports[`Renderer:table groupName-withTpl 1`] = `
                   </table>
                 </div>
               </div>
-              <div
-                class="cxd-Table-fixedTop-shadow"
-                style=""
-              />
             </div>
           </div>
         </div>
@@ -8099,7 +8055,7 @@ exports[`Renderer:table isHead fixed 1`] = `
       >
         <table
           class="cxd-Table-table cxd-Table-table"
-          style="width: 0px; table-layout: auto;"
+          style="width: 0px; table-layout: fixed;"
         >
           <thead>
             <tr
@@ -8633,7 +8589,7 @@ exports[`Renderer:table isHead fixed 1`] = `
       >
         <table
           class="cxd-Table-table cxd-Table-table"
-          style="width: 0px; table-layout: auto;"
+          style="width: 0px; table-layout: fixed;"
         >
           <thead>
             <tr
@@ -8669,7 +8625,7 @@ exports[`Renderer:table isHead fixed 1`] = `
       >
         <table
           class="cxd-Table-table"
-          style="width: 0px; table-layout: auto; transform: translateX(-0px);"
+          style="width: 0px; table-layout: fixed; transform: translateX(-0px);"
         >
           <colgroup>
             <col
@@ -8728,10 +8684,6 @@ exports[`Renderer:table isHead fixed 1`] = `
         </table>
       </div>
     </div>
-    <div
-      class="cxd-Table-fixedTop-shadow"
-      style=""
-    />
   </div>
 </div>
 `;

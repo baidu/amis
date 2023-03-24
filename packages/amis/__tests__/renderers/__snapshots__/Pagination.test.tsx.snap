@@ -262,7 +262,7 @@ exports[`Renderer:Pagination 1`] = `
           >
             <table
               class="cxd-Table-table"
-              style="width: 0px; table-layout: auto; transform: translateX(-0px);"
+              style="width: 0px; table-layout: fixed; transform: translateX(-0px);"
             >
               <colgroup>
                 <col
@@ -321,10 +321,6 @@ exports[`Renderer:Pagination 1`] = `
             </table>
           </div>
         </div>
-        <div
-          class="cxd-Table-fixedTop-shadow"
-          style=""
-        />
       </div>
     </div>
   </div>

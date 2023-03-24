@@ -75,16 +75,6 @@
     z-index: -1;
     opacity: 0;
 
-    &-shadow {
-      position: absolute;
-      box-shadow: var(--Table-fixedTop-boxShadow);
-      z-index: -1;
-      height: 10px;
-      margin-top: -10px;
-      background-color: transparent;
-      opacity: 0;
-    }
-
     // box-sizing: content-box;
     // padding: var(--gap-base) var(--gap-base) 0 var(--gap-base);
     // margin: calc(var(--gap-base) * -1) calc(var(--gap-base) * -1) 0
@@ -93,11 +83,11 @@
     //   box-sizing: border-box;
     // }
 
-    &.in,
-    &.in + .#{$ns}Table-fixedTop-shadow {
+    &.in {
       position: fixed;
       opacity: 1;
       z-index: $zindex-affix;
+      box-shadow: var(--Table-fixedTop-boxShadow);
     }
 
     > .#{$ns}Table-fixedLeft,

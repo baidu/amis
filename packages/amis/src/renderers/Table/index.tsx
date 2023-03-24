@@ -1113,16 +1113,11 @@ export default class Table extends React.Component<TableProps, object> {
       clip.top - headerHeight - headingHeight < offsetY &&
       clip.top + clip.height - 40 > offsetY;
     const affixedDom = dom.querySelector(`.${ns}Table-fixedTop`) as HTMLElement;
-    const affixedShadowDom = dom.querySelector(
-      `.${ns}Table-fixedTop-shadow`
-    ) as HTMLElement;
+
     const affixedDomHeight =
       getComputedStyle(affixedDom).getPropertyValue('height');
 
     affixedDom.style.cssText += `top: ${offsetY}px;width: ${
-      (this.table.parentNode as HTMLElement).offsetWidth
-    }px`;
-    affixedShadowDom.style.cssText += `top: ${affixedDomHeight};width: ${
       (this.table.parentNode as HTMLElement).offsetWidth
     }px`;
 
@@ -1190,7 +1185,6 @@ export default class Table extends React.Component<TableProps, object> {
       /**
        * ! 弹窗中的特殊说明
        * ! 在弹窗中，modal 有一个 scale 的动画，导致 getBoundingClientRect 获取的高度不准确
-       * ! width 准确是因为 table-layout: auto 导致
        */
       (item: HTMLElement, index: number) =>
         (heights[index] = getComputedStyle(item).height)
@@ -1199,6 +1193,7 @@ export default class Table extends React.Component<TableProps, object> {
     // 让 react 去更新非常慢，还是手动更新吧。
     const dom = findDOMNode(this) as HTMLElement;
 
+    // 配置悬浮元素的宽度和高度
     forEach(
       // 折叠 footTable 不需要改变
       dom.querySelectorAll(
@@ -1239,7 +1234,8 @@ export default class Table extends React.Component<TableProps, object> {
         );
 
         forEach(table.querySelectorAll('colgroup>col'), (item: HTMLElement) => {
-          const width = widths[item.getAttribute('data-index') as string];
+          const itemIndex = item.getAttribute('data-index') as string;
+          const width = widths[itemIndex] || widths2[itemIndex];
           item.setAttribute('width', `${width}`);
         });
 
@@ -1253,7 +1249,7 @@ export default class Table extends React.Component<TableProps, object> {
         table.style.cssText += `width: ${Math.max(
           totalWidth,
           totalWidth2
-        )}px;table-layout: auto;`;
+        )}px;table-layout: fixed;`;
       }
     );
 
@@ -1276,9 +1272,6 @@ export default class Table extends React.Component<TableProps, object> {
     const dom = findDOMNode(this) as HTMLElement;
     const fixedLeft = dom.querySelectorAll(`.${ns}Table-fixedLeft`);
     const fixedRight = dom.querySelectorAll(`.${ns}Table-fixedRight`);
-    const theadHeight = outter
-      .querySelector('thead>tr')
-      ?.getBoundingClientRect()?.height;
 
     if (scrollLeft !== this.lastScrollLeft) {
       this.lastScrollLeft = scrollLeft;
@@ -1292,14 +1285,6 @@ export default class Table extends React.Component<TableProps, object> {
       if (fixedLeft && fixedLeft.length) {
         for (let i = 0, len = fixedLeft.length; i < len; i++) {
           let node = fixedLeft[i];
-
-          // 同步thead高度
-          forEach(node.querySelectorAll('thead>tr>th'), (item: HTMLElement) => {
-            if (theadHeight) {
-              item.style.height = `${theadHeight}px`;
-            }
-          });
-
           leading ? node.classList.remove('in') : node.classList.add('in');
         }
       }
@@ -1307,13 +1292,6 @@ export default class Table extends React.Component<TableProps, object> {
       if (fixedRight && fixedRight.length) {
         for (let i = 0, len = fixedRight.length; i < len; i++) {
           let node = fixedRight[i];
-
-          // 同步thead高度
-          forEach(node.querySelectorAll('thead>tr>th'), (item: HTMLElement) => {
-            if (theadHeight) {
-              item.style.height = `${theadHeight}px`;
-            }
-          });
           trailing ? node.classList.remove('in') : node.classList.add('in');
         }
       }
@@ -2328,7 +2306,6 @@ export default class Table extends React.Component<TableProps, object> {
             </table>
           </div>
         </div>
-        <div className={cx('Table-fixedTop-shadow')}></div>
       </>
     ) : null;
   }

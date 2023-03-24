@@ -1088,7 +1088,7 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                 >
                   <table
                     class="cxd-Table-table"
-                    style="width: 0px; table-layout: auto; transform: translateX(-0px);"
+                    style="width: 0px; table-layout: fixed; transform: translateX(-0px);"
                   >
                     <colgroup>
                       <col
@@ -1195,10 +1195,6 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                   </table>
                 </div>
               </div>
-              <div
-                class="cxd-Table-fixedTop-shadow"
-                style=""
-              />
               <div
                 class="cxd-Table-toolbar cxd-Table-footToolbar"
               >
@@ -1871,7 +1867,7 @@ exports[`Renderer: crud sortable & orderBy & orderDir & orderField 1`] = `
                 >
                   <table
                     class="cxd-Table-table"
-                    style="width: 0px; table-layout: auto; transform: translateX(-0px);"
+                    style="width: 0px; table-layout: fixed; transform: translateX(-0px);"
                   >
                     <colgroup>
                       <col
@@ -1958,10 +1954,6 @@ exports[`Renderer: crud sortable & orderBy & orderDir & orderField 1`] = `
                   </table>
                 </div>
               </div>
-              <div
-                class="cxd-Table-fixedTop-shadow"
-                style=""
-              />
               <div
                 class="cxd-Table-toolbar cxd-Table-footToolbar"
               >
@@ -2683,7 +2675,7 @@ exports[`Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                 >
                   <table
                     class="cxd-Table-table"
-                    style="width: 0px; table-layout: auto; transform: translateX(-0px);"
+                    style="width: 0px; table-layout: fixed; transform: translateX(-0px);"
                   >
                     <colgroup>
                       <col
@@ -2766,10 +2758,6 @@ exports[`Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                   </table>
                 </div>
               </div>
-              <div
-                class="cxd-Table-fixedTop-shadow"
-                style=""
-              />
               <div
                 class="cxd-Table-toolbar cxd-Table-footToolbar"
               >
@@ -5381,7 +5369,7 @@ exports[`Renderer:crud loadDataOnce 1`] = `
                 >
                   <table
                     class="cxd-Table-table"
-                    style="width: 0px; table-layout: auto; transform: translateX(-0px);"
+                    style="width: 0px; table-layout: fixed; transform: translateX(-0px);"
                   >
                     <colgroup>
                       <col
@@ -5564,10 +5552,6 @@ exports[`Renderer:crud loadDataOnce 1`] = `
                   </table>
                 </div>
               </div>
-              <div
-                class="cxd-Table-fixedTop-shadow"
-                style=""
-              />
             </div>
           </div>
         </div>
@@ -5750,7 +5734,7 @@ exports[`Renderer:crud source & alwaysShowPagination 1`] = `
                 >
                   <table
                     class="cxd-Table-table"
-                    style="width: 0px; table-layout: auto; transform: translateX(-0px);"
+                    style="width: 0px; table-layout: fixed; transform: translateX(-0px);"
                   >
                     <colgroup>
                       <col
@@ -5833,10 +5817,6 @@ exports[`Renderer:crud source & alwaysShowPagination 1`] = `
                   </table>
                 </div>
               </div>
-              <div
-                class="cxd-Table-fixedTop-shadow"
-                style=""
-              />
               <div
                 class="cxd-Table-toolbar cxd-Table-footToolbar"
               >
