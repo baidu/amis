@@ -202,14 +202,9 @@ export class NumberInput extends React.Component<NumberProps, any> {
 
   @autobind
   handleChange(value: any) {
-    console.log('handleChangevalue=======', value);
     const {min, max, step, precision, resetValue, clearValueOnEmpty, onChange} =
       this.props;
-
-    console.log('precision=======', precision);
     const finalPrecision = NumberInput.normalizePrecision(precision, step);
-
-    // console.log('finalPrecision=======', finalPrecision);
 
     const result = NumberInput.normalizeValue(
       value,
@@ -220,7 +215,6 @@ export class NumberInput extends React.Component<NumberProps, any> {
       clearValueOnEmpty,
       this.isBig
     );
-    console.log('result=======', result);
     onChange?.(result);
   }
 
