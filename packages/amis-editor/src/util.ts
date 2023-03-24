@@ -293,13 +293,13 @@ export const resolveArrayDatasource = (
     data: any;
     source: string;
   },
-  defaultSourceKey: string = '$items'
+  defaultSource: string = '$items'
 ) =>
   Array.isArray(value)
     ? value
     : // resolveVariable 不支持 ${items} 格式，导致预览态无数据
       resolveVariableAndFilter(
-        typeof source === 'string' ? source : defaultSourceKey,
+        typeof source === 'string' ? source : defaultSource,
         data,
         '| raw'
       );
