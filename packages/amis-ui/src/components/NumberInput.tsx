@@ -172,6 +172,11 @@ export class NumberInput extends React.Component<NumberProps, any> {
       return Math.max(0, getNumberPrecision(step));
     }
 
+    //兼容1.x 没设置精度时候，可以输入小数点。
+    if (precision == undefined) {
+      return 16;
+    }
+
     return 0;
   };
 
@@ -197,9 +202,15 @@ export class NumberInput extends React.Component<NumberProps, any> {
 
   @autobind
   handleChange(value: any) {
+    console.log('handleChangevalue=======', value);
     const {min, max, step, precision, resetValue, clearValueOnEmpty, onChange} =
       this.props;
+
+    console.log('precision=======', precision);
     const finalPrecision = NumberInput.normalizePrecision(precision, step);
+
+    // console.log('finalPrecision=======', finalPrecision);
+
     const result = NumberInput.normalizeValue(
       value,
       min,
@@ -209,7 +220,7 @@ export class NumberInput extends React.Component<NumberProps, any> {
       clearValueOnEmpty,
       this.isBig
     );
-
+    console.log('result=======', result);
     onChange?.(result);
   }
 

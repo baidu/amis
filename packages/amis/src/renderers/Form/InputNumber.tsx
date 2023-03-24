@@ -196,7 +196,7 @@ export default class NumberControl extends React.Component<
         setPrinstineValue(normalizedValue);
       }
     }
-
+    console.log('unit============', unit);
     this.state = {unit, unitOptions};
   }
 
@@ -232,7 +232,7 @@ export default class NumberControl extends React.Component<
         clearValueOnEmpty,
         big
       );
-
+      console.log('reset============', value);
       onChange?.(clearValueOnEmpty && value === '' ? undefined : value);
     }
   }
@@ -278,6 +278,8 @@ export default class NumberControl extends React.Component<
     if (inputValue !== null && unitOptions && this.state.unit) {
       inputValue = inputValue + this.state.unit;
     }
+    console.log('resetValue============', resetValue);
+    console.log('inputValue============', inputValue);
     return inputValue === null ? resetValue ?? null : inputValue;
   }
 
@@ -291,6 +293,7 @@ export default class NumberControl extends React.Component<
 
   async handleChange(inputValue: any) {
     const {onChange, dispatchEvent, clearValueOnEmpty} = this.props;
+    console.log('inputValue=======', inputValue);
     const value = this.getValue(inputValue);
     const resultValue = clearValueOnEmpty && value === '' ? undefined : value;
     const rendererEvent = await dispatchEvent(
@@ -416,6 +419,7 @@ export default class NumberControl extends React.Component<
     };
     // 将数字还原
     const parser = (value: string) => {
+      console.log('=====将数字还原===', value);
       if (value) {
         prefix && (value = value.replace(prefix, ''));
         suffix && (value = value.replace(suffix, ''));
