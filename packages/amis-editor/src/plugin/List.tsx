@@ -1,4 +1,4 @@
-import {Button, resolveVariable} from 'amis';
+import {Button} from 'amis';
 import React from 'react';
 import {getI18nEnabled, registerEditorPlugin} from 'amis-editor-core';
 import {
@@ -13,6 +13,7 @@ import {
 } from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {diff, JSONPipeOut, repeatArray} from 'amis-editor-core';
+import {resolveArrayDatasource} from '../util';
 
 export class ListPlugin extends BasePlugin {
   static scene = ['layout'];
@@ -100,7 +101,7 @@ export class ListPlugin extends BasePlugin {
               {
                 name: 'placeholder',
                 pipeIn: defaultValue('没有数据'),
-                type:  i18nEnabled ? 'input-text-i18n' : 'input-text',
+                type: i18nEnabled ? 'input-text-i18n' : 'input-text',
                 label: '无数据提示'
               },
               {
@@ -192,11 +193,11 @@ export class ListPlugin extends BasePlugin {
       ...props.defaultData,
       ...props.data
     };
-    let arr = Array.isArray(props.value)
-      ? props.value
-      : typeof props.source === 'string'
-      ? resolveVariable(props.source, data)
-      : resolveVariable('items', data);
+    const arr = resolveArrayDatasource({
+      value: props.value,
+      data,
+      source: props.source
+    });
 
     if (!Array.isArray(arr) || !arr.length) {
       const mockedData: any = this.buildMockData();

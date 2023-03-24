@@ -1,6 +1,10 @@
 import React from 'react';
-import {Button, resolveVariable} from 'amis';
-import {getI18nEnabled, RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
+import {Button} from 'amis';
+import {
+  getI18nEnabled,
+  RendererPluginAction,
+  RendererPluginEvent
+} from 'amis-editor-core';
 import {findTree, setVariable, someTree} from 'amis-core';
 
 import {registerEditorPlugin, repeatArray, diff} from 'amis-editor-core';
@@ -23,6 +27,7 @@ import {
   getEventControlConfig,
   getArgsWrapper
 } from '../renderer/event-control/helper';
+import {resolveArrayDatasource} from '../util';
 
 export class TablePlugin extends BasePlugin {
   // 关联渲染器名字
@@ -596,11 +601,7 @@ export class TablePlugin extends BasePlugin {
   };
 
   filterProps(props: any) {
-    const arr = Array.isArray(props.value)
-      ? props.value
-      : typeof props.source === 'string'
-      ? resolveVariable(props.source, props.data)
-      : resolveVariable('items', props.data);
+    const arr = resolveArrayDatasource(props);
 
     if (!Array.isArray(arr) || !arr.length) {
       const mockedData: any = {};

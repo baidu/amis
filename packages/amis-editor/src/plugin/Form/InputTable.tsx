@@ -1,5 +1,5 @@
 import React from 'react';
-import {resolveVariable, Button} from 'amis';
+import {resolveVariableAndFilter, Button} from 'amis';
 import {
   registerEditorPlugin,
   BaseEventContext,
@@ -19,8 +19,12 @@ import {
 } from 'amis-editor-core';
 import {setVariable} from 'amis-core';
 import {ValidatorTag} from '../../validator';
-import {getEventControlConfig, getArgsWrapper} from '../../renderer/event-control/helper';
+import {
+  getEventControlConfig,
+  getArgsWrapper
+} from '../../renderer/event-control/helper';
 import cloneDeep from 'lodash/cloneDeep';
+import {resolveArrayDatasource} from '../../util';
 
 export class TableControlPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -170,12 +174,12 @@ export class TableControlPlugin extends BasePlugin {
                     label: '日期'
                   },
                   {
-                      value: 'datetime',
-                      label: '日期时间'
+                    value: 'datetime',
+                    label: '日期时间'
                   },
                   {
-                      value: 'time',
-                      label: '时间'
+                    value: 'time',
+                    label: '时间'
                   },
                   {
                     value: 'status',
@@ -260,10 +264,12 @@ export class TableControlPlugin extends BasePlugin {
           const rawColumn = {
             ...column,
             type: column.type,
-            quickEdit: column.quickEdit?.type ? {
-              type: column.quickEdit.type,
-              name: column.name
-            } : false
+            quickEdit: column.quickEdit?.type
+              ? {
+                  type: column.quickEdit.type,
+                  name: column.name
+                }
+              : false
           };
           rawColumns.push(rawColumn);
         });
@@ -596,7 +602,7 @@ export class TableControlPlugin extends BasePlugin {
                       type: i18nEnabled ? 'input-text-i18n' : 'input-text',
                       name: 'cancelBtnLabel',
                       label: '取消按钮名称',
-                      placeholder: '取消按钮名称',
+                      placeholder: '取消按钮名称'
                     },
                     getSchemaTpl('icon', {
                       name: 'cancelBtnIcon',
@@ -659,7 +665,7 @@ export class TableControlPlugin extends BasePlugin {
                       name: 'copyBtnIcon',
                       label: '按钮图标',
                       pipeIn: defaultValue('copy')
-                    }),
+                    })
                   ]
                 }
               },
@@ -775,7 +781,7 @@ export class TableControlPlugin extends BasePlugin {
             schema: [
               getSchemaTpl('className', {
                 name: 'rowClassName',
-                label: '行样式',
+                label: '行样式'
               })
             ]
           })
@@ -785,11 +791,7 @@ export class TableControlPlugin extends BasePlugin {
   };
 
   filterProps(props: any) {
-    const arr = Array.isArray(props.value)
-      ? props.value
-      : typeof props.source === 'string'
-      ? resolveVariable(props.source, props.data)
-      : resolveVariable('items', props.data);
+    const arr = resolveArrayDatasource(props);
 
     if (!Array.isArray(arr) || !arr.length) {
       const mockedData: any = {};

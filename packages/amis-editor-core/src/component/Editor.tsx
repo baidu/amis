@@ -469,7 +469,7 @@ export default class Editor extends Component<EditorProps> {
 
   preview() {
     if (this.props.onPreview) {
-      this.props.onPreview(true);
+      this.props.onPreview(!this.props.preview);
     }
   }
 
