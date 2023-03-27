@@ -41,7 +41,6 @@ import merge from 'lodash/merge';
 import mergeWith from 'lodash/mergeWith';
 
 import type {SchemaTokenizeableString} from '../../Schema';
-import { TimelineItem } from 'packages/amis-ui/src/components/TimelineItem';
 
 export interface TableControlSchema
   extends FormBaseControl,
