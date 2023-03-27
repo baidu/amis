@@ -7,7 +7,7 @@ import fs from 'fs';
 import path from 'path';
 import XMLPackageParser from '../src/package/XMLPackageParser';
 
-export async function createWord(): Promise<Word> {
+export function createWord() {
   const xmlContent = fs.readFileSync(
     path.join(__dirname, './docx/empty.xml'),
     'utf-8'
