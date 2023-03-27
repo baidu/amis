@@ -7,27 +7,6 @@ export default {
   "body": [
     {
       "type": "button",
-      "label": "add",
-      "actionType": "add",
-      "target": "table",
-      "payload": {
-        "name": "老action",
-        "color": "#000000"
-      },
-      "id": "u:691a43978f4e"
-    },
-    {
-      "type": "button",
-      "label": "delete",
-      "actionType": "delete",
-      "target": "table",
-      "payload": {
-        "name": "老action",
-      },
-      "id": "u:691a43978f4e"
-    },
-    {
-      "type": "button",
       "label": "setValue 未指定index",
       "onEvent": {
         "click": {
@@ -314,27 +293,7 @@ export default {
             }
           ]
         }
-      },
-      // "addApi": {
-      //   "url": "http://localhost:3000/form/input/table",
-      //   "method": "post",
-      //   "messages": {
-      //   },
-      //   "dataType": "json"
-      // },
-      // "updateApi": {
-      //   "url": "http://localhost:3000/form/input/table",
-      //   "method": "put",
-      //   "messages": {
-      //   },
-      //   "dataType": "json"
-      // },
-      // "deleteApi": {
-      //   "url": "http://localhost:3000/form/input/table",
-      //   "method": "delete",
-      //   "messages": {},
-      //   "dataType": "json"
-      // },
+      }
     }
   ],
   "id": "u:6bbc05138917"
