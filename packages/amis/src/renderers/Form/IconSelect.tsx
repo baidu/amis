@@ -86,9 +86,12 @@ export default class IconSelectControl extends React.PureComponent<
     let findItem: IconSelectStore.SvgIcon | undefined = undefined;
     if (IconSelectStore.svgIcons && IconSelectStore.svgIcons.length) {
       for (let i = 0; i < IconSelectStore.svgIcons.length; i++) {
-        findItem = find(IconSelectStore.svgIcons[i].children, i => i.svg === svg);
+        findItem = find(
+          IconSelectStore.svgIcons[i].children,
+          i => i.svg === svg
+        );
         if (findItem) {
-            break;
+          break;
         }
       }
     }
@@ -120,7 +123,8 @@ export default class IconSelectControl extends React.PureComponent<
       placeholder,
       clearable
     } = this.props;
-    const value = typeof valueTemp === 'string' ? this.getValueBySvg(valueTemp) : valueTemp;
+    const value =
+      typeof valueTemp === 'string' ? this.getValueBySvg(valueTemp) : valueTemp;
 
     const pureValue =
       (value?.id && String(value.id).replace(/^svg-/, '')) || '';
@@ -196,7 +200,7 @@ export default class IconSelectControl extends React.PureComponent<
     const checkedIcon = this.state.tmpCheckIconId;
     if (this.props.returnSvg) {
       this.props.onChange &&
-        this.props.onChange(checkedIcon && checkedIcon.svg || '');
+        this.props.onChange((checkedIcon && checkedIcon.svg) || '');
     } else {
       this.props.onChange &&
         this.props.onChange(
@@ -207,6 +211,17 @@ export default class IconSelectControl extends React.PureComponent<
     }
 
     this.toggleModel(false);
+  }
+
+  @autobind
+  async handleLocalUpload(icon: IconChecked) {
+    this.setState({
+      tmpCheckIconId: icon
+    });
+
+    await this.handleRefreshIconList();
+
+    this.handleConfirm();
   }
 
   handleClickIconInModal(icon: IconChecked) {
@@ -285,7 +300,13 @@ export default class IconSelectControl extends React.PureComponent<
 
   @autobind
   renderModalContent() {
-    const {render, classPrefix: ns, loadingConfig, funcSchema} = this.props;
+    const {
+      render,
+      classPrefix: ns,
+      loadingConfig,
+      funcSchema,
+      funcCom: FuncCom
+    } = this.props;
 
     const icons = this.getIconsByType();
 
@@ -317,10 +338,11 @@ export default class IconSelectControl extends React.PureComponent<
           )) ||
           null}
 
-        {(
-          funcSchema
-          && render('func', funcSchema, {className: cx(`${ns}IconSelectControl-Modal-func`)})
-          ) || null}
+        {FuncCom ? (
+          <div className={cx(`${ns}IconSelectControl-Modal-func`)}>
+            <FuncCom onUpload={this.handleLocalUpload} />
+          </div>
+        ) : null}
 
         <div className={cx(`${ns}IconSelectControl-Modal-content`)}>
           <Spinner
@@ -354,7 +376,8 @@ export default class IconSelectControl extends React.PureComponent<
   @autobind
   toggleModel(isShow?: boolean) {
     const {value: valueTemp} = this.props;
-    const value = typeof valueTemp === 'string' ? this.getValueBySvg(valueTemp) : valueTemp;
+    const value =
+      typeof valueTemp === 'string' ? this.getValueBySvg(valueTemp) : valueTemp;
 
     if (isShow === undefined) {
       this.setState({
@@ -376,7 +399,13 @@ export default class IconSelectControl extends React.PureComponent<
   }
 
   render() {
-    const {className, style, classPrefix: ns, disabled, translate: __} = this.props;
+    const {
+      className,
+      style,
+      classPrefix: ns,
+      disabled,
+      translate: __
+    } = this.props;
 
     return (
       <div
