@@ -15,7 +15,8 @@ export default {
               "componentId": "u:39c47c713ae6",
               "actionType": "add",
               "payload": {
-                "name": "zzzl"
+                "color": "#000",
+                "name": "${name}"
               }
             }
           ]
@@ -101,7 +102,7 @@ export default {
               "args": {
                 "item": [
                   {
-                    "name": "插入1",
+                    "name": "${name}",
                     "color": "#ffffff"
                   },
                   {
@@ -330,26 +331,26 @@ export default {
           ]
         }
       },
-      "addApi": {
-        "url": "http://localhost:3000/form/input/table",
-        "method": "post",
-        "messages": {
-        },
-        "dataType": "json"
-      },
-      "updateApi": {
-        "url": "http://localhost:3000/form/input/table",
-        "method": "put",
-        "messages": {
-        },
-        "dataType": "json"
-      },
-      "deleteApi": {
-        "url": "http://localhost:3000/form/input/table",
-        "method": "delete",
-        "messages": {},
-        "dataType": "json"
-      },
+      // "addApi": {
+      //   "url": "http://localhost:3000/form/input/table",
+      //   "method": "post",
+      //   "messages": {
+      //   },
+      //   "dataType": "json"
+      // },
+      // "updateApi": {
+      //   "url": "http://localhost:3000/form/input/table",
+      //   "method": "put",
+      //   "messages": {
+      //   },
+      //   "dataType": "json"
+      // },
+      // "deleteApi": {
+      //   "url": "http://localhost:3000/form/input/table",
+      //   "method": "delete",
+      //   "messages": {},
+      //   "dataType": "json"
+      // },
     }
   ],
   "id": "u:6bbc05138917"

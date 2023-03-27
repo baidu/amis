@@ -25,8 +25,8 @@ import {
   resolveVariableAndFilter,
   getRendererByName,
   resolveEventData,
-  evalExpression,
-  ListenerAction
+  ListenerAction,
+  evalExpressionWithConditionBuilder
 } from 'amis-core';
 import {Button, Icon} from 'amis-ui';
 import omit from 'lodash/omit';
@@ -470,7 +470,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       env,
       needConfirm,
       addable,
-      addApi
+      addApi,
+      translate: __
     } = this.props;
 
     const actionType = action.actionType as string;
@@ -1568,25 +1569,22 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 })
 export class TableControlRenderer extends FormTable {
   setData(value: any, replace?: boolean, index?: number) {
-    const {onChange} = this.props;
     if (index !== undefined && ~index) {
       // 如果setValue动作传入了index，更新指定索引的值
       const items = [...this.state.items];
       items.splice(index, 1, value);
-      this.setState({items});
-      onChange?.(items);
+      this.setState({items}, () => {this.emitValue()});
     } else {
       // 如果setValue动作没有传入index，则直接替换组件数据
       this.setState({
         items: [...value]
-      });
-      onChange?.(value);
+      }, () => {this.emitValue()});
     }
   }
 
   async doAction(
     action: ListenerAction | ActionObject,
-    ctx: RendererData,
+    args: any,
     ...rest: Array<any>
   ) {
     const {
@@ -1601,7 +1599,7 @@ export class TableControlRenderer extends FormTable {
     } = this.props;
 
     const actionType = action.actionType as string;
-    const args = action.args || {};
+    const ctx = this.props.store?.data || {}; // 获取当前上下文数据
 
     if (actionType === 'addItem') {
       if (addable === false) {
@@ -1671,7 +1669,10 @@ export class TableControlRenderer extends FormTable {
         rawItems.splice(args.index, 1);
       } else if (args.condition) {
         items.forEach((item, rowIndex) => {
-          const flag = evalExpression(args?.condition, {...item, rowIndex});
+          const flag = evalExpressionWithConditionBuilder(
+            args?.condition,
+            {...item, rowIndex}
+          );
           if (!flag) {
             rawItems.push(item);
           } else {
@@ -1681,8 +1682,8 @@ export class TableControlRenderer extends FormTable {
       }
 
       // 删除api，目前不支持 如果匹配到的删除数据有多个，但api只支持删除一个 的场景
-      if (isEffectiveApi(deleteApi, deleteItem)) {
-        const payload = await env.fetcher(deleteApi, deleteItem);
+      if (isEffectiveApi(deleteApi, ctx)) {
+        const payload = await env.fetcher(deleteApi, ctx);
         if (payload && !payload.ok) {
           env.notify(
             'error',
