@@ -8,37 +8,21 @@ export default {
     {
       "type": "button",
       "label": "add",
-      "onEvent": {
-        "click": {
-          "actions": [
-            {
-              "componentId": "u:39c47c713ae6",
-              "actionType": "add",
-              "payload": {
-                "color": "#000",
-                "name": "${name}"
-              }
-            }
-          ]
-        }
+      "actionType": "add",
+      "target": "table",
+      "payload": {
+        "name": "老action",
+        "color": "#000000"
       },
       "id": "u:691a43978f4e"
     },
     {
       "type": "button",
       "label": "delete",
-      "onEvent": {
-        "click": {
-          "actions": [
-            {
-              "componentId": "u:39c47c713ae6",
-              "actionType": "delete",
-              "payload": {
-                "name": "zzl"
-              }
-            }
-          ]
-        }
+      "actionType": "delete",
+      "target": "table",
+      "payload": {
+        "name": "老action",
       },
       "id": "u:691a43978f4e"
     },
