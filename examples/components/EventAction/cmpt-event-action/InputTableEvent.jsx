@@ -118,7 +118,7 @@ export default {
             {
               "componentId": "u:39c47c713ae6",
               "args": {
-                "condition": "${name === 'zzl'}"
+                "condition": "${name === 'index 1'}"
               },
               "actionType": "deleteItem"
             }

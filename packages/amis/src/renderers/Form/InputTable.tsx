@@ -582,18 +582,18 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         ...items[index],
         __isPlaceholder: true
       });
-      // 派发add事件
-      const isPrevented = await this.dispatchEvent('add', {index});
-      if (isPrevented) {
-        return;
-      }
     }
     index = Math.min(index + 1, items.length - 1);
     this.setState(
       {
         items
       },
-      () => {
+      async () => {
+        // 派发add事件
+        const isPrevented = await this.dispatchEvent('add', {index});
+        if (isPrevented) {
+          return;
+        }
         if (needConfirm === false) {
           this.emitValue();
         } else {
@@ -780,8 +780,6 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
     delete item.__isPlaceholder;
     items.splice(this.state.editIndex, 1, item);
-    const successEventName = isNew ? 'addSuccess' : 'editSuccess';
-    this.dispatchEvent(successEventName, {index: this.state.editIndex, item});
 
     this.setState(
       {
@@ -789,7 +787,11 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         items: items,
         columns: this.buildColumns(this.props)
       },
-      this.emitValue
+      () => {
+        const successEventName = isNew ? 'addSuccess' : 'editSuccess';
+        this.dispatchEvent(successEventName, {index: this.state.editIndex, item});
+        this.emitValue();
+      }
     );
   }
 
@@ -1589,6 +1591,7 @@ export class TableControlRenderer extends FormTable {
       needConfirm,
       addable,
       addApi,
+      deleteApi,
       resetValue,
       translate: __
     } = this.props;
@@ -1657,33 +1660,44 @@ export class TableControlRenderer extends FormTable {
     } else if (actionType === 'deleteItem') {
       const items = [...this.state.items];
       let rawItems: any = [];
-      const deleteItems: any = [];
+      const deletedItems: any = [];
 
       if (args.index) {
-        items[args.index] && deleteItems.push(items[args.index]);
+        items[args.index] && deletedItems.push(items[args.index]);
         rawItems = [...items];
         rawItems.splice(args.index, 1);
-        this.handleAfterRawDeleteItem(ctx, rawItems, deleteItems);
       } else if (args.condition) {
-        const promiseList: Promise<void>[] = [];
-        items.forEach(async (item, rowIndex) => {
-          promiseList.push(new Promise<void>(async (resolve) => {
-            const flag = await evalExpressionWithConditionBuilder(
-              args?.condition,
-              {...item, rowIndex}
-            );
-            if (!flag) {
-              rawItems.push(item);
-            } else {
-              deleteItems.push(item);
-            }
-            resolve();
-          }));
-        });
-        Promise.all(promiseList).then(() => {
-          this.handleAfterRawDeleteItem(ctx, rawItems, deleteItems);
-        })
+        const itemsLength = items.length;
+        for (let i = 0; i < itemsLength; i++) {
+          const flag = await evalExpressionWithConditionBuilder(
+            args?.condition,
+            {...items[i], rowIndex: i}
+          );
+          if (!flag) {
+            rawItems.push(items[i]);
+          } else {
+            deletedItems.push(items[i]);
+          }
+        }
       }
+      // 删除api
+      if (isEffectiveApi(deleteApi, createObject(ctx, {deletedItems}))) {
+        const payload = await env.fetcher(deleteApi, createObject(ctx, {deletedItems}));
+        if (payload && !payload.ok) {
+          env.notify(
+            'error',
+            (deleteApi as ApiObject)?.messages?.failed ??
+              (payload.msg || __('fetchFailed'))
+          );
+          return;
+        }
+      }
+      this.setState(
+        {
+          items: rawItems
+        },
+        () => this.emitValue()
+      );
       return;
     } else if (actionType === 'clear') {
       this.setState({
@@ -1701,32 +1715,5 @@ export class TableControlRenderer extends FormTable {
       return;
     }
     return super.doAction(action as ActionObject, ctx, ...rest);
-  }
-
-  async handleAfterRawDeleteItem(ctx: any, rawItems: any[], deletedItems: any[]) {
-    const {
-      env,
-      deleteApi,
-      translate: __
-    } = this.props;
-    // 删除api
-    if (isEffectiveApi(deleteApi, createObject(ctx, {deletedItems}))) {
-      const payload = await env.fetcher(deleteApi, createObject(ctx, {deletedItems}));
-      if (payload && !payload.ok) {
-        env.notify(
-          'error',
-          (deleteApi as ApiObject)?.messages?.failed ??
-            (payload.msg || __('fetchFailed'))
-        );
-        return;
-      }
-    }
-
-    this.setState(
-      {
-        items: rawItems
-      },
-      () => this.emitValue()
-    );
   }
 }
