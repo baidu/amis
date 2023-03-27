@@ -765,8 +765,6 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       apiMsg = (updateApi as ApiObject)?.messages?.failed;
     }
 
-    console.log('remote', remote)
-
     if (remote && !remote.ok) {
       env.notify('error', apiMsg ?? (remote.msg || __('saveFailed')));
       const failEventName = isNew ? 'addFail' : 'editFail';
