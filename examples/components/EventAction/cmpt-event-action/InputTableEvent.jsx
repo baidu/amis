@@ -90,10 +90,14 @@ export default {
             {
               "componentId": "u:39c47c713ae6",
               "args": {
-                "index": 2,
+                "index": 1,
                 "item": [
                   {
-                    "name": "what",
+                    "name": "index 1",
+                    "color": "#ffffff"
+                  },
+                  {
+                    "name": "index 2",
                     "color": "#ffffff"
                   }
                 ]
@@ -164,6 +168,16 @@ export default {
       "type": "input-table",
       "name": "table",
       "label": "表格表单",
+      "value": [
+        {
+          "name": "zzl",
+          "color": "#ff0000"
+        },
+        {
+          "name": "zzl测试下setValue动作",
+          "color": "#00ff00"
+        }
+      ],
       // "valueField": "name",
       "resetValue": [
         {
