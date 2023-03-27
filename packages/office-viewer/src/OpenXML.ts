@@ -63,6 +63,47 @@ export function getAttrBoolean(
   return normalizeBoolean(element.getAttribute(attr), defaultValue);
 }
 
+/**
+ * 获取属性值，转成数字
+ *
+ * @param attr 属性名
+ * @param defaultValue 默认值
+ * @returns 解析后的数字
+ */
+export function getAttrNumber(
+  element: Element,
+  attr: string,
+  defaultValue: number = 0
+) {
+  const value = element.getAttribute(attr);
+  if (value) {
+    return parseInt(value, 10);
+  } else {
+    return defaultValue;
+  }
+}
+
+/**
+ * 获取百分比值，没测过
+ * http://webapp.docx4java.org/OnlineDemo/ecma376/DrawingML/ST_Percentage.html
+ * https://c-rex.net/projects/samples/ooxml/e1/Part4/OOXML_P4_DOCX_ST_Percentage_topic_ID0EY3XNB.html#topic_ID0EY3XNB
+ *
+ * @returns 0-1 之间的小数
+ */
+export function getAttrPercentage(element: Element, attr: string) {
+  const value = element.getAttribute(attr);
+
+  if (value) {
+    const num = parseInt(value, 10);
+    return num / 100000;
+  }
+
+  return 1;
+}
+
+/**
+ * 获取属性的 hex 值
+ */
 export function getValHex(element: Element) {
   return parseInt(getVal(element) || '0', 16);
 }

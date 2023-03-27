@@ -1,3 +1,4 @@
+import {FontTable} from './openxml/word/FontTable';
 /**
  * 总入口，它将包括所有 word 文档信息，后续渲染的时候依赖它来获取关联信息
  */
@@ -10,7 +11,7 @@ import {parseTheme, Theme} from './openxml/Theme';
 import renderDocument from './render/renderDocument';
 import {blobToDataURL, downloadBlob} from './util/blob';
 import {Numbering} from './openxml/word/numbering/Numbering';
-import {appendChild} from './util/dom';
+import {appendChild, createElement} from './util/dom';
 import {renderStyle} from './render/renderStyle';
 import {mergeRun} from './util/mergeRun';
 import {WDocument} from './openxml/word/WDocument';
@@ -19,6 +20,8 @@ import {updateVariableText} from './render/renderRun';
 import ZipPackageParser from './package/ZipPackageParser';
 import {buildXML} from './util/xml';
 import {Paragraph} from './openxml/word/Paragraph';
+import {deobfuscate} from './openxml/word/Font';
+import {renderFont} from './render/renderFont';
 
 /**
  * 渲染配置
@@ -28,9 +31,6 @@ export interface WordRenderOptions {
    * css 类前缀
    */
   classPrefix: string;
-
-  /** 图片是否使用 data url */
-  imageDataURL: boolean;
 
   /**
    * 列表使用字体渲染，需要自行引入 Windings 字体
@@ -86,18 +86,23 @@ export interface WordRenderOptions {
    * 强制行高，设置之后所有文本都使用这个行高，可以优化排版效果
    */
   forceLineHeight?: string;
+
+  /**
+   * 打印等待时间，单位毫秒，可能有的文档有很多图片，如果等待时间太短图片还没加载完，所以加这个配置项可控
+   */
+  printWaitTime?: number;
 }
 
 const defaultRenderOptions: WordRenderOptions = {
-  imageDataURL: false,
   classPrefix: 'docx-viewer',
   inWrap: true,
   bulletUseFont: true,
   ignoreHeight: true,
-  ignoreWidth: true,
+  ignoreWidth: false,
   minLineHeight: 1.0,
   enableVar: false,
-  debug: false
+  debug: false,
+  printWaitTime: 100
 };
 
 export default class Word {
@@ -138,7 +143,20 @@ export default class Word {
 
   renderOptions: WordRenderOptions;
 
+  /**
+   * 全局关系表
+   */
   relationships: Record<string, Relationship>;
+
+  /**
+   * 文档关系表
+   */
+  documentRels: Record<string, Relationship>;
+
+  /**
+   * 字体关系表
+   */
+  fontTableRels: Record<string, Relationship>;
 
   /**
    * 样式名映射，因为自定义样式名有可能不符合 css 命名规范，因此实际使用这个名字
@@ -149,6 +167,11 @@ export default class Word {
    * 用于自动生成样式名时的计数，保证每次都是唯一的
    */
   styleIdNum: number = 0;
+
+  /**
+   * 内置字体标
+   */
+  fontTable?: FontTable;
 
   /**
    * 渲染根节点
@@ -191,10 +214,12 @@ export default class Word {
 
     // 这个必须在最前面，因为后面很多依赖它来查找文件的
     this.initContentType();
+    // relation 需要排第二
+    this.initRelation();
 
     this.initTheme();
+    this.initFontTable();
     this.initStyle();
-    this.initRelation();
     this.initNumbering();
 
     this.inited = true;
@@ -224,6 +249,20 @@ export default class Word {
   }
 
   /**
+   * 解析字体表
+   */
+  initFontTable() {
+    for (const override of this.conentTypes.overrides) {
+      if (override.partName.startsWith('/word/fontTable.xml')) {
+        this.fontTable = FontTable.fromXML(
+          this,
+          this.parser.getXML('/word/fontTable.xml')
+        );
+      }
+    }
+  }
+
+  /**
    * 解析关系
    */
   initRelation() {
@@ -232,6 +271,8 @@ export default class Word {
       rels = parseRelationships(this.parser.getXML('/_rels/.rels'), 'root');
     }
 
+    this.relationships = rels;
+
     let documentRels = {};
     if (this.parser.fileExists('/word/_rels/document.xml.rels')) {
       documentRels = parseRelationships(
@@ -239,7 +280,16 @@ export default class Word {
         'word'
       );
     }
-    this.relationships = {...rels, ...documentRels};
+    this.documentRels = documentRels;
+
+    let fontTableRels = {};
+    if (this.parser.fileExists('/word/_rels/fontTable.xml.rels')) {
+      fontTableRels = parseRelationships(
+        this.parser.getXML('/word/_rels/fontTable.xml.rels'),
+        'word'
+      );
+    }
+    this.fontTableRels = fontTableRels;
   }
 
   /**
@@ -263,11 +313,31 @@ export default class Word {
   }
 
   /**
-   * 根据 id 获取关系
+   * 获取全局关系
    */
   getRelationship(id?: string) {
-    if (id) {
+    if (id && this.relationships) {
       return this.relationships[id];
+    }
+    return null;
+  }
+
+  /**
+   * 获取文档对应的关系
+   */
+  getDocumentRels(id?: string) {
+    if (id && this.documentRels) {
+      return this.documentRels[id];
+    }
+    return null;
+  }
+
+  /**
+   * 获取字体对应的关系
+   */
+  getFontTableRels(id?: string) {
+    if (id && this.fontTableRels) {
+      return this.fontTableRels[id];
     }
     return null;
   }
@@ -288,7 +358,7 @@ export default class Word {
   /**
    * 加载图片
    */
-  loadImage(relation: Relationship): Promise<string> | null {
+  loadImage(relation: Relationship): string | null {
     let path = relation.target;
     if (relation.part === 'word') {
       path = 'word/' + path;
@@ -296,13 +366,26 @@ export default class Word {
 
     const data = this.parser.getFileByType(path, 'blob');
     if (data) {
-      if (this.renderOptions.imageDataURL) {
-        return blobToDataURL(data as Blob);
-      } else {
-        return new Promise<string>((resolve, reject) => {
-          resolve(URL.createObjectURL(data as Blob));
-        });
-      }
+      return URL.createObjectURL(data as Blob);
+    }
+
+    return null;
+  }
+
+  loadFont(rId: string, key: string) {
+    const relation = this.getFontTableRels(rId);
+    if (!relation) {
+      return null;
+    }
+
+    let path = relation.target;
+    if (relation.part === 'word') {
+      path = 'word/' + path;
+    }
+
+    const data = this.parser.getFileByType(path, 'uint8array') as Uint8Array;
+    if (data) {
+      return URL.createObjectURL(new Blob([deobfuscate(data, key)]));
     }
 
     return null;
@@ -344,9 +427,9 @@ export default class Word {
   /**
    * 添加新样式，主要用于表格的单元格样式
    */
-  appendStyle(style: string) {
-    const styleElement = document.createElement('style');
-    styleElement.innerHTML = style;
+  appendStyle(style: string = '') {
+    const styleElement = createElement('style');
+    styleElement.textContent = style;
     this.rootElement.appendChild(styleElement);
   }
 
@@ -377,10 +460,18 @@ export default class Word {
   }
 
   /**
-   * 获取主题色，目前基于 css 变量实现，方便动态修改
+   * 获取主题色
    */
   getThemeColor(name: string) {
-    return `var(--docx-${this.id}-theme-${name}-color)`;
+    if (this.themes && this.themes.length > 0) {
+      const theme = this.themes[0];
+      const color = theme.themeElements?.clrScheme?.colors?.[name];
+      if (color) {
+        return color;
+      }
+    }
+
+    return '';
   }
 
   addClass(element: HTMLElement, className: string) {
@@ -436,7 +527,7 @@ export default class Word {
       iframe.focus();
       iframe.contentWindow?.print();
       iframe.parentNode?.removeChild(iframe);
-    }, 100);
+    }, this.renderOptions.printWaitTime || 100); // 需要等一下图片渲染
     window.focus();
   }
 
@@ -472,6 +563,7 @@ export default class Word {
     }
 
     appendChild(root, renderStyle(this));
+    appendChild(root, renderFont(this.fontTable));
     appendChild(root, documentElement);
   }
 }

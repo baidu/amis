@@ -15,7 +15,10 @@ export interface PackageParser {
   /**
    * 根据类型读取文件
    */
-  getFileByType(filePath: string, type: 'string' | 'blob'): string | Blob;
+  getFileByType(
+    filePath: string,
+    type: 'string' | 'blob' | 'uint8array'
+  ): string | Blob | Uint8Array;
 
   /**
    * 文件是否存在

@@ -1,8 +1,7 @@
-import {Relationship} from '../../parse/parseRelationship';
 import Word from '../../Word';
 
 export class Pict {
-  imagedata?: Relationship;
+  src?: string | null;
 
   static fromXML(word: Word, element: Element): Pict | null {
     const pict = new Pict();
@@ -11,9 +10,9 @@ export class Pict {
 
     if (imagedataElement) {
       const rId = imagedataElement.getAttribute('r:id') || '';
-      const rel = word.getRelationship(rId);
+      const rel = word.getDocumentRels(rId);
       if (rel) {
-        pict.imagedata = rel;
+        pict.src = word.loadImage(rel);
       }
     }
 

@@ -11,11 +11,17 @@ const testDir = '__tests__/docx';
 
 const fileLists = {
   simple: [
-    'helloworld.docx',
+    'image.docx',
     'list.docx',
     'tableborder.docx',
     'tablestyle.docx',
-    'pinyin.docx'
+    'pinyin.docx',
+    'em.docx',
+    'w.docx',
+    'textbox.docx',
+    'embed-font.docx',
+    'math.docx',
+    'highlight.docx'
   ],
   docx4j: [
     'ArialUnicodeMS.docx',
