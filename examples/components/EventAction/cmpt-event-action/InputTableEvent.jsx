@@ -33,7 +33,7 @@ export default {
               "componentId": "u:39c47c713ae6",
               "actionType": "delete",
               "payload": {
-                "name": "zzzl"
+                "name": "zzl"
               }
             }
           ]
@@ -129,12 +129,8 @@ export default {
                 "index": 2,
                 "item": [
                   {
-                    "name": "插入1",
+                    "name": "what",
                     "color": "#ffffff"
-                  },
-                  {
-                    "name": "插入2",
-                    "color": "#2468f2"
                   }
                 ]
               },
@@ -154,7 +150,7 @@ export default {
             {
               "componentId": "u:39c47c713ae6",
               "args": {
-                "condition": "data.record.name === 'zzl'"
+                "condition": "${name === 'zzl'}"
               },
               "actionType": "deleteItem"
             }
@@ -236,7 +232,6 @@ export default {
       ],
       "strictMode": false,
       "id": "u:39c47c713ae6",
-      "needConfirm": false,
       "addable": true,
       "copyable": true,
       "editable": true,
@@ -248,7 +243,7 @@ export default {
           "actions": [
             {
               "args": {
-                "msg": "${event.data.index}"
+                "msg": "add ${event.data.index}"
               },
               "actionType": "toast"
             }
@@ -258,7 +253,7 @@ export default {
           "actions": [
             {
               "args": {
-                "msg": "${event.data.index}"
+                "msg": "addConfirm ${event.data.index}"
               },
               "actionType": "toast"
             }
@@ -268,7 +263,37 @@ export default {
           "actions": [
             {
               "args": {
-                "msg": "${event.data.index}"
+                "msg": "addSuccess ${event.data.index}"
+              },
+              "actionType": "toast"
+            }
+          ]
+        },
+        "edit": {
+          "actions": [
+            {
+              "args": {
+                "msg": "edit ${event.data.index}"
+              },
+              "actionType": "toast"
+            }
+          ],
+        },
+        "editSuccess": {
+          "actions": [
+            {
+              "args": {
+                "msg": "editSuccess ${event.data.index}"
+              },
+              "actionType": "toast"
+            }
+          ]
+        },
+        "editFail": {
+          "actions": [
+            {
+              "args": {
+                "msg": "editFail ${event.data.index}"
               },
               "actionType": "toast"
             }
@@ -278,7 +303,7 @@ export default {
           "actions": [
             {
               "args": {
-                "msg": "${event.data.index}"
+                "msg": "delete ${event.data.index}"
               },
               "actionType": "toast"
             }
@@ -288,27 +313,43 @@ export default {
           "actions": [
             {
               "args": {
-                "msg": "${event.data.index}"
+                "msg": "deleteSuccess ${event.data.index}"
+              },
+              "actionType": "toast"
+            }
+          ]
+        },
+        "deleteFail": {
+          "actions": [
+            {
+              "args": {
+                "msg": "deleteFail ${event.data.index}"
               },
               "actionType": "toast"
             }
           ]
         }
       },
-      // "addApi": {
-      //   "url": "http://localhost:3000/form/input/table",
-      //   "method": "post",
-      //   "messages": {
-      //   },
-      //   "dataType": "json"
-      // },
-      // "updateApi": {
-      //   "url": "http://localhost:3000/form/input/table",
-      //   "method": "put",
-      //   "messages": {
-      //   },
-      //   "dataType": "json"
-      // }
+      "addApi": {
+        "url": "http://localhost:3000/form/input/table",
+        "method": "post",
+        "messages": {
+        },
+        "dataType": "json"
+      },
+      "updateApi": {
+        "url": "http://localhost:3000/form/input/table",
+        "method": "put",
+        "messages": {
+        },
+        "dataType": "json"
+      },
+      "deleteApi": {
+        "url": "http://localhost:3000/form/input/table",
+        "method": "delete",
+        "messages": {},
+        "dataType": "json"
+      },
     }
   ],
   "id": "u:6bbc05138917"

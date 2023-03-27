@@ -25,7 +25,8 @@ import {
   resolveVariableAndFilter,
   getRendererByName,
   resolveEventData,
-  evalExpression
+  evalExpression,
+  ListenerAction
 } from 'amis-core';
 import {Button, Icon} from 'amis-ui';
 import omit from 'lodash/omit';
@@ -469,10 +470,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       env,
       needConfirm,
       addable,
-      addApi,
-      deleteApi,
-      resetValue,
-      translate: __
+      addApi
     } = this.props;
 
     const actionType = action.actionType as string;
@@ -565,117 +563,6 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         () => this.emitValue()
       );
 
-      return;
-    } else if (actionType === 'addItem') {
-      if (addable === false) {
-        return;
-      }
-
-      const items = this.state.items.concat();
-
-      if (addApi || ctx) {
-        let toAdd: any = null;
-
-        if (isEffectiveApi(addApi, ctx)) {
-          const payload = await env.fetcher(addApi, ctx);
-          if (payload && !payload.ok) {
-            env.notify(
-              'error',
-              (addApi as ApiObject)?.messages?.failed ??
-                (payload.msg || __('fetchFailed'))
-            );
-            return;
-          } else if (payload && payload.ok) {
-            toAdd = payload.data;
-          }
-        } else {
-          toAdd = ctx.item;
-        }
-
-        toAdd = Array.isArray(toAdd) ? toAdd : [toAdd];
-        // 如果没指定插入的位置（args.index），则默认在头部插入
-        const pushIndex = ctx.index || 0;
-        for (let i = 0; i < ctx.item.length; i++) {
-          if (
-            !valueField ||
-            !find(
-              items,
-              item => item[valueField as string] == toAdd[i][valueField as string]
-            )
-          ) {
-            items.splice(i + pushIndex, 0, toAdd[i]);
-          }
-        }
-
-        this.setState(
-          {
-            items
-          },
-          () => {
-            this.emitValue();
-
-            if (toAdd.length === 1 && needConfirm !== false) {
-              this.startEdit(items.length - 1, true);
-            }
-          }
-        );
-        return;
-      } else {
-        return this.addItem(items.length - 1, false);
-      }
-    } else if (actionType === 'deleteItem') {
-      const items = [...this.state.items];
-      let rawItems: any = [];
-      const deleteItem: any = [];
-
-      if (ctx.index) {
-        items[ctx.index] && deleteItem.push(items[ctx.index]);
-        rawItems = [...items];
-        rawItems.splice(ctx.index, 1);
-      } else if (ctx.condition) {
-        items.forEach((item, rowIndex) => {
-          const flag = evalExpression(ctx?.condition, {...item, rowIndex});
-          if (!flag) {
-            rawItems.push(item);
-          } else {
-            deleteItem.push(item);
-          }
-        });
-      }
-
-      // 删除api，目前不支持 如果匹配到的删除数据有多个，但api只支持删除一个 的场景
-      if (isEffectiveApi(deleteApi, deleteItem)) {
-        const payload = await env.fetcher(deleteApi, deleteItem);
-        if (payload && !payload.ok) {
-          env.notify(
-            'error',
-            (deleteApi as ApiObject)?.messages?.failed ??
-              (payload.msg || __('fetchFailed'))
-          );
-          return;
-        }
-      }
-
-      this.setState(
-        {
-          items: rawItems
-        },
-        () => this.emitValue()
-      );
-      return;
-    } else if (actionType === 'clear') {
-      this.setState({
-        items: []
-      }, () => {
-        this.emitValue();
-      });
-      return;
-    } else if (actionType === 'reset') {
-      this.setState({
-        items: Array.isArray(resetValue) ? resetValue : []
-      }, () => {
-        this.emitValue();
-      });
       return;
     }
     return onAction && onAction(action, ctx, ...rest);
@@ -877,6 +764,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       apiMsg = (updateApi as ApiObject)?.messages?.failed;
     }
 
+    console.log('remote', remote)
+
     if (remote && !remote.ok) {
       env.notify('error', apiMsg ?? (remote.msg || __('saveFailed')));
       const failEventName = isNew ? 'addFail' : 'editFail';
@@ -924,6 +813,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
   async removeItem(index: number) {
     const {
+      value,
+      onChange,
       deleteApi,
       deleteConfirmText,
       env,
@@ -931,8 +822,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       translate: __
     } = this.props;
 
-    let items = this.state.items.concat();
-    const item = items[index];
+    let newValue = Array.isArray(value) ? value.concat() : [];
+    const item = newValue[index];
 
     if (!item) {
       return;
@@ -966,18 +857,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     }
 
     this.removeEntry(item);
-    items.splice(index, 1);
-    isPrevented = await this.dispatchEvent('deleteSuccess', {index, item});
-    if (isPrevented) {
-      return;
-    }
-
-    this.setState(
-      {
-        items
-      },
-      () => this.emitValue()
-    );
+    newValue.splice(index, 1);
+    onChange(newValue);
   }
 
   buildItemProps(item: any, index: number) {
@@ -1701,5 +1582,139 @@ export class TableControlRenderer extends FormTable {
       });
       onChange?.(value);
     }
+  }
+
+  async doAction(
+    action: ListenerAction | ActionObject,
+    ctx: RendererData,
+    ...rest: Array<any>
+  ) {
+    const {
+      valueField,
+      env,
+      needConfirm,
+      addable,
+      addApi,
+      deleteApi,
+      resetValue,
+      translate: __
+    } = this.props;
+
+    const actionType = action.actionType as string;
+    const args = action.args || {};
+
+    if (actionType === 'addItem') {
+      if (addable === false) {
+        return;
+      }
+
+      const items = this.state.items.concat();
+
+      if (addApi || args) {
+        let toAdd: any = null;
+
+        if (isEffectiveApi(addApi, ctx)) {
+          const payload = await env.fetcher(addApi, ctx);
+          if (payload && !payload.ok) {
+            env.notify(
+              'error',
+              (addApi as ApiObject)?.messages?.failed ??
+                (payload.msg || __('fetchFailed'))
+            );
+            return;
+          } else if (payload && payload.ok) {
+            toAdd = payload.data;
+          }
+        } else {
+          toAdd = args.item;
+        }
+
+        toAdd = Array.isArray(toAdd) ? toAdd : [toAdd];
+        // 如果没指定插入的位置（args.index），则默认在头部插入
+        const pushIndex = args.index || 0;
+        for (let i = 0; i < args.item.length; i++) {
+          if (
+            !valueField ||
+            !find(
+              items,
+              item => item[valueField as string] == toAdd[i][valueField as string]
+            )
+          ) {
+            items.splice(i + pushIndex, 0, toAdd[i]);
+          }
+        }
+
+        this.setState(
+          {
+            items
+          },
+          () => {
+            this.emitValue();
+
+            if (toAdd.length === 1 && needConfirm !== false) {
+              this.startEdit(items.length - 1, true);
+            }
+          }
+        );
+        return;
+      } else {
+        return this.addItem(items.length - 1, false);
+      }
+    } else if (actionType === 'deleteItem') {
+      const items = [...this.state.items];
+      let rawItems: any = [];
+      const deleteItem: any = [];
+
+      if (args.index) {
+        items[args.index] && deleteItem.push(items[args.index]);
+        rawItems = [...items];
+        rawItems.splice(args.index, 1);
+      } else if (args.condition) {
+        items.forEach((item, rowIndex) => {
+          const flag = evalExpression(args?.condition, {...item, rowIndex});
+          if (!flag) {
+            rawItems.push(item);
+          } else {
+            deleteItem.push(item);
+          }
+        });
+      }
+
+      // 删除api，目前不支持 如果匹配到的删除数据有多个，但api只支持删除一个 的场景
+      if (isEffectiveApi(deleteApi, deleteItem)) {
+        const payload = await env.fetcher(deleteApi, deleteItem);
+        if (payload && !payload.ok) {
+          env.notify(
+            'error',
+            (deleteApi as ApiObject)?.messages?.failed ??
+              (payload.msg || __('fetchFailed'))
+          );
+          return;
+        }
+      }
+
+      this.setState(
+        {
+          items: rawItems
+        },
+        () => this.emitValue()
+      );
+      return;
+    } else if (actionType === 'clear') {
+      this.setState({
+        items: []
+      }, () => {
+        this.emitValue();
+      });
+      return;
+    } else if (actionType === 'reset') {
+      this.setState({
+        items: Array.isArray(resetValue) ? resetValue : []
+      }, () => {
+        this.emitValue();
+      });
+      return;
+    }
+    return super.doAction(action as ActionObject, ctx, ...rest);
   }
 }
