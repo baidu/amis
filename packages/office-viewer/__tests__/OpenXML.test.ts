@@ -22,7 +22,7 @@ test('proofErr', async () => {
   `.trim()
   );
 
-  const word = await createWord();
+  const word = createWord();
 
   mergeRun(word, xmlDoc);
 
@@ -51,7 +51,7 @@ test('font hint', async () => {
       `.trim()
   );
 
-  const word = await createWord();
+  const word = createWord();
   mergeRun(word, xmlDoc);
   expect(xmlDoc.getElementsByTagName('w:t')[0]?.innerHTML).toBe('B6');
 });
@@ -81,7 +81,7 @@ test('space', async () => {
       `.trim()
   );
 
-  const word = await createWord();
+  const word = createWord();
 
   mergeRun(word, xmlDoc);
 

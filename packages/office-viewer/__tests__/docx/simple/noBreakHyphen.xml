@@ -21,7 +21,14 @@
                 <w:body>
                     <w:p>
                         <w:r>
-                            <w:t>empty</w:t>
+                            <w:t>Number of the form “999</w:t>
+                        </w:r> <w:r>
+                            <w:noBreakHyphen />
+                            <w:t>99</w:t>
+                        </w:r>
+                        <w:r>
+                            <w:noBreakHyphen />
+                            <w:t>9999”, where</w:t>
                         </w:r>
                     </w:p>
                     <w:sectPr>

@@ -11,7 +11,6 @@ import {NumberPr} from './numbering/NumberProperties';
 import {Properties} from './properties/Properties';
 import {Run, RunPr} from './Run';
 import {Tab} from './Tab';
-import {SmartTag} from './SmartTag';
 import {FldSimple} from './FldSimple';
 import {OMath} from '../math/OMath';
 
@@ -33,7 +32,6 @@ export type ParagraphChild =
   | Run
   | BookmarkStart
   | Hyperlink
-  | SmartTag
   | FldSimple
   | OMath;
 // | SymbolRun
@@ -101,7 +99,8 @@ export class Paragraph {
     paragraph.fldSimples = [];
     paragraph.paraId = element.getAttribute('w14:paraId') || '';
 
-    for (const child of element.children) {
+    const arr = [].slice.call(element.children);
+    for (const child of arr) {
       const tagName = child.tagName;
       switch (tagName) {
         case 'w:pPr':
@@ -110,6 +109,11 @@ export class Paragraph {
 
         case 'w:r':
           paragraph.addChild(Run.fromXML(word, child));
+          break;
+
+        case 'w:smartTag':
+        case 'w:customXml':
+          arr.push(...[].slice.call(child.children));
           break;
 
         case 'w:hyperlink':
@@ -132,11 +136,6 @@ export class Paragraph {
         case 'w:moveTo':
         case 'w:moveFrom':
           // del 看起来主要是用于跟踪历史的，先不支持
-          break;
-
-        case 'w:smartTag':
-        case 'w:customXml':
-          paragraph.addChild(SmartTag.fromXML(word, child));
           break;
 
         case 'w:fldSimple':

@@ -148,11 +148,67 @@ order: 23
 }
 ```
 
-### 变量详细说明
+### 变量说明
 
 目前变量使用的写法是 `{{name}}`，其中 `name` 代表变量名，另外这里可以是 amis 表达式，比如前面示例的 `{{DATETOSTR(TODAY(), 'YYYY-MM-DD')}}`
 
 > 为了避免 Word 自作主张添加额外标签，对于复杂的变量建议先在记事本之类的纯文本编辑器里编辑，再粘贴进 Word 里。
+
+### 表格行循环
+
+目前针对表格支持循环语法，下面例子中第一个是模板里的变量写法，循环以 `{{#xxx}}` 开头，`{{/}}` 结束（不过目前还不支持嵌套语法，所以这个结束符合可以省略）
+
+```schema
+{
+  "type": "page",
+  "data": {
+    "users": [
+      {
+        name: 'u1',
+        age: 10
+      },
+      {
+        name: 'u2',
+        age: 11
+      }
+    ]
+  },
+  "body": [
+  {
+    "type": "office-viewer",
+    "src": "/examples/static/table-list.docx",
+    "wordOptions": {
+      "padding": "8px"
+    }
+  },
+  {
+    "type": "action",
+    "label": "下载文档",
+    "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "actionType": "saveAs",
+              "componentId": "office-viewer-table-list"
+            }
+          ]
+        }
+      }
+  },
+  {
+    "type": "office-viewer",
+    "id": "office-viewer-table-list",
+    "src": "/examples/static/table-list.docx",
+    "wordOptions": {
+      "padding": "8px",
+      "enableVar": true,
+      "ignoreWidth": true
+    }
+  }]
+}
+```
+
+循环的语法是以 `{{#name}}` 开始，`{{/}}` 结束，在这期间的变量会取循环内的值
 
 ## 不渲染模式
 

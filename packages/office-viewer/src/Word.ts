@@ -22,6 +22,7 @@ import {buildXML} from './util/xml';
 import {Paragraph} from './openxml/word/Paragraph';
 import {deobfuscate} from './openxml/word/Font';
 import {renderFont} from './render/renderFont';
+import {replaceT, replaceVar} from './util/replaceVar';
 
 /**
  * 渲染配置
@@ -68,9 +69,17 @@ export interface WordRenderOptions {
   enableVar?: boolean;
 
   /**
-   * 进行模板替换的函数
+   * 上下文数据，用于替换变量
    */
-  replaceText?: (text: string) => string;
+  data?: any;
+
+  /**
+   * 进行表达式计算的函数，第一个参数是文本变量，第二个参数是上下文数据
+   */
+  evalVar: (
+    text: string,
+    data?: Object
+  ) => Object | string | number | boolean | null | undefined;
 
   /**
    * 是否开启调试模式
@@ -102,7 +111,11 @@ const defaultRenderOptions: WordRenderOptions = {
   minLineHeight: 1.0,
   enableVar: false,
   debug: false,
-  printWaitTime: 100
+  printWaitTime: 100,
+  data: {},
+  evalVar: t => {
+    return t;
+  }
 };
 
 export default class Word {
@@ -343,16 +356,22 @@ export default class Word {
   }
 
   /**
-   * 进行文本替换
+   * 进行单个文本替换
    */
   replaceText(text: string) {
-    if (
-      this.renderOptions.enableVar === false ||
-      !this.renderOptions.replaceText
-    ) {
+    if (this.renderOptions.enableVar === false) {
       return text;
     }
-    return this.renderOptions.replaceText(text);
+    const data = this.renderOptions.data;
+    if (text.indexOf('{{') !== -1) {
+      text = text.replace(/^{{/g, '').replace(/}}$/g, '');
+      const result = this.renderOptions.evalVar(text, data);
+      if (typeof result === 'undefined') {
+        return '';
+      }
+      return String(result);
+    }
+    return text;
   }
 
   /**
@@ -482,11 +501,7 @@ export default class Word {
    * 更新页面中的变量，这个要在 render 后运行
    */
   updateVariable() {
-    if (
-      !this.rootElement ||
-      this.renderOptions.enableVar === false ||
-      !this.renderOptions.replaceText
-    ) {
+    if (!this.rootElement || this.renderOptions.enableVar === false) {
       return;
     }
     updateVariableText(this);
@@ -498,12 +513,13 @@ export default class Word {
   download(fileName: string = 'document.docx') {
     const documentData = this.getXML('word/document.xml');
 
-    if (this.renderOptions.enableVar && this.renderOptions.replaceText) {
+    if (this.renderOptions.enableVar) {
       mergeRun(this, documentData);
+      replaceVar(this, documentData);
       // 对文本进行替换
       const ts = documentData.getElementsByTagName('w:t');
       for (let i = 0; i < ts.length; i++) {
-        ts[i].textContent = this.replaceText(ts[i].textContent || '');
+        replaceT(this, ts[i], this.renderOptions.data);
       }
     }
 
@@ -548,8 +564,9 @@ export default class Word {
 
     isDebug && console.log('documentData', documentData);
 
-    if (renderOptions.enableVar && renderOptions.replaceText) {
+    if (renderOptions.enableVar) {
       mergeRun(this, documentData);
+      replaceVar(this, documentData);
       // 这里不进行变量替换，方便后续进行局部替换来更新变量
     }
 
