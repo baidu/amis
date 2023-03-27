@@ -3,40 +3,19 @@
  */
 import React, {useEffect, useRef, useState} from 'react';
 import {Button, Editor, Overlay, PopOver} from 'amis-ui';
-import {FormControlProps, FormItem, uuid} from 'amis-core';
+import {FormControlProps, FormItem, styleMap} from 'amis-core';
 import {parse as cssParse} from 'amis-postcss';
 import {PlainObject} from './types';
-import {cloneDeep, debounce, isEmpty} from 'lodash';
+import {debounce, isEmpty} from 'lodash';
 import {Icon} from '../../icons/index';
 import editorFactory from './themeLanguage';
 import cx from 'classnames';
 
-const valueMap: PlainObject = {
-  'margin-top': 'marginTop',
-  'margin-right': 'marginRight',
-  'margin-bottom': 'marginBottom',
-  'margin-left': 'marginLeft',
-  'padding-top': 'paddingTop',
-  'padding-right': 'paddingRight',
-  'padding-bottom': 'paddingBottom',
-  'padding-left': 'paddingLeft',
-  'border-top-width': 'top-border-width',
-  'border-right-width': 'right-border-width',
-  'border-bottom-width': 'bottom-border-width',
-  'border-left-width': 'left-border-width',
-  'border-top-style': 'top-border-style',
-  'border-right-style': 'right-border-style',
-  'border-bottom-style': 'bottom-border-style',
-  'border-left-style': 'left-border-style',
-  'border-top-color': 'top-border-color',
-  'border-right-color': 'right-border-color',
-  'border-bottom-color': 'bottom-border-color',
-  'border-left-color': 'left-border-color',
-  'font-size': 'fontSize',
-  'font-weight': 'fontWeight',
-  'line-height': 'lineHeight'
-};
+const valueMap: PlainObject = {};
 
+for (let key in styleMap) {
+  valueMap[styleMap[key]] = key;
+}
 const fontStyle = [
   'color',
   'font-weight',
@@ -126,11 +105,9 @@ function AmisThemeCssCodeEditor(props: FormControlProps) {
       const newCss: any = {};
       nodeTabs.forEach(tab => {
         tab.children.forEach(node => {
-          const nodes = node.value
-            .replace(/\s/g, '')
-            .split(';')
-            .map(kv => {
-              const [prop, value] = kv.split(':');
+          const nodes = cssParse(node.value)
+            .nodes.map(node => {
+              const {prop, value} = node;
               return {
                 prop,
                 value
@@ -294,7 +271,19 @@ function AmisStyleCodeEditor(props: FormControlProps) {
     }
     let str = '';
     for (let key in data) {
-      str += `${key}: ${data[key]};\n`;
+      if (key === 'radius') {
+        str += `border-radius: ${
+          data.radius['top-left-border-radius'] +
+          ' ' +
+          data.radius['top-right-border-radius'] +
+          ' ' +
+          data.radius['bottom-right-border-radius'] +
+          ' ' +
+          data.radius['bottom-left-border-radius']
+        };\n`;
+      } else {
+        str += `${styleMap[key] || key}: ${data[key]};\n`;
+      }
     }
     return str;
   }
@@ -306,19 +295,31 @@ function AmisStyleCodeEditor(props: FormControlProps) {
 
   const editorChange = debounce((value: string) => {
     const newStyle: PlainObject = {};
-    value
-      .replace(/\s/g, '')
-      .split(';')
-      .forEach(kv => {
-        const [prop, value] = kv.split(':');
+    try {
+      const style = cssParse(value);
+      style.nodes.forEach(node => {
+        const {prop, value} = node;
         if (value) {
-          newStyle[prop] = value;
+          if (prop === 'border-radius') {
+            const radius = value.split(' ');
+            newStyle['radius'] = {
+              'top-left-border-radius': radius[0] || '',
+              'top-right-border-radius': radius[1] || '',
+              'bottom-right-border-radius': radius[2] || '',
+              'bottom-left-border-radius': radius[3] || ''
+            };
+          } else {
+            newStyle[valueMap[prop] || prop] = value;
+          }
         }
       });
-    onBulkChange &&
-      onBulkChange({
-        style: newStyle
-      });
+      onBulkChange &&
+        onBulkChange({
+          style: newStyle
+        });
+    } catch (error) {
+      console.error(error);
+    }
   });
 
   function handleChange(value: string) {
