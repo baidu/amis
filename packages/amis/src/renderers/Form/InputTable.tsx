@@ -521,8 +521,6 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             items
           },
           () => {
-            this.emitValue();
-
             if (toAdd.length === 1 && needConfirm !== false) {
               this.startEdit(items.length - 1, true);
             }
@@ -557,12 +555,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         }
       });
 
-      this.setState(
-        {
+      this.setState({
           items
-        },
-        () => this.emitValue()
-      );
+      });
 
       return;
     }
@@ -1646,8 +1641,6 @@ export class TableControlRenderer extends FormTable {
             items
           },
           () => {
-            this.emitValue();
-
             if (toAdd.length === 1 && needConfirm !== false) {
               this.startEdit(items.length - 1, true);
             }
@@ -1692,25 +1685,18 @@ export class TableControlRenderer extends FormTable {
           return;
         }
       }
-      this.setState(
-        {
-          items: rawItems
-        },
-        () => this.emitValue()
-      );
+      this.setState({
+        items: rawItems
+      });
       return;
     } else if (actionType === 'clear') {
       this.setState({
         items: []
-      }, () => {
-        this.emitValue();
       });
       return;
     } else if (actionType === 'reset') {
       this.setState({
         items: Array.isArray(resetValue) ? resetValue : []
-      }, () => {
-        this.emitValue();
       });
       return;
     }
