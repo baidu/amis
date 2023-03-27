@@ -1668,8 +1668,8 @@ export class TableControlRenderer extends FormTable {
         rawItems = [...items];
         rawItems.splice(args.index, 1);
       } else if (args.condition) {
-        items.forEach((item, rowIndex) => {
-          const flag = evalExpressionWithConditionBuilder(
+        items.forEach(async (item, rowIndex) => {
+          const flag = await evalExpressionWithConditionBuilder(
             args?.condition,
             {...item, rowIndex}
           );
