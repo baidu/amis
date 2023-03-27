@@ -456,7 +456,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     const items = this.state.items.filter(item => !item.__isPlaceholder);
     const {onChange} = this.props;
     const isPrevented = await this.dispatchEvent('change');
-    if (!isPrevented) {
+    if (isPrevented) {
       return;
     }
     onChange?.(items);
