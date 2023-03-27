@@ -797,62 +797,56 @@ order: 54
 
 ```schema: scope="body"
 {
-  "type": "page",
-  "body": {
-    "type": "page",
-    "body": {
-      "type": "form",
-      "debug": true,
-      "data": {
-        "table": [
-          {
-            "input": 111,
-            "select": "s1",
-            "text": "text"
-          },
-          {}
-        ]
+  "type": "form",
+  "debug": true,
+  "data": {
+    "table": [
+      {
+        "input": 111,
+        "select": "s1",
+        "text": "text"
       },
-      "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-      "body": [
+      {}
+    ]
+  },
+  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+  "body": [
+    {
+      "type": "input-table",
+      "name": "table",
+      "label": "Table",
+      "columns": [
         {
-          "type": "input-table",
-          "name": "table",
-          "label": "Table",
-          "columns": [
-            {
-              "label": "数字输入",
-              "name": "input",
-              "type": "input-text",
-              "placeholder": "请输入数字",
-              "required": true,
-              "validations": {
-                "isNumeric": true
-              },
-              "validationErrors": {
-                "isNumeric": "请输入数字"
-              },
-            },
-            {
-              "label": "选项",
-              "name": "select",
-              "type": "select",
-              "required": true,
-              "options": [
-                "s1",
-                "s2",
-                "s3"
-              ]
-            },
-            {
-              "label": "普通文本",
-              "name": "text"
-            }
+          "label": "数字输入",
+          "name": "input",
+          "type": "input-text",
+          "placeholder": "请输入数字",
+          "required": true,
+          "validations": {
+            "isNumeric": true
+          },
+          "validationErrors": {
+            "isNumeric": "请输入数字"
+          }
+        },
+        {
+          "label": "选项",
+          "name": "select",
+          "type": "select",
+          "required": true,
+          "options": [
+            "s1",
+            "s2",
+            "s3"
           ]
+        },
+        {
+          "label": "普通文本",
+          "name": "text"
         }
       ]
     }
-  }
+  ]
 }
 ```
 
