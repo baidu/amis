@@ -23,7 +23,7 @@ export function createWord(fileName: string, data: any) {
   });
 }
 
-test('simple list', async () => {
+test('table-list', async () => {
   const data = {
     users: [
       {

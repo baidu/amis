@@ -77,16 +77,13 @@
             </w:p>
         </w:tc>
     </w:tr>
-    <w:tr xmlns:ns2="http://schemas.microsoft.com/office/word/2010/wordml" ns2:paraId="59AA504C" w:rsidTr="003977EB">
-        <w:trPr>
-            <w:cnfStyle w:val="000000100000" w:firstRow="0" w:lastRow="0" w:firstColumn="0" w:lastColumn="0" w:oddVBand="0" w:evenVBand="0" w:oddHBand="1" w:evenHBand="0" w:firstRowFirstColumn="0" w:firstRowLastColumn="0" w:lastRowFirstColumn="0" w:lastRowLastColumn="0"/>
-        </w:trPr>
+    <w:tr>
+        <w:trPr/>
         <w:tc>
             <w:tcPr>
-                <w:cnfStyle w:val="001000000000" w:firstRow="0" w:lastRow="0" w:firstColumn="1" w:lastColumn="0" w:oddVBand="0" w:evenVBand="0" w:oddHBand="0" w:evenHBand="0" w:firstRowFirstColumn="0" w:firstRowLastColumn="0" w:lastRowFirstColumn="0" w:lastRowLastColumn="0"/>
                 <w:tcW w:w="2337" w:type="dxa"/>
             </w:tcPr>
-            <w:p ns2:paraId="05E6415A" ns2:textId="691AEE36" w:rsidR="003977EB" w:rsidRDefault="003977EB">
+            <w:p>
                 <w:pPr>
                     <w:rPr>
                         <w:rFonts w:hint="eastAsia"/>
@@ -106,10 +103,8 @@
             <w:tcPr>
                 <w:tcW w:w="2337" w:type="dxa"/>
             </w:tcPr>
-            <w:p ns2:paraId="6D65C860" ns2:textId="4DA6FEEF" w:rsidR="003977EB" w:rsidRDefault="003977EB">
-                <w:pPr>
-                    <w:cnfStyle w:val="000000100000" w:firstRow="0" w:lastRow="0" w:firstColumn="0" w:lastColumn="0" w:oddVBand="0" w:evenVBand="0" w:oddHBand="1" w:evenHBand="0" w:firstRowFirstColumn="0" w:firstRowLastColumn="0" w:lastRowFirstColumn="0" w:lastRowLastColumn="0"/>
-                </w:pPr>
+            <w:p>
+                <w:pPr/>
                 <w:r>
                     <w:rPr>
                         <w:rFonts w:hint="eastAsia"/>
@@ -124,10 +119,8 @@
             <w:tcPr>
                 <w:tcW w:w="4677" w:type="dxa"/>
             </w:tcPr>
-            <w:p ns2:paraId="4175A792" ns2:textId="14A0035E" w:rsidR="003977EB" w:rsidRDefault="003977EB">
-                <w:pPr>
-                    <w:cnfStyle w:val="000000100000" w:firstRow="0" w:lastRow="0" w:firstColumn="0" w:lastColumn="0" w:oddVBand="0" w:evenVBand="0" w:oddHBand="1" w:evenHBand="0" w:firstRowFirstColumn="0" w:firstRowLastColumn="0" w:lastRowFirstColumn="0" w:lastRowLastColumn="0"/>
-                </w:pPr>
+            <w:p>
+                <w:pPr/>
                 <w:r>
                     <w:rPr>
                         <w:rFonts w:hint="eastAsia"/>
@@ -139,16 +132,13 @@
             </w:p>
         </w:tc>
     </w:tr>
-    <w:tr xmlns:ns3="http://schemas.microsoft.com/office/word/2010/wordml" ns3:paraId="59AA504C" w:rsidTr="003977EB">
-        <w:trPr>
-            <w:cnfStyle w:val="000000100000" w:firstRow="0" w:lastRow="0" w:firstColumn="0" w:lastColumn="0" w:oddVBand="0" w:evenVBand="0" w:oddHBand="1" w:evenHBand="0" w:firstRowFirstColumn="0" w:firstRowLastColumn="0" w:lastRowFirstColumn="0" w:lastRowLastColumn="0"/>
-        </w:trPr>
+    <w:tr>
+        <w:trPr/>
         <w:tc>
             <w:tcPr>
-                <w:cnfStyle w:val="001000000000" w:firstRow="0" w:lastRow="0" w:firstColumn="1" w:lastColumn="0" w:oddVBand="0" w:evenVBand="0" w:oddHBand="0" w:evenHBand="0" w:firstRowFirstColumn="0" w:firstRowLastColumn="0" w:lastRowFirstColumn="0" w:lastRowLastColumn="0"/>
                 <w:tcW w:w="2337" w:type="dxa"/>
             </w:tcPr>
-            <w:p ns3:paraId="05E6415A" ns3:textId="691AEE36" w:rsidR="003977EB" w:rsidRDefault="003977EB">
+            <w:p>
                 <w:pPr>
                     <w:rPr>
                         <w:rFonts w:hint="eastAsia"/>
@@ -168,10 +158,8 @@
             <w:tcPr>
                 <w:tcW w:w="2337" w:type="dxa"/>
             </w:tcPr>
-            <w:p ns3:paraId="6D65C860" ns3:textId="4DA6FEEF" w:rsidR="003977EB" w:rsidRDefault="003977EB">
-                <w:pPr>
-                    <w:cnfStyle w:val="000000100000" w:firstRow="0" w:lastRow="0" w:firstColumn="0" w:lastColumn="0" w:oddVBand="0" w:evenVBand="0" w:oddHBand="1" w:evenHBand="0" w:firstRowFirstColumn="0" w:firstRowLastColumn="0" w:lastRowFirstColumn="0" w:lastRowLastColumn="0"/>
-                </w:pPr>
+            <w:p>
+                <w:pPr/>
                 <w:r>
                     <w:rPr>
                         <w:rFonts w:hint="eastAsia"/>
@@ -186,10 +174,8 @@
             <w:tcPr>
                 <w:tcW w:w="4677" w:type="dxa"/>
             </w:tcPr>
-            <w:p ns3:paraId="4175A792" ns3:textId="14A0035E" w:rsidR="003977EB" w:rsidRDefault="003977EB">
-                <w:pPr>
-                    <w:cnfStyle w:val="000000100000" w:firstRow="0" w:lastRow="0" w:firstColumn="0" w:lastColumn="0" w:oddVBand="0" w:evenVBand="0" w:oddHBand="1" w:evenHBand="0" w:firstRowFirstColumn="0" w:firstRowLastColumn="0" w:lastRowFirstColumn="0" w:lastRowLastColumn="0"/>
-                </w:pPr>
+            <w:p>
+                <w:pPr/>
                 <w:r>
                     <w:rPr>
                         <w:rFonts w:hint="eastAsia"/>

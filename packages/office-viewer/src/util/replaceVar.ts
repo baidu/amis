@@ -59,11 +59,7 @@ function replaceTableRow(word: Word, tr: Element) {
   if (hasLoop) {
     // 有循环，复制多行
     for (const item of loopArray) {
-      const newTr = tr.cloneNode(true) as Element;
-      // 去掉 tr 里的属性，感觉可能会有问题
-      for (const attr of newTr.attributes) {
-        newTr.removeAttribute(attr.name);
-      }
+      const newTr = cloneTr(tr);
 
       const ts = newTr.getElementsByTagName('w:t');
       // 将 item 加入上下文
@@ -76,6 +72,37 @@ function replaceTableRow(word: Word, tr: Element) {
     }
     // 删除原来的行
     table.removeChild(tr);
+  }
+}
+
+/**
+ * 克隆行，并进行一些清理
+ */
+function cloneTr(tr: Element) {
+  const newTr = tr.cloneNode(true) as Element;
+  // 去掉 tr 里的属性，感觉可能会有问题
+  removeAllAttr(newTr);
+
+  const ps = [].slice.call(newTr.getElementsByTagName('w:p'));
+  for (const p of ps) {
+    removeAllAttr(p);
+  }
+
+  // cnfStyles 基本上都是错的所以删了
+  const cnfStyles = [].slice.call(newTr.getElementsByTagName('w:cnfStyle'));
+  for (const cnfStyle of cnfStyles) {
+    cnfStyle.parentElement?.removeChild(cnfStyle);
+  }
+
+  return newTr;
+}
+
+/**
+ * 删掉所有属性，虽然不知道为啥有些不生效
+ */
+function removeAllAttr(node: Element) {
+  while (node.attributes.length > 0) {
+    node.removeAttributeNode(node.attributes[0]);
   }
 }
 
