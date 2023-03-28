@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`bold 1`] = `
+exports[`text 1`] = `
 <div
   class="docx-viewer-0 docx-viewer-wrapper"
   id="root"
@@ -101,7 +101,7 @@ padding-right: 7.20px;
           class="docx-viewer-0-r"
         >
           <div
-            style="position: absolute; left: 0.00px; top: -0.40px; width: 541.92px; height: 244.86px;"
+            style="position: absolute; left: 0.00px; top: -0.33px; width: 597.19px; height: 548.08px; background-color: rgb(23, 41, 72);"
           >
             <p
               class="docx-viewer-0-p"

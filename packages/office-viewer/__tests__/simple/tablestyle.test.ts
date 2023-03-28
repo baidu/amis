@@ -1,5 +1,5 @@
 import {snapShotTest} from '../snapShotTest';
 
-test('bold', async () => {
-  snapShotTest('./docx/simple/tablestyle.docx');
+test('tablestyle', async () => {
+  snapShotTest('./docx/simple/tablestyle.xml');
 });

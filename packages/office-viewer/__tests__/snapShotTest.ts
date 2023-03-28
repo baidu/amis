@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import XMLPackageParser from '../src/package/XMLPackageParser';
 
 import Word from '../src/Word';
 
@@ -7,6 +8,9 @@ export function createWord(fileName: string, data: any) {
   const xmlContent = new Uint8Array(
     fs.readFileSync(path.join(__dirname, fileName), null).buffer
   );
+  if (fileName.endsWith('.xml')) {
+    return new Word(xmlContent, {}, new XMLPackageParser());
+  }
   return new Word(xmlContent, {});
 }
 

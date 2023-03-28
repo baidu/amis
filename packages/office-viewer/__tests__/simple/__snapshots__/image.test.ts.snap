@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`bold 1`] = `
+exports[`image 1`] = `
 <div
   class="docx-viewer-0 docx-viewer-wrapper"
   id="root"
@@ -92,7 +92,7 @@ padding-right: 7.20px;
           class="docx-viewer-0-r"
         >
           <div
-            style="display: inline-block;"
+            style="display: inline-block; width: 189.33px; height: 58.67px;"
           >
             <img
               src="blob:http://localhost/mock"

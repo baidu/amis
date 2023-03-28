@@ -13,12 +13,7 @@ export default class ZipPackageParser implements PackageParser {
    * 加载 zip 文件
    */
   load(docxFile: ArrayBuffer) {
-    this.zip = unzipSync(new Uint8Array(docxFile), {
-      filter(file) {
-        // 不解析大于 10 MiB 的文件
-        return file.originalSize <= 10_000_000;
-      }
-    });
+    this.zip = unzipSync(new Uint8Array(docxFile));
   }
 
   /**

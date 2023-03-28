@@ -1,5 +1,5 @@
 import {snapShotTest} from '../snapShotTest';
 
-test('bold', async () => {
-  snapShotTest('./docx/simple/info.docx');
+test('info', async () => {
+  snapShotTest('./docx/simple/info.xml');
 });

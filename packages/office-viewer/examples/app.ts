@@ -11,22 +11,26 @@ const testDir = '__tests__/docx';
 
 const fileLists = {
   simple: [
-    'image.docx',
-    'list.docx',
-    'tableborder.docx',
-    'tablestyle.docx',
-    'pinyin.docx',
-    'em.docx',
-    'w.docx',
-    'textbox.docx',
-    'embed-font.docx',
-    'math.docx',
-    'highlight.docx',
-    'hideMark.docx',
-    'br.docx',
-    'sym.docx',
-    'drop-cap.docx',
-    'noBreakHyphen.xml'
+    'br.xml',
+    'drop-cap.xml',
+    'em.xml',
+    'embed-font.xml',
+    'hideMark.xml',
+    'highlight.xml',
+    'image.xml',
+    'info.xml',
+    'link.xml',
+    'list.xml',
+    'math.xml',
+    'noBreakHyphen.xml',
+    'pinyin.xml',
+    'svg.xml',
+    'sym.xml',
+    'tableborder.xml',
+    'tablestyle.xml',
+    'text.xml',
+    'textbox.xml',
+    'w.xml'
   ],
   docx4j: [
     'ArialUnicodeMS.docx',
@@ -118,4 +122,30 @@ const initFile = url.searchParams.get('file');
 
 if (initFile) {
   renderDocx(initFile);
+}
+
+// 支持临时拖拽文件到页面里显示
+document.addEventListener('dragover', function (event) {
+  event.preventDefault();
+});
+
+document.addEventListener(
+  'drop',
+  e => {
+    e.preventDefault();
+    let dt = e.dataTransfer!;
+    let files = dt.files;
+    renderWord(files[0]);
+  },
+  false
+);
+
+function renderWord(file: File) {
+  const reader = new FileReader();
+  reader.onload = _e => {
+    const data = reader.result as ArrayBuffer;
+    const word = new Word(data);
+    word.render(viewerElement);
+  };
+  reader.readAsArrayBuffer(file);
 }

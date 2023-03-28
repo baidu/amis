@@ -1,0 +1,157 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`noBreakHyphen 1`] = `
+<div
+  class="docx-viewer-0 docx-viewer-wrapper"
+  id="root"
+>
+  <style>
+    
+  
+  .docx-viewer-wrapper {
+
+  }
+
+  .docx-viewer-wrapper &gt; article &gt; section {
+    background: white;
+  }
+
+  /** docDefaults **/
+
+  .docx-viewer-0 p {
+    margin: 0;
+    padding: 0;
+    line-height: 1.5;
+  }
+
+  .docx-viewer-0 table {
+    border-spacing: 0;
+  }
+
+  .docx-viewer-0 .docx-viewer-0-p {
+    margin-bottom: 13.33px;
+line-height: 1.15;
+
+  }
+
+  .docx-viewer-0 .docx-viewer-0-r {
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    font-family: var(--docx-theme-font-minorHAnsi);
+font-size: 14.67px;
+
+  }
+  
+
+  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+ .docx-viewer-0 .docx-viewer-0-TableNormal {
+  border-collapse: collapse;
+  margin-left: 0.00px;
+
+ }
+
+ .docx-viewer-0 .docx-viewer-0-TableNormal &gt; tbody &gt; tr &gt; td {
+  padding-top: 0.00px;
+padding-left: 7.20px;
+padding-bottom: 0.00px;
+padding-right: 7.20px;
+
+ }
+ 
+    
+    
+    
+    
+    
+    
+    
+    
+      .docx-viewer-0 .docx-viewer-0-TableGrid {
+        margin-bottom: 0.00px;
+line-height: 1.00;
+
+      }
+      
+    
+    
+ .docx-viewer-0 .docx-viewer-0-TableGrid {
+  border-collapse: collapse;
+  margin-left: 0.00px;
+border-top: 0.67px solid #000000;
+border-left: 0.67px solid #000000;
+border-bottom: 0.67px solid #000000;
+border-right: 0.67px solid #000000;
+
+ }
+
+ .docx-viewer-0 .docx-viewer-0-TableGrid &gt; tbody &gt; tr &gt; td {
+  padding-top: 0.00px;
+padding-left: 7.20px;
+padding-bottom: 0.00px;
+padding-right: 7.20px;
+
+ }
+ 
+      .docx-viewer-0 .docx-viewer-0-TableGrid &gt; tbody &gt; tr &gt; td {
+        border-top: 0.67px solid #000000;
+      }
+      .docx-viewer-0 .docx-viewer-0-TableGrid &gt; tbody &gt; tr &gt; td {
+        border-left: 0.67px solid #000000;
+      }
+    
+    
+  
+  </style>
+  <article>
+    <section
+      style="position: relative; width: 815.98px; padding: 96.00px 96.00px 96.00px 96.00px;"
+    >
+      <p
+        class="docx-viewer-0-p"
+      >
+        <span
+          class="docx-viewer-0-r"
+        >
+          Number of the form “999
+        </span>
+        <span
+          class="docx-viewer-0-r"
+        >
+          <span>
+            –
+          </span>
+          <span>
+            99
+          </span>
+        </span>
+        <span
+          class="docx-viewer-0-r"
+        >
+          <span>
+            –
+          </span>
+          <span>
+            9999”, where
+          </span>
+        </span>
+      </p>
+    </section>
+    <section
+      style="position: relative;"
+    />
+  </article>
+</div>
+`;

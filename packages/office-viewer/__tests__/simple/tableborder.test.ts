@@ -1,5 +1,5 @@
 import {snapShotTest} from '../snapShotTest';
 
-test('bold', async () => {
-  snapShotTest('./docx/simple/tableborder.docx');
+test('tableborder', async () => {
+  snapShotTest('./docx/simple/tableborder.xml');
 });

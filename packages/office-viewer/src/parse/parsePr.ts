@@ -85,6 +85,7 @@ function parseFrame(element: Element, style: CSSStyle) {
     switch (name) {
       case 'w:dropCap':
         if (value === 'drop') {
+          // initial-letter 很少浏览器支持，所以用 float 代替
           style['float'] = 'left';
         }
         break;
@@ -99,6 +100,20 @@ function parseFrame(element: Element, style: CSSStyle) {
         if (typeof value === 'object' && !Array.isArray(value)) {
           style['width'] = parseSize(value, 'w:w');
         }
+        break;
+
+      case 'w:hAnchor':
+      case 'w:vAnchor':
+      case 'w:lines':
+        // 目前没有办法做到这些属性的控制
+        break;
+
+      case 'w:wrap':
+        // 其它不支持，先报错
+        if (value !== 'around') {
+          console.warn('parseFrame: w:wrap not support ' + value);
+        }
+
         break;
 
       default:

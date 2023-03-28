@@ -8,6 +8,8 @@ import {Transform} from './Transform';
 import {CSSStyle} from './../../Style';
 import {parseSize, LengthUsage} from '../../../parse/parseSize';
 import {Geom} from './Geom';
+import {Color} from '../../../util/color';
+import {getAttrPercentage} from '../../../OpenXML';
 
 function prstDashToCSSBorderType(prstDash: ST_PresetLineDashVal) {
   let borderType = 'solid';
@@ -31,6 +33,61 @@ function prstDashToCSSBorderType(prstDash: ST_PresetLineDashVal) {
   return borderType;
 }
 
+// 处理 lum 修改
+function changeLum(element: Element, colorStr: string) {
+  const color = new Color(colorStr);
+  if (color.isValid) {
+    for (const child of element.children) {
+      const tagName = child.tagName;
+      switch (tagName) {
+        case 'a:lumMod':
+          color.lumMod(getAttrPercentage(child, 'val'));
+          break;
+
+        case 'a:lumOff':
+          color.lumOff(getAttrPercentage(child, 'val'));
+          break;
+      }
+    }
+    return color.toHex();
+  }
+
+  return colorStr;
+}
+
+/**
+ * 解析颜色，这里其实还有 lumMod 和 lumOff
+ */
+function parseSolidColor(word: Word, element: Element): string {
+  const colorChild = element.firstElementChild;
+  if (colorChild) {
+    const colorType = colorChild.tagName;
+    switch (colorType) {
+      case 'a:prstClr':
+        const color = colorChild.getAttribute('val') || '';
+        return changeLum(colorChild, color);
+
+      case 'a:srgbClr':
+        const rgbColor = colorChild.getAttribute('val') || '';
+        return changeLum(colorChild, '#' + rgbColor);
+
+      case 'a:schemeClr':
+        const schemeClr = colorChild.getAttribute('val') || '';
+        if (schemeClr) {
+          return changeLum(colorChild, word.getThemeColor(schemeClr));
+        }
+
+      default:
+        console.warn(
+          'parseOutline: Unknown color type ',
+          colorType,
+          colorChild
+        );
+    }
+  }
+  return '';
+}
+
 function parseOutline(word: Word, element: Element, style: CSSStyle) {
   const borderWidth = parseSize(element, 'w', LengthUsage.Emu);
   style['border-width'] = borderWidth;
@@ -40,34 +97,7 @@ function parseOutline(word: Word, element: Element, style: CSSStyle) {
     const tagName = child.tagName;
     switch (tagName) {
       case 'a:solidFill':
-        // 目前只支持 solidFill
-        const colorChild = child.firstElementChild;
-        if (colorChild) {
-          const colorType = colorChild.tagName;
-          switch (colorType) {
-            case 'a:prstClr':
-              const color = colorChild.getAttribute('val') || '';
-              style['border-color'] = color;
-              break;
-
-            case 'a:srgbClr':
-              const rgbColor = colorChild.getAttribute('val') || '';
-              style['border-color'] = '#' + rgbColor;
-
-            case 'a:schemeClr':
-              const schemeClr = colorChild.getAttribute('val') || '';
-              if (schemeClr) {
-                style['border-color'] = word.getThemeColor(schemeClr);
-              }
-
-            default:
-              console.warn(
-                'parseOutline: Unknown color type ',
-                colorType,
-                colorChild
-              );
-          }
-        }
+        style['border-color'] = parseSolidColor(word, child);
         break;
 
       case 'a:noFill':
@@ -102,7 +132,7 @@ export class ShapePr {
 
   static fromXML(word: Word, element?: Element | null): ShapePr {
     const shapePr = new ShapePr();
-    const style = {};
+    const style: CSSStyle = {};
     shapePr.style = style;
     if (element) {
       for (const child of element.children) {
@@ -119,6 +149,14 @@ export class ShapePr {
           case 'a:ln':
             // http://officeopenxml.com/drwSp-outline.php
             parseOutline(word, child, style);
+            break;
+
+          case 'a:noFill':
+            // 默认就是
+            break;
+
+          case 'a:solidFill':
+            style['background-color'] = parseSolidColor(word, child);
             break;
 
           default:

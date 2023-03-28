@@ -8,12 +8,34 @@ import {ShapePr} from './../drawing/ShapeProperties';
 import Word from '../../../Word';
 import {Table} from '../Table';
 import {parseTable} from '../../../parse/parseTable';
+import {CSSStyle} from '../../../openxml/Style';
 
 export type TxbxContentChild = Paragraph | Table;
+
+/**
+ * 文档 20.4.2.22，不过大部分属性不支持
+ */
+function parseBodyPr(element: Element, style: CSSStyle) {
+  const attributes = element.attributes;
+  if ('numCol' in attributes) {
+  }
+
+  for (const attribute of element.attributes) {
+    const name = attribute.name;
+    const value = attribute.value;
+    switch (name) {
+      case 'numCol':
+        style['column-count'] = value;
+        break;
+    }
+  }
+}
 
 export class WPS {
   spPr?: ShapePr;
   txbxContent: TxbxContentChild[];
+  // 外层容器样式
+  style: CSSStyle = {};
 
   static fromXML(word: Word, element: Element) {
     const wps = new WPS();
@@ -52,6 +74,15 @@ export class WPS {
           } else {
             console.warn('unknown wps:txbx', child);
           }
+          break;
+
+        case 'wps:style':
+          // http://webapp.docx4java.org/OnlineDemo/ecma376/DrawingML/style_1.html
+          // 里面都是引用，感觉是辅助信息，暂时不处理
+          break;
+
+        case 'wps:bodyPr':
+          parseBodyPr(child, wps.style);
           break;
 
         default:

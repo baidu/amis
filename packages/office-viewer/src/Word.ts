@@ -487,6 +487,8 @@ export default class Word {
       const color = theme.themeElements?.clrScheme?.colors?.[name];
       if (color) {
         return color;
+      } else {
+        console.warn('unknown theme color: ' + name);
       }
     }
 
