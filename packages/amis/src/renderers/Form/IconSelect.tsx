@@ -214,14 +214,10 @@ export default class IconSelectControl extends React.PureComponent<
   }
 
   @autobind
-  async handleLocalUpload(icon: IconChecked) {
-    this.setState({
-      tmpCheckIconId: icon
-    });
+  async handleLocalUpload(icon: string) {
+    this.props.onChange && this.props.onChange(icon);
 
-    await this.handleRefreshIconList();
-
-    this.handleConfirm();
+    this.toggleModel(false);
   }
 
   handleClickIconInModal(icon: IconChecked) {

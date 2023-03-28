@@ -77,7 +77,6 @@ export function setSvgIconList(
 
   if (combine) {
     const allIcons: SvgIcon[] = clonedIcons
-      .filter(item => item.groupId)
       .map((item: SvgIconGroup) => item.children)
       .flat();
 
