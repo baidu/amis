@@ -22,7 +22,7 @@ order: 29
 }
 ```
 
-`button` 实际上是 `action` 的别名，更多用法见[action](./action)
+`button` 实际上是 `action` 的别名，更多用法见 [action](./action)
 
 ## 属性表
 
@@ -37,6 +37,7 @@ order: 29
 | tooltipPlacement | `'top' \| 'right' \| 'bottom' \| 'left' `                                                                                        | top     | 气泡框位置器                                          |
 | tooltipTrigger   | `'hover' \| 'focus'`                                                                                                             |         | 触发 tootip                                           |
 | disabled         | `'boolean'`                                                                                                                      | false   | 按钮失效状态                                          |
+| disabledTip         | `'string' \| 'TooltipObject'`                                                                                                                      |    | 按钮失效状态下的提示                                          |
 | block            | `'boolean'`                                                                                                                      | false   | 将按钮宽度调整为其父宽度的选项                        |
 | loading          | `'boolean'`                                                                                                                      | false   | 显示按钮 loading 效果                                 |
 | loadingOn        | `'string'`                                                                                                                       |         | 显示按钮 loading 表达式                               |
