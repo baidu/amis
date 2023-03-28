@@ -7,13 +7,13 @@ import {parseBorder} from './parseBorder';
  */
 export function parseInsideBorders(word: Word, element: Element) {
   let H;
-  const insideH = element.querySelector('insideH');
+  const insideH = element.getElementsByTagName('w:insideH').item(0);
   if (insideH) {
     H = parseBorder(word, insideH);
   }
 
   let V;
-  const insideV = element.querySelector('insideV');
+  const insideV = element.getElementsByTagName('w:insideV').item(0);
   if (insideV) {
     V = parseBorder(word, insideV);
   }

@@ -8,12 +8,12 @@ export class NumberPr {
   static fromXML(word: Word, element: Element): NumberPr {
     const numPr = new NumberPr();
 
-    const ilvl = element.querySelector('ilvl');
+    const ilvl = element.getElementsByTagName('w:ilvl').item(0);
     if (ilvl) {
       numPr.ilvl = getVal(ilvl);
     }
 
-    const numId = element.querySelector('numId');
+    const numId = element.getElementsByTagName('w:numId').item(0);
     if (numId) {
       numPr.numId = getVal(numId);
     }

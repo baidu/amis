@@ -55,7 +55,5 @@ test('table-list', async () => {
     'utf-8'
   );
 
-  console.log(xmlResult);
-
   expect(xmlResult).toBe(expectResult);
 });

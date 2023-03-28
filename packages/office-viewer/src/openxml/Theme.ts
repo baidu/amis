@@ -79,13 +79,13 @@ function parseThemeElements(element: Element | null) {
   const themeElements: ThemeElements = {};
   if (element) {
     themeElements.clrScheme = parseClrScheme(
-      element.querySelector('clrScheme')
+      element.getElementsByTagName('a:clrScheme').item(0)
     );
     themeElements.fontScheme = parseFontScheme(
-      element.querySelector('fontScheme')
+      element.getElementsByTagName('a:fontScheme').item(0)
     );
     themeElements.fmtScheme = parseFmtScheme(
-      element.querySelector('fmtScheme')
+      element.getElementsByTagName('a:fmtScheme').item(0)
     );
   }
 
@@ -101,7 +101,9 @@ export interface Theme {
 export function parseTheme(doc: Document) {
   const theme: Theme = {};
 
-  theme.themeElements = parseThemeElements(doc.querySelector('themeElements'));
+  theme.themeElements = parseThemeElements(
+    doc.getElementsByTagName('a:themeElements').item(0)
+  );
 
   return theme;
 }

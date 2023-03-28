@@ -6,7 +6,9 @@ export class Pict {
   static fromXML(word: Word, element: Element): Pict | null {
     const pict = new Pict();
 
-    const imagedataElement = element.querySelector('imagedata');
+    const imagedataElement = element
+      .getElementsByTagName('v:imagedata')
+      .item(0);
 
     if (imagedataElement) {
       const rId = imagedataElement.getAttribute('r:id') || '';

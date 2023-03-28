@@ -24,7 +24,7 @@ export default class XMLPackageParser implements PackageParser {
       fileContent = strFromU8(new Uint8Array(fileContent));
     }
     this.xml = new DOMParser().parseFromString(fileContent, 'application/xml');
-    const errorNode = this.xml.querySelector('parsererror');
+    const errorNode = this.xml.getElementsByTagName('parsererror').item(0);
     if (errorNode) {
       throw new Error(errorNode.textContent || "can't parse xml");
     }

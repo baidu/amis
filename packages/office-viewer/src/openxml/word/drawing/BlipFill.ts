@@ -10,7 +10,7 @@ export class BlipFill {
 
   static fromXML(word: Word, element?: Element | null): BlipFill {
     const blipFill = new BlipFill();
-    const blip = element?.querySelector('blip');
+    const blip = element?.getElementsByTagName('a:blip').item(0);
     if (blip) {
       blipFill.blip = Blip.fromXML(word, blip);
     }

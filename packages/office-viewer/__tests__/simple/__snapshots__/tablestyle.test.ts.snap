@@ -1,0 +1,1356 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`bold 1`] = `
+<div
+  class="docx-viewer-0 docx-viewer-wrapper"
+  id="root"
+>
+  <style>
+    
+ .docx-viewer-0 .docx-classname-0 {
+  border-collapse: collapse;
+  width: auto;
+
+ }
+
+ .docx-viewer-0 .docx-classname-0 &gt; tbody &gt; tr &gt; td {
+  
+ }
+ 
+  </style>
+  <style>
+    
+ .docx-viewer-0 .docx-classname-1 {
+  border-collapse: collapse;
+  width: auto;
+
+ }
+
+ .docx-viewer-0 .docx-classname-1 &gt; tbody &gt; tr &gt; td {
+  
+ }
+ 
+  </style>
+  <style>
+    
+ .docx-viewer-0 .docx-classname-2 {
+  border-collapse: collapse;
+  width: auto;
+
+ }
+
+ .docx-viewer-0 .docx-classname-2 &gt; tbody &gt; tr &gt; td {
+  
+ }
+ 
+  </style>
+  <style>
+    
+ .docx-viewer-0 .docx-classname-3 {
+  border-collapse: collapse;
+  width: auto;
+
+ }
+
+ .docx-viewer-0 .docx-classname-3 &gt; tbody &gt; tr &gt; td {
+  
+ }
+ 
+  </style>
+  <style>
+    
+  
+  .docx-viewer-wrapper {
+
+  }
+
+  .docx-viewer-wrapper &gt; article &gt; section {
+    background: white;
+  }
+
+  /** docDefaults **/
+
+  .docx-viewer-0 p {
+    margin: 0;
+    padding: 0;
+    line-height: 1.5;
+  }
+
+  .docx-viewer-0 table {
+    border-spacing: 0;
+  }
+
+  .docx-viewer-0 .docx-viewer-0-p {
+    
+  }
+
+  .docx-viewer-0 .docx-viewer-0-r {
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    font-family: var(--docx-theme-font-minorHAnsi), var(--docx-theme-font-minorEastAsia);
+font-size: 16.00px;
+
+  }
+  
+
+  
+    
+      .docx-viewer-0 .docx-viewer-0-Normal {
+        text-align: justify;
+
+      }
+      
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+ .docx-viewer-0 .docx-viewer-0-TableNormal {
+  border-collapse: collapse;
+  margin-left: 0.00px;
+
+ }
+
+ .docx-viewer-0 .docx-viewer-0-TableNormal &gt; tbody &gt; tr &gt; td {
+  padding-top: 0.00px;
+padding-left: 7.20px;
+padding-bottom: 0.00px;
+padding-right: 7.20px;
+
+ }
+ 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+ .docx-viewer-0 .docx-viewer-0-TableGrid {
+  border-collapse: collapse;
+  border-top: 0.67px solid black;
+border-left: 0.67px solid black;
+border-bottom: 0.67px solid black;
+border-right: 0.67px solid black;
+
+ }
+
+ .docx-viewer-0 .docx-viewer-0-TableGrid &gt; tbody &gt; tr &gt; td {
+  
+ }
+ 
+      .docx-viewer-0 .docx-viewer-0-TableGrid &gt; tbody &gt; tr &gt; td {
+        border-top: 0.67px solid black;
+      }
+      .docx-viewer-0 .docx-viewer-0-TableGrid &gt; tbody &gt; tr &gt; td {
+        border-left: 0.67px solid black;
+      }
+    
+    
+    
+    
+    
+ .docx-viewer-0 .docx-viewer-0-GridTable5Dark-Accent5 {
+  border-collapse: collapse;
+  border-top: 0.67px solid #FFFFFF;
+border-left: 0.67px solid #FFFFFF;
+border-bottom: 0.67px solid #FFFFFF;
+border-right: 0.67px solid #FFFFFF;
+
+ }
+
+ .docx-viewer-0 .docx-viewer-0-GridTable5Dark-Accent5 &gt; tbody &gt; tr &gt; td {
+  
+ }
+ 
+      .docx-viewer-0 .docx-viewer-0-GridTable5Dark-Accent5 &gt; tbody &gt; tr &gt; td {
+        border-top: 0.67px solid #FFFFFF;
+      }
+      .docx-viewer-0 .docx-viewer-0-GridTable5Dark-Accent5 &gt; tbody &gt; tr &gt; td {
+        border-left: 0.67px solid #FFFFFF;
+      }
+    .docx-viewer-0 .docx-viewer-0-GridTable5Dark-Accent5 &gt; tbody &gt; tr &gt; td {
+     background-color: #DEEAF6;
+
+    }
+    
+    
+    .docx-viewer-0 .docx-viewer-0-GridTable5Dark-Accent5.enable-hBand &gt; tbody &gt; tr &gt; td.band1Horz {
+       background-color: #BDD6EE;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-GridTable5Dark-Accent5.enable-vBand &gt; tbody &gt; tr &gt; td.band1Vert {
+       background-color: #BDD6EE;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-GridTable5Dark-Accent5.enable-firstColumn &gt; tbody &gt; tr &gt; td.firstCol {
+       border-top: 0.67px solid #FFFFFF;
+border-left: 0.67px solid #FFFFFF;
+border-bottom: 0.67px solid #FFFFFF;
+background-color: #5B9BD5;
+
+    }
+    
+          .docx-viewer-0 .docx-viewer-0-GridTable5Dark-Accent5.enable-firstColumn &gt; tbody &gt; tr &gt; td.firstCol {
+            border-left: none;
+            border-right: none;
+          }
+    .docx-viewer-0 .docx-viewer-0-GridTable5Dark-Accent5.enable-firstColumn &gt; tbody &gt; tr &gt; td.firstCol &gt; .docx-viewer-0-p &gt; .docx-viewer-0-r {
+       font-weight: bold;
+color: #FFFFFF;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-GridTable5Dark-Accent5.enable-firstRow &gt; tbody &gt; tr &gt; td.firstRow {
+       border-top: 0.67px solid #FFFFFF;
+border-left: 0.67px solid #FFFFFF;
+border-right: 0.67px solid #FFFFFF;
+background-color: #5B9BD5;
+
+    }
+    
+          .docx-viewer-0 .docx-viewer-0-GridTable5Dark-Accent5.enable-firstRow &gt; tbody &gt; tr &gt; td.firstRow {
+            border-top: none;
+          }
+          .docx-viewer-0 .docx-viewer-0-GridTable5Dark-Accent5.enable-firstRow &gt; tbody &gt; tr &gt; td.firstRow {
+            border-left: none;
+            border-right: none;
+          }
+    .docx-viewer-0 .docx-viewer-0-GridTable5Dark-Accent5.enable-firstRow &gt; tbody &gt; tr &gt; td.firstRow &gt; .docx-viewer-0-p &gt; .docx-viewer-0-r {
+       font-weight: bold;
+color: #FFFFFF;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-GridTable5Dark-Accent5.enable-lastColumn &gt; tbody &gt; tr &gt; td.lastCol {
+       border-top: 0.67px solid #FFFFFF;
+border-bottom: 0.67px solid #FFFFFF;
+border-right: 0.67px solid #FFFFFF;
+background-color: #5B9BD5;
+
+    }
+    
+          .docx-viewer-0 .docx-viewer-0-GridTable5Dark-Accent5.enable-lastColumn &gt; tbody &gt; tr &gt; td.lastCol {
+            border-left: none;
+            border-right: none;
+          }
+    .docx-viewer-0 .docx-viewer-0-GridTable5Dark-Accent5.enable-lastColumn &gt; tbody &gt; tr &gt; td.lastCol &gt; .docx-viewer-0-p &gt; .docx-viewer-0-r {
+       font-weight: bold;
+color: #FFFFFF;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-GridTable5Dark-Accent5.enable-lastRow &gt; tbody &gt; tr &gt; td.lastRow {
+       border-left: 0.67px solid #FFFFFF;
+border-bottom: 0.67px solid #FFFFFF;
+border-right: 0.67px solid #FFFFFF;
+background-color: #5B9BD5;
+
+    }
+    
+          .docx-viewer-0 .docx-viewer-0-GridTable5Dark-Accent5.enable-lastRow &gt; tbody &gt; tr &gt; td.lastRow {
+            border-top: none;
+          }
+          .docx-viewer-0 .docx-viewer-0-GridTable5Dark-Accent5.enable-lastRow &gt; tbody &gt; tr &gt; td.lastRow {
+            border-left: none;
+            border-right: none;
+          }
+    .docx-viewer-0 .docx-viewer-0-GridTable5Dark-Accent5.enable-lastRow &gt; tbody &gt; tr &gt; td.lastRow &gt; .docx-viewer-0-p &gt; .docx-viewer-0-r {
+       font-weight: bold;
+color: #FFFFFF;
+
+    }
+    
+    
+    
+    
+    
+ .docx-viewer-0 .docx-viewer-0-PlainTable3 {
+  border-collapse: collapse;
+  
+ }
+
+ .docx-viewer-0 .docx-viewer-0-PlainTable3 &gt; tbody &gt; tr &gt; td {
+  
+ }
+ 
+    
+    .docx-viewer-0 .docx-viewer-0-PlainTable3.enable-hBand &gt; tbody &gt; tr &gt; td.band1Horz {
+       background-color: #F2F2F2;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-PlainTable3.enable-vBand &gt; tbody &gt; tr &gt; td.band1Vert {
+       background-color: #F2F2F2;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-PlainTable3.enable-firstColumn &gt; tbody &gt; tr &gt; td.firstCol {
+       border-right: 0.67px solid #7F7F7F;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-PlainTable3.enable-firstColumn &gt; tbody &gt; tr &gt; td.firstCol &gt; .docx-viewer-0-p &gt; .docx-viewer-0-r {
+       font-weight: bold;
+text-transform: uppercase;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-PlainTable3.enable-firstRow &gt; tbody &gt; tr &gt; td.firstRow {
+       border-bottom: 0.67px solid #7F7F7F;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-PlainTable3.enable-firstRow &gt; tbody &gt; tr &gt; td.firstRow &gt; .docx-viewer-0-p &gt; .docx-viewer-0-r {
+       font-weight: bold;
+text-transform: uppercase;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-PlainTable3.enable-lastColumn &gt; tbody &gt; tr &gt; td.lastCol {
+       border-left: none;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-PlainTable3.enable-lastColumn &gt; tbody &gt; tr &gt; td.lastCol &gt; .docx-viewer-0-p &gt; .docx-viewer-0-r {
+       font-weight: bold;
+text-transform: uppercase;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-PlainTable3.enable-lastRow &gt; tbody &gt; tr &gt; td.lastRow {
+       border-top: none;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-PlainTable3.enable-lastRow &gt; tbody &gt; tr &gt; td.lastRow &gt; .docx-viewer-0-p &gt; .docx-viewer-0-r {
+       font-weight: bold;
+text-transform: uppercase;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-PlainTable3. &gt; tbody &gt; tr &gt; td.neCell {
+       border-left: none;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-PlainTable3. &gt; tbody &gt; tr &gt; td.nwCell {
+       border-right: none;
+
+    }
+    
+    
+    
+    
+    
+ .docx-viewer-0 .docx-viewer-0-PlainTable2 {
+  border-collapse: collapse;
+  border-top: 0.67px solid #7F7F7F;
+border-bottom: 0.67px solid #7F7F7F;
+
+ }
+
+ .docx-viewer-0 .docx-viewer-0-PlainTable2 &gt; tbody &gt; tr &gt; td {
+  
+ }
+ 
+    
+    .docx-viewer-0 .docx-viewer-0-PlainTable2.enable-hBand &gt; tbody &gt; tr &gt; td.band1Horz {
+       border-top: 0.67px solid #7F7F7F;
+border-bottom: 0.67px solid #7F7F7F;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-PlainTable2.enable-vBand &gt; tbody &gt; tr &gt; td.band1Vert {
+       border-left: 0.67px solid #7F7F7F;
+border-right: 0.67px solid #7F7F7F;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-PlainTable2.enable-vBand &gt; tbody &gt; tr &gt; td.band2Vert {
+       border-left: 0.67px solid #7F7F7F;
+border-right: 0.67px solid #7F7F7F;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-PlainTable2.enable-firstColumn &gt; tbody &gt; tr &gt; td.firstCol &gt; .docx-viewer-0-p &gt; .docx-viewer-0-r {
+       font-weight: bold;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-PlainTable2.enable-firstRow &gt; tbody &gt; tr &gt; td.firstRow {
+       border-bottom: 0.67px solid #7F7F7F;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-PlainTable2.enable-firstRow &gt; tbody &gt; tr &gt; td.firstRow &gt; .docx-viewer-0-p &gt; .docx-viewer-0-r {
+       font-weight: bold;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-PlainTable2.enable-lastColumn &gt; tbody &gt; tr &gt; td.lastCol &gt; .docx-viewer-0-p &gt; .docx-viewer-0-r {
+       font-weight: bold;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-PlainTable2.enable-lastRow &gt; tbody &gt; tr &gt; td.lastRow {
+       border-top: 0.67px solid #7F7F7F;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-PlainTable2.enable-lastRow &gt; tbody &gt; tr &gt; td.lastRow &gt; .docx-viewer-0-p &gt; .docx-viewer-0-r {
+       font-weight: bold;
+
+    }
+    
+    
+    
+    
+    
+ .docx-viewer-0 .docx-viewer-0-PlainTable1 {
+  border-collapse: collapse;
+  border-top: 0.67px solid #BFBFBF;
+border-left: 0.67px solid #BFBFBF;
+border-bottom: 0.67px solid #BFBFBF;
+border-right: 0.67px solid #BFBFBF;
+
+ }
+
+ .docx-viewer-0 .docx-viewer-0-PlainTable1 &gt; tbody &gt; tr &gt; td {
+  
+ }
+ 
+      .docx-viewer-0 .docx-viewer-0-PlainTable1 &gt; tbody &gt; tr &gt; td {
+        border-top: 0.67px solid #BFBFBF;
+      }
+      .docx-viewer-0 .docx-viewer-0-PlainTable1 &gt; tbody &gt; tr &gt; td {
+        border-left: 0.67px solid #BFBFBF;
+      }
+    
+    .docx-viewer-0 .docx-viewer-0-PlainTable1.enable-hBand &gt; tbody &gt; tr &gt; td.band1Horz {
+       background-color: #F2F2F2;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-PlainTable1.enable-vBand &gt; tbody &gt; tr &gt; td.band1Vert {
+       background-color: #F2F2F2;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-PlainTable1.enable-firstColumn &gt; tbody &gt; tr &gt; td.firstCol &gt; .docx-viewer-0-p &gt; .docx-viewer-0-r {
+       font-weight: bold;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-PlainTable1.enable-firstRow &gt; tbody &gt; tr &gt; td.firstRow &gt; .docx-viewer-0-p &gt; .docx-viewer-0-r {
+       font-weight: bold;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-PlainTable1.enable-lastColumn &gt; tbody &gt; tr &gt; td.lastCol &gt; .docx-viewer-0-p &gt; .docx-viewer-0-r {
+       font-weight: bold;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-PlainTable1.enable-lastRow &gt; tbody &gt; tr &gt; td.lastRow {
+       border-top: 0.67px solid #BFBFBF;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-PlainTable1.enable-lastRow &gt; tbody &gt; tr &gt; td.lastRow &gt; .docx-viewer-0-p &gt; .docx-viewer-0-r {
+       font-weight: bold;
+
+    }
+    
+    
+    
+    
+    
+ .docx-viewer-0 .docx-viewer-0-GridTable2 {
+  border-collapse: collapse;
+  border-top: 0.33px solid #666666;
+border-bottom: 0.33px solid #666666;
+
+ }
+
+ .docx-viewer-0 .docx-viewer-0-GridTable2 &gt; tbody &gt; tr &gt; td {
+  
+ }
+ 
+      .docx-viewer-0 .docx-viewer-0-GridTable2 &gt; tbody &gt; tr &gt; td {
+        border-top: 0.33px solid #666666;
+      }
+      .docx-viewer-0 .docx-viewer-0-GridTable2 &gt; tbody &gt; tr &gt; td {
+        border-left: 0.33px solid #666666;
+      }
+    
+    .docx-viewer-0 .docx-viewer-0-GridTable2.enable-hBand &gt; tbody &gt; tr &gt; td.band1Horz {
+       background-color: #CCCCCC;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-GridTable2.enable-vBand &gt; tbody &gt; tr &gt; td.band1Vert {
+       background-color: #CCCCCC;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-GridTable2.enable-firstColumn &gt; tbody &gt; tr &gt; td.firstCol &gt; .docx-viewer-0-p &gt; .docx-viewer-0-r {
+       font-weight: bold;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-GridTable2.enable-firstRow &gt; tbody &gt; tr &gt; td.firstRow {
+       border-top: none;
+border-bottom: 2.00px solid #666666;
+background-color: #FFFFFF;
+
+    }
+    
+          .docx-viewer-0 .docx-viewer-0-GridTable2.enable-firstRow &gt; tbody &gt; tr &gt; td.firstRow {
+            border-top: none;
+          }
+          .docx-viewer-0 .docx-viewer-0-GridTable2.enable-firstRow &gt; tbody &gt; tr &gt; td.firstRow {
+            border-left: none;
+            border-right: none;
+          }
+    .docx-viewer-0 .docx-viewer-0-GridTable2.enable-firstRow &gt; tbody &gt; tr &gt; td.firstRow &gt; .docx-viewer-0-p &gt; .docx-viewer-0-r {
+       font-weight: bold;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-GridTable2.enable-lastColumn &gt; tbody &gt; tr &gt; td.lastCol &gt; .docx-viewer-0-p &gt; .docx-viewer-0-r {
+       font-weight: bold;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-GridTable2.enable-lastRow &gt; tbody &gt; tr &gt; td.lastRow {
+       border-top: 0.33px solid #666666;
+border-bottom: none;
+background-color: #FFFFFF;
+
+    }
+    
+          .docx-viewer-0 .docx-viewer-0-GridTable2.enable-lastRow &gt; tbody &gt; tr &gt; td.lastRow {
+            border-top: none;
+          }
+          .docx-viewer-0 .docx-viewer-0-GridTable2.enable-lastRow &gt; tbody &gt; tr &gt; td.lastRow {
+            border-left: none;
+            border-right: none;
+          }
+    .docx-viewer-0 .docx-viewer-0-GridTable2.enable-lastRow &gt; tbody &gt; tr &gt; td.lastRow &gt; .docx-viewer-0-p &gt; .docx-viewer-0-r {
+       font-weight: bold;
+
+    }
+    
+    
+    
+    
+    
+ .docx-viewer-0 .docx-viewer-0-GridTable4-Accent6 {
+  border-collapse: collapse;
+  border-top: 0.67px solid #A8D08D;
+border-left: 0.67px solid #A8D08D;
+border-bottom: 0.67px solid #A8D08D;
+border-right: 0.67px solid #A8D08D;
+
+ }
+
+ .docx-viewer-0 .docx-viewer-0-GridTable4-Accent6 &gt; tbody &gt; tr &gt; td {
+  
+ }
+ 
+      .docx-viewer-0 .docx-viewer-0-GridTable4-Accent6 &gt; tbody &gt; tr &gt; td {
+        border-top: 0.67px solid #A8D08D;
+      }
+      .docx-viewer-0 .docx-viewer-0-GridTable4-Accent6 &gt; tbody &gt; tr &gt; td {
+        border-left: 0.67px solid #A8D08D;
+      }
+    
+    .docx-viewer-0 .docx-viewer-0-GridTable4-Accent6.enable-hBand &gt; tbody &gt; tr &gt; td.band1Horz {
+       background-color: #E2EFD9;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-GridTable4-Accent6.enable-vBand &gt; tbody &gt; tr &gt; td.band1Vert {
+       background-color: #E2EFD9;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-GridTable4-Accent6.enable-firstColumn &gt; tbody &gt; tr &gt; td.firstCol &gt; .docx-viewer-0-p &gt; .docx-viewer-0-r {
+       font-weight: bold;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-GridTable4-Accent6.enable-firstRow &gt; tbody &gt; tr &gt; td.firstRow {
+       border-top: 0.67px solid #70AD47;
+border-left: 0.67px solid #70AD47;
+border-bottom: 0.67px solid #70AD47;
+border-right: 0.67px solid #70AD47;
+background-color: #70AD47;
+
+    }
+    
+          .docx-viewer-0 .docx-viewer-0-GridTable4-Accent6.enable-firstRow &gt; tbody &gt; tr &gt; td.firstRow {
+            border-top: none;
+          }
+          .docx-viewer-0 .docx-viewer-0-GridTable4-Accent6.enable-firstRow &gt; tbody &gt; tr &gt; td.firstRow {
+            border-left: none;
+            border-right: none;
+          }
+    .docx-viewer-0 .docx-viewer-0-GridTable4-Accent6.enable-firstRow &gt; tbody &gt; tr &gt; td.firstRow &gt; .docx-viewer-0-p &gt; .docx-viewer-0-r {
+       font-weight: bold;
+color: #FFFFFF;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-GridTable4-Accent6.enable-lastColumn &gt; tbody &gt; tr &gt; td.lastCol &gt; .docx-viewer-0-p &gt; .docx-viewer-0-r {
+       font-weight: bold;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-GridTable4-Accent6.enable-lastRow &gt; tbody &gt; tr &gt; td.lastRow {
+       border-top: 0.67px solid #70AD47;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-GridTable4-Accent6.enable-lastRow &gt; tbody &gt; tr &gt; td.lastRow &gt; .docx-viewer-0-p &gt; .docx-viewer-0-r {
+       font-weight: bold;
+
+    }
+    
+    
+    
+    
+    
+ .docx-viewer-0 .docx-viewer-0-GridTable4-Accent3 {
+  border-collapse: collapse;
+  border-top: 0.67px solid #C9C9C9;
+border-left: 0.67px solid #C9C9C9;
+border-bottom: 0.67px solid #C9C9C9;
+border-right: 0.67px solid #C9C9C9;
+
+ }
+
+ .docx-viewer-0 .docx-viewer-0-GridTable4-Accent3 &gt; tbody &gt; tr &gt; td {
+  
+ }
+ 
+      .docx-viewer-0 .docx-viewer-0-GridTable4-Accent3 &gt; tbody &gt; tr &gt; td {
+        border-top: 0.67px solid #C9C9C9;
+      }
+      .docx-viewer-0 .docx-viewer-0-GridTable4-Accent3 &gt; tbody &gt; tr &gt; td {
+        border-left: 0.67px solid #C9C9C9;
+      }
+    
+    .docx-viewer-0 .docx-viewer-0-GridTable4-Accent3.enable-hBand &gt; tbody &gt; tr &gt; td.band1Horz {
+       background-color: #EDEDED;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-GridTable4-Accent3.enable-vBand &gt; tbody &gt; tr &gt; td.band1Vert {
+       background-color: #EDEDED;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-GridTable4-Accent3.enable-firstColumn &gt; tbody &gt; tr &gt; td.firstCol &gt; .docx-viewer-0-p &gt; .docx-viewer-0-r {
+       font-weight: bold;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-GridTable4-Accent3.enable-firstRow &gt; tbody &gt; tr &gt; td.firstRow {
+       border-top: 0.67px solid #A5A5A5;
+border-left: 0.67px solid #A5A5A5;
+border-bottom: 0.67px solid #A5A5A5;
+border-right: 0.67px solid #A5A5A5;
+background-color: #A5A5A5;
+
+    }
+    
+          .docx-viewer-0 .docx-viewer-0-GridTable4-Accent3.enable-firstRow &gt; tbody &gt; tr &gt; td.firstRow {
+            border-top: none;
+          }
+          .docx-viewer-0 .docx-viewer-0-GridTable4-Accent3.enable-firstRow &gt; tbody &gt; tr &gt; td.firstRow {
+            border-left: none;
+            border-right: none;
+          }
+    .docx-viewer-0 .docx-viewer-0-GridTable4-Accent3.enable-firstRow &gt; tbody &gt; tr &gt; td.firstRow &gt; .docx-viewer-0-p &gt; .docx-viewer-0-r {
+       font-weight: bold;
+color: #FFFFFF;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-GridTable4-Accent3.enable-lastColumn &gt; tbody &gt; tr &gt; td.lastCol &gt; .docx-viewer-0-p &gt; .docx-viewer-0-r {
+       font-weight: bold;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-GridTable4-Accent3.enable-lastRow &gt; tbody &gt; tr &gt; td.lastRow {
+       border-top: 0.67px solid #A5A5A5;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-GridTable4-Accent3.enable-lastRow &gt; tbody &gt; tr &gt; td.lastRow &gt; .docx-viewer-0-p &gt; .docx-viewer-0-r {
+       font-weight: bold;
+
+    }
+    
+    
+    
+    
+      .docx-viewer-0 .docx-viewer-0-GridTable6Colorful-Accent2 &gt; .docx-viewer-0-r {
+        color: #C45911;
+
+      }
+      
+    
+ .docx-viewer-0 .docx-viewer-0-GridTable6Colorful-Accent2 {
+  border-collapse: collapse;
+  border-top: 0.67px solid #F4B083;
+border-left: 0.67px solid #F4B083;
+border-bottom: 0.67px solid #F4B083;
+border-right: 0.67px solid #F4B083;
+
+ }
+
+ .docx-viewer-0 .docx-viewer-0-GridTable6Colorful-Accent2 &gt; tbody &gt; tr &gt; td {
+  
+ }
+ 
+      .docx-viewer-0 .docx-viewer-0-GridTable6Colorful-Accent2 &gt; tbody &gt; tr &gt; td {
+        border-top: 0.67px solid #F4B083;
+      }
+      .docx-viewer-0 .docx-viewer-0-GridTable6Colorful-Accent2 &gt; tbody &gt; tr &gt; td {
+        border-left: 0.67px solid #F4B083;
+      }
+    
+    .docx-viewer-0 .docx-viewer-0-GridTable6Colorful-Accent2.enable-hBand &gt; tbody &gt; tr &gt; td.band1Horz {
+       background-color: #FBE4D5;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-GridTable6Colorful-Accent2.enable-vBand &gt; tbody &gt; tr &gt; td.band1Vert {
+       background-color: #FBE4D5;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-GridTable6Colorful-Accent2.enable-firstColumn &gt; tbody &gt; tr &gt; td.firstCol &gt; .docx-viewer-0-p &gt; .docx-viewer-0-r {
+       font-weight: bold;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-GridTable6Colorful-Accent2.enable-firstRow &gt; tbody &gt; tr &gt; td.firstRow {
+       border-bottom: 2.00px solid #F4B083;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-GridTable6Colorful-Accent2.enable-firstRow &gt; tbody &gt; tr &gt; td.firstRow &gt; .docx-viewer-0-p &gt; .docx-viewer-0-r {
+       font-weight: bold;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-GridTable6Colorful-Accent2.enable-lastColumn &gt; tbody &gt; tr &gt; td.lastCol &gt; .docx-viewer-0-p &gt; .docx-viewer-0-r {
+       font-weight: bold;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-GridTable6Colorful-Accent2.enable-lastRow &gt; tbody &gt; tr &gt; td.lastRow {
+       border-top: 0.67px solid #F4B083;
+
+    }
+    
+    .docx-viewer-0 .docx-viewer-0-GridTable6Colorful-Accent2.enable-lastRow &gt; tbody &gt; tr &gt; td.lastRow &gt; .docx-viewer-0-p &gt; .docx-viewer-0-r {
+       font-weight: bold;
+
+    }
+    
+    
+  
+  </style>
+  <style>
+    /** embedded fonts **/
+  </style>
+  <article>
+    <section
+      style="position: relative; width: 815.98px; padding: 96.00px 96.00px 96.00px 96.00px;"
+    >
+      <table
+        class="enable-firstRow enable-firstColumn enable-hBand docx-viewer-0-TableNormal docx-viewer-0-GridTable5Dark-Accent5 docx-classname-0"
+        style="width: auto;"
+      >
+        <tbody>
+          <tr>
+            <td
+              class="nwCell firstRow firstCol band2Horz band2Vert"
+              style="width: 155.80px;"
+            >
+              <p
+                class="docx-viewer-0-p"
+              >
+                 
+              </p>
+            </td>
+            <td
+              class="firstRow band2Horz band1Vert"
+              style="width: 155.80px;"
+            >
+              <p
+                class="docx-viewer-0-p"
+              >
+                 
+              </p>
+            </td>
+            <td
+              class="firstRow band2Horz band2Vert"
+              style="width: 155.86px;"
+            >
+              <p
+                class="docx-viewer-0-p"
+              >
+                 
+              </p>
+            </td>
+            <td
+              class="neCell firstRow lastCol band2Horz band1Vert"
+              style="width: 155.86px;"
+            >
+              <p
+                class="docx-viewer-0-p"
+              >
+                 
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td
+              class="firstCol band1Horz band2Vert"
+              style="width: 155.80px;"
+            >
+              <p
+                class="docx-viewer-0-p"
+              >
+                 
+              </p>
+            </td>
+            <td
+              class="band1Horz band1Vert"
+              style="width: 155.80px;"
+            >
+              <p
+                class="docx-viewer-0-p"
+              >
+                 
+              </p>
+            </td>
+            <td
+              class="band1Horz band2Vert"
+              style="width: 155.86px;"
+            >
+              <p
+                class="docx-viewer-0-p"
+              >
+                 
+              </p>
+            </td>
+            <td
+              class="lastCol band1Horz band1Vert"
+              style="width: 155.86px;"
+            >
+              <p
+                class="docx-viewer-0-p"
+              >
+                 
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td
+              class="firstCol band2Horz band2Vert"
+              style="width: 155.80px;"
+            >
+              <p
+                class="docx-viewer-0-p"
+              >
+                 
+              </p>
+            </td>
+            <td
+              class="band2Horz band1Vert"
+              style="width: 155.80px;"
+            >
+              <p
+                class="docx-viewer-0-p"
+              >
+                 
+              </p>
+            </td>
+            <td
+              class="band2Horz band2Vert"
+              style="width: 155.86px;"
+            >
+              <table
+                class="enable-firstRow enable-firstColumn enable-hBand docx-viewer-0-TableNormal docx-viewer-0-GridTable4-Accent6 docx-classname-1"
+                style="width: auto;"
+              >
+                <tbody>
+                  <tr>
+                    <td
+                      class="nwCell firstRow firstCol band2Horz band2Vert"
+                      style="width: 46.93px;"
+                    >
+                      <p
+                        class="docx-viewer-0-p"
+                      >
+                         
+                      </p>
+                    </td>
+                    <td
+                      class="firstRow band2Horz band1Vert"
+                      style="width: 46.93px;"
+                    >
+                      <p
+                        class="docx-viewer-0-p"
+                      >
+                         
+                      </p>
+                    </td>
+                    <td
+                      class="neCell firstRow lastCol band2Horz band2Vert"
+                      style="width: 46.93px;"
+                    >
+                      <p
+                        class="docx-viewer-0-p"
+                      >
+                         
+                      </p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      class="firstCol band1Horz band2Vert"
+                      style="width: 46.93px;"
+                    >
+                      <p
+                        class="docx-viewer-0-p"
+                      >
+                         
+                      </p>
+                    </td>
+                    <td
+                      class="band1Horz band1Vert"
+                      style="width: 46.93px;"
+                    >
+                      <p
+                        class="docx-viewer-0-p"
+                      >
+                         
+                      </p>
+                    </td>
+                    <td
+                      class="lastCol band1Horz band2Vert"
+                      style="width: 46.93px;"
+                    >
+                      <p
+                        class="docx-viewer-0-p"
+                      >
+                         
+                      </p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      class="swCell lastRow firstCol band2Horz band2Vert"
+                      style="width: 46.93px;"
+                    >
+                      <p
+                        class="docx-viewer-0-p"
+                      >
+                         
+                      </p>
+                    </td>
+                    <td
+                      class="lastRow band2Horz band1Vert"
+                      style="width: 46.93px;"
+                    >
+                      <p
+                        class="docx-viewer-0-p"
+                      >
+                         
+                      </p>
+                    </td>
+                    <td
+                      class="seCell lastRow lastCol band2Horz band2Vert"
+                      style="width: 46.93px;"
+                    >
+                      <p
+                        class="docx-viewer-0-p"
+                      >
+                         
+                      </p>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <p
+                class="docx-viewer-0-p"
+              />
+            </td>
+            <td
+              class="lastCol band2Horz band1Vert"
+              style="width: 155.86px;"
+            >
+              <p
+                class="docx-viewer-0-p"
+              >
+                 
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td
+              class="swCell lastRow firstCol band1Horz band2Vert"
+              style="width: 155.80px;"
+            >
+              <p
+                class="docx-viewer-0-p"
+              >
+                 
+              </p>
+            </td>
+            <td
+              class="lastRow band1Horz band1Vert"
+              style="width: 155.80px;"
+            >
+              <p
+                class="docx-viewer-0-p"
+              >
+                 
+              </p>
+            </td>
+            <td
+              class="lastRow band1Horz band2Vert"
+              style="width: 155.86px;"
+            >
+              <p
+                class="docx-viewer-0-p"
+              >
+                 
+              </p>
+            </td>
+            <td
+              class="seCell lastRow lastCol band1Horz band1Vert"
+              style="width: 155.86px;"
+            >
+              <p
+                class="docx-viewer-0-p"
+              >
+                 
+              </p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p
+        class="docx-viewer-0-p"
+      >
+         
+      </p>
+      <table
+        class="enable-firstRow enable-firstColumn enable-hBand enable-vBand docx-viewer-0-TableNormal docx-viewer-0-PlainTable3 docx-classname-2"
+        style="width: auto;"
+      >
+        <tbody>
+          <tr>
+            <td
+              class="nwCell firstRow firstCol band2Horz band2Vert"
+              style="width: 124.66px;"
+            >
+              <p
+                class="docx-viewer-0-p"
+              >
+                 
+              </p>
+            </td>
+            <td
+              class="firstRow band2Horz band1Vert"
+              style="width: 124.66px;"
+            >
+              <p
+                class="docx-viewer-0-p"
+              >
+                 
+              </p>
+            </td>
+            <td
+              class="firstRow band2Horz band2Vert"
+              style="width: 124.66px;"
+            >
+              <p
+                class="docx-viewer-0-p"
+              >
+                 
+              </p>
+            </td>
+            <td
+              class="firstRow band2Horz band1Vert"
+              style="width: 124.66px;"
+            >
+              <p
+                class="docx-viewer-0-p"
+              >
+                 
+              </p>
+            </td>
+            <td
+              class="neCell firstRow lastCol band2Horz band2Vert"
+              style="width: 124.66px;"
+            >
+              <p
+                class="docx-viewer-0-p"
+              >
+                 
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td
+              class="firstCol band1Horz band2Vert"
+              style="width: 124.66px;"
+            >
+              <p
+                class="docx-viewer-0-p"
+              >
+                 
+              </p>
+            </td>
+            <td
+              class="band1Horz band1Vert"
+              style="width: 124.66px;"
+            >
+              <p
+                class="docx-viewer-0-p"
+              >
+                 
+              </p>
+            </td>
+            <td
+              class="band1Horz band2Vert"
+              style="width: 124.66px;"
+            >
+              <p
+                class="docx-viewer-0-p"
+              >
+                 
+              </p>
+            </td>
+            <td
+              class="band1Horz band1Vert"
+              style="width: 124.66px;"
+            >
+              <p
+                class="docx-viewer-0-p"
+              >
+                 
+              </p>
+            </td>
+            <td
+              class="lastCol band1Horz band2Vert"
+              style="width: 124.66px;"
+            >
+              <p
+                class="docx-viewer-0-p"
+              >
+                 
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td
+              class="swCell lastRow firstCol band2Horz band2Vert"
+              style="width: 124.66px;"
+            >
+              <p
+                class="docx-viewer-0-p"
+              >
+                 
+              </p>
+            </td>
+            <td
+              class="lastRow band2Horz band1Vert"
+              style="width: 124.66px;"
+            >
+              <p
+                class="docx-viewer-0-p"
+              >
+                 
+              </p>
+            </td>
+            <td
+              class="lastRow band2Horz band2Vert"
+              style="width: 124.66px; background-color: rgb(201, 201, 201);"
+            >
+              <p
+                class="docx-viewer-0-p"
+              >
+                 
+              </p>
+            </td>
+            <td
+              class="lastRow band2Horz band1Vert"
+              style="width: 124.66px;"
+            >
+              <p
+                class="docx-viewer-0-p"
+              >
+                 
+              </p>
+            </td>
+            <td
+              class="seCell lastRow lastCol band2Horz band2Vert"
+              style="width: 124.66px;"
+            >
+              <p
+                class="docx-viewer-0-p"
+              >
+                 
+              </p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p
+        class="docx-viewer-0-p"
+      >
+         
+      </p>
+      <table
+        class="enable-firstRow enable-firstColumn enable-hBand docx-viewer-0-TableNormal docx-viewer-0-GridTable6Colorful-Accent2 docx-classname-3"
+        style="width: auto;"
+      >
+        <tbody>
+          <tr>
+            <td
+              class="nwCell firstRow firstCol band2Horz band2Vert"
+              style="width: 207.73px;"
+            >
+              <p
+                class="docx-viewer-0-p"
+              >
+                 
+              </p>
+            </td>
+            <td
+              class="firstRow band2Horz band1Vert"
+              style="width: 207.79px;"
+            >
+              <p
+                class="docx-viewer-0-p"
+              >
+                 
+              </p>
+            </td>
+            <td
+              class="neCell firstRow lastCol band2Horz band2Vert"
+              style="width: 207.79px;"
+            >
+              <p
+                class="docx-viewer-0-p"
+              >
+                 
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td
+              class="firstCol band1Horz band2Vert"
+              style="width: 207.73px;"
+            >
+              <p
+                class="docx-viewer-0-p"
+              >
+                 
+              </p>
+            </td>
+            <td
+              class="band1Horz band1Vert"
+              style="width: 207.79px;"
+            >
+              <p
+                class="docx-viewer-0-p"
+              >
+                 
+              </p>
+            </td>
+            <td
+              class="lastCol band1Horz band2Vert"
+              style="width: 207.79px;"
+            >
+              <p
+                class="docx-viewer-0-p"
+              >
+                 
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td
+              class="swCell lastRow firstCol band2Horz band2Vert"
+              style="width: 207.73px;"
+            >
+              <p
+                class="docx-viewer-0-p"
+              >
+                 
+              </p>
+            </td>
+            <td
+              class="lastRow band2Horz band1Vert"
+              style="width: 207.79px;"
+            >
+              <p
+                class="docx-viewer-0-p"
+              >
+                 
+              </p>
+            </td>
+            <td
+              class="seCell lastRow lastCol band2Horz band2Vert"
+              style="width: 207.79px;"
+            >
+              <p
+                class="docx-viewer-0-p"
+              >
+                 
+              </p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p
+        class="docx-viewer-0-p"
+      >
+         
+      </p>
+      <p
+        class="docx-viewer-0-p"
+      >
+         
+      </p>
+    </section>
+    <section
+      style="position: relative;"
+    />
+  </article>
+</div>
+`;

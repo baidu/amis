@@ -27,7 +27,9 @@ export class AbstractNum {
       abstractNum.lvls[lvlId] = Lvl.fromXML(word, child);
     }
 
-    const multiLevelType = element.querySelector('multiLevelType');
+    const multiLevelType = element
+      .getElementsByTagName('w:multiLevelType')
+      .item(0);
 
     if (multiLevelType) {
       abstractNum.multiLevelType = getVal(multiLevelType) as ST_MultiLevelType;

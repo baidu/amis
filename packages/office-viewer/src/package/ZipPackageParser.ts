@@ -31,7 +31,7 @@ export default class ZipPackageParser implements PackageParser {
 
     const doc = new DOMParser().parseFromString(fileContent, 'application/xml');
 
-    const errorNode = doc.querySelector('parsererror');
+    const errorNode = doc.getElementsByTagName('parsererror').item(0);
     if (errorNode) {
       throw new Error(errorNode.textContent || "can't parse xml");
     } else {

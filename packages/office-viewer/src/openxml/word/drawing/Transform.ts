@@ -22,7 +22,7 @@ export class Transform {
   static fromXML(word: Word, element: Element): Transform {
     const transform = new Transform();
 
-    const off = element.querySelector('off');
+    const off = element.getElementsByTagName('a:off').item(0);
     if (off) {
       transform.off = {
         x: parseSize(off, 'x', LengthUsage.Emu),
@@ -30,7 +30,7 @@ export class Transform {
       };
     }
 
-    const ext = element.querySelector('ext');
+    const ext = element.getElementsByTagName('a:ext').item(0);
     if (ext) {
       transform.ext = {
         cx: parseSize(ext, 'cx', LengthUsage.Emu),

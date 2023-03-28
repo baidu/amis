@@ -71,13 +71,13 @@ export class Paragraph {
     const cssStyle = parsePr(word, element, 'p');
 
     let pStyle;
-    const pStyleTag = element.querySelector('pStyle');
+    const pStyleTag = element.getElementsByTagName('w:pStyle').item(0);
     if (pStyleTag) {
       pStyle = getVal(pStyleTag);
     }
 
     let numPr;
-    const numPrTag = element.querySelector('numPr');
+    const numPrTag = element.getElementsByTagName('w:numPr').item(0);
     if (numPrTag) {
       numPr = NumberPr.fromXML(word, numPrTag);
     }

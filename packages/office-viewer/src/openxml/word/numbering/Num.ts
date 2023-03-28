@@ -13,13 +13,15 @@ export class Num {
     const num = new Num();
 
     num.numId = element.getAttribute('w:numId') || '';
-    const abstractNumId = element.querySelector('abstractNumId');
+    const abstractNumId = element
+      .getElementsByTagName('w:abstractNumId')
+      .item(0);
 
     if (abstractNumId) {
       num.abstractNumId = getVal(abstractNumId);
     }
 
-    const lvlOverride = element.querySelector('lvlOverride');
+    const lvlOverride = element.getElementsByTagName('w:lvlOverride').item(0);
     if (lvlOverride) {
       for (const child of lvlOverride.children) {
         const tagName = child.tagName;
