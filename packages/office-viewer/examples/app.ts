@@ -26,6 +26,7 @@ const fileLists = {
     'pinyin.xml',
     'svg.xml',
     'sym.xml',
+    'shadow.xml',
     'tableborder.xml',
     'tablestyle.xml',
     'textbox.xml',

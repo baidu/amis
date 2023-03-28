@@ -80,6 +80,7 @@ export class Run {
           break;
 
         case 'w:br':
+        case 'w:cr':
           run.addChild(Break.fromXML(word, child));
           break;
 

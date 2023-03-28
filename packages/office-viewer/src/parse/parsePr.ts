@@ -421,6 +421,17 @@ export function parsePr(word: Word, element: Element, type: 'r' | 'p' = 'p') {
         style['display'] = 'inline-block'; // 需要这样才能生效
         break;
 
+      case 'w:outline':
+        style['text-shadow'] =
+          '-1px -1px 0 #AAA, 1px -1px 0 #AAA, -1px 1px 0 #AAA, 1px 1px 0 #AAA';
+        break;
+
+      case 'w14:shadow':
+      case 'w:imprint':
+        // imprint 似乎不对
+        style['text-shadow'] = '1px 1px 2px #AAA';
+        break;
+
       default:
         console.warn('parsePr Unknown tagName', tagName, child);
     }
