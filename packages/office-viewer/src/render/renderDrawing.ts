@@ -58,8 +58,10 @@ export function renderDrawing(word: Word, drawing: Drawing): HTMLElement {
   applyStyle(container, drawing.containerStyle);
 
   if (drawing.wps) {
-    const spPr = drawing.wps.spPr;
+    const wps = drawing.wps;
+    const spPr = wps.spPr;
     applyStyle(container, spPr?.style);
+    applyStyle(container, wps.style);
     if (spPr?.xfrm) {
       const ext = spPr.xfrm.ext;
       if (ext) {
@@ -68,7 +70,7 @@ export function renderDrawing(word: Word, drawing: Drawing): HTMLElement {
       }
     }
 
-    const txbxContent = drawing.wps.txbxContent;
+    const txbxContent = wps.txbxContent;
     for (const txbxContentChild of txbxContent) {
       if (txbxContentChild instanceof Paragraph) {
         appendChild(container, renderParagraph(word, txbxContentChild));

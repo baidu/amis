@@ -28,8 +28,8 @@ const fileLists = {
     'sym.xml',
     'tableborder.xml',
     'tablestyle.xml',
-    'text.xml',
     'textbox.xml',
+    'textbox-vert.xml',
     'w.xml'
   ],
   docx4j: [

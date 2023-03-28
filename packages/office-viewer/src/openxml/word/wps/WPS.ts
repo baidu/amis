@@ -9,6 +9,7 @@ import Word from '../../../Word';
 import {Table} from '../Table';
 import {parseTable} from '../../../parse/parseTable';
 import {CSSStyle} from '../../../openxml/Style';
+import {ST_TextVerticalType} from '../../../openxml/Types';
 
 export type TxbxContentChild = Paragraph | Table;
 
@@ -16,16 +17,33 @@ export type TxbxContentChild = Paragraph | Table;
  * 文档 20.4.2.22，不过大部分属性不支持
  */
 function parseBodyPr(element: Element, style: CSSStyle) {
-  const attributes = element.attributes;
-  if ('numCol' in attributes) {
-  }
-
   for (const attribute of element.attributes) {
     const name = attribute.name;
     const value = attribute.value;
     switch (name) {
       case 'numCol':
         style['column-count'] = value;
+        break;
+
+      case 'vert':
+        const val = value as ST_TextVerticalType;
+        switch (val) {
+          case 'vert':
+            style['writing-mode'] = 'vertical-rl';
+            style['text-orientation'] = 'sideways';
+            break;
+
+          case 'vert270':
+          case 'eaVert':
+            // 不太准确，但 css 也只能做到这样
+            style['writing-mode'] = 'vertical-rl';
+            style['text-orientation'] = 'mixed';
+            break;
+
+          default:
+            break;
+        }
+
         break;
     }
   }
