@@ -414,10 +414,10 @@ test('Renderer:input-table cell selects delete', async () => {
   expect(s1).not.toBeNull();
   const s3 = container.querySelector(`div[title=s3] label`);
   expect(s3).not.toBeNull();
-  fireEvent.click(s1);
+  fireEvent.click(s1 as Element);
   await wait(300);
 
-  fireEvent.click(s3);
+  fireEvent.click(s3 as Element);
   await wait(300);
 
   fireEvent.click(select);

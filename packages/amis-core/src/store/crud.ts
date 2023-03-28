@@ -321,18 +321,20 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
                   (value = getVariable(self.query, key))
                 ) {
                   if (Array.isArray(value)) {
-                    const arr = [...filteredItems];
-                    let arrItems: Array<any> = [];
-                    value.forEach(item => {
-                      arrItems = [
-                        ...arrItems,
-                        ...matchSorter(arr, item, {
-                          keys: [key]
-                        })
-                      ];
-                    });
-                    filteredItems = filteredItems.filter(
-                      item => arrItems.find(a => a === item));
+                    if (value.length > 0) {
+                      const arr = [...filteredItems];
+                      let arrItems: Array<any> = [];
+                      value.forEach(item => {
+                        arrItems = [
+                          ...arrItems,
+                          ...matchSorter(arr, item, {
+                            keys: [key]
+                          })
+                        ];
+                      });
+                      filteredItems = filteredItems.filter(
+                        item => arrItems.find(a => a === item));
+                    }
                   }
                   else {
                     filteredItems = matchSorter(filteredItems, value, {
