@@ -54,6 +54,7 @@ export class Body {
           body.addChild(table);
           break;
 
+        case 'w:bookmarkStart':
         case 'w:bookmarkEnd':
           break;
 

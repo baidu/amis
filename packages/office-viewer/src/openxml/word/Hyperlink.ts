@@ -10,6 +10,7 @@ export class Hyperlink {
   anchor?: string;
   relation?: Relationship;
   children: Run[] = [];
+  tooltip?: string;
 
   addChild(Run: Run): void {
     this.children.push(Run);
@@ -26,9 +27,14 @@ export class Hyperlink {
       }
     }
 
-    const anchor = element.getAttribute('anchor');
+    const anchor = element.getAttribute('w:anchor');
     if (anchor) {
       hyperlink.anchor = anchor;
+    }
+
+    const tooltip = element.getAttribute('w:tooltip');
+    if (tooltip) {
+      hyperlink.tooltip = tooltip;
     }
 
     for (const child of element.children) {

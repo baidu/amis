@@ -30,6 +30,7 @@ const fileLists = {
     'tablestyle.xml',
     'textbox.xml',
     'textbox-vert.xml',
+    'tooltip.xml',
     'w.xml'
   ],
   docx4j: [

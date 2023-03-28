@@ -13,6 +13,7 @@ import {Run, RunPr} from './Run';
 import {Tab} from './Tab';
 import {FldSimple} from './FldSimple';
 import {OMath} from '../math/OMath';
+import {parseSdt} from '../../parse/parseSdt';
 
 /**
  * 这里简化了很多，如果能用 CSS 表示就直接用 CSS 表示
@@ -144,7 +145,12 @@ export class Paragraph {
           break;
 
         case 'm:oMathPara':
+        case 'm:oMath':
           paragraph.addChild(OMath.fromXML(word, child));
+          break;
+
+        case 'w:sdt':
+          parseSdt(child, arr);
           break;
 
         default:
