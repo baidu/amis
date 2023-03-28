@@ -132,12 +132,14 @@ export default class IconSelectControl extends React.PureComponent<
 
     return (
       <div className={cx(`${ns}IconSelectControl-input-area`)}>
-        {pureValue && (
+        {pureValue ? (
           <div className={cx(`${ns}IconSelectControl-input-icon-show`)}>
             <svg>
               <use xlinkHref={`#${pureValue}`}></use>
             </svg>
           </div>
+        ) : (
+          <Icon icon={valueTemp} className="icon" />
         )}
         <span className={cx(`${ns}IconSelectControl-input-icon-id`)}>
           {iconName}
