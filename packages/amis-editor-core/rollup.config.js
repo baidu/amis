@@ -152,7 +152,7 @@ function getPlugins(format = 'esm') {
     commonjs({
       sourceMap: false
     }),
-    terser(),
+    terser({format: {quote_style: 1}}),
     license({
       banner: `
         ${name} v${version}
