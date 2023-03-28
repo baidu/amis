@@ -11,8 +11,6 @@ import {renderBookmarkStart} from './renderBookmark';
 import {renderNumbering} from './renderNumbering';
 import {setElementStyle} from './setElementStyle';
 import {renderTab} from './renderTab';
-import {SmartTag} from '../openxml/word/SmartTag';
-import renderInlineText from './renderInlineText';
 import {OMath} from '../openxml/math/OMath';
 import {renderOMath} from './renderMath';
 
@@ -53,8 +51,6 @@ export default function renderParagraph(
     } else if (child instanceof Hyperlink) {
       const hyperlink = renderHyperLink(word, child, paragraph);
       appendChild(p, hyperlink);
-    } else if (child instanceof SmartTag) {
-      renderInlineText(word, child, p);
     } else if (child instanceof OMath) {
       appendChild(p, renderOMath(word, child));
     } else {

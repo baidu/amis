@@ -1,5 +1,5 @@
 /**
- * openxml 默认是 zip 格式，导致构造比较麻烦，所以增加了这种单一格式，所有内容都放在一个 xml 文件里
+ * openxml 默认是 zip 格式构造起来比较麻烦，这个格式可以方便文本编辑，word 也能直接打开
  */
 
 import {zipSync, Unzipped, strFromU8, strToU8} from 'fflate';
@@ -7,9 +7,13 @@ import {zipSync, Unzipped, strFromU8, strToU8} from 'fflate';
 import {buildXML, parseXML} from '../util/xml';
 import {PackageParser} from './PackageParser';
 
+function base64ToUint8Array(base64: string): Uint8Array {
+  return Uint8Array.from(atob(base64), c => c.charCodeAt(0));
+}
+
 export default class XMLPackageParser implements PackageParser {
   private xml: Document;
-  private files: Record<string, Element> = {};
+  private files: Record<string, Element | Uint8Array> = {};
   private contentTypesDoc: Document;
 
   /**
@@ -29,7 +33,13 @@ export default class XMLPackageParser implements PackageParser {
     for (const part of parts) {
       const name = part.getAttribute('pkg:name')!;
       const contentType = part.getAttribute('pkg:contentType')!;
-      this.files[name] = part.firstElementChild!.firstElementChild!;
+      const content = part.firstElementChild!;
+      if (content.tagName === 'pkg:xmlData') {
+        this.files[name] = content.firstElementChild!;
+      } else if (content.tagName === 'pkg:binaryData') {
+        this.files[name] = base64ToUint8Array(content.textContent!);
+      }
+
       overrides.push(
         `<Override PartName="${name}" ContentType="${contentType}" />`
       );
@@ -71,7 +81,21 @@ export default class XMLPackageParser implements PackageParser {
    * 在 xml 下基本不用这个
    */
   getFileByType(filePath: string, type: 'string' | 'blob') {
-    return '';
+    if (!filePath.startsWith('/')) {
+      filePath = '/' + filePath;
+    }
+    const file = this.files[filePath] as Uint8Array;
+    if (file) {
+      if (type === 'string') {
+        return strFromU8(file);
+      } else if (type === 'blob') {
+        return new Blob([file]);
+      } else if (type === 'uint8array') {
+        return file;
+      }
+    }
+    console.warn('getFileByType', filePath, 'not found');
+    return null;
   }
 
   /**

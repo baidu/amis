@@ -6,10 +6,12 @@ import React from 'react';
 import {BaseSchema} from '../Schema';
 import {
   ActionObject,
+  createObject,
   isApiOutdated,
   IScopedContext,
   Renderer,
   RendererProps,
+  resolveVariable,
   resolveVariableAndFilter,
   ScopedContext
 } from 'amis-core';
@@ -79,6 +81,9 @@ export default class OfficeViewer extends React.Component<
     this.word?.updateVariable();
   }
 
+  /**
+   * 接收动作事件
+   */
   doAction(action: ActionObject, args: any, throwErrors: boolean): any {
     const actionType = action?.actionType as string;
 
@@ -91,11 +96,12 @@ export default class OfficeViewer extends React.Component<
     }
   }
 
-  replaceText(text: string) {
-    const {data} = this.props;
-    // 将 {{xxx}} 替换成 ${xxx}，为啥要这样呢，因为输入 $ 可能会变成两段文本
-    text = text.replace(/{{/g, '${').replace(/}}/g, '}');
-    return resolveVariableAndFilter(text, data, '| raw');
+  /**
+   * 执行变量替换
+   */
+  evalVar(text: string, data: any) {
+    const localData = this.props.data;
+    return resolveVariable(text, createObject(localData, data));
   }
 
   async renderWord() {
@@ -131,7 +137,8 @@ export default class OfficeViewer extends React.Component<
       const Word = officeViewer.Word;
       const word = new Word(response.data, {
         ...wordOptions,
-        replaceText: this.replaceText.bind(this)
+        data,
+        evalVar: this.evalVar.bind(this)
       });
 
       if (display !== false) {
@@ -157,7 +164,7 @@ export default class OfficeViewer extends React.Component<
           const Word = officeViewer.Word;
           const word = new Word(data, {
             ...wordOptions,
-            replaceText: this.replaceText.bind(this)
+            evalVar: this.evalVar.bind(this)
           });
           if (display !== false) {
             word.render(this.rootElement?.current!);

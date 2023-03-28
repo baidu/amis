@@ -7,7 +7,7 @@ export interface TcPr {
   cssStyle?: CSSStyle;
 
   // 如果为 true 的话就不自动加空格
-  hideMark?: false;
+  hideMark?: boolean;
 
   vMerge?: ST_Merge;
 

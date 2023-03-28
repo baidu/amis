@@ -5,9 +5,11 @@ import {ST_VerticalAlignRun} from '../Types';
 import {Break} from './Break';
 import {Drawing} from './drawing/Drawing';
 import {InstrText} from './InstrText';
+import {NoBreakHyphen} from './NoBreakHyphen';
 import {Pict} from './Pict';
 import {Properties} from './properties/Properties';
 import {Ruby} from './Ruby';
+import {SoftHyphen} from './SoftHyphen';
 import {Sym} from './Sym';
 import {Tab} from './Tab';
 /**
@@ -27,7 +29,17 @@ export class Text {
   }
 }
 
-type RunChild = Break | Drawing | Text | Tab | Pict | Ruby | InstrText | Sym;
+type RunChild =
+  | Break
+  | Drawing
+  | Text
+  | Tab
+  | Pict
+  | Ruby
+  | InstrText
+  | Sym
+  | SoftHyphen
+  | NoBreakHyphen;
 
 export class Run {
   properties: RunPr = {};
@@ -108,6 +120,14 @@ export class Run {
           if (drawingChild) {
             run.addChild(Drawing.fromXML(word, drawingChild));
           }
+          break;
+
+        case 'w:softHyphen':
+          run.addChild(new SoftHyphen());
+          break;
+
+        case 'w:noBreakHyphen':
+          run.addChild(new NoBreakHyphen());
           break;
 
         default:

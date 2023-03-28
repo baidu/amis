@@ -31,6 +31,7 @@ export interface AlertState {
   controls?: any;
   value?: any;
   confirmText?: string;
+  cancelText?: string;
 }
 
 export class Alert extends React.Component<AlertProps, AlertState> {
@@ -139,13 +140,19 @@ export class Alert extends React.Component<AlertProps, AlertState> {
     });
   }
 
-  confirm(content: string, title?: string, confirmText?: string) {
+  confirm(
+    content: string,
+    title?: string,
+    confirmText?: string,
+    cancelText?: string
+  ) {
     this.setState({
       title,
       content,
       show: true,
       confirm: true,
-      confirmText
+      confirmText,
+      cancelText
     });
 
     return new Promise(resolve => {
@@ -217,6 +224,7 @@ export class Alert extends React.Component<AlertProps, AlertState> {
     const __ = this.props.translate;
     const finalTitle = __(this.state.title ?? title);
     const finalConfirmText = __(this.state.confirmText ?? confirmText);
+    const finalCancelText = __(this.state.cancelText ?? cancelText);
 
     return (
       <Modal
@@ -247,7 +255,7 @@ export class Alert extends React.Component<AlertProps, AlertState> {
         {finalConfirmText ? (
           <div className={cx('Modal-footer')}>
             {this.state.confirm || this.state.prompt ? (
-              <Button onClick={this.handleCancel}>{__(cancelText)}</Button>
+              <Button onClick={this.handleCancel}>{__(finalCancelText)}</Button>
             ) : null}
             <Button
               level={
@@ -295,9 +303,10 @@ export const alert: (content: string, title?: string) => void = (
 export const confirm: (
   content: string,
   title?: string,
-  confirmText?: string
-) => Promise<any> = (content, title, confirmText) =>
-  Alert.getInstance().confirm(content, title, confirmText);
+  confirmText?: string,
+  cancelText?: string
+) => Promise<any> = (content, title, confirmText, cancelText) =>
+  Alert.getInstance().confirm(content, title, confirmText, cancelText);
 export const prompt: (
   controls: any,
   defaultvalue?: any,

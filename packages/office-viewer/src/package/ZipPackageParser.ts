@@ -54,7 +54,8 @@ export default class ZipPackageParser implements PackageParser {
         return file;
       }
     }
-    throw new Error('file not found');
+    console.warn('getFileByType', filePath, 'not found');
+    return null;
   }
 
   /**

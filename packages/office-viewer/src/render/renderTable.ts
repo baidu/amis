@@ -167,14 +167,18 @@ export default function renderTable(word: Word, table: Table) {
         tdEl.rowSpan = tcPr.rowSpan;
       }
 
-      // 如果已经有表格的话，就不再渲染空段落了，避免底部多个空行
-      let hasTable = false;
+      let renderSpace = true;
+      // 如果有 tcPr.hideMark 就不渲染空格
+      if (tcPr.hideMark) {
+        renderSpace = false;
+      }
       for (const tcChild of tc.children) {
         if (tcChild instanceof Paragraph) {
-          const p = renderParagraph(word, tcChild, !hasTable);
+          const p = renderParagraph(word, tcChild, renderSpace);
           appendChild(tdEl, p);
         } else if (tcChild instanceof Table) {
-          hasTable = true;
+          // 如果已经有表格的话，就不再渲染空段落了，避免底部多个空行
+          renderSpace = false;
           appendChild(tdEl, renderTable(word, tcChild));
         } else {
           console.warn('unknown child type: ' + tcChild);
