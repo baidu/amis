@@ -1731,6 +1731,20 @@
   --InputRange-clearIcon-color: var(--colors-neutral-text-4);
   --InputRange-clearIcon-hoverColor: var(--colors-brand-5);
 
+  // 进度条
+  --Progress-line-bg: var(--colors-neutral-fill-8);
+  --Progress-line-theme-color: var(--colors-brand-5);
+  --Progress-line-color: var(--colors-neutral-text-2);
+  --Progress-line-fontSize: var(--fonts-size-8);
+  --Progress-circle-bg: var(--colors-neutral-fill-8);
+  --Progress-circle-theme-color: red;
+  --Progress-circle-color: var(--colors-neutral-text-2);
+  --Progress-circle-fontSize: var(--fonts-size-8);
+
+  --Progress-borderRadius: var(--borderRadius);
+  --Progress-animate-backgroundColor: #fff;
+  --Progress-bar-backgroundColor: var(--colors-neutral-fill-8);
+
   // 对话框
   --dialog-default-border-width: var(--sizes-size-0);
   --dialog-default-border-radius: var(--sizes-size-4);
@@ -3256,6 +3270,29 @@
   --Spinner-width: var(--spinner-size-size);
   --Spinner-color: var(--spinner-base-color);
 
+  // Image
+  --image-image-normal-paddingTop: var(--sizes-size-3);
+  --image-image-normal-paddingBottom: var(--sizes-size-3);
+  --image-image-normal-paddingLeft: var(--sizes-size-3);
+  --image-image-normal-paddingRight: var(--sizes-size-3);
+  --image-image-normal-color: var(--colors-neutral-text-2);
+  --image-image-normal-fontSize: var(--fonts-size-7);
+  --image-image-description-color: var(--colors-neutral-text-2);
+  --image-image-description-fontSize: var(--fonts-size-8);
+
+  --image-images-item-marginTop: var(--sizes-size-3);
+  --image-images-item-marginBottom: var(--sizes-size-3);
+  --image-images-item-marginLeft: var(--sizes-size-3);
+  --image-images-item-marginRight: var(--sizes-size-3);
+  --image-images-item-size: 3rem;
+  --image-images-item-color: var(--colors-neutral-text-5);
+  --image-images-preview-radius: var(--sizes-size-3);
+  --image-images-preview-bgColor: var(--colors-neutral-text-11);
+  --image-images-preview-paddingTop: var(--sizes-size-3);
+  --image-images-preview-paddingBottom: var(--sizes-size-3);
+  --image-images-preview-paddingLeft: var(--sizes-size-9);
+  --image-images-preview-paddingRight: var(--sizes-size-9);
+
   --Tag-base-fontSize: var(--fonts-size-8);
   --Tag-base-fontWeight: var(--fonts-weight-6);
   --Tag-base-height: var(--sizes-base-12);
@@ -3644,4 +3681,87 @@
   --fieldSet-size-lg-paddingBottom: var(--sizes-base-15);
   --fieldSet-size-lg-paddingLeft: var(--sizes-base-15);
   --fieldSet-size-lg-fontSize: var(--fonts-size-6);
+
+  --inputRichText-default-top-border-color: var(--colors-neutral-line-8);
+  --inputRichText-default-top-border-width: var(--borders-width-2);
+  --inputRichText-default-top-border-style: var(--borders-style-2);
+  --inputRichText-default-right-border-color: var(--colors-neutral-line-8);
+  --inputRichText-default-right-border-width: var(--borders-width-2);
+  --inputRichText-default-right-border-style: var(--borders-style-2);
+  --inputRichText-default-bottom-border-color: var(--colors-neutral-line-8);
+  --inputRichText-default-bottom-border-width: var(--borders-width-2);
+  --inputRichText-default-bottom-border-style: var(--borders-style-2);
+  --inputRichText-default-left-border-color: var(--colors-neutral-line-8);
+  --inputRichText-default-left-border-width: var(--borders-width-2);
+  --inputRichText-default-left-border-style: var(--borders-style-2);
+  --inputRichText-default-top-left-border-radius: var(--borders-radius-1);
+  --inputRichText-default-top-right-border-radius: var(--borders-radius-1);
+  --inputRichText-default-bottom-right-border-radius: var(--borders-radius-1);
+  --inputRichText-default-bottom-left-border-radius: var(--borders-radius-1);
+  --inputRichText-hover-top-border-color: var(--colors-neutral-line-8);
+  --inputRichText-hover-top-border-width: var(--borders-width-2);
+  --inputRichText-hover-top-border-style: var(--borders-style-2);
+  --inputRichText-hover-right-border-color: var(--colors-neutral-line-8);
+  --inputRichText-hover-right-border-width: var(--borders-width-2);
+  --inputRichText-hover-right-border-style: var(--borders-style-2);
+  --inputRichText-hover-bottom-border-color: var(--colors-neutral-line-8);
+  --inputRichText-hover-bottom-border-width: var(--borders-width-2);
+  --inputRichText-hover-bottom-border-style: var(--borders-style-2);
+  --inputRichText-hover-left-border-color: var(--colors-neutral-line-8);
+  --inputRichText-hover-left-border-width: var(--borders-width-2);
+  --inputRichText-hover-left-border-style: var(--borders-style-2);
+  --inputRichText-hover-top-left-border-radius: var(--borders-radius-1);
+  --inputRichText-hover-top-right-border-radius: var(--borders-radius-1);
+  --inputRichText-hover-bottom-right-border-radius: var(--borders-radius-1);
+  --inputRichText-hover-bottom-left-border-radius: var(--borders-radius-1);
+  --inputRichText-active-top-border-color: var(--colors-brand-5);
+  --inputRichText-active-top-border-width: var(--borders-width-2);
+  --inputRichText-active-top-border-style: var(--borders-style-2);
+  --inputRichText-active-right-border-color: var(--colors-brand-5);
+  --inputRichText-active-right-border-width: var(--borders-width-2);
+  --inputRichText-active-right-border-style: var(--borders-style-2);
+  --inputRichText-active-bottom-border-color: var(--colors-brand-5);
+  --inputRichText-active-bottom-border-width: var(--borders-width-2);
+  --inputRichText-active-bottom-border-style: var(--borders-style-2);
+  --inputRichText-active-left-border-color: var(--colors-brand-5);
+  --inputRichText-active-left-border-width: var(--borders-width-2);
+  --inputRichText-active-left-border-style: var(--borders-style-2);
+  --inputRichText-active-top-left-border-radius: var(--borders-radius-1);
+  --inputRichText-active-top-right-border-radius: var(--borders-radius-1);
+  --inputRichText-active-bottom-right-border-radius: var(--borders-radius-1);
+  --inputRichText-active-bottom-left-border-radius: var(--borders-radius-1);
+  --inputRichText-disabled-top-border-color: var(--colors-neutral-line-8);
+  --inputRichText-disabled-top-border-width: var(--borders-width-2);
+  --inputRichText-disabled-top-border-style: var(--borders-style-2);
+  --inputRichText-disabled-right-border-color: var(--colors-neutral-line-8);
+  --inputRichText-disabled-right-border-width: var(--borders-width-2);
+  --inputRichText-disabled-right-border-style: var(--borders-style-2);
+  --inputRichText-disabled-bottom-border-color: var(--colors-neutral-line-8);
+  --inputRichText-disabled-bottom-border-width: var(--borders-width-2);
+  --inputRichText-disabled-bottom-border-style: var(--borders-style-2);
+  --inputRichText-disabled-left-border-color: var(--colors-neutral-line-8);
+  --inputRichText-disabled-left-border-width: var(--borders-width-2);
+  --inputRichText-disabled-left-border-style: var(--borders-style-2);
+  --inputRichText-disabled-top-left-border-radius: var(--borders-radius-1);
+  --inputRichText-disabled-top-right-border-radius: var(--borders-radius-1);
+  --inputRichText-disabled-bottom-right-border-radius: var(--borders-radius-1);
+  --inputRichText-disabled-bottom-left-border-radius: var(--borders-radius-1);
+
+  --conditionBuilder-toolbar-width: var(--sizes-base-14);
+  --conditionBuilder-toolbar-height: var(--sizes-base-14);
+  --conditionBuilder-toolbar-color: var(--colors-brand-3);
+  --conditionBuilder-toolbar-fontSize: var(--fonts-size-8);
+  --conditionBuilder-toolbar-fontWeight: var(--fonts-weight-5);
+  --conditionBuilder-toolbar-bg-color: var(--colors-brand-9);
+  --conditionBuilder-toolbar-hover-color: var(--colors-neutral-text-11);
+  --conditionBuilder-toolbar-hover-fontSize: var(--fonts-size-8);
+  --conditionBuilder-toolbar-hover-fontWeight: var(--fonts-weight-5);
+  --conditionBuilder-toolbar-hover-bg-color: var(--colors-brand-5);
+  --conditionBuilder-line-width: var(--sizes-size-2);
+  --conditionBuilder-line-bg-color: var(--colors-brand-9);
+  --conditionBuilder-body-bg-color: var(--colors-neutral-line-10);
+  --conditionBuilder-body-paddingTop: var(--sizes-size-7);
+  --conditionBuilder-body-paddingRight: var(--sizes-size-7);
+  --conditionBuilder-body-paddingBottom: var(--sizes-size-7);
+  --conditionBuilder-body-paddingLeft: var(--sizes-base-14);
 }

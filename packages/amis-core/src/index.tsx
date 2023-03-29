@@ -95,6 +95,7 @@ import PopOver from './components/PopOver';
 import {FormRenderer} from './renderers/Form';
 import type {FormHorizontal} from './renderers/Form';
 import {enableDebug, promisify, replaceText, wrapFetcher} from './utils/index';
+import {valueMap as styleMap} from './utils/style-helper';
 
 // @ts-ignore
 export const version = '__buildVersion';
@@ -170,7 +171,8 @@ export {
   FormBaseControl,
   extendDefaultEnv,
   addRootWrapper,
-  RendererConfig
+  RendererConfig,
+  styleMap
 };
 
 export function render(

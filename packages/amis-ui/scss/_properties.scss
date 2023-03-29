@@ -694,7 +694,6 @@ $remFactor: 16px;
   --Remark-onHover-iconColor: var(--colors-neutral-text-11);
   --Remark-width: var(--sizes-size-9);
 
-
   --Sparkline-line-color: var(--info);
   --Sparkline-area-color: #{rgba($info, 0.1)};
 
@@ -900,10 +899,6 @@ $remFactor: 16px;
 
   --AnchorNav-links-container-borderRight: #{px2rem(2px)} solid #d3dae0;
   --AnchorNav-onActive-borderWidth: 0 0 0 #{px2rem(2px)};
-
-  --Progress-borderRadius: var(--borderRadius);
-  --Progress-animate-backgroundColor: #fff;
-  --Progress-bar-backgroundColor: #d3d9e6;
 
   --ColumnToggler-backgroundColor: var(--colors-neutral-fill-11);
   --ColumnToggler-borderRadius: #{px2rem(4px)};
