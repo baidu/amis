@@ -28,7 +28,7 @@ export function applyStyle(el: HTMLElement, style?: CSSStyle): void {
   for (const key in style) {
     const value = style[key];
     if (value != null && value !== '') {
-      el.style.setProperty(key, style[key]);
+      el.style.setProperty(key, String(value));
     }
   }
 }
