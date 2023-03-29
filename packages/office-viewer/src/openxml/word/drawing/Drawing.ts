@@ -27,14 +27,17 @@ export enum Position {
 export interface Anchor {
   simplePos: boolean;
   hidden?: boolean;
+  behindDoc?: boolean;
 }
 
 function parseAnchor(element: Element): Anchor {
   const simplePos = getAttrBoolean(element, 'simplePos', false);
   const hidden = getAttrBoolean(element, 'hidden', false);
+  const behindDoc = getAttrBoolean(element, 'behindDoc', false);
   return {
     simplePos,
-    hidden
+    hidden,
+    behindDoc
   };
 }
 
@@ -65,6 +68,11 @@ export class Drawing {
       if (position.tagName === 'wp:anchor') {
         drawing.position = Position.anchor;
         drawing.anchor = parseAnchor(position);
+        if (drawing.anchor.behindDoc) {
+          containerStyle['z-index'] = '1';
+        } else {
+          containerStyle['z-index'] = '2';
+        }
       }
 
       for (const child of position.children) {

@@ -11,6 +11,7 @@ import {parseTable} from '../../../parse/parseTable';
 import {CSSStyle} from '../../../openxml/Style';
 import {ST_TextVerticalType} from '../../../openxml/Types';
 import {convertAngle} from '../../../parse/parseSize';
+import {parseChildColor} from '../../../parse/parseChildColor';
 
 export type TxbxContentChild = Paragraph | Table;
 
@@ -48,7 +49,22 @@ function parseBodyPr(element: Element, style: CSSStyle) {
 
       case 'rot':
         const rot = convertAngle(value);
-        style['transform'] = `rotate(${rot}deg)`;
+        if (rot) {
+          style['transform'] = `rotate(${rot}deg)`;
+        }
+
+        break;
+    }
+  }
+}
+
+function parseWpsStyle(word: Word, element: Element, style: CSSStyle) {
+  for (const child of element.children) {
+    const tagName = child.tagName;
+    switch (tagName) {
+      // 目前只支持这个
+      case 'a:fillRef':
+        style['background-color'] = parseChildColor(word, child);
         break;
     }
   }
@@ -101,7 +117,7 @@ export class WPS {
 
         case 'wps:style':
           // http://webapp.docx4java.org/OnlineDemo/ecma376/DrawingML/style_1.html
-          // 里面都是引用，感觉是辅助信息，暂时不处理
+          parseWpsStyle(word, child, wps.style);
           break;
 
         case 'wps:bodyPr':

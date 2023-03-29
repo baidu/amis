@@ -43,9 +43,16 @@ export default function renderParagraph(
     }
   }
 
+  let inFldChar = false;
+
   for (const child of paragraph.children) {
     if (child instanceof Run) {
-      appendChild(p, renderRun(word, child, paragraph));
+      if (child.fldChar === 'begin') {
+        inFldChar = true;
+      } else if (child) {
+        inFldChar = false;
+      }
+      appendChild(p, renderRun(word, child, paragraph, inFldChar));
     } else if (child instanceof BookmarkStart) {
       appendChild(p, renderBookmarkStart(word, child));
     } else if (child instanceof Hyperlink) {

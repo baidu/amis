@@ -31,6 +31,7 @@ const fileLists = {
     'tableborder.xml',
     'tablestyle.xml',
     'textbox.xml',
+    'textbox-behideDoc.xml',
     'textbox-vert.xml',
     'textbox-rotation.xml',
     'tooltip.xml',
