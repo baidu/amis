@@ -252,4 +252,4 @@ order: 22
 | condition | [表达式](../../../docs/concepts/expression) |        | 公式作用条件                                                                                                   |
 | initSet   | `boolean`                                   | `true` | 初始化时是否设置                                                                                               |
 | autoSet   | `boolean`                                   | `true` | 观察公式结果，如果计算结果有变化，则自动应用到变量上                                                           |
-| id        | `boolean`                                   | `true` | 定义个名字，当某个按钮的目标指定为此值后，会触发一次公式应用。这个机制可以在 `autoSet` 为 false 时用来手动触发 |
+| id        | `string`                                    |        | 定义个名字，当某个按钮的目标指定为此值后，会触发一次公式应用。这个机制可以在 `autoSet` 为 false 时用来手动触发 |
