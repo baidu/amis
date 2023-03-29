@@ -15,7 +15,7 @@ import {parseTablePr} from '../parse/parseTablePr';
 import {parseTrPr} from '../parse/parseTrPr';
 
 export interface CSSStyle {
-  [key: string]: string;
+  [key: string]: string | number;
 }
 
 // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/tblStylePr.html

@@ -35,6 +35,7 @@ const fileLists = {
     'textbox-behindDoc.xml',
     'textbox-vert.xml',
     'textbox-rotation.xml',
+    'textbox-order.xml',
     'tooltip.xml',
     'w.xml'
   ],

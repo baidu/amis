@@ -12,7 +12,6 @@ import {parseShdColor} from './parseColor';
 import {parseSize} from './parseSize';
 import {parseTblCellSpacing} from './parseTcPr';
 import {parseCellMargin} from './parseCellMargin';
-import {normalIndex} from '../render/zindex';
 
 /**
  * 表格的 jc 需要使用 float 来实现
@@ -93,8 +92,7 @@ function parseTblpPr(word: Word, child: Element, style: CSSStyle) {
   if (typeof word.renderOptions.padding === 'undefined') {
     const tplpX = parseSize(child, 'w:tblpX');
     const tplpY = parseSize(child, 'w:tblpY');
-    style.position = 'absolute';
-    style['z-index'] = normalIndex;
+    // style.position = 'absolute';
     style.top = tplpY;
     style.left = tplpX;
   }

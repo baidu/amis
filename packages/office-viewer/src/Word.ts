@@ -167,6 +167,11 @@ export default class Word {
   documentRels: Record<string, Relationship>;
 
   /**
+   * 当前文档使用的关系表，比如 headers.xml 里的图片是
+   */
+  currentDocumentRels: Record<string, Relationship>;
+
+  /**
    * 字体关系表
    */
   fontTableRels: Record<string, Relationship>;
@@ -495,6 +500,9 @@ export default class Word {
     return '';
   }
 
+  /**
+   * 添加类，自动加上前缀
+   */
   addClass(element: HTMLElement, className: string) {
     element.classList.add(`${this.getClassPrefix()}-${className}`);
   }

@@ -46,7 +46,7 @@ export class Body {
           break;
 
         case 'w:sectPr':
-          body.addSection(Section.parsePr(child));
+          body.addSection(Section.parsePr(word, child, body));
           break;
 
         case 'w:tbl':

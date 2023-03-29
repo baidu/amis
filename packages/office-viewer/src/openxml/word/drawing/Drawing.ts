@@ -5,13 +5,13 @@
 import {LengthUsage, convertLength} from './../../../parse/parseSize';
 import {CSSStyle} from './../../Style';
 
-import {getAttrBoolean, getValBoolean} from '../../../OpenXML';
+import {getAttrBoolean, getAttrNumber, getValBoolean} from '../../../OpenXML';
 import Word from '../../../Word';
 import {Pic} from './Pic';
 import {parseSize} from '../../../parse/parseSize';
 import {ST_RelFromH, ST_RelFromV} from '../../Types';
 import {WPS} from '../wps/WPS';
-import {behindIndex, normalIndex} from '../../../render/zindex';
+import {behindIndex} from '../../../render/zindex';
 
 /**
  * drawing 在文档中的位置，目前有两种情况，child 和 anchor
@@ -69,11 +69,8 @@ export class Drawing {
       if (position.tagName === 'wp:anchor') {
         drawing.position = Position.anchor;
         drawing.anchor = parseAnchor(position);
-        if (drawing.anchor.behindDoc) {
-          containerStyle['z-index'] = behindIndex;
-        } else {
-          containerStyle['z-index'] = normalIndex;
-        }
+        const relativeHeight = getAttrNumber(position, 'relativeHeight', 1);
+        containerStyle['z-index'] = relativeHeight;
       }
 
       for (const child of position.children) {
