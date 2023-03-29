@@ -121,7 +121,7 @@ export default class IconSelectControl extends React.PureComponent<
       disabled,
       value: valueTemp,
       placeholder,
-      clearable
+      clearable,
     } = this.props;
     const value =
       typeof valueTemp === 'string' ? this.getValueBySvg(valueTemp) : valueTemp;
