@@ -64,8 +64,9 @@ export function renderDrawing(word: Word, drawing: Drawing): HTMLElement {
   if (drawing.wps) {
     const wps = drawing.wps;
     const spPr = wps.spPr;
-    applyStyle(container, spPr?.style);
     applyStyle(container, wps.style);
+    applyStyle(container, spPr?.style);
+
     if (spPr?.xfrm) {
       const ext = spPr.xfrm.ext;
       if (ext) {

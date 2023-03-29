@@ -11,6 +11,7 @@ import {Pic} from './Pic';
 import {parseSize} from '../../../parse/parseSize';
 import {ST_RelFromH, ST_RelFromV} from '../../Types';
 import {WPS} from '../wps/WPS';
+import {behindIndex, normalIndex} from '../../../render/zindex';
 
 /**
  * drawing 在文档中的位置，目前有两种情况，child 和 anchor
@@ -69,9 +70,9 @@ export class Drawing {
         drawing.position = Position.anchor;
         drawing.anchor = parseAnchor(position);
         if (drawing.anchor.behindDoc) {
-          containerStyle['z-index'] = '1';
+          containerStyle['z-index'] = behindIndex;
         } else {
-          containerStyle['z-index'] = '2';
+          containerStyle['z-index'] = normalIndex;
         }
       }
 

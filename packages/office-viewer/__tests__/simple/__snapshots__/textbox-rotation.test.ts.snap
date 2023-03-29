@@ -97,7 +97,7 @@ padding-right: 7.20px;
           class="docx-viewer-0-r"
         >
           <div
-            style="z-index: 2; position: absolute; left: 214.63px; top: 36.07px; width: 155.16px; height: 82.60px; background-color: rgb(255, 255, 255); column-count: 1; transform: rotate(90deg);"
+            style="z-index: 2; position: absolute; left: 214.63px; top: 36.07px; width: 155.16px; height: 82.60px; column-count: 1; background-color: rgb(255, 255, 255); transform: rotate(90deg);"
           >
             <p
               class="docx-viewer-0-p"

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`textbox-behideDoc 1`] = `
+exports[`textbox-behindDoc 1`] = `
 <div
   class="docx-viewer-0 docx-viewer-wrapper"
   id="root"
@@ -97,7 +97,7 @@ padding-right: 7.20px;
           class="docx-viewer-0-r"
         >
           <div
-            style="z-index: 2; position: absolute; left: 144.00px; top: 77.80px; width: 122.79px; height: 53.58px; background-color: rgb(255, 255, 255); border-width: 0.67px; border-style: solid; column-count: 1;"
+            style="z-index: 2; position: absolute; left: 144.00px; top: 77.80px; width: 122.79px; height: 53.58px; column-count: 1; background-color: rgb(255, 255, 255); border-width: 0.67px; border-style: solid;"
           >
             <p
               class="docx-viewer-0-p"
@@ -119,7 +119,7 @@ padding-right: 7.20px;
           class="docx-viewer-0-r"
         >
           <div
-            style="z-index: 1; position: absolute; left: 122.79px; top: 64.41px; width: 164.09px; height: 84.84px; border-style: solid; background-color: rgb(112, 173, 71); column-count: 1;"
+            style="z-index: 1; position: absolute; left: 122.79px; top: 64.41px; width: 164.09px; height: 84.84px; background-color: rgb(112, 173, 71); column-count: 1; border-style: solid;"
           >
             <p
               class="docx-viewer-0-p"

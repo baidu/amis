@@ -1,5 +1,5 @@
 import {snapShotTest} from '../snapShotTest';
 
-test('textbox-behideDoc', async () => {
-  snapShotTest('./docx/simple/textbox-behideDoc.xml');
+test('textbox-behindDoc', async () => {
+  snapShotTest('./docx/simple/textbox-behindDoc.xml');
 });

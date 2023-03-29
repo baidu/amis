@@ -97,7 +97,7 @@ padding-right: 7.20px;
           class="docx-viewer-0-r"
         >
           <div
-            style="z-index: 2; position: absolute; left: 329.67px; top: 137.67px; width: 155.16px; height: 82.60px; border-style: solid; border-color: #ed7d31; background-color: rgb(255, 255, 255); column-count: 1;"
+            style="z-index: 2; position: absolute; left: 329.67px; top: 137.67px; width: 155.16px; height: 82.60px; background-color: rgb(255, 255, 255); column-count: 1; border-style: solid; border-color: #ed7d31;"
           >
             <p
               class="docx-viewer-0-p"
@@ -119,7 +119,7 @@ padding-right: 7.20px;
           class="docx-viewer-0-r"
         >
           <div
-            style="z-index: 2; position: absolute; left: 47.94px; top: 139.17px; width: 155.16px; height: 82.60px; background-color: rgb(255, 255, 255); border-width: 0.67px; border-style: solid; column-count: 1;"
+            style="z-index: 2; position: absolute; left: 47.94px; top: 139.17px; width: 155.16px; height: 82.60px; column-count: 1; background-color: rgb(255, 255, 255); border-width: 0.67px; border-style: solid;"
           >
             <p
               class="docx-viewer-0-p"
@@ -136,7 +136,7 @@ padding-right: 7.20px;
           class="docx-viewer-0-r"
         >
           <div
-            style="z-index: 2; position: absolute; left: 214.63px; top: 36.07px; width: 155.16px; height: 82.60px; background-color: rgb(255, 255, 255); column-count: 1;"
+            style="z-index: 2; position: absolute; left: 214.63px; top: 36.07px; width: 155.16px; height: 82.60px; column-count: 1; background-color: rgb(255, 255, 255);"
           >
             <p
               class="docx-viewer-0-p"
