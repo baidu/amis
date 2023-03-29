@@ -8,8 +8,14 @@ export class Pic {
 
   static fromXML(word: Word, element?: Element | null): Pic {
     const pic = new Pic();
-    pic.blipFill = BlipFill.fromXML(word, element?.querySelector('blipFill'));
-    pic.spPr = ShapePr.fromXML(word, element?.querySelector('spPr'));
+    pic.blipFill = BlipFill.fromXML(
+      word,
+      element?.getElementsByTagName('pic:blipFill').item(0)
+    );
+    pic.spPr = ShapePr.fromXML(
+      word,
+      element?.getElementsByTagName('pic:spPr').item(0)
+    );
     return pic;
   }
 }

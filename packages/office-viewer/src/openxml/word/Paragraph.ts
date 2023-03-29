@@ -13,6 +13,7 @@ import {Run, RunPr} from './Run';
 import {Tab} from './Tab';
 import {FldSimple} from './FldSimple';
 import {OMath} from '../math/OMath';
+import {parseSdt} from '../../parse/parseSdt';
 
 /**
  * 这里简化了很多，如果能用 CSS 表示就直接用 CSS 表示
@@ -71,13 +72,13 @@ export class Paragraph {
     const cssStyle = parsePr(word, element, 'p');
 
     let pStyle;
-    const pStyleTag = element.querySelector('pStyle');
+    const pStyleTag = element.getElementsByTagName('w:pStyle').item(0);
     if (pStyleTag) {
       pStyle = getVal(pStyleTag);
     }
 
     let numPr;
-    const numPrTag = element.querySelector('numPr');
+    const numPrTag = element.getElementsByTagName('w:numPr').item(0);
     if (numPrTag) {
       numPr = NumberPr.fromXML(word, numPrTag);
     }
@@ -144,7 +145,12 @@ export class Paragraph {
           break;
 
         case 'm:oMathPara':
+        case 'm:oMath':
           paragraph.addChild(OMath.fromXML(word, child));
+          break;
+
+        case 'w:sdt':
+          parseSdt(child, arr);
           break;
 
         default:

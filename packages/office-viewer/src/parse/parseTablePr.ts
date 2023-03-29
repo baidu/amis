@@ -92,7 +92,7 @@ function parseTblpPr(word: Word, child: Element, style: CSSStyle) {
   if (typeof word.renderOptions.padding === 'undefined') {
     const tplpX = parseSize(child, 'w:tblpX');
     const tplpY = parseSize(child, 'w:tblpY');
-    style.position = 'absolute';
+    // style.position = 'absolute';
     style.top = tplpY;
     style.left = tplpX;
   }

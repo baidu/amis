@@ -67,8 +67,15 @@ export function updateVariableText(word: Word) {
 
 /**
  * 渲染 run 节点
+ *
+ * @param inFldChar 是否在 complex field 里，预留功能，目前还不支持
  */
-export default function renderRun(word: Word, run: Run, paragraph?: Paragraph) {
+export default function renderRun(
+  word: Word,
+  run: Run,
+  paragraph?: Paragraph,
+  inFldChar?: boolean
+) {
   const span = createElement('span');
 
   word.addClass(span, 'r');

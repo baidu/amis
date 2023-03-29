@@ -1,4 +1,4 @@
-import {getVal} from '../../../OpenXML';
+import {getVal, getValNumber} from '../../../OpenXML';
 import Word from '../../../Word';
 import {Lvl} from './Lvl';
 
@@ -13,13 +13,15 @@ export class Num {
     const num = new Num();
 
     num.numId = element.getAttribute('w:numId') || '';
-    const abstractNumId = element.querySelector('abstractNumId');
+    const abstractNumId = element
+      .getElementsByTagName('w:abstractNumId')
+      .item(0);
 
     if (abstractNumId) {
       num.abstractNumId = getVal(abstractNumId);
     }
 
-    const lvlOverride = element.querySelector('lvlOverride');
+    const lvlOverride = element.getElementsByTagName('w:lvlOverride').item(0);
     if (lvlOverride) {
       for (const child of lvlOverride.children) {
         const tagName = child.tagName;
@@ -27,6 +29,13 @@ export class Num {
           case 'w:lvl':
             const lvlId = child.getAttribute('w:lvlId') || '';
             num.lvlOverride.lvls[lvlId] = Lvl.fromXML(word, child);
+            break;
+
+          case 'w:startOverride':
+            const id = child.getAttribute('w:lvlId') || '';
+            if (num.lvlOverride.lvls[id]) {
+              num.lvlOverride.lvls[id].start = getValNumber(child);
+            }
             break;
 
           default:

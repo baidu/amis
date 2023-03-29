@@ -8,6 +8,7 @@ import {Transform} from './Transform';
 import {CSSStyle} from './../../Style';
 import {parseSize, LengthUsage} from '../../../parse/parseSize';
 import {Geom} from './Geom';
+import {parseChildColor} from '../../../parse/parseChildColor';
 
 function prstDashToCSSBorderType(prstDash: ST_PresetLineDashVal) {
   let borderType = 'solid';
@@ -40,34 +41,7 @@ function parseOutline(word: Word, element: Element, style: CSSStyle) {
     const tagName = child.tagName;
     switch (tagName) {
       case 'a:solidFill':
-        // 目前只支持 solidFill
-        const colorChild = child.firstElementChild;
-        if (colorChild) {
-          const colorType = colorChild.tagName;
-          switch (colorType) {
-            case 'a:prstClr':
-              const color = colorChild.getAttribute('val') || '';
-              style['border-color'] = color;
-              break;
-
-            case 'a:srgbClr':
-              const rgbColor = colorChild.getAttribute('val') || '';
-              style['border-color'] = '#' + rgbColor;
-
-            case 'a:schemeClr':
-              const schemeClr = colorChild.getAttribute('val') || '';
-              if (schemeClr) {
-                style['border-color'] = word.getThemeColor(schemeClr);
-              }
-
-            default:
-              console.warn(
-                'parseOutline: Unknown color type ',
-                colorType,
-                colorChild
-              );
-          }
-        }
+        style['border-color'] = parseChildColor(word, child);
         break;
 
       case 'a:noFill':
@@ -102,7 +76,7 @@ export class ShapePr {
 
   static fromXML(word: Word, element?: Element | null): ShapePr {
     const shapePr = new ShapePr();
-    const style = {};
+    const style: CSSStyle = {};
     shapePr.style = style;
     if (element) {
       for (const child of element.children) {
@@ -119,6 +93,14 @@ export class ShapePr {
           case 'a:ln':
             // http://officeopenxml.com/drwSp-outline.php
             parseOutline(word, child, style);
+            break;
+
+          case 'a:noFill':
+            // 默认就是
+            break;
+
+          case 'a:solidFill':
+            style['background-color'] = parseChildColor(word, child);
             break;
 
           default:

@@ -31,6 +31,10 @@ function renderPic(pic: Pic, word: Word, drawing: Drawing) {
         img.style.width = ext.cx;
         img.style.height = ext.cy;
       }
+
+      if (xfrm.rot) {
+        img.style.transform = `rotate(${xfrm.rot}deg)`;
+      }
     }
 
     return img;
@@ -58,17 +62,23 @@ export function renderDrawing(word: Word, drawing: Drawing): HTMLElement {
   applyStyle(container, drawing.containerStyle);
 
   if (drawing.wps) {
-    const spPr = drawing.wps.spPr;
+    const wps = drawing.wps;
+    const spPr = wps.spPr;
+    applyStyle(container, wps.style);
     applyStyle(container, spPr?.style);
+
     if (spPr?.xfrm) {
       const ext = spPr.xfrm.ext;
       if (ext) {
         container.style.width = ext.cx;
         container.style.height = ext.cy;
       }
+      if (spPr.xfrm.rot) {
+        container.style.transform = `rotate(${spPr.xfrm.rot}deg)`;
+      }
     }
 
-    const txbxContent = drawing.wps.txbxContent;
+    const txbxContent = wps.txbxContent;
     for (const txbxContentChild of txbxContent) {
       if (txbxContentChild instanceof Paragraph) {
         appendChild(container, renderParagraph(word, txbxContentChild));

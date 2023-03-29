@@ -4,11 +4,13 @@
  * 参考了 docx 里的类型定义
  */
 
+import Word from '../../Word';
 import {parseSize} from '../../parse/parseSize';
 import {ST_PageOrientation} from '../Types';
 import {Hyperlink} from './Hyperlink';
 import {Paragraph} from './Paragraph';
 import {Table} from './Table';
+import {Body} from './Body';
 
 export type PageSize = {
   width: string;
@@ -46,7 +48,7 @@ export class Section {
     this.children.push(child);
   }
 
-  static parsePr(element: Element): SectionPr {
+  static parsePr(word: Word, element: Element, body: Body): SectionPr {
     const properties: SectionPr = {};
 
     for (const child of element.children) {
@@ -70,6 +72,24 @@ export class Section {
             footer: parseSize(child, 'w:footer'),
             gutter: parseSize(child, 'w:gutter')
           };
+          break;
+
+        case 'w:headerReference':
+          const headerType = child.getAttribute('w:type');
+          const headerId = child.getAttribute('r:id');
+          // 目前只支持 default 且只支持背景图
+          // TODO: 这里 rel 不对，需要用 "/word/_rels/header1.xml.rels，后面得想想怎么改
+          if (headerType === 'default' && headerId) {
+            const headerRel = word.getDocumentRels(headerId);
+            if (headerRel) {
+              const headerDoc = word.getXML('/word/' + headerRel.target);
+              const headerP = headerDoc.getElementsByTagName('w:p').item(0);
+              if (headerP) {
+                const p = Paragraph.fromXML(word, headerP);
+                body.addChild(p);
+              }
+            }
+          }
           break;
 
         default:

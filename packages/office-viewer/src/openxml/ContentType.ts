@@ -12,11 +12,12 @@ export interface ContentTypes {
  */
 export function parseContentType(doc: Document) {
   const types: ContentTypes = {overrides: []};
-  doc.querySelectorAll('Override').forEach((item: Element) => {
+  const overrides = [].slice.call(doc.getElementsByTagName('Override'));
+  for (const item of overrides) {
     types.overrides.push({
       partName: item.getAttribute('PartName') as string,
       contentType: item.getAttribute('ContentType') as string
     });
-  });
+  }
   return types;
 }

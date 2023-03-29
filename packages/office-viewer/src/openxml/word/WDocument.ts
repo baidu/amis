@@ -15,12 +15,12 @@ export class WDocument {
 
   static fromXML(word: Word, element: Document): WDocument {
     const doc = new WDocument();
-    const body = element.querySelector('body');
+    const body = element.getElementsByTagName('w:body').item(0);
     if (body) {
       doc.body = Body.fromXML(word, body);
     }
 
-    const background = element.querySelector('background');
+    const background = element.getElementsByTagName('w:background').item(0);
 
     if (background) {
       const documentBackground: DocumentBackground = {};

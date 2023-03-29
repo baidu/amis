@@ -1,7 +1,7 @@
 import {getVal} from '../../OpenXML';
 import {parsePr} from '../../parse/parsePr';
 import Word from '../../Word';
-import {ST_VerticalAlignRun} from '../Types';
+import {ST_FldCharType, ST_VerticalAlignRun} from '../Types';
 import {Break} from './Break';
 import {Drawing} from './drawing/Drawing';
 import {InstrText} from './InstrText';
@@ -44,6 +44,7 @@ type RunChild =
 export class Run {
   properties: RunPr = {};
   children: RunChild[] = [];
+  fldChar?: ST_FldCharType;
 
   addChild(child: RunChild | null) {
     if (child) {
@@ -80,6 +81,7 @@ export class Run {
           break;
 
         case 'w:br':
+        case 'w:cr':
           run.addChild(Break.fromXML(word, child));
           break;
 
@@ -92,7 +94,7 @@ export class Run {
           break;
 
         case 'w:fldChar':
-          // 似乎只需要支持 instrText
+          run.fldChar = child.getAttribute('w:fldCharType') as ST_FldCharType;
           break;
 
         case 'w:instrText':

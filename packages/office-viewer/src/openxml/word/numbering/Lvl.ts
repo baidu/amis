@@ -60,6 +60,10 @@ export class Lvl {
           lvl.isLgl = getValBoolean(child);
           break;
 
+        case 'w:pStyle':
+          // 这个在 paragraph 里处理了
+          break;
+
         default:
           console.warn(`Lvl: Unknown tag `, tagName, child);
       }

@@ -5,12 +5,13 @@
 import {LengthUsage, convertLength} from './../../../parse/parseSize';
 import {CSSStyle} from './../../Style';
 
-import {getAttrBoolean, getValBoolean} from '../../../OpenXML';
+import {getAttrBoolean, getAttrNumber, getValBoolean} from '../../../OpenXML';
 import Word from '../../../Word';
 import {Pic} from './Pic';
 import {parseSize} from '../../../parse/parseSize';
 import {ST_RelFromH, ST_RelFromV} from '../../Types';
 import {WPS} from '../wps/WPS';
+import {behindIndex} from '../../../render/zindex';
 
 /**
  * drawing 在文档中的位置，目前有两种情况，child 和 anchor
@@ -27,14 +28,17 @@ export enum Position {
 export interface Anchor {
   simplePos: boolean;
   hidden?: boolean;
+  behindDoc?: boolean;
 }
 
 function parseAnchor(element: Element): Anchor {
   const simplePos = getAttrBoolean(element, 'simplePos', false);
   const hidden = getAttrBoolean(element, 'hidden', false);
+  const behindDoc = getAttrBoolean(element, 'behindDoc', false);
   return {
     simplePos,
-    hidden
+    hidden,
+    behindDoc
   };
 }
 
@@ -65,6 +69,8 @@ export class Drawing {
       if (position.tagName === 'wp:anchor') {
         drawing.position = Position.anchor;
         drawing.anchor = parseAnchor(position);
+        const relativeHeight = getAttrNumber(position, 'relativeHeight', 1);
+        containerStyle['z-index'] = relativeHeight;
       }
 
       for (const child of position.children) {
@@ -130,8 +136,10 @@ export class Drawing {
             break;
 
           case 'wp:docPr':
+          case 'wp:cNvGraphicFramePr':
             // 和展现无关
             // http://webapp.docx4java.org/OnlineDemo/ecma376/DrawingML/docPr.html
+            // http://webapp.docx4java.org/OnlineDemo/ecma376/DrawingML/cNvGraphicFramePr_1.html
             break;
 
           case 'a:graphic':
@@ -151,13 +159,35 @@ export class Drawing {
                   break;
 
                 default:
-                  console.warn('unknown graphicData child tag', tagName);
+                  console.warn(
+                    'unknown graphicData child tag',
+                    graphicDataChild
+                  );
               }
             }
             break;
 
+          case 'wp:extent':
+            containerStyle['width'] = parseSize(child, 'cx', LengthUsage.Emu);
+            containerStyle['height'] = parseSize(child, 'cy', LengthUsage.Emu);
+            break;
+
+          case 'wp:effectExtent':
+            // 目前也不支持特效
+            break;
+
+          case 'wp:wrapNone':
+            // TODO: 还不知道如何处理
+            // http://webapp.docx4java.org/OnlineDemo/ecma376/DrawingML/wrapNone.html
+            break;
+
+          case 'wp14:sizeRelH':
+          case 'wp14:sizeRelV':
+            // 还不知道是啥，文档都没
+            break;
+
           default:
-            console.warn('unknown tag', tagName);
+            console.warn('drawing unknown tag', tagName);
         }
       }
     }

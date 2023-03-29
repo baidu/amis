@@ -27,6 +27,10 @@ export function renderHyperLink(
     a.href = '#' + hyperlink.anchor;
   }
 
+  if (hyperlink.tooltip) {
+    a.title = hyperlink.tooltip;
+  }
+
   for (const child of hyperlink.children) {
     if (child instanceof Run) {
       const span = renderRun(word, child, paragraph);

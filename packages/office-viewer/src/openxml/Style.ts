@@ -15,7 +15,7 @@ import {parseTablePr} from '../parse/parseTablePr';
 import {parseTrPr} from '../parse/parseTrPr';
 
 export interface CSSStyle {
-  [key: string]: string;
+  [key: string]: string | number;
 }
 
 // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/tblStylePr.html
@@ -66,16 +66,16 @@ function parseDefaultStyle(word: Word, element: Element | null) {
   if (!element) {
     return defaultStyle;
   }
-  const rPrDefault = element.querySelector('rPrDefault');
+  const rPrDefault = element.getElementsByTagName('w:rPrDefault').item(0);
   if (rPrDefault) {
-    const rPr = rPrDefault.querySelector('rPr');
+    const rPr = rPrDefault.getElementsByTagName('w:rPr').item(0);
     if (rPr) {
       defaultStyle.rPr = Run.parseRunPr(word, rPr);
     }
   }
-  const pPrDefault = element.querySelector('pPrDefault');
+  const pPrDefault = element.getElementsByTagName('w:pPrDefault').item(0);
   if (pPrDefault) {
-    const pPr = pPrDefault.querySelector('pPr');
+    const pPr = pPrDefault.getElementsByTagName('w:pPr').item(0);
     if (pPr) {
       defaultStyle.pPr = Paragraph.parseParagraphPr(word, pPr);
     }
@@ -188,7 +188,7 @@ export function parseStyles(word: Word, doc: Document): Styles {
 
   styles.defaultStyle = parseDefaultStyle(
     word,
-    doc.querySelector('docDefaults')
+    doc.getElementsByTagName('w:docDefaults').item(0)
   );
 
   return styles;

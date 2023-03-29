@@ -2,7 +2,8 @@
  * 解析颜色，转成 css 的颜色
  */
 
-import {getVal} from '../OpenXML';
+import {Color} from '../util/color';
+import {getAttrPercentage, getVal} from '../OpenXML';
 import {ST_Shd} from '../openxml/Types';
 import Word from '../Word';
 
