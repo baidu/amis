@@ -2,6 +2,7 @@
  * 主要参考 14.2.7 Theme Part
  */
 
+import {convertAngle} from '../parse/parseSize';
 import {getAttrNumber, getAttrPercentage, getVal} from '../OpenXML';
 
 // http://webapp.docx4java.org/OnlineDemo/ecma376/DrawingML/clrScheme.html
@@ -35,7 +36,7 @@ function parseClrScheme(doc: Element | null): ClrScheme {
       } else if (clrName === 'hslClr') {
         // https://c-rex.net/projects/samples/ooxml/e1/Part4/OOXML_P4_DOCX_hslClr_topic_ID0EQ5FJB.html
         // 没测过
-        const h = getAttrNumber(child, 'hue') / 60000;
+        const h = convertAngle(child.getAttribute('hue'));
         const s = getAttrPercentage(child, 'sat') * 100;
         const l = getAttrPercentage(child, 'lum') * 100;
         scheme.colors[colorName] = `hsl(${h}, ${s}%, ${l}%)`;

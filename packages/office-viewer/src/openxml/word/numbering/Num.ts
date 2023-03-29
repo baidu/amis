@@ -1,4 +1,4 @@
-import {getVal} from '../../../OpenXML';
+import {getVal, getValNumber} from '../../../OpenXML';
 import Word from '../../../Word';
 import {Lvl} from './Lvl';
 
@@ -29,6 +29,13 @@ export class Num {
           case 'w:lvl':
             const lvlId = child.getAttribute('w:lvlId') || '';
             num.lvlOverride.lvls[lvlId] = Lvl.fromXML(word, child);
+            break;
+
+          case 'w:startOverride':
+            const id = child.getAttribute('w:lvlId') || '';
+            if (num.lvlOverride.lvls[id]) {
+              num.lvlOverride.lvls[id].start = getValNumber(child);
+            }
             break;
 
           default:

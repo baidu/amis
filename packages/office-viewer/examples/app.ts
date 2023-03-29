@@ -12,6 +12,7 @@ const testDir = '__tests__/docx';
 const fileLists = {
   simple: [
     'br.xml',
+    'bold.xml',
     'drop-cap.xml',
     'em.xml',
     'embed-font.xml',
@@ -31,6 +32,7 @@ const fileLists = {
     'tablestyle.xml',
     'textbox.xml',
     'textbox-vert.xml',
+    'textbox-rotation.xml',
     'tooltip.xml',
     'w.xml'
   ],
@@ -146,7 +148,12 @@ function renderWord(file: File) {
   const reader = new FileReader();
   reader.onload = _e => {
     const data = reader.result as ArrayBuffer;
-    const word = new Word(data);
+    let word;
+    if (file.name.endsWith('.xml')) {
+      word = new Word(data, {}, new XMLPackageParser());
+    } else {
+      word = new Word(data, {});
+    }
     word.render(viewerElement);
   };
   reader.readAsArrayBuffer(file);

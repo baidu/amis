@@ -1,5 +1,5 @@
-import {Paragraph} from './../Paragraph';
-import {ShapePr} from './../drawing/ShapeProperties';
+import {Paragraph} from '../Paragraph';
+import {ShapePr} from '../drawing/ShapeProperties';
 /**
  * wps 指的是 wordprocessingShape，在 drawing 里 word 相关的 shape 定义
  * 目前主要是支持 textbox，
@@ -10,6 +10,7 @@ import {Table} from '../Table';
 import {parseTable} from '../../../parse/parseTable';
 import {CSSStyle} from '../../../openxml/Style';
 import {ST_TextVerticalType} from '../../../openxml/Types';
+import {convertAngle} from '../../../parse/parseSize';
 
 export type TxbxContentChild = Paragraph | Table;
 
@@ -43,7 +44,11 @@ function parseBodyPr(element: Element, style: CSSStyle) {
           default:
             break;
         }
+        break;
 
+      case 'rot':
+        const rot = convertAngle(value);
+        style['transform'] = `rotate(${rot}deg)`;
         break;
     }
   }

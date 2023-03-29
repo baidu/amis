@@ -51,8 +51,12 @@ export function convertBoolean(v: string, defaultValue = false): boolean {
   }
 }
 
-export function convertPercentage(val: string): number {
+export function convertPercentage(val: string | null): number {
   return val ? parseInt(val) / 100 : 0;
+}
+
+export function convertAngle(val: string | null): number {
+  return val ? parseInt(val) / 60000 : 0;
 }
 
 /**

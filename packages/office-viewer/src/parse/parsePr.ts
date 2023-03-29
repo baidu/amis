@@ -2,12 +2,13 @@
  * 包括 rPr 及 pPr 的解析，参考了 docxjs 里的实现
  */
 
-import {LengthUsage} from './parseSize';
+import {convertAngle, LengthUsage} from './parseSize';
 import {CSSStyle} from '../openxml/Style';
 import Word from '../Word';
 import {getVal, getValBoolean, getValNumber} from '../OpenXML';
 import {parseBorder, parseBorders} from './parseBorder';
 import {parseColor, parseColorAttr, parseShdColor} from './parseColor';
+import {parseChildColor} from './parseChildColor';
 import {parseInd} from './parseInd';
 import {parseSize} from './parseSize';
 import {parseSpacing} from './parseSpacing';
@@ -16,6 +17,7 @@ import {ST_Em, ST_HighlightColor, ST_TextAlignment} from '../openxml/Types';
 import {parseTrHeight} from './parseTrHeight';
 import {jcToTextAlign} from './jcToTextAlign';
 import {parseTextDirection} from './parseTextDirection';
+import {Color} from '../util/color';
 
 /**
  * 解析 underline 并附上样式
@@ -311,7 +313,7 @@ export function parsePr(word: Word, element: Element, type: 'r' | 'p' = 'p') {
         break;
 
       case 'w:pStyle':
-        // 这个需要特殊处理
+        // 这个在 paragraph 里处理了
         break;
 
       case 'w:lang':
@@ -426,10 +428,23 @@ export function parsePr(word: Word, element: Element, type: 'r' | 'p' = 'p') {
           '-1px -1px 0 #AAA, 1px -1px 0 #AAA, -1px 1px 0 #AAA, 1px 1px 0 #AAA';
         break;
 
-      case 'w14:shadow':
+      case 'w:shadown':
       case 'w:imprint':
-        // imprint 似乎不对
-        style['text-shadow'] = '1px 1px 2px #AAA';
+        if (getValBoolean(child, true)) {
+          style['text-shadow'] = '1px 1px 2px rgba(0, 0, 0, 0.6)';
+        }
+        break;
+
+      case 'w14:shadow':
+        const blurRad =
+          parseSize(child, 'w14:blurRad', LengthUsage.Emu) || '2px';
+        // 其它结果算出来不像就先忽略了
+        let color = 'rgba(0, 0, 0, 0.6)';
+        const childColor = parseChildColor(word, child);
+        if (childColor) {
+          color = childColor;
+        }
+        style['text-shadow'] = `1px 1px ${blurRad} ${color}`;
         break;
 
       default:

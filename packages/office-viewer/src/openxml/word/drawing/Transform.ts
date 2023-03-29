@@ -2,7 +2,7 @@
  * http://webapp.docx4java.org/OnlineDemo/ecma376/DrawingML/xfrm_2.html
  */
 
-import {LengthUsage, parseSize} from '../../../parse/parseSize';
+import {convertAngle, LengthUsage, parseSize} from '../../../parse/parseSize';
 import Word from '../../../Word';
 
 export interface Off {
@@ -18,6 +18,7 @@ export interface Ext {
 export class Transform {
   off?: Off;
   ext?: Ext;
+  rot?: number;
 
   static fromXML(word: Word, element: Element): Transform {
     const transform = new Transform();
@@ -36,6 +37,11 @@ export class Transform {
         cx: parseSize(ext, 'cx', LengthUsage.Emu),
         cy: parseSize(ext, 'cy', LengthUsage.Emu)
       };
+    }
+
+    const rot = element.getAttribute('rot');
+    if (rot) {
+      transform.rot = convertAngle(rot);
     }
     return transform;
   }

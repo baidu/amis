@@ -89,39 +89,35 @@
           </w:p>
           <w:p w14:paraId="224CF390" w14:textId="7DDF0459" w:rsidR="001030D2"
             w:rsidRDefault="001030D2">
-            <w:pPr>
-              <w:rPr>
-              </w:rPr>
-            </w:pPr>
             <w:r>
               <w:rPr>
-                <w:imprint w:val="true" />
+                <w:imprint />
               </w:rPr>
               <w:t>Imprint</w:t>
             </w:r>
           </w:p>
           <w:p w14:paraId="25DDBE84" w14:textId="6D6CF17F" w:rsidR="001030D2"
             w:rsidRDefault="001030D2">
-            <w:pPr>
-              <w:rPr>
-                <w:rFonts w:hint="eastAsia" />
-              </w:rPr>
-            </w:pPr>
             <w:r>
               <w:rPr>
-                <w:outline w:val="true" />
+                <w:outline />
               </w:rPr>
               <w:t>outline</w:t>
             </w:r>
           </w:p>
-          <w:p w14:paraId="645A4824" w14:textId="1CD02528" w:rsidR="007919C4" w:rsidRPr="007919C4"
+          <w:p w14:paraId="645A4824" w14:textId="1CD02528" w:rsidR="007919C4" w:rsidRPr="002B52A8"
             w:rsidRDefault="007919C4">
             <w:pPr>
               <w:rPr>
-                <w:rFonts w:hint="eastAsia" />
+                <w14:shadow w14:blurRad="50800" w14:dist="38100" w14:dir="2700000" w14:sx="100000"
+                  w14:sy="100000" w14:kx="0" w14:ky="0" w14:algn="tl">
+                  <w14:srgbClr w14:val="000000">
+                    <w14:alpha w14:val="60000" />
+                  </w14:srgbClr>
+                </w14:shadow>
               </w:rPr>
             </w:pPr>
-            <w:r w:rsidRPr="007919C4">
+            <w:r w:rsidRPr="002B52A8">
               <w:rPr>
                 <w14:shadow w14:blurRad="50800" w14:dist="38100" w14:dir="2700000" w14:sx="100000"
                   w14:sy="100000" w14:kx="0" w14:ky="0" w14:algn="tl">
@@ -133,7 +129,7 @@
               <w:t>shadow</w:t>
             </w:r>
           </w:p>
-          <w:sectPr w:rsidR="007919C4" w:rsidRPr="007919C4">
+          <w:sectPr w:rsidR="007919C4" w:rsidRPr="002B52A8">
             <w:pgSz w:w="12240" w:h="15840" />
             <w:pgMar w:top="1440" w:right="1440" w:bottom="1440" w:left="1440" w:header="851"
               w:footer="992" w:gutter="0" />
@@ -496,7 +492,10 @@
         <w:rsids>
           <w:rsidRoot w:val="007919C4" />
           <w:rsid w:val="001030D2" />
+          <w:rsid w:val="002B52A8" />
+          <w:rsid w:val="00526F93" />
           <w:rsid w:val="007919C4" />
+          <w:rsid w:val="00F86055" />
         </w:rsids>
         <m:mathPr>
           <m:mathFont m:val="Cambria Math" />
@@ -538,9 +537,9 @@
         <cp:keywords />
         <dc:description />
         <cp:lastModifiedBy>administrator</cp:lastModifiedBy>
-        <cp:revision>2</cp:revision>
+        <cp:revision>5</cp:revision>
         <dcterms:created xsi:type="dcterms:W3CDTF">2023-03-28T12:00:00Z</dcterms:created>
-        <dcterms:modified xsi:type="dcterms:W3CDTF">2023-03-28T12:17:00Z</dcterms:modified>
+        <dcterms:modified xsi:type="dcterms:W3CDTF">2023-03-29T04:42:00Z</dcterms:modified>
       </cp:coreProperties>
     </pkg:xmlData>
   </pkg:part>
@@ -1085,7 +1084,7 @@
       <Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties"
         xmlns:vt="http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes">
         <Template>Normal.dotm</Template>
-        <TotalTime>1</TotalTime>
+        <TotalTime>2</TotalTime>
         <Pages>1</Pages>
         <Words>4</Words>
         <Characters>26</Characters>

@@ -31,6 +31,10 @@ function renderPic(pic: Pic, word: Word, drawing: Drawing) {
         img.style.width = ext.cx;
         img.style.height = ext.cy;
       }
+
+      if (xfrm.rot) {
+        img.style.transform = `rotate(${xfrm.rot}deg)`;
+      }
     }
 
     return img;
@@ -67,6 +71,9 @@ export function renderDrawing(word: Word, drawing: Drawing): HTMLElement {
       if (ext) {
         container.style.width = ext.cx;
         container.style.height = ext.cy;
+      }
+      if (spPr.xfrm.rot) {
+        container.style.transform = `rotate(${spPr.xfrm.rot}deg)`;
       }
     }
 

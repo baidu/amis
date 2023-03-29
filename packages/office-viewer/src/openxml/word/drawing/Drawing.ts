@@ -153,7 +153,10 @@ export class Drawing {
                   break;
 
                 default:
-                  console.warn('unknown graphicData child tag', tagName);
+                  console.warn(
+                    'unknown graphicData child tag',
+                    graphicDataChild
+                  );
               }
             }
             break;
