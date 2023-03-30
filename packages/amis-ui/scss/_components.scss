@@ -3705,9 +3705,7 @@
   --TimelineItem-detail-visible-max-width: #{px2rem(300px)};
   --Timeline-alternate-margin-left: var(--gap-xl);
   --Timeline-visible-border-radius: var(--gap-xs);
-  --Timeline-horizontal-content-margin-top: var(
-    --Timeline-horizontal-top-size
-    );
+  --Timeline-horizontal-content-margin-top: var(--Timeline-horizontal-top-size);
   --TimelineItem--icon-radius: 50%;
   --TimelineItem--round-radius: 50%;
   --TimelineItem--content-radius: px2rem(2px);
@@ -3861,4 +3859,145 @@
   --conditionBuilder-body-paddingRight: var(--sizes-size-7);
   --conditionBuilder-body-paddingBottom: var(--sizes-size-7);
   --conditionBuilder-body-paddingLeft: var(--sizes-base-14);
+
+  --table-border-width: var(--borders-width-2);
+  --table-border-color: var(--colors-neutral-line-8);
+  --table-paddingTop: var(--sizes-size-6);
+  --table-paddingRight: var(--sizes-size-6);
+  --table-paddingBottom: var(--sizes-size-6);
+  --table-paddingLeft: var(--sizes-size-6);
+  --table-paddingX: var(--sizes-size-7);
+  --table-header-color: var(--colors-neutral-text-2);
+  --table-header-fontSize: var(--fonts-size-7);
+  --table-header-fontWeight: var(--fonts-weight-6);
+  --table-header-lineHeight: var(--fonts-lineHeight-2);
+  --table-header-bg-color: var(--colors-neutral-fill-10);
+  --table-header-separate-line-color: var(--colors-neutral-fill-11);
+  --table-header-separate-line-width: var(--borders-width-2);
+  --table-body-color: var(--colors-neutral-text-2);
+  --table-body-fontSize: var(--fonts-size-8);
+  --table-body-fontWeight: var(--fonts-weight-6);
+  --table-body-lineHeight: var(--fonts-lineHeight-2);
+  --table-body-bg-color: var(--colors-neutral-fill-11);
+  --table-body-hover-color: var(--colors-neutral-text-2);
+  --table-body-hover-bg-color: var(--colors-brand-10);
+  --table-body-hover-border-color: var(--colors-neutral-line-8);
+  --table-body-disabled-color: var(--colors-neutral-text-6);
+  --table-body-disabled-bg-color: var(--colors-neutral-fill-10);
+  --table-title-color: var(--colors-neutral-text-2);
+  --table-title-fontSize: var(--fonts-size-7);
+  --table-title-fontWeight: var(--fonts-weight-6);
+  --table-title-lineHeight: var(--fonts-lineHeight-2);
+  --table-title-bg-color: var(--colors-neutral-fill-11);
+  --table-title-paddingTop: var(--sizes-size-6);
+  --table-title-paddingRight: var(--sizes-size-5);
+  --table-title-paddingBottom: var(--sizes-size-6);
+  --table-title-paddingLeft: var(--sizes-size-5);
+  --table-icon-color: var(--colors-neutral-text-6);
+  --table-icon-hover-color: var(--colors-neutral-text-2);
+  --table-icon-active-color: var(--colors-brand-5);
+  --table-icon-marginLeft: var(--sizes-size-5);
+  --table-size-large-paddingTop: var(--sizes-base-10);
+  --table-size-large-paddingRight: var(--sizes-size-7);
+  --table-size-large-paddingBottom: var(--sizes-base-10);
+  --table-size-large-paddingLeft: var(--sizes-size-7);
+  --table-size-small-paddingTop: var(--sizes-size-4);
+  --table-size-small-paddingRight: var(--sizes-size-3);
+  --table-size-small-paddingBottom: var(--sizes-size-4);
+  --table-size-small-paddingLeft: var(--sizes-size-3);
+
+  --Table--unsaved-heading-bg: #e8f0fe;
+  --Table--unsaved-heading-color: #4285f4;
+  --Table-bg: var(--colors-neutral-fill-11);
+  --Table-borderColor: var(--table-border-color);
+  --Table-borderRadius: var(--borderRadius);
+  --Table-borderWidth: var(--table-border-width);
+  --Table-color: var(--table-body-color);
+  --Table-expandBtn-color: var(--colors-neutral-text-5);
+  --Table-fixed-zIndex: 5;
+  --Table-fixedLeft-boxShadow: 0.42rem 0 0.42rem -0.28rem rgba(0, 0, 0, 0.15);
+  --Table-fixedRight-boxShadow: -0.42rem 0 0.42rem -0.28rem rgba(0, 0, 0, 0.15);
+  --Table-fixedTop-boxShadow: var(--shadows-shadow-normal);
+  --Table-fontSize: var(--table-body-fontSize);
+  --Table-heading-bg: var(--table-title-bg-color);
+  --Table-heading-height: #{px2rem(40px)};
+  --Table-lineHeight: var(--fonts-lineHeight-2);
+  --Table-onChecked-bg: var(--colors-neutral-fill-10);
+  --Table-onChecked-borderColor: var(--colors-neutral-line-8);
+  --Table-onChecked-color: var(--colors-neutral-text-6);
+  --Table-onChecked-onHover-bg: var(--colors-neutral-fill-10);
+  --Table-onChecked-onHover-borderColor: var(--colors-neutral-line-8);
+  --Table-onChecked-onHover-color: var(--colors-neutral-line-4);
+  --Table-onDragging-opacity: 0.1;
+  // 背景用到了 rgba，所以必须再提供这种写法，搜一下这个变量就知道为什么了
+  --Table-onHover-bg-rgb: 245, 251, 255;
+  --Table-onHover-bg: var(--table-body-hover-bg-color);
+  --Table-onHover-borderColor: var(--table-border-color);
+  --Table-onHover-boxShadow: var(--shadows-shadow-normal);
+  --Table-onHover-color: var(--table-body-hover-color);
+  --Table-onModified-bg: #e8f0fe;
+  --Table-onModified-borderColor: #{darken(#e8f0fe, 5%)};
+  --Table-onModified-color: #4285f4;
+  --Table-placeholder-height: #{px2rem(200px)};
+  --Table-strip-bg: transparent;
+  --Table-tbody-borderTopColor: var(--colors-neutral-line-9);
+  --Table-thead-bg: var(--table-header-bg-color);
+  --Table-thead-borderColor: var(--table-header-separate-line-color);
+  --Table-thead-borderWidth: var(--table-header-separate-line-width);
+  --Table-thead-color: var(--table-header-color);
+  --Table-thead-fontSize: var(--table-header-fontSize);
+  --Table-thead-iconColor: var(--colors-neutral-text-5);
+  --Table-toolbar-marginX: #{px2rem(4px)};
+  --Table-toolbar-marginY: var(--gap-base);
+  --Table-tree-borderColor: var(--colors-neutral-line-8);
+  --Table-searchableForm-backgroundColor: #f6f7f8;
+  --Table-searchableForm-borderRadius: #{px2rem(4px)};
+  --Table-empty-icon-size: #{px2rem(74px)};
+  --TableRow-onDisabled-bg: var(--table-body-disabled-bg-color);
+  --TableRow-onDisabled-color: var(--table-body-disabled-color);
+  --TableCell--edge-paddingX: var(--gap-md);
+  --TableCell--edge-paddingX-default: var(--table-paddingX);
+  --TableCell-filterBtn--onActive-color: var(--colors-brand-5);
+  --TableCell-filterBtn-width: #{px2rem(16px)};
+  --TableCell-filterPopOver-dropDownItem-height: var(--sizes-base-15);
+  --TableCell-filterPopOver-dropDownItem-padding: var(--sizes-size-0)
+    var(--sizes-size-6);
+  --TableCell-line-height-large: #{px2rem(40px)};
+  --TableCell-line-height-middle: #{px2rem(30px)};
+  --TableCell-height: #{px2rem(40px)};
+  --TableCell-height-default: #{px2rem(41px)};
+  --TableCell-height-large: #{px2rem(61px)};
+  --TableCell-height-small: #{px2rem(33px)};
+  --TableCell-paddingX: var(--sizes-size-6);
+  --TableCell-paddingX-large: var(--gap-base);
+  --TableCell-paddingX-small: var(--gap-xs);
+  --TableCell-paddingY: calc(
+    (var(--TableCell-height) - var(--Table-fontSize) * var(--Table-lineHeight)) /
+      2
+  );
+  --TableCell-paddingY-default: calc(
+    (
+        var(--TableCell-height-default) - var(--Table-fontSize) *
+          var(--Table-lineHeight)
+      ) / 2
+  );
+  --TableCell-paddingY-large: calc(
+    (
+        var(--TableCell-height-large) - var(--Table-fontSize) *
+          var(--Table-lineHeight)
+      ) / 2
+  );
+  --TableCell-paddingY-small: calc(
+    (
+        var(--TableCell-height-small) - var(--Table-fontSize) *
+          var(--Table-lineHeight)
+      ) / 2
+  );
+  --TableCell-searchBtn--onActive-color: var(--table-icon-active-color);
+  --TableCell-searchBtn-width: #{px2rem(16px)};
+  --TableCell-sortBtn--default-onActive-opacity: 1;
+  --TableCell-sortBtn--default-opacity: 0;
+  --TableCell-sortBtn--onActive-color: var(--table-icon-active-color);
+  --TableCell-sortBtn-width: var(--sizes-size-8);
+  --TableCell-icon-gap: var(--table-icon-marginLeft);
 }

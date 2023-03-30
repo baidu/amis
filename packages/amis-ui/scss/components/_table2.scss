@@ -34,30 +34,37 @@
     .#{$ns}Table-table {
       > thead > tr {
         > th {
-          padding: var(--TableCell-paddingY-large)
-            var(--TableCell-paddingX-large);
+          padding: var(--table-size-large-paddingTop)
+            var(--table-size-large-paddingRight)
+            var(--table-size-large-paddingBottom)
+            var(--table-size-large-paddingLeft);
         }
       }
 
       > tbody > tr {
         > td,
         > th {
-          padding: var(--TableCell-paddingY-large)
-            var(--TableCell-paddingX-large);
+          padding: var(--table-size-large-paddingTop)
+            var(--table-size-large-paddingRight)
+            var(--table-size-large-paddingBottom)
+            var(--table-size-large-paddingLeft);
         }
       }
 
       > tfoot > tr {
         > td {
-          padding: var(--TableCell-paddingY-large)
-            var(--TableCell-paddingX-large);
+          padding: var(--table-size-large-paddingTop)
+            var(--table-size-large-paddingRight)
+            var(--table-size-large-paddingBottom)
+            var(--table-size-large-paddingLeft);
         }
       }
     }
 
     .#{$ns}TableCell-filterBtn {
       right: calc(
-        var(--TableCell-paddingX-large) - var(--TableCell-filterBtn-width) / 2
+        var(--table-size-large-paddingRight) - var(--TableCell-filterBtn-width) /
+          2
       );
     }
   }
@@ -66,44 +73,50 @@
     .#{$ns}Table-table {
       > thead > tr {
         > th {
-          padding: var(--TableCell-paddingY-small)
-            var(--TableCell-paddingX-small);
+          padding: var(--table-size-small-paddingTop)
+            var(--table-size-small-paddingRight)
+            var(--table-size-small-paddingBottom)
+            var(--table-size-small-paddingLeft);
         }
       }
 
       > tbody > tr {
         > td,
         > th {
-          padding: var(--TableCell-paddingY-small)
-            var(--TableCell-paddingX-small);
+          padding: var(--table-size-small-paddingTop)
+            var(--table-size-small-paddingRight)
+            var(--table-size-small-paddingBottom)
+            var(--table-size-small-paddingLeft);
         }
       }
 
       > tfoot > tr {
         > td {
-          padding: var(--TableCell-paddingY-small)
-            var(--TableCell-paddingX-small);
+          padding: var(--table-size-small-paddingTop)
+            var(--table-size-small-paddingRight)
+            var(--table-size-small-paddingBottom)
+            var(--table-size-small-paddingLeft);
         }
       }
     }
 
     .#{$ns}TableCell-filterBtn {
       right: calc(
-        var(--TableCell-paddingX-small) - var(--TableCell-filterBtn-width) / 2
+        var(--table-size-small-paddingRight) - var(--TableCell-filterBtn-width) /
+          2
       );
     }
   }
 
   .#{$ns}Table-title,
   .#{$ns}Table-footer {
+    color: var(--table-title-color);
+    font-size: var(--table-title-fontSize);
+    font-weight: var(--table-title-fontWeight);
+    line-height: var(--table-title-lineHeight);
     background: var(--Table-heading-bg);
-    padding: calc(
-        (
-            var(--Table-heading-height) - var(--Table-fontSize) *
-              var(--lineHeightBase)
-          ) / 2
-      )
-      var(--gap-sm);
+    padding: var(--table-title-paddingTop) var(--table-title-paddingRight)
+      var(--table-title-paddingBottom) var(--table-title-paddingLeft);
   }
 
   .#{$ns}Table-header {
@@ -154,6 +167,8 @@
     margin-bottom: 0;
     font-size: var(--Table-fontSize);
     color: var(--Table-color);
+    font-weight: var(--table-body-fontWeight);
+    line-height: var(--table-body-lineHeight);
     background: var(--Table-bg);
     border-spacing: 0;
     border-collapse: collapse;
@@ -179,7 +194,8 @@
     > thead > tr {
       > th {
         background: var(--Table-thead-bg);
-        padding: var(--TableCell-paddingY-default) var(--TableCell-paddingX);
+        padding: var(--table-paddingTop) var(--table-paddingRight)
+          var(--table-paddingBottom) var(--table-paddingLeft);
 
         &:first-child {
           padding-left: var(--TableCell--edge-paddingX-default);
@@ -200,7 +216,8 @@
 
         font-size: var(--Table-thead-fontSize);
         color: var(--Table-thead-color);
-        font-weight: var(--fontWeightNormal);
+        font-weight: var(--table-header-fontWeight);
+        line-height: var(--table-header-lineHeight);
         white-space: nowrap;
 
         .#{$ns}Remark {
@@ -232,7 +249,8 @@
       > th {
         background: var(--Table-thead-bg);
         color: var(--Table-thead-color);
-        font-weight: var(--fontWeightNormal);
+        font-weight: var(--table-header-fontWeight);
+        line-height: var(--table-header-lineHeight);
         white-space: nowrap;
         border-right: var(--Table-thead-borderWidth) solid
           var(--Table-thead-borderColor);
@@ -240,7 +258,8 @@
 
       > td,
       > th {
-        padding: var(--TableCell-paddingY-default) var(--TableCell-paddingX);
+        padding: var(--table-paddingTop) var(--table-paddingRight)
+          var(--table-paddingBottom) var(--table-paddingLeft);
 
         &:first-child {
           padding-left: var(--TableCell--edge-paddingX-default);
@@ -272,7 +291,7 @@
       }
 
       @if var(--Table-strip-bg) !=transparent {
-        background: transparent;
+        background: var(--table-body-bg-color);
 
         &.#{$ns}Table-tr--odd {
           background: var(--Table-strip-bg);
@@ -318,7 +337,8 @@
       &.is-summary {
         background: var(--Table-thead-bg);
         color: var(--Table-thead-color);
-        font-weight: var(--fontWeightNormal);
+        font-weight: var(--table-header-fontWeight);
+        line-height: var(--table-header-lineHeight);
       }
 
       &.bg-light {
@@ -562,7 +582,8 @@
       border-bottom: var(--Table-borderWidth) solid var(--Table-borderColor);
 
       > td {
-        padding: var(--TableCell-paddingY-default) var(--TableCell-paddingX);
+        padding: var(--table-paddingTop) var(--table-paddingRight)
+          var(--table-paddingBottom) var(--table-paddingLeft);
         background: var(--Table-thead-bg);
       }
     }
@@ -704,9 +725,9 @@
 
     &--default {
       &.is-active {
-        color: var(--text--muted-color);
+        color: var(--table-icon-color);
         &:hover {
-          color: var(--text-color);
+          color: var(--table-icon-hover-color);
         }
       }
     }
@@ -720,7 +741,7 @@
 
   .#{$ns}TableCell-searchBtn {
     cursor: pointer;
-    color: var(--text--muted-color);
+    color: var(--table-icon-color);
     margin-left: var(--TableCell-icon-gap);
 
     svg.icon {
@@ -729,7 +750,7 @@
     }
 
     &:hover {
-      color: var(--text-color);
+      color: var(--table-icon-hover-color);
     }
     &.is-active {
       color: var(--TableCell-searchBtn--onActive-color);
@@ -752,7 +773,7 @@
     position: static;
     display: inline-block;
     transform: none;
-    color: var(--text--muted-color);
+    color: var(--table-icon-color);
     margin-left: var(--TableCell-icon-gap);
 
     svg.icon {
@@ -761,7 +782,7 @@
     }
 
     &:hover {
-      color: var(--text-color);
+      color: var(--table-icon-hover-color);
     }
 
     &.is-active {
