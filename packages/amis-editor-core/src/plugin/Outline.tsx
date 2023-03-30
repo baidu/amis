@@ -9,6 +9,7 @@ import {OutlinePanel} from '../component/Panel/Outline';
  * 大纲面板
  */
 export class OutlinePlugin extends BasePlugin {
+  static scene = ['layout'];
   order = -9999;
 
   buildEditorPanel(

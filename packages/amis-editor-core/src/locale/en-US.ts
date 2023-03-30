@@ -263,5 +263,6 @@ extendLocale('en-US', {
   '969e9e56b3812abffa3994f35ea31835': 'Adsorption vessel',
   '5b804b05e14aaacc75033a4f77fc2844': 'Source code',
   '69a53230577258b6d97ee932befcc168': '<Column>:',
-  'cc6aeb073ebc3cb29734a49164f8964c': 'Page variables'
+  'cc6aeb073ebc3cb29734a49164f8964c': 'Page variables',
+  'b71e8739cb9bcba8057a8fa8b59512da': '<Column>'
 });

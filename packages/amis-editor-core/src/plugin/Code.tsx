@@ -14,6 +14,7 @@ import CodeEditorPanel from '../component/Panel/CodeEditorPanel';
  * 添加源码编辑功能
  */
 export class CodePlugin extends BasePlugin {
+  static scene = ['layout'];
   order = -9999;
 
   buildJSONSchema({info}: RendererJSONSchemaResolveEventContext) {

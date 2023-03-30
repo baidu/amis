@@ -240,6 +240,11 @@ export const MainStore = types
         return false;
       },
 
+      getRootId() {
+        const curSchema = this.getSchema();
+        return curSchema?.$$id;
+      },
+
       isHoved(id: string) {
         return id && self.hoverId === id;
       },
@@ -1753,6 +1758,7 @@ export const MainStore = types
           self.versionId = version.versionId;
           self.schema = version.schema;
           this.updateTargetName();
+          this.autoSelectRoot();
         }
       },
 
@@ -1765,6 +1771,15 @@ export const MainStore = types
           self.versionId = version.versionId;
           self.schema = version.schema;
           this.updateTargetName();
+          this.autoSelectRoot();
+        }
+      },
+
+      autoSelectRoot() {
+        // 撤销或重做后，可能当前选中的元素已在撤销中删除掉了，这时需要自动选中根节点
+        const curElem = self.getSchema(self.activeId);
+        if (!curElem) {
+          this.setActiveId(self.getRootId());
         }
       },
 
@@ -1777,6 +1792,7 @@ export const MainStore = types
             schema: self.schema
           }
         ]);
+        this.autoSelectRoot();
       },
 
       /**

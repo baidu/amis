@@ -1,0 +1,97 @@
+.ae-NavControl {
+  &-header {
+    @include flexBox();
+    width: 100%;
+    height: #{px2rem(24px)};
+    margin-bottom: #{px2rem(12px)};
+  }
+
+  &-content {
+    @include flexBox(column, flex-start);
+    margin: 0;
+    padding: 0;
+
+    .ae-OptionControlItem {
+      display: block;
+      width: 100%;
+      border: 1px dashed #999;
+      padding: 15px;
+      margin-bottom: 10px;
+      position: relative;
+
+      .ae-closeBtn {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 20px;
+        height: 20px;
+        font-size: 18px;
+        text-align: center;
+        line-height: 20px;
+        cursor: pointer;
+      }
+
+      .ae-navControlLinks {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 40px;
+
+        input {
+          width: 120px;
+        }
+      }
+    }
+  }
+
+  &-placeholder {
+    display: none;
+    color: #999;
+    line-height: #{px2rem(24px)};
+    text-align: center;
+    vertical-align: middle;
+    width: 100%;
+    padding: #{px2rem(10px)};
+  }
+
+  &-footer {
+    margin-top: 10px;
+  }
+
+  &-footer > * {
+    width: calc(50% - #{px2rem(6px)});
+
+    &:first-child {
+      margin-right: px2rem(12px);
+    }
+  }
+}
+
+.nav-mode-gif {
+  width: 160px;
+  height: 120px;
+  background: url('../static/nav-mode.gif');
+  background-repeat: no-repeat;
+  background-size: 100%;
+  margin: 10px auto 0;
+}
+
+.ae-BadgeControl {
+  .cxd-Form-groupColumn:nth-child(1) {
+    padding-right: 4px;
+  }
+  .cxd-Form-groupColumn:nth-child(2) {
+    padding-left: 4px;
+  }
+  .cxd-TextControl.is-focused > .cxd-TextControl-input {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    padding-left: 4px;
+  }
+  .cxd-TextControl-addOn:first-child {
+    border-left-width: 0.0625rem;
+  }
+  .cxd-TextControl-input {
+    padding: 4px;
+  }
+}
