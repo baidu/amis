@@ -2,6 +2,8 @@ import {registerEditorPlugin} from 'amis-editor-core';
 import {FlexPluginBase, defaultFlexColumnSchema} from './FlexPluginBase';
 
 export default class Layout_fixed_top extends FlexPluginBase {
+  static scene = ['layout'];
+
   name = '吸附容器';
   isBaseComponent = true;
   pluginIcon = 'layout-fixed-top';

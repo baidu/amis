@@ -9,6 +9,7 @@ import {
 } from 'amis-editor-core';
 
 export class Card2Plugin extends BasePlugin {
+  static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'card2';
   $schema = '/schemas/Card2Schema.json';

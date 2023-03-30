@@ -318,14 +318,13 @@ export class TablePlugin extends BasePlugin {
           mode: 'horizontal'
         }
         */
-        {
+        getSchemaTpl('formulaControl', {
           name: 'selected',
           label: '选中项',
-          type: 'ae-formulaControl',
           variables: '${variables}',
           size: 'lg',
           mode: 'horizontal'
-        }
+        })
       ])
     },
     {

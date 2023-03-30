@@ -1843,8 +1843,6 @@ extendLocale('en-US', {
   '348097cc50579e489f0bcb5433637d3a':
     'With this option enabled, you can sort them according to the current column sequence (backend sequence).',
   '9db64f772c11c614ee00bb3cc066f46f': 'Column group name',
-  'fea0f3f456153564218a9eefb78d8cec':
-    'When the group name of multiple column groups keeps consistent, the table displays the super table header at the top layer of the table header displayed.<a href="https://baidu.github.io/amis/crud/header-group" target="_blank">Example</a>',
   '19c4f5e98ad302574202de30dddbaf66': 'Enable quick edit',
   '15c3796e07e33afc7252df751f610c5d': 'Whether to save immediately',
   'ba5a0a1ff2c438ae7719ca48b0ce3af7': 'Enable “View more display options”',
@@ -3772,5 +3770,77 @@ extendLocale('en-US', {
   '5720057e62e80f7a04489dc4c035b4f1': 'Cancel button icon',
   '8985ea173dce8f9bee667b3cdf0b7bdf':
     'This configuration item only applies to the "Add" button in the table operation bar',
-  '3f64a567662a24714768237a3a6d0de7': 'New button below the table'
+  '3f64a567662a24714768237a3a6d0de7': 'New button below the table',
+  '522cddc343d72db3db80cf3d71f99210':
+    'The API return format is incorrect. Please click the example on the right side of the interface address to view the CRUD data interface structure requirements',
+  '5323ab3e5c12066101244f0577c30e22': 'Custom container area',
+  'b34422e637c90181d3fca4485a97c712': 'fraction',
+  '95e0d70d1809d5267c2419eda58e78ca': 'Grade',
+  'c13998e4c837dc40b8e90828d99561df':
+    'If it is blank, editing is not supported',
+  '738b58219dda4a849e293c0f75d06438': 'New button in operation bar',
+  '306abb77f96a1048cf6e61bfe6e7bae4':
+    'If it is empty, no paging will be performed',
+  '136ecd1380f3fa10c1fd99b93c63fc9b': 'Whether to open a new page',
+  '9778ba8e0cbbae9471485dfc28df8948': 'Whether to expand initially',
+  '18eae9f567a9c425bf59147a2601ee6a': 'Menu click',
+  '12b91237057ca7d81d50cca9873c8267': 'Triggered when the menu is clicked',
+  '0a974408aab362095e939e5364315971': 'Menu selected',
+  '4b5f4893cf06a9d9ea5b8486bef87c26': 'Triggered when the menu is selected',
+  '9b317a5d43f72026b0c0699b1d596436': 'Menu expansion',
+  '9ef3c85c39e1e686f6b8c58292352ce1': 'Triggered when the menu is expanded',
+  'afce1df2e30a4674f507292d642fe270': 'Menu collapse',
+  '4015091668f286adf085d60a040f89a1': 'Triggered when the menu is collapsed',
+  '2631c12c40aa18fff4c6a2793f03f95b': 'Data loading completed',
+  '26a92da0738fed6a6178be565cfb3a59': 'Triggered after data loading',
+  '67d8dc76a8c8a3f0f52232969d72e8bb': 'Update menu items',
+  '12fbc0729d69e4243c4818093e96de8c': 'Trigger component update menu item',
+  'ee621e1f1429f1150a69bd02eecf6964':
+    'Trigger the folding and expansion of components',
+  'e0e2b0cf2a3c8379b1d9144b10b3824d': 'Horizontal placement',
+  '8dd27bbe64ec245ce449caab5cf7f12b':
+    'The default is inline mode. After opening, the submenu will not expand below the parent level, but will be displayed on the side of the menu',
+  '154a7ec36c43427f73705ae834967703': 'Submenu floating display',
+  '9dcb6b749d6682f1ac51b2dcdefd3208':
+    'Click the menu to expand only the current parent menu and collapse other expanded menus',
+  '49a84da9b39148af54903ba4c6ed257f': 'Default expansion level',
+  'd4b70ea3a756ec4d06c8ecb2f27330ab':
+    'Expand the corresponding level of all menus by default',
+  '96198d14846a941a60824bd6ebda4d9e': 'Maximum display level',
+  'cac013d011fe1ac71c3b9f0bd0594d65':
+    'After configuration, menu items beyond this level will be hidden. For example, if the maximum display level is two, three levels and below of menu items will be hidden',
+  '7419d6bab78d959d5c3b7a38f9888258': 'menu item',
+  '1a9aaf05889002e65708c4950012a652': 'Yes, you just clicked',
+  '243e91d5fbc5a03a5c54da6d8e662e4f':
+    'Page renderer, the top entry of the page. It contains multiple regions. You can choose to place different renderers in different regions.',
+  'a7999d1390b7dc775e4287511c395d6c': 'Corner type',
+  '31175366279c15232e27b6736ccb2fd4':
+    'Only valid if the text content is numeric',
+  '58f966670529f4753fb3c5a0647606be': 'size',
+  'b3c1b71ed42c7f2fe55f3c64346f1ae6':
+    'The corner marker style is configured here. The corner marker takes effect after the corner marker content is configured in the menu item at the same time',
+  '515e8b11c3c24c6c3b03c6c76b1da496': 'Default selected menu',
+  '4f80ea1e761598ba9fe393e7c745468d':
+    'Priority is given to matching according to the URL of the current browser address bar, and the menu item you configured will be selected in case of miss',
+  'e3cd6fc0612b22f7c7e209b8184378c8': 'Menu name:',
+  '4cd5629f32fc9710fbb0291b51adc34b': 'Please enter a menu name',
+  '9e0b4b20e7177b83916ab7b017c4162b': 'Jump address:',
+  '2e507449ccaac4522f503f0ec3dfffa9': 'Please enter jump address',
+  'ec3cc7a898eb5eb6f87a1d70a22a05c7': 'Whether to open a new page:',
+  'a93a3970825296478d40658ad07af43a': 'Whether to fold initially:',
+  'd5004744a86589d72041b0a3fa8efa7b': 'Include submenus:',
+  '14794add5446201274dd148086bc0361': 'add menu',
+  'aae5ccb98564e19c48f19c740c3c10b7': 'Default (static)',
+  '5d721446605f21bddb3b8e2ab2a3841c': 'Relative',
+  'b55b525d56fd0d4d3dcb9291e59e3433': 'Fixed',
+  '25ece43050dda20ad4d8dd058dd590d1': 'Absolute',
+  '22b47452f52254ce07507287d137d167':
+    '<div>When data mapping is enabled, the data in the pop-up box will only contain the set part. Please bind the data. For example: {"a": " ${a}", "b": 2}</ div>',
+  '68419387f5bb8487a848b818d78424ae':
+    '<div>When the value is__ When undefined, it means to delete the corresponding field. You can combine {"&": " $$"} to achieve the blacklist effect</ div>',
+  'cb65841ea7dec5ae0af20b3f5e52abfc': 'Raw data leveling',
+  '6922790f45faf064e063069816e4d2ec':
+    'After opening, all the original data will be flattened and set in the data, and customized on this basis',
+  '9791b05a4df9d72f1a01b81fa695fbc6':
+    'When the grouping names of multiple columns are consistent, the table will display the super header on the upper layer of the display header.<a href=“ https://baidu.github.io/amis/zh-CN/components/table#%E8%B6%85%E7%BA%A7%E8%A1%A8%E5%A4%B4 " target="_ Blank ">Example</a>'
 });

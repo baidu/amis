@@ -6,9 +6,7 @@ import {
   tipedLabel,
   DSField,
   EditorManager,
-  BaseEventContext
 } from 'amis-editor-core';
-import {remarkTpl} from '../component/BaseControl';
 import {SchemaObject} from 'amis/lib/Schema';
 import flatten from 'lodash/flatten';
 import _ from 'lodash';
@@ -111,6 +109,33 @@ setSchemaTpl(
     pipeOut: (v: string) => (v ? v : undefined)
   })
 );
+setSchemaTpl('formulaControl', (schema: object = {}) => {
+  return {
+    type: 'ae-formulaControl',
+    ...schema
+  };
+});
+
+setSchemaTpl('expressionFormulaControl', (schema: object = {}) => {
+  return {
+    type: 'ae-expressionFormulaControl',
+    ...schema
+  };
+});
+
+setSchemaTpl('textareaFormulaControl', (schema: object = {}) => {
+  return {
+    type: 'ae-textareaFormulaControl',
+    ...schema
+  };
+});
+
+setSchemaTpl('DataPickerControl', (schema: object = {}) => {
+  return {
+    type: 'ae-DataPickerControl',
+    ...schema
+  };
+});
 
 setSchemaTpl('formItemInline', {
   type: 'switch',
@@ -357,25 +382,6 @@ setSchemaTpl('icon', {
 });
 
 setSchemaTpl(
-  'remark',
-  remarkTpl({
-    name: 'remark',
-    label: '控件提示',
-    labelRemark:
-      '在输入控件旁展示提示，注意控件宽度需设置，否则提示触发图标将自动换行'
-  })
-);
-
-setSchemaTpl(
-  'labelRemark',
-  remarkTpl({
-    name: 'labelRemark',
-    label: '标题提示',
-    labelRemark: '在标题旁展示提示'
-  })
-);
-
-setSchemaTpl(
   'valueFormula',
   (config?: {
     mode?: string; // 自定义展示默认值，上下展示: vertical, 左右展示: horizontal
@@ -431,8 +437,7 @@ setSchemaTpl(
       visibleOn,
       className: config?.className,
       body: [
-        {
-          type: 'ae-formulaControl',
+        getSchemaTpl('formulaControl', {
           label: label ?? '默认值',
           name: name || 'value',
           rendererWrapper,
@@ -446,7 +451,7 @@ setSchemaTpl(
           variableMode,
           DateTimeType: DateTimeType ?? FormulaDateType.NotDate,
           ...rest
-        }
+        })
       ]
     };
   }
@@ -598,8 +603,7 @@ setSchemaTpl(
       return variablesArr;
     }
 
-    return {
-      type: 'ae-textareaFormulaControl',
+    return getSchemaTpl('textareaFormulaControl', {
       mode: 'normal',
       label: tipedLabel(
         '选项模板',
@@ -609,15 +613,16 @@ setSchemaTpl(
       variables: getOptionVars,
       requiredDataPropsVariables: true,
       ...rest
-    };
+    });
   }
 );
 
-setSchemaTpl('menuTpl', {
-  type: 'ae-textareaFormulaControl',
-  mode: 'normal',
-  label: tipedLabel('模板', '自定义选项渲染模板，支持JSX、数据域变量使用'),
-  name: 'menuTpl'
+setSchemaTpl('menuTpl', () => {
+  return getSchemaTpl('textareaFormulaControl', {
+    mode: 'normal',
+    label: tipedLabel('模板', '自定义选项渲染模板，支持JSX、数据域变量使用'),
+    name: 'menuTpl'
+  });
 });
 
 setSchemaTpl('expression', {
@@ -1124,6 +1129,15 @@ setSchemaTpl('badge', {
   type: 'ae-badge'
 });
 
+setSchemaTpl('nav-badge', {
+  label: '角标',
+  name: 'badge',
+  type: 'ae-nav-badge'
+});
+
+setSchemaTpl('nav-default-active', {
+  type: 'ae-nav-default-active'
+});
 // 暂未使用
 setSchemaTpl('formulaControl', (schema: object = {}) => {
   return {
@@ -1197,12 +1211,11 @@ setSchemaTpl('app-page-args', {
       inputMode: 'input-group'
     }
      */
-    {
+    getSchemaTpl('formulaControl', {
       name: 'val',
-      type: 'ae-formulaControl',
       variables: '${variables}',
       placeholder: '参数值'
-    }
+    })
   ]
 });
 
@@ -1260,11 +1273,12 @@ setSchemaTpl('pageSubTitle', {
   type: 'textarea'
 });
 
-setSchemaTpl('textareaDefaultValue', {
-  type: 'ae-textareaFormulaControl',
-  label: '默认值',
-  name: 'value',
-  mode: 'normal'
+setSchemaTpl('textareaDefaultValue', () => {
+  return getSchemaTpl('textareaFormulaControl', {
+    label: '默认值',
+    name: 'value',
+    mode: 'normal'
+  });
 });
 
 setSchemaTpl('prefix', {

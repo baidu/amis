@@ -11,6 +11,7 @@ import {
 } from 'amis-editor-core';
 
 export class ContainerPlugin extends LayoutBasePlugin {
+  static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'container';
   $schema = '/schemas/ContainerSchema.json';
@@ -19,9 +20,8 @@ export class ContainerPlugin extends LayoutBasePlugin {
   name = '容器';
   isBaseComponent = true;
   description = '一个简单的容器，可以将多个渲染器放置在一起。';
-  tags = ['容器'];
+  tags = ['布局'];
   order = -2;
-  withDataSource = false;
   icon = 'fa fa-square-o';
   pluginIcon = 'container-plugin';
   scaffold = {
@@ -322,7 +322,9 @@ export class ContainerPlugin extends LayoutBasePlugin {
                   })
                 : null,
               getSchemaTpl('layout:z-index'),
-              getSchemaTpl('layout:sticky'),
+              getSchemaTpl('layout:sticky', {
+                visibleOn: 'data.style && (data.style.position !== "fixed" && data.style.position !== "absolute")'
+              }),
               getSchemaTpl('layout:stickyPosition')
             ]
           },

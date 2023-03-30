@@ -20,6 +20,7 @@ import {diff, JSONPipeOut, repeatArray} from 'amis-editor-core';
 import {isCrudContext} from '../util';
 
 export class CardsPlugin extends BasePlugin {
+  static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'cards';
   $schema = '/schemas/CardsSchema.json';

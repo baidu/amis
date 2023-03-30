@@ -11,6 +11,7 @@ import {
 import {BUTTON_DEFAULT_ACTION} from '../component/BaseControl';
 
 export class ButtonGroupPlugin extends BasePlugin {
+  static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'button-group';
   $schema = '/schemas/ButtonGroupSchema.json';

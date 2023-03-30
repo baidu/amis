@@ -11,6 +11,31 @@ import {ValidatorTag} from '../../validator';
 
 const tinymceToolbarsDelimiter = ' ';
 
+const tinymceOptions =  [
+  'advlist',
+  'autolink',
+  'link',
+  'image',
+  'lists',
+  'charmap',
+  'preview',
+  'anchor',
+  'pagebreak',
+  'searchreplace',
+  'wordcount',
+  'visualblocks',
+  'visualchars',
+  'code',
+  'fullscreen',
+  'insertdatetime',
+  'media',
+  'nonbreaking',
+  'table',
+  'emoticons',
+  'template',
+  'help'
+];
+
 const tinymceToolbars = [
   'undo',
   'redo',
@@ -105,7 +130,6 @@ const tinymceToolbars = [
 const froalaOptions = [
   'paragraphFormat',
   'quote',
-  'color',
   'bold',
   'italic',
   'underline',
@@ -115,7 +139,6 @@ const froalaOptions = [
   'align',
   'insertLink',
   'insertImage',
-  'insertEmotion',
   'insertTable',
   'undo',
   'redo',
@@ -226,42 +249,21 @@ export class RichTextControlPlugin extends BasePlugin {
                   '查看 https://www.tiny.cloud/docs/general-configuration-guide/basic-setup/ 文档'),
                 name: 'options.plugins',
                 visibleOn: 'data.vendor === "tinymce"',
-                defaultCheckAll: true,
+                value: [...tinymceOptions].join(','),
+                searchable: true,
                 maxTagCount: 5,
                 overflowTagPopover: {
                   title: '插件',
                   offset: [0, 5]
                 },
-                options: [
-                  'advlist',
-                  'autolink',
-                  'link',
-                  'image',
-                  'lists',
-                  'charmap',
-                  'preview',
-                  'anchor',
-                  'pagebreak',
-                  'searchreplace',
-                  'wordcount',
-                  'visualblocks',
-                  'visualchars',
-                  'code',
-                  'fullscreen',
-                  'insertdatetime',
-                  'media',
-                  'nonbreaking',
-                  'table',
-                  'emoticons',
-                  'template',
-                  'help'
-                ]
+                options: tinymceOptions
               },
               {
                 type: 'select',
                 name: 'options.toolbar',
                 multiple: true,
                 label: '工具栏',
+                searchable: true,
                 maxTagCount: 5,
                 overflowTagPopover: {
                   title: '插件',
@@ -298,7 +300,7 @@ export class RichTextControlPlugin extends BasePlugin {
                   '工具栏-大屏',
                   '屏幕宽度≥1200px，参考文档：https://froala.com/wysiwyg-editor/docs/options/'
                 ),
-                defaultCheckAll: true,
+                value: [...froalaOptions],
                 joinValues: false,
                 extractValue: true,
                 options: [...froalaOptions],
@@ -381,7 +383,9 @@ export class RichTextControlPlugin extends BasePlugin {
               }),
               getSchemaTpl('labelRemark'),
               getSchemaTpl('remark'),
-              getSchemaTpl('placeholder'),
+              getSchemaTpl('placeholder', {
+                visibleOn: 'data.vendor !== "tinymce"'
+              }),
               getSchemaTpl('description'),
             ]
           },
@@ -414,14 +418,7 @@ export class RichTextControlPlugin extends BasePlugin {
               ]
             },
             getSchemaTpl('style:formItem', {
-              renderer: context.info.renderer,
-              schema: [
-                getSchemaTpl('switch', {
-                  label: '内联模式',
-                  name: 'inline',
-                  pipeIn: defaultValue(false)
-                }),
-              ]
+              renderer: context.info.renderer
             }),
             getSchemaTpl('style:classNames')
           ])

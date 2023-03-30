@@ -538,8 +538,6 @@ export class FormPlugin extends BasePlugin {
                         // 需要 set 一下，否则 collectFromBuilders 里的内容条件不满足
                         form.setValueByName('dsType', dsType);
 
-                        console.log('set dsType', dsType);
-
                         return dsType;
                       },
                       onChange: (
@@ -577,14 +575,14 @@ export class FormPlugin extends BasePlugin {
                           (builder, builderName, index) => ({
                             type: 'container',
                             className: 'form-item-gap',
-                            visibleOn: `console.log(data.dsType, data.feat) || data.feat === '${feat.value}' && ( data.dsType === '${builderName}' || (!data.dsType && ${index} === 0))`,
+                            visibleOn: `data.feat === '${feat.value}' && ( data.dsType === '${builderName}' || (!data.dsType && ${index} === 0))`,
                             body: flatten([
                               builder.makeSourceSettingForm({
                                 feat: feat.value,
                                 label:
                                   builderName === 'model-entity'
                                     ? builderName
-                                    : undefined,
+                                    : '提交接口',
                                 // @ts-ignore
                                 renderLabel: true,
                                 userOrders: false

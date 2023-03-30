@@ -654,11 +654,10 @@ export class Table2Plugin extends BasePlugin {
                               }
                             ]
                           },
-                          {
+                          getSchemaTpl('formulaControl', {
                             name: 'rowSelection.disableOn',
-                            type: 'ae-formulaControl',
                             label: '行禁用条件'
-                          },
+                          }),
                           {
                             name: 'rowSelection.selections',
                             label: '选择菜单项',
@@ -706,12 +705,11 @@ export class Table2Plugin extends BasePlugin {
                   formType: 'extend',
                   form: {
                     body: [
-                      {
+                      getSchemaTpl('formulaControl', {
                         name: 'expandable.expandableOn',
                         visibleOn: 'data.expandable',
-                        type: 'ae-formulaControl',
                         label: '行展开条件'
-                      }
+                      })
                     ]
                   }
                 },
@@ -837,18 +835,15 @@ export class Table2Plugin extends BasePlugin {
                   label: '行类名',
                   name: 'rowClassName'
                 }),
-                {
+                getSchemaTpl('formulaControl', {
                   name: 'rowClassNameExpr',
-                  type: 'ae-formulaControl',
                   label: '自定义行样式'
-                },
-
-                {
+                }),
+                getSchemaTpl('formulaControl', {
                   name: 'expandable.expandedRowClassNameExpr',
                   visibleOn: 'data.expandable',
-                  type: 'ae-formulaControl',
                   label: '展开行样式'
-                }
+                })
               ]
             })
           ])

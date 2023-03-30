@@ -10,6 +10,7 @@ import {
 import {ValidatorTag} from '../../validator';
 
 export class InputGroupControlPlugin extends BasePlugin {
+  static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'input-group';
   $schema = '/schemas/InputGroupControlSchema.json';

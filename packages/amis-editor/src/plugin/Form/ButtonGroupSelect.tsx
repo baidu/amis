@@ -121,7 +121,8 @@ export class ButtonGroupControlPlugin extends BasePlugin {
                   rendererSchema: context?.schema,
                   useSelectMode: true, // 改用 Select 设置模式
                   visibleOn: 'this.options && this.options.length > 0'
-                })
+                }),
+                getSchemaTpl('description')
               ]
             },
             {

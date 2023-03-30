@@ -62,7 +62,7 @@ export class TableCellPlugin extends BasePlugin {
               label: '列分组名称',
               type: i18nEnabled ? 'input-text-i18n' : 'input-text',
               description:
-                '当多列的分组名称设置一致时，表格会在显示表头的上层显示超级表头，<a href="https://baidu.github.io/amis/crud/header-group" target="_blank">示例</a>'
+                '当多列的分组名称设置一致时，表格会在显示表头的上层显示超级表头，<a href="https://baidu.github.io/amis/zh-CN/components/table#%E8%B6%85%E7%BA%A7%E8%A1%A8%E5%A4%B4" target="_blank">示例</a>'
             },
 
             getSchemaTpl('switch', {

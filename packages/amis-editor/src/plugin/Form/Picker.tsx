@@ -82,7 +82,7 @@ export class PickerControlPlugin extends BasePlugin {
       ]
     },
     {
-      eventName: 'itemclick',
+      eventName: 'itemClick',
       eventLabel: '点击选项',
       description: '选项被点击时触发',
       dataSchema: [

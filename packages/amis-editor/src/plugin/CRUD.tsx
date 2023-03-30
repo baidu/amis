@@ -1,9 +1,13 @@
-import {toast} from 'amis';
+import {toast, normalizeApiResponseData} from 'amis';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
 import React from 'react';
 
-import {getI18nEnabled, registerEditorPlugin} from 'amis-editor-core';
+import {
+  getI18nEnabled,
+  registerEditorPlugin,
+  tipedLabel
+} from 'amis-editor-core';
 import {
   BaseEventContext,
   BasePlugin,
@@ -21,15 +25,19 @@ import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {isObject, JSONPipeIn} from 'amis-editor-core';
 import {setVariable} from 'amis-core';
 import {ActionSchema} from 'amis/lib/renderers/Action';
+import {CRUDCommonSchema} from 'amis/lib/renderers/CRUD';
 import {getEnv} from 'mobx-state-tree';
 import {EditorNodeType, RendererPluginAction} from 'amis-editor-core';
 import {normalizeApi} from 'amis-core';
+import isPlainObject from 'lodash/isPlainObject';
 
 interface ColumnItem {
   label: string;
   type: string;
   name: string;
 }
+
+type CRUDModes = CRUDCommonSchema['mode'];
 
 // 将展现控件转成编辑控件
 const viewTypeToEditType = (type: string) => {
@@ -222,11 +230,22 @@ export class CRUDPlugin extends BasePlugin {
                 api: data.api
               }).api;
             }
-            const result = await props.env.fetcher(api, data);
-
+            const response = await props.env.fetcher(api, data);
+            const result = normalizeApiResponseData(response.data);
             let autoFillKeyValues: Array<any> = [];
-            const items = result.data?.rows || result.data?.items;
-            if (items?.length) {
+            let items = result?.items ?? result?.rows;
+
+            /** 非标返回，取data中的第一个数组作为返回值，和AMIS中处理逻辑同步 */
+            if (!Array.isArray(items)) {
+              for (const key of Object.keys(result)) {
+                if (result.hasOwnProperty(key) && Array.isArray(result[key])) {
+                  items = result[key];
+                  break;
+                }
+              }
+            }
+
+            if (Array.isArray(items)) {
               Object.keys(items[0]).forEach((key: any) => {
                 const value = items[0][key];
                 autoFillKeyValues.push({
@@ -246,7 +265,7 @@ export class CRUDPlugin extends BasePlugin {
               });
             } else {
               toast.warning(
-                'API返回格式不正确，请点击接口地址右侧示例的问号查看示例'
+                'API返回格式不正确，请点击接口地址右侧示例查看CRUD数据接口结构要求'
               );
             }
           }
@@ -795,7 +814,7 @@ export class CRUDPlugin extends BasePlugin {
           },
 
           {
-            name: 'initFetch',
+            name: 'initFetchOn',
             autoComplete: false,
             visibleOn: 'typeof this.initFetch !== "boolean"',
             type: 'input-text',
@@ -866,7 +885,12 @@ export class CRUDPlugin extends BasePlugin {
           }),
 
           getSchemaTpl('apiControl', {
-            label: '顺序保存接口',
+            label: tipedLabel(
+              '顺序保存接口',
+              `<p><code>ids</code>: <span>用 id 来记录新的顺序</span></p>
+              <p><code>rows</code>: <span>数组格式，新的顺序，数组里面包含所有原始信息</span></p>
+              <p><code>insetAfter</code> / <code>insertBefore</code>: <span>这是 amis 生成的 diff 信息，对象格式，key 为目标成员的 primaryField 值，即 id，value 为数组，数组中存放成员 primaryField 值</span></p>`
+            ),
             name: 'saveOrderApi',
             visibleOn: 'data.draggable'
           }),
@@ -970,16 +994,13 @@ export class CRUDPlugin extends BasePlugin {
                 }
                 form.setValues({
                   headerToolbar,
-                  columns: form.data.__columns || [
-                    {
-                      label: 'ID',
-                      name: 'id'
-                    },
-                    {
-                      label: '列信息',
-                      name: 'name'
-                    }
-                  ],
+                  columns:
+                    form.data.__columns ||
+                    this.transformByMode({
+                      from: oldValue,
+                      to: value,
+                      schema: form.data
+                    }),
                   __headerHasColumnsToggler: headerHasColumnsToggle,
                   __card: form.data.card || form.data.__card,
                   __listItem: form.data.listItem || form.data.__listItem
@@ -993,29 +1014,13 @@ export class CRUDPlugin extends BasePlugin {
                   });
                 form.setValues({
                   headerToolbar,
-                  card: form.data.__card || {
-                    type: 'card',
-                    header: {
-                      title: '标题',
-                      subTitle: '副标题'
-                    },
-                    body: [
-                      {
-                        name: 'a',
-                        label: 'A'
-                      },
-                      {
-                        name: 'b',
-                        label: 'B'
-                      }
-                    ],
-                    actions: [
-                      {
-                        label: '详情',
-                        type: 'button'
-                      }
-                    ]
-                  },
+                  card:
+                    form.data.__card ||
+                    this.transformByMode({
+                      from: oldValue,
+                      to: value,
+                      schema: form.data
+                    }),
                   __columns: form.data.columns || form.data.__columns,
                   __listItem: form.data.listItem || form.data.__listItem
                 });
@@ -1028,21 +1033,13 @@ export class CRUDPlugin extends BasePlugin {
                   });
                 form.setValues({
                   headerToolbar,
-                  listItem: form.data.__listItem || {
-                    body: [
-                      {
-                        type: 'tpl',
-                        tpl: '简单的展示数据：$a $b',
-                        wrapperComponent: ''
-                      }
-                    ],
-                    actions: [
-                      {
-                        icon: 'fa fa-eye',
-                        type: 'button'
-                      }
-                    ]
-                  },
+                  listItem:
+                    form.data.__listItem ||
+                    this.transformByMode({
+                      from: oldValue,
+                      to: value,
+                      schema: form.data
+                    }),
                   __columns: form.data.columns || form.data.__columns,
                   __card: form.data.card || form.data.__card
                 });
@@ -1101,7 +1098,9 @@ export class CRUDPlugin extends BasePlugin {
                 } else if (typeof item === 'string') {
                   type = 'tpl';
                   item =
-                    typeof item === 'string' ? {type: 'tpl', tpl: item, wrapperComponent: ''} : item;
+                    typeof item === 'string'
+                      ? {type: 'tpl', tpl: item, wrapperComponent: ''}
+                      : item;
                 }
                 return {
                   type,
@@ -1280,7 +1279,9 @@ export class CRUDPlugin extends BasePlugin {
                 } else if (typeof item === 'string') {
                   type = 'tpl';
                   item =
-                    typeof item === 'string' ? {type: 'tpl', tpl: item, wrapperComponent: ''} : item;
+                    typeof item === 'string'
+                      ? {type: 'tpl', tpl: item, wrapperComponent: ''}
+                      : item;
                 }
 
                 return {
@@ -1491,8 +1492,10 @@ export class CRUDPlugin extends BasePlugin {
             name: 'maxKeepItemSelectionLength',
             label: '最大选择数量',
             type: 'input-number',
-            mode: 'inline',
-            className: 'block'
+            mode: 'horizontal',
+            horizontal: {
+              justify: true
+            }
           },
 
           {
@@ -1743,6 +1746,71 @@ export class CRUDPlugin extends BasePlugin {
     }
 
     return child.info.plugin.buildDataSchemas(child, undefined, trigger);
+  }
+
+  /** crud 不同 mode 之间转换时候，主体的转换 */
+  transformByMode({
+    from,
+    to,
+    schema
+  }: {
+    from: CRUDModes;
+    to: CRUDModes;
+    schema: any;
+  }) {
+    const fields = [];
+    const actions = [];
+
+    if (!from || from === 'table') {
+      (schema.columns || []).forEach((item: any) => {
+        if (!isPlainObject(item)) {
+          return;
+        } else if (item.type === 'operation') {
+          actions.push(...(item?.buttons || []));
+        } else {
+          fields.push(item);
+        }
+      });
+    } else {
+      const name = from === 'cards' ? 'card' : 'listItem';
+      fields.push(...(schema?.[name]?.body || []));
+      actions.push(...(schema?.[name]?.actions || []));
+    }
+
+    // 保底
+    fields.length ||
+      fields.concat([
+        {
+          name: 'a',
+          label: 'A'
+        },
+        {
+          name: 'b',
+          label: 'B'
+        }
+      ]);
+
+    if (to === 'table') {
+      return fields.concat({
+        type: 'operation',
+        label: '操作',
+        buttons: actions
+      });
+    } else if (to === 'cards') {
+      return {
+        type: 'card',
+        header: {
+          title: '标题',
+          subTitle: '副标题'
+        },
+        body: fields,
+        actions
+      };
+    }
+    return {
+      body: fields,
+      actions
+    };
   }
 }
 

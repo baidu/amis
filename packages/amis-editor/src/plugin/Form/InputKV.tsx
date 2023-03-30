@@ -12,6 +12,7 @@ import {
 } from 'amis-editor-core';
 
 export class KVControlPlugin extends BasePlugin {
+  static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'input-kv';
   $schema = '/schemas/KVControlSchema.json';

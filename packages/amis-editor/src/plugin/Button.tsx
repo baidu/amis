@@ -15,6 +15,7 @@ import {SchemaObject} from 'amis/lib/Schema';
 import {getOldActionSchema} from '../renderer/event-control/helper';
 
 export class ButtonPlugin extends BasePlugin {
+  static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'button';
   $schema = '/schemas/ActionSchema.json';
@@ -197,12 +198,11 @@ export class ButtonPlugin extends BasePlugin {
                 ),
                 form: {
                   body: [
-                    {
-                      type: 'ae-textareaFormulaControl',
+                    getSchemaTpl('textareaFormulaControl', {
                       label: '确认内容',
                       mode: 'normal',
                       name: 'confirmText'
-                    }
+                    })
                   ]
                 }
               },
@@ -215,17 +215,15 @@ export class ButtonPlugin extends BasePlugin {
                 hidden: isInDropdown,
                 form: {
                   body: [
-                    {
-                      type: 'ae-textareaFormulaControl',
+                    getSchemaTpl('textareaFormulaControl', {
                       name: 'tooltip',
                       mode: 'normal',
                       label: tipedLabel(
                         '正常提示',
                         '正常状态下的提示内容，不填则不弹出提示。可从数据域变量中取值。'
                       )
-                    },
-                    {
-                      type: 'ae-textareaFormulaControl',
+                    }),
+                    getSchemaTpl('textareaFormulaControl', {
                       name: 'disabledTip',
                       mode: 'normal',
                       label: tipedLabel(
@@ -234,7 +232,7 @@ export class ButtonPlugin extends BasePlugin {
                       ),
                       clearValueOnHidden: true,
                       visibleOn: 'data.tooltipTrigger !== "focus"'
-                    },
+                    }),
                     {
                       type: 'button-group-select',
                       name: 'tooltipTrigger',

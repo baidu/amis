@@ -148,6 +148,9 @@ import './plugin/Layout/Layout_free_container';
 import {GridPlugin} from './plugin/Grid';
 
 import './renderer/OptionControl';
+import './renderer/NavSourceControl';
+import './renderer/NavBadgeControl';
+import './renderer/NavDefaultActive';
 import './renderer/MapSourceControl';
 import './renderer/TimelineItemControl';
 import './renderer/APIControl';

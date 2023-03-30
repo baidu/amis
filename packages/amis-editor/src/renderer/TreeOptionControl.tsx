@@ -337,22 +337,31 @@ export default class TreeOptionControl extends React.Component<
         <a className="ae-TreeOptionControlItem-dragBar">
           <Icon icon="drag-bar" className="icon" />
         </a>
-        {amisRender({
-          type: i18nEnabled ? 'input-text-i18n' : 'input-text',
-          className: 'ae-TreeOptionControlItem-input-label',
-          value: option.label,
-          placeholder: '选项名称',
-          clearable: false,
-          onBlur: (event: any) => {
-            // 这里使用onBlur替代onChange 减少渲染次数
-            this.handleEditLabelOrValue(event.target.value, path, 'label');
-          },
-          onI18nChange: i18nEnabled
-            ? (value: string) => {
-                this.handleEditLabelOrValue(value, path, 'label');
-              }
-            : undefined
-        })}
+        {
+          i18nEnabled ? amisRender({
+            type: 'input-text-i18n',
+            className: 'ae-TreeOptionControlItem-input-label',
+            value: option.label,
+            placeholder: '选项名称',
+            clearable: false,
+            onBlur: (event: any) => {
+              this.handleEditLabelOrValue(event.target.value, path, 'label');
+            },
+            onI18nChange: (value: string) => {
+              this.handleEditLabelOrValue(value, path, 'label');
+            }
+          }) : (
+            <InputBox
+              className="ae-TreeOptionControlItem-input-label"
+              value={option.label}
+              placeholder="选项名称"
+              clearable={false}
+              onBlur={(event: any) => {
+                this.handleEditLabelOrValue(event.target.value, path, 'label');
+              }}
+            />
+          )
+        }
         <InputBox
           className="ae-TreeOptionControlItem-input-value"
           value={option.value}
