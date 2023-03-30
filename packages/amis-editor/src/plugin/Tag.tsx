@@ -15,8 +15,8 @@ const presetColors = [
   '#f33e3e',
   '#ff9326',
   '#fff',
-  '#000',
-]
+  '#000'
+];
 
 export class TagPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -101,7 +101,6 @@ export class TagPlugin extends BasePlugin {
   actions: RendererPluginAction[] = [];
 
   panelBodyCreator = (context: BaseEventContext) => {
-
     return getSchemaTpl('tabs', [
       {
         title: '属性',
@@ -109,7 +108,13 @@ export class TagPlugin extends BasePlugin {
           {
             title: '基本',
             body: [
-              getSchemaTpl('label'),
+              getSchemaTpl('valueFormula', {
+                name: 'label',
+                label: '标签内容',
+                rendererSchema: {
+                  type: 'input-text'
+                }
+              }),
               {
                 type: 'button-group-select',
                 label: '模式',
@@ -119,15 +124,15 @@ export class TagPlugin extends BasePlugin {
                 options: [
                   {
                     label: '普通',
-                    value:'normal'
+                    value: 'normal'
                   },
                   {
                     label: '圆角',
-                    value:'rounded'
+                    value: 'rounded'
                   },
                   {
                     label: '状态',
-                    value:'status'
+                    value: 'status'
                   }
                 ]
               },
@@ -147,28 +152,28 @@ export class TagPlugin extends BasePlugin {
             title: '颜色',
             body: [
               {
-                type:'input-color',
+                type: 'input-color',
                 label: '主题',
                 name: 'color',
                 presetColors,
                 pipeOut: undefinedPipeOut
               },
               {
-                type:'input-color',
+                type: 'input-color',
                 label: '背景色',
                 name: 'style.backgroundColor',
                 presetColors,
                 pipeOut: undefinedPipeOut
               },
               {
-                type:'input-color',
+                type: 'input-color',
                 label: '边框',
                 name: 'style.borderColor',
                 presetColors,
                 pipeOut: undefinedPipeOut
               },
               {
-                type:'input-color',
+                type: 'input-color',
                 label: '文字',
                 name: 'style.color',
                 presetColors,

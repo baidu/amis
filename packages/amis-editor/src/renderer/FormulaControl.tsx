@@ -21,11 +21,7 @@ import {
   TooltipWrapper,
   FormulaExec,
   isExpression,
-  PickerContainer,
-  isEffectiveApi,
-  buildApi,
-  DataScope,
-  TreeItem
+  PickerContainer
 } from 'amis';
 import {FormulaEditor} from 'amis-ui/lib/components/formula/Editor';
 import {autobind, translateSchema, JSONTraverse} from 'amis-editor-core';
@@ -40,6 +36,7 @@ import {EditorManager} from 'amis-editor-core';
 import {reaction} from 'mobx';
 import {getVariables} from './textarea-formula/utils';
 import type {SchemaApi} from 'amis/lib/Schema';
+import {EditorNodeType} from 'packages/amis-editor-core/lib';
 
 export enum FormulaDateType {
   NotDate, // 不是时间类
@@ -134,13 +131,6 @@ export interface FormulaControlProps extends FormControlProps {
    * 默认为 FormulaDateType.NotDate
    */
   DateTimeType?: FormulaDateType;
-
-  /**
-   * 加载上下文实体字段API
-   */
-  entityFieldsApi?: SchemaApi;
-
-  entityFieldsId?: string;
 }
 
 interface FormulaControlState {
@@ -482,63 +472,34 @@ export default class FormulaControl extends React.Component<
     );
   }
 
+  /**
+   * 公式编辑器打开前做一些
+   */
   @autobind
-  async buildContextEntityFields() {
-    const {
-      node,
-      manager,
-      data: ctx,
-      env,
-      entityFieldsId = 'entityFields',
-      entityFieldsApi
-    } = this.props;
-    const amisStore = manager?.store.ctx ?? manager?.amisStore;
+  async handleFormulaEditorOpen() {
+    const {node, manager, data} = this.props;
+    const onFormulaEditorOpen = manager?.config?.onFormulaEditorOpen;
 
     this.setState({loading: true});
-    const container = node.getClosestEntityContainer();
 
-    if (container) {
-      const fields = cloneDeep(container?.schema?.api?.select ?? []);
-      const apiPrefix = amisStore?.amisApp.apiPrefix;
-      const [dsKey, modelKey] =
-        container?.schema?.api?.entity?.value?.split('.');
-      const api = entityFieldsApi
-        ? buildApi(entityFieldsApi, ctx)
-        : ({
-            method: 'post',
-            url: `${apiPrefix}/model/${dsKey}.${modelKey}/schema`,
-            data: {
-              id: entityFieldsId,
-              fields
-            }
-          } as any);
+    try {
+      if (
+        manager &&
+        onFormulaEditorOpen &&
+        typeof onFormulaEditorOpen === 'function'
+      ) {
+        const res = await onFormulaEditorOpen(node, manager, data);
 
-      if (!apiPrefix || !dsKey || !modelKey || !isEffectiveApi(api, ctx)) {
-        this.setState({loading: false});
-        return Promise.resolve();
-      }
-
-      try {
-        const res = await env?.fetcher(api, ctx);
-        const result = res.data;
-
-        const scope = manager?.dataSchema.getScope(
-          `${container.id}-${container.type}`
-        );
-
-        if (scope && scope instanceof DataScope) {
-          scope.setSchemas([result]);
-
-          /** 刷新变量列表 */
+        if (res !== false) {
           const variables = await getVariables(this);
-          this.setState({variables, loading: false});
-          return Promise.resolve();
+          this.setState({variables});
         }
-      } catch {}
+      }
+    } catch (error) {
+      console.error('[amis-editor] onFormulaEditorOpen failed: ', error?.stack);
     }
 
     this.setState({loading: false});
-    return Promise.resolve();
   }
 
   render() {
@@ -709,7 +670,7 @@ export default class FormulaControl extends React.Component<
                 }}
                 onClick={async (e: React.MouseEvent) => {
                   try {
-                    await this.buildContextEntityFields();
+                    await this.handleFormulaEditorOpen();
                   } catch (error) {}
 
                   onClick(e);

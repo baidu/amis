@@ -934,7 +934,7 @@ export class FormPlugin extends BasePlugin {
     ) {
       if (
         scopeNode.parent?.type === 'crud2' &&
-        scopeNode.schemaPath.startsWith('body/0/filter/')
+        scopeNode.schemaPath?.startsWith('body/0/filter/')
       ) {
         return scopeNode.parent.info.plugin.getAvailableContextFields?.(
           scopeNode.parent,

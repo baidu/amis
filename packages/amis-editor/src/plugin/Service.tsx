@@ -13,8 +13,6 @@ import {
   tipedLabel
 } from 'amis-editor-core';
 import type {
-  PluginEvent,
-  ChangeEventContext,
   EditorManager,
   RendererPluginAction,
   RendererPluginEvent
