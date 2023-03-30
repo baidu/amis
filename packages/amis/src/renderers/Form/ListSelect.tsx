@@ -16,7 +16,7 @@ import {supportStatic} from './StaticHoc';
 
 /**
  * List 复选框
- * 文档：https://baidu.gitee.io/amis/docs/components/form/list
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/list
  */
 export interface ListControlSchema extends FormOptionsSchema {
   type: 'list-select';
@@ -119,51 +119,41 @@ export default class ListControl extends React.Component<ListProps, any> {
         return (
           <div
             key={key}
-            className={cx(
-              'ListControl-static-item',
-              itemClassName
-            )}
+            className={cx('ListControl-static-item', itemClassName)}
           >
             {itemSchema
               ? render(`${key}/body`, itemSchema, {
-                data: createObject(data, option)
-              })
+                  data: createObject(data, option)
+                })
               : option.body
-                ? render(`${key}/body`, option.body)
-                : [(option.image
-                      ? <div key="image"
-                          className={cx('ListControl-itemImage', imageClassName)}
-                        >
-                          <img src={option.image} alt={label} />
-                        </div>
-                      : null
-                    ),
-                    (
-                      <div key="label"
-                        className={cx('ListControl-itemLabel')}
-                      >
-                        {label}
-                      </div>
-                    )
-                  ]
-            }
+              ? render(`${key}/body`, option.body)
+              : [
+                  option.image ? (
+                    <div
+                      key="image"
+                      className={cx('ListControl-itemImage', imageClassName)}
+                    >
+                      <img src={option.image} alt={label} />
+                    </div>
+                  ) : null,
+                  <div key="label" className={cx('ListControl-itemLabel')}>
+                    {label}
+                  </div>
+                ]}
           </div>
         );
       }
 
       return (
-        <div
-          key={key}
-          className={cx(`ListControl-static-item`)}
-        >
+        <div key={key} className={cx(`ListControl-static-item`)}>
           {label}
         </div>
       );
-    }
+    };
 
-    return <div className={cx('StaticList')}>
-      {selectedOptions.map(itemRender)}
-    </div>
+    return (
+      <div className={cx('StaticList')}>{selectedOptions.map(itemRender)}</div>
+    );
   }
 
   @supportStatic()

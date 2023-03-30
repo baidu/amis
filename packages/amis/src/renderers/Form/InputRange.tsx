@@ -19,7 +19,7 @@ import {supportStatic} from './StaticHoc';
 
 /**
  * Range
- * 文档：https://baidu.gitee.io/amis/docs/components/form/range
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/range
  */
 
 export type Value = string | MultipleValue | number | [number, number];

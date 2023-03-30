@@ -7,7 +7,7 @@ import type {CellValue, CellRichTextValue} from 'exceljs';
 
 /**
  * Excel 解析
- * 文档：https://baidu.gitee.io/amis/docs/components/form/input-excel
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/input-excel
  */
 export interface InputExcelControlSchema extends FormBaseControlSchema {
   /**

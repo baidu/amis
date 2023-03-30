@@ -26,7 +26,7 @@ export interface QRCodeImageSettings {
 
 /**
  * 二维码展示控件。
- * 文档：https://baidu.gitee.io/amis/docs/components/qrcode
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/qrcode
  */
 export interface QRCodeSchema extends BaseSchema {
   type: 'qrcode' | 'qr-code';

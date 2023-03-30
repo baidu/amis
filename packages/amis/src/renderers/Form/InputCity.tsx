@@ -18,7 +18,7 @@ import {supportStatic} from './StaticHoc';
 
 /**
  * City 城市选择框。
- * 文档：https://baidu.gitee.io/amis/docs/components/form/city
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/city
  */
 export interface InputCityControlSchema
   extends FormBaseControlSchema,

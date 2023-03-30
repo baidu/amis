@@ -98,7 +98,7 @@ export interface TabSchema extends Omit<BaseSchema, 'type'> {
 
 /**
  * 选项卡控件。
- * 文档：https://baidu.gitee.io/amis/docs/components/tabs
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/tabs
  */
 export interface TabsSchema extends BaseSchema {
   type: 'tabs';

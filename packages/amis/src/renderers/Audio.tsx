@@ -9,7 +9,7 @@ import {BaseSchema, SchemaUrlPath} from '../Schema';
 
 /**
  * Audio 音频渲染器。
- * 文档：https://baidu.gitee.io/amis/docs/components/audio
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/audio
  */
 export interface AudioSchema extends BaseSchema {
   /**
@@ -300,7 +300,9 @@ export class Audio extends React.Component<AudioProps, AudioState> {
     const date = new Date(seconds * 1000);
     const hh = date.getUTCHours();
     const mm = isNaN(date.getUTCMinutes()) ? 0 : date.getUTCMinutes();
-    const ss = isNaN(date.getUTCSeconds()) ? '00': this.pad(date.getUTCSeconds());
+    const ss = isNaN(date.getUTCSeconds())
+      ? '00'
+      : this.pad(date.getUTCSeconds());
     if (hh) {
       return `${hh}:${this.pad(mm)}:${ss}`;
     }
@@ -460,7 +462,10 @@ export class Audio extends React.Component<AudioProps, AudioState> {
     const {muted, src} = this.state;
 
     return (
-      <div className={cx('Audio', className, inline ? 'Audio--inline' : '')} style={style}>
+      <div
+        className={cx('Audio', className, inline ? 'Audio--inline' : '')}
+        style={style}
+      >
         <audio
           className={cx('Audio-original')}
           ref={this.audioRef}

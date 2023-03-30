@@ -23,7 +23,7 @@ export type DropdownButton =
 
 /**
  * 下拉按钮渲染器。
- * 文档：https://baidu.gitee.io/amis/docs/components/dropdown-button
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/dropdown-button
  */
 export interface DropdownButtonSchema extends BaseSchema {
   /**

@@ -15,7 +15,7 @@ import type {FormBaseControlSchema, SchemaApi} from '../../Schema';
 
 /**
  * RichText
- * 文档：https://baidu.gitee.io/amis/docs/components/form/input-rich-text
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/input-rich-text
  */
 export interface RichTextControlSchema extends FormBaseControlSchema {
   type: 'input-rich-text';

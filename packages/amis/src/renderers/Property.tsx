@@ -40,7 +40,7 @@ export type PropertyItem = PropertyItemProps & SchemaObject;
 
 /**
  * Property 属性列表
- * 文档：https://baidu.gitee.io/amis/docs/components/property
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/property
  */
 export interface PropertySchema extends BaseSchema {
   /**

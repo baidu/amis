@@ -15,7 +15,7 @@ export type LogOperation =
 
 /**
  * 日志展示组件
- * 文档：https://baidu.gitee.io/amis/docs/components/log
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/log
  */
 export interface LogSchema extends BaseSchema {
   /**

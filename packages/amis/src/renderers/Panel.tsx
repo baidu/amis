@@ -15,7 +15,7 @@ import {FormHorizontal} from 'amis-core';
 
 /**
  * Panel渲染器。
- * 文档：https://baidu.gitee.io/amis/docs/components/panel
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/panel
  */
 export interface PanelSchema extends BaseSchema {
   /**

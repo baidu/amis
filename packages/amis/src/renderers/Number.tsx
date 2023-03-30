@@ -6,7 +6,7 @@ import {getPropValue} from 'amis-core';
 
 /**
  * Number 展示渲染器。
- * 文档：https://baidu.gitee.io/amis/docs/components/number
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/number
  */
 export interface NumberSchema extends BaseSchema {
   /**

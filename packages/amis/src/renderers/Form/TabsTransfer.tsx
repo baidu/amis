@@ -21,7 +21,7 @@ import {supportStatic} from './StaticHoc';
 
 /**
  * TabsTransfer
- * 文档：https://baidu.gitee.io/amis/docs/components/form/tabs-transfer
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/tabs-transfer
  */
 export interface TabsTransferControlSchema
   extends Omit<TransferControlSchema, 'type'>,

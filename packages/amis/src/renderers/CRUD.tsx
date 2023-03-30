@@ -320,7 +320,7 @@ export type CRUDTableSchema = CRUDCommonSchema & {
 
 /**
  * CRUD 增删改查渲染器。
- * 文档：https://baidu.gitee.io/amis/docs/components/crud
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/crud
  */
 export type CRUDSchema = CRUDCardsSchema | CRUDListSchema | CRUDTableSchema;
 

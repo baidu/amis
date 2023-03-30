@@ -28,7 +28,7 @@ import intersectionWith from 'lodash/intersectionWith';
 
 /**
  * Picker
- * 文档：https://baidu.gitee.io/amis/docs/components/form/picker
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/picker
  */
 export interface PickerControlSchema extends FormOptionsSchema {
   type: 'picker';

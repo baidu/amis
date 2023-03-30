@@ -21,7 +21,7 @@ import {
 } from 'amis-core';
 /**
  * Mapping 映射展示控件。
- * 文档：https://baidu.gitee.io/amis/docs/components/mapping
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/mapping
  */
 export interface MappingSchema extends BaseSchema {
   /**
@@ -264,10 +264,10 @@ export const MappingField = withStore(props =>
         }
         let realValue = value;
         if (
-          isObject(label)
-          && label.type === 'tag'
-          && !isObject(label.label)
-          && label.label != null
+          isObject(label) &&
+          label.type === 'tag' &&
+          !isObject(label.label) &&
+          label.label != null
         ) {
           realValue = label.label;
         }

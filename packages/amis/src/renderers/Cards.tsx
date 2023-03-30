@@ -32,7 +32,7 @@ import type {IItem} from 'amis-core/lib/store/list';
 
 /**
  * Cards 卡片集合渲染器。
- * 文档：https://baidu.gitee.io/amis/docs/components/card
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/card
  */
 export interface CardsSchema extends BaseSchema, SpinnerExtraProps {
   /**

@@ -13,7 +13,7 @@ import type {ImageToolbarAction} from './Image';
 
 /**
  * 图片集展示控件。
- * 文档：https://baidu.gitee.io/amis/docs/components/images
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/images
  */
 export interface ImagesSchema extends BaseSchema {
   /**

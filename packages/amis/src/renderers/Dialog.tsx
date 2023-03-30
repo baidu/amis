@@ -29,7 +29,7 @@ import {isAlive} from 'mobx-state-tree';
 
 /**
  * Dialog 弹框渲染器。
- * 文档：https://baidu.gitee.io/amis/docs/components/dialog
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/dialog
  */
 export interface DialogSchema extends BaseSchema {
   type: 'dialog';

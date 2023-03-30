@@ -23,7 +23,7 @@ import {TooltipWrapperSchema} from '../TooltipWrapper';
 
 /**
  * Tag 输入框
- * 文档：https://baidu.gitee.io/amis/docs/components/form/tag
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/tag
  */
 export interface TagControlSchema extends FormOptionsSchema {
   type: 'input-tag';

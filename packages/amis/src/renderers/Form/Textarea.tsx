@@ -12,7 +12,7 @@ import {supportStatic} from './StaticHoc';
 
 /**
  * TextArea 多行文本输入框。
- * 文档：https://baidu.gitee.io/amis/docs/components/form/textarea
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/textarea
  */
 export interface TextareaControlSchema extends FormBaseControlSchema {
   /**
