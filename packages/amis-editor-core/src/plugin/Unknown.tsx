@@ -7,6 +7,7 @@ import {
 } from '../plugin';
 
 export class UnkownRendererPlugin extends BasePlugin {
+  static scene = ['layout'];
   order = 9999;
 
   getRendererInfo({

@@ -4,6 +4,7 @@ import {BuildPanelEventContext, BasePlugin, BasicPanelItem} from '../plugin';
  * 添加名字面板，方便根据组件名字定位节点
  */
 export class NamePlugin extends BasePlugin {
+  static scene = ['layout'];
   order = -9999;
 
   buildEditorPanel(
