@@ -132,15 +132,23 @@
       display: flex;
       flex-direction: row-reverse;
       align-items: center;
+
       > li {
         margin-right: 10px;
         cursor: pointer;
+
+        &.is-loading {
+          display: flex;
+          cursor: unset;
+        }
       }
+
       &--fullscreen {
         > a {
           font-size: 12px;
         }
       }
+
       &-fxIcon {
         > a {
           font-size: 19px;

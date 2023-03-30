@@ -5,6 +5,7 @@
 
 import findIndex from 'lodash/findIndex';
 import uniqBy from 'lodash/uniqBy';
+import omit from 'lodash/omit';
 import {getRenderers, RenderOptions, mapTree} from 'amis-core';
 import {
   PluginInterface,
@@ -50,19 +51,21 @@ import {
   isString,
   isObject,
   isLayoutPlugin,
-  JSONPipeOut,
-  generateNodeId,
-  JSONTraverse,
-  diff as diffFunc
+  JSONPipeOut
 } from './util';
 import {reaction} from 'mobx';
 import {hackIn, makeSchemaFormRender, makeWrapper} from './component/factory';
 import {env} from './env';
 import debounce from 'lodash/debounce';
-import sortBy from 'lodash/sortBy';
-import reverse from 'lodash/reverse';
-import cloneDeep from 'lodash/cloneDeep';
-import {openContextMenus, toast, alert, DataScope, DataSchema} from 'amis';
+import {
+  openContextMenus,
+  toast,
+  alert,
+  DataScope,
+  DataSchema,
+  buildApi,
+  isEffectiveApi
+} from 'amis';
 import {parse, stringify} from 'json-ast-comments';
 import {EditorNodeType} from './store/node';
 import {EditorProps} from './component/Editor';
@@ -72,9 +75,8 @@ import {IScopedContext} from 'amis';
 import {SchemaObject, SchemaCollection} from 'amis/lib/Schema';
 import {BasePlugin} from './plugin';
 
+import type {RendererEnv} from 'amis';
 import type {RendererConfig} from 'amis-core/lib/factory';
-import isPlainObject from 'lodash/isPlainObject';
-import {omit} from 'lodash';
 
 export interface EditorManagerConfig
   extends Omit<EditorProps, 'value' | 'onChange'> {}
@@ -150,6 +152,7 @@ export function updateRegisteredEditorPlugin(
   const idx = findIndex(
     builtInPlugins,
     item =>
+      !Array.isArray(item) &&
       (item.id === identifier || item.name === identifier) &&
       item?.prototype instanceof BasePlugin
   );
@@ -1866,10 +1869,11 @@ export class EditorManager {
     ) {
       return;
     }
-    const plugin = node.info.plugin!;
 
+    const plugin = node.info.plugin!;
     const store = this.store;
     const context: PopOverFormContext = {
+      node,
       body: plugin.popOverBodyCreator
         ? plugin.popOverBodyCreator(this.buildEventContext(node))
         : plugin.popOverBody!,
