@@ -4,7 +4,8 @@ import {parseTr} from './parseTr';
 import {parseTablePr} from './parseTablePr';
 import Word from '../Word';
 import {parseSize} from './parseSize';
-import {parseSdt} from './parseSdt';
+
+import {mergeSdt} from './mergeSdt';
 
 function parseTblGrid(element: Element) {
   const gridCol: GridCol[] = [];
@@ -22,8 +23,7 @@ export function parseTable(word: Word, element: Element) {
   // 用于计算列的跨行，这里记下前面的跨行情况
   const rowSpanMap: {[key: string]: Tc} = {};
 
-  const arr = [].slice.call(element.children);
-  for (const child of element.children) {
+  for (const child of mergeSdt(element)) {
     const tagName = child.tagName;
     switch (tagName) {
       case 'w:tblPr':
@@ -36,14 +36,6 @@ export function parseTable(word: Word, element: Element) {
 
       case 'w:tblGrid':
         table.tblGrid = parseTblGrid(child);
-        break;
-
-      case 'w:customXml':
-        arr.push(...[].slice.call(child.children));
-        break;
-
-      case 'w:sdt':
-        parseSdt(child, arr);
         break;
 
       default:

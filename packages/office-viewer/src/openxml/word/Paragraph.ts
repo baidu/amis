@@ -13,7 +13,7 @@ import {Run, RunPr} from './Run';
 import {Tab} from './Tab';
 import {FldSimple} from './FldSimple';
 import {OMath} from '../math/OMath';
-import {parseSdt} from '../../parse/parseSdt';
+import {mergeSdt} from '../../parse/mergeSdt';
 
 /**
  * 这里简化了很多，如果能用 CSS 表示就直接用 CSS 表示
@@ -100,8 +100,7 @@ export class Paragraph {
     paragraph.fldSimples = [];
     paragraph.paraId = element.getAttribute('w14:paraId') || '';
 
-    const arr = [].slice.call(element.children);
-    for (const child of arr) {
+    for (const child of mergeSdt(element)) {
       const tagName = child.tagName;
       switch (tagName) {
         case 'w:pPr':
@@ -110,11 +109,6 @@ export class Paragraph {
 
         case 'w:r':
           paragraph.addChild(Run.fromXML(word, child));
-          break;
-
-        case 'w:smartTag':
-        case 'w:customXml':
-          arr.push(...[].slice.call(child.children));
           break;
 
         case 'w:hyperlink':
@@ -147,10 +141,6 @@ export class Paragraph {
         case 'm:oMathPara':
         case 'm:oMath':
           paragraph.addChild(OMath.fromXML(word, child));
-          break;
-
-        case 'w:sdt':
-          parseSdt(child, arr);
           break;
 
         default:

@@ -16,6 +16,7 @@ function parseClrScheme(doc: Element | null): ClrScheme {
   if (!doc) {
     return scheme;
   }
+  
   scheme.name = doc.getAttribute('name') || '';
   for (const child of doc.children) {
     const colorName = child.tagName.replace('a:', '');

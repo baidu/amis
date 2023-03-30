@@ -74,7 +74,7 @@ export function parseShdColor(word: Word, element: Element) {
   const val = getVal(element) as ST_Shd;
 
   if (color === 'auto') {
-    color = 'inherit';
+    color = '000000';
   }
 
   if (color.length === 6) {

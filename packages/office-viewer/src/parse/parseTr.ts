@@ -4,7 +4,8 @@ import {parseTc} from './parseTc';
 import {parseTablePr} from './parseTablePr';
 import {Tc} from '../openxml/word/table/Tc';
 import {parseTrPr} from './parseTrPr';
-import {parseSdt} from './parseSdt';
+
+import {mergeSdt} from './mergeSdt';
 
 export function parseTr(
   word: Word,
@@ -18,8 +19,7 @@ export function parseTr(
     index: 0
   };
 
-  const arr = [].slice.call(element.children);
-  for (const child of arr) {
+  for (const child of mergeSdt(element)) {
     const tagName = child.tagName;
     switch (tagName) {
       case 'w:tc':
@@ -37,14 +37,6 @@ export function parseTr(
         // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/tblPrEx_1.html
         const tablePr = parseTablePr(word, child);
         Object.assign(tr.properties.cssStyle || {}, tablePr.cssStyle);
-        break;
-
-      case 'w:customXml':
-        arr.push(...[].slice.call(child.children));
-        break;
-
-      case 'w:sdt':
-        parseSdt(child, arr);
         break;
 
       default:

@@ -1,4 +1,4 @@
-import {parseSdt} from '../../parse/parseSdt';
+import {mergeSdt} from '../../parse/mergeSdt';
 import {parseTable} from '../../parse/parseTable';
 import Word from '../../Word';
 import {Paragraph} from './Paragraph';
@@ -36,17 +36,12 @@ export class Body {
   static fromXML(word: Word, element: Element): Body {
     const body = new Body();
 
-    const arr = [].slice.call(element.children);
-    for (const child of arr) {
+    for (const child of mergeSdt(element)) {
       const tagName = child.tagName;
       switch (tagName) {
         case 'w:p':
           const paragraph = Paragraph.fromXML(word, child);
           body.addChild(paragraph);
-          break;
-
-        case 'w:sectPr':
-          body.addSection(Section.parsePr(word, child, body));
           break;
 
         case 'w:tbl':
@@ -58,12 +53,8 @@ export class Body {
         case 'w:bookmarkEnd':
           break;
 
-        case 'w:sdt':
-          parseSdt(child, arr);
-          break;
-
-        case 'w:customXml':
-          arr.push(...[].slice.call(child.children));
+        case 'w:sectPr':
+          body.addSection(Section.parsePr(word, child, body));
           break;
 
         default:

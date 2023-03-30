@@ -477,6 +477,14 @@ export default class Word {
   }
 
   /**
+   * 根据 id 获取样式
+   * @param styleId
+   */
+  getStyle(styleId: string) {
+    return this.styles.styleMap[styleId];
+  }
+
+  /**
    * 渲染时的 css 类前缀
    */
   getClassPrefix() {

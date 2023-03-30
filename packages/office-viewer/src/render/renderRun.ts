@@ -82,6 +82,14 @@ export default function renderRun(
 
   setElementStyle(word, span, run.properties);
 
+  // run 不好通过 class 来设置 rStyle，所以单独支持一下
+  if (run.properties?.rStyle) {
+    const style = word.getStyle(run.properties.rStyle);
+    if (style?.rPr?.cssStyle) {
+      applyStyle(span, style.rPr.cssStyle);
+    }
+  }
+
   if (run.children.length === 1 && run.children[0] instanceof Text) {
     const text = run.children[0] as Text;
     renderText(span, word, text.text, paragraph);
