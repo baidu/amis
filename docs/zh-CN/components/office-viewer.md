@@ -52,15 +52,15 @@ order: 23
 }
 ```
 
-| 属性名            | 类型      | 默认值        | 说明                                                       |
-| ----------------- | --------- | ------------- | ---------------------------------------------------------- |
-| classPrefix       | `string`  | 'docx-viewer' | 渲染的 class 类前缀                                        |
-| ignoreWidth       | `boolean` | false         | 忽略文档里的宽度设置，用于更好嵌入到页面里，但会减低还原度 |
-| padding           | `string`  |               | 设置页面间距，忽略文档中的设置                             |
-| bulletUseFont     | `boolean` | true          | 列表使用字体渲染，请参考下面的乱码说明                     |
-| fontMapping       | `object`  |               | 字体映射，是个键值对，用于替换文档中的字体                 |
-| forceLineHeight   | `string`  |               | 设置段落行高，忽略文档中的设置                             |
-| enableReplaceText | `boolean` | true          | 是否开启变量替换功能                                       |
+| 属性名          | 类型      | 默认值        | 说明                                                       |
+| --------------- | --------- | ------------- | ---------------------------------------------------------- |
+| classPrefix     | `string`  | 'docx-viewer' | 渲染的 class 类前缀                                        |
+| ignoreWidth     | `boolean` | false         | 忽略文档里的宽度设置，用于更好嵌入到页面里，但会减低还原度 |
+| padding         | `string`  |               | 设置页面间距，忽略文档中的设置                             |
+| bulletUseFont   | `boolean` | true          | 列表使用字体渲染，请参考下面的乱码说明                     |
+| fontMapping     | `object`  |               | 字体映射，是个键值对，用于替换文档中的字体                 |
+| forceLineHeight | `string`  |               | 设置段落行高，忽略文档中的设置                             |
+| enableVar       | `boolean` | true          | 是否开启变量替换功能                                       |
 
 ### 关于渲染效果差异
 
@@ -298,13 +298,18 @@ order: 23
 }
 ```
 
+## 是否显示 loading
+
+通过 `"loading": true` 配置显示 loading
+
 ## 属性表
 
-| 属性名      | 类型      | 默认值 | 说明                 |
-| ----------- | --------- | ------ | -------------------- |
-| src         | Api       |        | 文档地址             |
-| enableVar   | `boolean` |        | 是否开启变量替换功能 |
-| wordOptions | `object`  |        | Word 渲染配置        |
+| 属性名      | 类型      | 默认值 | 说明                  |
+| ----------- | --------- | ------ | --------------------- |
+| src         | Api       |        | 文档地址              |
+| loading     | `boolean` | false  | 是否显示 loading 图标 |
+| enableVar   | `boolean` |        | 是否开启变量替换功能  |
+| wordOptions | `object`  |        | Word 渲染配置         |
 
 ## 动作表
 
