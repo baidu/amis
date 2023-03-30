@@ -139,6 +139,7 @@ import './plugin/CodeView';
 import './plugin/WebComponent';
 import './plugin/CRUD2';
 import './plugin/ColumnToggler';
+import './plugin/OfficeViewer';
 import './plugin/Layout/Layout_sorption_container';
 import './plugin/Layout/Layout_fixed';
 // import './plugin/Layout/Layout1_2_v4';

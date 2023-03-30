@@ -16,6 +16,7 @@ import {
   ScopedContext
 } from 'amis-core';
 import type {Word} from 'office-viewer';
+import {Spinner} from 'amis-ui';
 
 export interface OfficeViewerSchema extends BaseSchema {
   type: 'office-viewer';
@@ -110,8 +111,6 @@ export default class OfficeViewer extends React.Component<
       this.renderRemoteWord();
     } else if (name) {
       this.renderFormFile();
-    } else {
-      console.warn(`office-viewer must have src or name`);
     }
   }
 
@@ -127,6 +126,11 @@ export default class OfficeViewer extends React.Component<
 
     if (typeof finalSrc === 'string') {
       this.fileName = finalSrc.split('/').pop();
+    }
+
+    if (!finalSrc) {
+      console.warn('file src is empty');
+      return;
     }
 
     const response = await env.fetcher(finalSrc, data, {
@@ -176,8 +180,49 @@ export default class OfficeViewer extends React.Component<
   }
 
   render() {
-    const {classnames: cx, translate: __} = this.props;
-    return <div ref={this.rootElement} className={cx('Office-Viewer')}></div>;
+    const {
+      classnames: cx,
+      translate: __,
+      className,
+      loading = false,
+      src,
+      name,
+      loadingConfig
+    } = this.props;
+    return (
+      <div ref={this.rootElement} className={cx('Office-Viewer', className)}>
+        {/* 避免没内容时编辑器都选不了 */}
+        {(!src || !name) && (
+          <svg width="100%" height="100" xmlns="http://www.w3.org/2000/svg">
+            <rect
+              x="0"
+              y="0"
+              width="100%"
+              height="100"
+              style={{fill: '#F7F7F9'}}
+            />
+            <text
+              x="50%"
+              y="50%"
+              fontSize="18"
+              textAnchor="middle"
+              alignmentBaseline="middle"
+              fontFamily="monospace, sans-serif"
+              fill="#555555"
+            >
+              office viewer
+            </text>
+          </svg>
+        )}
+
+        <Spinner
+          overlay
+          key="info"
+          show={loading}
+          loadingConfig={loadingConfig}
+        />
+      </div>
+    );
   }
 }
 
