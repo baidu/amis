@@ -50,7 +50,6 @@ import isPlainObject from 'lodash/isPlainObject';
 import {EditorManagerConfig} from '../manager';
 import {EditorNode, EditorNodeType} from './node';
 import findIndex from 'lodash/findIndex';
-
 export interface SchemaHistory {
   versionId: number;
   schema: any;
@@ -70,6 +69,8 @@ export type SubEditorContext = {
   typeMutable?: boolean;
   memberImmutable?: boolean | Array<string>;
   props?: any;
+  /* 宿主节点的Store */
+  hostNode?: EditorNodeType;
 };
 
 export type PatchItem =
@@ -104,6 +105,7 @@ export interface PopOverFormContext extends PopOverForm {
   target: () => HTMLElement;
   value: any;
   callback: (value: any, diff: any) => void;
+  node: EditorNodeType;
 }
 
 /**
@@ -1575,11 +1577,15 @@ export const MainStore = types
       },
 
       openSubEditor(context: SubEditorContext) {
-        if (!self.activeId) {
+        const activeId = self.activeId;
+
+        if (!activeId) {
           return;
         }
+
         self.subEditorContext = {
           ...context,
+          hostNode: self.getNodeById(activeId),
           data: extendObject(context.data, {
             __curCmptTreeWrap: {
               label: context.title,

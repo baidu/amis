@@ -591,6 +591,14 @@ export const EditorNode = types
         ) {
           break;
         }
+
+        /**
+         * 弹窗和抽屉容器中
+         */
+        if (['dialog', 'drawer'].includes(nodeSchema?.type)) {
+          break;
+        }
+
         cursor = cursor.parent;
       }
 
