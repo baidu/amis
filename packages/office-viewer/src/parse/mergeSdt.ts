@@ -15,19 +15,21 @@ function flattenSdtArray(arr: Element[]): Element[] {
         const customXMLChildren = [].slice.call(child.children);
         returnArray.splice(index, 1, ...customXMLChildren);
         index = index + customXMLChildren.length;
-        break;
+        continue;
 
       case 'w:sdt':
         const sdtContent = child.getElementsByTagName('w:sdtContent').item(0);
-        if (sdtContent) {
-          const sdtContentChildren = [].slice.call(sdtContent.children);
-          returnArray.splice(index, 1, ...sdtContentChildren);
-          index = index + sdtContentChildren.length;
-        }
         const childSdt = child.getElementsByTagName('w:sdt').item(0);
         if (childSdt) {
           needRecursion = true;
         }
+        if (sdtContent) {
+          const sdtContentChildren = [].slice.call(sdtContent.children);
+          returnArray.splice(index, 1, ...sdtContentChildren);
+          index = index + sdtContentChildren.length;
+          continue;
+        }
+
         break;
     }
     index = index + 1;

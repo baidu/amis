@@ -685,5 +685,45 @@ border-right: 0.67px solid black;
       style="position: relative;"
     />
   </article>
+  <div
+    style="border-top: 1px solid silver; margin-top: 20px;"
+  >
+    <div>
+      <p
+        class="docx-viewer-0-p"
+      >
+        <span
+          class="docx-viewer-0-r"
+        />
+      </p>
+    </div>
+    <div>
+      <p
+        class="docx-viewer-0-p"
+      >
+        <span
+          class="docx-viewer-0-r"
+        />
+      </p>
+    </div>
+    <div>
+      <p
+        class="docx-viewer-0-p"
+      >
+        <span
+          class="docx-viewer-0-r"
+        />
+      </p>
+    </div>
+    <div>
+      <p
+        class="docx-viewer-0-p"
+      >
+        <span
+          class="docx-viewer-0-r"
+        />
+      </p>
+    </div>
+  </div>
 </div>
 `;

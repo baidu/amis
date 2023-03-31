@@ -23,6 +23,10 @@ import {Paragraph} from './openxml/word/Paragraph';
 import {deobfuscate} from './openxml/word/Font';
 import {renderFont} from './render/renderFont';
 import {replaceT, replaceVar} from './util/replaceVar';
+import {Note} from './openxml/word/Note';
+import {parseFootnotes} from './parse/Footnotes';
+import {parseEndnotes} from './parse/parseEndnotes';
+import {renderNotes} from './render/renderNotes';
 
 /**
  * 渲染配置
@@ -203,6 +207,10 @@ export default class Word {
    */
   currentParagraph: Paragraph;
 
+  footNotes: Record<string, Note> = {};
+
+  endNotes: Record<string, Note> = {};
+
   /**
    * 构建 word
    *
@@ -239,6 +247,8 @@ export default class Word {
     this.initFontTable();
     this.initStyle();
     this.initNumbering();
+
+    this.initNotes();
 
     this.inited = true;
   }
@@ -326,6 +336,19 @@ export default class Word {
       if (override.partName.startsWith('/word/numbering')) {
         const numberingData = this.parser.getXML(override.partName);
         this.numbering = Numbering.fromXML(this, numberingData);
+      }
+    }
+  }
+
+  initNotes() {
+    for (const override of this.conentTypes.overrides) {
+      if (override.partName.startsWith('/word/footnotes.xml')) {
+        const notesData = this.parser.getXML(override.partName);
+        this.footNotes = parseFootnotes(this, notesData);
+      }
+      if (override.partName.startsWith('/word/endnotes.xml')) {
+        const notesData = this.parser.getXML(override.partName);
+        this.endNotes = parseEndnotes(this, notesData);
       }
     }
   }
@@ -600,5 +623,7 @@ export default class Word {
     appendChild(root, renderStyle(this));
     appendChild(root, renderFont(this.fontTable));
     appendChild(root, documentElement);
+
+    appendChild(root, renderNotes(this));
   }
 }

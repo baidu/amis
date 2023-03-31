@@ -548,5 +548,49 @@ font-size: 16.00px;
       style="position: relative;"
     />
   </article>
+  <div
+    style="border-top: 1px solid silver; margin-top: 20px;"
+  >
+    <div>
+      <p
+        class="docx-viewer-0-p"
+        style="margin-bottom: 0.00px; line-height: 1.00;"
+      >
+        <span
+          class="docx-viewer-0-r"
+        />
+      </p>
+    </div>
+    <div>
+      <p
+        class="docx-viewer-0-p"
+        style="margin-bottom: 0.00px; line-height: 1.00;"
+      >
+        <span
+          class="docx-viewer-0-r"
+        />
+      </p>
+    </div>
+    <div>
+      <p
+        class="docx-viewer-0-p"
+        style="line-height: 1.00;"
+      >
+        <span
+          class="docx-viewer-0-r"
+        />
+      </p>
+    </div>
+    <div>
+      <p
+        class="docx-viewer-0-p"
+        style="line-height: 1.00;"
+      >
+        <span
+          class="docx-viewer-0-r"
+        />
+      </p>
+    </div>
+  </div>
 </div>
 `;

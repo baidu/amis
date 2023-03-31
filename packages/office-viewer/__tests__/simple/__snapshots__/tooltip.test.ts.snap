@@ -149,6 +149,7 @@ text-decoration: underline;
         >
           <span
             class="docx-viewer-0-r docx-viewer-0-DefaultParagraphFont docx-viewer-0-Hyperlink"
+            style="color: rgb(5, 99, 193); text-decoration: underline;"
           >
             hyperlink with a tooltip
           </span>

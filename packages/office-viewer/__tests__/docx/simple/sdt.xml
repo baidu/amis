@@ -91,6 +91,33 @@
                                 </w:sdt>
                             </w:sdtContent>
                         </w:sdt>
+                        <w:sdt>
+                            <w:sdtPr>
+                                <w:id w:val="-804081795" />
+                                <w:citation />
+                            </w:sdtPr>
+                            <w:sdtContent>
+                                <w:r w:rsidR="008C007E">
+                                    <w:fldChar w:fldCharType="begin" />
+                                </w:r>
+                                <w:r w:rsidR="008C007E">
+                                    <w:instrText xml:space="preserve"> CITATION Bla10 \l 1033  \m Bog14</w:instrText>
+                                </w:r>
+                                <w:r w:rsidR="008C007E">
+                                    <w:fldChar w:fldCharType="separate" />
+                                </w:r>
+                                <w:r w:rsidR="0079516E">
+                                    <w:rPr>
+                                        <w:noProof />
+                                    </w:rPr>
+                                    <w:t>(Blank 2010, T. Bogich 2014)</w:t>
+                                </w:r>
+                                <w:r w:rsidR="008C007E">
+                                    <w:fldChar w:fldCharType="end" />
+                                </w:r>
+                            </w:sdtContent>
+                        </w:sdt>
+
                         <w:r w:rsidRPr="00216BEA">
                             <w:t xml:space="preserve">. </w:t>
                         </w:r>

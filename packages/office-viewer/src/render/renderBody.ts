@@ -26,7 +26,8 @@ export default function renderBody(
         appendChild(sectionEl, p);
       } else if (child instanceof Table) {
         appendChild(sectionEl, renderTable(word, child));
-      } else if (child instanceof Hyperlink) {
+      } else {
+        console.warn('unknown child', child);
       }
     }
     appendChild(parent, sectionEl);
