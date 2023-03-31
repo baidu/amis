@@ -10,7 +10,11 @@ export function mockValue(schema: any) {
     schema.type === 'static-date' ||
     schema.type === 'static-datetime' ||
     schema.type === 'static-time' ||
-    schema.type === 'static-month'
+    schema.type === 'static-month' ||
+    schema.type === 'input-date' ||
+    schema.type === 'input-datetime' ||
+    schema.type === 'input-time' ||
+    schema.type === 'input-month'
   ) {
     return moment().format('X');
   } else if (schema.type === 'image' || schema.type === 'static-image') {
