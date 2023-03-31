@@ -4,7 +4,7 @@
     "packages/amis-core",
     "packages/amis-ui",
     "packages/amis",
-    "packages/office-viewer"
+    "packages/ooxml-viewer"
   ],
   "version": "2.8.0"
 }

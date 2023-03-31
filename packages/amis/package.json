@@ -64,7 +64,7 @@
     "mobx-state-tree": "^3.17.3",
     "moment": "^2.19.4",
     "mpegts.js": "^1.6.10",
-    "office-viewer": "0.1.0",
+    "ooxml-viewer": "0.1.0",
     "prop-types": "^15.6.1",
     "qrcode.react": "^3.1.0",
     "rc-overflow": "^1.2.4",
@@ -238,7 +238,7 @@
   "peerDependencies": {
     "amis-core": "*",
     "amis-ui": "*",
-    "office-viewer": "*",
+    "ooxml-viewer": "*",
     "react": ">=16.8.6",
     "react-dom": ">=16.8.6"
   },
