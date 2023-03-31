@@ -1872,7 +1872,9 @@ popOver 的其它配置请参考 [popover](./popover)
 | columnSearch   | `searchName: string` 列搜索列名<br/>`searchValue: string` 列搜索数据    | 点击列搜索时触发     |
 | orderChange    | `movedItems: item[]` 已排序数据                                         | 手动拖拽行排序时触发 |
 | columnToggled  | `columns: item[]` 当前显示的列配置数据                                  | 点击自定义列时触发   |
-| rowClick       | `rowItem: object` 行点击数据                                            | 点击整行时触发       |
+| rowClick       | `item: object` 行点击数据<br/>`index: number` 行索引                    | 点击整行时触发       |
+| rowMouseEnter  | `item: object` 行移入数据<br/>`index: number` 行索引                    | 移入整行时触发       |
+| rowMouseLeave  | `item: object` 行移出数据<br/>`index: number` 行索引                    | 移出整行时触发       |
 
 ### 列配置事件表
 

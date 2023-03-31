@@ -279,7 +279,7 @@ export class Table2Plugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.rowItem': {
+            'event.data.item': {
               type: 'object',
               title: '行点击数据'
             }
