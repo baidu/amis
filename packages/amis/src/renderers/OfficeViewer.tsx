@@ -187,12 +187,13 @@ export default class OfficeViewer extends React.Component<
       loading = false,
       src,
       name,
+      display,
       loadingConfig
     } = this.props;
     return (
       <div ref={this.rootElement} className={cx('Office-Viewer', className)}>
         {/* 避免没内容时编辑器都选不了 */}
-        {(!src || !name) && (
+        {display !== false && !src && !name && (
           <svg width="100%" height="100" xmlns="http://www.w3.org/2000/svg">
             <rect
               x="0"
