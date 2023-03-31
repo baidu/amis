@@ -5,7 +5,7 @@
 import {Note, NoteChild} from '../openxml/word/Note';
 import {Paragraph} from '../openxml/word/Paragraph';
 import {Table} from '../openxml/word/Table';
-import {appendChild, createElement} from '../util/dom';
+import {appendChild, appendComment, createElement} from '../util/dom';
 import Word from '../Word';
 import renderParagraph from './renderParagraph';
 import renderTable from './renderTable';
@@ -49,8 +49,6 @@ export function renderNotes(word: Word) {
   }
 
   if (noteRoot.children.length) {
-    noteRoot.style['borderTop'] = '1px solid silver';
-    noteRoot.style['marginTop'] = '20px';
     return noteRoot;
   } else {
     return null;

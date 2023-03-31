@@ -548,9 +548,7 @@ font-size: 16.00px;
       style="position: relative;"
     />
   </article>
-  <div
-    style="border-top: 1px solid silver; margin-top: 20px;"
-  >
+  <div>
     <div>
       <p
         class="docx-viewer-0-p"
@@ -568,7 +566,11 @@ font-size: 16.00px;
       >
         <span
           class="docx-viewer-0-r"
-        />
+        >
+          <hr
+            style="border-top: 1px solid #bbb;"
+          />
+        </span>
       </p>
     </div>
     <div>
@@ -588,7 +590,11 @@ font-size: 16.00px;
       >
         <span
           class="docx-viewer-0-r"
-        />
+        >
+          <hr
+            style="border-top: 1px solid #bbb;"
+          />
+        </span>
       </p>
     </div>
   </div>

@@ -9,6 +9,7 @@ import {NoBreakHyphen} from './NoBreakHyphen';
 import {Pict} from './Pict';
 import {Properties} from './properties/Properties';
 import {Ruby} from './Ruby';
+import {Separator} from './Separator';
 import {SoftHyphen} from './SoftHyphen';
 import {Sym} from './Sym';
 import {Tab} from './Tab';
@@ -39,6 +40,7 @@ type RunChild =
   | InstrText
   | Sym
   | SoftHyphen
+  | Separator
   | NoBreakHyphen;
 
 export class Run {
@@ -130,6 +132,14 @@ export class Run {
 
         case 'w:noBreakHyphen':
           run.addChild(new NoBreakHyphen());
+          break;
+
+        case 'w:separator':
+          run.addChild(new Separator());
+          break;
+
+        case 'w:continuationSeparator':
+          // TODO: 还不知道是啥
           break;
 
         default:

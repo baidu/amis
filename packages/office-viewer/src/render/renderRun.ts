@@ -26,6 +26,8 @@ import {renderSoftHyphen} from './renderSoftHyphen';
 import {SoftHyphen} from '../openxml/word/SoftHyphen';
 import {NoBreakHyphen} from '../openxml/word/NoBreakHyphen';
 import {renderNoBreakHyphen} from './renderNoBreakHyphen';
+import {Separator} from '../openxml/word/Separator';
+import {renderSeparator} from './renderSeparator';
 
 const VARIABLE_CLASS_NAME = 'variable';
 
@@ -118,6 +120,8 @@ export default function renderRun(
         appendChild(span, renderSoftHyphen());
       } else if (child instanceof NoBreakHyphen) {
         appendChild(span, renderNoBreakHyphen());
+      } else if (child instanceof Separator) {
+        appendChild(span, renderSeparator());
       } else {
         console.warn('unknown child', child);
       }
