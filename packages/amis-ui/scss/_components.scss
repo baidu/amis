@@ -4000,4 +4000,116 @@
   --TableCell-sortBtn--onActive-color: var(--table-icon-active-color);
   --TableCell-sortBtn-width: var(--sizes-size-8);
   --TableCell-icon-gap: var(--table-icon-marginLeft);
+
+  --combo-bg-color: var(--colors-neutral-fill-11);
+  --combo-vertical-top-border-color: var(--colors-neutral-line-8);
+  --combo-vertical-top-border-width: var(--borders-width-2);
+  --combo-vertical-top-border-style: var(--borders-style-3);
+  --combo-vertical-right-border-color: var(--colors-neutral-line-8);
+  --combo-vertical-right-border-width: var(--borders-width-2);
+  --combo-vertical-right-border-style: var(--borders-style-3);
+  --combo-vertical-bottom-border-color: var(--colors-neutral-line-8);
+  --combo-vertical-bottom-border-width: var(--borders-width-2);
+  --combo-vertical-bottom-border-style: var(--borders-style-3);
+  --combo-vertical-left-border-color: var(--colors-neutral-line-8);
+  --combo-vertical-left-border-width: var(--borders-width-2);
+  --combo-vertical-left-border-style: var(--borders-style-3);
+  --combo-vertical-top-left-border-radius: var(--borders-radius-1);
+  --combo-vertical-top-right-border-radius: var(--borders-radius-1);
+  --combo-vertical-bottom-right-border-radius: var(--borders-radius-1);
+  --combo-vertical-bottom-left-border-radius: var(--borders-radius-1);
+  --combo-vertical-hover-top-border-color: var(--colors-brand-5);
+  --combo-vertical-hover-top-border-width: var(--borders-width-2);
+  --combo-vertical-hover-top-border-style: var(--borders-style-3);
+  --combo-vertical-hover-right-border-color: var(--colors-brand-5);
+  --combo-vertical-hover-right-border-width: var(--borders-width-2);
+  --combo-vertical-hover-right-border-style: var(--borders-style-3);
+  --combo-vertical-hover-bottom-border-color: var(--colors-brand-5);
+  --combo-vertical-hover-bottom-border-width: var(--borders-width-2);
+  --combo-vertical-hover-bottom-border-style: var(--borders-style-3);
+  --combo-vertical-hover-left-border-color: var(--colors-brand-5);
+  --combo-vertical-hover-left-border-width: var(--borders-width-2);
+  --combo-vertical-hover-left-border-style: var(--borders-style-3);
+  --combo-vertical-paddingTop: var(--sizes-size-6);
+  --combo-vertical-paddingRight: var(--sizes-size-6);
+  --combo-vertical-paddingBottom: var(--sizes-size-6);
+  --combo-vertical-paddingLeft: var(--sizes-size-6);
+  --combo-multi-addBtn-color: var(--colors-neutral-text-11);
+  --combo-multi-addBtn-fontSize: var(--fonts-size-8);
+  --combo-multi-addBtn-fontWeight: var(--fonts-weight-6);
+  --combo-multi-addBtn-lineHeight: var(--fonts-lineHeight-2);
+  --combo-multi-addBtn-top-left-border-radius: var(--borders-radius-3);
+  --combo-multi-addBtn-top-right-border-radius: var(--borders-radius-3);
+  --combo-multi-addBtn-bottom-right-border-radius: var(--borders-radius-3);
+  --combo-multi-addBtn-bottom-left-border-radius: var(--borders-radius-3);
+  --combo-multi-addBtn-bg-color: var(--colors-brand-5);
+  --combo-multi-addBtn-height: var(--sizes-base-13);
+  --combo-multi-addBtn-paddingTop: var(--sizes-size-3);
+  --combo-multi-addBtn-paddingRight: var(--sizes-size-5);
+  --combo-multi-addBtn-paddingBottom: var(--sizes-size-3);
+  --combo-multi-addBtn-paddingLeft: var(--sizes-size-5);
+  --combo-multi-addBtn-hover-color: var(--colors-neutral-text-11);
+  --combo-multi-addBtn-hover-bg-color: var(--colors-brand-6);
+  --combo-multi-addBtn-active-color: var(--colors-neutral-text-11);
+  --combo-multi-addBtn-active-bg-color: var(--colors-brand-4);
+  --combo-multi-delBtn-color: var(--colors-neutral-text-5);
+  --combo-multi-delBtn-hover-color: var(--colors-neutral-text-2);
+
+  --Combo--horizontal-dragger-top: var(--sizes-size-3);
+  --Combo--horizontal-item-gap: var(--gap-xs);
+  --Combo--vertical-item-borderColor: var(--combo-vertical-top-border-color)
+    var(--combo-vertical-right-border-color)
+    var(--combo-vertical-bottom-border-color)
+    var(--combo-vertical-left-border-color);
+  --Combo--vertical-item-borderRadius: var(
+      --combo-vertical-top-left-border-radius
+    )
+    var(--combo-vertical-top-right-border-radius)
+    var(--combo-vertical-bottom-right-border-radius)
+    var(--combo-vertical-bottom-left-border-radius);
+  --Combo--vertical-item-borderStyle: var(--combo-vertical-top-border-style)
+    var(--combo-vertical-right-border-style)
+    var(--combo-vertical-bottom-border-style)
+    var(--combo-vertical-left-border-style);
+  --Combo--vertical-item-borderWidth: var(--combo-vertical-top-border-width)
+    var(--combo-vertical-right-border-width)
+    var(--combo-vertical-bottom-border-width)
+    var(--combo-vertical-left-border-width);
+  --Combo--vertical-item-gap: var(--gap-xs);
+  --Combo--vertical-item-onHover-borderColor: var(
+      --combo-vertical-hover-top-border-color
+    )
+    var(--combo-vertical-hover-right-border-color)
+    var(--combo-vertical-hover-bottom-border-color)
+    var(--combo-vertical-hover-left-border-color);
+  --Combo--vertical-item-paddingX: #{px2rem(10px)};
+  --Combo--vertical-item-paddingY: #{px2rem(10px)};
+  --Combo-addBtn-bg: var(--combo-multi-addBtn-bg-color);
+  --Combo-addBtn-border: var(--colors-neutral-line-11);
+  --Combo-addBtn-borderRadius: var(--borders-radius-3);
+  --Combo-addBtn-color: var(--combo-multi-addBtn-color);
+  --Combo-addBtn-fontSize: var(--combo-multi-addBtn-fontSize);
+  --Combo-addBtn-fontWeight: var(--combo-multi-addBtn-fontWeight);
+  --Combo-addBtn-height: var(--combo-multi-addBtn-height);
+  --Combo-addBtn-lineHeight: var(--combo-multi-addBtn-lineHeight);
+  --Combo-addBtn-onActive-bg: var(--combo-multi-addBtn-active-bg-color);
+  --Combo-addBtn-onActive-border: var(--combo-multi-addBtn-active-bg-color);
+  --Combo-addBtn-onActive-color: var(--combo-multi-addBtn-active-color);
+  --Combo-addBtn-onHover-bg: var(--combo-multi-addBtn-hover-bg-color);
+  --Combo-addBtn-onHover-border: var(--combo-multi-addBtn-hover-bg-color);
+  --Combo-addBtn-onHover-color: var(--combo-multi-addBtn-hover-color);
+  --Combo-addBtn-paddingX: var(--sizes-size-5);
+  --Combo-addBtn-paddingY: calc(
+    (
+        var(--Combo-addBtn-height) - var(--borders-width-2) * 2 -
+          var(--Combo-addBtn-lineHeight) * var(--Combo-addBtn-fontSize)
+      ) / 2
+  );
+  --Combo-items-marginBottom: var(--gap-sm);
+  --Combo-toolbarBtn-color: var(--icon-color);
+  --Combo-toolbarBtn-height: var(--gap-md);
+  --Combo-toolbarBtn-lineHeight: 1;
+  --Combo-toolbarBtn-onHover-color: var(--colors-neutral-text-4);
+  --Combo-toolbarBtn-paddingX: var(--gap-xs);
+  --Combo-toolbarBtn-paddingY: #{px2rem(2px)};
 }
