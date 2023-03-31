@@ -197,14 +197,13 @@ export class TreeControlPlugin extends BasePlugin {
           mode: 'horizontal'
         },
        */
-        {
+        getSchemaTpl('formulaControl', {
           name: 'openLevel',
           label: '展开层级',
-          type: 'ae-formulaControl',
           variables: '${variables}',
           size: 'lg',
           mode: 'horizontal'
-        }
+        })
       )
     },
     {

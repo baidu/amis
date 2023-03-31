@@ -2,7 +2,12 @@
  * 动作配置面板
  */
 
-import {PluginActions, RendererPluginAction, tipedLabel} from 'amis-editor-core';
+import {
+  PluginActions,
+  RendererPluginAction,
+  tipedLabel,
+  getSchemaTpl
+} from 'amis-editor-core';
 import React from 'react';
 import {ActionConfig, ComponentInfo} from './types';
 import ActionConfigPanel from './action-config-panel';
@@ -279,27 +284,28 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
                             className: 'action-panel-title',
                             visibleOn: 'data.actionType'
                           },
-                          {
+                          getSchemaTpl('expressionFormulaControl', {
                             name: 'stopPropagation',
-                            label: tipedLabel('阻断条件', '满足条件时，将会阻断当前事件的后续动作的执行'),
-                            type: 'ae-expressionFormulaControl',
+                            label: tipedLabel(
+                              '阻断条件',
+                              '满足条件时，将会阻断当前事件的后续动作的执行'
+                            ),
                             evalMode: true,
                             variables: '${variables}',
                             mode: 'horizontal',
                             size: 'lg',
                             visibleOn: 'data.actionType'
-                          },
-                          {
+                          }),
+                          getSchemaTpl('expressionFormulaControl', {
                             name: 'expression',
                             label: '执行条件',
-                            type: 'ae-expressionFormulaControl',
                             evalMode: true,
                             variables: '${variables}',
                             mode: 'horizontal',
                             size: 'lg',
                             placeholder: '默认执行该动作',
                             visibleOn: 'data.actionType'
-                          }
+                          })
                         ]
                       }
                     ],
