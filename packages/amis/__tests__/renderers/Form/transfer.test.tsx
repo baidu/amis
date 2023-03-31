@@ -7,9 +7,11 @@
  * 4. 表格模式
  * 5. 级联选择模式
  * 6. 关联选择模式
- * 7. 结果面板跟随模式
- * 8. 结果搜索功能
- * 9. 分组模式虚拟滚动
+ * 7. 结果面板跟随（表格）模式
+ * 8. 结果面板跟随（树）模式
+ * 9. 左侧搜索功能
+ * 9. 结果搜索功能
+ * 10. 分组模式虚拟滚动
  * 10. 表格模式虚拟滚动
  * 11. 级联模式虚拟滚动
  * 12. 关联模式虚拟滚动
@@ -487,8 +489,172 @@ test('Renderer:transfer left tree', async () => {
   expect(container).toMatchSnapshot();
 });
 
-// 跟随模式
-test('Renderer:transfer follow left mode', async () => {
+// 跟随模式(表格)
+test('Renderer:transfer table mode follow left mode', async () => {
+  const {container} = render(
+    amisRender(
+      {
+        "type": "form",
+        "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+        "body": [
+          {
+            "label": "表格形式",
+            "type": "transfer",
+            "name": "transfer",
+            "selectMode": "table",
+            "resultListModeFollowSelect": true,
+            "columns": [
+              {
+                "name": "label",
+                "label": "英雄"
+              },
+              {
+                "name": "position",
+                "label": "位置"
+              }
+            ],
+            "options": [
+              {
+                "label": "诸葛亮",
+                "value": "zhugeliang",
+                "position": "中单"
+              },
+              {
+                "label": "曹操",
+                "value": "caocao",
+                "position": "上单"
+              },
+              {
+                "label": "钟无艳",
+                "value": "zhongwuyan",
+                "position": "上单"
+              },
+              {
+                "label": "李白",
+                "value": "libai",
+                "position": "打野"
+              },
+              {
+                "label": "韩信",
+                "value": "hanxin",
+                "position": "打野"
+              },
+              {
+                "label": "云中君",
+                "value": "yunzhongjun",
+                "position": "打野"
+              }
+            ]
+          }
+        ]
+      },
+      {},
+      makeEnv({})
+    )
+  );
+
+  const checkbox = await container.querySelector('.cxd-Table-checkCell') as Element;
+  expect(checkbox).not.toBeNull();
+  fireEvent.click(checkbox);
+  await wait(300);
+
+  expect(container).toMatchSnapshot();
+});
+
+// 结果前端搜索
+test('Renderer:transfer left search', async () => {
+  const onSubmit = jest.fn();
+  const {container, findByText} = render(
+    amisRender(
+      {
+        "type": "form",
+        "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+        "body": [
+          {
+            "label": "带搜索",
+            "type": "transfer",
+            "name": "transfer6",
+            "selectMode": "chained",
+            "searchable": true,
+            "sortable": true,
+            "options": [
+              {
+                "label": "法师",
+                "children": [
+                  {
+                    "label": "诸葛亮",
+                    "value": "zhugeliang"
+                  }
+                ]
+              },
+              {
+                "label": "战士",
+                "children": [
+                  {
+                    "label": "曹操",
+                    "value": "caocao"
+                  },
+                  {
+                    "label": "钟无艳",
+                    "value": "zhongwuyan"
+                  }
+                ]
+              },
+              {
+                "label": "打野",
+                "children": [
+                  {
+                    "label": "李白",
+                    "value": "libai"
+                  },
+                  {
+                    "label": "韩信",
+                    "value": "hanxin"
+                  },
+                  {
+                    "label": "云中君",
+                    "value": "yunzhongjun"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {onSubmit},
+      makeEnv({})
+    )
+  );
+  const input = container.querySelectorAll('input[type=text]')[0];
+
+  expect(input).not.toBeNull();
+
+  fireEvent.change(input, {
+    target: {value: 'caocao'}
+  });
+  await wait(300);
+
+  const zhanshi = await findByText('战士');
+  fireEvent.click(zhanshi);
+  await wait(300);
+
+  const caocao = await findByText('曹操');
+  fireEvent.click(caocao);
+  await wait(300);
+
+  const submitBtn = await findByText('提交');
+  fireEvent.click(submitBtn);
+  await wait(300);
+
+  expect(container).toMatchSnapshot();
+
+  expect(onSubmit.mock.calls[0][0]).toEqual({
+    transfer6: 'caocao'
+  });
+});
+
+// 跟随模式(树)
+test('Renderer:transfer tree mode follow left mode', async () => {
   const {container, findByText} = render(
     amisRender(
       {
@@ -559,7 +725,7 @@ test('Renderer:transfer follow left mode', async () => {
 });
 
 // 结果前端搜索
-test('Renderer:transfer follow left mode', async () => {
+test('Renderer:transfer result search', async () => {
   const {container, findByText} = render(
     amisRender(
       {
