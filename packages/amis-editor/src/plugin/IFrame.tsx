@@ -41,12 +41,11 @@ export class IFramePlugin extends BasePlugin {
             title: '基本',
             body: [
               getSchemaTpl('layout:originPosition', {value: 'left-top'}),
-              {
-                type: 'ae-textareaFormulaControl',
+              getSchemaTpl('textareaFormulaControl', {
                 name: 'src',
                 mode: 'normal',
                 label: '页面地址'
-              }
+              })
             ]
           },
           getSchemaTpl('status')
