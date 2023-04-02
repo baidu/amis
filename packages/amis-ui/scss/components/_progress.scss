@@ -49,6 +49,7 @@
       transition: width var(--animation-duration) ease;
       border-radius: var(--Progress-borderRadius);
 
+      
       &.bg-info {
         background: var(--Progress-line-theme-color);
       }
