@@ -171,9 +171,26 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
                 // value可能为null、undefined、''、0
                 value = getVariable(self.query, key);
                 if (value != null) {
-                  items = matchSorter(items, value, {
-                    keys: [key]
-                  });
+                  if (Array.isArray(value)) {
+                    if (value.length > 0) {
+                      const arr = [...items];
+                      let arrItems: Array<any> = [];
+                      value.forEach(item => {
+                        arrItems = [
+                          ...arrItems,
+                          ...matchSorter(arr, item, {
+                            keys: [key]
+                          })
+                        ];
+                      });
+                      items = items.filter((item: any) => arrItems.find(a => a === item));
+                    }
+                  }
+                  else {
+                    items = matchSorter(items, value, {
+                      keys: [key]
+                    })
+                  }
                 }
               }
             });
@@ -320,9 +337,27 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
                   key &&
                   (value = getVariable(self.query, key))
                 ) {
-                  filteredItems = matchSorter(filteredItems, value, {
-                    keys: [key]
-                  });
+                  if (Array.isArray(value)) {
+                    if (value.length > 0) {
+                      const arr = [...filteredItems];
+                      let arrItems: Array<any> = [];
+                      value.forEach(item => {
+                        arrItems = [
+                          ...arrItems,
+                          ...matchSorter(arr, item, {
+                            keys: [key]
+                          })
+                        ];
+                      });
+                      filteredItems = filteredItems.filter(
+                        item => arrItems.find(a => a === item));
+                    }
+                  }
+                  else {
+                    filteredItems = matchSorter(filteredItems, value, {
+                      keys: [key]
+                    });
+                  }
                 }
               });
             }
