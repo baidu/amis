@@ -13,7 +13,7 @@ export interface PlainSchema extends BaseSchema {
   /**
    * 指定为模板渲染器。
    *
-   * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/concepts/template
+   * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/docs/concepts/template
    */
   type: 'plain' | 'text';
 

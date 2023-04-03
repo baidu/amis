@@ -640,7 +640,7 @@ export type SchemaRedirect = string;
  * 2. `<%= data.xxx %>`
  *
  *
- * 更多文档：https://aisuda.bce.baidu.com/amis/zh-CN/concepts/template
+ * 更多文档：https://aisuda.bce.baidu.com/amis/zh-CN/docs/concepts/template
  */
 export type SchemaTpl = string;
 
