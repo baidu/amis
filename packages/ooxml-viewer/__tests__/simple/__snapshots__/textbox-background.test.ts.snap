@@ -1,0 +1,735 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`textbox-background 1`] = `
+<div
+  class="docx-viewer-0 docx-viewer-wrapper"
+  id="root"
+>
+  <style>
+    
+  
+  .docx-viewer-wrapper {
+
+  }
+
+  .docx-viewer-wrapper &gt; article &gt; section {
+    background: white;
+  }
+
+  /** docDefaults **/
+
+  .docx-viewer-0 p {
+    margin: 0;
+    padding: 0;
+    line-height: 1.5;
+  }
+
+  .docx-viewer-0 table {
+    border-spacing: 0;
+  }
+
+  .docx-viewer-0 .docx-viewer-0-p {
+    margin-top: 6.67px;
+margin-bottom: 13.33px;
+line-height: 1.15;
+
+  }
+
+  .docx-viewer-0 .docx-viewer-0-r {
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    font-family: var(--docx-theme-font-minorHAnsi), var(--docx-theme-font-minorEastAsia);
+
+  }
+  
+
+  
+    
+      .docx-viewer-0 .docx-viewer-0-Normal {
+        margin-top: 0.00px;
+margin-bottom: 0.00px;
+line-height: 1.00;
+
+      }
+      
+    
+      .docx-viewer-0 .docx-viewer-0-Normal &gt; .docx-viewer-0-r {
+        font-size: 12.00px;
+
+      }
+      
+    
+    
+    
+    
+      .docx-viewer-0 .docx-viewer-0-Heading1 {
+        border-top: 4.00px solid #4F81BD;
+border-left: 4.00px solid #4F81BD;
+border-bottom: 4.00px solid #4F81BD;
+border-right: 4.00px solid #4F81BD;
+background-color: #4F81BD;
+
+      }
+      
+    
+      .docx-viewer-0 .docx-viewer-0-Heading1 &gt; .docx-viewer-0-r {
+        text-transform: uppercase;
+color: #FFFFFF;
+font-size: 14.67px;
+
+      }
+      
+    
+    
+    
+    
+      .docx-viewer-0 .docx-viewer-0-Heading2 {
+        border-top: 4.00px solid #DBE5F1;
+border-left: 4.00px solid #DBE5F1;
+border-bottom: 4.00px solid #DBE5F1;
+border-right: 4.00px solid #DBE5F1;
+background-color: #DBE5F1;
+
+      }
+      
+    
+      .docx-viewer-0 .docx-viewer-0-Heading2 &gt; .docx-viewer-0-r {
+        text-transform: uppercase;
+
+      }
+      
+    
+    
+    
+    
+      .docx-viewer-0 .docx-viewer-0-Heading3 {
+        border-top: 1.00px solid #4F81BD;
+margin-top: 20.00px;
+
+      }
+      
+    
+      .docx-viewer-0 .docx-viewer-0-Heading3 &gt; .docx-viewer-0-r {
+        text-transform: uppercase;
+color: #243F60;
+
+      }
+      
+    
+    
+    
+    
+      .docx-viewer-0 .docx-viewer-0-Heading4 {
+        border-top: 1.00px solid #4F81BD;
+margin-top: 13.33px;
+
+      }
+      
+    
+      .docx-viewer-0 .docx-viewer-0-Heading4 &gt; .docx-viewer-0-r {
+        text-transform: uppercase;
+color: #365F91;
+
+      }
+      
+    
+    
+    
+    
+      .docx-viewer-0 .docx-viewer-0-Heading5 {
+        border-bottom: 1.00px solid #4F81BD;
+margin-top: 13.33px;
+
+      }
+      
+    
+      .docx-viewer-0 .docx-viewer-0-Heading5 &gt; .docx-viewer-0-r {
+        text-transform: uppercase;
+color: #365F91;
+
+      }
+      
+    
+    
+    
+    
+      .docx-viewer-0 .docx-viewer-0-Heading6 {
+        border-bottom: 1.00px solid #4F81BD;
+margin-top: 13.33px;
+
+      }
+      
+    
+      .docx-viewer-0 .docx-viewer-0-Heading6 &gt; .docx-viewer-0-r {
+        text-transform: uppercase;
+color: #365F91;
+
+      }
+      
+    
+    
+    
+    
+      .docx-viewer-0 .docx-viewer-0-Heading7 {
+        margin-top: 13.33px;
+
+      }
+      
+    
+      .docx-viewer-0 .docx-viewer-0-Heading7 &gt; .docx-viewer-0-r {
+        text-transform: uppercase;
+color: #365F91;
+
+      }
+      
+    
+    
+    
+    
+      .docx-viewer-0 .docx-viewer-0-Heading8 {
+        margin-top: 13.33px;
+
+      }
+      
+    
+      .docx-viewer-0 .docx-viewer-0-Heading8 &gt; .docx-viewer-0-r {
+        text-transform: uppercase;
+font-size: 12.00px;
+
+      }
+      
+    
+    
+    
+    
+      .docx-viewer-0 .docx-viewer-0-Heading9 {
+        margin-top: 13.33px;
+
+      }
+      
+    
+      .docx-viewer-0 .docx-viewer-0-Heading9 &gt; .docx-viewer-0-r {
+        font-style: italic;
+text-transform: uppercase;
+font-size: 12.00px;
+
+      }
+      
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+ .docx-viewer-0 .docx-viewer-0-TableNormal {
+  border-collapse: collapse;
+  margin-left: 0.00px;
+
+ }
+
+ .docx-viewer-0 .docx-viewer-0-TableNormal &gt; tbody &gt; tr &gt; td {
+  padding-top: 0.00px;
+padding-left: 7.20px;
+padding-bottom: 0.00px;
+padding-right: 7.20px;
+
+ }
+ 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      .docx-viewer-0 .docx-viewer-0-Heading1Char &gt; .docx-viewer-0-r {
+        text-transform: uppercase;
+color: #FFFFFF;
+font-size: 14.67px;
+background-color: #4F81BD;
+
+      }
+      
+    
+    
+    
+    
+    
+      .docx-viewer-0 .docx-viewer-0-Heading2Char &gt; .docx-viewer-0-r {
+        text-transform: uppercase;
+font-size: 12.00px;
+background-color: #DBE5F1;
+
+      }
+      
+    
+    
+    
+    
+    
+      .docx-viewer-0 .docx-viewer-0-Heading3Char &gt; .docx-viewer-0-r {
+        text-transform: uppercase;
+color: #243F60;
+
+      }
+      
+    
+    
+    
+    
+    
+      .docx-viewer-0 .docx-viewer-0-Heading4Char &gt; .docx-viewer-0-r {
+        text-transform: uppercase;
+color: #365F91;
+
+      }
+      
+    
+    
+    
+    
+    
+      .docx-viewer-0 .docx-viewer-0-Heading5Char &gt; .docx-viewer-0-r {
+        text-transform: uppercase;
+color: #365F91;
+
+      }
+      
+    
+    
+    
+    
+    
+      .docx-viewer-0 .docx-viewer-0-Heading6Char &gt; .docx-viewer-0-r {
+        text-transform: uppercase;
+color: #365F91;
+
+      }
+      
+    
+    
+    
+    
+    
+      .docx-viewer-0 .docx-viewer-0-Heading7Char &gt; .docx-viewer-0-r {
+        text-transform: uppercase;
+color: #365F91;
+
+      }
+      
+    
+    
+    
+    
+    
+      .docx-viewer-0 .docx-viewer-0-Heading8Char &gt; .docx-viewer-0-r {
+        text-transform: uppercase;
+font-size: 12.00px;
+
+      }
+      
+    
+    
+    
+    
+    
+      .docx-viewer-0 .docx-viewer-0-Heading9Char &gt; .docx-viewer-0-r {
+        font-style: italic;
+text-transform: uppercase;
+font-size: 12.00px;
+
+      }
+      
+    
+    
+    
+    
+    
+      .docx-viewer-0 .docx-viewer-0-Caption &gt; .docx-viewer-0-r {
+        font-weight: bold;
+color: #365F91;
+font-size: 10.67px;
+
+      }
+      
+    
+    
+    
+    
+    
+      .docx-viewer-0 .docx-viewer-0-Title &gt; .docx-viewer-0-r {
+        font-family: var(--docx-theme-font-majorHAnsi), var(--docx-theme-font-majorEastAsia);
+text-transform: uppercase;
+color: #4F81BD;
+font-size: 34.67px;
+
+      }
+      
+    
+    
+    
+    
+    
+      .docx-viewer-0 .docx-viewer-0-TitleChar &gt; .docx-viewer-0-r {
+        font-family: var(--docx-theme-font-majorHAnsi), var(--docx-theme-font-majorEastAsia);
+text-transform: uppercase;
+color: #4F81BD;
+font-size: 34.67px;
+
+      }
+      
+    
+    
+    
+    
+      .docx-viewer-0 .docx-viewer-0-Subtitle {
+        margin-bottom: 33.33px;
+
+      }
+      
+    
+      .docx-viewer-0 .docx-viewer-0-Subtitle &gt; .docx-viewer-0-r {
+        text-transform: uppercase;
+color: #595959;
+font-size: 14.00px;
+
+      }
+      
+    
+    
+    
+    
+    
+      .docx-viewer-0 .docx-viewer-0-SubtitleChar &gt; .docx-viewer-0-r {
+        text-transform: uppercase;
+color: #595959;
+font-size: 14.00px;
+
+      }
+      
+    
+    
+    
+    
+    
+      .docx-viewer-0 .docx-viewer-0-Strong &gt; .docx-viewer-0-r {
+        font-weight: bold;
+
+      }
+      
+    
+    
+    
+    
+    
+      .docx-viewer-0 .docx-viewer-0-Emphasis &gt; .docx-viewer-0-r {
+        text-transform: uppercase;
+color: #243F60;
+
+      }
+      
+    
+    
+    
+    
+      .docx-viewer-0 .docx-viewer-0-NoSpacing {
+        margin-bottom: 0.00px;
+line-height: 1.00;
+
+      }
+      
+    
+    
+    
+    
+    
+    
+      .docx-viewer-0 .docx-viewer-0-Quote &gt; .docx-viewer-0-r {
+        font-style: italic;
+font-size: 16.00px;
+
+      }
+      
+    
+    
+    
+    
+    
+      .docx-viewer-0 .docx-viewer-0-QuoteChar &gt; .docx-viewer-0-r {
+        font-style: italic;
+font-size: 16.00px;
+
+      }
+      
+    
+    
+    
+    
+      .docx-viewer-0 .docx-viewer-0-IntenseQuote {
+        margin-top: 16.00px;
+margin-bottom: 16.00px;
+margin-left: 72.00px;
+margin-right: 72.00px;
+text-align: center;
+
+      }
+      
+    
+      .docx-viewer-0 .docx-viewer-0-IntenseQuote &gt; .docx-viewer-0-r {
+        color: #4F81BD;
+font-size: 16.00px;
+
+      }
+      
+    
+    
+    
+    
+    
+      .docx-viewer-0 .docx-viewer-0-IntenseQuoteChar &gt; .docx-viewer-0-r {
+        color: #4F81BD;
+font-size: 16.00px;
+
+      }
+      
+    
+    
+    
+    
+    
+      .docx-viewer-0 .docx-viewer-0-SubtleEmphasis &gt; .docx-viewer-0-r {
+        font-style: italic;
+color: #243F60;
+
+      }
+      
+    
+    
+    
+    
+    
+      .docx-viewer-0 .docx-viewer-0-IntenseEmphasis &gt; .docx-viewer-0-r {
+        font-weight: bold;
+text-transform: uppercase;
+color: #243F60;
+
+      }
+      
+    
+    
+    
+    
+    
+      .docx-viewer-0 .docx-viewer-0-SubtleReference &gt; .docx-viewer-0-r {
+        font-weight: bold;
+color: #4F81BD;
+
+      }
+      
+    
+    
+    
+    
+    
+      .docx-viewer-0 .docx-viewer-0-IntenseReference &gt; .docx-viewer-0-r {
+        font-weight: bold;
+font-style: italic;
+text-transform: uppercase;
+color: #4F81BD;
+
+      }
+      
+    
+    
+    
+    
+    
+      .docx-viewer-0 .docx-viewer-0-BookTitle &gt; .docx-viewer-0-r {
+        font-weight: bold;
+font-style: italic;
+
+      }
+      
+    
+    
+    
+    
+      .docx-viewer-0 .docx-viewer-0-TOCHeading {
+        
+      }
+      
+    
+    
+    
+    
+    
+      .docx-viewer-0 .docx-viewer-0-ListParagraph {
+        text-indent: 28.00px;
+
+      }
+      
+    
+    
+    
+    
+    
+      .docx-viewer-0 .docx-viewer-0-Header {
+        border-bottom: 1.00px solid black;
+text-align: center;
+
+      }
+      
+    
+      .docx-viewer-0 .docx-viewer-0-Header &gt; .docx-viewer-0-r {
+        font-size: 12.00px;
+
+      }
+      
+    
+    
+    
+    
+    
+      .docx-viewer-0 .docx-viewer-0-HeaderChar &gt; .docx-viewer-0-r {
+        font-size: 12.00px;
+
+      }
+      
+    
+    
+    
+    
+      .docx-viewer-0 .docx-viewer-0-Footer {
+        
+      }
+      
+    
+      .docx-viewer-0 .docx-viewer-0-Footer &gt; .docx-viewer-0-r {
+        font-size: 12.00px;
+
+      }
+      
+    
+    
+    
+    
+    
+      .docx-viewer-0 .docx-viewer-0-FooterChar &gt; .docx-viewer-0-r {
+        font-size: 12.00px;
+
+      }
+      
+    
+    
+    
+    
+      .docx-viewer-0 .docx-viewer-0-TableGrid {
+        margin-top: 0.00px;
+margin-bottom: 0.00px;
+line-height: 1.00;
+
+      }
+      
+    
+    
+ .docx-viewer-0 .docx-viewer-0-TableGrid {
+  border-collapse: collapse;
+  border-top: 0.67px solid black;
+border-left: 0.67px solid black;
+border-bottom: 0.67px solid black;
+border-right: 0.67px solid black;
+
+ }
+
+ .docx-viewer-0 .docx-viewer-0-TableGrid &gt; tbody &gt; tr &gt; td {
+  
+ }
+ 
+      .docx-viewer-0 .docx-viewer-0-TableGrid &gt; tbody &gt; tr &gt; td {
+        border-top: 0.67px solid black;
+      }
+      .docx-viewer-0 .docx-viewer-0-TableGrid &gt; tbody &gt; tr &gt; td {
+        border-left: 0.67px solid black;
+      }
+    
+    
+  
+  </style>
+  <style>
+    /** embedded fonts **/
+  </style>
+  <article>
+    <section
+      style="position: relative; width: 793.71px; padding: 75.60px 75.60px 75.60px 75.60px;"
+    >
+      <p
+        class="docx-viewer-0-p"
+      >
+        <span
+          class="docx-viewer-0-r"
+        >
+          <div
+            style="z-index: 251664384; position: absolute; left: 482.39px; top: -145.60px; width: 341.99px; height: 1205.97px; background-color: rgb(245, 122, 21); column-count: 1;"
+          />
+        </span>
+      </p>
+    </section>
+    <section
+      style="position: relative;"
+    />
+  </article>
+  <div>
+    <div>
+      <p
+        class="docx-viewer-0-p"
+      >
+        <span
+          class="docx-viewer-0-r"
+        />
+      </p>
+    </div>
+    <div>
+      <p
+        class="docx-viewer-0-p"
+      >
+        <span
+          class="docx-viewer-0-r"
+        >
+          <hr
+            style="border-top: 1px solid #bbb;"
+          />
+        </span>
+      </p>
+    </div>
+    <div>
+      <p
+        class="docx-viewer-0-p"
+      >
+        <span
+          class="docx-viewer-0-r"
+        />
+      </p>
+    </div>
+    <div>
+      <p
+        class="docx-viewer-0-p"
+      >
+        <span
+          class="docx-viewer-0-r"
+        >
+          <hr
+            style="border-top: 1px solid #bbb;"
+          />
+        </span>
+      </p>
+    </div>
+  </div>
+</div>
+`;
