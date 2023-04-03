@@ -3897,6 +3897,17 @@
   --table-icon-hover-color: var(--colors-neutral-text-2);
   --table-icon-active-color: var(--colors-brand-5);
   --table-icon-marginLeft: var(--sizes-size-5);
+  --table-sort-icon: '<svg viewBox="0 0 7 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g fill="currentColor"><polygon points="3.5354 0.0004 2.8284 0.7064 0.0004 3.5344 0.7074 4.2424 3.0354 1.9134 3.0354 5.0354 4.0354 5.0354 4.0354 1.9134 6.3634 4.2424 7.0704 3.5344 4.2424 0.7064"></polygon><polygon points="3.035 7.0348 3.035 10.1558 0.708 7.8278 0 8.5348 2.828 11.3628 3.535 12.0708 4.243 11.3628 7.071 8.5348 6.363 7.8278 4.036 10.1558 4.036 7.0348"></polygon></g></svg>';
+  --table-sort-up-icon: '<svg viewBox="0 0 7 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g fill="currentColor"><polygon points="3.5 0 2.8 0.703 0 3.514 0.7 4.217 3.005 1.903 3.005 10 3.995 10 3.995 1.903 6.3 4.217 7 3.514 4.2 0.703"></polygon></g></svg>';
+  --table-sort-down-icon: '<svg viewBox="0 0 7 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g fill="currentColor"><polygon  transform="translate(3.500000, 5.000000) scale(1, -1) translate(-3.500000, -5.000000) " points="3.5 0 2.8 0.703 0 3.514 0.7 4.217 3.005 1.903 3.005 10 3.995 10 3.995 1.903 6.3 4.217 7 3.514 4.2 0.703"></polygon></g></svg>';
+  --table-filter-icon: '<svg viewBox="0 0 12 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g  stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g fill="currentColor"><path d="M0,0 L4,4.999 L4.082,10 L8,12 L8,4.999 L12,0 L0,0 Z M5.0528196,9.05445227 L4.97933146,4.82735426 L4.97320745,4.49967969 L4.75580505,4.24311339 L2,1 L10,1 L7.24419495,4.24311339 L7.02066854,4.50640615 L7.02066854,4.84272902 L7.02066854,10 L5.0528196,9.05445227 Z" ></path></g></g></svg>';
+  --table-search-icon: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 18 18" version="1.1"><path d="M2,8 C2,4.691 4.691,2 8,2 C11.309,2 14,4.691 14,8 C14,11.309 11.309,14 8,14 C4.691,14 2,11.309 2,8 L2,8 Z M18,16.586 L14.314,12.9 C15.367,11.545 16,9.849 16,8 C16,3.582 12.418,0 8,0 C3.582,0 0,3.582 0,8 C0,12.418 3.582,16 8,16 C9.849,16 11.545,15.367 12.9,14.314 L16.586,18 L18,16.586 Z" fill="currentColor"></path></svg>';
+  --table-togglable-paddingTop: var(--sizes-size-4);
+  --table-togglable-paddingRight: var(--sizes-size-5);
+  --table-togglable-paddingBottom: var(--sizes-size-4);
+  --table-togglable-paddingLeft: var(--sizes-size-5);
+  --table-togglable-bg-color: var(--colors-neutral-fill-11);
+  --table-togglable-hover-bg-color: var(--colors-neutral-fill-8);
   --table-size-large-paddingTop: var(--sizes-base-10);
   --table-size-large-paddingRight: var(--sizes-size-7);
   --table-size-large-paddingBottom: var(--sizes-base-10);
