@@ -131,7 +131,7 @@ test('Renderer:crud stopAutoRefreshWhen', async () => {
 });
 
 test('Renderer:crud loadDataOnce', async () => {
-  const {container, findByRole, findByText} = render(
+  const {container} = render(
     amisRender(
       {
         type: 'page',
@@ -176,7 +176,6 @@ test('Renderer:crud loadDataOnce', async () => {
   await waitFor(() => {
     expect(container.querySelectorAll('tbody>tr').length > 5).toBeTruthy();
   });
-
   expect(container.querySelector('.cxd-Crud-pager')).not.toBeInTheDocument();
 });
 
