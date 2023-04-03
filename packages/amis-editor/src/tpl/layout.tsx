@@ -193,7 +193,7 @@ setSchemaTpl(
           '指定元素的堆叠顺序，层级高的元素总是会处于较低层级元素的上面。'
         ),
       name: config?.name || 'style.zIndex',
-      value: config?.value || '0',
+      value: config?.value,
       visibleOn:
         config?.visibleOn ??
         'data.style && data.style.position && data.style.position !== "static"',
