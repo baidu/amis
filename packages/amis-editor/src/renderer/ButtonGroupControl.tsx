@@ -2,9 +2,9 @@
  * @file icon按钮组
  */
 import React from 'react';
-import {FormControlProps, FormItem, Button, Icon} from 'amis';
+import {FormItem, Button, Icon, ClassNamesFn} from 'amis';
 
-export interface ButtonGroupControlProps extends FormControlProps {
+export interface ButtonGroupControlProps {
   options?: Array<{
     label: string;
     icon: string;
@@ -12,6 +12,7 @@ export interface ButtonGroupControlProps extends FormControlProps {
   }>;
   onChange: (value: string | number) => void;
   value?: string | number;
+  classnames?: ClassNamesFn;
 }
 
 export default class ButtonGroupControl extends React.Component<ButtonGroupControlProps> {
@@ -20,9 +21,9 @@ export default class ButtonGroupControl extends React.Component<ButtonGroupContr
   }
 
   render() {
-    const {options, value, onChange, classnames: cx, className} = this.props;
+    const {options, value, onChange, classnames: cx} = this.props;
     return (
-      <div className={cx('ButtonGroup', 'icon-ButtonList', className)}>
+      <div className={cx('ButtonGroup', 'icon-ButtonList')}>
         {options &&
           options.map(item => (
             <Button
@@ -43,7 +44,6 @@ export default class ButtonGroupControl extends React.Component<ButtonGroupContr
     );
   }
 }
-
 @FormItem({
   type: 'button-icon-group'
 })

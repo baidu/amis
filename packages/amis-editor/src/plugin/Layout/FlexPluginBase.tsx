@@ -41,10 +41,7 @@ const defaultFlexContainerSchema = {
   ],
   style: {
     position: 'relative'
-  },
-  direction: 'row',
-  justify: 'flex-start',
-  alignItems: 'stretch'
+  }
 };
 
 export class FlexPluginBase extends LayoutBasePlugin {
@@ -71,7 +68,7 @@ export class FlexPluginBase extends LayoutBasePlugin {
   panelJustify = true; // 右侧配置项默认左右展示
 
   panelBodyCreator = (context: BaseEventContext) => {
-    const curRendererSchema = context?.schema;
+    const curRendererSchema = context?.schema || {};
     const isRowContent =
       curRendererSchema?.direction === 'row' ||
       curRendererSchema?.direction === 'row-reverse';
@@ -106,123 +103,13 @@ export class FlexPluginBase extends LayoutBasePlugin {
                   // 吸附容器不显示定位相关配置项
                   ...(isSorptionContainer ? [] : positionTpl),
 
-                  getSchemaTpl('layout:flexDirection', {
-                    name: 'direction'
+                  getSchemaTpl('layout:flex-setting', {
+                    label: '弹性布局设置',
+                    direction: curRendererSchema.direction,
+                    justify: curRendererSchema.justify,
+                    alignItems: curRendererSchema.alignItems
                   }),
 
-                  getSchemaTpl('layout:justifyContent', {
-                    name: 'justify',
-                    label: '水平对齐方式',
-                    options: [
-                      {
-                        label: '左对齐',
-                        value: 'flex-start'
-                      },
-                      {
-                        label: '居中对齐',
-                        value: 'center'
-                      },
-                      {
-                        label: '右对齐',
-                        value: 'flex-end'
-                      },
-                      {
-                        label: '两端对齐',
-                        value: 'space-between'
-                      },
-                      {
-                        label: '均匀分布',
-                        value: 'space-evenly'
-                      }
-                    ],
-                    visibleOn:
-                      'data.direction === "row" || data.direction === "row-reverse"'
-                  }),
-                  // 备注: 重复一个是为了能实时联动，后续需要amis优化，支持label使用公式表达式
-                  getSchemaTpl('layout:justifyContent', {
-                    name: 'justify',
-                    label: '垂直对齐方式',
-                    options: [
-                      {
-                        label: '顶部对齐',
-                        value: 'flex-start'
-                      },
-                      {
-                        label: '居中对齐',
-                        value: 'center'
-                      },
-                      {
-                        label: '底部对齐',
-                        value: 'flex-end'
-                      },
-                      {
-                        label: '两端对齐',
-                        value: 'space-between'
-                      },
-                      {
-                        label: '均匀分布',
-                        value: 'space-evenly'
-                      }
-                    ],
-                    visibleOn:
-                      'data.direction === "column" || data.direction === "column-reverse"'
-                  }),
-                  getSchemaTpl('layout:alignItems', {
-                    name: 'alignItems',
-                    label: '水平对齐方式',
-                    options: [
-                      {
-                        label: '左对齐',
-                        value: 'flex-start'
-                      },
-                      {
-                        label: '居中对齐',
-                        value: 'center'
-                      },
-                      {
-                        label: '右对齐',
-                        value: 'flex-end'
-                      },
-                      {
-                        label: '基线对齐',
-                        value: 'baseline'
-                      },
-                      {
-                        label: '自动拉伸',
-                        value: 'stretch'
-                      }
-                    ],
-                    visibleOn:
-                      'data.direction === "column" || data.direction === "column-reverse"'
-                  }),
-                  getSchemaTpl('layout:alignItems', {
-                    name: 'alignItems',
-                    label: '垂直对齐方式',
-                    options: [
-                      {
-                        label: '顶部对齐',
-                        value: 'flex-start'
-                      },
-                      {
-                        label: '居中对齐',
-                        value: 'center'
-                      },
-                      {
-                        label: '底部对齐',
-                        value: 'flex-end'
-                      },
-                      {
-                        label: '基线对齐',
-                        value: 'baseline'
-                      },
-                      {
-                        label: '高度撑满',
-                        value: 'stretch'
-                      }
-                    ],
-                    visibleOn:
-                      'data.direction === "row" || data.direction === "row-reverse"'
-                  }),
                   getSchemaTpl('layout:flex-wrap'),
 
                   isFlexItem
