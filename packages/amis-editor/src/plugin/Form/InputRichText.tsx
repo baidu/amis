@@ -11,7 +11,7 @@ import {ValidatorTag} from '../../validator';
 
 const tinymceToolbarsDelimiter = ' ';
 
-const tinymceOptions =  [
+const tinymceOptions = [
   'advlist',
   'autolink',
   'link',
@@ -214,7 +214,12 @@ export class RichTextControlPlugin extends BasePlugin {
                 label: '类型',
                 value: hasRichTextToken ? 'froala' : 'tinymce',
                 options: ['tinymce', 'froala'],
-                onChange: (value: any, oldValue: any, model: any, form: any) => {
+                onChange: (
+                  value: any,
+                  oldValue: any,
+                  model: any,
+                  form: any
+                ) => {
                   if (value === 'tinymce') {
                     form.changeValue('options', {
                       height: 400,
@@ -226,8 +231,7 @@ export class RichTextControlPlugin extends BasePlugin {
                       toolbarButtonsMD: undefined,
                       toolbarButtonsSM: undefined
                     });
-                  }
-                  else if (value === 'froala') {
+                  } else if (value === 'froala') {
                     form.changeValue('options', {
                       height: undefined,
                       width: undefined,
@@ -246,7 +250,8 @@ export class RichTextControlPlugin extends BasePlugin {
                 multiple: true,
                 label: tipedLabel(
                   '插件',
-                  '查看 https://www.tiny.cloud/docs/general-configuration-guide/basic-setup/ 文档'),
+                  '查看 https://www.tiny.cloud/docs/general-configuration-guide/basic-setup/ 文档'
+                ),
                 name: 'options.plugins',
                 visibleOn: 'data.vendor === "tinymce"',
                 value: [...tinymceOptions].join(','),
@@ -271,10 +276,13 @@ export class RichTextControlPlugin extends BasePlugin {
                 },
                 visibleOn: 'data.vendor === "tinymce"',
                 delimiter: tinymceToolbarsDelimiter,
-                value: 'undo redo formatselect bold italic backcolor alignleft aligncenter alignright alignjustify bullist numlist outdent indent removeformat help',
+                value:
+                  'undo redo formatselect bold italic backcolor alignleft aligncenter alignright alignjustify bullist numlist outdent indent removeformat help',
                 pipeOut: (value: string) => {
                   const arr = value?.split(tinymceToolbarsDelimiter) ?? [];
-                  return tinymceToolbars.filter(item => arr.find(a => a === item)).join(' ');
+                  return tinymceToolbars
+                    .filter(item => arr.find(a => a === item))
+                    .join(' ');
                 },
                 options: tinymceToolbars
               },
@@ -282,7 +290,7 @@ export class RichTextControlPlugin extends BasePlugin {
                 label: '显示菜单栏',
                 value: true,
                 name: 'options.menubar',
-                visibleOn: 'data.vendor === "tinymce"',
+                visibleOn: 'data.vendor === "tinymce"'
               }),
 
               // froala
@@ -304,7 +312,7 @@ export class RichTextControlPlugin extends BasePlugin {
                 joinValues: false,
                 extractValue: true,
                 options: [...froalaOptions],
-                pipeOut: froalaOptionsPipeOut,
+                pipeOut: froalaOptionsPipeOut
               },
               {
                 type: 'select',
@@ -348,13 +356,13 @@ export class RichTextControlPlugin extends BasePlugin {
                 label: '快速插入',
                 value: true,
                 name: 'options.quickInsertEnabled',
-                visibleOn: 'data.vendor === "froala"',
+                visibleOn: 'data.vendor === "froala"'
               }),
               getSchemaTpl('switch', {
                 label: '字数统计',
                 value: true,
                 name: 'options.charCounterCount',
-                visibleOn: 'data.vendor === "froala"',
+                visibleOn: 'data.vendor === "froala"'
               }),
 
               // 公用部分
@@ -363,7 +371,8 @@ export class RichTextControlPlugin extends BasePlugin {
                 labelClassName: 'none',
                 name: 'receiver',
                 label: '图片接收接口',
-                visibleOn: '${vendor === "tinymce" && CONTAINS(options.plugins, "image")}',
+                visibleOn:
+                  '${vendor === "tinymce" && CONTAINS(options.plugins, "image")}'
               }),
 
               getSchemaTpl('apiControl', {
@@ -371,7 +380,7 @@ export class RichTextControlPlugin extends BasePlugin {
                 labelClassName: 'none',
                 name: 'receiver',
                 label: '图片接收接口',
-                visibleOn: 'data.vendor === "froala"',
+                visibleOn: 'data.vendor === "froala"'
               }),
 
               getSchemaTpl('apiControl', {
@@ -379,14 +388,14 @@ export class RichTextControlPlugin extends BasePlugin {
                 labelClassName: 'none',
                 name: 'videoReceiver',
                 label: '视频接收接口',
-                visibleOn: 'data.vendor === "froala"',
+                visibleOn: 'data.vendor === "froala"'
               }),
               getSchemaTpl('labelRemark'),
               getSchemaTpl('remark'),
               getSchemaTpl('placeholder', {
                 visibleOn: 'data.vendor !== "tinymce"'
               }),
-              getSchemaTpl('description'),
+              getSchemaTpl('description')
             ]
           },
           getSchemaTpl('status', {isFormItem: true}),
@@ -405,7 +414,7 @@ export class RichTextControlPlugin extends BasePlugin {
                   label: '高度',
                   min: 0,
                   name: 'options.height',
-                  visibleOn: 'data.vendor === "tinymce"',
+                  visibleOn: 'data.vendor === "tinymce"'
                 },
                 {
                   type: 'input-number',
@@ -413,7 +422,7 @@ export class RichTextControlPlugin extends BasePlugin {
                   min: 150,
                   max: 400,
                   name: 'options.height',
-                  visibleOn: 'data.vendor === "froala"',
+                  visibleOn: 'data.vendor === "froala"'
                 }
               ]
             },

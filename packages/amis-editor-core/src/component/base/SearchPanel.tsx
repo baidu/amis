@@ -193,7 +193,9 @@ export default class SearchPanel extends React.Component<
     const grouped: {
       [propName: string]: any[];
     } = {};
-    const regular = curKeyword ? new RegExp(stringRegExp(curKeyword), 'i') : null;
+    const regular = curKeyword
+      ? new RegExp(stringRegExp(curKeyword), 'i')
+      : null;
 
     allResult.forEach(item => {
       if (isString(item) && regular && regular.test(item)) {

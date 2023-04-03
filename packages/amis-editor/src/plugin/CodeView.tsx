@@ -55,7 +55,7 @@ export class CodeViewPlugin extends BasePlugin {
         title: '显隐',
         body: [getSchemaTpl('ref'), getSchemaTpl('visible')]
       }
-    ])
+    ]);
   };
 }
 

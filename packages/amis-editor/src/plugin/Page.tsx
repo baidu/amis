@@ -22,7 +22,8 @@ export class PagePlugin extends BasePlugin {
   isBaseComponent = true;
   // 只有顶级才会用到这个page组件
   disabledRendererPlugin = true;
-  description = '页面渲染器，页面的顶级入口。包含多个区域，您可以选择在不同的区域里面放置不同的渲染器。';
+  description =
+    '页面渲染器，页面的顶级入口。包含多个区域，您可以选择在不同的区域里面放置不同的渲染器。';
   docLink = '/amis/zh-CN/components/page';
   tags = '容器';
   icon = 'fa fa-desktop';
