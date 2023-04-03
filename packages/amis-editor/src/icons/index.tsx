@@ -153,6 +153,12 @@ import layout_3_2 from './layout/layout3-2.svg';
 import layout_free_container from './layout/layout-free-container.svg';
 import layout_fixed_top from './layout/layout-fixed-top.svg';
 
+// 属性配置面板/显示类型
+import block from './config/block.svg';
+import inline from './config/inline.svg';
+import inline_block from './config/inline-block.svg';
+import flex from './config/flex.svg';
+
 // 功能类组件 icon x 11
 registerIcon('audio-plugin', audio);
 registerIcon('custom-plugin', custom);
@@ -291,5 +297,11 @@ registerIcon('layout-3-1-plugin', layout_3_1);
 registerIcon('layout-3-2-plugin', layout_3_2);
 registerIcon('layout-free-container', layout_free_container);
 registerIcon('layout-fixed-top', layout_fixed_top);
+
+// 属性配置面板/显示类型
+registerIcon('inline-display', inline);
+registerIcon('inline-block-display', inline_block);
+registerIcon('block-display', block);
+registerIcon('flex-display', flex);
 
 export {Icon};

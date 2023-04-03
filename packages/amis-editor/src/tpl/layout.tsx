@@ -235,28 +235,28 @@ setSchemaTpl(
   }) => {
     const configOptions = [
       {
-        label: '块级(默认)',
+        label: '块级(block)',
+        icon: 'block-display',
         value: 'block'
       },
       {
-        label: '弹性布局',
-        value: 'flex'
-      },
-      {
-        label: '行内弹性布局',
-        value: 'inline-flex'
-      },
-      {
-        label: '行内块级',
+        label: '行内区块(inline-block)',
+        icon: 'inline-block-display',
         value: 'inline-block'
       },
       {
-        label: '行内元素',
+        label: '行内元素(inline)',
+        icon: 'inline-display',
         value: 'inline'
+      },
+      {
+        label: '弹性布局(flex)',
+        icon: 'flex-display',
+        value: 'flex'
       }
-    ]
+    ];
     const configSchema = {
-      type: 'select',
+      type: 'button-icon-group',
       label:
         config?.label ||
         tipedLabel(
@@ -276,7 +276,7 @@ setSchemaTpl(
           form.setValueByName('style.alignItems', undefined);
           form.setValueByName('style.flexWrap', undefined);
         }
-      },
+      }
     };
 
     if (config?.mode === 'vertical') {
@@ -311,7 +311,6 @@ setSchemaTpl(
     pipeIn?: (value: any, data: any) => void;
     pipeOut?: (value: any, data: any) => void;
   }) => {
-
     const defaultOptions = [
       {
         label: '起始端对齐',
@@ -1142,7 +1141,10 @@ setSchemaTpl(
       size: 'xs',
       label:
         config?.label ||
-        tipedLabel('对齐方式', '通过 margin 数值来设置对齐方式，其中 margin: 0 auto 用于设置居中对齐'),
+        tipedLabel(
+          '对齐方式',
+          '通过 margin 数值来设置对齐方式，其中 margin: 0 auto 用于设置居中对齐'
+        ),
       name: config?.name || 'style.margin',
       value: config?.value || '0',
       inputClassName: 'inline-flex justify-between',
@@ -1161,10 +1163,13 @@ setSchemaTpl(
         {
           label: '靠右',
           value: 'auto 0px auto auto'
-        },
+        }
       ],
       onChange: (value: string, oldValue: string, model: any, form: any) => {
-        if (form?.data?.style?.position === 'fixed' || form?.data?.style?.position === 'absolute') {
+        if (
+          form?.data?.style?.position === 'fixed' ||
+          form?.data?.style?.position === 'absolute'
+        ) {
           // 吸附容器
           if (value === '0px auto') {
             // 居中
@@ -1342,10 +1347,7 @@ setSchemaTpl('layout:sticky', {
 setSchemaTpl('layout:stickyPosition', {
   type: 'button-group-select',
   size: 'xs',
-  label: tipedLabel(
-    '吸附位置',
-    '用于设置滚动吸附时的位置'
-  ),
+  label: tipedLabel('吸附位置', '用于设置滚动吸附时的位置'),
   name: 'stickyPosition',
   visibleOn: 'data.stickyStatus',
   options: [
@@ -1360,7 +1362,7 @@ setSchemaTpl('layout:stickyPosition', {
     {
       label: '自动',
       value: 'auto'
-    },
+    }
   ],
   onChange: (value: string, oldValue: string, model: any, form: any) => {
     if (value === 'top') {
@@ -1418,7 +1420,7 @@ setSchemaTpl(
           label: '无',
           value: 'none'
         }
-      ],
+      ]
     };
   }
 );

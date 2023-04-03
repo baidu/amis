@@ -323,7 +323,8 @@ export class ContainerPlugin extends LayoutBasePlugin {
                 : null,
               getSchemaTpl('layout:z-index'),
               getSchemaTpl('layout:sticky', {
-                visibleOn: 'data.style && (data.style.position !== "fixed" && data.style.position !== "absolute")'
+                visibleOn:
+                  'data.style && (data.style.position !== "fixed" && data.style.position !== "absolute")'
               }),
               getSchemaTpl('layout:stickyPosition')
             ]
