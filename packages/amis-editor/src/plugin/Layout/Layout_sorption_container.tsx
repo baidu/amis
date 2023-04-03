@@ -30,9 +30,6 @@ export default class Layout_fixed_top extends FlexPluginBase {
       overflowY: 'auto'
     },
     isFixedWidth: true,
-    direction: 'row',
-    justify: 'center',
-    alignItems: 'stretch',
     isFixedHeight: false,
     originPosition: 'right-bottom'
   };

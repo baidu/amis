@@ -1470,3 +1470,27 @@ setSchemaTpl(
     };
   }
 );
+
+// flex相关配置项（整合版）
+setSchemaTpl(
+  'layout:flex-setting',
+  (config?: {
+    name?: string;
+    label?: string;
+    visibleOn?: string;
+    direction?: string;
+    justify?: string;
+    alignItems?: string;
+  }) => {
+    return {
+      type: 'flex-setting',
+      name: config?.name || 'style',
+      mode: 'vertical', // horizontal、vertical
+      label: config?.label ?? false,
+      visibleOn: config?.visibleOn,
+      direction: config?.direction,
+      justify: config?.justify,
+      alignItems: config?.alignItems
+    };
+  }
+);

@@ -1,0 +1,28 @@
+.ap-Flex {
+  background: #ececec;
+  margin: 0;
+  padding: 6px 10px;
+
+  .ap-Flex-label {
+    font-size: 12px;
+    text-align: right;
+  }
+
+  .ap-Flex-item {
+    margin-top: 4px;
+
+    > .icon-ButtonList {
+      display: flex;
+      align-items: stretch;
+      justify-content: stretch;
+
+      > button {
+        flex: 1 1 auto;
+      }
+    }
+
+    svg {
+      vertical-align: middle;
+    }
+  }
+}
