@@ -4123,4 +4123,58 @@
   --Combo-toolbarBtn-onHover-color: var(--colors-neutral-text-4);
   --Combo-toolbarBtn-paddingX: var(--gap-xs);
   --Combo-toolbarBtn-paddingY: #{px2rem(2px)};
+
+  --Wizard-badge-size: var(--sizes-base-13);
+  --Wizard-badge-fontSize: var(--fonts-size-7);
+  --Wizard-badge-color: var(--colors-neutral-text-6);
+  --Wizard-badge-border-width: var(--borders-width-2);
+  --Wizard-badge-border-color: var(--colors-neutral-line-6);
+  --Wizard-badge-bg-color: var(--colors-neutral-fill-11);
+  --Wizard-badge-onActive-color: var(--colors-neutral-text-11);
+  --Wizard-badge-onActive-bg-color: var(--colors-neutral-fill-3);
+  --Wizard-badge-onComplete-color: var(--colors-neutral-text-11);
+  --Wizard-badge-onComplete-bg-color: var(--colors-neutral-fill-3);
+  --Wizard-badge-text-margin: var(--sizes-size-4);
+  --Wizard-step-fontSize: var(--fonts-size-7);
+  --Wizard-step-color: var(--colors-neutral-text-6);
+  --Wizard-step-paddingTop: var(--sizes-size-6);
+  --Wizard-step-paddingRight: var(--sizes-size-0);
+  --Wizard-step-paddingBottom: var(--sizes-size-6);
+  --Wizard-step-paddingLeft: var(--sizes-size-0);
+  --Wizard-step-bg-color: var(--colors-neutral-fill-11);
+  --Wizard-step-li-onActive-color: var(--colors-neutral-text-3);
+  --Wizard-step-li-onActive-bg-color: var(--colors-neutral-fill-11);
+  --Wizard-after-color: var(--colors-neutral-text-11);
+  --Wizard-after-onActive-color: var(--colors-neutral-fill-11);
+  --Wizard-stepContent-paddingTop: var(--sizes-size-7);
+  --Wizard-stepContent-paddingRight: var(--sizes-size-7);
+  --Wizard-stepContent-paddingBottom: var(--sizes-size-7);
+  --Wizard-stepContent-paddingLeft: var(--sizes-size-7);
+
+  --Wizard-badge-bg: var(--Wizard-badge-bg-color);
+  --Wizard-badge-border: var( --Wizard-badge-border-width) var(--borders-style-2)
+    var(--Wizard-badge-border-color);
+  --Wizard-badge-borderRadius: var(--borders-radius-7);
+  --Wizard-badge-marginRight: var(--Wizard-badge-text-margin);
+  --Wizard-badge-onActive-backgroundColor: var(--Wizard-badge-onActive-bg-color);
+  --Wizard-badge-onComplete-backgroundColor: var(--Wizard-badge-onComplete-bg-color);
+  --Wizard-badge-onActive-color: var(--Wizard-badge-onActive-color);
+  --Wizard-badge-onComplete-color: var(--Wizard-badge-onComplete-color);
+
+  --Wizard-steps-bg--isComplete: var(--colors-neutral-fill-11);
+  --Wizard-steps-bg: var(--Wizard-step-bg-color);
+  --Wizard-steps-borderWidth: var(--borders-width-1);
+  --Wizard-steps-height: var(--sizes-base-30);
+  --Wizard-steps-li-onActive-arrow-bg: var(--Wizard-after-onActive-color);
+  --Wizard-steps-li-onActive-bg: var(--Wizard-step-li-onActive-bg-color);
+  --Wizard-steps-li-onActive-color: var(--Wizard-step-li-onActive-color);
+
+  --Wizard-steps-liAfterContent: '\e6ee';
+  --Wizard-steps-liVender: 'iconfont';
+  --Wizard-steps-padding: var(--Wizard-step-paddingTop) var(--Wizard-step-paddingRight)
+   var(--Wizard-step-paddingBottom) var(--Wizard-step-paddingLeft);
+  --Wizard-steps-textAlign: center;
+  --Wizard-steps-ulDisplay: inline-block;
+  --Wizard-stepsContent-padding: var(--Wizard-stepContent-paddingTop) var(--Wizard-stepContent-paddingRight)
+  var(--Wizard-stepContent-paddingBottom) var(--Wizard-stepContent-paddingLeft);
 }
