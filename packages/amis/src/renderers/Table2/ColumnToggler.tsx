@@ -39,6 +39,7 @@ export class ColumnTogglerRenderer extends React.Component<ColumnTogglerRenderer
       toggleAllColumns,
       toggleToggle,
       data,
+      size,
       ...rest
     } = this.props;
     const __ = rest.translate;
@@ -73,6 +74,7 @@ export class ColumnTogglerRenderer extends React.Component<ColumnTogglerRenderer
         columns={cols}
         activeToggaleColumns={activeToggaleColumns}
         data={data}
+        size={size || 'sm'}
       >
         {toggableColumns?.length ? (
           <li
