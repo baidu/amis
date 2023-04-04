@@ -357,27 +357,6 @@ export default class NumberControl extends React.Component<
     this.input.focus();
   }
 
-  renderStatic(displayValue = '-') {
-    let {value, kilobitSeparator, prefix, suffix} = this.props;
-    if (value == null) {
-      return displayValue;
-    }
-    const unit = this.state?.unit || '';
-    // 处理单位
-    let finalValue =
-      unit && value && typeof value === 'string'
-        ? value.replace(unit, '')
-        : value;
-
-    // 增加千分分隔
-    if (kilobitSeparator && finalValue) {
-      finalValue = numberFormatter.format(finalValue);
-    }
-    // 增加前后缀
-    finalValue = (prefix ? prefix : '') + finalValue + (suffix ? suffix : '');
-    return <>{finalValue + unit}</>;
-  }
-
   @supportStatic()
   render() {
     const {
