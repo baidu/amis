@@ -3705,9 +3705,7 @@
   --TimelineItem-detail-visible-max-width: #{px2rem(300px)};
   --Timeline-alternate-margin-left: var(--gap-xl);
   --Timeline-visible-border-radius: var(--gap-xs);
-  --Timeline-horizontal-content-margin-top: var(
-    --Timeline-horizontal-top-size
-    );
+  --Timeline-horizontal-content-margin-top: var(--Timeline-horizontal-top-size);
   --TimelineItem--icon-radius: 50%;
   --TimelineItem--round-radius: 50%;
   --TimelineItem--content-radius: px2rem(2px);
@@ -3861,4 +3859,268 @@
   --conditionBuilder-body-paddingRight: var(--sizes-size-7);
   --conditionBuilder-body-paddingBottom: var(--sizes-size-7);
   --conditionBuilder-body-paddingLeft: var(--sizes-base-14);
+
+  --table-border-width: var(--borders-width-2);
+  --table-border-color: var(--colors-neutral-line-8);
+  --table-paddingTop: var(--sizes-size-6);
+  --table-paddingRight: var(--sizes-size-6);
+  --table-paddingBottom: var(--sizes-size-6);
+  --table-paddingLeft: var(--sizes-size-6);
+  --table-paddingX: var(--sizes-size-7);
+  --table-header-color: var(--colors-neutral-text-2);
+  --table-header-fontSize: var(--fonts-size-7);
+  --table-header-fontWeight: var(--fonts-weight-6);
+  --table-header-lineHeight: var(--fonts-lineHeight-2);
+  --table-header-bg-color: var(--colors-neutral-fill-10);
+  --table-header-separate-line-color: var(--colors-neutral-fill-11);
+  --table-header-separate-line-width: var(--borders-width-2);
+  --table-body-color: var(--colors-neutral-text-2);
+  --table-body-fontSize: var(--fonts-size-8);
+  --table-body-fontWeight: var(--fonts-weight-6);
+  --table-body-lineHeight: var(--fonts-lineHeight-2);
+  --table-body-bg-color: var(--colors-neutral-fill-11);
+  --table-body-hover-color: var(--colors-neutral-text-2);
+  --table-body-hover-bg-color: var(--colors-brand-10);
+  --table-body-hover-border-color: var(--colors-neutral-line-8);
+  --table-body-disabled-color: var(--colors-neutral-text-6);
+  --table-body-disabled-bg-color: var(--colors-neutral-fill-10);
+  --table-title-color: var(--colors-neutral-text-2);
+  --table-title-fontSize: var(--fonts-size-7);
+  --table-title-fontWeight: var(--fonts-weight-6);
+  --table-title-lineHeight: var(--fonts-lineHeight-2);
+  --table-title-bg-color: var(--colors-neutral-fill-11);
+  --table-title-paddingTop: var(--sizes-size-6);
+  --table-title-paddingRight: var(--sizes-size-5);
+  --table-title-paddingBottom: var(--sizes-size-6);
+  --table-title-paddingLeft: var(--sizes-size-5);
+  --table-icon-color: var(--colors-neutral-text-6);
+  --table-icon-hover-color: var(--colors-neutral-text-2);
+  --table-icon-active-color: var(--colors-brand-5);
+  --table-icon-marginLeft: var(--sizes-size-5);
+  --table-sort-icon: '<svg viewBox="0 0 7 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g fill="currentColor"><polygon points="3.5354 0.0004 2.8284 0.7064 0.0004 3.5344 0.7074 4.2424 3.0354 1.9134 3.0354 5.0354 4.0354 5.0354 4.0354 1.9134 6.3634 4.2424 7.0704 3.5344 4.2424 0.7064"></polygon><polygon points="3.035 7.0348 3.035 10.1558 0.708 7.8278 0 8.5348 2.828 11.3628 3.535 12.0708 4.243 11.3628 7.071 8.5348 6.363 7.8278 4.036 10.1558 4.036 7.0348"></polygon></g></svg>';
+  --table-sort-up-icon: '<svg viewBox="0 0 7 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g fill="currentColor"><polygon points="3.5 0 2.8 0.703 0 3.514 0.7 4.217 3.005 1.903 3.005 10 3.995 10 3.995 1.903 6.3 4.217 7 3.514 4.2 0.703"></polygon></g></svg>';
+  --table-sort-down-icon: '<svg viewBox="0 0 7 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g fill="currentColor"><polygon  transform="translate(3.500000, 5.000000) scale(1, -1) translate(-3.500000, -5.000000) " points="3.5 0 2.8 0.703 0 3.514 0.7 4.217 3.005 1.903 3.005 10 3.995 10 3.995 1.903 6.3 4.217 7 3.514 4.2 0.703"></polygon></g></svg>';
+  --table-filter-icon: '<svg viewBox="0 0 12 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g  stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g fill="currentColor"><path d="M0,0 L4,4.999 L4.082,10 L8,12 L8,4.999 L12,0 L0,0 Z M5.0528196,9.05445227 L4.97933146,4.82735426 L4.97320745,4.49967969 L4.75580505,4.24311339 L2,1 L10,1 L7.24419495,4.24311339 L7.02066854,4.50640615 L7.02066854,4.84272902 L7.02066854,10 L5.0528196,9.05445227 Z" ></path></g></g></svg>';
+  --table-search-icon: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 18 18" version="1.1"><path d="M2,8 C2,4.691 4.691,2 8,2 C11.309,2 14,4.691 14,8 C14,11.309 11.309,14 8,14 C4.691,14 2,11.309 2,8 L2,8 Z M18,16.586 L14.314,12.9 C15.367,11.545 16,9.849 16,8 C16,3.582 12.418,0 8,0 C3.582,0 0,3.582 0,8 C0,12.418 3.582,16 8,16 C9.849,16 11.545,15.367 12.9,14.314 L16.586,18 L18,16.586 Z" fill="currentColor"></path></svg>';
+  --table-togglable-paddingTop: var(--sizes-size-4);
+  --table-togglable-paddingRight: var(--sizes-size-5);
+  --table-togglable-paddingBottom: var(--sizes-size-4);
+  --table-togglable-paddingLeft: var(--sizes-size-5);
+  --table-togglable-bg-color: var(--colors-neutral-fill-11);
+  --table-togglable-hover-bg-color: var(--colors-neutral-fill-8);
+  --table-size-large-paddingTop: var(--sizes-base-10);
+  --table-size-large-paddingRight: var(--sizes-size-7);
+  --table-size-large-paddingBottom: var(--sizes-base-10);
+  --table-size-large-paddingLeft: var(--sizes-size-7);
+  --table-size-small-paddingTop: var(--sizes-size-4);
+  --table-size-small-paddingRight: var(--sizes-size-3);
+  --table-size-small-paddingBottom: var(--sizes-size-4);
+  --table-size-small-paddingLeft: var(--sizes-size-3);
+
+  --Table--unsaved-heading-bg: #e8f0fe;
+  --Table--unsaved-heading-color: #4285f4;
+  --Table-bg: var(--colors-neutral-fill-11);
+  --Table-borderColor: var(--table-border-color);
+  --Table-borderRadius: var(--borderRadius);
+  --Table-borderWidth: var(--table-border-width);
+  --Table-color: var(--table-body-color);
+  --Table-expandBtn-color: var(--colors-neutral-text-5);
+  --Table-fixed-zIndex: 5;
+  --Table-fixedLeft-boxShadow: 0.42rem 0 0.42rem -0.28rem rgba(0, 0, 0, 0.15);
+  --Table-fixedRight-boxShadow: -0.42rem 0 0.42rem -0.28rem rgba(0, 0, 0, 0.15);
+  --Table-fixedTop-boxShadow: var(--shadows-shadow-normal);
+  --Table-fontSize: var(--table-body-fontSize);
+  --Table-heading-bg: var(--table-title-bg-color);
+  --Table-heading-height: #{px2rem(40px)};
+  --Table-lineHeight: var(--fonts-lineHeight-2);
+  --Table-onChecked-bg: var(--colors-neutral-fill-10);
+  --Table-onChecked-borderColor: var(--colors-neutral-line-8);
+  --Table-onChecked-color: var(--colors-neutral-text-6);
+  --Table-onChecked-onHover-bg: var(--colors-neutral-fill-10);
+  --Table-onChecked-onHover-borderColor: var(--colors-neutral-line-8);
+  --Table-onChecked-onHover-color: var(--colors-neutral-line-4);
+  --Table-onDragging-opacity: 0.1;
+  // 背景用到了 rgba，所以必须再提供这种写法，搜一下这个变量就知道为什么了
+  --Table-onHover-bg-rgb: 245, 251, 255;
+  --Table-onHover-bg: var(--table-body-hover-bg-color);
+  --Table-onHover-borderColor: var(--table-border-color);
+  --Table-onHover-boxShadow: var(--shadows-shadow-normal);
+  --Table-onHover-color: var(--table-body-hover-color);
+  --Table-onModified-bg: #e8f0fe;
+  --Table-onModified-borderColor: #{darken(#e8f0fe, 5%)};
+  --Table-onModified-color: #4285f4;
+  --Table-placeholder-height: #{px2rem(200px)};
+  --Table-strip-bg: transparent;
+  --Table-tbody-borderTopColor: var(--colors-neutral-line-9);
+  --Table-thead-bg: var(--table-header-bg-color);
+  --Table-thead-borderColor: var(--table-header-separate-line-color);
+  --Table-thead-borderWidth: var(--table-header-separate-line-width);
+  --Table-thead-color: var(--table-header-color);
+  --Table-thead-fontSize: var(--table-header-fontSize);
+  --Table-thead-iconColor: var(--colors-neutral-text-5);
+  --Table-toolbar-marginX: #{px2rem(4px)};
+  --Table-toolbar-marginY: var(--gap-base);
+  --Table-tree-borderColor: var(--colors-neutral-line-8);
+  --Table-searchableForm-backgroundColor: #f6f7f8;
+  --Table-searchableForm-borderRadius: #{px2rem(4px)};
+  --Table-empty-icon-size: #{px2rem(74px)};
+  --TableRow-onDisabled-bg: var(--table-body-disabled-bg-color);
+  --TableRow-onDisabled-color: var(--table-body-disabled-color);
+  --TableCell--edge-paddingX: var(--gap-md);
+  --TableCell--edge-paddingX-default: var(--table-paddingX);
+  --TableCell-filterBtn--onActive-color: var(--colors-brand-5);
+  --TableCell-filterBtn-width: #{px2rem(16px)};
+  --TableCell-filterPopOver-dropDownItem-height: var(--sizes-base-15);
+  --TableCell-filterPopOver-dropDownItem-padding: var(--sizes-size-0)
+    var(--sizes-size-6);
+  --TableCell-line-height-large: #{px2rem(40px)};
+  --TableCell-line-height-middle: #{px2rem(30px)};
+  --TableCell-height: #{px2rem(40px)};
+  --TableCell-height-default: #{px2rem(41px)};
+  --TableCell-height-large: #{px2rem(61px)};
+  --TableCell-height-small: #{px2rem(33px)};
+  --TableCell-paddingX: var(--sizes-size-6);
+  --TableCell-paddingX-large: var(--gap-base);
+  --TableCell-paddingX-small: var(--gap-xs);
+  --TableCell-paddingY: calc(
+    (var(--TableCell-height) - var(--Table-fontSize) * var(--Table-lineHeight)) /
+      2
+  );
+  --TableCell-paddingY-default: calc(
+    (
+        var(--TableCell-height-default) - var(--Table-fontSize) *
+          var(--Table-lineHeight)
+      ) / 2
+  );
+  --TableCell-paddingY-large: calc(
+    (
+        var(--TableCell-height-large) - var(--Table-fontSize) *
+          var(--Table-lineHeight)
+      ) / 2
+  );
+  --TableCell-paddingY-small: calc(
+    (
+        var(--TableCell-height-small) - var(--Table-fontSize) *
+          var(--Table-lineHeight)
+      ) / 2
+  );
+  --TableCell-searchBtn--onActive-color: var(--table-icon-active-color);
+  --TableCell-searchBtn-width: #{px2rem(16px)};
+  --TableCell-sortBtn--default-onActive-opacity: 1;
+  --TableCell-sortBtn--default-opacity: 0;
+  --TableCell-sortBtn--onActive-color: var(--table-icon-active-color);
+  --TableCell-sortBtn-width: var(--sizes-size-8);
+  --TableCell-icon-gap: var(--table-icon-marginLeft);
+
+  --combo-bg-color: var(--colors-neutral-fill-11);
+  --combo-vertical-top-border-color: var(--colors-neutral-line-8);
+  --combo-vertical-top-border-width: var(--borders-width-2);
+  --combo-vertical-top-border-style: var(--borders-style-3);
+  --combo-vertical-right-border-color: var(--colors-neutral-line-8);
+  --combo-vertical-right-border-width: var(--borders-width-2);
+  --combo-vertical-right-border-style: var(--borders-style-3);
+  --combo-vertical-bottom-border-color: var(--colors-neutral-line-8);
+  --combo-vertical-bottom-border-width: var(--borders-width-2);
+  --combo-vertical-bottom-border-style: var(--borders-style-3);
+  --combo-vertical-left-border-color: var(--colors-neutral-line-8);
+  --combo-vertical-left-border-width: var(--borders-width-2);
+  --combo-vertical-left-border-style: var(--borders-style-3);
+  --combo-vertical-top-left-border-radius: var(--borders-radius-1);
+  --combo-vertical-top-right-border-radius: var(--borders-radius-1);
+  --combo-vertical-bottom-right-border-radius: var(--borders-radius-1);
+  --combo-vertical-bottom-left-border-radius: var(--borders-radius-1);
+  --combo-vertical-hover-top-border-color: var(--colors-brand-5);
+  --combo-vertical-hover-top-border-width: var(--borders-width-2);
+  --combo-vertical-hover-top-border-style: var(--borders-style-3);
+  --combo-vertical-hover-right-border-color: var(--colors-brand-5);
+  --combo-vertical-hover-right-border-width: var(--borders-width-2);
+  --combo-vertical-hover-right-border-style: var(--borders-style-3);
+  --combo-vertical-hover-bottom-border-color: var(--colors-brand-5);
+  --combo-vertical-hover-bottom-border-width: var(--borders-width-2);
+  --combo-vertical-hover-bottom-border-style: var(--borders-style-3);
+  --combo-vertical-hover-left-border-color: var(--colors-brand-5);
+  --combo-vertical-hover-left-border-width: var(--borders-width-2);
+  --combo-vertical-hover-left-border-style: var(--borders-style-3);
+  --combo-vertical-paddingTop: var(--sizes-size-6);
+  --combo-vertical-paddingRight: var(--sizes-size-6);
+  --combo-vertical-paddingBottom: var(--sizes-size-6);
+  --combo-vertical-paddingLeft: var(--sizes-size-6);
+  --combo-multi-addBtn-color: var(--colors-neutral-text-11);
+  --combo-multi-addBtn-fontSize: var(--fonts-size-8);
+  --combo-multi-addBtn-fontWeight: var(--fonts-weight-6);
+  --combo-multi-addBtn-lineHeight: var(--fonts-lineHeight-2);
+  --combo-multi-addBtn-top-left-border-radius: var(--borders-radius-3);
+  --combo-multi-addBtn-top-right-border-radius: var(--borders-radius-3);
+  --combo-multi-addBtn-bottom-right-border-radius: var(--borders-radius-3);
+  --combo-multi-addBtn-bottom-left-border-radius: var(--borders-radius-3);
+  --combo-multi-addBtn-bg-color: var(--colors-brand-5);
+  --combo-multi-addBtn-height: var(--sizes-base-13);
+  --combo-multi-addBtn-paddingTop: var(--sizes-size-3);
+  --combo-multi-addBtn-paddingRight: var(--sizes-size-5);
+  --combo-multi-addBtn-paddingBottom: var(--sizes-size-3);
+  --combo-multi-addBtn-paddingLeft: var(--sizes-size-5);
+  --combo-multi-addBtn-hover-color: var(--colors-neutral-text-11);
+  --combo-multi-addBtn-hover-bg-color: var(--colors-brand-6);
+  --combo-multi-addBtn-active-color: var(--colors-neutral-text-11);
+  --combo-multi-addBtn-active-bg-color: var(--colors-brand-4);
+  --combo-multi-delBtn-color: var(--colors-neutral-text-5);
+  --combo-multi-delBtn-hover-color: var(--colors-neutral-text-2);
+
+  --Combo--horizontal-dragger-top: var(--sizes-size-3);
+  --Combo--horizontal-item-gap: var(--gap-xs);
+  --Combo--vertical-item-borderColor: var(--combo-vertical-top-border-color)
+    var(--combo-vertical-right-border-color)
+    var(--combo-vertical-bottom-border-color)
+    var(--combo-vertical-left-border-color);
+  --Combo--vertical-item-borderRadius: var(
+      --combo-vertical-top-left-border-radius
+    )
+    var(--combo-vertical-top-right-border-radius)
+    var(--combo-vertical-bottom-right-border-radius)
+    var(--combo-vertical-bottom-left-border-radius);
+  --Combo--vertical-item-borderStyle: var(--combo-vertical-top-border-style)
+    var(--combo-vertical-right-border-style)
+    var(--combo-vertical-bottom-border-style)
+    var(--combo-vertical-left-border-style);
+  --Combo--vertical-item-borderWidth: var(--combo-vertical-top-border-width)
+    var(--combo-vertical-right-border-width)
+    var(--combo-vertical-bottom-border-width)
+    var(--combo-vertical-left-border-width);
+  --Combo--vertical-item-gap: var(--gap-xs);
+  --Combo--vertical-item-onHover-borderColor: var(
+      --combo-vertical-hover-top-border-color
+    )
+    var(--combo-vertical-hover-right-border-color)
+    var(--combo-vertical-hover-bottom-border-color)
+    var(--combo-vertical-hover-left-border-color);
+  --Combo--vertical-item-paddingX: #{px2rem(10px)};
+  --Combo--vertical-item-paddingY: #{px2rem(10px)};
+  --Combo-addBtn-bg: var(--combo-multi-addBtn-bg-color);
+  --Combo-addBtn-border: var(--colors-neutral-line-11);
+  --Combo-addBtn-borderRadius: var(--borders-radius-3);
+  --Combo-addBtn-color: var(--combo-multi-addBtn-color);
+  --Combo-addBtn-fontSize: var(--combo-multi-addBtn-fontSize);
+  --Combo-addBtn-fontWeight: var(--combo-multi-addBtn-fontWeight);
+  --Combo-addBtn-height: var(--combo-multi-addBtn-height);
+  --Combo-addBtn-lineHeight: var(--combo-multi-addBtn-lineHeight);
+  --Combo-addBtn-onActive-bg: var(--combo-multi-addBtn-active-bg-color);
+  --Combo-addBtn-onActive-border: var(--combo-multi-addBtn-active-bg-color);
+  --Combo-addBtn-onActive-color: var(--combo-multi-addBtn-active-color);
+  --Combo-addBtn-onHover-bg: var(--combo-multi-addBtn-hover-bg-color);
+  --Combo-addBtn-onHover-border: var(--combo-multi-addBtn-hover-bg-color);
+  --Combo-addBtn-onHover-color: var(--combo-multi-addBtn-hover-color);
+  --Combo-addBtn-paddingX: var(--sizes-size-5);
+  --Combo-addBtn-paddingY: calc(
+    (
+        var(--Combo-addBtn-height) - var(--borders-width-2) * 2 -
+          var(--Combo-addBtn-lineHeight) * var(--Combo-addBtn-fontSize)
+      ) / 2
+  );
+  --Combo-items-marginBottom: var(--gap-sm);
+  --Combo-toolbarBtn-color: var(--icon-color);
+  --Combo-toolbarBtn-height: var(--gap-md);
+  --Combo-toolbarBtn-lineHeight: 1;
+  --Combo-toolbarBtn-onHover-color: var(--colors-neutral-text-4);
+  --Combo-toolbarBtn-paddingX: var(--gap-xs);
+  --Combo-toolbarBtn-paddingY: #{px2rem(2px)};
 }
