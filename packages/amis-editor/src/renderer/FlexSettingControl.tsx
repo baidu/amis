@@ -17,6 +17,9 @@ interface FlexSettingControlProps extends FormControlProps {
 const getFlexItem = (props: FlexSettingControlProps) => {
   const {value, direction, justify, alignItems} = props;
   const curDirection = value?.flexDirection || direction;
+  const isColumn =
+    curDirection === 'column' || curDirection === 'column-reverse';
+
   // 主轴排列方向
   const directionItemOptions = [
     {
@@ -32,31 +35,35 @@ const getFlexItem = (props: FlexSettingControlProps) => {
     {
       label: '水平反向',
       value: 'row-reverse',
-      icon: 'drowReverse'
+      icon: 'drowReverse',
+      iconClassName: 'scaleX-180'
     },
     {
       label: '垂直反向',
       value: 'column-reverse',
-      icon: 'dcolumnReverse'
+      icon: 'dcolumnReverse',
+      iconClassName: 'scaleX-180'
     }
   ];
 
   // 交叉轴排列方式
   const alignItemsOptions = [
     {
-      label: '起点对齐',
+      label: isColumn ? '左对齐' : '顶部对齐',
       value: 'flex-start',
       icon: 'aFlexStart'
+      // iconClassName: isColumn ? 'scaleX-90' : '',
     },
     {
-      label: '垂直居中',
+      label: isColumn ? '水平居中' : '垂直居中',
       value: 'center',
       icon: 'aCenter'
     },
     {
-      label: '终点对齐',
+      label: isColumn ? '右对齐' : '底部对齐',
       value: 'flex-end',
       icon: 'aFlexEnd'
+      // iconClassName: isColumn ? 'scaleX-90' : '',
     },
     {
       label: '基线对齐',
@@ -64,28 +71,31 @@ const getFlexItem = (props: FlexSettingControlProps) => {
       icon: 'aBaseline'
     },
     {
-      label: '高度撑满',
+      label: isColumn ? '水平铺开' : '高度撑满',
       value: 'stretch',
-      icon: 'aStretch'
+      icon: 'aStretch',
+      iconClassName: isColumn ? 'scaleX-90' : ''
     }
   ];
 
   // 主轴排列方式
   const justifyItemsOptions = [
     {
-      label: '左对齐',
+      label: isColumn ? '顶部对齐' : '左对齐',
       value: 'flex-start',
       icon: 'jFlexStart'
+      // iconClassName: isColumn ? 'scaleX-90' : '',
     },
     {
-      label: '水平居中',
+      label: isColumn ? '垂直居中' : '水平居中',
       value: 'center',
       icon: 'jCenter'
     },
     {
-      label: '右对齐',
+      label: isColumn ? '底部对齐' : '右对齐',
       value: 'flex-end',
       icon: 'jFlexEnd'
+      // iconClassName: isColumn ? 'scaleX-90' : '',
     },
     {
       label: '两端对齐',
@@ -136,7 +146,7 @@ export default class FlexSettingControl extends React.Component<FlexSettingContr
   }
 
   render() {
-    const {value, label, classnames} = this.props;
+    const {value, label, ...rest} = this.props;
     const flexItems = getFlexItem(this.props);
 
     return (
@@ -148,10 +158,10 @@ export default class FlexSettingControl extends React.Component<FlexSettingContr
             key={item.field}
           >
             <ButtonGroup
+              {...rest}
               options={item.options}
               value={value?.[item.field] || item.default}
               onChange={this.setField(item.field)}
-              classnames={classnames}
             />
           </div>
         ))}

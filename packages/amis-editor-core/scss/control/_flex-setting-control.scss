@@ -18,11 +18,18 @@
 
       > button {
         flex: 1 1 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
     }
 
-    svg {
-      vertical-align: middle;
+    svg.scaleX-180 {
+      transform: rotate(180deg);
+    }
+
+    svg.scaleX-90 {
+      transform: rotate(90deg);
     }
   }
 }
