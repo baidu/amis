@@ -61,7 +61,7 @@
 
   &--rounded {
     background-color: var(--white);
-    border-style: solid;
+    border-style: var(--Tag-rounded-borderStyle);
     border-width: var(--Tag-rounded-borderWidth);
     border-radius: var(--Tag-rounded-borderRadius);
     border-color: var(--Tag-rounded-borderColor);
