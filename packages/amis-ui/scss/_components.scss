@@ -3433,6 +3433,10 @@
     var(--Tag-model-rounded-right-border-color)
     var(--Tag-model-rounded-bottom-border-color)
     var(--Tag-model-rounded-left-border-color);
+    --Tag-rounded-borderStyle: var(--Tag-model-rounded-top-border-style)
+    var(--Tag-model-rounded-right-border-style)
+    var(--Tag-model-rounded-bottom-border-style)
+    var(--Tag-model-rounded-left-border-style);
 
   --Toast-color: var(--colors-neutral-text-11);
   --Toast-paddingTop: var(--sizes-size-3);
