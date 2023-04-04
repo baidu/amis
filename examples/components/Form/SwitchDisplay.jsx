@@ -304,9 +304,12 @@ export default {
           label: '数字',
           placeholder: '',
           inline: true,
-          value: 5,
+          value: 99999,
           min: 1,
-          max: 10
+          max: 1000000,
+          kilobitSeparator: true,
+          prefix: '前缀',
+          suffix: '后缀'
         },
         {
           type: 'divider'
