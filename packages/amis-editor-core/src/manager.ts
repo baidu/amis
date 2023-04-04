@@ -121,6 +121,7 @@ export function registerEditorPlugin(klass: PluginClass) {
     isExitPlugin = builtInPlugins.find(item => item === klass);
   }
   if (!isExitPlugin) {
+    klass.id = klass.id || klass.name || guid();
     builtInPlugins.push(klass);
   } else {
     console.warn(`注册插件异常，已存在同名插件：`, klass);
@@ -842,7 +843,7 @@ export class EditorManager {
       // 当渲染器信息和 schemaData 都为空时，则不作任何处理
       return;
     }
-    
+
     if (!node) {
       toast.warning('请先选择一个元素作为插入的位置。');
       return;
