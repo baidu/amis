@@ -9,6 +9,7 @@ import {FormItem, Button, Icon, PickerContainer} from 'amis';
 import {FormulaEditor} from 'amis-ui/lib/components/formula/Editor';
 import type {VariableItem} from 'amis-ui/lib/components/formula/Editor';
 import {getVariables} from './textarea-formula/utils';
+import {renderFormulaValue} from './FormulaControl';
 import {reaction} from 'mobx';
 
 interface ExpressionFormulaControlProps extends FormControlProps {
@@ -116,13 +117,6 @@ export default class ExpressionFormulaControl extends React.Component<
   }
 
   @autobind
-  renderFormulaValue(item: any) {
-    const html = {__html: item.html};
-    // bca-disable-next-line
-    return <span dangerouslySetInnerHTML={html}></span>;
-  }
-
-  @autobind
   handleConfirm(value = '') {
     if (this.props.evalMode) {
       value = value.replace(/^\$\{(.*)\}$/, (match: string, p1: string) => p1);
@@ -190,11 +184,11 @@ export default class ExpressionFormulaControl extends React.Component<
                   mouseLeaveDelay: 20,
                   content: value,
                   tooltipClassName: 'btn-configured-tooltip',
-                  children: () => this.renderFormulaValue(highlightValue)
+                  children: () => renderFormulaValue(highlightValue)
                 }}
                 onClick={onClick}
               >
-                已配置表达式
+                {renderFormulaValue(highlightValue)}
                 <Icon
                   icon="input-clear"
                   className="icon"

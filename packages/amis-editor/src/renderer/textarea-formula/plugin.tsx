@@ -4,35 +4,61 @@
 
 import type CodeMirror from 'codemirror';
 import {TextareaFormulaControlProps} from './TextareaFormulaControl';
-import {FormulaEditor} from 'amis-ui/lib/components/formula/Editor';
+import {
+  FormulaEditor,
+  VariableItem
+} from 'amis-ui/lib/components/formula/Editor';
 
 export function editorFactory(
   dom: HTMLElement,
   cm: typeof CodeMirror,
-  props: any
+  value: string,
+  config?: Object
 ) {
   return cm(dom, {
-    value: props.value || '',
+    value: value || '',
     autofocus: false,
-    lineWrapping: true
+    lineWrapping: true,
+    ...config
   });
 }
 
+interface FormulaPluginConfig {
+  getProps: () => TextareaFormulaControlProps;
+  onExpressionClick?: (
+    expression: string,
+    brace?: Array<CodeMirror.Position>
+  ) => any;
+  onExpressionMouseEnter?: (
+    e: MouseEvent,
+    expression: string,
+    brace?: Array<CodeMirror.Position>
+  ) => any;
+  showPopover?: boolean;
+  showClearIcon?: boolean; // 表达式是否展示删除icon
+}
+
+const defaultPluginConfig = {
+  showPopover: false,
+  showClearIcon: false
+};
+
 export class FormulaPlugin {
-  constructor(
-    readonly editor: CodeMirror.Editor,
-    readonly cm: typeof CodeMirror,
-    readonly getProps: () => TextareaFormulaControlProps,
-    readonly onExpressionClick: (
-      expression: string,
-      brace?: Array<CodeMirror.Position>
-    ) => any
-  ) {
-    const {value} = this.getProps();
+  config: FormulaPluginConfig;
+
+  constructor(readonly editor: CodeMirror.Editor, config: FormulaPluginConfig) {
+    this.config = {
+      ...defaultPluginConfig,
+      ...config
+    };
+    const {value} = this.config.getProps();
     if (value) {
       this.autoMark();
       this.focus(value);
     }
+
+    this.setValue = this.setValue.bind(this);
+    this.insertContent = this.insertContent.bind(this);
   }
 
   autoMark() {
@@ -154,27 +180,36 @@ export class FormulaPlugin {
     }
   }
 
+  // 重新赋值
+  setValue(value: string) {
+    this.editor.setValue(value);
+  }
+
+  getCorsur() {
+    return this.editor.getCursor();
+  }
+
   insertContent(
-    value: any,
-    type?: 'expression',
+    content: string,
+    type: 'expression' | 'string' = 'string',
     brace?: Array<CodeMirror.Position>
   ) {
     if (brace) {
       // 替换
       const [from, to] = brace;
       if (type === 'expression') {
-        this.editor.replaceRange(value, from, to);
+        this.editor.replaceRange(content, from, to);
         this.autoMark();
-      } else if (typeof value === 'string') {
-        this.editor.replaceRange(value, from, to);
+      } else if (type === 'string') {
+        this.editor.replaceRange(content, from, to);
       }
     } else {
       // 新增
       if (type === 'expression') {
-        this.editor.replaceSelection(value);
+        this.editor.replaceSelection(content);
         this.autoMark();
-      } else if (typeof value === 'string') {
-        this.editor.replaceSelection(value);
+      } else if (type === 'string') {
+        this.editor.replaceSelection(content);
       }
       this.editor.focus();
     }
@@ -186,33 +221,59 @@ export class FormulaPlugin {
     expression = '',
     className = 'cm-expression'
   ) {
-    const wrap = document.createElement('span');
-    wrap.className = className;
-    const text = document.createElement('span');
-    text.className = `${className}-text`;
-    text.innerText = expression;
-    text.setAttribute('data-expression', expression);
-    text.onclick = () => {
-      const brace = this.getExpressionBrace(expression);
-      this.onExpressionClick(expression, brace);
-    };
-    const {variables} = this.getProps();
+    const {
+      onExpressionClick,
+      onExpressionMouseEnter,
+      getProps,
+      showPopover,
+      showClearIcon
+    } = this.config;
+
+    const variables = getProps()?.variables as VariableItem[];
     const highlightValue = FormulaEditor.highlightValue(
       expression,
       variables
     ) || {
       html: expression
     };
-    // 添加popover
-    const popoverEl = document.createElement('div');
-    // bca-disable-next-line
-    popoverEl.innerHTML = highlightValue.html;
-    popoverEl.classList.add('expression-popover');
-    const arrow = document.createElement('div');
-    arrow.classList.add('expression-popover-arrow');
-    popoverEl.appendChild(arrow);
+
+    const wrap = document.createElement('span');
+    wrap.className = className;
+    const text = document.createElement('span');
+    text.className = `${className}-text`;
+    text.innerHTML = highlightValue.html;
+    text.setAttribute('data-expression', expression);
+    text.onclick = () => {
+      const brace = this.getExpressionBrace(expression);
+      onExpressionClick?.(expression, brace);
+    };
+    text.onmouseenter = e => {
+      const brace = this.getExpressionBrace(expression);
+      onExpressionMouseEnter?.(e, expression, brace);
+    };
     wrap.appendChild(text);
-    wrap.appendChild(popoverEl);
+
+    if (showClearIcon) {
+      const closeIcon = document.createElement('i');
+      closeIcon.className = 'cm-expression-close iconfont icon-close';
+      closeIcon.onclick = () => {
+        const brace = this.getExpressionBrace(expression);
+        this.insertContent('', 'expression', brace);
+      };
+      wrap.appendChild(closeIcon);
+    }
+
+    if (showPopover) {
+      // 添加popover
+      const popoverEl = document.createElement('div');
+      // bca-disable-next-line
+      popoverEl.innerHTML = highlightValue.html;
+      popoverEl.classList.add('cm-expression-popover');
+      const arrow = document.createElement('div');
+      arrow.classList.add('cm-expression-popover-arrow');
+      popoverEl.appendChild(arrow);
+      wrap.appendChild(popoverEl);
+    }
 
     this.editor.markText(from, to, {
       atomic: true,

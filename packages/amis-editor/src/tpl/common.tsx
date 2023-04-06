@@ -5,7 +5,7 @@ import {
   isObject,
   tipedLabel,
   DSField,
-  EditorManager,
+  EditorManager
 } from 'amis-editor-core';
 import {SchemaObject} from 'amis/lib/Schema';
 import flatten from 'lodash/flatten';
@@ -126,6 +126,13 @@ setSchemaTpl('expressionFormulaControl', (schema: object = {}) => {
 setSchemaTpl('textareaFormulaControl', (schema: object = {}) => {
   return {
     type: 'ae-textareaFormulaControl',
+    ...schema
+  };
+});
+
+setSchemaTpl('tplFormulaControl', (schema: object = {}) => {
+  return {
+    type: 'ae-tplFormulaControl',
     ...schema
   };
 });
