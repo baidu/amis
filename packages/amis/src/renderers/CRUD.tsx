@@ -1672,6 +1672,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
     const ctx = createObject(store.mergedData, {
       currentPageData: store.mergedData.items.concat(),
+      rows: selectedItems.concat(),
+      items: selectedItems.concat(),
       selectedItems: selectedItems.concat(),
       unSelectedItems: unSelectedItems.concat(),
       ids: selectedItems
