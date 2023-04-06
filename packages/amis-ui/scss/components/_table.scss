@@ -87,7 +87,16 @@
       position: fixed;
       opacity: 1;
       z-index: $zindex-affix;
-      box-shadow: var(--Table-fixedTop-boxShadow);
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 4px;
+        height: 4px;
+        width: 100%;
+        z-index: -1;
+        box-shadow: var(--Table-fixedTop-boxShadow);
+      }
     }
 
     > .#{$ns}Table-fixedLeft,

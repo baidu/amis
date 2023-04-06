@@ -415,7 +415,7 @@ exports[`Renderer:input table add 1`] = `
                 >
                   <table
                     class="cxd-Table-table cxd-Table-table"
-                    style="width: 0px; table-layout: auto;"
+                    style="width: 0px; table-layout: fixed;"
                   >
                     <thead>
                       <tr
