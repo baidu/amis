@@ -9,6 +9,27 @@ interface PlainObject {
   [propsName: string]: any;
 }
 
+const directionText: any = {
+  'row': ['左对齐', '右对齐', '顶部对齐', '底部对齐'],
+  'column': ['顶部对齐', '底部对齐', '左对齐', '右对齐'],
+  'row-reverse': ['右对齐', '左对齐', '顶部对齐', '底部对齐'],
+  'column-reverse': ['底部对齐', '顶部对齐', '左对齐', '右对齐'],
+}
+
+const scaleX: any = {
+  'row': '',
+  'column': 'scaleX-90',
+  'row-reverse': 'scaleX-180',
+  'column-reverse': 'scaleX-270',
+}
+
+const scaleY: any = {
+  'row': '',
+  'column': 'scaleX-270',
+  'row-reverse': '',
+  'column-reverse': 'scaleX-270',
+}
+
 interface FlexSettingControlProps extends FormControlProps {
   onChange: (value: PlainObject) => void;
   value?: PlainObject;
@@ -16,7 +37,7 @@ interface FlexSettingControlProps extends FormControlProps {
 
 const getFlexItem = (props: FlexSettingControlProps) => {
   const {value, direction, justify, alignItems} = props;
-  const curDirection = value?.flexDirection || direction;
+  const curDirection = value?.flexDirection || direction || 'row';
   const isColumn =
     curDirection === 'column' || curDirection === 'column-reverse';
 
@@ -46,66 +67,71 @@ const getFlexItem = (props: FlexSettingControlProps) => {
     }
   ];
 
+  // 主轴排列方式
+  const justifyItemsOptions = [
+    {
+      label: directionText[curDirection][0],
+      value: 'flex-start',
+      icon: 'jFlexStart',
+      iconClassName: scaleX[curDirection]
+    },
+    {
+      label: isColumn ? '垂直居中' : '水平居中',
+      value: 'center',
+      icon: 'jCenter',
+      iconClassName: scaleX[curDirection]
+    },
+    {
+      label: directionText[curDirection][1],
+      value: 'flex-end',
+      icon: 'jFlexEnd',
+      iconClassName: scaleX[curDirection]
+    },
+    {
+      label: '两端对齐',
+      value: 'space-between',
+      icon: 'jSpaceBetween',
+      iconClassName: scaleX[curDirection]
+    },
+    {
+      label: '间隔分布',
+      value: 'space-around',
+      icon: 'jSpaceAround',
+      iconClassName: scaleX[curDirection]
+    }
+  ];
+
   // 交叉轴排列方式
   const alignItemsOptions = [
     {
-      label: isColumn ? '左对齐' : '顶部对齐',
+      label: directionText[curDirection][2],
       value: 'flex-start',
-      icon: 'aFlexStart'
-      // iconClassName: isColumn ? 'scaleX-90' : '',
+      icon: 'aFlexStart',
+      iconClassName: scaleY[curDirection]
     },
     {
       label: isColumn ? '水平居中' : '垂直居中',
       value: 'center',
-      icon: 'aCenter'
+      icon: 'aCenter',
+      iconClassName: scaleY[curDirection]
     },
     {
-      label: isColumn ? '右对齐' : '底部对齐',
+      label:  directionText[curDirection][3],
       value: 'flex-end',
-      icon: 'aFlexEnd'
-      // iconClassName: isColumn ? 'scaleX-90' : '',
+      icon: 'aFlexEnd',
+      iconClassName: scaleY[curDirection]
     },
     {
       label: '基线对齐',
       value: 'baseline',
-      icon: 'aBaseline'
+      icon: 'aBaseline',
+      iconClassName: scaleY[curDirection]
     },
     {
       label: isColumn ? '水平铺开' : '高度撑满',
       value: 'stretch',
       icon: 'aStretch',
       iconClassName: isColumn ? 'scaleX-90' : ''
-    }
-  ];
-
-  // 主轴排列方式
-  const justifyItemsOptions = [
-    {
-      label: isColumn ? '顶部对齐' : '左对齐',
-      value: 'flex-start',
-      icon: 'jFlexStart'
-      // iconClassName: isColumn ? 'scaleX-90' : '',
-    },
-    {
-      label: isColumn ? '垂直居中' : '水平居中',
-      value: 'center',
-      icon: 'jCenter'
-    },
-    {
-      label: isColumn ? '底部对齐' : '右对齐',
-      value: 'flex-end',
-      icon: 'jFlexEnd'
-      // iconClassName: isColumn ? 'scaleX-90' : '',
-    },
-    {
-      label: '两端对齐',
-      value: 'space-between',
-      icon: 'jSpaceBetween'
-    },
-    {
-      label: '间隔分布',
-      value: 'space-around',
-      icon: 'jSpaceAround'
     }
   ];
 
