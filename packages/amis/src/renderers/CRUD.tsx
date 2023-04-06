@@ -1651,7 +1651,14 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   }
 
   renderBulkActions(childProps: any) {
-    let {bulkActions, itemActions, store, render, classnames: cx} = this.props;
+    let {
+      bulkActions,
+      itemActions,
+      store,
+      render,
+      classnames: cx,
+      primaryField
+    } = this.props;
 
     if (!bulkActions || !bulkActions.length) {
       return null;
@@ -1665,8 +1672,18 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
     const ctx = createObject(store.mergedData, {
       currentPageData: store.mergedData.items.concat(),
+      rows: selectedItems.concat(),
+      items: selectedItems.concat(),
       selectedItems: selectedItems.concat(),
-      unSelectedItems: unSelectedItems.concat()
+      unSelectedItems: unSelectedItems.concat(),
+      ids: selectedItems
+        .map(item =>
+          item.hasOwnProperty(primaryField)
+            ? item[primaryField as string]
+            : null
+        )
+        .filter(item => item)
+        .join(',')
     });
 
     // const ctx = createObject(store.data, {
