@@ -24,12 +24,16 @@
       }
     }
 
+    svg.scaleX-90 {
+      transform: rotate(90deg);
+    }
+
     svg.scaleX-180 {
       transform: rotate(180deg);
     }
 
-    svg.scaleX-90 {
-      transform: rotate(90deg);
+    svg.scaleX-270 {
+      transform: rotate(270deg);
     }
   }
 }
