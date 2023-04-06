@@ -116,9 +116,7 @@ export class RegionWrapper extends React.Component<RegionWrapperProps> {
         <span
           className={`ae-Region-placeholder ${
             isLayoutItem ? 'layout-content' : ''
-          } ${
-            isNeedFillPlaceholder ? 'fill-placeholder' : ''
-          }`}
+          } ${isNeedFillPlaceholder ? 'fill-placeholder' : ''}`}
         >
           {this.props.placeholder || this.props.label}
         </span>

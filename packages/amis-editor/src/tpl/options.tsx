@@ -1,4 +1,9 @@
-import {setSchemaTpl, getSchemaTpl, defaultValue, getI18nEnabled} from 'amis-editor-core';
+import {
+  setSchemaTpl,
+  getSchemaTpl,
+  defaultValue,
+  getI18nEnabled
+} from 'amis-editor-core';
 import {tipedLabel} from 'amis-editor-core';
 import {SchemaObject} from 'amis/lib/Schema';
 import assign from 'lodash/assign';
@@ -86,7 +91,7 @@ setSchemaTpl('options', () => {
         unique: true
       }
     ]
-  }
+  };
 });
 
 setSchemaTpl('tree', {
@@ -375,7 +380,10 @@ setSchemaTpl('dataMap', {
       visibleOn: 'this.dataMapSwitch',
       body: [
         getSchemaTpl('switch', {
-          label: tipedLabel('原始数据打平', '开启后，会将所有原始数据打平设置到 data 中，并在此基础上定制'),
+          label: tipedLabel(
+            '原始数据打平',
+            '开启后，会将所有原始数据打平设置到 data 中，并在此基础上定制'
+          ),
           name: 'withDefaultData',
           className: 'mb-0',
           pipeIn: defaultValue(false),
@@ -400,7 +408,9 @@ setSchemaTpl('dataMap', {
             return data && data['&'] === '$$' ? omit(data, '&') : data;
           },
           onChange: (value: any, oldValue: any, model: any, form: any) => {
-            const newData = form.data.withDefaultData ? assign({'&': '$$'}, value) : cloneDeep(value);
+            const newData = form.data.withDefaultData
+              ? assign({'&': '$$'}, value)
+              : cloneDeep(value);
             form.setValues({
               data: newData
             });

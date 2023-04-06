@@ -5,7 +5,7 @@ import {
   isObject,
   tipedLabel,
   DSField,
-  EditorManager,
+  EditorManager
 } from 'amis-editor-core';
 import {SchemaObject} from 'amis/lib/Schema';
 import flatten from 'lodash/flatten';

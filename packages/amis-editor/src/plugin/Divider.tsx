@@ -30,7 +30,8 @@ export class DividerPlugin extends BasePlugin {
       body: [
         getSchemaTpl('layout:originPosition', {value: 'left-top'}),
         getSchemaTpl('layout:width:v2', {
-          visibleOn: 'data.style && data.style.position && (data.style.position === "fixed" || data.style.position === "absolute")',
+          visibleOn:
+            'data.style && data.style.position && (data.style.position === "fixed" || data.style.position === "absolute")'
         }),
         getSchemaTpl('className')
       ]

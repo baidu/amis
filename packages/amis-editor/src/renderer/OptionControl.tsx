@@ -8,7 +8,14 @@ import cx from 'classnames';
 import uniqBy from 'lodash/uniqBy';
 import omit from 'lodash/omit';
 import Sortable from 'sortablejs';
-import {FormItem, Button, Checkbox, Icon, InputBox, render as amisRender} from 'amis';
+import {
+  FormItem,
+  Button,
+  Checkbox,
+  Icon,
+  InputBox,
+  render as amisRender
+} from 'amis';
 import {value2array} from 'amis-ui/lib/components/Select';
 
 import {autobind, getI18nEnabled} from 'amis-editor-core';
@@ -625,18 +632,16 @@ export default class OptionControl extends React.Component<
             clearable={false}
             onChange={(value: string) => this.handleEditLabel(index, value)}
           /> */}
-          {
-            amisRender({
-              type: i18nEnabled ? 'input-text-i18n' : 'input-text',
-              className: 'ae-OptionControlItem-input',
-              value: label,
-              placeholder: '请输入文本/值',
-              clearable: false,
-              onChange: (value: string) => {
-                this.handleEditLabel(index, value);
-              }
-            })
-          }
+          {amisRender({
+            type: i18nEnabled ? 'input-text-i18n' : 'input-text',
+            className: 'ae-OptionControlItem-input',
+            value: label,
+            placeholder: '请输入文本/值',
+            clearable: false,
+            onChange: (value: string) => {
+              this.handleEditLabel(index, value);
+            }
+          })}
           {render(
             'dropdown',
             {
