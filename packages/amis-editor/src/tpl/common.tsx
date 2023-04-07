@@ -130,6 +130,13 @@ setSchemaTpl('textareaFormulaControl', (schema: object = {}) => {
   };
 });
 
+setSchemaTpl('tplFormulaControl', (schema: object = {}) => {
+  return {
+    type: 'ae-tplFormulaControl',
+    ...schema
+  };
+});
+
 setSchemaTpl('DataPickerControl', (schema: object = {}) => {
   return {
     type: 'ae-DataPickerControl',
