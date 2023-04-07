@@ -157,6 +157,28 @@ import layout_fixed_top from './layout/layout-fixed-top.svg';
 import inputAddFx from './other/+fx.svg';
 import inputFx from './other/fx.svg';
 
+// 属性配置面板/显示类型
+import block from './display/block.svg';
+import inline from './display/inline.svg';
+import inline_block from './display/inline-block.svg';
+import flex from './display/flex.svg';
+
+// 属性配置面板/flex相关配置icon
+import drow from './display/drow.svg';
+import dcolumn from './display/dcolumn.svg';
+import drowReverse from './display/drowReverse.svg';
+import dcolumnReverse from './display/dcolumnReverse.svg';
+import aFlexStart from './display/aFlexStart.svg';
+import aCenter from './display/aCenter.svg';
+import aFlexEnd from './display/aFlexEnd.svg';
+import aStretch from './display/aStretch.svg';
+import aBaseline from './display/aBaseline.svg';
+import jFlexStart from './display/jFlexStart.svg';
+import jCenter from './display/jCenter.svg';
+import jFlexEnd from './display/jFlexEnd.svg';
+import jSpaceBetween from './display/jSpaceBetween.svg';
+import jSpaceAround from './display/jSpaceAround.svg';
+
 // 功能类组件 icon x 11
 registerIcon('audio-plugin', audio);
 registerIcon('custom-plugin', custom);
@@ -298,5 +320,27 @@ registerIcon('layout-fixed-top', layout_fixed_top);
 
 registerIcon('input-add-fx', inputAddFx);
 registerIcon('input-fx', inputFx);
+
+// 属性配置面板/显示类型
+registerIcon('inline-display', inline);
+registerIcon('inline-block-display', inline_block);
+registerIcon('block-display', block);
+registerIcon('flex-display', flex);
+
+// 属性配置面板/flex相关配置icon
+registerIcon('drow', drow);
+registerIcon('dcolumn', dcolumn);
+registerIcon('drowReverse', drowReverse);
+registerIcon('dcolumnReverse', dcolumnReverse);
+registerIcon('aFlexStart', aFlexStart);
+registerIcon('aCenter', aCenter);
+registerIcon('aFlexEnd', aFlexEnd);
+registerIcon('aStretch', aStretch);
+registerIcon('aBaseline', aBaseline);
+registerIcon('jFlexStart', jFlexStart);
+registerIcon('jCenter', jCenter);
+registerIcon('jFlexEnd', jFlexEnd);
+registerIcon('jSpaceBetween', jSpaceBetween);
+registerIcon('jSpaceAround', jSpaceAround);
 
 export {Icon};

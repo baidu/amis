@@ -1,0 +1,39 @@
+.ap-Flex {
+  background: #ececec;
+  margin: 0;
+  padding: 6px 10px;
+
+  .ap-Flex-label {
+    font-size: 12px;
+    text-align: right;
+  }
+
+  .ap-Flex-item {
+    margin-top: 4px;
+
+    > .icon-ButtonList {
+      display: flex;
+      align-items: stretch;
+      justify-content: stretch;
+
+      > button {
+        flex: 1 1 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+
+    svg.scaleX-90 {
+      transform: rotate(90deg);
+    }
+
+    svg.scaleX-180 {
+      transform: rotate(180deg);
+    }
+
+    svg.scaleX-270 {
+      transform: rotate(270deg);
+    }
+  }
+}

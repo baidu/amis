@@ -47,7 +47,6 @@ import DeleteBold from './delete-bold.svg';
 import DragIcon from './drag-icon.svg';
 import EventSetting from './event-setting.svg';
 
-
 registerIcon('edit-full-btn', Edit);
 registerIcon('event-setting', EventSetting);
 registerIcon('add-btn', Plus);
