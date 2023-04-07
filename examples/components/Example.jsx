@@ -71,6 +71,7 @@ import OptionsLocalPageSchema from './Linkage/OptionsLocal';
 import FormSubmitSchema from './Linkage/FormSubmit';
 import InputEventSchema from './EventAction/cmpt-event-action/InputEvent';
 import DateEventSchema from './EventAction/cmpt-event-action/DateEvent';
+import TagEvent from './EventAction/cmpt-event-action/TagEvent';
 import SwitchEventSchema from './EventAction/cmpt-event-action/SwitchEvent';
 import TabsEventSchema from './EventAction/cmpt-event-action/TabsEvent';
 import UploadEventSchema from './EventAction/cmpt-event-action/UploadEvent';
@@ -125,6 +126,7 @@ import Tab2Schema from './Tabs/Tab2';
 import Tab3Schema from './Tabs/Tab3';
 import Loading from './Loading';
 import CodeSchema from './Code';
+import OfficeViewer from './OfficeViewer';
 
 import {Switch} from 'react-router-dom';
 import {navigations2route} from './App';
@@ -677,6 +679,11 @@ export const examples = [
                 component: makeSchemaRenderer(DateEventSchema)
               },
               {
+                label: '可关闭的tag group',
+                path: 'examples/event/each-tag',
+                component: makeSchemaRenderer(TagEvent)
+              },
+              {
                 label: '开关组件',
                 path: 'examples/event/switch',
                 component: makeSchemaRenderer(SwitchEventSchema)
@@ -865,6 +872,13 @@ export const examples = [
         icon: 'fa fa-rocket',
         path: '/examples/sdk',
         component: SdkTest
+      },
+
+      {
+        label: 'Office 文档预览',
+        icon: 'fa fa-file-word',
+        path: '/examples/office-viwewer',
+        component: makeSchemaRenderer(OfficeViewer)
       },
 
       {

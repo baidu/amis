@@ -39,6 +39,7 @@ export * from './replaceText';
 export * from './resize-sensor';
 export * from './resolveVariable';
 export * from './resolveVariableAndFilter';
+export * from './resolveVariableAndFilterForAsync';
 export * from './RootClose';
 export * from './scrollPosition';
 export * from './SimpleMap';
@@ -53,6 +54,7 @@ export * from './toNumber';
 export * from './decodeEntity';
 export * from './style-helper';
 export * from './filterVisibleOptions';
+export * from './resolveCondition';
 
 import animation from './Animation';
 

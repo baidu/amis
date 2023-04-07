@@ -240,7 +240,7 @@ test('Renderer:Picker with embed', async () => {
   ).toBeInTheDocument();
 });
 
-test('Renderer:Picker base', async () => {
+test('Renderer:Picker with drawer modalMode', async () => {
   const {container, rerender, getByText, getByPlaceholderText, baseElement} =
     render(
       amisRender({

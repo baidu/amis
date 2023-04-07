@@ -85,7 +85,10 @@ export const Store = StoreNode.named('MappingStore')
 
           if (ret.ok) {
             const data = normalizeApiResponseData(ret.data);
-            (self as any).setMap(data);
+
+            (self as any).setMap(
+              Array.isArray(data.options) ? data.options : data
+            );
           } else {
             throw new Error(ret.msg || 'fetch error');
           }
@@ -107,15 +110,14 @@ export const Store = StoreNode.named('MappingStore')
             } else if (isObject(now)) {
               let keys = Object.keys(now);
               if (
-                keys.length === 1
-                || (keys.length == 2 && keys.includes('$$id'))
+                keys.length === 1 ||
+                (keys.length == 2 && keys.includes('$$id'))
               ) {
                 // 针对amis-editor的特殊处理
                 keys = keys.filter(key => key !== '$$id');
                 // 单key 数组对象
                 res[keys[0]] = now[keys[0]];
-              }
-              else if (keys.length > 1) {
+              } else if (keys.length > 1) {
                 // 多key 数组对象
                 res[now[self.valueField]] = now;
               }
@@ -207,13 +209,7 @@ export const MappingField = withStore(props =>
     }
 
     renderSingleValue(key: any, reactKey?: number, needStyle?: boolean) {
-      const {
-        className,
-        style,
-        placeholder,
-        classnames: cx,
-        store
-      } = this.props;
+      const {className, style, placeholder, classnames: cx, store} = this.props;
       let viewValue: React.ReactNode = (
         <span className="text-muted">{placeholder}</span>
       );
@@ -238,19 +234,18 @@ export const MappingField = withStore(props =>
       }
 
       return (
-        <span key={`map-${reactKey}`} className={cx('MappingField', className)} style={curStyle}>
+        <span
+          key={`map-${reactKey}`}
+          className={cx('MappingField', className)}
+          style={curStyle}
+        >
           {viewValue}
         </span>
       );
     }
 
     renderViewValue(value: any) {
-      const {
-        render,
-        itemSchema,
-        data,
-        labelField
-      } = this.props;
+      const {render, itemSchema, data, labelField} = this.props;
 
       if (!itemSchema) {
         let label = value;
@@ -267,14 +262,27 @@ export const MappingField = withStore(props =>
             label = value[labelField || 'label'];
           }
         }
-        return render('tpl', label);
+        let realValue = value;
+        if (
+          isObject(label)
+          && label.type === 'tag'
+          && !isObject(label.label)
+          && label.label != null
+        ) {
+          realValue = label.label;
+        }
+        return render('tpl', label, {
+          data: createObject(data, {
+            value: realValue,
+            label: realValue
+          }),
+          value: null
+        });
       }
-
       return render('mappingItemSchema', itemSchema, {
-        data: createObject(
-          data,
-          isObject(value) ? value : {item: value}
-        )
+        data: createObject(data, isObject(value) ? value : {item: value}),
+        // 阻止 itemSchema 从props.value 取值，否则渲染不正确
+        value: null
       });
     }
 
@@ -282,7 +290,11 @@ export const MappingField = withStore(props =>
       const {style, defaultValue, data} = this.props;
       let mapKey = getPropValue(this.props);
       // 让默认值支持表达式
-      if (defaultValue && isPureVariable(defaultValue) && defaultValue === mapKey) {
+      if (
+        defaultValue &&
+        isPureVariable(defaultValue) &&
+        defaultValue === mapKey
+      ) {
         mapKey = resolveVariableAndFilter(defaultValue, data, '| raw');
       }
 

@@ -138,8 +138,9 @@
     border: none;
     box-shadow: none;
     // 如果是在PopOver position: absolute会使overlayNode没有高度 定位不正确
+    // 改成static z-index不生效 无法点击操作
     > .#{$ns}DropDown-menu-root {
-      position: static;
+      position: relative;
     }
   }
 

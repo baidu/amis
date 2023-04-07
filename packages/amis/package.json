@@ -1,6 +1,6 @@
 {
   "name": "amis",
-  "version": "2.8.0",
+  "version": "2.9.0",
   "description": "一种MIS页面生成工具",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -41,8 +41,8 @@
     ]
   },
   "dependencies": {
-    "amis-core": "^2.8.0",
-    "amis-ui": "^2.8.0",
+    "amis-core": "^2.9.0",
+    "amis-ui": "^2.9.0",
     "attr-accept": "2.2.2",
     "blueimp-canvastoblob": "2.1.0",
     "classnames": "2.3.1",
@@ -64,6 +64,7 @@
     "mobx-state-tree": "^3.17.3",
     "moment": "^2.19.4",
     "mpegts.js": "^1.6.10",
+    "ooxml-viewer": "0.1.0",
     "prop-types": "^15.6.1",
     "qrcode.react": "^3.1.0",
     "rc-overflow": "^1.2.4",
@@ -99,9 +100,9 @@
     "@types/papaparse": "^5.2.2",
     "@types/prop-types": "^15.5.2",
     "@types/qs": "^6.5.1",
-    "@types/react": "^17.0.39",
+    "@types/react": "^18.0.24",
     "@types/react-color": "^3.0.5",
-    "@types/react-dom": "^17.0.11",
+    "@types/react-dom": "^18.0.8",
     "@types/react-onclickoutside": "^6.0.2",
     "@types/react-router-dom": "^5.3.3",
     "@types/react-test-renderer": "^17.0.1",
@@ -161,10 +162,12 @@
       "import": "./esm/index.js"
     },
     "./lib/helper.css": {
+      "style": "./lib/helper.css",
       "require": "./lib/helper.css",
       "import": "./lib/helper.css"
     },
     "./lib/themes/*": {
+      "style": "./lib/themes/*",
       "require": "./lib/themes/*",
       "import": "./lib/themes/*"
     },
@@ -173,6 +176,9 @@
       "import": "./esm/*.js"
     },
     "./sdk/*": {
+      "style": [
+        "./sdk/*"
+      ],
       "require": [
         "./sdk/*"
       ],
@@ -232,6 +238,7 @@
   "peerDependencies": {
     "amis-core": "*",
     "amis-ui": "*",
+    "ooxml-viewer": "*",
     "react": ">=16.8.6",
     "react-dom": ">=16.8.6"
   },

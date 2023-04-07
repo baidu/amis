@@ -385,7 +385,10 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     if (Array.isArray(selectedOptions) && selectedOptions.length) {
       selectedOptions.forEach(option => {
         if (
-          !find(combinedOptions, (item: Option) => item.value == option.value)
+          !find(
+            combinedOptions,
+            (item: Option) => item[valueField] === option[valueField]
+          )
         ) {
           combinedOptions.push({
             ...option,

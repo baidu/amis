@@ -578,7 +578,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
     const inputValue = this.state.inputValue;
     let {selection} = this.state;
     let filtedOptions: Array<Option> =
-      inputValue && checkAllBySearch
+      inputValue && checkAllBySearch !== false
         ? matchSorter(options, inputValue, {
             keys: [labelField || 'label', valueField || 'value']
           })
@@ -990,9 +990,9 @@ export class Select extends React.Component<SelectProps, SelectState> {
       filtedOptions.length && filtedOptions.length > virtualThreshold;
     const selectionValues = selection.map(select => select[valueField]);
     if (multiple && checkAll) {
-      const optionsValues = (checkAllBySearch ? filtedOptions : options).map(
-        option => option[valueField]
-      );
+      const optionsValues = (
+        checkAllBySearch !== false ? filtedOptions : options
+      ).map(option => option[valueField]);
 
       checkedAll = optionsValues.every(
         option => selectionValues.indexOf(option) > -1

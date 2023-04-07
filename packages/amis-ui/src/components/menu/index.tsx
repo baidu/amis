@@ -7,7 +7,6 @@
 import React from 'react';
 import uniq from 'lodash/uniq';
 import isEqual from 'lodash/isEqual';
-import isEqualWith from 'lodash/isEqualWith';
 import RcMenu, {
   MenuProps as RcMenuProps,
   Divider as RcDivider,
@@ -242,7 +241,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     mode: 'inline',
     direction: 'ltr',
     prefix: '',
-    triggerSubMenuAction: 'click',
+    triggerSubMenuAction: 'hover',
     inlineIndent: 15,
     popOverContainer: () => document.body,
     renderLink: (link: MenuItemProps) => {
@@ -283,7 +282,13 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     if (!isNavDiff) {
       // 顺序也要保持一致
       for (let [index, item] of props.navigations.entries()) {
-        if (!isEqual(item, prevProps.navigations[index])) {
+        // 对比navigations中的link属性 否则item中包含很多处理过的属性 甚至包含react组件 对比会引发性能问题
+        // 如果作为组件使用时 可以通过配置link 配置关键对比属性 如果没有 那直接跳过
+        // 如果没有link 就先不对比了
+        if (
+          !item.link ||
+          (item.link && !isEqual(item.link, prevProps.navigations[index].link))
+        ) {
           isNavDiff = true;
           break;
         }
@@ -540,7 +545,9 @@ export class Menu extends React.Component<MenuProps, MenuState> {
       badge,
       data,
       isActive,
-      collapsed
+      collapsed,
+      overflowedIndicator,
+      overflowMaxCount
     } = this.props;
 
     return list.map((item: NavigationItem, index: number) => {
@@ -598,6 +605,9 @@ export class Menu extends React.Component<MenuProps, MenuState> {
           badge={badge}
           data={data}
           depth={level || 1}
+          order={index}
+          overflowedIndicator={overflowedIndicator}
+          overflowMaxCount={overflowMaxCount}
         />
       );
     });

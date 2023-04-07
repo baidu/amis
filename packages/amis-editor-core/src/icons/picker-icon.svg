@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg">
+<g fill="none" fill-rule="evenodd">
+    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M14.5 14.5h-13v-13h13v1.998"></path>
+    <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12.775 4.943l1.768 1.768-1.766 1.765M13.85 6.71H8M9.694 9.235l-1.768 1.768 1.766 1.766M8.618 11.002l5.882-.001"></path>
+    </g>
+</g>
+</svg>

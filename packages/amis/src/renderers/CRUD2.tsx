@@ -388,7 +388,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
   }
 
   initQuery(values: object) {
-    const {store, orderBy, orderDir} = this.props;
+    const {store, orderBy, orderDir, loadType} = this.props;
     const params: any = {};
 
     if (orderBy) {
@@ -402,7 +402,8 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
         ...values,
         ...store.query
       },
-      replaceQuery: this.props.initFetch !== false
+      replaceQuery: this.props.initFetch !== false,
+      loadMore: loadType === 'more'
     });
 
     // 保留一次用于重置查询条件
@@ -426,9 +427,10 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     query?: object; // 查询条件，没有将使用当前的
     resetQuery?: boolean;
     replaceQuery?: boolean;
+    loadMore?: boolean;
   }) {
     const {store, syncLocation, env, pageField, perPageField} = this.props;
-    let {query, resetQuery, replaceQuery} = data || {};
+    let {query, resetQuery, replaceQuery, loadMore} = data || {};
 
     query =
       syncLocation && query
@@ -444,9 +446,10 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       perPageField,
       replaceQuery
     );
+    store.changePage(1);
 
     this.lastQuery = store.query;
-    this.getData(undefined, undefined, undefined);
+    this.getData(undefined, undefined, undefined, loadMore ?? false);
   }
 
   handleStopAutoRefresh() {
@@ -658,7 +661,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
           errorMessage: messages && messages.saveSuccess
         })
         .then(() => {
-          reload && this.reloadTarget(reload, data);
+          reload && this.reloadTarget(filter(reload, data), data);
           this.getData(undefined, undefined, true, true);
         })
         .catch(() => {});
@@ -678,7 +681,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       store
         .saveRemote(quickSaveItemApi, sendData)
         .then(() => {
-          reload && this.reloadTarget(reload, data);
+          reload && this.reloadTarget(filter(reload, data), data);
           this.getData(undefined, undefined, true, true);
         })
         .catch(() => {
@@ -784,7 +787,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       store
         .saveRemote(saveOrderApi, model)
         .then(() => {
-          reload && this.reloadTarget(reload, model);
+          reload && this.reloadTarget(filter(reload, model), model);
           this.getData(undefined, undefined, true, true);
         })
         .catch(() => {});
@@ -1015,15 +1018,15 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     };
 
     return render(region, schema, {
-      ...props,
       // 包两层，主要是为了处理以下 case
       // 里面放了个 form，form 提交过来的时候不希望把 items 这些发送过来。
       // 因为会把数据呈现在地址栏上。
+      /** data 可以被覆盖，因为 filter 中不需要额外的 data */
       data: createObject(
         createObject(store.filterData, store.getData(this.props.data)),
         {}
       ),
-      render: this.renderChild,
+      ...props,
       ...childProps
     });
   }
@@ -1049,8 +1052,14 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
 
     return filter.map((item, index) =>
       this.renderChild(`filter/${index}`, item, {
-        key: index + '',
-        onSubmit: (data: any) => this.handleSearch({query: data})
+        key: index + 'filter',
+        data: this.props.store.filterData,
+        onSubmit: (data: any) => this.handleSearch({query: data}),
+        onReset: () =>
+          this.handleSearch({
+            resetQuery: true,
+            replaceQuery: true
+          })
       })
     );
   }

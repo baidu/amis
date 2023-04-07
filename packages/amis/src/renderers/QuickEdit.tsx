@@ -11,6 +11,7 @@ import {ActionObject} from 'amis-core';
 import keycode from 'keycode';
 import {Overlay} from 'amis-core';
 import {PopOver} from 'amis-core';
+import omit from 'lodash/omit';
 import {Icon} from 'amis-ui';
 import {SchemaCollection, SchemaObject} from '../Schema';
 
@@ -80,6 +81,7 @@ export interface QuickEditConfig {
   body?: any;
   focusable?: boolean;
   popOverClassName?: string;
+  isFormMode?: boolean;
   [propName: string]: any;
 }
 
@@ -384,7 +386,19 @@ export const HocQuickEdit =
             ]
           };
         } else if (quickEdit) {
-          if (
+          if (quickEdit?.isFormMode) {
+            schema = {
+              mode: 'normal',
+              type: 'form',
+              wrapWithPanel: false,
+              body: [
+                {
+                  ...omit(quickEdit, 'isFormMode'),
+                  label: false
+                }
+              ]
+            };
+          } else if (
             quickEdit.body &&
             !~['combo', 'group', 'panel', 'fieldSet', 'fieldset'].indexOf(
               (quickEdit as any).type
@@ -416,12 +430,15 @@ export const HocQuickEdit =
           }
         }
 
+        const isline = (quickEdit as QuickEditConfig).mode === 'inline';
+        const isFormMode = (quickEdit as QuickEditConfig)?.isFormMode;
+
         if (schema) {
           schema = {
             ...schema,
-            wrapWithPanel: (quickEdit as QuickEditConfig).mode !== 'inline',
+            wrapWithPanel: !(isline || isFormMode),
             actions:
-              (quickEdit as QuickEditConfig).mode === 'inline'
+              isline || isFormMode
                 ? []
                 : [
                     {
@@ -519,22 +536,26 @@ export const HocQuickEdit =
           render,
           noHoc,
           canAccessSuperData,
-          disabled,
-          readOnly
+          disabled
         } = this.props;
 
         if (
           !quickEdit ||
           !onQuickChange ||
-          quickEditEnabled === false ||
+          (!(typeof quickEdit === 'object' && quickEdit?.isQuickEditFormMode) &&
+            quickEditEnabled === false) ||
           noHoc ||
-          disabled ||
-          readOnly
+          disabled
+          // 此处的readOnly会导致组件值无法传递出去，如 value: "${a + b}" 这样的 value 变化需要同步到数据域
+          // || readOnly
         ) {
           return <Component {...this.props} />;
         }
 
-        if ((quickEdit as QuickEditConfig).mode === 'inline') {
+        if (
+          (quickEdit as QuickEditConfig).mode === 'inline' ||
+          (quickEdit as QuickEditConfig).isFormMode
+        ) {
           return (
             <Component {...this.props}>
               {render('inline-form', this.buildSchema(), {

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="页面编辑器" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="补充icon" transform="translate(-20.000000, -95.000000)">
+            <g id="侧导航icon备份-3" transform="translate(20.000000, 95.000000)">
+                <rect id="矩形" x="0" y="0" width="48" height="48"></rect>
+                <g id="编组-22备份-2" transform="translate(14.000000, 14.000000)">
+                    <rect id="矩形" x="0" y="0" width="20" height="20"></rect>
+                    <line x1="3.12138829" y1="5.625" x2="3.12138829" y2="16.875" id="直线-3" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"></line>
+                    <line x1="3.12138829" y1="10.625" x2="5.62138829" y2="10.625" id="直线-4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"></line>
+                    <line x1="3.12138829" y1="16.875" x2="5.62138829" y2="16.875" id="直线-4备份" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"></line>
+                    <circle id="椭圆形" fill="currentColor" cx="3.125" cy="4.375" r="1.875"></circle>
+                    <rect id="矩形" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round" x="8.74667178" y="3.125" width="8.72812676" height="2.5"></rect>
+                    <rect id="矩形备份-12" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round" x="8.74667178" y="8.75" width="8.72812676" height="2.5"></rect>
+                    <rect id="矩形备份-13" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round" x="8.74667178" y="14.375" width="8.72812676" height="2.5"></rect>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

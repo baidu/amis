@@ -2062,7 +2062,7 @@ registerAction('my-action', new MyAction());
 
 ## 条件
 
-通过配置`expression: 表达式`来实现条件逻辑。
+通过配置`expression: 表达式或ConditionBuilder组合条件`来实现条件逻辑。
 
 ```schema
 {
@@ -2071,7 +2071,15 @@ registerAction('my-action', new MyAction());
     type: 'form',
     wrapWithPanel: false,
     data: {
-      expression: 'okk'
+      expression: 'okk',
+      name: 'amis',
+      features: ['flexible', 'powerful'],
+      tool: 'amis-editor',
+      platform: 'aisuda',
+      detail: {
+        version: '2.8.0',
+        github: 'https://github.com/baidu/amis'
+      }
     },
     body: [
       {
@@ -2085,7 +2093,7 @@ registerAction('my-action', new MyAction());
                 actionType: 'toast',
                 args: {
                   msgType: 'success',
-                  msg: '我okk~'
+                  msg: 'expression表达式 ok~'
                 },
                 expression: 'expression === "okk"'
               },
@@ -2100,9 +2108,32 @@ registerAction('my-action', new MyAction());
                 actionType: 'toast',
                 args: {
                   msgType: 'success',
-                  msg: '我也okk~'
+                  msg: 'conditin-builder条件组合 也ok~'
                 },
-                expression: 'expression === "okk"'
+                expression: {
+                  id: 'b6434ead40cc',
+                  conjunction: 'and',
+                  children: [
+                    {
+                      id: 'e92b93840f37',
+                      left: {
+                        type: 'field',
+                        field: 'name'
+                      },
+                      op: 'equal',
+                      right: 'amis'
+                    },
+                    {
+                      id: '3779845521db',
+                      left: {
+                        type: 'field',
+                        field: 'features'
+                      },
+                      op: 'select_any_in',
+                      right: '${[LAST(features)]}'
+                    }
+                  ]
+                }
               }
             ]
           }
@@ -2708,6 +2739,65 @@ http 请求动作执行结束后，后面的动作可以通过 `${responseResult
 }
 ```
 
+#### 获取组件相关数据
+
+可以通过表达式函数`GETRENDERERDATA(id, path)`和`GETRENDERERPROP(id, path)`分别获取指定组件的数据和属性。
+
+```schema
+{
+  type: 'page',
+  body: [
+    {
+      type: 'form',
+      id: 'form_get_render',
+      wrapWithPanel: false,
+      data: {
+        name: 'amis',
+        age: '18'
+      },
+      body: [
+        {
+          type: 'input-text',
+          name: 'name',
+          label: 'name'
+        },
+        {
+          type: 'input-text',
+          name: 'age',
+          label: 'age'
+        }
+      ],
+      className: 'mb-2',
+    },
+    {
+      type: 'button',
+      className: 'mt-2',
+      label: '获取表单相关数据',
+      level: 'primary',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'toast',
+              args: {
+                msg: 'name:${GETRENDERERDATA("form_get_render", "name")},type:${GETRENDERERPROP("form_get_render", "type")}'
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+该函数参数说明如下：
+
+| 参数名 | 说明                          |
+| ------ | ----------------------------- |
+| id     | 组件 ID，即组件的 id 属性的值 |
+| path   | 数据路径，即数据变量的路径    |
+
 # 事件动作干预
 
 事件动作干预是指执行完当前动作后，干预所监听事件默认处理逻辑和后续其他动作的执行。通过`preventDefault`、`stopPropagation`分别阻止监听事件默认行为和停止下一个动作执行。
@@ -2825,13 +2915,13 @@ http 请求动作执行结束后，后面的动作可以通过 `${responseResult
 
 # 属性表
 
-| 属性名          | 类型                                        | 默认值  | 说明                                                                                                          |
-| --------------- | ------------------------------------------- | ------- | ------------------------------------------------------------------------------------------------------------- |
-| actionType      | `string`                                    | -       | 动作名称                                                                                                      |
-| args            | `object`                                    | -       | 动作属性`{key:value}`，支持数据映射                                                                           |
-| data            | `object`                                    | -       | 追加数据`{key:value}`，支持数据映射，如果是触发其他组件的动作，则该数据会传递给目标组件，`> 2.3.2 及以上版本` |
-| dataMergeMode   | `string`                                    | 'merge' | 当配置了 data 的时候，可以控制数据追加方式，支持合并(`merge`)和覆盖(`override`)两种模式，`> 2.3.2 及以上版本` |
-| preventDefault  | `boolean`\|[表达式](../concepts/expression) | false   | 阻止事件默认行为，`> 1.10.0 及以上版本支持表达式`                                                             |
-| stopPropagation | `boolean`\|[表达式](../concepts/expression) | false   | 停止后续动作执行，`> 1.10.0 及以上版本支持表达式`                                                             |
-| expression      | `boolean`\|[表达式](../concepts/expression) | -       | 执行条件，不设置表示默认执行                                                                                  |
-| outputVar       | `string`                                    | -       | 输出数据变量名                                                                                                |
+| 属性名          | 类型                                                                                                     | 默认值  | 说明                                                                                                          |
+| --------------- | -------------------------------------------------------------------------------------------------------- | ------- | ------------------------------------------------------------------------------------------------------------- |
+| actionType      | `string`                                                                                                 | -       | 动作名称                                                                                                      |
+| args            | `object`                                                                                                 | -       | 动作属性`{key:value}`，支持数据映射                                                                           |
+| data            | `object`                                                                                                 | -       | 追加数据`{key:value}`，支持数据映射，如果是触发其他组件的动作，则该数据会传递给目标组件，`> 2.3.2 及以上版本` |
+| dataMergeMode   | `string`                                                                                                 | 'merge' | 当配置了 data 的时候，可以控制数据追加方式，支持合并(`merge`)和覆盖(`override`)两种模式，`> 2.3.2 及以上版本` |
+| preventDefault  | `boolean`\|[表达式](../concepts/expression)\|[ConditionBuilder](../../components/form/condition-builder) | false   | 阻止事件默认行为，`> 1.10.0 及以上版本支持表达式，> 2.9.0 及以上版本支持ConditionBuilder`                     |
+| stopPropagation | `boolean`\|[表达式](../concepts/expression)\|[ConditionBuilder](../../components/form/condition-builder) | false   | 停止后续动作执行，`> 1.10.0 及以上版本支持表达式，> 2.9.0 及以上版本支持ConditionBuilder`                     |
+| expression      | `boolean`\|[表达式](../concepts/expression)\|[ConditionBuilder](../../components/form/condition-builder) | -       | 执行条件，不设置表示默认执行，`> 1.10.0 及以上版本支持表达式，> 2.9.0 及以上版本支持ConditionBuilder`         |
+| outputVar       | `string`                                                                                                 | -       | 输出数据变量名                                                                                                |

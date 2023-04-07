@@ -383,6 +383,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     'onChange',
     'onInit',
     'onSaved',
+    'onSave',
     'onQuery',
     'formStore',
     'autoFillHeight'
@@ -679,7 +680,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           const redirect = action.redirect && filter(action.redirect, data);
           redirect && !action.blank && env.jumpTo(redirect, action);
           action.reload
-            ? this.reloadTarget(action.reload, data)
+            ? this.reloadTarget(filter(action.reload, data), data)
             : redirect
             ? null
             : this.search(undefined, undefined, true, true);
@@ -778,7 +779,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
               }
 
               action.reload
-                ? this.reloadTarget(action.reload, data)
+                ? this.reloadTarget(filter(action.reload, data), data)
                 : this.search(
                     {[pageField || 'page']: 1},
                     undefined,
@@ -1037,7 +1038,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
     const reload = action.reload ?? dialogAction.reload;
     if (reload) {
-      this.reloadTarget(reload, ctx);
+      this.reloadTarget(filter(reload, ctx), ctx);
     }
 
     let redirect = action.redirect ?? dialogAction.redirect;
@@ -1278,7 +1279,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         .then(() => {
           const finalReload = options?.reload ?? reload;
           finalReload
-            ? this.reloadTarget(finalReload, data)
+            ? this.reloadTarget(filter(finalReload, data), data)
             : this.search(undefined, undefined, true, true);
         })
         .catch(() => {});
@@ -1300,7 +1301,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         .then(() => {
           const finalReload = options?.reload ?? reload;
           finalReload
-            ? this.reloadTarget(finalReload, data)
+            ? this.reloadTarget(filter(finalReload, data), data)
             : this.search(undefined, undefined, true, true);
         })
         .catch(() => {
@@ -1405,7 +1406,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       store
         .saveRemote(saveOrderApi, model)
         .then(() => {
-          reload && this.reloadTarget(reload, model);
+          reload && this.reloadTarget(filter(reload, model), model);
           this.search(undefined, undefined, true, true);
         })
         .catch(() => {});
@@ -1650,7 +1651,14 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   }
 
   renderBulkActions(childProps: any) {
-    let {bulkActions, itemActions, store, render, classnames: cx} = this.props;
+    let {
+      bulkActions,
+      itemActions,
+      store,
+      render,
+      classnames: cx,
+      primaryField
+    } = this.props;
 
     if (!bulkActions || !bulkActions.length) {
       return null;
@@ -1664,8 +1672,18 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
     const ctx = createObject(store.mergedData, {
       currentPageData: store.mergedData.items.concat(),
+      rows: selectedItems.concat(),
+      items: selectedItems.concat(),
       selectedItems: selectedItems.concat(),
-      unSelectedItems: unSelectedItems.concat()
+      unSelectedItems: unSelectedItems.concat(),
+      ids: selectedItems
+        .map(item =>
+          item.hasOwnProperty(primaryField)
+            ? item[primaryField as string]
+            : null
+        )
+        .filter(item => item)
+        .join(',')
     });
 
     // const ctx = createObject(store.data, {
@@ -2159,6 +2177,15 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       onSelect,
       autoFillHeight,
       onEvent,
+      onSave,
+      onSaveOrder,
+      onPopOverOpened,
+      onPopOverClosed,
+      onSearchableFromReset,
+      onSearchableFromSubmit,
+      onSearchableFromInit,
+      headerToolbarRender,
+      footerToolbarRender,
       ...rest
     } = this.props;
 
