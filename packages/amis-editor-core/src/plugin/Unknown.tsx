@@ -21,14 +21,15 @@ export class UnkownRendererPlugin extends BasePlugin {
         return;
       } else if (
         renderer.name === 'card-item' ||
-        renderer.name === 'list-item-field'
+        renderer.name === 'list-item-field' ||
+        renderer.name === 'card-item-field'
       ) {
         return;
       }
 
       // 复制部分信息出去
       return {
-        name: 'Unkown',
+        name: 'Unknown',
         $schema: '/schemas/UnkownSchema.json'
       };
     }

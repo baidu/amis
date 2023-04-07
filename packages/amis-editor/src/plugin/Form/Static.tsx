@@ -12,7 +12,7 @@ import {EditorNodeType} from 'amis-editor-core';
 import {mockValue} from 'amis-editor-core';
 
 // 快速编辑
-setSchemaTpl('quickEdit', {
+setSchemaTpl('quickEdit', (patch: any, manager: any) => ({
   type: 'ae-switch-more',
   mode: 'normal',
   name: 'quickEdit',
@@ -84,7 +84,7 @@ setSchemaTpl('quickEdit', {
               block
               level="primary"
               onClick={() => {
-                this.manager.openSubEditor({
+                manager.openSubEditor({
                   title: '配置快速编辑类型',
                   value: value,
                   slot: {
@@ -93,7 +93,7 @@ setSchemaTpl('quickEdit', {
                     body: ['$$'],
                     wrapWithPanel: false
                   },
-                  onChange: value =>
+                  onChange: (value: any) =>
                     onChange(
                       {
                         ...value,
@@ -111,10 +111,10 @@ setSchemaTpl('quickEdit', {
       }
     ]
   }
-});
+}));
 
 // 查看更多
-setSchemaTpl('morePopOver', {
+setSchemaTpl('morePopOver', (patch: any, manager: any) => ({
   type: 'ae-switch-more',
   mode: 'normal',
   name: 'popOver',
@@ -212,10 +212,10 @@ setSchemaTpl('morePopOver', {
               block
               level="primary"
               onClick={() => {
-                this.manager.openSubEditor({
+                manager.openSubEditor({
                   title: '配置查看更多展示内容',
                   value: value,
-                  onChange: value => onChange(value, 'quickEdit')
+                  onChange: (value: any) => onChange(value, 'quickEdit')
                 });
               }}
             >
@@ -226,7 +226,7 @@ setSchemaTpl('morePopOver', {
       }
     ]
   }
-});
+}));
 
 // 可复制
 setSchemaTpl('copyable', {
@@ -310,19 +310,18 @@ export class StaticControlPlugin extends BasePlugin {
               getSchemaTpl('formItemName', {
                 required: false
               }),
-              getSchemaTpl('label')
+              getSchemaTpl('label'),
               // getSchemaTpl('value'),
-              /*
               getSchemaTpl('valueFormula', {
-                name: 'tpl',
+                name: 'tpl'
                 // rendererSchema: {
                 //   ...context?.schema,
                 //   type: 'textarea', // 改用多行文本编辑
                 //   value: context?.schema.tpl // 避免默认值丢失
                 // }
               }),
-              getSchemaTpl('quickEdit'),
-              getSchemaTpl('morePopOver'),
+              getSchemaTpl('quickEdit', {}, this.manager),
+              getSchemaTpl('morePopOver', {}, this.manager),
               getSchemaTpl('copyable'),
               getSchemaTpl('labelRemark'),
               getSchemaTpl('remark'),

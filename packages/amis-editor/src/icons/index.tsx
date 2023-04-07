@@ -118,6 +118,7 @@ import picker from './form/picker.svg';
 
 import quarter from './form/quarter.svg';
 import radios from './form/radios.svg';
+import searchBox from './form/select.svg';
 import select from './form/select.svg';
 import staticIcon from './form/static.svg';
 import subForm from './form/sub-form.svg';
@@ -257,6 +258,7 @@ registerIcon('nested-select-plugin', nestedSelect);
 registerIcon('picker-plugin', picker);
 registerIcon('quarter-plugin', quarter);
 registerIcon('radios-plugin', radios);
+registerIcon('search-box-plugin', searchBox);
 registerIcon('select-plugin', select);
 registerIcon('static-plugin', staticIcon);
 registerIcon('sub-form-plugin', subForm);

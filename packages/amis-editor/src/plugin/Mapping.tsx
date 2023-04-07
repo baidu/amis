@@ -10,6 +10,7 @@ import {
   ContextMenuEventContext,
   ContextMenuItem
 } from 'amis-editor-core';
+import {schemaArrayFormat, schemaToArray} from '../util';
 
 export class MappingPlugin extends BasePlugin {
   static scene = ['layout'];
@@ -184,21 +185,22 @@ export class MappingPlugin extends BasePlugin {
     const store = manager.store;
     const node = store.getNodeById(id);
     const value = store.getValueOf(id);
+    const defaultItemSchema = {
+      type: 'tag',
+      label: `\${${this.getDisplayField(value)}}`
+    };
 
     node &&
       value &&
       this.manager.openSubEditor({
         title: '配置显示模板',
-        value: value.itemSchema || {
-          type: 'tag',
-          label: `\${${this.getDisplayField(value)}}`
-        },
+        value: schemaToArray(value.itemSchema ?? defaultItemSchema),
         slot: {
           type: 'container',
           body: '$$'
         },
         onChange: (newValue: any) => {
-          newValue = {...value, itemSchema: newValue};
+          newValue = {...value, itemSchema: schemaArrayFormat(newValue)};
           manager.panelChangeValue(newValue, diff(value, newValue));
         },
         data: {

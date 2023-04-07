@@ -105,11 +105,9 @@ export default class ExpressionFormulaControl extends React.Component<
 
   @autobind
   initFormulaPickerValue(value: string) {
-    let formulaPickerValue = value;
-    if (this.props.evalMode) {
-      formulaPickerValue =
-        value?.replace(/^\$\{(.*)\}$/, (match: string, p1: string) => p1) || '';
-    }
+    let formulaPickerValue =
+      value?.replace(/^\$\{(.*)\}$/, (match: string, p1: string) => p1) || '';
+
     this.setState({
       formulaPickerValue
     });
@@ -124,9 +122,9 @@ export default class ExpressionFormulaControl extends React.Component<
 
   @autobind
   handleConfirm(value = '') {
-    if (this.props.evalMode) {
-      value = value.replace(/^\$\{(.*)\}$/, (match: string, p1: string) => p1);
-      value = value ? `\${${value}}` : '';
+    const expressionReg = /^\$\{(.*)\}$/;
+    if (value && !expressionReg.test(value)) {
+      value = `\${${value}}`;
     }
     this.props?.onChange?.(value);
   }

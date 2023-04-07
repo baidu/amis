@@ -1,8 +1,37 @@
-import {registerEditorPlugin} from 'amis-editor-core';
+import {registerEditorPlugin, tipedLabel} from 'amis-editor-core';
 import {BaseEventContext} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {DatePlugin} from './Date';
 
+const timeFormatOptions = [
+  {
+    label: 'HH:mm',
+    value: 'HH:mm',
+    timeFormat: 'HH:mm'
+  },
+  {
+    label: 'HH:mm:ss',
+    value: 'HH:mm:ss',
+    timeFormat: 'HH:mm:ss'
+  },
+  {
+    label: 'HH时mm分',
+    value: 'HH时mm分',
+    timeFormat: 'HH:mm'
+  },
+  {
+    label: 'HH时mm分ss秒',
+    value: 'HH时mm分ss秒',
+    timeFormat: 'HH:mm:ss'
+  }
+];
+// 暂仅提示时间戳，待input-time的timeFormat支持表达式后增加其他类型
+const dateFormatOptions = [
+  {
+    label: 'X(时间戳)',
+    value: 'X'
+  }
+];
 export class TimePlugin extends DatePlugin {
   // 关联渲染器名字
   rendererName = 'time';
@@ -37,20 +66,28 @@ export class TimePlugin extends DatePlugin {
                   name: 'value',
                   inputFormat: 'HH:mm:ss',
                   timeFormat: 'HH:mm:ss',
-                  label: '时间数值'
+                  label: '时间值'
                 },
                 {
                   type: 'input-text',
                   name: 'format',
-                  label: '显示时间格式',
-                  description: '请参考 moment 中的格式用法。',
+                  label: tipedLabel(
+                    '显示格式',
+                    '请参考 <a href="https://momentjs.com/" target="_blank">moment</a> 中的格式用法。'
+                  ),
+                  clearable: true,
+                  options: timeFormatOptions,
                   pipeIn: defaultValue('HH:mm:ss')
                 },
                 {
                   type: 'input-text',
                   name: 'valueFormat',
-                  label: '数据日期格式',
-                  description: '请参考 moment 中的格式用法。',
+                  label: tipedLabel(
+                    '值格式',
+                    '请参考 <a href="https://momentjs.com/" target="_blank">moment</a> 中的格式用法。'
+                  ),
+                  clearable: true,
+                  options: dateFormatOptions,
                   pipeIn: defaultValue('X')
                 },
                 getSchemaTpl('placeholder', {

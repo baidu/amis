@@ -10,8 +10,10 @@ import type {VariableItem} from 'amis-ui/lib/components/formula/Editor';
  */
 export async function resolveVariablesFromScope(node: any, manager: any) {
   await manager?.getContextSchemas(node);
+  // 获取当前组件内相关变量，如表单、增删改查
   const dataPropsAsOptions: VariableItem[] =
-    manager?.dataSchema?.getDataPropsAsOptions();
+    await manager?.dataSchema?.getDataPropsAsOptions();
+
   const variables: VariableItem[] =
     manager?.variableManager?.getVariableFormulaOptions() || [];
 
