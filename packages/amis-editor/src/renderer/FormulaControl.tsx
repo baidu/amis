@@ -23,8 +23,7 @@ import {
   TooltipWrapper
 } from 'amis';
 import {FormulaExec, isExpression} from 'amis';
-import {PickerContainer, relativeValueRe} from 'amis';
-import {FormulaEditor} from 'amis-ui/lib/components/formula/Editor';
+import {FormulaEditor} from 'amis-ui';
 
 import FormulaPicker, {
   CustomFormulaPickerProps

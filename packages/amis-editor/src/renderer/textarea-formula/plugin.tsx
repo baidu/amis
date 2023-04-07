@@ -2,12 +2,9 @@
  * @file 扩展 codemirror
  */
 
-import type CodeMirror from 'codemirror';
 import {TextareaFormulaControlProps} from './TextareaFormulaControl';
-import {
-  FormulaEditor,
-  VariableItem
-} from 'amis-ui/lib/components/formula/Editor';
+import {FormulaEditor} from 'amis-ui';
+import type {VariableItem, CodeMirror} from 'amis-ui';
 
 export function editorFactory(
   dom: HTMLElement,

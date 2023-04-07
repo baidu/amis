@@ -5,9 +5,8 @@
 import React from 'react';
 import cx from 'classnames';
 import {reaction} from 'mobx';
-import debounce from 'lodash/debounce';
-import CodeMirror from 'codemirror';
-import CodeMirrorEditor from 'amis-ui/lib/components/CodeMirror';
+import {CodeMirrorEditor, FormulaEditor} from 'amis-ui';
+import type {VariableItem, CodeMirror} from 'amis-ui';
 import {Icon, Button, FormItem, TooltipWrapper} from 'amis';
 import {autobind, FormControlProps} from 'amis-core';
 import {FormulaPlugin, editorFactory} from './textarea-formula/plugin';
@@ -16,10 +15,6 @@ import {renderFormulaValue} from './FormulaControl';
 import FormulaPicker, {
   CustomFormulaPickerProps
 } from './textarea-formula/FormulaPicker';
-import {
-  VariableItem,
-  FormulaEditor
-} from 'amis-ui/lib/components/formula/Editor';
 
 export interface TplFormulaControlProps extends FormControlProps {
   /**
@@ -159,6 +154,7 @@ export class TplFormulaControl extends React.Component<
     if (this.wrapRef.current) {
       this.wrapRef.current.removeEventListener('keydown', this.handleKeyDown);
     }
+    this.editorPlugin?.dispose();
     this.unReaction?.();
   }
 

@@ -20,10 +20,6 @@ $tooltip-bottom: '[data-tooltip][data-position=' bottom ']:hover:after';
 
   @include panel-sm-content();
 
-  .cxd-TextControl-input {
-    align-items: center;
-  }
-
   .ae-Settings-content {
     padding: var(--gap-base);
     #{$tooltip-bottom} {

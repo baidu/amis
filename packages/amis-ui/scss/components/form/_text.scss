@@ -45,6 +45,7 @@
       var(--input-default-default-paddingLeft);
     background: var(--input-default-default-bg-color);
     height: var(--input-size-default-height);
+    align-items: center;
 
     &:hover,
     &.hover {

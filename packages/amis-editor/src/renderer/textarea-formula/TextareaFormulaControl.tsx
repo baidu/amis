@@ -6,18 +6,14 @@ import React, {MouseEvent} from 'react';
 import cx from 'classnames';
 import {Icon, FormItem, TooltipWrapper} from 'amis';
 import {autobind, FormControlProps, render as renderAmis} from 'amis-core';
-import CodeMirrorEditor from 'amis-ui/lib/components/CodeMirror';
+import {CodeMirrorEditor, FormulaEditor} from 'amis-ui';
+import type {VariableItem, CodeMirror} from 'amis-ui';
 import {FormulaPlugin, editorFactory} from './plugin';
 
 import FormulaPicker, {CustomFormulaPickerProps} from './FormulaPicker';
-import CodeMirror from 'codemirror';
 import {getVariables} from './utils';
 import {reaction} from 'mobx';
 import {renderFormulaValue} from '../FormulaControl';
-import {
-  VariableItem,
-  FormulaEditor
-} from 'amis-ui/lib/components/formula/Editor';
 
 export interface AdditionalMenuClickOpts {
   /**
@@ -186,6 +182,7 @@ export class TextareaFormulaControl extends React.Component<
         this.hiddenToolTip
       );
     }
+    this.editorPlugin?.dispose();
 
     this.unReaction?.();
   }
