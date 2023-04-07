@@ -13,7 +13,7 @@ import {filterDate, parseDuration, relativeValueRe} from './date';
 import {pickValues} from './object';
 import {isPureVariable} from './isPureVariable';
 import {stripNumber} from './stripNumber';
-import {tokenize} from './tokenize';
+import {tokenize, asyncTokenize} from './tokenize';
 import {resolveVariable} from './resolveVariable';
 import {resolveVariableAndFilter} from './resolveVariableAndFilter';
 import {dataMapping, resolveMapping, resolveMappingObject} from './dataMapping';
@@ -78,6 +78,17 @@ export function register(): Enginer & {name: string} {
     compile: (str: string, data: object, defaultFilter = '| html') => {
       try {
         return tokenize(str, data, defaultFilter);
+      } catch (e) {
+        return `error: ${e.message}`;
+      }
+    },
+    asyncCompile: async (
+      str: string,
+      data: object,
+      defaultFilter = '| html'
+    ) => {
+      try {
+        return asyncTokenize(str, data, defaultFilter);
       } catch (e) {
         return `error: ${e.message}`;
       }
