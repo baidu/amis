@@ -1,5 +1,5 @@
 import moment from 'moment';
-import {evaluateForAsync, registerFunction} from '../src';
+import {evaluateForAsync, registerFunction, setCustomFunction} from '../src';
 
 const defaultContext = {
   a: 1,
@@ -387,4 +387,13 @@ test('formula:customFunction', async () => {
       name: 'amis'
     }
   });
+});
+
+setCustomFunction((a: any, b: any) => {
+  return new Promise((resolve, reject) => {
+    resolve(a * b * 2);
+  });
+});
+test('formula:customFunction', async () => {
+  expect(await evalFormual('AAA(1,2)')).toBe(4);
 });

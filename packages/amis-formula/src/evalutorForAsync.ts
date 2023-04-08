@@ -298,7 +298,7 @@ export class AsyncEvaluator extends (Evaluator as any) {
       (this.filters.hasOwnProperty(ast.identifier) &&
         this.filters[ast.identifier]);
 
-    if (!fn) {
+    if (!fn && !Evaluator.customFunction) {
       throw new Error(`${ast.identifier}函数没有定义`);
     }
 
@@ -311,7 +311,11 @@ export class AsyncEvaluator extends (Evaluator as any) {
       args = await runSequence(args, a => this.evalute(a));
     }
 
-    return fn.apply(this, args);
+    if (fn) {
+      return fn.apply(this, args);
+    } else if (Evaluator.customFunction) {
+      return Evaluator.customFunction.apply(this, args);
+    }
   }
 
   async callAnonymousFunction(

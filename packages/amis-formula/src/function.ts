@@ -10,3 +10,13 @@ export function registerFunction(
   functions[`fn${name}`] = fn;
   Evaluator.setDefaultFunctions(functions);
 }
+
+/**
+ * 设置自定义函数，functions中找不到处理的函数时执行
+ * @param fn
+ */
+export function setCustomFunction(
+  fn: (input: any, ...args: any[]) => any
+): void {
+  Evaluator.setCustomFunction(fn);
+}

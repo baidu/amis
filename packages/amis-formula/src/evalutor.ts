@@ -37,6 +37,10 @@ export class Evaluator {
       ...funtions
     };
   }
+  static customFunction: (input: any, ...args: any[]) => any | undefined;
+  static setCustomFunction(fn: (input: any, ...args: any[]) => any) {
+    Evaluator.customFunction = fn;
+  }
 
   constructor(
     context: {
@@ -451,7 +455,7 @@ export class Evaluator {
       (this.filters.hasOwnProperty(ast.identifier) &&
         this.filters[ast.identifier]);
 
-    if (!fn) {
+    if (!fn && !Evaluator.customFunction) {
       throw new Error(`${ast.identifier}函数没有定义`);
     }
 
@@ -464,7 +468,11 @@ export class Evaluator {
       args = args.map(a => this.evalute(a));
     }
 
-    return fn.apply(this, args);
+    if (fn) {
+      return fn.apply(this, args);
+    } else if (Evaluator.customFunction) {
+      return Evaluator.customFunction.apply(this, args);
+    }
   }
 
   anonymousFunction(ast: any) {
