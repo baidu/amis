@@ -175,6 +175,9 @@ import jFlexEnd from './display/jFlexEnd.svg';
 import jSpaceBetween from './display/jSpaceBetween.svg';
 import jSpaceAround from './display/jSpaceAround.svg';
 
+// 主题
+import themeCss from './theme/css.svg';
+
 // 功能类组件 icon x 11
 registerIcon('audio-plugin', audio);
 registerIcon('custom-plugin', custom);
@@ -335,5 +338,8 @@ registerIcon('jCenter', jCenter);
 registerIcon('jFlexEnd', jFlexEnd);
 registerIcon('jSpaceBetween', jSpaceBetween);
 registerIcon('jSpaceAround', jSpaceAround);
+
+// 主题
+registerIcon('theme-css', themeCss);
 
 export {Icon};

@@ -409,7 +409,7 @@ export default class FormulaControl extends React.Component<
         'kilobitSeparator',
         'value',
         'inputControlClassName',
-        'css'
+        'themeCss'
       ];
 
       // 当前组件要剔除的字段

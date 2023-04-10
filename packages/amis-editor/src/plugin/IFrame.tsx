@@ -76,10 +76,7 @@ export class IFramePlugin extends BasePlugin {
                 })
               ]
             },
-            getSchemaTpl('style:classNames', {
-              isFormItem: false
-            }),
-            ...getSchemaTpl('style:common', [], 'border')
+            ...getSchemaTpl('theme:common', ['layout'])
           ])
         ]
       }

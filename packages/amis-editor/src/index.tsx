@@ -178,7 +178,7 @@ import './renderer/FeatureControl';
 import './renderer/event-control/index';
 import './renderer/TreeOptionControl';
 import './renderer/TransferTableControl';
-import './renderer/style-control/ThemeClassName';
+import './renderer/style-control/ThemeCssCode';
 import './renderer/ButtonGroupControl';
 import './renderer/FlexSettingControl';
 import 'amis-theme-editor/lib/renderers/Border';
