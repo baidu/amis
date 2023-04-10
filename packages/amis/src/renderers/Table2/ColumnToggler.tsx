@@ -75,7 +75,6 @@ export class ColumnTogglerRenderer extends React.Component<ColumnTogglerRenderer
         columns={cols}
         activeToggaleColumns={activeToggaleColumns}
         data={data}
-        size={size || 'sm'}
       >
         {toggableColumns?.length ? (
           <li
