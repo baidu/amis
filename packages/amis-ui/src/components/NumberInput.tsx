@@ -76,15 +76,19 @@ export interface NumberProps extends ThemeProps {
   inputControlClassName?: string;
 }
 
-export class NumberInput extends React.Component<NumberProps, any> {
-  static defaultProps:
-    | Pick<NumberProps, 'step' | 'readOnly' | 'borderMode' | 'resetValue'>
-    | {focused: boolean} = {
+export interface NumberState {
+  focused: boolean;
+}
+
+export class NumberInput extends React.Component<NumberProps, NumberState> {
+  static defaultProps: Pick<
+    NumberProps,
+    'step' | 'readOnly' | 'borderMode' | 'resetValue'
+  > = {
     step: 1,
     readOnly: false,
     borderMode: 'full',
-    resetValue: '',
-    focused: false
+    resetValue: ''
   };
 
   /**
