@@ -2216,6 +2216,11 @@ export default class Table extends React.Component<TableProps, object> {
       );
     }
 
+    let newPopOverContainer = popOverContainer;
+    if (column.pristine.type !== 'dropdown-button') {
+      newPopOverContainer = this.getPopOverContainer;
+    }
+
     const subProps: any = {
       ...props,
       // 操作列不下发loading，否则会导致操作栏里面的所有按钮都出现loading
@@ -2228,7 +2233,7 @@ export default class Table extends React.Component<TableProps, object> {
             canAccessSuperData ? item.locals : item.data
           )
         : column.value,
-      popOverContainer: popOverContainer || this.getPopOverContainer,
+      popOverContainer: newPopOverContainer,
       rowSpan: item.rowSpans[column.name as string],
       quickEditFormRef: this.subFormRef,
       cellPrefix: prefix,
