@@ -219,10 +219,7 @@ export class TplPlugin extends BasePlugin {
       {
         title: '外观',
         body: getSchemaTpl('collapseGroup', [
-          ...getSchemaTpl('style:common', ['layout']),
-          getSchemaTpl('style:classNames', {
-            isFormItem: false
-          })
+          ...getSchemaTpl('theme:common', ['layout'], ['font'])
         ])
       },
       {

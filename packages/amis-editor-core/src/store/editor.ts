@@ -18,6 +18,7 @@ import {
   needDefaultWidth,
   guid,
   addStyleClassName,
+  setThemeDefaultData,
   appTranslate
 } from '../../src/util';
 import {
@@ -528,7 +529,8 @@ export const MainStore = types
 
       getValueOf(id: string) {
         const schema = JSONGetById(self.schema, id);
-        const res = JSONPipeOut(schema, false);
+        const data = JSONPipeOut(schema, false);
+        const res = setThemeDefaultData(data);
         return res;
       },
 
@@ -546,7 +548,8 @@ export const MainStore = types
                 key !== '$$commonSchema') ||
               typeof props === 'function' || // pipeIn 和 pipeOut
               key.substring(0, 2) === '__' ||
-              key === 'css' ||
+              key === 'themeCss' ||
+              key === 'editorPath' ||
               key === 'editorState') // 样式不需要出现做json中,
         );
       },

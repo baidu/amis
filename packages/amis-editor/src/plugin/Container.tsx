@@ -235,16 +235,7 @@ export class ContainerPlugin extends LayoutBasePlugin {
         title: '外观',
         className: 'p-none',
         body: getSchemaTpl('collapseGroup', [
-          ...getSchemaTpl('style:common', ['layout']),
-          getSchemaTpl('style:classNames', {
-            isFormItem: false,
-            schema: [
-              getSchemaTpl('className', {
-                name: 'bodyClassName',
-                label: '内容区'
-              })
-            ]
-          })
+          ...getSchemaTpl('theme:common', ['layout'])
         ])
       }
     ]);
