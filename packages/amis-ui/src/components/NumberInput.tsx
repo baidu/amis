@@ -76,7 +76,11 @@ export interface NumberProps extends ThemeProps {
   inputControlClassName?: string;
 }
 
-export class NumberInput extends React.Component<NumberProps, any> {
+export interface NumberState {
+  focused: boolean;
+}
+
+export class NumberInput extends React.Component<NumberProps, NumberState> {
   static defaultProps: Pick<
     NumberProps,
     'step' | 'readOnly' | 'borderMode' | 'resetValue'
