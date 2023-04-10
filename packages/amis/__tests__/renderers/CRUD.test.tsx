@@ -140,7 +140,10 @@ test('Renderer:crud loadDataOnce', async () => {
           syncLocation: false,
           api: 'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/sample',
           loadDataOnce: true,
-          autoGenerateFilter: true,
+          autoGenerateFilter: {
+            columnsNum: 4,
+            showBtnToolbar: false
+          },
           filterSettingSource: ['version'],
           columns: [
             {
@@ -735,7 +738,10 @@ test('Renderer: crud autoGenerateFilter', async () => {
           type: 'crud',
           api: '/api/mock2/sample',
           syncLocation: false,
-          autoGenerateFilter: true,
+          autoGenerateFilter: {
+            columnsNum: 4,
+            showBtnToolbar: false
+          },
           bulkActions: [
             {
               label: '批量删除',

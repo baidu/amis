@@ -74,6 +74,21 @@ export type CRUDToolbarObject = {
   align?: 'left' | 'right';
 };
 
+export type autoGenerateFilterObject = {
+  /**
+   * 过滤条件单行列数
+   */
+  columnsNum?: number;
+  /**
+   * 是否显示设置查询字段
+   */
+  showBtnToolbar?: boolean;
+  /**
+   * 是否显示展开/收起
+   */
+  // showExpand?: boolean;
+};
+
 export interface CRUDCommonSchema extends BaseSchema, SpinnerExtraProps {
   /**
    *  指定为 CRUD 渲染器。
@@ -298,7 +313,7 @@ export interface CRUDCommonSchema extends BaseSchema, SpinnerExtraProps {
   /**
    * 开启查询区域，会根据列元素的searchable属性值，自动生成查询条件表单
    */
-  autoGenerateFilter?: boolean;
+  autoGenerateFilter?: autoGenerateFilterObject;
 
   /**
    * 内容区域占满屏幕剩余空间

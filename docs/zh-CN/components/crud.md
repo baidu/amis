@@ -675,12 +675,22 @@ Cards 模式支持 [Cards](./cards) 中的所有功能。
 
 通过设置`"autoGenerateFilter": true`开启查询区域，会根据列元素的 `searchable` 属性值，自动生成查询条件表单，只有 `searchable` 属性值为合法的组件 Schema 时才会生成查询条件。注意这个属性和 `filter` 冲突，开启 `filter` 后 `autoGenerateFilter` 将会失效。
 
+### autoGenerateFilter 属性表
+
+| 属性名         | 类型      | 默认值 | 说明                 |
+| -------------- | --------- | ------ | -------------------- |
+| columnsNum     | `number`  | `3`    | 过滤条件单行列数     |
+| showBtnToolbar | `boolean` | `true` | 是否显示设置查询字段 |
+
 ```schema: scope="body"
 {
     "type": "crud",
     "api": "/api/mock2/sample",
     "syncLocation": false,
-    "autoGenerateFilter": true,
+    "autoGenerateFilter": {
+        "columnsNum": 2,
+        "showBtnToolbar": false
+    },
     "headerToolbar": [
         {
             "type": "columns-toggler",
@@ -704,7 +714,7 @@ Cards 模式支持 [Cards](./cards) 中的所有功能。
         },
         {
             "name": "engine",
-            "label": "Rendering engine"
+            "label": "Rendering engine",
         },
         {
             "name": "browser",
@@ -2866,7 +2876,7 @@ itemAction 里的 onClick 还能通过 `data` 参数拿到当前行的数据，�
 | footerToolbar                         | Array                           | `['statistics', 'pagination']`  | 底部工具栏配置                                                                                                        |
 | alwaysShowPagination                  | `boolean`                       | `false`                         | 是否总是显示分页                                                                                                      |
 | affixHeader                           | `boolean`                       | `true`                          | 是否固定表头(table 下)                                                                                                |
-| autoGenerateFilter                    | `boolean`                       | `false`                         | 是否开启查询区域，开启后会根据列元素的 `searchable` 属性值，自动生成查询条件表单                                      |
+| autoGenerateFilter                    | `Object`                        |                                 | 是否开启查询区域，开启后会根据列元素的 `searchable` 属性值，自动生成查询条件表单                                      |
 | resetPageAfterAjaxItemAction          | `boolean`                       | `false`                         | 单条数据 ajax 操作后是否重置页码为第一页                                                                              |
 | autoFillHeight                        | `boolean` 丨 `{height: number}` |                                 | 内容区域自适应高度                                                                                                    |
 
