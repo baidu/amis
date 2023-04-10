@@ -32,29 +32,39 @@ function prstDashToCSSBorderType(prstDash: ST_PresetLineDashVal) {
   return borderType;
 }
 
-function parseOutline(word: Word, element: Element, style: CSSStyle) {
+export type OutLine = {
+  style?: 'solid' | 'dashed' | 'dotted' | string;
+  width?: string;
+  color?: string;
+  radius?: string;
+};
+
+function parseOutline(word: Word, element: Element) {
   const borderWidth = parseSize(element, 'w', LengthUsage.Emu);
-  style['border-width'] = borderWidth;
-  style['border-style'] = 'solid';
+  const outline: OutLine = {
+    width: borderWidth
+  };
+
+  outline.style = 'solid';
 
   for (const child of element.children) {
     const tagName = child.tagName;
     switch (tagName) {
       case 'a:solidFill':
-        style['border-color'] = parseChildColor(word, child);
+        outline.color = parseChildColor(word, child);
+
         break;
 
       case 'a:noFill':
-        style['border'] = 'none';
-        break;
+        return {};
 
       case 'a:round':
         // 瞎写的，规范里也没写是多少
-        style['border-radius'] = '8%';
+        outline.radius = '8%';
         break;
 
       case 'a:prstDash':
-        style['border-style'] = prstDashToCSSBorderType(
+        outline.style = prstDashToCSSBorderType(
           child.getAttribute('val') as ST_PresetLineDashVal
         );
         break;
@@ -63,6 +73,8 @@ function parseOutline(word: Word, element: Element, style: CSSStyle) {
         console.warn('parseOutline: Unknown tag ', tagName, child);
     }
   }
+
+  return outline;
 }
 
 export class ShapePr {
@@ -71,13 +83,15 @@ export class ShapePr {
   // 内置图形
   prstGeom?: Geom;
 
-  // 主要是边框样式
-  style?: CSSStyle;
+  // 边框样式
+  outline?: OutLine;
+
+  // 填充颜色
+  fillColor?: string;
 
   static fromXML(word: Word, element?: Element | null): ShapePr {
     const shapePr = new ShapePr();
-    const style: CSSStyle = {};
-    shapePr.style = style;
+
     if (element) {
       for (const child of element.children) {
         const tagName = child.tagName;
@@ -87,12 +101,12 @@ export class ShapePr {
             break;
 
           case 'a:prstGeom':
-            shapePr.prstGeom = Geom.fromXML(word, child, style);
+            shapePr.prstGeom = Geom.fromXML(word, child);
             break;
 
           case 'a:ln':
             // http://officeopenxml.com/drwSp-outline.php
-            parseOutline(word, child, style);
+            shapePr.outline = parseOutline(word, child);
             break;
 
           case 'a:noFill':
@@ -100,7 +114,7 @@ export class ShapePr {
             break;
 
           case 'a:solidFill':
-            style['background-color'] = parseChildColor(word, child);
+            shapePr.fillColor = parseChildColor(word, child);
             break;
 
           default:

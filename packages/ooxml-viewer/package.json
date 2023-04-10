@@ -14,7 +14,8 @@
     "coverage": "jest --coverage",
     "declaration": "tsc --project tsconfig-for-declaration.json --allowJs --declaration --emitDeclarationOnly --declarationDir ./lib --rootDir ./src",
     "clean-dist": "rimraf lib/** esm/**",
-    "xsd2ts": "cd tools && ts-node --transpileOnly xsd2ts.ts"
+    "xsd2ts": "cd tools && ts-node --transpileOnly xsd2ts.ts",
+    "conver-preset": "cd tools && ts-node --transpileOnly converDrawingML.ts"
   },
   "exports": {
     ".": {

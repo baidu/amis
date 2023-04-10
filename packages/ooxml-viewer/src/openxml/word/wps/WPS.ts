@@ -11,7 +11,7 @@ import {parseTable} from '../../../parse/parseTable';
 import {CSSStyle} from '../../../openxml/Style';
 import {ST_TextVerticalType} from '../../../openxml/Types';
 import {convertAngle} from '../../../parse/parseSize';
-import {parseChildColor} from '../../../parse/parseChildColor';
+import {WPSStyle} from './WPSStyle';
 
 export type TxbxContentChild = Paragraph | Table;
 
@@ -58,20 +58,9 @@ function parseBodyPr(element: Element, style: CSSStyle) {
   }
 }
 
-function parseWpsStyle(word: Word, element: Element, style: CSSStyle) {
-  for (const child of element.children) {
-    const tagName = child.tagName;
-    switch (tagName) {
-      // 目前只支持这个
-      case 'a:fillRef':
-        style['background-color'] = parseChildColor(word, child);
-        break;
-    }
-  }
-}
-
 export class WPS {
   spPr?: ShapePr;
+  wpsStyle?: WPSStyle;
   txbxContent: TxbxContentChild[];
   // 外层容器样式
   style: CSSStyle = {};
@@ -117,7 +106,7 @@ export class WPS {
 
         case 'wps:style':
           // http://webapp.docx4java.org/OnlineDemo/ecma376/DrawingML/style_1.html
-          parseWpsStyle(word, child, wps.style);
+          wps.wpsStyle = WPSStyle.fromXML(word, child);
           break;
 
         case 'wps:bodyPr':

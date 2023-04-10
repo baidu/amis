@@ -6,6 +6,7 @@ import {appendChild, applyStyle} from '../util/dom';
 import renderParagraph from './renderParagraph';
 import renderTable from './renderTable';
 import {Table} from '../openxml/word/Table';
+import {renderGeom} from './renderGeom';
 
 /**
  * 渲染图片
@@ -65,13 +66,21 @@ export function renderDrawing(word: Word, drawing: Drawing): HTMLElement {
     const wps = drawing.wps;
     const spPr = wps.spPr;
     applyStyle(container, wps.style);
-    applyStyle(container, spPr?.style);
 
     if (spPr?.xfrm) {
       const ext = spPr.xfrm.ext;
       if (ext) {
         container.style.width = ext.cx;
         container.style.height = ext.cy;
+
+        if (spPr.prstGeom) {
+          const width = parseFloat(ext.cx.replace('px', ''));
+          const height = parseFloat(ext.cy.replace('px', ''));
+          appendChild(
+            container,
+            renderGeom(spPr.prstGeom, spPr, width, height, wps.wpsStyle)
+          );
+        }
       }
       if (spPr.xfrm.rot) {
         container.style.transform = `rotate(${spPr.xfrm.rot}deg)`;

@@ -28,6 +28,7 @@ const fileLists = {
     'svg.xml',
     'sym.xml',
     'shadow.xml',
+    'shape-ellipse.xml',
     'tableborder.xml',
     'tablestyle.xml',
     'textbox.xml',

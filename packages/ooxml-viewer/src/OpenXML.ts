@@ -6,7 +6,12 @@
  * 获取 w:val 的值
  */
 export function getVal(element: Element) {
-  return element.getAttribute('w:val') || element.getAttribute('w14:val') || '';
+  return (
+    element.getAttribute('w:val') ||
+    element.getAttribute('w14:val') ||
+    element.getAttribute('val') ||
+    ''
+  );
 }
 
 /**
