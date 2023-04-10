@@ -4,7 +4,8 @@ import {
   FormItem,
   FormControlProps,
   FormBaseControl,
-  resolveEventData
+  resolveEventData,
+  insertCustomStyle
 } from 'amis-core';
 import cx from 'classnames';
 import {NumberInput, Select} from 'amis-ui';
@@ -381,7 +382,11 @@ export default class NumberControl extends React.Component<
       displayMode,
       big,
       resetValue,
-      clearValueOnEmpty
+      clearValueOnEmpty,
+      css,
+      themeCss,
+      inputControlClassName,
+      id
     } = this.props;
     const finalPrecision = this.filterNum(precision);
     const unit = this.state?.unit;
@@ -408,6 +413,22 @@ export default class NumberControl extends React.Component<
         ? value.replace(unit, '')
         : value;
 
+    insertCustomStyle(
+      themeCss || css,
+      [
+        {
+          key: 'inputControlClassName',
+          value: inputControlClassName,
+          weights: {
+            active: {
+              pre: `${inputControlClassName}.focused, `
+            }
+          }
+        }
+      ],
+      id
+    );
+
     return (
       <div
         className={cx(
@@ -419,6 +440,7 @@ export default class NumberControl extends React.Component<
         )}
       >
         <NumberInput
+          inputControlClassName={inputControlClassName}
           inputRef={this.inputRef}
           value={finalValue}
           resetValue={resetValue}

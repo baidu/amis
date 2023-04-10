@@ -271,7 +271,13 @@ export class HeadCellSearchDropDown extends React.Component<
           (searchable as any).className
         )}
         active={isActive}
-        filterIcon={<Icon icon="search" className="icon" />}
+        filterIcon={
+          <Icon
+            icon="search"
+            className="icon"
+            iconContent="table-search-icon"
+          />
+        }
         popOverContainer={
           popOverContainer ? popOverContainer : () => findDOMNode(this)
         }
