@@ -21,6 +21,9 @@ export interface ValueProps extends ThemeProps, LocaleProps {
   renderEtrValue?: any;
 }
 
+/** amis内部保留字 */
+export const reservedWords = ['id'];
+
 export class Value extends React.Component<ValueProps> {
   render() {
     let {
@@ -141,7 +144,11 @@ export class Value extends React.Component<ValueProps> {
     } else if (field.type === 'custom') {
       input = renderEtrValue
         ? renderEtrValue(
-            {...field.value, name: field.name},
+            {
+              ...field.value,
+              // amis内部保留字不能替换，否则控件回显有问题
+              ...(reservedWords.includes(field.name) ? {} : {name: field.name})
+            },
             {
               data,
               onChange,
