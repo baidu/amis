@@ -5,8 +5,8 @@ const container = document.getElementById('shapes')! as HTMLElement;
 
 for (const shapeName in presetShape) {
   // 临时测试用
-  if (shapeName !== 'moon') {
-    // continue;
+  if (shapeName !== 'curvedRightArrow') {
+    continue;
   }
   const shape = presetShape[shapeName];
   console.log('render shape', shapeName);
