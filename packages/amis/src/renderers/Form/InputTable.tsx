@@ -525,7 +525,6 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             } else {
               onChange?.(items);
             }
-            onChange?.(items);
           }
         );
 
@@ -1480,7 +1479,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       type: 'button',
       level: 'primary',
       size: 'sm',
-      label: __('add'),
+      label: __('Table.add'),
       icon: 'fa fa-plus',
       disabled: footerAddBtnDisabled,
       ...(footerAddBtnDisabled ? {disabledTip: __('Table.addButtonDisabledTip')} : {})
@@ -1653,7 +1652,6 @@ export class TableControlRenderer extends FormTable {
             } else {
               onChange?.(items);
             }
-            onChange?.(items);
           }
         );
         return;
