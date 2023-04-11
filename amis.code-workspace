@@ -17,7 +17,7 @@
       "path": "./packages/amis"
     },
     {
-      "path": "./packages/office-viewer"
+      "path": "./packages/ooxml-viewer"
     }
   ]
 }

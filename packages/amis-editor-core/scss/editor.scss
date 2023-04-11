@@ -37,6 +37,8 @@
 @import './control/_inpupt-file';
 @import './control/_nav-control';
 @import './control/_status';
+@import './control/_icon-button-group-control';
+@import './control/_flex-setting-control';
 
 /* 样式控件 */
 @import './style-control/box-model';
@@ -46,7 +48,7 @@
 @import './style-control/background';
 @import './style-control/size';
 @import './style-control/style-common';
-@import './style-control/theme_classname';
+@import './style-control/theme-css-code';
 
 @keyframes growing {
   0% {

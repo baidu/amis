@@ -35,7 +35,11 @@ export class HiddenControlPlugin extends BasePlugin {
   ];
 
   renderRenderer(props: any) {
-    return this.renderPlaceholder('功能组件（隐藏字段）', props.key, props.style);
+    return this.renderPlaceholder(
+      '功能组件（隐藏字段）',
+      props.key,
+      props.style
+    );
   }
 }
 

@@ -19,7 +19,11 @@ export default function transformMobileHtml(options: {} = {}): Plugin {
         file.path === '/examples/index.html'
       ) {
         html = html.replace(/href=('|")(.*?)\1/g, (_, quote, value) => {
-          if (
+          if (/^amis\/lib\/themes\/(.*)\.css$/.test(value)) {
+            return `href=${quote}../../packages/amis-ui/scss/themes/${RegExp.$1}.scss${quote}`;
+          } else if (/^amis\/lib\/helper\.css$/.test(value)) {
+            return `href=${quote}../../packages/amis-ui/scss/helper.scss${quote}`;
+          } else if (
             /^(?:amis|amis\-core|amis\-formula|amis\-ui|office\-viewer)/.test(
               value
             )

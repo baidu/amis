@@ -6,7 +6,8 @@ import {
   FormControlProps,
   FormBaseControl,
   resolveEventData,
-  ApiObject
+  ApiObject,
+  FormHorizontal
 } from 'amis-core';
 import {ActionObject, Api} from 'amis-core';
 import {ComboStore, IComboStore} from 'amis-core';
@@ -198,6 +199,11 @@ export interface ComboControlSchema extends FormBaseControlSchema {
    * 子表单的模式。
    */
   subFormMode?: 'normal' | 'horizontal' | 'inline';
+
+  /**
+   * 如果是水平排版，这个属性可以细化水平排版的左右宽度占比。
+   */
+  subFormHorizontal?: FormHorizontal;
 
   /**
    * 没有成员时显示。
@@ -1635,6 +1641,7 @@ export default class ComboControl extends React.Component<ComboProps> {
       multiple,
       tabsMode,
       subFormMode,
+      subFormHorizontal,
       changeImmediately,
       lazyLoad,
       translate: __,
@@ -1651,6 +1658,7 @@ export default class ComboControl extends React.Component<ComboProps> {
           wrapperComponent: 'div',
           wrapWithPanel: false,
           mode: multiLine ? subFormMode || 'normal' : 'row',
+          horizontal: subFormHorizontal,
           className: cx(`Combo-form`, formClassName)
         },
         {
@@ -1673,6 +1681,7 @@ export default class ComboControl extends React.Component<ComboProps> {
           wrapperComponent: 'div',
           wrapWithPanel: false,
           mode: tabsMode ? subFormMode : multiLine ? subFormMode : 'row',
+          horizontal: subFormHorizontal,
           className: cx(`Combo-form`, formClassName)
         },
         {

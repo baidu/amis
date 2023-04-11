@@ -22,6 +22,7 @@ export interface QuickFilterConfig {
   /* 是否开启严格对比模式 */
   strictMode?: boolean;
   [propName: string]: any;
+  refreshOnOpen?: boolean; // 展开是否重新加载数据 当source配置api时才起作用
 }
 
 export interface HeadCellFilterProps extends RendererProps {
@@ -51,7 +52,7 @@ export class HeadCellFilterDropDown extends React.Component<
   }
 
   componentDidMount() {
-    const {filterable, name, store} = this.props;
+    const {filterable} = this.props;
 
     if (filterable.source) {
       this.fetchOptions();
@@ -121,7 +122,7 @@ export class HeadCellFilterDropDown extends React.Component<
     this.sourceInvalid && this.fetchOptions();
   }
 
-  fetchOptions() {
+  async fetchOptions() {
     const {env, filterable, data} = this.props;
     if (!isEffectiveApi(filterable.source, data)) {
       return;
@@ -130,11 +131,10 @@ export class HeadCellFilterDropDown extends React.Component<
     const api = normalizeApi(filterable.source);
     api.cache = 3000; // 开启 3s 缓存，因为固顶位置渲染1次会额外多次请求。
 
-    env.fetcher(api, data).then(ret => {
-      let options = (ret.data && ret.data.options) || [];
-      this.setState({
-        filterOptions: ret && ret.data && this.alterOptions(options)
-      });
+    const ret = await env.fetcher(api, data);
+    let options = (ret.data && ret.data.options) || [];
+    this.setState({
+      filterOptions: ret && ret.data && this.alterOptions(options)
     });
   }
 
@@ -178,7 +178,11 @@ export class HeadCellFilterDropDown extends React.Component<
     this.close();
   }
 
-  open() {
+  async open() {
+    const {filterable} = this.props;
+    if (filterable.refreshOnOpen && filterable.source) {
+      await this.fetchOptions();
+    }
     this.setState({
       isOpened: true
     });

@@ -99,59 +99,59 @@ export class StatusPlugin extends BasePlugin {
                     {
                       children: (
                         <TooltipWrapper
-                            tooltipClassName="ae-Status-default-icon-tooltip"
-                            trigger="hover"
-                            rootClose={true}
-                            placement="bottom"
-                            tooltip={{
-                              children: () =>
-                                render({
-                                  type: 'container',
-                                  body: [
-                                    {
-                                      type: 'tpl',
-                                      tpl: '默认支持如下几种状态，无需配置即可使用。自定义状态会和默认状态合并。',
-                                      wrapperComponent: 'p',
-                                      className: 'ae-Status-default-icon-tip'
+                          tooltipClassName="ae-Status-default-icon-tooltip"
+                          trigger="hover"
+                          rootClose={true}
+                          placement="bottom"
+                          tooltip={{
+                            children: () =>
+                              render({
+                                type: 'container',
+                                body: [
+                                  {
+                                    type: 'tpl',
+                                    tpl: '默认支持如下几种状态，无需配置即可使用。自定义状态会和默认状态合并。',
+                                    wrapperComponent: 'p',
+                                    className: 'ae-Status-default-icon-tip'
+                                  },
+                                  {
+                                    type: 'table',
+                                    data: {
+                                      items: this.defaultSource
                                     },
-                                    {
-                                      type: 'table',
-                                      data: {
-                                        items: this.defaultSource
+                                    columns: [
+                                      {
+                                        name: 'icon',
+                                        label: '默认icon值'
                                       },
-                                      columns: [
-                                        {
-                                          name: 'icon',
-                                          label: '默认icon值'
-                                        },
-                                        {
-                                          name: 'label',
-                                          label: '默认label'
-                                        },
-                                        {
-                                          name: 'value',
-                                          label: '默认value值'
-                                        },
-                                        {
-                                          name: 'status',
-                                          label: '状态',
-                                          type: 'mapping',
-                                          map: {
-                                            '*': {
-                                              type: 'status'
-                                            }
+                                      {
+                                        name: 'label',
+                                        label: '默认label'
+                                      },
+                                      {
+                                        name: 'value',
+                                        label: '默认value值'
+                                      },
+                                      {
+                                        name: 'status',
+                                        label: '状态',
+                                        type: 'mapping',
+                                        map: {
+                                          '*': {
+                                            type: 'status'
                                           }
                                         }
-                                      ]
-                                    }
-                                  ]
-                                })
-                            }}
-                          >
-                            <div className="ae-Status-label-tip-icon">
-                              <Icon icon="editor-help" className="icon" />
-                            </div>
-                          </TooltipWrapper>
+                                      }
+                                    ]
+                                  }
+                                ]
+                              })
+                          }}
+                        >
+                          <div className="ae-Status-label-tip-icon">
+                            <Icon icon="editor-help" className="icon" />
+                          </div>
+                        </TooltipWrapper>
                       )
                     }
                   ],
@@ -161,7 +161,12 @@ export class StatusPlugin extends BasePlugin {
                     getSchemaTpl('icon', {
                       label: '',
                       placeholder: '图标',
-                      onChange(value: any, oldValue: boolean, model: any, form: any) {
+                      onChange(
+                        value: any,
+                        oldValue: boolean,
+                        model: any,
+                        form: any
+                      ) {
                         // 选择图标时自动填充label
                         if (value && value.name) {
                           form.setValues({
@@ -173,7 +178,7 @@ export class StatusPlugin extends BasePlugin {
                     {
                       type: i18nEnabled ? 'input-text-i18n' : 'input-text',
                       name: 'label',
-                      placeholder: 'label',
+                      placeholder: 'label'
                     },
                     {
                       type: 'input-text',
@@ -188,57 +193,71 @@ export class StatusPlugin extends BasePlugin {
                     getSchemaTpl('theme:colorPicker', {
                       label: '',
                       name: 'color'
-                    }),
+                    })
                   ],
-                  pipeIn: (value: any, {data} : any) => {
+                  pipeIn: (value: any, {data}: any) => {
                     // 首次进入，将schema 转换为 combo的数据
                     if (value === undefined) {
                       let {map, labelMap, source} = data;
                       let res = cloneDeep(source) || {};
                       // 兼容旧版
-                      map && Object.entries(map).forEach(([value, icon]) => {
-                        if (value === '' || value == null || value === '$$id') {
-                          return;
-                        }
-                        if (!res[value]) {
-                          res[value] = {icon};
-                        } else {
-                          res[value] = {...res[value], icon};
-                        }
-                      });
-                      labelMap && Object.entries(labelMap).forEach(([value, label]) => {
-                        if (value === '' || value == null) {
-                          return;
-                        }
-                        if (!res[value]) {
-                          res[value] = {label};
-                        } else {
-                          res[value] = {...res[value], label};
-                        }
-                      });
+                      map &&
+                        Object.entries(map).forEach(([value, icon]) => {
+                          if (
+                            value === '' ||
+                            value == null ||
+                            value === '$$id'
+                          ) {
+                            return;
+                          }
+                          if (!res[value]) {
+                            res[value] = {icon};
+                          } else {
+                            res[value] = {...res[value], icon};
+                          }
+                        });
+                      labelMap &&
+                        Object.entries(labelMap).forEach(([value, label]) => {
+                          if (value === '' || value == null) {
+                            return;
+                          }
+                          if (!res[value]) {
+                            res[value] = {label};
+                          } else {
+                            res[value] = {...res[value], label};
+                          }
+                        });
 
                       Object.keys(res).forEach((key, index) => {
                         const item = res[key];
-                        if(!('key' in item)) {
+                        if (!('key' in item)) {
                           item.key = key;
                         }
-                        if(!('value' in item)) {
+                        if (!('value' in item)) {
                           item.value = key;
                         }
                       });
 
                       return Object.values(res);
-                    }
-                    else {
+                    } else {
                       // 后续可以直接使用value
                       return value;
                     }
                   },
-                  onChange(value: any, oldValue: boolean, model: any, form: any) {
+                  onChange(
+                    value: any,
+                    oldValue: boolean,
+                    model: any,
+                    form: any
+                  ) {
                     const res: any = {};
                     value.forEach((item: any) => {
                       if (item.value !== '' && item.value != null) {
-                        res[item.value] = pick(item, ['label', 'color', 'icon']);
+                        res[item.value] = pick(item, [
+                          'label',
+                          'color',
+                          'icon'
+                        ]);
                       }
                     });
                     form.setValues({

@@ -116,28 +116,35 @@ export class ButtonPlugin extends BasePlugin {
       return [
         getSchemaTpl('theme:font', {
           label: '文字',
-          name: `css.className.font:${state}`,
-          visibleOn: visibleOn
+          name: `themeCss.className.font:${state}`,
+          visibleOn: visibleOn,
+          editorThemePath: [
+            `button1.type.\${level}.${state}.body.font-color`,
+            `button1.size.\${size}.body.font`
+          ]
         }),
         getSchemaTpl('theme:colorPicker', {
           label: '背景',
-          name: `css.className.background:${state}`,
+          name: `themeCss.className.background:${state}`,
           labelMode: 'input',
           needGradient: true,
-          visibleOn: visibleOn
+          visibleOn: visibleOn,
+          editorThemePath: `button1.type.\${level}.${state}.body.bg-color`
         }),
         getSchemaTpl('theme:border', {
-          name: `css.className.border:${state}`,
-          visibleOn: visibleOn
+          name: `themeCss.className.border:${state}`,
+          visibleOn: visibleOn,
+          editorThemePath: `button1.type.\${level}.${state}.body.border`
         }),
         getSchemaTpl('theme:paddingAndMargin', {
-          name: `css.className.padding-and-margin:${state}`,
-
-          visibleOn: visibleOn
+          name: `themeCss.className.padding-and-margin:${state}`,
+          visibleOn: visibleOn,
+          editorThemePath: `button1.size.\${size}.body.padding-and-margin`
         }),
         getSchemaTpl('theme:radius', {
-          name: `css.className.radius:${state}`,
-          visibleOn: visibleOn
+          name: `themeCss.className.radius:${state}`,
+          visibleOn: visibleOn,
+          editorThemePath: `button1.size.\${size}.body.border`
         })
       ];
     };
@@ -198,12 +205,11 @@ export class ButtonPlugin extends BasePlugin {
                 ),
                 form: {
                   body: [
-                    {
-                      type: 'ae-textareaFormulaControl',
+                    getSchemaTpl('textareaFormulaControl', {
                       label: '确认内容',
                       mode: 'normal',
                       name: 'confirmText'
-                    }
+                    })
                   ]
                 }
               },
@@ -216,17 +222,15 @@ export class ButtonPlugin extends BasePlugin {
                 hidden: isInDropdown,
                 form: {
                   body: [
-                    {
-                      type: 'ae-textareaFormulaControl',
+                    getSchemaTpl('textareaFormulaControl', {
                       name: 'tooltip',
                       mode: 'normal',
                       label: tipedLabel(
                         '正常提示',
                         '正常状态下的提示内容，不填则不弹出提示。可从数据域变量中取值。'
                       )
-                    },
-                    {
-                      type: 'ae-textareaFormulaControl',
+                    }),
+                    getSchemaTpl('textareaFormulaControl', {
                       name: 'disabledTip',
                       mode: 'normal',
                       label: tipedLabel(
@@ -235,7 +239,7 @@ export class ButtonPlugin extends BasePlugin {
                       ),
                       clearValueOnHidden: true,
                       visibleOn: 'data.tooltipTrigger !== "focus"'
-                    },
+                    }),
                     {
                       type: 'button-group-select',
                       name: 'tooltipTrigger',
@@ -291,7 +295,8 @@ export class ButtonPlugin extends BasePlugin {
               getSchemaTpl('icon', {
                 name: 'rightIcon',
                 label: '右侧图标'
-              })
+              }),
+              getSchemaTpl('badge')
             ]
           },
           getSchemaTpl('status', {
@@ -361,7 +366,14 @@ export class ButtonPlugin extends BasePlugin {
               ...buttonStateFunc("${editorState == 'active'}", 'active')
             ]
           },
-          getSchemaTpl('theme:classNames', {isFormItem: false})
+          getSchemaTpl('theme:cssCode', {
+            themeClass: [
+              {
+                value: '',
+                state: ['default', 'hover', 'active']
+              }
+            ]
+          })
         ])
       },
       {

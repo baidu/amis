@@ -280,7 +280,7 @@ export class EditorDNDManager {
                 };
             store.setDragId(id, 'copy', type, schema);
             const containerId = store.activeContainerId;
-  
+
             // 如果当前选中了某个组件，则默认让其第一个区域处于拖入状态。
             if (containerId) {
               const node = store.getNodeById(containerId);
@@ -292,7 +292,11 @@ export class EditorDNDManager {
                     slotIndex = index;
                   }
                 });
-                this.switchToRegion(e, node.id, node.childRegions[slotIndex].region);
+                this.switchToRegion(
+                  e,
+                  node.id,
+                  node.childRegions[slotIndex].region
+                );
               }
             }
             break;
@@ -306,7 +310,9 @@ export class EditorDNDManager {
       // 判断父级容器是否自由容器
       const curNode = store.getNodeById(activeId);
       if (curNode) {
-        const parentNode = curNode.parentId ? store.getNodeById(curNode.parentId) : undefined;
+        const parentNode = curNode.parentId
+          ? store.getNodeById(curNode.parentId)
+          : undefined;
         if (parentNode?.schema?.isFreeContainer) {
           store.setDropId(curNode.parentId, 'body');
         }
@@ -333,7 +339,7 @@ export class EditorDNDManager {
     const curElem = target.closest(`[data-region][data-region-host]`);
     const hostId = curElem?.getAttribute('data-region-host');
     const region = curElem?.getAttribute('data-region');
-    
+
     if (
       d > 0 &&
       this.curDragId &&
@@ -347,7 +353,7 @@ export class EditorDNDManager {
       let dragHlBoxItem = doc.querySelector(
         `[data-hlbox-id='${this.curDragId}']`
       ) as HTMLElement;
-      
+
       if (store.isMobile && !dragHlBoxItem && parentDoc) {
         dragHlBoxItem = parentDoc.querySelector(
           `[data-hlbox-id='${this.curDragId}']`
@@ -376,10 +382,14 @@ export class EditorDNDManager {
         } ${
           hlBInset.right !== 'auto' ? unitFormula(hlBInset.right, -dx) : 'auto'
         } ${
-          hlBInset.bottom !== 'auto' ? unitFormula(hlBInset.bottom, -dy) : 'auto'
-        } ${hlBInset.left !== 'auto' ? unitFormula(hlBInset.left, dx) : 'auto'}`;
+          hlBInset.bottom !== 'auto'
+            ? unitFormula(hlBInset.bottom, -dy)
+            : 'auto'
+        } ${
+          hlBInset.left !== 'auto' ? unitFormula(hlBInset.left, dx) : 'auto'
+        }`;
       }
-      
+
       // 实时调整被拖拽元素的坐标值
       const dragContainerItem = doc.querySelector(
         `[data-editor-id='${this.curDragId}']`

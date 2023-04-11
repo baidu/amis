@@ -45,6 +45,11 @@ export class DialogAction implements RendererAction {
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
+    // 防止editor preview模式下执行
+    if ((action as any).$$id !== undefined) {
+      return;
+    }
+
     renderer.props.onAction?.(
       event,
       {
@@ -113,7 +118,10 @@ export class ConfirmAction implements RendererAction {
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
-    const confirmed = await event.context.env.confirm?.(action.args?.msg, action.args?.title);
+    const confirmed = await event.context.env.confirm?.(
+      action.args?.msg,
+      action.args?.title
+    );
     return confirmed;
   }
 }

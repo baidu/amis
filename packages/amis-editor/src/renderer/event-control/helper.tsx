@@ -227,17 +227,16 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   visibleOn: 'data.actionType === "url"'
                 },
                 */
-                {
+                getSchemaTpl('textareaFormulaControl', {
                   name: 'url',
                   label: '页面地址',
-                  type: 'ae-textareaFormulaControl',
                   variables: '${variables}',
                   mode: 'horizontal',
                   // placeholder: 'http://', 长文本暂不支持
                   size: 'lg',
                   required: true,
                   visibleOn: 'data.actionType === "url"'
-                },
+                }),
                 {
                   type: 'combo',
                   name: 'params',
@@ -263,13 +262,12 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                       size: 'xs'
                     },
                      */
-                    {
-                      type: 'ae-formulaControl',
+                    getSchemaTpl('formulaControl', {
                       variables: '${variables}',
                       name: 'val',
                       variableMode: 'tabs',
                       placeholder: '参数值'
-                    }
+                    })
                   ]
                 },
                 {
@@ -336,6 +334,9 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             },
             {
               actionType: 'drawer'
+            },
+            {
+              actionType: 'confirmDialog'
             }
           ],
           schema: [
@@ -356,6 +357,10 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 {
                   label: '抽屉',
                   value: 'drawer'
+                },
+                {
+                  label: '确认对话框',
+                  value: 'confirmDialog'
                 }
               ],
               visibleOn: 'data.actionType === "openDialog"'
@@ -399,7 +404,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               mode: 'horizontal',
               required: true,
               pipeIn: defaultValue({
-                title: '弹框标题',
+                title: '抽屉标题',
                 body: '对，你刚刚点击了'
               }),
               asFormItem: true,
@@ -421,6 +426,36 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   {_i18n('a532be3ad5f3fda70d228b8542e81835')}
                 </Button>
               )
+            },
+            {
+              name: 'confirmDialog',
+              type: 'container',
+              visibleOn: 'data.groupType === "confirmDialog"',
+              body: [
+                getArgsWrapper({
+                  type: 'wrapper',
+                  className: 'p-none',
+                  body: [
+                    {
+                      name: 'msg',
+                      label: '消息内容',
+                      type: 'ae-textareaFormulaControl',
+                      mode: 'horizontal',
+                      variables: '${variables}',
+                      size: 'lg',
+                      required: true
+                    },
+                    {
+                      name: 'title',
+                      label: '标题内容',
+                      type: 'ae-textareaFormulaControl',
+                      variables: '${variables}',
+                      mode: 'horizontal',
+                      size: 'lg'
+                    }
+                  ]
+                })
+              ]
             }
           ]
         },
@@ -518,15 +553,14 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 required: true
               },
               */
-              {
+              getSchemaTpl('textareaFormulaControl', {
                 name: 'msg',
                 label: '消息内容',
-                type: 'ae-textareaFormulaControl',
                 mode: 'horizontal',
                 variables: '${variables}',
                 size: 'lg',
                 required: true
-              },
+              }),
               /*
             {
               name: 'title',
@@ -540,14 +574,13 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               mode: 'horizontal'
             },
             */
-              {
+              getSchemaTpl('textareaFormulaControl', {
                 name: 'title',
                 label: '标题内容',
-                type: 'ae-textareaFormulaControl',
                 variables: '${variables}',
                 mode: 'horizontal',
                 size: 'lg'
-              },
+              }),
               /*
             {
               name: 'timeout',
@@ -561,10 +594,9 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               mode: 'horizontal'
             },
             */
-              {
+              getSchemaTpl('formulaControl', {
                 name: 'timeout',
                 label: '持续时间(ms)',
-                type: 'ae-formulaControl',
                 rendererSchema: {
                   type: 'input-number'
                 },
@@ -572,7 +604,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 variables: '${variables}',
                 size: 'lg',
                 mode: 'horizontal'
-              },
+              }),
               {
                 type: 'button-group-select',
                 name: 'position',
@@ -853,8 +885,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 }
               ]
             },
-            {
-              type: 'ae-expressionFormulaControl',
+            getSchemaTpl('expressionFormulaControl', {
               mode: 'horizontal',
               label: '表达式',
               required: true,
@@ -863,7 +894,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               evalMode: true,
               name: '__actionExpression',
               visibleOn: "this.groupType === 'visibility'"
-            }
+            })
           ]
         },
         {
@@ -961,8 +992,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 }
               ]
             },
-            {
-              type: 'ae-expressionFormulaControl',
+            getSchemaTpl('expressionFormulaControl', {
               mode: 'horizontal',
               label: '表达式',
               required: true,
@@ -970,7 +1000,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               evalMode: true,
               name: '__actionExpression',
               visibleOn: "this.groupType === 'usability'"
-            }
+            })
           ]
         },
         {
@@ -1082,7 +1112,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               offText: '否',
               mode: 'horizontal',
               pipeIn: defaultValue(true),
-              visibleOn: `data.actionType === "reload" &&  ${IS_DATA_CONTAINER}`
+              visibleOn: `data.actionType === "reload" &&  data.__isScopeContainer`
             },
             {
               type: 'switch',
@@ -1095,7 +1125,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               offText: '否',
               mode: 'horizontal',
               pipeIn: defaultValue(true),
-              visibleOn: `data.__addParam && data.actionType === "reload" && ${IS_DATA_CONTAINER}`,
+              visibleOn: `data.__addParam && data.actionType === "reload" && data.__isScopeContainer`,
               onChange: (value: string, oldVal: any, data: any, form: any) => {
                 form.setValueByName('__containerType', 'all');
               }
@@ -1106,7 +1136,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               mode: 'horizontal',
               label: '',
               pipeIn: defaultValue('all'),
-              visibleOn: `data.__addParam && data.__customData && data.actionType === "reload" && ${IS_DATA_CONTAINER}`,
+              visibleOn: `data.__addParam && data.__customData && data.actionType === "reload" && data.__isScopeContainer`,
               options: [
                 {
                   label: '直接赋值',
@@ -1134,19 +1164,18 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               label: '',
               size: 'lg',
               mode: 'horizontal',
-              visibleOn: `data.__addParam && data.__customData && data.__containerType === "all" && data.actionType === "reload" && ${IS_DATA_CONTAINER}`
+              visibleOn: `data.__addParam && data.__customData && data.__containerType === "all" && data.actionType === "reload" && data.__isScopeContainer`
             },
             */
-            {
+            getSchemaTpl('formulaControl', {
               name: '__valueInput',
               label: '',
-              type: 'ae-formulaControl',
               variables: '${variables}',
               size: 'lg',
               mode: 'horizontal',
               required: true,
-              visibleOn: `data.__addParam && data.__customData && data.__containerType === "all" && data.actionType === "reload" && ${IS_DATA_CONTAINER}`
-            },
+              visibleOn: `data.__addParam && data.__customData && data.__containerType === "all" && data.actionType === "reload" && data.__isScopeContainer`
+            }),
             {
               type: 'combo',
               name: '__reloadParams',
@@ -1178,14 +1207,13 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   inputMode: 'input-group'
                 }
                 */
-                {
+                getSchemaTpl('formulaControl', {
                   name: 'val',
-                  type: 'ae-formulaControl',
                   variables: '${variables}',
                   placeholder: '参数值'
-                }
+                })
               ],
-              visibleOn: `data.__addParam && data.__customData && data.__containerType === "appoint" && data.actionType === "reload" && ${IS_DATA_CONTAINER}`
+              visibleOn: `data.__addParam && data.__customData && data.__containerType === "appoint" && data.actionType === "reload" && data.__isScopeContainer`
             },
             {
               type: 'radios',
@@ -1196,7 +1224,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 '选择“合并”时，会将数据合并到目标组件的数据域。<br/>选择“覆盖”时，数据会直接覆盖目标组件的数据域。'
               ),
               pipeIn: defaultValue('merge'),
-              visibleOn: `data.__addParam && data.actionType === "reload" && ${IS_DATA_CONTAINER}`,
+              visibleOn: `data.__addParam && data.actionType === "reload" && data.__isScopeContainer`,
               options: [
                 {
                   label: '合并',
@@ -1305,7 +1333,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                       mode: 'horizontal',
                       label: '数据设置',
                       pipeIn: defaultValue('all'),
-                      visibleOn: `${IS_DATA_CONTAINER}`,
+                      visibleOn: 'data.__isScopeContainer',
                       options: [
                         {
                           label: '直接赋值',
@@ -1399,14 +1427,13 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                           inputMode: 'input-group'
                         }
                         */
-                        {
+                        getSchemaTpl('formulaControl', {
                           name: 'val',
-                          type: 'ae-formulaControl',
                           variables: '${variables}',
                           placeholder: '字段值'
-                        }
+                        })
                       ],
-                      visibleOn: `${IS_DATA_CONTAINER} && data.__containerType === 'appoint' || data.__comboType === 'appoint'`
+                      visibleOn: `data.__isScopeContainer && data.__containerType === 'appoint' || data.__comboType === 'appoint'`
                     },
                     {
                       type: 'combo',
@@ -1455,11 +1482,10 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                               inputMode: 'input-group'
                             }
                             */
-                            {
+                            getSchemaTpl('formulaControl', {
                               name: 'val',
-                              type: 'ae-formulaControl',
                               variables: '${variables}'
-                            }
+                            })
                           ]
                         }
                       ],
@@ -1477,21 +1503,19 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                       label: '',
                       size: 'lg',
                       mode: 'horizontal',
-                      visibleOn: `(${IS_DATA_CONTAINER} || ${SHOW_SELECT_PROP}) && data.__containerType === 'all'`,
+                      visibleOn: `(data.__isScopeContainer || ${SHOW_SELECT_PROP}) && data.__containerType === 'all'`,
                       required: true
                     },
                     */
-                    {
+                    getSchemaTpl('formulaControl', {
                       name: '__valueInput',
                       label: '',
-                      type: 'ae-formulaControl',
                       variables: '${variables}',
                       size: 'lg',
                       mode: 'horizontal',
-                      visibleOn: `(${IS_DATA_CONTAINER} || ${SHOW_SELECT_PROP}) && data.__containerType === 'all'`,
+                      visibleOn: `(data.__isScopeContainer || ${SHOW_SELECT_PROP}) && data.__containerType === 'all'`,
                       required: true
-                    },
-                    ,
+                    }),
                     /*
                     {
                       name: '__valueInput',
@@ -1503,20 +1527,19 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                       label: '数据设置',
                       size: 'lg',
                       mode: 'horizontal',
-                      visibleOn: `data.__rendererName && !${IS_DATA_CONTAINER} && data.__rendererName !== 'combo'`,
+                      visibleOn: `data.__rendererName && !data.__isScopeContainer && data.__rendererName !== 'combo'`,
                       required: true
                     }
                    */
-                    {
+                    getSchemaTpl('formulaControl', {
                       name: '__valueInput',
                       label: '数据设置',
-                      type: 'ae-formulaControl',
                       variables: '${variables}',
                       size: 'lg',
                       mode: 'horizontal',
-                      visibleOn: `data.__rendererName && !${IS_DATA_CONTAINER} && data.__rendererName !== 'combo' && data.__rendererName !== 'input-table'`,
+                      visibleOn: `data.__rendererName && !data.__isScopeContainer && data.__rendererName !== 'combo' && data.__rendererName !== 'input-table'`,
                       required: true
-                    }
+                    })
                   ]
                 })
               ]
@@ -1726,16 +1749,15 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 required: true
               },
               */
-              {
+              getSchemaTpl('textareaFormulaControl', {
                 name: 'content',
                 label: '内容模板',
-                type: 'ae-textareaFormulaControl',
                 variables: '${variables}',
                 mode: 'horizontal',
                 size: 'lg',
                 visibleOn: 'data.actionType === "copy"',
                 required: true
-              },
+              }),
               {
                 type: 'select',
                 name: 'copyFormat',
@@ -1857,7 +1879,8 @@ export const renderCmptSelect = (
         __rendererLabel: '${label}',
         __rendererName: '${type}',
         __nodeId: '${id}',
-        __nodeSchema: '${schema}'
+        __nodeSchema: '${schema}',
+        __isScopeContainer: '${isScopeContainer}'
       },
       onChange: async (value: string, oldVal: any, data: any, form: any) => {
         onChange?.(value, oldVal, data, form);
@@ -1996,14 +2019,13 @@ export const COMMON_ACTION_SCHEMA_MAP: {
               inputMode: 'input-group'
             }
             */
-            {
+            getSchemaTpl('formulaControl', {
               name: 'val',
-              type: 'ae-formulaControl',
               variables: '${variables}',
               placeholder: '变量值'
-            }
+            })
           ],
-          visibleOn: `${IS_DATA_CONTAINER}`
+          visibleOn: 'data.__isScopeContainer'
         },
         {
           type: 'combo',
@@ -2046,11 +2068,10 @@ export const COMMON_ACTION_SCHEMA_MAP: {
                   inputMode: 'input-group'
                 }
                 */
-                {
+                getSchemaTpl('formulaControl', {
                   name: 'val',
-                  type: 'ae-formulaControl',
                   variables: '${variables}'
-                }
+                })
               ]
             }
           ],
@@ -2067,20 +2088,19 @@ export const COMMON_ACTION_SCHEMA_MAP: {
           label: '变量赋值',
           size: 'lg',
           mode: 'horizontal',
-          visibleOn: `!${IS_DATA_CONTAINER} && data.__rendererName !== 'combo'`,
+          visibleOn: `!data.__isScopeContainer && data.__rendererName !== 'combo'`,
           required: true
         }
         */
-        {
+        getSchemaTpl('formulaControl', {
           name: '__valueInput',
           label: '变量赋值',
-          type: 'ae-formulaControl',
           variables: '${variables}',
           size: 'lg',
           mode: 'horizontal',
-          visibleOn: `!${IS_DATA_CONTAINER} && data.__rendererName !== 'combo' && data.__rendererName !== 'input-table'`,
+          visibleOn: `!data.__isScopeContainer && data.__rendererName !== 'combo' && data.__rendererName !== 'input-table'`,
           required: true
-        }
+        })
       ]
     })
   },
@@ -2326,10 +2346,12 @@ export const getOldActionSchema = (
   const isInDialog = /(?:\/|^)dialog\/.+$/.test(context.path);
   return {
     type: 'tooltip-wrapper',
+    className: 'old-action-tooltip-warpper',
     content:
       '温馨提示：添加下方事件动作后，下方事件动作将先于旧版动作执行，建议统一迁移至事件动作机制，帮助您实现更灵活的交互设计',
     inline: true,
     tooltipTheme: 'dark',
+    placement: 'bottom',
     body: [
       {
         type: 'button',
@@ -2495,7 +2517,7 @@ export const getOldActionSchema = (
                 visibleOn: 'data.actionType == "drawer"',
                 name: 'drawer',
                 pipeIn: defaultValue({
-                  title: '弹框标题',
+                  title: '抽屉标题',
                   body: '对，你刚刚点击了'
                 }),
                 asFormItem: true,
@@ -2731,18 +2753,20 @@ export const getEventControlConfig = (
       // 内置逻辑
       if (action.supportComponents === 'byComponent') {
         isSupport = hasActionType(actionType, actions);
+        node.scoped = isSupport;
       }
     } else if (Array.isArray(action.supportComponents)) {
       isSupport = action.supportComponents.includes(node.type);
     }
-
+    node.isScopeContainer = !!manager.dataSchema.getScope(
+      `${node.id}-${node.type}`
+    );
     if (actionType === 'component' && !actions?.length) {
       node.disabled = true;
     }
     if (isSupport) {
       return true;
     } else if (haveChild) {
-      node.disabled = true;
       return true;
     }
     return false;
@@ -2815,6 +2839,7 @@ export const getEventControlConfig = (
           params: objectToComboArray(action.args?.params)
         };
       }
+
       if (['setValue'].includes(action.actionType) && action.args?.value) {
         !config.args && (config.args = {});
         if (Array.isArray(action.args?.value)) {

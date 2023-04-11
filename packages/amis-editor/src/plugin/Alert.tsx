@@ -1,5 +1,5 @@
 import React from 'react';
-import {registerEditorPlugin, getEditorPlugins} from 'amis-editor-core';
+import {registerEditorPlugin} from 'amis-editor-core';
 import {BaseEventContext, BasePlugin} from 'amis-editor-core';
 import {getSchemaTpl} from 'amis-editor-core';
 import {SchemaObject} from 'amis/lib/Schema';

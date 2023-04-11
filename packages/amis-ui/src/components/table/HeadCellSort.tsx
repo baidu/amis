@@ -54,7 +54,7 @@ export class HeadCellSort extends React.Component<Props, State> {
 
     return (
       <span
-        className={cx('TableCell-sortBtn')}
+        className={cx('TableCell-sortBtn', 'aaa')}
         onClick={async () => {
           let sortPayload: State = {
             orderBy: '',
@@ -92,7 +92,11 @@ export class HeadCellSort extends React.Component<Props, State> {
             active && this.state.order === 'desc' ? 'is-active' : ''
           )}
         >
-          <Icon icon="sort-desc" className="icon" />
+          <Icon
+            icon="sort-desc"
+            className="icon"
+            iconContent="table-sort-down"
+          />
         </i>
         <i
           className={cx(
@@ -100,7 +104,7 @@ export class HeadCellSort extends React.Component<Props, State> {
             active && this.state.order === 'asc' ? 'is-active' : ''
           )}
         >
-          <Icon icon="sort-asc" className="icon" />
+          <Icon icon="sort-asc" className="icon" iconContent="table-sort-up" />
         </i>
         <i
           className={cx(
@@ -108,7 +112,11 @@ export class HeadCellSort extends React.Component<Props, State> {
             active ? '' : 'is-active'
           )}
         >
-          <Icon icon="sort-default" className="icon" />
+          <Icon
+            icon="sort-default"
+            className="icon"
+            iconContent="table-sort-default"
+          />
         </i>
       </span>
     );

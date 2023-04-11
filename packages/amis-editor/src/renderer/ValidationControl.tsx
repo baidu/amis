@@ -8,7 +8,7 @@ import remove from 'lodash/remove';
 import cx from 'classnames';
 import {FormItem} from 'amis';
 
-import {autobind} from 'amis-editor-core';
+import {autobind, getSchemaTpl, tipedLabel} from 'amis-editor-core';
 import ValidationItem, {ValidatorData} from './ValidationItem';
 
 import type {FormControlProps} from 'amis-core';
@@ -323,8 +323,63 @@ export default class ValidationControl extends React.Component<
     return (
       <div className="ae-ValidationControl-rules" key="rules">
         {rules}
+        {this.renderValidateApiControl()}
       </div>
     );
+  }
+
+  renderValidateApiControl() {
+    const {onBulkChange, render} = this.props;
+    return <div className='ae-ValidationControl-item'>
+      {render('validate-api-control', {
+        type: 'form',
+        wrapWithPanel: false,
+        className: 'w-full mb-2',
+        bodyClassName: 'p-none',
+        wrapperComponent: 'div',
+        mode: 'horizontal',
+        data: {
+          validateApi: this.props.data.validateApi,
+          switchStatus: this.props.data.validateApi !== undefined
+        },
+        preventEnterSubmit: true,
+        submitOnChange: true,
+        onSubmit: ({switchStatus, validateApi}: any) => {
+          onBulkChange && onBulkChange({
+            validateApi: !switchStatus ? undefined : validateApi
+          });
+        },
+        body: [
+          getSchemaTpl('switch', {
+            label: tipedLabel(
+              '接口校验',
+              `配置校验接口，对表单项进行远程校验，配置方式与普通接口一致<br />
+              1. 接口返回 <span class="ae-ValidationControl-label-code">{status: 0}</span> 表示校验通过<br />
+              2. 接口返回 <span class="ae-ValidationControl-label-code">{status: 422}</span> 表示校验不通过<br />
+              3. 若校验失败时需要显示错误提示信息，还需返回 errors 字段，示例<br />
+              <span class="ae-ValidationControl-label-code">{status: 422, errors: '错误提示消息'}</span>
+              `
+            ),
+            name: 'switchStatus'
+          }),
+          {
+            type: 'container',
+            className: 'ae-ExtendMore ae-ValidationControl-item-input',
+            bodyClassName: 'w-full',
+            visibleOn: 'this.switchStatus',
+            body: [
+              getSchemaTpl('apiControl', {
+                name: 'validateApi',
+                renderLabel: true,
+                label: '',
+                mode: 'normal',
+                className: 'w-full'
+              })
+            ]
+          }
+        ]
+      })}
+    </div>
   }
 
   render() {

@@ -53,7 +53,7 @@ export class ListItemPlugin extends BasePlugin {
           },
           {
             name: 'subTitle',
-            type:  i18nEnabled ? 'input-text-i18n' : 'input-text',
+            type: i18nEnabled ? 'input-text-i18n' : 'input-text',
             label: '副标题',
             descrition: '支持模板语法如： ${xxx}'
           },
@@ -85,7 +85,7 @@ export class ListItemPlugin extends BasePlugin {
           })
         ]
       }
-    ])
+    ]);
   };
 
   getRendererInfo({

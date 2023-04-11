@@ -22,7 +22,7 @@
 
     &-inter {
       height: 100%;
-      background-color: var(--Progress-bar-backgroundColor);
+      background-color: var(--Progress-line-bg);
       overflow: hidden;
       border-radius: var(--Progress-borderRadius);
     }
@@ -34,6 +34,8 @@
       white-space: nowrap;
       text-align: left;
       word-break: normal;
+      color: var(--Progress-line-color);
+      font-size: var(--Progress-line-fontSize);
       .icon {
         font-size: 15px;
       }
@@ -43,9 +45,14 @@
       float: left;
       width: 0;
       height: 8px;
-      background: var(--primary);
+      background: var(--Progress-line-theme-color);
       transition: width var(--animation-duration) ease;
       border-radius: var(--Progress-borderRadius);
+
+      
+      &.bg-info {
+        background: var(--Progress-line-theme-color);
+      }
 
       &--stripe {
         background-image: linear-gradient(
@@ -97,6 +104,8 @@
       white-space: normal;
       text-align: center;
       transform: translate(-50%, -50%);
+      color: var(--Progress-circle-color);
+      font-size: var(--Progress-circle-fontSize);
       .icon {
         font-size: 1.2em;
       }

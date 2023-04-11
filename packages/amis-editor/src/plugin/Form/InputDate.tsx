@@ -294,7 +294,32 @@ export class DateControlPlugin extends BasePlugin {
                     '值格式',
                     '提交数据前将根据设定格式化数据，请参考 <a href="https://momentjs.com/" target="_blank">moment</a> 中的格式用法。'
                   ),
-                  pipeIn: defaultValue('X')
+                  pipeIn: defaultValue('YYYY-MM-DD'),
+                  clearable: true,
+                  onChange: (
+                    value: string,
+                    oldValue: any,
+                    model: any,
+                    form: any
+                  ) => {
+                    const type = form.data.type.split('-')[1];
+                    model.setOptions(DateType[type].formatOptions);
+                    // 时间日期类组件 input-time 需要更加关注 timeFormat 和 inputFormat 属性区别
+                    // inputFormat 表示输入框内的显示格式； timeFormat表示选择下拉弹窗中展示"HH、mm、ss"的组合
+                    if (type === 'time') {
+                      const timeFormatObj = DateType[type].formatOptions.find(
+                        item => item.value === value
+                      );
+                      const timeFormat = timeFormatObj
+                        ? (timeFormatObj as any).timeFormat
+                        : 'HH:mm:ss';
+                      form.setValues({
+                        timeFormat: timeFormat
+                      });
+                    }
+                  },
+                  options:
+                    DateType[this.scaffold.type.split('-')[1]].formatOptions
                 },
                 {
                   type: 'input-text',

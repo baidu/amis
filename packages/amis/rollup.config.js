@@ -119,7 +119,7 @@ function getPlugins(format = 'esm') {
     'amis-formula',
     'amis-core',
     'amis-ui',
-    'office-viewer'
+    'ooxml-viewer'
   ].reduce(
     (prev, current) => ({
       ...prev,

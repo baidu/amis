@@ -33,48 +33,49 @@ export class AvailableRenderersPanel extends React.Component<
       <div className="ae-RendererPanel">
         <div className="panel-header">组件</div>
         <div className="ae-RendererPanel-content">
-          {store.showCustomRenderersPanel && customRenderersByOrder.length > 0 && (
-            <Tabs
-              theme={curTheme}
-              tabsMode={'line'} // tiled
-              className="ae-RendererList-tabs"
-              linksClassName="ae-RendererList-tabs-header"
-              contentClassName="ae-RendererList-tabs-content"
-              activeKey={renderersTabsKey}
-              onSelect={this.handleSelect}
-            >
-              <Tab
-                key={'base-renderers'}
-                eventKey={'base-renderers'}
-                title={'系统组件'}
-                className={`ae-RendererList-tabs-panel base-renderers`}
-                mountOnEnter={true}
-                unmountOnExit={false}
+          {store.showCustomRenderersPanel &&
+            customRenderersByOrder.length > 0 && (
+              <Tabs
+                theme={curTheme}
+                tabsMode={'line'} // tiled
+                className="ae-RendererList-tabs"
+                linksClassName="ae-RendererList-tabs-header"
+                contentClassName="ae-RendererList-tabs-content"
+                activeKey={renderersTabsKey}
+                onSelect={this.handleSelect}
               >
-                <RenderersPanel
-                  groupedRenderers={groupedSubRenderers}
-                  store={store}
-                  manager={manager}
-                  searchRendererType={'renderer'}
-                />
-              </Tab>
-              <Tab
-                key={'custom-renderers'}
-                eventKey={'custom-renderers'}
-                title={'自定义组件'}
-                className={`ae-RendererList-tabs-panel custom-renderers`}
-                mountOnEnter={true}
-                unmountOnExit={false}
-              >
-                <RenderersPanel
-                  groupedRenderers={groupedCustomRenderers}
-                  store={store}
-                  manager={manager}
-                  searchRendererType={'custom-renderer'}
-                />
-              </Tab>
-            </Tabs>
-          )}
+                <Tab
+                  key={'base-renderers'}
+                  eventKey={'base-renderers'}
+                  title={'系统组件'}
+                  className={`ae-RendererList-tabs-panel base-renderers`}
+                  mountOnEnter={true}
+                  unmountOnExit={false}
+                >
+                  <RenderersPanel
+                    groupedRenderers={groupedSubRenderers}
+                    store={store}
+                    manager={manager}
+                    searchRendererType={'renderer'}
+                  />
+                </Tab>
+                <Tab
+                  key={'custom-renderers'}
+                  eventKey={'custom-renderers'}
+                  title={'自定义组件'}
+                  className={`ae-RendererList-tabs-panel custom-renderers`}
+                  mountOnEnter={true}
+                  unmountOnExit={false}
+                >
+                  <RenderersPanel
+                    groupedRenderers={groupedCustomRenderers}
+                    store={store}
+                    manager={manager}
+                    searchRendererType={'custom-renderer'}
+                  />
+                </Tab>
+              </Tabs>
+            )}
           {(!store.showCustomRenderersPanel ||
             Object.keys(groupedCustomRenderers).length < 1) && (
             <RenderersPanel
