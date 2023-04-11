@@ -546,7 +546,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
             silent,
             pageField,
             perPageField,
-            loadDataMode,
+            loadDataMode: false,
             syncResponse2Query,
             columns: store.columns ?? columns,
             isTable2: true
@@ -662,7 +662,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
         })
         .then(() => {
           reload && this.reloadTarget(filter(reload, data), data);
-          this.getData(undefined, undefined, true, true);
+          this.getData(undefined, undefined, true);
         })
         .catch(() => {});
     } else {
@@ -682,7 +682,8 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
         .saveRemote(quickSaveItemApi, sendData)
         .then(() => {
           reload && this.reloadTarget(filter(reload, data), data);
-          this.getData(undefined, undefined, true, true);
+
+          this.getData(undefined, undefined, true);
         })
         .catch(() => {
           options?.resetOnFailed && this.control.reset();
@@ -788,7 +789,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
         .saveRemote(saveOrderApi, model)
         .then(() => {
           reload && this.reloadTarget(filter(reload, model), model);
-          this.getData(undefined, undefined, true, true);
+          this.getData(undefined, undefined, true);
         })
         .catch(() => {});
   }
@@ -916,14 +917,14 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       pageField,
       perPageField
     );
-    this.getData(undefined, undefined, undefined, forceReload);
+    this.getData(undefined, undefined, forceReload);
   }
 
   reload(subpath?: string, query?: any) {
     if (query) {
       return this.receive(query);
     } else {
-      this.getData(undefined, undefined, true, true);
+      this.getData(undefined, undefined, true);
     }
   }
 
@@ -1144,6 +1145,8 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       showSelection,
       headerToolbar,
       footerToolbar,
+      // columnsTogglable 在本渲染器中渲染，不需要 table 渲染
+      columnsTogglable,
       ...rest
     } = this.props;
 
