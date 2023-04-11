@@ -163,7 +163,8 @@ export class ButtonGroupControlPlugin extends BasePlugin {
                 }),
                 getSchemaTpl('buttonLevel', {
                   label: '按钮选中样式',
-                  name: 'btnActiveLevel'
+                  name: 'btnActiveLevel',
+                  pipeIn: defaultValue('primary')
                 })
               ]
             },

@@ -27,6 +27,7 @@ import {
   getEventControlConfig,
   getArgsWrapper
 } from '../renderer/event-control/helper';
+import {schemaArrayFormat, schemaToArray} from '../util';
 
 export class TablePlugin extends BasePlugin {
   // 关联渲染器名字
@@ -744,13 +745,13 @@ export class TablePlugin extends BasePlugin {
       value &&
       this.manager.openSubEditor({
         title: '配置头部',
-        value: value.header ?? defaultHeader,
+        value: schemaToArray(value.header ?? defaultHeader),
         slot: {
           type: 'container',
           body: '$$'
         },
         onChange: newValue => {
-          newValue = {...value, header: newValue};
+          newValue = {...value, header: schemaArrayFormat(newValue)};
           manager.panelChangeValue(newValue, diff(value, newValue));
         }
       });
@@ -772,13 +773,13 @@ export class TablePlugin extends BasePlugin {
       value &&
       this.manager.openSubEditor({
         title: '配置底部',
-        value: value.footer ?? defaultFooter,
+        value: schemaToArray(value.footer ?? defaultFooter),
         slot: {
           type: 'container',
           body: '$$'
         },
         onChange: newValue => {
-          newValue = {...value, footer: newValue};
+          newValue = {...value, footer: schemaArrayFormat(newValue)};
           manager.panelChangeValue(newValue, diff(value, newValue));
         }
       });

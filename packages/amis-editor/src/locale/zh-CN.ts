@@ -2840,8 +2840,6 @@ extendLocale('zh-CN', {
     '<span class="label label-warning">四</span>',
   'ce3fd44456123f571e9d083b98da9fcb':
     '<span class="label label-primary">五</span>',
-  'fea0f3f456153564218a9eefb78d8cec':
-    '当多列的分组名称设置一致时，表格会在显示表头的上层显示超级表头，<a href="https://baidu.github.io/amis/crud/header-group" target="_blank">示例</a>',
   'f8fc21a9fd40881e8fd3d7f15919465c':
     '如果当前字段有值，请不要设置，否则覆盖。支持使用 <code>\\${xxx}</code> 来获取变量，或者用 lodash.template 语法来写模板逻辑。<a target="_blank" href="/amis/zh-CN/docs/concepts/template">详情</a>',
   '2c8a99d35cb5704994cabcc61a4c3a4a':
@@ -3348,7 +3346,7 @@ extendLocale('zh-CN', {
   '9e1bafbb00018beacc8f579c8ddfaa36': '设置组件「',
   '6c6e12c54723170f214527bedaf81f7d': '动作类型',
   '1b7e6b2dbf3b7f4b1baf2c42e49a995d': '组件变量',
-  '2eb4c7ac45befad0f1f9c750bda57166': '内存变量',
+  '2eb4c7ac45befad0f1f9c750bda57166': '应用临时变量',
   '844a7a7aacc5be82d0fd6225edc6bf63': '请选择变量',
   '85451d2eb59327a23e8f745161066d4a': '请输入变量值',
   '3d4d83f05a12364e2522fcfb265d8ce8':
@@ -3357,6 +3355,14 @@ extendLocale('zh-CN', {
   '5720057e62e80f7a04489dc4c035b4f1': '取消按钮图标',
   '8985ea173dce8f9bee667b3cdf0b7bdf': '此配置项只作用于表格操作栏的“新增”按钮',
   '3f64a567662a24714768237a3a6d0de7': '表格下方新增按钮',
+  '9dd651411c1cb25e19249bb4ea8878c3': '动画间隔(ms)',
+  '46bc66b19c2b589ebd24d1c583325080': '动画时长(ms)',
+  '9cb33a16b57ef10b79ae76a66379d66f': '箭头一直显示',
+  '0bf60b32f9db93b87e08763b1c815469': '数量',
+  '98e04bf7cb91497e4225d272e3a331c8': '自定义箭头',
+  '7076ef56f5c4f13d3c9bf87d3536352f': '左箭头',
+  'fce3880b7a24a47f02a16331a294b255': '右箭头',
+  'f4f965513462fcc9fe6fe896a9c249d8': '多图展示',
   '522cddc343d72db3db80cf3d71f99210':
     'API返回格式不正确，请点击接口地址右侧示例查看CRUD数据接口结构要求',
   '9b39126b20e519bb1c6e9054f4b55784':
@@ -3423,5 +3429,7 @@ extendLocale('zh-CN', {
     '<div>当值为 __undefined时，表示删除对应的字段，可以结合{"&": "\\$$"}来达到黑名单效果。</div>',
   'cb65841ea7dec5ae0af20b3f5e52abfc': '原始数据打平',
   '6922790f45faf064e063069816e4d2ec':
-    '开启后，会将所有原始数据打平设置到 data 中，并在此基础上定制'
+    '开启后，会将所有原始数据打平设置到 data 中，并在此基础上定制',
+  '9791b05a4df9d72f1a01b81fa695fbc6':
+    '当多列的分组名称设置一致时，表格会在显示表头的上层显示超级表头，<a href="https://baidu.github.io/amis/zh-CN/components/table#%E8%B6%85%E7%BA%A7%E8%A1%A8%E5%A4%B4" target="_blank">示例</a>'
 });

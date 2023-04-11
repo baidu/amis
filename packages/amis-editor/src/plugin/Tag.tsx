@@ -58,6 +58,10 @@ export class TagPlugin extends BasePlugin {
             nativeEvent: {
               type: 'object',
               title: '鼠标事件对象'
+            },
+            label: {
+              type: 'string',
+              title: '标签名称'
             }
           }
         }
@@ -74,6 +78,10 @@ export class TagPlugin extends BasePlugin {
             nativeEvent: {
               type: 'object',
               title: '鼠标事件对象'
+            },
+            label: {
+              type: 'string',
+              title: '标签名称'
             }
           }
         }
@@ -90,6 +98,30 @@ export class TagPlugin extends BasePlugin {
             nativeEvent: {
               type: 'object',
               title: '鼠标事件对象'
+            },
+            label: {
+              type: 'string',
+              title: '标签名称'
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'close',
+      eventLabel: '点击关闭',
+      description: '点击关闭时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            nativeEvent: {
+              type: 'object',
+              title: '鼠标事件对象'
+            },
+            label: {
+              type: 'string',
+              title: '标签名称'
             }
           }
         }
@@ -133,6 +165,10 @@ export class TagPlugin extends BasePlugin {
               getSchemaTpl('icon', {
                 visibleOn: 'data.displayMode === "status"',
                 label: '前置图标'
+              }),
+              getSchemaTpl('switch', {
+                label: '可关闭',
+                name: 'closable'
               })
             ]
           },

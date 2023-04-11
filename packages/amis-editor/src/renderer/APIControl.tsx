@@ -523,7 +523,7 @@ export default class APIControl extends React.Component<
   }
 
   renderApiConfigTabs(submitOnChange: boolean = false) {
-    const {messageDesc, debug = false} = this.props;
+    const {messageDesc, debug = false, name} = this.props;
 
     return {
       type: 'form',
@@ -840,17 +840,7 @@ export default class APIControl extends React.Component<
                     })
                   ]
                 },
-                {
-                  label: '发送适配器',
-                  name: 'requestAdaptor',
-                  type: 'js-editor',
-                  mode: 'horizontal',
-                  horizontal: {justify: true},
-                  clasName: 'm-t-sm',
-                  allowFullscreen: true,
-                  description:
-                    '函数签名：(api) => api， 数据在 api.data 中，修改后返回 api 对象。'
-                },
+                getSchemaTpl('apiRequestAdaptor'),
                 {
                   type: 'switch',
                   label: tipedLabel(
@@ -922,16 +912,11 @@ export default class APIControl extends React.Component<
                     }
                   ]
                 },
-                {
-                  label: '接收适配器',
-                  name: 'adaptor',
-                  type: 'js-editor',
-                  mode: 'horizontal',
-                  horizontal: {justify: true},
-                  clasName: 'm-t-sm',
-                  allowFullscreen: true,
-                  description: '函数签名: (payload, response, api) => payload'
-                }
+                getSchemaTpl(
+                  name === 'validateApi'
+                    ? 'validateApiAdaptor'
+                    : 'apiAdaptor'
+                )
               ]
             },
             {

@@ -565,6 +565,16 @@ setSchemaTpl('theme:shadow', (option: any = {}) => {
   };
 });
 
+// 尺寸选择器
+setSchemaTpl('theme:size', (option: any = {}) => {
+  return {
+    type: 'amis-theme-select',
+    label: false,
+    name: `css.className.size`,
+    ...option
+  };
+});
+
 setSchemaTpl(
   'theme:common',
   (exclude: string[] | string, include: string[]) => {

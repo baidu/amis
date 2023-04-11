@@ -281,8 +281,14 @@ setSchemaTpl('ref', () => {
 
 setSchemaTpl('selectFirst', {
   type: 'switch',
-  label: '是否默认选择第一个',
-  name: 'selectFirst'
+  label: '默认选择第一项',
+  name: 'selectFirst',
+  mode: 'horizontal',
+  horizontal: {
+    justify: true,
+    left: 8
+  },
+  inputClassName: 'is-inline '
 });
 
 setSchemaTpl('hideNodePathLabel', {
@@ -321,7 +327,7 @@ setSchemaTpl('optionControlV2', {
   mode: 'normal',
   name: 'options',
   type: 'ae-optionControl',
-  closeDefaultCheck: true // 关闭默认值设置
+  closeDefaultCheck: false // 关闭默认值设置
 });
 
 /**

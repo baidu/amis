@@ -295,7 +295,8 @@ export class ButtonPlugin extends BasePlugin {
               getSchemaTpl('icon', {
                 name: 'rightIcon',
                 label: '右侧图标'
-              })
+              }),
+              getSchemaTpl('badge')
             ]
           },
           getSchemaTpl('status', {

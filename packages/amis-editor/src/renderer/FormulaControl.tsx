@@ -388,6 +388,8 @@ export default class FormulaControl extends React.Component<
         'size',
         'remark',
         'labelRemark',
+        'static',
+        'staticOn',
         'hidden',
         'hiddenOn',
         'visible',
@@ -409,6 +411,8 @@ export default class FormulaControl extends React.Component<
         'kilobitSeparator',
         'value',
         'inputControlClassName',
+        'css',
+        'validateApi',
         'themeCss'
       ];
 

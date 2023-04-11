@@ -5,6 +5,9 @@ $category-2-height: px2rem(32px);
 $tooltip-bottom: '[data-tooltip][data-position=' bottom ']:hover:after';
 
 .editor-right-panel {
+  --select-base-default-fontSize: 12px;
+  --fonts-size-7: 12px;
+
   position: relative;
   flex: 0 0 auto;
   width: $right-panel-width;
@@ -222,7 +225,6 @@ $tooltip-bottom: '[data-tooltip][data-position=' bottom ']:hover:after';
       height: 100%;
       max-width: calc(100% - 48px); // 避免被内容元素撑开
       border-left: none;
-      transform: scale(1); // 内部元素fixed定位需要
 
       .editorPanel-tabs-pane {
         position: relative;
@@ -274,13 +276,16 @@ $tooltip-bottom: '[data-tooltip][data-position=' bottom ']:hover:after';
     overflow: hidden;
     margin: calc(0rem - (var(--gap-base)));
 
-    // 老动作入口
-    .old-action-btn {
+    .old-action-tooltip-warpper {
       position: absolute;
       left: 12px;
       top: px2rem(15px);
       width: 91%;
       z-index: 9999;
+      // 老动作入口
+      .old-action-btn {
+        width: 100%;
+      }
     }
 
     // tab导航
