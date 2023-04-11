@@ -456,6 +456,49 @@ export default class Page extends React.Component<PageProps> {
     if (isObjectShallowModified(prevProps.defaultData, props.defaultData)) {
       store.reInitData(props.defaultData);
     }
+
+    if (
+      props.body &&
+      prevProps.body &&
+      Array.isArray(props.body) &&
+      Array.isArray(prevProps.body)
+    ) {
+      const currentBody = props.body.filter(item => {
+        if (typeof item === 'string') {
+          return false;
+        } else {
+          return !!item.type;
+        }
+      });
+      const prevBody = prevProps.body.filter(item => {
+        if (typeof item === 'string') {
+          return false;
+        } else {
+          return !!item.type;
+        }
+      });
+
+      if (currentBody.length < prevBody.length) {
+        // 删除了组件，找到被删除的组件，数据从store中删掉
+        prevBody.forEach(item => {
+          if (typeof item !== 'string' && 'name' in item) {
+            const commonBody = currentBody.filter(current => {
+              if (typeof current !== 'string' && 'name' in current) {
+                return current.name === item.name;
+              } else {
+                return false;
+              }
+            });
+
+            if (commonBody.length === 0) {
+              // 说明删除的是item这个组件，并且当前body下没有其他使用相同name的组件，删掉数据
+              store.updateData({[item.name]: undefined});
+              return;
+            }
+          }
+        });
+      }
+    }
   }
 
   componentWillUnmount() {
