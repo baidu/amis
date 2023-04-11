@@ -45,10 +45,10 @@
     margin-right: auto;
     margin-top: var(--Modal-content-startMarginTop);
     margin-bottom: var(--gap-md);
-    padding: var(--Modal-body-paddingY) var(--Modal-body-paddingX);
+    padding: var(--dialog-default-padding-y) var(--Modal-body-paddingX);
     border: var(--Modal-content-borderWidth) solid
       var(--Modal-content-borderColor);
-    border-radius: var(--Modal-content-borderRadius);
+    border-radius: var(--dialog-default-border-radius);
 
     &.in,
     &.out {
@@ -96,9 +96,10 @@
   }
 
   &-title {
-    font-size: var(--Modal-title-fontSize);
-    color: var(--Modal-title-color);
-    font-weight: var(--Modal-title-fontWeight);
+    font-size: var(--dialog-header-fontSize);
+    color: var(--dialog-header-color);
+    font-weight: var(--dialog-header-fontWeight);
+    height: var(--dialog-header-height);
   }
 
   &-close {
@@ -147,6 +148,7 @@
   &-footer {
     // @include clearfix();
 
+    height: var(--dialog-footer-height);
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -158,7 +160,7 @@
 
     .#{$ns}Button {
       min-width: var(--Modal-footer-button-width);
-      margin-left: var(--gap-sm);
+      margin-left: var(--dialog-footer-margin-left);
     }
   }
 }
@@ -177,11 +179,12 @@
 
 @include media-breakpoint-up(sm) {
   .#{$ns}Modal-content {
-    max-width: var(--Modal-widthBase);
+    max-width: var(--dialog-size-normal-width);
+    border-width: var(--dialog-default-border-width);
   }
 
   .#{$ns}Modal--sm .#{$ns}Modal-content {
-    max-width: var(--Modal-widthSm);
+    max-width: var(--dialog-size-sm-width);
   }
 
   .#{$ns}Modal--base .#{$ns}Modal-content {
@@ -193,11 +196,11 @@
   }
 
   .#{$ns}Modal--lg .#{$ns}Modal-content {
-    max-width: var(--Modal-widthLg);
+    max-width: var(--dialog-size-lg-width);
   }
 
   .#{$ns}Modal--xl .#{$ns}Modal-content {
-    max-width: var(--Modal-widthXl);
+    max-width: var(--dialog-size-xl-width);
   }
 }
 

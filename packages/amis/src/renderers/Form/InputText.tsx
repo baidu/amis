@@ -5,7 +5,8 @@ import {
   highlight,
   FormOptionsControl,
   resolveEventData,
-  insertCustomStyle
+  insertCustomStyle,
+  getValueByPath
 } from 'amis-core';
 import {ActionObject} from 'amis-core';
 import Downshift, {StateChangeOptions} from 'downshift';
@@ -1057,34 +1058,40 @@ export default class TextControl extends React.PureComponent<
       options,
       source,
       autoComplete,
+      themeCss,
       css,
       inputControlClassName,
       id,
-      addOnClassName
+      addOnClassName,
+      editorPath,
+      themeConfig,
+      classPrefix: ns
     } = this.props;
+    const editorDefaultData = getValueByPath(editorPath, themeConfig);
     let input =
       autoComplete !== false && (source || options?.length || autoComplete)
         ? this.renderSugestMode()
         : this.renderNormal();
 
     insertCustomStyle(
-      css,
+      themeCss || css,
       [
         {
           key: 'inputControlClassName',
           value: inputControlClassName,
           weights: {
             active: {
-              pre: 'is-focused .'
+              pre: `${ns}TextControl.is-focused > .${inputControlClassName}, `
             }
           }
         }
       ],
-      id
+      id,
+      editorDefaultData
     );
 
     insertCustomStyle(
-      css,
+      themeCss || css,
       [
         {
           key: 'addOnClassName',

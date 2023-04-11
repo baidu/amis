@@ -77,7 +77,7 @@ export class DropDownButtonPlugin extends BasePlugin {
                 )
               },
               getSchemaTpl('label', {
-                label: '按钮文案',
+                label: '按钮文案'
               }),
               {
                 type: 'button-group-select',

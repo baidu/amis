@@ -842,7 +842,7 @@ export class EditorManager {
       // 当渲染器信息和 schemaData 都为空时，则不作任何处理
       return;
     }
-    
+
     if (!node) {
       toast.warning('请先选择一个元素作为插入的位置。');
       return;

@@ -9,6 +9,8 @@ import isPlainObject from 'lodash/isPlainObject';
 import isNumber from 'lodash/isNumber';
 import type {Schema} from 'amis';
 import {SchemaObject} from 'amis/lib/Schema';
+import {assign, cloneDeep} from 'lodash';
+import {getGlobalData} from 'amis-theme-editor-helper';
 
 const {
   guid,
@@ -38,6 +40,8 @@ export {
   eachTree,
   createObject
 };
+
+export let themeConfig: any = {};
 
 export function __uri(id: string) {
   return id;
@@ -198,15 +202,16 @@ export function JSONPipeOut(
 }
 
 /**
- * 如果存在css属性，则给对应的className加上name
+ * 如果存在themeCss属性，则给对应的className加上name
  */
 export function addStyleClassName(obj: Schema) {
-  const css = obj.css;
-  if (!obj.css) {
+  const themeCss = obj.themeCss || obj.css;
+  // page暂时不做处理
+  if (!themeCss || obj.type === 'page') {
     return obj;
   }
   let toUpdate: any = {};
-  Object.keys(css).forEach(key => {
+  Object.keys(themeCss).forEach(key => {
     if (key !== '$$id') {
       let classname = `${key}-${obj.id.replace('u:', '')}`;
       if (!obj[key]) {
@@ -695,18 +700,23 @@ export function filterSchemaForEditor(schema: any): any {
       mapped[key] = filtered;
 
       // 组件切换状态修改classname
-      if (/[C|c]lassName/.test(key) && schema.editorState) {
-        mapped[key] = mapped[key]
-          ? mapped[key] + ' ' + schema.editorState
-          : schema.editorState;
-        modified = true;
-      }
+      // TODO:切换状态暂时先不改变组件的样式
+      // if (/[C|c]lassName/.test(key) && schema.editorState) {
+      //   mapped[key] = mapped[key]
+      //     ? mapped[key] + ' ' + schema.editorState
+      //     : schema.editorState;
+      //   modified = true;
+      // }
 
       if (filtered !== value) {
         modified = true;
       }
     });
-    return modified ? mapped : schema;
+    const finalSchema = modified ? mapped : schema;
+    if (finalSchema?.type) {
+      return setThemeDefaultData(finalSchema);
+    }
+    return finalSchema;
   }
 
   return schema;
@@ -1082,4 +1092,16 @@ export function needFillPlaceholder(curProps: any) {
     needFillPlaceholder = true;
   }
   return needFillPlaceholder;
+}
+// 设置主题数据
+export function setThemeConfig(config: any) {
+  themeConfig = config;
+}
+
+// 将主题数据传入组件的schema
+export function setThemeDefaultData(data: any) {
+  const schemaData = cloneDeep(data);
+  schemaData.themeConfig = themeConfig;
+  assign(schemaData, getGlobalData(themeConfig));
+  return schemaData;
 }

@@ -22,7 +22,8 @@ export class PagePlugin extends BasePlugin {
   isBaseComponent = true;
   // 只有顶级才会用到这个page组件
   disabledRendererPlugin = true;
-  description = '页面渲染器，页面的顶级入口。包含多个区域，您可以选择在不同的区域里面放置不同的渲染器。';
+  description =
+    '页面渲染器，页面的顶级入口。包含多个区域，您可以选择在不同的区域里面放置不同的渲染器。';
   docLink = '/amis/zh-CN/components/page';
   tags = '容器';
   icon = 'fa fa-desktop';
@@ -274,30 +275,7 @@ export class PagePlugin extends BasePlugin {
           className: 'p-none',
           body: [
             getSchemaTpl('collapseGroup', [
-              ...getSchemaTpl('theme:common', ['layout']),
-              getSchemaTpl('style:classNames', {
-                isFormItem: false,
-                schema: [
-                  getSchemaTpl('className', {
-                    name: 'headerClassName',
-                    label: '顶部'
-                  }),
-                  getSchemaTpl('className', {
-                    name: 'bodyClassName',
-                    label: '内容区'
-                  }),
-
-                  getSchemaTpl('className', {
-                    name: 'asideClassName',
-                    label: '边栏'
-                  }),
-
-                  getSchemaTpl('className', {
-                    name: 'toolbarClassName',
-                    label: '工具栏'
-                  })
-                ]
-              })
+              ...getSchemaTpl('theme:common', ['layout'])
             ])
           ]
         },

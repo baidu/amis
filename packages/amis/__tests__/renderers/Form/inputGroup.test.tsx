@@ -143,35 +143,36 @@ describe('InputGroup with validationConfig', () => {
     expect(errorDom?.childElementCount).toStrictEqual(2);
   });
 
-  test('InputGroup with validationConfig: delimiter', async () => {
-    const delimiter = '@@';
-    const {container} = setup({validationConfig: {delimiter}});
-    const child1 = container.querySelector(
-      'input[name=child1]'
-    ) as HTMLInputElement;
-    const child2 = container.querySelector(
-      'input[name=child2]'
-    ) as HTMLInputElement;
-    fireEvent.change(child1, {target: {value: 'amis'}});
-    await wait(500);
+  // v2.9.1 改为顺序校验后，不会同时输出多条校验错误消息，所以也不会用到分隔符
+  // test('InputGroup with validationConfig: delimiter', async () => {
+  //   const delimiter = '@@';
+  //   const {container} = setup({validationConfig: {delimiter}});
+  //   const child1 = container.querySelector(
+  //     'input[name=child1]'
+  //   ) as HTMLInputElement;
+  //   const child2 = container.querySelector(
+  //     'input[name=child2]'
+  //   ) as HTMLInputElement;
+  //   fireEvent.change(child1, {target: {value: 'amis'}});
+  //   await wait(500);
 
-    const submitBtn = screen.getByRole('button', {name: 'Submit'});
-    fireEvent.click(submitBtn);
-    await wait(500);
+  //   const submitBtn = screen.getByRole('button', {name: 'Submit'});
+  //   fireEvent.click(submitBtn);
+  //   await wait(500);
 
-    screen.debug(container);
+  //   screen.debug(container);
 
-    expect(
-      container.querySelector('*[class*="InputGroup-validation--full"]')
-    ).toBeInTheDocument();
+  //   expect(
+  //     container.querySelector('*[class*="InputGroup-validation--full"]')
+  //   ).toBeInTheDocument();
 
-    const errorDom = container.querySelector('*[class*="Form-feedback"]');
-    expect(errorDom?.childElementCount).toStrictEqual(1);
+  //   const errorDom = container.querySelector('*[class*="Form-feedback"]');
+  //   expect(errorDom?.childElementCount).toStrictEqual(1);
 
-    const child1ErrorText = errorDom?.childNodes[0]
-      ? errorDom.childNodes[0].textContent
-      : '';
+  //   const child1ErrorText = errorDom?.childNodes[0]
+  //     ? errorDom.childNodes[0].textContent
+  //     : '';
 
-    expect(child1ErrorText).toEqual(expect.stringMatching(delimiter));
-  });
+  //   expect(child1ErrorText).toEqual(expect.stringMatching(delimiter));
+  // });
 });

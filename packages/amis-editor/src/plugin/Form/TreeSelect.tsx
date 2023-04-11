@@ -1,4 +1,8 @@
-import {getI18nEnabled, RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
+import {
+  getI18nEnabled,
+  RendererPluginAction,
+  RendererPluginEvent
+} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BaseEventContext, BasePlugin} from 'amis-editor-core';

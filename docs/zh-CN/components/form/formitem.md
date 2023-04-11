@@ -1087,7 +1087,7 @@ order: 1
 }
 ```
 
-同样也可以配置多个格式校验
+同样也可以配置多个格式校验，按顺序进行校验，中途校验不通过就会终止
 
 ```schema: scope="body"
 {
@@ -1102,6 +1102,7 @@ order: 1
         "isNumeric": true,
         "minimum": 10
       },
+      "validateOnChange": true,
       "description": "请输入数字类型文本"
     }
   ]

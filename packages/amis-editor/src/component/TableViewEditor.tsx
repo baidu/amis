@@ -538,7 +538,11 @@ export class TableViewEditor extends React.Component<
     ));
 
     return (
-      <div className="ae-TableViewEditor" ref={this.tableViewWrapperRef} style={schema?.style}>
+      <div
+        className="ae-TableViewEditor"
+        ref={this.tableViewWrapperRef}
+        style={schema?.style}
+      >
         {children}
         {this.renderMergeIcon()}
         {rowLines}

@@ -100,7 +100,7 @@ export class ListPlugin extends BasePlugin {
               {
                 name: 'placeholder',
                 pipeIn: defaultValue('没有数据'),
-                type:  i18nEnabled ? 'input-text-i18n' : 'input-text',
+                type: i18nEnabled ? 'input-text-i18n' : 'input-text',
                 label: '无数据提示'
               },
               {
