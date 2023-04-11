@@ -2217,7 +2217,7 @@ export default class Table extends React.Component<TableProps, object> {
     }
 
     let newPopOverContainer = popOverContainer;
-    if (column.pristine.type !== 'dropdown-button') {
+    if (column.pristine.type !== 'dropdown-button' && !newPopOverContainer) {
       newPopOverContainer = this.getPopOverContainer;
     }
 
