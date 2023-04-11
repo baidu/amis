@@ -457,10 +457,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     const items = this.state.items.filter(item => !item.__isPlaceholder);
     const {onChange} = this.props;
     const isPrevented = await this.dispatchEvent('change');
-    if (isPrevented) {
-      return;
-    }
-    onChange?.(items);
+    isPrevented || onChange?.(items);
+    return isPrevented;
   }
 
   async doAction(action: ActionObject, ctx: RendererData, ...rest: Array<any>) {
@@ -524,6 +522,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
           () => {
             if (toAdd.length === 1 && needConfirm !== false) {
               this.startEdit(items.length - 1, true);
+            } else {
+              onChange?.(items);
             }
             onChange?.(items);
           }
@@ -785,10 +785,13 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         items: items,
         columns: this.buildColumns(this.props)
       },
-      () => {
+      async () => {
+        const isPrevented = await this.emitValue();
+        if (isPrevented) {
+          return;
+        }
         const successEventName = isNew ? 'addSuccess' : 'editSuccess';
         this.dispatchEvent(successEventName, {index: this.state.editIndex, item});
-        this.emitValue();
       }
     );
   }
@@ -1647,6 +1650,8 @@ export class TableControlRenderer extends FormTable {
           () => {
             if (toAdd.length === 1 && needConfirm !== false) {
               this.startEdit(items.length - 1, true);
+            } else {
+              onChange?.(items);
             }
             onChange?.(items);
           }
