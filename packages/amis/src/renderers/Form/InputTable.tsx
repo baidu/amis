@@ -471,7 +471,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       needConfirm,
       addable,
       addApi,
-      translate: __
+      translate: __,
+      onChange
     } = this.props;
 
     const actionType = action.actionType as string;
@@ -524,6 +525,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             if (toAdd.length === 1 && needConfirm !== false) {
               this.startEdit(items.length - 1, true);
             }
+            onChange?.(items);
           }
         );
 
@@ -557,6 +559,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
       this.setState({
           items
+      }, () => {
+        onChange?.(items);
       });
 
       return;
@@ -647,18 +651,17 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     items.splice(index + 1, 0, value);
     index = Math.min(index + 1, items.length - 1);
 
-    if (isDispatch) {
-      const isPrevented = await this.dispatchEvent('add', {index});
-      if (isPrevented) {
-        return;
-      }
-    }
-
     this.setState(
       {
         items
       },
-      () => {
+      async () => {
+        if (isDispatch) {
+          const isPrevented = await this.dispatchEvent('add', {index});
+          if (isPrevented) {
+            return;
+          }
+        }
         if (needConfirm === false) {
           this.emitValue();
         } else {
@@ -693,8 +696,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       resolveEventData(
         this.props,
         {
-          ...eventData,
-          value: [...items]
+          value: [...items],
+          ...eventData
         },
         'value'
       )
@@ -851,8 +854,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
     this.removeEntry(item);
     newValue.splice(index, 1);
-    this.dispatchEvent('deleteSuccess', {index, item});
     onChange(newValue);
+    this.dispatchEvent('deleteSuccess', {value: newValue, index, item});
   }
 
   buildItemProps(item: any, index: number) {
@@ -1588,7 +1591,8 @@ export class TableControlRenderer extends FormTable {
       addApi,
       deleteApi,
       resetValue,
-      translate: __
+      translate: __,
+      onChange
     } = this.props;
 
     const actionType = action.actionType as string;
@@ -1644,6 +1648,7 @@ export class TableControlRenderer extends FormTable {
             if (toAdd.length === 1 && needConfirm !== false) {
               this.startEdit(items.length - 1, true);
             }
+            onChange?.(items);
           }
         );
         return;
@@ -1687,16 +1692,23 @@ export class TableControlRenderer extends FormTable {
       }
       this.setState({
         items: rawItems
+      }, () => {
+        onChange?.(rawItems);
       });
       return;
     } else if (actionType === 'clear') {
       this.setState({
         items: []
+      }, () => {
+        onChange?.([]);
       });
       return;
     } else if (actionType === 'reset') {
+      const newItems = Array.isArray(resetValue) ? resetValue : [];
       this.setState({
-        items: Array.isArray(resetValue) ? resetValue : []
+        items: newItems
+      }, () => {
+        onChange?.(newItems);
       });
       return;
     }

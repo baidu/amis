@@ -118,7 +118,7 @@ export default {
             {
               "componentId": "u:39c47c713ae6",
               "args": {
-                "condition": "${name === 'index 1'}"
+                "condition": "${CONTAINS(name, 'index')}"
               },
               "actionType": "deleteItem"
             }
@@ -158,6 +158,25 @@ export default {
       "id": "u:691a43978f4e"
     },
     {
+      "type": "button",
+      "label": "老add",
+      "actionType": "add",
+      "target": "table",
+      "payload": {
+        "name": "black",
+        "color": "#000000"
+      }
+    },
+    {
+      "type": "button",
+      "label": "老delete",
+      "target": "table",
+      "actionType": "delete",
+      "payload": {
+        "name": "black",
+      }
+    },
+    {
       "type": "input-text",
       "label": "测试获取父级数据",
       "name": "name",
@@ -168,6 +187,7 @@ export default {
       "type": "input-table",
       "name": "table",
       "label": "表格表单",
+      // "needConfirm": false,
       "value": [
         {
           "name": "zzl",
@@ -221,7 +241,7 @@ export default {
           "actions": [
             {
               "args": {
-                "msg": "add ${event.data.index}"
+                "msg": "add ${event.data | json}"
               },
               "actionType": "toast"
             }
@@ -231,7 +251,7 @@ export default {
           "actions": [
             {
               "args": {
-                "msg": "addConfirm ${event.data.index}"
+                "msg": "addConfirm ${event.data | json}"
               },
               "actionType": "toast"
             }
@@ -241,7 +261,7 @@ export default {
           "actions": [
             {
               "args": {
-                "msg": "addSuccess ${event.data.index}"
+                "msg": "addSuccess ${event.data | json}"
               },
               "actionType": "toast"
             }
@@ -251,17 +271,27 @@ export default {
           "actions": [
             {
               "args": {
-                "msg": "edit ${event.data.index}"
+                "msg": "edit ${event.data | json}"
               },
               "actionType": "toast"
             }
           ],
         },
+        "editConfirm": {
+          "actions": [
+            {
+              "args": {
+                "msg": "editConfirm ${event.data | json}"
+              },
+              "actionType": "toast"
+            }
+          ]
+        },
         "editSuccess": {
           "actions": [
             {
               "args": {
-                "msg": "editSuccess ${event.data.index}"
+                "msg": "editSuccess ${event.data | json}"
               },
               "actionType": "toast"
             }
@@ -271,7 +301,7 @@ export default {
           "actions": [
             {
               "args": {
-                "msg": "editFail ${event.data.index}"
+                "msg": "editFail ${event.data | json}"
               },
               "actionType": "toast"
             }
@@ -281,7 +311,7 @@ export default {
           "actions": [
             {
               "args": {
-                "msg": "delete ${event.data.index}"
+                "msg": "delete ${event.data | json}"
               },
               "actionType": "toast"
             }
@@ -291,7 +321,7 @@ export default {
           "actions": [
             {
               "args": {
-                "msg": "deleteSuccess ${event.data.index}"
+                "msg": "deleteSuccess ${event.data | json}"
               },
               "actionType": "toast"
             }
@@ -301,13 +331,17 @@ export default {
           "actions": [
             {
               "args": {
-                "msg": "deleteFail ${event.data.index}"
+                "msg": "deleteFail ${event.data | json}"
               },
               "actionType": "toast"
             }
           ]
         }
       }
+    },
+    {
+      "type": "tpl",
+      "tpl": "${table | json}"
     }
   ],
   "id": "u:6bbc05138917"
