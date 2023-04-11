@@ -2,6 +2,8 @@
  * 解析 shape
  */
 
+import {getAttrBoolean} from '../OpenXML';
+import {ST_PathFillMode} from '../openxml/Types';
 import {
   LnTo,
   QuadBezTo,
@@ -80,7 +82,7 @@ export function parsePath(element: Element) {
         const cubicBezToPt = parsePts(child);
         if (cubicBezToPt.length) {
           const cubicBezTo: CubicBezTo = {
-            type: 'quadBezTo',
+            type: 'cubicBezTo',
             pts: cubicBezToPt
           };
           pathChild.push(cubicBezTo);
@@ -117,7 +119,27 @@ export function parsePath(element: Element) {
     }
   }
 
-  return {defines: pathChild};
+  const path: Path = {defines: pathChild};
+
+  const fill = element.getAttribute('fill') as ST_PathFillMode;
+  if (fill) {
+    path.fill = fill;
+  }
+
+  path.extrusionOk = getAttrBoolean(element, 'extrusionOk', false);
+  path.stroke = getAttrBoolean(element, 'stroke', true);
+
+  const w = element.getAttribute('w');
+  if (w) {
+    path.w = parseInt(w, 10);
+  }
+
+  const h = element.getAttribute('h');
+  if (h) {
+    path.h = parseInt(h, 10);
+  }
+
+  return path;
 }
 
 export function parsePathLst(element: Element) {

@@ -120,6 +120,7 @@ export class Color {
     this.r = rgb.r;
     this.g = rgb.g;
     this.b = rgb.b;
+    return this;
   }
 
   /**
@@ -134,6 +135,7 @@ export class Color {
     this.r = rgb.r;
     this.g = rgb.g;
     this.b = rgb.b;
+    return this;
   }
 
   toHex() {

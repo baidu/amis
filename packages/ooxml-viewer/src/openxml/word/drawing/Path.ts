@@ -1,3 +1,5 @@
+import {ST_PathFillMode} from '../../Types';
+
 export interface IPath {
   type: 'moveTo' | 'lnTo' | 'arcTo' | 'cubicBezTo' | 'quadBezTo' | 'close';
 }
@@ -41,5 +43,10 @@ export type ShapeDefine =
   | Close;
 
 export interface Path {
+  h?: number;
+  w?: number;
+  fill?: ST_PathFillMode;
+  extrusionOk?: boolean;
+  stroke?: boolean;
   defines: ShapeDefine[];
 }

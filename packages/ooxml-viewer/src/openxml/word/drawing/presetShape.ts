@@ -72,7 +72,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       },
       {
         defines: [
@@ -93,7 +95,10 @@ export const presetShape: Record<string, Shape> = {
               y: 'b'
             }
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       },
       {
         defines: [
@@ -111,7 +116,10 @@ export const presetShape: Record<string, Shape> = {
               y: 'y2'
             }
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -202,7 +210,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       },
       {
         defines: [
@@ -223,7 +233,10 @@ export const presetShape: Record<string, Shape> = {
               y: 'b'
             }
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       },
       {
         defines: [
@@ -248,7 +261,10 @@ export const presetShape: Record<string, Shape> = {
               y: 'y3'
             }
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -355,7 +371,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       },
       {
         defines: [
@@ -376,7 +394,10 @@ export const presetShape: Record<string, Shape> = {
               y: 'b'
             }
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       },
       {
         defines: [
@@ -408,7 +429,10 @@ export const presetShape: Record<string, Shape> = {
               y: 'y4'
             }
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -483,7 +507,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -504,7 +530,10 @@ export const presetShape: Record<string, Shape> = {
               y: 'b'
             }
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       },
       {
         defines: [
@@ -522,7 +551,10 @@ export const presetShape: Record<string, Shape> = {
               y: 'y2'
             }
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -613,7 +645,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -634,7 +668,10 @@ export const presetShape: Record<string, Shape> = {
               y: 'b'
             }
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       },
       {
         defines: [
@@ -659,7 +696,10 @@ export const presetShape: Record<string, Shape> = {
               y: 'y3'
             }
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -766,7 +806,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -787,7 +829,10 @@ export const presetShape: Record<string, Shape> = {
               y: 'b'
             }
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       },
       {
         defines: [
@@ -819,7 +864,10 @@ export const presetShape: Record<string, Shape> = {
               y: 'y4'
             }
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -904,7 +952,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -932,7 +982,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'darken',
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -960,7 +1013,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       },
       {
         defines: [
@@ -995,7 +1051,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -1131,7 +1190,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -1190,7 +1251,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'darken',
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -1249,7 +1313,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       },
       {
         defines: [
@@ -1284,7 +1351,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -1323,7 +1393,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -1438,7 +1510,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -1487,7 +1561,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'darkenLess',
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -1515,7 +1592,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'darken',
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -1578,7 +1658,10 @@ export const presetShape: Record<string, Shape> = {
               y: 'g9'
             }
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       },
       {
         defines: [
@@ -1613,7 +1696,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -1749,7 +1835,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -1808,7 +1896,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'darken',
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -1867,7 +1958,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       },
       {
         defines: [
@@ -1902,7 +1996,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -1987,7 +2084,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -2015,7 +2114,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'darken',
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -2043,7 +2145,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       },
       {
         defines: [
@@ -2078,7 +2183,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -2293,7 +2401,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -2387,7 +2497,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'darken',
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -2481,7 +2594,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       },
       {
         defines: [
@@ -2516,7 +2632,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -2741,7 +2860,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -2835,7 +2956,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'darkenLess',
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -2894,7 +3018,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'darken',
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -3034,7 +3161,10 @@ export const presetShape: Record<string, Shape> = {
               y: 'g10'
             }
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       },
       {
         defines: [
@@ -3069,7 +3199,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -3215,7 +3348,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -3323,7 +3458,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'darken',
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -3414,7 +3552,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'lighten',
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -3522,7 +3663,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       },
       {
         defines: [
@@ -3557,7 +3701,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -3898,7 +4045,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -4038,7 +4187,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'darken',
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -4178,7 +4330,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       },
       {
         defines: [
@@ -4213,7 +4368,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -4442,7 +4600,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -4554,7 +4714,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'darken',
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -4666,7 +4829,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       },
       {
         defines: [
@@ -4701,7 +4867,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -4863,7 +5032,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -4912,7 +5083,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'darken',
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -5003,7 +5177,10 @@ export const presetShape: Record<string, Shape> = {
               y: 'g23'
             }
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       },
       {
         defines: [
@@ -5038,7 +5215,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -5250,7 +5430,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -5268,7 +5450,10 @@ export const presetShape: Record<string, Shape> = {
             stAng: 'stAng',
             swAng: 'swAng'
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -5468,7 +5653,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -5497,7 +5684,10 @@ export const presetShape: Record<string, Shape> = {
               y: 'b'
             }
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -5545,7 +5735,10 @@ export const presetShape: Record<string, Shape> = {
               y: 'b'
             }
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -5616,7 +5809,10 @@ export const presetShape: Record<string, Shape> = {
               y: 'b'
             }
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -5706,7 +5902,10 @@ export const presetShape: Record<string, Shape> = {
               y: 'b'
             }
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -5860,7 +6059,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -5923,7 +6124,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -5958,7 +6161,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'lightenLess',
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -5993,7 +6199,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'darkenLess',
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -6028,7 +6237,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'lighten',
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -6063,7 +6275,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'darken',
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -6185,7 +6400,10 @@ export const presetShape: Record<string, Shape> = {
               y: 'y2'
             }
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -6524,7 +6742,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -6599,7 +6819,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       },
       {
         defines: [
@@ -6617,7 +6839,10 @@ export const presetShape: Record<string, Shape> = {
               y: 'y2'
             }
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -6708,7 +6933,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       },
       {
         defines: [
@@ -6733,7 +6960,10 @@ export const presetShape: Record<string, Shape> = {
               y: 'y3'
             }
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -6840,7 +7070,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       },
       {
         defines: [
@@ -6872,7 +7104,10 @@ export const presetShape: Record<string, Shape> = {
               y: 'y4'
             }
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -7037,7 +7272,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -7139,7 +7376,10 @@ export const presetShape: Record<string, Shape> = {
             stAng: '0',
             swAng: 'cd4'
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -7242,7 +7482,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -7302,7 +7544,10 @@ export const presetShape: Record<string, Shape> = {
             stAng: '0',
             swAng: 'cd4'
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -7377,7 +7622,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -7395,7 +7642,10 @@ export const presetShape: Record<string, Shape> = {
               y: 'y2'
             }
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -7486,7 +7736,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -7511,7 +7763,10 @@ export const presetShape: Record<string, Shape> = {
               y: 'y3'
             }
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -7618,7 +7873,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -7650,7 +7907,10 @@ export const presetShape: Record<string, Shape> = {
               y: 'y4'
             }
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -7717,7 +7977,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -7745,7 +8007,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'lighten',
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -7791,7 +8056,10 @@ export const presetShape: Record<string, Shape> = {
               y: 'y1'
             }
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -7827,7 +8095,12 @@ export const presetShape: Record<string, Shape> = {
               y: '5'
             }
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true,
+        w: 10,
+        h: 10
       },
       {
         defines: [
@@ -7862,7 +8135,11 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false,
+        w: 10,
+        h: 10
       }
     ]
   },
@@ -7912,7 +8189,12 @@ export const presetShape: Record<string, Shape> = {
               y: '10'
             }
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true,
+        w: 10,
+        h: 10
       },
       {
         defines: [
@@ -7947,7 +8229,11 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false,
+        w: 10,
+        h: 10
       }
     ]
   },
@@ -7983,7 +8269,12 @@ export const presetShape: Record<string, Shape> = {
               y: '0'
             }
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true,
+        w: 10,
+        h: 10
       },
       {
         defines: [
@@ -8018,7 +8309,11 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false,
+        w: 10,
+        h: 10
       }
     ]
   },
@@ -8111,7 +8406,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -8256,7 +8553,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -9108,7 +9407,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -9237,7 +9538,11 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true,
+        w: 43200,
+        h: 43200
       },
       {
         defines: [
@@ -9395,7 +9700,12 @@ export const presetShape: Record<string, Shape> = {
             stAng: '9459261',
             swAng: '711490'
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true,
+        w: 43200,
+        h: 43200
       }
     ]
   },
@@ -9674,7 +9984,11 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true,
+        w: 43200,
+        h: 43200
       },
       {
         defines: [
@@ -9695,7 +10009,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       },
       {
         defines: [
@@ -9716,7 +10032,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       },
       {
         defines: [
@@ -9737,7 +10055,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       },
       {
         defines: [
@@ -9895,7 +10215,12 @@ export const presetShape: Record<string, Shape> = {
             stAng: '9459261',
             swAng: '711490'
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true,
+        w: 43200,
+        h: 43200
       }
     ]
   },
@@ -10008,7 +10333,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -10058,7 +10385,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       },
       {
         defines: [
@@ -10086,7 +10415,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       },
       {
         defines: [
@@ -10114,7 +10445,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       },
       {
         defines: [
@@ -10142,7 +10475,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -10221,7 +10556,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -10256,7 +10593,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'darkenLess',
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -10291,7 +10631,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'lightenLess',
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -10375,7 +10718,10 @@ export const presetShape: Record<string, Shape> = {
               y: 'b'
             }
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -10391,7 +10737,7 @@ export const presetShape: Record<string, Shape> = {
             }
           },
           {
-            type: 'quadBezTo',
+            type: 'cubicBezTo',
             pts: [
               {
                 x: 'wd2',
@@ -10407,7 +10753,10 @@ export const presetShape: Record<string, Shape> = {
               }
             ]
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -10447,7 +10796,7 @@ export const presetShape: Record<string, Shape> = {
             }
           },
           {
-            type: 'quadBezTo',
+            type: 'cubicBezTo',
             pts: [
               {
                 x: 'x1',
@@ -10464,7 +10813,7 @@ export const presetShape: Record<string, Shape> = {
             ]
           },
           {
-            type: 'quadBezTo',
+            type: 'cubicBezTo',
             pts: [
               {
                 x: 'x2',
@@ -10480,7 +10829,10 @@ export const presetShape: Record<string, Shape> = {
               }
             ]
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -10548,7 +10900,7 @@ export const presetShape: Record<string, Shape> = {
             }
           },
           {
-            type: 'quadBezTo',
+            type: 'cubicBezTo',
             pts: [
               {
                 x: 'x1',
@@ -10565,7 +10917,7 @@ export const presetShape: Record<string, Shape> = {
             ]
           },
           {
-            type: 'quadBezTo',
+            type: 'cubicBezTo',
             pts: [
               {
                 x: 'x2',
@@ -10582,7 +10934,7 @@ export const presetShape: Record<string, Shape> = {
             ]
           },
           {
-            type: 'quadBezTo',
+            type: 'cubicBezTo',
             pts: [
               {
                 x: 'x5',
@@ -10598,7 +10950,10 @@ export const presetShape: Record<string, Shape> = {
               }
             ]
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -10686,7 +11041,7 @@ export const presetShape: Record<string, Shape> = {
             }
           },
           {
-            type: 'quadBezTo',
+            type: 'cubicBezTo',
             pts: [
               {
                 x: 'x2',
@@ -10703,7 +11058,7 @@ export const presetShape: Record<string, Shape> = {
             ]
           },
           {
-            type: 'quadBezTo',
+            type: 'cubicBezTo',
             pts: [
               {
                 x: 'x3',
@@ -10720,7 +11075,7 @@ export const presetShape: Record<string, Shape> = {
             ]
           },
           {
-            type: 'quadBezTo',
+            type: 'cubicBezTo',
             pts: [
               {
                 x: 'x5',
@@ -10737,7 +11092,7 @@ export const presetShape: Record<string, Shape> = {
             ]
           },
           {
-            type: 'quadBezTo',
+            type: 'cubicBezTo',
             pts: [
               {
                 x: 'x6',
@@ -10753,7 +11108,10 @@ export const presetShape: Record<string, Shape> = {
               }
             ]
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -10993,7 +11351,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -11028,7 +11388,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'darkenLess',
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -11109,7 +11472,10 @@ export const presetShape: Record<string, Shape> = {
             stAng: 'stAng',
             swAng: 'mswAng'
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -11338,7 +11704,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -11373,7 +11741,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'darkenLess',
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -11454,7 +11825,10 @@ export const presetShape: Record<string, Shape> = {
             stAng: 'swAng',
             swAng: 'swAng2'
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -11694,7 +12068,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -11722,7 +12098,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'darkenLess',
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -11803,7 +12182,10 @@ export const presetShape: Record<string, Shape> = {
             stAng: '3cd4',
             swAng: 'swAng2'
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -12040,7 +12422,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -12075,7 +12459,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'darkenLess',
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -12156,7 +12543,10 @@ export const presetShape: Record<string, Shape> = {
             stAng: 'cd2',
             swAng: '-5400000'
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -12297,7 +12687,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -12372,7 +12764,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -12421,7 +12815,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -12550,7 +12946,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -12682,7 +13080,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -12854,7 +13254,7 @@ export const presetShape: Record<string, Shape> = {
             }
           },
           {
-            type: 'quadBezTo',
+            type: 'cubicBezTo',
             pts: [
               {
                 x: 'x3',
@@ -12871,7 +13271,7 @@ export const presetShape: Record<string, Shape> = {
             ]
           },
           {
-            type: 'quadBezTo',
+            type: 'cubicBezTo',
             pts: [
               {
                 x: 'x6',
@@ -12895,7 +13295,7 @@ export const presetShape: Record<string, Shape> = {
             }
           },
           {
-            type: 'quadBezTo',
+            type: 'cubicBezTo',
             pts: [
               {
                 x: 'x14',
@@ -12912,7 +13312,7 @@ export const presetShape: Record<string, Shape> = {
             ]
           },
           {
-            type: 'quadBezTo',
+            type: 'cubicBezTo',
             pts: [
               {
                 x: 'x11',
@@ -12931,7 +13331,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -13043,7 +13445,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -13227,7 +13631,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -13299,7 +13705,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -13632,7 +14040,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -13700,7 +14110,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'darkenLess',
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -13897,7 +14310,10 @@ export const presetShape: Record<string, Shape> = {
               y: 'y1'
             }
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -14270,7 +14686,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -14338,7 +14756,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'darkenLess',
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -14542,7 +14963,10 @@ export const presetShape: Record<string, Shape> = {
               y: 'y7'
             }
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -14631,7 +15055,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -14694,7 +15120,11 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true,
+        w: 2,
+        h: 2
       }
     ]
   },
@@ -14766,7 +15196,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -14815,7 +15247,11 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true,
+        w: 2,
+        h: 2
       }
     ]
   },
@@ -14876,7 +15312,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -14928,7 +15366,11 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true,
+        w: 6,
+        h: 6
       }
     ]
   },
@@ -14968,7 +15410,7 @@ export const presetShape: Record<string, Shape> = {
             }
           },
           {
-            type: 'quadBezTo',
+            type: 'cubicBezTo',
             pts: [
               {
                 x: '10800',
@@ -14987,7 +15429,11 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true,
+        w: 21600,
+        h: 21600
       }
     ]
   },
@@ -15025,7 +15471,11 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true,
+        w: 2,
+        h: 2
       }
     ]
   },
@@ -15082,7 +15532,11 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true,
+        w: 5,
+        h: 5
       }
     ]
   },
@@ -15121,7 +15575,11 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false,
+        w: 1,
+        h: 1
       },
       {
         defines: [
@@ -15153,7 +15611,12 @@ export const presetShape: Record<string, Shape> = {
               y: '1'
             }
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true,
+        w: 8,
+        h: 8
       },
       {
         defines: [
@@ -15188,7 +15651,12 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true,
+        w: 1,
+        h: 1
       }
     ]
   },
@@ -15233,7 +15701,11 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false,
+        w: 6,
+        h: 6
       },
       {
         defines: [
@@ -15251,7 +15723,12 @@ export const presetShape: Record<string, Shape> = {
             stAng: '0',
             swAng: 'cd2'
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true,
+        w: 6,
+        h: 6
       },
       {
         defines: [
@@ -15286,7 +15763,12 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true,
+        w: 6,
+        h: 6
       }
     ]
   },
@@ -15338,7 +15820,11 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false,
+        w: 6,
+        h: 6
       },
       {
         defines: [
@@ -15356,7 +15842,12 @@ export const presetShape: Record<string, Shape> = {
             stAng: 'cd4',
             swAng: 'cd2'
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true,
+        w: 6,
+        h: 6
       },
       {
         defines: [
@@ -15398,7 +15889,12 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true,
+        w: 6,
+        h: 6
       }
     ]
   },
@@ -15488,7 +15984,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -15527,7 +16025,11 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true,
+        w: 5,
+        h: 5
       }
     ]
   },
@@ -15576,7 +16078,11 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true,
+        w: 5,
+        h: 5
       }
     ]
   },
@@ -15614,7 +16120,11 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true,
+        w: 2,
+        h: 2
       }
     ]
   },
@@ -15652,7 +16162,7 @@ export const presetShape: Record<string, Shape> = {
             }
           },
           {
-            type: 'quadBezTo',
+            type: 'cubicBezTo',
             pts: [
               {
                 x: '9298',
@@ -15714,7 +16224,7 @@ export const presetShape: Record<string, Shape> = {
             }
           },
           {
-            type: 'quadBezTo',
+            type: 'cubicBezTo',
             pts: [
               {
                 x: '19298',
@@ -15769,7 +16279,7 @@ export const presetShape: Record<string, Shape> = {
             }
           },
           {
-            type: 'quadBezTo',
+            type: 'cubicBezTo',
             pts: [
               {
                 x: '20800',
@@ -15795,7 +16305,11 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false,
+        w: 21600,
+        h: 21600
       },
       {
         defines: [
@@ -15821,7 +16335,7 @@ export const presetShape: Record<string, Shape> = {
             }
           },
           {
-            type: 'quadBezTo',
+            type: 'cubicBezTo',
             pts: [
               {
                 x: '9298',
@@ -15869,7 +16383,7 @@ export const presetShape: Record<string, Shape> = {
             }
           },
           {
-            type: 'quadBezTo',
+            type: 'cubicBezTo',
             pts: [
               {
                 x: '19298',
@@ -15914,7 +16428,7 @@ export const presetShape: Record<string, Shape> = {
             }
           },
           {
-            type: 'quadBezTo',
+            type: 'cubicBezTo',
             pts: [
               {
                 x: '20800',
@@ -15930,7 +16444,12 @@ export const presetShape: Record<string, Shape> = {
               }
             ]
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true,
+        w: 21600,
+        h: 21600
       },
       {
         defines: [
@@ -15942,7 +16461,7 @@ export const presetShape: Record<string, Shape> = {
             }
           },
           {
-            type: 'quadBezTo',
+            type: 'cubicBezTo',
             pts: [
               {
                 x: '9298',
@@ -15966,7 +16485,7 @@ export const presetShape: Record<string, Shape> = {
             }
           },
           {
-            type: 'quadBezTo',
+            type: 'cubicBezTo',
             pts: [
               {
                 x: '18595',
@@ -15990,7 +16509,7 @@ export const presetShape: Record<string, Shape> = {
             }
           },
           {
-            type: 'quadBezTo',
+            type: 'cubicBezTo',
             pts: [
               {
                 x: '20000',
@@ -16051,7 +16570,12 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: false,
+        w: 21600,
+        h: 21600
       }
     ]
   },
@@ -16089,7 +16613,11 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false,
+        w: 2,
+        h: 2
       },
       {
         defines: [
@@ -16107,7 +16635,12 @@ export const presetShape: Record<string, Shape> = {
               y: '4'
             }
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true,
+        w: 5,
+        h: 5
       },
       {
         defines: [
@@ -16135,7 +16668,12 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: true,
+        stroke: true,
+        w: 2,
+        h: 2
       }
     ]
   },
@@ -16187,7 +16725,11 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true,
+        w: 10,
+        h: 10
       }
     ]
   },
@@ -16239,7 +16781,11 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true,
+        w: 6,
+        h: 6
       }
     ]
   },
@@ -16311,7 +16857,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -16343,7 +16891,10 @@ export const presetShape: Record<string, Shape> = {
               y: 'vc'
             }
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       },
       {
         defines: [
@@ -16385,7 +16936,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -16430,7 +16984,11 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false,
+        w: 1,
+        h: 1
       },
       {
         defines: [
@@ -16462,7 +17020,12 @@ export const presetShape: Record<string, Shape> = {
               y: '8'
             }
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true,
+        w: 8,
+        h: 8
       },
       {
         defines: [
@@ -16497,7 +17060,12 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true,
+        w: 1,
+        h: 1
       }
     ]
   },
@@ -16556,7 +17124,11 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true,
+        w: 10,
+        h: 10
       }
     ]
   },
@@ -16595,7 +17167,11 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true,
+        w: 1,
+        h: 1
       }
     ]
   },
@@ -16641,7 +17217,11 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true,
+        w: 5,
+        h: 5
       }
     ]
   },
@@ -16704,7 +17284,11 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true,
+        w: 20,
+        h: 20
       }
     ]
   },
@@ -16753,7 +17337,11 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false,
+        w: 2,
+        h: 2
       },
       {
         defines: [
@@ -16771,7 +17359,12 @@ export const presetShape: Record<string, Shape> = {
               y: '1'
             }
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true,
+        w: 2,
+        h: 2
       },
       {
         defines: [
@@ -16806,7 +17399,12 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true,
+        w: 2,
+        h: 2
       }
     ]
   },
@@ -16878,7 +17476,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -16910,7 +17510,10 @@ export const presetShape: Record<string, Shape> = {
               y: 'ib'
             }
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       },
       {
         defines: [
@@ -16952,7 +17555,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -17016,7 +17622,11 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true,
+        w: 21600,
+        h: 21600
       }
     ]
   },
@@ -17098,7 +17708,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -17126,7 +17738,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'darkenLess',
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -17186,7 +17801,10 @@ export const presetShape: Record<string, Shape> = {
               y: 'y2'
             }
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -17280,7 +17898,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -17462,7 +18082,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -18088,7 +18710,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -19338,7 +19962,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -19467,7 +20093,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -19525,7 +20153,7 @@ export const presetShape: Record<string, Shape> = {
             }
           },
           {
-            type: 'quadBezTo',
+            type: 'cubicBezTo',
             pts: [
               {
                 x: 'x3',
@@ -19542,7 +20170,7 @@ export const presetShape: Record<string, Shape> = {
             ]
           },
           {
-            type: 'quadBezTo',
+            type: 'cubicBezTo',
             pts: [
               {
                 x: 'x1',
@@ -19561,7 +20189,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -19709,7 +20339,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -19854,7 +20486,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -19932,7 +20566,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -20103,7 +20739,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -20155,7 +20793,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'darkenLess',
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -20316,7 +20957,10 @@ export const presetShape: Record<string, Shape> = {
               y: 'y6'
             }
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -20529,7 +21173,11 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true,
+        w: 21600,
+        h: 21600
       }
     ]
   },
@@ -20782,7 +21430,11 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true,
+        w: 21600,
+        h: 21600
       }
     ]
   },
@@ -20894,7 +21546,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -21078,7 +21732,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -21206,7 +21862,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -21259,7 +21917,10 @@ export const presetShape: Record<string, Shape> = {
             stAng: 'cd2',
             swAng: 'cd4'
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -21342,7 +22003,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -21374,7 +22037,10 @@ export const presetShape: Record<string, Shape> = {
             stAng: 'cd2',
             swAng: 'cd4'
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -22285,7 +22951,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -22422,7 +23090,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -22659,7 +23329,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -23684,7 +24356,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -23915,7 +24589,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -23950,7 +24626,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'darkenLess',
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -24097,7 +24776,10 @@ export const presetShape: Record<string, Shape> = {
               y: 'ly3'
             }
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -24327,7 +25009,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -24518,7 +25202,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -24664,7 +25350,11 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true,
+        w: 21600,
+        h: 21600
       }
     ]
   },
@@ -24686,7 +25376,9 @@ export const presetShape: Record<string, Shape> = {
               y: 'b'
             }
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -24708,7 +25400,9 @@ export const presetShape: Record<string, Shape> = {
               y: 't'
             }
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -24885,7 +25579,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -25027,7 +25723,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -25102,7 +25800,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -25329,7 +26029,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -25716,7 +26418,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -25867,7 +26571,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -26043,7 +26749,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -26146,7 +26854,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -26362,7 +27072,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -26481,7 +27193,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -26584,7 +27298,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -26703,7 +27419,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -26817,7 +27535,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -26953,7 +27673,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -27003,7 +27725,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -27106,7 +27830,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -27156,7 +27882,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       },
       {
         defines: [
@@ -27184,7 +27912,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       },
       {
         defines: [
@@ -27212,7 +27942,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       },
       {
         defines: [
@@ -27240,7 +27972,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -27379,7 +28113,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -27658,7 +28394,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -28021,7 +28759,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -28060,7 +28800,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -28299,7 +29041,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -28379,7 +29123,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'darkenLess',
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -28582,7 +29329,10 @@ export const presetShape: Record<string, Shape> = {
               y: 'y4'
             }
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -28829,7 +29579,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -28909,7 +29661,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'darkenLess',
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -29119,7 +29874,10 @@ export const presetShape: Record<string, Shape> = {
               y: 'y7'
             }
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -29231,7 +29989,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -29415,7 +30175,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -29547,7 +30309,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -29600,7 +30364,10 @@ export const presetShape: Record<string, Shape> = {
             stAng: '0',
             swAng: 'cd4'
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -29683,7 +30450,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -29715,7 +30484,10 @@ export const presetShape: Record<string, Shape> = {
             stAng: '0',
             swAng: 'cd4'
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -29789,7 +30561,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -29927,7 +30701,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -30065,7 +30841,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -30168,7 +30946,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -30214,7 +30994,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -30327,7 +31109,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -30359,7 +31143,10 @@ export const presetShape: Record<string, Shape> = {
             stAng: 'cd2',
             swAng: '21600000'
           }
-        ]
+        ],
+        fill: 'darkenLess',
+        extrusionOk: false,
+        stroke: true
       },
       {
         defines: [
@@ -30383,7 +31170,10 @@ export const presetShape: Record<string, Shape> = {
               }
             ]
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       },
       {
         defines: [
@@ -30404,7 +31194,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -30478,7 +31271,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -30609,7 +31404,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -30740,7 +31537,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -30840,7 +31639,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -30897,7 +31698,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       },
       {
         defines: [
@@ -30932,7 +31735,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       },
       {
         defines: [
@@ -30967,7 +31772,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       },
       {
         defines: [
@@ -31002,7 +31809,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -31289,7 +32098,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -31596,7 +32407,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -32047,7 +32860,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -32706,7 +33521,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -33573,7 +34390,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -33688,7 +34507,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -33897,7 +34718,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -34072,7 +34895,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -34349,7 +35174,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -34568,7 +35395,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -34590,7 +35419,10 @@ export const presetShape: Record<string, Shape> = {
               y: 'b'
             }
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -34768,7 +35600,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -35181,7 +36015,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -35365,7 +36201,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -35510,7 +36348,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -35593,7 +36433,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -35649,7 +36491,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -35833,7 +36677,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -35970,7 +36816,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -36207,7 +37055,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -36475,7 +37325,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -36646,7 +37498,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -36698,7 +37552,10 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        fill: 'darkenLess',
+        extrusionOk: false,
+        stroke: false
       },
       {
         defines: [
@@ -36859,7 +37716,10 @@ export const presetShape: Record<string, Shape> = {
               y: 'y3'
             }
           }
-        ]
+        ],
+        fill: 'none',
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -37007,7 +37867,7 @@ export const presetShape: Record<string, Shape> = {
             }
           },
           {
-            type: 'quadBezTo',
+            type: 'cubicBezTo',
             pts: [
               {
                 x: 'x3',
@@ -37031,7 +37891,7 @@ export const presetShape: Record<string, Shape> = {
             }
           },
           {
-            type: 'quadBezTo',
+            type: 'cubicBezTo',
             pts: [
               {
                 x: 'x8',
@@ -37050,7 +37910,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -37206,7 +38068,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -37477,7 +38341,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   },
@@ -37796,7 +38662,9 @@ export const presetShape: Record<string, Shape> = {
           {
             type: 'close'
           }
-        ]
+        ],
+        extrusionOk: false,
+        stroke: true
       }
     ]
   }

@@ -1,19 +1,23 @@
-import {ArcTo, LnTo, MoveTo, QuadBezTo, ShapeDefine} from '../Path';
+import {ArcTo, LnTo, MoveTo, Path, QuadBezTo, ShapeDefine} from '../Path';
 import arcToPathA from './arcToA';
 
 export type Var = Record<string, number>;
 
-function getVal(name: string, vars: Var): number {
+function getVal(name: string, vars: Var, scale?: number): number {
+  let result = 0;
   if (name in vars) {
-    return vars[name];
+    result = vars[name];
   } else {
-    const val = parseInt(name, 10);
-    if (isNaN(val)) {
+    result = parseInt(name, 10);
+    if (isNaN(result)) {
       console.warn('var not found', name);
       return 0;
-    } else {
-      return val;
     }
+  }
+  if (scale) {
+    return result * scale;
+  } else {
+    return result;
   }
 }
 
@@ -27,15 +31,26 @@ type Point = {
  * 转成 svg path 里的定义
  * https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/d
  */
-export function generateDefines(defines: ShapeDefine[], vars: Var) {
+export function generateDefines(path: Path, vars: Var) {
+  const defines = path.defines;
   const paths: string[] = [];
   const prevPoint: Point[] = [];
+  const w = path.w;
+  const h = path.h;
+  let wScale = 1;
+  let hScale = 1;
+  if (w) {
+    wScale = vars['w'] / w;
+  }
+  if (h) {
+    hScale = vars['h'] / h;
+  }
   for (const def of defines) {
     switch (def.type) {
       case 'moveTo': {
         const pt = (def as MoveTo).pt;
-        const x = getVal(pt.x, vars);
-        const y = getVal(pt.y, vars);
+        const x = getVal(pt.x, vars, wScale);
+        const y = getVal(pt.y, vars, hScale);
         paths.push(`M ${x} ${y}`);
         prevPoint.push({x, y});
         break;
@@ -43,8 +58,8 @@ export function generateDefines(defines: ShapeDefine[], vars: Var) {
 
       case 'lnTo': {
         const pt = (def as LnTo).pt;
-        const x = getVal(pt.x, vars);
-        const y = getVal(pt.y, vars);
+        const x = getVal(pt.x, vars, wScale);
+        const y = getVal(pt.y, vars, hScale);
         paths.push(`L ${x} ${y}`);
         prevPoint.push({x, y});
         break;
@@ -52,8 +67,8 @@ export function generateDefines(defines: ShapeDefine[], vars: Var) {
 
       case 'arcTo': {
         const arc = def as ArcTo;
-        const wR = getVal(arc.wR, vars);
-        const hR = getVal(arc.hR, vars);
+        const wR = getVal(arc.wR, vars, wScale);
+        const hR = getVal(arc.hR, vars, hScale);
         const stAng = getVal(arc.stAng, vars);
         const swAng = getVal(arc.swAng, vars);
         let prev = {
@@ -75,12 +90,21 @@ export function generateDefines(defines: ShapeDefine[], vars: Var) {
         if (quadBezTo.pts.length >= 2) {
           const pt1 = quadBezTo.pts[0];
           const pt2 = quadBezTo.pts[1];
-          const x1 = getVal(pt1.x, vars);
-          const y1 = getVal(pt1.y, vars);
-          const x2 = getVal(pt2.x, vars);
-          const y2 = getVal(pt2.y, vars);
+          const x1 = getVal(pt1.x, vars, wScale);
+          const y1 = getVal(pt1.y, vars, hScale);
+          const x2 = getVal(pt2.x, vars, wScale);
+          const y2 = getVal(pt2.y, vars, hScale);
           paths.push(`Q ${x1},${y1} ${x2},${y2}`);
-          prevPoint.push({x: x2, y: y2});
+
+          if (quadBezTo.pts.length > 2) {
+            const pt3 = quadBezTo.pts[2];
+            const x3 = getVal(pt3.x, vars, wScale);
+            const y3 = getVal(pt3.y, vars, hScale);
+            paths.push(`T ${x3},${y3}`);
+            prevPoint.push({x: x3, y: y3});
+          } else {
+            prevPoint.push({x: x2, y: y2});
+          }
         } else {
           console.warn('quadBezTo pts length must large than 2', def);
         }
@@ -93,12 +117,12 @@ export function generateDefines(defines: ShapeDefine[], vars: Var) {
           const pt1 = cubicBezTo.pts[0];
           const pt2 = cubicBezTo.pts[1];
           const pt3 = cubicBezTo.pts[2];
-          const x1 = getVal(pt1.x, vars);
-          const y1 = getVal(pt1.y, vars);
-          const x2 = getVal(pt2.x, vars);
-          const y2 = getVal(pt2.y, vars);
-          const x3 = getVal(pt3.x, vars);
-          const y3 = getVal(pt3.y, vars);
+          const x1 = getVal(pt1.x, vars, wScale);
+          const y1 = getVal(pt1.y, vars, hScale);
+          const x2 = getVal(pt2.x, vars, wScale);
+          const y2 = getVal(pt2.y, vars, hScale);
+          const x3 = getVal(pt3.x, vars, wScale);
+          const y3 = getVal(pt3.y, vars, hScale);
           paths.push(`C ${x1},${y1} ${x2},${y2} ${x3},${y3}`);
           prevPoint.push({x: x3, y: y3});
         } else {

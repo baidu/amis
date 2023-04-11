@@ -1,6 +1,7 @@
 /**
  * 将 arc 定义转成 SVG PATH 里的 A 命令
  * 参考了 prst-shape-transform 里的实现，去掉了第三方依赖
+ * https://github.com/xenonflash/prst-shape-transform
  */
 
 type Matrix = {
