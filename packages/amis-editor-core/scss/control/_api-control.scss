@@ -120,3 +120,40 @@
     color: var(--primary);
   }
 }
+
+.ae-AdaptorControl {
+  &-func {
+    &-header,
+    &-footer {
+      padding-left: 8px;
+      font-size: 12px;
+    }
+    &-header {
+      margin-bottom: -20px;
+    }
+    &-footer {
+      margin-top: -20px;
+    }
+    &-arg {
+      padding: 0;
+      height: auto;
+      font-size: 12px;
+      vertical-align: baseline;
+      color: var(--primary);
+    }
+    &-editor {
+      margin-bottom: 0;
+      .cxd-EditorControl {
+        padding-top: 20px;
+        padding-bottom: 20px;
+      }
+      .cxd-MonacoEditor-placeholder {
+        line-height: 18px;
+        font-size: 12px;
+      }
+    }
+  }
+  &-desc-tooltip {
+    max-width: 500px;
+  }
+}

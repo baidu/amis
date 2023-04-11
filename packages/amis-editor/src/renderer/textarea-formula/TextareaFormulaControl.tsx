@@ -130,6 +130,14 @@ export class TextareaFormulaControl extends React.Component<
         variables: variablesArr
       });
     }
+    if (this.state.value !== this.props.value) {
+      this.setState(
+        {
+          value: this.props.value
+        },
+        this.editorAutoMark
+      );
+    }
   }
 
   componentWillUnmount() {

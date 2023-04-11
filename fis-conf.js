@@ -490,7 +490,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!markdown-it/**',
         '!markdown-it-html5-media/**',
         '!punycode/**',
-        '!office-viewer/**',
+        '!ooxml-viewer/**',
         '!fflate/**'
       ],
 
@@ -532,7 +532,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
 
       'charts.js': ['zrender/**', 'echarts/**', 'echarts-stat/**'],
 
-      'office-viewer.js': ['office-viewer/**', 'fflate/**'],
+      'ooxml-viewer.js': ['ooxml-viewer/**', 'fflate/**'],
 
       'rest.js': [
         '*.js',
@@ -555,7 +555,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!uc.micro/**',
         '!markdown-it/**',
         '!markdown-it-html5-media/**',
-        '!office-viewer/**',
+        '!ooxml-viewer/**',
         '!fflate/**'
       ]
     }),
@@ -784,7 +784,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!punycode/**',
         '!amis-formula/**',
         '!fflate/**',
-        '!office-viewer/**',
+        '!ooxml-viewer/**',
         '!amis-core/**',
         '!amis-ui/**',
         '!amis/**'
@@ -843,7 +843,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!/examples/components/EChartsEditor/Common.tsx'
       ],
 
-      'pkg/office-viewer.js': ['office-viewer/**', 'fflate/**'],
+      'pkg/ooxml-viewer.js': ['ooxml-viewer/**', 'fflate/**'],
 
       'pkg/rest.js': [
         '**.{js,jsx,ts,tsx}',

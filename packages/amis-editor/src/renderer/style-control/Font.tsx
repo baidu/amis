@@ -173,7 +173,7 @@ const Font: React.FC<FontProps> = props => {
             // TODO: 添加'justify-all', 'start', 'end', 'match-parent'类型
             getSchemaTpl('layout:textAlign', {
               label: '文字位置',
-              mode: 'row',
+              mode: 'row'
             }),
             {
               type: 'group',

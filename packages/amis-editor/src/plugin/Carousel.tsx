@@ -209,26 +209,26 @@ export class CarouselPlugin extends BasePlugin {
               label: '自动轮播',
               pipeIn: defaultValue(true)
             },
-            {
+            getSchemaTpl('valueFormula', {
+              rendererSchema: {
+                type: 'input-number'
+              },
+              mode: 'vertical',
               name: 'interval',
-              type: 'input-range',
-              label: '动画间隔',
-              min: 1,
-              max: 100,
-              step: 1,
-              unit: 's',
-              pipeIn: (value: any) => (value ?? 3000) / 1000,
-              pipeOut: (value: any, originValue: any, data: any) => value * 1000
-            },
+              label: '动画间隔(ms)',
+              valueType: 'number',
+              pipeIn: defaultValue(5000)
+            }),
             {
               name: 'duration',
-              type: 'input-range',
-              label: '动画时长',
+              type: 'input-number',
+              label: '动画时长(ms)',
+              mode: 'inline',
+              className: 'w-full',
               min: 100,
-              max: 2000,
               step: 10,
-              pipeIn: defaultValue(500),
-              unit: 'ms'
+              size: 'sm',
+              pipeIn: defaultValue(500)
             },
             {
               name: 'animation',
@@ -287,6 +287,34 @@ export class CarouselPlugin extends BasePlugin {
                   value: 'arrows'
                 }
               ]
+            },
+            {
+              name: 'alwaysShowArrow',
+              type: 'switch',
+              mode: 'inline',
+              className: 'w-full',
+              label: '箭头一直显示',
+              hiddenOn: '!~this.controls.indexOf("arrows")',
+              pipeIn: defaultValue(false)
+            },
+            {
+              type: 'ae-switch-more',
+              bulk: true,
+              mode: 'normal',
+              name: 'multiple',
+              label: '多图展示',
+              formType: 'extend',
+              form: {
+                body: [
+                  {
+                    name: 'multiple.count',
+                    label: '数量',
+                    type: 'input-number',
+                    min: 2,
+                    step: 1
+                  }
+                ]
+              }
             },
             {
               name: 'width',

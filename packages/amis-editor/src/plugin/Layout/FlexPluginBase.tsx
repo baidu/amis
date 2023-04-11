@@ -40,11 +40,8 @@ const defaultFlexContainerSchema = {
     defaultFlexColumnSchema('第三列')
   ],
   style: {
-    position: 'relative',
-  },
-  direction: "row",
-  justify: 'flex-start',
-  alignItems: 'stretch'
+    position: 'relative'
+  }
 };
 
 export class FlexPluginBase extends LayoutBasePlugin {
@@ -71,7 +68,7 @@ export class FlexPluginBase extends LayoutBasePlugin {
   panelJustify = true; // 右侧配置项默认左右展示
 
   panelBodyCreator = (context: BaseEventContext) => {
-    const curRendererSchema = context?.schema;
+    const curRendererSchema = context?.schema || {};
     const isRowContent =
       curRendererSchema?.direction === 'row' ||
       curRendererSchema?.direction === 'row-reverse';
@@ -88,7 +85,7 @@ export class FlexPluginBase extends LayoutBasePlugin {
       getSchemaTpl('layout:originPosition'),
       getSchemaTpl('layout:inset', {
         mode: 'vertical'
-      }),
+      })
     ];
 
     return [
@@ -106,153 +103,43 @@ export class FlexPluginBase extends LayoutBasePlugin {
                   // 吸附容器不显示定位相关配置项
                   ...(isSorptionContainer ? [] : positionTpl),
 
-                  getSchemaTpl('layout:flexDirection', {
-                    name: 'direction'
+                  getSchemaTpl('layout:flex-setting', {
+                    label: '弹性布局设置',
+                    direction: curRendererSchema.direction,
+                    justify: curRendererSchema.justify,
+                    alignItems: curRendererSchema.alignItems
                   }),
 
-                  getSchemaTpl('layout:justifyContent', {
-                    name: 'justify',
-                    label: '水平对齐方式',
-                    options: [
-                      {
-                        label: '左对齐',
-                        value: 'flex-start'
-                      },
-                      {
-                        label: '居中对齐',
-                        value: 'center'
-                      },
-                      {
-                        label: '右对齐',
-                        value: 'flex-end'
-                      },
-                      {
-                        label: '两端对齐',
-                        value: 'space-between'
-                      },
-                      {
-                        label: '均匀分布',
-                        value: 'space-evenly'
-                      }
-                    ],
-                    visibleOn:
-                      'data.direction === "row" || data.direction === "row-reverse"'
-                  }),
-                  // 备注: 重复一个是为了能实时联动，后续需要amis优化，支持label使用公式表达式
-                  getSchemaTpl('layout:justifyContent', {
-                    name: 'justify',
-                    label: '垂直对齐方式',
-                    options: [
-                      {
-                        label: '顶部对齐',
-                        value: 'flex-start'
-                      },
-                      {
-                        label: '居中对齐',
-                        value: 'center'
-                      },
-                      {
-                        label: '底部对齐',
-                        value: 'flex-end'
-                      },
-                      {
-                        label: '两端对齐',
-                        value: 'space-between'
-                      },
-                      {
-                        label: '均匀分布',
-                        value: 'space-evenly'
-                      }
-                    ],
-                    visibleOn:
-                      'data.direction === "column" || data.direction === "column-reverse"'
-                  }),
-                  getSchemaTpl('layout:alignItems', {
-                    name: 'alignItems',
-                    label: '水平对齐方式',
-                    options: [
-                      {
-                        label: '左对齐',
-                        value: 'flex-start'
-                      },
-                      {
-                        label: '居中对齐',
-                        value: 'center'
-                      },
-                      {
-                        label: '右对齐',
-                        value: 'flex-end'
-                      },
-                      {
-                        label: '基线对齐',
-                        value: 'baseline'
-                      },
-                      {
-                        label: '自动拉伸',
-                        value: 'stretch'
-                      }
-                    ],
-                    visibleOn:
-                      'data.direction === "column" || data.direction === "column-reverse"'
-                  }),
-                  getSchemaTpl('layout:alignItems', {
-                    name: 'alignItems',
-                    label: '垂直对齐方式',
-                    options: [
-                      {
-                        label: '顶部对齐',
-                        value: 'flex-start'
-                      },
-                      {
-                        label: '居中对齐',
-                        value: 'center'
-                      },
-                      {
-                        label: '底部对齐',
-                        value: 'flex-end'
-                      },
-                      {
-                        label: '基线对齐',
-                        value: 'baseline'
-                      },
-                      {
-                        label: '高度撑满',
-                        value: 'stretch'
-                      }
-                    ],
-                    visibleOn:
-                      'data.direction === "row" || data.direction === "row-reverse"'
-                  }),
                   getSchemaTpl('layout:flex-wrap'),
 
                   isFlexItem
-                  ? getSchemaTpl('layout:flex', {
-                      isFlexColumnItem,
-                      label: isFlexColumnItem ? '高度设置' : '宽度设置',
-                      visibleOn:
-                        'data.style && (data.style.position === "static" || data.style.position === "relative")'
-                    })
-                  : null,
+                    ? getSchemaTpl('layout:flex', {
+                        isFlexColumnItem,
+                        label: isFlexColumnItem ? '高度设置' : '宽度设置',
+                        visibleOn:
+                          'data.style && (data.style.position === "static" || data.style.position === "relative")'
+                      })
+                    : null,
                   isFlexItem
-                  ? getSchemaTpl('layout:flex-grow', {
-                      visibleOn:
-                        'data.style && data.style.flex === "1 1 auto" && (data.style.position === "static" || data.style.position === "relative")'
-                    })
-                  : null,
+                    ? getSchemaTpl('layout:flex-grow', {
+                        visibleOn:
+                          'data.style && data.style.flex === "1 1 auto" && (data.style.position === "static" || data.style.position === "relative")'
+                      })
+                    : null,
                   isFlexItem
-                  ? getSchemaTpl('layout:flex-basis', {
-                      label: isFlexColumnItem ? '弹性高度' : '弹性宽度',
-                      visibleOn:
-                        'data.style && (data.style.position === "static" || data.style.position === "relative") && data.style.flex === "1 1 auto"'
-                    })
-                  : null,
+                    ? getSchemaTpl('layout:flex-basis', {
+                        label: isFlexColumnItem ? '弹性高度' : '弹性宽度',
+                        visibleOn:
+                          'data.style && (data.style.position === "static" || data.style.position === "relative") && data.style.flex === "1 1 auto"'
+                      })
+                    : null,
                   isFlexItem
-                  ? getSchemaTpl('layout:flex-basis', {
-                      label: isFlexColumnItem ? '固定高度' : '固定宽度',
-                      visibleOn:
-                        'data.style && (data.style.position === "static" || data.style.position === "relative") && data.style.flex === "0 0 150px"'
-                    })
-                  : null,
+                    ? getSchemaTpl('layout:flex-basis', {
+                        label: isFlexColumnItem ? '固定高度' : '固定宽度',
+                        visibleOn:
+                          'data.style && (data.style.position === "static" || data.style.position === "relative") && data.style.flex === "0 0 150px"'
+                      })
+                    : null,
 
                   getSchemaTpl('layout:overflow-x', {
                     visibleOn: `${
@@ -299,7 +186,7 @@ export class FlexPluginBase extends LayoutBasePlugin {
                   getSchemaTpl('layout:min-width', {
                     visibleOn: `${!isFlexItem || isFlexColumnItem}`
                   }),
-                  
+
                   getSchemaTpl('layout:overflow-x', {
                     visibleOn: `${
                       !isFlexItem || isFlexColumnItem
@@ -308,9 +195,11 @@ export class FlexPluginBase extends LayoutBasePlugin {
 
                   !isFlexItem ? getSchemaTpl('layout:margin-center') : null,
                   getSchemaTpl('layout:z-index'),
-                  !isSorptionContainer && getSchemaTpl('layout:sticky', {
-                    visibleOn: 'data.style && (data.style.position !== "fixed" && data.style.position !== "absolute")'
-                  }),
+                  !isSorptionContainer &&
+                    getSchemaTpl('layout:sticky', {
+                      visibleOn:
+                        'data.style && (data.style.position !== "fixed" && data.style.position !== "absolute")'
+                    }),
                   getSchemaTpl('layout:stickyPosition')
                 ]
               },
@@ -321,13 +210,7 @@ export class FlexPluginBase extends LayoutBasePlugin {
         {
           title: '外观',
           className: 'p-none',
-          body: getSchemaTpl('collapseGroup', [
-            ...getSchemaTpl('style:common', []),
-            {
-              title: 'CSS 类名',
-              body: [getSchemaTpl('className', {label: '外层CSS类名'})]
-            }
-          ])
+          body: getSchemaTpl('collapseGroup', [...getSchemaTpl('theme:common')])
         }
       ])
     ];
@@ -351,7 +234,7 @@ export class FlexPluginBase extends LayoutBasePlugin {
     const isFlexColumnItem = this.manager?.isFlexColumnItem(id);
     const newColumnSchema = defaultFlexColumnSchema('新的一列');
 
-    const toolbarsTooltips:any = {};
+    const toolbarsTooltips: any = {};
     toolbars.forEach(toolbar => {
       if (toolbar.tooltip) {
         toolbarsTooltips[toolbar.tooltip] = 1;
@@ -413,7 +296,9 @@ export class FlexPluginBase extends LayoutBasePlugin {
     }
 
     if (isFlexItem && !draggableContainer) {
-      if (!toolbarsTooltips[`${isFlexColumnItem ? '上方' : '左侧'}插入列级容器`]) {
+      if (
+        !toolbarsTooltips[`${isFlexColumnItem ? '上方' : '左侧'}插入列级容器`]
+      ) {
         // 布局容器的列级元素 增加左右插入icon
         toolbars.push(
           {

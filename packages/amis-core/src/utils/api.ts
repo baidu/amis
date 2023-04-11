@@ -482,8 +482,7 @@ export function wrapFetcher(
     }
 
     if (!isValidApi(api.url)) {
-      warning('api', 'invalid api url', api);
-      return Promise.resolve();
+      throw new Error(`invalid api url:${api.url}`);
     }
 
     debug('api', 'request api', api);

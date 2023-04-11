@@ -435,8 +435,7 @@ setSchemaTpl(
       mode: mode === 'vertical' ? 'vertical' : 'horizontal',
       visibleOn,
       body: [
-        {
-          type: 'ae-formulaControl',
+        getSchemaTpl('formulaControl', {
           label: label ?? '默认值',
           name: name || 'value',
           rendererWrapper,
@@ -450,7 +449,7 @@ setSchemaTpl(
           variableMode,
           DateTimeType: DateTimeType ?? FormulaDateType.NotDate,
           ...rest
-        }
+        })
       ]
     };
   }
@@ -602,8 +601,7 @@ setSchemaTpl(
       return variablesArr;
     }
 
-    return {
-      type: 'ae-textareaFormulaControl',
+    return getSchemaTpl('textareaFormulaControl', {
       mode: 'normal',
       label: tipedLabel(
         '选项模板',
@@ -613,15 +611,16 @@ setSchemaTpl(
       variables: getOptionVars,
       requiredDataPropsVariables: true,
       ...rest
-    };
+    });
   }
 );
 
-setSchemaTpl('menuTpl', {
-  type: 'ae-textareaFormulaControl',
-  mode: 'normal',
-  label: tipedLabel('模板', '自定义选项渲染模板，支持JSX、数据域变量使用'),
-  name: 'menuTpl'
+setSchemaTpl('menuTpl', () => {
+  return getSchemaTpl('textareaFormulaControl', {
+    mode: 'normal',
+    label: tipedLabel('模板', '自定义选项渲染模板，支持JSX、数据域变量使用'),
+    name: 'menuTpl'
+  });
 });
 
 setSchemaTpl('expression', {
@@ -1210,12 +1209,11 @@ setSchemaTpl('app-page-args', {
       inputMode: 'input-group'
     }
      */
-    {
+    getSchemaTpl('formulaControl', {
       name: 'val',
-      type: 'ae-formulaControl',
       variables: '${variables}',
       placeholder: '参数值'
-    }
+    })
   ]
 });
 
@@ -1273,11 +1271,12 @@ setSchemaTpl('pageSubTitle', {
   type: 'textarea'
 });
 
-setSchemaTpl('textareaDefaultValue', {
-  type: 'ae-textareaFormulaControl',
-  label: '默认值',
-  name: 'value',
-  mode: 'normal'
+setSchemaTpl('textareaDefaultValue', () => {
+  return getSchemaTpl('textareaFormulaControl', {
+    label: '默认值',
+    name: 'value',
+    mode: 'normal'
+  });
 });
 
 setSchemaTpl('prefix', {

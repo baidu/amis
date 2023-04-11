@@ -99,7 +99,10 @@ export interface ValidateFn {
     arg3?: any,
     arg4?: any,
     arg5?: any
-  ): boolean;
+  ): boolean | {
+    error: boolean;
+    msg?: string;
+  };
 }
 
 export const validations: {
@@ -515,10 +518,14 @@ export function validate(
     msg: string;
   }> = [];
 
-  rules &&
-    Object.keys(rules).forEach(ruleName => {
+
+  if (rules) {
+    const ruleNames = Object.keys(rules);
+    const length = ruleNames.length;
+    for (let index = 0; index < length; index++) {
+      const ruleName = ruleNames[index];
       if (!rules[ruleName] && rules[ruleName] !== 0) {
-        return;
+        continue;
       } else if (typeof validations[ruleName] !== 'function') {
         throw new Error('Validation `' + ruleName + '` not exists!');
       }
@@ -534,17 +541,31 @@ export function validate(
         return item;
       });
 
-      if (!fn(values, value, ...args)) {
+      let validateRes = fn(values, value, ...args);
+
+      // addRule 允许返回
+      //   {error: true, msg: '错误提示'}
+      // 格式的信息来灵活展示错误
+      let fnResErrorMsg = '';
+      if (
+        typeof validateRes === 'object' &&
+        validateRes.error === true
+      ) {
+        fnResErrorMsg = validateRes?.msg ?? '';
+      }
+
+      if (!validateRes || fnResErrorMsg) {
         let msgRuleName = ruleName;
         if (Array.isArray(value)) {
           msgRuleName = `${ruleName}Array`;
         }
 
-        errors.push({
+        return [{
           rule: ruleName,
           msg: filter(
             __(
-              (messages && messages[ruleName]) ||
+                (messages && messages[ruleName]) ||
+                fnResErrorMsg ||
                 validateMessages[msgRuleName] ||
                 validateMessages[ruleName]
             ),
@@ -552,9 +573,10 @@ export function validate(
               ...[''].concat(args)
             }
           )
-        });
+        }];
       }
-    });
+    }
+  }
 
   return errors;
 }

@@ -56,11 +56,11 @@
       //     background: var(--dark);
       // }
       &.is-active {
-        color: var(--white);
+        color: var(--Wizard-badge-onActive-color);
         background: var(--Wizard-badge-onActive-backgroundColor);
       }
       &.is-complete {
-        color: var(--white);
+        color: var(--Wizard-badge-onComplete-color);
         background: var(--Wizard-badge-onComplete-backgroundColor);
       }
     }
@@ -84,7 +84,7 @@
         float: left;
         padding: 0 var(--gap-md) 0 px2rem(25px);
         margin: 0;
-        color: #999999;
+        color: var(--Wizard-step-color);
         cursor: pointer;
         height: var(--Wizard-steps-height);
         line-height: var(--Wizard-steps-height);
@@ -127,7 +127,7 @@
 
         &.is-active {
           color: var(--Wizard-steps-li-onActive-color);
-          background: #fff;
+          background: var(--Wizard-steps-li-onActive-bg);
         }
 
         &.is-active:after {
@@ -160,7 +160,7 @@
         float: left;
         padding: 0 var(--gap-md) 0 px2rem(25px);
         margin: 0;
-        color: #999999;
+        color: var(--Wizard-step-color);
         cursor: default;
         height: var(--Wizard-steps-height);
         line-height: var(--Wizard-steps-height);
@@ -182,6 +182,7 @@
 
         &:after {
           right: px2rem(-9px);
+          color: var(--Wizard-after-color);
           border-left-color: var(--Wizard-steps-bg);
           z-index: 2;
         }
@@ -192,6 +193,7 @@
         }
 
         &.is-active:after {
+          color: var(--Wizard-after-onActive-color);
           border-left-color: var(--Wizard-steps-li-onActive-arrow-bg);
         }
 
@@ -248,7 +250,7 @@
           padding-left: var(--gap-md);
 
           &.is-active {
-            background: #fff;
+            background: var(--Wizard-steps-li-onActive-bg);
           }
         }
       }

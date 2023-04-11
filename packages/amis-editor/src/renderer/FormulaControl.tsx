@@ -388,6 +388,8 @@ export default class FormulaControl extends React.Component<
         'size',
         'remark',
         'labelRemark',
+        'static',
+        'staticOn',
         'hidden',
         'hiddenOn',
         'visible',
@@ -409,7 +411,9 @@ export default class FormulaControl extends React.Component<
         'kilobitSeparator',
         'value',
         'inputControlClassName',
-        'css'
+        'css',
+        'validateApi',
+        'themeCss'
       ];
 
       // 当前组件要剔除的字段

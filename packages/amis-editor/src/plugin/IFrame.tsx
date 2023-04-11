@@ -41,12 +41,11 @@ export class IFramePlugin extends BasePlugin {
             title: '基本',
             body: [
               getSchemaTpl('layout:originPosition', {value: 'left-top'}),
-              {
-                type: 'ae-textareaFormulaControl',
+              getSchemaTpl('textareaFormulaControl', {
                 name: 'src',
                 mode: 'normal',
                 label: '页面地址'
-              }
+              })
             ]
           },
           getSchemaTpl('status')
@@ -77,10 +76,7 @@ export class IFramePlugin extends BasePlugin {
                 })
               ]
             },
-            getSchemaTpl('style:classNames', {
-              isFormItem: false
-            }),
-            ...getSchemaTpl('style:common', [], 'border')
+            ...getSchemaTpl('theme:common', ['layout'])
           ])
         ]
       }
@@ -88,7 +84,11 @@ export class IFramePlugin extends BasePlugin {
   };
 
   renderRenderer(props: any) {
-    return this.renderPlaceholder(`IFrame 页面（${props.src}）`, props.key, props.style);
+    return this.renderPlaceholder(
+      `IFrame 页面（${props.src}）`,
+      props.key,
+      props.style
+    );
   }
 }
 
