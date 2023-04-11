@@ -952,6 +952,52 @@ export class WizardPlugin extends BasePlugin {
       scope?.addSchema(jsonschema);
     }
   }
+
+  async buildDataSchemas(node: EditorNodeType, region: EditorNodeType) {
+    const jsonschema: any = {
+      $id: 'steps',
+      type: 'object',
+      properties: {}
+    };
+
+    const pool = node.children.concat();
+    while (pool.length) {
+      const current = pool.shift() as EditorNodeType;
+
+      if (current?.rendererConfig?.type === 'combo') {
+        const schema = current.schema;
+        if (schema.name) {
+          jsonschema.properties[schema.name] = {
+            type: 'array',
+            title: schema.label || schema.name,
+            items: current.info?.plugin?.buildDataSchemas
+              ? await current.info.plugin.buildDataSchemas(current, region)
+              : {
+                  type: 'object',
+                  properties: {}
+                }
+          };
+        }
+      } else if (current?.rendererConfig?.isFormItem) {
+        const schema = current.schema;
+
+        if (schema.name) {
+          jsonschema.properties[schema.name] = current.info?.plugin
+            ?.buildDataSchemas
+            ? await current.info.plugin.buildDataSchemas(current, region)
+            : {
+                type: schema.type.indexOf('number') > -1 ? 'number' : 'string',
+                title: schema.label || schema.name,
+                originalValue: schema.value // 记录原始值，循环引用检测需要
+              };
+        }
+      } else {
+        pool.push(...(current?.children || []));
+      }
+    }
+
+    return jsonschema;
+  }
 }
 
 registerEditorPlugin(WizardPlugin);

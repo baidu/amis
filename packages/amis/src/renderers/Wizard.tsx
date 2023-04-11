@@ -1115,37 +1115,43 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
             role="wizard-body"
             className={`${ns}Wizard-stepContent clearfix`}
           >
-            {step ? (
-              render(
-                'body',
-                {
-                  ...step,
-                  type: 'form',
-                  wrapWithPanel: false,
-
-                  // 接口相关需要外部来接管
-                  api: null
-                },
-                {
-                  key: this.state.currentStep,
-                  ref: this.formRef,
-                  onInit: this.handleInit,
-                  onReset: this.handleReset,
-                  onSubmit: this.handleSubmit,
-                  onAction: this.handleAction,
-                  onQuery: this.handleQuery,
-                  disabled: store.loading,
-                  popOverContainer:
-                    popOverContainer || this.getPopOverContainer,
-                  onChange: this.handleChange,
-                  formStore: undefined
-                }
-              )
-            ) : currentStep === -1 ? (
-              __('loading')
-            ) : (
-              <p className="text-danger">{__('Wizard.configError')}</p>
-            )}
+            {Array.isArray(steps) &&
+              steps.map((step, index) => {
+                return step ? (
+                  render(
+                    `body_${index}`,
+                    {
+                      ...step,
+                      type: 'form',
+                      wrapWithPanel: false,
+                      // 接口相关需要外部来接管
+                      api: null,
+                      // 前面的步骤需要在dom中，为了能够获取到上文填入的数据
+                      visible: index <= currentStep - 1,
+                      // 但是前面的步骤需要再页面展示上隐藏
+                      className: index < currentStep - 1 ? 'hidden' : ''
+                    },
+                    {
+                      key: index,
+                      ref: currentStep - 1 === index ? this.formRef : null,
+                      onInit: this.handleInit,
+                      onReset: this.handleReset,
+                      onSubmit: this.handleSubmit,
+                      onAction: this.handleAction,
+                      onQuery: this.handleQuery,
+                      disabled: store.loading,
+                      popOverContainer:
+                        popOverContainer || this.getPopOverContainer,
+                      onChange: this.handleChange,
+                      formStore: undefined
+                    }
+                  )
+                ) : currentStep === -1 ? (
+                  __('loading')
+                ) : (
+                  <p className="text-danger">{__('Wizard.configError')}</p>
+                );
+              })}
           </div>
           {this.renderFooter()}
         </div>
