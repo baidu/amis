@@ -2,8 +2,7 @@
  * 计算公式 20.1.9.11
  */
 
-const circle = 21600;
-const factor = (2 * Math.PI) / circle;
+const angleFactor = (1 / 60000 / 180) * Math.PI;
 
 export const formulas = {
   '*/': function (x: number, y: number, z: number) {
@@ -22,13 +21,13 @@ export const formulas = {
     return Math.abs(x);
   },
   'at2': function (x: number, y: number) {
-    return Math.atan((y / x) * factor);
+    return ((Math.atan2(y, x) * 180) / Math.PI) * 60000;
   },
   'cat2': function (x: number, y: number, z: number) {
-    return x * Math.cos(Math.atan((z / y) * factor) * factor);
+    return x * Math.cos(Math.atan2(z, y));
   },
   'cos': function (x: number, y: number) {
-    return x * Math.cos(y * factor);
+    return x * Math.cos(y * angleFactor);
   },
   'max': function (x: number, y: number) {
     return Math.max(x, y);
@@ -43,16 +42,16 @@ export const formulas = {
     return y < x ? x : y > z ? z : y;
   },
   'sat2': function (x: number, y: number, z: number) {
-    return x * Math.sin(Math.atan((z / y) * factor) * factor);
+    return x * Math.sin(Math.atan2(z, y));
   },
   'sin': function (x: number, y: number) {
-    return x * Math.sin(y * factor);
+    return x * Math.sin(y * angleFactor);
   },
   'sqrt': function (x: number) {
     return Math.sqrt(x);
   },
   'tan': function (x: number, y: number) {
-    return x * Math.tan(y * factor);
+    return x * Math.tan(y * angleFactor);
   },
   'val': function (a: string) {
     const parse = parseInt(a, 10);

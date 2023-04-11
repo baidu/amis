@@ -1,5 +1,5 @@
 /**
- * 形状，目前大部分不支持
+ * 形状
  */
 import {ST_ShapeType} from '../../Types';
 import Word from '../../../Word';

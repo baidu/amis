@@ -7,6 +7,7 @@ import renderParagraph from './renderParagraph';
 import renderTable from './renderTable';
 import {Table} from '../openxml/word/Table';
 import {renderGeom} from './renderGeom';
+import {renderCustGeom} from './renderCustGeom';
 
 /**
  * 渲染图片
@@ -73,12 +74,20 @@ export function renderDrawing(word: Word, drawing: Drawing): HTMLElement {
         container.style.width = ext.cx;
         container.style.height = ext.cy;
 
-        if (spPr.prstGeom) {
+        if (spPr.geom) {
           const width = parseFloat(ext.cx.replace('px', ''));
           const height = parseFloat(ext.cy.replace('px', ''));
           appendChild(
             container,
-            renderGeom(spPr.prstGeom, spPr, width, height, wps.wpsStyle)
+            renderGeom(spPr.geom, spPr, width, height, wps.wpsStyle)
+          );
+        }
+        if (spPr.custGeom) {
+          const width = parseFloat(ext.cx.replace('px', ''));
+          const height = parseFloat(ext.cy.replace('px', ''));
+          appendChild(
+            container,
+            renderCustGeom(spPr.custGeom, spPr, width, height, wps.wpsStyle)
           );
         }
       }

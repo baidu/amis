@@ -5,8 +5,10 @@
 import {Path} from './Path';
 
 export interface ShapeGuide {
-  name: string;
-  fmla: string;
+  // 名称
+  n: string;
+  // 公式
+  f: string;
 }
 
 // http://webapp.docx4java.org/OnlineDemo/ecma376/DrawingML/rect.html

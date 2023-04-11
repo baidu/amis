@@ -1,5 +1,7 @@
 /**
  * 将 shape 转成 svg 格式
+ *
+ * https://wiki.documentfoundation.org/Development/Improve_handles_of_DrawingML_shapes
  */
 
 import {Color} from '../../../../util/color';
@@ -8,7 +10,7 @@ import {WPSStyle} from '../../wps/WPSStyle';
 import {Shape, ShapeGuide} from '../Shape';
 import {ShapePr} from '../ShapeProperties';
 import {evalFmla} from './formulas';
-import {Var, generateDefines} from './generateDefines';
+import {Point, Var, generateDefines} from './generateDefines';
 import {presetVal} from './presetVal';
 
 export function shapeToSVG(
@@ -30,29 +32,26 @@ export function shapeToSVG(
 
   // 先执行 avLst 定义初始变量
   for (const gd of shape.avLst || []) {
-    evalFmla(gd.name, gd.fmla, vars);
+    evalFmla(gd.n, gd.f, vars);
   }
 
   // 自定义 avLst
   for (const gd of avLst) {
-    evalFmla(gd.name, gd.fmla, vars);
+    evalFmla(gd.n, gd.f, vars);
   }
 
   // 执行 gdLst
   for (const gd of shape.gdLst || []) {
-    evalFmla(gd.name, gd.fmla, vars);
+    evalFmla(gd.n, gd.f, vars);
   }
 
   const outline = shapePr.outline;
-
+  const prevPoint: Point[] = [];
   for (const path of shape.pathLst || []) {
     const pathEl = createSVGElement('path');
-    const d = generateDefines(path, vars);
+    const d = generateDefines(path, vars, prevPoint);
     pathEl.setAttribute('d', d);
-    if (d.endsWith('Z')) {
-      // 暂时不知道原因
-      pathEl.setAttribute('fill-opacity', '0.5');
-    }
+
     if (shapePr.fillColor) {
       pathEl.setAttribute('fill', shapePr.fillColor);
     } else if (wpsStyle && wpsStyle.fillColor) {
@@ -108,6 +107,13 @@ export function shapeToSVG(
     const strokeColor = pathEl.getAttribute('stroke');
     if (!strokeColor && pathEl.getAttribute('fill') === 'none') {
       pathEl.setAttribute('stroke', 'black');
+    }
+
+    if (path.stroke === false) {
+      pathEl.setAttribute('stroke', 'none');
+      if (!path.fill) {
+        pathEl.setAttribute('fill', 'none');
+      }
     }
 
     svg.appendChild(pathEl);

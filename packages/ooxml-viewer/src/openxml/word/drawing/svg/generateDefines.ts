@@ -21,7 +21,7 @@ function getVal(name: string, vars: Var, scale?: number): number {
   }
 }
 
-type Point = {
+export type Point = {
   x: number;
   y: number;
 };
@@ -31,10 +31,10 @@ type Point = {
  * 转成 svg path 里的定义
  * https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/d
  */
-export function generateDefines(path: Path, vars: Var) {
+export function generateDefines(path: Path, vars: Var, prevPoint: Point[]) {
   const defines = path.defines;
   const paths: string[] = [];
-  const prevPoint: Point[] = [];
+
   const w = path.w;
   const h = path.h;
   let wScale = 1;

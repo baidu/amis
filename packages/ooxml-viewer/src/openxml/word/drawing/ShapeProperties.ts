@@ -9,6 +9,7 @@ import {CSSStyle} from './../../Style';
 import {parseSize, LengthUsage} from '../../../parse/parseSize';
 import {Geom} from './Geom';
 import {parseChildColor} from '../../../parse/parseChildColor';
+import {CustomGeom} from './CustomGeom';
 
 function prstDashToCSSBorderType(prstDash: ST_PresetLineDashVal) {
   let borderType = 'solid';
@@ -81,7 +82,10 @@ export class ShapePr {
   xfrm?: Transform;
 
   // 内置图形
-  prstGeom?: Geom;
+  geom?: Geom;
+
+  // 自定义
+  custGeom?: CustomGeom;
 
   // 边框样式
   outline?: OutLine;
@@ -101,7 +105,11 @@ export class ShapePr {
             break;
 
           case 'a:prstGeom':
-            shapePr.prstGeom = Geom.fromXML(word, child);
+            shapePr.geom = Geom.fromXML(word, child);
+            break;
+
+          case 'a:custGeom':
+            shapePr.custGeom = CustomGeom.fromXML(word, child);
             break;
 
           case 'a:ln':

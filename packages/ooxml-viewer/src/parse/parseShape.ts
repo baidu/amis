@@ -169,8 +169,8 @@ export function parseShapeGuide(element: Element) {
         const fmla = child.getAttribute('fmla');
         if (name && fmla) {
           const gd: ShapeGuide = {
-            name,
-            fmla
+            n: name,
+            f: fmla
           };
           gds.push(gd);
         }

@@ -4,6 +4,10 @@ import {shapeToSVG} from '../src/openxml/word/drawing/svg/shapeToSVG';
 const container = document.getElementById('shapes')! as HTMLElement;
 
 for (const shapeName in presetShape) {
+  // 临时测试用
+  if (shapeName !== 'moon') {
+    // continue;
+  }
   const shape = presetShape[shapeName];
   console.log('render shape', shapeName);
   const svg = shapeToSVG(shape, [], {}, 100, 100, {

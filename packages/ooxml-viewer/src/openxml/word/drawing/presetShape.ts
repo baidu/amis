@@ -4,38 +4,38 @@ export const presetShape: Record<string, Shape> = {
   accentBorderCallout1: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 18750'
+        n: 'adj1',
+        f: 'val 18750'
       },
       {
-        name: 'adj2',
-        fmla: 'val -8333'
+        n: 'adj2',
+        f: 'val -8333'
       },
       {
-        name: 'adj3',
-        fmla: 'val 112500'
+        n: 'adj3',
+        f: 'val 112500'
       },
       {
-        name: 'adj4',
-        fmla: 'val -38333'
+        n: 'adj4',
+        f: 'val -38333'
       }
     ],
     gdLst: [
       {
-        name: 'y1',
-        fmla: '*/ h adj1 100000'
+        n: 'y1',
+        f: '*/ h adj1 100000'
       },
       {
-        name: 'x1',
-        fmla: '*/ w adj2 100000'
+        n: 'x1',
+        f: '*/ w adj2 100000'
       },
       {
-        name: 'y2',
-        fmla: '*/ h adj3 100000'
+        n: 'y2',
+        f: '*/ h adj3 100000'
       },
       {
-        name: 'x2',
-        fmla: '*/ w adj4 100000'
+        n: 'x2',
+        f: '*/ w adj4 100000'
       }
     ],
     pathLst: [
@@ -126,54 +126,54 @@ export const presetShape: Record<string, Shape> = {
   accentBorderCallout2: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 18750'
+        n: 'adj1',
+        f: 'val 18750'
       },
       {
-        name: 'adj2',
-        fmla: 'val -8333'
+        n: 'adj2',
+        f: 'val -8333'
       },
       {
-        name: 'adj3',
-        fmla: 'val 18750'
+        n: 'adj3',
+        f: 'val 18750'
       },
       {
-        name: 'adj4',
-        fmla: 'val -16667'
+        n: 'adj4',
+        f: 'val -16667'
       },
       {
-        name: 'adj5',
-        fmla: 'val 112500'
+        n: 'adj5',
+        f: 'val 112500'
       },
       {
-        name: 'adj6',
-        fmla: 'val -46667'
+        n: 'adj6',
+        f: 'val -46667'
       }
     ],
     gdLst: [
       {
-        name: 'y1',
-        fmla: '*/ h adj1 100000'
+        n: 'y1',
+        f: '*/ h adj1 100000'
       },
       {
-        name: 'x1',
-        fmla: '*/ w adj2 100000'
+        n: 'x1',
+        f: '*/ w adj2 100000'
       },
       {
-        name: 'y2',
-        fmla: '*/ h adj3 100000'
+        n: 'y2',
+        f: '*/ h adj3 100000'
       },
       {
-        name: 'x2',
-        fmla: '*/ w adj4 100000'
+        n: 'x2',
+        f: '*/ w adj4 100000'
       },
       {
-        name: 'y3',
-        fmla: '*/ h adj5 100000'
+        n: 'y3',
+        f: '*/ h adj5 100000'
       },
       {
-        name: 'x3',
-        fmla: '*/ w adj6 100000'
+        n: 'x3',
+        f: '*/ w adj6 100000'
       }
     ],
     pathLst: [
@@ -271,70 +271,70 @@ export const presetShape: Record<string, Shape> = {
   accentBorderCallout3: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 18750'
+        n: 'adj1',
+        f: 'val 18750'
       },
       {
-        name: 'adj2',
-        fmla: 'val -8333'
+        n: 'adj2',
+        f: 'val -8333'
       },
       {
-        name: 'adj3',
-        fmla: 'val 18750'
+        n: 'adj3',
+        f: 'val 18750'
       },
       {
-        name: 'adj4',
-        fmla: 'val -16667'
+        n: 'adj4',
+        f: 'val -16667'
       },
       {
-        name: 'adj5',
-        fmla: 'val 100000'
+        n: 'adj5',
+        f: 'val 100000'
       },
       {
-        name: 'adj6',
-        fmla: 'val -16667'
+        n: 'adj6',
+        f: 'val -16667'
       },
       {
-        name: 'adj7',
-        fmla: 'val 112963'
+        n: 'adj7',
+        f: 'val 112963'
       },
       {
-        name: 'adj8',
-        fmla: 'val -8333'
+        n: 'adj8',
+        f: 'val -8333'
       }
     ],
     gdLst: [
       {
-        name: 'y1',
-        fmla: '*/ h adj1 100000'
+        n: 'y1',
+        f: '*/ h adj1 100000'
       },
       {
-        name: 'x1',
-        fmla: '*/ w adj2 100000'
+        n: 'x1',
+        f: '*/ w adj2 100000'
       },
       {
-        name: 'y2',
-        fmla: '*/ h adj3 100000'
+        n: 'y2',
+        f: '*/ h adj3 100000'
       },
       {
-        name: 'x2',
-        fmla: '*/ w adj4 100000'
+        n: 'x2',
+        f: '*/ w adj4 100000'
       },
       {
-        name: 'y3',
-        fmla: '*/ h adj5 100000'
+        n: 'y3',
+        f: '*/ h adj5 100000'
       },
       {
-        name: 'x3',
-        fmla: '*/ w adj6 100000'
+        n: 'x3',
+        f: '*/ w adj6 100000'
       },
       {
-        name: 'y4',
-        fmla: '*/ h adj7 100000'
+        n: 'y4',
+        f: '*/ h adj7 100000'
       },
       {
-        name: 'x4',
-        fmla: '*/ w adj8 100000'
+        n: 'x4',
+        f: '*/ w adj8 100000'
       }
     ],
     pathLst: [
@@ -439,38 +439,38 @@ export const presetShape: Record<string, Shape> = {
   accentCallout1: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 18750'
+        n: 'adj1',
+        f: 'val 18750'
       },
       {
-        name: 'adj2',
-        fmla: 'val -8333'
+        n: 'adj2',
+        f: 'val -8333'
       },
       {
-        name: 'adj3',
-        fmla: 'val 112500'
+        n: 'adj3',
+        f: 'val 112500'
       },
       {
-        name: 'adj4',
-        fmla: 'val -38333'
+        n: 'adj4',
+        f: 'val -38333'
       }
     ],
     gdLst: [
       {
-        name: 'y1',
-        fmla: '*/ h adj1 100000'
+        n: 'y1',
+        f: '*/ h adj1 100000'
       },
       {
-        name: 'x1',
-        fmla: '*/ w adj2 100000'
+        n: 'x1',
+        f: '*/ w adj2 100000'
       },
       {
-        name: 'y2',
-        fmla: '*/ h adj3 100000'
+        n: 'y2',
+        f: '*/ h adj3 100000'
       },
       {
-        name: 'x2',
-        fmla: '*/ w adj4 100000'
+        n: 'x2',
+        f: '*/ w adj4 100000'
       }
     ],
     pathLst: [
@@ -561,54 +561,54 @@ export const presetShape: Record<string, Shape> = {
   accentCallout2: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 18750'
+        n: 'adj1',
+        f: 'val 18750'
       },
       {
-        name: 'adj2',
-        fmla: 'val -8333'
+        n: 'adj2',
+        f: 'val -8333'
       },
       {
-        name: 'adj3',
-        fmla: 'val 18750'
+        n: 'adj3',
+        f: 'val 18750'
       },
       {
-        name: 'adj4',
-        fmla: 'val -16667'
+        n: 'adj4',
+        f: 'val -16667'
       },
       {
-        name: 'adj5',
-        fmla: 'val 112500'
+        n: 'adj5',
+        f: 'val 112500'
       },
       {
-        name: 'adj6',
-        fmla: 'val -46667'
+        n: 'adj6',
+        f: 'val -46667'
       }
     ],
     gdLst: [
       {
-        name: 'y1',
-        fmla: '*/ h adj1 100000'
+        n: 'y1',
+        f: '*/ h adj1 100000'
       },
       {
-        name: 'x1',
-        fmla: '*/ w adj2 100000'
+        n: 'x1',
+        f: '*/ w adj2 100000'
       },
       {
-        name: 'y2',
-        fmla: '*/ h adj3 100000'
+        n: 'y2',
+        f: '*/ h adj3 100000'
       },
       {
-        name: 'x2',
-        fmla: '*/ w adj4 100000'
+        n: 'x2',
+        f: '*/ w adj4 100000'
       },
       {
-        name: 'y3',
-        fmla: '*/ h adj5 100000'
+        n: 'y3',
+        f: '*/ h adj5 100000'
       },
       {
-        name: 'x3',
-        fmla: '*/ w adj6 100000'
+        n: 'x3',
+        f: '*/ w adj6 100000'
       }
     ],
     pathLst: [
@@ -706,70 +706,70 @@ export const presetShape: Record<string, Shape> = {
   accentCallout3: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 18750'
+        n: 'adj1',
+        f: 'val 18750'
       },
       {
-        name: 'adj2',
-        fmla: 'val -8333'
+        n: 'adj2',
+        f: 'val -8333'
       },
       {
-        name: 'adj3',
-        fmla: 'val 18750'
+        n: 'adj3',
+        f: 'val 18750'
       },
       {
-        name: 'adj4',
-        fmla: 'val -16667'
+        n: 'adj4',
+        f: 'val -16667'
       },
       {
-        name: 'adj5',
-        fmla: 'val 100000'
+        n: 'adj5',
+        f: 'val 100000'
       },
       {
-        name: 'adj6',
-        fmla: 'val -16667'
+        n: 'adj6',
+        f: 'val -16667'
       },
       {
-        name: 'adj7',
-        fmla: 'val 112963'
+        n: 'adj7',
+        f: 'val 112963'
       },
       {
-        name: 'adj8',
-        fmla: 'val -8333'
+        n: 'adj8',
+        f: 'val -8333'
       }
     ],
     gdLst: [
       {
-        name: 'y1',
-        fmla: '*/ h adj1 100000'
+        n: 'y1',
+        f: '*/ h adj1 100000'
       },
       {
-        name: 'x1',
-        fmla: '*/ w adj2 100000'
+        n: 'x1',
+        f: '*/ w adj2 100000'
       },
       {
-        name: 'y2',
-        fmla: '*/ h adj3 100000'
+        n: 'y2',
+        f: '*/ h adj3 100000'
       },
       {
-        name: 'x2',
-        fmla: '*/ w adj4 100000'
+        n: 'x2',
+        f: '*/ w adj4 100000'
       },
       {
-        name: 'y3',
-        fmla: '*/ h adj5 100000'
+        n: 'y3',
+        f: '*/ h adj5 100000'
       },
       {
-        name: 'x3',
-        fmla: '*/ w adj6 100000'
+        n: 'x3',
+        f: '*/ w adj6 100000'
       },
       {
-        name: 'y4',
-        fmla: '*/ h adj7 100000'
+        n: 'y4',
+        f: '*/ h adj7 100000'
       },
       {
-        name: 'x4',
-        fmla: '*/ w adj8 100000'
+        n: 'x4',
+        f: '*/ w adj8 100000'
       }
     ],
     pathLst: [
@@ -874,24 +874,24 @@ export const presetShape: Record<string, Shape> = {
   actionButtonBackPrevious: {
     gdLst: [
       {
-        name: 'dx2',
-        fmla: '*/ ss 3 8'
+        n: 'dx2',
+        f: '*/ ss 3 8'
       },
       {
-        name: 'g9',
-        fmla: '+- vc 0 dx2'
+        n: 'g9',
+        f: '+- vc 0 dx2'
       },
       {
-        name: 'g10',
-        fmla: '+- vc dx2 0'
+        n: 'g10',
+        f: '+- vc dx2 0'
       },
       {
-        name: 'g11',
-        fmla: '+- hc 0 dx2'
+        n: 'g11',
+        f: '+- hc 0 dx2'
       },
       {
-        name: 'g12',
-        fmla: '+- hc dx2 0'
+        n: 'g12',
+        f: '+- hc dx2 0'
       }
     ],
     pathLst: [
@@ -1061,44 +1061,44 @@ export const presetShape: Record<string, Shape> = {
   actionButtonBeginning: {
     gdLst: [
       {
-        name: 'dx2',
-        fmla: '*/ ss 3 8'
+        n: 'dx2',
+        f: '*/ ss 3 8'
       },
       {
-        name: 'g9',
-        fmla: '+- vc 0 dx2'
+        n: 'g9',
+        f: '+- vc 0 dx2'
       },
       {
-        name: 'g10',
-        fmla: '+- vc dx2 0'
+        n: 'g10',
+        f: '+- vc dx2 0'
       },
       {
-        name: 'g11',
-        fmla: '+- hc 0 dx2'
+        n: 'g11',
+        f: '+- hc 0 dx2'
       },
       {
-        name: 'g12',
-        fmla: '+- hc dx2 0'
+        n: 'g12',
+        f: '+- hc dx2 0'
       },
       {
-        name: 'g13',
-        fmla: '*/ ss 3 4'
+        n: 'g13',
+        f: '*/ ss 3 4'
       },
       {
-        name: 'g14',
-        fmla: '*/ g13 1 8'
+        n: 'g14',
+        f: '*/ g13 1 8'
       },
       {
-        name: 'g15',
-        fmla: '*/ g13 1 4'
+        n: 'g15',
+        f: '*/ g13 1 4'
       },
       {
-        name: 'g16',
-        fmla: '+- g11 g14 0'
+        n: 'g16',
+        f: '+- g11 g14 0'
       },
       {
-        name: 'g17',
-        fmla: '+- g11 g15 0'
+        n: 'g17',
+        f: '+- g11 g15 0'
       }
     ],
     pathLst: [
@@ -1402,40 +1402,40 @@ export const presetShape: Record<string, Shape> = {
   actionButtonDocument: {
     gdLst: [
       {
-        name: 'dx2',
-        fmla: '*/ ss 3 8'
+        n: 'dx2',
+        f: '*/ ss 3 8'
       },
       {
-        name: 'g9',
-        fmla: '+- vc 0 dx2'
+        n: 'g9',
+        f: '+- vc 0 dx2'
       },
       {
-        name: 'g10',
-        fmla: '+- vc dx2 0'
+        n: 'g10',
+        f: '+- vc dx2 0'
       },
       {
-        name: 'dx1',
-        fmla: '*/ ss 9 32'
+        n: 'dx1',
+        f: '*/ ss 9 32'
       },
       {
-        name: 'g11',
-        fmla: '+- hc 0 dx1'
+        n: 'g11',
+        f: '+- hc 0 dx1'
       },
       {
-        name: 'g12',
-        fmla: '+- hc dx1 0'
+        n: 'g12',
+        f: '+- hc dx1 0'
       },
       {
-        name: 'g13',
-        fmla: '*/ ss 3 16'
+        n: 'g13',
+        f: '*/ ss 3 16'
       },
       {
-        name: 'g14',
-        fmla: '+- g12 0 g13'
+        n: 'g14',
+        f: '+- g12 0 g13'
       },
       {
-        name: 'g15',
-        fmla: '+- g9 g13 0'
+        n: 'g15',
+        f: '+- g9 g13 0'
       }
     ],
     pathLst: [
@@ -1706,44 +1706,44 @@ export const presetShape: Record<string, Shape> = {
   actionButtonEnd: {
     gdLst: [
       {
-        name: 'dx2',
-        fmla: '*/ ss 3 8'
+        n: 'dx2',
+        f: '*/ ss 3 8'
       },
       {
-        name: 'g9',
-        fmla: '+- vc 0 dx2'
+        n: 'g9',
+        f: '+- vc 0 dx2'
       },
       {
-        name: 'g10',
-        fmla: '+- vc dx2 0'
+        n: 'g10',
+        f: '+- vc dx2 0'
       },
       {
-        name: 'g11',
-        fmla: '+- hc 0 dx2'
+        n: 'g11',
+        f: '+- hc 0 dx2'
       },
       {
-        name: 'g12',
-        fmla: '+- hc dx2 0'
+        n: 'g12',
+        f: '+- hc dx2 0'
       },
       {
-        name: 'g13',
-        fmla: '*/ ss 3 4'
+        n: 'g13',
+        f: '*/ ss 3 4'
       },
       {
-        name: 'g14',
-        fmla: '*/ g13 3 4'
+        n: 'g14',
+        f: '*/ g13 3 4'
       },
       {
-        name: 'g15',
-        fmla: '*/ g13 7 8'
+        n: 'g15',
+        f: '*/ g13 7 8'
       },
       {
-        name: 'g16',
-        fmla: '+- g11 g14 0'
+        n: 'g16',
+        f: '+- g11 g14 0'
       },
       {
-        name: 'g17',
-        fmla: '+- g11 g15 0'
+        n: 'g17',
+        f: '+- g11 g15 0'
       }
     ],
     pathLst: [
@@ -2006,24 +2006,24 @@ export const presetShape: Record<string, Shape> = {
   actionButtonForwardNext: {
     gdLst: [
       {
-        name: 'dx2',
-        fmla: '*/ ss 3 8'
+        n: 'dx2',
+        f: '*/ ss 3 8'
       },
       {
-        name: 'g9',
-        fmla: '+- vc 0 dx2'
+        n: 'g9',
+        f: '+- vc 0 dx2'
       },
       {
-        name: 'g10',
-        fmla: '+- vc dx2 0'
+        n: 'g10',
+        f: '+- vc dx2 0'
       },
       {
-        name: 'g11',
-        fmla: '+- hc 0 dx2'
+        n: 'g11',
+        f: '+- hc 0 dx2'
       },
       {
-        name: 'g12',
-        fmla: '+- hc dx2 0'
+        n: 'g12',
+        f: '+- hc dx2 0'
       }
     ],
     pathLst: [
@@ -2193,88 +2193,88 @@ export const presetShape: Record<string, Shape> = {
   actionButtonHelp: {
     gdLst: [
       {
-        name: 'dx2',
-        fmla: '*/ ss 3 8'
+        n: 'dx2',
+        f: '*/ ss 3 8'
       },
       {
-        name: 'g9',
-        fmla: '+- vc 0 dx2'
+        n: 'g9',
+        f: '+- vc 0 dx2'
       },
       {
-        name: 'g11',
-        fmla: '+- hc 0 dx2'
+        n: 'g11',
+        f: '+- hc 0 dx2'
       },
       {
-        name: 'g13',
-        fmla: '*/ ss 3 4'
+        n: 'g13',
+        f: '*/ ss 3 4'
       },
       {
-        name: 'g14',
-        fmla: '*/ g13 1 7'
+        n: 'g14',
+        f: '*/ g13 1 7'
       },
       {
-        name: 'g15',
-        fmla: '*/ g13 3 14'
+        n: 'g15',
+        f: '*/ g13 3 14'
       },
       {
-        name: 'g16',
-        fmla: '*/ g13 2 7'
+        n: 'g16',
+        f: '*/ g13 2 7'
       },
       {
-        name: 'g19',
-        fmla: '*/ g13 3 7'
+        n: 'g19',
+        f: '*/ g13 3 7'
       },
       {
-        name: 'g20',
-        fmla: '*/ g13 4 7'
+        n: 'g20',
+        f: '*/ g13 4 7'
       },
       {
-        name: 'g21',
-        fmla: '*/ g13 17 28'
+        n: 'g21',
+        f: '*/ g13 17 28'
       },
       {
-        name: 'g23',
-        fmla: '*/ g13 21 28'
+        n: 'g23',
+        f: '*/ g13 21 28'
       },
       {
-        name: 'g24',
-        fmla: '*/ g13 11 14'
+        n: 'g24',
+        f: '*/ g13 11 14'
       },
       {
-        name: 'g27',
-        fmla: '+- g9 g16 0'
+        n: 'g27',
+        f: '+- g9 g16 0'
       },
       {
-        name: 'g29',
-        fmla: '+- g9 g21 0'
+        n: 'g29',
+        f: '+- g9 g21 0'
       },
       {
-        name: 'g30',
-        fmla: '+- g9 g23 0'
+        n: 'g30',
+        f: '+- g9 g23 0'
       },
       {
-        name: 'g31',
-        fmla: '+- g9 g24 0'
+        n: 'g31',
+        f: '+- g9 g24 0'
       },
       {
-        name: 'g33',
-        fmla: '+- g11 g15 0'
+        n: 'g33',
+        f: '+- g11 g15 0'
       },
       {
-        name: 'g36',
-        fmla: '+- g11 g19 0'
+        n: 'g36',
+        f: '+- g11 g19 0'
       },
       {
-        name: 'g37',
-        fmla: '+- g11 g20 0'
+        n: 'g37',
+        f: '+- g11 g20 0'
       },
       {
-        name: 'g41',
-        fmla: '*/ g13 1 14'
+        n: 'g41',
+        f: '*/ g13 1 14'
       },
       {
-        name: 'g42',
-        fmla: '*/ g13 3 28'
+        n: 'g42',
+        f: '*/ g13 3 28'
       }
     ],
     pathLst: [
@@ -2642,108 +2642,108 @@ export const presetShape: Record<string, Shape> = {
   actionButtonHome: {
     gdLst: [
       {
-        name: 'dx2',
-        fmla: '*/ ss 3 8'
+        n: 'dx2',
+        f: '*/ ss 3 8'
       },
       {
-        name: 'g9',
-        fmla: '+- vc 0 dx2'
+        n: 'g9',
+        f: '+- vc 0 dx2'
       },
       {
-        name: 'g10',
-        fmla: '+- vc dx2 0'
+        n: 'g10',
+        f: '+- vc dx2 0'
       },
       {
-        name: 'g11',
-        fmla: '+- hc 0 dx2'
+        n: 'g11',
+        f: '+- hc 0 dx2'
       },
       {
-        name: 'g12',
-        fmla: '+- hc dx2 0'
+        n: 'g12',
+        f: '+- hc dx2 0'
       },
       {
-        name: 'g13',
-        fmla: '*/ ss 3 4'
+        n: 'g13',
+        f: '*/ ss 3 4'
       },
       {
-        name: 'g14',
-        fmla: '*/ g13 1 16'
+        n: 'g14',
+        f: '*/ g13 1 16'
       },
       {
-        name: 'g15',
-        fmla: '*/ g13 1 8'
+        n: 'g15',
+        f: '*/ g13 1 8'
       },
       {
-        name: 'g16',
-        fmla: '*/ g13 3 16'
+        n: 'g16',
+        f: '*/ g13 3 16'
       },
       {
-        name: 'g17',
-        fmla: '*/ g13 5 16'
+        n: 'g17',
+        f: '*/ g13 5 16'
       },
       {
-        name: 'g18',
-        fmla: '*/ g13 7 16'
+        n: 'g18',
+        f: '*/ g13 7 16'
       },
       {
-        name: 'g19',
-        fmla: '*/ g13 9 16'
+        n: 'g19',
+        f: '*/ g13 9 16'
       },
       {
-        name: 'g20',
-        fmla: '*/ g13 11 16'
+        n: 'g20',
+        f: '*/ g13 11 16'
       },
       {
-        name: 'g21',
-        fmla: '*/ g13 3 4'
+        n: 'g21',
+        f: '*/ g13 3 4'
       },
       {
-        name: 'g22',
-        fmla: '*/ g13 13 16'
+        n: 'g22',
+        f: '*/ g13 13 16'
       },
       {
-        name: 'g23',
-        fmla: '*/ g13 7 8'
+        n: 'g23',
+        f: '*/ g13 7 8'
       },
       {
-        name: 'g24',
-        fmla: '+- g9 g14 0'
+        n: 'g24',
+        f: '+- g9 g14 0'
       },
       {
-        name: 'g25',
-        fmla: '+- g9 g16 0'
+        n: 'g25',
+        f: '+- g9 g16 0'
       },
       {
-        name: 'g26',
-        fmla: '+- g9 g17 0'
+        n: 'g26',
+        f: '+- g9 g17 0'
       },
       {
-        name: 'g27',
-        fmla: '+- g9 g21 0'
+        n: 'g27',
+        f: '+- g9 g21 0'
       },
       {
-        name: 'g28',
-        fmla: '+- g11 g15 0'
+        n: 'g28',
+        f: '+- g11 g15 0'
       },
       {
-        name: 'g29',
-        fmla: '+- g11 g18 0'
+        n: 'g29',
+        f: '+- g11 g18 0'
       },
       {
-        name: 'g30',
-        fmla: '+- g11 g19 0'
+        n: 'g30',
+        f: '+- g11 g19 0'
       },
       {
-        name: 'g31',
-        fmla: '+- g11 g20 0'
+        n: 'g31',
+        f: '+- g11 g20 0'
       },
       {
-        name: 'g32',
-        fmla: '+- g11 g22 0'
+        n: 'g32',
+        f: '+- g11 g22 0'
       },
       {
-        name: 'g33',
-        fmla: '+- g11 g23 0'
+        n: 'g33',
+        f: '+- g11 g23 0'
       }
     ],
     pathLst: [
@@ -3209,92 +3209,92 @@ export const presetShape: Record<string, Shape> = {
   actionButtonInformation: {
     gdLst: [
       {
-        name: 'dx2',
-        fmla: '*/ ss 3 8'
+        n: 'dx2',
+        f: '*/ ss 3 8'
       },
       {
-        name: 'g9',
-        fmla: '+- vc 0 dx2'
+        n: 'g9',
+        f: '+- vc 0 dx2'
       },
       {
-        name: 'g11',
-        fmla: '+- hc 0 dx2'
+        n: 'g11',
+        f: '+- hc 0 dx2'
       },
       {
-        name: 'g13',
-        fmla: '*/ ss 3 4'
+        n: 'g13',
+        f: '*/ ss 3 4'
       },
       {
-        name: 'g14',
-        fmla: '*/ g13 1 32'
+        n: 'g14',
+        f: '*/ g13 1 32'
       },
       {
-        name: 'g17',
-        fmla: '*/ g13 5 16'
+        n: 'g17',
+        f: '*/ g13 5 16'
       },
       {
-        name: 'g18',
-        fmla: '*/ g13 3 8'
+        n: 'g18',
+        f: '*/ g13 3 8'
       },
       {
-        name: 'g19',
-        fmla: '*/ g13 13 32'
+        n: 'g19',
+        f: '*/ g13 13 32'
       },
       {
-        name: 'g20',
-        fmla: '*/ g13 19 32'
+        n: 'g20',
+        f: '*/ g13 19 32'
       },
       {
-        name: 'g22',
-        fmla: '*/ g13 11 16'
+        n: 'g22',
+        f: '*/ g13 11 16'
       },
       {
-        name: 'g23',
-        fmla: '*/ g13 13 16'
+        n: 'g23',
+        f: '*/ g13 13 16'
       },
       {
-        name: 'g24',
-        fmla: '*/ g13 7 8'
+        n: 'g24',
+        f: '*/ g13 7 8'
       },
       {
-        name: 'g25',
-        fmla: '+- g9 g14 0'
+        n: 'g25',
+        f: '+- g9 g14 0'
       },
       {
-        name: 'g28',
-        fmla: '+- g9 g17 0'
+        n: 'g28',
+        f: '+- g9 g17 0'
       },
       {
-        name: 'g29',
-        fmla: '+- g9 g18 0'
+        n: 'g29',
+        f: '+- g9 g18 0'
       },
       {
-        name: 'g30',
-        fmla: '+- g9 g23 0'
+        n: 'g30',
+        f: '+- g9 g23 0'
       },
       {
-        name: 'g31',
-        fmla: '+- g9 g24 0'
+        n: 'g31',
+        f: '+- g9 g24 0'
       },
       {
-        name: 'g32',
-        fmla: '+- g11 g17 0'
+        n: 'g32',
+        f: '+- g11 g17 0'
       },
       {
-        name: 'g34',
-        fmla: '+- g11 g19 0'
+        n: 'g34',
+        f: '+- g11 g19 0'
       },
       {
-        name: 'g35',
-        fmla: '+- g11 g20 0'
+        n: 'g35',
+        f: '+- g11 g20 0'
       },
       {
-        name: 'g37',
-        fmla: '+- g11 g22 0'
+        n: 'g37',
+        f: '+- g11 g22 0'
       },
       {
-        name: 'g38',
-        fmla: '*/ g13 3 32'
+        n: 'g38',
+        f: '*/ g13 3 32'
       }
     ],
     pathLst: [
@@ -3711,168 +3711,168 @@ export const presetShape: Record<string, Shape> = {
   actionButtonMovie: {
     gdLst: [
       {
-        name: 'dx2',
-        fmla: '*/ ss 3 8'
+        n: 'dx2',
+        f: '*/ ss 3 8'
       },
       {
-        name: 'g9',
-        fmla: '+- vc 0 dx2'
+        n: 'g9',
+        f: '+- vc 0 dx2'
       },
       {
-        name: 'g10',
-        fmla: '+- vc dx2 0'
+        n: 'g10',
+        f: '+- vc dx2 0'
       },
       {
-        name: 'g11',
-        fmla: '+- hc 0 dx2'
+        n: 'g11',
+        f: '+- hc 0 dx2'
       },
       {
-        name: 'g12',
-        fmla: '+- hc dx2 0'
+        n: 'g12',
+        f: '+- hc dx2 0'
       },
       {
-        name: 'g13',
-        fmla: '*/ ss 3 4'
+        n: 'g13',
+        f: '*/ ss 3 4'
       },
       {
-        name: 'g14',
-        fmla: '*/ g13 1455 21600'
+        n: 'g14',
+        f: '*/ g13 1455 21600'
       },
       {
-        name: 'g15',
-        fmla: '*/ g13 1905 21600'
+        n: 'g15',
+        f: '*/ g13 1905 21600'
       },
       {
-        name: 'g16',
-        fmla: '*/ g13 2325 21600'
+        n: 'g16',
+        f: '*/ g13 2325 21600'
       },
       {
-        name: 'g17',
-        fmla: '*/ g13 16155 21600'
+        n: 'g17',
+        f: '*/ g13 16155 21600'
       },
       {
-        name: 'g18',
-        fmla: '*/ g13 17010 21600'
+        n: 'g18',
+        f: '*/ g13 17010 21600'
       },
       {
-        name: 'g19',
-        fmla: '*/ g13 19335 21600'
+        n: 'g19',
+        f: '*/ g13 19335 21600'
       },
       {
-        name: 'g20',
-        fmla: '*/ g13 19725 21600'
+        n: 'g20',
+        f: '*/ g13 19725 21600'
       },
       {
-        name: 'g21',
-        fmla: '*/ g13 20595 21600'
+        n: 'g21',
+        f: '*/ g13 20595 21600'
       },
       {
-        name: 'g22',
-        fmla: '*/ g13 5280 21600'
+        n: 'g22',
+        f: '*/ g13 5280 21600'
       },
       {
-        name: 'g23',
-        fmla: '*/ g13 5730 21600'
+        n: 'g23',
+        f: '*/ g13 5730 21600'
       },
       {
-        name: 'g24',
-        fmla: '*/ g13 6630 21600'
+        n: 'g24',
+        f: '*/ g13 6630 21600'
       },
       {
-        name: 'g25',
-        fmla: '*/ g13 7492 21600'
+        n: 'g25',
+        f: '*/ g13 7492 21600'
       },
       {
-        name: 'g26',
-        fmla: '*/ g13 9067 21600'
+        n: 'g26',
+        f: '*/ g13 9067 21600'
       },
       {
-        name: 'g27',
-        fmla: '*/ g13 9555 21600'
+        n: 'g27',
+        f: '*/ g13 9555 21600'
       },
       {
-        name: 'g28',
-        fmla: '*/ g13 13342 21600'
+        n: 'g28',
+        f: '*/ g13 13342 21600'
       },
       {
-        name: 'g29',
-        fmla: '*/ g13 14580 21600'
+        n: 'g29',
+        f: '*/ g13 14580 21600'
       },
       {
-        name: 'g30',
-        fmla: '*/ g13 15592 21600'
+        n: 'g30',
+        f: '*/ g13 15592 21600'
       },
       {
-        name: 'g31',
-        fmla: '+- g11 g14 0'
+        n: 'g31',
+        f: '+- g11 g14 0'
       },
       {
-        name: 'g32',
-        fmla: '+- g11 g15 0'
+        n: 'g32',
+        f: '+- g11 g15 0'
       },
       {
-        name: 'g33',
-        fmla: '+- g11 g16 0'
+        n: 'g33',
+        f: '+- g11 g16 0'
       },
       {
-        name: 'g34',
-        fmla: '+- g11 g17 0'
+        n: 'g34',
+        f: '+- g11 g17 0'
       },
       {
-        name: 'g35',
-        fmla: '+- g11 g18 0'
+        n: 'g35',
+        f: '+- g11 g18 0'
       },
       {
-        name: 'g36',
-        fmla: '+- g11 g19 0'
+        n: 'g36',
+        f: '+- g11 g19 0'
       },
       {
-        name: 'g37',
-        fmla: '+- g11 g20 0'
+        n: 'g37',
+        f: '+- g11 g20 0'
       },
       {
-        name: 'g38',
-        fmla: '+- g11 g21 0'
+        n: 'g38',
+        f: '+- g11 g21 0'
       },
       {
-        name: 'g39',
-        fmla: '+- g9 g22 0'
+        n: 'g39',
+        f: '+- g9 g22 0'
       },
       {
-        name: 'g40',
-        fmla: '+- g9 g23 0'
+        n: 'g40',
+        f: '+- g9 g23 0'
       },
       {
-        name: 'g41',
-        fmla: '+- g9 g24 0'
+        n: 'g41',
+        f: '+- g9 g24 0'
       },
       {
-        name: 'g42',
-        fmla: '+- g9 g25 0'
+        n: 'g42',
+        f: '+- g9 g25 0'
       },
       {
-        name: 'g43',
-        fmla: '+- g9 g26 0'
+        n: 'g43',
+        f: '+- g9 g26 0'
       },
       {
-        name: 'g44',
-        fmla: '+- g9 g27 0'
+        n: 'g44',
+        f: '+- g9 g27 0'
       },
       {
-        name: 'g45',
-        fmla: '+- g9 g28 0'
+        n: 'g45',
+        f: '+- g9 g28 0'
       },
       {
-        name: 'g46',
-        fmla: '+- g9 g29 0'
+        n: 'g46',
+        f: '+- g9 g29 0'
       },
       {
-        name: 'g47',
-        fmla: '+- g9 g30 0'
+        n: 'g47',
+        f: '+- g9 g30 0'
       },
       {
-        name: 'g48',
-        fmla: '+- g9 g31 0'
+        n: 'g48',
+        f: '+- g9 g31 0'
       }
     ],
     pathLst: [
@@ -4378,84 +4378,84 @@ export const presetShape: Record<string, Shape> = {
   actionButtonReturn: {
     gdLst: [
       {
-        name: 'dx2',
-        fmla: '*/ ss 3 8'
+        n: 'dx2',
+        f: '*/ ss 3 8'
       },
       {
-        name: 'g9',
-        fmla: '+- vc 0 dx2'
+        n: 'g9',
+        f: '+- vc 0 dx2'
       },
       {
-        name: 'g10',
-        fmla: '+- vc dx2 0'
+        n: 'g10',
+        f: '+- vc dx2 0'
       },
       {
-        name: 'g11',
-        fmla: '+- hc 0 dx2'
+        n: 'g11',
+        f: '+- hc 0 dx2'
       },
       {
-        name: 'g12',
-        fmla: '+- hc dx2 0'
+        n: 'g12',
+        f: '+- hc dx2 0'
       },
       {
-        name: 'g13',
-        fmla: '*/ ss 3 4'
+        n: 'g13',
+        f: '*/ ss 3 4'
       },
       {
-        name: 'g14',
-        fmla: '*/ g13 7 8'
+        n: 'g14',
+        f: '*/ g13 7 8'
       },
       {
-        name: 'g15',
-        fmla: '*/ g13 3 4'
+        n: 'g15',
+        f: '*/ g13 3 4'
       },
       {
-        name: 'g16',
-        fmla: '*/ g13 5 8'
+        n: 'g16',
+        f: '*/ g13 5 8'
       },
       {
-        name: 'g17',
-        fmla: '*/ g13 3 8'
+        n: 'g17',
+        f: '*/ g13 3 8'
       },
       {
-        name: 'g18',
-        fmla: '*/ g13 1 4'
+        n: 'g18',
+        f: '*/ g13 1 4'
       },
       {
-        name: 'g19',
-        fmla: '+- g9 g15 0'
+        n: 'g19',
+        f: '+- g9 g15 0'
       },
       {
-        name: 'g20',
-        fmla: '+- g9 g16 0'
+        n: 'g20',
+        f: '+- g9 g16 0'
       },
       {
-        name: 'g21',
-        fmla: '+- g9 g18 0'
+        n: 'g21',
+        f: '+- g9 g18 0'
       },
       {
-        name: 'g22',
-        fmla: '+- g11 g14 0'
+        n: 'g22',
+        f: '+- g11 g14 0'
       },
       {
-        name: 'g23',
-        fmla: '+- g11 g15 0'
+        n: 'g23',
+        f: '+- g11 g15 0'
       },
       {
-        name: 'g24',
-        fmla: '+- g11 g16 0'
+        n: 'g24',
+        f: '+- g11 g16 0'
       },
       {
-        name: 'g25',
-        fmla: '+- g11 g17 0'
+        n: 'g25',
+        f: '+- g11 g17 0'
       },
       {
-        name: 'g26',
-        fmla: '+- g11 g18 0'
+        n: 'g26',
+        f: '+- g11 g18 0'
       },
       {
-        name: 'g27',
-        fmla: '*/ g13 1 8'
+        n: 'g27',
+        f: '*/ g13 1 8'
       }
     ],
     pathLst: [
@@ -4877,80 +4877,80 @@ export const presetShape: Record<string, Shape> = {
   actionButtonSound: {
     gdLst: [
       {
-        name: 'dx2',
-        fmla: '*/ ss 3 8'
+        n: 'dx2',
+        f: '*/ ss 3 8'
       },
       {
-        name: 'g9',
-        fmla: '+- vc 0 dx2'
+        n: 'g9',
+        f: '+- vc 0 dx2'
       },
       {
-        name: 'g10',
-        fmla: '+- vc dx2 0'
+        n: 'g10',
+        f: '+- vc dx2 0'
       },
       {
-        name: 'g11',
-        fmla: '+- hc 0 dx2'
+        n: 'g11',
+        f: '+- hc 0 dx2'
       },
       {
-        name: 'g12',
-        fmla: '+- hc dx2 0'
+        n: 'g12',
+        f: '+- hc dx2 0'
       },
       {
-        name: 'g13',
-        fmla: '*/ ss 3 4'
+        n: 'g13',
+        f: '*/ ss 3 4'
       },
       {
-        name: 'g14',
-        fmla: '*/ g13 1 8'
+        n: 'g14',
+        f: '*/ g13 1 8'
       },
       {
-        name: 'g15',
-        fmla: '*/ g13 5 16'
+        n: 'g15',
+        f: '*/ g13 5 16'
       },
       {
-        name: 'g16',
-        fmla: '*/ g13 5 8'
+        n: 'g16',
+        f: '*/ g13 5 8'
       },
       {
-        name: 'g17',
-        fmla: '*/ g13 11 16'
+        n: 'g17',
+        f: '*/ g13 11 16'
       },
       {
-        name: 'g18',
-        fmla: '*/ g13 3 4'
+        n: 'g18',
+        f: '*/ g13 3 4'
       },
       {
-        name: 'g19',
-        fmla: '*/ g13 7 8'
+        n: 'g19',
+        f: '*/ g13 7 8'
       },
       {
-        name: 'g20',
-        fmla: '+- g9 g14 0'
+        n: 'g20',
+        f: '+- g9 g14 0'
       },
       {
-        name: 'g21',
-        fmla: '+- g9 g15 0'
+        n: 'g21',
+        f: '+- g9 g15 0'
       },
       {
-        name: 'g22',
-        fmla: '+- g9 g17 0'
+        n: 'g22',
+        f: '+- g9 g17 0'
       },
       {
-        name: 'g23',
-        fmla: '+- g9 g19 0'
+        n: 'g23',
+        f: '+- g9 g19 0'
       },
       {
-        name: 'g24',
-        fmla: '+- g11 g15 0'
+        n: 'g24',
+        f: '+- g11 g15 0'
       },
       {
-        name: 'g25',
-        fmla: '+- g11 g16 0'
+        n: 'g25',
+        f: '+- g11 g16 0'
       },
       {
-        name: 'g26',
-        fmla: '+- g11 g18 0'
+        n: 'g26',
+        f: '+- g11 g18 0'
       }
     ],
     pathLst: [
@@ -5225,182 +5225,182 @@ export const presetShape: Record<string, Shape> = {
   arc: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 16200000'
+        n: 'adj1',
+        f: 'val 16200000'
       },
       {
-        name: 'adj2',
-        fmla: 'val 0'
+        n: 'adj2',
+        f: 'val 0'
       }
     ],
     gdLst: [
       {
-        name: 'stAng',
-        fmla: 'pin 0 adj1 21599999'
+        n: 'stAng',
+        f: 'pin 0 adj1 21599999'
       },
       {
-        name: 'enAng',
-        fmla: 'pin 0 adj2 21599999'
+        n: 'enAng',
+        f: 'pin 0 adj2 21599999'
       },
       {
-        name: 'sw11',
-        fmla: '+- enAng 0 stAng'
+        n: 'sw11',
+        f: '+- enAng 0 stAng'
       },
       {
-        name: 'sw12',
-        fmla: '+- sw11 21600000 0'
+        n: 'sw12',
+        f: '+- sw11 21600000 0'
       },
       {
-        name: 'swAng',
-        fmla: '?: sw11 sw11 sw12'
+        n: 'swAng',
+        f: '?: sw11 sw11 sw12'
       },
       {
-        name: 'wt1',
-        fmla: 'sin wd2 stAng'
+        n: 'wt1',
+        f: 'sin wd2 stAng'
       },
       {
-        name: 'ht1',
-        fmla: 'cos hd2 stAng'
+        n: 'ht1',
+        f: 'cos hd2 stAng'
       },
       {
-        name: 'dx1',
-        fmla: 'cat2 wd2 ht1 wt1'
+        n: 'dx1',
+        f: 'cat2 wd2 ht1 wt1'
       },
       {
-        name: 'dy1',
-        fmla: 'sat2 hd2 ht1 wt1'
+        n: 'dy1',
+        f: 'sat2 hd2 ht1 wt1'
       },
       {
-        name: 'wt2',
-        fmla: 'sin wd2 enAng'
+        n: 'wt2',
+        f: 'sin wd2 enAng'
       },
       {
-        name: 'ht2',
-        fmla: 'cos hd2 enAng'
+        n: 'ht2',
+        f: 'cos hd2 enAng'
       },
       {
-        name: 'dx2',
-        fmla: 'cat2 wd2 ht2 wt2'
+        n: 'dx2',
+        f: 'cat2 wd2 ht2 wt2'
       },
       {
-        name: 'dy2',
-        fmla: 'sat2 hd2 ht2 wt2'
+        n: 'dy2',
+        f: 'sat2 hd2 ht2 wt2'
       },
       {
-        name: 'x1',
-        fmla: '+- hc dx1 0'
+        n: 'x1',
+        f: '+- hc dx1 0'
       },
       {
-        name: 'y1',
-        fmla: '+- vc dy1 0'
+        n: 'y1',
+        f: '+- vc dy1 0'
       },
       {
-        name: 'x2',
-        fmla: '+- hc dx2 0'
+        n: 'x2',
+        f: '+- hc dx2 0'
       },
       {
-        name: 'y2',
-        fmla: '+- vc dy2 0'
+        n: 'y2',
+        f: '+- vc dy2 0'
       },
       {
-        name: 'sw0',
-        fmla: '+- 21600000 0 stAng'
+        n: 'sw0',
+        f: '+- 21600000 0 stAng'
       },
       {
-        name: 'da1',
-        fmla: '+- swAng 0 sw0'
+        n: 'da1',
+        f: '+- swAng 0 sw0'
       },
       {
-        name: 'g1',
-        fmla: 'max x1 x2'
+        n: 'g1',
+        f: 'max x1 x2'
       },
       {
-        name: 'ir',
-        fmla: '?: da1 r g1'
+        n: 'ir',
+        f: '?: da1 r g1'
       },
       {
-        name: 'sw1',
-        fmla: '+- cd4 0 stAng'
+        n: 'sw1',
+        f: '+- cd4 0 stAng'
       },
       {
-        name: 'sw2',
-        fmla: '+- 27000000 0 stAng'
+        n: 'sw2',
+        f: '+- 27000000 0 stAng'
       },
       {
-        name: 'sw3',
-        fmla: '?: sw1 sw1 sw2'
+        n: 'sw3',
+        f: '?: sw1 sw1 sw2'
       },
       {
-        name: 'da2',
-        fmla: '+- swAng 0 sw3'
+        n: 'da2',
+        f: '+- swAng 0 sw3'
       },
       {
-        name: 'g5',
-        fmla: 'max y1 y2'
+        n: 'g5',
+        f: 'max y1 y2'
       },
       {
-        name: 'ib',
-        fmla: '?: da2 b g5'
+        n: 'ib',
+        f: '?: da2 b g5'
       },
       {
-        name: 'sw4',
-        fmla: '+- cd2 0 stAng'
+        n: 'sw4',
+        f: '+- cd2 0 stAng'
       },
       {
-        name: 'sw5',
-        fmla: '+- 32400000 0 stAng'
+        n: 'sw5',
+        f: '+- 32400000 0 stAng'
       },
       {
-        name: 'sw6',
-        fmla: '?: sw4 sw4 sw5'
+        n: 'sw6',
+        f: '?: sw4 sw4 sw5'
       },
       {
-        name: 'da3',
-        fmla: '+- swAng 0 sw6'
+        n: 'da3',
+        f: '+- swAng 0 sw6'
       },
       {
-        name: 'g9',
-        fmla: 'min x1 x2'
+        n: 'g9',
+        f: 'min x1 x2'
       },
       {
-        name: 'il',
-        fmla: '?: da3 l g9'
+        n: 'il',
+        f: '?: da3 l g9'
       },
       {
-        name: 'sw7',
-        fmla: '+- 3cd4 0 stAng'
+        n: 'sw7',
+        f: '+- 3cd4 0 stAng'
       },
       {
-        name: 'sw8',
-        fmla: '+- 37800000 0 stAng'
+        n: 'sw8',
+        f: '+- 37800000 0 stAng'
       },
       {
-        name: 'sw9',
-        fmla: '?: sw7 sw7 sw8'
+        n: 'sw9',
+        f: '?: sw7 sw7 sw8'
       },
       {
-        name: 'da4',
-        fmla: '+- swAng 0 sw9'
+        n: 'da4',
+        f: '+- swAng 0 sw9'
       },
       {
-        name: 'g13',
-        fmla: 'min y1 y2'
+        n: 'g13',
+        f: 'min y1 y2'
       },
       {
-        name: 'it',
-        fmla: '?: da4 t g13'
+        n: 'it',
+        f: '?: da4 t g13'
       },
       {
-        name: 'cang1',
-        fmla: '+- stAng 0 cd4'
+        n: 'cang1',
+        f: '+- stAng 0 cd4'
       },
       {
-        name: 'cang2',
-        fmla: '+- enAng cd4 0'
+        n: 'cang2',
+        f: '+- enAng cd4 0'
       },
       {
-        name: 'cang3',
-        fmla: '+/ cang1 cang2 2'
+        n: 'cang3',
+        f: '+/ cang1 cang2 2'
       }
     ],
     pathLst: [
@@ -5460,114 +5460,114 @@ export const presetShape: Record<string, Shape> = {
   bentArrow: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 25000'
+        n: 'adj1',
+        f: 'val 25000'
       },
       {
-        name: 'adj2',
-        fmla: 'val 25000'
+        n: 'adj2',
+        f: 'val 25000'
       },
       {
-        name: 'adj3',
-        fmla: 'val 25000'
+        n: 'adj3',
+        f: 'val 25000'
       },
       {
-        name: 'adj4',
-        fmla: 'val 43750'
+        n: 'adj4',
+        f: 'val 43750'
       }
     ],
     gdLst: [
       {
-        name: 'a2',
-        fmla: 'pin 0 adj2 50000'
+        n: 'a2',
+        f: 'pin 0 adj2 50000'
       },
       {
-        name: 'maxAdj1',
-        fmla: '*/ a2 2 1'
+        n: 'maxAdj1',
+        f: '*/ a2 2 1'
       },
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 maxAdj1'
+        n: 'a1',
+        f: 'pin 0 adj1 maxAdj1'
       },
       {
-        name: 'a3',
-        fmla: 'pin 0 adj3 50000'
+        n: 'a3',
+        f: 'pin 0 adj3 50000'
       },
       {
-        name: 'th',
-        fmla: '*/ ss a1 100000'
+        n: 'th',
+        f: '*/ ss a1 100000'
       },
       {
-        name: 'aw2',
-        fmla: '*/ ss a2 100000'
+        n: 'aw2',
+        f: '*/ ss a2 100000'
       },
       {
-        name: 'th2',
-        fmla: '*/ th 1 2'
+        n: 'th2',
+        f: '*/ th 1 2'
       },
       {
-        name: 'dh2',
-        fmla: '+- aw2 0 th2'
+        n: 'dh2',
+        f: '+- aw2 0 th2'
       },
       {
-        name: 'ah',
-        fmla: '*/ ss a3 100000'
+        n: 'ah',
+        f: '*/ ss a3 100000'
       },
       {
-        name: 'bw',
-        fmla: '+- r 0 ah'
+        n: 'bw',
+        f: '+- r 0 ah'
       },
       {
-        name: 'bh',
-        fmla: '+- b 0 dh2'
+        n: 'bh',
+        f: '+- b 0 dh2'
       },
       {
-        name: 'bs',
-        fmla: 'min bw bh'
+        n: 'bs',
+        f: 'min bw bh'
       },
       {
-        name: 'maxAdj4',
-        fmla: '*/ 100000 bs ss'
+        n: 'maxAdj4',
+        f: '*/ 100000 bs ss'
       },
       {
-        name: 'a4',
-        fmla: 'pin 0 adj4 maxAdj4'
+        n: 'a4',
+        f: 'pin 0 adj4 maxAdj4'
       },
       {
-        name: 'bd',
-        fmla: '*/ ss a4 100000'
+        n: 'bd',
+        f: '*/ ss a4 100000'
       },
       {
-        name: 'bd3',
-        fmla: '+- bd 0 th'
+        n: 'bd3',
+        f: '+- bd 0 th'
       },
       {
-        name: 'bd2',
-        fmla: 'max bd3 0'
+        n: 'bd2',
+        f: 'max bd3 0'
       },
       {
-        name: 'x3',
-        fmla: '+- th bd2 0'
+        n: 'x3',
+        f: '+- th bd2 0'
       },
       {
-        name: 'x4',
-        fmla: '+- r 0 ah'
+        n: 'x4',
+        f: '+- r 0 ah'
       },
       {
-        name: 'y3',
-        fmla: '+- dh2 th 0'
+        n: 'y3',
+        f: '+- dh2 th 0'
       },
       {
-        name: 'y4',
-        fmla: '+- y3 dh2 0'
+        n: 'y4',
+        f: '+- y3 dh2 0'
       },
       {
-        name: 'y5',
-        fmla: '+- dh2 bd 0'
+        n: 'y5',
+        f: '+- dh2 bd 0'
       },
       {
-        name: 'y6',
-        fmla: '+- y3 bd2 0'
+        n: 'y6',
+        f: '+- y3 bd2 0'
       }
     ],
     pathLst: [
@@ -5694,14 +5694,14 @@ export const presetShape: Record<string, Shape> = {
   bentConnector3: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 50000'
+        n: 'adj1',
+        f: 'val 50000'
       }
     ],
     gdLst: [
       {
-        name: 'x1',
-        fmla: '*/ w adj1 100000'
+        n: 'x1',
+        f: '*/ w adj1 100000'
       }
     ],
     pathLst: [
@@ -5745,30 +5745,30 @@ export const presetShape: Record<string, Shape> = {
   bentConnector4: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 50000'
+        n: 'adj1',
+        f: 'val 50000'
       },
       {
-        name: 'adj2',
-        fmla: 'val 50000'
+        n: 'adj2',
+        f: 'val 50000'
       }
     ],
     gdLst: [
       {
-        name: 'x1',
-        fmla: '*/ w adj1 100000'
+        n: 'x1',
+        f: '*/ w adj1 100000'
       },
       {
-        name: 'x2',
-        fmla: '+/ x1 r 2'
+        n: 'x2',
+        f: '+/ x1 r 2'
       },
       {
-        name: 'y2',
-        fmla: '*/ h adj2 100000'
+        n: 'y2',
+        f: '*/ h adj2 100000'
       },
       {
-        name: 'y1',
-        fmla: '+/ t y2 2'
+        n: 'y1',
+        f: '+/ t y2 2'
       }
     ],
     pathLst: [
@@ -5819,42 +5819,42 @@ export const presetShape: Record<string, Shape> = {
   bentConnector5: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 50000'
+        n: 'adj1',
+        f: 'val 50000'
       },
       {
-        name: 'adj2',
-        fmla: 'val 50000'
+        n: 'adj2',
+        f: 'val 50000'
       },
       {
-        name: 'adj3',
-        fmla: 'val 50000'
+        n: 'adj3',
+        f: 'val 50000'
       }
     ],
     gdLst: [
       {
-        name: 'x1',
-        fmla: '*/ w adj1 100000'
+        n: 'x1',
+        f: '*/ w adj1 100000'
       },
       {
-        name: 'x3',
-        fmla: '*/ w adj3 100000'
+        n: 'x3',
+        f: '*/ w adj3 100000'
       },
       {
-        name: 'x2',
-        fmla: '+/ x1 x3 2'
+        n: 'x2',
+        f: '+/ x1 x3 2'
       },
       {
-        name: 'y2',
-        fmla: '*/ h adj2 100000'
+        n: 'y2',
+        f: '*/ h adj2 100000'
       },
       {
-        name: 'y1',
-        fmla: '+/ t y2 2'
+        n: 'y1',
+        f: '+/ t y2 2'
       },
       {
-        name: 'y3',
-        fmla: '+/ b y2 2'
+        n: 'y3',
+        f: '+/ b y2 2'
       }
     ],
     pathLst: [
@@ -5912,82 +5912,82 @@ export const presetShape: Record<string, Shape> = {
   bentUpArrow: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 25000'
+        n: 'adj1',
+        f: 'val 25000'
       },
       {
-        name: 'adj2',
-        fmla: 'val 25000'
+        n: 'adj2',
+        f: 'val 25000'
       },
       {
-        name: 'adj3',
-        fmla: 'val 25000'
+        n: 'adj3',
+        f: 'val 25000'
       }
     ],
     gdLst: [
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 50000'
+        n: 'a1',
+        f: 'pin 0 adj1 50000'
       },
       {
-        name: 'a2',
-        fmla: 'pin 0 adj2 50000'
+        n: 'a2',
+        f: 'pin 0 adj2 50000'
       },
       {
-        name: 'a3',
-        fmla: 'pin 0 adj3 50000'
+        n: 'a3',
+        f: 'pin 0 adj3 50000'
       },
       {
-        name: 'y1',
-        fmla: '*/ ss a3 100000'
+        n: 'y1',
+        f: '*/ ss a3 100000'
       },
       {
-        name: 'dx1',
-        fmla: '*/ ss a2 50000'
+        n: 'dx1',
+        f: '*/ ss a2 50000'
       },
       {
-        name: 'x1',
-        fmla: '+- r 0 dx1'
+        n: 'x1',
+        f: '+- r 0 dx1'
       },
       {
-        name: 'dx3',
-        fmla: '*/ ss a2 100000'
+        n: 'dx3',
+        f: '*/ ss a2 100000'
       },
       {
-        name: 'x3',
-        fmla: '+- r 0 dx3'
+        n: 'x3',
+        f: '+- r 0 dx3'
       },
       {
-        name: 'dx2',
-        fmla: '*/ ss a1 200000'
+        n: 'dx2',
+        f: '*/ ss a1 200000'
       },
       {
-        name: 'x2',
-        fmla: '+- x3 0 dx2'
+        n: 'x2',
+        f: '+- x3 0 dx2'
       },
       {
-        name: 'x4',
-        fmla: '+- x3 dx2 0'
+        n: 'x4',
+        f: '+- x3 dx2 0'
       },
       {
-        name: 'dy2',
-        fmla: '*/ ss a1 100000'
+        n: 'dy2',
+        f: '*/ ss a1 100000'
       },
       {
-        name: 'y2',
-        fmla: '+- b 0 dy2'
+        n: 'y2',
+        f: '+- b 0 dy2'
       },
       {
-        name: 'x0',
-        fmla: '*/ x4 1 2'
+        n: 'x0',
+        f: '*/ x4 1 2'
       },
       {
-        name: 'y3',
-        fmla: '+/ y2 b 2'
+        n: 'y3',
+        f: '+/ y2 b 2'
       },
       {
-        name: 'y15',
-        fmla: '+/ y1 b 2'
+        n: 'y15',
+        f: '+/ y1 b 2'
       }
     ],
     pathLst: [
@@ -6068,26 +6068,26 @@ export const presetShape: Record<string, Shape> = {
   bevel: {
     avLst: [
       {
-        name: 'adj',
-        fmla: 'val 12500'
+        n: 'adj',
+        f: 'val 12500'
       }
     ],
     gdLst: [
       {
-        name: 'a',
-        fmla: 'pin 0 adj 50000'
+        n: 'a',
+        f: 'pin 0 adj 50000'
       },
       {
-        name: 'x1',
-        fmla: '*/ ss a 100000'
+        n: 'x1',
+        f: '*/ ss a 100000'
       },
       {
-        name: 'x2',
-        fmla: '+- r 0 x1'
+        n: 'x2',
+        f: '+- r 0 x1'
       },
       {
-        name: 'y2',
-        fmla: '+- b 0 x1'
+        n: 'y2',
+        f: '+- b 0 x1'
       }
     ],
     pathLst: [
@@ -6410,302 +6410,302 @@ export const presetShape: Record<string, Shape> = {
   blockArc: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 10800000'
+        n: 'adj1',
+        f: 'val 10800000'
       },
       {
-        name: 'adj2',
-        fmla: 'val 0'
+        n: 'adj2',
+        f: 'val 0'
       },
       {
-        name: 'adj3',
-        fmla: 'val 25000'
+        n: 'adj3',
+        f: 'val 25000'
       }
     ],
     gdLst: [
       {
-        name: 'stAng',
-        fmla: 'pin 0 adj1 21599999'
+        n: 'stAng',
+        f: 'pin 0 adj1 21599999'
       },
       {
-        name: 'istAng',
-        fmla: 'pin 0 adj2 21599999'
+        n: 'istAng',
+        f: 'pin 0 adj2 21599999'
       },
       {
-        name: 'a3',
-        fmla: 'pin 0 adj3 50000'
+        n: 'a3',
+        f: 'pin 0 adj3 50000'
       },
       {
-        name: 'sw11',
-        fmla: '+- istAng 0 stAng'
+        n: 'sw11',
+        f: '+- istAng 0 stAng'
       },
       {
-        name: 'sw12',
-        fmla: '+- sw11 21600000 0'
+        n: 'sw12',
+        f: '+- sw11 21600000 0'
       },
       {
-        name: 'swAng',
-        fmla: '?: sw11 sw11 sw12'
+        n: 'swAng',
+        f: '?: sw11 sw11 sw12'
       },
       {
-        name: 'iswAng',
-        fmla: '+- 0 0 swAng'
+        n: 'iswAng',
+        f: '+- 0 0 swAng'
       },
       {
-        name: 'wt1',
-        fmla: 'sin wd2 stAng'
+        n: 'wt1',
+        f: 'sin wd2 stAng'
       },
       {
-        name: 'ht1',
-        fmla: 'cos hd2 stAng'
+        n: 'ht1',
+        f: 'cos hd2 stAng'
       },
       {
-        name: 'wt3',
-        fmla: 'sin wd2 istAng'
+        n: 'wt3',
+        f: 'sin wd2 istAng'
       },
       {
-        name: 'ht3',
-        fmla: 'cos hd2 istAng'
+        n: 'ht3',
+        f: 'cos hd2 istAng'
       },
       {
-        name: 'dx1',
-        fmla: 'cat2 wd2 ht1 wt1'
+        n: 'dx1',
+        f: 'cat2 wd2 ht1 wt1'
       },
       {
-        name: 'dy1',
-        fmla: 'sat2 hd2 ht1 wt1'
+        n: 'dy1',
+        f: 'sat2 hd2 ht1 wt1'
       },
       {
-        name: 'dx3',
-        fmla: 'cat2 wd2 ht3 wt3'
+        n: 'dx3',
+        f: 'cat2 wd2 ht3 wt3'
       },
       {
-        name: 'dy3',
-        fmla: 'sat2 hd2 ht3 wt3'
+        n: 'dy3',
+        f: 'sat2 hd2 ht3 wt3'
       },
       {
-        name: 'x1',
-        fmla: '+- hc dx1 0'
+        n: 'x1',
+        f: '+- hc dx1 0'
       },
       {
-        name: 'y1',
-        fmla: '+- vc dy1 0'
+        n: 'y1',
+        f: '+- vc dy1 0'
       },
       {
-        name: 'x3',
-        fmla: '+- hc dx3 0'
+        n: 'x3',
+        f: '+- hc dx3 0'
       },
       {
-        name: 'y3',
-        fmla: '+- vc dy3 0'
+        n: 'y3',
+        f: '+- vc dy3 0'
       },
       {
-        name: 'dr',
-        fmla: '*/ ss a3 100000'
+        n: 'dr',
+        f: '*/ ss a3 100000'
       },
       {
-        name: 'iwd2',
-        fmla: '+- wd2 0 dr'
+        n: 'iwd2',
+        f: '+- wd2 0 dr'
       },
       {
-        name: 'ihd2',
-        fmla: '+- hd2 0 dr'
+        n: 'ihd2',
+        f: '+- hd2 0 dr'
       },
       {
-        name: 'wt2',
-        fmla: 'sin iwd2 istAng'
+        n: 'wt2',
+        f: 'sin iwd2 istAng'
       },
       {
-        name: 'ht2',
-        fmla: 'cos ihd2 istAng'
+        n: 'ht2',
+        f: 'cos ihd2 istAng'
       },
       {
-        name: 'wt4',
-        fmla: 'sin iwd2 stAng'
+        n: 'wt4',
+        f: 'sin iwd2 stAng'
       },
       {
-        name: 'ht4',
-        fmla: 'cos ihd2 stAng'
+        n: 'ht4',
+        f: 'cos ihd2 stAng'
       },
       {
-        name: 'dx2',
-        fmla: 'cat2 iwd2 ht2 wt2'
+        n: 'dx2',
+        f: 'cat2 iwd2 ht2 wt2'
       },
       {
-        name: 'dy2',
-        fmla: 'sat2 ihd2 ht2 wt2'
+        n: 'dy2',
+        f: 'sat2 ihd2 ht2 wt2'
       },
       {
-        name: 'dx4',
-        fmla: 'cat2 iwd2 ht4 wt4'
+        n: 'dx4',
+        f: 'cat2 iwd2 ht4 wt4'
       },
       {
-        name: 'dy4',
-        fmla: 'sat2 ihd2 ht4 wt4'
+        n: 'dy4',
+        f: 'sat2 ihd2 ht4 wt4'
       },
       {
-        name: 'x2',
-        fmla: '+- hc dx2 0'
+        n: 'x2',
+        f: '+- hc dx2 0'
       },
       {
-        name: 'y2',
-        fmla: '+- vc dy2 0'
+        n: 'y2',
+        f: '+- vc dy2 0'
       },
       {
-        name: 'x4',
-        fmla: '+- hc dx4 0'
+        n: 'x4',
+        f: '+- hc dx4 0'
       },
       {
-        name: 'y4',
-        fmla: '+- vc dy4 0'
+        n: 'y4',
+        f: '+- vc dy4 0'
       },
       {
-        name: 'sw0',
-        fmla: '+- 21600000 0 stAng'
+        n: 'sw0',
+        f: '+- 21600000 0 stAng'
       },
       {
-        name: 'da1',
-        fmla: '+- swAng 0 sw0'
+        n: 'da1',
+        f: '+- swAng 0 sw0'
       },
       {
-        name: 'g1',
-        fmla: 'max x1 x2'
+        n: 'g1',
+        f: 'max x1 x2'
       },
       {
-        name: 'g2',
-        fmla: 'max x3 x4'
+        n: 'g2',
+        f: 'max x3 x4'
       },
       {
-        name: 'g3',
-        fmla: 'max g1 g2'
+        n: 'g3',
+        f: 'max g1 g2'
       },
       {
-        name: 'ir',
-        fmla: '?: da1 r g3'
+        n: 'ir',
+        f: '?: da1 r g3'
       },
       {
-        name: 'sw1',
-        fmla: '+- cd4 0 stAng'
+        n: 'sw1',
+        f: '+- cd4 0 stAng'
       },
       {
-        name: 'sw2',
-        fmla: '+- 27000000 0 stAng'
+        n: 'sw2',
+        f: '+- 27000000 0 stAng'
       },
       {
-        name: 'sw3',
-        fmla: '?: sw1 sw1 sw2'
+        n: 'sw3',
+        f: '?: sw1 sw1 sw2'
       },
       {
-        name: 'da2',
-        fmla: '+- swAng 0 sw3'
+        n: 'da2',
+        f: '+- swAng 0 sw3'
       },
       {
-        name: 'g5',
-        fmla: 'max y1 y2'
+        n: 'g5',
+        f: 'max y1 y2'
       },
       {
-        name: 'g6',
-        fmla: 'max y3 y4'
+        n: 'g6',
+        f: 'max y3 y4'
       },
       {
-        name: 'g7',
-        fmla: 'max g5 g6'
+        n: 'g7',
+        f: 'max g5 g6'
       },
       {
-        name: 'ib',
-        fmla: '?: da2 b g7'
+        n: 'ib',
+        f: '?: da2 b g7'
       },
       {
-        name: 'sw4',
-        fmla: '+- cd2 0 stAng'
+        n: 'sw4',
+        f: '+- cd2 0 stAng'
       },
       {
-        name: 'sw5',
-        fmla: '+- 32400000 0 stAng'
+        n: 'sw5',
+        f: '+- 32400000 0 stAng'
       },
       {
-        name: 'sw6',
-        fmla: '?: sw4 sw4 sw5'
+        n: 'sw6',
+        f: '?: sw4 sw4 sw5'
       },
       {
-        name: 'da3',
-        fmla: '+- swAng 0 sw6'
+        n: 'da3',
+        f: '+- swAng 0 sw6'
       },
       {
-        name: 'g9',
-        fmla: 'min x1 x2'
+        n: 'g9',
+        f: 'min x1 x2'
       },
       {
-        name: 'g10',
-        fmla: 'min x3 x4'
+        n: 'g10',
+        f: 'min x3 x4'
       },
       {
-        name: 'g11',
-        fmla: 'min g9 g10'
+        n: 'g11',
+        f: 'min g9 g10'
       },
       {
-        name: 'il',
-        fmla: '?: da3 l g11'
+        n: 'il',
+        f: '?: da3 l g11'
       },
       {
-        name: 'sw7',
-        fmla: '+- 3cd4 0 stAng'
+        n: 'sw7',
+        f: '+- 3cd4 0 stAng'
       },
       {
-        name: 'sw8',
-        fmla: '+- 37800000 0 stAng'
+        n: 'sw8',
+        f: '+- 37800000 0 stAng'
       },
       {
-        name: 'sw9',
-        fmla: '?: sw7 sw7 sw8'
+        n: 'sw9',
+        f: '?: sw7 sw7 sw8'
       },
       {
-        name: 'da4',
-        fmla: '+- swAng 0 sw9'
+        n: 'da4',
+        f: '+- swAng 0 sw9'
       },
       {
-        name: 'g13',
-        fmla: 'min y1 y2'
+        n: 'g13',
+        f: 'min y1 y2'
       },
       {
-        name: 'g14',
-        fmla: 'min y3 y4'
+        n: 'g14',
+        f: 'min y3 y4'
       },
       {
-        name: 'g15',
-        fmla: 'min g13 g14'
+        n: 'g15',
+        f: 'min g13 g14'
       },
       {
-        name: 'it',
-        fmla: '?: da4 t g15'
+        n: 'it',
+        f: '?: da4 t g15'
       },
       {
-        name: 'x5',
-        fmla: '+/ x1 x4 2'
+        n: 'x5',
+        f: '+/ x1 x4 2'
       },
       {
-        name: 'y5',
-        fmla: '+/ y1 y4 2'
+        n: 'y5',
+        f: '+/ y1 y4 2'
       },
       {
-        name: 'x6',
-        fmla: '+/ x3 x2 2'
+        n: 'x6',
+        f: '+/ x3 x2 2'
       },
       {
-        name: 'y6',
-        fmla: '+/ y3 y2 2'
+        n: 'y6',
+        f: '+/ y3 y2 2'
       },
       {
-        name: 'cang1',
-        fmla: '+- stAng 0 cd4'
+        n: 'cang1',
+        f: '+- stAng 0 cd4'
       },
       {
-        name: 'cang2',
-        fmla: '+- istAng cd4 0'
+        n: 'cang2',
+        f: '+- istAng cd4 0'
       },
       {
-        name: 'cang3',
-        fmla: '+/ cang1 cang2 2'
+        n: 'cang3',
+        f: '+/ cang1 cang2 2'
       }
     ],
     pathLst: [
@@ -6751,38 +6751,38 @@ export const presetShape: Record<string, Shape> = {
   borderCallout1: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 18750'
+        n: 'adj1',
+        f: 'val 18750'
       },
       {
-        name: 'adj2',
-        fmla: 'val -8333'
+        n: 'adj2',
+        f: 'val -8333'
       },
       {
-        name: 'adj3',
-        fmla: 'val 112500'
+        n: 'adj3',
+        f: 'val 112500'
       },
       {
-        name: 'adj4',
-        fmla: 'val -38333'
+        n: 'adj4',
+        f: 'val -38333'
       }
     ],
     gdLst: [
       {
-        name: 'y1',
-        fmla: '*/ h adj1 100000'
+        n: 'y1',
+        f: '*/ h adj1 100000'
       },
       {
-        name: 'x1',
-        fmla: '*/ w adj2 100000'
+        n: 'x1',
+        f: '*/ w adj2 100000'
       },
       {
-        name: 'y2',
-        fmla: '*/ h adj3 100000'
+        n: 'y2',
+        f: '*/ h adj3 100000'
       },
       {
-        name: 'x2',
-        fmla: '*/ w adj4 100000'
+        n: 'x2',
+        f: '*/ w adj4 100000'
       }
     ],
     pathLst: [
@@ -6849,54 +6849,54 @@ export const presetShape: Record<string, Shape> = {
   borderCallout2: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 18750'
+        n: 'adj1',
+        f: 'val 18750'
       },
       {
-        name: 'adj2',
-        fmla: 'val -8333'
+        n: 'adj2',
+        f: 'val -8333'
       },
       {
-        name: 'adj3',
-        fmla: 'val 18750'
+        n: 'adj3',
+        f: 'val 18750'
       },
       {
-        name: 'adj4',
-        fmla: 'val -16667'
+        n: 'adj4',
+        f: 'val -16667'
       },
       {
-        name: 'adj5',
-        fmla: 'val 112500'
+        n: 'adj5',
+        f: 'val 112500'
       },
       {
-        name: 'adj6',
-        fmla: 'val -46667'
+        n: 'adj6',
+        f: 'val -46667'
       }
     ],
     gdLst: [
       {
-        name: 'y1',
-        fmla: '*/ h adj1 100000'
+        n: 'y1',
+        f: '*/ h adj1 100000'
       },
       {
-        name: 'x1',
-        fmla: '*/ w adj2 100000'
+        n: 'x1',
+        f: '*/ w adj2 100000'
       },
       {
-        name: 'y2',
-        fmla: '*/ h adj3 100000'
+        n: 'y2',
+        f: '*/ h adj3 100000'
       },
       {
-        name: 'x2',
-        fmla: '*/ w adj4 100000'
+        n: 'x2',
+        f: '*/ w adj4 100000'
       },
       {
-        name: 'y3',
-        fmla: '*/ h adj5 100000'
+        n: 'y3',
+        f: '*/ h adj5 100000'
       },
       {
-        name: 'x3',
-        fmla: '*/ w adj6 100000'
+        n: 'x3',
+        f: '*/ w adj6 100000'
       }
     ],
     pathLst: [
@@ -6970,70 +6970,70 @@ export const presetShape: Record<string, Shape> = {
   borderCallout3: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 18750'
+        n: 'adj1',
+        f: 'val 18750'
       },
       {
-        name: 'adj2',
-        fmla: 'val -8333'
+        n: 'adj2',
+        f: 'val -8333'
       },
       {
-        name: 'adj3',
-        fmla: 'val 18750'
+        n: 'adj3',
+        f: 'val 18750'
       },
       {
-        name: 'adj4',
-        fmla: 'val -16667'
+        n: 'adj4',
+        f: 'val -16667'
       },
       {
-        name: 'adj5',
-        fmla: 'val 100000'
+        n: 'adj5',
+        f: 'val 100000'
       },
       {
-        name: 'adj6',
-        fmla: 'val -16667'
+        n: 'adj6',
+        f: 'val -16667'
       },
       {
-        name: 'adj7',
-        fmla: 'val 112963'
+        n: 'adj7',
+        f: 'val 112963'
       },
       {
-        name: 'adj8',
-        fmla: 'val -8333'
+        n: 'adj8',
+        f: 'val -8333'
       }
     ],
     gdLst: [
       {
-        name: 'y1',
-        fmla: '*/ h adj1 100000'
+        n: 'y1',
+        f: '*/ h adj1 100000'
       },
       {
-        name: 'x1',
-        fmla: '*/ w adj2 100000'
+        n: 'x1',
+        f: '*/ w adj2 100000'
       },
       {
-        name: 'y2',
-        fmla: '*/ h adj3 100000'
+        n: 'y2',
+        f: '*/ h adj3 100000'
       },
       {
-        name: 'x2',
-        fmla: '*/ w adj4 100000'
+        n: 'x2',
+        f: '*/ w adj4 100000'
       },
       {
-        name: 'y3',
-        fmla: '*/ h adj5 100000'
+        n: 'y3',
+        f: '*/ h adj5 100000'
       },
       {
-        name: 'x3',
-        fmla: '*/ w adj6 100000'
+        n: 'x3',
+        f: '*/ w adj6 100000'
       },
       {
-        name: 'y4',
-        fmla: '*/ h adj7 100000'
+        n: 'y4',
+        f: '*/ h adj7 100000'
       },
       {
-        name: 'x4',
-        fmla: '*/ w adj8 100000'
+        n: 'x4',
+        f: '*/ w adj8 100000'
       }
     ],
     pathLst: [
@@ -7114,58 +7114,58 @@ export const presetShape: Record<string, Shape> = {
   bracePair: {
     avLst: [
       {
-        name: 'adj',
-        fmla: 'val 8333'
+        n: 'adj',
+        f: 'val 8333'
       }
     ],
     gdLst: [
       {
-        name: 'a',
-        fmla: 'pin 0 adj 25000'
+        n: 'a',
+        f: 'pin 0 adj 25000'
       },
       {
-        name: 'x1',
-        fmla: '*/ ss a 100000'
+        n: 'x1',
+        f: '*/ ss a 100000'
       },
       {
-        name: 'x2',
-        fmla: '*/ ss a 50000'
+        n: 'x2',
+        f: '*/ ss a 50000'
       },
       {
-        name: 'x3',
-        fmla: '+- r 0 x2'
+        n: 'x3',
+        f: '+- r 0 x2'
       },
       {
-        name: 'x4',
-        fmla: '+- r 0 x1'
+        n: 'x4',
+        f: '+- r 0 x1'
       },
       {
-        name: 'y2',
-        fmla: '+- vc 0 x1'
+        n: 'y2',
+        f: '+- vc 0 x1'
       },
       {
-        name: 'y3',
-        fmla: '+- vc x1 0'
+        n: 'y3',
+        f: '+- vc x1 0'
       },
       {
-        name: 'y4',
-        fmla: '+- b 0 x1'
+        n: 'y4',
+        f: '+- b 0 x1'
       },
       {
-        name: 'it',
-        fmla: '*/ x1 29289 100000'
+        n: 'it',
+        f: '*/ x1 29289 100000'
       },
       {
-        name: 'il',
-        fmla: '+- x1 it 0'
+        n: 'il',
+        f: '+- x1 it 0'
       },
       {
-        name: 'ir',
-        fmla: '+- r 0 il'
+        n: 'ir',
+        f: '+- r 0 il'
       },
       {
-        name: 'ib',
-        fmla: '+- b 0 it'
+        n: 'ib',
+        f: '+- b 0 it'
       }
     ],
     pathLst: [
@@ -7386,38 +7386,38 @@ export const presetShape: Record<string, Shape> = {
   bracketPair: {
     avLst: [
       {
-        name: 'adj',
-        fmla: 'val 16667'
+        n: 'adj',
+        f: 'val 16667'
       }
     ],
     gdLst: [
       {
-        name: 'a',
-        fmla: 'pin 0 adj 50000'
+        n: 'a',
+        f: 'pin 0 adj 50000'
       },
       {
-        name: 'x1',
-        fmla: '*/ ss a 100000'
+        n: 'x1',
+        f: '*/ ss a 100000'
       },
       {
-        name: 'x2',
-        fmla: '+- r 0 x1'
+        n: 'x2',
+        f: '+- r 0 x1'
       },
       {
-        name: 'y2',
-        fmla: '+- b 0 x1'
+        n: 'y2',
+        f: '+- b 0 x1'
       },
       {
-        name: 'il',
-        fmla: '*/ x1 29289 100000'
+        n: 'il',
+        f: '*/ x1 29289 100000'
       },
       {
-        name: 'ir',
-        fmla: '+- r 0 il'
+        n: 'ir',
+        f: '+- r 0 il'
       },
       {
-        name: 'ib',
-        fmla: '+- b 0 il'
+        n: 'ib',
+        f: '+- b 0 il'
       }
     ],
     pathLst: [
@@ -7554,38 +7554,38 @@ export const presetShape: Record<string, Shape> = {
   callout1: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 18750'
+        n: 'adj1',
+        f: 'val 18750'
       },
       {
-        name: 'adj2',
-        fmla: 'val -8333'
+        n: 'adj2',
+        f: 'val -8333'
       },
       {
-        name: 'adj3',
-        fmla: 'val 112500'
+        n: 'adj3',
+        f: 'val 112500'
       },
       {
-        name: 'adj4',
-        fmla: 'val -38333'
+        n: 'adj4',
+        f: 'val -38333'
       }
     ],
     gdLst: [
       {
-        name: 'y1',
-        fmla: '*/ h adj1 100000'
+        n: 'y1',
+        f: '*/ h adj1 100000'
       },
       {
-        name: 'x1',
-        fmla: '*/ w adj2 100000'
+        n: 'x1',
+        f: '*/ w adj2 100000'
       },
       {
-        name: 'y2',
-        fmla: '*/ h adj3 100000'
+        n: 'y2',
+        f: '*/ h adj3 100000'
       },
       {
-        name: 'x2',
-        fmla: '*/ w adj4 100000'
+        n: 'x2',
+        f: '*/ w adj4 100000'
       }
     ],
     pathLst: [
@@ -7652,54 +7652,54 @@ export const presetShape: Record<string, Shape> = {
   callout2: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 18750'
+        n: 'adj1',
+        f: 'val 18750'
       },
       {
-        name: 'adj2',
-        fmla: 'val -8333'
+        n: 'adj2',
+        f: 'val -8333'
       },
       {
-        name: 'adj3',
-        fmla: 'val 18750'
+        n: 'adj3',
+        f: 'val 18750'
       },
       {
-        name: 'adj4',
-        fmla: 'val -16667'
+        n: 'adj4',
+        f: 'val -16667'
       },
       {
-        name: 'adj5',
-        fmla: 'val 112500'
+        n: 'adj5',
+        f: 'val 112500'
       },
       {
-        name: 'adj6',
-        fmla: 'val -46667'
+        n: 'adj6',
+        f: 'val -46667'
       }
     ],
     gdLst: [
       {
-        name: 'y1',
-        fmla: '*/ h adj1 100000'
+        n: 'y1',
+        f: '*/ h adj1 100000'
       },
       {
-        name: 'x1',
-        fmla: '*/ w adj2 100000'
+        n: 'x1',
+        f: '*/ w adj2 100000'
       },
       {
-        name: 'y2',
-        fmla: '*/ h adj3 100000'
+        n: 'y2',
+        f: '*/ h adj3 100000'
       },
       {
-        name: 'x2',
-        fmla: '*/ w adj4 100000'
+        n: 'x2',
+        f: '*/ w adj4 100000'
       },
       {
-        name: 'y3',
-        fmla: '*/ h adj5 100000'
+        n: 'y3',
+        f: '*/ h adj5 100000'
       },
       {
-        name: 'x3',
-        fmla: '*/ w adj6 100000'
+        n: 'x3',
+        f: '*/ w adj6 100000'
       }
     ],
     pathLst: [
@@ -7773,70 +7773,70 @@ export const presetShape: Record<string, Shape> = {
   callout3: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 18750'
+        n: 'adj1',
+        f: 'val 18750'
       },
       {
-        name: 'adj2',
-        fmla: 'val -8333'
+        n: 'adj2',
+        f: 'val -8333'
       },
       {
-        name: 'adj3',
-        fmla: 'val 18750'
+        n: 'adj3',
+        f: 'val 18750'
       },
       {
-        name: 'adj4',
-        fmla: 'val -16667'
+        n: 'adj4',
+        f: 'val -16667'
       },
       {
-        name: 'adj5',
-        fmla: 'val 100000'
+        n: 'adj5',
+        f: 'val 100000'
       },
       {
-        name: 'adj6',
-        fmla: 'val -16667'
+        n: 'adj6',
+        f: 'val -16667'
       },
       {
-        name: 'adj7',
-        fmla: 'val 112963'
+        n: 'adj7',
+        f: 'val 112963'
       },
       {
-        name: 'adj8',
-        fmla: 'val -8333'
+        n: 'adj8',
+        f: 'val -8333'
       }
     ],
     gdLst: [
       {
-        name: 'y1',
-        fmla: '*/ h adj1 100000'
+        n: 'y1',
+        f: '*/ h adj1 100000'
       },
       {
-        name: 'x1',
-        fmla: '*/ w adj2 100000'
+        n: 'x1',
+        f: '*/ w adj2 100000'
       },
       {
-        name: 'y2',
-        fmla: '*/ h adj3 100000'
+        n: 'y2',
+        f: '*/ h adj3 100000'
       },
       {
-        name: 'x2',
-        fmla: '*/ w adj4 100000'
+        n: 'x2',
+        f: '*/ w adj4 100000'
       },
       {
-        name: 'y3',
-        fmla: '*/ h adj5 100000'
+        n: 'y3',
+        f: '*/ h adj5 100000'
       },
       {
-        name: 'x3',
-        fmla: '*/ w adj6 100000'
+        n: 'x3',
+        f: '*/ w adj6 100000'
       },
       {
-        name: 'y4',
-        fmla: '*/ h adj7 100000'
+        n: 'y4',
+        f: '*/ h adj7 100000'
       },
       {
-        name: 'x4',
-        fmla: '*/ w adj8 100000'
+        n: 'x4',
+        f: '*/ w adj8 100000'
       }
     ],
     pathLst: [
@@ -7917,30 +7917,30 @@ export const presetShape: Record<string, Shape> = {
   can: {
     avLst: [
       {
-        name: 'adj',
-        fmla: 'val 25000'
+        n: 'adj',
+        f: 'val 25000'
       }
     ],
     gdLst: [
       {
-        name: 'maxAdj',
-        fmla: '*/ 50000 h ss'
+        n: 'maxAdj',
+        f: '*/ 50000 h ss'
       },
       {
-        name: 'a',
-        fmla: 'pin 0 adj maxAdj'
+        n: 'a',
+        f: 'pin 0 adj maxAdj'
       },
       {
-        name: 'y1',
-        fmla: '*/ ss a 200000'
+        n: 'y1',
+        f: '*/ ss a 200000'
       },
       {
-        name: 'y2',
-        fmla: '+- y1 y1 0'
+        n: 'y2',
+        f: '+- y1 y1 0'
       },
       {
-        name: 'y3',
-        fmla: '+- b 0 y1'
+        n: 'y3',
+        f: '+- b 0 y1'
       }
     ],
     pathLst: [
@@ -8320,42 +8320,42 @@ export const presetShape: Record<string, Shape> = {
   chevron: {
     avLst: [
       {
-        name: 'adj',
-        fmla: 'val 50000'
+        n: 'adj',
+        f: 'val 50000'
       }
     ],
     gdLst: [
       {
-        name: 'maxAdj',
-        fmla: '*/ 100000 w ss'
+        n: 'maxAdj',
+        f: '*/ 100000 w ss'
       },
       {
-        name: 'a',
-        fmla: 'pin 0 adj maxAdj'
+        n: 'a',
+        f: 'pin 0 adj maxAdj'
       },
       {
-        name: 'x1',
-        fmla: '*/ ss a 100000'
+        n: 'x1',
+        f: '*/ ss a 100000'
       },
       {
-        name: 'x2',
-        fmla: '+- r 0 x1'
+        n: 'x2',
+        f: '+- r 0 x1'
       },
       {
-        name: 'x3',
-        fmla: '*/ x2 1 2'
+        n: 'x3',
+        f: '*/ x2 1 2'
       },
       {
-        name: 'dx',
-        fmla: '+- x2 0 x1'
+        n: 'dx',
+        f: '+- x2 0 x1'
       },
       {
-        name: 'il',
-        fmla: '?: dx x1 l'
+        n: 'il',
+        f: '?: dx x1 l'
       },
       {
-        name: 'ir',
-        fmla: '?: dx x2 r'
+        n: 'ir',
+        f: '?: dx x2 r'
       }
     ],
     pathLst: [
@@ -8415,122 +8415,122 @@ export const presetShape: Record<string, Shape> = {
   chord: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 2700000'
+        n: 'adj1',
+        f: 'val 2700000'
       },
       {
-        name: 'adj2',
-        fmla: 'val 16200000'
+        n: 'adj2',
+        f: 'val 16200000'
       }
     ],
     gdLst: [
       {
-        name: 'stAng',
-        fmla: 'pin 0 adj1 21599999'
+        n: 'stAng',
+        f: 'pin 0 adj1 21599999'
       },
       {
-        name: 'enAng',
-        fmla: 'pin 0 adj2 21599999'
+        n: 'enAng',
+        f: 'pin 0 adj2 21599999'
       },
       {
-        name: 'sw1',
-        fmla: '+- enAng 0 stAng'
+        n: 'sw1',
+        f: '+- enAng 0 stAng'
       },
       {
-        name: 'sw2',
-        fmla: '+- sw1 21600000 0'
+        n: 'sw2',
+        f: '+- sw1 21600000 0'
       },
       {
-        name: 'swAng',
-        fmla: '?: sw1 sw1 sw2'
+        n: 'swAng',
+        f: '?: sw1 sw1 sw2'
       },
       {
-        name: 'wt1',
-        fmla: 'sin wd2 stAng'
+        n: 'wt1',
+        f: 'sin wd2 stAng'
       },
       {
-        name: 'ht1',
-        fmla: 'cos hd2 stAng'
+        n: 'ht1',
+        f: 'cos hd2 stAng'
       },
       {
-        name: 'dx1',
-        fmla: 'cat2 wd2 ht1 wt1'
+        n: 'dx1',
+        f: 'cat2 wd2 ht1 wt1'
       },
       {
-        name: 'dy1',
-        fmla: 'sat2 hd2 ht1 wt1'
+        n: 'dy1',
+        f: 'sat2 hd2 ht1 wt1'
       },
       {
-        name: 'wt2',
-        fmla: 'sin wd2 enAng'
+        n: 'wt2',
+        f: 'sin wd2 enAng'
       },
       {
-        name: 'ht2',
-        fmla: 'cos hd2 enAng'
+        n: 'ht2',
+        f: 'cos hd2 enAng'
       },
       {
-        name: 'dx2',
-        fmla: 'cat2 wd2 ht2 wt2'
+        n: 'dx2',
+        f: 'cat2 wd2 ht2 wt2'
       },
       {
-        name: 'dy2',
-        fmla: 'sat2 hd2 ht2 wt2'
+        n: 'dy2',
+        f: 'sat2 hd2 ht2 wt2'
       },
       {
-        name: 'x1',
-        fmla: '+- hc dx1 0'
+        n: 'x1',
+        f: '+- hc dx1 0'
       },
       {
-        name: 'y1',
-        fmla: '+- vc dy1 0'
+        n: 'y1',
+        f: '+- vc dy1 0'
       },
       {
-        name: 'x2',
-        fmla: '+- hc dx2 0'
+        n: 'x2',
+        f: '+- hc dx2 0'
       },
       {
-        name: 'y2',
-        fmla: '+- vc dy2 0'
+        n: 'y2',
+        f: '+- vc dy2 0'
       },
       {
-        name: 'x3',
-        fmla: '+/ x1 x2 2'
+        n: 'x3',
+        f: '+/ x1 x2 2'
       },
       {
-        name: 'y3',
-        fmla: '+/ y1 y2 2'
+        n: 'y3',
+        f: '+/ y1 y2 2'
       },
       {
-        name: 'midAng0',
-        fmla: '*/ swAng 1 2'
+        n: 'midAng0',
+        f: '*/ swAng 1 2'
       },
       {
-        name: 'midAng',
-        fmla: '+- stAng midAng0 cd2'
+        n: 'midAng',
+        f: '+- stAng midAng0 cd2'
       },
       {
-        name: 'idx',
-        fmla: 'cos wd2 2700000'
+        n: 'idx',
+        f: 'cos wd2 2700000'
       },
       {
-        name: 'idy',
-        fmla: 'sin hd2 2700000'
+        n: 'idy',
+        f: 'sin hd2 2700000'
       },
       {
-        name: 'il',
-        fmla: '+- hc 0 idx'
+        n: 'il',
+        f: '+- hc 0 idx'
       },
       {
-        name: 'ir',
-        fmla: '+- hc idx 0'
+        n: 'ir',
+        f: '+- hc idx 0'
       },
       {
-        name: 'it',
-        fmla: '+- vc 0 idy'
+        n: 'it',
+        f: '+- vc 0 idy'
       },
       {
-        name: 'ib',
-        fmla: '+- vc idy 0'
+        n: 'ib',
+        f: '+- vc idy 0'
       }
     ],
     pathLst: [
@@ -8562,794 +8562,794 @@ export const presetShape: Record<string, Shape> = {
   circularArrow: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 12500'
+        n: 'adj1',
+        f: 'val 12500'
       },
       {
-        name: 'adj2',
-        fmla: 'val 1142319'
+        n: 'adj2',
+        f: 'val 1142319'
       },
       {
-        name: 'adj3',
-        fmla: 'val 20457681'
+        n: 'adj3',
+        f: 'val 20457681'
       },
       {
-        name: 'adj4',
-        fmla: 'val 10800000'
+        n: 'adj4',
+        f: 'val 10800000'
       },
       {
-        name: 'adj5',
-        fmla: 'val 12500'
+        n: 'adj5',
+        f: 'val 12500'
       }
     ],
     gdLst: [
       {
-        name: 'a5',
-        fmla: 'pin 0 adj5 25000'
+        n: 'a5',
+        f: 'pin 0 adj5 25000'
       },
       {
-        name: 'maxAdj1',
-        fmla: '*/ a5 2 1'
+        n: 'maxAdj1',
+        f: '*/ a5 2 1'
       },
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 maxAdj1'
+        n: 'a1',
+        f: 'pin 0 adj1 maxAdj1'
       },
       {
-        name: 'enAng',
-        fmla: 'pin 1 adj3 21599999'
+        n: 'enAng',
+        f: 'pin 1 adj3 21599999'
       },
       {
-        name: 'stAng',
-        fmla: 'pin 0 adj4 21599999'
+        n: 'stAng',
+        f: 'pin 0 adj4 21599999'
       },
       {
-        name: 'th',
-        fmla: '*/ ss a1 100000'
+        n: 'th',
+        f: '*/ ss a1 100000'
       },
       {
-        name: 'thh',
-        fmla: '*/ ss a5 100000'
+        n: 'thh',
+        f: '*/ ss a5 100000'
       },
       {
-        name: 'th2',
-        fmla: '*/ th 1 2'
+        n: 'th2',
+        f: '*/ th 1 2'
       },
       {
-        name: 'rw1',
-        fmla: '+- wd2 th2 thh'
+        n: 'rw1',
+        f: '+- wd2 th2 thh'
       },
       {
-        name: 'rh1',
-        fmla: '+- hd2 th2 thh'
+        n: 'rh1',
+        f: '+- hd2 th2 thh'
       },
       {
-        name: 'rw2',
-        fmla: '+- rw1 0 th'
+        n: 'rw2',
+        f: '+- rw1 0 th'
       },
       {
-        name: 'rh2',
-        fmla: '+- rh1 0 th'
+        n: 'rh2',
+        f: '+- rh1 0 th'
       },
       {
-        name: 'rw3',
-        fmla: '+- rw2 th2 0'
+        n: 'rw3',
+        f: '+- rw2 th2 0'
       },
       {
-        name: 'rh3',
-        fmla: '+- rh2 th2 0'
+        n: 'rh3',
+        f: '+- rh2 th2 0'
       },
       {
-        name: 'wtH',
-        fmla: 'sin rw3 enAng'
+        n: 'wtH',
+        f: 'sin rw3 enAng'
       },
       {
-        name: 'htH',
-        fmla: 'cos rh3 enAng'
+        n: 'htH',
+        f: 'cos rh3 enAng'
       },
       {
-        name: 'dxH',
-        fmla: 'cat2 rw3 htH wtH'
+        n: 'dxH',
+        f: 'cat2 rw3 htH wtH'
       },
       {
-        name: 'dyH',
-        fmla: 'sat2 rh3 htH wtH'
+        n: 'dyH',
+        f: 'sat2 rh3 htH wtH'
       },
       {
-        name: 'xH',
-        fmla: '+- hc dxH 0'
+        n: 'xH',
+        f: '+- hc dxH 0'
       },
       {
-        name: 'yH',
-        fmla: '+- vc dyH 0'
+        n: 'yH',
+        f: '+- vc dyH 0'
       },
       {
-        name: 'rI',
-        fmla: 'min rw2 rh2'
+        n: 'rI',
+        f: 'min rw2 rh2'
       },
       {
-        name: 'u1',
-        fmla: '*/ dxH dxH 1'
+        n: 'u1',
+        f: '*/ dxH dxH 1'
       },
       {
-        name: 'u2',
-        fmla: '*/ dyH dyH 1'
+        n: 'u2',
+        f: '*/ dyH dyH 1'
       },
       {
-        name: 'u3',
-        fmla: '*/ rI rI 1'
+        n: 'u3',
+        f: '*/ rI rI 1'
       },
       {
-        name: 'u4',
-        fmla: '+- u1 0 u3'
+        n: 'u4',
+        f: '+- u1 0 u3'
       },
       {
-        name: 'u5',
-        fmla: '+- u2 0 u3'
+        n: 'u5',
+        f: '+- u2 0 u3'
       },
       {
-        name: 'u6',
-        fmla: '*/ u4 u5 u1'
+        n: 'u6',
+        f: '*/ u4 u5 u1'
       },
       {
-        name: 'u7',
-        fmla: '*/ u6 1 u2'
+        n: 'u7',
+        f: '*/ u6 1 u2'
       },
       {
-        name: 'u8',
-        fmla: '+- 1 0 u7'
+        n: 'u8',
+        f: '+- 1 0 u7'
       },
       {
-        name: 'u9',
-        fmla: 'sqrt u8'
+        n: 'u9',
+        f: 'sqrt u8'
       },
       {
-        name: 'u10',
-        fmla: '*/ u4 1 dxH'
+        n: 'u10',
+        f: '*/ u4 1 dxH'
       },
       {
-        name: 'u11',
-        fmla: '*/ u10 1 dyH'
+        n: 'u11',
+        f: '*/ u10 1 dyH'
       },
       {
-        name: 'u12',
-        fmla: '+/ 1 u9 u11'
+        n: 'u12',
+        f: '+/ 1 u9 u11'
       },
       {
-        name: 'u13',
-        fmla: 'at2 1 u12'
+        n: 'u13',
+        f: 'at2 1 u12'
       },
       {
-        name: 'u14',
-        fmla: '+- u13 21600000 0'
+        n: 'u14',
+        f: '+- u13 21600000 0'
       },
       {
-        name: 'u15',
-        fmla: '?: u13 u13 u14'
+        n: 'u15',
+        f: '?: u13 u13 u14'
       },
       {
-        name: 'u16',
-        fmla: '+- u15 0 enAng'
+        n: 'u16',
+        f: '+- u15 0 enAng'
       },
       {
-        name: 'u17',
-        fmla: '+- u16 21600000 0'
+        n: 'u17',
+        f: '+- u16 21600000 0'
       },
       {
-        name: 'u18',
-        fmla: '?: u16 u16 u17'
+        n: 'u18',
+        f: '?: u16 u16 u17'
       },
       {
-        name: 'u19',
-        fmla: '+- u18 0 cd2'
+        n: 'u19',
+        f: '+- u18 0 cd2'
       },
       {
-        name: 'u20',
-        fmla: '+- u18 0 21600000'
+        n: 'u20',
+        f: '+- u18 0 21600000'
       },
       {
-        name: 'u21',
-        fmla: '?: u19 u20 u18'
+        n: 'u21',
+        f: '?: u19 u20 u18'
       },
       {
-        name: 'maxAng',
-        fmla: 'abs u21'
+        n: 'maxAng',
+        f: 'abs u21'
       },
       {
-        name: 'aAng',
-        fmla: 'pin 0 adj2 maxAng'
+        n: 'aAng',
+        f: 'pin 0 adj2 maxAng'
       },
       {
-        name: 'ptAng',
-        fmla: '+- enAng aAng 0'
+        n: 'ptAng',
+        f: '+- enAng aAng 0'
       },
       {
-        name: 'wtA',
-        fmla: 'sin rw3 ptAng'
+        n: 'wtA',
+        f: 'sin rw3 ptAng'
       },
       {
-        name: 'htA',
-        fmla: 'cos rh3 ptAng'
+        n: 'htA',
+        f: 'cos rh3 ptAng'
       },
       {
-        name: 'dxA',
-        fmla: 'cat2 rw3 htA wtA'
+        n: 'dxA',
+        f: 'cat2 rw3 htA wtA'
       },
       {
-        name: 'dyA',
-        fmla: 'sat2 rh3 htA wtA'
+        n: 'dyA',
+        f: 'sat2 rh3 htA wtA'
       },
       {
-        name: 'xA',
-        fmla: '+- hc dxA 0'
+        n: 'xA',
+        f: '+- hc dxA 0'
       },
       {
-        name: 'yA',
-        fmla: '+- vc dyA 0'
+        n: 'yA',
+        f: '+- vc dyA 0'
       },
       {
-        name: 'wtE',
-        fmla: 'sin rw1 stAng'
+        n: 'wtE',
+        f: 'sin rw1 stAng'
       },
       {
-        name: 'htE',
-        fmla: 'cos rh1 stAng'
+        n: 'htE',
+        f: 'cos rh1 stAng'
       },
       {
-        name: 'dxE',
-        fmla: 'cat2 rw1 htE wtE'
+        n: 'dxE',
+        f: 'cat2 rw1 htE wtE'
       },
       {
-        name: 'dyE',
-        fmla: 'sat2 rh1 htE wtE'
+        n: 'dyE',
+        f: 'sat2 rh1 htE wtE'
       },
       {
-        name: 'xE',
-        fmla: '+- hc dxE 0'
+        n: 'xE',
+        f: '+- hc dxE 0'
       },
       {
-        name: 'yE',
-        fmla: '+- vc dyE 0'
+        n: 'yE',
+        f: '+- vc dyE 0'
       },
       {
-        name: 'dxG',
-        fmla: 'cos thh ptAng'
+        n: 'dxG',
+        f: 'cos thh ptAng'
       },
       {
-        name: 'dyG',
-        fmla: 'sin thh ptAng'
+        n: 'dyG',
+        f: 'sin thh ptAng'
       },
       {
-        name: 'xG',
-        fmla: '+- xH dxG 0'
+        n: 'xG',
+        f: '+- xH dxG 0'
       },
       {
-        name: 'yG',
-        fmla: '+- yH dyG 0'
+        n: 'yG',
+        f: '+- yH dyG 0'
       },
       {
-        name: 'dxB',
-        fmla: 'cos thh ptAng'
+        n: 'dxB',
+        f: 'cos thh ptAng'
       },
       {
-        name: 'dyB',
-        fmla: 'sin thh ptAng'
+        n: 'dyB',
+        f: 'sin thh ptAng'
       },
       {
-        name: 'xB',
-        fmla: '+- xH 0 dxB 0'
+        n: 'xB',
+        f: '+- xH 0 dxB 0'
       },
       {
-        name: 'yB',
-        fmla: '+- yH 0 dyB 0'
+        n: 'yB',
+        f: '+- yH 0 dyB 0'
       },
       {
-        name: 'sx1',
-        fmla: '+- xB 0 hc'
+        n: 'sx1',
+        f: '+- xB 0 hc'
       },
       {
-        name: 'sy1',
-        fmla: '+- yB 0 vc'
+        n: 'sy1',
+        f: '+- yB 0 vc'
       },
       {
-        name: 'sx2',
-        fmla: '+- xG 0 hc'
+        n: 'sx2',
+        f: '+- xG 0 hc'
       },
       {
-        name: 'sy2',
-        fmla: '+- yG 0 vc'
+        n: 'sy2',
+        f: '+- yG 0 vc'
       },
       {
-        name: 'rO',
-        fmla: 'min rw1 rh1'
+        n: 'rO',
+        f: 'min rw1 rh1'
       },
       {
-        name: 'x1O',
-        fmla: '*/ sx1 rO rw1'
+        n: 'x1O',
+        f: '*/ sx1 rO rw1'
       },
       {
-        name: 'y1O',
-        fmla: '*/ sy1 rO rh1'
+        n: 'y1O',
+        f: '*/ sy1 rO rh1'
       },
       {
-        name: 'x2O',
-        fmla: '*/ sx2 rO rw1'
+        n: 'x2O',
+        f: '*/ sx2 rO rw1'
       },
       {
-        name: 'y2O',
-        fmla: '*/ sy2 rO rh1'
+        n: 'y2O',
+        f: '*/ sy2 rO rh1'
       },
       {
-        name: 'dxO',
-        fmla: '+- x2O 0 x1O'
+        n: 'dxO',
+        f: '+- x2O 0 x1O'
       },
       {
-        name: 'dyO',
-        fmla: '+- y2O 0 y1O'
+        n: 'dyO',
+        f: '+- y2O 0 y1O'
       },
       {
-        name: 'dO',
-        fmla: 'mod dxO dyO 0'
+        n: 'dO',
+        f: 'mod dxO dyO 0'
       },
       {
-        name: 'q1',
-        fmla: '*/ x1O y2O 1'
+        n: 'q1',
+        f: '*/ x1O y2O 1'
       },
       {
-        name: 'q2',
-        fmla: '*/ x2O y1O 1'
+        n: 'q2',
+        f: '*/ x2O y1O 1'
       },
       {
-        name: 'DO',
-        fmla: '+- q1 0 q2'
+        n: 'DO',
+        f: '+- q1 0 q2'
       },
       {
-        name: 'q3',
-        fmla: '*/ rO rO 1'
+        n: 'q3',
+        f: '*/ rO rO 1'
       },
       {
-        name: 'q4',
-        fmla: '*/ dO dO 1'
+        n: 'q4',
+        f: '*/ dO dO 1'
       },
       {
-        name: 'q5',
-        fmla: '*/ q3 q4 1'
+        n: 'q5',
+        f: '*/ q3 q4 1'
       },
       {
-        name: 'q6',
-        fmla: '*/ DO DO 1'
+        n: 'q6',
+        f: '*/ DO DO 1'
       },
       {
-        name: 'q7',
-        fmla: '+- q5 0 q6'
+        n: 'q7',
+        f: '+- q5 0 q6'
       },
       {
-        name: 'q8',
-        fmla: 'max q7 0'
+        n: 'q8',
+        f: 'max q7 0'
       },
       {
-        name: 'sdelO',
-        fmla: 'sqrt q8'
+        n: 'sdelO',
+        f: 'sqrt q8'
       },
       {
-        name: 'ndyO',
-        fmla: '*/ dyO -1 1'
+        n: 'ndyO',
+        f: '*/ dyO -1 1'
       },
       {
-        name: 'sdyO',
-        fmla: '?: ndyO -1 1'
+        n: 'sdyO',
+        f: '?: ndyO -1 1'
       },
       {
-        name: 'q9',
-        fmla: '*/ sdyO dxO 1'
+        n: 'q9',
+        f: '*/ sdyO dxO 1'
       },
       {
-        name: 'q10',
-        fmla: '*/ q9 sdelO 1'
+        n: 'q10',
+        f: '*/ q9 sdelO 1'
       },
       {
-        name: 'q11',
-        fmla: '*/ DO dyO 1'
+        n: 'q11',
+        f: '*/ DO dyO 1'
       },
       {
-        name: 'dxF1',
-        fmla: '+/ q11 q10 q4'
+        n: 'dxF1',
+        f: '+/ q11 q10 q4'
       },
       {
-        name: 'q12',
-        fmla: '+- q11 0 q10'
+        n: 'q12',
+        f: '+- q11 0 q10'
       },
       {
-        name: 'dxF2',
-        fmla: '*/ q12 1 q4'
+        n: 'dxF2',
+        f: '*/ q12 1 q4'
       },
       {
-        name: 'adyO',
-        fmla: 'abs dyO'
+        n: 'adyO',
+        f: 'abs dyO'
       },
       {
-        name: 'q13',
-        fmla: '*/ adyO sdelO 1'
+        n: 'q13',
+        f: '*/ adyO sdelO 1'
       },
       {
-        name: 'q14',
-        fmla: '*/ DO dxO -1'
+        n: 'q14',
+        f: '*/ DO dxO -1'
       },
       {
-        name: 'dyF1',
-        fmla: '+/ q14 q13 q4'
+        n: 'dyF1',
+        f: '+/ q14 q13 q4'
       },
       {
-        name: 'q15',
-        fmla: '+- q14 0 q13'
+        n: 'q15',
+        f: '+- q14 0 q13'
       },
       {
-        name: 'dyF2',
-        fmla: '*/ q15 1 q4'
+        n: 'dyF2',
+        f: '*/ q15 1 q4'
       },
       {
-        name: 'q16',
-        fmla: '+- x2O 0 dxF1'
+        n: 'q16',
+        f: '+- x2O 0 dxF1'
       },
       {
-        name: 'q17',
-        fmla: '+- x2O 0 dxF2'
+        n: 'q17',
+        f: '+- x2O 0 dxF2'
       },
       {
-        name: 'q18',
-        fmla: '+- y2O 0 dyF1'
+        n: 'q18',
+        f: '+- y2O 0 dyF1'
       },
       {
-        name: 'q19',
-        fmla: '+- y2O 0 dyF2'
+        n: 'q19',
+        f: '+- y2O 0 dyF2'
       },
       {
-        name: 'q20',
-        fmla: 'mod q16 q18 0'
+        n: 'q20',
+        f: 'mod q16 q18 0'
       },
       {
-        name: 'q21',
-        fmla: 'mod q17 q19 0'
+        n: 'q21',
+        f: 'mod q17 q19 0'
       },
       {
-        name: 'q22',
-        fmla: '+- q21 0 q20'
+        n: 'q22',
+        f: '+- q21 0 q20'
       },
       {
-        name: 'dxF',
-        fmla: '?: q22 dxF1 dxF2'
+        n: 'dxF',
+        f: '?: q22 dxF1 dxF2'
       },
       {
-        name: 'dyF',
-        fmla: '?: q22 dyF1 dyF2'
+        n: 'dyF',
+        f: '?: q22 dyF1 dyF2'
       },
       {
-        name: 'sdxF',
-        fmla: '*/ dxF rw1 rO'
+        n: 'sdxF',
+        f: '*/ dxF rw1 rO'
       },
       {
-        name: 'sdyF',
-        fmla: '*/ dyF rh1 rO'
+        n: 'sdyF',
+        f: '*/ dyF rh1 rO'
       },
       {
-        name: 'xF',
-        fmla: '+- hc sdxF 0'
+        n: 'xF',
+        f: '+- hc sdxF 0'
       },
       {
-        name: 'yF',
-        fmla: '+- vc sdyF 0'
+        n: 'yF',
+        f: '+- vc sdyF 0'
       },
       {
-        name: 'x1I',
-        fmla: '*/ sx1 rI rw2'
+        n: 'x1I',
+        f: '*/ sx1 rI rw2'
       },
       {
-        name: 'y1I',
-        fmla: '*/ sy1 rI rh2'
+        n: 'y1I',
+        f: '*/ sy1 rI rh2'
       },
       {
-        name: 'x2I',
-        fmla: '*/ sx2 rI rw2'
+        n: 'x2I',
+        f: '*/ sx2 rI rw2'
       },
       {
-        name: 'y2I',
-        fmla: '*/ sy2 rI rh2'
+        n: 'y2I',
+        f: '*/ sy2 rI rh2'
       },
       {
-        name: 'dxI',
-        fmla: '+- x2I 0 x1I'
+        n: 'dxI',
+        f: '+- x2I 0 x1I'
       },
       {
-        name: 'dyI',
-        fmla: '+- y2I 0 y1I'
+        n: 'dyI',
+        f: '+- y2I 0 y1I'
       },
       {
-        name: 'dI',
-        fmla: 'mod dxI dyI 0'
+        n: 'dI',
+        f: 'mod dxI dyI 0'
       },
       {
-        name: 'v1',
-        fmla: '*/ x1I y2I 1'
+        n: 'v1',
+        f: '*/ x1I y2I 1'
       },
       {
-        name: 'v2',
-        fmla: '*/ x2I y1I 1'
+        n: 'v2',
+        f: '*/ x2I y1I 1'
       },
       {
-        name: 'DI',
-        fmla: '+- v1 0 v2'
+        n: 'DI',
+        f: '+- v1 0 v2'
       },
       {
-        name: 'v3',
-        fmla: '*/ rI rI 1'
+        n: 'v3',
+        f: '*/ rI rI 1'
       },
       {
-        name: 'v4',
-        fmla: '*/ dI dI 1'
+        n: 'v4',
+        f: '*/ dI dI 1'
       },
       {
-        name: 'v5',
-        fmla: '*/ v3 v4 1'
+        n: 'v5',
+        f: '*/ v3 v4 1'
       },
       {
-        name: 'v6',
-        fmla: '*/ DI DI 1'
+        n: 'v6',
+        f: '*/ DI DI 1'
       },
       {
-        name: 'v7',
-        fmla: '+- v5 0 v6'
+        n: 'v7',
+        f: '+- v5 0 v6'
       },
       {
-        name: 'v8',
-        fmla: 'max v7 0'
+        n: 'v8',
+        f: 'max v7 0'
       },
       {
-        name: 'sdelI',
-        fmla: 'sqrt v8'
+        n: 'sdelI',
+        f: 'sqrt v8'
       },
       {
-        name: 'v9',
-        fmla: '*/ sdyO dxI 1'
+        n: 'v9',
+        f: '*/ sdyO dxI 1'
       },
       {
-        name: 'v10',
-        fmla: '*/ v9 sdelI 1'
+        n: 'v10',
+        f: '*/ v9 sdelI 1'
       },
       {
-        name: 'v11',
-        fmla: '*/ DI dyI 1'
+        n: 'v11',
+        f: '*/ DI dyI 1'
       },
       {
-        name: 'dxC1',
-        fmla: '+/ v11 v10 v4'
+        n: 'dxC1',
+        f: '+/ v11 v10 v4'
       },
       {
-        name: 'v12',
-        fmla: '+- v11 0 v10'
+        n: 'v12',
+        f: '+- v11 0 v10'
       },
       {
-        name: 'dxC2',
-        fmla: '*/ v12 1 v4'
+        n: 'dxC2',
+        f: '*/ v12 1 v4'
       },
       {
-        name: 'adyI',
-        fmla: 'abs dyI'
+        n: 'adyI',
+        f: 'abs dyI'
       },
       {
-        name: 'v13',
-        fmla: '*/ adyI sdelI 1'
+        n: 'v13',
+        f: '*/ adyI sdelI 1'
       },
       {
-        name: 'v14',
-        fmla: '*/ DI dxI -1'
+        n: 'v14',
+        f: '*/ DI dxI -1'
       },
       {
-        name: 'dyC1',
-        fmla: '+/ v14 v13 v4'
+        n: 'dyC1',
+        f: '+/ v14 v13 v4'
       },
       {
-        name: 'v15',
-        fmla: '+- v14 0 v13'
+        n: 'v15',
+        f: '+- v14 0 v13'
       },
       {
-        name: 'dyC2',
-        fmla: '*/ v15 1 v4'
+        n: 'dyC2',
+        f: '*/ v15 1 v4'
       },
       {
-        name: 'v16',
-        fmla: '+- x1I 0 dxC1'
+        n: 'v16',
+        f: '+- x1I 0 dxC1'
       },
       {
-        name: 'v17',
-        fmla: '+- x1I 0 dxC2'
+        n: 'v17',
+        f: '+- x1I 0 dxC2'
       },
       {
-        name: 'v18',
-        fmla: '+- y1I 0 dyC1'
+        n: 'v18',
+        f: '+- y1I 0 dyC1'
       },
       {
-        name: 'v19',
-        fmla: '+- y1I 0 dyC2'
+        n: 'v19',
+        f: '+- y1I 0 dyC2'
       },
       {
-        name: 'v20',
-        fmla: 'mod v16 v18 0'
+        n: 'v20',
+        f: 'mod v16 v18 0'
       },
       {
-        name: 'v21',
-        fmla: 'mod v17 v19 0'
+        n: 'v21',
+        f: 'mod v17 v19 0'
       },
       {
-        name: 'v22',
-        fmla: '+- v21 0 v20'
+        n: 'v22',
+        f: '+- v21 0 v20'
       },
       {
-        name: 'dxC',
-        fmla: '?: v22 dxC1 dxC2'
+        n: 'dxC',
+        f: '?: v22 dxC1 dxC2'
       },
       {
-        name: 'dyC',
-        fmla: '?: v22 dyC1 dyC2'
+        n: 'dyC',
+        f: '?: v22 dyC1 dyC2'
       },
       {
-        name: 'sdxC',
-        fmla: '*/ dxC rw2 rI'
+        n: 'sdxC',
+        f: '*/ dxC rw2 rI'
       },
       {
-        name: 'sdyC',
-        fmla: '*/ dyC rh2 rI'
+        n: 'sdyC',
+        f: '*/ dyC rh2 rI'
       },
       {
-        name: 'xC',
-        fmla: '+- hc sdxC 0'
+        n: 'xC',
+        f: '+- hc sdxC 0'
       },
       {
-        name: 'yC',
-        fmla: '+- vc sdyC 0'
+        n: 'yC',
+        f: '+- vc sdyC 0'
       },
       {
-        name: 'ist0',
-        fmla: 'at2 sdxC sdyC'
+        n: 'ist0',
+        f: 'at2 sdxC sdyC'
       },
       {
-        name: 'ist1',
-        fmla: '+- ist0 21600000 0'
+        n: 'ist1',
+        f: '+- ist0 21600000 0'
       },
       {
-        name: 'istAng',
-        fmla: '?: ist0 ist0 ist1'
+        n: 'istAng',
+        f: '?: ist0 ist0 ist1'
       },
       {
-        name: 'isw1',
-        fmla: '+- stAng 0 istAng'
+        n: 'isw1',
+        f: '+- stAng 0 istAng'
       },
       {
-        name: 'isw2',
-        fmla: '+- isw1 0 21600000'
+        n: 'isw2',
+        f: '+- isw1 0 21600000'
       },
       {
-        name: 'iswAng',
-        fmla: '?: isw1 isw2 isw1'
+        n: 'iswAng',
+        f: '?: isw1 isw2 isw1'
       },
       {
-        name: 'p1',
-        fmla: '+- xF 0 xC'
+        n: 'p1',
+        f: '+- xF 0 xC'
       },
       {
-        name: 'p2',
-        fmla: '+- yF 0 yC'
+        n: 'p2',
+        f: '+- yF 0 yC'
       },
       {
-        name: 'p3',
-        fmla: 'mod p1 p2 0'
+        n: 'p3',
+        f: 'mod p1 p2 0'
       },
       {
-        name: 'p4',
-        fmla: '*/ p3 1 2'
+        n: 'p4',
+        f: '*/ p3 1 2'
       },
       {
-        name: 'p5',
-        fmla: '+- p4 0 thh'
+        n: 'p5',
+        f: '+- p4 0 thh'
       },
       {
-        name: 'xGp',
-        fmla: '?: p5 xF xG'
+        n: 'xGp',
+        f: '?: p5 xF xG'
       },
       {
-        name: 'yGp',
-        fmla: '?: p5 yF yG'
+        n: 'yGp',
+        f: '?: p5 yF yG'
       },
       {
-        name: 'xBp',
-        fmla: '?: p5 xC xB'
+        n: 'xBp',
+        f: '?: p5 xC xB'
       },
       {
-        name: 'yBp',
-        fmla: '?: p5 yC yB'
+        n: 'yBp',
+        f: '?: p5 yC yB'
       },
       {
-        name: 'en0',
-        fmla: 'at2 sdxF sdyF'
+        n: 'en0',
+        f: 'at2 sdxF sdyF'
       },
       {
-        name: 'en1',
-        fmla: '+- en0 21600000 0'
+        n: 'en1',
+        f: '+- en0 21600000 0'
       },
       {
-        name: 'en2',
-        fmla: '?: en0 en0 en1'
+        n: 'en2',
+        f: '?: en0 en0 en1'
       },
       {
-        name: 'sw0',
-        fmla: '+- en2 0 stAng'
+        n: 'sw0',
+        f: '+- en2 0 stAng'
       },
       {
-        name: 'sw1',
-        fmla: '+- sw0 21600000 0'
+        n: 'sw1',
+        f: '+- sw0 21600000 0'
       },
       {
-        name: 'swAng',
-        fmla: '?: sw0 sw0 sw1'
+        n: 'swAng',
+        f: '?: sw0 sw0 sw1'
       },
       {
-        name: 'wtI',
-        fmla: 'sin rw3 stAng'
+        n: 'wtI',
+        f: 'sin rw3 stAng'
       },
       {
-        name: 'htI',
-        fmla: 'cos rh3 stAng'
+        n: 'htI',
+        f: 'cos rh3 stAng'
       },
       {
-        name: 'dxI',
-        fmla: 'cat2 rw3 htI wtI'
+        n: 'dxI',
+        f: 'cat2 rw3 htI wtI'
       },
       {
-        name: 'dyI',
-        fmla: 'sat2 rh3 htI wtI'
+        n: 'dyI',
+        f: 'sat2 rh3 htI wtI'
       },
       {
-        name: 'xI',
-        fmla: '+- hc dxI 0'
+        n: 'xI',
+        f: '+- hc dxI 0'
       },
       {
-        name: 'yI',
-        fmla: '+- vc dyI 0'
+        n: 'yI',
+        f: '+- vc dyI 0'
       },
       {
-        name: 'aI',
-        fmla: '+- stAng 0 cd4'
+        n: 'aI',
+        f: '+- stAng 0 cd4'
       },
       {
-        name: 'aA',
-        fmla: '+- ptAng cd4 0'
+        n: 'aA',
+        f: '+- ptAng cd4 0'
       },
       {
-        name: 'aB',
-        fmla: '+- ptAng cd2 0'
+        n: 'aB',
+        f: '+- ptAng cd2 0'
       },
       {
-        name: 'idx',
-        fmla: 'cos rw1 2700000'
+        n: 'idx',
+        f: 'cos rw1 2700000'
       },
       {
-        name: 'idy',
-        fmla: 'sin rh1 2700000'
+        n: 'idy',
+        f: 'sin rh1 2700000'
       },
       {
-        name: 'il',
-        fmla: '+- hc 0 idx'
+        n: 'il',
+        f: '+- hc 0 idx'
       },
       {
-        name: 'ir',
-        fmla: '+- hc idx 0'
+        n: 'ir',
+        f: '+- hc idx 0'
       },
       {
-        name: 'it',
-        fmla: '+- vc 0 idy'
+        n: 'it',
+        f: '+- vc 0 idy'
       },
       {
-        name: 'ib',
-        fmla: '+- vc idy 0'
+        n: 'ib',
+        f: '+- vc idy 0'
       }
     ],
     pathLst: [
@@ -9416,36 +9416,36 @@ export const presetShape: Record<string, Shape> = {
   cloud: {
     gdLst: [
       {
-        name: 'il',
-        fmla: '*/ w 2977 21600'
+        n: 'il',
+        f: '*/ w 2977 21600'
       },
       {
-        name: 'it',
-        fmla: '*/ h 3262 21600'
+        n: 'it',
+        f: '*/ h 3262 21600'
       },
       {
-        name: 'ir',
-        fmla: '*/ w 17087 21600'
+        n: 'ir',
+        f: '*/ w 17087 21600'
       },
       {
-        name: 'ib',
-        fmla: '*/ h 17337 21600'
+        n: 'ib',
+        f: '*/ h 17337 21600'
       },
       {
-        name: 'g27',
-        fmla: '*/ w 67 21600'
+        n: 'g27',
+        f: '*/ w 67 21600'
       },
       {
-        name: 'g28',
-        fmla: '*/ h 21577 21600'
+        n: 'g28',
+        f: '*/ h 21577 21600'
       },
       {
-        name: 'g29',
-        fmla: '*/ w 21582 21600'
+        n: 'g29',
+        f: '*/ w 21582 21600'
       },
       {
-        name: 'g30',
-        fmla: '*/ h 1235 21600'
+        n: 'g30',
+        f: '*/ h 1235 21600'
       }
     ],
     pathLst: [
@@ -9712,186 +9712,186 @@ export const presetShape: Record<string, Shape> = {
   cloudCallout: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val -20833'
+        n: 'adj1',
+        f: 'val -20833'
       },
       {
-        name: 'adj2',
-        fmla: 'val 62500'
+        n: 'adj2',
+        f: 'val 62500'
       }
     ],
     gdLst: [
       {
-        name: 'dxPos',
-        fmla: '*/ w adj1 100000'
+        n: 'dxPos',
+        f: '*/ w adj1 100000'
       },
       {
-        name: 'dyPos',
-        fmla: '*/ h adj2 100000'
+        n: 'dyPos',
+        f: '*/ h adj2 100000'
       },
       {
-        name: 'xPos',
-        fmla: '+- hc dxPos 0'
+        n: 'xPos',
+        f: '+- hc dxPos 0'
       },
       {
-        name: 'yPos',
-        fmla: '+- vc dyPos 0'
+        n: 'yPos',
+        f: '+- vc dyPos 0'
       },
       {
-        name: 'ht',
-        fmla: 'cat2 hd2 dxPos dyPos'
+        n: 'ht',
+        f: 'cat2 hd2 dxPos dyPos'
       },
       {
-        name: 'wt',
-        fmla: 'sat2 wd2 dxPos dyPos'
+        n: 'wt',
+        f: 'sat2 wd2 dxPos dyPos'
       },
       {
-        name: 'g2',
-        fmla: 'cat2 wd2 ht wt'
+        n: 'g2',
+        f: 'cat2 wd2 ht wt'
       },
       {
-        name: 'g3',
-        fmla: 'sat2 hd2 ht wt'
+        n: 'g3',
+        f: 'sat2 hd2 ht wt'
       },
       {
-        name: 'g4',
-        fmla: '+- hc g2 0'
+        n: 'g4',
+        f: '+- hc g2 0'
       },
       {
-        name: 'g5',
-        fmla: '+- vc g3 0'
+        n: 'g5',
+        f: '+- vc g3 0'
       },
       {
-        name: 'g6',
-        fmla: '+- g4 0 xPos'
+        n: 'g6',
+        f: '+- g4 0 xPos'
       },
       {
-        name: 'g7',
-        fmla: '+- g5 0 yPos'
+        n: 'g7',
+        f: '+- g5 0 yPos'
       },
       {
-        name: 'g8',
-        fmla: 'mod g6 g7 0'
+        n: 'g8',
+        f: 'mod g6 g7 0'
       },
       {
-        name: 'g9',
-        fmla: '*/ ss 6600 21600'
+        n: 'g9',
+        f: '*/ ss 6600 21600'
       },
       {
-        name: 'g10',
-        fmla: '+- g8 0 g9'
+        n: 'g10',
+        f: '+- g8 0 g9'
       },
       {
-        name: 'g11',
-        fmla: '*/ g10 1 3'
+        n: 'g11',
+        f: '*/ g10 1 3'
       },
       {
-        name: 'g12',
-        fmla: '*/ ss 1800 21600'
+        n: 'g12',
+        f: '*/ ss 1800 21600'
       },
       {
-        name: 'g13',
-        fmla: '+- g11 g12 0'
+        n: 'g13',
+        f: '+- g11 g12 0'
       },
       {
-        name: 'g14',
-        fmla: '*/ g13 g6 g8'
+        n: 'g14',
+        f: '*/ g13 g6 g8'
       },
       {
-        name: 'g15',
-        fmla: '*/ g13 g7 g8'
+        n: 'g15',
+        f: '*/ g13 g7 g8'
       },
       {
-        name: 'g16',
-        fmla: '+- g14 xPos 0'
+        n: 'g16',
+        f: '+- g14 xPos 0'
       },
       {
-        name: 'g17',
-        fmla: '+- g15 yPos 0'
+        n: 'g17',
+        f: '+- g15 yPos 0'
       },
       {
-        name: 'g18',
-        fmla: '*/ ss 4800 21600'
+        n: 'g18',
+        f: '*/ ss 4800 21600'
       },
       {
-        name: 'g19',
-        fmla: '*/ g11 2 1'
+        n: 'g19',
+        f: '*/ g11 2 1'
       },
       {
-        name: 'g20',
-        fmla: '+- g18 g19 0'
+        n: 'g20',
+        f: '+- g18 g19 0'
       },
       {
-        name: 'g21',
-        fmla: '*/ g20 g6 g8'
+        n: 'g21',
+        f: '*/ g20 g6 g8'
       },
       {
-        name: 'g22',
-        fmla: '*/ g20 g7 g8'
+        n: 'g22',
+        f: '*/ g20 g7 g8'
       },
       {
-        name: 'g23',
-        fmla: '+- g21 xPos 0'
+        n: 'g23',
+        f: '+- g21 xPos 0'
       },
       {
-        name: 'g24',
-        fmla: '+- g22 yPos 0'
+        n: 'g24',
+        f: '+- g22 yPos 0'
       },
       {
-        name: 'g25',
-        fmla: '*/ ss 1200 21600'
+        n: 'g25',
+        f: '*/ ss 1200 21600'
       },
       {
-        name: 'g26',
-        fmla: '*/ ss 600 21600'
+        n: 'g26',
+        f: '*/ ss 600 21600'
       },
       {
-        name: 'x23',
-        fmla: '+- xPos g26 0'
+        n: 'x23',
+        f: '+- xPos g26 0'
       },
       {
-        name: 'x24',
-        fmla: '+- g16 g25 0'
+        n: 'x24',
+        f: '+- g16 g25 0'
       },
       {
-        name: 'x25',
-        fmla: '+- g23 g12 0'
+        n: 'x25',
+        f: '+- g23 g12 0'
       },
       {
-        name: 'il',
-        fmla: '*/ w 2977 21600'
+        n: 'il',
+        f: '*/ w 2977 21600'
       },
       {
-        name: 'it',
-        fmla: '*/ h 3262 21600'
+        n: 'it',
+        f: '*/ h 3262 21600'
       },
       {
-        name: 'ir',
-        fmla: '*/ w 17087 21600'
+        n: 'ir',
+        f: '*/ w 17087 21600'
       },
       {
-        name: 'ib',
-        fmla: '*/ h 17337 21600'
+        n: 'ib',
+        f: '*/ h 17337 21600'
       },
       {
-        name: 'g27',
-        fmla: '*/ w 67 21600'
+        n: 'g27',
+        f: '*/ w 67 21600'
       },
       {
-        name: 'g28',
-        fmla: '*/ h 21577 21600'
+        n: 'g28',
+        f: '*/ h 21577 21600'
       },
       {
-        name: 'g29',
-        fmla: '*/ w 21582 21600'
+        n: 'g29',
+        f: '*/ w 21582 21600'
       },
       {
-        name: 'g30',
-        fmla: '*/ h 1235 21600'
+        n: 'g30',
+        f: '*/ h 1235 21600'
       },
       {
-        name: 'pang',
-        fmla: 'at2 dxPos dyPos'
+        n: 'pang',
+        f: 'at2 dxPos dyPos'
       }
     ],
     pathLst: [
@@ -10227,62 +10227,62 @@ export const presetShape: Record<string, Shape> = {
   corner: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 50000'
+        n: 'adj1',
+        f: 'val 50000'
       },
       {
-        name: 'adj2',
-        fmla: 'val 50000'
+        n: 'adj2',
+        f: 'val 50000'
       }
     ],
     gdLst: [
       {
-        name: 'maxAdj1',
-        fmla: '*/ 100000 h ss'
+        n: 'maxAdj1',
+        f: '*/ 100000 h ss'
       },
       {
-        name: 'maxAdj2',
-        fmla: '*/ 100000 w ss'
+        n: 'maxAdj2',
+        f: '*/ 100000 w ss'
       },
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 maxAdj1'
+        n: 'a1',
+        f: 'pin 0 adj1 maxAdj1'
       },
       {
-        name: 'a2',
-        fmla: 'pin 0 adj2 maxAdj2'
+        n: 'a2',
+        f: 'pin 0 adj2 maxAdj2'
       },
       {
-        name: 'x1',
-        fmla: '*/ ss a2 100000'
+        n: 'x1',
+        f: '*/ ss a2 100000'
       },
       {
-        name: 'dy1',
-        fmla: '*/ ss a1 100000'
+        n: 'dy1',
+        f: '*/ ss a1 100000'
       },
       {
-        name: 'y1',
-        fmla: '+- b 0 dy1'
+        n: 'y1',
+        f: '+- b 0 dy1'
       },
       {
-        name: 'cx1',
-        fmla: '*/ x1 1 2'
+        n: 'cx1',
+        f: '*/ x1 1 2'
       },
       {
-        name: 'cy1',
-        fmla: '+/ y1 b 2'
+        n: 'cy1',
+        f: '+/ y1 b 2'
       },
       {
-        name: 'd',
-        fmla: '+- w 0 h'
+        n: 'd',
+        f: '+- w 0 h'
       },
       {
-        name: 'it',
-        fmla: '?: d y1 t'
+        n: 'it',
+        f: '?: d y1 t'
       },
       {
-        name: 'ir',
-        fmla: '?: d r x1'
+        n: 'ir',
+        f: '?: d r x1'
       }
     ],
     pathLst: [
@@ -10342,20 +10342,20 @@ export const presetShape: Record<string, Shape> = {
   cornerTabs: {
     gdLst: [
       {
-        name: 'md',
-        fmla: 'mod w h 0'
+        n: 'md',
+        f: 'mod w h 0'
       },
       {
-        name: 'dx',
-        fmla: '*/ 1 md 20'
+        n: 'dx',
+        f: '*/ 1 md 20'
       },
       {
-        name: 'y1',
-        fmla: '+- 0 b dx'
+        n: 'y1',
+        f: '+- 0 b dx'
       },
       {
-        name: 'x1',
-        fmla: '+- 0 r dx'
+        n: 'x1',
+        f: '+- 0 r dx'
       }
     ],
     pathLst: [
@@ -10484,42 +10484,42 @@ export const presetShape: Record<string, Shape> = {
   cube: {
     avLst: [
       {
-        name: 'adj',
-        fmla: 'val 25000'
+        n: 'adj',
+        f: 'val 25000'
       }
     ],
     gdLst: [
       {
-        name: 'a',
-        fmla: 'pin 0 adj 100000'
+        n: 'a',
+        f: 'pin 0 adj 100000'
       },
       {
-        name: 'y1',
-        fmla: '*/ ss a 100000'
+        n: 'y1',
+        f: '*/ ss a 100000'
       },
       {
-        name: 'y4',
-        fmla: '+- b 0 y1'
+        n: 'y4',
+        f: '+- b 0 y1'
       },
       {
-        name: 'y2',
-        fmla: '*/ y4 1 2'
+        n: 'y2',
+        f: '*/ y4 1 2'
       },
       {
-        name: 'y3',
-        fmla: '+/ y1 b 2'
+        n: 'y3',
+        f: '+/ y1 b 2'
       },
       {
-        name: 'x4',
-        fmla: '+- r 0 y1'
+        n: 'x4',
+        f: '+- r 0 y1'
       },
       {
-        name: 'x2',
-        fmla: '*/ x4 1 2'
+        n: 'x2',
+        f: '*/ x4 1 2'
       },
       {
-        name: 'x3',
-        fmla: '+/ y1 r 2'
+        n: 'x3',
+        f: '+/ y1 r 2'
       }
     ],
     pathLst: [
@@ -10763,26 +10763,26 @@ export const presetShape: Record<string, Shape> = {
   curvedConnector3: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 50000'
+        n: 'adj1',
+        f: 'val 50000'
       }
     ],
     gdLst: [
       {
-        name: 'x2',
-        fmla: '*/ w adj1 100000'
+        n: 'x2',
+        f: '*/ w adj1 100000'
       },
       {
-        name: 'x1',
-        fmla: '+/ l x2 2'
+        n: 'x1',
+        f: '+/ l x2 2'
       },
       {
-        name: 'x3',
-        fmla: '+/ r x2 2'
+        n: 'x3',
+        f: '+/ r x2 2'
       },
       {
-        name: 'y3',
-        fmla: '*/ h 3 4'
+        n: 'y3',
+        f: '*/ h 3 4'
       }
     ],
     pathLst: [
@@ -10839,54 +10839,54 @@ export const presetShape: Record<string, Shape> = {
   curvedConnector4: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 50000'
+        n: 'adj1',
+        f: 'val 50000'
       },
       {
-        name: 'adj2',
-        fmla: 'val 50000'
+        n: 'adj2',
+        f: 'val 50000'
       }
     ],
     gdLst: [
       {
-        name: 'x2',
-        fmla: '*/ w adj1 100000'
+        n: 'x2',
+        f: '*/ w adj1 100000'
       },
       {
-        name: 'x1',
-        fmla: '+/ l x2 2'
+        n: 'x1',
+        f: '+/ l x2 2'
       },
       {
-        name: 'x3',
-        fmla: '+/ r x2 2'
+        n: 'x3',
+        f: '+/ r x2 2'
       },
       {
-        name: 'x4',
-        fmla: '+/ x2 x3 2'
+        n: 'x4',
+        f: '+/ x2 x3 2'
       },
       {
-        name: 'x5',
-        fmla: '+/ x3 r 2'
+        n: 'x5',
+        f: '+/ x3 r 2'
       },
       {
-        name: 'y4',
-        fmla: '*/ h adj2 100000'
+        n: 'y4',
+        f: '*/ h adj2 100000'
       },
       {
-        name: 'y1',
-        fmla: '+/ t y4 2'
+        n: 'y1',
+        f: '+/ t y4 2'
       },
       {
-        name: 'y2',
-        fmla: '+/ t y1 2'
+        n: 'y2',
+        f: '+/ t y1 2'
       },
       {
-        name: 'y3',
-        fmla: '+/ y1 y4 2'
+        n: 'y3',
+        f: '+/ y1 y4 2'
       },
       {
-        name: 'y5',
-        fmla: '+/ b y4 2'
+        n: 'y5',
+        f: '+/ b y4 2'
       }
     ],
     pathLst: [
@@ -10960,74 +10960,74 @@ export const presetShape: Record<string, Shape> = {
   curvedConnector5: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 50000'
+        n: 'adj1',
+        f: 'val 50000'
       },
       {
-        name: 'adj2',
-        fmla: 'val 50000'
+        n: 'adj2',
+        f: 'val 50000'
       },
       {
-        name: 'adj3',
-        fmla: 'val 50000'
+        n: 'adj3',
+        f: 'val 50000'
       }
     ],
     gdLst: [
       {
-        name: 'x3',
-        fmla: '*/ w adj1 100000'
+        n: 'x3',
+        f: '*/ w adj1 100000'
       },
       {
-        name: 'x6',
-        fmla: '*/ w adj3 100000'
+        n: 'x6',
+        f: '*/ w adj3 100000'
       },
       {
-        name: 'x1',
-        fmla: '+/ x3 x6 2'
+        n: 'x1',
+        f: '+/ x3 x6 2'
       },
       {
-        name: 'x2',
-        fmla: '+/ l x3 2'
+        n: 'x2',
+        f: '+/ l x3 2'
       },
       {
-        name: 'x4',
-        fmla: '+/ x3 x1 2'
+        n: 'x4',
+        f: '+/ x3 x1 2'
       },
       {
-        name: 'x5',
-        fmla: '+/ x6 x1 2'
+        n: 'x5',
+        f: '+/ x6 x1 2'
       },
       {
-        name: 'x7',
-        fmla: '+/ x6 r 2'
+        n: 'x7',
+        f: '+/ x6 r 2'
       },
       {
-        name: 'y4',
-        fmla: '*/ h adj2 100000'
+        n: 'y4',
+        f: '*/ h adj2 100000'
       },
       {
-        name: 'y1',
-        fmla: '+/ t y4 2'
+        n: 'y1',
+        f: '+/ t y4 2'
       },
       {
-        name: 'y2',
-        fmla: '+/ t y1 2'
+        n: 'y2',
+        f: '+/ t y1 2'
       },
       {
-        name: 'y3',
-        fmla: '+/ y1 y4 2'
+        n: 'y3',
+        f: '+/ y1 y4 2'
       },
       {
-        name: 'y5',
-        fmla: '+/ b y4 2'
+        n: 'y5',
+        f: '+/ b y4 2'
       },
       {
-        name: 'y6',
-        fmla: '+/ y5 y4 2'
+        n: 'y6',
+        f: '+/ y5 y4 2'
       },
       {
-        name: 'y7',
-        fmla: '+/ y5 b 2'
+        n: 'y7',
+        f: '+/ y5 b 2'
       }
     ],
     pathLst: [
@@ -11118,182 +11118,182 @@ export const presetShape: Record<string, Shape> = {
   curvedDownArrow: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 25000'
+        n: 'adj1',
+        f: 'val 25000'
       },
       {
-        name: 'adj2',
-        fmla: 'val 50000'
+        n: 'adj2',
+        f: 'val 50000'
       },
       {
-        name: 'adj3',
-        fmla: 'val 25000'
+        n: 'adj3',
+        f: 'val 25000'
       }
     ],
     gdLst: [
       {
-        name: 'maxAdj2',
-        fmla: '*/ 50000 w ss'
+        n: 'maxAdj2',
+        f: '*/ 50000 w ss'
       },
       {
-        name: 'a2',
-        fmla: 'pin 0 adj2 maxAdj2'
+        n: 'a2',
+        f: 'pin 0 adj2 maxAdj2'
       },
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 100000'
+        n: 'a1',
+        f: 'pin 0 adj1 100000'
       },
       {
-        name: 'th',
-        fmla: '*/ ss a1 100000'
+        n: 'th',
+        f: '*/ ss a1 100000'
       },
       {
-        name: 'aw',
-        fmla: '*/ ss a2 100000'
+        n: 'aw',
+        f: '*/ ss a2 100000'
       },
       {
-        name: 'q1',
-        fmla: '+/ th aw 4'
+        n: 'q1',
+        f: '+/ th aw 4'
       },
       {
-        name: 'wR',
-        fmla: '+- wd2 0 q1'
+        n: 'wR',
+        f: '+- wd2 0 q1'
       },
       {
-        name: 'q7',
-        fmla: '*/ wR 2 1'
+        n: 'q7',
+        f: '*/ wR 2 1'
       },
       {
-        name: 'q8',
-        fmla: '*/ q7 q7 1'
+        n: 'q8',
+        f: '*/ q7 q7 1'
       },
       {
-        name: 'q9',
-        fmla: '*/ th th 1'
+        n: 'q9',
+        f: '*/ th th 1'
       },
       {
-        name: 'q10',
-        fmla: '+- q8 0 q9'
+        n: 'q10',
+        f: '+- q8 0 q9'
       },
       {
-        name: 'q11',
-        fmla: 'sqrt q10'
+        n: 'q11',
+        f: 'sqrt q10'
       },
       {
-        name: 'idy',
-        fmla: '*/ q11 h q7'
+        n: 'idy',
+        f: '*/ q11 h q7'
       },
       {
-        name: 'maxAdj3',
-        fmla: '*/ 100000 idy ss'
+        n: 'maxAdj3',
+        f: '*/ 100000 idy ss'
       },
       {
-        name: 'a3',
-        fmla: 'pin 0 adj3 maxAdj3'
+        n: 'a3',
+        f: 'pin 0 adj3 maxAdj3'
       },
       {
-        name: 'ah',
-        fmla: '*/ ss adj3 100000'
+        n: 'ah',
+        f: '*/ ss adj3 100000'
       },
       {
-        name: 'x3',
-        fmla: '+- wR th 0'
+        n: 'x3',
+        f: '+- wR th 0'
       },
       {
-        name: 'q2',
-        fmla: '*/ h h 1'
+        n: 'q2',
+        f: '*/ h h 1'
       },
       {
-        name: 'q3',
-        fmla: '*/ ah ah 1'
+        n: 'q3',
+        f: '*/ ah ah 1'
       },
       {
-        name: 'q4',
-        fmla: '+- q2 0 q3'
+        n: 'q4',
+        f: '+- q2 0 q3'
       },
       {
-        name: 'q5',
-        fmla: 'sqrt q4'
+        n: 'q5',
+        f: 'sqrt q4'
       },
       {
-        name: 'dx',
-        fmla: '*/ q5 wR h'
+        n: 'dx',
+        f: '*/ q5 wR h'
       },
       {
-        name: 'x5',
-        fmla: '+- wR dx 0'
+        n: 'x5',
+        f: '+- wR dx 0'
       },
       {
-        name: 'x7',
-        fmla: '+- x3 dx 0'
+        n: 'x7',
+        f: '+- x3 dx 0'
       },
       {
-        name: 'q6',
-        fmla: '+- aw 0 th'
+        n: 'q6',
+        f: '+- aw 0 th'
       },
       {
-        name: 'dh',
-        fmla: '*/ q6 1 2'
+        n: 'dh',
+        f: '*/ q6 1 2'
       },
       {
-        name: 'x4',
-        fmla: '+- x5 0 dh'
+        n: 'x4',
+        f: '+- x5 0 dh'
       },
       {
-        name: 'x8',
-        fmla: '+- x7 dh 0'
+        n: 'x8',
+        f: '+- x7 dh 0'
       },
       {
-        name: 'aw2',
-        fmla: '*/ aw 1 2'
+        n: 'aw2',
+        f: '*/ aw 1 2'
       },
       {
-        name: 'x6',
-        fmla: '+- r 0 aw2'
+        n: 'x6',
+        f: '+- r 0 aw2'
       },
       {
-        name: 'y1',
-        fmla: '+- b 0 ah'
+        n: 'y1',
+        f: '+- b 0 ah'
       },
       {
-        name: 'swAng',
-        fmla: 'at2 ah dx'
+        n: 'swAng',
+        f: 'at2 ah dx'
       },
       {
-        name: 'mswAng',
-        fmla: '+- 0 0 swAng'
+        n: 'mswAng',
+        f: '+- 0 0 swAng'
       },
       {
-        name: 'iy',
-        fmla: '+- b 0 idy'
+        n: 'iy',
+        f: '+- b 0 idy'
       },
       {
-        name: 'ix',
-        fmla: '+/ wR x3 2'
+        n: 'ix',
+        f: '+/ wR x3 2'
       },
       {
-        name: 'q12',
-        fmla: '*/ th 1 2'
+        n: 'q12',
+        f: '*/ th 1 2'
       },
       {
-        name: 'dang2',
-        fmla: 'at2 idy q12'
+        n: 'dang2',
+        f: 'at2 idy q12'
       },
       {
-        name: 'stAng',
-        fmla: '+- 3cd4 swAng 0'
+        n: 'stAng',
+        f: '+- 3cd4 swAng 0'
       },
       {
-        name: 'stAng2',
-        fmla: '+- 3cd4 0 dang2'
+        n: 'stAng2',
+        f: '+- 3cd4 0 dang2'
       },
       {
-        name: 'swAng2',
-        fmla: '+- dang2 0 cd4'
+        n: 'swAng2',
+        f: '+- dang2 0 cd4'
       },
       {
-        name: 'swAng3',
-        fmla: '+- cd4 dang2 0'
+        n: 'swAng3',
+        f: '+- cd4 dang2 0'
       }
     ],
     pathLst: [
@@ -11482,178 +11482,178 @@ export const presetShape: Record<string, Shape> = {
   curvedLeftArrow: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 25000'
+        n: 'adj1',
+        f: 'val 25000'
       },
       {
-        name: 'adj2',
-        fmla: 'val 50000'
+        n: 'adj2',
+        f: 'val 50000'
       },
       {
-        name: 'adj3',
-        fmla: 'val 25000'
+        n: 'adj3',
+        f: 'val 25000'
       }
     ],
     gdLst: [
       {
-        name: 'maxAdj2',
-        fmla: '*/ 50000 h ss'
+        n: 'maxAdj2',
+        f: '*/ 50000 h ss'
       },
       {
-        name: 'a2',
-        fmla: 'pin 0 adj2 maxAdj2'
+        n: 'a2',
+        f: 'pin 0 adj2 maxAdj2'
       },
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 a2'
+        n: 'a1',
+        f: 'pin 0 adj1 a2'
       },
       {
-        name: 'th',
-        fmla: '*/ ss a1 100000'
+        n: 'th',
+        f: '*/ ss a1 100000'
       },
       {
-        name: 'aw',
-        fmla: '*/ ss a2 100000'
+        n: 'aw',
+        f: '*/ ss a2 100000'
       },
       {
-        name: 'q1',
-        fmla: '+/ th aw 4'
+        n: 'q1',
+        f: '+/ th aw 4'
       },
       {
-        name: 'hR',
-        fmla: '+- hd2 0 q1'
+        n: 'hR',
+        f: '+- hd2 0 q1'
       },
       {
-        name: 'q7',
-        fmla: '*/ hR 2 1'
+        n: 'q7',
+        f: '*/ hR 2 1'
       },
       {
-        name: 'q8',
-        fmla: '*/ q7 q7 1'
+        n: 'q8',
+        f: '*/ q7 q7 1'
       },
       {
-        name: 'q9',
-        fmla: '*/ th th 1'
+        n: 'q9',
+        f: '*/ th th 1'
       },
       {
-        name: 'q10',
-        fmla: '+- q8 0 q9'
+        n: 'q10',
+        f: '+- q8 0 q9'
       },
       {
-        name: 'q11',
-        fmla: 'sqrt q10'
+        n: 'q11',
+        f: 'sqrt q10'
       },
       {
-        name: 'idx',
-        fmla: '*/ q11 w q7'
+        n: 'idx',
+        f: '*/ q11 w q7'
       },
       {
-        name: 'maxAdj3',
-        fmla: '*/ 100000 idx ss'
+        n: 'maxAdj3',
+        f: '*/ 100000 idx ss'
       },
       {
-        name: 'a3',
-        fmla: 'pin 0 adj3 maxAdj3'
+        n: 'a3',
+        f: 'pin 0 adj3 maxAdj3'
       },
       {
-        name: 'ah',
-        fmla: '*/ ss a3 100000'
+        n: 'ah',
+        f: '*/ ss a3 100000'
       },
       {
-        name: 'y3',
-        fmla: '+- hR th 0'
+        n: 'y3',
+        f: '+- hR th 0'
       },
       {
-        name: 'q2',
-        fmla: '*/ w w 1'
+        n: 'q2',
+        f: '*/ w w 1'
       },
       {
-        name: 'q3',
-        fmla: '*/ ah ah 1'
+        n: 'q3',
+        f: '*/ ah ah 1'
       },
       {
-        name: 'q4',
-        fmla: '+- q2 0 q3'
+        n: 'q4',
+        f: '+- q2 0 q3'
       },
       {
-        name: 'q5',
-        fmla: 'sqrt q4'
+        n: 'q5',
+        f: 'sqrt q4'
       },
       {
-        name: 'dy',
-        fmla: '*/ q5 hR w'
+        n: 'dy',
+        f: '*/ q5 hR w'
       },
       {
-        name: 'y5',
-        fmla: '+- hR dy 0'
+        n: 'y5',
+        f: '+- hR dy 0'
       },
       {
-        name: 'y7',
-        fmla: '+- y3 dy 0'
+        n: 'y7',
+        f: '+- y3 dy 0'
       },
       {
-        name: 'q6',
-        fmla: '+- aw 0 th'
+        n: 'q6',
+        f: '+- aw 0 th'
       },
       {
-        name: 'dh',
-        fmla: '*/ q6 1 2'
+        n: 'dh',
+        f: '*/ q6 1 2'
       },
       {
-        name: 'y4',
-        fmla: '+- y5 0 dh'
+        n: 'y4',
+        f: '+- y5 0 dh'
       },
       {
-        name: 'y8',
-        fmla: '+- y7 dh 0'
+        n: 'y8',
+        f: '+- y7 dh 0'
       },
       {
-        name: 'aw2',
-        fmla: '*/ aw 1 2'
+        n: 'aw2',
+        f: '*/ aw 1 2'
       },
       {
-        name: 'y6',
-        fmla: '+- b 0 aw2'
+        n: 'y6',
+        f: '+- b 0 aw2'
       },
       {
-        name: 'x1',
-        fmla: '+- l ah 0'
+        n: 'x1',
+        f: '+- l ah 0'
       },
       {
-        name: 'swAng',
-        fmla: 'at2 ah dy'
+        n: 'swAng',
+        f: 'at2 ah dy'
       },
       {
-        name: 'mswAng',
-        fmla: '+- 0 0 swAng'
+        n: 'mswAng',
+        f: '+- 0 0 swAng'
       },
       {
-        name: 'ix',
-        fmla: '+- l idx 0'
+        n: 'ix',
+        f: '+- l idx 0'
       },
       {
-        name: 'iy',
-        fmla: '+/ hR y3 2'
+        n: 'iy',
+        f: '+/ hR y3 2'
       },
       {
-        name: 'q12',
-        fmla: '*/ th 1 2'
+        n: 'q12',
+        f: '*/ th 1 2'
       },
       {
-        name: 'dang2',
-        fmla: 'at2 idx q12'
+        n: 'dang2',
+        f: 'at2 idx q12'
       },
       {
-        name: 'swAng2',
-        fmla: '+- dang2 0 swAng'
+        n: 'swAng2',
+        f: '+- dang2 0 swAng'
       },
       {
-        name: 'swAng3',
-        fmla: '+- swAng dang2 0'
+        n: 'swAng3',
+        f: '+- swAng dang2 0'
       },
       {
-        name: 'stAng3',
-        fmla: '+- 0 0 dang2'
+        n: 'stAng3',
+        f: '+- 0 0 dang2'
       }
     ],
     pathLst: [
@@ -11835,182 +11835,182 @@ export const presetShape: Record<string, Shape> = {
   curvedRightArrow: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 25000'
+        n: 'adj1',
+        f: 'val 25000'
       },
       {
-        name: 'adj2',
-        fmla: 'val 50000'
+        n: 'adj2',
+        f: 'val 50000'
       },
       {
-        name: 'adj3',
-        fmla: 'val 25000'
+        n: 'adj3',
+        f: 'val 25000'
       }
     ],
     gdLst: [
       {
-        name: 'maxAdj2',
-        fmla: '*/ 50000 h ss'
+        n: 'maxAdj2',
+        f: '*/ 50000 h ss'
       },
       {
-        name: 'a2',
-        fmla: 'pin 0 adj2 maxAdj2'
+        n: 'a2',
+        f: 'pin 0 adj2 maxAdj2'
       },
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 a2'
+        n: 'a1',
+        f: 'pin 0 adj1 a2'
       },
       {
-        name: 'th',
-        fmla: '*/ ss a1 100000'
+        n: 'th',
+        f: '*/ ss a1 100000'
       },
       {
-        name: 'aw',
-        fmla: '*/ ss a2 100000'
+        n: 'aw',
+        f: '*/ ss a2 100000'
       },
       {
-        name: 'q1',
-        fmla: '+/ th aw 4'
+        n: 'q1',
+        f: '+/ th aw 4'
       },
       {
-        name: 'hR',
-        fmla: '+- hd2 0 q1'
+        n: 'hR',
+        f: '+- hd2 0 q1'
       },
       {
-        name: 'q7',
-        fmla: '*/ hR 2 1'
+        n: 'q7',
+        f: '*/ hR 2 1'
       },
       {
-        name: 'q8',
-        fmla: '*/ q7 q7 1'
+        n: 'q8',
+        f: '*/ q7 q7 1'
       },
       {
-        name: 'q9',
-        fmla: '*/ th th 1'
+        n: 'q9',
+        f: '*/ th th 1'
       },
       {
-        name: 'q10',
-        fmla: '+- q8 0 q9'
+        n: 'q10',
+        f: '+- q8 0 q9'
       },
       {
-        name: 'q11',
-        fmla: 'sqrt q10'
+        n: 'q11',
+        f: 'sqrt q10'
       },
       {
-        name: 'idx',
-        fmla: '*/ q11 w q7'
+        n: 'idx',
+        f: '*/ q11 w q7'
       },
       {
-        name: 'maxAdj3',
-        fmla: '*/ 100000 idx ss'
+        n: 'maxAdj3',
+        f: '*/ 100000 idx ss'
       },
       {
-        name: 'a3',
-        fmla: 'pin 0 adj3 maxAdj3'
+        n: 'a3',
+        f: 'pin 0 adj3 maxAdj3'
       },
       {
-        name: 'ah',
-        fmla: '*/ ss a3 100000'
+        n: 'ah',
+        f: '*/ ss a3 100000'
       },
       {
-        name: 'y3',
-        fmla: '+- hR th 0'
+        n: 'y3',
+        f: '+- hR th 0'
       },
       {
-        name: 'q2',
-        fmla: '*/ w w 1'
+        n: 'q2',
+        f: '*/ w w 1'
       },
       {
-        name: 'q3',
-        fmla: '*/ ah ah 1'
+        n: 'q3',
+        f: '*/ ah ah 1'
       },
       {
-        name: 'q4',
-        fmla: '+- q2 0 q3'
+        n: 'q4',
+        f: '+- q2 0 q3'
       },
       {
-        name: 'q5',
-        fmla: 'sqrt q4'
+        n: 'q5',
+        f: 'sqrt q4'
       },
       {
-        name: 'dy',
-        fmla: '*/ q5 hR w'
+        n: 'dy',
+        f: '*/ q5 hR w'
       },
       {
-        name: 'y5',
-        fmla: '+- hR dy 0'
+        n: 'y5',
+        f: '+- hR dy 0'
       },
       {
-        name: 'y7',
-        fmla: '+- y3 dy 0'
+        n: 'y7',
+        f: '+- y3 dy 0'
       },
       {
-        name: 'q6',
-        fmla: '+- aw 0 th'
+        n: 'q6',
+        f: '+- aw 0 th'
       },
       {
-        name: 'dh',
-        fmla: '*/ q6 1 2'
+        n: 'dh',
+        f: '*/ q6 1 2'
       },
       {
-        name: 'y4',
-        fmla: '+- y5 0 dh'
+        n: 'y4',
+        f: '+- y5 0 dh'
       },
       {
-        name: 'y8',
-        fmla: '+- y7 dh 0'
+        n: 'y8',
+        f: '+- y7 dh 0'
       },
       {
-        name: 'aw2',
-        fmla: '*/ aw 1 2'
+        n: 'aw2',
+        f: '*/ aw 1 2'
       },
       {
-        name: 'y6',
-        fmla: '+- b 0 aw2'
+        n: 'y6',
+        f: '+- b 0 aw2'
       },
       {
-        name: 'x1',
-        fmla: '+- r 0 ah'
+        n: 'x1',
+        f: '+- r 0 ah'
       },
       {
-        name: 'swAng',
-        fmla: 'at2 ah dy'
+        n: 'swAng',
+        f: 'at2 ah dy'
       },
       {
-        name: 'stAng',
-        fmla: '+- cd2 0 swAng'
+        n: 'stAng',
+        f: '+- cd2 0 swAng'
       },
       {
-        name: 'mswAng',
-        fmla: '+- 0 0 swAng'
+        n: 'mswAng',
+        f: '+- 0 0 swAng'
       },
       {
-        name: 'ix',
-        fmla: '+- r 0 idx'
+        n: 'ix',
+        f: '+- r 0 idx'
       },
       {
-        name: 'iy',
-        fmla: '+/ hR y3 2'
+        n: 'iy',
+        f: '+/ hR y3 2'
       },
       {
-        name: 'q12',
-        fmla: '*/ th 1 2'
+        n: 'q12',
+        f: '*/ th 1 2'
       },
       {
-        name: 'dang2',
-        fmla: 'at2 idx q12'
+        n: 'dang2',
+        f: 'at2 idx q12'
       },
       {
-        name: 'swAng2',
-        fmla: '+- dang2 0 cd4'
+        n: 'swAng2',
+        f: '+- dang2 0 cd4'
       },
       {
-        name: 'swAng3',
-        fmla: '+- cd4 dang2 0'
+        n: 'swAng3',
+        f: '+- cd4 dang2 0'
       },
       {
-        name: 'stAng3',
-        fmla: '+- cd2 0 dang2'
+        n: 'stAng3',
+        f: '+- cd2 0 dang2'
       }
     ],
     pathLst: [
@@ -12192,186 +12192,186 @@ export const presetShape: Record<string, Shape> = {
   curvedUpArrow: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 25000'
+        n: 'adj1',
+        f: 'val 25000'
       },
       {
-        name: 'adj2',
-        fmla: 'val 50000'
+        n: 'adj2',
+        f: 'val 50000'
       },
       {
-        name: 'adj3',
-        fmla: 'val 25000'
+        n: 'adj3',
+        f: 'val 25000'
       }
     ],
     gdLst: [
       {
-        name: 'maxAdj2',
-        fmla: '*/ 50000 w ss'
+        n: 'maxAdj2',
+        f: '*/ 50000 w ss'
       },
       {
-        name: 'a2',
-        fmla: 'pin 0 adj2 maxAdj2'
+        n: 'a2',
+        f: 'pin 0 adj2 maxAdj2'
       },
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 100000'
+        n: 'a1',
+        f: 'pin 0 adj1 100000'
       },
       {
-        name: 'th',
-        fmla: '*/ ss a1 100000'
+        n: 'th',
+        f: '*/ ss a1 100000'
       },
       {
-        name: 'aw',
-        fmla: '*/ ss a2 100000'
+        n: 'aw',
+        f: '*/ ss a2 100000'
       },
       {
-        name: 'q1',
-        fmla: '+/ th aw 4'
+        n: 'q1',
+        f: '+/ th aw 4'
       },
       {
-        name: 'wR',
-        fmla: '+- wd2 0 q1'
+        n: 'wR',
+        f: '+- wd2 0 q1'
       },
       {
-        name: 'q7',
-        fmla: '*/ wR 2 1'
+        n: 'q7',
+        f: '*/ wR 2 1'
       },
       {
-        name: 'q8',
-        fmla: '*/ q7 q7 1'
+        n: 'q8',
+        f: '*/ q7 q7 1'
       },
       {
-        name: 'q9',
-        fmla: '*/ th th 1'
+        n: 'q9',
+        f: '*/ th th 1'
       },
       {
-        name: 'q10',
-        fmla: '+- q8 0 q9'
+        n: 'q10',
+        f: '+- q8 0 q9'
       },
       {
-        name: 'q11',
-        fmla: 'sqrt q10'
+        n: 'q11',
+        f: 'sqrt q10'
       },
       {
-        name: 'idy',
-        fmla: '*/ q11 h q7'
+        n: 'idy',
+        f: '*/ q11 h q7'
       },
       {
-        name: 'maxAdj3',
-        fmla: '*/ 100000 idy ss'
+        n: 'maxAdj3',
+        f: '*/ 100000 idy ss'
       },
       {
-        name: 'a3',
-        fmla: 'pin 0 adj3 maxAdj3'
+        n: 'a3',
+        f: 'pin 0 adj3 maxAdj3'
       },
       {
-        name: 'ah',
-        fmla: '*/ ss adj3 100000'
+        n: 'ah',
+        f: '*/ ss adj3 100000'
       },
       {
-        name: 'x3',
-        fmla: '+- wR th 0'
+        n: 'x3',
+        f: '+- wR th 0'
       },
       {
-        name: 'q2',
-        fmla: '*/ h h 1'
+        n: 'q2',
+        f: '*/ h h 1'
       },
       {
-        name: 'q3',
-        fmla: '*/ ah ah 1'
+        n: 'q3',
+        f: '*/ ah ah 1'
       },
       {
-        name: 'q4',
-        fmla: '+- q2 0 q3'
+        n: 'q4',
+        f: '+- q2 0 q3'
       },
       {
-        name: 'q5',
-        fmla: 'sqrt q4'
+        n: 'q5',
+        f: 'sqrt q4'
       },
       {
-        name: 'dx',
-        fmla: '*/ q5 wR h'
+        n: 'dx',
+        f: '*/ q5 wR h'
       },
       {
-        name: 'x5',
-        fmla: '+- wR dx 0'
+        n: 'x5',
+        f: '+- wR dx 0'
       },
       {
-        name: 'x7',
-        fmla: '+- x3 dx 0'
+        n: 'x7',
+        f: '+- x3 dx 0'
       },
       {
-        name: 'q6',
-        fmla: '+- aw 0 th'
+        n: 'q6',
+        f: '+- aw 0 th'
       },
       {
-        name: 'dh',
-        fmla: '*/ q6 1 2'
+        n: 'dh',
+        f: '*/ q6 1 2'
       },
       {
-        name: 'x4',
-        fmla: '+- x5 0 dh'
+        n: 'x4',
+        f: '+- x5 0 dh'
       },
       {
-        name: 'x8',
-        fmla: '+- x7 dh 0'
+        n: 'x8',
+        f: '+- x7 dh 0'
       },
       {
-        name: 'aw2',
-        fmla: '*/ aw 1 2'
+        n: 'aw2',
+        f: '*/ aw 1 2'
       },
       {
-        name: 'x6',
-        fmla: '+- r 0 aw2'
+        n: 'x6',
+        f: '+- r 0 aw2'
       },
       {
-        name: 'y1',
-        fmla: '+- t ah 0'
+        n: 'y1',
+        f: '+- t ah 0'
       },
       {
-        name: 'swAng',
-        fmla: 'at2 ah dx'
+        n: 'swAng',
+        f: 'at2 ah dx'
       },
       {
-        name: 'mswAng',
-        fmla: '+- 0 0 swAng'
+        n: 'mswAng',
+        f: '+- 0 0 swAng'
       },
       {
-        name: 'iy',
-        fmla: '+- t idy 0'
+        n: 'iy',
+        f: '+- t idy 0'
       },
       {
-        name: 'ix',
-        fmla: '+/ wR x3 2'
+        n: 'ix',
+        f: '+/ wR x3 2'
       },
       {
-        name: 'q12',
-        fmla: '*/ th 1 2'
+        n: 'q12',
+        f: '*/ th 1 2'
       },
       {
-        name: 'dang2',
-        fmla: 'at2 idy q12'
+        n: 'dang2',
+        f: 'at2 idy q12'
       },
       {
-        name: 'swAng2',
-        fmla: '+- dang2 0 swAng'
+        n: 'swAng2',
+        f: '+- dang2 0 swAng'
       },
       {
-        name: 'mswAng2',
-        fmla: '+- 0 0 swAng2'
+        n: 'mswAng2',
+        f: '+- 0 0 swAng2'
       },
       {
-        name: 'stAng3',
-        fmla: '+- cd4 0 swAng'
+        n: 'stAng3',
+        f: '+- cd4 0 swAng'
       },
       {
-        name: 'swAng3',
-        fmla: '+- swAng dang2 0'
+        n: 'swAng3',
+        f: '+- swAng dang2 0'
       },
       {
-        name: 'stAng2',
-        fmla: '+- cd4 0 dang2'
+        n: 'stAng2',
+        f: '+- cd4 0 dang2'
       }
     ],
     pathLst: [
@@ -12553,62 +12553,62 @@ export const presetShape: Record<string, Shape> = {
   decagon: {
     avLst: [
       {
-        name: 'vf',
-        fmla: 'val 105146'
+        n: 'vf',
+        f: 'val 105146'
       }
     ],
     gdLst: [
       {
-        name: 'shd2',
-        fmla: '*/ hd2 vf 100000'
+        n: 'shd2',
+        f: '*/ hd2 vf 100000'
       },
       {
-        name: 'dx1',
-        fmla: 'cos wd2 2160000'
+        n: 'dx1',
+        f: 'cos wd2 2160000'
       },
       {
-        name: 'dx2',
-        fmla: 'cos wd2 4320000'
+        n: 'dx2',
+        f: 'cos wd2 4320000'
       },
       {
-        name: 'x1',
-        fmla: '+- hc 0 dx1'
+        n: 'x1',
+        f: '+- hc 0 dx1'
       },
       {
-        name: 'x2',
-        fmla: '+- hc 0 dx2'
+        n: 'x2',
+        f: '+- hc 0 dx2'
       },
       {
-        name: 'x3',
-        fmla: '+- hc dx2 0'
+        n: 'x3',
+        f: '+- hc dx2 0'
       },
       {
-        name: 'x4',
-        fmla: '+- hc dx1 0'
+        n: 'x4',
+        f: '+- hc dx1 0'
       },
       {
-        name: 'dy1',
-        fmla: 'sin shd2 4320000'
+        n: 'dy1',
+        f: 'sin shd2 4320000'
       },
       {
-        name: 'dy2',
-        fmla: 'sin shd2 2160000'
+        n: 'dy2',
+        f: 'sin shd2 2160000'
       },
       {
-        name: 'y1',
-        fmla: '+- vc 0 dy1'
+        n: 'y1',
+        f: '+- vc 0 dy1'
       },
       {
-        name: 'y2',
-        fmla: '+- vc 0 dy2'
+        n: 'y2',
+        f: '+- vc 0 dy2'
       },
       {
-        name: 'y3',
-        fmla: '+- vc dy2 0'
+        n: 'y3',
+        f: '+- vc dy2 0'
       },
       {
-        name: 'y4',
-        fmla: '+- vc dy1 0'
+        n: 'y4',
+        f: '+- vc dy1 0'
       }
     ],
     pathLst: [
@@ -12696,38 +12696,38 @@ export const presetShape: Record<string, Shape> = {
   diagStripe: {
     avLst: [
       {
-        name: 'adj',
-        fmla: 'val 50000'
+        n: 'adj',
+        f: 'val 50000'
       }
     ],
     gdLst: [
       {
-        name: 'a',
-        fmla: 'pin 0 adj 100000'
+        n: 'a',
+        f: 'pin 0 adj 100000'
       },
       {
-        name: 'x2',
-        fmla: '*/ w a 100000'
+        n: 'x2',
+        f: '*/ w a 100000'
       },
       {
-        name: 'x1',
-        fmla: '*/ x2 1 2'
+        n: 'x1',
+        f: '*/ x2 1 2'
       },
       {
-        name: 'x3',
-        fmla: '+/ x2 r 2'
+        n: 'x3',
+        f: '+/ x2 r 2'
       },
       {
-        name: 'y2',
-        fmla: '*/ h a 100000'
+        n: 'y2',
+        f: '*/ h a 100000'
       },
       {
-        name: 'y1',
-        fmla: '*/ y2 1 2'
+        n: 'y1',
+        f: '*/ y2 1 2'
       },
       {
-        name: 'y3',
-        fmla: '+/ y2 b 2'
+        n: 'y3',
+        f: '+/ y2 b 2'
       }
     ],
     pathLst: [
@@ -12773,12 +12773,12 @@ export const presetShape: Record<string, Shape> = {
   diamond: {
     gdLst: [
       {
-        name: 'ir',
-        fmla: '*/ w 3 4'
+        n: 'ir',
+        f: '*/ w 3 4'
       },
       {
-        name: 'ib',
-        fmla: '*/ h 3 4'
+        n: 'ib',
+        f: '*/ h 3 4'
       }
     ],
     pathLst: [
@@ -12824,36 +12824,36 @@ export const presetShape: Record<string, Shape> = {
   dodecagon: {
     gdLst: [
       {
-        name: 'x1',
-        fmla: '*/ w 2894 21600'
+        n: 'x1',
+        f: '*/ w 2894 21600'
       },
       {
-        name: 'x2',
-        fmla: '*/ w 7906 21600'
+        n: 'x2',
+        f: '*/ w 7906 21600'
       },
       {
-        name: 'x3',
-        fmla: '*/ w 13694 21600'
+        n: 'x3',
+        f: '*/ w 13694 21600'
       },
       {
-        name: 'x4',
-        fmla: '*/ w 18706 21600'
+        n: 'x4',
+        f: '*/ w 18706 21600'
       },
       {
-        name: 'y1',
-        fmla: '*/ h 2894 21600'
+        n: 'y1',
+        f: '*/ h 2894 21600'
       },
       {
-        name: 'y2',
-        fmla: '*/ h 7906 21600'
+        n: 'y2',
+        f: '*/ h 7906 21600'
       },
       {
-        name: 'y3',
-        fmla: '*/ h 13694 21600'
+        n: 'y3',
+        f: '*/ h 13694 21600'
       },
       {
-        name: 'y4',
-        fmla: '*/ h 18706 21600'
+        n: 'y4',
+        f: '*/ h 18706 21600'
       }
     ],
     pathLst: [
@@ -12955,50 +12955,50 @@ export const presetShape: Record<string, Shape> = {
   donut: {
     avLst: [
       {
-        name: 'adj',
-        fmla: 'val 25000'
+        n: 'adj',
+        f: 'val 25000'
       }
     ],
     gdLst: [
       {
-        name: 'a',
-        fmla: 'pin 0 adj 50000'
+        n: 'a',
+        f: 'pin 0 adj 50000'
       },
       {
-        name: 'dr',
-        fmla: '*/ ss a 100000'
+        n: 'dr',
+        f: '*/ ss a 100000'
       },
       {
-        name: 'iwd2',
-        fmla: '+- wd2 0 dr'
+        n: 'iwd2',
+        f: '+- wd2 0 dr'
       },
       {
-        name: 'ihd2',
-        fmla: '+- hd2 0 dr'
+        n: 'ihd2',
+        f: '+- hd2 0 dr'
       },
       {
-        name: 'idx',
-        fmla: 'cos wd2 2700000'
+        n: 'idx',
+        f: 'cos wd2 2700000'
       },
       {
-        name: 'idy',
-        fmla: 'sin hd2 2700000'
+        n: 'idy',
+        f: 'sin hd2 2700000'
       },
       {
-        name: 'il',
-        fmla: '+- hc 0 idx'
+        n: 'il',
+        f: '+- hc 0 idx'
       },
       {
-        name: 'ir',
-        fmla: '+- hc idx 0'
+        n: 'ir',
+        f: '+- hc idx 0'
       },
       {
-        name: 'it',
-        fmla: '+- vc 0 idy'
+        n: 'it',
+        f: '+- vc 0 idy'
       },
       {
-        name: 'ib',
-        fmla: '+- vc idy 0'
+        n: 'ib',
+        f: '+- vc idy 0'
       }
     ],
     pathLst: [
@@ -13089,158 +13089,158 @@ export const presetShape: Record<string, Shape> = {
   doubleWave: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 6250'
+        n: 'adj1',
+        f: 'val 6250'
       },
       {
-        name: 'adj2',
-        fmla: 'val 0'
+        n: 'adj2',
+        f: 'val 0'
       }
     ],
     gdLst: [
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 12500'
+        n: 'a1',
+        f: 'pin 0 adj1 12500'
       },
       {
-        name: 'a2',
-        fmla: 'pin -10000 adj2 10000'
+        n: 'a2',
+        f: 'pin -10000 adj2 10000'
       },
       {
-        name: 'y1',
-        fmla: '*/ h a1 100000'
+        n: 'y1',
+        f: '*/ h a1 100000'
       },
       {
-        name: 'dy2',
-        fmla: '*/ y1 10 3'
+        n: 'dy2',
+        f: '*/ y1 10 3'
       },
       {
-        name: 'y2',
-        fmla: '+- y1 0 dy2'
+        n: 'y2',
+        f: '+- y1 0 dy2'
       },
       {
-        name: 'y3',
-        fmla: '+- y1 dy2 0'
+        n: 'y3',
+        f: '+- y1 dy2 0'
       },
       {
-        name: 'y4',
-        fmla: '+- b 0 y1'
+        n: 'y4',
+        f: '+- b 0 y1'
       },
       {
-        name: 'y5',
-        fmla: '+- y4 0 dy2'
+        n: 'y5',
+        f: '+- y4 0 dy2'
       },
       {
-        name: 'y6',
-        fmla: '+- y4 dy2 0'
+        n: 'y6',
+        f: '+- y4 dy2 0'
       },
       {
-        name: 'dx1',
-        fmla: '*/ w a2 100000'
+        n: 'dx1',
+        f: '*/ w a2 100000'
       },
       {
-        name: 'of2',
-        fmla: '*/ w a2 50000'
+        n: 'of2',
+        f: '*/ w a2 50000'
       },
       {
-        name: 'x1',
-        fmla: 'abs dx1'
+        n: 'x1',
+        f: 'abs dx1'
       },
       {
-        name: 'dx2',
-        fmla: '?: of2 0 of2'
+        n: 'dx2',
+        f: '?: of2 0 of2'
       },
       {
-        name: 'x2',
-        fmla: '+- l 0 dx2'
+        n: 'x2',
+        f: '+- l 0 dx2'
       },
       {
-        name: 'dx8',
-        fmla: '?: of2 of2 0'
+        n: 'dx8',
+        f: '?: of2 of2 0'
       },
       {
-        name: 'x8',
-        fmla: '+- r 0 dx8'
+        n: 'x8',
+        f: '+- r 0 dx8'
       },
       {
-        name: 'dx3',
-        fmla: '+/ dx2 x8 6'
+        n: 'dx3',
+        f: '+/ dx2 x8 6'
       },
       {
-        name: 'x3',
-        fmla: '+- x2 dx3 0'
+        n: 'x3',
+        f: '+- x2 dx3 0'
       },
       {
-        name: 'dx4',
-        fmla: '+/ dx2 x8 3'
+        n: 'dx4',
+        f: '+/ dx2 x8 3'
       },
       {
-        name: 'x4',
-        fmla: '+- x2 dx4 0'
+        n: 'x4',
+        f: '+- x2 dx4 0'
       },
       {
-        name: 'x5',
-        fmla: '+/ x2 x8 2'
+        n: 'x5',
+        f: '+/ x2 x8 2'
       },
       {
-        name: 'x6',
-        fmla: '+- x5 dx3 0'
+        n: 'x6',
+        f: '+- x5 dx3 0'
       },
       {
-        name: 'x7',
-        fmla: '+/ x6 x8 2'
+        n: 'x7',
+        f: '+/ x6 x8 2'
       },
       {
-        name: 'x9',
-        fmla: '+- l dx8 0'
+        n: 'x9',
+        f: '+- l dx8 0'
       },
       {
-        name: 'x15',
-        fmla: '+- r dx2 0'
+        n: 'x15',
+        f: '+- r dx2 0'
       },
       {
-        name: 'x10',
-        fmla: '+- x9 dx3 0'
+        n: 'x10',
+        f: '+- x9 dx3 0'
       },
       {
-        name: 'x11',
-        fmla: '+- x9 dx4 0'
+        n: 'x11',
+        f: '+- x9 dx4 0'
       },
       {
-        name: 'x12',
-        fmla: '+/ x9 x15 2'
+        n: 'x12',
+        f: '+/ x9 x15 2'
       },
       {
-        name: 'x13',
-        fmla: '+- x12 dx3 0'
+        n: 'x13',
+        f: '+- x12 dx3 0'
       },
       {
-        name: 'x14',
-        fmla: '+/ x13 x15 2'
+        n: 'x14',
+        f: '+/ x13 x15 2'
       },
       {
-        name: 'x16',
-        fmla: '+- r 0 x1'
+        n: 'x16',
+        f: '+- r 0 x1'
       },
       {
-        name: 'xAdj',
-        fmla: '+- hc dx1 0'
+        n: 'xAdj',
+        f: '+- hc dx1 0'
       },
       {
-        name: 'il',
-        fmla: 'max x2 x9'
+        n: 'il',
+        f: 'max x2 x9'
       },
       {
-        name: 'ir',
-        fmla: 'min x8 x15'
+        n: 'ir',
+        f: 'min x8 x15'
       },
       {
-        name: 'it',
-        fmla: '*/ h a1 50000'
+        n: 'it',
+        f: '*/ h a1 50000'
       },
       {
-        name: 'ib',
-        fmla: '+- b 0 it'
+        n: 'ib',
+        f: '+- b 0 it'
       }
     ],
     pathLst: [
@@ -13340,54 +13340,54 @@ export const presetShape: Record<string, Shape> = {
   downArrow: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 50000'
+        n: 'adj1',
+        f: 'val 50000'
       },
       {
-        name: 'adj2',
-        fmla: 'val 50000'
+        n: 'adj2',
+        f: 'val 50000'
       }
     ],
     gdLst: [
       {
-        name: 'maxAdj2',
-        fmla: '*/ 100000 h ss'
+        n: 'maxAdj2',
+        f: '*/ 100000 h ss'
       },
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 100000'
+        n: 'a1',
+        f: 'pin 0 adj1 100000'
       },
       {
-        name: 'a2',
-        fmla: 'pin 0 adj2 maxAdj2'
+        n: 'a2',
+        f: 'pin 0 adj2 maxAdj2'
       },
       {
-        name: 'dy1',
-        fmla: '*/ ss a2 100000'
+        n: 'dy1',
+        f: '*/ ss a2 100000'
       },
       {
-        name: 'y1',
-        fmla: '+- b 0 dy1'
+        n: 'y1',
+        f: '+- b 0 dy1'
       },
       {
-        name: 'dx1',
-        fmla: '*/ w a1 200000'
+        n: 'dx1',
+        f: '*/ w a1 200000'
       },
       {
-        name: 'x1',
-        fmla: '+- hc 0 dx1'
+        n: 'x1',
+        f: '+- hc 0 dx1'
       },
       {
-        name: 'x2',
-        fmla: '+- hc dx1 0'
+        n: 'x2',
+        f: '+- hc dx1 0'
       },
       {
-        name: 'dy2',
-        fmla: '*/ x1 dy1 wd2'
+        n: 'dy2',
+        f: '*/ x1 dy1 wd2'
       },
       {
-        name: 'y2',
-        fmla: '+- y1 dy2 0'
+        n: 'y2',
+        f: '+- y1 dy2 0'
       }
     ],
     pathLst: [
@@ -13454,98 +13454,98 @@ export const presetShape: Record<string, Shape> = {
   downArrowCallout: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 25000'
+        n: 'adj1',
+        f: 'val 25000'
       },
       {
-        name: 'adj2',
-        fmla: 'val 25000'
+        n: 'adj2',
+        f: 'val 25000'
       },
       {
-        name: 'adj3',
-        fmla: 'val 25000'
+        n: 'adj3',
+        f: 'val 25000'
       },
       {
-        name: 'adj4',
-        fmla: 'val 64977'
+        n: 'adj4',
+        f: 'val 64977'
       }
     ],
     gdLst: [
       {
-        name: 'maxAdj2',
-        fmla: '*/ 50000 w ss'
+        n: 'maxAdj2',
+        f: '*/ 50000 w ss'
       },
       {
-        name: 'a2',
-        fmla: 'pin 0 adj2 maxAdj2'
+        n: 'a2',
+        f: 'pin 0 adj2 maxAdj2'
       },
       {
-        name: 'maxAdj1',
-        fmla: '*/ a2 2 1'
+        n: 'maxAdj1',
+        f: '*/ a2 2 1'
       },
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 maxAdj1'
+        n: 'a1',
+        f: 'pin 0 adj1 maxAdj1'
       },
       {
-        name: 'maxAdj3',
-        fmla: '*/ 100000 h ss'
+        n: 'maxAdj3',
+        f: '*/ 100000 h ss'
       },
       {
-        name: 'a3',
-        fmla: 'pin 0 adj3 maxAdj3'
+        n: 'a3',
+        f: 'pin 0 adj3 maxAdj3'
       },
       {
-        name: 'q2',
-        fmla: '*/ a3 ss h'
+        n: 'q2',
+        f: '*/ a3 ss h'
       },
       {
-        name: 'maxAdj4',
-        fmla: '+- 100000 0 q2'
+        n: 'maxAdj4',
+        f: '+- 100000 0 q2'
       },
       {
-        name: 'a4',
-        fmla: 'pin 0 adj4 maxAdj4'
+        n: 'a4',
+        f: 'pin 0 adj4 maxAdj4'
       },
       {
-        name: 'dx1',
-        fmla: '*/ ss a2 100000'
+        n: 'dx1',
+        f: '*/ ss a2 100000'
       },
       {
-        name: 'dx2',
-        fmla: '*/ ss a1 200000'
+        n: 'dx2',
+        f: '*/ ss a1 200000'
       },
       {
-        name: 'x1',
-        fmla: '+- hc 0 dx1'
+        n: 'x1',
+        f: '+- hc 0 dx1'
       },
       {
-        name: 'x2',
-        fmla: '+- hc 0 dx2'
+        n: 'x2',
+        f: '+- hc 0 dx2'
       },
       {
-        name: 'x3',
-        fmla: '+- hc dx2 0'
+        n: 'x3',
+        f: '+- hc dx2 0'
       },
       {
-        name: 'x4',
-        fmla: '+- hc dx1 0'
+        n: 'x4',
+        f: '+- hc dx1 0'
       },
       {
-        name: 'dy3',
-        fmla: '*/ ss a3 100000'
+        n: 'dy3',
+        f: '*/ ss a3 100000'
       },
       {
-        name: 'y3',
-        fmla: '+- b 0 dy3'
+        n: 'y3',
+        f: '+- b 0 dy3'
       },
       {
-        name: 'y2',
-        fmla: '*/ h a4 100000'
+        n: 'y2',
+        f: '*/ h a4 100000'
       },
       {
-        name: 'y1',
-        fmla: '*/ y2 1 2'
+        n: 'y1',
+        f: '*/ y2 1 2'
       }
     ],
     pathLst: [
@@ -13640,28 +13640,28 @@ export const presetShape: Record<string, Shape> = {
   ellipse: {
     gdLst: [
       {
-        name: 'idx',
-        fmla: 'cos wd2 2700000'
+        n: 'idx',
+        f: 'cos wd2 2700000'
       },
       {
-        name: 'idy',
-        fmla: 'sin hd2 2700000'
+        n: 'idy',
+        f: 'sin hd2 2700000'
       },
       {
-        name: 'il',
-        fmla: '+- hc 0 idx'
+        n: 'il',
+        f: '+- hc 0 idx'
       },
       {
-        name: 'ir',
-        fmla: '+- hc idx 0'
+        n: 'ir',
+        f: '+- hc idx 0'
       },
       {
-        name: 'it',
-        fmla: '+- vc 0 idy'
+        n: 'it',
+        f: '+- vc 0 idy'
       },
       {
-        name: 'ib',
-        fmla: '+- vc idy 0'
+        n: 'ib',
+        f: '+- vc idy 0'
       }
     ],
     pathLst: [
@@ -13714,190 +13714,190 @@ export const presetShape: Record<string, Shape> = {
   ellipseRibbon: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 25000'
+        n: 'adj1',
+        f: 'val 25000'
       },
       {
-        name: 'adj2',
-        fmla: 'val 50000'
+        n: 'adj2',
+        f: 'val 50000'
       },
       {
-        name: 'adj3',
-        fmla: 'val 12500'
+        n: 'adj3',
+        f: 'val 12500'
       }
     ],
     gdLst: [
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 100000'
+        n: 'a1',
+        f: 'pin 0 adj1 100000'
       },
       {
-        name: 'a2',
-        fmla: 'pin 25000 adj2 75000'
+        n: 'a2',
+        f: 'pin 25000 adj2 75000'
       },
       {
-        name: 'q10',
-        fmla: '+- 100000 0 a1'
+        n: 'q10',
+        f: '+- 100000 0 a1'
       },
       {
-        name: 'q11',
-        fmla: '*/ q10 1 2'
+        n: 'q11',
+        f: '*/ q10 1 2'
       },
       {
-        name: 'q12',
-        fmla: '+- a1 0 q11'
+        n: 'q12',
+        f: '+- a1 0 q11'
       },
       {
-        name: 'minAdj3',
-        fmla: 'max 0 q12'
+        n: 'minAdj3',
+        f: 'max 0 q12'
       },
       {
-        name: 'a3',
-        fmla: 'pin minAdj3 adj3 a1'
+        n: 'a3',
+        f: 'pin minAdj3 adj3 a1'
       },
       {
-        name: 'dx2',
-        fmla: '*/ w a2 200000'
+        n: 'dx2',
+        f: '*/ w a2 200000'
       },
       {
-        name: 'x2',
-        fmla: '+- hc 0 dx2'
+        n: 'x2',
+        f: '+- hc 0 dx2'
       },
       {
-        name: 'x3',
-        fmla: '+- x2 wd8 0'
+        n: 'x3',
+        f: '+- x2 wd8 0'
       },
       {
-        name: 'x4',
-        fmla: '+- r 0 x3'
+        n: 'x4',
+        f: '+- r 0 x3'
       },
       {
-        name: 'x5',
-        fmla: '+- r 0 x2'
+        n: 'x5',
+        f: '+- r 0 x2'
       },
       {
-        name: 'x6',
-        fmla: '+- r 0 wd8'
+        n: 'x6',
+        f: '+- r 0 wd8'
       },
       {
-        name: 'dy1',
-        fmla: '*/ h a3 100000'
+        n: 'dy1',
+        f: '*/ h a3 100000'
       },
       {
-        name: 'f1',
-        fmla: '*/ 4 dy1 w'
+        n: 'f1',
+        f: '*/ 4 dy1 w'
       },
       {
-        name: 'q1',
-        fmla: '*/ x3 x3 w'
+        n: 'q1',
+        f: '*/ x3 x3 w'
       },
       {
-        name: 'q2',
-        fmla: '+- x3 0 q1'
+        n: 'q2',
+        f: '+- x3 0 q1'
       },
       {
-        name: 'y1',
-        fmla: '*/ f1 q2 1'
+        n: 'y1',
+        f: '*/ f1 q2 1'
       },
       {
-        name: 'cx1',
-        fmla: '*/ x3 1 2'
+        n: 'cx1',
+        f: '*/ x3 1 2'
       },
       {
-        name: 'cy1',
-        fmla: '*/ f1 cx1 1'
+        n: 'cy1',
+        f: '*/ f1 cx1 1'
       },
       {
-        name: 'cx2',
-        fmla: '+- r 0 cx1'
+        n: 'cx2',
+        f: '+- r 0 cx1'
       },
       {
-        name: 'q1',
-        fmla: '*/ h a1 100000'
+        n: 'q1',
+        f: '*/ h a1 100000'
       },
       {
-        name: 'dy3',
-        fmla: '+- q1 0 dy1'
+        n: 'dy3',
+        f: '+- q1 0 dy1'
       },
       {
-        name: 'q3',
-        fmla: '*/ x2 x2 w'
+        n: 'q3',
+        f: '*/ x2 x2 w'
       },
       {
-        name: 'q4',
-        fmla: '+- x2 0 q3'
+        n: 'q4',
+        f: '+- x2 0 q3'
       },
       {
-        name: 'q5',
-        fmla: '*/ f1 q4 1'
+        n: 'q5',
+        f: '*/ f1 q4 1'
       },
       {
-        name: 'y3',
-        fmla: '+- q5 dy3 0'
+        n: 'y3',
+        f: '+- q5 dy3 0'
       },
       {
-        name: 'q6',
-        fmla: '+- dy1 dy3 y3'
+        n: 'q6',
+        f: '+- dy1 dy3 y3'
       },
       {
-        name: 'q7',
-        fmla: '+- q6 dy1 0'
+        n: 'q7',
+        f: '+- q6 dy1 0'
       },
       {
-        name: 'cy3',
-        fmla: '+- q7 dy3 0'
+        n: 'cy3',
+        f: '+- q7 dy3 0'
       },
       {
-        name: 'rh',
-        fmla: '+- b 0 q1'
+        n: 'rh',
+        f: '+- b 0 q1'
       },
       {
-        name: 'q8',
-        fmla: '*/ dy1 14 16'
+        n: 'q8',
+        f: '*/ dy1 14 16'
       },
       {
-        name: 'y2',
-        fmla: '+/ q8 rh 2'
+        n: 'y2',
+        f: '+/ q8 rh 2'
       },
       {
-        name: 'y5',
-        fmla: '+- q5 rh 0'
+        n: 'y5',
+        f: '+- q5 rh 0'
       },
       {
-        name: 'y6',
-        fmla: '+- y3 rh 0'
+        n: 'y6',
+        f: '+- y3 rh 0'
       },
       {
-        name: 'cx4',
-        fmla: '*/ x2 1 2'
+        n: 'cx4',
+        f: '*/ x2 1 2'
       },
       {
-        name: 'q9',
-        fmla: '*/ f1 cx4 1'
+        n: 'q9',
+        f: '*/ f1 cx4 1'
       },
       {
-        name: 'cy4',
-        fmla: '+- q9 rh 0'
+        n: 'cy4',
+        f: '+- q9 rh 0'
       },
       {
-        name: 'cx5',
-        fmla: '+- r 0 cx4'
+        n: 'cx5',
+        f: '+- r 0 cx4'
       },
       {
-        name: 'cy6',
-        fmla: '+- cy3 rh 0'
+        n: 'cy6',
+        f: '+- cy3 rh 0'
       },
       {
-        name: 'y7',
-        fmla: '+- y1 dy3 0'
+        n: 'y7',
+        f: '+- y1 dy3 0'
       },
       {
-        name: 'cy7',
-        fmla: '+- q1 q1 y7'
+        n: 'cy7',
+        f: '+- q1 q1 y7'
       },
       {
-        name: 'y8',
-        fmla: '+- b 0 dy1'
+        n: 'y8',
+        f: '+- b 0 dy1'
       }
     ],
     pathLst: [
@@ -14320,230 +14320,230 @@ export const presetShape: Record<string, Shape> = {
   ellipseRibbon2: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 25000'
+        n: 'adj1',
+        f: 'val 25000'
       },
       {
-        name: 'adj2',
-        fmla: 'val 50000'
+        n: 'adj2',
+        f: 'val 50000'
       },
       {
-        name: 'adj3',
-        fmla: 'val 12500'
+        n: 'adj3',
+        f: 'val 12500'
       }
     ],
     gdLst: [
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 100000'
+        n: 'a1',
+        f: 'pin 0 adj1 100000'
       },
       {
-        name: 'a2',
-        fmla: 'pin 25000 adj2 75000'
+        n: 'a2',
+        f: 'pin 25000 adj2 75000'
       },
       {
-        name: 'q10',
-        fmla: '+- 100000 0 a1'
+        n: 'q10',
+        f: '+- 100000 0 a1'
       },
       {
-        name: 'q11',
-        fmla: '*/ q10 1 2'
+        n: 'q11',
+        f: '*/ q10 1 2'
       },
       {
-        name: 'q12',
-        fmla: '+- a1 0 q11'
+        n: 'q12',
+        f: '+- a1 0 q11'
       },
       {
-        name: 'minAdj3',
-        fmla: 'max 0 q12'
+        n: 'minAdj3',
+        f: 'max 0 q12'
       },
       {
-        name: 'a3',
-        fmla: 'pin minAdj3 adj3 a1'
+        n: 'a3',
+        f: 'pin minAdj3 adj3 a1'
       },
       {
-        name: 'dx2',
-        fmla: '*/ w a2 200000'
+        n: 'dx2',
+        f: '*/ w a2 200000'
       },
       {
-        name: 'x2',
-        fmla: '+- hc 0 dx2'
+        n: 'x2',
+        f: '+- hc 0 dx2'
       },
       {
-        name: 'x3',
-        fmla: '+- x2 wd8 0'
+        n: 'x3',
+        f: '+- x2 wd8 0'
       },
       {
-        name: 'x4',
-        fmla: '+- r 0 x3'
+        n: 'x4',
+        f: '+- r 0 x3'
       },
       {
-        name: 'x5',
-        fmla: '+- r 0 x2'
+        n: 'x5',
+        f: '+- r 0 x2'
       },
       {
-        name: 'x6',
-        fmla: '+- r 0 wd8'
+        n: 'x6',
+        f: '+- r 0 wd8'
       },
       {
-        name: 'dy1',
-        fmla: '*/ h a3 100000'
+        n: 'dy1',
+        f: '*/ h a3 100000'
       },
       {
-        name: 'f1',
-        fmla: '*/ 4 dy1 w'
+        n: 'f1',
+        f: '*/ 4 dy1 w'
       },
       {
-        name: 'q1',
-        fmla: '*/ x3 x3 w'
+        n: 'q1',
+        f: '*/ x3 x3 w'
       },
       {
-        name: 'q2',
-        fmla: '+- x3 0 q1'
+        n: 'q2',
+        f: '+- x3 0 q1'
       },
       {
-        name: 'u1',
-        fmla: '*/ f1 q2 1'
+        n: 'u1',
+        f: '*/ f1 q2 1'
       },
       {
-        name: 'y1',
-        fmla: '+- b 0 u1'
+        n: 'y1',
+        f: '+- b 0 u1'
       },
       {
-        name: 'cx1',
-        fmla: '*/ x3 1 2'
+        n: 'cx1',
+        f: '*/ x3 1 2'
       },
       {
-        name: 'cu1',
-        fmla: '*/ f1 cx1 1'
+        n: 'cu1',
+        f: '*/ f1 cx1 1'
       },
       {
-        name: 'cy1',
-        fmla: '+- b 0 cu1'
+        n: 'cy1',
+        f: '+- b 0 cu1'
       },
       {
-        name: 'cx2',
-        fmla: '+- r 0 cx1'
+        n: 'cx2',
+        f: '+- r 0 cx1'
       },
       {
-        name: 'q1',
-        fmla: '*/ h a1 100000'
+        n: 'q1',
+        f: '*/ h a1 100000'
       },
       {
-        name: 'dy3',
-        fmla: '+- q1 0 dy1'
+        n: 'dy3',
+        f: '+- q1 0 dy1'
       },
       {
-        name: 'q3',
-        fmla: '*/ x2 x2 w'
+        n: 'q3',
+        f: '*/ x2 x2 w'
       },
       {
-        name: 'q4',
-        fmla: '+- x2 0 q3'
+        n: 'q4',
+        f: '+- x2 0 q3'
       },
       {
-        name: 'q5',
-        fmla: '*/ f1 q4 1'
+        n: 'q5',
+        f: '*/ f1 q4 1'
       },
       {
-        name: 'u3',
-        fmla: '+- q5 dy3 0'
+        n: 'u3',
+        f: '+- q5 dy3 0'
       },
       {
-        name: 'y3',
-        fmla: '+- b 0 u3'
+        n: 'y3',
+        f: '+- b 0 u3'
       },
       {
-        name: 'q6',
-        fmla: '+- dy1 dy3 u3'
+        n: 'q6',
+        f: '+- dy1 dy3 u3'
       },
       {
-        name: 'q7',
-        fmla: '+- q6 dy1 0'
+        n: 'q7',
+        f: '+- q6 dy1 0'
       },
       {
-        name: 'cu3',
-        fmla: '+- q7 dy3 0'
+        n: 'cu3',
+        f: '+- q7 dy3 0'
       },
       {
-        name: 'cy3',
-        fmla: '+- b 0 cu3'
+        n: 'cy3',
+        f: '+- b 0 cu3'
       },
       {
-        name: 'rh',
-        fmla: '+- b 0 q1'
+        n: 'rh',
+        f: '+- b 0 q1'
       },
       {
-        name: 'q8',
-        fmla: '*/ dy1 14 16'
+        n: 'q8',
+        f: '*/ dy1 14 16'
       },
       {
-        name: 'u2',
-        fmla: '+/ q8 rh 2'
+        n: 'u2',
+        f: '+/ q8 rh 2'
       },
       {
-        name: 'y2',
-        fmla: '+- b 0 u2'
+        n: 'y2',
+        f: '+- b 0 u2'
       },
       {
-        name: 'u5',
-        fmla: '+- q5 rh 0'
+        n: 'u5',
+        f: '+- q5 rh 0'
       },
       {
-        name: 'y5',
-        fmla: '+- b 0 u5'
+        n: 'y5',
+        f: '+- b 0 u5'
       },
       {
-        name: 'u6',
-        fmla: '+- u3 rh 0'
+        n: 'u6',
+        f: '+- u3 rh 0'
       },
       {
-        name: 'y6',
-        fmla: '+- b 0 u6'
+        n: 'y6',
+        f: '+- b 0 u6'
       },
       {
-        name: 'cx4',
-        fmla: '*/ x2 1 2'
+        n: 'cx4',
+        f: '*/ x2 1 2'
       },
       {
-        name: 'q9',
-        fmla: '*/ f1 cx4 1'
+        n: 'q9',
+        f: '*/ f1 cx4 1'
       },
       {
-        name: 'cu4',
-        fmla: '+- q9 rh 0'
+        n: 'cu4',
+        f: '+- q9 rh 0'
       },
       {
-        name: 'cy4',
-        fmla: '+- b 0 cu4'
+        n: 'cy4',
+        f: '+- b 0 cu4'
       },
       {
-        name: 'cx5',
-        fmla: '+- r 0 cx4'
+        n: 'cx5',
+        f: '+- r 0 cx4'
       },
       {
-        name: 'cu6',
-        fmla: '+- cu3 rh 0'
+        n: 'cu6',
+        f: '+- cu3 rh 0'
       },
       {
-        name: 'cy6',
-        fmla: '+- b 0 cu6'
+        n: 'cy6',
+        f: '+- b 0 cu6'
       },
       {
-        name: 'u7',
-        fmla: '+- u1 dy3 0'
+        n: 'u7',
+        f: '+- u1 dy3 0'
       },
       {
-        name: 'y7',
-        fmla: '+- b 0 u7'
+        n: 'y7',
+        f: '+- b 0 u7'
       },
       {
-        name: 'cu7',
-        fmla: '+- q1 q1 u7'
+        n: 'cu7',
+        f: '+- q1 q1 u7'
       },
       {
-        name: 'cy7',
-        fmla: '+- b 0 cu7'
+        n: 'cy7',
+        f: '+- b 0 cu7'
       }
     ],
     pathLst: [
@@ -14973,24 +14973,24 @@ export const presetShape: Record<string, Shape> = {
   flowChartAlternateProcess: {
     gdLst: [
       {
-        name: 'x2',
-        fmla: '+- r 0 ssd6'
+        n: 'x2',
+        f: '+- r 0 ssd6'
       },
       {
-        name: 'y2',
-        fmla: '+- b 0 ssd6'
+        n: 'y2',
+        f: '+- b 0 ssd6'
       },
       {
-        name: 'il',
-        fmla: '*/ ssd6 29289 100000'
+        n: 'il',
+        f: '*/ ssd6 29289 100000'
       },
       {
-        name: 'ir',
-        fmla: '+- r 0 il'
+        n: 'ir',
+        f: '+- r 0 il'
       },
       {
-        name: 'ib',
-        fmla: '+- b 0 il'
+        n: 'ib',
+        f: '+- b 0 il'
       }
     ],
     pathLst: [
@@ -15064,12 +15064,12 @@ export const presetShape: Record<string, Shape> = {
   flowChartCollate: {
     gdLst: [
       {
-        name: 'ir',
-        fmla: '*/ w 3 4'
+        n: 'ir',
+        f: '*/ w 3 4'
       },
       {
-        name: 'ib',
-        fmla: '*/ h 3 4'
+        n: 'ib',
+        f: '*/ h 3 4'
       }
     ],
     pathLst: [
@@ -15131,28 +15131,28 @@ export const presetShape: Record<string, Shape> = {
   flowChartConnector: {
     gdLst: [
       {
-        name: 'idx',
-        fmla: 'cos wd2 2700000'
+        n: 'idx',
+        f: 'cos wd2 2700000'
       },
       {
-        name: 'idy',
-        fmla: 'sin hd2 2700000'
+        n: 'idy',
+        f: 'sin hd2 2700000'
       },
       {
-        name: 'il',
-        fmla: '+- hc 0 idx'
+        n: 'il',
+        f: '+- hc 0 idx'
       },
       {
-        name: 'ir',
-        fmla: '+- hc idx 0'
+        n: 'ir',
+        f: '+- hc idx 0'
       },
       {
-        name: 'it',
-        fmla: '+- vc 0 idy'
+        n: 'it',
+        f: '+- vc 0 idy'
       },
       {
-        name: 'ib',
-        fmla: '+- vc idy 0'
+        n: 'ib',
+        f: '+- vc idy 0'
       }
     ],
     pathLst: [
@@ -15205,12 +15205,12 @@ export const presetShape: Record<string, Shape> = {
   flowChartDecision: {
     gdLst: [
       {
-        name: 'ir',
-        fmla: '*/ w 3 4'
+        n: 'ir',
+        f: '*/ w 3 4'
       },
       {
-        name: 'ib',
-        fmla: '*/ h 3 4'
+        n: 'ib',
+        f: '*/ h 3 4'
       }
     ],
     pathLst: [
@@ -15258,24 +15258,24 @@ export const presetShape: Record<string, Shape> = {
   flowChartDelay: {
     gdLst: [
       {
-        name: 'idx',
-        fmla: 'cos wd2 2700000'
+        n: 'idx',
+        f: 'cos wd2 2700000'
       },
       {
-        name: 'idy',
-        fmla: 'sin hd2 2700000'
+        n: 'idy',
+        f: 'sin hd2 2700000'
       },
       {
-        name: 'ir',
-        fmla: '+- hc idx 0'
+        n: 'ir',
+        f: '+- hc idx 0'
       },
       {
-        name: 'it',
-        fmla: '+- vc 0 idy'
+        n: 'it',
+        f: '+- vc 0 idy'
       },
       {
-        name: 'ib',
-        fmla: '+- vc idy 0'
+        n: 'ib',
+        f: '+- vc idy 0'
       }
     ],
     pathLst: [
@@ -15321,8 +15321,8 @@ export const presetShape: Record<string, Shape> = {
   flowChartDisplay: {
     gdLst: [
       {
-        name: 'x2',
-        fmla: '*/ w 5 6'
+        n: 'x2',
+        f: '*/ w 5 6'
       }
     ],
     pathLst: [
@@ -15377,12 +15377,12 @@ export const presetShape: Record<string, Shape> = {
   flowChartDocument: {
     gdLst: [
       {
-        name: 'y1',
-        fmla: '*/ h 17322 21600'
+        n: 'y1',
+        f: '*/ h 17322 21600'
       },
       {
-        name: 'y2',
-        fmla: '*/ h 20172 21600'
+        n: 'y2',
+        f: '*/ h 20172 21600'
       }
     ],
     pathLst: [
@@ -15440,8 +15440,8 @@ export const presetShape: Record<string, Shape> = {
   flowChartExtract: {
     gdLst: [
       {
-        name: 'x2',
-        fmla: '*/ w 3 4'
+        n: 'x2',
+        f: '*/ w 3 4'
       }
     ],
     pathLst: [
@@ -15482,20 +15482,20 @@ export const presetShape: Record<string, Shape> = {
   flowChartInputOutput: {
     gdLst: [
       {
-        name: 'x3',
-        fmla: '*/ w 2 5'
+        n: 'x3',
+        f: '*/ w 2 5'
       },
       {
-        name: 'x4',
-        fmla: '*/ w 3 5'
+        n: 'x4',
+        f: '*/ w 3 5'
       },
       {
-        name: 'x5',
-        fmla: '*/ w 4 5'
+        n: 'x5',
+        f: '*/ w 4 5'
       },
       {
-        name: 'x6',
-        fmla: '*/ w 9 10'
+        n: 'x6',
+        f: '*/ w 9 10'
       }
     ],
     pathLst: [
@@ -15663,8 +15663,8 @@ export const presetShape: Record<string, Shape> = {
   flowChartMagneticDisk: {
     gdLst: [
       {
-        name: 'y3',
-        fmla: '*/ h 5 6'
+        n: 'y3',
+        f: '*/ h 5 6'
       }
     ],
     pathLst: [
@@ -15775,8 +15775,8 @@ export const presetShape: Record<string, Shape> = {
   flowChartMagneticDrum: {
     gdLst: [
       {
-        name: 'x2',
-        fmla: '*/ w 2 3'
+        n: 'x2',
+        f: '*/ w 2 3'
       }
     ],
     pathLst: [
@@ -15901,32 +15901,32 @@ export const presetShape: Record<string, Shape> = {
   flowChartMagneticTape: {
     gdLst: [
       {
-        name: 'idx',
-        fmla: 'cos wd2 2700000'
+        n: 'idx',
+        f: 'cos wd2 2700000'
       },
       {
-        name: 'idy',
-        fmla: 'sin hd2 2700000'
+        n: 'idy',
+        f: 'sin hd2 2700000'
       },
       {
-        name: 'il',
-        fmla: '+- hc 0 idx'
+        n: 'il',
+        f: '+- hc 0 idx'
       },
       {
-        name: 'ir',
-        fmla: '+- hc idx 0'
+        n: 'ir',
+        f: '+- hc idx 0'
       },
       {
-        name: 'it',
-        fmla: '+- vc 0 idy'
+        n: 'it',
+        f: '+- vc 0 idy'
       },
       {
-        name: 'ib',
-        fmla: '+- vc idy 0'
+        n: 'ib',
+        f: '+- vc idy 0'
       },
       {
-        name: 'ang1',
-        fmla: 'at2 w h'
+        n: 'ang1',
+        f: 'at2 w h'
       }
     ],
     pathLst: [
@@ -16036,12 +16036,12 @@ export const presetShape: Record<string, Shape> = {
   flowChartManualOperation: {
     gdLst: [
       {
-        name: 'x3',
-        fmla: '*/ w 4 5'
+        n: 'x3',
+        f: '*/ w 4 5'
       },
       {
-        name: 'x4',
-        fmla: '*/ w 9 10'
+        n: 'x4',
+        f: '*/ w 9 10'
       }
     ],
     pathLst: [
@@ -16089,8 +16089,8 @@ export const presetShape: Record<string, Shape> = {
   flowChartMerge: {
     gdLst: [
       {
-        name: 'x2',
-        fmla: '*/ w 3 4'
+        n: 'x2',
+        f: '*/ w 3 4'
       }
     ],
     pathLst: [
@@ -16131,24 +16131,24 @@ export const presetShape: Record<string, Shape> = {
   flowChartMultidocument: {
     gdLst: [
       {
-        name: 'y2',
-        fmla: '*/ h 3675 21600'
+        n: 'y2',
+        f: '*/ h 3675 21600'
       },
       {
-        name: 'y8',
-        fmla: '*/ h 20782 21600'
+        n: 'y8',
+        f: '*/ h 20782 21600'
       },
       {
-        name: 'x3',
-        fmla: '*/ w 9298 21600'
+        n: 'x3',
+        f: '*/ w 9298 21600'
       },
       {
-        name: 'x4',
-        fmla: '*/ w 12286 21600'
+        n: 'x4',
+        f: '*/ w 12286 21600'
       },
       {
-        name: 'x5',
-        fmla: '*/ w 18595 21600'
+        n: 'x5',
+        f: '*/ w 18595 21600'
       }
     ],
     pathLst: [
@@ -16582,8 +16582,8 @@ export const presetShape: Record<string, Shape> = {
   flowChartOfflineStorage: {
     gdLst: [
       {
-        name: 'x4',
-        fmla: '*/ w 3 4'
+        n: 'x4',
+        f: '*/ w 3 4'
       }
     ],
     pathLst: [
@@ -16680,8 +16680,8 @@ export const presetShape: Record<string, Shape> = {
   flowChartOffpageConnector: {
     gdLst: [
       {
-        name: 'y1',
-        fmla: '*/ h 4 5'
+        n: 'y1',
+        f: '*/ h 4 5'
       }
     ],
     pathLst: [
@@ -16736,8 +16736,8 @@ export const presetShape: Record<string, Shape> = {
   flowChartOnlineStorage: {
     gdLst: [
       {
-        name: 'x2',
-        fmla: '*/ w 5 6'
+        n: 'x2',
+        f: '*/ w 5 6'
       }
     ],
     pathLst: [
@@ -16792,28 +16792,28 @@ export const presetShape: Record<string, Shape> = {
   flowChartOr: {
     gdLst: [
       {
-        name: 'idx',
-        fmla: 'cos wd2 2700000'
+        n: 'idx',
+        f: 'cos wd2 2700000'
       },
       {
-        name: 'idy',
-        fmla: 'sin hd2 2700000'
+        n: 'idy',
+        f: 'sin hd2 2700000'
       },
       {
-        name: 'il',
-        fmla: '+- hc 0 idx'
+        n: 'il',
+        f: '+- hc 0 idx'
       },
       {
-        name: 'ir',
-        fmla: '+- hc idx 0'
+        n: 'ir',
+        f: '+- hc idx 0'
       },
       {
-        name: 'it',
-        fmla: '+- vc 0 idy'
+        n: 'it',
+        f: '+- vc 0 idy'
       },
       {
-        name: 'ib',
-        fmla: '+- vc idy 0'
+        n: 'ib',
+        f: '+- vc idy 0'
       }
     ],
     pathLst: [
@@ -16946,8 +16946,8 @@ export const presetShape: Record<string, Shape> = {
   flowChartPredefinedProcess: {
     gdLst: [
       {
-        name: 'x2',
-        fmla: '*/ w 7 8'
+        n: 'x2',
+        f: '*/ w 7 8'
       }
     ],
     pathLst: [
@@ -17072,8 +17072,8 @@ export const presetShape: Record<string, Shape> = {
   flowChartPreparation: {
     gdLst: [
       {
-        name: 'x2',
-        fmla: '*/ w 4 5'
+        n: 'x2',
+        f: '*/ w 4 5'
       }
     ],
     pathLst: [
@@ -17228,12 +17228,12 @@ export const presetShape: Record<string, Shape> = {
   flowChartPunchedTape: {
     gdLst: [
       {
-        name: 'y2',
-        fmla: '*/ h 9 10'
+        n: 'y2',
+        f: '*/ h 9 10'
       },
       {
-        name: 'ib',
-        fmla: '*/ h 4 5'
+        n: 'ib',
+        f: '*/ h 4 5'
       }
     ],
     pathLst: [
@@ -17295,12 +17295,12 @@ export const presetShape: Record<string, Shape> = {
   flowChartSort: {
     gdLst: [
       {
-        name: 'ir',
-        fmla: '*/ w 3 4'
+        n: 'ir',
+        f: '*/ w 3 4'
       },
       {
-        name: 'ib',
-        fmla: '*/ h 3 4'
+        n: 'ib',
+        f: '*/ h 3 4'
       }
     ],
     pathLst: [
@@ -17411,28 +17411,28 @@ export const presetShape: Record<string, Shape> = {
   flowChartSummingJunction: {
     gdLst: [
       {
-        name: 'idx',
-        fmla: 'cos wd2 2700000'
+        n: 'idx',
+        f: 'cos wd2 2700000'
       },
       {
-        name: 'idy',
-        fmla: 'sin hd2 2700000'
+        n: 'idy',
+        f: 'sin hd2 2700000'
       },
       {
-        name: 'il',
-        fmla: '+- hc 0 idx'
+        n: 'il',
+        f: '+- hc 0 idx'
       },
       {
-        name: 'ir',
-        fmla: '+- hc idx 0'
+        n: 'ir',
+        f: '+- hc idx 0'
       },
       {
-        name: 'it',
-        fmla: '+- vc 0 idy'
+        n: 'it',
+        f: '+- vc 0 idy'
       },
       {
-        name: 'ib',
-        fmla: '+- vc idy 0'
+        n: 'ib',
+        f: '+- vc idy 0'
       }
     ],
     pathLst: [
@@ -17565,20 +17565,20 @@ export const presetShape: Record<string, Shape> = {
   flowChartTerminator: {
     gdLst: [
       {
-        name: 'il',
-        fmla: '*/ w 1018 21600'
+        n: 'il',
+        f: '*/ w 1018 21600'
       },
       {
-        name: 'ir',
-        fmla: '*/ w 20582 21600'
+        n: 'ir',
+        f: '*/ w 20582 21600'
       },
       {
-        name: 'it',
-        fmla: '*/ h 3163 21600'
+        n: 'it',
+        f: '*/ h 3163 21600'
       },
       {
-        name: 'ib',
-        fmla: '*/ h 18437 21600'
+        n: 'ib',
+        f: '*/ h 18437 21600'
       }
     ],
     pathLst: [
@@ -17633,38 +17633,38 @@ export const presetShape: Record<string, Shape> = {
   foldedCorner: {
     avLst: [
       {
-        name: 'adj',
-        fmla: 'val 16667'
+        n: 'adj',
+        f: 'val 16667'
       }
     ],
     gdLst: [
       {
-        name: 'a',
-        fmla: 'pin 0 adj 50000'
+        n: 'a',
+        f: 'pin 0 adj 50000'
       },
       {
-        name: 'dy2',
-        fmla: '*/ ss a 100000'
+        n: 'dy2',
+        f: '*/ ss a 100000'
       },
       {
-        name: 'dy1',
-        fmla: '*/ dy2 1 5'
+        n: 'dy1',
+        f: '*/ dy2 1 5'
       },
       {
-        name: 'x1',
-        fmla: '+- r 0 dy2'
+        n: 'x1',
+        f: '+- r 0 dy2'
       },
       {
-        name: 'x2',
-        fmla: '+- x1 dy1 0'
+        n: 'x2',
+        f: '+- x1 dy1 0'
       },
       {
-        name: 'y2',
-        fmla: '+- b 0 dy2'
+        n: 'y2',
+        f: '+- b 0 dy2'
       },
       {
-        name: 'y1',
-        fmla: '+- y2 dy1 0'
+        n: 'y1',
+        f: '+- y2 dy1 0'
       }
     ],
     pathLst: [
@@ -17811,26 +17811,26 @@ export const presetShape: Record<string, Shape> = {
   frame: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 12500'
+        n: 'adj1',
+        f: 'val 12500'
       }
     ],
     gdLst: [
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 50000'
+        n: 'a1',
+        f: 'pin 0 adj1 50000'
       },
       {
-        name: 'x1',
-        fmla: '*/ ss a1 100000'
+        n: 'x1',
+        f: '*/ ss a1 100000'
       },
       {
-        name: 'x4',
-        fmla: '+- r 0 x1'
+        n: 'x4',
+        f: '+- r 0 x1'
       },
       {
-        name: 'y4',
-        fmla: '+- b 0 x1'
+        n: 'y4',
+        f: '+- b 0 x1'
       }
     ],
     pathLst: [
@@ -17907,128 +17907,128 @@ export const presetShape: Record<string, Shape> = {
   funnel: {
     gdLst: [
       {
-        name: 'd',
-        fmla: '*/ ss 1 20'
+        n: 'd',
+        f: '*/ ss 1 20'
       },
       {
-        name: 'rw2',
-        fmla: '+- wd2 0 d'
+        n: 'rw2',
+        f: '+- wd2 0 d'
       },
       {
-        name: 'rh2',
-        fmla: '+- hd4 0 d'
+        n: 'rh2',
+        f: '+- hd4 0 d'
       },
       {
-        name: 't1',
-        fmla: 'cos wd2 480000'
+        n: 't1',
+        f: 'cos wd2 480000'
       },
       {
-        name: 't2',
-        fmla: 'sin hd4 480000'
+        n: 't2',
+        f: 'sin hd4 480000'
       },
       {
-        name: 'da',
-        fmla: 'at2 t1 t2'
+        n: 'da',
+        f: 'at2 t1 t2'
       },
       {
-        name: '2da',
-        fmla: '*/ da 2 1'
+        n: '2da',
+        f: '*/ da 2 1'
       },
       {
-        name: 'stAng1',
-        fmla: '+- cd2 0 da'
+        n: 'stAng1',
+        f: '+- cd2 0 da'
       },
       {
-        name: 'swAng1',
-        fmla: '+- cd2 2da 0'
+        n: 'swAng1',
+        f: '+- cd2 2da 0'
       },
       {
-        name: 'swAng3',
-        fmla: '+- cd2 0 2da'
+        n: 'swAng3',
+        f: '+- cd2 0 2da'
       },
       {
-        name: 'rw3',
-        fmla: '*/ wd2 1 4'
+        n: 'rw3',
+        f: '*/ wd2 1 4'
       },
       {
-        name: 'rh3',
-        fmla: '*/ hd4 1 4'
+        n: 'rh3',
+        f: '*/ hd4 1 4'
       },
       {
-        name: 'ct1',
-        fmla: 'cos hd4 stAng1'
+        n: 'ct1',
+        f: 'cos hd4 stAng1'
       },
       {
-        name: 'st1',
-        fmla: 'sin wd2 stAng1'
+        n: 'st1',
+        f: 'sin wd2 stAng1'
       },
       {
-        name: 'm1',
-        fmla: 'mod ct1 st1 0'
+        n: 'm1',
+        f: 'mod ct1 st1 0'
       },
       {
-        name: 'n1',
-        fmla: '*/ wd2 hd4 m1'
+        n: 'n1',
+        f: '*/ wd2 hd4 m1'
       },
       {
-        name: 'dx1',
-        fmla: 'cos n1 stAng1'
+        n: 'dx1',
+        f: 'cos n1 stAng1'
       },
       {
-        name: 'dy1',
-        fmla: 'sin n1 stAng1'
+        n: 'dy1',
+        f: 'sin n1 stAng1'
       },
       {
-        name: 'x1',
-        fmla: '+- hc dx1 0'
+        n: 'x1',
+        f: '+- hc dx1 0'
       },
       {
-        name: 'y1',
-        fmla: '+- hd4 dy1 0'
+        n: 'y1',
+        f: '+- hd4 dy1 0'
       },
       {
-        name: 'ct3',
-        fmla: 'cos rh3 da'
+        n: 'ct3',
+        f: 'cos rh3 da'
       },
       {
-        name: 'st3',
-        fmla: 'sin rw3 da'
+        n: 'st3',
+        f: 'sin rw3 da'
       },
       {
-        name: 'm3',
-        fmla: 'mod ct3 st3 0'
+        n: 'm3',
+        f: 'mod ct3 st3 0'
       },
       {
-        name: 'n3',
-        fmla: '*/ rw3 rh3 m3'
+        n: 'n3',
+        f: '*/ rw3 rh3 m3'
       },
       {
-        name: 'dx3',
-        fmla: 'cos n3 da'
+        n: 'dx3',
+        f: 'cos n3 da'
       },
       {
-        name: 'dy3',
-        fmla: 'sin n3 da'
+        n: 'dy3',
+        f: 'sin n3 da'
       },
       {
-        name: 'x3',
-        fmla: '+- hc dx3 0'
+        n: 'x3',
+        f: '+- hc dx3 0'
       },
       {
-        name: 'vc3',
-        fmla: '+- b 0 rh3'
+        n: 'vc3',
+        f: '+- b 0 rh3'
       },
       {
-        name: 'y2',
-        fmla: '+- vc3 dy3 0'
+        n: 'y2',
+        f: '+- vc3 dy3 0'
       },
       {
-        name: 'x2',
-        fmla: '+- wd2 0 rw2'
+        n: 'x2',
+        f: '+- wd2 0 rw2'
       },
       {
-        name: 'cd',
-        fmla: '*/ cd2 2 1'
+        n: 'cd',
+        f: '*/ cd2 2 1'
       }
     ],
     pathLst: [
@@ -18091,442 +18091,442 @@ export const presetShape: Record<string, Shape> = {
   gear6: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 15000'
+        n: 'adj1',
+        f: 'val 15000'
       },
       {
-        name: 'adj2',
-        fmla: 'val 3526'
+        n: 'adj2',
+        f: 'val 3526'
       }
     ],
     gdLst: [
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 20000'
+        n: 'a1',
+        f: 'pin 0 adj1 20000'
       },
       {
-        name: 'a2',
-        fmla: 'pin 0 adj2 5358'
+        n: 'a2',
+        f: 'pin 0 adj2 5358'
       },
       {
-        name: 'th',
-        fmla: '*/ ss a1 100000'
+        n: 'th',
+        f: '*/ ss a1 100000'
       },
       {
-        name: 'lFD',
-        fmla: '*/ ss a2 100000'
+        n: 'lFD',
+        f: '*/ ss a2 100000'
       },
       {
-        name: 'th2',
-        fmla: '*/ th 1 2'
+        n: 'th2',
+        f: '*/ th 1 2'
       },
       {
-        name: 'l2',
-        fmla: '*/ lFD 1 2'
+        n: 'l2',
+        f: '*/ lFD 1 2'
       },
       {
-        name: 'l3',
-        fmla: '+- th2 l2 0'
+        n: 'l3',
+        f: '+- th2 l2 0'
       },
       {
-        name: 'rh',
-        fmla: '+- hd2 0 th'
+        n: 'rh',
+        f: '+- hd2 0 th'
       },
       {
-        name: 'rw',
-        fmla: '+- wd2 0 th'
+        n: 'rw',
+        f: '+- wd2 0 th'
       },
       {
-        name: 'dr',
-        fmla: '+- rw 0 rh'
+        n: 'dr',
+        f: '+- rw 0 rh'
       },
       {
-        name: 'maxr',
-        fmla: '?: dr rh rw'
+        n: 'maxr',
+        f: '?: dr rh rw'
       },
       {
-        name: 'ha',
-        fmla: 'at2 maxr l3'
+        n: 'ha',
+        f: 'at2 maxr l3'
       },
       {
-        name: 'aA1',
-        fmla: '+- 19800000 0 ha'
+        n: 'aA1',
+        f: '+- 19800000 0 ha'
       },
       {
-        name: 'aD1',
-        fmla: '+- 19800000 ha 0'
+        n: 'aD1',
+        f: '+- 19800000 ha 0'
       },
       {
-        name: 'ta11',
-        fmla: 'cos rw aA1'
+        n: 'ta11',
+        f: 'cos rw aA1'
       },
       {
-        name: 'ta12',
-        fmla: 'sin rh aA1'
+        n: 'ta12',
+        f: 'sin rh aA1'
       },
       {
-        name: 'bA1',
-        fmla: 'at2 ta11 ta12'
+        n: 'bA1',
+        f: 'at2 ta11 ta12'
       },
       {
-        name: 'cta1',
-        fmla: 'cos rh bA1'
+        n: 'cta1',
+        f: 'cos rh bA1'
       },
       {
-        name: 'sta1',
-        fmla: 'sin rw bA1'
+        n: 'sta1',
+        f: 'sin rw bA1'
       },
       {
-        name: 'ma1',
-        fmla: 'mod cta1 sta1 0'
+        n: 'ma1',
+        f: 'mod cta1 sta1 0'
       },
       {
-        name: 'na1',
-        fmla: '*/ rw rh ma1'
+        n: 'na1',
+        f: '*/ rw rh ma1'
       },
       {
-        name: 'dxa1',
-        fmla: 'cos na1 bA1'
+        n: 'dxa1',
+        f: 'cos na1 bA1'
       },
       {
-        name: 'dya1',
-        fmla: 'sin na1 bA1'
+        n: 'dya1',
+        f: 'sin na1 bA1'
       },
       {
-        name: 'xA1',
-        fmla: '+- hc dxa1 0'
+        n: 'xA1',
+        f: '+- hc dxa1 0'
       },
       {
-        name: 'yA1',
-        fmla: '+- vc dya1 0'
+        n: 'yA1',
+        f: '+- vc dya1 0'
       },
       {
-        name: 'td11',
-        fmla: 'cos rw aD1'
+        n: 'td11',
+        f: 'cos rw aD1'
       },
       {
-        name: 'td12',
-        fmla: 'sin rh aD1'
+        n: 'td12',
+        f: 'sin rh aD1'
       },
       {
-        name: 'bD1',
-        fmla: 'at2 td11 td12'
+        n: 'bD1',
+        f: 'at2 td11 td12'
       },
       {
-        name: 'ctd1',
-        fmla: 'cos rh bD1'
+        n: 'ctd1',
+        f: 'cos rh bD1'
       },
       {
-        name: 'std1',
-        fmla: 'sin rw bD1'
+        n: 'std1',
+        f: 'sin rw bD1'
       },
       {
-        name: 'md1',
-        fmla: 'mod ctd1 std1 0'
+        n: 'md1',
+        f: 'mod ctd1 std1 0'
       },
       {
-        name: 'nd1',
-        fmla: '*/ rw rh md1'
+        n: 'nd1',
+        f: '*/ rw rh md1'
       },
       {
-        name: 'dxd1',
-        fmla: 'cos nd1 bD1'
+        n: 'dxd1',
+        f: 'cos nd1 bD1'
       },
       {
-        name: 'dyd1',
-        fmla: 'sin nd1 bD1'
+        n: 'dyd1',
+        f: 'sin nd1 bD1'
       },
       {
-        name: 'xD1',
-        fmla: '+- hc dxd1 0'
+        n: 'xD1',
+        f: '+- hc dxd1 0'
       },
       {
-        name: 'yD1',
-        fmla: '+- vc dyd1 0'
+        n: 'yD1',
+        f: '+- vc dyd1 0'
       },
       {
-        name: 'xAD1',
-        fmla: '+- xA1 0 xD1'
+        n: 'xAD1',
+        f: '+- xA1 0 xD1'
       },
       {
-        name: 'yAD1',
-        fmla: '+- yA1 0 yD1'
+        n: 'yAD1',
+        f: '+- yA1 0 yD1'
       },
       {
-        name: 'lAD1',
-        fmla: 'mod xAD1 yAD1 0'
+        n: 'lAD1',
+        f: 'mod xAD1 yAD1 0'
       },
       {
-        name: 'a1',
-        fmla: 'at2 yAD1 xAD1'
+        n: 'a1',
+        f: 'at2 yAD1 xAD1'
       },
       {
-        name: 'dxF1',
-        fmla: 'sin lFD a1'
+        n: 'dxF1',
+        f: 'sin lFD a1'
       },
       {
-        name: 'dyF1',
-        fmla: 'cos lFD a1'
+        n: 'dyF1',
+        f: 'cos lFD a1'
       },
       {
-        name: 'xF1',
-        fmla: '+- xD1 dxF1 0'
+        n: 'xF1',
+        f: '+- xD1 dxF1 0'
       },
       {
-        name: 'yF1',
-        fmla: '+- yD1 dyF1 0'
+        n: 'yF1',
+        f: '+- yD1 dyF1 0'
       },
       {
-        name: 'xE1',
-        fmla: '+- xA1 0 dxF1'
+        n: 'xE1',
+        f: '+- xA1 0 dxF1'
       },
       {
-        name: 'yE1',
-        fmla: '+- yA1 0 dyF1'
+        n: 'yE1',
+        f: '+- yA1 0 dyF1'
       },
       {
-        name: 'yC1t',
-        fmla: 'sin th a1'
+        n: 'yC1t',
+        f: 'sin th a1'
       },
       {
-        name: 'xC1t',
-        fmla: 'cos th a1'
+        n: 'xC1t',
+        f: 'cos th a1'
       },
       {
-        name: 'yC1',
-        fmla: '+- yF1 yC1t 0'
+        n: 'yC1',
+        f: '+- yF1 yC1t 0'
       },
       {
-        name: 'xC1',
-        fmla: '+- xF1 0 xC1t'
+        n: 'xC1',
+        f: '+- xF1 0 xC1t'
       },
       {
-        name: 'yB1',
-        fmla: '+- yE1 yC1t 0'
+        n: 'yB1',
+        f: '+- yE1 yC1t 0'
       },
       {
-        name: 'xB1',
-        fmla: '+- xE1 0 xC1t'
+        n: 'xB1',
+        f: '+- xE1 0 xC1t'
       },
       {
-        name: 'aD6',
-        fmla: '+- 3cd4 ha 0'
+        n: 'aD6',
+        f: '+- 3cd4 ha 0'
       },
       {
-        name: 'td61',
-        fmla: 'cos rw aD6'
+        n: 'td61',
+        f: 'cos rw aD6'
       },
       {
-        name: 'td62',
-        fmla: 'sin rh aD6'
+        n: 'td62',
+        f: 'sin rh aD6'
       },
       {
-        name: 'bD6',
-        fmla: 'at2 td61 td62'
+        n: 'bD6',
+        f: 'at2 td61 td62'
       },
       {
-        name: 'ctd6',
-        fmla: 'cos rh bD6'
+        n: 'ctd6',
+        f: 'cos rh bD6'
       },
       {
-        name: 'std6',
-        fmla: 'sin rw bD6'
+        n: 'std6',
+        f: 'sin rw bD6'
       },
       {
-        name: 'md6',
-        fmla: 'mod ctd6 std6 0'
+        n: 'md6',
+        f: 'mod ctd6 std6 0'
       },
       {
-        name: 'nd6',
-        fmla: '*/ rw rh md6'
+        n: 'nd6',
+        f: '*/ rw rh md6'
       },
       {
-        name: 'dxd6',
-        fmla: 'cos nd6 bD6'
+        n: 'dxd6',
+        f: 'cos nd6 bD6'
       },
       {
-        name: 'dyd6',
-        fmla: 'sin nd6 bD6'
+        n: 'dyd6',
+        f: 'sin nd6 bD6'
       },
       {
-        name: 'xD6',
-        fmla: '+- hc dxd6 0'
+        n: 'xD6',
+        f: '+- hc dxd6 0'
       },
       {
-        name: 'yD6',
-        fmla: '+- vc dyd6 0'
+        n: 'yD6',
+        f: '+- vc dyd6 0'
       },
       {
-        name: 'xA6',
-        fmla: '+- hc 0 dxd6'
+        n: 'xA6',
+        f: '+- hc 0 dxd6'
       },
       {
-        name: 'xF6',
-        fmla: '+- xD6 0 lFD'
+        n: 'xF6',
+        f: '+- xD6 0 lFD'
       },
       {
-        name: 'xE6',
-        fmla: '+- xA6 lFD 0'
+        n: 'xE6',
+        f: '+- xA6 lFD 0'
       },
       {
-        name: 'yC6',
-        fmla: '+- yD6 0 th'
+        n: 'yC6',
+        f: '+- yD6 0 th'
       },
       {
-        name: 'swAng1',
-        fmla: '+- bA1 0 bD6'
+        n: 'swAng1',
+        f: '+- bA1 0 bD6'
       },
       {
-        name: 'aA2',
-        fmla: '+- 1800000 0 ha'
+        n: 'aA2',
+        f: '+- 1800000 0 ha'
       },
       {
-        name: 'aD2',
-        fmla: '+- 1800000 ha 0'
+        n: 'aD2',
+        f: '+- 1800000 ha 0'
       },
       {
-        name: 'ta21',
-        fmla: 'cos rw aA2'
+        n: 'ta21',
+        f: 'cos rw aA2'
       },
       {
-        name: 'ta22',
-        fmla: 'sin rh aA2'
+        n: 'ta22',
+        f: 'sin rh aA2'
       },
       {
-        name: 'bA2',
-        fmla: 'at2 ta21 ta22'
+        n: 'bA2',
+        f: 'at2 ta21 ta22'
       },
       {
-        name: 'yA2',
-        fmla: '+- h 0 yD1'
+        n: 'yA2',
+        f: '+- h 0 yD1'
       },
       {
-        name: 'td21',
-        fmla: 'cos rw aD2'
+        n: 'td21',
+        f: 'cos rw aD2'
       },
       {
-        name: 'td22',
-        fmla: 'sin rh aD2'
+        n: 'td22',
+        f: 'sin rh aD2'
       },
       {
-        name: 'bD2',
-        fmla: 'at2 td21 td22'
+        n: 'bD2',
+        f: 'at2 td21 td22'
       },
       {
-        name: 'yD2',
-        fmla: '+- h 0 yA1'
+        n: 'yD2',
+        f: '+- h 0 yA1'
       },
       {
-        name: 'yC2',
-        fmla: '+- h 0 yB1'
+        n: 'yC2',
+        f: '+- h 0 yB1'
       },
       {
-        name: 'yB2',
-        fmla: '+- h 0 yC1'
+        n: 'yB2',
+        f: '+- h 0 yC1'
       },
       {
-        name: 'xB2',
-        fmla: 'val xC1'
+        n: 'xB2',
+        f: 'val xC1'
       },
       {
-        name: 'swAng2',
-        fmla: '+- bA2 0 bD1'
+        n: 'swAng2',
+        f: '+- bA2 0 bD1'
       },
       {
-        name: 'aD3',
-        fmla: '+- cd4 ha 0'
+        n: 'aD3',
+        f: '+- cd4 ha 0'
       },
       {
-        name: 'td31',
-        fmla: 'cos rw aD3'
+        n: 'td31',
+        f: 'cos rw aD3'
       },
       {
-        name: 'td32',
-        fmla: 'sin rh aD3'
+        n: 'td32',
+        f: 'sin rh aD3'
       },
       {
-        name: 'bD3',
-        fmla: 'at2 td31 td32'
+        n: 'bD3',
+        f: 'at2 td31 td32'
       },
       {
-        name: 'yD3',
-        fmla: '+- h 0 yD6'
+        n: 'yD3',
+        f: '+- h 0 yD6'
       },
       {
-        name: 'yB3',
-        fmla: '+- h 0 yC6'
+        n: 'yB3',
+        f: '+- h 0 yC6'
       },
       {
-        name: 'aD4',
-        fmla: '+- 9000000 ha 0'
+        n: 'aD4',
+        f: '+- 9000000 ha 0'
       },
       {
-        name: 'td41',
-        fmla: 'cos rw aD4'
+        n: 'td41',
+        f: 'cos rw aD4'
       },
       {
-        name: 'td42',
-        fmla: 'sin rh aD4'
+        n: 'td42',
+        f: 'sin rh aD4'
       },
       {
-        name: 'bD4',
-        fmla: 'at2 td41 td42'
+        n: 'bD4',
+        f: 'at2 td41 td42'
       },
       {
-        name: 'xD4',
-        fmla: '+- w 0 xD1'
+        n: 'xD4',
+        f: '+- w 0 xD1'
       },
       {
-        name: 'xC4',
-        fmla: '+- w 0 xC1'
+        n: 'xC4',
+        f: '+- w 0 xC1'
       },
       {
-        name: 'xB4',
-        fmla: '+- w 0 xB1'
+        n: 'xB4',
+        f: '+- w 0 xB1'
       },
       {
-        name: 'aD5',
-        fmla: '+- 12600000 ha 0'
+        n: 'aD5',
+        f: '+- 12600000 ha 0'
       },
       {
-        name: 'td51',
-        fmla: 'cos rw aD5'
+        n: 'td51',
+        f: 'cos rw aD5'
       },
       {
-        name: 'td52',
-        fmla: 'sin rh aD5'
+        n: 'td52',
+        f: 'sin rh aD5'
       },
       {
-        name: 'bD5',
-        fmla: 'at2 td51 td52'
+        n: 'bD5',
+        f: 'at2 td51 td52'
       },
       {
-        name: 'xD5',
-        fmla: '+- w 0 xA1'
+        n: 'xD5',
+        f: '+- w 0 xA1'
       },
       {
-        name: 'xC5',
-        fmla: '+- w 0 xB1'
+        n: 'xC5',
+        f: '+- w 0 xB1'
       },
       {
-        name: 'xB5',
-        fmla: '+- w 0 xC1'
+        n: 'xB5',
+        f: '+- w 0 xC1'
       },
       {
-        name: 'xCxn1',
-        fmla: '+/ xB1 xC1 2'
+        n: 'xCxn1',
+        f: '+/ xB1 xC1 2'
       },
       {
-        name: 'yCxn1',
-        fmla: '+/ yB1 yC1 2'
+        n: 'yCxn1',
+        f: '+/ yB1 yC1 2'
       },
       {
-        name: 'yCxn2',
-        fmla: '+- b 0 yCxn1'
+        n: 'yCxn2',
+        f: '+- b 0 yCxn1'
       },
       {
-        name: 'xCxn4',
-        fmla: '+/ r 0 xCxn1'
+        n: 'xCxn4',
+        f: '+/ r 0 xCxn1'
       }
     ],
     pathLst: [
@@ -18719,982 +18719,982 @@ export const presetShape: Record<string, Shape> = {
   gear9: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 10000'
+        n: 'adj1',
+        f: 'val 10000'
       },
       {
-        name: 'adj2',
-        fmla: 'val 1763'
+        n: 'adj2',
+        f: 'val 1763'
       }
     ],
     gdLst: [
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 20000'
+        n: 'a1',
+        f: 'pin 0 adj1 20000'
       },
       {
-        name: 'a2',
-        fmla: 'pin 0 adj2 2679'
+        n: 'a2',
+        f: 'pin 0 adj2 2679'
       },
       {
-        name: 'th',
-        fmla: '*/ ss a1 100000'
+        n: 'th',
+        f: '*/ ss a1 100000'
       },
       {
-        name: 'lFD',
-        fmla: '*/ ss a2 100000'
+        n: 'lFD',
+        f: '*/ ss a2 100000'
       },
       {
-        name: 'th2',
-        fmla: '*/ th 1 2'
+        n: 'th2',
+        f: '*/ th 1 2'
       },
       {
-        name: 'l2',
-        fmla: '*/ lFD 1 2'
+        n: 'l2',
+        f: '*/ lFD 1 2'
       },
       {
-        name: 'l3',
-        fmla: '+- th2 l2 0'
+        n: 'l3',
+        f: '+- th2 l2 0'
       },
       {
-        name: 'rh',
-        fmla: '+- hd2 0 th'
+        n: 'rh',
+        f: '+- hd2 0 th'
       },
       {
-        name: 'rw',
-        fmla: '+- wd2 0 th'
+        n: 'rw',
+        f: '+- wd2 0 th'
       },
       {
-        name: 'dr',
-        fmla: '+- rw 0 rh'
+        n: 'dr',
+        f: '+- rw 0 rh'
       },
       {
-        name: 'maxr',
-        fmla: '?: dr rh rw'
+        n: 'maxr',
+        f: '?: dr rh rw'
       },
       {
-        name: 'ha',
-        fmla: 'at2 maxr l3'
+        n: 'ha',
+        f: 'at2 maxr l3'
       },
       {
-        name: 'aA1',
-        fmla: '+- 18600000 0 ha'
+        n: 'aA1',
+        f: '+- 18600000 0 ha'
       },
       {
-        name: 'aD1',
-        fmla: '+- 18600000 ha 0'
+        n: 'aD1',
+        f: '+- 18600000 ha 0'
       },
       {
-        name: 'ta11',
-        fmla: 'cos rw aA1'
+        n: 'ta11',
+        f: 'cos rw aA1'
       },
       {
-        name: 'ta12',
-        fmla: 'sin rh aA1'
+        n: 'ta12',
+        f: 'sin rh aA1'
       },
       {
-        name: 'bA1',
-        fmla: 'at2 ta11 ta12'
+        n: 'bA1',
+        f: 'at2 ta11 ta12'
       },
       {
-        name: 'cta1',
-        fmla: 'cos rh bA1'
+        n: 'cta1',
+        f: 'cos rh bA1'
       },
       {
-        name: 'sta1',
-        fmla: 'sin rw bA1'
+        n: 'sta1',
+        f: 'sin rw bA1'
       },
       {
-        name: 'ma1',
-        fmla: 'mod cta1 sta1 0'
+        n: 'ma1',
+        f: 'mod cta1 sta1 0'
       },
       {
-        name: 'na1',
-        fmla: '*/ rw rh ma1'
+        n: 'na1',
+        f: '*/ rw rh ma1'
       },
       {
-        name: 'dxa1',
-        fmla: 'cos na1 bA1'
+        n: 'dxa1',
+        f: 'cos na1 bA1'
       },
       {
-        name: 'dya1',
-        fmla: 'sin na1 bA1'
+        n: 'dya1',
+        f: 'sin na1 bA1'
       },
       {
-        name: 'xA1',
-        fmla: '+- hc dxa1 0'
+        n: 'xA1',
+        f: '+- hc dxa1 0'
       },
       {
-        name: 'yA1',
-        fmla: '+- vc dya1 0'
+        n: 'yA1',
+        f: '+- vc dya1 0'
       },
       {
-        name: 'td11',
-        fmla: 'cos rw aD1'
+        n: 'td11',
+        f: 'cos rw aD1'
       },
       {
-        name: 'td12',
-        fmla: 'sin rh aD1'
+        n: 'td12',
+        f: 'sin rh aD1'
       },
       {
-        name: 'bD1',
-        fmla: 'at2 td11 td12'
+        n: 'bD1',
+        f: 'at2 td11 td12'
       },
       {
-        name: 'ctd1',
-        fmla: 'cos rh bD1'
+        n: 'ctd1',
+        f: 'cos rh bD1'
       },
       {
-        name: 'std1',
-        fmla: 'sin rw bD1'
+        n: 'std1',
+        f: 'sin rw bD1'
       },
       {
-        name: 'md1',
-        fmla: 'mod ctd1 std1 0'
+        n: 'md1',
+        f: 'mod ctd1 std1 0'
       },
       {
-        name: 'nd1',
-        fmla: '*/ rw rh md1'
+        n: 'nd1',
+        f: '*/ rw rh md1'
       },
       {
-        name: 'dxd1',
-        fmla: 'cos nd1 bD1'
+        n: 'dxd1',
+        f: 'cos nd1 bD1'
       },
       {
-        name: 'dyd1',
-        fmla: 'sin nd1 bD1'
+        n: 'dyd1',
+        f: 'sin nd1 bD1'
       },
       {
-        name: 'xD1',
-        fmla: '+- hc dxd1 0'
+        n: 'xD1',
+        f: '+- hc dxd1 0'
       },
       {
-        name: 'yD1',
-        fmla: '+- vc dyd1 0'
+        n: 'yD1',
+        f: '+- vc dyd1 0'
       },
       {
-        name: 'xAD1',
-        fmla: '+- xA1 0 xD1'
+        n: 'xAD1',
+        f: '+- xA1 0 xD1'
       },
       {
-        name: 'yAD1',
-        fmla: '+- yA1 0 yD1'
+        n: 'yAD1',
+        f: '+- yA1 0 yD1'
       },
       {
-        name: 'lAD1',
-        fmla: 'mod xAD1 yAD1 0'
+        n: 'lAD1',
+        f: 'mod xAD1 yAD1 0'
       },
       {
-        name: 'a1',
-        fmla: 'at2 yAD1 xAD1'
+        n: 'a1',
+        f: 'at2 yAD1 xAD1'
       },
       {
-        name: 'dxF1',
-        fmla: 'sin lFD a1'
+        n: 'dxF1',
+        f: 'sin lFD a1'
       },
       {
-        name: 'dyF1',
-        fmla: 'cos lFD a1'
+        n: 'dyF1',
+        f: 'cos lFD a1'
       },
       {
-        name: 'xF1',
-        fmla: '+- xD1 dxF1 0'
+        n: 'xF1',
+        f: '+- xD1 dxF1 0'
       },
       {
-        name: 'yF1',
-        fmla: '+- yD1 dyF1 0'
+        n: 'yF1',
+        f: '+- yD1 dyF1 0'
       },
       {
-        name: 'xE1',
-        fmla: '+- xA1 0 dxF1'
+        n: 'xE1',
+        f: '+- xA1 0 dxF1'
       },
       {
-        name: 'yE1',
-        fmla: '+- yA1 0 dyF1'
+        n: 'yE1',
+        f: '+- yA1 0 dyF1'
       },
       {
-        name: 'yC1t',
-        fmla: 'sin th a1'
+        n: 'yC1t',
+        f: 'sin th a1'
       },
       {
-        name: 'xC1t',
-        fmla: 'cos th a1'
+        n: 'xC1t',
+        f: 'cos th a1'
       },
       {
-        name: 'yC1',
-        fmla: '+- yF1 yC1t 0'
+        n: 'yC1',
+        f: '+- yF1 yC1t 0'
       },
       {
-        name: 'xC1',
-        fmla: '+- xF1 0 xC1t'
+        n: 'xC1',
+        f: '+- xF1 0 xC1t'
       },
       {
-        name: 'yB1',
-        fmla: '+- yE1 yC1t 0'
+        n: 'yB1',
+        f: '+- yE1 yC1t 0'
       },
       {
-        name: 'xB1',
-        fmla: '+- xE1 0 xC1t'
+        n: 'xB1',
+        f: '+- xE1 0 xC1t'
       },
       {
-        name: 'aA2',
-        fmla: '+- 21000000 0 ha'
+        n: 'aA2',
+        f: '+- 21000000 0 ha'
       },
       {
-        name: 'aD2',
-        fmla: '+- 21000000 ha 0'
+        n: 'aD2',
+        f: '+- 21000000 ha 0'
       },
       {
-        name: 'ta21',
-        fmla: 'cos rw aA2'
+        n: 'ta21',
+        f: 'cos rw aA2'
       },
       {
-        name: 'ta22',
-        fmla: 'sin rh aA2'
+        n: 'ta22',
+        f: 'sin rh aA2'
       },
       {
-        name: 'bA2',
-        fmla: 'at2 ta21 ta22'
+        n: 'bA2',
+        f: 'at2 ta21 ta22'
       },
       {
-        name: 'cta2',
-        fmla: 'cos rh bA2'
+        n: 'cta2',
+        f: 'cos rh bA2'
       },
       {
-        name: 'sta2',
-        fmla: 'sin rw bA2'
+        n: 'sta2',
+        f: 'sin rw bA2'
       },
       {
-        name: 'ma2',
-        fmla: 'mod cta2 sta2 0'
+        n: 'ma2',
+        f: 'mod cta2 sta2 0'
       },
       {
-        name: 'na2',
-        fmla: '*/ rw rh ma2'
+        n: 'na2',
+        f: '*/ rw rh ma2'
       },
       {
-        name: 'dxa2',
-        fmla: 'cos na2 bA2'
+        n: 'dxa2',
+        f: 'cos na2 bA2'
       },
       {
-        name: 'dya2',
-        fmla: 'sin na2 bA2'
+        n: 'dya2',
+        f: 'sin na2 bA2'
       },
       {
-        name: 'xA2',
-        fmla: '+- hc dxa2 0'
+        n: 'xA2',
+        f: '+- hc dxa2 0'
       },
       {
-        name: 'yA2',
-        fmla: '+- vc dya2 0'
+        n: 'yA2',
+        f: '+- vc dya2 0'
       },
       {
-        name: 'td21',
-        fmla: 'cos rw aD2'
+        n: 'td21',
+        f: 'cos rw aD2'
       },
       {
-        name: 'td22',
-        fmla: 'sin rh aD2'
+        n: 'td22',
+        f: 'sin rh aD2'
       },
       {
-        name: 'bD2',
-        fmla: 'at2 td21 td22'
+        n: 'bD2',
+        f: 'at2 td21 td22'
       },
       {
-        name: 'ctd2',
-        fmla: 'cos rh bD2'
+        n: 'ctd2',
+        f: 'cos rh bD2'
       },
       {
-        name: 'std2',
-        fmla: 'sin rw bD2'
+        n: 'std2',
+        f: 'sin rw bD2'
       },
       {
-        name: 'md2',
-        fmla: 'mod ctd2 std2 0'
+        n: 'md2',
+        f: 'mod ctd2 std2 0'
       },
       {
-        name: 'nd2',
-        fmla: '*/ rw rh md2'
+        n: 'nd2',
+        f: '*/ rw rh md2'
       },
       {
-        name: 'dxd2',
-        fmla: 'cos nd2 bD2'
+        n: 'dxd2',
+        f: 'cos nd2 bD2'
       },
       {
-        name: 'dyd2',
-        fmla: 'sin nd2 bD2'
+        n: 'dyd2',
+        f: 'sin nd2 bD2'
       },
       {
-        name: 'xD2',
-        fmla: '+- hc dxd2 0'
+        n: 'xD2',
+        f: '+- hc dxd2 0'
       },
       {
-        name: 'yD2',
-        fmla: '+- vc dyd2 0'
+        n: 'yD2',
+        f: '+- vc dyd2 0'
       },
       {
-        name: 'xAD2',
-        fmla: '+- xA2 0 xD2'
+        n: 'xAD2',
+        f: '+- xA2 0 xD2'
       },
       {
-        name: 'yAD2',
-        fmla: '+- yA2 0 yD2'
+        n: 'yAD2',
+        f: '+- yA2 0 yD2'
       },
       {
-        name: 'lAD2',
-        fmla: 'mod xAD2 yAD2 0'
+        n: 'lAD2',
+        f: 'mod xAD2 yAD2 0'
       },
       {
-        name: 'a2',
-        fmla: 'at2 yAD2 xAD2'
+        n: 'a2',
+        f: 'at2 yAD2 xAD2'
       },
       {
-        name: 'dxF2',
-        fmla: 'sin lFD a2'
+        n: 'dxF2',
+        f: 'sin lFD a2'
       },
       {
-        name: 'dyF2',
-        fmla: 'cos lFD a2'
+        n: 'dyF2',
+        f: 'cos lFD a2'
       },
       {
-        name: 'xF2',
-        fmla: '+- xD2 dxF2 0'
+        n: 'xF2',
+        f: '+- xD2 dxF2 0'
       },
       {
-        name: 'yF2',
-        fmla: '+- yD2 dyF2 0'
+        n: 'yF2',
+        f: '+- yD2 dyF2 0'
       },
       {
-        name: 'xE2',
-        fmla: '+- xA2 0 dxF2'
+        n: 'xE2',
+        f: '+- xA2 0 dxF2'
       },
       {
-        name: 'yE2',
-        fmla: '+- yA2 0 dyF2'
+        n: 'yE2',
+        f: '+- yA2 0 dyF2'
       },
       {
-        name: 'yC2t',
-        fmla: 'sin th a2'
+        n: 'yC2t',
+        f: 'sin th a2'
       },
       {
-        name: 'xC2t',
-        fmla: 'cos th a2'
+        n: 'xC2t',
+        f: 'cos th a2'
       },
       {
-        name: 'yC2',
-        fmla: '+- yF2 yC2t 0'
+        n: 'yC2',
+        f: '+- yF2 yC2t 0'
       },
       {
-        name: 'xC2',
-        fmla: '+- xF2 0 xC2t'
+        n: 'xC2',
+        f: '+- xF2 0 xC2t'
       },
       {
-        name: 'yB2',
-        fmla: '+- yE2 yC2t 0'
+        n: 'yB2',
+        f: '+- yE2 yC2t 0'
       },
       {
-        name: 'xB2',
-        fmla: '+- xE2 0 xC2t'
+        n: 'xB2',
+        f: '+- xE2 0 xC2t'
       },
       {
-        name: 'swAng1',
-        fmla: '+- bA2 0 bD1'
+        n: 'swAng1',
+        f: '+- bA2 0 bD1'
       },
       {
-        name: 'aA3',
-        fmla: '+- 1800000 0 ha'
+        n: 'aA3',
+        f: '+- 1800000 0 ha'
       },
       {
-        name: 'aD3',
-        fmla: '+- 1800000 ha 0'
+        n: 'aD3',
+        f: '+- 1800000 ha 0'
       },
       {
-        name: 'ta31',
-        fmla: 'cos rw aA3'
+        n: 'ta31',
+        f: 'cos rw aA3'
       },
       {
-        name: 'ta32',
-        fmla: 'sin rh aA3'
+        n: 'ta32',
+        f: 'sin rh aA3'
       },
       {
-        name: 'bA3',
-        fmla: 'at2 ta31 ta32'
+        n: 'bA3',
+        f: 'at2 ta31 ta32'
       },
       {
-        name: 'cta3',
-        fmla: 'cos rh bA3'
+        n: 'cta3',
+        f: 'cos rh bA3'
       },
       {
-        name: 'sta3',
-        fmla: 'sin rw bA3'
+        n: 'sta3',
+        f: 'sin rw bA3'
       },
       {
-        name: 'ma3',
-        fmla: 'mod cta3 sta3 0'
+        n: 'ma3',
+        f: 'mod cta3 sta3 0'
       },
       {
-        name: 'na3',
-        fmla: '*/ rw rh ma3'
+        n: 'na3',
+        f: '*/ rw rh ma3'
       },
       {
-        name: 'dxa3',
-        fmla: 'cos na3 bA3'
+        n: 'dxa3',
+        f: 'cos na3 bA3'
       },
       {
-        name: 'dya3',
-        fmla: 'sin na3 bA3'
+        n: 'dya3',
+        f: 'sin na3 bA3'
       },
       {
-        name: 'xA3',
-        fmla: '+- hc dxa3 0'
+        n: 'xA3',
+        f: '+- hc dxa3 0'
       },
       {
-        name: 'yA3',
-        fmla: '+- vc dya3 0'
+        n: 'yA3',
+        f: '+- vc dya3 0'
       },
       {
-        name: 'td31',
-        fmla: 'cos rw aD3'
+        n: 'td31',
+        f: 'cos rw aD3'
       },
       {
-        name: 'td32',
-        fmla: 'sin rh aD3'
+        n: 'td32',
+        f: 'sin rh aD3'
       },
       {
-        name: 'bD3',
-        fmla: 'at2 td31 td32'
+        n: 'bD3',
+        f: 'at2 td31 td32'
       },
       {
-        name: 'ctd3',
-        fmla: 'cos rh bD3'
+        n: 'ctd3',
+        f: 'cos rh bD3'
       },
       {
-        name: 'std3',
-        fmla: 'sin rw bD3'
+        n: 'std3',
+        f: 'sin rw bD3'
       },
       {
-        name: 'md3',
-        fmla: 'mod ctd3 std3 0'
+        n: 'md3',
+        f: 'mod ctd3 std3 0'
       },
       {
-        name: 'nd3',
-        fmla: '*/ rw rh md3'
+        n: 'nd3',
+        f: '*/ rw rh md3'
       },
       {
-        name: 'dxd3',
-        fmla: 'cos nd3 bD3'
+        n: 'dxd3',
+        f: 'cos nd3 bD3'
       },
       {
-        name: 'dyd3',
-        fmla: 'sin nd3 bD3'
+        n: 'dyd3',
+        f: 'sin nd3 bD3'
       },
       {
-        name: 'xD3',
-        fmla: '+- hc dxd3 0'
+        n: 'xD3',
+        f: '+- hc dxd3 0'
       },
       {
-        name: 'yD3',
-        fmla: '+- vc dyd3 0'
+        n: 'yD3',
+        f: '+- vc dyd3 0'
       },
       {
-        name: 'xAD3',
-        fmla: '+- xA3 0 xD3'
+        n: 'xAD3',
+        f: '+- xA3 0 xD3'
       },
       {
-        name: 'yAD3',
-        fmla: '+- yA3 0 yD3'
+        n: 'yAD3',
+        f: '+- yA3 0 yD3'
       },
       {
-        name: 'lAD3',
-        fmla: 'mod xAD3 yAD3 0'
+        n: 'lAD3',
+        f: 'mod xAD3 yAD3 0'
       },
       {
-        name: 'a3',
-        fmla: 'at2 yAD3 xAD3'
+        n: 'a3',
+        f: 'at2 yAD3 xAD3'
       },
       {
-        name: 'dxF3',
-        fmla: 'sin lFD a3'
+        n: 'dxF3',
+        f: 'sin lFD a3'
       },
       {
-        name: 'dyF3',
-        fmla: 'cos lFD a3'
+        n: 'dyF3',
+        f: 'cos lFD a3'
       },
       {
-        name: 'xF3',
-        fmla: '+- xD3 dxF3 0'
+        n: 'xF3',
+        f: '+- xD3 dxF3 0'
       },
       {
-        name: 'yF3',
-        fmla: '+- yD3 dyF3 0'
+        n: 'yF3',
+        f: '+- yD3 dyF3 0'
       },
       {
-        name: 'xE3',
-        fmla: '+- xA3 0 dxF3'
+        n: 'xE3',
+        f: '+- xA3 0 dxF3'
       },
       {
-        name: 'yE3',
-        fmla: '+- yA3 0 dyF3'
+        n: 'yE3',
+        f: '+- yA3 0 dyF3'
       },
       {
-        name: 'yC3t',
-        fmla: 'sin th a3'
+        n: 'yC3t',
+        f: 'sin th a3'
       },
       {
-        name: 'xC3t',
-        fmla: 'cos th a3'
+        n: 'xC3t',
+        f: 'cos th a3'
       },
       {
-        name: 'yC3',
-        fmla: '+- yF3 yC3t 0'
+        n: 'yC3',
+        f: '+- yF3 yC3t 0'
       },
       {
-        name: 'xC3',
-        fmla: '+- xF3 0 xC3t'
+        n: 'xC3',
+        f: '+- xF3 0 xC3t'
       },
       {
-        name: 'yB3',
-        fmla: '+- yE3 yC3t 0'
+        n: 'yB3',
+        f: '+- yE3 yC3t 0'
       },
       {
-        name: 'xB3',
-        fmla: '+- xE3 0 xC3t'
+        n: 'xB3',
+        f: '+- xE3 0 xC3t'
       },
       {
-        name: 'swAng2',
-        fmla: '+- bA3 0 bD2'
+        n: 'swAng2',
+        f: '+- bA3 0 bD2'
       },
       {
-        name: 'aA4',
-        fmla: '+- 4200000 0 ha'
+        n: 'aA4',
+        f: '+- 4200000 0 ha'
       },
       {
-        name: 'aD4',
-        fmla: '+- 4200000 ha 0'
+        n: 'aD4',
+        f: '+- 4200000 ha 0'
       },
       {
-        name: 'ta41',
-        fmla: 'cos rw aA4'
+        n: 'ta41',
+        f: 'cos rw aA4'
       },
       {
-        name: 'ta42',
-        fmla: 'sin rh aA4'
+        n: 'ta42',
+        f: 'sin rh aA4'
       },
       {
-        name: 'bA4',
-        fmla: 'at2 ta41 ta42'
+        n: 'bA4',
+        f: 'at2 ta41 ta42'
       },
       {
-        name: 'cta4',
-        fmla: 'cos rh bA4'
+        n: 'cta4',
+        f: 'cos rh bA4'
       },
       {
-        name: 'sta4',
-        fmla: 'sin rw bA4'
+        n: 'sta4',
+        f: 'sin rw bA4'
       },
       {
-        name: 'ma4',
-        fmla: 'mod cta4 sta4 0'
+        n: 'ma4',
+        f: 'mod cta4 sta4 0'
       },
       {
-        name: 'na4',
-        fmla: '*/ rw rh ma4'
+        n: 'na4',
+        f: '*/ rw rh ma4'
       },
       {
-        name: 'dxa4',
-        fmla: 'cos na4 bA4'
+        n: 'dxa4',
+        f: 'cos na4 bA4'
       },
       {
-        name: 'dya4',
-        fmla: 'sin na4 bA4'
+        n: 'dya4',
+        f: 'sin na4 bA4'
       },
       {
-        name: 'xA4',
-        fmla: '+- hc dxa4 0'
+        n: 'xA4',
+        f: '+- hc dxa4 0'
       },
       {
-        name: 'yA4',
-        fmla: '+- vc dya4 0'
+        n: 'yA4',
+        f: '+- vc dya4 0'
       },
       {
-        name: 'td41',
-        fmla: 'cos rw aD4'
+        n: 'td41',
+        f: 'cos rw aD4'
       },
       {
-        name: 'td42',
-        fmla: 'sin rh aD4'
+        n: 'td42',
+        f: 'sin rh aD4'
       },
       {
-        name: 'bD4',
-        fmla: 'at2 td41 td42'
+        n: 'bD4',
+        f: 'at2 td41 td42'
       },
       {
-        name: 'ctd4',
-        fmla: 'cos rh bD4'
+        n: 'ctd4',
+        f: 'cos rh bD4'
       },
       {
-        name: 'std4',
-        fmla: 'sin rw bD4'
+        n: 'std4',
+        f: 'sin rw bD4'
       },
       {
-        name: 'md4',
-        fmla: 'mod ctd4 std4 0'
+        n: 'md4',
+        f: 'mod ctd4 std4 0'
       },
       {
-        name: 'nd4',
-        fmla: '*/ rw rh md4'
+        n: 'nd4',
+        f: '*/ rw rh md4'
       },
       {
-        name: 'dxd4',
-        fmla: 'cos nd4 bD4'
+        n: 'dxd4',
+        f: 'cos nd4 bD4'
       },
       {
-        name: 'dyd4',
-        fmla: 'sin nd4 bD4'
+        n: 'dyd4',
+        f: 'sin nd4 bD4'
       },
       {
-        name: 'xD4',
-        fmla: '+- hc dxd4 0'
+        n: 'xD4',
+        f: '+- hc dxd4 0'
       },
       {
-        name: 'yD4',
-        fmla: '+- vc dyd4 0'
+        n: 'yD4',
+        f: '+- vc dyd4 0'
       },
       {
-        name: 'xAD4',
-        fmla: '+- xA4 0 xD4'
+        n: 'xAD4',
+        f: '+- xA4 0 xD4'
       },
       {
-        name: 'yAD4',
-        fmla: '+- yA4 0 yD4'
+        n: 'yAD4',
+        f: '+- yA4 0 yD4'
       },
       {
-        name: 'lAD4',
-        fmla: 'mod xAD4 yAD4 0'
+        n: 'lAD4',
+        f: 'mod xAD4 yAD4 0'
       },
       {
-        name: 'a4',
-        fmla: 'at2 yAD4 xAD4'
+        n: 'a4',
+        f: 'at2 yAD4 xAD4'
       },
       {
-        name: 'dxF4',
-        fmla: 'sin lFD a4'
+        n: 'dxF4',
+        f: 'sin lFD a4'
       },
       {
-        name: 'dyF4',
-        fmla: 'cos lFD a4'
+        n: 'dyF4',
+        f: 'cos lFD a4'
       },
       {
-        name: 'xF4',
-        fmla: '+- xD4 dxF4 0'
+        n: 'xF4',
+        f: '+- xD4 dxF4 0'
       },
       {
-        name: 'yF4',
-        fmla: '+- yD4 dyF4 0'
+        n: 'yF4',
+        f: '+- yD4 dyF4 0'
       },
       {
-        name: 'xE4',
-        fmla: '+- xA4 0 dxF4'
+        n: 'xE4',
+        f: '+- xA4 0 dxF4'
       },
       {
-        name: 'yE4',
-        fmla: '+- yA4 0 dyF4'
+        n: 'yE4',
+        f: '+- yA4 0 dyF4'
       },
       {
-        name: 'yC4t',
-        fmla: 'sin th a4'
+        n: 'yC4t',
+        f: 'sin th a4'
       },
       {
-        name: 'xC4t',
-        fmla: 'cos th a4'
+        n: 'xC4t',
+        f: 'cos th a4'
       },
       {
-        name: 'yC4',
-        fmla: '+- yF4 yC4t 0'
+        n: 'yC4',
+        f: '+- yF4 yC4t 0'
       },
       {
-        name: 'xC4',
-        fmla: '+- xF4 0 xC4t'
+        n: 'xC4',
+        f: '+- xF4 0 xC4t'
       },
       {
-        name: 'yB4',
-        fmla: '+- yE4 yC4t 0'
+        n: 'yB4',
+        f: '+- yE4 yC4t 0'
       },
       {
-        name: 'xB4',
-        fmla: '+- xE4 0 xC4t'
+        n: 'xB4',
+        f: '+- xE4 0 xC4t'
       },
       {
-        name: 'swAng3',
-        fmla: '+- bA4 0 bD3'
+        n: 'swAng3',
+        f: '+- bA4 0 bD3'
       },
       {
-        name: 'aA5',
-        fmla: '+- 6600000 0 ha'
+        n: 'aA5',
+        f: '+- 6600000 0 ha'
       },
       {
-        name: 'aD5',
-        fmla: '+- 6600000 ha 0'
+        n: 'aD5',
+        f: '+- 6600000 ha 0'
       },
       {
-        name: 'ta51',
-        fmla: 'cos rw aA5'
+        n: 'ta51',
+        f: 'cos rw aA5'
       },
       {
-        name: 'ta52',
-        fmla: 'sin rh aA5'
+        n: 'ta52',
+        f: 'sin rh aA5'
       },
       {
-        name: 'bA5',
-        fmla: 'at2 ta51 ta52'
+        n: 'bA5',
+        f: 'at2 ta51 ta52'
       },
       {
-        name: 'td51',
-        fmla: 'cos rw aD5'
+        n: 'td51',
+        f: 'cos rw aD5'
       },
       {
-        name: 'td52',
-        fmla: 'sin rh aD5'
+        n: 'td52',
+        f: 'sin rh aD5'
       },
       {
-        name: 'bD5',
-        fmla: 'at2 td51 td52'
+        n: 'bD5',
+        f: 'at2 td51 td52'
       },
       {
-        name: 'xD5',
-        fmla: '+- w 0 xA4'
+        n: 'xD5',
+        f: '+- w 0 xA4'
       },
       {
-        name: 'xC5',
-        fmla: '+- w 0 xB4'
+        n: 'xC5',
+        f: '+- w 0 xB4'
       },
       {
-        name: 'xB5',
-        fmla: '+- w 0 xC4'
+        n: 'xB5',
+        f: '+- w 0 xC4'
       },
       {
-        name: 'swAng4',
-        fmla: '+- bA5 0 bD4'
+        n: 'swAng4',
+        f: '+- bA5 0 bD4'
       },
       {
-        name: 'aD6',
-        fmla: '+- 9000000 ha 0'
+        n: 'aD6',
+        f: '+- 9000000 ha 0'
       },
       {
-        name: 'td61',
-        fmla: 'cos rw aD6'
+        n: 'td61',
+        f: 'cos rw aD6'
       },
       {
-        name: 'td62',
-        fmla: 'sin rh aD6'
+        n: 'td62',
+        f: 'sin rh aD6'
       },
       {
-        name: 'bD6',
-        fmla: 'at2 td61 td62'
+        n: 'bD6',
+        f: 'at2 td61 td62'
       },
       {
-        name: 'xD6',
-        fmla: '+- w 0 xA3'
+        n: 'xD6',
+        f: '+- w 0 xA3'
       },
       {
-        name: 'xC6',
-        fmla: '+- w 0 xB3'
+        n: 'xC6',
+        f: '+- w 0 xB3'
       },
       {
-        name: 'xB6',
-        fmla: '+- w 0 xC3'
+        n: 'xB6',
+        f: '+- w 0 xC3'
       },
       {
-        name: 'aD7',
-        fmla: '+- 11400000 ha 0'
+        n: 'aD7',
+        f: '+- 11400000 ha 0'
       },
       {
-        name: 'td71',
-        fmla: 'cos rw aD7'
+        n: 'td71',
+        f: 'cos rw aD7'
       },
       {
-        name: 'td72',
-        fmla: 'sin rh aD7'
+        n: 'td72',
+        f: 'sin rh aD7'
       },
       {
-        name: 'bD7',
-        fmla: 'at2 td71 td72'
+        n: 'bD7',
+        f: 'at2 td71 td72'
       },
       {
-        name: 'xD7',
-        fmla: '+- w 0 xA2'
+        n: 'xD7',
+        f: '+- w 0 xA2'
       },
       {
-        name: 'xC7',
-        fmla: '+- w 0 xB2'
+        n: 'xC7',
+        f: '+- w 0 xB2'
       },
       {
-        name: 'xB7',
-        fmla: '+- w 0 xC2'
+        n: 'xB7',
+        f: '+- w 0 xC2'
       },
       {
-        name: 'aD8',
-        fmla: '+- 13800000 ha 0'
+        n: 'aD8',
+        f: '+- 13800000 ha 0'
       },
       {
-        name: 'td81',
-        fmla: 'cos rw aD8'
+        n: 'td81',
+        f: 'cos rw aD8'
       },
       {
-        name: 'td82',
-        fmla: 'sin rh aD8'
+        n: 'td82',
+        f: 'sin rh aD8'
       },
       {
-        name: 'bD8',
-        fmla: 'at2 td81 td82'
+        n: 'bD8',
+        f: 'at2 td81 td82'
       },
       {
-        name: 'xA8',
-        fmla: '+- w 0 xD1'
+        n: 'xA8',
+        f: '+- w 0 xD1'
       },
       {
-        name: 'xD8',
-        fmla: '+- w 0 xA1'
+        n: 'xD8',
+        f: '+- w 0 xA1'
       },
       {
-        name: 'xC8',
-        fmla: '+- w 0 xB1'
+        n: 'xC8',
+        f: '+- w 0 xB1'
       },
       {
-        name: 'xB8',
-        fmla: '+- w 0 xC1'
+        n: 'xB8',
+        f: '+- w 0 xC1'
       },
       {
-        name: 'aA9',
-        fmla: '+- 3cd4 0 ha'
+        n: 'aA9',
+        f: '+- 3cd4 0 ha'
       },
       {
-        name: 'aD9',
-        fmla: '+- 3cd4 ha 0'
+        n: 'aD9',
+        f: '+- 3cd4 ha 0'
       },
       {
-        name: 'td91',
-        fmla: 'cos rw aD9'
+        n: 'td91',
+        f: 'cos rw aD9'
       },
       {
-        name: 'td92',
-        fmla: 'sin rh aD9'
+        n: 'td92',
+        f: 'sin rh aD9'
       },
       {
-        name: 'bD9',
-        fmla: 'at2 td91 td92'
+        n: 'bD9',
+        f: 'at2 td91 td92'
       },
       {
-        name: 'ctd9',
-        fmla: 'cos rh bD9'
+        n: 'ctd9',
+        f: 'cos rh bD9'
       },
       {
-        name: 'std9',
-        fmla: 'sin rw bD9'
+        n: 'std9',
+        f: 'sin rw bD9'
       },
       {
-        name: 'md9',
-        fmla: 'mod ctd9 std9 0'
+        n: 'md9',
+        f: 'mod ctd9 std9 0'
       },
       {
-        name: 'nd9',
-        fmla: '*/ rw rh md9'
+        n: 'nd9',
+        f: '*/ rw rh md9'
       },
       {
-        name: 'dxd9',
-        fmla: 'cos nd9 bD9'
+        n: 'dxd9',
+        f: 'cos nd9 bD9'
       },
       {
-        name: 'dyd9',
-        fmla: 'sin nd9 bD9'
+        n: 'dyd9',
+        f: 'sin nd9 bD9'
       },
       {
-        name: 'xD9',
-        fmla: '+- hc dxd9 0'
+        n: 'xD9',
+        f: '+- hc dxd9 0'
       },
       {
-        name: 'yD9',
-        fmla: '+- vc dyd9 0'
+        n: 'yD9',
+        f: '+- vc dyd9 0'
       },
       {
-        name: 'ta91',
-        fmla: 'cos rw aA9'
+        n: 'ta91',
+        f: 'cos rw aA9'
       },
       {
-        name: 'ta92',
-        fmla: 'sin rh aA9'
+        n: 'ta92',
+        f: 'sin rh aA9'
       },
       {
-        name: 'bA9',
-        fmla: 'at2 ta91 ta92'
+        n: 'bA9',
+        f: 'at2 ta91 ta92'
       },
       {
-        name: 'xA9',
-        fmla: '+- hc 0 dxd9'
+        n: 'xA9',
+        f: '+- hc 0 dxd9'
       },
       {
-        name: 'xF9',
-        fmla: '+- xD9 0 lFD'
+        n: 'xF9',
+        f: '+- xD9 0 lFD'
       },
       {
-        name: 'xE9',
-        fmla: '+- xA9 lFD 0'
+        n: 'xE9',
+        f: '+- xA9 lFD 0'
       },
       {
-        name: 'yC9',
-        fmla: '+- yD9 0 th'
+        n: 'yC9',
+        f: '+- yD9 0 th'
       },
       {
-        name: 'swAng5',
-        fmla: '+- bA9 0 bD8'
+        n: 'swAng5',
+        f: '+- bA9 0 bD8'
       },
       {
-        name: 'xCxn1',
-        fmla: '+/ xB1 xC1 2'
+        n: 'xCxn1',
+        f: '+/ xB1 xC1 2'
       },
       {
-        name: 'yCxn1',
-        fmla: '+/ yB1 yC1 2'
+        n: 'yCxn1',
+        f: '+/ yB1 yC1 2'
       },
       {
-        name: 'xCxn2',
-        fmla: '+/ xB2 xC2 2'
+        n: 'xCxn2',
+        f: '+/ xB2 xC2 2'
       },
       {
-        name: 'yCxn2',
-        fmla: '+/ yB2 yC2 2'
+        n: 'yCxn2',
+        f: '+/ yB2 yC2 2'
       },
       {
-        name: 'xCxn3',
-        fmla: '+/ xB3 xC3 2'
+        n: 'xCxn3',
+        f: '+/ xB3 xC3 2'
       },
       {
-        name: 'yCxn3',
-        fmla: '+/ yB3 yC3 2'
+        n: 'yCxn3',
+        f: '+/ yB3 yC3 2'
       },
       {
-        name: 'xCxn4',
-        fmla: '+/ xB4 xC4 2'
+        n: 'xCxn4',
+        f: '+/ xB4 xC4 2'
       },
       {
-        name: 'yCxn4',
-        fmla: '+/ yB4 yC4 2'
+        n: 'yCxn4',
+        f: '+/ yB4 yC4 2'
       },
       {
-        name: 'xCxn5',
-        fmla: '+/ r 0 xCxn4'
+        n: 'xCxn5',
+        f: '+/ r 0 xCxn4'
       },
       {
-        name: 'xCxn6',
-        fmla: '+/ r 0 xCxn3'
+        n: 'xCxn6',
+        f: '+/ r 0 xCxn3'
       },
       {
-        name: 'xCxn7',
-        fmla: '+/ r 0 xCxn2'
+        n: 'xCxn7',
+        f: '+/ r 0 xCxn2'
       },
       {
-        name: 'xCxn8',
-        fmla: '+/ r 0 xCxn1'
+        n: 'xCxn8',
+        f: '+/ r 0 xCxn1'
       }
     ],
     pathLst: [
@@ -19971,78 +19971,78 @@ export const presetShape: Record<string, Shape> = {
   halfFrame: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 33333'
+        n: 'adj1',
+        f: 'val 33333'
       },
       {
-        name: 'adj2',
-        fmla: 'val 33333'
+        n: 'adj2',
+        f: 'val 33333'
       }
     ],
     gdLst: [
       {
-        name: 'maxAdj2',
-        fmla: '*/ 100000 w ss'
+        n: 'maxAdj2',
+        f: '*/ 100000 w ss'
       },
       {
-        name: 'a2',
-        fmla: 'pin 0 adj2 maxAdj2'
+        n: 'a2',
+        f: 'pin 0 adj2 maxAdj2'
       },
       {
-        name: 'x1',
-        fmla: '*/ ss a2 100000'
+        n: 'x1',
+        f: '*/ ss a2 100000'
       },
       {
-        name: 'g1',
-        fmla: '*/ h x1 w'
+        n: 'g1',
+        f: '*/ h x1 w'
       },
       {
-        name: 'g2',
-        fmla: '+- h 0 g1'
+        n: 'g2',
+        f: '+- h 0 g1'
       },
       {
-        name: 'maxAdj1',
-        fmla: '*/ 100000 g2 ss'
+        n: 'maxAdj1',
+        f: '*/ 100000 g2 ss'
       },
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 maxAdj1'
+        n: 'a1',
+        f: 'pin 0 adj1 maxAdj1'
       },
       {
-        name: 'y1',
-        fmla: '*/ ss a1 100000'
+        n: 'y1',
+        f: '*/ ss a1 100000'
       },
       {
-        name: 'dx2',
-        fmla: '*/ y1 w h'
+        n: 'dx2',
+        f: '*/ y1 w h'
       },
       {
-        name: 'x2',
-        fmla: '+- r 0 dx2'
+        n: 'x2',
+        f: '+- r 0 dx2'
       },
       {
-        name: 'dy2',
-        fmla: '*/ x1 h w'
+        n: 'dy2',
+        f: '*/ x1 h w'
       },
       {
-        name: 'y2',
-        fmla: '+- b 0 dy2'
+        n: 'y2',
+        f: '+- b 0 dy2'
       },
       {
-        name: 'cx1',
-        fmla: '*/ x1 1 2'
+        n: 'cx1',
+        f: '*/ x1 1 2'
       },
       {
-        name: 'cy1',
-        fmla: '+/ y2 b 2'
+        n: 'cy1',
+        f: '+/ y2 b 2'
       },
       {
-        name: 'cx2',
-        fmla: '+/ x2 r 2'
+        n: 'cx2',
+        f: '+/ x2 r 2'
       },
       {
-        name: 'cy2',
-        fmla: '*/ y1 1 2'
+        n: 'cy2',
+        f: '*/ y1 1 2'
       }
     ],
     pathLst: [
@@ -20102,44 +20102,44 @@ export const presetShape: Record<string, Shape> = {
   heart: {
     gdLst: [
       {
-        name: 'dx1',
-        fmla: '*/ w 49 48'
+        n: 'dx1',
+        f: '*/ w 49 48'
       },
       {
-        name: 'dx2',
-        fmla: '*/ w 10 48'
+        n: 'dx2',
+        f: '*/ w 10 48'
       },
       {
-        name: 'x1',
-        fmla: '+- hc 0 dx1'
+        n: 'x1',
+        f: '+- hc 0 dx1'
       },
       {
-        name: 'x2',
-        fmla: '+- hc 0 dx2'
+        n: 'x2',
+        f: '+- hc 0 dx2'
       },
       {
-        name: 'x3',
-        fmla: '+- hc dx2 0'
+        n: 'x3',
+        f: '+- hc dx2 0'
       },
       {
-        name: 'x4',
-        fmla: '+- hc dx1 0'
+        n: 'x4',
+        f: '+- hc dx1 0'
       },
       {
-        name: 'y1',
-        fmla: '+- t 0 hd3'
+        n: 'y1',
+        f: '+- t 0 hd3'
       },
       {
-        name: 'il',
-        fmla: '*/ w 1 6'
+        n: 'il',
+        f: '*/ w 1 6'
       },
       {
-        name: 'ir',
-        fmla: '*/ w 5 6'
+        n: 'ir',
+        f: '*/ w 5 6'
       },
       {
-        name: 'ib',
-        fmla: '*/ h 2 3'
+        n: 'ib',
+        f: '*/ h 2 3'
       }
     ],
     pathLst: [
@@ -20198,90 +20198,90 @@ export const presetShape: Record<string, Shape> = {
   heptagon: {
     avLst: [
       {
-        name: 'hf',
-        fmla: 'val 102572'
+        n: 'hf',
+        f: 'val 102572'
       },
       {
-        name: 'vf',
-        fmla: 'val 105210'
+        n: 'vf',
+        f: 'val 105210'
       }
     ],
     gdLst: [
       {
-        name: 'swd2',
-        fmla: '*/ wd2 hf 100000'
+        n: 'swd2',
+        f: '*/ wd2 hf 100000'
       },
       {
-        name: 'shd2',
-        fmla: '*/ hd2 vf 100000'
+        n: 'shd2',
+        f: '*/ hd2 vf 100000'
       },
       {
-        name: 'svc',
-        fmla: '*/ vc  vf 100000'
+        n: 'svc',
+        f: '*/ vc  vf 100000'
       },
       {
-        name: 'dx1',
-        fmla: '*/ swd2 97493 100000'
+        n: 'dx1',
+        f: '*/ swd2 97493 100000'
       },
       {
-        name: 'dx2',
-        fmla: '*/ swd2 78183 100000'
+        n: 'dx2',
+        f: '*/ swd2 78183 100000'
       },
       {
-        name: 'dx3',
-        fmla: '*/ swd2 43388 100000'
+        n: 'dx3',
+        f: '*/ swd2 43388 100000'
       },
       {
-        name: 'dy1',
-        fmla: '*/ shd2 62349 100000'
+        n: 'dy1',
+        f: '*/ shd2 62349 100000'
       },
       {
-        name: 'dy2',
-        fmla: '*/ shd2 22252 100000'
+        n: 'dy2',
+        f: '*/ shd2 22252 100000'
       },
       {
-        name: 'dy3',
-        fmla: '*/ shd2 90097 100000'
+        n: 'dy3',
+        f: '*/ shd2 90097 100000'
       },
       {
-        name: 'x1',
-        fmla: '+- hc 0 dx1'
+        n: 'x1',
+        f: '+- hc 0 dx1'
       },
       {
-        name: 'x2',
-        fmla: '+- hc 0 dx2'
+        n: 'x2',
+        f: '+- hc 0 dx2'
       },
       {
-        name: 'x3',
-        fmla: '+- hc 0 dx3'
+        n: 'x3',
+        f: '+- hc 0 dx3'
       },
       {
-        name: 'x4',
-        fmla: '+- hc dx3 0'
+        n: 'x4',
+        f: '+- hc dx3 0'
       },
       {
-        name: 'x5',
-        fmla: '+- hc dx2 0'
+        n: 'x5',
+        f: '+- hc dx2 0'
       },
       {
-        name: 'x6',
-        fmla: '+- hc dx1 0'
+        n: 'x6',
+        f: '+- hc dx1 0'
       },
       {
-        name: 'y1',
-        fmla: '+- svc 0 dy1'
+        n: 'y1',
+        f: '+- svc 0 dy1'
       },
       {
-        name: 'y2',
-        fmla: '+- svc dy2 0'
+        n: 'y2',
+        f: '+- svc dy2 0'
       },
       {
-        name: 'y3',
-        fmla: '+- svc dy3 0'
+        n: 'y3',
+        f: '+- svc dy3 0'
       },
       {
-        name: 'ib',
-        fmla: '+- b 0 y1'
+        n: 'ib',
+        f: '+- b 0 y1'
       }
     ],
     pathLst: [
@@ -20348,94 +20348,94 @@ export const presetShape: Record<string, Shape> = {
   hexagon: {
     avLst: [
       {
-        name: 'adj',
-        fmla: 'val 25000'
+        n: 'adj',
+        f: 'val 25000'
       },
       {
-        name: 'vf',
-        fmla: 'val 115470'
+        n: 'vf',
+        f: 'val 115470'
       }
     ],
     gdLst: [
       {
-        name: 'maxAdj',
-        fmla: '*/ 50000 w ss'
+        n: 'maxAdj',
+        f: '*/ 50000 w ss'
       },
       {
-        name: 'a',
-        fmla: 'pin 0 adj maxAdj'
+        n: 'a',
+        f: 'pin 0 adj maxAdj'
       },
       {
-        name: 'shd2',
-        fmla: '*/ hd2 vf 100000'
+        n: 'shd2',
+        f: '*/ hd2 vf 100000'
       },
       {
-        name: 'x1',
-        fmla: '*/ ss a 100000'
+        n: 'x1',
+        f: '*/ ss a 100000'
       },
       {
-        name: 'x2',
-        fmla: '+- r 0 x1'
+        n: 'x2',
+        f: '+- r 0 x1'
       },
       {
-        name: 'dy1',
-        fmla: 'sin shd2 3600000'
+        n: 'dy1',
+        f: 'sin shd2 3600000'
       },
       {
-        name: 'y1',
-        fmla: '+- vc 0 dy1'
+        n: 'y1',
+        f: '+- vc 0 dy1'
       },
       {
-        name: 'y2',
-        fmla: '+- vc dy1 0'
+        n: 'y2',
+        f: '+- vc dy1 0'
       },
       {
-        name: 'q1',
-        fmla: '*/ maxAdj -1 2'
+        n: 'q1',
+        f: '*/ maxAdj -1 2'
       },
       {
-        name: 'q2',
-        fmla: '+- a q1 0'
+        n: 'q2',
+        f: '+- a q1 0'
       },
       {
-        name: 'q3',
-        fmla: '?: q2 4 2'
+        n: 'q3',
+        f: '?: q2 4 2'
       },
       {
-        name: 'q4',
-        fmla: '?: q2 3 2'
+        n: 'q4',
+        f: '?: q2 3 2'
       },
       {
-        name: 'q5',
-        fmla: '?: q2 q1 0'
+        n: 'q5',
+        f: '?: q2 q1 0'
       },
       {
-        name: 'q6',
-        fmla: '+/ a q5 q1'
+        n: 'q6',
+        f: '+/ a q5 q1'
       },
       {
-        name: 'q7',
-        fmla: '*/ q6 q4 -1'
+        n: 'q7',
+        f: '*/ q6 q4 -1'
       },
       {
-        name: 'q8',
-        fmla: '+- q3 q7 0'
+        n: 'q8',
+        f: '+- q3 q7 0'
       },
       {
-        name: 'il',
-        fmla: '*/ w q8 24'
+        n: 'il',
+        f: '*/ w q8 24'
       },
       {
-        name: 'it',
-        fmla: '*/ h q8 24'
+        n: 'it',
+        f: '*/ h q8 24'
       },
       {
-        name: 'ir',
-        fmla: '+- r 0 il'
+        n: 'ir',
+        f: '+- r 0 il'
       },
       {
-        name: 'ib',
-        fmla: '+- b 0 it'
+        n: 'ib',
+        f: '+- b 0 it'
       }
     ],
     pathLst: [
@@ -20495,34 +20495,34 @@ export const presetShape: Record<string, Shape> = {
   homePlate: {
     avLst: [
       {
-        name: 'adj',
-        fmla: 'val 50000'
+        n: 'adj',
+        f: 'val 50000'
       }
     ],
     gdLst: [
       {
-        name: 'maxAdj',
-        fmla: '*/ 100000 w ss'
+        n: 'maxAdj',
+        f: '*/ 100000 w ss'
       },
       {
-        name: 'a',
-        fmla: 'pin 0 adj maxAdj'
+        n: 'a',
+        f: 'pin 0 adj maxAdj'
       },
       {
-        name: 'dx1',
-        fmla: '*/ ss a 100000'
+        n: 'dx1',
+        f: '*/ ss a 100000'
       },
       {
-        name: 'x1',
-        fmla: '+- r 0 dx1'
+        n: 'x1',
+        f: '+- r 0 dx1'
       },
       {
-        name: 'ir',
-        fmla: '+/ x1 r 2'
+        n: 'ir',
+        f: '+/ x1 r 2'
       },
       {
-        name: 'x2',
-        fmla: '*/ x1 1 2'
+        n: 'x2',
+        f: '*/ x1 1 2'
       }
     ],
     pathLst: [
@@ -20575,54 +20575,54 @@ export const presetShape: Record<string, Shape> = {
   horizontalScroll: {
     avLst: [
       {
-        name: 'adj',
-        fmla: 'val 12500'
+        n: 'adj',
+        f: 'val 12500'
       }
     ],
     gdLst: [
       {
-        name: 'a',
-        fmla: 'pin 0 adj 25000'
+        n: 'a',
+        f: 'pin 0 adj 25000'
       },
       {
-        name: 'ch',
-        fmla: '*/ ss a 100000'
+        n: 'ch',
+        f: '*/ ss a 100000'
       },
       {
-        name: 'ch2',
-        fmla: '*/ ch 1 2'
+        n: 'ch2',
+        f: '*/ ch 1 2'
       },
       {
-        name: 'ch4',
-        fmla: '*/ ch 1 4'
+        n: 'ch4',
+        f: '*/ ch 1 4'
       },
       {
-        name: 'y3',
-        fmla: '+- ch ch2 0'
+        n: 'y3',
+        f: '+- ch ch2 0'
       },
       {
-        name: 'y4',
-        fmla: '+- ch ch 0'
+        n: 'y4',
+        f: '+- ch ch 0'
       },
       {
-        name: 'y6',
-        fmla: '+- b 0 ch'
+        n: 'y6',
+        f: '+- b 0 ch'
       },
       {
-        name: 'y7',
-        fmla: '+- b 0 ch2'
+        n: 'y7',
+        f: '+- b 0 ch2'
       },
       {
-        name: 'y5',
-        fmla: '+- y6 0 ch2'
+        n: 'y5',
+        f: '+- y6 0 ch2'
       },
       {
-        name: 'x3',
-        fmla: '+- r 0 ch'
+        n: 'x3',
+        f: '+- r 0 ch'
       },
       {
-        name: 'x4',
-        fmla: '+- r 0 ch2'
+        n: 'x4',
+        f: '+- r 0 ch2'
       }
     ],
     pathLst: [
@@ -20967,36 +20967,36 @@ export const presetShape: Record<string, Shape> = {
   irregularSeal1: {
     gdLst: [
       {
-        name: 'x5',
-        fmla: '*/ w 4627 21600'
+        n: 'x5',
+        f: '*/ w 4627 21600'
       },
       {
-        name: 'x12',
-        fmla: '*/ w 8485 21600'
+        n: 'x12',
+        f: '*/ w 8485 21600'
       },
       {
-        name: 'x21',
-        fmla: '*/ w 16702 21600'
+        n: 'x21',
+        f: '*/ w 16702 21600'
       },
       {
-        name: 'x24',
-        fmla: '*/ w 14522 21600'
+        n: 'x24',
+        f: '*/ w 14522 21600'
       },
       {
-        name: 'y3',
-        fmla: '*/ h 6320 21600'
+        n: 'y3',
+        f: '*/ h 6320 21600'
       },
       {
-        name: 'y6',
-        fmla: '*/ h 8615 21600'
+        n: 'y6',
+        f: '*/ h 8615 21600'
       },
       {
-        name: 'y9',
-        fmla: '*/ h 13937 21600'
+        n: 'y9',
+        f: '*/ h 13937 21600'
       },
       {
-        name: 'y18',
-        fmla: '*/ h 13290 21600'
+        n: 'y18',
+        f: '*/ h 13290 21600'
       }
     ],
     pathLst: [
@@ -21184,48 +21184,48 @@ export const presetShape: Record<string, Shape> = {
   irregularSeal2: {
     gdLst: [
       {
-        name: 'x2',
-        fmla: '*/ w 9722 21600'
+        n: 'x2',
+        f: '*/ w 9722 21600'
       },
       {
-        name: 'x5',
-        fmla: '*/ w 5372 21600'
+        n: 'x5',
+        f: '*/ w 5372 21600'
       },
       {
-        name: 'x16',
-        fmla: '*/ w 11612 21600'
+        n: 'x16',
+        f: '*/ w 11612 21600'
       },
       {
-        name: 'x19',
-        fmla: '*/ w 14640 21600'
+        n: 'x19',
+        f: '*/ w 14640 21600'
       },
       {
-        name: 'y2',
-        fmla: '*/ h 1887 21600'
+        n: 'y2',
+        f: '*/ h 1887 21600'
       },
       {
-        name: 'y3',
-        fmla: '*/ h 6382 21600'
+        n: 'y3',
+        f: '*/ h 6382 21600'
       },
       {
-        name: 'y8',
-        fmla: '*/ h 12877 21600'
+        n: 'y8',
+        f: '*/ h 12877 21600'
       },
       {
-        name: 'y14',
-        fmla: '*/ h 19712 21600'
+        n: 'y14',
+        f: '*/ h 19712 21600'
       },
       {
-        name: 'y16',
-        fmla: '*/ h 18842 21600'
+        n: 'y16',
+        f: '*/ h 18842 21600'
       },
       {
-        name: 'y17',
-        fmla: '*/ h 15935 21600'
+        n: 'y17',
+        f: '*/ h 15935 21600'
       },
       {
-        name: 'y24',
-        fmla: '*/ h 6645 21600'
+        n: 'y24',
+        f: '*/ h 6645 21600'
       }
     ],
     pathLst: [
@@ -21441,54 +21441,54 @@ export const presetShape: Record<string, Shape> = {
   leftArrow: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 50000'
+        n: 'adj1',
+        f: 'val 50000'
       },
       {
-        name: 'adj2',
-        fmla: 'val 50000'
+        n: 'adj2',
+        f: 'val 50000'
       }
     ],
     gdLst: [
       {
-        name: 'maxAdj2',
-        fmla: '*/ 100000 w ss'
+        n: 'maxAdj2',
+        f: '*/ 100000 w ss'
       },
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 100000'
+        n: 'a1',
+        f: 'pin 0 adj1 100000'
       },
       {
-        name: 'a2',
-        fmla: 'pin 0 adj2 maxAdj2'
+        n: 'a2',
+        f: 'pin 0 adj2 maxAdj2'
       },
       {
-        name: 'dx2',
-        fmla: '*/ ss a2 100000'
+        n: 'dx2',
+        f: '*/ ss a2 100000'
       },
       {
-        name: 'x2',
-        fmla: '+- l dx2 0'
+        n: 'x2',
+        f: '+- l dx2 0'
       },
       {
-        name: 'dy1',
-        fmla: '*/ h a1 200000'
+        n: 'dy1',
+        f: '*/ h a1 200000'
       },
       {
-        name: 'y1',
-        fmla: '+- vc 0 dy1'
+        n: 'y1',
+        f: '+- vc 0 dy1'
       },
       {
-        name: 'y2',
-        fmla: '+- vc dy1 0'
+        n: 'y2',
+        f: '+- vc dy1 0'
       },
       {
-        name: 'dx1',
-        fmla: '*/ y1 dx2 hd2'
+        n: 'dx1',
+        f: '*/ y1 dx2 hd2'
       },
       {
-        name: 'x1',
-        fmla: '+- x2  0 dx1'
+        n: 'x1',
+        f: '+- x2  0 dx1'
       }
     ],
     pathLst: [
@@ -21555,98 +21555,98 @@ export const presetShape: Record<string, Shape> = {
   leftArrowCallout: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 25000'
+        n: 'adj1',
+        f: 'val 25000'
       },
       {
-        name: 'adj2',
-        fmla: 'val 25000'
+        n: 'adj2',
+        f: 'val 25000'
       },
       {
-        name: 'adj3',
-        fmla: 'val 25000'
+        n: 'adj3',
+        f: 'val 25000'
       },
       {
-        name: 'adj4',
-        fmla: 'val 64977'
+        n: 'adj4',
+        f: 'val 64977'
       }
     ],
     gdLst: [
       {
-        name: 'maxAdj2',
-        fmla: '*/ 50000 h ss'
+        n: 'maxAdj2',
+        f: '*/ 50000 h ss'
       },
       {
-        name: 'a2',
-        fmla: 'pin 0 adj2 maxAdj2'
+        n: 'a2',
+        f: 'pin 0 adj2 maxAdj2'
       },
       {
-        name: 'maxAdj1',
-        fmla: '*/ a2 2 1'
+        n: 'maxAdj1',
+        f: '*/ a2 2 1'
       },
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 maxAdj1'
+        n: 'a1',
+        f: 'pin 0 adj1 maxAdj1'
       },
       {
-        name: 'maxAdj3',
-        fmla: '*/ 100000 w ss'
+        n: 'maxAdj3',
+        f: '*/ 100000 w ss'
       },
       {
-        name: 'a3',
-        fmla: 'pin 0 adj3 maxAdj3'
+        n: 'a3',
+        f: 'pin 0 adj3 maxAdj3'
       },
       {
-        name: 'q2',
-        fmla: '*/ a3 ss w'
+        n: 'q2',
+        f: '*/ a3 ss w'
       },
       {
-        name: 'maxAdj4',
-        fmla: '+- 100000 0 q2'
+        n: 'maxAdj4',
+        f: '+- 100000 0 q2'
       },
       {
-        name: 'a4',
-        fmla: 'pin 0 adj4 maxAdj4'
+        n: 'a4',
+        f: 'pin 0 adj4 maxAdj4'
       },
       {
-        name: 'dy1',
-        fmla: '*/ ss a2 100000'
+        n: 'dy1',
+        f: '*/ ss a2 100000'
       },
       {
-        name: 'dy2',
-        fmla: '*/ ss a1 200000'
+        n: 'dy2',
+        f: '*/ ss a1 200000'
       },
       {
-        name: 'y1',
-        fmla: '+- vc 0 dy1'
+        n: 'y1',
+        f: '+- vc 0 dy1'
       },
       {
-        name: 'y2',
-        fmla: '+- vc 0 dy2'
+        n: 'y2',
+        f: '+- vc 0 dy2'
       },
       {
-        name: 'y3',
-        fmla: '+- vc dy2 0'
+        n: 'y3',
+        f: '+- vc dy2 0'
       },
       {
-        name: 'y4',
-        fmla: '+- vc dy1 0'
+        n: 'y4',
+        f: '+- vc dy1 0'
       },
       {
-        name: 'x1',
-        fmla: '*/ ss a3 100000'
+        n: 'x1',
+        f: '*/ ss a3 100000'
       },
       {
-        name: 'dx2',
-        fmla: '*/ w a4 100000'
+        n: 'dx2',
+        f: '*/ w a4 100000'
       },
       {
-        name: 'x2',
-        fmla: '+- r 0 dx2'
+        n: 'x2',
+        f: '+- r 0 dx2'
       },
       {
-        name: 'x3',
-        fmla: '+/ x2 r 2'
+        n: 'x3',
+        f: '+/ x2 r 2'
       }
     ],
     pathLst: [
@@ -21741,70 +21741,70 @@ export const presetShape: Record<string, Shape> = {
   leftBrace: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 8333'
+        n: 'adj1',
+        f: 'val 8333'
       },
       {
-        name: 'adj2',
-        fmla: 'val 50000'
+        n: 'adj2',
+        f: 'val 50000'
       }
     ],
     gdLst: [
       {
-        name: 'a2',
-        fmla: 'pin 0 adj2 100000'
+        n: 'a2',
+        f: 'pin 0 adj2 100000'
       },
       {
-        name: 'q1',
-        fmla: '+- 100000 0 a2'
+        n: 'q1',
+        f: '+- 100000 0 a2'
       },
       {
-        name: 'q2',
-        fmla: 'min q1 a2'
+        n: 'q2',
+        f: 'min q1 a2'
       },
       {
-        name: 'q3',
-        fmla: '*/ q2 1 2'
+        n: 'q3',
+        f: '*/ q2 1 2'
       },
       {
-        name: 'maxAdj1',
-        fmla: '*/ q3 h ss'
+        n: 'maxAdj1',
+        f: '*/ q3 h ss'
       },
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 maxAdj1'
+        n: 'a1',
+        f: 'pin 0 adj1 maxAdj1'
       },
       {
-        name: 'y1',
-        fmla: '*/ ss a1 100000'
+        n: 'y1',
+        f: '*/ ss a1 100000'
       },
       {
-        name: 'y3',
-        fmla: '*/ h a2 100000'
+        n: 'y3',
+        f: '*/ h a2 100000'
       },
       {
-        name: 'y4',
-        fmla: '+- y3 y1 0'
+        n: 'y4',
+        f: '+- y3 y1 0'
       },
       {
-        name: 'dx1',
-        fmla: 'cos wd2 2700000'
+        n: 'dx1',
+        f: 'cos wd2 2700000'
       },
       {
-        name: 'dy1',
-        fmla: 'sin y1 2700000'
+        n: 'dy1',
+        f: 'sin y1 2700000'
       },
       {
-        name: 'il',
-        fmla: '+- r 0 dx1'
+        n: 'il',
+        f: '+- r 0 dx1'
       },
       {
-        name: 'it',
-        fmla: '+- y1 0 dy1'
+        n: 'it',
+        f: '+- y1 0 dy1'
       },
       {
-        name: 'ib',
-        fmla: '+- b dy1 y1'
+        n: 'ib',
+        f: '+- b dy1 y1'
       }
     ],
     pathLst: [
@@ -21927,46 +21927,46 @@ export const presetShape: Record<string, Shape> = {
   leftBracket: {
     avLst: [
       {
-        name: 'adj',
-        fmla: 'val 8333'
+        n: 'adj',
+        f: 'val 8333'
       }
     ],
     gdLst: [
       {
-        name: 'maxAdj',
-        fmla: '*/ 50000 h ss'
+        n: 'maxAdj',
+        f: '*/ 50000 h ss'
       },
       {
-        name: 'a',
-        fmla: 'pin 0 adj maxAdj'
+        n: 'a',
+        f: 'pin 0 adj maxAdj'
       },
       {
-        name: 'y1',
-        fmla: '*/ ss a 100000'
+        n: 'y1',
+        f: '*/ ss a 100000'
       },
       {
-        name: 'y2',
-        fmla: '+- b 0 y1'
+        n: 'y2',
+        f: '+- b 0 y1'
       },
       {
-        name: 'dx1',
-        fmla: 'cos w 2700000'
+        n: 'dx1',
+        f: 'cos w 2700000'
       },
       {
-        name: 'dy1',
-        fmla: 'sin y1 2700000'
+        n: 'dy1',
+        f: 'sin y1 2700000'
       },
       {
-        name: 'il',
-        fmla: '+- r 0 dx1'
+        n: 'il',
+        f: '+- r 0 dx1'
       },
       {
-        name: 'it',
-        fmla: '+- y1 0 dy1'
+        n: 'it',
+        f: '+- y1 0 dy1'
       },
       {
-        name: 'ib',
-        fmla: '+- b dy1 y1'
+        n: 'ib',
+        f: '+- b dy1 y1'
       }
     ],
     pathLst: [
@@ -22047,846 +22047,846 @@ export const presetShape: Record<string, Shape> = {
   leftCircularArrow: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 12500'
+        n: 'adj1',
+        f: 'val 12500'
       },
       {
-        name: 'adj2',
-        fmla: 'val -1142319'
+        n: 'adj2',
+        f: 'val -1142319'
       },
       {
-        name: 'adj3',
-        fmla: 'val 1142319'
+        n: 'adj3',
+        f: 'val 1142319'
       },
       {
-        name: 'adj4',
-        fmla: 'val 10800000'
+        n: 'adj4',
+        f: 'val 10800000'
       },
       {
-        name: 'adj5',
-        fmla: 'val 12500'
+        n: 'adj5',
+        f: 'val 12500'
       }
     ],
     gdLst: [
       {
-        name: 'a5',
-        fmla: 'pin 0 adj5 25000'
+        n: 'a5',
+        f: 'pin 0 adj5 25000'
       },
       {
-        name: 'maxAdj1',
-        fmla: '*/ a5 2 1'
+        n: 'maxAdj1',
+        f: '*/ a5 2 1'
       },
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 maxAdj1'
+        n: 'a1',
+        f: 'pin 0 adj1 maxAdj1'
       },
       {
-        name: 'enAng',
-        fmla: 'pin 1 adj3 21599999'
+        n: 'enAng',
+        f: 'pin 1 adj3 21599999'
       },
       {
-        name: 'stAng',
-        fmla: 'pin 0 adj4 21599999'
+        n: 'stAng',
+        f: 'pin 0 adj4 21599999'
       },
       {
-        name: 'th',
-        fmla: '*/ ss a1 100000'
+        n: 'th',
+        f: '*/ ss a1 100000'
       },
       {
-        name: 'thh',
-        fmla: '*/ ss a5 100000'
+        n: 'thh',
+        f: '*/ ss a5 100000'
       },
       {
-        name: 'th2',
-        fmla: '*/ th 1 2'
+        n: 'th2',
+        f: '*/ th 1 2'
       },
       {
-        name: 'rw1',
-        fmla: '+- wd2 th2 thh'
+        n: 'rw1',
+        f: '+- wd2 th2 thh'
       },
       {
-        name: 'rh1',
-        fmla: '+- hd2 th2 thh'
+        n: 'rh1',
+        f: '+- hd2 th2 thh'
       },
       {
-        name: 'rw2',
-        fmla: '+- rw1 0 th'
+        n: 'rw2',
+        f: '+- rw1 0 th'
       },
       {
-        name: 'rh2',
-        fmla: '+- rh1 0 th'
+        n: 'rh2',
+        f: '+- rh1 0 th'
       },
       {
-        name: 'rw3',
-        fmla: '+- rw2 th2 0'
+        n: 'rw3',
+        f: '+- rw2 th2 0'
       },
       {
-        name: 'rh3',
-        fmla: '+- rh2 th2 0'
+        n: 'rh3',
+        f: '+- rh2 th2 0'
       },
       {
-        name: 'wtH',
-        fmla: 'sin rw3 enAng'
+        n: 'wtH',
+        f: 'sin rw3 enAng'
       },
       {
-        name: 'htH',
-        fmla: 'cos rh3 enAng'
+        n: 'htH',
+        f: 'cos rh3 enAng'
       },
       {
-        name: 'dxH',
-        fmla: 'cat2 rw3 htH wtH'
+        n: 'dxH',
+        f: 'cat2 rw3 htH wtH'
       },
       {
-        name: 'dyH',
-        fmla: 'sat2 rh3 htH wtH'
+        n: 'dyH',
+        f: 'sat2 rh3 htH wtH'
       },
       {
-        name: 'xH',
-        fmla: '+- hc dxH 0'
+        n: 'xH',
+        f: '+- hc dxH 0'
       },
       {
-        name: 'yH',
-        fmla: '+- vc dyH 0'
+        n: 'yH',
+        f: '+- vc dyH 0'
       },
       {
-        name: 'rI',
-        fmla: 'min rw2 rh2'
+        n: 'rI',
+        f: 'min rw2 rh2'
       },
       {
-        name: 'u1',
-        fmla: '*/ dxH dxH 1'
+        n: 'u1',
+        f: '*/ dxH dxH 1'
       },
       {
-        name: 'u2',
-        fmla: '*/ dyH dyH 1'
+        n: 'u2',
+        f: '*/ dyH dyH 1'
       },
       {
-        name: 'u3',
-        fmla: '*/ rI rI 1'
+        n: 'u3',
+        f: '*/ rI rI 1'
       },
       {
-        name: 'u4',
-        fmla: '+- u1 0 u3'
+        n: 'u4',
+        f: '+- u1 0 u3'
       },
       {
-        name: 'u5',
-        fmla: '+- u2 0 u3'
+        n: 'u5',
+        f: '+- u2 0 u3'
       },
       {
-        name: 'u6',
-        fmla: '*/ u4 u5 u1'
+        n: 'u6',
+        f: '*/ u4 u5 u1'
       },
       {
-        name: 'u7',
-        fmla: '*/ u6 1 u2'
+        n: 'u7',
+        f: '*/ u6 1 u2'
       },
       {
-        name: 'u8',
-        fmla: '+- 1 0 u7'
+        n: 'u8',
+        f: '+- 1 0 u7'
       },
       {
-        name: 'u9',
-        fmla: 'sqrt u8'
+        n: 'u9',
+        f: 'sqrt u8'
       },
       {
-        name: 'u10',
-        fmla: '*/ u4 1 dxH'
+        n: 'u10',
+        f: '*/ u4 1 dxH'
       },
       {
-        name: 'u11',
-        fmla: '*/ u10 1 dyH'
+        n: 'u11',
+        f: '*/ u10 1 dyH'
       },
       {
-        name: 'u12',
-        fmla: '+/ 1 u9 u11'
+        n: 'u12',
+        f: '+/ 1 u9 u11'
       },
       {
-        name: 'u13',
-        fmla: 'at2 1 u12'
+        n: 'u13',
+        f: 'at2 1 u12'
       },
       {
-        name: 'u14',
-        fmla: '+- u13 21600000 0'
+        n: 'u14',
+        f: '+- u13 21600000 0'
       },
       {
-        name: 'u15',
-        fmla: '?: u13 u13 u14'
+        n: 'u15',
+        f: '?: u13 u13 u14'
       },
       {
-        name: 'u16',
-        fmla: '+- u15 0 enAng'
+        n: 'u16',
+        f: '+- u15 0 enAng'
       },
       {
-        name: 'u17',
-        fmla: '+- u16 21600000 0'
+        n: 'u17',
+        f: '+- u16 21600000 0'
       },
       {
-        name: 'u18',
-        fmla: '?: u16 u16 u17'
+        n: 'u18',
+        f: '?: u16 u16 u17'
       },
       {
-        name: 'u19',
-        fmla: '+- u18 0 cd2'
+        n: 'u19',
+        f: '+- u18 0 cd2'
       },
       {
-        name: 'u20',
-        fmla: '+- u18 0 21600000'
+        n: 'u20',
+        f: '+- u18 0 21600000'
       },
       {
-        name: 'u21',
-        fmla: '?: u19 u20 u18'
+        n: 'u21',
+        f: '?: u19 u20 u18'
       },
       {
-        name: 'u22',
-        fmla: 'abs u21'
+        n: 'u22',
+        f: 'abs u21'
       },
       {
-        name: 'minAng',
-        fmla: '*/ u22 -1 1'
+        n: 'minAng',
+        f: '*/ u22 -1 1'
       },
       {
-        name: 'u23',
-        fmla: 'abs adj2'
+        n: 'u23',
+        f: 'abs adj2'
       },
       {
-        name: 'a2',
-        fmla: '*/ u23 -1 1'
+        n: 'a2',
+        f: '*/ u23 -1 1'
       },
       {
-        name: 'aAng',
-        fmla: 'pin minAng a2 0'
+        n: 'aAng',
+        f: 'pin minAng a2 0'
       },
       {
-        name: 'ptAng',
-        fmla: '+- enAng aAng 0'
+        n: 'ptAng',
+        f: '+- enAng aAng 0'
       },
       {
-        name: 'wtA',
-        fmla: 'sin rw3 ptAng'
+        n: 'wtA',
+        f: 'sin rw3 ptAng'
       },
       {
-        name: 'htA',
-        fmla: 'cos rh3 ptAng'
+        n: 'htA',
+        f: 'cos rh3 ptAng'
       },
       {
-        name: 'dxA',
-        fmla: 'cat2 rw3 htA wtA'
+        n: 'dxA',
+        f: 'cat2 rw3 htA wtA'
       },
       {
-        name: 'dyA',
-        fmla: 'sat2 rh3 htA wtA'
+        n: 'dyA',
+        f: 'sat2 rh3 htA wtA'
       },
       {
-        name: 'xA',
-        fmla: '+- hc dxA 0'
+        n: 'xA',
+        f: '+- hc dxA 0'
       },
       {
-        name: 'yA',
-        fmla: '+- vc dyA 0'
+        n: 'yA',
+        f: '+- vc dyA 0'
       },
       {
-        name: 'wtE',
-        fmla: 'sin rw1 stAng'
+        n: 'wtE',
+        f: 'sin rw1 stAng'
       },
       {
-        name: 'htE',
-        fmla: 'cos rh1 stAng'
+        n: 'htE',
+        f: 'cos rh1 stAng'
       },
       {
-        name: 'dxE',
-        fmla: 'cat2 rw1 htE wtE'
+        n: 'dxE',
+        f: 'cat2 rw1 htE wtE'
       },
       {
-        name: 'dyE',
-        fmla: 'sat2 rh1 htE wtE'
+        n: 'dyE',
+        f: 'sat2 rh1 htE wtE'
       },
       {
-        name: 'xE',
-        fmla: '+- hc dxE 0'
+        n: 'xE',
+        f: '+- hc dxE 0'
       },
       {
-        name: 'yE',
-        fmla: '+- vc dyE 0'
+        n: 'yE',
+        f: '+- vc dyE 0'
       },
       {
-        name: 'wtD',
-        fmla: 'sin rw2 stAng'
+        n: 'wtD',
+        f: 'sin rw2 stAng'
       },
       {
-        name: 'htD',
-        fmla: 'cos rh2 stAng'
+        n: 'htD',
+        f: 'cos rh2 stAng'
       },
       {
-        name: 'dxD',
-        fmla: 'cat2 rw2 htD wtD'
+        n: 'dxD',
+        f: 'cat2 rw2 htD wtD'
       },
       {
-        name: 'dyD',
-        fmla: 'sat2 rh2 htD wtD'
+        n: 'dyD',
+        f: 'sat2 rh2 htD wtD'
       },
       {
-        name: 'xD',
-        fmla: '+- hc dxD 0'
+        n: 'xD',
+        f: '+- hc dxD 0'
       },
       {
-        name: 'yD',
-        fmla: '+- vc dyD 0'
+        n: 'yD',
+        f: '+- vc dyD 0'
       },
       {
-        name: 'dxG',
-        fmla: 'cos thh ptAng'
+        n: 'dxG',
+        f: 'cos thh ptAng'
       },
       {
-        name: 'dyG',
-        fmla: 'sin thh ptAng'
+        n: 'dyG',
+        f: 'sin thh ptAng'
       },
       {
-        name: 'xG',
-        fmla: '+- xH dxG 0'
+        n: 'xG',
+        f: '+- xH dxG 0'
       },
       {
-        name: 'yG',
-        fmla: '+- yH dyG 0'
+        n: 'yG',
+        f: '+- yH dyG 0'
       },
       {
-        name: 'dxB',
-        fmla: 'cos thh ptAng'
+        n: 'dxB',
+        f: 'cos thh ptAng'
       },
       {
-        name: 'dyB',
-        fmla: 'sin thh ptAng'
+        n: 'dyB',
+        f: 'sin thh ptAng'
       },
       {
-        name: 'xB',
-        fmla: '+- xH 0 dxB 0'
+        n: 'xB',
+        f: '+- xH 0 dxB 0'
       },
       {
-        name: 'yB',
-        fmla: '+- yH 0 dyB 0'
+        n: 'yB',
+        f: '+- yH 0 dyB 0'
       },
       {
-        name: 'sx1',
-        fmla: '+- xB 0 hc'
+        n: 'sx1',
+        f: '+- xB 0 hc'
       },
       {
-        name: 'sy1',
-        fmla: '+- yB 0 vc'
+        n: 'sy1',
+        f: '+- yB 0 vc'
       },
       {
-        name: 'sx2',
-        fmla: '+- xG 0 hc'
+        n: 'sx2',
+        f: '+- xG 0 hc'
       },
       {
-        name: 'sy2',
-        fmla: '+- yG 0 vc'
+        n: 'sy2',
+        f: '+- yG 0 vc'
       },
       {
-        name: 'rO',
-        fmla: 'min rw1 rh1'
+        n: 'rO',
+        f: 'min rw1 rh1'
       },
       {
-        name: 'x1O',
-        fmla: '*/ sx1 rO rw1'
+        n: 'x1O',
+        f: '*/ sx1 rO rw1'
       },
       {
-        name: 'y1O',
-        fmla: '*/ sy1 rO rh1'
+        n: 'y1O',
+        f: '*/ sy1 rO rh1'
       },
       {
-        name: 'x2O',
-        fmla: '*/ sx2 rO rw1'
+        n: 'x2O',
+        f: '*/ sx2 rO rw1'
       },
       {
-        name: 'y2O',
-        fmla: '*/ sy2 rO rh1'
+        n: 'y2O',
+        f: '*/ sy2 rO rh1'
       },
       {
-        name: 'dxO',
-        fmla: '+- x2O 0 x1O'
+        n: 'dxO',
+        f: '+- x2O 0 x1O'
       },
       {
-        name: 'dyO',
-        fmla: '+- y2O 0 y1O'
+        n: 'dyO',
+        f: '+- y2O 0 y1O'
       },
       {
-        name: 'dO',
-        fmla: 'mod dxO dyO 0'
+        n: 'dO',
+        f: 'mod dxO dyO 0'
       },
       {
-        name: 'q1',
-        fmla: '*/ x1O y2O 1'
+        n: 'q1',
+        f: '*/ x1O y2O 1'
       },
       {
-        name: 'q2',
-        fmla: '*/ x2O y1O 1'
+        n: 'q2',
+        f: '*/ x2O y1O 1'
       },
       {
-        name: 'DO',
-        fmla: '+- q1 0 q2'
+        n: 'DO',
+        f: '+- q1 0 q2'
       },
       {
-        name: 'q3',
-        fmla: '*/ rO rO 1'
+        n: 'q3',
+        f: '*/ rO rO 1'
       },
       {
-        name: 'q4',
-        fmla: '*/ dO dO 1'
+        n: 'q4',
+        f: '*/ dO dO 1'
       },
       {
-        name: 'q5',
-        fmla: '*/ q3 q4 1'
+        n: 'q5',
+        f: '*/ q3 q4 1'
       },
       {
-        name: 'q6',
-        fmla: '*/ DO DO 1'
+        n: 'q6',
+        f: '*/ DO DO 1'
       },
       {
-        name: 'q7',
-        fmla: '+- q5 0 q6'
+        n: 'q7',
+        f: '+- q5 0 q6'
       },
       {
-        name: 'q8',
-        fmla: 'max q7 0'
+        n: 'q8',
+        f: 'max q7 0'
       },
       {
-        name: 'sdelO',
-        fmla: 'sqrt q8'
+        n: 'sdelO',
+        f: 'sqrt q8'
       },
       {
-        name: 'ndyO',
-        fmla: '*/ dyO -1 1'
+        n: 'ndyO',
+        f: '*/ dyO -1 1'
       },
       {
-        name: 'sdyO',
-        fmla: '?: ndyO -1 1'
+        n: 'sdyO',
+        f: '?: ndyO -1 1'
       },
       {
-        name: 'q9',
-        fmla: '*/ sdyO dxO 1'
+        n: 'q9',
+        f: '*/ sdyO dxO 1'
       },
       {
-        name: 'q10',
-        fmla: '*/ q9 sdelO 1'
+        n: 'q10',
+        f: '*/ q9 sdelO 1'
       },
       {
-        name: 'q11',
-        fmla: '*/ DO dyO 1'
+        n: 'q11',
+        f: '*/ DO dyO 1'
       },
       {
-        name: 'dxF1',
-        fmla: '+/ q11 q10 q4'
+        n: 'dxF1',
+        f: '+/ q11 q10 q4'
       },
       {
-        name: 'q12',
-        fmla: '+- q11 0 q10'
+        n: 'q12',
+        f: '+- q11 0 q10'
       },
       {
-        name: 'dxF2',
-        fmla: '*/ q12 1 q4'
+        n: 'dxF2',
+        f: '*/ q12 1 q4'
       },
       {
-        name: 'adyO',
-        fmla: 'abs dyO'
+        n: 'adyO',
+        f: 'abs dyO'
       },
       {
-        name: 'q13',
-        fmla: '*/ adyO sdelO 1'
+        n: 'q13',
+        f: '*/ adyO sdelO 1'
       },
       {
-        name: 'q14',
-        fmla: '*/ DO dxO -1'
+        n: 'q14',
+        f: '*/ DO dxO -1'
       },
       {
-        name: 'dyF1',
-        fmla: '+/ q14 q13 q4'
+        n: 'dyF1',
+        f: '+/ q14 q13 q4'
       },
       {
-        name: 'q15',
-        fmla: '+- q14 0 q13'
+        n: 'q15',
+        f: '+- q14 0 q13'
       },
       {
-        name: 'dyF2',
-        fmla: '*/ q15 1 q4'
+        n: 'dyF2',
+        f: '*/ q15 1 q4'
       },
       {
-        name: 'q16',
-        fmla: '+- x2O 0 dxF1'
+        n: 'q16',
+        f: '+- x2O 0 dxF1'
       },
       {
-        name: 'q17',
-        fmla: '+- x2O 0 dxF2'
+        n: 'q17',
+        f: '+- x2O 0 dxF2'
       },
       {
-        name: 'q18',
-        fmla: '+- y2O 0 dyF1'
+        n: 'q18',
+        f: '+- y2O 0 dyF1'
       },
       {
-        name: 'q19',
-        fmla: '+- y2O 0 dyF2'
+        n: 'q19',
+        f: '+- y2O 0 dyF2'
       },
       {
-        name: 'q20',
-        fmla: 'mod q16 q18 0'
+        n: 'q20',
+        f: 'mod q16 q18 0'
       },
       {
-        name: 'q21',
-        fmla: 'mod q17 q19 0'
+        n: 'q21',
+        f: 'mod q17 q19 0'
       },
       {
-        name: 'q22',
-        fmla: '+- q21 0 q20'
+        n: 'q22',
+        f: '+- q21 0 q20'
       },
       {
-        name: 'dxF',
-        fmla: '?: q22 dxF1 dxF2'
+        n: 'dxF',
+        f: '?: q22 dxF1 dxF2'
       },
       {
-        name: 'dyF',
-        fmla: '?: q22 dyF1 dyF2'
+        n: 'dyF',
+        f: '?: q22 dyF1 dyF2'
       },
       {
-        name: 'sdxF',
-        fmla: '*/ dxF rw1 rO'
+        n: 'sdxF',
+        f: '*/ dxF rw1 rO'
       },
       {
-        name: 'sdyF',
-        fmla: '*/ dyF rh1 rO'
+        n: 'sdyF',
+        f: '*/ dyF rh1 rO'
       },
       {
-        name: 'xF',
-        fmla: '+- hc sdxF 0'
+        n: 'xF',
+        f: '+- hc sdxF 0'
       },
       {
-        name: 'yF',
-        fmla: '+- vc sdyF 0'
+        n: 'yF',
+        f: '+- vc sdyF 0'
       },
       {
-        name: 'x1I',
-        fmla: '*/ sx1 rI rw2'
+        n: 'x1I',
+        f: '*/ sx1 rI rw2'
       },
       {
-        name: 'y1I',
-        fmla: '*/ sy1 rI rh2'
+        n: 'y1I',
+        f: '*/ sy1 rI rh2'
       },
       {
-        name: 'x2I',
-        fmla: '*/ sx2 rI rw2'
+        n: 'x2I',
+        f: '*/ sx2 rI rw2'
       },
       {
-        name: 'y2I',
-        fmla: '*/ sy2 rI rh2'
+        n: 'y2I',
+        f: '*/ sy2 rI rh2'
       },
       {
-        name: 'dxI',
-        fmla: '+- x2I 0 x1I'
+        n: 'dxI',
+        f: '+- x2I 0 x1I'
       },
       {
-        name: 'dyI',
-        fmla: '+- y2I 0 y1I'
+        n: 'dyI',
+        f: '+- y2I 0 y1I'
       },
       {
-        name: 'dI',
-        fmla: 'mod dxI dyI 0'
+        n: 'dI',
+        f: 'mod dxI dyI 0'
       },
       {
-        name: 'v1',
-        fmla: '*/ x1I y2I 1'
+        n: 'v1',
+        f: '*/ x1I y2I 1'
       },
       {
-        name: 'v2',
-        fmla: '*/ x2I y1I 1'
+        n: 'v2',
+        f: '*/ x2I y1I 1'
       },
       {
-        name: 'DI',
-        fmla: '+- v1 0 v2'
+        n: 'DI',
+        f: '+- v1 0 v2'
       },
       {
-        name: 'v3',
-        fmla: '*/ rI rI 1'
+        n: 'v3',
+        f: '*/ rI rI 1'
       },
       {
-        name: 'v4',
-        fmla: '*/ dI dI 1'
+        n: 'v4',
+        f: '*/ dI dI 1'
       },
       {
-        name: 'v5',
-        fmla: '*/ v3 v4 1'
+        n: 'v5',
+        f: '*/ v3 v4 1'
       },
       {
-        name: 'v6',
-        fmla: '*/ DI DI 1'
+        n: 'v6',
+        f: '*/ DI DI 1'
       },
       {
-        name: 'v7',
-        fmla: '+- v5 0 v6'
+        n: 'v7',
+        f: '+- v5 0 v6'
       },
       {
-        name: 'v8',
-        fmla: 'max v7 0'
+        n: 'v8',
+        f: 'max v7 0'
       },
       {
-        name: 'sdelI',
-        fmla: 'sqrt v8'
+        n: 'sdelI',
+        f: 'sqrt v8'
       },
       {
-        name: 'v9',
-        fmla: '*/ sdyO dxI 1'
+        n: 'v9',
+        f: '*/ sdyO dxI 1'
       },
       {
-        name: 'v10',
-        fmla: '*/ v9 sdelI 1'
+        n: 'v10',
+        f: '*/ v9 sdelI 1'
       },
       {
-        name: 'v11',
-        fmla: '*/ DI dyI 1'
+        n: 'v11',
+        f: '*/ DI dyI 1'
       },
       {
-        name: 'dxC1',
-        fmla: '+/ v11 v10 v4'
+        n: 'dxC1',
+        f: '+/ v11 v10 v4'
       },
       {
-        name: 'v12',
-        fmla: '+- v11 0 v10'
+        n: 'v12',
+        f: '+- v11 0 v10'
       },
       {
-        name: 'dxC2',
-        fmla: '*/ v12 1 v4'
+        n: 'dxC2',
+        f: '*/ v12 1 v4'
       },
       {
-        name: 'adyI',
-        fmla: 'abs dyI'
+        n: 'adyI',
+        f: 'abs dyI'
       },
       {
-        name: 'v13',
-        fmla: '*/ adyI sdelI 1'
+        n: 'v13',
+        f: '*/ adyI sdelI 1'
       },
       {
-        name: 'v14',
-        fmla: '*/ DI dxI -1'
+        n: 'v14',
+        f: '*/ DI dxI -1'
       },
       {
-        name: 'dyC1',
-        fmla: '+/ v14 v13 v4'
+        n: 'dyC1',
+        f: '+/ v14 v13 v4'
       },
       {
-        name: 'v15',
-        fmla: '+- v14 0 v13'
+        n: 'v15',
+        f: '+- v14 0 v13'
       },
       {
-        name: 'dyC2',
-        fmla: '*/ v15 1 v4'
+        n: 'dyC2',
+        f: '*/ v15 1 v4'
       },
       {
-        name: 'v16',
-        fmla: '+- x1I 0 dxC1'
+        n: 'v16',
+        f: '+- x1I 0 dxC1'
       },
       {
-        name: 'v17',
-        fmla: '+- x1I 0 dxC2'
+        n: 'v17',
+        f: '+- x1I 0 dxC2'
       },
       {
-        name: 'v18',
-        fmla: '+- y1I 0 dyC1'
+        n: 'v18',
+        f: '+- y1I 0 dyC1'
       },
       {
-        name: 'v19',
-        fmla: '+- y1I 0 dyC2'
+        n: 'v19',
+        f: '+- y1I 0 dyC2'
       },
       {
-        name: 'v20',
-        fmla: 'mod v16 v18 0'
+        n: 'v20',
+        f: 'mod v16 v18 0'
       },
       {
-        name: 'v21',
-        fmla: 'mod v17 v19 0'
+        n: 'v21',
+        f: 'mod v17 v19 0'
       },
       {
-        name: 'v22',
-        fmla: '+- v21 0 v20'
+        n: 'v22',
+        f: '+- v21 0 v20'
       },
       {
-        name: 'dxC',
-        fmla: '?: v22 dxC1 dxC2'
+        n: 'dxC',
+        f: '?: v22 dxC1 dxC2'
       },
       {
-        name: 'dyC',
-        fmla: '?: v22 dyC1 dyC2'
+        n: 'dyC',
+        f: '?: v22 dyC1 dyC2'
       },
       {
-        name: 'sdxC',
-        fmla: '*/ dxC rw2 rI'
+        n: 'sdxC',
+        f: '*/ dxC rw2 rI'
       },
       {
-        name: 'sdyC',
-        fmla: '*/ dyC rh2 rI'
+        n: 'sdyC',
+        f: '*/ dyC rh2 rI'
       },
       {
-        name: 'xC',
-        fmla: '+- hc sdxC 0'
+        n: 'xC',
+        f: '+- hc sdxC 0'
       },
       {
-        name: 'yC',
-        fmla: '+- vc sdyC 0'
+        n: 'yC',
+        f: '+- vc sdyC 0'
       },
       {
-        name: 'ist0',
-        fmla: 'at2 sdxC sdyC'
+        n: 'ist0',
+        f: 'at2 sdxC sdyC'
       },
       {
-        name: 'ist1',
-        fmla: '+- ist0 21600000 0'
+        n: 'ist1',
+        f: '+- ist0 21600000 0'
       },
       {
-        name: 'istAng0',
-        fmla: '?: ist0 ist0 ist1'
+        n: 'istAng0',
+        f: '?: ist0 ist0 ist1'
       },
       {
-        name: 'isw1',
-        fmla: '+- stAng 0 istAng0'
+        n: 'isw1',
+        f: '+- stAng 0 istAng0'
       },
       {
-        name: 'isw2',
-        fmla: '+- isw1 21600000 0'
+        n: 'isw2',
+        f: '+- isw1 21600000 0'
       },
       {
-        name: 'iswAng0',
-        fmla: '?: isw1 isw1 isw2'
+        n: 'iswAng0',
+        f: '?: isw1 isw1 isw2'
       },
       {
-        name: 'istAng',
-        fmla: '+- istAng0 iswAng0 0'
+        n: 'istAng',
+        f: '+- istAng0 iswAng0 0'
       },
       {
-        name: 'iswAng',
-        fmla: '+- 0 0 iswAng0'
+        n: 'iswAng',
+        f: '+- 0 0 iswAng0'
       },
       {
-        name: 'p1',
-        fmla: '+- xF 0 xC'
+        n: 'p1',
+        f: '+- xF 0 xC'
       },
       {
-        name: 'p2',
-        fmla: '+- yF 0 yC'
+        n: 'p2',
+        f: '+- yF 0 yC'
       },
       {
-        name: 'p3',
-        fmla: 'mod p1 p2 0'
+        n: 'p3',
+        f: 'mod p1 p2 0'
       },
       {
-        name: 'p4',
-        fmla: '*/ p3 1 2'
+        n: 'p4',
+        f: '*/ p3 1 2'
       },
       {
-        name: 'p5',
-        fmla: '+- p4 0 thh'
+        n: 'p5',
+        f: '+- p4 0 thh'
       },
       {
-        name: 'xGp',
-        fmla: '?: p5 xF xG'
+        n: 'xGp',
+        f: '?: p5 xF xG'
       },
       {
-        name: 'yGp',
-        fmla: '?: p5 yF yG'
+        n: 'yGp',
+        f: '?: p5 yF yG'
       },
       {
-        name: 'xBp',
-        fmla: '?: p5 xC xB'
+        n: 'xBp',
+        f: '?: p5 xC xB'
       },
       {
-        name: 'yBp',
-        fmla: '?: p5 yC yB'
+        n: 'yBp',
+        f: '?: p5 yC yB'
       },
       {
-        name: 'en0',
-        fmla: 'at2 sdxF sdyF'
+        n: 'en0',
+        f: 'at2 sdxF sdyF'
       },
       {
-        name: 'en1',
-        fmla: '+- en0 21600000 0'
+        n: 'en1',
+        f: '+- en0 21600000 0'
       },
       {
-        name: 'en2',
-        fmla: '?: en0 en0 en1'
+        n: 'en2',
+        f: '?: en0 en0 en1'
       },
       {
-        name: 'sw0',
-        fmla: '+- en2 0 stAng'
+        n: 'sw0',
+        f: '+- en2 0 stAng'
       },
       {
-        name: 'sw1',
-        fmla: '+- sw0 0 21600000'
+        n: 'sw1',
+        f: '+- sw0 0 21600000'
       },
       {
-        name: 'swAng',
-        fmla: '?: sw0 sw1 sw0'
+        n: 'swAng',
+        f: '?: sw0 sw1 sw0'
       },
       {
-        name: 'stAng0',
-        fmla: '+- stAng swAng 0'
+        n: 'stAng0',
+        f: '+- stAng swAng 0'
       },
       {
-        name: 'swAng0',
-        fmla: '+- 0 0 swAng'
+        n: 'swAng0',
+        f: '+- 0 0 swAng'
       },
       {
-        name: 'wtI',
-        fmla: 'sin rw3 stAng'
+        n: 'wtI',
+        f: 'sin rw3 stAng'
       },
       {
-        name: 'htI',
-        fmla: 'cos rh3 stAng'
+        n: 'htI',
+        f: 'cos rh3 stAng'
       },
       {
-        name: 'dxI',
-        fmla: 'cat2 rw3 htI wtI'
+        n: 'dxI',
+        f: 'cat2 rw3 htI wtI'
       },
       {
-        name: 'dyI',
-        fmla: 'sat2 rh3 htI wtI'
+        n: 'dyI',
+        f: 'sat2 rh3 htI wtI'
       },
       {
-        name: 'xI',
-        fmla: '+- hc dxI 0'
+        n: 'xI',
+        f: '+- hc dxI 0'
       },
       {
-        name: 'yI',
-        fmla: '+- vc dyI 0'
+        n: 'yI',
+        f: '+- vc dyI 0'
       },
       {
-        name: 'aI',
-        fmla: '+- stAng cd4 0'
+        n: 'aI',
+        f: '+- stAng cd4 0'
       },
       {
-        name: 'aA',
-        fmla: '+- ptAng 0 cd4'
+        n: 'aA',
+        f: '+- ptAng 0 cd4'
       },
       {
-        name: 'aB',
-        fmla: '+- ptAng cd2 0'
+        n: 'aB',
+        f: '+- ptAng cd2 0'
       },
       {
-        name: 'idx',
-        fmla: 'cos rw1 2700000'
+        n: 'idx',
+        f: 'cos rw1 2700000'
       },
       {
-        name: 'idy',
-        fmla: 'sin rh1 2700000'
+        n: 'idy',
+        f: 'sin rh1 2700000'
       },
       {
-        name: 'il',
-        fmla: '+- hc 0 idx'
+        n: 'il',
+        f: '+- hc 0 idx'
       },
       {
-        name: 'ir',
-        fmla: '+- hc idx 0'
+        n: 'ir',
+        f: '+- hc idx 0'
       },
       {
-        name: 'it',
-        fmla: '+- vc 0 idy'
+        n: 'it',
+        f: '+- vc 0 idy'
       },
       {
-        name: 'ib',
-        fmla: '+- vc idy 0'
+        n: 'ib',
+        f: '+- vc idy 0'
       }
     ],
     pathLst: [
@@ -22960,58 +22960,58 @@ export const presetShape: Record<string, Shape> = {
   leftRightArrow: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 50000'
+        n: 'adj1',
+        f: 'val 50000'
       },
       {
-        name: 'adj2',
-        fmla: 'val 50000'
+        n: 'adj2',
+        f: 'val 50000'
       }
     ],
     gdLst: [
       {
-        name: 'maxAdj2',
-        fmla: '*/ 50000 w ss'
+        n: 'maxAdj2',
+        f: '*/ 50000 w ss'
       },
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 100000'
+        n: 'a1',
+        f: 'pin 0 adj1 100000'
       },
       {
-        name: 'a2',
-        fmla: 'pin 0 adj2 maxAdj2'
+        n: 'a2',
+        f: 'pin 0 adj2 maxAdj2'
       },
       {
-        name: 'x2',
-        fmla: '*/ ss a2 100000'
+        n: 'x2',
+        f: '*/ ss a2 100000'
       },
       {
-        name: 'x3',
-        fmla: '+- r 0 x2'
+        n: 'x3',
+        f: '+- r 0 x2'
       },
       {
-        name: 'dy',
-        fmla: '*/ h a1 200000'
+        n: 'dy',
+        f: '*/ h a1 200000'
       },
       {
-        name: 'y1',
-        fmla: '+- vc 0 dy'
+        n: 'y1',
+        f: '+- vc 0 dy'
       },
       {
-        name: 'y2',
-        fmla: '+- vc dy 0'
+        n: 'y2',
+        f: '+- vc dy 0'
       },
       {
-        name: 'dx1',
-        fmla: '*/ y1 x2 hd2'
+        n: 'dx1',
+        f: '*/ y1 x2 hd2'
       },
       {
-        name: 'x1',
-        fmla: '+- x2 0 dx1'
+        n: 'x1',
+        f: '+- x2 0 dx1'
       },
       {
-        name: 'x4',
-        fmla: '+- x3 dx1 0'
+        n: 'x4',
+        f: '+- x3 dx1 0'
       }
     ],
     pathLst: [
@@ -23099,102 +23099,102 @@ export const presetShape: Record<string, Shape> = {
   leftRightArrowCallout: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 25000'
+        n: 'adj1',
+        f: 'val 25000'
       },
       {
-        name: 'adj2',
-        fmla: 'val 25000'
+        n: 'adj2',
+        f: 'val 25000'
       },
       {
-        name: 'adj3',
-        fmla: 'val 25000'
+        n: 'adj3',
+        f: 'val 25000'
       },
       {
-        name: 'adj4',
-        fmla: 'val 48123'
+        n: 'adj4',
+        f: 'val 48123'
       }
     ],
     gdLst: [
       {
-        name: 'maxAdj2',
-        fmla: '*/ 50000 h ss'
+        n: 'maxAdj2',
+        f: '*/ 50000 h ss'
       },
       {
-        name: 'a2',
-        fmla: 'pin 0 adj2 maxAdj2'
+        n: 'a2',
+        f: 'pin 0 adj2 maxAdj2'
       },
       {
-        name: 'maxAdj1',
-        fmla: '*/ a2 2 1'
+        n: 'maxAdj1',
+        f: '*/ a2 2 1'
       },
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 maxAdj1'
+        n: 'a1',
+        f: 'pin 0 adj1 maxAdj1'
       },
       {
-        name: 'maxAdj3',
-        fmla: '*/ 50000 w ss'
+        n: 'maxAdj3',
+        f: '*/ 50000 w ss'
       },
       {
-        name: 'a3',
-        fmla: 'pin 0 adj3 maxAdj3'
+        n: 'a3',
+        f: 'pin 0 adj3 maxAdj3'
       },
       {
-        name: 'q2',
-        fmla: '*/ a3 ss wd2'
+        n: 'q2',
+        f: '*/ a3 ss wd2'
       },
       {
-        name: 'maxAdj4',
-        fmla: '+- 100000 0 q2'
+        n: 'maxAdj4',
+        f: '+- 100000 0 q2'
       },
       {
-        name: 'a4',
-        fmla: 'pin 0 adj4 maxAdj4'
+        n: 'a4',
+        f: 'pin 0 adj4 maxAdj4'
       },
       {
-        name: 'dy1',
-        fmla: '*/ ss a2 100000'
+        n: 'dy1',
+        f: '*/ ss a2 100000'
       },
       {
-        name: 'dy2',
-        fmla: '*/ ss a1 200000'
+        n: 'dy2',
+        f: '*/ ss a1 200000'
       },
       {
-        name: 'y1',
-        fmla: '+- vc 0 dy1'
+        n: 'y1',
+        f: '+- vc 0 dy1'
       },
       {
-        name: 'y2',
-        fmla: '+- vc 0 dy2'
+        n: 'y2',
+        f: '+- vc 0 dy2'
       },
       {
-        name: 'y3',
-        fmla: '+- vc dy2 0'
+        n: 'y3',
+        f: '+- vc dy2 0'
       },
       {
-        name: 'y4',
-        fmla: '+- vc dy1 0'
+        n: 'y4',
+        f: '+- vc dy1 0'
       },
       {
-        name: 'x1',
-        fmla: '*/ ss a3 100000'
+        n: 'x1',
+        f: '*/ ss a3 100000'
       },
       {
-        name: 'x4',
-        fmla: '+- r 0 x1'
+        n: 'x4',
+        f: '+- r 0 x1'
       },
       {
-        name: 'dx2',
-        fmla: '*/ w a4 200000'
+        n: 'dx2',
+        f: '*/ w a4 200000'
       },
       {
-        name: 'x2',
-        fmla: '+- hc 0 dx2'
+        n: 'x2',
+        f: '+- hc 0 dx2'
       },
       {
-        name: 'x3',
-        fmla: '+- hc dx2 0'
+        n: 'x3',
+        f: '+- hc dx2 0'
       }
     ],
     pathLst: [
@@ -23338,946 +23338,946 @@ export const presetShape: Record<string, Shape> = {
   leftRightCircularArrow: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 12500'
+        n: 'adj1',
+        f: 'val 12500'
       },
       {
-        name: 'adj2',
-        fmla: 'val 1142319'
+        n: 'adj2',
+        f: 'val 1142319'
       },
       {
-        name: 'adj3',
-        fmla: 'val 20457681'
+        n: 'adj3',
+        f: 'val 20457681'
       },
       {
-        name: 'adj4',
-        fmla: 'val 11942319'
+        n: 'adj4',
+        f: 'val 11942319'
       },
       {
-        name: 'adj5',
-        fmla: 'val 12500'
+        n: 'adj5',
+        f: 'val 12500'
       }
     ],
     gdLst: [
       {
-        name: 'a5',
-        fmla: 'pin 0 adj5 25000'
+        n: 'a5',
+        f: 'pin 0 adj5 25000'
       },
       {
-        name: 'maxAdj1',
-        fmla: '*/ a5 2 1'
+        n: 'maxAdj1',
+        f: '*/ a5 2 1'
       },
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 maxAdj1'
+        n: 'a1',
+        f: 'pin 0 adj1 maxAdj1'
       },
       {
-        name: 'enAng',
-        fmla: 'pin 1 adj3 21599999'
+        n: 'enAng',
+        f: 'pin 1 adj3 21599999'
       },
       {
-        name: 'stAng',
-        fmla: 'pin 0 adj4 21599999'
+        n: 'stAng',
+        f: 'pin 0 adj4 21599999'
       },
       {
-        name: 'th',
-        fmla: '*/ ss a1 100000'
+        n: 'th',
+        f: '*/ ss a1 100000'
       },
       {
-        name: 'thh',
-        fmla: '*/ ss a5 100000'
+        n: 'thh',
+        f: '*/ ss a5 100000'
       },
       {
-        name: 'th2',
-        fmla: '*/ th 1 2'
+        n: 'th2',
+        f: '*/ th 1 2'
       },
       {
-        name: 'rw1',
-        fmla: '+- wd2 th2 thh'
+        n: 'rw1',
+        f: '+- wd2 th2 thh'
       },
       {
-        name: 'rh1',
-        fmla: '+- hd2 th2 thh'
+        n: 'rh1',
+        f: '+- hd2 th2 thh'
       },
       {
-        name: 'rw2',
-        fmla: '+- rw1 0 th'
+        n: 'rw2',
+        f: '+- rw1 0 th'
       },
       {
-        name: 'rh2',
-        fmla: '+- rh1 0 th'
+        n: 'rh2',
+        f: '+- rh1 0 th'
       },
       {
-        name: 'rw3',
-        fmla: '+- rw2 th2 0'
+        n: 'rw3',
+        f: '+- rw2 th2 0'
       },
       {
-        name: 'rh3',
-        fmla: '+- rh2 th2 0'
+        n: 'rh3',
+        f: '+- rh2 th2 0'
       },
       {
-        name: 'wtH',
-        fmla: 'sin rw3 enAng'
+        n: 'wtH',
+        f: 'sin rw3 enAng'
       },
       {
-        name: 'htH',
-        fmla: 'cos rh3 enAng'
+        n: 'htH',
+        f: 'cos rh3 enAng'
       },
       {
-        name: 'dxH',
-        fmla: 'cat2 rw3 htH wtH'
+        n: 'dxH',
+        f: 'cat2 rw3 htH wtH'
       },
       {
-        name: 'dyH',
-        fmla: 'sat2 rh3 htH wtH'
+        n: 'dyH',
+        f: 'sat2 rh3 htH wtH'
       },
       {
-        name: 'xH',
-        fmla: '+- hc dxH 0'
+        n: 'xH',
+        f: '+- hc dxH 0'
       },
       {
-        name: 'yH',
-        fmla: '+- vc dyH 0'
+        n: 'yH',
+        f: '+- vc dyH 0'
       },
       {
-        name: 'rI',
-        fmla: 'min rw2 rh2'
+        n: 'rI',
+        f: 'min rw2 rh2'
       },
       {
-        name: 'u1',
-        fmla: '*/ dxH dxH 1'
+        n: 'u1',
+        f: '*/ dxH dxH 1'
       },
       {
-        name: 'u2',
-        fmla: '*/ dyH dyH 1'
+        n: 'u2',
+        f: '*/ dyH dyH 1'
       },
       {
-        name: 'u3',
-        fmla: '*/ rI rI 1'
+        n: 'u3',
+        f: '*/ rI rI 1'
       },
       {
-        name: 'u4',
-        fmla: '+- u1 0 u3'
+        n: 'u4',
+        f: '+- u1 0 u3'
       },
       {
-        name: 'u5',
-        fmla: '+- u2 0 u3'
+        n: 'u5',
+        f: '+- u2 0 u3'
       },
       {
-        name: 'u6',
-        fmla: '*/ u4 u5 u1'
+        n: 'u6',
+        f: '*/ u4 u5 u1'
       },
       {
-        name: 'u7',
-        fmla: '*/ u6 1 u2'
+        n: 'u7',
+        f: '*/ u6 1 u2'
       },
       {
-        name: 'u8',
-        fmla: '+- 1 0 u7'
+        n: 'u8',
+        f: '+- 1 0 u7'
       },
       {
-        name: 'u9',
-        fmla: 'sqrt u8'
+        n: 'u9',
+        f: 'sqrt u8'
       },
       {
-        name: 'u10',
-        fmla: '*/ u4 1 dxH'
+        n: 'u10',
+        f: '*/ u4 1 dxH'
       },
       {
-        name: 'u11',
-        fmla: '*/ u10 1 dyH'
+        n: 'u11',
+        f: '*/ u10 1 dyH'
       },
       {
-        name: 'u12',
-        fmla: '+/ 1 u9 u11'
+        n: 'u12',
+        f: '+/ 1 u9 u11'
       },
       {
-        name: 'u13',
-        fmla: 'at2 1 u12'
+        n: 'u13',
+        f: 'at2 1 u12'
       },
       {
-        name: 'u14',
-        fmla: '+- u13 21600000 0'
+        n: 'u14',
+        f: '+- u13 21600000 0'
       },
       {
-        name: 'u15',
-        fmla: '?: u13 u13 u14'
+        n: 'u15',
+        f: '?: u13 u13 u14'
       },
       {
-        name: 'u16',
-        fmla: '+- u15 0 enAng'
+        n: 'u16',
+        f: '+- u15 0 enAng'
       },
       {
-        name: 'u17',
-        fmla: '+- u16 21600000 0'
+        n: 'u17',
+        f: '+- u16 21600000 0'
       },
       {
-        name: 'u18',
-        fmla: '?: u16 u16 u17'
+        n: 'u18',
+        f: '?: u16 u16 u17'
       },
       {
-        name: 'u19',
-        fmla: '+- u18 0 cd2'
+        n: 'u19',
+        f: '+- u18 0 cd2'
       },
       {
-        name: 'u20',
-        fmla: '+- u18 0 21600000'
+        n: 'u20',
+        f: '+- u18 0 21600000'
       },
       {
-        name: 'u21',
-        fmla: '?: u19 u20 u18'
+        n: 'u21',
+        f: '?: u19 u20 u18'
       },
       {
-        name: 'maxAng',
-        fmla: 'abs u21'
+        n: 'maxAng',
+        f: 'abs u21'
       },
       {
-        name: 'aAng',
-        fmla: 'pin 0 adj2 maxAng'
+        n: 'aAng',
+        f: 'pin 0 adj2 maxAng'
       },
       {
-        name: 'ptAng',
-        fmla: '+- enAng aAng 0'
+        n: 'ptAng',
+        f: '+- enAng aAng 0'
       },
       {
-        name: 'wtA',
-        fmla: 'sin rw3 ptAng'
+        n: 'wtA',
+        f: 'sin rw3 ptAng'
       },
       {
-        name: 'htA',
-        fmla: 'cos rh3 ptAng'
+        n: 'htA',
+        f: 'cos rh3 ptAng'
       },
       {
-        name: 'dxA',
-        fmla: 'cat2 rw3 htA wtA'
+        n: 'dxA',
+        f: 'cat2 rw3 htA wtA'
       },
       {
-        name: 'dyA',
-        fmla: 'sat2 rh3 htA wtA'
+        n: 'dyA',
+        f: 'sat2 rh3 htA wtA'
       },
       {
-        name: 'xA',
-        fmla: '+- hc dxA 0'
+        n: 'xA',
+        f: '+- hc dxA 0'
       },
       {
-        name: 'yA',
-        fmla: '+- vc dyA 0'
+        n: 'yA',
+        f: '+- vc dyA 0'
       },
       {
-        name: 'dxG',
-        fmla: 'cos thh ptAng'
+        n: 'dxG',
+        f: 'cos thh ptAng'
       },
       {
-        name: 'dyG',
-        fmla: 'sin thh ptAng'
+        n: 'dyG',
+        f: 'sin thh ptAng'
       },
       {
-        name: 'xG',
-        fmla: '+- xH dxG 0'
+        n: 'xG',
+        f: '+- xH dxG 0'
       },
       {
-        name: 'yG',
-        fmla: '+- yH dyG 0'
+        n: 'yG',
+        f: '+- yH dyG 0'
       },
       {
-        name: 'dxB',
-        fmla: 'cos thh ptAng'
+        n: 'dxB',
+        f: 'cos thh ptAng'
       },
       {
-        name: 'dyB',
-        fmla: 'sin thh ptAng'
+        n: 'dyB',
+        f: 'sin thh ptAng'
       },
       {
-        name: 'xB',
-        fmla: '+- xH 0 dxB 0'
+        n: 'xB',
+        f: '+- xH 0 dxB 0'
       },
       {
-        name: 'yB',
-        fmla: '+- yH 0 dyB 0'
+        n: 'yB',
+        f: '+- yH 0 dyB 0'
       },
       {
-        name: 'sx1',
-        fmla: '+- xB 0 hc'
+        n: 'sx1',
+        f: '+- xB 0 hc'
       },
       {
-        name: 'sy1',
-        fmla: '+- yB 0 vc'
+        n: 'sy1',
+        f: '+- yB 0 vc'
       },
       {
-        name: 'sx2',
-        fmla: '+- xG 0 hc'
+        n: 'sx2',
+        f: '+- xG 0 hc'
       },
       {
-        name: 'sy2',
-        fmla: '+- yG 0 vc'
+        n: 'sy2',
+        f: '+- yG 0 vc'
       },
       {
-        name: 'rO',
-        fmla: 'min rw1 rh1'
+        n: 'rO',
+        f: 'min rw1 rh1'
       },
       {
-        name: 'x1O',
-        fmla: '*/ sx1 rO rw1'
+        n: 'x1O',
+        f: '*/ sx1 rO rw1'
       },
       {
-        name: 'y1O',
-        fmla: '*/ sy1 rO rh1'
+        n: 'y1O',
+        f: '*/ sy1 rO rh1'
       },
       {
-        name: 'x2O',
-        fmla: '*/ sx2 rO rw1'
+        n: 'x2O',
+        f: '*/ sx2 rO rw1'
       },
       {
-        name: 'y2O',
-        fmla: '*/ sy2 rO rh1'
+        n: 'y2O',
+        f: '*/ sy2 rO rh1'
       },
       {
-        name: 'dxO',
-        fmla: '+- x2O 0 x1O'
+        n: 'dxO',
+        f: '+- x2O 0 x1O'
       },
       {
-        name: 'dyO',
-        fmla: '+- y2O 0 y1O'
+        n: 'dyO',
+        f: '+- y2O 0 y1O'
       },
       {
-        name: 'dO',
-        fmla: 'mod dxO dyO 0'
+        n: 'dO',
+        f: 'mod dxO dyO 0'
       },
       {
-        name: 'q1',
-        fmla: '*/ x1O y2O 1'
+        n: 'q1',
+        f: '*/ x1O y2O 1'
       },
       {
-        name: 'q2',
-        fmla: '*/ x2O y1O 1'
+        n: 'q2',
+        f: '*/ x2O y1O 1'
       },
       {
-        name: 'DO',
-        fmla: '+- q1 0 q2'
+        n: 'DO',
+        f: '+- q1 0 q2'
       },
       {
-        name: 'q3',
-        fmla: '*/ rO rO 1'
+        n: 'q3',
+        f: '*/ rO rO 1'
       },
       {
-        name: 'q4',
-        fmla: '*/ dO dO 1'
+        n: 'q4',
+        f: '*/ dO dO 1'
       },
       {
-        name: 'q5',
-        fmla: '*/ q3 q4 1'
+        n: 'q5',
+        f: '*/ q3 q4 1'
       },
       {
-        name: 'q6',
-        fmla: '*/ DO DO 1'
+        n: 'q6',
+        f: '*/ DO DO 1'
       },
       {
-        name: 'q7',
-        fmla: '+- q5 0 q6'
+        n: 'q7',
+        f: '+- q5 0 q6'
       },
       {
-        name: 'q8',
-        fmla: 'max q7 0'
+        n: 'q8',
+        f: 'max q7 0'
       },
       {
-        name: 'sdelO',
-        fmla: 'sqrt q8'
+        n: 'sdelO',
+        f: 'sqrt q8'
       },
       {
-        name: 'ndyO',
-        fmla: '*/ dyO -1 1'
+        n: 'ndyO',
+        f: '*/ dyO -1 1'
       },
       {
-        name: 'sdyO',
-        fmla: '?: ndyO -1 1'
+        n: 'sdyO',
+        f: '?: ndyO -1 1'
       },
       {
-        name: 'q9',
-        fmla: '*/ sdyO dxO 1'
+        n: 'q9',
+        f: '*/ sdyO dxO 1'
       },
       {
-        name: 'q10',
-        fmla: '*/ q9 sdelO 1'
+        n: 'q10',
+        f: '*/ q9 sdelO 1'
       },
       {
-        name: 'q11',
-        fmla: '*/ DO dyO 1'
+        n: 'q11',
+        f: '*/ DO dyO 1'
       },
       {
-        name: 'dxF1',
-        fmla: '+/ q11 q10 q4'
+        n: 'dxF1',
+        f: '+/ q11 q10 q4'
       },
       {
-        name: 'q12',
-        fmla: '+- q11 0 q10'
+        n: 'q12',
+        f: '+- q11 0 q10'
       },
       {
-        name: 'dxF2',
-        fmla: '*/ q12 1 q4'
+        n: 'dxF2',
+        f: '*/ q12 1 q4'
       },
       {
-        name: 'adyO',
-        fmla: 'abs dyO'
+        n: 'adyO',
+        f: 'abs dyO'
       },
       {
-        name: 'q13',
-        fmla: '*/ adyO sdelO 1'
+        n: 'q13',
+        f: '*/ adyO sdelO 1'
       },
       {
-        name: 'q14',
-        fmla: '*/ DO dxO -1'
+        n: 'q14',
+        f: '*/ DO dxO -1'
       },
       {
-        name: 'dyF1',
-        fmla: '+/ q14 q13 q4'
+        n: 'dyF1',
+        f: '+/ q14 q13 q4'
       },
       {
-        name: 'q15',
-        fmla: '+- q14 0 q13'
+        n: 'q15',
+        f: '+- q14 0 q13'
       },
       {
-        name: 'dyF2',
-        fmla: '*/ q15 1 q4'
+        n: 'dyF2',
+        f: '*/ q15 1 q4'
       },
       {
-        name: 'q16',
-        fmla: '+- x2O 0 dxF1'
+        n: 'q16',
+        f: '+- x2O 0 dxF1'
       },
       {
-        name: 'q17',
-        fmla: '+- x2O 0 dxF2'
+        n: 'q17',
+        f: '+- x2O 0 dxF2'
       },
       {
-        name: 'q18',
-        fmla: '+- y2O 0 dyF1'
+        n: 'q18',
+        f: '+- y2O 0 dyF1'
       },
       {
-        name: 'q19',
-        fmla: '+- y2O 0 dyF2'
+        n: 'q19',
+        f: '+- y2O 0 dyF2'
       },
       {
-        name: 'q20',
-        fmla: 'mod q16 q18 0'
+        n: 'q20',
+        f: 'mod q16 q18 0'
       },
       {
-        name: 'q21',
-        fmla: 'mod q17 q19 0'
+        n: 'q21',
+        f: 'mod q17 q19 0'
       },
       {
-        name: 'q22',
-        fmla: '+- q21 0 q20'
+        n: 'q22',
+        f: '+- q21 0 q20'
       },
       {
-        name: 'dxF',
-        fmla: '?: q22 dxF1 dxF2'
+        n: 'dxF',
+        f: '?: q22 dxF1 dxF2'
       },
       {
-        name: 'dyF',
-        fmla: '?: q22 dyF1 dyF2'
+        n: 'dyF',
+        f: '?: q22 dyF1 dyF2'
       },
       {
-        name: 'sdxF',
-        fmla: '*/ dxF rw1 rO'
+        n: 'sdxF',
+        f: '*/ dxF rw1 rO'
       },
       {
-        name: 'sdyF',
-        fmla: '*/ dyF rh1 rO'
+        n: 'sdyF',
+        f: '*/ dyF rh1 rO'
       },
       {
-        name: 'xF',
-        fmla: '+- hc sdxF 0'
+        n: 'xF',
+        f: '+- hc sdxF 0'
       },
       {
-        name: 'yF',
-        fmla: '+- vc sdyF 0'
+        n: 'yF',
+        f: '+- vc sdyF 0'
       },
       {
-        name: 'x1I',
-        fmla: '*/ sx1 rI rw2'
+        n: 'x1I',
+        f: '*/ sx1 rI rw2'
       },
       {
-        name: 'y1I',
-        fmla: '*/ sy1 rI rh2'
+        n: 'y1I',
+        f: '*/ sy1 rI rh2'
       },
       {
-        name: 'x2I',
-        fmla: '*/ sx2 rI rw2'
+        n: 'x2I',
+        f: '*/ sx2 rI rw2'
       },
       {
-        name: 'y2I',
-        fmla: '*/ sy2 rI rh2'
+        n: 'y2I',
+        f: '*/ sy2 rI rh2'
       },
       {
-        name: 'dxI',
-        fmla: '+- x2I 0 x1I'
+        n: 'dxI',
+        f: '+- x2I 0 x1I'
       },
       {
-        name: 'dyI',
-        fmla: '+- y2I 0 y1I'
+        n: 'dyI',
+        f: '+- y2I 0 y1I'
       },
       {
-        name: 'dI',
-        fmla: 'mod dxI dyI 0'
+        n: 'dI',
+        f: 'mod dxI dyI 0'
       },
       {
-        name: 'v1',
-        fmla: '*/ x1I y2I 1'
+        n: 'v1',
+        f: '*/ x1I y2I 1'
       },
       {
-        name: 'v2',
-        fmla: '*/ x2I y1I 1'
+        n: 'v2',
+        f: '*/ x2I y1I 1'
       },
       {
-        name: 'DI',
-        fmla: '+- v1 0 v2'
+        n: 'DI',
+        f: '+- v1 0 v2'
       },
       {
-        name: 'v3',
-        fmla: '*/ rI rI 1'
+        n: 'v3',
+        f: '*/ rI rI 1'
       },
       {
-        name: 'v4',
-        fmla: '*/ dI dI 1'
+        n: 'v4',
+        f: '*/ dI dI 1'
       },
       {
-        name: 'v5',
-        fmla: '*/ v3 v4 1'
+        n: 'v5',
+        f: '*/ v3 v4 1'
       },
       {
-        name: 'v6',
-        fmla: '*/ DI DI 1'
+        n: 'v6',
+        f: '*/ DI DI 1'
       },
       {
-        name: 'v7',
-        fmla: '+- v5 0 v6'
+        n: 'v7',
+        f: '+- v5 0 v6'
       },
       {
-        name: 'v8',
-        fmla: 'max v7 0'
+        n: 'v8',
+        f: 'max v7 0'
       },
       {
-        name: 'sdelI',
-        fmla: 'sqrt v8'
+        n: 'sdelI',
+        f: 'sqrt v8'
       },
       {
-        name: 'v9',
-        fmla: '*/ sdyO dxI 1'
+        n: 'v9',
+        f: '*/ sdyO dxI 1'
       },
       {
-        name: 'v10',
-        fmla: '*/ v9 sdelI 1'
+        n: 'v10',
+        f: '*/ v9 sdelI 1'
       },
       {
-        name: 'v11',
-        fmla: '*/ DI dyI 1'
+        n: 'v11',
+        f: '*/ DI dyI 1'
       },
       {
-        name: 'dxC1',
-        fmla: '+/ v11 v10 v4'
+        n: 'dxC1',
+        f: '+/ v11 v10 v4'
       },
       {
-        name: 'v12',
-        fmla: '+- v11 0 v10'
+        n: 'v12',
+        f: '+- v11 0 v10'
       },
       {
-        name: 'dxC2',
-        fmla: '*/ v12 1 v4'
+        n: 'dxC2',
+        f: '*/ v12 1 v4'
       },
       {
-        name: 'adyI',
-        fmla: 'abs dyI'
+        n: 'adyI',
+        f: 'abs dyI'
       },
       {
-        name: 'v13',
-        fmla: '*/ adyI sdelI 1'
+        n: 'v13',
+        f: '*/ adyI sdelI 1'
       },
       {
-        name: 'v14',
-        fmla: '*/ DI dxI -1'
+        n: 'v14',
+        f: '*/ DI dxI -1'
       },
       {
-        name: 'dyC1',
-        fmla: '+/ v14 v13 v4'
+        n: 'dyC1',
+        f: '+/ v14 v13 v4'
       },
       {
-        name: 'v15',
-        fmla: '+- v14 0 v13'
+        n: 'v15',
+        f: '+- v14 0 v13'
       },
       {
-        name: 'dyC2',
-        fmla: '*/ v15 1 v4'
+        n: 'dyC2',
+        f: '*/ v15 1 v4'
       },
       {
-        name: 'v16',
-        fmla: '+- x1I 0 dxC1'
+        n: 'v16',
+        f: '+- x1I 0 dxC1'
       },
       {
-        name: 'v17',
-        fmla: '+- x1I 0 dxC2'
+        n: 'v17',
+        f: '+- x1I 0 dxC2'
       },
       {
-        name: 'v18',
-        fmla: '+- y1I 0 dyC1'
+        n: 'v18',
+        f: '+- y1I 0 dyC1'
       },
       {
-        name: 'v19',
-        fmla: '+- y1I 0 dyC2'
+        n: 'v19',
+        f: '+- y1I 0 dyC2'
       },
       {
-        name: 'v20',
-        fmla: 'mod v16 v18 0'
+        n: 'v20',
+        f: 'mod v16 v18 0'
       },
       {
-        name: 'v21',
-        fmla: 'mod v17 v19 0'
+        n: 'v21',
+        f: 'mod v17 v19 0'
       },
       {
-        name: 'v22',
-        fmla: '+- v21 0 v20'
+        n: 'v22',
+        f: '+- v21 0 v20'
       },
       {
-        name: 'dxC',
-        fmla: '?: v22 dxC1 dxC2'
+        n: 'dxC',
+        f: '?: v22 dxC1 dxC2'
       },
       {
-        name: 'dyC',
-        fmla: '?: v22 dyC1 dyC2'
+        n: 'dyC',
+        f: '?: v22 dyC1 dyC2'
       },
       {
-        name: 'sdxC',
-        fmla: '*/ dxC rw2 rI'
+        n: 'sdxC',
+        f: '*/ dxC rw2 rI'
       },
       {
-        name: 'sdyC',
-        fmla: '*/ dyC rh2 rI'
+        n: 'sdyC',
+        f: '*/ dyC rh2 rI'
       },
       {
-        name: 'xC',
-        fmla: '+- hc sdxC 0'
+        n: 'xC',
+        f: '+- hc sdxC 0'
       },
       {
-        name: 'yC',
-        fmla: '+- vc sdyC 0'
+        n: 'yC',
+        f: '+- vc sdyC 0'
       },
       {
-        name: 'wtI',
-        fmla: 'sin rw3 stAng'
+        n: 'wtI',
+        f: 'sin rw3 stAng'
       },
       {
-        name: 'htI',
-        fmla: 'cos rh3 stAng'
+        n: 'htI',
+        f: 'cos rh3 stAng'
       },
       {
-        name: 'dxI',
-        fmla: 'cat2 rw3 htI wtI'
+        n: 'dxI',
+        f: 'cat2 rw3 htI wtI'
       },
       {
-        name: 'dyI',
-        fmla: 'sat2 rh3 htI wtI'
+        n: 'dyI',
+        f: 'sat2 rh3 htI wtI'
       },
       {
-        name: 'xI',
-        fmla: '+- hc dxI 0'
+        n: 'xI',
+        f: '+- hc dxI 0'
       },
       {
-        name: 'yI',
-        fmla: '+- vc dyI 0'
+        n: 'yI',
+        f: '+- vc dyI 0'
       },
       {
-        name: 'lptAng',
-        fmla: '+- stAng 0 aAng'
+        n: 'lptAng',
+        f: '+- stAng 0 aAng'
       },
       {
-        name: 'wtL',
-        fmla: 'sin rw3 lptAng'
+        n: 'wtL',
+        f: 'sin rw3 lptAng'
       },
       {
-        name: 'htL',
-        fmla: 'cos rh3 lptAng'
+        n: 'htL',
+        f: 'cos rh3 lptAng'
       },
       {
-        name: 'dxL',
-        fmla: 'cat2 rw3 htL wtL'
+        n: 'dxL',
+        f: 'cat2 rw3 htL wtL'
       },
       {
-        name: 'dyL',
-        fmla: 'sat2 rh3 htL wtL'
+        n: 'dyL',
+        f: 'sat2 rh3 htL wtL'
       },
       {
-        name: 'xL',
-        fmla: '+- hc dxL 0'
+        n: 'xL',
+        f: '+- hc dxL 0'
       },
       {
-        name: 'yL',
-        fmla: '+- vc dyL 0'
+        n: 'yL',
+        f: '+- vc dyL 0'
       },
       {
-        name: 'dxK',
-        fmla: 'cos thh lptAng'
+        n: 'dxK',
+        f: 'cos thh lptAng'
       },
       {
-        name: 'dyK',
-        fmla: 'sin thh lptAng'
+        n: 'dyK',
+        f: 'sin thh lptAng'
       },
       {
-        name: 'xK',
-        fmla: '+- xI dxK 0'
+        n: 'xK',
+        f: '+- xI dxK 0'
       },
       {
-        name: 'yK',
-        fmla: '+- yI dyK 0'
+        n: 'yK',
+        f: '+- yI dyK 0'
       },
       {
-        name: 'dxJ',
-        fmla: 'cos thh lptAng'
+        n: 'dxJ',
+        f: 'cos thh lptAng'
       },
       {
-        name: 'dyJ',
-        fmla: 'sin thh lptAng'
+        n: 'dyJ',
+        f: 'sin thh lptAng'
       },
       {
-        name: 'xJ',
-        fmla: '+- xI 0 dxJ 0'
+        n: 'xJ',
+        f: '+- xI 0 dxJ 0'
       },
       {
-        name: 'yJ',
-        fmla: '+- yI 0 dyJ 0'
+        n: 'yJ',
+        f: '+- yI 0 dyJ 0'
       },
       {
-        name: 'p1',
-        fmla: '+- xF 0 xC'
+        n: 'p1',
+        f: '+- xF 0 xC'
       },
       {
-        name: 'p2',
-        fmla: '+- yF 0 yC'
+        n: 'p2',
+        f: '+- yF 0 yC'
       },
       {
-        name: 'p3',
-        fmla: 'mod p1 p2 0'
+        n: 'p3',
+        f: 'mod p1 p2 0'
       },
       {
-        name: 'p4',
-        fmla: '*/ p3 1 2'
+        n: 'p4',
+        f: '*/ p3 1 2'
       },
       {
-        name: 'p5',
-        fmla: '+- p4 0 thh'
+        n: 'p5',
+        f: '+- p4 0 thh'
       },
       {
-        name: 'xGp',
-        fmla: '?: p5 xF xG'
+        n: 'xGp',
+        f: '?: p5 xF xG'
       },
       {
-        name: 'yGp',
-        fmla: '?: p5 yF yG'
+        n: 'yGp',
+        f: '?: p5 yF yG'
       },
       {
-        name: 'xBp',
-        fmla: '?: p5 xC xB'
+        n: 'xBp',
+        f: '?: p5 xC xB'
       },
       {
-        name: 'yBp',
-        fmla: '?: p5 yC yB'
+        n: 'yBp',
+        f: '?: p5 yC yB'
       },
       {
-        name: 'en0',
-        fmla: 'at2 sdxF sdyF'
+        n: 'en0',
+        f: 'at2 sdxF sdyF'
       },
       {
-        name: 'en1',
-        fmla: '+- en0 21600000 0'
+        n: 'en1',
+        f: '+- en0 21600000 0'
       },
       {
-        name: 'en2',
-        fmla: '?: en0 en0 en1'
+        n: 'en2',
+        f: '?: en0 en0 en1'
       },
       {
-        name: 'od0',
-        fmla: '+- en2 0 enAng'
+        n: 'od0',
+        f: '+- en2 0 enAng'
       },
       {
-        name: 'od1',
-        fmla: '+- od0 21600000 0'
+        n: 'od1',
+        f: '+- od0 21600000 0'
       },
       {
-        name: 'od2',
-        fmla: '?: od0 od0 od1'
+        n: 'od2',
+        f: '?: od0 od0 od1'
       },
       {
-        name: 'st0',
-        fmla: '+- stAng 0 od2'
+        n: 'st0',
+        f: '+- stAng 0 od2'
       },
       {
-        name: 'st1',
-        fmla: '+- st0 21600000 0'
+        n: 'st1',
+        f: '+- st0 21600000 0'
       },
       {
-        name: 'st2',
-        fmla: '?: st0 st0 st1'
+        n: 'st2',
+        f: '?: st0 st0 st1'
       },
       {
-        name: 'sw0',
-        fmla: '+- en2 0 st2'
+        n: 'sw0',
+        f: '+- en2 0 st2'
       },
       {
-        name: 'sw1',
-        fmla: '+- sw0 21600000 0'
+        n: 'sw1',
+        f: '+- sw0 21600000 0'
       },
       {
-        name: 'swAng',
-        fmla: '?: sw0 sw0 sw1'
+        n: 'swAng',
+        f: '?: sw0 sw0 sw1'
       },
       {
-        name: 'ist0',
-        fmla: 'at2 sdxC sdyC'
+        n: 'ist0',
+        f: 'at2 sdxC sdyC'
       },
       {
-        name: 'ist1',
-        fmla: '+- ist0 21600000 0'
+        n: 'ist1',
+        f: '+- ist0 21600000 0'
       },
       {
-        name: 'istAng',
-        fmla: '?: ist0 ist0 ist1'
+        n: 'istAng',
+        f: '?: ist0 ist0 ist1'
       },
       {
-        name: 'id0',
-        fmla: '+- istAng 0 enAng'
+        n: 'id0',
+        f: '+- istAng 0 enAng'
       },
       {
-        name: 'id1',
-        fmla: '+- id0 0 21600000'
+        n: 'id1',
+        f: '+- id0 0 21600000'
       },
       {
-        name: 'id2',
-        fmla: '?: id0 id1 id0'
+        n: 'id2',
+        f: '?: id0 id1 id0'
       },
       {
-        name: 'ien0',
-        fmla: '+- stAng 0 id2'
+        n: 'ien0',
+        f: '+- stAng 0 id2'
       },
       {
-        name: 'ien1',
-        fmla: '+- ien0 0 21600000'
+        n: 'ien1',
+        f: '+- ien0 0 21600000'
       },
       {
-        name: 'ien2',
-        fmla: '?: ien1 ien1 ien0'
+        n: 'ien2',
+        f: '?: ien1 ien1 ien0'
       },
       {
-        name: 'isw1',
-        fmla: '+- ien2 0 istAng'
+        n: 'isw1',
+        f: '+- ien2 0 istAng'
       },
       {
-        name: 'isw2',
-        fmla: '+- isw1 0 21600000'
+        n: 'isw2',
+        f: '+- isw1 0 21600000'
       },
       {
-        name: 'iswAng',
-        fmla: '?: isw1 isw2 isw1'
+        n: 'iswAng',
+        f: '?: isw1 isw2 isw1'
       },
       {
-        name: 'wtE',
-        fmla: 'sin rw1 st2'
+        n: 'wtE',
+        f: 'sin rw1 st2'
       },
       {
-        name: 'htE',
-        fmla: 'cos rh1 st2'
+        n: 'htE',
+        f: 'cos rh1 st2'
       },
       {
-        name: 'dxE',
-        fmla: 'cat2 rw1 htE wtE'
+        n: 'dxE',
+        f: 'cat2 rw1 htE wtE'
       },
       {
-        name: 'dyE',
-        fmla: 'sat2 rh1 htE wtE'
+        n: 'dyE',
+        f: 'sat2 rh1 htE wtE'
       },
       {
-        name: 'xE',
-        fmla: '+- hc dxE 0'
+        n: 'xE',
+        f: '+- hc dxE 0'
       },
       {
-        name: 'yE',
-        fmla: '+- vc dyE 0'
+        n: 'yE',
+        f: '+- vc dyE 0'
       },
       {
-        name: 'wtD',
-        fmla: 'sin rw2 ien2'
+        n: 'wtD',
+        f: 'sin rw2 ien2'
       },
       {
-        name: 'htD',
-        fmla: 'cos rh2 ien2'
+        n: 'htD',
+        f: 'cos rh2 ien2'
       },
       {
-        name: 'dxD',
-        fmla: 'cat2 rw2 htD wtD'
+        n: 'dxD',
+        f: 'cat2 rw2 htD wtD'
       },
       {
-        name: 'dyD',
-        fmla: 'sat2 rh2 htD wtD'
+        n: 'dyD',
+        f: 'sat2 rh2 htD wtD'
       },
       {
-        name: 'xD',
-        fmla: '+- hc dxD 0'
+        n: 'xD',
+        f: '+- hc dxD 0'
       },
       {
-        name: 'yD',
-        fmla: '+- vc dyD 0'
+        n: 'yD',
+        f: '+- vc dyD 0'
       },
       {
-        name: 'xKp',
-        fmla: '?: p5 xE xK'
+        n: 'xKp',
+        f: '?: p5 xE xK'
       },
       {
-        name: 'yKp',
-        fmla: '?: p5 yE yK'
+        n: 'yKp',
+        f: '?: p5 yE yK'
       },
       {
-        name: 'xJp',
-        fmla: '?: p5 xD xJ'
+        n: 'xJp',
+        f: '?: p5 xD xJ'
       },
       {
-        name: 'yJp',
-        fmla: '?: p5 yD yJ'
+        n: 'yJp',
+        f: '?: p5 yD yJ'
       },
       {
-        name: 'aL',
-        fmla: '+- lptAng 0 cd4'
+        n: 'aL',
+        f: '+- lptAng 0 cd4'
       },
       {
-        name: 'aA',
-        fmla: '+- ptAng cd4 0'
+        n: 'aA',
+        f: '+- ptAng cd4 0'
       },
       {
-        name: 'aB',
-        fmla: '+- ptAng cd2 0'
+        n: 'aB',
+        f: '+- ptAng cd2 0'
       },
       {
-        name: 'aJ',
-        fmla: '+- lptAng cd2 0'
+        n: 'aJ',
+        f: '+- lptAng cd2 0'
       },
       {
-        name: 'idx',
-        fmla: 'cos rw1 2700000'
+        n: 'idx',
+        f: 'cos rw1 2700000'
       },
       {
-        name: 'idy',
-        fmla: 'sin rh1 2700000'
+        n: 'idy',
+        f: 'sin rh1 2700000'
       },
       {
-        name: 'il',
-        fmla: '+- hc 0 idx'
+        n: 'il',
+        f: '+- hc 0 idx'
       },
       {
-        name: 'ir',
-        fmla: '+- hc idx 0'
+        n: 'ir',
+        f: '+- hc idx 0'
       },
       {
-        name: 'it',
-        fmla: '+- vc 0 idy'
+        n: 'it',
+        f: '+- vc 0 idy'
       },
       {
-        name: 'ib',
-        fmla: '+- vc idy 0'
+        n: 'ib',
+        f: '+- vc idy 0'
       }
     ],
     pathLst: [
@@ -24365,110 +24365,110 @@ export const presetShape: Record<string, Shape> = {
   leftRightRibbon: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 50000'
+        n: 'adj1',
+        f: 'val 50000'
       },
       {
-        name: 'adj2',
-        fmla: 'val 50000'
+        n: 'adj2',
+        f: 'val 50000'
       },
       {
-        name: 'adj3',
-        fmla: 'val 16667'
+        n: 'adj3',
+        f: 'val 16667'
       }
     ],
     gdLst: [
       {
-        name: 'a3',
-        fmla: 'pin 0 adj3 33333'
+        n: 'a3',
+        f: 'pin 0 adj3 33333'
       },
       {
-        name: 'maxAdj1',
-        fmla: '+- 100000 0 a3'
+        n: 'maxAdj1',
+        f: '+- 100000 0 a3'
       },
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 maxAdj1'
+        n: 'a1',
+        f: 'pin 0 adj1 maxAdj1'
       },
       {
-        name: 'w1',
-        fmla: '+- wd2 0 wd32'
+        n: 'w1',
+        f: '+- wd2 0 wd32'
       },
       {
-        name: 'maxAdj2',
-        fmla: '*/ 100000 w1 ss'
+        n: 'maxAdj2',
+        f: '*/ 100000 w1 ss'
       },
       {
-        name: 'a2',
-        fmla: 'pin 0 adj2 maxAdj2'
+        n: 'a2',
+        f: 'pin 0 adj2 maxAdj2'
       },
       {
-        name: 'x1',
-        fmla: '*/ ss a2 100000'
+        n: 'x1',
+        f: '*/ ss a2 100000'
       },
       {
-        name: 'x4',
-        fmla: '+- r 0 x1'
+        n: 'x4',
+        f: '+- r 0 x1'
       },
       {
-        name: 'dy1',
-        fmla: '*/ h a1 200000'
+        n: 'dy1',
+        f: '*/ h a1 200000'
       },
       {
-        name: 'dy2',
-        fmla: '*/ h a3 -200000'
+        n: 'dy2',
+        f: '*/ h a3 -200000'
       },
       {
-        name: 'ly1',
-        fmla: '+- vc dy2 dy1'
+        n: 'ly1',
+        f: '+- vc dy2 dy1'
       },
       {
-        name: 'ry4',
-        fmla: '+- vc dy1 dy2'
+        n: 'ry4',
+        f: '+- vc dy1 dy2'
       },
       {
-        name: 'ly2',
-        fmla: '+- ly1 dy1 0'
+        n: 'ly2',
+        f: '+- ly1 dy1 0'
       },
       {
-        name: 'ry3',
-        fmla: '+- b 0 ly2'
+        n: 'ry3',
+        f: '+- b 0 ly2'
       },
       {
-        name: 'ly4',
-        fmla: '*/ ly2 2 1'
+        n: 'ly4',
+        f: '*/ ly2 2 1'
       },
       {
-        name: 'ry1',
-        fmla: '+- b 0 ly4'
+        n: 'ry1',
+        f: '+- b 0 ly4'
       },
       {
-        name: 'ly3',
-        fmla: '+- ly4 0 ly1'
+        n: 'ly3',
+        f: '+- ly4 0 ly1'
       },
       {
-        name: 'ry2',
-        fmla: '+- b 0 ly3'
+        n: 'ry2',
+        f: '+- b 0 ly3'
       },
       {
-        name: 'hR',
-        fmla: '*/ a3 ss 400000'
+        n: 'hR',
+        f: '*/ a3 ss 400000'
       },
       {
-        name: 'x2',
-        fmla: '+- hc 0 wd32'
+        n: 'x2',
+        f: '+- hc 0 wd32'
       },
       {
-        name: 'x3',
-        fmla: '+- hc wd32 0'
+        n: 'x3',
+        f: '+- hc wd32 0'
       },
       {
-        name: 'y1',
-        fmla: '+- ly1 hR 0'
+        n: 'y1',
+        f: '+- ly1 hR 0'
       },
       {
-        name: 'y2',
-        fmla: '+- ry2 0 hR'
+        n: 'y2',
+        f: '+- ry2 0 hR'
       }
     ],
     pathLst: [
@@ -24786,102 +24786,102 @@ export const presetShape: Record<string, Shape> = {
   leftRightUpArrow: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 25000'
+        n: 'adj1',
+        f: 'val 25000'
       },
       {
-        name: 'adj2',
-        fmla: 'val 25000'
+        n: 'adj2',
+        f: 'val 25000'
       },
       {
-        name: 'adj3',
-        fmla: 'val 25000'
+        n: 'adj3',
+        f: 'val 25000'
       }
     ],
     gdLst: [
       {
-        name: 'a2',
-        fmla: 'pin 0 adj2 50000'
+        n: 'a2',
+        f: 'pin 0 adj2 50000'
       },
       {
-        name: 'maxAdj1',
-        fmla: '*/ a2 2 1'
+        n: 'maxAdj1',
+        f: '*/ a2 2 1'
       },
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 maxAdj1'
+        n: 'a1',
+        f: 'pin 0 adj1 maxAdj1'
       },
       {
-        name: 'q1',
-        fmla: '+- 100000 0 maxAdj1'
+        n: 'q1',
+        f: '+- 100000 0 maxAdj1'
       },
       {
-        name: 'maxAdj3',
-        fmla: '*/ q1 1 2'
+        n: 'maxAdj3',
+        f: '*/ q1 1 2'
       },
       {
-        name: 'a3',
-        fmla: 'pin 0 adj3 maxAdj3'
+        n: 'a3',
+        f: 'pin 0 adj3 maxAdj3'
       },
       {
-        name: 'x1',
-        fmla: '*/ ss a3 100000'
+        n: 'x1',
+        f: '*/ ss a3 100000'
       },
       {
-        name: 'dx2',
-        fmla: '*/ ss a2 100000'
+        n: 'dx2',
+        f: '*/ ss a2 100000'
       },
       {
-        name: 'x2',
-        fmla: '+- hc 0 dx2'
+        n: 'x2',
+        f: '+- hc 0 dx2'
       },
       {
-        name: 'x5',
-        fmla: '+- hc dx2 0'
+        n: 'x5',
+        f: '+- hc dx2 0'
       },
       {
-        name: 'dx3',
-        fmla: '*/ ss a1 200000'
+        n: 'dx3',
+        f: '*/ ss a1 200000'
       },
       {
-        name: 'x3',
-        fmla: '+- hc 0 dx3'
+        n: 'x3',
+        f: '+- hc 0 dx3'
       },
       {
-        name: 'x4',
-        fmla: '+- hc dx3 0'
+        n: 'x4',
+        f: '+- hc dx3 0'
       },
       {
-        name: 'x6',
-        fmla: '+- r 0 x1'
+        n: 'x6',
+        f: '+- r 0 x1'
       },
       {
-        name: 'dy2',
-        fmla: '*/ ss a2 50000'
+        n: 'dy2',
+        f: '*/ ss a2 50000'
       },
       {
-        name: 'y2',
-        fmla: '+- b 0 dy2'
+        n: 'y2',
+        f: '+- b 0 dy2'
       },
       {
-        name: 'y4',
-        fmla: '+- b 0 dx2'
+        n: 'y4',
+        f: '+- b 0 dx2'
       },
       {
-        name: 'y3',
-        fmla: '+- y4 0 dx3'
+        n: 'y3',
+        f: '+- y4 0 dx3'
       },
       {
-        name: 'y5',
-        fmla: '+- y4 dx3 0'
+        n: 'y5',
+        f: '+- y4 dx3 0'
       },
       {
-        name: 'il',
-        fmla: '*/ dx3 x1 dx2'
+        n: 'il',
+        f: '*/ dx3 x1 dx2'
       },
       {
-        name: 'ir',
-        fmla: '+- r 0 il'
+        n: 'ir',
+        f: '+- r 0 il'
       }
     ],
     pathLst: [
@@ -25018,98 +25018,98 @@ export const presetShape: Record<string, Shape> = {
   leftUpArrow: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 25000'
+        n: 'adj1',
+        f: 'val 25000'
       },
       {
-        name: 'adj2',
-        fmla: 'val 25000'
+        n: 'adj2',
+        f: 'val 25000'
       },
       {
-        name: 'adj3',
-        fmla: 'val 25000'
+        n: 'adj3',
+        f: 'val 25000'
       }
     ],
     gdLst: [
       {
-        name: 'a2',
-        fmla: 'pin 0 adj2 50000'
+        n: 'a2',
+        f: 'pin 0 adj2 50000'
       },
       {
-        name: 'maxAdj1',
-        fmla: '*/ a2 2 1'
+        n: 'maxAdj1',
+        f: '*/ a2 2 1'
       },
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 maxAdj1'
+        n: 'a1',
+        f: 'pin 0 adj1 maxAdj1'
       },
       {
-        name: 'maxAdj3',
-        fmla: '+- 100000 0 maxAdj1'
+        n: 'maxAdj3',
+        f: '+- 100000 0 maxAdj1'
       },
       {
-        name: 'a3',
-        fmla: 'pin 0 adj3 maxAdj3'
+        n: 'a3',
+        f: 'pin 0 adj3 maxAdj3'
       },
       {
-        name: 'x1',
-        fmla: '*/ ss a3 100000'
+        n: 'x1',
+        f: '*/ ss a3 100000'
       },
       {
-        name: 'dx2',
-        fmla: '*/ ss a2 50000'
+        n: 'dx2',
+        f: '*/ ss a2 50000'
       },
       {
-        name: 'x2',
-        fmla: '+- r 0 dx2'
+        n: 'x2',
+        f: '+- r 0 dx2'
       },
       {
-        name: 'y2',
-        fmla: '+- b 0 dx2'
+        n: 'y2',
+        f: '+- b 0 dx2'
       },
       {
-        name: 'dx4',
-        fmla: '*/ ss a2 100000'
+        n: 'dx4',
+        f: '*/ ss a2 100000'
       },
       {
-        name: 'x4',
-        fmla: '+- r 0 dx4'
+        n: 'x4',
+        f: '+- r 0 dx4'
       },
       {
-        name: 'y4',
-        fmla: '+- b 0 dx4'
+        n: 'y4',
+        f: '+- b 0 dx4'
       },
       {
-        name: 'dx3',
-        fmla: '*/ ss a1 200000'
+        n: 'dx3',
+        f: '*/ ss a1 200000'
       },
       {
-        name: 'x3',
-        fmla: '+- x4 0 dx3'
+        n: 'x3',
+        f: '+- x4 0 dx3'
       },
       {
-        name: 'x5',
-        fmla: '+- x4 dx3 0'
+        n: 'x5',
+        f: '+- x4 dx3 0'
       },
       {
-        name: 'y3',
-        fmla: '+- y4 0 dx3'
+        n: 'y3',
+        f: '+- y4 0 dx3'
       },
       {
-        name: 'y5',
-        fmla: '+- y4 dx3 0'
+        n: 'y5',
+        f: '+- y4 dx3 0'
       },
       {
-        name: 'il',
-        fmla: '*/ dx3 x1 dx4'
+        n: 'il',
+        f: '*/ dx3 x1 dx4'
       },
       {
-        name: 'cx1',
-        fmla: '+/ x1 x5 2'
+        n: 'cx1',
+        f: '+/ x1 x5 2'
       },
       {
-        name: 'cy1',
-        fmla: '+/ x1 y5 2'
+        n: 'cy1',
+        f: '+/ x1 y5 2'
       }
     ],
     pathLst: [
@@ -25211,60 +25211,60 @@ export const presetShape: Record<string, Shape> = {
   lightningBolt: {
     gdLst: [
       {
-        name: 'x1',
-        fmla: '*/ w 5022 21600'
+        n: 'x1',
+        f: '*/ w 5022 21600'
       },
       {
-        name: 'x3',
-        fmla: '*/ w 8472 21600'
+        n: 'x3',
+        f: '*/ w 8472 21600'
       },
       {
-        name: 'x4',
-        fmla: '*/ w 8757 21600'
+        n: 'x4',
+        f: '*/ w 8757 21600'
       },
       {
-        name: 'x5',
-        fmla: '*/ w 10012 21600'
+        n: 'x5',
+        f: '*/ w 10012 21600'
       },
       {
-        name: 'x8',
-        fmla: '*/ w 12860 21600'
+        n: 'x8',
+        f: '*/ w 12860 21600'
       },
       {
-        name: 'x9',
-        fmla: '*/ w 13917 21600'
+        n: 'x9',
+        f: '*/ w 13917 21600'
       },
       {
-        name: 'x11',
-        fmla: '*/ w 16577 21600'
+        n: 'x11',
+        f: '*/ w 16577 21600'
       },
       {
-        name: 'y1',
-        fmla: '*/ h 3890 21600'
+        n: 'y1',
+        f: '*/ h 3890 21600'
       },
       {
-        name: 'y2',
-        fmla: '*/ h 6080 21600'
+        n: 'y2',
+        f: '*/ h 6080 21600'
       },
       {
-        name: 'y4',
-        fmla: '*/ h 7437 21600'
+        n: 'y4',
+        f: '*/ h 7437 21600'
       },
       {
-        name: 'y6',
-        fmla: '*/ h 9705 21600'
+        n: 'y6',
+        f: '*/ h 9705 21600'
       },
       {
-        name: 'y7',
-        fmla: '*/ h 12007 21600'
+        n: 'y7',
+        f: '*/ h 12007 21600'
       },
       {
-        name: 'y10',
-        fmla: '*/ h 14277 21600'
+        n: 'y10',
+        f: '*/ h 14277 21600'
       },
       {
-        name: 'y11',
-        fmla: '*/ h 14915 21600'
+        n: 'y11',
+        f: '*/ h 14915 21600'
       }
     ],
     pathLst: [
@@ -25409,106 +25409,106 @@ export const presetShape: Record<string, Shape> = {
   mathDivide: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 23520'
+        n: 'adj1',
+        f: 'val 23520'
       },
       {
-        name: 'adj2',
-        fmla: 'val 5880'
+        n: 'adj2',
+        f: 'val 5880'
       },
       {
-        name: 'adj3',
-        fmla: 'val 11760'
+        n: 'adj3',
+        f: 'val 11760'
       }
     ],
     gdLst: [
       {
-        name: 'a1',
-        fmla: 'pin 1000 adj1 36745'
+        n: 'a1',
+        f: 'pin 1000 adj1 36745'
       },
       {
-        name: 'ma1',
-        fmla: '+- 0 0 a1'
+        n: 'ma1',
+        f: '+- 0 0 a1'
       },
       {
-        name: 'ma3h',
-        fmla: '+/ 73490 ma1 4'
+        n: 'ma3h',
+        f: '+/ 73490 ma1 4'
       },
       {
-        name: 'ma3w',
-        fmla: '*/ 36745 w h'
+        n: 'ma3w',
+        f: '*/ 36745 w h'
       },
       {
-        name: 'maxAdj3',
-        fmla: 'min ma3h ma3w'
+        n: 'maxAdj3',
+        f: 'min ma3h ma3w'
       },
       {
-        name: 'a3',
-        fmla: 'pin 1000 adj3 maxAdj3'
+        n: 'a3',
+        f: 'pin 1000 adj3 maxAdj3'
       },
       {
-        name: 'm4a3',
-        fmla: '*/ -4 a3 1'
+        n: 'm4a3',
+        f: '*/ -4 a3 1'
       },
       {
-        name: 'maxAdj2',
-        fmla: '+- 73490 m4a3 a1'
+        n: 'maxAdj2',
+        f: '+- 73490 m4a3 a1'
       },
       {
-        name: 'a2',
-        fmla: 'pin 0 adj2 maxAdj2'
+        n: 'a2',
+        f: 'pin 0 adj2 maxAdj2'
       },
       {
-        name: 'dy1',
-        fmla: '*/ h a1 200000'
+        n: 'dy1',
+        f: '*/ h a1 200000'
       },
       {
-        name: 'yg',
-        fmla: '*/ h a2 100000'
+        n: 'yg',
+        f: '*/ h a2 100000'
       },
       {
-        name: 'rad',
-        fmla: '*/ h a3 100000'
+        n: 'rad',
+        f: '*/ h a3 100000'
       },
       {
-        name: 'dx1',
-        fmla: '*/ w 73490 200000'
+        n: 'dx1',
+        f: '*/ w 73490 200000'
       },
       {
-        name: 'y3',
-        fmla: '+- vc 0 dy1'
+        n: 'y3',
+        f: '+- vc 0 dy1'
       },
       {
-        name: 'y4',
-        fmla: '+- vc dy1 0'
+        n: 'y4',
+        f: '+- vc dy1 0'
       },
       {
-        name: 'a',
-        fmla: '+- yg rad 0'
+        n: 'a',
+        f: '+- yg rad 0'
       },
       {
-        name: 'y2',
-        fmla: '+- y3 0 a'
+        n: 'y2',
+        f: '+- y3 0 a'
       },
       {
-        name: 'y1',
-        fmla: '+- y2 0 rad'
+        n: 'y1',
+        f: '+- y2 0 rad'
       },
       {
-        name: 'y5',
-        fmla: '+- b 0 y1'
+        n: 'y5',
+        f: '+- b 0 y1'
       },
       {
-        name: 'x1',
-        fmla: '+- hc 0 dx1'
+        n: 'x1',
+        f: '+- hc 0 dx1'
       },
       {
-        name: 'x3',
-        fmla: '+- hc dx1 0'
+        n: 'x3',
+        f: '+- hc dx1 0'
       },
       {
-        name: 'x2',
-        fmla: '+- hc 0 rad'
+        n: 'x2',
+        f: '+- hc 0 rad'
       }
     ],
     pathLst: [
@@ -25588,74 +25588,74 @@ export const presetShape: Record<string, Shape> = {
   mathEqual: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 23520'
+        n: 'adj1',
+        f: 'val 23520'
       },
       {
-        name: 'adj2',
-        fmla: 'val 11760'
+        n: 'adj2',
+        f: 'val 11760'
       }
     ],
     gdLst: [
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 36745'
+        n: 'a1',
+        f: 'pin 0 adj1 36745'
       },
       {
-        name: '2a1',
-        fmla: '*/ a1 2 1'
+        n: '2a1',
+        f: '*/ a1 2 1'
       },
       {
-        name: 'mAdj2',
-        fmla: '+- 100000 0 2a1'
+        n: 'mAdj2',
+        f: '+- 100000 0 2a1'
       },
       {
-        name: 'a2',
-        fmla: 'pin 0 adj2 mAdj2'
+        n: 'a2',
+        f: 'pin 0 adj2 mAdj2'
       },
       {
-        name: 'dy1',
-        fmla: '*/ h a1 100000'
+        n: 'dy1',
+        f: '*/ h a1 100000'
       },
       {
-        name: 'dy2',
-        fmla: '*/ h a2 200000'
+        n: 'dy2',
+        f: '*/ h a2 200000'
       },
       {
-        name: 'dx1',
-        fmla: '*/ w 73490 200000'
+        n: 'dx1',
+        f: '*/ w 73490 200000'
       },
       {
-        name: 'y2',
-        fmla: '+- vc 0 dy2'
+        n: 'y2',
+        f: '+- vc 0 dy2'
       },
       {
-        name: 'y3',
-        fmla: '+- vc dy2 0'
+        n: 'y3',
+        f: '+- vc dy2 0'
       },
       {
-        name: 'y1',
-        fmla: '+- y2 0 dy1'
+        n: 'y1',
+        f: '+- y2 0 dy1'
       },
       {
-        name: 'y4',
-        fmla: '+- y3 dy1 0'
+        n: 'y4',
+        f: '+- y3 dy1 0'
       },
       {
-        name: 'x1',
-        fmla: '+- hc 0 dx1'
+        n: 'x1',
+        f: '+- hc 0 dx1'
       },
       {
-        name: 'x2',
-        fmla: '+- hc dx1 0'
+        n: 'x2',
+        f: '+- hc dx1 0'
       },
       {
-        name: 'yC1',
-        fmla: '+/ y1 y2 2'
+        n: 'yC1',
+        f: '+/ y1 y2 2'
       },
       {
-        name: 'yC2',
-        fmla: '+/ y3 y4 2'
+        n: 'yC2',
+        f: '+/ y3 y4 2'
       }
     ],
     pathLst: [
@@ -25732,38 +25732,38 @@ export const presetShape: Record<string, Shape> = {
   mathMinus: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 23520'
+        n: 'adj1',
+        f: 'val 23520'
       }
     ],
     gdLst: [
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 100000'
+        n: 'a1',
+        f: 'pin 0 adj1 100000'
       },
       {
-        name: 'dy1',
-        fmla: '*/ h a1 200000'
+        n: 'dy1',
+        f: '*/ h a1 200000'
       },
       {
-        name: 'dx1',
-        fmla: '*/ w 73490 200000'
+        n: 'dx1',
+        f: '*/ w 73490 200000'
       },
       {
-        name: 'y1',
-        fmla: '+- vc 0 dy1'
+        n: 'y1',
+        f: '+- vc 0 dy1'
       },
       {
-        name: 'y2',
-        fmla: '+- vc dy1 0'
+        n: 'y2',
+        f: '+- vc dy1 0'
       },
       {
-        name: 'x1',
-        fmla: '+- hc 0 dx1'
+        n: 'x1',
+        f: '+- hc 0 dx1'
       },
       {
-        name: 'x2',
-        fmla: '+- hc dx1 0'
+        n: 'x2',
+        f: '+- hc dx1 0'
       }
     ],
     pathLst: [
@@ -25809,134 +25809,134 @@ export const presetShape: Record<string, Shape> = {
   mathMultiply: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 23520'
+        n: 'adj1',
+        f: 'val 23520'
       }
     ],
     gdLst: [
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 51965'
+        n: 'a1',
+        f: 'pin 0 adj1 51965'
       },
       {
-        name: 'th',
-        fmla: '*/ ss a1 100000'
+        n: 'th',
+        f: '*/ ss a1 100000'
       },
       {
-        name: 'a',
-        fmla: 'at2 w h'
+        n: 'a',
+        f: 'at2 w h'
       },
       {
-        name: 'sa',
-        fmla: 'sin 1 a'
+        n: 'sa',
+        f: 'sin 1 a'
       },
       {
-        name: 'ca',
-        fmla: 'cos 1 a'
+        n: 'ca',
+        f: 'cos 1 a'
       },
       {
-        name: 'ta',
-        fmla: 'tan 1 a'
+        n: 'ta',
+        f: 'tan 1 a'
       },
       {
-        name: 'dl',
-        fmla: 'mod w h 0'
+        n: 'dl',
+        f: 'mod w h 0'
       },
       {
-        name: 'rw',
-        fmla: '*/ dl 51965 100000'
+        n: 'rw',
+        f: '*/ dl 51965 100000'
       },
       {
-        name: 'lM',
-        fmla: '+- dl 0 rw'
+        n: 'lM',
+        f: '+- dl 0 rw'
       },
       {
-        name: 'xM',
-        fmla: '*/ ca lM 2'
+        n: 'xM',
+        f: '*/ ca lM 2'
       },
       {
-        name: 'yM',
-        fmla: '*/ sa lM 2'
+        n: 'yM',
+        f: '*/ sa lM 2'
       },
       {
-        name: 'dxAM',
-        fmla: '*/ sa th 2'
+        n: 'dxAM',
+        f: '*/ sa th 2'
       },
       {
-        name: 'dyAM',
-        fmla: '*/ ca th 2'
+        n: 'dyAM',
+        f: '*/ ca th 2'
       },
       {
-        name: 'xA',
-        fmla: '+- xM 0 dxAM'
+        n: 'xA',
+        f: '+- xM 0 dxAM'
       },
       {
-        name: 'yA',
-        fmla: '+- yM dyAM 0'
+        n: 'yA',
+        f: '+- yM dyAM 0'
       },
       {
-        name: 'xB',
-        fmla: '+- xM dxAM 0'
+        n: 'xB',
+        f: '+- xM dxAM 0'
       },
       {
-        name: 'yB',
-        fmla: '+- yM 0 dyAM'
+        n: 'yB',
+        f: '+- yM 0 dyAM'
       },
       {
-        name: 'xBC',
-        fmla: '+- hc 0 xB'
+        n: 'xBC',
+        f: '+- hc 0 xB'
       },
       {
-        name: 'yBC',
-        fmla: '*/ xBC ta 1'
+        n: 'yBC',
+        f: '*/ xBC ta 1'
       },
       {
-        name: 'yC',
-        fmla: '+- yBC yB 0'
+        n: 'yC',
+        f: '+- yBC yB 0'
       },
       {
-        name: 'xD',
-        fmla: '+- r 0 xB'
+        n: 'xD',
+        f: '+- r 0 xB'
       },
       {
-        name: 'xE',
-        fmla: '+- r 0 xA'
+        n: 'xE',
+        f: '+- r 0 xA'
       },
       {
-        name: 'yFE',
-        fmla: '+- vc 0 yA'
+        n: 'yFE',
+        f: '+- vc 0 yA'
       },
       {
-        name: 'xFE',
-        fmla: '*/ yFE 1 ta'
+        n: 'xFE',
+        f: '*/ yFE 1 ta'
       },
       {
-        name: 'xF',
-        fmla: '+- xE 0 xFE'
+        n: 'xF',
+        f: '+- xE 0 xFE'
       },
       {
-        name: 'xL',
-        fmla: '+- xA xFE 0'
+        n: 'xL',
+        f: '+- xA xFE 0'
       },
       {
-        name: 'yG',
-        fmla: '+- b 0 yA'
+        n: 'yG',
+        f: '+- b 0 yA'
       },
       {
-        name: 'yH',
-        fmla: '+- b 0 yB'
+        n: 'yH',
+        f: '+- b 0 yB'
       },
       {
-        name: 'yI',
-        fmla: '+- b 0 yC'
+        n: 'yI',
+        f: '+- b 0 yC'
       },
       {
-        name: 'xC2',
-        fmla: '+- r 0 xM'
+        n: 'xC2',
+        f: '+- r 0 xM'
       },
       {
-        name: 'yC3',
-        fmla: '+- b 0 yM'
+        n: 'yC3',
+        f: '+- b 0 yM'
       }
     ],
     pathLst: [
@@ -26038,238 +26038,238 @@ export const presetShape: Record<string, Shape> = {
   mathNotEqual: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 23520'
+        n: 'adj1',
+        f: 'val 23520'
       },
       {
-        name: 'adj2',
-        fmla: 'val 6600000'
+        n: 'adj2',
+        f: 'val 6600000'
       },
       {
-        name: 'adj3',
-        fmla: 'val 11760'
+        n: 'adj3',
+        f: 'val 11760'
       }
     ],
     gdLst: [
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 50000'
+        n: 'a1',
+        f: 'pin 0 adj1 50000'
       },
       {
-        name: 'crAng',
-        fmla: 'pin 4200000 adj2 6600000'
+        n: 'crAng',
+        f: 'pin 4200000 adj2 6600000'
       },
       {
-        name: '2a1',
-        fmla: '*/ a1 2 1'
+        n: '2a1',
+        f: '*/ a1 2 1'
       },
       {
-        name: 'maxAdj3',
-        fmla: '+- 100000 0 2a1'
+        n: 'maxAdj3',
+        f: '+- 100000 0 2a1'
       },
       {
-        name: 'a3',
-        fmla: 'pin 0 adj3 maxAdj3'
+        n: 'a3',
+        f: 'pin 0 adj3 maxAdj3'
       },
       {
-        name: 'dy1',
-        fmla: '*/ h a1 100000'
+        n: 'dy1',
+        f: '*/ h a1 100000'
       },
       {
-        name: 'dy2',
-        fmla: '*/ h a3 200000'
+        n: 'dy2',
+        f: '*/ h a3 200000'
       },
       {
-        name: 'dx1',
-        fmla: '*/ w 73490 200000'
+        n: 'dx1',
+        f: '*/ w 73490 200000'
       },
       {
-        name: 'x1',
-        fmla: '+- hc 0 dx1'
+        n: 'x1',
+        f: '+- hc 0 dx1'
       },
       {
-        name: 'x8',
-        fmla: '+- hc dx1 0'
+        n: 'x8',
+        f: '+- hc dx1 0'
       },
       {
-        name: 'y2',
-        fmla: '+- vc 0 dy2'
+        n: 'y2',
+        f: '+- vc 0 dy2'
       },
       {
-        name: 'y3',
-        fmla: '+- vc dy2 0'
+        n: 'y3',
+        f: '+- vc dy2 0'
       },
       {
-        name: 'y1',
-        fmla: '+- y2 0 dy1'
+        n: 'y1',
+        f: '+- y2 0 dy1'
       },
       {
-        name: 'y4',
-        fmla: '+- y3 dy1 0'
+        n: 'y4',
+        f: '+- y3 dy1 0'
       },
       {
-        name: 'cadj2',
-        fmla: '+- crAng 0 cd4'
+        n: 'cadj2',
+        f: '+- crAng 0 cd4'
       },
       {
-        name: 'xadj2',
-        fmla: 'tan hd2 cadj2'
+        n: 'xadj2',
+        f: 'tan hd2 cadj2'
       },
       {
-        name: 'len',
-        fmla: 'mod xadj2 hd2 0'
+        n: 'len',
+        f: 'mod xadj2 hd2 0'
       },
       {
-        name: 'bhw',
-        fmla: '*/ len dy1 hd2'
+        n: 'bhw',
+        f: '*/ len dy1 hd2'
       },
       {
-        name: 'bhw2',
-        fmla: '*/ bhw 1 2'
+        n: 'bhw2',
+        f: '*/ bhw 1 2'
       },
       {
-        name: 'x7',
-        fmla: '+- hc xadj2 bhw2'
+        n: 'x7',
+        f: '+- hc xadj2 bhw2'
       },
       {
-        name: 'dx67',
-        fmla: '*/ xadj2 y1 hd2'
+        n: 'dx67',
+        f: '*/ xadj2 y1 hd2'
       },
       {
-        name: 'x6',
-        fmla: '+- x7 0 dx67'
+        n: 'x6',
+        f: '+- x7 0 dx67'
       },
       {
-        name: 'dx57',
-        fmla: '*/ xadj2 y2 hd2'
+        n: 'dx57',
+        f: '*/ xadj2 y2 hd2'
       },
       {
-        name: 'x5',
-        fmla: '+- x7 0 dx57'
+        n: 'x5',
+        f: '+- x7 0 dx57'
       },
       {
-        name: 'dx47',
-        fmla: '*/ xadj2 y3 hd2'
+        n: 'dx47',
+        f: '*/ xadj2 y3 hd2'
       },
       {
-        name: 'x4',
-        fmla: '+- x7 0 dx47'
+        n: 'x4',
+        f: '+- x7 0 dx47'
       },
       {
-        name: 'dx37',
-        fmla: '*/ xadj2 y4 hd2'
+        n: 'dx37',
+        f: '*/ xadj2 y4 hd2'
       },
       {
-        name: 'x3',
-        fmla: '+- x7 0 dx37'
+        n: 'x3',
+        f: '+- x7 0 dx37'
       },
       {
-        name: 'dx27',
-        fmla: '*/ xadj2 2 1'
+        n: 'dx27',
+        f: '*/ xadj2 2 1'
       },
       {
-        name: 'x2',
-        fmla: '+- x7 0 dx27'
+        n: 'x2',
+        f: '+- x7 0 dx27'
       },
       {
-        name: 'rx7',
-        fmla: '+- x7 bhw 0'
+        n: 'rx7',
+        f: '+- x7 bhw 0'
       },
       {
-        name: 'rx6',
-        fmla: '+- x6 bhw 0'
+        n: 'rx6',
+        f: '+- x6 bhw 0'
       },
       {
-        name: 'rx5',
-        fmla: '+- x5 bhw 0'
+        n: 'rx5',
+        f: '+- x5 bhw 0'
       },
       {
-        name: 'rx4',
-        fmla: '+- x4 bhw 0'
+        n: 'rx4',
+        f: '+- x4 bhw 0'
       },
       {
-        name: 'rx3',
-        fmla: '+- x3 bhw 0'
+        n: 'rx3',
+        f: '+- x3 bhw 0'
       },
       {
-        name: 'rx2',
-        fmla: '+- x2 bhw 0'
+        n: 'rx2',
+        f: '+- x2 bhw 0'
       },
       {
-        name: 'dx7',
-        fmla: '*/ dy1 hd2 len'
+        n: 'dx7',
+        f: '*/ dy1 hd2 len'
       },
       {
-        name: 'rxt',
-        fmla: '+- x7 dx7 0'
+        n: 'rxt',
+        f: '+- x7 dx7 0'
       },
       {
-        name: 'lxt',
-        fmla: '+- rx7 0 dx7'
+        n: 'lxt',
+        f: '+- rx7 0 dx7'
       },
       {
-        name: 'rx',
-        fmla: '?: cadj2 rxt rx7'
+        n: 'rx',
+        f: '?: cadj2 rxt rx7'
       },
       {
-        name: 'lx',
-        fmla: '?: cadj2 x7 lxt'
+        n: 'lx',
+        f: '?: cadj2 x7 lxt'
       },
       {
-        name: 'dy3',
-        fmla: '*/ dy1 xadj2 len'
+        n: 'dy3',
+        f: '*/ dy1 xadj2 len'
       },
       {
-        name: 'dy4',
-        fmla: '+- 0 0 dy3'
+        n: 'dy4',
+        f: '+- 0 0 dy3'
       },
       {
-        name: 'ry',
-        fmla: '?: cadj2 dy3 t'
+        n: 'ry',
+        f: '?: cadj2 dy3 t'
       },
       {
-        name: 'ly',
-        fmla: '?: cadj2 t dy4'
+        n: 'ly',
+        f: '?: cadj2 t dy4'
       },
       {
-        name: 'dlx',
-        fmla: '+- w 0 rx'
+        n: 'dlx',
+        f: '+- w 0 rx'
       },
       {
-        name: 'drx',
-        fmla: '+- w 0 lx'
+        n: 'drx',
+        f: '+- w 0 lx'
       },
       {
-        name: 'dly',
-        fmla: '+- h 0 ry'
+        n: 'dly',
+        f: '+- h 0 ry'
       },
       {
-        name: 'dry',
-        fmla: '+- h 0 ly'
+        n: 'dry',
+        f: '+- h 0 ly'
       },
       {
-        name: 'xC1',
-        fmla: '+/ rx lx 2'
+        n: 'xC1',
+        f: '+/ rx lx 2'
       },
       {
-        name: 'xC2',
-        fmla: '+/ drx dlx 2'
+        n: 'xC2',
+        f: '+/ drx dlx 2'
       },
       {
-        name: 'yC1',
-        fmla: '+/ ry ly 2'
+        n: 'yC1',
+        f: '+/ ry ly 2'
       },
       {
-        name: 'yC2',
-        fmla: '+/ y1 y2 2'
+        n: 'yC2',
+        f: '+/ y1 y2 2'
       },
       {
-        name: 'yC3',
-        fmla: '+/ y3 y4 2'
+        n: 'yC3',
+        f: '+/ y3 y4 2'
       },
       {
-        name: 'yC4',
-        fmla: '+/ dry dly 2'
+        n: 'yC4',
+        f: '+/ dry dly 2'
       }
     ],
     pathLst: [
@@ -26427,58 +26427,58 @@ export const presetShape: Record<string, Shape> = {
   mathPlus: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 23520'
+        n: 'adj1',
+        f: 'val 23520'
       }
     ],
     gdLst: [
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 73490'
+        n: 'a1',
+        f: 'pin 0 adj1 73490'
       },
       {
-        name: 'dx1',
-        fmla: '*/ w 73490 200000'
+        n: 'dx1',
+        f: '*/ w 73490 200000'
       },
       {
-        name: 'dy1',
-        fmla: '*/ h 73490 200000'
+        n: 'dy1',
+        f: '*/ h 73490 200000'
       },
       {
-        name: 'dx2',
-        fmla: '*/ ss a1 200000'
+        n: 'dx2',
+        f: '*/ ss a1 200000'
       },
       {
-        name: 'x1',
-        fmla: '+- hc 0 dx1'
+        n: 'x1',
+        f: '+- hc 0 dx1'
       },
       {
-        name: 'x2',
-        fmla: '+- hc 0 dx2'
+        n: 'x2',
+        f: '+- hc 0 dx2'
       },
       {
-        name: 'x3',
-        fmla: '+- hc dx2 0'
+        n: 'x3',
+        f: '+- hc dx2 0'
       },
       {
-        name: 'x4',
-        fmla: '+- hc dx1 0'
+        n: 'x4',
+        f: '+- hc dx1 0'
       },
       {
-        name: 'y1',
-        fmla: '+- vc 0 dy1'
+        n: 'y1',
+        f: '+- vc 0 dy1'
       },
       {
-        name: 'y2',
-        fmla: '+- vc 0 dx2'
+        n: 'y2',
+        f: '+- vc 0 dx2'
       },
       {
-        name: 'y3',
-        fmla: '+- vc dx2 0'
+        n: 'y3',
+        f: '+- vc dx2 0'
       },
       {
-        name: 'y4',
-        fmla: '+- vc dy1 0'
+        n: 'y4',
+        f: '+- vc dy1 0'
       }
     ],
     pathLst: [
@@ -26580,146 +26580,146 @@ export const presetShape: Record<string, Shape> = {
   moon: {
     avLst: [
       {
-        name: 'adj',
-        fmla: 'val 50000'
+        n: 'adj',
+        f: 'val 50000'
       }
     ],
     gdLst: [
       {
-        name: 'a',
-        fmla: 'pin 0 adj 87500'
+        n: 'a',
+        f: 'pin 0 adj 87500'
       },
       {
-        name: 'g0',
-        fmla: '*/ ss a 100000'
+        n: 'g0',
+        f: '*/ ss a 100000'
       },
       {
-        name: 'g0w',
-        fmla: '*/ g0 w ss'
+        n: 'g0w',
+        f: '*/ g0 w ss'
       },
       {
-        name: 'g1',
-        fmla: '+- ss 0 g0'
+        n: 'g1',
+        f: '+- ss 0 g0'
       },
       {
-        name: 'g2',
-        fmla: '*/ g0 g0 g1'
+        n: 'g2',
+        f: '*/ g0 g0 g1'
       },
       {
-        name: 'g3',
-        fmla: '*/ ss ss g1'
+        n: 'g3',
+        f: '*/ ss ss g1'
       },
       {
-        name: 'g4',
-        fmla: '*/ g3 2 1'
+        n: 'g4',
+        f: '*/ g3 2 1'
       },
       {
-        name: 'g5',
-        fmla: '+- g4 0 g2'
+        n: 'g5',
+        f: '+- g4 0 g2'
       },
       {
-        name: 'g6',
-        fmla: '+- g5 0 g0'
+        n: 'g6',
+        f: '+- g5 0 g0'
       },
       {
-        name: 'g6w',
-        fmla: '*/ g6 w ss'
+        n: 'g6w',
+        f: '*/ g6 w ss'
       },
       {
-        name: 'g7',
-        fmla: '*/ g5 1 2'
+        n: 'g7',
+        f: '*/ g5 1 2'
       },
       {
-        name: 'g8',
-        fmla: '+- g7 0 g0'
+        n: 'g8',
+        f: '+- g7 0 g0'
       },
       {
-        name: 'dy1',
-        fmla: '*/ g8 hd2 ss'
+        n: 'dy1',
+        f: '*/ g8 hd2 ss'
       },
       {
-        name: 'g10h',
-        fmla: '+- vc 0 dy1'
+        n: 'g10h',
+        f: '+- vc 0 dy1'
       },
       {
-        name: 'g11h',
-        fmla: '+- vc dy1 0'
+        n: 'g11h',
+        f: '+- vc dy1 0'
       },
       {
-        name: 'g12',
-        fmla: '*/ g0 9598 32768'
+        n: 'g12',
+        f: '*/ g0 9598 32768'
       },
       {
-        name: 'g12w',
-        fmla: '*/ g12 w ss'
+        n: 'g12w',
+        f: '*/ g12 w ss'
       },
       {
-        name: 'g13',
-        fmla: '+- ss 0 g12'
+        n: 'g13',
+        f: '+- ss 0 g12'
       },
       {
-        name: 'q1',
-        fmla: '*/ ss ss 1'
+        n: 'q1',
+        f: '*/ ss ss 1'
       },
       {
-        name: 'q2',
-        fmla: '*/ g13 g13 1'
+        n: 'q2',
+        f: '*/ g13 g13 1'
       },
       {
-        name: 'q3',
-        fmla: '+- q1 0 q2'
+        n: 'q3',
+        f: '+- q1 0 q2'
       },
       {
-        name: 'q4',
-        fmla: 'sqrt q3'
+        n: 'q4',
+        f: 'sqrt q3'
       },
       {
-        name: 'dy4',
-        fmla: '*/ q4 hd2 ss'
+        n: 'dy4',
+        f: '*/ q4 hd2 ss'
       },
       {
-        name: 'g15h',
-        fmla: '+- vc 0 dy4'
+        n: 'g15h',
+        f: '+- vc 0 dy4'
       },
       {
-        name: 'g16h',
-        fmla: '+- vc dy4 0'
+        n: 'g16h',
+        f: '+- vc dy4 0'
       },
       {
-        name: 'g17w',
-        fmla: '+- g6w 0 g0w'
+        n: 'g17w',
+        f: '+- g6w 0 g0w'
       },
       {
-        name: 'g18w',
-        fmla: '*/ g17w 1 2'
+        n: 'g18w',
+        f: '*/ g17w 1 2'
       },
       {
-        name: 'dx2p',
-        fmla: '+- g0w g18w w'
+        n: 'dx2p',
+        f: '+- g0w g18w w'
       },
       {
-        name: 'dx2',
-        fmla: '*/ dx2p -1 1'
+        n: 'dx2',
+        f: '*/ dx2p -1 1'
       },
       {
-        name: 'dy2',
-        fmla: '*/ hd2 -1 1'
+        n: 'dy2',
+        f: '*/ hd2 -1 1'
       },
       {
-        name: 'stAng1',
-        fmla: 'at2 dx2 dy2'
+        n: 'stAng1',
+        f: 'at2 dx2 dy2'
       },
       {
-        name: 'enAngp1',
-        fmla: 'at2 dx2 hd2'
+        n: 'enAngp1',
+        f: 'at2 dx2 hd2'
       },
       {
-        name: 'enAng1',
-        fmla: '+- enAngp1 0 21600000'
+        n: 'enAng1',
+        f: '+- enAngp1 0 21600000'
       },
       {
-        name: 'swAng1',
-        fmla: '+- enAng1 0 stAng1'
+        n: 'swAng1',
+        f: '+- enAng1 0 stAng1'
       }
     ],
     pathLst: [
@@ -26758,66 +26758,66 @@ export const presetShape: Record<string, Shape> = {
   nonIsoscelesTrapezoid: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 25000'
+        n: 'adj1',
+        f: 'val 25000'
       },
       {
-        name: 'adj2',
-        fmla: 'val 25000'
+        n: 'adj2',
+        f: 'val 25000'
       }
     ],
     gdLst: [
       {
-        name: 'maxAdj',
-        fmla: '*/ 50000 w ss'
+        n: 'maxAdj',
+        f: '*/ 50000 w ss'
       },
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 maxAdj'
+        n: 'a1',
+        f: 'pin 0 adj1 maxAdj'
       },
       {
-        name: 'a2',
-        fmla: 'pin 0 adj2 maxAdj'
+        n: 'a2',
+        f: 'pin 0 adj2 maxAdj'
       },
       {
-        name: 'x1',
-        fmla: '*/ ss a1 200000'
+        n: 'x1',
+        f: '*/ ss a1 200000'
       },
       {
-        name: 'x2',
-        fmla: '*/ ss a1 100000'
+        n: 'x2',
+        f: '*/ ss a1 100000'
       },
       {
-        name: 'dx3',
-        fmla: '*/ ss a2 100000'
+        n: 'dx3',
+        f: '*/ ss a2 100000'
       },
       {
-        name: 'x3',
-        fmla: '+- r 0 dx3'
+        n: 'x3',
+        f: '+- r 0 dx3'
       },
       {
-        name: 'x4',
-        fmla: '+/ r x3 2'
+        n: 'x4',
+        f: '+/ r x3 2'
       },
       {
-        name: 'il',
-        fmla: '*/ wd3 a1 maxAdj'
+        n: 'il',
+        f: '*/ wd3 a1 maxAdj'
       },
       {
-        name: 'adjm',
-        fmla: 'max a1 a2'
+        n: 'adjm',
+        f: 'max a1 a2'
       },
       {
-        name: 'it',
-        fmla: '*/ hd3 adjm maxAdj'
+        n: 'it',
+        f: '*/ hd3 adjm maxAdj'
       },
       {
-        name: 'irt',
-        fmla: '*/ wd3 a2 maxAdj'
+        n: 'irt',
+        f: '*/ wd3 a2 maxAdj'
       },
       {
-        name: 'ir',
-        fmla: '+- r 0 irt'
+        n: 'ir',
+        f: '+- r 0 irt'
       }
     ],
     pathLst: [
@@ -26863,138 +26863,138 @@ export const presetShape: Record<string, Shape> = {
   noSmoking: {
     avLst: [
       {
-        name: 'adj',
-        fmla: 'val 18750'
+        n: 'adj',
+        f: 'val 18750'
       }
     ],
     gdLst: [
       {
-        name: 'a',
-        fmla: 'pin 0 adj 50000'
+        n: 'a',
+        f: 'pin 0 adj 50000'
       },
       {
-        name: 'dr',
-        fmla: '*/ ss a 100000'
+        n: 'dr',
+        f: '*/ ss a 100000'
       },
       {
-        name: 'iwd2',
-        fmla: '+- wd2 0 dr'
+        n: 'iwd2',
+        f: '+- wd2 0 dr'
       },
       {
-        name: 'ihd2',
-        fmla: '+- hd2 0 dr'
+        n: 'ihd2',
+        f: '+- hd2 0 dr'
       },
       {
-        name: 'ang',
-        fmla: 'at2 w h'
+        n: 'ang',
+        f: 'at2 w h'
       },
       {
-        name: 'ct',
-        fmla: 'cos ihd2 ang'
+        n: 'ct',
+        f: 'cos ihd2 ang'
       },
       {
-        name: 'st',
-        fmla: 'sin iwd2 ang'
+        n: 'st',
+        f: 'sin iwd2 ang'
       },
       {
-        name: 'm',
-        fmla: 'mod ct st 0'
+        n: 'm',
+        f: 'mod ct st 0'
       },
       {
-        name: 'n',
-        fmla: '*/ iwd2 ihd2 m'
+        n: 'n',
+        f: '*/ iwd2 ihd2 m'
       },
       {
-        name: 'drd2',
-        fmla: '*/ dr 1 2'
+        n: 'drd2',
+        f: '*/ dr 1 2'
       },
       {
-        name: 'dang',
-        fmla: 'at2 n drd2'
+        n: 'dang',
+        f: 'at2 n drd2'
       },
       {
-        name: '2dang',
-        fmla: '*/ dang 2 1'
+        n: 'dang2',
+        f: '*/ dang 2 1'
       },
       {
-        name: 'swAng',
-        fmla: '+- -10800000 2dang 0'
+        n: 'swAng',
+        f: '+- -10800000 dang2 0'
       },
       {
-        name: 't3',
-        fmla: 'at2 w h'
+        n: 't3',
+        f: 'at2 w h'
       },
       {
-        name: 'stAng1',
-        fmla: '+- t3 0 dang'
+        n: 'stAng1',
+        f: '+- t3 0 dang'
       },
       {
-        name: 'stAng2',
-        fmla: '+- stAng1 0 cd2'
+        n: 'stAng2',
+        f: '+- stAng1 0 cd2'
       },
       {
-        name: 'ct1',
-        fmla: 'cos ihd2 stAng1'
+        n: 'ct1',
+        f: 'cos ihd2 stAng1'
       },
       {
-        name: 'st1',
-        fmla: 'sin iwd2 stAng1'
+        n: 'st1',
+        f: 'sin iwd2 stAng1'
       },
       {
-        name: 'm1',
-        fmla: 'mod ct1 st1 0'
+        n: 'm1',
+        f: 'mod ct1 st1 0'
       },
       {
-        name: 'n1',
-        fmla: '*/ iwd2 ihd2 m1'
+        n: 'n1',
+        f: '*/ iwd2 ihd2 m1'
       },
       {
-        name: 'dx1',
-        fmla: 'cos n1 stAng1'
+        n: 'dx1',
+        f: 'cos n1 stAng1'
       },
       {
-        name: 'dy1',
-        fmla: 'sin n1 stAng1'
+        n: 'dy1',
+        f: 'sin n1 stAng1'
       },
       {
-        name: 'x1',
-        fmla: '+- hc dx1 0'
+        n: 'x1',
+        f: '+- hc dx1 0'
       },
       {
-        name: 'y1',
-        fmla: '+- vc dy1 0'
+        n: 'y1',
+        f: '+- vc dy1 0'
       },
       {
-        name: 'x2',
-        fmla: '+- hc 0 dx1'
+        n: 'x2',
+        f: '+- hc 0 dx1'
       },
       {
-        name: 'y2',
-        fmla: '+- vc 0 dy1'
+        n: 'y2',
+        f: '+- vc 0 dy1'
       },
       {
-        name: 'idx',
-        fmla: 'cos wd2 2700000'
+        n: 'idx',
+        f: 'cos wd2 2700000'
       },
       {
-        name: 'idy',
-        fmla: 'sin hd2 2700000'
+        n: 'idy',
+        f: 'sin hd2 2700000'
       },
       {
-        name: 'il',
-        fmla: '+- hc 0 idx'
+        n: 'il',
+        f: '+- hc 0 idx'
       },
       {
-        name: 'ir',
-        fmla: '+- hc idx 0'
+        n: 'ir',
+        f: '+- hc idx 0'
       },
       {
-        name: 'it',
-        fmla: '+- vc 0 idy'
+        n: 'it',
+        f: '+- vc 0 idy'
       },
       {
-        name: 'ib',
-        fmla: '+- vc idy 0'
+        n: 'ib',
+        f: '+- vc idy 0'
       }
     ],
     pathLst: [
@@ -27081,54 +27081,54 @@ export const presetShape: Record<string, Shape> = {
   notchedRightArrow: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 50000'
+        n: 'adj1',
+        f: 'val 50000'
       },
       {
-        name: 'adj2',
-        fmla: 'val 50000'
+        n: 'adj2',
+        f: 'val 50000'
       }
     ],
     gdLst: [
       {
-        name: 'maxAdj2',
-        fmla: '*/ 100000 w ss'
+        n: 'maxAdj2',
+        f: '*/ 100000 w ss'
       },
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 100000'
+        n: 'a1',
+        f: 'pin 0 adj1 100000'
       },
       {
-        name: 'a2',
-        fmla: 'pin 0 adj2 maxAdj2'
+        n: 'a2',
+        f: 'pin 0 adj2 maxAdj2'
       },
       {
-        name: 'dx2',
-        fmla: '*/ ss a2 100000'
+        n: 'dx2',
+        f: '*/ ss a2 100000'
       },
       {
-        name: 'x2',
-        fmla: '+- r 0 dx2'
+        n: 'x2',
+        f: '+- r 0 dx2'
       },
       {
-        name: 'dy1',
-        fmla: '*/ h a1 200000'
+        n: 'dy1',
+        f: '*/ h a1 200000'
       },
       {
-        name: 'y1',
-        fmla: '+- vc 0 dy1'
+        n: 'y1',
+        f: '+- vc 0 dy1'
       },
       {
-        name: 'y2',
-        fmla: '+- vc dy1 0'
+        n: 'y2',
+        f: '+- vc dy1 0'
       },
       {
-        name: 'x1',
-        fmla: '*/ dy1 dx2 hd2'
+        n: 'x1',
+        f: '*/ dy1 dx2 hd2'
       },
       {
-        name: 'x3',
-        fmla: '+- r 0 x1'
+        n: 'x3',
+        f: '+- r 0 x1'
       }
     ],
     pathLst: [
@@ -27202,38 +27202,38 @@ export const presetShape: Record<string, Shape> = {
   octagon: {
     avLst: [
       {
-        name: 'adj',
-        fmla: 'val 29289'
+        n: 'adj',
+        f: 'val 29289'
       }
     ],
     gdLst: [
       {
-        name: 'a',
-        fmla: 'pin 0 adj 50000'
+        n: 'a',
+        f: 'pin 0 adj 50000'
       },
       {
-        name: 'x1',
-        fmla: '*/ ss a 100000'
+        n: 'x1',
+        f: '*/ ss a 100000'
       },
       {
-        name: 'x2',
-        fmla: '+- r 0 x1'
+        n: 'x2',
+        f: '+- r 0 x1'
       },
       {
-        name: 'y2',
-        fmla: '+- b 0 x1'
+        n: 'y2',
+        f: '+- b 0 x1'
       },
       {
-        name: 'il',
-        fmla: '*/ x1 1 2'
+        n: 'il',
+        f: '*/ x1 1 2'
       },
       {
-        name: 'ir',
-        fmla: '+- r 0 il'
+        n: 'ir',
+        f: '+- r 0 il'
       },
       {
-        name: 'ib',
-        fmla: '+- b 0 il'
+        n: 'ib',
+        f: '+- b 0 il'
       }
     ],
     pathLst: [
@@ -27307,82 +27307,82 @@ export const presetShape: Record<string, Shape> = {
   parallelogram: {
     avLst: [
       {
-        name: 'adj',
-        fmla: 'val 25000'
+        n: 'adj',
+        f: 'val 25000'
       }
     ],
     gdLst: [
       {
-        name: 'maxAdj',
-        fmla: '*/ 100000 w ss'
+        n: 'maxAdj',
+        f: '*/ 100000 w ss'
       },
       {
-        name: 'a',
-        fmla: 'pin 0 adj maxAdj'
+        n: 'a',
+        f: 'pin 0 adj maxAdj'
       },
       {
-        name: 'x1',
-        fmla: '*/ ss a 200000'
+        n: 'x1',
+        f: '*/ ss a 200000'
       },
       {
-        name: 'x2',
-        fmla: '*/ ss a 100000'
+        n: 'x2',
+        f: '*/ ss a 100000'
       },
       {
-        name: 'x6',
-        fmla: '+- r 0 x1'
+        n: 'x6',
+        f: '+- r 0 x1'
       },
       {
-        name: 'x5',
-        fmla: '+- r 0 x2'
+        n: 'x5',
+        f: '+- r 0 x2'
       },
       {
-        name: 'x3',
-        fmla: '*/ x5 1 2'
+        n: 'x3',
+        f: '*/ x5 1 2'
       },
       {
-        name: 'x4',
-        fmla: '+- r 0 x3'
+        n: 'x4',
+        f: '+- r 0 x3'
       },
       {
-        name: 'il',
-        fmla: '*/ wd2 a maxAdj'
+        n: 'il',
+        f: '*/ wd2 a maxAdj'
       },
       {
-        name: 'q1',
-        fmla: '*/ 5 a maxAdj'
+        n: 'q1',
+        f: '*/ 5 a maxAdj'
       },
       {
-        name: 'q2',
-        fmla: '+/ 1 q1 12'
+        n: 'q2',
+        f: '+/ 1 q1 12'
       },
       {
-        name: 'il',
-        fmla: '*/ q2 w 1'
+        n: 'il',
+        f: '*/ q2 w 1'
       },
       {
-        name: 'it',
-        fmla: '*/ q2 h 1'
+        n: 'it',
+        f: '*/ q2 h 1'
       },
       {
-        name: 'ir',
-        fmla: '+- r 0 il'
+        n: 'ir',
+        f: '+- r 0 il'
       },
       {
-        name: 'ib',
-        fmla: '+- b 0 it'
+        n: 'ib',
+        f: '+- b 0 it'
       },
       {
-        name: 'q3',
-        fmla: '*/ h hc x2'
+        n: 'q3',
+        f: '*/ h hc x2'
       },
       {
-        name: 'y1',
-        fmla: 'pin 0 q3 h'
+        n: 'y1',
+        f: 'pin 0 q3 h'
       },
       {
-        name: 'y2',
-        fmla: '+- b 0 y1'
+        n: 'y2',
+        f: '+- b 0 y1'
       }
     ],
     pathLst: [
@@ -27428,70 +27428,70 @@ export const presetShape: Record<string, Shape> = {
   pentagon: {
     avLst: [
       {
-        name: 'hf',
-        fmla: 'val 105146'
+        n: 'hf',
+        f: 'val 105146'
       },
       {
-        name: 'vf',
-        fmla: 'val 110557'
+        n: 'vf',
+        f: 'val 110557'
       }
     ],
     gdLst: [
       {
-        name: 'swd2',
-        fmla: '*/ wd2 hf 100000'
+        n: 'swd2',
+        f: '*/ wd2 hf 100000'
       },
       {
-        name: 'shd2',
-        fmla: '*/ hd2 vf 100000'
+        n: 'shd2',
+        f: '*/ hd2 vf 100000'
       },
       {
-        name: 'svc',
-        fmla: '*/ vc  vf 100000'
+        n: 'svc',
+        f: '*/ vc  vf 100000'
       },
       {
-        name: 'dx1',
-        fmla: 'cos swd2 1080000'
+        n: 'dx1',
+        f: 'cos swd2 1080000'
       },
       {
-        name: 'dx2',
-        fmla: 'cos swd2 18360000'
+        n: 'dx2',
+        f: 'cos swd2 18360000'
       },
       {
-        name: 'dy1',
-        fmla: 'sin shd2 1080000'
+        n: 'dy1',
+        f: 'sin shd2 1080000'
       },
       {
-        name: 'dy2',
-        fmla: 'sin shd2 18360000'
+        n: 'dy2',
+        f: 'sin shd2 18360000'
       },
       {
-        name: 'x1',
-        fmla: '+- hc 0 dx1'
+        n: 'x1',
+        f: '+- hc 0 dx1'
       },
       {
-        name: 'x2',
-        fmla: '+- hc 0 dx2'
+        n: 'x2',
+        f: '+- hc 0 dx2'
       },
       {
-        name: 'x3',
-        fmla: '+- hc dx2 0'
+        n: 'x3',
+        f: '+- hc dx2 0'
       },
       {
-        name: 'x4',
-        fmla: '+- hc dx1 0'
+        n: 'x4',
+        f: '+- hc dx1 0'
       },
       {
-        name: 'y1',
-        fmla: '+- svc 0 dy1'
+        n: 'y1',
+        f: '+- svc 0 dy1'
       },
       {
-        name: 'y2',
-        fmla: '+- svc 0 dy2'
+        n: 'y2',
+        f: '+- svc 0 dy2'
       },
       {
-        name: 'it',
-        fmla: '*/ y1 dx2 dx1'
+        n: 'it',
+        f: '*/ y1 dx2 dx1'
       }
     ],
     pathLst: [
@@ -27544,106 +27544,106 @@ export const presetShape: Record<string, Shape> = {
   pie: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 0'
+        n: 'adj1',
+        f: 'val 0'
       },
       {
-        name: 'adj2',
-        fmla: 'val 16200000'
+        n: 'adj2',
+        f: 'val 16200000'
       }
     ],
     gdLst: [
       {
-        name: 'stAng',
-        fmla: 'pin 0 adj1 21599999'
+        n: 'stAng',
+        f: 'pin 0 adj1 21599999'
       },
       {
-        name: 'enAng',
-        fmla: 'pin 0 adj2 21599999'
+        n: 'enAng',
+        f: 'pin 0 adj2 21599999'
       },
       {
-        name: 'sw1',
-        fmla: '+- enAng 0 stAng'
+        n: 'sw1',
+        f: '+- enAng 0 stAng'
       },
       {
-        name: 'sw2',
-        fmla: '+- sw1 21600000 0'
+        n: 'sw2',
+        f: '+- sw1 21600000 0'
       },
       {
-        name: 'swAng',
-        fmla: '?: sw1 sw1 sw2'
+        n: 'swAng',
+        f: '?: sw1 sw1 sw2'
       },
       {
-        name: 'wt1',
-        fmla: 'sin wd2 stAng'
+        n: 'wt1',
+        f: 'sin wd2 stAng'
       },
       {
-        name: 'ht1',
-        fmla: 'cos hd2 stAng'
+        n: 'ht1',
+        f: 'cos hd2 stAng'
       },
       {
-        name: 'dx1',
-        fmla: 'cat2 wd2 ht1 wt1'
+        n: 'dx1',
+        f: 'cat2 wd2 ht1 wt1'
       },
       {
-        name: 'dy1',
-        fmla: 'sat2 hd2 ht1 wt1'
+        n: 'dy1',
+        f: 'sat2 hd2 ht1 wt1'
       },
       {
-        name: 'x1',
-        fmla: '+- hc dx1 0'
+        n: 'x1',
+        f: '+- hc dx1 0'
       },
       {
-        name: 'y1',
-        fmla: '+- vc dy1 0'
+        n: 'y1',
+        f: '+- vc dy1 0'
       },
       {
-        name: 'wt2',
-        fmla: 'sin wd2 enAng'
+        n: 'wt2',
+        f: 'sin wd2 enAng'
       },
       {
-        name: 'ht2',
-        fmla: 'cos hd2 enAng'
+        n: 'ht2',
+        f: 'cos hd2 enAng'
       },
       {
-        name: 'dx2',
-        fmla: 'cat2 wd2 ht2 wt2'
+        n: 'dx2',
+        f: 'cat2 wd2 ht2 wt2'
       },
       {
-        name: 'dy2',
-        fmla: 'sat2 hd2 ht2 wt2'
+        n: 'dy2',
+        f: 'sat2 hd2 ht2 wt2'
       },
       {
-        name: 'x2',
-        fmla: '+- hc dx2 0'
+        n: 'x2',
+        f: '+- hc dx2 0'
       },
       {
-        name: 'y2',
-        fmla: '+- vc dy2 0'
+        n: 'y2',
+        f: '+- vc dy2 0'
       },
       {
-        name: 'idx',
-        fmla: 'cos wd2 2700000'
+        n: 'idx',
+        f: 'cos wd2 2700000'
       },
       {
-        name: 'idy',
-        fmla: 'sin hd2 2700000'
+        n: 'idy',
+        f: 'sin hd2 2700000'
       },
       {
-        name: 'il',
-        fmla: '+- hc 0 idx'
+        n: 'il',
+        f: '+- hc 0 idx'
       },
       {
-        name: 'ir',
-        fmla: '+- hc idx 0'
+        n: 'ir',
+        f: '+- hc idx 0'
       },
       {
-        name: 'it',
-        fmla: '+- vc 0 idy'
+        n: 'it',
+        f: '+- vc 0 idy'
       },
       {
-        name: 'ib',
-        fmla: '+- vc idy 0'
+        n: 'ib',
+        f: '+- vc idy 0'
       }
     ],
     pathLst: [
@@ -27682,20 +27682,20 @@ export const presetShape: Record<string, Shape> = {
   pieWedge: {
     gdLst: [
       {
-        name: 'g1',
-        fmla: 'cos w 13500000'
+        n: 'g1',
+        f: 'cos w 13500000'
       },
       {
-        name: 'g2',
-        fmla: 'sin h 13500000'
+        n: 'g2',
+        f: 'sin h 13500000'
       },
       {
-        name: 'x1',
-        fmla: '+- r g1 0'
+        n: 'x1',
+        f: '+- r g1 0'
       },
       {
-        name: 'y1',
-        fmla: '+- b g2 0'
+        n: 'y1',
+        f: '+- b g2 0'
       }
     ],
     pathLst: [
@@ -27734,38 +27734,38 @@ export const presetShape: Record<string, Shape> = {
   plaque: {
     avLst: [
       {
-        name: 'adj',
-        fmla: 'val 16667'
+        n: 'adj',
+        f: 'val 16667'
       }
     ],
     gdLst: [
       {
-        name: 'a',
-        fmla: 'pin 0 adj 50000'
+        n: 'a',
+        f: 'pin 0 adj 50000'
       },
       {
-        name: 'x1',
-        fmla: '*/ ss a 100000'
+        n: 'x1',
+        f: '*/ ss a 100000'
       },
       {
-        name: 'x2',
-        fmla: '+- r 0 x1'
+        n: 'x2',
+        f: '+- r 0 x1'
       },
       {
-        name: 'y2',
-        fmla: '+- b 0 x1'
+        n: 'y2',
+        f: '+- b 0 x1'
       },
       {
-        name: 'il',
-        fmla: '*/ x1 70711 100000'
+        n: 'il',
+        f: '*/ x1 70711 100000'
       },
       {
-        name: 'ir',
-        fmla: '+- r 0 il'
+        n: 'ir',
+        f: '+- r 0 il'
       },
       {
-        name: 'ib',
-        fmla: '+- b 0 il'
+        n: 'ib',
+        f: '+- b 0 il'
       }
     ],
     pathLst: [
@@ -27839,20 +27839,20 @@ export const presetShape: Record<string, Shape> = {
   plaqueTabs: {
     gdLst: [
       {
-        name: 'md',
-        fmla: 'mod w h 0'
+        n: 'md',
+        f: 'mod w h 0'
       },
       {
-        name: 'dx',
-        fmla: '*/ 1 md 20'
+        n: 'dx',
+        f: '*/ 1 md 20'
       },
       {
-        name: 'y1',
-        fmla: '+- 0 b dx'
+        n: 'y1',
+        f: '+- 0 b dx'
       },
       {
-        name: 'x1',
-        fmla: '+- 0 r dx'
+        n: 'x1',
+        f: '+- 0 r dx'
       }
     ],
     pathLst: [
@@ -27981,46 +27981,46 @@ export const presetShape: Record<string, Shape> = {
   plus: {
     avLst: [
       {
-        name: 'adj',
-        fmla: 'val 25000'
+        n: 'adj',
+        f: 'val 25000'
       }
     ],
     gdLst: [
       {
-        name: 'a',
-        fmla: 'pin 0 adj 50000'
+        n: 'a',
+        f: 'pin 0 adj 50000'
       },
       {
-        name: 'x1',
-        fmla: '*/ ss a 100000'
+        n: 'x1',
+        f: '*/ ss a 100000'
       },
       {
-        name: 'x2',
-        fmla: '+- r 0 x1'
+        n: 'x2',
+        f: '+- r 0 x1'
       },
       {
-        name: 'y2',
-        fmla: '+- b 0 x1'
+        n: 'y2',
+        f: '+- b 0 x1'
       },
       {
-        name: 'd',
-        fmla: '+- w 0 h'
+        n: 'd',
+        f: '+- w 0 h'
       },
       {
-        name: 'il',
-        fmla: '?: d l x1'
+        n: 'il',
+        f: '?: d l x1'
       },
       {
-        name: 'ir',
-        fmla: '?: d r x2'
+        n: 'ir',
+        f: '?: d r x2'
       },
       {
-        name: 'it',
-        fmla: '?: d x1 t'
+        n: 'it',
+        f: '?: d x1 t'
       },
       {
-        name: 'ib',
-        fmla: '?: d y2 b'
+        n: 'ib',
+        f: '?: d y2 b'
       }
     ],
     pathLst: [
@@ -28122,102 +28122,102 @@ export const presetShape: Record<string, Shape> = {
   quadArrow: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 22500'
+        n: 'adj1',
+        f: 'val 22500'
       },
       {
-        name: 'adj2',
-        fmla: 'val 22500'
+        n: 'adj2',
+        f: 'val 22500'
       },
       {
-        name: 'adj3',
-        fmla: 'val 22500'
+        n: 'adj3',
+        f: 'val 22500'
       }
     ],
     gdLst: [
       {
-        name: 'a2',
-        fmla: 'pin 0 adj2 50000'
+        n: 'a2',
+        f: 'pin 0 adj2 50000'
       },
       {
-        name: 'maxAdj1',
-        fmla: '*/ a2 2 1'
+        n: 'maxAdj1',
+        f: '*/ a2 2 1'
       },
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 maxAdj1'
+        n: 'a1',
+        f: 'pin 0 adj1 maxAdj1'
       },
       {
-        name: 'q1',
-        fmla: '+- 100000 0 maxAdj1'
+        n: 'q1',
+        f: '+- 100000 0 maxAdj1'
       },
       {
-        name: 'maxAdj3',
-        fmla: '*/ q1 1 2'
+        n: 'maxAdj3',
+        f: '*/ q1 1 2'
       },
       {
-        name: 'a3',
-        fmla: 'pin 0 adj3 maxAdj3'
+        n: 'a3',
+        f: 'pin 0 adj3 maxAdj3'
       },
       {
-        name: 'x1',
-        fmla: '*/ ss a3 100000'
+        n: 'x1',
+        f: '*/ ss a3 100000'
       },
       {
-        name: 'dx2',
-        fmla: '*/ ss a2 100000'
+        n: 'dx2',
+        f: '*/ ss a2 100000'
       },
       {
-        name: 'x2',
-        fmla: '+- hc 0 dx2'
+        n: 'x2',
+        f: '+- hc 0 dx2'
       },
       {
-        name: 'x5',
-        fmla: '+- hc dx2 0'
+        n: 'x5',
+        f: '+- hc dx2 0'
       },
       {
-        name: 'dx3',
-        fmla: '*/ ss a1 200000'
+        n: 'dx3',
+        f: '*/ ss a1 200000'
       },
       {
-        name: 'x3',
-        fmla: '+- hc 0 dx3'
+        n: 'x3',
+        f: '+- hc 0 dx3'
       },
       {
-        name: 'x4',
-        fmla: '+- hc dx3 0'
+        n: 'x4',
+        f: '+- hc dx3 0'
       },
       {
-        name: 'x6',
-        fmla: '+- r 0 x1'
+        n: 'x6',
+        f: '+- r 0 x1'
       },
       {
-        name: 'y2',
-        fmla: '+- vc 0 dx2'
+        n: 'y2',
+        f: '+- vc 0 dx2'
       },
       {
-        name: 'y5',
-        fmla: '+- vc dx2 0'
+        n: 'y5',
+        f: '+- vc dx2 0'
       },
       {
-        name: 'y3',
-        fmla: '+- vc 0 dx3'
+        n: 'y3',
+        f: '+- vc 0 dx3'
       },
       {
-        name: 'y4',
-        fmla: '+- vc dx3 0'
+        n: 'y4',
+        f: '+- vc dx3 0'
       },
       {
-        name: 'y6',
-        fmla: '+- b 0 x1'
+        n: 'y6',
+        f: '+- b 0 x1'
       },
       {
-        name: 'il',
-        fmla: '*/ dx3 x1 dx2'
+        n: 'il',
+        f: '*/ dx3 x1 dx2'
       },
       {
-        name: 'ir',
-        fmla: '+- r 0 il'
+        n: 'ir',
+        f: '+- r 0 il'
       }
     ],
     pathLst: [
@@ -28403,130 +28403,130 @@ export const presetShape: Record<string, Shape> = {
   quadArrowCallout: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 18515'
+        n: 'adj1',
+        f: 'val 18515'
       },
       {
-        name: 'adj2',
-        fmla: 'val 18515'
+        n: 'adj2',
+        f: 'val 18515'
       },
       {
-        name: 'adj3',
-        fmla: 'val 18515'
+        n: 'adj3',
+        f: 'val 18515'
       },
       {
-        name: 'adj4',
-        fmla: 'val 48123'
+        n: 'adj4',
+        f: 'val 48123'
       }
     ],
     gdLst: [
       {
-        name: 'a2',
-        fmla: 'pin 0 adj2 50000'
+        n: 'a2',
+        f: 'pin 0 adj2 50000'
       },
       {
-        name: 'maxAdj1',
-        fmla: '*/ a2 2 1'
+        n: 'maxAdj1',
+        f: '*/ a2 2 1'
       },
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 maxAdj1'
+        n: 'a1',
+        f: 'pin 0 adj1 maxAdj1'
       },
       {
-        name: 'maxAdj3',
-        fmla: '+- 50000 0 a2'
+        n: 'maxAdj3',
+        f: '+- 50000 0 a2'
       },
       {
-        name: 'a3',
-        fmla: 'pin 0 adj3 maxAdj3'
+        n: 'a3',
+        f: 'pin 0 adj3 maxAdj3'
       },
       {
-        name: 'q2',
-        fmla: '*/ a3 2 1'
+        n: 'q2',
+        f: '*/ a3 2 1'
       },
       {
-        name: 'maxAdj4',
-        fmla: '+- 100000 0 q2'
+        n: 'maxAdj4',
+        f: '+- 100000 0 q2'
       },
       {
-        name: 'a4',
-        fmla: 'pin a1 adj4 maxAdj4'
+        n: 'a4',
+        f: 'pin a1 adj4 maxAdj4'
       },
       {
-        name: 'dx2',
-        fmla: '*/ ss a2 100000'
+        n: 'dx2',
+        f: '*/ ss a2 100000'
       },
       {
-        name: 'dx3',
-        fmla: '*/ ss a1 200000'
+        n: 'dx3',
+        f: '*/ ss a1 200000'
       },
       {
-        name: 'ah',
-        fmla: '*/ ss a3 100000'
+        n: 'ah',
+        f: '*/ ss a3 100000'
       },
       {
-        name: 'dx1',
-        fmla: '*/ w a4 200000'
+        n: 'dx1',
+        f: '*/ w a4 200000'
       },
       {
-        name: 'dy1',
-        fmla: '*/ h a4 200000'
+        n: 'dy1',
+        f: '*/ h a4 200000'
       },
       {
-        name: 'x8',
-        fmla: '+- r 0 ah'
+        n: 'x8',
+        f: '+- r 0 ah'
       },
       {
-        name: 'x2',
-        fmla: '+- hc 0 dx1'
+        n: 'x2',
+        f: '+- hc 0 dx1'
       },
       {
-        name: 'x7',
-        fmla: '+- hc dx1 0'
+        n: 'x7',
+        f: '+- hc dx1 0'
       },
       {
-        name: 'x3',
-        fmla: '+- hc 0 dx2'
+        n: 'x3',
+        f: '+- hc 0 dx2'
       },
       {
-        name: 'x6',
-        fmla: '+- hc dx2 0'
+        n: 'x6',
+        f: '+- hc dx2 0'
       },
       {
-        name: 'x4',
-        fmla: '+- hc 0 dx3'
+        n: 'x4',
+        f: '+- hc 0 dx3'
       },
       {
-        name: 'x5',
-        fmla: '+- hc dx3 0'
+        n: 'x5',
+        f: '+- hc dx3 0'
       },
       {
-        name: 'y8',
-        fmla: '+- b 0 ah'
+        n: 'y8',
+        f: '+- b 0 ah'
       },
       {
-        name: 'y2',
-        fmla: '+- vc 0 dy1'
+        n: 'y2',
+        f: '+- vc 0 dy1'
       },
       {
-        name: 'y7',
-        fmla: '+- vc dy1 0'
+        n: 'y7',
+        f: '+- vc dy1 0'
       },
       {
-        name: 'y3',
-        fmla: '+- vc 0 dx2'
+        n: 'y3',
+        f: '+- vc 0 dx2'
       },
       {
-        name: 'y6',
-        fmla: '+- vc dx2 0'
+        n: 'y6',
+        f: '+- vc dx2 0'
       },
       {
-        name: 'y4',
-        fmla: '+- vc 0 dx3'
+        n: 'y4',
+        f: '+- vc 0 dx3'
       },
       {
-        name: 'y5',
-        fmla: '+- vc dx3 0'
+        n: 'y5',
+        f: '+- vc dx3 0'
       }
     ],
     pathLst: [
@@ -28809,90 +28809,90 @@ export const presetShape: Record<string, Shape> = {
   ribbon: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 16667'
+        n: 'adj1',
+        f: 'val 16667'
       },
       {
-        name: 'adj2',
-        fmla: 'val 50000'
+        n: 'adj2',
+        f: 'val 50000'
       }
     ],
     gdLst: [
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 33333'
+        n: 'a1',
+        f: 'pin 0 adj1 33333'
       },
       {
-        name: 'a2',
-        fmla: 'pin 25000 adj2 75000'
+        n: 'a2',
+        f: 'pin 25000 adj2 75000'
       },
       {
-        name: 'x10',
-        fmla: '+- r 0 wd8'
+        n: 'x10',
+        f: '+- r 0 wd8'
       },
       {
-        name: 'dx2',
-        fmla: '*/ w a2 200000'
+        n: 'dx2',
+        f: '*/ w a2 200000'
       },
       {
-        name: 'x2',
-        fmla: '+- hc 0 dx2'
+        n: 'x2',
+        f: '+- hc 0 dx2'
       },
       {
-        name: 'x9',
-        fmla: '+- hc dx2 0'
+        n: 'x9',
+        f: '+- hc dx2 0'
       },
       {
-        name: 'x3',
-        fmla: '+- x2 wd32 0'
+        n: 'x3',
+        f: '+- x2 wd32 0'
       },
       {
-        name: 'x8',
-        fmla: '+- x9 0 wd32'
+        n: 'x8',
+        f: '+- x9 0 wd32'
       },
       {
-        name: 'x5',
-        fmla: '+- x2 wd8 0'
+        n: 'x5',
+        f: '+- x2 wd8 0'
       },
       {
-        name: 'x6',
-        fmla: '+- x9 0 wd8'
+        n: 'x6',
+        f: '+- x9 0 wd8'
       },
       {
-        name: 'x4',
-        fmla: '+- x5 0 wd32'
+        n: 'x4',
+        f: '+- x5 0 wd32'
       },
       {
-        name: 'x7',
-        fmla: '+- x6 wd32 0'
+        n: 'x7',
+        f: '+- x6 wd32 0'
       },
       {
-        name: 'y1',
-        fmla: '*/ h a1 200000'
+        n: 'y1',
+        f: '*/ h a1 200000'
       },
       {
-        name: 'y2',
-        fmla: '*/ h a1 100000'
+        n: 'y2',
+        f: '*/ h a1 100000'
       },
       {
-        name: 'y4',
-        fmla: '+- b 0 y2'
+        n: 'y4',
+        f: '+- b 0 y2'
       },
       {
-        name: 'y3',
-        fmla: '*/ y4 1 2'
+        n: 'y3',
+        f: '*/ y4 1 2'
       },
       {
-        name: 'hR',
-        fmla: '*/ h a1 400000'
+        n: 'hR',
+        f: '*/ h a1 400000'
       },
       {
-        name: 'y5',
-        fmla: '+- b 0 hR'
+        n: 'y5',
+        f: '+- b 0 hR'
       },
       {
-        name: 'y6',
-        fmla: '+- y2 0 hR'
+        n: 'y6',
+        f: '+- y2 0 hR'
       }
     ],
     pathLst: [
@@ -29339,98 +29339,98 @@ export const presetShape: Record<string, Shape> = {
   ribbon2: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 16667'
+        n: 'adj1',
+        f: 'val 16667'
       },
       {
-        name: 'adj2',
-        fmla: 'val 50000'
+        n: 'adj2',
+        f: 'val 50000'
       }
     ],
     gdLst: [
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 33333'
+        n: 'a1',
+        f: 'pin 0 adj1 33333'
       },
       {
-        name: 'a2',
-        fmla: 'pin 25000 adj2 75000'
+        n: 'a2',
+        f: 'pin 25000 adj2 75000'
       },
       {
-        name: 'x10',
-        fmla: '+- r 0 wd8'
+        n: 'x10',
+        f: '+- r 0 wd8'
       },
       {
-        name: 'dx2',
-        fmla: '*/ w a2 200000'
+        n: 'dx2',
+        f: '*/ w a2 200000'
       },
       {
-        name: 'x2',
-        fmla: '+- hc 0 dx2'
+        n: 'x2',
+        f: '+- hc 0 dx2'
       },
       {
-        name: 'x9',
-        fmla: '+- hc dx2 0'
+        n: 'x9',
+        f: '+- hc dx2 0'
       },
       {
-        name: 'x3',
-        fmla: '+- x2 wd32 0'
+        n: 'x3',
+        f: '+- x2 wd32 0'
       },
       {
-        name: 'x8',
-        fmla: '+- x9 0 wd32'
+        n: 'x8',
+        f: '+- x9 0 wd32'
       },
       {
-        name: 'x5',
-        fmla: '+- x2 wd8 0'
+        n: 'x5',
+        f: '+- x2 wd8 0'
       },
       {
-        name: 'x6',
-        fmla: '+- x9 0 wd8'
+        n: 'x6',
+        f: '+- x9 0 wd8'
       },
       {
-        name: 'x4',
-        fmla: '+- x5 0 wd32'
+        n: 'x4',
+        f: '+- x5 0 wd32'
       },
       {
-        name: 'x7',
-        fmla: '+- x6 wd32 0'
+        n: 'x7',
+        f: '+- x6 wd32 0'
       },
       {
-        name: 'dy1',
-        fmla: '*/ h a1 200000'
+        n: 'dy1',
+        f: '*/ h a1 200000'
       },
       {
-        name: 'y1',
-        fmla: '+- b 0 dy1'
+        n: 'y1',
+        f: '+- b 0 dy1'
       },
       {
-        name: 'dy2',
-        fmla: '*/ h a1 100000'
+        n: 'dy2',
+        f: '*/ h a1 100000'
       },
       {
-        name: 'y2',
-        fmla: '+- b 0 dy2'
+        n: 'y2',
+        f: '+- b 0 dy2'
       },
       {
-        name: 'y4',
-        fmla: '+- t dy2 0'
+        n: 'y4',
+        f: '+- t dy2 0'
       },
       {
-        name: 'y3',
-        fmla: '+/ y4 b 2'
+        n: 'y3',
+        f: '+/ y4 b 2'
       },
       {
-        name: 'hR',
-        fmla: '*/ h a1 400000'
+        n: 'hR',
+        f: '*/ h a1 400000'
       },
       {
-        name: 'y6',
-        fmla: '+- b 0 hR'
+        n: 'y6',
+        f: '+- b 0 hR'
       },
       {
-        name: 'y7',
-        fmla: '+- y1 0 hR'
+        n: 'y7',
+        f: '+- y1 0 hR'
       }
     ],
     pathLst: [
@@ -29884,54 +29884,54 @@ export const presetShape: Record<string, Shape> = {
   rightArrow: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 50000'
+        n: 'adj1',
+        f: 'val 50000'
       },
       {
-        name: 'adj2',
-        fmla: 'val 50000'
+        n: 'adj2',
+        f: 'val 50000'
       }
     ],
     gdLst: [
       {
-        name: 'maxAdj2',
-        fmla: '*/ 100000 w ss'
+        n: 'maxAdj2',
+        f: '*/ 100000 w ss'
       },
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 100000'
+        n: 'a1',
+        f: 'pin 0 adj1 100000'
       },
       {
-        name: 'a2',
-        fmla: 'pin 0 adj2 maxAdj2'
+        n: 'a2',
+        f: 'pin 0 adj2 maxAdj2'
       },
       {
-        name: 'dx1',
-        fmla: '*/ ss a2 100000'
+        n: 'dx1',
+        f: '*/ ss a2 100000'
       },
       {
-        name: 'x1',
-        fmla: '+- r 0 dx1'
+        n: 'x1',
+        f: '+- r 0 dx1'
       },
       {
-        name: 'dy1',
-        fmla: '*/ h a1 200000'
+        n: 'dy1',
+        f: '*/ h a1 200000'
       },
       {
-        name: 'y1',
-        fmla: '+- vc 0 dy1'
+        n: 'y1',
+        f: '+- vc 0 dy1'
       },
       {
-        name: 'y2',
-        fmla: '+- vc dy1 0'
+        n: 'y2',
+        f: '+- vc dy1 0'
       },
       {
-        name: 'dx2',
-        fmla: '*/ y1 dx1 hd2'
+        n: 'dx2',
+        f: '*/ y1 dx1 hd2'
       },
       {
-        name: 'x2',
-        fmla: '+- x1 dx2 0'
+        n: 'x2',
+        f: '+- x1 dx2 0'
       }
     ],
     pathLst: [
@@ -29998,98 +29998,98 @@ export const presetShape: Record<string, Shape> = {
   rightArrowCallout: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 25000'
+        n: 'adj1',
+        f: 'val 25000'
       },
       {
-        name: 'adj2',
-        fmla: 'val 25000'
+        n: 'adj2',
+        f: 'val 25000'
       },
       {
-        name: 'adj3',
-        fmla: 'val 25000'
+        n: 'adj3',
+        f: 'val 25000'
       },
       {
-        name: 'adj4',
-        fmla: 'val 64977'
+        n: 'adj4',
+        f: 'val 64977'
       }
     ],
     gdLst: [
       {
-        name: 'maxAdj2',
-        fmla: '*/ 50000 h ss'
+        n: 'maxAdj2',
+        f: '*/ 50000 h ss'
       },
       {
-        name: 'a2',
-        fmla: 'pin 0 adj2 maxAdj2'
+        n: 'a2',
+        f: 'pin 0 adj2 maxAdj2'
       },
       {
-        name: 'maxAdj1',
-        fmla: '*/ a2 2 1'
+        n: 'maxAdj1',
+        f: '*/ a2 2 1'
       },
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 maxAdj1'
+        n: 'a1',
+        f: 'pin 0 adj1 maxAdj1'
       },
       {
-        name: 'maxAdj3',
-        fmla: '*/ 100000 w ss'
+        n: 'maxAdj3',
+        f: '*/ 100000 w ss'
       },
       {
-        name: 'a3',
-        fmla: 'pin 0 adj3 maxAdj3'
+        n: 'a3',
+        f: 'pin 0 adj3 maxAdj3'
       },
       {
-        name: 'q2',
-        fmla: '*/ a3 ss w'
+        n: 'q2',
+        f: '*/ a3 ss w'
       },
       {
-        name: 'maxAdj4',
-        fmla: '+- 100000 0 q2'
+        n: 'maxAdj4',
+        f: '+- 100000 0 q2'
       },
       {
-        name: 'a4',
-        fmla: 'pin 0 adj4 maxAdj4'
+        n: 'a4',
+        f: 'pin 0 adj4 maxAdj4'
       },
       {
-        name: 'dy1',
-        fmla: '*/ ss a2 100000'
+        n: 'dy1',
+        f: '*/ ss a2 100000'
       },
       {
-        name: 'dy2',
-        fmla: '*/ ss a1 200000'
+        n: 'dy2',
+        f: '*/ ss a1 200000'
       },
       {
-        name: 'y1',
-        fmla: '+- vc 0 dy1'
+        n: 'y1',
+        f: '+- vc 0 dy1'
       },
       {
-        name: 'y2',
-        fmla: '+- vc 0 dy2'
+        n: 'y2',
+        f: '+- vc 0 dy2'
       },
       {
-        name: 'y3',
-        fmla: '+- vc dy2 0'
+        n: 'y3',
+        f: '+- vc dy2 0'
       },
       {
-        name: 'y4',
-        fmla: '+- vc dy1 0'
+        n: 'y4',
+        f: '+- vc dy1 0'
       },
       {
-        name: 'dx3',
-        fmla: '*/ ss a3 100000'
+        n: 'dx3',
+        f: '*/ ss a3 100000'
       },
       {
-        name: 'x3',
-        fmla: '+- r 0 dx3'
+        n: 'x3',
+        f: '+- r 0 dx3'
       },
       {
-        name: 'x2',
-        fmla: '*/ w a4 100000'
+        n: 'x2',
+        f: '*/ w a4 100000'
       },
       {
-        name: 'x1',
-        fmla: '*/ x2 1 2'
+        n: 'x1',
+        f: '*/ x2 1 2'
       }
     ],
     pathLst: [
@@ -30184,74 +30184,74 @@ export const presetShape: Record<string, Shape> = {
   rightBrace: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 8333'
+        n: 'adj1',
+        f: 'val 8333'
       },
       {
-        name: 'adj2',
-        fmla: 'val 50000'
+        n: 'adj2',
+        f: 'val 50000'
       }
     ],
     gdLst: [
       {
-        name: 'a2',
-        fmla: 'pin 0 adj2 100000'
+        n: 'a2',
+        f: 'pin 0 adj2 100000'
       },
       {
-        name: 'q1',
-        fmla: '+- 100000 0 a2'
+        n: 'q1',
+        f: '+- 100000 0 a2'
       },
       {
-        name: 'q2',
-        fmla: 'min q1 a2'
+        n: 'q2',
+        f: 'min q1 a2'
       },
       {
-        name: 'q3',
-        fmla: '*/ q2 1 2'
+        n: 'q3',
+        f: '*/ q2 1 2'
       },
       {
-        name: 'maxAdj1',
-        fmla: '*/ q3 h ss'
+        n: 'maxAdj1',
+        f: '*/ q3 h ss'
       },
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 maxAdj1'
+        n: 'a1',
+        f: 'pin 0 adj1 maxAdj1'
       },
       {
-        name: 'y1',
-        fmla: '*/ ss a1 100000'
+        n: 'y1',
+        f: '*/ ss a1 100000'
       },
       {
-        name: 'y3',
-        fmla: '*/ h a2 100000'
+        n: 'y3',
+        f: '*/ h a2 100000'
       },
       {
-        name: 'y2',
-        fmla: '+- y3 0 y1'
+        n: 'y2',
+        f: '+- y3 0 y1'
       },
       {
-        name: 'y4',
-        fmla: '+- b 0 y1'
+        n: 'y4',
+        f: '+- b 0 y1'
       },
       {
-        name: 'dx1',
-        fmla: 'cos wd2 2700000'
+        n: 'dx1',
+        f: 'cos wd2 2700000'
       },
       {
-        name: 'dy1',
-        fmla: 'sin y1 2700000'
+        n: 'dy1',
+        f: 'sin y1 2700000'
       },
       {
-        name: 'ir',
-        fmla: '+- l dx1 0'
+        n: 'ir',
+        f: '+- l dx1 0'
       },
       {
-        name: 'it',
-        fmla: '+- y1 0 dy1'
+        n: 'it',
+        f: '+- y1 0 dy1'
       },
       {
-        name: 'ib',
-        fmla: '+- b dy1 y1'
+        n: 'ib',
+        f: '+- b dy1 y1'
       }
     ],
     pathLst: [
@@ -30374,46 +30374,46 @@ export const presetShape: Record<string, Shape> = {
   rightBracket: {
     avLst: [
       {
-        name: 'adj',
-        fmla: 'val 8333'
+        n: 'adj',
+        f: 'val 8333'
       }
     ],
     gdLst: [
       {
-        name: 'maxAdj',
-        fmla: '*/ 50000 h ss'
+        n: 'maxAdj',
+        f: '*/ 50000 h ss'
       },
       {
-        name: 'a',
-        fmla: 'pin 0 adj maxAdj'
+        n: 'a',
+        f: 'pin 0 adj maxAdj'
       },
       {
-        name: 'y1',
-        fmla: '*/ ss a 100000'
+        n: 'y1',
+        f: '*/ ss a 100000'
       },
       {
-        name: 'y2',
-        fmla: '+- b 0 y1'
+        n: 'y2',
+        f: '+- b 0 y1'
       },
       {
-        name: 'dx1',
-        fmla: 'cos w 2700000'
+        n: 'dx1',
+        f: 'cos w 2700000'
       },
       {
-        name: 'dy1',
-        fmla: 'sin y1 2700000'
+        n: 'dy1',
+        f: 'sin y1 2700000'
       },
       {
-        name: 'ir',
-        fmla: '+- l dx1 0'
+        n: 'ir',
+        f: '+- l dx1 0'
       },
       {
-        name: 'it',
-        fmla: '+- y1 0 dy1'
+        n: 'it',
+        f: '+- y1 0 dy1'
       },
       {
-        name: 'ib',
-        fmla: '+- b dy1 y1'
+        n: 'ib',
+        f: '+- b dy1 y1'
       }
     ],
     pathLst: [
@@ -30494,30 +30494,30 @@ export const presetShape: Record<string, Shape> = {
   round1Rect: {
     avLst: [
       {
-        name: 'adj',
-        fmla: 'val 16667'
+        n: 'adj',
+        f: 'val 16667'
       }
     ],
     gdLst: [
       {
-        name: 'a',
-        fmla: 'pin 0 adj 50000'
+        n: 'a',
+        f: 'pin 0 adj 50000'
       },
       {
-        name: 'dx1',
-        fmla: '*/ ss a 100000'
+        n: 'dx1',
+        f: '*/ ss a 100000'
       },
       {
-        name: 'x1',
-        fmla: '+- r 0 dx1'
+        n: 'x1',
+        f: '+- r 0 dx1'
       },
       {
-        name: 'idx',
-        fmla: '*/ dx1 29289 100000'
+        n: 'idx',
+        f: '*/ dx1 29289 100000'
       },
       {
-        name: 'ir',
-        fmla: '+- r 0 idx'
+        n: 'ir',
+        f: '+- r 0 idx'
       }
     ],
     pathLst: [
@@ -30570,66 +30570,66 @@ export const presetShape: Record<string, Shape> = {
   round2DiagRect: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 16667'
+        n: 'adj1',
+        f: 'val 16667'
       },
       {
-        name: 'adj2',
-        fmla: 'val 0'
+        n: 'adj2',
+        f: 'val 0'
       }
     ],
     gdLst: [
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 50000'
+        n: 'a1',
+        f: 'pin 0 adj1 50000'
       },
       {
-        name: 'a2',
-        fmla: 'pin 0 adj2 50000'
+        n: 'a2',
+        f: 'pin 0 adj2 50000'
       },
       {
-        name: 'x1',
-        fmla: '*/ ss a1 100000'
+        n: 'x1',
+        f: '*/ ss a1 100000'
       },
       {
-        name: 'y1',
-        fmla: '+- b 0 x1'
+        n: 'y1',
+        f: '+- b 0 x1'
       },
       {
-        name: 'a',
-        fmla: '*/ ss a2 100000'
+        n: 'a',
+        f: '*/ ss a2 100000'
       },
       {
-        name: 'x2',
-        fmla: '+- r 0 a'
+        n: 'x2',
+        f: '+- r 0 a'
       },
       {
-        name: 'y2',
-        fmla: '+- b 0 a'
+        n: 'y2',
+        f: '+- b 0 a'
       },
       {
-        name: 'dx1',
-        fmla: '*/ x1 29289 100000'
+        n: 'dx1',
+        f: '*/ x1 29289 100000'
       },
       {
-        name: 'dx2',
-        fmla: '*/ a 29289 100000'
+        n: 'dx2',
+        f: '*/ a 29289 100000'
       },
       {
-        name: 'd',
-        fmla: '+- dx1 0 dx2'
+        n: 'd',
+        f: '+- dx1 0 dx2'
       },
       {
-        name: 'dx',
-        fmla: '?: d dx1 dx2'
+        n: 'dx',
+        f: '?: d dx1 dx2'
       },
       {
-        name: 'ir',
-        fmla: '+- r 0 dx'
+        n: 'ir',
+        f: '+- r 0 dx'
       },
       {
-        name: 'ib',
-        fmla: '+- b 0 dx'
+        n: 'ib',
+        f: '+- b 0 dx'
       }
     ],
     pathLst: [
@@ -30710,66 +30710,66 @@ export const presetShape: Record<string, Shape> = {
   round2SameRect: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 16667'
+        n: 'adj1',
+        f: 'val 16667'
       },
       {
-        name: 'adj2',
-        fmla: 'val 0'
+        n: 'adj2',
+        f: 'val 0'
       }
     ],
     gdLst: [
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 50000'
+        n: 'a1',
+        f: 'pin 0 adj1 50000'
       },
       {
-        name: 'a2',
-        fmla: 'pin 0 adj2 50000'
+        n: 'a2',
+        f: 'pin 0 adj2 50000'
       },
       {
-        name: 'tx1',
-        fmla: '*/ ss a1 100000'
+        n: 'tx1',
+        f: '*/ ss a1 100000'
       },
       {
-        name: 'tx2',
-        fmla: '+- r 0 tx1'
+        n: 'tx2',
+        f: '+- r 0 tx1'
       },
       {
-        name: 'bx1',
-        fmla: '*/ ss a2 100000'
+        n: 'bx1',
+        f: '*/ ss a2 100000'
       },
       {
-        name: 'bx2',
-        fmla: '+- r 0 bx1'
+        n: 'bx2',
+        f: '+- r 0 bx1'
       },
       {
-        name: 'by1',
-        fmla: '+- b 0 bx1'
+        n: 'by1',
+        f: '+- b 0 bx1'
       },
       {
-        name: 'd',
-        fmla: '+- tx1 0 bx1'
+        n: 'd',
+        f: '+- tx1 0 bx1'
       },
       {
-        name: 'tdx',
-        fmla: '*/ tx1 29289 100000'
+        n: 'tdx',
+        f: '*/ tx1 29289 100000'
       },
       {
-        name: 'bdx',
-        fmla: '*/ bx1 29289 100000'
+        n: 'bdx',
+        f: '*/ bx1 29289 100000'
       },
       {
-        name: 'il',
-        fmla: '?: d tdx bdx'
+        n: 'il',
+        f: '?: d tdx bdx'
       },
       {
-        name: 'ir',
-        fmla: '+- r 0 il'
+        n: 'ir',
+        f: '+- r 0 il'
       },
       {
-        name: 'ib',
-        fmla: '+- b 0 bdx'
+        n: 'ib',
+        f: '+- b 0 bdx'
       }
     ],
     pathLst: [
@@ -30850,38 +30850,38 @@ export const presetShape: Record<string, Shape> = {
   roundRect: {
     avLst: [
       {
-        name: 'adj',
-        fmla: 'val 16667'
+        n: 'adj',
+        f: 'val 16667'
       }
     ],
     gdLst: [
       {
-        name: 'a',
-        fmla: 'pin 0 adj 50000'
+        n: 'a',
+        f: 'pin 0 adj 50000'
       },
       {
-        name: 'x1',
-        fmla: '*/ ss a 100000'
+        n: 'x1',
+        f: '*/ ss a 100000'
       },
       {
-        name: 'x2',
-        fmla: '+- r 0 x1'
+        n: 'x2',
+        f: '+- r 0 x1'
       },
       {
-        name: 'y2',
-        fmla: '+- b 0 x1'
+        n: 'y2',
+        f: '+- b 0 x1'
       },
       {
-        name: 'il',
-        fmla: '*/ x1 29289 100000'
+        n: 'il',
+        f: '*/ x1 29289 100000'
       },
       {
-        name: 'ir',
-        fmla: '+- r 0 il'
+        n: 'ir',
+        f: '+- r 0 il'
       },
       {
-        name: 'ib',
-        fmla: '+- b 0 il'
+        n: 'ib',
+        f: '+- b 0 il'
       }
     ],
     pathLst: [
@@ -30955,16 +30955,16 @@ export const presetShape: Record<string, Shape> = {
   rtTriangle: {
     gdLst: [
       {
-        name: 'it',
-        fmla: '*/ h 7 12'
+        n: 'it',
+        f: '*/ h 7 12'
       },
       {
-        name: 'ir',
-        fmla: '*/ w 7 12'
+        n: 'ir',
+        f: '*/ w 7 12'
       },
       {
-        name: 'ib',
-        fmla: '*/ h 11 12'
+        n: 'ib',
+        f: '*/ h 11 12'
       }
     ],
     pathLst: [
@@ -31003,90 +31003,90 @@ export const presetShape: Record<string, Shape> = {
   smileyFace: {
     avLst: [
       {
-        name: 'adj',
-        fmla: 'val 4653'
+        n: 'adj',
+        f: 'val 4653'
       }
     ],
     gdLst: [
       {
-        name: 'a',
-        fmla: 'pin -4653 adj 4653'
+        n: 'a',
+        f: 'pin -4653 adj 4653'
       },
       {
-        name: 'x1',
-        fmla: '*/ w 4969 21699'
+        n: 'x1',
+        f: '*/ w 4969 21699'
       },
       {
-        name: 'x2',
-        fmla: '*/ w 6215 21600'
+        n: 'x2',
+        f: '*/ w 6215 21600'
       },
       {
-        name: 'x3',
-        fmla: '*/ w 13135 21600'
+        n: 'x3',
+        f: '*/ w 13135 21600'
       },
       {
-        name: 'x4',
-        fmla: '*/ w 16640 21600'
+        n: 'x4',
+        f: '*/ w 16640 21600'
       },
       {
-        name: 'y1',
-        fmla: '*/ h 7570 21600'
+        n: 'y1',
+        f: '*/ h 7570 21600'
       },
       {
-        name: 'y3',
-        fmla: '*/ h 16515 21600'
+        n: 'y3',
+        f: '*/ h 16515 21600'
       },
       {
-        name: 'dy2',
-        fmla: '*/ h a 100000'
+        n: 'dy2',
+        f: '*/ h a 100000'
       },
       {
-        name: 'y2',
-        fmla: '+- y3 0 dy2'
+        n: 'y2',
+        f: '+- y3 0 dy2'
       },
       {
-        name: 'y4',
-        fmla: '+- y3 dy2 0'
+        n: 'y4',
+        f: '+- y3 dy2 0'
       },
       {
-        name: 'dy3',
-        fmla: '*/ h a 50000'
+        n: 'dy3',
+        f: '*/ h a 50000'
       },
       {
-        name: 'y5',
-        fmla: '+- y4 dy3 0'
+        n: 'y5',
+        f: '+- y4 dy3 0'
       },
       {
-        name: 'idx',
-        fmla: 'cos wd2 2700000'
+        n: 'idx',
+        f: 'cos wd2 2700000'
       },
       {
-        name: 'idy',
-        fmla: 'sin hd2 2700000'
+        n: 'idy',
+        f: 'sin hd2 2700000'
       },
       {
-        name: 'il',
-        fmla: '+- hc 0 idx'
+        n: 'il',
+        f: '+- hc 0 idx'
       },
       {
-        name: 'ir',
-        fmla: '+- hc idx 0'
+        n: 'ir',
+        f: '+- hc idx 0'
       },
       {
-        name: 'it',
-        fmla: '+- vc 0 idy'
+        n: 'it',
+        f: '+- vc 0 idy'
       },
       {
-        name: 'ib',
-        fmla: '+- vc idy 0'
+        n: 'ib',
+        f: '+- vc idy 0'
       },
       {
-        name: 'wR',
-        fmla: '*/ w 1125 21600'
+        n: 'wR',
+        f: '*/ w 1125 21600'
       },
       {
-        name: 'hR',
-        fmla: '*/ h 1125 21600'
+        n: 'hR',
+        f: '*/ h 1125 21600'
       }
     ],
     pathLst: [
@@ -31204,30 +31204,30 @@ export const presetShape: Record<string, Shape> = {
   snip1Rect: {
     avLst: [
       {
-        name: 'adj',
-        fmla: 'val 16667'
+        n: 'adj',
+        f: 'val 16667'
       }
     ],
     gdLst: [
       {
-        name: 'a',
-        fmla: 'pin 0 adj 50000'
+        n: 'a',
+        f: 'pin 0 adj 50000'
       },
       {
-        name: 'dx1',
-        fmla: '*/ ss a 100000'
+        n: 'dx1',
+        f: '*/ ss a 100000'
       },
       {
-        name: 'x1',
-        fmla: '+- r 0 dx1'
+        n: 'x1',
+        f: '+- r 0 dx1'
       },
       {
-        name: 'it',
-        fmla: '*/ dx1 1 2'
+        n: 'it',
+        f: '*/ dx1 1 2'
       },
       {
-        name: 'ir',
-        fmla: '+/ x1 r 2'
+        n: 'ir',
+        f: '+/ x1 r 2'
       }
     ],
     pathLst: [
@@ -31280,66 +31280,66 @@ export const presetShape: Record<string, Shape> = {
   snip2DiagRect: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 0'
+        n: 'adj1',
+        f: 'val 0'
       },
       {
-        name: 'adj2',
-        fmla: 'val 16667'
+        n: 'adj2',
+        f: 'val 16667'
       }
     ],
     gdLst: [
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 50000'
+        n: 'a1',
+        f: 'pin 0 adj1 50000'
       },
       {
-        name: 'a2',
-        fmla: 'pin 0 adj2 50000'
+        n: 'a2',
+        f: 'pin 0 adj2 50000'
       },
       {
-        name: 'lx1',
-        fmla: '*/ ss a1 100000'
+        n: 'lx1',
+        f: '*/ ss a1 100000'
       },
       {
-        name: 'lx2',
-        fmla: '+- r 0 lx1'
+        n: 'lx2',
+        f: '+- r 0 lx1'
       },
       {
-        name: 'ly1',
-        fmla: '+- b 0 lx1'
+        n: 'ly1',
+        f: '+- b 0 lx1'
       },
       {
-        name: 'rx1',
-        fmla: '*/ ss a2 100000'
+        n: 'rx1',
+        f: '*/ ss a2 100000'
       },
       {
-        name: 'rx2',
-        fmla: '+- r 0 rx1'
+        n: 'rx2',
+        f: '+- r 0 rx1'
       },
       {
-        name: 'ry1',
-        fmla: '+- b 0 rx1'
+        n: 'ry1',
+        f: '+- b 0 rx1'
       },
       {
-        name: 'd',
-        fmla: '+- lx1 0 rx1'
+        n: 'd',
+        f: '+- lx1 0 rx1'
       },
       {
-        name: 'dx',
-        fmla: '?: d lx1 rx1'
+        n: 'dx',
+        f: '?: d lx1 rx1'
       },
       {
-        name: 'il',
-        fmla: '*/ dx 1 2'
+        n: 'il',
+        f: '*/ dx 1 2'
       },
       {
-        name: 'ir',
-        fmla: '+- r 0 il'
+        n: 'ir',
+        f: '+- r 0 il'
       },
       {
-        name: 'ib',
-        fmla: '+- b 0 il'
+        n: 'ib',
+        f: '+- b 0 il'
       }
     ],
     pathLst: [
@@ -31413,66 +31413,66 @@ export const presetShape: Record<string, Shape> = {
   snip2SameRect: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 16667'
+        n: 'adj1',
+        f: 'val 16667'
       },
       {
-        name: 'adj2',
-        fmla: 'val 0'
+        n: 'adj2',
+        f: 'val 0'
       }
     ],
     gdLst: [
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 50000'
+        n: 'a1',
+        f: 'pin 0 adj1 50000'
       },
       {
-        name: 'a2',
-        fmla: 'pin 0 adj2 50000'
+        n: 'a2',
+        f: 'pin 0 adj2 50000'
       },
       {
-        name: 'tx1',
-        fmla: '*/ ss a1 100000'
+        n: 'tx1',
+        f: '*/ ss a1 100000'
       },
       {
-        name: 'tx2',
-        fmla: '+- r 0 tx1'
+        n: 'tx2',
+        f: '+- r 0 tx1'
       },
       {
-        name: 'bx1',
-        fmla: '*/ ss a2 100000'
+        n: 'bx1',
+        f: '*/ ss a2 100000'
       },
       {
-        name: 'bx2',
-        fmla: '+- r 0 bx1'
+        n: 'bx2',
+        f: '+- r 0 bx1'
       },
       {
-        name: 'by1',
-        fmla: '+- b 0 bx1'
+        n: 'by1',
+        f: '+- b 0 bx1'
       },
       {
-        name: 'd',
-        fmla: '+- tx1 0 bx1'
+        n: 'd',
+        f: '+- tx1 0 bx1'
       },
       {
-        name: 'dx',
-        fmla: '?: d tx1 bx1'
+        n: 'dx',
+        f: '?: d tx1 bx1'
       },
       {
-        name: 'il',
-        fmla: '*/ dx 1 2'
+        n: 'il',
+        f: '*/ dx 1 2'
       },
       {
-        name: 'ir',
-        fmla: '+- r 0 il'
+        n: 'ir',
+        f: '+- r 0 il'
       },
       {
-        name: 'it',
-        fmla: '*/ tx1 1 2'
+        n: 'it',
+        f: '*/ tx1 1 2'
       },
       {
-        name: 'ib',
-        fmla: '+/ by1 b 2'
+        n: 'ib',
+        f: '+/ by1 b 2'
       }
     ],
     pathLst: [
@@ -31546,42 +31546,42 @@ export const presetShape: Record<string, Shape> = {
   snipRoundRect: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 16667'
+        n: 'adj1',
+        f: 'val 16667'
       },
       {
-        name: 'adj2',
-        fmla: 'val 16667'
+        n: 'adj2',
+        f: 'val 16667'
       }
     ],
     gdLst: [
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 50000'
+        n: 'a1',
+        f: 'pin 0 adj1 50000'
       },
       {
-        name: 'a2',
-        fmla: 'pin 0 adj2 50000'
+        n: 'a2',
+        f: 'pin 0 adj2 50000'
       },
       {
-        name: 'x1',
-        fmla: '*/ ss a1 100000'
+        n: 'x1',
+        f: '*/ ss a1 100000'
       },
       {
-        name: 'dx2',
-        fmla: '*/ ss a2 100000'
+        n: 'dx2',
+        f: '*/ ss a2 100000'
       },
       {
-        name: 'x2',
-        fmla: '+- r 0 dx2'
+        n: 'x2',
+        f: '+- r 0 dx2'
       },
       {
-        name: 'il',
-        fmla: '*/ x1 29289 100000'
+        n: 'il',
+        f: '*/ x1 29289 100000'
       },
       {
-        name: 'ir',
-        fmla: '+/ x2 r 2'
+        n: 'ir',
+        f: '+/ x2 r 2'
       }
     ],
     pathLst: [
@@ -31648,20 +31648,20 @@ export const presetShape: Record<string, Shape> = {
   squareTabs: {
     gdLst: [
       {
-        name: 'md',
-        fmla: 'mod w h 0'
+        n: 'md',
+        f: 'mod w h 0'
       },
       {
-        name: 'dx',
-        fmla: '*/ 1 md 20'
+        n: 'dx',
+        f: '*/ 1 md 20'
       },
       {
-        name: 'y1',
-        fmla: '+- 0 b dx'
+        n: 'y1',
+        f: '+- 0 b dx'
       },
       {
-        name: 'x1',
-        fmla: '+- 0 r dx'
+        n: 'x1',
+        f: '+- 0 r dx'
       }
     ],
     pathLst: [
@@ -31818,138 +31818,138 @@ export const presetShape: Record<string, Shape> = {
   star10: {
     avLst: [
       {
-        name: 'adj',
-        fmla: 'val 42533'
+        n: 'adj',
+        f: 'val 42533'
       },
       {
-        name: 'hf',
-        fmla: 'val 105146'
+        n: 'hf',
+        f: 'val 105146'
       }
     ],
     gdLst: [
       {
-        name: 'a',
-        fmla: 'pin 0 adj 50000'
+        n: 'a',
+        f: 'pin 0 adj 50000'
       },
       {
-        name: 'swd2',
-        fmla: '*/ wd2 hf 100000'
+        n: 'swd2',
+        f: '*/ wd2 hf 100000'
       },
       {
-        name: 'dx1',
-        fmla: '*/ swd2 95106 100000'
+        n: 'dx1',
+        f: '*/ swd2 95106 100000'
       },
       {
-        name: 'dx2',
-        fmla: '*/ swd2 58779 100000'
+        n: 'dx2',
+        f: '*/ swd2 58779 100000'
       },
       {
-        name: 'x1',
-        fmla: '+- hc 0 dx1'
+        n: 'x1',
+        f: '+- hc 0 dx1'
       },
       {
-        name: 'x2',
-        fmla: '+- hc 0 dx2'
+        n: 'x2',
+        f: '+- hc 0 dx2'
       },
       {
-        name: 'x3',
-        fmla: '+- hc dx2 0'
+        n: 'x3',
+        f: '+- hc dx2 0'
       },
       {
-        name: 'x4',
-        fmla: '+- hc dx1 0'
+        n: 'x4',
+        f: '+- hc dx1 0'
       },
       {
-        name: 'dy1',
-        fmla: '*/ hd2 80902 100000'
+        n: 'dy1',
+        f: '*/ hd2 80902 100000'
       },
       {
-        name: 'dy2',
-        fmla: '*/ hd2 30902 100000'
+        n: 'dy2',
+        f: '*/ hd2 30902 100000'
       },
       {
-        name: 'y1',
-        fmla: '+- vc 0 dy1'
+        n: 'y1',
+        f: '+- vc 0 dy1'
       },
       {
-        name: 'y2',
-        fmla: '+- vc 0 dy2'
+        n: 'y2',
+        f: '+- vc 0 dy2'
       },
       {
-        name: 'y3',
-        fmla: '+- vc dy2 0'
+        n: 'y3',
+        f: '+- vc dy2 0'
       },
       {
-        name: 'y4',
-        fmla: '+- vc dy1 0'
+        n: 'y4',
+        f: '+- vc dy1 0'
       },
       {
-        name: 'iwd2',
-        fmla: '*/ swd2 a 50000'
+        n: 'iwd2',
+        f: '*/ swd2 a 50000'
       },
       {
-        name: 'ihd2',
-        fmla: '*/ hd2 a 50000'
+        n: 'ihd2',
+        f: '*/ hd2 a 50000'
       },
       {
-        name: 'sdx1',
-        fmla: '*/ iwd2 80902 100000'
+        n: 'sdx1',
+        f: '*/ iwd2 80902 100000'
       },
       {
-        name: 'sdx2',
-        fmla: '*/ iwd2 30902 100000'
+        n: 'sdx2',
+        f: '*/ iwd2 30902 100000'
       },
       {
-        name: 'sdy1',
-        fmla: '*/ ihd2 95106 100000'
+        n: 'sdy1',
+        f: '*/ ihd2 95106 100000'
       },
       {
-        name: 'sdy2',
-        fmla: '*/ ihd2 58779 100000'
+        n: 'sdy2',
+        f: '*/ ihd2 58779 100000'
       },
       {
-        name: 'sx1',
-        fmla: '+- hc 0 iwd2'
+        n: 'sx1',
+        f: '+- hc 0 iwd2'
       },
       {
-        name: 'sx2',
-        fmla: '+- hc 0 sdx1'
+        n: 'sx2',
+        f: '+- hc 0 sdx1'
       },
       {
-        name: 'sx3',
-        fmla: '+- hc 0 sdx2'
+        n: 'sx3',
+        f: '+- hc 0 sdx2'
       },
       {
-        name: 'sx4',
-        fmla: '+- hc sdx2 0'
+        n: 'sx4',
+        f: '+- hc sdx2 0'
       },
       {
-        name: 'sx5',
-        fmla: '+- hc sdx1 0'
+        n: 'sx5',
+        f: '+- hc sdx1 0'
       },
       {
-        name: 'sx6',
-        fmla: '+- hc iwd2 0'
+        n: 'sx6',
+        f: '+- hc iwd2 0'
       },
       {
-        name: 'sy1',
-        fmla: '+- vc 0 sdy1'
+        n: 'sy1',
+        f: '+- vc 0 sdy1'
       },
       {
-        name: 'sy2',
-        fmla: '+- vc 0 sdy2'
+        n: 'sy2',
+        f: '+- vc 0 sdy2'
       },
       {
-        name: 'sy3',
-        fmla: '+- vc sdy2 0'
+        n: 'sy3',
+        f: '+- vc sdy2 0'
       },
       {
-        name: 'sy4',
-        fmla: '+- vc sdy1 0'
+        n: 'sy4',
+        f: '+- vc sdy1 0'
       },
       {
-        name: 'yAdj',
-        fmla: '+- vc 0 ihd2'
+        n: 'yAdj',
+        f: '+- vc 0 ihd2'
       }
     ],
     pathLst: [
@@ -32107,130 +32107,130 @@ export const presetShape: Record<string, Shape> = {
   star12: {
     avLst: [
       {
-        name: 'adj',
-        fmla: 'val 37500'
+        n: 'adj',
+        f: 'val 37500'
       }
     ],
     gdLst: [
       {
-        name: 'a',
-        fmla: 'pin 0 adj 50000'
+        n: 'a',
+        f: 'pin 0 adj 50000'
       },
       {
-        name: 'dx1',
-        fmla: 'cos wd2 1800000'
+        n: 'dx1',
+        f: 'cos wd2 1800000'
       },
       {
-        name: 'dy1',
-        fmla: 'sin hd2 3600000'
+        n: 'dy1',
+        f: 'sin hd2 3600000'
       },
       {
-        name: 'x1',
-        fmla: '+- hc 0 dx1'
+        n: 'x1',
+        f: '+- hc 0 dx1'
       },
       {
-        name: 'x3',
-        fmla: '*/ w 3 4'
+        n: 'x3',
+        f: '*/ w 3 4'
       },
       {
-        name: 'x4',
-        fmla: '+- hc dx1 0'
+        n: 'x4',
+        f: '+- hc dx1 0'
       },
       {
-        name: 'y1',
-        fmla: '+- vc 0 dy1'
+        n: 'y1',
+        f: '+- vc 0 dy1'
       },
       {
-        name: 'y3',
-        fmla: '*/ h 3 4'
+        n: 'y3',
+        f: '*/ h 3 4'
       },
       {
-        name: 'y4',
-        fmla: '+- vc dy1 0'
+        n: 'y4',
+        f: '+- vc dy1 0'
       },
       {
-        name: 'iwd2',
-        fmla: '*/ wd2 a 50000'
+        n: 'iwd2',
+        f: '*/ wd2 a 50000'
       },
       {
-        name: 'ihd2',
-        fmla: '*/ hd2 a 50000'
+        n: 'ihd2',
+        f: '*/ hd2 a 50000'
       },
       {
-        name: 'sdx1',
-        fmla: 'cos iwd2 900000'
+        n: 'sdx1',
+        f: 'cos iwd2 900000'
       },
       {
-        name: 'sdx2',
-        fmla: 'cos iwd2 2700000'
+        n: 'sdx2',
+        f: 'cos iwd2 2700000'
       },
       {
-        name: 'sdx3',
-        fmla: 'cos iwd2 4500000'
+        n: 'sdx3',
+        f: 'cos iwd2 4500000'
       },
       {
-        name: 'sdy1',
-        fmla: 'sin ihd2 4500000'
+        n: 'sdy1',
+        f: 'sin ihd2 4500000'
       },
       {
-        name: 'sdy2',
-        fmla: 'sin ihd2 2700000'
+        n: 'sdy2',
+        f: 'sin ihd2 2700000'
       },
       {
-        name: 'sdy3',
-        fmla: 'sin ihd2 900000'
+        n: 'sdy3',
+        f: 'sin ihd2 900000'
       },
       {
-        name: 'sx1',
-        fmla: '+- hc 0 sdx1'
+        n: 'sx1',
+        f: '+- hc 0 sdx1'
       },
       {
-        name: 'sx2',
-        fmla: '+- hc 0 sdx2'
+        n: 'sx2',
+        f: '+- hc 0 sdx2'
       },
       {
-        name: 'sx3',
-        fmla: '+- hc 0 sdx3'
+        n: 'sx3',
+        f: '+- hc 0 sdx3'
       },
       {
-        name: 'sx4',
-        fmla: '+- hc sdx3 0'
+        n: 'sx4',
+        f: '+- hc sdx3 0'
       },
       {
-        name: 'sx5',
-        fmla: '+- hc sdx2 0'
+        n: 'sx5',
+        f: '+- hc sdx2 0'
       },
       {
-        name: 'sx6',
-        fmla: '+- hc sdx1 0'
+        n: 'sx6',
+        f: '+- hc sdx1 0'
       },
       {
-        name: 'sy1',
-        fmla: '+- vc 0 sdy1'
+        n: 'sy1',
+        f: '+- vc 0 sdy1'
       },
       {
-        name: 'sy2',
-        fmla: '+- vc 0 sdy2'
+        n: 'sy2',
+        f: '+- vc 0 sdy2'
       },
       {
-        name: 'sy3',
-        fmla: '+- vc 0 sdy3'
+        n: 'sy3',
+        f: '+- vc 0 sdy3'
       },
       {
-        name: 'sy4',
-        fmla: '+- vc sdy3 0'
+        n: 'sy4',
+        f: '+- vc sdy3 0'
       },
       {
-        name: 'sy5',
-        fmla: '+- vc sdy2 0'
+        n: 'sy5',
+        f: '+- vc sdy2 0'
       },
       {
-        name: 'sy6',
-        fmla: '+- vc sdy1 0'
+        n: 'sy6',
+        f: '+- vc sdy1 0'
       },
       {
-        name: 'yAdj',
-        fmla: '+- vc 0 ihd2'
+        n: 'yAdj',
+        f: '+- vc 0 ihd2'
       }
     ],
     pathLst: [
@@ -32416,218 +32416,218 @@ export const presetShape: Record<string, Shape> = {
   star16: {
     avLst: [
       {
-        name: 'adj',
-        fmla: 'val 37500'
+        n: 'adj',
+        f: 'val 37500'
       }
     ],
     gdLst: [
       {
-        name: 'a',
-        fmla: 'pin 0 adj 50000'
+        n: 'a',
+        f: 'pin 0 adj 50000'
       },
       {
-        name: 'dx1',
-        fmla: '*/ wd2 92388 100000'
+        n: 'dx1',
+        f: '*/ wd2 92388 100000'
       },
       {
-        name: 'dx2',
-        fmla: '*/ wd2 70711 100000'
+        n: 'dx2',
+        f: '*/ wd2 70711 100000'
       },
       {
-        name: 'dx3',
-        fmla: '*/ wd2 38268 100000'
+        n: 'dx3',
+        f: '*/ wd2 38268 100000'
       },
       {
-        name: 'dy1',
-        fmla: '*/ hd2 92388 100000'
+        n: 'dy1',
+        f: '*/ hd2 92388 100000'
       },
       {
-        name: 'dy2',
-        fmla: '*/ hd2 70711 100000'
+        n: 'dy2',
+        f: '*/ hd2 70711 100000'
       },
       {
-        name: 'dy3',
-        fmla: '*/ hd2 38268 100000'
+        n: 'dy3',
+        f: '*/ hd2 38268 100000'
       },
       {
-        name: 'x1',
-        fmla: '+- hc 0 dx1'
+        n: 'x1',
+        f: '+- hc 0 dx1'
       },
       {
-        name: 'x2',
-        fmla: '+- hc 0 dx2'
+        n: 'x2',
+        f: '+- hc 0 dx2'
       },
       {
-        name: 'x3',
-        fmla: '+- hc 0 dx3'
+        n: 'x3',
+        f: '+- hc 0 dx3'
       },
       {
-        name: 'x4',
-        fmla: '+- hc dx3 0'
+        n: 'x4',
+        f: '+- hc dx3 0'
       },
       {
-        name: 'x5',
-        fmla: '+- hc dx2 0'
+        n: 'x5',
+        f: '+- hc dx2 0'
       },
       {
-        name: 'x6',
-        fmla: '+- hc dx1 0'
+        n: 'x6',
+        f: '+- hc dx1 0'
       },
       {
-        name: 'y1',
-        fmla: '+- vc 0 dy1'
+        n: 'y1',
+        f: '+- vc 0 dy1'
       },
       {
-        name: 'y2',
-        fmla: '+- vc 0 dy2'
+        n: 'y2',
+        f: '+- vc 0 dy2'
       },
       {
-        name: 'y3',
-        fmla: '+- vc 0 dy3'
+        n: 'y3',
+        f: '+- vc 0 dy3'
       },
       {
-        name: 'y4',
-        fmla: '+- vc dy3 0'
+        n: 'y4',
+        f: '+- vc dy3 0'
       },
       {
-        name: 'y5',
-        fmla: '+- vc dy2 0'
+        n: 'y5',
+        f: '+- vc dy2 0'
       },
       {
-        name: 'y6',
-        fmla: '+- vc dy1 0'
+        n: 'y6',
+        f: '+- vc dy1 0'
       },
       {
-        name: 'iwd2',
-        fmla: '*/ wd2 a 50000'
+        n: 'iwd2',
+        f: '*/ wd2 a 50000'
       },
       {
-        name: 'ihd2',
-        fmla: '*/ hd2 a 50000'
+        n: 'ihd2',
+        f: '*/ hd2 a 50000'
       },
       {
-        name: 'sdx1',
-        fmla: '*/ iwd2 98079 100000'
+        n: 'sdx1',
+        f: '*/ iwd2 98079 100000'
       },
       {
-        name: 'sdx2',
-        fmla: '*/ iwd2 83147 100000'
+        n: 'sdx2',
+        f: '*/ iwd2 83147 100000'
       },
       {
-        name: 'sdx3',
-        fmla: '*/ iwd2 55557 100000'
+        n: 'sdx3',
+        f: '*/ iwd2 55557 100000'
       },
       {
-        name: 'sdx4',
-        fmla: '*/ iwd2 19509 100000'
+        n: 'sdx4',
+        f: '*/ iwd2 19509 100000'
       },
       {
-        name: 'sdy1',
-        fmla: '*/ ihd2 98079 100000'
+        n: 'sdy1',
+        f: '*/ ihd2 98079 100000'
       },
       {
-        name: 'sdy2',
-        fmla: '*/ ihd2 83147 100000'
+        n: 'sdy2',
+        f: '*/ ihd2 83147 100000'
       },
       {
-        name: 'sdy3',
-        fmla: '*/ ihd2 55557 100000'
+        n: 'sdy3',
+        f: '*/ ihd2 55557 100000'
       },
       {
-        name: 'sdy4',
-        fmla: '*/ ihd2 19509 100000'
+        n: 'sdy4',
+        f: '*/ ihd2 19509 100000'
       },
       {
-        name: 'sx1',
-        fmla: '+- hc 0 sdx1'
+        n: 'sx1',
+        f: '+- hc 0 sdx1'
       },
       {
-        name: 'sx2',
-        fmla: '+- hc 0 sdx2'
+        n: 'sx2',
+        f: '+- hc 0 sdx2'
       },
       {
-        name: 'sx3',
-        fmla: '+- hc 0 sdx3'
+        n: 'sx3',
+        f: '+- hc 0 sdx3'
       },
       {
-        name: 'sx4',
-        fmla: '+- hc 0 sdx4'
+        n: 'sx4',
+        f: '+- hc 0 sdx4'
       },
       {
-        name: 'sx5',
-        fmla: '+- hc sdx4 0'
+        n: 'sx5',
+        f: '+- hc sdx4 0'
       },
       {
-        name: 'sx6',
-        fmla: '+- hc sdx3 0'
+        n: 'sx6',
+        f: '+- hc sdx3 0'
       },
       {
-        name: 'sx7',
-        fmla: '+- hc sdx2 0'
+        n: 'sx7',
+        f: '+- hc sdx2 0'
       },
       {
-        name: 'sx8',
-        fmla: '+- hc sdx1 0'
+        n: 'sx8',
+        f: '+- hc sdx1 0'
       },
       {
-        name: 'sy1',
-        fmla: '+- vc 0 sdy1'
+        n: 'sy1',
+        f: '+- vc 0 sdy1'
       },
       {
-        name: 'sy2',
-        fmla: '+- vc 0 sdy2'
+        n: 'sy2',
+        f: '+- vc 0 sdy2'
       },
       {
-        name: 'sy3',
-        fmla: '+- vc 0 sdy3'
+        n: 'sy3',
+        f: '+- vc 0 sdy3'
       },
       {
-        name: 'sy4',
-        fmla: '+- vc 0 sdy4'
+        n: 'sy4',
+        f: '+- vc 0 sdy4'
       },
       {
-        name: 'sy5',
-        fmla: '+- vc sdy4 0'
+        n: 'sy5',
+        f: '+- vc sdy4 0'
       },
       {
-        name: 'sy6',
-        fmla: '+- vc sdy3 0'
+        n: 'sy6',
+        f: '+- vc sdy3 0'
       },
       {
-        name: 'sy7',
-        fmla: '+- vc sdy2 0'
+        n: 'sy7',
+        f: '+- vc sdy2 0'
       },
       {
-        name: 'sy8',
-        fmla: '+- vc sdy1 0'
+        n: 'sy8',
+        f: '+- vc sdy1 0'
       },
       {
-        name: 'idx',
-        fmla: 'cos iwd2 2700000'
+        n: 'idx',
+        f: 'cos iwd2 2700000'
       },
       {
-        name: 'idy',
-        fmla: 'sin ihd2 2700000'
+        n: 'idy',
+        f: 'sin ihd2 2700000'
       },
       {
-        name: 'il',
-        fmla: '+- hc 0 idx'
+        n: 'il',
+        f: '+- hc 0 idx'
       },
       {
-        name: 'it',
-        fmla: '+- vc 0 idy'
+        n: 'it',
+        f: '+- vc 0 idy'
       },
       {
-        name: 'ir',
-        fmla: '+- hc idx 0'
+        n: 'ir',
+        f: '+- hc idx 0'
       },
       {
-        name: 'ib',
-        fmla: '+- vc idy 0'
+        n: 'ib',
+        f: '+- vc idy 0'
       },
       {
-        name: 'yAdj',
-        fmla: '+- vc 0 ihd2'
+        n: 'yAdj',
+        f: '+- vc 0 ihd2'
       }
     ],
     pathLst: [
@@ -32869,314 +32869,314 @@ export const presetShape: Record<string, Shape> = {
   star24: {
     avLst: [
       {
-        name: 'adj',
-        fmla: 'val 37500'
+        n: 'adj',
+        f: 'val 37500'
       }
     ],
     gdLst: [
       {
-        name: 'a',
-        fmla: 'pin 0 adj 50000'
+        n: 'a',
+        f: 'pin 0 adj 50000'
       },
       {
-        name: 'dx1',
-        fmla: 'cos wd2 900000'
+        n: 'dx1',
+        f: 'cos wd2 900000'
       },
       {
-        name: 'dx2',
-        fmla: 'cos wd2 1800000'
+        n: 'dx2',
+        f: 'cos wd2 1800000'
       },
       {
-        name: 'dx3',
-        fmla: 'cos wd2 2700000'
+        n: 'dx3',
+        f: 'cos wd2 2700000'
       },
       {
-        name: 'dx4',
-        fmla: 'val wd4'
+        n: 'dx4',
+        f: 'val wd4'
       },
       {
-        name: 'dx5',
-        fmla: 'cos wd2 4500000'
+        n: 'dx5',
+        f: 'cos wd2 4500000'
       },
       {
-        name: 'dy1',
-        fmla: 'sin hd2 4500000'
+        n: 'dy1',
+        f: 'sin hd2 4500000'
       },
       {
-        name: 'dy2',
-        fmla: 'sin hd2 3600000'
+        n: 'dy2',
+        f: 'sin hd2 3600000'
       },
       {
-        name: 'dy3',
-        fmla: 'sin hd2 2700000'
+        n: 'dy3',
+        f: 'sin hd2 2700000'
       },
       {
-        name: 'dy4',
-        fmla: 'val hd4'
+        n: 'dy4',
+        f: 'val hd4'
       },
       {
-        name: 'dy5',
-        fmla: 'sin hd2 900000'
+        n: 'dy5',
+        f: 'sin hd2 900000'
       },
       {
-        name: 'x1',
-        fmla: '+- hc 0 dx1'
+        n: 'x1',
+        f: '+- hc 0 dx1'
       },
       {
-        name: 'x2',
-        fmla: '+- hc 0 dx2'
+        n: 'x2',
+        f: '+- hc 0 dx2'
       },
       {
-        name: 'x3',
-        fmla: '+- hc 0 dx3'
+        n: 'x3',
+        f: '+- hc 0 dx3'
       },
       {
-        name: 'x4',
-        fmla: '+- hc 0 dx4'
+        n: 'x4',
+        f: '+- hc 0 dx4'
       },
       {
-        name: 'x5',
-        fmla: '+- hc 0 dx5'
+        n: 'x5',
+        f: '+- hc 0 dx5'
       },
       {
-        name: 'x6',
-        fmla: '+- hc dx5 0'
+        n: 'x6',
+        f: '+- hc dx5 0'
       },
       {
-        name: 'x7',
-        fmla: '+- hc dx4 0'
+        n: 'x7',
+        f: '+- hc dx4 0'
       },
       {
-        name: 'x8',
-        fmla: '+- hc dx3 0'
+        n: 'x8',
+        f: '+- hc dx3 0'
       },
       {
-        name: 'x9',
-        fmla: '+- hc dx2 0'
+        n: 'x9',
+        f: '+- hc dx2 0'
       },
       {
-        name: 'x10',
-        fmla: '+- hc dx1 0'
+        n: 'x10',
+        f: '+- hc dx1 0'
       },
       {
-        name: 'y1',
-        fmla: '+- vc 0 dy1'
+        n: 'y1',
+        f: '+- vc 0 dy1'
       },
       {
-        name: 'y2',
-        fmla: '+- vc 0 dy2'
+        n: 'y2',
+        f: '+- vc 0 dy2'
       },
       {
-        name: 'y3',
-        fmla: '+- vc 0 dy3'
+        n: 'y3',
+        f: '+- vc 0 dy3'
       },
       {
-        name: 'y4',
-        fmla: '+- vc 0 dy4'
+        n: 'y4',
+        f: '+- vc 0 dy4'
       },
       {
-        name: 'y5',
-        fmla: '+- vc 0 dy5'
+        n: 'y5',
+        f: '+- vc 0 dy5'
       },
       {
-        name: 'y6',
-        fmla: '+- vc dy5 0'
+        n: 'y6',
+        f: '+- vc dy5 0'
       },
       {
-        name: 'y7',
-        fmla: '+- vc dy4 0'
+        n: 'y7',
+        f: '+- vc dy4 0'
       },
       {
-        name: 'y8',
-        fmla: '+- vc dy3 0'
+        n: 'y8',
+        f: '+- vc dy3 0'
       },
       {
-        name: 'y9',
-        fmla: '+- vc dy2 0'
+        n: 'y9',
+        f: '+- vc dy2 0'
       },
       {
-        name: 'y10',
-        fmla: '+- vc dy1 0'
+        n: 'y10',
+        f: '+- vc dy1 0'
       },
       {
-        name: 'iwd2',
-        fmla: '*/ wd2 a 50000'
+        n: 'iwd2',
+        f: '*/ wd2 a 50000'
       },
       {
-        name: 'ihd2',
-        fmla: '*/ hd2 a 50000'
+        n: 'ihd2',
+        f: '*/ hd2 a 50000'
       },
       {
-        name: 'sdx1',
-        fmla: '*/ iwd2 99144 100000'
+        n: 'sdx1',
+        f: '*/ iwd2 99144 100000'
       },
       {
-        name: 'sdx2',
-        fmla: '*/ iwd2 92388 100000'
+        n: 'sdx2',
+        f: '*/ iwd2 92388 100000'
       },
       {
-        name: 'sdx3',
-        fmla: '*/ iwd2 79335 100000'
+        n: 'sdx3',
+        f: '*/ iwd2 79335 100000'
       },
       {
-        name: 'sdx4',
-        fmla: '*/ iwd2 60876 100000'
+        n: 'sdx4',
+        f: '*/ iwd2 60876 100000'
       },
       {
-        name: 'sdx5',
-        fmla: '*/ iwd2 38268 100000'
+        n: 'sdx5',
+        f: '*/ iwd2 38268 100000'
       },
       {
-        name: 'sdx6',
-        fmla: '*/ iwd2 13053 100000'
+        n: 'sdx6',
+        f: '*/ iwd2 13053 100000'
       },
       {
-        name: 'sdy1',
-        fmla: '*/ ihd2 99144 100000'
+        n: 'sdy1',
+        f: '*/ ihd2 99144 100000'
       },
       {
-        name: 'sdy2',
-        fmla: '*/ ihd2 92388 100000'
+        n: 'sdy2',
+        f: '*/ ihd2 92388 100000'
       },
       {
-        name: 'sdy3',
-        fmla: '*/ ihd2 79335 100000'
+        n: 'sdy3',
+        f: '*/ ihd2 79335 100000'
       },
       {
-        name: 'sdy4',
-        fmla: '*/ ihd2 60876 100000'
+        n: 'sdy4',
+        f: '*/ ihd2 60876 100000'
       },
       {
-        name: 'sdy5',
-        fmla: '*/ ihd2 38268 100000'
+        n: 'sdy5',
+        f: '*/ ihd2 38268 100000'
       },
       {
-        name: 'sdy6',
-        fmla: '*/ ihd2 13053 100000'
+        n: 'sdy6',
+        f: '*/ ihd2 13053 100000'
       },
       {
-        name: 'sx1',
-        fmla: '+- hc 0 sdx1'
+        n: 'sx1',
+        f: '+- hc 0 sdx1'
       },
       {
-        name: 'sx2',
-        fmla: '+- hc 0 sdx2'
+        n: 'sx2',
+        f: '+- hc 0 sdx2'
       },
       {
-        name: 'sx3',
-        fmla: '+- hc 0 sdx3'
+        n: 'sx3',
+        f: '+- hc 0 sdx3'
       },
       {
-        name: 'sx4',
-        fmla: '+- hc 0 sdx4'
+        n: 'sx4',
+        f: '+- hc 0 sdx4'
       },
       {
-        name: 'sx5',
-        fmla: '+- hc 0 sdx5'
+        n: 'sx5',
+        f: '+- hc 0 sdx5'
       },
       {
-        name: 'sx6',
-        fmla: '+- hc 0 sdx6'
+        n: 'sx6',
+        f: '+- hc 0 sdx6'
       },
       {
-        name: 'sx7',
-        fmla: '+- hc sdx6 0'
+        n: 'sx7',
+        f: '+- hc sdx6 0'
       },
       {
-        name: 'sx8',
-        fmla: '+- hc sdx5 0'
+        n: 'sx8',
+        f: '+- hc sdx5 0'
       },
       {
-        name: 'sx9',
-        fmla: '+- hc sdx4 0'
+        n: 'sx9',
+        f: '+- hc sdx4 0'
       },
       {
-        name: 'sx10',
-        fmla: '+- hc sdx3 0'
+        n: 'sx10',
+        f: '+- hc sdx3 0'
       },
       {
-        name: 'sx11',
-        fmla: '+- hc sdx2 0'
+        n: 'sx11',
+        f: '+- hc sdx2 0'
       },
       {
-        name: 'sx12',
-        fmla: '+- hc sdx1 0'
+        n: 'sx12',
+        f: '+- hc sdx1 0'
       },
       {
-        name: 'sy1',
-        fmla: '+- vc 0 sdy1'
+        n: 'sy1',
+        f: '+- vc 0 sdy1'
       },
       {
-        name: 'sy2',
-        fmla: '+- vc 0 sdy2'
+        n: 'sy2',
+        f: '+- vc 0 sdy2'
       },
       {
-        name: 'sy3',
-        fmla: '+- vc 0 sdy3'
+        n: 'sy3',
+        f: '+- vc 0 sdy3'
       },
       {
-        name: 'sy4',
-        fmla: '+- vc 0 sdy4'
+        n: 'sy4',
+        f: '+- vc 0 sdy4'
       },
       {
-        name: 'sy5',
-        fmla: '+- vc 0 sdy5'
+        n: 'sy5',
+        f: '+- vc 0 sdy5'
       },
       {
-        name: 'sy6',
-        fmla: '+- vc 0 sdy6'
+        n: 'sy6',
+        f: '+- vc 0 sdy6'
       },
       {
-        name: 'sy7',
-        fmla: '+- vc sdy6 0'
+        n: 'sy7',
+        f: '+- vc sdy6 0'
       },
       {
-        name: 'sy8',
-        fmla: '+- vc sdy5 0'
+        n: 'sy8',
+        f: '+- vc sdy5 0'
       },
       {
-        name: 'sy9',
-        fmla: '+- vc sdy4 0'
+        n: 'sy9',
+        f: '+- vc sdy4 0'
       },
       {
-        name: 'sy10',
-        fmla: '+- vc sdy3 0'
+        n: 'sy10',
+        f: '+- vc sdy3 0'
       },
       {
-        name: 'sy11',
-        fmla: '+- vc sdy2 0'
+        n: 'sy11',
+        f: '+- vc sdy2 0'
       },
       {
-        name: 'sy12',
-        fmla: '+- vc sdy1 0'
+        n: 'sy12',
+        f: '+- vc sdy1 0'
       },
       {
-        name: 'idx',
-        fmla: 'cos iwd2 2700000'
+        n: 'idx',
+        f: 'cos iwd2 2700000'
       },
       {
-        name: 'idy',
-        fmla: 'sin ihd2 2700000'
+        n: 'idy',
+        f: 'sin ihd2 2700000'
       },
       {
-        name: 'il',
-        fmla: '+- hc 0 idx'
+        n: 'il',
+        f: '+- hc 0 idx'
       },
       {
-        name: 'it',
-        fmla: '+- vc 0 idy'
+        n: 'it',
+        f: '+- vc 0 idy'
       },
       {
-        name: 'ir',
-        fmla: '+- hc idx 0'
+        n: 'ir',
+        f: '+- hc idx 0'
       },
       {
-        name: 'ib',
-        fmla: '+- vc idy 0'
+        n: 'ib',
+        f: '+- vc idy 0'
       },
       {
-        name: 'yAdj',
-        fmla: '+- vc 0 ihd2'
+        n: 'yAdj',
+        f: '+- vc 0 ihd2'
       }
     ],
     pathLst: [
@@ -33530,410 +33530,410 @@ export const presetShape: Record<string, Shape> = {
   star32: {
     avLst: [
       {
-        name: 'adj',
-        fmla: 'val 37500'
+        n: 'adj',
+        f: 'val 37500'
       }
     ],
     gdLst: [
       {
-        name: 'a',
-        fmla: 'pin 0 adj 50000'
+        n: 'a',
+        f: 'pin 0 adj 50000'
       },
       {
-        name: 'dx1',
-        fmla: '*/ wd2 98079 100000'
+        n: 'dx1',
+        f: '*/ wd2 98079 100000'
       },
       {
-        name: 'dx2',
-        fmla: '*/ wd2 92388 100000'
+        n: 'dx2',
+        f: '*/ wd2 92388 100000'
       },
       {
-        name: 'dx3',
-        fmla: '*/ wd2 83147 100000'
+        n: 'dx3',
+        f: '*/ wd2 83147 100000'
       },
       {
-        name: 'dx4',
-        fmla: 'cos wd2 2700000'
+        n: 'dx4',
+        f: 'cos wd2 2700000'
       },
       {
-        name: 'dx5',
-        fmla: '*/ wd2 55557 100000'
+        n: 'dx5',
+        f: '*/ wd2 55557 100000'
       },
       {
-        name: 'dx6',
-        fmla: '*/ wd2 38268 100000'
+        n: 'dx6',
+        f: '*/ wd2 38268 100000'
       },
       {
-        name: 'dx7',
-        fmla: '*/ wd2 19509 100000'
+        n: 'dx7',
+        f: '*/ wd2 19509 100000'
       },
       {
-        name: 'dy1',
-        fmla: '*/ hd2 98079 100000'
+        n: 'dy1',
+        f: '*/ hd2 98079 100000'
       },
       {
-        name: 'dy2',
-        fmla: '*/ hd2 92388 100000'
+        n: 'dy2',
+        f: '*/ hd2 92388 100000'
       },
       {
-        name: 'dy3',
-        fmla: '*/ hd2 83147 100000'
+        n: 'dy3',
+        f: '*/ hd2 83147 100000'
       },
       {
-        name: 'dy4',
-        fmla: 'sin hd2 2700000'
+        n: 'dy4',
+        f: 'sin hd2 2700000'
       },
       {
-        name: 'dy5',
-        fmla: '*/ hd2 55557 100000'
+        n: 'dy5',
+        f: '*/ hd2 55557 100000'
       },
       {
-        name: 'dy6',
-        fmla: '*/ hd2 38268 100000'
+        n: 'dy6',
+        f: '*/ hd2 38268 100000'
       },
       {
-        name: 'dy7',
-        fmla: '*/ hd2 19509 100000'
+        n: 'dy7',
+        f: '*/ hd2 19509 100000'
       },
       {
-        name: 'x1',
-        fmla: '+- hc 0 dx1'
+        n: 'x1',
+        f: '+- hc 0 dx1'
       },
       {
-        name: 'x2',
-        fmla: '+- hc 0 dx2'
+        n: 'x2',
+        f: '+- hc 0 dx2'
       },
       {
-        name: 'x3',
-        fmla: '+- hc 0 dx3'
+        n: 'x3',
+        f: '+- hc 0 dx3'
       },
       {
-        name: 'x4',
-        fmla: '+- hc 0 dx4'
+        n: 'x4',
+        f: '+- hc 0 dx4'
       },
       {
-        name: 'x5',
-        fmla: '+- hc 0 dx5'
+        n: 'x5',
+        f: '+- hc 0 dx5'
       },
       {
-        name: 'x6',
-        fmla: '+- hc 0 dx6'
+        n: 'x6',
+        f: '+- hc 0 dx6'
       },
       {
-        name: 'x7',
-        fmla: '+- hc 0 dx7'
+        n: 'x7',
+        f: '+- hc 0 dx7'
       },
       {
-        name: 'x8',
-        fmla: '+- hc dx7 0'
+        n: 'x8',
+        f: '+- hc dx7 0'
       },
       {
-        name: 'x9',
-        fmla: '+- hc dx6 0'
+        n: 'x9',
+        f: '+- hc dx6 0'
       },
       {
-        name: 'x10',
-        fmla: '+- hc dx5 0'
+        n: 'x10',
+        f: '+- hc dx5 0'
       },
       {
-        name: 'x11',
-        fmla: '+- hc dx4 0'
+        n: 'x11',
+        f: '+- hc dx4 0'
       },
       {
-        name: 'x12',
-        fmla: '+- hc dx3 0'
+        n: 'x12',
+        f: '+- hc dx3 0'
       },
       {
-        name: 'x13',
-        fmla: '+- hc dx2 0'
+        n: 'x13',
+        f: '+- hc dx2 0'
       },
       {
-        name: 'x14',
-        fmla: '+- hc dx1 0'
+        n: 'x14',
+        f: '+- hc dx1 0'
       },
       {
-        name: 'y1',
-        fmla: '+- vc 0 dy1'
+        n: 'y1',
+        f: '+- vc 0 dy1'
       },
       {
-        name: 'y2',
-        fmla: '+- vc 0 dy2'
+        n: 'y2',
+        f: '+- vc 0 dy2'
       },
       {
-        name: 'y3',
-        fmla: '+- vc 0 dy3'
+        n: 'y3',
+        f: '+- vc 0 dy3'
       },
       {
-        name: 'y4',
-        fmla: '+- vc 0 dy4'
+        n: 'y4',
+        f: '+- vc 0 dy4'
       },
       {
-        name: 'y5',
-        fmla: '+- vc 0 dy5'
+        n: 'y5',
+        f: '+- vc 0 dy5'
       },
       {
-        name: 'y6',
-        fmla: '+- vc 0 dy6'
+        n: 'y6',
+        f: '+- vc 0 dy6'
       },
       {
-        name: 'y7',
-        fmla: '+- vc 0 dy7'
+        n: 'y7',
+        f: '+- vc 0 dy7'
       },
       {
-        name: 'y8',
-        fmla: '+- vc dy7 0'
+        n: 'y8',
+        f: '+- vc dy7 0'
       },
       {
-        name: 'y9',
-        fmla: '+- vc dy6 0'
+        n: 'y9',
+        f: '+- vc dy6 0'
       },
       {
-        name: 'y10',
-        fmla: '+- vc dy5 0'
+        n: 'y10',
+        f: '+- vc dy5 0'
       },
       {
-        name: 'y11',
-        fmla: '+- vc dy4 0'
+        n: 'y11',
+        f: '+- vc dy4 0'
       },
       {
-        name: 'y12',
-        fmla: '+- vc dy3 0'
+        n: 'y12',
+        f: '+- vc dy3 0'
       },
       {
-        name: 'y13',
-        fmla: '+- vc dy2 0'
+        n: 'y13',
+        f: '+- vc dy2 0'
       },
       {
-        name: 'y14',
-        fmla: '+- vc dy1 0'
+        n: 'y14',
+        f: '+- vc dy1 0'
       },
       {
-        name: 'iwd2',
-        fmla: '*/ wd2 a 50000'
+        n: 'iwd2',
+        f: '*/ wd2 a 50000'
       },
       {
-        name: 'ihd2',
-        fmla: '*/ hd2 a 50000'
+        n: 'ihd2',
+        f: '*/ hd2 a 50000'
       },
       {
-        name: 'sdx1',
-        fmla: '*/ iwd2 99518 100000'
+        n: 'sdx1',
+        f: '*/ iwd2 99518 100000'
       },
       {
-        name: 'sdx2',
-        fmla: '*/ iwd2 95694 100000'
+        n: 'sdx2',
+        f: '*/ iwd2 95694 100000'
       },
       {
-        name: 'sdx3',
-        fmla: '*/ iwd2 88192 100000'
+        n: 'sdx3',
+        f: '*/ iwd2 88192 100000'
       },
       {
-        name: 'sdx4',
-        fmla: '*/ iwd2 77301 100000'
+        n: 'sdx4',
+        f: '*/ iwd2 77301 100000'
       },
       {
-        name: 'sdx5',
-        fmla: '*/ iwd2 63439 100000'
+        n: 'sdx5',
+        f: '*/ iwd2 63439 100000'
       },
       {
-        name: 'sdx6',
-        fmla: '*/ iwd2 47140 100000'
+        n: 'sdx6',
+        f: '*/ iwd2 47140 100000'
       },
       {
-        name: 'sdx7',
-        fmla: '*/ iwd2 29028 100000'
+        n: 'sdx7',
+        f: '*/ iwd2 29028 100000'
       },
       {
-        name: 'sdx8',
-        fmla: '*/ iwd2 9802 100000'
+        n: 'sdx8',
+        f: '*/ iwd2 9802 100000'
       },
       {
-        name: 'sdy1',
-        fmla: '*/ ihd2 99518 100000'
+        n: 'sdy1',
+        f: '*/ ihd2 99518 100000'
       },
       {
-        name: 'sdy2',
-        fmla: '*/ ihd2 95694 100000'
+        n: 'sdy2',
+        f: '*/ ihd2 95694 100000'
       },
       {
-        name: 'sdy3',
-        fmla: '*/ ihd2 88192 100000'
+        n: 'sdy3',
+        f: '*/ ihd2 88192 100000'
       },
       {
-        name: 'sdy4',
-        fmla: '*/ ihd2 77301 100000'
+        n: 'sdy4',
+        f: '*/ ihd2 77301 100000'
       },
       {
-        name: 'sdy5',
-        fmla: '*/ ihd2 63439 100000'
+        n: 'sdy5',
+        f: '*/ ihd2 63439 100000'
       },
       {
-        name: 'sdy6',
-        fmla: '*/ ihd2 47140 100000'
+        n: 'sdy6',
+        f: '*/ ihd2 47140 100000'
       },
       {
-        name: 'sdy7',
-        fmla: '*/ ihd2 29028 100000'
+        n: 'sdy7',
+        f: '*/ ihd2 29028 100000'
       },
       {
-        name: 'sdy8',
-        fmla: '*/ ihd2 9802 100000'
+        n: 'sdy8',
+        f: '*/ ihd2 9802 100000'
       },
       {
-        name: 'sx1',
-        fmla: '+- hc 0 sdx1'
+        n: 'sx1',
+        f: '+- hc 0 sdx1'
       },
       {
-        name: 'sx2',
-        fmla: '+- hc 0 sdx2'
+        n: 'sx2',
+        f: '+- hc 0 sdx2'
       },
       {
-        name: 'sx3',
-        fmla: '+- hc 0 sdx3'
+        n: 'sx3',
+        f: '+- hc 0 sdx3'
       },
       {
-        name: 'sx4',
-        fmla: '+- hc 0 sdx4'
+        n: 'sx4',
+        f: '+- hc 0 sdx4'
       },
       {
-        name: 'sx5',
-        fmla: '+- hc 0 sdx5'
+        n: 'sx5',
+        f: '+- hc 0 sdx5'
       },
       {
-        name: 'sx6',
-        fmla: '+- hc 0 sdx6'
+        n: 'sx6',
+        f: '+- hc 0 sdx6'
       },
       {
-        name: 'sx7',
-        fmla: '+- hc 0 sdx7'
+        n: 'sx7',
+        f: '+- hc 0 sdx7'
       },
       {
-        name: 'sx8',
-        fmla: '+- hc 0 sdx8'
+        n: 'sx8',
+        f: '+- hc 0 sdx8'
       },
       {
-        name: 'sx9',
-        fmla: '+- hc sdx8 0'
+        n: 'sx9',
+        f: '+- hc sdx8 0'
       },
       {
-        name: 'sx10',
-        fmla: '+- hc sdx7 0'
+        n: 'sx10',
+        f: '+- hc sdx7 0'
       },
       {
-        name: 'sx11',
-        fmla: '+- hc sdx6 0'
+        n: 'sx11',
+        f: '+- hc sdx6 0'
       },
       {
-        name: 'sx12',
-        fmla: '+- hc sdx5 0'
+        n: 'sx12',
+        f: '+- hc sdx5 0'
       },
       {
-        name: 'sx13',
-        fmla: '+- hc sdx4 0'
+        n: 'sx13',
+        f: '+- hc sdx4 0'
       },
       {
-        name: 'sx14',
-        fmla: '+- hc sdx3 0'
+        n: 'sx14',
+        f: '+- hc sdx3 0'
       },
       {
-        name: 'sx15',
-        fmla: '+- hc sdx2 0'
+        n: 'sx15',
+        f: '+- hc sdx2 0'
       },
       {
-        name: 'sx16',
-        fmla: '+- hc sdx1 0'
+        n: 'sx16',
+        f: '+- hc sdx1 0'
       },
       {
-        name: 'sy1',
-        fmla: '+- vc 0 sdy1'
+        n: 'sy1',
+        f: '+- vc 0 sdy1'
       },
       {
-        name: 'sy2',
-        fmla: '+- vc 0 sdy2'
+        n: 'sy2',
+        f: '+- vc 0 sdy2'
       },
       {
-        name: 'sy3',
-        fmla: '+- vc 0 sdy3'
+        n: 'sy3',
+        f: '+- vc 0 sdy3'
       },
       {
-        name: 'sy4',
-        fmla: '+- vc 0 sdy4'
+        n: 'sy4',
+        f: '+- vc 0 sdy4'
       },
       {
-        name: 'sy5',
-        fmla: '+- vc 0 sdy5'
+        n: 'sy5',
+        f: '+- vc 0 sdy5'
       },
       {
-        name: 'sy6',
-        fmla: '+- vc 0 sdy6'
+        n: 'sy6',
+        f: '+- vc 0 sdy6'
       },
       {
-        name: 'sy7',
-        fmla: '+- vc 0 sdy7'
+        n: 'sy7',
+        f: '+- vc 0 sdy7'
       },
       {
-        name: 'sy8',
-        fmla: '+- vc 0 sdy8'
+        n: 'sy8',
+        f: '+- vc 0 sdy8'
       },
       {
-        name: 'sy9',
-        fmla: '+- vc sdy8 0'
+        n: 'sy9',
+        f: '+- vc sdy8 0'
       },
       {
-        name: 'sy10',
-        fmla: '+- vc sdy7 0'
+        n: 'sy10',
+        f: '+- vc sdy7 0'
       },
       {
-        name: 'sy11',
-        fmla: '+- vc sdy6 0'
+        n: 'sy11',
+        f: '+- vc sdy6 0'
       },
       {
-        name: 'sy12',
-        fmla: '+- vc sdy5 0'
+        n: 'sy12',
+        f: '+- vc sdy5 0'
       },
       {
-        name: 'sy13',
-        fmla: '+- vc sdy4 0'
+        n: 'sy13',
+        f: '+- vc sdy4 0'
       },
       {
-        name: 'sy14',
-        fmla: '+- vc sdy3 0'
+        n: 'sy14',
+        f: '+- vc sdy3 0'
       },
       {
-        name: 'sy15',
-        fmla: '+- vc sdy2 0'
+        n: 'sy15',
+        f: '+- vc sdy2 0'
       },
       {
-        name: 'sy16',
-        fmla: '+- vc sdy1 0'
+        n: 'sy16',
+        f: '+- vc sdy1 0'
       },
       {
-        name: 'idx',
-        fmla: 'cos iwd2 2700000'
+        n: 'idx',
+        f: 'cos iwd2 2700000'
       },
       {
-        name: 'idy',
-        fmla: 'sin ihd2 2700000'
+        n: 'idy',
+        f: 'sin ihd2 2700000'
       },
       {
-        name: 'il',
-        fmla: '+- hc 0 idx'
+        n: 'il',
+        f: '+- hc 0 idx'
       },
       {
-        name: 'it',
-        fmla: '+- vc 0 idy'
+        n: 'it',
+        f: '+- vc 0 idy'
       },
       {
-        name: 'ir',
-        fmla: '+- hc idx 0'
+        n: 'ir',
+        f: '+- hc idx 0'
       },
       {
-        name: 'ib',
-        fmla: '+- vc idy 0'
+        n: 'ib',
+        f: '+- vc idy 0'
       },
       {
-        name: 'yAdj',
-        fmla: '+- vc 0 ihd2'
+        n: 'yAdj',
+        f: '+- vc 0 ihd2'
       }
     ],
     pathLst: [
@@ -34399,50 +34399,50 @@ export const presetShape: Record<string, Shape> = {
   star4: {
     avLst: [
       {
-        name: 'adj',
-        fmla: 'val 12500'
+        n: 'adj',
+        f: 'val 12500'
       }
     ],
     gdLst: [
       {
-        name: 'a',
-        fmla: 'pin 0 adj 50000'
+        n: 'a',
+        f: 'pin 0 adj 50000'
       },
       {
-        name: 'iwd2',
-        fmla: '*/ wd2 a 50000'
+        n: 'iwd2',
+        f: '*/ wd2 a 50000'
       },
       {
-        name: 'ihd2',
-        fmla: '*/ hd2 a 50000'
+        n: 'ihd2',
+        f: '*/ hd2 a 50000'
       },
       {
-        name: 'sdx',
-        fmla: 'cos iwd2 2700000'
+        n: 'sdx',
+        f: 'cos iwd2 2700000'
       },
       {
-        name: 'sdy',
-        fmla: 'sin ihd2 2700000'
+        n: 'sdy',
+        f: 'sin ihd2 2700000'
       },
       {
-        name: 'sx1',
-        fmla: '+- hc 0 sdx'
+        n: 'sx1',
+        f: '+- hc 0 sdx'
       },
       {
-        name: 'sx2',
-        fmla: '+- hc sdx 0'
+        n: 'sx2',
+        f: '+- hc sdx 0'
       },
       {
-        name: 'sy1',
-        fmla: '+- vc 0 sdy'
+        n: 'sy1',
+        f: '+- vc 0 sdy'
       },
       {
-        name: 'sy2',
-        fmla: '+- vc sdy 0'
+        n: 'sy2',
+        f: '+- vc sdy 0'
       },
       {
-        name: 'yAdj',
-        fmla: '+- vc 0 ihd2'
+        n: 'yAdj',
+        f: '+- vc 0 ihd2'
       }
     ],
     pathLst: [
@@ -34516,130 +34516,130 @@ export const presetShape: Record<string, Shape> = {
   star5: {
     avLst: [
       {
-        name: 'adj',
-        fmla: 'val 19098'
+        n: 'adj',
+        f: 'val 19098'
       },
       {
-        name: 'hf',
-        fmla: 'val 105146'
+        n: 'hf',
+        f: 'val 105146'
       },
       {
-        name: 'vf',
-        fmla: 'val 110557'
+        n: 'vf',
+        f: 'val 110557'
       }
     ],
     gdLst: [
       {
-        name: 'a',
-        fmla: 'pin 0 adj 50000'
+        n: 'a',
+        f: 'pin 0 adj 50000'
       },
       {
-        name: 'swd2',
-        fmla: '*/ wd2 hf 100000'
+        n: 'swd2',
+        f: '*/ wd2 hf 100000'
       },
       {
-        name: 'shd2',
-        fmla: '*/ hd2 vf 100000'
+        n: 'shd2',
+        f: '*/ hd2 vf 100000'
       },
       {
-        name: 'svc',
-        fmla: '*/ vc  vf 100000'
+        n: 'svc',
+        f: '*/ vc  vf 100000'
       },
       {
-        name: 'dx1',
-        fmla: 'cos swd2 1080000'
+        n: 'dx1',
+        f: 'cos swd2 1080000'
       },
       {
-        name: 'dx2',
-        fmla: 'cos swd2 18360000'
+        n: 'dx2',
+        f: 'cos swd2 18360000'
       },
       {
-        name: 'dy1',
-        fmla: 'sin shd2 1080000'
+        n: 'dy1',
+        f: 'sin shd2 1080000'
       },
       {
-        name: 'dy2',
-        fmla: 'sin shd2 18360000'
+        n: 'dy2',
+        f: 'sin shd2 18360000'
       },
       {
-        name: 'x1',
-        fmla: '+- hc 0 dx1'
+        n: 'x1',
+        f: '+- hc 0 dx1'
       },
       {
-        name: 'x2',
-        fmla: '+- hc 0 dx2'
+        n: 'x2',
+        f: '+- hc 0 dx2'
       },
       {
-        name: 'x3',
-        fmla: '+- hc dx2 0'
+        n: 'x3',
+        f: '+- hc dx2 0'
       },
       {
-        name: 'x4',
-        fmla: '+- hc dx1 0'
+        n: 'x4',
+        f: '+- hc dx1 0'
       },
       {
-        name: 'y1',
-        fmla: '+- svc 0 dy1'
+        n: 'y1',
+        f: '+- svc 0 dy1'
       },
       {
-        name: 'y2',
-        fmla: '+- svc 0 dy2'
+        n: 'y2',
+        f: '+- svc 0 dy2'
       },
       {
-        name: 'iwd2',
-        fmla: '*/ swd2 a 50000'
+        n: 'iwd2',
+        f: '*/ swd2 a 50000'
       },
       {
-        name: 'ihd2',
-        fmla: '*/ shd2 a 50000'
+        n: 'ihd2',
+        f: '*/ shd2 a 50000'
       },
       {
-        name: 'sdx1',
-        fmla: 'cos iwd2 20520000'
+        n: 'sdx1',
+        f: 'cos iwd2 20520000'
       },
       {
-        name: 'sdx2',
-        fmla: 'cos iwd2 3240000'
+        n: 'sdx2',
+        f: 'cos iwd2 3240000'
       },
       {
-        name: 'sdy1',
-        fmla: 'sin ihd2 3240000'
+        n: 'sdy1',
+        f: 'sin ihd2 3240000'
       },
       {
-        name: 'sdy2',
-        fmla: 'sin ihd2 20520000'
+        n: 'sdy2',
+        f: 'sin ihd2 20520000'
       },
       {
-        name: 'sx1',
-        fmla: '+- hc 0 sdx1'
+        n: 'sx1',
+        f: '+- hc 0 sdx1'
       },
       {
-        name: 'sx2',
-        fmla: '+- hc 0 sdx2'
+        n: 'sx2',
+        f: '+- hc 0 sdx2'
       },
       {
-        name: 'sx3',
-        fmla: '+- hc sdx2 0'
+        n: 'sx3',
+        f: '+- hc sdx2 0'
       },
       {
-        name: 'sx4',
-        fmla: '+- hc sdx1 0'
+        n: 'sx4',
+        f: '+- hc sdx1 0'
       },
       {
-        name: 'sy1',
-        fmla: '+- svc 0 sdy1'
+        n: 'sy1',
+        f: '+- svc 0 sdy1'
       },
       {
-        name: 'sy2',
-        fmla: '+- svc 0 sdy2'
+        n: 'sy2',
+        f: '+- svc 0 sdy2'
       },
       {
-        name: 'sy3',
-        fmla: '+- svc ihd2 0'
+        n: 'sy3',
+        f: '+- svc ihd2 0'
       },
       {
-        name: 'yAdj',
-        fmla: '+- svc 0 ihd2'
+        n: 'yAdj',
+        f: '+- svc 0 ihd2'
       }
     ],
     pathLst: [
@@ -34727,82 +34727,82 @@ export const presetShape: Record<string, Shape> = {
   star6: {
     avLst: [
       {
-        name: 'adj',
-        fmla: 'val 28868'
+        n: 'adj',
+        f: 'val 28868'
       },
       {
-        name: 'hf',
-        fmla: 'val 115470'
+        n: 'hf',
+        f: 'val 115470'
       }
     ],
     gdLst: [
       {
-        name: 'a',
-        fmla: 'pin 0 adj 50000'
+        n: 'a',
+        f: 'pin 0 adj 50000'
       },
       {
-        name: 'swd2',
-        fmla: '*/ wd2 hf 100000'
+        n: 'swd2',
+        f: '*/ wd2 hf 100000'
       },
       {
-        name: 'dx1',
-        fmla: 'cos swd2 1800000'
+        n: 'dx1',
+        f: 'cos swd2 1800000'
       },
       {
-        name: 'x1',
-        fmla: '+- hc 0 dx1'
+        n: 'x1',
+        f: '+- hc 0 dx1'
       },
       {
-        name: 'x2',
-        fmla: '+- hc dx1 0'
+        n: 'x2',
+        f: '+- hc dx1 0'
       },
       {
-        name: 'y2',
-        fmla: '+- vc hd4 0'
+        n: 'y2',
+        f: '+- vc hd4 0'
       },
       {
-        name: 'iwd2',
-        fmla: '*/ swd2 a 50000'
+        n: 'iwd2',
+        f: '*/ swd2 a 50000'
       },
       {
-        name: 'ihd2',
-        fmla: '*/ hd2 a 50000'
+        n: 'ihd2',
+        f: '*/ hd2 a 50000'
       },
       {
-        name: 'sdx2',
-        fmla: '*/ iwd2 1 2'
+        n: 'sdx2',
+        f: '*/ iwd2 1 2'
       },
       {
-        name: 'sx1',
-        fmla: '+- hc 0 iwd2'
+        n: 'sx1',
+        f: '+- hc 0 iwd2'
       },
       {
-        name: 'sx2',
-        fmla: '+- hc 0 sdx2'
+        n: 'sx2',
+        f: '+- hc 0 sdx2'
       },
       {
-        name: 'sx3',
-        fmla: '+- hc sdx2 0'
+        n: 'sx3',
+        f: '+- hc sdx2 0'
       },
       {
-        name: 'sx4',
-        fmla: '+- hc iwd2 0'
+        n: 'sx4',
+        f: '+- hc iwd2 0'
       },
       {
-        name: 'sdy1',
-        fmla: 'sin ihd2 3600000'
+        n: 'sdy1',
+        f: 'sin ihd2 3600000'
       },
       {
-        name: 'sy1',
-        fmla: '+- vc 0 sdy1'
+        n: 'sy1',
+        f: '+- vc 0 sdy1'
       },
       {
-        name: 'sy2',
-        fmla: '+- vc sdy1 0'
+        n: 'sy2',
+        f: '+- vc sdy1 0'
       },
       {
-        name: 'yAdj',
-        fmla: '+- vc 0 ihd2'
+        n: 'yAdj',
+        f: '+- vc 0 ihd2'
       }
     ],
     pathLst: [
@@ -34904,170 +34904,170 @@ export const presetShape: Record<string, Shape> = {
   star7: {
     avLst: [
       {
-        name: 'adj',
-        fmla: 'val 34601'
+        n: 'adj',
+        f: 'val 34601'
       },
       {
-        name: 'hf',
-        fmla: 'val 102572'
+        n: 'hf',
+        f: 'val 102572'
       },
       {
-        name: 'vf',
-        fmla: 'val 105210'
+        n: 'vf',
+        f: 'val 105210'
       }
     ],
     gdLst: [
       {
-        name: 'a',
-        fmla: 'pin 0 adj 50000'
+        n: 'a',
+        f: 'pin 0 adj 50000'
       },
       {
-        name: 'swd2',
-        fmla: '*/ wd2 hf 100000'
+        n: 'swd2',
+        f: '*/ wd2 hf 100000'
       },
       {
-        name: 'shd2',
-        fmla: '*/ hd2 vf 100000'
+        n: 'shd2',
+        f: '*/ hd2 vf 100000'
       },
       {
-        name: 'svc',
-        fmla: '*/ vc  vf 100000'
+        n: 'svc',
+        f: '*/ vc  vf 100000'
       },
       {
-        name: 'dx1',
-        fmla: '*/ swd2 97493 100000'
+        n: 'dx1',
+        f: '*/ swd2 97493 100000'
       },
       {
-        name: 'dx2',
-        fmla: '*/ swd2 78183 100000'
+        n: 'dx2',
+        f: '*/ swd2 78183 100000'
       },
       {
-        name: 'dx3',
-        fmla: '*/ swd2 43388 100000'
+        n: 'dx3',
+        f: '*/ swd2 43388 100000'
       },
       {
-        name: 'dy1',
-        fmla: '*/ shd2 62349 100000'
+        n: 'dy1',
+        f: '*/ shd2 62349 100000'
       },
       {
-        name: 'dy2',
-        fmla: '*/ shd2 22252 100000'
+        n: 'dy2',
+        f: '*/ shd2 22252 100000'
       },
       {
-        name: 'dy3',
-        fmla: '*/ shd2 90097 100000'
+        n: 'dy3',
+        f: '*/ shd2 90097 100000'
       },
       {
-        name: 'x1',
-        fmla: '+- hc 0 dx1'
+        n: 'x1',
+        f: '+- hc 0 dx1'
       },
       {
-        name: 'x2',
-        fmla: '+- hc 0 dx2'
+        n: 'x2',
+        f: '+- hc 0 dx2'
       },
       {
-        name: 'x3',
-        fmla: '+- hc 0 dx3'
+        n: 'x3',
+        f: '+- hc 0 dx3'
       },
       {
-        name: 'x4',
-        fmla: '+- hc dx3 0'
+        n: 'x4',
+        f: '+- hc dx3 0'
       },
       {
-        name: 'x5',
-        fmla: '+- hc dx2 0'
+        n: 'x5',
+        f: '+- hc dx2 0'
       },
       {
-        name: 'x6',
-        fmla: '+- hc dx1 0'
+        n: 'x6',
+        f: '+- hc dx1 0'
       },
       {
-        name: 'y1',
-        fmla: '+- svc 0 dy1'
+        n: 'y1',
+        f: '+- svc 0 dy1'
       },
       {
-        name: 'y2',
-        fmla: '+- svc dy2 0'
+        n: 'y2',
+        f: '+- svc dy2 0'
       },
       {
-        name: 'y3',
-        fmla: '+- svc dy3 0'
+        n: 'y3',
+        f: '+- svc dy3 0'
       },
       {
-        name: 'iwd2',
-        fmla: '*/ swd2 a 50000'
+        n: 'iwd2',
+        f: '*/ swd2 a 50000'
       },
       {
-        name: 'ihd2',
-        fmla: '*/ shd2 a 50000'
+        n: 'ihd2',
+        f: '*/ shd2 a 50000'
       },
       {
-        name: 'sdx1',
-        fmla: '*/ iwd2 97493 100000'
+        n: 'sdx1',
+        f: '*/ iwd2 97493 100000'
       },
       {
-        name: 'sdx2',
-        fmla: '*/ iwd2 78183 100000'
+        n: 'sdx2',
+        f: '*/ iwd2 78183 100000'
       },
       {
-        name: 'sdx3',
-        fmla: '*/ iwd2 43388 100000'
+        n: 'sdx3',
+        f: '*/ iwd2 43388 100000'
       },
       {
-        name: 'sx1',
-        fmla: '+- hc 0 sdx1'
+        n: 'sx1',
+        f: '+- hc 0 sdx1'
       },
       {
-        name: 'sx2',
-        fmla: '+- hc 0 sdx2'
+        n: 'sx2',
+        f: '+- hc 0 sdx2'
       },
       {
-        name: 'sx3',
-        fmla: '+- hc 0 sdx3'
+        n: 'sx3',
+        f: '+- hc 0 sdx3'
       },
       {
-        name: 'sx4',
-        fmla: '+- hc sdx3 0'
+        n: 'sx4',
+        f: '+- hc sdx3 0'
       },
       {
-        name: 'sx5',
-        fmla: '+- hc sdx2 0'
+        n: 'sx5',
+        f: '+- hc sdx2 0'
       },
       {
-        name: 'sx6',
-        fmla: '+- hc sdx1 0'
+        n: 'sx6',
+        f: '+- hc sdx1 0'
       },
       {
-        name: 'sdy1',
-        fmla: '*/ ihd2 90097 100000'
+        n: 'sdy1',
+        f: '*/ ihd2 90097 100000'
       },
       {
-        name: 'sdy2',
-        fmla: '*/ ihd2 22252 100000'
+        n: 'sdy2',
+        f: '*/ ihd2 22252 100000'
       },
       {
-        name: 'sdy3',
-        fmla: '*/ ihd2 62349 100000'
+        n: 'sdy3',
+        f: '*/ ihd2 62349 100000'
       },
       {
-        name: 'sy1',
-        fmla: '+- svc 0 sdy1'
+        n: 'sy1',
+        f: '+- svc 0 sdy1'
       },
       {
-        name: 'sy2',
-        fmla: '+- svc 0 sdy2'
+        n: 'sy2',
+        f: '+- svc 0 sdy2'
       },
       {
-        name: 'sy3',
-        fmla: '+- svc sdy3 0'
+        n: 'sy3',
+        f: '+- svc sdy3 0'
       },
       {
-        name: 'sy4',
-        fmla: '+- svc ihd2 0'
+        n: 'sy4',
+        f: '+- svc ihd2 0'
       },
       {
-        name: 'yAdj',
-        fmla: '+- svc 0 ihd2'
+        n: 'yAdj',
+        f: '+- svc 0 ihd2'
       }
     ],
     pathLst: [
@@ -35183,98 +35183,98 @@ export const presetShape: Record<string, Shape> = {
   star8: {
     avLst: [
       {
-        name: 'adj',
-        fmla: 'val 37500'
+        n: 'adj',
+        f: 'val 37500'
       }
     ],
     gdLst: [
       {
-        name: 'a',
-        fmla: 'pin 0 adj 50000'
+        n: 'a',
+        f: 'pin 0 adj 50000'
       },
       {
-        name: 'dx1',
-        fmla: 'cos wd2 2700000'
+        n: 'dx1',
+        f: 'cos wd2 2700000'
       },
       {
-        name: 'x1',
-        fmla: '+- hc 0 dx1'
+        n: 'x1',
+        f: '+- hc 0 dx1'
       },
       {
-        name: 'x2',
-        fmla: '+- hc dx1 0'
+        n: 'x2',
+        f: '+- hc dx1 0'
       },
       {
-        name: 'dy1',
-        fmla: 'sin hd2 2700000'
+        n: 'dy1',
+        f: 'sin hd2 2700000'
       },
       {
-        name: 'y1',
-        fmla: '+- vc 0 dy1'
+        n: 'y1',
+        f: '+- vc 0 dy1'
       },
       {
-        name: 'y2',
-        fmla: '+- vc dy1 0'
+        n: 'y2',
+        f: '+- vc dy1 0'
       },
       {
-        name: 'iwd2',
-        fmla: '*/ wd2 a 50000'
+        n: 'iwd2',
+        f: '*/ wd2 a 50000'
       },
       {
-        name: 'ihd2',
-        fmla: '*/ hd2 a 50000'
+        n: 'ihd2',
+        f: '*/ hd2 a 50000'
       },
       {
-        name: 'sdx1',
-        fmla: '*/ iwd2 92388 100000'
+        n: 'sdx1',
+        f: '*/ iwd2 92388 100000'
       },
       {
-        name: 'sdx2',
-        fmla: '*/ iwd2 38268 100000'
+        n: 'sdx2',
+        f: '*/ iwd2 38268 100000'
       },
       {
-        name: 'sdy1',
-        fmla: '*/ ihd2 92388 100000'
+        n: 'sdy1',
+        f: '*/ ihd2 92388 100000'
       },
       {
-        name: 'sdy2',
-        fmla: '*/ ihd2 38268 100000'
+        n: 'sdy2',
+        f: '*/ ihd2 38268 100000'
       },
       {
-        name: 'sx1',
-        fmla: '+- hc 0 sdx1'
+        n: 'sx1',
+        f: '+- hc 0 sdx1'
       },
       {
-        name: 'sx2',
-        fmla: '+- hc 0 sdx2'
+        n: 'sx2',
+        f: '+- hc 0 sdx2'
       },
       {
-        name: 'sx3',
-        fmla: '+- hc sdx2 0'
+        n: 'sx3',
+        f: '+- hc sdx2 0'
       },
       {
-        name: 'sx4',
-        fmla: '+- hc sdx1 0'
+        n: 'sx4',
+        f: '+- hc sdx1 0'
       },
       {
-        name: 'sy1',
-        fmla: '+- vc 0 sdy1'
+        n: 'sy1',
+        f: '+- vc 0 sdy1'
       },
       {
-        name: 'sy2',
-        fmla: '+- vc 0 sdy2'
+        n: 'sy2',
+        f: '+- vc 0 sdy2'
       },
       {
-        name: 'sy3',
-        fmla: '+- vc sdy2 0'
+        n: 'sy3',
+        f: '+- vc sdy2 0'
       },
       {
-        name: 'sy4',
-        fmla: '+- vc sdy1 0'
+        n: 'sy4',
+        f: '+- vc sdy1 0'
       },
       {
-        name: 'yAdj',
-        fmla: '+- vc 0 ihd2'
+        n: 'yAdj',
+        f: '+- vc 0 ihd2'
       }
     ],
     pathLst: [
@@ -35429,58 +35429,58 @@ export const presetShape: Record<string, Shape> = {
   stripedRightArrow: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 50000'
+        n: 'adj1',
+        f: 'val 50000'
       },
       {
-        name: 'adj2',
-        fmla: 'val 50000'
+        n: 'adj2',
+        f: 'val 50000'
       }
     ],
     gdLst: [
       {
-        name: 'maxAdj2',
-        fmla: '*/ 84375 w ss'
+        n: 'maxAdj2',
+        f: '*/ 84375 w ss'
       },
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 100000'
+        n: 'a1',
+        f: 'pin 0 adj1 100000'
       },
       {
-        name: 'a2',
-        fmla: 'pin 0 adj2 maxAdj2'
+        n: 'a2',
+        f: 'pin 0 adj2 maxAdj2'
       },
       {
-        name: 'x4',
-        fmla: '*/ ss 5 32'
+        n: 'x4',
+        f: '*/ ss 5 32'
       },
       {
-        name: 'dx5',
-        fmla: '*/ ss a2 100000'
+        n: 'dx5',
+        f: '*/ ss a2 100000'
       },
       {
-        name: 'x5',
-        fmla: '+- r 0 dx5'
+        n: 'x5',
+        f: '+- r 0 dx5'
       },
       {
-        name: 'dy1',
-        fmla: '*/ h a1 200000'
+        n: 'dy1',
+        f: '*/ h a1 200000'
       },
       {
-        name: 'y1',
-        fmla: '+- vc 0 dy1'
+        n: 'y1',
+        f: '+- vc 0 dy1'
       },
       {
-        name: 'y2',
-        fmla: '+- vc dy1 0'
+        n: 'y2',
+        f: '+- vc dy1 0'
       },
       {
-        name: 'dx6',
-        fmla: '*/ dy1 dx5 hd2'
+        n: 'dx6',
+        f: '*/ dy1 dx5 hd2'
       },
       {
-        name: 'x6',
-        fmla: '+- r 0 dx6'
+        n: 'x6',
+        f: '+- r 0 dx6'
       }
     ],
     pathLst: [
@@ -35609,198 +35609,198 @@ export const presetShape: Record<string, Shape> = {
   sun: {
     avLst: [
       {
-        name: 'adj',
-        fmla: 'val 25000'
+        n: 'adj',
+        f: 'val 25000'
       }
     ],
     gdLst: [
       {
-        name: 'a',
-        fmla: 'pin 12500 adj 46875'
+        n: 'a',
+        f: 'pin 12500 adj 46875'
       },
       {
-        name: 'g0',
-        fmla: '+- 50000 0 a'
+        n: 'g0',
+        f: '+- 50000 0 a'
       },
       {
-        name: 'g1',
-        fmla: '*/ g0 30274 32768'
+        n: 'g1',
+        f: '*/ g0 30274 32768'
       },
       {
-        name: 'g2',
-        fmla: '*/ g0 12540 32768'
+        n: 'g2',
+        f: '*/ g0 12540 32768'
       },
       {
-        name: 'g3',
-        fmla: '+- g1 50000 0'
+        n: 'g3',
+        f: '+- g1 50000 0'
       },
       {
-        name: 'g4',
-        fmla: '+- g2 50000 0'
+        n: 'g4',
+        f: '+- g2 50000 0'
       },
       {
-        name: 'g5',
-        fmla: '+- 50000 0 g1'
+        n: 'g5',
+        f: '+- 50000 0 g1'
       },
       {
-        name: 'g6',
-        fmla: '+- 50000 0 g2'
+        n: 'g6',
+        f: '+- 50000 0 g2'
       },
       {
-        name: 'g7',
-        fmla: '*/ g0 23170 32768'
+        n: 'g7',
+        f: '*/ g0 23170 32768'
       },
       {
-        name: 'g8',
-        fmla: '+- 50000 g7 0'
+        n: 'g8',
+        f: '+- 50000 g7 0'
       },
       {
-        name: 'g9',
-        fmla: '+- 50000 0 g7'
+        n: 'g9',
+        f: '+- 50000 0 g7'
       },
       {
-        name: 'g10',
-        fmla: '*/ g5 3 4'
+        n: 'g10',
+        f: '*/ g5 3 4'
       },
       {
-        name: 'g11',
-        fmla: '*/ g6 3 4'
+        n: 'g11',
+        f: '*/ g6 3 4'
       },
       {
-        name: 'g12',
-        fmla: '+- g10 3662 0'
+        n: 'g12',
+        f: '+- g10 3662 0'
       },
       {
-        name: 'g13',
-        fmla: '+- g11 3662 0'
+        n: 'g13',
+        f: '+- g11 3662 0'
       },
       {
-        name: 'g14',
-        fmla: '+- g11 12500 0'
+        n: 'g14',
+        f: '+- g11 12500 0'
       },
       {
-        name: 'g15',
-        fmla: '+- 100000 0 g10'
+        n: 'g15',
+        f: '+- 100000 0 g10'
       },
       {
-        name: 'g16',
-        fmla: '+- 100000 0 g12'
+        n: 'g16',
+        f: '+- 100000 0 g12'
       },
       {
-        name: 'g17',
-        fmla: '+- 100000 0 g13'
+        n: 'g17',
+        f: '+- 100000 0 g13'
       },
       {
-        name: 'g18',
-        fmla: '+- 100000 0 g14'
+        n: 'g18',
+        f: '+- 100000 0 g14'
       },
       {
-        name: 'ox1',
-        fmla: '*/ w 18436 21600'
+        n: 'ox1',
+        f: '*/ w 18436 21600'
       },
       {
-        name: 'oy1',
-        fmla: '*/ h 3163 21600'
+        n: 'oy1',
+        f: '*/ h 3163 21600'
       },
       {
-        name: 'ox2',
-        fmla: '*/ w 3163 21600'
+        n: 'ox2',
+        f: '*/ w 3163 21600'
       },
       {
-        name: 'oy2',
-        fmla: '*/ h 18436 21600'
+        n: 'oy2',
+        f: '*/ h 18436 21600'
       },
       {
-        name: 'x8',
-        fmla: '*/ w g8 100000'
+        n: 'x8',
+        f: '*/ w g8 100000'
       },
       {
-        name: 'x9',
-        fmla: '*/ w g9 100000'
+        n: 'x9',
+        f: '*/ w g9 100000'
       },
       {
-        name: 'x10',
-        fmla: '*/ w g10 100000'
+        n: 'x10',
+        f: '*/ w g10 100000'
       },
       {
-        name: 'x12',
-        fmla: '*/ w g12 100000'
+        n: 'x12',
+        f: '*/ w g12 100000'
       },
       {
-        name: 'x13',
-        fmla: '*/ w g13 100000'
+        n: 'x13',
+        f: '*/ w g13 100000'
       },
       {
-        name: 'x14',
-        fmla: '*/ w g14 100000'
+        n: 'x14',
+        f: '*/ w g14 100000'
       },
       {
-        name: 'x15',
-        fmla: '*/ w g15 100000'
+        n: 'x15',
+        f: '*/ w g15 100000'
       },
       {
-        name: 'x16',
-        fmla: '*/ w g16 100000'
+        n: 'x16',
+        f: '*/ w g16 100000'
       },
       {
-        name: 'x17',
-        fmla: '*/ w g17 100000'
+        n: 'x17',
+        f: '*/ w g17 100000'
       },
       {
-        name: 'x18',
-        fmla: '*/ w g18 100000'
+        n: 'x18',
+        f: '*/ w g18 100000'
       },
       {
-        name: 'x19',
-        fmla: '*/ w a 100000'
+        n: 'x19',
+        f: '*/ w a 100000'
       },
       {
-        name: 'wR',
-        fmla: '*/ w g0 100000'
+        n: 'wR',
+        f: '*/ w g0 100000'
       },
       {
-        name: 'hR',
-        fmla: '*/ h g0 100000'
+        n: 'hR',
+        f: '*/ h g0 100000'
       },
       {
-        name: 'y8',
-        fmla: '*/ h g8 100000'
+        n: 'y8',
+        f: '*/ h g8 100000'
       },
       {
-        name: 'y9',
-        fmla: '*/ h g9 100000'
+        n: 'y9',
+        f: '*/ h g9 100000'
       },
       {
-        name: 'y10',
-        fmla: '*/ h g10 100000'
+        n: 'y10',
+        f: '*/ h g10 100000'
       },
       {
-        name: 'y12',
-        fmla: '*/ h g12 100000'
+        n: 'y12',
+        f: '*/ h g12 100000'
       },
       {
-        name: 'y13',
-        fmla: '*/ h g13 100000'
+        n: 'y13',
+        f: '*/ h g13 100000'
       },
       {
-        name: 'y14',
-        fmla: '*/ h g14 100000'
+        n: 'y14',
+        f: '*/ h g14 100000'
       },
       {
-        name: 'y15',
-        fmla: '*/ h g15 100000'
+        n: 'y15',
+        f: '*/ h g15 100000'
       },
       {
-        name: 'y16',
-        fmla: '*/ h g16 100000'
+        n: 'y16',
+        f: '*/ h g16 100000'
       },
       {
-        name: 'y17',
-        fmla: '*/ h g17 100000'
+        n: 'y17',
+        f: '*/ h g17 100000'
       },
       {
-        name: 'y18',
-        fmla: '*/ h g18 100000'
+        n: 'y18',
+        f: '*/ h g18 100000'
       }
     ],
     pathLst: [
@@ -36024,114 +36024,114 @@ export const presetShape: Record<string, Shape> = {
   swooshArrow: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 25000'
+        n: 'adj1',
+        f: 'val 25000'
       },
       {
-        name: 'adj2',
-        fmla: 'val 16667'
+        n: 'adj2',
+        f: 'val 16667'
       }
     ],
     gdLst: [
       {
-        name: 'a1',
-        fmla: 'pin 1 adj1 75000'
+        n: 'a1',
+        f: 'pin 1 adj1 75000'
       },
       {
-        name: 'maxAdj2',
-        fmla: '*/ 70000 w ss'
+        n: 'maxAdj2',
+        f: '*/ 70000 w ss'
       },
       {
-        name: 'a2',
-        fmla: 'pin 0 adj2 maxAdj2'
+        n: 'a2',
+        f: 'pin 0 adj2 maxAdj2'
       },
       {
-        name: 'ad1',
-        fmla: '*/ h a1 100000'
+        n: 'ad1',
+        f: '*/ h a1 100000'
       },
       {
-        name: 'ad2',
-        fmla: '*/ ss a2 100000'
+        n: 'ad2',
+        f: '*/ ss a2 100000'
       },
       {
-        name: 'xB',
-        fmla: '+- r 0 ad2'
+        n: 'xB',
+        f: '+- r 0 ad2'
       },
       {
-        name: 'yB',
-        fmla: '+- t ssd8 0'
+        n: 'yB',
+        f: '+- t ssd8 0'
       },
       {
-        name: 'alfa',
-        fmla: '*/ cd4 1 14'
+        n: 'alfa',
+        f: '*/ cd4 1 14'
       },
       {
-        name: 'dx0',
-        fmla: 'tan ssd8 alfa'
+        n: 'dx0',
+        f: 'tan ssd8 alfa'
       },
       {
-        name: 'xC',
-        fmla: '+- xB 0 dx0'
+        n: 'xC',
+        f: '+- xB 0 dx0'
       },
       {
-        name: 'dx1',
-        fmla: 'tan ad1 alfa'
+        n: 'dx1',
+        f: 'tan ad1 alfa'
       },
       {
-        name: 'yF',
-        fmla: '+- yB ad1 0'
+        n: 'yF',
+        f: '+- yB ad1 0'
       },
       {
-        name: 'xF',
-        fmla: '+- xB dx1 0'
+        n: 'xF',
+        f: '+- xB dx1 0'
       },
       {
-        name: 'xE',
-        fmla: '+- xF dx0 0'
+        n: 'xE',
+        f: '+- xF dx0 0'
       },
       {
-        name: 'yE',
-        fmla: '+- yF ssd8 0'
+        n: 'yE',
+        f: '+- yF ssd8 0'
       },
       {
-        name: 'dy2',
-        fmla: '+- yE 0 t'
+        n: 'dy2',
+        f: '+- yE 0 t'
       },
       {
-        name: 'dy22',
-        fmla: '*/ dy2 1 2'
+        n: 'dy22',
+        f: '*/ dy2 1 2'
       },
       {
-        name: 'dy3',
-        fmla: '*/ h 1 20'
+        n: 'dy3',
+        f: '*/ h 1 20'
       },
       {
-        name: 'yD',
-        fmla: '+- t dy22 dy3'
+        n: 'yD',
+        f: '+- t dy22 dy3'
       },
       {
-        name: 'dy4',
-        fmla: '*/ hd6 1 1'
+        n: 'dy4',
+        f: '*/ hd6 1 1'
       },
       {
-        name: 'yP1',
-        fmla: '+- hd6 dy4 0'
+        n: 'yP1',
+        f: '+- hd6 dy4 0'
       },
       {
-        name: 'xP1',
-        fmla: 'val wd6'
+        n: 'xP1',
+        f: 'val wd6'
       },
       {
-        name: 'dy5',
-        fmla: '*/ hd6 1 2'
+        n: 'dy5',
+        f: '*/ hd6 1 2'
       },
       {
-        name: 'yP2',
-        fmla: '+- yF dy5 0'
+        n: 'yP2',
+        f: '+- yF dy5 0'
       },
       {
-        name: 'xP2',
-        fmla: 'val wd4'
+        n: 'xP2',
+        f: 'val wd4'
       }
     ],
     pathLst: [
@@ -36210,82 +36210,82 @@ export const presetShape: Record<string, Shape> = {
   teardrop: {
     avLst: [
       {
-        name: 'adj',
-        fmla: 'val 100000'
+        n: 'adj',
+        f: 'val 100000'
       }
     ],
     gdLst: [
       {
-        name: 'a',
-        fmla: 'pin 0 adj 200000'
+        n: 'a',
+        f: 'pin 0 adj 200000'
       },
       {
-        name: 'r2',
-        fmla: 'sqrt 2'
+        n: 'r2',
+        f: 'sqrt 2'
       },
       {
-        name: 'tw',
-        fmla: '*/ wd2 r2 1'
+        n: 'tw',
+        f: '*/ wd2 r2 1'
       },
       {
-        name: 'th',
-        fmla: '*/ hd2 r2 1'
+        n: 'th',
+        f: '*/ hd2 r2 1'
       },
       {
-        name: 'sw',
-        fmla: '*/ tw a 100000'
+        n: 'sw',
+        f: '*/ tw a 100000'
       },
       {
-        name: 'sh',
-        fmla: '*/ th a 100000'
+        n: 'sh',
+        f: '*/ th a 100000'
       },
       {
-        name: 'dx1',
-        fmla: 'cos sw 2700000'
+        n: 'dx1',
+        f: 'cos sw 2700000'
       },
       {
-        name: 'dy1',
-        fmla: 'sin sh 2700000'
+        n: 'dy1',
+        f: 'sin sh 2700000'
       },
       {
-        name: 'x1',
-        fmla: '+- hc dx1 0'
+        n: 'x1',
+        f: '+- hc dx1 0'
       },
       {
-        name: 'y1',
-        fmla: '+- vc 0 dy1'
+        n: 'y1',
+        f: '+- vc 0 dy1'
       },
       {
-        name: 'x2',
-        fmla: '+/ hc x1 2'
+        n: 'x2',
+        f: '+/ hc x1 2'
       },
       {
-        name: 'y2',
-        fmla: '+/ vc y1 2'
+        n: 'y2',
+        f: '+/ vc y1 2'
       },
       {
-        name: 'idx',
-        fmla: 'cos wd2 2700000'
+        n: 'idx',
+        f: 'cos wd2 2700000'
       },
       {
-        name: 'idy',
-        fmla: 'sin hd2 2700000'
+        n: 'idy',
+        f: 'sin hd2 2700000'
       },
       {
-        name: 'il',
-        fmla: '+- hc 0 idx'
+        n: 'il',
+        f: '+- hc 0 idx'
       },
       {
-        name: 'ir',
-        fmla: '+- hc idx 0'
+        n: 'ir',
+        f: '+- hc idx 0'
       },
       {
-        name: 'it',
-        fmla: '+- vc 0 idy'
+        n: 'it',
+        f: '+- vc 0 idy'
       },
       {
-        name: 'ib',
-        fmla: '+- vc idy 0'
+        n: 'ib',
+        f: '+- vc idy 0'
       }
     ],
     pathLst: [
@@ -36357,46 +36357,46 @@ export const presetShape: Record<string, Shape> = {
   trapezoid: {
     avLst: [
       {
-        name: 'adj',
-        fmla: 'val 25000'
+        n: 'adj',
+        f: 'val 25000'
       }
     ],
     gdLst: [
       {
-        name: 'maxAdj',
-        fmla: '*/ 50000 w ss'
+        n: 'maxAdj',
+        f: '*/ 50000 w ss'
       },
       {
-        name: 'a',
-        fmla: 'pin 0 adj maxAdj'
+        n: 'a',
+        f: 'pin 0 adj maxAdj'
       },
       {
-        name: 'x1',
-        fmla: '*/ ss a 200000'
+        n: 'x1',
+        f: '*/ ss a 200000'
       },
       {
-        name: 'x2',
-        fmla: '*/ ss a 100000'
+        n: 'x2',
+        f: '*/ ss a 100000'
       },
       {
-        name: 'x3',
-        fmla: '+- r 0 x2'
+        n: 'x3',
+        f: '+- r 0 x2'
       },
       {
-        name: 'x4',
-        fmla: '+- r 0 x1'
+        n: 'x4',
+        f: '+- r 0 x1'
       },
       {
-        name: 'il',
-        fmla: '*/ wd3 a maxAdj'
+        n: 'il',
+        f: '*/ wd3 a maxAdj'
       },
       {
-        name: 'it',
-        fmla: '*/ hd3 a maxAdj'
+        n: 'it',
+        f: '*/ hd3 a maxAdj'
       },
       {
-        name: 'ir',
-        fmla: '+- r 0 il'
+        n: 'ir',
+        f: '+- r 0 il'
       }
     ],
     pathLst: [
@@ -36442,26 +36442,26 @@ export const presetShape: Record<string, Shape> = {
   triangle: {
     avLst: [
       {
-        name: 'adj',
-        fmla: 'val 50000'
+        n: 'adj',
+        f: 'val 50000'
       }
     ],
     gdLst: [
       {
-        name: 'a',
-        fmla: 'pin 0 adj 100000'
+        n: 'a',
+        f: 'pin 0 adj 100000'
       },
       {
-        name: 'x1',
-        fmla: '*/ w a 200000'
+        n: 'x1',
+        f: '*/ w a 200000'
       },
       {
-        name: 'x2',
-        fmla: '*/ w a 100000'
+        n: 'x2',
+        f: '*/ w a 100000'
       },
       {
-        name: 'x3',
-        fmla: '+- x1 wd2 0'
+        n: 'x3',
+        f: '+- x1 wd2 0'
       }
     ],
     pathLst: [
@@ -36500,98 +36500,98 @@ export const presetShape: Record<string, Shape> = {
   upArrowCallout: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 25000'
+        n: 'adj1',
+        f: 'val 25000'
       },
       {
-        name: 'adj2',
-        fmla: 'val 25000'
+        n: 'adj2',
+        f: 'val 25000'
       },
       {
-        name: 'adj3',
-        fmla: 'val 25000'
+        n: 'adj3',
+        f: 'val 25000'
       },
       {
-        name: 'adj4',
-        fmla: 'val 64977'
+        n: 'adj4',
+        f: 'val 64977'
       }
     ],
     gdLst: [
       {
-        name: 'maxAdj2',
-        fmla: '*/ 50000 w ss'
+        n: 'maxAdj2',
+        f: '*/ 50000 w ss'
       },
       {
-        name: 'a2',
-        fmla: 'pin 0 adj2 maxAdj2'
+        n: 'a2',
+        f: 'pin 0 adj2 maxAdj2'
       },
       {
-        name: 'maxAdj1',
-        fmla: '*/ a2 2 1'
+        n: 'maxAdj1',
+        f: '*/ a2 2 1'
       },
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 maxAdj1'
+        n: 'a1',
+        f: 'pin 0 adj1 maxAdj1'
       },
       {
-        name: 'maxAdj3',
-        fmla: '*/ 100000 h ss'
+        n: 'maxAdj3',
+        f: '*/ 100000 h ss'
       },
       {
-        name: 'a3',
-        fmla: 'pin 0 adj3 maxAdj3'
+        n: 'a3',
+        f: 'pin 0 adj3 maxAdj3'
       },
       {
-        name: 'q2',
-        fmla: '*/ a3 ss h'
+        n: 'q2',
+        f: '*/ a3 ss h'
       },
       {
-        name: 'maxAdj4',
-        fmla: '+- 100000 0 q2'
+        n: 'maxAdj4',
+        f: '+- 100000 0 q2'
       },
       {
-        name: 'a4',
-        fmla: 'pin 0 adj4 maxAdj4'
+        n: 'a4',
+        f: 'pin 0 adj4 maxAdj4'
       },
       {
-        name: 'dx1',
-        fmla: '*/ ss a2 100000'
+        n: 'dx1',
+        f: '*/ ss a2 100000'
       },
       {
-        name: 'dx2',
-        fmla: '*/ ss a1 200000'
+        n: 'dx2',
+        f: '*/ ss a1 200000'
       },
       {
-        name: 'x1',
-        fmla: '+- hc 0 dx1'
+        n: 'x1',
+        f: '+- hc 0 dx1'
       },
       {
-        name: 'x2',
-        fmla: '+- hc 0 dx2'
+        n: 'x2',
+        f: '+- hc 0 dx2'
       },
       {
-        name: 'x3',
-        fmla: '+- hc dx2 0'
+        n: 'x3',
+        f: '+- hc dx2 0'
       },
       {
-        name: 'x4',
-        fmla: '+- hc dx1 0'
+        n: 'x4',
+        f: '+- hc dx1 0'
       },
       {
-        name: 'y1',
-        fmla: '*/ ss a3 100000'
+        n: 'y1',
+        f: '*/ ss a3 100000'
       },
       {
-        name: 'dy2',
-        fmla: '*/ h a4 100000'
+        n: 'dy2',
+        f: '*/ h a4 100000'
       },
       {
-        name: 'y2',
-        fmla: '+- b 0 dy2'
+        n: 'y2',
+        f: '+- b 0 dy2'
       },
       {
-        name: 'y3',
-        fmla: '+/ y2 b 2'
+        n: 'y3',
+        f: '+/ y2 b 2'
       }
     ],
     pathLst: [
@@ -36686,58 +36686,58 @@ export const presetShape: Record<string, Shape> = {
   upDownArrow: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 50000'
+        n: 'adj1',
+        f: 'val 50000'
       },
       {
-        name: 'adj2',
-        fmla: 'val 50000'
+        n: 'adj2',
+        f: 'val 50000'
       }
     ],
     gdLst: [
       {
-        name: 'maxAdj2',
-        fmla: '*/ 50000 h ss'
+        n: 'maxAdj2',
+        f: '*/ 50000 h ss'
       },
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 100000'
+        n: 'a1',
+        f: 'pin 0 adj1 100000'
       },
       {
-        name: 'a2',
-        fmla: 'pin 0 adj2 maxAdj2'
+        n: 'a2',
+        f: 'pin 0 adj2 maxAdj2'
       },
       {
-        name: 'y2',
-        fmla: '*/ ss a2 100000'
+        n: 'y2',
+        f: '*/ ss a2 100000'
       },
       {
-        name: 'y3',
-        fmla: '+- b 0 y2'
+        n: 'y3',
+        f: '+- b 0 y2'
       },
       {
-        name: 'dx1',
-        fmla: '*/ w a1 200000'
+        n: 'dx1',
+        f: '*/ w a1 200000'
       },
       {
-        name: 'x1',
-        fmla: '+- hc 0 dx1'
+        n: 'x1',
+        f: '+- hc 0 dx1'
       },
       {
-        name: 'x2',
-        fmla: '+- hc dx1 0'
+        n: 'x2',
+        f: '+- hc dx1 0'
       },
       {
-        name: 'dy1',
-        fmla: '*/ x1 y2 wd2'
+        n: 'dy1',
+        f: '*/ x1 y2 wd2'
       },
       {
-        name: 'y1',
-        fmla: '+- y2 0 dy1'
+        n: 'y1',
+        f: '+- y2 0 dy1'
       },
       {
-        name: 'y4',
-        fmla: '+- y3 dy1 0'
+        n: 'y4',
+        f: '+- y3 dy1 0'
       }
     ],
     pathLst: [
@@ -36822,105 +36822,219 @@ export const presetShape: Record<string, Shape> = {
       }
     ]
   },
-  upDownArrowCallout: {
+  upArrow: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 25000'
+        n: 'adj1',
+        f: 'val 50000'
       },
       {
-        name: 'adj2',
-        fmla: 'val 25000'
-      },
-      {
-        name: 'adj3',
-        fmla: 'val 25000'
-      },
-      {
-        name: 'adj4',
-        fmla: 'val 48123'
+        n: 'adj2',
+        f: 'val 50000'
       }
     ],
     gdLst: [
       {
-        name: 'maxAdj2',
-        fmla: '*/ 50000 w ss'
+        n: 'maxAdj2',
+        f: '*/ 100000 h ss'
       },
       {
-        name: 'a2',
-        fmla: 'pin 0 adj2 maxAdj2'
+        n: 'a1',
+        f: 'pin 0 adj1 100000'
       },
       {
-        name: 'maxAdj1',
-        fmla: '*/ a2 2 1'
+        n: 'a2',
+        f: 'pin 0 adj2 maxAdj2'
       },
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 maxAdj1'
+        n: 'dy2',
+        f: '*/ ss a2 100000'
       },
       {
-        name: 'maxAdj3',
-        fmla: '*/ 50000 h ss'
+        n: 'y2',
+        f: '+- t dy2 0'
       },
       {
-        name: 'a3',
-        fmla: 'pin 0 adj3 maxAdj3'
+        n: 'dx1',
+        f: '*/ w a1 200000'
       },
       {
-        name: 'q2',
-        fmla: '*/ a3 ss hd2'
+        n: 'x1',
+        f: '+- hc 0 dx1'
       },
       {
-        name: 'maxAdj4',
-        fmla: '+- 100000 0 q2'
+        n: 'x2',
+        f: '+- hc dx1 0'
       },
       {
-        name: 'a4',
-        fmla: 'pin 0 adj4 maxAdj4'
+        n: 'dy1',
+        f: '*/ x1 dy2 wd2'
       },
       {
-        name: 'dx1',
-        fmla: '*/ ss a2 100000'
+        n: 'y1',
+        f: '+- y2  0 dy1'
+      }
+    ],
+    pathLst: [
+      {
+        defines: [
+          {
+            type: 'moveTo',
+            pt: {
+              x: 'l',
+              y: 'y2'
+            }
+          },
+          {
+            type: 'lnTo',
+            pt: {
+              x: 'hc',
+              y: 't'
+            }
+          },
+          {
+            type: 'lnTo',
+            pt: {
+              x: 'r',
+              y: 'y2'
+            }
+          },
+          {
+            type: 'lnTo',
+            pt: {
+              x: 'x2',
+              y: 'y2'
+            }
+          },
+          {
+            type: 'lnTo',
+            pt: {
+              x: 'x2',
+              y: 'b'
+            }
+          },
+          {
+            type: 'lnTo',
+            pt: {
+              x: 'x1',
+              y: 'b'
+            }
+          },
+          {
+            type: 'lnTo',
+            pt: {
+              x: 'x1',
+              y: 'y2'
+            }
+          },
+          {
+            type: 'close'
+          }
+        ],
+        extrusionOk: false,
+        stroke: true
+      }
+    ]
+  },
+  upDownArrowCallout: {
+    avLst: [
+      {
+        n: 'adj1',
+        f: 'val 25000'
       },
       {
-        name: 'dx2',
-        fmla: '*/ ss a1 200000'
+        n: 'adj2',
+        f: 'val 25000'
       },
       {
-        name: 'x1',
-        fmla: '+- hc 0 dx1'
+        n: 'adj3',
+        f: 'val 25000'
       },
       {
-        name: 'x2',
-        fmla: '+- hc 0 dx2'
+        n: 'adj4',
+        f: 'val 48123'
+      }
+    ],
+    gdLst: [
+      {
+        n: 'maxAdj2',
+        f: '*/ 50000 w ss'
       },
       {
-        name: 'x3',
-        fmla: '+- hc dx2 0'
+        n: 'a2',
+        f: 'pin 0 adj2 maxAdj2'
       },
       {
-        name: 'x4',
-        fmla: '+- hc dx1 0'
+        n: 'maxAdj1',
+        f: '*/ a2 2 1'
       },
       {
-        name: 'y1',
-        fmla: '*/ ss a3 100000'
+        n: 'a1',
+        f: 'pin 0 adj1 maxAdj1'
       },
       {
-        name: 'y4',
-        fmla: '+- b 0 y1'
+        n: 'maxAdj3',
+        f: '*/ 50000 h ss'
       },
       {
-        name: 'dy2',
-        fmla: '*/ h a4 200000'
+        n: 'a3',
+        f: 'pin 0 adj3 maxAdj3'
       },
       {
-        name: 'y2',
-        fmla: '+- vc 0 dy2'
+        n: 'q2',
+        f: '*/ a3 ss hd2'
       },
       {
-        name: 'y3',
-        fmla: '+- vc dy2 0'
+        n: 'maxAdj4',
+        f: '+- 100000 0 q2'
+      },
+      {
+        n: 'a4',
+        f: 'pin 0 adj4 maxAdj4'
+      },
+      {
+        n: 'dx1',
+        f: '*/ ss a2 100000'
+      },
+      {
+        n: 'dx2',
+        f: '*/ ss a1 200000'
+      },
+      {
+        n: 'x1',
+        f: '+- hc 0 dx1'
+      },
+      {
+        n: 'x2',
+        f: '+- hc 0 dx2'
+      },
+      {
+        n: 'x3',
+        f: '+- hc dx2 0'
+      },
+      {
+        n: 'x4',
+        f: '+- hc dx1 0'
+      },
+      {
+        n: 'y1',
+        f: '*/ ss a3 100000'
+      },
+      {
+        n: 'y4',
+        f: '+- b 0 y1'
+      },
+      {
+        n: 'dy2',
+        f: '*/ h a4 200000'
+      },
+      {
+        n: 'y2',
+        f: '+- vc 0 dy2'
+      },
+      {
+        n: 'y3',
+        f: '+- vc dy2 0'
       }
     ],
     pathLst: [
@@ -37064,154 +37178,154 @@ export const presetShape: Record<string, Shape> = {
   uturnArrow: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 25000'
+        n: 'adj1',
+        f: 'val 25000'
       },
       {
-        name: 'adj2',
-        fmla: 'val 25000'
+        n: 'adj2',
+        f: 'val 25000'
       },
       {
-        name: 'adj3',
-        fmla: 'val 25000'
+        n: 'adj3',
+        f: 'val 25000'
       },
       {
-        name: 'adj4',
-        fmla: 'val 43750'
+        n: 'adj4',
+        f: 'val 43750'
       },
       {
-        name: 'adj5',
-        fmla: 'val 75000'
+        n: 'adj5',
+        f: 'val 75000'
       }
     ],
     gdLst: [
       {
-        name: 'a2',
-        fmla: 'pin 0 adj2 25000'
+        n: 'a2',
+        f: 'pin 0 adj2 25000'
       },
       {
-        name: 'maxAdj1',
-        fmla: '*/ a2 2 1'
+        n: 'maxAdj1',
+        f: '*/ a2 2 1'
       },
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 maxAdj1'
+        n: 'a1',
+        f: 'pin 0 adj1 maxAdj1'
       },
       {
-        name: 'q2',
-        fmla: '*/ a1 ss h'
+        n: 'q2',
+        f: '*/ a1 ss h'
       },
       {
-        name: 'q3',
-        fmla: '+- 100000 0 q2'
+        n: 'q3',
+        f: '+- 100000 0 q2'
       },
       {
-        name: 'maxAdj3',
-        fmla: '*/ q3 h ss'
+        n: 'maxAdj3',
+        f: '*/ q3 h ss'
       },
       {
-        name: 'a3',
-        fmla: 'pin 0 adj3 maxAdj3'
+        n: 'a3',
+        f: 'pin 0 adj3 maxAdj3'
       },
       {
-        name: 'q1',
-        fmla: '+- a3 a1 0'
+        n: 'q1',
+        f: '+- a3 a1 0'
       },
       {
-        name: 'minAdj5',
-        fmla: '*/ q1 ss h'
+        n: 'minAdj5',
+        f: '*/ q1 ss h'
       },
       {
-        name: 'a5',
-        fmla: 'pin minAdj5 adj5 100000'
+        n: 'a5',
+        f: 'pin minAdj5 adj5 100000'
       },
       {
-        name: 'th',
-        fmla: '*/ ss a1 100000'
+        n: 'th',
+        f: '*/ ss a1 100000'
       },
       {
-        name: 'aw2',
-        fmla: '*/ ss a2 100000'
+        n: 'aw2',
+        f: '*/ ss a2 100000'
       },
       {
-        name: 'th2',
-        fmla: '*/ th 1 2'
+        n: 'th2',
+        f: '*/ th 1 2'
       },
       {
-        name: 'dh2',
-        fmla: '+- aw2 0 th2'
+        n: 'dh2',
+        f: '+- aw2 0 th2'
       },
       {
-        name: 'y5',
-        fmla: '*/ h a5 100000'
+        n: 'y5',
+        f: '*/ h a5 100000'
       },
       {
-        name: 'ah',
-        fmla: '*/ ss a3 100000'
+        n: 'ah',
+        f: '*/ ss a3 100000'
       },
       {
-        name: 'y4',
-        fmla: '+- y5 0 ah'
+        n: 'y4',
+        f: '+- y5 0 ah'
       },
       {
-        name: 'x9',
-        fmla: '+- r 0 dh2'
+        n: 'x9',
+        f: '+- r 0 dh2'
       },
       {
-        name: 'bw',
-        fmla: '*/ x9 1 2'
+        n: 'bw',
+        f: '*/ x9 1 2'
       },
       {
-        name: 'bs',
-        fmla: 'min bw y4'
+        n: 'bs',
+        f: 'min bw y4'
       },
       {
-        name: 'maxAdj4',
-        fmla: '*/ bs 100000 ss'
+        n: 'maxAdj4',
+        f: '*/ bs 100000 ss'
       },
       {
-        name: 'a4',
-        fmla: 'pin 0 adj4 maxAdj4'
+        n: 'a4',
+        f: 'pin 0 adj4 maxAdj4'
       },
       {
-        name: 'bd',
-        fmla: '*/ ss a4 100000'
+        n: 'bd',
+        f: '*/ ss a4 100000'
       },
       {
-        name: 'bd3',
-        fmla: '+- bd 0 th'
+        n: 'bd3',
+        f: '+- bd 0 th'
       },
       {
-        name: 'bd2',
-        fmla: 'max bd3 0'
+        n: 'bd2',
+        f: 'max bd3 0'
       },
       {
-        name: 'x3',
-        fmla: '+- th bd2 0'
+        n: 'x3',
+        f: '+- th bd2 0'
       },
       {
-        name: 'x8',
-        fmla: '+- r 0 aw2'
+        n: 'x8',
+        f: '+- r 0 aw2'
       },
       {
-        name: 'x6',
-        fmla: '+- x8 0 aw2'
+        n: 'x6',
+        f: '+- x8 0 aw2'
       },
       {
-        name: 'x7',
-        fmla: '+- x6 dh2 0'
+        n: 'x7',
+        f: '+- x6 dh2 0'
       },
       {
-        name: 'x4',
-        fmla: '+- x9 0 bd'
+        n: 'x4',
+        f: '+- x9 0 bd'
       },
       {
-        name: 'x5',
-        fmla: '+- x7 0 bd2'
+        n: 'x5',
+        f: '+- x7 0 bd2'
       },
       {
-        name: 'cx',
-        fmla: '+/ th x7 2'
+        n: 'cx',
+        f: '+/ th x7 2'
       }
     ],
     pathLst: [
@@ -37334,54 +37448,54 @@ export const presetShape: Record<string, Shape> = {
   verticalScroll: {
     avLst: [
       {
-        name: 'adj',
-        fmla: 'val 12500'
+        n: 'adj',
+        f: 'val 12500'
       }
     ],
     gdLst: [
       {
-        name: 'a',
-        fmla: 'pin 0 adj 25000'
+        n: 'a',
+        f: 'pin 0 adj 25000'
       },
       {
-        name: 'ch',
-        fmla: '*/ ss a 100000'
+        n: 'ch',
+        f: '*/ ss a 100000'
       },
       {
-        name: 'ch2',
-        fmla: '*/ ch 1 2'
+        n: 'ch2',
+        f: '*/ ch 1 2'
       },
       {
-        name: 'ch4',
-        fmla: '*/ ch 1 4'
+        n: 'ch4',
+        f: '*/ ch 1 4'
       },
       {
-        name: 'x3',
-        fmla: '+- ch ch2 0'
+        n: 'x3',
+        f: '+- ch ch2 0'
       },
       {
-        name: 'x4',
-        fmla: '+- ch ch 0'
+        n: 'x4',
+        f: '+- ch ch 0'
       },
       {
-        name: 'x6',
-        fmla: '+- r 0 ch'
+        n: 'x6',
+        f: '+- r 0 ch'
       },
       {
-        name: 'x7',
-        fmla: '+- r 0 ch2'
+        n: 'x7',
+        f: '+- r 0 ch2'
       },
       {
-        name: 'x5',
-        fmla: '+- x6 0 ch2'
+        n: 'x5',
+        f: '+- x6 0 ch2'
       },
       {
-        name: 'y3',
-        fmla: '+- b 0 ch'
+        n: 'y3',
+        f: '+- b 0 ch'
       },
       {
-        name: 'y4',
-        fmla: '+- b 0 ch2'
+        n: 'y4',
+        f: '+- b 0 ch2'
       }
     ],
     pathLst: [
@@ -37726,134 +37840,134 @@ export const presetShape: Record<string, Shape> = {
   wave: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val 12500'
+        n: 'adj1',
+        f: 'val 12500'
       },
       {
-        name: 'adj2',
-        fmla: 'val 0'
+        n: 'adj2',
+        f: 'val 0'
       }
     ],
     gdLst: [
       {
-        name: 'a1',
-        fmla: 'pin 0 adj1 20000'
+        n: 'a1',
+        f: 'pin 0 adj1 20000'
       },
       {
-        name: 'a2',
-        fmla: 'pin -10000 adj2 10000'
+        n: 'a2',
+        f: 'pin -10000 adj2 10000'
       },
       {
-        name: 'y1',
-        fmla: '*/ h a1 100000'
+        n: 'y1',
+        f: '*/ h a1 100000'
       },
       {
-        name: 'dy2',
-        fmla: '*/ y1 10 3'
+        n: 'dy2',
+        f: '*/ y1 10 3'
       },
       {
-        name: 'y2',
-        fmla: '+- y1 0 dy2'
+        n: 'y2',
+        f: '+- y1 0 dy2'
       },
       {
-        name: 'y3',
-        fmla: '+- y1 dy2 0'
+        n: 'y3',
+        f: '+- y1 dy2 0'
       },
       {
-        name: 'y4',
-        fmla: '+- b 0 y1'
+        n: 'y4',
+        f: '+- b 0 y1'
       },
       {
-        name: 'y5',
-        fmla: '+- y4 0 dy2'
+        n: 'y5',
+        f: '+- y4 0 dy2'
       },
       {
-        name: 'y6',
-        fmla: '+- y4 dy2 0'
+        n: 'y6',
+        f: '+- y4 dy2 0'
       },
       {
-        name: 'dx1',
-        fmla: '*/ w a2 100000'
+        n: 'dx1',
+        f: '*/ w a2 100000'
       },
       {
-        name: 'of2',
-        fmla: '*/ w a2 50000'
+        n: 'of2',
+        f: '*/ w a2 50000'
       },
       {
-        name: 'x1',
-        fmla: 'abs dx1'
+        n: 'x1',
+        f: 'abs dx1'
       },
       {
-        name: 'dx2',
-        fmla: '?: of2 0 of2'
+        n: 'dx2',
+        f: '?: of2 0 of2'
       },
       {
-        name: 'x2',
-        fmla: '+- l 0 dx2'
+        n: 'x2',
+        f: '+- l 0 dx2'
       },
       {
-        name: 'dx5',
-        fmla: '?: of2 of2 0'
+        n: 'dx5',
+        f: '?: of2 of2 0'
       },
       {
-        name: 'x5',
-        fmla: '+- r 0 dx5'
+        n: 'x5',
+        f: '+- r 0 dx5'
       },
       {
-        name: 'dx3',
-        fmla: '+/ dx2 x5 3'
+        n: 'dx3',
+        f: '+/ dx2 x5 3'
       },
       {
-        name: 'x3',
-        fmla: '+- x2 dx3 0'
+        n: 'x3',
+        f: '+- x2 dx3 0'
       },
       {
-        name: 'x4',
-        fmla: '+/ x3 x5 2'
+        n: 'x4',
+        f: '+/ x3 x5 2'
       },
       {
-        name: 'x6',
-        fmla: '+- l dx5 0'
+        n: 'x6',
+        f: '+- l dx5 0'
       },
       {
-        name: 'x10',
-        fmla: '+- r dx2 0'
+        n: 'x10',
+        f: '+- r dx2 0'
       },
       {
-        name: 'x7',
-        fmla: '+- x6 dx3 0'
+        n: 'x7',
+        f: '+- x6 dx3 0'
       },
       {
-        name: 'x8',
-        fmla: '+/ x7 x10 2'
+        n: 'x8',
+        f: '+/ x7 x10 2'
       },
       {
-        name: 'x9',
-        fmla: '+- r 0 x1'
+        n: 'x9',
+        f: '+- r 0 x1'
       },
       {
-        name: 'xAdj',
-        fmla: '+- hc dx1 0'
+        n: 'xAdj',
+        f: '+- hc dx1 0'
       },
       {
-        name: 'xAdj2',
-        fmla: '+- hc 0 dx1'
+        n: 'xAdj2',
+        f: '+- hc 0 dx1'
       },
       {
-        name: 'il',
-        fmla: 'max x2 x6'
+        n: 'il',
+        f: 'max x2 x6'
       },
       {
-        name: 'ir',
-        fmla: 'min x5 x10'
+        n: 'ir',
+        f: 'min x5 x10'
       },
       {
-        name: 'it',
-        fmla: '*/ h a1 50000'
+        n: 'it',
+        f: '*/ h a1 50000'
       },
       {
-        name: 'ib',
-        fmla: '+- b 0 it'
+        n: 'ib',
+        f: '+- b 0 it'
       }
     ],
     pathLst: [
@@ -37919,126 +38033,126 @@ export const presetShape: Record<string, Shape> = {
   wedgeEllipseCallout: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val -20833'
+        n: 'adj1',
+        f: 'val -20833'
       },
       {
-        name: 'adj2',
-        fmla: 'val 62500'
+        n: 'adj2',
+        f: 'val 62500'
       }
     ],
     gdLst: [
       {
-        name: 'dxPos',
-        fmla: '*/ w adj1 100000'
+        n: 'dxPos',
+        f: '*/ w adj1 100000'
       },
       {
-        name: 'dyPos',
-        fmla: '*/ h adj2 100000'
+        n: 'dyPos',
+        f: '*/ h adj2 100000'
       },
       {
-        name: 'xPos',
-        fmla: '+- hc dxPos 0'
+        n: 'xPos',
+        f: '+- hc dxPos 0'
       },
       {
-        name: 'yPos',
-        fmla: '+- vc dyPos 0'
+        n: 'yPos',
+        f: '+- vc dyPos 0'
       },
       {
-        name: 'sdx',
-        fmla: '*/ dxPos h 1'
+        n: 'sdx',
+        f: '*/ dxPos h 1'
       },
       {
-        name: 'sdy',
-        fmla: '*/ dyPos w 1'
+        n: 'sdy',
+        f: '*/ dyPos w 1'
       },
       {
-        name: 'pang',
-        fmla: 'at2 sdx sdy'
+        n: 'pang',
+        f: 'at2 sdx sdy'
       },
       {
-        name: 'stAng',
-        fmla: '+- pang 660000 0'
+        n: 'stAng',
+        f: '+- pang 660000 0'
       },
       {
-        name: 'enAng',
-        fmla: '+- pang 0 660000'
+        n: 'enAng',
+        f: '+- pang 0 660000'
       },
       {
-        name: 'dx1',
-        fmla: 'cos wd2 stAng'
+        n: 'dx1',
+        f: 'cos wd2 stAng'
       },
       {
-        name: 'dy1',
-        fmla: 'sin hd2 stAng'
+        n: 'dy1',
+        f: 'sin hd2 stAng'
       },
       {
-        name: 'x1',
-        fmla: '+- hc dx1 0'
+        n: 'x1',
+        f: '+- hc dx1 0'
       },
       {
-        name: 'y1',
-        fmla: '+- vc dy1 0'
+        n: 'y1',
+        f: '+- vc dy1 0'
       },
       {
-        name: 'dx2',
-        fmla: 'cos wd2 enAng'
+        n: 'dx2',
+        f: 'cos wd2 enAng'
       },
       {
-        name: 'dy2',
-        fmla: 'sin hd2 enAng'
+        n: 'dy2',
+        f: 'sin hd2 enAng'
       },
       {
-        name: 'x2',
-        fmla: '+- hc dx2 0'
+        n: 'x2',
+        f: '+- hc dx2 0'
       },
       {
-        name: 'y2',
-        fmla: '+- vc dy2 0'
+        n: 'y2',
+        f: '+- vc dy2 0'
       },
       {
-        name: 'stAng1',
-        fmla: 'at2 dx1 dy1'
+        n: 'stAng1',
+        f: 'at2 dx1 dy1'
       },
       {
-        name: 'enAng1',
-        fmla: 'at2 dx2 dy2'
+        n: 'enAng1',
+        f: 'at2 dx2 dy2'
       },
       {
-        name: 'swAng1',
-        fmla: '+- enAng1 0 stAng1'
+        n: 'swAng1',
+        f: '+- enAng1 0 stAng1'
       },
       {
-        name: 'swAng2',
-        fmla: '+- swAng1 21600000 0'
+        n: 'swAng2',
+        f: '+- swAng1 21600000 0'
       },
       {
-        name: 'swAng',
-        fmla: '?: swAng1 swAng1 swAng2'
+        n: 'swAng',
+        f: '?: swAng1 swAng1 swAng2'
       },
       {
-        name: 'idx',
-        fmla: 'cos wd2 2700000'
+        n: 'idx',
+        f: 'cos wd2 2700000'
       },
       {
-        name: 'idy',
-        fmla: 'sin hd2 2700000'
+        n: 'idy',
+        f: 'sin hd2 2700000'
       },
       {
-        name: 'il',
-        fmla: '+- hc 0 idx'
+        n: 'il',
+        f: '+- hc 0 idx'
       },
       {
-        name: 'ir',
-        fmla: '+- hc idx 0'
+        n: 'ir',
+        f: '+- hc idx 0'
       },
       {
-        name: 'it',
-        fmla: '+- vc 0 idy'
+        n: 'it',
+        f: '+- vc 0 idy'
       },
       {
-        name: 'ib',
-        fmla: '+- vc idy 0'
+        n: 'ib',
+        f: '+- vc idy 0'
       }
     ],
     pathLst: [
@@ -38077,150 +38191,150 @@ export const presetShape: Record<string, Shape> = {
   wedgeRectCallout: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val -20833'
+        n: 'adj1',
+        f: 'val -20833'
       },
       {
-        name: 'adj2',
-        fmla: 'val 62500'
+        n: 'adj2',
+        f: 'val 62500'
       }
     ],
     gdLst: [
       {
-        name: 'dxPos',
-        fmla: '*/ w adj1 100000'
+        n: 'dxPos',
+        f: '*/ w adj1 100000'
       },
       {
-        name: 'dyPos',
-        fmla: '*/ h adj2 100000'
+        n: 'dyPos',
+        f: '*/ h adj2 100000'
       },
       {
-        name: 'xPos',
-        fmla: '+- hc dxPos 0'
+        n: 'xPos',
+        f: '+- hc dxPos 0'
       },
       {
-        name: 'yPos',
-        fmla: '+- vc dyPos 0'
+        n: 'yPos',
+        f: '+- vc dyPos 0'
       },
       {
-        name: 'dx',
-        fmla: '+- xPos 0 hc'
+        n: 'dx',
+        f: '+- xPos 0 hc'
       },
       {
-        name: 'dy',
-        fmla: '+- yPos 0 vc'
+        n: 'dy',
+        f: '+- yPos 0 vc'
       },
       {
-        name: 'dq',
-        fmla: '*/ dxPos h w'
+        n: 'dq',
+        f: '*/ dxPos h w'
       },
       {
-        name: 'ady',
-        fmla: 'abs dyPos'
+        n: 'ady',
+        f: 'abs dyPos'
       },
       {
-        name: 'adq',
-        fmla: 'abs dq'
+        n: 'adq',
+        f: 'abs dq'
       },
       {
-        name: 'dz',
-        fmla: '+- ady 0 adq'
+        n: 'dz',
+        f: '+- ady 0 adq'
       },
       {
-        name: 'xg1',
-        fmla: '?: dxPos 7 2'
+        n: 'xg1',
+        f: '?: dxPos 7 2'
       },
       {
-        name: 'xg2',
-        fmla: '?: dxPos 10 5'
+        n: 'xg2',
+        f: '?: dxPos 10 5'
       },
       {
-        name: 'x1',
-        fmla: '*/ w xg1 12'
+        n: 'x1',
+        f: '*/ w xg1 12'
       },
       {
-        name: 'x2',
-        fmla: '*/ w xg2 12'
+        n: 'x2',
+        f: '*/ w xg2 12'
       },
       {
-        name: 'yg1',
-        fmla: '?: dyPos 7 2'
+        n: 'yg1',
+        f: '?: dyPos 7 2'
       },
       {
-        name: 'yg2',
-        fmla: '?: dyPos 10 5'
+        n: 'yg2',
+        f: '?: dyPos 10 5'
       },
       {
-        name: 'y1',
-        fmla: '*/ h yg1 12'
+        n: 'y1',
+        f: '*/ h yg1 12'
       },
       {
-        name: 'y2',
-        fmla: '*/ h yg2 12'
+        n: 'y2',
+        f: '*/ h yg2 12'
       },
       {
-        name: 't1',
-        fmla: '?: dxPos l xPos'
+        n: 't1',
+        f: '?: dxPos l xPos'
       },
       {
-        name: 'xl',
-        fmla: '?: dz l t1'
+        n: 'xl',
+        f: '?: dz l t1'
       },
       {
-        name: 't2',
-        fmla: '?: dyPos x1 xPos'
+        n: 't2',
+        f: '?: dyPos x1 xPos'
       },
       {
-        name: 'xt',
-        fmla: '?: dz t2 x1'
+        n: 'xt',
+        f: '?: dz t2 x1'
       },
       {
-        name: 't3',
-        fmla: '?: dxPos xPos r'
+        n: 't3',
+        f: '?: dxPos xPos r'
       },
       {
-        name: 'xr',
-        fmla: '?: dz r t3'
+        n: 'xr',
+        f: '?: dz r t3'
       },
       {
-        name: 't4',
-        fmla: '?: dyPos xPos x1'
+        n: 't4',
+        f: '?: dyPos xPos x1'
       },
       {
-        name: 'xb',
-        fmla: '?: dz t4 x1'
+        n: 'xb',
+        f: '?: dz t4 x1'
       },
       {
-        name: 't5',
-        fmla: '?: dxPos y1 yPos'
+        n: 't5',
+        f: '?: dxPos y1 yPos'
       },
       {
-        name: 'yl',
-        fmla: '?: dz y1 t5'
+        n: 'yl',
+        f: '?: dz y1 t5'
       },
       {
-        name: 't6',
-        fmla: '?: dyPos t yPos'
+        n: 't6',
+        f: '?: dyPos t yPos'
       },
       {
-        name: 'yt',
-        fmla: '?: dz t6 t'
+        n: 'yt',
+        f: '?: dz t6 t'
       },
       {
-        name: 't7',
-        fmla: '?: dxPos yPos y1'
+        n: 't7',
+        f: '?: dxPos yPos y1'
       },
       {
-        name: 'yr',
-        fmla: '?: dz y1 t7'
+        n: 'yr',
+        f: '?: dz y1 t7'
       },
       {
-        name: 't8',
-        fmla: '?: dyPos yPos b'
+        n: 't8',
+        f: '?: dyPos yPos b'
       },
       {
-        name: 'yb',
-        fmla: '?: dz t8 b'
+        n: 'yb',
+        f: '?: dz t8 b'
       }
     ],
     pathLst: [
@@ -38350,170 +38464,170 @@ export const presetShape: Record<string, Shape> = {
   wedgeRoundRectCallout: {
     avLst: [
       {
-        name: 'adj1',
-        fmla: 'val -20833'
+        n: 'adj1',
+        f: 'val -20833'
       },
       {
-        name: 'adj2',
-        fmla: 'val 62500'
+        n: 'adj2',
+        f: 'val 62500'
       },
       {
-        name: 'adj3',
-        fmla: 'val 16667'
+        n: 'adj3',
+        f: 'val 16667'
       }
     ],
     gdLst: [
       {
-        name: 'dxPos',
-        fmla: '*/ w adj1 100000'
+        n: 'dxPos',
+        f: '*/ w adj1 100000'
       },
       {
-        name: 'dyPos',
-        fmla: '*/ h adj2 100000'
+        n: 'dyPos',
+        f: '*/ h adj2 100000'
       },
       {
-        name: 'xPos',
-        fmla: '+- hc dxPos 0'
+        n: 'xPos',
+        f: '+- hc dxPos 0'
       },
       {
-        name: 'yPos',
-        fmla: '+- vc dyPos 0'
+        n: 'yPos',
+        f: '+- vc dyPos 0'
       },
       {
-        name: 'dq',
-        fmla: '*/ dxPos h w'
+        n: 'dq',
+        f: '*/ dxPos h w'
       },
       {
-        name: 'ady',
-        fmla: 'abs dyPos'
+        n: 'ady',
+        f: 'abs dyPos'
       },
       {
-        name: 'adq',
-        fmla: 'abs dq'
+        n: 'adq',
+        f: 'abs dq'
       },
       {
-        name: 'dz',
-        fmla: '+- ady 0 adq'
+        n: 'dz',
+        f: '+- ady 0 adq'
       },
       {
-        name: 'xg1',
-        fmla: '?: dxPos 7 2'
+        n: 'xg1',
+        f: '?: dxPos 7 2'
       },
       {
-        name: 'xg2',
-        fmla: '?: dxPos 10 5'
+        n: 'xg2',
+        f: '?: dxPos 10 5'
       },
       {
-        name: 'x1',
-        fmla: '*/ w xg1 12'
+        n: 'x1',
+        f: '*/ w xg1 12'
       },
       {
-        name: 'x2',
-        fmla: '*/ w xg2 12'
+        n: 'x2',
+        f: '*/ w xg2 12'
       },
       {
-        name: 'yg1',
-        fmla: '?: dyPos 7 2'
+        n: 'yg1',
+        f: '?: dyPos 7 2'
       },
       {
-        name: 'yg2',
-        fmla: '?: dyPos 10 5'
+        n: 'yg2',
+        f: '?: dyPos 10 5'
       },
       {
-        name: 'y1',
-        fmla: '*/ h yg1 12'
+        n: 'y1',
+        f: '*/ h yg1 12'
       },
       {
-        name: 'y2',
-        fmla: '*/ h yg2 12'
+        n: 'y2',
+        f: '*/ h yg2 12'
       },
       {
-        name: 't1',
-        fmla: '?: dxPos l xPos'
+        n: 't1',
+        f: '?: dxPos l xPos'
       },
       {
-        name: 'xl',
-        fmla: '?: dz l t1'
+        n: 'xl',
+        f: '?: dz l t1'
       },
       {
-        name: 't2',
-        fmla: '?: dyPos x1 xPos'
+        n: 't2',
+        f: '?: dyPos x1 xPos'
       },
       {
-        name: 'xt',
-        fmla: '?: dz t2 x1'
+        n: 'xt',
+        f: '?: dz t2 x1'
       },
       {
-        name: 't3',
-        fmla: '?: dxPos xPos r'
+        n: 't3',
+        f: '?: dxPos xPos r'
       },
       {
-        name: 'xr',
-        fmla: '?: dz r t3'
+        n: 'xr',
+        f: '?: dz r t3'
       },
       {
-        name: 't4',
-        fmla: '?: dyPos xPos x1'
+        n: 't4',
+        f: '?: dyPos xPos x1'
       },
       {
-        name: 'xb',
-        fmla: '?: dz t4 x1'
+        n: 'xb',
+        f: '?: dz t4 x1'
       },
       {
-        name: 't5',
-        fmla: '?: dxPos y1 yPos'
+        n: 't5',
+        f: '?: dxPos y1 yPos'
       },
       {
-        name: 'yl',
-        fmla: '?: dz y1 t5'
+        n: 'yl',
+        f: '?: dz y1 t5'
       },
       {
-        name: 't6',
-        fmla: '?: dyPos t yPos'
+        n: 't6',
+        f: '?: dyPos t yPos'
       },
       {
-        name: 'yt',
-        fmla: '?: dz t6 t'
+        n: 'yt',
+        f: '?: dz t6 t'
       },
       {
-        name: 't7',
-        fmla: '?: dxPos yPos y1'
+        n: 't7',
+        f: '?: dxPos yPos y1'
       },
       {
-        name: 'yr',
-        fmla: '?: dz y1 t7'
+        n: 'yr',
+        f: '?: dz y1 t7'
       },
       {
-        name: 't8',
-        fmla: '?: dyPos yPos b'
+        n: 't8',
+        f: '?: dyPos yPos b'
       },
       {
-        name: 'yb',
-        fmla: '?: dz t8 b'
+        n: 'yb',
+        f: '?: dz t8 b'
       },
       {
-        name: 'u1',
-        fmla: '*/ ss adj3 100000'
+        n: 'u1',
+        f: '*/ ss adj3 100000'
       },
       {
-        name: 'u2',
-        fmla: '+- r 0 u1'
+        n: 'u2',
+        f: '+- r 0 u1'
       },
       {
-        name: 'v2',
-        fmla: '+- b 0 u1'
+        n: 'v2',
+        f: '+- b 0 u1'
       },
       {
-        name: 'il',
-        fmla: '*/ u1 29289 100000'
+        n: 'il',
+        f: '*/ u1 29289 100000'
       },
       {
-        name: 'ir',
-        fmla: '+- r 0 il'
+        n: 'ir',
+        f: '+- r 0 il'
       },
       {
-        name: 'ib',
-        fmla: '+- b 0 il'
+        n: 'ib',
+        f: '+- b 0 il'
       }
     ],
     pathLst: [

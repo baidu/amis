@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <presetShapeDefinitons>
   <accentBorderCallout1>
 
@@ -13768,8 +13768,8 @@
       <gd name="n" fmla="*/ iwd2 ihd2 m" />
       <gd name="drd2" fmla="*/ dr 1 2" />
       <gd name="dang" fmla="at2 n drd2" />
-      <gd name="2dang" fmla="*/ dang 2 1" />
-      <gd name="swAng" fmla="+- -10800000 2dang 0" />
+      <gd name="dang2" fmla="*/ dang 2 1" />
+      <gd name="swAng" fmla="+- -10800000 dang2 0" />
       <gd name="t3" fmla="at2 w h" />
       <gd name="stAng1" fmla="+- t3 0 dang" />
       <gd name="stAng2" fmla="+- stAng1 0 cd2" />
@@ -17101,7 +17101,7 @@
     </gdLst>
 
     <ahLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
-      <ahXY gdRefY="adj" minY="0" maxY="ssd2">
+      <ahXY gdRefY="adj" minY="0" maxY="50000">
         <pos x="hc" y="yAdj" />
       </ahXY>
     </ahLst>
@@ -17384,7 +17384,7 @@
     </gdLst>
 
     <ahLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
-      <ahXY gdRefY="adj" minY="0" maxY="ssd2">
+      <ahXY gdRefY="adj" minY="0" maxY="50000">
         <pos x="hc" y="yAdj" />
       </ahXY>
     </ahLst>
@@ -18911,32 +18911,34 @@
       </path>
     </pathLst>
   </upDownArrow>
-  <upDownArrow>
+  <upArrow>
     <avLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
       <gd name="adj1" fmla="val 50000" />
       <gd name="adj2" fmla="val 50000" />
     </avLst>
+
     <gdLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
-      <gd name="maxAdj2" fmla="*/ 50000 h ss" />
+      <gd name="maxAdj2" fmla="*/ 100000 h ss" />
       <gd name="a1" fmla="pin 0 adj1 100000" />
       <gd name="a2" fmla="pin 0 adj2 maxAdj2" />
-      <gd name="y2" fmla="*/ ss a2 100000" />
-      <gd name="y3" fmla="+- b 0 y2" />
+      <gd name="dy2" fmla="*/ ss a2 100000" />
+      <gd name="y2" fmla="+- t dy2 0" />
       <gd name="dx1" fmla="*/ w a1 200000" />
       <gd name="x1" fmla="+- hc 0 dx1" />
       <gd name="x2" fmla="+- hc dx1 0" />
-      <gd name="dy1" fmla="*/ x1 y2 wd2" />
-      <gd name="y1" fmla="+- y2 0 dy1" />
-      <gd name="y4" fmla="+- y3 dy1 0" />
+      <gd name="dy1" fmla="*/ x1 dy2 wd2" />
+      <gd name="y1" fmla="+- y2  0 dy1" />
     </gdLst>
+
     <ahLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
       <ahXY gdRefX="adj1" minX="0" maxX="100000">
-        <pos x="x1" y="y3" />
+        <pos x="x1" y="b" />
       </ahXY>
       <ahXY gdRefY="adj2" minY="0" maxY="maxAdj2">
         <pos x="l" y="y2" />
       </ahXY>
     </ahLst>
+
     <cxnLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
       <cxn ang="3cd4">
         <pos x="hc" y="t" />
@@ -18944,26 +18946,16 @@
       <cxn ang="cd2">
         <pos x="l" y="y2" />
       </cxn>
-      <cxn ang="cd2">
-        <pos x="x1" y="vc" />
-      </cxn>
-      <cxn ang="cd2">
-        <pos x="l" y="y3" />
-      </cxn>
       <cxn ang="cd4">
         <pos x="hc" y="b" />
-      </cxn>
-      <cxn ang="0">
-        <pos x="r" y="y3" />
-      </cxn>
-      <cxn ang="0">
-        <pos x="x2" y="vc" />
       </cxn>
       <cxn ang="0">
         <pos x="r" y="y2" />
       </cxn>
     </cxnLst>
-    <rect l="x1" t="y1" r="x2" b="y4" xmlns="http://schemas.openxmlformats.org/drawingml/2006/main" />
+
+    <rect l="x1" t="y1" r="x2" b="b" xmlns="http://schemas.openxmlformats.org/drawingml/2006/main" />
+
     <pathLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
       <path>
         <moveTo>
@@ -18979,27 +18971,18 @@
           <pt x="x2" y="y2" />
         </lnTo>
         <lnTo>
-          <pt x="x2" y="y3" />
+          <pt x="x2" y="b" />
         </lnTo>
         <lnTo>
-          <pt x="r" y="y3" />
-        </lnTo>
-        <lnTo>
-          <pt x="hc" y="b" />
-        </lnTo>
-        <lnTo>
-          <pt x="l" y="y3" />
-        </lnTo>
-        <lnTo>
-          <pt x="x1" y="y3" />
+          <pt x="x1" y="b" />
         </lnTo>
         <lnTo>
           <pt x="x1" y="y2" />
         </lnTo>
-        <close />
+        <close/>
       </path>
     </pathLst>
-  </upDownArrow>
+  </upArrow>
   <upDownArrowCallout>
 
     <avLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">

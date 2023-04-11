@@ -36,6 +36,9 @@ export function applyToPoint(matrix: Matrix, point: Point) {
   };
 }
 
+/**
+ * 将 arc 转成 A 指令，但目前看来不太正确，比如 curvedRightArrow 的显示就不对
+ */
 export default function arcToPathA(
   wR: number,
   hR: number,
@@ -48,7 +51,7 @@ export default function arcToPathA(
   let {start, end} = genArcPoint(wR, hR, stAng, swAng);
   // 2. 计算 x1 y1 处切线角度
   // 3. 根据切线角度对椭圆以椭圆中心为原点进行 旋转变换(根据选取的线段角度判断 旋转方向)
-  // 4. 根据旋转后的 x1 和 y1，对椭圆进行平移变换，使 x1 y1 和 起点重合（起点为上一个指令的结束点 或者 0 0 ， 如果上一个指令是圆弧？？？）
+  // 4. 根据旋转后的 x1 和 y1，对椭圆进行平移变换，使 x1 y1 和 起点重合（起点为上一个指令的结束点 或者 0 0
   const matrix = translate(preX - start.x, preY - start.y);
   end = applyToPoint(matrix, end);
   start = applyToPoint(matrix, start);
@@ -78,14 +81,16 @@ function genArcPoint(wr: number, hr: number, stAng: number, swAng: number) {
   const r = (deg: number) => Math.PI * (deg / 60000 / 180);
   let start = stAng;
   let end = start + swAng;
+  let startR = r(start);
+  let endR = r(end);
   return {
     start: {
-      x: wr * Math.cos(r(start)),
-      y: hr * Math.sin(r(start))
+      x: wr * Math.cos(startR),
+      y: hr * Math.sin(startR)
     },
     end: {
-      x: wr * Math.cos(r(end)),
-      y: hr * Math.sin(r(end))
+      x: wr * Math.cos(endR),
+      y: hr * Math.sin(endR)
     }
   };
 }
