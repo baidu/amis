@@ -1145,7 +1145,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       showSelection,
       headerToolbar,
       footerToolbar,
-      // columnsTogglable 在本渲染器中渲染，不需要 table 渲染
+      // columnsTogglable 在本渲染器中渲染，不需要 table 渲染，避免重复
       columnsTogglable,
       ...rest
     } = this.props;
