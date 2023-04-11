@@ -2,3 +2,11 @@
   height: var(--fontSizeBase);
   vertical-align: middle;
 }
+
+.Icon-str-svg {
+  height: var(--fontSizeBase);
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+}

@@ -274,6 +274,7 @@ export function Icon({
 
   const Component = getIcon(icon);
   const isURLIcon = typeof icon === 'string' && icon?.indexOf('.') !== -1;
+  const SvgStr = typeof icon === 'string' && /(<svg.*<\/svg>)/.exec(icon);
 
   return Component ? (
     <>
@@ -287,9 +288,9 @@ export function Icon({
         <Component {...rest} className={`${className || ''} icon-${icon}`} />
       ) : null}
     </>
-  ) : isURLIcon ? (
-    <img className={cx(`${classPrefix}Icon`, className)} src={icon} />
-  ) : (
+  ) : SvgStr ? (<div className={cx('Icon-str-svg')}
+        dangerouslySetInnerHTML={{__html: SvgStr[0].replace(/\\"/g, '"')}}></div>)
+    : isURLIcon ? (<img className={cx(`${classPrefix}Icon`, className)} src={icon} />) : (
     <span className="text-danger">没有 icon {icon}</span>
   );
 }
