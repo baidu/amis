@@ -1,11 +1,12 @@
 /* eslint-disable */
 import * as React from 'react';
-import {Editor, ShortcutKey, BasePlugin} from '../src/index';
+import {Editor, ShortcutKey, BasePlugin, setThemeConfig} from '../src/index';
 import {Select, Renderer, uuid, Button} from 'amis';
 import {currentLocale} from 'i18n-runtime';
 import {Portal} from 'react-overlays';
 import {Icon} from './icons/index';
 import LayoutList from './layout/index';
+import themeConfig from 'amis-theme-editor-helper/lib/systemTheme/cxd';
 
 // 测试组织属性配置面板的国际化，可以放开如下注释
 // import '../renderer/InputTextI18n';
@@ -13,6 +14,7 @@ import LayoutList from './layout/index';
 // import '../utils/overwriteSchemaTpl';
 // const i18nEnabled = true;
 const i18nEnabled = false;
+setThemeConfig(themeConfig);
 
 const schema = {
   type: 'page',
