@@ -16,7 +16,7 @@ export function registerFunction(
  * @param fn
  */
 export function setFormulaEvalHandler(
-  fn: (path: string, data: object, ...args: any[]) => any
+  fn: (path: string, data?: object, ...args: any[]) => any
 ): void {
   Evaluator.setFormulaEvalHandler(fn);
 }
