@@ -38,8 +38,14 @@ export class Evaluator {
       ...funtions
     };
   }
-  static formulaEvalHandler: (input: any, ...args: any[]) => any | undefined;
-  static setFormulaEvalHandler(fn: (input: any, ...args: any[]) => any) {
+  static formulaEvalHandler: (
+    path: string,
+    data: object,
+    ...args: any[]
+  ) => any | undefined;
+  static setFormulaEvalHandler(
+    fn: (path: string, data: object, ...args: any[]) => any
+  ) {
     Evaluator.formulaEvalHandler = fn;
   }
 
