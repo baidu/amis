@@ -2622,7 +2622,6 @@ export default class Table extends React.Component<TableProps, object> {
       data,
       render
     } = this.props;
-
     let columns = store.filteredColumns || [];
 
     if (!columns) {
