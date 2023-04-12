@@ -38,6 +38,7 @@ export default defineConfig({
   ],
   optimizeDeps: {
     include: ['amis-formula/lib/doc'],
+    exclude: ['amis-core', 'amis-formula', 'amis', 'amis-ui'],
     esbuildOptions: {
       target: 'esnext'
     }
