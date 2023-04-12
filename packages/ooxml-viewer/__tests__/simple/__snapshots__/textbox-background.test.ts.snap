@@ -676,8 +676,19 @@ border-right: 0.67px solid black;
           class="docx-viewer-0-r"
         >
           <div
-            style="z-index: 251664384; position: absolute; left: 482.39px; top: -145.60px; width: 341.99px; height: 1205.97px; background-color: rgb(245, 122, 21); column-count: 1;"
-          />
+            style="z-index: 251664384; position: absolute; left: 482.39px; top: -145.60px; width: 341.99px; height: 1205.97px; column-count: 1;"
+          >
+            <svg
+              height="1205.97px"
+              style="overflow: visible"
+              width="341.99px"
+            >
+              <path
+                d="M 0 0 L 341.99 6.184461538461538 L 341.99 1191.5395897435897 L 87.9974269005848 1205.97 L 0 0 Z"
+                fill="#F57A15"
+              />
+            </svg>
+          </div>
         </span>
       </p>
     </section>
