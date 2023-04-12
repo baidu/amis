@@ -14,6 +14,7 @@ import isEqual from 'lodash/isEqual';
 import isPlainObject from 'lodash/isPlainObject';
 import get from 'lodash/get';
 import {EvaluatorOptions, FilterContext, FilterMap, FunctionMap} from './types';
+import {FormulaEvalError} from './error';
 
 export class Evaluator {
   readonly filters: FilterMap;
@@ -36,6 +37,10 @@ export class Evaluator {
       ...Evaluator.defaultFunctions,
       ...funtions
     };
+  }
+  static formulaEvalHandler: (input: any, ...args: any[]) => any | undefined;
+  static setFormulaEvalHandler(fn: (input: any, ...args: any[]) => any) {
+    Evaluator.formulaEvalHandler = fn;
   }
 
   constructor(
@@ -452,7 +457,7 @@ export class Evaluator {
         this.filters[ast.identifier]);
 
     if (!fn) {
-      throw new Error(`${ast.identifier}函数没有定义`);
+      throw new FormulaEvalError(`${ast.identifier}函数没有定义`);
     }
 
     let args: Array<any> = ast.args;

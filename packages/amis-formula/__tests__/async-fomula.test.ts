@@ -1,5 +1,10 @@
 import moment from 'moment';
-import {evaluateForAsync, registerFunction} from '../src';
+import {
+  Evaluator,
+  evaluateForAsync,
+  registerFunction,
+  setFormulaEvalHandler
+} from '../src';
 
 const defaultContext = {
   a: 1,
@@ -387,4 +392,29 @@ test('formula:customFunction', async () => {
       name: 'amis'
     }
   });
+});
+
+test('formula:formulaEvalHandler', async () => {
+  setFormulaEvalHandler(
+    (
+      path?: string,
+      data: object = {},
+      defaultFilter: string = '| html',
+      fallbackValue = (value: any) => value,
+      skipFormulaEvalHandler: boolean = false
+    ) => {
+      return Promise.resolve(1 * 2 * 2);
+    }
+  );
+
+  let result = null;
+  try {
+    result = await evalFormual('AAA(1,2)');
+  } catch (e) {
+    if (e.name === 'FormulaEvalError') {
+      result = await Evaluator.formulaEvalHandler('AAA(1,2)');
+    }
+  }
+
+  expect(result).toBe(4);
 });

@@ -11,6 +11,11 @@ const conditionResolverMap: {
   [op: string]: (left: any, right: any, fieldType?: string) => boolean;
 } = {};
 const DEFAULT_RESULT = true;
+let conditionComputeHandler: (
+  conditions: any,
+  data: any,
+  defaultResult: boolean
+) => boolean | Promise<boolean>;
 
 export async function resolveCondition(
   conditions: any,
@@ -26,11 +31,23 @@ export async function resolveCondition(
     return defaultResult;
   }
 
-  return await computeConditions(
-    conditions.children,
-    conditions.conjunction,
-    data
-  );
+  try {
+    return await computeConditions(
+      conditions.children,
+      conditions.conjunction,
+      data
+    );
+  } catch (e) {
+    // 如果函数未定义，则交给handler
+    if (e.name === 'FormulaEvalError') {
+      return await conditionComputeHandler?.(
+        conditions.children,
+        conditions.conjunction,
+        data
+      );
+    }
+    return defaultResult;
+  }
 }
 
 async function computeConditions(
@@ -73,7 +90,10 @@ async function computeCondition(
   const leftValue = get(data, rule.left.field);
   const rightValue: any = await resolveVariableAndFilterForAsync(
     rule.right,
-    data
+    data,
+    undefined,
+    undefined,
+    true
   );
 
   const func =
@@ -291,6 +311,16 @@ export function registerConditionComputer(
 
 export function getConditionComputers() {
   return conditionResolverMap;
+}
+
+export function setConditionComputeHandler(
+  fn: (
+    conditions: any,
+    data: any,
+    defaultResult: boolean
+  ) => boolean | Promise<boolean>
+) {
+  conditionComputeHandler = fn;
 }
 
 registerConditionComputer('greater', greaterFunc);

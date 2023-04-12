@@ -4,7 +4,8 @@ export const resolveVariableAndFilterForAsync = async (
   path?: string,
   data: object = {},
   defaultFilter: string = '| html',
-  fallbackValue = (value: any) => value
+  fallbackValue = (value: any) => value,
+  skipFormulaEvalHandler: boolean = false
 ) => {
   if (!path || typeof path !== 'string') {
     return undefined;
@@ -25,6 +26,19 @@ export const resolveVariableAndFilterForAsync = async (
       : ret;
   } catch (e) {
     console.warn(e);
+    if (e.name === 'FormulaEvalError') {
+      if (!skipFormulaEvalHandler) {
+        // 无法解析时，执行handler自定义解析逻辑
+        return AsyncEvaluator.formulaEvalHandler?.(
+          path,
+          data,
+          defaultFilter,
+          fallbackValue
+        );
+      }
+      // 跳过自定义解析逻辑，则直接抛异常
+      throw e;
+    }
     return undefined;
   }
 };

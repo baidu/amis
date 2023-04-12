@@ -4,7 +4,8 @@ import {getVariable} from './getVariable';
 export function resolveVariable(
   path?: string,
   data: any = {},
-  canAccessSuper?: boolean
+  canAccessSuper?: boolean,
+  skipFormulaEvalHandler: boolean = false
 ): any {
   if (path === '&' || path == '$$') {
     return data;
@@ -30,6 +31,15 @@ export function resolveVariable(
       })
     );
   } catch (e) {
+    // 如果是表达式函数未定义，则抛出错误
+    if (e.name === 'FormulaEvalError') {
+      if (!skipFormulaEvalHandler) {
+        // 无法解析时，执行handler自定义解析逻辑
+        return Evaluator.formulaEvalHandler?.(path, data);
+      }
+      // 跳过自定义解析逻辑，则直接抛异常
+      throw e;
+    }
     return undefined;
   }
 }

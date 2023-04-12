@@ -3,7 +3,7 @@ import {AsyncEvaluator} from './evalutorForAsync';
 import {parse} from './parser';
 import {lexer} from './lexer';
 import {registerFilter, filters, getFilters, extendsFilters} from './filter';
-import {registerFunction} from './function';
+import {registerFunction, setFormulaEvalHandler} from './function';
 import type {
   FilterContext,
   ASTNode,
@@ -20,6 +20,7 @@ export {
   getFilters,
   registerFilter,
   registerFunction,
+  setFormulaEvalHandler,
   extendsFilters
 };
 

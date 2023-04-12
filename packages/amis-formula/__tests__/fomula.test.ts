@@ -1,5 +1,5 @@
 import moment from 'moment';
-import {evaluate, parse, registerFunction} from '../src';
+import {evaluate, parse, registerFunction, setCustomFunction} from '../src';
 
 const defaultContext = {
   a: 1,
@@ -359,4 +359,11 @@ test('formula:basename', () => {
 test('formula:customFunction', () => {
   registerFunction('CUSTOMFUNCTION', input => input);
   expect(evalFormual('CUSTOMFUNCTION("func")')).toBe('func');
+});
+
+setCustomFunction((a: any, b: any) => {
+  return a * b * 2;
+});
+test('formula:customFunction', () => {
+  expect(evalFormual('AAA(1,2)')).toBe(4);
 });
