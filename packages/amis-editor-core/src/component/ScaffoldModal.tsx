@@ -155,8 +155,6 @@ export class ScaffoldModal extends React.Component<
     const step = this.state.step + 1;
     form.setValueByName('__step', step);
 
-    console.log('goToNextStep', form);
-
     // 控制按钮
     this.setState({
       step
@@ -227,14 +225,14 @@ export class ScaffoldModal extends React.Component<
         size={scaffoldFormContext?.size || 'md'}
         contentClassName={scaffoldFormContext?.className}
         show={!!scaffoldFormContext}
-        onHide={store.closeScaffoldForm}
+        onHide={this.handleCancelClick}
         closeOnEsc={!store.scaffoldFormBuzy}
       >
         <div className={cx('Modal-header')}>
           {!store.scaffoldFormBuzy ? (
             <a
               data-position="left"
-              onClick={store.closeScaffoldForm}
+              onClick={this.handleCancelClick}
               className={cx('Modal-close')}
             >
               <Icon icon="close" className="icon" />
