@@ -43,7 +43,9 @@ export default function arcToPathA(
 
   const end = getEndPoint(wR, hR, startR, endR, 0, preX, preY);
 
+  // 是否是大弧
   const largeArcFlag = Math.abs(swAngR) > Math.PI ? 1 : 0;
+  // 是否是顺时针
   const sweepFlag = swAng > 0 ? 1 : 0;
 
   const path = `A ${wR} ${hR} 0 ${largeArcFlag} ${sweepFlag} ${end.x},${end.y}`;
