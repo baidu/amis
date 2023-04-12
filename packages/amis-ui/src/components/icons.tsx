@@ -274,7 +274,7 @@ export function Icon({
 
   const Component = getIcon(icon);
   const isURLIcon = typeof icon === 'string' && icon?.indexOf('.') !== -1;
-  const SvgStr = typeof icon === 'string' && /(<svg.*>.*<\/svg>)/.exec(icon);
+  const SvgStr = typeof icon === 'string' && /(<svg.*<\/svg>)/.exec(icon);
 
   return Component ? (
     <>
