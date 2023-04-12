@@ -121,10 +121,12 @@ export default class IconSelectControl extends React.PureComponent<
       disabled,
       value: valueTemp,
       placeholder,
-      clearable,
+      clearable
     } = this.props;
     const value =
       typeof valueTemp === 'string' ? this.getValueBySvg(valueTemp) : valueTemp;
+    const SvgStr =
+      typeof valueTemp === 'string' && valueTemp.match(/(<svg.{1,}\/svg>)/);
 
     const pureValue =
       (value?.id && String(value.id).replace(/^svg-/, '')) || '';
@@ -138,14 +140,21 @@ export default class IconSelectControl extends React.PureComponent<
               <use xlinkHref={`#${pureValue}`}></use>
             </svg>
           </div>
-        ) : (
-          <Icon icon={valueTemp} className="icon" />
-        )}
+        ) : valueTemp ? (
+          SvgStr ? (
+            <div
+              className={cx(`${ns}IconSelectControl-input-area-str-svg`)}
+              dangerouslySetInnerHTML={{__html: SvgStr[0].replace(/\\"/g, '"')}}
+            ></div>
+          ) : (
+            <Icon icon={valueTemp} className="icon" />
+          )
+        ) : null}
         <span className={cx(`${ns}IconSelectControl-input-icon-id`)}>
           {iconName}
         </span>
 
-        {clearable && !disabled && pureValue ? (
+        {clearable && !disabled && (pureValue || valueTemp) ? (
           <a
             onClick={this.handleClear}
             className={cx(`${ns}IconSelectControl-clear`)}
