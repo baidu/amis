@@ -4,7 +4,7 @@ import {EditorStoreType} from '../store/editor';
 import {render, toast, resolveRenderer, resizeSensor} from 'amis';
 import {autobind} from '../util';
 import {RendererConfig, RenderOptions} from 'amis-core';
-import {Schema} from 'amis';
+import type {Schema} from 'amis';
 import {ErrorRenderer} from './base/ErrorRenderer';
 import cx from 'classnames';
 import {findDOMNode} from 'react-dom';

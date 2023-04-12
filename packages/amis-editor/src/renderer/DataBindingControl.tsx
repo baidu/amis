@@ -18,13 +18,8 @@ import {
 } from 'amis-core';
 import {debounce, remove} from 'lodash';
 import React from 'react';
-import {
-  EditorManager,
-  EditorNodeType,
-  autobind,
-  DSField,
-  DSFieldGroup
-} from 'amis-editor-core';
+import {EditorManager, EditorNodeType, autobind} from 'amis-editor-core';
+import type {DSField, DSFieldGroup} from 'amis-editor-core';
 import {matchSorter} from 'match-sorter';
 import {SchemaCollection} from 'amis/lib/Schema';
 import {default as cx} from 'classnames';
