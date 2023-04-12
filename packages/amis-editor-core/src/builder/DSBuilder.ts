@@ -115,6 +115,15 @@ export interface DSSourceSettingFormConfig {
   inCrud?: boolean;
   /** 是否在脚手架中 */
   inScaffold?: boolean;
+  /** 是否使用排序 */
+  userOrders?: boolean;
+  /** 是否可清除 */
+  clearable?: boolean;
+  /** 是否禁用 */
+  disabled?: boolean;
+  /** 是否使用字段管理 */
+  useFieldManager?: boolean;
+  onChange?: (...rest: any[]) => void;
 }
 
 /**
@@ -222,6 +231,8 @@ export abstract class DSBuilder {
     name?: string;
     /** 是否是在CRUD场景下，有的数据源在CRUD中可以统一设置 */
     inCrud?: boolean;
+    /** 是否是在脚手架中 */
+    inScaffold?: boolean;
   }): void;
 
   /**
