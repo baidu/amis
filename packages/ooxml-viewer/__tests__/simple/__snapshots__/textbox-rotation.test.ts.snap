@@ -97,8 +97,18 @@ padding-right: 7.20px;
           class="docx-viewer-0-r"
         >
           <div
-            style="z-index: 251661312; position: absolute; left: 214.63px; top: 36.07px; width: 155.16px; height: 82.60px; column-count: 1; background-color: rgb(255, 255, 255); transform: rotate(90deg);"
+            style="z-index: 251661312; position: absolute; left: 214.63px; top: 36.07px; width: 155.16px; height: 82.60px; column-count: 1; transform: rotate(90deg);"
           >
+            <svg
+              height="82.6px"
+              style="overflow: visible"
+              width="155.16px"
+            >
+              <path
+                d="M 0 0 L 155.16 0 L 155.16 82.6 L 0 82.6 Z"
+                fill="#FFFFFF"
+              />
+            </svg>
             <p
               class="docx-viewer-0-p"
             >

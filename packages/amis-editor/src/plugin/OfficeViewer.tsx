@@ -1,4 +1,4 @@
-import {registerEditorPlugin} from 'amis-editor-core';
+import {RendererPluginAction, registerEditorPlugin} from 'amis-editor-core';
 import {BaseEventContext, BasePlugin} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 
@@ -27,6 +27,19 @@ export class OfficeViewerPlugin extends BasePlugin {
 
   panelJustify = true;
 
+  actions: RendererPluginAction[] = [
+    {
+      actionType: 'print',
+      actionLabel: '打印',
+      description: '打印文档'
+    },
+    {
+      actionType: 'saveAs',
+      actionLabel: '下载',
+      description: '下载文档'
+    }
+  ];
+
   panelBodyCreator = (context: BaseEventContext) => {
     return [
       getSchemaTpl('tabs', [
@@ -41,9 +54,18 @@ export class OfficeViewerPlugin extends BasePlugin {
                     name: 'src',
                     type: 'input-text',
                     label: '文档地址'
+                  }),
+
+                  getSchemaTpl('switch', {
+                    type: 'switch',
+                    label: '是否渲染',
+                    name: 'display',
+                    pipeIn: defaultValue(true),
+                    inline: true
                   })
                 ]
               },
+
               {
                 title: 'Word 渲染配置',
                 collapsed: true,
