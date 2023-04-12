@@ -1,5 +1,10 @@
 import moment from 'moment';
-import {resolveCondition, guid, registerConditionComputer} from '../src/utils/';
+import {
+  resolveCondition,
+  guid,
+  registerConditionComputer,
+  setConditionComputeHandler
+} from '../src/utils/';
 
 const data = {
   name: 'amis',
@@ -498,6 +503,42 @@ test(`condition register`, async () => {
         },
         op: 'customless',
         right: '5'
+      }
+    ]
+  };
+
+  expect(await resolveCondition(conditions, data)).toBe(true);
+});
+
+test(`condition conditionComputeHander`, async () => {
+  // 无法解析时，自定义解析逻辑
+  setConditionComputeHandler(
+    (conditions: any, data: any, defaultResult: boolean) => {
+      return Promise.resolve(true);
+    }
+  );
+
+  const conditions = {
+    id: guid(),
+    conjunction: 'and',
+    children: [
+      {
+        id: guid(),
+        left: {
+          type: 'date',
+          field: 'date'
+        },
+        op: 'equal',
+        right: '2023-03-19'
+      },
+      {
+        id: guid(),
+        left: {
+          type: 'field',
+          field: 'num'
+        },
+        op: 'equal',
+        right: '${AAA(5)}'
       }
     ]
   };
