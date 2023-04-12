@@ -18,7 +18,10 @@ export function mockValue(schema: any) {
   ) {
     return moment().format('X');
   } else if (schema.type === 'number' || schema.type === 'input-number') {
-    return (Math.random() * 10000).toFixed(2);
+    const precision = schema.precision || 0;
+    return precision
+      ? (Math.random() * 10000).toFixed(precision)
+      : Math.random() * 10000;
   } else if (schema.type === 'image' || schema.type === 'static-image') {
     return placeholderImage;
   } else if (schema.type === 'images' || schema.type === 'static-images') {
