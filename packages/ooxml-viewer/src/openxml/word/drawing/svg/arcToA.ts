@@ -1,10 +1,5 @@
 /**
  * 将 arc 定义转成 SVG PATH 里的 A 命令
- *
- * 参考了下面文档
- * https://github.com/xenonflash/prst-shape-transform
- * https://www.cnblogs.com/ryzen/p/15191386.html
- * https://wiki.documentfoundation.org/Development/Improve_handles_of_DrawingML_shapes
  */
 
 function floatEqual(a: number, b: number) {
@@ -38,19 +33,18 @@ export default function arcToPathA(
   preY: number
 ) {
   let startR = radians(stAng);
+  let swAngR = radians(swAng);
   let endR = radians(stAng + swAng);
+
+  if (floatEqual(swAng, 60000 * 360)) {
+    // 如果是圆会变成点，所以减少一下避免这种情况
+    endR = endR - 0.0001;
+  }
 
   const end = getEndPoint(wR, hR, startR, endR, 0, preX, preY);
 
-  const largeArcFlag = Math.abs(swAng) > 60000 * 180 ? 1 : 0;
+  const largeArcFlag = Math.abs(swAngR) > Math.PI ? 1 : 0;
   const sweepFlag = swAng > 0 ? 1 : 0;
-  if (floatEqual(swAng, 60000 * 360)) {
-    // let {end: halfEnd} = genArcPoint(wR, hR, stAng, 60000 * 180);
-    // halfEnd = applyToPoint(matrix, halfEnd);
-    // path = `A ${wR} ${hR} 0 1 0 ${halfEnd.x.toFixed(2)},${halfEnd.y.toFixed(
-    //   2
-    // )}A ${wR} ${hR} 0 0 0 ${start.x.toFixed(2)},${start.y.toFixed(2)}`;
-  }
 
   const path = `A ${wR} ${hR} 0 ${largeArcFlag} ${sweepFlag} ${end.x},${end.y}`;
 
@@ -61,7 +55,7 @@ export default function arcToPathA(
 }
 
 /**
- * 简单实现的矩阵相乘，只支持 2x2
+ * 简单实现的矩阵相乘，只支持一种输入
  */
 function matrixMul(first: number[][], second: number[]) {
   return [
@@ -70,6 +64,20 @@ function matrixMul(first: number[][], second: number[]) {
   ];
 }
 
+/**
+ * 算出结束点位置，公式来自
+ * https://www.cnblogs.com/ryzen/p/15191386.html
+ * https://wiki.documentfoundation.org/Development/Improve_handles_of_DrawingML_shapes
+ *
+ * @param rx 半长轴半径
+ * @param ry 半短轴半径
+ * @param stAng 起始角度
+ * @param swAng 旋转角度
+ * @param rotate 旋转
+ * @param x 起始点 x 坐标
+ * @param y 起始点 y 坐标
+ * @returns 结束点位置
+ */
 function getEndPoint(
   rx: number,
   ry: number,

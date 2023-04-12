@@ -21,7 +21,8 @@ export const formulas = {
     return Math.abs(x);
   },
   'at2': function (x: number, y: number) {
-    return ((Math.atan2(y, x) * 180) / Math.PI) * 60000;
+    // 转回角度，因为后续的计算是基于角度的
+    return (Math.atan2(y, x) * 180 * 60000) / Math.PI;
   },
   'cat2': function (x: number, y: number, z: number) {
     return x * Math.cos(Math.atan2(z, y));
@@ -80,7 +81,7 @@ export function evalFmla(
   const fmlaName = fmlaArr[0];
   const fmlaArgs = fmlaArr.slice(1);
   // 这里要求 gd 定义必须顺序，不然就找不到之前的值了
-  const fmlaArgsNum = fmlaArgs.map((arg, index) => {
+  const fmlaArgsNum = fmlaArgs.map(arg => {
     if (arg in vars) {
       return vars[arg];
     }

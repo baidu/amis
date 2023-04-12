@@ -5,8 +5,8 @@ const container = document.getElementById('shapes')! as HTMLElement;
 
 for (const shapeName in presetShape) {
   // 临时测试用
-  if (shapeName !== 'curvedRightArrow') {
-    continue;
+  if (shapeName !== 'smileyFace') {
+    // continue;
   }
   const shape = presetShape[shapeName];
   console.log('render shape', shapeName);

@@ -12066,6 +12066,95 @@ export const presetShape: Record<string, Shape> = {
             swAng: 'swAng'
           },
           {
+            type: 'close'
+          }
+        ],
+        extrusionOk: false,
+        stroke: false
+      },
+      {
+        defines: [
+          {
+            type: 'moveTo',
+            pt: {
+              x: 'r',
+              y: 'th'
+            }
+          },
+          {
+            type: 'arcTo',
+            wR: 'w',
+            hR: 'hR',
+            stAng: '3cd4',
+            swAng: 'swAng2'
+          },
+          {
+            type: 'arcTo',
+            wR: 'w',
+            hR: 'hR',
+            stAng: 'stAng3',
+            swAng: 'swAng3'
+          },
+          {
+            type: 'close'
+          }
+        ],
+        fill: 'darkenLess',
+        extrusionOk: false,
+        stroke: false
+      },
+      {
+        defines: [
+          {
+            type: 'moveTo',
+            pt: {
+              x: 'l',
+              y: 'hR'
+            }
+          },
+          {
+            type: 'arcTo',
+            wR: 'w',
+            hR: 'hR',
+            stAng: 'cd2',
+            swAng: 'mswAng'
+          },
+          {
+            type: 'lnTo',
+            pt: {
+              x: 'x1',
+              y: 'y4'
+            }
+          },
+          {
+            type: 'lnTo',
+            pt: {
+              x: 'r',
+              y: 'y6'
+            }
+          },
+          {
+            type: 'lnTo',
+            pt: {
+              x: 'x1',
+              y: 'y8'
+            }
+          },
+          {
+            type: 'lnTo',
+            pt: {
+              x: 'x1',
+              y: 'y7'
+            }
+          },
+          {
+            type: 'arcTo',
+            wR: 'w',
+            hR: 'hR',
+            stAng: 'stAng',
+            swAng: 'swAng'
+          },
+          {
             type: 'lnTo',
             pt: {
               x: 'l',
