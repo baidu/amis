@@ -16,6 +16,7 @@ export function renderSection(
   sectionEl.style.position = 'relative';
 
   if (renderOptions.page) {
+    sectionEl.style.overflow = 'hidden';
     if (renderOptions.pageMarginBottom) {
       sectionEl.style.marginBottom = renderOptions.pageMarginBottom + 'px';
     }

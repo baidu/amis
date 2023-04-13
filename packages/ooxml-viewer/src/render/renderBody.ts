@@ -20,7 +20,7 @@ function createNewSection(
   sectionEnd: SectionEnd,
   child: HTMLElement
 ) {
-  // 支持强制分页
+  // 支持插入分页符
   if (word.breakPage) {
     word.breakPage = false;
     return true;
@@ -28,7 +28,7 @@ function createNewSection(
   const childBound = child.getBoundingClientRect();
   return (
     childBound.top + childBound.height > sectionEnd.bottom ||
-    // 注意这里没有 + childBound.width，因为 zoom 下通常不准
+    // 注意这里没有 + childBound.width，因为 width 一般都是 100% 导致容易超出
     childBound.left > sectionEnd.right
   );
 }
@@ -47,6 +47,7 @@ function appendToSection(
 ) {
   // 首先尝试写入
   appendChild(sectionEl, child);
+
   // 如果超出了就新建一个 section
   if (createNewSection(word, sectionEnd, child)) {
     const newChild = child.cloneNode(true) as HTMLElement;
@@ -127,7 +128,6 @@ function renderSectionInPage(
   section: Section,
   isLastSection: boolean
 ) {
-  sectionEl.style.overflow = 'hidden';
   // 如果不 setTimeout 取到的位置信息不对
   setTimeout(() => {
     let sectionEnd = getSectionEnd(section, sectionEl);
@@ -171,6 +171,9 @@ function renderSectionInPage(
   }, 0);
 }
 
+/**
+ * 渲染文档主体
+ */
 export default function renderBody(
   root: HTMLElement,
   word: Word,
@@ -187,9 +190,9 @@ export default function renderBody(
   const zooms: number[] = [];
 
   let index = 0;
-  // 生成的时候会有个空
   const sections = body.sections;
   const sectionLength = sections.length;
+  // 用于最后一个 section 不加 margin-bottom
   let isLastSection = false;
   for (const section of sections) {
     zooms.push(getTransform(rootWidth, section, renderOptions));
@@ -225,9 +228,9 @@ export default function renderBody(
     }
   }
 
-  // 固定缩放
   setTimeout(() => {
     if (renderOptions.zoom) {
+      // 固定缩放
       bodyEl.style.transformOrigin = '0 0';
       bodyEl.style.transform = `scale(${renderOptions.zoom})`;
     } else if (
