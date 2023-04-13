@@ -16,7 +16,7 @@ import {
 import {isApiOutdated, isEffectiveApi} from 'amis-core';
 import {IFormStore} from 'amis-core';
 import {Spinner, SpinnerExtraProps} from 'amis-ui';
-import {Icon} from 'amis-ui';
+import {Steps} from 'amis-ui';
 import {findDOMNode} from 'react-dom';
 import {resizeSensor} from 'amis-core';
 import {
@@ -31,9 +31,11 @@ import {
 
 import {ActionSchema} from './Action';
 
-import {tokenize} from 'amis-core';
+import {tokenize, evalExpressionWithConditionBuilder} from 'amis-core';
+import {StepSchema} from './Steps';
+import {cloneDeep} from 'lodash';
 
-export type WizardStepSchema = Omit<FormSchema, 'type'> & {
+export type WizardStepSchema = Omit<FormSchema, 'type'> & StepSchema & {
   /**
    * 当前步骤用来保存数据的 api。
    */
@@ -165,6 +167,31 @@ export interface WizardSchema extends BaseSchema, SpinnerExtraProps {
   steps: Array<WizardStepSchema>;
 
   startStep?: string;
+
+  /**
+   * 步骤条区域css类
+   */
+  stepsClassName?: string;
+
+  /**
+   * 表单区域css类
+   */
+  bodyClassName?: string;
+
+  /**
+   * step + body区域css类
+   */
+  stepClassName?: string;
+
+  /**
+   * 底部操作栏的css类
+   */
+  footerClassName?: string;
+
+  /**
+   * 是否用panel包裹
+   */
+  wrapWithPanel?: boolean;
 }
 
 export interface WizardProps
@@ -177,6 +204,7 @@ export interface WizardProps
 export interface WizardState {
   currentStep: number;
   completeStep: number;
+  rawSteps: WizardStepSchema[];
 }
 
 export default class Wizard extends React.Component<WizardProps, WizardState> {
@@ -189,7 +217,8 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     actionNextLabel: 'Wizard.next',
     actionNextSaveLabel: 'Wizard.saveAndNext',
     actionFinishLabel: 'Wizard.finish',
-    startStep: '1'
+    startStep: '1',
+    wrapWithPanel: true
   };
 
   static propsList: Array<string> = [
@@ -218,9 +247,10 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     [propName: string]: any;
   } = {};
 
-  state = {
+  state: WizardState = {
     currentStep: -1, // init 完后会设置成 1
-    completeStep: -1
+    completeStep: -1,
+    rawSteps: []
   };
 
   componentDidMount() {
@@ -355,6 +385,25 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     (await this.dispatchEvent('inited', data)) && onInit && onInit(data);
   }
 
+  async normalizeSteps(values: any) {
+    const steps = this.props.steps;
+    const rawSteps: WizardStepSchema[] = [];
+    const stepsLength = steps.length;
+    // 这里有个bug，如果把第一个step隐藏，表单就不会渲染
+    for (let i = 0; i < stepsLength; i++) {
+      const hiddenFlag = await evalExpressionWithConditionBuilder(steps[i].hiddenOn, values);
+      !hiddenFlag && rawSteps.push(steps[i]);
+    }
+    this.setState({
+      rawSteps: rawSteps.map((step, index) => {
+        delete step.hiddenOn;
+        return Object.assign(step, {
+          title: step.title || step.label || `第${index + 1}步`
+        })
+      })
+    })
+  }
+
   @autobind
   affixDetect() {
     if (
@@ -384,7 +433,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
   }
 
   async gotoStep(index: number) {
-    const steps = this.props.steps || [];
+    const steps = this.state.rawSteps;
     index = Math.max(Math.min(steps.length, index), 1);
 
     if (index != this.state.currentStep) {
@@ -511,7 +560,8 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
 
   // 用来还原异步提交状态。
   checkSubmit() {
-    const {store, steps, asyncApi, finishedField, env} = this.props;
+    const {store, asyncApi, finishedField, env} = this.props;
+    const steps = this.state.rawSteps;
 
     const step = steps[this.state.currentStep - 1];
     let finnalAsyncApi =
@@ -550,7 +600,8 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     throwErrors: boolean = false,
     delegate?: IScopedContext
   ) {
-    const {onAction, store, env, steps} = this.props;
+    const {onAction, store, env} = this.props;
+    const steps = this.state.rawSteps;
 
     if (
       action.actionType === 'next' ||
@@ -653,6 +704,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     const previous = store.data;
     const final = {...previous, ...values};
 
+    this.normalizeSteps(values);
     if (await this.dispatchEvent('change', final)) {
       return;
     }
@@ -666,6 +718,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     this.initalValues[step] = this.initalValues[step] || values;
     const store = this.props.store;
 
+    this.normalizeSteps(values);
     store.updateData(values);
   }
 
@@ -689,7 +742,6 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
   ) {
     const {
       store,
-      steps,
       api,
       asyncApi,
       finishedField,
@@ -699,6 +751,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
       env,
       onFinished
     } = this.props;
+    const steps = this.state.rawSteps;
 
     if (await this.dispatchEvent('finished', store.data)) {
       return;
@@ -815,7 +868,8 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
   // 接管里面 form 的提交，不能直接让 form 提交，因为 wizard 自己需要知道进度。
   @autobind
   handleSubmit(values: object, action: ActionObject) {
-    const {store, steps, finishedField} = this.props;
+    const {store, finishedField} = this.props;
+    const steps = this.state.rawSteps;
 
     if (this.state.currentStep < steps.length) {
       const step = steps[this.state.currentStep - 1];
@@ -913,55 +967,46 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     store.closeDialog(confirmed);
   }
 
+  @autobind
+  handleJumpStep(index: number, step: any) {
+    const {store} = this.props;
+    const {currentStep} = this.state;
+
+    const canJump = isJumpable(step, index, currentStep, store.data);
+
+    if (!canJump) {
+      return;
+    }
+    this.gotoStep(index + 1);
+  }
+
   renderSteps() {
-    const {steps, store, mode, classPrefix: ns, classnames: cx} = this.props;
-    const {currentStep, completeStep} = this.state;
+    const {
+      mode,
+      classPrefix: ns,
+      classnames: cx,
+      stepsClassName,
+    } = this.props;
+    const {currentStep, rawSteps: steps} = this.state;
 
     return (
-      <div className={`${ns}Wizard-steps`} id="form-wizard">
-        {Array.isArray(steps) && steps.length ? (
-          <ul>
-            {steps.map((step, key) => {
-              const canJump = isJumpable(step, key, currentStep, store.data);
-              const isComplete = canJump || key < completeStep;
-              const isActive = currentStep === key + 1;
-
-              return (
-                <li
-                  key={key}
-                  className={cx({
-                    'is-complete': isComplete,
-                    'is-active': isActive
-                  })}
-                  onClick={() => (canJump ? this.gotoStep(key + 1) : null)}
-                >
-                  <span
-                    className={cx('Badge', {
-                      // 'Badge--success': canJump && currentStep != key + 1,
-                      'is-complete': isComplete,
-                      'is-active':
-                        isActive || (canJump && currentStep != key + 1)
-                    })}
-                  >
-                    {isComplete && !isActive ? (
-                      <Icon icon="check" className="icon" />
-                    ) : (
-                      key + 1
-                    )}
-                  </span>
-                  {step.title || step.label || `第 ${key + 1} 步`}
-                </li>
-              );
-            })}
-          </ul>
-        ) : null}
+      <div className={cx(`${ns}-Wizard-steps`, stepsClassName)}  id="form-wizard">
+        {
+          Array.isArray(steps) && steps.length ? (
+            <Steps
+              steps={steps as any}
+              mode={mode}
+              current={currentStep - 1}
+              onClickStep={this.handleJumpStep}
+            />
+          ) : null
+        }
       </div>
     );
   }
 
   renderActions() {
     const {
-      steps,
       store,
       readOnly,
       disabled,
@@ -971,8 +1016,10 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
       actionNextSaveLabel,
       actionFinishLabel,
       render,
-      translate: __
+      translate: __,
+      classnames: cx
     } = this.props;
+    const steps = this.state.rawSteps;
 
     if (!Array.isArray(steps)) {
       return null;
@@ -1040,7 +1087,8 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
               : __(actionNextSaveLabel),
             actionType: 'next',
             primary: !nextStep || !!step.api,
-            className: actionClassName
+            className: actionClassName,
+            level: 'primary'
           },
           {
             disabled:
@@ -1058,22 +1106,36 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     if (!actions) {
       return actions;
     }
-    const {classnames: cx, affixFooter} = this.props;
+    const {
+      classnames: cx,
+      affixFooter,
+      footerClassName,
+      wrapWithPanel
+    } = this.props;
 
     return (
       <>
         <div
           role="wizard-footer"
           ref={this.footerDom}
-          className={cx('Panel-footer Wizard-footer')}
+          className={cx(
+            'Wizard-footer',
+            wrapWithPanel ? 'Panel-footer' : '',
+            affixFooter ? 'Wizard-fixedButtom' : '',
+            footerClassName
+          )}
         >
           {actions}
         </div>
 
-        {affixFooter ? (
+        {affixFooter && wrapWithPanel ? (
           <div
             ref={this.affixDom}
-            className={cx('Panel-fixedBottom Wizard-footer')}
+            className={cx(
+              wrapWithPanel ? 'Panel-fixedBottom' : '',
+              'Wizard-footer',
+              footerClassName
+            )}
           >
             <div className={cx('Panel-footer')}>{actions}</div>
           </div>
@@ -1085,8 +1147,8 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
   renderWizard() {
     const {
       className,
+      steps: propsSteps,
       style,
-      steps,
       render,
       store,
       classPrefix: ns,
@@ -1094,26 +1156,40 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
       popOverContainer,
       mode,
       translate: __,
-      loadingConfig
+      loadingConfig,
+      stepClassName,
+      bodyClassName,
+      wrapWithPanel,
     } = this.props;
+    const {rawSteps: stateSteps, currentStep} = this.state;
 
-    const currentStep = this.state.currentStep;
+    // 这里初次渲染时，需要取props的steps
+    const steps = Array.isArray(stateSteps) && stateSteps.length > 0 ?
+      stateSteps :
+      cloneDeep(propsSteps).map(step => {
+        delete step.hiddenOn;
+        return step;
+      });
     const step = Array.isArray(steps) ? steps[currentStep - 1] : null;
 
     return (
       <div
         ref={this.domRef}
         className={cx(
-          `${ns}Panel ${ns}Panel--default ${ns}Wizard ${ns}Wizard--${mode}`,
+          wrapWithPanel ? `${ns}Panel ${ns}Panel--default` : '',
+          `${ns}Wizard ${ns}Wizard--${mode}`,
           className
         )}
         style={style}
       >
-        <div className={`${ns}Wizard-step`}>
+        <div className={cx(`${ns}Wizard-step`, stepClassName)}>
           {this.renderSteps()}
           <div
             role="wizard-body"
-            className={`${ns}Wizard-stepContent clearfix`}
+            className={cx(
+              `${ns}Wizard-stepContent clearfix`,
+              bodyClassName
+            )}
           >
             {step ? (
               render(

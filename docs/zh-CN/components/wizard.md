@@ -16,7 +16,6 @@ order: 73
 {
     "type": "wizard",
     "initApi": "/api/mock2/form/saveForm?waitSeconds=2",
-    "mode": "vertical",
     "steps": [
         {
             "title": "第一步",
