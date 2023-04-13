@@ -33,53 +33,55 @@ import {ActionSchema} from './Action';
 
 import {tokenize, evalExpressionWithConditionBuilder} from 'amis-core';
 import {StepSchema} from './Steps';
+import isEqual from 'lodash/isEqual';
 
-export type WizardStepSchema = Omit<FormSchema, 'type'> & StepSchema & {
-  /**
-   * 当前步骤用来保存数据的 api。
-   */
-  api?: SchemaApi;
+export type WizardStepSchema = Omit<FormSchema, 'type'> &
+  StepSchema & {
+    /**
+     * 当前步骤用来保存数据的 api。
+     */
+    api?: SchemaApi;
 
-  asyncApi?: SchemaApi;
+    asyncApi?: SchemaApi;
 
-  /**
-   * 当前步骤用来获取初始数据的 api
-   */
-  initApi?: SchemaApi;
+    /**
+     * 当前步骤用来获取初始数据的 api
+     */
+    initApi?: SchemaApi;
 
-  /**
-   * 是否可直接跳转到该步骤，一般编辑模式需要可直接跳转查看。
-   */
-  jumpable?: boolean;
+    /**
+     * 是否可直接跳转到该步骤，一般编辑模式需要可直接跳转查看。
+     */
+    jumpable?: boolean;
 
-  /**
-   * 通过 JS 表达式来配置当前步骤可否被直接跳转到。
-   */
-  jumpableOn?: SchemaExpression;
+    /**
+     * 通过 JS 表达式来配置当前步骤可否被直接跳转到。
+     */
+    jumpableOn?: SchemaExpression;
 
-  /**
-   * Step 标题
-   */
-  title?: string;
-  label?: string;
+    /**
+     * Step 标题
+     */
+    title?: string;
+    label?: string;
 
-  /**
-   * 每一步可以单独配置按钮。如果不配置wizard会自动生成。
-   */
-  actions?: Array<ActionSchema>;
+    /**
+     * 每一步可以单独配置按钮。如果不配置wizard会自动生成。
+     */
+    actions?: Array<ActionSchema>;
 
-  /**
-   * 保存完后，可以指定跳转地址，支持相对路径和组内绝对路径，同时可以通过 $xxx 使用变量
-   */
-  redirect?: string;
+    /**
+     * 保存完后，可以指定跳转地址，支持相对路径和组内绝对路径，同时可以通过 $xxx 使用变量
+     */
+    redirect?: string;
 
-  reload?: SchemaReload;
+    reload?: SchemaReload;
 
-  /**
-   * 默认表单提交自己会通过发送 api 保存数据，但是也可以设定另外一个 form 的 name 值，或者另外一个 `CRUD` 模型的 name 值。 如果 target 目标是一个 `Form` ，则目标 `Form` 会重新触发 `initApi` 和 `schemaApi`，api 可以拿到当前 form 数据。如果目标是一个 `CRUD` 模型，则目标模型会重新触发搜索，参数为当前 Form 数据。
-   */
-  target?: string;
-};
+    /**
+     * 默认表单提交自己会通过发送 api 保存数据，但是也可以设定另外一个 form 的 name 值，或者另外一个 `CRUD` 模型的 name 值。 如果 target 目标是一个 `Form` ，则目标 `Form` 会重新触发 `initApi` 和 `schemaApi`，api 可以拿到当前 form 数据。如果目标是一个 `CRUD` 模型，则目标模型会重新触发搜索，参数为当前 Form 数据。
+     */
+    target?: string;
+  };
 
 /**
  * 表单向导
@@ -340,11 +342,17 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     parent.addEventListener('scroll', this.affixDetect);
     this.unSensor = resizeSensor(dom as HTMLElement, this.affixDetect);
     this.affixDetect();
+    this.normalizeSteps(store.data);
   }
 
   componentDidUpdate(prevProps: WizardProps) {
     const props = this.props;
     const {store, fetchSuccess, fetchFailed} = props;
+
+    // 步骤steps改变
+    if (!isEqual(prevProps.steps, props.steps)) {
+      this.normalizeSteps(props.data);
+    }
 
     if (
       isApiOutdated(
@@ -385,22 +393,30 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
   }
 
   async normalizeSteps(values: any) {
-    const steps = this.props.steps;
+    const {steps, translate: __} = this.props;
     const rawSteps: WizardStepSchema[] = [];
     const stepsLength = steps.length;
     // 这里有个bug，如果把第一个step隐藏，表单就不会渲染
     for (let i = 0; i < stepsLength; i++) {
-      const hiddenFlag = await evalExpressionWithConditionBuilder(steps[i].hiddenOn, values);
+      const hiddenFlag = await evalExpressionWithConditionBuilder(
+        steps[i].hiddenOn,
+        values
+      );
       !hiddenFlag && rawSteps.push(steps[i]);
     }
     this.setState({
       rawSteps: rawSteps.map((step, index) => {
         delete step.hiddenOn;
         return Object.assign(step, {
-          title: step.title || step.label || `第${index + 1}步`
-        })
+          title:
+            step.title ||
+            step.label ||
+            __('Steps.step', {
+              index: index + 1
+            })
+        });
       })
-    })
+    });
   }
 
   @autobind
@@ -703,7 +719,6 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     const previous = store.data;
     const final = {...previous, ...values};
 
-    this.normalizeSteps(values);
     if (await this.dispatchEvent('change', final)) {
       return;
     }
@@ -717,7 +732,6 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     this.initalValues[step] = this.initalValues[step] || values;
     const store = this.props.store;
 
-    this.normalizeSteps(values);
     store.updateData(values);
   }
 
@@ -980,26 +994,22 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
   }
 
   renderSteps() {
-    const {
-      mode,
-      classPrefix: ns,
-      classnames: cx,
-      stepsClassName,
-    } = this.props;
+    const {mode, classPrefix: ns, classnames: cx, stepsClassName} = this.props;
     const {currentStep, rawSteps: steps} = this.state;
 
     return (
-      <div className={cx(`${ns}-Wizard-steps`, stepsClassName)}  id="form-wizard">
-        {
-          Array.isArray(steps) && steps.length ? (
-            <Steps
-              steps={steps as any}
-              mode={mode}
-              current={currentStep - 1}
-              onClickStep={this.handleJumpStep}
-            />
-          ) : null
-        }
+      <div
+        className={cx(`${ns}-Wizard-steps`, stepsClassName)}
+        id="form-wizard"
+      >
+        {Array.isArray(steps) && steps.length ? (
+          <Steps
+            steps={steps as any}
+            mode={mode}
+            current={currentStep - 1}
+            onClickStep={this.handleJumpStep}
+          />
+        ) : null}
       </div>
     );
   }
@@ -1158,17 +1168,20 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
       loadingConfig,
       stepClassName,
       bodyClassName,
-      wrapWithPanel,
+      wrapWithPanel
     } = this.props;
     const {rawSteps: stateSteps, currentStep} = this.state;
 
     // 这里初次渲染时，需要取props的steps
-    const steps = Array.isArray(stateSteps) && stateSteps.length > 0 ?
-      stateSteps :
-      Array.isArray(propsSteps) ? [...propsSteps].map(step => {
-        delete step.hiddenOn;
-        return step;
-      }) : null;
+    const steps =
+      Array.isArray(stateSteps) && stateSteps.length > 0
+        ? stateSteps
+        : Array.isArray(propsSteps)
+        ? [...propsSteps].map(step => {
+            delete step.hiddenOn;
+            return step;
+          })
+        : null;
 
     const step = Array.isArray(steps) ? steps[currentStep - 1] : null;
 
@@ -1186,10 +1199,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
           {this.renderSteps()}
           <div
             role="wizard-body"
-            className={cx(
-              `${ns}Wizard-stepContent clearfix`,
-              bodyClassName
-            )}
+            className={cx(`${ns}Wizard-stepContent clearfix`, bodyClassName)}
           >
             {step ? (
               render(
@@ -1329,6 +1339,7 @@ export class WizardRenderer extends Wizard {
   }
 
   setData(values: object, replace?: boolean) {
+    this.normalizeSteps(values);
     return this.props.store.updateData(values, undefined, replace);
   }
 

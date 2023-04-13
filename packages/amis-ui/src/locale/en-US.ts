@@ -233,7 +233,8 @@ register('en-US', {
   'Table.valueField': 'Must have valueField',
   'Table.index': 'Index',
   'Table.add': 'Add',
-  'Table.addButtonDisabledTip': 'In content editing, please submit first and then create a new option',
+  'Table.addButtonDisabledTip':
+    'In content editing, please submit first and then create a new option',
   'Table.toggleColumn': 'Display columns',
   'Table.searchFields': 'Set query fields',
   'Tag.placeholder': 'No tag yet',
@@ -393,5 +394,6 @@ register('en-US', {
   'JSONSchema.array_items': 'Items',
   'TimeNow': 'Now',
   'IconSelect.all': 'All',
-  'IconSelect.choice': 'Icon selection'
+  'IconSelect.choice': 'Icon selection',
+  'Steps.step': 'Step {{index}}'
 });
