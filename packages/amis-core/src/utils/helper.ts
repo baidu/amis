@@ -1429,6 +1429,18 @@ export function loadScript(src: string) {
   });
 }
 
+export function loadStyle(href: string) {
+  return new Promise<void>((ok, fail) => {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.onerror = reason => fail(reason);
+    link.onload = () => ok();
+
+    link.href = href;
+    document.head.appendChild(link);
+  });
+}
+
 export class SkipOperation extends Error {}
 
 /**
