@@ -349,8 +349,11 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     const props = this.props;
     const {store, fetchSuccess, fetchFailed} = props;
 
-    // 步骤steps改变
-    if (!isEqual(prevProps.steps, props.steps)) {
+    // 步骤steps、上下文数据data改变时需要执行normalizeSteps
+    if (
+      !isEqual(prevProps.steps, props.steps) ||
+      !isEqual(prevProps.data, props.data)
+    ) {
       this.normalizeSteps(props.data);
     }
 
@@ -1339,7 +1342,6 @@ export class WizardRenderer extends Wizard {
   }
 
   setData(values: object, replace?: boolean) {
-    this.normalizeSteps(values);
     return this.props.store.updateData(values, undefined, replace);
   }
 
