@@ -16,6 +16,7 @@ import {stripNumber} from './stripNumber';
 import {tokenize} from './tokenize';
 import {resolveVariable} from './resolveVariable';
 import {resolveVariableAndFilter} from './resolveVariableAndFilter';
+import {resolveVariableAndFilterForAsync} from './resolveVariableAndFilterForAsync';
 import {dataMapping, resolveMapping, resolveMappingObject} from './dataMapping';
 import './filter'; // 扩充 formula 里面的 filter
 
@@ -35,6 +36,7 @@ export {
   tokenize,
   resolveVariable,
   resolveVariableAndFilter,
+  resolveVariableAndFilterForAsync,
   resolveMapping,
   resolveMappingObject,
   dataMapping
