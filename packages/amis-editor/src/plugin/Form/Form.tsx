@@ -1,5 +1,3 @@
-import cx from 'classnames';
-import {DSFeatureType, generateNodeId, tipedLabel} from 'amis-editor-core';
 import {getI18nEnabled, registerEditorPlugin} from 'amis-editor-core';
 import {
   BasePlugin,
@@ -7,9 +5,7 @@ import {
   BaseEventContext,
   PluginEvent,
   RegionConfig,
-  ScaffoldForm,
-  EditorManager,
-  DSBuilderManager
+  ScaffoldForm
 } from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {jsonToJsonSchema} from 'amis-editor-core';
@@ -17,28 +13,119 @@ import {EditorNodeType} from 'amis-editor-core';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {setVariable} from 'amis-core';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
-import {FormSchema} from 'amis/lib/Schema';
-import flatten from 'lodash/flatten';
-import {clone, cloneDeep} from 'lodash';
 
-const Features: Array<{
-  label: string;
-  value: DSFeatureType;
-}> = [
-  {label: '新增', value: 'Insert'},
-  {label: '编辑', value: 'Edit'}
-];
+// 用于脚手架的常用表单控件
+const getFormItemOptions = ({i18nEnabled}: {i18nEnabled?: boolean}) => {
+  return [
+    {
+      name: 'type',
+      label: '控件类型',
+      type: 'select',
+      required: true,
+      options: [
+        {
+          label: '单行文本框',
+          value: 'input-text'
+        },
+        {
+          label: '多行文本',
+          value: 'textarea'
+        },
+        {
+          label: '分组',
+          value: 'group'
+        },
+        {
+          label: '数字输入',
+          value: 'input-number'
+        },
+        {
+          label: '单选框',
+          value: 'radios'
+        },
+        {
+          label: '勾选框',
+          value: 'checkbox'
+        },
+        {
+          label: '复选框',
+          value: 'checkboxes'
+        },
+        {
+          label: '下拉框',
+          value: 'select'
+        },
+        {
+          label: '开关',
+          value: 'switch'
+        },
+        {
+          label: '日期',
+          value: 'input-date'
+        },
+        {
+          label: '表格',
+          value: 'input-table'
+        },
+        {
+          label: '文件上传',
+          value: 'input-file'
+        },
+        {
+          label: '图片上传',
+          value: 'input-image'
+        },
+        {
+          label: '富文本编辑器',
+          value: 'input-rich-text'
+        }
+      ]
+    },
+    {
+      name: 'label',
+      label: '显示名称',
+      type: i18nEnabled ? 'input-text-i18n' : 'input-text',
+      hiddenOn: 'data.type === "group"'
+    },
+    {
+      name: 'name',
+      label: '提交字段名',
+      required: true,
+      type: 'input-text',
+      hiddenOn: 'data.type === "group"'
+    }
+  ];
+};
+
+// 自动为form中子元素（单选框、复选框）补上默认options
+const autoAddOptions = (values: any) => {
+  if (
+    values &&
+    (values.type === 'form' || values.type === 'group') &&
+    values.body?.length > 0
+  ) {
+    values.body.forEach((formItem: any) => {
+      if (formItem.type === 'radios' || formItem.type === 'checkboxes') {
+        formItem.options = [
+          {
+            label: '选项A',
+            value: 'A'
+          },
+          {
+            label: '选项B',
+            value: 'B'
+          }
+        ];
+      } else if (formItem.type === 'form' || formItem.type === 'group') {
+        autoAddOptions(formItem);
+      }
+    });
+  }
+};
 
 export class FormPlugin extends BasePlugin {
+  // 这个 id 是为了可以把它 disabled 掉
   static id = 'FormPlugin';
-
-  constructor(manager: EditorManager) {
-    super(manager);
-    this.dsBuilderMgr = new DSBuilderManager('form', 'api');
-  }
-
-  dsBuilderMgr: DSBuilderManager;
-
   // 关联渲染器名字
   rendererName = 'form';
   $schema = '/schemas/FormSchema.json';
@@ -51,11 +138,10 @@ export class FormPlugin extends BasePlugin {
   description =
     '可用于新建、编辑或者展示数据，配置初始化接口可从远端加载数据，配置提交接口可将数据发送远端。另外也可以将数据提交给其他组件，与其他组件通信。';
   docLink = '/amis/zh-CN/components/form/index';
-  tags = ['功能', '数据容器'];
+  tags = ['功能'];
   icon = 'fa fa-list-alt';
   pluginIcon = 'form-plugin';
-
-  scaffold: FormSchema = {
+  scaffold = {
     type: 'form',
     title: '表单',
     body: [
@@ -64,13 +150,9 @@ export class FormPlugin extends BasePlugin {
         type: 'input-text',
         name: 'text'
       }
-    ],
-    actions: [
-      {type: 'button', label: '提交', level: 'primary'},
-      {type: 'button', label: '重置'}
     ]
   };
-  previewSchema: FormSchema = {
+  previewSchema = {
     type: 'form',
     panelClassName: 'Panel--default text-left m-b-none',
     mode: 'horizontal',
@@ -80,146 +162,71 @@ export class FormPlugin extends BasePlugin {
         name: 'a',
         type: 'input-text'
       }
-    ],
-    actions: [
-      {
-        type: 'button',
-        label: '提交'
-      }
     ]
   };
 
-  scaffoldFormCache?: ScaffoldForm;
-
   get scaffoldForm(): ScaffoldForm {
-    if (this.scaffoldFormCache) {
-      return this.scaffoldFormCache;
-    }
-    this.scaffoldFormCache = {
-      title: '表单创建向导',
-      mode: {
-        mode: 'horizontal',
-        horizontal: {
-          leftFixed: 'sm'
-        }
-      },
-      className: 'ae-Scaffold-Modal',
+    const i18nEnabled = getI18nEnabled();
+    return {
+      title: '快速创建表单',
       body: [
-        {
-          type: 'radios',
-          name: 'feat',
-          label: '使用场景',
-          value: 'Insert',
-          options: Features
-        },
-        this.dsBuilderMgr.getDSSwitch({
-          onChange: (value: any, oldValue: any, model: any, form: any) => {
-            const data = form.data;
-            Object.keys(data).forEach(key => {
-              if (key.endsWith('Fields') || key.endsWith('api')) {
-                form.deleteValueByName(key);
-              }
-            });
-            form.deleteValueByName('__fields');
-            return value;
-          }
+        getSchemaTpl('apiControl', {
+          label: '提交地址'
         }),
-        ...flatten(
-          Features.map(feat =>
-            this.dsBuilderMgr.collectFromBuilders((builder, builderName) => {
-              return {
-                type: 'container',
-                className: 'form-item-gap',
-                visibleOn: `data.feat === '${feat.value}' && (!data.dsType || data.dsType === '${builderName}')`,
-                body: flatten([
-                  builder.makeSourceSettingForm({
-                    feat: feat.value,
-                    label:
-                      builderName === 'model-entity' ? builderName : undefined,
-                    inScaffold: true,
-                    // @ts-ignore
-                    userOrders: false
-                  }),
-                  builder.makeFieldsSettingForm({
-                    feat: feat.value,
-                    inScaffold: true
-                  })
-                ])
-              };
-            })
-          )
-        ),
         {
-          name: 'operators',
-          label: '操作',
-          type: 'checkboxes',
-          value: ['submit'],
-          joinValues: false,
-          extractValue: false,
+          name: 'mode',
+          label: '文字与输入框展示模式',
+          type: 'button-group-select',
+          pipeIn: defaultValue('normal', false),
           options: [
             {
-              label: '重置',
-              value: 'reset',
-              order: 0,
-              schema: {
-                level: 'default'
-              }
+              label: '上下',
+              value: 'normal'
             },
             {
-              label: '提交',
-              value: 'submit',
-              order: 1,
-              schema: {
-                level: 'primary'
-              }
+              label: '左右摆放',
+              value: 'horizontal'
+            },
+            {
+              label: '内联',
+              value: 'inline'
+            }
+          ]
+        },
+        {
+          label: '表单控件',
+          type: 'combo',
+          name: 'body',
+          multiple: true,
+          draggable: true,
+          multiLine: false,
+          items: [
+            ...getFormItemOptions({i18nEnabled}),
+            {
+              visibleOn: 'data.type === "group"',
+              type: 'combo',
+              name: 'body',
+              label: '分组内的控件',
+              multiple: true,
+              draggable: true,
+              multiLine: true,
+              items: [...getFormItemOptions({i18nEnabled})]
             }
           ]
         }
       ],
-      pipeOut: (value: any) => {
-        const id = generateNodeId();
-        const builder = this.dsBuilderMgr.resolveBuilderBySetting(value);
-
-        let operators = clone(value.operators);
-        operators.sort((p: any, n: any) => p.order - n.order);
-
-        let schema: any = {
-          ...cloneDeep(this.scaffold),
-          body: [],
-          id,
-          dsType: value.dsType,
-          feat: value.feat,
-          actions: operators.map((op: any) => {
-            return {
-              type: 'button',
-              label: op.label,
-              onEvent: {
-                click: {
-                  actions: [
-                    {
-                      actionType: op.value,
-                      componentId: id
-                    }
-                  ]
-                }
-              },
-              ...op.schema
-            };
-          })
-        };
-
-        builder.resolveCreateSchema({
-          schema,
-          setting: value,
-          feat: value.feat
-        });
-
-        return schema;
+      pipeOut: (values: any) => {
+        autoAddOptions(values);
+        return values;
       }
     };
-
-    return this.scaffoldFormCache;
   }
+
+  // scaffoldForm: ScaffoldForm = {
+  //   title: '配置表单信息',
+  //   body: [getSchemaTpl('api')],
+  //   canRebuild: true
+  // };
 
   // 容器配置
   regions: Array<RegionConfig> = [
@@ -232,9 +239,9 @@ export class FormPlugin extends BasePlugin {
     },
 
     {
-      label: '操作区',
+      label: '按钮组',
       key: 'actions',
-      preferTag: '操作按钮'
+      preferTag: '按钮'
     }
   ];
 
@@ -425,425 +432,417 @@ export class FormPlugin extends BasePlugin {
     }
   ];
 
-  panelJustify = true;
-
   panelBodyCreator = (context: BaseEventContext) => {
-    const builder = this.dsBuilderMgr.resolveBuilderBySchema(
-      context.schema,
-      'api'
-    );
-    /** 是否为CRUD的过滤器表单 */
-    const isCRUDFilter: boolean =
-      /\/crud\/filter\/form$/.test(context.path) ||
-      /\/crud2\/filter\/\d\/form$/.test(context.path);
-    /** 表单是否位于Dialog内 */
+    const isCRUDFilter: boolean = /\/crud\/filter\/form$/.test(context.path);
     const isInDialog: boolean = /(?:\/|^)dialog\/.+$/.test(context.path);
-    /** 是否使用Panel包裹 */
-    const isWrapped = 'this.wrapWithPanel !== false';
-    const justifyLayout = (left: number = 2) => ({
-      mode: 'horizontal',
-      horizontal: {
-        left,
-        justify: true
-      }
-    });
     const i18nEnabled = getI18nEnabled();
-
-    const schema = context?.node?.schema ?? context?.schema;
-
-    /** 是否是模型表单 */
-    const isModelForm =
-      (typeof schema?.api === 'string'
-        ? schema.api
-        : typeof schema?.api?.url === 'string'
-        ? schema.api.url
-        : ''
-      ).startsWith('model://') ||
-      (typeof schema?.initApi === 'string'
-        ? schema.initApi
-        : typeof schema?.initApi?.url === 'string'
-        ? schema.initApi.url
-        : ''
-      ).startsWith('model://');
 
     return [
       getSchemaTpl('tabs', [
         {
-          title: '属性',
-          body: getSchemaTpl('collapseGroup', [
-            isCRUDFilter || isModelForm
+          title: '常规',
+          body: [
+            getSchemaTpl('layout:originPosition', {value: 'left-top'}),
+            getSchemaTpl('title', {
+              visibleOn: `this.wrapWithPanel !== false`
+            }),
+            getSchemaTpl('submitText', {
+              pipeIn: defaultValue('提交'),
+              visibleOn: `this.wrapWithPanel !== false && !this.actions && (!Array.isArray(this.body) || !this.body.some(function(item) {return !!~['submit','button','reset','button-group'].indexOf(item.type);}))`,
+              description: '当没有自定义按钮时有效。'
+            }),
+
+            getSchemaTpl('switch', {
+              name: 'autoFocus',
+              label: '自动聚焦',
+              labelRemark: {
+                className: 'm-l-xs',
+                trigger: 'click',
+                rootClose: true,
+                content: '设置后将让表单的第一个可输入的表单项获得焦点',
+                placement: 'left'
+              }
+            }),
+
+            getSchemaTpl('submitOnChange'),
+
+            getSchemaTpl('switch', {
+              label: '禁用回车提交表单',
+              name: 'preventEnterSubmit',
+              labelRemark: {
+                className: 'm-l-xs',
+                trigger: 'click',
+                rootClose: true,
+                content: '设置后无法通过键盘 “回车” 按键进行表单提交',
+                placement: 'left'
+              }
+            }),
+
+            getSchemaTpl('switch', {
+              label: '提交完后重置表单',
+              name: 'resetAfterSubmit',
+              labelRemark: {
+                className: 'm-l-xs',
+                trigger: 'click',
+                rootClose: true,
+                content: '即表单提交完后，让所有表单项的值还原成初始值',
+                placement: 'left'
+              }
+            }),
+
+            isCRUDFilter
+              ? null
+              : getSchemaTpl('switch', {
+                  label: '初始化后提交一次',
+                  name: 'submitOnInit',
+                  labelRemark: {
+                    className: 'm-l-xs',
+                    trigger: 'click',
+                    rootClose: true,
+                    content: '开启后，表单初始完成便会触发一次提交。',
+                    placement: 'left'
+                  }
+                }),
+
+            isInDialog
+              ? getSchemaTpl('switch', {
+                  label: '提交后是否关闭对话框',
+                  name: 'closeDialogOnSubmit',
+                  pipeIn: (value: any) => value !== false
+                })
+              : null,
+
+            isCRUDFilter
               ? null
               : {
-                  title: '数据源',
-                  body: [
-                    {
-                      type: 'select',
-                      name: 'feat',
-                      label: '使用场景',
-                      value: 'Insert',
-                      options: Features,
-                      pipeIn: (value: any, form: any) => {
-                        const feat =
-                          form.data?.initApi !== undefined ? 'Edit' : 'Insert';
-
-                        form.setValueByName('feat', feat);
-                        return feat;
-                      },
-                      onChange: (
-                        value: any,
-                        oldValue: any,
-                        model: any,
-                        form: any
-                      ) => {
-                        const data = form.data;
-                        if (value === 'Insert') {
-                          form.deleteValueByName('initApi');
-                        } else {
-                          form.setValueByName('initApi', '');
-                        }
-
-                        if (data?.dsType === 'model-entity' && data.api) {
-                          form.setValueByName(
-                            'api.action',
-                            value === 'Insert' ? 'create' : 'update'
-                          );
-                        }
-                      }
-                    },
-                    this.dsBuilderMgr.getDSSwitch({
-                      type: 'select',
-                      label: '数据源',
-                      pipeIn: (value: any, form: any) => {
-                        if (value !== undefined) {
-                          return value;
-                        }
-
-                        const api = form.data?.api || form.data?.initApi;
-
-                        let dsType = 'api';
-
-                        if (!api) {
-                        } else if (typeof api === 'string') {
-                          dsType = api.startsWith('api://')
-                            ? 'apicenter'
-                            : 'api';
-                        } else if (api?.url) {
-                          dsType = api.url.startsWith('api://')
-                            ? 'apicenter'
-                            : 'api';
-                        } else if (api?.entity) {
-                          dsType = 'model-entity';
-                        }
-
-                        // 需要 set 一下，否则 collectFromBuilders 里的内容条件不满足
-                        form.setValueByName('dsType', dsType);
-
-                        return dsType;
-                      },
-                      onChange: (
-                        value: any,
-                        oldValue: any,
-                        model: any,
-                        form: any
-                      ) => {
-                        const data = form.data;
-                        Object.keys(data).forEach(key => {
-                          if (key.endsWith('Fields') || key.endsWith('api')) {
-                            form.deleteValueByName(key);
-                          }
-                        });
-                        form.deleteValueByName('__fields');
-                        form.deleteValueByName('initApi');
-                        form.deleteValueByName('api');
-
-                        form.setValueByName(
-                          'api',
-                          value === 'model-entity'
-                            ? {
-                                action:
-                                  data?.feat === 'Insert' ? 'create' : 'update',
-                                limit: 'piece'
-                              }
-                            : ''
-                        );
-                        return value;
-                      }
-                    }),
-                    ...flatten(
-                      Features.map(feat =>
-                        this.dsBuilderMgr.collectFromBuilders(
-                          (builder, builderName, index) => ({
-                            type: 'container',
-                            className: 'form-item-gap',
-                            visibleOn: `data.feat === '${feat.value}' && ( data.dsType === '${builderName}' || (!data.dsType && ${index} === 0))`,
-                            body: flatten([
-                              builder.makeSourceSettingForm({
-                                feat: feat.value,
-                                label:
-                                  builderName === 'model-entity'
-                                    ? builderName
-                                    : '提交接口',
-                                // @ts-ignore
-                                renderLabel: true,
-                                userOrders: false
-                              })
-                            ])
-                          })
-                        )
-                      )
-                    )
-                  ]
-                },
-            {
-              title: '基本',
-              body: [
-                {
-                  name: 'title',
+                  label: '提交给其他组件',
+                  name: 'target',
                   type: 'input-text',
-                  label: '标题',
-                  visibleOn: isWrapped
+                  description:
+                    '可以通过设置此属性，把当前表单的值提交给目标组件，而不是自己来通过接口保存，请填写目标组件的 <code>name</code> 属性，多个组件请用逗号隔开。当 <code>target</code> 为 <code>window</code> 时，则把表单数据附属到地址栏。'
                 },
-                getSchemaTpl('switch', {
-                  name: 'autoFocus',
-                  label: tipedLabel(
-                    '自动聚焦',
-                    '设置后将让表单的第一个可输入的表单项获得焦点'
-                  )
-                }),
-                {
-                  type: 'ae-switch-more',
-                  mode: 'normal',
-                  name: 'persistData',
-                  label: tipedLabel(
-                    '本地缓存',
-                    '开启后，表单的数据会缓存在浏览器中，切换页面或关闭弹框不会清空当前表单内的数据'
-                  ),
-                  hiddenOnDefault: true,
-                  formType: 'extend',
-                  form: {
-                    body: [
-                      getSchemaTpl('switch', {
-                        name: 'clearPersistDataAfterSubmit',
-                        label: tipedLabel(
-                          '提交成功后清空缓存',
-                          '开启本地缓存并开启本配置项后，表单提交成功后，会自动清除浏览器中当前表单的缓存数据'
-                        ),
-                        pipeIn: defaultValue(false),
-                        visibleOn: 'data.persistData'
-                      })
-                    ]
-                  }
-                },
-                getSchemaTpl('switch', {
-                  name: 'canAccessSuperData',
-                  label: tipedLabel(
-                    '自动填充数据域同名变量',
-                    '默认表单是可以获取到完整数据链中的数据的，如果想使表单的数据域独立，请关闭此配置'
-                  ),
-                  pipeIn: defaultValue(true)
-                })
-              ]
-            },
-            {
-              title: '提交设置',
-              body: [
-                {
-                  name: 'submitText',
+
+            getSchemaTpl('reload', {
+              test: !isCRUDFilter
+            }),
+
+            isCRUDFilter
+              ? null
+              : {
+                  label: '跳转',
+                  name: 'redirect',
                   type: 'input-text',
-                  label: tipedLabel(
-                    '提交按钮名称',
-                    '如果底部按钮不是自定义按钮时，可以通过该配置可以快速修改按钮名称，如果设置成空，则可以把默认按钮去掉。'
-                  ),
-                  pipeIn: defaultValue('提交'),
-                  visibleOn: `${isWrapped} && !this.actions && (!Array.isArray(this.body) || !this.body.some(function(item) {return !!~['submit','button','reset','button-group'].indexOf(item.type);}))`,
-                  ...justifyLayout(4)
+                  description: '当设置此值后，表单提交完后跳转到目标地址。'
                 },
-                getSchemaTpl('switch', {
-                  name: 'submitOnChange',
-                  label: tipedLabel(
-                    '修改即提交',
-                    '设置后，表单中每次有修改都会触发提交'
-                  )
-                }),
-                getSchemaTpl('switch', {
-                  name: 'resetAfterSubmit',
-                  label: tipedLabel(
-                    '提交后重置表单',
-                    '表单提交后，让所有表单项的值还原成初始值'
-                  )
-                }),
-                getSchemaTpl('switch', {
-                  name: 'preventEnterSubmit',
-                  label: tipedLabel(
-                    '阻止回车提交',
-                    '默认按回车键触发表单提交，开启后将阻止这一行为'
-                  )
-                }),
-                // isCRUDFilter
-                //   ? null
-                //   : getSchemaTpl('switch', {
-                //       name: 'submitOnInit',
-                //       label: tipedLabel(
-                //         '初始化后提交一次',
-                //         '开启后，表单初始完成便会触发一次提交'
-                //       )
-                //     }),
-                isInDialog
-                  ? getSchemaTpl('switch', {
-                      label: '提交后关闭对话框',
-                      name: 'closeDialogOnSubmit',
-                      pipeIn: (value: any) => value !== false
-                    })
-                  : null
-                // isCRUDFilter
-                //   ? null
-                //   : {
-                //       label: tipedLabel(
-                //         '提交其他组件',
-                //         '可以通过设置此属性，把当前表单的值提交给目标组件，而不是自己来通过接口保存，请填写目标组件的 <code>name</code> 属性，多个组件请用逗号隔开。当 <code>target</code> 为 <code>window</code> 时，则把表单数据附属到地址栏。'
-                //       ),
-                //       name: 'target',
-                //       type: 'input-text',
-                //       placeholder: '请输入组件name',
-                //       ...justifyLayout(4)
-                //     },
-                // getSchemaTpl('reload', {
-                //   test: !isCRUDFilter
-                // }),
-                // isCRUDFilter
-                //   ? null
-                //   : {
-                //       type: 'ae-switch-more',
-                //       mode: 'normal',
-                //       label: tipedLabel(
-                //         '提交后跳转',
-                //         '当设置此值后，表单提交完后跳转到目标地址'
-                //       ),
-                //       formType: 'extend',
-                //       form: {
-                //         mode: 'horizontal',
-                //         horizontal: {
-                //           justify: true,
-                //           left: 4
-                //         },
-                //         body: [
-                //           {
-                //             label: '跳转地址',
-                //             name: 'redirect',
-                //             type: 'input-text',
-                //             placeholder: '请输入目标地址'
-                //           }
-                //         ]
-                //       }
-                //     }
-              ]
-            },
+
+            getSchemaTpl('switch', {
+              name: 'canAccessSuperData',
+              label: '是否自动填充父级同名变量',
+              pipeIn: defaultValue(true)
+            }),
+
+            getSchemaTpl('switch', {
+              name: 'persistData',
+              label: '是否开启本地缓存',
+              pipeIn: defaultValue(false),
+              labelRemark: {
+                className: 'm-l-xs',
+                trigger: 'click',
+                rootClose: true,
+                content:
+                  '开启后，表单的数据会缓存在浏览器中，切换页面或关闭弹框不会清空当前表单内的数据',
+                placement: 'left'
+              }
+            }),
+
+            getSchemaTpl('switch', {
+              name: 'clearPersistDataAfterSubmit',
+              label: '提交成功后清空本地缓存',
+              pipeIn: defaultValue(false),
+              visibleOn: 'data.persistData',
+              labelRemark: {
+                className: 'm-l-xs',
+                trigger: 'click',
+                rootClose: true,
+                content:
+                  '开启本地缓存并开启本配置项后，表单提交成功后，会自动清除浏览器中当前表单的缓存数据',
+                placement: 'left'
+              }
+            }),
+
             {
-              title: '组合校验',
-              body: [
+              name: 'rules',
+              label: '表单组合校验',
+              type: 'combo',
+              multiple: true,
+              multiLine: true,
+              items: [
                 {
-                  name: 'rules',
-                  label: false,
-                  type: 'combo',
-                  multiple: true,
-                  multiLine: true,
-                  subFormMode: 'horizontal',
-                  placeholder: '',
-                  addBtn: {
-                    label: '添加校验规则',
-                    block: true,
-                    icon: 'fa fa-plus',
-                    className: cx('ae-Button--enhance')
+                  name: 'rule',
+                  label: '校验规则',
+                  type: 'input-text'
+                },
+                {
+                  name: 'message',
+                  label: '报错提示',
+                  type: i18nEnabled ? 'input-text-i18n' : 'input-text'
+                }
+              ]
+            }
+          ]
+        },
+
+        isCRUDFilter
+          ? null
+          : {
+              title: '接口',
+              body: [
+                getSchemaTpl('apiControl', {
+                  label: '保存接口',
+                  description: '用来保存表单数据',
+                  sampleBuilder: () => `{
+    "status": 0,
+    "msg": "",
+
+    // 可以不返回，如果返回了数据将被 merge 进来。
+    data: {}
+  }`
+                  // test: !this.isCRUDFilter
+                }),
+
+                getSchemaTpl('switch', {
+                  name: 'asyncApi',
+                  label: '采用异步方式?',
+                  visibleOn: 'data.api',
+                  labelRemark: {
+                    trigger: 'click',
+                    rootClose: true,
+                    title: '什么是异步方式？',
+                    content:
+                      '异步方式主要用来解决请求超时问题，启用异步方式后，程序会在请求完后，定时轮询请求额外的接口用来咨询操作是否完成。所以接口可以快速的返回，而不需要等待流程真正完成。',
+                    placement: 'left'
                   },
-                  items: [
-                    {
-                      type: 'ae-formulaControl',
-                      name: 'rule',
-                      label: '校验规则',
-                      ...justifyLayout(4)
-                    },
-                    {
-                      name: 'message',
-                      label: '报错提示',
-                      type: 'input-text',
-                      ...justifyLayout(4)
+                  pipeIn: (value: any) => value != null,
+                  pipeOut: (value: any) => (value ? '' : undefined)
+                }),
+
+                getSchemaTpl('apiControl', {
+                  name: 'asyncApi',
+                  label: '异步检测接口',
+                  visibleOn: 'data.asyncApi != null',
+                  description:
+                    '设置此属性后，表单提交发送保存接口后，还会继续轮训请求该接口，直到返回 finished 属性为 true 才 结束'
+                }),
+
+                {
+                  type: 'divider'
+                },
+
+                getSchemaTpl('apiControl', {
+                  name: 'initApi',
+                  label: '初始化接口',
+                  description: '用来初始化表单数据',
+                  sampleBuilder: () => {
+                    const data = {};
+                    const schema = context?.schema;
+
+                    if (Array.isArray(schema?.body)) {
+                      schema.body.forEach((control: any) => {
+                        if (
+                          control.name &&
+                          !~['combo', 'input-array', 'form'].indexOf(
+                            control.type
+                          )
+                        ) {
+                          setVariable(data, control.name, 'sample');
+                        }
+                      });
                     }
-                  ]
+
+                    return JSON.stringify(
+                      {
+                        status: 0,
+                        msg: '',
+                        data: data
+                      },
+                      null,
+                      2
+                    );
+                  }
+                }),
+
+                getSchemaTpl('switch', {
+                  label: '开启定时刷新',
+                  name: 'interval',
+                  visibleOn: 'data.initApi',
+                  pipeIn: (value: any) => !!value,
+                  pipeOut: (value: any) => (value ? 3000 : undefined)
+                }),
+
+                {
+                  name: 'interval',
+                  type: 'input-number',
+                  visibleOn: 'data.interval',
+                  step: 500,
+                  className: 'm-t-n-sm',
+                  description: '设置后将自动定时刷新，单位 ms'
+                },
+
+                getSchemaTpl('switch', {
+                  name: 'silentPolling',
+                  label: '静默刷新',
+                  visibleOn: '!!data.interval',
+                  description: '设置自动定时刷新时是否显示loading'
+                }),
+
+                {
+                  name: 'stopAutoRefreshWhen',
+                  label: '停止定时刷新检测表达式',
+                  type: 'input-text',
+                  visibleOn: '!!data.interval',
+                  description:
+                    '定时刷新一旦设置会一直刷新，除非给出表达式，条件满足后则不刷新了。'
+                },
+
+                getSchemaTpl('switch', {
+                  label: '采用异步方式？',
+                  name: 'initAsyncApi',
+                  visibleOn: 'data.initApi',
+                  remark: {
+                    trigger: 'click',
+                    rootClose: true,
+                    title: '什么是异步方式？',
+                    content:
+                      '异步方式主要用来解决请求超时问题，启用异步方式后，程序会在请求完后，定时轮询请求额外的接口用来咨询操作是否完成。所以接口可以快速的返回，而不需要等待流程真正完成。',
+                    placement: 'left'
+                  },
+                  pipeIn: (value: any) => value != null,
+                  pipeOut: (value: any) => (value ? '' : undefined)
+                }),
+
+                getSchemaTpl('apiControl', {
+                  name: 'initAsyncApi',
+                  label: '异步检测接口',
+                  visibleOn: 'data.initAsyncApi != null',
+                  description:
+                    '设置此属性后，表单请求 initApi 后，还会继续轮训请求该接口，直到返回 finished 属性为 true 才 结束'
+                }),
+
+                {
+                  type: 'divider'
+                },
+
+                getSchemaTpl(
+                  'loadingConfig',
+                  {
+                    label: '加载设置'
+                  },
+                  {context}
+                ),
+
+                {
+                  type: 'divider'
+                },
+
+                isCRUDFilter
+                  ? {
+                      name: 'messages',
+                      pipeIn: defaultValue({
+                        fetchFailed: '初始化失败'
+                      }),
+                      label: '默认消息信息',
+                      type: 'combo',
+                      multiLine: true,
+                      description:
+                        '可以不设置，接口返回的 msg 字段，优先级更高',
+                      items: [
+                        getSchemaTpl('fetchSuccess'),
+                        getSchemaTpl('fetchFailed')
+                      ]
+                    }
+                  : {
+                      name: 'messages',
+                      pipeIn: defaultValue({
+                        fetchFailed: '初始化失败',
+                        saveSuccess: '保存成功',
+                        saveFailed: '保存失败'
+                      }),
+                      label: '默认消息提示',
+                      type: 'combo',
+                      multiLine: true,
+                      description:
+                        '可以不设置，接口返回的 msg 字段，优先级更高',
+                      items: [
+                        getSchemaTpl('fetchSuccess'),
+                        getSchemaTpl('fetchFailed'),
+                        getSchemaTpl('saveSuccess'),
+                        getSchemaTpl('saveFailed'),
+                        getSchemaTpl('validateFailed')
+                      ]
+                    }
+              ]
+            },
+
+        {
+          title: '外观',
+          body: [
+            getSchemaTpl('switch', {
+              name: 'wrapWithPanel',
+              label: '用 Panel 包裹',
+              pipeIn: defaultValue(true),
+              labelRemark: {
+                className: 'm-l-xs',
+                trigger: 'click',
+                rootClose: true,
+                content: '关闭后，表单只会展示表单项，标题和操作栏将不会显示。',
+                placement: 'left'
+              }
+            }),
+
+            {
+              name: 'mode',
+              label: '展示模式',
+              type: 'button-group-select',
+              size: 'sm',
+              // mode: 'inline',
+              // className: 'block',
+              pipeIn: defaultValue('normal', false),
+              options: [
+                {
+                  label: '默认',
+                  value: 'normal'
+                },
+                {
+                  label: '左右摆放',
+                  value: 'horizontal'
+                },
+                {
+                  label: '内联',
+                  value: 'inline'
                 }
               ]
             },
-            /** 状态 */
-            getSchemaTpl('status', {isFormItem: false, disabled: true}),
-            {
-              title: '高级',
-              body: [
-                getSchemaTpl('switch', {
-                  name: 'debug',
-                  label: tipedLabel('开启调试', '在表单顶部显示当前表单的数据')
-                })
-              ]
-            }
-          ])
-        },
-        {
-          title: '外观',
-          body: getSchemaTpl('collapseGroup', [
-            {
-              title: '布局',
-              body: [
-                getSchemaTpl('formItemMode', {isForm: true}),
-                getSchemaTpl('horizontal')
-              ]
-            },
-            {
-              title: '其他',
-              body: [
-                getSchemaTpl('switch', {
-                  name: 'wrapWithPanel',
-                  label: tipedLabel(
-                    'Panel包裹',
-                    '关闭后，表单只会展示表单项，标题和操作栏将不会显示。'
-                  ),
-                  pipeIn: defaultValue(true)
-                }),
-                getSchemaTpl('switch', {
-                  name: 'affixFooter',
-                  label: tipedLabel(
-                    '吸附操作栏',
-                    '开启后，滚动表单内容区时使底部操作区悬浮吸附'
-                  ),
-                  visibleOn: isWrapped
-                })
-              ]
-            },
-            /** */
-            getSchemaTpl('style:classNames', {
-              isFormItem: false,
-              schema: [
-                getSchemaTpl('className', {
-                  name: 'panelClassName',
-                  label: 'Panel',
-                  visibleOn: isWrapped
-                }),
-                getSchemaTpl('className', {
-                  name: 'headerClassName',
-                  label: '标题区',
-                  visibleOn: isWrapped
-                }),
-                getSchemaTpl('className', {
-                  name: 'bodyClassName',
-                  label: '内容区',
-                  visibleOn: isWrapped
-                }),
-                getSchemaTpl('className', {
-                  name: 'actionsClassName',
-                  label: '操作区',
-                  visibleOn: isWrapped
-                })
-              ]
+
+            getSchemaTpl('horizontal', {
+              visibleOn: 'this.mode == "horizontal"'
+            }),
+
+            getSchemaTpl('className'),
+
+            getSchemaTpl('className', {
+              name: 'staticClassName',
+              label: '静态展示时 的 CSS 类名'
+            }),
+
+            getSchemaTpl('className', {
+              name: 'panelClassName',
+              visibleOn: 'this.wrapWithPanel !== false',
+              label: 'Panel 的 CSS 类名',
+              description: '可以设置 Panel--info 之类的'
             })
-          ])
+          ]
         },
+
         {
           title: '事件',
           className: 'p-none',
@@ -852,6 +851,25 @@ export class FormPlugin extends BasePlugin {
               name: 'onEvent',
               ...getEventControlConfig(this.manager, context)
             })
+          ]
+        },
+
+        {
+          title: '其他',
+          body: [
+            getSchemaTpl('ref'),
+            getSchemaTpl('name', {
+              test: !isCRUDFilter
+            }),
+            getSchemaTpl('switch', {
+              name: 'debug',
+              label: '开启调试',
+              labelRemark: '显示当前表单的数据在表单顶部'
+            }),
+
+            getSchemaTpl('disabled'),
+            getSchemaTpl('visible'),
+            getSchemaTpl('static')
           ]
         }
       ])
@@ -925,56 +943,6 @@ export class FormPlugin extends BasePlugin {
 
       scope?.removeSchema(jsonschema.$id);
       scope?.addSchema(jsonschema);
-    }
-  }
-
-  async getAvailableContextFields(
-    scopeNode: EditorNodeType,
-    target: EditorNodeType,
-    region?: EditorNodeType
-  ) {
-    // 只有表单项组件可以使用表单组件的数据域
-    if (
-      target.info.renderer.isFormItem ||
-      target.sameIdChild?.info.renderer.isFormItem
-    ) {
-      if (
-        scopeNode.parent?.type === 'crud2' &&
-        scopeNode.schemaPath?.startsWith('body/0/filter/')
-      ) {
-        return scopeNode.parent.info.plugin.getAvailableContextFields?.(
-          scopeNode.parent,
-          target,
-          region
-        );
-      }
-
-      if (
-        scopeNode.parent?.type === 'service' &&
-        scopeNode.parent?.parent?.path?.endsWith('service')
-      ) {
-        return scopeNode.parent.parent.info.plugin.getAvailableContextFields?.(
-          scopeNode.parent.parent,
-          target,
-          region
-        );
-      }
-
-      // 先从数据源获取可用字段
-      const builder = this.dsBuilderMgr.resolveBuilderBySchema(
-        scopeNode.schema,
-        'api'
-      );
-      if (builder && scopeNode.schema.api) {
-        return builder.getAvailableContextFileds(
-          {
-            schema: scopeNode.schema,
-            sourceKey: 'api',
-            feat: 'Insert'
-          },
-          target
-        );
-      }
     }
   }
 }

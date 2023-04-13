@@ -21,7 +21,6 @@ import type {
 import {getEventControlConfig} from '../renderer/event-control/helper';
 
 export class ServicePlugin extends BasePlugin {
-  // 为了在 saas 中覆盖，id 必不可少，不然找不到
   static id = 'ServicePlugin';
 
   // 关联渲染器名字
@@ -67,30 +66,14 @@ export class ServicePlugin extends BasePlugin {
 
   events: RendererPluginEvent[] = [
     {
-      eventName: 'init',
-      eventLabel: '初始化',
-      description: '组件实例被创建并插入 DOM 中时触发',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            'event.data': {
-              type: 'object',
-              title: '当前数据域'
-            }
-          }
-        }
-      ]
-    },
-    {
       eventName: 'fetchInited',
-      eventLabel: '初始化数据接口请求成功',
-      description: '远程初始化数据接口请求成功时触发'
+      eventLabel: 'api 初始化数据',
+      description: 'api 初始化完成'
     },
     {
       eventName: 'fetchSchemaInited',
-      eventLabel: '初始化Schema接口请求成功',
-      description: '远程初始化Schema接口请求成功时触发'
+      eventLabel: 'schemaApi 初始化数据',
+      description: 'schemaApi 初始化完成'
     }
   ];
 
@@ -114,7 +97,7 @@ export class ServicePlugin extends BasePlugin {
 
   dsBuilderMgr: DSBuilderManager;
 
-  constructor(manager: EditorManager) {
+  constructor(manager: EditorManager, options: any, ctx: any) {
     super(manager);
 
     this.dsBuilderMgr = new DSBuilderManager('service', 'api');
@@ -125,12 +108,12 @@ export class ServicePlugin extends BasePlugin {
     /** 数据来源选择器 */
     const dsTypeSelect = () =>
       dsManager.getDSSwitch({
-        type: 'button-group-select',
+        type: 'select',
         mode: 'horizontal',
         horizontal: {
-          justify: true
+          justify: true,
+          left: 'col-sm-4'
         },
-        size: 'sm',
         onChange: (value: any, oldValue: any, model: any, form: any) => {
           if (value !== oldValue) {
             const data = form.data;
@@ -152,11 +135,23 @@ export class ServicePlugin extends BasePlugin {
         body: flattenDeep([
           builder.makeSourceSettingForm({
             name: 'api',
-            label: '数据源',
+            label: '接口配置',
             feat: 'View',
+            mode: 'horizontal',
+            ...(builderFlag === 'api' || builderFlag === 'apicenter'
+              ? {
+                  horizontalConfig: {
+                    labelAlign: 'left',
+                    horizontal: {
+                      justify: true,
+                      left: 4
+                    }
+                  }
+                }
+              : {}),
             inScaffold: false,
             inCrud: false
-          })
+          } as any)
         ])
       };
     });
@@ -173,7 +168,7 @@ export class ServicePlugin extends BasePlugin {
             },
             {
               title: '状态',
-              body: [getSchemaTpl('visible')]
+              body: [getSchemaTpl('hidden')]
             },
             {
               title: '高级',
@@ -184,9 +179,6 @@ export class ServicePlugin extends BasePlugin {
                   name: 'data',
                   label: '初始化静态数据'
                 }),
-                {
-                  type: 'divider'
-                },
                 getSchemaTpl('apiControl', {
                   name: 'schemaApi',
                   label: tipedLabel(
@@ -198,11 +190,8 @@ export class ServicePlugin extends BasePlugin {
                   name: 'initFetchSchema',
                   label: '是否Schema初始加载',
                   visibleOn:
-                    'typeof this.schemaApi === "string" ? this.schemaApi : this.schemaApi.url'
+                    'typeof this.schemaApi === "string" ? this.schemaApi : this.schemaApi && this.schemaApi.url'
                 }),
-                {
-                  type: 'divider'
-                },
                 {
                   name: 'ws',
                   type: 'input-text',
@@ -210,9 +199,6 @@ export class ServicePlugin extends BasePlugin {
                     'WebSocket接口',
                     'Service 支持通过WebSocket(ws)获取数据，用于获取实时更新的数据。'
                   )
-                },
-                {
-                  type: 'divider'
                 },
                 {
                   type: 'js-editor',
