@@ -557,7 +557,11 @@ export default class PickerControl extends React.PureComponent<
               ) : null}
 
               <span onClick={this.open} className={cx('Picker-btn')}>
-                <Icon icon="window-restore" className="icon" />
+                <Icon
+                  icon="window-restore"
+                  className="icon"
+                  iconContent="Picker-icon"
+                />
               </span>
             </div>
 
