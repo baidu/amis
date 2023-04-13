@@ -53,6 +53,7 @@ exports[`Renderer:Picker base 1`] = `
               <icon-mock
                 classname="icon icon-window-restore"
                 icon="window-restore"
+                iconContent="Picker-icon"
               />
             </span>
           </div>
@@ -276,6 +277,7 @@ exports[`Renderer:Picker base 2`] = `
             <icon-mock
               classname="icon icon-window-restore"
               icon="window-restore"
+              iconContent="Picker-icon"
             />
           </span>
         </div>
