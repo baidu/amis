@@ -408,17 +408,16 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
       !hiddenFlag && rawSteps.push(steps[i]);
     }
     this.setState({
-      rawSteps: rawSteps.map((step, index) => {
-        delete step.hiddenOn;
-        return Object.assign(step, {
-          title:
-            step.title ||
-            step.label ||
-            __('Steps.step', {
-              index: index + 1
-            })
-        });
-      })
+      rawSteps: rawSteps.map((step, index) => ({
+        ...steps,
+        hiddenOn: '',
+        title:
+          step.title ||
+          step.label ||
+          __('Steps.step', {
+            index: index + 1
+          })
+      }))
     });
   }
 
