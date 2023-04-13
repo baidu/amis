@@ -1,6 +1,6 @@
 {
   "name": "amis-editor",
-  "version": "5.2.5-alpha.12",
+  "version": "5.2.5-alpha.16",
   "description": "amis 可视化编辑器",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -25,7 +25,8 @@
     "clean-dist": "rimraf lib/* esm/*",
     "i18n:update": "npx i18n update --config=./i18nConfig.js",
     "i18n:translate": "npx i18n translate --config=./i18nConfig.js --l=en-US",
-    "i18n:merge": "npx i18n merge --config=./i18nConfig.js --l=en-US"
+    "i18n:merge": "npx i18n merge --config=./i18nConfig.js --l=en-US",
+    "format": "prettier --write \"src/**/**/*.{js,jsx,ts,tsx,vue,scss,json}\""
   },
   "keywords": [
     "amis",

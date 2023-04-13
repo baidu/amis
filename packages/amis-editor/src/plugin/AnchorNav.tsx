@@ -236,9 +236,7 @@ export class AnchorNavPlugin extends BasePlugin {
             getSchemaTpl('collapseGroup', [
               {
                 title: '基本',
-                body: [
-                  getSchemaTpl('anchorNavTitle')
-                ]
+                body: [getSchemaTpl('anchorNavTitle')]
               }
             ])
           ]

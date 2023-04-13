@@ -2901,7 +2901,7 @@ itemAction 里的 onClick 还能通过 `data` 参数拿到当前行的数据，�
 | multiple      | `boolean`                     | `false` | 是否支持多选                                             |         |
 | source        | [`Api`](../../docs/types/api) | -       | 选项 API 接口                                            |         |
 | refreshOnOpen | `boolean`                     | `false` | 配置 source 前提下，每次展开筛选浮层是否重新加载选项数据 | `2.9.0` |
-| strictMode    | `boolean`                     | `false` | 严格模式，开启严格模式后，会采用 JavaScript 严格想等比较 | `2.3.0` |
+| strictMode    | `boolean`                     | `false` | 严格模式，开启严格模式后，会采用 JavaScript 严格相等比较 | `2.3.0` |
 
 #### QuickEditConfig
 

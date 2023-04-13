@@ -12,9 +12,9 @@ import {
   AfterBuildPanelBody,
   defaultValue,
   getSchemaTpl,
-  tipedLabel,
-  DSField
+  tipedLabel
 } from 'amis-editor-core';
+import type {DSField} from 'amis-editor-core';
 import {fromPairs} from 'lodash';
 import {TabsSchema} from 'amis/lib/renderers/Tabs';
 import {SchemaObject} from 'amis/lib/Schema';

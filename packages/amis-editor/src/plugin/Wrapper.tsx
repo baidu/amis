@@ -63,121 +63,18 @@ export class WrapperPlugin extends LayoutBasePlugin {
                     mode: 'vertical'
                   }),
                   getSchemaTpl('layout:display'),
-                  getSchemaTpl('layout:flexDirection', {
-                    visibleOn: 'data.style && data.style.display === "flex"'
-                  }),
 
-                  getSchemaTpl('layout:justifyContent', {
-                    label: '水平对齐方式',
-                    options: [
-                      {
-                        label: '左对齐',
-                        value: 'flex-start'
-                      },
-                      {
-                        label: '居中对齐',
-                        value: 'center'
-                      },
-                      {
-                        label: '右对齐',
-                        value: 'flex-end'
-                      },
-                      {
-                        label: '两端对齐',
-                        value: 'space-between'
-                      },
-                      {
-                        label: '均匀分布',
-                        value: 'space-evenly'
-                      }
-                    ],
+                  getSchemaTpl('layout:flex-setting', {
                     visibleOn:
-                      'data.style && data.style.display === "flex" && data.style.flexDirection === "row" || data.style.flexDirection === "row-reverse"'
-                  }),
-                  getSchemaTpl('layout:justifyContent', {
-                    label: '垂直对齐方式',
-                    options: [
-                      {
-                        label: '顶部对齐',
-                        value: 'flex-start'
-                      },
-                      {
-                        label: '居中对齐',
-                        value: 'center'
-                      },
-                      {
-                        label: '底部对齐',
-                        value: 'flex-end'
-                      },
-                      {
-                        label: '两端对齐',
-                        value: 'space-between'
-                      },
-                      {
-                        label: '均匀分布',
-                        value: 'space-evenly'
-                      }
-                    ],
-                    visibleOn:
-                      'data.style && data.style.display === "flex" && (data.style.flexDirection === "column" || data.style.flexDirection === "column-reverse")'
-                  }),
-                  getSchemaTpl('layout:alignItems', {
-                    label: '水平对齐方式',
-                    options: [
-                      {
-                        label: '左对齐',
-                        value: 'flex-start'
-                      },
-                      {
-                        label: '居中对齐',
-                        value: 'center'
-                      },
-                      {
-                        label: '右对齐',
-                        value: 'flex-end'
-                      },
-                      {
-                        label: '基线对齐',
-                        value: 'baseline'
-                      },
-                      {
-                        label: '自动拉伸',
-                        value: 'stretch'
-                      }
-                    ],
-                    visibleOn:
-                      'data.style && data.style.display === "flex" && (data.style.flexDirection === "column" || data.style.flexDirection === "column-reverse")'
-                  }),
-                  getSchemaTpl('layout:alignItems', {
-                    label: '垂直对齐方式',
-                    options: [
-                      {
-                        label: '顶部对齐',
-                        value: 'flex-start'
-                      },
-                      {
-                        label: '居中对齐',
-                        value: 'center'
-                      },
-                      {
-                        label: '底部对齐',
-                        value: 'flex-end'
-                      },
-                      {
-                        label: '基线对齐',
-                        value: 'baseline'
-                      },
-                      {
-                        label: '高度撑满',
-                        value: 'stretch'
-                      }
-                    ],
-                    visibleOn:
-                      'data.style && data.style.display === "flex" && (data.style.flexDirection === "row" || data.style.flexDirection === "row-reverse")'
+                      'data.style && (data.style.display === "flex" || data.style.display === "inline-flex")',
+                    direction: curRendererSchema.direction,
+                    justify: curRendererSchema.justify,
+                    alignItems: curRendererSchema.alignItems
                   }),
 
                   getSchemaTpl('layout:flex-wrap', {
-                    visibleOn: 'data.style && data.style.display === "flex"'
+                    visibleOn:
+                      'data.style && (data.style.display === "flex" || data.style.display === "inline-flex")'
                   }),
 
                   isFlexItem

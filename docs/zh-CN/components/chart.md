@@ -149,12 +149,14 @@ api 返回支持两种格式，一种是直接返回完整 echarts 配置，数�
             "type": "value"
         },
         "series": [{
-            "data": "${line}",
+            "data": "${line || []}",
             "type": "line"
         }]
     }
 }
 ```
+
+> Echarts 中有些配置不能为未定义，所以要使用变量，最好使用类似上面的 `${line || []}` 写法配置默认值，保证在数据加载完前渲染也不会报错
 
 其中 api 返回内容是如下写法，可以看到通过[数据映射](../../docs/concepts/data-mapping)语法，我们可以将 api 放回结果中的 line 字段作为折线的数据。
 
@@ -194,7 +196,7 @@ api 返回支持两种格式，一种是直接返回完整 echarts 配置，数�
                     "type": "value"
                 },
                 "series": [{
-                    "data": "${line}",
+                    "data": "${line || []}",
                     "type": "line"
                 }]
             }

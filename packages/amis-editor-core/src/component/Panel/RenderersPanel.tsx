@@ -185,7 +185,9 @@ export default class RenderersPanel extends React.Component<
                           data-dnd-data={JSON.stringify(
                             item.scaffold || {type: item.type}
                           )}
-                          onDragStart={(e: React.DragEvent) => this.handleDragStart(e, item.name)}
+                          onDragStart={(e: React.DragEvent) =>
+                            this.handleDragStart(e, item.name)
+                          }
                         >
                           <div
                             className="icon-box"

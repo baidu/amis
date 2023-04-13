@@ -674,6 +674,11 @@ export function isApiOutdated(
     return false;
   }
 
+  // 通常是编辑器里加了属性，一开始没值，后来有了
+  if (prevApi === undefined && !nextApi !== undefined) {
+    return true;
+  }
+
   nextApi = normalizeApi(nextApi);
 
   if (nextApi.autoRefresh === false) {

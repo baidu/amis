@@ -41,6 +41,13 @@ export function createElement(tagName: string): HTMLElement {
 }
 
 /**
+ * 创建 SVG 元素
+ */
+export function createSVGElement(tagName: string): SVGElement {
+  return document.createElementNS('http://www.w3.org/2000/svg', tagName);
+}
+
+/**
  * 创建片段
  */
 export function createDocumentFragment() {

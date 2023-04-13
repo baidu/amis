@@ -18,7 +18,7 @@
     display: flex;
     align-items: center;
     background: var(--transfer-base-title-bg);
-    color: var(--transfer-base-title-font-color);
+    color: var(--transfer-base-title-color);
     line-height: var(--transfer-base-title-lineHeight);
     font-size: var(--transfer-base-title-fontSize);
     font-weight: var(--transfer-base-title-fontWeight);
@@ -27,10 +27,6 @@
       var(--transfer-base-header-paddingRight)
       var(--transfer-base-header-paddingBottom)
       var(--transfer-base-header-paddingLeft);
-    margin: var(--transfer-base-header-marginTop)
-      var(--transfer-base-header-marginRight)
-      var(--transfer-base-header-marginBottom)
-      var(--transfer-base-header-marginLeft);
     flex-direction: row;
     width: 100%;
 
@@ -80,10 +76,6 @@
       var(--transfer-base-body-paddingRight)
       var(--transfer-base-body-paddingBottom)
       var(--transfer-base-body-paddingLeft);
-    margin: var(--transfer-base-body-marginTop)
-      var(--transfer-base-body-marginRight)
-      var(--transfer-base-body-marginBottom)
-      var(--transfer-base-body-marginLeft);
     width: 100%;
   }
 
@@ -101,7 +93,7 @@
     font-size: var(--transfer-base-content-fontSize);
     font-weight: var(--transfer-base-content-fontWeight);
 
-    color: var(--transfer-base-content-font-color);
+    color: var(--transfer-base-content-color);
   }
 
   .#{$ns}ChainedSelection-item {
@@ -115,7 +107,7 @@
     font-size: var(--transfer-base-content-fontSize);
     font-weight: var(--transfer-base-content-fontWeight);
 
-    color: var(--transfer-base-content-font-color);
+    color: var(--transfer-base-content-color);
   }
 
   .#{$ns}GroupedSelection-group > .#{$ns}GroupedSelection-itemLabel {
@@ -123,7 +115,7 @@
     font-weight: var(--transfer-group-font-weight);
     line-height: var(--transfer-group-font-lineHeight);
     font-family: var(--transfer-group-font-family);
-    color: var(--transfer-group-font-color);
+    color: var(--transfer-group-color);
   }
 
   &-select > .#{$ns}ChainedSelection {
@@ -197,14 +189,12 @@
     padding: var(--transfer-search-paddingTop)
       var(--transfer-search-paddingRight) var(--transfer-search-paddingBottom)
       var(--transfer-search-paddingLeft);
-    margin: var(--transfer-search-marginTop) var(--transfer-search-marginRight)
-      var(--transfer-search-marginBottom) var(--transfer-search-marginLeft);
     width: 100%;
     .#{$ns}InputBox {
       font-size: var(--transfer-search-fontSize);
       font-weight: var(--transfer-search-fontWeight);
       line-height: var(--transfer-search-lineHeight);
-      color: var(--transfer-search-font-color);
+      color: var(--transfer-search-color);
       border-width: var(--transfer-search-top-border-width)
         var(--transfer-search-right-border-width)
         var(--transfer-search-bottom-border-width)
@@ -226,10 +216,6 @@
         var(--transfer-search-input-paddingRight)
         var(--transfer-search-input-paddingBottom)
         var(--transfer-search-input-paddingLeft);
-      margin: var(--transfer-search-input-marginTop)
-        var(--transfer-search-input-marginRight)
-        var(--transfer-search-input-marginBottom)
-        var(--transfer-search-input-marginLeft);
 
       &:hover {
         border-color: var(--transfer-search-border-hover-color);
@@ -240,7 +226,7 @@
       }
 
       input {
-        color: var(--transfer-search-font-color);
+        color: var(--transfer-search-color);
         font-size: var(--transfer-search-fontSize);
         font-weight: var(--transfer-search-fontWeight);
         line-height: var(--transfer-search-lineHeight);
@@ -327,7 +313,7 @@
       font-size: var(--transfer-base-content-fontSize);
       font-weight: var(--transfer-base-content-fontWeight);
 
-      color: var(--transfer-base-content-font-color);
+      color: var(--transfer-base-content-color);
     }
   }
 
@@ -338,7 +324,7 @@
         var(--transfer-table-header-paddingBottom)
         var(--transfer-table-header-paddingLeft);
       background: var(--transfer-base-title-bg);
-      color: var(--transfer-base-title-font-color);
+      color: var(--transfer-base-title-color);
       line-height: var(--transfer-base-title-lineHeight);
       font-size: var(--transfer-base-content-fontSize);
 

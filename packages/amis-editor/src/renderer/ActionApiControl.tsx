@@ -8,7 +8,7 @@ import {PickerContainer} from 'amis-ui';
 import {getEnv} from 'mobx-state-tree';
 import {normalizeApi, isEffectiveApi, isApiOutdated} from 'amis-core';
 
-import {autobind, isObject, anyChanged, createObject} from 'amis-editor-core';
+import {autobind, isObject, anyChanged, createObject, getSchemaTpl} from 'amis-editor-core';
 import {tipedLabel} from 'amis-editor-core';
 
 import type {SchemaObject, SchemaCollection, SchemaApi} from 'amis/lib/Schema';
@@ -753,28 +753,8 @@ export default class APIControl extends React.Component<
                         }
                       ]
                     },
-                    {
-                      label: '发送适配器',
-                      name: 'requestAdaptor',
-                      type: 'js-editor',
-                      mode: 'horizontal',
-                      horizontal: {justify: true},
-                      clasName: 'm-t-sm',
-                      allowFullscreen: true,
-                      description:
-                        '函数签名：(api) => api， 数据在 api.data 中，修改后返回 api 对象。'
-                    },
-                    {
-                      label: '接收适配器',
-                      name: 'adaptor',
-                      type: 'js-editor',
-                      mode: 'horizontal',
-                      horizontal: {justify: true},
-                      clasName: 'm-t-sm',
-                      allowFullscreen: true,
-                      description:
-                        '函数签名: (payload, response, api) => payload'
-                    }
+                    getSchemaTpl('apiRequestAdaptor'),
+                    getSchemaTpl('apiAdaptor'),
                   ]
                 },
                 {

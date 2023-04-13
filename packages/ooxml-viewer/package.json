@@ -1,6 +1,6 @@
 {
   "name": "ooxml-viewer",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "office 文档在线预览",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -14,7 +14,8 @@
     "coverage": "jest --coverage",
     "declaration": "tsc --project tsconfig-for-declaration.json --allowJs --declaration --emitDeclarationOnly --declarationDir ./lib --rootDir ./src",
     "clean-dist": "rimraf lib/** esm/**",
-    "xsd2ts": "cd tools && ts-node --transpileOnly xsd2ts.ts"
+    "xsd2ts": "cd tools && ts-node --transpileOnly xsd2ts.ts",
+    "conver-preset": "cd tools && ts-node --transpileOnly converDrawingML.ts"
   },
   "exports": {
     ".": {
@@ -40,7 +41,8 @@
   },
   "homepage": "https://github.com/baidu/amis#readme",
   "dependencies": {
-    "fflate": "^0.7.4"
+    "fflate": "^0.7.4",
+    "tslib": "^2.3.1"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^22.0.2",

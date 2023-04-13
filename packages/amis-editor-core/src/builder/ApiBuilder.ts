@@ -2,7 +2,7 @@
  * API数据源处理器
  */
 
-import {Schema, toast} from 'amis';
+import {toast} from 'amis';
 import {
   DSBuilder,
   DSFeature,

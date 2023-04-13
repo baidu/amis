@@ -78,7 +78,7 @@
         xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape"
         mc:Ignorable="w14 w15 w16se w16cid w16 w16cex w16sdtdh wp14">
         <w:body>
-          <w:p w14:paraId="17EBEE4B" w14:textId="5840C45A" w:rsidR="003456C4"
+          <w:p w14:paraId="17EBEE4B" w14:textId="5713407F" w:rsidR="003456C4"
             w:rsidRDefault="003456C4">
             <w:r>
               <w:rPr>
@@ -89,16 +89,16 @@
                   <w:drawing>
                     <wp:anchor distT="0" distB="0" distL="114300" distR="114300" simplePos="0"
                       relativeHeight="251659264" behindDoc="0" locked="0" layoutInCell="1"
-                      allowOverlap="1" wp14:anchorId="47B983CA" wp14:editId="3301C715">
+                      allowOverlap="1" wp14:anchorId="47B983CA" wp14:editId="189E243A">
                       <wp:simplePos x="0" y="0" />
                       <wp:positionH relativeFrom="column">
-                        <wp:posOffset>0</wp:posOffset>
+                        <wp:posOffset>-1108</wp:posOffset>
                       </wp:positionH>
                       <wp:positionV relativeFrom="paragraph">
-                        <wp:posOffset>5715</wp:posOffset>
+                        <wp:posOffset>9526</wp:posOffset>
                       </wp:positionV>
-                      <wp:extent cx="832485" cy="832485" />
-                      <wp:effectExtent l="9525" t="9525" r="15240" b="15240" />
+                      <wp:extent cx="832485" cy="649694" />
+                      <wp:effectExtent l="12700" t="12700" r="18415" b="10795" />
                       <wp:wrapNone />
                       <wp:docPr id="12" name="椭圆 12" />
                       <wp:cNvGraphicFramePr />
@@ -109,8 +109,8 @@
                             <wps:cNvSpPr />
                             <wps:spPr>
                               <a:xfrm>
-                                <a:off x="4650105" y="6876415" />
-                                <a:ext cx="832485" cy="832485" />
+                                <a:off x="0" y="0" />
+                                <a:ext cx="832485" cy="649694" />
                               </a:xfrm>
                               <a:prstGeom prst="ellipse">
                                 <a:avLst />
@@ -148,14 +148,17 @@
                           </wps:wsp>
                         </a:graphicData>
                       </a:graphic>
+                      <wp14:sizeRelV relativeFrom="margin">
+                        <wp14:pctHeight>0</wp14:pctHeight>
+                      </wp14:sizeRelV>
                     </wp:anchor>
                   </w:drawing>
                 </mc:Choice>
                 <mc:Fallback>
                   <w:pict>
-                    <v:oval w14:anchorId="099597AD" id="椭圆 12" o:spid="_x0000_s1026"
-                      style="position:absolute;left:0;text-align:left;margin-left:0;margin-top:.45pt;width:65.55pt;height:65.55pt;z-index:251659264;visibility:visible;mso-wrap-style:square;mso-wrap-distance-left:9pt;mso-wrap-distance-top:0;mso-wrap-distance-right:9pt;mso-wrap-distance-bottom:0;mso-position-horizontal:absolute;mso-position-horizontal-relative:text;mso-position-vertical:absolute;mso-position-vertical-relative:text;v-text-anchor:middle"
-                      o:gfxdata="UEsDBBQABgAIAAAAIQC2gziS/gAAAOEBAAATAAAAW0NvbnRlbnRfVHlwZXNdLnhtbJSRQU7DMBBF&#xD;&#xA;90jcwfIWJU67QAgl6YK0S0CoHGBkTxKLZGx5TGhvj5O2G0SRWNoz/78nu9wcxkFMGNg6quQqL6RA&#xD;&#xA;0s5Y6ir5vt9lD1JwBDIwOMJKHpHlpr69KfdHjyxSmriSfYz+USnWPY7AufNIadK6MEJMx9ApD/oD&#xD;&#xA;OlTrorhX2lFEilmcO2RdNtjC5xDF9pCuTyYBB5bi6bQ4syoJ3g9WQ0ymaiLzg5KdCXlKLjvcW893&#xD;&#xA;SUOqXwnz5DrgnHtJTxOsQfEKIT7DmDSUCaxw7Rqn8787ZsmRM9e2VmPeBN4uqYvTtW7jvijg9N/y&#xD;&#xA;JsXecLq0q+WD6m8AAAD//wMAUEsDBBQABgAIAAAAIQA4/SH/1gAAAJQBAAALAAAAX3JlbHMvLnJl&#xD;&#xA;bHOkkMFqwzAMhu+DvYPRfXGawxijTi+j0GvpHsDYimMaW0Yy2fr2M4PBMnrbUb/Q94l/f/hMi1qR&#xD;&#xA;JVI2sOt6UJgd+ZiDgffL8ekFlFSbvV0oo4EbChzGx4f9GRdb25HMsYhqlCwG5lrLq9biZkxWOiqY&#xD;&#xA;22YiTra2kYMu1l1tQD30/bPm3wwYN0x18gb45AdQl1tp5j/sFB2T0FQ7R0nTNEV3j6o9feQzro1i&#xD;&#xA;OWA14Fm+Q8a1a8+Bvu/d/dMb2JY5uiPbhG/ktn4cqGU/er3pcvwCAAD//wMAUEsDBBQABgAIAAAA&#xD;&#xA;IQC5kQqweAIAAD0FAAAOAAAAZHJzL2Uyb0RvYy54bWysVEtvGjEQvlfqf7B8b3ahQAhiiRARVaWo&#xD;&#xA;iZJWPRuvzVryelzbsNBf37H3AWqjHqruwTv2fPPNw55Z3p9qTY7CeQWmoKObnBJhOJTK7Av67ev2&#xD;&#xA;w5wSH5gpmQYjCnoWnt6v3r9bNnYhxlCBLoUjSGL8orEFrUKwiyzzvBI18zdghUGlBFezgFu3z0rH&#xD;&#xA;GmSvdTbO81nWgCutAy68x9OHVklXiV9KwcOTlF4EoguKsYW0urTu4pqtlmyxd8xWindhsH+IombK&#xD;&#xA;oNOB6oEFRg5O/UFVK+7Agww3HOoMpFRcpBwwm1H+WzavFbMi5YLF8XYok/9/tPzL8dU+OyxDY/3C&#xD;&#xA;oxizOElXxz/GR04FncymGNyUknNBZ/Pb2WQ0bQsnToFwBMw/jidz1HMEdDIyZhci63z4JKAmUSio&#xD;&#xA;0FpZH1NjC3Z89KFF96h4bGCrtE7Xow1p8G3d5dM8WXjQqozaiPNuv9toR44Mb3iTxy/Ghr6vYLjT&#xD;&#xA;Bg8vOSYpnLWIHNq8CElUiZmMWw/x+YmBlnEuTBi1qoqVovU2vXbWWyTXiTAyS4xy4O4IemRL0nO3&#xD;&#xA;MXf4aCrS6x2Mu9T/ZjxYJM9gwmBcKwPurcw0ZtV5bvF9kdrSxCrtoDw/O+Kg7R1v+VbhJT4yH56Z&#xD;&#xA;w2bBtsIBEJ5wkRrwpqCTKKnA/XzrPOLxDaOWkgabr6D+x4E5QYn+bPB1340mk9itaTOZ3o5x4641&#xD;&#xA;u2uNOdQbwNsf4aixPIkRH3QvSgf1d5wT6+gVVcxw9F1QHly/2YR2KOCk4WK9TjDsUMvCo3m1PJLH&#xD;&#xA;qhpYHwJIlR7spTpd1bBH0/V38yQOget9Ql2m3uoXAAAA//8DAFBLAwQUAAYACAAAACEA6hN6id4A&#xD;&#xA;AAAKAQAADwAAAGRycy9kb3ducmV2LnhtbEyPwU7DMBBE70j8g7VIXBC1U6S2pHEqBKIHbrR8gBsv&#xD;&#xA;iUW8Drbbhn49mxNcVrsazey8ajP6XpwwJhdIQzFTIJCaYB21Gj72r/crECkbsqYPhBp+MMGmvr6q&#xD;&#xA;TGnDmd7xtMut4BBKpdHQ5TyUUqamQ2/SLAxIrH2G6E3mM7bSRnPmcN/LuVIL6Y0j/tCZAZ87bL52&#xD;&#xA;R6/BL9/U3l0i3i1Vc1m5b9outqT17c34subxtAaRccx/DpgYuD/UXOwQjmST6DUwTdbwCGLSHooC&#xD;&#xA;xGFa5gpkXcn/CPUvAAAA//8DAFBLAQItABQABgAIAAAAIQC2gziS/gAAAOEBAAATAAAAAAAAAAAA&#xD;&#xA;AAAAAAAAAABbQ29udGVudF9UeXBlc10ueG1sUEsBAi0AFAAGAAgAAAAhADj9If/WAAAAlAEAAAsA&#xD;&#xA;AAAAAAAAAAAAAAAALwEAAF9yZWxzLy5yZWxzUEsBAi0AFAAGAAgAAAAhALmRCrB4AgAAPQUAAA4A&#xD;&#xA;AAAAAAAAAAAAAAAALgIAAGRycy9lMm9Eb2MueG1sUEsBAi0AFAAGAAgAAAAhAOoTeoneAAAACgEA&#xD;&#xA;AA8AAAAAAAAAAAAAAAAA0gQAAGRycy9kb3ducmV2LnhtbFBLBQYAAAAABAAEAPMAAADdBQAAAAA=&#xD;&#xA;"
+                    <v:oval w14:anchorId="407A8DBD" id="椭圆 12" o:spid="_x0000_s1026"
+                      style="position:absolute;left:0;text-align:left;margin-left:-.1pt;margin-top:.75pt;width:65.55pt;height:51.15pt;z-index:251659264;visibility:visible;mso-wrap-style:square;mso-height-percent:0;mso-wrap-distance-left:9pt;mso-wrap-distance-top:0;mso-wrap-distance-right:9pt;mso-wrap-distance-bottom:0;mso-position-horizontal:absolute;mso-position-horizontal-relative:text;mso-position-vertical:absolute;mso-position-vertical-relative:text;mso-height-percent:0;mso-height-relative:margin;v-text-anchor:middle"
+                      o:gfxdata="UEsDBBQABgAIAAAAIQC2gziS/gAAAOEBAAATAAAAW0NvbnRlbnRfVHlwZXNdLnhtbJSRQU7DMBBF&#xD;&#xA;90jcwfIWJU67QAgl6YK0S0CoHGBkTxKLZGx5TGhvj5O2G0SRWNoz/78nu9wcxkFMGNg6quQqL6RA&#xD;&#xA;0s5Y6ir5vt9lD1JwBDIwOMJKHpHlpr69KfdHjyxSmriSfYz+USnWPY7AufNIadK6MEJMx9ApD/oD&#xD;&#xA;OlTrorhX2lFEilmcO2RdNtjC5xDF9pCuTyYBB5bi6bQ4syoJ3g9WQ0ymaiLzg5KdCXlKLjvcW893&#xD;&#xA;SUOqXwnz5DrgnHtJTxOsQfEKIT7DmDSUCaxw7Rqn8787ZsmRM9e2VmPeBN4uqYvTtW7jvijg9N/y&#xD;&#xA;JsXecLq0q+WD6m8AAAD//wMAUEsDBBQABgAIAAAAIQA4/SH/1gAAAJQBAAALAAAAX3JlbHMvLnJl&#xD;&#xA;bHOkkMFqwzAMhu+DvYPRfXGawxijTi+j0GvpHsDYimMaW0Yy2fr2M4PBMnrbUb/Q94l/f/hMi1qR&#xD;&#xA;JVI2sOt6UJgd+ZiDgffL8ekFlFSbvV0oo4EbChzGx4f9GRdb25HMsYhqlCwG5lrLq9biZkxWOiqY&#xD;&#xA;22YiTra2kYMu1l1tQD30/bPm3wwYN0x18gb45AdQl1tp5j/sFB2T0FQ7R0nTNEV3j6o9feQzro1i&#xD;&#xA;OWA14Fm+Q8a1a8+Bvu/d/dMb2JY5uiPbhG/ktn4cqGU/er3pcvwCAAD//wMAUEsDBBQABgAIAAAA&#xD;&#xA;IQBJzeembgIAADEFAAAOAAAAZHJzL2Uyb0RvYy54bWysVE2PGjEMvVfqf4hy785AgQLaYYVYbVUJ&#xD;&#xA;dVG3Vc8hkzCRMnGaBAb66+tkPkDtqoeqc8g4sf1sP8e5fzjXmpyE8wpMQUd3OSXCcCiVORT029en&#xD;&#xA;d3NKfGCmZBqMKOhFePqwevvmvrFLMYYKdCkcQRDjl40taBWCXWaZ55Womb8DKwwqJbiaBdy6Q1Y6&#xD;&#xA;1iB6rbNxns+yBlxpHXDhPZ4+tkq6SvhSCh6epfQiEF1QzC2k1aV1H9dsdc+WB8dspXiXBvuHLGqm&#xD;&#xA;DAYdoB5ZYOTo1B9QteIOPMhwx6HOQErFRaoBqxnlv1XzUjErUi1IjrcDTf7/wfLPpxe7c0hDY/3S&#xD;&#xA;oxirOEtXxz/mR86JrMtAljgHwvFw/n48mU8p4aiaTRazxSSSmV2drfPho4CaRKGgQmtlfSyHLdlp&#xD;&#xA;60Nr3VvFYwNPSuvUEm1Ig/dpkU/z5OFBqzJqo513h/1GO3Ji2NVNHr8u9o0ZZqINJnStK0nhokXE&#xD;&#xA;0OaLkESVWMm4jRCvnBhgGefChFGrqlgp2mjT22C9Ryo7AUZkiVkO2B1Ab9mC9NgtA519dBXpxg7O&#xD;&#xA;Xel/cx48UmQwYXCulQH3WmUaq+oit/Y9SS01kaU9lJedIw7aefGWPyls4pb5sGMOBwRHCYc+POMi&#xD;&#xA;NWCnoJMoqcD9fO082uO9RS0lDQ5cQf2PI3OCEv3J4I1ejCaTOKFpM5l+GOPG3Wr2txpzrDeA3R/h&#xD;&#xA;82J5EqN90L0oHdTf8W1Yx6ioYoZj7ILy4PrNJrQPAb4uXKzXyQyn0rKwNS+WR/DIqoH1MYBU6cJe&#xD;&#xA;2elYw7lM7e/ekDj4t/tkdX3pVr8AAAD//wMAUEsDBBQABgAIAAAAIQBnIN5n3gAAAAwBAAAPAAAA&#xD;&#xA;ZHJzL2Rvd25yZXYueG1sTE/NTsMwDL4j8Q6RkbigLWETW+maTgjEDtzYeICsMW1E45Qk28qeHu8E&#xD;&#xA;F8v2Z38/1Xr0vThiTC6QhvupAoHUBOuo1fCxe50UIFI2ZE0fCDX8YIJ1fX1VmdKGE73jcZtbwSSU&#xD;&#xA;SqOhy3kopUxNh96kaRiQGPsM0ZvMY2yljebE5L6XM6UW0htHrNCZAZ87bL62B6/BL9/Uzp0j3i1V&#xD;&#xA;cy7cN20WG9L69mZ8WXF5WoHIOOa/D7hkYP9Qs7F9OJBNotcwmfEhrx9AXNC5egSx50bNC5B1Jf+H&#xD;&#xA;qH8BAAD//wMAUEsBAi0AFAAGAAgAAAAhALaDOJL+AAAA4QEAABMAAAAAAAAAAAAAAAAAAAAAAFtD&#xD;&#xA;b250ZW50X1R5cGVzXS54bWxQSwECLQAUAAYACAAAACEAOP0h/9YAAACUAQAACwAAAAAAAAAAAAAA&#xD;&#xA;AAAvAQAAX3JlbHMvLnJlbHNQSwECLQAUAAYACAAAACEASc3npm4CAAAxBQAADgAAAAAAAAAAAAAA&#xD;&#xA;AAAuAgAAZHJzL2Uyb0RvYy54bWxQSwECLQAUAAYACAAAACEAZyDeZ94AAAAMAQAADwAAAAAAAAAA&#xD;&#xA;AAAAAADIBAAAZHJzL2Rvd25yZXYueG1sUEsFBgAAAAAEAAQA8wAAANMFAAAAAA==&#xD;&#xA;"
                       filled="f" strokecolor="#c00000" strokeweight="1.5pt">
                       <v:stroke joinstyle="miter" />
                     </v:oval>
@@ -494,9 +497,9 @@
         xmlns:sl="http://schemas.openxmlformats.org/schemaLibrary/2006/main"
         mc:Ignorable="w14 w15 w16se w16cid w16 w16cex w16sdtdh">
         <w:zoom w:percent="120" />
-        <w:doNotDisplayPageBoundaries />
         <w:bordersDoNotSurroundHeader />
         <w:bordersDoNotSurroundFooter />
+        <w:proofState w:spelling="clean" w:grammar="clean" />
         <w:defaultTabStop w:val="420" />
         <w:drawingGridVerticalSpacing w:val="156" />
         <w:displayHorizontalDrawingGridEvery w:val="0" />
@@ -526,7 +529,11 @@
         <w:rsids>
           <w:rsidRoot w:val="003456C4" />
           <w:rsid w:val="003456C4" />
+          <w:rsid w:val="008B0168" />
+          <w:rsid w:val="0097768D" />
+          <w:rsid w:val="00C406BE" />
           <w:rsid w:val="00D127B0" />
+          <w:rsid w:val="00E010D9" />
         </w:rsids>
         <m:mathPr>
           <m:mathFont m:val="Cambria Math" />
@@ -546,6 +553,12 @@
           w:accent1="accent1" w:accent2="accent2" w:accent3="accent3" w:accent4="accent4"
           w:accent5="accent5" w:accent6="accent6" w:hyperlink="hyperlink"
           w:followedHyperlink="followedHyperlink" />
+        <w:shapeDefaults>
+          <o:shapedefaults v:ext="edit" spidmax="1026" />
+          <o:shapelayout v:ext="edit">
+            <o:idmap v:ext="edit" data="1" />
+          </o:shapelayout>
+        </w:shapeDefaults>
         <w:decimalSymbol w:val="." />
         <w:listSeparator w:val="," />
         <w14:docId w14:val="0C40186C" />
@@ -568,9 +581,9 @@
         <cp:keywords />
         <dc:description />
         <cp:lastModifiedBy>administrator</cp:lastModifiedBy>
-        <cp:revision>2</cp:revision>
+        <cp:revision>6</cp:revision>
         <dcterms:created xsi:type="dcterms:W3CDTF">2023-03-28T09:22:00Z</dcterms:created>
-        <dcterms:modified xsi:type="dcterms:W3CDTF">2023-03-28T09:22:00Z</dcterms:modified>
+        <dcterms:modified xsi:type="dcterms:W3CDTF">2023-04-10T10:44:00Z</dcterms:modified>
       </cp:coreProperties>
     </pkg:xmlData>
   </pkg:part>
@@ -1115,7 +1128,7 @@
       <Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties"
         xmlns:vt="http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes">
         <Template>Normal.dotm</Template>
-        <TotalTime>0</TotalTime>
+        <TotalTime>2</TotalTime>
         <Pages>1</Pages>
         <Words>0</Words>
         <Characters>1</Characters>

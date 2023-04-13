@@ -367,10 +367,12 @@ export class GridPlugin extends BasePlugin {
           : {
               title: '外观',
               body: [
-                getSchemaTpl('className'),
-                getSchemaTpl('subFormItemMode'),
-                getSchemaTpl('subFormHorizontalMode'),
-                getSchemaTpl('subFormHorizontal')
+                getSchemaTpl('collapseGroup', [
+                  getSchemaTpl('subFormItemMode'),
+                  getSchemaTpl('subFormHorizontalMode'),
+                  getSchemaTpl('subFormHorizontal'),
+                  ...getSchemaTpl('theme:common', ['layout'])
+                ])
               ]
             }
       ])
@@ -546,12 +548,9 @@ export class GridPlugin extends BasePlugin {
           {
             title: '外观',
             body: [
-              this.panelWithOutOthers
-                ? null
-                : getSchemaTpl('className', {
-                    label: '栏 CSS 类名',
-                    name: 'columnClassName'
-                  })
+              getSchemaTpl('collapseGroup', [
+                ...getSchemaTpl('theme:common', ['layout'])
+              ])
             ]
           }
         ])
