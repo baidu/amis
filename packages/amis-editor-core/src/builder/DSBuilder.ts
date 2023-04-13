@@ -349,25 +349,28 @@ export class DSBuilderManager {
   }
 
   /** 获取可用的 builders */
-  filterBuilder(showHiddenBuilderNames?: string[]) {
-    return pickBy(
-      this.builders,
-      (builder: DSBuilder) =>
-        builder.defaultHidden !== true ||
-        (Array.isArray(showHiddenBuilderNames) &&
-          showHiddenBuilderNames.includes(builder.name))
-    );
+  filterBuilder(disabledBuilders?: string[]) {
+    return pickBy(this.builders, (builder: DSBuilder) => {
+      if (
+        Array.isArray(disabledBuilders) &&
+        disabledBuilders.includes((builder.constructor as any).type)
+      ) {
+        return false;
+      }
+
+      return builder.defaultHidden !== true;
+    });
   }
 
   /** 获取数据源切换的schema */
   getDSSwitch(
     setting: any = {},
     options?: {
-      showHiddenBuilderNames?: Array<string>;
+      disabledBuilders?: Array<string>;
     }
   ) {
     const filterdBuilder = this.filterBuilder(
-      options && options.showHiddenBuilderNames
+      options && options.disabledBuilders
     );
 
     const multiSource = Object.keys(filterdBuilder).length > 1;
@@ -419,11 +422,11 @@ export class DSBuilderManager {
   collectFromBuilders(
     callee: (builder: DSBuilder, builderName: string, index?: number) => any,
     options?: {
-      showHiddenBuilderNames?: Array<string>;
+      disabledBuilders?: Array<string>;
     }
   ) {
     return Object.entries(
-      this.filterBuilder(options && options.showHiddenBuilderNames)
+      this.filterBuilder(options && options.disabledBuilders)
     ).map(([name, builder], index: number) => {
       return callee(builder, name, index);
     });

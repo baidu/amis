@@ -82,7 +82,7 @@ export interface EditorManagerConfig
   extends Omit<EditorProps, 'value' | 'onChange'> {}
 
 export interface PluginClass {
-  new (manager: EditorManager, options?: any): PluginInterface;
+  new (manager: EditorManager, options?: any, ctx?: any): PluginInterface;
   id?: string;
   scene?: Array<string>;
 }
@@ -248,7 +248,7 @@ export class EditorManager {
             Editor = Editor[0];
           }
 
-          const plugin = new Editor(this, pluginOptions); // 进行一次实例化
+          const plugin = new Editor(this, pluginOptions, config.ctx); // 进行一次实例化
           plugin.order = plugin.order ?? 0;
 
           // 记录动作定义
@@ -872,7 +872,7 @@ export class EditorManager {
       // 当渲染器信息和 schemaData 都为空时，则不作任何处理
       return;
     }
-    
+
     if (!node) {
       toast.warning('请先选择一个元素作为插入的位置。');
       return;
