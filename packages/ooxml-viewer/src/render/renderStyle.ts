@@ -27,13 +27,7 @@ function generateDefaultStyle(word: Word) {
   const classPrefix = word.getClassPrefix();
 
   return `
-  .${word.wrapClassName} {
 
-  }
-
-  .${word.wrapClassName} > article > section {
-    background: white;
-  }
 
   /** docDefaults **/
 

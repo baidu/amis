@@ -2,7 +2,7 @@
 
 exports[`info 1`] = `
 <div
-  class="docx-viewer-0 docx-viewer-wrapper"
+  class="docx-viewer-0"
   id="root"
 >
   <style>
@@ -33,13 +33,7 @@ table-layout: fixed;
   <style>
     
   
-  .docx-viewer-wrapper {
 
-  }
-
-  .docx-viewer-wrapper &gt; article &gt; section {
-    background: white;
-  }
 
   /** docDefaults **/
 
@@ -634,9 +628,6 @@ padding-right: 7.20px;
          
       </p>
     </section>
-    <section
-      style="position: relative;"
-    />
   </article>
 </div>
 `;

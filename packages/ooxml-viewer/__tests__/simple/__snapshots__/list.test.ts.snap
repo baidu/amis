@@ -2,19 +2,13 @@
 
 exports[`list 1`] = `
 <div
-  class="docx-viewer-0 docx-viewer-wrapper"
+  class="docx-viewer-0"
   id="root"
 >
   <style>
     
   
-  .docx-viewer-wrapper {
 
-  }
-
-  .docx-viewer-wrapper &gt; article &gt; section {
-    background: white;
-  }
 
   /** docDefaults **/
 
@@ -317,9 +311,6 @@ border-right: 0.67px solid #BFBFBF;
          
       </p>
     </section>
-    <section
-      style="position: relative;"
-    />
   </article>
 </div>
 `;

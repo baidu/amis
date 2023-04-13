@@ -102,7 +102,7 @@ export default function renderRun(
         renderText(newSpan, word, child.text, paragraph);
         appendChild(span, newSpan);
       } else if (child instanceof Break) {
-        const br = renderBr(child);
+        const br = renderBr(word, child);
         appendChild(span, br);
       } else if (child instanceof Drawing) {
         appendChild(span, renderDrawing(word, child));
