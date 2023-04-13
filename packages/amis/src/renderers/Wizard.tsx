@@ -33,7 +33,6 @@ import {ActionSchema} from './Action';
 
 import {tokenize, evalExpressionWithConditionBuilder} from 'amis-core';
 import {StepSchema} from './Steps';
-import {cloneDeep} from 'lodash';
 
 export type WizardStepSchema = Omit<FormSchema, 'type'> & StepSchema & {
   /**
@@ -1166,10 +1165,11 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     // 这里初次渲染时，需要取props的steps
     const steps = Array.isArray(stateSteps) && stateSteps.length > 0 ?
       stateSteps :
-      cloneDeep(propsSteps).map(step => {
+      Array.isArray(propsSteps) ? [...propsSteps].map(step => {
         delete step.hiddenOn;
         return step;
-      });
+      }) : null;
+
     const step = Array.isArray(steps) ? steps[currentStep - 1] : null;
 
     return (
