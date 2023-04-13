@@ -42,7 +42,6 @@ export const resolveVariableAndFilterForAsync = async (
       : ret;
   } catch (e) {
     console.warn(e);
-    debugger;
     if (e.name === 'FormulaEvalError') {
       if (!skipFormulaEvalHandler) {
         // 无法解析时，执行handler自定义解析逻辑
