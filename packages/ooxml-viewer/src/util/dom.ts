@@ -48,18 +48,20 @@ export function createSVGElement(tagName: string): SVGElement {
 }
 
 /**
- * 创建片段
- */
-export function createDocumentFragment() {
-  return document.createDocumentFragment();
-}
-
-/**
  * 添加子节点，会做一些判断避免报错
  */
 export function appendChild(parent: HTMLElement, child?: Node | null): void {
   if (parent && child) {
     parent.appendChild(child);
+  }
+}
+
+/**
+ * 删除子节点，会做一些判断避免报错
+ */
+export function removeChild(parent: HTMLElement, child?: Node | null): void {
+  if (parent && child) {
+    parent.removeChild(child);
   }
 }
 

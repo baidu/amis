@@ -104,7 +104,9 @@ export class Run {
           break;
 
         case 'w:lastRenderedPageBreak':
-          // 目前也不支持分页显示
+          const pageBreak = new Break();
+          pageBreak.type = 'page';
+          run.addChild(pageBreak);
           break;
 
         case 'w:pict':

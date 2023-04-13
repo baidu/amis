@@ -43,11 +43,6 @@ export interface WordRenderOptions {
   bulletUseFont: boolean;
 
   /**
-   * 是否包裹出页面效果
-   */
-  inWrap: boolean;
-
-  /**
    * 是否忽略文档宽度设置
    */
   ignoreWidth?: boolean;
@@ -104,18 +99,71 @@ export interface WordRenderOptions {
    * 打印等待时间，单位毫秒，可能有的文档有很多图片，如果等待时间太短图片还没加载完，所以加这个配置项可控
    */
   printWaitTime?: number;
+
+  /**
+   * 是否使用分页的方式来渲染内容，使用这种方式还原度更高，但不支持打印功能
+   * 设置后会自动将 ignoreHeight 和 ignoreWidth 设置为 false
+   */
+  page?: boolean;
+
+  /**
+   * 每页之间的间距
+   */
+  pageMarginBottom?: number;
+
+  /**
+   * 页面背景色
+   */
+  pageBackground?: string;
+
+  /**
+   * 是否显示页面阴影，只有在 page 为 true 的时候才生效
+   */
+  pageShadow?: boolean;
+
+  /**
+   * 显示页面包裹效果，只有在 page 为 true 的时候才生效
+   */
+  pageWrap?: boolean;
+
+  /**
+   * 页面包裹宽度
+   */
+  pageWrapPadding?: number;
+
+  /**
+   * 页面包裹背景色
+   */
+  pageWrapBackground?: string;
+
+  /**
+   * 缩放比例，取值 0-1 之间
+   */
+  zoom?: number;
+
+  /**
+   * 自适应宽度，如果设置了 zoom，那么 zoom 优先级更高，这个设置只在 ignoreWidth 为 false 的时候生效
+   */
+  zoomFitWidth?: boolean;
 }
 
 const defaultRenderOptions: WordRenderOptions = {
   classPrefix: 'docx-viewer',
-  inWrap: true,
+  page: false,
+  pageWrap: true,
   bulletUseFont: true,
   ignoreHeight: true,
   ignoreWidth: false,
   minLineHeight: 1.0,
   enableVar: false,
   debug: false,
+  pageWrapPadding: 20,
+  pageMarginBottom: 20,
+  pageShadow: true,
+  pageBackground: '#FFFFFF',
+  pageWrapBackground: '#ECECEC',
   printWaitTime: 100,
+  zoomFitWidth: false,
   data: {},
   evalVar: t => {
     return t;
@@ -227,9 +275,19 @@ export default class Word {
     this.id = Word.globalId++;
     this.parser = parser;
     this.renderOptions = {...defaultRenderOptions, ...renderOptions};
+    if (this.renderOptions.page) {
+      this.renderOptions.ignoreHeight = false;
+      this.renderOptions.ignoreWidth = false;
+    }
   }
 
   inited = false;
+
+  /**
+   * 分页标记，如果为 true，那么在渲染的时候会强制分页
+   */
+  breakPage = false;
+
   /**
    * 初始化一些公共资源，比如
    */
@@ -578,7 +636,8 @@ export default class Word {
     document.body.appendChild(iframe);
     iframe.contentDocument?.write('<div id="print"></div>');
     await this.render(
-      iframe.contentDocument?.getElementById('print') as HTMLElement
+      iframe.contentDocument?.getElementById('print') as HTMLElement,
+      {page: false, pageWrap: false}
     );
     setTimeout(function () {
       iframe.focus();
@@ -592,10 +651,14 @@ export default class Word {
    * 渲染文档入口
    *
    * @param root 渲染的根节点
+   * @param renderOptionsOverride 临时覆盖某些渲选项
    */
-  async render(root: HTMLElement) {
+  async render(
+    root: HTMLElement,
+    renderOptionsOverride: Partial<WordRenderOptions> = {}
+  ) {
     this.init();
-    const renderOptions = this.renderOptions;
+    const renderOptions = {...this.renderOptions, ...renderOptionsOverride};
 
     const isDebug = renderOptions.debug;
     isDebug && console.log('init', this);
@@ -614,10 +677,13 @@ export default class Word {
     const document = WDocument.fromXML(this, documentData);
 
     isDebug && console.log('document', document);
-    const documentElement = renderDocument(this, document);
+
+    const documentElement = renderDocument(root, this, document, renderOptions);
     root.classList.add(this.getClassPrefix());
-    if (renderOptions.inWrap) {
+    if (renderOptions.page && renderOptions.pageWrap) {
       root.classList.add(this.wrapClassName);
+      root.style.padding = `${renderOptions.pageWrapPadding || 0}px`;
+      root.style.background = renderOptions.pageWrapBackground || '#ECECEC';
     }
 
     appendChild(root, renderStyle(this));

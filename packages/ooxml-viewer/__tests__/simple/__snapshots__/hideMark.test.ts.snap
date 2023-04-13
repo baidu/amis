@@ -1,238 +1,112 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`hideMark 1`] = `
-<div
-  class="docx-viewer-0 docx-viewer-wrapper"
-  id="root"
->
-  <style>
-    
- .docx-viewer-0 .docx-classname-0 {
-  border-collapse: collapse;
-  width: auto;
-
- }
-
- .docx-viewer-0 .docx-classname-0 &gt; tbody &gt; tr &gt; td {
-  
- }
- 
-  </style>
-  <style>
-    
-  
-  .docx-viewer-wrapper {
-
-  }
-
-  .docx-viewer-wrapper &gt; article &gt; section {
-    background: white;
-  }
-
-  /** docDefaults **/
-
-  .docx-viewer-0 p {
-    margin: 0;
-    padding: 0;
-    line-height: 1.5;
-  }
-
-  .docx-viewer-0 table {
-    border-spacing: 0;
-  }
-
-  .docx-viewer-0 .docx-viewer-0-p {
-    
-  }
-
-  .docx-viewer-0 .docx-viewer-0-r {
-    white-space: pre-wrap;
-    overflow-wrap: break-word;
-    font-family: var(--docx-theme-font-minorHAnsi), var(--docx-theme-font-minorEastAsia);
-font-size: 16.00px;
-
-  }
-  
-
-  
-    
-      .docx-viewer-0 .docx-viewer-0-Normal {
-        text-align: justify;
-
-      }
-      
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
- .docx-viewer-0 .docx-viewer-0-TableNormal {
-  border-collapse: collapse;
-  margin-left: 0.00px;
-
- }
-
- .docx-viewer-0 .docx-viewer-0-TableNormal &gt; tbody &gt; tr &gt; td {
-  padding-top: 0.00px;
-padding-left: 7.20px;
-padding-bottom: 0.00px;
-padding-right: 7.20px;
-
- }
- 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
- .docx-viewer-0 .docx-viewer-0-TableGrid {
-  border-collapse: collapse;
-  border-top: 0.67px solid black;
-border-left: 0.67px solid black;
-border-bottom: 0.67px solid black;
-border-right: 0.67px solid black;
-
- }
-
- .docx-viewer-0 .docx-viewer-0-TableGrid &gt; tbody &gt; tr &gt; td {
-  
- }
- 
-      .docx-viewer-0 .docx-viewer-0-TableGrid &gt; tbody &gt; tr &gt; td {
-        border-top: 0.67px solid black;
-      }
-      .docx-viewer-0 .docx-viewer-0-TableGrid &gt; tbody &gt; tr &gt; td {
-        border-left: 0.67px solid black;
-      }
-    
-    
-  
-  </style>
-  <style>
-    /** embedded fonts **/
-  </style>
-  <article>
-    <section
-      style="position: relative; width: 815.98px; padding: 96.00px 96.00px 96.00px 96.00px;"
+<article>
+  <section
+    style="position: relative; width: 815.98px; padding: 96.00px 96.00px 96.00px 96.00px;"
+  >
+    <table
+      class="enable-firstRow enable-firstColumn enable-hBand docx-viewer-0-TableNormal docx-viewer-0-TableGrid docx-classname-0"
+      style="width: auto;"
     >
-      <table
-        class="enable-firstRow enable-firstColumn enable-hBand docx-viewer-0-TableNormal docx-viewer-0-TableGrid docx-classname-0"
-        style="width: auto;"
-      >
-        <tbody>
-          <tr>
-            <td
-              class="nwCell firstRow firstCol band2Horz band2Vert"
-              style="width: 207.73px;"
+      <tbody>
+        <tr>
+          <td
+            class="nwCell firstRow firstCol band2Horz band2Vert"
+            style="width: 207.73px;"
+          >
+            <p
+              class="docx-viewer-0-p"
             >
-              <p
-                class="docx-viewer-0-p"
-              >
-                 
-              </p>
-            </td>
-            <td
-              class="firstRow band2Horz band1Vert"
-              style="width: 207.79px;"
+               
+            </p>
+          </td>
+          <td
+            class="firstRow band2Horz band1Vert"
+            style="width: 207.79px;"
+          >
+            <p
+              class="docx-viewer-0-p"
             >
-              <p
-                class="docx-viewer-0-p"
-              >
-                 
-              </p>
-            </td>
-            <td
-              class="neCell firstRow lastCol band2Horz band2Vert"
-              style="width: 207.79px;"
+               
+            </p>
+          </td>
+          <td
+            class="neCell firstRow lastCol band2Horz band2Vert"
+            style="width: 207.79px;"
+          >
+            <p
+              class="docx-viewer-0-p"
             >
-              <p
-                class="docx-viewer-0-p"
-              >
-                 
-              </p>
-            </td>
-          </tr>
-          <tr>
-            <td
-              class="firstCol band1Horz band2Vert"
-              style="width: 207.73px;"
+               
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td
+            class="firstCol band1Horz band2Vert"
+            style="width: 207.73px;"
+          >
+            <p
+              class="docx-viewer-0-p"
+            />
+          </td>
+          <td
+            class="band1Horz band1Vert"
+            style="width: 207.79px;"
+          >
+            <p
+              class="docx-viewer-0-p"
+            />
+          </td>
+          <td
+            class="lastCol band1Horz band2Vert"
+            style="width: 207.79px;"
+          >
+            <p
+              class="docx-viewer-0-p"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td
+            class="swCell lastRow firstCol band2Horz band2Vert"
+            style="width: 207.73px;"
+          >
+            <p
+              class="docx-viewer-0-p"
             >
-              <p
-                class="docx-viewer-0-p"
-              />
-            </td>
-            <td
-              class="band1Horz band1Vert"
-              style="width: 207.79px;"
+               
+            </p>
+          </td>
+          <td
+            class="lastRow band2Horz band1Vert"
+            style="width: 207.79px;"
+          >
+            <p
+              class="docx-viewer-0-p"
             >
-              <p
-                class="docx-viewer-0-p"
-              />
-            </td>
-            <td
-              class="lastCol band1Horz band2Vert"
-              style="width: 207.79px;"
+               
+            </p>
+          </td>
+          <td
+            class="seCell lastRow lastCol band2Horz band2Vert"
+            style="width: 207.79px;"
+          >
+            <p
+              class="docx-viewer-0-p"
             >
-              <p
-                class="docx-viewer-0-p"
-              />
-            </td>
-          </tr>
-          <tr>
-            <td
-              class="swCell lastRow firstCol band2Horz band2Vert"
-              style="width: 207.73px;"
-            >
-              <p
-                class="docx-viewer-0-p"
-              >
-                 
-              </p>
-            </td>
-            <td
-              class="lastRow band2Horz band1Vert"
-              style="width: 207.79px;"
-            >
-              <p
-                class="docx-viewer-0-p"
-              >
-                 
-              </p>
-            </td>
-            <td
-              class="seCell lastRow lastCol band2Horz band2Vert"
-              style="width: 207.79px;"
-            >
-              <p
-                class="docx-viewer-0-p"
-              >
-                 
-              </p>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <p
-        class="docx-viewer-0-p"
-      >
-         
-      </p>
-    </section>
-    <section
-      style="position: relative;"
-    />
-  </article>
-</div>
+               
+            </p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p
+      class="docx-viewer-0-p"
+    >
+       
+    </p>
+  </section>
+</article>
 `;

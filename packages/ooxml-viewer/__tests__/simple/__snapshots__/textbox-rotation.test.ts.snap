@@ -1,140 +1,51 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`textbox-rotation 1`] = `
-<div
-  class="docx-viewer-0 docx-viewer-wrapper"
-  id="root"
->
-  <style>
-    
-  
-  .docx-viewer-wrapper {
-
-  }
-
-  .docx-viewer-wrapper &gt; article &gt; section {
-    background: white;
-  }
-
-  /** docDefaults **/
-
-  .docx-viewer-0 p {
-    margin: 0;
-    padding: 0;
-    line-height: 1.5;
-  }
-
-  .docx-viewer-0 table {
-    border-spacing: 0;
-  }
-
-  .docx-viewer-0 .docx-viewer-0-p {
-    
-  }
-
-  .docx-viewer-0 .docx-viewer-0-r {
-    white-space: pre-wrap;
-    overflow-wrap: break-word;
-    font-family: var(--docx-theme-font-minorHAnsi), var(--docx-theme-font-minorEastAsia);
-font-size: 16.00px;
-
-  }
-  
-
-  
-    
-      .docx-viewer-0 .docx-viewer-0-Normal {
-        text-align: justify;
-
-      }
-      
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
- .docx-viewer-0 .docx-viewer-0-TableNormal {
-  border-collapse: collapse;
-  margin-left: 0.00px;
-
- }
-
- .docx-viewer-0 .docx-viewer-0-TableNormal &gt; tbody &gt; tr &gt; td {
-  padding-top: 0.00px;
-padding-left: 7.20px;
-padding-bottom: 0.00px;
-padding-right: 7.20px;
-
- }
- 
-    
-    
-    
-    
-    
-    
-    
-  
-  </style>
-  <style>
-    /** embedded fonts **/
-  </style>
-  <article>
-    <section
-      style="position: relative; width: 815.98px; padding: 96.00px 96.00px 96.00px 96.00px;"
+<article>
+  <section
+    style="position: relative; width: 815.98px; padding: 96.00px 96.00px 96.00px 96.00px;"
+  >
+    <p
+      class="docx-viewer-0-p"
     >
-      <p
-        class="docx-viewer-0-p"
+      <span
+        class="docx-viewer-0-r"
       >
-        <span
-          class="docx-viewer-0-r"
+        <div
+          style="z-index: 251661312; position: absolute; left: 214.63px; top: 36.07px; width: 155.16px; height: 82.60px; column-count: 1; transform: rotate(90deg);"
         >
-          <div
-            style="z-index: 251661312; position: absolute; left: 214.63px; top: 36.07px; width: 155.16px; height: 82.60px; column-count: 1; transform: rotate(90deg);"
+          <svg
+            height="82.6px"
+            style="overflow: visible"
+            width="155.16px"
           >
-            <svg
-              height="82.6px"
-              style="overflow: visible"
-              width="155.16px"
+            <path
+              d="M 0 0 L 155.16 0 L 155.16 82.6 L 0 82.6 Z"
+              fill="#FFFFFF"
+            />
+          </svg>
+          <p
+            class="docx-viewer-0-p"
+          >
+            <span
+              class="docx-viewer-0-r"
             >
-              <path
-                d="M 0 0 L 155.16 0 L 155.16 82.6 L 0 82.6 Z"
-                fill="#FFFFFF"
-              />
-            </svg>
-            <p
-              class="docx-viewer-0-p"
+              Text 
+            </span>
+            <span
+              class="docx-viewer-0-r"
             >
-              <span
-                class="docx-viewer-0-r"
-              >
-                Text 
-              </span>
-              <span
-                class="docx-viewer-0-r"
-              >
-                withou
-              </span>
-              <span
-                class="docx-viewer-0-r"
-              >
-                t outline
-              </span>
-            </p>
-          </div>
-        </span>
-      </p>
-    </section>
-    <section
-      style="position: relative;"
-    />
-  </article>
-</div>
+              withou
+            </span>
+            <span
+              class="docx-viewer-0-r"
+            >
+              t outline
+            </span>
+          </p>
+        </div>
+      </span>
+    </p>
+  </section>
+</article>
 `;

@@ -21,8 +21,9 @@ order: 23
 - 文本框
 - 形状
 - 数学公式（依赖 MathML，需要比较新的浏览器，或者试试 [polyfill](https://github.com/w3c/mathml-polyfills)）
+- 分页渲染
 
-不支持的功能：分页符、艺术字、域、对象、目录
+不支持的功能：艺术字、域、对象、目录
 
 ## 基本用法
 
@@ -63,14 +64,43 @@ order: 23
 | forceLineHeight | `string`  |               | 设置段落行高，忽略文档中的设置                             |
 | enableVar       | `boolean` | true          | 是否开启变量替换功能                                       |
 
+#### 分页渲染
+
+> 2.10.0 及以上版本
+
+默认情况下 word 文档渲染使用流式布局，这样能更好融入到已有页面中，支持分栏显示，且展现上会和原先的文档有较大差异，如果希望能看起来更像桌面端的效果，可以通过 `page` 配置开启分页渲染
+
+```schema: scope="body"
+{
+  "type": "office-viewer",
+  "id": "office-viewer-page",
+  "wordOptions": {
+    "page": true
+  },
+  "src": "/examples/static/page.docx",
+}
+```
+
+分页渲染的其它设置项
+
+| 属性名             | 类型      | 默认值    | 说明                                             |
+| ------------------ | --------- | --------- | ------------------------------------------------ |
+| page               | `boolean` | false     | 是否开启分页渲染                                 |
+| pageMarginBottom   | `number`  | 20        | 页面上下间距                                     |
+| pageBackground     | `string`  | '#FFF'    | 页面内背景色                                     |
+| pageShadow         | `boolean` | true      | 是否显示阴影                                     |
+| pageWrap           | `boolean` | true      | 是否显示页面包裹，开启这个后才能设置包裹的背景色 |
+| pageWrap           | `boolean` | true      | 是否显示页面包裹                                 |
+| pageWrapBackground | `string`  | '#ECECEC' | 是否显示页面包裹                                 |
+| zoom               | `number`  |           | 缩放比例，取值 0-1 之间                          |
+| zoomFitWidth       | `boolean` | false     | 自适应宽度缩放，如果设置了 zoom 将不会生效       |
+
 ### 关于渲染效果差异
 
 目前的实现难以保证和本地 Word 渲染完全一致，会遇到以下问题：
 
 1. 字体大小不一致
 1. 单元格宽度不一致，表格完全依赖浏览器渲染
-1. 分页显示，目前的渲染不会分页，而是内容有多长就有多高
-1. 分栏显示，这个是因为没有分页导致的，不限制高度没法分栏
 
 如果追求完整效果打印，目前只能使用下载文件的方式用本地 Word 进行打印。
 
@@ -78,7 +108,7 @@ order: 23
 
 默认情况下列表左侧的符号使用字体渲染，这样能做到最接近 Word 渲染效果，但如果用户的系统中没有这些字体就会显示乱码，为了解决这个问题需要手动在 amis 渲染的页面里导入对应的字体，比如
 
-```html
+```css
 <style>
   @font-face {
     font-family: Wingdings;
