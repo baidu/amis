@@ -1845,7 +1845,11 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
         },
         {
             "name": "grade",
-            "label": "CSS grade"
+            "label": "CSS grade",
+            "type": "mapping",
+            "map": {
+                "*": "<span class=\"label label-info\">${grade}</span>"
+            }
         }
     ]
 }
@@ -1862,11 +1866,13 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
     "type": "crud",
     "syncLocation": false,
     "api": "/api/mock2/sample",
-    "headerToolbar": [{
-        "type": "export-csv",
-        "label": "全量导出 CSV",
-        "api": "/api/mock2/sample"
-    }],
+    "headerToolbar": [
+        {
+            "type": "export-csv",
+            "label": "全量导出 CSV",
+            "api": "/api/mock2/sample"
+        }
+    ],
     "columns": [
         {
             "name": "id",
@@ -1890,7 +1896,11 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
         },
         {
             "name": "grade",
-            "label": "CSS grade"
+            "label": "CSS grade",
+            "type": "mapping",
+            "map": {
+                "*": "<span class=\"label label-info\">${grade}</span>"
+            }
         }
     ]
 }
@@ -1933,7 +1943,11 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
         },
         {
             "name": "grade",
-            "label": "CSS grade"
+            "label": "CSS grade",
+            "type": "mapping",
+            "map": {
+                "*": "<span class=\"label label-info\">${grade}</span>"
+            }
         }
     ]
 }
