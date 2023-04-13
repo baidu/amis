@@ -1,151 +1,71 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`textbox-behindDoc 1`] = `
-<div
-  class="docx-viewer-0"
-  id="root"
->
-  <style>
-    
-  
-
-
-  /** docDefaults **/
-
-  .docx-viewer-0 p {
-    margin: 0;
-    padding: 0;
-    line-height: 1.5;
-  }
-
-  .docx-viewer-0 table {
-    border-spacing: 0;
-  }
-
-  .docx-viewer-0 .docx-viewer-0-p {
-    
-  }
-
-  .docx-viewer-0 .docx-viewer-0-r {
-    white-space: pre-wrap;
-    overflow-wrap: break-word;
-    font-family: var(--docx-theme-font-minorHAnsi), var(--docx-theme-font-minorEastAsia);
-font-size: 16.00px;
-
-  }
-  
-
-  
-    
-      .docx-viewer-0 .docx-viewer-0-Normal {
-        text-align: justify;
-
-      }
-      
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
- .docx-viewer-0 .docx-viewer-0-TableNormal {
-  border-collapse: collapse;
-  margin-left: 0.00px;
-
- }
-
- .docx-viewer-0 .docx-viewer-0-TableNormal &gt; tbody &gt; tr &gt; td {
-  padding-top: 0.00px;
-padding-left: 7.20px;
-padding-bottom: 0.00px;
-padding-right: 7.20px;
-
- }
- 
-    
-    
-    
-    
-    
-    
-    
-  
-  </style>
-  <style>
-    /** embedded fonts **/
-  </style>
-  <article>
-    <section
-      style="position: relative; width: 815.98px; padding: 96.00px 96.00px 96.00px 96.00px;"
+<article>
+  <section
+    style="position: relative; width: 815.98px; padding: 96.00px 96.00px 96.00px 96.00px;"
+  >
+    <p
+      class="docx-viewer-0-p"
     >
-      <p
-        class="docx-viewer-0-p"
+      <span
+        class="docx-viewer-0-r"
       >
-        <span
-          class="docx-viewer-0-r"
+        <div
+          style="z-index: 251659264; position: absolute; left: 144.00px; top: 77.80px; width: 122.79px; height: 53.58px; column-count: 1;"
         >
-          <div
-            style="z-index: 251659264; position: absolute; left: 144.00px; top: 77.80px; width: 122.79px; height: 53.58px; column-count: 1;"
+          <svg
+            height="53.58px"
+            style="overflow: visible"
+            width="122.79px"
           >
-            <svg
-              height="53.58px"
-              style="overflow: visible"
-              width="122.79px"
+            <path
+              d="M 0 0 L 122.79 0 L 122.79 53.58 L 0 53.58 Z"
+              fill="#FFFFFF"
+              stroke="black"
+              stroke-width="0.67px"
+            />
+          </svg>
+          <p
+            class="docx-viewer-0-p"
+          >
+            <span
+              class="docx-viewer-0-r"
             >
-              <path
-                d="M 0 0 L 122.79 0 L 122.79 53.58 L 0 53.58 Z"
-                fill="#FFFFFF"
-                stroke="black"
-                stroke-width="0.67px"
-              />
-            </svg>
-            <p
-              class="docx-viewer-0-p"
+              t
+            </span>
+            <span
+              class="docx-viewer-0-r"
             >
-              <span
-                class="docx-viewer-0-r"
-              >
-                t
-              </span>
-              <span
-                class="docx-viewer-0-r"
-              >
-                ext
-              </span>
-            </p>
-          </div>
-        </span>
-        <span
-          class="docx-viewer-0-r"
+              ext
+            </span>
+          </p>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          style="z-index: 251658239; position: absolute; left: 122.79px; top: 64.41px; width: 164.09px; height: 84.84px; column-count: 1;"
         >
-          <div
-            style="z-index: 251658239; position: absolute; left: 122.79px; top: 64.41px; width: 164.09px; height: 84.84px; column-count: 1;"
+          <svg
+            height="84.84px"
+            style="overflow: visible"
+            width="164.09px"
           >
-            <svg
-              height="84.84px"
-              style="overflow: visible"
-              width="164.09px"
-            >
-              <path
-                d="M 0 0 L 164.09 0 L 164.09 84.84 L 0 84.84 Z"
-                fill="#70AD47"
-              />
-            </svg>
-            <p
-              class="docx-viewer-0-p"
-            >
-               
-            </p>
-          </div>
-        </span>
-      </p>
-    </section>
-  </article>
-</div>
+            <path
+              d="M 0 0 L 164.09 0 L 164.09 84.84 L 0 84.84 Z"
+              fill="#70AD47"
+            />
+          </svg>
+          <p
+            class="docx-viewer-0-p"
+          >
+             
+          </p>
+        </div>
+      </span>
+    </p>
+  </section>
+</article>
 `;
