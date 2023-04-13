@@ -458,7 +458,12 @@ export function wrapFetcher(
       debug('api', 'after requestAdaptor', api);
     }
 
-    if (api.data && (hasFile(api.data) || api.dataType === 'form-data')) {
+    if (
+      api.data &&
+      (api.data instanceof FormData ||
+        hasFile(api.data) ||
+        api.dataType === 'form-data')
+    ) {
       api.data =
         api.data instanceof FormData
           ? api.data
