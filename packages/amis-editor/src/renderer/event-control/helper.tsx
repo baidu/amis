@@ -185,8 +185,8 @@ export const SUPPORT_DISABLED_CMPTS = [
 export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
   const variableManager = manager?.variableManager;
   /** 变量列表 */
-  const variableOptions = variableManager.getVariableOptions();
-  const pageVariableOptions = variableManager.getPageVariablesOptions();
+  const variableOptions = variableManager?.getVariableOptions() || [];
+  const pageVariableOptions = variableManager?.getPageVariablesOptions() || [];
 
   return [
     {
