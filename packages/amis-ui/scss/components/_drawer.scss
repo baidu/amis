@@ -64,9 +64,10 @@
 
     svg {
       margin-top: px2rem(2px);
-      width: var(--Drawer-close-size);
-      height: var(--Drawer-close-size);
+      width: var(--drawer-header-icon-size);
+      height: var(--drawer-header-icon-size);
       fill: var(--Drawer-close-color);
+      color: var(--drawer-header-icon-color);
     }
 
     &:not(.is-disabled) {
