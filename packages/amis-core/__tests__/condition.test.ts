@@ -3,7 +3,7 @@ import {
   resolveCondition,
   guid,
   registerConditionComputer,
-  setConditionComputeHandler
+  setConditionComputeErrorHandler
 } from '../src/utils/';
 
 const data = {
@@ -512,7 +512,7 @@ test(`condition register`, async () => {
 
 test(`condition conditionComputeHander`, async () => {
   // 无法解析时，自定义解析逻辑
-  setConditionComputeHandler(
+  setConditionComputeErrorHandler(
     (conditions: any, data: any, defaultResult: boolean) => {
       return Promise.resolve(true);
     }

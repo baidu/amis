@@ -4,7 +4,7 @@ import {
   resolveVariableAndFilter,
   resolveVariableAndFilterForAsync
 } from '../src/utils/tpl-builtin';
-import {setFormulaEvalHandler} from '../src/utils';
+import {setFormulaEvalErrorHandler} from '../src/utils';
 
 const filters = [
   {
@@ -643,14 +643,14 @@ test(`compat:test2`, () => {
   expect(resolveVariable('obj.x', data)).toEqual(123);
 });
 
-test('compat:formulaEvalHandler', async () => {
-  setFormulaEvalHandler(
+test('compat:formulaEvalErrorHandler', async () => {
+  setFormulaEvalErrorHandler(
     (
       path?: string,
       data: object = {},
       defaultFilter: string = '| html',
       fallbackValue = (value: any) => value,
-      skipFormulaEvalHandler: boolean = false
+      skipFormulaEvalErrorHandler: boolean = false
     ) => {
       return Promise.resolve(1 * 2 * 2);
     }
