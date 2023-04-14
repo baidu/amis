@@ -612,9 +612,10 @@ export class TreeSelector extends React.Component<
           const result = [] as Option[];
 
           for (let option of this.state.flattenedOptions) {
-            result.push(option);
             if (option === parent) {
               result.push({...option, isAdding: true});
+            } else {
+              result.push(option);
             }
           }
           this.setState({flattenedOptions: result});
