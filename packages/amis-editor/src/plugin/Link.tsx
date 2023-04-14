@@ -1,7 +1,10 @@
-import {registerEditorPlugin} from 'amis-editor-core';
-import {BasePlugin, RegionConfig, RendererInfo} from 'amis-editor-core';
-import {defaultValue, getSchemaTpl} from 'amis-editor-core';
-import {tipedLabel} from 'amis-editor-core';
+import {
+  registerEditorPlugin,
+  BasePlugin,
+  getSchemaTpl,
+  tipedLabel
+} from 'amis-editor-core';
+import type {BaseEventContext} from 'amis-editor-core';
 
 export class LinkPlugin extends BasePlugin {
   static scene = ['layout'];
@@ -27,82 +30,96 @@ export class LinkPlugin extends BasePlugin {
 
   panelTitle = '链接';
   panelJustify = true;
-  panelBody = [
-    getSchemaTpl('tabs', [
-      {
-        title: '属性',
-        body: getSchemaTpl('collapseGroup', [
-          {
-            title: '基本',
-            body: [
-              getSchemaTpl('layout:originPosition', {value: 'left-top'}),
-              {
-                name: 'href',
-                type: 'input-text',
-                label: tipedLabel(
-                  '目标地址',
-                  '支持取变量，如果已绑定字段名，可以不用设置'
-                )
-              },
-              getSchemaTpl('inputBody'),
-              getSchemaTpl('switch', {
-                name: 'blank',
-                label: '在新窗口打开'
-              }),
 
-              getSchemaTpl('iconLink', {
-                name: 'icon',
-                label: '左侧图标'
-              }),
+  panelBodyCreator = (context: BaseEventContext) => {
+    const renderer: any = context.info.renderer;
 
-              getSchemaTpl('iconLink', {
-                name: 'rightIcon',
-                label: '右侧图标'
-              })
-            ]
-          },
-          getSchemaTpl('status', {
-            disabled: true
-          }),
-          getSchemaTpl('collapseGroup', [
+    return [
+      getSchemaTpl('tabs', [
+        {
+          title: '属性',
+          body: getSchemaTpl('collapseGroup', [
             {
-              title: '高级设置',
+              title: '基本',
               body: [
-                {
-                  name: 'htmlTarget',
-                  type: 'input-text',
+                getSchemaTpl('layout:originPosition', {value: 'left-top'}),
+                getSchemaTpl('valueFormula', {
+                  name: 'href',
                   label: tipedLabel(
-                    '锚点',
-                    'HTML &lt;a&gt; 元素的target属性，该属性指定在何处显示链接的资源'
-                  )
-                }
+                    '目标地址',
+                    '支持取变量，如果已绑定字段名，可以不用设置'
+                  ),
+                  rendererSchema: {
+                    type: 'input-text'
+                  }
+                }),
+                {
+                  label: tipedLabel('内容', '不填写时，自动使用目标地址值'),
+                  type: 'ae-textareaFormulaControl',
+                  mode: 'normal',
+                  pipeIn: (value: any, data: any) =>
+                    value || (data && data.html),
+                  name: 'body'
+                },
+                getSchemaTpl('switch', {
+                  name: 'blank',
+                  label: '在新窗口打开'
+                }),
+
+                getSchemaTpl('iconLink', {
+                  name: 'icon',
+                  label: '左侧图标'
+                }),
+
+                getSchemaTpl('iconLink', {
+                  name: 'rightIcon',
+                  label: '右侧图标'
+                })
               ]
-            }
+            },
+            getSchemaTpl('status', {
+              disabled: true
+            }),
+            getSchemaTpl('collapseGroup', [
+              {
+                title: '高级设置',
+                body: [
+                  {
+                    name: 'htmlTarget',
+                    type: 'input-text',
+                    label: tipedLabel(
+                      '锚点',
+                      'HTML &lt;a&gt; 元素的target属性，该属性指定在何处显示链接的资源'
+                    )
+                  }
+                ]
+              }
+            ])
           ])
-        ])
-      },
-      {
-        title: '外观',
-        body: getSchemaTpl('collapseGroup', [
-          getSchemaTpl('style:classNames', {
-            isFormItem: false,
-            schema: [
-              getSchemaTpl('className', {
-                name: 'iconClassName',
-                label: '左侧图标',
-                visibleOn: 'this.icon'
-              }),
-              getSchemaTpl('className', {
-                name: 'rightIconClassName',
-                label: '右侧图标',
-                visibleOn: 'this.rightIcon'
-              })
-            ]
-          })
-        ])
-      }
-    ])
-  ];
+        },
+        {
+          title: '外观',
+          body: getSchemaTpl('collapseGroup', [
+            getSchemaTpl('style:classNames', {
+              isFormItem: false,
+              schema: [
+                getSchemaTpl('className', {
+                  name: 'iconClassName',
+                  label: '左侧图标',
+                  visibleOn: 'this.icon'
+                }),
+                getSchemaTpl('className', {
+                  name: 'rightIconClassName',
+                  label: '右侧图标',
+                  visibleOn: 'this.rightIcon'
+                })
+              ]
+            })
+          ])
+        }
+      ])
+    ];
+  };
 }
 
 registerEditorPlugin(LinkPlugin);

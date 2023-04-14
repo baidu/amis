@@ -17,6 +17,8 @@ import {
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {diff, JSONPipeOut, repeatArray} from 'amis-editor-core';
 
+import {isCrudContext} from '../util';
+
 export class CardsPlugin extends BasePlugin {
   static scene = ['layout'];
   // 关联渲染器名字
@@ -26,6 +28,7 @@ export class CardsPlugin extends BasePlugin {
   // 组件名称
   name = '卡片列表';
   isBaseComponent = true;
+  panelJustify = true;
   description =
     '功能类似于表格，但是用一个个小卡片来展示数据。当前组件需要配置数据源，不自带数据拉取，请优先使用 「CRUD」 组件。';
   docLink = '/amis/zh-CN/components/cards';
@@ -73,113 +76,111 @@ export class CardsPlugin extends BasePlugin {
 
   panelTitle = '卡片集';
   panelBodyCreator = (context: BaseEventContext) => {
-    const isCRUDBody = context.schema.type === 'crud';
+    const isCRUDBody = isCrudContext(context);
     const curPosition = context?.schema?.style?.position;
     const isAbsolute = curPosition === 'fixed' || curPosition === 'absolute';
 
-    return [
-      getSchemaTpl('tabs', [
-        {
-          title: '常规',
-          body: [
-            getSchemaTpl('layout:originPosition', {
-              visibleOn: isAbsolute ? isAbsolute : undefined,
-              value: 'left-top'
-            }),
-            {
-              children: (
-                <div className="m-b">
-                  <Button
-                    level="success"
-                    size="sm"
-                    block
-                    onClick={this.editDetail.bind(this, context.id)}
-                  >
-                    配置单项信息
-                  </Button>
-                </div>
-              )
-            },
-            {
-              type: 'divider'
-            },
-            getSchemaTpl('title'),
-            {
-              name: 'href',
-              type: 'input-text',
-              label: '打开外部链接'
-            },
+    return getSchemaTpl('tabs', [
+      {
+        title: '常规',
+        body: [
+          getSchemaTpl('layout:originPosition', {
+            visibleOn: isAbsolute ? isAbsolute : undefined,
+            value: 'left-top'
+          }),
+          {
+            children: (
+              <div className="m-b">
+                <Button
+                  level="success"
+                  size="sm"
+                  block
+                  onClick={this.editDetail.bind(this, context.id)}
+                >
+                  配置单项信息
+                </Button>
+              </div>
+            )
+          },
+          {
+            type: 'divider'
+          },
+          getSchemaTpl('title'),
+          {
+            name: 'href',
+            type: 'input-text',
+            label: '打开外部链接'
+          },
 
-            isCRUDBody
-              ? null
-              : {
-                  name: 'source',
-                  type: 'input-text',
-                  label: '数据源',
-                  pipeIn: defaultValue('${items}'),
-                  description: '绑定当前环境变量',
-                  test: !isCRUDBody
-                },
-            getSchemaTpl('cardsPlaceholder')
-          ]
-        },
-        {
-          title: '外观',
-          body: [
-            getSchemaTpl('switch', {
-              name: 'showHeader',
-              label: '是否显示头部',
-              pipeIn: defaultValue(true)
-            }),
+          isCRUDBody
+            ? null
+            : {
+                name: 'source',
+                type: 'input-text',
+                label: '数据源',
+                pipeIn: defaultValue('${items}'),
+                description: '绑定当前环境变量',
+                test: !isCRUDBody
+              },
+          getSchemaTpl('cardsPlaceholder')
+        ]
+      },
+      {
+        title: '外观',
+        body: [
+          getSchemaTpl('switch', {
+            name: 'showHeader',
+            label: '是否显示头部',
+            pipeIn: defaultValue(true)
+          }),
 
-            getSchemaTpl('switch', {
-              name: 'showFooter',
-              label: '是否显示底部',
-              pipeIn: defaultValue(true)
-            }),
+          getSchemaTpl('switch', {
+            name: 'showFooter',
+            label: '是否显示底部',
+            pipeIn: defaultValue(true)
+          }),
 
-            getSchemaTpl('className', {
-              label: 'CSS 类名'
-            }),
-            getSchemaTpl('className', {
-              name: 'headerClassName',
-              label: '头部 CSS 类名'
-            }),
-            getSchemaTpl('className', {
-              name: 'footerClassName',
-              label: '底部 CSS 类名'
-            }),
-            getSchemaTpl('className', {
-              name: 'itemsClassName',
-              label: '内容 CSS 类名'
-            }),
-            getSchemaTpl('className', {
-              pipeIn: defaultValue('Grid-col--sm6 Grid-col--md4 Grid-col--lg3'),
-              name: 'itemClassName',
-              label: '卡片 CSS 类名'
-            }),
-            {
-              name: 'columnsCount',
-              type: 'input-range',
-              visibleOn: '!this.leftFixed',
-              min: 0,
-              max: 12,
-              step: 1,
-              label: '每行显示个数',
-              description: '不设置时，由卡片 CSS 类名决定'
-            },
-            getSchemaTpl('switch', {
-              name: 'masonryLayout',
-              label: '启用瀑布流'
-            })
-          ]
-        },
-        {
-          title: '显隐',
-          body: [getSchemaTpl('ref'), getSchemaTpl('visible')]
-        }
-      ])
-    ];
+          getSchemaTpl('className', {
+            label: 'CSS 类名'
+          }),
+          getSchemaTpl('className', {
+            name: 'headerClassName',
+            label: '头部 CSS 类名'
+          }),
+          getSchemaTpl('className', {
+            name: 'footerClassName',
+            label: '底部 CSS 类名'
+          }),
+          getSchemaTpl('className', {
+            name: 'itemsClassName',
+            label: '内容 CSS 类名'
+          }),
+          getSchemaTpl('className', {
+            pipeIn: defaultValue('Grid-col--sm6 Grid-col--md4 Grid-col--lg3'),
+            name: 'itemClassName',
+            label: '卡片 CSS 类名'
+          }),
+          {
+            name: 'columnsCount',
+            type: 'input-range',
+            visibleOn: '!this.leftFixed',
+            min: 1,
+            max: 12,
+            step: 1,
+            label: '每行显示个数',
+            description: '不设置时，由卡片 CSS 类名决定'
+          },
+          getSchemaTpl('switch', {
+            name: 'masonryLayout',
+            label: '启用瀑布流'
+          })
+        ]
+      },
+      {
+        title: '显隐',
+        body: [getSchemaTpl('ref'), getSchemaTpl('visible')]
+      }
+    ]);
   };
 
   editDetail(id: string) {
@@ -273,10 +274,11 @@ export class CardsPlugin extends BasePlugin {
       }));
     }
 
-    const {$schema, ...rest} = props;
+    const {$schema, card, ...rest} = props;
 
     return {
       ...JSONPipeOut(rest),
+      card,
       $schema
     };
   }
@@ -286,11 +288,7 @@ export class CardsPlugin extends BasePlugin {
   ): BasicRendererInfo | void {
     const plugin: PluginInterface = this;
     const {renderer, schema} = context;
-    if (
-      !schema.$$id &&
-      schema.$$editor?.renderer.name === 'crud' &&
-      renderer.name === 'cards'
-    ) {
+    if (!schema.$$id && isCrudContext(context) && renderer.name === 'cards') {
       return {
         ...({id: schema.$$editor.id} as any),
         name: plugin.name!,

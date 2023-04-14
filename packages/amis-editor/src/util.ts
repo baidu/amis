@@ -1,7 +1,8 @@
 import {
   BaseEventContext,
   EditorManager,
-  RendererPluginAction
+  RendererPluginAction,
+  RendererInfoResolveEventContext
 } from 'amis-editor-core';
 import {filterTree, mapTree} from 'amis';
 import {ACTION_TYPE_TREE} from './renderer/event-control/helper';
@@ -16,6 +17,14 @@ import {
   hasActionType
 } from './renderer/event-control/helper';
 import isString from 'lodash/isString';
+
+export function isCrudContext(
+  ctx: BaseEventContext | RendererInfoResolveEventContext
+) {
+  return ['crud', 'crud2'].includes(
+    ctx?.schema?.name ?? ctx?.schema?.$$editor?.renderer?.name
+  );
+}
 
 /**
  * 获取事件动作面板所需属性配置

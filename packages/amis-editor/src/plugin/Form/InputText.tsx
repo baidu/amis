@@ -169,6 +169,7 @@ export class TextControlPlugin extends BasePlugin {
                   required: true
                 }),
                 getSchemaTpl('label'),
+                getSchemaTpl('crudFilterOperator', {context, type: 'text'}),
                 getSchemaTpl('inputType', {
                   value: this.scaffold.type,
                   onChange: (

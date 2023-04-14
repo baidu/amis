@@ -4,7 +4,7 @@
 
 import React from 'react';
 import cx from 'classnames';
-import {Icon, FormItem} from 'amis';
+import {Icon, FormItem, Spinner} from 'amis';
 import {autobind, FormControlProps, Schema} from 'amis-core';
 import CodeMirrorEditor from 'amis-ui/lib/components/CodeMirror';
 import {FormulaPlugin, editorFactory} from './plugin';
@@ -71,6 +71,8 @@ interface TextareaFormulaControlState {
   expressionBrace?: Array<CodeMirror.Position>; // 表达式所在位置
 
   isFullscreen: boolean; //是否全屏
+
+  loading: boolean;
 }
 
 export class TextareaFormulaControl extends React.Component<
@@ -97,7 +99,8 @@ export class TextareaFormulaControl extends React.Component<
       variables: [],
       formulaPickerOpen: false,
       formulaPickerValue: '',
-      isFullscreen: false
+      isFullscreen: false,
+      loading: false
     };
   }
 
@@ -205,10 +208,15 @@ export class TextareaFormulaControl extends React.Component<
   }
 
   @autobind
-  handleFormulaClick() {
+  async handleFormulaClick() {
     if (this.props.onOverallClick) {
       return;
     }
+
+    try {
+      await this.handleFormulaEditorOpen();
+    } catch (error) {}
+
     this.setState({
       formulaPickerOpen: true,
       formulaPickerValue: '',
@@ -219,6 +227,33 @@ export class TextareaFormulaControl extends React.Component<
   @autobind
   editorAutoMark() {
     this.editorPlugin?.autoMark();
+  }
+
+  @autobind
+  async handleFormulaEditorOpen() {
+    const {node, manager, data} = this.props;
+    const onFormulaEditorOpen = manager?.config?.onFormulaEditorOpen;
+
+    this.setState({loading: true});
+
+    try {
+      if (
+        manager &&
+        onFormulaEditorOpen &&
+        typeof onFormulaEditorOpen === 'function'
+      ) {
+        const res = await onFormulaEditorOpen(node, manager, data);
+
+        if (res !== false) {
+          const variables = await getVariables(this);
+          this.setState({variables});
+        }
+      }
+    } catch (error) {
+      console.error('[amis-editor] onFormulaEditorOpen failed: ', error?.stack);
+    }
+
+    this.setState({loading: false});
   }
 
   render() {
@@ -238,7 +273,8 @@ export class TextareaFormulaControl extends React.Component<
       formulaPickerOpen,
       formulaPickerValue,
       isFullscreen,
-      variables
+      variables,
+      loading
     } = this.state;
 
     const FormulaPickerCmp = customFormulaPicker ?? FormulaPicker;
@@ -282,14 +318,22 @@ export class TextareaFormulaControl extends React.Component<
                 />
               </a>
             </li>
-            <li className="ae-TextareaResultBox-footer-fxIcon">
-              <a
-                data-tooltip="表达式"
-                data-position="top"
-                onClick={this.handleFormulaClick}
-              >
-                <Icon icon="function" className="icon" />
-              </a>
+            <li
+              className={cx('ae-TextareaResultBox-footer-fxIcon', {
+                'is-loading': loading
+              })}
+            >
+              {loading ? (
+                <Spinner show icon="reload" size="sm" />
+              ) : (
+                <a
+                  data-tooltip="表达式"
+                  data-position="top"
+                  onClick={this.handleFormulaClick}
+                >
+                  <Icon icon="function" className="icon" />
+                </a>
+              )}
             </li>
             {/* 附加底部按钮菜单项 */}
             {additionalMenus?.length &&

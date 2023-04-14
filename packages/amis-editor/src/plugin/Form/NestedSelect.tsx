@@ -208,6 +208,7 @@ export class NestedSelectControlPlugin extends BasePlugin {
                 required: true
               }),
               getSchemaTpl('label'),
+              getSchemaTpl('crudFilterOperator', {context}),
               getSchemaTpl('clearable'),
               {
                 type: 'ae-Switch-More',

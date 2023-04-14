@@ -105,6 +105,7 @@ export class RateControlPlugin extends BasePlugin {
                 label: 'Label'
               }),
 
+              getSchemaTpl('crudFilterOperator', {context}),
               getSchemaTpl('valueFormula', {
                 rendererSchema: {
                   ...context?.schema,

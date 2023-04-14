@@ -117,9 +117,6 @@ export function registerEditorPlugin(klass: PluginClass) {
   // 处理插件身上的场景信息
   const scene = Array.from(new Set(['global'].concat(klass.scene || 'global')));
   klass.scene = scene;
-  // 处理插件身上的场景信息
-  const scene = Array.from(new Set(['global'].concat(klass.scene || 'global')));
-  klass.scene = scene;
   let isExitPlugin: any = null;
   if (klass.prototype && klass.prototype.isNpmCustomWidget) {
     isExitPlugin = builtInPlugins.find(item =>

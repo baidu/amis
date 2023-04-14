@@ -127,6 +127,8 @@ export class RangeControlPlugin extends BasePlugin {
                 label: 'Label'
               }),
 
+              getSchemaTpl('crudFilterOperator', {context}),
+
               {
                 label: '方式',
                 name: 'multiple',

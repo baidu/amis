@@ -12,6 +12,7 @@ import {
 
 export class ContainerPlugin extends LayoutBasePlugin {
   static scene = ['layout'];
+  static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'container';
   $schema = '/schemas/ContainerSchema.json';
