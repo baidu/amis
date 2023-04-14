@@ -671,7 +671,18 @@ export class TableControlPlugin extends BasePlugin {
             inputClassName: 'event-action-radio',
             mode: 'horizontal',
             label: '删除方式',
-            value: 'rowIndex',
+            pipeIn: (value: string, store: any) => {
+              if (store.data.__deleteType === undefined) {
+                const deleteType = store.data.condition
+                  ? 'conditionExpression'
+                  : 'rowIndex';
+                store.updateData({
+                  __deleteType: deleteType
+                });
+                return deleteType;
+              }
+              return value;
+            },
             horizontal: {
               leftFixed: 4 // 需要设置下leftFixed，否则这个字段的控件没有与其他字段的控件左对齐
             },
@@ -697,6 +708,7 @@ export class TableControlPlugin extends BasePlugin {
             horizontal: {
               leftFixed: 4 // 需要设置下leftFixed，否则这个字段的控件没有与其他字段的控件左对齐
             },
+            required: true,
             label: '删除范围',
             size: 'lg',
             placeholder: '请输入行号，输入多个则用英文逗号分隔',
@@ -708,6 +720,7 @@ export class TableControlPlugin extends BasePlugin {
             label: '删除条件',
             hiddenOn: 'data.__deleteType !== "conditionExpression"',
             mode: 'horizontal',
+            required: true,
             horizontal: {
               leftFixed: 4 // 需要设置下leftFixed，否则这个字段的控件没有与其他字段的控件左对齐
             },
