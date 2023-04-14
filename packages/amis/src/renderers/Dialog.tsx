@@ -570,7 +570,11 @@ export default class Dialog extends React.Component<DialogProps> {
                 onClick={this.handleSelfClose}
                 className={cx('Modal-close')}
               >
-                <Icon icon="close" className="icon" />
+                <Icon
+                  icon="close"
+                  className="icon"
+                  iconContent="Dialog-close"
+                />
               </a>
             ) : null}
             <div className={cx('Modal-title')}>
@@ -585,7 +589,11 @@ export default class Dialog extends React.Component<DialogProps> {
                 onClick={this.handleSelfClose}
                 className={cx('Modal-close')}
               >
-                <Icon icon="close" className="icon" />
+                <Icon
+                  icon="close"
+                  className="icon"
+                  iconContent="Dialog-close"
+                />
               </a>
             ) : null}
             {render('title', title, {
@@ -599,7 +607,7 @@ export default class Dialog extends React.Component<DialogProps> {
             onClick={this.handleSelfClose}
             className={cx('Modal-close')}
           >
-            <Icon icon="close" className="icon" />
+            <Icon icon="close" className="icon" iconContent="Dialog-close" />
           </a>
         ) : null}
 
