@@ -1,5 +1,5 @@
 import React from 'react';
-import {autobind} from 'amis-core';
+import {autobind, createObject, filter} from 'amis-core';
 import Tabs, {Tab} from './Tabs';
 import InputBox from './InputBox';
 import TableCheckboxes from './TableSelection';
@@ -256,7 +256,8 @@ export class TabsTransfer extends React.Component<
       placeholder,
       activeKey,
       classnames: cx,
-      translate: __
+      translate: __,
+      data
     } = this.props;
     const showOptions = options.filter(item => item.visible !== false);
 
@@ -279,7 +280,10 @@ export class TabsTransfer extends React.Component<
           <Tab
             eventKey={index}
             key={index}
-            title={option.label || option.title}
+            title={filter(
+              option.label || option.title,
+              createObject(data, option)
+            )}
             className="TabsTransfer-tab"
           >
             {option.searchable ? (
