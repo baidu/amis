@@ -301,7 +301,7 @@ export class TableControlPlugin extends BasePlugin {
             },
             'event.data.index': {
               type: 'array',
-              title: '添加项的行索引'
+              title: '新增行记录索引'
             }
           }
         }
@@ -400,11 +400,11 @@ export class TableControlPlugin extends BasePlugin {
             },
             'event.data.item': {
               type: 'object',
-              title: '编辑项数据'
+              title: '所在行记录'
             },
             'event.data.index': {
               type: 'number',
-              title: '编辑项所在的行索引'
+              title: '所在行记录索引'
             }
           }
         }
@@ -425,11 +425,11 @@ export class TableControlPlugin extends BasePlugin {
             },
             'event.data.item': {
               type: 'object',
-              title: '编辑项数据'
+              title: '所在行记录'
             },
             'event.data.index': {
               type: 'number',
-              title: '编辑项所在的行索引'
+              title: '所在行记录索引'
             }
           }
         }
@@ -450,11 +450,11 @@ export class TableControlPlugin extends BasePlugin {
             },
             'event.data.item': {
               type: 'object',
-              title: '编辑项数据'
+              title: '所在行记录'
             },
             'event.data.index': {
               type: 'number',
-              title: '编辑项所在的行索引'
+              title: '所在行记录索引'
             }
           }
         }
@@ -475,11 +475,11 @@ export class TableControlPlugin extends BasePlugin {
             },
             'event.data.item': {
               type: 'object',
-              title: '编辑项数据'
+              title: '所在行记录'
             },
             'event.data.index': {
               type: 'number',
-              title: '编辑项所在的行索引'
+              title: '所在行记录索引'
             },
             'event.data.error': {
               type: 'object',
@@ -503,11 +503,11 @@ export class TableControlPlugin extends BasePlugin {
             },
             'event.data.item': {
               type: 'object',
-              title: '删除项数据'
+              title: '所在行记录'
             },
             'event.data.index': {
               type: 'object',
-              title: '删除项所在的行索引'
+              title: '所在行记录索引'
             }
           }
         }
@@ -527,11 +527,11 @@ export class TableControlPlugin extends BasePlugin {
             },
             'event.data.item': {
               type: 'object',
-              title: '删除项数据'
+              title: '所在行记录'
             },
             'event.data.index': {
               type: 'object',
-              title: '删除项所在的行索引'
+              title: '所在行记录索引'
             }
           }
         }
@@ -551,11 +551,11 @@ export class TableControlPlugin extends BasePlugin {
             },
             'event.data.item': {
               type: 'object',
-              title: '删除项数据'
+              title: '所在行记录'
             },
             'event.data.index': {
               type: 'object',
-              title: '删除项的行索引'
+              title: '所在行记录索引'
             },
             'event.data.error': {
               type: 'object',
@@ -716,11 +716,11 @@ export class TableControlPlugin extends BasePlugin {
         ]
       })
     },
-    {
-      actionType: 'reset',
-      actionLabel: '重置',
-      description: '将值重置为resetValue，若没有配置resetValue，则清空'
-    },
+    // {
+    //   actionType: 'reset',
+    //   actionLabel: '重置',
+    //   description: '将值重置为resetValue，若没有配置resetValue，则清空'
+    // },
     {
       actionType: 'clear',
       actionLabel: '清空',
