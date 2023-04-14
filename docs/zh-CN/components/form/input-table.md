@@ -924,52 +924,50 @@ order: 54
 
 ```schema: scope="body"
 {
-  "type": "page",
-  "body": {
-    "type": "service",
-    "data": {
-      "table": [
-        {
-          "a": "a1",
-          "b": "b1"
-        }
-      ]
-    },
-    "body": [
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "data": {
+    "table": [
       {
-        "showIndex": true,
-        "type": "input-table",
-        "name": "table",
-        "columns": [
-          {
-            "name": "a",
-            "label": "A"
-          },
-          {
-            "name": "b",
-            "label": "B"
-          }
-        ],
-        "addable": true,
-        "needConfirm": false,
-        "onEvent": {
-          "add": {
-            "actions": [
-              {
-                "actionType": "toast",
-                "args": {
-                  "msgType": "info",
-                  "position": "top-right",
-                  "title": "add事件",
-                  "msg": "value: ${event.data.value | json}, index: ${event.data.index}"
-                }
-              }
-            ]
-          }
-        }
+        "a": "a1",
+        "b": "b1"
       }
     ]
-  }
+  },
+  "body": [
+    {
+      "showIndex": true,
+      "type": "input-table",
+      "name": "table",
+      "columns": [
+        {
+          "name": "a",
+          "label": "A"
+        },
+        {
+          "name": "b",
+          "label": "B"
+        }
+      ],
+      "addable": true,
+      "needConfirm": false,
+      "onEvent": {
+        "add": {
+          "actions": [
+            {
+              "actionType": "toast",
+              "args": {
+                "msgType": "info",
+                "position": "top-right",
+                "title": "add事件",
+                "msg": "value: ${event.data.value | json}, index: ${event.data.index}"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
 }
 ```
 
@@ -979,52 +977,50 @@ order: 54
 
 ```schema: scope="body"
 {
-  "type": "page",
-  "body": {
-    "type": "service",
-    "data": {
-      "table": [
-        {
-          "a": "a1",
-          "b": "b1"
-        }
-      ]
-    },
-    "body": [
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "data": {
+    "table": [
       {
-        "showIndex": true,
-        "type": "input-table",
-        "name": "table",
-        "columns": [
-          {
-            "name": "a",
-            "label": "A"
-          },
-          {
-            "name": "b",
-            "label": "B"
-          }
-        ],
-        "addable": true,
-        "needConfirm": true,
-        "onEvent": {
-          "addConfirm": {
-            "actions": [
-              {
-                "actionType": "toast",
-                "args": {
-                  "msgType": "info",
-                  "position": "top-right",
-                  "title": "addConfirm事件",
-                  "msg": "value: ${event.data.value | json}, item: ${event.data.item | json}"
-                }
-              }
-            ]
-          }
-        }
+        "a": "a1",
+        "b": "b1"
       }
     ]
-  }
+  },
+  "body": [
+    {
+      "showIndex": true,
+      "type": "input-table",
+      "name": "table",
+      "columns": [
+        {
+          "name": "a",
+          "label": "A"
+        },
+        {
+          "name": "b",
+          "label": "B"
+        }
+      ],
+      "addable": true,
+      "needConfirm": true,
+      "onEvent": {
+        "addConfirm": {
+          "actions": [
+            {
+              "actionType": "toast",
+              "args": {
+                "msgType": "info",
+                "position": "top-right",
+                "title": "addConfirm事件",
+                "msg": "value: ${event.data.value | json}, item: ${event.data.item | json}"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
 }
 ```
 
@@ -1034,53 +1030,51 @@ order: 54
 
 ```schema: scope="body"
 {
-  "type": "page",
-  "body": {
-    "type": "service",
-    "data": {
-      "table": [
-        {
-          "a": "a1",
-          "b": "b1"
-        }
-      ]
-    },
-    "body": [
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "data": {
+    "table": [
       {
-        "showIndex": true,
-        "type": "input-table",
-        "name": "table",
-        "columns": [
-          {
-            "name": "a",
-            "label": "A"
-          },
-          {
-            "name": "b",
-            "label": "B"
-          }
-        ],
-        "addable": true,
-        "needConfirm": true,
-        "addApi": "/api/mock2/table/addSuccess",
-        "onEvent": {
-          "addSuccess": {
-            "actions": [
-              {
-                "actionType": "toast",
-                "args": {
-                  "msgType": "info",
-                  "position": "top-right",
-                  "title": "addSuccess事件",
-                  "msg": "value: ${event.data.value | json}, item: ${event.data.item | json}"
-                }
-              }
-            ]
-          }
-        }
+        "a": "a1",
+        "b": "b1"
       }
     ]
-  }
+  },
+  "body": [
+    {
+      "showIndex": true,
+      "type": "input-table",
+      "name": "table",
+      "columns": [
+        {
+          "name": "a",
+          "label": "A"
+        },
+        {
+          "name": "b",
+          "label": "B"
+        }
+      ],
+      "addable": true,
+      "needConfirm": true,
+      "addApi": "/api/mock2/table/addSuccess",
+      "onEvent": {
+        "addSuccess": {
+          "actions": [
+            {
+              "actionType": "toast",
+              "args": {
+                "msgType": "info",
+                "position": "top-right",
+                "title": "addSuccess事件",
+                "msg": "value: ${event.data.value | json}, item: ${event.data.item | json}"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
 }
 ```
 
@@ -1091,52 +1085,50 @@ order: 54
 ```schema: scope="body"
 {
   "type": "page",
-  "body": {
-    "type": "service",
-    "data": {
-      "table": [
-        {
-          "a": "a1",
-          "b": "b1"
-        }
-      ]
-    },
-    "body": [
+  "api": "/api/mock2/form/saveForm",
+  "data": {
+    "table": [
       {
-        "showIndex": true,
-        "type": "input-table",
-        "name": "table",
-        "columns": [
-          {
-            "name": "a",
-            "label": "A"
-          },
-          {
-            "name": "b",
-            "label": "B"
-          }
-        ],
-        "addable": true,
-        "needConfirm": true,
-        "addApi": "/api/mock2/table/addFail",
-        "onEvent": {
-          "addFail": {
-            "actions": [
-              {
-                "actionType": "toast",
-                "args": {
-                  "msgType": "info",
-                  "position": "top-right",
-                  "title": "addFail事件",
-                  "msg": "value: ${event.data.value | json}, error: ${event.data.error | json}"
-                }
-              }
-            ]
-          }
-        }
+        "a": "a1",
+        "b": "b1"
       }
     ]
-  }
+  },
+  "body": [
+    {
+      "showIndex": true,
+      "type": "input-table",
+      "name": "table",
+      "columns": [
+        {
+          "name": "a",
+          "label": "A"
+        },
+        {
+          "name": "b",
+          "label": "B"
+        }
+      ],
+      "addable": true,
+      "needConfirm": true,
+      "addApi": "/api/mock2/table/addFail",
+      "onEvent": {
+        "addFail": {
+          "actions": [
+            {
+              "actionType": "toast",
+              "args": {
+                "msgType": "info",
+                "position": "top-right",
+                "title": "addFail事件",
+                "msg": "value: ${event.data.value | json}, error: ${event.data.error | json}"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
 }
 ```
 
@@ -1146,52 +1138,50 @@ order: 54
 
 ```schema: scope="body"
 {
-  "type": "page",
-  "body": {
-    "type": "service",
-    "data": {
-      "table": [
-        {
-          "a": "a1",
-          "b": "b1"
-        }
-      ]
-    },
-    "body": [
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "data": {
+    "table": [
       {
-        "showIndex": true,
-        "type": "input-table",
-        "name": "table",
-        "columns": [
-          {
-            "name": "a",
-            "label": "A"
-          },
-          {
-            "name": "b",
-            "label": "B"
-          }
-        ],
-        "needConfirm": true,
-        "editable": true,
-        "onEvent": {
-          "edit": {
-            "actions": [
-              {
-                "actionType": "toast",
-                "args": {
-                  "msgType": "info",
-                  "position": "top-right",
-                  "title": "edit事件",
-                  "msg": "value: ${event.data.value | json}, item: ${event.data.item | json}"
-                }
-              }
-            ]
-          }
-        }
+        "a": "a1",
+        "b": "b1"
       }
     ]
-  }
+  },
+  "body": [
+    {
+      "showIndex": true,
+      "type": "input-table",
+      "name": "table",
+      "columns": [
+        {
+          "name": "a",
+          "label": "A"
+        },
+        {
+          "name": "b",
+          "label": "B"
+        }
+      ],
+      "needConfirm": true,
+      "editable": true,
+      "onEvent": {
+        "edit": {
+          "actions": [
+            {
+              "actionType": "toast",
+              "args": {
+                "msgType": "info",
+                "position": "top-right",
+                "title": "edit事件",
+                "msg": "value: ${event.data.value | json}, item: ${event.data.item | json}"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
 }
 ```
 
@@ -1201,51 +1191,49 @@ order: 54
 
 ```schema: scope="body"
 {
-  "type": "page",
-  "body": {
-    "type": "service",
-    "data": {
-      "table": [
-        {
-          "a": "a1",
-          "b": "b1"
-        }
-      ]
-    },
-    "body": [
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "data": {
+    "table": [
       {
-        "showIndex": true,
-        "type": "input-table",
-        "name": "table",
-        "columns": [
-          {
-            "name": "a",
-            "label": "A"
-          },
-          {
-            "name": "b",
-            "label": "B"
-          }
-        ],
-        "editable": true,
-        "onEvent": {
-          "editConfirm": {
-            "actions": [
-              {
-                "actionType": "toast",
-                "args": {
-                  "msgType": "info",
-                  "position": "top-right",
-                  "title": "editConfirm事件",
-                  "msg": "value: ${event.data.value | json}, item: ${event.data.item | json}"
-                }
-              }
-            ]
-          }
-        }
+        "a": "a1",
+        "b": "b1"
       }
     ]
-  }
+  },
+  "body": [
+    {
+      "showIndex": true,
+      "type": "input-table",
+      "name": "table",
+      "columns": [
+        {
+          "name": "a",
+          "label": "A"
+        },
+        {
+          "name": "b",
+          "label": "B"
+        }
+      ],
+      "editable": true,
+      "onEvent": {
+        "editConfirm": {
+          "actions": [
+            {
+              "actionType": "toast",
+              "args": {
+                "msgType": "info",
+                "position": "top-right",
+                "title": "editConfirm事件",
+                "msg": "value: ${event.data.value | json}, item: ${event.data.item | json}"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
 }
 ```
 
@@ -1255,54 +1243,52 @@ order: 54
 
 ```schema: scope="body"
 {
-  "type": "page",
-  "body": {
-    "type": "service",
-    "data": {
-      "table": [
-        {
-          "id": 1,
-          "a": "a1",
-          "b": "b1"
-        }
-      ]
-    },
-    "body": [
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "data": {
+    "table": [
       {
-        "showIndex": true,
-        "type": "input-table",
-        "name": "table",
-        "columns": [
-          {
-            "name": "a",
-            "label": "A"
-          },
-          {
-            "name": "b",
-            "label": "B"
-          }
-        ],
-        "editable": true,
-        "needConfirm": true,
-        "updateApi": "/api/mock2/table/editSuccess",
-        "onEvent": {
-          "editSuccess": {
-            "actions": [
-              {
-                "actionType": "toast",
-                "args": {
-                  "msgType": "info",
-                  "position": "top-right",
-                  "title": "editSuccess事件",
-                  "msg": "value: ${event.data.value | json}, item: ${event.data.item | json}"
-                }
-              }
-            ]
-          }
-        }
+        "id": 1,
+        "a": "a1",
+        "b": "b1"
       }
     ]
-  }
+  },
+  "body": [
+    {
+      "showIndex": true,
+      "type": "input-table",
+      "name": "table",
+      "columns": [
+        {
+          "name": "a",
+          "label": "A"
+        },
+        {
+          "name": "b",
+          "label": "B"
+        }
+      ],
+      "editable": true,
+      "needConfirm": true,
+      "updateApi": "/api/mock2/table/editSuccess",
+      "onEvent": {
+        "editSuccess": {
+          "actions": [
+            {
+              "actionType": "toast",
+              "args": {
+                "msgType": "info",
+                "position": "top-right",
+                "title": "editSuccess事件",
+                "msg": "value: ${event.data.value | json}, item: ${event.data.item | json}"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
 }
 ```
 
@@ -1312,54 +1298,52 @@ order: 54
 
 ```schema: scope="body"
 {
-  "type": "page",
-  "body": {
-    "type": "service",
-    "data": {
-      "table": [
-        {
-          "id": 1,
-          "a": "a1",
-          "b": "b1"
-        }
-      ]
-    },
-    "body": [
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "data": {
+    "table": [
       {
-        "showIndex": true,
-        "type": "input-table",
-        "name": "table",
-        "columns": [
-          {
-            "name": "a",
-            "label": "A"
-          },
-          {
-            "name": "b",
-            "label": "B"
-          }
-        ],
-        "editable": true,
-        "needConfirm": true,
-        "updateApi": "/api/mock2/table/editFail",
-        "onEvent": {
-          "editFail": {
-            "actions": [
-              {
-                "actionType": "toast",
-                "args": {
-                  "msgType": "info",
-                  "position": "top-right",
-                  "title": "editFail事件",
-                  "msg": "value: ${event.data.value | json}, item: ${event.data.item | json}"
-                }
-              }
-            ]
-          }
-        }
+        "id": 1,
+        "a": "a1",
+        "b": "b1"
       }
     ]
-  }
+  },
+  "body": [
+    {
+      "showIndex": true,
+      "type": "input-table",
+      "name": "table",
+      "columns": [
+        {
+          "name": "a",
+          "label": "A"
+        },
+        {
+          "name": "b",
+          "label": "B"
+        }
+      ],
+      "editable": true,
+      "needConfirm": true,
+      "updateApi": "/api/mock2/table/editFail",
+      "onEvent": {
+        "editFail": {
+          "actions": [
+            {
+              "actionType": "toast",
+              "args": {
+                "msgType": "info",
+                "position": "top-right",
+                "title": "editFail事件",
+                "msg": "value: ${event.data.value | json}, error: ${event.data.error | json}"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
 }
 ```
 
@@ -1369,52 +1353,50 @@ order: 54
 
 ```schema: scope="body"
 {
-  "type": "page",
-  "body": {
-    "type": "service",
-    "data": {
-      "table": [
-        {
-          "a": "a1",
-          "b": "b1"
-        }
-      ]
-    },
-    "body": [
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "data": {
+    "table": [
       {
-        "showIndex": true,
-        "type": "input-table",
-        "name": "table",
-        "columns": [
-          {
-            "name": "a",
-            "label": "A"
-          },
-          {
-            "name": "b",
-            "label": "B"
-          }
-        ],
-        "removable": true,
-        "needConfirm": false,
-        "onEvent": {
-          "delete": {
-            "actions": [
-              {
-                "actionType": "toast",
-                "args": {
-                  "msgType": "info",
-                  "position": "top-right",
-                  "title": "delete事件",
-                  "msg": "item: ${event.data.item | json}, index: ${event.data.index | json}"
-                }
-              }
-            ]
-          }
-        }
+        "a": "a1",
+        "b": "b1"
       }
     ]
-  }
+  },
+  "body": [
+    {
+      "showIndex": true,
+      "type": "input-table",
+      "name": "table",
+      "columns": [
+        {
+          "name": "a",
+          "label": "A"
+        },
+        {
+          "name": "b",
+          "label": "B"
+        }
+      ],
+      "removable": true,
+      "needConfirm": false,
+      "onEvent": {
+        "delete": {
+          "actions": [
+            {
+              "actionType": "toast",
+              "args": {
+                "msgType": "info",
+                "position": "top-right",
+                "title": "delete事件",
+                "msg": "item: ${event.data.item | json}, index: ${event.data.index}"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
 }
 ```
 
@@ -1424,54 +1406,52 @@ order: 54
 
 ```schema: scope="body"
 {
-  "type": "page",
-  "body": {
-    "type": "service",
-    "data": {
-      "table": [
-        {
-          "id": 1,
-          "a": "a1",
-          "b": "b1"
-        }
-      ]
-    },
-    "body": [
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "data": {
+    "table": [
       {
-        "showIndex": true,
-        "type": "input-table",
-        "name": "table",
-        "columns": [
-          {
-            "name": "a",
-            "label": "A"
-          },
-          {
-            "name": "b",
-            "label": "B"
-          }
-        ],
-        "removable": true,
-        "needConfirm": false,
-        "deleteApi": "/api/mock2/table/deleteSuccess",
-        "onEvent": {
-          "deleteSuccess": {
-            "actions": [
-              {
-                "actionType": "toast",
-                "args": {
-                  "msgType": "info",
-                  "position": "top-right",
-                  "title": "deleteSuccess事件",
-                  "msg": "value: ${event.data.value | json}, item: ${event.data.item | json}"
-                }
-              }
-            ]
-          }
-        }
+        "id": 1,
+        "a": "a1",
+        "b": "b1"
       }
     ]
-  }
+  },
+  "body": [
+    {
+      "showIndex": true,
+      "type": "input-table",
+      "name": "table",
+      "columns": [
+        {
+          "name": "a",
+          "label": "A"
+        },
+        {
+          "name": "b",
+          "label": "B"
+        }
+      ],
+      "removable": true,
+      "needConfirm": false,
+      "deleteApi": "/api/mock2/table/deleteSuccess",
+      "onEvent": {
+        "deleteSuccess": {
+          "actions": [
+            {
+              "actionType": "toast",
+              "args": {
+                "msgType": "info",
+                "position": "top-right",
+                "title": "deleteSuccess事件",
+                "msg": "value: ${event.data.value | json}, item: ${event.data.item | json}"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
 }
 ```
 
@@ -1481,54 +1461,52 @@ order: 54
 
 ```schema: scope="body"
 {
-  "type": "page",
-  "body": {
-    "type": "service",
-    "data": {
-      "table": [
-        {
-          "id": 1,
-          "a": "a1",
-          "b": "b1"
-        }
-      ]
-    },
-    "body": [
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "data": {
+    "table": [
       {
-        "showIndex": true,
-        "type": "input-table",
-        "name": "table",
-        "columns": [
-          {
-            "name": "a",
-            "label": "A"
-          },
-          {
-            "name": "b",
-            "label": "B"
-          }
-        ],
-        "removable": true,
-        "needConfirm": false,
-        "deleteApi": "/api/mock2/table/deleteFail",
-        "onEvent": {
-          "deleteFail": {
-            "actions": [
-              {
-                "actionType": "toast",
-                "args": {
-                  "msgType": "info",
-                  "position": "top-right",
-                  "title": "deleteFail事件",
-                  "msg": "value: ${event.data.value | json}, item: ${event.data.item | json}"
-                }
-              }
-            ]
-          }
-        }
+        "id": 1,
+        "a": "a1",
+        "b": "b1"
       }
     ]
-  }
+  },
+  "body": [
+    {
+      "showIndex": true,
+      "type": "input-table",
+      "name": "table",
+      "columns": [
+        {
+          "name": "a",
+          "label": "A"
+        },
+        {
+          "name": "b",
+          "label": "B"
+        }
+      ],
+      "removable": true,
+      "needConfirm": false,
+      "deleteApi": "/api/mock2/table/deleteFail",
+      "onEvent": {
+        "deleteFail": {
+          "actions": [
+            {
+              "actionType": "toast",
+              "args": {
+                "msgType": "info",
+                "position": "top-right",
+                "title": "deleteFail事件",
+                "msg": "value: ${event.data.value | json}, error: ${event.data.error | json}"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
 }
 ```
 
@@ -1538,52 +1516,50 @@ order: 54
 
 ```schema: scope="body"
 {
-  "type": "page",
-  "body": {
-    "type": "service",
-    "data": {
-      "table": [
-        {
-          "id": 1,
-          "a": "a1",
-          "b": "b1"
-        }
-      ]
-    },
-    "body": [
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "data": {
+    "table": [
       {
-        "showIndex": true,
-        "type": "input-table",
-        "name": "table",
-        "columns": [
-          {
-            "name": "a",
-            "label": "A"
-          },
-          {
-            "name": "b",
-            "label": "B"
-          }
-        ],
-        "addable": true,
-        "onEvent": {
-          "change": {
-            "actions": [
-              {
-                "actionType": "toast",
-                "args": {
-                  "msgType": "info",
-                  "position": "top-right",
-                  "title": "change事件",
-                  "msg": "value: ${event.data.value | json}"
-                }
-              }
-            ]
-          }
-        }
+        "id": 1,
+        "a": "a1",
+        "b": "b1"
       }
     ]
-  }
+  },
+  "body": [
+    {
+      "showIndex": true,
+      "type": "input-table",
+      "name": "table",
+      "columns": [
+        {
+          "name": "a",
+          "label": "A"
+        },
+        {
+          "name": "b",
+          "label": "B"
+        }
+      ],
+      "addable": true,
+      "onEvent": {
+        "change": {
+          "actions": [
+            {
+              "actionType": "toast",
+              "args": {
+                "msgType": "info",
+                "position": "top-right",
+                "title": "change事件",
+                "msg": "value: ${event.data.value | json}"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
 }
 ```
 
@@ -1603,36 +1579,37 @@ order: 54
 
 ```schema: scope="body"
 {
-  "type": "page",
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
   "data": {
-      "table": [
-        {
-          "id": 1,
-          "a": "a1",
-          "b": "b1"
-        },
-        {
-          "id": 2,
-          "a": "a2",
-          "b": "b2"
-        },
-        {
-          "id": 3,
-          "a": "a3",
-          "b": "b3"
-        },
-        {
-          "id": 4,
-          "a": "a4",
-          "b": "b4"
-        },
-        {
-          "id": 5,
-          "a": "a5",
-          "b": "b5"
-        }
-      ]
-    },
+    "table": [
+      {
+        "id": 1,
+        "a": "a1",
+        "b": "b1"
+      },
+      {
+        "id": 2,
+        "a": "a2",
+        "b": "b2"
+      },
+      {
+        "id": 3,
+        "a": "a3",
+        "b": "b3"
+      },
+      {
+        "id": 4,
+        "a": "a4",
+        "b": "b4"
+      },
+      {
+        "id": 5,
+        "a": "a5",
+        "b": "b5"
+      }
+    ]
+  },
   "body": [
     {
       "type": "button",
@@ -1715,7 +1692,8 @@ order: 54
 
 ```schema: scope="body"
 {
-  "type": "page",
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
   "body": [
     {
       "type": "button",
@@ -1816,7 +1794,8 @@ order: 54
 
 ```schema: scope="body"
 {
-  "type": "page",
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
   "body": [
     {
       "type": "button",
@@ -1908,7 +1887,8 @@ order: 54
 
 ```schema: scope="body"
 {
-  "type": "page",
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
   "body": [
     {
       "type": "button",
@@ -1988,7 +1968,8 @@ order: 54
 
 ```schema: scope="body"
 {
-  "type": "page",
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
   "body": [
     {
       "type": "button",
