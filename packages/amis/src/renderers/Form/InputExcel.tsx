@@ -168,7 +168,7 @@ export default class ExcelControl extends React.PureComponent<
     const {dispatchEvent, data} = this.props;
     return await dispatchEvent(
       eventName,
-      resolveEventData(this.props, {value: eventData}, 'value')
+      resolveEventData(this.props, {value: eventData})
     );
   }
 

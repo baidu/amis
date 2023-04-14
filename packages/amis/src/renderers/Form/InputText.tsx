@@ -310,13 +310,9 @@ export default class TextControl extends React.PureComponent<
     const {dispatchEvent, value} = this.props;
     const rendererEvent = await dispatchEvent(
       'click',
-      resolveEventData(
-        this.props,
-        {
-          value
-        },
-        'value'
-      )
+      resolveEventData(this.props, {
+        value
+      })
     );
 
     if (rendererEvent?.prevented) {
@@ -338,13 +334,9 @@ export default class TextControl extends React.PureComponent<
 
     const rendererEvent = await dispatchEvent(
       'focus',
-      resolveEventData(
-        this.props,
-        {
-          value
-        },
-        'value'
-      )
+      resolveEventData(this.props, {
+        value
+      })
     );
 
     if (rendererEvent?.prevented) {
@@ -370,13 +362,9 @@ export default class TextControl extends React.PureComponent<
 
     const rendererEvent = await dispatchEvent(
       'blur',
-      resolveEventData(
-        this.props,
-        {
-          value
-        },
-        'value'
-      )
+      resolveEventData(this.props, {
+        value
+      })
     );
 
     if (rendererEvent?.prevented) {
@@ -391,7 +379,7 @@ export default class TextControl extends React.PureComponent<
     const {creatable, multiple, onChange, dispatchEvent} = this.props;
     const rendererEvent = await dispatchEvent(
       'change',
-      resolveEventData(this.props, {value}, 'value')
+      resolveEventData(this.props, {value})
     );
 
     if (rendererEvent?.prevented) {
@@ -455,7 +443,7 @@ export default class TextControl extends React.PureComponent<
 
       const rendererEvent = await dispatchEvent(
         'enter',
-        resolveEventData(this.props, {value}, 'value')
+        resolveEventData(this.props, {value})
       );
 
       if (rendererEvent?.prevented) {
@@ -571,7 +559,7 @@ export default class TextControl extends React.PureComponent<
 
     const rendererEvent = await dispatchEvent(
       'change',
-      resolveEventData(this.props, {value}, 'value')
+      resolveEventData(this.props, {value})
     );
 
     if (rendererEvent?.prevented) {

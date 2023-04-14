@@ -594,14 +594,10 @@ export default class ComboControl extends React.Component<ComboProps> {
     // todo:这里的数据结构与表单项最终类型不一致，需要区分是否多选、是否未input-kv or input-kvs
     const rendererEvent = await dispatchEvent(
       'add',
-      resolveEventData(
-        this.props,
-        {
-          value:
-            flat && joinValues ? value.join(delimiter || ',') : cloneDeep(value)
-        },
-        'value'
-      )
+      resolveEventData(this.props, {
+        value:
+          flat && joinValues ? value.join(delimiter || ',') : cloneDeep(value)
+      })
     );
 
     if (rendererEvent?.prevented) {
@@ -652,18 +648,12 @@ export default class ComboControl extends React.Component<ComboProps> {
     // todo:这里的数据结构与表单项最终类型不一致，需要区分是否多选、是否未input-kv or input-kvs
     const rendererEvent = await dispatchEvent(
       'delete',
-      resolveEventData(
-        this.props,
-        {
-          key,
-          value:
-            flat && joinValues
-              ? value.join(delimiter || ',')
-              : cloneDeep(value),
-          item: value[key]
-        },
-        'value'
-      )
+      resolveEventData(this.props, {
+        key,
+        value:
+          flat && joinValues ? value.join(delimiter || ',') : cloneDeep(value),
+        item: value[key]
+      })
     );
 
     if (rendererEvent?.prevented) {

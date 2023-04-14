@@ -119,13 +119,9 @@ export class SearchBoxRenderer extends React.Component<
 
     const rendererEvent = await dispatchEvent(
       'change',
-      resolveEventData(
-        this.props,
-        {
-          value
-        },
-        'value'
-      )
+      resolveEventData(this.props, {
+        value
+      })
     );
 
     if (rendererEvent?.prevented) {
@@ -171,7 +167,7 @@ export class SearchBoxRenderer extends React.Component<
     const {dispatchEvent} = this.props;
     dispatchEvent(
       name,
-      resolveEventData(this.props, {value: this.state.value}, 'value')
+      resolveEventData(this.props, {value: this.state.value})
     );
   }
 

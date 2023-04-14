@@ -266,7 +266,7 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
 
     const rendererEvent = await dispatchEvent(
       'change',
-      resolveEventData(this.props, {value}, 'value')
+      resolveEventData(this.props, {value})
     );
 
     if (rendererEvent?.prevented) {

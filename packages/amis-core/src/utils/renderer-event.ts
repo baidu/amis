@@ -252,7 +252,11 @@ export const getRendererEventListeners = () => {
  * @param data
  * @param valueKey
  */
-export const resolveEventData = (props: any, data: any, valueKey?: string) => {
+export const resolveEventData = (
+  props: any,
+  data: any,
+  valueKey: string = 'value'
+) => {
   return createObject(
     props.data,
     props.name && valueKey

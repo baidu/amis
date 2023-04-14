@@ -287,7 +287,7 @@ export default class NumberControl extends React.Component<
   async dispatchEvent(eventName: string) {
     const {dispatchEvent, value} = this.props;
 
-    dispatchEvent(eventName, resolveEventData(this.props, {value}, 'value'));
+    dispatchEvent(eventName, resolveEventData(this.props, {value}));
   }
 
   async handleChange(inputValue: any) {
@@ -296,7 +296,7 @@ export default class NumberControl extends React.Component<
     const resultValue = clearValueOnEmpty && value === '' ? undefined : value;
     const rendererEvent = await dispatchEvent(
       'change',
-      resolveEventData(this.props, {value: resultValue}, 'value')
+      resolveEventData(this.props, {value: resultValue})
     );
     if (rendererEvent?.prevented) {
       return;

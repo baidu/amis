@@ -218,15 +218,11 @@ export class BaseTabsTransferRenderer<
     // 触发渲染器事件
     const rendererEvent = await dispatchEvent(
       'change',
-      resolveEventData(
-        this.props,
-        {
-          value: newValue,
-          options,
-          items: options // 为了保持名字统一
-        },
-        'value'
-      )
+      resolveEventData(this.props, {
+        value: newValue,
+        options,
+        items: options // 为了保持名字统一
+      })
     );
     if (rendererEvent?.prevented) {
       return;
