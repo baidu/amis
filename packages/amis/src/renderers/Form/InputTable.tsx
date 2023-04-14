@@ -1639,6 +1639,7 @@ export class TableControlRenderer extends FormTable {
       translate: __,
       onChange
     } = this.props;
+    console.log(action, args);
 
     const actionType = action.actionType as string;
     const ctx = this.props.store?.data || {}; // 获取当前上下文数据
@@ -1708,9 +1709,10 @@ export class TableControlRenderer extends FormTable {
       const deletedItems: any = [];
 
       if (args.index) {
-        items[args.index] && deletedItems.push(items[args.index]);
-        rawItems = [...items];
-        rawItems.splice(args.index, 1);
+        const indexArr = args.index.split(',');
+        rawItems = items.filter(
+          (item, index) => !indexArr.includes((index + 1).toString())
+        );
       } else if (args.condition) {
         const itemsLength = items.length;
         for (let i = 0; i < itemsLength; i++) {

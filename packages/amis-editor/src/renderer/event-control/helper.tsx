@@ -3003,15 +3003,20 @@ export const getEventControlConfig = (
 
       delete config.data;
 
-      // 处理下 combo - addItem 的初始化
-      if (
-        action.actionType === 'addItem' &&
-        typeof action.args?.item === 'object'
-      ) {
-        config.args = {
-          ...config.args,
-          item: objectToComboArray(action.args?.item)
-        };
+      // 处理下 addItem 的初始化
+      if (action.actionType === 'addItem') {
+        if (Array.isArray(action.args?.item)) {
+          const comboArray = (action.args?.item || []).map((raw: any) => objectToComboArray(raw));
+          config.args = {
+            ...config.args,
+            value: comboArray.map(combo => ({item: combo}))
+          };
+        } else {
+          config.args = {
+            ...config.args,
+            item: objectToComboArray(action.args?.item)
+          };
+        }
       }
 
       // 还原args为可视化配置结构(args + addOnArgs)
@@ -3209,6 +3214,18 @@ export const getEventControlConfig = (
           ...action.args,
           item: comboArrayToObject(config.args?.item!)
         };
+      }
+
+      if (
+        action.actionType === 'addItem' &&
+        action.__rendererName === 'input-table'
+      ) {
+        const comboArray = (config.args?.value! || []).map((combo: any) => combo.item || {});
+        action.args = {
+          ...action.args,
+          item: comboArray.map((raw: any) => comboArrayToObject(raw))
+        };
+        delete action.args?.value;
       }
 
       // 转换下格式
