@@ -95,6 +95,11 @@ export class PropertyPlugin extends BasePlugin {
             multiLine: true,
             draggable: true,
             addButtonText: '新增',
+            scaffold: {
+              label: '',
+              content: '',
+              span: 1
+            },
             items: [
               getSchemaTpl('propertyLabel'),
               getSchemaTpl('propertyContent'),
