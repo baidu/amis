@@ -1671,7 +1671,7 @@ export class TableControlRenderer extends FormTable {
 
         toAdd = Array.isArray(toAdd) ? toAdd : [toAdd];
         // 如果没指定插入的位置（args.index），则默认在头部插入
-        const pushIndex = args.index - 1 || 0;
+        const pushIndex = args.index || 0;
         // 从右往左插入
         for (let i = toAdd.length; i >= 1; i--) {
           if (
