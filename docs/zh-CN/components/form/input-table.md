@@ -1084,7 +1084,7 @@ order: 54
 
 ```schema: scope="body"
 {
-  "type": "page",
+  "type": "form",
   "api": "/api/mock2/form/saveForm",
   "data": {
     "table": [
