@@ -149,15 +149,6 @@ export class Value extends React.Component<ValueProps> {
             }
           )
         : null;
-    } else {
-      const res = value ?? (field as any).defaultValue;
-      input = renderEtrValue
-        ? renderEtrValue(field, {
-            data,
-            onChange,
-            value: res ? res[(field as any).name] : res
-          })
-        : null;
     }
 
     return <div className={cx('CBValue')}>{input}</div>;
