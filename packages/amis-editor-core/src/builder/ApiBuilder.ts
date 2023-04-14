@@ -7,20 +7,23 @@ import {
   DSBuilder,
   DSFeature,
   DSFeatureType,
-  DSGrain,
   registerDSBuilder
 } from './DSBuilder';
 import cloneDeep from 'lodash/cloneDeep';
 import {getEnv} from 'mobx-state-tree';
 import {ButtonSchema} from 'amis/lib/renderers/Action';
-import {FormSchema, SchemaCollection, SchemaObject} from 'amis/lib/Schema';
+import {FormSchema, SchemaObject} from 'amis/lib/Schema';
 
 import type {DSSourceSettingFormConfig} from './DSBuilder';
 import {getSchemaTpl, tipedLabel} from '../tpl';
 import {EditorNodeType} from '../store/node';
 
 class APIBuilder extends DSBuilder {
-  public static type = 'api';
+  static type = 'api';
+
+  static accessable = (controlType: string, propKey: string) => {
+    return true;
+  };
 
   name = '接口';
 
@@ -37,10 +40,6 @@ class APIBuilder extends DSBuilder {
     }
 
     return false;
-  };
-
-  public static accessable = (controlType: string, propKey: string) => {
-    return true;
   };
 
   public features: Array<DSFeatureType> = [
@@ -125,6 +124,53 @@ class APIBuilder extends DSBuilder {
           : null
       )
       .filter(Boolean);
+  }
+
+  public makeFormSourceSetting() {
+    return [
+      {
+        type: 'radios',
+        name: '__scene',
+        label: '场景',
+        options: [
+          {
+            label: '新增',
+            value: 'Insert'
+          },
+          {
+            label: '编辑',
+            value: 'Edit'
+          }
+        ],
+        value: 'Insert',
+        pipeIn(value: any, data: any) {
+          return value ?? (data.initApi ? 'Edit' : 'Insert');
+        },
+        onChange: (value: any, oldValue: any, model: any, form: any) => {
+          if (value === 'Insert') {
+            form.setValueByName(`initApi`, undefined);
+          } else {
+            form.setValueByName(`initApi`, {});
+          }
+        }
+      },
+      {
+        type: 'container',
+        visibleOn: `__scene === 'Insert'`,
+        body: this.makeSourceSettingForm({
+          name: 'api',
+          feat: 'Insert'
+        })
+      },
+      {
+        type: 'container',
+        visibleOn: `__scene === 'Edit'`,
+        body: this.makeSourceSettingForm({
+          name: 'api',
+          feat: 'Edit'
+        })
+      }
+    ] as SchemaObject[];
   }
 
   public async getContextFileds(config: {
@@ -511,7 +557,8 @@ class APIBuilder extends DSBuilder {
 
   public resolveTableSchema(config: {schema: any; setting: any}): void {
     let {schema, setting} = config;
-    const fields = setting.listFields.filter((i: any) => i.checked) || [];
+    const fields =
+      (setting?.listFields ?? []).filter((i: any) => i.checked) || [];
     schema.columns = this.makeTableColumnsByFields(fields);
   }
 

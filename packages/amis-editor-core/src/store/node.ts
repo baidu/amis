@@ -11,8 +11,10 @@ import {
   types
 } from 'mobx-state-tree';
 import uniq from 'lodash/uniq';
+import uniqBy from 'lodash/uniqBy';
+import isPlainObject from 'lodash/isPlainObject';
 import {RegionConfig, RendererInfo} from '../plugin';
-import {guid, JSONPipeIn} from '../util';
+import {guid, JSONPipeIn, eachTree} from '../util';
 import {filterSchema} from 'amis';
 import React from 'react';
 import {EditorStoreType} from './editor';
@@ -58,7 +60,10 @@ export const EditorNode = types
     children: types.optional(
       types.array(types.late((): IAnyModelType => EditorNode)),
       []
-    )
+    ),
+
+    /** 节点额外存储的信息 */
+    extra: types.optional(types.frozen(), {})
   })
   .volatile(() => ({
     getData: types.frozen<() => any>()
@@ -272,6 +277,37 @@ export const EditorNode = types
         const context = Object.keys(ancestorProps?.data ?? {});
 
         return uniq([...body.map((item: any) => item?.name ?? ''), ...context]);
+      },
+
+      /**
+       * 收集子节点的字段集合
+       */
+      get descendantFields() {
+        const getSchema = (getRoot(self) as EditorStoreType).getSchema;
+        const fields: Array<{
+          label: string;
+          name: string;
+          path: string;
+          schema: Record<string, any>;
+          extra: Record<string, any>;
+        }> = [];
+
+        eachTree(self.children, (node: EditorNodeType) => {
+          const childSchema = getSchema(node.id);
+
+          if (childSchema && childSchema.name) {
+            fields.push({
+              schema: childSchema,
+              label: childSchema.label ?? '',
+              name: childSchema.name,
+              path: node.path,
+              extra: node.extra
+            });
+          }
+        });
+
+        // 基于path路径过滤一下, 多个组件绑定统一个字段的场景需要
+        return uniqBy(fields, 'path');
       },
 
       get host(): any {
@@ -527,14 +563,46 @@ export const EditorNode = types
 
     function getClosestParentByType(type: string): EditorNodeType | void {
       let node = self;
-      while (node === node.parent) {
-        if (node.schema.type === type) {
+      while (node) {
+        if (node.type === type) {
           return node as EditorNodeType;
         }
         if (node.id === 'root') {
           return;
         }
+        node = node.parent;
       }
+    }
+
+    /**
+     * 获取上层最近的数据容器节点
+     */
+    function getClosestEntityContainer() {
+      let cursor = self;
+
+      while (cursor) {
+        const nodeSchema = cursor.schema ?? {};
+        const sourceKey = nodeSchema?.type === 'form' ? 'initApi' : 'api';
+
+        if (
+          ['service', 'crud2', 'form'].includes(nodeSchema?.type) &&
+          nodeSchema?.[sourceKey]?.entity &&
+          nodeSchema?.[sourceKey]?.sourceType === 'model-entity'
+        ) {
+          break;
+        }
+
+        /**
+         * 弹窗和抽屉容器中
+         */
+        if (['dialog', 'drawer'].includes(nodeSchema?.type)) {
+          break;
+        }
+
+        cursor = cursor.parent;
+      }
+
+      return cursor;
     }
 
     // 放到props会变成 frozen 的。
@@ -546,6 +614,7 @@ export const EditorNode = types
 
     return {
       getClosestParentByType,
+      getClosestEntityContainer,
       updateIsCommonConfig,
       addChild(props: {
         id: string;
@@ -714,6 +783,10 @@ export const EditorNode = types
 
       setHeightMutable(value: any) {
         self.heightMutable = !!value;
+      },
+
+      setExtraData(value: any) {
+        self.extra = isPlainObject(value) ? value : {data: value};
       }
     };
   });
