@@ -1,8 +1,19 @@
 import React from 'react';
-import {ResultBox, Spinner,Icon, PopUp, Checkbox, Cascader, SpinnerExtraProps} from 'amis-ui';
 import {
-  Overlay, resolveEventData,
-  PopOver, Option, Options,
+  ResultBox,
+  Spinner,
+  Icon,
+  PopUp,
+  Checkbox,
+  Cascader,
+  SpinnerExtraProps
+} from 'amis-ui';
+import {
+  Overlay,
+  resolveEventData,
+  PopOver,
+  Option,
+  Options,
   autobind,
   flattenTree,
   filterTree,
@@ -136,7 +147,7 @@ export default class NestedSelectControl extends React.Component<
     const {dispatchEvent} = this.props;
     const rendererEvent = await dispatchEvent(
       eventName,
-      resolveEventData(this.props, eventData, 'value')
+      resolveEventData(this.props, eventData)
     );
     // 返回阻塞标识
     return !!rendererEvent?.prevented;

@@ -288,11 +288,7 @@ export default class PickerControl extends React.PureComponent<
     const option = multiple ? items : items[0];
     const rendererEvent = await dispatchEvent(
       'change',
-      resolveEventData(
-        this.props,
-        {value, option, selectedItems: option},
-        'value'
-      )
+      resolveEventData(this.props, {value, option, selectedItems: option})
     );
     if (rendererEvent?.prevented) {
       return;

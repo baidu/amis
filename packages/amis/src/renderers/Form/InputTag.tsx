@@ -148,15 +148,11 @@ export default class TagControl extends React.PureComponent<
     const {dispatchEvent, options} = this.props;
     const rendererEvent = await dispatchEvent(
       eventName,
-      resolveEventData(
-        this.props,
-        {
-          options,
-          items: options, // 为了保持名字统一
-          ...eventData
-        },
-        'value'
-      )
+      resolveEventData(this.props, {
+        options,
+        items: options, // 为了保持名字统一
+        ...eventData
+      })
     );
     // 返回阻塞标识
     return !!rendererEvent?.prevented;
