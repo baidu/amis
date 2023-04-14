@@ -141,7 +141,8 @@ export class Value extends React.Component<ValueProps> {
     } else if (field.type === 'custom') {
       input = renderEtrValue
         ? renderEtrValue(
-            {...field.value, name: field.name},
+            {...field.value, name: 'TMP_WHATEVER_NAME'}, // name 随便输入，应该是 value 传入的为主，目前表单项内部逻辑还有问题先传一个 name
+
             {
               data,
               onChange,
