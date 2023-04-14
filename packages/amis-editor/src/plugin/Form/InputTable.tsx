@@ -297,7 +297,7 @@ export class TableControlPlugin extends BasePlugin {
           properties: {
             'event.data.value': {
               type: 'array',
-              title: '表格数据'
+              title: '列表记录'
             },
             'event.data.index': {
               type: 'array',
@@ -318,7 +318,7 @@ export class TableControlPlugin extends BasePlugin {
           properties: {
             'event.data.value': {
               type: 'array',
-              title: '表格数据'
+              title: '列表记录'
             },
             'event.data.item': {
               type: 'object',
@@ -343,7 +343,7 @@ export class TableControlPlugin extends BasePlugin {
           properties: {
             'event.data.value': {
               type: 'array',
-              title: '表格数据'
+              title: '列表记录'
             },
             'event.data.item': {
               type: 'object',
@@ -368,7 +368,7 @@ export class TableControlPlugin extends BasePlugin {
           properties: {
             'event.data.value': {
               type: 'array',
-              title: '表格数据'
+              title: '列表记录'
             },
             'event.data.item': {
               type: 'object',
@@ -396,7 +396,7 @@ export class TableControlPlugin extends BasePlugin {
           properties: {
             'event.data.value': {
               type: 'array',
-              title: '表格数据'
+              title: '列表记录'
             },
             'event.data.item': {
               type: 'object',
@@ -421,7 +421,7 @@ export class TableControlPlugin extends BasePlugin {
           properties: {
             'event.data.value': {
               type: 'array',
-              title: '表格数据'
+              title: '列表记录'
             },
             'event.data.item': {
               type: 'object',
@@ -446,7 +446,7 @@ export class TableControlPlugin extends BasePlugin {
           properties: {
             'event.data.value': {
               type: 'array',
-              title: '表格数据'
+              title: '列表记录'
             },
             'event.data.item': {
               type: 'object',
@@ -471,7 +471,7 @@ export class TableControlPlugin extends BasePlugin {
           properties: {
             'event.data.value': {
               type: 'array',
-              title: '表格数据'
+              title: '列表记录'
             },
             'event.data.item': {
               type: 'object',
@@ -499,7 +499,7 @@ export class TableControlPlugin extends BasePlugin {
           properties: {
             'event.data.value': {
               type: 'array',
-              title: '表格数据'
+              title: '列表记录'
             },
             'event.data.item': {
               type: 'object',
@@ -523,7 +523,7 @@ export class TableControlPlugin extends BasePlugin {
           properties: {
             'event.data.value': {
               type: 'array',
-              title: '表格数据'
+              title: '列表记录'
             },
             'event.data.item': {
               type: 'object',
@@ -547,7 +547,7 @@ export class TableControlPlugin extends BasePlugin {
           properties: {
             'event.data.value': {
               type: 'array',
-              title: '表格数据'
+              title: '列表记录'
             },
             'event.data.item': {
               type: 'object',
@@ -575,7 +575,7 @@ export class TableControlPlugin extends BasePlugin {
           properties: {
             'event.data.value': {
               type: 'array',
-              title: '表格数据'
+              title: '列表记录'
             }
           }
         }

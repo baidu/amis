@@ -1639,7 +1639,6 @@ export class TableControlRenderer extends FormTable {
       translate: __,
       onChange
     } = this.props;
-    console.log(action, args);
 
     const actionType = action.actionType as string;
     const ctx = this.props.store?.data || {}; // 获取当前上下文数据
