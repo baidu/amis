@@ -1710,7 +1710,7 @@ export class TableControlRenderer extends FormTable {
       if (args.index) {
         const indexArr = args.index.split(',');
         rawItems = items.filter(
-          (item, index) => !indexArr.includes((index + 1).toString())
+          (item, index) => !indexArr.includes(index.toString())
         );
       } else if (args.condition) {
         const itemsLength = items.length;
