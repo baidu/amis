@@ -124,6 +124,8 @@ const autoAddOptions = (values: any) => {
 };
 
 export class FormPlugin extends BasePlugin {
+  // 这个 id 是为了可以把它 disabled 掉
+  static id = 'FormPlugin';
   // 关联渲染器名字
   rendererName = 'form';
   $schema = '/schemas/FormSchema.json';

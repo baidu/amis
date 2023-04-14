@@ -5,14 +5,18 @@
 import {ButtonSchema} from 'amis/lib/renderers/Action';
 import {CRUD2Schema} from 'amis/lib/renderers/CRUD2';
 import {FormSchema, SchemaCollection, SchemaObject} from 'amis/lib/Schema';
+import pickBy from 'lodash/pickBy';
 import {EditorNodeType} from '../store/node';
 
 /**
  * 数据源所需操作，目前是因为schema从后端来
  */
 export enum DSBehavior {
+  /** 创建操作 */
   create = 'create',
+  /** 查询操作 */
   view = 'view',
+  /** 更新操作 */
   update = 'update',
   table = 'table',
   filter = 'filter'
@@ -24,6 +28,7 @@ export interface DSField {
   [propKey: string]: any;
 }
 
+/** 数据源字段集合 */
 export interface DSFieldGroup {
   value: string;
   label: string;
@@ -31,15 +36,17 @@ export interface DSFieldGroup {
   [propKey: string]: any;
 }
 
-/**
- * 支持数据源配置的一些属性名
- */
+/** 数据粒度 */
 export enum DSGrain {
+  /** 实体 */
   entity = 'entity',
+  /** 多条数据 */
   list = 'list',
+  /** 单条数据 */
   piece = 'piece'
 }
 
+/** 数据源所使用的功能场景 */
 export const DSFeature = {
   List: {
     value: 'list',
@@ -91,8 +98,10 @@ export const DSFeature = {
   }
 };
 
+/** 数据源功能场景类型 */
 export type DSFeatureType = keyof typeof DSFeature;
 
+/** 数据源配置 */
 export interface DSSourceSettingFormConfig {
   /** 数据源字段名 */
   name?: string;
@@ -106,21 +115,23 @@ export interface DSSourceSettingFormConfig {
   inCrud?: boolean;
   /** 是否在脚手架中 */
   inScaffold?: boolean;
+  /** 是否使用排序 */
+  userOrders?: boolean;
+  /** 是否可清除 */
+  clearable?: boolean;
+  /** 是否禁用 */
+  disabled?: boolean;
+  /** 是否使用字段管理 */
+  useFieldManager?: boolean;
+  onChange?: (...rest: any[]) => void;
 }
 
 /**
  * 数据源选择构造器
  */
 export abstract class DSBuilder {
-  /**
-   * 数据源名字，中文，可以覆盖同名
-   */
+  /** 数据源类型，使用英文，可以覆盖同名 */
   public static type: string;
-
-  public name: string;
-
-  // 数字越小排序越靠前
-  public order: number;
 
   /**
    * 数据源schema运行前转换
@@ -132,6 +143,16 @@ export abstract class DSBuilder {
    */
   public static accessable: (controlType: string, propKey: string) => boolean;
 
+  /** 数据源中文名称，主要用于前端展示 */
+  public name: string;
+
+  /** 构造器排序权重，数字越小排序越靠前，支持负数 */
+  public order: number;
+
+  /** 是否默认隐藏 */
+  defaultHidden?: boolean;
+
+  /** 数据源支持的功能场景 */
   public features: Array<keyof typeof DSFeature>;
 
   /**
@@ -139,32 +160,35 @@ export abstract class DSBuilder {
    */
   public abstract match(value: any, schema?: SchemaObject): boolean;
 
-  /**
-   * 生成数据源的配置表单
-   */
+  /** 构造数据源的可视化配置表单 */
   public abstract makeSourceSettingForm(
     config: DSSourceSettingFormConfig
   ): SchemaObject[];
 
+  /** 构造数据源字段的可视化配置表单 */
   public abstract makeFieldsSettingForm(config: {
     /** 数据源字段名 */
     sourceKey?: string;
+    /** 应用场景 */
     feat: DSFeatureType;
+    /** 是否是在CRUD场景下，有的数据源在CRUD中可以统一设置 */
     inCrud?: boolean;
+    /** 是否在脚手架中 */
     inScaffold?: boolean;
     /** 初次设置字段还是选择字段 */
     setting?: boolean;
   }): SchemaObject[];
 
-  /**
-   * 生成字段的筛选配置表单
-   */
+  /** 构造字段的筛选配置表单 */
   public abstract makeFieldFilterSetting(config: {
     /** 数据源字段名 */
     sourceKey: string;
     schema: any;
     fieldName: string;
   }): Promise<SchemaObject[]>;
+
+  /** 构造脚手架中使用场景的配置项 */
+  public abstract makeFormSourceSetting(): SchemaObject[];
 
   /**
    * 数据源schema生成
@@ -176,9 +200,11 @@ export abstract class DSBuilder {
     setting: any;
     /** 数据源字段名 */
     name?: string;
+    /** 应用场景 */
     feat?: DSFeatureType;
     /** 是否是在CRUD场景下，有的数据源在CRUD中可以统一设置 */
     inCrud?: boolean;
+    /** 是否在脚手架中 */
     inScaffold?: boolean;
   }): void;
 
@@ -190,7 +216,7 @@ export abstract class DSBuilder {
     setting: any;
     feat: 'BulkDelete' | 'Delete';
     name?: string;
-  }): any;
+  }): void;
 
   /**
    * 生成数据创建表单schema
@@ -205,6 +231,8 @@ export abstract class DSBuilder {
     name?: string;
     /** 是否是在CRUD场景下，有的数据源在CRUD中可以统一设置 */
     inCrud?: boolean;
+    /** 是否是在脚手架中 */
+    inScaffold?: boolean;
   }): void;
 
   /**
@@ -236,7 +264,10 @@ export abstract class DSBuilder {
     setting: any;
   }): SchemaObject | void;
 
-  abstract makeTableColumnsByFields(fields: any[]): SchemaObject[];
+  abstract makeTableColumnsByFields<
+    T = Record<string, any>,
+    U = Record<string, any>
+  >(fields: T[], relations: U[]): Array<SchemaObject>;
 
   /**
    * 当前上下文中使用的字段
@@ -292,6 +323,7 @@ export class DSBuilderManager {
       });
   }
 
+  /** 获取构造器实例 */
   resolveBuilderBySetting(setting: any) {
     return this.builders[setting.dsType] || Object.values(this.builders)[0];
   }
@@ -316,9 +348,33 @@ export class DSBuilderManager {
     return builderOptions[0].value;
   }
 
-  getDSSwitch(setting: any = {}) {
-    const multiSource = this.builderNum > 1;
-    const builderOptions = Object.entries(this.builders).map(
+  /** 获取可用的 builders */
+  filterBuilder(disabledBuilders?: string[]) {
+    return pickBy(this.builders, (builder: DSBuilder) => {
+      if (
+        Array.isArray(disabledBuilders) &&
+        disabledBuilders.includes((builder.constructor as any).type)
+      ) {
+        return false;
+      }
+
+      return builder.defaultHidden !== true;
+    });
+  }
+
+  /** 获取数据源切换的schema */
+  getDSSwitch(
+    setting: any = {},
+    options?: {
+      disabledBuilders?: Array<string>;
+    }
+  ) {
+    const filterdBuilder = this.filterBuilder(
+      options && options.disabledBuilders
+    );
+
+    const multiSource = Object.keys(filterdBuilder).length > 1;
+    const builderOptions = Object.entries(filterdBuilder).map(
       ([key, builder]) => ({
         label: builder.name,
         value: key,
@@ -362,11 +418,17 @@ export class DSBuilderManager {
   //   } : null;
   // }
 
+  /* 功能的额外配置面板  */
   collectFromBuilders(
-    callee: (builder: DSBuilder, builderName: string) => any
+    callee: (builder: DSBuilder, builderName: string, index?: number) => any,
+    options?: {
+      disabledBuilders?: Array<string>;
+    }
   ) {
-    return Object.entries(this.builders).map(([name, builder]) => {
-      return callee(builder, name);
+    return Object.entries(
+      this.filterBuilder(options && options.disabledBuilders)
+    ).map(([name, builder], index: number) => {
+      return callee(builder, name, index);
     });
   }
 }

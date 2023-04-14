@@ -114,10 +114,7 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
         ) {
           groupType = 'closeDialog';
         }
-        if (
-          value === 'visibility' &&
-          !['show', 'hidden', 'visibility'].includes(groupType)
-        ) {
+        if (value === 'visibility' && !['show', 'hidden', 'visibility'].includes(groupType)) {
           groupType = 'show';
         }
 

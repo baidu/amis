@@ -116,7 +116,7 @@ export class PaginationPlugin extends BasePlugin {
                   '启用功能',
                   '选中表示启用该项，可以拖拽排序调整功能的顺序'
                 ),
-                visibleOn: 'data.mode === "normal"',
+                visibleOn: '!data.mode || data.mode === "normal"',
                 mode: 'normal',
                 multiple: true,
                 multiLine: false,
@@ -131,7 +131,8 @@ export class PaginationPlugin extends BasePlugin {
                   {
                     type: 'checkbox',
                     name: 'checked',
-                    className: 'm-t-n-xxs'
+                    className: 'm-t-n-xxs',
+                    inputClassName: 'p-t-none'
                   },
                   {
                     type: 'tpl',
@@ -170,7 +171,7 @@ export class PaginationPlugin extends BasePlugin {
                 type: 'combo',
                 label: '每页条数选项',
                 visibleOn:
-                  'data.mode === "normal" && data.layout && data.layout.includes("perPage")',
+                  '(!data.mode || data.mode === "normal") && data.layout && data.layout.includes("perPage")',
                 mode: 'normal',
                 multiple: true,
                 multiLine: false,
@@ -192,7 +193,10 @@ export class PaginationPlugin extends BasePlugin {
                   return value?.map(v => ({value: v})) || [10];
                 },
                 pipeOut: (value: any[]) => {
-                  return value.map(v => v.value);
+                  const pages = value.map(v => v.value);
+                  return pages.map(
+                    page => page || Math.max(...pages.filter(Boolean)) + 5
+                  );
                 }
               }),
               {
@@ -200,7 +204,7 @@ export class PaginationPlugin extends BasePlugin {
                 type: 'input-text',
                 label: '默认每页条数',
                 visibleOn:
-                  'data.mode === "normal" && data.layout?.includes("perPage")'
+                  '(!data.mode || data.mode === "normal") && data.layout?.includes("perPage")'
               },
               {
                 name: 'maxButtons',
@@ -212,7 +216,7 @@ export class PaginationPlugin extends BasePlugin {
                 min: 5,
                 max: 20,
                 pipeOut: (value: any) => value || 5,
-                visibleOn: 'data.mode === "normal"'
+                visibleOn: '!data.mode || data.mode === "normal"'
               }
             ]
           },

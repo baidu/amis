@@ -84,11 +84,7 @@ export class IFramePlugin extends BasePlugin {
   };
 
   renderRenderer(props: any) {
-    return this.renderPlaceholder(
-      `IFrame 页面（${props.src}）`,
-      props.key,
-      props.style
-    );
+    return this.renderPlaceholder(`IFrame 页面（${props.src}）`, props.key, props.style);
   }
 }
 

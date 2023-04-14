@@ -17,7 +17,8 @@ import {
   BasicRendererInfo,
   PluginInterface,
   InsertEventContext,
-  ScaffoldForm
+  ScaffoldForm,
+  DSBuilderManager
 } from 'amis-editor-core';
 import {defaultValue, getSchemaTpl, tipedLabel} from 'amis-editor-core';
 import {mockValue} from 'amis-editor-core';
@@ -29,13 +30,15 @@ import {
 } from '../renderer/event-control/helper';
 import {schemaArrayFormat, schemaToArray} from '../util';
 
+import type {EditorManager} from 'amis-editor-core';
+
 export class TablePlugin extends BasePlugin {
   // 关联渲染器名字
   rendererName = 'table';
   $schema = '/schemas/TableSchema.json';
 
   // 组件名称
-  name = '表格';
+  name = '原子表格';
   tags = ['展示'];
   isBaseComponent = true;
   description =
@@ -341,6 +344,15 @@ export class TablePlugin extends BasePlugin {
       description: '开启表格拖拽排序功能'
     }
   ];
+
+  dsBuilderMgr: DSBuilderManager;
+
+  constructor(manager: EditorManager) {
+    super(manager);
+
+    this.dsBuilderMgr = new DSBuilderManager('table', 'api');
+  }
+
   panelJustify = true;
   panelBodyCreator = (context: BaseEventContext) => {
     const isCRUDBody = context.schema.type === 'crud';
@@ -729,6 +741,40 @@ export class TablePlugin extends BasePlugin {
     };
   }
 
+  async getAvailableContextFields(
+    scopeNode: EditorNodeType,
+    node: EditorNodeType,
+    region?: EditorNodeType
+  ) {
+    if (node?.info?.renderer?.name === 'table-cell') {
+      if (
+        scopeNode.parent?.type === 'service' &&
+        scopeNode.parent?.parent?.path?.endsWith('service')
+      ) {
+        return scopeNode.parent.parent.info.plugin.getAvailableContextFields?.(
+          scopeNode.parent.parent,
+          node,
+          region
+        );
+      }
+    }
+
+    const builder = this.dsBuilderMgr.resolveBuilderBySchema(
+      scopeNode.schema,
+      'api'
+    );
+
+    if (builder && scopeNode.schema.api) {
+      return builder.getAvailableContextFileds(
+        {
+          schema: scopeNode.schema,
+          sourceKey: 'api',
+          feat: 'List'
+        },
+        node
+      );
+    }
+  }
   editHeaderDetail(id: string) {
     const manager = this.manager;
     const store = manager.store;

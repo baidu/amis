@@ -112,6 +112,7 @@ export class PickerControlPlugin extends BasePlugin {
           }),
 
           getSchemaTpl('switchDefaultValue'),
+          getSchemaTpl('crudFilterOperator', {context}),
 
           {
             type: 'input-text',

@@ -97,7 +97,7 @@ export class SubEditor extends React.Component<SubEditorProps> {
   }
 
   buildSchema() {
-    const {store, manager, amisEnv} = this.props;
+    const {store, manager, amisEnv, node, data} = this.props;
     const subEditorContext = store.subEditorContext;
     const config = manager.config;
     let superEditorData: any = store.superEditorData;
@@ -182,6 +182,21 @@ export class SubEditor extends React.Component<SubEditorProps> {
                     }
                     isHiddenProps={config.isHiddenProps}
                     $schemaUrl={config.$schemaUrl}
+                    onFormulaEditorOpen={async (
+                      node,
+                      subEditormanager,
+                      data
+                    ) => {
+                      const fn = manager?.config?.onFormulaEditorOpen;
+
+                      if (fn && typeof fn === 'function') {
+                        return fn(node, subEditormanager, data, {
+                          node: subEditorContext?.hostNode,
+                          manager: manager
+                        });
+                      }
+                      return;
+                    }}
                   />
                 )
               }

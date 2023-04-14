@@ -59,7 +59,7 @@ export class ScaffoldModal extends React.Component<
       body = [
         {
           type: 'steps',
-          name: '__steps',
+          name: '__step',
           className: 'ae-Steps',
           steps: body.map((step, index) => ({
             title: step.title,
@@ -215,6 +215,7 @@ export class ScaffoldModal extends React.Component<
     const cx = getTheme(theme || 'cxd').classnames;
 
     const isStepBody = !!scaffoldFormContext?.stepsBody;
+    const canSkip = !!scaffoldFormContext?.canSkip;
     const isLastStep =
       isStepBody && this.state.step === scaffoldFormContext!.body.length - 1;
     const isFirstStep = isStepBody && this.state.step === 0;
@@ -224,14 +225,14 @@ export class ScaffoldModal extends React.Component<
         size={scaffoldFormContext?.size || 'md'}
         contentClassName={scaffoldFormContext?.className}
         show={!!scaffoldFormContext}
-        onHide={store.closeScaffoldForm}
+        onHide={this.handleCancelClick}
         closeOnEsc={!store.scaffoldFormBuzy}
       >
         <div className={cx('Modal-header')}>
           {!store.scaffoldFormBuzy ? (
             <a
               data-position="left"
-              onClick={store.closeScaffoldForm}
+              onClick={this.handleCancelClick}
               className={cx('Modal-close')}
             >
               <Icon icon="close" className="icon" />
@@ -273,6 +274,15 @@ export class ScaffoldModal extends React.Component<
               ) : null}
             </div>
           ) : null}
+
+          {isStepBody && canSkip && isFirstStep && (
+            <Button
+              onClick={this.handleConfirmClick}
+              disabled={store.scaffoldFormBuzy}
+            >
+              跳过向导
+            </Button>
+          )}
           {isStepBody && !isFirstStep && (
             <Button level="primary" onClick={this.goToPrevStep}>
               上一步

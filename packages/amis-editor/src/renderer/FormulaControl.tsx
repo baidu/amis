@@ -3,16 +3,14 @@
  */
 
 import React from 'react';
+import cloneDeep from 'lodash/cloneDeep';
 import debounce from 'lodash/debounce';
-import uniqBy from 'lodash/uniqBy';
 import isNumber from 'lodash/isNumber';
 import isBoolean from 'lodash/isBoolean';
 import isPlainObject from 'lodash/isPlainObject';
 import isArray from 'lodash/isArray';
 import isString from 'lodash/isString';
-import isEqual from 'lodash/isEqual';
 import omit from 'lodash/omit';
-import last from 'lodash/last';
 import cx from 'classnames';
 import {
   FormItem,
@@ -20,23 +18,25 @@ import {
   InputBox,
   Icon,
   ResultBox,
-  TooltipWrapper
+  TooltipWrapper,
+  FormulaExec,
+  isExpression,
+  PickerContainer
 } from 'amis';
-import {FormulaExec, isExpression} from 'amis';
-import {PickerContainer, relativeValueRe} from 'amis';
 import {FormulaEditor} from 'amis-ui/lib/components/formula/Editor';
-
-import {autobind, translateSchema} from 'amis-editor-core';
+import {autobind, translateSchema, JSONTraverse} from 'amis-editor-core';
 
 import type {
   VariableItem,
   FuncGroup
 } from 'amis-ui/lib/components/formula/Editor';
-import {dataMapping, FormControlProps} from 'amis-core';
+import {FormControlProps} from 'amis-core';
 import type {BaseEventContext} from 'amis-editor-core';
 import {EditorManager} from 'amis-editor-core';
 import {reaction} from 'mobx';
 import {getVariables} from './textarea-formula/utils';
+import type {SchemaApi} from 'amis/lib/Schema';
+import {EditorNodeType} from 'packages/amis-editor-core/lib';
 
 export enum FormulaDateType {
   NotDate, // 不是时间类
@@ -138,6 +138,8 @@ interface FormulaControlState {
   variables: any;
 
   variableMode?: 'tree' | 'tabs';
+
+  loading: boolean;
 }
 
 export default class FormulaControl extends React.Component<
@@ -159,7 +161,8 @@ export default class FormulaControl extends React.Component<
     super(props);
     this.state = {
       variables: [],
-      variableMode: 'tabs'
+      variableMode: 'tabs',
+      loading: false
     };
   }
 
@@ -473,6 +476,36 @@ export default class FormulaControl extends React.Component<
     );
   }
 
+  /**
+   * 公式编辑器打开前做一些
+   */
+  @autobind
+  async handleFormulaEditorOpen() {
+    const {node, manager, data} = this.props;
+    const onFormulaEditorOpen = manager?.config?.onFormulaEditorOpen;
+
+    this.setState({loading: true});
+
+    try {
+      if (
+        manager &&
+        onFormulaEditorOpen &&
+        typeof onFormulaEditorOpen === 'function'
+      ) {
+        const res = await onFormulaEditorOpen(node, manager, data);
+
+        if (res !== false) {
+          const variables = await getVariables(this);
+          this.setState({variables});
+        }
+      }
+    } catch (error) {
+      console.error('[amis-editor] onFormulaEditorOpen failed: ', error?.stack);
+    }
+
+    this.setState({loading: false});
+  }
+
   render() {
     const {
       className,
@@ -489,13 +522,11 @@ export default class FormulaControl extends React.Component<
       render,
       ...rest
     } = this.props;
-
+    const {loading} = this.state;
     // 自身字段
     const selfName = this.props?.data?.name;
-
     // 判断是否含有公式表达式
     const isExpr = isExpression(value);
-
     // 判断当前是否有循环引用，备注：非精准识别，待优化
     let isLoop = false;
     if (isExpr && rendererSchema?.name) {
@@ -507,22 +538,18 @@ export default class FormulaControl extends React.Component<
     // 判断是否含有公式表达式
     const isTypeError = !this.isExpectType(value);
     const exprValue = this.transExpr(value);
-
     const isError = isLoop || isTypeError;
-
     const highlightValue = isExpression(value)
       ? FormulaEditor.highlightValue(exprValue, this.state.variables) || {
           html: exprValue
         }
       : value;
-
     // 公式表达式弹窗内容过滤
     const filterValue = isExpression(value)
       ? exprValue
       : this.hasDateShortcutkey(value)
       ? value
       : undefined;
-
     // 值 是表达式或日期快捷
     const isFx = !simple && (isExpr || this.hasDateShortcutkey(value));
 
@@ -633,27 +660,36 @@ export default class FormulaControl extends React.Component<
           onConfirm={this.handleConfirm}
           size="md"
         >
-          {({onClick}: {onClick: (e: React.MouseEvent) => void}) => (
-            <Button
-              className="ae-editor-FormulaControl-button"
-              size="sm"
-              tooltip={{
-                enterable: false,
-                content: '点击配置表达式',
-                placement: 'left',
-                mouseLeaveDelay: 0
-              }}
-              onClick={onClick}
-              // active={simple && value} // 不需要，避免 hover 时无任何反馈效果
-            >
-              <Icon
-                icon="function"
-                className={cx('ae-editor-FormulaControl-icon', 'icon', {
-                  ['is-filled']: !!isFx
-                })}
-              />
-            </Button>
-          )}
+          {
+            (({onClick}: {onClick: (e: React.MouseEvent) => void}) => (
+              <Button
+                className="ae-editor-FormulaControl-button"
+                size="sm"
+                loading={loading}
+                tooltip={{
+                  enterable: false,
+                  content: '点击配置表达式',
+                  placement: 'left',
+                  mouseLeaveDelay: 0
+                }}
+                onClick={async (e: React.MouseEvent) => {
+                  try {
+                    await this.handleFormulaEditorOpen();
+                  } catch (error) {}
+
+                  onClick(e);
+                }}
+                // active={simple && value} // 不需要，避免 hover 时无任何反馈效果
+              >
+                <Icon
+                  icon="function"
+                  className={cx('ae-editor-FormulaControl-icon', 'icon', {
+                    ['is-filled']: !!isFx
+                  })}
+                />
+              </Button>
+            )) as unknown as React.ReactNode
+          }
         </PickerContainer>
         {isError && (
           <div className="desc-msg error-msg">

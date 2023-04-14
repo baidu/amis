@@ -96,6 +96,9 @@ function transpileDynamicImportForCJS(options) {
 }
 
 function getPlugins(format = 'esm') {
+  const overridePaths = {
+    'amis-editor-core': ['../amis-editor-core/lib/index.min.js']
+  };
   const typeScriptOptions = {
     typescript: require('typescript'),
     sourceMap: false,
@@ -104,13 +107,15 @@ function getPlugins(format = 'esm') {
       ? {
           compilerOptions: {
             rootDir: './src',
-            outDir: path.dirname(module)
+            outDir: path.dirname(module),
+            paths: overridePaths
           }
         }
       : {
           compilerOptions: {
             rootDir: './src',
-            outDir: path.dirname(main)
+            outDir: path.dirname(main),
+            paths: overridePaths
           }
         })
   };

@@ -400,6 +400,7 @@ setSchemaTpl(
     requiredDataPropsVariables?: boolean; // 是否再从amis数据域中取变量结合， 默认 false
     variableMode?: 'tabs' | 'tree'; // 变量展现模式
     [key: string]: any; // 其他属性，例如包括表单项pipeIn\Out 等等
+    className?: string; // 外层类名
   }) => {
     const {
       rendererSchema,
@@ -434,6 +435,7 @@ setSchemaTpl(
       // 上下展示，可避免 自定义渲染器 出现挤压
       mode: mode === 'vertical' ? 'vertical' : 'horizontal',
       visibleOn,
+      className: config?.className,
       body: [
         getSchemaTpl('formulaControl', {
           label: label ?? '默认值',

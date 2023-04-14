@@ -11,10 +11,11 @@ export function mockValue(schema: any) {
     schema.type === 'static-datetime' ||
     schema.type === 'static-time' ||
     schema.type === 'static-month' ||
-    schema.type === 'input-date' ||
-    schema.type === 'input-datetime' ||
-    schema.type === 'input-time' ||
-    schema.type === 'input-month'
+    (schema.static === true &&
+      (schema.type === 'input-date' ||
+        schema.type === 'input-month' ||
+        schema.type === 'input-datetime' ||
+        schema.type === 'input-time'))
   ) {
     return moment().format('X');
   } else if (schema.type === 'number' || schema.type === 'input-number') {
@@ -26,6 +27,8 @@ export function mockValue(schema: any) {
     return placeholderImage;
   } else if (schema.type === 'images' || schema.type === 'static-images') {
     return [placeholderImage];
+  } else if (schema.type === 'number' || schema.type === 'input-number') {
+    return (Math.random() * 1000).toFixed(schema.precision || 0);
   }
 
   return '假数据';

@@ -182,6 +182,7 @@ export class ColorControlPlugin extends BasePlugin {
                   required: true
                 }),
                 getSchemaTpl('label'),
+                getSchemaTpl('crudFilterOperator', {context}),
                 {
                   type: 'select',
                   label: '值格式',
