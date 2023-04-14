@@ -322,11 +322,11 @@ export class TableControlPlugin extends BasePlugin {
             },
             'event.data.item': {
               type: 'object',
-              title: '添加项数据'
+              title: '新增行记录'
             },
             'event.data.index': {
               type: 'number',
-              title: '添加项的行索引'
+              title: '新增行记录索引'
             }
           }
         }
@@ -347,11 +347,11 @@ export class TableControlPlugin extends BasePlugin {
             },
             'event.data.item': {
               type: 'object',
-              title: '添加项数据'
+              title: '新增行记录'
             },
             'event.data.index': {
               type: 'number',
-              title: '添加项所在的行索引'
+              title: '新增行记录索引'
             }
           }
         }
@@ -372,11 +372,11 @@ export class TableControlPlugin extends BasePlugin {
             },
             'event.data.item': {
               type: 'object',
-              title: '添加项数据'
+              title: '新增行记录'
             },
             'event.data.index': {
               type: 'number',
-              title: '添加项所在的行索引'
+              title: '新增行记录索引'
             },
             'event.data.error': {
               type: 'object',
