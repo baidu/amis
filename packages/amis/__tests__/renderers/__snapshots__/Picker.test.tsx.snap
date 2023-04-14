@@ -55,7 +55,7 @@ exports[`Renderer:Picker base 1`] = `
                 style="display: none;"
               />
               <icon-mock
-                classname="icon icon-window-restore Picker-icon"
+                classname="icon icon-window-restore"
                 icon="window-restore"
               />
             </span>
@@ -282,7 +282,7 @@ exports[`Renderer:Picker base 2`] = `
               style="display: none;"
             />
             <icon-mock
-              classname="icon icon-window-restore Picker-icon"
+              classname="icon icon-window-restore"
               icon="window-restore"
             />
           </span>
