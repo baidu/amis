@@ -157,6 +157,8 @@ export async function dispatchEvent(
     broadcast
   );
 
+  broadcast && renderer.props.onBroadcast?.(e as string, broadcast, data);
+
   if (!broadcast) {
     const eventConfig = renderer?.props?.onEvent?.[eventName];
 
