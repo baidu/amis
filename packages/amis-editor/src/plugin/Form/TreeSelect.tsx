@@ -268,7 +268,6 @@ export class TreeSelectControlPlugin extends BasePlugin {
                 required: true
               }),
               getSchemaTpl('label'),
-              getSchemaTpl('crudFilterOperator', {context}),
               {
                 type: 'button-group-select',
                 name: 'type',

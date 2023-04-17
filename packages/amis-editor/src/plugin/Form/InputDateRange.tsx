@@ -306,7 +306,6 @@ export class DateRangeControlPlugin extends BasePlugin {
                   required: true
                 }),
                 getSchemaTpl('label'),
-                getSchemaTpl('crudFilterOperator', {context}),
                 getSchemaTpl('selectDateRangeType', {
                   value: this.scaffold.type,
                   onChange: (

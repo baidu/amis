@@ -89,7 +89,6 @@ export class SwitchControlPlugin extends BasePlugin {
               }),
               getSchemaTpl('label'),
 
-              getSchemaTpl('crudFilterOperator', {context}),
               {
                 name: 'option',
                 type: 'input-text',

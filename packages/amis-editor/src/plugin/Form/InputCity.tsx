@@ -105,7 +105,6 @@ export class CityControlPlugin extends BasePlugin {
                 required: true
               }),
               getSchemaTpl('label'),
-              getSchemaTpl('crudFilterOperator', {context}),
               getSchemaTpl('valueFormula', {
                 rendererSchema: context?.schema,
                 rendererWrapper: true,

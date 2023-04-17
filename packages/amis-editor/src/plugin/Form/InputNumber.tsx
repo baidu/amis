@@ -146,10 +146,6 @@ export class NumberControlPlugin extends BasePlugin {
                 }),
                 getSchemaTpl('label'),
 
-                getSchemaTpl('crudFilterOperator', {
-                  context,
-                  type: 'number'
-                }),
                 {
                   type: 'switch',
                   label: tipedLabel(
