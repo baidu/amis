@@ -41,7 +41,7 @@ function flattenSdtArray(arr: Element[]): Element[] {
   return returnArray;
 }
 
-export function mergeSdt(element: Element) {
+export function mergeSdt(element: Element | Document) {
   const arr = [].slice.call(element.children);
   return flattenSdtArray(arr);
 }

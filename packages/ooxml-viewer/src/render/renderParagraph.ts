@@ -21,7 +21,8 @@ import {renderOMath} from './renderMath';
 export default function renderParagraph(
   word: Word,
   paragraph: Paragraph,
-  renderEmptySpace = true
+  renderEmptySpace: boolean = true,
+  inHeader: boolean = false
 ) {
   word.currentParagraph = paragraph;
   let p = createElement('p');
@@ -46,7 +47,7 @@ export default function renderParagraph(
       } else if (child) {
         inFldChar = false;
       }
-      appendChild(p, renderRun(word, child, paragraph, inFldChar));
+      appendChild(p, renderRun(word, child, paragraph, inFldChar, inHeader));
     } else if (child instanceof BookmarkStart) {
       appendChild(p, renderBookmarkStart(word, child));
     } else if (child instanceof Hyperlink) {

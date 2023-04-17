@@ -151,6 +151,16 @@ export interface WordRenderOptions {
    * 打印可以覆盖其它配置
    */
   printOptions?: WordRenderOptions;
+
+  /**
+   * 是否渲染 header
+   */
+  renderHeader?: boolean;
+
+  /**
+   * 是否渲染 footer
+   */
+  renderFooter?: boolean;
 }
 
 const defaultRenderOptions: WordRenderOptions = {
@@ -170,6 +180,8 @@ const defaultRenderOptions: WordRenderOptions = {
   pageWrapBackground: '#ECECEC',
   printWaitTime: 100,
   zoomFitWidth: false,
+  renderHeader: true,
+  renderFooter: true,
   data: {},
   evalVar: t => {
     return t;
@@ -264,6 +276,11 @@ export default class Word {
   footNotes: Record<string, Note> = {};
 
   endNotes: Record<string, Note> = {};
+
+  /**
+   * 当前页码
+   */
+  currentPage: 0;
 
   /**
    * 构建 word
@@ -646,7 +663,11 @@ export default class Word {
     iframe.style.top = '-10000px';
     document.body.appendChild(iframe);
     iframe.contentDocument?.write(
-      '<style>html, body {margin:0; padding:0}</style><div id="print"></div>'
+      `<style>
+      html, body { margin:0; padding:0 }
+      @page { size: auto; margin: 0mm; }
+      </style>
+      <div id="print"></div>`
     );
     await this.render(
       iframe.contentDocument?.getElementById('print') as HTMLElement,
@@ -680,6 +701,7 @@ export default class Word {
     renderOptionsOverride: Partial<WordRenderOptions> = {}
   ) {
     this.init();
+    this.currentPage = 0;
     const renderOptions = {...this.renderOptions, ...renderOptionsOverride};
 
     const isDebug = renderOptions.debug;

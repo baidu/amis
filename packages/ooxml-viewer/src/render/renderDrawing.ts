@@ -8,8 +8,7 @@ import renderTable from './renderTable';
 import {Table} from '../openxml/word/Table';
 import {renderGeom} from './renderGeom';
 import {renderCustGeom} from './renderCustGeom';
-import {CSSStyle} from '../openxml/Style';
-import parseSides from '../util/parseSides';
+import {fixAbsolutePosition} from './fixAbsolutePosition';
 
 /**
  * 渲染图片
@@ -47,50 +46,15 @@ function renderPic(pic: Pic, word: Word, drawing: Drawing) {
 }
 
 /**
- * 修复绝对定位的位置，主要是加上 padding，因为 html 中的定位是不考虑 padding 的
- * @param word
- * @param style
- */
-function fixAbsolutePosition(word: Word, style: CSSStyle) {
-  let paddingLeft = 0;
-  let paddingTop = 0;
-  const customPadding = word.renderOptions.padding;
-  if (customPadding) {
-    const {left, top} = parseSides(customPadding);
-    paddingLeft = parseInt(left || '0');
-    paddingTop = parseInt(top || '0');
-  } else {
-    const currentSection = word.currentSection;
-    if (currentSection) {
-      const pageMargin = currentSection.properties.pageMargin;
-      if (pageMargin) {
-        paddingLeft = parseInt(pageMargin.left || '0');
-        paddingTop = parseInt(pageMargin.top || '0');
-      }
-    }
-  }
-  const leftStyle = style.left;
-  if (leftStyle) {
-    style.left = `${
-      parseInt(String(leftStyle).replace('pt', ''), 10) + paddingLeft
-    }pt`;
-  }
-  const topStyle = style.top;
-  if (topStyle) {
-    style.top = `${
-      parseInt(String(topStyle).replace('pt', ''), 10) + paddingTop
-    }pt`;
-  }
-}
-
-/**
  * 渲染图片，目前只支持 picture
  * http://officeopenxml.com/drwOverview.php
+ * @param inHeader，如果在 header 中，位置计算要特殊处理
  *
  */
 export function renderDrawing(
   word: Word,
-  drawing: Drawing
+  drawing: Drawing,
+  inHeader: boolean = false
 ): HTMLElement | null {
   const container = document.createElement('div');
 
@@ -103,7 +67,7 @@ export function renderDrawing(
     appendChild(container, renderPic(drawing.pic, word, drawing));
   }
 
-  if (!drawing.relativeFromParagraph) {
+  if (!drawing.relativeFromParagraph && !inHeader) {
     fixAbsolutePosition(word, drawing.containerStyle || {});
   }
 
