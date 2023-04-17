@@ -71,7 +71,6 @@ export class PopOverForm extends React.Component<PopOverFormProps> {
               {
                 data: createObject(store.ctx, popOverFormContext?.value),
                 node: popOverFormContext?.node,
-                manager,
                 manager
               },
               {
