@@ -74,7 +74,7 @@ export function parseShdColor(word: Word, element: Element) {
   const val = getVal(element) as ST_Shd;
 
   if (color === 'auto') {
-    color = '000000';
+    color = 'FFFFFF';
   }
 
   if (color.length === 6) {
@@ -139,6 +139,10 @@ export function parseShdColor(word: Word, element: Element) {
  * 用 alpha 来模拟 ptc 功能
  */
 function colorPercent(color: string, percent: number): string {
+  // 白色取 alpha 没什么意义，转成黑色
+  if (color === 'FFFFFF') {
+    color = '000000';
+  }
   const r = parseInt(color.substring(0, 2), 16);
   const g = parseInt(color.substring(2, 4), 16);
   const b = parseInt(color.substring(4, 6), 16);

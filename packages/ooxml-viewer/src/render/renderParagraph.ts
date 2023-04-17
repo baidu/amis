@@ -37,12 +37,6 @@ export default function renderParagraph(
     appendChild(p, renderNumbering(p, word, properties.numPr));
   }
 
-  if (properties.tabs) {
-    for (const tab of properties.tabs) {
-      appendChild(p, renderTab(word, tab));
-    }
-  }
-
   let inFldChar = false;
 
   for (const child of paragraph.children) {

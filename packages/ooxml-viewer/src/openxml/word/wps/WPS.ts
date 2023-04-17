@@ -24,7 +24,9 @@ function parseBodyPr(element: Element, style: CSSStyle) {
     const value = attribute.value;
     switch (name) {
       case 'numCol':
-        style['column-count'] = value;
+        if (value !== '1') {
+          style['column-count'] = value;
+        }
         break;
 
       case 'vert':

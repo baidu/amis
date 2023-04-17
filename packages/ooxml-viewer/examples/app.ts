@@ -45,7 +45,6 @@ const fileLists = {
   ],
   docx4j: [
     'ArialUnicodeMS.docx',
-    'DOCPROP_builtin.docx',
     'Symbols.docx',
     'Word2007-fonts.docx',
     'chart.docx',
@@ -115,8 +114,7 @@ const data = {
 };
 const renderOptions = {
   debug: true,
-  page,
-  zoomFitWidth: true
+  page
 };
 
 async function renderDocx(fileName: string) {

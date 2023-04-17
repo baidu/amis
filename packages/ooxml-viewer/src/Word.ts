@@ -27,6 +27,7 @@ import {Note} from './openxml/word/Note';
 import {parseFootnotes} from './parse/Footnotes';
 import {parseEndnotes} from './parse/parseEndnotes';
 import {renderNotes} from './render/renderNotes';
+import {Section} from './openxml/word/Section';
 
 /**
  * 渲染配置
@@ -145,6 +146,11 @@ export interface WordRenderOptions {
    * 自适应宽度，如果设置了 zoom，那么 zoom 优先级更高，这个设置只在 ignoreWidth 为 false 的时候生效
    */
   zoomFitWidth?: boolean;
+
+  /**
+   * 打印可以覆盖其它配置
+   */
+  printOptions?: WordRenderOptions;
 }
 
 const defaultRenderOptions: WordRenderOptions = {
@@ -287,6 +293,11 @@ export default class Word {
    * 分页标记，如果为 true，那么在渲染的时候会强制分页
    */
   breakPage = false;
+
+  /**
+   * 当前渲染的段，因为很多渲染需要，所以为了避免大量传参，这里直接挂在这里
+   */
+  currentSection: Section;
 
   /**
    * 初始化一些公共资源，比如
@@ -634,10 +645,21 @@ export default class Word {
     iframe.style.position = 'absolute';
     iframe.style.top = '-10000px';
     document.body.appendChild(iframe);
-    iframe.contentDocument?.write('<div id="print"></div>');
+    iframe.contentDocument?.write(
+      '<style>html, body {margin:0; padding:0}</style><div id="print"></div>'
+    );
     await this.render(
       iframe.contentDocument?.getElementById('print') as HTMLElement,
-      {page: false, pageWrap: false}
+      // 这些配置可以让打印还原度更高
+      {
+        page: true,
+        pageWrap: false,
+        pageShadow: false,
+        pageMarginBottom: 0,
+        pageWrapPadding: undefined,
+        zoom: 1,
+        ...this.renderOptions.printOptions
+      }
     );
     setTimeout(function () {
       iframe.focus();
@@ -682,7 +704,7 @@ export default class Word {
     root.classList.add(this.getClassPrefix());
     if (renderOptions.page && renderOptions.pageWrap) {
       root.classList.add(this.wrapClassName);
-      root.style.padding = `${renderOptions.pageWrapPadding || 0}px`;
+      root.style.padding = `${renderOptions.pageWrapPadding || 0}pt`;
       root.style.background = renderOptions.pageWrapBackground || '#ECECEC';
     }
 

@@ -45,11 +45,13 @@ function appendToSection(
   section: Section,
   child: HTMLElement
 ) {
+  // 如果是第一个节点，即便超长也得写入，不然就会出现一个空 section
+  const isFirst = sectionEl.children.length === 0;
   // 首先尝试写入
   appendChild(sectionEl, child);
 
   // 如果超出了就新建一个 section
-  if (createNewSection(word, sectionEnd, child)) {
+  if (!isFirst && createNewSection(word, sectionEnd, child)) {
     const newChild = child.cloneNode(true) as HTMLElement;
     removeChild(sectionEl, child);
     let newSectionEl = renderSection(word, section, renderOptions);
@@ -75,11 +77,11 @@ function getSectionEnd(section: Section, sectionEl: HTMLElement): SectionEnd {
   const pageMargin = section.properties.pageMargin;
   let bottom = sectionBound.top + sectionBound.height;
   if (pageMargin?.bottom) {
-    bottom = bottom - parseInt(pageMargin.bottom.replace('px', ''), 10);
+    bottom = bottom - parseInt(pageMargin.bottom.replace('pt', ''), 10);
   }
   let right = sectionBound.left + sectionBound.width;
   if (pageMargin?.right) {
-    right = right - parseInt(pageMargin.right.replace('px', ''), 10);
+    right = right - parseInt(pageMargin.right.replace('pt', ''), 10);
   }
   return {bottom, right};
 }
@@ -97,15 +99,15 @@ function getTransform(
   if (renderOptions.zoomFitWidth && !renderOptions.ignoreWidth) {
     const pageWidth = pageSize?.width;
     if (rootWidth && pageWidth) {
-      let pageWidthNum = parseInt(pageWidth.replace('px', ''), 10);
+      let pageWidthNum = parseInt(pageWidth.replace('pt', ''), 10);
 
       if (props.pageMargin) {
         const pageMargin = props.pageMargin;
         pageWidthNum += pageMargin.left
-          ? parseInt(pageMargin.left.replace('px', ''), 10)
+          ? parseInt(pageMargin.left.replace('pt', ''), 10)
           : 0;
         pageWidthNum += pageMargin.right
-          ? parseInt(pageMargin.right.replace('px', ''), 10)
+          ? parseInt(pageMargin.right.replace('pt', ''), 10)
           : 0;
       }
       const zoomWidth = rootWidth / pageWidthNum;
@@ -196,6 +198,7 @@ export default function renderBody(
   let isLastSection = false;
   for (const section of sections) {
     zooms.push(getTransform(rootWidth, section, renderOptions));
+    word.currentSection = section;
     let sectionEl = renderSection(word, section, renderOptions);
     appendChild(bodyEl, sectionEl);
 
@@ -207,7 +210,6 @@ export default function renderBody(
       renderSectionInPage(
         word,
         bodyEl,
-
         renderOptions,
         sectionEl,
         section,

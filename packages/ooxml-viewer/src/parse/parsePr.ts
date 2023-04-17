@@ -363,6 +363,10 @@ export function parsePr(word: Word, element: Element, type: 'r' | 'p' = 'p') {
         // 目前还不支持 grid
         break;
 
+      case 'w:topLinePunct':
+        // 没法支持
+        break;
+
       case 'w:wordWrap':
         // 不太确定这里是用 word-break 还是 overflow-wrap
         if (getValBoolean(child)) {
@@ -425,26 +429,26 @@ export function parsePr(word: Word, element: Element, type: 'r' | 'p' = 'p') {
 
       case 'w:outline':
         style['text-shadow'] =
-          '-1px -1px 0 #AAA, 1px -1px 0 #AAA, -1px 1px 0 #AAA, 1px 1px 0 #AAA';
+          '-1pt -1pt 0 #AAA, 1pt -1pt 0 #AAA, -1pt 1pt 0 #AAA, 1pt 1pt 0 #AAA';
         break;
 
       case 'w:shadown':
       case 'w:imprint':
         if (getValBoolean(child, true)) {
-          style['text-shadow'] = '1px 1px 2px rgba(0, 0, 0, 0.6)';
+          style['text-shadow'] = '1pt 1pt 2pt rgba(0, 0, 0, 0.6)';
         }
         break;
 
       case 'w14:shadow':
         const blurRad =
-          parseSize(child, 'w14:blurRad', LengthUsage.Emu) || '2px';
+          parseSize(child, 'w14:blurRad', LengthUsage.Emu) || '2pt';
         // 其它结果算出来不像就先忽略了
         let color = 'rgba(0, 0, 0, 0.6)';
         const childColor = parseChildColor(word, child);
         if (childColor) {
           color = childColor;
         }
-        style['text-shadow'] = `1px 1px ${blurRad} ${color}`;
+        style['text-shadow'] = `1pt 1pt ${blurRad} ${color}`;
         break;
 
       default:

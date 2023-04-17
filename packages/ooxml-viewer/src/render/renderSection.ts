@@ -16,13 +16,12 @@ export function renderSection(
   sectionEl.style.position = 'relative';
 
   if (renderOptions.page) {
-    sectionEl.style.overflow = 'hidden';
     if (renderOptions.pageMarginBottom) {
-      sectionEl.style.marginBottom = renderOptions.pageMarginBottom + 'px';
+      sectionEl.style.marginBottom = renderOptions.pageMarginBottom + 'pt';
     }
 
     if (renderOptions.pageShadow) {
-      sectionEl.style.boxShadow = '0 0 8px rgba(0, 0, 0, 0.5)';
+      sectionEl.style.boxShadow = '0 0 8pt rgba(0, 0, 0, 0.5)';
     }
 
     if (renderOptions.pageBackground) {

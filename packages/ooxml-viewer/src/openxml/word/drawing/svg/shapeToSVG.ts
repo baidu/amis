@@ -23,9 +23,13 @@ export function shapeToSVG(
 ): SVGElement {
   const svg = createSVGElement('svg');
   // 边框有时候会超过
-  svg.setAttribute('style', 'overflow: visible');
-  svg.setAttribute('width', width.toString() + 'px');
-  svg.setAttribute('height', height.toString() + 'px');
+  // z-index 是因为后面可能会有文字，避免遮挡
+  svg.setAttribute(
+    'style',
+    'overflow: visible; position: absolute; z-index: -1'
+  );
+  svg.setAttribute('width', width.toString() + 'pt');
+  svg.setAttribute('height', height.toString() + 'pt');
 
   // 变量值
   const vars: Var = presetVal(width, height);
