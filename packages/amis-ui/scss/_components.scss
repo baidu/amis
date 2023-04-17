@@ -3653,7 +3653,7 @@
   --Status-base-text-margin: var(--sizes-size-3);
   --Status-fail-color: var(--colors-error-5);
   --Status-success-color: var(--colors-success-5);
-  --Status-queue-color: var(--colors-warning-5);
+  --Status-warning-color: var(--colors-warning-5);
   --Status-schedule-color: var(--colors-neutral-fill-2);
   --Status-pending-before-color: var(--colors-error-5);
   --Status-pending-after-color: var(--colors-brand-5);
@@ -3667,10 +3667,6 @@
   --Status-pending-beforeColor: var(--Status-pending-before-color);
   --Status-pending-afterColor: var(--Status-pending-after-color);
 
-  --Status-schedule-color: var(--Status-schedule-color);
-  --Status-warning-color: var(--Status-queue-color);
-  --Status-fail-color: var(--Status-fail-color);
-  --Status-success-color: var(--Status-success-color);
   // timeline
   --Timeline-time-color: var(--colors-neutral-text-5);
   --Timeline-time-fontSize: var(--fonts-size-7);
@@ -3728,7 +3724,9 @@
     var(--Timeline-visible-paddingLeft);
   --TimelineItem-detail-visible-max-width: #{px2rem(300px)};
   --Timeline-alternate-margin-left: var(--gap-xl);
-  --Timeline-visible-border-radius: var(--Timeline-visible-top-left-border-radius)
+  --Timeline-visible-border-radius: var(
+      --Timeline-visible-top-left-border-radius
+    )
     var(--Timeline-visible-top-right-border-radius)
     var(--Timeline-visible-bottom-right-border-radius)
     var(--Timeline-visible-bottom-left-border-radius);
