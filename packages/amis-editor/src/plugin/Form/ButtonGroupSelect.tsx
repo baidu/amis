@@ -115,7 +115,6 @@ export class ButtonGroupControlPlugin extends BasePlugin {
                   required: true
                 }),
                 getSchemaTpl('label'),
-                getSchemaTpl('crudFilterOperator', {context}),
                 getSchemaTpl('multiple'),
                 getSchemaTpl('valueFormula', {
                   rendererSchema: context?.schema,

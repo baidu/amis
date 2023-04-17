@@ -121,7 +121,6 @@ export class RadiosControlPlugin extends BasePlugin {
                 required: true
               }),
               getSchemaTpl('label'),
-              getSchemaTpl('crudFilterOperator', {context}),
               getSchemaTpl('valueFormula', {
                 rendererSchema: context?.schema,
                 useSelectMode: true, // 改用 Select 设置模式
