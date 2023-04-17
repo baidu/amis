@@ -15,13 +15,6 @@ import {
   anyChanged,
   getI18nEnabled
 } from 'amis-editor-core';
-import {
-  autobind,
-  isObject,
-  isEmpty,
-  anyChanged,
-  getI18nEnabled
-} from 'amis-editor-core';
 import {defaultValue, tipedLabel} from 'amis-editor-core';
 
 import type {FormControlProps} from 'amis-core';
