@@ -56,13 +56,13 @@ function parseBodyPr(element: Element, style: CSSStyle) {
         const anchor = value as ST_TextAnchoringType;
         switch (anchor) {
           case 'b':
-            style['align-items'] = 'flex-end';
+            style['vertical-align'] = 'bottom';
             break;
           case 't':
-            style['align-items'] = 'flex-start';
+            style['vertical-align'] = 'top';
             break;
           case 'ctr':
-            style['align-items'] = 'center';
+            style['vertical-align'] = 'middle';
             break;
         }
         break;

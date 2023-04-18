@@ -41,7 +41,9 @@ const fileLists = {
     'textbox-rotation.xml',
     'textbox-order.xml',
     'tooltip.xml',
-    'w.xml'
+    'w.xml',
+    'jianli.docx',
+    'text-background.docx'
   ],
   docx4j: [
     'ArialUnicodeMS.docx',

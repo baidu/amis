@@ -77,11 +77,11 @@ function getSectionEnd(section: Section, sectionEl: HTMLElement): SectionEnd {
   const pageMargin = section.properties.pageMargin;
   let bottom = sectionBound.top + sectionBound.height;
   if (pageMargin?.bottom) {
-    bottom = bottom - parseInt(pageMargin.bottom.replace('pt', ''), 10);
+    bottom = bottom - parseInt(pageMargin.bottom.replace('px', ''), 10);
   }
   let right = sectionBound.left + sectionBound.width;
   if (pageMargin?.right) {
-    right = right - parseInt(pageMargin.right.replace('pt', ''), 10);
+    right = right - parseInt(pageMargin.right.replace('px', ''), 10);
   }
   return {bottom, right};
 }
@@ -99,15 +99,15 @@ function getTransform(
   if (renderOptions.zoomFitWidth && !renderOptions.ignoreWidth) {
     const pageWidth = pageSize?.width;
     if (rootWidth && pageWidth) {
-      let pageWidthNum = parseInt(pageWidth.replace('pt', ''), 10);
+      let pageWidthNum = parseInt(pageWidth.replace('px', ''), 10);
 
       if (props.pageMargin) {
         const pageMargin = props.pageMargin;
         pageWidthNum += pageMargin.left
-          ? parseInt(pageMargin.left.replace('pt', ''), 10)
+          ? parseInt(pageMargin.left.replace('px', ''), 10)
           : 0;
         pageWidthNum += pageMargin.right
-          ? parseInt(pageMargin.right.replace('pt', ''), 10)
+          ? parseInt(pageMargin.right.replace('px', ''), 10)
           : 0;
       }
       const zoomWidth = rootWidth / pageWidthNum;

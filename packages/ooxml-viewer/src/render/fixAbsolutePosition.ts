@@ -37,25 +37,25 @@ export function fixAbsolutePosition(
   const leftStyle = style.left;
   if (leftStyle) {
     style.left = `${
-      parseInt(String(leftStyle).replace('pt', ''), 10) + paddingLeft
-    }pt`;
+      parseInt(String(leftStyle).replace('px', ''), 10) + paddingLeft
+    }px`;
   }
   const topStyle = style.top;
   if (topStyle) {
     style.top = `${
-      parseInt(String(topStyle).replace('pt', ''), 10) + paddingTop
-    }pt`;
+      parseInt(String(topStyle).replace('px', ''), 10) + paddingTop
+    }px`;
   }
   const rightStyle = style.right;
   if (rightStyle) {
     style.right = `${
-      parseInt(String(rightStyle).replace('pt', ''), 10) + paddingRight
-    }pt`;
+      parseInt(String(rightStyle).replace('px', ''), 10) + paddingRight
+    }px`;
   }
   const bottomStyle = style.bottom;
   if (bottomStyle) {
     style.bottom = `${
-      parseInt(String(bottomStyle).replace('pt', ''), 10) + paddingBottom
-    }pt`;
+      parseInt(String(bottomStyle).replace('px', ''), 10) + paddingBottom
+    }px`;
   }
 }

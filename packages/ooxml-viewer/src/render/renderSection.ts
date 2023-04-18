@@ -19,11 +19,11 @@ export function renderSection(
 
   if (renderOptions.page) {
     if (renderOptions.pageMarginBottom) {
-      sectionEl.style.marginBottom = renderOptions.pageMarginBottom + 'pt';
+      sectionEl.style.marginBottom = renderOptions.pageMarginBottom + 'px';
     }
 
     if (renderOptions.pageShadow) {
-      sectionEl.style.boxShadow = '0 0 8pt rgba(0, 0, 0, 0.5)';
+      sectionEl.style.boxShadow = '0 0 8px rgba(0, 0, 0, 0.5)';
     }
 
     if (renderOptions.pageBackground) {

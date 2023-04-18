@@ -94,16 +94,16 @@ export function renderDrawing(
         container.style.height = ext.cy;
 
         if (spPr.geom) {
-          const width = parseFloat(ext.cx.replace('pt', ''));
-          const height = parseFloat(ext.cy.replace('pt', ''));
+          const width = parseFloat(ext.cx.replace('px', ''));
+          const height = parseFloat(ext.cy.replace('px', ''));
           appendChild(
             container,
             renderGeom(spPr.geom, spPr, width, height, wps.wpsStyle)
           );
         }
         if (spPr.custGeom) {
-          const width = parseFloat(ext.cx.replace('pt', ''));
-          const height = parseFloat(ext.cy.replace('pt', ''));
+          const width = parseFloat(ext.cx.replace('px', ''));
+          const height = parseFloat(ext.cy.replace('px', ''));
           appendChild(
             container,
             renderCustGeom(spPr.custGeom, spPr, width, height, wps.wpsStyle)
@@ -117,16 +117,28 @@ export function renderDrawing(
 
     const txbxContent = wps.txbxContent;
 
-    for (const txbxContentChild of txbxContent) {
-      if (txbxContentChild instanceof Paragraph) {
-        const cssStyle = txbxContentChild.properties.cssStyle;
-        // 其实不太准，但一般情况下只有一个段落吧
-        if (cssStyle && cssStyle['text-align']) {
-          container.style.justifyContent = String(cssStyle['text-align']);
+    if (txbxContent.length) {
+      // 为了实现垂直居中，将父容器改成 table 布局
+      const textContainer = document.createElement('div');
+      textContainer.dataset.name = 'textContainer';
+      container.style.display = 'table';
+      textContainer.style.display = 'table-cell';
+      textContainer.style.verticalAlign = 'middle';
+      if (wps.style && wps.style['vertical-align']) {
+        textContainer.style.verticalAlign = wps.style[
+          'vertical-align'
+        ] as string;
+        // 容器的 vertical-align 需要去掉，虽然也不影响
+        container.style.verticalAlign = '';
+      }
+      appendChild(container, textContainer);
+
+      for (const txbxContentChild of txbxContent) {
+        if (txbxContentChild instanceof Paragraph) {
+          appendChild(textContainer, renderParagraph(word, txbxContentChild));
+        } else if (txbxContentChild instanceof Table) {
+          appendChild(textContainer, renderTable(word, txbxContentChild));
         }
-        appendChild(container, renderParagraph(word, txbxContentChild));
-      } else if (txbxContentChild instanceof Table) {
-        appendChild(container, renderTable(word, txbxContentChild));
       }
     }
   }

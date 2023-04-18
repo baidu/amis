@@ -28,8 +28,8 @@ export function shapeToSVG(
     'style',
     'overflow: visible; position: absolute; z-index: -1'
   );
-  svg.setAttribute('width', width.toString() + 'pt');
-  svg.setAttribute('height', height.toString() + 'pt');
+  svg.setAttribute('width', width.toString() + 'px');
+  svg.setAttribute('height', height.toString() + 'px');
 
   // 变量值
   const vars: Var = presetVal(width, height);
