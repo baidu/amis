@@ -41,6 +41,7 @@
       background: transparent;
       color: var(--Calendar-color);
       > span {
+        color: var(--Calendar-color) !important;
         background: transparent !important;
       }
     }
