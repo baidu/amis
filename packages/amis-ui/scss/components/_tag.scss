@@ -124,7 +124,7 @@
     i {
       font-size: #{px2rem(8px)};
     }
-    .icon {
+    .#{$ns}Tag-default-icon {
       width: var(--Tag-status-size);
       height: var(--Tag-status-size);
       top: 0;
