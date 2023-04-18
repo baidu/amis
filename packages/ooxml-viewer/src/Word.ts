@@ -28,6 +28,7 @@ import {parseFootnotes} from './parse/Footnotes';
 import {parseEndnotes} from './parse/parseEndnotes';
 import {renderNotes} from './render/renderNotes';
 import {Section} from './openxml/word/Section';
+import {printIframe} from './util/print';
 
 /**
  * 渲染配置
@@ -676,7 +677,12 @@ export default class Word {
     iframe.style.position = 'absolute';
     iframe.style.top = '-10000px';
     document.body.appendChild(iframe);
-    iframe.contentDocument?.write(
+    const printDocument = iframe.contentDocument;
+    if (!printDocument) {
+      console.warn('printDocument is null');
+      return null;
+    }
+    printDocument.write(
       `<style>
       html, body { margin:0; padding:0 }
       @page { size: auto; margin: 0mm; }
@@ -684,7 +690,7 @@ export default class Word {
       <div id="print"></div>`
     );
     await this.render(
-      iframe.contentDocument?.getElementById('print') as HTMLElement,
+      printDocument.getElementById('print') as HTMLElement,
       // 这些配置可以让打印还原度更高
       {
         page: true,
@@ -698,8 +704,7 @@ export default class Word {
     );
     setTimeout(function () {
       iframe.focus();
-      iframe.contentWindow?.print();
-      iframe.parentNode?.removeChild(iframe);
+      printIframe(iframe);
     }, this.renderOptions.printWaitTime || 100); // 需要等一下图片渲染
     window.focus();
   }
