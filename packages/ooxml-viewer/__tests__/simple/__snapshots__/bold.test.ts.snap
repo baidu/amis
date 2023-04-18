@@ -3,10 +3,11 @@
 exports[`bold 1`] = `
 <article>
   <section
-    style="position: relative; width: 612.00pt; padding: 72.00pt 90.00pt 72.00pt 90.00pt;"
+    style="position: relative; width: 815.98px; padding: 96.00px 120.00px 96.00px 120.00px;"
   >
     <p
       class="docx-viewer-0-p docx-viewer-0-Normal docx-viewer-0-Heading1"
+      style="position: relative;"
     >
       <a
         id="_Toc535930148"
@@ -29,6 +30,7 @@ exports[`bold 1`] = `
     </p>
     <p
       class="docx-viewer-0-p docx-viewer-0-Normal docx-viewer-0-Heading2"
+      style="position: relative;"
     >
       <a
         id="_Toc535930149"

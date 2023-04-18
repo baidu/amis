@@ -3,21 +3,22 @@
 exports[`info 1`] = `
 <article>
   <section
-    style="position: relative; width: 612.00pt; padding: 72.00pt 72.00pt 72.00pt 72.00pt;"
+    style="position: relative; width: 815.98px; padding: 96.00px 96.00px 96.00px 96.00px;"
   >
     <p
       class="docx-viewer-0-p"
-      style="text-align: center;"
+      style="text-align: center; position: relative;"
     >
       <span
         class="docx-viewer-0-r"
-        style="font-family: SimHei; font-size: 14.00pt; text-decoration: underline;"
+        style="font-family: SimHei; font-size: 18.67px; text-decoration: underline;"
       >
         员工人事资料卡
       </span>
     </p>
     <p
       class="docx-viewer-0-p"
+      style="position: relative;"
     >
       <span
         class="docx-viewer-0-r"
@@ -37,17 +38,18 @@ exports[`info 1`] = `
     </p>
     <table
       class="enable-hBand enable-vBand docx-classname-0"
-      style="width: auto; margin-left: 5.40pt; border-top: 1.50pt solid black; border-left: 1.50pt solid black; border-bottom: 1.50pt solid black; border-right: 1.50pt solid black; table-layout: fixed;"
+      style="width: auto; margin-left: 7.20px; border-top: 2.00px solid black; border-left: 2.00px solid black; border-bottom: 2.00px solid black; border-right: 2.00px solid black; table-layout: fixed;"
     >
       <tbody>
         <tr>
           <td
             class="nwCell firstRow firstCol band2Horz band2Vert"
             rowspan="2"
-            style="width: 45.00pt; border-top: 1.50pt solid black; border-left: 1.50pt solid black; border-bottom: 0.75pt solid black; border-right: 0.75pt solid black;"
+            style="width: 60.00px; border-top: 2.00px solid black; border-left: 2.00px solid black; border-bottom: 1.00px solid black; border-right: 1.00px solid black;"
           >
             <p
               class="docx-viewer-0-p"
+              style="position: relative;"
             >
               <span
                 class="docx-viewer-0-r"
@@ -70,10 +72,11 @@ exports[`info 1`] = `
             class="firstRow band2Horz band2Vert"
             colspan="2"
             rowspan="2"
-            style="width: 83.55pt; border-top: 1.50pt solid black; border-left: 0.75pt solid black; border-bottom: 0.75pt solid black; border-right: 0.75pt solid black;"
+            style="width: 111.40px; border-top: 2.00px solid black; border-left: 1.00px solid black; border-bottom: 1.00px solid black; border-right: 1.00px solid black;"
           >
             <p
               class="docx-viewer-0-p"
+              style="position: relative;"
             >
               <span
                 class="docx-viewer-0-r"
@@ -89,11 +92,11 @@ exports[`info 1`] = `
           </td>
           <td
             class="neCell firstRow lastCol band2Horz band2Vert"
-            style="width: 51.45pt; border-top: 1.50pt solid black; border-left: 0.75pt solid black; border-bottom: 0.75pt solid black; border-right: 0.75pt solid black;"
+            style="width: 68.60px; border-top: 2.00px solid black; border-left: 1.00px solid black; border-bottom: 1.00px solid black; border-right: 1.00px solid black;"
           >
             <p
               class="docx-viewer-0-p"
-              style="text-align: center;"
+              style="text-align: center; position: relative;"
             >
               <span
                 class="docx-viewer-0-r"
@@ -114,11 +117,11 @@ exports[`info 1`] = `
           </td>
           <td
             class="firstRow band2Horz band1Vert"
-            style="width: 171.00pt; border-top: 1.50pt solid black; border-left: 0.75pt solid black; border-bottom: 0.75pt solid black; border-right: 0.75pt solid black;"
+            style="width: 227.99px; border-top: 2.00px solid black; border-left: 1.00px solid black; border-bottom: 1.00px solid black; border-right: 1.00px solid black;"
           >
             <p
               class="docx-viewer-0-p"
-              style="text-align: center;"
+              style="text-align: center; position: relative;"
             >
               <span
                 class="docx-viewer-0-r"
@@ -160,11 +163,11 @@ exports[`info 1`] = `
           <td
             class="firstRow band2Horz band2Vert"
             rowspan="7"
-            style="width: 90.00pt; border-top: 1.50pt solid black; border-left: 0.75pt solid black; border-bottom: 0.75pt solid black; border-right: 1.50pt solid black; vertical-align: middle;"
+            style="width: 120.00px; border-top: 2.00px solid black; border-left: 1.00px solid black; border-bottom: 1.00px solid black; border-right: 2.00px solid black; vertical-align: middle;"
           >
             <p
               class="docx-viewer-0-p"
-              style="text-align: center;"
+              style="text-align: center; position: relative;"
             >
               <span
                 class="docx-viewer-0-r"
@@ -174,37 +177,37 @@ exports[`info 1`] = `
             </p>
             <p
               class="docx-viewer-0-p"
-              style="text-align: center;"
+              style="text-align: center; position: relative;"
             >
                
             </p>
             <p
               class="docx-viewer-0-p"
-              style="text-align: center;"
+              style="text-align: center; position: relative;"
             >
                
             </p>
             <p
               class="docx-viewer-0-p"
-              style="text-align: center;"
+              style="text-align: center; position: relative;"
             >
                
             </p>
             <p
               class="docx-viewer-0-p"
-              style="text-align: center;"
+              style="text-align: center; position: relative;"
             >
                
             </p>
             <p
               class="docx-viewer-0-p"
-              style="text-align: center;"
+              style="text-align: center; position: relative;"
             >
                
             </p>
             <p
               class="docx-viewer-0-p"
-              style="text-align: center;"
+              style="text-align: center; position: relative;"
             >
               <span
                 class="docx-viewer-0-r"
@@ -217,21 +220,22 @@ exports[`info 1`] = `
         <tr>
           <td
             class="firstCol band1Horz band2Vert"
-            style="width: 51.45pt; border-top: 0.75pt solid black; border-left: 0.75pt solid black; border-bottom: 0.75pt solid black; border-right: 0.75pt solid black;"
+            style="width: 68.60px; border-top: 1.00px solid black; border-left: 1.00px solid black; border-bottom: 1.00px solid black; border-right: 1.00px solid black;"
           >
             <p
               class="docx-viewer-0-p"
+              style="position: relative;"
             >
                
             </p>
           </td>
           <td
             class="lastCol band1Horz band1Vert"
-            style="width: 171.00pt; border-top: 0.75pt solid black; border-left: 0.75pt solid black; border-bottom: 0.75pt solid black; border-right: 0.75pt solid black; vertical-align: bottom;"
+            style="width: 227.99px; border-top: 1.00px solid black; border-left: 1.00px solid black; border-bottom: 1.00px solid black; border-right: 1.00px solid black; vertical-align: bottom;"
           >
             <p
               class="docx-viewer-0-p"
-              style="text-align: right;"
+              style="text-align: right; position: relative;"
             >
               <span
                 class="docx-viewer-0-r"
@@ -274,10 +278,11 @@ exports[`info 1`] = `
         <tr>
           <td
             class="firstCol band2Horz band2Vert"
-            style="width: 45.00pt; border-top: 0.75pt solid black; border-left: 1.50pt solid black; border-bottom: 0.75pt solid black; border-right: 0.75pt solid black;"
+            style="width: 60.00px; border-top: 1.00px solid black; border-left: 2.00px solid black; border-bottom: 1.00px solid black; border-right: 1.00px solid black;"
           >
             <p
               class="docx-viewer-0-p"
+              style="position: relative;"
             >
               <span
                 class="docx-viewer-0-r"
@@ -304,11 +309,11 @@ exports[`info 1`] = `
           <td
             class="lastCol band2Horz band1Vert"
             colspan="4"
-            style="width: 306.00pt; border-top: 0.75pt solid black; border-left: 0.75pt solid black; border-bottom: 0.75pt solid black; border-right: 0.75pt solid black;"
+            style="width: 407.99px; border-top: 1.00px solid black; border-left: 1.00px solid black; border-bottom: 1.00px solid black; border-right: 1.00px solid black;"
           >
             <p
               class="docx-viewer-0-p"
-              style="text-align: left;"
+              style="text-align: left; position: relative;"
             >
               <span
                 class="docx-viewer-0-r"
@@ -336,10 +341,11 @@ exports[`info 1`] = `
         <tr>
           <td
             class="firstCol band1Horz band2Vert"
-            style="width: 45.00pt; border-top: 0.75pt solid black; border-left: 1.50pt solid black; border-bottom: 0.75pt solid black; border-right: 0.75pt solid black;"
+            style="width: 60.00px; border-top: 1.00px solid black; border-left: 2.00px solid black; border-bottom: 1.00px solid black; border-right: 1.00px solid black;"
           >
             <p
               class="docx-viewer-0-p"
+              style="position: relative;"
             >
               <span
                 class="docx-viewer-0-r"
@@ -351,11 +357,11 @@ exports[`info 1`] = `
           <td
             class="lastCol band1Horz band1Vert"
             colspan="4"
-            style="width: 306.00pt; border-top: 0.75pt solid black; border-left: 0.75pt solid black; border-bottom: 0.75pt solid black; border-right: 0.75pt solid black;"
+            style="width: 407.99px; border-top: 1.00px solid black; border-left: 1.00px solid black; border-bottom: 1.00px solid black; border-right: 1.00px solid black;"
           >
             <p
               class="docx-viewer-0-p"
-              style="text-align: left;"
+              style="text-align: left; position: relative;"
             >
                
             </p>
@@ -365,10 +371,11 @@ exports[`info 1`] = `
           <td
             class="firstCol band2Horz band2Vert"
             colspan="2"
-            style="width: 72.00pt; border-top: 0.75pt solid black; border-left: 1.50pt solid black; border-bottom: 0.75pt solid black; border-right: 0.75pt solid black;"
+            style="width: 96.00px; border-top: 1.00px solid black; border-left: 2.00px solid black; border-bottom: 1.00px solid black; border-right: 1.00px solid black;"
           >
             <p
               class="docx-viewer-0-p"
+              style="position: relative;"
             >
               <span
                 class="docx-viewer-0-r"
@@ -380,10 +387,11 @@ exports[`info 1`] = `
           <td
             class="lastCol band2Horz band1Vert"
             colspan="3"
-            style="width: 279.00pt; border-top: 0.75pt solid black; border-left: 0.75pt solid black; border-bottom: 0.75pt solid black; border-right: 0.75pt solid black;"
+            style="width: 371.99px; border-top: 1.00px solid black; border-left: 1.00px solid black; border-bottom: 1.00px solid black; border-right: 1.00px solid black;"
           >
             <p
               class="docx-viewer-0-p"
+              style="position: relative;"
             >
                
             </p>
@@ -393,10 +401,11 @@ exports[`info 1`] = `
           <td
             class="firstCol band1Horz band2Vert"
             colspan="2"
-            style="width: 72.00pt; border-top: 0.75pt solid black; border-left: 1.50pt solid black; border-bottom: 0.75pt solid black; border-right: 0.75pt solid black;"
+            style="width: 96.00px; border-top: 1.00px solid black; border-left: 2.00px solid black; border-bottom: 1.00px solid black; border-right: 1.00px solid black;"
           >
             <p
               class="docx-viewer-0-p"
+              style="position: relative;"
             >
               <span
                 class="docx-viewer-0-r"
@@ -408,10 +417,11 @@ exports[`info 1`] = `
           <td
             class="lastCol band1Horz band1Vert"
             colspan="3"
-            style="width: 279.00pt; border-top: 0.75pt solid black; border-left: 0.75pt solid black; border-bottom: 0.75pt solid black; border-right: 0.75pt solid black;"
+            style="width: 371.99px; border-top: 1.00px solid black; border-left: 1.00px solid black; border-bottom: 1.00px solid black; border-right: 1.00px solid black;"
           >
             <p
               class="docx-viewer-0-p"
+              style="position: relative;"
             >
               <span
                 class="docx-viewer-0-r"
@@ -430,10 +440,11 @@ exports[`info 1`] = `
           <td
             class="firstCol band2Horz band2Vert"
             colspan="2"
-            style="width: 72.00pt; border-top: 0.75pt solid black; border-left: 1.50pt solid black; border-bottom: 0.75pt solid black; border-right: 0.75pt solid black;"
+            style="width: 96.00px; border-top: 1.00px solid black; border-left: 2.00px solid black; border-bottom: 1.00px solid black; border-right: 1.00px solid black;"
           >
             <p
               class="docx-viewer-0-p"
+              style="position: relative;"
             >
               <span
                 class="docx-viewer-0-r"
@@ -445,10 +456,11 @@ exports[`info 1`] = `
           <td
             class="lastCol band2Horz band1Vert"
             colspan="3"
-            style="width: 279.00pt; border-top: 0.75pt solid black; border-left: 0.75pt solid black; border-bottom: 0.75pt solid black; border-right: 0.75pt solid black;"
+            style="width: 371.99px; border-top: 1.00px solid black; border-left: 1.00px solid black; border-bottom: 1.00px solid black; border-right: 1.00px solid black;"
           >
             <p
               class="docx-viewer-0-p"
+              style="position: relative;"
             >
               <span
                 class="docx-viewer-0-r"
@@ -467,10 +479,11 @@ exports[`info 1`] = `
           <td
             class="swCell lastRow firstCol band1Horz band2Vert"
             colspan="2"
-            style="width: 72.00pt; border-top: 0.75pt solid black; border-left: 1.50pt solid black; border-bottom: 0.75pt solid black; border-right: 0.75pt solid black;"
+            style="width: 96.00px; border-top: 1.00px solid black; border-left: 2.00px solid black; border-bottom: 1.00px solid black; border-right: 1.00px solid black;"
           >
             <p
               class="docx-viewer-0-p"
+              style="position: relative;"
             >
               <span
                 class="docx-viewer-0-r"
@@ -482,10 +495,11 @@ exports[`info 1`] = `
           <td
             class="lastRow band1Horz band1Vert"
             colspan="3"
-            style="width: 279.00pt; border-top: 0.75pt solid black; border-left: 0.75pt solid black; border-bottom: 0.75pt solid black; border-right: 0.75pt solid black;"
+            style="width: 371.99px; border-top: 1.00px solid black; border-left: 1.00px solid black; border-bottom: 1.00px solid black; border-right: 1.00px solid black;"
           >
             <p
               class="docx-viewer-0-p"
+              style="position: relative;"
             >
               <span
                 class="docx-viewer-0-r variable"
@@ -497,10 +511,11 @@ exports[`info 1`] = `
           </td>
           <td
             class="seCell lastRow lastCol band1Horz band2Vert"
-            style="width: 90.00pt; border-top: 0.75pt solid black; border-left: 0.75pt solid black; border-bottom: 0.75pt solid black; border-right: 1.50pt solid black;"
+            style="width: 120.00px; border-top: 1.00px solid black; border-left: 1.00px solid black; border-bottom: 1.00px solid black; border-right: 2.00px solid black;"
           >
             <p
               class="docx-viewer-0-p"
+              style="position: relative;"
             >
                
             </p>
@@ -510,11 +525,13 @@ exports[`info 1`] = `
     </table>
     <p
       class="docx-viewer-0-p"
+      style="position: relative;"
     >
        
     </p>
     <p
       class="docx-viewer-0-p"
+      style="position: relative;"
     >
        
     </p>

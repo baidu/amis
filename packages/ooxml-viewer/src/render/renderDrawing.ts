@@ -67,8 +67,8 @@ export function renderDrawing(
     appendChild(container, renderPic(drawing.pic, word, drawing));
   }
 
-  if (!drawing.relativeFromParagraph && !inHeader) {
-    fixAbsolutePosition(word, drawing.containerStyle || {});
+  if (drawing.relativeFromV === 'page') {
+    console.warn('暂不支持 drawing.relativeFromV === "page"');
   }
 
   applyStyle(container, drawing.containerStyle);

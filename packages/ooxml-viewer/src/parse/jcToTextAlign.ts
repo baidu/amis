@@ -13,6 +13,7 @@ export function jcToTextAlign(jc: string) {
     case 'right':
       return 'right';
     case 'both':
+    case 'distribute':
       return 'justify';
     default:
       'left';
