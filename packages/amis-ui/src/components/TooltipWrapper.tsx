@@ -80,6 +80,10 @@ export interface TooltipObject {
    * 文字提示浮层CSS类名
    */
   tooltipClassName?: string;
+  /**
+   * html xss filter
+   */
+  filterHtml?: (input: string) => string;
 }
 
 export interface TooltipWrapperProps {
@@ -300,7 +304,8 @@ export class TooltipWrapper extends React.Component<
       offset,
       tooltipTheme = 'light',
       showArrow = true,
-      children
+      children,
+      filterHtml
     } = tooltipObj;
 
     const childProps: any = {
@@ -352,7 +357,10 @@ export class TooltipWrapper extends React.Component<
           {children ? (
             <>{typeof children === 'function' ? children() : children}</>
           ) : (
-            <Html html={typeof content === 'string' ? content : ''} />
+            <Html
+              html={typeof content === 'string' ? content : ''}
+              filterHtml={filterHtml}
+            />
           )}
         </Tooltip>
       </Overlay>
