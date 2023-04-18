@@ -3,7 +3,7 @@
 exports[`image 1`] = `
 <article>
   <section
-    style="position: relative; width: 815.98px; padding: 96.00px 96.00px 96.00px 96.00px;"
+    style="position: relative; width: 612.00pt; padding: 72.00pt 72.00pt 72.00pt 72.00pt;"
   >
     <p
       class="docx-viewer-0-p"
@@ -12,11 +12,11 @@ exports[`image 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="display: inline-block; width: 189.33px; height: 58.67px;"
+          style="display: inline-block; width: 142.00pt; height: 44.00pt;"
         >
           <img
             src="blob:http://localhost/mock"
-            style="position: relative; left: 0.00px; top: 0.00px; width: 189.33px; height: 58.67px; transform: rotate(49.310066666666664deg);"
+            style="position: relative; left: 0.00pt; top: 0.00pt; width: 142.00pt; height: 44.00pt; transform: rotate(49.310066666666664deg);"
           />
         </div>
       </span>

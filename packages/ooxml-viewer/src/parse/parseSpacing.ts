@@ -43,7 +43,7 @@ export function parseSpacing(word: Word, element: Element, style: CSSStyle) {
 
       default:
         const lineHeightMin = Math.max(minLineHeight, lineNum / 20);
-        style['line-height'] = style['min-height'] = `${lineHeightMin}pt`;
+        style['line-height'] = `${lineHeightMin}pt`;
         break;
     }
   }

@@ -3,7 +3,7 @@
 exports[`textbox-behindDoc 1`] = `
 <article>
   <section
-    style="position: relative; width: 815.98px; padding: 96.00px 96.00px 96.00px 96.00px;"
+    style="position: relative; width: 612.00pt; padding: 72.00pt 72.00pt 72.00pt 72.00pt;"
   >
     <p
       class="docx-viewer-0-p"
@@ -12,18 +12,18 @@ exports[`textbox-behindDoc 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251659264; position: absolute; left: 144.00px; top: 77.80px; width: 122.79px; height: 53.58px; column-count: 1;"
+          style="z-index: 251659264; position: absolute; left: 108.00pt; top: 58.35pt; width: 92.09pt; height: 40.19pt;"
         >
           <svg
-            height="53.58px"
-            style="overflow: visible"
-            width="122.79px"
+            height="40.19pt"
+            style="overflow: visible; position: absolute; z-index: -1"
+            width="92.09pt"
           >
             <path
-              d="M 0 0 L 122.79 0 L 122.79 53.58 L 0 53.58 Z"
+              d="M 0 0 L 92.09 0 L 92.09 40.19 L 0 40.19 Z"
               fill="#FFFFFF"
               stroke="black"
-              stroke-width="0.67px"
+              stroke-width="0.50pt"
             />
           </svg>
           <p
@@ -46,15 +46,15 @@ exports[`textbox-behindDoc 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251658239; position: absolute; left: 122.79px; top: 64.41px; width: 164.09px; height: 84.84px; column-count: 1;"
+          style="z-index: 251658239; position: absolute; left: 92.09pt; top: 48.31pt; width: 123.07pt; height: 63.63pt;"
         >
           <svg
-            height="84.84px"
-            style="overflow: visible"
-            width="164.09px"
+            height="63.63pt"
+            style="overflow: visible; position: absolute; z-index: -1"
+            width="123.07pt"
           >
             <path
-              d="M 0 0 L 164.09 0 L 164.09 84.84 L 0 84.84 Z"
+              d="M 0 0 L 123.07 0 L 123.07 63.63 L 0 63.63 Z"
               fill="#70AD47"
             />
           </svg>

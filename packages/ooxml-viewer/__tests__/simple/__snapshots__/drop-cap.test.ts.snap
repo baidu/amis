@@ -3,15 +3,15 @@
 exports[`drop-cap 1`] = `
 <article>
   <section
-    style="position: relative; width: 815.98px; padding: 96.00px 96.00px 96.00px 96.00px;"
+    style="position: relative; width: 612.00pt; padding: 72.00pt 72.00pt 72.00pt 72.00pt;"
   >
     <p
       class="docx-viewer-0-p"
-      style="float: left; margin-top: 0.93px; min-height: 44.7pt; line-height: 44.7pt; vertical-align: baseline;"
+      style="float: left; margin-top: 0.70pt; min-height: 44.7pt; line-height: 44.7pt; vertical-align: baseline;"
     >
       <span
         class="docx-viewer-0-r"
-        style="font-family: var(--docx-theme-font-minorEastAsia); vertical-align: 3.33px; font-size: 52.67px;"
+        style="font-family: var(--docx-theme-font-minorEastAsia); vertical-align: 2.50pt; font-size: 39.50pt;"
       >
         首
       </span>

@@ -71,8 +71,13 @@ export function shapeToSVG(
       if (outline.width) {
         pathEl.setAttribute('stroke-width', outline.width);
       }
+      if (outline.style === 'none') {
+        pathEl.setAttribute('stroke', 'none');
+      }
     } else if (wpsStyle && wpsStyle.lineColor) {
       pathEl.setAttribute('stroke', wpsStyle.lineColor);
+    } else {
+      pathEl.setAttribute('stroke', 'none');
     }
 
     const fillColor = pathEl.getAttribute('fill');
@@ -107,17 +112,15 @@ export function shapeToSVG(
       pathEl.setAttribute('fill', 'none');
     }
 
-    // 如果没有 fill 也没有 stroke 就没法看了，所以设置个默认颜色
-    const strokeColor = pathEl.getAttribute('stroke');
-    if (!strokeColor && pathEl.getAttribute('fill') === 'none') {
-      pathEl.setAttribute('stroke', 'black');
-    }
-
     if (path.stroke === false) {
       pathEl.setAttribute('stroke', 'none');
       if (!path.fill) {
         pathEl.setAttribute('fill', 'none');
       }
+    }
+
+    if (shapePr.noFill) {
+      pathEl.setAttribute('fill', 'none');
     }
 
     svg.appendChild(pathEl);

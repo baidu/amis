@@ -17,7 +17,15 @@ export class Header {
     const footer = new Header();
     const children: HeaderChild[] = [];
     footer.children = children;
-    for (const child of mergeSdt(doc)) {
+    let elm: Document | Element = doc;
+    const firstChild = doc.firstElementChild;
+    if (
+      firstChild &&
+      (firstChild.tagName === 'w:hdr' || firstChild.tagName === 'w:ftr')
+    ) {
+      elm = firstChild;
+    }
+    for (const child of mergeSdt(elm)) {
       const tagName = child.tagName;
       switch (tagName) {
         case 'w:p':

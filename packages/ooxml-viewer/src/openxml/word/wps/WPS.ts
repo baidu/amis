@@ -9,7 +9,10 @@ import Word from '../../../Word';
 import {Table} from '../Table';
 import {parseTable} from '../../../parse/parseTable';
 import {CSSStyle} from '../../../openxml/Style';
-import {ST_TextVerticalType} from '../../../openxml/Types';
+import {
+  ST_TextAnchoringType,
+  ST_TextVerticalType
+} from '../../../openxml/Types';
 import {convertAngle} from '../../../parse/parseSize';
 import {WPSStyle} from './WPSStyle';
 
@@ -45,6 +48,21 @@ function parseBodyPr(element: Element, style: CSSStyle) {
             break;
 
           default:
+            break;
+        }
+        break;
+
+      case 'anchor':
+        const anchor = value as ST_TextAnchoringType;
+        switch (anchor) {
+          case 'b':
+            style['align-items'] = 'flex-end';
+            break;
+          case 't':
+            style['align-items'] = 'flex-start';
+            break;
+          case 'ctr':
+            style['align-items'] = 'center';
             break;
         }
         break;

@@ -57,6 +57,9 @@ export class Drawing {
   // 是否是相对容器的垂直高度，如果是的话需要将容器的 p 也设置为 relative
   relativeFromParagraph?: boolean;
 
+  id?: string;
+  name?: string;
+
   static fromXML(word: Word, element: Element): Drawing | null {
     const drawing = new Drawing();
 
@@ -136,6 +139,10 @@ export class Drawing {
             break;
 
           case 'wp:docPr':
+            drawing.id = child.getAttribute('id') || undefined;
+            drawing.name = child.getAttribute('name') || undefined;
+            break;
+
           case 'wp:cNvGraphicFramePr':
             // 和展现无关
             // http://webapp.docx4java.org/OnlineDemo/ecma376/DrawingML/docPr.html

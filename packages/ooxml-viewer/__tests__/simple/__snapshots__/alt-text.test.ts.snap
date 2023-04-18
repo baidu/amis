@@ -3,7 +3,7 @@
 exports[`alt-text 1`] = `
 <article>
   <section
-    style="position: relative; width: 815.98px; padding: 96.00px 96.00px 96.00px 96.00px;"
+    style="position: relative; width: 612.00pt; padding: 72.00pt 72.00pt 72.00pt 72.00pt;"
   >
     <p
       class="docx-viewer-0-p"
@@ -12,11 +12,11 @@ exports[`alt-text 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="display: inline-block; width: 405.32px; height: 118.66px;"
+          style="display: inline-block; width: 304.00pt; height: 89.00pt;"
         >
           <img
             src="blob:http://localhost/mock"
-            style="position: relative; left: 0.00px; top: 0.00px; width: 405.32px; height: 118.66px;"
+            style="position: relative; left: 0.00pt; top: 0.00pt; width: 304.00pt; height: 89.00pt;"
           />
         </div>
       </span>

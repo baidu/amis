@@ -3,7 +3,7 @@
 exports[`textbox-rotation 1`] = `
 <article>
   <section
-    style="position: relative; width: 815.98px; padding: 96.00px 96.00px 96.00px 96.00px;"
+    style="position: relative; width: 612.00pt; padding: 72.00pt 72.00pt 72.00pt 72.00pt;"
   >
     <p
       class="docx-viewer-0-p"
@@ -12,15 +12,15 @@ exports[`textbox-rotation 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251661312; position: absolute; left: 214.63px; top: 36.07px; width: 155.16px; height: 82.60px; column-count: 1; transform: rotate(90deg);"
+          style="z-index: 251661312; position: absolute; left: 160.98pt; top: 27.05pt; width: 116.37pt; height: 61.95pt; transform: rotate(90deg);"
         >
           <svg
-            height="82.6px"
-            style="overflow: visible"
-            width="155.16px"
+            height="61.95pt"
+            style="overflow: visible; position: absolute; z-index: -1"
+            width="116.37pt"
           >
             <path
-              d="M 0 0 L 155.16 0 L 155.16 82.6 L 0 82.6 Z"
+              d="M 0 0 L 116.37 0 L 116.37 61.95 L 0 61.95 Z"
               fill="#FFFFFF"
             />
           </svg>

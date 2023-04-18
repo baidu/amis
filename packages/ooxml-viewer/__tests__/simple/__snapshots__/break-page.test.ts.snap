@@ -3,7 +3,7 @@
 exports[`break-page 1`] = `
 <article>
   <section
-    style="position: relative; width: 407.99px; padding: 24.00px 24.00px 24.00px 24.00px; column-count: 2; column-gap: 28.33px;"
+    style="position: relative; width: 306.00pt; padding: 18.00pt 18.00pt 18.00pt 18.00pt; column-count: 2; column-gap: 21.25pt;"
   >
     <p
       class="docx-viewer-0-p"
@@ -26,7 +26,7 @@ exports[`break-page 1`] = `
     </p>
     <p
       class="docx-viewer-0-p docx-viewer-0-Normal docx-viewer-0-ListParagraph"
-      style="text-indent: -29.33px; margin-left: 29.33px;"
+      style="text-indent: -22.00pt; margin-left: 22.00pt;"
     >
       <span
         style="font-family: Wingdings;"
@@ -41,7 +41,7 @@ exports[`break-page 1`] = `
     </p>
     <p
       class="docx-viewer-0-p docx-viewer-0-Normal docx-viewer-0-ListParagraph"
-      style="text-indent: -29.33px; margin-left: 29.33px;"
+      style="text-indent: -22.00pt; margin-left: 22.00pt;"
     >
       <span
         style="font-family: Wingdings;"
@@ -56,7 +56,7 @@ exports[`break-page 1`] = `
     </p>
     <p
       class="docx-viewer-0-p docx-viewer-0-Normal docx-viewer-0-ListParagraph"
-      style="text-indent: -29.33px; margin-left: 29.33px;"
+      style="text-indent: -22.00pt; margin-left: 22.00pt;"
     >
       <span
         style="font-family: Wingdings;"

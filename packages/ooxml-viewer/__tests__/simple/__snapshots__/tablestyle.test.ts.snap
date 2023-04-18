@@ -3,7 +3,7 @@
 exports[`tablestyle 1`] = `
 <article>
   <section
-    style="position: relative; width: 815.98px; padding: 96.00px 96.00px 96.00px 96.00px;"
+    style="position: relative; width: 612.00pt; padding: 72.00pt 72.00pt 72.00pt 72.00pt;"
   >
     <table
       class="enable-firstRow enable-firstColumn enable-hBand docx-viewer-0-TableNormal docx-viewer-0-GridTable5Dark-Accent5 docx-classname-0"
@@ -13,7 +13,7 @@ exports[`tablestyle 1`] = `
         <tr>
           <td
             class="nwCell firstRow firstCol band2Horz band2Vert"
-            style="width: 155.80px;"
+            style="width: 116.85pt;"
           >
             <p
               class="docx-viewer-0-p"
@@ -23,7 +23,7 @@ exports[`tablestyle 1`] = `
           </td>
           <td
             class="firstRow band2Horz band1Vert"
-            style="width: 155.80px;"
+            style="width: 116.85pt;"
           >
             <p
               class="docx-viewer-0-p"
@@ -33,7 +33,7 @@ exports[`tablestyle 1`] = `
           </td>
           <td
             class="firstRow band2Horz band2Vert"
-            style="width: 155.86px;"
+            style="width: 116.90pt;"
           >
             <p
               class="docx-viewer-0-p"
@@ -43,7 +43,7 @@ exports[`tablestyle 1`] = `
           </td>
           <td
             class="neCell firstRow lastCol band2Horz band1Vert"
-            style="width: 155.86px;"
+            style="width: 116.90pt;"
           >
             <p
               class="docx-viewer-0-p"
@@ -55,7 +55,7 @@ exports[`tablestyle 1`] = `
         <tr>
           <td
             class="firstCol band1Horz band2Vert"
-            style="width: 155.80px;"
+            style="width: 116.85pt;"
           >
             <p
               class="docx-viewer-0-p"
@@ -65,7 +65,7 @@ exports[`tablestyle 1`] = `
           </td>
           <td
             class="band1Horz band1Vert"
-            style="width: 155.80px;"
+            style="width: 116.85pt;"
           >
             <p
               class="docx-viewer-0-p"
@@ -75,7 +75,7 @@ exports[`tablestyle 1`] = `
           </td>
           <td
             class="band1Horz band2Vert"
-            style="width: 155.86px;"
+            style="width: 116.90pt;"
           >
             <p
               class="docx-viewer-0-p"
@@ -85,7 +85,7 @@ exports[`tablestyle 1`] = `
           </td>
           <td
             class="lastCol band1Horz band1Vert"
-            style="width: 155.86px;"
+            style="width: 116.90pt;"
           >
             <p
               class="docx-viewer-0-p"
@@ -97,7 +97,7 @@ exports[`tablestyle 1`] = `
         <tr>
           <td
             class="firstCol band2Horz band2Vert"
-            style="width: 155.80px;"
+            style="width: 116.85pt;"
           >
             <p
               class="docx-viewer-0-p"
@@ -107,7 +107,7 @@ exports[`tablestyle 1`] = `
           </td>
           <td
             class="band2Horz band1Vert"
-            style="width: 155.80px;"
+            style="width: 116.85pt;"
           >
             <p
               class="docx-viewer-0-p"
@@ -117,7 +117,7 @@ exports[`tablestyle 1`] = `
           </td>
           <td
             class="band2Horz band2Vert"
-            style="width: 155.86px;"
+            style="width: 116.90pt;"
           >
             <table
               class="enable-firstRow enable-firstColumn enable-hBand docx-viewer-0-TableNormal docx-viewer-0-GridTable4-Accent6 docx-classname-1"
@@ -127,7 +127,7 @@ exports[`tablestyle 1`] = `
                 <tr>
                   <td
                     class="nwCell firstRow firstCol band2Horz band2Vert"
-                    style="width: 46.93px;"
+                    style="width: 35.20pt;"
                   >
                     <p
                       class="docx-viewer-0-p"
@@ -137,7 +137,7 @@ exports[`tablestyle 1`] = `
                   </td>
                   <td
                     class="firstRow band2Horz band1Vert"
-                    style="width: 46.93px;"
+                    style="width: 35.20pt;"
                   >
                     <p
                       class="docx-viewer-0-p"
@@ -147,7 +147,7 @@ exports[`tablestyle 1`] = `
                   </td>
                   <td
                     class="neCell firstRow lastCol band2Horz band2Vert"
-                    style="width: 46.93px;"
+                    style="width: 35.20pt;"
                   >
                     <p
                       class="docx-viewer-0-p"
@@ -159,7 +159,7 @@ exports[`tablestyle 1`] = `
                 <tr>
                   <td
                     class="firstCol band1Horz band2Vert"
-                    style="width: 46.93px;"
+                    style="width: 35.20pt;"
                   >
                     <p
                       class="docx-viewer-0-p"
@@ -169,7 +169,7 @@ exports[`tablestyle 1`] = `
                   </td>
                   <td
                     class="band1Horz band1Vert"
-                    style="width: 46.93px;"
+                    style="width: 35.20pt;"
                   >
                     <p
                       class="docx-viewer-0-p"
@@ -179,7 +179,7 @@ exports[`tablestyle 1`] = `
                   </td>
                   <td
                     class="lastCol band1Horz band2Vert"
-                    style="width: 46.93px;"
+                    style="width: 35.20pt;"
                   >
                     <p
                       class="docx-viewer-0-p"
@@ -191,7 +191,7 @@ exports[`tablestyle 1`] = `
                 <tr>
                   <td
                     class="swCell lastRow firstCol band2Horz band2Vert"
-                    style="width: 46.93px;"
+                    style="width: 35.20pt;"
                   >
                     <p
                       class="docx-viewer-0-p"
@@ -201,7 +201,7 @@ exports[`tablestyle 1`] = `
                   </td>
                   <td
                     class="lastRow band2Horz band1Vert"
-                    style="width: 46.93px;"
+                    style="width: 35.20pt;"
                   >
                     <p
                       class="docx-viewer-0-p"
@@ -211,7 +211,7 @@ exports[`tablestyle 1`] = `
                   </td>
                   <td
                     class="seCell lastRow lastCol band2Horz band2Vert"
-                    style="width: 46.93px;"
+                    style="width: 35.20pt;"
                   >
                     <p
                       class="docx-viewer-0-p"
@@ -228,7 +228,7 @@ exports[`tablestyle 1`] = `
           </td>
           <td
             class="lastCol band2Horz band1Vert"
-            style="width: 155.86px;"
+            style="width: 116.90pt;"
           >
             <p
               class="docx-viewer-0-p"
@@ -240,7 +240,7 @@ exports[`tablestyle 1`] = `
         <tr>
           <td
             class="swCell lastRow firstCol band1Horz band2Vert"
-            style="width: 155.80px;"
+            style="width: 116.85pt;"
           >
             <p
               class="docx-viewer-0-p"
@@ -250,7 +250,7 @@ exports[`tablestyle 1`] = `
           </td>
           <td
             class="lastRow band1Horz band1Vert"
-            style="width: 155.80px;"
+            style="width: 116.85pt;"
           >
             <p
               class="docx-viewer-0-p"
@@ -260,7 +260,7 @@ exports[`tablestyle 1`] = `
           </td>
           <td
             class="lastRow band1Horz band2Vert"
-            style="width: 155.86px;"
+            style="width: 116.90pt;"
           >
             <p
               class="docx-viewer-0-p"
@@ -270,7 +270,7 @@ exports[`tablestyle 1`] = `
           </td>
           <td
             class="seCell lastRow lastCol band1Horz band1Vert"
-            style="width: 155.86px;"
+            style="width: 116.90pt;"
           >
             <p
               class="docx-viewer-0-p"
@@ -294,7 +294,7 @@ exports[`tablestyle 1`] = `
         <tr>
           <td
             class="nwCell firstRow firstCol band2Horz band2Vert"
-            style="width: 124.66px;"
+            style="width: 93.50pt;"
           >
             <p
               class="docx-viewer-0-p"
@@ -304,7 +304,7 @@ exports[`tablestyle 1`] = `
           </td>
           <td
             class="firstRow band2Horz band1Vert"
-            style="width: 124.66px;"
+            style="width: 93.50pt;"
           >
             <p
               class="docx-viewer-0-p"
@@ -314,7 +314,7 @@ exports[`tablestyle 1`] = `
           </td>
           <td
             class="firstRow band2Horz band2Vert"
-            style="width: 124.66px;"
+            style="width: 93.50pt;"
           >
             <p
               class="docx-viewer-0-p"
@@ -324,7 +324,7 @@ exports[`tablestyle 1`] = `
           </td>
           <td
             class="firstRow band2Horz band1Vert"
-            style="width: 124.66px;"
+            style="width: 93.50pt;"
           >
             <p
               class="docx-viewer-0-p"
@@ -334,7 +334,7 @@ exports[`tablestyle 1`] = `
           </td>
           <td
             class="neCell firstRow lastCol band2Horz band2Vert"
-            style="width: 124.66px;"
+            style="width: 93.50pt;"
           >
             <p
               class="docx-viewer-0-p"
@@ -346,7 +346,7 @@ exports[`tablestyle 1`] = `
         <tr>
           <td
             class="firstCol band1Horz band2Vert"
-            style="width: 124.66px;"
+            style="width: 93.50pt;"
           >
             <p
               class="docx-viewer-0-p"
@@ -356,7 +356,7 @@ exports[`tablestyle 1`] = `
           </td>
           <td
             class="band1Horz band1Vert"
-            style="width: 124.66px;"
+            style="width: 93.50pt;"
           >
             <p
               class="docx-viewer-0-p"
@@ -366,7 +366,7 @@ exports[`tablestyle 1`] = `
           </td>
           <td
             class="band1Horz band2Vert"
-            style="width: 124.66px;"
+            style="width: 93.50pt;"
           >
             <p
               class="docx-viewer-0-p"
@@ -376,7 +376,7 @@ exports[`tablestyle 1`] = `
           </td>
           <td
             class="band1Horz band1Vert"
-            style="width: 124.66px;"
+            style="width: 93.50pt;"
           >
             <p
               class="docx-viewer-0-p"
@@ -386,7 +386,7 @@ exports[`tablestyle 1`] = `
           </td>
           <td
             class="lastCol band1Horz band2Vert"
-            style="width: 124.66px;"
+            style="width: 93.50pt;"
           >
             <p
               class="docx-viewer-0-p"
@@ -398,7 +398,7 @@ exports[`tablestyle 1`] = `
         <tr>
           <td
             class="swCell lastRow firstCol band2Horz band2Vert"
-            style="width: 124.66px;"
+            style="width: 93.50pt;"
           >
             <p
               class="docx-viewer-0-p"
@@ -408,7 +408,7 @@ exports[`tablestyle 1`] = `
           </td>
           <td
             class="lastRow band2Horz band1Vert"
-            style="width: 124.66px;"
+            style="width: 93.50pt;"
           >
             <p
               class="docx-viewer-0-p"
@@ -418,7 +418,7 @@ exports[`tablestyle 1`] = `
           </td>
           <td
             class="lastRow band2Horz band2Vert"
-            style="width: 124.66px; background-color: rgb(201, 201, 201);"
+            style="width: 93.50pt; background-color: rgb(201, 201, 201);"
           >
             <p
               class="docx-viewer-0-p"
@@ -428,7 +428,7 @@ exports[`tablestyle 1`] = `
           </td>
           <td
             class="lastRow band2Horz band1Vert"
-            style="width: 124.66px;"
+            style="width: 93.50pt;"
           >
             <p
               class="docx-viewer-0-p"
@@ -438,7 +438,7 @@ exports[`tablestyle 1`] = `
           </td>
           <td
             class="seCell lastRow lastCol band2Horz band2Vert"
-            style="width: 124.66px;"
+            style="width: 93.50pt;"
           >
             <p
               class="docx-viewer-0-p"
@@ -462,7 +462,7 @@ exports[`tablestyle 1`] = `
         <tr>
           <td
             class="nwCell firstRow firstCol band2Horz band2Vert"
-            style="width: 207.73px;"
+            style="width: 155.80pt;"
           >
             <p
               class="docx-viewer-0-p"
@@ -472,7 +472,7 @@ exports[`tablestyle 1`] = `
           </td>
           <td
             class="firstRow band2Horz band1Vert"
-            style="width: 207.79px;"
+            style="width: 155.85pt;"
           >
             <p
               class="docx-viewer-0-p"
@@ -482,7 +482,7 @@ exports[`tablestyle 1`] = `
           </td>
           <td
             class="neCell firstRow lastCol band2Horz band2Vert"
-            style="width: 207.79px;"
+            style="width: 155.85pt;"
           >
             <p
               class="docx-viewer-0-p"
@@ -494,7 +494,7 @@ exports[`tablestyle 1`] = `
         <tr>
           <td
             class="firstCol band1Horz band2Vert"
-            style="width: 207.73px;"
+            style="width: 155.80pt;"
           >
             <p
               class="docx-viewer-0-p"
@@ -504,7 +504,7 @@ exports[`tablestyle 1`] = `
           </td>
           <td
             class="band1Horz band1Vert"
-            style="width: 207.79px;"
+            style="width: 155.85pt;"
           >
             <p
               class="docx-viewer-0-p"
@@ -514,7 +514,7 @@ exports[`tablestyle 1`] = `
           </td>
           <td
             class="lastCol band1Horz band2Vert"
-            style="width: 207.79px;"
+            style="width: 155.85pt;"
           >
             <p
               class="docx-viewer-0-p"
@@ -526,7 +526,7 @@ exports[`tablestyle 1`] = `
         <tr>
           <td
             class="swCell lastRow firstCol band2Horz band2Vert"
-            style="width: 207.73px;"
+            style="width: 155.80pt;"
           >
             <p
               class="docx-viewer-0-p"
@@ -536,7 +536,7 @@ exports[`tablestyle 1`] = `
           </td>
           <td
             class="lastRow band2Horz band1Vert"
-            style="width: 207.79px;"
+            style="width: 155.85pt;"
           >
             <p
               class="docx-viewer-0-p"
@@ -546,7 +546,7 @@ exports[`tablestyle 1`] = `
           </td>
           <td
             class="seCell lastRow lastCol band2Horz band2Vert"
-            style="width: 207.79px;"
+            style="width: 155.85pt;"
           >
             <p
               class="docx-viewer-0-p"

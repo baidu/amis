@@ -29,6 +29,6 @@
     "examples/components/EChartsEditor/option-parts/**/*": true
   },
   "[xml]": {
-    "editor.defaultFormatter": "PrateekMahendrakar.prettyxml"
+    "editor.defaultFormatter": "redhat.vscode-xml"
   }
 }

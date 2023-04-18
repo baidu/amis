@@ -3,24 +3,24 @@
 exports[`tableborder 1`] = `
 <article>
   <section
-    style="position: relative; width: 815.98px; padding: 96.00px 96.00px 96.00px 96.00px;"
+    style="position: relative; width: 612.00pt; padding: 72.00pt 72.00pt 72.00pt 72.00pt;"
   >
     <table
       class="enable-hBand enable-vBand docx-classname-0"
-      style="width: 605.98px; margin-left: -10.80px; border-top: 0.67px solid black; border-left: 0.67px solid black; border-bottom: 0.67px solid black; border-right: 0.67px solid black; table-layout: fixed;"
+      style="width: 454.50pt; margin-left: -8.10pt; border-top: 0.50pt solid black; border-left: 0.50pt solid black; border-bottom: 0.50pt solid black; border-right: 0.50pt solid black; table-layout: fixed;"
     >
       <tbody>
         <tr>
           <td
             class="nwCell firstRow firstCol band2Horz band2Vert"
-            style="width: 42.00px; background-color: rgba(255, 255, 255, 0.15);"
+            style="width: 31.50pt; background-color: rgba(0, 0, 0, 0.15);"
           >
             <p
               class="docx-viewer-0-p"
             >
               <span
                 class="docx-viewer-0-r"
-                style="font-family: SimHei; font-weight: bold; font-size: 13.33px;"
+                style="font-family: SimHei; font-weight: bold; font-size: 10.00pt;"
               >
                 版本
               </span>
@@ -28,14 +28,14 @@ exports[`tableborder 1`] = `
           </td>
           <td
             class="firstRow band2Horz band1Vert"
-            style="width: 389.99px; background-color: rgba(255, 255, 255, 0.15);"
+            style="width: 292.50pt; background-color: rgba(0, 0, 0, 0.15);"
           >
             <p
               class="docx-viewer-0-p"
             >
               <span
                 class="docx-viewer-0-r"
-                style="font-family: SimHei; font-weight: bold; font-size: 13.33px;"
+                style="font-family: SimHei; font-weight: bold; font-size: 10.00pt;"
               >
                 注释
               </span>
@@ -43,7 +43,7 @@ exports[`tableborder 1`] = `
           </td>
           <td
             class="firstRow band2Horz band2Vert"
-            style="width: 90.00px; background-color: rgba(255, 255, 255, 0.15);"
+            style="width: 67.50pt; background-color: rgba(0, 0, 0, 0.15);"
           >
             <p
               class="docx-viewer-0-p"
@@ -58,7 +58,7 @@ exports[`tableborder 1`] = `
           </td>
           <td
             class="neCell firstRow lastCol band2Horz band1Vert"
-            style="width: 84.00px; background-color: rgba(255, 255, 255, 0.15);"
+            style="width: 63.00pt; background-color: rgba(0, 0, 0, 0.15);"
           >
             <p
               class="docx-viewer-0-p"
@@ -75,7 +75,7 @@ exports[`tableborder 1`] = `
         <tr>
           <td
             class="swCell lastRow firstCol band1Horz band2Vert"
-            style="width: 42.00px;"
+            style="width: 31.50pt;"
           >
             <p
               class="docx-viewer-0-p"
@@ -85,20 +85,20 @@ exports[`tableborder 1`] = `
           </td>
           <td
             class="lastRow band1Horz band1Vert"
-            style="width: 389.99px;"
+            style="width: 292.50pt;"
           >
             <p
               class="docx-viewer-0-p"
             >
               <span
                 class="docx-viewer-0-r"
-                style="font-family: SimHei; font-size: 13.33px;"
+                style="font-family: SimHei; font-size: 10.00pt;"
               >
                 ERP系统架构设计方案
               </span>
               <span
                 class="docx-viewer-0-r"
-                style="font-family: SimHei; font-size: 13.33px;"
+                style="font-family: SimHei; font-size: 10.00pt;"
               >
                 初稿
               </span>
@@ -106,14 +106,14 @@ exports[`tableborder 1`] = `
           </td>
           <td
             class="lastRow band1Horz band2Vert"
-            style="width: 90.00px;"
+            style="width: 67.50pt;"
           >
             <p
               class="docx-viewer-0-p"
             >
               <span
                 class="docx-viewer-0-r"
-                style="font-family: SimHei; font-size: 13.33px;"
+                style="font-family: SimHei; font-size: 10.00pt;"
               >
                 nwind
               </span>
@@ -121,44 +121,44 @@ exports[`tableborder 1`] = `
           </td>
           <td
             class="seCell lastRow lastCol band1Horz band1Vert"
-            style="width: 84.00px;"
+            style="width: 63.00pt;"
           >
             <p
               class="docx-viewer-0-p"
             >
               <span
                 class="docx-viewer-0-r"
-                style="font-family: SimHei; font-size: 13.33px;"
+                style="font-family: SimHei; font-size: 10.00pt;"
               >
                 201
               </span>
               <span
                 class="docx-viewer-0-r"
-                style="font-family: SimHei; font-size: 13.33px;"
+                style="font-family: SimHei; font-size: 10.00pt;"
               >
                 9
               </span>
               <span
                 class="docx-viewer-0-r"
-                style="font-family: SimHei; font-size: 13.33px;"
+                style="font-family: SimHei; font-size: 10.00pt;"
               >
                 -
               </span>
               <span
                 class="docx-viewer-0-r"
-                style="font-family: SimHei; font-size: 13.33px;"
+                style="font-family: SimHei; font-size: 10.00pt;"
               >
                 05
               </span>
               <span
                 class="docx-viewer-0-r"
-                style="font-family: SimHei; font-size: 13.33px;"
+                style="font-family: SimHei; font-size: 10.00pt;"
               >
                 -
               </span>
               <span
                 class="docx-viewer-0-r"
-                style="font-family: SimHei; font-size: 13.33px;"
+                style="font-family: SimHei; font-size: 10.00pt;"
               >
                 28
               </span>

@@ -73,11 +73,19 @@ export function renderDrawing(
 
   applyStyle(container, drawing.containerStyle);
 
+  container.dataset.id = drawing.id || '';
+  container.dataset.name = drawing.name || '';
+
   if (drawing.wps) {
     const wps = drawing.wps;
+    const wpsStyle = wps.wpsStyle;
     const spPr = wps.spPr;
 
     applyStyle(container, wps.style);
+
+    if (wpsStyle?.fontColor) {
+      container.style.color = wpsStyle.fontColor;
+    }
 
     if (spPr?.xfrm) {
       const ext = spPr.xfrm.ext;
@@ -108,8 +116,14 @@ export function renderDrawing(
     }
 
     const txbxContent = wps.txbxContent;
+
     for (const txbxContentChild of txbxContent) {
       if (txbxContentChild instanceof Paragraph) {
+        const cssStyle = txbxContentChild.properties.cssStyle;
+        // 其实不太准，但一般情况下只有一个段落吧
+        if (cssStyle && cssStyle['text-align']) {
+          container.style.justifyContent = String(cssStyle['text-align']);
+        }
         appendChild(container, renderParagraph(word, txbxContentChild));
       } else if (txbxContentChild instanceof Table) {
         appendChild(container, renderTable(word, txbxContentChild));

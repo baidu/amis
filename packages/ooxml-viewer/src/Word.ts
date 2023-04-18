@@ -604,6 +604,20 @@ export default class Word {
    * 获取主题色
    */
   getThemeColor(name: string) {
+    switch (name) {
+      case 'tx1':
+        name = 'dk1';
+        break;
+      case 'tx2':
+        name = 'dk2';
+        break;
+      case 'bg1':
+        name = 'lt1';
+        break;
+      case 'bg2':
+        name = 'lt2';
+        break;
+    }
     if (this.themes && this.themes.length > 0) {
       const theme = this.themes[0];
       const color = theme.themeElements?.clrScheme?.colors?.[name];

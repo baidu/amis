@@ -25,13 +25,16 @@ export default function renderParagraph(
   inHeader: boolean = false
 ) {
   word.currentParagraph = paragraph;
-  let p = createElement('p');
+  const p = createElement('p');
 
   word.addClass(p, 'p');
 
   const properties = paragraph.properties;
 
   setElementStyle(word, p, properties);
+
+  // 默认情况下 drawing 是相对段落的
+  p.style.position = 'relative';
 
   // 渲染列表前缀
   if (properties.numPr) {
