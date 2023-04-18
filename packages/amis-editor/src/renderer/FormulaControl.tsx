@@ -690,6 +690,7 @@ export default class FormulaControl extends React.Component<
 }
 
 @FormItem({
-  type: 'ae-formulaControl'
+  type: 'ae-formulaControl',
+  detectProps: ['rendererSchema']
 })
 export class FormulaControlRenderer extends FormulaControl {}

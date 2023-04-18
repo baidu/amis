@@ -87,12 +87,21 @@ export interface TextareaFormulaControlProps extends FormControlProps {
   customFormulaPicker?: React.FC<CustomFormulaPickerProps>;
 
   /**
+   * 自定义标记文本
+   * @param editor
+   * @returns
+   */
+  customMarkText?: (editor: CodeMirror.Editor) => void;
+
+  /**
    * 弹窗顶部标题，默认为 "表达式"
    */
   header: string;
 }
 
 interface TextareaFormulaControlState {
+  value: string; // 当前文本值
+
   variables: Array<VariableItem>; // 变量数据
 
   formulaPickerOpen: boolean; // 是否打开公式编辑器
@@ -129,6 +138,7 @@ export class TextareaFormulaControl extends React.Component<
   constructor(props: TextareaFormulaControlProps) {
     super(props);
     this.state = {
+      value: '',
       variables: [],
       formulaPickerOpen: false,
       formulaPickerValue: '',
@@ -268,11 +278,12 @@ export class TextareaFormulaControl extends React.Component<
   }
   @autobind
   handleEditorMounted(cm: any, editor: any) {
-    const variables = this.props.variables || this.state.variables;
+    const variables = this.state.variables || this.props.variables || [];
     this.editorPlugin = new FormulaPlugin(editor, {
       getProps: () => ({...this.props, variables}),
       onExpressionClick: this.onExpressionClick,
-      onExpressionMouseEnter: this.onExpressionMouseEnter
+      onExpressionMouseEnter: this.onExpressionMouseEnter,
+      customMarkText: this.props.customMarkText
     });
   }
 

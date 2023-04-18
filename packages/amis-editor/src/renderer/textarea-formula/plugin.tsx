@@ -31,6 +31,7 @@ interface FormulaPluginConfig {
     expression: string,
     brace?: Array<CodeMirror.Position>
   ) => any;
+  customMarkText?: (editor: CodeMirror.Editor) => void;
   showPopover?: boolean;
   showClearIcon?: boolean; // 表达式是否展示删除icon
 }
@@ -82,6 +83,7 @@ export class FormulaPlugin {
         );
       }
     }
+    this.config.customMarkText?.(editor);
   }
 
   // 找到表达式所在的位置
