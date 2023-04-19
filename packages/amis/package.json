@@ -35,11 +35,6 @@
       "url": "http://www.apache.org/licenses/LICENSE-2.0"
     }
   ],
-  "lint-staged": {
-    "{src,examples}/**/**/*.{tsx,jsx,ts}": [
-      "prettier --write"
-    ]
-  },
   "dependencies": {
     "amis-core": "^2.9.0",
     "amis-ui": "^2.9.0",
@@ -118,13 +113,11 @@
     "fs-walk": "0.0.2",
     "glob": "^7.2.0",
     "history": "^4.7.2",
-    "husky": "^7.0.4",
     "jest": "^29.0.3",
     "jest-canvas-mock": "^2.3.0",
     "jest-environment-jsdom": "^29.0.3",
     "js-yaml": "^4.1.0",
     "json5": "^2.2.1",
-    "lint-staged": "^12.3.3",
     "marked": ">=4.0.12",
     "mkdirp": "^1.0.4",
     "moment-timezone": "^0.5.34",
