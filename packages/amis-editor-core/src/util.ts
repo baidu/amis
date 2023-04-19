@@ -714,7 +714,12 @@ export function filterSchemaForEditor(schema: any): any {
     });
     const finalSchema = modified ? mapped : schema;
     if (finalSchema?.type) {
-      return setThemeDefaultData(finalSchema);
+      if (finalSchema.editorPath) {
+        finalSchema.editorDefaultData = getValueByPath(
+          finalSchema.editorPath,
+          themeConfig
+        );
+      }
     }
     return finalSchema;
   }
@@ -1104,4 +1109,23 @@ export function setThemeDefaultData(data: any) {
   schemaData.themeConfig = themeConfig;
   assign(schemaData, getGlobalData(themeConfig));
   return schemaData;
+}
+
+/**
+ * 根据路径获取默认值
+ */
+export function getValueByPath(path: string, data: any) {
+  try {
+    if (!path || !data) {
+      return null;
+    }
+    const keys = path.split('.');
+    let value = cloneDeep(data.component);
+    for (let i = 0; i < keys.length; i++) {
+      value = value[keys[i]];
+    }
+    return value;
+  } catch (e) {
+    return null;
+  }
 }

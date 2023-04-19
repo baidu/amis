@@ -5,8 +5,7 @@ import {
   highlight,
   FormOptionsControl,
   resolveEventData,
-  insertCustomStyle,
-  getValueByPath
+  insertCustomStyle
 } from 'amis-core';
 import {ActionObject} from 'amis-core';
 import Downshift, {StateChangeOptions} from 'downshift';
@@ -1051,11 +1050,9 @@ export default class TextControl extends React.PureComponent<
       inputControlClassName,
       id,
       addOnClassName,
-      editorPath,
-      themeConfig,
+      editorDefaultData,
       classPrefix: ns
     } = this.props;
-    const editorDefaultData = getValueByPath(editorPath, themeConfig);
     let input =
       autoComplete !== false && (source || options?.length || autoComplete)
         ? this.renderSugestMode()
