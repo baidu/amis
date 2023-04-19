@@ -5,7 +5,8 @@ import {
   FormBaseControl,
   prettyBytes,
   resolveEventData,
-  insertCustomStyle
+  insertCustomStyle,
+  getValueByPath
 } from 'amis-core';
 // import 'cropperjs/dist/cropper.css';
 const Cropper = React.lazy(() => import('react-cropper'));
@@ -1362,9 +1363,13 @@ export default class ImageControl extends React.Component<
       addBtnControlClassName,
       iconControlClassName,
       id,
-      editorDefaultData,
+      editorPath,
       translate: __
     } = this.props;
+    const editorDefaultData = getValueByPath(
+      editorPath,
+      (window as any).themeConfig
+    );
 
     insertCustomStyle(
       themeCss,

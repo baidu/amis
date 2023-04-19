@@ -260,3 +260,22 @@ export function insertCustomStyle(
     insertStyle(value, id?.replace('u:', '') || uuid());
   }
 }
+
+/**
+ * 根据路径获取默认值
+ */
+export function getValueByPath(path: string, data: any) {
+  try {
+    if (!path || !data) {
+      return null;
+    }
+    const keys = path.split('.');
+    let value = cloneDeep(data.component);
+    for (let i = 0; i < keys.length; i++) {
+      value = value[keys[i]];
+    }
+    return value;
+  } catch (e) {
+    return null;
+  }
+}

@@ -713,14 +713,6 @@ export function filterSchemaForEditor(schema: any): any {
       }
     });
     const finalSchema = modified ? mapped : schema;
-    if (finalSchema?.type) {
-      if (finalSchema.editorPath) {
-        finalSchema.editorDefaultData = getValueByPath(
-          finalSchema.editorPath,
-          themeConfig
-        );
-      }
-    }
     return finalSchema;
   }
 
@@ -1101,6 +1093,7 @@ export function needFillPlaceholder(curProps: any) {
 // 设置主题数据
 export function setThemeConfig(config: any) {
   themeConfig = config;
+  (window as any).themeConfig = config;
 }
 
 // 将主题数据传入组件的schema
@@ -1109,23 +1102,4 @@ export function setThemeDefaultData(data: any) {
   schemaData.themeConfig = themeConfig;
   assign(schemaData, getGlobalData(themeConfig));
   return schemaData;
-}
-
-/**
- * 根据路径获取默认值
- */
-export function getValueByPath(path: string, data: any) {
-  try {
-    if (!path || !data) {
-      return null;
-    }
-    const keys = path.split('.');
-    let value = cloneDeep(data.component);
-    for (let i = 0; i < keys.length; i++) {
-      value = value[keys[i]];
-    }
-    return value;
-  } catch (e) {
-    return null;
-  }
 }
