@@ -98,6 +98,7 @@ import {FormRenderer} from './renderers/Form';
 import type {FormHorizontal} from './renderers/Form';
 import {enableDebug, promisify, replaceText, wrapFetcher} from './utils/index';
 import {valueMap as styleMap} from './utils/style-helper';
+import {RENDERER_TRANSMISSION_OMIT_PROPS} from './SchemaRenderer';
 
 // @ts-ignore
 export const version = '__buildVersion';
@@ -176,7 +177,8 @@ export {
   extendDefaultEnv,
   addRootWrapper,
   RendererConfig,
-  styleMap
+  styleMap,
+  RENDERER_TRANSMISSION_OMIT_PROPS
 };
 
 export function render(
