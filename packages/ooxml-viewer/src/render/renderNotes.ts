@@ -37,15 +37,34 @@ function renderNote(
   }
 }
 
+/*
+ * 过滤掉 0 和 -1 后是否还有其他的值，没有的话就不需要渲染
+ */
+function hasNote(notes: Record<string, Note>) {
+  if (!notes) {
+    return false;
+  }
+  for (const id in notes) {
+    if (id !== '0' && id !== '-1') {
+      return true;
+    }
+  }
+  return false;
+}
+
 export function renderNotes(word: Word) {
   const noteRoot = createElement('div');
 
-  for (const fId in word.footNotes || {}) {
-    renderNote(word, noteRoot, 'footnote', fId, word.footNotes[fId]);
+  if (hasNote(word.footNotes)) {
+    for (const fId in word.footNotes) {
+      renderNote(word, noteRoot, 'footnote', fId, word.footNotes[fId]);
+    }
   }
 
-  for (const fId in word.endNotes || {}) {
-    renderNote(word, noteRoot, 'endnote', fId, word.endNotes[fId]);
+  if (hasNote(word.endNotes)) {
+    for (const fId in word.endNotes || {}) {
+      renderNote(word, noteRoot, 'endnote', fId, word.endNotes[fId]);
+    }
   }
 
   if (noteRoot.children.length) {

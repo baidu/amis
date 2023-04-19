@@ -7,6 +7,7 @@ exports[`em 1`] = `
   >
     <p
       class="docx-viewer-0-p"
+      style="position: relative;"
     >
       <span
         class="docx-viewer-0-r"

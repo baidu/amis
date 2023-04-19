@@ -10,6 +10,8 @@ export class WPSStyle {
 
   fillColor?: string;
 
+  fontColor?: string;
+
   static fromXML(word: Word, element: Element) {
     const wpsStyle = new WPSStyle();
 
@@ -22,6 +24,10 @@ export class WPSStyle {
 
         case 'a:lnRef':
           wpsStyle.lineColor = parseChildColor(word, child);
+          break;
+
+        case 'a:fontRef':
+          wpsStyle.fontColor = parseChildColor(word, child);
           break;
       }
     }

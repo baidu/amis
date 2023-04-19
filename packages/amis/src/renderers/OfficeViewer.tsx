@@ -78,6 +78,14 @@ export default class OfficeViewer extends React.Component<
       }
     }
 
+    if (
+      JSON.stringify(prevProps.wordOptions) !==
+        JSON.stringify(props.wordOptions) ||
+      prevProps.display !== props.display
+    ) {
+      this.renderWord();
+    }
+
     // 这个变量替换只会更新变化的部分，所以性能还能接受
     this.word?.updateVariable();
   }
@@ -147,6 +155,9 @@ export default class OfficeViewer extends React.Component<
 
       if (display !== false) {
         word.render(this.rootElement?.current!);
+      } else if (display === false && this.rootElement?.current) {
+        // 设置为 false 后清空
+        this.rootElement.current.innerHTML = '';
       }
 
       this.word = word;
@@ -172,6 +183,9 @@ export default class OfficeViewer extends React.Component<
           });
           if (display !== false) {
             word.render(this.rootElement?.current!);
+          } else if (display === false && this.rootElement?.current) {
+            // 设置为 false 后清空
+            this.rootElement.current.innerHTML = '';
           }
         });
       };

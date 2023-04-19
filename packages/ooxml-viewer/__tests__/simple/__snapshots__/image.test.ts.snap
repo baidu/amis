@@ -7,11 +7,14 @@ exports[`image 1`] = `
   >
     <p
       class="docx-viewer-0-p"
+      style="position: relative;"
     >
       <span
         class="docx-viewer-0-r"
       >
         <div
+          data-id="1"
+          data-name="Picture 1"
           style="display: inline-block; width: 189.33px; height: 58.67px;"
         >
           <img

@@ -21,10 +21,11 @@ import {renderOMath} from './renderMath';
 export default function renderParagraph(
   word: Word,
   paragraph: Paragraph,
-  renderEmptySpace = true
+  renderEmptySpace: boolean = true,
+  inHeader: boolean = false
 ) {
   word.currentParagraph = paragraph;
-  let p = createElement('p');
+  const p = createElement('p');
 
   word.addClass(p, 'p');
 
@@ -32,15 +33,12 @@ export default function renderParagraph(
 
   setElementStyle(word, p, properties);
 
+  // 默认情况下 drawing 是相对段落的
+  p.style.position = 'relative';
+
   // 渲染列表前缀
   if (properties.numPr) {
     appendChild(p, renderNumbering(p, word, properties.numPr));
-  }
-
-  if (properties.tabs) {
-    for (const tab of properties.tabs) {
-      appendChild(p, renderTab(word, tab));
-    }
   }
 
   let inFldChar = false;
@@ -52,7 +50,7 @@ export default function renderParagraph(
       } else if (child) {
         inFldChar = false;
       }
-      appendChild(p, renderRun(word, child, paragraph, inFldChar));
+      appendChild(p, renderRun(word, child, paragraph, inFldChar, inHeader));
     } else if (child instanceof BookmarkStart) {
       appendChild(p, renderBookmarkStart(word, child));
     } else if (child instanceof Hyperlink) {

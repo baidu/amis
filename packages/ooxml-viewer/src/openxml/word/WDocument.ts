@@ -61,9 +61,25 @@ export class WDocument {
             break;
 
           default:
+            console.log('unknown background', background);
             break;
         }
       }
+
+      for (const child of background.children) {
+        const name = child.tagName;
+        switch (name) {
+          case 'v:background':
+            // vml 的背景色，不支持
+            break;
+
+          default:
+            console.log('unknown background', background);
+            break;
+        }
+      }
+
+      doc.documentBackground = documentBackground;
     }
 
     return doc;

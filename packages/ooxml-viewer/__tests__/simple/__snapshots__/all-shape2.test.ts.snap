@@ -7,16 +7,19 @@ exports[`all-shape-2 1`] = `
   >
     <p
       class="docx-viewer-0-p"
+      style="position: relative;"
     >
       <span
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251743232; position: absolute; left: 310.32px; top: 772.45px; width: 30.23px; height: 40.19px; column-count: 1;"
+          data-id="396862420"
+          data-name="Line Callout 3 (Border and Accent Bar) 396862420"
+          style="z-index: 251743232; position: absolute; left: 310.32px; top: 772.45px; width: 30.23px; height: 40.19px; color: rgb(255, 255, 255); display: table;"
         >
           <svg
             height="40.19px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="30.23px"
           >
             <path
@@ -35,23 +38,30 @@ exports[`all-shape-2 1`] = `
               stroke="#4472C4"
             />
           </svg>
-          <p
-            class="docx-viewer-0-p"
-            style="text-align: center;"
+          <div
+            data-name="textContainer"
+            style="display: table-cell; vertical-align: middle;"
           >
-             
-          </p>
+            <p
+              class="docx-viewer-0-p"
+              style="text-align: center; position: relative;"
+            >
+               
+            </p>
+          </div>
         </div>
       </span>
       <span
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251742208; position: absolute; left: 247.81px; top: 766.86px; width: 29.24px; height: 35.71px; column-count: 1;"
+          data-id="396862419"
+          data-name="Line Callout 2 (Border and Accent Bar) 396862419"
+          style="z-index: 251742208; position: absolute; left: 247.81px; top: 766.86px; width: 29.24px; height: 35.71px; color: rgb(255, 255, 255); display: table;"
         >
           <svg
             height="35.71px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="29.24px"
           >
             <path
@@ -70,23 +80,30 @@ exports[`all-shape-2 1`] = `
               stroke="#4472C4"
             />
           </svg>
-          <p
-            class="docx-viewer-0-p"
-            style="text-align: center;"
+          <div
+            data-name="textContainer"
+            style="display: table-cell; vertical-align: middle;"
           >
-             
-          </p>
+            <p
+              class="docx-viewer-0-p"
+              style="text-align: center; position: relative;"
+            >
+               
+            </p>
+          </div>
         </div>
       </span>
       <span
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251741184; position: absolute; left: 174.45px; top: 772.45px; width: 35.14px; height: 30.13px; column-count: 1;"
+          data-id="396862418"
+          data-name="Line Callout 1 (Border and Accent Bar) 396862418"
+          style="z-index: 251741184; position: absolute; left: 174.45px; top: 772.45px; width: 35.14px; height: 30.13px; color: rgb(255, 255, 255); display: table;"
         >
           <svg
             height="30.13px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="35.14px"
           >
             <path
@@ -105,23 +122,30 @@ exports[`all-shape-2 1`] = `
               stroke="#4472C4"
             />
           </svg>
-          <p
-            class="docx-viewer-0-p"
-            style="text-align: center;"
+          <div
+            data-name="textContainer"
+            style="display: table-cell; vertical-align: middle;"
           >
-             
-          </p>
+            <p
+              class="docx-viewer-0-p"
+              style="text-align: center; position: relative;"
+            >
+               
+            </p>
+          </div>
         </div>
       </span>
       <span
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251740160; position: absolute; left: 105.35px; top: 772.45px; width: 31.86px; height: 30.08px; column-count: 1;"
+          data-id="396862417"
+          data-name="Line Callout 3 (No Border) 396862417"
+          style="z-index: 251740160; position: absolute; left: 105.35px; top: 772.45px; width: 31.86px; height: 30.08px; color: rgb(255, 255, 255); display: table;"
         >
           <svg
             height="30.08px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="31.86px"
           >
             <path
@@ -135,23 +159,30 @@ exports[`all-shape-2 1`] = `
               stroke="#4472C4"
             />
           </svg>
-          <p
-            class="docx-viewer-0-p"
-            style="text-align: center;"
+          <div
+            data-name="textContainer"
+            style="display: table-cell; vertical-align: middle;"
           >
-             
-          </p>
+            <p
+              class="docx-viewer-0-p"
+              style="text-align: center; position: relative;"
+            >
+               
+            </p>
+          </div>
         </div>
       </span>
       <span
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251739136; position: absolute; left: 31.47px; top: 766.86px; width: 37.74px; height: 35.71px; column-count: 1;"
+          data-id="396862416"
+          data-name="Line Callout 2 (No Border) 396862416"
+          style="z-index: 251739136; position: absolute; left: 31.47px; top: 766.86px; width: 37.74px; height: 35.71px; color: rgb(255, 255, 255); display: table;"
         >
           <svg
             height="35.71px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="37.74px"
           >
             <path
@@ -165,23 +196,30 @@ exports[`all-shape-2 1`] = `
               stroke="#4472C4"
             />
           </svg>
-          <p
-            class="docx-viewer-0-p"
-            style="text-align: center;"
+          <div
+            data-name="textContainer"
+            style="display: table-cell; vertical-align: middle;"
           >
-             
-          </p>
+            <p
+              class="docx-viewer-0-p"
+              style="text-align: center; position: relative;"
+            >
+               
+            </p>
+          </div>
         </div>
       </span>
       <span
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251738112; position: absolute; left: -54.26px; top: 772.45px; width: 50.91px; height: 30.14px; column-count: 1;"
+          data-id="396862415"
+          data-name="Line Callout 1 (No Border) 396862415"
+          style="z-index: 251738112; position: absolute; left: -54.26px; top: 772.45px; width: 50.91px; height: 30.14px; color: rgb(255, 255, 255); display: table;"
         >
           <svg
             height="30.14px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="50.91px"
           >
             <path
@@ -195,23 +233,30 @@ exports[`all-shape-2 1`] = `
               stroke="#4472C4"
             />
           </svg>
-          <p
-            class="docx-viewer-0-p"
-            style="text-align: center;"
+          <div
+            data-name="textContainer"
+            style="display: table-cell; vertical-align: middle;"
           >
-             
-          </p>
+            <p
+              class="docx-viewer-0-p"
+              style="text-align: center; position: relative;"
+            >
+               
+            </p>
+          </div>
         </div>
       </span>
       <span
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251737088; position: absolute; left: 629.57px; top: 705.69px; width: 47.79px; height: 30.13px; column-count: 1;"
+          data-id="396862414"
+          data-name="Line Callout 3 (Accent Bar) 396862414"
+          style="z-index: 251737088; position: absolute; left: 629.57px; top: 705.69px; width: 47.79px; height: 30.13px; color: rgb(255, 255, 255); display: table;"
         >
           <svg
             height="30.13px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="47.79px"
           >
             <path
@@ -230,23 +275,30 @@ exports[`all-shape-2 1`] = `
               stroke="#4472C4"
             />
           </svg>
-          <p
-            class="docx-viewer-0-p"
-            style="text-align: center;"
+          <div
+            data-name="textContainer"
+            style="display: table-cell; vertical-align: middle;"
           >
-             
-          </p>
+            <p
+              class="docx-viewer-0-p"
+              style="text-align: center; position: relative;"
+            >
+               
+            </p>
+          </div>
         </div>
       </span>
       <span
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251736064; position: absolute; left: 541.38px; top: 705.47px; width: 51.35px; height: 39.03px; column-count: 1;"
+          data-id="396862413"
+          data-name="Line Callout 2 (Accent Bar) 396862413"
+          style="z-index: 251736064; position: absolute; left: 541.38px; top: 705.47px; width: 51.35px; height: 39.03px; color: rgb(255, 255, 255); display: table;"
         >
           <svg
             height="39.03px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="51.35px"
           >
             <path
@@ -265,23 +317,30 @@ exports[`all-shape-2 1`] = `
               stroke="#4472C4"
             />
           </svg>
-          <p
-            class="docx-viewer-0-p"
-            style="text-align: center;"
+          <div
+            data-name="textContainer"
+            style="display: table-cell; vertical-align: middle;"
           >
-             
-          </p>
+            <p
+              class="docx-viewer-0-p"
+              style="text-align: center; position: relative;"
+            >
+               
+            </p>
+          </div>
         </div>
       </span>
       <span
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251735040; position: absolute; left: 465.41px; top: 707.70px; width: 46.91px; height: 36.80px; column-count: 1;"
+          data-id="396862412"
+          data-name="Line Callout 1 (Accent Bar) 396862412"
+          style="z-index: 251735040; position: absolute; left: 465.41px; top: 707.70px; width: 46.91px; height: 36.80px; color: rgb(255, 255, 255); display: table;"
         >
           <svg
             height="36.8px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="46.91px"
           >
             <path
@@ -300,23 +359,30 @@ exports[`all-shape-2 1`] = `
               stroke="#4472C4"
             />
           </svg>
-          <p
-            class="docx-viewer-0-p"
-            style="text-align: center;"
+          <div
+            data-name="textContainer"
+            style="display: table-cell; vertical-align: middle;"
           >
-             
-          </p>
+            <p
+              class="docx-viewer-0-p"
+              style="text-align: center; position: relative;"
+            >
+               
+            </p>
+          </div>
         </div>
       </span>
       <span
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251734016; position: absolute; left: 387.33px; top: 719.98px; width: 48.22px; height: 24.52px; column-count: 1;"
+          data-id="396862411"
+          data-name="Line Callout 3 396862411"
+          style="z-index: 251734016; position: absolute; left: 387.33px; top: 719.98px; width: 48.22px; height: 24.52px; color: rgb(255, 255, 255); display: table;"
         >
           <svg
             height="24.52px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="48.22px"
           >
             <path
@@ -330,23 +396,30 @@ exports[`all-shape-2 1`] = `
               stroke="#4472C4"
             />
           </svg>
-          <p
-            class="docx-viewer-0-p"
-            style="text-align: center;"
+          <div
+            data-name="textContainer"
+            style="display: table-cell; vertical-align: middle;"
           >
-             
-          </p>
+            <p
+              class="docx-viewer-0-p"
+              style="text-align: center; position: relative;"
+            >
+               
+            </p>
+          </div>
         </div>
       </span>
       <span
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251732992; position: absolute; left: 294.69px; top: 714.40px; width: 45.77px; height: 30.10px; column-count: 1;"
+          data-id="396862410"
+          data-name="Line Callout 2 396862410"
+          style="z-index: 251732992; position: absolute; left: 294.69px; top: 714.40px; width: 45.77px; height: 30.10px; color: rgb(255, 255, 255); display: table;"
         >
           <svg
             height="30.1px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="45.77px"
           >
             <path
@@ -360,23 +433,30 @@ exports[`all-shape-2 1`] = `
               stroke="#4472C4"
             />
           </svg>
-          <p
-            class="docx-viewer-0-p"
-            style="text-align: center;"
+          <div
+            data-name="textContainer"
+            style="display: table-cell; vertical-align: middle;"
           >
-             
-          </p>
+            <p
+              class="docx-viewer-0-p"
+              style="text-align: center; position: relative;"
+            >
+               
+            </p>
+          </div>
         </div>
       </span>
       <span
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251731968; position: absolute; left: 212.01px; top: 707.86px; width: 49.12px; height: 36.84px; column-count: 1;"
+          data-id="396862408"
+          data-name="Line Callout 1 396862408"
+          style="z-index: 251731968; position: absolute; left: 212.01px; top: 707.86px; width: 49.12px; height: 36.84px; color: rgb(255, 255, 255); display: table;"
         >
           <svg
             height="36.84px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="49.12px"
           >
             <path
@@ -390,23 +470,30 @@ exports[`all-shape-2 1`] = `
               stroke="#4472C4"
             />
           </svg>
-          <p
-            class="docx-viewer-0-p"
-            style="text-align: center;"
+          <div
+            data-name="textContainer"
+            style="display: table-cell; vertical-align: middle;"
           >
-             
-          </p>
+            <p
+              class="docx-viewer-0-p"
+              style="text-align: center; position: relative;"
+            >
+               
+            </p>
+          </div>
         </div>
       </span>
       <span
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251729920; position: absolute; left: 137.22px; top: 705.47px; width: 36.93px; height: 30.35px; column-count: 1;"
+          data-id="396862406"
+          data-name="Cloud Callout 396862406"
+          style="z-index: 251729920; position: absolute; left: 137.22px; top: 705.47px; width: 36.93px; height: 30.35px; color: rgb(255, 255, 255); display: table;"
         >
           <svg
             height="30.35px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="36.93px"
           >
             <path
@@ -435,23 +522,30 @@ exports[`all-shape-2 1`] = `
               stroke="#4472C4"
             />
           </svg>
-          <p
-            class="docx-viewer-0-p"
-            style="text-align: center;"
+          <div
+            data-name="textContainer"
+            style="display: table-cell; vertical-align: middle;"
           >
-             
-          </p>
+            <p
+              class="docx-viewer-0-p"
+              style="text-align: center; position: relative;"
+            >
+               
+            </p>
+          </div>
         </div>
       </span>
       <span
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251728896; position: absolute; left: 78.14px; top: 705.47px; width: 27.01px; height: 30.13px; column-count: 1;"
+          data-id="396862405"
+          data-name="Oval Callout 396862405"
+          style="z-index: 251728896; position: absolute; left: 78.14px; top: 705.47px; width: 27.01px; height: 30.13px; color: rgb(255, 255, 255); display: table;"
         >
           <svg
             height="30.13px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="27.01px"
           >
             <path
@@ -460,23 +554,30 @@ exports[`all-shape-2 1`] = `
               stroke="#4472C4"
             />
           </svg>
-          <p
-            class="docx-viewer-0-p"
-            style="text-align: center;"
+          <div
+            data-name="textContainer"
+            style="display: table-cell; vertical-align: middle;"
           >
-             
-          </p>
+            <p
+              class="docx-viewer-0-p"
+              style="text-align: center; position: relative;"
+            >
+               
+            </p>
+          </div>
         </div>
       </span>
       <span
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251727872; position: absolute; left: 5.58px; top: 705.47px; width: 42.34px; height: 30.14px; column-count: 1;"
+          data-id="396862404"
+          data-name="Rounded Rectangular Callout 396862404"
+          style="z-index: 251727872; position: absolute; left: 5.58px; top: 705.47px; width: 42.34px; height: 30.14px; color: rgb(255, 255, 255); display: table;"
         >
           <svg
             height="30.14px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="42.34px"
           >
             <path
@@ -485,23 +586,30 @@ exports[`all-shape-2 1`] = `
               stroke="#4472C4"
             />
           </svg>
-          <p
-            class="docx-viewer-0-p"
-            style="text-align: center;"
+          <div
+            data-name="textContainer"
+            style="display: table-cell; vertical-align: middle;"
           >
-             
-          </p>
+            <p
+              class="docx-viewer-0-p"
+              style="text-align: center; position: relative;"
+            >
+               
+            </p>
+          </div>
         </div>
       </span>
       <span
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251726848; position: absolute; left: -54.26px; top: 705.47px; width: 34.17px; height: 23.44px; column-count: 1;"
+          data-id="396862403"
+          data-name="Rectangular Callout 396862403"
+          style="z-index: 251726848; position: absolute; left: -54.26px; top: 705.47px; width: 34.17px; height: 23.44px; color: rgb(255, 255, 255); display: table;"
         >
           <svg
             height="23.44px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="34.17px"
           >
             <path
@@ -510,23 +618,30 @@ exports[`all-shape-2 1`] = `
               stroke="#4472C4"
             />
           </svg>
-          <p
-            class="docx-viewer-0-p"
-            style="text-align: center;"
+          <div
+            data-name="textContainer"
+            style="display: table-cell; vertical-align: middle;"
           >
-             
-          </p>
+            <p
+              class="docx-viewer-0-p"
+              style="text-align: center; position: relative;"
+            >
+               
+            </p>
+          </div>
         </div>
       </span>
       <span
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251725824; position: absolute; left: 352.95px; top: 651.89px; width: 41.31px; height: 30.14px; column-count: 1;"
+          data-id="396862402"
+          data-name="Double Wave 396862402"
+          style="z-index: 251725824; position: absolute; left: 352.95px; top: 651.89px; width: 41.31px; height: 30.14px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="30.14px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="41.31px"
           >
             <path
@@ -541,11 +656,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251724800; position: absolute; left: 294.82px; top: 651.89px; width: 40.06px; height: 35.80px; column-count: 1;"
+          data-id="396862401"
+          data-name="Wave 396862401"
+          style="z-index: 251724800; position: absolute; left: 294.82px; top: 651.89px; width: 40.06px; height: 35.80px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="35.8px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="40.06px"
           >
             <path
@@ -560,11 +677,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251723776; position: absolute; left: 240.08px; top: 651.89px; width: 36.75px; height: 35.84px; column-count: 1;"
+          data-id="396862400"
+          data-name="Horizontal Scroll 396862400"
+          style="z-index: 251723776; position: absolute; left: 240.08px; top: 651.89px; width: 36.75px; height: 35.84px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="35.84px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="36.75px"
           >
             <path
@@ -589,11 +708,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251722752; position: absolute; left: 166.53px; top: 640.73px; width: 43.29px; height: 47.06px; column-count: 1;"
+          data-id="63"
+          data-name="Vertical Scroll 63"
+          style="z-index: 251722752; position: absolute; left: 166.53px; top: 640.73px; width: 43.29px; height: 47.06px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="47.06px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="43.29px"
           >
             <path
@@ -618,11 +739,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251721728; position: absolute; left: 85.95px; top: 646.31px; width: 51.32px; height: 41.30px; column-count: 1;"
+          data-id="62"
+          data-name="Curved Down Ribbon 62"
+          style="z-index: 251721728; position: absolute; left: 85.95px; top: 646.31px; width: 51.32px; height: 41.30px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="41.3px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="51.32px"
           >
             <path
@@ -647,11 +770,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251720704; position: absolute; left: 31.47px; top: 651.89px; width: 31.26px; height: 24.55px; column-count: 1;"
+          data-id="61"
+          data-name="Curved Up Ribbon 61"
+          style="z-index: 251720704; position: absolute; left: 31.47px; top: 651.89px; width: 31.26px; height: 24.55px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="24.55px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="31.26px"
           >
             <path
@@ -676,11 +801,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251719680; position: absolute; left: -63.63px; top: 646.31px; width: 60.28px; height: 30.14px; column-count: 1;"
+          data-id="60"
+          data-name="Down Ribbon 60"
+          style="z-index: 251719680; position: absolute; left: -63.63px; top: 646.31px; width: 60.28px; height: 30.14px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="30.14px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="60.28px"
           >
             <path
@@ -705,11 +832,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251718656; position: absolute; left: 586.03px; top: 602.99px; width: 43.53px; height: 29.02px; column-count: 1;"
+          data-id="59"
+          data-name="Up Ribbon 59"
+          style="z-index: 251718656; position: absolute; left: 586.03px; top: 602.99px; width: 43.53px; height: 29.02px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="29.02px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="43.53px"
           >
             <path
@@ -734,11 +863,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251717632; position: absolute; left: 532.45px; top: 602.78px; width: 30.14px; height: 19.35px; column-count: 1;"
+          data-id="58"
+          data-name="32-Point Star 58"
+          style="z-index: 251717632; position: absolute; left: 532.45px; top: 602.78px; width: 30.14px; height: 19.35px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="19.35px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="30.14px"
           >
             <path
@@ -753,11 +884,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251716608; position: absolute; left: 492.27px; top: 594.28px; width: 20.06px; height: 27.85px; column-count: 1;"
+          data-id="57"
+          data-name="24-Point Star 57"
+          style="z-index: 251716608; position: absolute; left: 492.27px; top: 594.28px; width: 20.06px; height: 27.85px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="27.85px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="20.06px"
           >
             <path
@@ -772,11 +905,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251715584; position: absolute; left: 435.34px; top: 594.28px; width: 30.27px; height: 37.52px; column-count: 1;"
+          data-id="56"
+          data-name="16-Point Star 56"
+          style="z-index: 251715584; position: absolute; left: 435.34px; top: 594.28px; width: 30.27px; height: 37.52px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="37.52px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="30.27px"
           >
             <path
@@ -791,11 +926,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251714560; position: absolute; left: 404.28px; top: 594.06px; width: 18.78px; height: 37.73px; column-count: 1;"
+          data-id="55"
+          data-name="12-Point Star 55"
+          style="z-index: 251714560; position: absolute; left: 404.28px; top: 594.06px; width: 18.78px; height: 37.73px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="37.73px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="18.78px"
           >
             <path
@@ -810,11 +947,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251713536; position: absolute; left: 352.51px; top: 594.06px; width: 27.23px; height: 37.74px; column-count: 1;"
+          data-id="54"
+          data-name="10-Point Star 54"
+          style="z-index: 251713536; position: absolute; left: 352.51px; top: 594.06px; width: 27.23px; height: 37.74px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="37.74px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="27.23px"
           >
             <path
@@ -829,11 +968,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251712512; position: absolute; left: 302.50px; top: 594.06px; width: 25.89px; height: 28.07px; column-count: 1;"
+          data-id="53"
+          data-name="8-Point Star 53"
+          style="z-index: 251712512; position: absolute; left: 302.50px; top: 594.06px; width: 25.89px; height: 28.07px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="28.07px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="25.89px"
           >
             <path
@@ -848,11 +989,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251711488; position: absolute; left: 253.39px; top: 593.85px; width: 31.25px; height: 28.12px; column-count: 1;"
+          data-id="52"
+          data-name="8-Point Star 52"
+          style="z-index: 251711488; position: absolute; left: 253.39px; top: 593.85px; width: 31.25px; height: 28.12px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="28.12px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="31.25px"
           >
             <path
@@ -867,11 +1010,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251710464; position: absolute; left: 196.68px; top: 585.57px; width: 33.27px; height: 36.40px; column-count: 1;"
+          data-id="51"
+          data-name="7-Point Star 51"
+          style="z-index: 251710464; position: absolute; left: 196.68px; top: 585.57px; width: 33.27px; height: 36.40px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="36.4px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="33.27px"
           >
             <path
@@ -886,11 +1031,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251709440; position: absolute; left: 159.62px; top: 578.22px; width: 23.44px; height: 43.53px; column-count: 1;"
+          data-id="50"
+          data-name="6-Point Star 50"
+          style="z-index: 251709440; position: absolute; left: 159.62px; top: 578.22px; width: 23.44px; height: 43.53px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="43.53px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="23.44px"
           >
             <path
@@ -905,11 +1052,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251708416; position: absolute; left: 104.93px; top: 585.13px; width: 24.73px; height: 26.10px; column-count: 1;"
+          data-id="49"
+          data-name="5-Point Star 49"
+          style="z-index: 251708416; position: absolute; left: 104.93px; top: 585.13px; width: 24.73px; height: 26.10px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="26.1px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="24.73px"
           >
             <path
@@ -924,11 +1073,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251707392; position: absolute; left: 54.70px; top: 585.13px; width: 23.44px; height: 25.67px; column-count: 1;"
+          data-id="48"
+          data-name="4-Point Star 48"
+          style="z-index: 251707392; position: absolute; left: 54.70px; top: 585.13px; width: 23.44px; height: 25.67px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="25.67px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="23.44px"
           >
             <path
@@ -943,11 +1094,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251706368; position: absolute; left: -3.35px; top: 585.13px; width: 34.60px; height: 25.67px; column-count: 1;"
+          data-id="47"
+          data-name="Explosion 2 47"
+          style="z-index: 251706368; position: absolute; left: -3.35px; top: 585.13px; width: 34.60px; height: 25.67px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="25.67px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="34.6px"
           >
             <path
@@ -962,11 +1115,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251705344; position: absolute; left: -54.70px; top: 584.92px; width: 34.60px; height: 25.67px; column-count: 1;"
+          data-id="46"
+          data-name="Explosion 1 46"
+          style="z-index: 251705344; position: absolute; left: -54.70px; top: 584.92px; width: 34.60px; height: 25.67px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="25.67px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="34.6px"
           >
             <path
@@ -981,11 +1136,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251704320; position: absolute; left: 689.84px; top: 503.43px; width: 25.67px; height: 39.89px; column-count: 1;"
+          data-id="45"
+          data-name="Display 45"
+          style="z-index: 251704320; position: absolute; left: 689.84px; top: 503.43px; width: 25.67px; height: 39.89px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="39.89px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="25.67px"
           >
             <path
@@ -1000,11 +1157,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251703296; position: absolute; left: 647.43px; top: 503.43px; width: 29.94px; height: 32.29px; column-count: 1;"
+          data-id="44"
+          data-name="Direct Access Storage 44"
+          style="z-index: 251703296; position: absolute; left: 647.43px; top: 503.43px; width: 29.94px; height: 32.29px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="32.29px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="29.94px"
           >
             <path
@@ -1029,11 +1188,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251702272; position: absolute; left: 600.52px; top: 503.43px; width: 29.21px; height: 40.15px; column-count: 1;"
+          data-id="43"
+          data-name="Magnetic Disk 43"
+          style="z-index: 251702272; position: absolute; left: 600.52px; top: 503.43px; width: 29.21px; height: 40.15px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="40.15px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="29.21px"
           >
             <path
@@ -1058,11 +1219,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251701248; position: absolute; left: 532.45px; top: 503.43px; width: 43.75px; height: 32.50px; column-count: 1;"
+          data-id="42"
+          data-name="Sequential Access Storage 42"
+          style="z-index: 251701248; position: absolute; left: 532.45px; top: 503.43px; width: 43.75px; height: 32.50px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="32.5px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="43.75px"
           >
             <path
@@ -1077,11 +1240,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251700224; position: absolute; left: 474.41px; top: 493.60px; width: 37.92px; height: 49.96px; column-count: 1;"
+          data-id="41"
+          data-name="Delay 41"
+          style="z-index: 251700224; position: absolute; left: 474.41px; top: 493.60px; width: 37.92px; height: 49.96px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="49.96px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="37.92px"
           >
             <path
@@ -1096,11 +1261,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251699200; position: absolute; left: 423.06px; top: 493.60px; width: 30.14px; height: 42.33px; column-count: 1;"
+          data-id="40"
+          data-name="Stored Data 40"
+          style="z-index: 251699200; position: absolute; left: 423.06px; top: 493.60px; width: 30.14px; height: 42.33px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="42.33px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="30.14px"
           >
             <path
@@ -1115,11 +1282,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251698176; position: absolute; left: 379.53px; top: 503.43px; width: 24.56px; height: 40.15px; column-count: 1;"
+          data-id="39"
+          data-name="Merge 39"
+          style="z-index: 251698176; position: absolute; left: 379.53px; top: 503.43px; width: 24.56px; height: 40.15px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="40.15px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="24.56px"
           >
             <path
@@ -1134,11 +1303,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251697152; position: absolute; left: 320.78px; top: 493.38px; width: 31.96px; height: 42.38px; column-count: 1;"
+          data-id="38"
+          data-name="Extract 38"
+          style="z-index: 251697152; position: absolute; left: 320.78px; top: 493.38px; width: 31.96px; height: 42.38px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="42.38px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="31.96px"
           >
             <path
@@ -1153,11 +1324,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251696128; position: absolute; left: 261.20px; top: 493.38px; width: 33.41px; height: 50.20px; column-count: 1;"
+          data-id="37"
+          data-name="Sort 37"
+          style="z-index: 251696128; position: absolute; left: 261.20px; top: 493.38px; width: 33.41px; height: 50.20px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="50.2px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="33.41px"
           >
             <path
@@ -1182,11 +1355,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251695104; position: absolute; left: 196.68px; top: 493.38px; width: 43.45px; height: 50.23px; column-count: 1;"
+          data-id="36"
+          data-name="Collate 36"
+          style="z-index: 251695104; position: absolute; left: 196.68px; top: 493.38px; width: 43.45px; height: 50.23px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="50.23px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="43.45px"
           >
             <path
@@ -1201,11 +1376,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251694080; position: absolute; left: 129.66px; top: 493.38px; width: 44.68px; height: 42.38px; column-count: 1;"
+          data-id="35"
+          data-name="Or 35"
+          style="z-index: 251694080; position: absolute; left: 129.66px; top: 493.38px; width: 44.68px; height: 42.38px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="42.38px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="44.68px"
           >
             <path
@@ -1230,11 +1407,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251693056; position: absolute; left: 78.14px; top: 503.43px; width: 34.60px; height: 32.33px; column-count: 1;"
+          data-id="34"
+          data-name="Summing Junction 34"
+          style="z-index: 251693056; position: absolute; left: 78.14px; top: 503.43px; width: 34.60px; height: 32.33px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="32.33px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="34.6px"
           >
             <path
@@ -1259,11 +1438,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251692032; position: absolute; left: -3.35px; top: 503.43px; width: 51.32px; height: 32.37px; column-count: 1;"
+          data-id="33"
+          data-name="Punched Tape 33"
+          style="z-index: 251692032; position: absolute; left: -3.35px; top: 503.43px; width: 51.32px; height: 32.37px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="32.37px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="51.32px"
           >
             <path
@@ -1278,11 +1459,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251691008; position: absolute; left: 629.71px; top: 427.74px; width: 47.85px; height: 36.57px; column-count: 1;"
+          data-id="32"
+          data-name="Card 32"
+          style="z-index: 251691008; position: absolute; left: 629.71px; top: 427.74px; width: 47.85px; height: 36.57px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="36.57px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="47.85px"
           >
             <path
@@ -1297,11 +1480,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251689984; position: absolute; left: 562.59px; top: 437.57px; width: 37.95px; height: 33.22px; column-count: 1;"
+          data-id="31"
+          data-name="Off-page Connector 31"
+          style="z-index: 251689984; position: absolute; left: 562.59px; top: 437.57px; width: 37.95px; height: 33.22px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="33.22px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="37.95px"
           >
             <path
@@ -1316,11 +1501,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251688960; position: absolute; left: 492.27px; top: 427.74px; width: 49.12px; height: 43.28px; column-count: 1;"
+          data-id="30"
+          data-name="Connector 30"
+          style="z-index: 251688960; position: absolute; left: 492.27px; top: 427.74px; width: 49.12px; height: 43.28px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="43.28px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="49.12px"
           >
             <path
@@ -1335,11 +1522,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251687936; position: absolute; left: 414.13px; top: 420.83px; width: 51.29px; height: 50.23px; column-count: 1;"
+          data-id="29"
+          data-name="Manual Operation 29"
+          style="z-index: 251687936; position: absolute; left: 414.13px; top: 420.83px; width: 51.29px; height: 50.23px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="50.23px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="51.29px"
           >
             <path
@@ -1354,11 +1543,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251686912; position: absolute; left: 352.74px; top: 427.52px; width: 34.60px; height: 36.79px; column-count: 1;"
+          data-id="28"
+          data-name="Manual Input 28"
+          style="z-index: 251686912; position: absolute; left: 352.74px; top: 427.52px; width: 34.60px; height: 36.79px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="36.79px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="34.6px"
           >
             <path
@@ -1373,11 +1564,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251685888; position: absolute; left: 276.83px; top: 420.83px; width: 43.75px; height: 43.47px; column-count: 1;"
+          data-id="27"
+          data-name="Preparation 27"
+          style="z-index: 251685888; position: absolute; left: 276.83px; top: 420.83px; width: 43.75px; height: 43.47px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="43.47px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="43.75px"
           >
             <path
@@ -1392,11 +1585,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251684864; position: absolute; left: 183.07px; top: 420.83px; width: 57.09px; height: 36.84px; column-count: 1;"
+          data-id="26"
+          data-name="Terminator 26"
+          style="z-index: 251684864; position: absolute; left: 183.07px; top: 420.83px; width: 57.09px; height: 36.84px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="36.84px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="57.09px"
           >
             <path
@@ -1411,11 +1606,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251683840; position: absolute; left: 85.95px; top: 420.83px; width: 51.32px; height: 43.49px; column-count: 1;"
+          data-id="25"
+          data-name="Multidocument 25"
+          style="z-index: 251683840; position: absolute; left: 85.95px; top: 420.83px; width: 51.32px; height: 43.49px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="43.49px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="51.32px"
           >
             <path
@@ -1440,11 +1637,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251682816; position: absolute; left: -3.35px; top: 410.78px; width: 51.27px; height: 53.58px; column-count: 1;"
+          data-id="24"
+          data-name="Document 24"
+          style="z-index: 251682816; position: absolute; left: -3.35px; top: 410.78px; width: 51.27px; height: 53.58px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="53.58px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="51.27px"
           >
             <path
@@ -1459,11 +1658,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251681792; position: absolute; left: 541.36px; top: 321.48px; width: 88.37px; height: 71.60px; column-count: 1;"
+          data-id="23"
+          data-name="Internal Storage 23"
+          style="z-index: 251681792; position: absolute; left: 541.36px; top: 321.48px; width: 88.37px; height: 71.60px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="71.6px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="88.37px"
           >
             <path
@@ -1488,11 +1689,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251680768; position: absolute; left: 423.06px; top: 327.28px; width: 89.30px; height: 65.58px; column-count: 1;"
+          data-id="22"
+          data-name="Predefined Process 22"
+          style="z-index: 251680768; position: absolute; left: 423.06px; top: 327.28px; width: 89.30px; height: 65.58px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="65.58px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="89.3px"
           >
             <path
@@ -1517,11 +1720,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251679744; position: absolute; left: 328.18px; top: 327.28px; width: 65.90px; height: 65.80px; column-count: 1;"
+          data-id="21"
+          data-name="Data 21"
+          style="z-index: 251679744; position: absolute; left: 328.18px; top: 327.28px; width: 65.90px; height: 65.80px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="65.8px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="65.9px"
           >
             <path
@@ -1536,11 +1741,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251678720; position: absolute; left: 196.46px; top: 327.06px; width: 98.15px; height: 65.86px; column-count: 1;"
+          data-id="20"
+          data-name="Decision 20"
+          style="z-index: 251678720; position: absolute; left: 196.46px; top: 327.06px; width: 98.15px; height: 65.86px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="65.86px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="98.15px"
           >
             <path
@@ -1555,11 +1762,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251677696; position: absolute; left: 78.14px; top: 327.06px; width: 96.21px; height: 56.87px; column-count: 1;"
+          data-id="19"
+          data-name="Alternate Process 19"
+          style="z-index: 251677696; position: absolute; left: 78.14px; top: 327.06px; width: 96.21px; height: 56.87px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="56.87px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="96.21px"
           >
             <path
@@ -1574,11 +1783,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251676672; position: absolute; left: -3.35px; top: 327.06px; width: 51.32px; height: 56.93px; column-count: 1;"
+          data-id="18"
+          data-name="Process 18"
+          style="z-index: 251676672; position: absolute; left: -3.35px; top: 327.06px; width: 51.32px; height: 56.93px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="56.93px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="51.32px"
           >
             <path
@@ -1593,11 +1804,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251675648; position: absolute; left: 414.13px; top: 227.72px; width: 84.84px; height: 61.33px; column-count: 1;"
+          data-id="17"
+          data-name="Not Equal 17"
+          style="z-index: 251675648; position: absolute; left: 414.13px; top: 227.72px; width: 84.84px; height: 61.33px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="61.33px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="84.84px"
           >
             <path
@@ -1612,11 +1825,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251674624; position: absolute; left: 334.83px; top: 244.46px; width: 59.21px; height: 37.90px; column-count: 1;"
+          data-id="16"
+          data-name="Equal 16"
+          style="z-index: 251674624; position: absolute; left: 334.83px; top: 244.46px; width: 59.21px; height: 37.90px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="37.9px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="59.21px"
           >
             <path
@@ -1631,11 +1846,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251673600; position: absolute; left: 229.95px; top: 237.76px; width: 64.71px; height: 56.93px; column-count: 1;"
+          data-id="15"
+          data-name="Division 15"
+          style="z-index: 251673600; position: absolute; left: 229.95px; top: 237.76px; width: 64.71px; height: 56.93px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="56.93px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="64.71px"
           >
             <path
@@ -1650,11 +1867,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251672576; position: absolute; left: 159.62px; top: 237.76px; width: 50.23px; height: 44.65px; column-count: 1;"
+          data-id="14"
+          data-name="Multiply 14"
+          style="z-index: 251672576; position: absolute; left: 159.62px; top: 237.76px; width: 50.23px; height: 44.65px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="44.65px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="50.23px"
           >
             <path
@@ -1669,11 +1888,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251671552; position: absolute; left: 78.14px; top: 250.04px; width: 59.16px; height: 25.67px; column-count: 1;"
+          data-id="13"
+          data-name="Minus 13"
+          style="z-index: 251671552; position: absolute; left: 78.14px; top: 250.04px; width: 59.16px; height: 25.67px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="25.67px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="59.16px"
           >
             <path
@@ -1688,11 +1909,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251670528; position: absolute; left: -20.09px; top: 227.72px; width: 58.05px; height: 61.39px; column-count: 1;"
+          data-id="12"
+          data-name="Plus 12"
+          style="z-index: 251670528; position: absolute; left: -20.09px; top: 227.72px; width: 58.05px; height: 61.39px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="61.39px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="58.05px"
           >
             <path
@@ -1707,11 +1930,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251669504; position: absolute; left: 276.83px; top: 116.31px; width: 58.05px; height: 75.69px; column-count: 1;"
+          data-id="11"
+          data-name="Circular Arrow 11"
+          style="z-index: 251669504; position: absolute; left: 276.83px; top: 116.31px; width: 58.05px; height: 75.69px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="75.69px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="58.05px"
           >
             <path
@@ -1726,11 +1951,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251668480; position: absolute; left: 174.14px; top: 116.09px; width: 65.86px; height: 53.58px; column-count: 1;"
+          data-id="10"
+          data-name="Quad Arrow Callout 10"
+          style="z-index: 251668480; position: absolute; left: 174.14px; top: 116.09px; width: 65.86px; height: 53.58px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="53.58px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="65.86px"
           >
             <path
@@ -1745,11 +1972,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251667456; position: absolute; left: 62.51px; top: 116.09px; width: 66.98px; height: 43.53px; column-count: 1;"
+          data-id="9"
+          data-name="Left-Right Arrow Callout 9"
+          style="z-index: 251667456; position: absolute; left: 62.51px; top: 116.09px; width: 66.98px; height: 43.53px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="43.53px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="66.98px"
           >
             <path
@@ -1764,11 +1993,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251666432; position: absolute; left: -20.09px; top: 106.04px; width: 43.53px; height: 46.88px; column-count: 1;"
+          data-id="8"
+          data-name="Up Arrow Callout 8"
+          style="z-index: 251666432; position: absolute; left: -20.09px; top: 106.04px; width: 43.53px; height: 46.88px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="46.88px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="43.53px"
           >
             <path
@@ -1783,11 +2014,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251665408; position: absolute; left: 575.99px; top: 26.79px; width: 53.58px; height: 44.58px; column-count: 1;"
+          data-id="7"
+          data-name="Left Arrow Callout 7"
+          style="z-index: 251665408; position: absolute; left: 575.99px; top: 26.79px; width: 53.58px; height: 44.58px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="44.58px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="53.58px"
           >
             <path
@@ -1802,11 +2035,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251664384; position: absolute; left: 498.96px; top: 26.79px; width: 42.42px; height: 44.58px; column-count: 1;"
+          data-id="6"
+          data-name="Down Arrow Callout 6"
+          style="z-index: 251664384; position: absolute; left: 498.96px; top: 26.79px; width: 42.42px; height: 44.58px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="44.58px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="42.42px"
           >
             <path
@@ -1821,11 +2056,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251663360; position: absolute; left: 404.08px; top: 26.79px; width: 61.39px; height: 44.58px; column-count: 1;"
+          data-id="5"
+          data-name="Right Arrow Callout 5"
+          style="z-index: 251663360; position: absolute; left: 404.08px; top: 26.79px; width: 61.39px; height: 44.58px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="44.58px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="61.39px"
           >
             <path
@@ -1840,11 +2077,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251662336; position: absolute; left: 320.36px; top: 26.79px; width: 44.65px; height: 44.53px; column-count: 1;"
+          data-id="4"
+          data-name="Chevron 4"
+          style="z-index: 251662336; position: absolute; left: 320.36px; top: 26.79px; width: 44.65px; height: 44.53px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="44.53px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="44.65px"
           >
             <path
@@ -1859,11 +2098,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251661312; position: absolute; left: 209.86px; top: 26.79px; width: 84.84px; height: 44.58px; column-count: 1;"
+          data-id="3"
+          data-name="Pentagon 3"
+          style="z-index: 251661312; position: absolute; left: 209.86px; top: 26.79px; width: 84.84px; height: 44.58px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="44.58px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="84.84px"
           >
             <path
@@ -1878,11 +2119,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251660288; position: absolute; left: 92.65px; top: 20.31px; width: 73.67px; height: 51.13px; column-count: 1;"
+          data-id="2"
+          data-name="Notched Right Arrow 2"
+          style="z-index: 251660288; position: absolute; left: 92.65px; top: 20.31px; width: 73.67px; height: 51.13px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="51.13px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="73.67px"
           >
             <path
@@ -1897,11 +2140,13 @@ exports[`all-shape-2 1`] = `
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251659264; position: absolute; left: -20.09px; top: 20.09px; width: 68.09px; height: 36.84px; column-count: 1;"
+          data-id="1"
+          data-name="Striped Right Arrow 1"
+          style="z-index: 251659264; position: absolute; left: -20.09px; top: 20.09px; width: 68.09px; height: 36.84px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="36.84px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="68.09px"
           >
             <path

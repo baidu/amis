@@ -17,6 +17,7 @@ exports[`hideMark 1`] = `
           >
             <p
               class="docx-viewer-0-p"
+              style="position: relative;"
             >
                
             </p>
@@ -27,6 +28,7 @@ exports[`hideMark 1`] = `
           >
             <p
               class="docx-viewer-0-p"
+              style="position: relative;"
             >
                
             </p>
@@ -37,6 +39,7 @@ exports[`hideMark 1`] = `
           >
             <p
               class="docx-viewer-0-p"
+              style="position: relative;"
             >
                
             </p>
@@ -49,6 +52,7 @@ exports[`hideMark 1`] = `
           >
             <p
               class="docx-viewer-0-p"
+              style="position: relative;"
             />
           </td>
           <td
@@ -57,6 +61,7 @@ exports[`hideMark 1`] = `
           >
             <p
               class="docx-viewer-0-p"
+              style="position: relative;"
             />
           </td>
           <td
@@ -65,6 +70,7 @@ exports[`hideMark 1`] = `
           >
             <p
               class="docx-viewer-0-p"
+              style="position: relative;"
             />
           </td>
         </tr>
@@ -75,6 +81,7 @@ exports[`hideMark 1`] = `
           >
             <p
               class="docx-viewer-0-p"
+              style="position: relative;"
             >
                
             </p>
@@ -85,6 +92,7 @@ exports[`hideMark 1`] = `
           >
             <p
               class="docx-viewer-0-p"
+              style="position: relative;"
             >
                
             </p>
@@ -95,6 +103,7 @@ exports[`hideMark 1`] = `
           >
             <p
               class="docx-viewer-0-p"
+              style="position: relative;"
             >
                
             </p>
@@ -104,6 +113,7 @@ exports[`hideMark 1`] = `
     </table>
     <p
       class="docx-viewer-0-p"
+      style="position: relative;"
     >
        
     </p>
