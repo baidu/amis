@@ -4,6 +4,7 @@
 
 import {convertAngle} from '../parse/parseSize';
 import {getAttrNumber, getAttrPercentage, getVal} from '../OpenXML';
+import {Color} from '../util/color';
 
 // http://webapp.docx4java.org/OnlineDemo/ecma376/DrawingML/clrScheme.html
 class ClrScheme {
@@ -16,7 +17,7 @@ function parseClrScheme(doc: Element | null): ClrScheme {
   if (!doc) {
     return scheme;
   }
-  
+
   scheme.name = doc.getAttribute('name') || '';
   for (const child of doc.children) {
     const colorName = child.tagName.replace('a:', '');

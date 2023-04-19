@@ -29,6 +29,7 @@ import {parseEndnotes} from './parse/parseEndnotes';
 import {renderNotes} from './render/renderNotes';
 import {Section} from './openxml/word/Section';
 import {printIframe} from './util/print';
+import {Settings} from './openxml/Settings';
 
 /**
  * 渲染配置
@@ -177,7 +178,6 @@ const defaultRenderOptions: WordRenderOptions = {
   pageWrapPadding: 20,
   pageMarginBottom: 20,
   pageShadow: true,
-  pageBackground: '#FFFFFF',
   pageWrapBackground: '#ECECEC',
   printWaitTime: 100,
   zoomFitWidth: false,
@@ -219,6 +219,8 @@ export default class Word {
    * 解析 numbering.xml 里的数据
    */
   numbering: Numbering;
+
+  settings: Settings;
 
   /**
    * 解析 styles.xml 里的数据
@@ -330,6 +332,8 @@ export default class Word {
     // relation 需要排第二
     this.initRelation();
 
+    this.initSettings();
+
     this.initTheme();
     this.initFontTable();
     this.initStyle();
@@ -359,6 +363,20 @@ export default class Word {
     for (const override of this.conentTypes.overrides) {
       if (override.partName.startsWith('/word/styles.xml')) {
         this.styles = parseStyles(this, this.parser.getXML('/word/styles.xml'));
+      }
+    }
+  }
+
+  /**
+   * 解析全局配置
+   */
+  initSettings() {
+    for (const override of this.conentTypes.overrides) {
+      if (override.partName.startsWith('/word/settings.xml')) {
+        this.settings = Settings.parse(
+          this,
+          this.parser.getXML('/word/settings.xml')
+        );
       }
     }
   }
@@ -605,20 +623,10 @@ export default class Word {
    * 获取主题色
    */
   getThemeColor(name: string) {
-    switch (name) {
-      case 'tx1':
-        name = 'dk1';
-        break;
-      case 'tx2':
-        name = 'dk2';
-        break;
-      case 'bg1':
-        name = 'lt1';
-        break;
-      case 'bg2':
-        name = 'lt2';
-        break;
+    if (this.settings.clrSchemeMapping) {
+      name = this.settings.clrSchemeMapping[name] || name;
     }
+
     if (this.themes && this.themes.length > 0) {
       const theme = this.themes[0];
       const color = theme.themeElements?.clrScheme?.colors?.[name];
