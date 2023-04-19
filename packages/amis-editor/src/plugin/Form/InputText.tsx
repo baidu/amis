@@ -210,8 +210,9 @@ export class TextControlPlugin extends BasePlugin {
                     form.changeValue('validationErrors', {...validationErrors});
                   }
                 }),
-                getSchemaTpl('valueFormula', {
-                  rendererSchema: context?.schema
+                getSchemaTpl('tplFormulaControl', {
+                  name: 'value',
+                  label: '默认值'
                 }),
                 getSchemaTpl('clearable'),
                 getSchemaTpl('showCounter', {
