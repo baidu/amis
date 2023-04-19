@@ -438,3 +438,24 @@ $tooltip-bottom: '[data-tooltip][data-position=' bottom ']:hover:after';
 .right-panel-pop {
   @include panel-sm-content();
 }
+
+// 包裹样式
+.config-wrapper-contanier {
+  position: relative;
+  margin: -8px auto 12px auto;
+  padding: 12px 8px;
+  background-color: #f7f7f9;
+  border-radius: 2px;
+
+  &::after {
+    display: block;
+    content: "";
+    height: 12px;
+    width: 12px;
+    position: absolute;
+    top: -6px;
+    left: 12px;
+    transform: rotate(45deg);
+    background-color: #f7f7f9;
+  }
+}
