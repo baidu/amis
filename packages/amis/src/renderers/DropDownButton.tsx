@@ -376,7 +376,7 @@ export default class DropDownButton extends React.Component<
       >
         <TooltipWrapper
           placement={placement}
-          tooltip={disabled ? disabledTip : tooltip}
+          tooltip={disabled ? disabledTip : (tooltip as any)}
           container={tooltipContainer || env?.getModalContainer}
           trigger={tooltipTrigger}
           rootClose={tooltipRootClose}

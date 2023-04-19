@@ -101,7 +101,7 @@ interface BooleanField extends BaseField {
   name: string;
 }
 
-interface CustomField extends BaseField {
+export interface CustomField extends BaseField {
   type: 'custom';
   name: string;
   value: any;

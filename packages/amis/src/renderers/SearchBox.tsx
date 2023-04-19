@@ -4,6 +4,7 @@ import {
   Renderer,
   RendererProps,
   resolveEventData,
+  ScopedComponentType,
   ScopedContext
 } from 'amis-core';
 import React from 'react';
@@ -11,7 +12,6 @@ import {BaseSchema, SchemaClassName} from '../Schema';
 import {SearchBox} from 'amis-ui';
 import {autobind, getPropValue, getVariable, setVariable} from 'amis-core';
 import type {ListenerAction} from 'amis-core';
-import type {ScopedComponentType} from 'amis-core/lib/Scoped';
 
 /**
  * 搜索框渲染器

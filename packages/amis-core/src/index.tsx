@@ -42,7 +42,7 @@ import {
 } from './locale';
 import type {LocaleProps, TranslateFn} from './locale';
 
-import Scoped, {ScopedContext} from './Scoped';
+import Scoped, {ScopedComponentType, ScopedContext} from './Scoped';
 import type {IScopedContext} from './Scoped';
 
 import {
@@ -178,7 +178,8 @@ export {
   addRootWrapper,
   RendererConfig,
   styleMap,
-  RENDERER_TRANSMISSION_OMIT_PROPS
+  RENDERER_TRANSMISSION_OMIT_PROPS,
+  ScopedComponentType
 };
 
 export function render(

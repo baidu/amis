@@ -50,6 +50,7 @@ export interface TabsTransferProps
   onTabChange: (key: number) => void;
   activeKey: number;
   onlyChildren?: boolean;
+  data?: any;
 }
 
 export interface TabsTransferState {
