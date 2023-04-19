@@ -38,6 +38,7 @@ import {ContainerWrapper} from './component/ContainerWrapper';
 import type {EditorStoreType} from './store/editor';
 import {AvailableRenderersPlugin} from './plugin/AvailableRenderers';
 import ShortcutKey from './component/base/ShortcutKey';
+import WidthDraggableContainer from './component/base/WidthDraggableContainer';
 
 export default Editor;
 
@@ -58,5 +59,6 @@ export {
   EditorStoreType,
   ContainerWrapper,
   AvailableRenderersPlugin,
-  ShortcutKey
+  ShortcutKey,
+  WidthDraggableContainer,
 };
