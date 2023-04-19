@@ -3,7 +3,7 @@
  */
 
 import {convertAngle} from '../parse/parseSize';
-import {getAttrNumber, getAttrPercentage, getVal} from '../OpenXML';
+import {getAttrNumber, getAttrPercent, getVal} from '../OpenXML';
 import {Color} from '../util/color';
 
 // http://webapp.docx4java.org/OnlineDemo/ecma376/DrawingML/clrScheme.html
@@ -31,16 +31,16 @@ function parseClrScheme(doc: Element | null): ClrScheme {
       } else if (clrName === 'scrgbClr') {
         // https://c-rex.net/projects/samples/ooxml/e1/Part4/OOXML_P4_DOCX_scrgbClr_topic_ID0EOOPJB.html
         // 没测过
-        const r = getAttrPercentage(child, 'r') * 256;
-        const g = getAttrPercentage(child, 'g') * 256;
-        const b = getAttrPercentage(child, 'b') * 256;
+        const r = getAttrPercent(child, 'r') * 256;
+        const g = getAttrPercent(child, 'g') * 256;
+        const b = getAttrPercent(child, 'b') * 256;
         scheme.colors[colorName] = `rgb(${r}, ${g}, ${b})`;
       } else if (clrName === 'hslClr') {
         // https://c-rex.net/projects/samples/ooxml/e1/Part4/OOXML_P4_DOCX_hslClr_topic_ID0EQ5FJB.html
         // 没测过
         const h = convertAngle(child.getAttribute('hue'));
-        const s = getAttrPercentage(child, 'sat') * 100;
-        const l = getAttrPercentage(child, 'lum') * 100;
+        const s = getAttrPercent(child, 'sat') * 100;
+        const l = getAttrPercent(child, 'lum') * 100;
         scheme.colors[colorName] = `hsl(${h}, ${s}%, ${l}%)`;
       } else if (clrName === 'prstClr') {
         scheme.colors[colorName] = getVal(child);

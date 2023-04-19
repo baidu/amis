@@ -35,6 +35,10 @@ function parseClrSchemeMapping(element: Element) {
     clrSchemeMapping.bg2 = 'lt2';
   }
 
+  if (!clrSchemeMapping.tx1) {
+    clrSchemeMapping.tx1 = 'dk1';
+  }
+
   return clrSchemeMapping;
 }
 
@@ -45,8 +49,8 @@ export class Settings {
   static parse(word: Word, doc: Document): Settings {
     const settings = new Settings();
 
-    let rootElement: Element = doc.documentElement;
-    if (rootElement.tagName !== 'w:settings') {
+    let rootElement: Element | Document = doc;
+    if (doc.documentElement && doc.documentElement.tagName !== 'w:settings') {
       rootElement = doc.getElementsByTagName('w:settings').item(0)!;
     }
     for (const child of Array.from(rootElement.children)) {

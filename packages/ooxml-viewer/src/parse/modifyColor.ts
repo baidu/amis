@@ -1,4 +1,4 @@
-import {getAttrPercentage, getVal} from '../OpenXML';
+import {getAttrPercent, getVal} from '../OpenXML';
 import {Color} from '../util/color';
 import {convertAngle} from './parseSize';
 
@@ -13,19 +13,19 @@ export function modifyColor(element: Element, colorStr: string) {
       switch (tagName) {
         case 'a:alpha':
         case 'w14:alpha':
-          alpha = getAttrPercentage(child, 'val');
+          alpha = getAttrPercent(child, 'val');
           break;
 
         case 'a:blue':
-          color.b = 256 * getAttrPercentage(child, 'val');
+          color.b = 256 * getAttrPercent(child, 'val');
           break;
 
         case 'a:blueMod':
-          color.b = color.b * getAttrPercentage(child, 'val');
+          color.b = color.b * getAttrPercent(child, 'val');
           break;
 
         case 'a:blueOff':
-          color.b += color.b * getAttrPercentage(child, 'val');
+          color.b += color.b * getAttrPercent(child, 'val');
           break;
 
         case 'a:comp':
@@ -33,39 +33,39 @@ export function modifyColor(element: Element, colorStr: string) {
           break;
 
         case 'a:green':
-          color.g = 256 * getAttrPercentage(child, 'val');
+          color.g = 256 * getAttrPercent(child, 'val');
           break;
 
         case 'a:greenMod':
-          color.g = color.g * getAttrPercentage(child, 'val');
+          color.g = color.g * getAttrPercent(child, 'val');
           break;
 
         case 'a:blueOff':
-          color.g += color.g * getAttrPercentage(child, 'val');
+          color.g += color.g * getAttrPercent(child, 'val');
           break;
 
         case 'a:red':
-          color.r = 256 * getAttrPercentage(child, 'val');
+          color.r = 256 * getAttrPercent(child, 'val');
           break;
 
         case 'a:redMod':
-          color.r = color.r * getAttrPercentage(child, 'val');
+          color.r = color.r * getAttrPercent(child, 'val');
           break;
 
         case 'a:redOff':
-          color.r += color.r * getAttrPercentage(child, 'val');
+          color.r += color.r * getAttrPercent(child, 'val');
           break;
 
         case 'a:lum':
-          color.lum(getAttrPercentage(child, 'val'));
+          color.lum(getAttrPercent(child, 'val'));
           break;
 
         case 'a:lumMod':
-          color.lumMod(getAttrPercentage(child, 'val'));
+          color.lumMod(getAttrPercent(child, 'val'));
           break;
 
         case 'a:lumOff':
-          color.lumOff(getAttrPercentage(child, 'val'));
+          color.lumOff(getAttrPercent(child, 'val'));
           break;
 
         case 'a:hue':
@@ -73,28 +73,31 @@ export function modifyColor(element: Element, colorStr: string) {
           break;
 
         case 'a:hueMod':
-          color.hueMod(getAttrPercentage(child, 'val'));
+          color.hueMod(getAttrPercent(child, 'val'));
           break;
 
         case 'a:hueOff':
-          color.hueOff(getAttrPercentage(child, 'val'));
+          color.hueOff(getAttrPercent(child, 'val'));
           break;
 
         case 'a:sat':
-          color.sat(getAttrPercentage(child, 'val'));
+          color.sat(getAttrPercent(child, 'val'));
           break;
 
         case 'a:satMod':
-          color.satMod(getAttrPercentage(child, 'val'));
+          color.satMod(getAttrPercent(child, 'val'));
           break;
 
         case 'a:satOff':
-          color.satOff(getAttrPercentage(child, 'val'));
+          color.satOff(getAttrPercent(child, 'val'));
           break;
 
         case 'a:shade':
-          // 根据 17.2.1 里的描述，看起来 lumMod 和 shade 的算法是一样的
-          color.lumMod(getAttrPercentage(child, 'val'));
+          color.shade(getAttrPercent(child, 'val'));
+          break;
+
+        case 'a:tint':
+          color.tint(getAttrPercent(child, 'val'));
           break;
 
         default:

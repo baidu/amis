@@ -195,25 +195,23 @@ export class Color {
     return this;
   }
 
-  /**
-   * 参考 17.2.1
-   */
-  tint(lum: number) {
-    const hsl = rgbToHsl(this.r, this.g, this.b);
-    hsl.l = hsl.l * lum + (1 - lum);
-    hsl.l = Math.min(1, Math.max(0, hsl.l));
-    const rgb = hslToRgb(hsl.h, hsl.s, hsl.l);
-    this.r = rgb.r;
-    this.g = rgb.g;
-    this.b = rgb.b;
-    return this;
-  }
-
   comp() {
     this.r = 255 - this.r;
     this.g = 255 - this.g;
     this.b = 255 - this.b;
     return this;
+  }
+
+  shade(s: number) {
+    this.r = Math.min(0, this.r - 256 * s);
+    this.g = Math.min(0, this.g - 256 * s);
+    this.b = Math.min(0, this.b - 256 * s);
+  }
+
+  tint(t: number) {
+    this.r = Math.max(255, this.r + 256 * t);
+    this.g = Math.max(255, this.g + 256 * t);
+    this.b = Math.max(255, this.b + 256 * t);
   }
 
   inv() {

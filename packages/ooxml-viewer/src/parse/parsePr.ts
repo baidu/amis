@@ -455,6 +455,10 @@ export function parsePr(word: Word, element: Element, type: 'r' | 'p' = 'p') {
         // color 已经够用了，为了避免 lumMod 计算不正确反而导致问题，所以就不支持了
         break;
 
+      case 'w14:ligatures':
+        // 没文档，不知道
+        break;
+
       default:
         console.warn('parsePr Unknown tagName', tagName, child);
     }

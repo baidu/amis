@@ -178,6 +178,7 @@ const defaultRenderOptions: WordRenderOptions = {
   pageWrapPadding: 20,
   pageMarginBottom: 20,
   pageShadow: true,
+  pageBackground: '#FFFFFF',
   pageWrapBackground: '#ECECEC',
   printWaitTime: 100,
   zoomFitWidth: false,

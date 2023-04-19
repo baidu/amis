@@ -1,4 +1,4 @@
-import {getAttrPercentage, getVal} from '../OpenXML';
+import {getAttrPercent, getVal} from '../OpenXML';
 import {Color} from '../util/color';
 import Word from '../Word';
 import {PresetColorMap} from './colorNameMap';
@@ -32,17 +32,17 @@ export function parseChildColor(word: Word, element: Element): string {
       // 其实这两个的 gamma 值不一样，但目前不知道怎么调整
       case 'a:scrgbClr':
       case 'a:scrgbClr':
-        const r = getAttrPercentage(colorChild, 'r');
-        const g = getAttrPercentage(colorChild, 'g');
-        const b = getAttrPercentage(colorChild, 'b');
+        const r = getAttrPercent(colorChild, 'r');
+        const g = getAttrPercent(colorChild, 'g');
+        const b = getAttrPercent(colorChild, 'b');
         const scrgbColor = Color.fromRGB(r, g, b);
         return modifyColor(colorChild, scrgbColor.toHex());
         break;
 
       case 'a:hslClr':
-        const h = getAttrPercentage(colorChild, 'r');
-        const s = getAttrPercentage(colorChild, 'g');
-        const l = getAttrPercentage(colorChild, 'b');
+        const h = getAttrPercent(colorChild, 'r');
+        const s = getAttrPercent(colorChild, 'g');
+        const l = getAttrPercent(colorChild, 'b');
         const val = getVal(colorChild);
         // 文档例子里有，不确定
         if (val) {
