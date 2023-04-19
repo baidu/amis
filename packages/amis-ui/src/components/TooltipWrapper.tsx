@@ -104,6 +104,7 @@ export interface TooltipWrapperProps {
    */
   onVisibleChange?: (visible: boolean) => void;
   children?: React.ReactNode | Array<React.ReactNode>;
+  visible?: boolean;
 }
 
 interface TooltipWrapperState {
@@ -144,8 +145,15 @@ export class TooltipWrapper extends React.Component<
     this.handleMouseOut = this.handleMouseOut.bind(this);
 
     this.state = {
-      show: false
+      show: props?.visible ?? false
     };
+  }
+
+  componentDidUpdate(prevProps: TooltipWrapperProps) {
+    const visible = this.props.visible;
+    if (prevProps.visible !== visible && this.state.show !== visible) {
+      this.props.visible ? this.show() : this.hide();
+    }
   }
 
   componentWillUnmount() {

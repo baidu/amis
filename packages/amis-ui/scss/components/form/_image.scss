@@ -6,6 +6,7 @@
   }
 
   &-addBtn {
+    position: relative;
     margin: 0;
     width: px2rem(120px);
     height: px2rem(120px);
@@ -19,6 +20,20 @@
       var(--inputImage-base-default-bottom-left-border-radius);
     cursor: pointer;
     margin-right: var(--gap-base);
+    
+    &-bg {
+      position: absolute;
+      z-index: 0;
+      overflow: hidden;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+
+      .#{$ns}Image {
+        border: 0;
+      }
+    }
 
     @include button-variant(
       var(--ImageControl-addBtn-bg),
@@ -91,11 +106,17 @@
     }
 
     &-text {
+      z-index: 1;
       font-size: var(--inputImage-base-default-fontSize);
       font-weight: var(--inputImage-base-default-fontWeight);
     }
 
     &:not(:disabled):not(.is-disabled) {
+
+      &.is-invalid:hover {
+        border-color: var(--FileControl-danger-color);
+      }
+  
       &:hover {
         > svg {
           color: var(--inputImage-base-hover-icon-color);
@@ -107,6 +128,10 @@
           color: var(--inputImage-base-active-icon-color);
         }
       }
+    }
+
+    &.is-invalid {
+      border-color: var(--FileControl-danger-color);
     }
 
     &.is-disabled {
@@ -139,7 +164,7 @@
     margin: 30px 0 0 var(--Tooltip--attr-gap);
   }
 
-  &-dropzone:focus &-addBtn {
+  &-dropzone:focus &-addBtn:not(.is-invalid) {
     border-color: var(--inputImage-base-hover-top-border-color)
       var(--inputImage-base-hover-right-border-color)
       var(--inputImage-base-hover-bottom-border-color)
@@ -153,7 +178,7 @@
   }
 
   &-dropzone:hover {
-    &-addBtn:not(.is-disabled) {
+    &-addBtn:not(.is-disabled):not(.is-invalid) {
       border-color: var(--inputImage-base-hover-top-border-color)
         var(--inputImage-base-hover-right-border-color)
         var(--inputImage-base-hover-bottom-border-color)
@@ -167,7 +192,7 @@
   }
 
   &-item {
-    // border: var(--borderWidth) solid var(--borderColor);
+    border: var(--borderWidth) solid var(--borderColor);
     border-radius: var(--ImageControl-addBtn-borderRadius);
     vertical-align: top;
     padding: var(--gap-xs);
@@ -180,6 +205,13 @@
     &.is-invalid {
       padding: 0;
       border-color: var(--FileControl-danger-color);
+    }
+
+    &-errorTip {
+
+      .#{$ns}Tooltip-body {
+        color: var(--FileControl-danger-color);
+      }
     }
 
     svg.icon-refresh {
