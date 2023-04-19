@@ -83,8 +83,6 @@
     "concurrently": "^6.2.0",
     "css-loader": "^6.2.0",
     "faker": "^5.5.3",
-    "husky": "^7.0.0",
-    "lint-staged": "^12.1.2",
     "mini-css-extract-plugin": "^2.3.0",
     "postcss-import": "^14.1.0",
     "postcss-minify": "^1.1.0",
