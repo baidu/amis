@@ -75,6 +75,11 @@ export interface ImageControlSchema extends FormBaseControlSchema {
   autoUpload?: boolean;
 
   /**
+   * 上传按钮文案
+   */
+  btnUploadText?: string;
+
+  /**
    * 选择图片按钮的 CSS 类名
    */
   btnClassName?: SchemaClassName;
@@ -1388,10 +1393,7 @@ export default class ImageControl extends React.Component<
   render() {
     const {
       className,
-      style,
       classnames: cx,
-      placeholder,
-      placeholderPlacement,
       disabled,
       multiple,
       accept,
@@ -1404,6 +1406,8 @@ export default class ImageControl extends React.Component<
       frameImage,
       fixedSize,
       fixedSizeClassName,
+      btnUploadText,
+      render,
       translate: __
     } = this.props;
     const {files, error, crop, uploading, cropFile, frameImageWidth} =
@@ -1526,7 +1530,9 @@ export default class ImageControl extends React.Component<
                         >
                           <Icon icon="plus-fine" className="icon" />
                           <span className={cx('ImageControl-addBtn-text')}>
-                            {__('Image.upload')}
+                            {!btnUploadText
+                              ? __('Image.upload')
+                              : render(`btn-upload-text`, btnUploadText, {})}
                           </span>
                           {filterFrameImage ? (
                             <div className={cx('ImageControl-addBtn-bg')}>
