@@ -138,7 +138,7 @@ export class TextareaControlPlugin extends BasePlugin {
               getSchemaTpl('showCounter'),
               {
                 name: 'maxLength',
-                label: tipedLabel('最大字数', '限制输入输入最大字数量'),
+                label: tipedLabel('最大字数', '限制输入最多文字数量'),
                 type: 'input-number',
                 min: 0,
                 step: 1
