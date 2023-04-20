@@ -22,11 +22,6 @@ export const inputStateTpl = (className: string, path: string = '') => {
         }
       ]
     },
-    {
-      type: 'hidden',
-      name: 'editorPath',
-      value: path
-    },
     ...inputStateFunc(
       "${editorState == 'default' || !editorState}",
       'default',

@@ -1363,13 +1363,8 @@ export default class ImageControl extends React.Component<
       addBtnControlClassName,
       iconControlClassName,
       id,
-      editorPath,
       translate: __
     } = this.props;
-    const editorDefaultData = getValueByPath(
-      editorPath,
-      (window as any).themeConfig
-    );
 
     insertCustomStyle(
       themeCss,
@@ -1380,7 +1375,7 @@ export default class ImageControl extends React.Component<
         }
       ],
       id,
-      editorDefaultData
+      null
     );
 
     insertCustomStyle(
@@ -1400,7 +1395,7 @@ export default class ImageControl extends React.Component<
         }
       ],
       id + '-addOn',
-      editorDefaultData
+      null
     );
 
     insertCustomStyle(
@@ -1417,7 +1412,7 @@ export default class ImageControl extends React.Component<
         }
       ],
       id + '-icon',
-      editorDefaultData
+      null
     );
 
     const {files, error, crop, uploading, cropFile, frameImageWidth} =

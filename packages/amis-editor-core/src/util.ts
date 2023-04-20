@@ -1093,7 +1093,6 @@ export function needFillPlaceholder(curProps: any) {
 // 设置主题数据
 export function setThemeConfig(config: any) {
   themeConfig = config;
-  (window as any).themeConfig = config;
 }
 
 // 将主题数据传入组件的schema

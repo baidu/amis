@@ -461,11 +461,6 @@ export class ImageControlPlugin extends BasePlugin {
                     }
                   ]
                 },
-                {
-                  type: 'hidden',
-                  name: 'editorPath',
-                  value: 'inputImage.base'
-                },
                 ...inputStateFunc(
                   "${editorState == 'default' || !editorState}",
                   'default'
