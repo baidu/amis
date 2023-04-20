@@ -94,6 +94,10 @@ function rgbToHex(r: number, g: number, b: number) {
   return hex.join('').toUpperCase();
 }
 
+function toValidColor(c: number) {
+  return Math.min(Math.max(c, 0), 255);
+}
+
 export class Color {
   r: number;
   g: number;
@@ -203,15 +207,15 @@ export class Color {
   }
 
   shade(s: number) {
-    this.r = Math.min(0, this.r - 256 * s);
-    this.g = Math.min(0, this.g - 256 * s);
-    this.b = Math.min(0, this.b - 256 * s);
+    this.r = toValidColor(this.r - 256 * s);
+    this.g = toValidColor(this.g - 256 * s);
+    this.b = toValidColor(this.b - 256 * s);
   }
 
   tint(t: number) {
-    this.r = Math.max(255, this.r + 256 * t);
-    this.g = Math.max(255, this.g + 256 * t);
-    this.b = Math.max(255, this.b + 256 * t);
+    this.r = toValidColor(this.r + 256 * t);
+    this.g = toValidColor(this.g + 256 * t);
+    this.b = toValidColor(this.b + 256 * t);
   }
 
   inv() {
