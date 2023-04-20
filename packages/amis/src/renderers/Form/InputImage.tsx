@@ -5,8 +5,7 @@ import {
   FormBaseControl,
   prettyBytes,
   resolveEventData,
-  insertCustomStyle,
-  getValueByPath
+  insertCustomStyle
 } from 'amis-core';
 // import 'cropperjs/dist/cropper.css';
 const Cropper = React.lazy(() => import('react-cropper'));
