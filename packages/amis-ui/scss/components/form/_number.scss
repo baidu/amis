@@ -303,6 +303,7 @@
 
 .#{$ns}NumberControl--withUnit {
   display: flex;
+
   &:hover {
     .#{$ns}Number,
     .#{$ns}NumberControl-unit {
@@ -353,6 +354,7 @@
   & .#{$ns}NumberControl-unit {
     border-top-left-radius: 0 !important;
     border-bottom-left-radius: 0 !important;
+    background-color: var(--inputNumber-base-unit-bg-color);
     min-width: var(--inputNumber-base-default-unit-width);
     padding: var(--inputNumber-base-default-unit-paddingTop)
       var(--inputNumber-base-default-unit-paddingRight)
@@ -361,6 +363,9 @@
   }
   .#{$ns}NumberControl-single-unit {
     cursor: default;
+    text-align: center;
+    min-width: unset;
+    padding: 0 var(--inputNumber-base-default-unit-paddingLeft);
   }
 }
 .#{$ns}Number--enhance {
