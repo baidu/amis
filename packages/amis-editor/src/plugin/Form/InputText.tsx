@@ -219,6 +219,13 @@ export class TextControlPlugin extends BasePlugin {
                   visibleOn: `${isText} || ${isPassword}`
                 }),
                 {
+                  name: 'maxLength',
+                  label: tipedLabel('最大字数', '限制输入输入最大字数量'),
+                  type: 'input-number',
+                  min: 0,
+                  step: 1
+                },
+                {
                   name: 'addOn',
                   label: tipedLabel('AddOn', '输入框左侧或右侧的附加挂件'),
                   type: 'ae-switch-more',
