@@ -1,5 +1,5 @@
 import {setSchemaTpl, getSchemaTpl, defaultValue} from 'amis-editor-core';
-import {SchemaCollection} from 'amis/lib/Schema';
+import type {SchemaCollection} from 'amis/lib/Schema';
 import kebabCase from 'lodash/kebabCase';
 
 setSchemaTpl('style:formItem', ({renderer, schema}: any) => {

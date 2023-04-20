@@ -5,7 +5,7 @@ import {
   getI18nEnabled
 } from 'amis-editor-core';
 import {tipedLabel} from 'amis-editor-core';
-import {SchemaObject} from 'amis/lib/Schema';
+import type {SchemaObject} from 'amis/lib/Schema';
 import assign from 'lodash/assign';
 import cloneDeep from 'lodash/cloneDeep';
 import omit from 'lodash/omit';

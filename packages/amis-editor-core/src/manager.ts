@@ -66,7 +66,7 @@ import findIndex from 'lodash/findIndex';
 import {EditorDNDManager} from './dnd';
 import {VariableManager} from './variable';
 import {IScopedContext} from 'amis';
-import {SchemaObject, SchemaCollection} from 'amis/lib/Schema';
+import type {SchemaObject, SchemaCollection} from 'amis/lib/Schema';
 import type {RendererConfig} from 'amis-core/lib/factory';
 import isPlainObject from 'lodash/isPlainObject';
 import {omit} from 'lodash';

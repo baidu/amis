@@ -3,7 +3,7 @@ import cx from 'classnames';
 import Preview from './Preview';
 import {autobind} from '../util';
 import {MainStore, EditorStoreType} from '../store/editor';
-import {SchemaObject} from 'amis/lib/Schema';
+import type {SchemaObject} from 'amis/lib/Schema';
 import {EditorManager, EditorManagerConfig, PluginClass} from '../manager';
 import {reaction} from 'mobx';
 import {RenderOptions, toast} from 'amis';

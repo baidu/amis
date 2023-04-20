@@ -32,6 +32,7 @@ interface FormulaPluginConfig {
     brace?: Array<CodeMirror.Position>
   ) => any;
   customMarkText?: (editor: CodeMirror.Editor) => void;
+  onPluginInit?: (plugin: FormulaPlugin) => void;
   showPopover?: boolean;
   showClearIcon?: boolean; // 表达式是否展示删除icon
 }
@@ -57,6 +58,10 @@ export class FormulaPlugin {
 
     this.setValue = this.setValue.bind(this);
     this.insertContent = this.insertContent.bind(this);
+    this.autoMark = this.autoMark.bind(this);
+    this.focus = this.focus.bind(this);
+    this.dispose = this.dispose.bind(this);
+    this.config.onPluginInit?.(this);
   }
 
   autoMark() {

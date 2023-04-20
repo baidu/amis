@@ -94,6 +94,13 @@ export interface TextareaFormulaControlProps extends FormControlProps {
   customMarkText?: (editor: CodeMirror.Editor) => void;
 
   /**
+   * 插件初始化生命周期回调
+   * @param plugin 插件实例，内部包含公式插件的方法
+   * @returns
+   */
+  onPluginInit?: (plugin: FormulaPlugin) => void;
+
+  /**
    * 弹窗顶部标题，默认为 "表达式"
    */
   header: string;
@@ -283,7 +290,8 @@ export class TextareaFormulaControl extends React.Component<
       getProps: () => ({...this.props, variables}),
       onExpressionClick: this.onExpressionClick,
       onExpressionMouseEnter: this.onExpressionMouseEnter,
-      customMarkText: this.props.customMarkText
+      customMarkText: this.props.customMarkText,
+      onPluginInit: this.props.onPluginInit
     });
   }
 

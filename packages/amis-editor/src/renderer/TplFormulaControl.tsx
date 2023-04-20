@@ -220,7 +220,7 @@ export class TplFormulaControl extends React.Component<
     // 去除可能包裹的最外层的${}
     value = value.replace(/^\$\{(.*)\}$/, (match: string, p1: string) => p1);
     value = value ? `\${${value}}` : value;
-    value = value.replace('\n', ' ');
+    value = value.replace(/\r\n|\r|\n/g, ' ');
     this.editorPlugin?.insertContent(value, 'expression', expressionBrace);
     this.setState({
       formulaPickerOpen: false,

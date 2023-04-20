@@ -1,5 +1,5 @@
 import {Button} from 'amis';
-import {SchemaCollection} from 'amis/lib/Schema';
+import type {SchemaCollection} from 'amis/lib/Schema';
 import React from 'react';
 import {
   BaseEventContext,
