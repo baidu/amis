@@ -144,8 +144,6 @@ export class DateControlPlugin extends BasePlugin {
   rendererName = 'input-date';
   $schema = '/schemas/DateControlSchema.json';
 
-  order = -450;
-
   // 组件名称
   icon = 'fa fa-calendar';
   pluginIcon = 'input-date-plugin';

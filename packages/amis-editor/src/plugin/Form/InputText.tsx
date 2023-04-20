@@ -26,7 +26,7 @@ export class TextControlPlugin extends BasePlugin {
 
   $schema = '/schemas/TextControlSchema.json';
 
-  order = -500;
+  order = -600;
   // 添加源对应组件中文名称 & type字段
   searchKeywords =
     '文本框、邮箱框、input-email、URL框、input-url、密码框、input-password';

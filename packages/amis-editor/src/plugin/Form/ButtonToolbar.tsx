@@ -20,7 +20,7 @@ export class ButtonToolbarControlPlugin extends BasePlugin {
   pluginIcon = 'btn-toolbar-plugin';
   description = '可以用来放置多个按钮或者按钮组，按钮之间会存在一定的间隔';
   docLink = '/amis/zh-CN/components/form/button-toolbar';
-  tags = ['表单项', '按钮'];
+  tags = ['表单项'];
   scaffold = {
     type: 'button-toolbar',
     label: '按钮工具栏',

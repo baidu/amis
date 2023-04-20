@@ -11,7 +11,6 @@ export class TextareaControlPlugin extends BasePlugin {
   // 关联渲染器名字
   rendererName = 'textarea';
   $schema = '/schemas/TextareaControlSchema.json';
-  order = -490;
 
   // 组件名称
   name = '多行文本框';

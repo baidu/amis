@@ -30,8 +30,8 @@ export class GridPlugin extends BasePlugin {
   isBaseComponent = true;
   description = '分栏布局';
   docLink = '/amis/zh-CN/components/grid';
-  tags = ['布局'];
-  order = 505;
+  tags = ['布局容器'];
+  order = -2;
   icon = 'fa fa-th';
   pluginIcon = 'grid-plugin';
 

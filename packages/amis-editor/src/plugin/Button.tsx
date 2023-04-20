@@ -20,13 +20,15 @@ export class ButtonPlugin extends BasePlugin {
   rendererName = 'button';
   $schema = '/schemas/ActionSchema.json';
 
+  order = -400;
+
   // 组件名称
   name = '按钮';
   isBaseComponent = true;
   description =
     '用来展示一个按钮，你可以配置不同的展示样式，配置不同的点击行为。';
   docLink = '/amis/zh-CN/components/button';
-  tags = ['按钮'];
+  tags = ['功能'];
   icon = 'fa fa-square';
   pluginIcon = 'button-plugin';
   scaffold: SchemaObject = {

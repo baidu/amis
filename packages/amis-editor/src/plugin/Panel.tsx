@@ -24,7 +24,7 @@ export class PanelPlugin extends BasePlugin {
   pluginIcon = 'panel-plugin';
   description = '展示一个面板，可以配置标题，内容区。';
   docLink = '/amis/zh-CN/components/panel';
-  tags = '容器';
+  tags = ['功能'];
   scaffold = {
     type: 'panel',
     title: '标题',

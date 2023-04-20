@@ -8,7 +8,7 @@ export default class Layout_fixed_top extends FlexPluginBase {
   isBaseComponent = true;
   pluginIcon = 'layout-fixed-top';
   description = '吸附容器: 可设置成吸顶或者吸顶展示。';
-  order = 502;
+  order = -1;
   scaffold: any = {
     type: 'flex',
     isSorptionContainer: true,

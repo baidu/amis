@@ -17,7 +17,7 @@ export class PropertyPlugin extends BasePlugin {
   pluginIcon = 'property-sheet-plugin';
   description = '属性表';
   docLink = '/amis/zh-CN/components/property';
-  tags = ['其他'];
+  tags = ['功能'];
   scaffold = {
     type: 'property',
     title: '机器配置',

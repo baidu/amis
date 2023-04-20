@@ -8,7 +8,7 @@ export default class Layout_fixed extends FlexPluginBase {
   isBaseComponent = true;
   pluginIcon = 'layout-fixed-plugin';
   description = '悬浮容器: 基于 CSS Flex 实现的特殊布局容器。';
-  order = 503;
+  order = 0;
   scaffold: any = {
     type: 'container',
     size: 'xs',
