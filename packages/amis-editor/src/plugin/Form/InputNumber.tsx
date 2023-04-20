@@ -24,8 +24,6 @@ export class NumberControlPlugin extends BasePlugin {
   rendererName = 'input-number';
   $schema = '/schemas/NumberControlSchema.json';
 
-  order = -410;
-
   // 组件名称
   name = '数字框';
   isBaseComponent = true;

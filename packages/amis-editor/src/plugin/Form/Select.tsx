@@ -13,8 +13,6 @@ export class SelectControlPlugin extends BasePlugin {
   rendererName = 'select';
   $schema = '/schemas/SelectControlSchema.json';
 
-  order = -480;
-
   // 组件名称
   name = '下拉框';
   isBaseComponent = true;

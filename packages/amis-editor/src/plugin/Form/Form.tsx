@@ -128,15 +128,13 @@ export class FormPlugin extends BasePlugin {
   rendererName = 'form';
   $schema = '/schemas/FormSchema.json';
 
-  order = -999;
-
   // 组件名称
   name = '表单';
   isBaseComponent = true;
   description =
     '可用于新建、编辑或者展示数据，配置初始化接口可从远端加载数据，配置提交接口可将数据发送远端。另外也可以将数据提交给其他组件，与其他组件通信。';
   docLink = '/amis/zh-CN/components/form/index';
-  tags = ['功能'];
+  tags = ['数据容器'];
   icon = 'fa fa-list-alt';
   pluginIcon = 'form-plugin';
   scaffold = {

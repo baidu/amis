@@ -19,6 +19,7 @@ export class AlertPlugin extends BasePlugin {
   docLink = '/amis/zh-CN/components/alert';
   icon = 'fa fa-exclamation-circle';
   pluginIcon = 'tooltip-plugin';
+  tags = ['功能'];
 
   scaffold: SchemaObject = {
     type: 'alert',

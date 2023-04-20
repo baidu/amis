@@ -7,8 +7,6 @@ export class QuarterRangePlugin extends DateRangeControlPlugin {
   rendererName = 'input-quarter-range';
   $schema = '/schemas/MonthRangeControlSchema.json';
 
-  order = -440;
-
   // 组件名称
   icon = 'fa fa-calendar';
   pluginIcon = 'input-quarter-range-plugin';

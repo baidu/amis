@@ -22,7 +22,7 @@ export class ButtonGroupControlPlugin extends BasePlugin {
   description =
     '用来展示多个按钮，视觉上会作为一个整体呈现，同时可以作为表单项选项选择器来用。';
   docLink = '/amis/zh-CN/components/button-group';
-  tags = ['按钮'];
+  tags = ['表单项'];
   scaffold = {
     type: 'button-group-select',
     name: 'buttonGroupSelect',

@@ -23,6 +23,7 @@ export class SearchBoxPlugin extends BasePlugin {
   docLink = '/amis/zh-CN/components/search-box';
   icon = 'fa fa-search';
   pluginIcon = 'search-box-plugin';
+  tags = ['表单项'];
 
   scaffold: SchemaObject = {
     type: 'search-box',

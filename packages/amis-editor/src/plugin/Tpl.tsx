@@ -110,6 +110,8 @@ export class TplPlugin extends BasePlugin {
   rendererName = 'tpl';
   $schema = '/schemas/TplSchema.json';
 
+  order = -200;
+
   // 组件名称
   name = '文字';
   isBaseComponent = true;
