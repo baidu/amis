@@ -220,6 +220,7 @@ export class TplFormulaControl extends React.Component<
     // 去除可能包裹的最外层的${}
     value = value.replace(/^\$\{(.*)\}$/, (match: string, p1: string) => p1);
     value = value ? `\${${value}}` : value;
+    value = value.replace(/\r\n|\r|\n/g, ' ');
     this.editorPlugin?.insertContent(value, 'expression', expressionBrace);
     this.setState({
       formulaPickerOpen: false,
@@ -237,7 +238,7 @@ export class TplFormulaControl extends React.Component<
   checkOpenFormulaPicker(value: string) {
     const preLength = this.props.value?.length || 0;
     // 删除了文本，无需检测
-    if (value.length < preLength) {
+    if (value.length < preLength || value === this.props.value) {
       return;
     }
     let left = 0;
@@ -330,7 +331,8 @@ export class TplFormulaControl extends React.Component<
       getProps: () => ({...this.props, variables}),
       onExpressionClick: this.onExpressionClick,
       onExpressionMouseEnter: this.onExpressionMouseEnter,
-      showPopover: false
+      showPopover: false,
+      showClearIcon: true
     });
   }
 

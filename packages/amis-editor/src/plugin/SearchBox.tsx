@@ -8,7 +8,7 @@ import {
 import {getSchemaTpl} from 'amis-editor-core';
 import {getEventControlConfig} from '../renderer/event-control/helper';
 
-import {SchemaObject} from 'amis/lib/Schema';
+import type {SchemaObject} from 'amis/lib/Schema';
 
 export class SearchBoxPlugin extends BasePlugin {
   // 关联渲染器名字

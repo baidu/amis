@@ -2,9 +2,9 @@
  * 数据源构造器，可用于对接当前amis中的扩展数据源
  */
 
-import {ButtonSchema} from 'amis/lib/renderers/Action';
-import {CRUD2Schema} from 'amis/lib/renderers/CRUD2';
-import {FormSchema, SchemaCollection, SchemaObject} from 'amis/lib/Schema';
+import type {ButtonSchema} from 'amis/lib/renderers/Action';
+import type {CRUD2Schema} from 'amis/lib/renderers/CRUD2';
+import type {FormSchema, SchemaCollection, SchemaObject} from 'amis/lib/Schema';
 import {EditorNodeType} from '../store/node';
 
 /**

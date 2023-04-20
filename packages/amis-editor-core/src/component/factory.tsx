@@ -19,7 +19,7 @@ import {CommonConfigWrapper} from './CommonConfigWrapper';
 import type {Schema} from 'amis';
 import type {DataScope} from 'amis-core';
 import type {RendererConfig} from 'amis-core/lib/factory';
-import {SchemaCollection} from 'amis/lib/Schema';
+import type {SchemaCollection} from 'amis/lib/Schema';
 import {omit} from 'lodash';
 
 // 创建 Node Store 并构建成树

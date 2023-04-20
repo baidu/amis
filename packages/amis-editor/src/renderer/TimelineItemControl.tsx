@@ -11,7 +11,7 @@ import {getI18nEnabled, tipedLabel} from 'amis-editor-core';
 import {autobind} from 'amis-editor-core';
 import {getSchemaTpl} from 'amis-editor-core';
 import type {FormControlProps} from 'amis-core';
-import {SchemaApi} from 'amis/lib/Schema';
+import type {SchemaApi} from 'amis/lib/Schema';
 import {isObject} from 'lodash';
 
 type TimelineItem = {
