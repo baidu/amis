@@ -890,6 +890,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
           {
             'is-inline': !!rest.inline && !mobileUI,
             'is-error': model && !model.valid,
+            'is-full': size === 'full',
             [`Form-control--withSize Form-control--size${ucFirst(
               controlSize
             )}`]:
@@ -1728,6 +1729,7 @@ export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
                     {
                       'is-inline': !!rest.inline && !mobileUI,
                       'is-error': model && !model.valid,
+                      'is-full': size === 'full',
                       [`Form-control--withSize Form-control--size${ucFirst(
                         controlSize
                       )}`]:

@@ -230,7 +230,10 @@ export abstract class DSBuilder {
     feat?: DSFeatureType;
   }): SchemaObject[];
 
-  abstract resolveSimpleFilterSchema(config: {setting: any}): SchemaObject[];
+  abstract resolveSimpleFilterSchema(config: {
+    setting: any;
+    size?: 'xs' | 'sm' | 'md' | 'lg' | 'full';
+  }): SchemaObject[];
 
   abstract resolveAdvancedFilterSchema(config: {
     setting: any;
