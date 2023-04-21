@@ -90,7 +90,7 @@ export class CardsPlugin extends BasePlugin {
               children: (
                 <div className="m-b">
                   <Button
-                    level="success"
+                    level="primary"
                     size="sm"
                     block
                     onClick={this.editDetail.bind(this, context.id)}
