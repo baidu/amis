@@ -136,6 +136,13 @@ export class TextareaControlPlugin extends BasePlugin {
                 )
               }),
               getSchemaTpl('showCounter'),
+              {
+                name: 'maxLength',
+                label: tipedLabel('最大字数', '限制输入最多文字数量'),
+                type: 'input-number',
+                min: 0,
+                step: 1
+              },
               getSchemaTpl('labelRemark'),
               getSchemaTpl('remark'),
               getSchemaTpl('placeholder'),
