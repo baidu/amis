@@ -17,7 +17,7 @@ jobs:
       - uses: n1hility/cancel-previous-runs@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@master
         with:
           persist-credentials: false
       - name: Use Node.js ${{ matrix.node-version }}
@@ -43,9 +43,9 @@ jobs:
           NODE_OPTIONS: '--max-old-space-size=8192'
         run: |
           npm run coverage
-      - uses: codecov/codecov-action@v2
+      - uses: codecov/codecov-action@v3
         with:
-          files: ./coverage/clover.xml
+          token: ${{ secrets.CODECOV_TOKEN }}
           name: codecov-umbrella # optional
-          fail_ci_if_error: false
+          fail_ci_if_error: false # optional (default = false)
           verbose: true # optional (default = false)
