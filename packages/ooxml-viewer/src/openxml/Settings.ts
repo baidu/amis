@@ -50,7 +50,10 @@ export class Settings {
     const settings = new Settings();
 
     let rootElement: Element | Document = doc;
-    if (doc.documentElement && doc.documentElement.tagName !== 'w:settings') {
+    if (
+      doc.firstElementChild &&
+      doc.firstElementChild.tagName === 'w:settings'
+    ) {
       rootElement = doc.getElementsByTagName('w:settings').item(0)!;
     }
     for (const child of Array.from(rootElement.children)) {
@@ -65,6 +68,7 @@ export class Settings {
           break;
       }
     }
+
     return settings;
   }
 }

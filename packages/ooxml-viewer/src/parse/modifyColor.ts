@@ -40,7 +40,7 @@ export function modifyColor(element: Element, colorStr: string) {
           color.g = color.g * getAttrPercent(child, 'val');
           break;
 
-        case 'a:blueOff':
+        case 'a:greenOff':
           color.g += color.g * getAttrPercent(child, 'val');
           break;
 

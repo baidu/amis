@@ -94,6 +94,9 @@ function rgbToHex(r: number, g: number, b: number) {
   return hex.join('').toUpperCase();
 }
 
+/**
+ * 避免颜色值超出范围，适用于 rgb
+ */
 function toValidColor(c: number) {
   return Math.min(Math.max(c, 0), 255);
 }
@@ -199,10 +202,19 @@ export class Color {
     return this;
   }
 
+  /**
+   * 互补色
+   */
   comp() {
-    this.r = 255 - this.r;
-    this.g = 255 - this.g;
-    this.b = 255 - this.b;
+    const hsl = rgbToHsl(this.r, this.g, this.b);
+    hsl.h = hsl.h + 0.5;
+    if (hsl.h > 1) {
+      hsl.h -= 1;
+    }
+    const rgb = hslToRgb(hsl.h, hsl.s, hsl.l);
+    this.r = rgb.r;
+    this.g = rgb.g;
+    this.b = rgb.b;
     return this;
   }
 
@@ -219,12 +231,9 @@ export class Color {
   }
 
   inv() {
-    const hsl = rgbToHsl(this.r, this.g, this.b);
-    hsl.h = hsl.h + 0.5;
-    const rgb = hslToRgb(hsl.h, hsl.s, hsl.l);
-    this.r = rgb.r;
-    this.g = rgb.g;
-    this.b = rgb.b;
+    this.r = 255 - this.r;
+    this.g = 255 - this.g;
+    this.b = 255 - this.b;
     return this;
   }
 

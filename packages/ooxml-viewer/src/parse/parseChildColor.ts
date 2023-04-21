@@ -25,19 +25,17 @@ export function parseChildColor(word: Word, element: Element): string {
         break;
 
       case 'a:srgbClr':
+      case 'a:scrgbClr':
       case 'w14:srgbClr':
         const rgbColor = getVal(colorChild);
-        return modifyColor(colorChild, '#' + rgbColor);
-
-      // 其实这两个的 gamma 值不一样，但目前不知道怎么调整
-      case 'a:scrgbClr':
-      case 'a:scrgbClr':
+        if (rgbColor) {
+          return modifyColor(colorChild, '#' + rgbColor);
+        }
         const r = getAttrPercent(colorChild, 'r');
         const g = getAttrPercent(colorChild, 'g');
         const b = getAttrPercent(colorChild, 'b');
         const scrgbColor = Color.fromRGB(r, g, b);
         return modifyColor(colorChild, scrgbColor.toHex());
-        break;
 
       case 'a:hslClr':
         const h = getAttrPercent(colorChild, 'r');
@@ -48,7 +46,6 @@ export function parseChildColor(word: Word, element: Element): string {
         if (val) {
           return modifyColor(colorChild, '#' + val);
         }
-
         const hslColor = Color.fromHSL(h, s, l);
         return modifyColor(colorChild, hslColor.toHex());
 
