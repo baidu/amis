@@ -9,7 +9,7 @@ import {trace, reaction} from 'mobx';
 import {createObject, flattenTree} from 'amis-core';
 import {LocaleProps} from 'amis-core';
 import {ActionSchema} from '../Action';
-import type {IColumn, IRow} from 'amis-core/lib/store/table';
+import type {IColumn, IRow} from 'amis-core';
 
 export interface TableBodyProps extends LocaleProps {
   className?: string;

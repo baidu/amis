@@ -28,6 +28,9 @@ jobs:
       - name: build gh-pages
         run: |
           npm i --legacy-peer-deps
+          cd packages/ooxml-viewer
+          npm i --legacy-peer-deps
+          cd ../../
           npm run build --workspaces
           sh deploy-gh-pages.sh
       - name: Deploy 🚀

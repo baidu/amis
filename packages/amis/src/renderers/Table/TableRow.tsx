@@ -1,6 +1,6 @@
 import {observer} from 'mobx-react';
 import React from 'react';
-import type {IColumn, IRow} from 'amis-core/lib/store/table';
+import type {IColumn, IRow} from 'amis-core';
 import {RendererProps} from 'amis-core';
 import {Action} from '../Action';
 import {isClickOnInput, createObject} from 'amis-core';

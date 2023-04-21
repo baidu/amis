@@ -17,8 +17,8 @@ import {getIcon} from 'amis-ui';
 import {generateIcon} from 'amis-core';
 import {RootClose} from 'amis-core';
 import type {TooltipObject} from 'amis-ui/lib/components/TooltipWrapper';
-import {IColumn} from 'amis-core/lib/store/table';
-import type {IColumn2} from 'amis-core/lib/store/table2';
+import {IColumn} from 'amis-core';
+import type {IColumn2} from 'amis-core';
 
 export interface ColumnTogglerProps extends RendererProps {
   /**

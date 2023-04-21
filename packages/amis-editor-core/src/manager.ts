@@ -67,7 +67,7 @@ import {EditorDNDManager} from './dnd';
 import {VariableManager} from './variable';
 import {IScopedContext} from 'amis';
 import type {SchemaObject, SchemaCollection} from 'amis/lib/Schema';
-import type {RendererConfig} from 'amis-core/lib/factory';
+import type {RendererConfig} from 'amis-core';
 import isPlainObject from 'lodash/isPlainObject';
 import {omit} from 'lodash';
 
