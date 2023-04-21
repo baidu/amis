@@ -3131,7 +3131,7 @@
   --Calendar-icon-height: var(--sizes-size-6);
   --Calendar-borderWidth: var(--borders-width-2);
   --Calendar-borderColor: var(--inputDate-default-option-today-border-color);
-  --Calendar-rdt-day: var(--sizes-base-49);
+  --Calendar-rdt-day: #{px2rem(110px)};
   --Calendar-schedule-content-padding: 0 var(--sizes-size-3);
   --Calendar-schedule-content-height: var(--sizes-base-10);
   --Calendar-schedule-content-color: var(--colors-neutral-text-11);
