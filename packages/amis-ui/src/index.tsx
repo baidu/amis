@@ -9,3 +9,9 @@ import './themes/ang';
 import './themes/antd';
 import './themes/dark';
 import './themes/default';
+import {
+  SchemaEditorItemPlaceholder,
+  schemaEditorItemPlaceholder
+} from './components/schema-editor/Common';
+
+export {schemaEditorItemPlaceholder, SchemaEditorItemPlaceholder};

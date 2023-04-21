@@ -588,7 +588,7 @@ export default class ColumnToggler extends React.Component<
         ) : (
           <TooltipWrapper
             placement={placement}
-            tooltip={disabled ? disabledTip : tooltip}
+            tooltip={disabled ? disabledTip : (tooltip as any)}
             container={tooltipContainer}
             trigger={tooltipTrigger}
             rootClose={tooltipRootClose}
