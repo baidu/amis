@@ -30,14 +30,8 @@ export * from './store';
 import * as utils from './utils/helper';
 import {getEnv} from 'mobx-state-tree';
 
-import {
-  IColumn,
-  IColumn2,
-  IRow,
-  IRow2,
-  RegisterStore,
-  RendererStore
-} from './store';
+import {RegisterStore, RendererStore} from './store';
+import type {IColumn, IColumn2, IRow, IRow2} from './store';
 import {
   setDefaultLocale,
   getDefaultLocale,
@@ -49,8 +43,8 @@ import {
 } from './locale';
 import type {LocaleProps, TranslateFn} from './locale';
 
-import Scoped, {ScopedComponentType, ScopedContext} from './Scoped';
-import type {IScopedContext} from './Scoped';
+import Scoped, {ScopedContext} from './Scoped';
+import type {ScopedComponentType, IScopedContext} from './Scoped';
 
 import {
   classnames,
@@ -101,18 +95,13 @@ import type {FilterContext} from 'amis-formula';
 import LazyComponent from './components/LazyComponent';
 import Overlay from './components/Overlay';
 import PopOver from './components/PopOver';
-import {FormRenderer, FormSchemaBase} from './renderers/Form';
-import type {FormHorizontal} from './renderers/Form';
-import {
-  OnEventProps,
-  enableDebug,
-  promisify,
-  replaceText,
-  wrapFetcher
-} from './utils/index';
+import {FormRenderer} from './renderers/Form';
+import type {FormHorizontal, FormSchemaBase} from './renderers/Form';
+import {enableDebug, promisify, replaceText, wrapFetcher} from './utils/index';
+import type {OnEventProps} from './utils/index';
 import {valueMap as styleMap} from './utils/style-helper';
 import {RENDERER_TRANSMISSION_OMIT_PROPS} from './SchemaRenderer';
-import {IItem} from './store/list';
+import type {IItem} from './store/list';
 
 // @ts-ignore
 export const version = '__buildVersion';
