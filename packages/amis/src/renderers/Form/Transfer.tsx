@@ -220,7 +220,10 @@ export class BaseTransferRenderer<
         );
 
         if (!indexes) {
-          newOptions.push(item);
+          newOptions.push({
+            ...item,
+            visible: false
+          });
         } else if (optionModified) {
           const origin = getTree(newOptions, indexes);
           newOptions = spliceTree(newOptions, indexes, 1, {
@@ -251,7 +254,10 @@ export class BaseTransferRenderer<
       );
 
       if (!indexes) {
-        newOptions.push(value);
+        newOptions.push({
+          ...value,
+          visible: false
+        });
       } else if (optionModified) {
         const origin = getTree(newOptions, indexes);
         newOptions = spliceTree(newOptions, indexes, 1, {
@@ -270,9 +276,13 @@ export class BaseTransferRenderer<
           (option: Option) => option.deferApi || option.defer
         ));
 
-    isTreeDefer === true ||
-      ((newOptions.length > options.length || optionModified) &&
-        setOptions(newOptions, true));
+    if (
+      isTreeDefer === true ||
+      newOptions.length > options.length ||
+      optionModified
+    ) {
+      setOptions(newOptions, true);
+    }
 
     // 触发渲染器事件
     const rendererEvent = await dispatchEvent(
