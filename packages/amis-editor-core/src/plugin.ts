@@ -10,9 +10,9 @@ import {EditorDNDManager} from './dnd';
 import React from 'react';
 import {DiffChange} from './util';
 import find from 'lodash/find';
-import type {RendererConfig} from 'amis-core/lib/factory';
+import type {RendererConfig} from 'amis-core';
 import type {MenuDivider, MenuItem} from 'amis-ui/lib/components/ContextMenu';
-import type {BaseSchema, SchemaCollection} from 'amis/lib/Schema';
+import type {BaseSchema, SchemaCollection} from 'amis';
 import {DSFieldGroup} from './builder/DSBuilder';
 
 /**

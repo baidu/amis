@@ -27,7 +27,7 @@ import {
 } from '../Schema';
 import {CardProps, CardSchema} from './Card';
 import {Card2Props, Card2Schema} from './Card2';
-import type {IItem} from 'amis-core/lib/store/list';
+import type {IItem} from 'amis-core';
 
 /**
  * Cards 卡片集合渲染器。

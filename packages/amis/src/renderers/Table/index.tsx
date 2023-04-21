@@ -55,7 +55,7 @@ import ColumnToggler from './ColumnToggler';
 import {offset} from 'amis-core';
 import {getStyleNumber} from 'amis-core';
 import {exportExcel} from './exportExcel';
-import type {IColumn, IRow} from 'amis-core/lib/store/table';
+import type {IColumn, IRow} from 'amis-core';
 import intersection from 'lodash/intersection';
 
 /**
