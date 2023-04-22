@@ -1133,7 +1133,7 @@ export class ListItem extends React.Component<ListItemProps> {
     onAction?.(
       e,
       hasClickActions ? undefined : itemAction,
-      hasClickActions ? item : item?.data
+      hasClickActions ? item : this.props.data
     );
 
     // itemAction, itemClick事件和checkOnItemClick为互斥关系
