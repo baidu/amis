@@ -375,7 +375,8 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 body: '对，你刚刚点击了',
                 showCloseButton: true,
                 showErrorMsg: true,
-                showLoading: true
+                showLoading: true,
+                className: 'app-popover'
               }),
               asFormItem: true,
               visibleOn: 'data.groupType === "dialog"',
@@ -405,7 +406,8 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               required: true,
               pipeIn: defaultValue({
                 title: '抽屉标题',
-                body: '对，你刚刚点击了'
+                body: '对，你刚刚点击了',
+                className: 'app-popover'
               }),
               asFormItem: true,
               visibleOn: 'data.groupType === "drawer"',
