@@ -99,6 +99,7 @@
     );
 
     > svg {
+      z-index: 1;
       top: 0;
       margin-bottom: var(--inputImage-base-default-icon-margin);
       font-size: var(--inputImage-base-default-icon-size);
