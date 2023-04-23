@@ -256,7 +256,7 @@ setSchemaTpl(
       }
     ];
     const configSchema = {
-      type: 'button-icon-group',
+      type: 'icon-button-group',
       label:
         config?.label ||
         tipedLabel(
@@ -1498,15 +1498,12 @@ setSchemaTpl(
 // 子配置项包裹容器
 setSchemaTpl(
   'layout:wrapper-contanier',
-  (config: {
-    visibleOn?: string;
-    body: Array<any>
-  }) => {
+  (config: {visibleOn?: string; body: Array<any>}) => {
     return {
       type: 'container',
       className: 'config-wrapper-contanier',
       body: config.body,
-      visibleOn: config?.visibleOn,
+      visibleOn: config?.visibleOn
     };
   }
 );
