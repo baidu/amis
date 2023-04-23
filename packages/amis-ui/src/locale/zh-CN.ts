@@ -172,7 +172,6 @@ register('zh-CN', {
   'Image.zoomIn': '查看大图',
   'Image.limitMax': '上传图片大于{{info}},请检查图片尺寸',
   'Image.limitMin': '上传图片小于{{info}},请检查图片尺寸',
-  'Image.multipleUploadError': '表单项校验失败，请根据图片上传错误提示重新上传',
   'Log.mustHaveSource': '需要配置 Source',
   'Log.showLineNumber': '显示行数',
   'Log.notShowLineNumber': '不现实行数',

@@ -167,8 +167,6 @@ register('en-US', {
     'The image you selected does not meet the size requirements {{info}}',
   'Image.width': 'width: {{width}}px',
   'Image.zoomIn': 'Zoom In',
-  'Image.multipleUploadError':
-    'Form item verification failed, please re-upload according to the image upload error prompt',
   'Log.mustHaveSource': 'Must have source in config',
   'Log.showLineNumber': 'Display line number',
   'Log.notShowLineNumber': 'Hide line number',
