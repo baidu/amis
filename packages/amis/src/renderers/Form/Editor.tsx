@@ -247,7 +247,7 @@ export default class EditorControl extends React.Component<EditorProps, any> {
     if (this.props.editorDidMount) {
       let editorDidMount = this.props.editorDidMount;
       if (typeof editorDidMount === 'string') {
-        editorDidMount = new Function('editor', 'monaco');
+        editorDidMount = new Function('editor', 'monaco', editorDidMount);
       }
       const dispose = editorDidMount(editor, monaco);
       if (typeof dispose === 'function') {
