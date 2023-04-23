@@ -457,4 +457,43 @@ $tooltip-bottom: '[data-tooltip][data-position=' bottom ']:hover:after';
     transform: rotate(45deg);
     background-color: #f7f7f9;
   }
+
+  &.hidden-tip {
+    &::after {
+      display: none;
+    }
+  }
+
+  &.tip-position-20p {
+    &::after {
+      left: 20%;
+    }
+  }
+
+  &.tip-position-30p {
+    &::after {
+      left: 30%;
+    }
+  }
+
+  &.tip-position-right-12 {
+    &::after {
+      left: auto;
+      right: 12px;
+    }
+  }
+
+  &.tip-position-right-55 {
+    &::after {
+      left: auto;
+      right: 55px;
+    }
+  }
+
+  &.tip-position-right-90 {
+    &::after {
+      left: auto;
+      right: 90px;
+    }
+  }
 }
