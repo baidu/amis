@@ -1483,7 +1483,7 @@ setSchemaTpl(
     alignItems?: string;
   }) => {
     return {
-      type: 'flex-setting',
+      type: 'flex-layout-setting',
       name: config?.name || 'style',
       mode: 'vertical', // horizontal、vertical
       label: config?.label ?? false,
