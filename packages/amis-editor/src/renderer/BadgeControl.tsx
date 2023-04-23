@@ -72,11 +72,6 @@ export interface BadgeControlProps extends FormControlProps {
    * 提示类型
    */
   level?: 'info' | 'warning' | 'success' | 'danger' | SchemaExpression;
-
-  /**
-   * 作为option属性时，角标配置变化绑定事件
-   */
-  onOptionChange?: (value: boolean | BadgeForm) => void
 }
 
 interface BadgeControlState {
@@ -180,25 +175,19 @@ export default class BadgeControl extends React.Component<
 
   @autobind
   handleSwitchChange(checked: boolean): void {
-    const {onChange,onOptionChange, disabled} = this.props;
+    const {onChange, disabled} = this.props;
     if (disabled) {
       return;
     }
 
     this.setState({checked});
-    if (onOptionChange) {
-      return onOptionChange(checked);
-    }
     onChange?.(checked ? {mode: 'dot'} : undefined);
   }
 
   handleSubmit(form: BadgeForm, action: any): void {
-    const {onBulkChange, onOptionChange} = this.props;
+    const {onBulkChange} = this.props;
 
     if (action?.type === 'submit') {
-      if (onOptionChange) {
-        return onOptionChange(this.normalizeBadgeValue(form));
-      }
       onBulkChange?.({badge: this.normalizeBadgeValue(form)});
     }
   }

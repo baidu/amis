@@ -383,19 +383,9 @@ export default class OptionControl extends React.Component<
   /**
    * 编辑角标
    */
-  toggleBadge(index: number, value: boolean | {}) {
+  toggleBadge(index: number, value: string) {
     const {options} = this.state;
-    // visible
-    if (typeof value === 'boolean') {
-      if (value) {
-        options[index].badge = {mode: 'dot'};
-      } else {
-        delete options[index].badge;
-      }
-    } else {
-      // 角标配置
-      options[index].badge = value;
-    }
+    options[index].badge = value;
 
     this.setState({options}, () => this.onChange());
   }
@@ -645,10 +635,16 @@ export default class OptionControl extends React.Component<
                 onChange: (v: string) => this.handleHiddenValueChange(index, v)
               },
               {
-                type: 'ae-badge',
+                type: i18nEnabled ? 'input-text-i18n' : 'input-text',
+                placeholder: '请输入角标文本',
+                label: '角标',
+                mode: 'horizontal',
                 visible: showBadge,
                 value: props?.badge,
-                onOptionChange: v => this.toggleBadge(index, v)
+                name: 'optionBadge',
+                labelClassName: 'ae-OptionControlItem-EditLabel',
+                valueClassName: 'ae-OptionControlItem-EditValue',
+                onChange: (v: string) => this.toggleBadge(index, v)
               }
             ]
           },
