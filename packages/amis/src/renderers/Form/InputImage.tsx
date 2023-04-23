@@ -308,6 +308,7 @@ export interface ImageState {
   cropFileName?: string; // 主要是用于后续上传的时候获得用户名
   submitOnChange?: boolean;
   frameImageWidth?: number;
+  dropMultiple?: boolean;
 }
 
 export interface FileValue {
@@ -389,7 +390,8 @@ export default class ImageControl extends React.Component<
   state: ImageState = {
     uploading: false,
     locked: false,
-    files: []
+    files: [],
+    dropMultiple: false
   };
 
   files: Array<FileValue | FileX> = [];
@@ -434,6 +436,7 @@ export default class ImageControl extends React.Component<
       ...this.state,
       files: (this.files = files),
       crop: this.buildCrop(props),
+      dropMultiple: props.multiple,
       frameImageWidth: 0
     };
 
@@ -458,6 +461,7 @@ export default class ImageControl extends React.Component<
     this.handlePaste = this.handlePaste.bind(this);
     this.syncAutoFill = this.syncAutoFill.bind(this);
     this.handleReSelect = this.handleReSelect.bind(this);
+    this.handleFileCancel = this.handleFileCancel.bind(this);
   }
 
   componentDidMount() {
@@ -476,7 +480,7 @@ export default class ImageControl extends React.Component<
   componentDidUpdate(prevProps: ImageProps) {
     const props = this.props;
 
-    if (prevProps.value !== props.value && prevProps.value !== undefined) {
+    if (prevProps.value !== props.value) {
       const value: string | Array<string | FileValue> | FileValue = props.value;
       const multiple = props.multiple;
       const joinValues = props.joinValues;
@@ -521,6 +525,12 @@ export default class ImageControl extends React.Component<
         },
         this.initAutoFill ? this.syncAutoFill : () => {}
       );
+    }
+
+    if (prevProps.multiple !== props.multiple) {
+      this.setState({
+        dropMultiple: props.multiple
+      });
     }
 
     if (prevProps.crop !== props.crop) {
@@ -571,40 +581,53 @@ export default class ImageControl extends React.Component<
     }
 
     const {accept, multiple, formItem, translate: __} = this.props;
+
+    const renderItem = (item: FileRejection): any => ({
+      ...item.file,
+      error: __('File.invalidType', {
+        files: item.file.name,
+        accept
+      }),
+      state: 'invalid',
+      name: item.file.name
+    });
+
     if (multiple) {
-      rejectedFiles.forEach(item => {
-        this.files.push({
-          ...item.file,
-          error: __('File.invalidType', {
-            files: item.file.name,
-            accept
-          }),
-          state: 'invalid',
-          name: item.file.name
+      if (this.reuploadIndex !== undefined) {
+        const finalFiles = this.files.concat();
+        finalFiles.splice(this.reuploadIndex, 1, renderItem(rejectedFiles[0]));
+        this.reuploadIndex = undefined;
+        this.files = finalFiles;
+      } else {
+        rejectedFiles.forEach(item => {
+          this.files.push(renderItem(item));
         });
-      });
+      }
     } else {
       this.files.splice(0, 1);
       const item = rejectedFiles[0];
-      const error = __('File.invalidType', {
-        files: item.file.name,
-        accept
-      });
-      this.files.push({
-        ...item.file,
-        error,
-        state: 'invalid',
-        name: item.file.name
-      });
-      formItem?.setError(error);
+      this.files.push(renderItem(item));
+      formItem?.setError(
+        __('File.invalidType', {
+          files: item.file.name,
+          accept
+        })
+      );
     }
 
     return this.setState(
       {
-        files: this.files
+        files: this.files,
+        dropMultiple: multiple
       },
       this.tick
     );
+  }
+
+  handleFileCancel() {
+    this.setState({
+      dropMultiple: this.props.multiple
+    });
   }
 
   startUpload(retry: boolean = false) {
@@ -661,7 +684,7 @@ export default class ImageControl extends React.Component<
         () =>
           this.sendFile(
             file as FileX,
-            (cbType, error, file, obj) => {
+            (error, file, obj) => {
               const files = this.files.concat();
               const idx = files.indexOf(file);
 
@@ -722,10 +745,10 @@ export default class ImageControl extends React.Component<
         async () => {
           await this.onChange(!!this.resolve, false);
           // 每次上传完，看下是否还有错误，没有就把表单校验信息给去掉
-          if (
-            !this.state.error &&
-            this.files.filter(item => item.state === 'error').length === 0
-          ) {
+          const length = this.files.filter(
+            i => i.state && ['error', 'invalid'].includes(i.state)
+          ).length;
+          if (length === 0) {
             formItem?.clearError();
           }
           if (this.resolve) {
@@ -854,7 +877,7 @@ export default class ImageControl extends React.Component<
       }
     }
 
-    onChange((this.emitValue = newValue || ''), undefined, changeImmediately);
+    onChange(this.emitValue, undefined, changeImmediately);
     curInitAutoFill && this.syncAutoFill();
   }
 
@@ -933,7 +956,12 @@ export default class ImageControl extends React.Component<
     if (event && event.type === 'drop' && this.reuploadIndex !== undefined) {
       this.reuploadIndex = undefined;
     }
-    this.addFiles(files);
+    this.setState(
+      {
+        dropMultiple: multiple
+      },
+      () => this.addFiles(files)
+    );
   }
 
   handlePaste(e: React.ClipboardEvent<any>) {
@@ -1067,12 +1095,7 @@ export default class ImageControl extends React.Component<
 
   sendFile(
     file: FileX,
-    cb: (
-      cbType: 'limit' | 'upload',
-      error: null | string,
-      file: FileX,
-      obj?: FileValue
-    ) => void,
+    cb: (error: null | string, file: FileX, obj?: FileValue) => void,
     onProgress: (progress: number) => void
   ) {
     const {limit, translate: __} = this.props;
@@ -1126,7 +1149,7 @@ export default class ImageControl extends React.Component<
         if (dispatcher?.prevented) {
           return;
         }
-        cb('limit', error, file);
+        cb(error, file);
       } else {
         this._upload(file, cb, onProgress);
       }
@@ -1136,12 +1159,7 @@ export default class ImageControl extends React.Component<
 
   _upload(
     file: FileX,
-    cb: (
-      cbType: 'limit' | 'upload',
-      error: null | string,
-      file: Blob,
-      obj?: FileValue
-    ) => void,
+    cb: (error: null | string, file: Blob, obj?: FileValue) => void,
     onProgress: (progress: number) => void
   ) {
     const __ = this.props.translate;
@@ -1166,7 +1184,7 @@ export default class ImageControl extends React.Component<
         if (dispatcher?.prevented) {
           return;
         }
-        cb('upload', null, file, obj);
+        cb(null, file, obj);
       })
       .catch(async error => {
         const dispatcher = await this.dispatchEvent('fail', {
@@ -1176,7 +1194,7 @@ export default class ImageControl extends React.Component<
         if (dispatcher?.prevented) {
           return;
         }
-        cb('upload', error.message || __('Image.errorRetry'), file);
+        cb(error.message || __('Image.errorRetry'), file);
       });
   }
 
@@ -1376,7 +1394,14 @@ export default class ImageControl extends React.Component<
   // 重新上传
   handleReSelect(index: number) {
     this.reuploadIndex = index;
-    this.dropzone.current && this.dropzone.current.open();
+    this.setState(
+      {
+        dropMultiple: false
+      },
+      () => {
+        this.dropzone.current && this.dropzone.current.open();
+      }
+    );
   }
 
   render() {
@@ -1399,8 +1424,15 @@ export default class ImageControl extends React.Component<
       render,
       translate: __
     } = this.props;
-    const {files, error, crop, uploading, cropFile, frameImageWidth} =
-      this.state;
+    const {
+      files,
+      error,
+      crop,
+      uploading,
+      cropFile,
+      frameImageWidth,
+      dropMultiple
+    } = this.state;
     let frameImageStyle: any = {};
     if (fixedSizeClassName && frameImageWidth && fixedSize) {
       frameImageStyle.width = frameImageWidth;
@@ -1455,8 +1487,9 @@ export default class ImageControl extends React.Component<
             ref={this.dropzone}
             onDrop={this.handleDrop}
             onDropRejected={this.handleDropRejected}
+            onFileDialogCancel={this.handleFileCancel}
             accept={accept}
-            multiple={multiple}
+            multiple={dropMultiple}
             disabled={disabled}
           >
             {({
