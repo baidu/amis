@@ -566,7 +566,8 @@ export const HocQuickEdit =
                 onInit: this.handleInit,
                 onChange: this.handleChange,
                 formLazyChange: false,
-                canAccessSuperData
+                canAccessSuperData,
+                disabled
               })}
             </Component>
           );
