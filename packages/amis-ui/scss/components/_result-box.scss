@@ -145,6 +145,7 @@
     max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
+    word-break: break-all; // 避免超长单词撑开
   }
 
   &-pc-arrow {
