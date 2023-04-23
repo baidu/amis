@@ -46,10 +46,6 @@ exports[`Renderer:Nav 1`] = `
                 </i>
                 <span
                   class="cxd-Nav-Menu-item-label"
-                  style="max-width: calc(100% - (
-      var(--Menu-icon-size) + var(--gap-sm) +
-      0px
-    ));"
                   title="Nav 1"
                 >
                   Nav 1
@@ -85,10 +81,6 @@ exports[`Renderer:Nav 1`] = `
               >
                 <span
                   class="cxd-Nav-Menu-item-label"
-                  style="max-width: calc(100% - (
-      
-      0px
-    ));"
                   title="Nav 2"
                 >
                   Nav 2
@@ -135,10 +127,6 @@ exports[`Renderer:Nav 1`] = `
               >
                 <span
                   class="cxd-Nav-Menu-item-label"
-                  style="max-width: calc(100% - (
-      
-      0px
-    ));"
                   title="Nav 3"
                 >
                   Nav 3
@@ -185,10 +173,6 @@ exports[`Renderer:Nav 1`] = `
               >
                 <span
                   class="cxd-Nav-Menu-item-label"
-                  style="max-width: calc(100% - (
-      
-      0px
-    ));"
                   title="外部地址"
                 >
                   外部地址
@@ -243,7 +227,7 @@ exports[`Renderer:Nav with itemActions 1`] = `
             class="cxd-Nav"
           >
             <ul
-              class="cxd-Nav-Menu cxd-Nav-Menu-root cxd-Nav-Menu-inline cxd-Nav-Menu-ltr w-md cxd-Nav-Menu-light cxd-Nav-Menu-expand-before"
+              class="cxd-Nav-Menu cxd-Nav-Menu-root cxd-Nav-Menu-inline cxd-Nav-Menu-ltr w-md cxd-Nav-Menu-light cxd-Nav-Menu-disabled cxd-Nav-Menu-expand-before"
               data-menu-list="true"
               dir="ltr"
               role="menu"
@@ -254,12 +238,11 @@ exports[`Renderer:Nav with itemActions 1`] = `
                 style="order: 0;"
               >
                 <li
-                  aria-disabled="false"
-                  class="cxd-Nav-Menu-item"
+                  aria-disabled="true"
+                  class="cxd-Nav-Menu-item cxd-Nav-Menu-item-disabled"
                   data-menu-id="rc-menu-uuid-test-1"
                   role="menuitem"
                   style="padding-left: 16px;"
-                  tabindex="-1"
                 >
                   <div
                     class="cxd-Nav-Menu-item-wrap"
@@ -270,12 +253,6 @@ exports[`Renderer:Nav with itemActions 1`] = `
                       data-id="1"
                       title="Nav 1"
                     >
-                      <span
-                        class="cxd-Nav-Menu-item-dragBar"
-                        draggable="true"
-                      >
-                        <icon-mock />
-                      </span>
                       <i
                         class="cxd-Nav-Menu-item-icon"
                       >
@@ -285,10 +262,6 @@ exports[`Renderer:Nav with itemActions 1`] = `
                       </i>
                       <span
                         class="cxd-Nav-Menu-item-label"
-                        style="max-width: calc(100% - (
-      var(--Menu-icon-size) + var(--gap-sm) +
-      0px
-    ));"
                         title="Nav 1"
                       >
                         Nav 1
@@ -316,18 +289,18 @@ exports[`Renderer:Nav with itemActions 1`] = `
                 </li>
               </ul>
               <li
-                class="cxd-Nav-Menu-submenu cxd-Nav-Menu-submenu-inline cxd-Nav-Menu-submenu cxd-Nav-Menu-submenu-open"
+                class="cxd-Nav-Menu-submenu cxd-Nav-Menu-submenu-inline cxd-Nav-Menu-submenu cxd-Nav-Menu-submenu-open cxd-Nav-Menu-submenu-disabled"
                 role="none"
               >
                 <div
                   aria-controls="rc-menu-uuid-test-2-popup"
+                  aria-disabled="true"
                   aria-expanded="true"
                   aria-haspopup="true"
                   class="cxd-Nav-Menu-submenu-title"
                   data-menu-id="rc-menu-uuid-test-2"
                   role="menuitem"
                   style="padding-left: 16px;"
-                  tabindex="-1"
                 >
                   <div
                     class="cxd-Nav-Menu-item-wrap"
@@ -338,17 +311,7 @@ exports[`Renderer:Nav with itemActions 1`] = `
                       data-id="2"
                     >
                       <span
-                        class="cxd-Nav-Menu-item-dragBar"
-                        draggable="true"
-                      >
-                        <icon-mock />
-                      </span>
-                      <span
                         class="cxd-Nav-Menu-item-label cxd-Nav-Menu-item-label-subTitle"
-                        style="max-width: calc(100% - (
-      
-      0px
-    ));"
                         title="Nav 2"
                       >
                         Nav 2
@@ -386,18 +349,18 @@ exports[`Renderer:Nav with itemActions 1`] = `
                   role="menu"
                 >
                   <li
-                    class="cxd-Nav-Menu-submenu cxd-Nav-Menu-submenu-inline cxd-Nav-Menu-submenu"
+                    class="cxd-Nav-Menu-submenu cxd-Nav-Menu-submenu-inline cxd-Nav-Menu-submenu cxd-Nav-Menu-submenu-disabled"
                     role="none"
                   >
                     <div
                       aria-controls="rc-menu-uuid-test-3-popup"
+                      aria-disabled="true"
                       aria-expanded="false"
                       aria-haspopup="true"
                       class="cxd-Nav-Menu-submenu-title"
                       data-menu-id="rc-menu-uuid-test-3"
                       role="menuitem"
                       style="padding-left: 32px;"
-                      tabindex="-1"
                     >
                       <div
                         class="cxd-Nav-Menu-item-wrap"
@@ -408,17 +371,7 @@ exports[`Renderer:Nav with itemActions 1`] = `
                           data-id="2.1"
                         >
                           <span
-                            class="cxd-Nav-Menu-item-dragBar"
-                            draggable="true"
-                          >
-                            <icon-mock />
-                          </span>
-                          <span
                             class="cxd-Nav-Menu-item-label cxd-Nav-Menu-item-label-subTitle"
-                            style="max-width: calc(100% - (
-      
-      var(--Menu-Submenu-title-paddingX)
-    ));"
                             title="Nav 2-1"
                           >
                             Nav 2-1
@@ -455,12 +408,11 @@ exports[`Renderer:Nav with itemActions 1`] = `
                     style="order: 1;"
                   >
                     <li
-                      aria-disabled="false"
-                      class="cxd-Nav-Menu-item"
+                      aria-disabled="true"
+                      class="cxd-Nav-Menu-item cxd-Nav-Menu-item-disabled"
                       data-menu-id="rc-menu-uuid-test-5"
                       role="menuitem"
                       style="padding-left: 32px;"
-                      tabindex="-1"
                     >
                       <div
                         class="cxd-Nav-Menu-item-wrap"
@@ -472,17 +424,7 @@ exports[`Renderer:Nav with itemActions 1`] = `
                           title="Nav 2-2"
                         >
                           <span
-                            class="cxd-Nav-Menu-item-dragBar"
-                            draggable="true"
-                          >
-                            <icon-mock />
-                          </span>
-                          <span
                             class="cxd-Nav-Menu-item-label"
-                            style="max-width: calc(100% - (
-      
-      16px
-    ));"
                             title="Nav 2-2"
                           >
                             Nav 2-2
@@ -509,18 +451,18 @@ exports[`Renderer:Nav with itemActions 1`] = `
                 </ul>
               </li>
               <li
-                class="cxd-Nav-Menu-submenu cxd-Nav-Menu-submenu-inline cxd-Nav-Menu-submenu"
+                class="cxd-Nav-Menu-submenu cxd-Nav-Menu-submenu-inline cxd-Nav-Menu-submenu cxd-Nav-Menu-submenu-disabled"
                 role="none"
               >
                 <div
                   aria-controls="rc-menu-uuid-test-6-popup"
+                  aria-disabled="true"
                   aria-expanded="false"
                   aria-haspopup="true"
                   class="cxd-Nav-Menu-submenu-title"
                   data-menu-id="rc-menu-uuid-test-6"
                   role="menuitem"
                   style="padding-left: 16px;"
-                  tabindex="-1"
                 >
                   <div
                     class="cxd-Nav-Menu-item-wrap"
@@ -531,17 +473,7 @@ exports[`Renderer:Nav with itemActions 1`] = `
                       data-id="3"
                     >
                       <span
-                        class="cxd-Nav-Menu-item-dragBar"
-                        draggable="true"
-                      >
-                        <icon-mock />
-                      </span>
-                      <span
                         class="cxd-Nav-Menu-item-label cxd-Nav-Menu-item-label-subTitle"
-                        style="max-width: calc(100% - (
-      
-      0px
-    ));"
                         title="Nav 3"
                       >
                         Nav 3
@@ -671,10 +603,6 @@ exports[`Renderer:Nav with itemActions 2`] = `
                       </i>
                       <span
                         class="cxd-Nav-Menu-item-label"
-                        style="max-width: calc(100% - (
-      var(--Menu-icon-size) + var(--gap-sm) +
-      0px
-    ));"
                         title="Nav 1"
                       >
                         Nav 1
@@ -771,10 +699,6 @@ exports[`Renderer:Nav with itemActions 2`] = `
                       </span>
                       <span
                         class="cxd-Nav-Menu-item-label cxd-Nav-Menu-item-label-subTitle"
-                        style="max-width: calc(100% - (
-      
-      0px
-    ));"
                         title="Nav 2"
                       >
                         Nav 2
@@ -841,10 +765,6 @@ exports[`Renderer:Nav with itemActions 2`] = `
                           </span>
                           <span
                             class="cxd-Nav-Menu-item-label cxd-Nav-Menu-item-label-subTitle"
-                            style="max-width: calc(100% - (
-      
-      var(--Menu-Submenu-title-paddingX)
-    ));"
                             title="Nav 2-1"
                           >
                             Nav 2-1
@@ -905,10 +825,6 @@ exports[`Renderer:Nav with itemActions 2`] = `
                           </span>
                           <span
                             class="cxd-Nav-Menu-item-label"
-                            style="max-width: calc(100% - (
-      
-      16px
-    ));"
                             title="Nav 2-2"
                           >
                             Nav 2-2
@@ -964,10 +880,6 @@ exports[`Renderer:Nav with itemActions 2`] = `
                       </span>
                       <span
                         class="cxd-Nav-Menu-item-label cxd-Nav-Menu-item-label-subTitle"
-                        style="max-width: calc(100% - (
-      
-      0px
-    ));"
                         title="Nav 3"
                       >
                         Nav 3
@@ -1067,10 +979,6 @@ exports[`Renderer:Nav with multi-level 1`] = `
               </i>
               <span
                 class="cxd-Nav-Menu-item-label"
-                style="max-width: calc(100% - (
-      var(--Menu-icon-size) + var(--gap-sm) +
-      0px
-    ));"
                 title="Nav 1"
               >
                 Nav 1
@@ -1103,10 +1011,6 @@ exports[`Renderer:Nav with multi-level 1`] = `
             >
               <span
                 class="cxd-Nav-Menu-item-label cxd-Nav-Menu-item-label-subTitle"
-                style="max-width: calc(100% - (
-      
-      0px
-    ));"
                 title="Nav 2"
               >
                 Nav 2
@@ -1152,10 +1056,6 @@ exports[`Renderer:Nav with multi-level 1`] = `
                 >
                   <span
                     class="cxd-Nav-Menu-item-label cxd-Nav-Menu-item-label-subTitle"
-                    style="max-width: calc(100% - (
-      
-      var(--Menu-Submenu-title-paddingX)
-    ));"
                     title="Nav 2-1"
                   >
                     Nav 2-1
@@ -1195,10 +1095,6 @@ exports[`Renderer:Nav with multi-level 1`] = `
                 >
                   <span
                     class="cxd-Nav-Menu-item-label"
-                    style="max-width: calc(100% - (
-      
-      16px
-    ));"
                     title="Nav 2-2"
                   >
                     Nav 2-2
@@ -1232,10 +1128,6 @@ exports[`Renderer:Nav with multi-level 1`] = `
             >
               <span
                 class="cxd-Nav-Menu-item-label"
-                style="max-width: calc(100% - (
-      
-      0px
-    ));"
                 title="Nav 3"
               >
                 Nav 3
@@ -1318,10 +1210,6 @@ exports[`Renderer:Nav with overflow 1`] = `
                     >
                       <span
                         class="cxd-Nav-Menu-item-label"
-                        style="max-width: calc(var(--Menu-width) - (
-      
-      var(--Menu-Submenu-title-paddingX) * 2
-    ));"
                         title="Nav 1"
                       >
                         Nav 1
@@ -1351,10 +1239,6 @@ exports[`Renderer:Nav with overflow 1`] = `
                     >
                       <span
                         class="cxd-Nav-Menu-item-label"
-                        style="max-width: calc(var(--Menu-width) - (
-      
-      var(--Menu-Submenu-title-paddingX) * 2
-    ));"
                         title="Nav 2"
                       >
                         Nav 2
@@ -1381,7 +1265,7 @@ exports[`Renderer:Nav with overflow 1`] = `
                     class="cxd-Nav-Menu-item-icon cxd-Nav-Menu-overflowedIcon thisisoverflowClassName"
                   >
                     <i
-                      class="cxd-Nav-itemIcon fas fa-angle-double-down"
+                      class="cxd-Nav-item-icon fas fa-angle-double-down"
                     />
                     点击展开
                   </span>
@@ -1483,10 +1367,6 @@ exports[`Renderer:Nav with source 1`] = `
                       </i>
                       <span
                         class="cxd-Nav-Menu-item-label"
-                        style="max-width: calc(100% - (
-      var(--Menu-icon-size) + var(--gap-sm) +
-      0px
-    ));"
                         title="Nav 1"
                       >
                         Nav 1
@@ -1518,10 +1398,6 @@ exports[`Renderer:Nav with source 1`] = `
                     >
                       <span
                         class="cxd-Nav-Menu-item-label"
-                        style="max-width: calc(100% - (
-      
-      0px
-    ));"
                         title="Nav 2"
                       >
                         Nav 2
@@ -1553,10 +1429,6 @@ exports[`Renderer:Nav with source 1`] = `
                     >
                       <span
                         class="cxd-Nav-Menu-item-label"
-                        style="max-width: calc(100% - (
-      
-      0px
-    ));"
                         title="Nav 3"
                       >
                         Nav 3
@@ -1633,10 +1505,6 @@ exports[`Renderer:Nav with stacked 1`] = `
               </i>
               <span
                 class="cxd-Nav-Menu-item-label"
-                style="max-width: calc(var(--Menu-width) - (
-      var(--Menu-icon-size) + var(--gap-sm) +
-      var(--Menu-Submenu-title-paddingX) * 2
-    ));"
                 title="Nav 1"
               >
                 Nav 1
@@ -1667,10 +1535,6 @@ exports[`Renderer:Nav with stacked 1`] = `
             >
               <span
                 class="cxd-Nav-Menu-item-label"
-                style="max-width: calc(var(--Menu-width) - (
-      
-      var(--Menu-Submenu-title-paddingX) * 2
-    ));"
                 title="Nav 2"
               >
                 Nav 2
@@ -1701,10 +1565,6 @@ exports[`Renderer:Nav with stacked 1`] = `
             >
               <span
                 class="cxd-Nav-Menu-item-label"
-                style="max-width: calc(var(--Menu-width) - (
-      
-      var(--Menu-Submenu-title-paddingX) * 2
-    ));"
                 title="Nav 3"
               >
                 Nav 3
