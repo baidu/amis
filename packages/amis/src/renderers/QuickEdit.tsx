@@ -5,7 +5,7 @@
 
 import React from 'react';
 import {findDOMNode} from 'react-dom';
-import {RendererProps} from 'amis-core';
+import {RendererProps, noop} from 'amis-core';
 import hoistNonReactStatic from 'hoist-non-react-statics';
 import {ActionObject} from 'amis-core';
 import keycode from 'keycode';
@@ -544,8 +544,7 @@ export const HocQuickEdit =
           !onQuickChange ||
           (!(typeof quickEdit === 'object' && quickEdit?.isQuickEditFormMode) &&
             quickEditEnabled === false) ||
-          noHoc ||
-          disabled
+          noHoc
           // 此处的readOnly会导致组件值无法传递出去，如 value: "${a + b}" 这样的 value 变化需要同步到数据域
           // || readOnly
         ) {
@@ -583,16 +582,18 @@ export const HocQuickEdit =
                   ? undefined
                   : '0'
               }
-              onKeyUp={this.handleKeyUp}
+              onKeyUp={disabled ? noop : this.handleKeyUp}
             >
               <Component {...this.props} contentsOnly noHoc />
-              <span
-                key="edit-btn"
-                className={cx('Field-quickEditBtn')}
-                onClick={this.openQuickEdit}
-              >
-                <Icon icon="edit" className="icon" />
-              </span>
+              {disabled ? null : (
+                <span
+                  key="edit-btn"
+                  className={cx('Field-quickEditBtn')}
+                  onClick={this.openQuickEdit}
+                >
+                  <Icon icon="edit" className="icon" />
+                </span>
+              )}
               {this.state.isOpened ? this.renderPopOver() : null}
             </Component>
           );
