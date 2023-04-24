@@ -5,6 +5,10 @@
     outline: none;
   }
 
+  .ImageControl-addBtn-icon {
+    content: var(--inputImage-base-default-icon);
+  }
+
   &-addBtn {
     position: relative;
     margin: 0;
@@ -98,12 +102,14 @@
       var(--shadows-shadow-none)
     );
 
-    > svg {
+    svg {
       z-index: 1;
       top: 0;
       margin-bottom: var(--inputImage-base-default-icon-margin);
       font-size: var(--inputImage-base-default-icon-size);
       color: var(--inputImage-base-default-icon-color);
+      width: var(--inputImage-base-default-icon-size);
+      height: var(--inputImage-base-default-icon-size);
     }
 
     &-text {
@@ -119,13 +125,13 @@
       }
   
       &:hover {
-        > svg {
+        svg {
           color: var(--inputImage-base-hover-icon-color);
         }
       }
 
       &:hover:active {
-        > svg {
+        svg {
           color: var(--inputImage-base-active-icon-color);
         }
       }
@@ -138,7 +144,7 @@
     &.is-disabled {
       pointer-events: none;
 
-      > svg {
+      svg {
         color: var(--inputImage-base-disabled-icon-color);
       }
     }

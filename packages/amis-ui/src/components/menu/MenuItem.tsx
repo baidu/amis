@@ -67,32 +67,6 @@ export class MenuItem extends React.Component<MenuItemProps> {
     'onClick'
   ];
 
-  getDynamicStyle(hasIcon: boolean) {
-    const {stacked, inlineIndent = 16} = this.context;
-    const {depth} = this.props;
-    const isHorizontal = !stacked;
-    const defaultIndentWidth =
-      typeof inlineIndent === 'number' ? inlineIndent : 16;
-    const indentWidth = `(
-      ${hasIcon ? 'var(--Menu-icon-size) + var(--gap-sm) +' : ''}
-      ${
-        depth === 1
-          ? isHorizontal
-            ? 'var(--Menu-Submenu-title-paddingX) * 2'
-            : '0px'
-          : isHorizontal
-          ? `var(--Menu-Submenu-title-paddingX) + ${defaultIndentWidth}px`
-          : `${defaultIndentWidth}px`
-      }
-    )`;
-
-    return {
-      maxWidth: isHorizontal
-        ? `calc(var(--Menu-width) - ${indentWidth})`
-        : `calc(100% - ${indentWidth})`
-    };
-  }
-
   /** 检查icon参数值是否为文件路径 */
   isImgPath(raw: string) {
     return (
@@ -147,7 +121,6 @@ export class MenuItem extends React.Component<MenuItemProps> {
             ['Nav-Menu-item-label-collapsed']: isCollapsedNode
           })}
           title={isCollapsedNode || Array.isArray(label) ? '' : label}
-          style={this.getDynamicStyle(!!iconNode)}
         >
           {isCollapsedNode ? label.slice(0, 1) : label}
         </span>
@@ -160,8 +133,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
               ['Nav-Menu-item-label-collapsed']: isCollapsedNode,
               ['Nav-Menu-item-label-subTitle']: !isCollapsedNode
             }
-          ),
-          style: this.getDynamicStyle(!!iconNode)
+          )
         })
       ) : null;
     const dragNode =
@@ -215,7 +187,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
 
   render() {
     const {
-      className,
+      style,
       tooltipClassName,
       classnames: cx,
       label,
@@ -253,10 +225,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
           className={cx('Nav-Menu-item-tooltip-wrap')}
           style={isMaxOverflow ? {} : {order}}
         >
-          <RcItem
-            {...pick(this.props, this.internalProps)}
-            className={cx(className)}
-          >
+          <RcItem {...pick(this.props, this.internalProps)} style={style}>
             {this.renderMenuItem()}
           </RcItem>
         </ul>

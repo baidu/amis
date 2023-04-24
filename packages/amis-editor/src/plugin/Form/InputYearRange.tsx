@@ -7,8 +7,6 @@ export class YearRangeControlPlugin extends DateRangeControlPlugin {
   rendererName = 'input-year-range';
   $schema = '/schemas/DateRangeControlSchema.json';
 
-  order = -440;
-
   // 组件名称
   icon = 'fa fa-calendar';
   pluginIcon = 'input-month-range-plugin';

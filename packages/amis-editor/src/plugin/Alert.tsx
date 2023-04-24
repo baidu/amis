@@ -2,7 +2,7 @@ import React from 'react';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BaseEventContext, BasePlugin} from 'amis-editor-core';
 import {getSchemaTpl} from 'amis-editor-core';
-import {SchemaObject} from 'amis/lib/Schema';
+import type {SchemaObject} from 'amis/lib/Schema';
 
 export class AlertPlugin extends BasePlugin {
   static scene = ['layout'];
@@ -19,6 +19,7 @@ export class AlertPlugin extends BasePlugin {
   docLink = '/amis/zh-CN/components/alert';
   icon = 'fa fa-exclamation-circle';
   pluginIcon = 'tooltip-plugin';
+  tags = ['功能'];
 
   scaffold: SchemaObject = {
     type: 'alert',

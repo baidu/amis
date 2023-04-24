@@ -2,13 +2,6 @@
   border: 1px solid var(--inputTree-border-color);
   padding: 6px 12px;
   border-radius: 2px;
-  max-height: var(--Tree-max-height);
-  overflow: auto;
-
-  &.h-full {
-    max-height: none;
-    overflow: visible;
-  }
 
   &.no-border {
     border: 0;
@@ -31,6 +24,11 @@
   & > .#{$ns}Tree {
     max-height: var(--Tree-max-height);
     overflow: auto;
+  }
+
+  &.h-auto > .#{$ns}Tree {
+    max-height: none;
+    overflow: visible;
   }
 }
 

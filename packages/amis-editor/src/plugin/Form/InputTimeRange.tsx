@@ -7,8 +7,6 @@ export class TimeRangeControlPlugin extends DateRangeControlPlugin {
   rendererName = 'input-time-range';
   $schema = '/schemas/DateRangeControlSchema.json';
 
-  order = -440;
-
   // 组件名称
   icon = 'fa fa-calendar';
   pluginIcon = 'input-time-range-plugin';

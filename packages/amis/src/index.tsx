@@ -154,5 +154,8 @@ import './renderers/OfficeViewer';
 
 import './compat';
 import './schemaExtend';
+import type {BaseSchema, SchemaCollection} from './Schema';
 export * from './renderers/Form/IconPickerIcons';
 export * from './renderers/Form/IconSelectStore';
+
+export {BaseSchema, SchemaCollection};

@@ -1247,7 +1247,7 @@ export class TreeSelector extends React.Component<
 
     return (
       <li
-        key={item[valueField]}
+        key={`${item[valueField || 'value']}-${index}`}
         className={cx(`Tree-item ${itemClassName || ''}`, {
           'Tree-item--isLeaf': isLeaf,
           'is-child': this.relations.get(item)

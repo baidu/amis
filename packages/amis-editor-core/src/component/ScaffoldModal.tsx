@@ -225,6 +225,7 @@ export class ScaffoldModal extends React.Component<
         contentClassName={scaffoldFormContext?.className}
         show={!!scaffoldFormContext}
         onHide={store.closeScaffoldForm}
+        className="ae-scaffoldForm-Modal"
         closeOnEsc={!store.scaffoldFormBuzy}
       >
         <div className={cx('Modal-header')}>

@@ -7,8 +7,8 @@ export default class Layout_free_container extends ContainerPlugin {
   isBaseComponent = true;
   pluginIcon = 'layout-free-container';
   description = '自由容器: 其直接子元素支持拖拽调整位置。';
-  order = -1;
-  tags = ['布局'];
+  // order = -1;
+  tags = ['布局容器'];
   scaffold: any = {
     type: 'container',
     isFreeContainer: true,

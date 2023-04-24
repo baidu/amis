@@ -111,10 +111,9 @@
   }
 
   .#{$ns}GroupedSelection-group > .#{$ns}GroupedSelection-itemLabel {
-    font-size: var(--transfer-group-font-size);
-    font-weight: var(--transfer-group-font-weight);
-    line-height: var(--transfer-group-font-lineHeight);
-    font-family: var(--transfer-group-font-family);
+    font-size: var(--transfer-group-fontSize);
+    font-weight: var(--transfer-group-fontWeight);
+    line-height: var(--transfer-group-lineHeight);
     color: var(--transfer-group-color);
   }
 
@@ -301,10 +300,16 @@
 
       &:hover {
         background: var(--transfer-tree-bg-hover-color);
+        .#{$ns}Tree-itemLabel-item {
+          background: var(--transfer-tree-bg-hover-color);
+        }
       }
 
       &.is-checked {
         background: var(--transfer-tree-bg-active-color);
+        .#{$ns}Tree-itemLabel-item {
+          background: var(--transfer-tree-bg-active-color);
+        }
       }
     }
 

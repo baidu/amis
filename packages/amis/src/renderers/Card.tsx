@@ -23,7 +23,7 @@ import {ActionSchema} from './Action';
 import {Card} from 'amis-ui';
 import {findDOMNode} from 'react-dom';
 import {Icon} from 'amis-ui';
-import type {IItem} from 'amis-core/lib/store/list';
+import type {IItem} from 'amis-core';
 
 export type CardBodyField = SchemaObject & {
   /**

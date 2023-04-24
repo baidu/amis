@@ -81,28 +81,6 @@ export class SubMenu extends React.Component<SubMenuProps> {
     stacked && onSubmenuClick?.({key, domEvent, props: this.props});
   }
 
-  getDynamicStyle(hasIcon: boolean) {
-    const {stacked} = this.context;
-    const {depth} = this.props;
-    const isHorizontal = !stacked;
-    const indentWidth = `(
-      ${hasIcon ? 'var(--Menu-icon-size) + var(--gap-sm) +' : ''}
-      ${
-        isHorizontal
-          ? 'var(--Menu-Submenu-title-paddingX) * 2'
-          : depth === 1
-          ? '0px'
-          : 'var(--Menu-Submenu-title-paddingX)'
-      }
-    )`;
-
-    return {
-      maxWidth: isHorizontal
-        ? `calc(var(--Menu-width) - ${indentWidth})`
-        : `calc(100% - ${indentWidth})`
-    };
-  }
-
   /** 检查icon参数值是否为文件路径 */
   isImgPath(raw: string) {
     return (
@@ -117,6 +95,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
       classnames: cx,
       id,
       label,
+      labelExtra,
       icon,
       path,
       depth,
@@ -135,21 +114,21 @@ export class SubMenu extends React.Component<SubMenuProps> {
     const iconNode = icon ? (
       typeof icon === 'string' ? (
         this.isImgPath(icon) ? (
-          <div className={cx(`Menu-item-icon`)}>
+          <div className={cx(`Nav-Menu-item-icon`)}>
             <img width="14px" src={icon} />
           </div>
         ) : (
           <i
             key="icon"
-            className={cx(`Menu-item-icon`, icon, {
-              ['Menu-item-icon-collapsed']: isCollapsedNode
+            className={cx(`Nav-Menu-item-icon`, icon, {
+              ['Nav-Menu-item-icon-collapsed']: isCollapsedNode
             })}
           />
         )
       ) : React.isValidElement(icon) ? (
         React.cloneElement(icon as React.ReactElement, {
-          className: cx(`Menu-item-icon`, icon.props?.className, {
-            ['Menu-item-icon-svg-collapsed']: isCollapsedNode
+          className: cx(`Nav-Menu-item-icon`, icon.props?.className, {
+            ['Nav-Menu-item-icon-svg-collapsed']: isCollapsedNode
           })
         })
       ) : null
@@ -162,7 +141,6 @@ export class SubMenu extends React.Component<SubMenuProps> {
             ['Nav-Menu-item-label-subTitle']: !isCollapsedNode
           })}
           title={isCollapsedNode || Array.isArray(label) ? '' : label}
-          style={this.getDynamicStyle(!!iconNode)}
         >
           {isCollapsedNode ? label.slice(0, 1) : label}
         </span>
@@ -175,8 +153,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
               ['Nav-Menu-item-label-collapsed']: isCollapsedNode,
               ['Nav-Menu-item-label-subTitle']: !isCollapsedNode
             }
-          ),
-          style: this.getDynamicStyle(!!iconNode)
+          )
         })
       ) : null;
     const dragNode =
@@ -194,7 +171,8 @@ export class SubMenu extends React.Component<SubMenuProps> {
           {dragNode}
           {iconNode}
           {labelNode}
-          {!stacked ? (
+          {labelExtra}
+          {!stacked && depth === 1 ? (
             <span key="expand-toggle" className={cx('Nav-Menu-submenu-arrow')}>
               <Icon icon="right-arrow-bold" className="icon" />
             </span>
@@ -231,19 +209,15 @@ export class SubMenu extends React.Component<SubMenuProps> {
   }
 
   render() {
-    const {className, popupClassName, classnames: cx, hidden} = this.props;
+    const {style, popupClassName, classnames: cx, hidden} = this.props;
 
     const isDarkTheme = this.context.themeColor === 'dark';
     return hidden ? null : (
       <RcSubMenu
         {...pick(this.props, this.internalProps)}
-        className={cx(
-          'Nav-Menu-submenu',
-          {
-            ['Nav-Menu-submenu-dark']: isDarkTheme
-          },
-          className
-        )}
+        className={cx('Nav-Menu-submenu', {
+          ['Nav-Menu-submenu-dark']: isDarkTheme
+        })}
         popupClassName={cx(
           'Nav-Menu-submenu-popup',
           {
@@ -253,6 +227,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
         )}
         title={this.renderSubMenuTitle()}
         onTitleClick={this.handleSubmenuTitleActived}
+        style={style}
       />
     );
   }

@@ -672,7 +672,7 @@ export default class Word {
   /**
    * 打印功能
    */
-  async print() {
+  async print(): Promise<any> {
     const iframe = document.createElement('iframe') as HTMLIFrameElement;
     iframe.style.position = 'absolute';
     iframe.style.top = '-10000px';

@@ -96,7 +96,7 @@ export class TableViewPlugin extends BasePlugin {
   pluginIcon = 'table-view-plugin';
   description = '表格类型的展现';
   docLink = '/amis/zh-CN/components/table-view';
-  tags = ['容器'];
+  tags = ['功能'];
   scaffold = {
     type: 'table-view',
     trs: [

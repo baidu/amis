@@ -89,7 +89,7 @@
 
 @mixin panel-sm-content {
   --Form-fontSize: #{$Editor-right-panel-font-size};
-  --ColorPicker-fontSize: var($Editor-right-panel-font-size);
+  --ColorPicker-fontSize: #{$Editor-right-panel-font-size};
   --fontSizeBase: #{$Editor-right-panel-font-size};
   --Form-item-fontSize: #{$Editor-right-panel-font-size};
   --Button--md-fontSize: #{$Editor-right-panel-font-size};
@@ -98,4 +98,18 @@
   --Form-input-lineHeight: #{$Editor-right-panel-line-height};
   --InputGroup-select-borderColor: #{$Editor-right-panel-border-color};
   --Form-input-borderColor: #{$Editor-right-panel-border-color};
+
+  --checkbox-checkbox-default-fontSize: #{$Editor-right-panel-font-size};
+  --select-base-default-fontSize: #{$Editor-right-panel-font-size};
+  --input-default-default-fontSize: #{$Editor-right-panel-font-size};
+  --button-size-default-fontSize: #{$Editor-right-panel-font-size};
+  --link-fontSize: #{$Editor-right-panel-font-size};
+  --link-onHover-fontSize: #{$Editor-right-panel-font-size};
+  --link-disabled-fontSize: #{$Editor-right-panel-font-size};
+  --link-onClick-fontSize: #{$Editor-right-panel-font-size};
+  --radio-default-default-fontSize: #{$Editor-right-panel-font-size};
+  --select-base-default-option-fontSize: #{$Editor-right-panel-font-size};
+  --Tabs--line-fontSize: #{$Editor-right-panel-font-size};
+  --Tabs--line-active-fontSize: #{$Editor-right-panel-font-size};
+  --Tabs--line-hover-fontSize: #{$Editor-right-panel-font-size};
 }

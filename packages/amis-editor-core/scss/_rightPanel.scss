@@ -5,8 +5,7 @@ $category-2-height: px2rem(32px);
 $tooltip-bottom: '[data-tooltip][data-position=' bottom ']:hover:after';
 
 .editor-right-panel {
-  --select-base-default-fontSize: 12px;
-  --fonts-size-7: 12px;
+  @include panel-sm-content();
 
   position: relative;
   flex: 0 0 auto;
@@ -449,7 +448,7 @@ $tooltip-bottom: '[data-tooltip][data-position=' bottom ']:hover:after';
 
   &::after {
     display: block;
-    content: "";
+    content: '';
     height: 12px;
     width: 12px;
     position: absolute;
@@ -457,5 +456,44 @@ $tooltip-bottom: '[data-tooltip][data-position=' bottom ']:hover:after';
     left: 12px;
     transform: rotate(45deg);
     background-color: #f7f7f9;
+  }
+
+  &.hidden-tip {
+    &::after {
+      display: none;
+    }
+  }
+
+  &.tip-position-20p {
+    &::after {
+      left: 20%;
+    }
+  }
+
+  &.tip-position-30p {
+    &::after {
+      left: 30%;
+    }
+  }
+
+  &.tip-position-right-12 {
+    &::after {
+      left: auto;
+      right: 12px;
+    }
+  }
+
+  &.tip-position-right-55 {
+    &::after {
+      left: auto;
+      right: 55px;
+    }
+  }
+
+  &.tip-position-right-90 {
+    &::after {
+      left: auto;
+      right: 90px;
+    }
   }
 }

@@ -6302,7 +6302,7 @@ exports[`Renderer:transfer with showInvalidMatch & unmatched do not add 1`] = `
           >
             <span>
               <label
-                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--sm"
+                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
               >
                 <input
                   type="checkbox"
@@ -6317,7 +6317,7 @@ exports[`Renderer:transfer with showInvalidMatch & unmatched do not add 1`] = `
                 （
                 3
                 /
-                7
+                3
                 ）
               </span>
             </span>
@@ -6437,166 +6437,6 @@ exports[`Renderer:transfer with showInvalidMatch & unmatched do not add 1`] = `
                         class=""
                       >
                         钟无艳
-                      </span>
-                    </span>
-                    <div
-                      class="cxd-Tree-item-icons"
-                    />
-                  </div>
-                </div>
-              </li>
-              <li
-                class="cxd-Tree-item  cxd-Tree-item--isLeaf"
-              >
-                <div
-                  class="cxd-Tree-itemLabel is-checked"
-                >
-                  <span
-                    class="cxd-Tree-itemArrowPlaceholder"
-                  />
-                  <label
-                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                  >
-                    <input
-                      checked=""
-                      type="checkbox"
-                    />
-                    <i />
-                    <span
-                      class=""
-                    />
-                  </label>
-                  <div
-                    class="cxd-Tree-itemLabel-item"
-                  >
-                    <span
-                      class="cxd-Tree-itemText"
-                      title="w"
-                    >
-                      <span
-                        class="is-invalid"
-                      >
-                        w
-                      </span>
-                    </span>
-                    <div
-                      class="cxd-Tree-item-icons"
-                    />
-                  </div>
-                </div>
-              </li>
-              <li
-                class="cxd-Tree-item  cxd-Tree-item--isLeaf"
-              >
-                <div
-                  class="cxd-Tree-itemLabel is-checked"
-                >
-                  <span
-                    class="cxd-Tree-itemArrowPlaceholder"
-                  />
-                  <label
-                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                  >
-                    <input
-                      checked=""
-                      type="checkbox"
-                    />
-                    <i />
-                    <span
-                      class=""
-                    />
-                  </label>
-                  <div
-                    class="cxd-Tree-itemLabel-item"
-                  >
-                    <span
-                      class="cxd-Tree-itemText"
-                      title="x"
-                    >
-                      <span
-                        class="is-invalid"
-                      >
-                        x
-                      </span>
-                    </span>
-                    <div
-                      class="cxd-Tree-item-icons"
-                    />
-                  </div>
-                </div>
-              </li>
-              <li
-                class="cxd-Tree-item  cxd-Tree-item--isLeaf"
-              >
-                <div
-                  class="cxd-Tree-itemLabel is-checked"
-                >
-                  <span
-                    class="cxd-Tree-itemArrowPlaceholder"
-                  />
-                  <label
-                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                  >
-                    <input
-                      checked=""
-                      type="checkbox"
-                    />
-                    <i />
-                    <span
-                      class=""
-                    />
-                  </label>
-                  <div
-                    class="cxd-Tree-itemLabel-item"
-                  >
-                    <span
-                      class="cxd-Tree-itemText"
-                      title="y"
-                    >
-                      <span
-                        class="is-invalid"
-                      >
-                        y
-                      </span>
-                    </span>
-                    <div
-                      class="cxd-Tree-item-icons"
-                    />
-                  </div>
-                </div>
-              </li>
-              <li
-                class="cxd-Tree-item  cxd-Tree-item--isLeaf"
-              >
-                <div
-                  class="cxd-Tree-itemLabel is-checked"
-                >
-                  <span
-                    class="cxd-Tree-itemArrowPlaceholder"
-                  />
-                  <label
-                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                  >
-                    <input
-                      checked=""
-                      type="checkbox"
-                    />
-                    <i />
-                    <span
-                      class=""
-                    />
-                  </label>
-                  <div
-                    class="cxd-Tree-itemLabel-item"
-                  >
-                    <span
-                      class="cxd-Tree-itemText"
-                      title="z"
-                    >
-                      <span
-                        class="is-invalid"
-                      >
-                        z
                       </span>
                     </span>
                     <div

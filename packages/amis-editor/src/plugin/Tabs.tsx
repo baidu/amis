@@ -33,7 +33,7 @@ export class TabsPlugin extends BasePlugin {
   isBaseComponent = true;
   description = '选项卡，可以将内容分组用选项卡的形式展示，降低用户使用成本。';
   docLink = '/amis/zh-CN/components/tabs';
-  tags = ['容器'];
+  tags = ['布局容器'];
   icon = 'fa fa-folder-o';
   pluginIcon = 'tabs-plugin';
   scaffold = {

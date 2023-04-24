@@ -548,8 +548,6 @@ export const MainStore = types
                 key !== '$$commonSchema') ||
               typeof props === 'function' || // pipeIn 和 pipeOut
               key.substring(0, 2) === '__' ||
-              key === 'themeCss' ||
-              key === 'editorPath' ||
               key === 'editorState') // 样式不需要出现做json中,
         );
       },

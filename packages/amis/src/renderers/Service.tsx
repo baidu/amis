@@ -34,7 +34,7 @@ import {
 import {IIRendererStore} from 'amis-core';
 
 import type {ListenerAction} from 'amis-core';
-import type {ScopedComponentType} from 'amis-core/lib/Scoped';
+import type {ScopedComponentType} from 'amis-core';
 
 export const eventTypes = [
   /* 初始化时执行，默认 */
