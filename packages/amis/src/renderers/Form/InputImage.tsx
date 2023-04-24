@@ -1568,54 +1568,6 @@ export default class ImageControl extends React.Component<
                   </div>
                 ) : (
                   <>
-                    {(multiple && (!maxLength || files.length < maxLength)) ||
-                    (!multiple && !files.length) ? (
-                      <TooltipWrapper
-                        placement="top"
-                        trigger="hover"
-                        tooltip={{
-                          content: error,
-                          disabled: !multiple || !error
-                        }}
-                      >
-                        <label
-                          className={cx(
-                            'ImageControl-addBtn',
-                            {
-                              'is-disabled': disabled
-                            },
-                            fixedSize ? 'ImageControl-fixed-size' : '',
-                            fixedSize ? fixedSizeClassName : '',
-                            error ? 'is-invalid' : ''
-                          )}
-                          style={frameImageStyle}
-                          onClick={this.handleSelect}
-                          ref={this.frameImageRef}
-                        >
-                          <Icon icon="plus-fine" className="icon" />
-                          <span className={cx('ImageControl-addBtn-text')}>
-                            {!uploadBtnText
-                              ? __('Image.upload')
-                              : render(`btn-upload-text`, uploadBtnText, {})}
-                          </span>
-                          {filterFrameImage ? (
-                            <div className={cx('ImageControl-addBtn-bg')}>
-                              <ImageComponent
-                                key="upload-default-image"
-                                src={filterFrameImage}
-                                className={cx(
-                                  fixedSize ? 'Image-thumb--fixed-size' : ''
-                                )}
-                                onLoad={this.handleFrameImageLoaded.bind(this)}
-                                thumbMode={thumbMode}
-                                thumbRatio={thumbRatio}
-                              />
-                            </div>
-                          ) : null}
-                        </label>
-                      </TooltipWrapper>
-                    ) : null}
-
                     {files && files.length
                       ? files.map((file, key) => (
                           <div
@@ -1837,6 +1789,54 @@ export default class ImageControl extends React.Component<
                           </div>
                         ))
                       : null}
+
+                    {(multiple && (!maxLength || files.length < maxLength)) ||
+                    (!multiple && !files.length) ? (
+                      <TooltipWrapper
+                        placement="top"
+                        trigger="hover"
+                        tooltip={{
+                          content: error,
+                          disabled: !multiple || !error
+                        }}
+                      >
+                        <label
+                          className={cx(
+                            'ImageControl-addBtn',
+                            {
+                              'is-disabled': disabled
+                            },
+                            fixedSize ? 'ImageControl-fixed-size' : '',
+                            fixedSize ? fixedSizeClassName : '',
+                            error ? 'is-invalid' : ''
+                          )}
+                          style={frameImageStyle}
+                          onClick={this.handleSelect}
+                          ref={this.frameImageRef}
+                        >
+                          <Icon icon="plus-fine" className="icon" />
+                          <span className={cx('ImageControl-addBtn-text')}>
+                            {!uploadBtnText
+                              ? __('Image.upload')
+                              : render(`btn-upload-text`, uploadBtnText, {})}
+                          </span>
+                          {filterFrameImage ? (
+                            <div className={cx('ImageControl-addBtn-bg')}>
+                              <ImageComponent
+                                key="upload-default-image"
+                                src={filterFrameImage}
+                                className={cx(
+                                  fixedSize ? 'Image-thumb--fixed-size' : ''
+                                )}
+                                onLoad={this.handleFrameImageLoaded.bind(this)}
+                                thumbMode={thumbMode}
+                                thumbRatio={thumbRatio}
+                              />
+                            </div>
+                          ) : null}
+                        </label>
+                      </TooltipWrapper>
+                    ) : null}
 
                     {!autoUpload && !hideUploadButton && files.length ? (
                       <div>
