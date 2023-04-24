@@ -304,6 +304,7 @@ export interface ActionObject extends ButtonObject {
     | 'saveAs'
     | 'dialog'
     | 'drawer'
+    | 'confirmDialog'
     | 'jump'
     | 'link'
     | 'url'

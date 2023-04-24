@@ -130,6 +130,9 @@ const getOmitActionProp = (type: string) => {
     case 'drawer':
       omitList = ['drawer'];
       break;
+    case 'confirmDialog':
+      omitList = ['confirmDialog'];
+      break;
     case 'reload':
       omitList = ['resetPage'];
       break;
@@ -249,9 +252,7 @@ export const runAction = async (
       'requestAdaptor',
       'responseData',
       'condition'
-    ].includes(
-      key
-    )
+    ].includes(key)
   );
   const afterMappingData = dataMapping(actionConfig.data, mergeData);
 
