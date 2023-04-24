@@ -342,7 +342,17 @@ export function parsePr(word: Word, element: Element, type: 'r' | 'p' = 'p') {
         break;
 
       case 'w:rPr':
-        // TODO: 这个有时候会不正确，需要再看看
+        // TODO: 这个有时候和 r 里的 rPr 不一致，不知道如何处理
+        const reflection = child.getElementsByTagName('w14:reflection').item(0);
+        if (reflection) {
+          // css 只支持在块级节点设置
+          // 只支持一小部分设置项，另外因为只支持块级别的情况，所以看起来差异较大
+          const reflectionDistance =
+            parseSize(reflection, 'w4:dist', LengthUsage.Emu) || '0px';
+          style[
+            '-webkit-box-reflect'
+          ] = `below ${reflectionDistance} linear-gradient(transparent, white)`;
+        }
         break;
 
       case 'w:rStyle':
@@ -429,26 +439,45 @@ export function parsePr(word: Word, element: Element, type: 'r' | 'p' = 'p') {
 
       case 'w:outline':
         style['text-shadow'] =
-          '-1pt -1pt 0 #AAA, 1pt -1pt 0 #AAA, -1pt 1pt 0 #AAA, 1pt 1pt 0 #AAA';
+          '-1px -1px 0 #AAA, 1px -1px 0 #AAA, -1px 1px 0 #AAA, 1px 1px 0 #AAA';
         break;
 
       case 'w:shadown':
       case 'w:imprint':
         if (getValBoolean(child, true)) {
-          style['text-shadow'] = '1pt 1pt 2pt rgba(0, 0, 0, 0.6)';
+          style['text-shadow'] = '1px 1px 2px rgba(0, 0, 0, 0.6)';
         }
         break;
 
       case 'w14:shadow':
         const blurRad =
-          parseSize(child, 'w14:blurRad', LengthUsage.Emu) || '2pt';
+          parseSize(child, 'w14:blurRad', LengthUsage.Emu) || '4px';
         // 其它结果算出来不像就先忽略了
         let color = 'rgba(0, 0, 0, 0.6)';
         const childColor = parseChildColor(word, child);
         if (childColor) {
           color = childColor;
         }
-        style['text-shadow'] = `1pt 1pt ${blurRad} ${color}`;
+        style['text-shadow'] = `1px 1px ${blurRad} ${color}`;
+        break;
+
+      case 'w14:textOutline':
+        const outlineWidth =
+          parseSize(child, 'w14:w', LengthUsage.Emu) || '1px';
+
+        style['-webkit-text-stroke-width'] = outlineWidth;
+
+        let outlineColor = 'white';
+        const fillColor = child.getElementsByTagName('w14:solidFill');
+        if (fillColor.length > 0) {
+          outlineColor = parseChildColor(word, fillColor.item(0)!) || 'white';
+        }
+
+        style['-webkit-text-stroke-color'] = outlineColor;
+        break;
+
+      case 'w14:reflection':
+        // 在 rPr 里处理了
         break;
 
       default:

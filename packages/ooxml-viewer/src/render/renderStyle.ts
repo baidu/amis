@@ -30,6 +30,11 @@ function generateDefaultStyle(word: Word) {
 
 
   /** docDefaults **/
+  .${classPrefix} {
+    --docx-theme-font-minorHAnsi: Calibri,  Helvetica, Arial, 'Helvetica Neue';
+    --docx-theme-font-minorEastAsia: 'PingFang SC', 'Microsoft YaHei', 'Hiragino Sans GB', 'STHeiti',
+    'Microsoft YaHei';
+  }
 
   .${classPrefix} p {
     margin: 0;

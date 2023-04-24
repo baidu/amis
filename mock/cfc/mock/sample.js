@@ -263,12 +263,20 @@ function bulkUpdate2(req, res) {
 function mirror(req, res) {
   const json = JSON.parse(req.query.json);
   console.log('mirror', json);
-  if ('status' in json) {
-    return res.json(json);
-  } else {
-    return res.json({
-      status: 0,
-      data: json
-    });
+
+  const response = () => {
+    if ('status' in json) {
+      return res.json(json);
+    } else {
+      return res.json({
+        status: 0,
+        data: json
+      });
+    }
+  };
+  if (req.query.waitSeconds) {
+    return setTimeout(response, parseInt(req.query.waitSeconds, 10) * 1000);
   }
+
+  return response();
 }
