@@ -97,7 +97,8 @@ export function formatStyle(
             ?.replace('u:', '')
             .replace('-label', '')
             .replace('-description', '')
-            .replace('-addOn', '') || ''
+            .replace('-addOn', '')
+            .replace('-icon', '') || ''
         )
       ) {
         classNameList.push(n);

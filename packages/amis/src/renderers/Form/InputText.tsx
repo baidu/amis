@@ -1060,7 +1060,8 @@ export default class TextControl extends React.PureComponent<
       css,
       inputControlClassName,
       id,
-      addOnClassName
+      addOnClassName,
+      classPrefix: ns
     } = this.props;
     let input =
       autoComplete !== false && (source || options?.length || autoComplete)
@@ -1080,7 +1081,8 @@ export default class TextControl extends React.PureComponent<
           }
         }
       ],
-      id
+      id,
+      null
     );
 
     insertCustomStyle(

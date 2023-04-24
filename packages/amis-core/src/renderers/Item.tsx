@@ -1585,7 +1585,8 @@ export const detectProps = [
   'embed',
   'displayMode',
   'revealPassword',
-  'loading'
+  'loading',
+  'themeCss'
 ];
 
 export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
