@@ -1905,16 +1905,14 @@ export default class ImageControl extends React.Component<
                     ) : null}
 
                     {!autoUpload && !hideUploadButton && files.length ? (
-                      <div>
-                        <Button
-                          level="default"
-                          className={cx('ImageControl-uploadBtn')}
-                          disabled={!hasPending}
-                          onClick={this.toggleUpload}
-                        >
-                          {__(uploading ? 'File.pause' : 'File.start')}
-                        </Button>
-                      </div>
+                      <Button
+                        level="default"
+                        className={cx('ImageControl-uploadBtn')}
+                        disabled={!hasPending}
+                        onClick={this.toggleUpload}
+                      >
+                        {__(uploading ? 'File.pause' : 'File.start')}
+                      </Button>
                     ) : null}
                   </>
                 )}
