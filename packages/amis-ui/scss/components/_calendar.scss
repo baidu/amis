@@ -65,6 +65,14 @@
     }
   }
 
+  .rdtHeader {
+    margin-top: 0;
+  }
+
+  .rdtPicker .dow {
+    height: px2rem(40px);
+  }
+
   .rdtDay {
     height: var(--Calendar-rdt-day);
     vertical-align: top;
@@ -84,6 +92,11 @@
       padding: var(--Calendar-schedule-content-padding);
       height: var(--Calendar-schedule-content-height);
       color: var(--Calendar-schedule-content-color);
+      text-shadow: none;
+    }
+    .#{$ns}ScheduleCalendar-large-schedule-header,
+    .#{$ns}ScheduleCalendar-large-schedule-footer {
+      text-shadow: none;
     }
   }
 
