@@ -66,10 +66,12 @@ export function parseChildColor(word: Word, element: Element): string {
         return srgbClr;
 
       case 'a:schemeClr':
-        const schemeClr = colorChild.getAttribute('val') || '';
+      case 'w14:schemeClr':
+        const schemeClr = getVal(colorChild);
         if (schemeClr) {
           return changeLum(colorChild, word.getThemeColor(schemeClr));
         }
+        break;
 
       default:
         console.warn(
