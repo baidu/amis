@@ -704,13 +704,17 @@ export class Navigation extends React.Component<
         </span>
       );
     }
-
+    const styleConfig = buildStyle(style, data);
     return (
-      <div className={cx('Nav')} style={buildStyle(style, data)}>
+      <div
+        className={cx('Nav', className, {
+          ['Nav-horizontal']: !stacked
+        })}
+        style={styleConfig}
+      >
         <>
           {Array.isArray(links) ? (
             <Menu
-              className={className}
               navigations={this.normalizeNavigations(links, 1)}
               isActive={(link: NavigationItem, prefix: string = '') => {
                 if (link.link && typeof link.link.active !== 'undefined') {
@@ -743,6 +747,7 @@ export class Navigation extends React.Component<
               overflowItemWidth={overflow?.itemWidth}
               overflowComponent={overflow?.wrapperComponent}
               overflowStyle={overflow?.style}
+              style={styleConfig}
               expandIcon={
                 expandIcon
                   ? typeof expandIcon === 'string'
