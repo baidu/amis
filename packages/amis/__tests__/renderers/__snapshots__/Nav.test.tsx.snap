@@ -3,10 +3,10 @@
 exports[`Renderer:Nav 1`] = `
 <div>
   <div
-    class="cxd-Nav"
+    class="cxd-Nav w-md"
   >
     <ul
-      class="cxd-Nav-Menu cxd-Nav-Menu-root cxd-Nav-Menu-inline cxd-Nav-Menu-ltr w-md cxd-Nav-Menu-light cxd-Nav-Menu-expand-before"
+      class="cxd-Nav-Menu cxd-Nav-Menu-root cxd-Nav-Menu-inline cxd-Nav-Menu-ltr cxd-Nav-Menu-light cxd-Nav-Menu-expand-before"
       data-menu-list="true"
       dir="ltr"
       role="menu"
@@ -224,10 +224,10 @@ exports[`Renderer:Nav with itemActions 1`] = `
           role="page-body"
         >
           <div
-            class="cxd-Nav"
+            class="cxd-Nav w-md"
           >
             <ul
-              class="cxd-Nav-Menu cxd-Nav-Menu-root cxd-Nav-Menu-inline cxd-Nav-Menu-ltr w-md cxd-Nav-Menu-light cxd-Nav-Menu-disabled cxd-Nav-Menu-expand-before"
+              class="cxd-Nav-Menu cxd-Nav-Menu-root cxd-Nav-Menu-inline cxd-Nav-Menu-ltr cxd-Nav-Menu-light cxd-Nav-Menu-disabled cxd-Nav-Menu-expand-before"
               data-menu-list="true"
               dir="ltr"
               role="menu"
@@ -558,10 +558,10 @@ exports[`Renderer:Nav with itemActions 2`] = `
           role="page-body"
         >
           <div
-            class="cxd-Nav"
+            class="cxd-Nav w-md"
           >
             <ul
-              class="cxd-Nav-Menu cxd-Nav-Menu-root cxd-Nav-Menu-inline cxd-Nav-Menu-ltr w-md cxd-Nav-Menu-light cxd-Nav-Menu-expand-before"
+              class="cxd-Nav-Menu cxd-Nav-Menu-root cxd-Nav-Menu-inline cxd-Nav-Menu-ltr cxd-Nav-Menu-light cxd-Nav-Menu-expand-before"
               data-menu-list="true"
               dir="ltr"
               role="menu"
@@ -940,10 +940,10 @@ exports[`Renderer:Nav with itemActions 2`] = `
 exports[`Renderer:Nav with multi-level 1`] = `
 <div>
   <div
-    class="cxd-Nav"
+    class="cxd-Nav w-md"
   >
     <ul
-      class="cxd-Nav-Menu cxd-Nav-Menu-root cxd-Nav-Menu-inline cxd-Nav-Menu-ltr w-md cxd-Nav-Menu-light cxd-Nav-Menu-expand-before"
+      class="cxd-Nav-Menu cxd-Nav-Menu-root cxd-Nav-Menu-inline cxd-Nav-Menu-ltr cxd-Nav-Menu-light cxd-Nav-Menu-expand-before"
       data-menu-list="true"
       dir="ltr"
       role="menu"
@@ -1178,7 +1178,7 @@ exports[`Renderer:Nav with overflow 1`] = `
           role="page-body"
         >
           <div
-            class="cxd-Nav"
+            class="cxd-Nav cxd-Nav-horizontal"
           >
             <section
               class="cxd-Nav-Menu-overflow cxd-Nav-Menu cxd-Nav-Menu-root cxd-Nav-Menu-horizontal cxd-Nav-Menu-ltr cxd-Nav-Menu-light"
@@ -1466,7 +1466,7 @@ exports[`Renderer:Nav with source 1`] = `
 exports[`Renderer:Nav with stacked 1`] = `
 <div>
   <div
-    class="cxd-Nav"
+    class="cxd-Nav cxd-Nav-horizontal"
   >
     <ul
       class="cxd-Nav-Menu-overflow cxd-Nav-Menu cxd-Nav-Menu-root cxd-Nav-Menu-horizontal cxd-Nav-Menu-ltr cxd-Nav-Menu-light"

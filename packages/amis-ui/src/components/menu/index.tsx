@@ -43,7 +43,6 @@ export interface NavigationItem {
   badgeClassName?: string;
   tooltipClassName?: string;
   component?: React.ReactNode;
-  // hidden?: boolean;
   permission?: string;
   persistState?: boolean;
   keepInHistory?: boolean;
@@ -546,7 +545,8 @@ export class Menu extends React.Component<MenuProps, MenuState> {
       isActive,
       collapsed,
       overflowedIndicator,
-      overflowMaxCount
+      overflowMaxCount,
+      style
     } = this.props;
 
     return list.map((item: NavigationItem, index: number) => {
@@ -576,6 +576,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
         return (
           <SubMenu
             {...item}
+            style={style}
             key={item.id}
             disabled={itemDisabled || link.loading}
             active={isActive(item)}
@@ -604,6 +605,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
           data={data}
           depth={level || 1}
           order={index}
+          style={style}
           overflowedIndicator={overflowedIndicator}
           overflowMaxCount={overflowMaxCount}
         />
@@ -614,7 +616,6 @@ export class Menu extends React.Component<MenuProps, MenuState> {
   render() {
     const {
       classPrefix,
-      className,
       classnames: cx,
       collapsed,
       themeColor,
@@ -624,6 +625,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
       prefix,
       disabled,
       draggable,
+      className,
       triggerSubMenuAction,
       direction,
       overflowedIndicator,
@@ -641,7 +643,6 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     } = this.props;
     const {navigations, activeKey, defaultOpenKeys, openKeys} = this.state;
     const isDarkTheme = themeColor === 'dark';
-    // const disabledItem = findTree(navigations, item => !!item.disabled);
     const rcMode = stacked
       ? mode === 'float'
         ? 'vertical-right'

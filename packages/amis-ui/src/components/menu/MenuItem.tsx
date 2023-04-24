@@ -187,7 +187,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
 
   render() {
     const {
-      className,
+      style,
       tooltipClassName,
       classnames: cx,
       label,
@@ -225,10 +225,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
           className={cx('Nav-Menu-item-tooltip-wrap')}
           style={isMaxOverflow ? {} : {order}}
         >
-          <RcItem
-            {...pick(this.props, this.internalProps)}
-            className={cx(className)}
-          >
+          <RcItem {...pick(this.props, this.internalProps)} style={style}>
             {this.renderMenuItem()}
           </RcItem>
         </ul>
