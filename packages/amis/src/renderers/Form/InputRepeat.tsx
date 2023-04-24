@@ -74,6 +74,7 @@ export default class RepeatControl extends React.Component<RepeatProps, any> {
       placeholder,
       disabled,
       classPrefix: ns,
+      useMobileUI,
       translate: __
     } = this.props;
 
@@ -216,6 +217,7 @@ export default class RepeatControl extends React.Component<RepeatProps, any> {
             searchable={false}
             disabled={disabled}
             joinValues={false}
+            useMobileUI={useMobileUI}
           />
         </div>
       </div>

@@ -168,6 +168,7 @@ export interface TreeProps
     SpinnerExtraProps {
   enableNodePath?: boolean;
   pathSeparator?: string;
+  useMobileUI?: boolean;
 }
 
 interface TreeState {
@@ -371,7 +372,8 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
       menuTpl,
       enableDefaultIcon,
       searchable,
-      searchConfig = {}
+      searchConfig = {},
+      useMobileUI
     } = this.props;
     let {highlightTxt} = this.props;
     const {filteredOptions, keyword} = this.state;
@@ -433,6 +435,7 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
         itemHeight={toNumber(itemHeight) > 0 ? toNumber(itemHeight) : undefined}
         itemRender={menuTpl ? this.renderOptionItem : undefined}
         enableDefaultIcon={enableDefaultIcon}
+        useMobileUI
       />
     );
 
@@ -460,6 +463,7 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
               clearable={true}
               {...omit(searchConfig, 'className', 'sticky')}
               onSearch={this.handleSearch}
+              useMobileUI={useMobileUI}
             />
             {TreeCmpt}
           </>

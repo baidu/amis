@@ -460,15 +460,21 @@
 /* 移动端样式调整 */
 @include media-breakpoint-down(sm) {
   .#{$ns}Form {
+    // &::before {
+    //   position: absolute;
+    //   box-sizing: border-box;
+    //   content: ' ';
+    //   pointer-events: none;
+    //   right: 0;
+    //   top: 0;
+    //   left: 0;
+    //   border-bottom: var(--Form-input-borderWidth) solid var(--borderColor);
+    // }
+  }
+
+  .#{$ns}Combo-form {
     &::before {
-      position: absolute;
-      box-sizing: border-box;
-      content: ' ';
-      pointer-events: none;
-      right: 0;
-      top: 0;
-      left: 0;
-      border-bottom: var(--Form-input-borderWidth) solid var(--borderColor);
+      border-bottom: none;
     }
   }
 
@@ -583,6 +589,7 @@
       flex: 1;
       flex-wrap: wrap;
       font-size: var(--fontSizeLg);
+      overflow-x: auto;
 
       &.is-disabled > .#{$ns}TextControl-input {
         background: transparent;
@@ -657,6 +664,7 @@
       border: none;
       padding: 0 var(--Form-input-paddingX) 0 0;
       box-shadow: none;
+      border-radius: 0;
 
       &:hover,
       &:focus,
@@ -687,9 +695,9 @@
     display: none;
   }
 
-  .#{$ns}Divider {
-    display: none;
-  }
+  // .#{$ns}Divider {
+  //   display: none;
+  // }
 
   .#{$ns}Tabs-pane {
     padding: 0;
@@ -697,5 +705,26 @@
 
   .#{$ns}Form-item .#{$ns}Form-groupColumn > .#{$ns}Form-item {
     padding-bottom: var(--Form-input-paddingX);
+  }
+
+  .#{$ns}Form-groupColumn {
+    position: relative;
+
+    &::after {
+      position: absolute;
+      box-sizing: border-box;
+      content: ' ';
+      pointer-events: none;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      border-bottom: var(--Form-input-borderWidth) solid var(--borderColor);
+    }
+  }
+
+  .#{$ns}Form-groupColumn:nth-last-of-type(1) {
+    &::after {
+      display: none;
+    }
   }
 }

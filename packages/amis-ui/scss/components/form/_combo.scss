@@ -310,6 +310,34 @@
       background: rgba(0, 0, 0, 0.1);
     }
   }
+
+  &.is-mobile {
+    .#{$ns}Form-item {
+      padding: px2rem(10px) 0 0 0;
+
+      .#{$ns}Form-rowInner {
+        flex: 1;
+      }
+    }
+
+    .#{$ns}Combo-delBtn {
+      height: px2rem(20px);
+    }
+  }
+
+  &.is-mobile:not(.#{$ns}Combo--ver) {
+    .#{$ns}TextareaControl > textarea,
+    .#{$ns}Form-control > .#{$ns}TextControl-input,
+    .#{$ns}TextControl.is-focused > .#{$ns}TextControl-input {
+      border-bottom: var(--Form-input-borderWidth) solid var(--borderColor);
+    }
+  }
+
+  &.is-mobile:is(.#{$ns}Combo--hor) {
+    .#{$ns}Form-control {
+      padding-top: px2rem(10px);
+    }
+  }
 }
 
 .#{$ns}ComboTabs > .#{$ns}Tabs-links {

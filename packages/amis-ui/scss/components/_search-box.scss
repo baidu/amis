@@ -132,6 +132,12 @@
     background: var(--SearchBox-enhonce-disabled-color);
     color: var(--SearchBox-enhonce-disabled-search-color);
   }
+
+  &.is-mobile {
+    border-radius: 0;
+    border: none;
+    border-bottom: var(--borderWidth) solid var(--borderColor);
+  }
 }
 
 .#{$ns}SearchBox-history {

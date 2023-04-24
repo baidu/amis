@@ -42,6 +42,7 @@ import {RemoteOptionsProps, withRemoteConfig} from './WithRemoteConfig';
 import Picker from './Picker';
 import PopUp from './PopUp';
 import BasePopover, {PopOverOverlay} from './PopOverContainer';
+import SelectMobile from './SelectMobile';
 
 import type {TooltipObject} from '../components/TooltipWrapper';
 
@@ -296,7 +297,7 @@ export function normalizeOptions(
 
 const DownshiftChangeTypes = Downshift.stateChangeTypes;
 
-interface SelectProps
+export interface SelectProps
   extends OptionProps,
     ThemeProps,
     LocaleProps,
@@ -1130,10 +1131,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
     };
 
     const mobileUI = isMobile() && useMobileUI;
-    const column = {
-      labelField: 'label',
-      options: filtedOptions
-    };
+
     const menu = (
       <div
         ref={this.menu}
@@ -1214,14 +1212,21 @@ export class Select extends React.Component<SelectProps, SelectState> {
       </div>
     );
     return mobileUI ? (
-      <PopUp
-        className={cx(`Select-popup`)}
-        container={popOverContainer}
-        isShow={this.state.isOpen}
-        onHide={this.close}
-      >
-        {menu}
-      </PopUp>
+      <SelectMobile
+        {...this.props}
+        highlightedIndex={highlightedIndex}
+        isOpen={isOpen}
+        getItemProps={getItemProps}
+        getInputProps={getInputProps}
+        selectedItem={selectedItem}
+        onChange={selection => {
+          this.setState({
+            isOpen: false
+          });
+          this.props.onChange(selection);
+        }}
+        onClose={this.close}
+      />
     ) : (
       <Overlay
         container={popOverContainer || this.getTarget}

@@ -10,7 +10,14 @@ import getMiniDecimal, {
 } from '@rc-component/mini-decimal';
 
 import {Icon} from './icons';
-import {ThemeProps, themeable, isNumeric, autobind, ucFirst} from 'amis-core';
+import {
+  ThemeProps,
+  themeable,
+  isNumeric,
+  autobind,
+  ucFirst,
+  isMobile
+} from 'amis-core';
 
 export type ValueType = string | number;
 
@@ -69,6 +76,7 @@ export interface NumberProps extends ThemeProps {
    * 是否在清空内容时从数据域中删除该表单项对应的值
    */
   clearValueOnEmpty?: boolean;
+  useMobileUI?: boolean;
 }
 
 export class NumberInput extends React.Component<NumberProps, any> {
@@ -292,12 +300,14 @@ export class NumberInput extends React.Component<NumberProps, any> {
       readOnly,
       displayMode,
       inputRef,
-      keyboard
+      keyboard,
+      useMobileUI
     } = this.props;
     const precisionProps: any = {
       precision: NumberInput.normalizePrecision(precision, step)
     };
-
+    const mobileUI = useMobileUI && isMobile();
+    console.log('mobileUI4444444', mobileUI);
     return (
       <InputNumber
         className={cx(
@@ -306,6 +316,9 @@ export class NumberInput extends React.Component<NumberProps, any> {
           displayMode === 'enhance' ? 'Number--enhance-input' : '',
           {
             [`Number--border${ucFirst(borderMode)}`]: borderMode
+          },
+          {
+            'is-mobile': mobileUI
           }
         )}
         ref={inputRef}
@@ -338,9 +351,11 @@ export class NumberInput extends React.Component<NumberProps, any> {
       showSteps,
       borderMode,
       readOnly,
-      displayMode
+      displayMode,
+      useMobileUI
     } = this.props;
 
+    const mobileUI = useMobileUI && isMobile();
     return (
       <>
         {displayMode === 'enhance' ? (

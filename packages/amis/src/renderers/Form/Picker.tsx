@@ -23,8 +23,10 @@ import {
   resolveEventData
 } from 'amis-core';
 import {Html, Icon} from 'amis-ui';
+import {isMobile} from 'amis-core';
 import {FormOptionsSchema, SchemaTpl} from '../../Schema';
 import intersectionWith from 'lodash/intersectionWith';
+import {PopUp} from 'amis-ui';
 
 /**
  * Picker
@@ -512,11 +514,14 @@ export default class PickerControl extends React.PureComponent<
       embed,
       selectedOptions,
       translate: __,
-      popOverContainer
+      popOverContainer,
+      useMobileUI
     } = this.props;
 
+    const mobileUI = useMobileUI && isMobile();
+
     return (
-      <div className={cx(`PickerControl`, className)}>
+      <div className={cx(`PickerControl`, {'is-mobile': mobileUI}, className)}>
         {embed ? (
           <div className={cx('Picker')}>
             {this.renderBody({popOverContainer})}
@@ -547,6 +552,7 @@ export default class PickerControl extends React.PureComponent<
                   onKeyDown={this.handleKeyDown}
                   onFocus={this.handleFocus}
                   onBlur={this.handleBlur}
+                  readOnly={mobileUI}
                 />
               </div>
 

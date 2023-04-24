@@ -12,6 +12,7 @@ import {
   utils
 } from 'amis-core';
 import {PickerOption} from '../PickerColumn';
+import {isMobile} from 'amis-core';
 
 export type DateType =
   | 'year'
@@ -688,6 +689,8 @@ class BaseDatePicker extends React.Component<
           key="dt"
           className={cx(
             'rdtPicker',
+            {'is-mobile-year': isMobile() && viewMode === 'years'},
+            {'is-mobile-embed': isMobile() && viewProps.embed},
             timeFormat && !dateFormat
               ? 'rdtPickerTimeWithoutD'
               : timeFormat && dateFormat

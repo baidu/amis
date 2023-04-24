@@ -109,8 +109,15 @@
     border-width: 0;
 
     &--time {
-      height: fit-content;
+      height: px2rem(360px);
       max-height: 90vh;
+      .#{$ns}PopUp-content {
+        overflow: hidden;
+      }
+    }
+
+    &--years {
+      height: px2rem(360px);
     }
   }
 
@@ -232,6 +239,7 @@
       align-items: center;
       justify-content: center;
       border-radius: px2rem(4px);
+      padding: 0 px2rem(10px);
     }
   }
 
@@ -268,11 +276,11 @@
       line-height: px2rem(48px);
     }
     .#{$ns}DateRangePicker-rangers {
-      position: absolute;
+      padding-left: revert;
       white-space: nowrap;
-      .#{$ns}DateRangePicker-ranger {
-        margin: 0 px2rem(25px);
-      }
+      line-height: inherit;
+      display: flex;
+      justify-content: space-between;
     }
     .#{$ns}DatePicker-shortcuts {
       width: auto;

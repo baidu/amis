@@ -1,8 +1,19 @@
 import React from 'react';
-import {ResultBox, Spinner,Icon, PopUp, Checkbox, Cascader, SpinnerExtraProps} from 'amis-ui';
 import {
-  Overlay, resolveEventData,
-  PopOver, Option, Options,
+  ResultBox,
+  Spinner,
+  Icon,
+  PopUp,
+  Checkbox,
+  Cascader,
+  SpinnerExtraProps
+} from 'amis-ui';
+import {
+  Overlay,
+  resolveEventData,
+  PopOver,
+  Option,
+  Options,
   autobind,
   flattenTree,
   filterTree,
@@ -916,7 +927,7 @@ export default class NestedSelectControl extends React.Component<
           onKeyDown={this.handleInputKeyDown}
           clearable={clearable}
           hasDropDownArrow={true}
-          allowInput={searchable}
+          allowInput={searchable && !mobileUI}
         >
           {loading ? (
             <Spinner loadingConfig={loadingConfig} size="sm" />

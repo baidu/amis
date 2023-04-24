@@ -1674,6 +1674,8 @@
   --InputRange-track-onActive-bg: var(--colors-brand-5);
   --InputRange-handle-height: var(--sizes-size-9);
   --InputRange-handle-width: var(--sizes-size-9);
+  --InputRange-handle-mobile-height: var(--sizes-base-11);
+  --InputRange-handle-mobile-width: var(--sizes-base-11);
   --InputRange-handle-bg: var(--colors-neutral-fill-11);
   --InputRange-handle-top-border-color: var(--colors-brand-5);
   --InputRange-handle-top-border-width: 0.0625rem;
@@ -1728,6 +1730,7 @@
   );
   --InputRange-label-position-bottom: calc(100% + 8px);
   --InputRange-input-width: var(--sizes-base-40);
+  --InputRange-input-mobile-width: var(--sizes-base-20);
   --InputRange-input-marginTop: var(--sizes-size-0);
   --InputRange-input-marginBottom: var(--sizes-size-0);
   --InputRange-input-marginLeft: var(--sizes-size-5);
@@ -2704,6 +2707,7 @@
   --select-tree-active-bg-color: var(--colors-brand-10);
 
   --Form-select-bg: var(--select-base-default-bg-color);
+  --Form-select-mobile-icon-check-color: var(--colors-brand-5);
   --Form-select-height: var(--Form-select-outer-top);
   --Form-select-borderColor: var(--select-base-default-top-border-color)
     var(--select-base-default-right-border-color)

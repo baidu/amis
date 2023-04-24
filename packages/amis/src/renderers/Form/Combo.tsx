@@ -45,6 +45,7 @@ import {
 } from '../../Schema';
 import {ListenerAction} from 'amis-core';
 import type {SchemaTokenizeableString} from '../../Schema';
+import {isMobile} from 'amis-core';
 
 export type ComboCondition = {
   test: string;
@@ -1263,8 +1264,11 @@ export default class ComboControl extends React.Component<ComboProps> {
       itemRemovableOn,
       disabled,
       removable,
-      deleteBtn
+      deleteBtn,
+      useMobileUI
     } = this.props;
+
+    const mobileUI = useMobileUI && isMobile();
 
     const finnalRemovable =
       store.removable !== false && // minLength ?
@@ -1333,7 +1337,7 @@ export default class ComboControl extends React.Component<ComboProps> {
         onClick={this.deleteItem.bind(this, index)}
         key="delete"
         className={cx(`Combo-delBtn ${!store.removable ? 'is-disabled' : ''}`)}
-        data-tooltip={__('delete')}
+        data-tooltip={!mobileUI ? __('delete') : null}
         data-position="bottom"
       >
         {deleteIcon ? (
@@ -1438,11 +1442,13 @@ export default class ComboControl extends React.Component<ComboProps> {
       translate: __,
       itemClassName,
       itemsWrapperClassName,
-      static: isStatic
+      static: isStatic,
+      useMobileUI
     } = this.props;
 
     let items = this.props.items;
     let value = this.props.value;
+    const mobileUI = useMobileUI && isMobile();
 
     if (flat && typeof value === 'string') {
       value = value.split(delimiter || ',');
@@ -1452,6 +1458,9 @@ export default class ComboControl extends React.Component<ComboProps> {
       <div
         className={cx(
           `Combo Combo--multi`,
+          {
+            'is-mobile': mobileUI
+          },
           multiLine ? `Combo--ver` : `Combo--hor`,
           noBorder ? `Combo--noBorder` : '',
           disabled ? 'is-disabled' : '',
@@ -1567,9 +1576,11 @@ export default class ComboControl extends React.Component<ComboProps> {
       typeSwitchable,
       nullable,
       translate: __,
-      itemClassName
+      itemClassName,
+      useMobileUI
     } = this.props;
 
+    const mobileUI = useMobileUI && isMobile();
     let items = this.props.items;
     const data = isObject(value) ? this.formatValue(value) : this.defaultValue;
     let condition: ComboCondition | null = null;
@@ -1583,6 +1594,9 @@ export default class ComboControl extends React.Component<ComboProps> {
       <div
         className={cx(
           `Combo Combo--single`,
+          {
+            'is-mobile': mobileUI
+          },
           multiLine ? `Combo--ver` : `Combo--hor`,
           noBorder ? `Combo--noBorder` : '',
           disabled ? 'is-disabled' : ''

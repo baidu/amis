@@ -83,7 +83,8 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
       borderMode,
       itemHeight,
       virtualThreshold,
-      loadingConfig
+      loadingConfig,
+      useMobileUI
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载
@@ -131,6 +132,7 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
             toNumber(itemHeight) > 0 ? toNumber(itemHeight) : undefined
           }
           virtualThreshold={virtualThreshold}
+          useMobileUI={useMobileUI}
         />
 
         <Spinner

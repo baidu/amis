@@ -657,6 +657,21 @@
     }
   }
 
+  &.is-mobile {
+    .#{$ns}Table-table > tbody > tr {
+      &:hover,
+      &.is-hovered {
+        background: var(--Table-bg);
+        border-color: var(--Table-borderColor);
+        color: var(--Table-color);
+
+        & + tr {
+          border-color: var(--Table-borderColor);
+        }
+      }
+    }
+  }
+
   &Cell-sortBtn,
   &Cell-searchBtn,
   &Cell-filterBtn {

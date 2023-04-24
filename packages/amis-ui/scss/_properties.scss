@@ -610,6 +610,10 @@ $remFactor: 16px;
   --ListMenu-item-bg: var(--colors-neutral-fill-11);
   --ListMenu-item-color: var(--colors-neutral-text-2);
   --ListMenu-item-height: var(--sizes-base-15);
+  --ListMenu-item-mobile-margin: #{px2rem(5px)};
+  --ListMenu-item-mobile-width: #{px2rem(90px)};
+  --ListMenu-item-mobile-bg: #f5f5f5;
+  --ListMenu-item-mobile-active-bg: #e7f1ff;
 
   --Log-bg: #222;
   --Log-padding: var(--gap-sm) 0;
@@ -1124,6 +1128,11 @@ $remFactor: 16px;
   --UserSelect--border-color: #f7f7f9;
   --UserSelect--content-bg: #f5f7f8;
   --UserSelect--bread-color: #5e626a;
+
+  --Cascader-border-color: #f7f7f9;
+  --Cascader-border-active-bg-color: #f7f7f9;
+  --Cascader-option-disable-color: #b8babf;
+
   // tag
   --Tag-content-fontSize: var(--fontSizeSm);
   --Tag-height: #{px2rem(24px)};

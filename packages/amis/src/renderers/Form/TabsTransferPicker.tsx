@@ -104,7 +104,8 @@ export class TabsTransferPickerRenderer extends BaseTabsTransferRenderer<TabsTra
       leftOptions,
       itemHeight,
       virtualThreshold,
-      loadingConfig
+      loadingConfig,
+      useMobileUI
     } = this.props;
 
     return (
@@ -135,6 +136,7 @@ export class TabsTransferPickerRenderer extends BaseTabsTransferRenderer<TabsTra
             toNumber(itemHeight) > 0 ? toNumber(itemHeight) : undefined
           }
           virtualThreshold={virtualThreshold}
+          useMobileUI={useMobileUI}
         />
 
         <Spinner

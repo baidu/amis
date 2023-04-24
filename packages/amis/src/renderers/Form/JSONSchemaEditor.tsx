@@ -12,7 +12,8 @@ import type {SchemaEditorItemPlaceholder} from 'amis-ui/lib/components/schema-ed
  * JSON Schema Editor
  * 文档：https://baidu.gitee.io/amis/docs/components/form/json-schema-editor
  */
-export interface JSONSchemaEditorControlSchema extends Omit<FormBaseControlSchema, 'placeholder'> {
+export interface JSONSchemaEditorControlSchema
+  extends Omit<FormBaseControlSchema, 'placeholder'> {
   /**
    * 指定为 JSON Schema Editor
    */
@@ -137,11 +138,12 @@ export default class JSONSchemaEditorControl extends React.PureComponent<JSONSch
   }
 
   render() {
-    const {enableAdvancedSetting, ...rest} = this.props;
+    const {enableAdvancedSetting, useMobileUI, ...rest} = this.props;
 
     return (
       <JSONSchemaEditor
         {...rest}
+        useMobileUI={useMobileUI}
         placeholder={this.normalizePlaceholder()}
         enableAdvancedSetting={enableAdvancedSetting}
         renderModalProps={this.renderModalProps}

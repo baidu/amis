@@ -180,10 +180,22 @@
   width: auto;
   // padding-bottom: var(--gap-sm);
   padding: 0;
+
+  &.is-mobile {
+    flex: 1;
+
+    .#{$ns}DateRangePicker-end {
+      margin-top: 0;
+    }
+  }
 }
 
 .#{$ns}DateRangePicker-picker-wrap {
   display: flex;
+
+  &.is-vertical {
+    flex-direction: column;
+  }
 }
 
 .#{$ns}DateRangePicker-start,
@@ -269,6 +281,10 @@
   border-color: var(--DatePicker-borderColor);
   background: var(--DatePicker-bg);
   border-radius: var(--DatePicker-borderRadius);
+
+  &.is-mobile {
+    display: block;
+  }
 }
 
 // 移动端输入框样式

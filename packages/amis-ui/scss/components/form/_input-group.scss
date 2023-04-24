@@ -151,6 +151,12 @@
   .#{$ns}Form-static {
     margin-right: var(--gap-xs);
   }
+
+  &.is-mobile {
+    .#{$ns}Form-control {
+      display: inline-flex;
+    }
+  }
 }
 
 .#{$ns}InputGroup:not(.is-inline) {

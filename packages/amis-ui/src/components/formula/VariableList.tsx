@@ -82,7 +82,7 @@ function VariableList(props: VariableListProps) {
   function renderSearchBox() {
     return (
       <div className={cx('FormulaEditor-VariableList-searchBox')}>
-        <SearchBox mini={false} onSearch={onSearch} />
+        <SearchBox mini={false} onSearch={onSearch} useMobileUI />
       </div>
     );
   }

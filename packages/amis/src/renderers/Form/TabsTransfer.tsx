@@ -303,7 +303,8 @@ export class TabsTransferRenderer extends BaseTabsTransferRenderer<TabsTransferP
       itemHeight,
       virtualThreshold,
       onlyChildren,
-      loadingConfig
+      loadingConfig,
+      useMobileUI
     } = this.props;
 
     return (
@@ -331,6 +332,7 @@ export class TabsTransferRenderer extends BaseTabsTransferRenderer<TabsTransferP
             toNumber(itemHeight) > 0 ? toNumber(itemHeight) : undefined
           }
           virtualThreshold={virtualThreshold}
+          useMobileUI={useMobileUI}
         />
 
         <Spinner

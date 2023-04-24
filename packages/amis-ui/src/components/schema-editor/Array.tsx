@@ -40,7 +40,8 @@ export class SchemaEditorItemArray extends SchemaEditorItemCommon {
       types,
       onTypeChange,
       enableAdvancedSetting,
-      placeholder
+      placeholder,
+      useMobileUI
     } = this.props;
     const items = value?.items || {
       type: 'string'
@@ -71,6 +72,7 @@ export class SchemaEditorItemArray extends SchemaEditorItemCommon {
           disabled={disabled || !!(items as any)?.$ref}
           enableAdvancedSetting={enableAdvancedSetting}
           placeholder={placeholder}
+          useMobileUI={useMobileUI}
         />
       </div>
     );

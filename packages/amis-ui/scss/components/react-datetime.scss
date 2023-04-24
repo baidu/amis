@@ -15,6 +15,14 @@
   background: #fff;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   border: 1px solid #f9f9f9;
+
+  &.is-mobile-year {
+    width: px2rem(184px);
+  }
+
+  &.is-mobile-embed {
+    width: px2rem(240px);
+  }
 }
 
 .rdtPickerNotDays {

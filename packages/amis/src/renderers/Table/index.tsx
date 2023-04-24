@@ -57,6 +57,7 @@ import {getStyleNumber} from 'amis-core';
 import {exportExcel} from './exportExcel';
 import type {IColumn, IRow} from 'amis-core/lib/store/table';
 import intersection from 'lodash/intersection';
+import {isMobile} from 'amis-core';
 
 /**
  * 表格列，不指定类型时默认为文本类型。
@@ -2955,7 +2956,8 @@ export default class Table extends React.Component<TableProps, object> {
       classnames: cx,
       affixColumns,
       autoFillHeight,
-      autoGenerateFilter
+      autoGenerateFilter,
+      useMobileUI
     } = this.props;
 
     this.renderedToolbars = []; // 用来记录哪些 toolbar 已经渲染了，已经渲染了就不重复渲染了。
@@ -2965,10 +2967,11 @@ export default class Table extends React.Component<TableProps, object> {
     const tableClassName = cx('Table-table', this.props.tableClassName, {
       'Table-table--withCombine': store.combineNum > 0
     });
+    const mobileUI = useMobileUI && isMobile();
 
     return (
       <div
-        className={cx('Table', className, {
+        className={cx('Table', {'is-mobile': mobileUI}, className, {
           'Table--unsaved': !!store.modified || !!store.moved,
           'Table--autoFillHeight': autoFillHeight
         })}

@@ -212,6 +212,10 @@ export interface TabsSchema extends BaseSchema {
    * 折叠按钮文字
    */
   collapseBtnLabel?: string;
+  /**
+   * 是否滑动切换只在移动端生效
+   */
+  swipeable?: boolean;
 }
 
 export interface TabsProps
@@ -753,7 +757,9 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       addBtnText,
       collapseOnExceed,
       collapseBtnLabel,
-      disabled
+      disabled,
+      useMobileUI,
+      swipeable
     } = this.props;
 
     const mode = tabsMode || dMode;
@@ -778,6 +784,14 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
             disabled={disabled || isDisabled(tab, tab.ctx)}
             key={index}
             eventKey={index}
+            prevKey={index > 0 ? tabs[index - 1]?.hash || index - 1 : 0}
+            nextKey={
+              index < tabs.length - 1
+                ? tabs[index + 1]?.hash || index + 1
+                : tabs.length - 1
+            }
+            swipeable={swipeable}
+            useMobileUI={useMobileUI}
             mountOnEnter={mountOnEnter}
             unmountOnExit={
               typeof tab.reload === 'boolean'
@@ -786,6 +800,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
                 ? tab.unmountOnExit
                 : unmountOnExit
             }
+            onSelect={this.handleSelect}
           >
             {render(
               `item/${index}`,
@@ -810,6 +825,14 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
             disabled={disabled || isDisabled(tab, data)}
             key={index}
             eventKey={tab.hash || index}
+            prevKey={index > 0 ? tabs[index - 1]?.hash || index - 1 : 0}
+            nextKey={
+              index < tabs.length - 1
+                ? tabs[index + 1]?.hash || index + 1
+                : tabs.length - 1
+            }
+            swipeable={swipeable}
+            useMobileUI={useMobileUI}
             mountOnEnter={mountOnEnter}
             unmountOnExit={
               typeof tab.reload === 'boolean'
@@ -818,6 +841,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
                 ? tab.unmountOnExit
                 : unmountOnExit
             }
+            onSelect={this.handleSelect}
           >
             {this.renderTab
               ? this.renderTab(tab, this.props, index)
@@ -864,6 +888,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         sidePosition={sidePosition}
         collapseOnExceed={collapseOnExceed}
         collapseBtnLabel={collapseBtnLabel}
+        useMobileUI={useMobileUI}
       >
         {children}
       </CTabs>

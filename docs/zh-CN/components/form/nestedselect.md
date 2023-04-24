@@ -678,7 +678,7 @@ order: 31
         }
       ],
       searchable: true,
-      multiple: false,
+      multiple: true,
       joinValues: true,
       clearable: true
     }

@@ -50,7 +50,7 @@ for f in $(find ./packages/*/esm -type f -name "*.[tj]s"); do
   sed -i '' -e "s/require(\[\'amis/require(\[\'@fex\/amis/g" $f
 done
 
-npm publish --workspaces --registry=http://registry.npm.baidu-int.com --ignore-scripts
+# npm publish --workspaces --registry=http://registry.npm.baidu-int.com --ignore-scripts
 
-cd ..
-rm -rf npm
+# cd ..
+# rm -rf npm

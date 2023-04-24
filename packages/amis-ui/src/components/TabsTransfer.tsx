@@ -15,6 +15,7 @@ import {ItemRenderStates} from './Selection';
 import {Icon} from './icons';
 import debounce from 'lodash/debounce';
 import {SpinnerExtraProps} from './Spinner';
+import {isMobile} from 'amis-core';
 
 export interface TabsTransferProps
   extends Omit<
@@ -50,6 +51,7 @@ export interface TabsTransferProps
   onTabChange: (key: number) => void;
   activeKey: number;
   onlyChildren?: boolean;
+  useMobileUI?: boolean;
 }
 
 export interface TabsTransferState {
@@ -256,9 +258,11 @@ export class TabsTransfer extends React.Component<
       placeholder,
       activeKey,
       classnames: cx,
+      useMobileUI,
       translate: __
     } = this.props;
     const showOptions = options.filter(item => item.visible !== false);
+    const mobileUI = useMobileUI && isMobile();
 
     if (!Array.isArray(options) || !options.length) {
       return (
@@ -283,7 +287,9 @@ export class TabsTransfer extends React.Component<
             className="TabsTransfer-tab"
           >
             {option.searchable ? (
-              <div className={cx('TabsTransfer-search')}>
+              <div
+                className={cx('TabsTransfer-search', {'is-mobile': mobileUI})}
+              >
                 <InputBox
                   value={this.state.inputValue}
                   onChange={(text: string) => this.handleSearch(text, option)}
@@ -453,12 +459,14 @@ export class TabsTransfer extends React.Component<
       classnames: cx,
       optionItemRender,
       onSearch,
+      useMobileUI,
       ...reset
     } = this.props;
 
     return (
       <Transfer
         {...reset}
+        useMobileUI={useMobileUI}
         statistics={false}
         classnames={cx}
         className={cx('TabsTransfer', className)}

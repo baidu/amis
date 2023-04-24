@@ -7,6 +7,8 @@ import {autobind} from 'amis-core';
 import Alert2 from './Alert2';
 import BaiduMapPicker from './BaiduMapPicker';
 import {LocaleProps, localeable} from 'amis-core';
+import {isMobile} from 'amis-core';
+import PopUp from './PopUp';
 
 export interface LocationProps extends ThemeProps, LocaleProps {
   vendor: 'baidu' | 'gaode' | 'tenxun';
@@ -25,6 +27,7 @@ export interface LocationProps extends ThemeProps, LocaleProps {
   popoverClassName?: string;
   onChange: (value: any) => void;
   popOverContainer?: any;
+  useMobileUI?: boolean;
 }
 
 export interface LocationState {
@@ -41,6 +44,7 @@ export class LocationPicker extends React.Component<
     clearable: false
   };
   domRef: React.RefObject<HTMLDivElement> = React.createRef();
+  tempValue: any;
   state = {
     isFocused: false,
     isOpened: false
@@ -92,6 +96,7 @@ export class LocationPicker extends React.Component<
         },
         fn
       );
+    this.tempValue = this.props.value;
   }
 
   @autobind
@@ -126,6 +131,23 @@ export class LocationPicker extends React.Component<
     this.props.onChange(value);
   }
 
+  @autobind
+  handleTempChange(value: any) {
+    if (value) {
+      value = {
+        ...value,
+        vendor: this.props.vendor
+      };
+    }
+    this.tempValue = value;
+  }
+
+  @autobind
+  handleConfirm() {
+    this.props.onChange(this.tempValue);
+    this.close();
+  }
+
   render() {
     const {
       classnames: cx,
@@ -138,10 +160,12 @@ export class LocationPicker extends React.Component<
       popOverContainer,
       vendor,
       coordinatesType,
-      ak
+      ak,
+      useMobileUI
     } = this.props;
     const __ = this.props.translate;
     const {isFocused, isOpened} = this.state;
+    const mobileUI = useMobileUI && isMobile();
 
     return (
       <div
@@ -152,6 +176,7 @@ export class LocationPicker extends React.Component<
         className={cx(
           `LocationPicker`,
           {
+            'is-mobile': mobileUI,
             'is-disabled': disabled,
             'is-focused': isFocused,
             'is-active': isOpened
@@ -179,31 +204,55 @@ export class LocationPicker extends React.Component<
           <Icon icon="location" className="icon" />
         </a>
 
-        <Overlay
-          target={this.getTarget}
-          container={popOverContainer || this.getParent}
-          rootClose={false}
-          show={isOpened}
-        >
-          <PopOver
-            className={cx('LocationPicker-popover', popoverClassName)}
+        {mobileUI ? (
+          <PopUp
+            className={cx(`LocationPicker-popup`)}
+            container={popOverContainer || this.getParent}
+            isShow={isOpened}
             onHide={this.close}
-            overlay
-            onClick={this.handlePopOverClick}
-            style={{width: this.getTarget()?.offsetWidth}}
+            showConfirm
+            onConfirm={this.handleConfirm}
           >
-            {vendor === 'baidu' ? (
-              <BaiduMapPicker
-                ak={ak}
-                value={value}
-                coordinatesType={coordinatesType}
-                onChange={this.handleChange}
-              />
-            ) : (
-              <Alert2>{__('${vendor} 地图控件不支持', {vendor})}</Alert2>
-            )}
-          </PopOver>
-        </Overlay>
+            <div className={cx('LocationPicker-popup-inner')}>
+              {vendor === 'baidu' ? (
+                <BaiduMapPicker
+                  ak={ak}
+                  value={value}
+                  coordinatesType={coordinatesType}
+                  onChange={this.handleTempChange}
+                />
+              ) : (
+                <Alert2>{__('${vendor} 地图控件不支持', {vendor})}</Alert2>
+              )}
+            </div>
+          </PopUp>
+        ) : (
+          <Overlay
+            target={this.getTarget}
+            container={popOverContainer || this.getParent}
+            rootClose={false}
+            show={isOpened}
+          >
+            <PopOver
+              className={cx('LocationPicker-popover', popoverClassName)}
+              onHide={this.close}
+              overlay
+              onClick={this.handlePopOverClick}
+              style={{width: this.getTarget()?.offsetWidth}}
+            >
+              {vendor === 'baidu' ? (
+                <BaiduMapPicker
+                  ak={ak}
+                  value={value}
+                  coordinatesType={coordinatesType}
+                  onChange={this.handleChange}
+                />
+              ) : (
+                <Alert2>{__('${vendor} 地图控件不支持', {vendor})}</Alert2>
+              )}
+            </PopOver>
+          </Overlay>
+        )}
       </div>
     );
   }
