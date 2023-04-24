@@ -7,6 +7,7 @@ exports[`break-page 1`] = `
   >
     <p
       class="docx-viewer-0-p"
+      style="position: relative;"
     >
       <span
         class="docx-viewer-0-r"
@@ -21,12 +22,13 @@ exports[`break-page 1`] = `
     </p>
     <p
       class="docx-viewer-0-p"
+      style="position: relative;"
     >
        
     </p>
     <p
       class="docx-viewer-0-p docx-viewer-0-Normal docx-viewer-0-ListParagraph"
-      style="text-indent: -29.33px; margin-left: 29.33px;"
+      style="position: relative; text-indent: -29.33px; margin-left: 29.33px;"
     >
       <span
         style="font-family: Wingdings;"
@@ -41,7 +43,7 @@ exports[`break-page 1`] = `
     </p>
     <p
       class="docx-viewer-0-p docx-viewer-0-Normal docx-viewer-0-ListParagraph"
-      style="text-indent: -29.33px; margin-left: 29.33px;"
+      style="position: relative; text-indent: -29.33px; margin-left: 29.33px;"
     >
       <span
         style="font-family: Wingdings;"
@@ -56,7 +58,7 @@ exports[`break-page 1`] = `
     </p>
     <p
       class="docx-viewer-0-p docx-viewer-0-Normal docx-viewer-0-ListParagraph"
-      style="text-indent: -29.33px; margin-left: 29.33px;"
+      style="position: relative; text-indent: -29.33px; margin-left: 29.33px;"
     >
       <span
         style="font-family: Wingdings;"
@@ -71,11 +73,13 @@ exports[`break-page 1`] = `
     </p>
     <p
       class="docx-viewer-0-p"
+      style="position: relative;"
     >
        
     </p>
     <p
       class="docx-viewer-0-p"
+      style="position: relative;"
     >
       <span
         class="docx-viewer-0-r"
@@ -95,7 +99,7 @@ exports[`break-page 1`] = `
     </p>
     <p
       class="docx-viewer-0-p"
-      style="text-align: left;"
+      style="text-align: left; position: relative;"
     >
       <span
         class="docx-viewer-0-r"
@@ -105,6 +109,7 @@ exports[`break-page 1`] = `
     </p>
     <p
       class="docx-viewer-0-p"
+      style="position: relative;"
     >
       <span
         class="docx-viewer-0-r"

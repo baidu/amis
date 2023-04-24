@@ -22,7 +22,7 @@ import {
 import {defaultValue, getSchemaTpl, tipedLabel} from 'amis-editor-core';
 import {mockValue} from 'amis-editor-core';
 import {EditorNodeType} from 'amis-editor-core';
-import {SchemaObject} from 'amis/lib/Schema';
+import type {SchemaObject} from 'amis/lib/Schema';
 import {
   getEventControlConfig,
   getArgsWrapper
@@ -287,7 +287,7 @@ export class TablePlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.rowItem': {
+            'event.data.item': {
               type: 'object',
               title: '行点击数据'
             }

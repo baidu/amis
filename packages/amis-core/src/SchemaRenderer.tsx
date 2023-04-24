@@ -29,7 +29,7 @@ interface SchemaRendererProps extends Partial<RendererProps> {
   env: RendererEnv;
 }
 
-const defaultOmitList = [
+export const RENDERER_TRANSMISSION_OMIT_PROPS = [
   'type',
   'name',
   '$ref',
@@ -54,7 +54,9 @@ const defaultOmitList = [
   'mode',
   'body',
   'id',
-  'inputOnly'
+  'inputOnly',
+  'label',
+  'renderLabel'
 ];
 
 const componentCache: SimpleMap = new SimpleMap();
@@ -226,7 +228,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     let {schema: _, $path: __, env, render, ...rest} = this.props;
     let {path: $path} = this.resolveRenderer(this.props);
 
-    const omitList = defaultOmitList.concat();
+    const omitList = RENDERER_TRANSMISSION_OMIT_PROPS.concat();
     if (this.renderer) {
       const Component = this.renderer.component;
       Component.propsList &&

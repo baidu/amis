@@ -26,7 +26,7 @@ export class TextControlPlugin extends BasePlugin {
 
   $schema = '/schemas/TextControlSchema.json';
 
-  order = -500;
+  order = -600;
   // 添加源对应组件中文名称 & type字段
   searchKeywords =
     '文本框、邮箱框、input-email、URL框、input-url、密码框、input-password';
@@ -210,13 +210,21 @@ export class TextControlPlugin extends BasePlugin {
                     form.changeValue('validationErrors', {...validationErrors});
                   }
                 }),
-                getSchemaTpl('valueFormula', {
-                  rendererSchema: context?.schema
+                getSchemaTpl('tplFormulaControl', {
+                  name: 'value',
+                  label: '默认值'
                 }),
                 getSchemaTpl('clearable'),
                 getSchemaTpl('showCounter', {
                   visibleOn: `${isText} || ${isPassword}`
                 }),
+                {
+                  name: 'maxLength',
+                  label: tipedLabel('最大字数', '限制输入最多文字数量'),
+                  type: 'input-number',
+                  min: 0,
+                  step: 1
+                },
                 {
                   name: 'addOn',
                   label: tipedLabel('AddOn', '输入框左侧或右侧的附加挂件'),

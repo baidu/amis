@@ -7,16 +7,19 @@ exports[`textbox-behindDoc 1`] = `
   >
     <p
       class="docx-viewer-0-p"
+      style="position: relative;"
     >
       <span
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251659264; position: absolute; left: 144.00px; top: 77.80px; width: 122.79px; height: 53.58px; column-count: 1;"
+          data-id="1"
+          data-name="Text Box 1"
+          style="z-index: 251659264; position: absolute; left: 144.00px; top: 77.80px; width: 122.79px; height: 53.58px; display: table;"
         >
           <svg
             height="53.58px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="122.79px"
           >
             <path
@@ -26,31 +29,39 @@ exports[`textbox-behindDoc 1`] = `
               stroke-width="0.67px"
             />
           </svg>
-          <p
-            class="docx-viewer-0-p"
+          <div
+            data-name="textContainer"
+            style="display: table-cell; vertical-align: top;"
           >
-            <span
-              class="docx-viewer-0-r"
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
             >
-              t
-            </span>
-            <span
-              class="docx-viewer-0-r"
-            >
-              ext
-            </span>
-          </p>
+              <span
+                class="docx-viewer-0-r"
+              >
+                t
+              </span>
+              <span
+                class="docx-viewer-0-r"
+              >
+                ext
+              </span>
+            </p>
+          </div>
         </div>
       </span>
       <span
         class="docx-viewer-0-r"
       >
         <div
-          style="z-index: 251658239; position: absolute; left: 122.79px; top: 64.41px; width: 164.09px; height: 84.84px; column-count: 1;"
+          data-id="2"
+          data-name="Text Box 2"
+          style="z-index: 251658239; position: absolute; left: 122.79px; top: 64.41px; width: 164.09px; height: 84.84px; color: rgb(255, 255, 255); display: table;"
         >
           <svg
             height="84.84px"
-            style="overflow: visible"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
             width="164.09px"
           >
             <path
@@ -58,11 +69,17 @@ exports[`textbox-behindDoc 1`] = `
               fill="#70AD47"
             />
           </svg>
-          <p
-            class="docx-viewer-0-p"
+          <div
+            data-name="textContainer"
+            style="display: table-cell; vertical-align: top;"
           >
-             
-          </p>
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+               
+            </p>
+          </div>
         </div>
       </span>
     </p>

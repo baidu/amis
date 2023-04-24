@@ -76,7 +76,8 @@ export default function renderRun(
   word: Word,
   run: Run,
   paragraph?: Paragraph,
-  inFldChar?: boolean
+  inFldChar?: boolean,
+  inHeader?: boolean
 ) {
   const span = createElement('span');
 
@@ -105,7 +106,7 @@ export default function renderRun(
         const br = renderBr(word, child);
         appendChild(span, br);
       } else if (child instanceof Drawing) {
-        appendChild(span, renderDrawing(word, child));
+        appendChild(span, renderDrawing(word, child, inHeader));
       } else if (child instanceof Tab) {
         appendChild(span, renderTab(word, child));
       } else if (child instanceof Pict) {

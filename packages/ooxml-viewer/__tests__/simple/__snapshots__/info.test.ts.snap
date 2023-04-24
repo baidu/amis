@@ -7,7 +7,7 @@ exports[`info 1`] = `
   >
     <p
       class="docx-viewer-0-p"
-      style="text-align: center;"
+      style="text-align: center; position: relative;"
     >
       <span
         class="docx-viewer-0-r"
@@ -18,6 +18,7 @@ exports[`info 1`] = `
     </p>
     <p
       class="docx-viewer-0-p"
+      style="position: relative;"
     >
       <span
         class="docx-viewer-0-r"
@@ -48,6 +49,7 @@ exports[`info 1`] = `
           >
             <p
               class="docx-viewer-0-p"
+              style="position: relative;"
             >
               <span
                 class="docx-viewer-0-r"
@@ -74,6 +76,7 @@ exports[`info 1`] = `
           >
             <p
               class="docx-viewer-0-p"
+              style="position: relative;"
             >
               <span
                 class="docx-viewer-0-r"
@@ -93,7 +96,7 @@ exports[`info 1`] = `
           >
             <p
               class="docx-viewer-0-p"
-              style="text-align: center;"
+              style="text-align: center; position: relative;"
             >
               <span
                 class="docx-viewer-0-r"
@@ -118,7 +121,7 @@ exports[`info 1`] = `
           >
             <p
               class="docx-viewer-0-p"
-              style="text-align: center;"
+              style="text-align: center; position: relative;"
             >
               <span
                 class="docx-viewer-0-r"
@@ -164,7 +167,7 @@ exports[`info 1`] = `
           >
             <p
               class="docx-viewer-0-p"
-              style="text-align: center;"
+              style="text-align: center; position: relative;"
             >
               <span
                 class="docx-viewer-0-r"
@@ -174,37 +177,37 @@ exports[`info 1`] = `
             </p>
             <p
               class="docx-viewer-0-p"
-              style="text-align: center;"
+              style="text-align: center; position: relative;"
             >
                
             </p>
             <p
               class="docx-viewer-0-p"
-              style="text-align: center;"
+              style="text-align: center; position: relative;"
             >
                
             </p>
             <p
               class="docx-viewer-0-p"
-              style="text-align: center;"
+              style="text-align: center; position: relative;"
             >
                
             </p>
             <p
               class="docx-viewer-0-p"
-              style="text-align: center;"
+              style="text-align: center; position: relative;"
             >
                
             </p>
             <p
               class="docx-viewer-0-p"
-              style="text-align: center;"
+              style="text-align: center; position: relative;"
             >
                
             </p>
             <p
               class="docx-viewer-0-p"
-              style="text-align: center;"
+              style="text-align: center; position: relative;"
             >
               <span
                 class="docx-viewer-0-r"
@@ -221,6 +224,7 @@ exports[`info 1`] = `
           >
             <p
               class="docx-viewer-0-p"
+              style="position: relative;"
             >
                
             </p>
@@ -231,7 +235,7 @@ exports[`info 1`] = `
           >
             <p
               class="docx-viewer-0-p"
-              style="text-align: right;"
+              style="text-align: right; position: relative;"
             >
               <span
                 class="docx-viewer-0-r"
@@ -278,6 +282,7 @@ exports[`info 1`] = `
           >
             <p
               class="docx-viewer-0-p"
+              style="position: relative;"
             >
               <span
                 class="docx-viewer-0-r"
@@ -308,7 +313,7 @@ exports[`info 1`] = `
           >
             <p
               class="docx-viewer-0-p"
-              style="text-align: left;"
+              style="text-align: left; position: relative;"
             >
               <span
                 class="docx-viewer-0-r"
@@ -340,6 +345,7 @@ exports[`info 1`] = `
           >
             <p
               class="docx-viewer-0-p"
+              style="position: relative;"
             >
               <span
                 class="docx-viewer-0-r"
@@ -355,7 +361,7 @@ exports[`info 1`] = `
           >
             <p
               class="docx-viewer-0-p"
-              style="text-align: left;"
+              style="text-align: left; position: relative;"
             >
                
             </p>
@@ -369,6 +375,7 @@ exports[`info 1`] = `
           >
             <p
               class="docx-viewer-0-p"
+              style="position: relative;"
             >
               <span
                 class="docx-viewer-0-r"
@@ -384,6 +391,7 @@ exports[`info 1`] = `
           >
             <p
               class="docx-viewer-0-p"
+              style="position: relative;"
             >
                
             </p>
@@ -397,6 +405,7 @@ exports[`info 1`] = `
           >
             <p
               class="docx-viewer-0-p"
+              style="position: relative;"
             >
               <span
                 class="docx-viewer-0-r"
@@ -412,6 +421,7 @@ exports[`info 1`] = `
           >
             <p
               class="docx-viewer-0-p"
+              style="position: relative;"
             >
               <span
                 class="docx-viewer-0-r"
@@ -434,6 +444,7 @@ exports[`info 1`] = `
           >
             <p
               class="docx-viewer-0-p"
+              style="position: relative;"
             >
               <span
                 class="docx-viewer-0-r"
@@ -449,6 +460,7 @@ exports[`info 1`] = `
           >
             <p
               class="docx-viewer-0-p"
+              style="position: relative;"
             >
               <span
                 class="docx-viewer-0-r"
@@ -471,6 +483,7 @@ exports[`info 1`] = `
           >
             <p
               class="docx-viewer-0-p"
+              style="position: relative;"
             >
               <span
                 class="docx-viewer-0-r"
@@ -486,6 +499,7 @@ exports[`info 1`] = `
           >
             <p
               class="docx-viewer-0-p"
+              style="position: relative;"
             >
               <span
                 class="docx-viewer-0-r variable"
@@ -501,6 +515,7 @@ exports[`info 1`] = `
           >
             <p
               class="docx-viewer-0-p"
+              style="position: relative;"
             >
                
             </p>
@@ -510,11 +525,13 @@ exports[`info 1`] = `
     </table>
     <p
       class="docx-viewer-0-p"
+      style="position: relative;"
     >
        
     </p>
     <p
       class="docx-viewer-0-p"
+      style="position: relative;"
     >
        
     </p>

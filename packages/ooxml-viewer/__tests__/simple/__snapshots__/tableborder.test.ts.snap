@@ -13,10 +13,11 @@ exports[`tableborder 1`] = `
         <tr>
           <td
             class="nwCell firstRow firstCol band2Horz band2Vert"
-            style="width: 42.00px; background-color: rgba(255, 255, 255, 0.15);"
+            style="width: 42.00px; background-color: rgba(0, 0, 0, 0.15);"
           >
             <p
               class="docx-viewer-0-p"
+              style="position: relative;"
             >
               <span
                 class="docx-viewer-0-r"
@@ -28,10 +29,11 @@ exports[`tableborder 1`] = `
           </td>
           <td
             class="firstRow band2Horz band1Vert"
-            style="width: 389.99px; background-color: rgba(255, 255, 255, 0.15);"
+            style="width: 389.99px; background-color: rgba(0, 0, 0, 0.15);"
           >
             <p
               class="docx-viewer-0-p"
+              style="position: relative;"
             >
               <span
                 class="docx-viewer-0-r"
@@ -43,10 +45,11 @@ exports[`tableborder 1`] = `
           </td>
           <td
             class="firstRow band2Horz band2Vert"
-            style="width: 90.00px; background-color: rgba(255, 255, 255, 0.15);"
+            style="width: 90.00px; background-color: rgba(0, 0, 0, 0.15);"
           >
             <p
               class="docx-viewer-0-p"
+              style="position: relative;"
             >
               <span
                 class="docx-viewer-0-r"
@@ -58,10 +61,11 @@ exports[`tableborder 1`] = `
           </td>
           <td
             class="neCell firstRow lastCol band2Horz band1Vert"
-            style="width: 84.00px; background-color: rgba(255, 255, 255, 0.15);"
+            style="width: 84.00px; background-color: rgba(0, 0, 0, 0.15);"
           >
             <p
               class="docx-viewer-0-p"
+              style="position: relative;"
             >
               <span
                 class="docx-viewer-0-r"
@@ -79,6 +83,7 @@ exports[`tableborder 1`] = `
           >
             <p
               class="docx-viewer-0-p"
+              style="position: relative;"
             >
                
             </p>
@@ -89,6 +94,7 @@ exports[`tableborder 1`] = `
           >
             <p
               class="docx-viewer-0-p"
+              style="position: relative;"
             >
               <span
                 class="docx-viewer-0-r"
@@ -110,6 +116,7 @@ exports[`tableborder 1`] = `
           >
             <p
               class="docx-viewer-0-p"
+              style="position: relative;"
             >
               <span
                 class="docx-viewer-0-r"
@@ -125,6 +132,7 @@ exports[`tableborder 1`] = `
           >
             <p
               class="docx-viewer-0-p"
+              style="position: relative;"
             >
               <span
                 class="docx-viewer-0-r"
@@ -169,17 +177,19 @@ exports[`tableborder 1`] = `
     </table>
     <p
       class="docx-viewer-0-p"
+      style="position: relative;"
     >
        
     </p>
     <p
       class="docx-viewer-0-p"
-      style="text-align: center;"
+      style="text-align: center; position: relative;"
     >
        
     </p>
     <p
       class="docx-viewer-0-p"
+      style="position: relative;"
     >
        
     </p>

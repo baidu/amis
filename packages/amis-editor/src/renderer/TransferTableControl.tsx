@@ -5,7 +5,7 @@
 import React from 'react';
 import {render as amisRender, FormItem} from 'amis';
 import {omit} from 'lodash';
-import {SchemaApi} from 'amis/lib/Schema';
+import type {SchemaApi} from 'amis/lib/Schema';
 import {autobind, getSchemaTpl} from 'amis-editor-core';
 import cx from 'classnames';
 import {tipedLabel} from 'amis-editor-core';

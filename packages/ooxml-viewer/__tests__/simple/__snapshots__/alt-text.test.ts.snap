@@ -7,11 +7,14 @@ exports[`alt-text 1`] = `
   >
     <p
       class="docx-viewer-0-p"
+      style="position: relative;"
     >
       <span
         class="docx-viewer-0-r"
       >
         <div
+          data-id="1"
+          data-name="Picture 1"
           style="display: inline-block; width: 405.32px; height: 118.66px;"
         >
           <img

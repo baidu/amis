@@ -387,7 +387,8 @@ export default class PickerControl extends React.PureComponent<
       labelField,
       labelTpl,
       translate: __,
-      disabled
+      disabled,
+      env
     } = this.props;
 
     return (
@@ -418,7 +419,10 @@ export default class PickerControl extends React.PureComponent<
               }}
             >
               {labelTpl ? (
-                <Html html={filter(labelTpl, item)} />
+                <Html
+                  html={filter(labelTpl, item)}
+                  filterHtml={env.filterHtml}
+                />
               ) : (
                 `${
                   getVariable(item, labelField || 'label') ||

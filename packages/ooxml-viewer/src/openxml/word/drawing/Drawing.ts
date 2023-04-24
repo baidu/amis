@@ -55,7 +55,10 @@ export class Drawing {
   containerStyle?: CSSStyle;
 
   // 是否是相对容器的垂直高度，如果是的话需要将容器的 p 也设置为 relative
-  relativeFromParagraph?: boolean;
+  relativeFromV: 'paragraph' | 'page';
+
+  id?: string;
+  name?: string;
 
   static fromXML(word: Word, element: Element): Drawing | null {
     const drawing = new Drawing();
@@ -90,22 +93,27 @@ export class Drawing {
             const relativeFromH = child.getAttribute(
               'relativeFrom'
             ) as ST_RelFromH;
-            if (relativeFromH === 'column' || relativeFromH === 'page') {
+            if (
+              relativeFromH === 'column' ||
+              relativeFromH === 'page' ||
+              relativeFromH === 'margin'
+            ) {
               const positionType = child.firstElementChild;
               if (positionType) {
                 const positionTypeTagName = positionType.tagName;
+                containerStyle['position'] = 'absolute';
                 if (positionTypeTagName === 'wp:posOffset') {
-                  containerStyle['position'] = 'absolute';
                   containerStyle['left'] = convertLength(
                     positionType.innerHTML,
                     LengthUsage.Emu
                   );
                 } else {
+                  containerStyle['left'] = '0';
                   console.warn('unsupport positionType', positionTypeTagName);
                 }
               }
             } else {
-              console.warn('unsupport relativeFrom', relativeFromH);
+              console.warn('unsupport positionH relativeFrom', relativeFromH);
             }
             break;
 
@@ -114,28 +122,31 @@ export class Drawing {
               'relativeFrom'
             ) as ST_RelFromV;
             if (relativeFromV === 'paragraph' || relativeFromV === 'page') {
-              if (relativeFromV === 'paragraph') {
-                drawing.relativeFromParagraph = true;
-              }
+              drawing.relativeFromV = relativeFromV;
               const positionType = child.firstElementChild;
               if (positionType) {
                 const positionTypeTagName = positionType.tagName;
+                containerStyle['position'] = 'absolute';
                 if (positionTypeTagName === 'wp:posOffset') {
-                  containerStyle['position'] = 'absolute';
                   containerStyle['top'] = convertLength(
                     positionType.innerHTML,
                     LengthUsage.Emu
                   );
                 } else {
+                  containerStyle['top'] = '0';
                   console.warn('unsupport positionType', positionTypeTagName);
                 }
               }
             } else {
-              console.warn('unsupport relativeFrom', relativeFromV);
+              console.warn('unsupport positionV relativeFrom', relativeFromV);
             }
             break;
 
           case 'wp:docPr':
+            drawing.id = child.getAttribute('id') || undefined;
+            drawing.name = child.getAttribute('name') || undefined;
+            break;
+
           case 'wp:cNvGraphicFramePr':
             // 和展现无关
             // http://webapp.docx4java.org/OnlineDemo/ecma376/DrawingML/docPr.html

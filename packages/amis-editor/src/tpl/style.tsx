@@ -1,5 +1,5 @@
 import {setSchemaTpl, getSchemaTpl, defaultValue} from 'amis-editor-core';
-import {SchemaCollection} from 'amis/lib/Schema';
+import type {SchemaCollection} from 'amis/lib/Schema';
 import kebabCase from 'lodash/kebabCase';
 
 setSchemaTpl('style:formItem', ({renderer, schema}: any) => {
@@ -466,6 +466,10 @@ setSchemaTpl('theme:form-label', () => {
   return {
     title: 'Label样式',
     body: [
+      getSchemaTpl('theme:select', {
+        label: '宽度',
+        name: 'labelWidth'
+      }),
       getSchemaTpl('theme:font', {
         label: '文字',
         name: 'themeCss.labelClassName.font:default',
@@ -493,6 +497,18 @@ setSchemaTpl('theme:form-description', () => {
         name: 'themeCss.descriptionClassName.padding-and-margin:default'
       })
     ]
+  };
+});
+
+// 尺寸选择器
+setSchemaTpl('theme:select', (option: any = {}) => {
+  return {
+    mode: 'default',
+    type: 'amis-theme-select',
+    label: '尺寸',
+    name: `themeCss.className.size:default`,
+    options: '${sizesOptions}',
+    ...option
   };
 });
 

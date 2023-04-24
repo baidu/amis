@@ -6,6 +6,9 @@ export type LengthType = 'px' | 'pt' | '%' | '';
 
 export type LengthUsageType = {mul: number; unit: LengthType};
 
+/**
+ * 单位转成 px，这样才能和 svg 里的一致
+ */
 const ptToPx = 1.3333;
 
 export const LengthUsage: Record<string, LengthUsageType> = {

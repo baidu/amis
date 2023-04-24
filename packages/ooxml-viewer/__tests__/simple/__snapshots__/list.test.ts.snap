@@ -7,7 +7,7 @@ exports[`list 1`] = `
   >
     <p
       class="docx-viewer-0-p docx-viewer-0-Normal docx-viewer-0-Heading1"
-      style="text-indent: -28.33px; margin-left: 28.33px;"
+      style="position: relative; text-indent: -28.33px; margin-left: 28.33px;"
     >
       <span>
          
@@ -21,7 +21,7 @@ exports[`list 1`] = `
     </p>
     <p
       class="docx-viewer-0-p docx-viewer-0-Normal docx-viewer-0-Heading2"
-      style="text-indent: -37.80px; margin-left: 66.13px;"
+      style="position: relative; text-indent: -37.80px; margin-left: 66.13px;"
     >
       <span>
          
@@ -35,7 +35,7 @@ exports[`list 1`] = `
     </p>
     <p
       class="docx-viewer-0-p docx-viewer-0-Normal docx-viewer-0-Heading2"
-      style="text-indent: -37.80px; margin-left: 66.13px;"
+      style="position: relative; text-indent: -37.80px; margin-left: 66.13px;"
     >
       <span>
          
@@ -49,7 +49,7 @@ exports[`list 1`] = `
     </p>
     <p
       class="docx-viewer-0-p docx-viewer-0-Normal docx-viewer-0-Heading1"
-      style="text-indent: -28.33px; margin-left: 28.33px;"
+      style="position: relative; text-indent: -28.33px; margin-left: 28.33px;"
     >
       <span>
          
@@ -63,7 +63,7 @@ exports[`list 1`] = `
     </p>
     <p
       class="docx-viewer-0-p docx-viewer-0-Normal docx-viewer-0-Heading2"
-      style="text-indent: -37.80px; margin-left: 66.13px;"
+      style="position: relative; text-indent: -37.80px; margin-left: 66.13px;"
     >
       <span>
          
@@ -77,7 +77,7 @@ exports[`list 1`] = `
     </p>
     <p
       class="docx-viewer-0-p docx-viewer-0-Normal docx-viewer-0-Heading2"
-      style="text-indent: -37.80px; margin-left: 66.13px;"
+      style="position: relative; text-indent: -37.80px; margin-left: 66.13px;"
     >
       <span>
          
@@ -91,6 +91,7 @@ exports[`list 1`] = `
     </p>
     <p
       class="docx-viewer-0-p"
+      style="position: relative;"
     >
        
     </p>

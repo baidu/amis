@@ -25,7 +25,7 @@ import {
   getEventControlConfig,
   getArgsWrapper
 } from '../renderer/event-control/helper';
-import {SchemaObject} from 'amis/lib/Schema';
+import type {SchemaObject} from 'amis/lib/Schema';
 
 export class Table2Plugin extends BasePlugin {
   // 关联渲染器名字
@@ -279,7 +279,7 @@ export class Table2Plugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.rowItem': {
+            'event.data.item': {
               type: 'object',
               title: '行点击数据'
             }

@@ -45,11 +45,13 @@ function appendToSection(
   section: Section,
   child: HTMLElement
 ) {
+  // 如果是第一个节点，即便超长也得写入，不然就会出现一个空 section
+  const isFirst = sectionEl.children.length === 0;
   // 首先尝试写入
   appendChild(sectionEl, child);
 
   // 如果超出了就新建一个 section
-  if (createNewSection(word, sectionEnd, child)) {
+  if (!isFirst && createNewSection(word, sectionEnd, child)) {
     const newChild = child.cloneNode(true) as HTMLElement;
     removeChild(sectionEl, child);
     let newSectionEl = renderSection(word, section, renderOptions);
@@ -196,6 +198,7 @@ export default function renderBody(
   let isLastSection = false;
   for (const section of sections) {
     zooms.push(getTransform(rootWidth, section, renderOptions));
+    word.currentSection = section;
     let sectionEl = renderSection(word, section, renderOptions);
     appendChild(bodyEl, sectionEl);
 
@@ -207,7 +210,6 @@ export default function renderBody(
       renderSectionInPage(
         word,
         bodyEl,
-
         renderOptions,
         sectionEl,
         section,

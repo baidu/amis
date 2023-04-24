@@ -7,11 +7,14 @@ exports[`svg 1`] = `
   >
     <p
       class="docx-viewer-0-p"
+      style="position: relative;"
     >
       <span
         class="docx-viewer-0-r"
       >
         <div
+          data-id="2"
+          data-name="Graphic 2"
           style="display: inline-block; width: 623.98px; height: 623.98px;"
         >
           <img

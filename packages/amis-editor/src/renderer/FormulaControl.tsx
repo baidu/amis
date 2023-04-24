@@ -23,9 +23,11 @@ import {
   TooltipWrapper
 } from 'amis';
 import {FormulaExec, isExpression} from 'amis';
-import {PickerContainer, relativeValueRe} from 'amis';
-import {FormulaEditor} from 'amis-ui/lib/components/formula/Editor';
+import {FormulaEditor} from 'amis-ui';
 
+import FormulaPicker, {
+  CustomFormulaPickerProps
+} from './textarea-formula/FormulaPicker';
 import {autobind, translateSchema} from 'amis-editor-core';
 
 import type {
@@ -42,6 +44,12 @@ export enum FormulaDateType {
   NotDate, // 不是时间类
   IsDate, // 日期时间类
   IsRange // 日期时间范围类
+}
+
+export function renderFormulaValue(item: any) {
+  const html = {__html: typeof item === 'string' ? item : item.html};
+  // bca-disable-next-line
+  return <span dangerouslySetInnerHTML={html}></span>;
 }
 
 export interface FormulaControlProps extends FormControlProps {
@@ -112,7 +120,7 @@ export interface FormulaControlProps extends FormControlProps {
    * 备注2: 开关组件可以设置 true 和 false 对应的值，如果设置了就不是普通的 boolean 类型；
    * 备注3: 默认都是字符串类型；
    */
-  valueType?: string;
+  // valueType?: string;
 
   /**
    * 不在表单项上触发时，传入想要获取变量的 表单props 获取对应变量
@@ -131,6 +139,11 @@ export interface FormulaControlProps extends FormControlProps {
    * 默认为 FormulaDateType.NotDate
    */
   DateTimeType?: FormulaDateType;
+
+  /**
+   * 自定义fx面板
+   */
+  customFormulaPicker?: React.FC<CustomFormulaPickerProps>;
 }
 
 interface FormulaControlState {
@@ -138,6 +151,8 @@ interface FormulaControlState {
   variables: any;
 
   variableMode?: 'tree' | 'tabs';
+
+  formulaPickerOpen: boolean;
 }
 
 export default class FormulaControl extends React.Component<
@@ -159,7 +174,8 @@ export default class FormulaControl extends React.Component<
     super(props);
     this.state = {
       variables: [],
-      variableMode: 'tabs'
+      variableMode: 'tabs',
+      formulaPickerOpen: false
     };
   }
 
@@ -353,6 +369,20 @@ export default class FormulaControl extends React.Component<
       ? value
       : `\${${value}}`;
     this.props?.onChange?.(val);
+
+    this.closeFormulaPicker();
+  }
+
+  @autobind
+  handleFormulaClick() {
+    this.setState({
+      formulaPickerOpen: true
+    });
+  }
+
+  @autobind
+  closeFormulaPicker() {
+    this.setState({formulaPickerOpen: false});
   }
 
   handleSimpleInputChange = (value: any) => {
@@ -457,13 +487,6 @@ export default class FormulaControl extends React.Component<
   }
 
   @autobind
-  renderFormulaValue(item: any) {
-    const html = {__html: item.html};
-    // bca-disable-next-line
-    return <span dangerouslySetInnerHTML={html}></span>;
-  }
-
-  @autobind
   getContextData() {
     // 当前数据域
     return (
@@ -479,16 +502,18 @@ export default class FormulaControl extends React.Component<
       label,
       value,
       header,
-      variables,
       placeholder,
       simple,
       rendererSchema,
       rendererWrapper,
       manager,
       useExternalFormData = false,
+      customFormulaPicker,
+      clearable = true,
       render,
       ...rest
     } = this.props;
+    const {formulaPickerOpen, variables, variableMode} = this.state;
 
     // 自身字段
     const selfName = this.props?.data?.name;
@@ -505,13 +530,15 @@ export default class FormulaControl extends React.Component<
     }
 
     // 判断是否含有公式表达式
-    const isTypeError = !this.isExpectType(value);
+    // const isTypeError = !this.isExpectType(value);
     const exprValue = this.transExpr(value);
 
-    const isError = isLoop || isTypeError;
+    const isError = isLoop;
+
+    const FormulaPickerCmp = customFormulaPicker ?? FormulaPicker;
 
     const highlightValue = isExpression(value)
-      ? FormulaEditor.highlightValue(exprValue, this.state.variables) || {
+      ? FormulaEditor.highlightValue(exprValue, variables) || {
           html: exprValue
         }
       : value;
@@ -581,91 +608,89 @@ export default class FormulaControl extends React.Component<
               tooltipTheme: 'dark',
               mouseLeaveDelay: 20,
               content: exprValue,
-              children: () => this.renderFormulaValue(highlightValue)
+              children: () => renderFormulaValue(highlightValue)
             }}
           >
             <div className="ae-editor-FormulaControl-tooltipBox">
-              <ResultBox
-                className={cx(
-                  'ae-editor-FormulaControl-ResultBox',
-                  isError ? 'is-error' : ''
-                )}
-                allowInput={false}
-                clearable={true}
-                value={value}
-                result={{
-                  html: this.hasDateShortcutkey(value)
-                    ? '已配置相对值'
-                    : '已配置表达式'
-                }}
-                itemRender={this.renderFormulaValue}
-                onChange={this.handleInputChange}
-                onResultChange={() => {
-                  this.handleInputChange(undefined);
-                }}
-              />
+              <div
+                className="ae-editor-FormulaControl-ResultBox-wrapper"
+                onClick={this.handleFormulaClick}
+              >
+                <ResultBox
+                  className={cx(
+                    'ae-editor-FormulaControl-ResultBox',
+                    isError ? 'is-error' : ''
+                  )}
+                  allowInput={false}
+                  value={value}
+                  result={{
+                    html: this.hasDateShortcutkey(value)
+                      ? value
+                      : highlightValue.html
+                  }}
+                  itemRender={renderFormulaValue}
+                  onChange={this.handleInputChange}
+                  onResultChange={() => {
+                    this.handleInputChange(undefined);
+                  }}
+                />
+              </div>
+              {value && (
+                <Icon
+                  icon="input-clear"
+                  className="input-clear-icon"
+                  iconContent="InputText-clear"
+                  onClick={() => this.handleInputChange('')}
+                />
+              )}
             </div>
           </TooltipWrapper>
         )}
-        <PickerContainer
-          showTitle={false}
-          bodyRender={({
-            value,
-            onChange
-          }: {
-            onChange: (value: any) => void;
-            value: any;
-          }) => {
-            return (
-              <FormulaEditor
-                {...rest}
-                evalMode={true}
-                variableMode={rest.variableMode ?? this.state.variableMode}
-                variables={this.state.variables}
-                header={header || '表达式'}
-                value={filterValue}
-                onChange={onChange}
-                selfVariableName={selfName}
-              />
-            );
+        <Button
+          className="ae-editor-FormulaControl-button"
+          size="sm"
+          tooltip={{
+            enterable: false,
+            content: '点击配置表达式',
+            tooltipTheme: 'dark',
+            placement: 'left',
+            mouseLeaveDelay: 0
           }}
-          value={value}
-          onConfirm={this.handleConfirm}
-          size="md"
+          onClick={this.handleFormulaClick}
         >
-          {({onClick}: {onClick: (e: React.MouseEvent) => void}) => (
-            <Button
-              className="ae-editor-FormulaControl-button"
-              size="sm"
-              tooltip={{
-                enterable: false,
-                content: '点击配置表达式',
-                placement: 'left',
-                mouseLeaveDelay: 0
-              }}
-              onClick={onClick}
-              // active={simple && value} // 不需要，避免 hover 时无任何反馈效果
-            >
-              <Icon
-                icon="function"
-                className={cx('ae-editor-FormulaControl-icon', 'icon', {
-                  ['is-filled']: !!isFx
-                })}
-              />
-            </Button>
-          )}
-        </PickerContainer>
+          <Icon
+            icon="input-fx"
+            className={cx('ae-editor-FormulaControl-icon', 'icon', {
+              ['is-filled']: !!isFx
+            })}
+          />
+        </Button>
         {isError && (
           <div className="desc-msg error-msg">
             {isLoop ? '当前表达式异常（存在循环引用）' : '数值类型不匹配'}
           </div>
         )}
+
+        {formulaPickerOpen ? (
+          <FormulaPickerCmp
+            {...this.props}
+            value={filterValue}
+            initable={true}
+            header={header}
+            variables={variables}
+            variableMode={rest.variableMode ?? variableMode}
+            evalMode={true}
+            onClose={this.closeFormulaPicker}
+            onConfirm={this.handleConfirm}
+          />
+        ) : null}
       </div>
     );
   }
 }
 
 @FormItem({
-  type: 'ae-formulaControl'
+  type: 'ae-formulaControl',
+  detectProps: ['rendererSchema']
 })
 export class FormulaControlRenderer extends FormulaControl {}

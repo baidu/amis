@@ -57,7 +57,8 @@ function parseOutline(word: Word, element: Element) {
         break;
 
       case 'a:noFill':
-        return {};
+        outline.style = 'none';
+        break;
 
       case 'a:round':
         // 瞎写的，规范里也没写是多少
@@ -93,6 +94,9 @@ export class ShapePr {
   // 填充颜色
   fillColor?: string;
 
+  // 不填充
+  noFill?: boolean;
+
   static fromXML(word: Word, element?: Element | null): ShapePr {
     const shapePr = new ShapePr();
 
@@ -118,7 +122,7 @@ export class ShapePr {
             break;
 
           case 'a:noFill':
-            // 默认就是
+            shapePr.noFill = true;
             break;
 
           case 'a:solidFill':

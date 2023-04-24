@@ -193,8 +193,8 @@ export class Spinner extends React.Component<
       tipPlacement = '',
       loadingConfig
     } = this.props;
-    // 调整挂载位置时使用默认loading
-    const icon = loadingConfig?.root ? iconConfig : '';
+    // 定义了挂载位置时只能使用默认icon
+    const icon = loadingConfig?.root ? undefined : iconConfig;
     const isCustomIcon = icon && React.isValidElement(icon);
     const timeout = {enter: delay, exit: 0};
 

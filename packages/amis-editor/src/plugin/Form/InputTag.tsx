@@ -17,10 +17,8 @@ export class TagControlPlugin extends BasePlugin {
   rendererName = 'input-tag';
   $schema = '/schemas/TagControlSchema.json';
 
-  order = -420;
-
   // 组件名称
-  name = '标签';
+  name = '标签选择';
   isBaseComponent = true;
   icon = 'fa fa-tag';
   pluginIcon = 'input-tag-plugin';

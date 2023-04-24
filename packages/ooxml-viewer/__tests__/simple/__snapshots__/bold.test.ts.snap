@@ -7,6 +7,7 @@ exports[`bold 1`] = `
   >
     <p
       class="docx-viewer-0-p docx-viewer-0-Normal docx-viewer-0-Heading1"
+      style="position: relative;"
     >
       <a
         id="_Toc535930148"
@@ -29,6 +30,7 @@ exports[`bold 1`] = `
     </p>
     <p
       class="docx-viewer-0-p docx-viewer-0-Normal docx-viewer-0-Heading2"
+      style="position: relative;"
     >
       <a
         id="_Toc535930149"

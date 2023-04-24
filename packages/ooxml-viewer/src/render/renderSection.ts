@@ -1,6 +1,8 @@
 import {Section} from '../openxml/word/Section';
 import {createElement} from '../util/dom';
 import Word, {WordRenderOptions} from '../Word';
+import {fixAbsolutePosition} from './fixAbsolutePosition';
+import {renderHeader} from './renderHeader';
 
 /**
  * 渲染「节」，在 word 中每个节都可以有自己的页边距和页面大小设置，但目前其实并没有实现分页展现，等后续再考虑
@@ -16,7 +18,6 @@ export function renderSection(
   sectionEl.style.position = 'relative';
 
   if (renderOptions.page) {
-    sectionEl.style.overflow = 'hidden';
     if (renderOptions.pageMarginBottom) {
       sectionEl.style.marginBottom = renderOptions.pageMarginBottom + 'px';
     }
@@ -60,6 +61,59 @@ export function renderSection(
       if (props.cols.space) {
         sectionEl.style.columnGap = props.cols.space;
       }
+    }
+  }
+
+  word.currentPage++;
+
+  let width = 'auto';
+  if (props.pageSize && props.pageSize.width) {
+    width = props.pageSize.width;
+  }
+
+  // 只有在分页模式下才渲染页眉
+  if (props.headers && renderOptions.page && renderOptions.renderHeader) {
+    const headers = props.headers;
+    let headerEl = null;
+    if (headers.even && word.currentPage % 2 === 0) {
+      headerEl = renderHeader(word, headers.even);
+    } else if (headers.default) {
+      headerEl = renderHeader(word, headers.default);
+    } else {
+      console.warn('can not find header', word.currentPage, props.headers);
+    }
+    if (headerEl) {
+      headerEl.style.position = 'absolute';
+      const pageMargin = props.pageMargin;
+      // todo: 在 word 里如果 header 内容较多会将内容区也撑开，但目前实现不了
+      if (pageMargin && pageMargin.header) {
+        headerEl.style.top = pageMargin.header;
+        headerEl.style.width = width;
+      }
+
+      sectionEl.appendChild(headerEl);
+    }
+  }
+
+  if (props.footers && renderOptions.page && renderOptions.renderFooter) {
+    const footers = props.footers;
+    let footerEl = null;
+
+    if (footers.even && word.currentPage % 2 === 0) {
+      footerEl = renderHeader(word, footers.even);
+    } else if (footers.default) {
+      footerEl = renderHeader(word, footers.default);
+    } else {
+      console.warn('can not find footer', word.currentPage, props.footers);
+    }
+    if (footerEl) {
+      footerEl.style.position = 'absolute';
+      const pageMargin = props.pageMargin;
+      if (pageMargin && pageMargin.footer) {
+        footerEl.style.bottom = pageMargin.footer;
+        footerEl.style.width = width;
+      }
+      sectionEl.appendChild(footerEl);
     }
   }
 

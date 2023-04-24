@@ -3133,7 +3133,7 @@
   --Calendar-icon-height: var(--sizes-size-6);
   --Calendar-borderWidth: var(--borders-width-2);
   --Calendar-borderColor: var(--inputDate-default-option-today-border-color);
-  --Calendar-rdt-day: var(--sizes-base-49);
+  --Calendar-rdt-day: #{px2rem(110px)};
   --Calendar-schedule-content-padding: 0 var(--sizes-size-3);
   --Calendar-schedule-content-height: var(--sizes-base-10);
   --Calendar-schedule-content-color: var(--colors-neutral-text-11);
@@ -3655,7 +3655,7 @@
   --Status-base-text-margin: var(--sizes-size-3);
   --Status-fail-color: var(--colors-error-5);
   --Status-success-color: var(--colors-success-5);
-  --Status-queue-color: var(--colors-warning-5);
+  --Status-warning-color: var(--colors-warning-5);
   --Status-schedule-color: var(--colors-neutral-fill-2);
   --Status-pending-before-color: var(--colors-error-5);
   --Status-pending-after-color: var(--colors-brand-5);
@@ -3669,10 +3669,6 @@
   --Status-pending-beforeColor: var(--Status-pending-before-color);
   --Status-pending-afterColor: var(--Status-pending-after-color);
 
-  --Status-schedule-color: var(--Status-schedule-color);
-  --Status-warning-color: var(--Status-queue-color);
-  --Status-fail-color: var(--Status-fail-color);
-  --Status-success-color: var(--Status-success-color);
   // timeline
   --Timeline-time-color: var(--colors-neutral-text-5);
   --Timeline-time-fontSize: var(--fonts-size-7);
@@ -4191,7 +4187,7 @@
   --Wizard-badge-onComplete-backgroundColor: var(
     --Wizard-badge-onActive-bg-color
   );
-  --Wizard-badge-onActive-color: var(--Wizard-badge-onActive-color);
+  // --Wizard-badge-onActive-color: var(--Wizard-badge-onActive-color);
   --Wizard-badge-onComplete-color: var(--Wizard-badge-onActive-color);
 
   --Wizard-steps-bg--isComplete: var(--colors-neutral-fill-11);

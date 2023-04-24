@@ -259,8 +259,6 @@ export class StaticControlPlugin extends BasePlugin {
   rendererName = 'static';
   $schema = '/schemas/StaticControlSchema.json';
 
-  order = -390;
-
   // 组件名称
   name = '静态展示框';
   isBaseComponent = true;

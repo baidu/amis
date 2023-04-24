@@ -1,5 +1,3 @@
-import {SchemaObject} from 'amis/lib/schema';
-
 /**
  * @file 所有可用验证器
  */

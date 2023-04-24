@@ -37,6 +37,12 @@ function generateDefaultStyle(word: Word) {
     line-height: 1.5;
   }
 
+  .${classPrefix} .justify:after {
+    content: "";
+    display: inline-block;
+    width: 100%;
+  }
+
   .${classPrefix} table {
     border-spacing: 0;
   }

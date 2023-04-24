@@ -1166,12 +1166,19 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     }
   }
 
-  onRowMouseEnter(
+  async onRowMouseEnter(
     event: React.ChangeEvent<any>,
     record?: any,
     rowIndex?: number
   ) {
     const {classnames: cx, onRow} = this.props;
+
+    if (onRow && onRow.onRowMouseEnter) {
+      const prevented = await onRow.onRowMouseEnter(event, record, rowIndex);
+      if (prevented) {
+        return;
+      }
+    }
 
     let parent = event.target;
     while (parent && parent.tagName !== 'TR') {
@@ -1191,21 +1198,23 @@ export class Table extends React.PureComponent<TableProps, TableState> {
         target = target.closest('tr');
       }
 
-      this.setState({hoverRow: {target, rowIndex, record}}, () => {
-        if (onRow) {
-          onRow.onRowMouseEnter &&
-            onRow.onRowMouseEnter(event, record, rowIndex);
-        }
-      });
+      this.setState({hoverRow: {target, rowIndex, record}});
     }
   }
 
-  onRowMouseLeave(
+  async onRowMouseLeave(
     event: React.ChangeEvent<any>,
     record?: any,
     rowIndex?: number
   ) {
     const {classnames: cx, onRow} = this.props;
+
+    if (onRow && onRow.onRowMouseLeave) {
+      const prevented = await onRow.onRowMouseLeave(event, record, rowIndex);
+      if (prevented) {
+        return;
+      }
+    }
 
     let parent = event.target;
     while (parent && parent.tagName !== 'TR') {
@@ -1216,12 +1225,6 @@ export class Table extends React.PureComponent<TableProps, TableState> {
       for (let i = 0; i < parent.children.length; i++) {
         const td = parent.children[i];
         td.classList.remove(cx('Table-cell-row-hover'));
-      }
-    }
-
-    if (record) {
-      if (onRow) {
-        onRow.onRowMouseLeave && onRow.onRowMouseLeave(event, record, rowIndex);
       }
     }
   }

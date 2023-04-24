@@ -22,8 +22,15 @@ export function shapeToSVG(
   wpsStyle?: WPSStyle
 ): SVGElement {
   const svg = createSVGElement('svg');
+  svg.style.display = 'block';
+
   // 边框有时候会超过
-  svg.setAttribute('style', 'overflow: visible');
+  // block 是为了避免被 text-align 影响
+  // z-index 是因为后面可能会有文字，避免遮挡
+  svg.setAttribute(
+    'style',
+    'display: block; overflow: visible; position: absolute; z-index: -1'
+  );
   svg.setAttribute('width', width.toString() + 'px');
   svg.setAttribute('height', height.toString() + 'px');
 
@@ -67,8 +74,13 @@ export function shapeToSVG(
       if (outline.width) {
         pathEl.setAttribute('stroke-width', outline.width);
       }
+      if (outline.style === 'none') {
+        pathEl.setAttribute('stroke', 'none');
+      }
     } else if (wpsStyle && wpsStyle.lineColor) {
       pathEl.setAttribute('stroke', wpsStyle.lineColor);
+    } else {
+      pathEl.setAttribute('stroke', 'none');
     }
 
     const fillColor = pathEl.getAttribute('fill');
@@ -103,17 +115,15 @@ export function shapeToSVG(
       pathEl.setAttribute('fill', 'none');
     }
 
-    // 如果没有 fill 也没有 stroke 就没法看了，所以设置个默认颜色
-    const strokeColor = pathEl.getAttribute('stroke');
-    if (!strokeColor && pathEl.getAttribute('fill') === 'none') {
-      pathEl.setAttribute('stroke', 'black');
-    }
-
     if (path.stroke === false) {
       pathEl.setAttribute('stroke', 'none');
       if (!path.fill) {
         pathEl.setAttribute('fill', 'none');
       }
+    }
+
+    if (shapePr.noFill) {
+      pathEl.setAttribute('fill', 'none');
     }
 
     svg.appendChild(pathEl);

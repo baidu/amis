@@ -7,7 +7,7 @@ import {
   EditorManager
 } from 'amis-editor-core';
 import type {DSField} from 'amis-editor-core';
-import {SchemaObject} from 'amis/lib/Schema';
+import type {SchemaObject} from 'amis/lib/Schema';
 import flatten from 'lodash/flatten';
 import _ from 'lodash';
 import {InputComponentName} from '../component/InputComponentName';
@@ -126,6 +126,13 @@ setSchemaTpl('expressionFormulaControl', (schema: object = {}) => {
 setSchemaTpl('textareaFormulaControl', (schema: object = {}) => {
   return {
     type: 'ae-textareaFormulaControl',
+    ...schema
+  };
+});
+
+setSchemaTpl('tplFormulaControl', (schema: object = {}) => {
+  return {
+    type: 'ae-tplFormulaControl',
     ...schema
   };
 });
