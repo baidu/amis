@@ -713,9 +713,6 @@ export function filterSchemaForEditor(schema: any): any {
       }
     });
     const finalSchema = modified ? mapped : schema;
-    if (finalSchema?.type) {
-      return setThemeDefaultData(finalSchema);
-    }
     return finalSchema;
   }
 
