@@ -209,10 +209,7 @@
     }
 
     &-errorTip {
-
-      .#{$ns}Tooltip-body {
-        color: var(--FileControl-danger-color);
-      }
+      color: var(--FileControl-danger-color);
     }
 
     svg.icon-refresh {

@@ -9,7 +9,7 @@ import {
 // import 'cropperjs/dist/cropper.css';
 const Cropper = React.lazy(() => import('react-cropper'));
 import DropZone from 'react-dropzone';
-import {FileRejection, DropEvent} from 'react-dropzone';
+import {FileRejection, ErrorCode, DropEvent} from 'react-dropzone';
 import 'blueimp-canvastoblob';
 import find from 'lodash/find';
 import {Payload, ActionObject} from 'amis-core';
@@ -32,7 +32,7 @@ import {filter} from 'amis-core';
 import isPlainObject from 'lodash/isPlainObject';
 import merge from 'lodash/merge';
 import omit from 'lodash/omit';
-import {multiply} from 'lodash';
+import {TplSchema} from '../Tpl';
 
 /**
  * Image 图片上传控件
@@ -77,7 +77,7 @@ export interface ImageControlSchema extends FormBaseControlSchema {
   /**
    * 上传按钮文案
    */
-  btnUploadText?: string;
+  uploadBtnText?: string | TplSchema;
 
   /**
    * 选择图片按钮的 CSS 类名
@@ -308,6 +308,7 @@ export interface ImageState {
   cropFileName?: string; // 主要是用于后续上传的时候获得用户名
   submitOnChange?: boolean;
   frameImageWidth?: number;
+  // drop-zone 组件是否能多选的限制，主要是为了限制重选情况下只能单选，其他情况和 props 的 multiple 一致
   dropMultiple?: boolean;
 }
 
@@ -580,44 +581,86 @@ export default class ImageControl extends React.Component<
       return;
     }
 
-    const {accept, multiple, formItem, translate: __} = this.props;
+    const {
+      accept,
+      multiple,
+      formItem,
+      maxLength,
+      maxSize,
+      translate: __
+    } = this.props;
 
-    const renderItem = (item: FileRejection): any => ({
-      ...item.file,
-      error: __('File.invalidType', {
-        files: item.file.name,
-        accept
-      }),
-      state: 'invalid',
-      name: item.file.name
-    });
+    let reFiles = rejectedFiles.map(item => item.file);
+    let currentFiles = this.files;
+
+    if (!multiple && currentFiles.length) {
+      currentFiles = [];
+    }
+
+    const allowed =
+      (multiple
+        ? maxLength
+          ? maxLength
+          : reFiles.length + currentFiles.length
+        : 1) - currentFiles.length;
+
+    // 限制过多的错误文件
+    if (allowed < reFiles.length) {
+      this.props.env.alert(__('File.maxLength', {maxLength}));
+
+      // 为0，不能超出
+      if (allowed <= 0) {
+        return;
+      }
+    }
+
+    const errorFiles = [].slice.call(reFiles, 0, allowed);
+
+    const renderItem = (file: File): FileX => {
+      // @ts-ignore
+      file.id = guid();
+      const errors = rejectedFiles.find(i => i.file === file)?.errors;
+      if (errors) {
+        // @ts-ignore
+        file.error = errors
+          .map(err => {
+            // 类型错误
+            if (err.code === ErrorCode.FileInvalidType) {
+              return __('File.invalidType', {
+                files: file.name,
+                accept
+              });
+            }
+            // 文件太大
+            else if (err.code === ErrorCode.FileTooLarge) {
+              return __('File.sizeLimit', {maxSize});
+            }
+          })
+          .join('; ');
+      }
+      // @ts-ignore
+      file.state = 'invalid';
+      return file;
+    };
 
     if (multiple) {
       if (this.reuploadIndex !== undefined) {
-        const finalFiles = this.files.concat();
-        finalFiles.splice(this.reuploadIndex, 1, renderItem(rejectedFiles[0]));
+        currentFiles.splice(this.reuploadIndex, 1, renderItem(errorFiles[0]));
         this.reuploadIndex = undefined;
-        this.files = finalFiles;
       } else {
-        rejectedFiles.forEach(item => {
-          this.files.push(renderItem(item));
+        errorFiles.forEach((item: any) => {
+          currentFiles.push(renderItem(item));
         });
       }
     } else {
-      this.files.splice(0, 1);
-      const item = rejectedFiles[0];
-      this.files.push(renderItem(item));
-      formItem?.setError(
-        __('File.invalidType', {
-          files: item.file.name,
-          accept
-        })
-      );
+      const file = renderItem(errorFiles[0]);
+      currentFiles.splice(0, 1, file);
+      formItem?.setError(file?.error ?? '');
     }
 
     return this.setState(
       {
-        files: this.files,
+        files: (this.files = currentFiles),
         dropMultiple: multiple
       },
       this.tick
@@ -1420,7 +1463,8 @@ export default class ImageControl extends React.Component<
       frameImage,
       fixedSize,
       fixedSizeClassName,
-      btnUploadText,
+      uploadBtnText,
+      maxSize,
       render,
       translate: __
     } = this.props;
@@ -1491,6 +1535,7 @@ export default class ImageControl extends React.Component<
             accept={accept}
             multiple={dropMultiple}
             disabled={disabled}
+            maxSize={maxSize}
           >
             {({
               getRootProps,
@@ -1528,12 +1573,10 @@ export default class ImageControl extends React.Component<
                       <TooltipWrapper
                         placement="top"
                         trigger="hover"
-                        visible={!!error}
                         tooltip={{
                           content: error,
                           disabled: !multiple || !error
                         }}
-                        tooltipClassName={cx('ImageControl-item-errorTip')}
                       >
                         <label
                           className={cx(
@@ -1551,9 +1594,9 @@ export default class ImageControl extends React.Component<
                         >
                           <Icon icon="plus-fine" className="icon" />
                           <span className={cx('ImageControl-addBtn-text')}>
-                            {!btnUploadText
+                            {!uploadBtnText
                               ? __('Image.upload')
-                              : render(`btn-upload-text`, btnUploadText, {})}
+                              : render(`btn-upload-text`, uploadBtnText, {})}
                           </span>
                           {filterFrameImage ? (
                             <div className={cx('ImageControl-addBtn-bg')}>
@@ -1599,8 +1642,7 @@ export default class ImageControl extends React.Component<
                                   disabled: !multiple && files.length === 1
                                 }}
                                 trigger="hover"
-                                visible={true}
-                                tooltipClassName={cx(
+                                tooltipBodyClassName={cx(
                                   'ImageControl-item-errorTip'
                                 )}
                               >

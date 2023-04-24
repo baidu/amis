@@ -80,6 +80,11 @@ export interface TooltipObject {
    * 文字提示浮层CSS类名
    */
   tooltipClassName?: string;
+
+  /**
+   * 文字提示浮层Body的CSS类名
+   */
+  tooltipBodyClassName?: string;
   /**
    * html xss filter
    */
@@ -98,13 +103,13 @@ export interface TooltipWrapperProps {
   delay: number;
   tooltipTheme?: string;
   tooltipClassName?: string;
+  tooltipBodyClassName?: string;
   style?: React.CSSProperties;
   /**
    * 显示&隐藏时触发
    */
   onVisibleChange?: (visible: boolean) => void;
   children?: React.ReactNode | Array<React.ReactNode>;
-  visible?: boolean;
 }
 
 interface TooltipWrapperState {
@@ -145,15 +150,8 @@ export class TooltipWrapper extends React.Component<
     this.handleMouseOut = this.handleMouseOut.bind(this);
 
     this.state = {
-      show: props?.visible ?? false
+      show: false
     };
-  }
-
-  componentDidUpdate(prevProps: TooltipWrapperProps) {
-    const visible = this.props.visible;
-    if (prevProps.visible !== visible && this.state.show !== visible) {
-      this.props.visible ? this.show() : this.hide();
-    }
   }
 
   componentWillUnmount() {
@@ -291,6 +289,7 @@ export class TooltipWrapper extends React.Component<
       trigger: props.trigger,
       rootClose: props.rootClose,
       tooltipClassName: props.tooltipClassName,
+      tooltipBodyClassName: props.tooltipBodyClassName,
       style: props.style,
       mouseLeaveDelay: props.delay,
       tooltipTheme: props.tooltipTheme as 'dark' | 'light',
@@ -307,6 +306,7 @@ export class TooltipWrapper extends React.Component<
       trigger,
       rootClose,
       tooltipClassName,
+      tooltipBodyClassName,
       style,
       disabled = false,
       offset,
@@ -355,6 +355,7 @@ export class TooltipWrapper extends React.Component<
           className={tooltipClassName}
           tooltipTheme={tooltipTheme}
           showArrow={showArrow}
+          bodyClass={tooltipBodyClassName}
           onMouseEnter={
             ~triggers.indexOf('hover') ? this.tooltipMouseEnter : () => {}
           }
