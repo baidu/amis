@@ -20,7 +20,8 @@ import ResultBox from '../ResultBox';
 import Button from '../Button';
 import {Icon} from '../icons';
 import Modal from '../Modal';
-import Input from '../Input';
+import PopUp from '../PopUp';
+import {isMobile} from 'amis-core';
 
 export interface FormulaPickerProps extends FormulaEditorProps {
   // 新的属性？
@@ -121,6 +122,7 @@ export interface FormulaPickerProps extends FormulaEditorProps {
   onConfirm?: (value?: any) => void;
 
   onRef?: (node: any) => void;
+  useMobileUI?: boolean;
 }
 
 export interface FormulaPickerState {
@@ -330,10 +332,12 @@ export class FormulaPicker extends React.Component<
       variableMode,
       mixedMode,
       evalMode,
+      useMobileUI,
       ...rest
     } = this.props;
     const {isOpened, value, editorValue, isError} = this.state;
     const iconElement = generateIcon(cx, icon, 'Icon');
+    const mobileUI = useMobileUI && isMobile();
 
     return (
       <>
@@ -408,6 +412,8 @@ export class FormulaPicker extends React.Component<
                   disabled={disabled}
                   borderMode={borderMode}
                   placeholder={placeholder}
+                  useMobileUI={useMobileUI}
+                  showArrow={false}
                 />
 
                 <Button
@@ -449,6 +455,8 @@ export class FormulaPicker extends React.Component<
                   disabled={disabled}
                   borderMode={borderMode}
                   placeholder={placeholder}
+                  useMobileUI={useMobileUI}
+                  showArrow={false}
                 />
 
                 <a
@@ -461,41 +469,71 @@ export class FormulaPicker extends React.Component<
             )}
           </div>
         )}
-        <Modal
-          size="md"
-          closeOnEsc
-          show={this.state.isOpened}
-          onHide={this.close}
-        >
-          <Modal.Header onClose={this.close} className="font-bold">
-            {__(title || 'FormulaEditor.title')}
-          </Modal.Header>
-          <Modal.Body>
-            <Editor
-              {...rest}
-              evalMode={mixedMode ? true : evalMode}
-              variables={this.state.variables ?? variables}
-              functions={this.state.functions ?? functions}
-              variableMode={this.state.variableMode ?? variableMode}
-              value={editorValue}
-              onChange={this.handleEditorChange}
-              selfVariableName={this.props.selfVariableName}
-            />
-          </Modal.Body>
-          <Modal.Footer>
-            {!!isError ? (
-              <div className={cx('Dialog-info')} key="info">
-                <span className={cx('Dialog-error')}>
-                  {__('FormulaEditor.invalidData', {err: isError})}
-                </span>
-              </div>
-            ) : null}
-            <Button onClick={this.close}>{__('cancel')}</Button>
-            <Button onClick={this.handleEditorConfirm} level="primary">
-              {__('confirm')}
-            </Button>
-          </Modal.Footer>
-        </Modal>
+        {mobileUI ? (
+          <PopUp
+            className={cx(`FormulaPicker-popup`)}
+            isShow={this.state.isOpened}
+            showConfirm
+            onHide={this.close}
+            onConfirm={this.handleEditorConfirm}
+          >
+            <div className={cx('FormulaPicker-popup-inner')}>
+              <Editor
+                {...rest}
+                evalMode={mixedMode ? true : evalMode}
+                variables={this.state.variables ?? variables}
+                functions={this.state.functions ?? functions}
+                variableMode={this.state.variableMode ?? variableMode}
+                value={editorValue}
+                onChange={this.handleEditorChange}
+                selfVariableName={this.props.selfVariableName}
+              />
+              {!!isError ? (
+                <div className={cx('Dialog-info')} key="info">
+                  <span className={cx('Dialog-error')}>
+                    {__('FormulaEditor.invalidData', {err: isError})}
+                  </span>
+                </div>
+              ) : null}
+            </div>
+          </PopUp>
+        ) : (
+          <Modal
+            size="md"
+            closeOnEsc
+            show={this.state.isOpened}
+            onHide={this.close}
+          >
+            <Modal.Header onClose={this.close} className="font-bold">
+              {__(title || 'FormulaEditor.title')}
+            </Modal.Header>
+            <Modal.Body>
+              <Editor
+                {...rest}
+                evalMode={mixedMode ? true : evalMode}
+                variables={this.state.variables ?? variables}
+                functions={this.state.functions ?? functions}
+                variableMode={this.state.variableMode ?? variableMode}
+                value={editorValue}
+                onChange={this.handleEditorChange}
+                selfVariableName={this.props.selfVariableName}
+              />
+            </Modal.Body>
+            <Modal.Footer>
+              {!!isError ? (
+                <div className={cx('Dialog-info')} key="info">
+                  <span className={cx('Dialog-error')}>
+                    {__('FormulaEditor.invalidData', {err: isError})}
+                  </span>
+                </div>
+              ) : null}
+              <Button onClick={this.close}>{__('cancel')}</Button>
+              <Button onClick={this.handleEditorConfirm} level="primary">
+                {__('confirm')}
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        )}
       </>
     );
   }

@@ -264,6 +264,22 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     this.isRootClosed && !e.defaultPrevented && onHide(e);
   }
 
+  getZIndex() {
+    let defaultIndex = 1400;
+    const {classnames: cx} = this.props;
+    const modals = document.querySelectorAll('.' + cx('Modal'));
+    const popups = document.querySelectorAll('.' + cx('PopUp'));
+    [...modals, ...popups].forEach((node: HTMLDialogElement) => {
+      const style = getComputedStyle(node);
+      const curIndex = parseInt(style.zIndex, 10);
+      if (curIndex > defaultIndex) {
+        defaultIndex = curIndex;
+      }
+    });
+
+    return defaultIndex;
+  }
+
   render() {
     const {
       className,
@@ -301,6 +317,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                 },
                 className
               )}
+              style={{zIndex: this.getZIndex()}}
             >
               {overlay ? (
                 <div className={cx(`Modal-overlay`, fadeStyles[status])} />

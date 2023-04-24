@@ -24,6 +24,15 @@
 
       color: var(--Form-input-color);
     }
+
+    &.is-mobile {
+      & > span {
+        border-radius: 0;
+        border: none;
+        border-bottom: var(--Form-input-borderWidth) solid
+          var(--Form-input-borderColor);
+      }
+    }
   }
 
   &-value {
@@ -119,6 +128,14 @@
         left: -33px;
         border-top: dashed 1px var(--icon-color);
       }
+    }
+  }
+
+  &.is-mobile {
+    .#{$ns}Number {
+      border-radius: 0;
+      border-bottom: var(--Number-borderWidth) solid
+        var(--Form-input-borderColor);
     }
   }
 }

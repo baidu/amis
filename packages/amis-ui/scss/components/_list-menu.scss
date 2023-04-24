@@ -67,6 +67,42 @@
       )
       var(--Form-select-paddingX);
   }
+
+  &.is-mobile {
+    display: flex;
+    flex-wrap: wrap;
+
+    .#{$ns}ListMenu-item {
+      width: calc((100vw - var(--ListMenu-item-mobile-margin) * 7) / 3);
+      display: inline-flex;
+      background: var(--ListMenu-item-mobile-bg);
+      margin: var(--ListMenu-item-mobile-margin);
+
+      &.is-active {
+        background: var(--ListMenu-item-mobile-active-bg);
+      }
+
+      .#{$ns}ListMenu-itemLabel {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+}
+
+.#{$ns}ListMenu-add-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin: px2rem(20px) 0;
+  text-align: center;
+
+  input {
+    &::-webkit-input-placeholder {
+      text-align: center;
+    }
+  }
 }
 
 .#{$ns}PopOver > .#{$ns}ListMenu {

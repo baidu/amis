@@ -196,7 +196,8 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
       functionClassName,
       data,
       onPickerOpen,
-      selfVariableName
+      selfVariableName,
+      useMobileUI
     } = this.props;
     let {variables, functions} = this.props;
 
@@ -238,6 +239,7 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
         onPickerOpen={onPickerOpen}
         selfVariableName={selfVariableName}
         mixedMode={mixedMode}
+        useMobileUI={useMobileUI}
       />
     );
   }

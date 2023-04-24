@@ -22,6 +22,7 @@ import FuncList from './FuncList';
 import VariableList from './VariableList';
 import CodeMirrorEditor from '../CodeMirror';
 import {toast} from '../Toast';
+import {isMobile} from 'amis-core';
 
 export interface VariableItem {
   label: string;
@@ -358,7 +359,9 @@ export class FormulaEditor extends React.Component<
           />
         </section>
 
-        <section className={cx('FormulaEditor-settings')}>
+        <section
+          className={cx('FormulaEditor-settings', {'is-mobile': isMobile()})}
+        >
           <div className={cx('FormulaEditor-panel')}>
             {variableMode !== 'tabs' ? (
               <div className={cx('FormulaEditor-panel-header')}>

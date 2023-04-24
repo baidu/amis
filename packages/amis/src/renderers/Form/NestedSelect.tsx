@@ -946,7 +946,7 @@ export default class NestedSelectControl extends React.Component<
           onKeyDown={this.handleInputKeyDown}
           clearable={clearable}
           hasDropDownArrow={true}
-          allowInput={searchable}
+          allowInput={searchable && !mobileUI}
         >
           {loading ? (
             <Spinner loadingConfig={loadingConfig} size="sm" />

@@ -1,24 +1,18 @@
 export default {
   type: 'page',
-  title: '表单页面',
-  body: [
-    {
-      type: 'form',
-      mode: 'horizontal',
-      api: '/api/mock2/form/saveForm',
-      body: [
-        {
-          label: 'Name',
-          type: 'input-text',
-          name: 'name'
-        },
-        {
-          label: 'Email',
-          type: 'input-email',
-          placeholder: '请输入邮箱地址',
-          name: 'email'
-        }
-      ]
-    }
-  ]
+  body: {
+    type: 'form',
+    body: [
+      {
+        label: '多选',
+        type: 'select',
+        name: 'select2',
+        searchable: true,
+        checkAll: true,
+        multiple: true,
+        clearable: true,
+        source: '/api/mock2/form/getOptions'
+      }
+    ]
+  }
 };

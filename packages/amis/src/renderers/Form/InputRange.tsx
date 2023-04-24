@@ -11,7 +11,8 @@ import {
   autobind,
   stripNumber,
   filter,
-  ActionObject
+  ActionObject,
+  isMobile
 } from 'amis-core';
 import {Range as InputRange, NumberInput, Icon} from 'amis-ui';
 import {FormBaseControlSchema, SchemaObject} from '../../Schema';
@@ -436,7 +437,8 @@ export class Input extends React.Component<RangeItemProps, any> {
       classPrefix: ns,
       disabled,
       max,
-      min
+      min,
+      useMobileUI
     } = this.props;
     const _value = multiple
       ? type === 'min'
@@ -454,6 +456,7 @@ export class Input extends React.Component<RangeItemProps, any> {
           disabled={disabled}
           onBlur={this.onBlur}
           onFocus={this.onFocus}
+          useMobileUI={useMobileUI}
         />
       </div>
     );
@@ -638,7 +641,8 @@ export default class RangeControl extends React.PureComponent<
       max,
       render,
       marks,
-      region
+      region,
+      useMobileUI
     } = props;
 
     // 处理自定义json配置
@@ -653,6 +657,7 @@ export default class RangeControl extends React.PureComponent<
             (renderMarks[key] = render(region, item as SchemaObject));
         }
       });
+    const mobileUI = useMobileUI && isMobile();
 
     return (
       <div
@@ -660,6 +665,7 @@ export default class RangeControl extends React.PureComponent<
           'RangeControl',
           `${ns}InputRange`,
           {'is-disabled': disabled},
+          {'is-mobile': mobileUI},
           className
         )}
       >

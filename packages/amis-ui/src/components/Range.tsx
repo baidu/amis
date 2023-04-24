@@ -17,6 +17,7 @@ import type {ThemeProps} from 'amis-core';
 import {themeable} from 'amis-core';
 import {autobind, camel} from 'amis-core';
 import {stripNumber} from 'amis-core';
+import {isMobile} from 'amis-core';
 import {findDOMNode} from 'react-dom';
 import {Icon} from './icons';
 
@@ -54,6 +55,7 @@ interface HandleItemProps extends ThemeProps {
   tipFormatter?: (value: Value) => boolean;
   unit?: string;
   tooltipPlacement?: string;
+  useMobileUI?: boolean;
 }
 
 interface LabelProps extends ThemeProps {
@@ -166,6 +168,35 @@ class HandleItem extends React.Component<HandleItemProps, HandleItemState> {
     });
   }
 
+  @autobind
+  onTouchStart() {
+    this.setState({
+      isDrag: true,
+      labelActive: true
+    });
+  }
+
+  @autobind
+  onTouchMove(e: any) {
+    const {isDrag} = this.state;
+    const {type = 'min'} = this.props;
+    if (!isDrag) {
+      return;
+    }
+    this.props.onChange(e.touches[0].clientX, type);
+  }
+
+  @autobind
+  onTouchEnd() {
+    const {isDrag} = this.state;
+    if (isDrag) {
+      return;
+    }
+    this.setState({
+      labelActive: false
+    });
+  }
+
   render() {
     const {
       classnames: cx,
@@ -176,13 +207,16 @@ class HandleItem extends React.Component<HandleItemProps, HandleItemState> {
       tooltipVisible,
       tipFormatter,
       unit,
-      tooltipPlacement = 'auto'
+      tooltipPlacement = 'auto',
+      useMobileUI
     } = this.props;
     const {isDrag, labelActive} = this.state;
     const style = {
       left: valueToOffsetLeft(value, min, max),
       zIndex: isDrag ? 2 : 1
     };
+
+    const mobileUI = useMobileUI && isMobile();
 
     return disabled ? (
       <div className={cx('InputRange-handle')} style={style}>
@@ -192,7 +226,9 @@ class HandleItem extends React.Component<HandleItemProps, HandleItemState> {
       </div>
     ) : (
       <div
-        className={cx('InputRange-handle')}
+        className={cx('InputRange-handle', {
+          'is-mobile': mobileUI
+        })}
         style={style}
         ref={this.handleRef}
       >
@@ -203,6 +239,9 @@ class HandleItem extends React.Component<HandleItemProps, HandleItemState> {
           onMouseDown={this.onMouseDown}
           onMouseEnter={this.onMouseEnter}
           onMouseLeave={this.onMouseLeave}
+          onTouchStart={this.onTouchStart}
+          onTouchMove={this.onTouchMove}
+          onTouchEnd={this.onTouchEnd}
         >
           <Icon icon="slider-handle" className="icon" />
         </div>
@@ -277,6 +316,7 @@ class Label extends React.Component<LabelProps, any> {
 // @todo 丰富这个
 export interface RangeItemProps extends ThemeProps {
   [propName: string]: any;
+  useMobileUI?: boolean;
 }
 
 export class Range extends React.Component<RangeItemProps, any> {
@@ -443,13 +483,15 @@ export class Range extends React.Component<RangeItemProps, any> {
    * @returns
    */
   @autobind
-  getOffsetLeft(value: number | string) {
+  getOffsetLeft(value: number | string, getNumber?: boolean) {
     const {max, min} = this.props;
     if (isString(value) && MARKS_REG.test(value)) {
-      return value;
+      return getNumber ? parseFloat(value) : value;
     }
     value = Math.min(Math.max(+value, min), max);
-    return ((value - min) * 100) / (max - min) + '%';
+    return getNumber
+      ? ((value - min) * 100) / (max - min)
+      : ((value - min) * 100) / (max - min) + '%';
   }
 
   /**
@@ -489,7 +531,8 @@ export class Range extends React.Component<RangeItemProps, any> {
       unit,
       tooltipPlacement,
       tipFormatter,
-      onAfterChange
+      onAfterChange,
+      useMobileUI
     } = this.props;
 
     // trace
@@ -519,6 +562,14 @@ export class Range extends React.Component<RangeItemProps, any> {
         max: (value as MultipleValue).max
       };
     }
+
+    const sortMaks = marks
+      ? keys(marks).sort(
+          (a: keyof MarksType, b: keyof MarksType) =>
+            (this.getOffsetLeft(a, true) as number) -
+            (this.getOffsetLeft(b, true) as number)
+        )
+      : [];
 
     return (
       <div className={cx('InputRange-wrap')}>
@@ -550,6 +601,7 @@ export class Range extends React.Component<RangeItemProps, any> {
                 tooltipVisible={tooltipVisible}
                 tipFormatter={tipFormatter}
                 unit={unit}
+                useMobileUI={useMobileUI}
                 tooltipPlacement={tooltipPlacement}
                 onAfterChange={onAfterChange}
                 onChange={this.onGetChangeValue.bind(this)}
@@ -566,6 +618,7 @@ export class Range extends React.Component<RangeItemProps, any> {
               tooltipVisible={tooltipVisible}
               tipFormatter={tipFormatter}
               unit={unit}
+              useMobileUI={useMobileUI}
               tooltipPlacement={tooltipPlacement}
               onAfterChange={onAfterChange}
               onChange={this.onChange.bind(this)}
@@ -575,9 +628,10 @@ export class Range extends React.Component<RangeItemProps, any> {
           {/* 刻度标记 */}
           {marks && (
             <div className={cx('InputRange-marks')}>
-              {keys(marks).map((key: keyof MarksType) => {
-                const offsetLeft = this.getOffsetLeft(key);
+              {sortMaks.map((key: keyof MarksType) => {
+                const offsetLeft = this.getOffsetLeft(key) as string;
                 const markMaxWidth = this.getMarkMaxWidth(key, marks);
+
                 if (MARKS_REG.test(offsetLeft)) {
                   return (
                     <div

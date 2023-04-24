@@ -11,6 +11,9 @@ import {themeable, ThemeProps} from 'amis-core';
 import {LocaleProps, localeable} from 'amis-core';
 import {autobind} from 'amis-core';
 import Button from './Button';
+import {ShortCuts, ShortCutDateRange} from './DatePicker';
+import {advancedRanges, availableRanges} from './DateRangePicker';
+import {noop} from 'amis-core';
 
 export interface CalendarMobileProps extends ThemeProps, LocaleProps {
   className?: string;
@@ -49,6 +52,7 @@ export interface CalendarMobileProps extends ThemeProps, LocaleProps {
     };
   };
   defaultDate?: moment.Moment;
+  ranges?: string | Array<ShortCuts>;
 }
 
 export interface CalendarMobileState {
@@ -279,6 +283,97 @@ export class CalendarMobile extends React.Component<
     });
 
     return dow;
+  }
+
+  @autobind
+  renderRanges(ranges: string | Array<ShortCuts> | undefined) {
+    if (!ranges) {
+      return null;
+    }
+    const {
+      classPrefix: ns,
+      embed,
+      minDate,
+      maxDate,
+      confirm,
+      onChange
+    } = this.props;
+    let rangeArr: Array<string | ShortCuts>;
+    if (typeof ranges === 'string') {
+      rangeArr = ranges.split(',');
+    } else {
+      rangeArr = ranges;
+    }
+    const __ = this.props.translate;
+
+    return (
+      <ul className={`${ns}DateRangePicker-rangers`}>
+        {rangeArr.map(item => {
+          if (!item) {
+            return null;
+          }
+          let range: any = {};
+          if (typeof item === 'string') {
+            if (availableRanges[item]) {
+              range = availableRanges[item];
+              range.key = item;
+            } else {
+              // 通过正则尝试匹配
+              for (let i = 0, len = advancedRanges.length; i < len; i++) {
+                let value = advancedRanges[i];
+                const m = value.regexp.exec(item);
+                if (m) {
+                  range = value.resolve.apply(item, [__, ...m]);
+                  range.key = item;
+                }
+              }
+            }
+          } else if (
+            (item as ShortCutDateRange).startDate &&
+            (item as ShortCutDateRange).endDate
+          ) {
+            range = {
+              ...item,
+              startDate: () => (item as ShortCutDateRange).startDate,
+              endDate: () => (item as ShortCutDateRange).endDate
+            };
+          }
+          if (Object.keys(range).length) {
+            return (
+              <li
+                className={`${ns}DateRangePicker-ranger`}
+                onClick={() => {
+                  const now = moment();
+                  const startDate =
+                    minDate && minDate.isValid()
+                      ? moment.max(range.startDate(now.clone()), minDate)
+                      : range.startDate(now.clone());
+                  const endDate =
+                    maxDate && maxDate.isValid()
+                      ? moment.min(maxDate, range.endDate(now.clone()))
+                      : range.endDate(now.clone());
+
+                  this.setState({
+                    startDate,
+                    endDate
+                  });
+                  !embed && onChange && onChange({startDate, endDate}, noop);
+                  // 内嵌模式
+                  embed &&
+                    onChange &&
+                    onChange({startDate, endDate}, () => confirm && confirm());
+                }}
+                key={range.key || range.label}
+              >
+                <a>{__(range.label)}</a>
+              </li>
+            );
+          } else {
+            return null;
+          }
+        })}
+      </ul>
+    );
   }
 
   @autobind
@@ -697,7 +792,8 @@ export class CalendarMobile extends React.Component<
       footerExtra,
       timeFormat,
       showViewMode,
-      isDatePicker
+      isDatePicker,
+      ranges
     } = this.props;
     const __ = this.props.translate;
 
@@ -755,7 +851,7 @@ export class CalendarMobile extends React.Component<
         {timeFormat && startDate && this.renderMobileTimePicker()}
         <div className={cx('CalendarMobile-footer-toolbar')}>
           <div className={cx('CalendarMobile-footer-ranges')}>
-            {footerExtra}
+            {this.renderRanges(ranges)}
           </div>
           {confirm && !embed && (
             <Button
