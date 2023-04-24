@@ -436,6 +436,38 @@
       // display: inline-block;
       max-width: 100%;
     }
+
+    &.is-mobile {
+      position: relative;
+
+      & > a {
+        margin-right: calc(
+          20px + var(--select-base-default-option-paddingRight)
+        );
+      }
+
+      .#{$ns}Select-option-item-check {
+        flex: 1;
+        text-align: left;
+        border-bottom: px2rem(1px) solid var(--borderColor);
+      }
+
+      .#{$ns}Select-option-mcheck {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: var(--select-base-default-option-paddingRight);
+        flex: none;
+        width: px2rem(16px);
+        color: var(--Form-select-mobile-icon-check-color);
+      }
+
+      &:last-child {
+        .#{$ns}Select-option-item-check {
+          border-bottom: none;
+        }
+      }
+    }
   }
 
   &-noResult {

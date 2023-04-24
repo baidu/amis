@@ -92,6 +92,10 @@ export interface CollapseSchema extends BaseSchema {
    * 卡片隐藏就销毁内容。
    */
   unmountOnExit?: boolean;
+  /**
+   * 标题内容分割线
+   */
+  divideLine?: boolean;
 }
 
 export interface CollapseProps
@@ -147,8 +151,12 @@ export default class Collapse extends React.Component<CollapseProps, {}> {
       disabled,
       collapsed,
       propsUpdate,
-      onCollapse
+      onCollapse,
+      useMobileUI,
+      divideLine
     } = this.props;
+
+    console.log('cooooooo', divideLine);
 
     return (
       <BasicCollapse
@@ -194,7 +202,9 @@ export default class Collapse extends React.Component<CollapseProps, {}> {
             ? render('body', body)
             : null
         }
+        useMobileUI={useMobileUI}
         onCollapse={onCollapse}
+        divideLine={divideLine}
       ></BasicCollapse>
     );
   }

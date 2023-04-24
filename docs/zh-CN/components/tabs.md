@@ -15,6 +15,7 @@ order: 68
 ```schema: scope="body"
 {
     "type": "tabs",
+    "swipeable": true,
     "tabs": [
         {
             "title": "Tab 1",
@@ -22,6 +23,54 @@ order: 68
         },
         {
             "title": "Tab 2",
+            "tab": "Content 2"
+        },
+        {
+            "title": "Tab 3",
+            "tab": "Content 2"
+        },
+        {
+            "title": "Tab 4",
+            "tab": "Content 2"
+        },
+        {
+            "title": "Tab 5",
+            "tab": "Content 2"
+        },
+        {
+            "title": "Tab 6",
+            "tab": "Content 2"
+        },
+        {
+            "title": "Tab 7",
+            "tab": "Content 2"
+        },
+        {
+            "title": "Tab 8",
+            "tab": "Content 2"
+        },
+        {
+            "title": "Tab 9",
+            "tab": "Content 2"
+        },
+         {
+            "title": "Tab 10",
+            "tab": "Content 2"
+        },
+         {
+            "title": "Tab 11",
+            "tab": "Content 2"
+        },
+         {
+            "title": "Tab 12",
+            "tab": "Content 2"
+        },
+         {
+            "title": "Tab 13",
+            "tab": "Content 2"
+        },
+         {
+            "title": "Tab 14",
             "tab": "Content 2"
         }
     ]
@@ -789,6 +838,7 @@ order: 68
 | sidePosition          | `left` / `right`                  | `left`                              | `sidebar` 模式下，标签栏位置                                                                               |
 | collapseOnExceed      | `number`                          |                                     | 当 tabs 超出多少个时开始折叠                                                                               |
 | collapseBtnLabel      | `string`                          | `more`                              | 用来设置折叠按钮的文字                                                                                     |
+| swipeable             | `boolean`                         | false                               | 是否开启手势滑动切换（移动端生效）                                                                         |
 
 ## 事件表
 

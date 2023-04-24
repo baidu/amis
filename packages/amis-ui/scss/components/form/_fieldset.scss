@@ -25,6 +25,10 @@
     border-left: 0 !important;
   }
 
+  > legend.#{$ns}Collapse-header.is-mobile {
+    position: absolute;
+  }
+
   .collapse {
     position: relative;
   }
@@ -186,6 +190,15 @@ fieldset.#{$ns}Collapse {
 
     &:after {
       top: calc(var(--fieldSet-size-lg-fontSize) / 2);
+    }
+  }
+
+  .#{$ns}Collapse-header.is-mobile {
+    padding-left: var(--gap-xs) !important;
+    padding-right: px2rem(18px);
+
+    &:hover {
+      background: var(--white);
     }
   }
 }

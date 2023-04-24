@@ -64,8 +64,14 @@
     height: #{px2rem(250px)};
     margin-top: #{px2rem(10px)};
 
-    & > div {
+    &:not(.is-mobile) > div {
       width: 0;
+    }
+
+    &.is-mobile {
+      width: 100%;
+      overflow-x: scroll;
+      overflow-y: hidden;
     }
   }
 
@@ -388,6 +394,16 @@
   flex-flow: row nowrap;
   justify-content: space-between;
   align-items: center;
+
+  &-popup {
+    height: 80vh;
+
+    &-inner {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 0 px2rem(16px);
+    }
+  }
 
   &-input {
     flex: 1;

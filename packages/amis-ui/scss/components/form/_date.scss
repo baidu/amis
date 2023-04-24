@@ -456,7 +456,7 @@
         color: var(--inputTime-active-color);
         background: var(--inputTime-active-bg-color);
       }
-      &:hover {
+      &:not(.is-mobile):hover {
         color: var(--inputTime-hover-color);
         background: var(--inputTime-hover-bg-color);
       }
@@ -466,6 +466,7 @@
 
 .#{$ns}TimeContentWrapper {
   display: flex;
+  justify-content: center;
 }
 
 .#{$ns}TimeRangeHeaderWrapper {
@@ -473,6 +474,7 @@
   padding-top: 10px;
   text-align: center;
   border-bottom: 1px solid var(--Calendar-input-borderColor);
+  margin: 0 px2rem(4px);
 }
 
 .#{$ns}TimeFooterWrapper {
