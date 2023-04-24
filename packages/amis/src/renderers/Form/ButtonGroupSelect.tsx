@@ -71,8 +71,7 @@ export default class ButtonGroupControl extends React.Component<
 
   getBadgeConfig(config: BadgeObject, item: Option) {
     return config
-      ? item?.badge &&
-        (typeof item.badge === 'string' || typeof item.badge === 'number')
+      ? item?.badge && (typeof item.badge === 'string' || typeof item.badge === 'number')
         ? {...config, text: item.badge}
         : item?.badge && isObject(item.badge)
         ? {...config, ...item.badge}

@@ -126,7 +126,10 @@ export class ButtonGroupControlPlugin extends BasePlugin {
             },
             {
               title: '按钮管理',
-              body: [getSchemaTpl('nav-badge'), getSchemaTpl('optionControlV2')]
+              body: [
+                getSchemaTpl('nav-badge'),
+                getSchemaTpl('optionControlV2')
+              ]
             },
             getSchemaTpl('status', {
               isFormItem: true
