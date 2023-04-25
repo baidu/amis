@@ -12,6 +12,11 @@ export interface IconCheckedSchema {
   svg?: string;
 }
 
+export interface IconCheckedSchemaNew {
+  type: 'icon';
+  icon: IconCheckedSchema;
+}
+
 /**
  * 判断字符串来生成 i 或 img
  * @param icon icon 设置
@@ -20,14 +25,18 @@ export interface IconCheckedSchema {
  */
 export const generateIcon = (
   cx: ClassNamesFn,
-  icon?:
-    | string
-    | IconCheckedSchema
-    | React.ReactNode
-    | {icon: IconCheckedSchema},
+  icon?: string | IconCheckedSchema | React.ReactNode | IconCheckedSchemaNew,
   className?: string,
   classNameProp?: string
 ) => {
+  if (
+    isObject(icon) &&
+    (icon as IconCheckedSchemaNew).type === 'icon' &&
+    (icon as IconCheckedSchemaNew).icon
+  ) {
+    icon = (icon as IconCheckedSchemaNew).icon;
+  }
+
   if (React.isValidElement(icon)) {
     return icon;
   }
@@ -35,10 +44,10 @@ export const generateIcon = (
   if (typeof icon !== 'string') {
     if (
       isObject(icon) &&
-      typeof (icon as {icon: IconCheckedSchema}).icon?.id === 'string' &&
-      (icon as {icon: IconCheckedSchema}).icon?.svg
+      typeof (icon as IconCheckedSchema).id === 'string' &&
+      (icon as IconCheckedSchema).svg
     ) {
-      const SvgStr = (icon as {icon: IconCheckedSchema}).icon.svg?.match(
+      const SvgStr = (icon as IconCheckedSchema).svg?.match(
         /(<svg.{1,}\/svg>)/
       );
       if (SvgStr) {
