@@ -514,7 +514,8 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             'position',
             'timeout',
             'closeButton',
-            'showIcon'
+            'showIcon',
+            'className'
           ],
           descDetail: (info: any) => {
             return (
@@ -3083,6 +3084,14 @@ export const getEventControlConfig = (
             params: comboArrayToObject(params)
           };
         }
+      }
+
+      if (action.actionType === 'toast') {
+        // 配置一个toast组件默认class
+        action.args = {
+          ...action.args,
+          className: 'theme-toast-action-scope'
+        };
       }
 
       // 转换下格式
