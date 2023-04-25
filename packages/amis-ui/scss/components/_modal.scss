@@ -93,6 +93,10 @@
     border-bottom: var(--Modal-body-borderTop);
     border-top-left-radius: var(--Modal-content-borderRadius);
     border-top-right-radius: var(--Modal-content-borderRadius);
+
+    .Dialog-close {
+      content: var(--dialog-icon-icon);
+    }
   }
 
   &-title {

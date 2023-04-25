@@ -340,7 +340,11 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
                       onClick={disabled ? undefined : onHide}
                       className={`${ns}Drawer-close`}
                     >
-                      <Icon icon="close" className="icon" />
+                      <Icon
+                        icon="close"
+                        className="icon"
+                        iconContent="Drawer-close"
+                      />
                     </a>
                   ) : null}
                   {status === EXITED ? null : children}

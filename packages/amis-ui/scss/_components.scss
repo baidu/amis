@@ -1750,6 +1750,7 @@
   --dialog-default-border-radius: var(--sizes-size-4);
   --dialog-default-padding-y: var(--sizes-base-12);
   --dialog-header-height: var(--sizes-size-1);
+  --dialog-icon-icon: '<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="icon icon-close"><g id="close" transform="translate(1.439340, 1.439340)" fill="currentColor" fill-rule="nonzero"><polygon points="12.0606602 5.80646642e-14 13.1213203 1.06066017 7.62066017 6.56066017 13.1213203 12.0606602 12.0606602 13.1213203 6.56066017 7.62066017 1.06066017 13.1213203 0 12.0606602 5.49966017 6.56066017 1.72084569e-13 1.06066017 1.06066017 0 6.56066017 5.49966017"></polygon></g></svg>';
   --dialog-icon-size: var(--sizes-size-9);
   --dialog-icon-color: var(--colors-neutral-text-6);
   --dialog-header-color: var(--colors-neutral-text-2);
@@ -1805,6 +1806,7 @@
   --drawer-header-color: var(--colors-neutral-text-2);
   --drawer-header-fontSize: var(--fonts-size-7);
   --drawer-header-fontWeight: var(--fonts-weight-5);
+  --drawer-header-icon-icon: '<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class=" icon-close"><g id="close" transform="translate(1.439340, 1.439340)" fill="currentColor" fill-rule="nonzero"><polygon points="12.0606602 5.80646642e-14 13.1213203 1.06066017 7.62066017 6.56066017 13.1213203 12.0606602 12.0606602 13.1213203 6.56066017 7.62066017 1.06066017 13.1213203 0 12.0606602 5.49966017 6.56066017 1.72084569e-13 1.06066017 1.06066017 0 6.56066017 5.49966017"></polygon></g></svg>';
   --drawer-header-icon-size: var(--sizes-size-7);
   --drawer-header-icon-color: var(--colors-neutral-text-2);
   --drawer-content-paddingTop: var(--sizes-base-12);
