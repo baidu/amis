@@ -15,7 +15,7 @@ import {
 } from 'amis-core';
 import {isApiOutdated, isEffectiveApi} from 'amis-core';
 import {IFormStore} from 'amis-core';
-import {Spinner} from 'amis-ui';
+import {Spinner, SpinnerExtraProps} from 'amis-ui';
 import {Icon} from 'amis-ui';
 import {findDOMNode} from 'react-dom';
 import {resizeSensor} from 'amis-core';
@@ -84,7 +84,7 @@ export type WizardStepSchema = Omit<FormSchema, 'type'> & {
  * 表单向导
  * 文档：https://baidu.gitee.io/amis/docs/components/wizard
  */
-export interface WizardSchema extends BaseSchema {
+export interface WizardSchema extends BaseSchema, SpinnerExtraProps {
   /**
    * 指定为表单向导
    */
@@ -600,15 +600,12 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
             action.redirect && filter(action.redirect, store.data);
           reidrect && env.jumpTo(reidrect, action);
 
-          action.reload && this.reloadTarget(action.reload, store.data);
+          action.reload &&
+            this.reloadTarget(filter(action.reload, store.data), store.data);
         })
-        .catch(reason => {
-          if (reason instanceof SkipOperation) {
-            return;
-          }
-        });
+        .catch(reason => {});
     } else if (action.actionType === 'reload') {
-      action.target && this.reloadTarget(action.target, data);
+      action.target && this.reloadTarget(filter(action.target, data), data);
     } else if (action.actionType === 'goto-step') {
       const targetStep = (data as any).step;
 
@@ -712,7 +709,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
 
     // 最后一步
     if (target) {
-      this.submitToTarget(target, store.data);
+      this.submitToTarget(filter(target, store.data), store.data);
       this.setState({completeStep: steps.length});
     } else if (action.api || step.api || api) {
       let finnalAsyncApi = action.asyncApi || step.asyncApi || asyncApi;
@@ -801,7 +798,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
             env.jumpTo(finalRedirect, action);
           } else if (action.reload || step.reload || reload) {
             this.reloadTarget(
-              action.reload || step.reload || reload!,
+              filter(action.reload || step.reload || reload!, store.data),
               store.data
             );
           }
@@ -878,9 +875,6 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
           })
           .catch(reason => {
             this.dispatchEvent('stepSubmitFail', {error: reason});
-            if (reason instanceof SkipOperation) {
-              return;
-            }
             // do nothing
           });
       } else {
@@ -1099,7 +1093,8 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
       classnames: cx,
       popOverContainer,
       mode,
-      translate: __
+      translate: __,
+      loadingConfig
     } = this.props;
 
     const currentStep = this.state.currentStep;
@@ -1170,7 +1165,13 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
             show: store.dialogOpen
           }
         )}
-        <Spinner size="lg" overlay key="info" show={store.loading} />
+        <Spinner
+          loadingConfig={loadingConfig}
+          size="lg"
+          overlay
+          key="info"
+          show={store.loading}
+        />
       </div>
     );
   }
@@ -1253,5 +1254,10 @@ export class WizardRenderer extends Wizard {
 
   setData(values: object, replace?: boolean) {
     return this.props.store.updateData(values, undefined, replace);
+  }
+
+  getData() {
+    const {store} = this.props;
+    return store.data;
   }
 }

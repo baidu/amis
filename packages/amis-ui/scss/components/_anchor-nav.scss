@@ -83,7 +83,7 @@
           font-size: var(--Tabs-linkFontSize);
           outline: 0;
           border: var(--Tabs-borderWidth) solid transparent;
-          border-width: 0 0 var(--Tabs--line-borderWidth) 0;
+          border-width: 0 0 2px 0;
           border-top-left-radius: var(--Tabs-borderRadius);
           border-top-right-radius: var(--Tabs-borderRadius);
           color: var(--Tabs-color);
@@ -112,9 +112,9 @@
           > a:first-child:hover,
           > a:first-child:focus {
             font-size: var(--Tabs-linkFontSize);
-            border-width: 0 0 var(--Tabs--line-borderWidth) 0;
+            border-width: 0 0 2px 0;
             border-color: var(--Tabs--line-onHover-borderColor);
-            color: var(--Tabs--line-onHover-color);
+            color: var(--primary);
             background: transparent;
           }
         }

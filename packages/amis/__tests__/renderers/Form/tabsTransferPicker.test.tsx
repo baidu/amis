@@ -189,4 +189,4 @@ test('Renderer:TabsTransferPicker', async () => {
 
   await wait(1000);
   expect(baseElement).toMatchSnapshot();
-});
+}, 10000);

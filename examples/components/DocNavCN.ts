@@ -217,6 +217,13 @@ export default [
         )
       },
       {
+        label: '可视化编辑器',
+        path: '/zh-CN/docs/extend/editor',
+        component: React.lazy(() =>
+          import('../../docs/zh-CN/extend/editor.md').then(wrapDoc)
+        )
+      },
+      {
         label: '如何贡献代码',
         path: '/zh-CN/docs/extend/contribute',
         component: React.lazy(() =>

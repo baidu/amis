@@ -3,14 +3,16 @@ import hotkeys from 'hotkeys-js';
 import {
   ActionObject,
   extendObject,
+  insertCustomStyle,
   IScopedContext,
   isObject,
   Renderer,
   RendererProps,
-  ScopedContext
+  ScopedContext,
+  uuid
 } from 'amis-core';
 import {filter} from 'amis-core';
-import {BadgeObject, Button} from 'amis-ui';
+import {BadgeObject, Button, SpinnerExtraProps} from 'amis-ui';
 import pick from 'lodash/pick';
 import omit from 'lodash/omit';
 
@@ -182,6 +184,11 @@ export interface AjaxActionSchema extends ButtonSchema {
   reload?: SchemaReload;
   redirect?: string;
   ignoreConfirm?: boolean;
+
+  /**
+   * 是否开启请求隔离, 主要用于隔离联动CRUD, Service的请求
+   */
+  isolateScope?: boolean;
 }
 
 export interface DownloadActionSchema
@@ -416,7 +423,8 @@ const ActionProps = [
   'payload',
   'requireSelected',
   'countDown',
-  'fileName'
+  'fileName',
+  'isolateScope'
 ];
 import {filterContents} from './Remark';
 import {ClassNamesFn, themeable, ThemeProps} from 'amis-core';
@@ -440,7 +448,6 @@ import {generateIcon} from 'amis-core';
 import {withBadge} from 'amis-ui';
 import {normalizeApi, str2AsyncFunction} from 'amis-core';
 import {TooltipWrapper} from 'amis-ui';
-import {ICmptAction} from 'amis-core/lib/actions/CmptAction';
 
 // 构造一个假的 React 事件避免可能的报错，主要用于快捷键功能
 // 来自 https://stackoverflow.com/questions/27062455/reactjs-can-i-create-my-own-syntheticevent
@@ -562,7 +569,8 @@ export interface ActionProps
       | 'iconClassName'
       | 'rightIconClassName'
       | 'loadingClassName'
-    > {
+    >,
+    SpinnerExtraProps {
   actionType: any;
   onAction?: (
     e: React.MouseEvent<any> | void | null,
@@ -576,7 +584,7 @@ export interface ActionProps
     | string
     | Function
     | null;
-  componentClass: React.ReactType;
+  componentClass: React.ElementType;
   tooltipContainer?: any;
   data?: any;
   isMenuItem?: boolean;
@@ -594,7 +602,7 @@ interface ActionState {
 export class Action extends React.Component<ActionProps, ActionState> {
   static defaultProps = {
     type: 'button' as 'button',
-    componentClass: 'button' as React.ReactType,
+    componentClass: 'button' as React.ElementType,
     tooltipPlacement: 'bottom' as 'bottom',
     activeClassName: 'is-active',
     countDownTpl: 'Action.countDown',
@@ -613,7 +621,10 @@ export class Action extends React.Component<ActionProps, ActionState> {
 
   constructor(props: ActionProps) {
     super(props);
-    this.localStorageKey = 'amis-countdownend-' + (this.props.name || '');
+    this.localStorageKey =
+      'amis-countdownend-' +
+      (this.props.name || '') +
+      (this.props?.$schema?.id || uuid());
     const countDownEnd = parseInt(
       localStorage.getItem(this.localStorageKey) || '0'
     );
@@ -778,8 +789,28 @@ export class Action extends React.Component<ActionProps, ActionState> {
       onMouseEnter,
       onMouseLeave,
       classnames: cx,
-      classPrefix: ns
+      classPrefix: ns,
+      loadingConfig,
+      themeCss,
+      css,
+      id
     } = this.props;
+    insertCustomStyle(
+      themeCss || css,
+      [
+        {
+          key: 'className',
+          value: className,
+          weights: {
+            hover: {
+              suf: ':not(:disabled):not(.is-disabled)'
+            },
+            active: {suf: ':not(:disabled):not(.is-disabled)'}
+          }
+        }
+      ],
+      id
+    );
 
     if (actionType !== 'email' && body) {
       return (
@@ -832,6 +863,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
 
     return (
       <Button
+        loadingConfig={loadingConfig}
         className={cx(className, {
           [activeClassName || 'is-active']: isActive
         })}
@@ -925,7 +957,10 @@ export class ActionRenderer extends React.Component<ActionRendererProps> {
     let mergedData = data;
 
     if (action?.actionType === 'click' && isObject(action?.args)) {
-      mergedData = createObject(data, action.args);
+      mergedData = createObject(data, {
+        ...action.args,
+        nativeEvent: e
+      });
     }
 
     const hasOnEvent = $schema.onEvent && Object.keys($schema.onEvent).length;
@@ -973,12 +1008,24 @@ export class ActionRenderer extends React.Component<ActionRendererProps> {
 
   @autobind
   handleMouseEnter(e: React.MouseEvent<any>) {
-    this.props.dispatchEvent(e, this.props.data);
+    const {dispatchEvent, data} = this.props;
+    dispatchEvent(
+      e,
+      createObject(data, {
+        nativeEvent: e
+      })
+    );
   }
 
   @autobind
   handleMouseLeave(e: React.MouseEvent<any>) {
-    this.props.dispatchEvent(e, this.props.data);
+    const {dispatchEvent, data} = this.props;
+    dispatchEvent(
+      e,
+      createObject(data, {
+        nativeEvent: e
+      })
+    );
   }
 
   @autobind

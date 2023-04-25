@@ -33,7 +33,7 @@ import {wrapControl} from './wrapControl';
 import debounce from 'lodash/debounce';
 import {isApiOutdated, isEffectiveApi} from '../utils/api';
 import {findDOMNode} from 'react-dom';
-import {dataMapping} from '../utils';
+import {dataMapping, insertCustomStyle} from '../utils';
 import Overlay from '../components/Overlay';
 import PopOver from '../components/PopOver';
 
@@ -876,6 +876,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
     } = this.props;
 
     const mobileUI = useMobileUI && isMobile();
+
     if (renderControl) {
       const controlSize = size || defaultSize;
       return renderControl({
@@ -1095,7 +1096,9 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         data,
         showErrorMsg,
         useMobileUI,
-        translate: __
+        translate: __,
+        static: isStatic,
+        staticClassName
       } = props;
 
       description = description || desc;
@@ -1105,7 +1108,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
           data-role="form-item"
           className={cx(
             `Form-item Form-item--normal`,
-            className,
+            isStatic && staticClassName ? staticClassName : className,
             {
               'is-error': model && !model.valid,
               [`is-required`]: required
@@ -1215,7 +1218,9 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         data,
         showErrorMsg,
         useMobileUI,
-        translate: __
+        translate: __,
+        static: isStatic,
+        staticClassName
       } = props;
       const labelWidth = props.labelWidth || props.formLabelWidth;
       description = description || desc;
@@ -1225,7 +1230,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
           data-role="form-item"
           className={cx(
             `Form-item Form-item--inline`,
-            className,
+            isStatic && staticClassName ? staticClassName : className,
             {
               'is-error': model && !model.valid,
               [`is-required`]: required
@@ -1341,7 +1346,9 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         data,
         showErrorMsg,
         useMobileUI,
-        translate: __
+        translate: __,
+        static: isStatic,
+        staticClassName
       } = props;
       const labelWidth = props.labelWidth || props.formLabelWidth;
       description = description || desc;
@@ -1351,7 +1358,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
           data-role="form-item"
           className={cx(
             `Form-item Form-item--row`,
-            className,
+            isStatic && staticClassName ? staticClassName : className,
             {
               'is-error': model && !model.valid,
               [`is-required`]: required
@@ -1442,8 +1449,40 @@ export class FormItemWrap extends React.Component<FormItemProps> {
   };
 
   render() {
-    const {formMode, inputOnly, wrap, render, formItem: model} = this.props;
+    const {
+      formMode,
+      inputOnly,
+      wrap,
+      render,
+      formItem: model,
+      css,
+      themeCss,
+      id,
+      labelClassName,
+      descriptionClassName
+    } = this.props;
     const mode = this.props.mode || formMode;
+
+    insertCustomStyle(
+      themeCss || css,
+      [
+        {
+          key: 'labelClassName',
+          value: labelClassName
+        }
+      ],
+      id + '-label'
+    );
+    insertCustomStyle(
+      themeCss || css,
+      [
+        {
+          key: 'descriptionClassName',
+          value: descriptionClassName
+        }
+      ],
+      id + '-description'
+    );
 
     if (wrap === false || inputOnly) {
       return this.renderControl();
@@ -1489,6 +1528,7 @@ export const detectProps = [
   'addOn',
   'btnClassName',
   'btnLabel',
+  'style',
   'btnDisabled',
   'className',
   'clearable',
@@ -1499,6 +1539,9 @@ export const detectProps = [
   'description',
   'disabled',
   'static',
+  'staticClassName',
+  'staticLabelClassName',
+  'staticInputClassName',
   'draggable',
   'editable',
   'editButtonClassName',
@@ -1543,7 +1586,8 @@ export const detectProps = [
   'embed',
   'displayMode',
   'revealPassword',
-  'loading'
+  'loading',
+  'themeCss'
 ];
 
 export function asFormItem(config: Omit<FormItemConfig, 'component'>) {

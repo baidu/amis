@@ -13,6 +13,7 @@ exports[`Renderer:combo with addable & addattop & addBtn & addButtonText & addBu
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
@@ -560,6 +561,7 @@ exports[`Renderer:combo with canAccessSuperData & strictMode & syncFields 1`] = 
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
@@ -873,6 +875,7 @@ exports[`Renderer:combo with conditions: add button open 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
@@ -1193,6 +1196,7 @@ exports[`Renderer:combo with draggable 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
@@ -1727,6 +1731,7 @@ exports[`Renderer:combo with minLength & maxLength: minLength error 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
@@ -1898,6 +1903,7 @@ exports[`Renderer:combo with removable & deleteBtn & deleteApi & deleteConfirmTe
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
@@ -2326,6 +2332,7 @@ exports[`Renderer:combo with tabsMode 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
@@ -2629,6 +2636,7 @@ exports[`Renderer:combo with unique: unique error 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"

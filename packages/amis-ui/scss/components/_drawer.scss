@@ -50,9 +50,10 @@
   }
 
   &-title {
-    font-size: var(--Drawer-title-fontSize);
-    font-weight: 500;
-    color: var(--Drawer-title-fontColor);
+    font-size: var(--drawer-header-fontSize);
+    font-weight: var(--drawer-header-fontWeight);
+    color: var(--drawer-header-color);
+    height: var(--drawer-header-height);
   }
 
   &-close {
@@ -63,9 +64,10 @@
 
     svg {
       margin-top: px2rem(2px);
-      width: var(--Drawer-close-size);
-      height: var(--Drawer-close-size);
+      width: var(--drawer-header-icon-size);
+      height: var(--drawer-header-icon-size);
       fill: var(--Drawer-close-color);
+      color: var(--drawer-header-icon-color);
     }
 
     &:not(.is-disabled) {
@@ -83,7 +85,8 @@
   }
 
   &-body {
-    padding: var(--Drawer-body-padding);
+    padding: var(--drawer-content-paddingTop) var(--drawer-content-paddingRight)
+      var(--drawer-content-paddingBottom) var(--drawer-content-paddingLeft);
     flex-basis: 0;
     flex-grow: 1;
     overflow: auto;
@@ -92,6 +95,7 @@
   &-footer {
     display: flex;
     align-items: flex-end;
+    height: var(--drawer-footer-height);
     justify-content: flex-end;
     padding: var(--Drawer-footer-padding);
     border-top: var(--Drawer-content-borderWidth) solid
@@ -140,27 +144,27 @@
   }
 
   .#{$ns}Drawer--xs .#{$ns}Drawer-content {
-    width: var(--Drawer-widthXs);
+    width: var(--drawer-size-xs-width);
     height: var(--Drawer-widthXs);
   }
 
   .#{$ns}Drawer--sm .#{$ns}Drawer-content {
-    width: var(--Drawer-widthSm);
+    width: var(--drawer-size-sm-width);
     height: var(--Drawer-widthSm);
   }
 
   .#{$ns}Drawer--md .#{$ns}Drawer-content {
-    width: var(--Drawer-widthMd);
+    width: var(--drawer-size-md-width);
     height: var(--Drawer-widthMd);
   }
 
   .#{$ns}Drawer--lg .#{$ns}Drawer-content {
-    width: var(--Drawer-widthLg);
+    width: var(--drawer-size-lg-width);
     height: var(--Drawer-widthLg);
   }
 
   .#{$ns}Drawer--xl .#{$ns}Drawer-content {
-    width: var(--Drawer-widthXl);
+    width: var(--drawer-size-xl-width);
     height: var(--Drawer-widthXl);
   }
 
@@ -283,7 +287,7 @@
     justify-content: flex-end;
 
     .#{$ns}Button {
-      margin-left: var(--Drawer-footer-margin);
+      margin-left: var(--drawer-footer-margin-left);
       margin-right: var(--gap-xs);
     }
 

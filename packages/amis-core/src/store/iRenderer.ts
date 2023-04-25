@@ -10,6 +10,7 @@ import {
 import {dataMapping} from '../utils/tpl-builtin';
 import {SimpleMap} from '../utils/SimpleMap';
 import {StoreNode} from './node';
+import {IScopedContext} from '../Scoped';
 
 export const iRendererStore = StoreNode.named('iRendererStore')
   .props({
@@ -35,6 +36,8 @@ export const iRendererStore = StoreNode.named('iRendererStore')
   }))
   .actions(self => {
     const dialogCallbacks = new SimpleMap<(result?: any) => void>();
+    let dialogScoped: IScopedContext | null = null;
+    let drawerScoped: IScopedContext | null = null;
 
     return {
       initData(data: object = {}, skipSetPristine = false) {
@@ -140,7 +143,12 @@ export const iRendererStore = StoreNode.named('iRendererStore')
         self.action = action;
       },
 
-      openDialog(ctx: any, additonal?: object, callback?: (ret: any) => void) {
+      openDialog(
+        ctx: any,
+        additonal?: object,
+        callback?: (ret: any) => void,
+        scoped?: IScopedContext
+      ) {
         let proto = ctx.__super ? ctx.__super : self.data;
 
         if (additonal) {
@@ -167,12 +175,14 @@ export const iRendererStore = StoreNode.named('iRendererStore')
         }
         self.dialogOpen = true;
         callback && dialogCallbacks.set(self.dialogData, callback);
+        dialogScoped = scoped || null;
       },
 
       closeDialog(result?: any) {
         const callback = dialogCallbacks.get(self.dialogData);
 
         self.dialogOpen = false;
+        dialogScoped = null;
 
         if (callback) {
           dialogCallbacks.delete(self.dialogData);
@@ -180,7 +190,12 @@ export const iRendererStore = StoreNode.named('iRendererStore')
         }
       },
 
-      openDrawer(ctx: any, additonal?: object, callback?: (ret: any) => void) {
+      openDrawer(
+        ctx: any,
+        additonal?: object,
+        callback?: (ret: any) => void,
+        scoped?: IScopedContext
+      ) {
         let proto = ctx.__super ? ctx.__super : self.data;
 
         if (additonal) {
@@ -210,16 +225,27 @@ export const iRendererStore = StoreNode.named('iRendererStore')
         if (callback) {
           dialogCallbacks.set(self.drawerData, callback);
         }
+
+        drawerScoped = scoped || null;
       },
 
       closeDrawer(result?: any) {
         const callback = dialogCallbacks.get(self.drawerData);
         self.drawerOpen = false;
+        drawerScoped = null;
 
         if (callback) {
           dialogCallbacks.delete(self.drawerData);
           setTimeout(() => callback(result), 200);
         }
+      },
+
+      getDialogScoped() {
+        return dialogScoped;
+      },
+
+      getDrawerScoped() {
+        return drawerScoped;
       }
     };
   });

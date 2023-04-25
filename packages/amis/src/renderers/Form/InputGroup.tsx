@@ -1,19 +1,14 @@
 import React from 'react';
 import {
-  makeColumnClassBuild,
   makeHorizontalDeeper,
-  isVisible,
-  isDisabled
+  getExprProperties,
+  FormItem,
+  FormControlProps,
+  IFormItemStore,
+  IFormStore,
+  anyChanged
 } from 'amis-core';
-import {getExprProperties} from 'amis-core';
-import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
-import {IFormItemStore, IFormStore} from 'amis-core';
-import {
-  FormBaseControlSchema,
-  SchemaClassName,
-  SchemaCollection,
-  SchemaObject
-} from '../../Schema';
+import {FormBaseControlSchema, SchemaCollection} from '../../Schema';
 
 /**
  * InputGroup
@@ -26,6 +21,21 @@ export interface InputGroupControlSchema extends FormBaseControlSchema {
    * FormItem 集合
    */
   body: SchemaCollection;
+
+  /**
+   * 校验提示信息配置
+   */
+  validationConfig?: {
+    /**
+     * 错误提示的展示模式, full为整体飘红, highlight为仅错误项飘红, 默认为full
+     */
+    errorMode?: 'full' | 'partial';
+
+    /**
+     * 单个子元素多条校验信息的分隔符
+     */
+    delimiter?: string;
+  };
 }
 
 export interface InputGroupProps extends FormControlProps {
@@ -41,15 +51,88 @@ export class InputGroup extends React.Component<
   InputGroupProps,
   InputGroupState
 > {
+  static defaultProps = {
+    validationConfig: {
+      errorMode: 'full',
+      delimiter: '; '
+    }
+  };
+
+  toDispose: Array<Function> = [];
+
   constructor(props: InputGroupProps) {
     super(props);
 
     this.handleFocus = this.handleFocus.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
+    this.validateHook = this.validateHook.bind(this);
 
     this.state = {
       isFocused: false
     };
+  }
+
+  componentDidMount() {
+    const {addHook, name} = this.props;
+
+    if (name && addHook) {
+      this.toDispose.push(addHook(this.validateHook, 'validate'));
+    }
+  }
+
+  componentDidUpdate(prevProps: Readonly<InputGroupProps>): void {
+    if (
+      anyChanged(
+        ['errorCode', 'delimiter'],
+        prevProps?.validationConfig,
+        this.props?.validationConfig
+      )
+    ) {
+      this.validateHook();
+    }
+  }
+
+  componentWillUnmount() {
+    this.toDispose.forEach(fn => fn());
+    this.toDispose = [];
+  }
+
+  getValidationConfig() {
+    const {validationConfig} = this.props;
+
+    return {
+      errorMode: validationConfig?.errorMode !== 'partial' ? 'full' : 'partial',
+      delimiter:
+        validationConfig?.delimiter &&
+        typeof validationConfig.delimiter === 'string'
+          ? validationConfig.delimiter
+          : '; '
+    };
+  }
+
+  validateHook() {
+    const {formStore, formItem, name} = this.props;
+    const {delimiter} = this.getValidationConfig();
+
+    if (!name) {
+      return;
+    }
+
+    const chidren = formStore?.inputGroupItems?.[name];
+    const errorCollection = chidren
+      .map((item, index) => {
+        if (item.errors.length <= 0) {
+          return '';
+        }
+        /** 标识符格式: 索引值 + label */
+        const identifier = item.label
+          ? `(${index + 1})${item.label}`
+          : `(${index + 1})`;
+        return `${identifier}: ${item.errors.join(delimiter)}`;
+      })
+      .filter(Boolean);
+
+    formItem && formItem.setError(errorCollection);
   }
 
   handleFocus() {
@@ -105,8 +188,11 @@ export class InputGroup extends React.Component<
       formMode,
       formHorizontal,
       data,
-      classnames: cx
+      classnames: cx,
+      static: isStatic,
+      disabled
     } = this.props;
+    const {errorMode} = this.getValidationConfig();
 
     formMode = mode || formMode;
     let inputs: Array<any> = Array.isArray(controls) ? controls : body;
@@ -134,9 +220,14 @@ export class InputGroup extends React.Component<
         : undefined);
     return (
       <div
-        className={cx(`InputGroup`, className, {
-          'is-focused': this.state.isFocused
-        })}
+        className={cx(
+          `InputGroup`,
+          `InputGroup-validation--${errorMode}`,
+          className,
+          {
+            'is-focused': this.state.isFocused
+          }
+        )}
       >
         {inputs.map((control, index) => {
           const isAddOn = ~[
@@ -152,7 +243,14 @@ export class InputGroup extends React.Component<
             formHorizontal: horizontalDeeper,
             formMode: 'normal',
             inputOnly: true,
+            inputGroupControl: {
+              name: this.props.name,
+              path: this.props.$path,
+              schema: this.props.$schema
+            },
             key: index,
+            static: isStatic,
+            disabled,
             onFocus: this.handleFocus,
             onBlur: this.handleBlur
           });

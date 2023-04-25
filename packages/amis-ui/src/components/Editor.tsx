@@ -16,34 +16,34 @@ import {LocaleProps, localeable} from 'amis-core';
 function filterUrl(url: string) {
   return url;
 }
+if (!(window as any).MonacoEnvironment) {
+  (window as any).MonacoEnvironment = {
+    getWorkerUrl: function (moduleId: string, label: string) {
+      let url = '/pkg/editor.worker.js';
 
-(window as any).MonacoEnvironment = {
-  getWorkerUrl: function (moduleId: string, label: string) {
-    let url = '/pkg/editor.worker.js';
+      if (label === 'json') {
+        url = '/pkg/json.worker.js';
+      } else if (label === 'css') {
+        url = '/pkg/css.worker.js';
+      } else if (label === 'html') {
+        url = '/pkg/html.worker.js';
+      } else if (label === 'typescript' || label === 'javascript') {
+        url = '/pkg/ts.worker.js';
+      }
 
-    if (label === 'json') {
-      url = '/pkg/json.worker.js';
-    } else if (label === 'css') {
-      url = '/pkg/css.worker.js';
-    } else if (label === 'html') {
-      url = '/pkg/html.worker.js';
-    } else if (label === 'typescript' || label === 'javascript') {
-      url = '/pkg/ts.worker.js';
-    }
+      url = filterUrl(url);
 
-    url = filterUrl(url);
-
-    // url 有可能会插件替换成 cdn 地址，比如：fis3-prepackager-stand-alone-pack
-    if (/^https?/.test(url)) {
-      return `data:text/javascript;charset=utf-8,${encodeURIComponent(`
+      // url 有可能会插件替换成 cdn 地址，比如：fis3-prepackager-stand-alone-pack
+      if (/^https?/.test(url)) {
+        return `data:text/javascript;charset=utf-8,${encodeURIComponent(`
         importScripts('${url}');`)}
       `;
+      }
+
+      return url;
     }
-
-    return url;
-  }
-};
-
+  };
+}
 export function monacoFactory(
   containerElement: HTMLElement,
   monaco: any,

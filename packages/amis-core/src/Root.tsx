@@ -1,9 +1,9 @@
-import isPlainObject from 'lodash/isPlainObject';
 import React from 'react';
+import isPlainObject from 'lodash/isPlainObject';
 import {RendererEnv} from './env';
 import {RendererProps} from './factory';
 import {LocaleContext, TranslateFn} from './locale';
-import {RootRenderer, RootRendererProps} from './RootRenderer';
+import {RootRenderer} from './RootRenderer';
 import {SchemaRenderer} from './SchemaRenderer';
 import Scoped from './Scoped';
 import {IRendererStore} from './store';
@@ -31,7 +31,7 @@ export interface RootProps {
 
 export interface RootWrapperProps {
   env: RendererEnv;
-  children: React.ReactNode;
+  children: React.ReactNode | Array<React.ReactNode>;
   schema: SchemaNode;
   rootStore: IRendererStore;
   theme: string;
@@ -68,9 +68,9 @@ export class Root extends React.Component<RootProps> {
       translate,
       ...rest
     } = this.props;
-
     const theme = env.theme;
     let themeName = this.props.theme || 'cxd';
+
     if (themeName === 'default') {
       themeName = 'cxd';
     }
@@ -100,7 +100,7 @@ export class Root extends React.Component<RootProps> {
                   rootStore: rootStore,
                   resolveDefinitions: this.resolveDefinitions,
                   location: location,
-                  data: data,
+                  data,
                   env: env,
                   classnames: theme.classnames,
                   classPrefix: theme.classPrefix,

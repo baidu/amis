@@ -12,25 +12,66 @@ order: 9
 
 上一节我们介绍了如何实现联动，是比较基础和局限的，而事件动作是更简单、更灵活、更高级的用法，可以解决复杂的 UI 交互场景，支持渲染器事件监听和响应设计，无需关心组件层级关系。例如：
 
-- 传递数据
-  - 点击「按钮」，发送一个远程请求，返回的数据回填给一个表单
-  - 弹窗提交后，将弹窗内表单数据回填给另一个表单
-- 联动刷新
-  - 下拉选择不同项，联动刷新表单数据
-- 状态控制
-  - 勾选不同按钮，控制相应组件的显示/隐藏
-  - 勾选不同按钮，控制相应组件的启用/禁用
-- 多个组件监听同一个事件做出不同响应
-  - 下拉选择不同项，组件 A 监听后发送一个远程请求，组件 B 监听后进行刷新
-- 逻辑编排
-  - 针对监听到的事件，循环执行一些动作作为响应，还可以控制循环跳出或跳过
-  - 针对监听到的事件，根据条件选择性的执行动作响应
-  - 针对监听到的事件，并行执行多个动作作为响应
-  - 执行完当前动作后，可以选择是否继续执行后续动作，是否关闭事件默认行为的执行
+- http 请求：发送 http 请求
+- 弹窗提示：执行弹窗、抽屉打开和 toast 提示
+- 页面跳转：页面链接跳转
+- 浏览器相关：回退、前进、后退、刷新
+- 刷新组件：联动刷新表单数据，即数据重新加载
+- 组件状态：控制指定组件的显示/隐藏、启用/禁用、展示态/编辑态
+- 组件特性动作：执行指定组件的专有动作，例如执行表单的提交动作
+- 组件数据：更新指定组件的数据域
+- 广播：多个组件监听同一个事件做出不同响应
+- JS 脚本：通过编写 JS 代码片段实现所需逻辑，同时支持 JS 代码内执行动作
+- 逻辑编排：条件、循环、排他、并行
 
 ## 基本使用
 
+### onEvent
+
 通过`onEvent`属性实现渲染器事件与响应动作的绑定。`onEvent`内配置事件和动作映射关系，`actions`是事件对应的响应动作的集合。
+
+```json
+{
+  "type": "button",
+  "label": "尝试点击、鼠标移入/移出",
+  "level": "primary",
+  "onEvent": {
+    "click": { // 监听点击事件
+      "actions": [ // 执行的动作列表
+        {
+          "actionType": "toast", // 执行toast提示动作
+          "args": { // 动作参数
+            "msgType": "info",
+            "msg": "派发点击事件"
+          }
+        }
+      ]
+    },
+    "mouseenter": {{ // 监听鼠标移入事件
+      "actions": [
+        {
+          "actionType": "toast",
+          "args": {
+            "msgType": "info",
+            "msg": "派发鼠标移入事件"
+          }
+        }
+      ]
+    },
+    "mouseleave": {{ // 监听鼠标移出事件
+      "actions": [
+        {
+          "actionType": "toast",
+          "args": {
+            "msgType": "info",
+            "msg": "派发鼠标移出事件"
+          }
+        }
+      ]
+    }
+  }
+}
+```
 
 ```schema
 {
@@ -80,6 +121,94 @@ order: 9
 }
 ```
 
+### 上下文
+
+执行动作时，可以通过`${event.data}`获取事件对象的数据、通过`${__rendererData}`获取组件当前数据域，例如：
+
+```schema
+{
+  "type": "page",
+  data: {
+    p1: 'p1'
+  },
+  "body": {
+    "type": "form",
+    debug: true,
+    "api": {
+      url: "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+      method: "post",
+      data: {
+        "&": '$$',
+        job: 'coder'
+      }
+    },
+    data: {
+      job: 'hr'
+    },
+    "body": [
+      {
+        type: 'alert',
+        "body": "监听姓名值变化，执行动作时读取输入的内容；监听年龄值变化，执行动作时读取input-text组件当前数据域（表单数据）",
+        "level": "info",
+        "className": "mb-1"
+      },
+      {
+        "type": "input-text",
+        "name": "name",
+        "label": "姓名：",
+        onEvent: {
+          change: {
+            actions: [
+              {
+                actionType: 'toast',
+                args: {
+                  msg: '${name}'
+                }
+              }
+            ]
+          }
+        }
+      },
+      {
+        "type": "input-text",
+        "name": "age",
+        "label": "年龄：",
+        onEvent: {
+          change: {
+            actions: [
+              {
+                actionType: 'toast',
+                args: {
+                  msg: '${__rendererData|json}'
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    onEvent: {
+      submitSucc: {
+        actions: [
+          {
+            actionType: 'toast',
+            args: {
+              msg: '${event.data|json}'
+            }
+          },
+          {
+            actionType: 'toast',
+            args: {
+              msg: '${__rendererData|json}'
+            }
+          }
+        ]
+      }
+    }
+  }
+}
+```
+
 ### 运行日志
 
 可以在浏览器控制台查看运行日志，类似如下
@@ -92,9 +221,9 @@ run action ajax
 
 代表运行了 ajax 动作，第二行是传递的参数和数据，第三行是执行完动作之后的 `event` 值，可以用做后续动作的参数。
 
-## 事件与动作
+## 事件与动作分类
 
-事件包含`渲染器事件`和`广播事件`，监听这些事件时，可以通过`event.data`来获取事件对象的数据。
+事件包含`渲染器事件`和`广播事件`。
 
 - 渲染器事件，由具体的渲染器组件提供，每个渲染器组件暴露的事件可以查看具体的[组件文档的事件表](../../components/page#事件表)；
 - 广播事件，即自定义事件，可以自定义派发的事件名称`eventName`，其他渲染器可以监听该自定义事件并配置响应动作。
@@ -130,7 +259,10 @@ run action ajax
               args: {
                 api: {
                   url: 'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm?name=${name}',
-                  method: 'get'
+                  method: 'get',
+                  "responseData": {
+                    "resId": "${id}"
+                  }
                 },
                 messages: {
                   success: '成功了！欧耶',
@@ -1930,7 +2062,7 @@ registerAction('my-action', new MyAction());
 
 ## 条件
 
-通过配置`expression: 表达式`来实现条件逻辑。
+通过配置`expression: 表达式或ConditionBuilder组合条件`来实现条件逻辑。
 
 ```schema
 {
@@ -1939,7 +2071,15 @@ registerAction('my-action', new MyAction());
     type: 'form',
     wrapWithPanel: false,
     data: {
-      expression: 'okk'
+      expression: 'okk',
+      name: 'amis',
+      features: ['flexible', 'powerful'],
+      tool: 'amis-editor',
+      platform: 'aisuda',
+      detail: {
+        version: '2.8.0',
+        github: 'https://github.com/baidu/amis'
+      }
     },
     body: [
       {
@@ -1953,7 +2093,7 @@ registerAction('my-action', new MyAction());
                 actionType: 'toast',
                 args: {
                   msgType: 'success',
-                  msg: '我okk~'
+                  msg: 'expression表达式 ok~'
                 },
                 expression: 'expression === "okk"'
               },
@@ -1968,9 +2108,32 @@ registerAction('my-action', new MyAction());
                 actionType: 'toast',
                 args: {
                   msgType: 'success',
-                  msg: '我也okk~'
+                  msg: 'conditin-builder条件组合 也ok~'
                 },
-                expression: 'expression === "okk"'
+                expression: {
+                  id: 'b6434ead40cc',
+                  conjunction: 'and',
+                  children: [
+                    {
+                      id: 'e92b93840f37',
+                      left: {
+                        type: 'field',
+                        field: 'name'
+                      },
+                      op: 'equal',
+                      right: 'amis'
+                    },
+                    {
+                      id: '3779845521db',
+                      left: {
+                        type: 'field',
+                        field: 'features'
+                      },
+                      op: 'select_any_in',
+                      right: '${[LAST(features)]}'
+                    }
+                  ]
+                }
               }
             ]
           }
@@ -1991,7 +2154,7 @@ registerAction('my-action', new MyAction());
 
 通过配置`actionType: 'for'`实现循环逻辑。
 
-**单层循环**
+### 单层循环
 
 ```schema
 {
@@ -2043,7 +2206,7 @@ registerAction('my-action', new MyAction());
 }
 ```
 
-**嵌套循环**
+### 嵌套循环
 
 ```schema
 {
@@ -2152,7 +2315,7 @@ registerAction('my-action', new MyAction());
 | -------- | ---------------------------------------------------- | ------ | ------------------------------------- |
 | children | Array<[动作](../../docs/concepts/event-action#动作)> | -      | 子动作，可以通过`break动作`来跳出循环 |
 
-## Break 动作
+### Break 动作
 
 通过配置`actionType: 'for'`和`actionType: 'break'`实现循环跳出。
 
@@ -2219,7 +2382,7 @@ registerAction('my-action', new MyAction());
 }
 ```
 
-## Continue 动作
+### Continue 动作
 
 通过配置`actionType: 'for'`和`actionType: 'continue'`实现循环跳过。
 
@@ -2576,6 +2739,65 @@ http 请求动作执行结束后，后面的动作可以通过 `${responseResult
 }
 ```
 
+#### 获取组件相关数据
+
+可以通过表达式函数`GETRENDERERDATA(id, path)`和`GETRENDERERPROP(id, path)`分别获取指定组件的数据和属性。
+
+```schema
+{
+  type: 'page',
+  body: [
+    {
+      type: 'form',
+      id: 'form_get_render',
+      wrapWithPanel: false,
+      data: {
+        name: 'amis',
+        age: '18'
+      },
+      body: [
+        {
+          type: 'input-text',
+          name: 'name',
+          label: 'name'
+        },
+        {
+          type: 'input-text',
+          name: 'age',
+          label: 'age'
+        }
+      ],
+      className: 'mb-2',
+    },
+    {
+      type: 'button',
+      className: 'mt-2',
+      label: '获取表单相关数据',
+      level: 'primary',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'toast',
+              args: {
+                msg: 'name:${GETRENDERERDATA("form_get_render", "name")},type:${GETRENDERERPROP("form_get_render", "type")}'
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+该函数参数说明如下：
+
+| 参数名 | 说明                          |
+| ------ | ----------------------------- |
+| id     | 组件 ID，即组件的 id 属性的值 |
+| path   | 数据路径，即数据变量的路径    |
+
 # 事件动作干预
 
 事件动作干预是指执行完当前动作后，干预所监听事件默认处理逻辑和后续其他动作的执行。通过`preventDefault`、`stopPropagation`分别阻止监听事件默认行为和停止下一个动作执行。
@@ -2693,13 +2915,13 @@ http 请求动作执行结束后，后面的动作可以通过 `${responseResult
 
 # 属性表
 
-| 属性名          | 类型                                        | 默认值  | 说明                                                                                                          |
-| --------------- | ------------------------------------------- | ------- | ------------------------------------------------------------------------------------------------------------- |
-| actionType      | `string`                                    | -       | 动作名称                                                                                                      |
-| args            | `object`                                    | -       | 动作属性`{key:value}`，支持数据映射                                                                           |
-| data            | `object`                                    | -       | 追加数据`{key:value}`，支持数据映射，如果是触发其他组件的动作，则该数据会传递给目标组件，`> 2.3.2 及以上版本` |
-| dataMergeMode   | `string`                                    | 'merge' | 当配置了 data 的时候，可以控制数据追加方式，支持合并(`merge`)和覆盖(`override`)两种模式，`> 2.3.2 及以上版本` |
-| preventDefault  | `boolean`\|[表达式](../concepts/expression) | false   | 阻止事件默认行为，`> 1.10.0 及以上版本支持表达式`                                                             |
-| stopPropagation | `boolean`\|[表达式](../concepts/expression) | false   | 停止后续动作执行，`> 1.10.0 及以上版本支持表达式`                                                             |
-| expression      | `boolean`\|[表达式](../concepts/expression) | -       | 执行条件，不设置表示默认执行                                                                                  |
-| outputVar       | `string`                                    | -       | 输出数据变量名                                                                                                |
+| 属性名          | 类型                                                                                                     | 默认值  | 说明                                                                                                          |
+| --------------- | -------------------------------------------------------------------------------------------------------- | ------- | ------------------------------------------------------------------------------------------------------------- |
+| actionType      | `string`                                                                                                 | -       | 动作名称                                                                                                      |
+| args            | `object`                                                                                                 | -       | 动作属性`{key:value}`，支持数据映射                                                                           |
+| data            | `object`                                                                                                 | -       | 追加数据`{key:value}`，支持数据映射，如果是触发其他组件的动作，则该数据会传递给目标组件，`> 2.3.2 及以上版本` |
+| dataMergeMode   | `string`                                                                                                 | 'merge' | 当配置了 data 的时候，可以控制数据追加方式，支持合并(`merge`)和覆盖(`override`)两种模式，`> 2.3.2 及以上版本` |
+| preventDefault  | `boolean`\|[表达式](../concepts/expression)\|[ConditionBuilder](../../components/form/condition-builder) | false   | 阻止事件默认行为，`> 1.10.0 及以上版本支持表达式，> 2.9.0 及以上版本支持ConditionBuilder`                     |
+| stopPropagation | `boolean`\|[表达式](../concepts/expression)\|[ConditionBuilder](../../components/form/condition-builder) | false   | 停止后续动作执行，`> 1.10.0 及以上版本支持表达式，> 2.9.0 及以上版本支持ConditionBuilder`                     |
+| expression      | `boolean`\|[表达式](../concepts/expression)\|[ConditionBuilder](../../components/form/condition-builder) | -       | 执行条件，不设置表示默认执行，`> 1.10.0 及以上版本支持表达式，> 2.9.0 及以上版本支持ConditionBuilder`         |
+| outputVar       | `string`                                                                                                 | -       | 输出数据变量名                                                                                                |

@@ -276,7 +276,7 @@ order: 14
 
 - `now`: 现在
 - `{n}hoursago` : n 小时前，例如：`2hoursago`，下面用法相同
-- `{n}hourslater` : n 小时前，例如：`2hourslater`，下面用法相同
+- `{n}hourslater` : n 小时后，例如：`2hourslater`，下面用法相同
 
 ## UTC
 

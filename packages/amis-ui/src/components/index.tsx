@@ -40,7 +40,7 @@ import Rating from './Rating';
 // import RichText from './RichText';
 import Select from './Select';
 import SparkLine from './SparkLine';
-import Spinner from './Spinner';
+import {default as Spinner, type SpinnerExtraProps} from './Spinner';
 import Switch from './Switch';
 import Textarea from './Textarea';
 import TitleBar from './TitleBar';
@@ -70,6 +70,8 @@ import SchemaVariableListPicker from './schema-editor/SchemaVariableListPicker';
 import SchemaVariableList from './schema-editor/SchemaVariableList';
 import VariableList from './formula/VariableList';
 import FormulaPicker from './formula/Picker';
+import {FormulaEditor} from './formula/Editor';
+import type {VariableItem} from './formula/Editor';
 import PickerContainer from './PickerContainer';
 import InputJSONSchema from './json-schema';
 import {Badge, withBadge} from './Badge';
@@ -105,7 +107,7 @@ import Link from './Link';
 import VirtualList, {AutoSizer} from './virtual-list';
 import {withStore} from './WithStore';
 import PopOverContainer from './PopOverContainer';
-import Pagination, {MODE_TYPE} from './Pagination';
+import Pagination from './Pagination';
 import Progress from './Progress';
 import Steps, {StepStatus} from './Steps';
 import Tag from './Tag';
@@ -119,6 +121,11 @@ import Combo from './Combo';
 import InputTable from './InputTable';
 import type {InputTableColumnProps} from './InputTable';
 import ConfirmBox from './ConfirmBox';
+import DndContainer from './DndContainer';
+import Menu from './menu';
+import InputBoxWithSuggestion from './InputBoxWithSuggestion';
+import {CodeMirrorEditor} from './CodeMirror';
+import type CodeMirror from 'codemirror';
 
 export {
   NotFound,
@@ -158,6 +165,7 @@ export {
   Select,
   SparkLine,
   Spinner,
+  SpinnerExtraProps,
   Switch,
   Textarea,
   TitleBar,
@@ -176,6 +184,7 @@ export {
   AssociatedSelection,
   ResultBox,
   InputBox,
+  InputBoxWithSuggestion,
   SearchBox,
   ListGroup,
   NumberInput,
@@ -188,6 +197,8 @@ export {
   PickerContainer,
   ConfirmBox,
   FormulaPicker,
+  VariableItem,
+  FormulaEditor,
   InputJSONSchema,
   withBadge,
   BadgeObject,
@@ -241,5 +252,9 @@ export {
   Controller,
   Combo,
   InputTable,
-  InputTableColumnProps
+  InputTableColumnProps,
+  DndContainer,
+  Menu,
+  CodeMirror,
+  CodeMirrorEditor
 };

@@ -220,7 +220,108 @@ export default {
         },
         {
           title: '选项卡2',
-          body: '选项卡内容2'
+          body: [
+            {
+              type: 'service',
+              api: '/api/mock2/crud/table?perPage=5',
+              body: [
+                {
+                  type: 'table',
+                  title: '表格1',
+                  source: '$rows',
+                  columns: [
+                    {
+                      name: 'id',
+                      label: 'ID'
+                    },
+                    {
+                      name: 'engine',
+                      label: 'Rendering engine',
+                      width: 300
+                    },
+                    ...Array.from({length: 20}, _ => ({
+                      name: 'browser',
+                      label: 'Browser'
+                    })),
+                    {
+                      name: 'platform',
+                      label: 'Platform(s)'
+                    },
+                    {
+                      name: 'version',
+                      label: 'Engine version'
+                    },
+                    {
+                      name: 'grade',
+                      label: 'CSS grade'
+                    },
+                    {
+                      type: 'operation',
+                      label: '操作',
+                      buttons: [
+                        {
+                          label: '详情',
+                          type: 'button',
+                          level: 'link',
+                          actionType: 'dialog',
+                          dialog: {
+                            title: '查看详情',
+                            body: {
+                              type: 'form',
+                              body: [
+                                {
+                                  type: 'input-text',
+                                  name: 'engine',
+                                  label: 'Engine'
+                                },
+                                {
+                                  type: 'input-text',
+                                  name: 'browser',
+                                  label: 'Browser'
+                                },
+                                {
+                                  type: 'input-text',
+                                  name: 'platform',
+                                  label: 'platform'
+                                },
+                                {
+                                  type: 'input-text',
+                                  name: 'version',
+                                  label: 'version'
+                                },
+                                {
+                                  type: 'control',
+                                  label: 'grade',
+                                  body: {
+                                    type: 'tag',
+                                    label: '${grade}',
+                                    displayMode: 'normal',
+                                    color: 'active'
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          label: '删除',
+                          type: 'button',
+                          level: 'link',
+                          className: 'text-danger',
+                          disabledOn: "this.grade === 'A'"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              type: 'form',
+              debug: true,
+              body: [{type: 'input-text', name: 'text', label: 'text'}]
+            }
+          ]
         },
         {
           title: '选项卡3',

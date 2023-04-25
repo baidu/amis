@@ -26,7 +26,7 @@ import {
   IRow2,
   ClassNamesFn
 } from 'amis-core';
-import {Icon, Table, Spinner, BadgeObject} from 'amis-ui';
+import {Icon, Table, Spinner, BadgeObject, SpinnerExtraProps} from 'amis-ui';
 import type {
   SortProps,
   ColumnProps,
@@ -368,13 +368,17 @@ export interface TableSchema2 extends BaseSchema {
   keepItemSelectionOnPageChange?: boolean;
 }
 
+// 事件调整 对应CRUD2里的事件配置也需要同步修改
 export type Table2RendererEvent =
-  | 'selected'
+  | 'selectedChange'
   | 'columnSort'
   | 'columnFilter'
   | 'columnSearch'
   | 'columnToggled'
-  | 'dragOver';
+  | 'orderChange'
+  | 'rowClick'
+  | 'rowMouseEnter'
+  | 'rowMouseLeave';
 
 export type Table2RendererAction =
   | 'selectAll'
@@ -382,7 +386,7 @@ export type Table2RendererAction =
   | 'select'
   | 'expand';
 
-export interface Table2Props extends RendererProps {
+export interface Table2Props extends RendererProps, SpinnerExtraProps {
   title?: string;
   columns: Array<ColumnSchema | ColumnProps>;
   onSelect?: Function;
@@ -579,11 +583,15 @@ export default class Table2 extends React.Component<Table2Props, object> {
       // table2的拆开了 就不需要再设置div的width了
       // 否则加上padding 就超出单元格的区域了
       // children属性在schema里是一个关键字 在渲染器schema中 自定义的children没有用 去掉
-      const {width, children, ...rest} = schema;
+
+      // title 不应该传递到 cell-field 的 column 中，否则部分组件会将其渲染出来
+      // 但是 cell-field 需要这个字段，展示列的名称
+      const {width, children, title, ...rest} = schema;
       return render(
         'cell-field',
         {
           ...rest,
+          title,
           type: 'cell-field',
           column: rest,
           data: props.data,
@@ -906,7 +914,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
           errorMessage: messages && messages.saveSuccess
         })
         .then(() => {
-          reload && this.reloadTarget(reload, data);
+          reload && this.reloadTarget(filter(reload, data), data);
         })
         .catch(() => {});
     } else {
@@ -925,7 +933,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
       store
         .saveRemote(quickSaveItemApi, sendData)
         .then(() => {
-          reload && this.reloadTarget(reload, data);
+          reload && this.reloadTarget(filter(reload, data), data);
         })
         .catch(() => {
           options?.resetOnFailed && this.reset();
@@ -1012,17 +1020,14 @@ export default class Table2 extends React.Component<Table2Props, object> {
       columnsTogglable,
       $path
     } = this.props;
-
-    // 如果table是在crud里面，自定义显示列配置在grid里，这里就不需要渲染了
-    const isInCrud = /(?:\/|^)crud2\//.test($path as string);
-
     actions = Array.isArray(actions) ? actions.concat() : [];
     const config = isObject(columnsTogglable) ? columnsTogglable : {};
 
     // 现在默认从crud里传进来的columnsTogglable是boolean类型
     // table单独配置的是SchemaNode类型
+    // 如果是在crud里 配置了columnsTogglable相关配置 那么还是在这里渲染
+    // 用户也可以在crud2的grid里配置 那么crud2里就不要再写了 否则就重复了
     if (
-      !isInCrud &&
       store.toggable &&
       region === 'header' &&
       !~this.renderedToolbars.indexOf('columns-toggler')
@@ -1136,15 +1141,59 @@ export default class Table2 extends React.Component<Table2Props, object> {
 
     const rendererEvent = await dispatchEvent(
       'rowClick',
-      createObject(data, {rowItem})
+      createObject(data, {item: rowItem, index: rowIndex})
     );
 
     if (rendererEvent?.prevented) {
-      return rendererEvent?.prevented;
+      return;
     }
 
     if (rowItem && onRow) {
       onRow.onRowClick && onRow.onRowClick(event, rowItem, rowIndex);
+    }
+  }
+
+  @autobind
+  async handleRowMouseEnter(
+    event: React.MouseEvent<HTMLTableRowElement>,
+    rowItem: any,
+    rowIndex?: number
+  ) {
+    const {dispatchEvent, data, onRow} = this.props;
+
+    const rendererEvent = await dispatchEvent(
+      'rowMouseEnter',
+      createObject(data, {item: rowItem, index: rowIndex})
+    );
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
+
+    if (rowItem && onRow) {
+      onRow.onRowMouseEnter && onRow.onRowMouseEnter(event, rowItem, rowIndex);
+    }
+  }
+
+  @autobind
+  async handleRowMouseLeave(
+    event: React.MouseEvent<HTMLTableRowElement>,
+    rowItem: any,
+    rowIndex?: number
+  ) {
+    const {dispatchEvent, data, onRow} = this.props;
+
+    const rendererEvent = await dispatchEvent(
+      'rowMouseLeave',
+      createObject(data, {item: rowItem, index: rowIndex})
+    );
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
+
+    if (rowItem && onRow) {
+      onRow.onRowMouseLeave && onRow.onRowMouseLeave(event, rowItem, rowIndex);
     }
   }
 
@@ -1453,9 +1502,12 @@ export default class Table2 extends React.Component<Table2Props, object> {
         onFilter={this.handleFilter}
         onDrag={this.handleOrderChange}
         itemActions={itemActionsConfig}
+        keyField={keyField}
         onRow={{
           ...onRow,
-          onRowClick: this.handleRowClick
+          onRowClick: this.handleRowClick,
+          onRowMouseEnter: this.handleRowMouseEnter,
+          onRowMouseLeave: this.handleRowMouseLeave
         }}
       ></Table>
     );
@@ -1498,7 +1550,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
   }
 
   render() {
-    const {classnames: cx, style, loading = false} = this.props;
+    const {classnames: cx, style, loading = false, loadingConfig} = this.props;
 
     this.renderedToolbars = []; // 用来记录哪些 toolbar 已经渲染了
 
@@ -1510,7 +1562,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
         {heading}
         {this.renderTable()}
 
-        <Spinner overlay show={loading} />
+        <Spinner overlay show={loading} loadingConfig={loadingConfig} />
       </div>
     );
   }

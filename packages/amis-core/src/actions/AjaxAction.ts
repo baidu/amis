@@ -1,4 +1,3 @@
-import omit from 'lodash/omit';
 import {Api, ApiObject} from '../types';
 import {normalizeApiResponseData} from '../utils/api';
 import {ServerError} from '../utils/errors';
@@ -54,7 +53,7 @@ export class AjaxAction implements RendererAction {
     const env = event.context.env;
     try {
       const result = await env.fetcher(
-        action.args?.api as string,
+        action.args?.api,
         action.data ?? {},
         action.args?.options ?? {}
       );

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16" height="16" viewBox="0 0 34 34" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <polygon id="path-1" points="4.5 4 30.5 4 30.5 30 4.5 30"></polygon>
+        <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="26" height="26" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="常见布局" transform="translate(-83.000000, -159.000000)" fill-rule="nonzero" stroke="currentColor">
+            <g id="layout-full" transform="translate(80.000000, 156.000000)">
+                <g id="分组" transform="translate(3.000000, 3.000000)">
+                    <rect id="矩形" stroke-width="2" x="1" y="1" width="32" height="32" rx="1"></rect>
+                    <use id="矩形" mask="url(#mask-2)" stroke-width="4" stroke-dasharray="2" xlink:href="#path-1"></use>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

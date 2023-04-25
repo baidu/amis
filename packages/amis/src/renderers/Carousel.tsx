@@ -2,7 +2,8 @@ import React from 'react';
 import Transition, {
   ENTERED,
   ENTERING,
-  EXITING
+  EXITING,
+  EXITED
 } from 'react-transition-group/Transition';
 import {Renderer, RendererProps} from 'amis-core';
 import {resolveVariableAndFilter} from 'amis-core';
@@ -88,6 +89,26 @@ export interface CarouselSchema extends BaseSchema {
    * 配置固定值
    */
   options?: Array<any>;
+
+  /**
+   * 是否一直显示箭头
+   */
+  alwaysShowArrow?: boolean;
+
+  /**
+   * 多图模式配置项
+   */
+  multiple?: {
+    count: number;
+  };
+
+  /**
+   * 自定义箭头图标
+   */
+  icons?: {
+    prev?: SchemaCollection;
+    next?: SchemaCollection;
+  };
 }
 
 const animationStyles: {
@@ -131,7 +152,7 @@ const defaultSchema = {
             className={cx('Carousel-image')}
           />
         ) : data.hasOwnProperty('html') ? (
-          <Html html={data.html} />
+          <Html html={data.html} filterHtml={props.env.filterHtml} />
         ) : data.hasOwnProperty('item') ? (
           <span>{data.item}</span>
         ) : (
@@ -156,6 +177,8 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
     | 'animation'
     | 'controls'
     | 'placeholder'
+    | 'multiple'
+    | 'alwaysShowArrow'
   > = {
     auto: true,
     interval: 5000,
@@ -163,7 +186,9 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
     controlsTheme: 'light',
     animation: 'fade',
     controls: ['dots', 'arrows'],
-    placeholder: '-'
+    placeholder: '-',
+    multiple: {count: 1},
+    alwaysShowArrow: false
   };
 
   state = {
@@ -171,6 +196,8 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
     options: this.props.options || getPropValue(this.props) || [],
     nextAnimation: ''
   };
+
+  loading: boolean = false;
 
   componentDidMount() {
     this.prepareAutoSlide();
@@ -294,11 +321,19 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
 
   @autobind
   next() {
+    const multiple = this.props.multiple;
+    if (this.loading && multiple && multiple.count > 1) {
+      return;
+    }
     this.autoSlide('next');
   }
 
   @autobind
   prev() {
+    const multiple = this.props.multiple;
+    if (this.loading && multiple && multiple.count > 1) {
+      return;
+    }
     this.autoSlide('prev');
   }
 
@@ -311,7 +346,11 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
   @autobind
   async changeSlide(index: number) {
     const {current} = this.state;
-    const {dispatchEvent, data} = this.props;
+    const {dispatchEvent, data, multiple} = this.props;
+
+    if (this.loading && multiple && multiple.count > 1) {
+      return;
+    }
 
     const rendererEvent = await dispatchEvent(
       'change',
@@ -369,12 +408,35 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
 
   @autobind
   handleMouseEnter() {
+    const multiple = this.props.multiple;
+    if (multiple && multiple.count > 1) {
+      return;
+    }
     this.clearAutoTimeout();
   }
 
   @autobind
   handleMouseLeave() {
+    const multiple = this.props.multiple;
+    if (multiple && multiple.count > 1) {
+      return;
+    }
     this.prepareAutoSlide();
+  }
+
+  // 处理options
+  getNewOptions(options: any, count: number = 1) {
+    let newOptions: Array<any> = options;
+    if (Array.isArray(options) && options.length) {
+      newOptions = new Array(options.length);
+      for (let i = 0; i < options.length; i++) {
+        newOptions[i] = new Array(count);
+        for (let j = 0; j < count; j++) {
+          newOptions[i][j] = options[(i + j) % options.length];
+        }
+      }
+    }
+    return newOptions;
   }
 
   render() {
@@ -391,7 +453,11 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
       controlsTheme,
       placeholder,
       data,
-      name
+      name,
+      duration,
+      multiple,
+      alwaysShowArrow,
+      icons
     } = this.props;
     const {options, current, nextAnimation} = this.state;
 
@@ -408,6 +474,25 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
     const animationName = nextAnimation || animation;
 
     if (Array.isArray(options) && options.length) {
+      let multipleCount = 1;
+      if (
+        multiple &&
+        typeof multiple.count === 'number' &&
+        multiple.count >= 2
+      ) {
+        multipleCount =
+          Math.floor(multiple.count) < options.length
+            ? Math.floor(multiple.count)
+            : options.length;
+      }
+      const newOptions = this.getNewOptions(options, multipleCount);
+      const transitionDuration =
+        multipleCount > 1 && typeof duration === 'number'
+          ? `${duration}ms`
+          : duration || '500ms';
+      const timeout =
+        multipleCount > 1 && typeof duration === 'number' ? duration : 500;
+
       body = (
         <div
           ref={this.wrapperRef}
@@ -420,7 +505,7 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
               mountOnEnter
               unmountOnExit
               in={key === current}
-              timeout={500}
+              timeout={timeout}
               key={key}
             >
               {(status: string) => {
@@ -430,6 +515,60 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
                       (item: HTMLElement) => item.offsetHeight
                     );
                 }
+                if (multipleCount > 1) {
+                  if (
+                    (status === ENTERING || status === EXITING) &&
+                    !this.loading
+                  ) {
+                    this.loading = true;
+                  } else if (
+                    (status === ENTERED || status === EXITED) &&
+                    this.loading
+                  ) {
+                    this.loading = false;
+                  }
+                }
+
+                const transformStyles: {
+                  [propName: string]: number;
+                } = {
+                  [ENTERING]: 0,
+                  [ENTERED]: 0,
+                  [EXITING]:
+                    animationName === 'slideRight'
+                      ? 100 / multipleCount
+                      : -100 / multipleCount,
+                  [EXITED]:
+                    animationName === 'slideRight'
+                      ? -100 / multipleCount
+                      : 100 / multipleCount
+                };
+                const itemStyle =
+                  multipleCount > 1
+                    ? {
+                        transitionTimingFunction: 'linear',
+                        transitionDuration: transitionDuration,
+                        ...(animation === 'slide'
+                          ? {
+                              transform: `translateX(${transformStyles[status]}%)`
+                            }
+                          : {})
+                      }
+                    : {};
+                const itemRender = (option: any) =>
+                  render(
+                    `${current}/body`,
+                    itemSchema ? itemSchema : (defaultSchema as any),
+                    {
+                      thumbMode: this.props.thumbMode,
+                      data: createObject(
+                        data,
+                        isObject(option)
+                          ? option
+                          : {item: option, [name!]: option}
+                      )
+                    }
+                  );
 
                 return (
                   <div
@@ -438,20 +577,23 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
                       animationName,
                       animationStyles[status]
                     )}
+                    style={itemStyle}
                   >
-                    {render(
-                      `${current}/body`,
-                      itemSchema ? itemSchema : (defaultSchema as any),
-                      {
-                        thumbMode: this.props.thumbMode,
-                        data: createObject(
-                          data,
-                          isObject(option)
-                            ? option
-                            : {item: option, [name!]: option}
-                        )
-                      }
-                    )}
+                    {multipleCount === 1 ? itemRender(option) : null}
+                    {multipleCount > 1
+                      ? newOptions[key].map((option: any, index: number) => (
+                          <div
+                            key={index}
+                            style={{
+                              width: 100 / multipleCount + '%',
+                              height: '100%',
+                              float: 'left'
+                            }}
+                          >
+                            {itemRender(option)}
+                          </div>
+                        ))
+                      : null}
                   </div>
                 );
               }}
@@ -463,7 +605,11 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
 
     return (
       <div
-        className={cx(`Carousel Carousel--${controlsTheme}`, className)}
+        className={cx(
+          `Carousel Carousel--${controlsTheme}`,
+          {['Carousel-arrow--always']: !!alwaysShowArrow},
+          className
+        )}
         style={carouselStyles}
       >
         {body ? body : placeholder}
@@ -471,12 +617,28 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
         {dots ? this.renderDots() : null}
         {arrows ? (
           <div className={cx('Carousel-leftArrow')} onClick={this.prev}>
-            <Icon icon="left-arrow" className="icon" />
+            {icons && icons.prev ? (
+              React.isValidElement(icons.prev) ? (
+                icons.prev
+              ) : (
+                render('arrow-prev', icons.prev)
+              )
+            ) : (
+              <Icon icon="left-arrow" className="icon" />
+            )}
           </div>
         ) : null}
         {arrows ? (
           <div className={cx('Carousel-rightArrow')} onClick={this.next}>
-            <Icon icon="right-arrow" className="icon" />
+            {icons && icons.next ? (
+              React.isValidElement(icons.next) ? (
+                icons.next
+              ) : (
+                render('arrow-next', icons.next)
+              )
+            ) : (
+              <Icon icon="right-arrow" className="icon" />
+            )}
           </div>
         ) : null}
       </div>

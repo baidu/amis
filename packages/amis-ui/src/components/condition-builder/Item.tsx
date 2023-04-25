@@ -2,15 +2,11 @@ import React from 'react';
 import {findDOMNode} from 'react-dom';
 import {
   ConditionBuilderFields,
-  ConditionRule,
   ConditionBuilderFuncs,
-  ExpressionFunc,
   ConditionFieldFunc,
   ConditionBuilderField,
   FieldSimple,
-  ExpressionField,
-  OperatorType,
-  ExpressionComplex
+  CustomField
 } from './types';
 import {
   ThemeProps,
@@ -19,7 +15,8 @@ import {
   localeable,
   LocaleProps,
   findTree,
-  noop
+  noop,
+  getVariable
 } from 'amis-core';
 import {Icon} from '../icons';
 
@@ -30,7 +27,14 @@ import GroupedSelection from '../GroupedSelection';
 import ResultBox from '../ResultBox';
 
 import {FormulaPickerProps} from '../formula/Picker';
-import type {PlainObject} from 'amis-core';
+import type {
+  PlainObject,
+  ConditionRule,
+  OperatorType,
+  ExpressionFunc,
+  ExpressionField,
+  ExpressionComplex
+} from 'amis-core';
 
 const option2value = (item: any) => item.value;
 
@@ -101,13 +105,9 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
     onChange(value, this.props.index);
   }
 
-  handleRightSubChange(
-    isCustom: boolean,
-    index: number | string,
-    rightValue: any
-  ) {
+  handleRightSubChange(index: number | string, rightValue: any) {
     let origin;
-    if (isCustom) {
+    if (typeof index === 'string') {
       origin = Object.assign({}, this.props.value?.right) as PlainObject;
       origin[index] = rightValue;
     } else {
@@ -331,7 +331,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
             valueField={field}
             value={(value.right as Array<ExpressionComplex>)?.[0]}
             data={data}
-            onChange={this.handleRightSubChange.bind(this, false, 0)}
+            onChange={this.handleRightSubChange.bind(this, 0)}
             fields={fields}
             allowedTypes={
               field?.valueTypes ||
@@ -351,7 +351,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
             valueField={field}
             value={(value.right as Array<ExpressionComplex>)?.[1]}
             data={data}
-            onChange={this.handleRightSubChange.bind(this, false, 1)}
+            onChange={this.handleRightSubChange.bind(this, 1)}
             fields={fields}
             allowedTypes={
               field?.valueTypes ||
@@ -372,10 +372,10 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
               config={config}
               op={op}
               funcs={funcs}
-              valueField={schema}
-              value={value.right}
+              valueField={{...field, value: schema} as CustomField}
+              value={getVariable(value.right as any, schema.name)}
               data={data}
-              onChange={this.handleRightSubChange.bind(this, true, schema.name)}
+              onChange={this.handleRightSubChange.bind(this, schema.name)}
               fields={fields}
               allowedTypes={
                 field?.valueTypes ||

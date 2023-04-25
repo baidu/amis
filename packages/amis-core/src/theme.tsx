@@ -122,7 +122,9 @@ export function getTheme(theme: string): ThemeInstance {
 
 export interface ThemeProps {
   className?: string;
-  style?: any;
+  style?: {
+    [propName: string]: any;
+  };
   classPrefix: string;
   classnames: ClassNamesFn;
   theme?: string;
@@ -131,7 +133,9 @@ export interface ThemeProps {
 export interface ThemeOutterProps {
   theme?: string;
   className?: string;
-  style?: any;
+  style?: {
+    [propName: string]: any;
+  };
   classPrefix?: string;
   classnames?: ClassNamesFn;
 }
@@ -180,7 +184,8 @@ export function themeable<
       }
 
       render() {
-        const theme: string = this.props.theme || this.context || defaultTheme;
+        const theme: string =
+          this.props.theme || (this.context as string) || defaultTheme;
         const config = hasTheme(theme)
           ? getTheme(theme)
           : getTheme(defaultTheme);

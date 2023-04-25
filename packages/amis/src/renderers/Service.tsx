@@ -12,7 +12,7 @@ import {
   isEffectiveApi,
   str2AsyncFunction
 } from 'amis-core';
-import {Spinner} from 'amis-ui';
+import {Spinner, SpinnerExtraProps, Alert2 as Alert} from 'amis-ui';
 import {
   autobind,
   isObject,
@@ -20,7 +20,8 @@ import {
   isObjectShallowModified,
   isVisible,
   qsstringify,
-  createObject
+  createObject,
+  extendObject
 } from 'amis-core';
 import {
   BaseSchema,
@@ -33,7 +34,7 @@ import {
 import {IIRendererStore} from 'amis-core';
 
 import type {ListenerAction} from 'amis-core';
-import type {ScopedComponentType} from 'amis-core/lib/Scoped';
+import type {ScopedComponentType} from 'amis-core';
 
 export const eventTypes = [
   /* 初始化时执行，默认 */
@@ -46,7 +47,7 @@ export const eventTypes = [
   'onWsFetched'
 ] as const;
 
-export type ProviderEventType = typeof eventTypes[number];
+export type ProviderEventType = (typeof eventTypes)[number];
 
 export type DataProviderCollection = Partial<
   Record<ProviderEventType, DataProvider>
@@ -60,7 +61,7 @@ export type ComposedDataProvider = DataProvider | DataProviderCollection;
  * Service 服务类控件。
  * 文档：https://baidu.gitee.io/amis/docs/components/service
  */
-export interface ServiceSchema extends BaseSchema {
+export interface ServiceSchema extends BaseSchema, SpinnerExtraProps {
   /**
    * 指定为 Service 数据拉取控件。
    */
@@ -137,6 +138,11 @@ export interface ServiceSchema extends BaseSchema {
   messages?: SchemaMessage;
 
   name?: SchemaName;
+
+  /**
+   * 是否以Alert的形式显示api接口响应的错误信息，默认展示
+   */
+  showErrorMsg?: boolean;
 }
 
 export interface ServiceProps
@@ -161,7 +167,8 @@ export default class Service extends React.Component<ServiceProps> {
   static defaultProps: Partial<ServiceProps> = {
     messages: {
       fetchFailed: 'fetchFailed'
-    }
+    },
+    showErrorMsg: true
   };
 
   static propsList: Array<string> = [];
@@ -502,10 +509,13 @@ export default class Service extends React.Component<ServiceProps> {
     // todo 应该统一这块
     // 初始化接口返回的是整个 response，
     // 保存 ajax 请求的时候返回时数据部分。
-    const data = result?.hasOwnProperty('ok') ? result.data : result;
-    const {onBulkChange, dispatchEvent} = this.props;
+    const data = result?.hasOwnProperty('ok') ? result.data ?? {} : result;
+    const {onBulkChange, dispatchEvent, store} = this.props;
 
-    dispatchEvent?.('fetchInited', data);
+    dispatchEvent?.('fetchInited', {
+      ...data,
+      __response: {msg: store.msg, error: store.error}
+    });
 
     if (!isEmpty(data) && onBulkChange) {
       onBulkChange(data);
@@ -515,9 +525,12 @@ export default class Service extends React.Component<ServiceProps> {
   }
 
   afterSchemaFetch(schema: any) {
-    const {onBulkChange, formStore, dispatchEvent} = this.props;
+    const {onBulkChange, formStore, dispatchEvent, store} = this.props;
 
-    dispatchEvent?.('fetchSchemaInited', schema);
+    dispatchEvent?.('fetchSchemaInited', {
+      ...schema,
+      __response: {msg: store.msg, error: store.error}
+    });
 
     if (formStore && schema?.data && onBulkChange) {
       onBulkChange && onBulkChange(schema.data);
@@ -677,7 +690,8 @@ export default class Service extends React.Component<ServiceProps> {
           const redirect =
             action.redirect && filter(action.redirect, store.data);
           redirect && env.jumpTo(redirect, action);
-          action.reload && this.reloadTarget(action.reload, store.data);
+          action.reload &&
+            this.reloadTarget(filter(action.reload, store.data), store.data);
         })
         .catch(e => {
           if (throwErrors || action.countDown) {
@@ -727,27 +741,32 @@ export default class Service extends React.Component<ServiceProps> {
       store,
       render,
       classPrefix: ns,
-      classnames: cx
+      classnames: cx,
+      loadingConfig,
+      showErrorMsg
     } = this.props;
 
     return (
       <div className={cx(`${ns}Service`, className)} style={style}>
-        {store.error ? (
-          <div className={cx(`Alert Alert--danger`)}>
-            <button
-              className={cx('Alert-close')}
-              onClick={() => store.updateMessage('')}
-              type="button"
-            >
-              <span>×</span>
-            </button>
+        {store.error && showErrorMsg !== false ? (
+          <Alert
+            level="danger"
+            showCloseButton
+            onClose={() => store.updateMessage('')}
+          >
             {store.msg}
-          </div>
+          </Alert>
         ) : null}
 
         {this.renderBody()}
 
-        <Spinner size="lg" overlay key="info" show={store.loading} />
+        <Spinner
+          size="lg"
+          overlay
+          key="info"
+          show={store.loading}
+          loadingConfig={loadingConfig}
+        />
 
         {render(
           // 单独给 feedback 服务的，handleAction 里面先不要处理弹窗
@@ -826,5 +845,10 @@ export class ServiceRenderer extends Service {
 
   setData(values: object, replace?: boolean) {
     return this.props.store.updateData(values, undefined, replace);
+  }
+
+  getData() {
+    const {store} = this.props;
+    return store.data;
   }
 }

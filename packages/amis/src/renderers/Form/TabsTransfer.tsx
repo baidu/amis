@@ -1,7 +1,7 @@
 import {OptionsControlProps, OptionsControl, resolveEventData} from 'amis-core';
 import React from 'react';
 import find from 'lodash/find';
-import {Spinner} from 'amis-ui';
+import {Spinner, SpinnerExtraProps} from 'amis-ui';
 import {BaseTransferRenderer, TransferControlSchema} from './Transfer';
 import {TabsTransfer} from 'amis-ui';
 import {Option, optionValueCompare} from 'amis-core';
@@ -24,7 +24,8 @@ import {supportStatic} from './StaticHoc';
  * 文档：https://baidu.gitee.io/amis/docs/components/form/tabs-transfer
  */
 export interface TabsTransferControlSchema
-  extends Omit<TransferControlSchema, 'type'> {
+  extends Omit<TransferControlSchema, 'type'>,
+    SpinnerExtraProps {
   type: 'tabs-transfer';
 }
 
@@ -37,7 +38,8 @@ export interface TabsTransferProps
       | 'inputClassName'
       | 'className'
       | 'descriptionClassName'
-    > {}
+    >,
+    SpinnerExtraProps {}
 
 interface BaseTransferState {
   activeKey: number;
@@ -216,15 +218,11 @@ export class BaseTabsTransferRenderer<
     // 触发渲染器事件
     const rendererEvent = await dispatchEvent(
       'change',
-      resolveEventData(
-        this.props,
-        {
-          value: newValue,
-          options,
-          items: options // 为了保持名字统一
-        },
-        'value'
-      )
+      resolveEventData(this.props, {
+        value: newValue,
+        options,
+        items: options // 为了保持名字统一
+      })
     );
     if (rendererEvent?.prevented) {
       return;
@@ -300,7 +298,9 @@ export class TabsTransferRenderer extends BaseTabsTransferRenderer<TabsTransferP
       resultTitle,
       itemHeight,
       virtualThreshold,
-      onlyChildren
+      onlyChildren,
+      loadingConfig,
+      data
     } = this.props;
 
     return (
@@ -328,9 +328,15 @@ export class TabsTransferRenderer extends BaseTabsTransferRenderer<TabsTransferP
             toNumber(itemHeight) > 0 ? toNumber(itemHeight) : undefined
           }
           virtualThreshold={virtualThreshold}
+          ctx={data}
         />
 
-        <Spinner overlay key="info" show={loading} />
+        <Spinner
+          overlay
+          key="info"
+          show={loading}
+          loadingConfig={loadingConfig}
+        />
       </div>
     );
   }

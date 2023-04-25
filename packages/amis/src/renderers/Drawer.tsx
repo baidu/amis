@@ -2,7 +2,7 @@ import React from 'react';
 import {ScopedContext, IScopedContext} from 'amis-core';
 import {Renderer, RendererProps} from 'amis-core';
 import {SchemaNode, Schema, ActionObject} from 'amis-core';
-import {Drawer as DrawerContainer} from 'amis-ui';
+import {Drawer as DrawerContainer, SpinnerExtraProps} from 'amis-ui';
 import {
   guid,
   isVisible,
@@ -140,7 +140,8 @@ export type DrawerSchemaBase = Omit<DrawerSchema, 'type'>;
 
 export interface DrawerProps
   extends RendererProps,
-    Omit<DrawerSchema, 'className'> {
+    Omit<DrawerSchema, 'className'>,
+    SpinnerExtraProps {
   onClose: () => void;
   onConfirm: (
     values: Array<object>,
@@ -554,11 +555,12 @@ export default class Drawer extends React.Component<DrawerProps> {
       closeOnOutside,
       classPrefix: ns,
       classnames: cx,
-      drawerContainer
+      drawerContainer,
+      loadingConfig
     } = {
       ...this.props,
       ...store.schema
-    } as any;
+    } as DrawerProps;
 
     const Container = wrapperComponent || DrawerContainer;
 
@@ -614,10 +616,11 @@ export default class Drawer extends React.Component<DrawerProps> {
 
         {!store.entered ? (
           <div className={cx('Drawer-body', bodyClassName)}>
-            <Spinner overlay show size="lg" />
+            <Spinner overlay show size="lg" loadingConfig={loadingConfig} />
           </div>
         ) : body ? (
-          <div className={cx('Drawer-body', bodyClassName)}>
+          // dialog-body 用于在 editor 中定位元素
+          <div className={cx('Drawer-body', bodyClassName)} role="dialog-body">
             {this.renderBody(body, 'body')}
           </div>
         ) : null}
@@ -713,7 +716,8 @@ export class DrawerRenderer extends Drawer {
       );
     }
 
-    if (!targets.length) {
+    /** 如果为隔离动作, 则不做联动处理, 继续交给handleAction */
+    if (action?.isolateScope !== true && !targets.length) {
       let components = scoped
         .getComponents()
         .filter(item => !~['drawer', 'dialog'].indexOf(item.props.type));
@@ -848,7 +852,8 @@ export class DrawerRenderer extends Drawer {
           const redirect =
             action.redirect && filter(action.redirect, store.data);
           redirect && env.jumpTo(redirect, action);
-          action.reload && this.reloadTarget(action.reload, store.data);
+          action.reload &&
+            this.reloadTarget(filter(action.reload, store.data), store.data);
           if (action.close) {
             this.handleSelfClose();
             this.closeTarget(action.close);
@@ -959,5 +964,10 @@ export class DrawerRenderer extends Drawer {
 
   setData(values: object) {
     return this.props.store.updateData(values);
+  }
+
+  getData() {
+    const {store} = this.props;
+    return store.data;
   }
 }

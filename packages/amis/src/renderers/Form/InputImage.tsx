@@ -4,7 +4,8 @@ import {
   FormControlProps,
   FormBaseControl,
   prettyBytes,
-  resolveEventData
+  resolveEventData,
+  insertCustomStyle
 } from 'amis-core';
 // import 'cropperjs/dist/cropper.css';
 const Cropper = React.lazy(() => import('react-cropper'));
@@ -339,6 +340,7 @@ export default class ImageControl extends React.Component<
     receiver: '/api/upload',
     hideUploadButton: false,
     placeholder: 'Image.placeholder',
+    placeholderPlacement: 'top',
     joinValues: true,
     extractValue: false,
     delimiter: ',',
@@ -783,7 +785,11 @@ export default class ImageControl extends React.Component<
     });
   }
 
-  async onChange(changeImmediately?: boolean, changeEvent: boolean = true) {
+  async onChange(
+    changeImmediately?: boolean,
+    changeEvent: boolean = true,
+    initAutoFill?: boolean
+  ) {
     const {
       multiple,
       onChange,
@@ -792,6 +798,7 @@ export default class ImageControl extends React.Component<
       delimiter,
       valueField
     } = this.props;
+    const curInitAutoFill = initAutoFill ?? true;
 
     const files = this.files.filter(
       file => file.state == 'uploaded' || file.state == 'init'
@@ -825,7 +832,7 @@ export default class ImageControl extends React.Component<
     }
 
     onChange((this.emitValue = newValue || ''), undefined, changeImmediately);
-    this.syncAutoFill();
+    curInitAutoFill && this.syncAutoFill();
   }
 
   syncAutoFill() {
@@ -1120,6 +1127,7 @@ export default class ImageControl extends React.Component<
         const dispatcher = await this.dispatchEvent('success', {
           ...file, // 保留历史结构
           item: file,
+          result: ret.data,
           value: obj.value
         });
         if (dispatcher?.prevented) {
@@ -1244,7 +1252,12 @@ export default class ImageControl extends React.Component<
         this.setState(
           {
             files: (this.files = files)
-          } // , !needUploading ? this.onChange : undefined
+          },
+          () => {
+            if (!needUploading) {
+              this.onChange(false, true, this.initAutoFill);
+            }
+          }
         );
     };
     img.src = imgDom.src;
@@ -1331,6 +1344,7 @@ export default class ImageControl extends React.Component<
       style,
       classnames: cx,
       placeholder,
+      placeholderPlacement,
       disabled,
       multiple,
       accept,
@@ -1343,8 +1357,63 @@ export default class ImageControl extends React.Component<
       frameImage,
       fixedSize,
       fixedSizeClassName,
+      themeCss,
+      inputImageControlClassName,
+      addBtnControlClassName,
+      iconControlClassName,
+      id,
       translate: __
     } = this.props;
+
+    insertCustomStyle(
+      themeCss,
+      [
+        {
+          key: 'inputImageControlClassName',
+          value: inputImageControlClassName
+        }
+      ],
+      id,
+      null
+    );
+
+    insertCustomStyle(
+      themeCss,
+      [
+        {
+          key: 'addBtnControlClassName',
+          value: addBtnControlClassName,
+          weights: {
+            hover: {
+              suf: ':not(:disabled):not(.is-disabled)'
+            },
+            active: {
+              suf: ':not(:disabled):not(.is-disabled)'
+            }
+          }
+        }
+      ],
+      id + '-addOn',
+      null
+    );
+
+    insertCustomStyle(
+      themeCss,
+      [
+        {
+          key: 'iconControlClassName',
+          value: iconControlClassName,
+          weights: {
+            default: {
+              suf: ' svg'
+            }
+          }
+        }
+      ],
+      id + '-icon',
+      null
+    );
+
     const {files, error, crop, uploading, cropFile, frameImageWidth} =
       this.state;
     let frameImageStyle: any = {};
@@ -1354,7 +1423,9 @@ export default class ImageControl extends React.Component<
     const filterFrameImage = filter(frameImage, this.props.data, '| raw');
     const hasPending = files.some(file => file.state == 'pending');
     return (
-      <div className={cx(`ImageControl`, className)}>
+      <div
+        className={cx(`ImageControl`, className, inputImageControlClassName)}
+      >
         {cropFile ? (
           <div className={cx('ImageControl-cropperWrapper')}>
             <Suspense fallback={<div>...</div>}>
@@ -1666,12 +1737,13 @@ export default class ImageControl extends React.Component<
                             'is-disabled': disabled
                           },
                           fixedSize ? 'ImageControl-fixed-size' : '',
-                          fixedSize ? fixedSizeClassName : ''
+                          fixedSize ? fixedSizeClassName : '',
+                          addBtnControlClassName
                         )}
                         style={frameImageStyle}
                         onClick={this.handleSelect}
                         data-tooltip={__(placeholder)}
-                        data-position="right"
+                        data-position={placeholderPlacement}
                         ref={this.frameImageRef}
                       >
                         {filterFrameImage ? (
@@ -1687,7 +1759,14 @@ export default class ImageControl extends React.Component<
                           />
                         ) : (
                           <>
-                            <Icon icon="plus-fine" className="icon" />
+                            <Icon
+                              icon="plus-fine"
+                              className="icon"
+                              iconContent={cx(
+                                ':ImageControl-addBtn-icon',
+                                iconControlClassName
+                              )}
+                            />
                             <span className={cx('ImageControl-addBtn-text')}>
                               {__('Image.upload')}
                             </span>

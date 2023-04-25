@@ -4,7 +4,9 @@ import {
   OptionsControlProps,
   highlight,
   FormOptionsControl,
-  resolveEventData
+  resolveEventData,
+  insertCustomStyle,
+  getValueByPath
 } from 'amis-core';
 import {ActionObject} from 'amis-core';
 import Downshift, {StateChangeOptions} from 'downshift';
@@ -12,7 +14,7 @@ import {matchSorter} from 'match-sorter';
 import debouce from 'lodash/debounce';
 import {filter} from 'amis-core';
 import find from 'lodash/find';
-import {Icon} from 'amis-ui';
+import {Icon, SpinnerExtraProps} from 'amis-ui';
 import {Input} from 'amis-ui';
 import {autobind, createObject, setVariable, ucFirst} from 'amis-core';
 import {isEffectiveApi} from 'amis-core';
@@ -116,7 +118,7 @@ export type InputTextRendererEvent =
   | 'change'
   | 'enter';
 
-export interface TextProps extends OptionsControlProps {
+export interface TextProps extends OptionsControlProps, SpinnerExtraProps {
   placeholder?: string;
   addOn?: ActionObject & {
     position?: 'left' | 'right';
@@ -308,13 +310,9 @@ export default class TextControl extends React.PureComponent<
     const {dispatchEvent, value} = this.props;
     const rendererEvent = await dispatchEvent(
       'click',
-      resolveEventData(
-        this.props,
-        {
-          value
-        },
-        'value'
-      )
+      resolveEventData(this.props, {
+        value
+      })
     );
 
     if (rendererEvent?.prevented) {
@@ -336,13 +334,9 @@ export default class TextControl extends React.PureComponent<
 
     const rendererEvent = await dispatchEvent(
       'focus',
-      resolveEventData(
-        this.props,
-        {
-          value
-        },
-        'value'
-      )
+      resolveEventData(this.props, {
+        value
+      })
     );
 
     if (rendererEvent?.prevented) {
@@ -368,13 +362,9 @@ export default class TextControl extends React.PureComponent<
 
     const rendererEvent = await dispatchEvent(
       'blur',
-      resolveEventData(
-        this.props,
-        {
-          value
-        },
-        'value'
-      )
+      resolveEventData(this.props, {
+        value
+      })
     );
 
     if (rendererEvent?.prevented) {
@@ -389,7 +379,7 @@ export default class TextControl extends React.PureComponent<
     const {creatable, multiple, onChange, dispatchEvent} = this.props;
     const rendererEvent = await dispatchEvent(
       'change',
-      resolveEventData(this.props, {value}, 'value')
+      resolveEventData(this.props, {value})
     );
 
     if (rendererEvent?.prevented) {
@@ -453,7 +443,7 @@ export default class TextControl extends React.PureComponent<
 
       const rendererEvent = await dispatchEvent(
         'enter',
-        resolveEventData(this.props, {value}, 'value')
+        resolveEventData(this.props, {value})
       );
 
       if (rendererEvent?.prevented) {
@@ -569,7 +559,7 @@ export default class TextControl extends React.PureComponent<
 
     const rendererEvent = await dispatchEvent(
       'change',
-      resolveEventData(this.props, {value}, 'value')
+      resolveEventData(this.props, {value})
     );
 
     if (rendererEvent?.prevented) {
@@ -677,7 +667,8 @@ export default class TextControl extends React.PureComponent<
       showCounter,
       maxLength,
       minLength,
-      translate: __
+      translate: __,
+      loadingConfig
     } = this.props;
     let type = this.props.type?.replace(/^(?:native|input)\-/, '');
 
@@ -791,11 +782,13 @@ export default class TextControl extends React.PureComponent<
               </>
 
               {clearable && !disabled && !readOnly && value ? (
-                <a
-                  onClick={this.clearValue}
-                  className={cx('TextControl-clear')}
-                >
-                  <Icon icon="input-clear" className="icon" />
+                <a onClick={this.clearValue}>
+                  <Icon
+                    icon="input-clear"
+                    className="icon"
+                    wrapClassName={cx('TextControl-clear')}
+                    iconContent="InputBox-clear"
+                  />
                 </a>
               ) : null}
 
@@ -815,6 +808,7 @@ export default class TextControl extends React.PureComponent<
                   icon="reload"
                   size="sm"
                   spinnerClassName={cx('TextControl-spinner')}
+                  loadingConfig={loadingConfig}
                 />
               ) : null}
 
@@ -935,19 +929,33 @@ export default class TextControl extends React.PureComponent<
           })}
         />
         {clearable && !disabled && !readOnly && value ? (
-          <a onClick={this.clearValue} className={`${ns}TextControl-clear`}>
-            <Icon icon="input-clear" className="icon" />
+          <a onClick={this.clearValue} className={cx('TextControl-clear')}>
+            <Icon
+              icon="input-clear"
+              className="icon"
+              iconContent="InputText-clear"
+            />
           </a>
         ) : null}
         {type === 'password' && revealPassword && !disabled ? (
           <a
             onClick={this.toggleRevealPassword}
-            className={`${ns}TextControl-revealPassword`}
+            className={cx('TextControl-revealPassword')}
           >
             {this.state.revealPassword ? (
-              <Icon icon="view" className="icon" />
+              <Icon
+                icon="view"
+                className={cx('TextControl-icon-view')}
+                wrapClassName={cx('TextControl-icon-view')}
+                iconContent="InputText-view"
+              />
             ) : (
-              <Icon icon="invisible" className="icon" />
+              <Icon
+                icon="invisible"
+                className={cx('TextControl-icon-invisible')}
+                wrapClassName={cx('TextControl-icon-invisible')}
+                iconContent="InputText-invisible"
+              />
             )}
           </a>
         ) : null}
@@ -978,7 +986,8 @@ export default class TextControl extends React.PureComponent<
       data,
       disabled,
       inputOnly,
-      static: isStatic
+      static: isStatic,
+      addOnClassName
     } = this.props;
 
     const addOn: any =
@@ -995,13 +1004,13 @@ export default class TextControl extends React.PureComponent<
       addOn && !isStatic ? (
         addOn.actionType ||
         ~['button', 'submit', 'reset', 'action'].indexOf(addOn.type) ? (
-          <div className={cx(`${ns}TextControl-button`, addOn.className)}>
+          <div className={cx(`${ns}TextControl-button`, addOnClassName)}>
             {render('addOn', addOn, {
               disabled
             })}
           </div>
         ) : (
-          <div className={cx(`${ns}TextControl-addOn`, addOn.className)}>
+          <div className={cx(`${ns}TextControl-addOn`, addOnClassName)}>
             {iconElement}
             {addOn.label ? filter(addOn.label, data) : null}
           </div>
@@ -1033,12 +1042,49 @@ export default class TextControl extends React.PureComponent<
 
   @supportStatic()
   render(): JSX.Element {
-    const {options, source, autoComplete} = this.props;
-
+    const {
+      options,
+      source,
+      autoComplete,
+      themeCss,
+      css,
+      inputControlClassName,
+      id,
+      addOnClassName,
+      classPrefix: ns
+    } = this.props;
     let input =
       autoComplete !== false && (source || options?.length || autoComplete)
         ? this.renderSugestMode()
         : this.renderNormal();
+
+    insertCustomStyle(
+      themeCss || css,
+      [
+        {
+          key: 'inputControlClassName',
+          value: inputControlClassName,
+          weights: {
+            active: {
+              pre: `${ns}TextControl.is-focused > .${inputControlClassName}, `
+            }
+          }
+        }
+      ],
+      id,
+      null
+    );
+
+    insertCustomStyle(
+      themeCss || css,
+      [
+        {
+          key: 'addOnClassName',
+          value: addOnClassName
+        }
+      ],
+      id + '-addOn'
+    );
 
     return this.renderBody(input);
   }

@@ -4,7 +4,6 @@ import {IScopedContext} from '../Scoped';
 import {createObject} from './object';
 import debounce from 'lodash/debounce';
 
-
 export interface debounceConfig {
   maxWait?: number;
   wait?: number;
@@ -14,7 +13,7 @@ export interface debounceConfig {
 // 事件监听器
 export interface EventListeners {
   [propName: string]: {
-    debounce?: debounceConfig,
+    debounce?: debounceConfig;
     weight?: number; // 权重
     actions: ListenerAction[]; // 执行的动作集
   };
@@ -26,7 +25,7 @@ export interface OnEventProps {
     [propName: string]: {
       weight?: number; // 权重
       actions: ListenerAction[]; // 执行的动作集,
-      debounce?: debounceConfig,
+      debounce?: debounceConfig;
     };
   };
 }
@@ -36,7 +35,7 @@ export interface RendererEventListener {
   renderer: React.Component<RendererProps>;
   type: string;
   weight: number;
-  debounce: debounceConfig | null,
+  debounce: debounceConfig | null;
   actions: ListenerAction[];
   executing?: boolean;
   debounceInstance?: any;
@@ -106,7 +105,10 @@ export const bindEvent = (renderer: any) => {
         listener?.debounceInstance?.cancel?.();
         rendererEventListeners = rendererEventListeners.filter(
           (item: RendererEventListener) =>
-            !(item.renderer === listener.renderer && item.type === listener.type));
+            !(
+              item.renderer === listener.renderer && item.type === listener.type
+            )
+        );
         rendererEventListeners.push({
           renderer,
           type: key,
@@ -155,6 +157,8 @@ export async function dispatchEvent(
     broadcast
   );
 
+  broadcast && renderer.props.onBroadcast?.(e as string, broadcast, data);
+
   if (!broadcast) {
     const eventConfig = renderer?.props?.onEvent?.[eventName];
 
@@ -195,9 +199,14 @@ export async function dispatchEvent(
     if (executedCount === listeners.length) {
       unbindEvent?.();
     }
-  }
+  };
   for (let listener of listeners) {
-    const {wait=100, trailing=true, leading=false, maxWait=10000} = listener?.debounce || {};
+    const {
+      wait = 100,
+      trailing = true,
+      leading = false,
+      maxWait = 10000
+    } = listener?.debounce || {};
     if (listener?.debounce) {
       const debounced = debounce(
         async () => {
@@ -213,7 +222,10 @@ export async function dispatchEvent(
       );
       rendererEventListeners.forEach(item => {
         // 找到事件队列中正在执行的事件加上标识，下次待执行队列就会把这个事件过滤掉
-        if (item.renderer === listener.renderer && listener.type === item.type) {
+        if (
+          item.renderer === listener.renderer &&
+          listener.type === item.type
+        ) {
           item.executing = true;
           item.debounceInstance = debounced;
         }
@@ -242,13 +254,21 @@ export const getRendererEventListeners = () => {
  * @param data
  * @param valueKey
  */
-export const resolveEventData = (props: any, data: any, valueKey?: string) => {
+export const resolveEventData = (
+  props: any,
+  data: any,
+  valueKey: string = 'value'
+) => {
   return createObject(
     props.data,
     props.name && valueKey
       ? {
           ...data,
-          [props.name]: data[valueKey]
+          [props.name]: data[valueKey],
+          __rendererData: {
+            ...props.data,
+            [props.name]: data[valueKey]
+          }
         }
       : data
   );

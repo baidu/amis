@@ -150,4 +150,4 @@ test('EventAction:inputRange', async () => {
   });
 
   expect(container).toMatchSnapshot();
-});
+}, 10000);

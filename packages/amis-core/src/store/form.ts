@@ -1,5 +1,6 @@
 import {types, getEnv, flow, isAlive, Instance} from 'mobx-state-tree';
 import debounce from 'lodash/debounce';
+import throttle from 'lodash/throttle';
 import toPairs from 'lodash/toPairs';
 import pick from 'lodash/pick';
 import {ServiceStore} from './service';
@@ -82,6 +83,28 @@ export const FormStore = ServiceStore.named('FormStore')
             !['ComboStore', 'TableStore'].includes(current.storeType)
           ) {
             pool.push(...current.children);
+          }
+        }
+
+        return formItems;
+      },
+
+      /** 获取InputGroup的子元素 */
+      get inputGroupItems() {
+        const formItems: Record<string, IFormItemStore[]> = {};
+        const children = self.children.concat();
+
+        while (children.length) {
+          const current = children.shift();
+
+          if (current.inputGroupControl && current.inputGroupControl?.name) {
+            const controlName = current.inputGroupControl?.name as string;
+
+            if (formItems.hasOwnProperty(controlName)) {
+              formItems[controlName].push(current);
+            } else {
+              formItems[controlName] = [current];
+            }
           }
         }
 
@@ -480,6 +503,19 @@ export const FormStore = ServiceStore.named('FormStore')
       );
     };
 
+    // 10s 内不要重复弹同一个错误
+    const toastValidateError = throttle(
+      msg => {
+        const env = getEnv(self);
+        env.notify('error', msg);
+      },
+      10000,
+      {
+        trailing: false,
+        leading: true
+      }
+    );
+
     const submit: (
       fn?: (values: object) => Promise<any>,
       hooks?: Array<() => Promise<any>>,
@@ -506,13 +542,12 @@ export const FormStore = ServiceStore.named('FormStore')
           self.restError.length
         ) {
           let msg = failedMessage ?? self.__('Form.validateFailed');
-          const env = getEnv(self);
           let dispatcher: any = validateErrCb && validateErrCb();
           if (dispatcher?.then) {
             dispatcher = yield dispatcher;
           }
           if (!dispatcher?.prevented) {
-            msg && env.notify('error', msg);
+            msg && toastValidateError(msg);
           }
           throw new Error(msg);
         }
@@ -568,14 +603,18 @@ export const FormStore = ServiceStore.named('FormStore')
           item.resetValidationStatus();
         }
 
-        // 验证过，或者是 unique 的表单项，或者强制验证，或者有远端校验api
+        /**
+         * 1. 验证过，或者是 unique 的表单项，或者强制验证，或者有远端校验api
+         * 2. 如果Schema的默认值为表达式，则需要基于联动计算结果重新校验
+         */
         if (
           !item.validated ||
           item.rules.equals ||
           item.rules.equalsField ||
           item.unique ||
           forceValidate ||
-          !!item.validateApi
+          !!item.validateApi ||
+          item.isValueSchemaExp
         ) {
           yield item.validate(self.data);
         }
@@ -709,6 +748,7 @@ export const FormStore = ServiceStore.named('FormStore')
       clearRestError,
       beforeDestroy() {
         syncOptions.cancel();
+        toastValidateError.cancel();
       }
     };
   });

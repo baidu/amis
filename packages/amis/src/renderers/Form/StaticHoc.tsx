@@ -1,18 +1,14 @@
-import React from "react";
-import {getPropValue, FormControlProps} from "amis-core";
+import React from 'react';
+import {getPropValue, FormControlProps} from 'amis-core';
 
 function renderCommonStatic(props: any, defaultValue: string) {
-  const {
-    type,
-    render,
-    staticSchema
-  } = props;
+  const {type, render, staticSchema} = props;
   const staticProps = {
     ...props,
     ...staticSchema
   };
 
-  switch(type) {
+  switch (type) {
     case 'select':
     case 'checkboxes':
     case 'button-group-select':
@@ -42,12 +38,16 @@ function renderCommonStatic(props: any, defaultValue: string) {
     case 'input-month-range':
     case 'input-quarter-range':
     case 'input-year-range':
-      return render('static-input-date-range', {type: 'date-range'}, {
-        ...props,
-        valueFormat: props.format,
-        format: props.inputFormat,
-        ...staticSchema
-      });
+      return render(
+        'static-input-date-range',
+        {type: 'date-range'},
+        {
+          ...props,
+          valueFormat: props.format,
+          format: props.inputFormat,
+          ...staticSchema
+        }
+      );
 
     case 'input-password':
       return render('static-input-password', {type: 'password'}, staticProps);
@@ -59,7 +59,21 @@ function renderCommonStatic(props: any, defaultValue: string) {
       return render('static-input-tag', {type: 'tags'}, staticProps);
 
     case 'input-url':
-      return render('static-input-url', {type: 'link', href: defaultValue}, staticProps);
+      return render(
+        'static-input-url',
+        {type: 'link', href: defaultValue},
+        staticProps
+      );
+
+    case 'input-number':
+      return render(
+        'static-input-number',
+        {type: 'number'},
+        {
+          ...props,
+          ...staticSchema
+        }
+      );
 
     default:
       return defaultValue;
@@ -85,24 +99,29 @@ export function supportStatic<T extends FormControlProps>() {
           classPrefix: ns,
           classnames: cx,
           className,
-          staticPlaceholder = '-'
+          placeholder,
+          staticPlaceholder = (
+            <span className="text-muted">{placeholder || '-'}</span>
+          )
         } = props;
 
         let body;
         const displayValue = getPropValue(props);
         const isValueEmpty = displayValue == null || displayValue === '';
 
-        if (staticSchema && (
-          staticSchema.type
-          || Array.isArray(staticSchema)
-          || typeof staticSchema === 'string'
-          || typeof staticSchema === 'number'
-        )) {
+        if (
+          staticSchema &&
+          (staticSchema.type ||
+            Array.isArray(staticSchema) ||
+            typeof staticSchema === 'string' ||
+            typeof staticSchema === 'number')
+        ) {
           // 有自定义schema 且schema有type 时，展示schema
           body = render('form-static-schema', staticSchema, props);
         } else if (target.renderStatic) {
           // 特殊组件，control有 renderStatic 时，特殊处理
-          body = target.renderStatic.apply(this, [...args,
+          body = target.renderStatic.apply(this, [
+            ...args,
             isValueEmpty ? staticPlaceholder : displayValue
           ]);
         } else if (isValueEmpty) {
@@ -113,24 +132,21 @@ export function supportStatic<T extends FormControlProps>() {
           body = renderCommonStatic(props, displayValue);
         }
 
-        return <div className={cx(`${ns}Form-static`, className)}>{body}</div>
+        return <div className={cx(`${ns}Form-static`, className)}>{body}</div>;
       }
 
       return original.apply(this, args);
-    }
+    };
     return descriptor;
-  }
+  };
 }
 
 function renderStaticDateTypes(props: any) {
   const {render, type, inputFormat, timeFormat, format, value} = props;
-  return render(
-    'static-input-date',
-    {
-      type: 'date',
-      value,
-      format: type === 'time' && timeFormat ? timeFormat : inputFormat,
-      valueFormat: format
-    }
-  );
+  return render('static-input-date', {
+    type: 'date',
+    value,
+    format: type === 'time' && timeFormat ? timeFormat : inputFormat,
+    valueFormat: format
+  });
 }

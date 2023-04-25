@@ -1,14 +1,29 @@
 .#{$ns}Collapse {
-  border: var(--Collapse-border);
+  border-width: var(--collapse-default-top-border-width)
+    var(--collapse-default-right-border-width)
+    var(--collapse-default-bottom-border-width)
+    var(--collapse-default-left-border-width);
+  border-style: var(--collapse-default-top-border-style)
+    var(--collapse-default-right-border-style)
+    var(--collapse-default-bottom-border-style)
+    var(--collapse-default-left-border-style);
+  border-color: var(--collapse-default-top-border-color)
+    var(--collapse-default-right-border-color)
+    var(--collapse-default-bottom-border-color)
+    var(--collapse-default-left-border-color);
+  border-radius: var(--collapse-default-top-left-border-radius)
+    var(--collapse-default-top-right-border-radius)
+    var(--collapse-default-bottom-right-border-radius)
+    var(--collapse-default-bottom-left-border-radius);
   padding: 0;
   line-height: px2rem(20px);
-  border-radius: 4px;
   // overflow: hidden;
 
   &-header {
     font-size: var(--Collapse-header-fontSize);
     font-weight: var(--Collapse-header-fontWeight);
-    color: var(--text--loud-color);
+    color: var(--collapse-default-header-color);
+    line-height: var(--collapse-default-header-lineHeight);
     padding: var(--Collapse-header-padding);
     margin: 0;
     cursor: pointer;
@@ -25,28 +40,27 @@
 
     &:hover {
       background: var(--Collapse-header-onHover-bg);
+      color: var(--collapse-default-header-hover-color);
     }
   }
 
-  &-arrow {
-    display: inline-block;
+  .Collapse-arrow {
+    content: var(--collapse-icon-icon);
+  }
+
+  &-arrow-wrap {
     width: px2rem(16px);
     height: px2rem(16px);
-    text-align: center;
-    margin-right: var(--gap-sm);
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: var(--collapse-icon-margin);
 
-    &:before {
-      content: '';
-      position: relative;
-      display: inline-block;
-      width: px2rem(6px);
-      height: px2rem(6px);
-      top: px2rem(-2px);
-      border-color: #84868c;
-      border-style: solid;
-      border-width: px2rem(1px) px2rem(1px) 0 0;
-      transform: rotate(45deg);
-      transform-origin: 50% 50%;
+    svg {
+      width: var(--collapse-icon-size);
+      height: var(--collapse-icon-size);
+      color: var(--collapse-icon-color);
+      top: 0;
     }
   }
 
@@ -62,25 +76,23 @@
   //   display: inline-block;
   // }
 
-  &.is-active > * > &-arrow:before {
-    transform: rotate(135deg);
-    transform-origin: 50% 30%;
+  &.is-active > &-header > &-arrow-wrap > &-arrow {
+    transform: rotate(var(--collapse-icon-rotate));
+    transform-origin: 50% 50%;
   }
   &.is-active > * > &-icon-tranform {
-    transform: rotate(90deg);
+    transform: rotate(var(--collapse-icon-rotate));
   }
 
   &--disabled > &-header {
     cursor: not-allowed;
     user-select: none;
-    color: var(--text--muted-color);
-    &:hover {
-      background-color: var(--Collapse-header-bg-disabled-color);
-    }
+    color: var(--collapse-default-disabled-color);
+    background: var(--collapse-default-disabled-header-bg-color);
   }
 
-  &--disabled > * > &-arrow:before {
-    border-color: var(--text--muted-color);
+  &--disabled &-arrow-wrap svg {
+    color: var(--collapse-default-disabled-color);
   }
 
   // title 显示在底部的模式
@@ -95,14 +107,14 @@
     border-top: none;
   }
 
-  &--title-bottom &-arrow:before {
+  &--title-bottom &-arrow {
     top: px2rem(-4px);
-    transform: rotate(135deg);
+    transform: rotate(var(--collapse-icon-rotate));
   }
 
-  &--title-bottom.is-active &-arrow:before {
+  &--title-bottom.is-active &-arrow {
     top: 0;
-    transform: rotate(-45deg);
+    transform: rotate(calc(-1 * var(--collapse-icon-rotate)));
   }
 
   &-contentWrapper {
@@ -115,9 +127,11 @@
   }
   &-content {
     padding: var(--Collapse-content-padding);
-    color: var(--body-color);
+    color: var(--Collapse-content-color);
     font-size: var(--Collapse-content-fontSize);
     font-weight: var(--Collapse-content-fontWeight);
+    line-height: var(--collapse-default-content-lineHeight);
+    background: var(--collapse-default-bg-color);
   }
 }
 

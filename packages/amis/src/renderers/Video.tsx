@@ -57,7 +57,9 @@ export interface VideoSchema extends BaseSchema {
   framesClassName?: SchemaClassName;
 
   // 用于设置行内样式
-  style?: any;
+  style?: {
+    [propName: string]: any;
+  };
 
   /**
    * 如果是实时的，请标记一下

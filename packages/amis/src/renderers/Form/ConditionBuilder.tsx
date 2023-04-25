@@ -88,7 +88,7 @@ export default class ConditionBuilderControl extends React.PureComponent<Conditi
   renderEtrValue(schema: Schema, data: any) {
     return this.props.render(
       'inline',
-      Object.assign(schema, {label: false}),
+      Object.assign(schema, {label: false, inputOnly: true}),
       data
     );
   }

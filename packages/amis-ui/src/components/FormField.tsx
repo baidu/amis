@@ -25,7 +25,7 @@ export interface FormFieldProps extends LocaleProps, ThemeProps {
   isRequired?: boolean;
   hasError?: boolean;
   errors?: string | Array<string>;
-  children?: JSX.Element;
+  children?: React.ReactNode | Array<React.ReactNode>;
 }
 
 function FormField(props: FormFieldProps) {

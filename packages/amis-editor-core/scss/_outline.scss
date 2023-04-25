@@ -1,0 +1,206 @@
+@keyframes shake {
+  10%,
+  90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%,
+  80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%,
+  60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
+
+.shake {
+  animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+.ae-Outline-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.ae-Outline {
+  // margin-top: 16px;
+  padding: 12px 6px 6px 12px;
+  // width: $Editor-aside-width;
+
+  flex: 1 1 auto;
+  background: #fff;
+
+  &-list,
+  &-sublist {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  &-list {
+    margin-left: 16px;
+  }
+
+  &-sublist {
+    margin-left: 16px;
+
+    > .ae-Outline-node {
+      &::before,
+      &::after {
+        position: absolute;
+        content: '';
+        background: $editor-border-color;
+        display: block;
+      }
+
+      &::before {
+        width: 8px;
+        height: 1px;
+        left: -25px;
+        top: 13px;
+        visibility: hidden; // 隐藏左侧连线（横线）
+      }
+
+      &::after {
+        width: 1px;
+        height: 100%;
+        left: -25px;
+        top: 0;
+        visibility: hidden; // 隐藏左侧连线（竖线）
+      }
+
+      &:last-child::after {
+        height: 13px;
+      }
+    }
+  }
+
+  &:hover {
+    // hover时 显示连接线
+    .ae-Outline-node {
+      &::before,
+      &::after {
+        visibility: visible;
+      }
+    }
+  }
+
+  &-node {
+    position: relative;
+    margin: 0;
+    padding: 4px 0;
+
+    > a {
+      margin-left: -8px;
+      display: inline-block;
+      min-width: 108px;
+      padding: 0 8px;
+      font-family: PingFangSC-Regular;
+      font-size: 12px;
+      color: $editor-default-color;
+      line-height: 24px;
+      font-weight: 400;
+      text-decoration: none;
+      user-select: none;
+      cursor: pointer;
+      display: inline-flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+
+      &:hover {
+        color: $editor-default-color; // 避免被其他全局样式覆盖
+        background: $hover-bg-color;
+      }
+    }
+
+    &.has-children > a {
+      margin-left: 0;
+    }
+
+    &.is-region {
+      > a {
+        // padding: 2px 5px;
+      }
+    }
+
+    &.is-hover {
+      > a {
+        background: $hover-bg-color;
+        border-radius: 2px;
+      }
+    }
+
+    &.is-active {
+      > a {
+        color: $editor-active-color;
+        background: $active-bg-color;
+        border-radius: 2px;
+      }
+    }
+
+    &.is-folded > .ae-Outline-sublist {
+      display: none;
+    }
+
+    span.has-keywords {
+      color: $editor-active-color;
+      font-weight: 600;
+    }
+  }
+
+  &-expander {
+    position: absolute;
+    left: -16px;
+    top: 8px;
+    cursor: pointer;
+    z-index: 2;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    > svg {
+      width: 16px;
+      height: 16px;
+      color: $default-icon-color;
+      transform: rotate(0deg);
+      transition: transform ease-out 0.1s;
+    }
+
+    // &:before {
+    //   content: '';
+    //   display: inline-block;
+    //   width: 0;
+    //   height: 0;
+    //   border-style: solid;
+    //   border-width: 4px 0 4px 6.9px;
+    //   border-color: transparent transparent transparent $dark;
+    //   transform: rotate(45deg);
+    // }
+
+    &.is-folded > svg {
+      transform: rotate(-90deg);
+    }
+  }
+
+  &-tip {
+    color: $success;
+    margin-bottom: 15px;
+    animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+}

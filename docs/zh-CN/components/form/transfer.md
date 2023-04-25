@@ -18,6 +18,7 @@ icon:
       "label": "默认",
       "type": "transfer",
       "name": "transfer",
+      "value": "zhugeliang,libai",
       "options": [
         {
           "label": "诸葛亮",

@@ -65,7 +65,8 @@ order: 14
         {
           "type": "input-excel",
           "name": "excel",
-          "label": "上传 Excel"
+          "label": "上传 Excel",
+          "placeholder": "请拖拽Excel文件到当前区域"
         },
         {
           "type": "input-table",
@@ -160,6 +161,30 @@ order: 14
 ]
 ```
 
+## 解析图片
+
+> 2.6.0 及以上版本
+
+通过配置 `parseImage` 来支持解析 excel 里的图片
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "debug": true,
+    "body": [
+        {
+            "type": "input-excel",
+            "name": "excel",
+            "parseImage": true,
+            "label": "上传 Excel"
+        }
+    ]
+}
+```
+
+默认情况下解析结果是 data URI 格式，如果不想要这个前缀可以通过 `"imageDataURI": false` 关闭
+
 ## 富文本模式
 
 默认情况下 Excel 内容将会解析为纯文本，如果要使用富文本格式，可以通过 `plainText` 属性控制
@@ -217,12 +242,13 @@ order: 14
 
 ## 属性表
 
-| 属性名       | 类型                    | 默认值   | 说明               |
-| ------------ | ----------------------- | -------- | ------------------ |
-| allSheets    | `boolean`               | false    | 是否解析所有 sheet |
-| parseMode    | `'array'` 或 `'object'` | 'object' | 解析模式           |
-| includeEmpty | `boolean`               | true     | 是否包含空值       |
-| plainText    | `boolean`               | true     | 是否解析为纯文本   |
+| 属性名       | 类型                    | 默认值                          | 说明               | 版本    |
+| ------------ | ----------------------- | ------------------------------- | ------------------ | ------- |
+| allSheets    | `boolean`               | false                           | 是否解析所有 sheet |
+| parseMode    | `'array'` 或 `'object'` | 'object'                        | 解析模式           |
+| includeEmpty | `boolean`               | true                            | 是否包含空值       |
+| plainText    | `boolean`               | true                            | 是否解析为纯文本   |
+| placeholder  | `string`                | `"拖拽 Excel 到这，或点击上传"` | 占位文本提示       | `2.8.1` |
 
 ## 事件表
 

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="隐藏域" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linejoin="round">
+        <path d="M8,3.49984154 C10.9666265,3.49984154 13.4995646,5.36813807 14.5,7.9991376 C13.5002034,10.6312323 10.9670006,12.5 8,12.5 C5.0333735,12.5 2.50043538,10.6317035 1.5,8.00070394 C2.49979664,5.36860923 5.03299944,3.49984154 8,3.49984154 Z" id="形状结合" stroke="currentColor"></path>
+        <circle id="椭圆形" stroke="currentColor" cx="8" cy="8" r="2.25"></circle>
+        <line x1="3.5" y1="2.5" x2="12.5" y2="13.5" id="直线" stroke="currentColor" stroke-linecap="round"></line>
+    </g>
+</svg>

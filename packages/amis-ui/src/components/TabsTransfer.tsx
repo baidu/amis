@@ -1,9 +1,8 @@
 import React from 'react';
-import {autobind} from 'amis-core';
+import {autobind, createObject, filter} from 'amis-core';
 import Tabs, {Tab} from './Tabs';
 import InputBox from './InputBox';
 import TableCheckboxes from './TableSelection';
-import TreeCheckboxes from './TreeSelection';
 import Tree from './Tree';
 import ChainedCheckboxes from './ChainedSelection';
 import ListCheckboxes from './GroupedSelection';
@@ -15,17 +14,19 @@ import {localeable} from 'amis-core';
 import {ItemRenderStates} from './Selection';
 import {Icon} from './icons';
 import debounce from 'lodash/debounce';
+import {SpinnerExtraProps} from './Spinner';
 
 export interface TabsTransferProps
   extends Omit<
-    TransferProps,
-    | 'selectMode'
-    | 'columns'
-    | 'selectRender'
-    | 'statistics'
-    | 'onSearch'
-    | 'optionItemRender'
-  > {
+      TransferProps,
+      | 'selectMode'
+      | 'columns'
+      | 'selectRender'
+      | 'statistics'
+      | 'onSearch'
+      | 'optionItemRender'
+    >,
+    SpinnerExtraProps {
   onSearch: (
     term: string,
     option: Option,
@@ -49,6 +50,7 @@ export interface TabsTransferProps
   onTabChange: (key: number) => void;
   activeKey: number;
   onlyChildren?: boolean;
+  ctx?: Record<string, any>;
 }
 
 export interface TabsTransferState {
@@ -163,7 +165,8 @@ export class TabsTransfer extends React.Component<
       optionItemRender,
       itemHeight,
       virtualThreshold,
-      onlyChildren
+      onlyChildren,
+      loadingConfig
     } = this.props;
     const options = searchResult || [];
     const mode = searchResultMode;
@@ -254,7 +257,8 @@ export class TabsTransfer extends React.Component<
       placeholder,
       activeKey,
       classnames: cx,
-      translate: __
+      translate: __,
+      ctx
     } = this.props;
     const showOptions = options.filter(item => item.visible !== false);
 
@@ -277,7 +281,10 @@ export class TabsTransfer extends React.Component<
           <Tab
             eventKey={index}
             key={index}
-            title={option.label || option.title}
+            title={filter(
+              option.label || option.title,
+              createObject(ctx, option)
+            )}
             className="TabsTransfer-tab"
           >
             {option.searchable ? (
@@ -324,7 +331,8 @@ export class TabsTransfer extends React.Component<
       optionItemRender,
       itemHeight,
       virtualThreshold,
-      onlyChildren
+      onlyChildren,
+      loadingConfig
     } = this.props;
 
     return option.selectMode === 'table' ? (
@@ -344,6 +352,7 @@ export class TabsTransfer extends React.Component<
       />
     ) : option.selectMode === 'tree' ? (
       <Tree
+        loadingConfig={loadingConfig}
         className={cx('Transfer-checkboxes')}
         options={option.children || []}
         value={value}
@@ -355,6 +364,7 @@ export class TabsTransfer extends React.Component<
         onlyChildren={option.onlyChildren ?? onlyChildren}
         cascade={true}
         onDeferLoad={onDeferLoad}
+        autoCheckChildren={option.autoCheckChildren}
         itemRender={
           optionItemRender
             ? (item: Option, states: ItemRenderStates) =>
@@ -404,6 +414,7 @@ export class TabsTransfer extends React.Component<
         leftMode={option.leftMode}
         leftOptions={option.leftOptions}
         leftDefaultValue={option.leftDefaultValue}
+        loadingConfig={loadingConfig}
         itemRender={
           optionItemRender
             ? (item: Option, states: ItemRenderStates) =>

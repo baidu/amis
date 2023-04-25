@@ -6,6 +6,7 @@
  */
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 import {themeable, ThemeProps} from 'amis-core';
 import Transition, {ENTERED, ENTERING} from 'react-transition-group/Transition';
 import {Icon, hasIcon} from './icons';
@@ -21,8 +22,8 @@ const fadeStyles: {
 };
 
 // Spinner Props
-export interface SpinnerProps extends ThemeProps {
-  show: boolean; // 控制Spinner显示与隐藏
+export interface SpinnerProps extends ThemeProps, SpinnerExtraProps {
+  show?: boolean; // 控制Spinner显示与隐藏
   className?: string; // 自定义最外层元素class
   spinnerClassName?: string; // spin图标位置包裹元素的自定义class
   /**
@@ -35,6 +36,13 @@ export interface SpinnerProps extends ThemeProps {
   tipPlacement?: 'top' | 'right' | 'bottom' | 'left'; // spinner文案位置
   delay?: number; // 延迟显示
   overlay?: boolean; // 是否显示遮罩层，有children属性才生效
+}
+
+export interface SpinnerExtraProps {
+  loadingConfig?: {
+    root?: string;
+    show?: boolean;
+  };
 }
 
 const SpinnerSharedStore = types
@@ -106,7 +114,8 @@ export class Spinner extends React.Component<
     tip: '',
     tipPlacement: 'bottom' as 'bottom',
     delay: 0,
-    overlay: false
+    overlay: false,
+    loadingConfig: {}
   };
 
   state = {
@@ -129,7 +138,11 @@ export class Spinner extends React.Component<
   };
 
   componentDidUpdate() {
-    if (this.parent) {
+    const showLoading =
+      this.props.loadingConfig?.show === true ||
+      typeof this.props.loadingConfig?.show === 'undefined';
+
+    if (this.parent && showLoading) {
       if (this.props.show) {
         this.loadingTriggered = true;
         store.push(this.parent);
@@ -167,7 +180,7 @@ export class Spinner extends React.Component<
     }
   );
 
-  render() {
+  renderBody() {
     const {
       classnames: cx,
       className,
@@ -175,12 +188,17 @@ export class Spinner extends React.Component<
       size = '',
       overlay,
       delay,
-      icon,
+      icon: iconConfig,
       tip,
-      tipPlacement = ''
+      tipPlacement = '',
+      loadingConfig
     } = this.props;
+    // 定义了挂载位置时只能使用默认icon
+    const icon = loadingConfig?.root ? undefined : iconConfig;
     const isCustomIcon = icon && React.isValidElement(icon);
     const timeout = {enter: delay, exit: 0};
+
+    const showOverlay = loadingConfig?.root || overlay;
 
     return (
       <>
@@ -197,7 +215,7 @@ export class Spinner extends React.Component<
             return (
               <>
                 {/* 遮罩层 */}
-                {overlay ? (
+                {showOverlay ? (
                   <div className={cx(`Spinner-overlay`, fadeStyles[status])} />
                 ) : null}
 
@@ -214,7 +232,7 @@ export class Spinner extends React.Component<
                         'left'
                       ].includes(tipPlacement)
                     },
-                    {[`Spinner--overlay`]: overlay},
+                    {[`Spinner--overlay`]: showOverlay},
                     fadeStyles[status],
                     className
                   )}
@@ -249,6 +267,21 @@ export class Spinner extends React.Component<
         </Transition>
       </>
     );
+  }
+
+  render() {
+    const {loadingConfig} = this.props;
+
+    const spinnerBody = this.renderBody();
+    const root = loadingConfig?.root;
+    const dom = root ? document.querySelector(root) : null;
+
+    if (dom) {
+      // TODO: 找到准确的 元素
+      return ReactDOM.createPortal(spinnerBody, dom);
+    }
+
+    return spinnerBody;
   }
 }
 

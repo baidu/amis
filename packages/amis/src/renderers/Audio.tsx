@@ -299,8 +299,8 @@ export class Audio extends React.Component<AudioProps, AudioState> {
   formatTime(seconds: number) {
     const date = new Date(seconds * 1000);
     const hh = date.getUTCHours();
-    const mm = date.getUTCMinutes();
-    const ss = this.pad(date.getUTCSeconds());
+    const mm = isNaN(date.getUTCMinutes()) ? 0 : date.getUTCMinutes();
+    const ss = isNaN(date.getUTCSeconds()) ? '00': this.pad(date.getUTCSeconds());
     if (hh) {
       return `${hh}:${this.pad(mm)}:${ss}`;
     }

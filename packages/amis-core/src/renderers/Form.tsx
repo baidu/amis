@@ -379,6 +379,11 @@ export interface FormProps
   }>;
   lazyChange?: boolean; // 表单项的
   formLazyChange?: boolean; // 表单的
+  // Spinner 配置
+  loadingConfig?: {
+    root?: string;
+    show?: boolean;
+  };
 }
 export default class Form extends React.Component<FormProps, object> {
   static defaultProps = {
@@ -916,17 +921,21 @@ export default class Form extends React.Component<FormProps, object> {
     if (!isAlive(store)) {
       return;
     }
+
+    // 提前准备好 onChange 的参数。
+    // 因为 store.data 会在 await 期间被 WithStore.componentDidUpdate 中的 store.initData 改变。导致数据丢失
+    const changeProps = [
+      store.data,
+      difference(store.data, store.pristine),
+      this.props
+    ];
+
     const dispatcher = await dispatchEvent(
       'change',
       createObject(data, store.data)
     );
     if (!dispatcher?.prevented) {
-      onChange &&
-        onChange(
-          store.data,
-          difference(store.data, store.pristine),
-          this.props
-        );
+      onChange && onChange.apply(null, changeProps);
     }
 
     store.clearRestError();
@@ -1082,10 +1091,11 @@ export default class Form extends React.Component<FormProps, object> {
         dispatchEvent('validateSucc', this.props.data);
 
         if (target) {
-          this.submitToTarget(target, values);
+          this.submitToTarget(filter(target, values), values);
           dispatchEvent('submitSucc', createObject(this.props.data, values));
         } else if (action.actionType === 'reload') {
-          action.target && this.reloadTarget(action.target, values);
+          action.target &&
+            this.reloadTarget(filter(action.target, values), values);
         } else if (action.actionType === 'dialog') {
           store.openDialog(data);
         } else if (action.actionType === 'drawer') {
@@ -1184,17 +1194,16 @@ export default class Form extends React.Component<FormProps, object> {
             );
             finalRedirect && env.jumpTo(finalRedirect, action);
           } else if (action.reload || reload) {
-            this.reloadTarget(action.reload || reload!, store.data);
+            this.reloadTarget(
+              filter(action.reload || reload!, store.data),
+              store.data
+            );
           }
 
           action.close && this.closeTarget(action.close);
           return values;
         })
         .catch(reason => {
-          if (reason instanceof SkipOperation) {
-            return;
-          }
-
           onFailed && onFailed(reason, store.errors);
 
           if (throwErrors) {
@@ -1251,7 +1260,8 @@ export default class Form extends React.Component<FormProps, object> {
             action.redirect && filter(action.redirect, store.data);
           redirect && env.jumpTo(redirect, action);
 
-          action.reload && this.reloadTarget(action.reload, store.data);
+          action.reload &&
+            this.reloadTarget(filter(action.reload, store.data), store.data);
           action.close && this.closeTarget(action.close);
         })
         .catch(e => {
@@ -1263,7 +1273,7 @@ export default class Form extends React.Component<FormProps, object> {
     } else if (action.actionType === 'reload') {
       store.setCurrentAction(action);
       if (action.target) {
-        this.reloadTarget(action.target, data);
+        this.reloadTarget(filter(action.target, data), data);
       } else {
         this.receive(data);
       }
@@ -1365,7 +1375,13 @@ export default class Form extends React.Component<FormProps, object> {
   }
 
   buildActions() {
-    const {actions, submitText, body, translate: __} = this.props;
+    const {
+      actions,
+      submitText,
+      body,
+      translate: __,
+      loadingConfig
+    } = this.props;
 
     if (
       typeof actions !== 'undefined' ||
@@ -1388,7 +1404,8 @@ export default class Form extends React.Component<FormProps, object> {
       {
         type: 'submit',
         label: __(submitText),
-        primary: true
+        primary: true,
+        loadingConfig
       }
     ];
   }
@@ -1521,7 +1538,7 @@ export default class Form extends React.Component<FormProps, object> {
       dispatchEvent,
       labelAlign,
       labelWidth,
-      static: isStatic = false
+      static: isStatic
     } = props;
 
     const subProps = {
@@ -1551,7 +1568,7 @@ export default class Form extends React.Component<FormProps, object> {
        * 2. 表单子项 static: false 或 不配置，跟随父表单
        * 3. 动作控制 表单子项 时，无视配置，优先级最高
        */
-      static: (control as Schema).static || isStatic,
+      ...((control as Schema).static || isStatic ? {static: true} : {}),
       btnDisabled: disabled || form.loading || form.validating,
       onAction: this.handleAction,
       onQuery: this.handleQuery,
@@ -1596,7 +1613,8 @@ export default class Form extends React.Component<FormProps, object> {
       columnCount,
       render,
       staticClassName,
-      static: isStatic = false
+      static: isStatic = false,
+      loadingConfig
     } = this.props;
 
     const {restError} = store;
@@ -1653,7 +1671,8 @@ export default class Form extends React.Component<FormProps, object> {
           {type: 'spinner'},
           {
             overlay: true,
-            show: store.loading
+            show: store.loading,
+            loadingConfig
           }
         )}
 
@@ -1722,6 +1741,7 @@ export default class Form extends React.Component<FormProps, object> {
       actionsClassName,
       bodyClassName,
       classnames: cx,
+      style,
       affixFooter,
       lazyLoad,
       translate: __,
@@ -1739,6 +1759,7 @@ export default class Form extends React.Component<FormProps, object> {
         },
         {
           className: cx(panelClassName, 'Panel--form'),
+          style: style,
           formStore: this.props.store,
           children: body,
           actions: this.buildActions(),
@@ -1976,5 +1997,10 @@ export class FormRenderer extends Form {
     // 触发表单change
     onChange &&
       onChange(store.data, difference(store.data, store.pristine), this.props);
+  }
+
+  getData() {
+    const {store} = this.props;
+    return store.data;
   }
 }

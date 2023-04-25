@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="日期框" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="矩形" stroke="currentColor" stroke-linejoin="round" x="1.5" y="3" width="13" height="11"></rect>
+        <path d="M8.78431373,12.0049726 L8.78431373,8.0049726 L8.29131653,8.0049726 C8.15686275,8.14502862 7.98879552,8.27388016 7.78711485,8.39712946 C7.58543417,8.50917428 7.39495798,8.58760565 7.21568627,8.63242358 L7.21568627,9.28228352 C7.58543417,9.17584095 7.88795518,9.01337596 8.12885154,8.79488857 L8.12885154,12.0049726 L8.78431373,12.0049726 Z" id="路径" stroke="currentColor" stroke-width="0.2" fill="currentColor" fill-rule="nonzero"></path>
+        <line x1="5" y1="2" x2="5" y2="4" id="直线" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></line>
+        <line x1="11" y1="2" x2="11" y2="4" id="直线" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></line>
+        <line x1="1.5" y1="6.0024863" x2="14.5" y2="6.0024863" id="直线" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></line>
+    </g>
+</svg>

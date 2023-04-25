@@ -7,13 +7,14 @@ import {
   FormOptionsControl,
   resolveEventData
 } from 'amis-core';
-import {UserSelect} from 'amis-ui';
+import {SpinnerExtraProps, UserSelect} from 'amis-ui';
 import {UserTabSelect} from 'amis-ui';
 import {isEffectiveApi} from 'amis-core';
 import find from 'lodash/find';
 import {createObject, autobind} from 'amis-core';
 import {PlainObject} from 'amis-core';
 import {FormOptionsSchema} from '../../Schema';
+import {supportStatic} from './StaticHoc';
 
 /**
  * UserSelect 移动端人员选择。
@@ -22,7 +23,9 @@ export interface UserSelectControlSchema extends FormOptionsSchema {
   type: 'users-select';
 }
 
-export interface UserSelectProps extends OptionsControlProps {
+export interface UserSelectProps
+  extends OptionsControlProps,
+    SpinnerExtraProps {
   /**
    * 部门可选
    */
@@ -188,15 +191,11 @@ export default class UserSelectControl extends React.Component<
 
     const rendererEvent = await dispatchEvent(
       'change',
-      resolveEventData(
-        this.props,
-        {
-          value: newValue,
-          options,
-          items: options // 为了保持名字统一
-        },
-        'value'
-      )
+      resolveEventData(this.props, {
+        value: newValue,
+        options,
+        items: options // 为了保持名字统一
+      })
     );
     if (rendererEvent?.prevented) {
       return;
@@ -205,6 +204,22 @@ export default class UserSelectControl extends React.Component<
     onChange(newValue);
   }
 
+  renderStatic() {
+    const {selectedOptions, labelField = 'label', classnames: cx} = this.props;
+    if (labelField === 'avatar') {
+      return selectedOptions.map((item: Option, index: number) => (
+        <img
+          key={index}
+          className={cx('UserSelect-avatar-img')}
+          src={item[labelField]}
+          alt=""
+        />
+      ));
+    }
+    return selectedOptions.map((item: Option) => item[labelField]).join(',');
+  }
+
+  @supportStatic()
   render() {
     let {
       showNav,
@@ -222,7 +237,10 @@ export default class UserSelectControl extends React.Component<
       placeholder,
       searchPlaceholder,
       tabMode,
-      data
+      data,
+      displayFields,
+      labelField,
+      loadingConfig
     } = this.props;
     tabOptions?.forEach((item: any) => {
       item.deferLoad = this.deferLoad;
@@ -244,6 +262,7 @@ export default class UserSelectControl extends React.Component<
           />
         ) : (
           <UserSelect
+            loadingConfig={loadingConfig}
             showNav={showNav}
             navTitle={navTitle}
             selection={selectedOptions}
@@ -256,6 +275,8 @@ export default class UserSelectControl extends React.Component<
             deferLoad={this.deferLoad}
             onChange={this.changeValue}
             onSearch={this.onSearch}
+            displayFields={displayFields}
+            labelField={labelField}
             isDep={isDep}
             isRef={isRef}
           />

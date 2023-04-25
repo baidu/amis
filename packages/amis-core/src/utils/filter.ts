@@ -129,7 +129,10 @@ extendsFilters({
     unit = 'days'
   ) => {
     if (!(input instanceof Date)) {
-      input = new Date();
+      // input 有可能是上下文获取的 日期字符串
+      input = moment(input).isValid()
+        ? moment(input).toDate()
+        : moment().toDate();
     }
 
     if (modifier === 'endOf' || modifier === 'startOf') {
@@ -163,7 +166,7 @@ extendsFilters({
   },
   duration: input => (input ? formatDuration(input) : input),
   bytes: (input, step = 1000) => {
-    return input ? prettyBytes(parseFloat(input), parseInt(step, 10) ?? 1000) : input
+    return input ? prettyBytes(input, parseInt(step, 10) ?? 1000) : input;
   },
   round: (input, decimals = 2) => {
     if (isNaN(input)) {

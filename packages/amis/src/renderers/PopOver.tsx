@@ -381,7 +381,7 @@ export const HocPopOver =
           >
             {(popOver as SchemaPopOverObject)?.showIcon !== false ? (
               <>
-                <Component {...this.props} wrapperComponent={''} noHoc />
+                <Component {...this.props} contentsOnly noHoc />
                 <span
                   key="popover-btn"
                   className={cx('Field-popOverBtn')}
@@ -399,7 +399,7 @@ export const HocPopOver =
                   {...triggerProps}
                   ref={config.targetOutter ? undefined : this.targetRef}
                 >
-                  <Component {...this.props} wrapperComponent={''} noHoc />
+                  <Component {...this.props} contentsOnly noHoc />
                 </div>
                 {this.state.isOpened ? this.renderPopOver() : null}
               </>

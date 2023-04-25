@@ -179,6 +179,7 @@ exports[`Renderer:panel 1`] = `
                           <input
                             autocomplete="off"
                             class=""
+                            name="text"
                             placeholder="Text 1"
                             size="10"
                             type="text"
@@ -200,6 +201,7 @@ exports[`Renderer:panel 1`] = `
                           <input
                             autocomplete="off"
                             class=""
+                            name="text2"
                             placeholder="Text 2"
                             size="10"
                             type="text"

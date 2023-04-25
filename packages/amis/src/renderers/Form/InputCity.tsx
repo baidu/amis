@@ -6,7 +6,7 @@ import {
   resolveEventData
 } from 'amis-core';
 import {ClassNamesFn, themeable, ThemeProps} from 'amis-core';
-import {Spinner} from 'amis-ui';
+import {Spinner, SpinnerExtraProps} from 'amis-ui';
 import {Select} from 'amis-ui';
 import {CityArea} from 'amis-ui';
 import {autobind, isMobile, createObject} from 'amis-core';
@@ -20,7 +20,9 @@ import {supportStatic} from './StaticHoc';
  * City 城市选择框。
  * 文档：https://baidu.gitee.io/amis/docs/components/form/city
  */
-export interface InputCityControlSchema extends FormBaseControlSchema {
+export interface InputCityControlSchema
+  extends FormBaseControlSchema,
+    SpinnerExtraProps {
   /**
    * 指定为城市选择框。
    */
@@ -75,7 +77,9 @@ export interface CityPickerProps
   allowDistrict: boolean;
   allowStreet: boolean;
   useMobileUI?: boolean;
-  style?: any;
+  style?: {
+    [propName: string]: any;
+  };
 }
 
 export interface CityDb {
@@ -109,7 +113,7 @@ const getCityFromCode = ({
   value,
   db,
   delimiter = ','
-}:{
+}: {
   value: any;
   db?: CityDb;
   delimiter?: string;
@@ -168,11 +172,11 @@ const getCityFromCode = ({
   }
 
   return result;
-}
+};
 
 const loadDb = (callback: (db: any) => void): void => {
   import('amis-ui/lib/components/CityDB').then(callback);
-}
+};
 
 export class CityPicker extends React.Component<
   CityPickerProps,
@@ -349,11 +353,13 @@ export class CityPicker extends React.Component<
       return;
     }
 
-    this.setState(getCityFromCode({
-      value,
-      delimiter,
-      db
-    }));
+    this.setState(
+      getCityFromCode({
+        value,
+        delimiter,
+        db
+      })
+    );
   }
 
   @autobind
@@ -404,7 +410,8 @@ export class CityPicker extends React.Component<
       allowDistrict,
       allowStreet,
       searchable,
-      translate: __
+      translate: __,
+      loadingConfig
     } = this.props;
 
     const {provinceCode, cityCode, districtCode, street, db} = this.state;
@@ -464,7 +471,7 @@ export class CityPicker extends React.Component<
         ) : null}
       </div>
     ) : (
-      <Spinner show size="sm" />
+      <Spinner show size="sm" loadingConfig={loadingConfig} />
     );
   }
 }
@@ -482,7 +489,7 @@ export interface LocationControlProps extends FormControlProps {
 export class LocationControl extends React.Component<LocationControlProps> {
   state = {
     db: null
-  }
+  };
 
   @autobind
   doAction(action: ActionObject, data: object, throwErrors: boolean) {
@@ -513,46 +520,33 @@ export class LocationControl extends React.Component<LocationControlProps> {
   }
 
   renderStatic(displayValue = '') {
-    const {value, delimiter} = this.props;
+    const {value, delimiter, loadingConfig} = this.props;
     if (!this.state.db) {
       loadDb(db => {
-        this.setState(
-          {
-            db: {
-              ...db.default,
-              province: db.province as any,
-              city: db.city,
-              district: db.district
-            }
+        this.setState({
+          db: {
+            ...db.default,
+            province: db.province as any,
+            city: db.city,
+            district: db.district
           }
-        );
+        });
       });
-      return <Spinner size='sm' />;
+      return <Spinner size="sm" show loadingConfig={loadingConfig} />;
     }
 
     if (!value) {
       return <>{displayValue}</>;
     }
 
-    const {
-      province,
-      city,
-      district,
-      street
-    } = getCityFromCode({
+    const {province, city, district, street} = getCityFromCode({
       value,
       delimiter,
       db: this.state.db
     });
 
     return (
-      <>
-        {
-          [province, city, district, street]
-            .filter(v => !!v)
-            .join(delimiter)
-        }
-      </>
+      <>{[province, city, district, street].filter(v => !!v).join(delimiter)}</>
     );
   }
 

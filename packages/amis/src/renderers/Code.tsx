@@ -156,7 +156,8 @@ export default class Code extends React.Component<CodeProps> {
     'editorTheme',
     'tabSize',
     'wordWrap',
-    'customLang'
+    'customLang',
+    'style'
   ];
 
   static defaultProps: Partial<CodeProps> = {

@@ -9,11 +9,13 @@ import Checkbox from './Checkbox';
 import {Option} from './Select';
 import {getTreeDepth} from 'amis-core';
 import times from 'lodash/times';
-import Spinner from './Spinner';
+import Spinner, {SpinnerExtraProps} from './Spinner';
 import {localeable} from 'amis-core';
 import VirtualList, {AutoSizer} from './virtual-list';
 
-export interface ChainedSelectionProps extends BaseSelectionProps {
+export interface ChainedSelectionProps
+  extends BaseSelectionProps,
+    SpinnerExtraProps {
   defaultSelectedIndex?: string;
 }
 
@@ -124,7 +126,8 @@ export class ChainedSelection extends BaseSelection<
       itemClassName,
       itemRender,
       multiple,
-      labelField
+      labelField,
+      loadingConfig
     } = this.props;
     const valueArray = this.valueArray;
 
@@ -153,12 +156,62 @@ export class ChainedSelection extends BaseSelection<
             })}
           </div>
 
-          {option.defer && option.loading ? <Spinner size="sm" show /> : null}
+          {option.defer && option.loading ? (
+            <Spinner loadingConfig={loadingConfig} size="sm" show />
+          ) : null}
         </div>
       );
     }
 
     return this.renderItem(option, index, depth, id, styles);
+  }
+
+  renderCheckAll() {
+    const {
+      multiple,
+      checkAll,
+      checkAllLabel,
+      classnames: cx,
+      translate: __,
+      labelClassName,
+      itemClassName
+    } = this.props;
+
+    if (!multiple || !checkAll) {
+      return null;
+    }
+    const availableOptions = this.getAvailableOptions();
+
+    const valueArray = this.valueArray;
+
+    const checkedAll = availableOptions.every(
+      option => valueArray.indexOf(option) > -1
+    );
+    const checkedPartial = availableOptions.some(
+      option => valueArray.indexOf(option) > -1
+    );
+
+    return (
+      <div
+        className={cx(
+          'ChainedSelection-item',
+          'ChainedSelection-checkAll',
+          itemClassName
+        )}
+        onClick={this.toggleAll}
+      >
+        <Checkbox
+          checked={checkedPartial}
+          partial={checkedPartial && !checkedAll}
+          size="sm"
+          labelClassName={labelClassName}
+        />
+
+        <div className={cx('ChainedSelection-itemLabel')}>
+          <span>{__(checkAllLabel)}</span>
+        </div>
+      </div>
+    );
   }
 
   render() {
@@ -325,7 +378,10 @@ export class ChainedSelection extends BaseSelection<
     return (
       <div className={cx('ChainedSelection', className)}>
         {body && body.length ? (
-          body
+          <>
+            {this.renderCheckAll()}
+            {body}
+          </>
         ) : (
           <div className={cx('ChainedSelection-placeholder')}>
             {__(placeholder)}

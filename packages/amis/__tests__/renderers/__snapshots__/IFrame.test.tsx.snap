@@ -35,6 +35,7 @@ exports[`Renderer:iframe-var 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <iframe
             class="b-a"

@@ -286,6 +286,7 @@ body {
     padding: 0px 5px;
     margin: 0 5px;
     font-weight: 500;
+    line-height: inherit;
     text-decoration: none;
 
     &:hover,
@@ -293,6 +294,8 @@ body {
       color: var(--primary);
       position: relative;
       text-decoration: none;
+      font-weight: 500;
+      line-height: inherit;
 
       &::before {
         content: '';
@@ -491,9 +494,13 @@ body {
         color: #666;
         cursor: pointer;
         text-decoration: none !important;
+        font-size: 12px;
+        font-weight: 500;
 
         &:hover {
           color: #333;
+          font-size: 12px;
+          font-weight: 500;
         }
       }
 

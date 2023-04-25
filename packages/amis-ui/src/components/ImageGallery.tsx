@@ -29,7 +29,7 @@ export interface ImageAction {
 }
 
 export interface ImageGalleryProps extends ThemeProps, LocaleProps {
-  children: React.ReactNode;
+  children: React.ReactNode | Array<React.ReactNode>;
   modalContainer?: () => HTMLElement;
   /** 操作栏 */
   actions?: ImageAction[];
@@ -90,16 +90,21 @@ export class ImageGallery extends React.Component<
     actions: ImageGallery.defaultProps.actions
   };
 
-  componentDidMount() {
-    window.addEventListener('wheel', this.onWheelScroll.bind(this), {
-      passive: false
-    });
+  galleryMain?: HTMLDivElement;
+  @autobind
+  galleryMainRef(ref: HTMLDivElement) {
+    if (ref) {
+      ref.addEventListener('wheel', this.onWheelScroll, {
+        passive: false
+      });
+    } else {
+      this.galleryMain?.removeEventListener('wheel', this.onWheelScroll);
+    }
+
+    this.galleryMain = ref;
   }
 
-  componentWillUnmount() {
-    window.removeEventListener('wheel', this.onWheelScroll);
-  }
-
+  @autobind
   onWheelScroll(event: WheelEvent) {
     const showToolbar = this.state?.showToolbar;
 
@@ -290,7 +295,10 @@ export class ImageGallery extends React.Component<
               <div className={cx('ImageGallery-title')}>
                 {items[index].title}
               </div>
-              <div className={cx('ImageGallery-main')}>
+              <div
+                className={cx('ImageGallery-main')}
+                ref={this.galleryMainRef}
+              >
                 <img
                   src={items[index].originalSrc}
                   style={{transform: `scale(${scale}) rotate(${rotate}deg)`}}
