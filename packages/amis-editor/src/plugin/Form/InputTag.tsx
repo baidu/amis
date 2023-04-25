@@ -45,6 +45,7 @@ export class TagControlPlugin extends BasePlugin {
   notRenderFormZone = true;
 
   panelTitle = '标签';
+  panelJustify = true;
 
   // 事件定义
   events: RendererPluginEvent[] = [

@@ -95,7 +95,7 @@ export function getAttrNumber(
  *
  * @returns 0-1 之间的小数
  */
-export function getAttrPercentage(element: Element, attr: string) {
+export function getAttrPercent(element: Element, attr: string) {
   const value = element.getAttribute(attr);
 
   if (value) {

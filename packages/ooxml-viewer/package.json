@@ -61,7 +61,6 @@
     "ts-loader": "^9.2.3",
     "ts-node": "^10.4.0",
     "typescript": "^4.3.5",
-    "vite": "^3.2.2",
     "xml-formatter": "^3.3.2"
   },
   "jest": {

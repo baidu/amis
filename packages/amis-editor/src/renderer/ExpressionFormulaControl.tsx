@@ -117,6 +117,7 @@ export default class ExpressionFormulaControl extends React.Component<
   @autobind
   handleConfirm(value = '') {
     const expressionReg = /^\$\{(.*)\}$/;
+    value = value.replace(/\r\n|\r|\n/g, ' ');
     if (value && !expressionReg.test(value)) {
       value = `\${${value}}`;
     }
