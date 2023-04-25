@@ -24,6 +24,8 @@ function generateDefaultStyle(word: Word) {
     defaultRStyle = styleToText(defaultStyle.rPr.cssStyle);
   }
 
+  const hyphens = word.settings?.autoHyphenation ? 'hyphens: auto;' : '';
+
   const classPrefix = word.getClassPrefix();
 
   return `
@@ -40,6 +42,7 @@ function generateDefaultStyle(word: Word) {
     margin: 0;
     padding: 0;
     line-height: 1.5;
+    ${hyphens}
   }
 
   .${classPrefix} .justify:after {

@@ -11,10 +11,10 @@ import {WDocument} from '../openxml/word/WDocument';
 export default function renderDocument(
   root: HTMLElement,
   word: Word,
-  document: WDocument,
+  wDocument: WDocument,
   renderOptions: WordRenderOptions
 ) {
   const doc = createElement('article');
-  renderBody(root, word, doc, document.body, renderOptions);
+  renderBody(root, word, doc, wDocument, wDocument.body, renderOptions);
   return doc;
 }

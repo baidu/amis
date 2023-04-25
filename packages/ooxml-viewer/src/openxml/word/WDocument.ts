@@ -4,14 +4,39 @@
  * http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/Main%20Document%20Story.html
  */
 
+import {Color} from '../../util/color';
 import {parseColorAttr} from '../../parse/parseColor';
 import Word from '../../Word';
 import {DocumentBackground} from './Background';
 import {Body} from './Body';
 
+/**
+ * 计算出最终实际背景色
+ */
+function getBackgroundColor(documentBackground: DocumentBackground) {
+  if (documentBackground.color) {
+    return documentBackground.color;
+  }
+
+  if (documentBackground.themeColor) {
+    const themeColor = documentBackground.themeColor;
+    if (documentBackground.themeTint) {
+      const color = new Color(themeColor);
+      const themeShade = parseInt(documentBackground.themeTint, 16);
+      color.tint(themeShade / 256);
+    } else if (documentBackground.themeShade) {
+      const color = new Color(themeColor);
+      const themeShade = parseInt(documentBackground.themeShade, 16);
+      color.lumMod(themeShade / 256);
+    }
+  }
+
+  return '#FFFFF';
+}
+
 export class WDocument {
   body: Body;
-  documentBackground?: DocumentBackground;
+  backgroundColor?: string;
 
   static fromXML(word: Word, element: Document): WDocument {
     const doc = new WDocument();
@@ -79,7 +104,7 @@ export class WDocument {
         }
       }
 
-      doc.documentBackground = documentBackground;
+      doc.backgroundColor = getBackgroundColor(documentBackground);
     }
 
     return doc;

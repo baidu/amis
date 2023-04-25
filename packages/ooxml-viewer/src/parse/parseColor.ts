@@ -3,10 +3,10 @@
  */
 
 import {Color} from '../util/color';
-import {getAttrPercentage, getVal} from '../OpenXML';
+import {getAttrPercent, getVal} from '../OpenXML';
 import {ST_Shd} from '../openxml/Types';
 import Word from '../Word';
-import {colorNameMap} from './colorNameMap';
+import {PresetColorMap} from './colorNameMap';
 
 /**
  * css 里可以识别的颜色
@@ -36,8 +36,8 @@ export function parseColorAttr(
        */
     } else if (cssColors.includes(color)) {
       return color;
-    } else if (color in colorNameMap) {
-      return colorNameMap[color as keyof typeof colorNameMap];
+    } else if (color in PresetColorMap) {
+      return PresetColorMap[color as keyof typeof PresetColorMap];
     }
 
     return `#${color}`;
