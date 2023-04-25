@@ -267,6 +267,7 @@ export class TextareaFormulaControl extends React.Component<
     // 去除可能包裹的最外层的${}
     value = value.replace(/^\$\{(.*)\}$/, (match: string, p1: string) => p1);
     value = value ? `\${${value}}` : value;
+    value = value.replace(/\r\n|\r|\n/g, ' ');
     this.editorPlugin?.insertContent(value, 'expression', expressionBrace);
     this.setState({
       formulaPickerOpen: false,
@@ -291,7 +292,8 @@ export class TextareaFormulaControl extends React.Component<
       onExpressionClick: this.onExpressionClick,
       onExpressionMouseEnter: this.onExpressionMouseEnter,
       customMarkText: this.props.customMarkText,
-      onPluginInit: this.props.onPluginInit
+      onPluginInit: this.props.onPluginInit,
+      showClearIcon: true
     });
   }
 
@@ -418,7 +420,8 @@ export class TextareaFormulaControl extends React.Component<
               </a>
             </li>
             {/* 附加底部按钮菜单项 */}
-            {additionalMenus?.length &&
+            {Array.isArray(additionalMenus) &&
+              additionalMenus.length > 0 &&
               additionalMenus?.map((item, i) => {
                 return (
                   <li key={i}>
