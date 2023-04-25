@@ -433,6 +433,16 @@
       position: absolute !important;
       z-index: 1500;
       background-color: var(--Layout-light-backgroundColor);
+
+      // 横向收纳模式且有子菜单项的情况下 会显示2个展开箭头
+      // 用css隐藏1个 自适应收纳的情况下 判断不出是子菜单项还是收纳项
+      .#{$ns}Nav-Menu-submenu-title {
+        .#{$ns}Nav-Menu-item-link {
+          .#{$ns}Nav-Menu-submenu-arrow {
+            display: none;
+          }
+        }
+      }
     }
   }
 
@@ -464,6 +474,7 @@
       > .#{$ns}Nav-Menu-submenu-title {
       .#{$ns}Nav-Menu-overflowedIcon {
         margin-right: 0;
+        line-height: inherit; // 到了saas中 会被fortawesome的样式影响 因此需要覆盖一下
       }
     }
 
