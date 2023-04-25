@@ -18,7 +18,7 @@ export class ImagesPlugin extends BasePlugin {
   pluginIcon = 'images-plugin';
   scaffold = {
     type: 'images',
-    imageGallaryClassName: 'Theme-image-gallary'
+    imageGallaryClassName: 'app-popover'
   };
   previewSchema = {
     ...this.scaffold,
