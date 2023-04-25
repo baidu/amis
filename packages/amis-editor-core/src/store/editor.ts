@@ -18,7 +18,6 @@ import {
   needDefaultWidth,
   guid,
   addStyleClassName,
-  setThemeDefaultData,
   appTranslate
 } from '../../src/util';
 import {
@@ -530,8 +529,7 @@ export const MainStore = types
       getValueOf(id: string) {
         const schema = JSONGetById(self.schema, id);
         const data = JSONPipeOut(schema, false);
-        const res = setThemeDefaultData(data);
-        return res;
+        return data;
       },
 
       get valueWithoutHiddenProps() {
