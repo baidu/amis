@@ -17,7 +17,8 @@ export class ImagesPlugin extends BasePlugin {
   icon = 'fa fa-clone';
   pluginIcon = 'images-plugin';
   scaffold = {
-    type: 'images'
+    type: 'images',
+    imageGallaryClassName: 'Theme-image-gallary'
   };
   previewSchema = {
     ...this.scaffold,
