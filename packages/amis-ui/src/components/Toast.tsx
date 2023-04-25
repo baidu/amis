@@ -269,7 +269,7 @@ interface ToastMessageProps {
   classnames: ClassNamesFn;
   translate: TranslateFn;
   allowHtml: boolean;
-  className: string;
+  className?: string;
   useMobileUI?: boolean;
 }
 
