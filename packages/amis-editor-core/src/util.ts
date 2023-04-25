@@ -42,6 +42,7 @@ export {
 };
 
 export let themeConfig: any = {};
+export let themeOptionsData: any = {};
 
 export function __uri(id: string) {
   return id;
@@ -1093,13 +1094,14 @@ export function needFillPlaceholder(curProps: any) {
 // 设置主题数据
 export function setThemeConfig(config: any) {
   themeConfig = config;
+  themeOptionsData = getGlobalData(themeConfig);
 }
 
 // 将主题数据传入组件的schema
 export function setThemeDefaultData(data: any) {
   const schemaData = cloneDeep(data);
   schemaData.themeConfig = themeConfig;
-  assign(schemaData, getGlobalData(themeConfig));
+  assign(schemaData, themeOptionsData);
   return schemaData;
 }
 
@@ -1111,16 +1113,9 @@ export function deleteThemeConfigData(data: any) {
   const schemaData = cloneDeep(data);
 
   delete schemaData.themeConfig;
-  delete schemaData.borderRadiusOptions;
-  delete schemaData.borderStyleOptions;
-  delete schemaData.borderWidthOptions;
-  delete schemaData.fontFamilyOptions;
-  delete schemaData.fontSizeOptions;
-  delete schemaData.fontWeightOptions;
-  delete schemaData.lineHeightOptions;
-  delete schemaData.shadowOptions;
-  delete schemaData.sizesOptions;
-  delete schemaData.colorOptions;
+  Object.keys(themeOptionsData).forEach(key => {
+    delete schemaData[key];
+  });
 
   return schemaData;
 }
