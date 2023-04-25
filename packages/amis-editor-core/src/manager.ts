@@ -740,6 +740,7 @@ export class EditorManager {
       type: event,
       fn
     });
+    return () => this.off(event, fn);
   }
 
   off(event: string, fn: PluginEventFn) {

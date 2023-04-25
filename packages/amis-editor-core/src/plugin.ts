@@ -594,7 +594,7 @@ export type PluginEvent<T, P = any> = {
   data?: P;
 };
 
-export type PluginEventFn = (e: PluginEvent<EventContext>) => false | void;
+export type PluginEventFn = (e: PluginEvent<EventContext>) => any;
 
 /**
  * 创建事件。
