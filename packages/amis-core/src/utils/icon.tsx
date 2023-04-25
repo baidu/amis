@@ -9,6 +9,7 @@ import {ClassNamesFn} from '../theme';
 export interface IconCheckedSchema {
   id: string;
   name?: string;
+  svg?: string;
 }
 
 /**
@@ -19,7 +20,11 @@ export interface IconCheckedSchema {
  */
 export const generateIcon = (
   cx: ClassNamesFn,
-  icon?: string | IconCheckedSchema | React.ReactNode,
+  icon?:
+    | string
+    | IconCheckedSchema
+    | React.ReactNode
+    | {icon: IconCheckedSchema},
   className?: string,
   classNameProp?: string
 ) => {
@@ -28,6 +33,24 @@ export const generateIcon = (
   }
 
   if (typeof icon !== 'string') {
+    if (
+      isObject(icon) &&
+      typeof (icon as {icon: IconCheckedSchema}).icon?.id === 'string' &&
+      (icon as {icon: IconCheckedSchema}).icon?.svg
+    ) {
+      const SvgStr = (icon as {icon: IconCheckedSchema}).icon.svg?.match(
+        /(<svg.{1,}\/svg>)/
+      );
+      if (SvgStr) {
+        return (
+          <div
+            className={cx(className, classNameProp)}
+            dangerouslySetInnerHTML={{__html: SvgStr[0].replace(/\\"/g, '"')}}
+          ></div>
+        );
+      }
+    }
+
     if (
       isObject(icon) &&
       typeof (icon as IconCheckedSchema).id === 'string' &&

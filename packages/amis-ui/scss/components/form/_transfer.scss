@@ -297,6 +297,7 @@
         var(--transfer-tree-top-right-border-radius)
         var(--transfer-tree-bottom-right-border-radius)
         var(--transfer-tree-bottom-left-border-radius);
+      overflow: hidden;
 
       &:hover {
         background: var(--transfer-tree-bg-hover-color);
