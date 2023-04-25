@@ -612,7 +612,7 @@ export default class ImageControl extends React.Component<
 
     const errorFiles = [].slice.call(reFiles, 0, allowed);
 
-    const renderItem = (file: FileX): FileX => {
+    const formatFile = (file: FileX): FileX => {
       file.id = guid();
       const errors = rejectedFiles.find(i => i.file === file)?.errors;
       if (errors) {
@@ -638,15 +638,15 @@ export default class ImageControl extends React.Component<
 
     if (multiple) {
       if (this.reuploadIndex !== undefined) {
-        currentFiles.splice(this.reuploadIndex, 1, renderItem(errorFiles[0]));
+        currentFiles.splice(this.reuploadIndex, 1, formatFile(errorFiles[0]));
         this.reuploadIndex = undefined;
       } else {
         errorFiles.forEach((item: any) => {
-          currentFiles.push(renderItem(item));
+          currentFiles.push(formatFile(item));
         });
       }
     } else {
-      const file = renderItem(errorFiles[0]);
+      const file = formatFile(errorFiles[0]);
       currentFiles.splice(0, 1, file);
       formItem?.setError(file?.error ?? '');
     }
@@ -780,13 +780,6 @@ export default class ImageControl extends React.Component<
         },
         async () => {
           await this.onChange(!!this.resolve, false);
-          // 每次上传完，看下是否还有错误，没有就把表单校验信息给去掉
-          const length = this.files.filter(
-            i => i.state && ['error', 'invalid'].includes(i.state)
-          ).length;
-          if (length === 0) {
-            formItem?.validate(this.props.data);
-          }
           if (this.resolve) {
             this.resolve(
               this.files.some(file => file.state === 'error')
@@ -822,15 +815,7 @@ export default class ImageControl extends React.Component<
       {
         files: (this.files = files)
       },
-      () => {
-        isUploading ? this.tick() : this.onChange();
-        const length = this.files.filter(
-          i => i.state && ['error', 'invalid'].includes(i.state)
-        ).length;
-        if (!multiple || length === 0) {
-          formItem?.validate(this.props.data);
-        }
-      }
+      isUploading ? this.tick : this.onChange
     );
   }
 
@@ -1385,8 +1370,7 @@ export default class ImageControl extends React.Component<
         this.startUpload();
       });
     } else if (
-      this.files.filter(i => i.state === 'error' || i.state === 'invalid')
-        .length
+      this.files.some(i => i.state && ['error', 'invalid'].includes(i.state))
     ) {
       return multiple ? ' ' : this.files[0].error;
     }
