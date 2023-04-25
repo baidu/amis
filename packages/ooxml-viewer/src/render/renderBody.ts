@@ -11,7 +11,7 @@ import renderParagraph from './renderParagraph';
 import {renderSection} from './renderSection';
 import renderTable from './renderTable';
 import {Section} from '../openxml/word/Section';
-import {WDocument} from 'src/openxml/word/WDocument';
+import {WDocument} from '../openxml/word/WDocument';
 
 /**
  * 判断是否需要创建一个新 section，包括强制分页和超出了 section 的高宽或宽度
