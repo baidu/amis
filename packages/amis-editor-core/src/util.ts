@@ -1102,3 +1102,25 @@ export function setThemeDefaultData(data: any) {
   assign(schemaData, getGlobalData(themeConfig));
   return schemaData;
 }
+
+// 删除主题的配置数据
+export function deleteThemeConfigData(data: any) {
+  if (!data) {
+    return data;
+  }
+  const schemaData = cloneDeep(data);
+
+  delete schemaData.themeConfig;
+  delete schemaData.borderRadiusOptions;
+  delete schemaData.borderStyleOptions;
+  delete schemaData.borderWidthOptions;
+  delete schemaData.fontFamilyOptions;
+  delete schemaData.fontSizeOptions;
+  delete schemaData.fontWeightOptions;
+  delete schemaData.lineHeightOptions;
+  delete schemaData.shadowOptions;
+  delete schemaData.sizesOptions;
+  delete schemaData.colorOptions;
+
+  return schemaData;
+}
