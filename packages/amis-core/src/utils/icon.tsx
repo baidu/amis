@@ -45,24 +45,6 @@ export const generateIcon = (
     if (
       isObject(icon) &&
       typeof (icon as IconCheckedSchema).id === 'string' &&
-      (icon as IconCheckedSchema).svg
-    ) {
-      const SvgStr = (icon as IconCheckedSchema).svg?.match(
-        /(<svg.{1,}\/svg>)/
-      );
-      if (SvgStr) {
-        return (
-          <div
-            className={cx(className, classNameProp)}
-            dangerouslySetInnerHTML={{__html: SvgStr[0].replace(/\\"/g, '"')}}
-          ></div>
-        );
-      }
-    }
-
-    if (
-      isObject(icon) &&
-      typeof (icon as IconCheckedSchema).id === 'string' &&
       (icon as IconCheckedSchema).id.startsWith('svg-')
     ) {
       return (
