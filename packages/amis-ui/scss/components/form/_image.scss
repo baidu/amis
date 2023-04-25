@@ -6,6 +6,7 @@
   }
 
   .ImageControl-addBtn-icon {
+    z-index: 1;
     content: var(--inputImage-base-default-icon);
   }
 
@@ -103,7 +104,6 @@
     );
 
     svg {
-      z-index: 1;
       top: 0;
       margin-bottom: var(--inputImage-base-default-icon-margin);
       font-size: var(--inputImage-base-default-icon-size);
