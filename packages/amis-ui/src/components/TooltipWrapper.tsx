@@ -103,7 +103,6 @@ export interface TooltipWrapperProps {
   delay: number;
   tooltipTheme?: string;
   tooltipClassName?: string;
-  tooltipBodyClassName?: string;
   style?: React.CSSProperties;
   /**
    * 显示&隐藏时触发
@@ -289,7 +288,6 @@ export class TooltipWrapper extends React.Component<
       trigger: props.trigger,
       rootClose: props.rootClose,
       tooltipClassName: props.tooltipClassName,
-      tooltipBodyClassName: props.tooltipBodyClassName,
       style: props.style,
       mouseLeaveDelay: props.delay,
       tooltipTheme: props.tooltipTheme as 'dark' | 'light',
@@ -355,7 +353,7 @@ export class TooltipWrapper extends React.Component<
           className={tooltipClassName}
           tooltipTheme={tooltipTheme}
           showArrow={showArrow}
-          bodyClass={tooltipBodyClassName}
+          bodyClassName={tooltipBodyClassName}
           onMouseEnter={
             ~triggers.indexOf('hover') ? this.tooltipMouseEnter : () => {}
           }

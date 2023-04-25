@@ -606,23 +606,16 @@ export default class ImageControl extends React.Component<
         : 1) - currentFiles.length;
 
     // 限制过多的错误文件
-    if (allowed < reFiles.length) {
-      this.props.env.alert(__('File.maxLength', {maxLength}));
-
-      // 为0，不能超出
-      if (allowed <= 0) {
-        return;
-      }
+    if (allowed <= 0) {
+      return;
     }
 
     const errorFiles = [].slice.call(reFiles, 0, allowed);
 
-    const renderItem = (file: File): FileX => {
-      // @ts-ignore
+    const renderItem = (file: FileX): FileX => {
       file.id = guid();
       const errors = rejectedFiles.find(i => i.file === file)?.errors;
       if (errors) {
-        // @ts-ignore
         file.error = errors
           .map(err => {
             // 类型错误
@@ -639,7 +632,6 @@ export default class ImageControl extends React.Component<
           })
           .join('; ');
       }
-      // @ts-ignore
       file.state = 'invalid';
       return file;
     };
@@ -793,7 +785,7 @@ export default class ImageControl extends React.Component<
             i => i.state && ['error', 'invalid'].includes(i.state)
           ).length;
           if (length === 0) {
-            formItem?.clearError();
+            formItem?.validate(this.props.data);
           }
           if (this.resolve) {
             this.resolve(
@@ -836,7 +828,7 @@ export default class ImageControl extends React.Component<
           i => i.state && ['error', 'invalid'].includes(i.state)
         ).length;
         if (!multiple || length === 0) {
-          formItem?.clearError();
+          formItem?.validate(this.props.data);
         }
       }
     );
@@ -1375,7 +1367,7 @@ export default class ImageControl extends React.Component<
   }
 
   validate(): any {
-    const {translate: __, multiple, formItem} = this.props;
+    const {translate: __, multiple} = this.props;
 
     if (this.state.locked && this.state.lockedReason) {
       return this.state.lockedReason;
@@ -1392,16 +1384,11 @@ export default class ImageControl extends React.Component<
         this.resolve = resolve;
         this.startUpload();
       });
-    } else if (formItem?.errors.length) {
-      return formItem.errors;
     } else if (
       this.files.filter(i => i.state === 'error' || i.state === 'invalid')
         .length
     ) {
-      if (multiple) {
-        return ' ';
-      }
-      return this.files[0].error;
+      return multiple ? ' ' : this.files[0].error;
     }
   }
 
@@ -1649,12 +1636,12 @@ export default class ImageControl extends React.Component<
                                 placement="top"
                                 tooltip={{
                                   content: file.error,
-                                  disabled: !multiple && files.length === 1
+                                  disabled: !multiple && files.length === 1,
+                                  tooltipBodyClassName: cx(
+                                    'ImageControl-item-errorTip'
+                                  )
                                 }}
                                 trigger="hover"
-                                tooltipBodyClassName={cx(
-                                  'ImageControl-item-errorTip'
-                                )}
                               >
                                 <div className={cx('Image--thumb')}>
                                   <div className={cx('Image-thumbWrap')}>
