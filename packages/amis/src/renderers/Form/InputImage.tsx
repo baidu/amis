@@ -795,7 +795,6 @@ export default class ImageControl extends React.Component<
 
   async removeFile(file: FileValue, index: number) {
     const files = this.files.concat();
-    const {multiple, formItem} = this.props;
     const dispatcher = await this.dispatchEvent('remove', {
       ...file, // 保留历史结构
       item: file
