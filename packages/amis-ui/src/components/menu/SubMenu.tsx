@@ -209,7 +209,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
   }
 
   render() {
-    const {style, popupClassName, classnames: cx, hidden} = this.props;
+    const {popupClassName, classnames: cx, hidden} = this.props;
 
     const isDarkTheme = this.context.themeColor === 'dark';
     return hidden ? null : (
@@ -227,7 +227,6 @@ export class SubMenu extends React.Component<SubMenuProps> {
         )}
         title={this.renderSubMenuTitle()}
         onTitleClick={this.handleSubmenuTitleActived}
-        style={style}
       />
     );
   }
