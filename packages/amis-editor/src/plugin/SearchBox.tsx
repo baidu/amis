@@ -52,9 +52,12 @@ export class SearchBoxPlugin extends BasePlugin {
       description: '点击搜索图标时触发',
       dataSchema: [
         {
-          'event.data.keywords': {
-            type: 'string',
-            title: '搜索内容'
+          type: 'object',
+          properties: {
+            'event.data.value': {
+              type: 'string',
+              title: '搜索内容'
+            }
           }
         }
       ]
@@ -65,13 +68,12 @@ export class SearchBoxPlugin extends BasePlugin {
       description: '输入框值变化时触发',
       dataSchema: [
         {
-          'event.data.keywords': {
-            type: 'string',
-            title: '搜索内容'
-          },
-          'event.data.value': {
-            type: 'string',
-            title: '搜索内容' // 和keywords值相同
+          type: 'object',
+          properties: {
+            'event.data.value': {
+              type: 'string',
+              title: '搜索内容'
+            }
           }
         }
       ]
@@ -82,13 +84,12 @@ export class SearchBoxPlugin extends BasePlugin {
       description: '输入框获取焦点时触发',
       dataSchema: [
         {
-          'event.data.keywords': {
-            type: 'string',
-            title: '搜索内容'
-          },
-          'event.data.value': {
-            type: 'string',
-            title: '搜索内容' // 和keywords值相同
+          type: 'object',
+          properties: {
+            'event.data.value': {
+              type: 'string',
+              title: '搜索内容'
+            }
           }
         }
       ]
@@ -99,13 +100,12 @@ export class SearchBoxPlugin extends BasePlugin {
       description: '输入框失去焦点时触发',
       dataSchema: [
         {
-          'event.data.keywords': {
-            type: 'string',
-            title: '搜索内容'
-          },
-          'event.data.value': {
-            type: 'string',
-            title: '搜索内容' // 和keywords值相同
+          type: 'object',
+          properties: {
+            'event.data.value': {
+              type: 'string',
+              title: '搜索内容'
+            }
           }
         }
       ]
