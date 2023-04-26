@@ -164,6 +164,11 @@ export class EditorManager {
   // 用于记录amis渲染器的上下文数据
   amisStore: Object = {};
 
+  // 用于记录所有渲染器的上下文数据
+  amisRenderersContext: {
+    [props: string]: Object;
+  } = {};
+
   // 广播事件集
   readonly broadcasts: RendererPluginEvent[] = [];
   // 插件事件集
@@ -380,10 +385,22 @@ export class EditorManager {
   }
 
   // 更新amis渲染器上下文
-  updateAMISContext(amisStore: Object) {
+  updateAMISContext(amisStore: Object, rendererId?: string) {
     if (amisStore) {
       this.amisStore = amisStore;
     }
+    if (rendererId) {
+      this.amisRenderersContext[rendererId] = amisStore;
+    }
+  }
+
+  // 根据渲染器id
+  getAmisRendererContext(rendererId: string) {
+    return this.amisRenderersContext[rendererId] || {};
+  }
+
+  getAmisRenderersContext() {
+    return this.amisRenderersContext;
   }
 
   // 首次初始化时，增加组件物料和面板加载逻辑，避免 autoFocus 为 false 时，左右面板为空
