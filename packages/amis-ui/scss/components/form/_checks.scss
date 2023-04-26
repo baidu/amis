@@ -37,6 +37,7 @@
       cursor: pointer;
       display: inline-block;
       vertical-align: top;
+      line-height: var(--checkbox-checkbox-default-lineHeight);
 
       > a {
         // float: right;
@@ -69,8 +70,16 @@
 
   &--checkbox {
     padding-left: var(--Checkbox-size);
+    font-weight: var(--checkbox-checkbox-default-fontWeight);
     font-size: var(--checkbox-checkbox-default-fontSize);
-    color: var(--checkbox-checkbox-default-color);
+    color: var(--checkbox-checkbox-default-text-color);
+
+    &:hover {
+      color: var(--checkbox-checkbox-hover-text-color);
+    }
+    &:active {
+      color: var(--checkbox-checkbox-active-text-color);
+    }
 
     input {
       margin-left: calc(var(--Checkbox-size) * -1);
@@ -131,7 +140,7 @@
 
       &[disabled] + i + span {
         cursor: not-allowed;
-        color: var(--text--muted-color);
+        color: var(--checkbox-checkbox-disabled-text-color);
       }
     }
 
