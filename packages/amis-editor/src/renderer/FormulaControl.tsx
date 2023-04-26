@@ -489,12 +489,16 @@ export default class FormulaControl extends React.Component<
 
   @autobind
   getContextData() {
+    let curContextData = this.props.data?.__super?.__props__?.data;
+
+    if (!curContextData) {
+      const curComp = this.props.node?.getComponent();
+      if (curComp?.props?.data) {
+        curContextData = curComp.props.data;
+      }
+    }
     // 当前数据域
-    return (
-      this.props.data?.__super?.__props__?.data ||
-      this.props.manager?.amisStore ||
-      {}
-    );
+    return curContextData;
   }
 
   render() {
@@ -514,6 +518,7 @@ export default class FormulaControl extends React.Component<
       render,
       ...rest
     } = this.props;
+
     const {formulaPickerOpen, variables, variableMode} = this.state;
 
     // 自身字段
