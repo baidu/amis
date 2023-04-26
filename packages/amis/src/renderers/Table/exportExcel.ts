@@ -275,7 +275,16 @@ export async function exportExcel(
               : value === false && map['0']
               ? map['0']
               : map['*']); // 兼容平台旧用法：即 value 为 true 时映射 1 ，为 false 时映射 0
-          sheetRow.getCell(columIndex).value = removeHTMLTag(viewValue);
+          let text = removeHTMLTag(viewValue);
+
+          /** map可能会使用比较复杂的html结构，富文本也无法完全支持，直接把里面的变量解析出来即可 */
+          if (isPureVariable(text)) {
+            text = resolveVariableAndFilter(text, rowData, '| raw');
+          } else {
+            text = filter(text, rowData);
+          }
+
+          sheetRow.getCell(columIndex).value = text;
         } else {
           sheetRow.getCell(columIndex).value = removeHTMLTag(value);
         }

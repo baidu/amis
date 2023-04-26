@@ -7,8 +7,16 @@ import {findDOMNode} from 'react-dom';
 import cx from 'classnames';
 import uniqBy from 'lodash/uniqBy';
 import omit from 'lodash/omit';
+import get from 'lodash/get';
 import Sortable from 'sortablejs';
-import {FormItem, Button, Checkbox, Icon, InputBox, render as amisRender} from 'amis';
+import {
+  FormItem,
+  Button,
+  Checkbox,
+  Icon,
+  InputBox,
+  render as amisRender
+} from 'amis';
 import {value2array} from 'amis-ui/lib/components/Select';
 
 import {autobind, getI18nEnabled} from 'amis-editor-core';
@@ -16,10 +24,10 @@ import {getSchemaTpl} from 'amis-editor-core';
 import {tipedLabel} from 'amis-editor-core';
 
 import type {Option} from 'amis';
-import type {FormControlProps} from 'amis-core';
+import {createObject, FormControlProps} from 'amis-core';
 import type {TextControlSchema} from 'amis/lib/renderers/Form/inputText';
 import type {OptionValue} from 'amis-core';
-import {SchemaApi} from 'amis/lib/Schema';
+import type {SchemaApi} from 'amis/lib/Schema';
 
 export type valueType = 'text' | 'boolean' | 'number';
 
@@ -78,6 +86,27 @@ export default class OptionControl extends React.Component<
       valueField: props.data.valueField,
       source
     };
+  }
+
+  /**
+   * 数据更新
+   */
+  componentWillReceiveProps(nextProps: OptionControlProps) {
+    const options = get(nextProps, 'data.options')
+      ? this.transformOptions(nextProps)
+      : [];
+    if (
+      JSON.stringify(
+        this.state.options.map(item => ({
+          ...item,
+          editing: undefined
+        }))
+      ) !== JSON.stringify(options)
+    ) {
+      this.setState({
+        options
+      });
+    }
   }
 
   /**
@@ -140,7 +169,10 @@ export default class OptionControl extends React.Component<
           label: item.label,
           // 为了使用户编写label时同时生效到value
           value: item.label === item.value ? null : item.value,
-          checked: !!~valueArray.indexOf(item[ctx?.valueField ?? 'value'])
+          checked: !!~valueArray.indexOf(item[ctx?.valueField ?? 'value']),
+          ...(item?.badge ? {badge: item.badge} : {}),
+          ...(item.hidden !== undefined ? {hidden: item.hidden} : {}),
+          ...(item.hiddenOn !== undefined ? {hiddenOn: item.hiddenOn} : {})
         }))
       : [];
   }
@@ -158,7 +190,7 @@ export default class OptionControl extends React.Component<
       valueField
     } = ctx;
     const checkedOptions = this.state.options
-      .filter(item => item.checked)
+      .filter(item => item.checked && item?.hidden !== true)
       .map(item => omit(item, this.internalProps));
     let value: Array<OptionValue> | OptionValue;
 
@@ -210,10 +242,13 @@ export default class OptionControl extends React.Component<
     if (source === 'custom') {
       const {options} = this.state;
       data.options = options.map(item => ({
+        ...(item?.badge ? {badge: item.badge} : {}),
         label: item.label,
-        value: item.value == null || item.value === '' ? item.label : item.value
+        value:
+          item.value == null || item.value === '' ? item.label : item.value,
+        ...(item.hiddenOn !== undefined ? {hiddenOn: item.hiddenOn} : {})
       }));
-      data.value = defaultValue || undefined;
+      data.value = defaultValue;
     }
 
     if (source === 'api' || source === 'apicenter') {
@@ -345,11 +380,31 @@ export default class OptionControl extends React.Component<
     this.setState({options});
   }
 
+  /**
+   * 编辑角标
+   */
+  toggleBadge(index: number, value: string) {
+    const {options} = this.state;
+    options[index].badge = value;
+
+    this.setState({options}, () => this.onChange());
+  }
+
   @autobind
   handleEditLabel(index: number, value: string) {
     const options = this.state.options.concat();
-
     options.splice(index, 1, {...options[index], label: value});
+    this.setState({options}, () => this.onChange());
+  }
+
+  @autobind
+  handleHiddenValueChange(index: number, value: string) {
+    const options = this.state.options.concat();
+    const {hiddenOn, ...option} = options[index];
+    options.splice(index, 1, {
+      ...option,
+      ...(!value ? {} : {hiddenOn: value})
+    });
     this.setState({options}, () => this.onChange());
   }
 
@@ -385,9 +440,9 @@ export default class OptionControl extends React.Component<
   }
 
   @autobind
-  handleBatchAdd(values: {batchOption: string}, action: any) {
+  handleBatchAdd(values: {batchOption: string}[], action: any) {
     const options = this.state.options.concat();
-    const addedOptions: Array<OptionControlItem> = values.batchOption
+    const addedOptions: Array<OptionControlItem> = values[0].batchOption
       .split('\n')
       .map(option => {
         const item = option.trim();
@@ -485,92 +540,116 @@ export default class OptionControl extends React.Component<
 
   renderOption(props: any) {
     const {checked, index, editing, multipleProps, closeDefaultCheck} = props;
-    const render = this.props.render;
-    const ctx: Partial<TextControlSchema> = this.props.data;
+    const {render, data: ctx, node} = this.props;
     const isMultiple = ctx?.multiple === true || multipleProps;
     const i18nEnabled = getI18nEnabled();
-
     const label = this.transformOptionValue(props.label);
     const value = this.transformOptionValue(props.value);
     const valueType = this.getOptionValueType(props.value);
+    const showBadge = node.type === 'button-group-select';
 
     const editDom = editing ? (
       <div className="ae-OptionControlItem-extendMore">
-        {render('option', {
-          type: 'container',
-          className: 'ae-ExtendMore right mb-2',
-          body: [
-            {
-              type: 'button',
-              className: 'ae-OptionControlItem-closeBtn',
-              label: '×',
-              level: 'link',
-              onClick: () => this.toggleEdit(index)
-            },
-            {
-              type: i18nEnabled ? 'input-text-i18n' : 'input-text',
-              placeholder: '请输入显示文本',
-              label: '文本',
-              mode: 'horizontal',
-              value: label,
-              labelClassName: 'ae-OptionControlItem-EditLabel',
-              valueClassName: 'ae-OptionControlItem-EditValue',
-              onChange: (v: string) => this.handleEditLabel(index, v)
-            },
-            {
-              type: 'input-group',
-              name: 'input-group',
-              label: '值',
-              labelClassName: 'ae-OptionControlItem-EditLabel',
-              valueClassName: 'ae-OptionControlItem-EditValue',
-              mode: 'horizontal',
-              body: [
-                {
-                  type: 'select',
-                  name: 'valueType',
-                  value: valueType,
-                  options: [
-                    {
-                      label: '文本',
-                      value: 'text'
-                    },
-                    {
-                      label: '数字',
-                      value: 'number'
-                    },
-                    {
-                      label: '布尔',
-                      value: 'boolean'
-                    }
-                  ],
-                  checkAll: false,
-                  onChange: (v: valueType) =>
-                    this.handleValueTypeChange(index, v)
-                },
-                {
-                  type: 'input-text',
-                  placeholder: '默认与文本一致',
-                  name: 'value',
-                  value,
-                  visibleOn: "this.optionValueType !== 'boolean'",
-                  onChange: (v: string) => this.handleValueChange(index, v)
-                },
-                {
-                  type: 'input-text',
-                  placeholder: '默认与文本一致',
-                  name: 'value',
-                  value,
-                  visibleOn: "this.optionValueType === 'boolean'",
-                  onChange: (v: string) => this.handleValueChange(index, v),
-                  options: [
-                    {label: 'true', value: true},
-                    {label: 'false', value: false}
-                  ]
-                }
-              ]
-            }
-          ]
-        })}
+        {render(
+          'option',
+          {
+            type: 'container',
+            className: 'ae-ExtendMore right mb-2',
+            body: [
+              {
+                type: 'button',
+                className: 'ae-OptionControlItem-closeBtn',
+                label: '×',
+                level: 'link',
+                onClick: () => this.toggleEdit(index)
+              },
+              {
+                type: i18nEnabled ? 'input-text-i18n' : 'input-text',
+                placeholder: '请输入显示文本',
+                label: '文本',
+                mode: 'horizontal',
+                value: label,
+                name: 'optionLabel',
+                labelClassName: 'ae-OptionControlItem-EditLabel',
+                valueClassName: 'ae-OptionControlItem-EditValue',
+                onChange: (v: string) => this.handleEditLabel(index, v)
+              },
+              {
+                type: 'input-group',
+                name: 'input-group',
+                label: '值',
+                labelClassName: 'ae-OptionControlItem-EditLabel',
+                valueClassName: 'ae-OptionControlItem-EditValue',
+                mode: 'horizontal',
+                body: [
+                  {
+                    type: 'select',
+                    name: 'optionValueType',
+                    value: valueType,
+                    options: [
+                      {
+                        label: '文本',
+                        value: 'text'
+                      },
+                      {
+                        label: '数字',
+                        value: 'number'
+                      },
+                      {
+                        label: '布尔',
+                        value: 'boolean'
+                      }
+                    ],
+                    checkAll: false,
+                    onChange: (v: valueType) =>
+                      this.handleValueTypeChange(index, v)
+                  },
+                  {
+                    type: 'input-text',
+                    placeholder: '默认与文本一致',
+                    name: 'optionValue',
+                    value,
+                    visibleOn: "this.optionValueType !== 'boolean'",
+                    onChange: (v: string) => this.handleValueChange(index, v)
+                  },
+                  {
+                    type: 'input-text',
+                    placeholder: '默认与文本一致',
+                    name: 'optionValue',
+                    value,
+                    visibleOn: "this.optionValueType === 'boolean'",
+                    onChange: (v: string) => this.handleValueChange(index, v),
+                    options: [
+                      {label: 'true', value: true},
+                      {label: 'false', value: false}
+                    ]
+                  }
+                ]
+              },
+              {
+                type: 'ae-expressionFormulaControl',
+                name: 'optionHiddenOn',
+                label: '隐藏',
+                labelClassName: 'ae-OptionControlItem-EditLabel',
+                valueClassName: 'ae-OptionControlItem-EditValue',
+                onChange: (v: string) => this.handleHiddenValueChange(index, v)
+              },
+              {
+                type: i18nEnabled ? 'input-text-i18n' : 'input-text',
+                placeholder: '请输入角标文本',
+                label: '角标',
+                mode: 'horizontal',
+                visible: showBadge,
+                value: props?.badge,
+                name: 'optionBadge',
+                labelClassName: 'ae-OptionControlItem-EditLabel',
+                valueClassName: 'ae-OptionControlItem-EditValue',
+                onChange: (v: string) => this.toggleBadge(index, v)
+              }
+            ]
+          },
+          {data: createObject(ctx, {option: props})}
+        )}
       </div>
     ) : null;
 
@@ -599,6 +678,9 @@ export default class OptionControl extends React.Component<
       });
     }
 
+    const disabled = props?.hidden === true;
+    const tooltip = disabled ? '隐藏选项不能设为默认值' : '默认选中此项';
+
     return (
       <li className="ae-OptionControlItem" key={index}>
         <div className="ae-OptionControlItem-Main">
@@ -607,10 +689,11 @@ export default class OptionControl extends React.Component<
           </a>
           {!this.props.closeDefaultCheck &&
             this.props.data.defaultCheckAll !== true && (
-              <span className="inline-flex" data-tooltip="默认选中此项">
+              <span className="inline-flex" data-tooltip={tooltip}>
                 <Checkbox
                   className="ae-OptionControlItem-checkbox"
                   checked={checked}
+                  disabled={disabled}
                   type={isMultiple ? 'checkbox' : 'radio'}
                   onChange={(newChecked: any, shift?: boolean) =>
                     this.handleToggleDefaultValue(index, newChecked, shift)
@@ -625,18 +708,16 @@ export default class OptionControl extends React.Component<
             clearable={false}
             onChange={(value: string) => this.handleEditLabel(index, value)}
           /> */}
-          {
-            amisRender({
-              type: i18nEnabled ? 'input-text-i18n' : 'input-text',
-              className: 'ae-OptionControlItem-input',
-              value: label,
-              placeholder: '请输入文本/值',
-              clearable: false,
-              onChange: (value: string) => {
-                this.handleEditLabel(index, value);
-              }
-            })
-          }
+          {amisRender({
+            type: i18nEnabled ? 'input-text-i18n' : 'input-text',
+            className: 'ae-OptionControlItem-input',
+            value: label,
+            placeholder: '请输入文本/值',
+            clearable: false,
+            onChange: (value: string) => {
+              this.handleEditLabel(index, value);
+            }
+          })}
           {render(
             'dropdown',
             {
@@ -671,6 +752,7 @@ export default class OptionControl extends React.Component<
         closeOnEsc: true,
         closeOnOutside: false,
         showCloseButton: true,
+        onConfirm: this.handleBatchAdd,
         body: [
           {
             type: 'alert',
@@ -800,9 +882,7 @@ export default class OptionControl extends React.Component<
                 添加选项
               </Button>
               {/* {render('option-control-batchAdd', this.buildBatchAddSchema())} */}
-              {render('inner', this.buildBatchAddSchema(), {
-                onSubmit: this.handleBatchAdd
-              })}
+              {render('inner', this.buildBatchAddSchema())}
             </div>
 
             {/* {this.renderPopover()} */}

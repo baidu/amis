@@ -20,7 +20,7 @@ export class ContainerPlugin extends LayoutBasePlugin {
   name = '容器';
   isBaseComponent = true;
   description = '一个简单的容器，可以将多个渲染器放置在一起。';
-  tags = ['布局'];
+  tags = ['布局容器'];
   order = -2;
   icon = 'fa fa-square-o';
   pluginIcon = 'container-plugin';
@@ -60,119 +60,18 @@ export class ContainerPlugin extends LayoutBasePlugin {
 
     const displayTpl = [
       getSchemaTpl('layout:display'),
-      getSchemaTpl('layout:flexDirection', {
-        visibleOn: 'data.style && data.style.display === "flex"'
-      }),
-      getSchemaTpl('layout:justifyContent', {
-        label: '水平对齐方式',
-        options: [
-          {
-            label: '左对齐',
-            value: 'flex-start'
-          },
-          {
-            label: '居中对齐',
-            value: 'center'
-          },
-          {
-            label: '右对齐',
-            value: 'flex-end'
-          },
-          {
-            label: '两端对齐',
-            value: 'space-between'
-          },
-          {
-            label: '均匀分布',
-            value: 'space-evenly'
-          }
-        ],
+
+      getSchemaTpl('layout:flex-setting', {
         visibleOn:
-          'data.style && data.style.display === "flex" && data.style.flexDirection === "row" || data.style.flexDirection === "row-reverse"'
+          'data.style && (data.style.display === "flex" || data.style.display === "inline-flex")',
+        direction: curRendererSchema.direction,
+        justify: curRendererSchema.justify,
+        alignItems: curRendererSchema.alignItems
       }),
-      getSchemaTpl('layout:justifyContent', {
-        label: '垂直对齐方式',
-        options: [
-          {
-            label: '顶部对齐',
-            value: 'flex-start'
-          },
-          {
-            label: '居中对齐',
-            value: 'center'
-          },
-          {
-            label: '底部对齐',
-            value: 'flex-end'
-          },
-          {
-            label: '两端对齐',
-            value: 'space-between'
-          },
-          {
-            label: '均匀分布',
-            value: 'space-evenly'
-          }
-        ],
-        visibleOn:
-          'data.style && data.style.display === "flex" && (data.style.flexDirection === "column" || data.style.flexDirection === "column-reverse")'
-      }),
-      getSchemaTpl('layout:alignItems', {
-        label: '水平对齐方式',
-        options: [
-          {
-            label: '左对齐',
-            value: 'flex-start'
-          },
-          {
-            label: '居中对齐',
-            value: 'center'
-          },
-          {
-            label: '右对齐',
-            value: 'flex-end'
-          },
-          {
-            label: '基线对齐',
-            value: 'baseline'
-          },
-          {
-            label: '自动拉伸',
-            value: 'stretch'
-          }
-        ],
-        visibleOn:
-          'data.style && data.style.display === "flex" && (data.style.flexDirection === "column" || data.style.flexDirection === "column-reverse")'
-      }),
-      getSchemaTpl('layout:alignItems', {
-        label: '垂直对齐方式',
-        options: [
-          {
-            label: '顶部对齐',
-            value: 'flex-start'
-          },
-          {
-            label: '居中对齐',
-            value: 'center'
-          },
-          {
-            label: '底部对齐',
-            value: 'flex-end'
-          },
-          {
-            label: '基线对齐',
-            value: 'baseline'
-          },
-          {
-            label: '高度撑满',
-            value: 'stretch'
-          }
-        ],
-        visibleOn:
-          'data.style && data.style.display === "flex" && (data.style.flexDirection === "row" || data.style.flexDirection === "row-reverse")'
-      }),
+
       getSchemaTpl('layout:flex-wrap', {
-        visibleOn: 'data.style && data.style.display === "flex"'
+        visibleOn:
+          'data.style && (data.style.display === "flex" || data.style.display === "inline-flex")'
       })
     ];
 
@@ -323,7 +222,8 @@ export class ContainerPlugin extends LayoutBasePlugin {
                 : null,
               getSchemaTpl('layout:z-index'),
               getSchemaTpl('layout:sticky', {
-                visibleOn: 'data.style && (data.style.position !== "fixed" && data.style.position !== "absolute")'
+                visibleOn:
+                  'data.style && (data.style.position !== "fixed" && data.style.position !== "absolute")'
               }),
               getSchemaTpl('layout:stickyPosition')
             ]
@@ -335,16 +235,7 @@ export class ContainerPlugin extends LayoutBasePlugin {
         title: '外观',
         className: 'p-none',
         body: getSchemaTpl('collapseGroup', [
-          ...getSchemaTpl('style:common', ['layout']),
-          getSchemaTpl('style:classNames', {
-            isFormItem: false,
-            schema: [
-              getSchemaTpl('className', {
-                name: 'bodyClassName',
-                label: '内容区'
-              })
-            ]
-          })
+          ...getSchemaTpl('theme:common', ['layout'])
         ])
       }
     ]);

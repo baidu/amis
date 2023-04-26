@@ -17,7 +17,7 @@ import {filterSchema} from 'amis';
 import React from 'react';
 import {EditorStoreType} from './editor';
 import findIndex from 'lodash/findIndex';
-import type {RendererConfig} from 'amis-core/lib/factory';
+import type {RendererConfig} from 'amis-core';
 
 export const EditorNode = types
   .model('EditorNode', {

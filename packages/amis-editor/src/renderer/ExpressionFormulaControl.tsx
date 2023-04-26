@@ -6,9 +6,10 @@ import React from 'react';
 import {autobind, FormControlProps} from 'amis-core';
 import cx from 'classnames';
 import {FormItem, Button, Icon, PickerContainer} from 'amis';
-import {FormulaEditor} from 'amis-ui/lib/components/formula/Editor';
-import type {VariableItem} from 'amis-ui/lib/components/formula/Editor';
+import {FormulaEditor} from 'amis-ui';
+import type {VariableItem} from 'amis-ui';
 import {getVariables} from './textarea-formula/utils';
+import {renderFormulaValue} from './FormulaControl';
 import {reaction} from 'mobx';
 
 interface ExpressionFormulaControlProps extends FormControlProps {
@@ -105,28 +106,20 @@ export default class ExpressionFormulaControl extends React.Component<
 
   @autobind
   initFormulaPickerValue(value: string) {
-    let formulaPickerValue = value;
-    if (this.props.evalMode) {
-      formulaPickerValue =
-        value?.replace(/^\$\{(.*)\}$/, (match: string, p1: string) => p1) || '';
-    }
+    let formulaPickerValue =
+      value?.replace(/^\$\{(.*)\}$/, (match: string, p1: string) => p1) || '';
+
     this.setState({
       formulaPickerValue
     });
   }
 
   @autobind
-  renderFormulaValue(item: any) {
-    const html = {__html: item.html};
-    // bca-disable-next-line
-    return <span dangerouslySetInnerHTML={html}></span>;
-  }
-
-  @autobind
   handleConfirm(value = '') {
-    if (this.props.evalMode) {
-      value = value.replace(/^\$\{(.*)\}$/, (match: string, p1: string) => p1);
-      value = value ? `\${${value}}` : '';
+    const expressionReg = /^\$\{(.*)\}$/;
+    value = value.replace(/\r\n|\r|\n/g, ' ');
+    if (value && !expressionReg.test(value)) {
+      value = `\${${value}}`;
     }
     this.props?.onChange?.(value);
   }
@@ -190,11 +183,11 @@ export default class ExpressionFormulaControl extends React.Component<
                   mouseLeaveDelay: 20,
                   content: value,
                   tooltipClassName: 'btn-configured-tooltip',
-                  children: () => this.renderFormulaValue(highlightValue)
+                  children: () => renderFormulaValue(highlightValue)
                 }}
                 onClick={onClick}
               >
-                已配置表达式
+                {renderFormulaValue(highlightValue)}
                 <Icon
                   icon="input-clear"
                   className="icon"

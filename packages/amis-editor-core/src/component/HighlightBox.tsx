@@ -223,7 +223,10 @@ export default class HighlightBox extends React.Component<HighlightBoxProps> {
     const isActive = store.isActive(id);
     const curFreeContainerId = store.parentIsFreeContainer();
     const isHover =
-      store.isHoved(id) || store.dropId === id || store.insertOrigId === id || curFreeContainerId === id;
+      store.isHoved(id) ||
+      store.dropId === id ||
+      store.insertOrigId === id ||
+      curFreeContainerId === id;
     const isDraggableContainer = store.draggableContainer(id);
 
     // 获取当前高亮画布宽度

@@ -56,7 +56,7 @@ import ColumnToggler from './ColumnToggler';
 import {offset} from 'amis-core';
 import {getStyleNumber} from 'amis-core';
 import {exportExcel} from './exportExcel';
-import type {IColumn, IRow} from 'amis-core/lib/store/table';
+import type {IColumn, IRow} from 'amis-core';
 import intersection from 'lodash/intersection';
 
 /**
@@ -401,6 +401,7 @@ export type ExportExcelToolbar = SchemaNode & {
   filename?: string;
 };
 
+// 如果这里的事件调整，对应CRUD里的事件配置也需要同步修改
 export type TableRendererEvent =
   | 'selectedChange'
   | 'columnSort'
@@ -408,7 +409,9 @@ export type TableRendererEvent =
   | 'columnSearch'
   | 'columnToggled'
   | 'orderChange'
-  | 'rowClick';
+  | 'rowClick'
+  | 'rowMouseEnter'
+  | 'rowMouseLeave';
 
 export type TableRendererAction =
   | 'selectAll'
@@ -2629,7 +2632,6 @@ export default class Table extends React.Component<TableProps, object> {
       data,
       render
     } = this.props;
-
     let columns = store.filteredColumns || [];
 
     if (!columns) {

@@ -17,7 +17,7 @@ export class IFramePlugin extends BasePlugin {
   name = 'iFrame';
   isBaseComponent = true;
   description = '可以用来嵌入现有页面。';
-  tags = ['容器'];
+  tags = ['功能'];
   icon = 'fa fa-window-maximize';
   pluginIcon = 'iframe-plugin';
   scaffold = {
@@ -41,12 +41,11 @@ export class IFramePlugin extends BasePlugin {
             title: '基本',
             body: [
               getSchemaTpl('layout:originPosition', {value: 'left-top'}),
-              {
-                type: 'ae-textareaFormulaControl',
+              getSchemaTpl('textareaFormulaControl', {
                 name: 'src',
                 mode: 'normal',
                 label: '页面地址'
-              }
+              })
             ]
           },
           getSchemaTpl('status')
@@ -77,10 +76,7 @@ export class IFramePlugin extends BasePlugin {
                 })
               ]
             },
-            getSchemaTpl('style:classNames', {
-              isFormItem: false
-            }),
-            ...getSchemaTpl('style:common', [], 'border')
+            ...getSchemaTpl('theme:common', ['layout'])
           ])
         ]
       }
@@ -88,7 +84,11 @@ export class IFramePlugin extends BasePlugin {
   };
 
   renderRenderer(props: any) {
-    return this.renderPlaceholder(`IFrame 页面（${props.src}）`, props.key, props.style);
+    return this.renderPlaceholder(
+      `IFrame 页面（${props.src}）`,
+      props.key,
+      props.style
+    );
   }
 }
 

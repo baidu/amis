@@ -4,6 +4,7 @@ import {
   Renderer,
   RendererProps,
   resolveEventData,
+  ScopedComponentType,
   ScopedContext
 } from 'amis-core';
 import React from 'react';
@@ -11,7 +12,6 @@ import {BaseSchema, SchemaClassName} from '../Schema';
 import {SearchBox} from 'amis-ui';
 import {autobind, getPropValue, getVariable, setVariable} from 'amis-core';
 import type {ListenerAction} from 'amis-core';
-import type {ScopedComponentType} from 'amis-core/lib/Scoped';
 
 /**
  * 搜索框渲染器
@@ -119,13 +119,9 @@ export class SearchBoxRenderer extends React.Component<
 
     const rendererEvent = await dispatchEvent(
       'change',
-      resolveEventData(
-        this.props,
-        {
-          value
-        },
-        'value'
-      )
+      resolveEventData(this.props, {
+        value
+      })
     );
 
     if (rendererEvent?.prevented) {
@@ -171,7 +167,7 @@ export class SearchBoxRenderer extends React.Component<
     const {dispatchEvent} = this.props;
     dispatchEvent(
       name,
-      resolveEventData(this.props, {value: this.state.value}, 'value')
+      resolveEventData(this.props, {value: this.state.value})
     );
   }
 

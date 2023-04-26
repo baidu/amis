@@ -190,7 +190,7 @@ export default class ChainedSelectControl extends React.Component<
 
               const rendererEvent = await dispatchEvent(
                 'change',
-                resolveEventData(this.props, {value: valueRes}, 'value')
+                resolveEventData(this.props, {value: valueRes})
               );
 
               if (rendererEvent?.prevented) {
@@ -244,7 +244,7 @@ export default class ChainedSelectControl extends React.Component<
 
     const rendererEvent = await dispatchEvent(
       'change',
-      resolveEventData(this.props, {value: valueRes}, 'value')
+      resolveEventData(this.props, {value: valueRes})
     );
 
     if (rendererEvent?.prevented) {

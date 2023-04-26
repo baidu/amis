@@ -24,10 +24,10 @@ import {
   RendererPluginEvent
 } from 'amis-editor-core';
 import {flattenDeep, fromPairs, isObject, remove} from 'lodash';
-import {ButtonSchema} from 'amis/lib/renderers/Action';
-import {FormSchema, SchemaObject} from 'amis/lib/Schema';
+import type {ButtonSchema} from 'amis/lib/renderers/Action';
+import type {FormSchema, SchemaObject} from 'amis/lib/Schema';
 import {findTree} from 'amis';
-import {CRUD2Schema} from 'amis/lib/renderers/CRUD2';
+import type {CRUD2Schema} from 'amis/lib/renderers/CRUD2';
 import {FeatureOption} from '../renderer/FeatureControl';
 import {getArgsWrapper} from '../renderer/event-control/helper';
 
@@ -1339,14 +1339,13 @@ export class CRUDPlugin extends BasePlugin {
             mode: 'horizontal'
           }
         */
-        {
+        getSchemaTpl('formulaControl', {
           name: 'query',
           label: '查询条件',
-          type: 'ae-formulaControl',
           variables: '${variables}',
           size: 'md',
           mode: 'horizontal'
-        }
+        })
       )
     },
     // {

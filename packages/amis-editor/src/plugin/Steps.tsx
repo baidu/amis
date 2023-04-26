@@ -11,7 +11,7 @@ export class StepsPlugin extends BasePlugin {
   $schema = '/schemas/StepsSchema.json';
 
   // 组件名称
-  name = 'Steps 步骤条';
+  name = '步骤条';
   isBaseComponent = true;
   icon = 'fa fa-forward';
   pluginIcon = 'steps-plugin';
@@ -105,7 +105,29 @@ export class StepsPlugin extends BasePlugin {
       },
       {
         title: '外观',
-        body: [getSchemaTpl('className')]
+        body: [
+          {
+            name: 'mode',
+            type: 'select',
+            label: '模式',
+            value: 'horizontal',
+            options: [
+              {
+                label: '水平',
+                value: 'horizontal'
+              },
+              {
+                label: '竖直',
+                value: 'vertical'
+              },
+              {
+                label: '简单',
+                value: 'simple'
+              }
+            ]
+          },
+          getSchemaTpl('className')
+        ]
       },
       {
         title: '显隐',

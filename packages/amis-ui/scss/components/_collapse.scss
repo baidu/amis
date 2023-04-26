@@ -76,7 +76,7 @@
   //   display: inline-block;
   // }
 
-  &.is-active &-arrow {
+  &.is-active > &-header > &-arrow-wrap > &-arrow {
     transform: rotate(var(--collapse-icon-rotate));
     transform-origin: 50% 50%;
   }

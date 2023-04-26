@@ -22,7 +22,7 @@ export class ServicePlugin extends BasePlugin {
   description =
     '功能性容器，可以用来加载数据或者加载渲染器配置。加载到的数据在容器可以使用。';
   docLink = '/amis/zh-CN/components/service';
-  tags = ['功能'];
+  tags = ['数据容器'];
   icon = 'fa fa-server';
   pluginIcon = 'service-plugin';
   scaffold = {

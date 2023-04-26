@@ -70,6 +70,8 @@ import SchemaVariableListPicker from './schema-editor/SchemaVariableListPicker';
 import SchemaVariableList from './schema-editor/SchemaVariableList';
 import VariableList from './formula/VariableList';
 import FormulaPicker from './formula/Picker';
+import {FormulaEditor} from './formula/Editor';
+import type {VariableItem} from './formula/Editor';
 import PickerContainer from './PickerContainer';
 import InputJSONSchema from './json-schema';
 import {Badge, withBadge} from './Badge';
@@ -122,6 +124,8 @@ import ConfirmBox from './ConfirmBox';
 import DndContainer from './DndContainer';
 import Menu from './menu';
 import InputBoxWithSuggestion from './InputBoxWithSuggestion';
+import {CodeMirrorEditor} from './CodeMirror';
+import type CodeMirror from 'codemirror';
 
 export {
   NotFound,
@@ -193,6 +197,8 @@ export {
   PickerContainer,
   ConfirmBox,
   FormulaPicker,
+  VariableItem,
+  FormulaEditor,
   InputJSONSchema,
   withBadge,
   BadgeObject,
@@ -248,5 +254,7 @@ export {
   InputTable,
   InputTableColumnProps,
   DndContainer,
-  Menu
+  Menu,
+  CodeMirror,
+  CodeMirrorEditor
 };

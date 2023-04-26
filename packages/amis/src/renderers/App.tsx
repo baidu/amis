@@ -280,7 +280,15 @@ export default class App extends React.Component<AppProps, object> {
   }
 
   renderHeader() {
-    const {classnames: cx, brandName, header, render, store, logo} = this.props;
+    const {
+      classnames: cx,
+      brandName,
+      header,
+      render,
+      store,
+      logo,
+      env
+    } = this.props;
 
     return (
       <>
@@ -294,7 +302,11 @@ export default class App extends React.Component<AppProps, object> {
 
           <div className={cx('Layout-brand')}>
             {logo && ~logo.indexOf('<svg') ? (
-              <Html className={cx('AppLogo-html')} html={logo} />
+              <Html
+                className={cx('AppLogo-html')}
+                html={logo}
+                filterHtml={env.filterHtml}
+              />
             ) : logo ? (
               <img className={cx('AppLogo')} src={logo} />
             ) : null}

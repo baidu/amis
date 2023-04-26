@@ -1,6 +1,11 @@
-import {setSchemaTpl, getSchemaTpl, defaultValue, getI18nEnabled} from 'amis-editor-core';
+import {
+  setSchemaTpl,
+  getSchemaTpl,
+  defaultValue,
+  getI18nEnabled
+} from 'amis-editor-core';
 import {tipedLabel} from 'amis-editor-core';
-import {SchemaObject} from 'amis/lib/Schema';
+import type {SchemaObject} from 'amis/lib/Schema';
 import assign from 'lodash/assign';
 import cloneDeep from 'lodash/cloneDeep';
 import omit from 'lodash/omit';
@@ -86,7 +91,7 @@ setSchemaTpl('options', () => {
         unique: true
       }
     ]
-  }
+  };
 });
 
 setSchemaTpl('tree', {
@@ -276,8 +281,14 @@ setSchemaTpl('ref', () => {
 
 setSchemaTpl('selectFirst', {
   type: 'switch',
-  label: '是否默认选择第一个',
-  name: 'selectFirst'
+  label: '默认选择第一项',
+  name: 'selectFirst',
+  mode: 'horizontal',
+  horizontal: {
+    justify: true,
+    left: 8
+  },
+  inputClassName: 'is-inline '
 });
 
 setSchemaTpl('hideNodePathLabel', {
@@ -316,7 +327,7 @@ setSchemaTpl('optionControlV2', {
   mode: 'normal',
   name: 'options',
   type: 'ae-optionControl',
-  closeDefaultCheck: true // 关闭默认值设置
+  closeDefaultCheck: false // 关闭默认值设置
 });
 
 /**
@@ -375,7 +386,10 @@ setSchemaTpl('dataMap', {
       visibleOn: 'this.dataMapSwitch',
       body: [
         getSchemaTpl('switch', {
-          label: tipedLabel('原始数据打平', '开启后，会将所有原始数据打平设置到 data 中，并在此基础上定制'),
+          label: tipedLabel(
+            '原始数据打平',
+            '开启后，会将所有原始数据打平设置到 data 中，并在此基础上定制'
+          ),
           name: 'withDefaultData',
           className: 'mb-0',
           pipeIn: defaultValue(false),
@@ -400,7 +414,9 @@ setSchemaTpl('dataMap', {
             return data && data['&'] === '$$' ? omit(data, '&') : data;
           },
           onChange: (value: any, oldValue: any, model: any, form: any) => {
-            const newData = form.data.withDefaultData ? assign({'&': '$$'}, value) : cloneDeep(value);
+            const newData = form.data.withDefaultData
+              ? assign({'&': '$$'}, value)
+              : cloneDeep(value);
             form.setValues({
               data: newData
             });

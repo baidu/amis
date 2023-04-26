@@ -208,9 +208,9 @@ test('Renderer:crud loadDataOnce', async () => {
   expect(tem4).not.toBeNull();
   const tem5 = container.querySelector('div[title="5"] label');
   expect(tem5).not.toBeNull();
-  fireEvent.click(tem4);
+  fireEvent.click(tem4 as Element);
   await wait(300);
-  fireEvent.click(tem5);
+  fireEvent.click(tem5 as Element);
   await wait(300);
 
   fireEvent.click(select);

@@ -6,7 +6,8 @@ import {
   FormControlProps,
   FormBaseControl,
   resolveEventData,
-  ApiObject
+  ApiObject,
+  FormHorizontal
 } from 'amis-core';
 import {ActionObject, Api} from 'amis-core';
 import {ComboStore, IComboStore} from 'amis-core';
@@ -198,6 +199,11 @@ export interface ComboControlSchema extends FormBaseControlSchema {
    * 子表单的模式。
    */
   subFormMode?: 'normal' | 'horizontal' | 'inline';
+
+  /**
+   * 如果是水平排版，这个属性可以细化水平排版的左右宽度占比。
+   */
+  subFormHorizontal?: FormHorizontal;
 
   /**
    * 没有成员时显示。
@@ -588,14 +594,10 @@ export default class ComboControl extends React.Component<ComboProps> {
     // todo:这里的数据结构与表单项最终类型不一致，需要区分是否多选、是否未input-kv or input-kvs
     const rendererEvent = await dispatchEvent(
       'add',
-      resolveEventData(
-        this.props,
-        {
-          value:
-            flat && joinValues ? value.join(delimiter || ',') : cloneDeep(value)
-        },
-        'value'
-      )
+      resolveEventData(this.props, {
+        value:
+          flat && joinValues ? value.join(delimiter || ',') : cloneDeep(value)
+      })
     );
 
     if (rendererEvent?.prevented) {
@@ -646,18 +648,12 @@ export default class ComboControl extends React.Component<ComboProps> {
     // todo:这里的数据结构与表单项最终类型不一致，需要区分是否多选、是否未input-kv or input-kvs
     const rendererEvent = await dispatchEvent(
       'delete',
-      resolveEventData(
-        this.props,
-        {
-          key,
-          value:
-            flat && joinValues
-              ? value.join(delimiter || ',')
-              : cloneDeep(value),
-          item: value[key]
-        },
-        'value'
-      )
+      resolveEventData(this.props, {
+        key,
+        value:
+          flat && joinValues ? value.join(delimiter || ',') : cloneDeep(value),
+        item: value[key]
+      })
     );
 
     if (rendererEvent?.prevented) {
@@ -1635,6 +1631,7 @@ export default class ComboControl extends React.Component<ComboProps> {
       multiple,
       tabsMode,
       subFormMode,
+      subFormHorizontal,
       changeImmediately,
       lazyLoad,
       translate: __,
@@ -1651,6 +1648,7 @@ export default class ComboControl extends React.Component<ComboProps> {
           wrapperComponent: 'div',
           wrapWithPanel: false,
           mode: multiLine ? subFormMode || 'normal' : 'row',
+          horizontal: subFormHorizontal,
           className: cx(`Combo-form`, formClassName)
         },
         {
@@ -1673,6 +1671,7 @@ export default class ComboControl extends React.Component<ComboProps> {
           wrapperComponent: 'div',
           wrapWithPanel: false,
           mode: tabsMode ? subFormMode : multiLine ? subFormMode : 'row',
+          horizontal: subFormHorizontal,
           className: cx(`Combo-form`, formClassName)
         },
         {

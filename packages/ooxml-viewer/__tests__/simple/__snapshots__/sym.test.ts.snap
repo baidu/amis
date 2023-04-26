@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`sym 1`] = `
+<article>
+  <section
+    style="position: relative; width: 815.98px; padding: 96.00px 96.00px 96.00px 96.00px;"
+  >
+    <p
+      class="docx-viewer-0-p"
+      style="margin-top: 6.67px; margin-bottom: 6.67px; text-align: left; position: relative;"
+    >
+      <span
+        class="docx-viewer-0-r"
+        style="font-family: SimSun; font-size: 16.00px;"
+      >
+        <span
+          style="font-family: Wingdings;"
+        >
+          
+        </span>
+      </span>
+    </p>
+  </section>
+</article>
+`;

@@ -1,8 +1,10 @@
 import moment from 'moment';
 import {
   resolveVariable,
-  resolveVariableAndFilter
+  resolveVariableAndFilter,
+  resolveVariableAndFilterForAsync
 } from '../src/utils/tpl-builtin';
+import {setFormulaEvalErrorHandler} from '../src/utils';
 
 const filters = [
   {
@@ -639,4 +641,20 @@ test(`compat:test2`, () => {
   expect(resolveVariable('123.123', data)).toEqual(123);
   expect(resolveVariable('中文', data)).toEqual(123);
   expect(resolveVariable('obj.x', data)).toEqual(123);
+});
+
+test('compat:formulaEvalErrorHandler', async () => {
+  setFormulaEvalErrorHandler(
+    (
+      path?: string,
+      data: object = {},
+      defaultFilter: string = '| html',
+      fallbackValue = (value: any) => value,
+      skipFormulaEvalErrorHandler: boolean = false
+    ) => {
+      return Promise.resolve(1 * 2 * 2);
+    }
+  );
+
+  expect(await resolveVariableAndFilterForAsync('${AAA(1,2)}')).toBe(4);
 });

@@ -148,15 +148,11 @@ export default class TagControl extends React.PureComponent<
     const {dispatchEvent, options} = this.props;
     const rendererEvent = await dispatchEvent(
       eventName,
-      resolveEventData(
-        this.props,
-        {
-          options,
-          items: options, // 为了保持名字统一
-          ...eventData
-        },
-        'value'
-      )
+      resolveEventData(this.props, {
+        options,
+        items: options, // 为了保持名字统一
+        ...eventData
+      })
     );
     // 返回阻塞标识
     return !!rendererEvent?.prevented;
@@ -164,7 +160,7 @@ export default class TagControl extends React.PureComponent<
 
   /** 处理输入的内容 */
   normalizeInputValue(inputValue: string): Option[] {
-    const {enableBatchAdd, separator} = this.props;
+    const {enableBatchAdd, separator, valueField, labelField} = this.props;
     let batchValues = [];
 
     if (enableBatchAdd && separator && typeof separator === 'string') {
@@ -173,9 +169,10 @@ export default class TagControl extends React.PureComponent<
       batchValues.push(inputValue);
     }
 
-    return batchValues
-      .filter(Boolean)
-      .map(item => ({value: item, label: item}));
+    return batchValues.filter(Boolean).map(item => ({
+      [`${valueField || 'value'}`]: item,
+      [`${labelField || 'label'}`]: item
+    }));
   }
 
   normalizeOptions(options: Option[]) {
@@ -190,12 +187,13 @@ export default class TagControl extends React.PureComponent<
 
   /** 输入的内容和存量的内容合并，过滤掉value值相同的 */
   normalizeMergedValue(inputValue: string, normalized: boolean = true) {
-    const {selectedOptions} = this.props;
+    const {selectedOptions, valueField} = this.props;
 
     const options = unionWith(
       selectedOptions.concat(),
       this.normalizeInputValue(inputValue),
-      (origin: Option, input: Option) => origin.value === input.value
+      (origin: Option, input: Option) =>
+        origin[valueField || 'value'] === input[valueField || 'value']
     );
 
     return normalized ? this.normalizeOptions(options) : options;
@@ -207,7 +205,8 @@ export default class TagControl extends React.PureComponent<
       maxTagLength,
       enableBatchAdd,
       separator,
-      onInputValidateFailed
+      onInputValidateFailed,
+      valueField
     } = this.props;
 
     const normalizedValue = this.normalizeMergedValue(
@@ -217,7 +216,7 @@ export default class TagControl extends React.PureComponent<
 
     if (max != null && isInteger(max) && normalizedValue.length > max) {
       onInputValidateFailed?.(
-        normalizedValue.map(item => item.value),
+        normalizedValue.map(item => item[valueField || 'value']),
         'max'
       );
       return false;
@@ -228,10 +227,12 @@ export default class TagControl extends React.PureComponent<
     if (
       maxTagLength != null &&
       isInteger(maxTagLength) &&
-      addedValues.some(item => item.value.length > maxTagLength)
+      addedValues.some(
+        item => item[valueField || 'value'].length > maxTagLength
+      )
     ) {
       onInputValidateFailed?.(
-        addedValues.map(item => item.value),
+        addedValues.map(item => item[valueField || 'value']),
         'maxLength'
       );
       return false;
@@ -264,10 +265,15 @@ export default class TagControl extends React.PureComponent<
       return;
     }
 
-    const {selectedOptions, onChange} = this.props;
+    const {selectedOptions, onChange, valueField} = this.props;
     const newValue = selectedOptions.concat();
 
-    if (find(newValue, item => item.value == option.value)) {
+    if (
+      find(
+        newValue,
+        item => item[valueField || 'value'] == option[valueField || 'value']
+      )
+    ) {
       return;
     }
 
@@ -371,10 +377,14 @@ export default class TagControl extends React.PureComponent<
 
   @autobind
   async handleKeyDown(evt: React.KeyboardEvent<HTMLInputElement>) {
-    const {selectedOptions, onChange, delimiter} = this.props;
+    const {selectedOptions, onChange, delimiter, labelField, valueField} =
+      this.props;
 
     const value = this.state.inputValue.trim();
-    const selectedItems = selectedOptions.concat({label: value, value});
+    const selectedItems = selectedOptions.concat({
+      [`${labelField || 'label'}`]: value,
+      [`${valueField || 'value'}`]: value
+    });
 
     if (selectedOptions.length && !value && evt.key == 'Backspace') {
       const newValueRes = this.getValue('pop');
@@ -457,7 +467,8 @@ export default class TagControl extends React.PureComponent<
       maxTagCount,
       overflowTagPopover,
       translate: __,
-      loadingConfig
+      loadingConfig,
+      valueField
     } = this.props;
 
     const finnalOptions = Array.isArray(options)
@@ -465,7 +476,8 @@ export default class TagControl extends React.PureComponent<
           options,
           item =>
             (Array.isArray(item.children) && !!item.children.length) ||
-            (item.value !== undefined && !~selectedOptions.indexOf(item)),
+            (item[valueField || 'value'] !== undefined &&
+              !~selectedOptions.indexOf(item)),
           0,
           true
         )

@@ -1456,6 +1456,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       render,
       formItem: model,
       css,
+      themeCss,
       id,
       labelClassName,
       descriptionClassName
@@ -1463,7 +1464,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
     const mode = this.props.mode || formMode;
 
     insertCustomStyle(
-      css,
+      themeCss || css,
       [
         {
           key: 'labelClassName',
@@ -1473,7 +1474,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       id + '-label'
     );
     insertCustomStyle(
-      css,
+      themeCss || css,
       [
         {
           key: 'descriptionClassName',
@@ -1585,7 +1586,8 @@ export const detectProps = [
   'embed',
   'displayMode',
   'revealPassword',
-  'loading'
+  'loading',
+  'themeCss'
 ];
 
 export function asFormItem(config: Omit<FormItemConfig, 'component'>) {

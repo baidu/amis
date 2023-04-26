@@ -157,6 +157,8 @@ export async function dispatchEvent(
     broadcast
   );
 
+  broadcast && renderer.props.onBroadcast?.(e as string, broadcast, data);
+
   if (!broadcast) {
     const eventConfig = renderer?.props?.onEvent?.[eventName];
 
@@ -252,7 +254,11 @@ export const getRendererEventListeners = () => {
  * @param data
  * @param valueKey
  */
-export const resolveEventData = (props: any, data: any, valueKey?: string) => {
+export const resolveEventData = (
+  props: any,
+  data: any,
+  valueKey: string = 'value'
+) => {
   return createObject(
     props.data,
     props.name && valueKey

@@ -47,7 +47,7 @@ export class TabsTransferPickerRenderer extends BaseTabsTransferRenderer<TabsTra
   @autobind
   dispatchEvent(name: string) {
     const {dispatchEvent, value} = this.props;
-    dispatchEvent(name, resolveEventData(this.props, {value}, 'value'));
+    dispatchEvent(name, resolveEventData(this.props, {value}));
   }
 
   @autobind

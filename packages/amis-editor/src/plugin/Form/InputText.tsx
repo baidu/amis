@@ -9,6 +9,7 @@ import {
 import {defaultValue, getSchemaTpl, tipedLabel} from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
+import {inputStateTpl} from '../../renderer/style-control/helper';
 
 const isText = 'data.type === "input-text"';
 const isPassword = 'data.type === "input-password"';
@@ -25,7 +26,7 @@ export class TextControlPlugin extends BasePlugin {
 
   $schema = '/schemas/TextControlSchema.json';
 
-  order = -500;
+  order = -600;
   // 添加源对应组件中文名称 & type字段
   searchKeywords =
     '文本框、邮箱框、input-email、URL框、input-url、密码框、input-password';
@@ -154,36 +155,6 @@ export class TextControlPlugin extends BasePlugin {
   panelBodyCreator = (context: BaseEventContext) => {
     const renderer: any = context.info.renderer;
 
-    const inputStateFunc = (visibleOn: string, state: string) => {
-      return [
-        getSchemaTpl('theme:font', {
-          label: '文字',
-          name: `css.inputControlClassName.font:${state}`,
-          visibleOn: visibleOn
-        }),
-        getSchemaTpl('theme:colorPicker', {
-          label: '背景',
-          name: `css.inputControlClassName.background:${state}`,
-          labelMode: 'input',
-          needGradient: true,
-          visibleOn: visibleOn
-        }),
-        getSchemaTpl('theme:border', {
-          name: `css.inputControlClassName.border:${state}`,
-          visibleOn: visibleOn
-        }),
-        getSchemaTpl('theme:paddingAndMargin', {
-          name: `css.inputControlClassName.padding-and-margin:${state}`,
-
-          visibleOn: visibleOn
-        }),
-        getSchemaTpl('theme:radius', {
-          name: `css.inputControlClassName.radius:${state}`,
-          visibleOn: visibleOn
-        })
-      ];
-    };
-
     return getSchemaTpl('tabs', [
       {
         title: '属性',
@@ -239,13 +210,21 @@ export class TextControlPlugin extends BasePlugin {
                     form.changeValue('validationErrors', {...validationErrors});
                   }
                 }),
-                getSchemaTpl('valueFormula', {
-                  rendererSchema: context?.schema
+                getSchemaTpl('tplFormulaControl', {
+                  name: 'value',
+                  label: '默认值'
                 }),
                 getSchemaTpl('clearable'),
                 getSchemaTpl('showCounter', {
                   visibleOn: `${isText} || ${isPassword}`
                 }),
+                {
+                  name: 'maxLength',
+                  label: tipedLabel('最大字数', '限制输入最多文字数量'),
+                  type: 'input-number',
+                  min: 0,
+                  step: 1
+                },
                 {
                   name: 'addOn',
                   label: tipedLabel('AddOn', '输入框左侧或右侧的附加挂件'),
@@ -389,32 +368,10 @@ export class TextControlPlugin extends BasePlugin {
             {
               title: '输入框样式',
               body: [
-                {
-                  type: 'select',
-                  name: 'editorState',
-                  label: '状态',
-                  selectFirst: true,
-                  options: [
-                    {
-                      label: '常规',
-                      value: 'default'
-                    },
-                    {
-                      label: '悬浮',
-                      value: 'hover'
-                    },
-                    {
-                      label: '点击',
-                      value: 'active'
-                    }
-                  ]
-                },
-                ...inputStateFunc(
-                  "${editorState == 'default' || !editorState}",
-                  'default'
-                ),
-                ...inputStateFunc("${editorState == 'hover'}", 'hover'),
-                ...inputStateFunc("${editorState == 'active'}", 'active')
+                ...inputStateTpl(
+                  'themeCss.inputControlClassName',
+                  'input.base.default'
+                )
               ]
             },
             {
@@ -423,28 +380,28 @@ export class TextControlPlugin extends BasePlugin {
               body: [
                 getSchemaTpl('theme:font', {
                   label: '文字',
-                  name: 'css.addOnClassName.font'
+                  name: 'themeCss.addOnClassName.font:default'
                 }),
                 getSchemaTpl('theme:paddingAndMargin', {
-                  name: 'css.addOnClassName.padding-and-margin'
+                  name: 'themeCss.addOnClassName.padding-and-margin:default'
                 })
               ]
             },
-            getSchemaTpl('theme:classNames', {
-              schema: [
+            getSchemaTpl('theme:cssCode', {
+              themeClass: [
                 {
-                  type: 'theme-classname',
-                  label: '输入框',
-                  name: 'inputControlClassName'
+                  name: '输入框',
+                  value: '',
+                  className: 'inputControlClassName',
+                  state: ['default', 'hover', 'active']
                 },
                 {
-                  type: 'theme-classname',
-                  name: 'addOnClassName',
-                  suffix: 'addOn',
-                  label: 'AddOn',
-                  visibleOn: 'this.addOn && this.addOn.type === "text"'
+                  name: 'addOn',
+                  value: 'addOn',
+                  className: 'addOnClassName'
                 }
-              ]
+              ],
+              isFormItem: true
             })
           ],
           {...context?.schema, configTitle: 'style'}

@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import cx from 'classnames';
 import {autobind, guid, noop, reactionWithOldValue} from '../util';
 import {clearStoresCache, RenderOptions} from 'amis-core';
-import {Schema} from 'amis';
+import type {Schema} from 'amis';
 import {EditorStoreType} from '../store/editor';
 import {observer} from 'mobx-react';
 import {findDOMNode} from 'react-dom';
@@ -15,7 +15,7 @@ import IFrameBridge from './IFrameBridge';
 import {isAlive} from 'mobx-state-tree';
 import {findTree} from 'amis-core';
 import BackTop from './base/BackTop';
-import {RendererConfig} from 'amis-core/lib/factory';
+import {RendererConfig} from 'amis-core';
 
 export interface PreviewProps {
   // isEditorEnabled?: (

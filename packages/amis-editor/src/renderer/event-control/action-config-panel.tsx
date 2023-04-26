@@ -40,12 +40,7 @@ export default class ActionConfigPanel extends React.Component<RendererProps> {
 
     return schema ? (
       render('inner', schema as Schema, {
-        data,
-        onChange: (value: any, field: any) => {
-          onBulkChange({
-            [field]: value
-          });
-        }
+        data
       })
     ) : data.__subActions ? (
       <></>

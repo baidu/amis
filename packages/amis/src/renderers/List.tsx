@@ -42,8 +42,8 @@ import {
 } from '../Schema';
 import {ActionSchema} from './Action';
 import {SchemaRemark} from './Remark';
-import type {IItem} from 'amis-core/lib/store/list';
-import type {OnEventProps} from 'amis-core/lib/utils/renderer-event';
+import type {IItem} from 'amis-core';
+import type {OnEventProps} from 'amis-core';
 
 /**
  * 不指定类型默认就是文本

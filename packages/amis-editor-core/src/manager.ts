@@ -66,8 +66,8 @@ import findIndex from 'lodash/findIndex';
 import {EditorDNDManager} from './dnd';
 import {VariableManager} from './variable';
 import {IScopedContext} from 'amis';
-import {SchemaObject, SchemaCollection} from 'amis/lib/Schema';
-import type {RendererConfig} from 'amis-core/lib/factory';
+import type {SchemaObject, SchemaCollection} from 'amis/lib/Schema';
+import type {RendererConfig} from 'amis-core';
 import isPlainObject from 'lodash/isPlainObject';
 import {omit} from 'lodash';
 
@@ -740,6 +740,7 @@ export class EditorManager {
       type: event,
       fn
     });
+    return () => this.off(event, fn);
   }
 
   off(event: string, fn: PluginEventFn) {
@@ -842,7 +843,7 @@ export class EditorManager {
       // 当渲染器信息和 schemaData 都为空时，则不作任何处理
       return;
     }
-    
+
     if (!node) {
       toast.warning('请先选择一个元素作为插入的位置。');
       return;

@@ -8,6 +8,16 @@ import {FormulaDateType} from '../../renderer/FormulaControl';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {getRendererByName} from 'amis-core';
 
+const formatX = [
+  {
+    label: 'X(时间戳)',
+    value: 'X'
+  },
+  {
+    label: 'x(毫秒时间戳)',
+    value: 'x'
+  }
+];
 const DateType: {
   [key: string]: {
     format: string;
@@ -15,6 +25,8 @@ const DateType: {
     ranges: string[];
     sizeMutable?: boolean;
     type?: string;
+    timeFormat?: string;
+    formatOptions: Array<{label: string; value: string; timeFormat?: string}>;
   };
 } = {
   date: {
@@ -28,11 +40,27 @@ const DateType: {
       'thismonth',
       'prevmonth',
       'prevquarter'
+    ],
+    formatOptions: [
+      ...formatX,
+      {
+        label: 'YYYY-MM-DD',
+        value: 'YYYY-MM-DD'
+      },
+      {
+        label: 'YYYY/MM/DD',
+        value: 'YYYY/MM/DD'
+      },
+      {
+        label: 'YYYY年MM月DD日',
+        value: 'YYYY年MM月DD日'
+      }
     ]
   },
   datetime: {
     ...getRendererByName('input-datetime-range'),
     format: 'YYYY-MM-DD HH:mm:ss',
+    timeFormat: 'HH:mm:ss',
     placeholder: '请选择日期时间范围',
     ranges: [
       'yesterday',
@@ -41,31 +69,102 @@ const DateType: {
       'thismonth',
       'prevmonth',
       'prevquarter'
+    ],
+    formatOptions: [
+      ...formatX,
+      {
+        label: 'YYYY-MM-DD HH:mm:ss',
+        value: 'YYYY-MM-DD HH:mm:ss'
+      },
+      {
+        label: 'YYYY/MM/DD HH:mm:ss',
+        value: 'YYYY/MM/DD HH:mm:ss'
+      },
+      {
+        label: 'YYYY年MM月DD日 HH时mm分ss秒',
+        value: 'YYYY年MM月DD日 HH时mm分ss秒'
+      }
     ]
   },
   time: {
     ...getRendererByName('input-time-range'),
     format: 'HH:mm',
+    timeFormat: 'HH:mm:ss',
     placeholder: '请选择时间范围',
-    ranges: []
+    ranges: [],
+    formatOptions: [
+      {
+        label: 'HH:mm',
+        value: 'HH:mm',
+        timeFormat: 'HH:mm'
+      },
+      {
+        label: 'HH:mm:ss',
+        value: 'HH:mm:ss',
+        timeFormat: 'HH:mm:ss'
+      },
+      {
+        label: 'HH时mm分',
+        value: 'HH时mm分',
+        timeFormat: 'HH:mm'
+      },
+      {
+        label: 'HH时mm分ss秒',
+        value: 'HH时mm分ss秒',
+        timeFormat: 'HH:mm:ss'
+      }
+    ]
   },
   month: {
     ...getRendererByName('input-month-range'),
     format: 'YYYY-MM',
     placeholder: '请选择月份范围',
-    ranges: []
+    ranges: [],
+    formatOptions: [
+      ...formatX,
+      {
+        label: 'YYYY-MM',
+        value: 'YYYY-MM'
+      },
+      {
+        label: 'MM',
+        value: 'MM'
+      },
+      {
+        label: 'M',
+        value: 'M'
+      }
+    ]
   },
   quarter: {
     ...getRendererByName('input-quarter-range'),
     format: 'YYYY [Q]Q',
     placeholder: '请选择季度范围',
-    ranges: ['thisquarter', 'prevquarter']
+    ranges: ['thisquarter', 'prevquarter'],
+    formatOptions: [
+      ...formatX,
+      {
+        label: 'YYYY-[Q]Q',
+        value: 'YYYY-[Q]Q'
+      },
+      {
+        label: 'Q',
+        value: 'Q'
+      }
+    ]
   },
   year: {
     ...getRendererByName('input-year-range'),
     format: 'YYYY',
     placeholder: '请选择年范围',
-    ranges: ['thisyear', 'lastYear']
+    ranges: ['thisyear', 'lastYear'],
+    formatOptions: [
+      ...formatX,
+      {
+        label: 'YYYY',
+        value: 'YYYY'
+      }
+    ]
   }
 };
 
@@ -82,8 +181,6 @@ export class DateRangeControlPlugin extends BasePlugin {
   // 关联渲染器名字
   rendererName = 'input-date-range';
   $schema = '/schemas/DateRangeControlSchema.json';
-
-  order = -440;
 
   // 组件名称
   icon = 'fa fa-calendar';
@@ -218,6 +315,7 @@ export class DateRangeControlPlugin extends BasePlugin {
                     const type: string = value.split('-')[1];
                     form.setValues({
                       inputFormat: DateType[type]?.format,
+                      timeFormat: DateType[type]?.timeFormat,
                       placeholder: DateType[type]?.placeholder,
                       format: type === 'time' ? 'HH:mm' : 'X',
                       minDate: '',
@@ -238,7 +336,20 @@ export class DateRangeControlPlugin extends BasePlugin {
                     '值格式',
                     '提交数据前将根据设定格式化数据，请参考 <a href="https://momentjs.com/" target="_blank">moment</a> 中的格式用法。'
                   ),
-                  pipeIn: defaultValue('X')
+                  pipeIn: defaultValue('X'),
+                  clearable: true,
+                  onChange: (
+                    value: string,
+                    oldValue: any,
+                    model: any,
+                    form: any
+                  ) => {
+                    model.setOptions(
+                      DateType[form.data.type.split('-')[1]].formatOptions
+                    );
+                  },
+                  options:
+                    DateType[this.scaffold.type.split('-')[1]].formatOptions
                 },
                 {
                   type: 'input-text',
@@ -248,19 +359,19 @@ export class DateRangeControlPlugin extends BasePlugin {
                     '请参考 <a href="https://momentjs.com/" target="_blank">moment</a> 中的格式用法。'
                   ),
                   pipeIn: defaultValue('YYYY-MM-DD'),
-                  clearable: true
-                  // onChange: (
-                  //   value: string,
-                  //   oldValue: any,
-                  //   model: any,
-                  //   form: any
-                  // ) => {
-                  //   model.setOptions(
-                  //     DateType[form.data.type.split('-')[1]].formatOptions
-                  //   );
-                  // },
-                  // options:
-                  //   DateType[this.scaffold.type.split('-')[1]].formatOptions
+                  clearable: true,
+                  onChange: (
+                    value: string,
+                    oldValue: any,
+                    model: any,
+                    form: any
+                  ) => {
+                    model.setOptions(
+                      DateType[form.data.type.split('-')[1]].formatOptions
+                    );
+                  },
+                  options:
+                    DateType[this.scaffold.type.split('-')[1]].formatOptions
                 },
                 getSchemaTpl('utc'),
                 getSchemaTpl('clearable', {

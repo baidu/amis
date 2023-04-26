@@ -4,7 +4,8 @@ import {
   FormItem,
   FormControlProps,
   FormBaseControl,
-  resolveEventData
+  resolveEventData,
+  insertCustomStyle
 } from 'amis-core';
 import cx from 'classnames';
 import {NumberInput, Select} from 'amis-ui';
@@ -286,7 +287,7 @@ export default class NumberControl extends React.Component<
   async dispatchEvent(eventName: string) {
     const {dispatchEvent, value} = this.props;
 
-    dispatchEvent(eventName, resolveEventData(this.props, {value}, 'value'));
+    dispatchEvent(eventName, resolveEventData(this.props, {value}));
   }
 
   async handleChange(inputValue: any) {
@@ -295,7 +296,7 @@ export default class NumberControl extends React.Component<
     const resultValue = clearValueOnEmpty && value === '' ? undefined : value;
     const rendererEvent = await dispatchEvent(
       'change',
-      resolveEventData(this.props, {value: resultValue}, 'value')
+      resolveEventData(this.props, {value: resultValue})
     );
     if (rendererEvent?.prevented) {
       return;
@@ -357,27 +358,6 @@ export default class NumberControl extends React.Component<
     this.input.focus();
   }
 
-  renderStatic(displayValue = '-') {
-    let {value, kilobitSeparator, prefix, suffix} = this.props;
-    if (value == null) {
-      return displayValue;
-    }
-    const unit = this.state?.unit || '';
-    // 处理单位
-    let finalValue =
-      unit && value && typeof value === 'string'
-        ? value.replace(unit, '')
-        : value;
-
-    // 增加千分分隔
-    if (kilobitSeparator && finalValue) {
-      finalValue = numberFormatter.format(finalValue);
-    }
-    // 增加前后缀
-    finalValue = (prefix ? prefix : '') + finalValue + (suffix ? suffix : '');
-    return <>{finalValue + unit}</>;
-  }
-
   @supportStatic()
   render() {
     const {
@@ -402,7 +382,11 @@ export default class NumberControl extends React.Component<
       displayMode,
       big,
       resetValue,
-      clearValueOnEmpty
+      clearValueOnEmpty,
+      css,
+      themeCss,
+      inputControlClassName,
+      id
     } = this.props;
     const finalPrecision = this.filterNum(precision);
     const unit = this.state?.unit;
@@ -429,6 +413,22 @@ export default class NumberControl extends React.Component<
         ? value.replace(unit, '')
         : value;
 
+    insertCustomStyle(
+      themeCss || css,
+      [
+        {
+          key: 'inputControlClassName',
+          value: inputControlClassName,
+          weights: {
+            active: {
+              pre: `${inputControlClassName}.focused, `
+            }
+          }
+        }
+      ],
+      id
+    );
+
     return (
       <div
         className={cx(
@@ -440,6 +440,7 @@ export default class NumberControl extends React.Component<
         )}
       >
         <NumberInput
+          inputControlClassName={inputControlClassName}
           inputRef={this.inputRef}
           value={finalValue}
           resetValue={resetValue}

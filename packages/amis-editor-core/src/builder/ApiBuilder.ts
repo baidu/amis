@@ -2,7 +2,7 @@
  * API数据源处理器
  */
 
-import {Schema, toast} from 'amis';
+import {toast} from 'amis';
 import {
   DSBuilder,
   DSFeature,
@@ -12,8 +12,8 @@ import {
 } from './DSBuilder';
 import cloneDeep from 'lodash/cloneDeep';
 import {getEnv} from 'mobx-state-tree';
-import {ButtonSchema} from 'amis/lib/renderers/Action';
-import {FormSchema, SchemaCollection, SchemaObject} from 'amis/lib/Schema';
+import type {ButtonSchema} from 'amis/lib/renderers/Action';
+import type {FormSchema, SchemaCollection, SchemaObject} from 'amis/lib/Schema';
 
 import type {DSSourceSettingFormConfig} from './DSBuilder';
 import {getSchemaTpl, tipedLabel} from '../tpl';

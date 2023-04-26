@@ -61,6 +61,7 @@ export class NumberField extends React.Component<NumberProps> {
       precision,
       prefix,
       affix,
+      suffix,
       percent,
       className,
       style,
@@ -113,7 +114,7 @@ export class NumberField extends React.Component<NumberProps> {
       <>
         {prefix}
         {viewValue}
-        {affix}
+        {affix ?? suffix}
       </>
     );
 

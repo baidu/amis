@@ -368,13 +368,17 @@ export interface TableSchema2 extends BaseSchema {
   keepItemSelectionOnPageChange?: boolean;
 }
 
+// 事件调整 对应CRUD2里的事件配置也需要同步修改
 export type Table2RendererEvent =
-  | 'selected'
+  | 'selectedChange'
   | 'columnSort'
   | 'columnFilter'
   | 'columnSearch'
   | 'columnToggled'
-  | 'dragOver';
+  | 'orderChange'
+  | 'rowClick'
+  | 'rowMouseEnter'
+  | 'rowMouseLeave';
 
 export type Table2RendererAction =
   | 'selectAll'
@@ -1137,15 +1141,59 @@ export default class Table2 extends React.Component<Table2Props, object> {
 
     const rendererEvent = await dispatchEvent(
       'rowClick',
-      createObject(data, {rowItem})
+      createObject(data, {item: rowItem, index: rowIndex})
     );
 
     if (rendererEvent?.prevented) {
-      return rendererEvent?.prevented;
+      return;
     }
 
     if (rowItem && onRow) {
       onRow.onRowClick && onRow.onRowClick(event, rowItem, rowIndex);
+    }
+  }
+
+  @autobind
+  async handleRowMouseEnter(
+    event: React.MouseEvent<HTMLTableRowElement>,
+    rowItem: any,
+    rowIndex?: number
+  ) {
+    const {dispatchEvent, data, onRow} = this.props;
+
+    const rendererEvent = await dispatchEvent(
+      'rowMouseEnter',
+      createObject(data, {item: rowItem, index: rowIndex})
+    );
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
+
+    if (rowItem && onRow) {
+      onRow.onRowMouseEnter && onRow.onRowMouseEnter(event, rowItem, rowIndex);
+    }
+  }
+
+  @autobind
+  async handleRowMouseLeave(
+    event: React.MouseEvent<HTMLTableRowElement>,
+    rowItem: any,
+    rowIndex?: number
+  ) {
+    const {dispatchEvent, data, onRow} = this.props;
+
+    const rendererEvent = await dispatchEvent(
+      'rowMouseLeave',
+      createObject(data, {item: rowItem, index: rowIndex})
+    );
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
+
+    if (rowItem && onRow) {
+      onRow.onRowMouseLeave && onRow.onRowMouseLeave(event, rowItem, rowIndex);
     }
   }
 
@@ -1457,7 +1505,9 @@ export default class Table2 extends React.Component<Table2Props, object> {
         keyField={keyField}
         onRow={{
           ...onRow,
-          onRowClick: this.handleRowClick
+          onRowClick: this.handleRowClick,
+          onRowMouseEnter: this.handleRowMouseEnter,
+          onRowMouseLeave: this.handleRowMouseLeave
         }}
       ></Table>
     );

@@ -8,6 +8,8 @@ title: 扩展现有组件
 
 如果默认的表单检测规则不满足需求，还可以通过代码的方式扩展。
 
+### 普通用法
+
 JSSDK 中的用法：
 
 ```javascript
@@ -23,8 +25,10 @@ amisLib.addRule(
       value === '天津' ||
       value === '重庆'
     ) {
+      // return true 表示校验通过
       return true;
     }
+    // return false 表示校验不通过，会进行错误提示
     return false;
   },
   // 出错时的报错信息
@@ -44,6 +48,57 @@ amisLib.addRule(
 
 ```javascript
 import {addRule} from 'amis';
+```
+
+### 更加灵活的提示错误
+
+> `2.9.1` 及以上版本
+
+如果想在一个验证函数里根据不同情况提示不同的错误信息，需要返回固定格式的结果：
+
+```js
+{
+  error: true,
+  msg: '错误信息'
+}
+```
+
+注意，当返回对象时，`error`必须为`true` 才会判定为错误：
+
+具体用法如下：
+
+```javascript
+let amisLib = amisRequire('amis');
+amisLib.addRule(
+  // 校验名
+  'isZXS',
+  // 校验函数，values 是表单里所有表单项的值，可用于做联合校验；value 是当前表单项的值
+  (values, value) => {
+    if (value === '新加坡') {
+      // 校验不通过，提示：该地区不在国内
+      return {
+        error: true,
+        msg: '该地区不在国内'
+      };
+    }
+
+    if (
+      value === '北京' ||
+      value === '上海' ||
+      value === '天津' ||
+      value === '重庆'
+    ) {
+      // return true 表示校验通过
+      return true;
+    }
+
+    // 校验不通过，提示：输入的不是直辖市
+    return {
+      error: true,
+      msg: '输入的不是直辖市'
+    };
+  }
+);
 ```
 
 ## 同时支持多种类型编辑

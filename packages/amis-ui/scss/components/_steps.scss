@@ -14,11 +14,11 @@
       &Icon {
         vertical-align: top;
         display: inline-block;
-        margin-right: px2rem(10px);
+        padding-right: var(--steps-base-icon-paddingRight);
         .#{$ns}StepsItem-icon {
           display: inline-block;
-          width: px2rem(30px);
-          height: px2rem(30px);
+          width: var(--steps-base-icon-size);
+          height: var(--steps-base-icon-size);
           line-height: px2rem(28px);
           border-radius: 50%;
           font-size: var(--Steps-icon-fontsize);
@@ -38,7 +38,8 @@
           .#{$ns}StepsItem-title {
             font-size: var(--Steps-title-fontsize);
             color: var(--Steps-title-color);
-            padding-right: px2rem(8px);
+            font-weight: var(--steps-base-fontWeight);
+            padding-right: var(--steps-base-title-paddingRight);
             position: relative;
             display: inline-block;
             > span {
@@ -68,9 +69,10 @@
             white-space: nowrap;
           }
           .#{$ns}StepsItem-subTitle {
-            padding-left: px2rem(10px);
+            padding-left: var(--steps-base-subTitle-paddingLeft);
             font-size: var(--Steps-sub-title-fontsize);
             color: var(--Steps-sub-title-color);
+            font-weight: var(--steps-base-subTitle-fontWeight);
           }
           .#{$ns}StepsItem-description {
             max-width: px2rem(140px);
@@ -80,6 +82,7 @@
             > span {
               color: var(--Steps-description-title-color);
               font-size: var(--Steps-description-title-fontsize);
+              font-weight: var(--steps-base-des-fontWeight);
             }
           }
         }
@@ -277,42 +280,43 @@
         &ProgressDot {
           margin-top: px2rem(13px);
           margin-bottom: px2rem(5px);
-          width: px2rem(8px);
-          height: px2rem(8px);
+          width: var(--steps-dot-icon-size);
+          height: var(--steps-dot-icon-size);
           margin-left: px2rem(96px);
-          border: 1px solid var(--Steps-line-success-bg);
+          border: 1px solid var(--steps-dot-process-bg-color);
           border-radius: 100%;
+          background: var(--steps-dot-finish-bg-color);
         }
       }
     }
     .is-finish {
       .#{$ns}StepsItem-container {
         &Tail:after {
-          background: var(--Steps-status-success);
+          background: var(--Steps-line-success-bg);
         }
       }
     }
     .is-wait {
       .#{$ns}StepsItem-container {
         &ProgressDot {
-          background: var(--Steps-line-bg);
-          border: 1px solid var(--Steps-line-bg);
+          background: var(--steps-dot-wait-bg-color);
+          border: 1px solid var(--steps-dot-wait-bg-color);
         }
       }
     }
     .is-error {
       .#{$ns}StepsItem-container {
         &ProgressDot {
-          background: var(--Steps-status-error);
-          border: 1px solid var(--Steps-status-error);
+          background: var(--steps-dot-error-bg-color);
+          border: 1px solid var(--steps-dot-error-bg-color);
         }
       }
     }
     .is-process {
       .#{$ns}StepsItem-container {
         &ProgressDot {
-          border: 1px solid var(--Steps-status-success);
-          background: var(--Steps-status-success);
+          border: 1px solid var(--steps-dot-process-bg-color);
+          background: var(--steps-dot-process-bg-color);
         }
       }
     }
@@ -320,7 +324,7 @@
 
   .#{$ns}StepsItem.is-wait {
     .#{$ns}StepsItem-icon {
-      background-color: var(--white);
+      background-color: var(--steps-status-wait-bg-color);
       color: var(--Steps-bg);
       border: 1px solid var(--Steps-bg);
     }
@@ -333,16 +337,52 @@
   .#{$ns}StepsItem.is-error {
     .#{$ns}StepsItem-icon {
       background-color: var(--Steps-status-error);
-      color: var(--white);
+      color: var(--steps-status-error-color);
       border: 1px solid var(--Steps-status-error);
     }
   }
-  .#{$ns}StepsItem.is-finish,
-  .#{$ns}StepsItem.is-process {
+  .#{$ns}StepsItem.is-finish {
     .#{$ns}StepsItem-icon {
       background-color: var(--Steps-status-success);
-      color: var(--white);
+      color: var(--steps-status-finish-color);
       border: 1px solid var(--Steps-status-success);
+    }
+  }
+  .#{$ns}StepsItem.is-process {
+    .#{$ns}StepsItem-icon {
+      background-color: var(--steps-status-process-bg-color);
+      color: var(--steps-status-process-color);
+      border: 1px solid var(--steps-status-process-bg-color);
+    }
+  }
+
+  &--simple {
+    justify-content: center;
+
+    .#{$ns}StepsItem {
+      flex: none;
+    }
+
+    .#{$ns}StepsItem-containerWrapper
+      .#{$ns}StepsItem-body
+      .#{$ns}StepsItem-title:after {
+      display: none;
+    }
+
+    .#{$ns}StepsItem-icon-line {
+      display: inline-block;
+      vertical-align: top;
+      margin-left: px2rem(8px);
+
+      svg {
+        width: var(--steps-simple-icon-size);
+        height: var(--steps-simple-icon-size);
+        font-size: var(--steps-simple-icon-size);
+      }
+    }
+
+    .StepsItem-icon-line {
+      content: var(--steps-simple-icon);
     }
   }
 }

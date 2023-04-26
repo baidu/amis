@@ -1843,8 +1843,6 @@ extendLocale('en-US', {
   '348097cc50579e489f0bcb5433637d3a':
     'With this option enabled, you can sort them according to the current column sequence (backend sequence).',
   '9db64f772c11c614ee00bb3cc066f46f': 'Column group name',
-  'fea0f3f456153564218a9eefb78d8cec':
-    'When the group name of multiple column groups keeps consistent, the table displays the super table header at the top layer of the table header displayed.<a href="https://baidu.github.io/amis/crud/header-group" target="_blank">Example</a>',
   '19c4f5e98ad302574202de30dddbaf66': 'Enable quick edit',
   '15c3796e07e33afc7252df751f610c5d': 'Whether to save immediately',
   'ba5a0a1ff2c438ae7719ca48b0ce3af7': 'Enable “View more display options”',
@@ -3773,6 +3771,14 @@ extendLocale('en-US', {
   '8985ea173dce8f9bee667b3cdf0b7bdf':
     'This configuration item only applies to the "Add" button in the table operation bar',
   '3f64a567662a24714768237a3a6d0de7': 'New button below the table',
+  '9dd651411c1cb25e19249bb4ea8878c3': 'Animation interval (ms)',
+  '46bc66b19c2b589ebd24d1c583325080': 'Animation duration (ms)',
+  '9cb33a16b57ef10b79ae76a66379d66f': 'Arrows are always displayed',
+  '0bf60b32f9db93b87e08763b1c815469': 'quantity',
+  '98e04bf7cb91497e4225d272e3a331c8': 'Custom Arrows',
+  '7076ef56f5c4f13d3c9bf87d3536352f': 'left arrow',
+  'fce3880b7a24a47f02a16331a294b255': 'Right arrow',
+  'f4f965513462fcc9fe6fe896a9c249d8': 'Multi-picture display',
   '522cddc343d72db3db80cf3d71f99210':
     'The API return format is incorrect. Please click the example on the right side of the interface address to view the CRUD data interface structure requirements',
   '5323ab3e5c12066101244f0577c30e22': 'Custom container area',
@@ -3842,5 +3848,7 @@ extendLocale('en-US', {
     '<div>When the value is__ When undefined, it means to delete the corresponding field. You can combine {"&": " $$"} to achieve the blacklist effect</ div>',
   'cb65841ea7dec5ae0af20b3f5e52abfc': 'Raw data leveling',
   '6922790f45faf064e063069816e4d2ec':
-    'After opening, all the original data will be flattened and set in the data, and customized on this basis'
+    'After opening, all the original data will be flattened and set in the data, and customized on this basis',
+  '9791b05a4df9d72f1a01b81fa695fbc6':
+    'When the grouping names of multiple columns are consistent, the table will display the super header on the upper layer of the display header.<a href=“ https://baidu.github.io/amis/zh-CN/components/table#%E8%B6%85%E7%BA%A7%E8%A1%A8%E5%A4%B4 " target="_ Blank ">Example</a>'
 });

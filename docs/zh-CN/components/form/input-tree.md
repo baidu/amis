@@ -1096,6 +1096,7 @@ true        false        false      [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
 | virtualThreshold       | `number`                                     | `100`            | 在选项数量超过多少时开启虚拟渲染                                                                                                     |
 | menuTpl                | `string`                                     |                  | 选项自定义渲染 HTML 片段                                                                                                             | `2.8.0`                      |
 | enableDefaultIcon      | `boolean`                                    | `true`           | 是否为选项添加默认的前缀 Icon，父节点默认为`folder`，叶节点默认为`file`                                                              | `2.8.0`                      |
+| heightAuto             | `boolean`                                    | `false`          | 默认高度会有个 maxHeight，即超过一定高度就会内部滚动，如果希望自动增长请设置此属性                                                   | `3.0.0`                      |
 
 ## 事件表
 

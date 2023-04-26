@@ -1,8 +1,19 @@
 import React from 'react';
-import {ResultBox, Spinner,Icon, PopUp, Checkbox, Cascader, SpinnerExtraProps} from 'amis-ui';
 import {
-  Overlay, resolveEventData,
-  PopOver, Option, Options,
+  ResultBox,
+  Spinner,
+  Icon,
+  PopUp,
+  Checkbox,
+  Cascader,
+  SpinnerExtraProps
+} from 'amis-ui';
+import {
+  Overlay,
+  resolveEventData,
+  PopOver,
+  Option,
+  Options,
   autobind,
   flattenTree,
   filterTree,
@@ -14,7 +25,8 @@ import {
   OptionsControl,
   OptionsControlProps,
   RootClose,
-  ActionObject
+  ActionObject,
+  renderTextByKeyword
 } from 'amis-core';
 import {findDOMNode} from 'react-dom';
 import xor from 'lodash/xor';
@@ -136,7 +148,7 @@ export default class NestedSelectControl extends React.Component<
     const {dispatchEvent} = this.props;
     const rendererEvent = await dispatchEvent(
       eventName,
-      resolveEventData(this.props, eventData, 'value')
+      resolveEventData(this.props, eventData)
     );
     // 返回阻塞标识
     return !!rendererEvent?.prevented;
@@ -205,8 +217,8 @@ export default class NestedSelectControl extends React.Component<
       options,
       hideNodePathLabel
     } = this.props;
-    const inputValue = this.state.inputValue;
-    const regexp = string2regExp(inputValue || '');
+    const inputValue = this.state.inputValue || '';
+    const regexp = string2regExp(inputValue);
 
     if (hideNodePathLabel) {
       return option[labelField || 'label'];
@@ -223,25 +235,10 @@ export default class NestedSelectControl extends React.Component<
               const label = item[labelField || 'label'];
               const value = item[valueField || 'value'];
               const isEnd = index === ancestors.length - 1;
-              const unmatchText = label.split(regexp || '');
-              let pointer = 0;
               return (
                 <span key={index}>
                   {regexp.test(value) || regexp.test(label)
-                    ? unmatchText.map((text: string, textIndex: number) => {
-                        const current = pointer;
-                        pointer += text.length || inputValue?.length || 0;
-                        return (
-                          <span
-                            key={textIndex}
-                            className={cx({
-                              'NestedSelect-optionLabel-highlight': !text
-                            })}
-                          >
-                            {text || label.slice(current, pointer)}
-                          </span>
-                        );
-                      })
+                    ? renderTextByKeyword(label, inputValue)
                     : label}
                   {!isEnd && ' / '}
                 </span>

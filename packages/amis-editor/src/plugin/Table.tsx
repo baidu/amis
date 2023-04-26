@@ -1,6 +1,10 @@
 import React from 'react';
 import {Button, resolveVariable} from 'amis';
-import {getI18nEnabled, RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
+import {
+  getI18nEnabled,
+  RendererPluginAction,
+  RendererPluginEvent
+} from 'amis-editor-core';
 import {findTree, setVariable, someTree} from 'amis-core';
 
 import {registerEditorPlugin, repeatArray, diff} from 'amis-editor-core';
@@ -18,11 +22,12 @@ import {
 import {defaultValue, getSchemaTpl, tipedLabel} from 'amis-editor-core';
 import {mockValue} from 'amis-editor-core';
 import {EditorNodeType} from 'amis-editor-core';
-import {SchemaObject} from 'amis/lib/Schema';
+import type {SchemaObject} from 'amis/lib/Schema';
 import {
   getEventControlConfig,
   getArgsWrapper
 } from '../renderer/event-control/helper';
+import {schemaArrayFormat, schemaToArray} from '../util';
 
 export class TablePlugin extends BasePlugin {
   // 关联渲染器名字
@@ -282,7 +287,7 @@ export class TablePlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.rowItem': {
+            'event.data.item': {
               type: 'object',
               title: '行点击数据'
             }
@@ -311,14 +316,13 @@ export class TablePlugin extends BasePlugin {
           mode: 'horizontal'
         }
         */
-        {
+        getSchemaTpl('formulaControl', {
           name: 'selected',
           label: '选中项',
-          type: 'ae-formulaControl',
           variables: '${variables}',
           size: 'lg',
           mode: 'horizontal'
-        }
+        })
       ])
     },
     {
@@ -741,13 +745,13 @@ export class TablePlugin extends BasePlugin {
       value &&
       this.manager.openSubEditor({
         title: '配置头部',
-        value: value.header ?? defaultHeader,
+        value: schemaToArray(value.header ?? defaultHeader),
         slot: {
           type: 'container',
           body: '$$'
         },
         onChange: newValue => {
-          newValue = {...value, header: newValue};
+          newValue = {...value, header: schemaArrayFormat(newValue)};
           manager.panelChangeValue(newValue, diff(value, newValue));
         }
       });
@@ -769,13 +773,13 @@ export class TablePlugin extends BasePlugin {
       value &&
       this.manager.openSubEditor({
         title: '配置底部',
-        value: value.footer ?? defaultFooter,
+        value: schemaToArray(value.footer ?? defaultFooter),
         slot: {
           type: 'container',
           body: '$$'
         },
         onChange: newValue => {
-          newValue = {...value, footer: newValue};
+          newValue = {...value, footer: schemaArrayFormat(newValue)};
           manager.panelChangeValue(newValue, diff(value, newValue));
         }
       });

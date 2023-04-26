@@ -5,6 +5,8 @@ $category-2-height: px2rem(32px);
 $tooltip-bottom: '[data-tooltip][data-position=' bottom ']:hover:after';
 
 .editor-right-panel {
+  @include panel-sm-content();
+
   position: relative;
   flex: 0 0 auto;
   width: $right-panel-width;
@@ -222,7 +224,6 @@ $tooltip-bottom: '[data-tooltip][data-position=' bottom ']:hover:after';
       height: 100%;
       max-width: calc(100% - 48px); // 避免被内容元素撑开
       border-left: none;
-      transform: scale(1); // 内部元素fixed定位需要
 
       .editorPanel-tabs-pane {
         position: relative;
@@ -274,13 +275,16 @@ $tooltip-bottom: '[data-tooltip][data-position=' bottom ']:hover:after';
     overflow: hidden;
     margin: calc(0rem - (var(--gap-base)));
 
-    // 老动作入口
-    .old-action-btn {
+    .old-action-tooltip-warpper {
       position: absolute;
       left: 12px;
       top: px2rem(15px);
       width: 91%;
       z-index: 9999;
+      // 老动作入口
+      .old-action-btn {
+        width: 100%;
+      }
     }
 
     // tab导航
@@ -432,4 +436,64 @@ $tooltip-bottom: '[data-tooltip][data-position=' bottom ']:hover:after';
 
 .right-panel-pop {
   @include panel-sm-content();
+}
+
+// 包裹样式
+.config-wrapper-contanier {
+  position: relative;
+  margin: -8px auto 12px auto;
+  padding: 12px 8px;
+  background-color: #f7f7f9;
+  border-radius: 2px;
+
+  &::after {
+    display: block;
+    content: '';
+    height: 12px;
+    width: 12px;
+    position: absolute;
+    top: -6px;
+    left: 12px;
+    transform: rotate(45deg);
+    background-color: #f7f7f9;
+  }
+
+  &.hidden-tip {
+    &::after {
+      display: none;
+    }
+  }
+
+  &.tip-position-20p {
+    &::after {
+      left: 20%;
+    }
+  }
+
+  &.tip-position-30p {
+    &::after {
+      left: 30%;
+    }
+  }
+
+  &.tip-position-right-12 {
+    &::after {
+      left: auto;
+      right: 12px;
+    }
+  }
+
+  &.tip-position-right-55 {
+    &::after {
+      left: auto;
+      right: 55px;
+    }
+  }
+
+  &.tip-position-right-90 {
+    &::after {
+      left: auto;
+      right: 90px;
+    }
+  }
 }

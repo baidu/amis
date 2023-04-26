@@ -262,11 +262,26 @@ export const MappingField = withStore(props =>
             label = value[labelField || 'label'];
           }
         }
-        return render('tpl', label);
+        let realValue = value;
+        if (
+          isObject(label) &&
+          label.type === 'tag' &&
+          !isObject(label.label) &&
+          label.label != null
+        ) {
+          realValue = label.label;
+        }
+        return render('tpl', label, {
+          data: createObject(data, {
+            value: realValue,
+            label: realValue
+          }),
+          ...(label?.type === 'tag' ? {value: null} : {})
+        });
       }
-
       return render('mappingItemSchema', itemSchema, {
-        data: createObject(data, isObject(value) ? value : {item: value})
+        data: createObject(data, isObject(value) ? value : {item: value}),
+        ...((itemSchema as any)?.type === 'tag' ? {value: null} : {})
       });
     }
 

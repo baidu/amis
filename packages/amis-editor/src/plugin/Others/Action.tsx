@@ -10,10 +10,14 @@ import {
 } from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {diff} from 'amis-editor-core';
-import {SchemaCollection} from 'amis/lib/Schema';
+import type {SchemaCollection} from 'amis/lib/Schema';
 
 export class ActionPlugin extends BasePlugin {
   panelTitle = '按钮';
+  rendererName = 'action';
+  name = '行为按钮';
+  $schema = '/schemas/ActionSchema.json';
+
   panelBodyCreator = (context: BaseEventContext) => {
     const isInDialog = /(?:\/|^)dialog\/.+$/.test(context.path);
     const isInDropdown = /(?:\/|^)dropdown-button\/.+$/.test(context.path);
@@ -365,35 +369,18 @@ export class ActionPlugin extends BasePlugin {
     if (context.selections.length) {
       return;
     }
-
-    if (
-      ~['action', 'button', 'submit', 'reset', 'sparkline'].indexOf(
-        context.info!.renderer.name!
-      )
-    ) {
+    if (context.info!.renderer.name === 'action') {
       let body: any = this.panelBodyCreator(context);
 
-      // sparkline 的 action 配置是放 clickAction 参数下的，所以需要加一层
-      if (context.info.renderer.name === 'sparkline') {
-        body = {
-          name: 'clickAction',
-          type: 'combo',
-          label: '',
-          noBorder: true,
-          multiLine: true,
-          items: body
-        };
-      }
-
-      // panels.push({
-      //   key: 'action',
-      //   icon: 'fa fa-gavel',
-      //   title: '动作',
-      //   render: this.manager.makeSchemaFormRender({
-      //     body: body
-      //   }),
-      //   order: 100
-      // });
+      panels.push({
+        key: 'action',
+        icon: 'fa fa-gavel',
+        title: '动作',
+        render: this.manager.makeSchemaFormRender({
+          body: body
+        }),
+        order: 100
+      });
     } else {
       super.buildEditorPanel(context, panels);
     }

@@ -14,6 +14,7 @@ export interface HtmlProps {
   inline: boolean;
   classPrefix: string;
   classnames: ClassNamesFn;
+  filterHtml?: (input: string) => string;
 }
 
 export class Html extends React.Component<HtmlProps> {
@@ -45,10 +46,10 @@ export class Html extends React.Component<HtmlProps> {
   }
 
   _render() {
-    const {html} = this.props;
+    const {html, filterHtml} = this.props;
 
     if (html) {
-      this.dom.innerHTML = html;
+      this.dom.innerHTML = filterHtml ? filterHtml(html) : html;
     }
   }
 

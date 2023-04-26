@@ -1,0 +1,1885 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<presetTextWarpDefinitions>
+  <textArchDown>
+    <avLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="adj" fmla="val 0"></gd>
+    </avLst>
+    <gdLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="adval" fmla="pin 0 adj 21599999"></gd>
+      <gd name="v1" fmla="+- 10800000 0 adval"></gd>
+      <gd name="v2" fmla="+- 32400000 0 adval"></gd>
+      <gd name="nv1" fmla="+- 0 0 v1"></gd>
+      <gd name="stAng" fmla="?: nv1 v2 v1"></gd>
+      <gd name="w1" fmla="+- 5400000 0 adval"></gd>
+      <gd name="w2" fmla="+- 16200000 0 adval"></gd>
+      <gd name="d1" fmla="+- adval 0 stAng"></gd>
+      <gd name="d2" fmla="+- d1 0 21600000"></gd>
+      <gd name="v3" fmla="+- 0 0 10800000"></gd>
+      <gd name="c2" fmla="?: w2 d1 d2"></gd>
+      <gd name="c1" fmla="?: v1 d2 c2"></gd>
+      <gd name="c0" fmla="?: w1 d1 c1"></gd>
+      <gd name="swAng" fmla="?: stAng c0 v3"></gd>
+      <gd name="wt1" fmla="sin wd2 adj"></gd>
+      <gd name="ht1" fmla="cos hd2 adj"></gd>
+      <gd name="dx1" fmla="cat2 wd2 ht1 wt1"></gd>
+      <gd name="dy1" fmla="sat2 hd2 ht1 wt1"></gd>
+      <gd name="x1" fmla="+- hc dx1 0"></gd>
+      <gd name="y1" fmla="+- vc dy1 0"></gd>
+      <gd name="wt2" fmla="sin wd2 stAng"></gd>
+      <gd name="ht2" fmla="cos hd2 stAng"></gd>
+      <gd name="dx2" fmla="cat2 wd2 ht2 wt2"></gd>
+      <gd name="dy2" fmla="sat2 hd2 ht2 wt2"></gd>
+      <gd name="x2" fmla="+- hc dx2 0"></gd>
+      <gd name="y2" fmla="+- vc dy2 0"></gd>
+    </gdLst>
+    <ahLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <ahPolar gdRefAng="adj" minAng="0" maxAng="21599999">
+        <pos x="x1" y="y1"></pos>
+      </ahPolar>
+    </ahLst>
+    <pathLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <path>
+        <moveTo>
+          <pt x="x2" y="y2"></pt>
+        </moveTo>
+        <arcTo wR="wd2" hR="hd2" stAng="stAng" swAng="swAng"></arcTo>
+      </path>
+    </pathLst>
+  </textArchDown>
+  <textArchDownPour>
+    <avLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="adj1" fmla="val 0"></gd>
+      <gd name="adj2" fmla="val 25000"></gd>
+    </avLst>
+    <gdLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="adval" fmla="pin 0 adj1 21599999"></gd>
+      <gd name="v1" fmla="+- 10800000 0 adval"></gd>
+      <gd name="v2" fmla="+- 32400000 0 adval"></gd>
+      <gd name="nv1" fmla="+- 0 0 v1"></gd>
+      <gd name="stAng" fmla="?: nv1 v2 v1"></gd>
+      <gd name="w1" fmla="+- 5400000 0 adval"></gd>
+      <gd name="w2" fmla="+- 16200000 0 adval"></gd>
+      <gd name="d1" fmla="+- adval 0 stAng"></gd>
+      <gd name="d2" fmla="+- d1 0 21600000"></gd>
+      <gd name="v3" fmla="+- 0 0 10800000"></gd>
+      <gd name="c2" fmla="?: w2 d1 d2"></gd>
+      <gd name="c1" fmla="?: v1 d2 c2"></gd>
+      <gd name="c0" fmla="?: w1 d1 c1"></gd>
+      <gd name="swAng" fmla="?: stAng c0 v3"></gd>
+      <gd name="wt1" fmla="sin wd2 stAng"></gd>
+      <gd name="ht1" fmla="cos hd2 stAng"></gd>
+      <gd name="dx1" fmla="cat2 wd2 ht1 wt1"></gd>
+      <gd name="dy1" fmla="sat2 hd2 ht1 wt1"></gd>
+      <gd name="x1" fmla="+- hc dx1 0"></gd>
+      <gd name="y1" fmla="+- vc dy1 0"></gd>
+      <gd name="adval2" fmla="pin 0 adj2 99000"></gd>
+      <gd name="ratio" fmla="*/ adval2 1 100000"></gd>
+      <gd name="iwd2" fmla="*/ wd2 ratio 1"></gd>
+      <gd name="ihd2" fmla="*/ hd2 ratio 1"></gd>
+      <gd name="wt2" fmla="sin iwd2 adval"></gd>
+      <gd name="ht2" fmla="cos ihd2 adval"></gd>
+      <gd name="dx2" fmla="cat2 iwd2 ht2 wt2"></gd>
+      <gd name="dy2" fmla="sat2 ihd2 ht2 wt2"></gd>
+      <gd name="x2" fmla="+- hc dx2 0"></gd>
+      <gd name="y2" fmla="+- vc dy2 0"></gd>
+      <gd name="wt3" fmla="sin iwd2 stAng"></gd>
+      <gd name="ht3" fmla="cos ihd2 stAng"></gd>
+      <gd name="dx3" fmla="cat2 iwd2 ht3 wt3"></gd>
+      <gd name="dy3" fmla="sat2 ihd2 ht3 wt3"></gd>
+      <gd name="x3" fmla="+- hc dx3 0"></gd>
+      <gd name="y3" fmla="+- vc dy3 0"></gd>
+    </gdLst>
+    <ahLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <ahPolar gdRefR="adj2" minR="0" maxR="100000" gdRefAng="adj1" minAng="0" maxAng="21599999">
+        <pos x="x2" y="y2"></pos>
+      </ahPolar>
+    </ahLst>
+    <pathLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <path>
+        <moveTo>
+          <pt x="x3" y="y3"></pt>
+        </moveTo>
+        <arcTo wR="iwd2" hR="ihd2" stAng="stAng" swAng="swAng"></arcTo>
+      </path>
+      <path>
+        <moveTo>
+          <pt x="x1" y="y1"></pt>
+        </moveTo>
+        <arcTo wR="wd2" hR="hd2" stAng="stAng" swAng="swAng"></arcTo>
+      </path>
+    </pathLst>
+  </textArchDownPour>
+  <textArchUp>
+    <avLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="adj" fmla="val cd2"></gd>
+    </avLst>
+    <gdLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="adval" fmla="pin 0 adj 21599999"></gd>
+      <gd name="v1" fmla="+- 10800000 0 adval"></gd>
+      <gd name="v2" fmla="+- 32400000 0 adval"></gd>
+      <gd name="end" fmla="?: v1 v1 v2"></gd>
+      <gd name="w1" fmla="+- 5400000 0 adval"></gd>
+      <gd name="w2" fmla="+- 16200000 0 adval"></gd>
+      <gd name="d1" fmla="+- end 0 adval"></gd>
+      <gd name="d2" fmla="+- 21600000 d1 0"></gd>
+      <gd name="c2" fmla="?: w2 d1 d2"></gd>
+      <gd name="c1" fmla="?: v1 d2 c2"></gd>
+      <gd name="swAng" fmla="?: w1 d1 c1"></gd>
+      <gd name="wt1" fmla="sin wd2 adj"></gd>
+      <gd name="ht1" fmla="cos hd2 adj"></gd>
+      <gd name="dx1" fmla="cat2 wd2 ht1 wt1"></gd>
+      <gd name="dy1" fmla="sat2 hd2 ht1 wt1"></gd>
+      <gd name="x1" fmla="+- hc dx1 0"></gd>
+      <gd name="y1" fmla="+- vc dy1 0"></gd>
+    </gdLst>
+    <ahLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <ahPolar gdRefAng="adj" minAng="0" maxAng="21599999">
+        <pos x="x1" y="y1"></pos>
+      </ahPolar>
+    </ahLst>
+    <pathLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <path>
+        <moveTo>
+          <pt x="x1" y="y1"></pt>
+        </moveTo>
+        <arcTo wR="wd2" hR="hd2" stAng="adval" swAng="swAng"></arcTo>
+      </path>
+    </pathLst>
+  </textArchUp>
+  <textArchUpPour>
+    <avLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="adj1" fmla="val cd2"></gd>
+      <gd name="adj2" fmla="val 50000"></gd>
+    </avLst>
+    <gdLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="adval" fmla="pin 0 adj1 21599999"></gd>
+      <gd name="v1" fmla="+- 10800000 0 adval"></gd>
+      <gd name="v2" fmla="+- 32400000 0 adval"></gd>
+      <gd name="end" fmla="?: v1 v1 v2"></gd>
+      <gd name="w1" fmla="+- 5400000 0 adval"></gd>
+      <gd name="w2" fmla="+- 16200000 0 adval"></gd>
+      <gd name="d1" fmla="+- end 0 adval"></gd>
+      <gd name="d2" fmla="+- 21600000 d1 0"></gd>
+      <gd name="c2" fmla="?: w2 d1 d2"></gd>
+      <gd name="c1" fmla="?: v1 d2 c2"></gd>
+      <gd name="swAng" fmla="?: w1 d1 c1"></gd>
+      <gd name="wt1" fmla="sin wd2 adval"></gd>
+      <gd name="ht1" fmla="cos hd2 adval"></gd>
+      <gd name="dx1" fmla="cat2 wd2 ht1 wt1"></gd>
+      <gd name="dy1" fmla="sat2 hd2 ht1 wt1"></gd>
+      <gd name="x1" fmla="+- hc dx1 0"></gd>
+      <gd name="y1" fmla="+- vc dy1 0"></gd>
+      <gd name="adval2" fmla="pin 0 adj2 99000"></gd>
+      <gd name="ratio" fmla="*/ adval2 1 100000"></gd>
+      <gd name="iwd2" fmla="*/ wd2 ratio 1"></gd>
+      <gd name="ihd2" fmla="*/ hd2 ratio 1"></gd>
+      <gd name="wt2" fmla="sin iwd2 adval"></gd>
+      <gd name="ht2" fmla="cos ihd2 adval"></gd>
+      <gd name="dx2" fmla="cat2 iwd2 ht2 wt2"></gd>
+      <gd name="dy2" fmla="sat2 ihd2 ht2 wt2"></gd>
+      <gd name="x2" fmla="+- hc dx2 0"></gd>
+      <gd name="y2" fmla="+- vc dy2 0"></gd>
+    </gdLst>
+    <ahLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <ahPolar gdRefR="adj2" minR="0" maxR="100000" gdRefAng="adj1" minAng="0" maxAng="21599999">
+        <pos x="x2" y="y2"></pos>
+      </ahPolar>
+    </ahLst>
+    <pathLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <path>
+        <moveTo>
+          <pt x="x1" y="y1"></pt>
+        </moveTo>
+        <arcTo wR="wd2" hR="hd2" stAng="adval" swAng="swAng"></arcTo>
+      </path>
+      <path>
+        <moveTo>
+          <pt x="x2" y="y2"></pt>
+        </moveTo>
+        <arcTo wR="iwd2" hR="ihd2" stAng="adval" swAng="swAng"></arcTo>
+      </path>
+    </pathLst>
+  </textArchUpPour>
+  <textButton>
+    <avLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="adj" fmla="val 10800000"></gd>
+    </avLst>
+    <gdLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="adval" fmla="pin 0 adj 21599999"></gd>
+      <gd name="bot" fmla="+- 5400000 0 adval"></gd>
+      <gd name="lef" fmla="+- 10800000 0 adval"></gd>
+      <gd name="top" fmla="+- 16200000 0 adval"></gd>
+      <gd name="rig" fmla="+- 21600000 0 adval"></gd>
+      <gd name="c3" fmla="?: top adval 0"></gd>
+      <gd name="c2" fmla="?: lef 10800000 c3"></gd>
+      <gd name="c1" fmla="?: bot rig c2"></gd>
+      <gd name="stAng" fmla="?: adval c1 0"></gd>
+      <gd name="w1" fmla="+- 21600000 0 stAng"></gd>
+      <gd name="stAngB" fmla="?: stAng w1 0"></gd>
+      <gd name="td1" fmla="*/ bot 2 1"></gd>
+      <gd name="td2" fmla="*/ top 2 1"></gd>
+      <gd name="ntd2" fmla="+- 0 0 td2"></gd>
+      <gd name="w2" fmla="+- 0 0 10800000"></gd>
+      <gd name="c6" fmla="?: top ntd2 w2"></gd>
+      <gd name="c5" fmla="?: lef 10800000 c6"></gd>
+      <gd name="c4" fmla="?: bot td1 c5"></gd>
+      <gd name="v1" fmla="?: adval c4 10800000"></gd>
+      <gd name="swAngT" fmla="+- 0 0 v1"></gd>
+      <gd name="stT" fmla="?: lef stAngB stAng"></gd>
+      <gd name="stB" fmla="?: lef stAng stAngB"></gd>
+      <gd name="swT" fmla="?: lef v1 swAngT"></gd>
+      <gd name="swB" fmla="?: lef swAngT v1"></gd>
+      <gd name="wt1" fmla="sin wd2 stT"></gd>
+      <gd name="ht1" fmla="cos hd2 stT"></gd>
+      <gd name="dx1" fmla="cat2 wd2 ht1 wt1"></gd>
+      <gd name="dy1" fmla="sat2 hd2 ht1 wt1"></gd>
+      <gd name="x1" fmla="+- hc dx1 0"></gd>
+      <gd name="y1" fmla="+- vc dy1 0"></gd>
+      <gd name="wt2" fmla="sin wd2 stB"></gd>
+      <gd name="ht2" fmla="cos hd2 stB"></gd>
+      <gd name="dx2" fmla="cat2 wd2 ht2 wt2"></gd>
+      <gd name="dy2" fmla="sat2 hd2 ht2 wt2"></gd>
+      <gd name="x2" fmla="+- hc dx2 0"></gd>
+      <gd name="y2" fmla="+- vc dy2 0"></gd>
+      <gd name="wt3" fmla="sin wd2 adj"></gd>
+      <gd name="ht3" fmla="cos hd2 adj"></gd>
+      <gd name="dx3" fmla="cat2 wd2 ht3 wt3"></gd>
+      <gd name="dy3" fmla="sat2 hd2 ht3 wt3"></gd>
+      <gd name="x3" fmla="+- hc dx3 0"></gd>
+      <gd name="y3" fmla="+- vc dy3 0"></gd>
+    </gdLst>
+    <ahLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <ahPolar gdRefAng="adj" minAng="0" maxAng="21599999">
+        <pos x="x3" y="y3"></pos>
+      </ahPolar>
+    </ahLst>
+    <pathLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <path>
+        <moveTo>
+          <pt x="x1" y="y1"></pt>
+        </moveTo>
+        <arcTo wR="wd2" hR="hd2" stAng="stT" swAng="swT"></arcTo>
+      </path>
+      <path>
+        <moveTo>
+          <pt x="l" y="vc"></pt>
+        </moveTo>
+        <lnTo>
+          <pt x="r" y="vc"></pt>
+        </lnTo>
+      </path>
+      <path>
+        <moveTo>
+          <pt x="x2" y="y2"></pt>
+        </moveTo>
+        <arcTo wR="wd2" hR="hd2" stAng="stB" swAng="swB"></arcTo>
+      </path>
+    </pathLst>
+  </textButton>
+  <textButtonPour>
+    <avLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="adj1" fmla="val cd2"></gd>
+      <gd name="adj2" fmla="val 50000"></gd>
+    </avLst>
+    <gdLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="adval" fmla="pin 0 adj1 21599999"></gd>
+      <gd name="bot" fmla="+- 5400000 0 adval"></gd>
+      <gd name="lef" fmla="+- 10800000 0 adval"></gd>
+      <gd name="top" fmla="+- 16200000 0 adval"></gd>
+      <gd name="rig" fmla="+- 21600000 0 adval"></gd>
+      <gd name="c3" fmla="?: top adval 0"></gd>
+      <gd name="c2" fmla="?: lef 10800000 c3"></gd>
+      <gd name="c1" fmla="?: bot rig c2"></gd>
+      <gd name="stAng" fmla="?: adval c1 0"></gd>
+      <gd name="w1" fmla="+- 21600000 0 stAng"></gd>
+      <gd name="stAngB" fmla="?: stAng w1 0"></gd>
+      <gd name="td1" fmla="*/ bot 2 1"></gd>
+      <gd name="td2" fmla="*/ top 2 1"></gd>
+      <gd name="ntd2" fmla="+- 0 0 td2"></gd>
+      <gd name="w2" fmla="+- 0 0 10800000"></gd>
+      <gd name="c6" fmla="?: top ntd2 w2"></gd>
+      <gd name="c5" fmla="?: lef 10800000 c6"></gd>
+      <gd name="c4" fmla="?: bot td1 c5"></gd>
+      <gd name="v1" fmla="?: adval c4 10800000"></gd>
+      <gd name="swAngT" fmla="+- 0 0 v1"></gd>
+      <gd name="stT" fmla="?: lef stAngB stAng"></gd>
+      <gd name="stB" fmla="?: lef stAng stAngB"></gd>
+      <gd name="swT" fmla="?: lef v1 swAngT"></gd>
+      <gd name="swB" fmla="?: lef swAngT v1"></gd>
+      <gd name="wt1" fmla="sin wd2 stT"></gd>
+      <gd name="ht1" fmla="cos hd2 stT"></gd>
+      <gd name="dx1" fmla="cat2 wd2 ht1 wt1"></gd>
+      <gd name="dy1" fmla="sat2 hd2 ht1 wt1"></gd>
+      <gd name="x1" fmla="+- hc dx1 0"></gd>
+      <gd name="y1" fmla="+- vc dy1 0"></gd>
+      <gd name="wt6" fmla="sin wd2 stB"></gd>
+      <gd name="ht6" fmla="cos hd2 stB"></gd>
+      <gd name="dx6" fmla="cat2 wd2 ht6 wt6"></gd>
+      <gd name="dy6" fmla="sat2 hd2 ht6 wt6"></gd>
+      <gd name="x6" fmla="+- hc dx6 0"></gd>
+      <gd name="y6" fmla="+- vc dy6 0"></gd>
+      <gd name="adval2" fmla="pin 40000 adj2 99000"></gd>
+      <gd name="ratio" fmla="*/ adval2 1 100000"></gd>
+      <gd name="iwd2" fmla="*/ wd2 ratio 1"></gd>
+      <gd name="ihd2" fmla="*/ hd2 ratio 1"></gd>
+      <gd name="wt2" fmla="sin iwd2 stT"></gd>
+      <gd name="ht2" fmla="cos ihd2 stT"></gd>
+      <gd name="dx2" fmla="cat2 iwd2 ht2 wt2"></gd>
+      <gd name="dy2" fmla="sat2 ihd2 ht2 wt2"></gd>
+      <gd name="x2" fmla="+- hc dx2 0"></gd>
+      <gd name="y2" fmla="+- vc dy2 0"></gd>
+      <gd name="wt5" fmla="sin iwd2 stB"></gd>
+      <gd name="ht5" fmla="cos ihd2 stB"></gd>
+      <gd name="dx5" fmla="cat2 iwd2 ht5 wt5"></gd>
+      <gd name="dy5" fmla="sat2 ihd2 ht5 wt5"></gd>
+      <gd name="x5" fmla="+- hc dx5 0"></gd>
+      <gd name="y5" fmla="+- vc dy5 0"></gd>
+      <gd name="d1" fmla="+- hd2 0 ihd2"></gd>
+      <gd name="d12" fmla="*/ d1 1 2"></gd>
+      <gd name="yu" fmla="+- vc 0 d12"></gd>
+      <gd name="yd" fmla="+- vc d12 0"></gd>
+      <gd name="v1" fmla="*/ d12 d12 1"></gd>
+      <gd name="v2" fmla="*/ ihd2 ihd2 1"></gd>
+      <gd name="v3" fmla="*/ v1 1 v2"></gd>
+      <gd name="v4" fmla="+- 1 0 v3"></gd>
+      <gd name="v5" fmla="*/ iwd2 iwd2 1"></gd>
+      <gd name="v6" fmla="*/ v4 v5 1"></gd>
+      <gd name="v7" fmla="sqrt v6"></gd>
+      <gd name="xl" fmla="+- hc 0 v7"></gd>
+      <gd name="xr" fmla="+- hc v7 0"></gd>
+      <gd name="wtadj" fmla="sin iwd2 adj1"></gd>
+      <gd name="htadj" fmla="cos ihd2 adj1"></gd>
+      <gd name="dxadj" fmla="cat2 iwd2 htadj wtadj"></gd>
+      <gd name="dyadj" fmla="sat2 ihd2 htadj wtadj"></gd>
+      <gd name="xadj" fmla="+- hc dxadj 0"></gd>
+      <gd name="yadj" fmla="+- vc dyadj 0"></gd>
+    </gdLst>
+    <ahLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <ahPolar gdRefR="adj2" minR="0" maxR="100000" gdRefAng="adj1" minAng="0" maxAng="21599999">
+        <pos x="xadj" y="yadj"></pos>
+      </ahPolar>
+    </ahLst>
+    <pathLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <path>
+        <moveTo>
+          <pt x="x1" y="y1"></pt>
+        </moveTo>
+        <arcTo wR="wd2" hR="hd2" stAng="stT" swAng="swT"></arcTo>
+      </path>
+      <path>
+        <moveTo>
+          <pt x="x2" y="y2"></pt>
+        </moveTo>
+        <arcTo wR="iwd2" hR="ihd2" stAng="stT" swAng="swT"></arcTo>
+      </path>
+      <path>
+        <moveTo>
+          <pt x="xl" y="yu"></pt>
+        </moveTo>
+        <lnTo>
+          <pt x="xr" y="yu"></pt>
+        </lnTo>
+      </path>
+      <path>
+        <moveTo>
+          <pt x="xl" y="yd"></pt>
+        </moveTo>
+        <lnTo>
+          <pt x="xr" y="yd"></pt>
+        </lnTo>
+      </path>
+      <path>
+        <moveTo>
+          <pt x="x5" y="y5"></pt>
+        </moveTo>
+        <arcTo wR="iwd2" hR="ihd2" stAng="stB" swAng="swB"></arcTo>
+      </path>
+      <path>
+        <moveTo>
+          <pt x="x6" y="y6"></pt>
+        </moveTo>
+        <arcTo wR="wd2" hR="hd2" stAng="stB" swAng="swB"></arcTo>
+      </path>
+    </pathLst>
+  </textButtonPour>
+  <textCanDown>
+    <avLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="adj" fmla="val 14286"></gd>
+    </avLst>
+    <gdLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="a" fmla="pin 0 adj 33333"></gd>
+      <gd name="dy" fmla="*/ a h 100000"></gd>
+      <gd name="y0" fmla="+- t dy 0"></gd>
+      <gd name="y1" fmla="+- b 0 dy"></gd>
+      <gd name="ncd2" fmla="*/ cd2 -1 1"></gd>
+    </gdLst>
+    <ahLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <ahXY gdRefY="adj" minY="0" maxY="33333">
+        <pos x="hc" y="y0"></pos>
+      </ahXY>
+    </ahLst>
+    <pathLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <path>
+        <moveTo>
+          <pt x="l" y="t"></pt>
+        </moveTo>
+        <arcTo wR="wd2" hR="dy" stAng="cd2" swAng="ncd2"></arcTo>
+      </path>
+      <path>
+        <moveTo>
+          <pt x="l" y="y1"></pt>
+        </moveTo>
+        <arcTo wR="wd2" hR="dy" stAng="cd2" swAng="ncd2"></arcTo>
+      </path>
+    </pathLst>
+  </textCanDown>
+  <textCanUp>
+    <avLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="adj" fmla="val 85714"></gd>
+    </avLst>
+    <gdLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="a" fmla="pin 66667 adj 100000"></gd>
+      <gd name="dy1" fmla="*/ a h 100000"></gd>
+      <gd name="dy" fmla="+- h 0 dy1"></gd>
+      <gd name="y0" fmla="+- t dy1 0"></gd>
+      <gd name="y1" fmla="+- t dy 0"></gd>
+    </gdLst>
+    <ahLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <ahXY gdRefY="adj" minY="66667" maxY="100000">
+        <pos x="hc" y="y0"></pos>
+      </ahXY>
+    </ahLst>
+    <pathLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <path>
+        <moveTo>
+          <pt x="l" y="y1"></pt>
+        </moveTo>
+        <arcTo wR="wd2" hR="dy" stAng="cd2" swAng="cd2"></arcTo>
+      </path>
+      <path>
+        <moveTo>
+          <pt x="l" y="b"></pt>
+        </moveTo>
+        <arcTo wR="wd2" hR="dy" stAng="cd2" swAng="cd2"></arcTo>
+      </path>
+    </pathLst>
+  </textCanUp>
+  <textCascadeDown>
+    <avLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="adj" fmla="val 44444"></gd>
+    </avLst>
+    <gdLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="a" fmla="pin 28570 adj 100000"></gd>
+      <gd name="dy" fmla="*/ a h 100000"></gd>
+      <gd name="y1" fmla="+- t dy 0"></gd>
+      <gd name="dy2" fmla="+- h 0 dy"></gd>
+      <gd name="dy3" fmla="*/ dy2 1 4"></gd>
+      <gd name="y2" fmla="+- t dy3 0"></gd>
+    </gdLst>
+    <ahLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <ahXY gdRefY="adj" minY="28570" maxY="100000">
+        <pos x="l" y="y1"></pos>
+      </ahXY>
+    </ahLst>
+    <pathLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <path>
+        <moveTo>
+          <pt x="l" y="t"></pt>
+        </moveTo>
+        <lnTo>
+          <pt x="r" y="y2"></pt>
+        </lnTo>
+      </path>
+      <path>
+        <moveTo>
+          <pt x="l" y="y1"></pt>
+        </moveTo>
+        <lnTo>
+          <pt x="r" y="b"></pt>
+        </lnTo>
+      </path>
+    </pathLst>
+  </textCascadeDown>
+  <textCascadeUp>
+    <avLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="adj" fmla="val 44444"></gd>
+    </avLst>
+    <gdLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="a" fmla="pin 28570 adj 100000"></gd>
+      <gd name="dy" fmla="*/ a h 100000"></gd>
+      <gd name="y1" fmla="+- t dy 0"></gd>
+      <gd name="dy2" fmla="+- h 0 dy"></gd>
+      <gd name="dy3" fmla="*/ dy2 1 4"></gd>
+      <gd name="y2" fmla="+- t dy3 0"></gd>
+    </gdLst>
+    <ahLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <ahXY gdRefY="adj" minY="28570" maxY="100000">
+        <pos x="r" y="y1"></pos>
+      </ahXY>
+    </ahLst>
+    <pathLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <path>
+        <moveTo>
+          <pt x="l" y="y2"></pt>
+        </moveTo>
+        <lnTo>
+          <pt x="r" y="t"></pt>
+        </lnTo>
+      </path>
+      <path>
+        <moveTo>
+          <pt x="l" y="b"></pt>
+        </moveTo>
+        <lnTo>
+          <pt x="r" y="y1"></pt>
+        </lnTo>
+      </path>
+    </pathLst>
+  </textCascadeUp>
+  <textChevron>
+    <avLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="adj" fmla="val 25000"></gd>
+    </avLst>
+    <gdLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="a" fmla="pin 0 adj 50000"></gd>
+      <gd name="y" fmla="*/ a h 100000"></gd>
+      <gd name="y1" fmla="+- t b y"></gd>
+    </gdLst>
+    <ahLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <ahXY gdRefY="adj" minY="0" maxY="50000">
+        <pos x="l" y="y"></pos>
+      </ahXY>
+    </ahLst>
+    <pathLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <path>
+        <moveTo>
+          <pt x="l" y="y"></pt>
+        </moveTo>
+        <lnTo>
+          <pt x="hc" y="t"></pt>
+        </lnTo>
+        <lnTo>
+          <pt x="r" y="y"></pt>
+        </lnTo>
+      </path>
+      <path>
+        <moveTo>
+          <pt x="l" y="b"></pt>
+        </moveTo>
+        <lnTo>
+          <pt x="hc" y="y1"></pt>
+        </lnTo>
+        <lnTo>
+          <pt x="r" y="b"></pt>
+        </lnTo>
+      </path>
+    </pathLst>
+  </textChevron>
+  <textChevronInverted>
+    <avLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="adj" fmla="val 75000"></gd>
+    </avLst>
+    <gdLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="a" fmla="pin 50000 adj 100000"></gd>
+      <gd name="y" fmla="*/ a h 100000"></gd>
+      <gd name="y1" fmla="+- b 0 y"></gd>
+    </gdLst>
+    <ahLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <ahXY gdRefY="adj" minY="50000" maxY="100000">
+        <pos x="l" y="y"></pos>
+      </ahXY>
+    </ahLst>
+    <pathLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <path>
+        <moveTo>
+          <pt x="l" y="t"></pt>
+        </moveTo>
+        <lnTo>
+          <pt x="hc" y="y1"></pt>
+        </lnTo>
+        <lnTo>
+          <pt x="r" y="t"></pt>
+        </lnTo>
+      </path>
+      <path>
+        <moveTo>
+          <pt x="l" y="y"></pt>
+        </moveTo>
+        <lnTo>
+          <pt x="hc" y="b"></pt>
+        </lnTo>
+        <lnTo>
+          <pt x="r" y="y"></pt>
+        </lnTo>
+      </path>
+    </pathLst>
+  </textChevronInverted>
+  <textCircle>
+    <avLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="adj" fmla="val 10800000"></gd>
+    </avLst>
+    <gdLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="adval" fmla="pin 0 adj 21599999"></gd>
+      <gd name="d0" fmla="+- adval 0 10800000"></gd>
+      <gd name="d1" fmla="+- 10800000 0 adval"></gd>
+      <gd name="d2" fmla="+- 21600000 0 adval"></gd>
+      <gd name="d3" fmla="?: d1 d1 10799999"></gd>
+      <gd name="d4" fmla="?: d0 d2 d3"></gd>
+      <gd name="swAng" fmla="*/ d4 2 1"></gd>
+      <gd name="wt1" fmla="sin wd2 adj"></gd>
+      <gd name="ht1" fmla="cos hd2 adj"></gd>
+      <gd name="dx1" fmla="cat2 wd2 ht1 wt1"></gd>
+      <gd name="dy1" fmla="sat2 hd2 ht1 wt1"></gd>
+      <gd name="x1" fmla="+- hc dx1 0"></gd>
+      <gd name="y1" fmla="+- vc dy1 0"></gd>
+    </gdLst>
+    <ahLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <ahPolar gdRefAng="adj" minAng="0" maxAng="21599999">
+        <pos x="x1" y="y1"></pos>
+      </ahPolar>
+    </ahLst>
+    <pathLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <path>
+        <moveTo>
+          <pt x="x1" y="y1"></pt>
+        </moveTo>
+        <arcTo wR="wd2" hR="hd2" stAng="adval" swAng="swAng"></arcTo>
+      </path>
+    </pathLst>
+  </textCircle>
+  <textCirclePour>
+    <avLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="adj1" fmla="val cd2"></gd>
+      <gd name="adj2" fmla="val 50000"></gd>
+    </avLst>
+    <gdLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="adval" fmla="pin 0 adj1 21599999"></gd>
+      <gd name="d0" fmla="+- adval 0 10800000"></gd>
+      <gd name="d1" fmla="+- 10800000 0 adval"></gd>
+      <gd name="d2" fmla="+- 21600000 0 adval"></gd>
+      <gd name="d3" fmla="?: d1 d1 10799999"></gd>
+      <gd name="d4" fmla="?: d0 d2 d3"></gd>
+      <gd name="swAng" fmla="*/ d4 2 1"></gd>
+      <gd name="wt1" fmla="sin wd2 adval"></gd>
+      <gd name="ht1" fmla="cos hd2 adval"></gd>
+      <gd name="dx1" fmla="cat2 wd2 ht1 wt1"></gd>
+      <gd name="dy1" fmla="sat2 hd2 ht1 wt1"></gd>
+      <gd name="x1" fmla="+- hc dx1 0"></gd>
+      <gd name="y1" fmla="+- vc dy1 0"></gd>
+      <gd name="adval2" fmla="pin 0 adj2 99000"></gd>
+      <gd name="ratio" fmla="*/ adval2 1 100000"></gd>
+      <gd name="iwd2" fmla="*/ wd2 ratio 1"></gd>
+      <gd name="ihd2" fmla="*/ hd2 ratio 1"></gd>
+      <gd name="wt2" fmla="sin iwd2 adval"></gd>
+      <gd name="ht2" fmla="cos ihd2 adval"></gd>
+      <gd name="dx2" fmla="cat2 iwd2 ht2 wt2"></gd>
+      <gd name="dy2" fmla="sat2 ihd2 ht2 wt2"></gd>
+      <gd name="x2" fmla="+- hc dx2 0"></gd>
+      <gd name="y2" fmla="+- vc dy2 0"></gd>
+    </gdLst>
+    <ahLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <ahPolar gdRefR="adj2" minR="0" maxR="100000" gdRefAng="adj1" minAng="0" maxAng="21599999">
+        <pos x="x2" y="y2"></pos>
+      </ahPolar>
+    </ahLst>
+    <pathLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <path>
+        <moveTo>
+          <pt x="x1" y="y1"></pt>
+        </moveTo>
+        <arcTo wR="wd2" hR="hd2" stAng="adval" swAng="swAng"></arcTo>
+      </path>
+      <path>
+        <moveTo>
+          <pt x="x2" y="y2"></pt>
+        </moveTo>
+        <arcTo wR="iwd2" hR="ihd2" stAng="adval" swAng="swAng"></arcTo>
+      </path>
+    </pathLst>
+  </textCirclePour>
+  <textCurveDown>
+    <avLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="adj" fmla="val 45977"></gd>
+    </avLst>
+    <gdLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="a" fmla="pin 0 adj 56338"></gd>
+      <gd name="dy" fmla="*/ a h 100000"></gd>
+      <gd name="gd1" fmla="*/ dy 3 4"></gd>
+      <gd name="gd2" fmla="*/ dy 5 4"></gd>
+      <gd name="gd3" fmla="*/ dy 3 8"></gd>
+      <gd name="gd4" fmla="*/ dy 1 8"></gd>
+      <gd name="gd5" fmla="+- h 0 gd3"></gd>
+      <gd name="gd6" fmla="+- gd4 h 0"></gd>
+      <gd name="y0" fmla="+- t dy 0"></gd>
+      <gd name="y1" fmla="+- t gd1 0"></gd>
+      <gd name="y2" fmla="+- t gd2 0"></gd>
+      <gd name="y3" fmla="+- t gd3 0"></gd>
+      <gd name="y4" fmla="+- t gd4 0"></gd>
+      <gd name="y5" fmla="+- t gd5 0"></gd>
+      <gd name="y6" fmla="+- t gd6 0"></gd>
+      <gd name="x1" fmla="+- l wd3 0"></gd>
+      <gd name="x2" fmla="+- r 0 wd3"></gd>
+    </gdLst>
+    <ahLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <ahXY gdRefY="adj" minY="0" maxY="56338">
+        <pos x="r" y="y0"></pos>
+      </ahXY>
+    </ahLst>
+    <pathLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <path>
+        <moveTo>
+          <pt x="l" y="t"></pt>
+        </moveTo>
+        <cubicBezTo>
+          <pt x="x1" y="y1"></pt>
+          <pt x="x2" y="y2"></pt>
+          <pt x="r" y="y0"></pt>
+        </cubicBezTo>
+      </path>
+      <path>
+        <moveTo>
+          <pt x="l" y="y5"></pt>
+        </moveTo>
+        <cubicBezTo>
+          <pt x="x1" y="y6"></pt>
+          <pt x="x2" y="y6"></pt>
+          <pt x="r" y="y5"></pt>
+        </cubicBezTo>
+      </path>
+    </pathLst>
+  </textCurveDown>
+  <textCurveUp>
+    <avLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="adj" fmla="val 45977"></gd>
+    </avLst>
+    <gdLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="a" fmla="pin 0 adj 56338"></gd>
+      <gd name="dy" fmla="*/ a h 100000"></gd>
+      <gd name="gd1" fmla="*/ dy 3 4"></gd>
+      <gd name="gd2" fmla="*/ dy 5 4"></gd>
+      <gd name="gd3" fmla="*/ dy 3 8"></gd>
+      <gd name="gd4" fmla="*/ dy 1 8"></gd>
+      <gd name="gd5" fmla="+- h 0 gd3"></gd>
+      <gd name="gd6" fmla="+- gd4 h 0"></gd>
+      <gd name="y0" fmla="+- t dy 0"></gd>
+      <gd name="y1" fmla="+- t gd1 0"></gd>
+      <gd name="y2" fmla="+- t gd2 0"></gd>
+      <gd name="y3" fmla="+- t gd3 0"></gd>
+      <gd name="y4" fmla="+- t gd4 0"></gd>
+      <gd name="y5" fmla="+- t gd5 0"></gd>
+      <gd name="y6" fmla="+- t gd6 0"></gd>
+      <gd name="x1" fmla="+- l wd3 0"></gd>
+      <gd name="x2" fmla="+- r 0 wd3"></gd>
+    </gdLst>
+    <ahLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <ahXY gdRefY="adj" minY="0" maxY="56338">
+        <pos x="l" y="y0"></pos>
+      </ahXY>
+    </ahLst>
+    <pathLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <path>
+        <moveTo>
+          <pt x="l" y="y0"></pt>
+        </moveTo>
+        <cubicBezTo>
+          <pt x="x1" y="y2"></pt>
+          <pt x="x2" y="y1"></pt>
+          <pt x="r" y="t"></pt>
+        </cubicBezTo>
+      </path>
+      <path>
+        <moveTo>
+          <pt x="l" y="y5"></pt>
+        </moveTo>
+        <cubicBezTo>
+          <pt x="x1" y="y6"></pt>
+          <pt x="x2" y="y6"></pt>
+          <pt x="r" y="y5"></pt>
+        </cubicBezTo>
+      </path>
+    </pathLst>
+  </textCurveUp>
+  <textDeflate>
+    <avLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="adj" fmla="val 18750"></gd>
+    </avLst>
+    <gdLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="a" fmla="pin 0 adj 37500"></gd>
+      <gd name="dy" fmla="*/ a ss 100000"></gd>
+      <gd name="gd0" fmla="*/ dy 4 3"></gd>
+      <gd name="gd1" fmla="+- h 0 gd0"></gd>
+      <gd name="adjY" fmla="+- t dy 0"></gd>
+      <gd name="y0" fmla="+- t gd0 0"></gd>
+      <gd name="y1" fmla="+- t gd1 0"></gd>
+      <gd name="x0" fmla="+- l wd3 0"></gd>
+      <gd name="x1" fmla="+- r 0 wd3"></gd>
+    </gdLst>
+    <ahLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <ahXY gdRefY="adj" minY="0" maxY="37500">
+        <pos x="hc" y="adjY"></pos>
+      </ahXY>
+    </ahLst>
+    <pathLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <path>
+        <moveTo>
+          <pt x="l" y="t"></pt>
+        </moveTo>
+        <cubicBezTo>
+          <pt x="x0" y="y0"></pt>
+          <pt x="x1" y="y0"></pt>
+          <pt x="r" y="t"></pt>
+        </cubicBezTo>
+      </path>
+      <path>
+        <moveTo>
+          <pt x="l" y="b"></pt>
+        </moveTo>
+        <cubicBezTo>
+          <pt x="x0" y="y1"></pt>
+          <pt x="x1" y="y1"></pt>
+          <pt x="r" y="b"></pt>
+        </cubicBezTo>
+      </path>
+    </pathLst>
+  </textDeflate>
+  <textDeflateBottom>
+    <avLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="adj" fmla="val 50000"></gd>
+    </avLst>
+    <gdLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="a" fmla="pin 6250 adj 100000"></gd>
+      <gd name="dy" fmla="*/ a ss 100000"></gd>
+      <gd name="dy2" fmla="+- h 0 dy"></gd>
+      <gd name="y1" fmla="+- t dy 0"></gd>
+      <gd name="cp" fmla="+- y1 0 dy2"></gd>
+    </gdLst>
+    <ahLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <ahXY gdRefY="adj" minY="6250" maxY="100000">
+        <pos x="hc" y="y1"></pos>
+      </ahXY>
+    </ahLst>
+    <pathLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <path>
+        <moveTo>
+          <pt x="l" y="t"></pt>
+        </moveTo>
+        <lnTo>
+          <pt x="r" y="t"></pt>
+        </lnTo>
+      </path>
+      <path>
+        <moveTo>
+          <pt x="l" y="b"></pt>
+        </moveTo>
+        <quadBezTo>
+          <pt x="hc" y="cp"></pt>
+          <pt x="r" y="b"></pt>
+        </quadBezTo>
+      </path>
+    </pathLst>
+  </textDeflateBottom>
+  <textDeflateInflate>
+    <avLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="adj" fmla="val 35000"></gd>
+    </avLst>
+    <gdLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="a" fmla="pin 5000 adj 95000"></gd>
+      <gd name="dy" fmla="*/ a h 100000"></gd>
+      <gd name="del" fmla="*/ h 5 100"></gd>
+      <gd name="dh1" fmla="*/ h 45 100"></gd>
+      <gd name="dh2" fmla="*/ h 55 100"></gd>
+      <gd name="yh" fmla="+- dy 0 del"></gd>
+      <gd name="yl" fmla="+- dy del 0"></gd>
+      <gd name="y3" fmla="+- yh yh dh1"></gd>
+      <gd name="y4" fmla="+- yl yl dh2"></gd>
+    </gdLst>
+    <ahLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <ahXY gdRefY="adj" minY="5000" maxY="95000">
+        <pos x="hc" y="dy"></pos>
+      </ahXY>
+    </ahLst>
+    <pathLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <path>
+        <moveTo>
+          <pt x="l" y="t"></pt>
+        </moveTo>
+        <lnTo>
+          <pt x="r" y="t"></pt>
+        </lnTo>
+      </path>
+      <path>
+        <moveTo>
+          <pt x="l" y="dh1"></pt>
+        </moveTo>
+        <quadBezTo>
+          <pt x="hc" y="y3"></pt>
+          <pt x="r" y="dh1"></pt>
+        </quadBezTo>
+      </path>
+      <path>
+        <moveTo>
+          <pt x="l" y="dh2"></pt>
+        </moveTo>
+        <quadBezTo>
+          <pt x="hc" y="y4"></pt>
+          <pt x="r" y="dh2"></pt>
+        </quadBezTo>
+      </path>
+      <path>
+        <moveTo>
+          <pt x="l" y="b"></pt>
+        </moveTo>
+        <lnTo>
+          <pt x="r" y="b"></pt>
+        </lnTo>
+      </path>
+    </pathLst>
+  </textDeflateInflate>
+  <textDeflateInflateDeflate>
+    <avLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="adj" fmla="val 25000"></gd>
+    </avLst>
+    <gdLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="a" fmla="pin 3000 adj 47000"></gd>
+      <gd name="dy" fmla="*/ a h 100000"></gd>
+      <gd name="del" fmla="*/ h 3 100"></gd>
+      <gd name="ey1" fmla="*/ h 30 100"></gd>
+      <gd name="ey2" fmla="*/ h 36 100"></gd>
+      <gd name="ey3" fmla="*/ h 63 100"></gd>
+      <gd name="ey4" fmla="*/ h 70 100"></gd>
+      <gd name="by" fmla="+- b 0 dy"></gd>
+      <gd name="yh1" fmla="+- dy 0 del"></gd>
+      <gd name="yl1" fmla="+- dy del 0"></gd>
+      <gd name="yh2" fmla="+- by 0 del"></gd>
+      <gd name="yl2" fmla="+- by del 0"></gd>
+      <gd name="y1" fmla="+- yh1 yh1 ey1"></gd>
+      <gd name="y2" fmla="+- yl1 yl1 ey2"></gd>
+      <gd name="y3" fmla="+- yh2 yh2 ey3"></gd>
+      <gd name="y4" fmla="+- yl2 yl2 ey4"></gd>
+    </gdLst>
+    <ahLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <ahXY gdRefY="adj" minY="3000" maxY="47000">
+        <pos x="hc" y="dy"></pos>
+      </ahXY>
+    </ahLst>
+    <pathLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <path>
+        <moveTo>
+          <pt x="l" y="t"></pt>
+        </moveTo>
+        <lnTo>
+          <pt x="r" y="t"></pt>
+        </lnTo>
+      </path>
+      <path>
+        <moveTo>
+          <pt x="l" y="ey1"></pt>
+        </moveTo>
+        <quadBezTo>
+          <pt x="hc" y="y1"></pt>
+          <pt x="r" y="ey1"></pt>
+        </quadBezTo>
+      </path>
+      <path>
+        <moveTo>
+          <pt x="l" y="ey2"></pt>
+        </moveTo>
+        <quadBezTo>
+          <pt x="hc" y="y2"></pt>
+          <pt x="r" y="ey2"></pt>
+        </quadBezTo>
+      </path>
+      <path>
+        <moveTo>
+          <pt x="l" y="ey3"></pt>
+        </moveTo>
+        <quadBezTo>
+          <pt x="hc" y="y3"></pt>
+          <pt x="r" y="ey3"></pt>
+        </quadBezTo>
+      </path>
+      <path>
+        <moveTo>
+          <pt x="l" y="ey4"></pt>
+        </moveTo>
+        <quadBezTo>
+          <pt x="hc" y="y4"></pt>
+          <pt x="r" y="ey4"></pt>
+        </quadBezTo>
+      </path>
+      <path>
+        <moveTo>
+          <pt x="l" y="b"></pt>
+        </moveTo>
+        <lnTo>
+          <pt x="r" y="b"></pt>
+        </lnTo>
+      </path>
+    </pathLst>
+  </textDeflateInflateDeflate>
+  <textDeflateTop>
+    <avLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="adj" fmla="val 50000"></gd>
+    </avLst>
+    <gdLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="a" fmla="pin 0 adj 93750"></gd>
+      <gd name="dy" fmla="*/ a h 100000"></gd>
+      <gd name="y1" fmla="+- t dy 0"></gd>
+      <gd name="cp" fmla="+- y1 dy 0"></gd>
+    </gdLst>
+    <ahLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <ahXY gdRefY="adj" minY="0" maxY="93750">
+        <pos x="hc" y="y1"></pos>
+      </ahXY>
+    </ahLst>
+    <pathLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <path>
+        <moveTo>
+          <pt x="l" y="t"></pt>
+        </moveTo>
+        <quadBezTo>
+          <pt x="hc" y="cp"></pt>
+          <pt x="r" y="t"></pt>
+        </quadBezTo>
+      </path>
+      <path>
+        <moveTo>
+          <pt x="l" y="b"></pt>
+        </moveTo>
+        <lnTo>
+          <pt x="r" y="b"></pt>
+        </lnTo>
+      </path>
+    </pathLst>
+  </textDeflateTop>
+  <textDoubleWave1>
+    <avLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="adj1" fmla="val 6250"></gd>
+      <gd name="adj2" fmla="val 0"></gd>
+    </avLst>
+    <gdLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="a1" fmla="pin 0 adj1 12500"></gd>
+      <gd name="a2" fmla="pin -10000 adj2 10000"></gd>
+      <gd name="y1" fmla="*/ h a1 100000"></gd>
+      <gd name="dy2" fmla="*/ y1 10 3"></gd>
+      <gd name="y2" fmla="+- y1 0 dy2"></gd>
+      <gd name="y3" fmla="+- y1 dy2 0"></gd>
+      <gd name="y4" fmla="+- b 0 y1"></gd>
+      <gd name="y5" fmla="+- y4 0 dy2"></gd>
+      <gd name="y6" fmla="+- y4 dy2 0"></gd>
+      <gd name="of" fmla="*/ w a2 100000"></gd>
+      <gd name="of2" fmla="*/ w a2 50000"></gd>
+      <gd name="x1" fmla="abs of"></gd>
+      <gd name="dx2" fmla="?: of2 0 of2"></gd>
+      <gd name="x2" fmla="+- l 0 dx2"></gd>
+      <gd name="dx8" fmla="?: of2 of2 0"></gd>
+      <gd name="x8" fmla="+- r 0 dx8"></gd>
+      <gd name="dx3" fmla="+/ dx2 x8 6"></gd>
+      <gd name="x3" fmla="+- x2 dx3 0"></gd>
+      <gd name="dx4" fmla="+/ dx2 x8 3"></gd>
+      <gd name="x4" fmla="+- x2 dx4 0"></gd>
+      <gd name="x5" fmla="+/ x2 x8 2"></gd>
+      <gd name="x6" fmla="+- x5 dx3 0"></gd>
+      <gd name="x7" fmla="+/ x6 x8 2"></gd>
+      <gd name="x9" fmla="+- l dx8 0"></gd>
+      <gd name="x15" fmla="+- r dx2 0"></gd>
+      <gd name="x10" fmla="+- x9 dx3 0"></gd>
+      <gd name="x11" fmla="+- x9 dx4 0"></gd>
+      <gd name="x12" fmla="+/ x9 x15 2"></gd>
+      <gd name="x13" fmla="+- x12 dx3 0"></gd>
+      <gd name="x14" fmla="+/ x13 x15 2"></gd>
+      <gd name="x16" fmla="+- r 0 x1"></gd>
+      <gd name="xAdj" fmla="+- hc of 0"></gd>
+    </gdLst>
+    <ahLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <ahXY gdRefY="adj1" minY="0" maxY="12500">
+        <pos x="l" y="y1"></pos>
+      </ahXY>
+      <ahXY gdRefX="adj2" minX="-10000" maxX="10000">
+        <pos x="xAdj" y="b"></pos>
+      </ahXY>
+    </ahLst>
+    <pathLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <path>
+        <moveTo>
+          <pt x="x2" y="y1"></pt>
+        </moveTo>
+        <cubicBezTo>
+          <pt x="x3" y="y2"></pt>
+          <pt x="x4" y="y3"></pt>
+          <pt x="x5" y="y1"></pt>
+        </cubicBezTo>
+        <cubicBezTo>
+          <pt x="x6" y="y2"></pt>
+          <pt x="x7" y="y3"></pt>
+          <pt x="x8" y="y1"></pt>
+        </cubicBezTo>
+      </path>
+      <path>
+        <moveTo>
+          <pt x="x9" y="y4"></pt>
+        </moveTo>
+        <cubicBezTo>
+          <pt x="x10" y="y5"></pt>
+          <pt x="x11" y="y6"></pt>
+          <pt x="x12" y="y4"></pt>
+        </cubicBezTo>
+        <cubicBezTo>
+          <pt x="x13" y="y5"></pt>
+          <pt x="x14" y="y6"></pt>
+          <pt x="x15" y="y4"></pt>
+        </cubicBezTo>
+      </path>
+    </pathLst>
+  </textDoubleWave1>
+  <textFadeDown>
+    <avLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="adj" fmla="val 33333"></gd>
+    </avLst>
+    <gdLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="a" fmla="pin 0 adj 49999"></gd>
+      <gd name="dx" fmla="*/ a w 100000"></gd>
+      <gd name="x1" fmla="+- l dx 0"></gd>
+      <gd name="x2" fmla="+- r 0 dx"></gd>
+    </gdLst>
+    <ahLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <ahXY gdRefX="adj" minX="0" maxX="49999">
+        <pos x="x1" y="b"></pos>
+      </ahXY>
+    </ahLst>
+    <pathLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <path>
+        <moveTo>
+          <pt x="l" y="t"></pt>
+        </moveTo>
+        <lnTo>
+          <pt x="r" y="t"></pt>
+        </lnTo>
+      </path>
+      <path>
+        <moveTo>
+          <pt x="x1" y="b"></pt>
+        </moveTo>
+        <lnTo>
+          <pt x="x2" y="b"></pt>
+        </lnTo>
+      </path>
+    </pathLst>
+  </textFadeDown>
+  <textFadeLeft>
+    <avLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="adj" fmla="val 33333"></gd>
+    </avLst>
+    <gdLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="a" fmla="pin 0 adj 49999"></gd>
+      <gd name="dy" fmla="*/ a h 100000"></gd>
+      <gd name="y1" fmla="+- t dy 0"></gd>
+      <gd name="y2" fmla="+- b 0 dy"></gd>
+    </gdLst>
+    <ahLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <ahXY gdRefY="adj" minY="0" maxY="49999">
+        <pos x="l" y="y1"></pos>
+      </ahXY>
+    </ahLst>
+    <pathLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <path>
+        <moveTo>
+          <pt x="l" y="y1"></pt>
+        </moveTo>
+        <lnTo>
+          <pt x="r" y="t"></pt>
+        </lnTo>
+      </path>
+      <path>
+        <moveTo>
+          <pt x="l" y="y2"></pt>
+        </moveTo>
+        <lnTo>
+          <pt x="r" y="b"></pt>
+        </lnTo>
+      </path>
+    </pathLst>
+  </textFadeLeft>
+  <textFadeRight>
+    <avLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="adj" fmla="val 33333"></gd>
+    </avLst>
+    <gdLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="a" fmla="pin 0 adj 49999"></gd>
+      <gd name="dy" fmla="*/ a h 100000"></gd>
+      <gd name="y1" fmla="+- t dy 0"></gd>
+      <gd name="y2" fmla="+- b 0 dy"></gd>
+    </gdLst>
+    <ahLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <ahXY gdRefY="adj" minY="0" maxY="49999">
+        <pos x="r" y="y1"></pos>
+      </ahXY>
+    </ahLst>
+    <pathLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <path>
+        <moveTo>
+          <pt x="l" y="t"></pt>
+        </moveTo>
+        <lnTo>
+          <pt x="r" y="y1"></pt>
+        </lnTo>
+      </path>
+      <path>
+        <moveTo>
+          <pt x="l" y="b"></pt>
+        </moveTo>
+        <lnTo>
+          <pt x="r" y="y2"></pt>
+        </lnTo>
+      </path>
+    </pathLst>
+  </textFadeRight>
+  <textFadeUp>
+    <avLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="adj" fmla="val 33333"></gd>
+    </avLst>
+    <gdLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="a" fmla="pin 0 adj 49999"></gd>
+      <gd name="dx" fmla="*/ a w 100000"></gd>
+      <gd name="x1" fmla="+- l dx 0"></gd>
+      <gd name="x2" fmla="+- r 0 dx"></gd>
+    </gdLst>
+    <ahLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <ahXY gdRefX="adj" minX="0" maxX="49999">
+        <pos x="x1" y="t"></pos>
+      </ahXY>
+    </ahLst>
+    <pathLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <path>
+        <moveTo>
+          <pt x="x1" y="t"></pt>
+        </moveTo>
+        <lnTo>
+          <pt x="x2" y="t"></pt>
+        </lnTo>
+      </path>
+      <path>
+        <moveTo>
+          <pt x="l" y="b"></pt>
+        </moveTo>
+        <lnTo>
+          <pt x="r" y="b"></pt>
+        </lnTo>
+      </path>
+    </pathLst>
+  </textFadeUp>
+  <textInflate>
+    <avLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="adj" fmla="val 18750"></gd>
+    </avLst>
+    <gdLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="a" fmla="pin 0 adj 20000"></gd>
+      <gd name="dy" fmla="*/ a h 100000"></gd>
+      <gd name="gd" fmla="*/ dy 1 3"></gd>
+      <gd name="gd0" fmla="+- 0 0 gd"></gd>
+      <gd name="gd1" fmla="+- h 0 gd0"></gd>
+      <gd name="ty" fmla="+- t dy 0"></gd>
+      <gd name="by" fmla="+- b 0 dy"></gd>
+      <gd name="y0" fmla="+- t gd0 0"></gd>
+      <gd name="y1" fmla="+- t gd1 0"></gd>
+      <gd name="x0" fmla="+- l wd3 0"></gd>
+      <gd name="x1" fmla="+- r 0 wd3"></gd>
+    </gdLst>
+    <ahLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <ahXY gdRefY="adj" minY="0" maxY="20000">
+        <pos x="l" y="ty"></pos>
+      </ahXY>
+    </ahLst>
+    <pathLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <path>
+        <moveTo>
+          <pt x="l" y="ty"></pt>
+        </moveTo>
+        <cubicBezTo>
+          <pt x="x0" y="y0"></pt>
+          <pt x="x1" y="y0"></pt>
+          <pt x="r" y="ty"></pt>
+        </cubicBezTo>
+      </path>
+      <path>
+        <moveTo>
+          <pt x="l" y="by"></pt>
+        </moveTo>
+        <cubicBezTo>
+          <pt x="x0" y="y1"></pt>
+          <pt x="x1" y="y1"></pt>
+          <pt x="r" y="by"></pt>
+        </cubicBezTo>
+      </path>
+    </pathLst>
+  </textInflate>
+  <textInflateBottom>
+    <avLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="adj" fmla="val 60000"></gd>
+    </avLst>
+    <gdLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="a" fmla="pin 60000 adj 100000"></gd>
+      <gd name="dy" fmla="*/ a h 100000"></gd>
+      <gd name="ty" fmla="+- t dy 0"></gd>
+    </gdLst>
+    <ahLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <ahXY gdRefY="adj" minY="60000" maxY="100000">
+        <pos x="l" y="ty"></pos>
+      </ahXY>
+    </ahLst>
+    <pathLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <path>
+        <moveTo>
+          <pt x="l" y="t"></pt>
+        </moveTo>
+        <lnTo>
+          <pt x="r" y="t"></pt>
+        </lnTo>
+      </path>
+      <path>
+        <moveTo>
+          <pt x="l" y="ty"></pt>
+        </moveTo>
+        <quadBezTo>
+          <pt x="hc" y="b"></pt>
+          <pt x="r" y="ty"></pt>
+        </quadBezTo>
+      </path>
+    </pathLst>
+  </textInflateBottom>
+  <textInflateTop>
+    <avLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="adj" fmla="val 40000"></gd>
+    </avLst>
+    <gdLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="a" fmla="pin 0 adj 50000"></gd>
+      <gd name="dy" fmla="*/ a h 100000"></gd>
+      <gd name="ty" fmla="+- t dy 0"></gd>
+    </gdLst>
+    <ahLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <ahXY gdRefY="adj" minY="0" maxY="50000">
+        <pos x="l" y="ty"></pos>
+      </ahXY>
+    </ahLst>
+    <pathLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <path>
+        <moveTo>
+          <pt x="l" y="ty"></pt>
+        </moveTo>
+        <quadBezTo>
+          <pt x="hc" y="t"></pt>
+          <pt x="r" y="ty"></pt>
+        </quadBezTo>
+      </path>
+      <path>
+        <moveTo>
+          <pt x="l" y="b"></pt>
+        </moveTo>
+        <lnTo>
+          <pt x="r" y="b"></pt>
+        </lnTo>
+      </path>
+    </pathLst>
+  </textInflateTop>
+  <textPlain>
+    <avLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="adj" fmla="val 50000"></gd>
+    </avLst>
+    <gdLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="a" fmla="pin 30000 adj 70000"></gd>
+      <gd name="mid" fmla="*/ a w 100000"></gd>
+      <gd name="midDir" fmla="+- mid 0 hc"></gd>
+      <gd name="dl" fmla="+- mid 0 l"></gd>
+      <gd name="dr" fmla="+- r 0 mid"></gd>
+      <gd name="dl2" fmla="*/ dl 2 1"></gd>
+      <gd name="dr2" fmla="*/ dr 2 1"></gd>
+      <gd name="dx" fmla="?: midDir dr2 dl2"></gd>
+      <gd name="xr" fmla="+- l dx 0"></gd>
+      <gd name="xl" fmla="+- r 0 dx"></gd>
+      <gd name="tlx" fmla="?: midDir l xl"></gd>
+      <gd name="trx" fmla="?: midDir xr r"></gd>
+      <gd name="blx" fmla="?: midDir xl l"></gd>
+      <gd name="brx" fmla="?: midDir r xr"></gd>
+    </gdLst>
+    <ahLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <ahXY gdRefX="adj" minX="30000" maxX="70000">
+        <pos x="mid" y="b"></pos>
+      </ahXY>
+    </ahLst>
+    <pathLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <path>
+        <moveTo>
+          <pt x="tlx" y="t"></pt>
+        </moveTo>
+        <lnTo>
+          <pt x="trx" y="t"></pt>
+        </lnTo>
+      </path>
+      <path>
+        <moveTo>
+          <pt x="blx" y="b"></pt>
+        </moveTo>
+        <lnTo>
+          <pt x="brx" y="b"></pt>
+        </lnTo>
+      </path>
+    </pathLst>
+  </textPlain>
+  <textRingInside>
+    <avLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="adj" fmla="val 60000"></gd>
+    </avLst>
+    <gdLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="a" fmla="pin 50000 adj 99000"></gd>
+      <gd name="dy" fmla="*/ a h 100000"></gd>
+      <gd name="y" fmla="+- t dy 0"></gd>
+      <gd name="r" fmla="*/ dy 1 2"></gd>
+      <gd name="y1" fmla="+- t r 0"></gd>
+      <gd name="y2" fmla="+- b 0 r"></gd>
+    </gdLst>
+    <ahLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <ahXY gdRefY="adj" minY="50000" maxY="99000">
+        <pos x="hc" y="y"></pos>
+      </ahXY>
+    </ahLst>
+    <pathLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <path>
+        <moveTo>
+          <pt x="l" y="y1"></pt>
+        </moveTo>
+        <arcTo wR="wd2" hR="r" stAng="10800000" swAng="21599999"></arcTo>
+      </path>
+      <path>
+        <moveTo>
+          <pt x="l" y="y2"></pt>
+        </moveTo>
+        <arcTo wR="wd2" hR="r" stAng="10800000" swAng="21599999"></arcTo>
+      </path>
+    </pathLst>
+  </textRingInside>
+  <textRingOutside>
+    <avLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="adj" fmla="val 60000"></gd>
+    </avLst>
+    <gdLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="a" fmla="pin 50000 adj 99000"></gd>
+      <gd name="dy" fmla="*/ a h 100000"></gd>
+      <gd name="y" fmla="+- t dy 0"></gd>
+      <gd name="r" fmla="*/ dy 1 2"></gd>
+      <gd name="y1" fmla="+- t r 0"></gd>
+      <gd name="y2" fmla="+- b 0 r"></gd>
+    </gdLst>
+    <ahLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <ahXY gdRefY="adj" minY="50000" maxY="99000">
+        <pos x="hc" y="y"></pos>
+      </ahXY>
+    </ahLst>
+    <pathLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <path>
+        <moveTo>
+          <pt x="l" y="y1"></pt>
+        </moveTo>
+        <arcTo wR="wd2" hR="r" stAng="10800000" swAng="-21599999"></arcTo>
+      </path>
+      <path>
+        <moveTo>
+          <pt x="l" y="y2"></pt>
+        </moveTo>
+        <arcTo wR="wd2" hR="r" stAng="10800000" swAng="-21599999"></arcTo>
+      </path>
+    </pathLst>
+  </textRingOutside>
+  <textSlantDown>
+    <avLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="adj" fmla="val 44445"></gd>
+    </avLst>
+    <gdLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="a" fmla="pin 28569 adj 100000"></gd>
+      <gd name="dy" fmla="*/ a h 100000"></gd>
+      <gd name="y1" fmla="+- t dy 0"></gd>
+      <gd name="y2" fmla="+- b 0 dy"></gd>
+    </gdLst>
+    <ahLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <ahXY gdRefY="adj" minY="28569" maxY="100000">
+        <pos x="l" y="y1"></pos>
+      </ahXY>
+    </ahLst>
+    <pathLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <path>
+        <moveTo>
+          <pt x="l" y="t"></pt>
+        </moveTo>
+        <lnTo>
+          <pt x="r" y="y2"></pt>
+        </lnTo>
+      </path>
+      <path>
+        <moveTo>
+          <pt x="l" y="y1"></pt>
+        </moveTo>
+        <lnTo>
+          <pt x="r" y="b"></pt>
+        </lnTo>
+      </path>
+    </pathLst>
+  </textSlantDown>
+  <textSlantUp>
+    <avLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="adj" fmla="val 55555"></gd>
+    </avLst>
+    <gdLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="a" fmla="pin 0 adj 71431"></gd>
+      <gd name="dy" fmla="*/ a h 100000"></gd>
+      <gd name="y1" fmla="+- t dy 0"></gd>
+      <gd name="y2" fmla="+- b 0 dy"></gd>
+    </gdLst>
+    <ahLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <ahXY gdRefY="adj" minY="0" maxY="71431">
+        <pos x="l" y="y1"></pos>
+      </ahXY>
+    </ahLst>
+    <pathLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <path>
+        <moveTo>
+          <pt x="l" y="y1"></pt>
+        </moveTo>
+        <lnTo>
+          <pt x="r" y="t"></pt>
+        </lnTo>
+      </path>
+      <path>
+        <moveTo>
+          <pt x="l" y="b"></pt>
+        </moveTo>
+        <lnTo>
+          <pt x="r" y="y2"></pt>
+        </lnTo>
+      </path>
+    </pathLst>
+  </textSlantUp>
+  <textStop>
+    <avLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="adj" fmla="val 25000"></gd>
+    </avLst>
+    <gdLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="a" fmla="pin 14286 adj 50000"></gd>
+      <gd name="dx" fmla="*/ w 1 3"></gd>
+      <gd name="dy" fmla="*/ a h 100000"></gd>
+      <gd name="x1" fmla="+- l dx 0"></gd>
+      <gd name="x2" fmla="+- r 0 dx"></gd>
+      <gd name="y1" fmla="+- t dy 0"></gd>
+      <gd name="y2" fmla="+- b 0 dy"></gd>
+    </gdLst>
+    <ahLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <ahXY gdRefY="adj" minY="14286" maxY="50000">
+        <pos x="l" y="dy"></pos>
+      </ahXY>
+    </ahLst>
+    <pathLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <path>
+        <moveTo>
+          <pt x="l" y="y1"></pt>
+        </moveTo>
+        <lnTo>
+          <pt x="x1" y="t"></pt>
+        </lnTo>
+        <lnTo>
+          <pt x="x2" y="t"></pt>
+        </lnTo>
+        <lnTo>
+          <pt x="r" y="y1"></pt>
+        </lnTo>
+      </path>
+      <path>
+        <moveTo>
+          <pt x="l" y="y2"></pt>
+        </moveTo>
+        <lnTo>
+          <pt x="x1" y="b"></pt>
+        </lnTo>
+        <lnTo>
+          <pt x="x2" y="b"></pt>
+        </lnTo>
+        <lnTo>
+          <pt x="r" y="y2"></pt>
+        </lnTo>
+      </path>
+    </pathLst>
+  </textStop>
+  <textTriangle>
+    <avLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="adj" fmla="val 50000"></gd>
+    </avLst>
+    <gdLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="a" fmla="pin 0 adj 100000"></gd>
+      <gd name="y" fmla="*/ a h 100000"></gd>
+    </gdLst>
+    <ahLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <ahXY gdRefY="adj" minY="0" maxY="100000">
+        <pos x="l" y="y"></pos>
+      </ahXY>
+    </ahLst>
+    <pathLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <path>
+        <moveTo>
+          <pt x="l" y="y"></pt>
+        </moveTo>
+        <lnTo>
+          <pt x="hc" y="t"></pt>
+        </lnTo>
+        <lnTo>
+          <pt x="r" y="y"></pt>
+        </lnTo>
+      </path>
+      <path>
+        <moveTo>
+          <pt x="l" y="b"></pt>
+        </moveTo>
+        <lnTo>
+          <pt x="r" y="b"></pt>
+        </lnTo>
+      </path>
+    </pathLst>
+  </textTriangle>
+  <textTriangleInverted>
+    <avLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="adj" fmla="val 50000"></gd>
+    </avLst>
+    <gdLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="a" fmla="pin 0 adj 100000"></gd>
+      <gd name="y" fmla="*/ a h 100000"></gd>
+    </gdLst>
+    <ahLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <ahXY gdRefY="adj" minY="0" maxY="100000">
+        <pos x="l" y="y"></pos>
+      </ahXY>
+    </ahLst>
+    <pathLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <path>
+        <moveTo>
+          <pt x="l" y="t"></pt>
+        </moveTo>
+        <lnTo>
+          <pt x="r" y="t"></pt>
+        </lnTo>
+      </path>
+      <path>
+        <moveTo>
+          <pt x="l" y="y"></pt>
+        </moveTo>
+        <lnTo>
+          <pt x="hc" y="b"></pt>
+        </lnTo>
+        <lnTo>
+          <pt x="r" y="y"></pt>
+        </lnTo>
+      </path>
+    </pathLst>
+  </textTriangleInverted>
+  <textWave1>
+    <avLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="adj1" fmla="val 12500"></gd>
+      <gd name="adj2" fmla="val 0"></gd>
+    </avLst>
+    <gdLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="a1" fmla="pin 0 adj1 20000"></gd>
+      <gd name="a2" fmla="pin -10000 adj2 10000"></gd>
+      <gd name="y1" fmla="*/ h a1 100000"></gd>
+      <gd name="dy2" fmla="*/ y1 10 3"></gd>
+      <gd name="y2" fmla="+- y1 0 dy2"></gd>
+      <gd name="y3" fmla="+- y1 dy2 0"></gd>
+      <gd name="y4" fmla="+- b 0 y1"></gd>
+      <gd name="y5" fmla="+- y4 0 dy2"></gd>
+      <gd name="y6" fmla="+- y4 dy2 0"></gd>
+      <gd name="of" fmla="*/ w a2 100000"></gd>
+      <gd name="of2" fmla="*/ w a2 50000"></gd>
+      <gd name="x1" fmla="abs of"></gd>
+      <gd name="dx2" fmla="?: of2 0 of2"></gd>
+      <gd name="x2" fmla="+- l 0 dx2"></gd>
+      <gd name="dx5" fmla="?: of2 of2 0"></gd>
+      <gd name="x5" fmla="+- r 0 dx5"></gd>
+      <gd name="dx3" fmla="+/ dx2 x5 3"></gd>
+      <gd name="x3" fmla="+- x2 dx3 0"></gd>
+      <gd name="x4" fmla="+/ x3 x5 2"></gd>
+      <gd name="x6" fmla="+- l dx5 0"></gd>
+      <gd name="x10" fmla="+- r dx2 0"></gd>
+      <gd name="x7" fmla="+- x6 dx3 0"></gd>
+      <gd name="x8" fmla="+/ x7 x10 2"></gd>
+      <gd name="x9" fmla="+- r 0 x1"></gd>
+      <gd name="xAdj" fmla="+- hc of 0"></gd>
+    </gdLst>
+    <ahLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <ahXY gdRefY="adj1" minY="0" maxY="20000">
+        <pos x="l" y="y1"></pos>
+      </ahXY>
+      <ahXY gdRefX="adj2" minX="-10000" maxX="10000">
+        <pos x="xAdj" y="b"></pos>
+      </ahXY>
+    </ahLst>
+    <pathLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <path>
+        <moveTo>
+          <pt x="x2" y="y1"></pt>
+        </moveTo>
+        <cubicBezTo>
+          <pt x="x3" y="y2"></pt>
+          <pt x="x4" y="y3"></pt>
+          <pt x="x5" y="y1"></pt>
+        </cubicBezTo>
+      </path>
+      <path>
+        <moveTo>
+          <pt x="x6" y="y4"></pt>
+        </moveTo>
+        <cubicBezTo>
+          <pt x="x7" y="y5"></pt>
+          <pt x="x8" y="y6"></pt>
+          <pt x="x10" y="y4"></pt>
+        </cubicBezTo>
+      </path>
+    </pathLst>
+  </textWave1>
+  <textWave2>
+    <avLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="adj1" fmla="val 12500"></gd>
+      <gd name="adj2" fmla="val 0"></gd>
+    </avLst>
+    <gdLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="a1" fmla="pin 0 adj1 20000"></gd>
+      <gd name="a2" fmla="pin -10000 adj2 10000"></gd>
+      <gd name="y1" fmla="*/ h a1 100000"></gd>
+      <gd name="dy2" fmla="*/ y1 10 3"></gd>
+      <gd name="y2" fmla="+- y1 0 dy2"></gd>
+      <gd name="y3" fmla="+- y1 dy2 0"></gd>
+      <gd name="y4" fmla="+- b 0 y1"></gd>
+      <gd name="y5" fmla="+- y4 0 dy2"></gd>
+      <gd name="y6" fmla="+- y4 dy2 0"></gd>
+      <gd name="of" fmla="*/ w a2 100000"></gd>
+      <gd name="of2" fmla="*/ w a2 50000"></gd>
+      <gd name="x1" fmla="abs of"></gd>
+      <gd name="dx2" fmla="?: of2 0 of2"></gd>
+      <gd name="x2" fmla="+- l 0 dx2"></gd>
+      <gd name="dx5" fmla="?: of2 of2 0"></gd>
+      <gd name="x5" fmla="+- r 0 dx5"></gd>
+      <gd name="dx3" fmla="+/ dx2 x5 3"></gd>
+      <gd name="x3" fmla="+- x2 dx3 0"></gd>
+      <gd name="x4" fmla="+/ x3 x5 2"></gd>
+      <gd name="x6" fmla="+- l dx5 0"></gd>
+      <gd name="x10" fmla="+- r dx2 0"></gd>
+      <gd name="x7" fmla="+- x6 dx3 0"></gd>
+      <gd name="x8" fmla="+/ x7 x10 2"></gd>
+      <gd name="x9" fmla="+- r 0 x1"></gd>
+      <gd name="xAdj" fmla="+- hc of 0"></gd>
+    </gdLst>
+    <ahLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <ahXY gdRefY="adj1" minY="0" maxY="20000">
+        <pos x="l" y="y1"></pos>
+      </ahXY>
+      <ahXY gdRefX="adj2" minX="-10000" maxX="10000">
+        <pos x="xAdj" y="b"></pos>
+      </ahXY>
+    </ahLst>
+    <pathLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <path>
+        <moveTo>
+          <pt x="x2" y="y1"></pt>
+        </moveTo>
+        <cubicBezTo>
+          <pt x="x3" y="y3"></pt>
+          <pt x="x4" y="y2"></pt>
+          <pt x="x5" y="y1"></pt>
+        </cubicBezTo>
+      </path>
+      <path>
+        <moveTo>
+          <pt x="x6" y="y4"></pt>
+        </moveTo>
+        <cubicBezTo>
+          <pt x="x7" y="y6"></pt>
+          <pt x="x8" y="y5"></pt>
+          <pt x="x10" y="y4"></pt>
+        </cubicBezTo>
+      </path>
+    </pathLst>
+  </textWave2>
+  <textWave4>
+    <avLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="adj1" fmla="val 6250"></gd>
+      <gd name="adj2" fmla="val 0"></gd>
+    </avLst>
+    <gdLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <gd name="a1" fmla="pin 0 adj1 12500"></gd>
+      <gd name="a2" fmla="pin -10000 adj2 10000"></gd>
+      <gd name="y1" fmla="*/ h a1 100000"></gd>
+      <gd name="dy2" fmla="*/ y1 10 3"></gd>
+      <gd name="y2" fmla="+- y1 0 dy2"></gd>
+      <gd name="y3" fmla="+- y1 dy2 0"></gd>
+      <gd name="y4" fmla="+- b 0 y1"></gd>
+      <gd name="y5" fmla="+- y4 0 dy2"></gd>
+      <gd name="y6" fmla="+- y4 dy2 0"></gd>
+      <gd name="of" fmla="*/ w a2 100000"></gd>
+      <gd name="of2" fmla="*/ w a2 50000"></gd>
+      <gd name="x1" fmla="abs of"></gd>
+      <gd name="dx2" fmla="?: of2 0 of2"></gd>
+      <gd name="x2" fmla="+- l 0 dx2"></gd>
+      <gd name="dx8" fmla="?: of2 of2 0"></gd>
+      <gd name="x8" fmla="+- r 0 dx8"></gd>
+      <gd name="dx3" fmla="+/ dx2 x8 6"></gd>
+      <gd name="x3" fmla="+- x2 dx3 0"></gd>
+      <gd name="dx4" fmla="+/ dx2 x8 3"></gd>
+      <gd name="x4" fmla="+- x2 dx4 0"></gd>
+      <gd name="x5" fmla="+/ x2 x8 2"></gd>
+      <gd name="x6" fmla="+- x5 dx3 0"></gd>
+      <gd name="x7" fmla="+/ x6 x8 2"></gd>
+      <gd name="x9" fmla="+- l dx8 0"></gd>
+      <gd name="x15" fmla="+- r dx2 0"></gd>
+      <gd name="x10" fmla="+- x9 dx3 0"></gd>
+      <gd name="x11" fmla="+- x9 dx4 0"></gd>
+      <gd name="x12" fmla="+/ x9 x15 2"></gd>
+      <gd name="x13" fmla="+- x12 dx3 0"></gd>
+      <gd name="x14" fmla="+/ x13 x15 2"></gd>
+      <gd name="x16" fmla="+- r 0 x1"></gd>
+      <gd name="xAdj" fmla="+- hc of 0"></gd>
+    </gdLst>
+    <ahLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <ahXY gdRefY="adj1" minY="0" maxY="12500">
+        <pos x="l" y="y1"></pos>
+      </ahXY>
+      <ahXY gdRefX="adj2" minX="-10000" maxX="10000">
+        <pos x="xAdj" y="b"></pos>
+      </ahXY>
+    </ahLst>
+    <pathLst xmlns="http://schemas.openxmlformats.org/drawingml/2006/main">
+      <path>
+        <moveTo>
+          <pt x="x2" y="y1"></pt>
+        </moveTo>
+        <cubicBezTo>
+          <pt x="x3" y="y3"></pt>
+          <pt x="x4" y="y2"></pt>
+          <pt x="x5" y="y1"></pt>
+        </cubicBezTo>
+        <cubicBezTo>
+          <pt x="x6" y="y3"></pt>
+          <pt x="x7" y="y2"></pt>
+          <pt x="x8" y="y1"></pt>
+        </cubicBezTo>
+      </path>
+      <path>
+        <moveTo>
+          <pt x="x9" y="y4"></pt>
+        </moveTo>
+        <cubicBezTo>
+          <pt x="x10" y="y6"></pt>
+          <pt x="x11" y="y5"></pt>
+          <pt x="x12" y="y4"></pt>
+        </cubicBezTo>
+        <cubicBezTo>
+          <pt x="x13" y="y6"></pt>
+          <pt x="x14" y="y5"></pt>
+          <pt x="x15" y="y4"></pt>
+        </cubicBezTo>
+      </path>
+    </pathLst>
+  </textWave4>
+</presetTextWarpDefinitions>

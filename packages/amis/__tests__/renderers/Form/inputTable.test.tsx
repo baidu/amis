@@ -180,6 +180,8 @@ test('Renderer:input table add', async () => {
 
   fireEvent.click(add);
 
+  await wait(1000);
+
   const inputs = document.querySelectorAll('td input');
 
   fireEvent.change(inputs[0], {target: {value: 'aa'}});
@@ -192,7 +194,7 @@ test('Renderer:input table add', async () => {
 
   // TODO: 这里不对，难道是点击出错了
 
-  // expect(container).toMatchSnapshot();
+  expect(container).toMatchSnapshot();
 });
 
 test('Renderer:input-table with combo column', async () => {
@@ -414,10 +416,10 @@ test('Renderer:input-table cell selects delete', async () => {
   expect(s1).not.toBeNull();
   const s3 = container.querySelector(`div[title=s3] label`);
   expect(s3).not.toBeNull();
-  fireEvent.click(s1);
+  fireEvent.click(s1 as Element);
   await wait(300);
 
-  fireEvent.click(s3);
+  fireEvent.click(s3 as Element);
   await wait(300);
 
   fireEvent.click(select);
