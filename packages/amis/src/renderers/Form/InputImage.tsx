@@ -487,7 +487,6 @@ export default class ImageControl extends React.Component<
       const multiple = props.multiple;
       const joinValues = props.joinValues;
       const delimiter = props.delimiter as string;
-
       let files: Array<FileValue> = [];
 
       if (value) {
@@ -585,7 +584,7 @@ export default class ImageControl extends React.Component<
     const {
       accept,
       multiple,
-      formItem,
+      onChange,
       maxLength,
       maxSize,
       translate: __
@@ -645,19 +644,21 @@ export default class ImageControl extends React.Component<
           currentFiles.push(formatFile(item));
         });
       }
-    } else {
-      const file = formatFile(errorFiles[0]);
-      currentFiles.splice(0, 1, file);
-      formItem?.setError(file?.error ?? '');
-    }
-
-    return this.setState(
-      {
+      this.setState({
         files: (this.files = currentFiles),
         dropMultiple: multiple
-      },
-      this.tick
-    );
+      });
+    } else {
+      const file = formatFile(errorFiles[0]);
+      this.setState(
+        {
+          error: file?.error ?? '',
+          files: (this.files = []),
+          dropMultiple: multiple
+        },
+        () => onChange(undefined)
+      );
+    }
   }
 
   handleFileCancel() {
@@ -707,7 +708,7 @@ export default class ImageControl extends React.Component<
       return;
     }
 
-    const {translate: __, formItem, multiple} = this.props;
+    const {translate: __, multiple} = this.props;
     const file = find(this.files, item => item.state === 'pending') as FileX;
     if (file) {
       this.current = file;
@@ -735,10 +736,14 @@ export default class ImageControl extends React.Component<
                   file.state !== 'uploading' ? file.state : 'error';
                 newFile.error = error;
                 if (!multiple) {
-                  formItem?.setError(error);
-                  if (files.length === 1) {
-                    files.splice(0, 1);
-                  }
+                  this.current = null;
+                  return this.setState(
+                    {
+                      files: (this.files = []),
+                      error
+                    },
+                    this.tick
+                  );
                 }
               } else {
                 newFile = {
@@ -897,7 +902,7 @@ export default class ImageControl extends React.Component<
       }
     }
 
-    onChange(this.emitValue, undefined, changeImmediately);
+    onChange((this.emitValue = newValue || ''), undefined, changeImmediately);
     curInitAutoFill && this.syncAutoFill();
   }
 
@@ -1353,6 +1358,12 @@ export default class ImageControl extends React.Component<
   validate(): any {
     const {translate: __, multiple} = this.props;
 
+    if (this.state.error) {
+      this.setState({
+        error: ''
+      });
+    }
+
     if (this.state.locked && this.state.lockedReason) {
       return this.state.lockedReason;
     } else if (this.state.cropFile) {
@@ -1369,9 +1380,10 @@ export default class ImageControl extends React.Component<
         this.startUpload();
       });
     } else if (
+      multiple &&
       this.files.some(i => i.state && ['error', 'invalid'].includes(i.state))
     ) {
-      return multiple ? ' ' : this.files[0].error;
+      return ' ';
     }
   }
 
@@ -1883,6 +1895,10 @@ export default class ImageControl extends React.Component<
                       >
                         {__(uploading ? 'File.pause' : 'File.start')}
                       </Button>
+                    ) : null}
+
+                    {error ? (
+                      <div className={cx('ImageControl-errorMsg')}>{error}</div>
                     ) : null}
                   </>
                 )}
