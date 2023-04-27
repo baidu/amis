@@ -381,6 +381,7 @@ export interface ImageFieldProps extends RendererProps {
     },
     target: any
   ) => void;
+  imageGallaryClassName?: string;
 }
 
 export class ImageField extends React.Component<ImageFieldProps, object> {
