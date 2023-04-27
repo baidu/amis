@@ -205,7 +205,7 @@ Word 渲染支持以下功能：
     },
     {
       "type": "service",
-      "api": "/api/mock2/sample/mirror?json=%7B%22users%22%3A%5B%7B%22name%22%3A%22u1%22%2C%22age%22%3A10%7D%2C%7B%22name%22%3A%22u2%22%2C%22age%22%3A11%7D%5D%7D",
+      "api": "/api/mock2/sample/mirror?json=%7B%22users%22%3A%5B%7B%22name%22%3A%22u1%22%2C%22age%22%3A10%2C%22img%22%3A%22https%3A%2F%2Fsuda.cdn.bcebos.com%2Fimages%2Famis%2Fai-fake-face.jpg%22%7D%2C%7B%22name%22%3A%22u2%22%2C%22age%22%3A11%7D%5D%7D",
       "body": [{
         "type": "office-viewer",
         "src": "/examples/static/table-list.docx",
@@ -247,6 +247,8 @@ Word 渲染支持以下功能：
 如果要将文档中的图片设置为变量，需要右键对应的图片，选择「查看可选文字」，然后填入类似 `{{img}}` 变量标识，在渲染时图片将替换为这个 `img` 变量的 url 地址
 
 ![word](../../../examples/static/word-alt.png)
+
+下面是示例
 
 ```schema: scope="body"
 {

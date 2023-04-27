@@ -18,12 +18,17 @@ function renderPic(pic: Pic, word: Word, drawing: Drawing) {
     const img = document.createElement('img') as HTMLImageElement;
     img.style.position = 'relative';
     img.alt = pic.alt || '';
+    img.src = blip.src;
 
-    if (pic.alt && pic.alt.startsWith('{{') && word.renderOptions.enableVar) {
-      const src = word.replaceText(pic.alt);
-      img.src = src;
-    } else {
-      img.src = blip.src;
+    if (pic.alt && word.renderOptions.enableVar) {
+      if (pic.altVar) {
+        img.src = pic.altVar;
+      } else if (pic.alt.startsWith('{{')) {
+        const src = word.replaceText(pic.alt);
+        if (src) {
+          img.src = src;
+        }
+      }
     }
 
     const xfrm = pic.spPr?.xfrm;
