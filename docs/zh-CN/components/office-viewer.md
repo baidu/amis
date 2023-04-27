@@ -240,6 +240,39 @@ Word 渲染支持以下功能：
 
 注意上面的例子用到了 `trackExpression`，默认情况下如果设置了 `enableVar`，每次上层数据变化都会重新渲染文档，如果文档较大可能会有性能问题，这时可以通过配置 `trackExpression` 来限制只有某个数据变化时才重新渲染。
 
+### 图片中的变量
+
+> 2.10 及以上版本
+
+如果要将文档中的图片设置为变量，需要右键对应的图片，选择「查看可选文字」，然后填入类似 `{{img}}` 变量标识，在渲染时图片将替换为这个 `img` 变量的 url 地址
+
+![word](../../../examples/static/word-alt.png)
+
+```schema: scope="body"
+{
+  "type": "form",
+  "title": "",
+  "wrapWithPanel": false,
+  "body": [
+    {
+      "type": "input-text",
+      "name": "img",
+      "value": "https://suda.cdn.bcebos.com/images/amis/ai-fake-face.jpg",
+      "label": "图片地址"
+    },
+    {
+      "type": "office-viewer",
+      "id": "office-viewer",
+      "src": "/examples/static/image-alt-var.docx",
+      "wordOptions": {
+        "enableVar": true,
+        "padding": "8px"
+      }
+    }
+  ]
+}
+```
+
 ## 不渲染模式
 
 通过配置 `display: false` 可以让文档不渲染，虽然不渲染，但还是可以使用后面的下载及打印功能

@@ -8,7 +8,6 @@ import renderTable from './renderTable';
 import {Table} from '../openxml/word/Table';
 import {renderGeom} from './renderGeom';
 import {renderCustGeom} from './renderCustGeom';
-import {fixAbsolutePosition} from './fixAbsolutePosition';
 
 /**
  * 渲染图片
@@ -18,8 +17,14 @@ function renderPic(pic: Pic, word: Word, drawing: Drawing) {
   if (blip && blip.src) {
     const img = document.createElement('img') as HTMLImageElement;
     img.style.position = 'relative';
+    img.alt = pic.alt || '';
 
-    img.src = blip.src;
+    if (pic.alt && pic.alt.startsWith('{{') && word.renderOptions.enableVar) {
+      const src = word.replaceText(pic.alt);
+      img.src = src;
+    } else {
+      img.src = blip.src;
+    }
 
     const xfrm = pic.spPr?.xfrm;
 
