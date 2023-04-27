@@ -161,9 +161,6 @@ export class EditorManager {
   private clipboardData: string;
   readonly hackIn: any;
 
-  // 用于记录amis渲染器的上下文数据
-  amisStore: Object = {};
-
   // 广播事件集
   readonly broadcasts: RendererPluginEvent[] = [];
   // 插件事件集
@@ -376,13 +373,6 @@ export class EditorManager {
       }
 
       this.buildRenderers();
-    }
-  }
-
-  // 更新amis渲染器上下文
-  updateAMISContext(amisStore: Object) {
-    if (amisStore) {
-      this.amisStore = amisStore;
     }
   }
 

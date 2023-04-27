@@ -103,6 +103,11 @@ export interface ImageSchema extends BaseSchema {
    */
   thumbClassName?: SchemaClassName;
 
+  /**
+   * 放大详情图 CSS 类名
+   */
+  imageGallaryClassName?: SchemaClassName;
+
   /** 图片说明文字 */
   caption?: SchemaTpl;
 
@@ -371,10 +376,12 @@ export interface ImageFieldProps extends RendererProps {
       thumbMode?: 'w-full' | 'h-full' | 'contain' | 'cover';
       thumbRatio?: '1:1' | '4:3' | '16:9';
       showToolbar?: boolean;
+      imageGallaryClassName?: string;
       toolbarActions?: ImageAction[];
     },
     target: any
   ) => void;
+  imageGallaryClassName?: string;
 }
 
 export class ImageField extends React.Component<ImageFieldProps, object> {
@@ -402,7 +409,8 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
       enlargeTitle,
       enlargeCaption,
       showToolbar,
-      toolbarActions
+      toolbarActions,
+      imageGallaryClassName
     } = this.props;
 
     onImageEnlarge &&
@@ -415,7 +423,8 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
           thumbMode,
           thumbRatio,
           showToolbar,
-          toolbarActions
+          toolbarActions,
+          imageGallaryClassName
         },
         this.props
       );

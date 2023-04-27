@@ -1278,7 +1278,9 @@
   // 勾选框
   --checkbox-checkbox-default-height: var(--sizes-size-9);
   --checkbox-checkbox-default-bg-color: var(--colors-neutral-fill-11);
-  --checkbox-checkbox-default-color: var(--colors-neutral-text-2);
+  --checkbox-checkbox-default-text-color: var(--colors-neutral-text-2);
+  --checkbox-checkbox-default-lineHeight: var(--fonts-lineHeight-2);
+  --checkbox-checkbox-default-fontWeight: var(--fonts-weight-6);
   --checkbox-checkbox-default-fontSize: var(--sizes-size-8);
   --checkbox-checkbox-default-top-border-color: var(--colors-neutral-line-8);
   --checkbox-checkbox-default-top-border-width: var(--borders-width-2);
@@ -1298,7 +1300,7 @@
   --checkbox-checkbox-default-bottom-left-border-radius: var(--sizes-size-2);
   --checkbox-checkbox-hover-height: var(--sizes-size-9);
   --checkbox-checkbox-hover-bg-color: var(--colors-neutral-fill-11);
-  --checkbox-checkbox-hover-color: var(--colors-neutral-text-2);
+  --checkbox-checkbox-hover-text-color: var(--colors-neutral-text-2);
   --checkbox-checkbox-hover-fontSize: var(--sizes-size-8);
   --checkbox-checkbox-hover-top-border-color: var(--colors-brand-5);
   --checkbox-checkbox-hover-top-border-width: var(--borders-width-2);
@@ -1318,7 +1320,7 @@
   --checkbox-checkbox-hover-bottom-left-border-radius: var(--sizes-size-2);
   --checkbox-checkbox-active-height: var(--sizes-size-9);
   --checkbox-checkbox-active-bg-color: var(--colors-neutral-fill-11);
-  --checkbox-checkbox-active-color: var(--colors-neutral-text-2);
+  --checkbox-checkbox-active-text-color: var(--colors-neutral-text-2);
   --checkbox-checkbox-active-fontSize: var(--sizes-size-8);
   --checkbox-checkbox-active-top-border-color: var(--colors-brand-5);
   --checkbox-checkbox-active-top-border-width: var(--borders-width-2);
@@ -1338,7 +1340,7 @@
   --checkbox-checkbox-active-bottom-left-border-radius: var(--sizes-size-2);
   --checkbox-checkbox-disabled-height: var(--sizes-size-9);
   --checkbox-checkbox-disabled-bg-color: var(--colors-neutral-fill-10);
-  --checkbox-checkbox-disabled-color: var(--colors-neutral-text-2);
+  --checkbox-checkbox-disabled-text-color: var(--colors-neutral-text-6);
   --checkbox-checkbox-disabled-fontSize: var(--sizes-size-8);
   --checkbox-checkbox-disabled-top-border-color: var(--colors-neutral-line-8);
   --checkbox-checkbox-disabled-top-border-width: var(--borders-width-2);
@@ -3312,6 +3314,8 @@
   --Tag-base-paddingBottom: var(--sizes-size-0);
   --Tag-base-paddingLeft: var(--sizes-size-5);
   --Tag-base-paddingRight: var(--sizes-size-5);
+  --Tag-base-padding: var(--Tag-base-paddingTop) var(--Tag-base-paddingRight)
+   var(--Tag-base-paddingBottom) var(--Tag-base-paddingLeft);
   --Tag-model-normal-top-border-color: var(--colors-neutral-line-6);
   --Tag-model-normal-top-border-width: var(--borders-width-2);
   --Tag-model-normal-top-border-style: var(--borders-style-1);

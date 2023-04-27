@@ -10,7 +10,8 @@ import {
   getExprProperties,
   buildStyle,
   filter,
-  evalExpression
+  evalExpression,
+  insertStyle
 } from 'amis-core';
 import {
   guid,
@@ -84,7 +85,9 @@ export type NavItemSchema = {
 
   accordion?: boolean; // 手风琴展开 仅垂直inline模式支持
 
-  mode?: string; // 菜单项模式 分组模式：group
+  mode?: string; // 菜单项模式 分组模式：group、divider
+
+  popupClassName?: string; // 子菜单项展开浮层样式
 } & Omit<BaseSchema, 'type'>;
 
 export interface NavOverflow {
@@ -677,7 +680,9 @@ export class Navigation extends React.Component<
       draggable,
       themeColor,
       expandPosition,
+      popupClassName,
       disabled,
+      id,
       render
     } = this.props;
     const {dropIndicator} = this.state;
@@ -704,7 +709,27 @@ export class Navigation extends React.Component<
         </span>
       );
     }
-    const styleConfig = buildStyle(style, data);
+
+    let styleConfig = null;
+    let classNameId = '';
+    if (style) {
+      try {
+        styleConfig = buildStyle(style, data);
+        // 格式转换
+        // {"color": "red", "lineHeight": "52px"}
+        const styleText = JSON.stringify(styleConfig)
+          .replace(/\,/g, ';')
+          .replace(/\"/g, '')
+          .replace(/[A-Z]/g, s => '-' + s.toLowerCase());
+        // 一个nav对应一个classNameId 避免重复
+        classNameId = cx(`Nav-PopupClassName-${id}`);
+        if (!document.getElementById(classNameId)) {
+          // rc-menu的浮层只支持配置popupClassName 因此需要将配置的style插入到页面 然后将className赋值给浮层
+          insertStyle(`.${classNameId} ${styleText}`, classNameId);
+        }
+      } catch (e) {}
+    }
+
     return (
       <div
         className={cx('Nav', className, {
@@ -747,7 +772,9 @@ export class Navigation extends React.Component<
               overflowItemWidth={overflow?.itemWidth}
               overflowComponent={overflow?.wrapperComponent}
               overflowStyle={overflow?.style}
-              style={styleConfig}
+              popupClassName={`${popupClassName || ''}${
+                classNameId ? ` ${classNameId}` : ''
+              }`}
               expandIcon={
                 expandIcon
                   ? typeof expandIcon === 'string'
@@ -1345,10 +1372,11 @@ export class NavigationRenderer extends React.Component<RendererProps> {
   }
 
   render() {
-    const {...rest} = this.props;
+    const {id, ...rest} = this.props;
     return (
       <ConditionBuilderWithRemoteOptions
         {...rest}
+        id={id || guid()} // id要么从editor传递过来 要么一个nav随机生成1个
         onRef={this.getRef}
         reload={this.reload}
         remoteConfigRef={this.remoteConfigRef}

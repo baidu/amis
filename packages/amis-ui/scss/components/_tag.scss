@@ -1,7 +1,7 @@
 .#{$ns}Tag {
   display: inline-flex;
   height: var(--Tag-height);
-  padding: 0 var(--gap-sm);
+  padding: var(--Tag-base-padding);
   flex-flow: row nowrap;
   justify-content: center;
   align-items: center;

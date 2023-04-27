@@ -443,11 +443,6 @@ export default class Preview extends Component<PreviewProps> {
 
     let info = manager.getEditorInfo(renderer!, path, schema);
 
-    // 更新 Editor 中的 amisStore
-    if (props && props.store && props.store.data) {
-      manager.updateAMISContext(props.store.data);
-    }
-
     info &&
       (renderer = {
         ...renderer,
