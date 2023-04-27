@@ -33,7 +33,7 @@ export interface ImageGalleryProps extends ThemeProps, LocaleProps {
   modalContainer?: () => HTMLElement;
   /** 操作栏 */
   actions?: ImageAction[];
-  imageGallaryClassName: string;
+  imageGallaryClassName?: string;
 }
 
 export interface ImageGalleryState {
