@@ -1,4 +1,4 @@
-import Word from '../../../Word';
+import Word from '../../Word';
 import {BlipFill} from './BlipFill';
 import {ShapePr} from './ShapeProperties';
 

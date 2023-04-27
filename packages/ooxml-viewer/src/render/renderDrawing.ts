@@ -1,7 +1,7 @@
 import {Paragraph} from './../openxml/word/Paragraph';
 import Word from '../Word';
-import {Drawing} from '../openxml/word/drawing/Drawing';
-import {Pic} from '../openxml/word/drawing/Pic';
+import {Drawing} from '../openxml/drawing/Drawing';
+import {Pic} from '../openxml/drawing/Pic';
 import {appendChild, applyStyle} from '../util/dom';
 import renderParagraph from './renderParagraph';
 import renderTable from './renderTable';

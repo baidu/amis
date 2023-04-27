@@ -2,8 +2,8 @@
  * http://webapp.docx4java.org/OnlineDemo/ecma376/DrawingML/xfrm_2.html
  */
 
-import {convertAngle, LengthUsage, parseSize} from '../../../parse/parseSize';
-import Word from '../../../Word';
+import {convertAngle, LengthUsage, parseSize} from '../../parse/parseSize';
+import Word from '../../Word';
 
 export interface Off {
   x: string;

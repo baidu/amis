@@ -1,7 +1,7 @@
-import {ShapePr} from '../openxml/word/drawing/ShapeProperties';
-import {shapeToSVG} from '../openxml/word/drawing/svg/shapeToSVG';
+import {ShapePr} from '../openxml/drawing/ShapeProperties';
+import {shapeToSVG} from '../openxml/drawing/svg/shapeToSVG';
 import {WPSStyle} from '../openxml/word/wps/WPSStyle';
-import {CustomGeom} from '../openxml/word/drawing/CustomGeom';
+import {CustomGeom} from '../openxml/drawing/CustomGeom';
 
 export function renderCustGeom(
   geom: CustomGeom,

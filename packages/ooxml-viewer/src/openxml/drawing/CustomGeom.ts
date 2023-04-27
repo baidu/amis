@@ -2,8 +2,8 @@
  * 自定义形状
  */
 
-import Word from '../../../Word';
-import {parseShape} from '../../../parse/parseShape';
+import Word from '../../Word';
+import {parseShape} from '../../parse/parseShape';
 import {Shape} from './Shape';
 
 export class CustomGeom {

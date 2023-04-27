@@ -1,5 +1,5 @@
 import {Paragraph} from '../Paragraph';
-import {ShapePr} from '../drawing/ShapeProperties';
+import {ShapePr} from '../../drawing/ShapeProperties';
 /**
  * wps 指的是 wordprocessingShape，在 drawing 里 word 相关的 shape 定义
  * 目前主要是支持 textbox，

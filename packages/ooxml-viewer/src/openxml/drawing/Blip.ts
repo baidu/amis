@@ -1,5 +1,5 @@
-import {Relationship} from '../../../parse/parseRelationship';
-import Word from '../../../Word';
+import {Relationship} from '../../parse/parseRelationship';
+import Word from '../../Word';
 
 export class Blip {
   embled?: Relationship;
