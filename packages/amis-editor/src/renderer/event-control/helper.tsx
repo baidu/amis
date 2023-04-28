@@ -1810,7 +1810,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             value: `/* 自定义JS使用说明：
   * 1.动作执行函数doAction，可以执行所有类型的动作
   * 2.通过上下文对象context可以获取当前组件实例，例如context.props可以获取该组件相关属性
-  * 3.事件对象event，在doAction之后执行event.stopPropagation = true;可以阻止后续动作执行
+  * 3.事件对象event，在doAction之后执行event.stopPropagation();可以阻止后续动作执行
 */
 const myMsg = '我是自定义JS';
 doAction({
