@@ -118,6 +118,7 @@ exports[`Renderer:Picker base 1`] = `
                 >
                   <label
                     class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+                    data-role="checkbox"
                   >
                     <input
                       type="radio"
@@ -146,6 +147,7 @@ exports[`Renderer:Picker base 1`] = `
                 >
                   <label
                     class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+                    data-role="checkbox"
                   >
                     <input
                       type="radio"
@@ -174,6 +176,7 @@ exports[`Renderer:Picker base 1`] = `
                 >
                   <label
                     class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+                    data-role="checkbox"
                   >
                     <input
                       type="radio"
