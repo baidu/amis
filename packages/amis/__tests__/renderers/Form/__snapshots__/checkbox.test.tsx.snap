@@ -293,6 +293,7 @@ exports[`Renderer:checkbox with optionType 1`] = `
           >
             <label
               class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--button cxd-Checkbox--button--checked"
+              data-role="checkbox"
             >
               <input
                 type="checkbox"
