@@ -215,6 +215,7 @@ export class EventControl extends React.Component<
   }
 
   activeEventDialog(eventInfo: EventDialogData) {
+    eventInfo = cloneDeep(eventInfo);
     if (!eventInfo.debounce) {
       // 防抖配置的默认值
       eventInfo.debounce = {
@@ -764,7 +765,7 @@ export class EventControl extends React.Component<
       actionData,
       eventDialogData
     } = this.state;
-    const eventSnapshot = cloneDeep(onEvent);
+    const eventSnapshot = {...onEvent};
     const {showOldEntry} = this.props;
     const eventKeys = Object.keys(eventSnapshot);
     return (
