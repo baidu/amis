@@ -2486,7 +2486,7 @@ extendLocale('zh-CN', {
   'c7f16d729f3bca8f6936416884a74fb8': '自定义JS',
   '1b5a6299ef404c1f7b4292c290b80f55': '通过JavaScript自定义动作逻辑',
   '9bef5e571702130c5710af4ee2c27455':
-    "/* 自定义JS使用说明：\n  * 1.动作执行函数doAction，可以执行所有类型的动作\n  * 2.通过上下文对象context可以获取当前组件实例，例如context.props可以获取该组件相关属性\n  * 3.事件对象event，在doAction之后执行event.stopPropagation = true;可以阻止后续动作执行\n*/\nconst myMsg = '我是自定义JS';\ndoAction({\n  actionType: 'toast',\n  args: {\n    msg: myMsg\n  }\n});\n",
+    "/* 自定义JS使用说明：\n  * 1.动作执行函数doAction，可以执行所有类型的动作\n  * 2.通过上下文对象context可以获取当前组件实例，例如context.props可以获取该组件相关属性\n  * 3.事件对象event，在doAction之后执行event.stopPropagation();可以阻止后续动作执行\n*/\nconst myMsg = '我是自定义JS';\ndoAction({\n  actionType: 'toast',\n  args: {\n    msg: myMsg\n  }\n});\n",
   '9a2ee7044ff04234a8892a13583d14b6': '变量值',
   '186c8d63db1c09c38bcfd048fb15846e': '滚动至上一张',
   'd9b6b8e29d63ac6bb7a0381e994ebcb5': '返回前一步',
