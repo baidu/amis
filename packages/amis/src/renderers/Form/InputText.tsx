@@ -1051,11 +1051,8 @@ export default class TextControl extends React.PureComponent<
       inputControlClassName,
       id,
       addOnClassName,
-      editorPath,
-      themeConfig,
       classPrefix: ns
     } = this.props;
-    const editorDefaultData = getValueByPath(editorPath, themeConfig);
     let input =
       autoComplete !== false && (source || options?.length || autoComplete)
         ? this.renderSugestMode()
@@ -1075,7 +1072,7 @@ export default class TextControl extends React.PureComponent<
         }
       ],
       id,
-      editorDefaultData
+      null
     );
 
     insertCustomStyle(

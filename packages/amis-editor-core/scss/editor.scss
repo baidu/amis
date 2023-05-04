@@ -1712,6 +1712,9 @@ div.ae-DragImage {
     margin-right: 0;
   }
 }
+.ae-scaffoldForm-Modal {
+  @include panel-sm-content();
+}
 
 .ae-Scaffold-Modal {
   width: px2rem(700px);

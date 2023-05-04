@@ -11,6 +11,7 @@ import renderParagraph from './renderParagraph';
 import {renderSection} from './renderSection';
 import renderTable from './renderTable';
 import {Section} from '../openxml/word/Section';
+import {WDocument} from '../openxml/word/WDocument';
 
 /**
  * 判断是否需要创建一个新 section，包括强制分页和超出了 section 的高宽或宽度
@@ -38,6 +39,7 @@ function createNewSection(
  */
 function appendToSection(
   word: Word,
+  wDocument: WDocument,
   renderOptions: WordRenderOptions,
   bodyEl: HTMLElement,
   sectionEl: HTMLElement,
@@ -54,7 +56,7 @@ function appendToSection(
   if (!isFirst && createNewSection(word, sectionEnd, child)) {
     const newChild = child.cloneNode(true) as HTMLElement;
     removeChild(sectionEl, child);
-    let newSectionEl = renderSection(word, section, renderOptions);
+    let newSectionEl = renderSection(word, wDocument, section, renderOptions);
     appendChild(bodyEl, newSectionEl);
     appendChild(newSectionEl, newChild);
     sectionEnd = getSectionEnd(section, newSectionEl);
@@ -124,6 +126,7 @@ function getTransform(
  */
 function renderSectionInPage(
   word: Word,
+  wDocument: WDocument,
   bodyEl: HTMLElement,
   renderOptions: WordRenderOptions,
   sectionEl: HTMLElement,
@@ -138,8 +141,8 @@ function renderSectionInPage(
         const p = renderParagraph(word, child);
         const appendResult = appendToSection(
           word,
+          wDocument,
           renderOptions,
-
           bodyEl,
           sectionEl,
           sectionEnd,
@@ -152,8 +155,8 @@ function renderSectionInPage(
         const table = renderTable(word, child);
         const appendResult = appendToSection(
           word,
+          wDocument,
           renderOptions,
-
           bodyEl,
           sectionEl,
           sectionEnd,
@@ -180,6 +183,7 @@ export default function renderBody(
   root: HTMLElement,
   word: Word,
   bodyEl: HTMLElement,
+  wDocument: WDocument,
   body: Body,
   renderOptions: WordRenderOptions
 ) {
@@ -199,7 +203,7 @@ export default function renderBody(
   for (const section of sections) {
     zooms.push(getTransform(rootWidth, section, renderOptions));
     word.currentSection = section;
-    let sectionEl = renderSection(word, section, renderOptions);
+    let sectionEl = renderSection(word, wDocument, section, renderOptions);
     appendChild(bodyEl, sectionEl);
 
     index = index + 1;
@@ -209,6 +213,7 @@ export default function renderBody(
     if (page) {
       renderSectionInPage(
         word,
+        wDocument,
         bodyEl,
         renderOptions,
         sectionEl,

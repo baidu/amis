@@ -50,6 +50,7 @@ export interface TabsTransferProps
   onTabChange: (key: number) => void;
   activeKey: number;
   onlyChildren?: boolean;
+  ctx?: Record<string, any>;
 }
 
 export interface TabsTransferState {
@@ -257,7 +258,7 @@ export class TabsTransfer extends React.Component<
       activeKey,
       classnames: cx,
       translate: __,
-      data
+      ctx
     } = this.props;
     const showOptions = options.filter(item => item.visible !== false);
 
@@ -282,7 +283,7 @@ export class TabsTransfer extends React.Component<
             key={index}
             title={filter(
               option.label || option.title,
-              createObject(data, option)
+              createObject(ctx, option)
             )}
             className="TabsTransfer-tab"
           >

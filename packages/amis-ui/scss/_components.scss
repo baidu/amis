@@ -1278,7 +1278,9 @@
   // 勾选框
   --checkbox-checkbox-default-height: var(--sizes-size-9);
   --checkbox-checkbox-default-bg-color: var(--colors-neutral-fill-11);
-  --checkbox-checkbox-default-color: var(--colors-neutral-text-2);
+  --checkbox-checkbox-default-text-color: var(--colors-neutral-text-2);
+  --checkbox-checkbox-default-lineHeight: var(--fonts-lineHeight-2);
+  --checkbox-checkbox-default-fontWeight: var(--fonts-weight-6);
   --checkbox-checkbox-default-fontSize: var(--sizes-size-8);
   --checkbox-checkbox-default-top-border-color: var(--colors-neutral-line-8);
   --checkbox-checkbox-default-top-border-width: var(--borders-width-2);
@@ -1298,7 +1300,7 @@
   --checkbox-checkbox-default-bottom-left-border-radius: var(--sizes-size-2);
   --checkbox-checkbox-hover-height: var(--sizes-size-9);
   --checkbox-checkbox-hover-bg-color: var(--colors-neutral-fill-11);
-  --checkbox-checkbox-hover-color: var(--colors-neutral-text-2);
+  --checkbox-checkbox-hover-text-color: var(--colors-neutral-text-2);
   --checkbox-checkbox-hover-fontSize: var(--sizes-size-8);
   --checkbox-checkbox-hover-top-border-color: var(--colors-brand-5);
   --checkbox-checkbox-hover-top-border-width: var(--borders-width-2);
@@ -1318,7 +1320,7 @@
   --checkbox-checkbox-hover-bottom-left-border-radius: var(--sizes-size-2);
   --checkbox-checkbox-active-height: var(--sizes-size-9);
   --checkbox-checkbox-active-bg-color: var(--colors-neutral-fill-11);
-  --checkbox-checkbox-active-color: var(--colors-neutral-text-2);
+  --checkbox-checkbox-active-text-color: var(--colors-neutral-text-2);
   --checkbox-checkbox-active-fontSize: var(--sizes-size-8);
   --checkbox-checkbox-active-top-border-color: var(--colors-brand-5);
   --checkbox-checkbox-active-top-border-width: var(--borders-width-2);
@@ -1338,7 +1340,7 @@
   --checkbox-checkbox-active-bottom-left-border-radius: var(--sizes-size-2);
   --checkbox-checkbox-disabled-height: var(--sizes-size-9);
   --checkbox-checkbox-disabled-bg-color: var(--colors-neutral-fill-10);
-  --checkbox-checkbox-disabled-color: var(--colors-neutral-text-2);
+  --checkbox-checkbox-disabled-text-color: var(--colors-neutral-text-6);
   --checkbox-checkbox-disabled-fontSize: var(--sizes-size-8);
   --checkbox-checkbox-disabled-top-border-color: var(--colors-neutral-line-8);
   --checkbox-checkbox-disabled-top-border-width: var(--borders-width-2);
@@ -1750,6 +1752,7 @@
   --dialog-default-border-radius: var(--sizes-size-4);
   --dialog-default-padding-y: var(--sizes-base-12);
   --dialog-header-height: var(--sizes-size-1);
+  --dialog-icon-icon: '<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="icon icon-close"><g id="close" transform="translate(1.439340, 1.439340)" fill="currentColor" fill-rule="nonzero"><polygon points="12.0606602 5.80646642e-14 13.1213203 1.06066017 7.62066017 6.56066017 13.1213203 12.0606602 12.0606602 13.1213203 6.56066017 7.62066017 1.06066017 13.1213203 0 12.0606602 5.49966017 6.56066017 1.72084569e-13 1.06066017 1.06066017 0 6.56066017 5.49966017"></polygon></g></svg>';
   --dialog-icon-size: var(--sizes-size-9);
   --dialog-icon-color: var(--colors-neutral-text-6);
   --dialog-header-color: var(--colors-neutral-text-2);
@@ -1805,6 +1808,7 @@
   --drawer-header-color: var(--colors-neutral-text-2);
   --drawer-header-fontSize: var(--fonts-size-7);
   --drawer-header-fontWeight: var(--fonts-weight-5);
+  --drawer-header-icon-icon: '<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class=" icon-close"><g id="close" transform="translate(1.439340, 1.439340)" fill="currentColor" fill-rule="nonzero"><polygon points="12.0606602 5.80646642e-14 13.1213203 1.06066017 7.62066017 6.56066017 13.1213203 12.0606602 12.0606602 13.1213203 6.56066017 7.62066017 1.06066017 13.1213203 0 12.0606602 5.49966017 6.56066017 1.72084569e-13 1.06066017 1.06066017 0 6.56066017 5.49966017"></polygon></g></svg>';
   --drawer-header-icon-size: var(--sizes-size-7);
   --drawer-header-icon-color: var(--colors-neutral-text-2);
   --drawer-content-paddingTop: var(--sizes-base-12);
@@ -2623,6 +2627,7 @@
   --inputImage-base-default-fontSize: var(--fonts-size-7);
   --inputImage-base-default-fontWeight: var(--fonts-weight-6);
   --inputImage-base-default-color: var(--colors-neutral-text-5);
+  --inputImage-base-default-icon: '<svg viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g><rect fill="currentColor" opacity="0" x="0" y="0" width="16" height="16"></rect><path d="M8.5,2 L8.5,7.5 L14,7.5 L14,8.5 L8.5,8.5 L8.5,14 L7.5,14 L7.5,8.5 L2,8.5 L2,7.5 L7.5,7.5 L7.5,2 L8.5,2 Z"  fill="currentColor" fill-rule="nonzero"></path></g></g></svg>';
   --inputImage-base-default-icon-size: var(--sizes-base-12);
   --inputImage-base-default-icon-color: var(--colors-neutral-text-5);
   --inputImage-base-default-icon-margin: var(--sizes-size-5);
@@ -3131,7 +3136,7 @@
   --Calendar-icon-height: var(--sizes-size-6);
   --Calendar-borderWidth: var(--borders-width-2);
   --Calendar-borderColor: var(--inputDate-default-option-today-border-color);
-  --Calendar-rdt-day: var(--sizes-base-49);
+  --Calendar-rdt-day: #{px2rem(110px)};
   --Calendar-schedule-content-padding: 0 var(--sizes-size-3);
   --Calendar-schedule-content-height: var(--sizes-base-10);
   --Calendar-schedule-content-color: var(--colors-neutral-text-11);
@@ -3309,6 +3314,8 @@
   --Tag-base-paddingBottom: var(--sizes-size-0);
   --Tag-base-paddingLeft: var(--sizes-size-5);
   --Tag-base-paddingRight: var(--sizes-size-5);
+  --Tag-base-padding: var(--Tag-base-paddingTop) var(--Tag-base-paddingRight)
+   var(--Tag-base-paddingBottom) var(--Tag-base-paddingLeft);
   --Tag-model-normal-top-border-color: var(--colors-neutral-line-6);
   --Tag-model-normal-top-border-width: var(--borders-width-2);
   --Tag-model-normal-top-border-style: var(--borders-style-1);

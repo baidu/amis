@@ -375,7 +375,8 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 body: '对，你刚刚点击了',
                 showCloseButton: true,
                 showErrorMsg: true,
-                showLoading: true
+                showLoading: true,
+                className: 'app-popover'
               }),
               asFormItem: true,
               visibleOn: 'data.groupType === "dialog"',
@@ -405,7 +406,8 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               required: true,
               pipeIn: defaultValue({
                 title: '抽屉标题',
-                body: '对，你刚刚点击了'
+                body: '对，你刚刚点击了',
+                className: 'app-popover'
               }),
               asFormItem: true,
               visibleOn: 'data.groupType === "drawer"',
@@ -512,7 +514,8 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             'position',
             'timeout',
             'closeButton',
-            'showIcon'
+            'showIcon',
+            'className'
           ],
           descDetail: (info: any) => {
             return (
@@ -1807,7 +1810,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             value: `/* 自定义JS使用说明：
   * 1.动作执行函数doAction，可以执行所有类型的动作
   * 2.通过上下文对象context可以获取当前组件实例，例如context.props可以获取该组件相关属性
-  * 3.事件对象event，在doAction之后执行event.stopPropagation = true;可以阻止后续动作执行
+  * 3.事件对象event，在doAction之后执行event.stopPropagation();可以阻止后续动作执行
 */
 const myMsg = '我是自定义JS';
 doAction({
@@ -3081,6 +3084,14 @@ export const getEventControlConfig = (
             params: comboArrayToObject(params)
           };
         }
+      }
+
+      if (action.actionType === 'toast') {
+        // 配置一个toast组件默认class
+        action.args = {
+          ...action.args,
+          className: 'theme-toast-action-scope'
+        };
       }
 
       // 转换下格式

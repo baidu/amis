@@ -10,9 +10,9 @@ import {EditorDNDManager} from './dnd';
 import React from 'react';
 import {DiffChange} from './util';
 import find from 'lodash/find';
-import type {RendererConfig} from 'amis-core/lib/factory';
+import type {RendererConfig} from 'amis-core';
 import type {MenuDivider, MenuItem} from 'amis-ui/lib/components/ContextMenu';
-import type {BaseSchema, SchemaCollection} from 'amis/lib/Schema';
+import type {BaseSchema, SchemaCollection} from 'amis';
 import {DSFieldGroup} from './builder/DSBuilder';
 
 /**
@@ -594,7 +594,7 @@ export type PluginEvent<T, P = any> = {
   data?: P;
 };
 
-export type PluginEventFn = (e: PluginEvent<EventContext>) => false | void;
+export type PluginEventFn = (e: PluginEvent<EventContext>) => any;
 
 /**
  * 创建事件。

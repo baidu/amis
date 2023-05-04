@@ -74,7 +74,8 @@ function AmisThemeCssCodeEditor(props: FormControlProps) {
           const item = css.find(c => {
             if (
               c.selector === node.selector ||
-              node.selector.endsWith(`:${c.state}`)
+              node.selector.endsWith(`:${c.state}`) ||
+              node.selector.split(' ').indexOf(c.selector) > -1
             ) {
               return c;
             }

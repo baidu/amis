@@ -22,11 +22,6 @@ export const inputStateTpl = (className: string, path: string = '') => {
         }
       ]
     },
-    {
-      type: 'hidden',
-      name: 'editorPath',
-      value: path
-    },
     ...inputStateFunc(
       "${editorState == 'default' || !editorState}",
       'default',
@@ -50,8 +45,7 @@ export const inputStateFunc = (
       label: '文字',
       name: `${className}.font:${state}`,
       visibleOn: visibleOn,
-      editorThemePath: `${path}.${state}.body.font`,
-      state
+      editorThemePath: `${path}.${state}.body.font`
     }),
     getSchemaTpl('theme:colorPicker', {
       label: '背景',
@@ -59,26 +53,22 @@ export const inputStateFunc = (
       labelMode: 'input',
       needGradient: true,
       visibleOn: visibleOn,
-      editorThemePath: `${path}.${state}.body.bg-color`,
-      state
+      editorThemePath: `${path}.${state}.body.bg-color`
     }),
     getSchemaTpl('theme:border', {
       name: `${className}.border:${state}`,
       visibleOn: visibleOn,
-      editorThemePath: `${path}.${state}.body.border`,
-      state
+      editorThemePath: `${path}.${state}.body.border`
     }),
     getSchemaTpl('theme:paddingAndMargin', {
       name: `${className}.padding-and-margin:${state}`,
       visibleOn: visibleOn,
-      editorThemePath: `${path}.${state}.body.padding-and-margin`,
-      state
+      editorThemePath: `${path}.${state}.body.padding-and-margin`
     }),
     getSchemaTpl('theme:radius', {
       name: `${className}.radius:${state}`,
       visibleOn: visibleOn,
-      editorThemePath: `${path}.${state}.body.border`,
-      state
+      editorThemePath: `${path}.${state}.body.border`
     }),
     ...options
   ];

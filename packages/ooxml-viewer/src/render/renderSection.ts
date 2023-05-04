@@ -1,3 +1,4 @@
+import {WDocument} from '../openxml/word/WDocument';
 import {Section} from '../openxml/word/Section';
 import {createElement} from '../util/dom';
 import Word, {WordRenderOptions} from '../Word';
@@ -9,6 +10,7 @@ import {renderHeader} from './renderHeader';
  */
 export function renderSection(
   word: Word,
+  wDocument: WDocument,
   section: Section,
   renderOptions: WordRenderOptions
 ) {
@@ -16,6 +18,10 @@ export function renderSection(
 
   // 用于后续绝对定位
   sectionEl.style.position = 'relative';
+
+  if (wDocument.backgroundColor) {
+    sectionEl.style.background = wDocument.backgroundColor;
+  }
 
   if (renderOptions.page) {
     if (renderOptions.pageMarginBottom) {

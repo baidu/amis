@@ -15,7 +15,7 @@ import IFrameBridge from './IFrameBridge';
 import {isAlive} from 'mobx-state-tree';
 import {findTree} from 'amis-core';
 import BackTop from './base/BackTop';
-import {RendererConfig} from 'amis-core/lib/factory';
+import {RendererConfig} from 'amis-core';
 
 export interface PreviewProps {
   // isEditorEnabled?: (
@@ -442,11 +442,6 @@ export default class Preview extends Component<PreviewProps> {
     };
 
     let info = manager.getEditorInfo(renderer!, path, schema);
-
-    // 更新 Editor 中的 amisStore
-    if (props && props.store && props.store.data) {
-      manager.updateAMISContext(props.store.data);
-    }
 
     info &&
       (renderer = {

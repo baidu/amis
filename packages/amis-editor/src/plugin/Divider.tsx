@@ -24,7 +24,7 @@ export class DividerPlugin extends BasePlugin {
 
   panelTitle = '分隔线';
   panelJustify = true;
-  tags = ['功能'];
+  tags = ['展示'];
 
   panelBody = getSchemaTpl('tabs', [
     {

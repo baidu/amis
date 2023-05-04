@@ -3,7 +3,6 @@ div.ae-editor-FormulaControl {
   @include flexBox();
   align-items: stretch;
   max-width: 100%;
-  height: var(--input-size-default-height);
 }
 .ae-editor-FormulaControl {
   & > &-button {

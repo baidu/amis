@@ -12,6 +12,7 @@ import './plugin/Layout/Layout_sorption_container'; // 吸附容器
 import './plugin/Layout/Layout_fixed'; // 悬浮容器
 // import './plugin/Layout/Layout1_2_v4';
 import './plugin/CollapseGroup'; // 折叠面板
+import './plugin/Panel'; // 面板
 import './plugin/Tabs'; // 选项卡
 
 // 数据容器
@@ -73,9 +74,7 @@ import './plugin/Nav'; // 导航
 import './plugin/AnchorNav'; // 锚点导航
 import './plugin/TooltipWrapper'; // 文字提示
 import './plugin/Alert'; // 提示
-import './plugin/Divider'; // 分隔线
 import './plugin/Wizard'; // 向导
-import './plugin/Panel'; // 面板
 import './plugin/TableView'; // 表格视图
 import './plugin/WebComponent';
 import './plugin/Audio'; // 音频
@@ -114,10 +113,11 @@ import './plugin/Progress'; // 进度展示
 import './plugin/Status'; // 状态展示
 import './plugin/Steps'; // 步骤条
 import './plugin/Timeline'; // 时间轴
+import './plugin/Divider'; // 分隔线
 import './plugin/CodeView'; // 代码高亮
 import './plugin/Markdown';
 import './plugin/Collapse'; // 折叠器
-import './plugin/OfficeViewer'; // 文档预览
+// import './plugin/OfficeViewer'; // 文档预览
 import './plugin/Log'; // 日志
 
 // 其他

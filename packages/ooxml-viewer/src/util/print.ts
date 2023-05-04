@@ -1,7 +1,7 @@
 function loadIframeImages(images: HTMLImageElement[]) {
-  const promises = images.map(image => {
+  const promises = images.map(async image => {
     if (image.src && image.src !== window.location.href) {
-      return loadIframeImage(image);
+      await loadIframeImage(image);
     }
   });
 

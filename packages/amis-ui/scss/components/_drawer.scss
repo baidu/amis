@@ -70,6 +70,10 @@
       color: var(--drawer-header-icon-color);
     }
 
+    .Drawer-close {
+      content: var(--drawer-header-icon-icon);
+    }
+
     &:not(.is-disabled) {
       cursor: pointer;
 

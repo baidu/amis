@@ -33,6 +33,9 @@
       & > .CodeMirror {
         height: 100%;
         font-family: inherit;
+        span[class^='cm-'] {
+          color: var(--input-default-default-color);
+        }
 
         // 解决上下 pre标签中表达式浮层遮挡问题
         .CodeMirror-measure + div {
@@ -146,7 +149,7 @@
   &-text {
     display: inline-block;
     position: relative;
-    color: #fff;
+    color: #fff !important;
     cursor: pointer;
     max-width: 80px;
     min-width: 10px;
