@@ -2472,6 +2472,7 @@ export default class Table extends React.Component<TableProps, object> {
       store,
       classPrefix: ns,
       classnames: cx,
+      affixRow,
       ...rest
     } = this.props;
     const __ = rest.translate;
@@ -2481,6 +2482,10 @@ export default class Table extends React.Component<TableProps, object> {
     if (!store.columnsTogglable) {
       return null;
     }
+
+    // 不能取消到比总结行要少
+    // 否则总结行将显示不全
+    const min = Math.max(Array.isArray(affixRow) ? affixRow.length : 0, 1);
 
     return (
       <ColumnToggler
@@ -2527,7 +2532,7 @@ export default class Table extends React.Component<TableProps, object> {
                 return;
               }
 
-              store.toggleAllColumns();
+              store.toggleAllColumns(min);
             }}
           >
             <Checkbox
@@ -2573,7 +2578,7 @@ export default class Table extends React.Component<TableProps, object> {
                 return;
               }
 
-              column.toggleToggle();
+              column.toggleToggle(min);
             }}
           >
             <Checkbox size="sm" classPrefix={ns} checked={column.toggled}>
