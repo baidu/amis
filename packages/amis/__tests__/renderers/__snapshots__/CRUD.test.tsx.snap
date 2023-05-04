@@ -158,6 +158,7 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                         >
                           <label
                             class="cxd-Checkbox cxd-Checkbox--checkbox"
+                            data-role="checkbox"
                           >
                             <input
                               disabled=""
@@ -182,6 +183,7 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                         >
                           <label
                             class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                            data-role="checkbox"
                           >
                             <input
                               type="checkbox"
@@ -203,6 +205,7 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                         >
                           <label
                             class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                            data-role="checkbox"
                           >
                             <input
                               type="checkbox"
@@ -224,6 +227,7 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                         >
                           <label
                             class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                            data-role="checkbox"
                           >
                             <input
                               type="checkbox"
@@ -245,6 +249,7 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                         >
                           <label
                             class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                            data-role="checkbox"
                           >
                             <input
                               type="checkbox"
@@ -266,6 +271,7 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                         >
                           <label
                             class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                            data-role="checkbox"
                           >
                             <input
                               disabled=""
@@ -288,6 +294,7 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                         >
                           <label
                             class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                            data-role="checkbox"
                           >
                             <input
                               disabled=""
@@ -310,6 +317,7 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                         >
                           <label
                             class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                            data-role="checkbox"
                           >
                             <input
                               disabled=""
@@ -332,6 +340,7 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                         >
                           <label
                             class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                            data-role="checkbox"
                           >
                             <input
                               disabled=""
@@ -354,6 +363,7 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                         >
                           <label
                             class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                            data-role="checkbox"
                           >
                             <input
                               disabled=""
@@ -376,6 +386,7 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                         >
                           <label
                             class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                            data-role="checkbox"
                           >
                             <input
                               disabled=""
@@ -411,6 +422,7 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                         >
                           <label
                             class="cxd-Checkbox cxd-Checkbox--checkbox"
+                            data-role="checkbox"
                           >
                             <input
                               disabled=""
@@ -501,6 +513,7 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                         >
                           <label
                             class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                            data-role="checkbox"
                           >
                             <input
                               type="checkbox"
@@ -549,6 +562,7 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                         >
                           <label
                             class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                            data-role="checkbox"
                           >
                             <input
                               type="checkbox"
@@ -597,6 +611,7 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                         >
                           <label
                             class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                            data-role="checkbox"
                           >
                             <input
                               type="checkbox"
@@ -645,6 +660,7 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                         >
                           <label
                             class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                            data-role="checkbox"
                           >
                             <input
                               type="checkbox"
@@ -693,6 +709,7 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                         >
                           <label
                             class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                            data-role="checkbox"
                           >
                             <input
                               disabled=""
@@ -742,6 +759,7 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                         >
                           <label
                             class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                            data-role="checkbox"
                           >
                             <input
                               disabled=""
@@ -791,6 +809,7 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                         >
                           <label
                             class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                            data-role="checkbox"
                           >
                             <input
                               disabled=""
@@ -840,6 +859,7 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                         >
                           <label
                             class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                            data-role="checkbox"
                           >
                             <input
                               disabled=""
@@ -889,6 +909,7 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                         >
                           <label
                             class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                            data-role="checkbox"
                           >
                             <input
                               disabled=""
@@ -938,6 +959,7 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                         >
                           <label
                             class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                            data-role="checkbox"
                           >
                             <input
                               disabled=""
@@ -1064,6 +1086,7 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                         >
                           <label
                             class="cxd-Checkbox cxd-Checkbox--checkbox"
+                            data-role="checkbox"
                           >
                             <input
                               disabled=""
@@ -1111,6 +1134,7 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                         >
                           <label
                             class="cxd-Checkbox cxd-Checkbox--checkbox"
+                            data-role="checkbox"
                           >
                             <input
                               disabled=""
