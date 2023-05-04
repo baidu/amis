@@ -977,7 +977,8 @@ export class ActionRenderer extends React.Component<ActionRendererProps> {
         // 触发渲染器事件
         const rendererEvent = await dispatchEvent(
           e as React.MouseEvent<any> | string,
-          mergedData
+          mergedData,
+          this // 保证renderer可以拿到，避免因交互设计导致的销魂情况，例如crud内itemAction
         );
 
         // 阻止原有动作执行
