@@ -182,6 +182,90 @@ export const SUPPORT_DISABLED_CMPTS = [
   // 'card2'
 ];
 
+// 用于变量赋值 页面变量和内存变量的树选择器中，支持展示变量类型
+const getCustomNodeTreeSelectSchema = (opts: Object) => ({
+  type: 'tree-select',
+  name: 'path',
+  label: '内存变量',
+  multiple: false,
+  mode: 'horizontal',
+  required: true,
+  placeholder: '请选择变量',
+  showIcon: false,
+  size: 'lg',
+  hideRoot: false,
+  rootLabel: '内存变量',
+  options: [],
+  menuTpl: {
+    type: 'flex',
+    className: 'p-1',
+    items: [
+      {
+        type: 'container',
+        body: [
+          {
+            type: 'tpl',
+            tpl: '${label}',
+            inline: true,
+            wrapperComponent: ''
+          }
+        ],
+        style: {
+          display: 'flex',
+          flexWrap: 'nowrap',
+          alignItems: 'center',
+          position: 'static',
+          overflowY: 'auto',
+          flex: '0 0 auto'
+        },
+        wrapperBody: false,
+        isFixedHeight: true
+      },
+      {
+        type: 'container',
+        body: [
+          {
+            type: 'tpl',
+            tpl: '${type}',
+            inline: true,
+            wrapperComponent: '',
+            style: {
+              background: '#f5f5f5',
+              paddingLeft: '8px',
+              paddingRight: '8px',
+              borderRadius: '4px'
+            }
+          }
+        ],
+        size: 'xs',
+        style: {
+          display: 'flex',
+          flexWrap: 'nowrap',
+          alignItems: 'center',
+          position: 'static',
+          overflowY: 'auto',
+          flex: '0 0 auto'
+        },
+        wrapperBody: false,
+        isFixedHeight: true,
+        isFixedWidth: false
+      }
+    ],
+    style: {
+      position: 'relative',
+      inset: 'auto',
+      flexWrap: 'nowrap',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      height: '24px',
+      overflowY: 'hidden'
+    },
+    isFixedHeight: true,
+    isFixedWidth: false
+  },
+  ...opts
+});
+
 export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
   const variableManager = manager?.variableManager;
   /** 变量列表 */
@@ -1557,20 +1641,11 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                     type: 'wrapper',
                     className: 'p-none',
                     body: [
-                      {
-                        type: 'tree-select',
-                        name: 'path',
+                      getCustomNodeTreeSelectSchema({
                         label: '页面变量',
-                        multiple: false,
-                        mode: 'horizontal',
-                        required: true,
-                        placeholder: '请选择变量',
-                        showIcon: false,
-                        size: 'lg',
-                        hideRoot: false,
                         rootLabel: '页面变量',
                         options: pageVariableOptions
-                      },
+                      }),
                       {
                         type: 'input-formula',
                         name: 'value',
@@ -1599,20 +1674,9 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                     type: 'wrapper',
                     className: 'p-none',
                     body: [
-                      {
-                        type: 'tree-select',
-                        name: 'path',
-                        label: '内存变量',
-                        multiple: false,
-                        mode: 'horizontal',
-                        required: true,
-                        placeholder: '请选择变量',
-                        showIcon: false,
-                        size: 'lg',
-                        hideRoot: false,
-                        rootLabel: '内存变量',
+                      getCustomNodeTreeSelectSchema({
                         options: variableOptions
-                      },
+                      }),
                       {
                         type: 'input-formula',
                         name: 'value',

@@ -118,7 +118,7 @@ export const bindEvent = (renderer: any) => {
             actions: listener.actions
           });
       }
-      if (!listener && listeners[key].actions.length) {
+      if (!listener && listeners[key].actions?.length) {
         rendererEventListeners.push({
           renderer,
           type: key,
