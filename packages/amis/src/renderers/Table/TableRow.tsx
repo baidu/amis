@@ -67,6 +67,9 @@ export class TableRow extends React.Component<TableRowProps> {
       return;
     }
 
+    e.preventDefault();
+    e.stopPropagation();
+
     const {
       itemAction,
       onAction,
@@ -92,7 +95,7 @@ export class TableRow extends React.Component<TableRowProps> {
 
     if (itemAction) {
       onAction && onAction(e, itemAction, item?.locals);
-      item.toggle();
+      // item.toggle();
     } else {
       if (item.checkable && item.isCheckAvaiableOnClick) {
         onCheck?.(item);

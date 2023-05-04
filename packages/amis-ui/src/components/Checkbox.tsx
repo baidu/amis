@@ -95,6 +95,7 @@ export class Checkbox extends React.Component<CheckboxProps, any> {
           'Checkbox--button--disabled--checked':
             optionType === 'button' && disabled && _checked
         })}
+        data-role="checkbox"
       >
         <input
           type={type}
