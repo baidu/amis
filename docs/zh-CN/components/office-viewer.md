@@ -71,7 +71,7 @@ Word 渲染支持以下功能：
 
 > 2.10.0 及以上版本
 
-默认情况下 word 文档渲染使用流式布局，这样能更好融入到已有页面中，但展现上会和原先的文档有较大差异，且不支持页眉页脚，如果希望能看起来更像桌面端的效果，可以通过 `page` 配置开启分页渲染，只有在分页渲染
+默认情况下 word 文档渲染使用流式布局，这样能更好融入到已有页面中，但展现上会和原先的文档有较大差异，且不支持页眉页脚，如果希望能看起来更像桌面端的效果，可以通过 `page` 配置开启分页渲染
 
 ```schema: scope="body"
 {
@@ -205,7 +205,7 @@ Word 渲染支持以下功能：
     },
     {
       "type": "service",
-      "api": "/api/mock2/sample/mirror?json=%7B%22users%22%3A%5B%7B%22name%22%3A%22u1%22%2C%22age%22%3A10%7D%2C%7B%22name%22%3A%22u2%22%2C%22age%22%3A11%7D%5D%7D",
+      "api": "/api/mock2/sample/mirror?json=%7B%22users%22%3A%5B%7B%22name%22%3A%22u1%22%2C%22age%22%3A10%2C%22img%22%3A%22https%3A%2F%2Fsuda.cdn.bcebos.com%2Fimages%2Famis%2Fai-fake-face.jpg%22%7D%2C%7B%22name%22%3A%22u2%22%2C%22age%22%3A11%7D%5D%7D",
       "body": [{
         "type": "office-viewer",
         "src": "/examples/static/table-list.docx",
@@ -239,6 +239,41 @@ Word 渲染支持以下功能：
 循环的语法是以 `{{#name}}` 开始，`{{/}}` 结束，在这期间的变量会取循环内的值。
 
 注意上面的例子用到了 `trackExpression`，默认情况下如果设置了 `enableVar`，每次上层数据变化都会重新渲染文档，如果文档较大可能会有性能问题，这时可以通过配置 `trackExpression` 来限制只有某个数据变化时才重新渲染。
+
+### 图片中的变量
+
+> 2.10 及以上版本
+
+如果要将文档中的图片设置为变量，需要右键对应的图片，选择「查看可选文字」，然后填入类似 `{{img}}` 变量标识，在渲染时图片将替换为这个 `img` 变量的 url 地址
+
+![word](../../../examples/static/word-alt.png)
+
+下面是示例
+
+```schema: scope="body"
+{
+  "type": "form",
+  "title": "",
+  "wrapWithPanel": false,
+  "body": [
+    {
+      "type": "input-text",
+      "name": "img",
+      "value": "https://suda.cdn.bcebos.com/images/amis/ai-fake-face.jpg",
+      "label": "图片地址"
+    },
+    {
+      "type": "office-viewer",
+      "id": "office-viewer",
+      "src": "/examples/static/image-alt-var.docx",
+      "wordOptions": {
+        "enableVar": true,
+        "padding": "8px"
+      }
+    }
+  ]
+}
+```
 
 ## 不渲染模式
 

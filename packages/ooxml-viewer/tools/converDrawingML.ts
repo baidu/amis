@@ -4,7 +4,7 @@
 
 import {readFileSync, writeFileSync} from 'fs';
 import {parseXML} from '../src/util/xml';
-import {Shape} from '../src/openxml/word/drawing/Shape';
+import {Shape} from '../src/openxml/drawing/Shape';
 import {parseShape} from '../src/parse/parseShape';
 
 import jsdom from 'jsdom';

@@ -11,12 +11,29 @@ import {createObject} from './createObject';
  */
 export function replaceT(word: Word, t: Element, data: any) {
   let text = t.textContent || '';
+  t.textContent = replaceText(word, text, data);
+}
+
+/**
+ * 替换变量文本
+ */
+function replaceText(word: Word, text: string, data: any) {
   const evalVar = word.renderOptions.evalVar;
   if (text.startsWith('{{')) {
     text = text.replace(/^{{/g, '').replace(/}}$/g, '');
-    const result = String(evalVar(text, data)) || '';
-    t.textContent = result;
+    const result = evalVar(text, data);
+    if (result !== undefined && result !== null) {
+      return String(result);
+    } else {
+      return '';
+    }
   }
+  return text;
+}
+
+function replaceAlt(word: Word, cNvPr: Element, data: any) {
+  const alt = cNvPr.getAttribute('descr') || '';
+  cNvPr.setAttribute('descrVar', replaceText(word, alt, data));
 }
 
 /**
@@ -68,6 +85,11 @@ function replaceTableRow(word: Word, tr: Element) {
         replaceT(word, t, rowData);
       }
 
+      // 替换图片里的变量
+      for (const cNvPr of newTr.getElementsByTagName('pic:cNvPr')) {
+        replaceAlt(word, cNvPr, rowData);
+      }
+
       table.appendChild(newTr);
     }
     // 删除原来的行
@@ -110,7 +132,6 @@ function removeAllAttr(node: Element) {
  * 替换表格，目前只支持行
  */
 function replaceTable(word: Word, documentData: Document) {
-  const evalVar = word.renderOptions.evalVar;
   const trs = [].slice.call(documentData.getElementsByTagName('w:tr'));
   for (const tr of trs) {
     replaceTableRow(word, tr);

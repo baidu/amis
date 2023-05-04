@@ -1,5 +1,5 @@
-import {presetShape} from '../src/openxml/word/drawing/presetShape';
-import {shapeToSVG} from '../src/openxml/word/drawing/svg/shapeToSVG';
+import {presetShape} from '../src/openxml/drawing/presetShape';
+import {shapeToSVG} from '../src/openxml/drawing/svg/shapeToSVG';
 
 const container = document.getElementById('shapes')! as HTMLElement;
 

@@ -508,6 +508,14 @@ export default class Word {
     return text;
   }
 
+  loadWordRelXML(relation: Relationship): Document {
+    let path = relation.target;
+    if (relation.part === 'word') {
+      path = 'word/' + path;
+    }
+    return this.getXML(path);
+  }
+
   /**
    * 加载图片
    */

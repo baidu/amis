@@ -2,13 +2,12 @@
  * http://webapp.docx4java.org/OnlineDemo/ecma376/DrawingML/spPr_2.html
  */
 
-import {ST_PresetLineDashVal, ST_ShapeType} from '../../Types';
-import Word from '../../../Word';
+import {ST_PresetLineDashVal, ST_ShapeType} from '../Types';
+import Word from '../../Word';
 import {Transform} from './Transform';
-import {CSSStyle} from './../../Style';
-import {parseSize, LengthUsage} from '../../../parse/parseSize';
+import {parseSize, LengthUsage} from '../../parse/parseSize';
 import {Geom} from './Geom';
-import {parseChildColor} from '../../../parse/parseChildColor';
+import {parseChildColor} from '../../parse/parseChildColor';
 import {CustomGeom} from './CustomGeom';
 
 function prstDashToCSSBorderType(prstDash: ST_PresetLineDashVal) {
