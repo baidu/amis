@@ -18,6 +18,7 @@ exports[`alt-text 1`] = `
           style="display: inline-block; width: 405.32px; height: 118.66px;"
         >
           <img
+            alt="{{var1}}"
             src="blob:http://localhost/mock"
             style="position: relative; left: 0.00px; top: 0.00px; width: 405.32px; height: 118.66px;"
           />

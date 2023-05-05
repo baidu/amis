@@ -18,6 +18,7 @@ exports[`svg 1`] = `
           style="display: inline-block; width: 623.98px; height: 623.98px;"
         >
           <img
+            alt=""
             src="blob:http://localhost/mock"
             style="position: relative; left: 0.00px; top: 0.00px; width: 623.98px; height: 623.98px;"
           />

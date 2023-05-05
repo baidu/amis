@@ -44,4 +44,7 @@ jobs:
       - name: test
         run: |
           npm test --workspaces
+          cd packages/ooxml-viewer
+          npm test
+          cd ../../
           sh deploy-gh-pages.sh
