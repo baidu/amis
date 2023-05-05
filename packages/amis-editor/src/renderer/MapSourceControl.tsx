@@ -12,7 +12,8 @@ import debounce from 'lodash/debounce';
 
 enum MapType {
   CUSTOM = 'custom',
-  API = 'api'
+  API = 'api',
+  VARIABLE = 'variable'
 }
 
 export interface MapSourceControlProps extends FormControlProps {
@@ -38,7 +39,9 @@ export default class MapSourceControl extends React.Component<
 
     let mapType: MapType = MapType.CUSTOM;
     if (props.data.hasOwnProperty('source') && props.data.source) {
-      mapType = MapType.API;
+      mapType = /\$\{(.*?)\}/g.test(props.data.source)
+        ? MapType.VARIABLE
+        : MapType.API;
     }
 
     this.state = {
@@ -86,7 +89,7 @@ export default class MapSourceControl extends React.Component<
       return;
     }
 
-    if (mapType === MapType.API) {
+    if ([MapType.API, MapType.VARIABLE].includes(mapType)) {
       onBulkChange &&
         onBulkChange({
           source,
@@ -127,6 +130,10 @@ export default class MapSourceControl extends React.Component<
         {
           label: '外部接口',
           value: MapType.API
+        },
+        {
+          label: '上下文变量',
+          value: MapType.VARIABLE
         }
       ] as Array<{
         label: string;
@@ -387,12 +394,25 @@ export default class MapSourceControl extends React.Component<
 
   render() {
     const {mapType} = this.state;
-    const {className} = this.props;
+    const {className, render} = this.props;
 
     return (
       <div className={cx('ae-OptionControl', className)}>
         {this.renderHeader()}
-        {mapType === MapType.CUSTOM ? this.renderMap() : this.renderApiPanel()}
+        {mapType === MapType.CUSTOM ? this.renderMap() : null}
+        {mapType === MapType.API ? this.renderApiPanel() : null}
+        {mapType === MapType.VARIABLE
+          ? render(
+              'variable',
+              getSchemaTpl('sourceBindControl', {
+                label: false,
+                className: 'ae-ExtendMore'
+              }),
+              {
+                onChange: this.handleAPIChange
+              }
+            )
+          : null}
       </div>
     );
   }

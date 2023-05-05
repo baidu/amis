@@ -90,13 +90,9 @@ export class ListPlugin extends BasePlugin {
               },
               isCRUDBody
                 ? null
-                : {
-                    name: 'source',
-                    type: 'input-text',
-                    label: '数据源',
-                    pipeIn: defaultValue('${items}'),
-                    description: '绑定当前环境变量'
-                  },
+                : getSchemaTpl('sourceBindControl', {
+                    label: '数据源'
+                  }),
               {
                 name: 'placeholder',
                 pipeIn: defaultValue('没有数据'),

@@ -624,6 +624,17 @@ setSchemaTpl(
   }
 );
 
+setSchemaTpl('sourceBindControl', (schema: object = {}) => ({
+  type: 'ae-formulaControl',
+  name: 'source',
+  label: '数据',
+  variableMode: 'tabs',
+  inputMode: 'input-group',
+  placeholder: '请输入表达式',
+  requiredDataPropsVariables: true,
+  ...schema
+}));
+
 setSchemaTpl('menuTpl', () => {
   return getSchemaTpl('textareaFormulaControl', {
     mode: 'normal',
