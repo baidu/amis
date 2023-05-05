@@ -578,15 +578,19 @@ class APIBuilder extends DSBuilder {
     });
   }
 
-  public resolveSimpleFilterSchema(config: {setting: any}) {
-    const {setting} = config;
+  public resolveSimpleFilterSchema(config: {
+    setting: any;
+    size?: 'xs' | 'sm' | 'md' | 'lg' | 'full';
+  }) {
+    const {setting, size} = config;
     const fields = setting.simpleQueryFields || [];
     return fields
       .filter((i: any) => i.checked)
       .map((field: any) => ({
         type: field.inputType,
         name: field.name,
-        label: field.label
+        label: field.label,
+        size
       }));
   }
 

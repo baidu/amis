@@ -81,11 +81,13 @@ setSchemaTpl(
   (config: {
     // 是不是独立表单，没有可以集成的内容
     isForm: boolean;
+    /** 预设布局 */
+    defaultValue?: 'inline' | 'horizontal' | 'normal' | '';
   }) => ({
     label: '布局',
     name: 'mode',
     type: 'select',
-    pipeIn: defaultValue(''),
+    pipeIn: defaultValue(config?.defaultValue ?? ''),
     options: [
       {
         label: '内联',

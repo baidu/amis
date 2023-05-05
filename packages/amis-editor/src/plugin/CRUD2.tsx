@@ -305,7 +305,7 @@ const FilterTypes: Array<FeatOption> = [
         type: 'form',
         mode: 'inline',
         behavior: 'SimpleQuery',
-        body: builder.resolveSimpleFilterSchema({setting}) || [],
+        body: builder.resolveSimpleFilterSchema({setting, size: 'full'}) || [],
         actions: [
           {
             type: 'submit',
