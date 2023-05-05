@@ -22,6 +22,15 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           repo-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: npm install
+        env:
+          NODE_OPTIONS: '--max-old-space-size=8192'
+        run: |
+          npm i --legacy-peer-deps
+          cd packages/ooxml-viewer
+          npm i --legacy-peer-deps
+          cd ../../
+          npm run build --workspaces
       - name: typescript check
         env:
           NODE_OPTIONS: '--max-old-space-size=8192'
@@ -29,10 +38,5 @@ jobs:
           npm run typecheck
       - name: test
         run: |
-          npm i --legacy-peer-deps
-          cd packages/ooxml-viewer
-          npm i --legacy-peer-deps
-          cd ../../
-          npm run build --workspaces
           npm test --workspaces
           sh deploy-gh-pages.sh
