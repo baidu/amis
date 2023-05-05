@@ -17,10 +17,10 @@ import {
   getSchemaTpl
 } from 'amis-editor-core';
 
-import type {SchemaObject, SchemaCollection, SchemaApi} from 'amis/lib/Schema';
+import type {SchemaObject, SchemaCollection, SchemaApi} from 'amis';
 import type {Api} from 'amis';
 import type {FormControlProps} from 'amis-core';
-import type {ActionSchema} from 'amis/lib/renderers/Action';
+import type {ActionSchema} from 'amis';
 
 export type ApiObject = Api & {
   messages?: Record<
@@ -913,9 +913,7 @@ export default class APIControl extends React.Component<
                   ]
                 },
                 getSchemaTpl(
-                  name === 'validateApi'
-                    ? 'validateApiAdaptor'
-                    : 'apiAdaptor'
+                  name === 'validateApi' ? 'validateApiAdaptor' : 'apiAdaptor'
                 )
               ]
             },

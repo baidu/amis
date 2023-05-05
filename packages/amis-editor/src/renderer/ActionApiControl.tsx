@@ -8,13 +8,19 @@ import {PickerContainer} from 'amis-ui';
 import {getEnv} from 'mobx-state-tree';
 import {normalizeApi, isEffectiveApi, isApiOutdated} from 'amis-core';
 
-import {autobind, isObject, anyChanged, createObject, getSchemaTpl} from 'amis-editor-core';
+import {
+  autobind,
+  isObject,
+  anyChanged,
+  createObject,
+  getSchemaTpl
+} from 'amis-editor-core';
 import {tipedLabel} from 'amis-editor-core';
 
-import type {SchemaObject, SchemaCollection, SchemaApi} from 'amis/lib/Schema';
+import type {SchemaObject, SchemaCollection, SchemaApi} from 'amis';
 import type {Api} from 'amis';
 import type {FormControlProps} from 'amis-core';
-import type {ActionSchema} from 'amis/lib/renderers/Action';
+import type {ActionSchema} from 'amis';
 
 export interface APIControlProps extends FormControlProps {
   name?: string;
@@ -754,7 +760,7 @@ export default class APIControl extends React.Component<
                       ]
                     },
                     getSchemaTpl('apiRequestAdaptor'),
-                    getSchemaTpl('apiAdaptor'),
+                    getSchemaTpl('apiAdaptor')
                   ]
                 },
                 {

@@ -20,6 +20,7 @@
     "skipLibCheck": true,
     "downlevelIteration": true,
     "composite": true,
+    "allowJs": true,
     "baseUrl": "./",
     "paths": {
       "amis-core": ["./packages/amis-core/src/index.tsx"],
@@ -47,6 +48,8 @@
     "scripts/fis3plugin.ts",
     "scripts/markdownPlugin.ts",
     "scripts/mockApiPlugin.ts",
-    "packages/amis-ui/src/custom.d.ts"
+    "packages/amis-ui/src/custom.d.ts",
+    "examples/polyfills/cloest.js",
+    "examples/polyfills/classList.js"
   ]
 }

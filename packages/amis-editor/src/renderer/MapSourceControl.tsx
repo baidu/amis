@@ -7,7 +7,7 @@ import cx from 'classnames';
 import {FormItem} from 'amis';
 import {autobind, getSchemaTpl, tipedLabel} from 'amis-editor-core';
 import {FormControlProps, isObject} from 'amis-core';
-import type {SchemaApi} from 'amis/lib/Schema';
+import type {SchemaApi} from 'amis';
 import debounce from 'lodash/debounce';
 
 enum MapType {

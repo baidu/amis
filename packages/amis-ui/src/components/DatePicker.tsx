@@ -6,8 +6,6 @@
 
 import React from 'react';
 import moment from 'moment';
-import 'moment/locale/zh-cn';
-import 'moment/locale/de';
 import {Icon} from './icons';
 import {PopOver} from 'amis-core';
 import PopUp from './PopUp';

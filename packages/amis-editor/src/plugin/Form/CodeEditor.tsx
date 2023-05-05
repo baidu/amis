@@ -1,4 +1,4 @@
-import {availableLanguages} from 'amis/lib/renderers/Form/Editor';
+import {EditorAvailableLanguages as availableLanguages} from 'amis';
 import {defaultValue, getSchemaTpl, undefinedPipeOut} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BasePlugin} from 'amis-editor-core';

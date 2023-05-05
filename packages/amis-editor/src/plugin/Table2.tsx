@@ -23,7 +23,7 @@ import {
   getEventControlConfig,
   getArgsWrapper
 } from '../renderer/event-control/helper';
-import type {SchemaObject} from 'amis/lib/Schema';
+import type {SchemaObject} from 'amis';
 import {resolveArrayDatasource} from '../util';
 
 export class Table2Plugin extends BasePlugin {

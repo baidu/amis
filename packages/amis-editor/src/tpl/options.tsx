@@ -5,11 +5,10 @@ import {
   getI18nEnabled
 } from 'amis-editor-core';
 import {tipedLabel} from 'amis-editor-core';
-import type {SchemaObject} from 'amis/lib/Schema';
+import type {SchemaObject} from 'amis';
 import assign from 'lodash/assign';
 import cloneDeep from 'lodash/cloneDeep';
 import omit from 'lodash/omit';
-import get from 'lodash/get';
 
 setSchemaTpl('options', () => {
   const i18nEnabled = getI18nEnabled();

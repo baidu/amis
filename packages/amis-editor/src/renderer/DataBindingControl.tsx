@@ -21,7 +21,7 @@ import React from 'react';
 import {EditorManager, EditorNodeType, autobind} from 'amis-editor-core';
 import type {DSField, DSFieldGroup} from 'amis-editor-core';
 import {matchSorter} from 'match-sorter';
-import type {SchemaCollection} from 'amis/lib/Schema';
+import type {SchemaCollection} from 'amis';
 import {default as cx} from 'classnames';
 
 export interface DataBindingProps extends FormControlProps {
