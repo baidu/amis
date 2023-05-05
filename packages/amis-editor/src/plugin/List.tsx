@@ -13,8 +13,11 @@ import {
 } from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {diff, JSONPipeOut, repeatArray} from 'amis-editor-core';
-import {resolveArrayDatasource} from '../util';
-import {schemaArrayFormat, resolveArrayDatasource, schemaToArray} from '../util';
+import {
+  schemaArrayFormat,
+  resolveArrayDatasource,
+  schemaToArray
+} from '../util';
 
 export class ListPlugin extends BasePlugin {
   // 关联渲染器名字
