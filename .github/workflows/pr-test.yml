@@ -30,7 +30,12 @@ jobs:
           cd packages/ooxml-viewer
           npm i --legacy-peer-deps
           cd ../../
-          npm run build --workspaces
+          npm run build --workspace amis-core
+          npm run build --workspace amis-formula
+          npm run build --workspace amis-ui
+          npm run build --workspace amis
+          npm run build --workspace amis-editor-core
+          npm run build --workspace amis-editor
       - name: typescript check
         env:
           NODE_OPTIONS: '--max-old-space-size=8192'
