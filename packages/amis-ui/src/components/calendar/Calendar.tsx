@@ -12,6 +12,8 @@ import {
   utils
 } from 'amis-core';
 import {PickerOption} from '../PickerColumn';
+import 'moment/locale/zh-cn';
+import 'moment/locale/de';
 
 export type DateType =
   | 'year'
