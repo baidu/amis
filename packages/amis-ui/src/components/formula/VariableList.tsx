@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {themeable, ThemeProps, findTree} from 'amis-core';
+import {themeable, ThemeProps, findTreeAll} from 'amis-core';
 import GroupedSelection from '../GroupedSelection';
 import Tabs, {Tab} from '../Tabs';
 import TreeSelection from '../TreeSelection';
@@ -75,8 +75,8 @@ function VariableList(props: VariableListProps) {
         };
 
   function onSearch(term: string) {
-    const tree = findTree(list, i => ~i.label.indexOf(term));
-    setFilterVars(!term ? list : tree ? [tree] : []);
+    const tree = findTreeAll(list, i => ~i.label.indexOf(term));
+    setFilterVars(!term ? list : tree);
   }
 
   function renderSearchBox() {
