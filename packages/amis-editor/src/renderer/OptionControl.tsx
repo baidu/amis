@@ -25,9 +25,8 @@ import {tipedLabel} from 'amis-editor-core';
 
 import type {Option} from 'amis';
 import {createObject, FormControlProps} from 'amis-core';
-import type {TextControlSchema} from 'amis/lib/renderers/Form/inputText';
 import type {OptionValue} from 'amis-core';
-import type {SchemaApi} from 'amis/lib/Schema';
+import type {SchemaApi} from 'amis';
 
 export type valueType = 'text' | 'boolean' | 'number';
 

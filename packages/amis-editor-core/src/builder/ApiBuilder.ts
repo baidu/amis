@@ -12,8 +12,8 @@ import {
 } from './DSBuilder';
 import cloneDeep from 'lodash/cloneDeep';
 import {getEnv} from 'mobx-state-tree';
-import type {ButtonSchema} from 'amis/lib/renderers/Action';
-import type {FormSchema, SchemaCollection, SchemaObject} from 'amis/lib/Schema';
+import type {ButtonSchema} from 'amis';
+import type {FormSchema, SchemaCollection, SchemaObject} from 'amis';
 
 import type {DSSourceSettingFormConfig} from './DSBuilder';
 import {getSchemaTpl, tipedLabel} from '../tpl';

@@ -23,7 +23,7 @@ import {getSchemaTpl, tipedLabel} from 'amis-editor-core';
 
 import type {Option} from 'amis';
 import type {FormControlProps} from 'amis-core';
-import type {SchemaApi, SchemaObject} from 'amis/lib/Schema';
+import type {SchemaApi} from 'amis';
 
 export type OptionControlItem = Option & {checked?: boolean; _key?: string};
 

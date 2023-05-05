@@ -11,10 +11,10 @@ import {FormItem, Button, Overlay, PopOver, Icon, Switch} from 'amis';
 
 import {isObject, autobind} from 'amis-editor-core';
 
-import type {Action} from 'amis/lib/types';
-import type {SchemaCollection} from 'amis/lib/Schema';
+import type {Action} from 'amis';
+import type {SchemaCollection} from 'amis';
 import type {IScopedContext} from 'amis-core';
-import type {FormSchema} from 'amis/lib/schema';
+import type {FormSchema} from 'amis';
 import type {FormControlProps} from 'amis-core';
 import {fromPairs, some} from 'lodash';
 
