@@ -31,3 +31,8 @@ jobs:
           npm run build --workspaces
           npm test --workspaces
           sh deploy-gh-pages.sh
+      - name: typescript check
+        env:
+          NODE_OPTIONS: '--max-old-space-size=8192'
+        run: |
+          npm run typecheck

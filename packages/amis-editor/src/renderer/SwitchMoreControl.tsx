@@ -11,7 +11,7 @@ import {FormItem, Button, Overlay, PopOver, Icon, Switch} from 'amis';
 
 import {isObject, autobind} from 'amis-editor-core';
 
-import type {Action} from 'amis';
+import type {Action} from 'amis/lib/types';
 import type {SchemaCollection} from 'amis/lib/Schema';
 import type {IScopedContext} from 'amis-core';
 import type {FormSchema} from 'amis/lib/schema';
@@ -33,7 +33,7 @@ export interface SwitchMoreProps extends FormControlProps {
   // offset?: ((clip: object, offset: object) => Offset) | Offset;
   // style?: object;
   overlay?: boolean;
-  container?: HTMLElement | (() => HTMLElement) | Function;
+  container?: HTMLElement | (() => HTMLElement);
   target?: React.ReactNode | Function;
   trueValue?: any; // 开关开启时匹配的 value， 默认 true
   falseValue?: any; // 开关关闭时匹配的 value， 默认 flase

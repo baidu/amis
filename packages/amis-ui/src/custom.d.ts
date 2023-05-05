@@ -12,3 +12,7 @@ declare module '*.scss' {
   const content: any;
   export default content;
 }
+
+declare global {
+  var amis: any;
+}

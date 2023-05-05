@@ -325,7 +325,7 @@ export default class BadgeControl extends React.Component<
             name: 'checked',
             mode: 'horizontal',
             value: checked,
-            onChange: checked => this.handleSwitchChange(checked)
+            onChange: (checked: boolean) => this.handleSwitchChange(checked)
           })
         )}
         {checked ? this.renderBody() : null}

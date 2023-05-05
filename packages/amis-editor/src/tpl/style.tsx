@@ -430,8 +430,7 @@ setSchemaTpl(
   'theme:cssCode',
   ({
     themeClass = [],
-    isFormItem,
-    isLayout
+    isFormItem
   }: {
     themeClass?: any[];
     isFormItem?: boolean;

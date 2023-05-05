@@ -402,7 +402,7 @@ export default class NavSourceControl extends React.Component<
         </div>
         {children && children.length ? (
           <>
-            {children.map((item, id: number) => {
+            {children.map((item: any, id: number) => {
               return this.renderOption({...item, index: `${index}_${id}`});
             })}
             <Button onClick={() => this.handleAddChildren(index, true)}>
