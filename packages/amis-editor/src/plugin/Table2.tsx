@@ -25,7 +25,7 @@ import {
   getEventControlConfig,
   getArgsWrapper
 } from '../renderer/event-control/helper';
-import type {SchemaObject} from 'amis/lib/Schema';
+import type {SchemaObject} from 'amis';
 
 export class Table2Plugin extends BasePlugin {
   // 关联渲染器名字

@@ -1,5 +1,5 @@
 import {setSchemaTpl, getSchemaTpl, defaultValue} from 'amis-editor-core';
-import type {SchemaCollection} from 'amis/lib/Schema';
+import type {SchemaCollection} from 'amis';
 import kebabCase from 'lodash/kebabCase';
 
 setSchemaTpl('style:formItem', ({renderer, schema}: any) => {
@@ -430,8 +430,7 @@ setSchemaTpl(
   'theme:cssCode',
   ({
     themeClass = [],
-    isFormItem,
-    isLayout
+    isFormItem
   }: {
     themeClass?: any[];
     isFormItem?: boolean;

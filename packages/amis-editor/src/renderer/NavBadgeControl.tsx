@@ -16,7 +16,7 @@ import {
 import {defaultValue, tipedLabel, getSchemaTpl} from 'amis-editor-core';
 
 import type {FormControlProps} from 'amis-core';
-import type {SchemaExpression} from 'amis/lib/Schema';
+import type {SchemaExpression} from 'amis';
 
 export interface BadgeControlProps extends FormControlProps {
   /**
@@ -325,7 +325,7 @@ export default class BadgeControl extends React.Component<
             name: 'checked',
             mode: 'horizontal',
             value: checked,
-            onChange: checked => this.handleSwitchChange(checked)
+            onChange: (checked: boolean) => this.handleSwitchChange(checked)
           })
         )}
         {checked ? this.renderBody() : null}

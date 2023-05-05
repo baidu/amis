@@ -154,8 +154,38 @@ import './renderers/OfficeViewer';
 
 import './compat';
 import './schemaExtend';
-import type {BaseSchema, SchemaCollection} from './Schema';
+import type {
+  BaseSchema,
+  FormSchema,
+  SchemaApi,
+  SchemaCollection,
+  SchemaExpression,
+  SchemaObject
+} from './Schema';
+import type {TableViewSchema, TrObject} from './renderers/TableView';
+import type {ActionSchema, ButtonSchema} from './renderers/Action';
+import type {CRUDCommonSchema} from './renderers/CRUD';
+import type {CRUD2Schema} from './renderers/CRUD2';
+import type {TabsSchema} from './renderers/Tabs';
+import {availableLanguages as EditorAvailableLanguages} from './renderers/Form/Editor';
+import type {Action} from './types';
 export * from './renderers/Form/IconPickerIcons';
 export * from './renderers/Form/IconSelectStore';
 
-export {BaseSchema, SchemaCollection};
+export {
+  BaseSchema,
+  SchemaCollection,
+  FormSchema,
+  SchemaApi,
+  SchemaObject,
+  TableViewSchema,
+  TrObject,
+  ActionSchema,
+  CRUDCommonSchema,
+  ButtonSchema,
+  CRUD2Schema,
+  TabsSchema,
+  SchemaExpression,
+  Action,
+  EditorAvailableLanguages
+};

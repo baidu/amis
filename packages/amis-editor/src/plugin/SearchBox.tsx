@@ -8,7 +8,7 @@ import {
 import {getSchemaTpl} from 'amis-editor-core';
 import {getEventControlConfig} from '../renderer/event-control/helper';
 
-import type {SchemaObject} from 'amis/lib/Schema';
+import type {Schema} from 'amis-core';
 
 export class SearchBoxPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -25,7 +25,7 @@ export class SearchBoxPlugin extends BasePlugin {
   pluginIcon = 'search-box-plugin';
   tags = ['表单项'];
 
-  scaffold: SchemaObject = {
+  scaffold: Schema = {
     type: 'search-box',
     body: {
       type: 'tpl',

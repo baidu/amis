@@ -24,10 +24,10 @@ import {
   RendererPluginEvent
 } from 'amis-editor-core';
 import {flattenDeep, fromPairs, isObject, remove} from 'lodash';
-import type {ButtonSchema} from 'amis/lib/renderers/Action';
-import type {FormSchema, SchemaObject} from 'amis/lib/Schema';
+import type {ButtonSchema} from 'amis';
+import type {FormSchema, SchemaObject} from 'amis';
 import {findTree} from 'amis';
-import type {CRUD2Schema} from 'amis/lib/renderers/CRUD2';
+import type {CRUD2Schema} from 'amis';
 import {FeatureOption} from '../renderer/FeatureControl';
 import {getArgsWrapper} from '../renderer/event-control/helper';
 

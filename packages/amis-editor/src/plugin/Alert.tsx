@@ -2,7 +2,7 @@ import React from 'react';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BaseEventContext, BasePlugin} from 'amis-editor-core';
 import {getSchemaTpl} from 'amis-editor-core';
-import type {SchemaObject} from 'amis/lib/Schema';
+import type {SchemaObject} from 'amis';
 
 export class AlertPlugin extends BasePlugin {
   static scene = ['layout'];
