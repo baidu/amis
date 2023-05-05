@@ -360,13 +360,9 @@ export class TablePlugin extends BasePlugin {
 
               isCRUDBody
                 ? null
-                : {
-                    name: 'source',
-                    type: 'input-text',
-                    label: '数据源',
-                    pipeIn: defaultValue('${items}'),
-                    description: '绑定当前环境变量'
-                  },
+                : getSchemaTpl('sourceBindControl', {
+                    label: '数据源'
+                  }),
 
               {
                 name: 'combineNum',
