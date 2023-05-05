@@ -11,7 +11,7 @@ import {
   resolveRenderer
 } from './factory';
 import {asFormItem} from './renderers/Item';
-import {ScopedContext} from './Scoped';
+import {IScopedContext, ScopedContext} from './Scoped';
 import {Schema, SchemaNode} from './types';
 import {DebugWrapper} from './utils/debug';
 import getExprProperties from './utils/filter-schema';
@@ -29,7 +29,7 @@ interface SchemaRendererProps extends Partial<RendererProps> {
   env: RendererEnv;
 }
 
-const defaultOmitList = [
+export const RENDERER_TRANSMISSION_OMIT_PROPS = [
   'type',
   'name',
   '$ref',
@@ -54,7 +54,9 @@ const defaultOmitList = [
   'mode',
   'body',
   'id',
-  'inputOnly'
+  'inputOnly',
+  'label',
+  'renderLabel'
 ];
 
 const componentCache: SimpleMap = new SimpleMap();
@@ -207,7 +209,12 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     data: any,
     renderer?: React.Component<RendererProps> // for didmount
   ): Promise<RendererEvent<any> | void> {
-    return await dispatchEvent(e, this.cRef || renderer, this.context, data);
+    return await dispatchEvent(
+      e,
+      this.cRef || renderer,
+      this.context as IScopedContext,
+      data
+    );
   }
 
   renderChild(
@@ -221,7 +228,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     let {schema: _, $path: __, env, render, ...rest} = this.props;
     let {path: $path} = this.resolveRenderer(this.props);
 
-    const omitList = defaultOmitList.concat();
+    const omitList = RENDERER_TRANSMISSION_OMIT_PROPS.concat();
     if (this.renderer) {
       const Component = this.renderer.component;
       Component.propsList &&

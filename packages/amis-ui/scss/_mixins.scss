@@ -417,7 +417,6 @@
 
   svg {
     fill: var(--Form-input-clearBtn-color);
-    top: 0;
     width: var(--Form-input-clearBtn-size);
     height: var(--Form-input-clearBtn-size);
   }
@@ -451,7 +450,7 @@
     border: none;
     color: var(--Form-input-color);
     width: 100%;
-    height: calc(var(--Form-input-lineHeight) * var(--Form-input-fontSize));
+    height: var(--Form-input-lineHeight);
 
     &::placeholder {
       color: var(--Form-input-placeholderColor);

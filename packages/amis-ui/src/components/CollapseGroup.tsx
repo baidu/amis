@@ -25,6 +25,7 @@ export interface CollapseGroupProps {
   style?: any;
   classnames: ClassNamesFn;
   classPrefix: string;
+  children?: React.ReactNode | Array<React.ReactNode>;
 }
 
 export interface CollapseGroupState {
@@ -59,7 +60,7 @@ class CollapseGroup extends React.Component<
   updateActiveKey(propsActiveKey: any, isInit?: boolean) {
     const props = this.props;
     let curActiveKey = propsActiveKey;
-    
+
     if (!Array.isArray(curActiveKey)) {
       curActiveKey = curActiveKey ? [curActiveKey] : [];
     }

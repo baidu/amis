@@ -145,6 +145,7 @@
     @include input-clear();
     line-height: 1;
     svg {
+      top: 0;
       width: var(--inputDate-default-icon-size);
       height: var(--inputDate-default-icon-size);
     }
@@ -778,7 +779,9 @@ td.rdtQuarter {
 
 .#{$ns}DateCalendar {
   display: inline-block;
-  border: var(--DatePicker-borderWidth) solid var(--DatePicker-borderColor);
+  border-width: var(--DatePicker-borderWidth);
+  border-style: var(--DatePicker-borderStyle);
+  border-color: var(--DatePicker-borderColor);
   background: var(--DatePicker-bg);
   border-radius: var(--DatePicker-borderRadius);
 }

@@ -387,6 +387,8 @@ Access-Control-Expose-Headers:  Content-Disposition
 
 主要用于发验证码的场景，通过设置倒计时 `countDown`（单位是秒），让点击按钮后禁用一段时间：
 
+> 如果同时使用多个倒计时组件时, 需要额外配置全局唯一的`name`或`id`属性, 避免多个组件之间的计时器冲突
+
 ```schema: scope="body"
 {
   "type": "form",
@@ -397,6 +399,7 @@ Access-Control-Expose-Headers:  Content-Disposition
       "required": true,
       "label": "手机号",
       "addOn": {
+        "name": "countdown1",
         "label": "发送验证码",
         "type": "button",
         "countDown": 60,
@@ -1028,10 +1031,13 @@ action 还可以使用 `body` 来渲染其他组件，让那些不支持行为�
 | confirmText        | [模板](../../docs/concepts/template) | -           | 当设置后，操作在开始前会询问用户。可用 `${xxx}` 取值。                                                                                                                      |
 | reload             | `string`                             | -           | 指定此次操作完后，需要刷新的目标组件名字（组件的`name`值，自己配置的），多个请用 `,` 号隔开。                                                                               |
 | tooltip            | `string`                             | -           | 鼠标停留时弹出该段文字，也可以配置对象类型：字段为`title`和`content`。可用 `${xxx}` 取值。                                                                                  |
-| disabledTip        | `string`                             | -           | 被禁用后鼠标停留时弹出该段文字，也可以配置对象类型：字段为`title`和`content`。可用 `${xxx}` 取值。                                                                          |
+| disabledTip        | `'string' \| 'TooltipObject'`                             | -           | 被禁用后鼠标停留时弹出该段文字，也可以配置对象类型：字段为`title`和`content`。可用 `${xxx}` 取值。                                                                          |
 | tooltipPlacement   | `string`                             | `top`       | 如果配置了`tooltip`或者`disabledTip`，指定提示信息位置，可配置`top`、`bottom`、`left`、`right`。                                                                            |
 | close              | `boolean` or `string`                | -           | 当`action`配置在`dialog`或`drawer`的`actions`中时，配置为`true`指定此次操作完后关闭当前`dialog`或`drawer`。当值为字符串，并且是祖先层弹框的名字的时候，会把祖先弹框关闭掉。 |
 | required           | `Array<string>`                      | -           | 配置字符串数组，指定在`form`中进行操作之前，需要指定的字段名的表单项通过验证                                                                                                |
+
+### TooltipObject
+`TooltipObject` 为 [tooltip-wrapper](./tooltip) 属性配置，但是不需要配置如下属性 `type`、`body`、`wrapperComponent`、`className`、`inline`。
 
 ## 事件表
 

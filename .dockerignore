@@ -5,3 +5,4 @@ npm/
 .git/
 .github/
 .vscode/
+.rollup.cache

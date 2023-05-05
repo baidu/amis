@@ -21,6 +21,7 @@ export interface TagProps extends ThemeProps {
   onClick?: (e: React.MouseEvent) => void;
   onMouseEnter?: (e: React.MouseEvent) => void;
   onMouseLeave?: (e: React.MouseEvent) => void;
+  children?: React.ReactNode | Array<React.ReactNode>;
 }
 
 export interface CheckableTagProps extends TagProps {
@@ -113,8 +114,7 @@ export class Tag extends React.Component<TagProps> {
       color,
       icon,
       style,
-      label,
-      closable
+      label
     } = this.props;
 
     const isPresetColor =
@@ -129,21 +129,29 @@ export class Tag extends React.Component<TagProps> {
       ...style
     };
 
-    const prevIcon = displayMode === 'status' && (
-      <span className={cx('Tag--prev')}>
-        {typeof icon === 'string' ? (
-          getIcon(icon) ? (
-            <Icon icon={icon} className="icon" />
-          ) : (
-            generateIcon(cx, icon, 'Icon')
-          )
-        ) : React.isValidElement(icon) ? (
-          icon
-        ) : (
-          <Icon icon="dot" className="icon" />
-        )}
-      </span>
-    );
+    let prevIcon;
+    if (displayMode === 'status') {
+      let iconItem;
+      if (icon) {
+        if (typeof icon === 'string' && getIcon(icon)) {
+          iconItem = <Icon icon={icon} className="icon" />;
+        } else {
+          iconItem = generateIcon(cx, icon, 'Icon');
+        }
+      }
+      if (!iconItem) {
+        iconItem = (
+          <Icon icon="dot" className={cx('icon', 'Tag-default-icon')} />
+        );
+      }
+
+      const prevIconStyle = customColor ? {style: {color: customColor}} : {};
+      prevIcon = (
+        <span className={cx('Tag--prev')} {...prevIconStyle}>
+          {iconItem}
+        </span>
+      );
+    }
 
     return (
       <span

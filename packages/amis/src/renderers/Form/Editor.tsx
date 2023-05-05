@@ -191,7 +191,7 @@ export default class EditorControl extends React.Component<EditorProps, any> {
 
     const rendererEvent = await dispatchEvent(
       'focus',
-      resolveEventData(this.props, {value}, 'value')
+      resolveEventData(this.props, {value})
     );
 
     if (rendererEvent?.prevented) {
@@ -210,7 +210,7 @@ export default class EditorControl extends React.Component<EditorProps, any> {
 
     const rendererEvent = await dispatchEvent(
       'blur',
-      resolveEventData(this.props, {value}, 'value')
+      resolveEventData(this.props, {value})
     );
 
     if (rendererEvent?.prevented) {
@@ -225,7 +225,7 @@ export default class EditorControl extends React.Component<EditorProps, any> {
 
     const rendererEvent = await dispatchEvent(
       'change',
-      resolveEventData(this.props, {value: e}, 'value')
+      resolveEventData(this.props, {value: e})
     );
 
     if (rendererEvent?.prevented) {

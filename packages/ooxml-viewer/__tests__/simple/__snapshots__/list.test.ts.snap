@@ -1,0 +1,100 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`list 1`] = `
+<article>
+  <section
+    style="position: relative; width: 815.98px; padding: 96.00px 96.00px 96.00px 96.00px;"
+  >
+    <p
+      class="docx-viewer-0-p docx-viewer-0-Normal docx-viewer-0-Heading1"
+      style="position: relative; text-indent: -28.33px; margin-left: 28.33px;"
+    >
+      <span>
+         
+      </span>
+      <span
+        class="docx-viewer-0-r"
+        style="font-family: "Microsoft YaHei";"
+      >
+        总体结论
+      </span>
+    </p>
+    <p
+      class="docx-viewer-0-p docx-viewer-0-Normal docx-viewer-0-Heading2"
+      style="position: relative; text-indent: -37.80px; margin-left: 66.13px;"
+    >
+      <span>
+         
+      </span>
+      <span
+        class="docx-viewer-0-r"
+        style="font-family: "Microsoft YaHei";"
+      >
+        整体情况
+      </span>
+    </p>
+    <p
+      class="docx-viewer-0-p docx-viewer-0-Normal docx-viewer-0-Heading2"
+      style="position: relative; text-indent: -37.80px; margin-left: 66.13px;"
+    >
+      <span>
+         
+      </span>
+      <span
+        class="docx-viewer-0-r"
+        style="font-family: "Microsoft YaHei";"
+      >
+        差异对比
+      </span>
+    </p>
+    <p
+      class="docx-viewer-0-p docx-viewer-0-Normal docx-viewer-0-Heading1"
+      style="position: relative; text-indent: -28.33px; margin-left: 28.33px;"
+    >
+      <span>
+         
+      </span>
+      <span
+        class="docx-viewer-0-r"
+        style="font-family: "Microsoft YaHei";"
+      >
+        Doc
+      </span>
+    </p>
+    <p
+      class="docx-viewer-0-p docx-viewer-0-Normal docx-viewer-0-Heading2"
+      style="position: relative; text-indent: -37.80px; margin-left: 66.13px;"
+    >
+      <span>
+         
+      </span>
+      <span
+        class="docx-viewer-0-r"
+        style="font-family: "Microsoft YaHei";"
+      >
+        总体结论
+      </span>
+    </p>
+    <p
+      class="docx-viewer-0-p docx-viewer-0-Normal docx-viewer-0-Heading2"
+      style="position: relative; text-indent: -37.80px; margin-left: 66.13px;"
+    >
+      <span>
+         
+      </span>
+      <span
+        class="docx-viewer-0-r"
+        style="font-family: "Microsoft YaHei";"
+      >
+        Doc文档
+      </span>
+    </p>
+    <p
+      class="docx-viewer-0-p"
+      style="position: relative;"
+    >
+       
+    </p>
+  </section>
+</article>
+`;

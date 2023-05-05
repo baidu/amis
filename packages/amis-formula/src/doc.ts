@@ -1030,6 +1030,50 @@ export const doc: {
     namespace: "日期函数"
   },
   {
+    name: "WEEKDAY",
+    description: "获取日期的星期几，\n\n示例：\n\nWEEKDAY('2023-02-27') 得到 1",
+    example: "WEEKDAY(date)",
+    params: [
+      {
+        type: "any",
+        name: "date",
+        description: "日期"
+      },
+      {
+        type: "number",
+        name: "type",
+        description: "星期定义类型，默认为1，1表示0至6代表星期一到星期日，2表示1至7代表星期一到星期日"
+      }
+    ],
+    returns: {
+      type: "number",
+      description: "星期几的数字标识"
+    },
+    namespace: "日期函数"
+  },
+  {
+    name: "WEEK",
+    description: "获取年份的星期，即第几周\n\n示例：\n\nWEEK('2023-03-05') 得到 10",
+    example: "WEEK(date)",
+    params: [
+      {
+        type: "any",
+        name: "date",
+        description: "日期"
+      },
+      {
+        type: "boolean",
+        name: "isISO",
+        description: "是否ISO星期"
+      }
+    ],
+    returns: {
+      type: "number",
+      description: "星期几的数字标识"
+    },
+    namespace: "日期函数"
+  },
+  {
     name: "DATETOSTR",
     description: "对日期、日期字符串、时间戳进行格式化\n\n示例：\n\nDATETOSTR('12/25/2022', 'YYYY-MM-DD') 得到 '2022.12.25'\nDATETOSTR(1676563200, 'YYYY.MM.DD') 得到 '2023.02.17'\nDATETOSTR(1676563200000, 'YYYY.MM.DD hh:mm:ss') 得到 '2023.02.17 12:00:00'\nDATETOSTR(DATE('2021-12-21'), 'YYYY.MM.DD hh:mm:ss') 得到 '2021.12.21 08:00:00'",
     example: "DATETOSTR(date, 'YYYY-MM-DD')",
@@ -1097,6 +1141,11 @@ export const doc: {
         type: "string",
         name: "unit",
         description: "比如可以传入 'day'、'month'、'year' 或者 `week` 等等"
+      },
+      {
+        type: "string",
+        name: "format",
+        description: "日期格式，可选"
       }
     ],
     returns: {
@@ -1119,6 +1168,11 @@ export const doc: {
         type: "string",
         name: "unit",
         description: "比如可以传入 'day'、'month'、'year' 或者 `week` 等等"
+      },
+      {
+        type: "string",
+        name: "format",
+        description: "日期格式，可选"
       }
     ],
     returns: {
@@ -1421,6 +1475,38 @@ export const doc: {
     namespace: "日期函数"
   },
   {
+    name: "BETWEENRANGE",
+    description: "判断日期是否在指定范围内\n\n示例：BETWEENRANGE('2021/12/6', ['2021/12/5','2021/12/7'])",
+    example: "BETWEENRANGE(date, [start, end])",
+    params: [
+      {
+        type: "any",
+        name: "date",
+        description: "第一个日期"
+      },
+      {
+        type: "Array<any>",
+        name: "daterange",
+        description: "日期范围"
+      },
+      {
+        type: "string",
+        name: "unit",
+        description: "单位，默认是 'day'， 即之比较到天"
+      },
+      {
+        type: "string",
+        name: "inclusivity",
+        description: "包容性规则，默认为'[]'。[ 表示包含、( 表示排除，如果使用包容性参数，则必须传入两个指示符，如'()'表示左右范围都排除"
+      }
+    ],
+    returns: {
+      type: "boolean",
+      description: "判断结果"
+    },
+    namespace: "日期函数"
+  },
+  {
     name: "ISSAMEORBEFORE",
     description: "判断两个日期，是否第一个日期在第二个日期的前面或者相等",
     example: "ISSAMEORBEFORE(a, b)",
@@ -1646,33 +1732,6 @@ export const doc: {
     namespace: "数组"
   },
   {
-    name: "GET",
-    description: "根据对象或者数组的path路径获取值。 如果解析 value 是 undefined 会以 defaultValue 取代\n\n示例：\n\nGET([0, 2, {name: 'amis', age: 18}], 1) 得到 2\nGET([0, 2, {name: 'amis', age: 18}], '2.name') 得到 'amis'\nGET({arr: [{name: 'amis', age: 18}]}, 'arr[0].name') 得到 'amis'\nGET({arr: [{name: 'amis', age: 18}]}, 'arr.0.name') 得到 'amis'\nGET({arr: [{name: 'amis', age: 18}]}, 'arr.1.name', 'not-found') 得到 'not-found'",
-    example: "GET(arr, 2)",
-    params: [
-      {
-        type: "any",
-        name: "obj",
-        description: "对象或数组"
-      },
-      {
-        type: "string",
-        name: "path",
-        description: "路径"
-      },
-      {
-        type: "any",
-        name: "defaultValue",
-        description: "如果解析不到则返回该值"
-      }
-    ],
-    returns: {
-      type: "any",
-      description: "结果"
-    },
-    namespace: "其他"
-  },
-  {
     name: "COMPACT",
     description: "数组过滤掉 false、null、0 和 \"\"\n\n示例：\n\nCOMPACT([0, 1, false, 2, '', 3]) 得到 [1, 2, 3]",
     example: "COMPACT(arr)",
@@ -1751,6 +1810,67 @@ export const doc: {
     namespace: "数组"
   },
   {
+    name: "ENCODEJSON",
+    description: "将JS对象转换成JSON字符串\n\n示例：\n\nENCODEJSON({name: 'amis'}) 得到 '{\"name\":\"amis\"}'",
+    example: "ENCODEJSON({name: 'amis'})",
+    params: [
+      {
+        type: "object",
+        name: "obj",
+        description: "JS对象"
+      }
+    ],
+    returns: {
+      type: "string",
+      description: "结果"
+    },
+    namespace: "编码"
+  },
+  {
+    name: "DECODEJSON",
+    description: "解析JSON编码数据，返回JS对象\n\n示例：\n\nDECODEJSON('{\\\"name\\\": \"amis\"}') 得到 {name: 'amis'}",
+    example: "DECODEJSON('{\\\"name\\\": \"amis\"}')",
+    params: [
+      {
+        type: "string",
+        name: "str",
+        description: "字符串"
+      }
+    ],
+    returns: {
+      type: "object",
+      description: "结果"
+    },
+    namespace: "编码"
+  },
+  {
+    name: "GET",
+    description: "根据对象或者数组的path路径获取值。 如果解析 value 是 undefined 会以 defaultValue 取代\n\n示例：\n\nGET([0, 2, {name: 'amis', age: 18}], 1) 得到 2\nGET([0, 2, {name: 'amis', age: 18}], '2.name') 得到 'amis'\nGET({arr: [{name: 'amis', age: 18}]}, 'arr[0].name') 得到 'amis'\nGET({arr: [{name: 'amis', age: 18}]}, 'arr.0.name') 得到 'amis'\nGET({arr: [{name: 'amis', age: 18}]}, 'arr.1.name', 'not-found') 得到 'not-found'",
+    example: "GET(arr, 2)",
+    params: [
+      {
+        type: "any",
+        name: "obj",
+        description: "对象或数组"
+      },
+      {
+        type: "string",
+        name: "path",
+        description: "路径"
+      },
+      {
+        type: "any",
+        name: "defaultValue",
+        description: "如果解析不到则返回该值"
+      }
+    ],
+    returns: {
+      type: "any",
+      description: "结果"
+    },
+    namespace: "其他"
+  },
+  {
     name: "ISTYPE",
     description: "判断是否为类型支持：string, number, array, date, plain-object。",
     example: "ISTYPE([{a: '1'}, {b: '2'}, {a: '1'}], 'array')",
@@ -1763,7 +1883,7 @@ export const doc: {
     ],
     returns: {
       type: "boolean",
-      description: "结果结果"
+      description: "结果"
     },
     namespace: "其他"
   }

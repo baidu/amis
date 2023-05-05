@@ -570,7 +570,11 @@ export default class Dialog extends React.Component<DialogProps> {
                 onClick={this.handleSelfClose}
                 className={cx('Modal-close')}
               >
-                <Icon icon="close" className="icon" />
+                <Icon
+                  icon="close"
+                  className="icon"
+                  iconContent="Dialog-close"
+                />
               </a>
             ) : null}
             <div className={cx('Modal-title')}>
@@ -585,7 +589,11 @@ export default class Dialog extends React.Component<DialogProps> {
                 onClick={this.handleSelfClose}
                 className={cx('Modal-close')}
               >
-                <Icon icon="close" className="icon" />
+                <Icon
+                  icon="close"
+                  className="icon"
+                  iconContent="Dialog-close"
+                />
               </a>
             ) : null}
             {render('title', title, {
@@ -599,7 +607,7 @@ export default class Dialog extends React.Component<DialogProps> {
             onClick={this.handleSelfClose}
             className={cx('Modal-close')}
           >
-            <Icon icon="close" className="icon" />
+            <Icon icon="close" className="icon" iconContent="Dialog-close" />
           </a>
         ) : null}
 
@@ -756,7 +764,8 @@ export class DialogRenderer extends Dialog {
             (action.type === 'submit' ||
               action.actionType === 'submit' ||
               action.actionType === 'confirm') &&
-            action.close !== false
+            action.close !== false &&
+            !targets.some(item => item.props.closeDialogOnSubmit === false)
           ) {
             onConfirm && onConfirm(values, rawAction || action, ctx, targets);
           } else if (action.close) {
@@ -890,7 +899,8 @@ export class DialogRenderer extends Dialog {
           const reidrect =
             action.redirect && filter(action.redirect, store.data);
           reidrect && env.jumpTo(reidrect, action);
-          action.reload && this.reloadTarget(action.reload, store.data);
+          action.reload &&
+            this.reloadTarget(filter(action.reload, store.data), store.data);
           if (action.close) {
             this.handleSelfClose();
             this.closeTarget(action.close);

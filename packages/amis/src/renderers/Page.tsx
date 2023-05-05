@@ -42,17 +42,12 @@ import {PullRefresh} from 'amis-ui';
 import {scrollPosition, isMobile} from 'amis-core';
 
 /**
- * 样式属性名及值
- */
-interface Declaration {
-  [property: string]: string;
-}
-
-/**
  * css 定义
  */
 interface CSSRule {
-  [selector: string]: Declaration; // 定义
+  [selector: string]:
+    | Record<string, string>
+    | Record<string, Record<string, string>>; // 定义
 }
 
 /**
@@ -333,7 +328,16 @@ export default class Page extends React.Component<PageProps> {
       const declaration = cssRules[selector];
       let declarationStr = '';
       for (const property in declaration) {
-        declarationStr += `  ${property}: ${declaration[property]};\n`;
+        let innerstr = '';
+        const innerValue = declaration[property];
+        if (typeof innerValue === 'string') {
+          declarationStr += `  ${property}: ${innerValue};\n`;
+        } else {
+          for (const propsName in innerValue) {
+            innerstr += ` ${propsName}:${innerValue[propsName]};`;
+          }
+          declarationStr += `  ${property} {${innerstr}}\n`;
+        }
       }
 
       css += `
@@ -385,7 +389,8 @@ export default class Page extends React.Component<PageProps> {
       messages,
       asideSticky,
       data,
-      dispatchEvent
+      dispatchEvent,
+      env
     } = this.props;
 
     this.mounted = true;
@@ -398,6 +403,11 @@ export default class Page extends React.Component<PageProps> {
     }
 
     const rendererEvent = await dispatchEvent('init', data, this);
+
+    // Page加载完成时触发 pageLoaded 事件
+    if (env?.tracker) {
+      env.tracker({eventType: 'pageLoaded'});
+    }
 
     if (rendererEvent?.prevented) {
       return;
@@ -474,10 +484,10 @@ export default class Page extends React.Component<PageProps> {
 
     if (action.actionType === 'dialog') {
       store.setCurrentAction(action);
-      store.openDialog(ctx);
+      store.openDialog(ctx, undefined, undefined, delegate);
     } else if (action.actionType === 'drawer') {
       store.setCurrentAction(action);
-      store.openDrawer(ctx);
+      store.openDrawer(ctx, undefined, undefined, delegate);
     } else if (action.actionType === 'ajax') {
       store.setCurrentAction(action);
 
@@ -502,7 +512,8 @@ export default class Page extends React.Component<PageProps> {
           const redirect =
             action.redirect && filter(action.redirect, store.data);
           redirect && env.jumpTo(redirect, action);
-          action.reload && this.reloadTarget(action.reload, store.data);
+          action.reload &&
+            this.reloadTarget(filter(action.reload, store.data), store.data);
         })
         .catch(e => {
           if (throwErrors || action.countDown) {
@@ -1008,11 +1019,12 @@ export class PageRenderer extends Page {
     action: ActionObject,
     ...rest: Array<any>
   ) {
-    super.handleDialogConfirm(values, action, ...rest);
-    const scoped = this.context;
     const store = this.props.store;
     const dialogAction = store.action as ActionObject;
     const reload = action.reload ?? dialogAction.reload;
+    const scoped = store.getDialogScoped() || (this.context as IScopedContext);
+
+    super.handleDialogConfirm(values, action, ...rest);
 
     if (reload) {
       scoped.reload(reload, store.data);
@@ -1030,11 +1042,12 @@ export class PageRenderer extends Page {
     action: ActionObject,
     ...rest: Array<any>
   ) {
-    super.handleDrawerConfirm(values, action);
-    const scoped = this.context as IScopedContext;
     const store = this.props.store;
     const drawerAction = store.action as ActionObject;
     const reload = action.reload ?? drawerAction.reload;
+    const scoped = store.getDrawerScoped() || (this.context as IScopedContext);
+
+    super.handleDrawerConfirm(values, action);
 
     // 稍等会，等动画结束。
     setTimeout(() => {

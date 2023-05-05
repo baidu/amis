@@ -2864,6 +2864,7 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
                           >
                             <label
                               class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--sm"
+                              data-role="checkbox"
                             >
                               <input
                                 type="checkbox"
@@ -2891,6 +2892,7 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
                           >
                             <label
                               class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                              data-role="checkbox"
                             >
                               <input
                                 type="checkbox"
@@ -2920,6 +2922,7 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
                           >
                             <label
                               class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                              data-role="checkbox"
                             >
                               <input
                                 type="checkbox"
@@ -2949,6 +2952,7 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
                           >
                             <label
                               class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                              data-role="checkbox"
                             >
                               <input
                                 type="checkbox"
@@ -2978,6 +2982,7 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
                           >
                             <label
                               class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                              data-role="checkbox"
                             >
                               <input
                                 type="checkbox"
@@ -3007,6 +3012,7 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
                           >
                             <label
                               class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                              data-role="checkbox"
                             >
                               <input
                                 type="checkbox"
@@ -3036,6 +3042,7 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
                           >
                             <label
                               class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                              data-role="checkbox"
                             >
                               <input
                                 type="checkbox"

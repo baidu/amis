@@ -133,7 +133,7 @@ export function localeable<
 
       render() {
         const locale: string =
-          this.props.locale || this.context || defaultLocale;
+          this.props.locale || (this.context as string) || defaultLocale;
         const translate = this.props.translate || makeTranslator(locale);
         const injectedProps: {
           locale: string;

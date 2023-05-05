@@ -143,7 +143,7 @@ export interface TooltipWrapperProps extends RendererProps {
   disabled?: boolean;
   mouseEnterDelay?: number;
   mouseLeaveDelay?: number;
-  container?: React.ReactNode;
+  container?: HTMLElement | (() => HTMLElement);
   style?: React.CSSProperties;
   tooltipStyle?: React.CSSProperties;
   wrapperComponent?: string;
@@ -240,7 +240,12 @@ export default class TooltipWrapper extends React.Component<
       placement,
       trigger,
       rootClose,
-      container: container !== undefined ? container : (env && env.getModalContainer ? env.getModalContainer : undefined),
+      container:
+        container !== undefined
+          ? container
+          : env && env.getModalContainer
+          ? env.getModalContainer
+          : undefined,
       tooltipTheme,
       tooltipClassName,
       mouseEnterDelay,
@@ -248,7 +253,8 @@ export default class TooltipWrapper extends React.Component<
       offset,
       showArrow,
       disabled,
-      enterable
+      enterable,
+      filterHtml: env.filterHtml
     };
 
     return (

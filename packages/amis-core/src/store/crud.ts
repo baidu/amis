@@ -166,14 +166,32 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
             options.columns.forEach((column: any) => {
               let value: any;
               const key = column.name;
-              if (
-                column.searchable &&
-                key &&
-                (value = getVariable(self.query, key))
-              ) {
-                items = matchSorter(items, value, {
-                  keys: [key]
-                });
+
+              if ((column.searchable || column.filterable) && key) {
+                // value可能为null、undefined、''、0
+                value = getVariable(self.query, key);
+                if (value != null) {
+                  if (Array.isArray(value)) {
+                    if (value.length > 0) {
+                      const arr = [...items];
+                      let arrItems: Array<any> = [];
+                      value.forEach(item => {
+                        arrItems = [
+                          ...arrItems,
+                          ...matchSorter(arr, item, {
+                            keys: [key]
+                          })
+                        ];
+                      });
+                      items = items.filter((item: any) => arrItems.find(a => a === item));
+                    }
+                  }
+                  else {
+                    items = matchSorter(items, value, {
+                      keys: [key]
+                    })
+                  }
+                }
               }
             });
           }
@@ -319,9 +337,27 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
                   key &&
                   (value = getVariable(self.query, key))
                 ) {
-                  filteredItems = matchSorter(filteredItems, value, {
-                    keys: [key]
-                  });
+                  if (Array.isArray(value)) {
+                    if (value.length > 0) {
+                      const arr = [...filteredItems];
+                      let arrItems: Array<any> = [];
+                      value.forEach(item => {
+                        arrItems = [
+                          ...arrItems,
+                          ...matchSorter(arr, item, {
+                            keys: [key]
+                          })
+                        ];
+                      });
+                      filteredItems = filteredItems.filter(
+                        item => arrItems.find(a => a === item));
+                    }
+                  }
+                  else {
+                    filteredItems = matchSorter(filteredItems, value, {
+                      keys: [key]
+                    });
+                  }
                 }
               });
             }
@@ -399,7 +435,11 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
 
     function changePage(page: number, perPage?: number | string) {
       self.page = page;
-      perPage && (self.perPage = parseInt(perPage as string, 10));
+      perPage && changePerPage(perPage);
+    }
+
+    function changePerPage(perPage: number | string) {
+      self.perPage = parseInt(perPage as string, 10);
     }
 
     function selectAction(action: ActionObject) {
@@ -611,6 +651,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       updateQuery,
       fetchInitData,
       changePage,
+      changePerPage,
       selectAction,
       saveRemote,
       setFilterTogglable,

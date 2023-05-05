@@ -6,13 +6,13 @@
   > .#{$ns}Button {
     position: relative;
     flex: 0 1 auto;
-    max-width: px2rem(140px);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
-  > .#{$ns}Button {
+  > .#{$ns}Button,
+  .#{$ns}Badge {
     @include hover {
       z-index: 1;
     }
@@ -25,10 +25,22 @@
     }
   }
 
+  .#{$ns}Badge {
+    .#{$ns}Badge-text,
+    .#{$ns}Badge-dot,
+    .#{$ns}Badge-ribbon,
+    .#{$ns}Badge-dot {
+      z-index: 2;
+    }
+  }
+
   .#{$ns}Button + .#{$ns}Button,
   .#{$ns}Button + .#{$ns}ButtonGroup,
+  .#{$ns}Button + .#{$ns}Badge,
   .#{$ns}ButtonGroup + .#{$ns}Button,
-  .#{$ns}ButtonGroup + .#{$ns}ButtonGroup {
+  .#{$ns}ButtonGroup + .#{$ns}ButtonGroup,
+  .#{$ns}Badge + .#{$ns}Badge,
+  .#{$ns}Badge + .#{$ns}Button {
     margin-left: calc(var(--ButtonGroup-borderWidth) * -1);
   }
 
@@ -51,7 +63,8 @@
 }
 
 .#{$ns}ButtonGroup {
-  > .#{$ns}Button:first-child {
+  > .#{$ns}Button:first-child,
+  > .#{$ns}Badge .#{$ns}Button {
     margin-left: 0;
   }
 
@@ -62,13 +75,15 @@
   }
 
   > .#{$ns}Button:not(:last-child),
-  > .#{$ns}ButtonGroup:not(:last-child) > .#{$ns}Button {
+  > .#{$ns}ButtonGroup:not(:last-child) > .#{$ns}Button,
+  > .#{$ns}Badge:not(:last-child) > .#{$ns}Button {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
   }
 
   > .#{$ns}Button:not(:first-child),
-  > .#{$ns}ButtonGroup:not(:first-child) > .#{$ns}Button {
+  > .#{$ns}ButtonGroup:not(:first-child) > .#{$ns}Button,
+  > .#{$ns}Badge:not(:first-child) > .#{$ns}Button {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
   }
@@ -90,33 +105,39 @@
 
   > .#{$ns}Button + .#{$ns}Button,
   > .#{$ns}Button + .#{$ns}ButtonGroup,
+  > .#{$ns}Button + .#{$ns}Badge,
   > .#{$ns}ButtonGroup + .#{$ns}Button,
-  > .#{$ns}ButtonGroup + .#{$ns}ButtonGroup {
+  > .#{$ns}ButtonGroup + .#{$ns}ButtonGroup,
+  > .#{$ns}Badge + .#{$ns}Badge,
+  > .#{$ns}Badge + .#{$ns}Button {
     margin-top: calc(var(--ButtonGroup-borderWidth) * -1);
     margin-left: 0;
   }
-
   > .#{$ns}Button:not(:last-child),
-  > .#{$ns}ButtonGroup:not(:last-child) > .#{$ns}Button {
+  > .#{$ns}ButtonGroup:not(:last-child) > .#{$ns}Button,
+  > .#{$ns}Badge:not(:last-child) > .#{$ns}Button {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
   }
 
   > .#{$ns}Button:not(:first-child),
-  > .#{$ns}ButtonGroup:not(:first-child) > .btn {
+  > .#{$ns}ButtonGroup:not(:first-child) > .btn,
+  > .#{$ns}Badge:not(:first-child) > .btn {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
   }
 
   /* 修正头尾的圆角 */
   > .#{$ns}Button:first-child,
-  > .#{$ns}ButtonGroup:first-child > .#{$ns}Button:first-child {
-    border-top-right-radius: var(--Button-borderRadius);
+  > .#{$ns}ButtonGroup:first-child > .#{$ns}Button:first-child,
+  > .#{$ns}Badge:first-child > .#{$ns}Button:first-child {
+    border-top-right-radius: var(--borders-radius-3);
   }
 
   > .#{$ns}Button:last-child,
-  > .#{$ns}ButtonGroup:last-child > .#{$ns}Button:last-child {
-    border-bottom-left-radius: var(--Button-borderRadius);
+  > .#{$ns}ButtonGroup:last-child > .#{$ns}Button:last-child,
+  > .#{$ns}Badge:last-child > .#{$ns}Button:last-child {
+    border-bottom-left-radius: var(--borders-radius-3);
   }
 }
 

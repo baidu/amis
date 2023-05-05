@@ -27,5 +27,8 @@
     "public/**": true,
     "examples/docs.json": true,
     "examples/components/EChartsEditor/option-parts/**/*": true
+  },
+  "[xml]": {
+    "editor.defaultFormatter": "redhat.vscode-xml"
   }
 }

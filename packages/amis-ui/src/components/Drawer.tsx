@@ -38,6 +38,7 @@ export interface DrawerProps {
   classPrefix: string;
   resizable?: boolean;
   classnames: ClassNamesFn;
+  children?: React.ReactNode | Array<React.ReactNode>;
   onExited?: () => void;
   onEntered?: () => void;
 }
@@ -339,7 +340,11 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
                       onClick={disabled ? undefined : onHide}
                       className={`${ns}Drawer-close`}
                     >
-                      <Icon icon="close" className="icon" />
+                      <Icon
+                        icon="close"
+                        className="icon"
+                        iconContent="Drawer-close"
+                      />
                     </a>
                   ) : null}
                   {status === EXITED ? null : children}

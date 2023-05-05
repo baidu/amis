@@ -106,6 +106,7 @@ export interface OutterProps {
       | {
           loadConfig: (ctx?: any) => Promise<any> | void;
           setConfig: (value: any) => void;
+          syncConfig: () => void;
         }
       | undefined
   ) => void;
@@ -223,7 +224,8 @@ export function withRemoteConfig<P = any>(
           }
 
           componentDidMount() {
-            const env: RendererEnv = this.props.env || this.context;
+            const env: RendererEnv =
+              this.props.env || (this.context as RendererEnv);
             const {store, data} = this.props;
             const source = (this.props as any)[config.sourceField || 'source'];
 
@@ -275,7 +277,8 @@ export function withRemoteConfig<P = any>(
           }
 
           async loadConfig(ctx = this.props.data) {
-            const env: RendererEnv = this.props.env || this.context;
+            const env: RendererEnv =
+              this.props.env || (this.context as RendererEnv);
             const {store} = this.props;
             const source = (this.props as any)[config.sourceField || 'source'];
 
@@ -285,7 +288,8 @@ export function withRemoteConfig<P = any>(
           }
 
           loadAutoComplete(input: string) {
-            const env: RendererEnv = this.props.env || this.context;
+            const env: RendererEnv =
+              this.props.env || (this.context as RendererEnv);
             const {autoComplete, data, store} = this.props;
 
             if (!env || !env.fetcher) {
@@ -329,7 +333,8 @@ export function withRemoteConfig<P = any>(
           async deferLoadConfig(item: any) {
             const {store, data, deferApi} = this.props;
             const source = (this.props as any)[config.sourceField || 'source'];
-            const env: RendererEnv = this.props.env || this.context;
+            const env: RendererEnv =
+              this.props.env || (this.context as RendererEnv);
             const indexes = findTreeIndex(store.config, a => a === item)!;
 
             const ret = config.beforeDeferLoad?.(
@@ -370,7 +375,8 @@ export function withRemoteConfig<P = any>(
 
           render() {
             const store = this.props.store;
-            const env: RendererEnv = this.props.env || this.context;
+            const env: RendererEnv =
+              this.props.env || (this.context as RendererEnv);
             const injectedProps: RemoteOptionsProps<P> = {
               config: store.config,
               loading: store.fetching,

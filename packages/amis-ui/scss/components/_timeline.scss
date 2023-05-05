@@ -70,14 +70,16 @@
 
       .#{$ns}TimelineItem-time {
         color: var(--TimelineItem--text-secondary-color);
-        font-size: var(--Timeline--font-size);
+        font-size: var(--Timeline-time-fontSize);
+        font-weight: var(--Timeline-time-fontWeight);
         margin-bottom: var(--TimelineItem--content-time-margin-bottom);
       }
 
       .#{$ns}TimelineItem-title {
         display: flex;
         color: var(--TimelineItem--text-primary-color);
-        font-size: var(--Timeline--font-size);
+        font-size: var(--Timeline-title-fontSize);
+        font-weight: var(--Timeline-title-fontWeight);
         margin-bottom: var(--TimelineItem--content-title-margin-bottom);
         .#{$ns}PlainField {
           padding-right: var(--TimelineItem-custem-time-padding-right);
@@ -92,12 +94,13 @@
           display: flex;
           cursor: pointer;
           align-items: center;
-          font-size: var(--Timeline--font-size);
+          font-size: var(--Timeline-detail-label-fontSize);
           color: var(--TimelineItem--detail-button-color);
+          font-weight: var(--Timeline-detail-label-fontWeight);
           margin-bottom: var(--TimelineItem--detail-button-margin-bottom);
         }
-
         .#{$ns}TimelineItem-detail-arrow {
+          color: var(--Timeline-detail-icon-color);
           width: var(--TimelineItem-detail-arrow-width);
           height: var(--TimelineItem-detail-arrow-width);
         }
@@ -110,7 +113,9 @@
           display: block;
           border-radius: var(--Timeline-visible-border-radius);
           max-width: var(--TimelineItem-detail-visible-max-width);
-          font-size: var(--Timeline--font-size);
+          font-size: var(--Timeline-detail-content-fontSize);
+          font-weight: var(--Timeline-detail-content-fontWeight);
+          color: var(--Timeline-detail-content-color);
           padding: var(--TimelineItem-detail-visible-padding);
           box-shadow: var(--TimelineItem-detail-visible-shadow);
         }
@@ -212,13 +217,15 @@
 
       .#{$ns}TimelineItem-time {
         color: var(--TimelineItem--text-secondary-color);
-        font-size: var(--Timeline--font-size);
+        font-size: var(--Timeline-time-fontSize);
+        font-weight: var(--Timeline-time-fontWeight);
         margin-bottom: var(--TimelineItem--content-time-margin-bottom);
       }
 
       .#{$ns}TimelineItem-title {
         color: var(--TimelineItem--text-primary-color);
-        font-size: var(--Timeline--font-size);
+        font-size: var(--Timeline-title-fontSize);
+        font-weight: var(--Timeline-title-fontWeight);
         margin-bottom: var(--TimelineItem--content-title-margin-bottom);
       }
 
@@ -227,12 +234,14 @@
           display: flex;
           cursor: pointer;
           align-items: center;
-          font-size: var(--Timeline--font-size);
+          font-size: var(--Timeline-detail-label-fontSize);
           color: var(--TimelineItem--detail-button-color);
+          font-weight: var(--Timeline-detail-label-fontWeight);
           margin-bottom: var(--TimelineItem--detail-button-margin-bottom);
         }
 
         .#{$ns}TimelineItem-detail-arrow {
+          color: var(--Timeline-detail-icon-color);
           width: var(--TimelineItem-detail-arrow-width);
           height: var(--TimelineItem-detail-arrow-width);
         }
@@ -245,7 +254,9 @@
           display: block;
           border-radius: var(--Timeline-visible-border-radius);
           max-width: var(--TimelineItem-detail-visible-max-width);
-          font-size: var(--Timeline--font-size);
+          font-size: var(--Timeline-detail-content-fontSize);
+          font-weight: var(--Timeline-detail-content-fontWeight);
+          color: var(--Timeline-detail-content-color);
           padding: var(--TimelineItem-detail-visible-padding);
           box-shadow: var(--TimelineItem-detail-visible-shadow);
         }

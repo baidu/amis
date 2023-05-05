@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="穿梭器" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <polyline id="路径" stroke="currentColor" points="6 11.4985938 6 14 2 14 2 2 6 2 6 4.49864365"></polyline>
+        <polyline id="路径" stroke="currentColor" points="10 4.50005827 10 2 14 2 14 14 10 14 10 11.4957177"></polyline>
+        <line x1="5" y1="8" x2="7" y2="8" id="直线" stroke="currentColor"></line>
+        <polyline id="路径" stroke="currentColor" transform="translate(5.414214, 8.000000) rotate(-225.000000) translate(-5.414214, -8.000000) " points="6.41421356 7 6.41421356 9 4.41421356 9"></polyline>
+        <polyline id="路径" stroke="currentColor" transform="translate(10.585786, 8.000000) rotate(-45.000000) translate(-10.585786, -8.000000) " points="11.5857864 7 11.5857864 9 9.58578644 9"></polyline>
+        <line x1="9" y1="8" x2="11" y2="8" id="直线" stroke="currentColor"></line>
+    </g>
+</svg>

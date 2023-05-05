@@ -26,7 +26,7 @@ export interface MenuItemProps
   classPrefix: string;
   classnames: ClassNamesFn;
   tooltipClassName?: string;
-  tooltipContainer?: React.ReactNode;
+  tooltipContainer?: HTMLElement | (() => HTMLElement);
   tooltipTrigger?: Trigger | Array<Trigger>;
   renderLink: Function;
   extra?: React.ReactNode;
@@ -66,32 +66,6 @@ export class MenuItem extends React.Component<MenuItemProps> {
     'onMouseLeave',
     'onClick'
   ];
-
-  getDynamicStyle(hasIcon: boolean) {
-    const {stacked, inlineIndent = 16} = this.context;
-    const {depth} = this.props;
-    const isHorizontal = !stacked;
-    const defaultIndentWidth =
-      typeof inlineIndent === 'number' ? inlineIndent : 16;
-    const indentWidth = `(
-      ${hasIcon ? 'var(--Menu-icon-size) + var(--gap-sm) +' : ''}
-      ${
-        depth === 1
-          ? isHorizontal
-            ? 'var(--Menu-Submenu-title-paddingX) * 2'
-            : '0px'
-          : isHorizontal
-          ? `var(--Menu-Submenu-title-paddingX) + ${defaultIndentWidth}px`
-          : `${defaultIndentWidth}px`
-      }
-    )`;
-
-    return {
-      maxWidth: isHorizontal
-        ? `calc(var(--Menu-width) - ${indentWidth})`
-        : `calc(100% - ${indentWidth})`
-    };
-  }
 
   /** 检查icon参数值是否为文件路径 */
   isImgPath(raw: string) {
@@ -147,7 +121,6 @@ export class MenuItem extends React.Component<MenuItemProps> {
             ['Nav-Menu-item-label-collapsed']: isCollapsedNode
           })}
           title={isCollapsedNode || Array.isArray(label) ? '' : label}
-          style={this.getDynamicStyle(!!iconNode)}
         >
           {isCollapsedNode ? label.slice(0, 1) : label}
         </span>
@@ -160,8 +133,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
               ['Nav-Menu-item-label-collapsed']: isCollapsedNode,
               ['Nav-Menu-item-label-subTitle']: !isCollapsedNode
             }
-          ),
-          style: this.getDynamicStyle(!!iconNode)
+          )
         })
       ) : null;
     const dragNode =
@@ -180,7 +152,11 @@ export class MenuItem extends React.Component<MenuItemProps> {
       <div className={cx('Nav-Menu-item-wrap')}>
         <Badge
           classnames={cx}
-          badge={badge ? {...badge, className: badgeClassName} : null}
+          badge={
+            badge && !isCollapsedNode // 收起模式下 不展示角标
+              ? {...badge, className: badgeClassName}
+              : null
+          }
           data={createObject(defaultData, link)}
         >
           <a
@@ -211,7 +187,6 @@ export class MenuItem extends React.Component<MenuItemProps> {
 
   render() {
     const {
-      className,
       tooltipClassName,
       classnames: cx,
       label,
@@ -220,13 +195,20 @@ export class MenuItem extends React.Component<MenuItemProps> {
       tooltipContainer,
       tooltipTrigger,
       depth,
-      hidden
+      hidden,
+      order,
+      overflowedIndicator,
+      overflowMaxCount
     } = this.props;
     const {collapsed, mode, stacked, themeColor, direction} = this.context;
     const showToolTip =
       stacked && mode === 'inline' && collapsed && depth === 1;
+    const isMaxOverflow = overflowedIndicator && overflowMaxCount;
 
     // 多套一层ul 是因为disabled情况下 RcItem触发不了tooltipwrapper的事件
+    // 横向模式使用rc-overflow rc-overflow中会给li设置一个order属性
+    // 这里的ul可能和rc-overflow里的li并列 就导致展示顺序不正确 因此给url也设置一个order属性
+    // 当启用响应式收纳且设置了maxVisibleCount rc-overflow不会设置order属性 因此这种情况下ul也不需要设置
     return hidden ? null : (
       <TooltipWrapper
         tooltipClassName={cx('Nav-Menu-item-tooltip', tooltipClassName, {
@@ -238,11 +220,11 @@ export class MenuItem extends React.Component<MenuItemProps> {
         trigger={tooltipTrigger}
         rootClose
       >
-        <ul className={cx('Nav-Menu-item-tooltip-wrap')}>
-          <RcItem
-            {...pick(this.props, this.internalProps)}
-            className={cx(className)}
-          >
+        <ul
+          className={cx('Nav-Menu-item-tooltip-wrap')}
+          style={isMaxOverflow ? {} : {order}}
+        >
+          <RcItem {...pick(this.props, this.internalProps)}>
             {this.renderMenuItem()}
           </RcItem>
         </ul>

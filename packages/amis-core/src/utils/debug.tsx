@@ -385,6 +385,7 @@ export function enableDebug() {
 
 interface DebugWrapperProps {
   renderer: any;
+  children?: React.ReactNode;
 }
 
 export class DebugWrapper extends Component<DebugWrapperProps> {

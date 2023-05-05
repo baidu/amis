@@ -152,6 +152,11 @@ export interface TreeControlSchema extends FormOptionsSchema {
      */
     sticky?: boolean;
   };
+
+  /**
+   * 高度自动增长？
+   */
+  heightAuto?: boolean;
 }
 
 export interface TreeProps
@@ -266,7 +271,7 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
 
     const rendererEvent = await dispatchEvent(
       'change',
-      resolveEventData(this.props, {value}, 'value')
+      resolveEventData(this.props, {value})
     );
 
     if (rendererEvent?.prevented) {
@@ -371,7 +376,8 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
       menuTpl,
       enableDefaultIcon,
       searchable,
-      searchConfig = {}
+      searchConfig = {},
+      heightAuto
     } = this.props;
     let {highlightTxt} = this.props;
     const {filteredOptions, keyword} = this.state;
@@ -439,7 +445,8 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
     return (
       <div
         className={cx(`${ns}TreeControl`, className, treeContainerClassName, {
-          'is-sticky': searchable && searchConfig?.sticky
+          'is-sticky': searchable && searchConfig?.sticky,
+          'h-auto': heightAuto
         })}
       >
         <Spinner

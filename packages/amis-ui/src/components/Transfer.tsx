@@ -9,7 +9,7 @@ import {
   unionWith
 } from 'lodash';
 
-import {ThemeProps, themeable} from 'amis-core';
+import {ThemeProps, themeable, findTree} from 'amis-core';
 import {BaseSelectionProps, BaseSelection, ItemRenderStates} from './Selection';
 import {Options, Option} from './Select';
 import {uncontrollable} from 'amis-core';
@@ -111,6 +111,10 @@ export interface TransferProps
   virtualThreshold?: number; // 数据量多大的时候开启虚拟渲染`
   virtualListHeight?: number; // 虚拟渲染时，列表高度
   showInvalidMatch?: boolean;
+  checkAll?: boolean;
+  checkAllLabel?: string;
+  /** 树形模式下，给 tree 的属性 */
+  onlyChildren?: boolean;
 }
 
 export interface TransferState {
@@ -130,12 +134,14 @@ export class Transfer<
     | 'selectMode'
     | 'statistics'
     | 'virtualThreshold'
+    | 'checkAllLabel'
   > = {
     multiple: true,
     resultListModeFollowSelect: false,
     selectMode: 'list',
     statistics: true,
-    virtualThreshold: 100
+    virtualThreshold: 100,
+    checkAllLabel: 'Select.checkAll'
   };
 
   state: TransferState = {
@@ -157,13 +163,12 @@ export class Transfer<
 
   static getDerivedStateFromProps(props: TransferProps) {
     // 计算是否是懒加载模式
-    let isTreeDeferLoad: boolean = false;
-    props.selectMode === 'tree' &&
-      props.options.forEach(item => {
-        if (item.defer) {
-          isTreeDeferLoad = true;
-        }
-      });
+    const isTreeDeferLoad =
+      props.selectMode === 'tree' &&
+      !!findTree(
+        props.options,
+        (option: Option) => option.deferApi || option.defer
+      );
 
     // 计算结果的selectMode
     let resultSelectMode = 'list';
@@ -473,7 +478,10 @@ export class Transfer<
       labelField,
       virtualThreshold,
       itemHeight,
-      virtualListHeight
+      virtualListHeight,
+      checkAll,
+      checkAllLabel,
+      onlyChildren
     } = props;
     const {isTreeDeferLoad, searchResult} = this.state;
     const options = searchResult ?? [];
@@ -512,11 +520,13 @@ export class Transfer<
         showIcon={false}
         multiple={multiple}
         cascade={true}
-        onlyChildren={!isTreeDeferLoad}
+        onlyChildren={onlyChildren ?? !isTreeDeferLoad}
         itemRender={optionItemRender}
         labelField={labelField}
         virtualThreshold={virtualThreshold}
         itemHeight={itemHeight}
+        checkAllLabel={checkAllLabel}
+        checkAll={checkAll}
       />
     ) : mode === 'chained' ? (
       <ChainedSelection
@@ -533,6 +543,8 @@ export class Transfer<
         virtualThreshold={virtualThreshold}
         itemHeight={itemHeight}
         virtualListHeight={virtualListHeight}
+        checkAllLabel={checkAllLabel}
+        checkAll={checkAll}
       />
     ) : (
       <GroupedSelection
@@ -549,6 +561,8 @@ export class Transfer<
         virtualThreshold={virtualThreshold}
         itemHeight={itemHeight}
         virtualListHeight={virtualListHeight}
+        checkAllLabel={checkAllLabel}
+        checkAll={checkAll}
       />
     );
   }
@@ -576,7 +590,10 @@ export class Transfer<
       virtualThreshold,
       itemHeight,
       virtualListHeight,
-      loadingConfig
+      loadingConfig,
+      checkAll,
+      checkAllLabel,
+      onlyChildren
     } = props;
 
     return selectMode === 'table' ? (
@@ -594,6 +611,8 @@ export class Transfer<
         virtualThreshold={virtualThreshold}
         itemHeight={itemHeight}
         virtualListHeight={virtualListHeight}
+        checkAllLabel={checkAllLabel}
+        checkAll={checkAll}
       />
     ) : selectMode === 'tree' ? (
       <Tree
@@ -603,7 +622,7 @@ export class Transfer<
         options={options}
         value={value}
         onChange={onChange!}
-        onlyChildren={!this.state.isTreeDeferLoad}
+        onlyChildren={onlyChildren ?? !this.state.isTreeDeferLoad}
         itemRender={optionItemRender}
         onDeferLoad={onDeferLoad}
         joinValues={false}
@@ -614,6 +633,8 @@ export class Transfer<
         virtualThreshold={virtualThreshold}
         itemHeight={itemHeight}
         loadingConfig={loadingConfig}
+        checkAllLabel={checkAllLabel}
+        checkAll={checkAll}
       />
     ) : selectMode === 'chained' ? (
       <ChainedSelection
@@ -631,6 +652,8 @@ export class Transfer<
         itemHeight={itemHeight}
         virtualListHeight={virtualListHeight}
         loadingConfig={loadingConfig}
+        checkAllLabel={checkAllLabel}
+        checkAll={checkAll}
       />
     ) : selectMode === 'associated' ? (
       <AssociatedSelection
@@ -653,6 +676,8 @@ export class Transfer<
         itemHeight={itemHeight}
         virtualListHeight={virtualListHeight}
         loadingConfig={loadingConfig}
+        checkAllLabel={checkAllLabel}
+        checkAll={checkAll}
       />
     ) : (
       <GroupedSelection
@@ -669,6 +694,8 @@ export class Transfer<
         virtualThreshold={virtualThreshold}
         itemHeight={itemHeight}
         virtualListHeight={virtualListHeight}
+        checkAllLabel={checkAllLabel}
+        checkAll={checkAll}
       />
     );
   }

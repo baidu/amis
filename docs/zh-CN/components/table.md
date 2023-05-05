@@ -1841,22 +1841,24 @@ popOver 的其它配置请参考 [popover](./popover)
 | prefixRow        | `Array`                                                  |                           | 顶部总结行                                                                |                                   |
 | affixRow         | `Array`                                                  |                           | 底部总结行                                                                |                                   |
 | itemBadge        | [`BadgeSchema`](./badge)                                 |                           | 行角标配置                                                                |                                   |
-| autoFillHeight   | `boolean` 丨 `{height: number}` 丨 `{maxHeight: number}` |                           | 内容区域自适应高度，可选择自适应、固定高度和最大高度                      | `maxHeight` 需要 `2.7.3` 以上版本 |
+| autoFillHeight   | `boolean` 丨 `{height: number}` 丨 `{maxHeight: number}` |                           | 内容区域自适应高度，可选择自适应、固定高度和最大高度                      | `maxHeight` 需要 `2.8.0` 以上版本 |
 | resizable        | `boolean`                                                | `true`                    | 列宽度是否支持调整                                                        |                                   |
 | selectable       | `boolean`                                                | `false`                   | 支持勾选                                                                  |                                   |
 | multiple         | `boolean`                                                | `false`                   | 勾选 icon 是否为多选样式`checkbox`， 默认为`radio`                        |                                   |
 
 ### 列配置属性表
 
-| 属性名   | 类型                                          | 默认值 | 说明             |
-| -------- | --------------------------------------------- | ------ | ---------------- |
-| label    | [模板](../../docs/concepts/template)          |        | 表头文本内容     |
-| name     | `string`                                      |        | 通过名称关联数据 |
-| width    | `number` \| `string`                          |        | 列宽             |
-| remark   |                                               |        | 提示信息         |
-| fixed    | `left` \| `right` \| `none`                   |        | 是否固定当前列   |
-| popOver  |                                               |        | 弹出框           |
-| copyable | `boolean` 或 `{icon: string, content:string}` |        | 是否可复制       |
+| 属性名     | 类型                                          | 默认值 | 说明                     | 版本    |
+| ---------- | --------------------------------------------- | ------ | ------------------------ | ------- |
+| label      | [模板](../../docs/concepts/template)          |        | 表头文本内容             |         |
+| name       | `string`                                      |        | 通过名称关联数据         |         |
+| width      | `number` \| `string`                          |        | 列宽                     |         |
+| remark     |                                               |        | 提示信息                 |         |
+| fixed      | `left` \| `right` \| `none`                   |        | 是否固定当前列           |         |
+| popOver    |                                               |        | 弹出框                   |         |
+| copyable   | `boolean` 或 `{icon: string, content:string}` |        | 是否可复制               |         |
+| style      | `object`                                      |        | 单元格自定义样式         |         |
+| innerStyle | `object`                                      |        | 单元格内部组件自定义样式 | `2.8.1` |
 
 ## 事件表
 
@@ -1870,7 +1872,9 @@ popOver 的其它配置请参考 [popover](./popover)
 | columnSearch   | `searchName: string` 列搜索列名<br/>`searchValue: string` 列搜索数据    | 点击列搜索时触发     |
 | orderChange    | `movedItems: item[]` 已排序数据                                         | 手动拖拽行排序时触发 |
 | columnToggled  | `columns: item[]` 当前显示的列配置数据                                  | 点击自定义列时触发   |
-| rowClick       | `rowItem: object` 行点击数据                                            | 点击整行时触发       |
+| rowClick       | `item: object` 行点击数据<br/>`index: number` 行索引                    | 点击整行时触发       |
+| rowMouseEnter  | `item: object` 行移入数据<br/>`index: number` 行索引                    | 移入整行时触发       |
+| rowMouseLeave  | `item: object` 行移出数据<br/>`index: number` 行索引                    | 移出整行时触发       |
 
 ### 列配置事件表
 

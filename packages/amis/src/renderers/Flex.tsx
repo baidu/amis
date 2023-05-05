@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import {Renderer, RendererProps} from 'amis-core';
+import {buildStyle, Renderer, RendererProps} from 'amis-core';
 import {Schema} from 'amis-core';
 import {BaseSchema, SchemaCollection, SchemaObject} from '../Schema';
 
@@ -99,16 +99,17 @@ export default class Flex extends React.Component<FlexProps, object> {
       style,
       className,
       render,
-      disabled
+      disabled,
+      data
     } = this.props;
-
+    const styleVar = buildStyle(style, data);
     const flexStyle = {
       display: 'flex',
       flexDirection: direction,
       justifyContent: justify,
       alignItems,
       alignContent,
-      ...style
+      ...styleVar
     };
 
     return (

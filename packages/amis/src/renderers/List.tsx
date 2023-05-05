@@ -42,8 +42,8 @@ import {
 } from '../Schema';
 import {ActionSchema} from './Action';
 import {SchemaRemark} from './Remark';
-import type {IItem} from 'amis-core/lib/store/list';
-import type {OnEventProps} from 'amis-core/lib/utils/renderer-event';
+import type {IItem} from 'amis-core';
+import type {OnEventProps} from 'amis-core';
 
 /**
  * 不指定类型默认就是文本
@@ -327,9 +327,10 @@ export default class List extends React.Component<ListProps, object> {
     } = props;
 
     store.update({
-      multiple,
-      selectable,
-      draggable,
+      /** Card嵌套List情况下该属性获取到的值为ListStore的默认值, 会导致Schema中的配置被覆盖 */
+      multiple: multiple || props?.$schema.multiple,
+      selectable: selectable || props?.$schema.selectable,
+      draggable: draggable || props?.$schema.draggable,
       orderBy,
       orderDir,
       hideCheckToggler,
@@ -1045,7 +1046,9 @@ export default class List extends React.Component<ListProps, object> {
         {heading}
         {store.items.length ? (
           <div className={cx('List-items')}>
-            {store.items.map((item, index) => this.renderListItem(index, listItem, item, itemClassName))}
+            {store.items.map((item, index) =>
+              this.renderListItem(index, listItem, item, itemClassName)
+            )}
           </div>
         ) : (
           <div className={cx('List-placeholder')}>
@@ -1188,7 +1191,7 @@ export class ListItem extends React.Component<ListItemProps> {
         <div className={cx('ListItem-checkBtn')}>
           <Checkbox
             classPrefix={ns}
-            type={multiple ? 'checkbox' : 'radio'}
+            type={multiple !== false ? 'checkbox' : 'radio'}
             disabled={!checkable}
             checked={selected}
             onChange={checkOnItemClick ? noop : this.handleCheck}

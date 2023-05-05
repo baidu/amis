@@ -5,7 +5,8 @@ import {
   highlight,
   FormOptionsControl,
   resolveEventData,
-  insertCustomStyle
+  insertCustomStyle,
+  getValueByPath
 } from 'amis-core';
 import {ActionObject} from 'amis-core';
 import Downshift, {StateChangeOptions} from 'downshift';
@@ -309,13 +310,9 @@ export default class TextControl extends React.PureComponent<
     const {dispatchEvent, value} = this.props;
     const rendererEvent = await dispatchEvent(
       'click',
-      resolveEventData(
-        this.props,
-        {
-          value
-        },
-        'value'
-      )
+      resolveEventData(this.props, {
+        value
+      })
     );
 
     if (rendererEvent?.prevented) {
@@ -337,13 +334,9 @@ export default class TextControl extends React.PureComponent<
 
     const rendererEvent = await dispatchEvent(
       'focus',
-      resolveEventData(
-        this.props,
-        {
-          value
-        },
-        'value'
-      )
+      resolveEventData(this.props, {
+        value
+      })
     );
 
     if (rendererEvent?.prevented) {
@@ -369,13 +362,9 @@ export default class TextControl extends React.PureComponent<
 
     const rendererEvent = await dispatchEvent(
       'blur',
-      resolveEventData(
-        this.props,
-        {
-          value
-        },
-        'value'
-      )
+      resolveEventData(this.props, {
+        value
+      })
     );
 
     if (rendererEvent?.prevented) {
@@ -390,7 +379,7 @@ export default class TextControl extends React.PureComponent<
     const {creatable, multiple, onChange, dispatchEvent} = this.props;
     const rendererEvent = await dispatchEvent(
       'change',
-      resolveEventData(this.props, {value}, 'value')
+      resolveEventData(this.props, {value})
     );
 
     if (rendererEvent?.prevented) {
@@ -454,7 +443,7 @@ export default class TextControl extends React.PureComponent<
 
       const rendererEvent = await dispatchEvent(
         'enter',
-        resolveEventData(this.props, {value}, 'value')
+        resolveEventData(this.props, {value})
       );
 
       if (rendererEvent?.prevented) {
@@ -570,7 +559,7 @@ export default class TextControl extends React.PureComponent<
 
     const rendererEvent = await dispatchEvent(
       'change',
-      resolveEventData(this.props, {value}, 'value')
+      resolveEventData(this.props, {value})
     );
 
     if (rendererEvent?.prevented) {
@@ -1057,10 +1046,12 @@ export default class TextControl extends React.PureComponent<
       options,
       source,
       autoComplete,
+      themeCss,
       css,
       inputControlClassName,
       id,
-      addOnClassName
+      addOnClassName,
+      classPrefix: ns
     } = this.props;
     let input =
       autoComplete !== false && (source || options?.length || autoComplete)
@@ -1068,23 +1059,24 @@ export default class TextControl extends React.PureComponent<
         : this.renderNormal();
 
     insertCustomStyle(
-      css,
+      themeCss || css,
       [
         {
           key: 'inputControlClassName',
           value: inputControlClassName,
           weights: {
             active: {
-              pre: 'is-focused .'
+              pre: `${ns}TextControl.is-focused > .${inputControlClassName}, `
             }
           }
         }
       ],
-      id
+      id,
+      null
     );
 
     insertCustomStyle(
-      css,
+      themeCss || css,
       [
         {
           key: 'addOnClassName',

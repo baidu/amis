@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="页面编辑器" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="补充icon" transform="translate(-20.000000, -155.000000)">
+            <g id="代码" transform="translate(20.000000, 155.000000)">
+                <rect id="矩形" x="0" y="0" width="48" height="48"></rect>
+                <g id="编组备份-2" transform="translate(14.000000, 14.000000)">
+                    <rect id="矩形备份-2" x="0" y="0" width="20" height="20"></rect>
+                    <rect id="矩形备份" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round" x="2.5" y="3.75" width="15" height="12.5"></rect>
+                    <line x1="11.7094895" y1="6.84057953" x2="8.34749408" y2="13.125" id="直线-3备份" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"></line>
+                    <polyline id="直线-5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" transform="translate(13.643713, 10.000000) rotate(-315.000000) translate(-13.643713, -10.000000) " points="12.3937133 8.75129365 14.8937133 8.75129365 14.8937133 11.2487063"></polyline>
+                    <polyline id="直线-5备份" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" transform="translate(6.580642, 10.000000) scale(-1, 1) rotate(-315.000000) translate(-6.580642, -10.000000) " points="5.33064187 8.75129365 7.83064187 8.75129365 7.83064187 11.2487063"></polyline>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

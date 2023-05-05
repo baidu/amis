@@ -12,7 +12,7 @@ import {
   isEffectiveApi,
   str2AsyncFunction
 } from 'amis-core';
-import {Spinner, SpinnerExtraProps} from 'amis-ui';
+import {Spinner, SpinnerExtraProps, Alert2 as Alert} from 'amis-ui';
 import {
   autobind,
   isObject,
@@ -34,7 +34,7 @@ import {
 import {IIRendererStore} from 'amis-core';
 
 import type {ListenerAction} from 'amis-core';
-import type {ScopedComponentType} from 'amis-core/lib/Scoped';
+import type {ScopedComponentType} from 'amis-core';
 
 export const eventTypes = [
   /* 初始化时执行，默认 */
@@ -47,7 +47,7 @@ export const eventTypes = [
   'onWsFetched'
 ] as const;
 
-export type ProviderEventType = typeof eventTypes[number];
+export type ProviderEventType = (typeof eventTypes)[number];
 
 export type DataProviderCollection = Partial<
   Record<ProviderEventType, DataProvider>
@@ -138,6 +138,11 @@ export interface ServiceSchema extends BaseSchema, SpinnerExtraProps {
   messages?: SchemaMessage;
 
   name?: SchemaName;
+
+  /**
+   * 是否以Alert的形式显示api接口响应的错误信息，默认展示
+   */
+  showErrorMsg?: boolean;
 }
 
 export interface ServiceProps
@@ -162,7 +167,8 @@ export default class Service extends React.Component<ServiceProps> {
   static defaultProps: Partial<ServiceProps> = {
     messages: {
       fetchFailed: 'fetchFailed'
-    }
+    },
+    showErrorMsg: true
   };
 
   static propsList: Array<string> = [];
@@ -684,7 +690,8 @@ export default class Service extends React.Component<ServiceProps> {
           const redirect =
             action.redirect && filter(action.redirect, store.data);
           redirect && env.jumpTo(redirect, action);
-          action.reload && this.reloadTarget(action.reload, store.data);
+          action.reload &&
+            this.reloadTarget(filter(action.reload, store.data), store.data);
         })
         .catch(e => {
           if (throwErrors || action.countDown) {
@@ -735,22 +742,20 @@ export default class Service extends React.Component<ServiceProps> {
       render,
       classPrefix: ns,
       classnames: cx,
-      loadingConfig
+      loadingConfig,
+      showErrorMsg
     } = this.props;
 
     return (
       <div className={cx(`${ns}Service`, className)} style={style}>
-        {store.error ? (
-          <div className={cx(`Alert Alert--danger`)}>
-            <button
-              className={cx('Alert-close')}
-              onClick={() => store.updateMessage('')}
-              type="button"
-            >
-              <span>×</span>
-            </button>
+        {store.error && showErrorMsg !== false ? (
+          <Alert
+            level="danger"
+            showCloseButton
+            onClose={() => store.updateMessage('')}
+          >
             {store.msg}
-          </div>
+          </Alert>
         ) : null}
 
         {this.renderBody()}

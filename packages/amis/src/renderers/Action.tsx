@@ -8,7 +8,8 @@ import {
   isObject,
   Renderer,
   RendererProps,
-  ScopedContext
+  ScopedContext,
+  uuid
 } from 'amis-core';
 import {filter} from 'amis-core';
 import {BadgeObject, Button, SpinnerExtraProps} from 'amis-ui';
@@ -447,7 +448,6 @@ import {generateIcon} from 'amis-core';
 import {withBadge} from 'amis-ui';
 import {normalizeApi, str2AsyncFunction} from 'amis-core';
 import {TooltipWrapper} from 'amis-ui';
-import {ICmptAction} from 'amis-core/lib/actions/CmptAction';
 
 // 构造一个假的 React 事件避免可能的报错，主要用于快捷键功能
 // 来自 https://stackoverflow.com/questions/27062455/reactjs-can-i-create-my-own-syntheticevent
@@ -584,7 +584,7 @@ export interface ActionProps
     | string
     | Function
     | null;
-  componentClass: React.ReactType;
+  componentClass: React.ElementType;
   tooltipContainer?: any;
   data?: any;
   isMenuItem?: boolean;
@@ -602,7 +602,7 @@ interface ActionState {
 export class Action extends React.Component<ActionProps, ActionState> {
   static defaultProps = {
     type: 'button' as 'button',
-    componentClass: 'button' as React.ReactType,
+    componentClass: 'button' as React.ElementType,
     tooltipPlacement: 'bottom' as 'bottom',
     activeClassName: 'is-active',
     countDownTpl: 'Action.countDown',
@@ -621,7 +621,10 @@ export class Action extends React.Component<ActionProps, ActionState> {
 
   constructor(props: ActionProps) {
     super(props);
-    this.localStorageKey = 'amis-countdownend-' + (this.props.name || '');
+    this.localStorageKey =
+      'amis-countdownend-' +
+      (this.props.name || '') +
+      (this.props?.$schema?.id || uuid());
     const countDownEnd = parseInt(
       localStorage.getItem(this.localStorageKey) || '0'
     );
@@ -788,11 +791,12 @@ export class Action extends React.Component<ActionProps, ActionState> {
       classnames: cx,
       classPrefix: ns,
       loadingConfig,
+      themeCss,
       css,
       id
     } = this.props;
     insertCustomStyle(
-      css,
+      themeCss || css,
       [
         {
           key: 'className',
@@ -973,7 +977,8 @@ export class ActionRenderer extends React.Component<ActionRendererProps> {
         // 触发渲染器事件
         const rendererEvent = await dispatchEvent(
           e as React.MouseEvent<any> | string,
-          mergedData
+          mergedData,
+          this // 保证renderer可以拿到，避免因交互设计导致的清空情况，例如crud内itemAction
         );
 
         // 阻止原有动作执行

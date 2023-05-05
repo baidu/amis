@@ -600,15 +600,12 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
             action.redirect && filter(action.redirect, store.data);
           reidrect && env.jumpTo(reidrect, action);
 
-          action.reload && this.reloadTarget(action.reload, store.data);
+          action.reload &&
+            this.reloadTarget(filter(action.reload, store.data), store.data);
         })
-        .catch(reason => {
-          if (reason instanceof SkipOperation) {
-            return;
-          }
-        });
+        .catch(reason => {});
     } else if (action.actionType === 'reload') {
-      action.target && this.reloadTarget(action.target, data);
+      action.target && this.reloadTarget(filter(action.target, data), data);
     } else if (action.actionType === 'goto-step') {
       const targetStep = (data as any).step;
 
@@ -712,7 +709,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
 
     // 最后一步
     if (target) {
-      this.submitToTarget(target, store.data);
+      this.submitToTarget(filter(target, store.data), store.data);
       this.setState({completeStep: steps.length});
     } else if (action.api || step.api || api) {
       let finnalAsyncApi = action.asyncApi || step.asyncApi || asyncApi;
@@ -801,7 +798,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
             env.jumpTo(finalRedirect, action);
           } else if (action.reload || step.reload || reload) {
             this.reloadTarget(
-              action.reload || step.reload || reload!,
+              filter(action.reload || step.reload || reload!, store.data),
               store.data
             );
           }
@@ -878,9 +875,6 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
           })
           .catch(reason => {
             this.dispatchEvent('stepSubmitFail', {error: reason});
-            if (reason instanceof SkipOperation) {
-              return;
-            }
             // do nothing
           });
       } else {

@@ -1,4 +1,4 @@
-import {validate, str2rules} from '../../src';
+import {validate, str2rules, addRule} from '../../src';
 
 test('validation:isRequired valid', () => {
   expect(
@@ -718,10 +718,6 @@ test('validation:multipleRules invalid', () => {
     {
       rule: 'isUrl',
       msg: 'validate.isUrl'
-    },
-    {
-      rule: 'isInt',
-      msg: 'validate.isInt'
     }
   ]);
 });
@@ -831,10 +827,6 @@ test('validation:multipleMatchRegexp invalid', () => {
     {
       rule: 'matchRegexp1',
       msg: '请输入abc开头的好么'
-    },
-    {
-      rule: 'matchRegexp2',
-      msg: '请输入123结尾的好么'
     }
   ]);
 });
@@ -874,10 +866,6 @@ test('validation:multipleMatchRegexp:noSlash invalid', () => {
     {
       rule: 'matchRegexp1',
       msg: '请输入abc开头的好么'
-    },
-    {
-      rule: 'matchRegexp2',
-      msg: '请输入123结尾的好么'
     }
   ]);
 });

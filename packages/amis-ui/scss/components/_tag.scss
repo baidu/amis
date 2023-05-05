@@ -1,11 +1,12 @@
 .#{$ns}Tag {
   display: inline-flex;
   height: var(--Tag-height);
-  padding: 0 var(--gap-sm);
+  padding: var(--Tag-base-padding);
   flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
   font-size: var(--Tag-content-fontSize);
+  font-weight: var(--Tag-base-fontWeight);
   max-width: 160px;
   transition: all 0.3;
   border-radius: var(--Tag-borderRadius);
@@ -28,79 +29,85 @@
     &--hasColor {
       color: var(--white);
     }
-    border-radius: var(--Tag-borderRadius);
+
+    border-width: var(--Tag-normal-borderWidth);
+    border-radius: var(--Tag-normal-borderRadius);
+    border-color: var(--Tag-normal-borderColor);
+
     &--inactive {
-      background: var(--Tag-inactive-color);
+      color: var(--Tag-inactive-color);
+      background: var(--Tag-inactive-bg-color);
     }
     &--active {
-      background: var(--Tag-active-color);
+      color: var(--Tag-active-color);
+      background: var(--Tag-active-bg-color);
     }
     &--processing {
-      background: var(--Tag-processing-color);
+      color: var(--Tag-processing-color);
+      background: var(--Tag-processing-bg-color);
     }
     &--success {
-      background: var(--Tag-success-color);
+      color: var(--Tag-success-color);
+      background: var(--Tag-success-bg-color);
     }
     &--error {
-      background: var(--Tag-error-color);
+      color: var(--Tag-error-color);
+      background: var(--Tag-error-bg-color);
     }
     &--warning {
-      background: var(--Tag-warning-color);
+      color: var(--Tag-warning-color);
+      background: var(--Tag-warning-bg-color);
     }
   }
 
   &--rounded {
     background-color: var(--white);
-    border-radius: calc((var(--Tag-height) + 2px) / 2);
-    border: 1px solid var(--Tag-default-color);
+    border-style: var(--Tag-rounded-borderStyle);
+    border-width: var(--Tag-rounded-borderWidth);
+    border-radius: var(--Tag-rounded-borderRadius);
+    border-color: var(--Tag-rounded-borderColor);
     color: var(--Tag-default-color);
     line-height: 22px;
 
     &--inactive {
-      border-color: var(--Tag-inactive-color);
-      color: var(--Tag-inactive-color);
+      color: var(--Tag-inactive-bg-color);
     }
     &--active {
-      border-color: var(--Tag-active-color);
-      color: var(--Tag-active-color);
+      color: var(--Tag-active-bg-color);
     }
     &--processing {
-      border-color: var(--Tag-processing-color);
-      color: var(--Tag-processing-color);
+      color: var(--Tag-processing-bg-color);
     }
     &--success {
-      border-color: var(--Tag-success-color);
-      color: var(--Tag-success-color);
+      color: var(--Tag-success-bg-color);
     }
     &--error {
-      border-color: var(--Tag-error-color);
-      color: var(--Tag-error-color);
+      color: var(--Tag-error-bg-color);
     }
     &--warning {
-      border-color: var(--Tag-warning-color);
-      color: var(--Tag-warning-color);
+      color: var(--Tag-warning-bg-color);
     }
   }
 
   &--status {
     background-color: var(--white);
     &--inactive .#{$ns}Tag--prev {
-      color: var(--Tag-inactive-color);
+      color: var(--Tag-inactive-bg-color);
     }
     &--active .#{$ns}Tag--prev {
-      color: var(--Tag-active-color);
+      color: var(--Tag-active-bg-color);
     }
     &--processing .#{$ns}Tag--prev {
-      color: var(--Tag-processing-color);
+      color: var(--Tag-processing-bg-color);
     }
     &--success .#{$ns}Tag--prev {
-      color: var(--Tag-success-color);
+      color: var(--Tag-success-bg-color);
     }
     &--error .#{$ns}Tag--prev {
-      color: var(--Tag-error-color);
+      color: var(--Tag-error-bg-color);
     }
     &--warning .#{$ns}Tag--prev {
-      color: var(--Tag-warning-color);
+      color: var(--Tag-warning-bg-color);
     }
 
     &:not(&--processing):not(&--active) {
@@ -114,26 +121,25 @@
 
   &--prev {
     color: var(--Tag-default-color);
-    margin-right: var(--gap-sm);
+    margin-right: var(--Tag-status-margin);
     i {
       font-size: #{px2rem(8px)};
     }
-    .icon {
-      width: #{px2rem(8px)};
-      height: #{px2rem(8px)};
+    .#{$ns}Tag-default-icon {
+      width: var(--Tag-status-size);
+      height: var(--Tag-status-size);
       top: 0;
     }
   }
 
   &--close {
-    margin-left: var(--gap-sm);
-    margin-right: var(--gap-xs);
+    margin-left: var(--Tag-close-margin);
     i {
       font-size: #{px2rem(8px)};
     }
     .icon {
-      width: #{px2rem(8px)};
-      height: #{px2rem(8px)};
+      width: var(--Tag-close-size);
+      height: var(--Tag-close-size);
       position: inherit;
     }
     cursor: pointer;

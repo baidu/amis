@@ -54,6 +54,7 @@ exports[`Renderer:checkbox 1`] = `
           >
             <label
               class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+              data-role="checkbox"
             >
               <input
                 type="checkbox"
@@ -172,6 +173,7 @@ exports[`Renderer:checkbox with checked 1`] = `
           >
             <label
               class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+              data-role="checkbox"
             >
               <input
                 checked=""
@@ -291,6 +293,7 @@ exports[`Renderer:checkbox with optionType 1`] = `
           >
             <label
               class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--button cxd-Checkbox--button--checked"
+              data-role="checkbox"
             >
               <input
                 type="checkbox"

@@ -68,10 +68,12 @@ fis.set('project.files', [
   '/examples/static/*.svg',
   '/examples/static/*.jpg',
   '/examples/static/*.jpeg',
+  '/examples/static/*.docx',
   '/examples/static/photo/*.jpeg',
   '/examples/static/photo/*.png',
   '/examples/static/audio/*.mp3',
   '/examples/static/video/*.mp4',
+  '/examples/static/font/*.ttf',
   'mock/**'
 ]);
 
@@ -116,9 +118,11 @@ fis.match('icons/**.svg', {
   ]
 });
 
-fis.match('/node_modules/**.js', {
-  isMod: true
+fis.match('/node_modules/**.{js,cjs}', {
+  isMod: true,
+  rExt: 'js'
 });
+fis.set('project.fileType.text', 'cjs');
 
 fis.match('tinymce/{tinymce.js,plugins/**.js,themes/silver/theme.js}', {
   ignoreDependencies: true
@@ -308,7 +312,7 @@ fis.hook('node_modules', {
 });
 fis.hook('commonjs', {
   sourceMap: false,
-  extList: ['.js', '.jsx', '.tsx', '.ts'],
+  extList: ['.js', '.jsx', '.tsx', '.ts', '.cjs'],
   paths: {
     'monaco-editor': '/examples/loadMonacoEditor'
   }
@@ -462,6 +466,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!echarts-stat/**',
         '!papaparse/**',
         '!exceljs/**',
+        '!xlsx/**',
         '!docsearch.js/**',
         '!monaco-editor/**.css',
         '!amis-ui/lib/components/RichText.js',
@@ -485,7 +490,9 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!uc.micro/**',
         '!markdown-it/**',
         '!markdown-it-html5-media/**',
-        '!punycode/**'
+        '!punycode/**',
+        '!ooxml-viewer/**',
+        '!fflate/**'
       ],
 
       'rich-text.js': [
@@ -499,6 +506,8 @@ if (fis.project.currentMedia() === 'publish-sdk') {
       'papaparse.js': ['papaparse/**'],
 
       'exceljs.js': ['exceljs/**'],
+
+      'xlsx.js': ['xlsx/**'],
 
       'markdown.js': [
         'amis-ui/lib/components/Markdown.js',
@@ -526,6 +535,8 @@ if (fis.project.currentMedia() === 'publish-sdk') {
 
       'charts.js': ['zrender/**', 'echarts/**', 'echarts-stat/**'],
 
+      'ooxml-viewer.js': ['ooxml-viewer/**', 'fflate/**'],
+
       'rest.js': [
         '*.js',
         '!monaco-editor/**',
@@ -539,6 +550,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!echarts/**',
         '!papaparse/**',
         '!exceljs/**',
+        '!xlsx/**',
         '!highlight.js/**',
         '!argparse/**',
         '!entities/**',
@@ -546,7 +558,9 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!mdurl/**',
         '!uc.micro/**',
         '!markdown-it/**',
-        '!markdown-it-html5-media/**'
+        '!markdown-it-html5-media/**',
+        '!ooxml-viewer/**',
+        '!fflate/**'
       ]
     }),
     postpackager: [
@@ -748,6 +762,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!echarts-stat/**',
         '!papaparse/**',
         '!exceljs/**',
+        '!xlsx/**',
         '!docsearch.js/**',
         '!monaco-editor/**.css',
         '!src/components/RichText.tsx',
@@ -773,6 +788,8 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!markdown-it-html5-media/**',
         '!punycode/**',
         '!amis-formula/**',
+        '!fflate/**',
+        '!ooxml-viewer/**',
         '!amis-core/**',
         '!amis-ui/**',
         '!amis/**'
@@ -790,6 +807,8 @@ if (fis.project.currentMedia() === 'publish-sdk') {
       'pkg/papaparse.js': ['papaparse/**'],
 
       'pkg/exceljs.js': ['exceljs/**'],
+
+      'pkg/xlsx.js': ['xlsx/**'],
 
       'pkg/barcode.js': ['amis-ui/lib/components/BarCode.tsx', 'jsbarcode/**'],
 
@@ -831,6 +850,8 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!/examples/components/EChartsEditor/Common.tsx'
       ],
 
+      'pkg/ooxml-viewer.js': ['ooxml-viewer/**', 'fflate/**'],
+
       'pkg/rest.js': [
         '**.{js,jsx,ts,tsx}',
         '!monaco-editor/**',
@@ -843,6 +864,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!echarts/**',
         '!papaparse/**',
         '!exceljs/**',
+        '!xlsx/**',
         '!amis-core/lib/utils/markdown.ts',
         '!highlight.js/**',
         '!argparse/**',
@@ -851,10 +873,11 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!mdurl/**',
         '!uc.micro/**',
         '!markdown-it/**',
-        '!markdown-it-html5-media/**'
+        '!markdown-it-html5-media/**',
+        '!fflate/**'
       ],
 
-      'pkg/npm.css': ['node_modules/*/**.css', '!monaco-editor/**'],
+      'pkg/npm.css': ['node_modules/*/**.css', '!monaco-editor/**', '!amis/**'],
 
       // css 打包
       'pkg/style.css': [
@@ -865,6 +888,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!/examples/style.scss',
         '!monaco-editor/**',
         '!scss/helper.scss',
+        '!amis/**',
         '/examples/style.scss' // 让它在最下面
       ]
     }),
