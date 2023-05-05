@@ -49,6 +49,10 @@ export default defineConfig({
   resolve: {
     alias: [
       {
+        find: 'moment/locale',
+        replacement: 'moment/dist/locale'
+      },
+      {
         find: 'amis-formula/lib',
         replacement: path.resolve(__dirname, './packages/amis-formula/src')
       },
