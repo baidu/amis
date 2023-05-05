@@ -624,6 +624,9 @@ setSchemaTpl(
   }
 );
 
+/**
+ * 数据源绑定
+ */
 setSchemaTpl('sourceBindControl', (schema: object = {}) => ({
   type: 'ae-formulaControl',
   name: 'source',
