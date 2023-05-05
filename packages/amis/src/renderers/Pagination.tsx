@@ -92,6 +92,7 @@ export default class Pagination extends React.Component<PaginationProps> {
 
 @Renderer({
   test: /(^|\/)(?:pagination|pager)$/,
-  name: 'pagination'
+  name: 'pagination',
+  autoVar: true
 })
 export class PaginationRenderer extends Pagination {}
