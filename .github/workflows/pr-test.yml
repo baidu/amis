@@ -30,8 +30,8 @@ jobs:
           cd packages/ooxml-viewer
           npm i --legacy-peer-deps
           cd ../../
-          npm run build --workspace amis-core
           npm run build --workspace amis-formula
+          npm run build --workspace amis-core
           npm run build --workspace amis-ui
           npm run build --workspace amis
           npm run build --workspace amis-editor-core
