@@ -23,7 +23,7 @@ import {getSchemaTpl, tipedLabel} from 'amis-editor-core';
 
 import type {Option} from 'amis';
 import type {FormControlProps} from 'amis-core';
-import type {SchemaApi, SchemaObject} from 'amis/lib/Schema';
+import type {SchemaApi} from 'amis';
 
 export type OptionControlItem = Option & {checked?: boolean; _key?: string};
 
@@ -244,9 +244,9 @@ export default class TreeOptionControl extends React.Component<
       options.splice(index, 1);
     } else {
       const {parentPath} = this.getNodePath(pathStr);
-      const parentNode = get(options, parentPath, {});
+      const parentNode: OptionControlItem = get(options, parentPath, {});
       parentNode?.children?.splice(index, 1);
-      if (!parentNode?.children.length) {
+      if (parentNode?.children?.length === 0) {
         // 去除僵尸子节点
         delete parentNode.children;
       }
@@ -280,7 +280,7 @@ export default class TreeOptionControl extends React.Component<
     } else {
       const index = path[path.length - 1];
       const {parentPath} = this.getNodePath(pathStr);
-      const parentNode = get(options, parentPath, {});
+      const parentNode: OptionControlItem = get(options, parentPath, {});
       parentNode.children?.splice(+index + 1, 0, {...defaultOption});
       set(options, parentPath, parentNode);
     }

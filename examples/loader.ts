@@ -33,8 +33,8 @@
   };
 
   Object.keys(mapping).forEach(key => {
-    amis.require.aliasMapping[key] = mapping[key];
+    (window as any).amis.require.aliasMapping[key] = mapping[key];
   });
 
-  (window as any).amisRequire = amis.require;
+  (window as any).amisRequire = (window as any).amis.require;
 })();

@@ -7,7 +7,7 @@ import {
   EditorManager
 } from 'amis-editor-core';
 import type {DSField} from 'amis-editor-core';
-import type {SchemaObject} from 'amis/lib/Schema';
+import type {SchemaObject} from 'amis';
 import flatten from 'lodash/flatten';
 import _ from 'lodash';
 import {InputComponentName} from '../component/InputComponentName';
