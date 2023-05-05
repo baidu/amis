@@ -731,6 +731,7 @@ export class EventControl extends React.Component<
   onSubmit(type: string, config: any) {
     const {actionConfigSubmitFormatter} = this.props;
     const action = actionConfigSubmitFormatter?.(config) ?? config;
+    delete action.__actionSchema;
     if (type === 'add') {
       this.addAction?.(config.eventKey, action);
     } else if (type === 'update') {

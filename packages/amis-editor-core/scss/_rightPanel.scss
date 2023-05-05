@@ -5,8 +5,6 @@ $category-2-height: px2rem(32px);
 $tooltip-bottom: '[data-tooltip][data-position=' bottom ']:hover:after';
 
 .editor-right-panel {
-  @include panel-sm-content();
-
   position: relative;
   flex: 0 0 auto;
   width: $right-panel-width;

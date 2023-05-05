@@ -25,12 +25,18 @@ div.ae-editor-FormulaControl {
 
   & &-input {
     flex: 1;
+    height: 32px;
     border-radius: var(--input-default-default-top-left-border-radius) 0 0
       var(--input-default-default-bottom-left-border-radius);
     max-width: calc(100% - 29px); // 避免表达式内容太长撑开面板
 
     &.is-clearable {
       padding-right: 30px; // 避免间隙过大
+    }
+
+    svg {
+      width: 12px;
+      height: 12px;
     }
   }
 

@@ -1646,19 +1646,15 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                         rootLabel: '页面变量',
                         options: pageVariableOptions
                       }),
-                      {
-                        type: 'input-formula',
+                      getSchemaTpl('formulaControl', {
                         name: 'value',
                         label: '数据设置',
                         variables: '${variables}',
-                        evalMode: false,
-                        variableMode: 'tabs',
-                        inputMode: 'input-group',
                         size: 'lg',
                         mode: 'horizontal',
                         required: true,
                         placeholder: '请输入变量值'
-                      }
+                      })
                     ]
                   }
                 ])
@@ -1677,19 +1673,15 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                       getCustomNodeTreeSelectSchema({
                         options: variableOptions
                       }),
-                      {
-                        type: 'input-formula',
+                      getSchemaTpl('formulaControl', {
                         name: 'value',
                         label: '数据设置',
                         variables: '${variables}',
-                        evalMode: false,
-                        variableMode: 'tabs',
-                        inputMode: 'input-group',
                         size: 'lg',
                         mode: 'horizontal',
                         required: true,
                         placeholder: '请输入变量值'
-                      }
+                      })
                     ]
                   }
                 ])
