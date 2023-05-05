@@ -368,6 +368,7 @@ order: 12
 - `window` 即全局变量
 - `ls` 即 localStorage， 如果值是 json 对象，可以直接当对象用比如：`${ls:xxxxxlocalStrorageKey.xxxx}`
 - `ss` 即 sessionStorage，同上。
+- `cookie` 即 cookies，同上。
 
 ```schema
 {
@@ -1301,6 +1302,43 @@ ${xxx | bytes}
     {
         "type": "tpl",
         "tpl": "bytes3 is ${bytes3|bytes}"
+    }
+  ]
+}
+```
+
+##### 指定换算间隔参数
+
+```
+${xxx | bytes[:step]}
+```
+
+```schema
+{
+  "type": "page",
+  "data": {
+    "bytes1": 2333,
+    "bytes2": 2333333,
+    "bytes3": 2333333333
+  },
+  "body": [
+    {
+        "type": "tpl",
+        "tpl": "bytes1 is ${bytes1|bytes:1024}"
+    },
+    {
+        "type": "divider"
+    },
+    {
+        "type": "tpl",
+        "tpl": "bytes2 is ${bytes2|bytes:1024}"
+    },
+    {
+        "type": "divider"
+    },
+    {
+        "type": "tpl",
+        "tpl": "bytes3 is ${bytes3|bytes:1024}"
     }
   ]
 }

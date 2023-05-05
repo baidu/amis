@@ -4,7 +4,6 @@
  */
 
 import React from 'react';
-
 import {
   Player,
   Shortcut,
@@ -56,6 +55,11 @@ export interface VideoSchema extends BaseSchema {
    * 配置帧列表容器className
    */
   framesClassName?: SchemaClassName;
+
+  // 用于设置行内样式
+  style?: {
+    [propName: string]: any;
+  };
 
   /**
    * 如果是实时的，请标记一下
@@ -266,7 +270,7 @@ export class FlvSource extends React.Component<FlvSourceProps, any> {
 
   render() {
     return (
-      <source src={this.props.src} type={this.props.type || 'video/x-flv'} />
+      <source src={this.props.src} type={this.props.type || 'video/x-flv'}/>
     );
   }
 }
@@ -762,10 +766,10 @@ export default class Video extends React.Component<VideoProps, VideoState> {
   }
 
   render() {
-    let {splitPoster, className, classPrefix: ns, classnames: cx} = this.props;
+    let {splitPoster, className, style, classPrefix: ns, classnames: cx} = this.props;
 
     return (
-      <div className={cx(`Video`, className)} onClick={this.onClick as any}>
+      <div className={cx(`Video`, className)} onClick={this.onClick as any} style={style}>
         {this.renderFrames()}
         {splitPoster ? this.renderPosterAndPlayer() : this.renderPlayer()}
       </div>

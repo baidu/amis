@@ -30,6 +30,7 @@ export interface GridNavProps {
   itemClassName?: string;
   classnames: ClassNamesFn;
   style?: React.CSSProperties;
+  children?: React.ReactNode | Array<React.ReactNode>;
 }
 
 export interface GridNavItemProps {

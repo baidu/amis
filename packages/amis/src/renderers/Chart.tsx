@@ -5,11 +5,12 @@ import {
   ActionObject,
   Renderer,
   RendererProps,
-  loadScript
+  loadScript,
+  buildStyle
 } from 'amis-core';
 import {ServiceStore, IServiceStore} from 'amis-core';
 
-import {filter, evalExpression} from 'amis-core';
+import {filter} from 'amis-core';
 import cx from 'classnames';
 import {LazyComponent} from 'amis-core';
 import {resizeSensor} from 'amis-core';
@@ -33,6 +34,7 @@ import {ActionSchema} from './Action';
 import {isAlive} from 'mobx-state-tree';
 import debounce from 'lodash/debounce';
 import pick from 'lodash/pick';
+import {ApiObject} from 'amis-core';
 
 const DEFAULT_EVENT_PARAMS = [
   'componentType',
@@ -236,8 +238,14 @@ export class Chart extends React.Component<ChartProps> {
     props.config && this.renderChart(props.config);
   }
 
-  componentDidMount() {
-    const {api, data, initFetch, source} = this.props;
+  async componentDidMount() {
+    const {api, data, initFetch, source, dispatchEvent} = this.props;
+
+    const rendererEvent = await dispatchEvent('init', data, this);
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
 
     if (source && isPureVariable(source)) {
       const ret = resolveVariableAndFilter(source, data, '| raw');
@@ -302,7 +310,7 @@ export class Chart extends React.Component<ChartProps> {
     const {data, dispatchEvent} = this.props;
 
     dispatchEvent(
-      (ctx as any).event,
+      (ctx as any).event || ctx.type,
       createObject(data, {
         ...pick(
           ctx,
@@ -372,13 +380,17 @@ export class Chart extends React.Component<ChartProps> {
           await onChartWillMount(echarts);
         }
 
-        (echarts as any).registerTransform(
-          (ecStat as any).transform.regression
-        );
-        (echarts as any).registerTransform((ecStat as any).transform.histogram);
-        (echarts as any).registerTransform(
-          (ecStat as any).transform.clustering
-        );
+        if ((ecStat as any).transform) {
+          (echarts as any).registerTransform(
+            (ecStat as any).transform.regression
+          );
+          (echarts as any).registerTransform(
+            (ecStat as any).transform.histogram
+          );
+          (echarts as any).registerTransform(
+            (ecStat as any).transform.clustering
+          );
+        }
 
         if (env.loadChartExtends) {
           await env.loadChartExtends();
@@ -461,7 +473,8 @@ export class Chart extends React.Component<ChartProps> {
         if (!result.ok) {
           return env.notify(
             'error',
-            result.msg || __('fetchFailed'),
+            (api as ApiObject)?.messages?.failed ??
+              (result.msg || __('fetchFailed')),
             result.msgTimeout !== undefined
               ? {
                   closeButton: true,
@@ -576,15 +589,17 @@ export class Chart extends React.Component<ChartProps> {
       width,
       height,
       classPrefix: ns,
-      unMountOnHidden
+      unMountOnHidden,
+      data
     } = this.props;
     let style = this.props.style || {};
 
     width && (style.width = width);
     height && (style.height = height);
+    const styleVar = buildStyle(style, data);
 
     return (
-      <div className={cx(`${ns}Chart`, className)} style={style}>
+      <div className={cx(`${ns}Chart`, className)} style={styleVar}>
         <LazyComponent
           unMountOnHidden={unMountOnHidden}
           placeholder="..." // 之前那个 spinner 会导致 sensor 失效
@@ -622,5 +637,10 @@ export class ChartRenderer extends Chart {
     store.updateData(values, undefined, replace);
     // 重新渲染
     this.renderChart(this.props.config, values);
+  }
+
+  getData() {
+    const {store} = this.props;
+    return store.data;
   }
 }

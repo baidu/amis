@@ -299,8 +299,8 @@ export class Audio extends React.Component<AudioProps, AudioState> {
   formatTime(seconds: number) {
     const date = new Date(seconds * 1000);
     const hh = date.getUTCHours();
-    const mm = date.getUTCMinutes();
-    const ss = this.pad(date.getUTCSeconds());
+    const mm = isNaN(date.getUTCMinutes()) ? 0 : date.getUTCMinutes();
+    const ss = isNaN(date.getUTCSeconds()) ? '00': this.pad(date.getUTCSeconds());
     if (hh) {
       return `${hh}:${this.pad(mm)}:${ss}`;
     }
@@ -450,6 +450,7 @@ export class Audio extends React.Component<AudioProps, AudioState> {
   render() {
     const {
       className,
+      style,
       inline,
       autoPlay,
       loop,
@@ -459,7 +460,7 @@ export class Audio extends React.Component<AudioProps, AudioState> {
     const {muted, src} = this.state;
 
     return (
-      <div className={cx('Audio', className, inline ? 'Audio--inline' : '')}>
+      <div className={cx('Audio', className, inline ? 'Audio--inline' : '')} style={style}>
         <audio
           className={cx('Audio-original')}
           ref={this.audioRef}

@@ -25,7 +25,7 @@ import {
 } from 'amis-core';
 import {Icon} from '../icons';
 import CheckBox from '../Checkbox';
-import Spinner from '../Spinner';
+import Spinner, {SpinnerExtraProps} from '../Spinner';
 
 import HeadCellSort from './HeadCellSort';
 import HeadCellFilter from './HeadCellFilter';
@@ -42,7 +42,7 @@ export interface ColumnProps {
   fixed?: boolean | string;
   width?: number | string;
   sorter?: (a: any, b: any) => number | boolean; // 设置为true时，执行onSort，否则执行前端排序
-  sortOrder?: string; // 升序ascend、降序descend
+  sortOrder?: string; // 升序asc、降序desc
   filters?: Array<any>; // 筛选数据源，配置了数据源才展示
   filterMode?: string; // menu/tree 默认menu 先只支持menu
   filterMultiple?: boolean; // 是否支持多选
@@ -117,7 +117,7 @@ export interface SortProps {
   order: string;
 }
 
-export interface TableProps extends ThemeProps, LocaleProps {
+export interface TableProps extends ThemeProps, LocaleProps, SpinnerExtraProps {
   title: string | React.ReactNode | Function;
   footer: string | React.ReactNode | Function;
   className?: string;
@@ -173,6 +173,7 @@ export interface TableState {
     record: any;
     target: HTMLTableRowElement;
   } | null;
+  sort?: SortProps;
 }
 
 function getMaxLevelThRowSpan(columns: Array<ColumnProps>) {
@@ -212,11 +213,11 @@ function buildColumns(
   columns: Array<ColumnProps> = [],
   thColumns: Array<Array<any>>,
   tdColumns: Array<ColumnProps> = [],
+  maxLevel: number,
   depth: number = 0,
   id?: string,
   fixed?: boolean | string
 ) {
-  const maxLevel = getMaxLevelThRowSpan(columns);
   // 在处理表头时，如果父级column设置了fixed属性，那么所有children保持一致
   Array.isArray(columns) &&
     columns.forEach(column => {
@@ -227,7 +228,7 @@ function buildColumns(
       }
       const newColumn = {
         ...column,
-        rowSpan: childMaxLevel ? 1 : maxLevel - childMaxLevel + depth,
+        rowSpan: childMaxLevel ? 1 : maxLevel - depth,
         colSpan: getThColSpan(column),
         groupId,
         depth
@@ -250,6 +251,7 @@ function buildColumns(
           column.children,
           thColumns,
           tdColumns,
+          maxLevel,
           depth + 1,
           groupId,
           column.fixed
@@ -363,7 +365,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
 
   @autobind
   getPopOverContainer() {
-    return findDOMNode(this);
+    return findDOMNode(this) as HTMLElement;
   }
 
   // 表头配置
@@ -497,20 +499,27 @@ export class Table extends React.PureComponent<TableProps, TableState> {
 
   componentDidUpdate(prevProps: TableProps, prevState: TableState) {
     // 数据源发生了变化
+    // 异步加载数据需求再更新一次
+    // 翻页
     if (!isEqual(prevProps.dataSource, this.props.dataSource)) {
-      this.setState({dataSource: [...this.props.dataSource]}, () => {
-        if (this.props.draggable) {
-          if (this.sortable) {
-            this.destroyDragging();
+      this.setState(
+        {
+          dataSource: [...this.props.dataSource]
+        },
+        () => {
+          if (this.props.draggable) {
+            if (this.sortable) {
+              this.destroyDragging();
+            }
+
+            this.initDragging();
           }
 
-          this.initDragging();
+          this.updateTableFixedRows();
+
+          this.updateColWidths();
         }
-
-        this.updateTableFixedRows();
-
-        this.updateColWidths();
-      }); // 异步加载数据需求再更新一次
+      );
     }
 
     // 选择项发生了变化触发
@@ -958,21 +967,35 @@ export class Table extends React.PureComponent<TableProps, TableState> {
         ></Cell>
       ) : null;
 
-    let allRowKeys: Array<string> = [];
+    let allRowKeys: Array<string | number> = [];
     let allRows: Array<any> = [];
-    const maxSelectedLength = rowSelection?.maxSelectedLength;
     dataList.forEach(data => {
-      if (!!maxSelectedLength && allRows.length < maxSelectedLength) {
-        allRowKeys.push(data[keyField]);
-        allRows.push(data);
-        if (!expandable && this.hasChildrenRow(data)) {
-          allRowKeys = [...allRowKeys, ...this.getDataChildrenKeys(data)];
-          data[this.getChildrenColumnName()].forEach((item: any) =>
-            allRows.push(item)
-          );
-        }
+      allRowKeys.push(data[keyField]);
+      allRows.push(data);
+      if (!expandable && this.hasChildrenRow(data)) {
+        allRowKeys = [...allRowKeys, ...this.getDataChildrenKeys(data)];
+        data[this.getChildrenColumnName()].forEach((item: any) =>
+          allRows.push(item)
+        );
       }
     });
+
+    // 从renderers的table传来的数据 可能不在当前页 因此需要过滤一下
+    const selectedRowKeys = this.state.selectedRowKeys.filter(key =>
+      allRowKeys.includes(key)
+    );
+    const restSelectedRowKeys = this.state.selectedRowKeys.filter(
+      key => !allRowKeys.includes(key)
+    );
+
+    const maxSelectedLength = rowSelection?.maxSelectedLength;
+    if (maxSelectedLength && Number.isInteger(maxSelectedLength)) {
+      if (restSelectedRowKeys.length + allRowKeys.length > maxSelectedLength) {
+        const count = maxSelectedLength - restSelectedRowKeys.length;
+        allRowKeys = allRowKeys.slice(0, count);
+        allRows = allRows.slice(0, count);
+      }
+    }
 
     return (
       <thead ref={this.theadDom} className={cx('Table-thead')}>
@@ -998,22 +1021,14 @@ export class Table extends React.PureComponent<TableProps, TableState> {
                         <CheckBox
                           key="checkAll"
                           partial={
-                            this.state.selectedRowKeys.length > 0 &&
-                            this.state.selectedRowKeys.length <
-                              allRowKeys.length
+                            selectedRowKeys.length > 0 &&
+                            selectedRowKeys.length < allRowKeys.length
                           }
-                          checked={this.state.selectedRowKeys.length > 0}
+                          checked={selectedRowKeys.length > 0}
                           onChange={async value => {
-                            let changeRows;
-                            if (value) {
-                              changeRows = dataList.filter(
-                                data => !this.hasCheckedRows(data)
-                              );
-                            } else {
-                              changeRows = this.selectedRows;
-                            }
                             const selectedRows = value ? allRows : [];
                             const selectedRowKeys = value ? allRowKeys : [];
+
                             if (onSelectAll) {
                               const prevented = await onSelectAll(
                                 selectedRows,
@@ -1024,8 +1039,12 @@ export class Table extends React.PureComponent<TableProps, TableState> {
                                 return;
                               }
                             }
-
-                            this.setState({selectedRowKeys});
+                            this.setState({
+                              selectedRowKeys: [
+                                ...selectedRowKeys,
+                                ...restSelectedRowKeys // 更新数据要把非当前页的数据也加上
+                              ]
+                            });
                           }}
                         ></CheckBox>,
                         rowSelection.selections &&
@@ -1048,24 +1067,32 @@ export class Table extends React.PureComponent<TableProps, TableState> {
                   sort = (
                     <HeadCellSort
                       column={item}
-                      onSort={
-                        onSort
-                          ? onSort
-                          : (payload: SortProps) => {
-                              if (typeof item.sorter === 'function') {
-                                if (payload.orderBy) {
-                                  const sortList = [...this.state.dataSource];
-                                  this.setState({
-                                    dataSource: sortList.sort(
-                                      item.sorter as (a: any, b: any) => number
-                                    )
-                                  });
-                                } else {
-                                  this.setState({dataSource: [...dataSource]});
-                                }
-                              }
-                            }
+                      active={
+                        !!this.state.sort?.orderBy &&
+                        this.state.sort.orderBy === item?.name
                       }
+                      onSort={(payload: SortProps) => {
+                        this.setState({
+                          sort: payload
+                        });
+
+                        if (onSort) {
+                          onSort(payload);
+                        } else {
+                          if (typeof item.sorter === 'function') {
+                            if (payload.orderBy) {
+                              const sortList = [...this.state.dataSource];
+                              this.setState({
+                                dataSource: sortList.sort(
+                                  item.sorter as (a: any, b: any) => number
+                                )
+                              });
+                            } else {
+                              this.setState({dataSource: [...dataSource]});
+                            }
+                          }
+                        }
+                      }}
                     ></HeadCellSort>
                   );
                 }
@@ -1095,14 +1122,16 @@ export class Table extends React.PureComponent<TableProps, TableState> {
                 }
                 const children = !item.children?.length ? (
                   <span>
-                    {sort}
-                    {filter}
-                    {resizable ? (
-                      <i
-                        className={cx('Table-thead-resizable')}
-                        onMouseDown={e => this.onResizeMouseDown(e, cIndex)}
-                      ></i>
-                    ) : null}
+                    <>
+                      {sort}
+                      {filter}
+                      {resizable ? (
+                        <i
+                          className={cx('Table-thead-resizable')}
+                          onMouseDown={e => this.onResizeMouseDown(e, cIndex)}
+                        ></i>
+                      ) : null}
+                    </>
                   </span>
                 ) : null;
 
@@ -1160,12 +1189,19 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     }
   }
 
-  onRowMouseEnter(
+  async onRowMouseEnter(
     event: React.ChangeEvent<any>,
     record?: any,
     rowIndex?: number
   ) {
     const {classnames: cx, onRow} = this.props;
+
+    if (onRow && onRow.onRowMouseEnter) {
+      const prevented = await onRow.onRowMouseEnter(event, record, rowIndex);
+      if (prevented) {
+        return;
+      }
+    }
 
     let parent = event.target;
     while (parent && parent.tagName !== 'TR') {
@@ -1185,21 +1221,23 @@ export class Table extends React.PureComponent<TableProps, TableState> {
         target = target.closest('tr');
       }
 
-      this.setState({hoverRow: {target, rowIndex, record}}, () => {
-        if (onRow) {
-          onRow.onRowMouseEnter &&
-            onRow.onRowMouseEnter(event, record, rowIndex);
-        }
-      });
+      this.setState({hoverRow: {target, rowIndex, record}});
     }
   }
 
-  onRowMouseLeave(
+  async onRowMouseLeave(
     event: React.ChangeEvent<any>,
     record?: any,
     rowIndex?: number
   ) {
     const {classnames: cx, onRow} = this.props;
+
+    if (onRow && onRow.onRowMouseLeave) {
+      const prevented = await onRow.onRowMouseLeave(event, record, rowIndex);
+      if (prevented) {
+        return;
+      }
+    }
 
     let parent = event.target;
     while (parent && parent.tagName !== 'TR') {
@@ -1210,12 +1248,6 @@ export class Table extends React.PureComponent<TableProps, TableState> {
       for (let i = 0; i < parent.children.length; i++) {
         const td = parent.children[i];
         td.classList.remove(cx('Table-cell-row-hover'));
-      }
-    }
-
-    if (record) {
-      if (onRow) {
-        onRow.onRowMouseLeave && onRow.onRowMouseLeave(event, record, rowIndex);
       }
     }
   }
@@ -1251,9 +1283,9 @@ export class Table extends React.PureComponent<TableProps, TableState> {
   }
 
   getRowSelectionKeyField() {
-    const {rowSelection} = this.props;
+    const {rowSelection, keyField} = this.props;
 
-    return rowSelection ? rowSelection.keyField || 'key' : '';
+    return rowSelection?.keyField || keyField || 'key';
   }
 
   getExpandableKeyField() {
@@ -1815,10 +1847,14 @@ export class Table extends React.PureComponent<TableProps, TableState> {
   }
 
   renderLoading() {
-    const {classnames: cx, loading} = this.props;
+    const {classnames: cx, loading, loadingConfig} = this.props;
     return (
       <div className={cx('Table-loading')}>
-        {typeof loading === 'boolean' ? <Spinner></Spinner> : loading}
+        {typeof loading === 'boolean' ? (
+          <Spinner loadingConfig={loadingConfig} />
+        ) : (
+          loading
+        )}
       </div>
     );
   }
@@ -2005,7 +2041,12 @@ export class Table extends React.PureComponent<TableProps, TableState> {
 
     this.thColumns = [];
     this.tdColumns = [];
-    buildColumns(filterColumns, this.thColumns, this.tdColumns);
+    buildColumns(
+      filterColumns,
+      this.thColumns,
+      this.tdColumns,
+      getMaxLevelThRowSpan(filterColumns)
+    );
 
     // 是否设置了纵向滚动
     const hasScrollY = scroll && scroll.y;

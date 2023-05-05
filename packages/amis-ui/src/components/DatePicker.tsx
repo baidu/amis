@@ -368,6 +368,11 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
 
   componentDidMount() {
     this.props?.onRef?.(this);
+    const {value, format, inputFormat} = this.props;
+    if (value) {
+      let valueCache = normalizeValue(value, format);
+      this.inputValueCache = valueCache?.format(inputFormat) || '';
+    }
   }
 
   componentDidUpdate(prevProps: DateProps) {
@@ -797,7 +802,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
           onChange={this.inputChange}
           onBlur={this.onInputBlur}
           ref={this.inputRef}
-          placeholder={__(placeholder)}
+          placeholder={placeholder}
           autoComplete="off"
           value={this.state.inputValue || ''}
           disabled={disabled}
@@ -813,6 +818,11 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
           <Icon
             icon={viewMode === 'time' ? 'clock' : 'date'}
             className="icon"
+            iconContent={
+              viewMode === 'time'
+                ? 'DatePicker-toggler-clock'
+                : 'DatePicker-toggler-date'
+            }
           />
         </a>
 

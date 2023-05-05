@@ -70,7 +70,7 @@ export interface StepsObject {
   /**
    * 展示模式
    */
-  mode?: 'horizontal' | 'vertical';
+  mode?: 'horizontal' | 'vertical' | 'simple';
 
   /**
    * 标签放置位置
@@ -86,7 +86,7 @@ export interface StepsProps extends ThemeProps {
     | {
         [propName: string]: StepStatus;
       };
-  mode?: 'horizontal' | 'vertical';
+  mode?: 'horizontal' | 'vertical' | 'simple';
   labelPlacement?: 'horizontal' | 'vertical';
   progressDot?: boolean;
   useMobileUI?: boolean;
@@ -97,6 +97,7 @@ export function Steps(props: StepsProps) {
     steps: stepsRow,
     classnames: cx,
     className,
+    style,
     current,
     status,
     mode = 'horizontal',
@@ -153,6 +154,7 @@ export function Steps(props: StepsProps) {
         mobileUI ? 'Steps-mobile' : '',
         className
       )}
+      style={style}
     >
       {stepsRow.map((step, i) => {
         const {stepStatus, icon} = getStepStatus(step, i);
@@ -217,6 +219,15 @@ export function Steps(props: StepsProps) {
                   </div>
                 </div>
               </div>
+              {mode === 'simple' && i < stepsRow.length - 1 && (
+                <div className={cx('StepsItem-icon-line')}>
+                  <Icon
+                    icon="right-arrow"
+                    className="icon"
+                    iconContent="StepsItem-icon-line"
+                  />
+                </div>
+              )}
             </div>
           </li>
         );

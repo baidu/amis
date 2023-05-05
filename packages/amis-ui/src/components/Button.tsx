@@ -7,11 +7,13 @@ import React from 'react';
 import TooltipWrapper, {TooltipObject, Trigger} from './TooltipWrapper';
 import {pickEventsProps} from 'amis-core';
 import {ClassNamesFn, themeable} from 'amis-core';
-import {Icon} from './icons';
-import Spinner from './Spinner';
-interface ButtonProps extends React.DOMAttributes<HTMLButtonElement> {
+import Spinner, {SpinnerExtraProps} from './Spinner';
+interface ButtonProps
+  extends React.DOMAttributes<HTMLButtonElement>,
+    SpinnerExtraProps {
   id?: string;
   className?: string;
+  style?: any;
   href?: string;
   title?: string;
   size?: 'xs' | 'sm' | 'md' | 'lg';
@@ -29,7 +31,7 @@ interface ButtonProps extends React.DOMAttributes<HTMLButtonElement> {
   disabledTip?: string | TooltipObject;
   classPrefix: string;
   classnames: ClassNamesFn;
-  componentClass: React.ReactType;
+  componentClass: React.ElementType;
   overrideClassName?: boolean;
   loading?: boolean;
   loadingClassName?: string;
@@ -59,6 +61,7 @@ export class Button extends React.Component<ButtonProps> {
       size = 'default',
       disabled,
       className,
+      style,
       title,
       componentClass: Comp,
       classnames: cx,
@@ -72,6 +75,7 @@ export class Button extends React.Component<ButtonProps> {
       loading,
       loadingClassName,
       overrideClassName,
+      loadingConfig,
       ...rest
     } = this.props;
 
@@ -101,11 +105,13 @@ export class Button extends React.Component<ButtonProps> {
               },
           className
         )}
+        style={style}
         title={title}
         disabled={disabled}
       >
         {loading && !disabled && (
           <Spinner
+            loadingConfig={loadingConfig}
             size="sm"
             show
             icon="loading-outline"

@@ -2,7 +2,7 @@ import React from 'react';
 import {findDOMNode} from 'react-dom';
 import Sortable from 'sortablejs';
 import omit from 'lodash/omit';
-import {Button, Spinner, Checkbox, Icon} from 'amis-ui';
+import {Button, Spinner, Checkbox, Icon, SpinnerExtraProps} from 'amis-ui';
 import {
   ListStore,
   IListStore,
@@ -42,8 +42,8 @@ import {
 } from '../Schema';
 import {ActionSchema} from './Action';
 import {SchemaRemark} from './Remark';
-import type {IItem} from 'amis-core/lib/store/list';
-import type {OnEventProps} from 'amis-core/lib/utils/renderer-event';
+import type {IItem} from 'amis-core';
+import type {OnEventProps} from 'amis-core';
 
 /**
  * 不指定类型默认就是文本
@@ -58,6 +58,11 @@ export type ListBodyFieldObject = {
    * label 类名
    */
   labelClassName?: SchemaClassName;
+
+  /**
+   * 内层组件的CSS类名
+   */
+  innerClassName?: SchemaClassName;
 
   /**
    * 绑定字段名
@@ -233,7 +238,8 @@ export interface Column {
 
 export interface ListProps
   extends RendererProps,
-    Omit<ListSchema, 'type' | 'className'> {
+    Omit<ListSchema, 'type' | 'className'>,
+    SpinnerExtraProps {
   store: IListStore;
   selectable?: boolean;
   selected?: Array<any>;
@@ -321,9 +327,10 @@ export default class List extends React.Component<ListProps, object> {
     } = props;
 
     store.update({
-      multiple,
-      selectable,
-      draggable,
+      /** Card嵌套List情况下该属性获取到的值为ListStore的默认值, 会导致Schema中的配置被覆盖 */
+      multiple: multiple || props?.$schema.multiple,
+      selectable: selectable || props?.$schema.selectable,
+      draggable: draggable || props?.$schema.draggable,
       orderBy,
       orderDir,
       hideCheckToggler,
@@ -478,7 +485,8 @@ export default class List extends React.Component<ListProps, object> {
         })
       );
     } else {
-      onAction?.(e, action, ctx);
+      /** action无值代表List自身已经处理, 无需交给上层处理 */
+      action && onAction?.(e, action, ctx);
     }
   }
 
@@ -995,6 +1003,7 @@ export default class List extends React.Component<ListProps, object> {
   render() {
     const {
       className,
+      style,
       itemClassName,
       store,
       placeholder,
@@ -1009,7 +1018,8 @@ export default class List extends React.Component<ListProps, object> {
       classnames: cx,
       size,
       translate: __,
-      loading = false
+      loading = false,
+      loadingConfig
     } = this.props;
 
     this.renderedToolbars = [];
@@ -1022,6 +1032,7 @@ export default class List extends React.Component<ListProps, object> {
           [`List--${size}`]: size,
           'List--unsaved': !!store.modified || !!store.moved
         })}
+        style={style}
         ref={this.bodyRef}
       >
         {affixHeader && heading && header ? (
@@ -1046,7 +1057,7 @@ export default class List extends React.Component<ListProps, object> {
         )}
 
         {this.renderFooter()}
-        <Spinner overlay show={loading} />
+        <Spinner overlay show={loading} loadingConfig={loadingConfig} />
       </div>
     );
   }
@@ -1180,7 +1191,7 @@ export class ListItem extends React.Component<ListItemProps> {
         <div className={cx('ListItem-checkBtn')}>
           <Checkbox
             classPrefix={ns}
-            type={multiple ? 'checkbox' : 'radio'}
+            type={multiple !== false ? 'checkbox' : 'radio'}
             disabled={!checkable}
             checked={selected}
             onChange={checkOnItemClick ? noop : this.handleCheck}
@@ -1416,6 +1427,7 @@ export class ListItemFieldRenderer extends TableCell {
       render,
       style,
       wrapperComponent: Component,
+      contentsOnly,
       labelClassName,
       value,
       data,
@@ -1451,9 +1463,10 @@ export class ListItemFieldRenderer extends TableCell {
       );
     }
 
-    if (!Component) {
+    if (contentsOnly) {
       return body as JSX.Element;
     }
+    Component = Component || 'div';
 
     return (
       <Component

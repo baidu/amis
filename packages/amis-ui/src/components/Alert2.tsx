@@ -12,6 +12,7 @@ export interface AlertProps {
   level: 'danger' | 'info' | 'success' | 'warning';
   title?: string;
   className?: string;
+  style?: any;
   showCloseButton: boolean;
   showIcon?: boolean;
   icon?: string | React.ReactNode;
@@ -20,6 +21,7 @@ export interface AlertProps {
   onClose?: () => void;
   classnames: ClassNamesFn;
   classPrefix: string;
+  children?: React.ReactNode | Array<React.ReactNode>;
 }
 
 export interface AlertState {
@@ -64,6 +66,7 @@ export class Alert extends React.Component<AlertProps, AlertState> {
     const {
       classnames: cx,
       className,
+      style,
       level,
       children,
       showCloseButton,
@@ -78,7 +81,7 @@ export class Alert extends React.Component<AlertProps, AlertState> {
     const iconNode = icon ? (
       ['string', 'object'].includes(typeof icon) ? (
         typeof icon === 'object' ? (
-          generateIcon(cx, icon as IconCheckedSchema, 'icon')
+          generateIcon(cx, icon as any as IconCheckedSchema, 'icon')
         ) : (
           getIcon(icon as string) && <Icon icon={icon} className={cx(`icon`)} />
         )
@@ -99,6 +102,7 @@ export class Alert extends React.Component<AlertProps, AlertState> {
           title ? 'Alert-has-title' : '',
           className
         )}
+        style={style}
       >
         {showIcon && iconNode ? (
           <div className={cx('Alert-icon', iconClassName)}>{iconNode}</div>

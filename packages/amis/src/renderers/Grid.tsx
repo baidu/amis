@@ -1,10 +1,10 @@
 import React from 'react';
-import {FormHorizontal, Renderer, RendererProps} from 'amis-core';
+import {FormHorizontal, Renderer, RendererProps, buildStyle} from 'amis-core';
 import pick from 'lodash/pick';
 import {BaseSchema, SchemaClassName, SchemaCollection} from '../Schema';
 
 import {ucFirst} from 'amis-core';
-import {Spinner} from 'amis-ui';
+import {Spinner, SpinnerExtraProps} from 'amis-ui';
 
 export const ColProps = ['lg', 'md', 'sm', 'xs'];
 
@@ -50,6 +50,11 @@ export type GridColumnObject = {
    * 列类名
    */
   columnClassName?: SchemaClassName;
+
+  /**
+   * 样式
+   */
+  style?: any;
 };
 
 export type GridColumn = GridColumnObject;
@@ -89,7 +94,8 @@ export interface GridSchema extends BaseSchema {
 
 export interface GridProps
   extends RendererProps,
-    Omit<GridSchema, 'type' | 'className' | 'columnClassName'> {
+    Omit<GridSchema, 'type' | 'className' | 'columnClassName'>,
+    SpinnerExtraProps {
   itemRender?: (item: any, length: number, props: any) => JSX.Element;
 }
 
@@ -151,9 +157,10 @@ export default class Grid<T> extends React.Component<GridProps & T, object> {
       subFormHorizontal,
       formHorizontal,
       translate: __,
-      disabled
+      disabled,
+      data
     } = this.props;
-
+    const styleVar = buildStyle(column.style, data);
     return (
       <div
         key={key}
@@ -164,6 +171,7 @@ export default class Grid<T> extends React.Component<GridProps & T, object> {
             [`Grid-col--v${ucFirst(column.valign)}`]: column.valign
           }
         )}
+        style={styleVar}
       >
         {this.renderChild(`column/${key}`, (column as any).body || '', length, {
           disabled,
@@ -186,12 +194,16 @@ export default class Grid<T> extends React.Component<GridProps & T, object> {
   render() {
     const {
       className,
+      style,
       classnames: cx,
       gap,
       valign: vAlign,
       align: hAlign,
-      loading = false
+      loading = false,
+      loadingConfig,
+      data
     } = this.props;
+    const styleVar = buildStyle(style, data);
     return (
       <div
         className={cx(
@@ -203,9 +215,10 @@ export default class Grid<T> extends React.Component<GridProps & T, object> {
           },
           className
         )}
+        style={styleVar}
       >
         {this.renderColumns(this.props.columns)}
-        <Spinner overlay show={loading} />
+        <Spinner loadingConfig={loadingConfig} overlay show={loading} />
       </div>
     );
   }

@@ -3,13 +3,18 @@
  */
 
 import React from 'react';
-import {ClassNamesFn} from '../theme';
-
 import {isObject} from 'lodash';
+import {ClassNamesFn} from '../theme';
 
 export interface IconCheckedSchema {
   id: string;
   name?: string;
+  svg?: string;
+}
+
+export interface IconCheckedSchemaNew {
+  type: 'icon';
+  icon: IconCheckedSchema;
 }
 
 /**
@@ -20,10 +25,18 @@ export interface IconCheckedSchema {
  */
 export const generateIcon = (
   cx: ClassNamesFn,
-  icon?: string | IconCheckedSchema,
+  icon?: string | IconCheckedSchema | React.ReactNode | IconCheckedSchemaNew,
   className?: string,
   classNameProp?: string
 ) => {
+  if (
+    isObject(icon) &&
+    (icon as IconCheckedSchemaNew).type === 'icon' &&
+    (icon as IconCheckedSchemaNew).icon
+  ) {
+    icon = (icon as IconCheckedSchemaNew).icon;
+  }
+
   if (React.isValidElement(icon)) {
     return icon;
   }
@@ -31,12 +44,17 @@ export const generateIcon = (
   if (typeof icon !== 'string') {
     if (
       isObject(icon) &&
-      typeof icon.id === 'string' &&
-      icon.id.startsWith('svg-')
+      typeof (icon as IconCheckedSchema).id === 'string' &&
+      (icon as IconCheckedSchema).id.startsWith('svg-')
     ) {
       return (
         <svg className={cx('icon', 'icon-object', className, classNameProp)}>
-          <use xlinkHref={`#${icon.id.replace(/^svg-/, '')}`}></use>
+          <use
+            xlinkHref={`#${(icon as IconCheckedSchema).id.replace(
+              /^svg-/,
+              ''
+            )}`}
+          ></use>
         </svg>
       );
     }

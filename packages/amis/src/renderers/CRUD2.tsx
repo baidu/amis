@@ -1,7 +1,6 @@
 import React from 'react';
-
+import omitBy from 'lodash/omitBy';
 import {Renderer, RendererProps} from 'amis-core';
-import {Action} from '../types';
 import {CRUDStore, ICRUDStore} from 'amis-core';
 import {
   createObject,
@@ -21,7 +20,8 @@ import {findDOMNode} from 'react-dom';
 import {evalExpression, filter} from 'amis-core';
 import {isEffectiveApi, isApiOutdated} from 'amis-core';
 import findIndex from 'lodash/findIndex';
-import {Html} from 'amis-ui';
+import {Html, SpinnerExtraProps} from 'amis-ui';
+import {Action} from '../types';
 import {
   BaseSchema,
   SchemaApi,
@@ -33,13 +33,15 @@ import {
 import {CardsSchema} from './Cards';
 import {ListSchema} from './List';
 import {TableSchema2} from './Table2';
+import type {Table2RendererEvent} from './Table2';
+import type {CardsRendererEvent} from './Cards';
 import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
 import {SchemaCollection} from '../Schema';
-import {upperFirst} from 'lodash';
+import upperFirst from 'lodash/upperFirst';
 
-export type CRUDRendererEvent = 'search';
+export type CRUDRendererEvent = Table2RendererEvent | CardsRendererEvent;
 
-export interface CRUD2CommonSchema extends BaseSchema {
+export interface CRUD2CommonSchema extends BaseSchema, SpinnerExtraProps {
   /**
    *  指定为 CRUD2 渲染器。
    */
@@ -187,10 +189,24 @@ export type CRUD2Schema = CRUD2CardsSchema | CRUD2ListSchema | CRUD2TableSchema;
 
 export interface CRUD2Props
   extends RendererProps,
-    Omit<CRUD2CommonSchema, 'type' | 'className'> {
+    Omit<CRUD2CommonSchema, 'type' | 'className'>,
+    SpinnerExtraProps {
   store: ICRUDStore;
   pickerMode?: boolean; // 选择模式，用做表单中的选择操作
 }
+
+const INNER_EVENTS: Array<CRUDRendererEvent> = [
+  'selectedChange',
+  'columnSort',
+  'columnFilter',
+  'columnSearch',
+  'columnToggled',
+  'orderChange',
+  'rowClick',
+  'rowMouseEnter',
+  'rowMouseLeave',
+  'selected'
+];
 
 export default class CRUD2 extends React.Component<CRUD2Props, any> {
   static propsList: Array<keyof CRUD2Props> = [
@@ -387,7 +403,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
   }
 
   initQuery(values: object) {
-    const {store, orderBy, orderDir} = this.props;
+    const {store, orderBy, orderDir, loadType} = this.props;
     const params: any = {};
 
     if (orderBy) {
@@ -401,7 +417,8 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
         ...values,
         ...store.query
       },
-      replaceQuery: this.props.initFetch !== false
+      replaceQuery: this.props.initFetch !== false,
+      loadMore: loadType === 'more'
     });
 
     // 保留一次用于重置查询条件
@@ -412,6 +429,9 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
    * 加载更多动作处理器
    */
   handleLoadMore() {
+    const {store, perPage} = this.props;
+
+    store.changePage(store.page + 1, perPage);
     this.getData(undefined, undefined, undefined, true);
   }
 
@@ -422,11 +442,15 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     query?: object; // 查询条件，没有将使用当前的
     resetQuery?: boolean;
     replaceQuery?: boolean;
+    loadMore?: boolean;
   }) {
     const {store, syncLocation, env, pageField, perPageField} = this.props;
-    let {query, resetQuery, replaceQuery} = data;
+    let {query, resetQuery, replaceQuery, loadMore} = data || {};
 
-    query = syncLocation ? qsparse(qsstringify(query, undefined, true)) : query;
+    query =
+      syncLocation && query
+        ? qsparse(qsstringify(query, undefined, true))
+        : query;
 
     store.updateQuery(
       resetQuery ? this.props.store.pristineQuery : query,
@@ -437,9 +461,10 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       perPageField,
       replaceQuery
     );
+    store.changePage(1);
 
     this.lastQuery = store.query;
-    this.getData(undefined, undefined, undefined);
+    this.getData(undefined, undefined, undefined, loadMore ?? false);
   }
 
   handleStopAutoRefresh() {
@@ -496,7 +521,8 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       loadDataOnce,
       loadDataOnceFetchOnFilter,
       source,
-      columns
+      columns,
+      perPage
     } = this.props;
 
     // reload 需要清空用户选择
@@ -514,7 +540,14 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     this.lastQuery = store.query;
     const loadDataMode = loadMore ?? loadType === 'more';
 
-    const data = createObject(store.data, store.query);
+    const data: Record<string, any> = createObject(store.data, store.query);
+
+    // handleLoadMore 是在事件触发后才执行，首次加载并不走到 handleLoadMore
+    // 所以加载更多模式下，首次加载也需要使用设置的 perPage，避免前后 perPage 不一致导致的问题
+    if (loadDataMode && perPage) {
+      store.changePerPage(perPage);
+    }
+
     isEffectiveApi(api, data)
       ? store
           .fetchInitData(api, data, {
@@ -528,7 +561,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
             silent,
             pageField,
             perPageField,
-            loadDataMode,
+            loadDataMode: false,
             syncResponse2Query,
             columns: store.columns ?? columns,
             isTable2: true
@@ -643,8 +676,8 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
           errorMessage: messages && messages.saveSuccess
         })
         .then(() => {
-          reload && this.reloadTarget(reload, data);
-          this.getData(undefined, undefined, true, true);
+          reload && this.reloadTarget(filter(reload, data), data);
+          this.getData(undefined, undefined, true);
         })
         .catch(() => {});
     } else {
@@ -663,8 +696,9 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       store
         .saveRemote(quickSaveItemApi, sendData)
         .then(() => {
-          reload && this.reloadTarget(reload, data);
-          this.getData(undefined, undefined, true, true);
+          reload && this.reloadTarget(filter(reload, data), data);
+
+          this.getData(undefined, undefined, true);
         })
         .catch(() => {
           options?.resetOnFailed && this.control.reset();
@@ -672,6 +706,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     }
   }
 
+  @autobind
   handleSaveOrder(moved: Array<object>, rows: Array<object>) {
     const {store, saveOrderApi, orderField, primaryField, env, reload} =
       this.props;
@@ -768,8 +803,8 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       store
         .saveRemote(saveOrderApi, model)
         .then(() => {
-          reload && this.reloadTarget(reload, model);
-          this.getData(undefined, undefined, true, true);
+          reload && this.reloadTarget(filter(reload, model), model);
+          this.getData(undefined, undefined, true);
         })
         .catch(() => {});
   }
@@ -874,16 +909,15 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
         newItems.splice(0, newItems.length - 1)
       );
     }
-
     store.updateSelectData(newItems, newUnSelectedItems);
     onSelect && onSelect(newItems);
   }
 
   /**
-   * 表格列上的筛选触发
+   * 更新Query筛选触发
    */
   @autobind
-  handleTableQuery(values: object, forceReload: boolean = false) {
+  handleQuerySearch(values: object, forceReload: boolean = false) {
     const {store, syncLocation, env, pageField, perPageField} = this.props;
 
     store.updateQuery(
@@ -897,28 +931,32 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       pageField,
       perPageField
     );
-    this.getData(undefined, undefined, undefined, forceReload);
+    this.getData(undefined, undefined, forceReload);
   }
 
   reload(subpath?: string, query?: any) {
     if (query) {
       return this.receive(query);
     } else {
-      this.getData(undefined, undefined, true, true);
+      this.getData(undefined, undefined, true);
     }
   }
 
   receive(values: object) {
-    this.handleTableQuery(values, true);
+    this.handleQuerySearch(values, true);
   }
 
   @autobind
   doAction(action: Action, data: object, throwErrors: boolean = false) {
     if (
       action.actionType &&
-      ~['stopAutoRefresh', 'reload', 'search', 'startAutoRefresh'].includes(
-        action.actionType
-      )
+      [
+        'stopAutoRefresh',
+        'reload',
+        'search',
+        'startAutoRefresh',
+        'loadMore'
+      ].includes(action.actionType)
     ) {
       // @ts-ignore
       return this[`handle${upperFirst(action.actionType)}`](data);
@@ -988,20 +1026,22 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       onPageChange: this.handleChangePage,
       cols: store.columns, // 和grid的columns属性重复，ColumnsToggler的columns改一下名字 只有用store里的columns
       toggleAllColumns: this.toggleAllColumns,
-      toggleToggle: this.toggleToggle
+      toggleToggle: this.toggleToggle,
+      // 支持 onQuery，主要是给 searchBox 组件使用
+      onQuery: this.handleQuerySearch
       // onAction: onAction
     };
 
     return render(region, schema, {
-      ...props,
       // 包两层，主要是为了处理以下 case
       // 里面放了个 form，form 提交过来的时候不希望把 items 这些发送过来。
       // 因为会把数据呈现在地址栏上。
+      /** data 可以被覆盖，因为 filter 中不需要额外的 data */
       data: createObject(
         createObject(store.filterData, store.getData(this.props.data)),
         {}
       ),
-      render: this.renderChild,
+      ...props,
       ...childProps
     });
   }
@@ -1027,8 +1067,14 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
 
     return filter.map((item, index) =>
       this.renderChild(`filter/${index}`, item, {
-        key: index + '',
-        onSubmit: (data: any) => this.handleSearch({query: data})
+        key: index + 'filter',
+        data: this.props.store.filterData,
+        onSubmit: (data: any) => this.handleSearch({query: data}),
+        onReset: () =>
+          this.handleSearch({
+            resetQuery: true,
+            replaceQuery: true
+          })
       })
     );
   }
@@ -1040,7 +1086,8 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       labelField,
       labelTpl,
       primaryField,
-      translate: __
+      translate: __,
+      env
     } = this.props;
 
     if (!store.selectedItems.length) {
@@ -1064,7 +1111,10 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
             </span>
             <span className={cx('Crud-valueLabel')}>
               {labelTpl ? (
-                <Html html={filter(labelTpl, item)} />
+                <Html
+                  html={filter(labelTpl, item)}
+                  filterHtml={env.filterHtml}
+                />
               ) : (
                 getVariable(item, labelField || 'label') ||
                 getVariable(item, primaryField || 'id')
@@ -1072,7 +1122,10 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
             </span>
           </div>
         ))}
-        <a onClick={this.clearSelection} className={cx('Crud-selectionClear')}>
+        <a
+          onClick={this.clearSelection.bind(this)}
+          className={cx('Crud-selectionClear')}
+        >
           {__('clear')}
         </a>
       </div>
@@ -1083,6 +1136,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     const {
       columns,
       className,
+      style,
       bodyClassName,
       filter,
       render,
@@ -1102,6 +1156,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       classnames: cx,
       keepItemSelectionOnPageChange,
       maxKeepItemSelectionLength,
+      onEvent,
       onAction,
       popOverContainer,
       translate: __,
@@ -1112,6 +1167,8 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       showSelection,
       headerToolbar,
       footerToolbar,
+      // columnsTogglable 在本渲染器中渲染，不需要 table 渲染，避免重复
+      columnsTogglable,
       ...rest
     } = this.props;
 
@@ -1120,6 +1177,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
         className={cx('Crud2', className, {
           'is-loading': store.loading
         })}
+        style={style}
       >
         <div className={cx('Crud2-filter')}>{this.renderFilter(filter)}</div>
 
@@ -1135,6 +1193,12 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
           'body',
           {
             ...rest,
+            // 通用事件 例如cus-event 如果直接透传给table 则会被触发2次
+            // 因此只将下层组件table、cards中自定义事件透传下去 否则通过crud配置了也不会执行
+            onEvent: omitBy(
+              onEvent,
+              (event, key: any) => !INNER_EVENTS.includes(key)
+            ),
             type: mode,
             columns: mode.startsWith('table')
               ? store.columns || columns
@@ -1156,17 +1220,17 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
                 : undefined,
             keepItemSelectionOnPageChange,
             maxKeepItemSelectionLength,
-            valueField: valueField || primaryField,
+            // valueField: valueField || primaryField,
             primaryField: primaryField,
             items: store.data.items,
             query: store.query,
             orderBy: store.query.orderBy,
             orderDir: store.query.orderDir,
             popOverContainer,
-            onSave: this.handleSave,
+            onSave: this.handleSave.bind(this),
             onSaveOrder: this.handleSaveOrder,
-            onSearch: this.handleTableQuery,
-            onSort: this.handleTableQuery,
+            onSearch: this.handleQuerySearch,
+            onSort: this.handleQuerySearch,
             onSelect: this.handleSelect,
             data: store.mergedData,
             loading: store.loading

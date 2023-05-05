@@ -392,6 +392,8 @@ export function registerOptionsControl(config: OptionsConfig) {
         return true;
       } else if (nextProps.formItem?.expressionsInOptions) {
         return true;
+      } else if (nextProps.formItem?.filteredOptions) {
+        return true;
       }
 
       if (anyChanged(detectProps, this.props, nextProps)) {
@@ -481,8 +483,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         eventName,
         resolveEventData(
           this.props,
-          {value: eventData, options, items: options}, // 为了保持名字统一
-          'value'
+          {value: eventData, options, items: options} // 为了保持名字统一
         )
       );
       // 返回阻塞标识
@@ -1023,7 +1024,11 @@ export function registerOptionsControl(config: OptionsConfig) {
           });
 
           if (!payload.ok) {
-            env.notify('error', payload.msg || __('Options.createFailed'));
+            env.notify(
+              'error',
+              (addApi as BaseApiObject)?.messages?.failed ??
+                (payload.msg || __('Options.createFailed'))
+            );
             result = null;
           } else {
             result = payload.data || result;
@@ -1145,7 +1150,11 @@ export function registerOptionsControl(config: OptionsConfig) {
           );
 
           if (!payload.ok) {
-            env.notify('error', payload.msg || __('saveFailed'));
+            env.notify(
+              'error',
+              (editApi as BaseApiObject)?.messages?.failed ??
+                (payload.msg || __('saveFailed'))
+            );
             result = null;
           } else {
             result = payload.data || result;
@@ -1228,7 +1237,11 @@ export function registerOptionsControl(config: OptionsConfig) {
             method: 'delete'
           });
           if (!result.ok) {
-            env.notify('error', result.msg || __('deleteFailed'));
+            env.notify(
+              'error',
+              (deleteApi as BaseApiObject)?.messages?.failed ??
+                (result.msg || __('deleteFailed'))
+            );
             return;
           }
         }

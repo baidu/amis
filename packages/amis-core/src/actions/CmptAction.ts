@@ -12,11 +12,15 @@ export interface ICmptAction extends ListenerAction {
     | 'static'
     | 'nonstatic'
     | 'show'
+    | 'visibility'
     | 'hidden'
     | 'enabled'
     | 'disabled'
+    | 'usability'
     | 'reload';
   args: {
+    /** actionType为setValue时，目标变量的path */
+    path?: string;
     value?: string | {[key: string]: string};
     index?: number; // setValue支持更新指定索引的数据，一般用于数组类型
   };
@@ -46,25 +50,45 @@ export class CmptAction implements RendererAction {
     const dataMergeMode = action.dataMergeMode || 'merge';
 
     // 显隐&状态控制
-    if (['show', 'hidden'].includes(action.actionType)) {
-      return renderer.props.topStore.setVisible(
-        action.componentId,
-        action.actionType === 'show'
-      );
+    if (['show', 'hidden', 'visibility'].includes(action.actionType)) {
+      let visibility =
+        action.actionType === 'visibility'
+          ? action.args?.value
+          : action.actionType === 'show';
+      return renderer.props.topStore.setVisible(action.componentId, visibility);
     } else if (['static', 'nonstatic'].includes(action.actionType)) {
       return renderer.props.topStore.setStatic(
         action.componentId,
         action.actionType === 'static'
       );
-    } else if (['enabled', 'disabled'].includes(action.actionType)) {
-      return renderer.props.topStore.setDisable(
-        action.componentId,
-        action.actionType === 'disabled'
-      );
+    } else if (
+      ['enabled', 'disabled', 'usability'].includes(action.actionType)
+    ) {
+      let usability =
+        action.actionType === 'usability'
+          ? !action.args?.value
+          : action.actionType === 'disabled';
+      return renderer.props.topStore.setDisable(action.componentId, usability);
     }
 
-    // 数据更新
     if (action.actionType === 'setValue') {
+      const beforeSetData = renderer?.props?.env?.beforeSetData;
+      const path = action.args?.path;
+
+      /** 如果args中携带path参数, 则认为是全局变量赋值, 否则认为是组件变量赋值 */
+      if (
+        path &&
+        typeof path === 'string' &&
+        beforeSetData &&
+        typeof beforeSetData === 'function'
+      ) {
+        const res = await beforeSetData(renderer, action, event);
+
+        if (res === false) {
+          return;
+        }
+      }
+
       if (component?.setData) {
         return component?.setData(
           action.args?.value,

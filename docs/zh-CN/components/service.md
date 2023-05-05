@@ -677,6 +677,45 @@ ws.on('connection', function connection(ws) {
 }
 ```
 
+## 隐藏错误信息
+
+> 2.8.1 及以上版本
+
+默认会将接口返回的错误信息展示在 Service 的顶部区域，可以通过设置`"showErrorMsg": false`隐藏错误提示。
+
+```schema: scope="body"
+{
+  "type": "service",
+  "api": "/api/mock2/page/initDataError",
+  "body": [
+    {
+      "type": "tpl",
+      "tpl": "展示错误信息"
+    },
+    {
+      "type": "icon",
+      "icon": "fa-solid fa-arrow-up"
+    }
+  ]
+}
+```
+
+设置`"showErrorMsg": false`隐藏错误提示，仅保留 toast 提示
+
+```schema: scope="body"
+{
+  "type": "service",
+  "api": "/api/mock2/page/initDataError",
+  "showErrorMsg": false,
+  "body": [
+    {
+      "type": "tpl",
+      "tpl": "不展示错误信息"
+    }
+  ]
+}
+```
+
 ## 属性表
 
 | 属性名                | 类型                                                                                            | 默认值         | 说明                                                                          | 版本                                                                                    |
@@ -696,6 +735,7 @@ ws.on('connection', function connection(ws) {
 | interval              | `number`                                                                                        |                | 轮询时间间隔，单位 ms(最低 1000)                                              |
 | silentPolling         | `boolean`                                                                                       | `false`        | 配置轮询时是否显示加载动画                                                    |
 | stopAutoRefreshWhen   | [表达式](../../docs/concepts/expression)                                                        |                | 配置停止轮询的条件                                                            |
+| showErrorMsg          | `boolean`                                                                                       |       `true`         | 是否以Alert的形式显示api接口响应的错误信息，默认展示                                                            | `2.8.1` |
 
 ## 事件表
 
@@ -703,10 +743,11 @@ ws.on('connection', function connection(ws) {
 
 > `[name]`为当前数据域中的字段名，例如：当前数据域为 {username: 'amis'}，则可以通过${username}获取对应的值。
 
-| 事件名称          | 事件参数                                                                                 | 说明                               |
-| ----------------- | ---------------------------------------------------------------------------------------- | ---------------------------------- |
-| fetchInited       | `event.data` api 远程请求返回的初始化数据<br/>`[name]: any` 当前数据域中指定字段的值     | 远程初始化接口请求成功时触发       |
-| fetchSchemaInited | `event.data` schemaApi 远程请求返回的 UI 内容<br/>`[name]: any` 当前数据域中指定字段的值 | 远程 schemaApi UI 内容接口请求成功 |
+| 事件名称          | 事件参数                                                                                                                                                                               | 说明                                                |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
+| init              | -                                                                                                                                                                                      | 组件实例被创建并插入 DOM 中时触发。2.4.1 及以上版本 |
+| fetchInited       | `event.data` api 远程请求返回的初始化数据<br/>`[name]: any` 当前数据域中指定字段的值</br>`__response: {msg: string; error: boolean}`接口元数据, `msg`为消息体, `error`表示接口是否成功 | 远程初始化接口请求成功时触发                        |
+| fetchSchemaInited | `event.data` schemaApi 远程请求返回的 UI 内容<br/>`[name]: any` 当前数据域中指定字段的值`__response: {msg: string; error: boolean}`接口元数据, `msg`为消息体, `error`表示接口是否成功  | 远程 schemaApi UI 内容接口请求成功                  |
 
 ## 动作表
 

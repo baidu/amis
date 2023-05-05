@@ -1,0 +1,2805 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?mso-application progid="Word.Document"?>
+<pkg:package xmlns:pkg="http://schemas.microsoft.com/office/2006/xmlPackage">
+  <pkg:part pkg:name="/_rels/.rels"
+    pkg:contentType="application/vnd.openxmlformats-package.relationships+xml" pkg:padding="512">
+    <pkg:xmlData>
+      <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+        <Relationship Id="rId3"
+          Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties"
+          Target="docProps/app.xml" />
+        <Relationship Id="rId2"
+          Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties"
+          Target="docProps/core.xml" />
+        <Relationship Id="rId1"
+          Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument"
+          Target="word/document.xml" />
+        <Relationship Id="rId4"
+          Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/custom-properties"
+          Target="docProps/custom.xml" />
+      </Relationships>
+    </pkg:xmlData>
+  </pkg:part>
+  <pkg:part pkg:name="/word/_rels/document.xml.rels"
+    pkg:contentType="application/vnd.openxmlformats-package.relationships+xml" pkg:padding="256">
+    <pkg:xmlData>
+      <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+        <Relationship Id="rId8"
+          Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image"
+          Target="media/image2.jpeg" />
+        <Relationship Id="rId13"
+          Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/header"
+          Target="header3.xml" />
+        <Relationship Id="rId3"
+          Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image"
+          Target="media/image1.png" />
+        <Relationship Id="rId7"
+          Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/endnotes"
+          Target="endnotes.xml" />
+        <Relationship Id="rId12"
+          Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/footer"
+          Target="footer2.xml" />
+        <Relationship Id="rId2"
+          Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles"
+          Target="styles.xml" />
+        <Relationship Id="rId16"
+          Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme"
+          Target="theme/theme1.xml" />
+        <Relationship Id="rId1"
+          Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/customXml"
+          Target="../customXml/item1.xml" />
+        <Relationship Id="rId6"
+          Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/footnotes"
+          Target="footnotes.xml" />
+        <Relationship Id="rId11"
+          Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/footer"
+          Target="footer1.xml" />
+        <Relationship Id="rId5"
+          Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/webSettings"
+          Target="webSettings.xml" />
+        <Relationship Id="rId15"
+          Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/fontTable"
+          Target="fontTable.xml" />
+        <Relationship Id="rId10"
+          Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/header"
+          Target="header2.xml" />
+        <Relationship Id="rId4"
+          Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/settings"
+          Target="settings.xml" />
+        <Relationship Id="rId9"
+          Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/header"
+          Target="header1.xml" />
+        <Relationship Id="rId14"
+          Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/footer"
+          Target="footer3.xml" />
+      </Relationships>
+    </pkg:xmlData>
+  </pkg:part>
+  <pkg:part pkg:name="/word/document.xml"
+    pkg:contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml">
+    <pkg:xmlData>
+      <w:document xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas"
+        xmlns:cx="http://schemas.microsoft.com/office/drawing/2014/chartex"
+        xmlns:cx1="http://schemas.microsoft.com/office/drawing/2015/9/8/chartex"
+        xmlns:cx2="http://schemas.microsoft.com/office/drawing/2015/10/21/chartex"
+        xmlns:cx3="http://schemas.microsoft.com/office/drawing/2016/5/9/chartex"
+        xmlns:cx4="http://schemas.microsoft.com/office/drawing/2016/5/10/chartex"
+        xmlns:cx5="http://schemas.microsoft.com/office/drawing/2016/5/11/chartex"
+        xmlns:cx6="http://schemas.microsoft.com/office/drawing/2016/5/12/chartex"
+        xmlns:cx7="http://schemas.microsoft.com/office/drawing/2016/5/13/chartex"
+        xmlns:cx8="http://schemas.microsoft.com/office/drawing/2016/5/14/chartex"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:aink="http://schemas.microsoft.com/office/drawing/2016/ink"
+        xmlns:am3d="http://schemas.microsoft.com/office/drawing/2017/model3d"
+        xmlns:o="urn:schemas-microsoft-com:office:office"
+        xmlns:oel="http://schemas.microsoft.com/office/2019/extlst"
+        xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"
+        xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math"
+        xmlns:v="urn:schemas-microsoft-com:vml"
+        xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing"
+        xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing"
+        xmlns:w10="urn:schemas-microsoft-com:office:word"
+        xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"
+        xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml"
+        xmlns:w15="http://schemas.microsoft.com/office/word/2012/wordml"
+        xmlns:w16cex="http://schemas.microsoft.com/office/word/2018/wordml/cex"
+        xmlns:w16cid="http://schemas.microsoft.com/office/word/2016/wordml/cid"
+        xmlns:w16="http://schemas.microsoft.com/office/word/2018/wordml"
+        xmlns:w16du="http://schemas.microsoft.com/office/word/2023/wordml/word16du"
+        xmlns:w16sdtdh="http://schemas.microsoft.com/office/word/2020/wordml/sdtdatahash"
+        xmlns:w16se="http://schemas.microsoft.com/office/word/2015/wordml/symex"
+        xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup"
+        xmlns:wpi="http://schemas.microsoft.com/office/word/2010/wordprocessingInk"
+        xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml"
+        xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape"
+        mc:Ignorable="w14 w15 w16se w16cid w16 w16cex w16sdtdh wp14">
+        <w:background w:color="FAFAFA">
+          <v:background id="_x0000_s2049" fillcolor="#fafafa">
+            <v:fill r:id="rId3" o:title="大纸屑" type="pattern" />
+          </v:background>
+        </w:background>
+        <w:body>
+          <w:tbl>
+            <w:tblPr>
+              <w:tblStyle w:val="TableGrid" />
+              <w:tblpPr w:leftFromText="180" w:rightFromText="180" w:vertAnchor="text"
+                w:tblpXSpec="center" w:tblpY="44" />
+              <w:tblOverlap w:val="never" />
+              <w:tblW w:w="10380" w:type="dxa" />
+              <w:jc w:val="center" />
+              <w:tblLayout w:type="fixed" />
+              <w:tblLook w:val="04A0" w:firstRow="1" w:lastRow="0" w:firstColumn="1"
+                w:lastColumn="0" w:noHBand="0" w:noVBand="1" />
+            </w:tblPr>
+            <w:tblGrid>
+              <w:gridCol w:w="1223" />
+              <w:gridCol w:w="1502" />
+              <w:gridCol w:w="1216" />
+              <w:gridCol w:w="1468" />
+              <w:gridCol w:w="1217" />
+              <w:gridCol w:w="1517" />
+              <w:gridCol w:w="2237" />
+            </w:tblGrid>
+            <w:tr w:rsidR="004F7978" w14:paraId="2B05410F" w14:textId="77777777">
+              <w:trPr>
+                <w:cantSplit />
+                <w:trHeight w:val="539" />
+                <w:jc w:val="center" />
+              </w:trPr>
+              <w:tc>
+                <w:tcPr>
+                  <w:tcW w:w="10380" w:type="dxa" />
+                  <w:gridSpan w:val="7" />
+                  <w:tcBorders>
+                    <w:top w:val="nil" />
+                    <w:left w:val="nil" />
+                    <w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto" />
+                    <w:right w:val="nil" />
+                  </w:tcBorders>
+                  <w:vAlign w:val="center" />
+                </w:tcPr>
+                <w:p w14:paraId="379D5CFE" w14:textId="77777777" w:rsidR="004F7978"
+                  w:rsidRDefault="004F7978">
+                  <w:pPr>
+                    <w:rPr>
+                      <w:sz w:val="22" />
+                      <w:szCs w:val="22" />
+                    </w:rPr>
+                  </w:pPr>
+                </w:p>
+              </w:tc>
+            </w:tr>
+            <w:tr w:rsidR="004F7978" w14:paraId="52F1575E" w14:textId="77777777">
+              <w:trPr>
+                <w:cantSplit />
+                <w:trHeight w:val="539" />
+                <w:jc w:val="center" />
+              </w:trPr>
+              <w:tc>
+                <w:tcPr>
+                  <w:tcW w:w="10380" w:type="dxa" />
+                  <w:gridSpan w:val="7" />
+                  <w:tcBorders>
+                    <w:top w:val="single" w:sz="4" w:space="0" w:color="auto" />
+                    <w:left w:val="single" w:sz="4" w:space="0" w:color="auto" />
+                    <w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto" />
+                    <w:right w:val="single" w:sz="4" w:space="0" w:color="auto" />
+                  </w:tcBorders>
+                  <w:shd w:val="clear" w:color="auto" w:fill="F2F2F2" w:themeFill="background1"
+                    w:themeFillShade="F2" />
+                  <w:vAlign w:val="center" />
+                </w:tcPr>
+                <w:p w14:paraId="039DAC8D" w14:textId="77777777" w:rsidR="004F7978"
+                  w:rsidRDefault="00000000">
+                  <w:pPr>
+                    <w:spacing w:line="360" w:lineRule="auto" />
+                    <w:jc w:val="left" />
+                    <w:rPr>
+                      <w:rFonts w:ascii="Microsoft YaHei" w:eastAsia="Microsoft YaHei"
+                        w:hAnsi="Microsoft YaHei" w:cs="Microsoft YaHei" />
+                      <w:sz w:val="28" />
+                      <w:szCs w:val="28" />
+                    </w:rPr>
+                  </w:pPr>
+                  <w:r>
+                    <w:rPr>
+                      <w:rFonts w:ascii="Microsoft YaHei" w:eastAsia="Microsoft YaHei"
+                        w:hAnsi="Microsoft YaHei" w:cs="Microsoft YaHei" w:hint="eastAsia" />
+                      <w:b />
+                      <w:bCs />
+                      <w:color w:val="0D0D0D" w:themeColor="text1" w:themeTint="F2" />
+                      <w:sz w:val="28" />
+                      <w:szCs w:val="28" />
+                    </w:rPr>
+                    <w:t>个人信息</w:t>
+                  </w:r>
+                </w:p>
+              </w:tc>
+            </w:tr>
+            <w:tr w:rsidR="004F7978" w14:paraId="55B2DAE5" w14:textId="77777777">
+              <w:trPr>
+                <w:cantSplit />
+                <w:trHeight w:val="539" />
+                <w:jc w:val="center" />
+              </w:trPr>
+              <w:tc>
+                <w:tcPr>
+                  <w:tcW w:w="1223" w:type="dxa" />
+                  <w:tcBorders>
+                    <w:top w:val="single" w:sz="4" w:space="0" w:color="auto" />
+                  </w:tcBorders>
+                  <w:vAlign w:val="center" />
+                </w:tcPr>
+                <w:p w14:paraId="0FB18931" w14:textId="77777777" w:rsidR="004F7978"
+                  w:rsidRDefault="00000000">
+                  <w:pPr>
+                    <w:jc w:val="center" />
+                    <w:rPr>
+                      <w:rFonts w:asciiTheme="majorEastAsia" w:eastAsiaTheme="majorEastAsia"
+                        w:hAnsiTheme="majorEastAsia" w:cstheme="majorEastAsia" />
+                      <w:b />
+                      <w:bCs />
+                      <w:color w:val="0D0D0D" w:themeColor="text1" w:themeTint="F2" />
+                      <w:sz w:val="22" />
+                      <w:szCs w:val="22" />
+                    </w:rPr>
+                  </w:pPr>
+                  <w:r>
+                    <w:rPr>
+                      <w:rFonts w:asciiTheme="majorEastAsia" w:eastAsiaTheme="majorEastAsia"
+                        w:hAnsiTheme="majorEastAsia" w:cstheme="majorEastAsia" w:hint="eastAsia" />
+                      <w:b />
+                      <w:bCs />
+                      <w:color w:val="0D0D0D" w:themeColor="text1" w:themeTint="F2" />
+                      <w:sz w:val="22" />
+                      <w:szCs w:val="22" />
+                    </w:rPr>
+                    <w:t>姓 名</w:t>
+                  </w:r>
+                </w:p>
+              </w:tc>
+              <w:tc>
+                <w:tcPr>
+                  <w:tcW w:w="1502" w:type="dxa" />
+                  <w:tcBorders>
+                    <w:top w:val="single" w:sz="4" w:space="0" w:color="auto" />
+                  </w:tcBorders>
+                  <w:vAlign w:val="center" />
+                </w:tcPr>
+                <w:p w14:paraId="28E8E0B0" w14:textId="07979E9B" w:rsidR="004F7978"
+                  w:rsidRDefault="004F7978">
+                  <w:pPr>
+                    <w:jc w:val="center" />
+                    <w:rPr>
+                      <w:rFonts w:asciiTheme="majorEastAsia" w:eastAsiaTheme="majorEastAsia"
+                        w:hAnsiTheme="majorEastAsia" w:cstheme="majorEastAsia" />
+                      <w:sz w:val="22" />
+                      <w:szCs w:val="22" />
+                    </w:rPr>
+                  </w:pPr>
+                </w:p>
+              </w:tc>
+              <w:tc>
+                <w:tcPr>
+                  <w:tcW w:w="1216" w:type="dxa" />
+                  <w:tcBorders>
+                    <w:top w:val="single" w:sz="4" w:space="0" w:color="auto" />
+                  </w:tcBorders>
+                  <w:vAlign w:val="center" />
+                </w:tcPr>
+                <w:p w14:paraId="09008925" w14:textId="77777777" w:rsidR="004F7978"
+                  w:rsidRDefault="00000000">
+                  <w:pPr>
+                    <w:spacing w:line="480" w:lineRule="auto" />
+                    <w:jc w:val="center" />
+                    <w:rPr>
+                      <w:rFonts w:asciiTheme="majorEastAsia" w:eastAsiaTheme="majorEastAsia"
+                        w:hAnsiTheme="majorEastAsia" w:cstheme="majorEastAsia" />
+                      <w:b />
+                      <w:bCs />
+                      <w:sz w:val="22" />
+                      <w:szCs w:val="22" />
+                    </w:rPr>
+                  </w:pPr>
+                  <w:r>
+                    <w:rPr>
+                      <w:rFonts w:asciiTheme="majorEastAsia" w:eastAsiaTheme="majorEastAsia"
+                        w:hAnsiTheme="majorEastAsia" w:cstheme="majorEastAsia" w:hint="eastAsia" />
+                      <w:b />
+                      <w:bCs />
+                      <w:sz w:val="22" />
+                      <w:szCs w:val="22" />
+                    </w:rPr>
+                    <w:t>性 别</w:t>
+                  </w:r>
+                </w:p>
+              </w:tc>
+              <w:tc>
+                <w:tcPr>
+                  <w:tcW w:w="1468" w:type="dxa" />
+                  <w:tcBorders>
+                    <w:top w:val="single" w:sz="4" w:space="0" w:color="auto" />
+                  </w:tcBorders>
+                  <w:vAlign w:val="center" />
+                </w:tcPr>
+                <w:p w14:paraId="749A15AC" w14:textId="492A06E5" w:rsidR="004F7978"
+                  w:rsidRDefault="004F7978">
+                  <w:pPr>
+                    <w:jc w:val="center" />
+                    <w:rPr>
+                      <w:rFonts w:asciiTheme="majorEastAsia" w:eastAsiaTheme="majorEastAsia"
+                        w:hAnsiTheme="majorEastAsia" w:cstheme="majorEastAsia" />
+                      <w:color w:val="595959" w:themeColor="text1" w:themeTint="A6" />
+                      <w:sz w:val="22" />
+                      <w:szCs w:val="22" />
+                    </w:rPr>
+                  </w:pPr>
+                </w:p>
+              </w:tc>
+              <w:tc>
+                <w:tcPr>
+                  <w:tcW w:w="1217" w:type="dxa" />
+                  <w:tcBorders>
+                    <w:top w:val="single" w:sz="4" w:space="0" w:color="auto" />
+                  </w:tcBorders>
+                  <w:vAlign w:val="center" />
+                </w:tcPr>
+                <w:p w14:paraId="563E6164" w14:textId="77777777" w:rsidR="004F7978"
+                  w:rsidRDefault="00000000">
+                  <w:pPr>
+                    <w:jc w:val="center" />
+                    <w:rPr>
+                      <w:rFonts w:asciiTheme="majorEastAsia" w:eastAsiaTheme="majorEastAsia"
+                        w:hAnsiTheme="majorEastAsia" w:cstheme="majorEastAsia" />
+                      <w:b />
+                      <w:bCs />
+                      <w:sz w:val="22" />
+                      <w:szCs w:val="22" />
+                    </w:rPr>
+                  </w:pPr>
+                  <w:r>
+                    <w:rPr>
+                      <w:rFonts w:asciiTheme="majorEastAsia" w:eastAsiaTheme="majorEastAsia"
+                        w:hAnsiTheme="majorEastAsia" w:cstheme="majorEastAsia" w:hint="eastAsia" />
+                      <w:b />
+                      <w:bCs />
+                      <w:sz w:val="22" />
+                      <w:szCs w:val="22" />
+                    </w:rPr>
+                    <w:t>出生日期</w:t>
+                  </w:r>
+                </w:p>
+              </w:tc>
+              <w:tc>
+                <w:tcPr>
+                  <w:tcW w:w="1517" w:type="dxa" />
+                  <w:tcBorders>
+                    <w:top w:val="single" w:sz="4" w:space="0" w:color="auto" />
+                  </w:tcBorders>
+                  <w:vAlign w:val="center" />
+                </w:tcPr>
+                <w:p w14:paraId="322B278C" w14:textId="6DBA5CAE" w:rsidR="004F7978"
+                  w:rsidRDefault="004F7978">
+                  <w:pPr>
+                    <w:jc w:val="center" />
+                    <w:rPr>
+                      <w:rFonts w:asciiTheme="majorEastAsia" w:eastAsiaTheme="majorEastAsia"
+                        w:hAnsiTheme="majorEastAsia" w:cstheme="majorEastAsia" />
+                      <w:color w:val="595959" w:themeColor="text1" w:themeTint="A6" />
+                      <w:sz w:val="22" />
+                      <w:szCs w:val="22" />
+                    </w:rPr>
+                  </w:pPr>
+                </w:p>
+              </w:tc>
+              <w:tc>
+                <w:tcPr>
+                  <w:tcW w:w="2237" w:type="dxa" />
+                  <w:vMerge w:val="restart" />
+                  <w:tcBorders>
+                    <w:top w:val="single" w:sz="4" w:space="0" w:color="auto" />
+                  </w:tcBorders>
+                  <w:vAlign w:val="center" />
+                </w:tcPr>
+                <w:p w14:paraId="3C99071E" w14:textId="77777777" w:rsidR="004F7978"
+                  w:rsidRDefault="00000000">
+                  <w:pPr>
+                    <w:jc w:val="center" />
+                    <w:rPr>
+                      <w:rFonts w:asciiTheme="majorEastAsia" w:eastAsiaTheme="majorEastAsia"
+                        w:hAnsiTheme="majorEastAsia" w:cstheme="majorEastAsia" />
+                      <w:sz w:val="22" />
+                      <w:szCs w:val="22" />
+                    </w:rPr>
+                  </w:pPr>
+                  <w:r>
+                    <w:rPr>
+                      <w:noProof />
+                    </w:rPr>
+                    <w:drawing>
+                      <wp:anchor distT="0" distB="0" distL="114300" distR="114300" simplePos="0"
+                        relativeHeight="251659264" behindDoc="0" locked="0" layoutInCell="1"
+                        allowOverlap="1" wp14:anchorId="11CA2EF2" wp14:editId="1477C632">
+                        <wp:simplePos x="0" y="0" />
+                        <wp:positionH relativeFrom="column">
+                          <wp:posOffset>94615</wp:posOffset>
+                        </wp:positionH>
+                        <wp:positionV relativeFrom="paragraph">
+                          <wp:posOffset>48260</wp:posOffset>
+                        </wp:positionV>
+                        <wp:extent cx="972820" cy="1362710" />
+                        <wp:effectExtent l="15875" t="15875" r="78105" b="88265" />
+                        <wp:wrapNone />
+                        <wp:docPr id="34" name="图片 34"
+                          descr="C:\Users\kingsoft\Desktop\简历头像\06-白(1).jpg06-白(1)" />
+                        <wp:cNvGraphicFramePr>
+                          <a:graphicFrameLocks
+                            xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"
+                            noChangeAspect="1" />
+                        </wp:cNvGraphicFramePr>
+                        <a:graphic xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main">
+                          <a:graphicData
+                            uri="http://schemas.openxmlformats.org/drawingml/2006/picture">
+                            <pic:pic
+                              xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture">
+                              <pic:nvPicPr>
+                                <pic:cNvPr id="34" name="图片 34"
+                                  descr="C:\Users\kingsoft\Desktop\简历头像\06-白(1).jpg06-白(1)" />
+                                <pic:cNvPicPr>
+                                  <a:picLocks noChangeAspect="1" />
+                                </pic:cNvPicPr>
+                              </pic:nvPicPr>
+                              <pic:blipFill>
+                                <a:blip r:embed="rId8">
+                                  <a:lum contrast="6000" />
+                                </a:blip>
+                                <a:srcRect />
+                                <a:stretch>
+                                  <a:fillRect />
+                                </a:stretch>
+                              </pic:blipFill>
+                              <pic:spPr>
+                                <a:xfrm>
+                                  <a:off x="0" y="0" />
+                                  <a:ext cx="972820" cy="1362710" />
+                                </a:xfrm>
+                                <a:prstGeom prst="rect">
+                                  <a:avLst />
+                                </a:prstGeom>
+                                <a:ln w="19050">
+                                  <a:noFill />
+                                </a:ln>
+                                <a:effectLst>
+                                  <a:outerShdw blurRad="50800" dist="38100" dir="2700000" algn="tl"
+                                    rotWithShape="0">
+                                    <a:prstClr val="black">
+                                      <a:alpha val="40000" />
+                                    </a:prstClr>
+                                  </a:outerShdw>
+                                </a:effectLst>
+                              </pic:spPr>
+                            </pic:pic>
+                          </a:graphicData>
+                        </a:graphic>
+                      </wp:anchor>
+                    </w:drawing>
+                  </w:r>
+                </w:p>
+              </w:tc>
+            </w:tr>
+            <w:tr w:rsidR="004F7978" w14:paraId="25DB18D4" w14:textId="77777777">
+              <w:trPr>
+                <w:cantSplit />
+                <w:trHeight w:val="539" />
+                <w:jc w:val="center" />
+              </w:trPr>
+              <w:tc>
+                <w:tcPr>
+                  <w:tcW w:w="1223" w:type="dxa" />
+                  <w:vAlign w:val="center" />
+                </w:tcPr>
+                <w:p w14:paraId="49846A98" w14:textId="77777777" w:rsidR="004F7978"
+                  w:rsidRDefault="00000000">
+                  <w:pPr>
+                    <w:jc w:val="center" />
+                    <w:rPr>
+                      <w:rFonts w:asciiTheme="majorEastAsia" w:eastAsiaTheme="majorEastAsia"
+                        w:hAnsiTheme="majorEastAsia" w:cstheme="majorEastAsia" />
+                      <w:b />
+                      <w:bCs />
+                      <w:color w:val="0D0D0D" w:themeColor="text1" w:themeTint="F2" />
+                      <w:sz w:val="22" />
+                      <w:szCs w:val="22" />
+                    </w:rPr>
+                  </w:pPr>
+                  <w:r>
+                    <w:rPr>
+                      <w:rFonts w:asciiTheme="majorEastAsia" w:eastAsiaTheme="majorEastAsia"
+                        w:hAnsiTheme="majorEastAsia" w:cstheme="majorEastAsia" w:hint="eastAsia" />
+                      <w:b />
+                      <w:bCs />
+                      <w:color w:val="0D0D0D" w:themeColor="text1" w:themeTint="F2" />
+                      <w:sz w:val="22" />
+                      <w:szCs w:val="22" />
+                    </w:rPr>
+                    <w:t>籍 贯</w:t>
+                  </w:r>
+                </w:p>
+              </w:tc>
+              <w:tc>
+                <w:tcPr>
+                  <w:tcW w:w="1502" w:type="dxa" />
+                  <w:vAlign w:val="center" />
+                </w:tcPr>
+                <w:p w14:paraId="77FA162B" w14:textId="220C33C0" w:rsidR="004F7978"
+                  w:rsidRDefault="004F7978">
+                  <w:pPr>
+                    <w:jc w:val="center" />
+                    <w:rPr>
+                      <w:rFonts w:asciiTheme="majorEastAsia" w:eastAsiaTheme="majorEastAsia"
+                        w:hAnsiTheme="majorEastAsia" w:cstheme="majorEastAsia" />
+                      <w:sz w:val="22" />
+                      <w:szCs w:val="22" />
+                    </w:rPr>
+                  </w:pPr>
+                </w:p>
+              </w:tc>
+              <w:tc>
+                <w:tcPr>
+                  <w:tcW w:w="1216" w:type="dxa" />
+                  <w:vAlign w:val="center" />
+                </w:tcPr>
+                <w:p w14:paraId="50315E5D" w14:textId="77777777" w:rsidR="004F7978"
+                  w:rsidRDefault="00000000">
+                  <w:pPr>
+                    <w:jc w:val="center" />
+                    <w:rPr>
+                      <w:rFonts w:asciiTheme="majorEastAsia" w:eastAsiaTheme="majorEastAsia"
+                        w:hAnsiTheme="majorEastAsia" w:cstheme="majorEastAsia" />
+                      <w:b />
+                      <w:bCs />
+                      <w:sz w:val="22" />
+                      <w:szCs w:val="22" />
+                    </w:rPr>
+                  </w:pPr>
+                  <w:r>
+                    <w:rPr>
+                      <w:rFonts w:asciiTheme="majorEastAsia" w:eastAsiaTheme="majorEastAsia"
+                        w:hAnsiTheme="majorEastAsia" w:cstheme="majorEastAsia" w:hint="eastAsia" />
+                      <w:b />
+                      <w:bCs />
+                      <w:sz w:val="22" />
+                      <w:szCs w:val="22" />
+                    </w:rPr>
+                    <w:t>民 族</w:t>
+                  </w:r>
+                </w:p>
+              </w:tc>
+              <w:tc>
+                <w:tcPr>
+                  <w:tcW w:w="1468" w:type="dxa" />
+                  <w:vAlign w:val="center" />
+                </w:tcPr>
+                <w:p w14:paraId="10FE019C" w14:textId="6C57573B" w:rsidR="004F7978"
+                  w:rsidRDefault="004F7978">
+                  <w:pPr>
+                    <w:jc w:val="center" />
+                    <w:rPr>
+                      <w:rFonts w:asciiTheme="majorEastAsia" w:eastAsiaTheme="majorEastAsia"
+                        w:hAnsiTheme="majorEastAsia" w:cstheme="majorEastAsia" />
+                      <w:color w:val="595959" w:themeColor="text1" w:themeTint="A6" />
+                      <w:sz w:val="22" />
+                      <w:szCs w:val="22" />
+                    </w:rPr>
+                  </w:pPr>
+                </w:p>
+              </w:tc>
+              <w:tc>
+                <w:tcPr>
+                  <w:tcW w:w="1217" w:type="dxa" />
+                  <w:vAlign w:val="center" />
+                </w:tcPr>
+                <w:p w14:paraId="7B907FC1" w14:textId="77777777" w:rsidR="004F7978"
+                  w:rsidRDefault="00000000">
+                  <w:pPr>
+                    <w:jc w:val="center" />
+                    <w:rPr>
+                      <w:rFonts w:asciiTheme="majorEastAsia" w:eastAsiaTheme="majorEastAsia"
+                        w:hAnsiTheme="majorEastAsia" w:cstheme="majorEastAsia" />
+                      <w:b />
+                      <w:bCs />
+                      <w:sz w:val="22" />
+                      <w:szCs w:val="22" />
+                    </w:rPr>
+                  </w:pPr>
+                  <w:r>
+                    <w:rPr>
+                      <w:rFonts w:asciiTheme="majorEastAsia" w:eastAsiaTheme="majorEastAsia"
+                        w:hAnsiTheme="majorEastAsia" w:cstheme="majorEastAsia" w:hint="eastAsia" />
+                      <w:b />
+                      <w:bCs />
+                      <w:sz w:val="22" />
+                      <w:szCs w:val="22" />
+                    </w:rPr>
+                    <w:t>政治面貌</w:t>
+                  </w:r>
+                </w:p>
+              </w:tc>
+              <w:tc>
+                <w:tcPr>
+                  <w:tcW w:w="1517" w:type="dxa" />
+                  <w:vAlign w:val="center" />
+                </w:tcPr>
+                <w:p w14:paraId="71821741" w14:textId="21826EEE" w:rsidR="004F7978"
+                  w:rsidRDefault="004F7978">
+                  <w:pPr>
+                    <w:jc w:val="center" />
+                    <w:rPr>
+                      <w:rFonts w:asciiTheme="majorEastAsia" w:eastAsiaTheme="majorEastAsia"
+                        w:hAnsiTheme="majorEastAsia" w:cstheme="majorEastAsia" />
+                      <w:color w:val="595959" w:themeColor="text1" w:themeTint="A6" />
+                      <w:sz w:val="22" />
+                      <w:szCs w:val="22" />
+                    </w:rPr>
+                  </w:pPr>
+                </w:p>
+              </w:tc>
+              <w:tc>
+                <w:tcPr>
+                  <w:tcW w:w="2237" w:type="dxa" />
+                  <w:vMerge />
+                  <w:vAlign w:val="center" />
+                </w:tcPr>
+                <w:p w14:paraId="26C31A77" w14:textId="77777777" w:rsidR="004F7978"
+                  w:rsidRDefault="004F7978">
+                  <w:pPr>
+                    <w:jc w:val="center" />
+                    <w:rPr>
+                      <w:rFonts w:asciiTheme="majorEastAsia" w:eastAsiaTheme="majorEastAsia"
+                        w:hAnsiTheme="majorEastAsia" w:cstheme="majorEastAsia" />
+                      <w:sz w:val="22" />
+                      <w:szCs w:val="22" />
+                    </w:rPr>
+                  </w:pPr>
+                </w:p>
+              </w:tc>
+            </w:tr>
+            <w:tr w:rsidR="004F7978" w14:paraId="691705AA" w14:textId="77777777">
+              <w:trPr>
+                <w:cantSplit />
+                <w:trHeight w:val="539" />
+                <w:jc w:val="center" />
+              </w:trPr>
+              <w:tc>
+                <w:tcPr>
+                  <w:tcW w:w="1223" w:type="dxa" />
+                  <w:vAlign w:val="center" />
+                </w:tcPr>
+                <w:p w14:paraId="61544F6F" w14:textId="77777777" w:rsidR="004F7978"
+                  w:rsidRDefault="00000000">
+                  <w:pPr>
+                    <w:jc w:val="center" />
+                    <w:rPr>
+                      <w:rFonts w:asciiTheme="majorEastAsia" w:eastAsiaTheme="majorEastAsia"
+                        w:hAnsiTheme="majorEastAsia" w:cstheme="majorEastAsia" />
+                      <w:b />
+                      <w:bCs />
+                      <w:color w:val="0D0D0D" w:themeColor="text1" w:themeTint="F2" />
+                      <w:sz w:val="22" />
+                      <w:szCs w:val="22" />
+                    </w:rPr>
+                  </w:pPr>
+                  <w:r>
+                    <w:rPr>
+                      <w:rFonts w:asciiTheme="majorEastAsia" w:eastAsiaTheme="majorEastAsia"
+                        w:hAnsiTheme="majorEastAsia" w:cstheme="majorEastAsia" w:hint="eastAsia" />
+                      <w:b />
+                      <w:bCs />
+                      <w:color w:val="0D0D0D" w:themeColor="text1" w:themeTint="F2" />
+                      <w:sz w:val="22" />
+                      <w:szCs w:val="22" />
+                    </w:rPr>
+                    <w:t>联系方式</w:t>
+                  </w:r>
+                </w:p>
+              </w:tc>
+              <w:tc>
+                <w:tcPr>
+                  <w:tcW w:w="2718" w:type="dxa" />
+                  <w:gridSpan w:val="2" />
+                  <w:vAlign w:val="center" />
+                </w:tcPr>
+                <w:p w14:paraId="7A784E08" w14:textId="1256ABDF" w:rsidR="004F7978"
+                  w:rsidRDefault="004F7978">
+                  <w:pPr>
+                    <w:jc w:val="center" />
+                    <w:rPr>
+                      <w:rFonts w:asciiTheme="majorEastAsia" w:eastAsiaTheme="majorEastAsia"
+                        w:hAnsiTheme="majorEastAsia" w:cstheme="majorEastAsia" />
+                      <w:b />
+                      <w:bCs />
+                      <w:sz w:val="22" />
+                      <w:szCs w:val="22" />
+                    </w:rPr>
+                  </w:pPr>
+                </w:p>
+              </w:tc>
+              <w:tc>
+                <w:tcPr>
+                  <w:tcW w:w="1468" w:type="dxa" />
+                  <w:vAlign w:val="center" />
+                </w:tcPr>
+                <w:p w14:paraId="74567AA5" w14:textId="77777777" w:rsidR="004F7978"
+                  w:rsidRDefault="00000000">
+                  <w:pPr>
+                    <w:jc w:val="center" />
+                    <w:rPr>
+                      <w:rFonts w:asciiTheme="majorEastAsia" w:eastAsiaTheme="majorEastAsia"
+                        w:hAnsiTheme="majorEastAsia" w:cstheme="majorEastAsia" />
+                      <w:sz w:val="22" />
+                      <w:szCs w:val="22" />
+                    </w:rPr>
+                  </w:pPr>
+                  <w:r>
+                    <w:rPr>
+                      <w:rFonts w:asciiTheme="majorEastAsia" w:eastAsiaTheme="majorEastAsia"
+                        w:hAnsiTheme="majorEastAsia" w:cstheme="majorEastAsia" w:hint="eastAsia" />
+                      <w:b />
+                      <w:bCs />
+                      <w:sz w:val="22" />
+                      <w:szCs w:val="22" />
+                    </w:rPr>
+                    <w:t>E-mail</w:t>
+                  </w:r>
+                </w:p>
+              </w:tc>
+              <w:tc>
+                <w:tcPr>
+                  <w:tcW w:w="2734" w:type="dxa" />
+                  <w:gridSpan w:val="2" />
+                  <w:vAlign w:val="center" />
+                </w:tcPr>
+                <w:p w14:paraId="34AC01F4" w14:textId="065405F5" w:rsidR="004F7978"
+                  w:rsidRDefault="004F7978">
+                  <w:pPr>
+                    <w:jc w:val="center" />
+                    <w:rPr>
+                      <w:rFonts w:asciiTheme="majorEastAsia" w:eastAsiaTheme="majorEastAsia"
+                        w:hAnsiTheme="majorEastAsia" w:cstheme="majorEastAsia" />
+                      <w:color w:val="595959" w:themeColor="text1" w:themeTint="A6" />
+                      <w:sz w:val="22" />
+                      <w:szCs w:val="22" />
+                    </w:rPr>
+                  </w:pPr>
+                </w:p>
+              </w:tc>
+              <w:tc>
+                <w:tcPr>
+                  <w:tcW w:w="2237" w:type="dxa" />
+                  <w:vMerge />
+                  <w:vAlign w:val="center" />
+                </w:tcPr>
+                <w:p w14:paraId="45D3CAC7" w14:textId="77777777" w:rsidR="004F7978"
+                  w:rsidRDefault="004F7978">
+                  <w:pPr>
+                    <w:jc w:val="center" />
+                    <w:rPr>
+                      <w:rFonts w:asciiTheme="majorEastAsia" w:eastAsiaTheme="majorEastAsia"
+                        w:hAnsiTheme="majorEastAsia" w:cstheme="majorEastAsia" />
+                      <w:sz w:val="22" />
+                      <w:szCs w:val="22" />
+                    </w:rPr>
+                  </w:pPr>
+                </w:p>
+              </w:tc>
+            </w:tr>
+            <w:tr w:rsidR="004F7978" w14:paraId="4B1775C2" w14:textId="77777777">
+              <w:trPr>
+                <w:cantSplit />
+                <w:trHeight w:val="539" />
+                <w:jc w:val="center" />
+              </w:trPr>
+              <w:tc>
+                <w:tcPr>
+                  <w:tcW w:w="1223" w:type="dxa" />
+                  <w:vAlign w:val="center" />
+                </w:tcPr>
+                <w:p w14:paraId="33412EA3" w14:textId="77777777" w:rsidR="004F7978"
+                  w:rsidRDefault="00000000">
+                  <w:pPr>
+                    <w:jc w:val="center" />
+                    <w:rPr>
+                      <w:rFonts w:asciiTheme="majorEastAsia" w:eastAsiaTheme="majorEastAsia"
+                        w:hAnsiTheme="majorEastAsia" w:cstheme="majorEastAsia" />
+                      <w:b />
+                      <w:bCs />
+                      <w:color w:val="0D0D0D" w:themeColor="text1" w:themeTint="F2" />
+                      <w:sz w:val="22" />
+                      <w:szCs w:val="22" />
+                    </w:rPr>
+                  </w:pPr>
+                  <w:r>
+                    <w:rPr>
+                      <w:rFonts w:asciiTheme="majorEastAsia" w:eastAsiaTheme="majorEastAsia"
+                        w:hAnsiTheme="majorEastAsia" w:cstheme="majorEastAsia" w:hint="eastAsia" />
+                      <w:b />
+                      <w:bCs />
+                      <w:color w:val="0D0D0D" w:themeColor="text1" w:themeTint="F2" />
+                      <w:sz w:val="22" />
+                      <w:szCs w:val="22" />
+                    </w:rPr>
+                    <w:t>现所在地</w:t>
+                  </w:r>
+                </w:p>
+              </w:tc>
+              <w:tc>
+                <w:tcPr>
+                  <w:tcW w:w="6920" w:type="dxa" />
+                  <w:gridSpan w:val="5" />
+                  <w:vAlign w:val="center" />
+                </w:tcPr>
+                <w:p w14:paraId="66A701EC" w14:textId="5EAC4818" w:rsidR="004F7978"
+                  w:rsidRDefault="004F7978">
+                  <w:pPr>
+                    <w:jc w:val="center" />
+                    <w:rPr>
+                      <w:rFonts w:asciiTheme="majorEastAsia" w:eastAsiaTheme="majorEastAsia"
+                        w:hAnsiTheme="majorEastAsia" w:cstheme="majorEastAsia" />
+                      <w:sz w:val="22" />
+                      <w:szCs w:val="22" />
+                    </w:rPr>
+                  </w:pPr>
+                </w:p>
+              </w:tc>
+              <w:tc>
+                <w:tcPr>
+                  <w:tcW w:w="2237" w:type="dxa" />
+                  <w:vMerge />
+                  <w:vAlign w:val="center" />
+                </w:tcPr>
+                <w:p w14:paraId="3001AB5A" w14:textId="77777777" w:rsidR="004F7978"
+                  w:rsidRDefault="004F7978">
+                  <w:pPr>
+                    <w:jc w:val="center" />
+                    <w:rPr>
+                      <w:rFonts w:asciiTheme="majorEastAsia" w:eastAsiaTheme="majorEastAsia"
+                        w:hAnsiTheme="majorEastAsia" w:cstheme="majorEastAsia" />
+                      <w:sz w:val="22" />
+                      <w:szCs w:val="22" />
+                    </w:rPr>
+                  </w:pPr>
+                </w:p>
+              </w:tc>
+            </w:tr>
+          </w:tbl>
+          <w:p w14:paraId="3F99FEA1" w14:textId="77777777" w:rsidR="004F7978"
+            w:rsidRDefault="00000000">
+            <w:r>
+              <w:rPr>
+                <w:noProof />
+                <w:sz w:val="22" />
+              </w:rPr>
+              <mc:AlternateContent>
+                <mc:Choice Requires="wpg">
+                  <w:drawing>
+                    <wp:anchor distT="0" distB="0" distL="114300" distR="114300" simplePos="0"
+                      relativeHeight="251660288" behindDoc="0" locked="0" layoutInCell="1"
+                      allowOverlap="1" wp14:anchorId="51FB1C31" wp14:editId="29756E33">
+                      <wp:simplePos x="0" y="0" />
+                      <wp:positionH relativeFrom="column">
+                        <wp:posOffset>2063115</wp:posOffset>
+                      </wp:positionH>
+                      <wp:positionV relativeFrom="paragraph">
+                        <wp:posOffset>-542925</wp:posOffset>
+                      </wp:positionV>
+                      <wp:extent cx="2520315" cy="895350" />
+                      <wp:effectExtent l="0" t="0" r="0" b="0" />
+                      <wp:wrapNone />
+                      <wp:docPr id="7" name="组合 7" />
+                      <wp:cNvGraphicFramePr />
+                      <a:graphic xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main">
+                        <a:graphicData
+                          uri="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup">
+                          <wpg:wgp>
+                            <wpg:cNvGrpSpPr />
+                            <wpg:grpSpPr>
+                              <a:xfrm>
+                                <a:off x="0" y="0" />
+                                <a:ext cx="2520315" cy="895350" />
+                                <a:chOff x="4252" y="17254" />
+                                <a:chExt cx="3969" cy="1410" />
+                              </a:xfrm>
+                            </wpg:grpSpPr>
+                            <wps:wsp>
+                              <wps:cNvPr id="4" name="文本框 4" />
+                              <wps:cNvSpPr txBox="1" />
+                              <wps:spPr>
+                                <a:xfrm>
+                                  <a:off x="4630" y="17254" />
+                                  <a:ext cx="3211" cy="975" />
+                                </a:xfrm>
+                                <a:prstGeom prst="rect">
+                                  <a:avLst />
+                                </a:prstGeom>
+                                <a:noFill />
+                                <a:ln w="6350">
+                                  <a:noFill />
+                                </a:ln>
+                              </wps:spPr>
+                              <wps:style>
+                                <a:lnRef idx="0">
+                                  <a:schemeClr val="accent1" />
+                                </a:lnRef>
+                                <a:fillRef idx="0">
+                                  <a:schemeClr val="accent1" />
+                                </a:fillRef>
+                                <a:effectRef idx="0">
+                                  <a:schemeClr val="accent1" />
+                                </a:effectRef>
+                                <a:fontRef idx="minor">
+                                  <a:schemeClr val="dk1" />
+                                </a:fontRef>
+                              </wps:style>
+                              <wps:txbx>
+                                <w:txbxContent>
+                                  <w:p w14:paraId="63A094A3" w14:textId="77777777"
+                                    w:rsidR="004F7978" w:rsidRDefault="00000000">
+                                    <w:pPr>
+                                      <w:jc w:val="distribute" />
+                                      <w:rPr>
+                                        <w:rFonts w:ascii="Microsoft YaHei"
+                                          w:eastAsia="Microsoft YaHei" w:hAnsi="Microsoft YaHei"
+                                          w:cs="Microsoft YaHei" />
+                                        <w:b />
+                                        <w:bCs />
+                                        <w:sz w:val="48" />
+                                        <w:szCs w:val="56" />
+                                      </w:rPr>
+                                    </w:pPr>
+                                    <w:r>
+                                      <w:rPr>
+                                        <w:rFonts w:ascii="Microsoft YaHei"
+                                          w:eastAsia="Microsoft YaHei" w:hAnsi="Microsoft YaHei"
+                                          w:cs="Microsoft YaHei" w:hint="eastAsia" />
+                                        <w:b />
+                                        <w:bCs />
+                                        <w:sz w:val="48" />
+                                        <w:szCs w:val="56" />
+                                      </w:rPr>
+                                      <w:t>个人求职简历</w:t>
+                                    </w:r>
+                                  </w:p>
+                                </w:txbxContent>
+                              </wps:txbx>
+                              <wps:bodyPr rot="0" spcFirstLastPara="0" vertOverflow="overflow"
+                                horzOverflow="overflow" vert="horz" wrap="square" lIns="91440"
+                                tIns="45720" rIns="91440" bIns="45720" numCol="1" spcCol="0"
+                                rtlCol="0" fromWordArt="0" anchor="t" anchorCtr="0" forceAA="0"
+                                compatLnSpc="1">
+                                <a:noAutofit />
+                              </wps:bodyPr>
+                            </wps:wsp>
+                            <wps:wsp>
+                              <wps:cNvPr id="2" name="文本框 2" />
+                              <wps:cNvSpPr txBox="1" />
+                              <wps:spPr>
+                                <a:xfrm>
+                                  <a:off x="4705" y="18019" />
+                                  <a:ext cx="3123" cy="645" />
+                                </a:xfrm>
+                                <a:prstGeom prst="rect">
+                                  <a:avLst />
+                                </a:prstGeom>
+                                <a:noFill />
+                                <a:ln w="6350">
+                                  <a:noFill />
+                                </a:ln>
+                              </wps:spPr>
+                              <wps:style>
+                                <a:lnRef idx="0">
+                                  <a:schemeClr val="accent1" />
+                                </a:lnRef>
+                                <a:fillRef idx="0">
+                                  <a:schemeClr val="accent1" />
+                                </a:fillRef>
+                                <a:effectRef idx="0">
+                                  <a:schemeClr val="accent1" />
+                                </a:effectRef>
+                                <a:fontRef idx="minor">
+                                  <a:schemeClr val="dk1" />
+                                </a:fontRef>
+                              </wps:style>
+                              <wps:txbx>
+                                <w:txbxContent>
+                                  <w:p w14:paraId="3544C9B0" w14:textId="77777777"
+                                    w:rsidR="004F7978" w:rsidRDefault="00000000">
+                                    <w:pPr>
+                                      <w:jc w:val="distribute" />
+                                      <w:rPr>
+                                        <w:rFonts w:ascii="Microsoft YaHei"
+                                          w:eastAsia="Microsoft YaHei" w:hAnsi="Microsoft YaHei"
+                                          w:cs="Microsoft YaHei" />
+                                        <w:sz w:val="24" />
+                                        <w:szCs w:val="32" />
+                                      </w:rPr>
+                                    </w:pPr>
+                                    <w:r>
+                                      <w:rPr>
+                                        <w:rFonts w:ascii="Microsoft YaHei"
+                                          w:eastAsia="Microsoft YaHei" w:hAnsi="Microsoft YaHei"
+                                          w:cs="Microsoft YaHei" w:hint="eastAsia" />
+                                        <w:sz w:val="24" />
+                                        <w:szCs w:val="32" />
+                                      </w:rPr>
+                                      <w:t>PERSONAL RESUME</w:t>
+                                    </w:r>
+                                  </w:p>
+                                </w:txbxContent>
+                              </wps:txbx>
+                              <wps:bodyPr rot="0" spcFirstLastPara="0" vertOverflow="overflow"
+                                horzOverflow="overflow" vert="horz" wrap="square" lIns="91440"
+                                tIns="45720" rIns="91440" bIns="45720" numCol="1" spcCol="0"
+                                rtlCol="0" fromWordArt="0" anchor="t" anchorCtr="0" forceAA="0"
+                                compatLnSpc="1">
+                                <a:noAutofit />
+                              </wps:bodyPr>
+                            </wps:wsp>
+                            <wps:wsp>
+                              <wps:cNvPr id="3" name="直接连接符 3" />
+                              <wps:cNvCnPr />
+                              <wps:spPr>
+                                <a:xfrm>
+                                  <a:off x="4252" y="18164" />
+                                  <a:ext cx="3969" cy="0" />
+                                </a:xfrm>
+                                <a:prstGeom prst="line">
+                                  <a:avLst />
+                                </a:prstGeom>
+                                <a:ln w="19050">
+                                  <a:solidFill>
+                                    <a:schemeClr val="tx1">
+                                      <a:lumMod val="95000" />
+                                      <a:lumOff val="5000" />
+                                    </a:schemeClr>
+                                  </a:solidFill>
+                                </a:ln>
+                              </wps:spPr>
+                              <wps:style>
+                                <a:lnRef idx="1">
+                                  <a:schemeClr val="accent1" />
+                                </a:lnRef>
+                                <a:fillRef idx="0">
+                                  <a:schemeClr val="accent1" />
+                                </a:fillRef>
+                                <a:effectRef idx="0">
+                                  <a:schemeClr val="accent1" />
+                                </a:effectRef>
+                                <a:fontRef idx="minor">
+                                  <a:schemeClr val="tx1" />
+                                </a:fontRef>
+                              </wps:style>
+                              <wps:bodyPr />
+                            </wps:wsp>
+                          </wpg:wgp>
+                        </a:graphicData>
+                      </a:graphic>
+                    </wp:anchor>
+                  </w:drawing>
+                </mc:Choice>
+                <mc:Fallback>
+                  <w:pict>
+                    <v:group w14:anchorId="51FB1C31" id="组合 7" o:spid="_x0000_s1026"
+                      style="position:absolute;left:0;text-align:left;margin-left:162.45pt;margin-top:-42.75pt;width:198.45pt;height:70.5pt;z-index:251660288"
+                      coordorigin="4252,17254" coordsize="3969,1410"
+                      o:gfxdata="UEsDBBQABgAIAAAAIQC2gziS/gAAAOEBAAATAAAAW0NvbnRlbnRfVHlwZXNdLnhtbJSRQU7DMBBF&#xD;&#xA;90jcwfIWJU67QAgl6YK0S0CoHGBkTxKLZGx5TGhvj5O2G0SRWNoz/78nu9wcxkFMGNg6quQqL6RA&#xD;&#xA;0s5Y6ir5vt9lD1JwBDIwOMJKHpHlpr69KfdHjyxSmriSfYz+USnWPY7AufNIadK6MEJMx9ApD/oD&#xD;&#xA;OlTrorhX2lFEilmcO2RdNtjC5xDF9pCuTyYBB5bi6bQ4syoJ3g9WQ0ymaiLzg5KdCXlKLjvcW893&#xD;&#xA;SUOqXwnz5DrgnHtJTxOsQfEKIT7DmDSUCaxw7Rqn8787ZsmRM9e2VmPeBN4uqYvTtW7jvijg9N/y&#xD;&#xA;JsXecLq0q+WD6m8AAAD//wMAUEsDBBQABgAIAAAAIQA4/SH/1gAAAJQBAAALAAAAX3JlbHMvLnJl&#xD;&#xA;bHOkkMFqwzAMhu+DvYPRfXGawxijTi+j0GvpHsDYimMaW0Yy2fr2M4PBMnrbUb/Q94l/f/hMi1qR&#xD;&#xA;JVI2sOt6UJgd+ZiDgffL8ekFlFSbvV0oo4EbChzGx4f9GRdb25HMsYhqlCwG5lrLq9biZkxWOiqY&#xD;&#xA;22YiTra2kYMu1l1tQD30/bPm3wwYN0x18gb45AdQl1tp5j/sFB2T0FQ7R0nTNEV3j6o9feQzro1i&#xD;&#xA;OWA14Fm+Q8a1a8+Bvu/d/dMb2JY5uiPbhG/ktn4cqGU/er3pcvwCAAD//wMAUEsDBBQABgAIAAAA&#xD;&#xA;IQCQ7m35owMAAHUMAAAOAAAAZHJzL2Uyb0RvYy54bWzsV8tu1DoY3h+Jd7C8p7nMpZ2oKSrltDpS&#xD;&#xA;oRUFsXYdZybCsX1sTzPlAWDHkg0IiQWsWLLnbQqPwW87SWcGKlEQEkhsMr7818//bbZvLWqOzpg2&#xD;&#xA;lRQ5TjZijJigsqjENMcPH+zf3MLIWCIKwqVgOT5nBt/aufHPdqMylsqZ5AXTCIQIkzUqxzNrVRZF&#xD;&#xA;hs5YTcyGVEzAZSl1TSxs9TQqNGlAes2jNI7HUSN1obSkzBg4vRMu8Y6XX5aM2qOyNMwinmOwzfqv&#xD;&#xA;9t9T9412tkk21UTNKtqaQX7AippUApT2ou4QS9BcV1+JqiuqpZGl3aCyjmRZVpR5H8CbJF7z5kDL&#xD;&#xA;ufK+TLNmqnqYANo1nH5YLL13dqDViTrWgESjpoCF3zlfFqWu3S9YiRYesvMeMrawiMJhOkrjQTLC&#xD;&#xA;iMLd1mQ0GLWY0hkA79iGQIIR3Cab6WgYAKezf1v+wWQ8CczJMPGsUac4WjGnURAg5hID83MYnMyI&#xD;&#xA;Yh5akwEGxxpVBdiKkSA1hOnFi2cXr95fvHmKvMVOOVA5mJBd3JbgVuI8cecGDr+B1nA8gHhbdbsD&#xD;&#xA;bZAmSXB6sjlycnqfSaa0sQdM1sgtcqwhgn1gkbNDYwNpR+K0CrlfcQ7nJOMCNTkeuxdYuQHhXICO&#xD;&#xA;S2P9yp5zFtjusxK89y/sDnzusT2u0RmBrCGUMmG9u14SUDuqEtReh7Gld6zM5+V1mHsOr1kK2zPX&#xD;&#xA;lZDa+7tmdvG4M7kM9B0CwW8HgV2cLtpHPJXFObytlqFAGEX3K8D/kBh7TDRUBHhLqHL2CD4ll4Cz&#xD;&#xA;bFcYzaR+8q1zRw9BCrcYNVBhcmz+nxPNMOL/CQjfSTIcupLkN8PRZgobvXxzunwj5vWehOeAwAHr&#xD;&#xA;/NLRW94tSy3rR1AMd51WuCKCgu4c2265Z0Pdg2JK2e6uJ4IipIg9FCeKOtEOXiF351aWlQ82B1PA&#xD;&#xA;poUPUjCE/S/PRSga67mYdjl33VzcjKFCuVzcipNJKEF9LibpIOTiePg3F0PpWEul1Qrw63LRl+C+&#xD;&#xA;rv5Nyd8uJSFRQkp+evnh4vnbzx9fw/fT+3dosJSYe6KdJa5ujf1EsJWM24mgT8d+HlgdBr5qjLwS&#xD;&#xA;rn+T7IrGGLphMonbdmgkrwrXKx3PWoDbRSh9fF7flUVoe5NRHLejDBy7WcZ3w+4UWmEvxPfvJfnf&#xD;&#xA;33CD2l7QH91wHYhhPrmy4YaUdkSur/hW4oc8mG09hu0c7obn5b2nv/y3sPMFAAD//wMAUEsDBBQA&#xD;&#xA;BgAIAAAAIQAtlw/i5gAAAA8BAAAPAAAAZHJzL2Rvd25yZXYueG1sTI9Pb8IwDMXvk/YdIk/aDdKW&#xD;&#xA;dWOlLkLszwlNGiCh3UJr2oomqZrQlm8/c9oulmw/P79fuhx1I3rqXG0NQjgNQJDJbVGbEmG/+5jM&#xD;&#xA;QTivTKEaawjhSg6W2f1dqpLCDuab+q0vBZsYlyiEyvs2kdLlFWnlprYlw7uT7bTy3HalLDo1sLlu&#xD;&#xA;ZBQEz1Kr2vCHSrW0rig/by8a4XNQw2oWvveb82l9/dnFX4dNSIiPD+PbgstqAcLT6P8u4MbA+SHj&#xD;&#xA;YEd7MYUTDcIsenplKcJkHscgWPEShUx0RIh5ILNU/ufIfgEAAP//AwBQSwECLQAUAAYACAAAACEA&#xD;&#xA;toM4kv4AAADhAQAAEwAAAAAAAAAAAAAAAAAAAAAAW0NvbnRlbnRfVHlwZXNdLnhtbFBLAQItABQA&#xD;&#xA;BgAIAAAAIQA4/SH/1gAAAJQBAAALAAAAAAAAAAAAAAAAAC8BAABfcmVscy8ucmVsc1BLAQItABQA&#xD;&#xA;BgAIAAAAIQCQ7m35owMAAHUMAAAOAAAAAAAAAAAAAAAAAC4CAABkcnMvZTJvRG9jLnhtbFBLAQIt&#xD;&#xA;ABQABgAIAAAAIQAtlw/i5gAAAA8BAAAPAAAAAAAAAAAAAAAAAP0FAABkcnMvZG93bnJldi54bWxQ&#xD;&#xA;SwUGAAAAAAQABADzAAAAEAcAAAAA&#xD;&#xA;">
+                      <v:shapetype id="_x0000_t202" coordsize="21600,21600" o:spt="202"
+                        path="m,l,21600r21600,l21600,xe">
+                        <v:stroke joinstyle="miter" />
+                        <v:path gradientshapeok="t" o:connecttype="rect" />
+                      </v:shapetype>
+                      <v:shape id="文本框 4" o:spid="_x0000_s1027" type="#_x0000_t202"
+                        style="position:absolute;left:4630;top:17254;width:3211;height:975;visibility:visible;mso-wrap-style:square;v-text-anchor:top"
+                        o:gfxdata="UEsDBBQABgAIAAAAIQDb4fbL7gAAAIUBAAATAAAAW0NvbnRlbnRfVHlwZXNdLnhtbHyQz07DMAyH&#xD;&#xA;70i8Q+QralM4IITa7kDhCAiNB7ASt43WOlEcyvb2pNu4IODoPz9/n1xv9vOkForiPDdwXVagiI23&#xD;&#xA;jocG3rdPxR0oScgWJ8/UwIEENu3lRb09BBKV0ywNjCmFe63FjDSjlD4Q50nv44wpl3HQAc0OB9I3&#xD;&#xA;VXWrjedEnIq03oC27qjHjympx31un0wiTQLq4bS4shrAECZnMGVTvbD9QSnOhDInjzsyuiBXWQP0&#xD;&#xA;r4R18jfgnHvJr4nOknrFmJ5xzhraRtHWf3Kkpfz/yGo5S+H73hkquyhdjr3R8m2lj09svwAAAP//&#xD;&#xA;AwBQSwMEFAAGAAgAAAAhAFr0LFu/AAAAFQEAAAsAAABfcmVscy8ucmVsc2zPwWrDMAwG4Ptg72B0&#xD;&#xA;X5TuUMaI01uh19I+gLGVxCy2jGSy9e1nemrHjpL4P0nD4SetZiPRyNnCruvBUPYcYp4tXC/Htw8w&#xD;&#xA;Wl0ObuVMFm6kcBhfX4Yzra62kC6xqGlKVgtLreUTUf1CyWnHhXKbTCzJ1VbKjMX5LzcTvvf9HuXR&#xD;&#xA;gPHJNKdgQU5hB+ZyK23zHztFL6w81c5zQp6m6P9TMfB3PtPWFCczVQtB9N4U2rp2HOA44NMz4y8A&#xD;&#xA;AAD//wMAUEsDBBQABgAIAAAAIQBPsyaMyAAAAN8AAAAPAAAAZHJzL2Rvd25yZXYueG1sRI9Pi8Iw&#xD;&#xA;FMTvwn6H8Ba8aaqoSDWKdBFF1oN/Lnt72zzbYvPSbaLW/fRGELwMDMP8hpnOG1OKK9WusKyg141A&#xD;&#xA;EKdWF5wpOB6WnTEI55E1lpZJwZ0czGcfrSnG2t54R9e9z0SAsItRQe59FUvp0pwMuq6tiEN2srVB&#xD;&#xA;H2ydSV3jLcBNKftRNJIGCw4LOVaU5JSe9xejYJMst7j77Zvxf5msvk+L6u/4M1Sq/dl8TYIsJiA8&#xD;&#xA;Nf7deCHWWsEAnn/CF5CzBwAAAP//AwBQSwECLQAUAAYACAAAACEA2+H2y+4AAACFAQAAEwAAAAAA&#xD;&#xA;AAAAAAAAAAAAAAAAW0NvbnRlbnRfVHlwZXNdLnhtbFBLAQItABQABgAIAAAAIQBa9CxbvwAAABUB&#xD;&#xA;AAALAAAAAAAAAAAAAAAAAB8BAABfcmVscy8ucmVsc1BLAQItABQABgAIAAAAIQBPsyaMyAAAAN8A&#xD;&#xA;AAAPAAAAAAAAAAAAAAAAAAcCAABkcnMvZG93bnJldi54bWxQSwUGAAAAAAMAAwC3AAAA/AIAAAAA&#xD;&#xA;"
+                        filled="f" stroked="f" strokeweight=".5pt">
+                        <v:textbox>
+                          <w:txbxContent>
+                            <w:p w14:paraId="63A094A3" w14:textId="77777777" w:rsidR="004F7978"
+                              w:rsidRDefault="00000000">
+                              <w:pPr>
+                                <w:jc w:val="distribute" />
+                                <w:rPr>
+                                  <w:rFonts w:ascii="Microsoft YaHei" w:eastAsia="Microsoft YaHei"
+                                    w:hAnsi="Microsoft YaHei" w:cs="Microsoft YaHei" />
+                                  <w:b />
+                                  <w:bCs />
+                                  <w:sz w:val="48" />
+                                  <w:szCs w:val="56" />
+                                </w:rPr>
+                              </w:pPr>
+                              <w:r>
+                                <w:rPr>
+                                  <w:rFonts w:ascii="Microsoft YaHei" w:eastAsia="Microsoft YaHei"
+                                    w:hAnsi="Microsoft YaHei" w:cs="Microsoft YaHei"
+                                    w:hint="eastAsia" />
+                                  <w:b />
+                                  <w:bCs />
+                                  <w:sz w:val="48" />
+                                  <w:szCs w:val="56" />
+                                </w:rPr>
+                                <w:t>个人求职简历</w:t>
+                              </w:r>
+                            </w:p>
+                          </w:txbxContent>
+                        </v:textbox>
+                      </v:shape>
+                      <v:shape id="文本框 2" o:spid="_x0000_s1028" type="#_x0000_t202"
+                        style="position:absolute;left:4705;top:18019;width:3123;height:645;visibility:visible;mso-wrap-style:square;v-text-anchor:top"
+                        o:gfxdata="UEsDBBQABgAIAAAAIQDb4fbL7gAAAIUBAAATAAAAW0NvbnRlbnRfVHlwZXNdLnhtbHyQz07DMAyH&#xD;&#xA;70i8Q+QralM4IITa7kDhCAiNB7ASt43WOlEcyvb2pNu4IODoPz9/n1xv9vOkForiPDdwXVagiI23&#xD;&#xA;jocG3rdPxR0oScgWJ8/UwIEENu3lRb09BBKV0ywNjCmFe63FjDSjlD4Q50nv44wpl3HQAc0OB9I3&#xD;&#xA;VXWrjedEnIq03oC27qjHjympx31un0wiTQLq4bS4shrAECZnMGVTvbD9QSnOhDInjzsyuiBXWQP0&#xD;&#xA;r4R18jfgnHvJr4nOknrFmJ5xzhraRtHWf3Kkpfz/yGo5S+H73hkquyhdjr3R8m2lj09svwAAAP//&#xD;&#xA;AwBQSwMEFAAGAAgAAAAhAFr0LFu/AAAAFQEAAAsAAABfcmVscy8ucmVsc2zPwWrDMAwG4Ptg72B0&#xD;&#xA;X5TuUMaI01uh19I+gLGVxCy2jGSy9e1nemrHjpL4P0nD4SetZiPRyNnCruvBUPYcYp4tXC/Htw8w&#xD;&#xA;Wl0ObuVMFm6kcBhfX4Yzra62kC6xqGlKVgtLreUTUf1CyWnHhXKbTCzJ1VbKjMX5LzcTvvf9HuXR&#xD;&#xA;gPHJNKdgQU5hB+ZyK23zHztFL6w81c5zQp6m6P9TMfB3PtPWFCczVQtB9N4U2rp2HOA44NMz4y8A&#xD;&#xA;AAD//wMAUEsDBBQABgAIAAAAIQCvFhtjyAAAAN8AAAAPAAAAZHJzL2Rvd25yZXYueG1sRI9Ba8JA&#xD;&#xA;FITvBf/D8oTe6qYBJURXkYhUij0k9dLba/aZhGbfxuzWRH99t1DoZWAY5htmtRlNK67Uu8aygudZ&#xD;&#xA;BIK4tLrhSsHpff+UgHAeWWNrmRTcyMFmPXlYYartwDldC1+JAGGXooLa+y6V0pU1GXQz2xGH7Gx7&#xD;&#xA;gz7YvpK6xyHATSvjKFpIgw2HhRo7ymoqv4pvo+A1279h/hmb5N5mL8fztrucPuZKPU7H3TLIdgnC&#xD;&#xA;0+j/G3+Ig1YQw++f8AXk+gcAAP//AwBQSwECLQAUAAYACAAAACEA2+H2y+4AAACFAQAAEwAAAAAA&#xD;&#xA;AAAAAAAAAAAAAAAAW0NvbnRlbnRfVHlwZXNdLnhtbFBLAQItABQABgAIAAAAIQBa9CxbvwAAABUB&#xD;&#xA;AAALAAAAAAAAAAAAAAAAAB8BAABfcmVscy8ucmVsc1BLAQItABQABgAIAAAAIQCvFhtjyAAAAN8A&#xD;&#xA;AAAPAAAAAAAAAAAAAAAAAAcCAABkcnMvZG93bnJldi54bWxQSwUGAAAAAAMAAwC3AAAA/AIAAAAA&#xD;&#xA;"
+                        filled="f" stroked="f" strokeweight=".5pt">
+                        <v:textbox>
+                          <w:txbxContent>
+                            <w:p w14:paraId="3544C9B0" w14:textId="77777777" w:rsidR="004F7978"
+                              w:rsidRDefault="00000000">
+                              <w:pPr>
+                                <w:jc w:val="distribute" />
+                                <w:rPr>
+                                  <w:rFonts w:ascii="Microsoft YaHei" w:eastAsia="Microsoft YaHei"
+                                    w:hAnsi="Microsoft YaHei" w:cs="Microsoft YaHei" />
+                                  <w:sz w:val="24" />
+                                  <w:szCs w:val="32" />
+                                </w:rPr>
+                              </w:pPr>
+                              <w:r>
+                                <w:rPr>
+                                  <w:rFonts w:ascii="Microsoft YaHei" w:eastAsia="Microsoft YaHei"
+                                    w:hAnsi="Microsoft YaHei" w:cs="Microsoft YaHei"
+                                    w:hint="eastAsia" />
+                                  <w:sz w:val="24" />
+                                  <w:szCs w:val="32" />
+                                </w:rPr>
+                                <w:t>PERSONAL RESUME</w:t>
+                              </w:r>
+                            </w:p>
+                          </w:txbxContent>
+                        </v:textbox>
+                      </v:shape>
+                      <v:line id="直接连接符 3" o:spid="_x0000_s1029"
+                        style="position:absolute;visibility:visible;mso-wrap-style:square"
+                        from="4252,18164" to="8221,18164" o:connectortype="straight"
+                        o:gfxdata="UEsDBBQABgAIAAAAIQDb4fbL7gAAAIUBAAATAAAAW0NvbnRlbnRfVHlwZXNdLnhtbHyQz07DMAyH&#xD;&#xA;70i8Q+QralM4IITa7kDhCAiNB7ASt43WOlEcyvb2pNu4IODoPz9/n1xv9vOkForiPDdwXVagiI23&#xD;&#xA;jocG3rdPxR0oScgWJ8/UwIEENu3lRb09BBKV0ywNjCmFe63FjDSjlD4Q50nv44wpl3HQAc0OB9I3&#xD;&#xA;VXWrjedEnIq03oC27qjHjympx31un0wiTQLq4bS4shrAECZnMGVTvbD9QSnOhDInjzsyuiBXWQP0&#xD;&#xA;r4R18jfgnHvJr4nOknrFmJ5xzhraRtHWf3Kkpfz/yGo5S+H73hkquyhdjr3R8m2lj09svwAAAP//&#xD;&#xA;AwBQSwMEFAAGAAgAAAAhAFr0LFu/AAAAFQEAAAsAAABfcmVscy8ucmVsc2zPwWrDMAwG4Ptg72B0&#xD;&#xA;X5TuUMaI01uh19I+gLGVxCy2jGSy9e1nemrHjpL4P0nD4SetZiPRyNnCruvBUPYcYp4tXC/Htw8w&#xD;&#xA;Wl0ObuVMFm6kcBhfX4Yzra62kC6xqGlKVgtLreUTUf1CyWnHhXKbTCzJ1VbKjMX5LzcTvvf9HuXR&#xD;&#xA;gPHJNKdgQU5hB+ZyK23zHztFL6w81c5zQp6m6P9TMfB3PtPWFCczVQtB9N4U2rp2HOA44NMz4y8A&#xD;&#xA;AAD//wMAUEsDBBQABgAIAAAAIQBRNC7sxgAAAN8AAAAPAAAAZHJzL2Rvd25yZXYueG1sRI9Ba8JA&#xD;&#xA;FITvgv9heUIvohuj2BJdRVoU9aa190f2mcRk36bZVeO/7xYELwPDMN8w82VrKnGjxhWWFYyGEQji&#xD;&#xA;1OqCMwWn7/XgA4TzyBory6TgQQ6Wi25njom2dz7Q7egzESDsElSQe18nUro0J4NuaGvikJ1tY9AH&#xD;&#xA;22RSN3gPcFPJOIqm0mDBYSHHmj5zSsvj1Sg4T/rxBkfv/V0RV5ey/PmdpHtU6q3Xfs2CrGYgPLX+&#xD;&#xA;1XgitlrBGP7/hC8gF38AAAD//wMAUEsBAi0AFAAGAAgAAAAhANvh9svuAAAAhQEAABMAAAAAAAAA&#xD;&#xA;AAAAAAAAAAAAAFtDb250ZW50X1R5cGVzXS54bWxQSwECLQAUAAYACAAAACEAWvQsW78AAAAVAQAA&#xD;&#xA;CwAAAAAAAAAAAAAAAAAfAQAAX3JlbHMvLnJlbHNQSwECLQAUAAYACAAAACEAUTQu7MYAAADfAAAA&#xD;&#xA;DwAAAAAAAAAAAAAAAAAHAgAAZHJzL2Rvd25yZXYueG1sUEsFBgAAAAADAAMAtwAAAPoCAAAAAA==&#xD;&#xA;"
+                        strokecolor="#0d0d0d [3069]" strokeweight="1.5pt">
+                        <v:stroke joinstyle="miter" />
+                      </v:line>
+                    </v:group>
+                  </w:pict>
+                </mc:Fallback>
+              </mc:AlternateContent>
+            </w:r>
+          </w:p>
+          <w:sectPr w:rsidR="004F7978">
+            <w:headerReference w:type="even" r:id="rId9" />
+            <w:headerReference w:type="default" r:id="rId10" />
+            <w:footerReference w:type="even" r:id="rId11" />
+            <w:footerReference w:type="default" r:id="rId12" />
+            <w:headerReference w:type="first" r:id="rId13" />
+            <w:footerReference w:type="first" r:id="rId14" />
+            <w:pgSz w:w="11906" w:h="16838" />
+            <w:pgMar w:top="720" w:right="720" w:bottom="283" w:left="720" w:header="851"
+              w:footer="992" w:gutter="0" />
+            <w:cols w:space="425" />
+            <w:docGrid w:type="lines" w:linePitch="312" />
+          </w:sectPr>
+        </w:body>
+      </w:document>
+    </pkg:xmlData>
+  </pkg:part>
+  <pkg:part pkg:name="/word/header3.xml"
+    pkg:contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.header+xml">
+    <pkg:xmlData>
+      <w:hdr xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas"
+        xmlns:cx="http://schemas.microsoft.com/office/drawing/2014/chartex"
+        xmlns:cx1="http://schemas.microsoft.com/office/drawing/2015/9/8/chartex"
+        xmlns:cx2="http://schemas.microsoft.com/office/drawing/2015/10/21/chartex"
+        xmlns:cx3="http://schemas.microsoft.com/office/drawing/2016/5/9/chartex"
+        xmlns:cx4="http://schemas.microsoft.com/office/drawing/2016/5/10/chartex"
+        xmlns:cx5="http://schemas.microsoft.com/office/drawing/2016/5/11/chartex"
+        xmlns:cx6="http://schemas.microsoft.com/office/drawing/2016/5/12/chartex"
+        xmlns:cx7="http://schemas.microsoft.com/office/drawing/2016/5/13/chartex"
+        xmlns:cx8="http://schemas.microsoft.com/office/drawing/2016/5/14/chartex"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:aink="http://schemas.microsoft.com/office/drawing/2016/ink"
+        xmlns:am3d="http://schemas.microsoft.com/office/drawing/2017/model3d"
+        xmlns:o="urn:schemas-microsoft-com:office:office"
+        xmlns:oel="http://schemas.microsoft.com/office/2019/extlst"
+        xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"
+        xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math"
+        xmlns:v="urn:schemas-microsoft-com:vml"
+        xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing"
+        xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing"
+        xmlns:w10="urn:schemas-microsoft-com:office:word"
+        xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"
+        xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml"
+        xmlns:w15="http://schemas.microsoft.com/office/word/2012/wordml"
+        xmlns:w16cex="http://schemas.microsoft.com/office/word/2018/wordml/cex"
+        xmlns:w16cid="http://schemas.microsoft.com/office/word/2016/wordml/cid"
+        xmlns:w16="http://schemas.microsoft.com/office/word/2018/wordml"
+        xmlns:w16du="http://schemas.microsoft.com/office/word/2023/wordml/word16du"
+        xmlns:w16sdtdh="http://schemas.microsoft.com/office/word/2020/wordml/sdtdatahash"
+        xmlns:w16se="http://schemas.microsoft.com/office/word/2015/wordml/symex"
+        xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup"
+        xmlns:wpi="http://schemas.microsoft.com/office/word/2010/wordprocessingInk"
+        xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml"
+        xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape"
+        mc:Ignorable="w14 w15 w16se w16cid w16 w16cex w16sdtdh wp14">
+        <w:p w14:paraId="24AE3710" w14:textId="77777777" w:rsidR="008D7225"
+          w:rsidRDefault="008D7225">
+          <w:pPr>
+            <w:pStyle w:val="Header" />
+          </w:pPr>
+        </w:p>
+      </w:hdr>
+    </pkg:xmlData>
+  </pkg:part>
+  <pkg:part pkg:name="/word/footer3.xml"
+    pkg:contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml">
+    <pkg:xmlData>
+      <w:ftr xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas"
+        xmlns:cx="http://schemas.microsoft.com/office/drawing/2014/chartex"
+        xmlns:cx1="http://schemas.microsoft.com/office/drawing/2015/9/8/chartex"
+        xmlns:cx2="http://schemas.microsoft.com/office/drawing/2015/10/21/chartex"
+        xmlns:cx3="http://schemas.microsoft.com/office/drawing/2016/5/9/chartex"
+        xmlns:cx4="http://schemas.microsoft.com/office/drawing/2016/5/10/chartex"
+        xmlns:cx5="http://schemas.microsoft.com/office/drawing/2016/5/11/chartex"
+        xmlns:cx6="http://schemas.microsoft.com/office/drawing/2016/5/12/chartex"
+        xmlns:cx7="http://schemas.microsoft.com/office/drawing/2016/5/13/chartex"
+        xmlns:cx8="http://schemas.microsoft.com/office/drawing/2016/5/14/chartex"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:aink="http://schemas.microsoft.com/office/drawing/2016/ink"
+        xmlns:am3d="http://schemas.microsoft.com/office/drawing/2017/model3d"
+        xmlns:o="urn:schemas-microsoft-com:office:office"
+        xmlns:oel="http://schemas.microsoft.com/office/2019/extlst"
+        xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"
+        xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math"
+        xmlns:v="urn:schemas-microsoft-com:vml"
+        xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing"
+        xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing"
+        xmlns:w10="urn:schemas-microsoft-com:office:word"
+        xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"
+        xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml"
+        xmlns:w15="http://schemas.microsoft.com/office/word/2012/wordml"
+        xmlns:w16cex="http://schemas.microsoft.com/office/word/2018/wordml/cex"
+        xmlns:w16cid="http://schemas.microsoft.com/office/word/2016/wordml/cid"
+        xmlns:w16="http://schemas.microsoft.com/office/word/2018/wordml"
+        xmlns:w16du="http://schemas.microsoft.com/office/word/2023/wordml/word16du"
+        xmlns:w16sdtdh="http://schemas.microsoft.com/office/word/2020/wordml/sdtdatahash"
+        xmlns:w16se="http://schemas.microsoft.com/office/word/2015/wordml/symex"
+        xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup"
+        xmlns:wpi="http://schemas.microsoft.com/office/word/2010/wordprocessingInk"
+        xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml"
+        xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape"
+        mc:Ignorable="w14 w15 w16se w16cid w16 w16cex w16sdtdh wp14">
+        <w:p w14:paraId="262918F5" w14:textId="77777777" w:rsidR="008D7225"
+          w:rsidRDefault="008D7225">
+          <w:pPr>
+            <w:pStyle w:val="Footer" />
+          </w:pPr>
+        </w:p>
+      </w:ftr>
+    </pkg:xmlData>
+  </pkg:part>
+  <pkg:part pkg:name="/word/footer1.xml"
+    pkg:contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml">
+    <pkg:xmlData>
+      <w:ftr xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas"
+        xmlns:cx="http://schemas.microsoft.com/office/drawing/2014/chartex"
+        xmlns:cx1="http://schemas.microsoft.com/office/drawing/2015/9/8/chartex"
+        xmlns:cx2="http://schemas.microsoft.com/office/drawing/2015/10/21/chartex"
+        xmlns:cx3="http://schemas.microsoft.com/office/drawing/2016/5/9/chartex"
+        xmlns:cx4="http://schemas.microsoft.com/office/drawing/2016/5/10/chartex"
+        xmlns:cx5="http://schemas.microsoft.com/office/drawing/2016/5/11/chartex"
+        xmlns:cx6="http://schemas.microsoft.com/office/drawing/2016/5/12/chartex"
+        xmlns:cx7="http://schemas.microsoft.com/office/drawing/2016/5/13/chartex"
+        xmlns:cx8="http://schemas.microsoft.com/office/drawing/2016/5/14/chartex"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:aink="http://schemas.microsoft.com/office/drawing/2016/ink"
+        xmlns:am3d="http://schemas.microsoft.com/office/drawing/2017/model3d"
+        xmlns:o="urn:schemas-microsoft-com:office:office"
+        xmlns:oel="http://schemas.microsoft.com/office/2019/extlst"
+        xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"
+        xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math"
+        xmlns:v="urn:schemas-microsoft-com:vml"
+        xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing"
+        xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing"
+        xmlns:w10="urn:schemas-microsoft-com:office:word"
+        xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"
+        xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml"
+        xmlns:w15="http://schemas.microsoft.com/office/word/2012/wordml"
+        xmlns:w16cex="http://schemas.microsoft.com/office/word/2018/wordml/cex"
+        xmlns:w16cid="http://schemas.microsoft.com/office/word/2016/wordml/cid"
+        xmlns:w16="http://schemas.microsoft.com/office/word/2018/wordml"
+        xmlns:w16du="http://schemas.microsoft.com/office/word/2023/wordml/word16du"
+        xmlns:w16sdtdh="http://schemas.microsoft.com/office/word/2020/wordml/sdtdatahash"
+        xmlns:w16se="http://schemas.microsoft.com/office/word/2015/wordml/symex"
+        xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup"
+        xmlns:wpi="http://schemas.microsoft.com/office/word/2010/wordprocessingInk"
+        xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml"
+        xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape"
+        mc:Ignorable="w14 w15 w16se w16cid w16 w16cex w16sdtdh wp14">
+        <w:p w14:paraId="61F65E37" w14:textId="77777777" w:rsidR="008D7225"
+          w:rsidRDefault="008D7225">
+          <w:pPr>
+            <w:pStyle w:val="Footer" />
+          </w:pPr>
+        </w:p>
+      </w:ftr>
+    </pkg:xmlData>
+  </pkg:part>
+  <pkg:part pkg:name="/word/footnotes.xml"
+    pkg:contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.footnotes+xml">
+    <pkg:xmlData>
+      <w:footnotes xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas"
+        xmlns:cx="http://schemas.microsoft.com/office/drawing/2014/chartex"
+        xmlns:cx1="http://schemas.microsoft.com/office/drawing/2015/9/8/chartex"
+        xmlns:cx2="http://schemas.microsoft.com/office/drawing/2015/10/21/chartex"
+        xmlns:cx3="http://schemas.microsoft.com/office/drawing/2016/5/9/chartex"
+        xmlns:cx4="http://schemas.microsoft.com/office/drawing/2016/5/10/chartex"
+        xmlns:cx5="http://schemas.microsoft.com/office/drawing/2016/5/11/chartex"
+        xmlns:cx6="http://schemas.microsoft.com/office/drawing/2016/5/12/chartex"
+        xmlns:cx7="http://schemas.microsoft.com/office/drawing/2016/5/13/chartex"
+        xmlns:cx8="http://schemas.microsoft.com/office/drawing/2016/5/14/chartex"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:aink="http://schemas.microsoft.com/office/drawing/2016/ink"
+        xmlns:am3d="http://schemas.microsoft.com/office/drawing/2017/model3d"
+        xmlns:o="urn:schemas-microsoft-com:office:office"
+        xmlns:oel="http://schemas.microsoft.com/office/2019/extlst"
+        xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"
+        xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math"
+        xmlns:v="urn:schemas-microsoft-com:vml"
+        xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing"
+        xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing"
+        xmlns:w10="urn:schemas-microsoft-com:office:word"
+        xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"
+        xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml"
+        xmlns:w15="http://schemas.microsoft.com/office/word/2012/wordml"
+        xmlns:w16cex="http://schemas.microsoft.com/office/word/2018/wordml/cex"
+        xmlns:w16cid="http://schemas.microsoft.com/office/word/2016/wordml/cid"
+        xmlns:w16="http://schemas.microsoft.com/office/word/2018/wordml"
+        xmlns:w16du="http://schemas.microsoft.com/office/word/2023/wordml/word16du"
+        xmlns:w16sdtdh="http://schemas.microsoft.com/office/word/2020/wordml/sdtdatahash"
+        xmlns:w16se="http://schemas.microsoft.com/office/word/2015/wordml/symex"
+        xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup"
+        xmlns:wpi="http://schemas.microsoft.com/office/word/2010/wordprocessingInk"
+        xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml"
+        xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape"
+        mc:Ignorable="w14 w15 w16se w16cid w16 w16cex w16sdtdh wp14">
+        <w:footnote w:type="separator" w:id="-1">
+          <w:p w14:paraId="3C1B6074" w14:textId="77777777" w:rsidR="00E26DAC"
+            w:rsidRDefault="00E26DAC" w:rsidP="008D7225">
+            <w:r>
+              <w:separator />
+            </w:r>
+          </w:p>
+        </w:footnote>
+        <w:footnote w:type="continuationSeparator" w:id="0">
+          <w:p w14:paraId="7B14696B" w14:textId="77777777" w:rsidR="00E26DAC"
+            w:rsidRDefault="00E26DAC" w:rsidP="008D7225">
+            <w:r>
+              <w:continuationSeparator />
+            </w:r>
+          </w:p>
+        </w:footnote>
+      </w:footnotes>
+    </pkg:xmlData>
+  </pkg:part>
+  <pkg:part pkg:name="/word/endnotes.xml"
+    pkg:contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.endnotes+xml">
+    <pkg:xmlData>
+      <w:endnotes xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas"
+        xmlns:cx="http://schemas.microsoft.com/office/drawing/2014/chartex"
+        xmlns:cx1="http://schemas.microsoft.com/office/drawing/2015/9/8/chartex"
+        xmlns:cx2="http://schemas.microsoft.com/office/drawing/2015/10/21/chartex"
+        xmlns:cx3="http://schemas.microsoft.com/office/drawing/2016/5/9/chartex"
+        xmlns:cx4="http://schemas.microsoft.com/office/drawing/2016/5/10/chartex"
+        xmlns:cx5="http://schemas.microsoft.com/office/drawing/2016/5/11/chartex"
+        xmlns:cx6="http://schemas.microsoft.com/office/drawing/2016/5/12/chartex"
+        xmlns:cx7="http://schemas.microsoft.com/office/drawing/2016/5/13/chartex"
+        xmlns:cx8="http://schemas.microsoft.com/office/drawing/2016/5/14/chartex"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:aink="http://schemas.microsoft.com/office/drawing/2016/ink"
+        xmlns:am3d="http://schemas.microsoft.com/office/drawing/2017/model3d"
+        xmlns:o="urn:schemas-microsoft-com:office:office"
+        xmlns:oel="http://schemas.microsoft.com/office/2019/extlst"
+        xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"
+        xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math"
+        xmlns:v="urn:schemas-microsoft-com:vml"
+        xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing"
+        xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing"
+        xmlns:w10="urn:schemas-microsoft-com:office:word"
+        xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"
+        xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml"
+        xmlns:w15="http://schemas.microsoft.com/office/word/2012/wordml"
+        xmlns:w16cex="http://schemas.microsoft.com/office/word/2018/wordml/cex"
+        xmlns:w16cid="http://schemas.microsoft.com/office/word/2016/wordml/cid"
+        xmlns:w16="http://schemas.microsoft.com/office/word/2018/wordml"
+        xmlns:w16du="http://schemas.microsoft.com/office/word/2023/wordml/word16du"
+        xmlns:w16sdtdh="http://schemas.microsoft.com/office/word/2020/wordml/sdtdatahash"
+        xmlns:w16se="http://schemas.microsoft.com/office/word/2015/wordml/symex"
+        xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup"
+        xmlns:wpi="http://schemas.microsoft.com/office/word/2010/wordprocessingInk"
+        xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml"
+        xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape"
+        mc:Ignorable="w14 w15 w16se w16cid w16 w16cex w16sdtdh wp14">
+        <w:endnote w:type="separator" w:id="-1">
+          <w:p w14:paraId="4F946B27" w14:textId="77777777" w:rsidR="00E26DAC"
+            w:rsidRDefault="00E26DAC" w:rsidP="008D7225">
+            <w:r>
+              <w:separator />
+            </w:r>
+          </w:p>
+        </w:endnote>
+        <w:endnote w:type="continuationSeparator" w:id="0">
+          <w:p w14:paraId="1C6B98A6" w14:textId="77777777" w:rsidR="00E26DAC"
+            w:rsidRDefault="00E26DAC" w:rsidP="008D7225">
+            <w:r>
+              <w:continuationSeparator />
+            </w:r>
+          </w:p>
+        </w:endnote>
+      </w:endnotes>
+    </pkg:xmlData>
+  </pkg:part>
+  <pkg:part pkg:name="/word/footer2.xml"
+    pkg:contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml">
+    <pkg:xmlData>
+      <w:ftr xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas"
+        xmlns:cx="http://schemas.microsoft.com/office/drawing/2014/chartex"
+        xmlns:cx1="http://schemas.microsoft.com/office/drawing/2015/9/8/chartex"
+        xmlns:cx2="http://schemas.microsoft.com/office/drawing/2015/10/21/chartex"
+        xmlns:cx3="http://schemas.microsoft.com/office/drawing/2016/5/9/chartex"
+        xmlns:cx4="http://schemas.microsoft.com/office/drawing/2016/5/10/chartex"
+        xmlns:cx5="http://schemas.microsoft.com/office/drawing/2016/5/11/chartex"
+        xmlns:cx6="http://schemas.microsoft.com/office/drawing/2016/5/12/chartex"
+        xmlns:cx7="http://schemas.microsoft.com/office/drawing/2016/5/13/chartex"
+        xmlns:cx8="http://schemas.microsoft.com/office/drawing/2016/5/14/chartex"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:aink="http://schemas.microsoft.com/office/drawing/2016/ink"
+        xmlns:am3d="http://schemas.microsoft.com/office/drawing/2017/model3d"
+        xmlns:o="urn:schemas-microsoft-com:office:office"
+        xmlns:oel="http://schemas.microsoft.com/office/2019/extlst"
+        xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"
+        xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math"
+        xmlns:v="urn:schemas-microsoft-com:vml"
+        xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing"
+        xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing"
+        xmlns:w10="urn:schemas-microsoft-com:office:word"
+        xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"
+        xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml"
+        xmlns:w15="http://schemas.microsoft.com/office/word/2012/wordml"
+        xmlns:w16cex="http://schemas.microsoft.com/office/word/2018/wordml/cex"
+        xmlns:w16cid="http://schemas.microsoft.com/office/word/2016/wordml/cid"
+        xmlns:w16="http://schemas.microsoft.com/office/word/2018/wordml"
+        xmlns:w16du="http://schemas.microsoft.com/office/word/2023/wordml/word16du"
+        xmlns:w16sdtdh="http://schemas.microsoft.com/office/word/2020/wordml/sdtdatahash"
+        xmlns:w16se="http://schemas.microsoft.com/office/word/2015/wordml/symex"
+        xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup"
+        xmlns:wpi="http://schemas.microsoft.com/office/word/2010/wordprocessingInk"
+        xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml"
+        xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape"
+        mc:Ignorable="w14 w15 w16se w16cid w16 w16cex w16sdtdh wp14">
+        <w:p w14:paraId="06FAE617" w14:textId="77777777" w:rsidR="008D7225"
+          w:rsidRDefault="008D7225">
+          <w:pPr>
+            <w:pStyle w:val="Footer" />
+          </w:pPr>
+        </w:p>
+      </w:ftr>
+    </pkg:xmlData>
+  </pkg:part>
+  <pkg:part pkg:name="/word/header1.xml"
+    pkg:contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.header+xml">
+    <pkg:xmlData>
+      <w:hdr xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas"
+        xmlns:cx="http://schemas.microsoft.com/office/drawing/2014/chartex"
+        xmlns:cx1="http://schemas.microsoft.com/office/drawing/2015/9/8/chartex"
+        xmlns:cx2="http://schemas.microsoft.com/office/drawing/2015/10/21/chartex"
+        xmlns:cx3="http://schemas.microsoft.com/office/drawing/2016/5/9/chartex"
+        xmlns:cx4="http://schemas.microsoft.com/office/drawing/2016/5/10/chartex"
+        xmlns:cx5="http://schemas.microsoft.com/office/drawing/2016/5/11/chartex"
+        xmlns:cx6="http://schemas.microsoft.com/office/drawing/2016/5/12/chartex"
+        xmlns:cx7="http://schemas.microsoft.com/office/drawing/2016/5/13/chartex"
+        xmlns:cx8="http://schemas.microsoft.com/office/drawing/2016/5/14/chartex"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:aink="http://schemas.microsoft.com/office/drawing/2016/ink"
+        xmlns:am3d="http://schemas.microsoft.com/office/drawing/2017/model3d"
+        xmlns:o="urn:schemas-microsoft-com:office:office"
+        xmlns:oel="http://schemas.microsoft.com/office/2019/extlst"
+        xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"
+        xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math"
+        xmlns:v="urn:schemas-microsoft-com:vml"
+        xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing"
+        xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing"
+        xmlns:w10="urn:schemas-microsoft-com:office:word"
+        xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"
+        xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml"
+        xmlns:w15="http://schemas.microsoft.com/office/word/2012/wordml"
+        xmlns:w16cex="http://schemas.microsoft.com/office/word/2018/wordml/cex"
+        xmlns:w16cid="http://schemas.microsoft.com/office/word/2016/wordml/cid"
+        xmlns:w16="http://schemas.microsoft.com/office/word/2018/wordml"
+        xmlns:w16du="http://schemas.microsoft.com/office/word/2023/wordml/word16du"
+        xmlns:w16sdtdh="http://schemas.microsoft.com/office/word/2020/wordml/sdtdatahash"
+        xmlns:w16se="http://schemas.microsoft.com/office/word/2015/wordml/symex"
+        xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup"
+        xmlns:wpi="http://schemas.microsoft.com/office/word/2010/wordprocessingInk"
+        xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml"
+        xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape"
+        mc:Ignorable="w14 w15 w16se w16cid w16 w16cex w16sdtdh wp14">
+        <w:p w14:paraId="55D1F2D2" w14:textId="77777777" w:rsidR="008D7225"
+          w:rsidRDefault="008D7225">
+          <w:pPr>
+            <w:pStyle w:val="Header" />
+          </w:pPr>
+        </w:p>
+      </w:hdr>
+    </pkg:xmlData>
+  </pkg:part>
+  <pkg:part pkg:name="/word/header2.xml"
+    pkg:contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.header+xml">
+    <pkg:xmlData>
+      <w:hdr xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas"
+        xmlns:cx="http://schemas.microsoft.com/office/drawing/2014/chartex"
+        xmlns:cx1="http://schemas.microsoft.com/office/drawing/2015/9/8/chartex"
+        xmlns:cx2="http://schemas.microsoft.com/office/drawing/2015/10/21/chartex"
+        xmlns:cx3="http://schemas.microsoft.com/office/drawing/2016/5/9/chartex"
+        xmlns:cx4="http://schemas.microsoft.com/office/drawing/2016/5/10/chartex"
+        xmlns:cx5="http://schemas.microsoft.com/office/drawing/2016/5/11/chartex"
+        xmlns:cx6="http://schemas.microsoft.com/office/drawing/2016/5/12/chartex"
+        xmlns:cx7="http://schemas.microsoft.com/office/drawing/2016/5/13/chartex"
+        xmlns:cx8="http://schemas.microsoft.com/office/drawing/2016/5/14/chartex"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:aink="http://schemas.microsoft.com/office/drawing/2016/ink"
+        xmlns:am3d="http://schemas.microsoft.com/office/drawing/2017/model3d"
+        xmlns:o="urn:schemas-microsoft-com:office:office"
+        xmlns:oel="http://schemas.microsoft.com/office/2019/extlst"
+        xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"
+        xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math"
+        xmlns:v="urn:schemas-microsoft-com:vml"
+        xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing"
+        xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing"
+        xmlns:w10="urn:schemas-microsoft-com:office:word"
+        xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"
+        xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml"
+        xmlns:w15="http://schemas.microsoft.com/office/word/2012/wordml"
+        xmlns:w16cex="http://schemas.microsoft.com/office/word/2018/wordml/cex"
+        xmlns:w16cid="http://schemas.microsoft.com/office/word/2016/wordml/cid"
+        xmlns:w16="http://schemas.microsoft.com/office/word/2018/wordml"
+        xmlns:w16du="http://schemas.microsoft.com/office/word/2023/wordml/word16du"
+        xmlns:w16sdtdh="http://schemas.microsoft.com/office/word/2020/wordml/sdtdatahash"
+        xmlns:w16se="http://schemas.microsoft.com/office/word/2015/wordml/symex"
+        xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup"
+        xmlns:wpi="http://schemas.microsoft.com/office/word/2010/wordprocessingInk"
+        xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml"
+        xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape"
+        mc:Ignorable="w14 w15 w16se w16cid w16 w16cex w16sdtdh wp14">
+        <w:p w14:paraId="7CDB9B0A" w14:textId="77777777" w:rsidR="008D7225"
+          w:rsidRDefault="008D7225">
+          <w:pPr>
+            <w:pStyle w:val="Header" />
+          </w:pPr>
+        </w:p>
+      </w:hdr>
+    </pkg:xmlData>
+  </pkg:part>
+  <pkg:part pkg:name="/word/media/image1.png" pkg:contentType="image/png" pkg:compression="store">
+    <pkg:binaryData>Qk1eAAAAAAAAAD4AAAAoAAAACAAAAAgAAAABAAEAAAAAACAAAACJCwAAiQsAAAIAAAACAAAA////
+      AAAAAAByAAAA8wAAAD8AAAAnAAAA5AAAAPwAAADPAAAATgAAAA==</pkg:binaryData>
+  </pkg:part>
+  <pkg:part pkg:name="/word/media/image2.jpeg" pkg:contentType="image/jpeg" pkg:compression="store">
+    <pkg:binaryData>/9j/4QAYRXhpZgAASUkqAAgAAAAAAAAAAAAAAP/sABFEdWNreQABAAQAAABUAAD/4QNvaHR0cDov
+      L25zLmFkb2JlLmNvbS94YXAvMS4wLwA8P3hwYWNrZXQgYmVnaW49Iu+7vyIgaWQ9Ilc1TTBNcENl
+      aGlIenJlU3pOVGN6a2M5ZCI/PiA8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIiB4
+      OnhtcHRrPSJBZG9iZSBYTVAgQ29yZSA1LjMtYzAxMSA2Ni4xNDU2NjEsIDIwMTIvMDIvMDYtMTQ6
+      NTY6MjcgICAgICAgICI+IDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5
+      OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+IDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiIHht
+      bG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIiB4bWxuczpzdFJlZj0i
+      aHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlUmVmIyIgeG1sbnM6eG1w
+      PSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bXBNTTpPcmlnaW5hbERvY3VtZW50SUQ9
+      InhtcC5kaWQ6MTE1REE2MzE5RkVGMTFFQTgxQThBODAwOTU3MTk0NEEiIHhtcE1NOkRvY3VtZW50
+      SUQ9InhtcC5kaWQ6N0NGQTgzMEFBMEI0MTFFQTk4NjRGNzNDMDRBOTU2NkIiIHhtcE1NOkluc3Rh
+      bmNlSUQ9InhtcC5paWQ6N0NGQTgzMDlBMEI0MTFFQTk4NjRGNzNDMDRBOTU2NkIiIHhtcDpDcmVh
+      dG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiPiA8eG1wTU06RGVyaXZlZEZy
+      b20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDozRDA2NUNCM0ZDOUZFQTExODAxNkMxMUJENTBC
+      MDQxMyIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDoxMTVEQTYzMTlGRUYxMUVBODFBOEE4MDA5
+      NTcxOTQ0QSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94
+      cGFja2V0IGVuZD0iciI/Pv/uAA5BZG9iZQBkwAAAAAH/2wCEAAIBAQEBAQIBAQIDAgICAwMCAgIC
+      AwQDAwMDAwQFBAQEBAQEBQUGBgYGBgUICAgICAgLCwsLCwwMDAwMDAwMDAwBAgICBAMEBwUFBwsI
+      BwgLDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDP/AABEI
+      AKgAeAMBEQACEQEDEQH/xACrAAABBAMBAQEAAAAAAAAAAAAABgcICQQFCgMCAQEAAQUBAQAAAAAA
+      AAAAAAAAAAIDBAUGAQcQAAEDAwMCAwYDBgMGBwEAAAECAwQRBQYAIQcSCDFBE1FhIjIUCXFCCoGR
+      wVIjFaGxFvDRYnIzJPGCkkM0RCUXEQABAwIEAwcDBAIBBQAAAAABAAIDEQQhMUESUXEFgZGhsSIT
+      BvBhwdHhMkLxUiNicjMUJP/aAAwDAQACEQMRAD8Av80IRoQjQhGhCNCEaEI0IRoQjQhGhCNCEaEI
+      0IRoQjQhGhCNCEaEI0IRoQjQhGhCNCEaEI0IRoQjQhGhCNCEaEI0IRoQjQhGhCNCE1Pdb3o9v3Zp
+      hRzDmy8pjOOpUq22WIA/c56k/lYYqNq7FailAPiobabklazNPwW75T6Qqse5T9RD3G5tMk2fg2Fb
+      uOrUQtLM+UlF4vak16Qel1CmEqI32aNP5j46Y917slYtso2fyNVHB37pPepfbx9Xe+ZsubdCyots
+      evDjU8UgiKGm/wBw0Fzh/lOCCPh4Jb4H9+zvB4rmofn5OrJYMRaXpcW6NCRJUzTpXUPI6yP+Vda+
+      BA2PGudXNJfBGRl3KUvEX6o7g6feG4/N2HybZaXOhIvFikJlutlVB1ORHEt1T4k9K6ilOknbT7C7
+      UKFJatpVpVkXAvcVwr3O4BF5N4LyGLkFnlIQ4Hoqil5kuDqCJDDgS6yun5VpB92nA4HJRXxuZmEt
+      ddSEaEI0IRoQjQhGhCNCEaEKOv3IPuGcffb+4dGT3NtF1y69+rFxDGyvpMp9AAXIkUIKYzHWkrI3
+      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
+      QpZIOwG2+ugLhX//2Q==</pkg:binaryData>
+  </pkg:part>
+  <pkg:part pkg:name="/word/theme/theme1.xml"
+    pkg:contentType="application/vnd.openxmlformats-officedocument.theme+xml">
+    <pkg:xmlData>
+      <a:theme xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" name="Office 主题">
+        <a:themeElements>
+          <a:clrScheme name="Office">
+            <a:dk1>
+              <a:sysClr val="windowText" lastClr="000000" />
+            </a:dk1>
+            <a:lt1>
+              <a:sysClr val="window" lastClr="FFFFFF" />
+            </a:lt1>
+            <a:dk2>
+              <a:srgbClr val="44546A" />
+            </a:dk2>
+            <a:lt2>
+              <a:srgbClr val="E7E6E6" />
+            </a:lt2>
+            <a:accent1>
+              <a:srgbClr val="5B9BD5" />
+            </a:accent1>
+            <a:accent2>
+              <a:srgbClr val="ED7D31" />
+            </a:accent2>
+            <a:accent3>
+              <a:srgbClr val="A5A5A5" />
+            </a:accent3>
+            <a:accent4>
+              <a:srgbClr val="FFC000" />
+            </a:accent4>
+            <a:accent5>
+              <a:srgbClr val="4472C4" />
+            </a:accent5>
+            <a:accent6>
+              <a:srgbClr val="70AD47" />
+            </a:accent6>
+            <a:hlink>
+              <a:srgbClr val="0563C1" />
+            </a:hlink>
+            <a:folHlink>
+              <a:srgbClr val="954F72" />
+            </a:folHlink>
+          </a:clrScheme>
+          <a:fontScheme name="Office">
+            <a:majorFont>
+              <a:latin typeface="Calibri Light" />
+              <a:ea typeface="" />
+              <a:cs typeface="" />
+              <a:font script="Jpan" typeface="ＭＳ ゴシック" />
+              <a:font script="Hang" typeface="맑은 고딕" />
+              <a:font script="Hans" typeface="宋体" />
+              <a:font script="Hant" typeface="新細明體" />
+              <a:font script="Arab" typeface="Times New Roman" />
+              <a:font script="Hebr" typeface="Times New Roman" />
+              <a:font script="Thai" typeface="Angsana New" />
+              <a:font script="Ethi" typeface="Nyala" />
+              <a:font script="Beng" typeface="Vrinda" />
+              <a:font script="Gujr" typeface="Shruti" />
+              <a:font script="Khmr" typeface="MoolBoran" />
+              <a:font script="Knda" typeface="Tunga" />
+              <a:font script="Guru" typeface="Raavi" />
+              <a:font script="Cans" typeface="Euphemia" />
+              <a:font script="Cher" typeface="Plantagenet Cherokee" />
+              <a:font script="Yiii" typeface="Microsoft Yi Baiti" />
+              <a:font script="Tibt" typeface="Microsoft Himalaya" />
+              <a:font script="Thaa" typeface="MV Boli" />
+              <a:font script="Deva" typeface="Mangal" />
+              <a:font script="Telu" typeface="Gautami" />
+              <a:font script="Taml" typeface="Latha" />
+              <a:font script="Syrc" typeface="Estrangelo Edessa" />
+              <a:font script="Orya" typeface="Kalinga" />
+              <a:font script="Mlym" typeface="Kartika" />
+              <a:font script="Laoo" typeface="DokChampa" />
+              <a:font script="Sinh" typeface="Iskoola Pota" />
+              <a:font script="Mong" typeface="Mongolian Baiti" />
+              <a:font script="Viet" typeface="Times New Roman" />
+              <a:font script="Uigh" typeface="Microsoft Uighur" />
+              <a:font script="Geor" typeface="Sylfaen" />
+            </a:majorFont>
+            <a:minorFont>
+              <a:latin typeface="Calibri" />
+              <a:ea typeface="" />
+              <a:cs typeface="" />
+              <a:font script="Jpan" typeface="ＭＳ 明朝" />
+              <a:font script="Hang" typeface="맑은 고딕" />
+              <a:font script="Hans" typeface="宋体" />
+              <a:font script="Hant" typeface="新細明體" />
+              <a:font script="Arab" typeface="Arial" />
+              <a:font script="Hebr" typeface="Arial" />
+              <a:font script="Thai" typeface="Cordia New" />
+              <a:font script="Ethi" typeface="Nyala" />
+              <a:font script="Beng" typeface="Vrinda" />
+              <a:font script="Gujr" typeface="Shruti" />
+              <a:font script="Khmr" typeface="DaunPenh" />
+              <a:font script="Knda" typeface="Tunga" />
+              <a:font script="Guru" typeface="Raavi" />
+              <a:font script="Cans" typeface="Euphemia" />
+              <a:font script="Cher" typeface="Plantagenet Cherokee" />
+              <a:font script="Yiii" typeface="Microsoft Yi Baiti" />
+              <a:font script="Tibt" typeface="Microsoft Himalaya" />
+              <a:font script="Thaa" typeface="MV Boli" />
+              <a:font script="Deva" typeface="Mangal" />
+              <a:font script="Telu" typeface="Gautami" />
+              <a:font script="Taml" typeface="Latha" />
+              <a:font script="Syrc" typeface="Estrangelo Edessa" />
+              <a:font script="Orya" typeface="Kalinga" />
+              <a:font script="Mlym" typeface="Kartika" />
+              <a:font script="Laoo" typeface="DokChampa" />
+              <a:font script="Sinh" typeface="Iskoola Pota" />
+              <a:font script="Mong" typeface="Mongolian Baiti" />
+              <a:font script="Viet" typeface="Arial" />
+              <a:font script="Uigh" typeface="Microsoft Uighur" />
+              <a:font script="Geor" typeface="Sylfaen" />
+            </a:minorFont>
+          </a:fontScheme>
+          <a:fmtScheme name="Office">
+            <a:fillStyleLst>
+              <a:solidFill>
+                <a:schemeClr val="phClr" />
+              </a:solidFill>
+              <a:gradFill rotWithShape="1">
+                <a:gsLst>
+                  <a:gs pos="0">
+                    <a:schemeClr val="phClr">
+                      <a:lumMod val="110000" />
+                      <a:satMod val="105000" />
+                      <a:tint val="67000" />
+                    </a:schemeClr>
+                  </a:gs>
+                  <a:gs pos="50000">
+                    <a:schemeClr val="phClr">
+                      <a:lumMod val="105000" />
+                      <a:satMod val="103000" />
+                      <a:tint val="73000" />
+                    </a:schemeClr>
+                  </a:gs>
+                  <a:gs pos="100000">
+                    <a:schemeClr val="phClr">
+                      <a:lumMod val="105000" />
+                      <a:satMod val="109000" />
+                      <a:tint val="81000" />
+                    </a:schemeClr>
+                  </a:gs>
+                </a:gsLst>
+                <a:lin ang="5400000" scaled="0" />
+              </a:gradFill>
+              <a:gradFill rotWithShape="1">
+                <a:gsLst>
+                  <a:gs pos="0">
+                    <a:schemeClr val="phClr">
+                      <a:satMod val="103000" />
+                      <a:lumMod val="102000" />
+                      <a:tint val="94000" />
+                    </a:schemeClr>
+                  </a:gs>
+                  <a:gs pos="50000">
+                    <a:schemeClr val="phClr">
+                      <a:satMod val="110000" />
+                      <a:lumMod val="100000" />
+                      <a:shade val="100000" />
+                    </a:schemeClr>
+                  </a:gs>
+                  <a:gs pos="100000">
+                    <a:schemeClr val="phClr">
+                      <a:lumMod val="99000" />
+                      <a:satMod val="120000" />
+                      <a:shade val="78000" />
+                    </a:schemeClr>
+                  </a:gs>
+                </a:gsLst>
+                <a:lin ang="5400000" scaled="0" />
+              </a:gradFill>
+            </a:fillStyleLst>
+            <a:lnStyleLst>
+              <a:ln w="6350" cap="flat" cmpd="sng" algn="ctr">
+                <a:solidFill>
+                  <a:schemeClr val="phClr" />
+                </a:solidFill>
+                <a:prstDash val="solid" />
+                <a:miter lim="800000" />
+              </a:ln>
+              <a:ln w="12700" cap="flat" cmpd="sng" algn="ctr">
+                <a:solidFill>
+                  <a:schemeClr val="phClr" />
+                </a:solidFill>
+                <a:prstDash val="solid" />
+                <a:miter lim="800000" />
+              </a:ln>
+              <a:ln w="19050" cap="flat" cmpd="sng" algn="ctr">
+                <a:solidFill>
+                  <a:schemeClr val="phClr" />
+                </a:solidFill>
+                <a:prstDash val="solid" />
+                <a:miter lim="800000" />
+              </a:ln>
+            </a:lnStyleLst>
+            <a:effectStyleLst>
+              <a:effectStyle>
+                <a:effectLst />
+              </a:effectStyle>
+              <a:effectStyle>
+                <a:effectLst />
+              </a:effectStyle>
+              <a:effectStyle>
+                <a:effectLst>
+                  <a:outerShdw blurRad="57150" dist="19050" dir="5400000" algn="ctr"
+                    rotWithShape="0">
+                    <a:srgbClr val="000000">
+                      <a:alpha val="63000" />
+                    </a:srgbClr>
+                  </a:outerShdw>
+                </a:effectLst>
+              </a:effectStyle>
+            </a:effectStyleLst>
+            <a:bgFillStyleLst>
+              <a:solidFill>
+                <a:schemeClr val="phClr" />
+              </a:solidFill>
+              <a:solidFill>
+                <a:schemeClr val="phClr">
+                  <a:tint val="95000" />
+                  <a:satMod val="170000" />
+                </a:schemeClr>
+              </a:solidFill>
+              <a:gradFill rotWithShape="1">
+                <a:gsLst>
+                  <a:gs pos="0">
+                    <a:schemeClr val="phClr">
+                      <a:tint val="93000" />
+                      <a:satMod val="150000" />
+                      <a:shade val="98000" />
+                      <a:lumMod val="102000" />
+                    </a:schemeClr>
+                  </a:gs>
+                  <a:gs pos="50000">
+                    <a:schemeClr val="phClr">
+                      <a:tint val="98000" />
+                      <a:satMod val="130000" />
+                      <a:shade val="90000" />
+                      <a:lumMod val="103000" />
+                    </a:schemeClr>
+                  </a:gs>
+                  <a:gs pos="100000">
+                    <a:schemeClr val="phClr">
+                      <a:shade val="63000" />
+                      <a:satMod val="120000" />
+                    </a:schemeClr>
+                  </a:gs>
+                </a:gsLst>
+                <a:lin ang="5400000" scaled="0" />
+              </a:gradFill>
+            </a:bgFillStyleLst>
+          </a:fmtScheme>
+        </a:themeElements>
+        <a:objectDefaults />
+        <a:extraClrSchemeLst />
+      </a:theme>
+    </pkg:xmlData>
+  </pkg:part>
+  <pkg:part pkg:name="/word/settings.xml"
+    pkg:contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.settings+xml">
+    <pkg:xmlData>
+      <w:settings xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:o="urn:schemas-microsoft-com:office:office"
+        xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"
+        xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math"
+        xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w10="urn:schemas-microsoft-com:office:word"
+        xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"
+        xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml"
+        xmlns:w15="http://schemas.microsoft.com/office/word/2012/wordml"
+        xmlns:w16cex="http://schemas.microsoft.com/office/word/2018/wordml/cex"
+        xmlns:w16cid="http://schemas.microsoft.com/office/word/2016/wordml/cid"
+        xmlns:w16="http://schemas.microsoft.com/office/word/2018/wordml"
+        xmlns:w16sdtdh="http://schemas.microsoft.com/office/word/2020/wordml/sdtdatahash"
+        xmlns:w16se="http://schemas.microsoft.com/office/word/2015/wordml/symex"
+        xmlns:sl="http://schemas.openxmlformats.org/schemaLibrary/2006/main"
+        mc:Ignorable="w14 w15 w16se w16cid w16 w16cex w16sdtdh">
+        <w:zoom w:percent="120" />
+        <w:displayBackgroundShape />
+        <w:embedSystemFonts />
+        <w:bordersDoNotSurroundHeader />
+        <w:bordersDoNotSurroundFooter />
+        <w:proofState w:spelling="clean" w:grammar="clean" />
+        <w:defaultTabStop w:val="420" />
+        <w:drawingGridVerticalSpacing w:val="156" />
+        <w:displayHorizontalDrawingGridEvery w:val="0" />
+        <w:displayVerticalDrawingGridEvery w:val="2" />
+        <w:characterSpacingControl w:val="compressPunctuation" />
+        <w:hdrShapeDefaults>
+          <o:shapedefaults v:ext="edit" spidmax="2050" fillcolor="white">
+            <v:fill color="white" />
+          </o:shapedefaults>
+        </w:hdrShapeDefaults>
+        <w:footnotePr>
+          <w:footnote w:id="-1" />
+          <w:footnote w:id="0" />
+        </w:footnotePr>
+        <w:endnotePr>
+          <w:endnote w:id="-1" />
+          <w:endnote w:id="0" />
+        </w:endnotePr>
+        <w:compat>
+          <w:spaceForUL />
+          <w:balanceSingleByteDoubleByteWidth />
+          <w:doNotLeaveBackslashAlone />
+          <w:ulTrailSpace />
+          <w:doNotExpandShiftReturn />
+          <w:adjustLineHeightInTable />
+          <w:useFELayout />
+          <w:compatSetting w:name="compatibilityMode"
+            w:uri="http://schemas.microsoft.com/office/word" w:val="15" />
+          <w:compatSetting w:name="overrideTableStyleFontSizeAndJustification"
+            w:uri="http://schemas.microsoft.com/office/word" w:val="1" />
+          <w:compatSetting w:name="enableOpenTypeFeatures"
+            w:uri="http://schemas.microsoft.com/office/word" w:val="1" />
+          <w:compatSetting w:name="doNotFlipMirrorIndents"
+            w:uri="http://schemas.microsoft.com/office/word" w:val="1" />
+          <w:compatSetting w:name="differentiateMultirowTableHeaders"
+            w:uri="http://schemas.microsoft.com/office/word" w:val="1" />
+          <w:compatSetting w:name="useWord2013TrackBottomHyphenation"
+            w:uri="http://schemas.microsoft.com/office/word" w:val="0" />
+        </w:compat>
+        <w:docVars>
+          <w:docVar w:name="commondata"
+            w:val="eyJoZGlkIjoiOWE1ZGYwMzFhYjA3NDAxOGRmNmVhZjliYjg4MjJiYTYifQ==" />
+        </w:docVars>
+        <w:rsids>
+          <w:rsidRoot w:val="29685F86" />
+          <w:rsid w:val="0015650F" />
+          <w:rsid w:val="00184C34" />
+          <w:rsid w:val="004F7978" />
+          <w:rsid w:val="008776ED" />
+          <w:rsid w:val="008D7225" />
+          <w:rsid w:val="00952003" />
+          <w:rsid w:val="009672E5" />
+          <w:rsid w:val="00E26DAC" />
+          <w:rsid w:val="0C1932F5" />
+          <w:rsid w:val="0CD91661" />
+          <w:rsid w:val="0E163371" />
+          <w:rsid w:val="1D852DA4" />
+          <w:rsid w:val="290434D6" />
+          <w:rsid w:val="29685F86" />
+          <w:rsid w:val="486569F8" />
+          <w:rsid w:val="48802C93" />
+          <w:rsid w:val="4A627219" />
+          <w:rsid w:val="566B0485" />
+          <w:rsid w:val="59D11AE5" />
+          <w:rsid w:val="5A052C7E" />
+          <w:rsid w:val="649C195C" />
+          <w:rsid w:val="68363E2C" />
+          <w:rsid w:val="69946FB9" />
+          <w:rsid w:val="70AD068A" />
+          <w:rsid w:val="70D23371" />
+          <w:rsid w:val="75F20263" />
+        </w:rsids>
+        <m:mathPr>
+          <m:mathFont m:val="Cambria Math" />
+          <m:brkBin m:val="before" />
+          <m:brkBinSub m:val="--" />
+          <m:smallFrac m:val="0" />
+          <m:dispDef />
+          <m:lMargin m:val="0" />
+          <m:rMargin m:val="0" />
+          <m:defJc m:val="centerGroup" />
+          <m:wrapIndent m:val="1440" />
+          <m:intLim m:val="subSup" />
+          <m:naryLim m:val="undOvr" />
+        </m:mathPr>
+        <w:themeFontLang w:val="en-US" w:eastAsia="zh-CN" />
+        <w:clrSchemeMapping w:bg1="light1" w:t1="dark1" w:bg2="light2" w:t2="dark2"
+          w:accent1="accent1" w:accent2="accent2" w:accent3="accent3" w:accent4="accent4"
+          w:accent5="accent5" w:accent6="accent6" w:hyperlink="hyperlink"
+          w:followedHyperlink="followedHyperlink" />
+        <w:doNotIncludeSubdocsInStats />
+        <w:shapeDefaults>
+          <o:shapedefaults v:ext="edit" spidmax="2050" fillcolor="white">
+            <v:fill color="white" />
+          </o:shapedefaults>
+          <o:shapelayout v:ext="edit">
+            <o:idmap v:ext="edit" data="2" />
+          </o:shapelayout>
+        </w:shapeDefaults>
+        <w:decimalSymbol w:val="." />
+        <w:listSeparator w:val="," />
+        <w14:docId w14:val="729049C3" />
+        <w15:docId w15:val="{124D2264-CBEB-B443-AF3B-A2B5BA01C827}" />
+      </w:settings>
+    </pkg:xmlData>
+  </pkg:part>
+  <pkg:part pkg:name="/word/fontTable.xml"
+    pkg:contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.fontTable+xml">
+    <pkg:xmlData>
+      <w:fonts xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"
+        xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"
+        xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml"
+        xmlns:w15="http://schemas.microsoft.com/office/word/2012/wordml"
+        xmlns:w16cex="http://schemas.microsoft.com/office/word/2018/wordml/cex"
+        xmlns:w16cid="http://schemas.microsoft.com/office/word/2016/wordml/cid"
+        xmlns:w16="http://schemas.microsoft.com/office/word/2018/wordml"
+        xmlns:w16sdtdh="http://schemas.microsoft.com/office/word/2020/wordml/sdtdatahash"
+        xmlns:w16se="http://schemas.microsoft.com/office/word/2015/wordml/symex"
+        mc:Ignorable="w14 w15 w16se w16cid w16 w16cex w16sdtdh">
+        <w:font w:name="Times New Roman">
+          <w:panose1 w:val="02020603050405020304" />
+          <w:charset w:val="00" />
+          <w:family w:val="roman" />
+          <w:pitch w:val="variable" />
+          <w:sig w:usb0="E0002EFF" w:usb1="C000785B" w:usb2="00000009" w:usb3="00000000"
+            w:csb0="000001FF" w:csb1="00000000" />
+        </w:font>
+        <w:font w:name="SimSun">
+          <w:altName w:val="宋体" />
+          <w:panose1 w:val="02010600030101010101" />
+          <w:charset w:val="86" />
+          <w:family w:val="auto" />
+          <w:pitch w:val="variable" />
+          <w:sig w:usb0="00000003" w:usb1="288F0000" w:usb2="00000016" w:usb3="00000000"
+            w:csb0="00040001" w:csb1="00000000" />
+        </w:font>
+        <w:font w:name="Calibri">
+          <w:panose1 w:val="020F0502020204030204" />
+          <w:charset w:val="00" />
+          <w:family w:val="swiss" />
+          <w:pitch w:val="variable" />
+          <w:sig w:usb0="E0002AFF" w:usb1="C000247B" w:usb2="00000009" w:usb3="00000000"
+            w:csb0="000001FF" w:csb1="00000000" />
+        </w:font>
+        <w:font w:name="Microsoft YaHei">
+          <w:panose1 w:val="020B0503020204020204" />
+          <w:charset w:val="86" />
+          <w:family w:val="swiss" />
+          <w:pitch w:val="variable" />
+          <w:sig w:usb0="80000287" w:usb1="28CF3C52" w:usb2="00000016" w:usb3="00000000"
+            w:csb0="0004001F" w:csb1="00000000" />
+        </w:font>
+        <w:font w:name="Calibri Light">
+          <w:panose1 w:val="020F0302020204030204" />
+          <w:charset w:val="00" />
+          <w:family w:val="swiss" />
+          <w:pitch w:val="variable" />
+          <w:sig w:usb0="E0002AFF" w:usb1="C000247B" w:usb2="00000009" w:usb3="00000000"
+            w:csb0="000001FF" w:csb1="00000000" />
+        </w:font>
+      </w:fonts>
+    </pkg:xmlData>
+  </pkg:part>
+  <pkg:part pkg:name="/word/webSettings.xml"
+    pkg:contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.webSettings+xml">
+    <pkg:xmlData>
+      <w:webSettings xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"
+        xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"
+        xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml"
+        xmlns:w15="http://schemas.microsoft.com/office/word/2012/wordml"
+        xmlns:w16cex="http://schemas.microsoft.com/office/word/2018/wordml/cex"
+        xmlns:w16cid="http://schemas.microsoft.com/office/word/2016/wordml/cid"
+        xmlns:w16="http://schemas.microsoft.com/office/word/2018/wordml"
+        xmlns:w16sdtdh="http://schemas.microsoft.com/office/word/2020/wordml/sdtdatahash"
+        xmlns:w16se="http://schemas.microsoft.com/office/word/2015/wordml/symex"
+        mc:Ignorable="w14 w15 w16se w16cid w16 w16cex w16sdtdh" />
+    </pkg:xmlData>
+  </pkg:part>
+  <pkg:part pkg:name="/word/styles.xml"
+    pkg:contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml">
+    <pkg:xmlData>
+      <w:styles xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"
+        xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"
+        xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml"
+        xmlns:w15="http://schemas.microsoft.com/office/word/2012/wordml"
+        xmlns:w16cex="http://schemas.microsoft.com/office/word/2018/wordml/cex"
+        xmlns:w16cid="http://schemas.microsoft.com/office/word/2016/wordml/cid"
+        xmlns:w16="http://schemas.microsoft.com/office/word/2018/wordml"
+        xmlns:w16sdtdh="http://schemas.microsoft.com/office/word/2020/wordml/sdtdatahash"
+        xmlns:w16se="http://schemas.microsoft.com/office/word/2015/wordml/symex"
+        mc:Ignorable="w14 w15 w16se w16cid w16 w16cex w16sdtdh">
+        <w:docDefaults>
+          <w:rPrDefault>
+            <w:rPr>
+              <w:rFonts w:ascii="Times New Roman" w:eastAsia="SimSun" w:hAnsi="Times New Roman"
+                w:cs="Times New Roman" />
+              <w:lang w:val="en-CN" w:eastAsia="zh-CN" w:bidi="ar-SA" />
+            </w:rPr>
+          </w:rPrDefault>
+          <w:pPrDefault />
+        </w:docDefaults>
+        <w:latentStyles w:defLockedState="0" w:defUIPriority="0" w:defSemiHidden="0"
+          w:defUnhideWhenUsed="0" w:defQFormat="0" w:count="376">
+          <w:lsdException w:name="Normal" w:qFormat="1" />
+          <w:lsdException w:name="heading 1" w:qFormat="1" />
+          <w:lsdException w:name="heading 2" w:semiHidden="1" w:unhideWhenUsed="1" w:qFormat="1" />
+          <w:lsdException w:name="heading 3" w:semiHidden="1" w:unhideWhenUsed="1" w:qFormat="1" />
+          <w:lsdException w:name="heading 4" w:semiHidden="1" w:unhideWhenUsed="1" w:qFormat="1" />
+          <w:lsdException w:name="heading 5" w:semiHidden="1" w:unhideWhenUsed="1" w:qFormat="1" />
+          <w:lsdException w:name="heading 6" w:semiHidden="1" w:unhideWhenUsed="1" w:qFormat="1" />
+          <w:lsdException w:name="heading 7" w:semiHidden="1" w:unhideWhenUsed="1" w:qFormat="1" />
+          <w:lsdException w:name="heading 8" w:semiHidden="1" w:unhideWhenUsed="1" w:qFormat="1" />
+          <w:lsdException w:name="heading 9" w:semiHidden="1" w:unhideWhenUsed="1" w:qFormat="1" />
+          <w:lsdException w:name="caption" w:semiHidden="1" w:unhideWhenUsed="1" w:qFormat="1" />
+          <w:lsdException w:name="Title" w:qFormat="1" />
+          <w:lsdException w:name="Default Paragraph Font" w:semiHidden="1" />
+          <w:lsdException w:name="Subtitle" w:qFormat="1" />
+          <w:lsdException w:name="Hyperlink" w:qFormat="1" />
+          <w:lsdException w:name="Strong" w:qFormat="1" />
+          <w:lsdException w:name="Emphasis" w:qFormat="1" />
+          <w:lsdException w:name="HTML Top of Form" w:semiHidden="1" w:uiPriority="99"
+            w:unhideWhenUsed="1" />
+          <w:lsdException w:name="HTML Bottom of Form" w:semiHidden="1" w:uiPriority="99"
+            w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Normal Table" w:semiHidden="1" w:unhideWhenUsed="1" w:qFormat="1" />
+          <w:lsdException w:name="No List" w:semiHidden="1" w:uiPriority="99" w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Outline List 1" w:semiHidden="1" w:uiPriority="99"
+            w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Outline List 2" w:semiHidden="1" w:uiPriority="99"
+            w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Outline List 3" w:semiHidden="1" w:uiPriority="99"
+            w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Table Simple 1" w:semiHidden="1" w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Table Simple 2" w:semiHidden="1" w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Table Simple 3" w:semiHidden="1" w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Table Classic 1" w:semiHidden="1" w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Table Classic 2" w:semiHidden="1" w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Table Classic 3" w:semiHidden="1" w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Table Classic 4" w:semiHidden="1" w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Table Colorful 1" w:semiHidden="1" w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Table Colorful 2" w:semiHidden="1" w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Table Colorful 3" w:semiHidden="1" w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Table Columns 1" w:semiHidden="1" w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Table Columns 2" w:semiHidden="1" w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Table Columns 3" w:semiHidden="1" w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Table Columns 4" w:semiHidden="1" w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Table Columns 5" w:semiHidden="1" w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Table Grid 1" w:semiHidden="1" w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Table Grid 2" w:semiHidden="1" w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Table Grid 3" w:semiHidden="1" w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Table Grid 4" w:semiHidden="1" w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Table Grid 5" w:semiHidden="1" w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Table Grid 6" w:semiHidden="1" w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Table Grid 7" w:semiHidden="1" w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Table Grid 8" w:semiHidden="1" w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Table List 1" w:semiHidden="1" w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Table List 2" w:semiHidden="1" w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Table List 3" w:semiHidden="1" w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Table List 4" w:semiHidden="1" w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Table List 5" w:semiHidden="1" w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Table List 6" w:semiHidden="1" w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Table List 7" w:semiHidden="1" w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Table List 8" w:semiHidden="1" w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Table 3D effects 1" w:semiHidden="1" w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Table 3D effects 2" w:semiHidden="1" w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Table 3D effects 3" w:semiHidden="1" w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Table Contemporary" w:semiHidden="1" w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Table Elegant" w:semiHidden="1" w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Table Professional" w:semiHidden="1" w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Table Subtle 1" w:semiHidden="1" w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Table Subtle 2" w:semiHidden="1" w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Table Web 1" w:semiHidden="1" w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Table Web 2" w:semiHidden="1" w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Table Web 3" w:semiHidden="1" w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Table Grid" w:qFormat="1" />
+          <w:lsdException w:name="Table Theme" w:semiHidden="1" w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Placeholder Text" w:semiHidden="1" w:uiPriority="99" />
+          <w:lsdException w:name="No Spacing" w:uiPriority="99" />
+          <w:lsdException w:name="Light Shading" w:uiPriority="60" />
+          <w:lsdException w:name="Light List" w:uiPriority="61" />
+          <w:lsdException w:name="Light Grid" w:uiPriority="62" />
+          <w:lsdException w:name="Medium Shading 1" w:uiPriority="63" />
+          <w:lsdException w:name="Medium Shading 2" w:uiPriority="64" />
+          <w:lsdException w:name="Medium List 1" w:uiPriority="65" />
+          <w:lsdException w:name="Medium List 2" w:uiPriority="66" />
+          <w:lsdException w:name="Medium Grid 1" w:uiPriority="67" />
+          <w:lsdException w:name="Medium Grid 2" w:uiPriority="68" />
+          <w:lsdException w:name="Medium Grid 3" w:uiPriority="69" />
+          <w:lsdException w:name="Dark List" w:uiPriority="70" />
+          <w:lsdException w:name="Colorful Shading" w:uiPriority="71" />
+          <w:lsdException w:name="Colorful List" w:uiPriority="72" />
+          <w:lsdException w:name="Colorful Grid" w:uiPriority="73" />
+          <w:lsdException w:name="Light Shading Accent 1" w:uiPriority="60" />
+          <w:lsdException w:name="Light List Accent 1" w:uiPriority="61" />
+          <w:lsdException w:name="Light Grid Accent 1" w:uiPriority="62" />
+          <w:lsdException w:name="Medium Shading 1 Accent 1" w:uiPriority="63" />
+          <w:lsdException w:name="Medium Shading 2 Accent 1" w:uiPriority="64" />
+          <w:lsdException w:name="Medium List 1 Accent 1" w:uiPriority="65" />
+          <w:lsdException w:name="Revision" w:semiHidden="1" w:uiPriority="99" />
+          <w:lsdException w:name="List Paragraph" w:uiPriority="99" />
+          <w:lsdException w:name="Quote" w:uiPriority="99" />
+          <w:lsdException w:name="Intense Quote" w:uiPriority="99" />
+          <w:lsdException w:name="Medium List 2 Accent 1" w:uiPriority="66" />
+          <w:lsdException w:name="Medium Grid 1 Accent 1" w:uiPriority="67" />
+          <w:lsdException w:name="Medium Grid 2 Accent 1" w:uiPriority="68" />
+          <w:lsdException w:name="Medium Grid 3 Accent 1" w:uiPriority="69" />
+          <w:lsdException w:name="Dark List Accent 1" w:uiPriority="70" />
+          <w:lsdException w:name="Colorful Shading Accent 1" w:uiPriority="71" />
+          <w:lsdException w:name="Colorful List Accent 1" w:uiPriority="72" />
+          <w:lsdException w:name="Colorful Grid Accent 1" w:uiPriority="73" />
+          <w:lsdException w:name="Light Shading Accent 2" w:uiPriority="60" />
+          <w:lsdException w:name="Light List Accent 2" w:uiPriority="61" />
+          <w:lsdException w:name="Light Grid Accent 2" w:uiPriority="62" />
+          <w:lsdException w:name="Medium Shading 1 Accent 2" w:uiPriority="63" />
+          <w:lsdException w:name="Medium Shading 2 Accent 2" w:uiPriority="64" />
+          <w:lsdException w:name="Medium List 1 Accent 2" w:uiPriority="65" />
+          <w:lsdException w:name="Medium List 2 Accent 2" w:uiPriority="66" />
+          <w:lsdException w:name="Medium Grid 1 Accent 2" w:uiPriority="67" />
+          <w:lsdException w:name="Medium Grid 2 Accent 2" w:uiPriority="68" />
+          <w:lsdException w:name="Medium Grid 3 Accent 2" w:uiPriority="69" />
+          <w:lsdException w:name="Dark List Accent 2" w:uiPriority="70" />
+          <w:lsdException w:name="Colorful Shading Accent 2" w:uiPriority="71" />
+          <w:lsdException w:name="Colorful List Accent 2" w:uiPriority="72" />
+          <w:lsdException w:name="Colorful Grid Accent 2" w:uiPriority="73" />
+          <w:lsdException w:name="Light Shading Accent 3" w:uiPriority="60" />
+          <w:lsdException w:name="Light List Accent 3" w:uiPriority="61" />
+          <w:lsdException w:name="Light Grid Accent 3" w:uiPriority="62" />
+          <w:lsdException w:name="Medium Shading 1 Accent 3" w:uiPriority="63" />
+          <w:lsdException w:name="Medium Shading 2 Accent 3" w:uiPriority="64" />
+          <w:lsdException w:name="Medium List 1 Accent 3" w:uiPriority="65" />
+          <w:lsdException w:name="Medium List 2 Accent 3" w:uiPriority="66" />
+          <w:lsdException w:name="Medium Grid 1 Accent 3" w:uiPriority="67" />
+          <w:lsdException w:name="Medium Grid 2 Accent 3" w:uiPriority="68" />
+          <w:lsdException w:name="Medium Grid 3 Accent 3" w:uiPriority="69" />
+          <w:lsdException w:name="Dark List Accent 3" w:uiPriority="70" />
+          <w:lsdException w:name="Colorful Shading Accent 3" w:uiPriority="71" />
+          <w:lsdException w:name="Colorful List Accent 3" w:uiPriority="72" />
+          <w:lsdException w:name="Colorful Grid Accent 3" w:uiPriority="73" />
+          <w:lsdException w:name="Light Shading Accent 4" w:uiPriority="60" />
+          <w:lsdException w:name="Light List Accent 4" w:uiPriority="61" />
+          <w:lsdException w:name="Light Grid Accent 4" w:uiPriority="62" />
+          <w:lsdException w:name="Medium Shading 1 Accent 4" w:uiPriority="63" />
+          <w:lsdException w:name="Medium Shading 2 Accent 4" w:uiPriority="64" />
+          <w:lsdException w:name="Medium List 1 Accent 4" w:uiPriority="65" />
+          <w:lsdException w:name="Medium List 2 Accent 4" w:uiPriority="66" />
+          <w:lsdException w:name="Medium Grid 1 Accent 4" w:uiPriority="67" />
+          <w:lsdException w:name="Medium Grid 2 Accent 4" w:uiPriority="68" />
+          <w:lsdException w:name="Medium Grid 3 Accent 4" w:uiPriority="69" />
+          <w:lsdException w:name="Dark List Accent 4" w:uiPriority="70" />
+          <w:lsdException w:name="Colorful Shading Accent 4" w:uiPriority="71" />
+          <w:lsdException w:name="Colorful List Accent 4" w:uiPriority="72" />
+          <w:lsdException w:name="Colorful Grid Accent 4" w:uiPriority="73" />
+          <w:lsdException w:name="Light Shading Accent 5" w:uiPriority="60" />
+          <w:lsdException w:name="Light List Accent 5" w:uiPriority="61" />
+          <w:lsdException w:name="Light Grid Accent 5" w:uiPriority="62" />
+          <w:lsdException w:name="Medium Shading 1 Accent 5" w:uiPriority="63" />
+          <w:lsdException w:name="Medium Shading 2 Accent 5" w:uiPriority="64" />
+          <w:lsdException w:name="Medium List 1 Accent 5" w:uiPriority="65" />
+          <w:lsdException w:name="Medium List 2 Accent 5" w:uiPriority="66" />
+          <w:lsdException w:name="Medium Grid 1 Accent 5" w:uiPriority="67" />
+          <w:lsdException w:name="Medium Grid 2 Accent 5" w:uiPriority="68" />
+          <w:lsdException w:name="Medium Grid 3 Accent 5" w:uiPriority="69" />
+          <w:lsdException w:name="Dark List Accent 5" w:uiPriority="70" />
+          <w:lsdException w:name="Colorful Shading Accent 5" w:uiPriority="71" />
+          <w:lsdException w:name="Colorful List Accent 5" w:uiPriority="72" />
+          <w:lsdException w:name="Colorful Grid Accent 5" w:uiPriority="73" />
+          <w:lsdException w:name="Light Shading Accent 6" w:uiPriority="60" />
+          <w:lsdException w:name="Light List Accent 6" w:uiPriority="61" />
+          <w:lsdException w:name="Light Grid Accent 6" w:uiPriority="62" />
+          <w:lsdException w:name="Medium Shading 1 Accent 6" w:uiPriority="63" />
+          <w:lsdException w:name="Medium Shading 2 Accent 6" w:uiPriority="64" />
+          <w:lsdException w:name="Medium List 1 Accent 6" w:uiPriority="65" />
+          <w:lsdException w:name="Medium List 2 Accent 6" w:uiPriority="66" />
+          <w:lsdException w:name="Medium Grid 1 Accent 6" w:uiPriority="67" />
+          <w:lsdException w:name="Medium Grid 2 Accent 6" w:uiPriority="68" />
+          <w:lsdException w:name="Medium Grid 3 Accent 6" w:uiPriority="69" />
+          <w:lsdException w:name="Dark List Accent 6" w:uiPriority="70" />
+          <w:lsdException w:name="Colorful Shading Accent 6" w:uiPriority="71" />
+          <w:lsdException w:name="Colorful List Accent 6" w:uiPriority="72" />
+          <w:lsdException w:name="Colorful Grid Accent 6" w:uiPriority="73" />
+          <w:lsdException w:name="Subtle Emphasis" w:uiPriority="19" w:qFormat="1" />
+          <w:lsdException w:name="Intense Emphasis" w:uiPriority="21" w:qFormat="1" />
+          <w:lsdException w:name="Subtle Reference" w:uiPriority="31" w:qFormat="1" />
+          <w:lsdException w:name="Intense Reference" w:uiPriority="32" w:qFormat="1" />
+          <w:lsdException w:name="Book Title" w:uiPriority="33" w:qFormat="1" />
+          <w:lsdException w:name="Bibliography" w:semiHidden="1" w:uiPriority="37"
+            w:unhideWhenUsed="1" />
+          <w:lsdException w:name="TOC Heading" w:semiHidden="1" w:uiPriority="39"
+            w:unhideWhenUsed="1" w:qFormat="1" />
+          <w:lsdException w:name="Plain Table 1" w:uiPriority="41" />
+          <w:lsdException w:name="Plain Table 2" w:uiPriority="42" />
+          <w:lsdException w:name="Plain Table 3" w:uiPriority="43" />
+          <w:lsdException w:name="Plain Table 4" w:uiPriority="44" />
+          <w:lsdException w:name="Plain Table 5" w:uiPriority="45" />
+          <w:lsdException w:name="Grid Table Light" w:uiPriority="40" />
+          <w:lsdException w:name="Grid Table 1 Light" w:uiPriority="46" />
+          <w:lsdException w:name="Grid Table 2" w:uiPriority="47" />
+          <w:lsdException w:name="Grid Table 3" w:uiPriority="48" />
+          <w:lsdException w:name="Grid Table 4" w:uiPriority="49" />
+          <w:lsdException w:name="Grid Table 5 Dark" w:uiPriority="50" />
+          <w:lsdException w:name="Grid Table 6 Colorful" w:uiPriority="51" />
+          <w:lsdException w:name="Grid Table 7 Colorful" w:uiPriority="52" />
+          <w:lsdException w:name="Grid Table 1 Light Accent 1" w:uiPriority="46" />
+          <w:lsdException w:name="Grid Table 2 Accent 1" w:uiPriority="47" />
+          <w:lsdException w:name="Grid Table 3 Accent 1" w:uiPriority="48" />
+          <w:lsdException w:name="Grid Table 4 Accent 1" w:uiPriority="49" />
+          <w:lsdException w:name="Grid Table 5 Dark Accent 1" w:uiPriority="50" />
+          <w:lsdException w:name="Grid Table 6 Colorful Accent 1" w:uiPriority="51" />
+          <w:lsdException w:name="Grid Table 7 Colorful Accent 1" w:uiPriority="52" />
+          <w:lsdException w:name="Grid Table 1 Light Accent 2" w:uiPriority="46" />
+          <w:lsdException w:name="Grid Table 2 Accent 2" w:uiPriority="47" />
+          <w:lsdException w:name="Grid Table 3 Accent 2" w:uiPriority="48" />
+          <w:lsdException w:name="Grid Table 4 Accent 2" w:uiPriority="49" />
+          <w:lsdException w:name="Grid Table 5 Dark Accent 2" w:uiPriority="50" />
+          <w:lsdException w:name="Grid Table 6 Colorful Accent 2" w:uiPriority="51" />
+          <w:lsdException w:name="Grid Table 7 Colorful Accent 2" w:uiPriority="52" />
+          <w:lsdException w:name="Grid Table 1 Light Accent 3" w:uiPriority="46" />
+          <w:lsdException w:name="Grid Table 2 Accent 3" w:uiPriority="47" />
+          <w:lsdException w:name="Grid Table 3 Accent 3" w:uiPriority="48" />
+          <w:lsdException w:name="Grid Table 4 Accent 3" w:uiPriority="49" />
+          <w:lsdException w:name="Grid Table 5 Dark Accent 3" w:uiPriority="50" />
+          <w:lsdException w:name="Grid Table 6 Colorful Accent 3" w:uiPriority="51" />
+          <w:lsdException w:name="Grid Table 7 Colorful Accent 3" w:uiPriority="52" />
+          <w:lsdException w:name="Grid Table 1 Light Accent 4" w:uiPriority="46" />
+          <w:lsdException w:name="Grid Table 2 Accent 4" w:uiPriority="47" />
+          <w:lsdException w:name="Grid Table 3 Accent 4" w:uiPriority="48" />
+          <w:lsdException w:name="Grid Table 4 Accent 4" w:uiPriority="49" />
+          <w:lsdException w:name="Grid Table 5 Dark Accent 4" w:uiPriority="50" />
+          <w:lsdException w:name="Grid Table 6 Colorful Accent 4" w:uiPriority="51" />
+          <w:lsdException w:name="Grid Table 7 Colorful Accent 4" w:uiPriority="52" />
+          <w:lsdException w:name="Grid Table 1 Light Accent 5" w:uiPriority="46" />
+          <w:lsdException w:name="Grid Table 2 Accent 5" w:uiPriority="47" />
+          <w:lsdException w:name="Grid Table 3 Accent 5" w:uiPriority="48" />
+          <w:lsdException w:name="Grid Table 4 Accent 5" w:uiPriority="49" />
+          <w:lsdException w:name="Grid Table 5 Dark Accent 5" w:uiPriority="50" />
+          <w:lsdException w:name="Grid Table 6 Colorful Accent 5" w:uiPriority="51" />
+          <w:lsdException w:name="Grid Table 7 Colorful Accent 5" w:uiPriority="52" />
+          <w:lsdException w:name="Grid Table 1 Light Accent 6" w:uiPriority="46" />
+          <w:lsdException w:name="Grid Table 2 Accent 6" w:uiPriority="47" />
+          <w:lsdException w:name="Grid Table 3 Accent 6" w:uiPriority="48" />
+          <w:lsdException w:name="Grid Table 4 Accent 6" w:uiPriority="49" />
+          <w:lsdException w:name="Grid Table 5 Dark Accent 6" w:uiPriority="50" />
+          <w:lsdException w:name="Grid Table 6 Colorful Accent 6" w:uiPriority="51" />
+          <w:lsdException w:name="Grid Table 7 Colorful Accent 6" w:uiPriority="52" />
+          <w:lsdException w:name="List Table 1 Light" w:uiPriority="46" />
+          <w:lsdException w:name="List Table 2" w:uiPriority="47" />
+          <w:lsdException w:name="List Table 3" w:uiPriority="48" />
+          <w:lsdException w:name="List Table 4" w:uiPriority="49" />
+          <w:lsdException w:name="List Table 5 Dark" w:uiPriority="50" />
+          <w:lsdException w:name="List Table 6 Colorful" w:uiPriority="51" />
+          <w:lsdException w:name="List Table 7 Colorful" w:uiPriority="52" />
+          <w:lsdException w:name="List Table 1 Light Accent 1" w:uiPriority="46" />
+          <w:lsdException w:name="List Table 2 Accent 1" w:uiPriority="47" />
+          <w:lsdException w:name="List Table 3 Accent 1" w:uiPriority="48" />
+          <w:lsdException w:name="List Table 4 Accent 1" w:uiPriority="49" />
+          <w:lsdException w:name="List Table 5 Dark Accent 1" w:uiPriority="50" />
+          <w:lsdException w:name="List Table 6 Colorful Accent 1" w:uiPriority="51" />
+          <w:lsdException w:name="List Table 7 Colorful Accent 1" w:uiPriority="52" />
+          <w:lsdException w:name="List Table 1 Light Accent 2" w:uiPriority="46" />
+          <w:lsdException w:name="List Table 2 Accent 2" w:uiPriority="47" />
+          <w:lsdException w:name="List Table 3 Accent 2" w:uiPriority="48" />
+          <w:lsdException w:name="List Table 4 Accent 2" w:uiPriority="49" />
+          <w:lsdException w:name="List Table 5 Dark Accent 2" w:uiPriority="50" />
+          <w:lsdException w:name="List Table 6 Colorful Accent 2" w:uiPriority="51" />
+          <w:lsdException w:name="List Table 7 Colorful Accent 2" w:uiPriority="52" />
+          <w:lsdException w:name="List Table 1 Light Accent 3" w:uiPriority="46" />
+          <w:lsdException w:name="List Table 2 Accent 3" w:uiPriority="47" />
+          <w:lsdException w:name="List Table 3 Accent 3" w:uiPriority="48" />
+          <w:lsdException w:name="List Table 4 Accent 3" w:uiPriority="49" />
+          <w:lsdException w:name="List Table 5 Dark Accent 3" w:uiPriority="50" />
+          <w:lsdException w:name="List Table 6 Colorful Accent 3" w:uiPriority="51" />
+          <w:lsdException w:name="List Table 7 Colorful Accent 3" w:uiPriority="52" />
+          <w:lsdException w:name="List Table 1 Light Accent 4" w:uiPriority="46" />
+          <w:lsdException w:name="List Table 2 Accent 4" w:uiPriority="47" />
+          <w:lsdException w:name="List Table 3 Accent 4" w:uiPriority="48" />
+          <w:lsdException w:name="List Table 4 Accent 4" w:uiPriority="49" />
+          <w:lsdException w:name="List Table 5 Dark Accent 4" w:uiPriority="50" />
+          <w:lsdException w:name="List Table 6 Colorful Accent 4" w:uiPriority="51" />
+          <w:lsdException w:name="List Table 7 Colorful Accent 4" w:uiPriority="52" />
+          <w:lsdException w:name="List Table 1 Light Accent 5" w:uiPriority="46" />
+          <w:lsdException w:name="List Table 2 Accent 5" w:uiPriority="47" />
+          <w:lsdException w:name="List Table 3 Accent 5" w:uiPriority="48" />
+          <w:lsdException w:name="List Table 4 Accent 5" w:uiPriority="49" />
+          <w:lsdException w:name="List Table 5 Dark Accent 5" w:uiPriority="50" />
+          <w:lsdException w:name="List Table 6 Colorful Accent 5" w:uiPriority="51" />
+          <w:lsdException w:name="List Table 7 Colorful Accent 5" w:uiPriority="52" />
+          <w:lsdException w:name="List Table 1 Light Accent 6" w:uiPriority="46" />
+          <w:lsdException w:name="List Table 2 Accent 6" w:uiPriority="47" />
+          <w:lsdException w:name="List Table 3 Accent 6" w:uiPriority="48" />
+          <w:lsdException w:name="List Table 4 Accent 6" w:uiPriority="49" />
+          <w:lsdException w:name="List Table 5 Dark Accent 6" w:uiPriority="50" />
+          <w:lsdException w:name="List Table 6 Colorful Accent 6" w:uiPriority="51" />
+          <w:lsdException w:name="List Table 7 Colorful Accent 6" w:uiPriority="52" />
+          <w:lsdException w:name="Mention" w:semiHidden="1" w:uiPriority="99" w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Smart Hyperlink" w:semiHidden="1" w:uiPriority="99"
+            w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Hashtag" w:semiHidden="1" w:uiPriority="99" w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Unresolved Mention" w:semiHidden="1" w:uiPriority="99"
+            w:unhideWhenUsed="1" />
+          <w:lsdException w:name="Smart Link" w:semiHidden="1" w:uiPriority="99"
+            w:unhideWhenUsed="1" />
+        </w:latentStyles>
+        <w:style w:type="paragraph" w:default="1" w:styleId="Normal">
+          <w:name w:val="Normal" />
+          <w:qFormat />
+          <w:pPr>
+            <w:widowControl w:val="0" />
+            <w:jc w:val="both" />
+          </w:pPr>
+          <w:rPr>
+            <w:rFonts w:asciiTheme="minorHAnsi" w:eastAsiaTheme="minorEastAsia"
+              w:hAnsiTheme="minorHAnsi" w:cstheme="minorBidi" />
+            <w:kern w:val="2" />
+            <w:sz w:val="21" />
+            <w:szCs w:val="24" />
+            <w:lang w:val="en-US" />
+          </w:rPr>
+        </w:style>
+        <w:style w:type="character" w:default="1" w:styleId="DefaultParagraphFont">
+          <w:name w:val="Default Paragraph Font" />
+          <w:uiPriority w:val="1" />
+          <w:semiHidden />
+          <w:unhideWhenUsed />
+        </w:style>
+        <w:style w:type="table" w:default="1" w:styleId="TableNormal">
+          <w:name w:val="Normal Table" />
+          <w:uiPriority w:val="99" />
+          <w:semiHidden />
+          <w:unhideWhenUsed />
+          <w:tblPr>
+            <w:tblInd w:w="0" w:type="dxa" />
+            <w:tblCellMar>
+              <w:top w:w="0" w:type="dxa" />
+              <w:left w:w="108" w:type="dxa" />
+              <w:bottom w:w="0" w:type="dxa" />
+              <w:right w:w="108" w:type="dxa" />
+            </w:tblCellMar>
+          </w:tblPr>
+        </w:style>
+        <w:style w:type="numbering" w:default="1" w:styleId="NoList">
+          <w:name w:val="No List" />
+          <w:uiPriority w:val="99" />
+          <w:semiHidden />
+          <w:unhideWhenUsed />
+        </w:style>
+        <w:style w:type="table" w:styleId="TableGrid">
+          <w:name w:val="Table Grid" />
+          <w:basedOn w:val="TableNormal" />
+          <w:qFormat />
+          <w:pPr>
+            <w:widowControl w:val="0" />
+            <w:jc w:val="both" />
+          </w:pPr>
+          <w:tblPr>
+            <w:tblBorders>
+              <w:top w:val="single" w:sz="4" w:space="0" w:color="auto" />
+              <w:left w:val="single" w:sz="4" w:space="0" w:color="auto" />
+              <w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto" />
+              <w:right w:val="single" w:sz="4" w:space="0" w:color="auto" />
+              <w:insideH w:val="single" w:sz="4" w:space="0" w:color="auto" />
+              <w:insideV w:val="single" w:sz="4" w:space="0" w:color="auto" />
+            </w:tblBorders>
+          </w:tblPr>
+        </w:style>
+        <w:style w:type="character" w:styleId="Hyperlink">
+          <w:name w:val="Hyperlink" />
+          <w:basedOn w:val="DefaultParagraphFont" />
+          <w:qFormat />
+          <w:rPr>
+            <w:color w:val="0000FF" />
+            <w:u w:val="single" />
+          </w:rPr>
+        </w:style>
+        <w:style w:type="paragraph" w:styleId="Header">
+          <w:name w:val="header" />
+          <w:basedOn w:val="Normal" />
+          <w:link w:val="HeaderChar" />
+          <w:rsid w:val="008D7225" />
+          <w:pPr>
+            <w:tabs>
+              <w:tab w:val="center" w:pos="4680" />
+              <w:tab w:val="right" w:pos="9360" />
+            </w:tabs>
+            <w:snapToGrid w:val="0" />
+            <w:jc w:val="center" />
+          </w:pPr>
+          <w:rPr>
+            <w:sz w:val="18" />
+            <w:szCs w:val="18" />
+          </w:rPr>
+        </w:style>
+        <w:style w:type="character" w:customStyle="1" w:styleId="HeaderChar">
+          <w:name w:val="Header Char" />
+          <w:basedOn w:val="DefaultParagraphFont" />
+          <w:link w:val="Header" />
+          <w:rsid w:val="008D7225" />
+          <w:rPr>
+            <w:rFonts w:asciiTheme="minorHAnsi" w:eastAsiaTheme="minorEastAsia"
+              w:hAnsiTheme="minorHAnsi" w:cstheme="minorBidi" />
+            <w:kern w:val="2" />
+            <w:sz w:val="18" />
+            <w:szCs w:val="18" />
+            <w:lang w:val="en-US" />
+          </w:rPr>
+        </w:style>
+        <w:style w:type="paragraph" w:styleId="Footer">
+          <w:name w:val="footer" />
+          <w:basedOn w:val="Normal" />
+          <w:link w:val="FooterChar" />
+          <w:rsid w:val="008D7225" />
+          <w:pPr>
+            <w:tabs>
+              <w:tab w:val="center" w:pos="4680" />
+              <w:tab w:val="right" w:pos="9360" />
+            </w:tabs>
+            <w:snapToGrid w:val="0" />
+            <w:jc w:val="left" />
+          </w:pPr>
+          <w:rPr>
+            <w:sz w:val="18" />
+            <w:szCs w:val="18" />
+          </w:rPr>
+        </w:style>
+        <w:style w:type="character" w:customStyle="1" w:styleId="FooterChar">
+          <w:name w:val="Footer Char" />
+          <w:basedOn w:val="DefaultParagraphFont" />
+          <w:link w:val="Footer" />
+          <w:rsid w:val="008D7225" />
+          <w:rPr>
+            <w:rFonts w:asciiTheme="minorHAnsi" w:eastAsiaTheme="minorEastAsia"
+              w:hAnsiTheme="minorHAnsi" w:cstheme="minorBidi" />
+            <w:kern w:val="2" />
+            <w:sz w:val="18" />
+            <w:szCs w:val="18" />
+            <w:lang w:val="en-US" />
+          </w:rPr>
+        </w:style>
+      </w:styles>
+    </pkg:xmlData>
+  </pkg:part>
+  <pkg:part pkg:name="/docProps/app.xml"
+    pkg:contentType="application/vnd.openxmlformats-officedocument.extended-properties+xml"
+    pkg:padding="256">
+    <pkg:xmlData>
+      <Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties"
+        xmlns:vt="http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes">
+        <Template>Normal.dotm</Template>
+        <TotalTime>0</TotalTime>
+        <Pages>1</Pages>
+        <Words>10</Words>
+        <Characters>61</Characters>
+        <Application>Microsoft Office Word</Application>
+        <DocSecurity>0</DocSecurity>
+        <Lines>1</Lines>
+        <Paragraphs>1</Paragraphs>
+        <ScaleCrop>false</ScaleCrop>
+        <Company />
+        <LinksUpToDate>false</LinksUpToDate>
+        <CharactersWithSpaces>70</CharactersWithSpaces>
+        <SharedDoc>false</SharedDoc>
+        <HyperlinksChanged>false</HyperlinksChanged>
+        <AppVersion>16.0000</AppVersion>
+      </Properties>
+    </pkg:xmlData>
+  </pkg:part>
+  <pkg:part pkg:name="/docProps/custom.xml"
+    pkg:contentType="application/vnd.openxmlformats-officedocument.custom-properties+xml"
+    pkg:padding="256">
+    <pkg:xmlData>
+      <Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/custom-properties"
+        xmlns:vt="http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes">
+        <property fmtid="{D5CDD505-2E9C-101B-9397-08002B2CF9AE}" pid="2" name="KSOProductBuildVer">
+          <vt:lpwstr>2052-11.1.33.12350</vt:lpwstr>
+        </property>
+        <property fmtid="{D5CDD505-2E9C-101B-9397-08002B2CF9AE}" pid="3" name="KSOTemplateKey">
+          <vt:lpwstr>
+            1.0_QGwoRt1AfV7VJ3E2TC0TzdNN/FL5bFNWCsMj7VJmvNal5eQ/H7EJ5Fgz856cUBkCD+Q4WJ07VZIWuTmBjP/SRw==</vt:lpwstr>
+        </property>
+        <property fmtid="{D5CDD505-2E9C-101B-9397-08002B2CF9AE}" pid="4" name="ICV">
+          <vt:lpwstr>D7F2E3A62C554B68858F7500AA6F94CD</vt:lpwstr>
+        </property>
+        <property fmtid="{D5CDD505-2E9C-101B-9397-08002B2CF9AE}" pid="5" name="KSOTemplateUUID">
+          <vt:lpwstr>v1.0_mb_eFOiZ0/PGTDaitIkFeoXkg==</vt:lpwstr>
+        </property>
+      </Properties>
+    </pkg:xmlData>
+  </pkg:part>
+  <pkg:part pkg:name="/customXml/itemProps1.xml"
+    pkg:contentType="application/vnd.openxmlformats-officedocument.customXmlProperties+xml"
+    pkg:padding="32">
+    <pkg:xmlData pkg:originalXmlStandalone="no">
+      <ds:datastoreItem ds:itemID="{B1977F7D-205B-4081-913C-38D41E755F92}"
+        xmlns:ds="http://schemas.openxmlformats.org/officeDocument/2006/customXml">
+        <ds:schemaRefs>
+          <ds:schemaRef ds:uri="http://www.wps.cn/officeDocument/2013/wpsCustomData" />
+        </ds:schemaRefs>
+      </ds:datastoreItem>
+    </pkg:xmlData>
+  </pkg:part>
+  <pkg:part pkg:name="/customXml/item1.xml" pkg:contentType="application/xml" pkg:padding="32">
+    <pkg:xmlData>
+      <s:customData xmlns="http://www.wps.cn/officeDocument/2013/wpsCustomData"
+        xmlns:s="http://www.wps.cn/officeDocument/2013/wpsCustomData">
+        <customSectProps>
+          <customSectPr />
+        </customSectProps>
+        <customShpExts>
+          <customShpInfo spid="_x0000_s1026" textRotate="1" />
+        </customShpExts>
+      </s:customData>
+    </pkg:xmlData>
+  </pkg:part>
+  <pkg:part pkg:name="/customXml/_rels/item1.xml.rels"
+    pkg:contentType="application/vnd.openxmlformats-package.relationships+xml" pkg:padding="256">
+    <pkg:xmlData>
+      <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+        <Relationship Id="rId1"
+          Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/customXmlProps"
+          Target="itemProps1.xml" />
+      </Relationships>
+    </pkg:xmlData>
+  </pkg:part>
+  <pkg:part pkg:name="/docProps/core.xml"
+    pkg:contentType="application/vnd.openxmlformats-package.core-properties+xml" pkg:padding="256">
+    <pkg:xmlData>
+      <cp:coreProperties
+        xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties"
+        xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/"
+        xmlns:dcmitype="http://purl.org/dc/dcmitype/"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <dc:creator>Administrator</dc:creator>
+        <cp:lastModifiedBy>administrator</cp:lastModifiedBy>
+        <cp:revision>2</cp:revision>
+        <dcterms:created xsi:type="dcterms:W3CDTF">2023-04-17T07:18:00Z</dcterms:created>
+        <dcterms:modified xsi:type="dcterms:W3CDTF">2023-04-17T07:18:00Z</dcterms:modified>
+      </cp:coreProperties>
+    </pkg:xmlData>
+  </pkg:part>
+</pkg:package>

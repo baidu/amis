@@ -392,13 +392,9 @@ export class Input extends React.Component<RangeItemProps, any> {
 
     const rendererEvent = await dispatchEvent(
       'blur',
-      resolveEventData(
-        this.props,
-        {
-          value
-        },
-        'value'
-      )
+      resolveEventData(this.props, {
+        value
+      })
     );
 
     if (rendererEvent?.prevented) {
@@ -417,13 +413,9 @@ export class Input extends React.Component<RangeItemProps, any> {
 
     const rendererEvent = await dispatchEvent(
       'focus',
-      resolveEventData(
-        this.props,
-        {
-          value
-        },
-        'value'
-      )
+      resolveEventData(this.props, {
+        value
+      })
     );
 
     if (rendererEvent?.prevented) {
@@ -436,6 +428,7 @@ export class Input extends React.Component<RangeItemProps, any> {
   render() {
     const {
       classnames: cx,
+      style,
       value,
       multiple,
       type,
@@ -581,13 +574,9 @@ export default class RangeControl extends React.PureComponent<
 
     const rendererEvent = await dispatchEvent(
       'change',
-      resolveEventData(
-        this.props,
-        {
-          value: result
-        },
-        'value'
-      )
+      resolveEventData(this.props, {
+        value: result
+      })
     );
 
     if (rendererEvent?.prevented) {

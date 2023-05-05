@@ -5,24 +5,23 @@ import LazyComponent from './components/LazyComponent';
 import {
   filterSchema,
   loadRenderer,
-  RendererComponent,
   RendererConfig,
   RendererEnv,
   RendererProps,
   resolveRenderer
 } from './factory';
 import {asFormItem} from './renderers/Item';
-import {ScopedContext} from './Scoped';
+import {IScopedContext, ScopedContext} from './Scoped';
 import {Schema, SchemaNode} from './types';
 import {DebugWrapper} from './utils/debug';
 import getExprProperties from './utils/filter-schema';
 import {anyChanged, chainEvents, autobind} from './utils/helper';
 import {SimpleMap} from './utils/SimpleMap';
-
 import {bindEvent, dispatchEvent, RendererEvent} from './utils/renderer-event';
 import {isAlive} from 'mobx-state-tree';
 import {reaction} from 'mobx';
 import {resolveVariableAndFilter} from './utils/tpl-builtin';
+import {buildStyle} from './utils/style';
 
 interface SchemaRendererProps extends Partial<RendererProps> {
   schema: Schema;
@@ -30,11 +29,12 @@ interface SchemaRendererProps extends Partial<RendererProps> {
   env: RendererEnv;
 }
 
-const defaultOmitList = [
+export const RENDERER_TRANSMISSION_OMIT_PROPS = [
   'type',
   'name',
   '$ref',
   'className',
+  'style',
   'data',
   'children',
   'ref',
@@ -53,7 +53,10 @@ const defaultOmitList = [
   'syncSuperStore',
   'mode',
   'body',
-  'id'
+  'id',
+  'inputOnly',
+  'label',
+  'renderLabel'
 ];
 
 const componentCache: SimpleMap = new SimpleMap();
@@ -79,7 +82,6 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     this.renderChild = this.renderChild.bind(this);
     this.reRender = this.reRender.bind(this);
     this.resolveRenderer(this.props);
-
     this.dispatchEvent = this.dispatchEvent.bind(this);
 
     // 监听topStore更新
@@ -87,9 +89,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       () =>
         `${props.topStore.visibleState[props.schema.id || props.$path]}${
           props.topStore.disableState[props.schema.id || props.$path]
-        }${
-          props.topStore.staticState[props.schema.id || props.$path]
-        }`,
+        }${props.topStore.staticState[props.schema.id || props.$path]}`,
       () => this.forceUpdate()
     );
   }
@@ -206,9 +206,15 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
 
   async dispatchEvent(
     e: React.MouseEvent<any>,
-    data: any
+    data: any,
+    renderer?: React.Component<RendererProps> // for didmount
   ): Promise<RendererEvent<any> | void> {
-    return await dispatchEvent(e, this.cRef, this.context, data);
+    return await dispatchEvent(
+      e,
+      this.cRef || renderer,
+      this.context as IScopedContext,
+      data
+    );
   }
 
   renderChild(
@@ -222,7 +228,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     let {schema: _, $path: __, env, render, ...rest} = this.props;
     let {path: $path} = this.resolveRenderer(this.props);
 
-    const omitList = defaultOmitList.concat();
+    const omitList = RENDERER_TRANSMISSION_OMIT_PROPS.concat();
     if (this.renderer) {
       const Component = this.renderer.component;
       Component.propsList &&
@@ -401,6 +407,12 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     // 这里处理反而导致了问题
     if (renderer.storeType) {
       exprProps = {};
+    }
+
+    // style 支持公式
+    if (schema.style) {
+      // schema.style是readonly属性
+      schema = {...schema, style: buildStyle(schema.style, detectData)};
     }
 
     const isClassComponent = Component.prototype?.isReactComponent;

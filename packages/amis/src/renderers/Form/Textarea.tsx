@@ -109,7 +109,7 @@ export default class TextAreaControl extends React.Component<
   handleChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
     const {onChange, dispatchEvent} = this.props;
 
-    dispatchEvent('change', resolveEventData(this.props, {value: e}, 'value'));
+    dispatchEvent('change', resolveEventData(this.props, {value: e}));
 
     onChange && onChange(e);
   }
@@ -125,7 +125,7 @@ export default class TextAreaControl extends React.Component<
       async () => {
         const rendererEvent = await dispatchEvent(
           'focus',
-          resolveEventData(this.props, {value}, 'value')
+          resolveEventData(this.props, {value})
         );
 
         if (rendererEvent?.prevented) {
@@ -151,7 +151,7 @@ export default class TextAreaControl extends React.Component<
 
         const rendererEvent = await dispatchEvent(
           'blur',
-          resolveEventData(this.props, {value}, 'value')
+          resolveEventData(this.props, {value})
         );
 
         if (rendererEvent?.prevented) {
@@ -164,16 +164,17 @@ export default class TextAreaControl extends React.Component<
   }
 
   renderStatic(displayValue = '-') {
-    const {
-      render,
-      staticSchema = {}
-    } = this.props;
+    const {render, staticSchema = {}} = this.props;
 
-    return render('static-textarea', {
-      type: 'multiline-text',
-      text: displayValue,
-      maxRows: staticSchema.limit || 5
-    }, staticSchema);
+    return render(
+      'static-textarea',
+      {
+        type: 'multiline-text',
+        text: displayValue,
+        maxRows: staticSchema.limit || 5
+      },
+      staticSchema
+    );
   }
 
   @supportStatic()
@@ -182,6 +183,7 @@ export default class TextAreaControl extends React.Component<
     return (
       <Textarea
         {...rest}
+        forwardRef={this.inputRef}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
         onChange={this.handleChange}

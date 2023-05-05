@@ -9,6 +9,8 @@ import {ClassNamesFn, themeable} from 'amis-core';
 import {isObject} from 'amis-core';
 import {validations} from 'amis-core';
 import {Icon} from './icons';
+import {isObjectShallowModified} from 'amis-core';
+import {isEmpty} from 'lodash';
 
 export type textPositionType = 'left' | 'right';
 
@@ -45,14 +47,11 @@ export class Rating extends React.Component<RatingProps, any> {
     allowClear: true,
     value: 0,
     count: 5,
-    char: <Icon icon="star" className="icon" />,
-    colors: {
-      '2': '#abadb1',
-      '3': '#787b81',
-      '5': '#ffa900'
-    },
+    char: <Icon icon="star" className="icon" iconContent="Rating-star-icon" />,
+    colors: '',
     textPosition: 'right' as textPositionType
   };
+  ratingRef = React.createRef<HTMLDivElement>();
 
   starsNode: Record<string, any>;
 
@@ -96,7 +95,18 @@ export class Rating extends React.Component<RatingProps, any> {
   componentDidUpdate(prevProps: RatingProps) {
     const props = this.props;
 
-    if (props.value !== prevProps.value) {
+    if (
+      isObjectShallowModified(
+        {
+          value: props.value,
+          count: props.count
+        },
+        {
+          value: prevProps.value,
+          count: prevProps.count
+        }
+      )
+    ) {
       this.setState(
         {
           stars: this.getStars(props.value),
@@ -110,6 +120,11 @@ export class Rating extends React.Component<RatingProps, any> {
           this.getShowColorAndText(props.value);
         }
       );
+    } else if (
+      isObjectShallowModified(props.colors, prevProps.colors) ||
+      isObjectShallowModified(props.texts, prevProps.texts)
+    ) {
+      this.getShowColorAndText(props.value);
     }
   }
 
@@ -122,7 +137,25 @@ export class Rating extends React.Component<RatingProps, any> {
 
   getShowColorAndText(value: number) {
     const {colors, texts, half} = this.props;
-
+    let tempColor = colors;
+    if (this.ratingRef.current) {
+      const style = getComputedStyle(this.ratingRef.current);
+      let defaultColors = [];
+      try {
+        defaultColors = JSON.parse(
+          JSON.parse(style.getPropertyValue('content'))
+        );
+      } catch (e) {
+        console.warn(e);
+      }
+      const obj: any = {};
+      defaultColors.forEach((item: any) => {
+        obj[item.id] = item.value;
+      });
+      if (isEmpty(colors) && !isEmpty(obj)) {
+        tempColor = obj;
+      }
+    }
     if (!value)
       return this.setState({
         showText: null
@@ -135,21 +168,21 @@ export class Rating extends React.Component<RatingProps, any> {
       value = Math.floor(value);
     }
 
-    if (colors && typeof colors !== 'string') {
-      const keys: string[] = this.sortKeys(colors);
+    if (tempColor && typeof tempColor !== 'string') {
+      const keys: string[] = this.sortKeys(tempColor);
       const showKey = keys.filter(item => Number(item) < value).length;
 
-      const showColor = keys[showKey] !== undefined && colors[keys[showKey]];
+      const showColor = keys[showKey] !== undefined && tempColor[keys[showKey]];
 
-      // 取最大 key 的颜色，避免如下情况：colors 只设置了 1-4，value 为 5，导致取不到颜色而无法显示
-      const lastColor = keys.length && colors[keys[keys.length - 1]];
+      // 取最大 key 的颜色，避免如下情况：tempColor 只设置了 1-4，value 为 5，导致取不到颜色而无法显示
+      const lastColor = keys.length && tempColor[keys[keys.length - 1]];
 
       this.setState({
         showColor: showColor || lastColor || ''
       });
-    } else if (colors && typeof colors === 'string') {
+    } else if (tempColor && typeof tempColor === 'string') {
       this.setState({
-        showColor: colors
+        showColor: tempColor
       });
     }
 
@@ -193,7 +226,7 @@ export class Rating extends React.Component<RatingProps, any> {
   }
 
   saveRef(index: number) {
-    return (node: React.ReactNode) => {
+    return (node?: HTMLLIElement | null) => {
       this.starsNode[String(index)] = node;
     };
   }
@@ -401,7 +434,7 @@ export class Rating extends React.Component<RatingProps, any> {
     const {className, textPosition, classnames: cx} = this.props;
 
     return (
-      <div className={cx('Rating', className)}>
+      <div className={cx('Rating', className)} ref={this.ratingRef}>
         {textPosition === 'left' ? (
           <>
             {this.renderText()}

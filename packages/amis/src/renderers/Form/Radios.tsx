@@ -63,30 +63,28 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
       onChange,
       dispatchEvent,
       options,
-      data
+      selectedOptions
     } = this.props;
+    let value = option;
 
     if (option && (joinValues || extractValue)) {
-      option = option[valueField || 'value'];
+      value = option[valueField || 'value'];
     }
 
     const rendererEvent = await dispatchEvent(
       'change',
-      resolveEventData(
-        this.props,
-        {
-          value: option,
-          options,
-          items: options // 为了保持名字统一
-        },
-        'value'
-      )
+      resolveEventData(this.props, {
+        value,
+        options,
+        items: options, // 为了保持名字统一
+        selectedItems: option
+      })
     );
     if (rendererEvent?.prevented) {
       return;
     }
 
-    onChange && onChange(option);
+    onChange && onChange(value);
   }
 
   reload() {
@@ -98,6 +96,7 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
   render() {
     const {
       className,
+      style,
       classPrefix: ns,
       value,
       onChange,

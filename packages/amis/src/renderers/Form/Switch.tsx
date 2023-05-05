@@ -73,7 +73,7 @@ export default class SwitchControl extends React.Component<SwitchProps, any> {
     const {dispatchEvent, onChange} = this.props;
     const rendererEvent = await dispatchEvent(
       'change',
-      resolveEventData(this.props, {value: checked}, 'value')
+      resolveEventData(this.props, {value: checked})
     );
     if (rendererEvent?.prevented) {
       return;
@@ -83,11 +83,7 @@ export default class SwitchControl extends React.Component<SwitchProps, any> {
   }
 
   getResult() {
-    const {
-      classnames: cx,
-      onText,
-      offText,
-    } = this.props;
+    const {classnames: cx, onText, offText} = this.props;
     const on = isObject(onText)
       ? generateIcon(cx, onText.icon, 'Switch-icon')
       : onText;
@@ -98,11 +94,7 @@ export default class SwitchControl extends React.Component<SwitchProps, any> {
   }
 
   renderBody(children: any) {
-    const {
-      classnames: cx,
-      option,
-      optionAtLeft
-    } = this.props;
+    const {classnames: cx, option, optionAtLeft} = this.props;
 
     const Option = <span className={cx('Switch-option')}>{option}</span>;
     return (
@@ -115,11 +107,8 @@ export default class SwitchControl extends React.Component<SwitchProps, any> {
   }
 
   renderStatic() {
-    const {
-      value,
-      trueValue,
-    } = this.props;
-    
+    const {value, trueValue} = this.props;
+
     const {on = '开', off = '关'} = this.getResult();
     const body = <span>{value === trueValue ? on : off}</span>;
     return this.renderBody(body);
@@ -130,13 +119,14 @@ export default class SwitchControl extends React.Component<SwitchProps, any> {
     const {
       size,
       className,
+      style,
       classPrefix: ns,
       classnames: cx,
       value,
       trueValue,
       falseValue,
       onChange,
-      disabled,
+      disabled
     } = this.props;
 
     const {on, off} = this.getResult();

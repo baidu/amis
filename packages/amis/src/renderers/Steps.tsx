@@ -1,17 +1,16 @@
 import React from 'react';
-import {Renderer, RendererProps} from 'amis-core';
-import {BaseSchema, SchemaCollection} from '../Schema';
-import {Steps} from 'amis-ui';
-import {RemoteOptionsProps, withRemoteConfig} from 'amis-ui';
 import {
+  Renderer,
+  RendererProps,
   isPureVariable,
   resolveVariable,
-  resolveVariableAndFilter
+  resolveVariableAndFilter,
+  filter,
+  getPropValue
 } from 'amis-core';
-import {filter} from 'amis-core';
-import {getPropValue} from 'amis-core';
-import {StepStatus} from 'amis-ui';
-
+import {Steps, StepStatus, RemoteOptionsProps, withRemoteConfig} from 'amis-ui';
+import {BaseSchema, SchemaCollection} from '../Schema';
+import isPlainObject from 'lodash/isPlainObject';
 import type {SchemaExpression} from 'amis-core';
 
 export type StepSchema = {
@@ -94,6 +93,7 @@ export interface StepsProps
 export function StepsCmpt(props: StepsProps) {
   const {
     className,
+    style,
     steps,
     status,
     mode,
@@ -101,7 +101,6 @@ export function StepsCmpt(props: StepsProps) {
     progressDot,
     data,
     source,
-    config,
     render,
     useMobileUI
   } = props;
@@ -112,10 +111,7 @@ export function StepsCmpt(props: StepsProps) {
   ) as Array<StepSchema>;
   /** 步骤数据源 */
   const stepsRow: Array<StepSchema> =
-    (Array.isArray(sourceResult) ? sourceResult : undefined) ||
-    config ||
-    steps ||
-    [];
+    (Array.isArray(sourceResult) ? sourceResult : undefined) || steps || [];
   /** 状态数据源 */
   const statusValue = isPureVariable(status)
     ? resolveVariableAndFilter(status, data, '| raw')
@@ -126,7 +122,7 @@ export function StepsCmpt(props: StepsProps) {
   const value = getPropValue(props) ?? 0;
   const resolveValue =
     typeof value === 'string' && isNaN(+value)
-      ? +(resolveVariable(value, data) as string) || +value
+      ? resolveVariable(value, data) || value
       : +value;
   const valueIndex = stepsRow.findIndex(
     item => item.value && item.value === resolveValue
@@ -163,6 +159,7 @@ export function StepsCmpt(props: StepsProps) {
       current={currentValue}
       steps={resolveSteps}
       className={className}
+      style={style}
       status={statusValue}
       mode={mode}
       progressDot={progressDot}
@@ -172,15 +169,15 @@ export function StepsCmpt(props: StepsProps) {
   );
 }
 
-const StepsWithRemoteConfig = withRemoteConfig({
-  adaptor: data => data.steps || data
-})(
+const StepsWithRemoteConfig = withRemoteConfig()(
   class extends React.Component<
     RemoteOptionsProps & React.ComponentProps<typeof StepsCmpt>
   > {
     render() {
       const {config, deferLoad, loading, updateConfig, ...rest} = this.props;
-      return <StepsCmpt config={config} {...rest} />;
+      const sourceConfig = isPlainObject(config) ? config : null;
+
+      return <StepsCmpt {...rest} {...sourceConfig} />;
     }
   }
 );

@@ -33,6 +33,7 @@ export interface ModalProps extends ThemeProps, LocaleProps {
   disabled?: boolean;
   onExited?: () => void;
   onEntered?: () => void;
+  children?: React.ReactNode | Array<React.ReactNode>;
 }
 export interface ModalState {}
 const fadeStyles: {

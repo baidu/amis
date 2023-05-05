@@ -32,7 +32,7 @@ export interface Props extends ThemeProps, LocaleProps {
   className: string; // 图标样式
   layerClassName: string; // 展开层样式
   active: boolean; // 图标是否高亮
-  popOverContainer?: () => Element | Text | null;
+  popOverContainer?: () => HTMLElement;
   filterDropdown: (payload: FilterDropdownProps) => JSX.Element | null; // 菜单内容
   selectedKeys?: Array<string | number> | string;
   setSelectedKeys?: (keys: Array<string | number> | string) => void;
@@ -78,7 +78,9 @@ export class HeadCellDropDown extends React.Component<Props, State> {
         </span>
         {isOpened ? (
           <Overlay
-            container={popOverContainer || (() => findDOMNode(this))}
+            container={
+              popOverContainer || (() => findDOMNode(this) as HTMLElement)
+            }
             placement="left-bottom-left-top right-bottom-right-top"
             target={
               popOverContainer ? () => findDOMNode(this)!.parentNode : null

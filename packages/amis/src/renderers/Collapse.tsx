@@ -126,6 +126,7 @@ export default class Collapse extends React.Component<CollapseProps, {}> {
       wrapperComponent,
       headingComponent,
       className,
+      style,
       headingClassName,
       children,
       titlePosition,
@@ -160,6 +161,7 @@ export default class Collapse extends React.Component<CollapseProps, {}> {
         wrapperComponent={wrapperComponent}
         headingComponent={headingComponent}
         className={className}
+        style={style}
         headingClassName={headingClassName}
         bodyClassName={bodyClassName}
         headerPosition={titlePosition || headerPosition}

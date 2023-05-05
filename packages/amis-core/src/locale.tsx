@@ -27,6 +27,19 @@ export function extendLocale(name: string, config: LocaleConfig) {
   };
 }
 
+/** 删除语料数据 */
+export function removeLocaleData(name: string, key: Array<string> | string) {
+  if (Array.isArray(key)) {
+    key.forEach(item => {
+      removeLocaleData(name, item);
+    });
+    return;
+  }
+  if (locales?.[name]?.[key]) {
+    delete locales[name][key];
+  }
+}
+
 const fns: {
   [propName: string]: TranslateFn;
 } = {};
@@ -51,8 +64,12 @@ export function makeTranslator(locale?: string): TranslateFn {
       return str;
     }
 
-    const dict = locales[locale!] || locales[defaultLocale] || locales['zh-CN'];
-    return format(dict?.[str] || str, ...args);
+    const value =
+      locales[locale!]?.[str] ||
+      locales[defaultLocale]?.[str] ||
+      locales['zh-CN']?.[str] ||
+      str;
+    return format(value, ...args);
   };
 
   locale && (fns[locale] = fn);
@@ -116,7 +133,7 @@ export function localeable<
 
       render() {
         const locale: string =
-          this.props.locale || this.context || defaultLocale;
+          this.props.locale || (this.context as string) || defaultLocale;
         const translate = this.props.translate || makeTranslator(locale);
         const injectedProps: {
           locale: string;
@@ -128,17 +145,21 @@ export function localeable<
         const refConfig = ComposedComponent.prototype?.isReactComponent
           ? {ref: this.childRef}
           : {forwardedRef: this.childRef};
-        return (
-          <LocaleContext.Provider value={locale}>
-            <ComposedComponent
-              {...(this.props as JSX.LibraryManagedAttributes<
-                T,
-                React.ComponentProps<T>
-              > as any)}
-              {...injectedProps}
-              {...refConfig}
-            />
-          </LocaleContext.Provider>
+
+        const body = (
+          <ComposedComponent
+            {...(this.props as JSX.LibraryManagedAttributes<
+              T,
+              React.ComponentProps<T>
+            > as any)}
+            {...injectedProps}
+            {...refConfig}
+          />
+        );
+        return this.context ? (
+          body
+        ) : (
+          <LocaleContext.Provider value={locale}>{body}</LocaleContext.Provider>
         );
       }
     },

@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`textbox-background 1`] = `
+<article>
+  <section
+    style="position: relative; width: 793.71px; padding: 75.60px 75.60px 75.60px 75.60px;"
+  >
+    <p
+      class="docx-viewer-0-p"
+      style="position: relative;"
+    >
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="47"
+          data-name="矩形 47"
+          style="z-index: 251664384; position: absolute; left: 482.39px; top: -145.60px; width: 341.99px; height: 1205.97px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="1205.97px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="341.99px"
+          >
+            <path
+              d="M 0 0 L 341.99 6.184461538461538 L 341.99 1191.5395897435897 L 87.9974269005848 1205.97 L 0 0 Z"
+              fill="#F57A15"
+              stroke="none"
+            />
+          </svg>
+        </div>
+      </span>
+    </p>
+  </section>
+</article>
+`;

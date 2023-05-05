@@ -202,7 +202,7 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
   dispatchEvent(eventName: string) {
     const {dispatchEvent, data, value} = this.props;
 
-    dispatchEvent(eventName, resolveEventData(this.props, {value}, 'value'));
+    dispatchEvent(eventName, resolveEventData(this.props, {value}));
   }
 
   // 动作
@@ -225,7 +225,7 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
     const {dispatchEvent, data} = this.props;
     const dispatcher = dispatchEvent(
       'change',
-      resolveEventData(this.props, {value: nextValue}, 'value')
+      resolveEventData(this.props, {value: nextValue})
     );
     if (dispatcher?.prevented) {
       return;
@@ -237,6 +237,7 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
   render() {
     const {
       className,
+      style,
       classPrefix: ns,
       defaultValue,
       defaultData,

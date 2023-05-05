@@ -27,7 +27,7 @@ export interface Props extends ThemeProps, LocaleProps {
   onFilter?: Function;
   filteredValue?: Array<string>;
   filterMultiple?: boolean;
-  popOverContainer?: () => Element | Text | null;
+  popOverContainer?: () => HTMLElement;
   classnames: ClassNamesFn;
   classPrefix: string;
 }
@@ -164,13 +164,21 @@ export class HeadCellFilter extends React.Component<Props, State> {
       <HeadCellDropDown
         className={`${ns}TableCell-filterBtn`}
         layerClassName={`${ns}TableCell-filterPopOver`}
-        filterIcon={<Icon icon="column-filter" className="icon" />}
+        filterIcon={
+          <Icon
+            icon="column-filter"
+            className="icon"
+            iconContent="table-filter-icon"
+          />
+        }
         active={
           column.filtered ||
           (options && options.some((item: any) => item.selected))
         }
         popOverContainer={
-          popOverContainer ? popOverContainer : () => findDOMNode(this)
+          popOverContainer
+            ? popOverContainer
+            : () => findDOMNode(this) as HTMLElement
         }
         selectedKeys={this.state.filteredValue}
         {...filterProps}
@@ -233,6 +241,8 @@ export class HeadCellFilter extends React.Component<Props, State> {
     ) => void | undefined
   ) {
     setSelectedKeys && setSelectedKeys([]);
+    const {onFilter, column} = this.props;
+    onFilter && onFilter({[column.name]: ''});
     confirm();
   }
 }

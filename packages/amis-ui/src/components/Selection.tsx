@@ -14,7 +14,8 @@ import {
   themeable,
   ThemeProps,
   autobind,
-  findTree
+  findTree,
+  flattenTree
 } from 'amis-core';
 import Checkbox from './Checkbox';
 import {Option, Options} from './Select';
@@ -34,10 +35,15 @@ export interface BaseSelectionProps extends ThemeProps, LocaleProps {
   labelClassName?: string;
   option2value?: (option: Option) => any;
   itemClassName?: string;
+  itemHeight?: number; // 每个选项的高度，主要用于虚拟渲染
+  virtualThreshold?: number; // 数据量多大的时候开启虚拟渲染
+  virtualListHeight?: number; // 虚拟渲染时，列表高度
   itemRender: (option: Option, states: ItemRenderStates) => JSX.Element;
   disabled?: boolean;
   onClick?: (e: React.MouseEvent) => void;
   placeholderRender?: (props: any) => JSX.Element | null;
+  checkAll?: boolean;
+  checkAllLabel?: string;
 }
 
 export interface ItemRenderStates {
@@ -66,7 +72,9 @@ export class BaseSelection<
     placeholder: 'placeholder.noOption',
     itemRender: this.itemRender,
     multiple: true,
-    clearable: false
+    clearable: false,
+    virtualThreshold: 1000,
+    itemHeight: 32
   };
 
   static value2array(
@@ -148,13 +156,22 @@ export class BaseSelection<
     onChange && onChange(multiple ? newValue : newValue[0]);
   }
 
+  getAvailableOptions() {
+    const {options} = this.props;
+    const flattendOptions = flattenTree(options, item =>
+      item.children ? null : item
+    ).filter(a => a && !a.disabled);
+
+    return flattendOptions as Option[];
+  }
+
   @autobind
   toggleAll() {
     const {value, onChange, option2value, options} = this.props;
 
     let valueArray: Array<Option> = [];
 
-    const availableOptions = options.filter(option => !option.disabled);
+    const availableOptions = this.getAvailableOptions();
     const intersectOptions = this.intersectArray(value, availableOptions);
 
     if (!Array.isArray(value)) {

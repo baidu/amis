@@ -1,5 +1,3 @@
-import React = require('react');
-import PageRenderer from '../../src/renderers/Page';
 import * as renderer from 'react-test-renderer';
 import {render, fireEvent, cleanup, waitFor} from '@testing-library/react';
 import '../../src';
@@ -106,7 +104,10 @@ test('Renderer:Page initApi error show Message', async () => {
     expect(
       container.querySelector('[data-testid="spinner"]')
     ).not.toBeInTheDocument();
+
+    expect(container.querySelector('.cxd-Alert')).toBeInTheDocument();
   });
+
   expect(container).toMatchSnapshot();
 });
 
@@ -877,6 +878,7 @@ test('Renderer:Page handleAction actionType=drawer mergeData', async () => {
   expect(container).toMatchSnapshot();
 
   fireEvent.click(getByText(/确认/));
+  await wait(300);
   await waitFor(() => {
     expect(container.querySelector('[role="dialog"]')).not.toBeInTheDocument();
   });
@@ -1003,6 +1005,7 @@ test('Renderer:Page handleAction actionType=ajax & feedback', async () => {
   expect(container).toMatchSnapshot();
 
   fireEvent.click(getByText(/确认/));
+  await wait(300);
   await waitFor(() => {
     expect(container.querySelector('[role="dialog"]')).not.toBeInTheDocument();
   });
@@ -1217,6 +1220,7 @@ test('Renderer:Page initApi reload by Dialog action', async () => {
   expect(container).toMatchSnapshot();
   fireEvent.click(getByText(/确认/));
 
+  await wait(500);
   await waitFor(() => {
     expect(container.querySelector('[role="dialog"]')).not.toBeInTheDocument();
     expect(getByText('The variable value is 2')).toBeInTheDocument();
@@ -1355,6 +1359,7 @@ test('Renderer:Page initApi reload by Form submit', async () => {
 
   await waitFor(() => {
     expect(getByText(/Submit/)).toBeInTheDocument();
+    expect(getByText('The variable value is 1')).toBeInTheDocument();
     expect(
       container.querySelector('[data-testid="spinner"]')
     ).not.toBeInTheDocument();

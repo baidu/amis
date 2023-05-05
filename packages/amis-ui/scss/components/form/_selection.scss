@@ -42,28 +42,31 @@
 
 .#{$ns}GroupedSelection {
   max-height: px2rem(300px);
+  height: 100%;
   overflow: auto;
   user-select: none;
   padding: var(--gap-xs) 0;
 
   &-group > &-itemLabel {
-    height: px2rem(32px);
-    padding: var(--gap-xs) var(--gap-base);
-    color: var(--FileControl-icon-color);
+    padding: var(--select-group-paddingTop) var(--select-group-paddingRight)
+      var(--select-group-paddingBottom) var(--select-group-paddingLeft);
+    color: var(--select-group-color);
+    font-size: var(--select-group-fontSize);
+    font-weight: var(--select-group-fontWeight);
+    line-height: var(--select-group-lineHeight);
   }
 
   &-item {
     display: flex;
-    // height: var(--Form-input-height);
-    line-height: var(--Form-input-lineHeight);
-    font-size: var(--Form-input-fontSize);
-    padding: calc(
-        (
-            var(--Form-input-height) - var(--Form-input-lineHeight) *
-              var(--Form-input-fontSize)
-          ) / 2
-      )
-      var(--gap-sm);
+    color: var(--select-base-default-option-color);
+    background: var(--select-base-default-option-bg-color);
+    line-height: var(--select-base-default-option-line-height);
+    font-size: var(--select-base-default-option-fontSize);
+    font-weight: var(--select-base-default-option-fontWeight);
+    padding: var(--select-base-default-option-paddingTop)
+      var(--select-base-default-option-paddingRight)
+      var(--select-base-default-option-paddingBottom)
+      var(--select-base-default-option-paddingLeft);
     flex-direction: row;
 
     > .#{$ns}Checkbox {
@@ -72,21 +75,26 @@
     cursor: pointer;
     user-select: none;
 
-    &.is-active {
-      background: var(--Form-select-menu-onActive-bg);
-    }
-
     &:hover {
-      background: var(--Tree-item-onHover-bg);
+      color: var(--Form-select-menu-onHover-color);
+      background: var(--Form-select-menu-onHover-bg);
 
       i {
         border: 1px solid var(--menu-active-color);
       }
     }
 
+    &.is-active,
+    &.is-focused,
+    &.is-opened {
+      color: var(--Form-select-menu-onActive-color);
+      background: var(--Form-select-menu-onActive-bg);
+    }
+
     &.is-disabled {
       pointer-events: none;
-      color: var(--text--muted-color);
+      color: var(--Form-select-menu-onDisabled-color);
+      background: var(--Form-select-menu-onDisabled-bg);
     }
   }
 
@@ -117,8 +125,22 @@
 }
 
 .#{$ns}TableSelection {
+  position: relative;
+  height: 100%;
+
   .#{$ns}Table-content {
     border-top: var(--Table-borderWidth) solid var(--Table-borderColor);
+
+    &.is-virtual {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+
+      .#{$ns}Table-content-virtual {
+        flex: 1;
+        position: relative;
+      }
+    }
   }
 
   .#{$ns}Table-table > tbody > tr {
@@ -127,30 +149,42 @@
 
   .#{$ns}Table-table > thead > tr > th,
   .#{$ns}Table-table > tbody > tr > td {
-    font-size: var(--fontSizeSm);
-    padding-top: var(--gap-xs);
-    padding-bottom: px2rem(6px);
+    color: var(--select-table-color);
+    font-size: var(--select-table-fontSize);
     vertical-align: middle;
   }
 
   .#{$ns}Table-table > thead > tr > th {
-    padding-top: px2rem(6px);
+    padding: var(--select-table-header-paddingTop)
+      var(--select-table-header-paddingLeft)
+      var(--select-table-header-paddingBottom)
+      var(--select-table-header-paddingLeft);
   }
 
-  .#{$ns}Table-table > thead > tr > th:first-child,
-  .#{$ns}Table-table > tbody > tr > td:first-child {
-    padding-left: px2rem(10px);
-    padding-right: 0;
+  .#{$ns}Table-table > tbody > tr > td {
+    padding: var(--select-table-option-paddingTop)
+      var(--select-table-option-paddingLeft)
+      var(--select-table-option-paddingBottom)
+      var(--select-table-option-paddingLeft);
   }
 
-  .#{$ns}Table-table > thead > tr > th:last-child,
+  .#{$ns}Table-table > thead > tr > th:last-child {
+    padding-right: var(--select-table-header-paddingRight);
+  }
+
   .#{$ns}Table-table > tbody > tr > td:last-child {
-    padding-right: var(--gap-md);
+    padding-right: var(--select-table-option-paddingRight);
   }
 
-  .#{$ns}Table-table > tbody > tr.is-active {
+  .#{$ns}Table-table > tbody > tr.is-active > td {
     color: var(--Form-select-menu-onActive-color);
     background: var(--Form-select-menu-onActive-bg);
+  }
+
+  .#{$ns}Table-table > tbody > tr:hover > td,
+  .#{$ns}Table-table > tbody > tr.is-hovered > td {
+    color: var(--Form-select-menu-onHover-color);
+    background: var(--Form-select-menu-onHover-bg);
   }
 }
 
@@ -236,10 +270,13 @@
   display: flex;
   flex-direction: row;
   min-height: 100%;
+  flex-wrap: wrap;
 
   &-col {
+    position: relative;
     flex-grow: 1;
     min-width: 150px;
+    width: 0;
   }
 
   &-col:not(:last-child) {
@@ -252,18 +289,22 @@
     color: var(--text--muted-color);
   }
 
+  &-checkAll {
+    width: 100%;
+  }
+
   &-item {
     display: flex;
     // height: var(--Form-input-height);
-    line-height: var(--Form-input-lineHeight);
-    font-size: var(--Form-input-fontSize);
-    padding: calc(
-        (
-            var(--Form-input-height) - var(--Form-input-lineHeight) *
-              var(--Form-input-fontSize)
-          ) / 2
-      )
-      var(--gap-sm);
+    font-size: var(--select-base-default-option-fontSize);
+    font-weight: var(--select-base-default-option-fontWeight);
+    color: var(--select-base-default-option-color);
+    background: var(--select-base-default-option-bg-color);
+    line-height: var(--select-base-default-option-line-height);
+    padding: var(--select-base-default-option-paddingTop)
+      var(--select-base-default-option-paddingRight)
+      var(--select-base-default-option-paddingBottom)
+      var(--select-base-default-option-paddingLeft);
     flex-direction: row;
 
     > .#{$ns}Checkbox {
@@ -278,17 +319,22 @@
     }
 
     &:hover {
-      background: var(--Tree-item-onHover-bg);
+      color: var(--Form-select-menu-onHover-color);
+      background: var(--Form-select-menu-onHover-bg);
     }
 
     &.is-disabled {
       pointer-events: none;
-      color: var(--text--muted-color);
+      color: var(--Form-select-menu-onDisabled-color);
+      background: var(--Form-select-menu-onDisabled-bg);
     }
   }
 
   &-itemLabel {
     flex-grow: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
     span {
       margin-left: px2rem(10px);
@@ -311,11 +357,17 @@
 
   &-left,
   &-right {
+    position: relative;
     flex-grow: 1;
     width: 0;
     min-height: px2rem(200px);
     max-height: px2rem(400px);
     overflow: auto;
+
+    > .#{$ns}GroupedSelection {
+      padding: 0;
+      max-height: 100%;
+    }
   }
 
   &-left {

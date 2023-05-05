@@ -1,16 +1,16 @@
 #!/bin/bash
 set -e
 
-npm run build --workspaces
+npm run build --workspace=amis-formula --workspace=amis-core --workspace=amis-ui --workspace=amis
 
 rm -rf npm
-mkdir npm
+mkdir -p npm/packages
 
 # 如果有问题可以注释掉这两行，不知道为啥会导致 cp -rf 挂掉
 # rm -rf packages/amis/node_modules/.bin
 # rm -rf packages/amis-ui/node_modules/.bin
 
-cp -rf packages npm
+cp -r packages/{amis-formula,amis-core,amis-ui,amis} npm/packages
 cp package.json npm
 
 # 记录last commit，便于区分内网版本包之间的差异
@@ -37,6 +37,7 @@ done
 for f in $(find ./packages/*/lib -type f -name "*.[tj]s"); do
   sed -i '' -e "s/from \'amis/from \'@fex\/amis/g" $f
   sed -i '' -e "s/import(\'amis/import(\'@fex\/amis/g" $f
+  sed -i '' -e "s/import[ ]*\'amis/import \'@fex\/amis/g" $f
   sed -i '' -e "s/require(\'amis/require(\'@fex\/amis/g" $f
   sed -i '' -e "s/require(\[\'amis/require(\[\'@fex\/amis/g" $f
 done
@@ -44,6 +45,7 @@ done
 for f in $(find ./packages/*/esm -type f -name "*.[tj]s"); do
   sed -i '' -e "s/from \'amis/from \'@fex\/amis/g" $f
   sed -i '' -e "s/import(\'amis/import(\'@fex\/amis/g" $f
+  sed -i '' -e "s/import[ ]*\'amis/import \'@fex\/amis/g" $f
   sed -i '' -e "s/require(\'amis/require(\'@fex\/amis/g" $f
   sed -i '' -e "s/require(\[\'amis/require(\[\'@fex\/amis/g" $f
 done

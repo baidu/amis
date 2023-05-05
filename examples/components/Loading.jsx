@@ -1,6 +1,10 @@
 const loadingBody = {
   type: 'service',
   api: '/api/mock2/sample?orderBy=id&orderDir=desc&perPage=10&waitSeconds=10',
+  loadingConfig: {
+    show: true,
+    root: '[role=dialog-body]'
+  },
   body: {
     type: 'page',
     initApi:
@@ -173,9 +177,21 @@ export default {
       dialog: {
         size: 'lg',
         title: '提示',
-        body: loadingBody
+        body: {
+          ...loadingBody,
+          loadingConfig: {
+            show: true,
+            root: '[role=dialog-body]'
+          }
+        }
       }
     },
-    loadingBody
+    {
+      ...loadingBody,
+      loadingConfig: {
+        show: true,
+        root: 'body'
+      }
+    }
   ]
 };

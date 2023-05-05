@@ -1,4 +1,9 @@
 const originalWarn = console.warn.bind(console.warn);
+const originalGroupCollapsed = console.warn.bind(console.groupCollapsed);
+const originalGroup = console.warn.bind(console.group);
+const originalGroupEnd = console.warn.bind(console.groupEnd);
+const originalDebug = console.warn.bind(console.debug);
+const originalError = console.error.bind(console.error);
 require('@testing-library/jest-dom');
 require('moment-timezone');
 const moment = require('moment');
@@ -15,19 +20,30 @@ Object.defineProperty(window, 'DragEvent', {
 global.__buildVersion = '';
 
 global.beforeAll(() => {
-  console.warn = msg => {
-    // warning 先关了，实在太吵。
-    // const str = msg.toString();
-    // if (
-    //   str.includes('componentWillMount') ||
-    //   str.includes('componentWillReceiveProps')
-    // ) {
-    //   return;
-    // }
-    // originalWarn(msg);
-  };
+  console.warn =
+    console.groupCollapsed =
+    console.group =
+    console.groupEnd =
+    console.debug =
+    console.error =
+      msg => {
+        // warning 先关了，实在太吵。
+        // const str = msg.toString();
+        // if (
+        //   str.includes('componentWillMount') ||
+        //   str.includes('componentWillReceiveProps')
+        // ) {
+        //   return;
+        // }
+        // originalWarn(msg);
+      };
 });
 global.afterAll(() => {
   console.warn = originalWarn;
+  console.groupCollapsed = originalGroupCollapsed;
+  console.group = originalGroup;
+  console.groupEnd = originalGroupEnd;
+  console.debug = originalDebug;
+  console.error = originalError;
   cleanup();
 });

@@ -94,6 +94,10 @@ export function getClassPrefix() {
 }
 
 export function getTheme(theme: string): ThemeInstance {
+  if (typeof theme !== 'string') {
+    theme = 'cxd';
+  }
+
   const config = themes[theme || 'cxd'];
 
   if (!config.getRendererConfig) {
@@ -118,6 +122,9 @@ export function getTheme(theme: string): ThemeInstance {
 
 export interface ThemeProps {
   className?: string;
+  style?: {
+    [propName: string]: any;
+  };
   classPrefix: string;
   classnames: ClassNamesFn;
   theme?: string;
@@ -126,6 +133,9 @@ export interface ThemeProps {
 export interface ThemeOutterProps {
   theme?: string;
   className?: string;
+  style?: {
+    [propName: string]: any;
+  };
   classPrefix?: string;
   classnames?: ClassNamesFn;
 }
@@ -174,7 +184,8 @@ export function themeable<
       }
 
       render() {
-        const theme: string = this.props.theme || this.context || defaultTheme;
+        const theme: string =
+          this.props.theme || (this.context as string) || defaultTheme;
         const config = hasTheme(theme)
           ? getTheme(theme)
           : getTheme(defaultTheme);
@@ -191,18 +202,22 @@ export function themeable<
           ? {ref: this.childRef}
           : {forwardedRef: this.childRef};
 
-        return (
-          <ThemeContext.Provider value={theme}>
-            <ComposedComponent
-              {...config.getComponentConfig(ComposedComponent.themeKey)}
-              {...(this.props as JSX.LibraryManagedAttributes<
-                T,
-                React.ComponentProps<T>
-              >)}
-              {...injectedProps}
-              {...refConfig}
-            />
-          </ThemeContext.Provider>
+        const body = (
+          <ComposedComponent
+            {...config.getComponentConfig(ComposedComponent.themeKey)}
+            {...(this.props as JSX.LibraryManagedAttributes<
+              T,
+              React.ComponentProps<T>
+            >)}
+            {...injectedProps}
+            {...refConfig}
+          />
+        );
+
+        return this.context ? (
+          body
+        ) : (
+          <ThemeContext.Provider value={theme}>{body}</ThemeContext.Provider>
         );
       }
     },

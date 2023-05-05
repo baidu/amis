@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>amis 可视化编辑器</title>
+    <link
+      data-react-helmet="true"
+      rel="shortcut icon"
+      href="https://avatars.githubusercontent.com/u/78204817?s=200&v=4"
+    />
+    <link
+      data-react-helmet="true"
+      rel="shortcut icon"
+      href="https://avatars.githubusercontent.com/u/78204817?s=200&v=4"
+    />
+    <link
+      rel="stylesheet"
+      href="https://bce.bdstatic.com/iconfont/iconfont.css"
+    />
+    <link
+      rel="stylesheet"
+      href="../../../node_modules/@fortawesome/fontawesome-free/css/all.css"
+    />
+    <link
+      rel="stylesheet"
+      href="../../../node_modules/@fortawesome/fontawesome-free/css/v4-shims.css"
+    />
+    <link rel="stylesheet" title="cxd" href="../amis-ui/scss/themes/cxd.scss" />
+    <link rel="stylesheet" href="../amis-editor-core/scss/editor.scss" />
+    <link rel="stylesheet" href="../../../examples/doc.css" />
+    <link rel="stylesheet" href="./examples/style.scss" />
+    <style>
+      .app-wrapper {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <script type="module">
+      import {bootstrap} from './index';
+
+      var initialState = {};
+      bootstrap(document.getElementById('root'), initialState);
+    </script>
+  </body>
+</html>

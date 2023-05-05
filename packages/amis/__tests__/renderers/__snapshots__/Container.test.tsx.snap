@@ -13,6 +13,7 @@ exports[`Renderer:container 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Container bg-white"

@@ -83,7 +83,7 @@ export default class CheckboxControl extends React.Component<
     const {dispatchEvent, onChange} = this.props;
     const rendererEvent = await dispatchEvent(
       'change',
-      resolveEventData(this.props, {value: eventData}, 'value')
+      resolveEventData(this.props, {value: eventData})
     );
 
     if (rendererEvent?.prevented) {
@@ -127,6 +127,7 @@ export default class CheckboxControl extends React.Component<
   render() {
     const {
       className,
+      style,
       value,
       trueValue,
       falseValue,

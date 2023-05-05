@@ -4,6 +4,7 @@
   align-items: center;
   justify-content: flex-start;
   flex-flow: row wrap;
+  content: var(--Rating-colors);
 
   & > ul {
     display: flex;
@@ -32,7 +33,7 @@
       height: px2rem(24px);
       top: 0;
     }
-  
+
     &:last-of-type {
       margin-right: 0;
     }
@@ -54,9 +55,10 @@
   }
 
   &-text {
-    font-size: var(--fontSizeMd);
+    font-size: var(--Rating-text-fontSize);
     color: var(--Rating-text-color);
-    font-weight: var(--fontWeightNormal);
+    font-weight: var(--Rating-text-fontWeight);
+    line-height: var(--Rating-text-lineHeight);
 
     &--left {
       margin-right: var(--Rating-star-margin);
@@ -66,6 +68,10 @@
       margin-left: var(--Rating-star-margin);
     }
   }
+}
+
+.Rating-star-icon {
+  content: var(--Rating-star-icon);
 }
 
 .#{$ns}RatingControl {

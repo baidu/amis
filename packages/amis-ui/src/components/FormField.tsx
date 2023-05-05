@@ -25,7 +25,7 @@ export interface FormFieldProps extends LocaleProps, ThemeProps {
   isRequired?: boolean;
   hasError?: boolean;
   errors?: string | Array<string>;
-  children?: JSX.Element;
+  children?: React.ReactNode | Array<React.ReactNode>;
 }
 
 function FormField(props: FormFieldProps) {
@@ -34,6 +34,7 @@ function FormField(props: FormFieldProps) {
     children,
     classnames: cx,
     className,
+    style,
     hasError,
     isRequired,
     label,
@@ -60,6 +61,7 @@ function FormField(props: FormFieldProps) {
           [`is-required`]: isRequired,
           'Form-item--horizontal-justify': horizontal.justify
         })}
+        // style={style}
       >
         {label !== false ? (
           <label
@@ -120,6 +122,7 @@ function FormField(props: FormFieldProps) {
         'is-error': hasError,
         [`is-required`]: isRequired
       })}
+      // style={style}
     >
       {label ? (
         <label className={cx(`Form-label`, labelClassName)}>
@@ -162,6 +165,8 @@ export interface ControllerProps
   > & {
     [propName: string]: any;
   };
+
+  className?: string;
 
   /**
    * 配置成 false 则不包裹

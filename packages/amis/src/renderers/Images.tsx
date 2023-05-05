@@ -89,6 +89,11 @@ export interface ImagesSchema extends BaseSchema {
   listClassName?: SchemaClassName;
 
   /**
+   * 放大详情图 CSS 类名
+   */
+  imageGallaryClassName?: SchemaClassName;
+
+  /**
    * 是否展示图片工具栏
    */
   showToolbar?: boolean;
@@ -163,6 +168,7 @@ export class ImagesField extends React.Component<ImagesProps> {
   render() {
     const {
       className,
+      style,
       defaultImage,
       thumbMode,
       thumbRatio,
@@ -178,7 +184,8 @@ export class ImagesField extends React.Component<ImagesProps> {
       listClassName,
       options,
       showToolbar,
-      toolbarActions
+      toolbarActions,
+      imageGallaryClassName
     } = this.props;
 
     let value: any;
@@ -204,7 +211,7 @@ export class ImagesField extends React.Component<ImagesProps> {
     this.list = list;
 
     return (
-      <div className={cx('ImagesField', className)}>
+      <div className={cx('ImagesField', className)} style={style}>
         {Array.isArray(list) ? (
           <div className={cx('Images', listClassName)}>
             {list.map((item: any, index: number) => (
@@ -228,6 +235,7 @@ export class ImagesField extends React.Component<ImagesProps> {
                 enlargeAble={enlargeAble!}
                 onEnlarge={this.handleEnlarge}
                 showToolbar={showToolbar}
+                imageGallaryClassName={imageGallaryClassName}
                 toolbarActions={toolbarActions}
               />
             ))}

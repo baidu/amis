@@ -279,6 +279,10 @@ exports[`Renderer:button 2`] = `
           data-position="left"
           data-tooltip="关闭"
         >
+          <div
+            class=" Dialog-close"
+            style="display: none;"
+          />
           <icon-mock
             classname="icon icon-close"
             icon="close"
@@ -292,6 +296,7 @@ exports[`Renderer:button 2`] = `
       </div>
       <div
         class="cxd-Modal-body"
+        role="dialog-body"
       >
         <span
           class="cxd-TplField"

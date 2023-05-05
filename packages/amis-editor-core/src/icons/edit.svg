@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24" height="24" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="通用/编辑2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <polygon id="1-FL" stroke="currentColor" transform="translate(8.000000, 8.000000) rotate(-315.000000) translate(-8.000000, -8.000000) " points="7 2 9 2 9 13 8.02737055 14 7 13" stroke-width="1" fill="none" stroke-linecap="butt" stroke-linejoin="round"/>
+        <line x1="9.41421356" y1="4.46446609" x2="11.5355339" y2="6.58578644" id="2-LW" stroke="currentColor" stroke-width="1" fill="none" stroke-linecap="butt" stroke-linejoin="round"/>
+        <line x1="1.5" y1="14" x2="14.5" y2="14" id="3-L" stroke="currentColor" stroke-width="1" fill="none" stroke-linecap="butt" stroke-linejoin="round"/>
+    </g>
+</svg>

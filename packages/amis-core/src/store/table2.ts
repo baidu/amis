@@ -211,8 +211,7 @@ export const TableStore2 = ServiceStore.named('TableStore2')
     pageNo: 1,
     pageSize: 10,
     dragging: false,
-    keepItemSelectionOnPageChange: false,
-    maxKeepItemSelectionLength: 0
+    rowSelectionKeyField: 'key'
   })
   .views(self => {
     function getToggable() {
@@ -324,6 +323,13 @@ export const TableStore2 = ServiceStore.named('TableStore2')
       },
 
       get currentSelectedRowKeys() {
+        if (self.data && self.data.selectedItems) {
+          return (
+            self.data.selectedItems.map(
+              (item: any) => item[self.rowSelectionKeyField]
+            ) || []
+          );
+        }
         return self.selectedRowKeys.map(item => item);
       },
 
@@ -356,6 +362,10 @@ export const TableStore2 = ServiceStore.named('TableStore2')
 
       get movedRows() {
         return getMovedRows();
+      },
+
+      get keyField() {
+        return self.rowSelectionKeyField;
       }
     };
   })
@@ -390,11 +400,9 @@ export const TableStore2 = ServiceStore.named('TableStore2')
         );
       }
 
-      config.maxKeepItemSelectionLength !== void 0 &&
-        (self.maxKeepItemSelectionLength = config.maxKeepItemSelectionLength);
-      config.keepItemSelectionOnPageChange !== void 0 &&
-        (self.keepItemSelectionOnPageChange =
-          config.keepItemSelectionOnPageChange);
+      if (config.rowSelectionKeyField) {
+        self.rowSelectionKeyField = config.rowSelectionKeyField;
+      }
 
       if (config.columns && Array.isArray(config.columns)) {
         self.columns.replace(updateColumns(config.columns) as any);
@@ -486,39 +494,36 @@ export const TableStore2 = ServiceStore.named('TableStore2')
         setTimeout(updater.bind(null, `?${qsstringify(self.query)}`), 4);
     }
 
-    function updateSelectedRows(
-      rows: Array<any>,
-      selectedKeys: Array<any>,
-      keyField?: string
-    ) {
+    function updateSelectedRows(rows: Array<any>, selectedKeys: Array<any>) {
+      const rowSelectionKeyField = self.rowSelectionKeyField;
       eachTree(rows, item => {
-        if (~selectedKeys.indexOf(item.pristine[keyField || 'key'])) {
+        if (~selectedKeys.indexOf(item.pristine[rowSelectionKeyField])) {
           self.selectedRows.push(item.id);
-          self.selectedRowKeys.push(item.pristine[keyField || 'key']);
+          self.selectedRowKeys.push(item.pristine[rowSelectionKeyField]);
         } else if (
-          find(selectedKeys, a => a && a == item.pristine[keyField || 'key'])
+          find(selectedKeys, a => a && a == item.pristine[rowSelectionKeyField])
         ) {
           self.selectedRows.push(item.id);
-          self.selectedRowKeys.push(item.pristine[keyField || 'key']);
+          self.selectedRowKeys.push(item.pristine[rowSelectionKeyField]);
         } else if (item.children) {
-          updateSelectedRows(item.children, selectedKeys, keyField);
+          updateSelectedRows(item.children, selectedKeys);
         }
       });
     }
 
-    function updateSelected(selectedKeys: Array<any>, keyField?: string) {
+    function updateSelected(selectedKeys: Array<any>) {
       self.selectedRows.clear();
       self.selectedRowKeys.clear();
 
-      updateSelectedRows(self.rows, selectedKeys, keyField);
+      updateSelectedRows(self.rows, selectedKeys);
     }
 
-    function updateSelectedAll(keyField?: string) {
+    function updateSelectedAll() {
       const selectedKeys: Array<any> = [];
       eachTree(self.rows, item =>
-        selectedKeys.push(item.pristine[keyField || 'key'])
+        selectedKeys.push(item.pristine[self.rowSelectionKeyField])
       );
-      updateSelectedRows(self.rows, selectedKeys, keyField);
+      updateSelectedRows(self.rows, selectedKeys);
     }
 
     function updateExpanded(expandedRowKeys: Array<any>, keyField?: string) {
@@ -630,7 +635,6 @@ export const TableStore2 = ServiceStore.named('TableStore2')
               : []
         };
       });
-
       replaceRow(arr, reUseRow);
     }
 
@@ -666,7 +670,10 @@ export const TableStore2 = ServiceStore.named('TableStore2')
 
         if (!json.ok) {
           self.updateMessage(
-            json.msg ?? options.errorMessage ?? self.__('saveFailed'),
+            (api as ApiObject)?.messages?.failed ??
+              json.msg ??
+              options.errorMessage ??
+              self.__('saveFailed'),
             true
           );
           getEnv(self).notify(
@@ -682,7 +689,10 @@ export const TableStore2 = ServiceStore.named('TableStore2')
           throw new ServerError(self.msg);
         } else {
           self.updateMessage(
-            json.msg ?? options.successMessage ?? json.defaultMsg
+            (api as ApiObject)?.messages?.success ??
+              json.msg ??
+              options.successMessage ??
+              json.defaultMsg
           );
           self.msg &&
             getEnv(self).notify(

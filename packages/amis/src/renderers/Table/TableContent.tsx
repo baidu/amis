@@ -14,7 +14,7 @@ import ItemActionsWrapper from './ItemActionsWrapper';
 import {SchemaTpl} from '../../Schema';
 import {Icon} from 'amis-ui';
 
-import type {IColumn, IRow} from 'amis-core/lib/store/table';
+import type {IColumn, IRow} from 'amis-core';
 
 export interface TableContentProps extends LocaleProps {
   className?: string;
@@ -70,8 +70,18 @@ export interface TableContentProps extends LocaleProps {
 
 @observer
 export class TableContent extends React.Component<TableContentProps> {
-  renderItemActions() {
-    const {itemActions, render, store, classnames: cx} = this.props;
+  static renderItemActions(
+    props: Pick<
+      TableContentProps,
+      'itemActions' | 'render' | 'store' | 'classnames'
+    >
+  ) {
+    const {itemActions, render, store, classnames: cx} = props;
+
+    if (!store.hoverRow) {
+      return null;
+    }
+
     const finalActions = Array.isArray(itemActions)
       ? itemActions.filter(action => !action.hiddenOnHover)
       : [];
@@ -149,7 +159,6 @@ export class TableContent extends React.Component<TableContentProps> {
         className={cx('Table-content', className)}
         onScroll={onScroll}
       >
-        {store.hoverRow ? this.renderItemActions() : null}
         <table ref={tableRef} className={tableClassName}>
           <thead>
             {columnsGroup.length ? (

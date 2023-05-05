@@ -63,11 +63,11 @@ export const Column = types
     className: types.union(types.string, types.frozen())
   })
   .actions(self => ({
-    toggleToggle() {
+    toggleToggle(min = 1) {
       self.toggled = !self.toggled;
       const table = getParent(self, 2) as ITableStore;
 
-      if (!table.activeToggaleColumns.length) {
+      if (table.activeToggaleColumns.length < min) {
         self.toggled = true;
       }
 
@@ -217,7 +217,8 @@ export const Row = types
       // 如果未做配置，或者配置不合法直接通过检查
       if (
         !keepItemSelectionOnPageChange ||
-        !Number.isInteger(selectionUpperLimit)
+        !Number.isInteger(selectionUpperLimit) ||
+        selectionUpperLimit === Infinity
       ) {
         return true;
       }
@@ -341,7 +342,7 @@ export const TableStore = iRendererStore
     combineNum: 0,
     combineFromIndex: 0,
     formsRef: types.optional(types.array(types.frozen()), []),
-    maxKeepItemSelectionLength: 0,
+    maxKeepItemSelectionLength: Infinity,
     keepItemSelectionOnPageChange: false,
     searchFormExpanded: false // 用来控制搜索框是否展开了，那个自动根据 searchable 生成的表单 autoGenerateFilter
   })
@@ -1114,10 +1115,23 @@ export const TableStore = iRendererStore
           self.expandConfig.expand === 'all' &&
           !self.expandConfig.accordion)
       ) {
-        self.expandedRows.replace(self.rows.map(item => item.id));
+        self.expandedRows.replace(getExpandAllRows(self.rows));
       }
 
       self.dragging = false;
+    }
+
+    // 获取所有层级的子节点id
+    function getExpandAllRows(arr: Array<SRow>): string[] {
+      return arr.reduce((result: string[], current) => {
+        result.push(current.id);
+
+        if (current.children && current.children.length) {
+          result = result.concat(getExpandAllRows(current.children));
+        }
+
+        return result;
+      }, []);
     }
 
     // 尽可能的复用 row
@@ -1410,10 +1424,11 @@ export const TableStore = iRendererStore
       });
     }
 
-    function toggleAllColumns() {
+    function toggleAllColumns(min: number = 1) {
       if (self.activeToggaleColumns.length) {
         if (self.activeToggaleColumns.length === self.toggableColumns.length) {
           self.toggableColumns.map(column => column.setToggled(false));
+          toggleColumnsAtLeast(min);
         } else {
           self.toggableColumns.map(column => column.setToggled(true));
         }
@@ -1422,6 +1437,14 @@ export const TableStore = iRendererStore
         self.toggableColumns.map(column => column.setToggled(true));
       }
       persistSaveToggledColumns();
+    }
+
+    function toggleColumnsAtLeast(min: number = 1) {
+      if (self.activeToggaleColumns.length < min) {
+        for (let i = 0; i < min; i++) {
+          self.toggableColumns[i]?.setToggled(true);
+        }
+      }
     }
 
     function getPersistDataKey(columns: any[]) {
@@ -1463,6 +1486,7 @@ export const TableStore = iRendererStore
       exchange,
       addForm,
       toggleAllColumns,
+      toggleColumnsAtLeast,
       persistSaveToggledColumns,
       setSearchFormExpanded,
       toggleSearchFormExpanded,

@@ -7,7 +7,7 @@ import {Api, ApiObject, Payload} from 'amis-core';
 import update from 'immutability-helper';
 import {isEffectiveApi, isApiOutdated} from 'amis-core';
 import {ScopedContext, IScopedContext} from 'amis-core';
-import {Spinner} from 'amis-ui';
+import {Spinner, SpinnerExtraProps} from 'amis-ui';
 import {BaseSchema, SchemaApi, SchemaClassName, SchemaName} from '../Schema';
 import {createObject} from 'amis-core';
 
@@ -15,7 +15,7 @@ import {createObject} from 'amis-core';
  * Tasks 渲染器，格式说明
  * 文档：https://baidu.gitee.io/amis/docs/components/tasks
  */
-export interface TasksSchema extends BaseSchema {
+export interface TasksSchema extends BaseSchema, SpinnerExtraProps {
   /** 指定为任务类型 */
   type: 'tasks';
 
@@ -353,6 +353,7 @@ export default class Task extends React.Component<TaskProps, TaskState> {
     const {
       classnames: cx,
       className,
+      style,
       tableClassName,
       taskNameLabel,
       operationLabel,
@@ -368,13 +369,14 @@ export default class Task extends React.Component<TaskProps, TaskState> {
       loadingStatusCode,
       canRetryStatusCode,
       translate: __,
-      render
+      render,
+      loadingConfig
     } = this.props;
     const items = this.state.items;
     const error = this.state.error;
 
     return (
-      <div className={cx('Table-content', className)}>
+      <div className={cx('Table-content', className)} style={style}>
         <table className={cx('Table-table', tableClassName)}>
           <thead>
             <tr>
@@ -394,10 +396,13 @@ export default class Task extends React.Component<TaskProps, TaskState> {
             ) : (
               items.map((item, key) => (
                 <tr key={key}>
-                  <td>{item.label}</td>
+                  <td>
+                    <span className={cx('word-break')}>{item.label}</span>
+                  </td>
                   <td>
                     {item.status == loadingStatusCode ? (
                       <Spinner
+                        loadingConfig={loadingConfig}
                         show
                         icon="reload"
                         spinnerClassName={cx('Task-spinner')}

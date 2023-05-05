@@ -145,6 +145,7 @@ export default class AnchorNav extends React.Component<
       classnames: cx,
       classPrefix: ns,
       className,
+      style,
       linkClassName,
       sectionClassName,
       direction,
@@ -176,13 +177,14 @@ export default class AnchorNav extends React.Component<
             : render(`section/${index}`, section.body || '')}
         </AnchorNavSection>
       ) : null
-    );
+    ).filter(item => !!item);
 
     return (
       <CAnchorNav
         classPrefix={ns}
         classnames={cx}
         className={className}
+        style={style}
         linkClassName={linkClassName}
         sectionClassName={sectionClassName}
         onSelect={this.handleSelect}

@@ -18,22 +18,35 @@ export interface InputExcelControlSchema extends FormBaseControlSchema {
   /**
    * 是否解析所有 sheet，默认情况下只解析第一个
    */
-  allSheets: boolean;
+  allSheets?: boolean;
 
   /**
    * 解析模式，array 是解析成二维数组，object 是将第一列作为字段名，解析为对象数组
    */
-  parseMode: 'array' | 'object';
+  parseMode?: 'array' | 'object';
 
   /**
    * 是否包含空内容，主要用于二维数组模式
    */
-  includeEmpty: boolean;
+  includeEmpty?: boolean;
 
   /**
    * 纯文本模式
    */
-  plainText: boolean;
+  plainText?: boolean;
+
+  /**
+   * 解析图片
+   */
+  parseImage?: boolean;
+
+  /** 图片解析结果使用 data URI 格式 */
+  imageDataURI?: boolean;
+
+  /**
+   * 占位文本提示
+   */
+  placeholder?: string;
 }
 
 export interface ExcelProps
@@ -57,7 +70,9 @@ export default class ExcelControl extends React.PureComponent<
     allSheets: false,
     parseMode: 'object',
     includeEmpty: true,
-    plainText: true
+    plainText: true,
+    parseImage: false,
+    imageDataURI: true
   };
 
   state: ExcelControlState = {
@@ -74,44 +89,106 @@ export default class ExcelControl extends React.PureComponent<
 
   @autobind
   handleDrop(files: File[]) {
-    const {allSheets, onChange, dispatchEvent} = this.props;
     const excel = files[0];
+    const fileName = excel.name;
     const reader = new FileReader();
     reader.readAsArrayBuffer(excel);
     reader.onload = async () => {
       if (reader.result) {
-        import('exceljs').then(async (ExcelJS: any) => {
-          this.ExcelJS = ExcelJS;
-          const workbook = new ExcelJS.Workbook();
-          await workbook.xlsx.load(reader.result);
-          let sheetsResult: any[] = [];
-          if (allSheets) {
-            workbook.eachSheet((worksheet: any) => {
-              sheetsResult.push({
-                sheetName: worksheet.name,
-                data: this.readWorksheet(worksheet)
-              });
-            });
-          } else {
-            const worksheet = workbook.worksheets[0];
-            sheetsResult = this.readWorksheet(worksheet);
-          }
-          const dispatcher = await this.dispatchEvent('change', sheetsResult);
-          if (dispatcher?.prevented) {
-            return;
-          }
-          onChange(sheetsResult);
-          this.setState({filename: files[0].name});
-        });
+        // 如果是 xls 就用 xlsx 解析一下转成 xlsx 然后用 exceljs 解析
+        // 为啥不直接用 xlsx 解析内容？因为它的社区版本不支持读图片，只有收费版才支持
+        if (fileName.toLowerCase().endsWith('.xls')) {
+          import('xlsx').then(XLSX => {
+            const workbook = XLSX.read(
+              new Uint8Array(reader.result as ArrayBuffer),
+              {
+                cellDates: true
+              }
+            );
+            const xlsxFile = XLSX.writeXLSX(workbook, {type: 'array'});
+            this.processExcelFile(xlsxFile, fileName);
+          });
+        } else {
+          this.processExcelFile(reader.result, fileName);
+        }
       }
     };
+  }
+
+  processExcelFile(excelData: ArrayBuffer | string, fileName: string) {
+    const {allSheets, onChange, parseImage} = this.props;
+    import('exceljs').then(async (ExcelJS: any) => {
+      this.ExcelJS = ExcelJS;
+      const workbook = new ExcelJS.Workbook();
+      await workbook.xlsx.load(excelData);
+      let sheetsResult: any = [];
+      if (allSheets) {
+        workbook.eachSheet((worksheet: any) => {
+          if (parseImage) {
+            sheetsResult.push({
+              sheetName: worksheet.name,
+              data: this.readWorksheet(worksheet),
+              images: this.readImages(worksheet, workbook)
+            });
+          } else {
+            sheetsResult.push({
+              sheetName: worksheet.name,
+              data: this.readWorksheet(worksheet)
+            });
+          }
+        });
+      } else {
+        const worksheet = workbook.worksheets[0];
+
+        if (parseImage) {
+          const images = this.readImages(worksheet, workbook);
+          sheetsResult = {
+            data: this.readWorksheet(worksheet),
+            images
+          };
+        } else {
+          sheetsResult = this.readWorksheet(worksheet);
+        }
+      }
+      const dispatcher = await this.dispatchEvent('change', sheetsResult);
+      if (dispatcher?.prevented) {
+        return;
+      }
+      onChange(sheetsResult);
+      this.setState({filename: fileName});
+    });
+  }
+
+  /** 读取工作表里的图片 */
+  readImages(worksheet: any, workbook: any) {
+    const {imageDataURI} = this.props;
+    const images = worksheet.getImages();
+    const imgResult: string[] = [];
+    for (const image of images) {
+      const img = workbook.getImage(+image.imageId);
+      const imgBase64 = this.encodeBase64Bytes(img.buffer);
+      if (imageDataURI) {
+        const extension = img.extension || 'png';
+        imgResult.push(`data:image/${extension};base64,` + imgBase64);
+      } else {
+        imgResult.push(imgBase64);
+      }
+    }
+    return imgResult;
+  }
+
+  /** 将 buffer 转成 base64 */
+  encodeBase64Bytes(bytes: Uint8Array): string {
+    return btoa(
+      bytes.reduce((acc, current) => acc + String.fromCharCode(current), '')
+    );
   }
 
   async dispatchEvent(eventName: string, eventData?: Record<string, any>) {
     const {dispatchEvent, data} = this.props;
     return await dispatchEvent(
       eventName,
-      resolveEventData(this.props, {value: eventData}, 'value')
+      resolveEventData(this.props, {value: eventData})
     );
   }
 
@@ -252,9 +329,9 @@ export default class ExcelControl extends React.PureComponent<
       className,
       classnames: cx,
       classPrefix: ns,
-      value,
       disabled,
-      translate: __
+      translate: __,
+      placeholder
     } = this.props;
 
     return (
@@ -262,7 +339,7 @@ export default class ExcelControl extends React.PureComponent<
         <Dropzone
           key="drop-zone"
           onDrop={this.handleDrop}
-          accept=".xlsx"
+          accept=".xlsx,.xls"
           multiple={false}
           disabled={disabled}
         >
@@ -275,7 +352,7 @@ export default class ExcelControl extends React.PureComponent<
                     filename: this.state.filename
                   })
                 ) : (
-                  <p>{__('Excel.placeholder')}</p>
+                  <p>{placeholder ?? __('Excel.placeholder')}</p>
                 )}
               </div>
             </section>

@@ -1,5 +1,11 @@
 import {Enginer} from './tpl';
-import {parse, getFilters, registerFilter, Evaluator} from 'amis-formula';
+import {
+  parse,
+  getFilters,
+  registerFilter,
+  registerFunction,
+  Evaluator
+} from 'amis-formula';
 import {prettyBytes} from './prettyBytes';
 import {escapeHtml} from './escapeHtml';
 import {formatDuration} from './formatDuration';
@@ -10,6 +16,7 @@ import {stripNumber} from './stripNumber';
 import {tokenize} from './tokenize';
 import {resolveVariable} from './resolveVariable';
 import {resolveVariableAndFilter} from './resolveVariableAndFilter';
+import {resolveVariableAndFilterForAsync} from './resolveVariableAndFilterForAsync';
 import {dataMapping, resolveMapping, resolveMappingObject} from './dataMapping';
 import './filter'; // 扩充 formula 里面的 filter
 
@@ -22,12 +29,14 @@ export {
   parseDuration,
   getFilters,
   registerFilter,
+  registerFunction,
   pickValues,
   isPureVariable,
   stripNumber,
   tokenize,
   resolveVariable,
   resolveVariableAndFilter,
+  resolveVariableAndFilterForAsync,
   resolveMapping,
   resolveMappingObject,
   dataMapping

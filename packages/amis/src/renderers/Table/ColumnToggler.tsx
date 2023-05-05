@@ -17,8 +17,8 @@ import {getIcon} from 'amis-ui';
 import {generateIcon} from 'amis-core';
 import {RootClose} from 'amis-core';
 import type {TooltipObject} from 'amis-ui/lib/components/TooltipWrapper';
-import {IColumn} from 'amis-core/lib/store/table';
-import type {IColumn2} from 'amis-core/lib/store/table2';
+import {IColumn} from 'amis-core';
+import type {IColumn2} from 'amis-core';
 
 export interface ColumnTogglerProps extends RendererProps {
   /**
@@ -124,6 +124,7 @@ export interface ColumnTogglerProps extends RendererProps {
   activeToggaleColumns: Array<IColumn | IColumn2>;
   onColumnToggle: (columns: Array<IColumn>) => void;
   modalContainer?: () => HTMLElement;
+  tooltipContainer?: any;
 }
 
 export interface ColumnTogglerState {
@@ -367,7 +368,8 @@ export default class ColumnToggler extends React.Component<
       draggable,
       overlay,
       translate: __,
-      footerBtnSize
+      footerBtnSize,
+      env
     } = this.props;
 
     const {enableSorting, tempColumns} = this.state;
@@ -405,6 +407,7 @@ export default class ColumnToggler extends React.Component<
                     tooltip={column.label || ''}
                     trigger={enableSorting ? [] : 'hover'}
                     key={column.index}
+                    container={modalContainer || env?.getModalContainer}
                   >
                     <li
                       className={cx('ColumnToggler-menuItem')}
@@ -585,7 +588,7 @@ export default class ColumnToggler extends React.Component<
         ) : (
           <TooltipWrapper
             placement={placement}
-            tooltip={disabled ? disabledTip : tooltip}
+            tooltip={disabled ? disabledTip : (tooltip as any)}
             container={tooltipContainer}
             trigger={tooltipTrigger}
             rootClose={tooltipRootClose}

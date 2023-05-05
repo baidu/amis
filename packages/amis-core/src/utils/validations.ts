@@ -99,7 +99,10 @@ export interface ValidateFn {
     arg3?: any,
     arg4?: any,
     arg5?: any
-  ): boolean;
+  ): boolean | {
+    error: boolean;
+    msg?: string;
+  };
 }
 
 export const validations: {
@@ -435,6 +438,13 @@ export const validations: {
       granularity,
       inclusivity
     );
+  },
+  isVariableName: function (values, value, regexp) {
+    return validations.matchRegexp(
+      values,
+      value,
+      regexp instanceof RegExp ? regexp : /^[a-zA-Z_]+[a-zA-Z0-9_]*$/
+    );
   }
 };
 
@@ -463,6 +473,8 @@ export const validateMessages: {
   matchRegexp: 'validate.matchRegexp',
   minLength: 'validate.minLength',
   maxLength: 'validate.maxLength',
+  minLengthArray: 'validate.array.minLength',
+  maxLengthArray: 'validate.array.maxLength',
   maximum: 'validate.maximum',
   lt: 'validate.lt',
   minimum: 'validate.minimum',
@@ -487,7 +499,8 @@ export const validateMessages: {
   isTimeAfter: 'validate.isTimeAfter',
   isTimeSameOrBefore: 'validate.isTimeSameOrBefore',
   isTimeSameOrAfter: 'validate.isTimeSameOrAfter',
-  isTimeBetween: 'validate.isTimeBetween'
+  isTimeBetween: 'validate.isTimeBetween',
+  isVariableName: 'validate.isVariableName'
 };
 
 export function validate(
@@ -505,10 +518,14 @@ export function validate(
     msg: string;
   }> = [];
 
-  rules &&
-    Object.keys(rules).forEach(ruleName => {
+
+  if (rules) {
+    const ruleNames = Object.keys(rules);
+    const length = ruleNames.length;
+    for (let index = 0; index < length; index++) {
+      const ruleName = ruleNames[index];
       if (!rules[ruleName] && rules[ruleName] !== 0) {
-        return;
+        continue;
       } else if (typeof validations[ruleName] !== 'function') {
         throw new Error('Validation `' + ruleName + '` not exists!');
       }
@@ -524,18 +541,42 @@ export function validate(
         return item;
       });
 
-      if (!fn(values, value, ...args)) {
-        errors.push({
+      let validateRes = fn(values, value, ...args);
+
+      // addRule 允许返回
+      //   {error: true, msg: '错误提示'}
+      // 格式的信息来灵活展示错误
+      let fnResErrorMsg = '';
+      if (
+        typeof validateRes === 'object' &&
+        validateRes.error === true
+      ) {
+        fnResErrorMsg = validateRes?.msg ?? '';
+      }
+
+      if (!validateRes || fnResErrorMsg) {
+        let msgRuleName = ruleName;
+        if (Array.isArray(value)) {
+          msgRuleName = `${ruleName}Array`;
+        }
+
+        return [{
           rule: ruleName,
           msg: filter(
-            __((messages && messages[ruleName]) || validateMessages[ruleName]),
+            __(
+                (messages && messages[ruleName]) ||
+                fnResErrorMsg ||
+                validateMessages[msgRuleName] ||
+                validateMessages[ruleName]
+            ),
             {
               ...[''].concat(args)
             }
           )
-        });
+        }];
       }
-    });
+    }
+  }
 
   return errors;
 }

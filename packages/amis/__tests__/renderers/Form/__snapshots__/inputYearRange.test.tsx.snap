@@ -1,0 +1,432 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:inputYearRange with embed 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    style="position: relative;"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            表单
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  年
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-DateRangeControl cxd-Form-control"
+          >
+            <div
+              class="cxd-DateRangeCalendar"
+            >
+              <div
+                class="cxd-DateRangePicker-wrap"
+              >
+                <ul
+                  class="cxd-DateRangePicker-rangers"
+                >
+                  <li
+                    class="cxd-DateRangePicker-ranger"
+                  >
+                    <a>
+                      今年
+                    </a>
+                  </li>
+                  <li
+                    class="cxd-DateRangePicker-ranger"
+                  >
+                    <a>
+                      去年
+                    </a>
+                  </li>
+                </ul>
+                <div
+                  class="cxd-DateRangePicker-picker-wrap"
+                >
+                  <div
+                    class="rdt rdtStatic rdtOpen cxd-DateRangePicker-start rdtTimeWithoutD"
+                  >
+                    <div
+                      class="rdtPicker"
+                    >
+                      <div
+                        class="rdtYears"
+                      >
+                        <table
+                          class="headerTable"
+                        >
+                          <thead>
+                            <tr>
+                              <th
+                                class="rdtPrev"
+                              >
+                                «
+                              </th>
+                              <th
+                                class="rdtSwitch"
+                              >
+                                1990 年 - 1999 年
+                              </th>
+                              <th
+                                class="rdtNext"
+                              >
+                                »
+                              </th>
+                            </tr>
+                          </thead>
+                        </table>
+                        <table>
+                          <tbody>
+                            <tr>
+                              <td
+                                class="rdtYear text-muted"
+                                data-value="1989"
+                              >
+                                <span>
+                                  1989
+                                </span>
+                              </td>
+                              <td
+                                class="rdtYear"
+                                data-value="1990"
+                              >
+                                <span>
+                                  1990
+                                </span>
+                              </td>
+                              <td
+                                class="rdtYear"
+                                data-value="1991"
+                              >
+                                <span>
+                                  1991
+                                </span>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td
+                                class="rdtYear"
+                                data-value="1992"
+                              >
+                                <span>
+                                  1992
+                                </span>
+                              </td>
+                              <td
+                                class="rdtYear"
+                                data-value="1993"
+                              >
+                                <span>
+                                  1993
+                                </span>
+                              </td>
+                              <td
+                                class="rdtYear"
+                                data-value="1994"
+                              >
+                                <span>
+                                  1994
+                                </span>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td
+                                class="rdtYear rdtActive rdtBetween"
+                                data-value="1995"
+                              >
+                                <span>
+                                  1995
+                                </span>
+                              </td>
+                              <td
+                                class="rdtYear rdtBetween"
+                                data-value="1996"
+                              >
+                                <span>
+                                  1996
+                                </span>
+                              </td>
+                              <td
+                                class="rdtYear rdtBetween"
+                                data-value="1997"
+                              >
+                                <span>
+                                  1997
+                                </span>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td
+                                class="rdtYear rdtBetween"
+                                data-value="1998"
+                              >
+                                <span>
+                                  1998
+                                </span>
+                              </td>
+                              <td
+                                class="rdtYear rdtBetween"
+                                data-value="1999"
+                              >
+                                <span>
+                                  1999
+                                </span>
+                              </td>
+                              <td
+                                class="rdtYear text-muted rdtBetween"
+                                data-value="2000"
+                              >
+                                <span>
+                                  2000
+                                </span>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="rdt rdtStatic rdtOpen cxd-DateRangePicker-end rdtTimeWithoutD"
+                  >
+                    <div
+                      class="rdtPicker"
+                    >
+                      <div
+                        class="rdtYears"
+                      >
+                        <table
+                          class="headerTable"
+                        >
+                          <thead>
+                            <tr>
+                              <th
+                                class="rdtPrev"
+                              >
+                                «
+                              </th>
+                              <th
+                                class="rdtSwitch"
+                              >
+                                2070 年 - 2079 年
+                              </th>
+                              <th
+                                class="rdtNext"
+                              >
+                                »
+                              </th>
+                            </tr>
+                          </thead>
+                        </table>
+                        <table>
+                          <tbody>
+                            <tr>
+                              <td
+                                class="rdtYear text-muted rdtBetween"
+                                data-value="2069"
+                              >
+                                <span>
+                                  2069
+                                </span>
+                              </td>
+                              <td
+                                class="rdtYear rdtBetween"
+                                data-value="2070"
+                              >
+                                <span>
+                                  2070
+                                </span>
+                              </td>
+                              <td
+                                class="rdtYear rdtBetween"
+                                data-value="2071"
+                              >
+                                <span>
+                                  2071
+                                </span>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td
+                                class="rdtYear rdtBetween"
+                                data-value="2072"
+                              >
+                                <span>
+                                  2072
+                                </span>
+                              </td>
+                              <td
+                                class="rdtYear rdtBetween"
+                                data-value="2073"
+                              >
+                                <span>
+                                  2073
+                                </span>
+                              </td>
+                              <td
+                                class="rdtYear rdtBetween"
+                                data-value="2074"
+                              >
+                                <span>
+                                  2074
+                                </span>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td
+                                class="rdtYear rdtBetween"
+                                data-value="2075"
+                              >
+                                <span>
+                                  2075
+                                </span>
+                              </td>
+                              <td
+                                class="rdtYear rdtActive rdtBetween"
+                                data-value="2076"
+                              >
+                                <span>
+                                  2076
+                                </span>
+                              </td>
+                              <td
+                                class="rdtYear is-disabled"
+                                data-value="2077"
+                              >
+                                <span>
+                                  2077
+                                </span>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td
+                                class="rdtYear is-disabled"
+                                data-value="2078"
+                              >
+                                <span>
+                                  2078
+                                </span>
+                              </td>
+                              <td
+                                class="rdtYear is-disabled"
+                                data-value="2079"
+                              >
+                                <span>
+                                  2079
+                                </span>
+                              </td>
+                              <td
+                                class="rdtYear text-muted is-disabled"
+                                data-value="2080"
+                              >
+                                <span>
+                                  2080
+                                </span>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div
+      class="cxd-Panel-footerWrap"
+    >
+      <div
+        class="cxd-Panel-btnToolbar cxd-Panel-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+          type="submit"
+        >
+          <span>
+            Submit
+          </span>
+        </button>
+      </div>
+    </div>
+    <div
+      class="resize-sensor"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+    >
+      
+  
+      <div
+        class="resize-sensor-expand"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-shrink"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
+    </div>
+  </div>
+</div>
+`;

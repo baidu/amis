@@ -47,6 +47,7 @@ export default class Each extends React.Component<EachProps> {
       data,
       name,
       className,
+      style,
       render,
       items,
       placeholder,
@@ -70,7 +71,7 @@ export default class Each extends React.Component<EachProps> {
       : [];
 
     return (
-      <div className={cx('Each', className)}>
+      <div className={cx('Each', className)} style={style}>
         {Array.isArray(arr) && arr.length && items ? (
           arr.map((item: any, index: number) =>
             render(`item/${index}`, items, {

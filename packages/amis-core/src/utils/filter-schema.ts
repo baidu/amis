@@ -17,7 +17,7 @@ import cx from 'classnames';
 export function getExprProperties(
   schema: PlainObject,
   data: object = {},
-  blackList: Array<string> = ['addOn'],
+  blackList: Array<string> = ['addOn', 'ref'],
   props?: any
 ): PlainObject {
   const exprProps: PlainObject = {};

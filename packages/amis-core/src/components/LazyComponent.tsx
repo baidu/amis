@@ -8,8 +8,8 @@ import React from 'react';
 import VisibilitySensor from 'react-visibility-sensor';
 
 export interface LazyComponentProps {
-  component?: React.ReactType;
-  getComponent?: () => Promise<React.ReactType>;
+  component?: React.ElementType;
+  getComponent?: () => Promise<React.ElementType>;
   placeholder?: React.ReactNode;
   unMountOnHidden?: boolean;
   childProps?: object;
@@ -19,7 +19,7 @@ export interface LazyComponentProps {
 
 export interface LazyComponentState {
   visible: boolean;
-  component?: React.ReactType;
+  component?: React.ElementType;
 }
 
 export default class LazyComponent extends React.Component<
@@ -41,7 +41,7 @@ export default class LazyComponent extends React.Component<
 
     this.state = {
       visible: false,
-      component: props.component as React.ReactType
+      component: props.component as React.ElementType
     };
   }
 
@@ -86,7 +86,7 @@ export default class LazyComponent extends React.Component<
       );
   }
 
-  render() {
+  render(): React.ReactNode {
     const {
       placeholder,
       unMountOnHidden,

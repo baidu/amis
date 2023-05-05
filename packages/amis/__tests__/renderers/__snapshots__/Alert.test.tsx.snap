@@ -13,6 +13,7 @@ exports[`Renderer:alert 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Alert cxd-Alert--success"
@@ -53,6 +54,7 @@ exports[`Renderer:alert var 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Alert cxd-Alert--success"
@@ -75,7 +77,209 @@ exports[`Renderer:alert var 1`] = `
                   class="cxd-TplField"
                 >
                   <span>
-                    tpl
+                    百度一下，你就知道
+                  </span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:alert with level 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+          role="page-body"
+        >
+          <div
+            class="cxd-Alert cxd-Alert--info"
+          >
+            <div
+              class="cxd-Alert-content"
+            >
+              <div
+                class="cxd-Alert-desc"
+              >
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    提示类文案
+                  </span>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div
+            class="cxd-Alert cxd-Alert--success"
+          >
+            <div
+              class="cxd-Alert-content"
+            >
+              <div
+                class="cxd-Alert-desc"
+              >
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    成功类文案
+                  </span>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div
+            class="cxd-Alert cxd-Alert--warning"
+          >
+            <div
+              class="cxd-Alert-content"
+            >
+              <div
+                class="cxd-Alert-desc"
+              >
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    警告类文案
+                  </span>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div
+            class="cxd-Alert cxd-Alert--danger"
+          >
+            <div
+              class="cxd-Alert-content"
+            >
+              <div
+                class="cxd-Alert-desc"
+              >
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    危险类文案
+                  </span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:alert with showCloseButton & closeButtonClassName 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+          role="page-body"
+        >
+          <div
+            class="cxd-Alert cxd-Alert--info"
+          >
+            <div
+              class="cxd-Alert-content"
+            >
+              <div
+                class="cxd-Alert-desc"
+              >
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    提示信息
+                  </span>
+                </span>
+              </div>
+            </div>
+            <button
+              class="cxd-Alert-close classNameForClose"
+              type="button"
+            >
+              <icon-mock
+                classname="icon icon-close"
+                icon="close"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:alert with title & showIcon & icon & iconClassName 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+          role="page-body"
+        >
+          <div
+            class="cxd-Alert cxd-Alert--info cxd-Alert-has-title"
+          >
+            <div
+              class="cxd-Alert-icon starClass"
+            >
+              <icon-mock
+                classname="icon icon-star"
+                icon="star"
+              />
+            </div>
+            <div
+              class="cxd-Alert-content"
+            >
+              <div
+                class="cxd-Alert-title"
+              >
+                提示类文案
+              </div>
+              <div
+                class="cxd-Alert-desc"
+              >
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    提示类文案
                   </span>
                 </span>
               </div>

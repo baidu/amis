@@ -154,6 +154,7 @@ export class Radios extends React.Component<RadioProps, any> {
       value,
       options,
       className,
+      style,
       classnames: cx,
       placeholder,
       columnsCount,
@@ -184,7 +185,7 @@ export class Radios extends React.Component<RadioProps, any> {
     }
 
     return (
-      <div className={className}>
+      <div className={className} style={style}>
         {body && body.length ? body : placeholder}
       </div>
     );

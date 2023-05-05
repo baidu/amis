@@ -6,6 +6,7 @@ import {normalizeLink} from 'amis-core';
 import {withRouter} from 'react-router';
 import copy from 'copy-to-clipboard';
 import {qsparse, parseQuery} from 'amis-core';
+import isPlainObject from 'lodash/isPlainObject';
 
 function loadEditor() {
   return new Promise(resolve =>
@@ -15,7 +16,15 @@ function loadEditor() {
 
 const viewMode = localStorage.getItem('amis-viewMode') || 'pc';
 
-export default function (schema, showCode, envOverrides) {
+/**
+ *
+ * @param {*} schema schema配置
+ * @param {*} schemaProps props配置
+ * @param {*} showCode 是否展示代码
+ * @param {Object} envOverrides 覆写环境变量
+ * @returns
+ */
+export default function (schema, schemaProps, showCode, envOverrides) {
   if (!schema['$schema']) {
     schema = {
       ...schema
@@ -202,6 +211,7 @@ export default function (schema, showCode, envOverrides) {
             {
               schema: schema,
               props: {
+                ...(isPlainObject(schemaProps) ? schemaProps : {}),
                 location: this.props.location,
                 theme: this.props.theme,
                 locale: this.props.locale
@@ -244,6 +254,7 @@ export default function (schema, showCode, envOverrides) {
         return render(
           schema,
           {
+            ...(isPlainObject(schemaProps) ? schemaProps : {}),
             location,
             theme,
             locale

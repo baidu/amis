@@ -156,7 +156,8 @@ export default class Code extends React.Component<CodeProps> {
     'editorTheme',
     'tabSize',
     'wordWrap',
-    'customLang'
+    'customLang',
+    'style'
   ];
 
   static defaultProps: Partial<CodeProps> = {
@@ -319,6 +320,7 @@ export default class Code extends React.Component<CodeProps> {
     const sourceCode = getPropValue(this.props);
     const {
       className,
+      style,
       classnames: cx,
       editorTheme,
       customLang,
@@ -348,6 +350,7 @@ export default class Code extends React.Component<CodeProps> {
           },
           className
         )}
+        style={style}
         data-lang={language}
       >
         {sourceCode}

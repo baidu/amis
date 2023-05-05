@@ -531,6 +531,7 @@ exports[`Renderer:Wizard dialog 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal"
@@ -747,6 +748,10 @@ exports[`Renderer:Wizard dialog 1`] = `
           data-position="left"
           data-tooltip="关闭"
         >
+          <div
+            class=" Dialog-close"
+            style="display: none;"
+          />
           <icon-mock
             classname="icon icon-close"
             icon="close"
@@ -760,6 +765,7 @@ exports[`Renderer:Wizard dialog 1`] = `
       </div>
       <div
         class="cxd-Modal-body"
+        role="dialog-body"
       >
         <div
           class="cxd-Form cxd-Form--horizontal"
@@ -848,6 +854,7 @@ exports[`Renderer:Wizard dialog 2`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal"
@@ -1278,6 +1285,7 @@ exports[`Renderer:Wizard initApi reload 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal"
@@ -1479,6 +1487,7 @@ exports[`Renderer:Wizard initApi reload 2`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal"
@@ -1620,6 +1629,7 @@ exports[`Renderer:Wizard initApi reload 3`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal"
@@ -2629,6 +2639,7 @@ exports[`Renderer:Wizard target 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal"

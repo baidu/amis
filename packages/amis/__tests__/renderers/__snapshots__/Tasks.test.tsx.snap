@@ -13,6 +13,7 @@ exports[`Renderer:tesks 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <div
             class="cxd-Table-content"
@@ -39,7 +40,11 @@ exports[`Renderer:tesks 1`] = `
               <tbody>
                 <tr>
                   <td>
-                    hive 任务
+                    <span
+                      class="word-break"
+                    >
+                      hive 任务
+                    </span>
                   </td>
                   <td>
                     <a
@@ -74,7 +79,11 @@ exports[`Renderer:tesks 1`] = `
                 </tr>
                 <tr>
                   <td>
-                    小流量
+                    <span
+                      class="word-break"
+                    >
+                      小流量
+                    </span>
                   </td>
                   <td>
                     <a
@@ -94,7 +103,11 @@ exports[`Renderer:tesks 1`] = `
                 </tr>
                 <tr>
                   <td>
-                    全量
+                    <span
+                      class="word-break"
+                    >
+                      全量
+                    </span>
                   </td>
                   <td>
                     <a

@@ -1,6 +1,7 @@
 // https://json-schema.org/draft-07/json-schema-release-notes.html
 import type {JSONSchema7} from 'json-schema';
 import {ListenerAction} from './actions/Action';
+import {debounceConfig} from './utils/renderer-event';
 
 export interface Option {
   /**
@@ -190,6 +191,14 @@ export interface BaseApiObject {
    * autoFill 是否显示自动填充错误提示
    */
   silent?: boolean;
+
+  /**
+   * 提示信息
+   */
+  messages?: {
+    success?: string;
+    failed?: string;
+  };
 }
 
 export type ClassName =
@@ -203,12 +212,15 @@ export interface ApiObject extends BaseApiObject {
     withCredentials?: boolean;
     cancelExecutor?: (cancel: Function) => void;
   };
+  jsonql?: any;
   graphql?: string;
   operationName?: string;
   body?: PlainObject;
   query?: PlainObject;
   adaptor?: (payload: object, response: fetcherResult, api: ApiObject) => any;
   requestAdaptor?: (api: ApiObject) => ApiObject;
+  /** 是否过滤为空字符串的 query 参数 */
+  filterEmptyQuery?: boolean;
 }
 export type ApiString = string;
 export type Api = ApiString | ApiObject;
@@ -424,6 +436,7 @@ export interface EventTrack {
     | 'reset-and-submit'
     | 'formItemChange'
     | 'tabChange'
+    | 'pageLoaded'
     | 'pageHidden'
     | 'pageVisible';
 
@@ -494,7 +507,7 @@ interface LinkItemProps {
   children?: Array<LinkItem>;
   path?: string;
   icon?: string;
-  component?: React.ReactType;
+  component?: React.ElementType;
 }
 
 export interface NavigationObject {
@@ -584,6 +597,7 @@ export interface BaseSchemaWithoutType {
     [propName: string]: {
       weight?: number; // 权重
       actions: ListenerAction[]; // 执行的动作集
+      debounce?: debounceConfig;
     };
   };
   /**
@@ -612,3 +626,70 @@ export interface BaseSchemaWithoutType {
   staticInputClassName?: SchemaClassName;
   staticSchema?: any;
 }
+
+export type OperatorType =
+  | 'equal'
+  | 'not_equal'
+  | 'is_empty'
+  | 'is_not_empty'
+  | 'like'
+  | 'not_like'
+  | 'starts_with'
+  | 'ends_with'
+  | 'less'
+  | 'less_or_equal'
+  | 'greater'
+  | 'greater_or_equal'
+  | 'between'
+  | 'not_between'
+  | 'select_equals'
+  | 'select_not_equals'
+  | 'select_any_in'
+  | 'select_not_any_in'
+  | {
+      label: string;
+      value: string;
+    };
+
+export type ExpressionSimple = string | number | object | undefined;
+export type ExpressionValue =
+  | ExpressionSimple
+  | {
+      type: 'value';
+      value: ExpressionSimple;
+    };
+export type ExpressionFunc = {
+  type: 'func';
+  func: string;
+  args: Array<ExpressionComplex>;
+};
+export type ExpressionField = {
+  type: 'field';
+  field: string;
+};
+export type ExpressionFormula = {
+  type: 'formula';
+  value: string;
+};
+
+export type ExpressionComplex =
+  | ExpressionValue
+  | ExpressionFunc
+  | ExpressionField
+  | ExpressionFormula;
+
+export interface ConditionRule {
+  id: any;
+  left?: ExpressionComplex;
+  op?: OperatorType;
+  right?: ExpressionComplex | Array<ExpressionComplex>;
+}
+
+export interface ConditionGroupValue {
+  id: string;
+  conjunction: 'and' | 'or';
+  not?: boolean;
+  children?: Array<ConditionRule | ConditionGroupValue>;
+}
+
+export interface ConditionValue extends ConditionGroupValue {}

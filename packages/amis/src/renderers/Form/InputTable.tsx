@@ -15,13 +15,18 @@ import {
   SimpleMap,
   RendererData,
   ActionObject,
-  Api,
   Payload,
   ApiObject,
   autobind,
   isExpression,
   ITableStore,
-  generateIcon
+  generateIcon,
+  isPureVariable,
+  resolveVariableAndFilter,
+  getRendererByName,
+  resolveEventData,
+  ListenerAction,
+  evalExpressionWithConditionBuilder
 } from 'amis-core';
 import {Button, Icon} from 'amis-ui';
 import omit from 'lodash/omit';
@@ -30,9 +35,13 @@ import cloneDeep from 'lodash/cloneDeep';
 import isEqual from 'lodash/isEqual';
 import inRange from 'lodash/inRange';
 import {TableSchema} from '../Table';
-import {SchemaApi} from '../../Schema';
+import {SchemaApi, SchemaCollection} from '../../Schema';
 import find from 'lodash/find';
 import moment from 'moment';
+import merge from 'lodash/merge';
+import mergeWith from 'lodash/mergeWith';
+
+import type {SchemaTokenizeableString} from '../../Schema';
 
 export interface TableControlSchema
   extends FormBaseControl,
@@ -83,11 +92,6 @@ export interface TableControlSchema
    * 新增按钮图标
    */
   addBtnIcon?: string;
-
-  /**
-   * 显示新增按钮
-   */
-  showAddBtn?: boolean;
 
   /**
    * 可否删除
@@ -183,6 +187,31 @@ export interface TableControlSchema
    * 分页个数，默认不分页
    */
   perPage?: number;
+
+  /**
+   * 限制最大个数
+   */
+  maxLength?: number | SchemaTokenizeableString;
+
+  /**
+   * 限制最小个数
+   */
+  minLength?: number | SchemaTokenizeableString;
+
+  /**
+   * 是否显示底部新增按钮
+   */
+  showFooterAddBtn?: boolean;
+
+  /**
+   * 是否显示表格操作栏新增按钮
+   */
+  showTableAddBtn?: boolean;
+
+  /**
+   * 底部新增按钮配置
+   */
+  footerAddBtn?: SchemaCollection;
 }
 
 export interface TableProps
@@ -194,12 +223,26 @@ export interface TableProps
 
 export interface TableState {
   items: Array<any>;
-  raw?: any;
   columns: Array<any>;
   editIndex: number;
   isCreateMode?: boolean;
   page?: number;
 }
+
+export type FormTableRendererEvent =
+  | 'add'
+  | 'addConfirm'
+  | 'addSuccess'
+  | 'addFail'
+  | 'edit'
+  | 'editConfirm'
+  | 'editSuccess'
+  | 'editFail'
+  | 'delete'
+  | 'deleteSuccess'
+  | 'deleteFail';
+
+export type FormTableRendererAction = 'add' | 'delete' | 'reset' | 'clear';
 
 export default class FormTable extends React.Component<TableProps, TableState> {
   static defaultProps = {
@@ -211,7 +254,11 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     deleteBtnIcon: 'minus',
     confirmBtnIcon: 'check',
     cancelBtnIcon: 'close',
-    valueField: ''
+    valueField: '',
+    minLength: 0,
+    maxLength: Infinity,
+    showFooterAddBtn: true,
+    showTableAddBtn: true
   };
 
   static propsList: Array<string> = [
@@ -220,7 +267,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     'columns',
     'label',
     'scaffold',
-    'showAddBtn',
+    'showTableAddBtn',
     'addable',
     'removable',
     'copyable',
@@ -265,6 +312,21 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     const props = this.props;
     let toUpdate: any = null;
 
+    // 如果static为true 或 disabled为true，
+    // 则删掉正在新增 或 编辑的那一行
+    if (
+      props.$schema.disabled !== nextProps.$schema.disabled ||
+      props.$schema.static !== nextProps.$schema.static
+    ) {
+      const items = this.state.items.filter(item => !item.__isPlaceholder);
+      toUpdate = {
+        ...toUpdate,
+        items,
+        editIndex: -1,
+        columns: this.buildColumns(props)
+      };
+    }
+
     if (props.columns !== nextProps.columns) {
       toUpdate = {
         ...toUpdate,
@@ -276,8 +338,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       toUpdate = {
         ...toUpdate,
         items: Array.isArray(props.value) ? props.value.concat() : [],
-        editIndex: -1,
-        raw: undefined
+        editIndex: -1
       };
     }
 
@@ -288,12 +349,42 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     this.entries.dispose();
   }
 
+  resolveVariableProps(props: TableProps, key: 'minLength' | 'maxLength') {
+    const defaultMap = {
+      minLength: 0,
+      maxLength: Infinity
+    };
+    let value = props[key];
+
+    if (!value) {
+      return defaultMap[key];
+    }
+
+    if (typeof value === 'string') {
+      if (isPureVariable(value)) {
+        const resolved = resolveVariableAndFilter(value, props.data, '| raw');
+        value = (
+          typeof resolved === 'number' && resolved >= 0
+            ? resolved
+            : defaultMap[key]
+        ) as number;
+      } else {
+        const parsed = parseInt(value, 10);
+        value = (isNaN(parsed) ? defaultMap[key] : parsed) as number;
+      }
+    }
+
+    return value;
+  }
+
   subFormRef(form: any, x: number, y: number) {
     this.subForms[`${x}-${y}`] = form;
   }
 
   async validate(): Promise<string | void> {
-    const {value, minLength, maxLength, translate: __, columns} = this.props;
+    const {value, translate: __, columns} = this.props;
+    const minLength = this.resolveVariableProps(this.props, 'minLength');
+    const maxLength = this.resolveVariableProps(this.props, 'maxLength');
 
     // todo: 如果当前正在编辑中，表单提交了，应该先让正在编辑的东西提交然后再做验证。
     if (~this.state.editIndex) {
@@ -362,11 +453,12 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     );
   }
 
-  emitValue() {
+  async emitValue() {
     const items = this.state.items.filter(item => !item.__isPlaceholder);
     const {onChange} = this.props;
-
-    onChange?.(items);
+    const isPrevented = await this.dispatchEvent('change');
+    isPrevented || onChange?.(items);
+    return isPrevented;
   }
 
   async doAction(action: ActionObject, ctx: RendererData, ...rest: Array<any>) {
@@ -374,15 +466,16 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       onAction,
       valueField,
       env,
-      onChange,
-      editable,
       needConfirm,
       addable,
       addApi,
-      translate: __
+      translate: __,
+      onChange
     } = this.props;
 
-    if (action.actionType === 'add') {
+    const actionType = action.actionType as string;
+
+    if (actionType === 'add') {
       if (addable === false) {
         return;
       }
@@ -395,7 +488,11 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         if (isEffectiveApi(addApi, ctx)) {
           const payload = await env.fetcher(addApi, ctx);
           if (payload && !payload.ok) {
-            env.notify('error', payload.msg || __('fetchFailed'));
+            env.notify(
+              'error',
+              (addApi as ApiObject)?.messages?.failed ??
+                (payload.msg || __('fetchFailed'))
+            );
             return;
           } else if (payload && payload.ok) {
             toAdd = payload.data;
@@ -423,22 +520,19 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             items
           },
           () => {
-            this.emitValue();
-
             if (toAdd.length === 1 && needConfirm !== false) {
               this.startEdit(items.length - 1, true);
+            } else {
+              onChange?.(items);
             }
           }
         );
 
         return;
       } else {
-        return this.addItem(items.length - 1);
+        return this.addItem(items.length - 1, false);
       }
-    } else if (
-      action.actionType === 'remove' ||
-      action.actionType === 'delete'
-    ) {
+    } else if (actionType === 'remove' || actionType === 'delete') {
       if (!valueField) {
         return env.alert(__('Table.valueField'));
       } else if (!action.payload) {
@@ -463,27 +557,41 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         {
           items
         },
-        () => this.emitValue()
+        () => {
+          onChange?.(items);
+        }
       );
 
-      // todo 如果配置删除 Api 怎么办？
       return;
     }
-
     return onAction && onAction(action, ctx, ...rest);
   }
 
-  copyItem(index: number) {
+  async copyItem(index: number) {
     const {needConfirm} = this.props;
     const items = this.state.items.concat();
 
-    items.splice(index + 1, 0, items[index]);
+    if (needConfirm === false) {
+      items.splice(index + 1, 0, items[index]);
+    } else {
+      // 复制相当于新增一行
+      // 需要同addItem一致添加__placeholder属性
+      items.splice(index + 1, 0, {
+        ...items[index],
+        __isPlaceholder: true
+      });
+    }
     index = Math.min(index + 1, items.length - 1);
     this.setState(
       {
         items
       },
-      () => {
+      async () => {
+        // 派发add事件
+        const isPrevented = await this.dispatchEvent('add', {index});
+        if (isPrevented) {
+          return;
+        }
         if (needConfirm === false) {
           this.emitValue();
         } else {
@@ -493,7 +601,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     );
   }
 
-  addItem(index: number) {
+  async addItem(index: number, isDispatch: boolean = true) {
     const {needConfirm, scaffold, columns, data} = this.props;
     const items = this.state.items.concat();
     let value: any = {
@@ -533,10 +641,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       });
     }
 
-    value = {
-      ...value,
-      ...scaffold
-    };
+    value = merge({}, value, scaffold);
 
     if (needConfirm === false) {
       delete value.__isPlaceholder;
@@ -549,7 +654,13 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       {
         items
       },
-      () => {
+      async () => {
+        if (isDispatch) {
+          const isPrevented = await this.dispatchEvent('add', {index});
+          if (isPrevented) {
+            return;
+          }
+        }
         if (needConfirm === false) {
           this.emitValue();
         } else {
@@ -559,12 +670,41 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     );
   }
 
+  /**
+   * 点击“编辑”按钮
+   * @param index 编辑的行索引
+   */
+  async editItem(index: number) {
+    const {items} = this.state;
+    const item = items[index];
+    const isPrevented = await this.dispatchEvent('edit', {index, item});
+    !isPrevented && this.startEdit(index, true);
+  }
+
+  /**
+   * 派发事件
+   * @param eventName 事件名称
+   * @param eventData 事件数据
+   * @returns
+   */
+  async dispatchEvent(eventName: string, eventData: any = {}) {
+    const {dispatchEvent} = this.props;
+    const {items} = this.state;
+    const rendererEvent = await dispatchEvent(
+      eventName,
+      resolveEventData(this.props, {
+        value: [...items],
+        ...eventData
+      })
+    );
+
+    return !!rendererEvent?.prevented;
+  }
+
   startEdit(index: number, isCreate: boolean = false) {
     this.setState({
       editIndex: index,
       isCreateMode: isCreate,
-      raw: this.state.items[index],
-
       columns: this.buildColumns(this.props, isCreate)
     });
   }
@@ -579,29 +719,63 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     );
     subForms.forEach(form => form.flush());
 
+    const validateForms: Array<any> = [];
+    Object.keys(this.subForms).forEach(key => {
+      const arr = key.split('-');
+      const num = +arr[1];
+      if (num === this.state.editIndex && this.subForms[key]) {
+        validateForms.push(this.subForms[key]);
+      }
+    });
+
+    const results = await Promise.all(
+      validateForms.map(item => item.validate())
+    );
+
+    // 有校验不通过的
+    if (~results.indexOf(false)) {
+      return;
+    }
+
     const items = this.state.items.concat();
     let item = {
       ...items[this.state.editIndex]
     };
-    const isNew = item.__isPlaceholder;
+    const isNew = !!item.__isPlaceholder;
+    const confirmEventName = isNew ? 'addConfirm' : 'editConfirm';
+    let isPrevented = await this.dispatchEvent(confirmEventName, {
+      index: this.state.editIndex,
+      item
+    });
+    if (isPrevented) {
+      return;
+    }
 
     let remote: Payload | null = null;
+    let apiMsg = undefined;
     if (isNew && isEffectiveApi(addApi, createObject(data, item))) {
       remote = await env.fetcher(addApi, createObject(data, item));
+      apiMsg = (addApi as ApiObject)?.messages?.failed;
     } else if (isEffectiveApi(updateApi, createObject(data, item))) {
       remote = await env.fetcher(updateApi, createObject(data, item));
+      apiMsg = (updateApi as ApiObject)?.messages?.failed;
     }
 
     if (remote && !remote.ok) {
-      env.notify('error', remote.msg || __('saveFailed'));
+      env.notify('error', apiMsg ?? (remote.msg || __('saveFailed')));
+      const failEventName = isNew ? 'addFail' : 'editFail';
+      this.dispatchEvent(failEventName, {
+        index: this.state.editIndex,
+        item,
+        error: remote
+      });
       return;
     } else if (remote && remote.ok) {
-      item = {
-        ...(((isNew ? addApi : updateApi) as ApiObject).replaceData
-          ? {}
-          : item),
-        ...remote.data
-      };
+      item = merge(
+        {},
+        ((isNew ? addApi : updateApi) as ApiObject).replaceData ? {} : item,
+        remote.data
+      );
     }
 
     delete item.__isPlaceholder;
@@ -611,26 +785,31 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       {
         editIndex: -1,
         items: items,
-        raw: undefined
+        columns: this.buildColumns(this.props)
       },
-      this.emitValue
+      async () => {
+        const isPrevented = await this.emitValue();
+        if (isPrevented) {
+          return;
+        }
+        const successEventName = isNew ? 'addSuccess' : 'editSuccess';
+        this.dispatchEvent(successEventName, {
+          index: this.state.editIndex,
+          item
+        });
+      }
     );
   }
 
   cancelEdit() {
     let items = this.state.items.concat();
-
-    if (this.state.isCreateMode) {
-      items = items.filter(item => !item.__isPlaceholder);
-    } else if (this.state.raw) {
-      items.splice(this.state.editIndex, 1, this.state.raw);
-    }
+    items.splice(this.state.editIndex, 1);
 
     this.setState(
       {
         editIndex: -1,
-        raw: undefined,
-        items: items
+        items: items,
+        columns: this.buildColumns(this.props)
       },
       this.emitValue
     );
@@ -654,6 +833,11 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       return;
     }
 
+    let isPrevented = await this.dispatchEvent('delete', {index, item});
+    if (isPrevented) {
+      return;
+    }
+
     const ctx = createObject(data, item);
     if (isEffectiveApi(deleteApi, ctx)) {
       const confirmed = await env.confirm(
@@ -667,7 +851,11 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       const result = await env.fetcher(deleteApi, ctx);
 
       if (!result.ok) {
-        env.notify('error', __('deleteFailed'));
+        env.notify(
+          'error',
+          (deleteApi as ApiObject)?.messages?.failed ?? __('deleteFailed')
+        );
+        this.dispatchEvent('deleteFail', {index, item, error: result});
         return;
       }
     }
@@ -675,6 +863,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     this.removeEntry(item);
     newValue.splice(index, 1);
     onChange(newValue);
+    this.dispatchEvent('deleteSuccess', {value: newValue, index, item});
   }
 
   buildItemProps(item: any, index: number) {
@@ -711,9 +900,13 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     const __ = this.props.translate;
     const needConfirm = this.props.needConfirm;
     const showIndex = this.props.showIndex;
+    const minLength = this.resolveVariableProps(this.props, 'minLength');
+    const maxLength = this.resolveVariableProps(this.props, 'maxLength');
+    const isStatic = this.props.static;
+    const disabled = this.props.disabled;
 
     let btns = [];
-    if (props.addable && props.showAddBtn !== false) {
+    if (!isStatic && props.addable && props.showTableAddBtn !== false) {
       btns.push({
         children: ({
           key,
@@ -724,7 +917,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
           rowIndex: number;
           offset: number;
         }) =>
-          ~this.state.editIndex && needConfirm !== false ? null : (
+          (~this.state.editIndex && needConfirm !== false) ||
+          maxLength <= this.state.items.length ? null : (
             <Button
               classPrefix={ns}
               size="sm"
@@ -734,9 +928,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               tooltipContainer={
                 env && env.getModalContainer ? env.getModalContainer : undefined
               }
+              disabled={disabled}
               onClick={this.addItem.bind(this, rowIndex + offset, undefined)}
             >
-              {props.addBtnLabel ? <span>{props.addBtnLabel}</span> : null}
               {props.addBtnIcon ? (
                 typeof props.addBtnIcon === 'string' ? (
                   <Icon icon={props.addBtnIcon} className="icon" />
@@ -744,12 +938,13 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                   generateIcon(props.classnames, props.addBtnIcon)
                 )
               ) : null}
+              {props.addBtnLabel ? <span>{props.addBtnLabel}</span> : null}
             </Button>
           )
       });
     }
 
-    if (props.copyable && props.showCopyBtn !== false) {
+    if (!isStatic && props.copyable && props.showCopyBtn !== false) {
       btns.push({
         children: ({
           key,
@@ -770,9 +965,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               tooltipContainer={
                 env && env.getModalContainer ? env.getModalContainer : undefined
               }
+              disabled={disabled}
               onClick={this.copyItem.bind(this, rowIndex + offset, undefined)}
             >
-              {props.copyBtnLabel ? <span>{props.copyBtnLabel}</span> : null}
               {props.copyBtnIcon ? (
                 typeof props.copyBtnIcon === 'string' ? (
                   <Icon icon={props.copyBtnIcon} className="icon" />
@@ -780,6 +975,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                   generateIcon(props.classnames, props.copyBtnIcon)
                 )
               ) : null}
+              {props.copyBtnLabel ? <span>{props.copyBtnLabel}</span> : null}
             </Button>
           )
       });
@@ -797,16 +993,23 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                 ...this.columnToQuickEdit(column),
                 ...quickEdit,
                 saveImmediately: true,
-                mode: 'inline'
+                mode: 'inline',
+                disabled,
+                static: isStatic
               }
             };
       });
-    } else if (props.addable || props.editable || isCreateMode) {
+    } else if (
+      isStatic !== true &&
+      (props.addable || props.editable || isCreateMode)
+    ) {
       columns = columns.map(column => {
         const quickEdit =
           !isCreateMode && column.hasOwnProperty('quickEditOnUpdate')
             ? column.quickEditOnUpdate
             : column.quickEdit;
+
+        const render = getRendererByName(column?.type);
 
         return quickEdit === false
           ? omit(column, ['quickEdit'])
@@ -815,13 +1018,16 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               quickEdit: {
                 ...this.columnToQuickEdit(column),
                 ...quickEdit,
+                isQuickEditFormMode: !!render?.isFormItem,
                 saveImmediately: true,
-                mode: 'inline'
+                mode: 'inline',
+                disabled
               }
             };
       });
 
-      props.editable &&
+      !isStatic &&
+        props.editable &&
         btns.push({
           children: ({
             key,
@@ -846,11 +1052,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                     ? env.getModalContainer
                     : undefined
                 }
-                onClick={() => this.startEdit(rowIndex + offset)}
+                disabled={disabled}
+                onClick={() => this.editItem(rowIndex + offset)}
               >
-                {props.updateBtnLabel || props.editBtnLabel ? (
-                  <span>{props.updateBtnLabel || props.editBtnLabel}</span>
-                ) : null}
                 {/* 兼容之前的写法 */}
                 {typeof props.updateBtnIcon !== 'undefined' ? (
                   props.updateBtnIcon ? (
@@ -867,84 +1071,107 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                     generateIcon(props.classnames, props.editBtnIcon)
                   )
                 ) : null}
+                {props.updateBtnLabel || props.editBtnLabel ? (
+                  <span>{props.updateBtnLabel || props.editBtnLabel}</span>
+                ) : null}
               </Button>
             )
         });
 
-      btns.push({
-        children: ({
-          key,
-          rowIndex,
-          offset
-        }: {
-          key: any;
-          rowIndex: number;
-          offset: number;
-        }) =>
-          this.state.editIndex === rowIndex + offset ? (
-            <Button
-              classPrefix={ns}
-              size="sm"
-              key={key}
-              level="link"
-              tooltip={__('save')}
-              tooltipContainer={
-                env && env.getModalContainer ? env.getModalContainer : undefined
-              }
-              onClick={this.confirmEdit}
-            >
-              {props.confirmBtnLabel ? (
-                <span>{props.confirmBtnLabel}</span>
-              ) : null}
-              {props.confirmBtnIcon ? (
-                typeof props.confirmBtnIcon === 'string' ? (
-                  <Icon icon={props.confirmBtnIcon} className="icon" />
-                ) : (
-                  generateIcon(props.classnames, props.confirmBtnIcon)
-                )
-              ) : null}
-            </Button>
-          ) : null
-      });
+      !isStatic &&
+        btns.push({
+          children: ({
+            key,
+            rowIndex,
+            offset
+          }: {
+            key: any;
+            rowIndex: number;
+            offset: number;
+          }) =>
+            this.state.editIndex === rowIndex + offset ? (
+              <Button
+                classPrefix={ns}
+                size="sm"
+                key={key}
+                level="link"
+                tooltip={__('save')}
+                tooltipContainer={
+                  env && env.getModalContainer
+                    ? env.getModalContainer
+                    : undefined
+                }
+                onClick={this.confirmEdit}
+              >
+                {props.confirmBtnIcon ? (
+                  typeof props.confirmBtnIcon === 'string' ? (
+                    <Icon icon={props.confirmBtnIcon} className="icon" />
+                  ) : (
+                    generateIcon(props.classnames, props.confirmBtnIcon)
+                  )
+                ) : null}
+                {props.confirmBtnLabel ? (
+                  <span>{props.confirmBtnLabel}</span>
+                ) : null}
+              </Button>
+            ) : null
+        });
 
-      btns.push({
-        children: ({
-          key,
-          rowIndex,
-          offset
-        }: {
-          key: any;
-          rowIndex: number;
-          offset: number;
-        }) =>
-          this.state.editIndex === rowIndex + offset ? (
-            <Button
-              classPrefix={ns}
-              size="sm"
-              key={key}
-              level="link"
-              tooltip={__('cancel')}
-              tooltipContainer={
-                env && env.getModalContainer ? env.getModalContainer : undefined
-              }
-              onClick={this.cancelEdit}
-            >
-              {props.cancelBtnLabel ? (
-                <span>{props.cancelBtnLabel}</span>
-              ) : null}
-              {props.cancelBtnIcon ? (
-                typeof props.cancelBtnIcon === 'string' ? (
-                  <Icon icon={props.cancelBtnIcon} className="icon" />
-                ) : (
-                  generateIcon(props.classnames, props.cancelBtnIcon)
-                )
-              ) : null}
-            </Button>
-          ) : null
+      !isStatic &&
+        btns.push({
+          children: ({
+            key,
+            rowIndex,
+            offset
+          }: {
+            key: any;
+            rowIndex: number;
+            offset: number;
+          }) =>
+            this.state.editIndex === rowIndex + offset ? (
+              <Button
+                classPrefix={ns}
+                size="sm"
+                key={key}
+                level="link"
+                tooltip={__('cancel')}
+                tooltipContainer={
+                  env && env.getModalContainer
+                    ? env.getModalContainer
+                    : undefined
+                }
+                onClick={this.cancelEdit}
+              >
+                {props.cancelBtnIcon ? (
+                  typeof props.cancelBtnIcon === 'string' ? (
+                    <Icon icon={props.cancelBtnIcon} className="icon" />
+                  ) : (
+                    generateIcon(props.classnames, props.cancelBtnIcon)
+                  )
+                ) : null}
+                {props.cancelBtnLabel ? (
+                  <span>{props.cancelBtnLabel}</span>
+                ) : null}
+              </Button>
+            ) : null
+        });
+    } else {
+      columns = columns.map(column => {
+        const render = getRendererByName(column?.type);
+        if (!!render?.isFormItem) {
+          return {
+            ...column,
+            quickEdit: {
+              ...column,
+              isFormMode: true
+            }
+          };
+        }
+        return column;
       });
     }
 
-    if (props.removable) {
+    if (!isStatic && props.removable) {
       btns.push({
         children: ({
           key,
@@ -957,8 +1184,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
           data: any;
           offset: number;
         }) =>
-          (~this.state.editIndex || (data && data.__isPlaceholder)) &&
-          needConfirm !== false ? null : (
+          ((~this.state.editIndex || (data && data.__isPlaceholder)) &&
+            needConfirm !== false) ||
+          minLength >= this.state.items.length ? null : (
             <Button
               classPrefix={ns}
               size="sm"
@@ -968,17 +1196,18 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               tooltipContainer={
                 env && env.getModalContainer ? env.getModalContainer : undefined
               }
+              disabled={disabled}
               onClick={this.removeItem.bind(this, rowIndex + offset)}
             >
-              {props.deleteBtnLabel ? (
-                <span>{props.deleteBtnLabel}</span>
-              ) : null}
               {props.deleteBtnIcon ? (
                 typeof props.deleteBtnIcon === 'string' ? (
                   <Icon icon={props.deleteBtnIcon} className="icon" />
                 ) : (
                   generateIcon(props.classnames, props.deleteBtnIcon)
                 )
+              ) : null}
+              {props.deleteBtnLabel ? (
+                <span>{props.deleteBtnLabel}</span>
               ) : null}
             </Button>
           )
@@ -1080,11 +1309,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
           indexes[0] += (page - 1) * perPage;
         }
         const origin = getTree(items, indexes);
-
-        const data = {
-          ...origin,
-          ...(diff as Array<object>)[index]
-        };
+        const data = merge({}, origin, (diff as Array<object>)[index]);
 
         items = spliceTree(items, indexes, 1, data);
       });
@@ -1098,10 +1323,39 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       }
 
       const origin = getTree(items, indexes);
-      const data = {
-        ...origin,
-        ...diff
-      };
+
+      const comboNames: Array<string> = [];
+      (this.props.$schema.columns ?? []).forEach((e: any) => {
+        if (e.type === 'combo' && !Array.isArray(diff)) {
+          comboNames.push(e.name);
+        }
+      });
+
+      const data = mergeWith(
+        {},
+        origin,
+        diff,
+        (
+          objValue: any,
+          srcValue: any,
+          key: string,
+          object: any,
+          source: any,
+          stack: any
+        ) => {
+          // 只对第一层做处理，如果不是combo，并且是数组，直接采用diff的值
+          if (
+            stack.size === 0 &&
+            comboNames.indexOf(key) === -1 &&
+            Array.isArray(objValue) &&
+            Array.isArray(srcValue)
+          ) {
+            return srcValue;
+          }
+          // 直接return，默认走的mergeWith自身的merge
+          return;
+        }
+      );
 
       items = spliceTree(items, indexes, 1, data);
       this.entries.set(data, this.entries.get(origin) || this.entityId++);
@@ -1184,11 +1438,19 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     this.tableStore = ref?.props?.store;
   }
 
+  computedAddBtnDisabled() {
+    const {disabled} = this.props;
+    if (disabled !== undefined) {
+      return disabled;
+    }
+    return !!~this.state.editIndex;
+  }
+
   render() {
     const {
       className,
+      style,
       value,
-      showAddBtn,
       disabled,
       render,
       placeholder,
@@ -1209,15 +1471,18 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       rowClassNameExpr,
       affixHeader = false,
       autoFillHeight = false,
-      tableContentClassName
+      tableContentClassName,
+      static: isStatic,
+      showFooterAddBtn,
+      footerAddBtn
     } = this.props;
+    const maxLength = this.resolveVariableProps(this.props, 'maxLength');
 
     if (formInited === false) {
       return null;
     }
 
     let items = this.state.items;
-
     let showPager = false;
     const page = this.state.page || 1;
     let offset = 0;
@@ -1227,6 +1492,24 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       items = items.slice((page - 1) * perPage, page * perPage);
       showPager = true;
       offset = (page - 1) * perPage;
+    }
+
+    const footerAddBtnDisabled = this.computedAddBtnDisabled();
+
+    let footerAddBtnSchema = {
+      type: 'button',
+      level: 'primary',
+      size: 'sm',
+      label: __('Table.add'),
+      icon: 'fa fa-plus',
+      disabled: footerAddBtnDisabled,
+      ...(footerAddBtnDisabled
+        ? {disabledTip: __('Table.addButtonDisabledTip')}
+        : {})
+    };
+
+    if (footerAddBtn !== undefined) {
+      footerAddBtnSchema = Object.assign(footerAddBtnSchema, footerAddBtn);
     }
 
     return (
@@ -1270,18 +1553,17 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             // onPristineChange: this.handlePristineChange
           }
         )}
-        {(addable && showAddBtn !== false) || showPager ? (
+        {(!isStatic &&
+          addable &&
+          showFooterAddBtn !== false &&
+          (!maxLength || maxLength > items.length)) ||
+        showPager ? (
           <div className={cx('InputTable-toolbar')}>
-            {addable && showAddBtn !== false ? (
-              <Button
-                disabled={disabled}
-                size="sm"
-                onClick={() => this.addItem(this.state.items.length)}
-              >
-                <Icon icon="plus" className="icon" />
-                <span>{__('add')}</span>
-              </Button>
-            ) : null}
+            {addable && showFooterAddBtn !== false
+              ? render('button', footerAddBtnSchema, {
+                  onClick: () => this.addItem(this.state.items.length)
+                })
+              : null}
 
             {showPager
               ? render(
@@ -1307,4 +1589,176 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 @FormItem({
   type: 'input-table'
 })
-export class TableControlRenderer extends FormTable {}
+export class TableControlRenderer extends FormTable {
+  setData(value: any, replace?: boolean, index?: number) {
+    if (index !== undefined && ~index) {
+      // 如果setValue动作传入了index，更新指定索引的值
+      const items = [...this.state.items];
+      items.splice(index, 1, value);
+      this.setState({items}, () => {
+        this.emitValue();
+      });
+    } else {
+      // 如果setValue动作没有传入index，则直接替换组件数据
+      this.setState(
+        {
+          items: [...value]
+        },
+        () => {
+          this.emitValue();
+        }
+      );
+    }
+  }
+
+  async doAction(
+    action: ListenerAction | ActionObject,
+    args: any,
+    ...rest: Array<any>
+  ) {
+    const {
+      valueField,
+      env,
+      needConfirm,
+      addable,
+      addApi,
+      deleteApi,
+      resetValue,
+      translate: __,
+      onChange
+    } = this.props;
+
+    const actionType = action.actionType as string;
+    const ctx = this.props.store?.data || {}; // 获取当前上下文数据
+
+    if (actionType === 'addItem') {
+      if (addable === false) {
+        return;
+      }
+
+      const items = this.state.items.concat();
+
+      if (addApi || args) {
+        let toAdd: any = null;
+
+        if (isEffectiveApi(addApi, ctx)) {
+          const payload = await env.fetcher(addApi, ctx);
+          if (payload && !payload.ok) {
+            env.notify(
+              'error',
+              (addApi as ApiObject)?.messages?.failed ??
+                (payload.msg || __('fetchFailed'))
+            );
+            return;
+          } else if (payload && payload.ok) {
+            toAdd = payload.data;
+          }
+        } else {
+          toAdd = args.item;
+        }
+
+        toAdd = Array.isArray(toAdd) ? toAdd : [toAdd];
+        // 如果没指定插入的位置（args.index），则默认在头部插入
+        const pushIndex = args.index || 0;
+        // 从右往左插入
+        for (let i = toAdd.length; i >= 1; i--) {
+          if (
+            !valueField ||
+            !find(
+              items,
+              item =>
+                item[valueField as string] == toAdd[i - 1][valueField as string]
+            )
+          ) {
+            items.splice(pushIndex, 0, toAdd[i - 1]);
+          }
+        }
+
+        this.setState(
+          {
+            items
+          },
+          () => {
+            if (toAdd.length === 1 && needConfirm !== false) {
+              this.startEdit(items.length - 1, true);
+            } else {
+              onChange?.(items);
+            }
+          }
+        );
+        return;
+      } else {
+        return this.addItem(items.length - 1, false);
+      }
+    } else if (actionType === 'deleteItem') {
+      const items = [...this.state.items];
+      let rawItems: any = [];
+      const deletedItems: any = [];
+
+      if (args.index) {
+        items[args.index] && deletedItems.push(items[args.index]);
+        rawItems = [...items];
+        rawItems.splice(args.index, 1);
+      } else if (args.condition) {
+        const itemsLength = items.length;
+        for (let i = 0; i < itemsLength; i++) {
+          const flag = await evalExpressionWithConditionBuilder(
+            args?.condition,
+            {...items[i], rowIndex: i}
+          );
+          if (!flag) {
+            rawItems.push(items[i]);
+          } else {
+            deletedItems.push(items[i]);
+          }
+        }
+      }
+      // 删除api
+      if (isEffectiveApi(deleteApi, createObject(ctx, {deletedItems}))) {
+        const payload = await env.fetcher(
+          deleteApi,
+          createObject(ctx, {deletedItems})
+        );
+        if (payload && !payload.ok) {
+          env.notify(
+            'error',
+            (deleteApi as ApiObject)?.messages?.failed ??
+              (payload.msg || __('fetchFailed'))
+          );
+          return;
+        }
+      }
+      this.setState(
+        {
+          items: rawItems
+        },
+        () => {
+          onChange?.(rawItems);
+        }
+      );
+      return;
+    } else if (actionType === 'clear') {
+      this.setState(
+        {
+          items: []
+        },
+        () => {
+          onChange?.([]);
+        }
+      );
+      return;
+    } else if (actionType === 'reset') {
+      const newItems = Array.isArray(resetValue) ? resetValue : [];
+      this.setState(
+        {
+          items: newItems
+        },
+        () => {
+          onChange?.(newItems);
+        }
+      );
+      return;
+    }
+    return super.doAction(action as ActionObject, ctx, ...rest);
+  }
+}

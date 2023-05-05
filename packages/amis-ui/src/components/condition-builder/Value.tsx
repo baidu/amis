@@ -1,5 +1,5 @@
 import React from 'react';
-import {FieldSimple, OperatorType} from './types';
+import {FieldSimple} from './types';
 import {ThemeProps, themeable, localeable, LocaleProps} from 'amis-core';
 import InputBox from '../InputBox';
 import NumberInput from '../NumberInput';
@@ -7,6 +7,7 @@ import DatePicker from '../DatePicker';
 import {SelectWithRemoteOptions as Select} from '../Select';
 import Switch from '../Switch';
 import {FormulaPicker, FormulaPickerProps} from '../formula/Picker';
+import type {OperatorType} from 'amis-core';
 
 export interface ValueProps extends ThemeProps, LocaleProps {
   value: any;
@@ -117,6 +118,7 @@ export class Value extends React.Component<ValueProps> {
         <Select
           simpleValue
           options={field.options!}
+          placeholder={__(field.placeholder) || 'Select.placeholder'}
           source={field.source}
           autoComplete={autoComplete}
           searchable={field.searchable}
@@ -138,20 +140,15 @@ export class Value extends React.Component<ValueProps> {
       );
     } else if (field.type === 'custom') {
       input = renderEtrValue
-        ? renderEtrValue(field.value, {
-            data,
-            onChange,
-            value: value ?? field.defaultValue
-          })
-        : null;
-    } else {
-      const res = value ?? (field as any).defaultValue;
-      input = renderEtrValue
-        ? renderEtrValue(field, {
-            data,
-            onChange,
-            value: res ? res[(field as any).name] : res
-          })
+        ? renderEtrValue(
+            {...field.value, name: 'TMP_WHATEVER_NAME'}, // name 随便输入，应该是 value 传入的为主，目前表单项内部逻辑还有问题先传一个 name
+
+            {
+              data,
+              onChange,
+              value: value ?? field.defaultValue
+            }
+          )
         : null;
     }
 

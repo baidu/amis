@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="页面编辑器" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="补充icon" transform="translate(-20.000000, -35.000000)">
+            <g id="组件" transform="translate(20.000000, 35.000000)">
+                <rect id="矩形" x="0" y="0" width="48" height="48"></rect>
+                <g id="4.图标元件/7.通用/7.分类/分类-线备份-3" transform="translate(14.000000, 14.000000)" stroke-width="1.25">
+                    <rect id="矩形" stroke="currentColor" fill="currentColor" opacity="0" x="0.625" y="0.625" width="18.75" height="18.75"></rect>
+                    <rect id="矩形" stroke="currentColor" stroke-linejoin="round" x="2.70106592" y="2.70231592" width="5.84786816" height="5.84786816"></rect>
+                    <rect id="矩形备份-3" stroke="currentColor" stroke-linejoin="round" x="11.4563618" y="2.70231592" width="5.84786816" height="5.84786816"></rect>
+                    <rect id="矩形备份-5" stroke="currentColor" stroke-linejoin="round" x="2.70106592" y="11.4510659" width="5.84786816" height="5.84786816"></rect>
+                    <rect id="矩形备份-4" stroke="currentColor" stroke-linejoin="round" x="11.4563618" y="11.4510659" width="5.84786816" height="5.84786816"></rect>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

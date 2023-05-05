@@ -1,5 +1,203 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Renderer:tabs as form item 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    style="position: relative;"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            表单
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Tabs cxd-Tabs--line"
+        >
+          <div
+            class="cxd-Tabs-linksContainer-wrapper"
+            style="position: relative;"
+          >
+            <div
+              class="cxd-Tabs-linksContainer"
+            >
+              <div
+                class="cxd-Tabs-linksContainer-main"
+              >
+                <ul
+                  class="cxd-Tabs-links"
+                  role="tablist"
+                >
+                  <li
+                    class="cxd-Tabs-link"
+                  >
+                    <a
+                      title="Tab 1"
+                    >
+                      Tab 1
+                    </a>
+                  </li>
+                  <li
+                    class="cxd-Tabs-link is-active"
+                  >
+                    <a
+                      title="Tab 2"
+                    >
+                      Tab 2
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div
+              class="resize-sensor"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+            >
+              
+  
+              <div
+                class="resize-sensor-expand"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-shrink"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-appear"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+              />
+            </div>
+          </div>
+          <div
+            class="cxd-Tabs-content"
+          >
+            <div
+              class="cxd-Tabs-pane"
+            >
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  Content 1
+                </span>
+              </span>
+            </div>
+            <div
+              class="in is-active cxd-Tabs-pane"
+            >
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  Content 2
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div
+      class="cxd-Panel-footerWrap"
+    >
+      <div
+        class="cxd-Panel-btnToolbar cxd-Panel-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+          type="submit"
+        >
+          <span>
+            submitText
+          </span>
+        </button>
+      </div>
+    </div>
+    <div
+      class="resize-sensor"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+    >
+      
+  
+      <div
+        class="resize-sensor-expand"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-shrink"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
+    </div>
+  </div>
+</div>
+`;
+
 exports[`Renderer:tabs change active tab 1`] = `
 <div>
   <div
@@ -1239,6 +1437,243 @@ exports[`Renderer:tabs toolbar 1`] = `
             </p>
           </span>
         </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:tabs with collapseOnExceed: popover show 1`] = `
+<div>
+  <div
+    class="cxd-Tabs cxd-Tabs--tiled has-popover"
+  >
+    <div
+      class="cxd-Tabs-linksContainer-wrapper"
+      style="position: relative;"
+    >
+      <div
+        class="cxd-Tabs-linksContainer"
+      >
+        <div
+          class="cxd-Tabs-linksContainer-main"
+        >
+          <ul
+            class="cxd-Tabs-links"
+            role="tablist"
+          >
+            <li
+              class="cxd-Tabs-link is-active"
+            >
+              <a
+                title="Tab 1"
+              >
+                Tab 1
+              </a>
+            </li>
+            <li
+              class="cxd-Tabs-link"
+            >
+              <a
+                title="Tab 2"
+              >
+                Tab 2
+              </a>
+            </li>
+            <li
+              class="cxd-Tabs-link"
+              style="position: relative;"
+            >
+              <a
+                class="cxd-Tabs-togglor is-opened"
+              >
+                <span>
+                  更多
+                </span>
+                <span
+                  class="cxd-Tabs-togglor-arrow"
+                >
+                  <icon-mock
+                    classname="icon icon-right-arrow-bold"
+                    icon="right-arrow-bold"
+                  />
+                </span>
+              </a>
+              <div
+                class="resize-sensor"
+                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+  
+                <div
+                  class="resize-sensor-expand"
+                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                >
+                  
+    
+                  <div
+                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                  />
+                  
+  
+                </div>
+                
+  
+                <div
+                  class="resize-sensor-shrink"
+                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                >
+                  
+    
+                  <div
+                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                  />
+                  
+  
+                </div>
+                
+  
+                <div
+                  class="resize-sensor-appear"
+                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                />
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div
+        class="resize-sensor"
+        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+  
+        <div
+          class="resize-sensor-expand"
+          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+        >
+          
+    
+          <div
+            style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+          />
+          
+  
+        </div>
+        
+  
+        <div
+          class="resize-sensor-shrink"
+          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+        >
+          
+    
+          <div
+            style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+          />
+          
+  
+        </div>
+        
+  
+        <div
+          class="resize-sensor-appear"
+          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+        />
+      </div>
+    </div>
+    <div
+      class="cxd-Tabs-content"
+    >
+      <div
+        class="in is-active cxd-Tabs-pane"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            Content 1
+          </span>
+        </span>
+      </div>
+    </div>
+    <div
+      class="cxd-PopOver cxd-Tabs-PopOver cxd-PopOver--centerTopCenterBottom"
+      style="display: block; min-width: auto; left: 0px; top: 0px; position: relative;"
+      theme="cxd"
+    >
+      <div
+        class="cxd-PopOver-overlay"
+      />
+      <ul
+        class="cxd-Tabs-PopOverList cxd-DropDown-menu"
+      >
+        <li
+          class="cxd-Tabs-link"
+        >
+          <a
+            title="Tab 3"
+          >
+            Tab 3
+          </a>
+        </li>
+        <li
+          class="cxd-Tabs-link"
+        >
+          <a
+            title="Tab 4"
+          >
+            Tab 4
+          </a>
+        </li>
+        <li
+          class="cxd-Tabs-link"
+        >
+          <a
+            title="Tab 5"
+          >
+            Tab 5
+          </a>
+        </li>
+      </ul>
+      <div
+        class="resize-sensor"
+        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+  
+        <div
+          class="resize-sensor-expand"
+          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+        >
+          
+    
+          <div
+            style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+          />
+          
+  
+        </div>
+        
+  
+        <div
+          class="resize-sensor-shrink"
+          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+        >
+          
+    
+          <div
+            style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+          />
+          
+  
+        </div>
+        
+  
+        <div
+          class="resize-sensor-appear"
+          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+        />
       </div>
     </div>
   </div>

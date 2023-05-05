@@ -33,7 +33,7 @@ import {wrapControl} from './wrapControl';
 import debounce from 'lodash/debounce';
 import {isApiOutdated, isEffectiveApi} from '../utils/api';
 import {findDOMNode} from 'react-dom';
-import {dataMapping} from '../utils';
+import {dataMapping, insertCustomStyle} from '../utils';
 import Overlay from '../components/Overlay';
 import PopOver from '../components/PopOver';
 
@@ -495,12 +495,16 @@ export interface FormItemConfig extends FormItemBasicConfig {
 
 const getItemLabelClassName = (props: FormItemProps) => {
   const {staticLabelClassName, labelClassName} = props;
-  return props.static && staticLabelClassName ? staticLabelClassName : labelClassName;
+  return props.static && staticLabelClassName
+    ? staticLabelClassName
+    : labelClassName;
 };
 
 const getItemInputClassName = (props: FormItemProps) => {
   const {staticInputClassName, inputClassName} = props;
-  return props.static && staticInputClassName ? staticInputClassName : inputClassName;
+  return props.static && staticInputClassName
+    ? staticInputClassName
+    : inputClassName;
 };
 
 export class FormItemWrap extends React.Component<FormItemProps> {
@@ -521,6 +525,12 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       this.reaction.push(
         reaction(
           () => `${model.errors.join('')}${model.isFocused}${model.dialogOpen}`,
+          () => this.forceUpdate()
+        )
+      );
+      this.reaction.push(
+        reaction(
+          () => model?.filteredOptions,
           () => this.forceUpdate()
         )
       );
@@ -692,7 +702,8 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       columns,
       labelField,
       popOverContainer,
-      popOverClassName
+      popOverClassName,
+      valueField
     } = autoFill;
     const form = {
       type: 'form',
@@ -705,6 +716,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         joinValues: false,
         label: false,
         labelField,
+        valueField: valueField || 'value',
         multiple,
         name: 'selectedItems',
         options: [],
@@ -848,6 +860,8 @@ export class FormItemWrap extends React.Component<FormItemProps> {
 
   renderControl(): JSX.Element | null {
     const {
+      // 这里解构，不可轻易删除，避免被rest传到子组件
+      inputClassName,
       formItem: model,
       classnames: cx,
       children,
@@ -862,12 +876,12 @@ export class FormItemWrap extends React.Component<FormItemProps> {
     } = this.props;
 
     const mobileUI = useMobileUI && isMobile();
+
     if (renderControl) {
       const controlSize = size || defaultSize;
       return renderControl({
         ...rest,
         onOpenDialog: this.handleOpenDialog,
-
         type,
         classnames: cx,
         formItem: model,
@@ -876,6 +890,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
           {
             'is-inline': !!rest.inline && !mobileUI,
             'is-error': model && !model.valid,
+            'is-full': size === 'full',
             [`Form-control--withSize Form-control--size${ucFirst(
               controlSize
             )}`]:
@@ -905,6 +920,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
     horizontal: (props: FormItemProps, renderControl: () => JSX.Element) => {
       let {
         className,
+        style,
         classnames: cx,
         description,
         descriptionClassName,
@@ -954,6 +970,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
             },
             model?.errClassNames
           )}
+          style={style}
         >
           {label !== false ? (
             <label
@@ -1001,12 +1018,11 @@ export class FormItemWrap extends React.Component<FormItemProps> {
           ) : null}
 
           <div
-            className={cx(`Form-value`,{
-                // [`Form-itemColumn--offset${getWidthRate(horizontal.offset)}`]: !label && label !== false,
-                [`Form-itemColumn--${right}`]:
-                  !horizontal.leftFixed && !!right && right !== 12 - left
-              }
-            )}
+            className={cx(`Form-value`, {
+              // [`Form-itemColumn--offset${getWidthRate(horizontal.offset)}`]: !label && label !== false,
+              [`Form-itemColumn--${right}`]:
+                !horizontal.leftFixed && !!right && right !== 12 - left
+            })}
           >
             {renderControl()}
 
@@ -1061,6 +1077,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
     normal: (props: FormItemProps, renderControl: () => JSX.Element) => {
       let {
         className,
+        style,
         classnames: cx,
         desc,
         description,
@@ -1080,7 +1097,9 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         data,
         showErrorMsg,
         useMobileUI,
-        translate: __
+        translate: __,
+        static: isStatic,
+        staticClassName
       } = props;
 
       description = description || desc;
@@ -1090,13 +1109,14 @@ export class FormItemWrap extends React.Component<FormItemProps> {
           data-role="form-item"
           className={cx(
             `Form-item Form-item--normal`,
-            className,
+            isStatic && staticClassName ? staticClassName : className,
             {
               'is-error': model && !model.valid,
               [`is-required`]: required
             },
             model?.errClassNames
           )}
+          style={style}
         >
           {label && renderLabel !== false ? (
             <label className={cx(`Form-label`, getItemLabelClassName(props))}>
@@ -1179,6 +1199,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
     inline: (props: FormItemProps, renderControl: () => JSX.Element) => {
       let {
         className,
+        style,
         classnames: cx,
         desc,
         description,
@@ -1198,7 +1219,9 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         data,
         showErrorMsg,
         useMobileUI,
-        translate: __
+        translate: __,
+        static: isStatic,
+        staticClassName
       } = props;
       const labelWidth = props.labelWidth || props.formLabelWidth;
       description = description || desc;
@@ -1208,13 +1231,14 @@ export class FormItemWrap extends React.Component<FormItemProps> {
           data-role="form-item"
           className={cx(
             `Form-item Form-item--inline`,
-            className,
+            isStatic && staticClassName ? staticClassName : className,
             {
               'is-error': model && !model.valid,
               [`is-required`]: required
             },
             model?.errClassNames
           )}
+          style={style}
         >
           {label && renderLabel !== false ? (
             <label
@@ -1303,6 +1327,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
     row: (props: FormItemProps, renderControl: () => JSX.Element) => {
       let {
         className,
+        style,
         classnames: cx,
         desc,
         description,
@@ -1322,7 +1347,9 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         data,
         showErrorMsg,
         useMobileUI,
-        translate: __
+        translate: __,
+        static: isStatic,
+        staticClassName
       } = props;
       const labelWidth = props.labelWidth || props.formLabelWidth;
       description = description || desc;
@@ -1332,13 +1359,14 @@ export class FormItemWrap extends React.Component<FormItemProps> {
           data-role="form-item"
           className={cx(
             `Form-item Form-item--row`,
-            className,
+            isStatic && staticClassName ? staticClassName : className,
             {
               'is-error': model && !model.valid,
               [`is-required`]: required
             },
             model?.errClassNames
           )}
+          style={style}
         >
           <div className={cx('Form-rowInner')}>
             {label && renderLabel !== false ? (
@@ -1422,8 +1450,40 @@ export class FormItemWrap extends React.Component<FormItemProps> {
   };
 
   render() {
-    const {formMode, inputOnly, wrap, render, formItem: model} = this.props;
+    const {
+      formMode,
+      inputOnly,
+      wrap,
+      render,
+      formItem: model,
+      css,
+      themeCss,
+      id,
+      labelClassName,
+      descriptionClassName
+    } = this.props;
     const mode = this.props.mode || formMode;
+
+    insertCustomStyle(
+      themeCss || css,
+      [
+        {
+          key: 'labelClassName',
+          value: labelClassName
+        }
+      ],
+      id + '-label'
+    );
+    insertCustomStyle(
+      themeCss || css,
+      [
+        {
+          key: 'descriptionClassName',
+          value: descriptionClassName
+        }
+      ],
+      id + '-description'
+    );
 
     if (wrap === false || inputOnly) {
       return this.renderControl();
@@ -1469,6 +1529,7 @@ export const detectProps = [
   'addOn',
   'btnClassName',
   'btnLabel',
+  'style',
   'btnDisabled',
   'className',
   'clearable',
@@ -1479,6 +1540,9 @@ export const detectProps = [
   'description',
   'disabled',
   'static',
+  'staticClassName',
+  'staticLabelClassName',
+  'staticInputClassName',
   'draggable',
   'editable',
   'editButtonClassName',
@@ -1522,7 +1586,9 @@ export const detectProps = [
   'maxLength',
   'embed',
   'displayMode',
-  'revealPassword'
+  'revealPassword',
+  'loading',
+  'themeCss'
 ];
 
 export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
@@ -1629,6 +1695,8 @@ export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
 
           renderControl() {
             const {
+              // 这里解构，不可轻易删除，避免被rest传到子组件
+              inputClassName,
               formItem: model,
               classnames: cx,
               children,
@@ -1662,6 +1730,7 @@ export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
                     {
                       'is-inline': !!rest.inline && !mobileUI,
                       'is-error': model && !model.valid,
+                      'is-full': size === 'full',
                       [`Form-control--withSize Form-control--size${ucFirst(
                         controlSize
                       )}`]:

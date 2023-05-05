@@ -42,12 +42,13 @@ export class PasswordField extends React.Component<PasswordProps, PasswordState>
     const {
       classnames: cx,
       className,
+      style,
       mosaicText = '********',
       value
     } = this.props;
 
     return (
-      <span className={cx('Password-field', className)}>
+      <span className={cx('Password-field', className)} style={style}>
         {this.state.visible ? value : mosaicText}
         {this.state.visible
           ? <Icon icon="view" className="icon" onClick={this.toggleVisible} />

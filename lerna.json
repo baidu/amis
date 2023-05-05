@@ -1,6 +1,9 @@
 {
   "packages": [
-    "packages/*"
+    "packages/amis-formula",
+    "packages/amis-core",
+    "packages/amis-ui",
+    "packages/amis"
   ],
-  "version": "2.4.0"
+  "version": "2.9.0"
 }

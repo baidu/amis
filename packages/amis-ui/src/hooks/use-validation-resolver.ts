@@ -19,10 +19,24 @@ function formatErrors(errors: any) {
   return formated;
 }
 
-export function useValidationResolver(__ = (str: string) => str) {
+export function useValidationResolver(
+  __ = (str: string) => str,
+  validate?: (
+    error: {
+      [propName: string]: {
+        rule: string;
+        msg: string;
+      }[];
+    },
+    values: Record<string, any>,
+    context: any,
+    config: any
+  ) => Promise<void>
+) {
   return React.useCallback<any>(
     async (values: any, context: any, config: any) => {
       const rules: any = {};
+      const customValidator: any = {};
       const ruleKeys = Object.keys(validations);
       for (let key of Object.keys(config.fields)) {
         const field = config.fields[key];
@@ -31,16 +45,44 @@ export function useValidationResolver(__ = (str: string) => str) {
         if (field.required) {
           rules[key].isRequired = true;
         }
+
+        if (typeof field.validate === 'function') {
+          customValidator[key] = field.validate;
+        }
       }
 
       const errors = validateObject(values, rules, undefined, __);
+
+      for (let key of Object.keys(customValidator)) {
+        const validate = customValidator[key];
+        const result = await validate(values[key]);
+
+        if (typeof result === 'string') {
+          errors[key] = errors[key] || [];
+          errors[key].push({
+            rule: 'custom',
+            msg: result
+          });
+        }
+      }
+
+      try {
+        await validate?.(errors, values, context, config);
+      } catch (e) {
+        errors.customValidate = [
+          {
+            rule: 'custom',
+            msg: e.message || e
+          }
+        ];
+      }
 
       return {
         values,
         errors: formatErrors(errors)
       };
     },
-    [__]
+    [__, validate]
   );
 }
 

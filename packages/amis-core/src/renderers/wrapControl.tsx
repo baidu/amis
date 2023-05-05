@@ -18,7 +18,8 @@ import {
   isNeedFormula,
   isExpression,
   FormulaExec,
-  replaceExpression
+  replaceExpression,
+  isNowFormula
 } from '../utils/formula';
 import {IIRendererStore, IRendererStore} from '../store';
 import {ScopedContext, IScopedContext} from '../Scoped';
@@ -31,6 +32,7 @@ import {withRootStore} from '../WithRootStore';
 import {FormBaseControl, FormItemWrap} from './Item';
 import {Api} from '../types';
 import {TableStore} from '../store/table';
+import pick from 'lodash/pick';
 
 export interface ControlOutterProps extends RendererProps {
   formStore?: IFormStore;
@@ -118,6 +120,7 @@ export function wrapControl<
               store,
               onChange,
               data,
+              inputGroupControl,
               $schema: {
                 name,
                 id,
@@ -180,14 +183,19 @@ export function wrapControl<
             // @issue 打算干掉这个
             formItem?.addSubFormItem(model);
             model.config({
+              // 理论上需要将渲染器的 defaultProps 全部生效，此处保险起见先只处理 multiple
+              ...pick(
+                {...ComposedComponent.defaultProps, ...this.props.$schema},
+                ['multiple']
+              ),
               id,
               type,
               required,
               unique,
               value,
+              isValueSchemaExp: isExpression(value),
               rules: validations,
               messages: validationErrors,
-              multiple,
               delimiter,
               valueField,
               labelField,
@@ -200,7 +208,8 @@ export function wrapControl<
               minLength,
               maxLength,
               validateOnChange,
-              label
+              label,
+              inputGroupControl
             });
 
             // issue 这个逻辑应该在 combo 里面自己实现。
@@ -319,6 +328,7 @@ export function wrapControl<
                 id: props.$schema.id,
                 unique: props.$schema.unique,
                 value: props.$schema.value,
+                isValueSchemaExp: isExpression(props.$schema.value),
                 rules: props.$schema.validations,
                 multiple: props.$schema.multiple,
                 delimiter: props.$schema.delimiter,
@@ -333,7 +343,8 @@ export function wrapControl<
                 validateApi: props.$schema.validateApi,
                 minLength: props.$schema.minLength,
                 maxLength: props.$schema.maxLength,
-                label: props.$schema.label
+                label: props.$schema.label,
+                inputGroupControl: props?.inputGroupControl
               });
             }
 
@@ -352,11 +363,17 @@ export function wrapControl<
               typeof props.defaultValue !== 'undefined' &&
               isExpression(props.defaultValue)
             ) {
+              const nowFormulaChecked = isNowFormula(props.defaultValue);
               // 渲染器中的 defaultValue 优先（备注: SchemaRenderer中会将 value 改成 defaultValue）
               if (
                 !isEqual(props.defaultValue, prevProps.defaultValue) ||
                 (props.data !== prevProps.data &&
-                  isNeedFormula(props.defaultValue, props.data, prevProps.data))
+                  (isNeedFormula(
+                    props.defaultValue,
+                    props.data,
+                    prevProps.data
+                  ) ||
+                    nowFormulaChecked))
               ) {
                 const curResult = FormulaExec['formula'](
                   props.defaultValue,
@@ -374,6 +391,13 @@ export function wrapControl<
                   model.changeTmpValue(curResult);
                   if (props.onChange) {
                     props.onChange(curResult, model.name, false);
+                  }
+                } else if (nowFormulaChecked) {
+                  const nowData = props.data[model.name];
+                  // now 表达式，计算后的值永远相同
+                  model.changeTmpValue(nowData);
+                  if (props.onChange) {
+                    props.onChange(nowData, model.name, false);
                   }
                 }
               }
@@ -400,7 +424,6 @@ export function wrapControl<
                   }
                 }
               } else if (
-                typeof props.defaultValue !== 'undefined' &&
                 !isEqual(props.defaultValue, prevProps.defaultValue) &&
                 !isEqual(props.defaultValue, model.tmpValue)
               ) {
@@ -635,6 +658,12 @@ export function wrapControl<
             ) {
               return;
             }
+
+            // onFormItemChange 可能会触发组件销毁，再次读取 this.model 为 undefined
+            if (!this.model) {
+              return;
+            }
+
             const validated = this.model.validated;
             onChange?.(value, name!, submitOnChange === true);
 
@@ -746,7 +775,9 @@ export function wrapControl<
               setValue: this.setValue,
               getValue: this.getValue,
               prinstine: model ? model.prinstine : undefined,
-              setPrinstineValue: this.setPrinstineValue
+              setPrinstineValue: this.setPrinstineValue,
+              // !没了这个， tree 里的 options 渲染会出问题
+              _filteredOptions: this.model?.filteredOptions
             };
 
             return (

@@ -58,3 +58,15 @@ order: 70
 | className       | `string`                             |         | 外层 Dom 的类名                              |
 | tpl             | [模板](../../docs/concepts/template) |         | 配置模板                                     |
 | showNativeTitle | `boolean`                            |         | 是否设置外层 DOM 节点的 title 属性为文本内容 |
+
+## 事件表
+
+> 2.5.3 及以上版本
+
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，详细查看[事件动作](../../docs/concepts/event-action)。
+
+| 事件名称   | 事件参数                               | 说明           |
+| ---------- | -------------------------------------- | -------------- |
+| click      | `nativeEvent: MouseEvent` 鼠标事件对象 | 点击时触发     |
+| mouseenter | `nativeEvent: MouseEvent` 鼠标事件对象 | 鼠标移入时触发 |
+| mouseleave | `nativeEvent: MouseEvent` 鼠标事件对象 | 鼠标移出时触发 |

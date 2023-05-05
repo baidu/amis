@@ -1,6 +1,198 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Renderer:each 1`] = `
+exports[`Renderer:Each basic use 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+          role="page-body"
+        >
+          <div
+            class="cxd-Each"
+          >
+            <span
+              class="cxd-TplField"
+            >
+              <span>
+                <span
+                  class="label label-default m-l-sm"
+                >
+                  A
+                </span>
+                 
+              </span>
+            </span>
+            <span
+              class="cxd-TplField"
+            >
+              <span>
+                <span
+                  class="label label-default m-l-sm"
+                >
+                  B
+                </span>
+                 
+              </span>
+            </span>
+            <span
+              class="cxd-TplField"
+            >
+              <span>
+                <span
+                  class="label label-default m-l-sm"
+                >
+                  C
+                </span>
+                 
+              </span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:Each in form 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    style="position: relative;"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            表单
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Each"
+        >
+          <span
+            class="cxd-TplField"
+          >
+            <span>
+              <span
+                class="label label-info m-l-sm"
+              >
+                A
+              </span>
+            </span>
+          </span>
+          <span
+            class="cxd-TplField"
+          >
+            <span>
+              <span
+                class="label label-info m-l-sm"
+              >
+                B
+              </span>
+            </span>
+          </span>
+          <span
+            class="cxd-TplField"
+          >
+            <span>
+              <span
+                class="label label-info m-l-sm"
+              >
+                C
+              </span>
+            </span>
+          </span>
+        </div>
+      </form>
+    </div>
+    <div
+      class="cxd-Panel-footerWrap"
+    >
+      <div
+        class="cxd-Panel-btnToolbar cxd-Panel-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+          type="submit"
+        >
+          <span>
+            提交
+          </span>
+        </button>
+      </div>
+    </div>
+    <div
+      class="resize-sensor"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+    >
+      
+  
+      <div
+        class="resize-sensor-expand"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-shrink"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:Each with array of objects value 1`] = `
 <div>
   <div
     class="cxd-Each show"
@@ -9,16 +201,102 @@ exports[`Renderer:each 1`] = `
       class="cxd-TplField"
     >
       <span>
-        jack
+        <span
+          class="label label-default m-l-sm"
+        >
+          jack:0
+        </span>
+         
       </span>
     </span>
     <span
       class="cxd-TplField"
     >
       <span>
-        martin
+        <span
+          class="label label-default m-l-sm"
+        >
+          martin:1
+        </span>
+         
       </span>
     </span>
+  </div>
+</div>
+`;
+
+exports[`Renderer:Each with source 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+          role="page-body"
+        >
+          <div
+            class="cxd-Each"
+          >
+            <div
+              class="cxd-Wrapper cxd-Wrapper--md"
+            >
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  <span
+                    class="label label-default m-l-sm"
+                  >
+                    name: jerry
+                  </span>
+                   
+                </span>
+              </span>
+              <span
+                class="cxd-Tag cxd-Tag--normal"
+              >
+                <span
+                  class="cxd-Tag-text"
+                >
+                  age: 21
+                </span>
+              </span>
+            </div>
+            <div
+              class="cxd-Wrapper cxd-Wrapper--md"
+            >
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  <span
+                    class="label label-default m-l-sm"
+                  >
+                    name: tom
+                  </span>
+                   
+                </span>
+              </span>
+              <span
+                class="cxd-Tag cxd-Tag--normal"
+              >
+                <span
+                  class="cxd-Tag-text"
+                >
+                  age: 29
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 `;

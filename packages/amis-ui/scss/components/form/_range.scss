@@ -10,9 +10,10 @@
   }
 
   &-input {
-    width: 20 * 4px;
-    height: 8 * 4px;
-    margin: 0 2 * 4px;
+    width: var(--InputRange-input-width);
+    margin: var(--InputRange-input-marginTop)
+      var(--InputRange-input-marginRight) var(--InputRange-input-marginBottom)
+      var(--InputRange-input-marginLeft);
 
     .#{$ns}Number {
       overflow: hidden;
@@ -38,9 +39,12 @@
     cursor: pointer;
 
     svg {
-      height: px2rem(12px);
-      width: px2rem(12px);
-      fill: #999;
+      height: var(--InputRange-clearIcon-height);
+      width: var(--InputRange-clearIcon-width);
+      fill: var(--InputRange-clearIcon-color);
+    }
+    &:hover svg {
+      fill: var(--InputRange-clearIcon-hoverColor);
     }
   }
 
@@ -57,10 +61,17 @@
 
     .#{$ns}InputRange-handle-icon {
       border-color: var(--InputRange-handle-onDisabled-border-color);
+      background-color: var(--InputRange-handle-onDisabled-bg);
       cursor: not-allowed;
 
       &:hover {
         transform: none;
+      }
+
+      .icon-slider-handle {
+        g path {
+          fill: var(--InputRange-handle-icon-onDisabled-color);
+        }
       }
     }
 
@@ -98,7 +109,7 @@
       justify-content: center;
       align-items: center;
       outline: none;
-      border-radius: 50%;
+      border-radius: var(--InputRange-handle-border-radius);
       transition: var(--InputRange-handle-transition);
 
       &:hover {
@@ -134,7 +145,7 @@
       top: 0;
 
       g path {
-        fill: var(--colors-brand-9);
+        fill: var(--InputRange-handle-icon-color);
       }
     }
   }
@@ -155,7 +166,7 @@
     }
 
     &-dot {
-      width: var(--InputRange-track-dot-height);
+      width: var(--InputRange-track-dot-width);
       height: var(--InputRange-track-dot-height);
       border-radius: 50%;
       background-color: var(--InputRange-track-dot-bg);
@@ -188,6 +199,8 @@
     background-color: var(--InputRange-label-bg);
     color: var(--InputRange-label-color);
     font-size: var(--InputRange-label-font-size);
+    font-weight: var(--InputRange-label-fontWeight);
+    line-height: var(--InputRange-label-lineHeight);
     border-radius: var(--InputRange-label-border-radius);
     visibility: hidden;
 
@@ -208,7 +221,8 @@
         bottom: -4px;
         border-width: 4px 4px 0 4px;
         border-style: solid;
-        border-color: #000 transparent transparent transparent;
+        border-color: var(--InputRange-label-bg) transparent transparent
+          transparent;
       }
     }
 
@@ -225,7 +239,8 @@
         top: -4px;
         border-width: 0 4px 4px 4px;
         border-style: solid;
-        border-color: transparent transparent #000 transparent;
+        border-color: transparent transparent var(--InputRange-label-bg)
+          transparent;
       }
     }
 
@@ -241,7 +256,8 @@
         right: -4px;
         border-width: 4px 0 4px 4px;
         border-style: solid;
-        border-color: transparent transparent transparent #000;
+        border-color: transparent transparent transparent
+          var(--InputRange-label-bg);
       }
     }
 
@@ -257,7 +273,8 @@
         left: -4px;
         border-width: 4px 4px 4px 0;
         border-style: solid;
-        border-color: transparent #000 transparent transparent;
+        border-color: transparent var(--InputRange-label-bg) transparent
+          transparent;
       }
     }
   }
@@ -266,7 +283,11 @@
   &-marks {
     position: relative;
     top: 8px;
-
+    color: var(--InputRange-marks-color);
+    font-size: var(--InputRange-marks-fontSize);
+    font-weight: var(--InputRange-marks-fontWeight);
+    line-height: var(--InputRange-marks-lineHeight);
+    margin-top: var(--InputRange-marks-marginTop);
     div {
       position: absolute;
       top: 0;

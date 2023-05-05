@@ -13,6 +13,7 @@ exports[`EventAction:dialog 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <button
             class="cxd-Button cxd-Button--default cxd-Button--size-default"
@@ -44,6 +45,10 @@ exports[`EventAction:dialog 1`] = `
           data-position="left"
           data-tooltip="关闭"
         >
+          <div
+            class=" Dialog-close"
+            style="display: none;"
+          />
           <icon-mock
             classname="icon icon-close"
             icon="close"
@@ -57,6 +62,7 @@ exports[`EventAction:dialog 1`] = `
       </div>
       <div
         class="cxd-Modal-body"
+        role="dialog-body"
       >
         <button
           class="cxd-Button cxd-Button--default cxd-Button--size-default"
@@ -129,6 +135,7 @@ exports[`EventAction:dialog 2`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <button
             class="cxd-Button cxd-Button--default cxd-Button--size-default"
@@ -158,6 +165,7 @@ exports[`EventAction:dialog 3`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <button
             class="cxd-Button cxd-Button--default cxd-Button--size-default"
@@ -187,6 +195,7 @@ exports[`EventAction:dialog 4`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <button
             class="cxd-Button cxd-Button--default cxd-Button--size-default"
@@ -216,6 +225,7 @@ exports[`EventAction:dialog 5`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <button
             class="cxd-Button cxd-Button--default cxd-Button--size-default"
@@ -245,6 +255,7 @@ exports[`EventAction:dialog 6`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <button
             class="cxd-Button cxd-Button--default cxd-Button--size-default"
@@ -274,6 +285,7 @@ exports[`EventAction:dialog 7`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <button
             class="cxd-Button cxd-Button--default cxd-Button--size-default"

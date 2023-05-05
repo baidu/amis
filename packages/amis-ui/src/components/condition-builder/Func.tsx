@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   ConditionFieldFunc,
-  ExpressionFunc,
   ConditionBuilderField,
   ConditionBuilderFuncs
 } from './types';
@@ -21,6 +20,7 @@ import ResultBox from '../ResultBox';
 import {Icon} from '../icons';
 import Expression from './Expression';
 import {ConditionBuilderConfig} from './config';
+import type {ExpressionFunc} from 'amis-core';
 
 export interface ConditionFuncProps extends ThemeProps, LocaleProps {
   value: ExpressionFunc;

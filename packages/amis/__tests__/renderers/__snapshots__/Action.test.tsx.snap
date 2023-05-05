@@ -96,6 +96,7 @@ exports[`Renderers:Action all levels 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <button
             class="cxd-Button cxd-Button--link cxd-Button--size-default"
@@ -267,6 +268,28 @@ exports[`Renderers:Action all levels 1`] = `
 </div>
 `;
 
+exports[`Renderers:Action as container 1`] = `
+<div>
+  <div
+    class="cxd-Action"
+  >
+    <div
+      class="cxd-ColorField"
+    >
+      <i
+        class="cxd-ColorField-previewIcon"
+        style="background-color: rgb(16, 140, 238);"
+      />
+      <span
+        class="cxd-ColorField-value"
+      >
+        #108cee
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`Renderers:Action custom activeClass 1`] = `
 <button
   className="cxd-Button cxd-Button--default cxd-Button--size-default a"
@@ -348,6 +371,7 @@ exports[`Renderers:Action tooltip 1`] = `
       >
         <div
           class="cxd-Page-body"
+          role="page-body"
         >
           <button
             class="cxd-Button cxd-Button--default cxd-Button--size-default"
@@ -421,6 +445,158 @@ exports[`Renderers:Action tooltip 1`] = `
               right
             </span>
           </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderers:Action with confirmText & actionType ajax 1`] = `
+<body
+  class="is-modalOpened"
+  style="width: calc(100% - 0px);"
+>
+  <div>
+    <div
+      class="cxd-Page"
+    >
+      <div
+        class="cxd-Page-content"
+      >
+        <div
+          class="cxd-Page-main"
+        >
+          <div
+            class="cxd-Page-body"
+            role="page-body"
+          >
+            <button
+              class="cxd-Button cxd-Button--default cxd-Button--size-default"
+              type="button"
+            >
+              <span>
+                ajax请求
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div />
+  <div
+    class="amis-dialog-widget cxd-Modal cxd-Modal--1th"
+    role="dialog"
+  >
+    <div
+      class="cxd-Modal-overlay in"
+    />
+    <div
+      class="cxd-Modal-content in"
+    >
+      <div
+        class="cxd-Modal-header"
+      >
+        <div
+          class="cxd-Modal-title"
+        >
+          系统消息
+        </div>
+      </div>
+      <div
+        class="cxd-Modal-body"
+      >
+        <span
+          class="cxd-Html"
+        >
+          确认要发出这个请求？
+        </span>
+      </div>
+      <div
+        class="cxd-Modal-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--default cxd-Button--size-default"
+          type="button"
+        >
+          取消
+        </button>
+        <button
+          class="cxd-Button cxd-Button--danger cxd-Button--size-default"
+          type="button"
+        >
+          确认
+        </button>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`Renderers:Action with disabledTip 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+          role="page-body"
+        >
+          <div
+            class="cxd-Button cxd-Button--default cxd-Button--size-default is-disabled"
+            disabled=""
+            style="position: relative;"
+          >
+            <span>
+              弹框
+            </span>
+            <div
+              class="resize-sensor"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+            >
+              
+  
+              <div
+                class="resize-sensor-expand"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-shrink"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-appear"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>

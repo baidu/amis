@@ -67,7 +67,7 @@ export interface TooltipObject {
   /**
    * 挂载容器元素
    */
-  container?: React.ReactNode;
+  container?: HTMLElement | (() => HTMLElement | null | undefined);
   /**
    * 浮层触发方式
    */
@@ -80,6 +80,15 @@ export interface TooltipObject {
    * 文字提示浮层CSS类名
    */
   tooltipClassName?: string;
+
+  /**
+   * 文字提示浮层Body的CSS类名
+   */
+  tooltipBodyClassName?: string;
+  /**
+   * html xss filter
+   */
+  filterHtml?: (input: string) => string;
 }
 
 export interface TooltipWrapperProps {
@@ -87,7 +96,7 @@ export interface TooltipWrapperProps {
   classPrefix: string;
   classnames: ClassNamesFn;
   placement: 'top' | 'right' | 'bottom' | 'left';
-  container?: React.ReactNode;
+  container?: HTMLElement | (() => HTMLElement | null | undefined);
   trigger: Trigger | Array<Trigger>;
   rootClose: boolean;
   overlay?: any;
@@ -99,6 +108,7 @@ export interface TooltipWrapperProps {
    * 显示&隐藏时触发
    */
   onVisibleChange?: (visible: boolean) => void;
+  children?: React.ReactNode | Array<React.ReactNode>;
 }
 
 interface TooltipWrapperState {
@@ -294,12 +304,14 @@ export class TooltipWrapper extends React.Component<
       trigger,
       rootClose,
       tooltipClassName,
+      tooltipBodyClassName,
       style,
       disabled = false,
       offset,
       tooltipTheme = 'light',
       showArrow = true,
-      children
+      children,
+      filterHtml
     } = tooltipObj;
 
     const childProps: any = {
@@ -341,6 +353,7 @@ export class TooltipWrapper extends React.Component<
           className={tooltipClassName}
           tooltipTheme={tooltipTheme}
           showArrow={showArrow}
+          bodyClassName={tooltipBodyClassName}
           onMouseEnter={
             ~triggers.indexOf('hover') ? this.tooltipMouseEnter : () => {}
           }
@@ -351,7 +364,10 @@ export class TooltipWrapper extends React.Component<
           {children ? (
             <>{typeof children === 'function' ? children() : children}</>
           ) : (
-            <Html html={typeof content === 'string' ? content : ''} />
+            <Html
+              html={typeof content === 'string' ? content : ''}
+              filterHtml={filterHtml}
+            />
           )}
         </Tooltip>
       </Overlay>

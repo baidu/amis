@@ -1,0 +1,198 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`tableborder 1`] = `
+<article>
+  <section
+    style="position: relative; width: 815.98px; padding: 96.00px 96.00px 96.00px 96.00px;"
+  >
+    <table
+      class="enable-hBand enable-vBand docx-classname-0"
+      style="width: 605.98px; margin-left: -10.80px; border-top: 0.67px solid black; border-left: 0.67px solid black; border-bottom: 0.67px solid black; border-right: 0.67px solid black; table-layout: fixed;"
+    >
+      <tbody>
+        <tr>
+          <td
+            class="nwCell firstRow firstCol band2Horz band2Vert"
+            style="width: 42.00px; background-color: rgba(0, 0, 0, 0.15);"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+              <span
+                class="docx-viewer-0-r"
+                style="font-family: SimHei; font-weight: bold; font-size: 13.33px;"
+              >
+                版本
+              </span>
+            </p>
+          </td>
+          <td
+            class="firstRow band2Horz band1Vert"
+            style="width: 389.99px; background-color: rgba(0, 0, 0, 0.15);"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+              <span
+                class="docx-viewer-0-r"
+                style="font-family: SimHei; font-weight: bold; font-size: 13.33px;"
+              >
+                注释
+              </span>
+            </p>
+          </td>
+          <td
+            class="firstRow band2Horz band2Vert"
+            style="width: 90.00px; background-color: rgba(0, 0, 0, 0.15);"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+              <span
+                class="docx-viewer-0-r"
+                style="font-family: SimHei; font-weight: bold;"
+              >
+                作者
+              </span>
+            </p>
+          </td>
+          <td
+            class="neCell firstRow lastCol band2Horz band1Vert"
+            style="width: 84.00px; background-color: rgba(0, 0, 0, 0.15);"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+              <span
+                class="docx-viewer-0-r"
+                style="font-family: SimHei; font-weight: bold;"
+              >
+                时间
+              </span>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td
+            class="swCell lastRow firstCol band1Horz band2Vert"
+            style="width: 42.00px;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+               
+            </p>
+          </td>
+          <td
+            class="lastRow band1Horz band1Vert"
+            style="width: 389.99px;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+              <span
+                class="docx-viewer-0-r"
+                style="font-family: SimHei; font-size: 13.33px;"
+              >
+                ERP系统架构设计方案
+              </span>
+              <span
+                class="docx-viewer-0-r"
+                style="font-family: SimHei; font-size: 13.33px;"
+              >
+                初稿
+              </span>
+            </p>
+          </td>
+          <td
+            class="lastRow band1Horz band2Vert"
+            style="width: 90.00px;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+              <span
+                class="docx-viewer-0-r"
+                style="font-family: SimHei; font-size: 13.33px;"
+              >
+                nwind
+              </span>
+            </p>
+          </td>
+          <td
+            class="seCell lastRow lastCol band1Horz band1Vert"
+            style="width: 84.00px;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+              <span
+                class="docx-viewer-0-r"
+                style="font-family: SimHei; font-size: 13.33px;"
+              >
+                201
+              </span>
+              <span
+                class="docx-viewer-0-r"
+                style="font-family: SimHei; font-size: 13.33px;"
+              >
+                9
+              </span>
+              <span
+                class="docx-viewer-0-r"
+                style="font-family: SimHei; font-size: 13.33px;"
+              >
+                -
+              </span>
+              <span
+                class="docx-viewer-0-r"
+                style="font-family: SimHei; font-size: 13.33px;"
+              >
+                05
+              </span>
+              <span
+                class="docx-viewer-0-r"
+                style="font-family: SimHei; font-size: 13.33px;"
+              >
+                -
+              </span>
+              <span
+                class="docx-viewer-0-r"
+                style="font-family: SimHei; font-size: 13.33px;"
+              >
+                28
+              </span>
+            </p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p
+      class="docx-viewer-0-p"
+      style="position: relative;"
+    >
+       
+    </p>
+    <p
+      class="docx-viewer-0-p"
+      style="text-align: center; position: relative;"
+    >
+       
+    </p>
+    <p
+      class="docx-viewer-0-p"
+      style="position: relative;"
+    >
+       
+    </p>
+  </section>
+</article>
+`;

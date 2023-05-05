@@ -221,11 +221,26 @@ export function isNeedFormula(
   prevData: {[propName: string]: any},
   curData: {[propName: string]: any}
 ): boolean {
-  const variables = FormulaExec.collect(expression);
-  return variables.some(
-    (variable: string) =>
-      FormulaExec.var(variable, prevData) !== FormulaExec.var(variable, curData)
-  );
+  try {
+    const variables = FormulaExec.collect(expression);
+    return variables.some(
+      (variable: string) =>
+        FormulaExec.var(variable, prevData) !== FormulaExec.var(variable, curData)
+    );
+  } catch (e) {
+    console.warn(
+      '[isNeedFormula]表达式执行异常，当前表达式: ',
+      expression,
+      '，当前上下文数据: ',
+      curData
+    );
+    return false;
+  }
+}
+
+export function isNowFormula(expression: string): boolean {
+  const block = expression.split(/\${|\||}/).filter(item => item);
+  return block[1] === 'now';
 }
 
 // 将 \${xx} 替换成 ${xx}

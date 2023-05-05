@@ -1,7 +1,5 @@
 import React from 'react';
 import {Renderer, RendererProps} from 'amis-core';
-import {Api, SchemaNode, Schema, ActionObject} from 'amis-core';
-import cx from 'classnames';
 import {TooltipWrapper} from 'amis-ui';
 import {filter, generateIcon} from 'amis-core';
 import {ClassNamesFn, themeable} from 'amis-core';
@@ -152,6 +150,7 @@ class Remark extends React.Component<RemarkProps> {
   render() {
     const {
       className,
+      style,
       icon,
       label,
       shape,
@@ -182,6 +181,7 @@ class Remark extends React.Component<RemarkProps> {
             `Remark`,
             (tooltip && tooltip.className) || className || `Remark--warning`
           )}
+          style={style}
           onClick={this.showModalTip(parsedTip)}
         >
           {this.renderLabel(finalIcon, finalLabel, cx, finalShape)}
@@ -208,6 +208,7 @@ class Remark extends React.Component<RemarkProps> {
             `Remark`,
             (tooltip && tooltip.className) || className || `Remark--warning`
           )}
+          style={style}
         >
           {this.renderLabel(finalIcon, finalLabel, cx, finalShape)}
         </div>

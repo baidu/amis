@@ -1,8 +1,8 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 import {findDOMNode} from 'react-dom';
 import {Renderer, RendererProps} from 'amis-core';
 import {SchemaNode, Schema, ActionObject} from 'amis-core';
-import {Button, Spinner} from 'amis-ui';
+import {Button, Spinner, SpinnerExtraProps} from 'amis-ui';
 import {ListStore, IListStore} from 'amis-core';
 import {Action} from '../types';
 import {
@@ -10,7 +10,6 @@ import {
   getScrollParent,
   difference,
   ucFirst,
-  noop,
   autobind,
   createObject
 } from 'amis-core';
@@ -28,13 +27,13 @@ import {
 } from '../Schema';
 import {CardProps, CardSchema} from './Card';
 import {Card2Props, Card2Schema} from './Card2';
-import type {IItem} from 'amis-core/lib/store/list';
+import type {IItem} from 'amis-core';
 
 /**
  * Cards 卡片集合渲染器。
  * 文档：https://baidu.gitee.io/amis/docs/components/card
  */
-export interface CardsSchema extends BaseSchema {
+export interface CardsSchema extends BaseSchema, SpinnerExtraProps {
   /**
    * 指定为 cards 类型
    */
@@ -138,9 +137,9 @@ export interface Column {
   type: string;
   [propName: string]: any;
 }
-
-export type CardsRendererEvent = 'change';
-export type CardsRendererAction = 'check-all';
+// 如果这里的事件调整，对应CRUD里的事件配置也需要同步修改
+export type CardsRendererEvent = 'selected';
+export type CardsRendererAction = 'toggleSelectAll' | 'selectAll' | 'clearAll';
 
 export interface GridProps
   extends RendererProps,
@@ -974,6 +973,7 @@ export default class Cards extends React.Component<GridProps, object> {
   render() {
     const {
       className,
+      style,
       store,
       columnsCount,
       itemClassName,
@@ -985,7 +985,8 @@ export default class Cards extends React.Component<GridProps, object> {
       itemsClassName,
       classnames: cx,
       translate: __,
-      loading = false
+      loading = false,
+      loadingConfig
     } = this.props;
 
     this.renderedToolbars = []; // 用来记录哪些 toolbar 已经渲染了，已经渲染了就不重复渲染了。
@@ -1019,6 +1020,7 @@ export default class Cards extends React.Component<GridProps, object> {
         className={cx('Cards', className, {
           'Cards--unsaved': !!store.modified || !!store.moved
         })}
+        style={style}
       >
         {affixHeader ? (
           <div className={cx('Cards-fixedTop')}>
@@ -1044,7 +1046,7 @@ export default class Cards extends React.Component<GridProps, object> {
         )}
 
         {footer}
-        <Spinner overlay show={loading} />
+        <Spinner loadingConfig={loadingConfig} overlay show={loading} />
       </div>
     );
   }

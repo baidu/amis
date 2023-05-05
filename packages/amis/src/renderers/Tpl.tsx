@@ -1,5 +1,5 @@
 import React from 'react';
-import {Renderer, RendererProps} from 'amis-core';
+import {autobind, createObject, Renderer, RendererProps} from 'amis-core';
 import {filter} from 'amis-core';
 import cx from 'classnames';
 import {anyChanged, getPropValue} from 'amis-core';
@@ -30,6 +30,11 @@ export interface TplSchema extends BaseSchema {
   inline?: boolean;
 
   /**
+   * 标签类型
+   */
+  wrapperComponent?: any;
+
+  /**
    * 自定义样式
    */
   style?: {
@@ -45,8 +50,6 @@ export interface TplSchema extends BaseSchema {
 export interface TplProps extends RendererProps, TplSchema {
   className?: string;
   value?: string;
-  wrapperComponent?: any;
-  inline?: boolean;
 }
 
 export class Tpl extends React.Component<TplProps, object> {
@@ -82,6 +85,62 @@ export class Tpl extends React.Component<TplProps, object> {
     }
   }
 
+  /**
+   * 过滤掉HTML标签, 仅提取文本内容, 用于HTML标签的title属性
+   */
+  getTitle(content: string): string {
+    const {showNativeTitle} = this.props;
+
+    if (!showNativeTitle) {
+      return '';
+    }
+
+    let title = typeof content === 'string' ? content : '';
+    const tempDom = new DOMParser().parseFromString(
+      this.getContent(),
+      'text/html'
+    );
+
+    if (tempDom?.body?.textContent) {
+      title = tempDom.body.textContent;
+    }
+
+    return title;
+  }
+
+  @autobind
+  handleClick(e: React.MouseEvent<HTMLDivElement>) {
+    const {dispatchEvent, data} = this.props;
+    dispatchEvent(
+      'click',
+      createObject(data, {
+        nativeEvent: e
+      })
+    );
+  }
+
+  @autobind
+  handleMouseEnter(e: React.MouseEvent<any>) {
+    const {dispatchEvent, data} = this.props;
+    dispatchEvent(
+      e,
+      createObject(data, {
+        nativeEvent: e
+      })
+    );
+  }
+
+  @autobind
+  handleMouseLeave(e: React.MouseEvent<any>) {
+    const {dispatchEvent, data} = this.props;
+    dispatchEvent(
+      e,
+      createObject(data, {
+        nativeEvent: e
+      })
+    );
+  }
+
   render() {
     const {
       className,
@@ -94,17 +153,20 @@ export class Tpl extends React.Component<TplProps, object> {
       env
     } = this.props;
     const Component = wrapperComponent || (inline ? 'span' : 'div');
-    const content = env.filterHtml(this.getContent());
+    const content = this.getContent();
 
     return (
       <Component
         className={cx('TplField', className)}
         style={buildStyle(style, data)}
-        {...(showNativeTitle
-          ? {title: typeof content === 'string' ? content : ''}
-          : {})}
+        {...(showNativeTitle ? {title: this.getTitle(content)} : {})}
+        onClick={this.handleClick}
+        onMouseEnter={this.handleMouseEnter}
+        onMouseLeave={this.handleMouseLeave}
       >
-        <span dangerouslySetInnerHTML={{__html: content}}></span>
+        <span
+          dangerouslySetInnerHTML={{__html: env.filterHtml(content)}}
+        ></span>
       </Component>
     );
   }

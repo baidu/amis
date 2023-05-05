@@ -82,6 +82,7 @@ export class LinkCmpt extends React.Component<LinkProps, object> {
   render() {
     const {
       className,
+      style,
       body,
       href,
       classnames: cx,
@@ -104,6 +105,7 @@ export class LinkCmpt extends React.Component<LinkProps, object> {
     return (
       <Link
         className={className}
+        style={style}
         href={value}
         disabled={disabled}
         title={title}

@@ -61,7 +61,7 @@ export default {
         {
           actionType: 'custom',
           script: (context: any, doAction: any, event: any) => {
-            const theme = event.data.formData.config?.theme;
+            const theme = event.data.config?.theme;
             theme && updateTheme(theme);
           }
         }
