@@ -159,6 +159,15 @@ export default class PlayGround extends React.Component {
       fetcher: async api => {
         let {url, method, data, responseType, config, headers} = api;
         config = config || {};
+        // 如果在 gh-pages 里面
+        if (
+          /^\/amis/.test(window.location.pathname) &&
+          typeof url === 'string' &&
+          url.startsWith('/examples/static/')
+        ) {
+          url = url.replace('/examples/static/', '/amis/static/');
+        }
+
         config.url = url;
         responseType && (config.responseType = responseType);
 

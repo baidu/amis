@@ -33,3 +33,4 @@ lerna-debug.log
 package-lock.json
 revision.json
 **/revision.json
+~$*

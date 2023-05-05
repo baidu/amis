@@ -206,3 +206,15 @@ v6 用 fa-regular / fa-solid 等表示前缀，可参考官网[示例](https://f
 | className | `string`                             |        | 外层 CSS 类名                                                                                                             |
 | icon      | [模板](../../docs/concepts/template) |        | icon 名称，支持 [fontawesome v4](https://fontawesome.com/v4/icons/) 或 通过 registerIcon 注册的 icon、或使用 url          |
 | vendor    | `string`                             |        | icon 类型，默认为`fa`, 表示 fontawesome v4。也支持 iconfont, 如果是 fontawesome v5 以上版本或者其他框架可以设置为空字符串 |
+
+## 事件表
+
+> 2.6.1 及以上版本
+
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，详细查看[事件动作](../../docs/concepts/event-action)。
+
+| 事件名称   | 事件参数                               | 说明           |
+| ---------- | -------------------------------------- | -------------- |
+| click      | `nativeEvent: MouseEvent` 鼠标事件对象 | 点击时触发     |
+| mouseenter | `nativeEvent: MouseEvent` 鼠标事件对象 | 鼠标移入时触发 |
+| mouseleave | `nativeEvent: MouseEvent` 鼠标事件对象 | 鼠标移出时触发 |

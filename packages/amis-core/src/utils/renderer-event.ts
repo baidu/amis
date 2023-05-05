@@ -109,15 +109,16 @@ export const bindEvent = (renderer: any) => {
               item.renderer === listener.renderer && item.type === listener.type
             )
         );
-        rendererEventListeners.push({
-          renderer,
-          type: key,
-          debounce: listener.debounce || null,
-          weight: listener.weight || 0,
-          actions: listener.actions
-        });
+        listener.actions.length &&
+          rendererEventListeners.push({
+            renderer,
+            type: key,
+            debounce: listener.debounce || null,
+            weight: listener.weight || 0,
+            actions: listener.actions
+          });
       }
-      if (!listener) {
+      if (!listener && listeners[key].actions?.length) {
         rendererEventListeners.push({
           renderer,
           type: key,
@@ -156,6 +157,8 @@ export async function dispatchEvent(
     data,
     broadcast
   );
+
+  broadcast && renderer.props.onBroadcast?.(e as string, broadcast, data);
 
   if (!broadcast) {
     const eventConfig = renderer?.props?.onEvent?.[eventName];
@@ -252,13 +255,21 @@ export const getRendererEventListeners = () => {
  * @param data
  * @param valueKey
  */
-export const resolveEventData = (props: any, data: any, valueKey?: string) => {
+export const resolveEventData = (
+  props: any,
+  data: any,
+  valueKey: string = 'value'
+) => {
   return createObject(
     props.data,
     props.name && valueKey
       ? {
           ...data,
-          [props.name]: data[valueKey]
+          [props.name]: data[valueKey],
+          __rendererData: {
+            ...props.data,
+            [props.name]: data[valueKey]
+          }
         }
       : data
   );

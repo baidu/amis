@@ -80,6 +80,7 @@ interface Item extends Config {
   body: string | React.ReactNode;
   level: ToastLevel;
   id: string;
+  className?: string;
   onDissmiss?: () => void;
   position?:
     | 'top-right'
@@ -145,6 +146,7 @@ export class ToastComponent extends React.Component<
         level,
         ...config,
         id: guid(),
+        className: config.className || '',
         position: config.position || (useMobileUI ? 'center' : config.position),
         timeout: config.timeout || (useMobileUI ? 3000 : undefined)
       });
@@ -230,6 +232,7 @@ export class ToastComponent extends React.Component<
                 title={item.title}
                 body={item.body}
                 level={level}
+                className={item.className}
                 timeout={toastTimeout}
                 closeButton={!mobileUI && (item.closeButton ?? closeButton)}
                 onDismiss={this.handleDismissed.bind(this, items.indexOf(item))}
@@ -266,6 +269,7 @@ interface ToastMessageProps {
   classnames: ClassNamesFn;
   translate: TranslateFn;
   allowHtml: boolean;
+  className?: string;
   useMobileUI?: boolean;
 }
 
@@ -342,9 +346,10 @@ export class ToastMessage extends React.Component<
       level,
       showIcon,
       useMobileUI,
-      translate: __
+      translate: __,
+      className
     } = this.props;
-    const iconName = useMobileUI ? '' : 'status-';
+    const iconName = useMobileUI ? '' : 'alert-';
 
     return (
       <Transition
@@ -358,9 +363,14 @@ export class ToastMessage extends React.Component<
         {(status: string) => {
           return (
             <div
-              className={cx(`Toast Toast--${level}`, fadeStyles[status], {
-                'Toast-mobile--has-icon': useMobileUI && showIcon !== false
-              })}
+              className={cx(
+                `Toast Toast--${level}`,
+                className,
+                fadeStyles[status],
+                {
+                  'Toast-mobile--has-icon': useMobileUI && showIcon !== false
+                }
+              )}
               onMouseEnter={this.handleMouseEnter}
               onMouseLeave={this.handleMouseLeave}
               onClick={closeButton ? noop : this.close}

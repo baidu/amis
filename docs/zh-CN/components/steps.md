@@ -153,6 +153,32 @@ order: 68
 }
 ```
 
+## 简单模式
+
+```schema
+{
+  "type": "page",
+  "body": [
+    {
+      "type": "steps",
+      "value": 1,
+      "mode": "simple",
+      "steps": [
+        {
+          "title": "First"
+        },
+        {
+          "title": "Second"
+        },
+        {
+          "title": "Last"
+        }
+      ]
+    }
+  ]
+}
+```
+
 ## 数据映射
 
 当前处于第几步统一通过 `name` 关联变量名，其他配置可通过 `"${xxx}"` 关联上下文变量。
@@ -282,7 +308,9 @@ order: 68
         "title": "Last",
         "value": "last"
       }
-    ]
+    ],
+    "value": "secord",
+    "status": "error"
   }
 }
 ```
@@ -354,18 +382,18 @@ order: 68
 
 ## 属性表
 
-| 属性名         | 类型                                                                              | 默认值       | 说明                                                                 |
-| -------------- | --------------------------------------------------------------------------------- | ------------ | -------------------------------------------------------------------- |
-| type           | `string`                                                                          |              | `"steps"` 指定为 步骤条 渲染器                                       |
-| steps          | Array<[step](#step)>                                                              | []           | 数组，配置步骤信息                                                   |
-| source         | [API](../../../docs/types/api) 或 [数据映射](../../../docs/concepts/data-mapping) |              | 选项组源，可通过数据映射获取当前数据域变量、或者配置 API 对象        |
-| name           | `string`                                                                          |              | 关联上下文变量                                                       |
-| value          | `string` \| `number`                                                              | `-`          | 设置默认值，注意不支持表达式                                         |
-| status         | [StepStatus](#StepStatus) \| {[propName: string]: stepStatus;}                    | `-`          | 状态                                                                 |
-| className      | `string`                                                                          | `-`          | 自定义类名                                                           |
-| mode           | `horizontal` \| `vertical`                                                        | `horizontal` | 指定步骤条方向。目前支持水平（horizontal）和竖直（vertical）两种方向 |
-| labelPlacement | `horizontal` \| `vertical`                                                        | `horizontal` | 指定标签放置位置，默认水平放图标右侧，可选 (vertical) 放图标下方     |
-| progressDot    | `boolean`                                                                         | `false`      | 点状步骤条                                                           |
+| 属性名         | 类型                                                                              | 默认值       | 说明                                                                             |
+| -------------- | --------------------------------------------------------------------------------- | ------------ | -------------------------------------------------------------------------------- |
+| type           | `string`                                                                          |              | `"steps"` 指定为 步骤条 渲染器                                                   |
+| steps          | Array<[step](#step)>                                                              | []           | 数组，配置步骤信息                                                               |
+| source         | [API](../../../docs/types/api) 或 [数据映射](../../../docs/concepts/data-mapping) |              | 选项组源，可通过数据映射获取当前数据域变量、或者配置 API 对象                    |
+| name           | `string`                                                                          |              | 关联上下文变量                                                                   |
+| value          | `string` \| `number`                                                              | `-`          | 设置默认值，注意不支持表达式                                                     |
+| status         | [StepStatus](#StepStatus) \| {[propName: string]: stepStatus;}                    | `-`          | 状态                                                                             |
+| className      | `string`                                                                          | `-`          | 自定义类名                                                                       |
+| mode           | `horizontal` \| `vertical` \| `simple`                                            | `horizontal` | 指定步骤条模式。目前支持水平（horizontal）、竖直（vertical）和简单（simple）模式 |
+| labelPlacement | `horizontal` \| `vertical`                                                        | `horizontal` | 指定标签放置位置，默认水平放图标右侧，可选 (vertical) 放图标下方                 |
+| progressDot    | `boolean`                                                                         | `false`      | 点状步骤条                                                                       |
 
 ### step
 

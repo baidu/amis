@@ -72,7 +72,7 @@ export interface RendererEnv {
     schema: Schema,
     path: string,
     reRender: Function
-  ) => Promise<React.ReactType> | React.ReactType | JSX.Element | void;
+  ) => Promise<React.ElementType> | React.ElementType | JSX.Element | void;
   loadChartExtends?: () => void | Promise<void>;
   useMobileUI?: boolean;
   /**
@@ -153,7 +153,7 @@ export function withRendererEnv<
         const injectedProps: {
           env: RendererEnv;
         } = {
-          env: this.props.env || this.context
+          env: this.props.env! || this.context
         };
 
         if (!injectedProps.env) {

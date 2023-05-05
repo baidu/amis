@@ -31,6 +31,7 @@ import * as utils from './utils/helper';
 import {getEnv} from 'mobx-state-tree';
 
 import {RegisterStore, RendererStore} from './store';
+import type {IColumn, IColumn2, IRow, IRow2} from './store';
 import {
   setDefaultLocale,
   getDefaultLocale,
@@ -43,7 +44,7 @@ import {
 import type {LocaleProps, TranslateFn} from './locale';
 
 import Scoped, {ScopedContext} from './Scoped';
-import type {IScopedContext} from './Scoped';
+import type {ScopedComponentType, IScopedContext} from './Scoped';
 
 import {
   classnames,
@@ -79,7 +80,9 @@ import type {RendererEnv} from './env';
 import React from 'react';
 import {
   evaluate,
+  evaluateForAsync,
   Evaluator,
+  AsyncEvaluator,
   extendsFilters,
   filters,
   getFilters,
@@ -93,8 +96,12 @@ import LazyComponent from './components/LazyComponent';
 import Overlay from './components/Overlay';
 import PopOver from './components/PopOver';
 import {FormRenderer} from './renderers/Form';
-import type {FormHorizontal} from './renderers/Form';
+import type {FormHorizontal, FormSchemaBase} from './renderers/Form';
 import {enableDebug, promisify, replaceText, wrapFetcher} from './utils/index';
+import type {OnEventProps} from './utils/index';
+import {valueMap as styleMap} from './utils/style-helper';
+import {RENDERER_TRANSMISSION_OMIT_PROPS} from './SchemaRenderer';
+import type {IItem} from './store/list';
 
 // @ts-ignore
 export const version = '__buildVersion';
@@ -152,6 +159,7 @@ export {
   parse,
   lexer,
   Evaluator,
+  AsyncEvaluator,
   FilterContext,
   filters,
   getFilters,
@@ -159,6 +167,7 @@ export {
   extendsFilters,
   registerFunction,
   evaluate,
+  evaluateForAsync,
   // 其他
   LazyComponent,
   Overlay,
@@ -170,7 +179,17 @@ export {
   FormBaseControl,
   extendDefaultEnv,
   addRootWrapper,
-  RendererConfig
+  RendererConfig,
+  styleMap,
+  RENDERER_TRANSMISSION_OMIT_PROPS,
+  ScopedComponentType,
+  IItem,
+  IColumn,
+  IRow,
+  IColumn2,
+  IRow2,
+  OnEventProps,
+  FormSchemaBase
 };
 
 export function render(

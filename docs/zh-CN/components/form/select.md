@@ -958,6 +958,108 @@ leftOptions 动态加载，默认 source 接口是返回 options 部分，而 le
 }
 ```
 
+## 自定义下拉区域宽度与对齐方式
+
+> 2.8.0 以上版本
+
+使用字符串或数字，使用数字时单位为`px`；支持单位: `%`、`px`、`rem`、`em`、`vw`。
+
+```schema: scope="body"
+{
+  "type": "page",
+  "body": {
+    "type": "form",
+    "body": [
+      {
+        "label": "80% 宽度靠右对齐",
+        "type": "select",
+        "name": "select",
+        "menuTpl": "<div>${label} 值：${value}, 当前是否选中: ${checked}</div>",
+        "overlay": {
+          "width": "80%",
+          "align": "right"
+        },
+        "options": [
+          {
+            "label": "A",
+            "value": "a"
+          },
+          {
+            "label": "B",
+            "value": "b"
+          },
+          {
+            "label": "C",
+            "value": "c"
+          }
+        ]
+      },
+      {
+        "label": "300px 宽度中间对齐",
+        "type": "select",
+        "name": "select",
+        "menuTpl": "<div>${label} 值：${value}, 当前是否选中: ${checked}</div>",
+        "overlay": {
+          "width": 300,
+          "align": "center"
+        },
+        "options": [
+          {
+            "label": "A",
+            "value": "a"
+          },
+          {
+            "label": "B",
+            "value": "b"
+          },
+          {
+            "label": "C",
+            "value": "c"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+使用相对数值，如：`-20px` 相当于 `100% - 20px`；`+10vw` 相当于 `100% + 10vw`。支持如上相同单位。
+
+```schema: scope="body"
+{
+  "type": "page",
+  "body": {
+    "type": "form",
+    "body": [
+      {
+        "label": "相对窄 100px 向左对齐",
+        "type": "select",
+        "name": "select",
+        "overlay": {
+          "width": "-100px",
+          "align": "left"
+        },
+        "popOverContainerSelector": "body",
+        "options": [
+          {
+            "label": "A",
+            "value": "a"
+          },
+          {
+            "label": "B",
+            "value": "b"
+          },
+          {
+            "label": "C",
+            "value": "c"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
 ## searchApi
 
 **发送**
@@ -993,6 +1095,30 @@ leftOptions 动态加载，默认 source 接口是返回 options 部分，而 le
 
 适用于需选择的数据/信息源较多时，用户可直观的知道自己所选择的数据/信息的场景，一般左侧框为数据/信息源，右侧为已选数据/信息，被选中信息同时存在于 2 个框内。
 
+## 多选全选
+
+开启全选后，默认开启`"checkAllBySearch": true`，检索状态下全选内容为当前过滤项。如果设置了`"checkAllBySearch": false`，则无论是否在检索状态下，全选都会选择全部数据源。
+
+> 2.8.1 及以上版本`checkAllBySearch`默认开启
+
+```schema: scope="body"
+{
+    "type": "form",
+    "body": [
+        {
+            "label": "多选",
+            "type": "select",
+            "name": "select2",
+            "searchable": true,
+            "checkAll": true,
+            "multiple": true,
+            "clearable": true,
+            "source": "/api/mock2/form/getOptions"
+        }
+    ]
+}
+```
+
 ## 属性表
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
@@ -1009,7 +1135,7 @@ leftOptions 动态加载，默认 source 接口是返回 options 部分，而 le
 | extractValue             | `boolean`                                                                         | `false`                                                                            | [提取值](./options#%E6%8F%90%E5%8F%96%E5%A4%9A%E9%80%89%E5%80%BC-extractvalue)                                                                                                                               |
 | checkAll                 | `boolean`                                                                         | `false`                                                                            | 是否支持全选                                                                                                                                                                                                 |
 | checkAllLabel            | `string`                                                                          | `全选`                                                                             | 全选的文字                                                                                                                                                                                                   |
-| checkAllBySearch         | `boolean`                                                                         | `false`                                                                            | 有检索时只全选检索命中的项                                                                                                                                                                                   |
+| checkAllBySearch         | `boolean`                                                                         | `true`                                                                             | 有检索时只全选检索命中的项                                                                                                                                                                                   |
 | defaultCheckAll          | `boolean`                                                                         | `false`                                                                            | 默认是否全选                                                                                                                                                                                                 |
 | creatable                | `boolean`                                                                         | `false`                                                                            | [新增选项](./options#%E5%89%8D%E7%AB%AF%E6%96%B0%E5%A2%9E-creatable)                                                                                                                                         |
 | multiple                 | `boolean`                                                                         | `false`                                                                            | [多选](./options#多选-multiple)                                                                                                                                                                              |
@@ -1037,7 +1163,9 @@ leftOptions 动态加载，默认 source 接口是返回 options 部分，而 le
 | overflowTagPopover       | `TooltipObject`                                                                   | `{"placement": "top", "trigger": "hover", "showArrow": false, "offset": [0, -10]}` | 收纳浮层的配置属性，详细配置参考[Tooltip](../tooltip#属性表)                                                                                                                                                 |
 | optionClassName          | `string`                                                                          |                                                                                    | 选项 CSS 类名                                                                                                                                                                                                |
 | popOverContainerSelector | `string`                                                                          |                                                                                    | 弹层挂载位置选择器，会通过`querySelector`获取                                                                                                                                                                |
-| clearable                | `boolean`                                                                         | 是否展示清空图标 ｜                                                                |
+| clearable                | `boolean`                                                                         |                                                                                    | 是否展示清空图标                                                                                                                                                                                             |
+| overlay                  | `{ width: string \| number, align: "left" \| "center" \| "right" }`               |                                                                                    | 弹层宽度与对齐方式 `2.8.0 以上版本`                                                                                                                                                                          |
+| showInvalidMatch         | `boolean`                                                                         | `false`                                                                            | 选项值与选项组不匹配时选项值是否飘红                                                                                                                                                                         |
 
 ## 事件表
 

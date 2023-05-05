@@ -76,7 +76,7 @@
   &-ribbon-out {
     overflow: hidden;
     position: absolute;
-    top: 0;
+
     bottom: 0;
     right: 0;
   }
@@ -94,6 +94,11 @@
   }
 
   &-ribbon-out--top-left,
+  &-ribbon-out--top-right {
+    top: 0;
+  }
+
+  &-ribbon-out--top-left,
   &-ribbon-out--bottom-left {
     left: 0;
     right: auto;
@@ -105,7 +110,8 @@
     right: auto;
   }
 
-  &-ribbon--bottom-left {
+  &-ribbon--bottom-left,
+  &-ribbon-out--bottom--left {
     transform: translateX(calc(-50% + 5px)) rotate(45deg) scale(0.7);
     transform-origin: 50% 100%;
     left: 0;
@@ -114,7 +120,8 @@
     top: auto;
   }
 
-  &-ribbon--bottom-right {
+  &-ribbon--bottom-right,
+  &-ribbon-out--bottom--right {
     transform: translateX(calc(50% - 5px)) rotate(-45deg) scale(0.7);
     transform-origin: 50% 100%;
     left: auto;

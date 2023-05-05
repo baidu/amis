@@ -605,6 +605,7 @@
   &--size-default {
     @include button-size(
       var(--button-size-default-fontSize),
+      var(--button-size-default-fontWeight),
       var(--button-size-default-lineHeight),
       var(--button-size-default-top-right-border-radius),
       var(--button-size-default-top-left-border-radius),
@@ -623,11 +624,15 @@
       var(--button-size-default-icon-size),
       var(--button-size-default-icon-margin)
     );
+    &.#{$ns}Button--iconOnly {
+      min-width: var(--button-size-default-height);
+    }
   }
 
   &--size-xs {
     @include button-size(
       var(--button-size-xs-fontSize),
+      var(--button-size-xs-fontWeight),
       var(--button-size-xs-lineHeight),
       var(--button-size-xs-top-right-border-radius),
       var(--button-size-xs-top-left-border-radius),
@@ -648,15 +653,14 @@
     );
 
     &.#{$ns}Button--iconOnly {
-      min-width: calc(
-        var(--Button--xs-height) * var(--Button--iconOnly-minWidthRate)
-      );
+      min-width: var(--button-size-xs-height);
     }
   }
 
   &--size-sm {
     @include button-size(
       var(--button-size-sm-fontSize),
+      var(--button-size-sm-fontWeight),
       var(--button-size-sm-lineHeight),
       var(--button-size-sm-top-right-border-radius),
       var(--button-size-sm-top-left-border-radius),
@@ -677,15 +681,14 @@
     );
 
     &.#{$ns}Button--iconOnly {
-      min-width: calc(
-        var(--Button--sm-height) * var(--Button--iconOnly-minWidthRate)
-      );
+      min-width: var(--button-size-sm-height);
     }
   }
 
   &--size-md {
     @include button-size(
       var(--button-size-md-fontSize),
+      var(--button-size-md-fontWeight),
       var(--button-size-md-lineHeight),
       var(--button-size-md-top-right-border-radius),
       var(--button-size-md-top-left-border-radius),
@@ -706,15 +709,14 @@
     );
 
     &.#{$ns}Button--iconOnly {
-      min-width: calc(
-        var(--Button--md-height) * var(--Button--iconOnly-minWidthRate)
-      );
+      min-width: var(--button-size-md-height);
     }
   }
 
   &--size-lg {
     @include button-size(
       var(--button-size-lg-fontSize),
+      var(--button-size-lg-fontWeight),
       var(--button-size-lg-lineHeight),
       var(--button-size-lg-top-right-border-radius),
       var(--button-size-lg-top-left-border-radius),
@@ -735,22 +737,16 @@
     );
 
     &.#{$ns}Button--iconOnly {
-      min-width: calc(
-        var(--Button--lg-height) * var(--Button--iconOnly-minWidthRate)
-      );
+      min-width: var(--button-size-lg-height);
     }
   }
 
   &--iconOnly {
-    min-width: calc(
-      var(--Button-height) * var(--Button--iconOnly-minWidthRate)
-    );
-
+    padding: 0;
     &:not(.#{$ns}Button--link) {
       > svg.icon {
         width: px2rem(14px);
         height: px2rem(14px);
-        top: px2rem(2px);
       }
 
       > .fa,

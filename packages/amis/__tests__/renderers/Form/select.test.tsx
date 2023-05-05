@@ -817,3 +817,45 @@ test('Renderer:select associated mode with virtual', async () => {
 
   expect(container).toMatchSnapshot('');
 });
+
+test('Renderer:select value contains delimiter when single', async () => {
+  const {container} = render(
+    amisRender({
+      type: 'page',
+      body: {
+        type: 'form',
+        body: [
+          {
+            label: '单选不分割',
+            type: 'select',
+            name: 'select',
+            value: 'a,b',
+            options: [
+              {
+                label: 'ALabel',
+                value: 'a,b'
+              },
+              {
+                label: 'BLabel',
+                value: 'b'
+              },
+              {
+                label: 'CLabel',
+                value: 'c'
+              },
+              {
+                label: 'DLabel',
+                value: 'd'
+              }
+            ]
+          }
+        ]
+      }
+    })
+  );
+
+  expect(
+    container.querySelector('.cxd-Select-valueWrap .cxd-Select-value')!
+      .innerHTML
+  ).toEqual('ALabel');
+});

@@ -91,13 +91,13 @@ order: 73
           "time": "2019-02-07",
           "title": "节点数据error",
           "detail": "error",
-          "icon": "status-fail"
+          "icon": "fail"
         },
         {
           "time": "2019-02-08",
           "title": "节点数据success",
           "detail": "success",
-          "icon": "status-success"
+          "icon": "success"
         },
         {
           "time": "2019-02-09",
@@ -394,12 +394,12 @@ order: 73
 ## 属性表
 
 | 属性名    | 类型                                  | 默认值     | 说明                                                        |
-| --------- | ------------------------------------- | ---------- | ----------------------------------------------------------- | --- |
+| --------- | ------------------------------------- | ---------- | ----------------------------------------------------------- |
 | type      | `string`                              |            | `"timeline"` 指定为 时间轴 渲染器                           |
 | items     | Array<[timelineItem](#timeline.item)> | []         | 配置节点数据                                                |
 | source    | [API](../../../docs/types/api)        |            | 数据源，可通过数据映射获取当前数据域变量、或者配置 API 对象 |
 | mode      | `left` \| `right` \| `alternate`      | `right`    | 指定文字相对于时间轴的位置，仅 direction=vertical 时支持    |
-| direction | `vertical` \| `horizontal`            | `vertical` | 时间轴方向                                                  |     |
+| direction | `vertical` \| `horizontal`            | `vertical` | 时间轴方向                                                  |
 | reverse   | `boolean`                             | `false`    | 根据时间倒序显示                                            |
 
 ### timeline.item
@@ -407,7 +407,7 @@ order: 73
 | 属性名              | 类型                                                    | 默认值    | 说明                                                        |
 | ------------------- | ------------------------------------------------------- | --------- | ----------------------------------------------------------- |
 | time                | `string `                                               |           | 节点时间                                                    |
-| title               | `string \| [SchemaNode](../../docs/types/schemanode)`   |           | 节点标题                                                    |
+| title               | `string` \| [SchemaNode](../../docs/types/schemanode)   |           | 节点标题                                                    |
 | detail              | `string`                                                |           | 节点详细描述（折叠）                                        |
 | detailCollapsedText | `string`                                                | `展开`    | 详细内容折叠时按钮文案                                      |
 | detailExpandedText  | `string`                                                | `折叠`    | 详细内容展开时按钮文案                                      |

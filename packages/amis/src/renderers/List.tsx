@@ -42,8 +42,8 @@ import {
 } from '../Schema';
 import {ActionSchema} from './Action';
 import {SchemaRemark} from './Remark';
-import type {IItem} from 'amis-core/lib/store/list';
-import type {OnEventProps} from 'amis-core/lib/utils/renderer-event';
+import type {IItem} from 'amis-core';
+import type {OnEventProps} from 'amis-core';
 
 /**
  * 不指定类型默认就是文本
@@ -58,6 +58,11 @@ export type ListBodyFieldObject = {
    * label 类名
    */
   labelClassName?: SchemaClassName;
+
+  /**
+   * 内层组件的CSS类名
+   */
+  innerClassName?: SchemaClassName;
 
   /**
    * 绑定字段名
@@ -322,9 +327,10 @@ export default class List extends React.Component<ListProps, object> {
     } = props;
 
     store.update({
-      multiple,
-      selectable,
-      draggable,
+      /** Card嵌套List情况下该属性获取到的值为ListStore的默认值, 会导致Schema中的配置被覆盖 */
+      multiple: multiple || props?.$schema.multiple,
+      selectable: selectable || props?.$schema.selectable,
+      draggable: draggable || props?.$schema.draggable,
       orderBy,
       orderDir,
       hideCheckToggler,
@@ -1185,7 +1191,7 @@ export class ListItem extends React.Component<ListItemProps> {
         <div className={cx('ListItem-checkBtn')}>
           <Checkbox
             classPrefix={ns}
-            type={multiple ? 'checkbox' : 'radio'}
+            type={multiple !== false ? 'checkbox' : 'radio'}
             disabled={!checkable}
             checked={selected}
             onChange={checkOnItemClick ? noop : this.handleCheck}
@@ -1421,6 +1427,7 @@ export class ListItemFieldRenderer extends TableCell {
       render,
       style,
       wrapperComponent: Component,
+      contentsOnly,
       labelClassName,
       value,
       data,
@@ -1456,9 +1463,10 @@ export class ListItemFieldRenderer extends TableCell {
       );
     }
 
-    if (!Component) {
+    if (contentsOnly) {
       return body as JSX.Element;
     }
+    Component = Component || 'div';
 
     return (
       <Component

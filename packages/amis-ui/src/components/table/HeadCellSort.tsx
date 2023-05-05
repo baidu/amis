@@ -18,6 +18,7 @@ import {ColumnProps} from './index';
 export interface Props extends ThemeProps, LocaleProps {
   column: ColumnProps;
   onSort?: Function;
+  active?: boolean;
   classnames: ClassNamesFn;
 }
 
@@ -36,31 +37,46 @@ export class HeadCellSort extends React.Component<Props, State> {
     };
   }
 
+  componentDidUpdate(prevProps: Readonly<Props>): void {
+    const props = this.props;
+    // 失效后重置，同时只能有一列在排序
+    if (
+      props?.active !== undefined &&
+      !props?.active &&
+      props.active !== prevProps?.active
+    ) {
+      this.setState({orderBy: '', order: ''});
+    }
+  }
+
   render() {
-    const {column, onSort, classnames: cx} = this.props;
+    const {active, column, onSort, classnames: cx} = this.props;
 
     return (
       <span
-        className={cx('TableCell-sortBtn')}
+        className={cx('TableCell-sortBtn', 'aaa')}
         onClick={async () => {
-          let sortPayload = {};
+          let sortPayload: State = {
+            orderBy: '',
+            order: ''
+          };
           if (column.name === this.state.orderBy) {
-            if (this.state.order === 'descend') {
+            if (this.state.order === 'desc') {
               // 降序改为取消
-              sortPayload = {orderBy: '', order: 'ascend'};
+              sortPayload = {orderBy: '', order: ''};
             } else {
               // 升序之后降序
-              sortPayload = {order: 'descend'};
+              sortPayload = {orderBy: column.name, order: 'desc'};
             }
           } else {
             // 默认先升序
-            sortPayload = {orderBy: column.name, order: 'ascend'};
+            sortPayload = {orderBy: column.name, order: 'asc'};
           }
 
           if (onSort) {
             const prevented = await onSort({
-              orderBy: this.state.orderBy,
-              order: this.state.order
+              orderBy: sortPayload.orderBy,
+              order: sortPayload.order
             });
             if (prevented) {
               return;
@@ -73,30 +89,34 @@ export class HeadCellSort extends React.Component<Props, State> {
         <i
           className={cx(
             'TableCell-sortBtn--down',
-            this.state.orderBy === column.name && this.state.order === 'descend'
-              ? 'is-active'
-              : ''
+            active && this.state.order === 'desc' ? 'is-active' : ''
           )}
         >
-          <Icon icon="sort-desc" className="icon" />
+          <Icon
+            icon="sort-desc"
+            className="icon"
+            iconContent="table-sort-down"
+          />
         </i>
         <i
           className={cx(
             'TableCell-sortBtn--up',
-            this.state.orderBy === column.name && this.state.order === 'ascend'
-              ? 'is-active'
-              : ''
+            active && this.state.order === 'asc' ? 'is-active' : ''
           )}
         >
-          <Icon icon="sort-asc" className="icon" />
+          <Icon icon="sort-asc" className="icon" iconContent="table-sort-up" />
         </i>
         <i
           className={cx(
             'TableCell-sortBtn--default',
-            this.state.orderBy === column.name ? '' : 'is-active'
+            active ? '' : 'is-active'
           )}
         >
-          <Icon icon="sort-default" className="icon" />
+          <Icon
+            icon="sort-default"
+            className="icon"
+            iconContent="table-sort-default"
+          />
         </i>
       </span>
     );

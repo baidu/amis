@@ -3,8 +3,7 @@
     <img width="284" src="https://github.com/baidu/amis/raw/master/examples/static/logo.png">
   </p>
 
-[文档（国内）](https://baidu.gitee.io/amis/) |
-[文档（备用）](https://aisuda.bce.baidu.com/amis/) |
+[文档（国内）](https://aisuda.bce.baidu.com/amis/) |
 [文档（国外）](https://baidu.github.io/amis/) |
 [可视化编辑器](https://aisuda.github.io/amis-editor-demo/) |
 [amis-admin](https://github.com/aisuda/amis-admin) |
@@ -13,15 +12,13 @@
 </div>
 
 <div align="center">
-  QQ 群: 1147750223（已满） |
-  QQ 群2: 651547026 |
   如流群：3395342 |
   如流群2：5511067|
 </div>
 
 <div align="center">
 
-![build](https://img.shields.io/github/workflow/status/baidu/amis/gh-pages/master)
+![build](https://img.shields.io/github/actions/workflow/status/baidu/amis/gh-pages.yml)
 ![license](https://img.shields.io/github/license/baidu/amis.svg)
 ![version](https://img.shields.io/npm/v/amis)
 ![language](https://img.shields.io/github/languages/top/baidu/amis)
@@ -47,6 +44,8 @@ npm i --legacy-peer-deps
 # 启动项目，等编译结束后通过 http://127.0.0.1:8888/examples/pages/simple 访问。
 npm start
 ```
+
+如果是开发编辑器，需要访问 `http://127.0.0.1:8888/packages/amis-editor/`
 
 ### 测试
 
@@ -104,4 +103,4 @@ npm run release
 
 ## 低代码平台
 
-amis 只能实现前端低代码，如果需要完整的低代码平台推荐使用[爱速搭](https://baidu.gitee.io/aisuda-docs/)。
+amis 只能实现前端低代码，如果需要完整的低代码平台推荐使用[爱速搭](https://aisuda.bce.baidu.com/aisuda-docs/)。

@@ -162,7 +162,7 @@ amis 的编辑器是基于 monaco 开发的，如果想进行深度定制，比�
 | language        | `string`  | `javascript` | 编辑器高亮的语言，支持通过 `${xxx}` 变量获取                                                                                                                                                             |
 | size            | `string`  | `md`         | 编辑器高度，取值可以是 `md`、`lg`、`xl`、`xxl`                                                                                                                                                           |
 | allowFullscreen | `boolean` | `false`      | 是否显示全屏模式开关                                                                                                                                                                                     |
-| options         | `object`  |              | monaco 编辑器的其它配置，比如是否显示行号等，请参考[这里](https://microsoft.github.io/monaco-editor/api/enums/monaco.editor.EditorOption.html)，不过无法设置 readOnly，只读模式需要使用 `disabled: true` |
+| options         | `object`  |              | monaco 编辑器的其它配置，比如是否显示行号等，请参考[这里](https://microsoft.github.io/monaco-editor/docs.html#interfaces/editor.IEditorOptions.html)，不过无法设置 readOnly，只读模式需要使用 `disabled: true` |
 | placeholder     | `string`  |              | 占位描述，没有值的时候展示                                                                                                                                                                               |
 
 ## 事件表

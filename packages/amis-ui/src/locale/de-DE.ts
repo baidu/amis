@@ -67,6 +67,7 @@ register('de-DE', {
   'Date.hoursago': 'Vor {{hours}} Stunde(n)',
   'Date.hourslater': '{{hours}} Stunde(n) später',
   'Date.invalid': 'Ungültiges Datum',
+  'Number.invalid': 'Ungültige Zahl',
   'Date.monday': 'Montag',
   'Date.monthsago': 'Vor {{months}} Monat(en)',
   'Date.monthslater': '{{months}} Monat(e) später',
@@ -140,7 +141,6 @@ register('de-DE', {
   'File.sizeLimit': 'Die maximale Dateigröße ist {{maxSize}}',
   'File.start': 'Hochladen beginnen',
   'File.upload': 'Hochladen',
-  'Image.upload': 'Hochladen',
   'File.uploadFailed': 'Zurückgegebene Daten der Upload-API sind leer',
   'File.uploading': 'Wird hochgeladen...',
   'FormItem.autoFillLoadFailed':
@@ -156,6 +156,7 @@ register('de-DE', {
   'Iframe.invalid': 'Ungültige Iframe-URL',
   'Iframe.invalidProtocol':
     'HTTP-URL-Iframe kann nicht in https verwendet werden',
+  'Image.upload': 'Bild hochladen',
   'Image.configError':
     'Es können nur eine Beschneidung oder mehrere festgelegt werden',
   'Image.crop': 'Bild beschneiden',
@@ -239,6 +240,9 @@ register('de-DE', {
   'Table.startSort': 'Klicken, um Sortierung zu starten',
   'Table.valueField': 'valueField muss vorhanden sein',
   'Table.index': 'Index',
+  'Table.add': 'Neu',
+  'Table.addButtonDisabledTip':
+    'Reichen Sie bei der Inhaltsbearbeitung zuerst ein und erstellen Sie dann eine neue Option',
   'Table.toggleColumn': 'Spalten anzeigen',
   'Table.searchFields': 'Abfragefelder setzen',
   'Tag.placeholder': 'Noch kein Tag',

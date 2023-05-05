@@ -2,8 +2,8 @@
  * @file 兼容配置，对于一些老的 api 设计的得不合理的地方做一些适配。
  * @author fex
  */
-import {SchemaNode, Schema} from 'amis-core/lib/types';
-import {RendererProps, addSchemaFilter} from 'amis-core';
+import {Schema} from 'amis-core';
+import {addSchemaFilter} from 'amis-core';
 import {CheckboxControlRenderer} from './renderers/Form/Checkbox';
 import {FormRenderer} from 'amis-core';
 import {FieldSetRenderer} from './renderers/Form/FieldSet';
@@ -14,7 +14,6 @@ import {getLevelFromClassName} from 'amis-core';
 import {FileControlRenderer} from './renderers/Form/InputFile';
 import {ImageControlRenderer} from './renderers/Form/InputImage';
 import {RichTextControlRenderer} from './renderers/Form/InputRichText';
-import isPlainObject from 'lodash/isPlainObject';
 import {GridRenderer} from './renderers/Grid';
 import {HBoxRenderer} from './renderers/HBox';
 

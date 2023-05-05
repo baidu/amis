@@ -1,5 +1,5 @@
-import { RendererEvent } from '../utils/renderer-event';
-import { evalExpression } from '../utils/tpl';
+import {RendererEvent} from '../utils/renderer-event';
+import {evalExpressionWithConditionBuilder} from '../utils/tpl';
 import {
   RendererAction,
   ListenerContext,
@@ -27,7 +27,12 @@ export class SwitchAction implements RendererAction {
         continue;
       }
 
-      if (evalExpression(branch.expression, mergeData)) {
+      const isPass = await evalExpressionWithConditionBuilder(
+        branch.expression,
+        mergeData
+      );
+
+      if (isPass) {
         await runActions(branch, renderer, event);
         // 去掉runAllMatch，这里只做排他，多个可以直接通过expression
         break;

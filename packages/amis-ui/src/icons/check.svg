@@ -1,9 +1,7 @@
-<svg viewBox="0 0 13 9" version="1.1" 
-    xmlns="http://www.w3.org/2000/svg" p-id="3506" 
-    xmlns:xlink="http://www.w3.org/1999/xlink">
-    <g transform="translate(6.656854, 2.656854) scale(-1, 1) rotate(-315.000000) translate(-6.656854, -2.656854) ">
-        <polygon id="path-1" points="11.1568542 5.15685425 11.1568542 -0.843145751 12.1568542 -0.843145751 12.1568542 6.15685425 1.15685425 6.15685425 1.15685425 5.15685425"></polygon>
-    </g>
+<svg viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g  transform="translate(1, 3)" fill="currentColor">
+    <polygon
+      points="12.9434208 0 14 1.05549618 5.46878781 9.59546203 0 4.11951273 1.0567286 3.06416613 5.46873994 7.48230751"></polygon>
+  </g>
 </svg>
-
-

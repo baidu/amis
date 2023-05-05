@@ -182,6 +182,9 @@
   &:hover {
     @content;
   }
+  &.hover {
+    @content;
+  }
 }
 
 @mixin focus {
@@ -200,11 +203,15 @@
   &:hover:active {
     @content;
   }
+  &.active {
+    @content;
+  }
 }
 
 @mixin button-size(
-  $font-size: var(--button-size-default-font-size),
-  $line-height: var(--button-size-default-font-lineHeight),
+  $font-size: var(--button-size-default-fontSize),
+  $font-weight: var(--button-size-default-fontWeight),
+  $line-height: var(--button-size-default-lineHeight),
   $border-radius-top-right: var(--button-size-default-top-right-border-radius),
   $border-radius-top-left: var(--button-size-default-top-left-border-radius),
   $border-radius-bottom-right:
@@ -225,8 +232,9 @@
   $iconMargin: var(--button-size-default-icon-margin)
 ) {
   font-size: $font-size;
+  font-weight: $font-weight;
   line-height: $line-height;
-  border-radius: $border-radius-top-right $border-radius-top-left
+  border-radius: $border-radius-top-left $border-radius-top-right
     $border-radius-bottom-right $border-radius-bottom-left;
   height: $height;
   padding: $paddingTop $paddingRight $paddingBottom $paddingLeft;
@@ -409,7 +417,6 @@
 
   svg {
     fill: var(--Form-input-clearBtn-color);
-    top: 0;
     width: var(--Form-input-clearBtn-size);
     height: var(--Form-input-clearBtn-size);
   }
@@ -443,7 +450,7 @@
     border: none;
     color: var(--Form-input-color);
     width: 100%;
-    height: calc(var(--Form-input-lineHeight) * var(--Form-input-fontSize));
+    height: var(--Form-input-lineHeight);
 
     &::placeholder {
       color: var(--Form-input-placeholderColor);
@@ -483,8 +490,8 @@
   }
 
   &.is-error > &-input {
-    border-color: var(--Form-input-onError-borderColor);
-    background: var(--Form-input-onError-bg);
+    border-color: var(--Form-item-onError-borderColor);
+    background: var(--Form-item-onError-bg);
     transition: all var(--animation-duration);
   }
 
@@ -496,7 +503,8 @@
   }
 
   &.is-error.is-focused > &-input {
-    border-color: var(--Form-input-onError-borderColor);
+    border-color: var(--Form-item-onError-borderColor);
+    background: var(--Form-item-onError-bg);
   }
 
   &.is-disabled > &-input {

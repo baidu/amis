@@ -1,5 +1,9 @@
 import React from 'react';
-import {Renderer, RendererProps} from 'amis-core';
+import {
+  RENDERER_TRANSMISSION_OMIT_PROPS,
+  Renderer,
+  RendererProps
+} from 'amis-core';
 import {SchemaNode, ActionObject} from 'amis-core';
 import {getScrollParent, autobind} from 'amis-core';
 import {findDOMNode} from 'react-dom';
@@ -12,6 +16,7 @@ import {
 } from '../Schema';
 import {ActionSchema} from './Action';
 import {FormHorizontal} from 'amis-core';
+import omit from 'lodash/omit';
 
 /**
  * Panel渲染器。
@@ -203,7 +208,7 @@ export default class Panel extends React.Component<PanelProps> {
 
     const subProps = {
       data,
-      ...rest,
+      ...omit(rest, RENDERER_TRANSMISSION_OMIT_PROPS),
       formMode: subFormMode || formMode,
       formHorizontal: subFormHorizontal || formHorizontal
     };

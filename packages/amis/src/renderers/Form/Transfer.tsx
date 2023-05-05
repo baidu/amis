@@ -147,6 +147,16 @@ export interface TransferControlSchema
    * 在选项数量达到多少时开启虚拟渲染
    */
   virtualThreshold?: number;
+
+  /**
+   * 当在value值未匹配到当前options中的选项时，是否value值对应文本飘红显示
+   */
+  showInvalidMatch?: boolean;
+
+  /**
+   * 树形模式下，仅选中子节点
+   */
+  onlyChildren?: boolean;
 }
 
 export interface BaseTransferProps
@@ -170,6 +180,10 @@ type OptionsControlWithSpinnerProps = OptionsControlProps & SpinnerExtraProps;
 export class BaseTransferRenderer<
   T extends OptionsControlWithSpinnerProps = BaseTransferProps
 > extends React.Component<T> {
+  static defaultProps = {
+    multiple: true
+  };
+
   tranferRef?: any;
 
   reload() {
@@ -188,7 +202,9 @@ export class BaseTransferRenderer<
       extractValue,
       options,
       dispatchEvent,
-      setOptions
+      setOptions,
+      selectMode,
+      deferApi
     } = this.props;
     let newValue: any = value;
     let newOptions = options.concat();
@@ -204,7 +220,10 @@ export class BaseTransferRenderer<
         );
 
         if (!indexes) {
-          newOptions.push(item);
+          newOptions.push({
+            ...item,
+            visible: false
+          });
         } else if (optionModified) {
           const origin = getTree(newOptions, indexes);
           newOptions = spliceTree(newOptions, indexes, 1, {
@@ -235,7 +254,10 @@ export class BaseTransferRenderer<
       );
 
       if (!indexes) {
-        newOptions.push(value);
+        newOptions.push({
+          ...value,
+          visible: false
+        });
       } else if (optionModified) {
         const origin = getTree(newOptions, indexes);
         newOptions = spliceTree(newOptions, indexes, 1, {
@@ -245,21 +267,31 @@ export class BaseTransferRenderer<
       }
     }
 
-    (newOptions.length > options.length || optionModified) &&
+    // 是否是有懒加载的树，这时不能将 value 添加到 options。因为有可能 value 在懒加载结果中
+    const isTreeDefer =
+      selectMode === 'tree' &&
+      (!!deferApi ||
+        !!findTree(
+          options,
+          (option: Option) => option.deferApi || option.defer
+        ));
+
+    if (
+      isTreeDefer === true ||
+      newOptions.length > options.length ||
+      optionModified
+    ) {
       setOptions(newOptions, true);
+    }
 
     // 触发渲染器事件
     const rendererEvent = await dispatchEvent(
       'change',
-      resolveEventData(
-        this.props,
-        {
-          value: newValue,
-          options,
-          items: options // 为了保持名字统一
-        },
-        'value'
-      )
+      resolveEventData(this.props, {
+        value: newValue,
+        options,
+        items: options // 为了保持名字统一
+      })
     );
     if (rendererEvent?.prevented) {
       return;
@@ -391,12 +423,14 @@ export class BaseTransferRenderer<
     colIndex: number,
     rowIndex: number
   ) {
-    const {render, data, classnames: cx} = this.props;
+    const {render, data, classnames: cx, showInvalidMatch} = this.props;
     return render(
       `cell/${colIndex}/${rowIndex}`,
       {
         type: 'text',
-        className: cx({'is-invalid': option?.__unmatched}),
+        className: cx({
+          'is-invalid': showInvalidMatch ? option?.__unmatched : false
+        }),
         ...column
       },
       {
@@ -466,7 +500,9 @@ export class BaseTransferRenderer<
       labelField,
       virtualThreshold,
       itemHeight,
-      loadingConfig
+      loadingConfig,
+      showInvalidMatch,
+      onlyChildren
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载
@@ -489,6 +525,7 @@ export class BaseTransferRenderer<
     return (
       <div className={cx('TransferControl', className)}>
         <Transfer
+          onlyChildren={onlyChildren}
           value={selectedOptions}
           options={options}
           disabled={disabled}
@@ -524,6 +561,7 @@ export class BaseTransferRenderer<
             toNumber(itemHeight) > 0 ? toNumber(itemHeight) : undefined
           }
           loadingConfig={loadingConfig}
+          showInvalidMatch={showInvalidMatch}
         />
 
         <Spinner

@@ -83,6 +83,7 @@ test('Renderer:chained-select', async () => {
       })
     )
   );
+  await wait(500);
 
   await waitFor(() => {
     expect(fetcher).toBeCalledTimes(3);
@@ -116,8 +117,12 @@ test('Renderer:chained-select', async () => {
   await waitFor(() => {
     expect(fetcher).toBeCalledTimes(5);
   });
-  fireEvent.click(getByText('请选择'));
-  expect(getByText('未找到任何结果')).toBeInTheDocument();
+
+  expect(container).not.toHaveTextContent('请选择');
+  expect(
+    container.querySelectorAll('.cxd-ChainedSelectControl > .cxd-Select')!
+      .length
+  ).toBe(4);
 
   expect(container).toMatchSnapshot();
 });

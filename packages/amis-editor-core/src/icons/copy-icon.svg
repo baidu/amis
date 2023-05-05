@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="23px" viewBox="0 0 24 23" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="页面-1" stroke="none" stroke-width="1" fill-rule="evenodd">
+        <g id="批量操作说明" transform="translate(-208.000000, -396.000000)">
+            <g id="编组-14备份-6" transform="translate(164.000000, 384.000000)">
+                <g id="重复一份-默认" transform="translate(44.000000, 12.000000)">
+                    <rect id="矩形" stroke-width="3" x="1.5" y="7.5" width="15" height="14" rx="2"></rect>
+                    <path d="M6,2 C6,0.8954305 6.8954305,2.02906125e-16 8,0 L22,0 C23.1045695,-2.02906125e-16 24,0.8954305 24,2 L24,16 C24,17.1045695 23.1045695,18 22,18 L18,18 L18,15.4 L21,15.4 L21,3.4 L9,3.4 L9,6 L6,6 L6,2 Z" id="形状结合" fill-rule="nonzero"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

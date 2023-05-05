@@ -32,6 +32,7 @@ export interface ResultListProps extends ThemeProps, LocaleProps {
   labelField?: string;
   itemHeight?: number; // 每个选项的高度，主要用于虚拟渲染
   virtualThreshold?: number; // 数据量多大的时候开启虚拟渲染
+  showInvalidMatch?: boolean;
 }
 
 export interface ItemRenderStates {
@@ -245,7 +246,8 @@ export class ResultList extends React.Component<
       itemClassName,
       sortable,
       labelField,
-      translate: __
+      translate: __,
+      showInvalidMatch
     } = this.props;
 
     return (
@@ -260,7 +262,7 @@ export class ResultList extends React.Component<
 
         <label
           className={cx('Selections-label', {
-            'is-invalid': option?.__unmatched
+            'is-invalid': showInvalidMatch ? option?.__unmatched : false
           })}
         >
           {itemRender(option, {

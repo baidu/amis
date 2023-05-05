@@ -149,12 +149,14 @@ api 返回支持两种格式，一种是直接返回完整 echarts 配置，数�
             "type": "value"
         },
         "series": [{
-            "data": "${line}",
+            "data": "${line || []}",
             "type": "line"
         }]
     }
 }
 ```
+
+> Echarts 中有些配置不能为未定义，所以要使用变量，最好使用类似上面的 `${line || []}` 写法配置默认值，保证在数据加载完前渲染也不会报错
 
 其中 api 返回内容是如下写法，可以看到通过[数据映射](../../docs/concepts/data-mapping)语法，我们可以将 api 放回结果中的 line 字段作为折线的数据。
 
@@ -174,6 +176,8 @@ api 返回支持两种格式，一种是直接返回完整 echarts 配置，数�
 
 有时候数据是在上层获取的，比如通过 service 中返回了数据，这时需要通过 `trackExpression` 来指定跟踪什么数据，比如下面的例子，数据是从 service 获取的就需要配置 `trackExpression`。
 
+> 如果`trackExpression` 追踪的数据是**对象数据**，可以使用[数据映射](../../docs/concepts/data-mapping)的`json`方法将数据序列化之后再比较，例如`"trackExpression": "${fieldToTrack|json}"`
+
 ```schema: scope="body"
 {
     "type": "service",
@@ -192,7 +196,7 @@ api 返回支持两种格式，一种是直接返回完整 echarts 配置，数�
                     "type": "value"
                 },
                 "series": [{
-                    "data": "${line}",
+                    "data": "${line || []}",
                     "type": "line"
                 }]
             }
@@ -304,7 +308,7 @@ api 返回支持两种格式，一种是直接返回完整 echarts 配置，数�
             "body": [
                 {
                     "type": "tpl",
-                    "tpl": "<span>当前选中值 ${value|json}<span>"
+                    "tpl": "<p>当前选中值 ${value|json}</p> <p>seriesType ${seriesType}</p> <p>seriesIndex ${seriesIndex}</p> <p>seriesName ${seriesName}</p> <p>name ${name}</p> <p>dataIndex ${dataIndex}</p>"
                 },
                 {
                     "type": "chart",
@@ -314,6 +318,36 @@ api 返回支持两种格式，一种是直接返回完整 echarts 配置，数�
         }
     }
 }
+```
+
+具体能拿到的参数请参考 [Echarts](https://echarts.apache.org/handbook/zh/concepts/event#%E9%BC%A0%E6%A0%87%E4%BA%8B%E4%BB%B6%E7%9A%84%E5%A4%84%E7%90%86) 的文档，官方定义如下
+
+```typescript
+type EventParams = {
+  // 当前点击的图形元素所属的组件名称，
+  // 其值如 'series'、'markLine'、'markPoint'、'timeLine' 等。
+  componentType: string;
+  // 系列类型。值可能为：'line'、'bar'、'pie' 等。当 componentType 为 'series' 时有意义。
+  seriesType: string;
+  // 系列在传入的 option.series 中的 index。当 componentType 为 'series' 时有意义。
+  seriesIndex: number;
+  // 系列名称。当 componentType 为 'series' 时有意义。
+  seriesName: string;
+  // 数据名，类目名
+  name: string;
+  // 数据在传入的 data 数组中的 index
+  dataIndex: number;
+  // 传入的原始数据项
+  data: Object;
+  // sankey、graph 等图表同时含有 nodeData 和 edgeData 两种 data，
+  // dataType 的值会是 'node' 或者 'edge'，表示当前点击在 node 还是 edge 上。
+  // 其他大部分图表中只有一种 data，dataType 无意义。
+  dataType: string;
+  // 传入的数据值
+  value: number | Array;
+  // 数据图形的颜色。当 componentType 为 'series' 时有意义。
+  color: string;
+};
 ```
 
 ## 远程拉取动态配置项

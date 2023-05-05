@@ -1,4 +1,5 @@
 import ReactDOM from 'react-dom';
+import React from 'react';
 import getOffset from './offset';
 import getPosition from './position';
 
@@ -101,10 +102,12 @@ export function calculatePosition(
     : 1;
 
   // auto 尝试四个方向对齐。
-  placement =
-    placement === 'auto'
-      ? 'left-bottom-left-top right-bottom-right-top left-top-left-bottom right-top-right-bottom left-bottom-left-top'
-      : placement;
+  const isAuto = placement === 'auto';
+  // 兜底方向
+  const autoDefaultPlacement = 'left-bottom-left-top';
+  placement = isAuto
+    ? `left-bottom-left-top right-bottom-right-top left-top-left-bottom right-top-right-bottom ${autoDefaultPlacement}`
+    : placement;
 
   let positionLeft = 0,
     positionTop = 0,
@@ -115,8 +118,30 @@ export function calculatePosition(
   if (~placement.indexOf('-')) {
     const tests = placement.split(/\s+/);
 
+    // 收集可见方向
+    let visiblePlacement: {
+      atX?: string;
+      atY?: string;
+      myX?: string;
+      myY?: string;
+    } = {};
+
     while (tests.length) {
-      const current = (activePlacement = tests.shift());
+      let current = (activePlacement = tests.shift());
+
+      // 自动对齐模式下，当四个方向都无法完全可见时
+      // 根据之前的计算结果，使用收集的可见方向作为兜底，避免完全不可见
+      if (isAuto && tests.length === 0) {
+        const [_atX, _atY, _myX, _myY] = autoDefaultPlacement.split('-');
+        const {
+          atX = _atX,
+          atY = _atY,
+          myX = _myX,
+          myY = _myY
+        } = visiblePlacement;
+        current = activePlacement = [atX, atY, myX, myY].join('-');
+      }
+
       let [atX, atY, myX, myY] = current.split('-');
       myX = myX || atX;
       myY = myY || atY;
@@ -152,12 +177,28 @@ export function calculatePosition(
           height: overlayHeight
         };
 
+        let visibleX = false;
+        let visibleY = false;
+
         if (
           transformed.x > 0 &&
-          transformed.x + transformed.width < window.innerWidth &&
+          transformed.x + transformed.width < window.innerWidth
+        ) {
+          visibleX = true;
+          !visiblePlacement.atX && (visiblePlacement.atX = atX);
+          !visiblePlacement.myX && (visiblePlacement.myX = myX);
+        }
+
+        if (
           transformed.y > 0 &&
           transformed.y + transformed.height < window.innerHeight
         ) {
+          visibleY = true;
+          !visiblePlacement.atY && (visiblePlacement.atY = atY);
+          !visiblePlacement.myY && (visiblePlacement.myY = myY);
+        }
+
+        if (visibleX && visibleY) {
           break;
         }
       }
@@ -234,4 +275,21 @@ export function getStyleNumber(element: HTMLElement, styleName: string) {
   return (
     parseInt(getComputedStyle(element).getPropertyValue(styleName), 10) || 0
   );
+}
+
+/** 根据关键字高亮显示文本内容 */
+export function renderTextByKeyword(rendererText: string, curKeyword: string) {
+  if (curKeyword && ~rendererText.indexOf(curKeyword)) {
+    const keywordStartIndex = rendererText.indexOf(curKeyword);
+    const keywordEndIndex = keywordStartIndex + curKeyword.length;
+    return (
+      <span>
+        {rendererText.substring(0, keywordStartIndex)}
+        <span className="is-keyword">{curKeyword}</span>
+        {rendererText.substring(keywordEndIndex)}
+      </span>
+    );
+  } else {
+    return rendererText;
+  }
 }

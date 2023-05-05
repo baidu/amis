@@ -21,7 +21,7 @@
 
     > input {
       display: inline-block;
-      width: auto;
+      width: 100% !important;
       vertical-align: middle;
     }
   }
@@ -94,6 +94,7 @@
   }
 
   &-value {
+    position: absolute;
     user-select: none;
     line-height: calc(
       var(--Form-input-lineHeight) * var(--Form-input-fontSize)

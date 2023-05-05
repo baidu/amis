@@ -15,6 +15,7 @@ import {evalExpression} from '../utils/tpl';
 import {buildApi, isEffectiveApi} from '../utils/api';
 import findIndex from 'lodash/findIndex';
 import {
+  isObject,
   isArrayChildrenModified,
   createObject,
   isObjectShallowModified,
@@ -56,6 +57,8 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     unique: false,
     loading: false,
     required: false,
+    /** Schema默认值是否为表达式格式 */
+    isValueSchemaExp: types.optional(types.boolean, false),
     tmpValue: types.frozen(),
     emitedValue: types.frozen(),
     rules: types.optional(types.frozen(), {}),
@@ -85,7 +88,9 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     dialogOpen: false,
     dialogData: types.frozen(),
     resetValue: types.optional(types.frozen(), ''),
-    validateOnChange: false
+    validateOnChange: false,
+    /** 当前表单项所属的InputGroup父元素, 用于收集InputGroup的子元素 */
+    inputGroupControl: types.optional(types.frozen(), {})
   })
   .views(self => {
     function getForm(): any {
@@ -159,7 +164,8 @@ export const FormItemStore = StoreNode.named('FormItemStore')
           ? nodeValueArray
           : Array.isArray(value)
           ? value
-          : typeof value === 'string'
+          : // 单选时不应该分割
+          typeof value === 'string' && self.multiple
           ? value.split(self.delimiter || ',')
           : [value];
         const selected = valueArray.map(item =>
@@ -216,6 +222,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       required,
       unique,
       value,
+      isValueSchemaExp,
       rules,
       messages,
       delimiter,
@@ -233,11 +240,13 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       maxLength,
       minLength,
       validateOnChange,
-      label
+      label,
+      inputGroupControl
     }: {
       required?: boolean;
       unique?: boolean;
       value?: any;
+      isValueSchemaExp?: boolean;
       rules?: string | {[propName: string]: any};
       messages?: {[propName: string]: string};
       multiple?: boolean;
@@ -256,6 +265,11 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       maxLength?: number;
       validateOnChange?: boolean;
       label?: string;
+      inputGroupControl?: {
+        name: string;
+        path: string;
+        [propsName: string]: any;
+      };
     }) {
       if (typeof rules === 'string') {
         rules = str2rules(rules);
@@ -284,6 +298,10 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       typeof validateOnChange !== 'undefined' &&
         (self.validateOnChange = !!validateOnChange);
       typeof label === 'string' && (self.label = label);
+      self.isValueSchemaExp = !!isValueSchemaExp;
+      isObject(inputGroupControl) &&
+        inputGroupControl?.name != null &&
+        (self.inputGroupControl = inputGroupControl);
 
       rules = {
         ...rules,
@@ -549,10 +567,15 @@ export const FormItemStore = StoreNode.named('FormItemStore')
                   (config && config.errorMessage)
               })
             );
+          let msg = json.msg;
+          // 如果没有 msg，就提示 status 信息
+          if (!msg) {
+            msg = `status: ${json.status}`;
+          }
           getEnv(self).notify(
             'error',
             apiObject.messages?.failed ??
-              (self.errors.join('') || `${apiObject.url}：${json.msg}`),
+              (self.errors.join('') || `${apiObject.url}: ${msg}`),
             json.msgTimeout !== undefined
               ? {
                   closeButton: true,
@@ -605,9 +628,9 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       ) => void,
       setErrorFlag?: boolean
     ) {
-      let json = yield fetchOptions(api, data, config, setErrorFlag);
+      let json: Payload = yield fetchOptions(api, data, config, setErrorFlag);
       if (!json) {
-        return;
+        return null;
       }
 
       clearError();
@@ -1065,7 +1088,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
             ? evalExpression(item.visibleOn, data) !== false
             : item.hiddenOn
             ? evalExpression(item.hiddenOn, data) !== true
-            : item.visible !== false || item.hidden !== true;
+            : item.visible !== false && item.hidden !== true;
         })
         .map((item: any, index) => {
           const disabled = evalExpression(item.disabledOn, data);

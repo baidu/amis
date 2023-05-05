@@ -21,7 +21,9 @@ export function normalizeOptions(
 
       const option = {
         label: item,
-        value: item
+        // 添加 option 的 value 根据 valueField 来
+        // 否则某些情况下多余字段会有影响
+        [valueField]: item
       };
 
       share.values.push(option.value);
@@ -41,10 +43,10 @@ export function normalizeOptions(
 
       const option = {
         label: item,
-        value: item
+        [valueField]: item
       };
 
-      share.values.push(option.value);
+      share.values.push(option[valueField]);
       share.options.push(option);
 
       return option;
@@ -64,7 +66,7 @@ export function normalizeOptions(
 
       const option = {
         ...item,
-        value
+        [valueField]: value
       };
 
       if (typeof option.children !== 'undefined') {
@@ -85,7 +87,7 @@ export function normalizeOptions(
 
       const option = {
         label: (options as {[propName: string]: string})[key] as string,
-        value: key
+        [valueField]: key
       };
 
       share.values.push(option.value);

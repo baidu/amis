@@ -41,6 +41,7 @@ import type {Option, Options} from 'amis-core';
 import {RemoteOptionsProps, withRemoteConfig} from './WithRemoteConfig';
 import Picker from './Picker';
 import PopUp from './PopUp';
+import BasePopover, {PopOverOverlay} from './PopOverContainer';
 
 import type {TooltipObject} from '../components/TooltipWrapper';
 
@@ -321,6 +322,7 @@ interface SelectProps
       searchable?: boolean;
     }
   ) => JSX.Element;
+  renderValueLabel?: (item: Option) => JSX.Element;
   searchable?: boolean;
   options: Array<Option>;
   value: any;
@@ -338,6 +340,7 @@ interface SelectProps
   popOverContainer?: any;
   popOverContainerSelector?: string;
   overlayPlacement?: string;
+  overlay?: PopOverOverlay;
   onChange: (value: void | string | Option | Array<Option>) => void;
   onFocus?: Function;
   onBlur?: Function;
@@ -575,7 +578,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
     const inputValue = this.state.inputValue;
     let {selection} = this.state;
     let filtedOptions: Array<Option> =
-      inputValue && checkAllBySearch
+      inputValue && checkAllBySearch !== false
         ? matchSorter(options, inputValue, {
             keys: [labelField || 'label', valueField || 'value']
           })
@@ -749,6 +752,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       maxTagCount,
       overflowTagPopover,
       showInvalidMatch,
+      renderValueLabel,
       translate: __
     } = this.props;
     const selection = this.state.selection;
@@ -807,7 +811,9 @@ export class Select extends React.Component<SelectProps, SelectState> {
                             })}
                           >
                             <span className={cx('Select-valueLabel')}>
-                              {item[labelField || 'label']}
+                              {renderValueLabel
+                                ? renderValueLabel(item)
+                                : item[labelField || 'label']}
                             </span>
                             <span
                               className={cx('Select-valueIcon', {
@@ -834,7 +840,9 @@ export class Select extends React.Component<SelectProps, SelectState> {
                 } /** 避免点击查看浮窗时呼出下拉菜单 */
               >
                 <span className={cx('Select-valueLabel')}>
-                  {item[labelField || 'label']}
+                  {renderValueLabel
+                    ? renderValueLabel(item)
+                    : item[labelField || 'label']}
                 </span>
               </div>
             </TooltipWrapper>
@@ -855,7 +863,9 @@ export class Select extends React.Component<SelectProps, SelectState> {
               })}
             >
               <span className={cx('Select-valueLabel')}>
-                {item[labelField || 'label']}
+                {renderValueLabel
+                  ? renderValueLabel(item)
+                  : item[labelField || 'label']}
               </span>
               <span
                 className={cx('Select-valueIcon', {
@@ -881,7 +891,9 @@ export class Select extends React.Component<SelectProps, SelectState> {
             })}
             key={index}
           >
-            {item[labelField || 'label']}
+            {renderValueLabel
+              ? renderValueLabel(item)
+              : item[labelField || 'label']}
           </div>
         );
       }
@@ -904,7 +916,9 @@ export class Select extends React.Component<SelectProps, SelectState> {
             })}
           >
             <span className={cx('Select-valueLabel')}>
-              {item[labelField || 'label']}
+              {renderValueLabel
+                ? renderValueLabel(item)
+                : item[labelField || 'label']}
             </span>
             <span
               className={cx('Select-valueIcon', {
@@ -958,7 +972,8 @@ export class Select extends React.Component<SelectProps, SelectState> {
       renderMenu,
       mobileClassName,
       virtualThreshold = 100,
-      useMobileUI = false
+      useMobileUI = false,
+      overlay
     } = this.props;
     const {selection} = this.state;
 
@@ -975,9 +990,9 @@ export class Select extends React.Component<SelectProps, SelectState> {
       filtedOptions.length && filtedOptions.length > virtualThreshold;
     const selectionValues = selection.map(select => select[valueField]);
     if (multiple && checkAll) {
-      const optionsValues = (checkAllBySearch ? filtedOptions : options).map(
-        option => option[valueField]
-      );
+      const optionsValues = (
+        checkAllBySearch !== false ? filtedOptions : options
+      ).map(option => option[valueField]);
 
       checkedAll = optionsValues.every(
         option => selectionValues.indexOf(option) > -1
@@ -1212,14 +1227,24 @@ export class Select extends React.Component<SelectProps, SelectState> {
         container={popOverContainer || this.getTarget}
         containerSelector={popOverContainerSelector}
         target={this.getTarget}
-        placement={overlayPlacement}
+        placement={
+          overlayPlacement === 'auto'
+            ? BasePopover.alignToPlacement(overlay)
+            : overlayPlacement
+        }
         show
       >
         <PopOver
           overlay
           className={cx('Select-popover')}
           style={{
-            width: this.target ? this.target.offsetWidth : 'auto'
+            width:
+              (overlay &&
+                BasePopover.calcOverlayWidth(
+                  overlay,
+                  this.target?.offsetWidth
+                )) ||
+              (this.target ? this.target.offsetWidth : 'auto')
           }}
           onHide={this.close}
         >

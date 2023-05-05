@@ -6,6 +6,7 @@ import {Icon} from './icons';
 import {autobind} from 'amis-core';
 import Alert2 from './Alert2';
 import BaiduMapPicker from './BaiduMapPicker';
+import GaodeMapPicker from './GaodeMapPicker';
 import {LocaleProps, localeable} from 'amis-core';
 
 export interface LocationProps extends ThemeProps, LocaleProps {
@@ -143,6 +144,31 @@ export class LocationPicker extends React.Component<
     const __ = this.props.translate;
     const {isFocused, isOpened} = this.state;
 
+    const picker = (() => {
+      switch (vendor) {
+        case 'baidu':
+          return (
+            <BaiduMapPicker
+              ak={ak}
+              value={value}
+              coordinatesType={coordinatesType}
+              onChange={this.handleChange}
+            />
+          );
+        case 'gaode':
+          return (
+            <GaodeMapPicker
+              ak={ak}
+              value={value}
+              coordinatesType={coordinatesType}
+              onChange={this.handleChange}
+            />
+          );
+        default:
+          return (<Alert2>{__(`${vendor} 地图控件不支持`, {vendor})}</Alert2>);
+      }
+    })()
+
     return (
       <div
         tabIndex={0}
@@ -192,16 +218,7 @@ export class LocationPicker extends React.Component<
             onClick={this.handlePopOverClick}
             style={{width: this.getTarget()?.offsetWidth}}
           >
-            {vendor === 'baidu' ? (
-              <BaiduMapPicker
-                ak={ak}
-                value={value}
-                coordinatesType={coordinatesType}
-                onChange={this.handleChange}
-              />
-            ) : (
-              <Alert2>{__('${vendor} 地图控件不支持', {vendor})}</Alert2>
-            )}
+            {picker}
           </PopOver>
         </Overlay>
       </div>

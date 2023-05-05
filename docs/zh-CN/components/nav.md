@@ -157,9 +157,31 @@ order: 58
             "label": "Nav 7",
             "to": "?to=nav7"
         },
-         {
+        {
             "label": "Nav 8",
             "to": "?to=nav8"
+        },
+        {
+            "label": "Nav 9",
+            "to": "?to=nav9"
+        },
+        {
+            "label": "Nav 10",
+            "to": "?to=nav10"
+        },
+        {
+            "label": "Nav 11",
+            "to": "?to=nav11",
+            "children": [
+                {
+                    "label": "Nav 13",
+                    "to": "?to=nav13"
+                }
+            ]
+        },
+        {
+            "label": "Nav 12",
+            "to": "?to=nav12"
         }
     ]
 }
@@ -271,6 +293,9 @@ order: 58
     "draggable": true,
     "saveOrderApi": "/api/options/nav",
     "source": "/api/options/nav?parentId=${value}",
+    "style": {
+        "width": 160
+    },
     "itemActions": [
         {
             "type": "icon",

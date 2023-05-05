@@ -4,7 +4,8 @@ import {
   FormItem,
   FormControlProps,
   FormBaseControl,
-  resolveEventData
+  resolveEventData,
+  insertCustomStyle
 } from 'amis-core';
 import cx from 'classnames';
 import {NumberInput, Select} from 'amis-ui';
@@ -138,6 +139,11 @@ export interface NumberProps extends FormControlProps {
    * 是否是大数，如果是的话输入输出都将是字符串
    */
   big?: boolean;
+
+  /**
+   * 是否在清空内容时从数据域中删除该表单项对应的值
+   */
+  clearValueOnEmpty?: boolean;
 }
 
 interface NumberState {
@@ -156,7 +162,8 @@ export default class NumberControl extends React.Component<
   input?: HTMLInputElement;
   static defaultProps: Partial<NumberProps> = {
     step: 1,
-    resetValue: ''
+    resetValue: '',
+    clearValueOnEmpty: false
   };
 
   constructor(props: NumberProps) {
@@ -199,10 +206,19 @@ export default class NumberControl extends React.Component<
    */
   doAction(action: ActionObject, args: any) {
     const actionType = action?.actionType as string;
-    const {min, max, precision, step, resetValue, big, onChange} = this.props;
+    const {
+      min,
+      max,
+      precision,
+      step,
+      resetValue,
+      big,
+      onChange,
+      clearValueOnEmpty
+    } = this.props;
 
     if (actionType === 'clear') {
-      onChange?.('');
+      onChange?.(clearValueOnEmpty ? undefined : '');
     } else if (actionType === 'reset') {
       const finalPrecision = NumberInput.normalizePrecision(
         this.filterNum(precision),
@@ -214,10 +230,11 @@ export default class NumberControl extends React.Component<
         this.filterNum(max, big),
         finalPrecision,
         resetValue ?? '',
+        clearValueOnEmpty,
         big
       );
 
-      onChange?.(value);
+      onChange?.(clearValueOnEmpty && value === '' ? undefined : value);
     }
   }
 
@@ -270,21 +287,22 @@ export default class NumberControl extends React.Component<
   async dispatchEvent(eventName: string) {
     const {dispatchEvent, value} = this.props;
 
-    dispatchEvent(eventName, resolveEventData(this.props, {value}, 'value'));
+    dispatchEvent(eventName, resolveEventData(this.props, {value}));
   }
 
   async handleChange(inputValue: any) {
-    const {onChange, dispatchEvent} = this.props;
+    const {onChange, dispatchEvent, clearValueOnEmpty} = this.props;
     const value = this.getValue(inputValue);
+    const resultValue = clearValueOnEmpty && value === '' ? undefined : value;
     const rendererEvent = await dispatchEvent(
       'change',
-      resolveEventData(this.props, {value}, 'value')
+      resolveEventData(this.props, {value: resultValue})
     );
     if (rendererEvent?.prevented) {
       return;
     }
 
-    onChange(value);
+    onChange(resultValue);
   }
 
   filterNum(value: number | string | undefined): number | undefined;
@@ -340,27 +358,6 @@ export default class NumberControl extends React.Component<
     this.input.focus();
   }
 
-  renderStatic(displayValue = '-') {
-    let {value, kilobitSeparator, prefix, suffix} = this.props;
-    if (value == null) {
-      return displayValue;
-    }
-    const unit = this.state?.unit || '';
-    // 处理单位
-    let finalValue =
-      unit && value && typeof value === 'string'
-        ? value.replace(unit, '')
-        : value;
-
-    // 增加千分分隔
-    if (kilobitSeparator && finalValue) {
-      finalValue = numberFormatter.format(finalValue);
-    }
-    // 增加前后缀
-    finalValue = (prefix ? prefix : '') + finalValue + (suffix ? suffix : '');
-    return <>{finalValue + unit}</>;
-  }
-
   @supportStatic()
   render() {
     const {
@@ -384,7 +381,12 @@ export default class NumberControl extends React.Component<
       keyboard,
       displayMode,
       big,
-      resetValue
+      resetValue,
+      clearValueOnEmpty,
+      css,
+      themeCss,
+      inputControlClassName,
+      id
     } = this.props;
     const finalPrecision = this.filterNum(precision);
     const unit = this.state?.unit;
@@ -411,6 +413,22 @@ export default class NumberControl extends React.Component<
         ? value.replace(unit, '')
         : value;
 
+    insertCustomStyle(
+      themeCss || css,
+      [
+        {
+          key: 'inputControlClassName',
+          value: inputControlClassName,
+          weights: {
+            active: {
+              pre: `${inputControlClassName}.focused, `
+            }
+          }
+        }
+      ],
+      id
+    );
+
     return (
       <div
         className={cx(
@@ -422,6 +440,7 @@ export default class NumberControl extends React.Component<
         )}
       >
         <NumberInput
+          inputControlClassName={inputControlClassName}
           inputRef={this.inputRef}
           value={finalValue}
           resetValue={resetValue}
@@ -442,14 +461,30 @@ export default class NumberControl extends React.Component<
           keyboard={keyboard}
           displayMode={displayMode}
           big={big}
+          clearValueOnEmpty={clearValueOnEmpty}
         />
-        {unitOptions ? (
-          <Select
-            value={unit}
-            clearable={false}
-            options={this.state.unitOptions || []}
-            onChange={this.handleChangeUnit}
-          />
+        {Array.isArray(unitOptions) && unitOptions.length !== 0 ? (
+          unitOptions.length > 1 ? (
+            <Select
+              value={unit}
+              clearable={false}
+              options={this.state.unitOptions || []}
+              onChange={this.handleChangeUnit}
+              className={`${ns}NumberControl-unit`}
+            />
+          ) : (
+            <div
+              className={cx(
+                `${ns}NumberControl-unit`,
+                ` ${ns}NumberControl-single-unit`,
+                `${ns}Select`
+              )}
+            >
+              {typeof unitOptions[0] === 'string'
+                ? unitOptions[0]
+                : unitOptions[0].label}
+            </div>
+          )
         ) : null}
       </div>
     );

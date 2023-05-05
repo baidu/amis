@@ -348,7 +348,7 @@ order: 21
 | -------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
 | change   | `[name]: FileValue` \| `Array<FileValue>` 组件的值                                                                                          | 上传文件值变化时触发(上传失败同样会触发) |
 | remove   | `item: FileValue` 被移除的文件<br/>`[name]: FileValue` \| `Array<FileValue>` 组件的值                                                       | 移除文件时触发                           |
-| success  | `item: FileValue` 远程上传请求成功后返回的结果数据<br/>`[name]: FileValue` \| `Array<FileValue>` 组件的值                                   | 上传成功时触发                           |
+| success  | `item: FileValue` 上传的文件<br/>`result: any` 远程上传请求成功后接口返回的结果数据<br/>`[name]: FileValue` \| `Array<FileValue>` 组件的值  | 上传成功时触发                           |
 | fail     | `item: FileValue` 上传的文件 <br /> `error: object` 远程上传请求失败后返回的错误信息<br/>`[name]: FileValue` \| `Array<FileValue>` 组件的值 | 上传文件失败时触发                       |
 
 ### FileValue 属性表

@@ -7,7 +7,7 @@ import {
   FormOptionsControl,
   resolveEventData
 } from 'amis-core';
-import {Select} from 'amis-ui';
+import {Select, Spinner} from 'amis-ui';
 import {Api} from 'amis-core';
 import {isEffectiveApi} from 'amis-core';
 import {isMobile, createObject} from 'amis-core';
@@ -15,6 +15,7 @@ import {ActionObject} from 'amis-core';
 import {FormOptionsSchema} from '../../Schema';
 import {supportStatic} from './StaticHoc';
 import find from 'lodash/find';
+import {isEmpty} from 'lodash';
 
 /**
  * 链式下拉框
@@ -36,13 +37,15 @@ export interface ChainedSelectProps
       | 'inputClassName'
     > {}
 
+export interface StackItem {
+  options: Array<Option>;
+  parentId: any;
+  loading: boolean;
+  visible?: boolean;
+}
+
 export interface SelectState {
-  stack: Array<{
-    options: Array<Option>;
-    parentId: any;
-    loading: boolean;
-    visible?: boolean;
-  }>;
+  stack: Array<StackItem>;
 }
 
 export default class ChainedSelectControl extends React.Component<
@@ -187,7 +190,7 @@ export default class ChainedSelectControl extends React.Component<
 
               const rendererEvent = await dispatchEvent(
                 'change',
-                resolveEventData(this.props, {value: valueRes}, 'value')
+                resolveEventData(this.props, {value: valueRes})
               );
 
               if (rendererEvent?.prevented) {
@@ -201,7 +204,7 @@ export default class ChainedSelectControl extends React.Component<
               options,
               parentId,
               loading: false,
-              visible: !!options
+              visible: Array.isArray(options) && !isEmpty(options)
             });
 
             this.setState(
@@ -241,7 +244,7 @@ export default class ChainedSelectControl extends React.Component<
 
     const rendererEvent = await dispatchEvent(
       'change',
-      resolveEventData(this.props, {value: valueRes}, 'value')
+      resolveEventData(this.props, {value: valueRes})
     );
 
     if (rendererEvent?.prevented) {
@@ -268,16 +271,13 @@ export default class ChainedSelectControl extends React.Component<
       delimiter
     } = this.props;
 
-    const allOptions = [
-      {options, visible: true},
-      ...(this.state.stack || [])
-    ];
+    const allOptions = [{options, visible: true}, ...(this.state.stack || [])];
     const valueArr = Array.isArray(value)
       ? value.concat()
       : value && typeof value === 'string'
       ? value.split(delimiter || ',')
       : [];
-  
+
     if (valueArr?.length > 0) {
       displayValue = valueArr
         .map((value: any, index) => {
@@ -288,14 +288,19 @@ export default class ChainedSelectControl extends React.Component<
           if (!options || !options.length) {
             return value;
           }
-          const selectedOption = find(options, (o) => value === o[valueField]) || {};
+          const selectedOption =
+            find(options, o => value === o[valueField]) || {};
           return selectedOption[labelField] ?? value;
         })
         .filter(v => v != null)
         .join(' > ');
     }
-  
-    return <div className={cx(`${classPrefix}SelectStaticControl`, className)}>{displayValue}</div>;
+
+    return (
+      <div className={cx(`${classPrefix}SelectStaticControl`, className)}>
+        {displayValue}
+      </div>
+    );
   }
 
   @supportStatic()
@@ -322,6 +327,8 @@ export default class ChainedSelectControl extends React.Component<
       ? value.split(delimiter || ',')
       : [];
 
+    const hasStackLoading = this.state.stack.find((a: StackItem) => a.loading);
+
     const mobileUI = useMobileUI && isMobile();
     return (
       <div className={cx(`${ns}ChainedSelectControl`, className)}>
@@ -343,7 +350,8 @@ export default class ChainedSelectControl extends React.Component<
         />
 
         {this.state.stack.map(({options, loading, visible}, index) =>
-          visible === false ? null : (
+          // loading 中的选项不展示，避免没值再隐藏造成的闪烁，改用一个 Spinner 来展示 loading 状态
+          visible === false || loading ? null : (
             <Select
               {...rest}
               useMobileUI={useMobileUI}
@@ -357,10 +365,16 @@ export default class ChainedSelectControl extends React.Component<
               options={Array.isArray(options) ? options : []}
               value={arr[index + 1]}
               onChange={this.handleChange.bind(this, index + 1)}
-              loading={loading}
               inline
             />
           )
+        )}
+
+        {hasStackLoading && (
+          <Spinner
+            size="sm"
+            className={cx(`${ns}ChainedSelectControl-spinner`)}
+          />
         )}
       </div>
     );

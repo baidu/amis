@@ -9058,8 +9058,8 @@ exports[`Renderer:table list 1`] = `
                   class="cxd-StatusField cxd-StatusField--1"
                 >
                   <icon-mock
-                    classname="cxd-Status-icon icon icon icon-check-circle"
-                    icon="check-circle"
+                    classname="cxd-Status-icon icon icon icon-success"
+                    icon="success"
                   />
                 </span>
               </td>
@@ -9296,8 +9296,8 @@ exports[`Renderer:table list 1`] = `
                   class="cxd-StatusField cxd-StatusField--1"
                 >
                   <icon-mock
-                    classname="cxd-Status-icon icon icon icon-check-circle"
-                    icon="check-circle"
+                    classname="cxd-Status-icon icon icon icon-success"
+                    icon="success"
                   />
                 </span>
               </td>

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Renderer, RendererProps} from 'amis-core';
+import {createObject, Renderer, RendererProps} from 'amis-core';
 import {Overlay} from 'amis-core';
 import {PopOver} from 'amis-core';
 import {TooltipWrapper} from 'amis-ui';
@@ -105,6 +105,8 @@ export interface DropdownButtonSchema extends BaseSchema {
    * 菜单 CSS 样式
    */
   menuClassName?: string;
+
+  overlayPlacement?: string;
 }
 
 export interface DropDownButtonProps
@@ -140,11 +142,12 @@ export default class DropDownButton extends React.Component<
 
   static defaultProps: Pick<
     DropDownButtonProps,
-    'placement' | 'tooltipTrigger' | 'tooltipRootClose'
+    'placement' | 'tooltipTrigger' | 'tooltipRootClose' | 'overlayPlacement'
   > = {
     placement: 'top',
     tooltipTrigger: ['hover', 'focus'],
-    tooltipRootClose: false
+    tooltipRootClose: false,
+    overlayPlacement: 'auto'
   };
 
   target: any;
@@ -180,21 +183,30 @@ export default class DropDownButton extends React.Component<
   }
 
   async open() {
-    await this.props.dispatchEvent('mouseenter', {
-      items: this.props.buttons // 为了保持名字统一
-    });
+    const {dispatchEvent, data, buttons} = this.props;
+    await dispatchEvent(
+      'mouseenter',
+      createObject(data, {
+        items: buttons // 为了保持名字统一
+      })
+    );
     this.setState({
       isOpened: true
     });
   }
 
-  close() {
+  close(e?: React.MouseEvent<any>) {
     this.timer = setTimeout(() => {
-      this.props.dispatchEvent('mouseleave', {items: this.props.buttons});
+      this.props.dispatchEvent(
+        'mouseleave',
+        createObject(this.props.data, {items: this.props.buttons})
+      );
       this.setState({
         isOpened: false
       });
     }, 200);
+    // PopOver hide会直接调用close方法
+    e && e.preventDefault();
   }
 
   keepOpen() {
@@ -258,9 +270,10 @@ export default class DropDownButton extends React.Component<
       align,
       closeOnClick,
       closeOnOutside,
-      menuClassName
+      menuClassName,
+      overlayPlacement,
+      trigger
     } = this.props;
-
     let body = (
       <RootClose
         disabled={!this.state.isOpened}
@@ -290,12 +303,16 @@ export default class DropDownButton extends React.Component<
         }}
       </RootClose>
     );
-
     if (popOverContainer) {
       return (
-        <Overlay container={popOverContainer} target={() => this.target} show>
+        <Overlay
+          container={popOverContainer}
+          target={() => this.target}
+          placement={overlayPlacement}
+          show
+        >
           <PopOver
-            overlay
+            overlay={trigger !== 'hover'}
             onHide={this.close}
             classPrefix={ns}
             className={cx('DropDown-popover', menuClassName)}
@@ -336,7 +353,8 @@ export default class DropDownButton extends React.Component<
       isActived,
       trigger,
       data,
-      hideCaret
+      hideCaret,
+      env
     } = this.props;
 
     return (
@@ -358,8 +376,8 @@ export default class DropDownButton extends React.Component<
       >
         <TooltipWrapper
           placement={placement}
-          tooltip={disabled ? disabledTip : tooltip}
-          container={tooltipContainer}
+          tooltip={disabled ? disabledTip : (tooltip as any)}
+          container={tooltipContainer || env?.getModalContainer}
           trigger={tooltipTrigger}
           rootClose={tooltipRootClose}
         >

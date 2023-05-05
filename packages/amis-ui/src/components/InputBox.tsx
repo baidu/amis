@@ -16,7 +16,7 @@ export interface InputBoxProps
   hasError?: boolean;
   placeholder?: string;
   prefix?: JSX.Element;
-  children?: JSX.Element;
+  children?: React.ReactNode | Array<React.ReactNode>;
   borderMode?: 'full' | 'half' | 'none';
 }
 

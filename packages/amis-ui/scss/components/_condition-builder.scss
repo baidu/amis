@@ -28,9 +28,9 @@
       width: px2rem(20px);
       height: px2rem(20px);
       border-radius: 50%;
-      background: #d4e5ff;
+      background: var(--conditionBuilder-toolbar-bg-color);
       text-align: center;
-      color: #0832a6;
+      color: var(--conditionBuilder-toolbar-color);
       cursor: pointer;
       transition: transform 0.3s ease;
 
@@ -39,26 +39,39 @@
       }
 
       &:hover {
-        background: #2468f2;
-        color: $white;
+        background: var(--conditionBuilder-toolbar-hover-bg-color);
+        color: var(--conditionBuilder-toolbar-hover-color);
       }
     }
 
     .#{$ns}Select {
-      font-size: px2rem(12px);
-      height: px2rem(28px);
-      width: px2rem(28px);
-      background: #d4e5ff;
+      font-size: var(--conditionBuilder-toolbar-fontSize);
+      height: var(--conditionBuilder-toolbar-height);
+      width: var(--conditionBuilder-toolbar-width);
+      background: var(--conditionBuilder-toolbar-bg-color);
       border: none;
-      color: #0832a6;
-      font-weight: 500;
+      color: var(--conditionBuilder-toolbar-color);
+      font-weight: var(--conditionBuilder-toolbar-fontWeight);
       padding: 0;
-      padding-left: px2rem(8px);
-      min-height: px2rem(28px);
+      text-align: center;
+      min-height: var(--conditionBuilder-toolbar-height);
+
+      &.is-focused {
+        color: var(--conditionBuilder-toolbar-color) !important;
+        font-size: var(--conditionBuilder-toolbar-fontSize);
+        font-weight: var(--conditionBuilder-toolbar-fontWeight);
+        background: var(--conditionBuilder-toolbar-bg-color) !important;
+        border: none !important;
+        box-shadow: none !important;
+      }
 
       &:hover {
-        color: $white;
-        background: #2468f2;
+        color: var(--conditionBuilder-toolbar-hover-color) !important;
+        font-size: var(--conditionBuilder-toolbar-hover-fontSize);
+        font-weight: var(--conditionBuilder-toolbar-hover-fontWeight);
+        background: var(--conditionBuilder-toolbar-hover-bg-color) !important;
+        border: none !important;
+        box-shadow: none !important;
       }
 
       &-arrow {
@@ -83,8 +96,8 @@
       position: absolute;
       top: px2rem(5px);
       bottom: px2rem(5px);
-      width: 2px;
-      background-color: #d4e5ff;
+      width: var(--conditionBuilder-line-width);
+      background-color: var(--conditionBuilder-line-bg-color);
     }
   }
 
@@ -193,9 +206,10 @@
   &-placeholder {
     color: var(--text--muted-color);
     position: relative;
-    padding: 10px;
-    background: rgba(0, 0, 0, 0.03);
-    border-radius: 5px;
+    padding: var(--conditionBuilder-body-paddingTop)
+      var(--conditionBuilder-body-paddingRight)
+      var(--conditionBuilder-body-paddingBottom) px2rem(10px);
+    background: var(--conditionBuilder-body-bg-color);
     &.simple {
       margin-left: 0;
     }
@@ -276,10 +290,12 @@
     }
 
     &-item {
-      background-color: #f7f7f9;
+      background-color: var(--conditionBuilder-body-bg-color);
       width: 100%;
-      padding: px2rem(12px);
-      padding-left: px2rem(28px);
+      padding: var(--conditionBuilder-body-paddingTop)
+        var(--conditionBuilder-body-paddingRight)
+        var(--conditionBuilder-body-paddingBottom)
+        var(--conditionBuilder-body-paddingLeft);
       display: flex;
       flex-direction: row;
       align-items: center;

@@ -48,6 +48,69 @@ let amisJSON = {
 
 这个例子中我们监听了 3 个事件，输入框数据变化、表单提交、按钮点击，然后在这些地方使用代码实现特殊功能。
 
+## 监听广播事件
+
+> 3.0.0 以后引入
+
+amis 从 1.7.0 版本开始支持了[事件动作](../concepts/event-action)，各个组件内部也陆续补充了很多事件（可以查看每个组件文档的最底下，有事件表说明）。像这类事件也是可以监听的，分为两步来实现：第一步监听组件事件做广播动作、第二步最外层监听广播事件写业务逻辑。
+
+配置 form 事件动作，当表单提交成功后，广播一个 `formSubmited` 事件。
+
+```js
+let amisJSON = {
+  type: 'page',
+  title: '表单页面',
+  body: [
+    {
+      type: 'form',
+      mode: 'horizontal',
+      onEvent: {
+        submitSucc: {
+          actions: [
+            {
+              actionType: 'broadcast',
+              args: {
+                eventName: 'formSubmited'
+              }
+            }
+          ]
+        }
+      },
+      body: [
+        {
+          label: 'Name',
+          type: 'input-text',
+          name: 'name'
+        },
+        {
+          type: 'submit',
+          label: 'Submit'
+        }
+      ]
+    }
+  ]
+};
+```
+
+渲染 amis 的时候通过 `onBroadcast` 监听内部广播。
+
+```tsx
+import {render as renderAmis} 'amis';
+
+function DemoComponent() {
+  function handleBroadcast(type: string, rawEvent: any, data: any) {
+    console.log(type);
+    if (type === 'formSubmited') {
+      console.log('内部表单提交了');
+    }
+  }
+
+  return <div>
+    {renderAmis(amisJSON, {onBroadcast: handleBroadcast})}
+  </div>
+};
+```
+
 ## 使用 amis 公共方法
 
 amis 对外还提供了一些方法，比如弹出消息通知，可以通过 `amisRequire('amis')` 获取到这些 amis 对外提供的方法。

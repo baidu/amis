@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="自定义代码" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="9" y1="2.5" x2="7" y2="13.5" id="直线-" stroke="currentColor"></line>
+        <polyline id="路径" stroke="currentColor" transform="translate(4.752691, 8.000000) rotate(-45.000000) translate(-4.752691, -8.000000) " points="2.45269119 10.3 2.45269119 5.7 7.05269119 5.7"></polyline>
+        <polyline id="路径" stroke="currentColor" transform="translate(11.258074, 8.000000) scale(-1, 1) rotate(-45.000000) translate(-11.258074, -8.000000) " points="8.95807358 10.3 8.95807358 5.7 13.5580736 5.7"></polyline>
+    </g>
+</svg>

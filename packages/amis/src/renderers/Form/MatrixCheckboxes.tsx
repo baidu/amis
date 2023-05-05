@@ -281,7 +281,7 @@ export default class MatrixCheckbox extends React.Component<
 
     const rendererEvent = await dispatchEvent(
       'change',
-      resolveEventData(this.props, {value: value.concat()}, 'value')
+      resolveEventData(this.props, {value: value.concat()})
     );
     if (rendererEvent?.prevented) {
       return;

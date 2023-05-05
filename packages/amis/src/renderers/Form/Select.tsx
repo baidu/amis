@@ -21,6 +21,7 @@ import {TransferDropDown} from 'amis-ui';
 
 import type {SchemaClassName} from '../../Schema';
 import type {TooltipObject} from 'amis-ui/lib/components/TooltipWrapper';
+import type {PopOverOverlay} from 'amis-ui/lib/components/PopOverContainer';
 import {supportStatic} from './StaticHoc';
 
 /**
@@ -135,6 +136,20 @@ export interface SelectControlSchema
    * 选项的自定义CSS类名
    */
   optionClassName?: SchemaClassName;
+
+  /**
+   * 下拉框 Popover 设置
+   */
+  overlay?: {
+    /**
+     * 下拉框 Popover 的宽度设置，支持单位 '%'、'px'、'rem'、'em'、'vw', 支持相对写法如 '+20px'
+     */
+    width?: number | string;
+    /**
+     * 下拉框 Popover 的对齐方式
+     */
+    align?: 'left' | 'center' | 'right';
+  };
 }
 
 export interface SelectProps extends OptionsControlProps, SpinnerExtraProps {
@@ -259,18 +274,14 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     // 触发渲染器事件
     const rendererEvent = await dispatchEvent(
       eventName,
-      resolveEventData(
-        this.props,
-        {
-          options,
-          items: options, // 为了保持名字统一
-          value: ['onEdit', 'onDelete'].includes(event)
-            ? eventData
-            : eventData && eventData.value,
-          selectedItems: multiple ? selectedOptions : selectedOptions[0]
-        },
-        'value'
-      )
+      resolveEventData(this.props, {
+        options,
+        items: options, // 为了保持名字统一
+        value: ['onEdit', 'onDelete'].includes(event)
+          ? eventData
+          : eventData && eventData.value,
+        selectedItems: multiple ? selectedOptions : selectedOptions[0]
+      })
     );
     if (rendererEvent?.prevented) {
       return;
@@ -293,16 +304,12 @@ export default class SelectControl extends React.Component<SelectProps, any> {
 
     const rendererEvent = await dispatchEvent(
       'change',
-      resolveEventData(
-        this.props,
-        {
-          value: newValue,
-          options,
-          items: options, // 为了保持名字统一
-          selectedItems: value
-        },
-        'value'
-      )
+      resolveEventData(this.props, {
+        value: newValue,
+        options,
+        items: options, // 为了保持名字统一
+        selectedItems: value
+      })
     );
     if (rendererEvent?.prevented) {
       return;
@@ -370,7 +377,10 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     if (Array.isArray(selectedOptions) && selectedOptions.length) {
       selectedOptions.forEach(option => {
         if (
-          !find(combinedOptions, (item: Option) => item.value == option.value)
+          !find(
+            combinedOptions,
+            (item: Option) => item[valueField] === option[valueField]
+          )
         ) {
           combinedOptions.push({
             ...option,
@@ -449,6 +459,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       selectMode,
       env,
       useMobileUI,
+      overlay,
       ...rest
     } = this.props;
 
@@ -496,13 +507,13 @@ export default class SelectControl extends React.Component<SelectProps, any> {
             loading={loading}
             noResultsText={noResultsText}
             renderMenu={menuTpl ? this.renderMenu : undefined}
+            overlay={overlay}
           />
         )}
       </div>
     );
   }
 }
-
 export interface TransferDropDownProps
   extends OptionsControlProps,
     Omit<
@@ -552,7 +563,12 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
       itemHeight,
       virtualThreshold,
       rightMode,
-      loadingConfig
+      loadingConfig,
+      labelField,
+      showInvalidMatch,
+      checkAll,
+      checkAllLabel,
+      overlay
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载
@@ -603,6 +619,11 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
           itemHeight={itemHeight}
           virtualThreshold={virtualThreshold}
           virtualListHeight={266}
+          labelField={labelField}
+          showInvalidMatch={showInvalidMatch}
+          checkAllLabel={checkAllLabel}
+          checkAll={checkAll}
+          overlay={overlay}
         />
 
         <Spinner

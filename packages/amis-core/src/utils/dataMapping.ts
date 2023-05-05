@@ -8,13 +8,21 @@ import {createObject, deleteVariable, setVariable} from './object';
 export function resolveMapping(
   value: any,
   data: PlainObject,
-  defaultFilter = '| raw'
+  defaultFilter = '| raw',
+  ignoreIfNotMatch = false
 ) {
-  return typeof value === 'string' && isPureVariable(value)
-    ? resolveVariableAndFilter(value, data, defaultFilter, () => '')
-    : typeof value === 'string' && ~value.indexOf('$')
-    ? tokenize(value, data, defaultFilter)
-    : value;
+  const result =
+    typeof value === 'string' && isPureVariable(value)
+      ? resolveVariableAndFilter(value, data, defaultFilter, () => '')
+      : typeof value === 'string' && ~value.indexOf('$')
+      ? tokenize(value, data, defaultFilter)
+      : value;
+
+  if (ignoreIfNotMatch && (result == null || result === '')) {
+    return value;
+  }
+
+  return result;
 }
 
 /**
@@ -35,132 +43,145 @@ export function dataMapping(
   to: any,
   from: PlainObject = {},
   ignoreFunction: boolean | ((key: string, value: any) => boolean) = false,
-  convertKeyToPath?: boolean
+  convertKeyToPath?: boolean,
+  ignoreIfNotMatch = false
 ): any {
   if (Array.isArray(to)) {
     return to.map(item =>
-      dataMapping(item, from, ignoreFunction, convertKeyToPath)
+      dataMapping(
+        item,
+        from,
+        ignoreFunction,
+        convertKeyToPath,
+        ignoreIfNotMatch
+      )
     );
   } else if (typeof to === 'string') {
-    return resolveMapping(to, from);
+    return resolveMapping(to, from, undefined, ignoreIfNotMatch);
   } else if (!isPlainObject(to)) {
     return to;
   }
 
   let ret = {};
-  Object.keys(to).forEach(key => {
-    const value = to[key];
-    let keys: Array<string>;
+  const keys = Object.keys(to);
 
-    if (typeof ignoreFunction === 'function' && ignoreFunction(key, value)) {
-      // 如果被ignore，不做数据映射处理。
-      setVariable(ret, key, value, convertKeyToPath);
-    } else if (key === '&' && value === '$$') {
-      ret = {
-        ...ret,
-        ...from
-      };
-    } else if (key === '&') {
-      const v =
-        isPlainObject(value) &&
-        (keys = Object.keys(value)) &&
-        keys.length === 1 &&
-        from[keys[0].substring(1)] &&
-        Array.isArray(from[keys[0].substring(1)])
-          ? from[keys[0].substring(1)].map((raw: object) =>
-              dataMapping(
-                value[keys[0]],
-                createObject(from, raw),
-                ignoreFunction,
-                convertKeyToPath
-              )
-            )
-          : resolveMapping(value, from);
+  if (keys.length === 1 && keys[0][0] === '$' && isPlainObject(to[keys[0]])) {
+    // from[keys[0].substring(1)] &&
+    // Array.isArray(from[keys[0].substring(1)])
+    // 支持只取数组中的部分值这个需求
+    // 如:
+    // data: {
+    //   items: {
+    //     '$rows': {
+    //        id: '$id',
+    //        forum_id: '$forum_id'
+    //      }
+    //   }
+    // }
+    const left = resolveMapping(keys[0], from, '| raw');
+    if (!Array.isArray(left) && ignoreIfNotMatch) {
+      (ret as PlainObject)[keys[0]] = to[keys[0]];
+    } else {
+      const arr = Array.isArray(left) ? left : [];
+      const mapping = to[keys[0]];
 
-      if (Array.isArray(v) || typeof v === 'string') {
-        ret = v;
-      } else if (typeof v === 'function') {
-        ret = {
-          ...ret,
-          ...v(from)
-        };
-      } else {
-        ret = {
-          ...ret,
-          ...v
-        };
-      }
-    } else if (value === '$$') {
-      setVariable(ret, key, from, convertKeyToPath);
-    } else if (value && value[0] === '$') {
-      const v = resolveMapping(value, from);
-      setVariable(ret, key, v, convertKeyToPath);
-
-      if (v === '__undefined') {
-        deleteVariable(ret, key);
-      }
-    } else if (
-      isPlainObject(value) &&
-      (keys = Object.keys(value)) &&
-      keys.length === 1 &&
-      keys[0][0] === '$' &&
-      isPlainObject(value[keys[0]])
-    ) {
-      // from[keys[0].substring(1)] &&
-      // Array.isArray(from[keys[0].substring(1)])
-      // 支持只取数组中的部分值这个需求
-      // 如:
-      // data: {
-      //   items: {
-      //     '$rows': {
-      //        id: '$id',
-      //        forum_id: '$forum_id'
-      //      }
-      //   }
-      // }
-      const arr = Array.isArray(from[keys[0].substring(1)])
-        ? from[keys[0].substring(1)]
-        : [];
-      const mapping = value[keys[0]];
-
-      (ret as PlainObject)[key] = arr.map((raw: object) =>
+      ret = arr.map((raw: object) =>
         dataMapping(
           mapping,
-          createObject(from, raw),
+          createObject(from, {
+            item: raw,
+            ...raw
+          }),
           ignoreFunction,
-          convertKeyToPath
+          convertKeyToPath,
+          ignoreIfNotMatch
         )
       );
-    } else if (isPlainObject(value)) {
-      setVariable(
-        ret,
-        key,
-        dataMapping(value, from, ignoreFunction, convertKeyToPath),
-        convertKeyToPath
-      );
-    } else if (Array.isArray(value)) {
-      setVariable(
-        ret,
-        key,
-        value.map((value: any) =>
-          isPlainObject(value)
-            ? dataMapping(value, from, ignoreFunction, convertKeyToPath)
-            : resolveMapping(value, from)
-        ),
-        convertKeyToPath
-      );
-    } else if (typeof value == 'string' && ~value.indexOf('$')) {
-      setVariable(ret, key, resolveMapping(value, from), convertKeyToPath);
-    } else if (typeof value === 'function' && ignoreFunction !== true) {
-      setVariable(ret, key, value(from), convertKeyToPath);
-    } else {
-      setVariable(ret, key, value, convertKeyToPath);
-
-      if (value === '__undefined') {
-        deleteVariable(ret, key);
-      }
     }
-  });
+  } else {
+    Object.keys(to).forEach(key => {
+      const value = to[key];
+      let keys: Array<string>;
+
+      if (typeof ignoreFunction === 'function' && ignoreFunction(key, value)) {
+        // 如果被ignore，不做数据映射处理。
+        setVariable(ret, key, value, convertKeyToPath);
+      } else if (key === '&' && value === '$$') {
+        ret = {
+          ...ret,
+          ...from
+        };
+      } else if (key === '&') {
+        const v =
+          isPlainObject(value) &&
+          (keys = Object.keys(value)) &&
+          keys.length === 1 &&
+          from[keys[0].substring(1)] &&
+          Array.isArray(from[keys[0].substring(1)])
+            ? from[keys[0].substring(1)].map((raw: object) =>
+                dataMapping(
+                  value[keys[0]],
+                  createObject(from, raw),
+                  ignoreFunction,
+                  convertKeyToPath,
+                  ignoreIfNotMatch
+                )
+              )
+            : resolveMapping(value, from, undefined, ignoreIfNotMatch);
+
+        if (Array.isArray(v) || typeof v === 'string') {
+          ret = v;
+        } else if (typeof v === 'function') {
+          ret = {
+            ...ret,
+            ...v(from)
+          };
+        } else {
+          ret = {
+            ...ret,
+            ...v
+          };
+        }
+      } else if (value === '$$') {
+        setVariable(ret, key, from, convertKeyToPath);
+      } else if (value && value[0] === '$') {
+        const v = resolveMapping(value, from, undefined, ignoreIfNotMatch);
+        setVariable(ret, key, v, convertKeyToPath);
+
+        if (v === '__undefined') {
+          deleteVariable(ret, key);
+        }
+      } else if (isPlainObject(value) || Array.isArray(value)) {
+        setVariable(
+          ret,
+          key,
+          dataMapping(
+            value,
+            from,
+            ignoreFunction,
+            convertKeyToPath,
+            ignoreIfNotMatch
+          ),
+          convertKeyToPath
+        );
+      } else if (typeof value == 'string' && ~value.indexOf('$')) {
+        setVariable(
+          ret,
+          key,
+          resolveMapping(value, from, undefined, ignoreIfNotMatch),
+          convertKeyToPath
+        );
+      } else if (typeof value === 'function' && ignoreFunction !== true) {
+        setVariable(ret, key, value(from), convertKeyToPath);
+      } else {
+        setVariable(ret, key, value, convertKeyToPath);
+
+        if (value === '__undefined') {
+          deleteVariable(ret, key);
+        }
+      }
+    });
+  }
 
   return ret;
 }

@@ -13,6 +13,8 @@ order: 14
 1. 节省后端开发成本，无需再次解析 Excel
 2. 可以前端实时预览效果，比如配合 input-table 组件进行二次修改
 
+> 2.10.0 以上版本支持 xls 文件格式，2.9.0 及以下版本只支持 xlsx
+
 ## 基本使用
 
 默认情况下只解析第一个 sheet 的内容，下面的例子中，选择上传文件后，就能知道最终会解析成什么数据
@@ -65,7 +67,8 @@ order: 14
         {
           "type": "input-excel",
           "name": "excel",
-          "label": "上传 Excel"
+          "label": "上传 Excel",
+          "placeholder": "请拖拽Excel文件到当前区域"
         },
         {
           "type": "input-table",
@@ -241,12 +244,13 @@ order: 14
 
 ## 属性表
 
-| 属性名       | 类型                    | 默认值   | 说明               |
-| ------------ | ----------------------- | -------- | ------------------ |
-| allSheets    | `boolean`               | false    | 是否解析所有 sheet |
-| parseMode    | `'array'` 或 `'object'` | 'object' | 解析模式           |
-| includeEmpty | `boolean`               | true     | 是否包含空值       |
-| plainText    | `boolean`               | true     | 是否解析为纯文本   |
+| 属性名       | 类型                    | 默认值                          | 说明               | 版本    |
+| ------------ | ----------------------- | ------------------------------- | ------------------ | ------- |
+| allSheets    | `boolean`               | false                           | 是否解析所有 sheet |
+| parseMode    | `'array'` 或 `'object'` | 'object'                        | 解析模式           |
+| includeEmpty | `boolean`               | true                            | 是否包含空值       |
+| plainText    | `boolean`               | true                            | 是否解析为纯文本   |
+| placeholder  | `string`                | `"拖拽 Excel 到这，或点击上传"` | 占位文本提示       | `2.8.1` |
 
 ## 事件表
 
