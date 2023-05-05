@@ -33,7 +33,7 @@ export class TabsPlugin extends BasePlugin {
   isBaseComponent = true;
   description = '选项卡，可以将内容分组用选项卡的形式展示，降低用户使用成本。';
   docLink = '/amis/zh-CN/components/tabs';
-  tags = ['容器'];
+  tags = ['布局容器'];
   icon = 'fa fa-folder-o';
   pluginIcon = 'tabs-plugin';
   scaffold = {
@@ -114,14 +114,13 @@ export class TabsPlugin extends BasePlugin {
           mode: 'horizontal'
         }
         */
-        {
+        getSchemaTpl('formulaControl', {
           name: 'activeKey',
           label: '激活项',
-          type: 'ae-formulaControl',
           variables: '${variables}',
           size: 'lg',
           mode: 'horizontal'
-        }
+        })
       )
     }
   ];
@@ -190,15 +189,14 @@ export class TabsPlugin extends BasePlugin {
           {
             title: '高级',
             body: [
-              {
-                type: 'ae-expressionFormulaControl',
+              getSchemaTpl('expressionFormulaControl', {
                 evalMode: true,
                 label: tipedLabel(
                   '关联数据',
                   '根据该数据来动态重复渲染所配置的选项卡'
                 ),
                 name: 'source'
-              },
+              }),
               getSchemaTpl('switch', {
                 name: 'mountOnEnter',
                 label: tipedLabel(

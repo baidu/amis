@@ -55,7 +55,9 @@
 
   &-menuItem,
   &-menu > li {
-    padding: var(--DropDown-menuItem-paddingY) var(--DropDown-menuItem-paddingX);
+    padding: var(--table-togglable-paddingTop)
+      var(--table-togglable-paddingRight) var(--table-togglable-paddingBottom)
+      var(--table-togglable-paddingLeft);
     white-space: nowrap;
     box-sizing: border-box;
     height: var(--DropDown-menu-height);
@@ -63,9 +65,10 @@
     user-select: none;
     color: var(--link-color);
     text-decoration: var(--link-decoration);
+    background: var(--table-togglable-bg-color);
 
     &:hover {
-      background: var(--DropDown-menuItem-onHover-bg);
+      background: var(--table-togglable-hover-bg-color);
       color: var(--DropDown-menuItem-onHover-color);
     }
 

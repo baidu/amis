@@ -127,6 +127,7 @@ import Tab3Schema from './Tabs/Tab3';
 import Loading from './Loading';
 import CodeSchema from './Code';
 import OfficeViewer from './OfficeViewer';
+import InputTableEvent from './EventAction/cmpt-event-action/InputTableEvent';
 
 import {Switch} from 'react-router-dom';
 import {navigations2route} from './App';
@@ -757,6 +758,11 @@ export const examples = [
                 label: 'SearchBox组件',
                 path: 'examples/event/searchbox',
                 component: makeSchemaRenderer(SearchBoxEventSchema)
+              },
+              {
+                label: 'input-table组件',
+                path: 'examples/event/input-table',
+                component: makeSchemaRenderer(InputTableEvent)
               }
             ]
           },

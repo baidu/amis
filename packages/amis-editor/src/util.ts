@@ -303,3 +303,11 @@ export const resolveArrayDatasource = (
         data,
         '| raw'
       );
+
+export const schemaToArray = (value: any) => {
+  return value && Array.isArray(value)? value : [value];
+};
+
+export const schemaArrayFormat = (value: any) => {
+  return value && Array.isArray(value) && value.length === 1 ? value[0] : value;
+};

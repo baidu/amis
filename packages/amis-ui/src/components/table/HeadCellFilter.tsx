@@ -164,7 +164,13 @@ export class HeadCellFilter extends React.Component<Props, State> {
       <HeadCellDropDown
         className={`${ns}TableCell-filterBtn`}
         layerClassName={`${ns}TableCell-filterPopOver`}
-        filterIcon={<Icon icon="column-filter" className="icon" />}
+        filterIcon={
+          <Icon
+            icon="column-filter"
+            className="icon"
+            iconContent="table-filter-icon"
+          />
+        }
         active={
           column.filtered ||
           (options && options.some((item: any) => item.selected))
@@ -235,6 +241,8 @@ export class HeadCellFilter extends React.Component<Props, State> {
     ) => void | undefined
   ) {
     setSelectedKeys && setSelectedKeys([]);
+    const {onFilter, column} = this.props;
+    onFilter && onFilter({[column.name]: ''});
     confirm();
   }
 }

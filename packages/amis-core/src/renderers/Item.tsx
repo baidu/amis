@@ -890,6 +890,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
           {
             'is-inline': !!rest.inline && !mobileUI,
             'is-error': model && !model.valid,
+            'is-full': size === 'full',
             [`Form-control--withSize Form-control--size${ucFirst(
               controlSize
             )}`]:
@@ -1456,6 +1457,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       render,
       formItem: model,
       css,
+      themeCss,
       id,
       labelClassName,
       descriptionClassName
@@ -1463,7 +1465,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
     const mode = this.props.mode || formMode;
 
     insertCustomStyle(
-      css,
+      themeCss || css,
       [
         {
           key: 'labelClassName',
@@ -1473,7 +1475,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       id + '-label'
     );
     insertCustomStyle(
-      css,
+      themeCss || css,
       [
         {
           key: 'descriptionClassName',
@@ -1585,7 +1587,8 @@ export const detectProps = [
   'embed',
   'displayMode',
   'revealPassword',
-  'loading'
+  'loading',
+  'themeCss'
 ];
 
 export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
@@ -1727,6 +1730,7 @@ export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
                     {
                       'is-inline': !!rest.inline && !mobileUI,
                       'is-error': model && !model.valid,
+                      'is-full': size === 'full',
                       [`Form-control--withSize Form-control--size${ucFirst(
                         controlSize
                       )}`]:

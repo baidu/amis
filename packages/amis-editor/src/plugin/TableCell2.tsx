@@ -12,12 +12,12 @@ import {
   AfterBuildPanelBody,
   defaultValue,
   getSchemaTpl,
-  tipedLabel,
-  DSField
+  tipedLabel
 } from 'amis-editor-core';
+import type {DSField} from 'amis-editor-core';
 import {fromPairs} from 'lodash';
-import {TabsSchema} from 'amis/lib/renderers/Tabs';
-import {SchemaObject} from 'amis/lib/Schema';
+import type {TabsSchema} from 'amis/lib/renderers/Tabs';
+import type {SchemaObject} from 'amis/lib/Schema';
 import {remarkTpl} from '../component/BaseControl';
 
 export class TableCell2Plugin extends BasePlugin {
@@ -388,16 +388,14 @@ export class TableCell2Plugin extends BasePlugin {
         }
       },
 
-      {
+      getSchemaTpl('formulaControl', {
         name: 'rowSpanExpr',
-        type: 'ae-formulaControl',
         label: '合并行'
-      },
-      {
+      }),
+      getSchemaTpl('formulaControl', {
         name: 'colSpanExpr',
-        type: 'ae-formulaControl',
         label: '合并列'
-      }
+      })
     ];
 
     const baseStyle = [

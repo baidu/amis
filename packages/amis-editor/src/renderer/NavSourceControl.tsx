@@ -12,7 +12,7 @@ import {FormItem, Button, InputBox, Switch, Radios} from 'amis';
 import {autobind} from 'amis-editor-core';
 import {getSchemaTpl} from 'amis-editor-core';
 import type {FormControlProps} from 'amis-core';
-import {SchemaApi} from 'amis/lib/Schema';
+import type {SchemaApi} from 'amis/lib/Schema';
 
 export type valueType = 'text' | 'boolean' | 'number';
 

@@ -23,7 +23,7 @@ import {
   getEventControlConfig,
   getArgsWrapper
 } from '../renderer/event-control/helper';
-import {SchemaObject} from 'amis/lib/Schema';
+import type {SchemaObject} from 'amis/lib/Schema';
 import {resolveArrayDatasource} from '../util';
 
 export class Table2Plugin extends BasePlugin {
@@ -278,7 +278,7 @@ export class Table2Plugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.rowItem': {
+            'event.data.item': {
               type: 'object',
               title: '行点击数据'
             }
@@ -306,14 +306,13 @@ export class Table2Plugin extends BasePlugin {
           mode: 'horizontal'
         }
         */
-        {
+        getSchemaTpl('formulaControl', {
           name: 'selected',
           label: '选中项',
-          type: 'ae-formulaControl',
           variables: '${variables}',
           size: 'lg',
           mode: 'horizontal'
-        }
+        })
       ])
     },
     {
@@ -654,11 +653,10 @@ export class Table2Plugin extends BasePlugin {
                               }
                             ]
                           },
-                          {
+                          getSchemaTpl('formulaControl', {
                             name: 'rowSelection.disableOn',
-                            type: 'ae-formulaControl',
                             label: '行禁用条件'
-                          },
+                          }),
                           {
                             name: 'rowSelection.selections',
                             label: '选择菜单项',
@@ -706,12 +704,11 @@ export class Table2Plugin extends BasePlugin {
                   formType: 'extend',
                   form: {
                     body: [
-                      {
+                      getSchemaTpl('formulaControl', {
                         name: 'expandable.expandableOn',
                         visibleOn: 'data.expandable',
-                        type: 'ae-formulaControl',
                         label: '行展开条件'
-                      }
+                      })
                     ]
                   }
                 },
@@ -812,18 +809,16 @@ export class Table2Plugin extends BasePlugin {
             getSchemaTpl('style:classNames', {
               isFormItem: true,
               schema: [
-                {
+                getSchemaTpl('formulaControl', {
                   name: 'rowClassNameExpr',
-                  type: 'ae-formulaControl',
                   label: '自定义行样式'
-                },
+                }),
 
-                {
+                getSchemaTpl('formulaControl', {
                   name: 'expandable.expandedRowClassNameExpr',
                   visibleOn: 'data.expandable',
-                  type: 'ae-formulaControl',
                   label: '展开行样式'
-                }
+                })
               ]
             })
           ])

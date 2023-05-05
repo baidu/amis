@@ -15,9 +15,10 @@ import {
   tipedLabel,
   getI18nEnabled,
   repeatArray,
-  mockValue
+  mockValue,
+  EditorNodeType
 } from 'amis-editor-core';
-import {setVariable} from 'amis-core';
+import {setVariable, someTree} from 'amis-core';
 import {ValidatorTag} from '../../validator';
 import {
   getEventControlConfig,
@@ -829,6 +830,41 @@ export class TableControlPlugin extends BasePlugin {
         label: context.data.label ?? context.subRenderer?.name ?? '列名称'
       };
     }
+  }
+
+  async buildDataSchemas(node: EditorNodeType, region?: EditorNodeType) {
+    const itemsSchema: any = {
+      $id: 'inputTableRow',
+      type: 'object',
+      properties: {}
+    };
+
+    const columns: EditorNodeType = node.children.find(
+      item => item.isRegion && item.region === 'columns'
+    );
+    for (let current of columns?.children) {
+      const schema = current.schema;
+      if (schema.name) {
+        itemsSchema.properties[schema.name] = current.info?.plugin
+          ?.buildDataSchemas
+          ? await current.info.plugin.buildDataSchemas(current, region)
+          : {
+              type: 'string',
+              title: schema.label || schema.name
+            };
+      }
+    }
+
+    if (region?.region === 'columns') {
+      return itemsSchema;
+    }
+
+    return {
+      $id: 'inputTable',
+      type: 'array',
+      title: '表格表单数据',
+      items: itemsSchema
+    };
   }
 }
 

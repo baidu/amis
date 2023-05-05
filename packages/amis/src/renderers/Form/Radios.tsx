@@ -73,16 +73,12 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
 
     const rendererEvent = await dispatchEvent(
       'change',
-      resolveEventData(
-        this.props,
-        {
-          value,
-          options,
-          items: options, // 为了保持名字统一
-          selectedItems: option
-        },
-        'value'
-      )
+      resolveEventData(this.props, {
+        value,
+        options,
+        items: options, // 为了保持名字统一
+        selectedItems: option
+      })
     );
     if (rendererEvent?.prevented) {
       return;

@@ -23,7 +23,7 @@ import {getSchemaTpl, tipedLabel} from 'amis-editor-core';
 
 import type {Option} from 'amis';
 import type {FormControlProps} from 'amis-core';
-import {SchemaApi, SchemaObject} from 'amis/lib/Schema';
+import type {SchemaApi, SchemaObject} from 'amis/lib/Schema';
 
 export type OptionControlItem = Option & {checked?: boolean; _key?: string};
 
@@ -336,8 +336,8 @@ export default class TreeOptionControl extends React.Component<
         <a className="ae-TreeOptionControlItem-dragBar">
           <Icon icon="drag-bar" className="icon" />
         </a>
-        {
-          i18nEnabled ? amisRender({
+        {i18nEnabled ? (
+          amisRender({
             type: 'input-text-i18n',
             className: 'ae-TreeOptionControlItem-input-label',
             value: option.label,
@@ -349,18 +349,18 @@ export default class TreeOptionControl extends React.Component<
             onI18nChange: (value: string) => {
               this.handleEditLabelOrValue(value, path, 'label');
             }
-          }) : (
-            <InputBox
-              className="ae-TreeOptionControlItem-input-label"
-              value={option.label}
-              placeholder="选项名称"
-              clearable={false}
-              onBlur={(event: any) => {
-                this.handleEditLabelOrValue(event.target.value, path, 'label');
-              }}
-            />
-          )
-        }
+          })
+        ) : (
+          <InputBox
+            className="ae-TreeOptionControlItem-input-label"
+            value={option.label}
+            placeholder="选项名称"
+            clearable={false}
+            onBlur={(event: any) => {
+              this.handleEditLabelOrValue(event.target.value, path, 'label');
+            }}
+          />
+        )}
         <InputBox
           className="ae-TreeOptionControlItem-input-value"
           value={option.value}

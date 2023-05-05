@@ -10,8 +10,6 @@ export class ListControlPlugin extends BasePlugin {
   rendererName = 'list-select';
   $schema = '/schemas/ListControlSchema.json';
 
-  order = -430;
-
   // 组件名称
   name = '列表选择';
   isBaseComponent = true;

@@ -15,8 +15,8 @@ const presetColors = [
   '#f33e3e',
   '#ff9326',
   '#fff',
-  '#000',
-]
+  '#000'
+];
 
 export class TagPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -58,6 +58,10 @@ export class TagPlugin extends BasePlugin {
             nativeEvent: {
               type: 'object',
               title: '鼠标事件对象'
+            },
+            label: {
+              type: 'string',
+              title: '标签名称'
             }
           }
         }
@@ -74,6 +78,10 @@ export class TagPlugin extends BasePlugin {
             nativeEvent: {
               type: 'object',
               title: '鼠标事件对象'
+            },
+            label: {
+              type: 'string',
+              title: '标签名称'
             }
           }
         }
@@ -90,6 +98,30 @@ export class TagPlugin extends BasePlugin {
             nativeEvent: {
               type: 'object',
               title: '鼠标事件对象'
+            },
+            label: {
+              type: 'string',
+              title: '标签名称'
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'close',
+      eventLabel: '点击关闭',
+      description: '点击关闭时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            nativeEvent: {
+              type: 'object',
+              title: '鼠标事件对象'
+            },
+            label: {
+              type: 'string',
+              title: '标签名称'
             }
           }
         }
@@ -101,7 +133,6 @@ export class TagPlugin extends BasePlugin {
   actions: RendererPluginAction[] = [];
 
   panelBodyCreator = (context: BaseEventContext) => {
-
     return getSchemaTpl('tabs', [
       {
         title: '属性',
@@ -115,25 +146,28 @@ export class TagPlugin extends BasePlugin {
                 label: '模式',
                 name: 'displayMode',
                 value: 'normal',
-                size: 'md',
                 options: [
                   {
                     label: '普通',
-                    value:'normal'
+                    value: 'normal'
                   },
                   {
                     label: '圆角',
-                    value:'rounded'
+                    value: 'rounded'
                   },
                   {
                     label: '状态',
-                    value:'status'
+                    value: 'status'
                   }
                 ]
               },
               getSchemaTpl('icon', {
                 visibleOn: 'data.displayMode === "status"',
                 label: '前置图标'
+              }),
+              getSchemaTpl('switch', {
+                label: '可关闭',
+                name: 'closable'
               })
             ]
           },
@@ -147,28 +181,28 @@ export class TagPlugin extends BasePlugin {
             title: '颜色',
             body: [
               {
-                type:'input-color',
+                type: 'input-color',
                 label: '主题',
                 name: 'color',
                 presetColors,
                 pipeOut: undefinedPipeOut
               },
               {
-                type:'input-color',
+                type: 'input-color',
                 label: '背景色',
                 name: 'style.backgroundColor',
                 presetColors,
                 pipeOut: undefinedPipeOut
               },
               {
-                type:'input-color',
+                type: 'input-color',
                 label: '边框',
                 name: 'style.borderColor',
                 presetColors,
                 pipeOut: undefinedPipeOut
               },
               {
-                type:'input-color',
+                type: 'input-color',
                 label: '文字',
                 name: 'style.color',
                 presetColors,

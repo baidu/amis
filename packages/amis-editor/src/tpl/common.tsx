@@ -4,10 +4,10 @@ import {
   defaultValue,
   isObject,
   tipedLabel,
-  DSField,
   EditorManager
 } from 'amis-editor-core';
-import {SchemaObject} from 'amis/lib/Schema';
+import type {DSField} from 'amis-editor-core';
+import type {SchemaObject} from 'amis/lib/Schema';
 import flatten from 'lodash/flatten';
 import _ from 'lodash';
 import {InputComponentName} from '../component/InputComponentName';
@@ -81,11 +81,13 @@ setSchemaTpl(
   (config: {
     // 是不是独立表单，没有可以集成的内容
     isForm: boolean;
+    /** 预设布局 */
+    defaultValue?: 'inline' | 'horizontal' | 'normal' | '';
   }) => ({
     label: '布局',
     name: 'mode',
     type: 'select',
-    pipeIn: defaultValue(''),
+    pipeIn: defaultValue(config?.defaultValue ?? ''),
     options: [
       {
         label: '内联',
@@ -126,6 +128,13 @@ setSchemaTpl('expressionFormulaControl', (schema: object = {}) => {
 setSchemaTpl('textareaFormulaControl', (schema: object = {}) => {
   return {
     type: 'ae-textareaFormulaControl',
+    ...schema
+  };
+});
+
+setSchemaTpl('tplFormulaControl', (schema: object = {}) => {
+  return {
+    type: 'ae-tplFormulaControl',
     ...schema
   };
 });
@@ -435,8 +444,7 @@ setSchemaTpl(
       mode: mode === 'vertical' ? 'vertical' : 'horizontal',
       visibleOn,
       body: [
-        {
-          type: 'ae-formulaControl',
+        getSchemaTpl('formulaControl', {
           label: label ?? '默认值',
           name: name || 'value',
           rendererWrapper,
@@ -450,7 +458,7 @@ setSchemaTpl(
           variableMode,
           DateTimeType: DateTimeType ?? FormulaDateType.NotDate,
           ...rest
-        }
+        })
       ]
     };
   }
@@ -602,8 +610,7 @@ setSchemaTpl(
       return variablesArr;
     }
 
-    return {
-      type: 'ae-textareaFormulaControl',
+    return getSchemaTpl('textareaFormulaControl', {
       mode: 'normal',
       label: tipedLabel(
         '选项模板',
@@ -613,15 +620,16 @@ setSchemaTpl(
       variables: getOptionVars,
       requiredDataPropsVariables: true,
       ...rest
-    };
+    });
   }
 );
 
-setSchemaTpl('menuTpl', {
-  type: 'ae-textareaFormulaControl',
-  mode: 'normal',
-  label: tipedLabel('模板', '自定义选项渲染模板，支持JSX、数据域变量使用'),
-  name: 'menuTpl'
+setSchemaTpl('menuTpl', () => {
+  return getSchemaTpl('textareaFormulaControl', {
+    mode: 'normal',
+    label: tipedLabel('模板', '自定义选项渲染模板，支持JSX、数据域变量使用'),
+    name: 'menuTpl'
+  });
 });
 
 setSchemaTpl('expression', {
@@ -1210,12 +1218,11 @@ setSchemaTpl('app-page-args', {
       inputMode: 'input-group'
     }
      */
-    {
+    getSchemaTpl('formulaControl', {
       name: 'val',
-      type: 'ae-formulaControl',
       variables: '${variables}',
       placeholder: '参数值'
-    }
+    })
   ]
 });
 
@@ -1273,11 +1280,12 @@ setSchemaTpl('pageSubTitle', {
   type: 'textarea'
 });
 
-setSchemaTpl('textareaDefaultValue', {
-  type: 'ae-textareaFormulaControl',
-  label: '默认值',
-  name: 'value',
-  mode: 'normal'
+setSchemaTpl('textareaDefaultValue', () => {
+  return getSchemaTpl('textareaFormulaControl', {
+    label: '默认值',
+    name: 'value',
+    mode: 'normal'
+  });
 });
 
 setSchemaTpl('prefix', {

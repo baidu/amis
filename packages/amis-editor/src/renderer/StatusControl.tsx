@@ -6,7 +6,7 @@ import React from 'react';
 import cx from 'classnames';
 import {FormItem, Switch, Option} from 'amis';
 
-import {autobind} from 'amis-editor-core';
+import {autobind, getSchemaTpl} from 'amis-editor-core';
 import {BaseLabelMark} from '../component/BaseControl';
 
 import type {FormControlProps} from 'amis-core';
@@ -21,6 +21,10 @@ export interface StatusControlProps extends FormControlProps {
   options?: Option[];
   children?: SchemaCollection;
   messages?: Pick<FormSchema, 'messages'>;
+  // 应用于不需要 bulkChange 的场景，如
+  noBulkChange?: boolean;
+  noBulkChangeData?: any;
+  onDataChange?: (value: any) => void;
 }
 
 type StatusFormData = {
@@ -48,11 +52,19 @@ export class StatusControl extends React.Component<
   }
 
   initState() {
-    const {data: ctx = {}, expressionName, name, trueValue} = this.props;
+    const {data = {}, noBulkChange, noBulkChangeData, expressionName, name, trueValue} = this.props;
+
     const formData: StatusFormData = {
       statusType: 1,
       expression: ''
     };
+
+    let ctx = data;
+
+    if (noBulkChange && noBulkChangeData) {
+      ctx = noBulkChangeData
+    }
+
     if (ctx[expressionName] || ctx[expressionName] === '') {
       formData.statusType = 2;
       formData.expression = ctx[expressionName];
@@ -75,18 +87,19 @@ export class StatusControl extends React.Component<
   handleSwitch(value: boolean) {
     const {trueValue, falseValue} = this.props;
     this.setState({checked: value == trueValue ? true : false}, () => {
-      const {onBulkChange, expressionName, name} = this.props;
-      onBulkChange &&
-        onBulkChange({
-          [name]: value == trueValue ? trueValue : falseValue,
-          [expressionName]: undefined
-        });
+      const {onBulkChange, noBulkChange, onDataChange, expressionName, name} = this.props;
+      const newData = {
+        [name]: value == trueValue ? trueValue : falseValue,
+        [expressionName]: undefined
+      };
+      !noBulkChange && onBulkChange && onBulkChange(newData);
+      onDataChange && onDataChange(newData);
     });
   }
 
   @autobind
   handleFormSubmit(values: StatusFormData) {
-    const {onBulkChange, name, expressionName} = this.props;
+    const {onBulkChange, noBulkChange, onDataChange, name, expressionName} = this.props;
     const data: Record<string, any> = {
       [name]: undefined,
       [expressionName]: undefined
@@ -102,7 +115,8 @@ export class StatusControl extends React.Component<
         data[expressionName] = values.expression;
         break;
     }
-    onBulkChange && onBulkChange(data);
+    !noBulkChange && onBulkChange && onBulkChange(data);
+    onDataChange && onDataChange(data);
   }
 
   render() {
@@ -179,15 +193,14 @@ export class StatusControl extends React.Component<
                   }
                 ]
               },
-              {
-                type: 'ae-expressionFormulaControl',
+              getSchemaTpl('expressionFormulaControl', {
                 evalMode: false,
                 label: '表达式',
                 name: 'expression',
                 placeholder: `请输入${label}条件`,
                 visibleOn: 'this.statusType === 2',
                 onChange: (value: any) => {}
-              }
+              })
             ]
           },
           {

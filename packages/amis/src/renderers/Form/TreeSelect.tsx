@@ -236,12 +236,12 @@ export default class TreeSelectControl extends React.Component<
 
   handleFocus(e: any) {
     const {dispatchEvent, value} = this.props;
-    dispatchEvent('focus', resolveEventData(this.props, {value}, 'value'));
+    dispatchEvent('focus', resolveEventData(this.props, {value}));
   }
 
   handleBlur(e: any) {
     const {dispatchEvent, value, data} = this.props;
-    dispatchEvent('blur', resolveEventData(this.props, {value}, 'value'));
+    dispatchEvent('blur', resolveEventData(this.props, {value}));
   }
 
   handleKeyPress(e: React.KeyboardEvent) {
@@ -486,7 +486,7 @@ export default class TreeSelectControl extends React.Component<
 
     const rendererEvent = await dispatchEvent(
       'change',
-      resolveEventData(this.props, {value}, 'value')
+      resolveEventData(this.props, {value})
     );
 
     if (rendererEvent?.prevented) {

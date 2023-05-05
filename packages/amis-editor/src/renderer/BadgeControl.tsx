@@ -8,7 +8,13 @@ import camelCase from 'lodash/camelCase';
 import mapKeys from 'lodash/mapKeys';
 import {FormItem, Switch} from 'amis';
 
-import {autobind, isObject, isEmpty, anyChanged, getI18nEnabled} from 'amis-editor-core';
+import {
+  autobind,
+  isObject,
+  isEmpty,
+  anyChanged,
+  getI18nEnabled
+} from 'amis-editor-core';
 import {defaultValue, tipedLabel} from 'amis-editor-core';
 
 import type {FormControlProps} from 'amis-core';
@@ -136,10 +142,14 @@ export default class BadgeControl extends React.Component<
   }
 
   transformBadgeValue(): BadgeForm {
-    const {data: ctx} = this.props;
-    const badge = ctx?.badge ?? {};
+    const {data: ctx, node} = this.props;
+    let badge = ctx?.badge ?? {};
     // 避免获取到上层的size
-    const size = ctx?.badge?.size;
+    let size = ctx?.badge?.size;
+    if (node.type === 'button-group-select') {
+      badge = ctx?.option?.badge ?? {};
+      size = badge?.size;
+    }
     const offset = [0, 0];
 
     // 转换成combo可以识别的格式
@@ -166,7 +176,6 @@ export default class BadgeControl extends React.Component<
   @autobind
   handleSwitchChange(checked: boolean): void {
     const {onChange, disabled} = this.props;
-
     if (disabled) {
       return;
     }

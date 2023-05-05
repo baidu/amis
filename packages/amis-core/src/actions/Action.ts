@@ -243,7 +243,13 @@ export const runAction = async (
 
   // 动作配置
   const args = dataMapping(actionConfig.args, mergeData, key =>
-    ['adaptor', 'responseAdaptor', 'requestAdaptor', 'responseData'].includes(
+    [
+      'adaptor',
+      'responseAdaptor',
+      'requestAdaptor',
+      'responseData',
+      'condition'
+    ].includes(
       key
     )
   );

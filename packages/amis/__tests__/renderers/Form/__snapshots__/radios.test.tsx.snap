@@ -54,6 +54,7 @@ exports[`Renderer:radios 1`] = `
           >
             <label
               class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+              data-role="checkbox"
             >
               <input
                 type="radio"
@@ -67,6 +68,7 @@ exports[`Renderer:radios 1`] = `
             </label>
             <label
               class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+              data-role="checkbox"
             >
               <input
                 type="radio"
@@ -80,6 +82,7 @@ exports[`Renderer:radios 1`] = `
             </label>
             <label
               class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+              data-role="checkbox"
             >
               <input
                 type="radio"
@@ -93,6 +96,7 @@ exports[`Renderer:radios 1`] = `
             </label>
             <label
               class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+              data-role="checkbox"
             >
               <input
                 type="radio"
@@ -240,6 +244,7 @@ exports[`Renderer:radios 2`] = `
           >
             <label
               class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+              data-role="checkbox"
             >
               <input
                 type="radio"
@@ -253,6 +258,7 @@ exports[`Renderer:radios 2`] = `
             </label>
             <label
               class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+              data-role="checkbox"
             >
               <input
                 type="radio"
@@ -266,6 +272,7 @@ exports[`Renderer:radios 2`] = `
             </label>
             <label
               class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+              data-role="checkbox"
             >
               <input
                 type="radio"
@@ -279,6 +286,7 @@ exports[`Renderer:radios 2`] = `
             </label>
             <label
               class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+              data-role="checkbox"
             >
               <input
                 type="radio"
@@ -428,6 +436,7 @@ exports[`Renderer:radios source & autoFill 1`] = `
               >
                 <label
                   class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+                  data-role="checkbox"
                 >
                   <input
                     type="radio"
@@ -445,6 +454,7 @@ exports[`Renderer:radios source & autoFill 1`] = `
               >
                 <label
                   class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+                  data-role="checkbox"
                 >
                   <input
                     type="radio"
@@ -462,6 +472,7 @@ exports[`Renderer:radios source & autoFill 1`] = `
               >
                 <label
                   class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+                  data-role="checkbox"
                 >
                   <input
                     type="radio"

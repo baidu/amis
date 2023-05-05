@@ -253,7 +253,8 @@ export default class TooltipWrapper extends React.Component<
       offset,
       showArrow,
       disabled,
-      enterable
+      enterable,
+      filterHtml: env.filterHtml
     };
 
     return (

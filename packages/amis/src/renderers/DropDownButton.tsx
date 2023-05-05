@@ -271,7 +271,8 @@ export default class DropDownButton extends React.Component<
       closeOnClick,
       closeOnOutside,
       menuClassName,
-      overlayPlacement
+      overlayPlacement,
+      trigger
     } = this.props;
     let body = (
       <RootClose
@@ -311,7 +312,7 @@ export default class DropDownButton extends React.Component<
           show
         >
           <PopOver
-            overlay
+            overlay={trigger !== 'hover'}
             onHide={this.close}
             classPrefix={ns}
             className={cx('DropDown-popover', menuClassName)}
@@ -375,7 +376,7 @@ export default class DropDownButton extends React.Component<
       >
         <TooltipWrapper
           placement={placement}
-          tooltip={disabled ? disabledTip : tooltip}
+          tooltip={disabled ? disabledTip : (tooltip as any)}
           container={tooltipContainer || env?.getModalContainer}
           trigger={tooltipTrigger}
           rootClose={tooltipRootClose}

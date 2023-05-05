@@ -69,6 +69,42 @@ order: 15
 - month 或 months: 月
 - year 或 years: 年
 
+或者用公式来配置复杂情况， 比如本周一到周日
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "type": "input-date-range",
+            "name": "date",
+            "label": "日期范围",
+            "value": "${DATETOSTR(DATEMODIFY(STARTOF(NOW(), 'week'), 1, 'day'), 'X') + ',' + DATETOSTR(DATEMODIFY(ENDOF(NOW(), 'week'), '1', 'day'), 'X')}"
+        }
+    ]
+}
+```
+
+> 因为默认周日是第一天，所以需要往后加一天
+
+再看个上月第一天到上月最后一天的例子
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "type": "input-date-range",
+            "name": "date",
+            "label": "日期范围",
+            "value": "${DATETOSTR(STARTOF(DATEMODIFY(NOW(), -1, 'month'), 'month'), 'X') + ',' + DATETOSTR(ENDOF(DATEMODIFY(NOW(), -1, 'month'), 'month'), 'X')}"
+        }
+    ]
+}
+```
+
 ## 快捷键
 
 `ranges`属性支持自定义快捷选择日期范围快捷键

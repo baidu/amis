@@ -11,8 +11,6 @@ export class SwitchControlPlugin extends BasePlugin {
   rendererName = 'switch';
   $schema = '/schemas/SwitchControlSchema.json';
 
-  order = -400;
-
   // 组件名称
   name = '开关';
   isBaseComponent = true;

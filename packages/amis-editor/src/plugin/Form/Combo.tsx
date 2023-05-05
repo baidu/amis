@@ -188,14 +188,12 @@ export class ComboControlPlugin extends BasePlugin {
             placeholder: '变量名',
             source: '${__setValueDs}'
           },
-          {
+          getSchemaTpl('formulaControl', {
             name: 'val',
-            type: 'input-formula',
             variables: '${variables}',
-            evalMode: false,
             variableMode: 'tabs',
             inputMode: 'input-group'
-          }
+          })
         ]
       })
     },
@@ -552,11 +550,10 @@ export class ComboControlPlugin extends BasePlugin {
                       }
                     ]
                   },
-                  {
-                    type: 'ae-formulaControl',
+                  getSchemaTpl('formulaControl', {
                     label: '标题模版',
                     name: 'tabsLabelTpl'
-                  }
+                  })
                 ]
               },
               // 表单多行展示

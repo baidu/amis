@@ -1,6 +1,4 @@
-import {
-  setSchemaTpl,
-} from 'amis-editor-core';
+import {setSchemaTpl} from 'amis-editor-core';
 import {remarkTpl} from '../component/BaseControl';
 
 setSchemaTpl(

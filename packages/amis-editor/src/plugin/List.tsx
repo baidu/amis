@@ -14,9 +14,9 @@ import {
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {diff, JSONPipeOut, repeatArray} from 'amis-editor-core';
 import {resolveArrayDatasource} from '../util';
+import {schemaArrayFormat, resolveArrayDatasource, schemaToArray} from '../util';
 
 export class ListPlugin extends BasePlugin {
-  static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'list';
   $schema = '/schemas/ListSchema.json';
@@ -241,13 +241,13 @@ export class ListPlugin extends BasePlugin {
       value &&
       this.manager.openSubEditor({
         title: '配置头部',
-        value: value.header ?? defaultHeader,
+        value: schemaToArray(value.header ?? defaultHeader),
         slot: {
           type: 'container',
           body: '$$'
         },
         onChange: newValue => {
-          newValue = {...value, header: newValue};
+          newValue = {...value, header: schemaArrayFormat(newValue)};
           manager.panelChangeValue(newValue, diff(value, newValue));
         }
       });
@@ -269,13 +269,13 @@ export class ListPlugin extends BasePlugin {
       value &&
       this.manager.openSubEditor({
         title: '配置底部',
-        value: value.footer ?? defaultFooter,
+        value: schemaToArray(value.footer ?? defaultFooter),
         slot: {
           type: 'container',
           body: '$$'
         },
         onChange: newValue => {
-          newValue = {...value, footer: newValue};
+          newValue = {...value, footer: schemaArrayFormat(newValue)};
           manager.panelChangeValue(newValue, diff(value, newValue));
         }
       });

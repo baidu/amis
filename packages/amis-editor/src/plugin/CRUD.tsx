@@ -53,7 +53,7 @@ export class CRUDPlugin extends BasePlugin {
   rendererName = 'crud';
   $schema = '/schemas/CRUDSchema.json';
 
-  order = -1000;
+  order = -800;
 
   // 组件名称
   name = '增删改查';
@@ -61,7 +61,7 @@ export class CRUDPlugin extends BasePlugin {
   description =
     '用来实现对数据的增删改查，支持三种模式展示：table、cards和list. 负责数据的拉取，分页，单条操作，批量操作，排序，快速编辑等等功能。集成查询条件。';
   docLink = '/amis/zh-CN/components/crud';
-  tags = ['功能'];
+  tags = ['数据容器'];
   icon = 'fa fa-table';
   pluginIcon = 'table-plugin';
 

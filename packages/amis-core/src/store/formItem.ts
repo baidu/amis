@@ -1088,7 +1088,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
             ? evalExpression(item.visibleOn, data) !== false
             : item.hiddenOn
             ? evalExpression(item.hiddenOn, data) !== true
-            : item.visible !== false || item.hidden !== true;
+            : item.visible !== false && item.hidden !== true;
         })
         .map((item: any, index) => {
           const disabled = evalExpression(item.disabledOn, data);

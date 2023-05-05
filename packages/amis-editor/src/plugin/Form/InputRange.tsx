@@ -124,7 +124,7 @@ export class RangeControlPlugin extends BasePlugin {
               }),
 
               getSchemaTpl('label', {
-                label: 'Label',
+                label: 'Label'
               }),
 
               {

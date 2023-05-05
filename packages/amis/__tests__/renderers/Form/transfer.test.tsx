@@ -7,10 +7,12 @@
  * 4. 表格模式
  * 5. 级联选择模式
  * 6. 关联选择模式
- * 7. 分组模式虚拟滚动
- * 8. 表格模式虚拟滚动
- * 9. 级联模式虚拟滚动
- * 10. 关联模式虚拟滚动
+ * 7. 结果面板跟随模式
+ * 8. 结果搜索功能
+ * 9. 分组模式虚拟滚动
+ * 10. 表格模式虚拟滚动
+ * 11. 级联模式虚拟滚动
+ * 12. 关联模式虚拟滚动
  */
 
 import {fireEvent, render, waitFor} from '@testing-library/react';
@@ -485,6 +487,168 @@ test('Renderer:transfer left tree', async () => {
   expect(container).toMatchSnapshot();
 });
 
+// 跟随模式
+test('Renderer:transfer follow left mode', async () => {
+  const {container, findByText} = render(
+    amisRender(
+      {
+        type: 'form',
+        api: '/api/mock2/form/saveForm',
+        body: [
+          {
+            label: '树型展示',
+            type: 'transfer',
+            name: 'transfer4',
+            selectMode: 'tree',
+            searchable: true,
+            resultListModeFollowSelect: true,
+            options: [
+              {
+                label: '法师',
+                children: [
+                  {
+                    label: '诸葛亮',
+                    value: 'zhugeliang'
+                  }
+                ]
+              },
+              {
+                label: '战士',
+                children: [
+                  {
+                    label: '曹操',
+                    value: 'caocao'
+                  },
+                  {
+                    label: '钟无艳',
+                    value: 'zhongwuyan'
+                  }
+                ]
+              },
+              {
+                label: '打野',
+                children: [
+                  {
+                    label: '李白',
+                    value: 'libai'
+                  },
+                  {
+                    label: '韩信',
+                    value: 'hanxin'
+                  },
+                  {
+                    label: '云中君',
+                    value: 'yunzhongjun'
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {},
+      makeEnv({})
+    )
+  );
+
+  const zhugeliang = await findByText('诸葛亮');
+  fireEvent.click(zhugeliang);
+  await wait(200);
+
+  expect(container).toMatchSnapshot();
+});
+
+// 结果前端搜索
+test('Renderer:transfer follow left mode', async () => {
+  const {container, findByText} = render(
+    amisRender(
+      {
+        type: 'form',
+        api: '/api/mock2/form/saveForm',
+        body: [
+          {
+            label: '树型展示',
+            type: 'transfer',
+            name: 'transfer4',
+            selectMode: 'tree',
+            searchable: true,
+            resultListModeFollowSelect: true,
+            resultSearchable: true,
+            options: [
+              {
+                label: '法师',
+                children: [
+                  {
+                    label: '诸葛亮',
+                    value: 'zhugeliang'
+                  }
+                ]
+              },
+              {
+                label: '战士',
+                children: [
+                  {
+                    label: '曹操',
+                    value: 'caocao'
+                  },
+                  {
+                    label: '钟无艳',
+                    value: 'zhongwuyan'
+                  }
+                ]
+              },
+              {
+                label: '打野',
+                children: [
+                  {
+                    label: '李白',
+                    value: 'libai'
+                  },
+                  {
+                    label: '韩信',
+                    value: 'hanxin'
+                  },
+                  {
+                    label: '云中君',
+                    value: 'yunzhongjun'
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {},
+      makeEnv({})
+    )
+  );
+
+  const zhugeliang = await findByText('诸葛亮');
+  fireEvent.click(zhugeliang);
+  await wait(200);
+
+  const caocao = await findByText('曹操');
+  fireEvent.click(caocao);
+  await wait(200);
+
+  const input = container.querySelectorAll('input[type=text]')[1];
+
+  expect(input).not.toBeNull();
+
+  fireEvent.change(input, {
+    target: {value: 'caocao'}
+  });
+  // 300 毫秒才行
+  await wait(300);
+
+  const dom = container.querySelector(
+    '.cxd-ResultTreeList .cxd-Tree-item .cxd-Tree-itemText'
+  );
+  expect(dom).not.toBeNull();
+  expect(dom?.getAttribute('title')).toEqual('战士');
+  expect(container).toMatchSnapshot();
+});
+
 test('Renderer:transfer group mode with virtual', async () => {
   const options = [...Array(20)].map((_, i) => ({
     label: `group-${i + 1}`,
@@ -805,6 +969,6 @@ test('Renderer:transfer with showInvalidMatch & unmatched do not add', async () 
 
   expect(container).toMatchSnapshot();
 
-  expect(leftItems()!.length).toBe(7);
+  expect(leftItems()!.length).toBe(3);
   expect(rightItems()!.length).toBe(4);
 });

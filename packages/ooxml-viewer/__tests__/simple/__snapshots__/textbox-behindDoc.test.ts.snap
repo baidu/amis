@@ -1,0 +1,88 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`textbox-behindDoc 1`] = `
+<article>
+  <section
+    style="position: relative; width: 815.98px; padding: 96.00px 96.00px 96.00px 96.00px;"
+  >
+    <p
+      class="docx-viewer-0-p"
+      style="position: relative;"
+    >
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="1"
+          data-name="Text Box 1"
+          style="z-index: 251659264; position: absolute; left: 144.00px; top: 77.80px; width: 122.79px; height: 53.58px; display: table;"
+        >
+          <svg
+            height="53.58px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="122.79px"
+          >
+            <path
+              d="M 0 0 L 122.79 0 L 122.79 53.58 L 0 53.58 Z"
+              fill="#FFFFFF"
+              stroke="#000000"
+              stroke-width="0.67px"
+            />
+          </svg>
+          <div
+            data-name="textContainer"
+            style="display: table-cell; vertical-align: top;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+              <span
+                class="docx-viewer-0-r"
+              >
+                t
+              </span>
+              <span
+                class="docx-viewer-0-r"
+              >
+                ext
+              </span>
+            </p>
+          </div>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="2"
+          data-name="Text Box 2"
+          style="z-index: 251658239; position: absolute; left: 122.79px; top: 64.41px; width: 164.09px; height: 84.84px; color: rgb(255, 255, 255); display: table;"
+        >
+          <svg
+            height="84.84px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="164.09px"
+          >
+            <path
+              d="M 0 0 L 164.09 0 L 164.09 84.84 L 0 84.84 Z"
+              fill="#70AD47"
+            />
+          </svg>
+          <div
+            data-name="textContainer"
+            style="display: table-cell; vertical-align: top;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+               
+            </p>
+          </div>
+        </div>
+      </span>
+    </p>
+  </section>
+</article>
+`;

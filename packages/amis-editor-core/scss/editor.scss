@@ -32,11 +32,14 @@
 @import './control/feature-control';
 @import './control/databinding-control';
 @import './control/event-action';
+@import './control/tpl-formula-control';
 @import './control/timeline_item_control';
 @import './control/tree_option_control';
 @import './control/_inpupt-file';
 @import './control/_nav-control';
 @import './control/_status';
+@import './control/_icon-button-group-control';
+@import './control/_flex-setting-control';
 
 /* 样式控件 */
 @import './style-control/box-model';
@@ -46,7 +49,7 @@
 @import './style-control/background';
 @import './style-control/size';
 @import './style-control/style-common';
-@import './style-control/theme_classname';
+@import './style-control/theme-css-code';
 
 @keyframes growing {
   0% {
@@ -788,7 +791,7 @@
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  z-index: 100;
+  z-index: 1000;
   pointer-events: none;
 }
 
@@ -1708,6 +1711,9 @@ div.ae-DragImage {
   label {
     margin-right: 0;
   }
+}
+.ae-scaffoldForm-Modal {
+  @include panel-sm-content();
 }
 
 .ae-Scaffold-Modal {

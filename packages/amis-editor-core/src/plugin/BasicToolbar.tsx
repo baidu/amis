@@ -461,7 +461,7 @@ export class BasicToolbarPlugin extends BasePlugin {
         onSelect: () => store.redo()
       });
 
-      // menus.push('|');
+      menus.push('|');
 
       /** 可使用「点选（默认向后插入）」替代 */
       /*
@@ -519,10 +519,8 @@ export class BasicToolbarPlugin extends BasePlugin {
         }
       }
 
-      /** 「点选（默认向后插入）」+ 「删除」可以替换 「更改类型」 */
-      /*
       menus.push({
-        label: '更改类型',
+        label: '替换组件',
         disabled:
           !node.host ||
           node.info?.typeMutable === false ||
@@ -531,7 +529,6 @@ export class BasicToolbarPlugin extends BasePlugin {
           !node.replaceable,
         onSelect: () => manager.showReplacePanel(id)
       });
-      */
     }
 
     if (

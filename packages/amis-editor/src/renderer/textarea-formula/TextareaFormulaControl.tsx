@@ -2,20 +2,53 @@
  * @file 长文本公式输入框
  */
 
-import React from 'react';
+import React, {MouseEvent} from 'react';
 import cx from 'classnames';
-import {Icon, FormItem} from 'amis';
-import {autobind, FormControlProps, Schema} from 'amis-core';
-import CodeMirrorEditor from 'amis-ui/lib/components/CodeMirror';
+import {Icon, FormItem, TooltipWrapper} from 'amis';
+import {autobind, FormControlProps, render as renderAmis} from 'amis-core';
+import {CodeMirrorEditor, FormulaEditor} from 'amis-ui';
+import type {VariableItem, CodeMirror} from 'amis-ui';
 import {FormulaPlugin, editorFactory} from './plugin';
 
 import FormulaPicker, {CustomFormulaPickerProps} from './FormulaPicker';
-import debounce from 'lodash/debounce';
-import CodeMirror from 'codemirror';
 import {getVariables} from './utils';
-import {VariableItem} from 'amis-ui/lib/components/formula/Editor';
 import {reaction} from 'mobx';
+import {renderFormulaValue} from '../FormulaControl';
 
+export interface AdditionalMenuClickOpts {
+  /**
+   * 当前表达式值
+   */
+  value: string;
+  /**
+   * 对表达式重新赋值
+   * @param value
+   * @returns
+   */
+  setValue: (value: string) => void;
+  /**
+   * 在光标位置插入新的值
+   * @param content 要插入的内容
+   * @param type 插入内容的类型，目前支持表达式expression 和普通文本string
+   * @param brace 自定义插入的位置
+   * @returns
+   */
+  insertContent: (
+    content: string,
+    type: 'expression' | 'string',
+    brace?: Array<CodeMirror.Position>
+  ) => void;
+}
+
+export interface AdditionalMenu {
+  label: string; // 文案（当存在图标时，为tooltip内容）
+  onClick?: (
+    e: MouseEvent<HTMLAnchorElement>,
+    opts: AdditionalMenuClickOpts
+  ) => void; // 触发事件
+  icon?: string; // 图标
+  className?: string; //外层类名
+}
 export interface TextareaFormulaControlProps extends FormControlProps {
   /**
    * 输入框的高度， 默认 100 px
@@ -41,12 +74,7 @@ export interface TextareaFormulaControlProps extends FormControlProps {
   /**
    *  附加底部按钮菜单项
    */
-  additionalMenus?: Array<{
-    label: string; // 文案（当存在图标时，为tooltip内容）
-    onClick: () => void; // 触发事件
-    icon?: string; // 图标
-    className?: string; //外层类名
-  }>;
+  additionalMenus?: Array<AdditionalMenu>;
 
   /**
    * 整体点击长文本公式输入框
@@ -57,6 +85,25 @@ export interface TextareaFormulaControlProps extends FormControlProps {
    * 自定义fx面板
    */
   customFormulaPicker?: React.FC<CustomFormulaPickerProps>;
+
+  /**
+   * 自定义标记文本
+   * @param editor
+   * @returns
+   */
+  customMarkText?: (editor: CodeMirror.Editor) => void;
+
+  /**
+   * 插件初始化生命周期回调
+   * @param plugin 插件实例，内部包含公式插件的方法
+   * @returns
+   */
+  onPluginInit?: (plugin: FormulaPlugin) => void;
+
+  /**
+   * 弹窗顶部标题，默认为 "表达式"
+   */
+  header: string;
 }
 
 interface TextareaFormulaControlState {
@@ -71,6 +118,8 @@ interface TextareaFormulaControlState {
   expressionBrace?: Array<CodeMirror.Position>; // 表达式所在位置
 
   isFullscreen: boolean; //是否全屏
+
+  tooltipStyle: {[key: string]: string}; // 提示框样式
 }
 
 export class TextareaFormulaControl extends React.Component<
@@ -80,12 +129,15 @@ export class TextareaFormulaControl extends React.Component<
   static defaultProps: Partial<TextareaFormulaControlProps> = {
     variableMode: 'tabs',
     requiredDataPropsVariables: false,
-    height: 100
+    height: 100,
+    placeholder: '请输入'
   };
 
-  isUnmount: boolean;
+  wrapRef = React.createRef<HTMLDivElement>();
 
-  editorPlugin?: FormulaPlugin;
+  tooltipRef = React.createRef<HTMLDivElement>();
+
+  editorPlugin: FormulaPlugin;
   unReaction: any;
   appLocale: string;
   appCorpusData: any;
@@ -97,7 +149,8 @@ export class TextareaFormulaControl extends React.Component<
       variables: [],
       formulaPickerOpen: false,
       formulaPickerValue: '',
-      isFullscreen: false
+      isFullscreen: false,
+      tooltipStyle: {}
     };
   }
 
@@ -117,6 +170,13 @@ export class TextareaFormulaControl extends React.Component<
       }
     );
 
+    if (this.tooltipRef.current) {
+      this.tooltipRef.current.addEventListener(
+        'mouseleave',
+        this.hiddenToolTip
+      );
+    }
+
     const variablesArr = await getVariables(this);
     this.setState({
       variables: variablesArr
@@ -130,10 +190,25 @@ export class TextareaFormulaControl extends React.Component<
         variables: variablesArr
       });
     }
+    if (this.state.value !== this.props.value) {
+      this.setState(
+        {
+          value: this.props.value
+        },
+        this.editorAutoMark
+      );
+    }
   }
 
   componentWillUnmount() {
-    this.isUnmount = true;
+    if (this.tooltipRef.current) {
+      this.tooltipRef.current.removeEventListener(
+        'mouseleave',
+        this.hiddenToolTip
+      );
+    }
+    this.editorPlugin?.dispose();
+
     this.unReaction?.();
   }
 
@@ -143,6 +218,41 @@ export class TextareaFormulaControl extends React.Component<
       formulaPickerValue: expression,
       formulaPickerOpen: true,
       expressionBrace: brace
+    });
+  }
+
+  @autobind
+  onExpressionMouseEnter(
+    e: any,
+    expression: string,
+    brace?: Array<CodeMirror.Position>
+  ) {
+    const wrapperRect = this.wrapRef.current?.getBoundingClientRect();
+    const expressionRect = (
+      e.target as HTMLSpanElement
+    ).getBoundingClientRect();
+    if (!wrapperRect) {
+      return;
+    }
+    const left = expressionRect.left - wrapperRect.left;
+    const top = expressionRect.top - wrapperRect.top;
+    this.setState({
+      tooltipStyle: {
+        left: `${left}px`,
+        top: `${top}px`,
+        width: `${expressionRect.width}px`
+      },
+      formulaPickerValue: expression,
+      expressionBrace: brace
+    });
+  }
+
+  @autobind
+  hiddenToolTip() {
+    this.setState({
+      tooltipStyle: {
+        display: 'none'
+      }
     });
   }
 
@@ -157,33 +267,34 @@ export class TextareaFormulaControl extends React.Component<
     // 去除可能包裹的最外层的${}
     value = value.replace(/^\$\{(.*)\}$/, (match: string, p1: string) => p1);
     value = value ? `\${${value}}` : value;
+    value = value.replace(/\r\n|\r|\n/g, ' ');
     this.editorPlugin?.insertContent(value, 'expression', expressionBrace);
     this.setState({
       formulaPickerOpen: false,
       expressionBrace: undefined
     });
-
-    this.closeFormulaPicker();
   }
 
-  handleOnChange = debounce((value: any) => {
+  @autobind
+  handleOnChange(value: any) {
     this.props.onChange?.(value);
-  }, 200);
+  }
 
   @autobind
   editorFactory(dom: HTMLElement, cm: any) {
-    const variables = this.props.variables || this.state.variables;
-    return editorFactory(dom, cm, {...this.props, variables});
+    return editorFactory(dom, cm, this.props.value);
   }
   @autobind
   handleEditorMounted(cm: any, editor: any) {
-    const variables = this.props.variables || this.state.variables;
-    this.editorPlugin = new FormulaPlugin(
-      editor,
-      cm,
-      () => ({...this.props, variables}),
-      this.onExpressionClick
-    );
+    const variables = this.state.variables || this.props.variables || [];
+    this.editorPlugin = new FormulaPlugin(editor, {
+      getProps: () => ({...this.props, variables}),
+      onExpressionClick: this.onExpressionClick,
+      onExpressionMouseEnter: this.onExpressionMouseEnter,
+      customMarkText: this.props.customMarkText,
+      onPluginInit: this.props.onPluginInit,
+      showClearIcon: true
+    });
   }
 
   @autobind
@@ -213,6 +324,18 @@ export class TextareaFormulaControl extends React.Component<
     this.editorPlugin?.autoMark();
   }
 
+  @autobind
+  handleAddtionalMenuClick(
+    e: MouseEvent<HTMLAnchorElement>,
+    item: AdditionalMenu
+  ) {
+    item.onClick?.(e, {
+      value: this.props.value || '',
+      setValue: this.editorPlugin.setValue,
+      insertContent: this.editorPlugin.insertContent
+    });
+  }
+
   render() {
     const {
       className,
@@ -226,11 +349,11 @@ export class TextareaFormulaControl extends React.Component<
       ...rest
     } = this.props;
     const {
-      value,
       formulaPickerOpen,
       formulaPickerValue,
       isFullscreen,
-      variables
+      variables,
+      tooltipStyle
     } = this.state;
 
     const FormulaPickerCmp = customFormulaPicker ?? FormulaPicker;
@@ -241,6 +364,13 @@ export class TextareaFormulaControl extends React.Component<
       resultBoxStyle.height = `${height}px`;
     }
 
+    const highlightValue = FormulaEditor.highlightValue(
+      formulaPickerValue,
+      variables
+    ) || {
+      html: formulaPickerValue
+    };
+
     return (
       <div
         className={cx(
@@ -250,16 +380,22 @@ export class TextareaFormulaControl extends React.Component<
           },
           className
         )}
+        ref={this.wrapRef}
       >
         <div className={cx('ae-TextareaResultBox')} style={resultBoxStyle}>
           <CodeMirrorEditor
             className="ae-TextareaResultBox-editor"
-            value={value}
+            value={this.props.value}
             onChange={this.handleOnChange}
             editorFactory={this.editorFactory}
             editorDidMount={this.handleEditorMounted}
             onBlur={this.editorAutoMark}
           />
+          {!this.props.value && (
+            <div className="ae-TextareaResultBox-placeholder">
+              {placeholder}
+            </div>
+          )}
           <ul className="ae-TextareaResultBox-footer">
             <li className="ae-TextareaResultBox-footer-fullscreen">
               <a
@@ -280,24 +416,32 @@ export class TextareaFormulaControl extends React.Component<
                 data-position="top"
                 onClick={this.handleFormulaClick}
               >
-                <Icon icon="function" className="icon" />
+                <Icon icon="input-add-fx" className="icon" />
               </a>
             </li>
             {/* 附加底部按钮菜单项 */}
-            {additionalMenus?.length &&
+            {Array.isArray(additionalMenus) &&
+              additionalMenus.length > 0 &&
               additionalMenus?.map((item, i) => {
                 return (
-                  <li key={i} className={item?.className || ''}>
+                  <li key={i}>
                     {item.icon ? (
                       <a
                         data-tooltip={item.label}
                         data-position="top"
-                        onClick={() => item.onClick()}
+                        onClick={e => this.handleAddtionalMenuClick(e, item)}
                       >
-                        <Icon icon={item.icon} className="icon" />
+                        {renderAmis({
+                          type: 'icon',
+                          icon: item.icon,
+                          vendor: '',
+                          className: item.className
+                        })}
                       </a>
                     ) : (
-                      <a onClick={() => item?.onClick()}>{item.label}</a>
+                      <a onClick={e => this.handleAddtionalMenuClick(e, item)}>
+                        {item.label}
+                      </a>
                     )}
                   </li>
                 );
@@ -312,15 +456,35 @@ export class TextareaFormulaControl extends React.Component<
           ></div>
         ) : null}
 
+        <TooltipWrapper
+          trigger="hover"
+          placement="top"
+          style={{fontSize: '12px'}}
+          tooltip={{
+            tooltipTheme: 'dark',
+            children: () => renderFormulaValue(highlightValue)
+          }}
+        >
+          <div
+            className="ae-TplFormulaControl-tooltip"
+            style={tooltipStyle}
+            ref={this.tooltipRef}
+            onClick={() => {
+              this.setState({formulaPickerOpen: true});
+            }}
+          ></div>
+        </TooltipWrapper>
+
         {formulaPickerOpen ? (
           <FormulaPickerCmp
             {...this.props}
             value={formulaPickerValue}
             initable={true}
             variables={variables}
+            header={header}
             variableMode={rest.variableMode}
             evalMode={true}
-            onClose={() => this.setState({formulaPickerOpen: false})}
+            onClose={this.closeFormulaPicker}
             onConfirm={this.handleConfirm}
           />
         ) : null}

@@ -12,8 +12,6 @@ export class RadiosControlPlugin extends BasePlugin {
   rendererName = 'radios';
   $schema = '/schemas/RadiosControlSchema.json';
 
-  order = -460;
-
   // 组件名称
   name = '单选框';
   isBaseComponent = true;
@@ -124,8 +122,7 @@ export class RadiosControlPlugin extends BasePlugin {
               getSchemaTpl('valueFormula', {
                 rendererSchema: context?.schema,
                 useSelectMode: true, // 改用 Select 设置模式
-                visibleOn:
-                  'this.options && this.options.length > 0 && this.selectFirst !== true'
+                visibleOn: 'this.options && this.options.length > 0'
               }),
               // getSchemaTpl('autoFill')
               getSchemaTpl('labelRemark'),
@@ -135,15 +132,7 @@ export class RadiosControlPlugin extends BasePlugin {
           },
           {
             title: '选项',
-            body: [
-              getSchemaTpl('optionControlV2'),
-              getSchemaTpl('switch', {
-                label: '默认选择第一个',
-                name: 'selectFirst',
-                horizontal: {justify: true, left: 5},
-                visibleOn: '!this.options'
-              })
-            ]
+            body: [getSchemaTpl('optionControlV2'), getSchemaTpl('selectFirst')]
           },
           getSchemaTpl('status', {isFormItem: true}),
           getSchemaTpl('validation', {tag: ValidatorTag.MultiSelect})

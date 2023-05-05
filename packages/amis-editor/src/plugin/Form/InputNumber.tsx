@@ -1,4 +1,8 @@
-import {getI18nEnabled, RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
+import {
+  getI18nEnabled,
+  RendererPluginAction,
+  RendererPluginEvent
+} from 'amis-editor-core';
 import flatten from 'lodash/flatten';
 import {ContainerWrapper} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
@@ -13,13 +17,12 @@ import {
 import {defaultValue, getSchemaTpl, tipedLabel} from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
+import {inputStateTpl} from '../../renderer/style-control/helper';
 
 export class NumberControlPlugin extends BasePlugin {
   // 关联渲染器名字
   rendererName = 'input-number';
   $schema = '/schemas/NumberControlSchema.json';
-
-  order = -410;
 
   // 组件名称
   name = '数字框';
@@ -268,7 +271,28 @@ export class NumberControlPlugin extends BasePlugin {
                   }
                 ]
               }),
-              getSchemaTpl('style:classNames')
+              getSchemaTpl('theme:form-label'),
+              getSchemaTpl('theme:form-description'),
+              {
+                title: '数字输入框样式',
+                body: [
+                  ...inputStateTpl(
+                    'themeCss.inputControlClassName',
+                    'inputNumber.base.base'
+                  )
+                ]
+              },
+              getSchemaTpl('theme:cssCode', {
+                themeClass: [
+                  {
+                    name: '数字输入框',
+                    value: '',
+                    className: 'inputControlClassName',
+                    state: ['default', 'hover', 'active']
+                  }
+                ],
+                isFormItem: true
+              })
             ],
             {...context?.schema, configTitle: 'style'}
           )

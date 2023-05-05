@@ -7,6 +7,7 @@
 import React from 'react';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
+import 'moment/locale/de';
 import {Icon} from './icons';
 import {PopOver} from 'amis-core';
 import PopUp from './PopUp';
@@ -802,7 +803,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
           onChange={this.inputChange}
           onBlur={this.onInputBlur}
           ref={this.inputRef}
-          placeholder={__(placeholder)}
+          placeholder={placeholder}
           autoComplete="off"
           value={this.state.inputValue || ''}
           disabled={disabled}

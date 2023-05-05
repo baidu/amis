@@ -11,7 +11,7 @@ import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {BUTTON_DEFAULT_ACTION} from '../component/BaseControl';
 import {getEventControlConfig} from '../renderer/event-control/helper';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
-import {SchemaObject} from 'amis/lib/Schema';
+import type {SchemaObject} from 'amis/lib/Schema';
 import {getOldActionSchema} from '../renderer/event-control/helper';
 
 export class ButtonPlugin extends BasePlugin {
@@ -20,13 +20,15 @@ export class ButtonPlugin extends BasePlugin {
   rendererName = 'button';
   $schema = '/schemas/ActionSchema.json';
 
+  order = -400;
+
   // 组件名称
   name = '按钮';
   isBaseComponent = true;
   description =
     '用来展示一个按钮，你可以配置不同的展示样式，配置不同的点击行为。';
   docLink = '/amis/zh-CN/components/button';
-  tags = ['按钮'];
+  tags = ['功能'];
   icon = 'fa fa-square';
   pluginIcon = 'button-plugin';
   scaffold: SchemaObject = {
@@ -116,28 +118,35 @@ export class ButtonPlugin extends BasePlugin {
       return [
         getSchemaTpl('theme:font', {
           label: '文字',
-          name: `css.className.font:${state}`,
-          visibleOn: visibleOn
+          name: `themeCss.className.font:${state}`,
+          visibleOn: visibleOn,
+          editorThemePath: [
+            `button1.type.\${level}.${state}.body.font-color`,
+            `button1.size.\${size}.body.font`
+          ]
         }),
         getSchemaTpl('theme:colorPicker', {
           label: '背景',
-          name: `css.className.background:${state}`,
+          name: `themeCss.className.background:${state}`,
           labelMode: 'input',
           needGradient: true,
-          visibleOn: visibleOn
+          visibleOn: visibleOn,
+          editorThemePath: `button1.type.\${level}.${state}.body.bg-color`
         }),
         getSchemaTpl('theme:border', {
-          name: `css.className.border:${state}`,
-          visibleOn: visibleOn
+          name: `themeCss.className.border:${state}`,
+          visibleOn: visibleOn,
+          editorThemePath: `button1.type.\${level}.${state}.body.border`
         }),
         getSchemaTpl('theme:paddingAndMargin', {
-          name: `css.className.padding-and-margin:${state}`,
-
-          visibleOn: visibleOn
+          name: `themeCss.className.padding-and-margin:${state}`,
+          visibleOn: visibleOn,
+          editorThemePath: `button1.size.\${size}.body.padding-and-margin`
         }),
         getSchemaTpl('theme:radius', {
-          name: `css.className.radius:${state}`,
-          visibleOn: visibleOn
+          name: `themeCss.className.radius:${state}`,
+          visibleOn: visibleOn,
+          editorThemePath: `button1.size.\${size}.body.border`
         })
       ];
     };
@@ -198,12 +207,11 @@ export class ButtonPlugin extends BasePlugin {
                 ),
                 form: {
                   body: [
-                    {
-                      type: 'ae-textareaFormulaControl',
+                    getSchemaTpl('textareaFormulaControl', {
                       label: '确认内容',
                       mode: 'normal',
                       name: 'confirmText'
-                    }
+                    })
                   ]
                 }
               },
@@ -216,17 +224,15 @@ export class ButtonPlugin extends BasePlugin {
                 hidden: isInDropdown,
                 form: {
                   body: [
-                    {
-                      type: 'ae-textareaFormulaControl',
+                    getSchemaTpl('textareaFormulaControl', {
                       name: 'tooltip',
                       mode: 'normal',
                       label: tipedLabel(
                         '正常提示',
                         '正常状态下的提示内容，不填则不弹出提示。可从数据域变量中取值。'
                       )
-                    },
-                    {
-                      type: 'ae-textareaFormulaControl',
+                    }),
+                    getSchemaTpl('textareaFormulaControl', {
                       name: 'disabledTip',
                       mode: 'normal',
                       label: tipedLabel(
@@ -235,7 +241,7 @@ export class ButtonPlugin extends BasePlugin {
                       ),
                       clearValueOnHidden: true,
                       visibleOn: 'data.tooltipTrigger !== "focus"'
-                    },
+                    }),
                     {
                       type: 'button-group-select',
                       name: 'tooltipTrigger',
@@ -291,7 +297,8 @@ export class ButtonPlugin extends BasePlugin {
               getSchemaTpl('icon', {
                 name: 'rightIcon',
                 label: '右侧图标'
-              })
+              }),
+              getSchemaTpl('badge')
             ]
           },
           getSchemaTpl('status', {
@@ -361,7 +368,14 @@ export class ButtonPlugin extends BasePlugin {
               ...buttonStateFunc("${editorState == 'active'}", 'active')
             ]
           },
-          getSchemaTpl('theme:classNames', {isFormItem: false})
+          getSchemaTpl('theme:cssCode', {
+            themeClass: [
+              {
+                value: '',
+                state: ['default', 'hover', 'active']
+              }
+            ]
+          })
         ])
       },
       {

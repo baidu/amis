@@ -7,7 +7,6 @@
 import React from 'react';
 import uniq from 'lodash/uniq';
 import isEqual from 'lodash/isEqual';
-import isEqualWith from 'lodash/isEqualWith';
 import RcMenu, {
   MenuProps as RcMenuProps,
   Divider as RcDivider,
@@ -44,12 +43,10 @@ export interface NavigationItem {
   badgeClassName?: string;
   tooltipClassName?: string;
   component?: React.ReactNode;
-  hidden?: boolean;
-  isDivider?: boolean;
   permission?: string;
   persistState?: boolean;
   keepInHistory?: boolean;
-  mode?: string; // 菜单项是否为分组标题 mode: group
+  mode?: string; // 菜单项是否为分组标题 mode: group 菜单项是否为分割线 mode: divider
   [propName: string]: any;
 }
 
@@ -210,6 +207,11 @@ export interface MenuProps extends Omit<RcMenuProps, 'mode'> {
    * 展开按钮在最前面
    */
   expandBefore?: boolean;
+
+  /**
+   * 浮层自定义样式
+   */
+  popupClassName?: string;
 }
 
 interface MenuState {
@@ -283,7 +285,13 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     if (!isNavDiff) {
       // 顺序也要保持一致
       for (let [index, item] of props.navigations.entries()) {
-        if (!isEqual(item, prevProps.navigations[index])) {
+        // 对比navigations中的link属性 否则item中包含很多处理过的属性 甚至包含react组件 对比会引发性能问题
+        // 如果作为组件使用时 可以通过配置link 配置关键对比属性 如果没有 那直接跳过
+        // 如果没有link 就先不对比了
+        if (
+          !item.link ||
+          (item.link && !isEqual(item.link, prevProps.navigations[index].link))
+        ) {
           isNavDiff = true;
           break;
         }
@@ -325,7 +333,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
         navigations,
         (item: NavigationItem, key: any, level: number): any => {
           // 水平导航不需要分割线
-          if (!stacked && item?.isDivider) {
+          if (!stacked && item.mode === 'divider') {
             return false;
           }
           return true;
@@ -542,7 +550,8 @@ export class Menu extends React.Component<MenuProps, MenuState> {
       isActive,
       collapsed,
       overflowedIndicator,
-      overflowMaxCount
+      overflowMaxCount,
+      popupClassName
     } = this.props;
 
     return list.map((item: NavigationItem, index: number) => {
@@ -562,8 +571,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
           </ItemGroup>
         );
       }
-      const itemDisabled =
-        item.disabled === undefined ? disabled : item.disabled;
+      const itemDisabled = disabled || item.disabled;
       const link = item.link;
 
       if (
@@ -579,12 +587,13 @@ export class Menu extends React.Component<MenuProps, MenuState> {
             badge={badge}
             renderLink={renderLink}
             depth={level || 1}
+            popupClassName={popupClassName}
           >
             {this.renderMenuContent(item.children || [], item.depth + 1)}
           </SubMenu>
         );
       }
-      return item.isDivider ? (
+      return item.mode === 'divider' ? (
         <RcDivider
           key={item.id}
           className={cx(`Nav-Menu-item-divider`, {
@@ -611,7 +620,6 @@ export class Menu extends React.Component<MenuProps, MenuState> {
   render() {
     const {
       classPrefix,
-      className,
       classnames: cx,
       collapsed,
       themeColor,
@@ -621,6 +629,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
       prefix,
       disabled,
       draggable,
+      className,
       triggerSubMenuAction,
       direction,
       overflowedIndicator,
@@ -638,7 +647,6 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     } = this.props;
     const {navigations, activeKey, defaultOpenKeys, openKeys} = this.state;
     const isDarkTheme = themeColor === 'dark';
-    const disabledItem = findTree(navigations, item => !!item.disabled);
     const rcMode = stacked
       ? mode === 'float'
         ? 'vertical-right'
@@ -669,7 +677,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
             ['Nav-Menu-collapsed']: stacked && collapsed,
             ['Nav-Menu-dark']: isDarkTheme,
             ['Nav-Menu-light']: !isDarkTheme,
-            ['Nav-Menu-disabled']: disabled || !!disabledItem, // 整体禁用或者菜单项有禁用 需要添加disabled样式 否则禁用菜单样式有问题
+            ['Nav-Menu-disabled']: disabled, // 整体禁用 需要添加disabled样式 否则禁用菜单样式有问题
             ['Nav-Menu-expand-before']:
               stacked && mode === 'inline' && !collapsed && expandBefore
           })}

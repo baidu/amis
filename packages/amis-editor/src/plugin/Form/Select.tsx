@@ -13,8 +13,6 @@ export class SelectControlPlugin extends BasePlugin {
   rendererName = 'select';
   $schema = '/schemas/SelectControlSchema.json';
 
-  order = -480;
-
   // 组件名称
   name = '下拉框';
   isBaseComponent = true;
@@ -253,6 +251,7 @@ export class SelectControlPlugin extends BasePlugin {
             title: '选项',
             body: [
               getSchemaTpl('optionControlV2'),
+              getSchemaTpl('selectFirst'),
               getSchemaTpl(
                 'loadingConfig',
                 {

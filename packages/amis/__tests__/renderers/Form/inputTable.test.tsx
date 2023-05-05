@@ -180,6 +180,8 @@ test('Renderer:input table add', async () => {
 
   fireEvent.click(add);
 
+  await wait(1000);
+
   const inputs = document.querySelectorAll('td input');
 
   fireEvent.change(inputs[0], {target: {value: 'aa'}});
@@ -192,7 +194,7 @@ test('Renderer:input table add', async () => {
 
   // TODO: 这里不对，难道是点击出错了
 
-  // expect(container).toMatchSnapshot();
+  expect(container).toMatchSnapshot();
 });
 
 test('Renderer:input-table with combo column', async () => {
@@ -290,3 +292,149 @@ test('Renderer:input-table with combo column', async () => {
   //   ]
   // });
 }, 10000);
+
+// 单元格：表单校验
+test('Renderer:input-table verifty', async () => {
+  const onSubmit = jest.fn();
+  const {container, findByText, findByPlaceholderText} = render(
+    amisRender(
+      {
+        type: 'form',
+        submitText: 'submitBtn',
+        data: {
+          table: [{}]
+        },
+        api: 'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm',
+        body: [
+          {
+            type: 'input-table',
+            name: 'table',
+            label: 'Table',
+            columns: [
+              {
+                label: '数字输入',
+                name: 'input',
+                type: 'input-text',
+                placeholder: '请输入数字',
+                required: true,
+                validations: {
+                  isNumeric: true
+                },
+                validationErrors: {
+                  isNumeric: '请输入数字'
+                }
+              },
+              {
+                label: '选项',
+                name: 'select',
+                type: 'select',
+                required: true,
+                options: ['s1', 's2', 's3']
+              },
+              {
+                label: '普通文本',
+                name: 'text'
+              }
+            ]
+          }
+        ]
+      },
+      {onSubmit},
+      makeEnv({})
+    )
+  );
+
+  const submitBtn = await findByText('submitBtn');
+  fireEvent.click(submitBtn);
+
+  expect(container).toMatchSnapshot();
+
+  const input = await findByPlaceholderText('请输入数字');
+  fireEvent.change(input, {
+    target: {value: 111}
+  });
+
+  const selectBtn = await findByText('请选择');
+  selectBtn.click();
+
+  await wait(100);
+
+  const selectItem = await findByText('s2');
+  selectItem.click();
+
+  await wait(100);
+  expect(onSubmit).toBeCalledTimes(1);
+}, 10000);
+
+// 单元格：下拉删除
+test('Renderer:input-table cell selects delete', async () => {
+  const onSubmit = jest.fn();
+  const {container, findByRole, findByText} = render(
+    amisRender(
+      {
+        type: 'form',
+        submitText: 'submitBtn',
+        data: {
+          table: [
+            {
+              select: 's1,s2'
+            }
+          ]
+        },
+        api: 'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm',
+        body: [
+          {
+            type: 'input-table',
+            name: 'table',
+            label: 'Table',
+            columns: [
+              {
+                label: '选项',
+                name: 'select',
+                type: 'select',
+                multiple: true,
+                options: ['s1', 's2', 's3']
+              },
+              {
+                label: '普通文本',
+                name: 'text'
+              }
+            ]
+          }
+        ]
+      },
+      {onSubmit},
+      makeEnv({})
+    )
+  );
+
+  const select = await findByRole('combobox');
+  fireEvent.click(select);
+  await wait(300);
+
+  const s1 = container.querySelector(`div[title=s1] label`);
+  expect(s1).not.toBeNull();
+  const s3 = container.querySelector(`div[title=s3] label`);
+  expect(s3).not.toBeNull();
+  fireEvent.click(s1 as Element);
+  await wait(300);
+
+  fireEvent.click(s3 as Element);
+  await wait(300);
+
+  fireEvent.click(select);
+  await wait(100);
+
+  const submitBtn = await findByText('submitBtn');
+  fireEvent.click(submitBtn);
+  await wait(100);
+
+  expect(onSubmit.mock.calls[0][0]).toEqual({
+    table: [
+      {
+        select: 's2,s3'
+      }
+    ]
+  });
+  expect(container).toMatchSnapshot();
+});

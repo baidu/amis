@@ -22,6 +22,7 @@ export class ProgressPlugin extends BasePlugin {
   pluginIcon = 'progress-plugin';
   scaffold = {
     type: 'progress',
+    mode: 'line',
     value: 66,
     strokeWidth: 6,
     valueTpl: '${value}%'
@@ -217,7 +218,7 @@ export class ProgressPlugin extends BasePlugin {
               }),
               {
                 type: 'button-group-select',
-                name: 'style',
+                name: 'styleType',
                 label: '样式',
                 visibleOn: 'data.mode === "line"',
                 options: [

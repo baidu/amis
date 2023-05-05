@@ -7,10 +7,12 @@ import {
   RendererProps,
   resolveVariableAndFilter,
   ActionObject,
-  isPureVariable
+  getExprProperties,
+  buildStyle,
+  filter,
+  evalExpression,
+  insertStyle
 } from 'amis-core';
-import {getExprProperties} from 'amis-core';
-import {filter, evalExpression} from 'amis-core';
 import {
   guid,
   autobind,
@@ -83,7 +85,9 @@ export type NavItemSchema = {
 
   accordion?: boolean; // 手风琴展开 仅垂直inline模式支持
 
-  mode?: string; // 菜单项模式 分组模式：group
+  mode?: string; // 菜单项模式 分组模式：group、divider
+
+  popupClassName?: string; // 子菜单项展开浮层样式
 } & Omit<BaseSchema, 'type'>;
 
 export interface NavOverflow {
@@ -357,8 +361,8 @@ export class Navigation extends React.Component<
       });
     }
 
-    const result = await onSelect?.(link, depth);
-    return result;
+    await onSelect?.(link, depth);
+    return false;
   }
 
   @autobind
@@ -552,13 +556,28 @@ export class Navigation extends React.Component<
       if (Array.isArray(link.icon)) {
         beforeIcon = link.icon
           .filter(item => item.position === 'before')
-          .map(item => generateIcon(cx, item.icon));
+          .map(item => {
+            if (React.isValidElement(item)) {
+              return item;
+            }
+            return generateIcon(cx, item.icon);
+          });
         afterIcon = link.icon
           .filter(item => item.position === 'after')
-          .map(item => generateIcon(cx, item.icon));
+          .map(item => {
+            if (React.isValidElement(item)) {
+              return item;
+            }
+            return generateIcon(cx, item.icon);
+          });
       } else if (link.icon) {
-        beforeIcon = generateIcon(cx, link.icon);
+        if (React.isValidElement(link.icon)) {
+          beforeIcon = link.icon;
+        } else {
+          beforeIcon = generateIcon(cx, link.icon);
+        }
       }
+
       const label =
         typeof link.label === 'string'
           ? link.label
@@ -614,7 +633,7 @@ export class Navigation extends React.Component<
         link,
         label,
         labelExtra: afterIcon ? (
-          <i className={cx('Nav-itemIconAfter')}>{afterIcon}</i>
+          <i className={cx('Nav-Menu-item-icon-after')}>{afterIcon}</i>
         ) : null,
         icon: beforeIcon ? <i>{beforeIcon}</i> : null,
         children: children
@@ -661,6 +680,9 @@ export class Navigation extends React.Component<
       draggable,
       themeColor,
       expandPosition,
+      popupClassName,
+      disabled,
+      id,
       render
     } = this.props;
     const {dropIndicator} = this.state;
@@ -678,7 +700,7 @@ export class Navigation extends React.Component<
             {getIcon(overflowIndicator!) ? (
               <Icon icon={overflowIndicator} className="icon" />
             ) : (
-              generateIcon(cx, overflowIndicator, 'Nav-itemIcon')
+              generateIcon(cx, overflowIndicator, 'Nav-item-icon')
             )}
             {overflowLabel && isObject(overflowLabel)
               ? render('nav-overflow-label', overflowLabel)
@@ -687,12 +709,37 @@ export class Navigation extends React.Component<
         </span>
       );
     }
+
+    let styleConfig = null;
+    let classNameId = '';
+    if (style) {
+      try {
+        styleConfig = buildStyle(style, data);
+        // 格式转换
+        // {"color": "red", "lineHeight": "52px"}
+        const styleText = JSON.stringify(styleConfig)
+          .replace(/\,/g, ';')
+          .replace(/\"/g, '')
+          .replace(/[A-Z]/g, s => '-' + s.toLowerCase());
+        // 一个nav对应一个classNameId 避免重复
+        classNameId = cx(`Nav-PopupClassName-${id}`);
+        if (!document.getElementById(classNameId)) {
+          // rc-menu的浮层只支持配置popupClassName 因此需要将配置的style插入到页面 然后将className赋值给浮层
+          insertStyle(`.${classNameId} ${styleText}`, classNameId);
+        }
+      } catch (e) {}
+    }
+
     return (
-      <div className={cx('Nav')} style={style}>
+      <div
+        className={cx('Nav', className, {
+          ['Nav-horizontal']: !stacked
+        })}
+        style={styleConfig}
+      >
         <>
           {Array.isArray(links) ? (
             <Menu
-              className={className}
               navigations={this.normalizeNavigations(links, 1)}
               isActive={(link: NavigationItem, prefix: string = '') => {
                 if (link.link && typeof link.link.active !== 'undefined') {
@@ -707,7 +754,6 @@ export class Navigation extends React.Component<
               stacked={!!stacked}
               mode={mode}
               themeColor={themeColor}
-              location={location}
               onSelect={this.handleClick}
               onToggle={this.toggleLink}
               renderLink={(link: MenuItemProps) => link.link}
@@ -726,6 +772,9 @@ export class Navigation extends React.Component<
               overflowItemWidth={overflow?.itemWidth}
               overflowComponent={overflow?.wrapperComponent}
               overflowStyle={overflow?.style}
+              popupClassName={`${popupClassName || ''}${
+                classNameId ? ` ${classNameId}` : ''
+              }`}
               expandIcon={
                 expandIcon
                   ? typeof expandIcon === 'string'
@@ -738,6 +787,7 @@ export class Navigation extends React.Component<
               accordion={accordion}
               draggable={draggable}
               data={data}
+              disabled={disabled}
               onDragStart={this.handleDragStart}
             ></Menu>
           ) : null}
@@ -817,10 +867,14 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
         level,
         defaultOpenLevel,
         dispatchEvent,
+        disabled,
         store
       } = props;
 
       const isActive = (link: Link, depth: number) => {
+        if (disabled) {
+          return false;
+        }
         if (!!link.disabled) {
           return false;
         }
@@ -1143,11 +1197,11 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
       });
 
       if (rendererEvent?.prevented) {
-        return true;
+        return;
       }
 
       if (onSelect && onSelect(link) === false) {
-        return true;
+        return;
       }
 
       // 叶子节点点击也会默认选中
@@ -1161,20 +1215,23 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
           }),
           'select'
         );
-        return true;
+        return;
       }
 
       if (link.expandMore) {
         this.expandLink(link);
-        return false;
+        return;
       }
 
-      !!link.to && env?.jumpTo(filter(link.to as string, data), link as any);
-      return true;
+      if (!link.to) {
+        return;
+      }
+      env?.jumpTo(filter(link.to as string, data), link as any);
     }
 
     render() {
-      const {loading, config, deferLoad, updateConfig, ...rest} = this.props;
+      const {disabled, loading, config, deferLoad, updateConfig, ...rest} =
+        this.props;
       const currentLink = this.getCurrentLink(this.state.currentKey);
 
       return (
@@ -1183,7 +1240,7 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
           loading={loading}
           links={currentLink?.children || config}
           collapsed={this.state.collapsed}
-          disabled={loading}
+          disabled={disabled || loading}
           onSelect={this.handleSelect}
           onToggle={this.toggleLink}
           onDragUpdate={this.dragUpdate}
@@ -1248,7 +1305,7 @@ export class NavigationRenderer extends React.Component<RendererProps> {
     }
   ) {
     const actionType = action?.actionType as any;
-    const value = args?.value || action.data.value;
+    const value = args?.value || action?.data?.value;
     if (actionType === 'updateItems') {
       let children: Array<Link> = [];
       if (value) {
@@ -1315,10 +1372,11 @@ export class NavigationRenderer extends React.Component<RendererProps> {
   }
 
   render() {
-    const {...rest} = this.props;
+    const {id, ...rest} = this.props;
     return (
       <ConditionBuilderWithRemoteOptions
         {...rest}
+        id={id || guid()} // id要么从editor传递过来 要么一个nav随机生成1个
         onRef={this.getRef}
         reload={this.reload}
         remoteConfigRef={this.remoteConfigRef}

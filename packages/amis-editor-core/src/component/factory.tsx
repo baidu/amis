@@ -13,13 +13,18 @@ import {EditorNodeContext, EditorNodeType} from '../store/node';
 import {EditorManager} from '../manager';
 import flatten from 'lodash/flatten';
 import {render as reactRender, unmountComponentAtNode} from 'react-dom';
-import {autobind, diff} from '../util';
+import {
+  autobind,
+  deleteThemeConfigData,
+  diff,
+  setThemeDefaultData
+} from '../util';
 import {createObject} from 'amis-core';
 import {CommonConfigWrapper} from './CommonConfigWrapper';
-import {Schema} from 'amis';
+import type {Schema} from 'amis';
 import type {DataScope} from 'amis-core';
-import type {RendererConfig} from 'amis-core/lib/factory';
-import {SchemaCollection} from 'amis/lib/Schema';
+import type {RendererConfig} from 'amis-core';
+import type {SchemaCollection} from 'amis';
 import {omit} from 'lodash';
 
 // 创建 Node Store 并构建成树
@@ -296,13 +301,15 @@ function SchemaFrom({
     };
   }
 
-  const finalValue = pipeIn ? pipeIn(value) : value;
+  const finalValue = setThemeDefaultData(pipeIn ? pipeIn(value) : value);
 
   return render(
     schema,
     {
       onFinished: async (newValue: any) => {
-        newValue = pipeOut ? await pipeOut(newValue) : newValue;
+        newValue = deleteThemeConfigData(
+          pipeOut ? await pipeOut(newValue) : newValue
+        );
         const diffValue = diff(value, newValue);
         onChange(newValue, diffValue);
       },

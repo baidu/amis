@@ -9,7 +9,7 @@ import {trace, reaction} from 'mobx';
 import {createObject, flattenTree} from 'amis-core';
 import {LocaleProps} from 'amis-core';
 import {ActionSchema} from '../Action';
-import type {IColumn, IRow} from 'amis-core/lib/store/table';
+import type {IColumn, IRow} from 'amis-core';
 
 export interface TableBodyProps extends LocaleProps {
   className?: string;
@@ -147,7 +147,7 @@ export class TableBody extends React.Component<TableBodyProps> {
 
   renderSummaryRow(
     position: 'prefix' | 'affix',
-    items?: Array<any>,
+    items: Array<any>,
     rowIndex?: number
   ) {
     const {
@@ -164,21 +164,15 @@ export class TableBody extends React.Component<TableBodyProps> {
       return null;
     }
 
-    const filterColumns = columns.filter(item => item.toggable);
-    const result: any[] = [];
-
-    for (let index = 0; index < filterColumns.length; index++) {
-      const item = items[filterColumns[index].rawIndex];
-      item && result.push({...item});
-    }
+    const result: any[] = items;
 
     //  如果是勾选栏，让它和下一列合并。
-    if (columns[0].type === '__checkme' && result[0]) {
+    if (columns[0]?.type === '__checkme' && result[0]) {
       result[0].colSpan = (result[0].colSpan || 1) + 1;
     }
 
     //  如果是展开栏，让它和下一列合并。
-    if (columns[0].type === '__expandme' && result[0]) {
+    if (columns[0]?.type === '__expandme' && result[0]) {
       result[0].colSpan = (result[0].colSpan || 1) + 1;
     }
 
@@ -187,7 +181,11 @@ export class TableBody extends React.Component<TableBodyProps> {
       columns.length - result.reduce((p, c) => p + (c.colSpan || 1), 0);
 
     if (appendLen) {
-      const item = result.pop();
+      const item = result.length
+        ? result.pop()
+        : {
+            type: 'plain'
+          };
       result.push({
         ...item,
         colSpan: (item.colSpan || 1) + appendLen

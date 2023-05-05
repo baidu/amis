@@ -23,7 +23,7 @@ export interface QuickSearchConfig {
 export interface HeadCellSearchProps extends RendererProps {
   name: string;
   searchable: boolean | QuickSearchConfig;
-  onSearch?: (values: object) => void;
+  onSearch?: Function; // (values: object) => void;
   onAction?: Function;
   store: ITableStore2;
   sortable?: boolean;
@@ -271,7 +271,13 @@ export class HeadCellSearchDropDown extends React.Component<
           (searchable as any).className
         )}
         active={isActive}
-        filterIcon={<Icon icon="search" className="icon" />}
+        filterIcon={
+          <Icon
+            icon="search"
+            className="icon"
+            iconContent="table-search-icon"
+          />
+        }
         popOverContainer={
           popOverContainer ? popOverContainer : () => findDOMNode(this)
         }

@@ -1,7 +1,35 @@
-import {registerEditorPlugin} from 'amis-editor-core';
+import {registerEditorPlugin, tipedLabel} from 'amis-editor-core';
 import {BaseEventContext, BasePlugin} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 
+const dateFormatOptions = [
+  {
+    label: 'X(时间戳)',
+    value: 'X'
+  },
+  {
+    label: 'x(毫秒时间戳)',
+    value: 'x'
+  },
+  {
+    label: 'YYYY-MM-DD',
+    value: 'YYYY-MM-DD'
+  },
+  {
+    label: 'YYYY/MM/DD',
+    value: 'YYYY/MM/DD'
+  },
+  {
+    label: 'YYYY年MM月DD日',
+    value: 'YYYY年MM月DD日'
+  }
+];
+const valueDateFormatOptions = [
+  {
+    label: 'X(时间戳)',
+    value: 'X'
+  }
+];
 export class DatePlugin extends BasePlugin {
   static scene = ['layout'];
   // 关联渲染器名字
@@ -40,20 +68,28 @@ export class DatePlugin extends BasePlugin {
                 {
                   type: 'input-date',
                   name: 'value',
-                  label: '日期数值'
+                  label: '日期值'
                 },
                 {
                   type: 'input-text',
                   name: 'format',
-                  label: '显示日期格式',
-                  description: '请参考 moment 中的格式用法。',
+                  label: tipedLabel(
+                    '显示格式',
+                    '请参考 <a href="https://momentjs.com/" target="_blank">moment</a> 中的格式用法。'
+                  ),
+                  clearable: true,
+                  options: dateFormatOptions,
                   pipeIn: defaultValue('YYYY-MM-DD')
                 },
                 {
                   type: 'input-text',
                   name: 'valueFormat',
-                  label: '数据日期格式',
-                  description: '请参考 moment 中的格式用法。',
+                  label: tipedLabel(
+                    '值格式',
+                    '请参考 <a href="https://momentjs.com/" target="_blank">moment</a> 中的格式用法。'
+                  ),
+                  clearable: true,
+                  options: valueDateFormatOptions,
                   pipeIn: defaultValue('X')
                 },
                 getSchemaTpl('placeholder', {

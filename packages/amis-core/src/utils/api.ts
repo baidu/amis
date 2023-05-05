@@ -458,7 +458,12 @@ export function wrapFetcher(
       debug('api', 'after requestAdaptor', api);
     }
 
-    if (api.data && (hasFile(api.data) || api.dataType === 'form-data')) {
+    if (
+      api.data &&
+      (api.data instanceof FormData ||
+        hasFile(api.data) ||
+        api.dataType === 'form-data')
+    ) {
       api.data =
         api.data instanceof FormData
           ? api.data
@@ -482,8 +487,7 @@ export function wrapFetcher(
     }
 
     if (!isValidApi(api.url)) {
-      warning('api', 'invalid api url', api);
-      return Promise.resolve();
+      throw new Error(`invalid api url:${api.url}`);
     }
 
     debug('api', 'request api', api);
@@ -673,6 +677,11 @@ export function isApiOutdated(
 ): nextApi is Api {
   if (!nextApi) {
     return false;
+  }
+
+  // 通常是编辑器里加了属性，一开始没值，后来有了
+  if (prevApi === undefined && !nextApi !== undefined) {
+    return true;
   }
 
   nextApi = normalizeApi(nextApi);

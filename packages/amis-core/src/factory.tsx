@@ -24,7 +24,7 @@ import find from 'lodash/find';
 import {LocaleProps} from './locale';
 import {HocStoreFactory} from './WithStore';
 import type {RendererEnv} from './env';
-import {OnEventProps} from './utils/renderer-event';
+import {OnEventProps, RendererEvent} from './utils/renderer-event';
 import {Placeholder} from './renderers/Placeholder';
 
 export interface TestFunc {
@@ -76,6 +76,7 @@ export interface RendererProps extends ThemeProps, LocaleProps, OnEventProps {
   style?: {
     [propName: string]: any;
   };
+  onBroadcast?: (type: string, rawEvent: RendererEvent<any>, ctx: any) => any;
   [propName: string]: any;
 }
 

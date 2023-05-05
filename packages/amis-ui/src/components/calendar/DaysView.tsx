@@ -451,7 +451,7 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
                 (item: any) => item.height === undefined
               );
             }
-            if (tempIndex > -1 && tempIndex !== i) {
+            if (tempIndex > -1 && tempIndex !== i && showSchedule[i]) {
               let temp = showSchedule[i];
               showSchedule[i] = showSchedule[tempIndex];
               showSchedule[tempIndex] = temp;
@@ -518,13 +518,13 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
 
         // 正常模式
         const ScheduleIcon = (
-          <span
+          <div
             className={cx('ScheduleCalendar-icon', schedule[0].className)}
             onClick={() =>
               this.props.onScheduleClick &&
               this.props.onScheduleClick(scheduleData)
             }
-          ></span>
+          ></div>
         );
         return (
           <td {...injectedProps}>

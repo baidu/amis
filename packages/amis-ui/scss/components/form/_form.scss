@@ -413,11 +413,27 @@
   flex-wrap: wrap;
   margin-left: calc(var(--Form-group-gutterWidth) / -2);
   margin-right: calc(var(--Form-group-gutterWidth) / -2);
+
   > .#{$ns}Form-item {
     flex-shrink: 0;
     flex-grow: 1;
     padding-left: calc(var(--Form-group-gutterWidth) / 2);
     padding-right: calc(var(--Form-group-gutterWidth) / 2);
+
+    &.#{$ns}Form-item--inline {
+      /* 设置columnCount之后，margin-right自动计算，如果设置了会导致flex自动wrap */
+      margin-right: unset;
+      display: inline-flex;
+
+      & > .#{$ns}Form-value {
+        flex: 1;
+
+        /* 如果size设置了full就占满剩余空间 */
+        .#{$ns}Form-control:first-child.is-full {
+          width: -webkit-fill-available;
+        }
+      }
+    }
   }
 }
 

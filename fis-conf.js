@@ -466,6 +466,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!echarts-stat/**',
         '!papaparse/**',
         '!exceljs/**',
+        '!xlsx/**',
         '!docsearch.js/**',
         '!monaco-editor/**.css',
         '!amis-ui/lib/components/RichText.js',
@@ -490,7 +491,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!markdown-it/**',
         '!markdown-it-html5-media/**',
         '!punycode/**',
-        '!office-viewer/**',
+        '!ooxml-viewer/**',
         '!fflate/**'
       ],
 
@@ -505,6 +506,8 @@ if (fis.project.currentMedia() === 'publish-sdk') {
       'papaparse.js': ['papaparse/**'],
 
       'exceljs.js': ['exceljs/**'],
+
+      'xlsx.js': ['xlsx/**'],
 
       'markdown.js': [
         'amis-ui/lib/components/Markdown.js',
@@ -532,7 +535,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
 
       'charts.js': ['zrender/**', 'echarts/**', 'echarts-stat/**'],
 
-      'office-viewer.js': ['office-viewer/**', 'fflate/**'],
+      'ooxml-viewer.js': ['ooxml-viewer/**', 'fflate/**'],
 
       'rest.js': [
         '*.js',
@@ -547,6 +550,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!echarts/**',
         '!papaparse/**',
         '!exceljs/**',
+        '!xlsx/**',
         '!highlight.js/**',
         '!argparse/**',
         '!entities/**',
@@ -555,7 +559,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!uc.micro/**',
         '!markdown-it/**',
         '!markdown-it-html5-media/**',
-        '!office-viewer/**',
+        '!ooxml-viewer/**',
         '!fflate/**'
       ]
     }),
@@ -758,6 +762,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!echarts-stat/**',
         '!papaparse/**',
         '!exceljs/**',
+        '!xlsx/**',
         '!docsearch.js/**',
         '!monaco-editor/**.css',
         '!src/components/RichText.tsx',
@@ -784,7 +789,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!punycode/**',
         '!amis-formula/**',
         '!fflate/**',
-        '!office-viewer/**',
+        '!ooxml-viewer/**',
         '!amis-core/**',
         '!amis-ui/**',
         '!amis/**'
@@ -802,6 +807,8 @@ if (fis.project.currentMedia() === 'publish-sdk') {
       'pkg/papaparse.js': ['papaparse/**'],
 
       'pkg/exceljs.js': ['exceljs/**'],
+
+      'pkg/xlsx.js': ['xlsx/**'],
 
       'pkg/barcode.js': ['amis-ui/lib/components/BarCode.tsx', 'jsbarcode/**'],
 
@@ -843,7 +850,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!/examples/components/EChartsEditor/Common.tsx'
       ],
 
-      'pkg/office-viewer.js': ['office-viewer/**', 'fflate/**'],
+      'pkg/ooxml-viewer.js': ['ooxml-viewer/**', 'fflate/**'],
 
       'pkg/rest.js': [
         '**.{js,jsx,ts,tsx}',
@@ -857,6 +864,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!echarts/**',
         '!papaparse/**',
         '!exceljs/**',
+        '!xlsx/**',
         '!amis-core/lib/utils/markdown.ts',
         '!highlight.js/**',
         '!argparse/**',
