@@ -451,6 +451,7 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                           </div>
                           <span
                             class="cxd-TableCell-sortBtn"
+                            data-index="3"
                           >
                             <i
                               class="cxd-TableCell-sortBtn--down"
@@ -1164,6 +1165,7 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                           </div>
                           <span
                             class="cxd-TableCell-sortBtn"
+                            data-index="3"
                           >
                             <i
                               class="cxd-TableCell-sortBtn--down"
@@ -1443,6 +1445,7 @@ exports[`Renderer: crud sortable & orderBy & orderDir & orderField 1`] = `
                           </div>
                           <span
                             class="cxd-TableCell-sortBtn"
+                            data-index="3"
                           >
                             <i
                               class="cxd-TableCell-sortBtn--down"
@@ -1927,6 +1930,7 @@ exports[`Renderer: crud sortable & orderBy & orderDir & orderField 1`] = `
                           </div>
                           <span
                             class="cxd-TableCell-sortBtn"
+                            data-index="3"
                           >
                             <i
                               class="cxd-TableCell-sortBtn--down"
