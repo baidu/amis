@@ -65,8 +65,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
   }
 
   componentDidCatch(error: any, errorInfo: any) {
-    this.props.env?.errorCatcher &&
-      this.props.env.errorCatcher(error, errorInfo);
+    this.props.env?.errorCatcher?.(error, errorInfo);
     this.store.setRuntimeError(error, errorInfo);
   }
 
