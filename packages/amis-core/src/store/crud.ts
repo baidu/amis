@@ -183,13 +183,14 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
                           })
                         ];
                       });
-                      items = items.filter((item: any) => arrItems.find(a => a === item));
+                      items = items.filter((item: any) =>
+                        arrItems.find(a => a === item)
+                      );
                     }
-                  }
-                  else {
+                  } else {
                     items = matchSorter(items, value, {
                       keys: [key]
-                    })
+                    });
                   }
                 }
               }
@@ -349,11 +350,11 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
                           })
                         ];
                       });
-                      filteredItems = filteredItems.filter(
-                        item => arrItems.find(a => a === item));
+                      filteredItems = filteredItems.filter(item =>
+                        arrItems.find(a => a === item)
+                      );
                     }
-                  }
-                  else {
+                  } else {
                     filteredItems = matchSorter(filteredItems, value, {
                       keys: [key]
                     });
@@ -539,19 +540,17 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
 
     const setSelectedItems = (items: Array<any>) => {
       self.selectedItems.replace(items);
+      // 同步data
+      self.reInitData({
+        selectedItems: items
+      });
     };
 
     const setUnSelectedItems = (items: Array<any>) => {
       self.unSelectedItems.replace(items);
-    };
-
-    const updateSelectData = (selected: Array<any>, unSelected: Array<any>) => {
-      self.selectedItems.replace(selected);
-      self.unSelectedItems.replace(unSelected);
-      // 同步到data中，使filter等部分也能拿到
+      // 同步data
       self.reInitData({
-        selectedItems: selected,
-        unSelectedItems: unSelected
+        unSelectedItems: items
       });
     };
 
@@ -646,7 +645,6 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
 
     return {
       getData,
-      updateSelectData,
       setPristineQuery,
       updateQuery,
       fetchInitData,

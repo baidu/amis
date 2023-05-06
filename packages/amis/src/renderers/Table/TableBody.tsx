@@ -1,5 +1,5 @@
 import React from 'react';
-import {ClassNamesFn} from 'amis-core';
+import {ClassNamesFn, RendererEvent} from 'amis-core';
 
 import {SchemaNode, ActionObject} from 'amis-core';
 import {TableRow} from './TableRow';
@@ -26,6 +26,15 @@ export interface TableBodyProps extends LocaleProps {
     props: any
   ) => React.ReactNode;
   onCheck: (item: IRow, value: boolean, shift?: boolean) => void;
+  onRowClick: (item: IRow, index: number) => Promise<RendererEvent<any> | void>;
+  onRowMouseEnter: (
+    item: IRow,
+    index: number
+  ) => Promise<RendererEvent<any> | void>;
+  onRowMouseLeave: (
+    item: IRow,
+    index: number
+  ) => Promise<RendererEvent<any> | void>;
   onQuickChange?: (
     item: IRow,
     values: object,
@@ -69,12 +78,14 @@ export class TableBody extends React.Component<TableBodyProps> {
       footable,
       ignoreFootableContent,
       footableColumns,
-      itemAction
+      itemAction,
+      onRowClick,
+      onRowMouseEnter,
+      onRowMouseLeave
     } = this.props;
 
     return rows.map((item: IRow, rowIndex: number) => {
       const itemProps = buildItemProps ? buildItemProps(item, rowIndex) : null;
-
       const doms = [
         <TableRow
           {...itemProps}
@@ -99,6 +110,9 @@ export class TableBody extends React.Component<TableBodyProps> {
           onCheck={onCheck}
           // todo 先注释 quickEditEnabled={item.depth === 1}
           onQuickChange={onQuickChange}
+          onRowClick={onRowClick}
+          onRowMouseEnter={onRowMouseEnter}
+          onRowMouseLeave={onRowMouseLeave}
           {...rowProps}
         />
       ];
@@ -124,6 +138,9 @@ export class TableBody extends React.Component<TableBodyProps> {
               render={render}
               onAction={onAction}
               onCheck={onCheck}
+              onRowClick={onRowClick}
+              onRowMouseEnter={onRowMouseEnter}
+              onRowMouseLeave={onRowMouseLeave}
               footableMode
               footableColSpan={columns.length}
               onQuickChange={onQuickChange}

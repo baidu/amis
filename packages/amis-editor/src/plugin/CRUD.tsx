@@ -5,6 +5,7 @@ import React from 'react';
 
 import {
   getI18nEnabled,
+  jsonToJsonSchema,
   registerEditorPlugin,
   tipedLabel
 } from 'amis-editor-core';
@@ -23,13 +24,14 @@ import {
 } from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {isObject, JSONPipeIn} from 'amis-editor-core';
-import {setVariable} from 'amis-core';
+import {setVariable, someTree} from 'amis-core';
 import {ActionSchema} from 'amis/lib/renderers/Action';
 import {CRUDCommonSchema} from 'amis/lib/renderers/CRUD';
 import {getEnv} from 'mobx-state-tree';
 import {EditorNodeType, RendererPluginAction} from 'amis-editor-core';
 import {normalizeApi} from 'amis-core';
 import isPlainObject from 'lodash/isPlainObject';
+import omit from 'lodash/omit';
 
 interface ColumnItem {
   label: string;
@@ -1745,7 +1747,91 @@ export class CRUDPlugin extends BasePlugin {
       return;
     }
 
-    return child.info.plugin.buildDataSchemas(child, undefined, trigger);
+    let childSchame = await child.info.plugin.buildDataSchemas(
+      child,
+      undefined,
+      trigger
+    );
+
+    // 兼容table的rows，并自行merged异步数据
+    if (child.type === 'table') {
+      let cellProperties = {};
+      const columns: EditorNodeType = child.children.find(
+        item => item.isRegion && item.region === 'columns'
+      );
+
+      if (trigger) {
+        const isColumnChild = someTree(
+          columns?.children,
+          item => item.id === trigger.id
+        );
+
+        // merge异步数据中的单列成员，因为rendererBeforeDispatchEvent无法区分是否需要单列成员
+        if (isColumnChild) {
+          const scope = this.manager.dataSchema.getScope(
+            `${node.id}-${node.type}`
+          );
+          const menberProps = (scope.getSchemaByPath('items')?.items as any)
+            ?.properties;
+
+          cellProperties = {
+            ...menberProps,
+            ...omit(
+              childSchame.properties,
+              'rows',
+              'selectedItems',
+              'unSelectedItems'
+            )
+          };
+        }
+      }
+
+      childSchame = {
+        $id: childSchame.$id,
+        type: childSchame.type,
+        properties: {
+          ...cellProperties,
+          items: childSchame.properties.rows,
+          selectedItems: childSchame.properties.selectedItems,
+          unSelectedItems: childSchame.properties.unSelectedItems,
+          count: {
+            type: 'number',
+            title: '总行数'
+          },
+          page: {
+            type: 'number',
+            title: '当前页码'
+          }
+        }
+      };
+    }
+
+    return childSchame;
+  }
+
+  rendererBeforeDispatchEvent(node: EditorNodeType, e: any, data: any) {
+    if (e === 'fetchInited') {
+      const scope = this.manager.dataSchema.getScope(`${node.id}-${node.type}`);
+      const jsonschema: any = {
+        $id: 'crudFetchInitedData',
+        type: 'object',
+        ...jsonToJsonSchema(
+          omit(data, 'selectedItems', 'unSelectedItems'),
+          (type: string, key: string) => {
+            if (type === 'array' && key === 'items') {
+              return '数据列表';
+            }
+            if (type === 'number' && key === 'count') {
+              return '总行数';
+            }
+            return key;
+          }
+        )
+      };
+
+      scope?.removeSchema(jsonschema.$id);
+      scope?.addSchema(jsonschema);
+    }
   }
 
   /** crud 不同 mode 之间转换时候，主体的转换 */

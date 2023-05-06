@@ -515,10 +515,13 @@ export default class Service extends React.Component<ServiceProps> {
     const data = result?.hasOwnProperty('ok') ? result.data ?? {} : result;
     const {onBulkChange, dispatchEvent, store} = this.props;
 
-    dispatchEvent?.('fetchInited', {
-      ...data,
-      __response: {msg: store.msg, error: store.error}
-    });
+    dispatchEvent?.(
+      'fetchInited',
+      createObject(this.props.data, {
+        ...data,
+        __response: {msg: store.msg, error: store.error}
+      })
+    );
 
     if (!isEmpty(data) && onBulkChange) {
       onBulkChange(data);

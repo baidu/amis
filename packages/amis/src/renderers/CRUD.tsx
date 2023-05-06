@@ -850,7 +850,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       },
       false,
       true,
-      this.props.initFetch !== false
+      this.props.initFetch !== false,
+      true
     );
 
     store.setPristineQuery();
@@ -895,7 +896,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     values: Record<string, any>,
     jumpToFirstPage: boolean = true,
     replaceLocation: boolean = false,
-    search: boolean = true
+    search: boolean = true,
+    isInit: boolean = false
   ) {
     const {
       store,
@@ -927,8 +929,15 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       perPageField
     );
     this.lastQuery = store.query;
+
     search &&
-      this.search(undefined, undefined, undefined, loadDataOnceFetchOnFilter);
+      this.search(
+        undefined,
+        undefined,
+        undefined,
+        loadDataOnceFetchOnFilter,
+        isInit
+      );
   }
 
   handleBulkGo(
@@ -1095,7 +1104,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     values?: any,
     silent?: boolean,
     clearSelection?: boolean,
-    forceReload = false
+    forceReload = false,
+    isInit: boolean = false
   ) {
     const {
       store,
@@ -1115,7 +1125,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       loadDataOnce,
       loadDataOnceFetchOnFilter,
       source,
-      columns
+      columns,
+      dispatchEvent
     } = this.props;
 
     // reload 需要清空用户选择。
@@ -1160,7 +1171,26 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             columns: store.columns ?? columns
           })
           .then(value => {
-            const {page, lastPage} = store;
+            const {page, lastPage, data, error, msg} = store;
+
+            if (isInit) {
+              // 初始化请求完成
+              const rendererEvent = dispatchEvent?.(
+                'fetchInited',
+                createObject(this.props.data, {
+                  ...data,
+                  __response: {
+                    error,
+                    msg
+                  }
+                })
+              );
+
+              if (rendererEvent?.prevented) {
+                return;
+              }
+            }
+
             // 空列表 且 页数已经非法超出，则跳转到最后的合法页数
             if (
               !store.data.items.length &&
@@ -1686,9 +1716,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
     let bulkBtns: Array<ActionSchema> = [];
     let itemBtns: Array<ActionSchema> = [];
-
     const ctx = createObject(store.mergedData, {
-      currentPageData: store.mergedData.items.concat(),
+      currentPageData: store.mergedData.items?.concat(),
       rows: selectedItems.concat(),
       items: selectedItems.concat(),
       selectedItems: selectedItems.concat(),
@@ -1795,12 +1824,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
     const extraProps: Pick<
       PaginationProps,
-      | 'showPageInput'
-      | 'maxButtons'
-      | 'layout'
-      | 'popOverContainerSelector'
-      | 'total'
-      | 'perPageAvailable'
+      'showPageInput' | 'maxButtons' | 'layout' | 'popOverContainerSelector'
     > = {};
 
     /** 优先级：showPageInput显性配置 > (lastPage > 9) */
@@ -1814,11 +1838,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       extraProps.popOverContainerSelector = (
         toolbar as Schema
       ).popOverContainerSelector;
-      extraProps.perPageAvailable = (toolbar as Schema).perPageAvailable;
-      extraProps.total = resolveVariableAndFilter(
-        (toolbar as Schema).total,
-        store.data
-      );
     } else {
       extraProps.showPageInput = lastPage > 9;
     }
@@ -2398,5 +2417,14 @@ export class CRUDRenderer extends CRUD {
   closeTarget(target: string) {
     const scoped = this.context as IScopedContext;
     scoped.close(target);
+  }
+
+  setData(values: object, replace?: boolean) {
+    return this.props.store.updateData(values, undefined, replace);
+  }
+
+  getData() {
+    const {store, data} = this.props;
+    return store.getData(data);
   }
 }

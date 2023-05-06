@@ -360,13 +360,9 @@ export class TablePlugin extends BasePlugin {
 
               isCRUDBody
                 ? null
-                : {
-                    name: 'source',
-                    type: 'input-text',
-                    label: '数据源',
-                    pipeIn: defaultValue('${items}'),
-                    description: '绑定当前环境变量'
-                  },
+                : getSchemaTpl('sourceBindControl', {
+                    label: '数据源'
+                  }),
 
               {
                 name: 'combineNum',
@@ -688,16 +684,28 @@ export class TablePlugin extends BasePlugin {
       item => item.isRegion && item.region === 'columns'
     );
 
-    for (let current of columns?.children) {
-      const schema = current.schema;
-      if (schema.name) {
-        itemsSchema.properties[schema.name] = current.info?.plugin
-          ?.buildDataSchemas
-          ? await current.info.plugin.buildDataSchemas(current, region)
-          : {
-              type: 'string',
-              title: schema.label || schema.name
-            };
+    // todo：以下的处理无效，需要cell实现才能深层细化
+    // for (let current of columns?.children) {
+    //   const schema = current.schema;
+    //   if (schema.name) {
+    //     itemsSchema.properties[schema.name] = current.info?.plugin
+    //       ?.buildDataSchemas
+    //       ? await current.info.plugin.buildDataSchemas(current, region)
+    //       : {
+    //           type: 'string',
+    //           title: schema.label || schema.name
+    //         };
+    //   }
+    // }
+
+    // 一期先简单处理，上面todo实现之后，这里可以废弃
+    // table 无法根据source确定异步数据来源，因此不能在table层做异步数据列的收集
+    for (let current of node.schema?.columns) {
+      if (current.name) {
+        itemsSchema.properties[current.name] = {
+          type: 'string',
+          title: current.label || current.name
+        };
       }
     }
 
@@ -724,6 +732,16 @@ export class TablePlugin extends BasePlugin {
           type: 'array',
           title: '数据列表',
           items: itemsSchema
+        },
+        selectedItems: {
+          type: 'array',
+          title: '已选中行'
+          // items: itemsSchema
+        },
+        unSelectedItems: {
+          type: 'array',
+          title: '未选中行'
+          // items: itemsSchema
         }
       }
     };
