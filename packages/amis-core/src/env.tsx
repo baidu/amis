@@ -57,6 +57,10 @@ export interface RendererEnv {
   watchRouteChange?: (fn: () => void) => () => void;
   // 用于跟踪用户在界面中的各种操作
   tracker: (eventTrack: EventTrack, props?: PlainObject) => void;
+  /**
+   * 捕获amis执行中的错误信息
+   */
+  errorCatcher: (error: any, errorInfo: any) => void;
   rendererResolver?: (
     path: string,
     schema: Schema,
