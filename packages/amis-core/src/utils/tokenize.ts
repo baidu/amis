@@ -1,4 +1,4 @@
-import {Evaluator, parse} from 'amis-formula';
+import {Evaluator, parse, evaluateForAsync} from 'amis-formula';
 
 export const tokenize = (
   str: string,
@@ -17,6 +17,30 @@ export const tokenize = (
     const result = new Evaluator(data, {
       defaultFilter
     }).evalute(ast);
+
+    return `${result == null ? '' : result}`;
+  } catch (e) {
+    console.warn(e);
+    return str;
+  }
+};
+
+export const asyncTokenize = async (
+  str: string,
+  data: object,
+  defaultFilter: string = '| html'
+) => {
+  if (!str || typeof str !== 'string') {
+    return str;
+  }
+
+  try {
+    const ast = parse(str, {
+      evalMode: false,
+      allowFilter: true
+    });
+
+    const result = await evaluateForAsync(ast, data, {defaultFilter});
 
     return `${result == null ? '' : result}`;
   } catch (e) {

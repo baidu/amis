@@ -236,6 +236,8 @@ test('Renderer:InputSubForm with draggable & addable & removable', async () => {
 
   fireEvent.click(values[0].querySelector('.cxd-SubForm-valueDel')!);
 
+  await wait(200);
+
   values = container.querySelectorAll('.cxd-SubForm-values .cxd-SubForm-value');
 
   expect(values!.length).toBe(3);
