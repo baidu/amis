@@ -1,4 +1,4 @@
-import {Button, resolveVariable} from 'amis';
+import {Button} from 'amis';
 import React from 'react';
 import {getI18nEnabled, registerEditorPlugin} from 'amis-editor-core';
 import {
@@ -13,7 +13,11 @@ import {
 } from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {diff, JSONPipeOut, repeatArray} from 'amis-editor-core';
-import {schemaArrayFormat, schemaToArray} from '../util';
+import {
+  schemaArrayFormat,
+  resolveArrayDatasource,
+  schemaToArray
+} from '../util';
 
 export class ListPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -188,11 +192,11 @@ export class ListPlugin extends BasePlugin {
       ...props.defaultData,
       ...props.data
     };
-    let arr = Array.isArray(props.value)
-      ? props.value
-      : typeof props.source === 'string'
-      ? resolveVariable(props.source, data)
-      : resolveVariable('items', data);
+    const arr = resolveArrayDatasource({
+      value: props.value,
+      data,
+      source: props.source
+    });
 
     if (!Array.isArray(arr) || !arr.length) {
       const mockedData: any = this.buildMockData();
