@@ -1,7 +1,12 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 import isEqual from 'lodash/isEqual';
-import {ScopedContext, IScopedContext, SchemaExpression} from 'amis-core';
+import {
+  ScopedContext,
+  IScopedContext,
+  SchemaExpression,
+  extendObject
+} from 'amis-core';
 import {Renderer, RendererProps} from 'amis-core';
 import {SchemaNode, ActionObject, Schema} from 'amis-core';
 import forEach from 'lodash/forEach';
@@ -546,6 +551,9 @@ export default class Table extends React.Component<TableProps, object> {
     this.handleMouseLeave = this.handleMouseLeave.bind(this);
     this.subFormRef = this.subFormRef.bind(this);
     this.handleColumnToggle = this.handleColumnToggle.bind(this);
+    this.handleRowClick = this.handleRowClick.bind(this);
+    this.handleRowMouseEnter = this.handleRowMouseEnter.bind(this);
+    this.handleRowMouseLeave = this.handleRowMouseLeave.bind(this);
 
     this.updateAutoFillHeight = this.updateAutoFillHeight.bind(this);
 
@@ -909,16 +917,64 @@ export default class Table extends React.Component<TableProps, object> {
     this.syncSelected();
   }
 
+  handleRowClick(item: IRow, index: number) {
+    const {dispatchEvent, store, data} = this.props;
+    const items = store.rows.map((row: any) => row.data);
+    const selectedItems = store.selectedRows.map(item => item.data);
+    const unSelectedItems = store.unSelectedRows.map(item => item.data);
+    return dispatchEvent(
+      'rowClick',
+      createObject(data, {
+        rowItem: item, // 保留rowItem 可能有用户已经在用 兼容之前的版本
+        item,
+        index,
+        selectedItems,
+        unSelectedItems
+      })
+    );
+  }
+
+  handleRowMouseEnter(item: IRow, index: number) {
+    const {dispatchEvent, store, data} = this.props;
+    const selectedItems = store.selectedRows.map(item => item.data);
+    const unSelectedItems = store.unSelectedRows.map(item => item.data);
+    return dispatchEvent(
+      'rowMouseEnter',
+      createObject(data, {
+        item,
+        index,
+        selectedItems,
+        unSelectedItems
+      })
+    );
+  }
+
+  handleRowMouseLeave(item: IRow, index: number) {
+    const {dispatchEvent, store, data} = this.props;
+    const selectedItems = store.selectedRows.map(item => item.data);
+    const unSelectedItems = store.unSelectedRows.map(item => item.data);
+    return dispatchEvent(
+      'rowMouseLeave',
+      createObject(data, {
+        item,
+        index,
+        selectedItems,
+        unSelectedItems
+      })
+    );
+  }
+
   async handleCheckAll() {
     const {store, data, dispatchEvent} = this.props;
-
-    const items = store.getSelectedRows().map(item => item.data);
+    const items = store.rows.map((row: any) => row.data);
+    const selectedItems = store.getSelectedRows().map(item => item.data);
 
     const rendererEvent = await dispatchEvent(
       'selectedChange',
       createObject(data, {
-        selectedItems: store.allChecked ? [] : items,
-        unSelectedItems: store.allChecked ? items : []
+        selectedItems: store.allChecked ? [] : selectedItems,
+        unSelectedItems: store.allChecked ? selectedItems : [],
+        items
       })
     );
 
@@ -2226,7 +2282,11 @@ export default class Table extends React.Component<TableProps, object> {
       // 操作列不下发loading，否则会导致操作栏里面的所有按钮都出现loading
       loading: column.type === 'operation' ? false : props.loading,
       btnDisabled: store.dragging,
-      data: item.locals,
+      // 只有table时，也可以获取选中行
+      data: extendObject(item.locals, {
+        selectedItems: store.selectedRows.map(item => item.data),
+        unSelectedItems: store.unSelectedRows.map(item => item.data)
+      }),
       value: column.name
         ? resolveVariable(
             column.name,
@@ -2420,6 +2480,9 @@ export default class Table extends React.Component<TableProps, object> {
             render={render}
             renderCell={this.renderCell}
             onCheck={this.handleCheck}
+            onRowClick={this.handleRowClick}
+            onRowMouseEnter={this.handleRowMouseEnter}
+            onRowMouseLeave={this.handleRowMouseLeave}
             onQuickChange={store.dragging ? undefined : this.handleQuickChange}
             footable={store.footable}
             ignoreFootableContent
@@ -2798,6 +2861,7 @@ export default class Table extends React.Component<TableProps, object> {
           {
             ...this.props,
             selectedItems: store.selectedRows.map(item => item.data),
+            unSelectedItems: store.unSelectedRows.map(item => item.data),
             items: store.rows.map(item => item.data)
           },
           this.renderToolbar
@@ -2897,6 +2961,9 @@ export default class Table extends React.Component<TableProps, object> {
           renderHeadCell={this.renderHeadCell}
           renderCell={this.renderCell}
           onCheck={this.handleCheck}
+          onRowClick={this.handleRowClick}
+          onRowMouseEnter={this.handleRowMouseEnter}
+          onRowMouseLeave={this.handleRowMouseLeave}
           onQuickChange={store.dragging ? undefined : this.handleQuickChange}
           footable={store.footable}
           footableColumns={store.footableColumns}
@@ -3071,6 +3138,19 @@ export class TableRenderer extends Table {
     if (subPath) {
       return scoped.reload(subPath, ctx);
     }
+  }
+
+  setData(values: any, replace?: boolean) {
+    const data = {
+      ...values,
+      rows: values.rows ?? values.items // 做个兼容
+    };
+    return this.props.store.updateData(data, undefined, replace);
+  }
+
+  getData() {
+    const {store, data} = this.props;
+    return store.getData(data);
   }
 }
 

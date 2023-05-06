@@ -5,7 +5,8 @@ import {
   SchemaNode,
   ActionObject,
   LocaleProps,
-  OnEventProps
+  OnEventProps,
+  RendererEvent
 } from 'amis-core';
 import {TableBody} from './TableBody';
 import {observer} from 'mobx-react';
@@ -42,6 +43,15 @@ export interface TableContentProps extends LocaleProps {
     props: any
   ) => React.ReactNode;
   onCheck: (item: IRow, value: boolean, shift?: boolean) => void;
+  onRowClick: (item: IRow, index: number) => Promise<RendererEvent<any> | void>;
+  onRowMouseEnter: (
+    item: IRow,
+    index: number
+  ) => Promise<RendererEvent<any> | void>;
+  onRowMouseLeave: (
+    item: IRow,
+    index: number
+  ) => Promise<RendererEvent<any> | void>;
   onQuickChange?: (
     item: IRow,
     values: object,
@@ -128,6 +138,9 @@ export class TableContent extends React.Component<TableContentProps> {
       renderHeadCell,
       renderCell,
       onCheck,
+      onRowClick,
+      onRowMouseEnter,
+      onRowMouseLeave,
       rowClassName,
       onQuickChange,
       footable,
@@ -233,6 +246,9 @@ export class TableContent extends React.Component<TableContentProps> {
               render={render}
               renderCell={renderCell}
               onCheck={onCheck}
+              onRowClick={onRowClick}
+              onRowMouseEnter={onRowMouseEnter}
+              onRowMouseLeave={onRowMouseLeave}
               onQuickChange={onQuickChange}
               footable={footable}
               footableColumns={footableColumns}
