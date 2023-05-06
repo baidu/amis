@@ -30,8 +30,8 @@ module.exports = {
     path: './'
   },
   translate: {
-    appId: '20220902001329332',
-    key: 'pVS96QbIzVROBSOarU4R',
+    appId: '20230324001613652', // 私人翻译账户，如有国际化需求，请申请自己的百度翻译服务
+    key: 'Sprp7Mz8_yydeyhYrgE0',
     host: 'http://api.fanyi.baidu.com'
   }
 };
