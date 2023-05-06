@@ -31,6 +31,7 @@ import {resizeSensor} from 'amis-core';
 import find from 'lodash/find';
 import {Icon} from 'amis-ui';
 import {TableCell} from './TableCell';
+import type {AutoGenerateFilterObject} from '../CRUD';
 import {HeadCellFilterDropDown} from './HeadCellFilterDropdown';
 import {HeadCellSearchDropDown} from './HeadCellSearchDropdown';
 import {TableContent} from './TableContent';
@@ -307,7 +308,7 @@ export interface TableSchema extends BaseSchema {
   /**
    * 开启查询区域，会根据列元素的searchable属性值，自动生成查询条件表单
    */
-  autoGenerateFilter?: boolean;
+  autoGenerateFilter?: AutoGenerateFilterObject | boolean;
 
   /**
    * 表格是否可以获取父级数据域值，默认为false
@@ -1670,8 +1671,16 @@ export default class Table extends React.Component<TableProps, object> {
       onSearchableFromSubmit,
       onSearchableFromInit,
       classnames: cx,
+      autoGenerateFilter,
       translate: __
     } = this.props;
+    const {columnsNum, showBtnToolbar} =
+      typeof autoGenerateFilter === 'boolean'
+        ? {
+            columnsNum: 3,
+            showBtnToolbar: true
+          }
+        : autoGenerateFilter;
     const searchableColumns = store.searchableColumns;
     const activedSearchableColumns = store.activedSearchableColumns;
 
@@ -1681,7 +1690,7 @@ export default class Table extends React.Component<TableProps, object> {
 
     const body: Array<any> = [];
 
-    padArr(activedSearchableColumns, 3, true).forEach(group => {
+    padArr(activedSearchableColumns, columnsNum, true).forEach(group => {
       const children: Array<any> = [];
 
       group.forEach(column => {
@@ -1715,7 +1724,7 @@ export default class Table extends React.Component<TableProps, object> {
       });
     });
 
-    let showExpander = body.length > 1;
+    let showExpander = searchableColumns.length > columnsNum;
 
     // todo 以后做动画
     if (!store.searchFormExpanded) {
@@ -1740,6 +1749,7 @@ export default class Table extends React.Component<TableProps, object> {
             trigger: 'click',
             size: 'sm',
             align: 'right',
+            visible: showBtnToolbar,
             buttons: searchableColumns.map(column => {
               return {
                 type: 'checkbox',

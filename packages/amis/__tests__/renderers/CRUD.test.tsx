@@ -156,7 +156,10 @@ test('Renderer:crud loadDataOnce', async () => {
           syncLocation: false,
           api: 'https://aisuda.bce.baidu.com/amis/api/mock2/sample',
           loadDataOnce: true,
-          autoGenerateFilter: true,
+          autoGenerateFilter: {
+            columnsNum: 4,
+            showBtnToolbar: false
+          },
           filterSettingSource: ['version'],
           columns: [
             {
@@ -752,7 +755,10 @@ test('Renderer: crud autoGenerateFilter', async () => {
           type: 'crud',
           api: '/api/mock2/sample',
           syncLocation: false,
-          autoGenerateFilter: true,
+          autoGenerateFilter: {
+            columnsNum: 4,
+            showBtnToolbar: false
+          },
           bulkActions: [
             {
               label: '批量删除',
