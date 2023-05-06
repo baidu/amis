@@ -920,47 +920,34 @@ export default class Table extends React.Component<TableProps, object> {
 
   handleRowClick(item: IRow, index: number) {
     const {dispatchEvent, store, data} = this.props;
-    const items = store.rows.map((row: any) => row.data);
-    const selectedItems = store.selectedRows.map(item => item.data);
-    const unSelectedItems = store.unSelectedRows.map(item => item.data);
     return dispatchEvent(
       'rowClick',
       createObject(data, {
         rowItem: item, // 保留rowItem 可能有用户已经在用 兼容之前的版本
         item,
-        index,
-        selectedItems,
-        unSelectedItems
+        index
       })
     );
   }
 
   handleRowMouseEnter(item: IRow, index: number) {
     const {dispatchEvent, store, data} = this.props;
-    const selectedItems = store.selectedRows.map(item => item.data);
-    const unSelectedItems = store.unSelectedRows.map(item => item.data);
     return dispatchEvent(
       'rowMouseEnter',
       createObject(data, {
         item,
-        index,
-        selectedItems,
-        unSelectedItems
+        index
       })
     );
   }
 
   handleRowMouseLeave(item: IRow, index: number) {
     const {dispatchEvent, store, data} = this.props;
-    const selectedItems = store.selectedRows.map(item => item.data);
-    const unSelectedItems = store.unSelectedRows.map(item => item.data);
     return dispatchEvent(
       'rowMouseLeave',
       createObject(data, {
         item,
-        index,
-        selectedItems,
-        unSelectedItems
+        index
       })
     );
   }
@@ -2292,11 +2279,13 @@ export default class Table extends React.Component<TableProps, object> {
       // 操作列不下发loading，否则会导致操作栏里面的所有按钮都出现loading
       loading: column.type === 'operation' ? false : props.loading,
       btnDisabled: store.dragging,
-      // 只有table时，也可以获取选中行
-      data: extendObject(item.locals, {
-        selectedItems: store.selectedRows.map(item => item.data),
-        unSelectedItems: store.unSelectedRows.map(item => item.data)
-      }),
+      data: this.props.selectable
+        ? extendObject(item.locals, {
+            // 只有table时，也可以获取选中行
+            selectedItems: store.selectedRows.map(item => item.data),
+            unSelectedItems: store.unSelectedRows.map(item => item.data)
+          })
+        : item.locals,
       value: column.name
         ? resolveVariable(
             column.name,
