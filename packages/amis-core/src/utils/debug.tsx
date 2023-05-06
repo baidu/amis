@@ -431,13 +431,14 @@ type Category = 'api' | 'event';
  * @param ext 扩展信息
  */
 export function debug(cat: Category, msg: string, ext?: object) {
+  if (!isEnabled) {
+    return;
+  }
+
   console.groupCollapsed('[amis debug]', msg);
   console.debug(ext);
   console.groupEnd();
 
-  if (!isEnabled) {
-    return;
-  }
   const log = {
     cat,
     level: 'debug',
