@@ -77,6 +77,21 @@ export type CRUDToolbarObject = {
   align?: 'left' | 'right';
 };
 
+export type AutoGenerateFilterObject = {
+  /**
+   * 过滤条件单行列数
+   */
+  columnsNum?: number;
+  /**
+   * 是否显示设置查询字段
+   */
+  showBtnToolbar?: boolean;
+  /**
+   * 是否显示展开/收起
+   */
+  // showExpand?: boolean;
+};
+
 export type CRUDRendererEvent = TableRendererEvent | CardsRendererEvent;
 
 export interface CRUDCommonSchema extends BaseSchema, SpinnerExtraProps {
@@ -303,7 +318,7 @@ export interface CRUDCommonSchema extends BaseSchema, SpinnerExtraProps {
   /**
    * 开启查询区域，会根据列元素的searchable属性值，自动生成查询条件表单
    */
-  autoGenerateFilter?: boolean;
+  autoGenerateFilter?: AutoGenerateFilterObject | boolean;
 
   /**
    * 内容区域占满屏幕剩余空间
@@ -325,7 +340,7 @@ export type CRUDTableSchema = CRUDCommonSchema & {
 
 /**
  * CRUD 增删改查渲染器。
- * 文档：https://baidu.gitee.io/amis/docs/components/crud
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/crud
  */
 export type CRUDSchema = CRUDCardsSchema | CRUDListSchema | CRUDTableSchema;
 

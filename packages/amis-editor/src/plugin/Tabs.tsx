@@ -189,13 +189,11 @@ export class TabsPlugin extends BasePlugin {
           {
             title: '高级',
             body: [
-              getSchemaTpl('expressionFormulaControl', {
-                evalMode: true,
+              getSchemaTpl('sourceBindControl', {
                 label: tipedLabel(
                   '关联数据',
                   '根据该数据来动态重复渲染所配置的选项卡'
-                ),
-                name: 'source'
+                )
               }),
               getSchemaTpl('switch', {
                 name: 'mountOnEnter',

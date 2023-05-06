@@ -23,7 +23,7 @@ import {supportStatic} from './StaticHoc';
 
 /**
  * 数字输入框
- * 文档：https://baidu.gitee.io/amis/docs/components/form/number
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/number
  */
 export interface NumberControlSchema extends FormBaseControlSchema {
   type: 'input-number';

@@ -15,7 +15,7 @@ export interface TplSchema extends BaseSchema {
   /**
    * 指定为模板渲染器。
    *
-   * 文档：https://baidu.gitee.io/amis/docs/concepts/template
+   * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/docs/concepts/template
    */
   type: 'tpl' | 'html';
 

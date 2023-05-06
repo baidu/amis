@@ -27,7 +27,7 @@ import {
   getEventControlConfig,
   getArgsWrapper
 } from '../renderer/event-control/helper';
-import {schemaArrayFormat, schemaToArray} from '../util';
+import {schemaArrayFormat, schemaToArray, resolveArrayDatasource} from '../util';
 
 export class TablePlugin extends BasePlugin {
   // 关联渲染器名字
@@ -596,11 +596,7 @@ export class TablePlugin extends BasePlugin {
   };
 
   filterProps(props: any) {
-    const arr = Array.isArray(props.value)
-      ? props.value
-      : typeof props.source === 'string'
-      ? resolveVariable(props.source, props.data)
-      : resolveVariable('items', props.data);
+    const arr = resolveArrayDatasource(props);
 
     if (!Array.isArray(arr) || !arr.length) {
       const mockedData: any = {};

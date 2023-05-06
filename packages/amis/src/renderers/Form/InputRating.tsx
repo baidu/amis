@@ -14,7 +14,7 @@ import {supportStatic} from './StaticHoc';
 
 /**
  * Rating
- * 文档：https://baidu.gitee.io/amis/docs/components/form/rating
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/rating
  */
 export interface RatingControlSchema extends FormBaseControlSchema {
   type: 'input-rating';

@@ -76,7 +76,7 @@ export class TableRow extends React.Component<TableRowProps> {
     }
 
     if (itemAction) {
-      onAction && onAction(e, itemAction, item?.data);
+      onAction && onAction(e, itemAction, item?.locals);
       // item.toggle();
     } else {
       if (item.checkable && item.isCheckAvaiableOnClick) {
@@ -87,7 +87,7 @@ export class TableRow extends React.Component<TableRowProps> {
 
   handleAction(e: React.UIEvent<any>, action: Action, ctx: any) {
     const {onAction, item} = this.props;
-    onAction && onAction(e, action, ctx || item.data);
+    onAction && onAction(e, action, ctx || item.locals);
   }
 
   handleQuickChange(

@@ -24,7 +24,7 @@ export interface StatusSource {
 
 /**
  * 状态展示控件。
- * 文档：https://baidu.gitee.io/amis/docs/components/status
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/status
  */
 export interface StatusSchema extends BaseSchema {
   /**

@@ -6,7 +6,7 @@ import {getPropValue} from 'amis-core';
 
 /**
  * Date 展示渲染器。
- * 文档：https://baidu.gitee.io/amis/docs/components/date
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/date
  */
 export interface DateSchema extends BaseSchema {
   /**

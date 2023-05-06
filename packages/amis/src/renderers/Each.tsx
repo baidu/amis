@@ -7,7 +7,7 @@ import {BaseSchema, SchemaCollection} from '../Schema';
 
 /**
  * Each 循环功能渲染器。
- * 文档：https://baidu.gitee.io/amis/docs/components/each
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/each
  */
 export interface EachSchema extends BaseSchema {
   /**

@@ -15,7 +15,7 @@ import type {ListenerAction} from 'amis-core';
 
 /**
  * Diff 编辑器
- * 文档：https://baidu.gitee.io/amis/docs/components/form/diff
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/diff
  */
 export interface DiffControlSchema extends FormBaseControlSchema {
   /**

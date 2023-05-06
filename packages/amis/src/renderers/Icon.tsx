@@ -15,7 +15,7 @@ import {isObject} from 'lodash';
 
 /**
  * Icon 图表渲染器
- * 文档：https://baidu.gitee.io/amis/docs/components/icon
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/icon
  */
 export interface IconSchema extends BaseSchema {
   type: 'icon';

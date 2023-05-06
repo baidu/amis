@@ -15,7 +15,7 @@ import {supportStatic} from './StaticHoc';
 
 /**
  * 复选框
- * 文档：https://baidu.gitee.io/amis/docs/components/form/checkboxes
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/checkboxes
  */
 export interface CheckboxesControlSchema extends FormOptionsSchema {
   type: 'checkboxes';

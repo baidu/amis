@@ -96,7 +96,7 @@ export type ColObject = {
 
 /**
  * 表格展现渲染器
- * 文档：https://baidu.gitee.io/amis/docs/components/table-view
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/table-view
  */
 export interface TableViewSchema extends BaseSchema {
   /**

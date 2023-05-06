@@ -270,13 +270,13 @@ export const defaultOptions: RenderOptions = {
   },
   isCancel() {
     console.error(
-      'Please implement isCancel. see https://baidu.gitee.io/amis/docs/start/getting-started#%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97'
+      'Please implement isCancel. see https://aisuda.bce.baidu.com/amis/zh-CN/start/getting-started#%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97'
     );
     return false;
   },
   updateLocation() {
     console.error(
-      'Please implement updateLocation. see https://baidu.gitee.io/amis/docs/start/getting-started#%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97'
+      'Please implement updateLocation. see https://aisuda.bce.baidu.com/amis/zh-CN/start/getting-started#%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97'
     );
   },
 

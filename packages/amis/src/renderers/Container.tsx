@@ -62,7 +62,7 @@ export interface ContainerDraggableConfig {
 
 /**
  * Container 容器渲染器。
- * 文档：https://baidu.gitee.io/amis/docs/components/container
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/container
  */
 export interface ContainerSchema extends BaseSchema {
   /**

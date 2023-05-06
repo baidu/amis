@@ -8,8 +8,6 @@ import {
 import cx from 'classnames';
 import {filterDate, isPureVariable, resolveVariableAndFilter} from 'amis-core';
 import moment from 'moment';
-import 'moment/locale/zh-cn';
-import 'moment/locale/de';
 import {DatePicker} from 'amis-ui';
 import {FormBaseControlSchema, SchemaObject} from '../../Schema';
 import {createObject, anyChanged, isMobile, autobind} from 'amis-core';
@@ -61,7 +59,7 @@ export interface InputDateBaseControlSchema extends FormBaseControlSchema {
 
 /**
  * Date日期选择控件
- * 文档：https://baidu.gitee.io/amis/docs/components/form/date
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/date
  */
 export interface DateControlSchema extends InputDateBaseControlSchema {
   /**
@@ -99,7 +97,7 @@ export interface DateControlSchema extends InputDateBaseControlSchema {
 
 /**
  * Datetime日期时间选择控件
- * 文档：https://baidu.gitee.io/amis/docs/components/form/datetime
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/datetime
  */
 export interface DateTimeControlSchema extends InputDateBaseControlSchema {
   /**
@@ -144,7 +142,7 @@ export interface DateTimeControlSchema extends InputDateBaseControlSchema {
 
 /**
  * Time 时间选择控件
- * 文档：https://baidu.gitee.io/amis/docs/components/form/time
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/time
  */
 export interface TimeControlSchema extends InputDateBaseControlSchema {
   /**
@@ -179,7 +177,7 @@ export interface TimeControlSchema extends InputDateBaseControlSchema {
 
 /**
  * Month 月份选择控件
- * 文档：https://baidu.gitee.io/amis/docs/components/form/Month
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/Month
  */
 export interface MonthControlSchema extends InputDateBaseControlSchema {
   /**

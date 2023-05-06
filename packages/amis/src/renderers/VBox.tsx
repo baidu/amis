@@ -11,7 +11,7 @@ export type HboxRow = SchemaObject & {
 
 /**
  * 垂直布局控件
- * 文档：https://baidu.gitee.io/amis/docs/components/vbox
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/vbox
  */
 export interface VBoxSchema extends BaseSchema {
   type: 'vbox';

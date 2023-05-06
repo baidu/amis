@@ -4,7 +4,7 @@ import {BaseSchema, SchemaCollection} from '../Schema';
 import {IPaginationStore, PaginationStore} from 'amis-core';
 
 /**
- * 分页容器功能性渲染器。详情请见：https://baidu.gitee.io/amis/docs/components/pagination-wrapper
+ * 分页容器功能性渲染器。详情请见：https://aisuda.bce.baidu.com/amis/zh-CN/components/pagination-wrapper
  */
 export interface PaginationWrapperSchema extends BaseSchema {
   /**

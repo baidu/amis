@@ -8,7 +8,7 @@ import {buildStyle} from 'amis-core';
 
 /**
  * Wrapper 容器渲染器。
- * 文档：https://baidu.gitee.io/amis/docs/components/wrapper
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/wrapper
  */
 export interface WrapperSchema extends BaseSchema {
   /**
