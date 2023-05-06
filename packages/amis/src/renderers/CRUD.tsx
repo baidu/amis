@@ -352,7 +352,7 @@ export interface CRUDProps
   pickerMode?: boolean; // 选择模式，用做表单中的选择操作
 }
 
-const INNER_EVENTS: Array<> = [
+const INNER_EVENTS: Array<CRUDRendererEvent> = [
   'selectedChange',
   'columnSort',
   'columnFilter',
