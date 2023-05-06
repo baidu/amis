@@ -11,7 +11,6 @@ export class TextareaControlPlugin extends BasePlugin {
   // 关联渲染器名字
   rendererName = 'textarea';
   $schema = '/schemas/TextareaControlSchema.json';
-  order = -490;
 
   // 组件名称
   name = '多行文本框';
@@ -137,6 +136,13 @@ export class TextareaControlPlugin extends BasePlugin {
                 )
               }),
               getSchemaTpl('showCounter'),
+              {
+                name: 'maxLength',
+                label: tipedLabel('最大字数', '限制输入最多文字数量'),
+                type: 'input-number',
+                min: 0,
+                step: 1
+              },
               getSchemaTpl('labelRemark'),
               getSchemaTpl('remark'),
               getSchemaTpl('placeholder'),

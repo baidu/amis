@@ -1,11 +1,12 @@
 .#{$ns}Tag {
   display: inline-flex;
   height: var(--Tag-height);
-  padding: 0 var(--gap-sm);
+  padding: var(--Tag-base-padding);
   flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
   font-size: var(--Tag-content-fontSize);
+  font-weight: var(--Tag-base-fontWeight);
   max-width: 160px;
   transition: all 0.3;
   border-radius: var(--Tag-borderRadius);
@@ -124,7 +125,7 @@
     i {
       font-size: #{px2rem(8px)};
     }
-    .icon {
+    .#{$ns}Tag-default-icon {
       width: var(--Tag-status-size);
       height: var(--Tag-status-size);
       top: 0;
@@ -133,7 +134,6 @@
 
   &--close {
     margin-left: var(--Tag-close-margin);
-    margin-right: var(--Tag-close-margin);
     i {
       font-size: #{px2rem(8px)};
     }

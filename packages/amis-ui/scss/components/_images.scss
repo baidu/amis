@@ -139,11 +139,13 @@
   &-caption {
     font-size: var(--image-image-description-fontSize);
     color: var(--image-image-description-color);
+    margin-top: var(--image-image-description-marginTop);
   }
 
   &-title {
     font-size: var(--image-image-normal-fontSize);
     color: var(--image-image-normal-color);
+    margin-top: var(--image-image-normal-title-marginTop);
   }
 
   &-overlay {

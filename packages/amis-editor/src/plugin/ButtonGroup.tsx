@@ -20,7 +20,7 @@ export class ButtonGroupPlugin extends BasePlugin {
   name = '按钮组';
   isBaseComponent = true;
   description = '用来展示多个按钮，视觉上会作为一个整体呈现。';
-  tags = ['按钮'];
+  tags = ['功能'];
   icon = 'fa fa-object-group';
   pluginIcon = 'btn-group-plugin';
   docLink = '/amis/zh-CN/components/button-group';

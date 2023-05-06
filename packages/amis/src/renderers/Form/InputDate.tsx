@@ -8,7 +8,6 @@ import {
 import cx from 'classnames';
 import {filterDate, isPureVariable, resolveVariableAndFilter} from 'amis-core';
 import moment from 'moment';
-import 'moment/locale/zh-cn';
 import {DatePicker} from 'amis-ui';
 import {FormBaseControlSchema, SchemaObject} from '../../Schema';
 import {createObject, anyChanged, isMobile, autobind} from 'amis-core';
@@ -431,7 +430,7 @@ export default class DateControl extends React.PureComponent<
   @autobind
   dispatchEvent(e: React.SyntheticEvent<HTMLElement>) {
     const {dispatchEvent, value} = this.props;
-    dispatchEvent(e, resolveEventData(this.props, {value}, 'value'));
+    dispatchEvent(e, resolveEventData(this.props, {value}));
   }
 
   // 动作
@@ -454,7 +453,7 @@ export default class DateControl extends React.PureComponent<
     const {dispatchEvent} = this.props;
     const dispatcher = dispatchEvent(
       'change',
-      resolveEventData(this.props, {value: nextValue}, 'value')
+      resolveEventData(this.props, {value: nextValue})
     );
     if (dispatcher?.prevented) {
       return;

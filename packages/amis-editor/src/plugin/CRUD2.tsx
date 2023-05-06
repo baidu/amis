@@ -24,10 +24,10 @@ import {
   RendererPluginEvent
 } from 'amis-editor-core';
 import {flattenDeep, fromPairs, isObject, remove} from 'lodash';
-import {ButtonSchema} from 'amis/lib/renderers/Action';
-import {FormSchema, SchemaObject} from 'amis/lib/Schema';
+import type {ButtonSchema} from 'amis';
+import type {FormSchema, SchemaObject} from 'amis';
 import {findTree} from 'amis';
-import {CRUD2Schema} from 'amis/lib/renderers/CRUD2';
+import type {CRUD2Schema} from 'amis';
 import {FeatureOption} from '../renderer/FeatureControl';
 import {getArgsWrapper} from '../renderer/event-control/helper';
 
@@ -305,7 +305,7 @@ const FilterTypes: Array<FeatOption> = [
         type: 'form',
         mode: 'inline',
         behavior: 'SimpleQuery',
-        body: builder.resolveSimpleFilterSchema({setting}) || [],
+        body: builder.resolveSimpleFilterSchema({setting, size: 'full'}) || [],
         actions: [
           {
             type: 'submit',

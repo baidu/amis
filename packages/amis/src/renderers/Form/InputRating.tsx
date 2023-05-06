@@ -111,7 +111,7 @@ export default class RatingControl extends React.Component<RatingProps, any> {
 
     const rendererEvent = await dispatchEvent(
       'change',
-      resolveEventData(this.props, {value}, 'value')
+      resolveEventData(this.props, {value})
     );
 
     if (rendererEvent?.prevented) {

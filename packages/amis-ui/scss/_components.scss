@@ -1104,6 +1104,7 @@
   --inputNumber-base-default-step-bg: var(--colors-neutral-fill-11);
   --inputNumber-base-hover-step-bg: var(--colors-neutral-fill-11);
   --inputNumber-base-active-step-bg: var(--colors-neutral-fill-11);
+  --inputNumber-base-unit-bg-color: var(--colors-neutral-fill-10);
   --inputNumber-base-default-unit-width: var(--sizes-base-28);
   --inputNumber-base-default-unit-paddingTop: calc(
     (
@@ -1118,7 +1119,7 @@
       ) / 2
   );
   --inputNumber-base-default-unit-paddingLeft: var(--sizes-size-6);
-  --inputNumber-base-default-unit-paddingRight: 0;
+  --inputNumber-base-default-unit-paddingRight: var(--sizes-size-6);
   --inputNumber-size-sm-height: var(--sizes-base-16);
   --inputNumber-size-default-height: var(--sizes-base-16);
   --inputNumber-size-md-height: var(--sizes-base-16);
@@ -1278,7 +1279,9 @@
   // 勾选框
   --checkbox-checkbox-default-height: var(--sizes-size-9);
   --checkbox-checkbox-default-bg-color: var(--colors-neutral-fill-11);
-  --checkbox-checkbox-default-color: var(--colors-neutral-text-2);
+  --checkbox-checkbox-default-text-color: var(--colors-neutral-text-2);
+  --checkbox-checkbox-default-lineHeight: var(--fonts-lineHeight-2);
+  --checkbox-checkbox-default-fontWeight: var(--fonts-weight-6);
   --checkbox-checkbox-default-fontSize: var(--sizes-size-8);
   --checkbox-checkbox-default-top-border-color: var(--colors-neutral-line-8);
   --checkbox-checkbox-default-top-border-width: var(--borders-width-2);
@@ -1298,7 +1301,7 @@
   --checkbox-checkbox-default-bottom-left-border-radius: var(--sizes-size-2);
   --checkbox-checkbox-hover-height: var(--sizes-size-9);
   --checkbox-checkbox-hover-bg-color: var(--colors-neutral-fill-11);
-  --checkbox-checkbox-hover-color: var(--colors-neutral-text-2);
+  --checkbox-checkbox-hover-text-color: var(--colors-neutral-text-2);
   --checkbox-checkbox-hover-fontSize: var(--sizes-size-8);
   --checkbox-checkbox-hover-top-border-color: var(--colors-brand-5);
   --checkbox-checkbox-hover-top-border-width: var(--borders-width-2);
@@ -1318,7 +1321,7 @@
   --checkbox-checkbox-hover-bottom-left-border-radius: var(--sizes-size-2);
   --checkbox-checkbox-active-height: var(--sizes-size-9);
   --checkbox-checkbox-active-bg-color: var(--colors-neutral-fill-11);
-  --checkbox-checkbox-active-color: var(--colors-neutral-text-2);
+  --checkbox-checkbox-active-text-color: var(--colors-neutral-text-2);
   --checkbox-checkbox-active-fontSize: var(--sizes-size-8);
   --checkbox-checkbox-active-top-border-color: var(--colors-brand-5);
   --checkbox-checkbox-active-top-border-width: var(--borders-width-2);
@@ -1338,7 +1341,7 @@
   --checkbox-checkbox-active-bottom-left-border-radius: var(--sizes-size-2);
   --checkbox-checkbox-disabled-height: var(--sizes-size-9);
   --checkbox-checkbox-disabled-bg-color: var(--colors-neutral-fill-10);
-  --checkbox-checkbox-disabled-color: var(--colors-neutral-text-2);
+  --checkbox-checkbox-disabled-text-color: var(--colors-neutral-text-6);
   --checkbox-checkbox-disabled-fontSize: var(--sizes-size-8);
   --checkbox-checkbox-disabled-top-border-color: var(--colors-neutral-line-8);
   --checkbox-checkbox-disabled-top-border-width: var(--borders-width-2);
@@ -1750,9 +1753,14 @@
   --dialog-default-border-radius: var(--sizes-size-4);
   --dialog-default-padding-y: var(--sizes-base-12);
   --dialog-header-height: var(--sizes-size-1);
+  --dialog-icon-icon: '<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="icon icon-close"><g id="close" transform="translate(1.439340, 1.439340)" fill="currentColor" fill-rule="nonzero"><polygon points="12.0606602 5.80646642e-14 13.1213203 1.06066017 7.62066017 6.56066017 13.1213203 12.0606602 12.0606602 13.1213203 6.56066017 7.62066017 1.06066017 13.1213203 0 12.0606602 5.49966017 6.56066017 1.72084569e-13 1.06066017 1.06066017 0 6.56066017 5.49966017"></polygon></g></svg>';
+  --dialog-icon-size: var(--sizes-size-9);
+  --dialog-icon-color: var(--colors-neutral-text-6);
   --dialog-header-color: var(--colors-neutral-text-2);
   --dialog-header-fontSize: var(--fonts-size-7);
   --dialog-header-fontWeight: var(--fonts-weight-5);
+  --dialog-content-fontSize: var(--sizes-size-8);
+  --dialog-content-color: var(--colors-neutral-text-2);
   --dialog-footer-height: var(--sizes-size-1);
   --dialog-footer-margin-left: var(--sizes-size-5);
   --dialog-size-sm-width: 21.875rem;
@@ -1801,6 +1809,9 @@
   --drawer-header-color: var(--colors-neutral-text-2);
   --drawer-header-fontSize: var(--fonts-size-7);
   --drawer-header-fontWeight: var(--fonts-weight-5);
+  --drawer-header-icon-icon: '<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class=" icon-close"><g id="close" transform="translate(1.439340, 1.439340)" fill="currentColor" fill-rule="nonzero"><polygon points="12.0606602 5.80646642e-14 13.1213203 1.06066017 7.62066017 6.56066017 13.1213203 12.0606602 12.0606602 13.1213203 6.56066017 7.62066017 1.06066017 13.1213203 0 12.0606602 5.49966017 6.56066017 1.72084569e-13 1.06066017 1.06066017 0 6.56066017 5.49966017"></polygon></g></svg>';
+  --drawer-header-icon-size: var(--sizes-size-7);
+  --drawer-header-icon-color: var(--colors-neutral-text-2);
   --drawer-content-paddingTop: var(--sizes-base-12);
   --drawer-content-paddingBottom: var(--sizes-base-12);
   --drawer-content-paddingLeft: var(--sizes-base-12);
@@ -2617,6 +2628,7 @@
   --inputImage-base-default-fontSize: var(--fonts-size-7);
   --inputImage-base-default-fontWeight: var(--fonts-weight-6);
   --inputImage-base-default-color: var(--colors-neutral-text-5);
+  --inputImage-base-default-icon: '<svg viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g><rect fill="currentColor" opacity="0" x="0" y="0" width="16" height="16"></rect><path d="M8.5,2 L8.5,7.5 L14,7.5 L14,8.5 L8.5,8.5 L8.5,14 L7.5,14 L7.5,8.5 L2,8.5 L2,7.5 L7.5,7.5 L7.5,2 L8.5,2 Z"  fill="currentColor" fill-rule="nonzero"></path></g></g></svg>';
   --inputImage-base-default-icon-size: var(--sizes-base-12);
   --inputImage-base-default-icon-color: var(--colors-neutral-text-5);
   --inputImage-base-default-icon-margin: var(--sizes-size-5);
@@ -3125,7 +3137,7 @@
   --Calendar-icon-height: var(--sizes-size-6);
   --Calendar-borderWidth: var(--borders-width-2);
   --Calendar-borderColor: var(--inputDate-default-option-today-border-color);
-  --Calendar-rdt-day: var(--sizes-base-49);
+  --Calendar-rdt-day: #{px2rem(110px)};
   --Calendar-schedule-content-padding: 0 var(--sizes-size-3);
   --Calendar-schedule-content-height: var(--sizes-base-10);
   --Calendar-schedule-content-color: var(--colors-neutral-text-11);
@@ -3153,6 +3165,7 @@
   --steps-base-subTitle-paddingLeft: var(--sizes-size-6);
   --steps-base-icon-size: var(--sizes-base-15);
   --steps-base-icon-paddingRight: var(--sizes-size-6);
+  --steps-base-icon-fontSize: var(--fonts-size-6);
   --steps-base-line-color: var(--colors-neutral-line-8);
   --steps-base-line-active-color: var(--colors-brand-5);
   --steps-status-wait-bg-color: var(--colors-neutral-fill-11);
@@ -3175,7 +3188,7 @@
   --Steps-status-success: var(--steps-status-finish-bg-color);
   --Steps-status-error: var(--steps-status-error-bg-color);
   --Steps-status-wait: var(--colors-neutral-text-5);
-  --Steps-icon-fontsize: var(--fonts-size-6);
+  --Steps-icon-fontsize: var(--steps-base-icon-fontSize);
   --Steps-title-fontsize: var(--steps-base-fontSize);
   --Steps-title-color: var(--steps-base-color);
   --Steps-sub-title-fontsize: var(--steps-base-subTitle-fontSize);
@@ -3277,8 +3290,10 @@
   --image-image-normal-paddingRight: var(--sizes-size-3);
   --image-image-normal-color: var(--colors-neutral-text-2);
   --image-image-normal-fontSize: var(--fonts-size-7);
+  --image-image-normal-title-marginTop: var(--sizes-size-0);
   --image-image-description-color: var(--colors-neutral-text-2);
   --image-image-description-fontSize: var(--fonts-size-8);
+  --image-image-description-marginTop: var(--fonts-size-0);
 
   --image-images-item-marginTop: var(--sizes-size-3);
   --image-images-item-marginBottom: var(--sizes-size-3);
@@ -3300,6 +3315,8 @@
   --Tag-base-paddingBottom: var(--sizes-size-0);
   --Tag-base-paddingLeft: var(--sizes-size-5);
   --Tag-base-paddingRight: var(--sizes-size-5);
+  --Tag-base-padding: var(--Tag-base-paddingTop) var(--Tag-base-paddingRight)
+   var(--Tag-base-paddingBottom) var(--Tag-base-paddingLeft);
   --Tag-model-normal-top-border-color: var(--colors-neutral-line-6);
   --Tag-model-normal-top-border-width: var(--borders-width-2);
   --Tag-model-normal-top-border-style: var(--borders-style-1);
@@ -3433,7 +3450,7 @@
     var(--Tag-model-rounded-right-border-color)
     var(--Tag-model-rounded-bottom-border-color)
     var(--Tag-model-rounded-left-border-color);
-    --Tag-rounded-borderStyle: var(--Tag-model-rounded-top-border-style)
+  --Tag-rounded-borderStyle: var(--Tag-model-rounded-top-border-style)
     var(--Tag-model-rounded-right-border-style)
     var(--Tag-model-rounded-bottom-border-style)
     var(--Tag-model-rounded-left-border-style);
@@ -3564,7 +3581,7 @@
   --Pick-base-paddingBottom: var(--sizes-size-3);
   --Pick-base-paddingLeft: var(--sizes-size-6);
   --Pick-base-paddingRight: var(--sizes-size-6);
-  --Pick-base-bgColor: var(--colors-neutral-line-11);
+  --Pick-base-bgColor: var(--colors-neutral-fill-11);
   --Pick-base-value-color: var(--colors-other-5);
   --Pick-base-value-fontSize: var(--fonts-size-8);
   --Pick-base-value-fontWeight: var(--fonts-weight-6);
@@ -3585,6 +3602,7 @@
   --Pick-base-top-left-border-radius: var(--borders-radius-3);
   --Pick-base-bottom-right-border-radius: var(--borders-radius-3);
   --Pick-base-bottom-left-border-radius: var(--borders-radius-3);
+  --Pick-base-icon: '<svg viewBox="0 0 200 200" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g  fill="currentColor" fill-rule="nonzero"><path d="M181.25,0 L56.25,0 C45.8984375,0 37.5,8.3984375 37.5,18.75 L37.5,37.5 L18.75,37.5 C8.3984375,37.5 0,45.8984375 0,56.25 L0,181.25 C0,191.601562 8.3984375,200 18.75,200 L143.75,200 C154.101562,200 162.5,191.601562 162.5,181.25 L162.5,162.5 L181.25,162.5 C191.601562,162.5 200,154.101562 200,143.75 L200,18.75 C200,8.3984375 191.601562,0 181.25,0 Z M143.75,181.25 L18.75,181.25 L18.75,100 L143.75,100 L143.75,181.25 Z M181.25,143.75 L162.5,143.75 L162.5,56.25 C162.5,45.8984375 154.101562,37.5 143.75,37.5 L56.25,37.5 L56.25,18.75 L181.25,18.75 L181.25,143.75 Z" ></path></g></svg>';
   --Pick-base-icon-size: var(--sizes-size-9);
   --Pick-base-icon-color: #84878c;
   --Pick-base-value-hover-icon-color: #b3d7ff;
@@ -3643,7 +3661,7 @@
   --Status-base-text-margin: var(--sizes-size-3);
   --Status-fail-color: var(--colors-error-5);
   --Status-success-color: var(--colors-success-5);
-  --Status-queue-color: var(--colors-warning-5);
+  --Status-warning-color: var(--colors-warning-5);
   --Status-schedule-color: var(--colors-neutral-fill-2);
   --Status-pending-before-color: var(--colors-error-5);
   --Status-pending-after-color: var(--colors-brand-5);
@@ -3657,10 +3675,6 @@
   --Status-pending-beforeColor: var(--Status-pending-before-color);
   --Status-pending-afterColor: var(--Status-pending-after-color);
 
-  --Status-schedule-color: var(--Status-schedule-color);
-  --Status-warning-color: var(--Status-queue-color);
-  --Status-fail-color: var(--Status-fail-color);
-  --Status-success-color: var(--Status-success-color);
   // timeline
   --Timeline-time-color: var(--colors-neutral-text-5);
   --Timeline-time-fontSize: var(--fonts-size-7);
@@ -3681,6 +3695,14 @@
   --Timeline-shadow: var(--shadows-shadow-normal);
   --Timeline-detail-icon-size: var(--sizes-base-8);
   --Timeline-detail-icon-color: var(--colors-brand-5);
+  --Timeline-visible-paddingTop: var(--sizes-size-6);
+  --Timeline-visible-paddingBottom: var(--sizes-size-6);
+  --Timeline-visible-paddingLeft: var(--sizes-size-6);
+  --Timeline-visible-paddingRight: var(--sizes-size-6);
+  --Timeline-visible-top-right-border-radius: var(--borders-radius-3);
+  --Timeline-visible-top-left-border-radius: var(--borders-radius-3);
+  --Timeline-visible-bottom-right-border-radius: var(--borders-radius-3);
+  --Timeline-visible-bottom-left-border-radius: var(--borders-radius-3);
   --Timeline-left-size: var(--sizes-size-2);
   --Timeline-horizontal-top-size: var(--sizes-size-0);
   --Timeline-line-bg: #e6e6e8;
@@ -3705,10 +3727,17 @@
   --TimelineItem--content-title-margin-bottom: var(--gap-xs);
   --TimelineItem--detail-button-margin-bottom: var(--gap-base);
   --TimelineItem-detail-arrow-width: var(--Timeline-detail-icon-size);
-  --TimelineItem-detail-visible-padding: #{px2rem(10px)};
+  --TimelineItem-detail-visible-padding: var(--Timeline-visible-paddingTop)
+    var(--Timeline-visible-paddingRight) var(--Timeline-visible-paddingBottom)
+    var(--Timeline-visible-paddingLeft);
   --TimelineItem-detail-visible-max-width: #{px2rem(300px)};
   --Timeline-alternate-margin-left: var(--gap-xl);
-  --Timeline-visible-border-radius: var(--gap-xs);
+  --Timeline-visible-border-radius: var(
+      --Timeline-visible-top-left-border-radius
+    )
+    var(--Timeline-visible-top-right-border-radius)
+    var(--Timeline-visible-bottom-right-border-radius)
+    var(--Timeline-visible-bottom-left-border-radius);
   --Timeline-horizontal-content-margin-top: var(--Timeline-horizontal-top-size);
   --TimelineItem--icon-radius: 50%;
   --TimelineItem--round-radius: 50%;
@@ -3728,14 +3757,14 @@
   --Timeline--warning-bg: var(--Timeline-type-warning-color);
   --Timeline--danger-bg: var(--Timeline-type-danger-color);
 
-  --inputTag-option-height: var(--sizes-base-15);
+  --inputTag-option-height: var(--sizes-base-16);
   --inputTag-option-color: var(--colors-neutral-text-2);
   --inputTag-option-fontSize: var(--fonts-size-7);
   --inputTag-option-fontWeight: var(--fonts-weight-6);
   --inputTag-option-lineHeight: var(--fonts-lineHeight-2);
   --inputTag-option-paddingTop: var(--sizes-size-3);
-  --inputTag-option-paddingBottom: var(--sizes-size-6);
-  --inputTag-option-paddingLeft: var(--sizes-size-3);
+  --inputTag-option-paddingBottom: var(--sizes-size-3);
+  --inputTag-option-paddingLeft: var(--sizes-size-6);
   --inputTag-option-paddingRight: var(--sizes-size-6);
   --inputTag-option-bg-color: var(--colors-neutral-fill-11);
   --inputTag-option-hover-color: var(--colors-brand-5);
@@ -4136,8 +4165,6 @@
   --Wizard-badge-bg-color: var(--colors-neutral-fill-11);
   --Wizard-badge-onActive-color: var(--colors-neutral-text-11);
   --Wizard-badge-onActive-bg-color: var(--colors-neutral-fill-3);
-  --Wizard-badge-onComplete-color: var(--colors-neutral-text-11);
-  --Wizard-badge-onComplete-bg-color: var(--colors-neutral-fill-3);
   --Wizard-badge-text-margin: var(--sizes-size-4);
   --Wizard-step-fontSize: var(--fonts-size-7);
   --Wizard-step-color: var(--colors-neutral-text-6);
@@ -4156,14 +4183,18 @@
   --Wizard-stepContent-paddingLeft: var(--sizes-size-7);
 
   --Wizard-badge-bg: var(--Wizard-badge-bg-color);
-  --Wizard-badge-border: var( --Wizard-badge-border-width) var(--borders-style-2)
+  --Wizard-badge-border: var(--Wizard-badge-border-width) var(--borders-style-2)
     var(--Wizard-badge-border-color);
   --Wizard-badge-borderRadius: var(--borders-radius-7);
   --Wizard-badge-marginRight: var(--Wizard-badge-text-margin);
-  --Wizard-badge-onActive-backgroundColor: var(--Wizard-badge-onActive-bg-color);
-  --Wizard-badge-onComplete-backgroundColor: var(--Wizard-badge-onComplete-bg-color);
-  --Wizard-badge-onActive-color: var(--Wizard-badge-onActive-color);
-  --Wizard-badge-onComplete-color: var(--Wizard-badge-onComplete-color);
+  --Wizard-badge-onActive-backgroundColor: var(
+    --Wizard-badge-onActive-bg-color
+  );
+  --Wizard-badge-onComplete-backgroundColor: var(
+    --Wizard-badge-onActive-bg-color
+  );
+  // --Wizard-badge-onActive-color: var(--Wizard-badge-onActive-color);
+  --Wizard-badge-onComplete-color: var(--Wizard-badge-onActive-color);
 
   --Wizard-steps-bg--isComplete: var(--colors-neutral-fill-11);
   --Wizard-steps-bg: var(--Wizard-step-bg-color);
@@ -4175,10 +4206,13 @@
 
   --Wizard-steps-liAfterContent: '\e6ee';
   --Wizard-steps-liVender: 'iconfont';
-  --Wizard-steps-padding: var(--Wizard-step-paddingTop) var(--Wizard-step-paddingRight)
-   var(--Wizard-step-paddingBottom) var(--Wizard-step-paddingLeft);
+  --Wizard-steps-padding: var(--Wizard-step-paddingTop)
+    var(--Wizard-step-paddingRight) var(--Wizard-step-paddingBottom)
+    var(--Wizard-step-paddingLeft);
   --Wizard-steps-textAlign: center;
   --Wizard-steps-ulDisplay: inline-block;
-  --Wizard-stepsContent-padding: var(--Wizard-stepContent-paddingTop) var(--Wizard-stepContent-paddingRight)
-  var(--Wizard-stepContent-paddingBottom) var(--Wizard-stepContent-paddingLeft);
+  --Wizard-stepsContent-padding: var(--Wizard-stepContent-paddingTop)
+    var(--Wizard-stepContent-paddingRight)
+    var(--Wizard-stepContent-paddingBottom)
+    var(--Wizard-stepContent-paddingLeft);
 }

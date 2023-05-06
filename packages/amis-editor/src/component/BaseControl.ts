@@ -9,7 +9,6 @@ import {
 } from '../renderer/event-control/helper';
 import {getSchemaTpl, isObject, tipedLabel} from 'amis-editor-core';
 import type {BaseEventContext} from 'amis-editor-core';
-import {SchemaObject} from 'amis/lib/Schema';
 
 // 默认动作
 export const BUTTON_DEFAULT_ACTION = {

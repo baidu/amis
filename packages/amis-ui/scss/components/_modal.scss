@@ -93,6 +93,10 @@
     border-bottom: var(--Modal-body-borderTop);
     border-top-left-radius: var(--Modal-content-borderRadius);
     border-top-right-radius: var(--Modal-content-borderRadius);
+
+    .Dialog-close {
+      content: var(--dialog-icon-icon);
+    }
   }
 
   &-title {
@@ -111,9 +115,10 @@
     z-index: calc($zindex-spinner-overlay + 1);
 
     svg {
-      width: var(--Modal-close-width);
-      height: var(--Modal-close-width);
+      width: var(--dialog-icon-size);
+      height: var(--dialog-icon-size);
       fill: var(--Modal-close-color);
+      color: var(--dialog-icon-color);
     }
 
     &:not(.is-disabled) {
@@ -143,6 +148,8 @@
     height: auto;
     // overflow-y: auto;
     padding: 0 #{px2rem(24px)};
+    font-size: var(--dialog-content-fontSize);
+    color: var(--dialog-content-color);
   }
 
   &-footer {

@@ -640,13 +640,9 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
 
     const rendererEvent = await dispatchEvent(
       'change',
-      resolveEventData(
-        this.props,
-        {
-          value: tab?.hash ? tab?.hash : key + 1
-        },
-        'value'
-      )
+      resolveEventData(this.props, {
+        value: tab?.hash ? tab?.hash : key + 1
+      })
     );
     if (rendererEvent?.prevented) {
       return;

@@ -24,23 +24,31 @@ function generateDefaultStyle(word: Word) {
     defaultRStyle = styleToText(defaultStyle.rPr.cssStyle);
   }
 
+  const hyphens = word.settings?.autoHyphenation ? 'hyphens: auto;' : '';
+
   const classPrefix = word.getClassPrefix();
 
   return `
-  .${word.wrapClassName} {
 
-  }
-
-  .${word.wrapClassName} > article > section {
-    background: white;
-  }
 
   /** docDefaults **/
+  .${classPrefix} {
+    --docx-theme-font-minorHAnsi: Calibri,  Helvetica, Arial, 'Helvetica Neue';
+    --docx-theme-font-minorEastAsia: 'PingFang SC', 'Microsoft YaHei', 'Hiragino Sans GB', 'STHeiti',
+    'Microsoft YaHei';
+  }
 
   .${classPrefix} p {
     margin: 0;
     padding: 0;
     line-height: 1.5;
+    ${hyphens}
+  }
+
+  .${classPrefix} .justify:after {
+    content: "";
+    display: inline-block;
+    width: 100%;
   }
 
   .${classPrefix} table {

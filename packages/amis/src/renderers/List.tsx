@@ -42,8 +42,8 @@ import {
 } from '../Schema';
 import {ActionSchema} from './Action';
 import {SchemaRemark} from './Remark';
-import type {IItem} from 'amis-core/lib/store/list';
-import type {OnEventProps} from 'amis-core/lib/utils/renderer-event';
+import type {IItem} from 'amis-core';
+import type {OnEventProps} from 'amis-core';
 
 /**
  * 不指定类型默认就是文本
@@ -1133,7 +1133,7 @@ export class ListItem extends React.Component<ListItemProps> {
     onAction?.(
       e,
       hasClickActions ? undefined : itemAction,
-      hasClickActions ? item : item?.data
+      hasClickActions ? item : item.locals
     );
 
     // itemAction, itemClick事件和checkOnItemClick为互斥关系

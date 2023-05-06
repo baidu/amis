@@ -5,7 +5,6 @@
  */
 
 import React from 'react';
-import cx from 'classnames';
 import {ClassNamesFn, themeable} from 'amis-core';
 
 interface TooltipProps extends React.HTMLProps<HTMLDivElement> {
@@ -19,6 +18,7 @@ interface TooltipProps extends React.HTMLProps<HTMLDivElement> {
   placement?: string;
   showArrow?: boolean;
   tooltipTheme?: string;
+  bodyClassName?: string;
   [propName: string]: any;
 }
 
@@ -48,6 +48,7 @@ export class Tooltip extends React.Component<TooltipProps> {
       showArrow,
       onMouseEnter,
       onMouseLeave,
+      bodyClassName,
       ...rest
     } = this.props;
 
@@ -69,7 +70,7 @@ export class Tooltip extends React.Component<TooltipProps> {
           <div className={cx(`Tooltip-arrow`)} {...arrowProps} />
         ) : null}
         {title ? <div className={cx('Tooltip-title')}>{title}</div> : null}
-        <div className={cx('Tooltip-body')}>{children}</div>
+        <div className={cx(bodyClassName, 'Tooltip-body')}>{children}</div>
       </div>
     );
   }

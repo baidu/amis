@@ -9,8 +9,19 @@
   <body>
     <div class="columns">
       <div class="column file-list" id="fileList">
-        <button type="button" onclick="downloadDocx()">download</button>
+        <button type="button" onclick="downloadDocx()">dl</button>
         <button type="button" onclick="printDocx()">print</button>
+        <p id="page">
+          page
+          <label class="switch">
+            <input
+              type="checkbox"
+              onchange="switchPage(this.checked)"
+              id="switchPage"
+            />
+            <span class="slider round" id="pageSlider"></span>
+          </label>
+        </p>
       </div>
       <div class="column">
         <div id="viewer"></div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import isEqual from 'lodash/isEqual';
 import pickBy from 'lodash/pickBy';
+import omitBy from 'lodash/omitBy';
 import {Renderer, RendererProps} from 'amis-core';
 import {SchemaNode, Schema, ActionObject, PlainObject} from 'amis-core';
 import {CRUDStore, ICRUDStore} from 'amis-core';
@@ -44,6 +45,8 @@ import {ActionSchema} from './Action';
 import {CardsSchema} from './Cards';
 import {ListSchema} from './List';
 import {TableSchema} from './Table';
+import type {TableRendererEvent} from './Table';
+import type {CardsRendererEvent} from './Cards';
 import {isPureVariable, resolveVariableAndFilter, parseQuery} from 'amis-core';
 
 import type {PaginationProps} from './Pagination';
@@ -73,6 +76,8 @@ export type CRUDToolbarObject = {
    */
   align?: 'left' | 'right';
 };
+
+export type CRUDRendererEvent = TableRendererEvent | CardsRendererEvent;
 
 export interface CRUDCommonSchema extends BaseSchema, SpinnerExtraProps {
   /**
@@ -331,6 +336,19 @@ export interface CRUDProps
   store: ICRUDStore;
   pickerMode?: boolean; // 选择模式，用做表单中的选择操作
 }
+
+const INNER_EVENTS: Array<CRUDRendererEvent> = [
+  'selectedChange',
+  'columnSort',
+  'columnFilter',
+  'columnSearch',
+  'columnToggled',
+  'orderChange',
+  'rowClick',
+  'rowMouseEnter',
+  'rowMouseLeave',
+  'selected'
+];
 
 export default class CRUD extends React.Component<CRUDProps, any> {
   static propsList: Array<keyof CRUDProps> = [
@@ -1504,7 +1522,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         newItems.splice(0, newItems.length - 1)
       );
     }
-
     store.setSelectedItems(newItems);
     store.setUnSelectedItems(newUnSelectedItems);
     onSelect && onSelect(newItems, newUnSelectedItems);
@@ -1671,7 +1688,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     let itemBtns: Array<ActionSchema> = [];
 
     const ctx = createObject(store.mergedData, {
-      currentPageData: store.mergedData.items.concat(),
+      currentPageData: (store.mergedData?.items || []).concat(),
       rows: selectedItems.concat(),
       items: selectedItems.concat(),
       selectedItems: selectedItems.concat(),
@@ -1778,7 +1795,12 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
     const extraProps: Pick<
       PaginationProps,
-      'showPageInput' | 'maxButtons' | 'layout' | 'popOverContainerSelector'
+      | 'showPageInput'
+      | 'maxButtons'
+      | 'layout'
+      | 'popOverContainerSelector'
+      | 'total'
+      | 'perPageAvailable'
     > = {};
 
     /** 优先级：showPageInput显性配置 > (lastPage > 9) */
@@ -1792,6 +1814,11 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       extraProps.popOverContainerSelector = (
         toolbar as Schema
       ).popOverContainerSelector;
+      extraProps.perPageAvailable = (toolbar as Schema).perPageAvailable;
+      extraProps.total = resolveVariableAndFilter(
+        (toolbar as Schema).total,
+        store.data
+      );
     } else {
       extraProps.showPageInput = lastPage > 9;
     }
@@ -2029,7 +2056,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     }
 
     const $$editable = childProps.$$editable;
-
     return render(`toolbar/${index}`, toolbar, {
       // 包两层，主要是为了处理以下 case
       // 里面放了个 form，form 提交过来的时候不希望把 items 这些发送过来。
@@ -2037,8 +2063,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       data: createObject(
         createObject(store.filterData, {
           items: childProps.items,
-          selectedItems: childProps.selectedItems,
-          unSelectedItems: childProps.unSelectedItems
+          selectedItems: store.selectedItems.concat(),
+          unSelectedItems: store.unSelectedItems.concat()
         }),
         {}
       ),
@@ -2108,7 +2134,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       labelField,
       labelTpl,
       primaryField,
-      translate: __
+      translate: __,
+      env
     } = this.props;
 
     if (!store.selectedItems.length) {
@@ -2132,7 +2159,10 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             </span>
             <span className={cx('Crud-valueLabel')}>
               {labelTpl ? (
-                <Html html={filter(labelTpl, item)} />
+                <Html
+                  html={filter(labelTpl, item)}
+                  filterHtml={env.filterHtml}
+                />
               ) : (
                 getVariable(item, labelField || 'label') ||
                 getVariable(item, primaryField || 'id')
@@ -2230,6 +2260,12 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           'body',
           {
             ...rest,
+            // 通用事件 例如cus-event 如果直接透传给table 则会被触发2次
+            // 因此只将下层组件table、cards中自定义事件透传下去 否则通过crud配置了也不会执行
+            onEvent: omitBy(
+              onEvent,
+              (event, key: any) => !INNER_EVENTS.includes(key)
+            ),
             columns: store.columns ?? rest.columns,
             type: mode || 'table'
           },

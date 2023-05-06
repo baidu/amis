@@ -304,7 +304,7 @@ test('Renderer:input-table verifty', async () => {
         data: {
           table: [{}]
         },
-        api: 'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm',
+        api: 'https://aisuda.bce.baidu.com/amis/api/mock2/form/saveForm',
         body: [
           {
             type: 'input-table',
@@ -381,7 +381,7 @@ test('Renderer:input-table cell selects delete', async () => {
             }
           ]
         },
-        api: 'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm',
+        api: 'https://aisuda.bce.baidu.com/amis/api/mock2/form/saveForm',
         body: [
           {
             type: 'input-table',

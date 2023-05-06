@@ -8,7 +8,7 @@ import {
 } from 'amis-editor-core';
 import {getEventControlConfig} from '../renderer/event-control/helper';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
-import type {SchemaObject} from 'amis/lib/Schema';
+import type {SchemaObject} from 'amis';
 import {tipedLabel} from 'amis-editor-core';
 import {jsonToJsonSchema, EditorNodeType} from 'amis-editor-core';
 

@@ -73,8 +73,7 @@
     var(--Toast-paddingBottom) var(--Toast-paddingLeft);
   box-shadow: var(--Toast-box-shadow);
   border-radius: var(--Toast-top-left-border-radius)
-    var(--Toast-top-right-border-radius)
-    var(--Toast-bottom-right-border-radius)
+    var(--Toast-top-right-border-radius) var(--Toast-bottom-right-border-radius)
     var(--Toast-bottom-left-border-radius);
   border: var(--Toast-border-width) solid;
   color: var(--Toast-color);
@@ -106,13 +105,12 @@
     height: var(--gap-xl);
     color: var(--Toast-close-color);
     margin-left: var(--gap-sm);
-    opacity: 0.8;
     align-items: center;
     cursor: pointer;
 
     &:hover {
+      font-size: var(--fontSizeLg);
       color: var(--Toast-close--onHover-color);
-      opacity: 1;
     }
 
     & > svg {
@@ -282,11 +280,9 @@
     left: 50%;
     transform: translate(-50%, -50%);
   }
-
 }
 
 .#{$ns}Toast-mobile {
-
   .#{$ns}Toast {
     background-color: rgba($color: #000000, $alpha: 0.9);
     border-radius: px2rem(4px);

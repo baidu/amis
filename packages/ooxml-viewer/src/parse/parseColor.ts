@@ -3,31 +3,15 @@
  */
 
 import {Color} from '../util/color';
-import {getAttrPercentage, getVal} from '../OpenXML';
+import {getAttrPercent, getVal} from '../OpenXML';
 import {ST_Shd} from '../openxml/Types';
 import Word from '../Word';
+import {PresetColorMap} from './colorNameMap';
 
 /**
  * css 里可以识别的颜色
  */
 export const cssColors = ['black', 'blue', 'green', 'red', 'white', 'yellow'];
-
-/**
- * 浏览器不支持的颜色名字转成 hex，其实这里不少 chrome 也支持，但是为了兼容性，还是转一下
- */
-export const colorNameMap = {
-  cyan: '#00FFFF',
-  magenta: '#FF00FF',
-  darkBlue: '#00008B',
-  darkCyan: '#008B8B',
-  darkGray: '#A9A9A9',
-  darkGreen: '#006400',
-  darkMagenta: '#800080',
-  darkRed: '#8B0000',
-  darkYellow: '#808000',
-  lightGray: '#D3D3D3',
-  none: 'transparent'
-};
 
 /**
  *
@@ -52,8 +36,8 @@ export function parseColorAttr(
        */
     } else if (cssColors.includes(color)) {
       return color;
-    } else if (color in colorNameMap) {
-      return colorNameMap[color as keyof typeof colorNameMap];
+    } else if (color in PresetColorMap) {
+      return PresetColorMap[color as keyof typeof PresetColorMap];
     }
 
     return `#${color}`;
@@ -74,7 +58,7 @@ export function parseShdColor(word: Word, element: Element) {
   const val = getVal(element) as ST_Shd;
 
   if (color === 'auto') {
-    color = '000000';
+    color = 'FFFFFF';
   }
 
   if (color.length === 6) {
@@ -139,6 +123,10 @@ export function parseShdColor(word: Word, element: Element) {
  * 用 alpha 来模拟 ptc 功能
  */
 function colorPercent(color: string, percent: number): string {
+  // 白色取 alpha 没什么意义，转成黑色
+  if (color === 'FFFFFF') {
+    color = '000000';
+  }
   const r = parseInt(color.substring(0, 2), 16);
   const g = parseInt(color.substring(2, 4), 16);
   const b = parseInt(color.substring(4, 6), 16);

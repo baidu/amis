@@ -37,6 +37,7 @@
       cursor: pointer;
       display: inline-block;
       vertical-align: top;
+      line-height: var(--checkbox-checkbox-default-lineHeight);
 
       > a {
         // float: right;
@@ -69,8 +70,16 @@
 
   &--checkbox {
     padding-left: var(--Checkbox-size);
+    font-weight: var(--checkbox-checkbox-default-fontWeight);
     font-size: var(--checkbox-checkbox-default-fontSize);
-    color: var(--checkbox-checkbox-default-color);
+    color: var(--checkbox-checkbox-default-text-color);
+
+    &:hover {
+      color: var(--checkbox-checkbox-hover-text-color);
+    }
+    &:active {
+      color: var(--checkbox-checkbox-active-text-color);
+    }
 
     input {
       margin-left: calc(var(--Checkbox-size) * -1);
@@ -131,7 +140,7 @@
 
       &[disabled] + i + span {
         cursor: not-allowed;
-        color: var(--text--muted-color);
+        color: var(--checkbox-checkbox-disabled-text-color);
       }
     }
 
@@ -454,11 +463,16 @@
     border-color: var(--Checkbox-color);
     &:hover {
       border-color: var(--Checkbox-color) !important;
+      box-shadow: -1px 0 0 0 var(--Checkbox-color) !important;
+      &:first-child {
+        box-shadow: none !important;
+      }
     }
   }
   &--button--disabled--checked.#{$ns}Checkbox--checkbox {
     background: var(--Checkbox-onDisabled-bg);
     border-color: var(--Checkbox-color) !important;
+    box-shadow: none !important;
     &:hover {
       border-color: var(--Checkbox-color) !important;
     }

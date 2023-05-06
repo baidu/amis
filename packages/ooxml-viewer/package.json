@@ -1,6 +1,6 @@
 {
   "name": "ooxml-viewer",
-  "version": "0.1.1",
+  "version": "0.1.3",
   "description": "office 文档在线预览",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -14,7 +14,8 @@
     "coverage": "jest --coverage",
     "declaration": "tsc --project tsconfig-for-declaration.json --allowJs --declaration --emitDeclarationOnly --declarationDir ./lib --rootDir ./src",
     "clean-dist": "rimraf lib/** esm/**",
-    "xsd2ts": "cd tools && ts-node --transpileOnly xsd2ts.ts"
+    "xsd2ts": "cd tools && ts-node --transpileOnly xsd2ts.ts",
+    "conver-preset": "cd tools && ts-node --transpileOnly converDrawingML.ts"
   },
   "exports": {
     ".": {
@@ -60,7 +61,6 @@
     "ts-loader": "^9.2.3",
     "ts-node": "^10.4.0",
     "typescript": "^4.3.5",
-    "vite": "^3.2.2",
     "xml-formatter": "^3.3.2"
   },
   "jest": {

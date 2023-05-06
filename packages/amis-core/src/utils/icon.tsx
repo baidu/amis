@@ -9,6 +9,12 @@ import {ClassNamesFn} from '../theme';
 export interface IconCheckedSchema {
   id: string;
   name?: string;
+  svg?: string;
+}
+
+export interface IconCheckedSchemaNew {
+  type: 'icon';
+  icon: IconCheckedSchema;
 }
 
 /**
@@ -19,10 +25,18 @@ export interface IconCheckedSchema {
  */
 export const generateIcon = (
   cx: ClassNamesFn,
-  icon?: string | IconCheckedSchema | React.ReactNode,
+  icon?: string | IconCheckedSchema | React.ReactNode | IconCheckedSchemaNew,
   className?: string,
   classNameProp?: string
 ) => {
+  if (
+    isObject(icon) &&
+    (icon as IconCheckedSchemaNew).type === 'icon' &&
+    (icon as IconCheckedSchemaNew).icon
+  ) {
+    icon = (icon as IconCheckedSchemaNew).icon;
+  }
+
   if (React.isValidElement(icon)) {
     return icon;
   }

@@ -28,6 +28,10 @@ const fileLists = {
     'svg.xml',
     'sym.xml',
     'shadow.xml',
+    'shape-ellipse.xml',
+    'shape-custom.xml',
+    'all-shape-1.xml',
+    'all-shape-2.xml',
     'tableborder.xml',
     'tablestyle.xml',
     'textbox.xml',
@@ -37,11 +41,12 @@ const fileLists = {
     'textbox-rotation.xml',
     'textbox-order.xml',
     'tooltip.xml',
-    'w.xml'
+    'w.xml',
+    'jianli.docx',
+    'text-background.docx'
   ],
   docx4j: [
     'ArialUnicodeMS.docx',
-    'DOCPROP_builtin.docx',
     'Symbols.docx',
     'Word2007-fonts.docx',
     'chart.docx',
@@ -59,47 +64,66 @@ const fileLists = {
   ]
 };
 
+// local storage 里的 key
+const pageKey = 'page';
+
+const page = !!localStorage.getItem(pageKey) || false;
+
+if (page) {
+  // 不知道为啥，大概是 vite 的问题
+  setTimeout(() => {
+    const pageSwitch = document.getElementById(
+      'switchPage'
+    )! as HTMLInputElement;
+    pageSwitch.checked = true;
+  }, 0);
+}
+
+(window as any).switchPage = (checked: boolean) => {
+  if (checked) {
+    localStorage.setItem(pageKey, 'true');
+  } else {
+    localStorage.removeItem(pageKey);
+  }
+
+  location.reload();
+};
+
 /**
  * 生成左侧文件列表
  */
-(function genFileList() {
-  const fileListElement = document.getElementById('fileList')!;
-  for (const dirName in fileLists) {
-    fileListElement.innerHTML += `<h2 class="dir">${dirName}</h2>`;
-    const dir = dirName as keyof typeof fileLists;
-    for (const file of fileLists[dir]) {
-      const fileName = file.split('.')[0];
-      fileListElement.innerHTML += `<div class="file" data-path="${dirName}/${file}" title="${file}">${fileName}</div>`;
-    }
-  }
 
-  document.querySelectorAll('.file').forEach(file => {
-    file.addEventListener('click', elm => {
-      const fileName = (elm.target as Element).getAttribute('data-path')!;
-      history.pushState({fileName}, fileName, `?file=${fileName}`);
-      renderDocx(fileName);
-    });
+const fileListElement = document.getElementById('fileList')!;
+for (const dirName in fileLists) {
+  fileListElement.innerHTML += `<h2 class="dir">${dirName}</h2>`;
+  const dir = dirName as keyof typeof fileLists;
+  for (const file of fileLists[dir]) {
+    const fileName = file.split('.')[0];
+    fileListElement.innerHTML += `<div class="file" data-path="${dirName}/${file}" title="${file}">${fileName}</div>`;
+  }
+}
+
+document.querySelectorAll('.file').forEach(file => {
+  file.addEventListener('click', elm => {
+    const fileName = (elm.target as Element).getAttribute('data-path')!;
+    history.pushState({fileName}, fileName, `?file=${fileName}`);
+    renderDocx(fileName);
   });
-})();
+});
 
 const data = {
   var: 'amis'
 };
-
-function replaceText(text: string) {
-  // 将 {{xxx}} 替换成 ${xxx}，为啥要这样呢，因为输入 $ 可能会变成两段文本
-  text = text.replace(/{{/g, '${').replace(/}}/g, '}');
-  return text;
-}
+const renderOptions = {
+  debug: true,
+  page
+};
 
 async function renderDocx(fileName: string) {
   const filePath = `${testDir}/${fileName}`;
   const file = await (await fetch(filePath)).arrayBuffer();
   let word: Word;
-  const renderOptions = {
-    debug: true
-    // replaceText
-  };
+
   if (filePath.endsWith('.xml')) {
     word = new Word(file, renderOptions, new XMLPackageParser());
   } else {
@@ -153,9 +177,9 @@ function renderWord(file: File) {
     const data = reader.result as ArrayBuffer;
     let word;
     if (file.name.endsWith('.xml')) {
-      word = new Word(data, {}, new XMLPackageParser());
+      word = new Word(data, renderOptions, new XMLPackageParser());
     } else {
-      word = new Word(data, {});
+      word = new Word(data, renderOptions);
     }
     word.render(viewerElement);
   };

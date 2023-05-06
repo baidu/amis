@@ -18,7 +18,6 @@ import {
   needDefaultWidth,
   guid,
   addStyleClassName,
-  setThemeDefaultData,
   appTranslate
 } from '../../src/util';
 import {
@@ -42,7 +41,7 @@ import {
   JSONPipeOut,
   JSONUpdate
 } from '../util';
-import {Schema} from 'amis';
+import type {Schema} from 'amis';
 import {toast, resolveVariable} from 'amis';
 import find from 'lodash/find';
 import {InsertSubRendererPanel} from '../component/Panel/InsertSubRendererPanel';
@@ -530,8 +529,7 @@ export const MainStore = types
       getValueOf(id: string) {
         const schema = JSONGetById(self.schema, id);
         const data = JSONPipeOut(schema, false);
-        const res = setThemeDefaultData(data);
-        return res;
+        return data;
       },
 
       get valueWithoutHiddenProps() {
@@ -548,8 +546,6 @@ export const MainStore = types
                 key !== '$$commonSchema') ||
               typeof props === 'function' || // pipeIn 和 pipeOut
               key.substring(0, 2) === '__' ||
-              key === 'themeCss' ||
-              key === 'editorPath' ||
               key === 'editorState') // 样式不需要出现做json中,
         );
       },

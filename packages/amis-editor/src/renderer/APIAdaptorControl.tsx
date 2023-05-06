@@ -53,7 +53,6 @@ export default class APIAdaptorControl extends React.Component<
   APIAdaptorControlProps,
   APIAdaptorControlState
 > {
-
   static defaultProps: Pick<APIAdaptorControlProps, 'params'> = {
     params: []
   };
@@ -89,13 +88,12 @@ export default class APIAdaptorControl extends React.Component<
       ...(typeof content === 'string'
         ? {content}
         : {
-          content: ' ', // amis缺陷，必须有这个字段，否则显示不出来
-          children: () => content
-        }
-      ),
-      ...this.props.tooltipProps || {},
-      ...othersProps || {}
-    }
+            content: ' ', // amis缺陷，必须有这个字段，否则显示不出来
+            children: () => content
+          }),
+      ...(this.props.tooltipProps || {}),
+      ...(othersProps || {})
+    };
   }
 
   renderEditor() {
@@ -114,8 +112,8 @@ export default class APIAdaptorControl extends React.Component<
       mergeParams
     } = this.props;
 
-    const lastParams = typeof mergeParams === 'function'
-      ? mergeParams(params) : params;
+    const lastParams =
+      typeof mergeParams === 'function' ? mergeParams(params) : params;
 
     return render('api-adaptor-control-editor', [
       {
@@ -124,20 +122,22 @@ export default class APIAdaptorControl extends React.Component<
         body: [
           '<span class="mtk6">function&nbsp;</span>',
           '<span class="mtk1 bracket-highlighting-0">(</span>',
-          ...lastParams.map(({label, tip}, index) => {
-            return [
-              {
-                type: 'button',
-                level: 'link',
-                label,
-                className: 'ae-AdaptorControl-func-arg',
-                ...tip ? {tooltip: this.genTooltipProps(tip)} : {}
-              },
-              ...(index === lastParams.length - 1
-                ? [] : ['<span class="mtk1">,&nbsp;</span>']
-              )
-            ]
-          }).flat(),
+          ...lastParams
+            .map(({label, tip}, index) => {
+              return [
+                {
+                  type: 'button',
+                  level: 'link',
+                  label,
+                  className: 'ae-AdaptorControl-func-arg',
+                  ...(tip ? {tooltip: this.genTooltipProps(tip)} : {})
+                },
+                ...(index === lastParams.length - 1
+                  ? []
+                  : ['<span class="mtk1">,&nbsp;</span>'])
+              ];
+            })
+            .flat(),
           '<span class="mtk1 bracket-highlighting-0">)&nbsp;{</span>'
         ]
       },
@@ -190,20 +190,20 @@ export default class APIAdaptorControl extends React.Component<
             });
           }
         },
-        ...switchTip ? [
-          <TooltipWrapper
-            key="TooltipWrapper"
-            tooltip={this.genTooltipProps(switchTip, {
-              placement: 'right'
-            })}
-          >
-            <Icon
-              icon="editor-help"
-              className="icon"
-              color="#84868c"
-            />
-          </TooltipWrapper>
-        ] : []
+        ...(switchTip
+          ? [
+              <TooltipWrapper
+                key="TooltipWrapper"
+                tooltip={
+                  this.genTooltipProps(switchTip, {
+                    placement: 'right'
+                  }) as any
+                }
+              >
+                <Icon icon="editor-help" className="icon" color="#84868c" />
+              </TooltipWrapper>
+            ]
+          : [])
       ]
     });
   }
@@ -216,7 +216,7 @@ export default class APIAdaptorControl extends React.Component<
         {this.renderSwitch()}
         {this.renderEditor()}
       </div>
-    )
+    );
   }
 }
 @FormItem({
@@ -232,11 +232,14 @@ export class APIAdaptorControlRenderer extends APIAdaptorControl {}
  */
 const genCodeSchema = (code: string, size?: string[]) => ({
   type: 'container',
-  ...!size ? {}
-    : {style: {
-      width: size[0],
-      height: size[1]
-    }},
+  ...(!size
+    ? {}
+    : {
+        style: {
+          width: size[0],
+          height: size[1]
+        }
+      }),
   body: {
     type: 'code',
     language: 'typescript',
@@ -246,8 +249,7 @@ const genCodeSchema = (code: string, size?: string[]) => ({
 });
 
 // 请求适配器 示例代码
-export const requestAdaptorDefaultCode =
-`api.data.count = api.data.count + 1;
+export const requestAdaptorDefaultCode = `api.data.count = api.data.count + 1;
 return api;`;
 
 // 适配器 适配器 api 参数说明
@@ -259,9 +261,9 @@ export const adaptorApiStruct = `{
   ...
 }`;
 
-export const adaptorApiStructTooltip =
-  render(genCodeSchema(adaptorApiStruct, ['350px', '128px']))
-;
+export const adaptorApiStructTooltip = render(
+  genCodeSchema(adaptorApiStruct, ['350px', '128px'])
+);
 
 // 适配器 response 参数说明
 export const adaptorResponseStruct = `{
@@ -273,13 +275,12 @@ export const adaptorResponseStruct = `{
   ...
 }`;
 
-export const adaptorResponseStructTooltip =
-  render(genCodeSchema(adaptorResponseStruct, ['345px', '144px']))
-;
+export const adaptorResponseStructTooltip = render(
+  genCodeSchema(adaptorResponseStruct, ['345px', '144px'])
+);
 
 // 接收适配器 示例代码
-export const adaptorDefaultCode =
-`// API响应或自定义处理后需要符合以下格式
+export const adaptorDefaultCode = `// API响应或自定义处理后需要符合以下格式
 return {
     status: 0, // 0 表示请求成功，否则按错误处理
     msg: '请求成功',
@@ -291,8 +292,7 @@ return {
     }
 }`;
 
-export const validateApiAdaptorDefaultCode =
-`// 校验成功
+export const validateApiAdaptorDefaultCode = `// 校验成功
 return {
     status: 0
 };

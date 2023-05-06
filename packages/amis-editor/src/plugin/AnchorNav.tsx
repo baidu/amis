@@ -21,7 +21,7 @@ export class AnchorNavPlugin extends BasePlugin {
   description =
     '锚点导航，在多行内容展示时，可以将内容用锚点导航分组的形式展示，点击导航菜单可以定位到对应内容区域。';
   docLink = '/amis/zh-CN/components/anchor-nav';
-  tags = ['容器'];
+  tags = ['功能'];
   icon = 'fa fa-link';
   pluginIcon = 'anchor-nav-plugin';
   scaffold = {

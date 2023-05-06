@@ -24,5 +24,6 @@ export async function snapShotTest(filePath: string) {
   const word = createWord(filePath, {});
   await word.render(root);
 
-  expect(root).toMatchSnapshot();
+  // 样式后续单独测试，不然太多冗余了
+  expect(root.getElementsByTagName('article')[0]).toMatchSnapshot();
 }

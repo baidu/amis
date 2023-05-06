@@ -448,7 +448,6 @@ import {generateIcon} from 'amis-core';
 import {withBadge} from 'amis-ui';
 import {normalizeApi, str2AsyncFunction} from 'amis-core';
 import {TooltipWrapper} from 'amis-ui';
-import {ICmptAction} from 'amis-core/lib/actions/CmptAction';
 
 // 构造一个假的 React 事件避免可能的报错，主要用于快捷键功能
 // 来自 https://stackoverflow.com/questions/27062455/reactjs-can-i-create-my-own-syntheticevent
@@ -978,7 +977,8 @@ export class ActionRenderer extends React.Component<ActionRendererProps> {
         // 触发渲染器事件
         const rendererEvent = await dispatchEvent(
           e as React.MouseEvent<any> | string,
-          mergedData
+          mergedData,
+          this // 保证renderer可以拿到，避免因交互设计导致的清空情况，例如crud内itemAction
         );
 
         // 阻止原有动作执行

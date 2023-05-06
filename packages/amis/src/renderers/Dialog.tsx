@@ -570,7 +570,11 @@ export default class Dialog extends React.Component<DialogProps> {
                 onClick={this.handleSelfClose}
                 className={cx('Modal-close')}
               >
-                <Icon icon="close" className="icon" />
+                <Icon
+                  icon="close"
+                  className="icon"
+                  iconContent="Dialog-close"
+                />
               </a>
             ) : null}
             <div className={cx('Modal-title')}>
@@ -585,7 +589,11 @@ export default class Dialog extends React.Component<DialogProps> {
                 onClick={this.handleSelfClose}
                 className={cx('Modal-close')}
               >
-                <Icon icon="close" className="icon" />
+                <Icon
+                  icon="close"
+                  className="icon"
+                  iconContent="Dialog-close"
+                />
               </a>
             ) : null}
             {render('title', title, {
@@ -599,7 +607,7 @@ export default class Dialog extends React.Component<DialogProps> {
             onClick={this.handleSelfClose}
             className={cx('Modal-close')}
           >
-            <Icon icon="close" className="icon" />
+            <Icon icon="close" className="icon" iconContent="Dialog-close" />
           </a>
         ) : null}
 
@@ -821,7 +829,11 @@ export class DialogRenderer extends Dialog {
       // clear error
       store.updateMessage();
       onClose();
-      action.close && this.closeTarget(action.close);
+      if (action.close) {
+        action.close === true
+          ? this.handleSelfClose()
+          : this.closeTarget(action.close);
+      }
     } else if (action.actionType === 'confirm') {
       const rendererEvent = await dispatchEvent(
         'confirm',
@@ -872,7 +884,9 @@ export class DialogRenderer extends Dialog {
       action.target && scoped.reload(action.target, data);
       if (action.close || action.type === 'submit') {
         this.handleSelfClose(undefined, action.type === 'submit');
-        this.closeTarget(action.close);
+        action.close &&
+          typeof action.close === 'string' &&
+          this.closeTarget(action.close);
       }
     } else if (this.tryChildrenToHandle(action, data)) {
       // do nothing
@@ -894,8 +908,9 @@ export class DialogRenderer extends Dialog {
           action.reload &&
             this.reloadTarget(filter(action.reload, store.data), store.data);
           if (action.close) {
-            this.handleSelfClose();
-            this.closeTarget(action.close);
+            action.close === true
+              ? this.handleSelfClose()
+              : this.closeTarget(action.close);
           }
         })
         .catch(e => {
@@ -904,7 +919,7 @@ export class DialogRenderer extends Dialog {
           }
         });
     } else if (onAction) {
-      let ret = onAction(
+      await onAction(
         e,
         {
           ...action,
@@ -914,10 +929,12 @@ export class DialogRenderer extends Dialog {
         throwErrors,
         delegate || this.context
       );
-      action.close &&
-        (ret && ret.then
-          ? ret.then(this.handleSelfClose)
-          : setTimeout(this.handleSelfClose, 200));
+
+      if (action.close) {
+        action.close === true
+          ? this.handleSelfClose()
+          : this.closeTarget(action.close);
+      }
     }
   }
 

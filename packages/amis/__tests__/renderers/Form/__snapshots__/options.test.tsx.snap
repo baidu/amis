@@ -85,6 +85,7 @@ exports[`options:linkage 1`] = `
       >
         <label
           class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+          data-role="checkbox"
         >
           <input
             type="radio"
@@ -98,6 +99,7 @@ exports[`options:linkage 1`] = `
         </label>
         <label
           class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+          data-role="checkbox"
         >
           <input
             type="radio"
@@ -200,6 +202,7 @@ exports[`options:linkage 2`] = `
       >
         <label
           class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+          data-role="checkbox"
         >
           <input
             disabled=""
@@ -214,6 +217,7 @@ exports[`options:linkage 2`] = `
         </label>
         <label
           class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+          data-role="checkbox"
         >
           <input
             type="radio"
@@ -316,6 +320,7 @@ exports[`options:linkage 3`] = `
       >
         <label
           class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+          data-role="checkbox"
         >
           <input
             type="radio"
@@ -418,6 +423,7 @@ exports[`options:linkage 4`] = `
       >
         <label
           class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+          data-role="checkbox"
         >
           <input
             type="radio"
@@ -431,6 +437,7 @@ exports[`options:linkage 4`] = `
         </label>
         <label
           class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+          data-role="checkbox"
         >
           <input
             type="radio"
@@ -444,6 +451,7 @@ exports[`options:linkage 4`] = `
         </label>
         <label
           class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+          data-role="checkbox"
         >
           <input
             type="radio"

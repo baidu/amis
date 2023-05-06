@@ -11,7 +11,7 @@ export class StepsPlugin extends BasePlugin {
   $schema = '/schemas/StepsSchema.json';
 
   // 组件名称
-  name = 'Steps 步骤条';
+  name = '步骤条';
   isBaseComponent = true;
   icon = 'fa fa-forward';
   pluginIcon = 'steps-plugin';

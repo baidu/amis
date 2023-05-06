@@ -55,7 +55,7 @@ import ColumnToggler from './ColumnToggler';
 import {offset} from 'amis-core';
 import {getStyleNumber} from 'amis-core';
 import {exportExcel} from './exportExcel';
-import type {IColumn, IRow} from 'amis-core/lib/store/table';
+import type {IColumn, IRow} from 'amis-core';
 import intersection from 'lodash/intersection';
 
 /**
@@ -400,6 +400,7 @@ export type ExportExcelToolbar = SchemaNode & {
   filename?: string;
 };
 
+// 如果这里的事件调整，对应CRUD里的事件配置也需要同步修改
 export type TableRendererEvent =
   | 'selectedChange'
   | 'columnSort'
@@ -407,7 +408,9 @@ export type TableRendererEvent =
   | 'columnSearch'
   | 'columnToggled'
   | 'orderChange'
-  | 'rowClick';
+  | 'rowClick'
+  | 'rowMouseEnter'
+  | 'rowMouseLeave';
 
 export type TableRendererAction =
   | 'selectAll'
@@ -1966,6 +1969,7 @@ export default class Table extends React.Component<TableProps, object> {
     if (column.searchable && column.name && !autoGenerateFilter) {
       affix.push(
         <HeadCellSearchDropDown
+          {...props}
           key="table-head-search"
           {...this.props}
           onQuery={onQuery}
@@ -1983,6 +1987,7 @@ export default class Table extends React.Component<TableProps, object> {
     if (column.sortable && column.name) {
       affix.push(
         <span
+          {...props}
           key="table-head-sort"
           className={cx('TableCell-sortBtn')}
           onClick={async () => {
@@ -2469,6 +2474,7 @@ export default class Table extends React.Component<TableProps, object> {
       store,
       classPrefix: ns,
       classnames: cx,
+      affixRow,
       ...rest
     } = this.props;
     const __ = rest.translate;
@@ -2478,6 +2484,10 @@ export default class Table extends React.Component<TableProps, object> {
     if (!store.columnsTogglable) {
       return null;
     }
+
+    // 不能取消到比总结行要少
+    // 否则总结行将显示不全
+    const min = Math.max(Array.isArray(affixRow) ? affixRow.length : 0, 1);
 
     return (
       <ColumnToggler
@@ -2524,7 +2534,7 @@ export default class Table extends React.Component<TableProps, object> {
                 return;
               }
 
-              store.toggleAllColumns();
+              store.toggleAllColumns(min);
             }}
           >
             <Checkbox
@@ -2570,7 +2580,7 @@ export default class Table extends React.Component<TableProps, object> {
                 return;
               }
 
-              column.toggleToggle();
+              column.toggleToggle(min);
             }}
           >
             <Checkbox size="sm" classPrefix={ns} checked={column.toggled}>
@@ -2622,7 +2632,6 @@ export default class Table extends React.Component<TableProps, object> {
       data,
       render
     } = this.props;
-
     let columns = store.filteredColumns || [];
 
     if (!columns) {

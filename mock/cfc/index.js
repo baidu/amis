@@ -1,6 +1,7 @@
 // cfc 入口。
 exports.handler = (event, context, callback) => {
   try {
+    // @ts-ignore
     const entry = require('./mock/index');
     entry(mockRequest(event, context), mockResponse(event, context, callback));
   } catch (e) {

@@ -170,42 +170,42 @@ exports[`Renderer:range with marks 1`] = `
                   class="cxd-InputRange-marks"
                 >
                   <div
-                    style="left: 0%;"
+                    style="left: 0%; width: 10%;"
                   >
                     <span>
                       0
                     </span>
                   </div>
                   <div
-                    style="left: 20%;"
+                    style="left: 20%; width: 10%;"
                   >
                     <span>
                       20Mbps
                     </span>
                   </div>
                   <div
-                    style="left: 40%;"
+                    style="left: 40%; width: 10%;"
                   >
                     <span>
                       40Mbps
                     </span>
                   </div>
                   <div
-                    style="left: 60%;"
+                    style="left: 60%; width: 10%;"
                   >
                     <span>
                       60Mbps
                     </span>
                   </div>
                   <div
-                    style="left: 80%;"
+                    style="left: 80%; width: 10%;"
                   >
                     <span>
                       80Mbps
                     </span>
                   </div>
                   <div
-                    style="left: 100%;"
+                    style="left: 100%; width: 10%;"
                   >
                     <span>
                       100

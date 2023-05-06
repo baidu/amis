@@ -53,6 +53,19 @@
       align-items: center;
       justify-content: flex-start;
       overflow: hidden;
+
+      img.icon {
+        height: var(--sizes-size-7);
+        margin-right: var(--sizes-size-4);
+      }
+
+      &-str-svg {
+        height: var(--fontSizeBase);
+        svg {
+          width: 100%;
+          height: 100%;
+        }
+      }
     }
 
     &-wrapper {

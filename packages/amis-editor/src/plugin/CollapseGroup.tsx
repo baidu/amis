@@ -15,7 +15,7 @@ export class CollapseGroupPlugin extends BasePlugin {
   isBaseComponent = true;
   description =
     '折叠面板，当信息量较大且分类较多时，可使用折叠面板进行分类收纳。';
-  tags = ['展示', '容器'];
+  tags = ['布局容器'];
   icon = 'fa fa-align-justify';
   pluginIcon = 'collapse-plugin';
   scaffold = {

@@ -66,8 +66,8 @@ import findIndex from 'lodash/findIndex';
 import {EditorDNDManager} from './dnd';
 import {VariableManager} from './variable';
 import {IScopedContext} from 'amis';
-import {SchemaObject, SchemaCollection} from 'amis/lib/Schema';
-import type {RendererConfig} from 'amis-core/lib/factory';
+import type {SchemaObject, SchemaCollection} from 'amis';
+import type {RendererConfig} from 'amis-core';
 import isPlainObject from 'lodash/isPlainObject';
 import {omit} from 'lodash';
 
@@ -132,7 +132,9 @@ export function registerEditorPlugin(klass: PluginClass) {
  */
 export function getEditorPlugins(options: any = {}) {
   const {scene = 'global'} = options;
-  return builtInPlugins.filter(item => item.scene?.includes(scene));
+  return builtInPlugins.filter(item =>
+    (Array.isArray(item) ? item[0] : item).scene?.includes(scene)
+  );
 }
 
 /**
@@ -160,9 +162,6 @@ export class EditorManager {
   // Chrome 要求必须 https 才能支持读剪贴板，所以基于内存实现
   private clipboardData: string;
   readonly hackIn: any;
-
-  // 用于记录amis渲染器的上下文数据
-  amisStore: Object = {};
 
   // 广播事件集
   readonly broadcasts: RendererPluginEvent[] = [];
@@ -330,9 +329,18 @@ export class EditorManager {
     );
   }
 
-  normalizeScene(plugins?: Array<PluginClass>) {
+  normalizeScene(
+    plugins?: Array<
+      | PluginClass
+      | [PluginClass, Record<string, any> | (() => Record<string, any>)]
+    >
+  ) {
     return (
-      plugins?.map((klass: PluginClass) => {
+      plugins?.map(klass => {
+        if (Array.isArray(klass)) {
+          klass = klass[0];
+        }
+
         // 处理插件身上的场景信息
         const scene = Array.from(
           new Set(['global'].concat(klass.scene || 'global'))
@@ -376,13 +384,6 @@ export class EditorManager {
       }
 
       this.buildRenderers();
-    }
-  }
-
-  // 更新amis渲染器上下文
-  updateAMISContext(amisStore: Object) {
-    if (amisStore) {
-      this.amisStore = amisStore;
     }
   }
 
@@ -740,6 +741,7 @@ export class EditorManager {
       type: event,
       fn
     });
+    return () => this.off(event, fn);
   }
 
   off(event: string, fn: PluginEventFn) {

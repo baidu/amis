@@ -57,6 +57,9 @@ function hue2rgb(p: number, q: number, t: number) {
  * @return  Array           The RGB representation
  */
 function hslToRgb(h: number, s: number, l: number) {
+  if (h > 1) {
+    h = h / 360;
+  }
   var r, g, b;
 
   if (s == 0) {
@@ -91,6 +94,13 @@ function rgbToHex(r: number, g: number, b: number) {
   return hex.join('').toUpperCase();
 }
 
+/**
+ * 避免颜色值超出范围，适用于 rgb
+ */
+function toValidColor(c: number) {
+  return Math.min(Math.max(c, 0), 255);
+}
+
 export class Color {
   r: number;
   g: number;
@@ -108,35 +118,130 @@ export class Color {
     }
   }
 
+  static fromHSL(h: number, s: number, l: number) {
+    const rgb = hslToRgb(h, s, l);
+    return new Color(`#${rgbToHex(rgb.r, rgb.g, rgb.b)}`);
+  }
+
+  static fromRGB(r: number, g: number, b: number) {
+    const rgb = rgbToHex(r, g, b);
+    return new Color(`#${rgb}`);
+  }
+
+  /**
+   * 设置 lum
+   */
+  lum(l: number) {
+    return this.changeHsl(l, 'l', 'set');
+  }
+
   /**
    * 改变 lum 百分比，其实不太对，但差不太多
-   * @param lum 百分比，比如 2 相当于 200 %
+   * @param l 百分比，比如 2 相当于 200 %
    */
-  lumMod(lum: number) {
-    const hsl = rgbToHsl(this.r, this.g, this.b);
-    hsl.l = hsl.l * lum;
-    hsl.l = Math.min(1, Math.max(0, hsl.l));
-    const rgb = hslToRgb(hsl.h, hsl.s, hsl.l);
-    this.r = rgb.r;
-    this.g = rgb.g;
-    this.b = rgb.b;
+  lumMod(l: number) {
+    return this.changeHsl(l, 'l', 'mod');
   }
 
   /**
    * 改变百分比
-   * @param lum 百分比，比如 -0.2 相当于减少 20 %
+   * @param l 百分比，比如 -0.2 相当于减少 20 %
    */
-  lumOff(lum: number) {
+  lumOff(l: number) {
+    return this.changeHsl(l, 'l', 'off');
+  }
+
+  /**
+   * h 取值范围是 0-1
+   */
+  hue(h: number) {
+    return this.changeHsl(h, 'h', 'set');
+  }
+
+  hueMod(h: number) {
+    return this.changeHsl(h, 'h', 'mod');
+  }
+
+  hueOff(h: number) {
+    return this.changeHsl(h, 'h', 'off');
+  }
+
+  sat(s: number) {
+    return this.changeHsl(s, 's', 'set');
+  }
+
+  satMod(s: number) {
+    return this.changeHsl(s, 's', 'mod');
+  }
+
+  satOff(s: number) {
+    return this.changeHsl(s, 's', 'off');
+  }
+
+  /**
+   * 修改 hsl 中某个部分的值
+   */
+  changeHsl(
+    num: number,
+    com: 'h' | 's' | 'l',
+    changeType: 'set' | 'mod' | 'off'
+  ) {
     const hsl = rgbToHsl(this.r, this.g, this.b);
-    hsl.l += hsl.l * lum;
-    hsl.l = Math.min(1, Math.max(0, hsl.l));
+    if (changeType === 'set') {
+      hsl[com] = num;
+    } else if (changeType === 'mod') {
+      hsl[com] = hsl[com] * num;
+    } else if (changeType === 'off') {
+      hsl[com] += hsl[com] * num;
+    }
+
     const rgb = hslToRgb(hsl.h, hsl.s, hsl.l);
     this.r = rgb.r;
     this.g = rgb.g;
     this.b = rgb.b;
+    return this;
+  }
+
+  /**
+   * 互补色
+   */
+  comp() {
+    const hsl = rgbToHsl(this.r, this.g, this.b);
+    hsl.h = hsl.h + 0.5;
+    if (hsl.h > 1) {
+      hsl.h -= 1;
+    }
+    const rgb = hslToRgb(hsl.h, hsl.s, hsl.l);
+    this.r = rgb.r;
+    this.g = rgb.g;
+    this.b = rgb.b;
+    return this;
+  }
+
+  shade(s: number) {
+    this.r = toValidColor(this.r - 256 * s);
+    this.g = toValidColor(this.g - 256 * s);
+    this.b = toValidColor(this.b - 256 * s);
+  }
+
+  tint(t: number) {
+    this.r = toValidColor(this.r + 256 * t);
+    this.g = toValidColor(this.g + 256 * t);
+    this.b = toValidColor(this.b + 256 * t);
+  }
+
+  inv() {
+    this.r = 255 - this.r;
+    this.g = 255 - this.g;
+    this.b = 255 - this.b;
+    return this;
   }
 
   toHex() {
     return '#' + rgbToHex(this.r, this.g, this.b);
+  }
+
+  toRgba(alpha: number) {
+    return `rgba(${this.r}, ${this.g}, ${this.b}, ${alpha})`;
   }
 }

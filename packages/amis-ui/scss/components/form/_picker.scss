@@ -174,7 +174,7 @@
       top: 0;
     }
 
-    & > svg {
+    svg {
       width: var(--Pick-base-icon-size);
       height: var(--Pick-base-icon-size);
     }
@@ -182,6 +182,12 @@
     &:hover {
       color: var(--Picker-onHover-iconColor);
     }
+  }
+
+  .Picker-icon {
+    width: var(--Pick-base-icon-size);
+    height: var(--Pick-base-icon-size);
+    content: var(--Pick-base-icon);
   }
 
   &-clear {

@@ -12,8 +12,6 @@ export class RadiosControlPlugin extends BasePlugin {
   rendererName = 'radios';
   $schema = '/schemas/RadiosControlSchema.json';
 
-  order = -460;
-
   // 组件名称
   name = '单选框';
   isBaseComponent = true;

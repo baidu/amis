@@ -13,22 +13,22 @@ const directionText: any = {
   'row': ['左对齐', '右对齐', '顶部对齐', '底部对齐'],
   'column': ['顶部对齐', '底部对齐', '左对齐', '右对齐'],
   'row-reverse': ['右对齐', '左对齐', '顶部对齐', '底部对齐'],
-  'column-reverse': ['底部对齐', '顶部对齐', '左对齐', '右对齐'],
-}
+  'column-reverse': ['底部对齐', '顶部对齐', '左对齐', '右对齐']
+};
 
 const scaleX: any = {
   'row': '',
   'column': 'scaleX-90',
   'row-reverse': 'scaleX-180',
-  'column-reverse': 'scaleX-270',
-}
+  'column-reverse': 'scaleX-270'
+};
 
 const scaleY: any = {
   'row': '',
   'column': 'scaleX-270',
   'row-reverse': '',
-  'column-reverse': 'scaleX-270',
-}
+  'column-reverse': 'scaleX-270'
+};
 
 interface FlexSettingControlProps extends FormControlProps {
   onChange: (value: PlainObject) => void;
@@ -116,7 +116,7 @@ const getFlexItem = (props: FlexSettingControlProps) => {
       iconClassName: scaleY[curDirection]
     },
     {
-      label:  directionText[curDirection][3],
+      label: directionText[curDirection][3],
       value: 'flex-end',
       icon: 'aFlexEnd',
       iconClassName: scaleY[curDirection]
@@ -197,6 +197,6 @@ export default class FlexSettingControl extends React.Component<FlexSettingContr
 }
 
 @FormItem({
-  type: 'flex-setting'
+  type: 'flex-layout-setting'
 })
 export class FlexSettingControlRenderer extends FlexSettingControl {}

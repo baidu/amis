@@ -845,6 +845,27 @@ export function findTree<T extends TreeItem>(
 }
 
 /**
+ * 在树中查找节点。
+ * @param tree
+ * @param iterator
+ */
+export function findTreeAll<T extends TreeItem>(
+  tree: Array<T>,
+  iterator: (item: T, key: number, level: number, paths: Array<T>) => any
+): Array<T> {
+  let result: Array<T> = [];
+
+  everyTree(tree, (item, key, level, paths) => {
+    if (iterator(item, key, level, paths)) {
+      result.push(item);
+    }
+    return true;
+  });
+
+  return result;
+}
+
+/**
  * 在树中查找节点, 返回下标数组。
  * @param tree
  * @param iterator
@@ -1429,6 +1450,18 @@ export function loadScript(src: string) {
   });
 }
 
+export function loadStyle(href: string) {
+  return new Promise<void>((ok, fail) => {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.onerror = reason => fail(reason);
+    link.onload = () => ok();
+
+    link.href = href;
+    document.head.appendChild(link);
+  });
+}
+
 export class SkipOperation extends Error {}
 
 /**
@@ -1646,7 +1679,9 @@ export function isClickOnInput(e: React.MouseEvent<HTMLElement>) {
   if (
     !e.currentTarget.contains(target) ||
     ~['INPUT', 'TEXTAREA'].indexOf(target.tagName) ||
-    ((formItem = target.closest(`button, a, [data-role="form-item"]`)) &&
+    ((formItem = target.closest(
+      `button, a, [data-role="form-item"], label[data-role="checkbox"]`
+    )) &&
       e.currentTarget.contains(formItem))
   ) {
     return true;

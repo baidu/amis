@@ -11,6 +11,10 @@ export interface FormulaPickerProps {
   initable?: boolean;
   variableMode?: 'tabs' | 'tree';
   evalMode?: boolean;
+  /**
+   * 弹窗顶部标题，默认为 "表达式"
+   */
+  header: string;
 }
 
 export interface CustomFormulaPickerProps extends FormulaPickerProps {
@@ -48,9 +52,9 @@ const FormulaPicker: React.FC<FormulaPickerProps> = props => {
       closeOnEsc
     >
       <Modal.Body>
-        <FormulaEditor
+      <FormulaEditor
           {...props}
-          header="表达式"
+          header={props.header || '表达式'}
           variables={variables}
           variableMode={variableMode}
           value={formula}

@@ -50,6 +50,6 @@ export default class ButtonGroupControl extends React.Component<ButtonGroupContr
   }
 }
 @FormItem({
-  type: 'button-icon-group'
+  type: 'icon-button-group'
 })
 export class ButtonGroupControlRenderer extends ButtonGroupControl {}

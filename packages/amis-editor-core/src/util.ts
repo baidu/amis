@@ -8,7 +8,7 @@ import DeepDiff, {Diff} from 'deep-diff';
 import isPlainObject from 'lodash/isPlainObject';
 import isNumber from 'lodash/isNumber';
 import type {Schema} from 'amis';
-import {SchemaObject} from 'amis/lib/Schema';
+import type {SchemaObject} from 'amis';
 import {assign, cloneDeep} from 'lodash';
 import {getGlobalData} from 'amis-theme-editor-helper';
 
@@ -42,6 +42,7 @@ export {
 };
 
 export let themeConfig: any = {};
+export let themeOptionsData: any = {};
 
 export function __uri(id: string) {
   return id;
@@ -713,9 +714,6 @@ export function filterSchemaForEditor(schema: any): any {
       }
     });
     const finalSchema = modified ? mapped : schema;
-    if (finalSchema?.type) {
-      return setThemeDefaultData(finalSchema);
-    }
     return finalSchema;
   }
 
@@ -1096,12 +1094,28 @@ export function needFillPlaceholder(curProps: any) {
 // 设置主题数据
 export function setThemeConfig(config: any) {
   themeConfig = config;
+  themeOptionsData = getGlobalData(themeConfig);
 }
 
 // 将主题数据传入组件的schema
 export function setThemeDefaultData(data: any) {
   const schemaData = cloneDeep(data);
   schemaData.themeConfig = themeConfig;
-  assign(schemaData, getGlobalData(themeConfig));
+  assign(schemaData, themeOptionsData);
+  return schemaData;
+}
+
+// 删除主题的配置数据
+export function deleteThemeConfigData(data: any) {
+  if (!data) {
+    return data;
+  }
+  const schemaData = cloneDeep(data);
+
+  delete schemaData.themeConfig;
+  Object.keys(themeOptionsData).forEach(key => {
+    delete schemaData[key];
+  });
+
   return schemaData;
 }

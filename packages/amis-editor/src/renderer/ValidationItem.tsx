@@ -9,7 +9,7 @@ import {render, Button, Switch} from 'amis';
 import {autobind, getI18nEnabled} from 'amis-editor-core';
 import {Validator} from '../validator';
 import {tipedLabel} from 'amis-editor-core';
-import {SchemaCollection} from 'amis/lib/Schema';
+import type {SchemaCollection} from 'amis';
 
 export type ValidatorData = {
   name: string;

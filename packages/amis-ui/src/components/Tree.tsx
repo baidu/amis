@@ -449,7 +449,7 @@ export class TreeSelector extends React.Component<
       return;
     }
 
-    if (onlyLeaf && node.children) {
+    if (onlyLeaf && (Array.isArray(node.children) && node.children.length)) {
       return;
     }
 
@@ -612,9 +612,10 @@ export class TreeSelector extends React.Component<
           const result = [] as Option[];
 
           for (let option of this.state.flattenedOptions) {
-            result.push(option);
             if (option === parent) {
               result.push({...option, isAdding: true});
+            } else {
+              result.push(option);
             }
           }
           this.setState({flattenedOptions: result});
@@ -1095,7 +1096,7 @@ export class TreeSelector extends React.Component<
     const iconValue =
       item[iconField] ||
       (enableDefaultIcon !== false
-        ? item.children
+        ? (Array.isArray(item.children) && item.children.length)
           ? 'folder'
           : 'file'
         : false);
@@ -1158,7 +1159,7 @@ export class TreeSelector extends React.Component<
               <i
                 className={cx(
                   `Tree-itemIcon ${
-                    item.children ? 'Tree-folderIcon' : 'Tree-leafIcon'
+                    (Array.isArray(item.children) && item.children.length) ? 'Tree-folderIcon' : 'Tree-leafIcon'
                   }`
                 )}
                 onClick={() =>
@@ -1246,7 +1247,7 @@ export class TreeSelector extends React.Component<
 
     return (
       <li
-        key={item[valueField]}
+        key={`${item[valueField || 'value']}-${index}`}
         className={cx(`Tree-item ${itemClassName || ''}`, {
           'Tree-item--isLeaf': isLeaf,
           'is-child': this.relations.get(item)

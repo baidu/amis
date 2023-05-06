@@ -487,6 +487,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                           </div>
                           <label
                             class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                            data-role="checkbox"
                           >
                             <input
                               type="checkbox"
@@ -534,6 +535,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                           />
                           <label
                             class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                            data-role="checkbox"
                           >
                             <input
                               type="checkbox"
@@ -593,6 +595,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                           </div>
                           <label
                             class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                            data-role="checkbox"
                           >
                             <input
                               type="checkbox"
@@ -640,6 +643,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                           />
                           <label
                             class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                            data-role="checkbox"
                           >
                             <input
                               type="checkbox"
@@ -694,6 +698,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                           />
                           <label
                             class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                            data-role="checkbox"
                           >
                             <input
                               type="checkbox"
@@ -753,6 +758,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                           </div>
                           <label
                             class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                            data-role="checkbox"
                           >
                             <input
                               type="checkbox"
@@ -800,6 +806,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                           />
                           <label
                             class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                            data-role="checkbox"
                           >
                             <input
                               type="checkbox"
@@ -854,6 +861,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                           />
                           <label
                             class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                            data-role="checkbox"
                           >
                             <input
                               type="checkbox"
@@ -908,6 +916,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                           />
                           <label
                             class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                            data-role="checkbox"
                           >
                             <input
                               type="checkbox"
@@ -965,6 +974,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                     >
                       <label
                         class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                        data-role="checkbox"
                       >
                         <input
                           type="checkbox"
@@ -997,6 +1007,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                     >
                       <label
                         class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                        data-role="checkbox"
                       >
                         <input
                           type="checkbox"
@@ -1029,6 +1040,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                     >
                       <label
                         class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                        data-role="checkbox"
                       >
                         <input
                           type="checkbox"
@@ -1061,6 +1073,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                     >
                       <label
                         class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                        data-role="checkbox"
                       >
                         <input
                           type="checkbox"
@@ -1115,6 +1128,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                           </div>
                           <label
                             class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                            data-role="checkbox"
                           >
                             <input
                               type="checkbox"
@@ -1167,6 +1181,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                           </div>
                           <label
                             class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                            data-role="checkbox"
                           >
                             <input
                               type="checkbox"
@@ -1214,6 +1229,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                           />
                           <label
                             class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                            data-role="checkbox"
                           >
                             <input
                               type="checkbox"
@@ -1261,6 +1277,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                           />
                           <label
                             class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                            data-role="checkbox"
                           >
                             <input
                               type="checkbox"
@@ -1308,6 +1325,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                           />
                           <label
                             class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                            data-role="checkbox"
                           >
                             <input
                               type="checkbox"
@@ -1355,6 +1373,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                           />
                           <label
                             class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                            data-role="checkbox"
                           >
                             <input
                               type="checkbox"

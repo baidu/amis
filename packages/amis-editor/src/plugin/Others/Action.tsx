@@ -10,7 +10,7 @@ import {
 } from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {diff} from 'amis-editor-core';
-import {SchemaCollection} from 'amis/lib/Schema';
+import type {SchemaCollection} from 'amis';
 
 export class ActionPlugin extends BasePlugin {
   panelTitle = '按钮';

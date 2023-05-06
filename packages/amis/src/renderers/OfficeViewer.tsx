@@ -7,6 +7,7 @@ import {BaseSchema} from '../Schema';
 import {
   ActionObject,
   createObject,
+  filter,
   isApiOutdated,
   IScopedContext,
   Renderer,
@@ -28,7 +29,7 @@ export interface OfficeViewerSchema extends BaseSchema {
   /**
    * word 文档的渲染配置
    */
-  wordOptions?: {};
+  wordOptions?: any;
 
   /**
    * 是否显示文档
@@ -78,8 +79,26 @@ export default class OfficeViewer extends React.Component<
       }
     }
 
-    // 这个变量替换只会更新变化的部分，所以性能还能接受
-    this.word?.updateVariable();
+    if (
+      JSON.stringify(prevProps.wordOptions) !==
+        JSON.stringify(props.wordOptions) ||
+      prevProps.display !== props.display
+    ) {
+      this.renderWord();
+    }
+
+    if (props.wordOptions?.enableVar) {
+      if (
+        props.trackExpression &&
+        filter(props.trackExpression, props.data) !==
+          filter(prevProps.trackExpression, prevProps.data)
+      ) {
+        this.renderWord();
+      } else {
+        // 目前 word 渲染比较快，所以全量渲染性能可以接受
+        this.renderWord();
+      }
+    }
   }
 
   /**
@@ -147,6 +166,9 @@ export default class OfficeViewer extends React.Component<
 
       if (display !== false) {
         word.render(this.rootElement?.current!);
+      } else if (display === false && this.rootElement?.current) {
+        // 设置为 false 后清空
+        this.rootElement.current.innerHTML = '';
       }
 
       this.word = word;
@@ -172,6 +194,9 @@ export default class OfficeViewer extends React.Component<
           });
           if (display !== false) {
             word.render(this.rootElement?.current!);
+          } else if (display === false && this.rootElement?.current) {
+            // 设置为 false 后清空
+            this.rootElement.current.innerHTML = '';
           }
         });
       };
