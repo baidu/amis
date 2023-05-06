@@ -44,6 +44,11 @@
     box-shadow: var(--Form-input-boxShadow);
   }
 
+  .is-error > & {
+    border-color: var(--Form-input-onError-borderColor);
+    background: var(--Form-input-onError-bg);
+  }
+
   &.is-disabled {
     background: var(--ColorPicker-onDisabled-bg);
     color: var(--ColorPicker-onDisabled-color);

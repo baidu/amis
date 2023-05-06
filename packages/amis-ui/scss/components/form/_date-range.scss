@@ -64,6 +64,11 @@
     }
   }
 
+  .is-error > & {
+    border-color: var(--Form-input-onError-borderColor);
+    background: var(--Form-input-onError-bg);
+  }
+
   .#{$ns}DateRangePicker-input {
     border: none;
     border-bottom: var(--DateRangePicker-activeCursor-height) solid transparent;

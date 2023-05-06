@@ -88,6 +88,11 @@
     }
   }
 
+  .is-error > & {
+    border-color: var(--Form-input-onError-borderColor);
+    background: var(--Form-input-onError-bg);
+  }
+
   &.is-disabled {
     background: var(--inputDate-disabled-bg-color);
     border-width: var(--inputDate-disabled-top-border-width)

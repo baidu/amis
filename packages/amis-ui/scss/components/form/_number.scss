@@ -246,6 +246,11 @@
     color: var(--Number-handler-onDisabled-color);
   }
 
+  .is-error > & {
+    border-color: var(--Form-input-onError-borderColor);
+    background: var(--Form-input-onError-bg);
+  }
+
   &-disabled {
     border-color: var(--Form-input-onDisabled-borderColor);
     .#{$ns}Number-input {
