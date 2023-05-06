@@ -338,7 +338,9 @@ export class EditorManager {
   ) {
     return (
       plugins?.map(klass => {
+        let options: any;
         if (Array.isArray(klass)) {
+          options = klass[1];
           klass = klass[0];
         }
 
@@ -347,7 +349,7 @@ export class EditorManager {
           new Set(['global'].concat(klass.scene || 'global'))
         );
         klass.scene = scene;
-        return klass;
+        return options ? [klass, options] : klass;
       }) || []
     );
   }
