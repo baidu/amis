@@ -335,10 +335,13 @@ export class EditorManager {
       | PluginClass
       | [PluginClass, Record<string, any> | (() => Record<string, any>)]
     >
-  ) {
+  ): (
+    | PluginClass
+    | [PluginClass, Record<string, any> | (() => Record<string, any>)]
+  )[] {
     return (
       plugins?.map(klass => {
-        let options: any;
+        let options;
         if (Array.isArray(klass)) {
           options = klass[1];
           klass = klass[0];
