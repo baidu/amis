@@ -16,7 +16,7 @@ import {dataMapping, resolveVariableAndFilter} from 'amis-core';
 
 /**
  * IFrame 渲染器
- * 文档：https://baidu.gitee.io/amis/docs/components/iframe
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/iframe
  */
 export interface IFrameSchema extends BaseSchema {
   type: 'iframe';

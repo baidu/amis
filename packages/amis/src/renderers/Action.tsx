@@ -232,7 +232,7 @@ export interface DialogActionSchema extends ButtonSchema {
 
   /**
    * 弹框详情
-   * 文档：https://baidu.gitee.io/amis/docs/components/dialog
+   * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/dialog
    */
   dialog: DialogSchemaBase;
 
@@ -252,7 +252,7 @@ export interface DrawerActionSchema extends ButtonSchema {
 
   /**
    * 抽出式弹框详情
-   * 文档：https://baidu.gitee.io/amis/docs/components/drawer
+   * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/drawer
    */
   drawer: DrawerSchemaBase;
 
@@ -272,7 +272,7 @@ export interface ToastActionSchema extends ButtonSchema {
 
   /**
    * 轻提示详情
-   * 文档：https://baidu.gitee.io/amis/docs/components/toast
+   * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/toast
    */
   toast: ToastSchemaBase;
 }
@@ -365,7 +365,7 @@ export interface VanillaAction extends ButtonSchema {
 
 /**
  * 按钮动作渲染器。
- * 文档：https://baidu.gitee.io/amis/docs/components/action
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/action
  */
 export type ActionSchema =
   | AjaxActionSchema

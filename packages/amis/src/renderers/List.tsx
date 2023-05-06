@@ -128,7 +128,7 @@ export interface ListItemSchema extends Omit<BaseSchema, 'type'> {
 
 /**
  * List 列表展示控件。
- * 文档：https://baidu.gitee.io/amis/docs/components/card
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/card
  */
 export interface ListSchema extends BaseSchema {
   /**

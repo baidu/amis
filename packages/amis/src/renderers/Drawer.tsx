@@ -27,7 +27,7 @@ import {isAlive} from 'mobx-state-tree';
 
 /**
  * Drawer 抽出式弹框。
- * 文档：https://baidu.gitee.io/amis/docs/components/drawer
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/drawer
  */
 export interface DrawerSchema extends BaseSchema {
   type: 'drawer';

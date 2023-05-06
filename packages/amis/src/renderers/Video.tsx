@@ -22,7 +22,7 @@ import {BaseSchema, SchemaClassName, SchemaUrlPath} from '../Schema';
 
 /**
  * 视频播放器
- * 文档：https://baidu.gitee.io/amis/docs/components/video
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/video
  */
 export interface VideoSchema extends BaseSchema {
   /**
@@ -270,7 +270,7 @@ export class FlvSource extends React.Component<FlvSourceProps, any> {
 
   render() {
     return (
-      <source src={this.props.src} type={this.props.type || 'video/x-flv'}/>
+      <source src={this.props.src} type={this.props.type || 'video/x-flv'} />
     );
   }
 }
@@ -766,10 +766,20 @@ export default class Video extends React.Component<VideoProps, VideoState> {
   }
 
   render() {
-    let {splitPoster, className, style, classPrefix: ns, classnames: cx} = this.props;
+    let {
+      splitPoster,
+      className,
+      style,
+      classPrefix: ns,
+      classnames: cx
+    } = this.props;
 
     return (
-      <div className={cx(`Video`, className)} onClick={this.onClick as any} style={style}>
+      <div
+        className={cx(`Video`, className)}
+        onClick={this.onClick as any}
+        style={style}
+      >
         {this.renderFrames()}
         {splitPoster ? this.renderPosterAndPlayer() : this.renderPlayer()}
       </div>

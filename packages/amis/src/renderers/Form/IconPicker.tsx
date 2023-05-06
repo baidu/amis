@@ -12,7 +12,7 @@ import {FormBaseControlSchema} from '../../Schema';
 
 /**
  * 图标选择器
- * 文档：https://baidu.gitee.io/amis/docs/components/form/icon-picker
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/icon-picker
  */
 export interface IconPickerControlSchema extends FormBaseControlSchema {
   type: 'icon-picker';
@@ -281,9 +281,7 @@ export default class IconPickerControl extends React.PureComponent<
                 {!value || (inputValue && isOpen) ? null : (
                   <div className={cx('IconPickerControl-value')}>
                     <i className={cx(value)} />
-                    {
-                      typeof value === 'string' ? value : ''
-                    }
+                    {typeof value === 'string' ? value : ''}
                   </div>
                 )}
 

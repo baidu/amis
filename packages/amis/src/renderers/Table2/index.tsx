@@ -49,7 +49,7 @@ import {Action} from '../../types';
 
 /**
  * Table 表格2渲染器。
- * 文档：https://baidu.gitee.io/amis/docs/components/table2
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/table2
  */
 
 export interface CellSpan {

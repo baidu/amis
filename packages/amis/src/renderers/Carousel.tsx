@@ -23,7 +23,7 @@ import {ScopedContext, IScopedContext} from 'amis-core';
 
 /**
  * Carousel 轮播图渲染器。
- * 文档：https://baidu.gitee.io/amis/docs/components/carousel
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/carousel
  */
 export interface CarouselSchema extends BaseSchema {
   /**

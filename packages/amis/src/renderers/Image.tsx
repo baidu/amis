@@ -22,7 +22,7 @@ export interface ImageToolbarAction {
 
 /**
  * 图片展示控件。
- * 文档：https://baidu.gitee.io/amis/docs/components/image
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/image
  */
 export interface ImageSchema extends BaseSchema {
   /**

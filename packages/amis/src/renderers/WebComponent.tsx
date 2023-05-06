@@ -6,7 +6,7 @@ import mapValues from 'lodash/mapValues';
 
 /**
  * WebComponent 容器渲染器。
- * 文档：https://baidu.gitee.io/amis/docs/components/web-component
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/web-component
  */
 export interface WebComponentSchema extends BaseSchema {
   /**
@@ -49,7 +49,11 @@ export default class WebComponent extends React.Component<RendererProps> {
       }
     });
     const Component = (tag as keyof JSX.IntrinsicElements) || 'div';
-    return <Component {...propsValues} style={style}>{this.renderBody()}</Component>;
+    return (
+      <Component {...propsValues} style={style}>
+        {this.renderBody()}
+      </Component>
+    );
   }
 }
 

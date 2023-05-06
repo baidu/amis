@@ -6,7 +6,7 @@ import {FormBaseControlSchema} from '../../Schema';
 
 /**
  * JSON Schema
- * 文档：https://baidu.gitee.io/amis/docs/components/form/json-schema
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/json-schema
  */
 export interface JSONSchemaControlSchema extends FormBaseControlSchema {
   /**

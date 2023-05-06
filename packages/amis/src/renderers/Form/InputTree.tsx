@@ -23,7 +23,7 @@ import type {ItemRenderStates} from 'amis-ui/lib/components/Selection';
 
 /**
  * Tree 下拉选择框。
- * 文档：https://baidu.gitee.io/amis/docs/components/form/tree
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/tree
  */
 export interface TreeControlSchema extends FormOptionsSchema {
   type: 'input-tree';

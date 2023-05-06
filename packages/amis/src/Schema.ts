@@ -640,7 +640,7 @@ export type SchemaRedirect = string;
  * 2. `<%= data.xxx %>`
  *
  *
- * 更多文档：https://baidu.gitee.io/amis/docs/concepts/template
+ * 更多文档：https://aisuda.bce.baidu.com/amis/zh-CN/docs/concepts/template
  */
 export type SchemaTpl = string;
 
@@ -851,7 +851,7 @@ export interface ToastSchemaBase extends BaseSchema {
 /**
  * Form 表单渲染器。
  *
- * 说明：https://baidu.gitee.io/amis/docs/components/form/index
+ * 说明：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/index
  */
 export interface FormSchema extends FormSchemaBase, BaseSchema {
   /**

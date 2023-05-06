@@ -31,7 +31,7 @@ import {supportStatic} from './StaticHoc';
 
 /**
  * Transfer
- * 文档：https://baidu.gitee.io/amis/docs/components/form/transfer
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/transfer
  */
 export interface TransferControlSchema
   extends FormOptionsSchema,
