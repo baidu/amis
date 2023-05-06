@@ -113,23 +113,27 @@ function createScopedTools(
     },
 
     getComponentById(id: string) {
-      let root: AliasIScopedContext = this;
-      // 找到顶端scoped
-      while (root.parent) {
-        root = root.parent;
-      }
+      let current: AliasIScopedContext = this;
 
-      // 向下查找
       let component = undefined;
-      findTree([root], (item: TreeItem) =>
+      const finder = (item: TreeItem) =>
         item.getComponents().find((cmpt: ScopedComponentType) => {
           if (cmpt.props.id === id) {
             component = cmpt;
             return true;
           }
           return false;
-        })
-      ) as ScopedComponentType | undefined;
+        });
+
+      // 先向下查找
+      findTree([current], finder) as ScopedComponentType | undefined;
+
+      // 再逆向查找
+      while (current.parent && !component) {
+        finder(current.parent) as ScopedComponentType | undefined;
+        current = current.parent;
+      }
+
       return component;
     },
 
