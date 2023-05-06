@@ -1839,7 +1839,12 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
     const extraProps: Pick<
       PaginationProps,
-      'showPageInput' | 'maxButtons' | 'layout' | 'popOverContainerSelector'
+      | 'showPageInput'
+      | 'maxButtons'
+      | 'layout'
+      | 'popOverContainerSelector'
+      | 'total'
+      | 'perPageAvailable'
     > = {};
 
     /** 优先级：showPageInput显性配置 > (lastPage > 9) */
@@ -1853,6 +1858,11 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       extraProps.popOverContainerSelector = (
         toolbar as Schema
       ).popOverContainerSelector;
+      extraProps.perPageAvailable = (toolbar as Schema).perPageAvailable;
+      extraProps.total = resolveVariableAndFilter(
+        (toolbar as Schema).total,
+        store.data
+      );
     } else {
       extraProps.showPageInput = lastPage > 9;
     }
