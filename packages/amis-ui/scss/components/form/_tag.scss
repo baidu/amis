@@ -104,6 +104,10 @@
       }
     }
   }
+  &.is-error > .#{$ns}ResultBox {
+    border-color: var(--Form-input-onError-borderColor);
+    background: var(--Form-input-onError-bg);
+  }
 }
 
 .#{$ns}TagControl-popover {
