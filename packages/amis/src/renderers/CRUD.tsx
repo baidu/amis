@@ -77,7 +77,7 @@ export type CRUDToolbarObject = {
   align?: 'left' | 'right';
 };
 
-export type autoGenerateFilterObject = {
+export type AutoGenerateFilterObject = {
   /**
    * 过滤条件单行列数
    */
@@ -318,7 +318,7 @@ export interface CRUDCommonSchema extends BaseSchema, SpinnerExtraProps {
   /**
    * 开启查询区域，会根据列元素的searchable属性值，自动生成查询条件表单
    */
-  autoGenerateFilter?: autoGenerateFilterObject;
+  autoGenerateFilter?: AutoGenerateFilterObject | boolean;
 
   /**
    * 内容区域占满屏幕剩余空间
@@ -352,8 +352,7 @@ export interface CRUDProps
   pickerMode?: boolean; // 选择模式，用做表单中的选择操作
 }
 
-const INNER_EVENTS: Array<
-> = [
+const INNER_EVENTS: Array<> = [
   'selectedChange',
   'columnSort',
   'columnFilter',
