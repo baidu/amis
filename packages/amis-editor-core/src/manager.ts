@@ -121,6 +121,7 @@ export function registerEditorPlugin(klass: PluginClass) {
     isExitPlugin = builtInPlugins.find(item => item === klass);
   }
   if (!isExitPlugin) {
+    klass.id = klass.id || klass.name || guid();
     builtInPlugins.push(klass);
   } else {
     console.warn(`注册插件异常，已存在同名插件：`, klass);
