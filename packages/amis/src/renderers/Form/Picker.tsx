@@ -158,6 +158,7 @@ export default class PickerControl extends React.PureComponent<
     }
 
     const ctx = createObject(data, {
+      value,
       [valueField || 'value']: value,
       op: 'loadOptions'
     });
