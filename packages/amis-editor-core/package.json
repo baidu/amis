@@ -1,6 +1,6 @@
 {
   "name": "amis-editor-core",
-  "version": "5.2.5-alpha.16",
+  "version": "5.3.0",
   "description": "amis 可视化编辑器",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -83,6 +83,7 @@
     "concurrently": "^6.2.0",
     "css-loader": "^6.2.0",
     "faker": "^5.5.3",
+    "i18n-command": "^0.0.23-beta.15",
     "mini-css-extract-plugin": "^2.3.0",
     "postcss-import": "^14.1.0",
     "postcss-minify": "^1.1.0",
@@ -111,8 +112,8 @@
     "amis": "*",
     "amis-core": "*",
     "amis-formula": "*",
-    "amis-ui": "*",
     "amis-theme-editor-helper": "*",
+    "amis-ui": "*",
     "i18n-runtime": "*",
     "react": ">=16.8.6",
     "react-dom": ">=16.8.6"
