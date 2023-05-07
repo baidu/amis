@@ -54,7 +54,9 @@ export interface IScopedContext {
   closeById: (target: string) => void;
 }
 type AliasIScopedContext = IScopedContext;
-export const ScopedContext = React.createContext(createScopedTools(''));
+
+const rootScopedContext = createScopedTools('');
+export const ScopedContext = React.createContext(rootScopedContext);
 
 function createScopedTools(
   path?: string,
@@ -113,26 +115,23 @@ function createScopedTools(
     },
 
     getComponentById(id: string) {
-      let current: AliasIScopedContext = this;
+      let root: AliasIScopedContext = this;
+      // 找到顶端scoped
+      while (root.parent && root.parent !== rootScopedContext) {
+        root = root.parent;
+      }
 
+      // 向下查找
       let component = undefined;
-      const finder = (item: TreeItem) =>
+      findTree([root], (item: TreeItem) =>
         item.getComponents().find((cmpt: ScopedComponentType) => {
           if (cmpt.props.id === id) {
             component = cmpt;
             return true;
           }
           return false;
-        });
-
-      // 先向下查找
-      findTree([current], finder) as ScopedComponentType | undefined;
-
-      // 再逆向查找
-      while (current.parent && !component) {
-        finder(current.parent) as ScopedComponentType | undefined;
-        current = current.parent;
-      }
+        })
+      ) as ScopedComponentType | undefined;
 
       return component;
     },
