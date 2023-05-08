@@ -22,12 +22,16 @@ import {
 import {defaultValue, getSchemaTpl, tipedLabel} from 'amis-editor-core';
 import {mockValue} from 'amis-editor-core';
 import {EditorNodeType} from 'amis-editor-core';
-import type {SchemaObject} from 'amis/lib/Schema';
+import type {SchemaObject} from 'amis';
 import {
   getEventControlConfig,
   getArgsWrapper
 } from '../renderer/event-control/helper';
-import {schemaArrayFormat, schemaToArray, resolveArrayDatasource} from '../util';
+import {
+  schemaArrayFormat,
+  schemaToArray,
+  resolveArrayDatasource
+} from '../util';
 
 export class TablePlugin extends BasePlugin {
   // 关联渲染器名字
