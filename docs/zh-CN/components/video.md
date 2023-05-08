@@ -73,6 +73,7 @@ order: 71
 | videoType          | `string`  |           | 指定直播视频格式                                                          |
 | poster             | `string`  |           | 视频封面地址                                                              |
 | muted              | `boolean` |           | 是否静音                                                                  |
+| loop               | `boolean` |           | 是否循环播放                                                              |
 | autoPlay           | `boolean` |           | 是否自动播放                                                              |
 | rates              | `array`   |           | 倍数，格式为`[1.0, 1.5, 2.0]`                                             |
 | frames             | `object`  |           | key 是时刻信息，value 可以可以为空，可有设置为图片地址，请看上方示例      |

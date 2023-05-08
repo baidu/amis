@@ -79,6 +79,11 @@ export interface VideoSchema extends BaseSchema {
   muted?: boolean;
 
   /**
+   * 是否循环播放
+   */
+  loop?: boolean;
+
+  /**
    * 配置播放器 className
    */
   playerClassName?: SchemaClassName;
@@ -636,8 +641,7 @@ export default class Video extends React.Component<VideoProps, VideoState> {
       muted,
       name,
       data,
-      amisConfig,
-      locals,
+      loop,
       isLive,
       minVideoDuration,
       videoType,
@@ -690,6 +694,7 @@ export default class Video extends React.Component<VideoProps, VideoState> {
           autoPlay={autoPlay}
           muted={muted}
           aspectRatio={aspectRatio}
+          loop={loop}
         >
           {rates && rates.length ? (
             <ControlBar>
