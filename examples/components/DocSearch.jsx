@@ -164,7 +164,7 @@ export default class DocSearch extends React.Component {
           show={this.state.show}
           position={'right'}
         >
-          <div className={`${this.props.theme.ns}TextControl-input search-bar`}>
+          <div className={`search-bar`}>
             <Icon icon="search" className="icon" />
             <input
               ref={this.ref}
