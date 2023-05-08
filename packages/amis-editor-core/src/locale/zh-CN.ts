@@ -236,5 +236,8 @@ extendLocale('zh-CN', {
   '5b804b05e14aaacc75033a4f77fc2844': '源码',
   '69a53230577258b6d97ee932befcc168': '<列>:',
   'cc6aeb073ebc3cb29734a49164f8964c': '页面变量',
-  'b71e8739cb9bcba8057a8fa8b59512da': '<列>'
+  'b71e8739cb9bcba8057a8fa8b59512da': '<列>',
+  '34d240d1ded259c32f7fee21e99c5671': '预览/编辑',
+  '6722089d251c1e4aabe9d58c26a2208a': '开启/关闭预览模式',
+  '107542a61cdccbb2981ad0c8bafc3440': '替换组件'
 });

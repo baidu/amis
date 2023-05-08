@@ -335,10 +335,15 @@ export class EditorManager {
       | PluginClass
       | [PluginClass, Record<string, any> | (() => Record<string, any>)]
     >
-  ) {
+  ): (
+    | PluginClass
+    | [PluginClass, Record<string, any> | (() => Record<string, any>)]
+  )[] {
     return (
       plugins?.map(klass => {
+        let options;
         if (Array.isArray(klass)) {
+          options = klass[1];
           klass = klass[0];
         }
 
@@ -347,7 +352,7 @@ export class EditorManager {
           new Set(['global'].concat(klass.scene || 'global'))
         );
         klass.scene = scene;
-        return klass;
+        return options ? [klass, options] : klass;
       }) || []
     );
   }
