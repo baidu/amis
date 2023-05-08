@@ -24,27 +24,3 @@ export const tokenize = (
     return str;
   }
 };
-
-export const asyncTokenize = async (
-  str: string,
-  data: object,
-  defaultFilter: string = '| html'
-) => {
-  if (!str || typeof str !== 'string') {
-    return str;
-  }
-
-  try {
-    const ast = parse(str, {
-      evalMode: false,
-      allowFilter: true
-    });
-
-    const result = await evaluateForAsync(ast, data, {defaultFilter});
-
-    return `${result == null ? '' : result}`;
-  } catch (e) {
-    console.warn(e);
-    return str;
-  }
-};
