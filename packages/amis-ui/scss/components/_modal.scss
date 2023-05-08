@@ -112,7 +112,7 @@
     line-height: inherit;
     text-decoration: none;
     vertical-align: middle;
-    z-index: calc($zindex-spinner-overlay + 1);
+    z-index: calc(#{$zindex-spinner-overlay} + 1);
 
     svg {
       width: var(--dialog-icon-size);
