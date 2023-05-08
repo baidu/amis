@@ -103,7 +103,7 @@ export interface NavOverflow {
 
   /**
    * 菜单触发按钮的图标
-   * @default "fa fa-ellipsis"
+   * @default "fa fa-ellipsis-h"
    */
   overflowIndicator?: SchemaIcon;
 
@@ -597,7 +597,7 @@ export class Navigation extends React.Component<
       if (isOverflow) {
         const {
           maxVisibleCount,
-          overflowIndicator = 'fa fa-ellipsis',
+          overflowIndicator = 'fa fa-ellipsis-h',
           overflowLabel,
           overflowClassName
         } = link.overflow;
@@ -613,7 +613,7 @@ export class Navigation extends React.Component<
                     {getIcon(overflowIndicator!) ? (
                       <Icon icon={overflowIndicator} className="icon" />
                     ) : (
-                      generateIcon(cx, overflowIndicator, 'Nav-itemIcon')
+                      generateIcon(cx, overflowIndicator, 'Nav-item-icon')
                     )}
                     {overflowLabel && isObject(overflowLabel)
                       ? render('nav-overflow-label', overflowLabel)
@@ -690,7 +690,7 @@ export class Navigation extends React.Component<
     let overflowedIndicator = null;
     if (overflow && isObject(overflow) && overflow.enable) {
       const {
-        overflowIndicator = 'fa fa-ellipsis',
+        overflowIndicator = 'fa fa-ellipsis-h',
         overflowLabel,
         overflowClassName
       } = overflow;
