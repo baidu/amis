@@ -1567,8 +1567,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         newItems.splice(0, newItems.length - 1)
       );
     }
-    store.setSelectedItems(newItems);
-    store.setUnSelectedItems(newUnSelectedItems);
+    store.updateSelectData(newItems, newUnSelectedItems);
+
     onSelect && onSelect(newItems, newUnSelectedItems);
   }
 

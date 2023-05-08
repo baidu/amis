@@ -540,17 +540,19 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
 
     const setSelectedItems = (items: Array<any>) => {
       self.selectedItems.replace(items);
-      // 同步data
-      self.reInitData({
-        selectedItems: items
-      });
     };
 
     const setUnSelectedItems = (items: Array<any>) => {
       self.unSelectedItems.replace(items);
-      // 同步data
+    };
+
+    const updateSelectData = (selected: Array<any>, unSelected: Array<any>) => {
+      self.selectedItems.replace(selected);
+      self.unSelectedItems.replace(unSelected);
+      // 同步到data中，使filter等部分也能拿到
       self.reInitData({
-        unSelectedItems: items
+        selectedItems: selected,
+        unSelectedItems: unSelected
       });
     };
 
@@ -645,6 +647,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
 
     return {
       getData,
+      updateSelectData,
       setPristineQuery,
       updateQuery,
       fetchInitData,

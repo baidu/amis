@@ -293,7 +293,51 @@ export class TablePlugin extends BasePlugin {
           properties: {
             'event.data.item': {
               type: 'object',
-              title: '行点击数据'
+              title: '行数据'
+            },
+            'event.data.index': {
+              type: 'object',
+              title: '行索引'
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'rowMouseEnter',
+      eventLabel: '鼠标移入行事件',
+      description: '移入整行时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            'event.data.item': {
+              type: 'object',
+              title: '行数据'
+            },
+            'event.data.index': {
+              type: 'object',
+              title: '行索引'
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'rowMouseLeave',
+      eventLabel: '鼠标移出行事件',
+      description: '移出整行时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            'event.data.item': {
+              type: 'object',
+              title: '行数据'
+            },
+            'event.data.index': {
+              type: 'object',
+              title: '行索引'
             }
           }
         }

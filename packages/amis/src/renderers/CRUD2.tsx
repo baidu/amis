@@ -909,8 +909,8 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
         newItems.splice(0, newItems.length - 1)
       );
     }
-    store.setSelectedItems(newItems);
-    store.setUnSelectedItems(newUnSelectedItems);
+    store.updateSelectData(newItems, newUnSelectedItems);
+
     onSelect && onSelect(newItems);
   }
 
