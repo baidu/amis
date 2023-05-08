@@ -148,7 +148,7 @@
 
 .#{$ns}Spinner-overlay {
   position: absolute;
-  z-index: calc($zindex-spinner-overlay - 1);
+  z-index: calc(#{$zindex-spinner-overlay} - 1);
   top: 0;
   left: 0;
   right: 0;
