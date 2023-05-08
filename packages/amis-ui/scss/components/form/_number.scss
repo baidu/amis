@@ -48,12 +48,6 @@
       var(--inputNumber-base-hover-bottom-right-border-radius)
       var(--inputNumber-base-hover-bottom-left-border-radius);
     background: var(--inputNumber-base-hover-bg-color);
-    .#{$ns}Number-input {
-      padding-right: calc(
-        var(--Number-handler-width) +
-          var(--inputNumber-base-default-paddingRight)
-      );
-    }
   }
 
   &-focused {
@@ -202,6 +196,10 @@
       border-left: px2rem(1px) solid var(--Form-input-borderColor);
       width: var(--Number-handler-width);
       height: 100%;
+      // 为了实现handle出现后，不遮挡内容，自然的留出padding的位置的效果
+      outline: var(--inputNumber-base-default-paddingRight)
+        var(--inputNumber-base-default-bg-color)
+        solid;
     }
 
     &-handler {
