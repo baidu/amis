@@ -344,6 +344,8 @@ export const TableStore = iRendererStore
     formsRef: types.optional(types.array(types.frozen()), []),
     maxKeepItemSelectionLength: Infinity,
     keepItemSelectionOnPageChange: false,
+    // 导出 Excel 按钮的 loading 状态
+    exportExcelLoading: false,
     searchFormExpanded: false // 用来控制搜索框是否展开了，那个自动根据 searchable 生成的表单 autoGenerateFilter
   })
   .views(self => {
@@ -804,6 +806,9 @@ export const TableStore = iRendererStore
       config.keepItemSelectionOnPageChange !== void 0 &&
         (self.keepItemSelectionOnPageChange =
           config.keepItemSelectionOnPageChange);
+
+      config.exportExcelLoading !== undefined &&
+        (self.exportExcelLoading = config.exportExcelLoading);
 
       if (config.columns && Array.isArray(config.columns)) {
         let columns: Array<SColumn> = config.columns

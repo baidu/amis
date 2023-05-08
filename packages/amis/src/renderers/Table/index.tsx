@@ -2653,12 +2653,21 @@ export default class Table extends React.Component<TableProps, object> {
       {
         label: __('CRUD.exportExcel'),
         ...(toolbar as any),
+
         type: 'button'
       },
       {
+        loading: store.exportExcelLoading,
         onAction: () => {
+          store.update({exportExcelLoading: true});
           import('exceljs').then(async (ExcelJS: any) => {
-            exportExcel(ExcelJS, this.props, toolbar);
+            try {
+              await exportExcel(ExcelJS, this.props, toolbar);
+            } catch (error) {
+              console.error(error);
+            } finally {
+              store.update({exportExcelLoading: false});
+            }
           });
         }
       }
