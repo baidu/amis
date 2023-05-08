@@ -81,6 +81,10 @@ export class Tpl extends React.Component<TplProps, TplState> {
     }
   }
 
+  componentDidMount() {
+    this.updateContent();
+  }
+
   @autobind
   updateContent() {
     const {tpl, html, text} = this.props;
