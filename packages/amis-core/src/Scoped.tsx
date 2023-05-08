@@ -54,7 +54,9 @@ export interface IScopedContext {
   closeById: (target: string) => void;
 }
 type AliasIScopedContext = IScopedContext;
-export const ScopedContext = React.createContext(createScopedTools(''));
+
+const rootScopedContext = createScopedTools('');
+export const ScopedContext = React.createContext(rootScopedContext);
 
 function createScopedTools(
   path?: string,
@@ -115,7 +117,7 @@ function createScopedTools(
     getComponentById(id: string) {
       let root: AliasIScopedContext = this;
       // 找到顶端scoped
-      while (root.parent) {
+      while (root.parent && root.parent !== rootScopedContext) {
         root = root.parent;
       }
 
@@ -130,6 +132,7 @@ function createScopedTools(
           return false;
         })
       ) as ScopedComponentType | undefined;
+
       return component;
     },
 

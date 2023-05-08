@@ -14,7 +14,11 @@ import {FileRejection, ErrorCode, DropEvent} from 'react-dropzone';
 import 'blueimp-canvastoblob';
 import find from 'lodash/find';
 import {Payload, ActionObject} from 'amis-core';
-import {buildApi} from 'amis-core';
+import {buildApi,
+  isEffectiveApi,
+  normalizeApi,
+  isApiOutdated,
+  isApiOutdatedWithData} from 'amis-core';
 import {createObject, qsstringify, guid, isEmpty, qsparse} from 'amis-core';
 import {Icon, TooltipWrapper, Button} from 'amis-ui';
 import accepts from 'attr-accept';
@@ -1913,6 +1917,20 @@ export default class ImageControl extends React.Component<
 
 @FormItem({
   type: 'input-image',
-  sizeMutable: false
+  sizeMutable: false,
+  shouldComponentUpdate: (props: any, prevProps: any) =>
+    !!isEffectiveApi(props.receiver, props.data) &&
+    (isApiOutdated(
+      props.receiver,
+      prevProps.receiver,
+      props.data,
+      prevProps.data
+    ) ||
+    isApiOutdatedWithData(
+      props.receiver,
+      prevProps.receiver,
+      props.data,
+      prevProps.data
+    ))
 })
 export class ImageControlRenderer extends ImageControl {}
