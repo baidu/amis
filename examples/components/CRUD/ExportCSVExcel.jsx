@@ -141,7 +141,7 @@ export default {
     columns: [
       {
         name: 'icon',
-        label: '图标',
+        label: '<%= "图标" %>',
         type: 'image'
       },
       {
