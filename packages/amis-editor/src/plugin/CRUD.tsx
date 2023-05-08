@@ -24,8 +24,8 @@ import {
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {isObject, JSONPipeIn} from 'amis-editor-core';
 import {setVariable} from 'amis-core';
-import {ActionSchema} from 'amis';
-import {CRUDCommonSchema} from 'amis';
+import type {ActionSchema} from 'amis';
+import type {CRUDCommonSchema} from 'amis';
 import {getEnv} from 'mobx-state-tree';
 import {EditorNodeType, RendererPluginAction} from 'amis-editor-core';
 import {normalizeApi} from 'amis-core';
