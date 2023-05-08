@@ -8,7 +8,7 @@ import DeepDiff, {Diff} from 'deep-diff';
 import isPlainObject from 'lodash/isPlainObject';
 import isNumber from 'lodash/isNumber';
 import type {Schema} from 'amis';
-import type {SchemaObject} from 'amis/lib/Schema';
+import type {SchemaObject} from 'amis';
 import {assign, cloneDeep} from 'lodash';
 import {getGlobalData} from 'amis-theme-editor-helper';
 
