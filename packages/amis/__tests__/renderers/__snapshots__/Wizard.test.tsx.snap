@@ -121,6 +121,13 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
             style="display: none;"
             type="submit"
           />
+          <span
+            class="cxd-TplField"
+          >
+            <span>
+              这是最后一步了
+            </span>
+          </span>
         </form>
       </div>
       <div
@@ -725,6 +732,89 @@ exports[`Renderer:Wizard dialog 1`] = `
                     style="display: none;"
                     type="submit"
                   />
+                  <div
+                    class="cxd-Form-item cxd-Form-item--normal"
+                    data-role="form-item"
+                  >
+                    <label
+                      class="cxd-Form-label"
+                    >
+                      <span>
+                        <span
+                          class="cxd-TplField"
+                        >
+                          <span>
+                            网址
+                          </span>
+                        </span>
+                      </span>
+                    </label>
+                    <div
+                      class="cxd-Form-control cxd-TextControl"
+                    >
+                      <div
+                        class="cxd-TextControl-input"
+                      >
+                        <input
+                          autocomplete="off"
+                          class=""
+                          name="website"
+                          placeholder=""
+                          size="10"
+                          type="url"
+                          value="http://amis.baidu.com"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="cxd-Form-item cxd-Form-item--normal"
+                    data-role="form-item"
+                  >
+                    <label
+                      class="cxd-Form-label"
+                    >
+                      <span>
+                        <span
+                          class="cxd-TplField"
+                        >
+                          <span>
+                            名称
+                          </span>
+                        </span>
+                      </span>
+                    </label>
+                    <div
+                      class="cxd-Form-control cxd-TextControl"
+                    >
+                      <div
+                        class="cxd-TextControl-input"
+                      >
+                        <input
+                          autocomplete="off"
+                          class=""
+                          name="name"
+                          placeholder=""
+                          size="10"
+                          type="text"
+                          value="Amis"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="cxd-Form-item cxd-Form-item--normal"
+                    data-role="form-item"
+                  >
+                    <button
+                      class="cxd-Button cxd-Button--default cxd-Button--size-default"
+                      type="button"
+                    >
+                      <span>
+                        OpenDialog
+                      </span>
+                    </button>
+                  </div>
                 </form>
               </div>
               <div
@@ -1031,6 +1121,89 @@ exports[`Renderer:Wizard dialog 2`] = `
                     style="display: none;"
                     type="submit"
                   />
+                  <div
+                    class="cxd-Form-item cxd-Form-item--normal"
+                    data-role="form-item"
+                  >
+                    <label
+                      class="cxd-Form-label"
+                    >
+                      <span>
+                        <span
+                          class="cxd-TplField"
+                        >
+                          <span>
+                            网址
+                          </span>
+                        </span>
+                      </span>
+                    </label>
+                    <div
+                      class="cxd-Form-control cxd-TextControl"
+                    >
+                      <div
+                        class="cxd-TextControl-input"
+                      >
+                        <input
+                          autocomplete="off"
+                          class=""
+                          name="website"
+                          placeholder=""
+                          size="10"
+                          type="url"
+                          value="http://amis.baidu.com"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="cxd-Form-item cxd-Form-item--normal"
+                    data-role="form-item"
+                  >
+                    <label
+                      class="cxd-Form-label"
+                    >
+                      <span>
+                        <span
+                          class="cxd-TplField"
+                        >
+                          <span>
+                            名称
+                          </span>
+                        </span>
+                      </span>
+                    </label>
+                    <div
+                      class="cxd-Form-control cxd-TextControl"
+                    >
+                      <div
+                        class="cxd-TextControl-input"
+                      >
+                        <input
+                          autocomplete="off"
+                          class=""
+                          name="name"
+                          placeholder=""
+                          size="10"
+                          type="text"
+                          value="Amis"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="cxd-Form-item cxd-Form-item--normal"
+                    data-role="form-item"
+                  >
+                    <button
+                      class="cxd-Button cxd-Button--default cxd-Button--size-default"
+                      type="button"
+                    >
+                      <span>
+                        OpenDialog
+                      </span>
+                    </button>
+                  </div>
                 </form>
               </div>
               <div
@@ -1553,6 +1726,76 @@ exports[`Renderer:Wizard initApi reload 1`] = `
                     style="display: none;"
                     type="submit"
                   />
+                  <div
+                    class="cxd-Form-item cxd-Form-item--normal"
+                    data-role="form-item"
+                  >
+                    <label
+                      class="cxd-Form-label"
+                    >
+                      <span>
+                        <span
+                          class="cxd-TplField"
+                        >
+                          <span>
+                            网址
+                          </span>
+                        </span>
+                      </span>
+                    </label>
+                    <div
+                      class="cxd-Form-control cxd-TextControl"
+                    >
+                      <div
+                        class="cxd-TextControl-input"
+                      >
+                        <input
+                          autocomplete="off"
+                          class=""
+                          name="website"
+                          placeholder=""
+                          size="10"
+                          type="url"
+                          value="http://amis.baidu.com"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="cxd-Form-item cxd-Form-item--normal"
+                    data-role="form-item"
+                  >
+                    <label
+                      class="cxd-Form-label"
+                    >
+                      <span>
+                        <span
+                          class="cxd-TplField"
+                        >
+                          <span>
+                            名称
+                          </span>
+                        </span>
+                      </span>
+                    </label>
+                    <div
+                      class="cxd-Form-control cxd-TextControl"
+                    >
+                      <div
+                        class="cxd-TextControl-input"
+                      >
+                        <input
+                          autocomplete="off"
+                          class=""
+                          name="name"
+                          placeholder=""
+                          size="10"
+                          type="text"
+                          value="Amis"
+                        />
+                      </div>
+                    </div>
+                  </div>
                 </form>
               </div>
               <div
@@ -1758,6 +2001,13 @@ exports[`Renderer:Wizard initApi reload 2`] = `
                     style="display: none;"
                     type="submit"
                   />
+                  <span
+                    class="cxd-TplField"
+                  >
+                    <span>
+                      这是最后一步了
+                    </span>
+                  </span>
                 </form>
               </div>
               <div
@@ -1963,6 +2213,13 @@ exports[`Renderer:Wizard initApi reload 3`] = `
                     style="display: none;"
                     type="submit"
                   />
+                  <span
+                    class="cxd-TplField"
+                  >
+                    <span>
+                      这是最后一步了
+                    </span>
+                  </span>
                 </form>
               </div>
               <div
@@ -2270,6 +2527,86 @@ exports[`Renderer:Wizard initApi show loading 2`] = `
             style="display: none;"
             type="submit"
           />
+          <div
+            class="cxd-Form-item cxd-Form-item--normal is-required"
+            data-role="form-item"
+          >
+            <label
+              class="cxd-Form-label"
+            >
+              <span>
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    网址
+                  </span>
+                </span>
+                <span
+                  class="cxd-Form-star"
+                >
+                  *
+                </span>
+              </span>
+            </label>
+            <div
+              class="cxd-Form-control cxd-TextControl"
+            >
+              <div
+                class="cxd-TextControl-input"
+              >
+                <input
+                  autocomplete="off"
+                  class=""
+                  name="website"
+                  placeholder=""
+                  size="10"
+                  type="url"
+                  value=""
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            class="cxd-Form-item cxd-Form-item--normal is-required"
+            data-role="form-item"
+          >
+            <label
+              class="cxd-Form-label"
+            >
+              <span>
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    名称
+                  </span>
+                </span>
+                <span
+                  class="cxd-Form-star"
+                >
+                  *
+                </span>
+              </span>
+            </label>
+            <div
+              class="cxd-Form-control cxd-TextControl"
+            >
+              <div
+                class="cxd-TextControl-input"
+              >
+                <input
+                  autocomplete="off"
+                  class=""
+                  name="name"
+                  placeholder=""
+                  size="10"
+                  type="text"
+                  value=""
+                />
+              </div>
+            </div>
+          </div>
         </form>
       </div>
       <div
@@ -2600,6 +2937,13 @@ exports[`Renderer:Wizard send data 1`] = `
             style="display: none;"
             type="submit"
           />
+          <span
+            class="cxd-TplField"
+          >
+            <span>
+              这是最后一步了
+            </span>
+          </span>
         </form>
       </div>
       <div
@@ -3140,6 +3484,13 @@ exports[`Renderer:Wizard target 1`] = `
                     style="display: none;"
                     type="submit"
                   />
+                  <span
+                    class="cxd-TplField"
+                  >
+                    <span>
+                      这是最后一步了
+                    </span>
+                  </span>
                 </form>
               </div>
               <div

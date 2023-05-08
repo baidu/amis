@@ -34,6 +34,7 @@ import {ActionSchema} from './Action';
 import {tokenize, evalExpressionWithConditionBuilder} from 'amis-core';
 import {StepSchema} from './Steps';
 import isEqual from 'lodash/isEqual';
+import {omit} from 'lodash';
 
 export type WizardStepSchema = Omit<FormSchema, 'type'> &
   StepSchema & {
@@ -409,7 +410,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     }
     this.setState({
       rawSteps: rawSteps.map((step, index) => ({
-        ...steps,
+        ...step,
         hiddenOn: '',
         title:
           step.title ||
