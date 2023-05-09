@@ -97,28 +97,97 @@ export class DataScope {
     return false;
   }
 
+  assignSchema(target: any, schema: any): any {
+    // key相同，type也相同
+    if (target.type && target.type === schema.type) {
+      if (target.type === 'array') {
+        // 先只考虑items，不考虑contains
+        if (target.items) {
+          if (Array.isArray(target.items)) {
+            if (schema.items) {
+              if (Array.isArray(schema.items)) {
+                // 如果都是数组，就后者覆盖前者
+                return schema.items;
+              } else {
+                // 否则，追加
+                return {
+                  ...target,
+                  items: [...target.items, schema.items]
+                };
+              }
+            } else {
+              return {
+                ...target,
+                ...schema
+              };
+            }
+          } else {
+            // 非数组，则merge
+            return {
+              ...target,
+              items: this.assignSchema(target.items, schema.items)
+            };
+          }
+        } else {
+          return schema;
+        }
+      } else if (target.type === 'object' && target.properties) {
+        let properties: any = {};
+
+        // 合并属性
+        for (let key of Array.from(
+          new Set([
+            ...Object.keys(target.properties),
+            ...Object.keys(schema.properties)
+          ])
+        )) {
+          const value = target.properties[key];
+          if (value) {
+            properties[key] = schema.properties[key]
+              ? this.assignSchema(value, schema.properties[key])
+              : value;
+          } else {
+            properties[key] = schema.properties[key];
+          }
+        }
+        return {
+          ...target,
+          properties
+        };
+      } else {
+        return schema;
+      }
+    } else {
+      // key相同、type不同
+      if (Array.isArray(target.oneOf)) {
+        return {
+          ...target, // 先做个显示过度，因formula还没支持oneOf
+          oneOf: [...target.oneOf, schema]
+        };
+      } else {
+        return {
+          ...target, // 先做个显示过度，因formula还没支持oneOf
+          oneOf: [target, schema]
+        };
+      }
+    }
+  }
+
   getMergedSchema() {
     const mergedSchema: any = {
       type: 'object',
       properties: {}
     };
 
-    // todo 以后再来细化这一块，先粗略的写个大概
     this.schemas.forEach(schema => {
       const properties: any = schema.properties || {};
       Object.keys(properties).forEach(key => {
         const value = properties[key];
         if (mergedSchema.properties[key]) {
-          if (Array.isArray(mergedSchema.properties[key].oneOf)) {
-            mergedSchema.properties[key].oneOf.push();
-          } else if (
-            mergedSchema.properties[key].type &&
-            mergedSchema.properties[key].type !== value.type
-          ) {
-            mergedSchema.properties[key] = {
-              oneOf: [mergedSchema.properties[key], value]
-            };
-          }
+          mergedSchema.properties[key] = this.assignSchema(
+            mergedSchema.properties[key],
+            value
+          );
         } else {
           mergedSchema.properties[key] = value;
         }
@@ -132,19 +201,14 @@ export class DataScope {
     options: Array<any>,
     schema: JSONSchema,
     path: string = '',
-    key: string = '',
-    /** 是否数组元素，数组元素的内容将获取每个成员的对应值 */
-    isArrayItem = false,
-    /** 不是所有的都可以选择，但不影响子元素 */
-    disabled?: boolean
+    key: string = ''
   ) {
     // todo 支持 oneOf, anyOf
     const option: any = {
       label: schema.title || key,
       value: path,
       type: schema.type,
-      tag: schema.description ?? schema.type,
-      disabled
+      tag: schema.description ?? schema.type
     };
 
     options.push(option);
@@ -155,43 +219,32 @@ export class DataScope {
 
       keys.forEach(key => {
         const child: any = schema.properties![key];
-        const newPath = isArrayItem ? `ARRAYMAP(${path}, item => item.${key})` : (path + (path ? '.' : '') + key);
 
         this.buildOptions(
           option.children,
           child,
-          newPath,
-          key,
-          isArrayItem,
-          false
+          path + (path ? '.' : '') + key,
+          key
         );
       });
     } else if (schema.type === 'array' && schema.items) {
       option.children = [];
-      
-      this.buildOptions(
-        option.children,
-        {
-          title: '成员',
-          ...(schema.items as any)
-        },
-        path,
-        'items',
-        true,
-        true
-      );
 
       this.buildOptions(
         option.children,
         {
-          title: '总数',
-          type: 'number'
+          title: '成员',
+          ...(schema.items as any),
+          disabled: true
         },
-        path + (path ? '.' : '') + 'length',
-        'length',
-        true,
-        isArrayItem
+        path,
+        'items'
       );
+
+      option.children = mapTree(option.children, item => ({
+        ...item,
+        disabled: true
+      }));
     }
   }
 
@@ -218,5 +271,9 @@ export class DataScope {
       }
     }
     return null;
+  }
+
+  getSchemaById(id: string) {
+    return this.schemas?.find(item => item.$id === id);
   }
 }

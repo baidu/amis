@@ -1,12 +1,21 @@
 import {observer} from 'mobx-react';
 import React from 'react';
-import type {IColumn, IRow} from 'amis-core';
-import {RendererProps} from 'amis-core';
+import type {IColumn, IRow} from 'amis-core/lib/store/table';
+import {RendererEvent, RendererProps} from 'amis-core';
 import {Action} from '../Action';
 import {isClickOnInput, createObject} from 'amis-core';
 
 interface TableRowProps extends Pick<RendererProps, 'render'> {
   onCheck: (item: IRow) => Promise<void>;
+  onRowClick: (item: IRow, index: number) => Promise<RendererEvent<any> | void>;
+  onRowMouseEnter: (
+    item: IRow,
+    index: number
+  ) => Promise<RendererEvent<any> | void>;
+  onRowMouseLeave: (
+    item: IRow,
+    index: number
+  ) => Promise<RendererEvent<any> | void>;
   classPrefix: string;
   renderCell: (
     region: string,
@@ -39,26 +48,13 @@ export class TableRow extends React.Component<TableRowProps> {
   }
 
   handleMouseEnter(e: React.MouseEvent<HTMLTableRowElement>) {
-    const {item, itemIndex, data, dispatchEvent} = this.props;
-
-    dispatchEvent(
-      'rowMouseEnter',
-      createObject(data, {
-        item: item?.data,
-        index: itemIndex
-      })
-    );
+    const {item, itemIndex, onRowMouseEnter} = this.props;
+    onRowMouseEnter?.(item?.data, itemIndex);
   }
 
   handleMouseLeave(e: React.MouseEvent<HTMLTableRowElement>) {
-    const {item, itemIndex, data, dispatchEvent} = this.props;
-    dispatchEvent(
-      'rowMouseLeave',
-      createObject(data, {
-        item: item?.data,
-        index: itemIndex
-      })
-    );
+    const {item, itemIndex, onRowMouseLeave} = this.props;
+    onRowMouseLeave?.(item?.data, itemIndex);
   }
 
   // 定义点击一行的行为，通过 itemAction配置
@@ -70,24 +66,10 @@ export class TableRow extends React.Component<TableRowProps> {
     e.preventDefault();
     e.stopPropagation();
 
-    const {
-      itemAction,
-      onAction,
-      item,
-      itemIndex,
-      data,
-      dispatchEvent,
-      onCheck
-    } = this.props;
+    const {itemAction, onAction, item, itemIndex, onCheck, onRowClick} =
+      this.props;
 
-    const rendererEvent = await dispatchEvent(
-      'rowClick',
-      createObject(data, {
-        rowItem: item?.data, // 保留rowItem 可能有用户已经在用 兼容之前的版本
-        item: item?.data,
-        index: itemIndex
-      })
-    );
+    const rendererEvent = await onRowClick?.(item?.data, itemIndex);
 
     if (rendererEvent?.prevented) {
       return;

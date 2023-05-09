@@ -931,32 +931,40 @@ export function isObject(curObj: any) {
   return isObject;
 }
 
-export function jsonToJsonSchema(json: any = {}) {
+export function jsonToJsonSchema(
+  json: any = {},
+  titleBuilder?: (type: string, key: string) => string
+) {
   const jsonschema: any = {
     type: 'object',
     properties: {}
   };
+
   Object.keys(json).forEach(key => {
     const value = json[key];
-    const type = typeof value;
+    const type = Array.isArray(value) ? 'array' : typeof value;
 
     if (~['string', 'number'].indexOf(type)) {
       jsonschema.properties[key] = {
-        type: type,
-        title: key
+        type,
+        title: titleBuilder?.(type, key) || key
       };
-    } else if (type === 'object' && value) {
+    } else if (~['object', 'array'].indexOf(type) && value) {
       jsonschema.properties[key] = {
-        type: 'object',
-        title: key
+        type,
+        title: titleBuilder?.(type, key) || key,
+        ...(type === 'object'
+          ? jsonToJsonSchema(value, titleBuilder)
+          : {items: jsonToJsonSchema(value[0], titleBuilder)})
       };
     } else {
       jsonschema.properties[key] = {
         type: '',
-        title: key
+        title: titleBuilder?.(type, key) || key
       };
     }
   });
+
   return jsonschema;
 }
 
