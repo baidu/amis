@@ -128,7 +128,7 @@ export async function exportExcel(
     : columns;
 
   const firstRowLabels = filteredColumns.map(column => {
-    return column.label;
+    return filter(column.label, data);
   });
   const firstRow = worksheet.getRow(1);
   firstRow.values = firstRowLabels;
