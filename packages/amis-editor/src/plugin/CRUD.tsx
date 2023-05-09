@@ -28,7 +28,7 @@ import {setVariable, someTree} from 'amis-core';
 import type {ActionSchema} from 'amis';
 import type {CRUDCommonSchema} from 'amis';
 import {getEnv} from 'mobx-state-tree';
-import {EditorNodeType, RendererPluginAction} from 'amis-editor-core';
+import type {EditorNodeType, RendererPluginAction} from 'amis-editor-core';
 import {normalizeApi} from 'amis-core';
 import isPlainObject from 'lodash/isPlainObject';
 import omit from 'lodash/omit';

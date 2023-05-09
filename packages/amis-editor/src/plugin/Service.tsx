@@ -68,13 +68,13 @@ export class ServicePlugin extends BasePlugin {
     },
     {
       eventName: 'fetchInited',
-      eventLabel: '初始化数据接口请求成功',
-      description: '远程初始化数据接口请求成功时触发'
+      eventLabel: '初始化数据接口请求完成',
+      description: '远程初始化数据接口请求完成时触发'
     },
     {
       eventName: 'fetchSchemaInited',
-      eventLabel: '初始化Schema接口请求成功',
-      description: '远程初始化Schema接口请求成功时触发'
+      eventLabel: '初始化Schema接口请求完成',
+      description: '远程初始化Schema接口请求完成时触发'
     }
   ];
 
