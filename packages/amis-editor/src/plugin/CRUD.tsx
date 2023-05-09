@@ -28,7 +28,11 @@ import {setVariable, someTree} from 'amis-core';
 import type {ActionSchema} from 'amis';
 import type {CRUDCommonSchema} from 'amis';
 import {getEnv} from 'mobx-state-tree';
-import type {EditorNodeType, RendererPluginAction} from 'amis-editor-core';
+import type {
+  EditorNodeType,
+  RendererPluginAction,
+  RendererPluginEvent
+} from 'amis-editor-core';
 import {normalizeApi} from 'amis-core';
 import isPlainObject from 'lodash/isPlainObject';
 import omit from 'lodash/omit';
@@ -86,6 +90,33 @@ export class CRUDPlugin extends BasePlugin {
     bulkActions: [],
     itemActions: []
   };
+
+  events: RendererPluginEvent[] = [
+    {
+      eventName: 'fetchInited',
+      eventLabel: '初始化数据接口请求完成',
+      description: '远程初始化数据接口请求完成时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            'event.data.responseData': {
+              type: 'object',
+              title: '响应数据'
+            },
+            'event.data.responseStatus': {
+              type: 'number',
+              title: '响应状态(0表示成功)'
+            },
+            'event.data.responseMsg': {
+              type: 'string',
+              title: '响应消息'
+            }
+          }
+        }
+      ]
+    }
+  ];
 
   actions: RendererPluginAction[] = [
     {
