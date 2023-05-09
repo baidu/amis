@@ -897,6 +897,7 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
                   evalExpression(link.activeOn as string, location)
                 : !!(
                     link.hasOwnProperty('to') &&
+                    link.to !== null && // 也可能出现{to: null}的情况（独立应用）filter会把null处理成'' 那默认首页会选中很多菜单项 {to: ''}认为是有效配置
                     env &&
                     env.isCurrentUrl(filter(link.to as string, data))
                   ));
