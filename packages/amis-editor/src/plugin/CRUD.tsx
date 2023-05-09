@@ -1771,8 +1771,9 @@ export class CRUDPlugin extends BasePlugin {
           const scope = this.manager.dataSchema.getScope(
             `${node.id}-${node.type}`
           );
-          const menberProps = (scope.getSchemaByPath('items')?.items as any)
-            ?.properties;
+          const menberProps = (
+            scope.getSchemaById('crudFetchInitedData')?.properties?.items as any
+          )?.items?.properties;
 
           cellProperties = {
             ...menberProps,

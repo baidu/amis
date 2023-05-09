@@ -293,11 +293,11 @@ export class TablePlugin extends BasePlugin {
           properties: {
             'event.data.item': {
               type: 'object',
-              title: '行数据'
+              title: '当前行数据'
             },
             'event.data.index': {
-              type: 'object',
-              title: '行索引'
+              type: 'number',
+              title: '当前行索引'
             }
           }
         }
@@ -313,11 +313,11 @@ export class TablePlugin extends BasePlugin {
           properties: {
             'event.data.item': {
               type: 'object',
-              title: '行数据'
+              title: '当前行数据'
             },
             'event.data.index': {
-              type: 'object',
-              title: '行索引'
+              type: 'number',
+              title: '当前行索引'
             }
           }
         }
@@ -333,11 +333,11 @@ export class TablePlugin extends BasePlugin {
           properties: {
             'event.data.item': {
               type: 'object',
-              title: '行数据'
+              title: '当前行数据'
             },
             'event.data.index': {
-              type: 'object',
-              title: '行索引'
+              type: 'number',
+              title: '当前行索引'
             }
           }
         }

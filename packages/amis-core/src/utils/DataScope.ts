@@ -272,4 +272,8 @@ export class DataScope {
     }
     return null;
   }
+
+  getSchemaById(id: string) {
+    return this.schemas?.find(item => item.$id === id);
+  }
 }
