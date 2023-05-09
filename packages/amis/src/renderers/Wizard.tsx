@@ -287,7 +287,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
           }
         })
         .then(value => {
-          this.handleInitEvent(store.data);
+          this.handleFetchInitEvent(value);
 
           const state = {
             currentStep:
@@ -319,15 +319,12 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
           return value;
         });
     } else {
-      this.setState(
-        {
-          currentStep:
-            typeof this.props.startStep === 'string'
-              ? toNumber(tokenize(this.props.startStep, this.props.data), 1)
-              : 1
-        },
-        () => this.handleInitEvent(store.data)
-      );
+      this.setState({
+        currentStep:
+          typeof this.props.startStep === 'string'
+            ? toNumber(tokenize(this.props.startStep, this.props.data), 1)
+            : 1
+      });
     }
 
     const dom = findDOMNode(this) as HTMLElement;
@@ -391,9 +388,16 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     return rendererEvent?.prevented ?? false;
   }
 
-  async handleInitEvent(data: any) {
-    const {onInit} = this.props;
-    (await this.dispatchEvent('inited', data)) && onInit && onInit(data);
+  async handleFetchInitEvent(result: any) {
+    const {onInit, store} = this.props;
+    (await this.dispatchEvent('inited', {
+      ...store.data, // 保留，兼容历史
+      responseData: result.ok ? store.data ?? {} : result,
+      responseStatus: result.status,
+      responseMsg: store.msg
+    })) &&
+      onInit &&
+      onInit(store.data);
   }
 
   async normalizeSteps(values: any) {

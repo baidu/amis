@@ -706,7 +706,12 @@ export default class Form extends React.Component<FormProps, object> {
     // 派发init事件，参数为初始化数据
     const dispatcher = await dispatchEvent(
       'inited',
-      createObject(this.props.data, data)
+      createObject(this.props.data, {
+        ...data, // 保留，兼容历史
+        responseData: data ?? {},
+        responseStatus: store.error ? 1 : 0,
+        responseMsg: store.msg
+      })
     );
     if (!dispatcher?.prevented) {
       onInit && onInit(data, this.props);

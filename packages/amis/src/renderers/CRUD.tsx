@@ -1186,18 +1186,16 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             columns: store.columns ?? columns
           })
           .then(value => {
-            const {page, lastPage, data, error, msg} = store;
+            const {page, lastPage, data, msg} = store;
 
             if (isInit) {
               // 初始化请求完成
               const rendererEvent = dispatchEvent?.(
                 'fetchInited',
                 createObject(this.props.data, {
-                  ...data,
-                  __response: {
-                    error,
-                    msg
-                  }
+                  responseData: value.ok ? data ?? {} : value,
+                  responseStatus: value.status,
+                  responseMsg: msg
                 })
               );
 
