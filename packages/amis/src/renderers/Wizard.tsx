@@ -393,7 +393,8 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     (await this.dispatchEvent('inited', {
       ...store.data, // 保留，兼容历史
       responseData: result.ok ? store.data ?? {} : result,
-      responseStatus: result.status,
+      responseStatus:
+        result?.status === undefined ? (store.error ? 1 : 0) : result?.status,
       responseMsg: store.msg
     })) &&
       onInit &&

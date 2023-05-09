@@ -691,8 +691,9 @@ export default class Page extends React.Component<PageProps> {
       'inited',
       createObject(data, {
         ...value?.data,
-        responseData: value?.ok ? store.data ?? {} : value,
-        responseStatus: value?.status,
+        responseData: value?.ok ? store?.data ?? {} : value,
+        responseStatus:
+          value?.status === undefined ? (store.error ? 1 : 0) : value?.status,
         responseMsg: store.msg
       })
     );

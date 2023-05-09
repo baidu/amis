@@ -518,7 +518,8 @@ export default class Service extends React.Component<ServiceProps> {
         ...data,
         __response: {msg: store.msg, error: store.error}, // 保留，兼容历史
         responseData: data,
-        responseStatus: result.status,
+        responseStatus:
+          result?.status === undefined ? (store.error ? 1 : 0) : result?.status,
         responseMsg: store.msg
       })
     );
@@ -537,7 +538,8 @@ export default class Service extends React.Component<ServiceProps> {
       ...schema,
       __response: {msg: store.msg, error: store.error}, // 保留，兼容历史
       responseData: schema,
-      responseStatus: schema.status,
+      responseStatus:
+        schema?.status === undefined ? (store.error ? 1 : 0) : schema?.status,
       responseMsg: store.msg
     });
 

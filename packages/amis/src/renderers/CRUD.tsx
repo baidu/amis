@@ -1186,7 +1186,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             columns: store.columns ?? columns
           })
           .then(value => {
-            const {page, lastPage, data, msg} = store;
+            const {page, lastPage, data, msg, error} = store;
 
             if (isInit) {
               // 初始化请求完成
@@ -1194,7 +1194,12 @@ export default class CRUD extends React.Component<CRUDProps, any> {
                 'fetchInited',
                 createObject(this.props.data, {
                   responseData: value.ok ? data ?? {} : value,
-                  responseStatus: value.status,
+                  responseStatus:
+                    value?.status === undefined
+                      ? error
+                        ? 1
+                        : 0
+                      : value?.status,
                   responseMsg: msg
                 })
               );
