@@ -5,8 +5,7 @@ import {
   highlight,
   FormOptionsControl,
   resolveEventData,
-  insertCustomStyle,
-  getValueByPath
+  insertCustomStyle
 } from 'amis-core';
 import {ActionObject} from 'amis-core';
 import Downshift, {StateChangeOptions} from 'downshift';
@@ -1071,8 +1070,7 @@ export default class TextControl extends React.PureComponent<
           }
         }
       ],
-      id,
-      null
+      id
     );
 
     insertCustomStyle(
