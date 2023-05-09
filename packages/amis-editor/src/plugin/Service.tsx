@@ -69,12 +69,50 @@ export class ServicePlugin extends BasePlugin {
     {
       eventName: 'fetchInited',
       eventLabel: '初始化数据接口请求完成',
-      description: '远程初始化数据接口请求完成时触发'
+      description: '远程初始化数据接口请求完成时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            'event.data.responseData': {
+              type: 'object',
+              title: '响应数据'
+            },
+            'event.data.responseStatus': {
+              type: 'object',
+              title: '响应状态'
+            },
+            'event.data.responseMsg': {
+              type: 'object',
+              title: '响应消息'
+            }
+          }
+        }
+      ]
     },
     {
       eventName: 'fetchSchemaInited',
       eventLabel: '初始化Schema接口请求完成',
-      description: '远程初始化Schema接口请求完成时触发'
+      description: '远程初始化Schema接口请求完成时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            'event.data.responseData': {
+              type: 'object',
+              title: '响应数据'
+            },
+            'event.data.responseStatus': {
+              type: 'number',
+              title: '响应状态(0表示成功)'
+            },
+            'event.data.responseMsg': {
+              type: 'string',
+              title: '响应消息'
+            }
+          }
+        }
+      ]
     }
   ];
 

@@ -678,12 +678,25 @@ export default class Page extends React.Component<PageProps> {
   }
 
   initInterval(value: any) {
-    const {interval, silentPolling, stopAutoRefreshWhen, data, dispatchEvent} =
-      this.props;
+    const {
+      interval,
+      silentPolling,
+      stopAutoRefreshWhen,
+      data,
+      dispatchEvent,
+      store
+    } = this.props;
 
-    if (value?.data) {
-      dispatchEvent('inited', createObject(data, value.data));
-    }
+    dispatchEvent(
+      'inited',
+      createObject(data, {
+        ...value?.data,
+        responseData: value?.ok ? value?.data ?? {} : value,
+        responseStatus:
+          value?.status === undefined ? (store?.error ? 1 : 0) : value?.status,
+        responseMsg: value?.msg || store?.msg
+      })
+    );
 
     interval &&
       this.mounted &&

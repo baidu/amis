@@ -735,7 +735,7 @@ ws.on('connection', function connection(ws) {
 | interval              | `number`                                                                                        |                | 轮询时间间隔，单位 ms(最低 1000)                                              |
 | silentPolling         | `boolean`                                                                                       | `false`        | 配置轮询时是否显示加载动画                                                    |
 | stopAutoRefreshWhen   | [表达式](../../docs/concepts/expression)                                                        |                | 配置停止轮询的条件                                                            |
-| showErrorMsg          | `boolean`                                                                                       |       `true`         | 是否以Alert的形式显示api接口响应的错误信息，默认展示                                                            | `2.8.1` |
+| showErrorMsg          | `boolean`                                                                                       | `true`         | 是否以 Alert 的形式显示 api 接口响应的错误信息，默认展示                      | `2.8.1`                                                                                 |
 
 ## 事件表
 
@@ -743,11 +743,11 @@ ws.on('connection', function connection(ws) {
 
 > `[name]`为当前数据域中的字段名，例如：当前数据域为 {username: 'amis'}，则可以通过${username}获取对应的值。
 
-| 事件名称          | 事件参数                                                                                                                                                                               | 说明                                                |
-| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
-| init              | -                                                                                                                                                                                      | 组件实例被创建并插入 DOM 中时触发。2.4.1 及以上版本 |
-| fetchInited       | `event.data` api 远程请求返回的初始化数据<br/>`[name]: any` 当前数据域中指定字段的值</br>`__response: {msg: string; error: boolean}`接口元数据, `msg`为消息体, `error`表示接口是否成功 | 远程初始化接口请求成功时触发                        |
-| fetchSchemaInited | `event.data` schemaApi 远程请求返回的 UI 内容<br/>`[name]: any` 当前数据域中指定字段的值`__response: {msg: string; error: boolean}`接口元数据, `msg`为消息体, `error`表示接口是否成功  | 远程 schemaApi UI 内容接口请求成功                  |
+| 事件名称          | 事件参数                                                                                                                                                                                   | 说明                                                |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------- |
+| init              | -                                                                                                                                                                                          | 组件实例被创建并插入 DOM 中时触发。2.4.1 及以上版本 |
+| fetchInited       | `responseData: any` 请求的响应数据</br>`responseStatus: number` 响应状态，0 表示成功</br>`responseMsg: string`响应消息, `error`表示接口是否成功<br/>`[name]: any` 当前数据域中指定字段的值 | api 接口请求完成时触发                              |
+| fetchSchemaInited | `responseData: any` 请求的响应数据</br>`responseStatus: number` 响应状态，0 表示成功</br>`responseMsg: string`响应消息, `error`表示接口是否成功<br/>`[name]: any` 当前数据域中指定字段的值 | schemaApi 接口请求完成时触发                        |
 
 ## 动作表
 
