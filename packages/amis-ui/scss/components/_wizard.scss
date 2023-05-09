@@ -226,6 +226,21 @@
     }
   }
 
+  &-footer {
+    padding: var(--sizes-size-5) var(--sizes-size-7);
+    .#{$ns}Button {
+      &+.#{$ns}Button {
+        margin-left: var(--Panel-footerButtonMarginLeft)
+      }
+    }
+  }
+
+  &-fixedButtom {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+  }
+
   &--vertical {
     > .#{$ns}Wizard-step {
       display: flex;

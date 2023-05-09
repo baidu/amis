@@ -390,5 +390,6 @@ register('zh-CN', {
   'Required': '必填',
   'TimeNow': '此刻',
   'IconSelect.all': '全部',
-  'IconSelect.choice': '图标选择'
+  'IconSelect.choice': '图标选择',
+  'Steps.step': '第 {{index}} 步'
 });

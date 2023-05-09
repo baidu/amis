@@ -395,5 +395,6 @@ register('en-US', {
   'JSONSchema.array_items': 'Items',
   'TimeNow': 'Now',
   'IconSelect.all': 'All',
-  'IconSelect.choice': 'Icon selection'
+  'IconSelect.choice': 'Icon selection',
+  'Steps.step': 'Step {{index}}'
 });
