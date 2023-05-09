@@ -71,9 +71,6 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
     if (this.props.show) {
       this.handleEntered();
     }
-
-    document.body.addEventListener('click', this.handleRootClickCapture, true);
-    document.body.addEventListener('click', this.handleRootClick);
   }
 
   componentDidUpdate(prevProps: DrawerProps) {
@@ -94,13 +91,6 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
     if (this.props.show) {
       this.handleExited();
     }
-
-    document.body.removeEventListener('click', this.handleRootClick);
-    document.body.removeEventListener(
-      'click',
-      this.handleRootClickCapture,
-      true
-    );
   }
 
   contentRef = (ref: any) => (this.contentDom = ref);
@@ -120,11 +110,37 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
 
   handleEntered = () => {
     const onEntered = this.props.onEntered;
+
+    document.body.addEventListener(
+      'mousedown',
+      this.handleRootMouseDownCapture,
+      true
+    );
+    document.body.addEventListener(
+      'mouseup',
+      this.handleRootMouseUpCapture,
+      true
+    );
+    document.body.addEventListener('mouseup', this.handleRootMouseUp);
+
     onEntered && onEntered();
   };
   handleExited = () => {
     const onExited = this.props.onExited;
     document.activeElement && (document.activeElement as HTMLElement)?.blur?.();
+
+    document.body.removeEventListener('mouseup', this.handleRootMouseUp);
+    document.body.removeEventListener(
+      'mouseup',
+      this.handleRootMouseUpCapture,
+      true
+    );
+    document.body.removeEventListener(
+      'mousedown',
+      this.handleRootMouseDownCapture,
+      true
+    );
+
     onExited && onExited();
     setTimeout(() => {
       if (!document.querySelector('.amis-dialog-widget')) {
@@ -147,7 +163,7 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
   };
 
   @autobind
-  handleRootClickCapture(e: MouseEvent) {
+  handleRootMouseDownCapture(e: MouseEvent) {
     const target = e.target as HTMLElement;
     const {closeOnOutside, classPrefix: ns} = this.props;
     const isLeftButton =
@@ -165,7 +181,18 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
   }
 
   @autobind
-  handleRootClick(e: MouseEvent) {
+  handleRootMouseUpCapture(e: MouseEvent) {
+    // mousedown 的时候不在弹窗里面，则不需要判断了
+    if (!this.isRootClosed) {
+      return;
+    }
+
+    // 再判断 mouseup 的时候是不是在弹窗里面
+    this.handleRootMouseDownCapture(e);
+  }
+
+  @autobind
+  handleRootMouseUp(e: MouseEvent) {
     const {onHide} = this.props;
 
     this.isRootClosed && !e.defaultPrevented && onHide(e);
