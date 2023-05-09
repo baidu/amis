@@ -13,7 +13,7 @@ export function attachmentAdpator(response: any, __: Function) {
     if (disposition && disposition.indexOf('attachment') !== -1) {
       // disposition 有可能是 attachment; filename="??.xlsx"; filename*=UTF-8''%E4%B8%AD%E6%96%87.xlsx
       // 这种情况下最后一个才是正确的文件名
-      let filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)$/;
+      let filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
 
       let matches = disposition.match(filenameRegex);
       if (matches && matches.length) {
