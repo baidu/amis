@@ -694,7 +694,7 @@ export default class Page extends React.Component<PageProps> {
         responseData: value?.ok ? value?.data ?? {} : value,
         responseStatus:
           value?.status === undefined ? (store.error ? 1 : 0) : value?.status,
-        responseMsg: store.msg
+        responseMsg: value.msg || store.msg
       })
     );
 
