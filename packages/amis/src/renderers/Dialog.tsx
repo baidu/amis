@@ -105,6 +105,11 @@ export interface DialogSchema extends BaseSchema {
    * 是否显示 spinner
    */
   showLoading?: boolean;
+
+  /**
+   * 是否显示蒙层
+   */
+  overlay?: boolean;
 }
 
 export type DialogSchemaBase = Omit<DialogSchema, 'type'>;
@@ -145,7 +150,8 @@ export default class Dialog extends React.Component<DialogProps> {
     'showCloseButton',
     'showErrorMsg',
     'actions',
-    'popOverContainer'
+    'popOverContainer',
+    'overlay'
   ];
   static defaultProps = {
     title: 'Dialog.title',
@@ -532,7 +538,8 @@ export default class Dialog extends React.Component<DialogProps> {
       classnames: cx,
       classPrefix,
       translate: __,
-      loadingConfig
+      loadingConfig,
+      overlay
     } = {
       ...this.props,
       ...store.schema
@@ -560,6 +567,7 @@ export default class Dialog extends React.Component<DialogProps> {
         }
         enforceFocus={false}
         disabled={store.loading}
+        overlay={overlay}
       >
         {title && typeof title === 'string' ? (
           <div className={cx('Modal-header', headerClassName)}>
