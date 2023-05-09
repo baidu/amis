@@ -11,7 +11,7 @@ import {isApiOutdated, isEffectiveApi} from 'amis-core';
 
 /**
  * Markdown 渲染
- * 文档：https://baidu.gitee.io/amis/docs/components/markdown
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/markdown
  */
 export interface MarkdownSchema extends BaseSchema {
   /**

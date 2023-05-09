@@ -24,7 +24,8 @@
     "release": "npm run build --workspaces && lerna publish from-package --registry=https://registry.npmjs.org --ignore-scripts",
     "revision": "ts-node ./scripts/generate-revision.ts",
     "publish-to-internal": "sh ./publish-to-internal.sh",
-    "stylelint": "npx stylelint 'packages/**/*.scss'"
+    "stylelint": "npx stylelint 'packages/**/*.scss'",
+    "typecheck": "tsc --noEmit"
   },
   "husky": {
     "hooks": {
@@ -85,7 +86,7 @@
     "rollup-pluginutils": "^2.8.2",
     "setprototypeof": "^1.2.0",
     "ts-jest": "^29.0.2",
-    "vite": "^4.2.1",
+    "vite": "^4.3.1",
     "vite-plugin-monaco-editor": "^1.1.0",
     "vite-plugin-svgr": "^2.2.2",
     "zrender": "^5.3.2"

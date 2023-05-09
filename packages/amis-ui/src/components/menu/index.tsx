@@ -207,6 +207,11 @@ export interface MenuProps extends Omit<RcMenuProps, 'mode'> {
    * 展开按钮在最前面
    */
   expandBefore?: boolean;
+
+  /**
+   * 浮层自定义样式
+   */
+  popupClassName?: string;
 }
 
 interface MenuState {
@@ -546,7 +551,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
       collapsed,
       overflowedIndicator,
       overflowMaxCount,
-      style
+      popupClassName
     } = this.props;
 
     return list.map((item: NavigationItem, index: number) => {
@@ -576,13 +581,13 @@ export class Menu extends React.Component<MenuProps, MenuState> {
         return (
           <SubMenu
             {...item}
-            style={style}
             key={item.id}
             disabled={itemDisabled || link.loading}
             active={isActive(item)}
             badge={badge}
             renderLink={renderLink}
             depth={level || 1}
+            popupClassName={popupClassName}
           >
             {this.renderMenuContent(item.children || [], item.depth + 1)}
           </SubMenu>
@@ -605,7 +610,6 @@ export class Menu extends React.Component<MenuProps, MenuState> {
           data={data}
           depth={level || 1}
           order={index}
-          style={style}
           overflowedIndicator={overflowedIndicator}
           overflowMaxCount={overflowMaxCount}
         />

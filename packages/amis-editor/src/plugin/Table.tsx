@@ -22,12 +22,16 @@ import {
 import {defaultValue, getSchemaTpl, tipedLabel} from 'amis-editor-core';
 import {mockValue} from 'amis-editor-core';
 import {EditorNodeType} from 'amis-editor-core';
-import type {SchemaObject} from 'amis/lib/Schema';
+import type {SchemaObject} from 'amis';
 import {
   getEventControlConfig,
   getArgsWrapper
 } from '../renderer/event-control/helper';
-import {schemaArrayFormat, schemaToArray} from '../util';
+import {
+  schemaArrayFormat,
+  schemaToArray,
+  resolveArrayDatasource
+} from '../util';
 
 export class TablePlugin extends BasePlugin {
   // 关联渲染器名字
@@ -289,7 +293,51 @@ export class TablePlugin extends BasePlugin {
           properties: {
             'event.data.item': {
               type: 'object',
-              title: '行点击数据'
+              title: '当前行数据'
+            },
+            'event.data.index': {
+              type: 'number',
+              title: '当前行索引'
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'rowMouseEnter',
+      eventLabel: '鼠标移入行事件',
+      description: '移入整行时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            'event.data.item': {
+              type: 'object',
+              title: '当前行数据'
+            },
+            'event.data.index': {
+              type: 'number',
+              title: '当前行索引'
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'rowMouseLeave',
+      eventLabel: '鼠标移出行事件',
+      description: '移出整行时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            'event.data.item': {
+              type: 'object',
+              title: '当前行数据'
+            },
+            'event.data.index': {
+              type: 'number',
+              title: '当前行索引'
             }
           }
         }
@@ -360,13 +408,9 @@ export class TablePlugin extends BasePlugin {
 
               isCRUDBody
                 ? null
-                : {
-                    name: 'source',
-                    type: 'input-text',
-                    label: '数据源',
-                    pipeIn: defaultValue('${items}'),
-                    description: '绑定当前环境变量'
-                  },
+                : getSchemaTpl('sourceBindControl', {
+                    label: '数据源'
+                  }),
 
               {
                 name: 'combineNum',
@@ -600,11 +644,7 @@ export class TablePlugin extends BasePlugin {
   };
 
   filterProps(props: any) {
-    const arr = Array.isArray(props.value)
-      ? props.value
-      : typeof props.source === 'string'
-      ? resolveVariable(props.source, props.data)
-      : resolveVariable('items', props.data);
+    const arr = resolveArrayDatasource(props);
 
     if (!Array.isArray(arr) || !arr.length) {
       const mockedData: any = {};
@@ -688,16 +728,28 @@ export class TablePlugin extends BasePlugin {
       item => item.isRegion && item.region === 'columns'
     );
 
-    for (let current of columns?.children) {
-      const schema = current.schema;
-      if (schema.name) {
-        itemsSchema.properties[schema.name] = current.info?.plugin
-          ?.buildDataSchemas
-          ? await current.info.plugin.buildDataSchemas(current, region)
-          : {
-              type: 'string',
-              title: schema.label || schema.name
-            };
+    // todo：以下的处理无效，需要cell实现才能深层细化
+    // for (let current of columns?.children) {
+    //   const schema = current.schema;
+    //   if (schema.name) {
+    //     itemsSchema.properties[schema.name] = current.info?.plugin
+    //       ?.buildDataSchemas
+    //       ? await current.info.plugin.buildDataSchemas(current, region)
+    //       : {
+    //           type: 'string',
+    //           title: schema.label || schema.name
+    //         };
+    //   }
+    // }
+
+    // 一期先简单处理，上面todo实现之后，这里可以废弃
+    // table 无法根据source确定异步数据来源，因此不能在table层做异步数据列的收集
+    for (let current of node.schema?.columns) {
+      if (current.name) {
+        itemsSchema.properties[current.name] = {
+          type: 'string',
+          title: current.label || current.name
+        };
       }
     }
 
@@ -724,6 +776,16 @@ export class TablePlugin extends BasePlugin {
           type: 'array',
           title: '数据列表',
           items: itemsSchema
+        },
+        selectedItems: {
+          type: 'array',
+          title: '已选中行'
+          // items: itemsSchema
+        },
+        unSelectedItems: {
+          type: 'array',
+          title: '未选中行'
+          // items: itemsSchema
         }
       }
     };

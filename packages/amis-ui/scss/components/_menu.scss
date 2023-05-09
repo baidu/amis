@@ -71,13 +71,13 @@
 }
 
 @mixin item-selected {
-  color: var(--Menu-light-fontColor-onActive);
+  color: var(--Menu-light-fontColor-onHover);
 
   .#{$ns}Nav-Menu-item-label,
   .#{$ns}Nav-Menu-item-icon,
   .#{$ns}Nav-Menu-item-icon-after,
   .#{$ns}Nav-Menu-submenu-arrow {
-    color: var(--Menu-light-fontColor-onActive);
+    color: var(--Menu-light-fontColor-onHover);
 
     svg {
       fill: currentColor;
@@ -86,13 +86,13 @@
 }
 
 @mixin item-active {
-  color: var(--Menu-light-fontColor-onHover);
+  color: var(--Menu-light-fontColor-onActive);
 
   .#{$ns}Nav-Menu-item-label,
   .#{$ns}Nav-Menu-item-icon,
   .#{$ns}Nav-Menu-item-icon-after,
   .#{$ns}Nav-Menu-submenu-arrow {
-    color: var(--Menu-light-fontColor-onHover);
+    color: var(--Menu-light-fontColor-onActive);
 
     svg {
       fill: currentColor;
@@ -127,9 +127,9 @@
   --Menu-light-active-backgroundColor: var(--colors-neutral-fill-12);
   --Menu-light-backgroundColor-onHover: var(--Layout-light-bgColor-onHover);
   --Menu-light-fontColor: var(--Layout-light-fontColor);
-  --Menu-light-fontColor-onHover: var(--colors-other-5);
+  --Menu-light-fontColor-onHover: var(--Layout-fontColor--onHover);
   --Menu-light-ancestor-fontColor-onActive: var(--Layout-light-fontColor);
-  --Menu-light-fontColor-onActive: var(--colors-other-4);
+  --Menu-light-fontColor-onActive: var(--Layout-fontColor--onActive);
   --Menu-light-groupTitle-fontColor: #84868c;
   --Menu-light-selectedIndicator-color: var(--Layout-fontColor--info);
 
@@ -328,7 +328,6 @@
 
   &-vertical.#{$ns}Nav-Menu-sub {
     min-width: 160px;
-    line-height: var(--Nav-Item-height);
     border-radius: 2px;
     box-shadow: 0 4px 5px 0 rgba(21, 26, 38, 0.06),
       0 1px 10px 0 rgba(21, 26, 38, 0.05), 0 2px 4px -1px rgba(21, 26, 38, 0.04);
@@ -343,6 +342,10 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+
+    &:active {
+      @include item-active();
+    }
   }
 
   &-submenu-title {
@@ -356,7 +359,7 @@
   }
 
   &-item-active {
-    @include item-active();
+    @include item-selected();
 
     .#{$ns}Nav-Menu-item-dragBar {
       visibility: visible;
@@ -369,7 +372,7 @@
 
   .#{$ns}Nav-Menu-submenu-active {
     > .#{$ns}Nav-Menu-submenu-title {
-      @include item-active();
+      @include item-selected();
 
       .#{$ns}Nav-Menu-item-dragBar {
         visibility: visible;
@@ -433,6 +436,18 @@
       position: absolute !important;
       z-index: 1500;
       background-color: var(--Layout-light-backgroundColor);
+      line-height: var(--Nav-Item-height);
+      cursor: pointer;
+
+      // 横向收纳模式且有子菜单项的情况下 会显示2个展开箭头
+      // 用css隐藏1个 自适应收纳的情况下 判断不出是子菜单项还是收纳项
+      .#{$ns}Nav-Menu-submenu-title {
+        .#{$ns}Nav-Menu-item-link {
+          .#{$ns}Nav-Menu-submenu-arrow {
+            display: none;
+          }
+        }
+      }
     }
   }
 
@@ -464,6 +479,7 @@
       > .#{$ns}Nav-Menu-submenu-title {
       .#{$ns}Nav-Menu-overflowedIcon {
         margin-right: 0;
+        line-height: inherit; // 到了saas中 会被fortawesome的样式影响 因此需要覆盖一下
       }
     }
 
@@ -473,13 +489,18 @@
         content: ' ';
         width: 100%;
         height: 2px;
-        background: var(--Menu-light-fontColor-onActive);
+        background: var(--Menu-light-fontColor-onHover);
         position: absolute;
         left: 0;
         bottom: 0;
       }
       &:before {
         display: none;
+      }
+      &:active {
+        &:after {
+          background: var(--Menu-light-fontColor-onActive);
+        }
       }
     }
 

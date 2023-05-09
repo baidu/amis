@@ -1,9 +1,9 @@
 /**
  * 形状
  */
-import {ST_ShapeType} from '../../Types';
-import Word from '../../../Word';
-import {parseShapeGuide} from '../../../parse/parseShape';
+import {ST_ShapeType} from '../Types';
+import Word from '../../Word';
+import {parseShapeGuide} from '../../parse/parseShape';
 import {ShapeGuide} from './Shape';
 
 export class Geom {

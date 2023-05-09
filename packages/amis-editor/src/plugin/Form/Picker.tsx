@@ -45,7 +45,8 @@ export class PickerControlPlugin extends BasePlugin {
         label: '选项B',
         value: 'B'
       }
-    ]
+    ],
+    modalClassName: 'app-popover'
   };
   previewSchema: any = {
     type: 'form',

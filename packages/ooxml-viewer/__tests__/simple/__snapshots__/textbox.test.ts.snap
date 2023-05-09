@@ -66,7 +66,7 @@ exports[`textbox 1`] = `
             <path
               d="M 0 0 L 155.16 0 L 155.16 82.6 L 0 82.6 Z"
               fill="#FFFFFF"
-              stroke="black"
+              stroke="#000000"
               stroke-width="0.67px"
             />
           </svg>

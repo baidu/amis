@@ -130,7 +130,7 @@ register('zh-CN', {
   'File.dragDrop': '将文件拖到此处，或',
   'File.clickUpload': '点击上传',
   'File.helpText': '帮助文档',
-  'File.errorRetry': '文件上传失败请重试',
+  'File.errorRetry': '文件上传失败，请重试',
   'File.failed': '失败文件',
   'File.invalidType': '{{files}} 不符合类型的 {{accept}} 的设定，请仔细检查',
   'File.maxLength': '最多上传 {{maxLength}} 个文件',
@@ -143,7 +143,6 @@ register('zh-CN', {
   'File.sizeLimit': '文件大小不超过 {{maxSize}}',
   'File.start': '开始上传',
   'File.upload': '文件上传',
-  'Image.upload': '图片上传',
   'File.uploadFailed': '接口返回错误，请仔细检查',
   'File.uploading': '上传中...',
   'FormItem.autoFillLoadFailed': '接口返回错误，请仔细检查',
@@ -156,6 +155,8 @@ register('zh-CN', {
   'Form.nestedError': '表单不要直接嵌套在表单下面',
   'Iframe.invalid': 'iframe 地址不合法',
   'Iframe.invalidProtocol': '无法加载 http 协议的 iframe',
+  'Image.upload': '图片上传',
+  'Image.errorRetry': '上传失败，请重试',
   'Image.configError': '图片多选配置和裁剪配置只能设置一个',
   'Image.crop': '裁剪图片',
   'Image.dragDrop': '将图片拖拽到此处',
@@ -389,5 +390,6 @@ register('zh-CN', {
   'Required': '必填',
   'TimeNow': '此刻',
   'IconSelect.all': '全部',
-  'IconSelect.choice': '图标选择'
+  'IconSelect.choice': '图标选择',
+  'Steps.step': '第 {{index}} 步'
 });

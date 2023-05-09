@@ -626,6 +626,13 @@ export interface BaseSchemaWithoutType {
    */
   staticInputClassName?: SchemaClassName;
   staticSchema?: any;
+
+  /**
+   * 组件样式
+   */
+  style?: {
+    [propName: string]: any;
+  };
 }
 
 export type OperatorType =

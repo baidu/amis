@@ -241,6 +241,8 @@ export class HeadCellFilter extends React.Component<Props, State> {
     ) => void | undefined
   ) {
     setSelectedKeys && setSelectedKeys([]);
+    const {onFilter, column} = this.props;
+    onFilter && onFilter({[column.name]: ''});
     confirm();
   }
 }

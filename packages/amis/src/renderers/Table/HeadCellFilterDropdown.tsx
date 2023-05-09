@@ -68,6 +68,8 @@ export class HeadCellFilterDropDown extends React.Component<
 
     const props = this.props;
 
+    this.sourceInvalid = false;
+
     if (
       prevProps.name !== props.name ||
       prevProps.filterable !== props.filterable ||

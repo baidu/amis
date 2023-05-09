@@ -1,14 +1,13 @@
 import {Paragraph} from './../openxml/word/Paragraph';
 import Word from '../Word';
-import {Drawing} from '../openxml/word/drawing/Drawing';
-import {Pic} from '../openxml/word/drawing/Pic';
+import {Drawing} from '../openxml/drawing/Drawing';
+import {Pic} from '../openxml/drawing/Pic';
 import {appendChild, applyStyle} from '../util/dom';
 import renderParagraph from './renderParagraph';
 import renderTable from './renderTable';
 import {Table} from '../openxml/word/Table';
 import {renderGeom} from './renderGeom';
 import {renderCustGeom} from './renderCustGeom';
-import {fixAbsolutePosition} from './fixAbsolutePosition';
 
 /**
  * 渲染图片
@@ -18,8 +17,19 @@ function renderPic(pic: Pic, word: Word, drawing: Drawing) {
   if (blip && blip.src) {
     const img = document.createElement('img') as HTMLImageElement;
     img.style.position = 'relative';
-
+    img.alt = pic.alt || '';
     img.src = blip.src;
+
+    if (pic.alt && word.renderOptions.enableVar) {
+      if (pic.altVar) {
+        img.src = pic.altVar;
+      } else if (pic.alt.startsWith('{{')) {
+        const src = word.replaceText(pic.alt);
+        if (src) {
+          img.src = src;
+        }
+      }
+    }
 
     const xfrm = pic.spPr?.xfrm;
 

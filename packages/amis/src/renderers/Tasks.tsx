@@ -13,7 +13,7 @@ import {createObject} from 'amis-core';
 
 /**
  * Tasks 渲染器，格式说明
- * 文档：https://baidu.gitee.io/amis/docs/components/tasks
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/tasks
  */
 export interface TasksSchema extends BaseSchema, SpinnerExtraProps {
   /** 指定为任务类型 */

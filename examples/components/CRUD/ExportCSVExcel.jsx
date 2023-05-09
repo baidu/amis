@@ -141,7 +141,7 @@ export default {
     columns: [
       {
         name: 'icon',
-        label: '图标',
+        label: '<%= "图标" %>',
         type: 'image'
       },
       {
@@ -158,7 +158,8 @@ export default {
       },
       {
         name: 'engine.name',
-        label: '引擎'
+        label: '引擎',
+        className: 'text-primary'
       },
       {
         name: 'browser',
@@ -170,9 +171,11 @@ export default {
       },
       {
         name: 'engine.version',
-        label: 'CSS版本',
+        label: '引擎版本',
         type: 'tpl',
-        tpl: '<b>${engine.version}</b>'
+        tpl: '<b>${engine.version}</b>',
+        classNameExpr:
+          "<%= data.engine.version > 4 ? 'bg-green-100' : 'bg-red-50' %>"
       },
       {
         name: 'grade',

@@ -10,7 +10,7 @@ import {ActionSchema} from './Action';
 
 /**
  * 操作栏渲染器。
- * 文档：https://baidu.gitee.io/amis/docs/components/operation
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/operation
  */
 export interface OperationSchema extends BaseSchema {
   /**

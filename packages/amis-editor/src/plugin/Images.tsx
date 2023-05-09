@@ -17,7 +17,8 @@ export class ImagesPlugin extends BasePlugin {
   icon = 'fa fa-clone';
   pluginIcon = 'images-plugin';
   scaffold = {
-    type: 'images'
+    type: 'images',
+    imageGallaryClassName: 'app-popover'
   };
   previewSchema = {
     ...this.scaffold,
@@ -84,14 +85,13 @@ export class ImagesPlugin extends BasePlugin {
                       }
                     }
                   },
-                  {
-                    name: 'source',
-                    type: 'input-text',
-                    label: '关联数据',
-                    description:
-                      '比如：\\${listVar}，用来关联作用域中的已有数据。',
+                  getSchemaTpl('sourceBindControl', {
+                    label: tipedLabel(
+                      '关联数据',
+                      '比如：\\${listVar}，用来关联作用域中的已有数据'
+                    ),
                     visibleOn: 'this.__mode == 1'
-                  },
+                  }),
                   {
                     type: 'combo',
                     name: 'options',

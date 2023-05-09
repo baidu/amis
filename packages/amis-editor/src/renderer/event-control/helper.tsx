@@ -182,6 +182,90 @@ export const SUPPORT_DISABLED_CMPTS = [
   // 'card2'
 ];
 
+// 用于变量赋值 页面变量和内存变量的树选择器中，支持展示变量类型
+const getCustomNodeTreeSelectSchema = (opts: Object) => ({
+  type: 'tree-select',
+  name: 'path',
+  label: '内存变量',
+  multiple: false,
+  mode: 'horizontal',
+  required: true,
+  placeholder: '请选择变量',
+  showIcon: false,
+  size: 'lg',
+  hideRoot: false,
+  rootLabel: '内存变量',
+  options: [],
+  menuTpl: {
+    type: 'flex',
+    className: 'p-1',
+    items: [
+      {
+        type: 'container',
+        body: [
+          {
+            type: 'tpl',
+            tpl: '${label}',
+            inline: true,
+            wrapperComponent: ''
+          }
+        ],
+        style: {
+          display: 'flex',
+          flexWrap: 'nowrap',
+          alignItems: 'center',
+          position: 'static',
+          overflowY: 'auto',
+          flex: '0 0 auto'
+        },
+        wrapperBody: false,
+        isFixedHeight: true
+      },
+      {
+        type: 'container',
+        body: [
+          {
+            type: 'tpl',
+            tpl: '${type}',
+            inline: true,
+            wrapperComponent: '',
+            style: {
+              background: '#f5f5f5',
+              paddingLeft: '8px',
+              paddingRight: '8px',
+              borderRadius: '4px'
+            }
+          }
+        ],
+        size: 'xs',
+        style: {
+          display: 'flex',
+          flexWrap: 'nowrap',
+          alignItems: 'center',
+          position: 'static',
+          overflowY: 'auto',
+          flex: '0 0 auto'
+        },
+        wrapperBody: false,
+        isFixedHeight: true,
+        isFixedWidth: false
+      }
+    ],
+    style: {
+      position: 'relative',
+      inset: 'auto',
+      flexWrap: 'nowrap',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      height: '24px',
+      overflowY: 'hidden'
+    },
+    isFixedHeight: true,
+    isFixedWidth: false
+  },
+  ...opts
+});
+
 export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
   const variableManager = manager?.variableManager;
   /** 变量列表 */
@@ -516,7 +600,8 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             'position',
             'timeout',
             'closeButton',
-            'showIcon'
+            'showIcon',
+            'className'
           ],
           descDetail: (info: any) => {
             return (
@@ -1558,33 +1643,20 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                     type: 'wrapper',
                     className: 'p-none',
                     body: [
-                      {
-                        type: 'tree-select',
-                        name: 'path',
+                      getCustomNodeTreeSelectSchema({
                         label: '页面变量',
-                        multiple: false,
-                        mode: 'horizontal',
-                        required: true,
-                        placeholder: '请选择变量',
-                        showIcon: false,
-                        size: 'lg',
-                        hideRoot: false,
                         rootLabel: '页面变量',
                         options: pageVariableOptions
-                      },
-                      {
-                        type: 'input-formula',
+                      }),
+                      getSchemaTpl('formulaControl', {
                         name: 'value',
                         label: '数据设置',
                         variables: '${variables}',
-                        evalMode: false,
-                        variableMode: 'tabs',
-                        inputMode: 'input-group',
                         size: 'lg',
                         mode: 'horizontal',
                         required: true,
                         placeholder: '请输入变量值'
-                      }
+                      })
                     ]
                   }
                 ])
@@ -1600,33 +1672,18 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                     type: 'wrapper',
                     className: 'p-none',
                     body: [
-                      {
-                        type: 'tree-select',
-                        name: 'path',
-                        label: '内存变量',
-                        multiple: false,
-                        mode: 'horizontal',
-                        required: true,
-                        placeholder: '请选择变量',
-                        showIcon: false,
-                        size: 'lg',
-                        hideRoot: false,
-                        rootLabel: '内存变量',
+                      getCustomNodeTreeSelectSchema({
                         options: variableOptions
-                      },
-                      {
-                        type: 'input-formula',
+                      }),
+                      getSchemaTpl('formulaControl', {
                         name: 'value',
                         label: '数据设置',
                         variables: '${variables}',
-                        evalMode: false,
-                        variableMode: 'tabs',
-                        inputMode: 'input-group',
                         size: 'lg',
                         mode: 'horizontal',
                         required: true,
                         placeholder: '请输入变量值'
-                      }
+                      })
                     ]
                   }
                 ])
@@ -1811,7 +1868,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             value: `/* 自定义JS使用说明：
   * 1.动作执行函数doAction，可以执行所有类型的动作
   * 2.通过上下文对象context可以获取当前组件实例，例如context.props可以获取该组件相关属性
-  * 3.事件对象event，在doAction之后执行event.stopPropagation = true;可以阻止后续动作执行
+  * 3.事件对象event，在doAction之后执行event.stopPropagation();可以阻止后续动作执行
 */
 const myMsg = '我是自定义JS';
 doAction({
@@ -3085,6 +3142,14 @@ export const getEventControlConfig = (
             params: comboArrayToObject(params)
           };
         }
+      }
+
+      if (action.actionType === 'toast') {
+        // 配置一个toast组件默认class
+        action.args = {
+          ...action.args,
+          className: 'theme-toast-action-scope'
+        };
       }
 
       // 转换下格式

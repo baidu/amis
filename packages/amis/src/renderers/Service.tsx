@@ -59,7 +59,7 @@ export type ComposedDataProvider = DataProvider | DataProviderCollection;
 
 /**
  * Service 服务类控件。
- * 文档：https://baidu.gitee.io/amis/docs/components/service
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/service
  */
 export interface ServiceSchema extends BaseSchema, SpinnerExtraProps {
   /**
@@ -512,10 +512,17 @@ export default class Service extends React.Component<ServiceProps> {
     const data = result?.hasOwnProperty('ok') ? result.data ?? {} : result;
     const {onBulkChange, dispatchEvent, store} = this.props;
 
-    dispatchEvent?.('fetchInited', {
-      ...data,
-      __response: {msg: store.msg, error: store.error}
-    });
+    dispatchEvent?.(
+      'fetchInited',
+      createObject(this.props.data, {
+        ...data,
+        __response: {msg: store.msg, error: store.error}, // 保留，兼容历史
+        responseData: data,
+        responseStatus:
+          result?.status === undefined ? (store.error ? 1 : 0) : result?.status,
+        responseMsg: store.msg
+      })
+    );
 
     if (!isEmpty(data) && onBulkChange) {
       onBulkChange(data);
@@ -529,7 +536,11 @@ export default class Service extends React.Component<ServiceProps> {
 
     dispatchEvent?.('fetchSchemaInited', {
       ...schema,
-      __response: {msg: store.msg, error: store.error}
+      __response: {msg: store.msg, error: store.error}, // 保留，兼容历史
+      responseData: schema,
+      responseStatus:
+        schema?.status === undefined ? (store.error ? 1 : 0) : schema?.status,
+      responseMsg: store.msg
     });
 
     if (formStore && schema?.data && onBulkChange) {

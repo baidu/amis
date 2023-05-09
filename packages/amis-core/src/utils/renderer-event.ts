@@ -109,15 +109,16 @@ export const bindEvent = (renderer: any) => {
               item.renderer === listener.renderer && item.type === listener.type
             )
         );
-        rendererEventListeners.push({
-          renderer,
-          type: key,
-          debounce: listener.debounce || null,
-          weight: listener.weight || 0,
-          actions: listener.actions
-        });
+        listener.actions.length &&
+          rendererEventListeners.push({
+            renderer,
+            type: key,
+            debounce: listener.debounce || null,
+            weight: listener.weight || 0,
+            actions: listener.actions
+          });
       }
-      if (!listener) {
+      if (!listener && listeners[key].actions?.length) {
         rendererEventListeners.push({
           renderer,
           type: key,

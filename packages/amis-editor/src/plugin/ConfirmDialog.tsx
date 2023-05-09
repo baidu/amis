@@ -14,7 +14,7 @@ import {InlineModal} from './Dialog';
 export class ConfirmDialogPlugin extends BasePlugin {
   // 关联渲染器名字
   rendererName = 'confirm-dialog';
-  $schema = '/schemas/DrawerSchema.json';
+  $schema = '/schemas/ConfirmDialogSchema.json';
 
   // 组件名称
   name = '确认弹框';
@@ -48,59 +48,6 @@ export class ConfirmDialogPlugin extends BasePlugin {
       label: '按钮组',
       renderMethod: 'renderFooter',
       wrapperResolve: dom => dom
-    }
-  ];
-
-  events = [
-    {
-      eventName: 'confirm',
-      eventLabel: '确认',
-      description: '点击抽屉确认按钮时触发',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            'event.data': {
-              type: 'object',
-              title: '抽屉数据'
-            }
-          }
-        }
-      ]
-    },
-    {
-      eventName: 'cancel',
-      eventLabel: '取消',
-      description: '点击抽屉取消按钮时触发',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            'event.data': {
-              type: 'object',
-              title: '抽屉数据'
-            }
-          }
-        }
-      ]
-    }
-  ];
-
-  actions = [
-    {
-      actionType: 'confirm',
-      actionLabel: '确认',
-      description: '触发弹窗确认操作'
-    },
-    {
-      actionType: 'cancel',
-      actionLabel: '取消',
-      description: '触发弹窗取消操作'
-    },
-    {
-      actionType: 'setValue',
-      actionLabel: '变量赋值',
-      description: '触发组件数据更新'
     }
   ];
 

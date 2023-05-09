@@ -162,6 +162,8 @@ export class Tag extends React.Component<TagProps> {
         })}
         style={tagStyle}
         onClick={this.handleClick}
+        onMouseEnter={this.handleMouseEnter}
+        onMouseLeave={this.handleMouseLeave}
       >
         <span className={cx('Tag-text')}>
           {prevIcon}

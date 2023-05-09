@@ -19,7 +19,7 @@ import {supportStatic} from './StaticHoc';
 
 /**
  * Matrix 选择控件。适合做权限勾选。
- * 文档：https://baidu.gitee.io/amis/docs/components/form/matrix
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/matrix
  */
 export interface MatrixControlSchema extends FormBaseControlSchema {
   type: 'matrix-checkboxes';

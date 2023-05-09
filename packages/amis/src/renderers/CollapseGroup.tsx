@@ -5,7 +5,7 @@ import {CollapseGroup} from 'amis-ui';
 
 /**
  * CollapseGroup 折叠渲染器，格式说明。
- * 文档：https://baidu.gitee.io/amis/docs/components/collapse
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/collapse
  */
 export interface CollapseGroupSchema extends BaseSchema {
   /**

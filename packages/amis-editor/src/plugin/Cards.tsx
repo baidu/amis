@@ -1,4 +1,4 @@
-import {Button, resolveVariable} from 'amis';
+import {Button} from 'amis';
 import React from 'react';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {
@@ -16,6 +16,7 @@ import {
 } from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {diff, JSONPipeOut, repeatArray} from 'amis-editor-core';
+import {resolveArrayDatasource} from '../util';
 
 export class CardsPlugin extends BasePlugin {
   static scene = ['layout'];
@@ -252,11 +253,11 @@ export class CardsPlugin extends BasePlugin {
       ...props.defaultData,
       ...props.data
     };
-    const arr = Array.isArray(props.value)
-      ? props.value
-      : typeof props.source === 'string'
-      ? resolveVariable(props.source, data)
-      : resolveVariable('items', data);
+    const arr = resolveArrayDatasource({
+      value: props.value,
+      data,
+      source: props.source
+    });
 
     if (!Array.isArray(arr) || !arr.length) {
       const mockedData: any = {

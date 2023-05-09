@@ -51,15 +51,25 @@ addSchemaFilter(function (schema: Schema, renderer, props?: any) {
         return obj;
       },
       items: [
-        {
-          placeholder: schema.keyPlaceholder ?? 'Key',
-          type: 'input-text',
-          unique: true,
-          name: 'key',
-          required: true,
-          validateOnChange: true
-        },
-        schema.valueComponent
+        schema.keySchema
+          ? {
+              ...schema.keySchema,
+              unique: true,
+              name: 'key',
+              required: true,
+              validateOnChange: true
+            }
+          : {
+              placeholder: schema.keyPlaceholder ?? 'Key',
+              type: 'input-text',
+              unique: true,
+              name: 'key',
+              required: true,
+              validateOnChange: true
+            },
+        schema.valueSchema
+          ? {...schema.valueSchema, name: 'value'}
+          : schema.valueComponent
           ? {
               placeholder: schema.valuePlaceholder ?? 'Value',
               component: schema.valueComponent,

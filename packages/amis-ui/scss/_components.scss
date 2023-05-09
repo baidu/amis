@@ -1104,6 +1104,7 @@
   --inputNumber-base-default-step-bg: var(--colors-neutral-fill-11);
   --inputNumber-base-hover-step-bg: var(--colors-neutral-fill-11);
   --inputNumber-base-active-step-bg: var(--colors-neutral-fill-11);
+  --inputNumber-base-unit-bg-color: var(--colors-neutral-fill-10);
   --inputNumber-base-default-unit-width: var(--sizes-base-28);
   --inputNumber-base-default-unit-paddingTop: calc(
     (
@@ -1118,7 +1119,7 @@
       ) / 2
   );
   --inputNumber-base-default-unit-paddingLeft: var(--sizes-size-6);
-  --inputNumber-base-default-unit-paddingRight: 0;
+  --inputNumber-base-default-unit-paddingRight: var(--sizes-size-6);
   --inputNumber-size-sm-height: var(--sizes-base-16);
   --inputNumber-size-default-height: var(--sizes-base-16);
   --inputNumber-size-md-height: var(--sizes-base-16);
@@ -1278,7 +1279,9 @@
   // 勾选框
   --checkbox-checkbox-default-height: var(--sizes-size-9);
   --checkbox-checkbox-default-bg-color: var(--colors-neutral-fill-11);
-  --checkbox-checkbox-default-color: var(--colors-neutral-text-2);
+  --checkbox-checkbox-default-text-color: var(--colors-neutral-text-2);
+  --checkbox-checkbox-default-lineHeight: var(--fonts-lineHeight-2);
+  --checkbox-checkbox-default-fontWeight: var(--fonts-weight-6);
   --checkbox-checkbox-default-fontSize: var(--sizes-size-8);
   --checkbox-checkbox-default-top-border-color: var(--colors-neutral-line-8);
   --checkbox-checkbox-default-top-border-width: var(--borders-width-2);
@@ -1298,7 +1301,7 @@
   --checkbox-checkbox-default-bottom-left-border-radius: var(--sizes-size-2);
   --checkbox-checkbox-hover-height: var(--sizes-size-9);
   --checkbox-checkbox-hover-bg-color: var(--colors-neutral-fill-11);
-  --checkbox-checkbox-hover-color: var(--colors-neutral-text-2);
+  --checkbox-checkbox-hover-text-color: var(--colors-neutral-text-2);
   --checkbox-checkbox-hover-fontSize: var(--sizes-size-8);
   --checkbox-checkbox-hover-top-border-color: var(--colors-brand-5);
   --checkbox-checkbox-hover-top-border-width: var(--borders-width-2);
@@ -1318,7 +1321,7 @@
   --checkbox-checkbox-hover-bottom-left-border-radius: var(--sizes-size-2);
   --checkbox-checkbox-active-height: var(--sizes-size-9);
   --checkbox-checkbox-active-bg-color: var(--colors-neutral-fill-11);
-  --checkbox-checkbox-active-color: var(--colors-neutral-text-2);
+  --checkbox-checkbox-active-text-color: var(--colors-neutral-text-2);
   --checkbox-checkbox-active-fontSize: var(--sizes-size-8);
   --checkbox-checkbox-active-top-border-color: var(--colors-brand-5);
   --checkbox-checkbox-active-top-border-width: var(--borders-width-2);
@@ -1338,7 +1341,7 @@
   --checkbox-checkbox-active-bottom-left-border-radius: var(--sizes-size-2);
   --checkbox-checkbox-disabled-height: var(--sizes-size-9);
   --checkbox-checkbox-disabled-bg-color: var(--colors-neutral-fill-10);
-  --checkbox-checkbox-disabled-color: var(--colors-neutral-text-2);
+  --checkbox-checkbox-disabled-text-color: var(--colors-neutral-text-6);
   --checkbox-checkbox-disabled-fontSize: var(--sizes-size-8);
   --checkbox-checkbox-disabled-top-border-color: var(--colors-neutral-line-8);
   --checkbox-checkbox-disabled-top-border-width: var(--borders-width-2);
@@ -1750,6 +1753,7 @@
   --dialog-default-border-radius: var(--sizes-size-4);
   --dialog-default-padding-y: var(--sizes-base-12);
   --dialog-header-height: var(--sizes-size-1);
+  --dialog-icon-icon: '<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="icon icon-close"><g id="close" transform="translate(1.439340, 1.439340)" fill="currentColor" fill-rule="nonzero"><polygon points="12.0606602 5.80646642e-14 13.1213203 1.06066017 7.62066017 6.56066017 13.1213203 12.0606602 12.0606602 13.1213203 6.56066017 7.62066017 1.06066017 13.1213203 0 12.0606602 5.49966017 6.56066017 1.72084569e-13 1.06066017 1.06066017 0 6.56066017 5.49966017"></polygon></g></svg>';
   --dialog-icon-size: var(--sizes-size-9);
   --dialog-icon-color: var(--colors-neutral-text-6);
   --dialog-header-color: var(--colors-neutral-text-2);
@@ -1805,6 +1809,7 @@
   --drawer-header-color: var(--colors-neutral-text-2);
   --drawer-header-fontSize: var(--fonts-size-7);
   --drawer-header-fontWeight: var(--fonts-weight-5);
+  --drawer-header-icon-icon: '<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class=" icon-close"><g id="close" transform="translate(1.439340, 1.439340)" fill="currentColor" fill-rule="nonzero"><polygon points="12.0606602 5.80646642e-14 13.1213203 1.06066017 7.62066017 6.56066017 13.1213203 12.0606602 12.0606602 13.1213203 6.56066017 7.62066017 1.06066017 13.1213203 0 12.0606602 5.49966017 6.56066017 1.72084569e-13 1.06066017 1.06066017 0 6.56066017 5.49966017"></polygon></g></svg>';
   --drawer-header-icon-size: var(--sizes-size-7);
   --drawer-header-icon-color: var(--colors-neutral-text-2);
   --drawer-content-paddingTop: var(--sizes-base-12);
@@ -3310,6 +3315,8 @@
   --Tag-base-paddingBottom: var(--sizes-size-0);
   --Tag-base-paddingLeft: var(--sizes-size-5);
   --Tag-base-paddingRight: var(--sizes-size-5);
+  --Tag-base-padding: var(--Tag-base-paddingTop) var(--Tag-base-paddingRight)
+   var(--Tag-base-paddingBottom) var(--Tag-base-paddingLeft);
   --Tag-model-normal-top-border-color: var(--colors-neutral-line-6);
   --Tag-model-normal-top-border-width: var(--borders-width-2);
   --Tag-model-normal-top-border-style: var(--borders-style-1);

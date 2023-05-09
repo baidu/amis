@@ -16,7 +16,7 @@ import {
 
 /**
  * Static
- * 文档：https://baidu.gitee.io/amis/docs/components/form/static
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/static
  */
 export interface StaticExactControlSchema extends FormBaseControlSchema {
   type: 'static';

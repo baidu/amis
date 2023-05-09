@@ -13,8 +13,8 @@ import {
   Path,
   IPath,
   PathPoint
-} from '../openxml/word/drawing/Path';
-import {Rect, Shape, ShapeGuide} from '../openxml/word/drawing/Shape';
+} from '../openxml/drawing/Path';
+import {Rect, Shape, ShapeGuide} from '../openxml/drawing/Shape';
 
 export function parsePts(element: Element) {
   const pts: PathPoint[] = [];

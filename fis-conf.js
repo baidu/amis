@@ -466,6 +466,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!echarts-stat/**',
         '!papaparse/**',
         '!exceljs/**',
+        '!xlsx/**',
         '!docsearch.js/**',
         '!monaco-editor/**.css',
         '!amis-ui/lib/components/RichText.js',
@@ -505,6 +506,8 @@ if (fis.project.currentMedia() === 'publish-sdk') {
       'papaparse.js': ['papaparse/**'],
 
       'exceljs.js': ['exceljs/**'],
+
+      'xlsx.js': ['xlsx/**'],
 
       'markdown.js': [
         'amis-ui/lib/components/Markdown.js',
@@ -547,6 +550,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!echarts/**',
         '!papaparse/**',
         '!exceljs/**',
+        '!xlsx/**',
         '!highlight.js/**',
         '!argparse/**',
         '!entities/**',
@@ -758,6 +762,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!echarts-stat/**',
         '!papaparse/**',
         '!exceljs/**',
+        '!xlsx/**',
         '!docsearch.js/**',
         '!monaco-editor/**.css',
         '!src/components/RichText.tsx',
@@ -802,6 +807,8 @@ if (fis.project.currentMedia() === 'publish-sdk') {
       'pkg/papaparse.js': ['papaparse/**'],
 
       'pkg/exceljs.js': ['exceljs/**'],
+
+      'pkg/xlsx.js': ['xlsx/**'],
 
       'pkg/barcode.js': ['amis-ui/lib/components/BarCode.tsx', 'jsbarcode/**'],
 
@@ -857,6 +864,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!echarts/**',
         '!papaparse/**',
         '!exceljs/**',
+        '!xlsx/**',
         '!amis-core/lib/utils/markdown.ts',
         '!highlight.js/**',
         '!argparse/**',

@@ -10,7 +10,8 @@ import {
   getExprProperties,
   buildStyle,
   filter,
-  evalExpression
+  evalExpression,
+  insertStyle
 } from 'amis-core';
 import {
   guid,
@@ -84,7 +85,9 @@ export type NavItemSchema = {
 
   accordion?: boolean; // 手风琴展开 仅垂直inline模式支持
 
-  mode?: string; // 菜单项模式 分组模式：group
+  mode?: string; // 菜单项模式 分组模式：group、divider
+
+  popupClassName?: string; // 子菜单项展开浮层样式
 } & Omit<BaseSchema, 'type'>;
 
 export interface NavOverflow {
@@ -100,7 +103,7 @@ export interface NavOverflow {
 
   /**
    * 菜单触发按钮的图标
-   * @default "fa fa-ellipsis"
+   * @default "fa fa-ellipsis-h"
    */
   overflowIndicator?: SchemaIcon;
 
@@ -154,7 +157,7 @@ export interface NavOverflow {
 
 /**
  * Nav 导航渲染器
- * 文档：https://baidu.gitee.io/amis/docs/components/nav
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/nav
  */
 export interface NavSchema extends BaseSchema {
   /**
@@ -594,7 +597,7 @@ export class Navigation extends React.Component<
       if (isOverflow) {
         const {
           maxVisibleCount,
-          overflowIndicator = 'fa fa-ellipsis',
+          overflowIndicator = 'fa fa-ellipsis-h',
           overflowLabel,
           overflowClassName
         } = link.overflow;
@@ -610,7 +613,7 @@ export class Navigation extends React.Component<
                     {getIcon(overflowIndicator!) ? (
                       <Icon icon={overflowIndicator} className="icon" />
                     ) : (
-                      generateIcon(cx, overflowIndicator, 'Nav-itemIcon')
+                      generateIcon(cx, overflowIndicator, 'Nav-item-icon')
                     )}
                     {overflowLabel && isObject(overflowLabel)
                       ? render('nav-overflow-label', overflowLabel)
@@ -677,7 +680,9 @@ export class Navigation extends React.Component<
       draggable,
       themeColor,
       expandPosition,
+      popupClassName,
       disabled,
+      id,
       render
     } = this.props;
     const {dropIndicator} = this.state;
@@ -685,7 +690,7 @@ export class Navigation extends React.Component<
     let overflowedIndicator = null;
     if (overflow && isObject(overflow) && overflow.enable) {
       const {
-        overflowIndicator = 'fa fa-ellipsis',
+        overflowIndicator = 'fa fa-ellipsis-h',
         overflowLabel,
         overflowClassName
       } = overflow;
@@ -704,7 +709,27 @@ export class Navigation extends React.Component<
         </span>
       );
     }
-    const styleConfig = buildStyle(style, data);
+
+    let styleConfig = null;
+    let classNameId = '';
+    if (style) {
+      try {
+        styleConfig = buildStyle(style, data);
+        // 格式转换
+        // {"color": "red", "lineHeight": "52px"}
+        const styleText = JSON.stringify(styleConfig)
+          .replace(/\,/g, ';')
+          .replace(/\"/g, '')
+          .replace(/[A-Z]/g, s => '-' + s.toLowerCase());
+        // 一个nav对应一个classNameId 避免重复
+        classNameId = cx(`Nav-PopupClassName-${id}`);
+        if (!document.getElementById(classNameId)) {
+          // rc-menu的浮层只支持配置popupClassName 因此需要将配置的style插入到页面 然后将className赋值给浮层
+          insertStyle(`.${classNameId} ${styleText}`, classNameId);
+        }
+      } catch (e) {}
+    }
+
     return (
       <div
         className={cx('Nav', className, {
@@ -747,7 +772,9 @@ export class Navigation extends React.Component<
               overflowItemWidth={overflow?.itemWidth}
               overflowComponent={overflow?.wrapperComponent}
               overflowStyle={overflow?.style}
-              style={styleConfig}
+              popupClassName={`${popupClassName || ''}${
+                classNameId ? ` ${classNameId}` : ''
+              }`}
               expandIcon={
                 expandIcon
                   ? typeof expandIcon === 'string'
@@ -870,6 +897,7 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
                   evalExpression(link.activeOn as string, location)
                 : !!(
                     link.hasOwnProperty('to') &&
+                    link.to !== null && // 也可能出现{to: null}的情况（独立应用）filter会把null处理成'' 那默认首页会选中很多菜单项 {to: ''}认为是有效配置
                     env &&
                     env.isCurrentUrl(filter(link.to as string, data))
                   ));
@@ -1345,10 +1373,11 @@ export class NavigationRenderer extends React.Component<RendererProps> {
   }
 
   render() {
-    const {...rest} = this.props;
+    const {id, ...rest} = this.props;
     return (
       <ConditionBuilderWithRemoteOptions
         {...rest}
+        id={id || guid()} // id要么从editor传递过来 要么一个nav随机生成1个
         onRef={this.getRef}
         reload={this.reload}
         remoteConfigRef={this.remoteConfigRef}

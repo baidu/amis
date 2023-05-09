@@ -6,7 +6,7 @@ exports[`Renderer:steps 1`] = `
     class="cxd-Steps cxd-Steps--Placement- cxd-Steps-- cxd-Steps--horizontal"
   >
     <li
-      class="cxd-StepsItem is-process className cxd-StepsItem-"
+      class="cxd-StepsItem is-process className"
     >
       <div
         class="cxd-StepsItem-container"
@@ -61,7 +61,7 @@ exports[`Renderer:steps 1`] = `
       </div>
     </li>
     <li
-      class="cxd-StepsItem is-wait cxd-StepsItem-"
+      class="cxd-StepsItem is-wait"
     >
       <div
         class="cxd-StepsItem-container"
@@ -105,7 +105,7 @@ exports[`Renderer:steps 1`] = `
       </div>
     </li>
     <li
-      class="cxd-StepsItem is-wait cxd-StepsItem-"
+      class="cxd-StepsItem is-wait"
     >
       <div
         class="cxd-StepsItem-container"
@@ -158,7 +158,7 @@ exports[`Renderer:steps 2`] = `
     class="cxd-Steps cxd-Steps--Placement- cxd-Steps-- cxd-Steps--horizontal"
   >
     <li
-      class="cxd-StepsItem is-process className cxd-StepsItem-"
+      class="cxd-StepsItem is-process className"
     >
       <div
         class="cxd-StepsItem-container"
@@ -213,7 +213,7 @@ exports[`Renderer:steps 2`] = `
       </div>
     </li>
     <li
-      class="cxd-StepsItem is-wait cxd-StepsItem-"
+      class="cxd-StepsItem is-wait"
     >
       <div
         class="cxd-StepsItem-container"
@@ -257,7 +257,7 @@ exports[`Renderer:steps 2`] = `
       </div>
     </li>
     <li
-      class="cxd-StepsItem is-wait cxd-StepsItem-"
+      class="cxd-StepsItem is-wait"
     >
       <div
         class="cxd-StepsItem-container"
@@ -310,7 +310,7 @@ exports[`Renderer:steps labelPlacement 1`] = `
     class="cxd-Steps cxd-Steps--Placement-vertical cxd-Steps-- cxd-Steps--horizontal className"
   >
     <li
-      class="cxd-StepsItem is-process cxd-StepsItem-"
+      class="cxd-StepsItem is-process"
     >
       <div
         class="cxd-StepsItem-container"
@@ -354,7 +354,7 @@ exports[`Renderer:steps labelPlacement 1`] = `
       </div>
     </li>
     <li
-      class="cxd-StepsItem is-wait cxd-StepsItem-"
+      class="cxd-StepsItem is-wait"
     >
       <div
         class="cxd-StepsItem-container"
@@ -406,7 +406,7 @@ exports[`Renderer:steps labelPlacement 1`] = `
       </div>
     </li>
     <li
-      class="cxd-StepsItem is-wait cxd-StepsItem-"
+      class="cxd-StepsItem is-wait"
     >
       <div
         class="cxd-StepsItem-container"
@@ -590,7 +590,7 @@ exports[`Renderer:steps status 1`] = `
     class="cxd-Steps cxd-Steps--Placement- cxd-Steps-- cxd-Steps--horizontal className"
   >
     <li
-      class="cxd-StepsItem is-finish cxd-StepsItem-"
+      class="cxd-StepsItem is-finish"
     >
       <div
         class="cxd-StepsItem-container"
@@ -634,7 +634,7 @@ exports[`Renderer:steps status 1`] = `
       </div>
     </li>
     <li
-      class="cxd-StepsItem is-error cxd-StepsItem-"
+      class="cxd-StepsItem is-error"
     >
       <div
         class="cxd-StepsItem-container"
@@ -686,7 +686,7 @@ exports[`Renderer:steps status 1`] = `
       </div>
     </li>
     <li
-      class="cxd-StepsItem is-wait cxd-StepsItem-"
+      class="cxd-StepsItem is-wait"
     >
       <div
         class="cxd-StepsItem-container"

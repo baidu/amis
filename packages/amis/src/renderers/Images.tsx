@@ -13,7 +13,7 @@ import type {ImageToolbarAction} from './Image';
 
 /**
  * 图片集展示控件。
- * 文档：https://baidu.gitee.io/amis/docs/components/images
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/images
  */
 export interface ImagesSchema extends BaseSchema {
   /**
@@ -87,6 +87,11 @@ export interface ImagesSchema extends BaseSchema {
    * 列表 CSS 类名
    */
   listClassName?: SchemaClassName;
+
+  /**
+   * 放大详情图 CSS 类名
+   */
+  imageGallaryClassName?: SchemaClassName;
 
   /**
    * 是否展示图片工具栏
@@ -179,7 +184,8 @@ export class ImagesField extends React.Component<ImagesProps> {
       listClassName,
       options,
       showToolbar,
-      toolbarActions
+      toolbarActions,
+      imageGallaryClassName
     } = this.props;
 
     let value: any;
@@ -229,6 +235,7 @@ export class ImagesField extends React.Component<ImagesProps> {
                 enlargeAble={enlargeAble!}
                 onEnlarge={this.handleEnlarge}
                 showToolbar={showToolbar}
+                imageGallaryClassName={imageGallaryClassName}
                 toolbarActions={toolbarActions}
               />
             ))}

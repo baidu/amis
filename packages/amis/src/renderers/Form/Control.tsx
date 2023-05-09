@@ -7,7 +7,7 @@ import {FormBaseControl, FormItemWrap} from 'amis-core';
 
 /**
  * Group 表单集合渲染器，能让多个表单在一行显示
- * 文档：https://baidu.gitee.io/amis/docs/components/form/group
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/group
  */
 export interface FormControlSchema extends FormBaseControlSchema {
   type: 'control';

@@ -3,7 +3,7 @@ import {
   EditorManager,
   RendererPluginAction
 } from 'amis-editor-core';
-import {filterTree, mapTree} from 'amis';
+import {filterTree, mapTree, resolveVariableAndFilter} from 'amis';
 import {ACTION_TYPE_TREE} from './renderer/event-control/helper';
 import {ActionConfig, ComponentInfo} from './renderer/event-control/types';
 import {
@@ -279,6 +279,30 @@ export const isAuto = (value: any) => {
   }
   return false;
 };
+
+/**
+ * 用于列表类展示组件在 filterProps 中获取编辑态 value 值
+ */
+export const resolveArrayDatasource = (
+  {
+    data,
+    value,
+    source
+  }: {
+    value?: any;
+    data: any;
+    source: string;
+  },
+  defaultSource: string = '$items'
+) =>
+  Array.isArray(value)
+    ? value
+    : // resolveVariable 不支持 ${items} 格式，导致预览态无数据
+      resolveVariableAndFilter(
+        typeof source === 'string' ? source : defaultSource,
+        data,
+        '| raw'
+      );
 
 export const schemaToArray = (value: any) => {
   return value && Array.isArray(value)? value : [value];

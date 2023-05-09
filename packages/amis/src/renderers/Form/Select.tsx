@@ -26,7 +26,7 @@ import {supportStatic} from './StaticHoc';
 
 /**
  * Select 下拉选择框。
- * 文档：https://baidu.gitee.io/amis/docs/components/form/select
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/select
  */
 export interface SelectControlSchema
   extends FormOptionsSchema,

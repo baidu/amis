@@ -8,7 +8,7 @@ import {
 import {getSchemaTpl} from 'amis-editor-core';
 import {getEventControlConfig} from '../renderer/event-control/helper';
 
-import type {SchemaObject} from 'amis/lib/Schema';
+import type {Schema} from 'amis-core';
 
 export class SearchBoxPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -25,7 +25,7 @@ export class SearchBoxPlugin extends BasePlugin {
   pluginIcon = 'search-box-plugin';
   tags = ['表单项'];
 
-  scaffold: SchemaObject = {
+  scaffold: Schema = {
     type: 'search-box',
     body: {
       type: 'tpl',
@@ -52,9 +52,12 @@ export class SearchBoxPlugin extends BasePlugin {
       description: '点击搜索图标时触发',
       dataSchema: [
         {
-          'event.data.keywords': {
-            type: 'string',
-            title: '搜索内容'
+          type: 'object',
+          properties: {
+            'event.data.value': {
+              type: 'string',
+              title: '搜索内容'
+            }
           }
         }
       ]
@@ -65,13 +68,12 @@ export class SearchBoxPlugin extends BasePlugin {
       description: '输入框值变化时触发',
       dataSchema: [
         {
-          'event.data.keywords': {
-            type: 'string',
-            title: '搜索内容'
-          },
-          'event.data.value': {
-            type: 'string',
-            title: '搜索内容' // 和keywords值相同
+          type: 'object',
+          properties: {
+            'event.data.value': {
+              type: 'string',
+              title: '搜索内容'
+            }
           }
         }
       ]
@@ -82,13 +84,12 @@ export class SearchBoxPlugin extends BasePlugin {
       description: '输入框获取焦点时触发',
       dataSchema: [
         {
-          'event.data.keywords': {
-            type: 'string',
-            title: '搜索内容'
-          },
-          'event.data.value': {
-            type: 'string',
-            title: '搜索内容' // 和keywords值相同
+          type: 'object',
+          properties: {
+            'event.data.value': {
+              type: 'string',
+              title: '搜索内容'
+            }
           }
         }
       ]
@@ -99,13 +100,12 @@ export class SearchBoxPlugin extends BasePlugin {
       description: '输入框失去焦点时触发',
       dataSchema: [
         {
-          'event.data.keywords': {
-            type: 'string',
-            title: '搜索内容'
-          },
-          'event.data.value': {
-            type: 'string',
-            title: '搜索内容' // 和keywords值相同
+          type: 'object',
+          properties: {
+            'event.data.value': {
+              type: 'string',
+              title: '搜索内容'
+            }
           }
         }
       ]

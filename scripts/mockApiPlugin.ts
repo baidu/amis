@@ -60,7 +60,7 @@ export default function mockApiPlugin(options: {} = {}): Plugin {
           );
 
           if (!fs.existsSync(filepath)) {
-            res.json({
+            (res as any).json({
               $schema: 'http://json-schema.org/draft-07/schema#',
               type: 'object',
               description:
@@ -69,7 +69,7 @@ export default function mockApiPlugin(options: {} = {}): Plugin {
             return;
           }
 
-          res.sendFile(filepath);
+          (res as any).sendFile(filepath);
         });
       });
     }

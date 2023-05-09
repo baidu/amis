@@ -186,7 +186,7 @@ export interface FormSchemaBase {
   /**
    * Form 用来保存数据的 api。
    *
-   * 详情：https://baidu.gitee.io/amis/docs/components/form/index#%E8%A1%A8%E5%8D%95%E6%8F%90%E4%BA%A4
+   * 详情：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/index#%E8%A1%A8%E5%8D%95%E6%8F%90%E4%BA%A4
    */
   api?: string | BaseApiObject;
 
@@ -706,7 +706,12 @@ export default class Form extends React.Component<FormProps, object> {
     // 派发init事件，参数为初始化数据
     const dispatcher = await dispatchEvent(
       'inited',
-      createObject(this.props.data, data)
+      createObject(this.props.data, {
+        ...data, // 保留，兼容历史
+        responseData: data ?? {},
+        responseStatus: store.error ? 1 : 0,
+        responseMsg: store.msg
+      })
     );
     if (!dispatcher?.prevented) {
       onInit && onInit(data, this.props);

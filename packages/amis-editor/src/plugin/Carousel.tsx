@@ -36,6 +36,7 @@ export class CarouselPlugin extends BasePlugin {
   };
 
   panelTitle = '轮播图';
+  panelJustify = true;
   panelBodyCreator = (context: BaseEventContext) => {
     const isUnderField = /\/field\/\w+$/.test(context.path as string);
     return [
@@ -63,9 +64,16 @@ export class CarouselPlugin extends BasePlugin {
               label: '数据源',
               name: '__mode',
               type: 'button-group-select',
-              size: 'xs',
-              mode: 'inline',
-              className: 'w-full',
+              pipeIn: (value: any, {data}: any) => {
+                if (value === undefined) {
+                  return !data.name &&
+                    !data.source &&
+                    Array.isArray(data.options)
+                    ? 2
+                    : 1;
+                }
+                return value;
+              },
               options: [
                 {
                   label: '关联字段',
@@ -82,13 +90,16 @@ export class CarouselPlugin extends BasePlugin {
               name: 'name',
               type: 'input-text',
               description: '设置字段名，关联当前数据作用域中的数据。',
-              visibleOn: 'this.__mode == 1'
+              visibleOn:
+                'this.__mode == 1 || !this.__mode && (this.name || this.source || !Array.isArray(this.options))'
             },
             {
               type: 'combo',
               name: 'options',
-              visibleOn: 'this.__mode == 2',
+              visibleOn:
+                'this.__mode == 2 || !this.__mode && !this.name && !this.source && Array.isArray(this.options)',
               label: '轮播选项内容',
+              mode: 'vertical',
               multiple: true,
               multiLine: true,
               addable: true,
@@ -201,19 +212,15 @@ export class CarouselPlugin extends BasePlugin {
         {
           title: '外观',
           body: [
-            {
+            getSchemaTpl('switch', {
               name: 'auto',
-              type: 'switch',
-              mode: 'inline',
-              className: 'w-full',
               label: '自动轮播',
               pipeIn: defaultValue(true)
-            },
+            }),
             getSchemaTpl('valueFormula', {
               rendererSchema: {
                 type: 'input-number'
               },
-              mode: 'vertical',
               name: 'interval',
               label: '动画间隔(ms)',
               valueType: 'number',
@@ -223,8 +230,6 @@ export class CarouselPlugin extends BasePlugin {
               name: 'duration',
               type: 'input-number',
               label: '动画时长(ms)',
-              mode: 'inline',
-              className: 'w-full',
               min: 100,
               step: 10,
               size: 'sm',
@@ -234,9 +239,6 @@ export class CarouselPlugin extends BasePlugin {
               name: 'animation',
               label: '动画效果',
               type: 'button-group-select',
-              mode: 'inline',
-              className: 'w-full',
-              size: 'sm',
               pipeIn: defaultValue('fade'),
               options: [
                 {
@@ -253,10 +255,7 @@ export class CarouselPlugin extends BasePlugin {
               name: 'controlsTheme',
               label: '控制按钮主题',
               type: 'button-group-select',
-              size: 'sm',
               pipeIn: defaultValue('light'),
-              mode: 'inline',
-              className: 'w-full',
               options: [
                 {
                   label: 'light',
@@ -272,9 +271,6 @@ export class CarouselPlugin extends BasePlugin {
               name: 'controls',
               label: '控制显示',
               type: 'button-group-select',
-              size: 'sm',
-              mode: 'inline',
-              className: 'w-full',
               pipeIn: defaultValue('dots,arrows'),
               multiple: true,
               options: [
@@ -288,15 +284,13 @@ export class CarouselPlugin extends BasePlugin {
                 }
               ]
             },
-            {
+            getSchemaTpl('switch', {
               name: 'alwaysShowArrow',
-              type: 'switch',
-              mode: 'inline',
-              className: 'w-full',
               label: '箭头一直显示',
+              clearValueOnHidden: true,
               hiddenOn: '!~this.controls.indexOf("arrows")',
               pipeIn: defaultValue(false)
-            },
+            }),
             {
               type: 'ae-switch-more',
               bulk: true,

@@ -10,8 +10,8 @@ import {autobind, getSchemaTpl} from 'amis-editor-core';
 import {BaseLabelMark} from '../component/BaseControl';
 
 import type {FormControlProps} from 'amis-core';
-import type {SchemaCollection} from 'amis/lib/Schema';
-import type {FormSchema} from 'amis/lib/schema';
+import type {SchemaCollection} from 'amis';
+import type {FormSchema} from '../../../amis/src/Schema';
 
 export interface StatusControlProps extends FormControlProps {
   name: string;
@@ -52,7 +52,14 @@ export class StatusControl extends React.Component<
   }
 
   initState() {
-    const {data = {}, noBulkChange, noBulkChangeData, expressionName, name, trueValue} = this.props;
+    const {
+      data = {},
+      noBulkChange,
+      noBulkChangeData,
+      expressionName,
+      name,
+      trueValue
+    } = this.props;
 
     const formData: StatusFormData = {
       statusType: 1,
@@ -62,7 +69,7 @@ export class StatusControl extends React.Component<
     let ctx = data;
 
     if (noBulkChange && noBulkChangeData) {
-      ctx = noBulkChangeData
+      ctx = noBulkChangeData;
     }
 
     if (ctx[expressionName] || ctx[expressionName] === '') {
@@ -87,7 +94,8 @@ export class StatusControl extends React.Component<
   handleSwitch(value: boolean) {
     const {trueValue, falseValue} = this.props;
     this.setState({checked: value == trueValue ? true : false}, () => {
-      const {onBulkChange, noBulkChange, onDataChange, expressionName, name} = this.props;
+      const {onBulkChange, noBulkChange, onDataChange, expressionName, name} =
+        this.props;
       const newData = {
         [name]: value == trueValue ? trueValue : falseValue,
         [expressionName]: undefined
@@ -99,7 +107,8 @@ export class StatusControl extends React.Component<
 
   @autobind
   handleFormSubmit(values: StatusFormData) {
-    const {onBulkChange, noBulkChange, onDataChange, name, expressionName} = this.props;
+    const {onBulkChange, noBulkChange, onDataChange, name, expressionName} =
+      this.props;
     const data: Record<string, any> = {
       [name]: undefined,
       [expressionName]: undefined
