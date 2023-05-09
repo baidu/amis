@@ -62,38 +62,39 @@ export function addStyle(style: string, id: string) {
 }
 
 // 继承数据处理
-function handleInheritData(statusMap: any, data: any) {
-  if (!data) {
-    return;
-  }
+function handleInheritData(statusMap: any) {
   // 检查是否存在inherit
   ['hover', 'active'].forEach(status => {
     for (let key in statusMap[status]) {
       if (typeof statusMap[status][key] === 'object') {
         for (let style in statusMap[status][key]) {
-          if (statusMap[status][key][style] === 'inherit') {
+          if (statusMap[status][key][style].indexOf('inherit:') > -1) {
             // 值为inherit时设置为default的值或者主题中的default值
             if (statusMap['default'][key] && statusMap['default'][key][style]) {
               statusMap[status][key][style] = statusMap.default[key][style];
             } else {
-              const value = inheritValueMap[key] || key;
-              statusMap[status][key][style] =
-                data['default'].body[value][style];
+              statusMap[status][key][style] = statusMap[status][key][
+                style
+              ].replace('inherit:', '');
             }
           }
         }
       } else {
-        if (statusMap[status][key] === 'inherit') {
+        if (statusMap[status][key].indexOf('inherit:') > -1) {
           if (statusMap['default'][key] && statusMap['default'][key]) {
             statusMap[status][key] = statusMap.default[key];
           } else {
-            const value = inheritValueMap[key] || key;
-            statusMap[status][key] = data['default'].body[value];
+            statusMap[status][key] = statusMap[status][key].replace(
+              'inherit:',
+              ''
+            );
           }
         }
       }
     }
   });
+
+  return statusMap;
 }
 
 export function formatStyle(
@@ -108,8 +109,7 @@ export function formatStyle(
       disabled?: extra;
     };
   }[],
-  id?: string,
-  defaultData?: any
+  id?: string
 ) {
   if (!themeCss) {
     return {value: '', origin: []};
@@ -150,7 +150,7 @@ export function formatStyle(
 
     for (let className of classNameList) {
       // 没有具体的样式，或者没有对应的classname
-      const statusMap: PlainObject = {
+      let statusMap: PlainObject = {
         default: {},
         hover: {},
         active: {},
@@ -172,7 +172,7 @@ export function formatStyle(
           statusMap.default[key] = body[key];
         }
       }
-      handleInheritData(statusMap, defaultData);
+      statusMap = handleInheritData(cloneDeep(statusMap));
 
       for (let status in statusMap) {
         const weights = weightsList[status];
@@ -249,33 +249,13 @@ export function insertCustomStyle(
       disabled?: extra;
     };
   }[],
-  id?: string,
-  defaultData?: any
+  id?: string
 ) {
   if (!themeCss) {
     return;
   }
-  const {value} = formatStyle(themeCss, classNames, id, defaultData);
+  const {value} = formatStyle(themeCss, classNames, id);
   if (value) {
     insertStyle(value, id?.replace('u:', '') || uuid());
-  }
-}
-
-/**
- * 根据路径获取默认值
- */
-export function getValueByPath(path: string, data: any) {
-  try {
-    if (!path || !data) {
-      return null;
-    }
-    const keys = path.split('.');
-    let value = cloneDeep(data.component);
-    for (let i = 0; i < keys.length; i++) {
-      value = value[keys[i]];
-    }
-    return value;
-  } catch (e) {
-    return null;
   }
 }

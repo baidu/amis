@@ -123,7 +123,8 @@ export class ButtonPlugin extends BasePlugin {
           editorThemePath: [
             `button1.type.\${level}.${state}.body.font-color`,
             `button1.size.\${size}.body.font`
-          ]
+          ],
+          state
         }),
         getSchemaTpl('theme:colorPicker', {
           label: '背景',
@@ -131,22 +132,26 @@ export class ButtonPlugin extends BasePlugin {
           labelMode: 'input',
           needGradient: true,
           visibleOn: visibleOn,
-          editorThemePath: `button1.type.\${level}.${state}.body.bg-color`
+          editorThemePath: `button1.type.\${level}.${state}.body.bg-color`,
+          state
         }),
         getSchemaTpl('theme:border', {
           name: `themeCss.className.border:${state}`,
           visibleOn: visibleOn,
-          editorThemePath: `button1.type.\${level}.${state}.body.border`
+          editorThemePath: `button1.type.\${level}.${state}.body.border`,
+          state
         }),
         getSchemaTpl('theme:paddingAndMargin', {
           name: `themeCss.className.padding-and-margin:${state}`,
           visibleOn: visibleOn,
-          editorThemePath: `button1.size.\${size}.body.padding-and-margin`
+          editorThemePath: `button1.size.\${size}.body.padding-and-margin`,
+          state
         }),
         getSchemaTpl('theme:radius', {
           name: `themeCss.className.radius:${state}`,
           visibleOn: visibleOn,
-          editorThemePath: `button1.size.\${size}.body.border`
+          editorThemePath: `button1.size.\${size}.body.border`,
+          state
         })
       ];
     };

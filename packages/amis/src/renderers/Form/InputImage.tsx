@@ -1469,8 +1469,7 @@ export default class ImageControl extends React.Component<
           value: inputImageControlClassName
         }
       ],
-      id,
-      null
+      id
     );
 
     insertCustomStyle(
@@ -1489,8 +1488,7 @@ export default class ImageControl extends React.Component<
           }
         }
       ],
-      id + '-addOn',
-      null
+      id + '-addOn'
     );
 
     insertCustomStyle(
@@ -1506,8 +1504,7 @@ export default class ImageControl extends React.Component<
           }
         }
       ],
-      id + '-icon',
-      null
+      id + '-icon'
     );
 
     const {
