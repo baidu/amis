@@ -1159,13 +1159,6 @@ setSchemaTpl('nav-badge', {
 setSchemaTpl('nav-default-active', {
   type: 'ae-nav-default-active'
 });
-// 暂未使用
-setSchemaTpl('formulaControl', (schema: object = {}) => {
-  return {
-    type: 'ae-formulaControl',
-    ...schema
-  };
-});
 
 /**
  * 日期范围快捷键组件
