@@ -93,8 +93,18 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
 
   @autobind
   handleOperatorChange(op: OperatorType) {
-    const value = {...this.props.value, op: op, right: undefined};
-    this.props.onChange(value, this.props.index);
+    const {fields, value, index, onChange} = this.props;
+    const leftFieldSchema: FieldSimple = findTree(
+      fields,
+      (i: FieldSimple) => i.name === (value?.left as ExpressionField)?.field
+    ) as FieldSimple;
+    const result = {
+      ...value,
+      op: op,
+      right: leftFieldSchema?.defaultValue
+    };
+
+    onChange(result, index);
   }
 
   @autobind
