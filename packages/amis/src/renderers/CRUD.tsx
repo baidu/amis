@@ -1570,7 +1570,10 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         newItems.splice(0, newItems.length - 1)
       );
     }
-    store.updateSelectData(newItems, newUnSelectedItems);
+    // 用 updateSelectData 导致 CRUD 无线刷新
+    // store.updateSelectData(newItems, newUnSelectedItems);
+    store.setSelectedItems(newItems);
+    store.setUnSelectedItems(newUnSelectedItems);
 
     onSelect && onSelect(newItems, newUnSelectedItems);
   }
