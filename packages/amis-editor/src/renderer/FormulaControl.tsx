@@ -402,9 +402,11 @@ export default class FormulaControl extends React.Component<
 
     let curRendererSchema: any = null;
     if (rendererSchema) {
-      curRendererSchema = Object.assign({}, rendererSchema, data, {
+      curRendererSchema = Object.assign({}, rendererSchema, {
         type: rendererSchema.type ?? data.type,
-        name: rendererSchema.name ?? data.name ?? 'value'
+        // 目前表单项 wrapControl 还必须依赖一个 name
+        // 所以这里先随便取个名字，这里渲染的时候应该是 value 控制，而不是关联 name
+        name: 'FORMULA_CONTROL_PLACEHOLDER'
       });
 
       // 默认要剔除的字段
@@ -520,9 +522,6 @@ export default class FormulaControl extends React.Component<
     } = this.props;
 
     const {formulaPickerOpen, variables, variableMode} = this.state;
-
-    // 自身字段
-    const selfName = this.props?.data?.name;
 
     // 判断是否含有公式表达式
     const isExpr = isExpression(value);
