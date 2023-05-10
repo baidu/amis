@@ -1185,12 +1185,12 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             syncResponse2Query,
             columns: store.columns ?? columns
           })
-          .then(value => {
+          .then(async value => {
             const {page, lastPage, data, msg, error} = store;
 
             if (isInit) {
               // 初始化请求完成
-              const rendererEvent = dispatchEvent?.(
+              const rendererEvent = await dispatchEvent?.(
                 'fetchInited',
                 createObject(this.props.data, {
                   responseData: value.ok ? data ?? {} : value,
