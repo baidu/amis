@@ -81,7 +81,7 @@ export default class Flex extends React.Component<FlexProps, object> {
   static defaultProps: Partial<FlexProps> = {
     direction: 'row',
     justify: 'center',
-    alignItems: 'center',
+    alignItems: 'stretch',
     alignContent: 'center'
   };
 
