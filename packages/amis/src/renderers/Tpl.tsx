@@ -63,12 +63,14 @@ export class Tpl extends React.Component<TplProps, TplState> {
   };
 
   dom: any;
+  mounted: boolean;
 
   constructor(props: TplProps) {
     super(props);
     this.state = {
       content: this.getContent()
     };
+    this.mounted = true;
   }
 
   componentDidUpdate(prevProps: Readonly<TplProps>): void {
@@ -85,13 +87,17 @@ export class Tpl extends React.Component<TplProps, TplState> {
     this.updateContent();
   }
 
+  componentWillUnmount() {
+    this.mounted = false;
+  }
+
   @autobind
   updateContent() {
     const {tpl, html, text} = this.props;
 
     if (html || tpl || text) {
       this.getAsyncContent().then(content => {
-        this.setState({content});
+        this.mounted && this.setState({content});
       });
     }
   }
