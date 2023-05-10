@@ -635,7 +635,7 @@ export class EditorManager {
    * 备注3: 建议优先使用当前选中组件ID（this.store.activeId）来更新属性配置面板;
    * @param pluginType 组件类型
    */
-  updateConfigPanel(pluginType: string) {
+  updateConfigPanel(pluginType?: string) {
     const {activeId, getSchema, getNodeById} = this.store;
     let curPluginType = pluginType;
 
@@ -867,6 +867,9 @@ export class EditorManager {
     ) {
       // 布局能力提升: 点击插入新元素，当wrapper为空插入布局容器时，自动改为置换，避免过多层级
       this.replaceChild(curActiveId, curElemSchema);
+      setTimeout(() => {
+        this.updateConfigPanel();
+      }, 0);
       return;
     }
 
