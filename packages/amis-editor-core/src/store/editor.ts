@@ -3,7 +3,8 @@ import {
   getVariable,
   mapObject,
   mapTree,
-  extendObject
+  extendObject,
+  createObject
 } from 'amis-core';
 import {cast, getEnv, Instance, types} from 'mobx-state-tree';
 import {
@@ -191,6 +192,7 @@ export const MainStore = types
     jsonSchemaUri: '',
 
     scaffoldForm: types.maybe(types.frozen<ScaffoldFormContext>()),
+    scaffoldFormStep: 0,
     scaffoldFormBuzy: false,
     scaffoldError: '',
 
@@ -997,6 +999,13 @@ export const MainStore = types
           1,
           true
         );
+      },
+
+      get scaffoldData() {
+        return createObject(self.ctx, {
+          ...(self.scaffoldForm?.value || {}),
+          __step: self.scaffoldFormStep
+        });
       }
     };
   })
@@ -1669,6 +1678,10 @@ export const MainStore = types
 
       setScaffoldBuzy(value: any) {
         self.scaffoldFormBuzy = !!value;
+      },
+
+      setScaffoldStep(value: number) {
+        self.scaffoldFormStep = value;
       },
 
       setScaffoldError(msg: string = '') {
