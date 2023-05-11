@@ -2211,9 +2211,7 @@ export default class Table extends React.Component<TableProps, object> {
             type={multiple ? 'checkbox' : 'radio'}
             checked={item.checked}
             disabled={item.checkdisable || !item.checkable}
-            onChange={
-              checkOnItemClick ? noop : this.handleCheck.bind(this, item)
-            }
+            onChange={this.handleCheck.bind(this, item)}
           />
         </td>
       );
