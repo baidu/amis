@@ -2,7 +2,7 @@
  * http://webapp.docx4java.org/OnlineDemo/ecma376/DrawingML/blipFill_2.html
  */
 
-import Word from '../../../Word';
+import Word from '../../Word';
 import {Blip} from './Blip';
 
 export class BlipFill {

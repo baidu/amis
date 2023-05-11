@@ -7,7 +7,7 @@ import {appendChild, createElement, applyStyle} from '../util/dom';
 import Word from '../Word';
 import {Run, Text} from '../openxml/word/Run';
 import {Break} from '../openxml/word/Break';
-import {Drawing} from '../openxml/word/drawing/Drawing';
+import {Drawing} from '../openxml/drawing/Drawing';
 import {renderDrawing} from './renderDrawing';
 import {setElementStyle} from './setElementStyle';
 import {Tab} from '../openxml/word/Tab';

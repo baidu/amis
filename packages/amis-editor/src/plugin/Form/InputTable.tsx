@@ -1,5 +1,5 @@
 import React from 'react';
-import {resolveVariable, Button} from 'amis';
+import {Button} from 'amis';
 import {
   registerEditorPlugin,
   BaseEventContext,
@@ -25,6 +25,7 @@ import {
   getArgsWrapper
 } from '../../renderer/event-control/helper';
 import cloneDeep from 'lodash/cloneDeep';
+import {resolveArrayDatasource} from '../../util';
 
 export class TableControlPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -791,11 +792,7 @@ export class TableControlPlugin extends BasePlugin {
   };
 
   filterProps(props: any) {
-    const arr = Array.isArray(props.value)
-      ? props.value
-      : typeof props.source === 'string'
-      ? resolveVariable(props.source, props.data)
-      : resolveVariable('items', props.data);
+    const arr = resolveArrayDatasource(props);
 
     if (!Array.isArray(arr) || !arr.length) {
       const mockedData: any = {};

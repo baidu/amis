@@ -53,9 +53,9 @@ const ShortcutKeyList = [
     tooltip: '保存当前所有操作'
   },
   {
-    title: '预览',
+    title: '预览/编辑',
     letters: ['⌘', 'p'],
-    tooltip: '开启预览模式'
+    tooltip: '开启/关闭预览模式'
   },
   {
     title: '删除',

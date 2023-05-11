@@ -7,6 +7,11 @@ export interface Enginer {
   test: (tpl: string) => boolean;
   removeEscapeToken?: (tpl: string) => string;
   compile: (tpl: string, data: object, ...rest: Array<any>) => string;
+  asyncCompile: (
+    tpl: string,
+    data: object,
+    ...rest: Array<any>
+  ) => Promise<string>;
 }
 
 const enginers: {
@@ -31,6 +36,28 @@ export function filter(
     let enginer = enginers[keys[i]];
     if (enginer.test(tpl)) {
       return enginer.compile(tpl, data, ...rest);
+    } else if (enginer.removeEscapeToken) {
+      tpl = enginer.removeEscapeToken(tpl);
+    }
+  }
+
+  return tpl;
+}
+
+export function asyncFilter(
+  tpl?: any,
+  data: object = {},
+  ...rest: Array<any>
+): Promise<string> {
+  if (!tpl || typeof tpl !== 'string') {
+    return Promise.resolve('');
+  }
+
+  let keys = Object.keys(enginers);
+  for (let i = 0, len = keys.length; i < len; i++) {
+    let enginer = enginers[keys[i]];
+    if (enginer.test(tpl)) {
+      return enginer.asyncCompile(tpl, data, ...rest);
     } else if (enginer.removeEscapeToken) {
       tpl = enginer.removeEscapeToken(tpl);
     }
@@ -175,6 +202,7 @@ export function evalJS(js: string, data: object): any {
   registerTplEnginer(info.name, {
     test: info.test,
     compile: info.compile,
+    asyncCompile: info.asyncCompile,
     removeEscapeToken: info.removeEscapeToken
   });
 });

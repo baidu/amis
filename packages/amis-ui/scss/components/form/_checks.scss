@@ -463,11 +463,16 @@
     border-color: var(--Checkbox-color);
     &:hover {
       border-color: var(--Checkbox-color) !important;
+      box-shadow: -1px 0 0 0 var(--Checkbox-color) !important;
+      &:first-child {
+        box-shadow: none !important;
+      }
     }
   }
   &--button--disabled--checked.#{$ns}Checkbox--checkbox {
     background: var(--Checkbox-onDisabled-bg);
     border-color: var(--Checkbox-color) !important;
+    box-shadow: none !important;
     &:hover {
       border-color: var(--Checkbox-color) !important;
     }

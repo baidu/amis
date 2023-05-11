@@ -1,5 +1,5 @@
 import React from 'react';
-import {ClassNamesFn} from 'amis-core';
+import {ClassNamesFn, RendererEvent} from 'amis-core';
 
 import {SchemaNode, ActionObject} from 'amis-core';
 import {TableRow} from './TableRow';
@@ -26,6 +26,15 @@ export interface TableBodyProps extends LocaleProps {
     props: any
   ) => React.ReactNode;
   onCheck: (item: IRow, value: boolean, shift?: boolean) => void;
+  onRowClick: (item: IRow, index: number) => Promise<RendererEvent<any> | void>;
+  onRowMouseEnter: (
+    item: IRow,
+    index: number
+  ) => Promise<RendererEvent<any> | void>;
+  onRowMouseLeave: (
+    item: IRow,
+    index: number
+  ) => Promise<RendererEvent<any> | void>;
   onQuickChange?: (
     item: IRow,
     values: object,
@@ -69,12 +78,14 @@ export class TableBody extends React.Component<TableBodyProps> {
       footable,
       ignoreFootableContent,
       footableColumns,
-      itemAction
+      itemAction,
+      onRowClick,
+      onRowMouseEnter,
+      onRowMouseLeave
     } = this.props;
 
     return rows.map((item: IRow, rowIndex: number) => {
       const itemProps = buildItemProps ? buildItemProps(item, rowIndex) : null;
-
       const doms = [
         <TableRow
           {...itemProps}
@@ -99,6 +110,9 @@ export class TableBody extends React.Component<TableBodyProps> {
           onCheck={onCheck}
           // todo 先注释 quickEditEnabled={item.depth === 1}
           onQuickChange={onQuickChange}
+          onRowClick={onRowClick}
+          onRowMouseEnter={onRowMouseEnter}
+          onRowMouseLeave={onRowMouseLeave}
           {...rowProps}
         />
       ];
@@ -124,6 +138,9 @@ export class TableBody extends React.Component<TableBodyProps> {
               render={render}
               onAction={onAction}
               onCheck={onCheck}
+              onRowClick={onRowClick}
+              onRowMouseEnter={onRowMouseEnter}
+              onRowMouseLeave={onRowMouseLeave}
               footableMode
               footableColSpan={columns.length}
               onQuickChange={onQuickChange}
@@ -147,7 +164,7 @@ export class TableBody extends React.Component<TableBodyProps> {
 
   renderSummaryRow(
     position: 'prefix' | 'affix',
-    items?: Array<any>,
+    items: Array<any>,
     rowIndex?: number
   ) {
     const {
@@ -164,21 +181,15 @@ export class TableBody extends React.Component<TableBodyProps> {
       return null;
     }
 
-    const filterColumns = columns.filter(item => item.toggable);
-    const result: any[] = [];
-
-    for (let index = 0; index < filterColumns.length; index++) {
-      const item = items[filterColumns[index].rawIndex];
-      item && result.push({...item});
-    }
+    const result: any[] = items;
 
     //  如果是勾选栏，让它和下一列合并。
-    if (columns[0].type === '__checkme' && result[0]) {
+    if (columns[0]?.type === '__checkme' && result[0]) {
       result[0].colSpan = (result[0].colSpan || 1) + 1;
     }
 
     //  如果是展开栏，让它和下一列合并。
-    if (columns[0].type === '__expandme' && result[0]) {
+    if (columns[0]?.type === '__expandme' && result[0]) {
       result[0].colSpan = (result[0].colSpan || 1) + 1;
     }
 
@@ -187,7 +198,11 @@ export class TableBody extends React.Component<TableBodyProps> {
       columns.length - result.reduce((p, c) => p + (c.colSpan || 1), 0);
 
     if (appendLen) {
-      const item = result.pop();
+      const item = result.length
+        ? result.pop()
+        : {
+            type: 'plain'
+          };
       result.push({
         ...item,
         colSpan: (item.colSpan || 1) + appendLen

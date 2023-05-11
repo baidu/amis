@@ -71,7 +71,7 @@ export interface CustomLang {
 
 /**
  * 代码高亮组件
- * 文档：https://baidu.gitee.io/amis/docs/components/code
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/code
  */
 export interface CodeSchema extends BaseSchema {
   type: 'code';

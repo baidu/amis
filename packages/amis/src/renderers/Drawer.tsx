@@ -27,7 +27,7 @@ import {isAlive} from 'mobx-state-tree';
 
 /**
  * Drawer 抽出式弹框。
- * 文档：https://baidu.gitee.io/amis/docs/components/drawer
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/drawer
  */
 export interface DrawerSchema extends BaseSchema {
   type: 'drawer';
@@ -811,7 +811,11 @@ export class DrawerRenderer extends Drawer {
       }
       store.setCurrentAction(action);
       onClose();
-      action.close && this.closeTarget(action.close);
+      if (action.close) {
+        action.close === true
+          ? this.handleSelfClose()
+          : this.closeTarget(action.close);
+      }
     } else if (action.actionType === 'confirm') {
       const rendererEvent = await dispatchEvent(
         'confirm',
@@ -831,9 +835,11 @@ export class DrawerRenderer extends Drawer {
     } else if (action.actionType === 'reload') {
       store.setCurrentAction(action);
       action.target && scoped.reload(action.target, data);
+
       if (action.close) {
-        this.handleSelfClose();
-        this.closeTarget(action.close);
+        action.close === true
+          ? this.handleSelfClose()
+          : this.closeTarget(action.close);
       }
     } else if (this.tryChildrenToHandle(action, data)) {
       // do nothing
@@ -854,9 +860,11 @@ export class DrawerRenderer extends Drawer {
           redirect && env.jumpTo(redirect, action);
           action.reload &&
             this.reloadTarget(filter(action.reload, store.data), store.data);
+
           if (action.close) {
-            this.handleSelfClose();
-            this.closeTarget(action.close);
+            action.close === true
+              ? this.handleSelfClose()
+              : this.closeTarget(action.close);
           }
         })
         .catch(e => {
@@ -865,17 +873,13 @@ export class DrawerRenderer extends Drawer {
           }
         });
     } else if (onAction) {
-      let ret = onAction(
-        e,
-        action,
-        data,
-        throwErrors,
-        delegate || this.context
-      );
-      action.close &&
-        (ret && ret.then
-          ? ret.then(this.handleSelfClose)
-          : setTimeout(this.handleSelfClose, 200));
+      await onAction(e, action, data, throwErrors, delegate || this.context);
+
+      if (action.close) {
+        action.close === true
+          ? this.handleSelfClose()
+          : this.closeTarget(action.close);
+      }
     }
   }
 

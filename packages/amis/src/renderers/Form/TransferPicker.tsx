@@ -9,7 +9,7 @@ import {supportStatic} from './StaticHoc';
 
 /**
  * TransferPicker 穿梭器的弹框形态
- * 文档：https://baidu.gitee.io/amis/docs/components/form/transfer-picker
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/transfer-picker
  */
 export interface TransferPickerControlSchema
   extends Omit<TransferControlSchema, 'type'>,

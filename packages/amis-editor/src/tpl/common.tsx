@@ -7,7 +7,7 @@ import {
   EditorManager
 } from 'amis-editor-core';
 import type {DSField} from 'amis-editor-core';
-import type {SchemaObject} from 'amis/lib/Schema';
+import type {SchemaObject} from 'amis';
 import flatten from 'lodash/flatten';
 import _ from 'lodash';
 import {InputComponentName} from '../component/InputComponentName';
@@ -81,11 +81,13 @@ setSchemaTpl(
   (config: {
     // 是不是独立表单，没有可以集成的内容
     isForm: boolean;
+    /** 预设布局 */
+    defaultValue?: 'inline' | 'horizontal' | 'normal' | '';
   }) => ({
     label: '布局',
     name: 'mode',
     type: 'select',
-    pipeIn: defaultValue(''),
+    pipeIn: defaultValue(config?.defaultValue ?? ''),
     options: [
       {
         label: '内联',
@@ -622,6 +624,20 @@ setSchemaTpl(
   }
 );
 
+/**
+ * 数据源绑定
+ */
+setSchemaTpl('sourceBindControl', (schema: object = {}) => ({
+  type: 'ae-formulaControl',
+  name: 'source',
+  label: '数据',
+  variableMode: 'tabs',
+  inputMode: 'input-group',
+  placeholder: '请输入表达式',
+  requiredDataPropsVariables: true,
+  ...schema
+}));
+
 setSchemaTpl('menuTpl', () => {
   return getSchemaTpl('textareaFormulaControl', {
     mode: 'normal',
@@ -1142,13 +1158,6 @@ setSchemaTpl('nav-badge', {
 
 setSchemaTpl('nav-default-active', {
   type: 'ae-nav-default-active'
-});
-// 暂未使用
-setSchemaTpl('formulaControl', (schema: object = {}) => {
-  return {
-    type: 'ae-formulaControl',
-    ...schema
-  };
 });
 
 /**

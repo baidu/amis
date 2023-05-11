@@ -63,7 +63,7 @@ export interface ColumnArray extends Array<ColumnNode> {}
 
 /**
  * Grid 格子布局渲染器。
- * 文档：https://baidu.gitee.io/amis/docs/components/grid
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/grid
  */
 export interface GridSchema extends BaseSchema {
   /**

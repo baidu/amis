@@ -37,7 +37,7 @@ import {supportStatic} from './StaticHoc';
 
 /**
  * Nested Select
- * 文档：https://baidu.gitee.io/amis/docs/components/form/nested-select
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/nested-select
  */
 export interface NestedSelectControlSchema extends FormOptionsSchema {
   type: 'nested-select';

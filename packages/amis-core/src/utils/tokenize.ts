@@ -1,4 +1,4 @@
-import {Evaluator, parse} from 'amis-formula';
+import {Evaluator, parse, evaluateForAsync} from 'amis-formula';
 
 export const tokenize = (
   str: string,

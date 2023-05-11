@@ -1338,6 +1338,7 @@ test('Renderer:Wizard steps not array', async () => {
       steps: ''
     })
   );
+
   await waitFor(() => {
     expect(getByText('配置错误')).toBeInTheDocument();
   });
@@ -1537,8 +1538,12 @@ test('Renderer:Wizard mode', async () => {
       makeEnv()
     )
   );
-  const steps = container.querySelectorAll('li');
 
-  expect(steps[0].className).toBe('is-complete');
-  expect(steps[1].className).toBe('is-active');
+  waitFor(() => {
+    const steps = container.querySelectorAll('li');
+
+    expect(steps[0].className).toBe('is-finish');
+    expect(steps[1].className).toBe('is-process');
+  });
+
 });

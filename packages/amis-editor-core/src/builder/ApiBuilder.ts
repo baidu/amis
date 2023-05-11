@@ -12,8 +12,8 @@ import {
 } from './DSBuilder';
 import cloneDeep from 'lodash/cloneDeep';
 import {getEnv} from 'mobx-state-tree';
-import type {ButtonSchema} from 'amis/lib/renderers/Action';
-import type {FormSchema, SchemaCollection, SchemaObject} from 'amis/lib/Schema';
+import type {ButtonSchema} from 'amis';
+import type {FormSchema, SchemaCollection, SchemaObject} from 'amis';
 
 import type {DSSourceSettingFormConfig} from './DSBuilder';
 import {getSchemaTpl, tipedLabel} from '../tpl';
@@ -578,15 +578,19 @@ class APIBuilder extends DSBuilder {
     });
   }
 
-  public resolveSimpleFilterSchema(config: {setting: any}) {
-    const {setting} = config;
+  public resolveSimpleFilterSchema(config: {
+    setting: any;
+    size?: 'xs' | 'sm' | 'md' | 'lg' | 'full';
+  }) {
+    const {setting, size} = config;
     const fields = setting.simpleQueryFields || [];
     return fields
       .filter((i: any) => i.checked)
       .map((field: any) => ({
         type: field.inputType,
         name: field.name,
-        label: field.label
+        label: field.label,
+        size
       }));
   }
 

@@ -22,7 +22,7 @@ export default class NavDefaultActiveControl extends React.Component<
     super(props);
   }
 
-  deleteActive(data) {
+  deleteActive(data: any) {
     for (let item of data) {
       if (item.active) {
         delete item.active;
@@ -33,7 +33,7 @@ export default class NavDefaultActiveControl extends React.Component<
     }
   }
 
-  findActiveKey(data, index?: string) {
+  findActiveKey(data: any, index?: string) {
     for (let i = 0; i < data.length; i++) {
       const item = data[i];
       if (item.active) {

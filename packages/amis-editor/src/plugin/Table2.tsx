@@ -1,5 +1,3 @@
-import {resolveVariable} from 'amis';
-
 import {setVariable, someTree} from 'amis-core';
 import {
   BasePlugin,
@@ -25,7 +23,8 @@ import {
   getEventControlConfig,
   getArgsWrapper
 } from '../renderer/event-control/helper';
-import type {SchemaObject} from 'amis/lib/Schema';
+import type {SchemaObject} from 'amis';
+import {resolveArrayDatasource} from '../util';
 
 export class Table2Plugin extends BasePlugin {
   // 关联渲染器名字
@@ -838,11 +837,7 @@ export class Table2Plugin extends BasePlugin {
   };
 
   filterProps(props: any) {
-    const arr = Array.isArray(props.value)
-      ? props.value
-      : typeof props.source === 'string'
-      ? resolveVariable(props.source, props.data)
-      : resolveVariable('items', props.data);
+    const arr = resolveArrayDatasource(props);
 
     if (!Array.isArray(arr) || !arr.length) {
       const mockedData: any = {};

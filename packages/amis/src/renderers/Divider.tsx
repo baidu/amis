@@ -4,7 +4,7 @@ import {BaseSchema} from '../Schema';
 
 /**
  * Divider 分割线渲染器。
- * 文档：https://baidu.gitee.io/amis/docs/components/divider
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/divider
  */
 export interface DividerSchema extends BaseSchema {
   type: 'divider';

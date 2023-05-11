@@ -32,7 +32,7 @@ import omit from 'lodash/omit';
 
 /**
  * File 文件上传控件
- * 文档：https://baidu.gitee.io/amis/docs/components/form/file
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/file
  */
 export interface FileControlSchema extends FormBaseControlSchema {
   /**

@@ -3,7 +3,7 @@
 exports[`Renderer:flex 1`] = `
 <div>
   <div
-    style="display: flex; flex-direction: row; justify-content: center; align-items: center; align-content: center;"
+    style="display: flex; flex-direction: row; justify-content: center; align-items: stretch; align-content: center;"
   >
     <span
       class="cxd-TplField"
@@ -62,7 +62,7 @@ exports[`Renderer:flex justify 1`] = `
             </span>
           </span>
           <div
-            style="display: flex; flex-direction: row; justify-content: center; align-items: center; align-content: center;"
+            style="display: flex; flex-direction: row; justify-content: center; align-items: stretch; align-content: center;"
           >
             <span
               class="cxd-TplField"
@@ -103,7 +103,7 @@ exports[`Renderer:flex justify 1`] = `
             </span>
           </span>
           <div
-            style="display: flex; flex-direction: row; justify-content: flex-start; align-items: center; align-content: center;"
+            style="display: flex; flex-direction: row; justify-content: flex-start; align-items: stretch; align-content: center;"
           >
             <span
               class="cxd-TplField"
@@ -144,7 +144,7 @@ exports[`Renderer:flex justify 1`] = `
             </span>
           </span>
           <div
-            style="display: flex; flex-direction: row; justify-content: flex-end; align-items: center; align-content: center;"
+            style="display: flex; flex-direction: row; justify-content: flex-end; align-items: stretch; align-content: center;"
           >
             <span
               class="cxd-TplField"
@@ -185,7 +185,7 @@ exports[`Renderer:flex justify 1`] = `
             </span>
           </span>
           <div
-            style="display: flex; flex-direction: row; justify-content: space-around; align-items: center; align-content: center;"
+            style="display: flex; flex-direction: row; justify-content: space-around; align-items: stretch; align-content: center;"
           >
             <span
               class="cxd-TplField"
@@ -226,7 +226,7 @@ exports[`Renderer:flex justify 1`] = `
             </span>
           </span>
           <div
-            style="display: flex; flex-direction: row; justify-content: space-between; align-items: center; align-content: center;"
+            style="display: flex; flex-direction: row; justify-content: space-between; align-items: stretch; align-content: center;"
           >
             <span
               class="cxd-TplField"
@@ -267,7 +267,7 @@ exports[`Renderer:flex justify 1`] = `
             </span>
           </span>
           <div
-            style="display: flex; flex-direction: row; justify-content: space-evenly; align-items: center; align-content: center;"
+            style="display: flex; flex-direction: row; justify-content: space-evenly; align-items: stretch; align-content: center;"
           >
             <span
               class="cxd-TplField"

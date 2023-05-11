@@ -83,6 +83,17 @@ export function register(): Enginer & {name: string} {
       } catch (e) {
         return `error: ${e.message}`;
       }
+    },
+    asyncCompile: async (
+      str: string,
+      data: object,
+      defaultFilter = '| html'
+    ) => {
+      try {
+        return resolveVariableAndFilterForAsync(str, data, defaultFilter);
+      } catch (e) {
+        return `error: ${e.message}`;
+      }
     }
   };
 }

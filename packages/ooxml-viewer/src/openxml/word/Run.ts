@@ -3,7 +3,7 @@ import {parsePr} from '../../parse/parsePr';
 import Word from '../../Word';
 import {ST_FldCharType, ST_VerticalAlignRun} from '../Types';
 import {Break} from './Break';
-import {Drawing} from './drawing/Drawing';
+import {Drawing} from '../drawing/Drawing';
 import {InstrText} from './InstrText';
 import {NoBreakHyphen} from './NoBreakHyphen';
 import {Pict} from './Pict';

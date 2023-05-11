@@ -1,4 +1,4 @@
-import {ST_PathFillMode} from '../../Types';
+import {ST_PathFillMode} from '../Types';
 
 export interface IPath {
   type: 'moveTo' | 'lnTo' | 'arcTo' | 'cubicBezTo' | 'quadBezTo' | 'close';

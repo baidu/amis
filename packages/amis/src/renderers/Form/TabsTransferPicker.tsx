@@ -12,7 +12,7 @@ import {supportStatic} from './StaticHoc';
 
 /**
  * TabsTransferPicker 穿梭器的弹框形态
- * 文档：https://baidu.gitee.io/amis/docs/components/form/tabs-transfer-picker
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/tabs-transfer-picker
  */
 export interface TabsTransferPickerControlSchema
   extends Omit<TabsTransferControlSchema, 'type'>,

@@ -8,7 +8,7 @@ import {supportStatic} from './StaticHoc';
 
 /**
  * YearRange 年份范围控件
- * 文档：https://baidu.gitee.io/amis/docs/components/form/input-year-range
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/input-year-range
  */
 export interface YearRangeControlSchema
   extends Omit<DateRangeControlSchema, 'type'> {

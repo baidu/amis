@@ -2,16 +2,16 @@
  * 目前图片和 textbox 都会依赖这个
  */
 
-import {LengthUsage, convertLength} from './../../../parse/parseSize';
-import {CSSStyle} from './../../Style';
+import {LengthUsage, convertLength} from '../../parse/parseSize';
+import {CSSStyle} from './../Style';
 
-import {getAttrBoolean, getAttrNumber, getValBoolean} from '../../../OpenXML';
-import Word from '../../../Word';
+import {getAttrBoolean, getAttrNumber, getValBoolean} from '../../OpenXML';
+import Word from '../../Word';
 import {Pic} from './Pic';
-import {parseSize} from '../../../parse/parseSize';
-import {ST_RelFromH, ST_RelFromV} from '../../Types';
-import {WPS} from '../wps/WPS';
-import {behindIndex} from '../../../render/zindex';
+import {parseSize} from '../../parse/parseSize';
+import {ST_RelFromH, ST_RelFromV} from '../Types';
+import {WPS} from '../word/wps/WPS';
+import {Diagram} from './diagram/Diagram';
 
 /**
  * drawing 在文档中的位置，目前有两种情况，child 和 anchor
@@ -47,6 +47,8 @@ export class Drawing {
   pic?: Pic;
   // 主要用于文本框
   wps?: WPS;
+  // 主要用于 smartArt
+  diagram?: ConstrainDOMStringParameters;
   // drawing 的位置配置
   position: Position = Position.inline;
   // 如果是 anchor，描述具体配置
@@ -167,6 +169,12 @@ export class Drawing {
 
                 case 'wps:wsp':
                   drawing.wps = WPS.fromXML(word, graphicDataChild);
+                  break;
+
+                case 'dgm:relIds':
+                  // 这个是 diagram 的关系
+                  // http://webapp.docx4java.org/OnlineDemo/ecma376/DrawingML/relIds.html
+                  drawing.diagram = Diagram.fromXML(word, graphicDataChild);
                   break;
 
                 default:

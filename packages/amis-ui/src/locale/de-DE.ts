@@ -406,5 +406,6 @@ register('de-DE', {
   'JSONSchema.description': 'Description',
   'JSONSchema.key': 'Key',
   'JSONSchema.array_items': 'Items',
-  'TimeNow': 'Jetzt'
+  'TimeNow': 'Jetzt',
+  'Steps.step': 'Schritt {{index}}'
 });

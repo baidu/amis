@@ -18,6 +18,9 @@ exports[`image 1`] = `
           style="display: inline-block; width: 189.33px; height: 58.67px;"
         >
           <img
+            alt="Logo
+
+Description automatically generated"
             src="blob:http://localhost/mock"
             style="position: relative; left: 0.00px; top: 0.00px; width: 189.33px; height: 58.67px; transform: rotate(49.310066666666664deg);"
           />

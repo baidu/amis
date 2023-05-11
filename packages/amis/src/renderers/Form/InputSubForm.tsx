@@ -11,7 +11,7 @@ import {findDOMNode} from 'react-dom';
 
 /**
  * SubForm 子表单
- * 文档：https://baidu.gitee.io/amis/docs/components/form/subform
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/subform
  */
 export interface SubFormControlSchema extends FormBaseControlSchema {
   /**

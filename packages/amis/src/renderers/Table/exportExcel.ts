@@ -15,10 +15,8 @@ import {
 import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
 import {BaseSchema} from '../../Schema';
 import {toDataURL, getImageDimensions} from 'amis-core';
-import {TplSchema} from '../Tpl';
-import {MappingSchema} from '../Mapping';
+import memoize from 'lodash/memoize';
 import {getSnapshot} from 'mobx-state-tree';
-import {DateSchema} from '../Date';
 import moment from 'moment';
 import type {TableProps, ExportExcelToolbar} from './index';
 
@@ -37,6 +35,123 @@ const getAbsoluteUrl = (function () {
     return link.href;
   };
 })();
+
+interface CellStyleFont {
+  name?: string;
+  color?: {argb: string};
+  underline?: boolean;
+  bold?: boolean;
+  italic?: boolean;
+}
+
+interface CellStyleFill {
+  type?: string;
+  pattern?: string;
+  fgColor?: {argb: string};
+}
+
+interface CellStyle {
+  font?: CellStyleFont;
+  fill?: CellStyleFill;
+}
+
+/**
+ * 将 computedStyle 的 rgba 转成 argb hex
+ */
+const rgba2argb = memoize((rgba: string) => {
+  const color = `${rgba
+    .match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+\.{0,1}\d*))?\)$/)!
+    .slice(1)
+    .map((n, i) =>
+      (i === 3 ? Math.round(parseFloat(n) * 255) : parseFloat(n))
+        .toString(16)
+        .padStart(2, '0')
+        .replace('NaN', '')
+    )
+    .join('')}`;
+  if (color.length === 6) {
+    return 'FF' + color;
+  }
+  return color;
+});
+
+/**
+ * 将 classname 转成对应的 excel 样式，只支持字体颜色、粗细、背景色
+ */
+const getCellStyleByClassName = memoize((className: string): CellStyle => {
+  if (!className) return {};
+  const classNameElm = document.getElementsByClassName(className).item(0);
+  if (classNameElm) {
+    const computedStyle = getComputedStyle(classNameElm);
+    const font: CellStyleFont = {};
+    let fill: CellStyleFill = {};
+    if (computedStyle.color && computedStyle.color.indexOf('rgb') !== -1) {
+      const color = rgba2argb(computedStyle.color);
+      // 似乎不支持完全透明的情况，所以就不设置
+      if (!color.startsWith('00')) {
+        font['color'] = {argb: color};
+      }
+    }
+    if (computedStyle.fontWeight && parseInt(computedStyle.fontWeight) >= 700) {
+      font['bold'] = true;
+    }
+    if (
+      computedStyle.backgroundColor &&
+      computedStyle.backgroundColor.indexOf('rgb') !== -1
+    ) {
+      const color = rgba2argb(computedStyle.backgroundColor);
+      if (!color.startsWith('00')) {
+        fill = {
+          type: 'pattern',
+          pattern: 'solid',
+          fgColor: {argb: color}
+        };
+      }
+    }
+
+    return {font, fill};
+  }
+  return {};
+});
+
+/**
+ * 设置单元格样式
+ */
+const applyCellStyle = (
+  sheetRow: any,
+  columIndex: number,
+  schema: any,
+  data: any
+) => {
+  let cellStyle: CellStyle = {};
+  if (schema.className) {
+    for (const className of schema.className.split(/\s+/)) {
+      const style = getCellStyleByClassName(className);
+      if (style) {
+        cellStyle = {...cellStyle, ...style};
+      }
+    }
+  }
+
+  if (schema.classNameExpr) {
+    const classNames = filter(schema.classNameExpr, data);
+    if (classNames) {
+      for (const className of classNames.split(/\s+/)) {
+        const style = getCellStyleByClassName(className);
+        if (style) {
+          cellStyle = {...cellStyle, ...style};
+        }
+      }
+    }
+  }
+
+  if (cellStyle.font && Object.keys(cellStyle.font).length > 0) {
+    sheetRow.getCell(columIndex).font = cellStyle.font;
+  }
+  if (cellStyle.fill && Object.keys(cellStyle.fill).length > 0) {
+    sheetRow.getCell(columIndex).fill = cellStyle.fill;
+  }
+};
 
 export async function exportExcel(
   ExcelJS: any,
@@ -128,7 +243,7 @@ export async function exportExcel(
     : columns;
 
   const firstRowLabels = filteredColumns.map(column => {
-    return column.label;
+    return filter(column.label, data);
   });
   const firstRow = worksheet.getRow(1);
   firstRow.values = firstRowLabels;
@@ -172,6 +287,8 @@ export async function exportExcel(
           );
         }
       }
+
+      applyCellStyle(sheetRow, columIndex, column.pristine, rowData);
 
       const type = (column as BaseSchema).type || 'plain';
       // TODO: 这里很多组件都是拷贝对应渲染的逻辑实现的，导致每种都得实现一遍

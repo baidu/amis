@@ -385,6 +385,14 @@
       content: var(--steps-simple-icon);
     }
   }
+
+  .#{$ns}StepsItem.is-clickable {
+    .#{$ns}StepsItem-container {
+      &ProgressDot, &Icon, &Wrapper {
+        cursor: pointer;
+      }
+    }
+  }
 }
 
 .#{$ns}Steps-mobile.#{$ns}Steps--horizontal {

@@ -9,7 +9,7 @@ const BarCode = React.lazy(() => import('amis-ui/lib/components/BarCode'));
 
 /**
  * BarCode 显示渲染器，格式说明。
- * 文档：https://baidu.gitee.io/amis/docs/components/barcode
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/barcode
  */
 export interface BarCodeSchema extends BaseSchema {
   /**
@@ -39,12 +39,23 @@ export interface BarCodeProps
 
 export class BarCodeField extends React.Component<BarCodeProps, object> {
   render() {
-    const {className, style, width, height, classnames: cx, options} = this.props;
+    const {
+      className,
+      style,
+      width,
+      height,
+      classnames: cx,
+      options
+    } = this.props;
     const value = getPropValue(this.props);
 
     return (
       <Suspense fallback={<div>...</div>}>
-        <div data-testid="barcode" className={cx('BarCode', className)} style={style}>
+        <div
+          data-testid="barcode"
+          className={cx('BarCode', className)}
+          style={style}
+        >
           <BarCode value={value} options={options}></BarCode>
         </div>
       </Suspense>

@@ -4,9 +4,9 @@
  * https://wiki.documentfoundation.org/Development/Improve_handles_of_DrawingML_shapes
  */
 
-import {Color} from '../../../../util/color';
-import {createSVGElement} from '../../../../util/dom';
-import {WPSStyle} from '../../wps/WPSStyle';
+import {Color} from '../../../util/color';
+import {createSVGElement} from '../../../util/dom';
+import {WPSStyle} from '../../word/wps/WPSStyle';
 import {Shape, ShapeGuide} from '../Shape';
 import {ShapePr} from '../ShapeProperties';
 import {evalFmla} from './formulas';

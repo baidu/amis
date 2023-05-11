@@ -15,7 +15,7 @@ import type {ListenerAction} from 'amis-core';
 
 /**
  * Editor 代码编辑器
- * 文档：https://baidu.gitee.io/amis/docs/components/form/editor
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/editor
  */
 export interface EditorControlSchema extends Omit<FormBaseControl, 'size'> {
   type:
@@ -247,7 +247,7 @@ export default class EditorControl extends React.Component<EditorProps, any> {
     if (this.props.editorDidMount) {
       let editorDidMount = this.props.editorDidMount;
       if (typeof editorDidMount === 'string') {
-        editorDidMount = new Function('editor', 'monaco');
+        editorDidMount = new Function('editor', 'monaco', editorDidMount);
       }
       const dispose = editorDidMount(editor, monaco);
       if (typeof dispose === 'function') {

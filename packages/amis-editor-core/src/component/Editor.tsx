@@ -3,7 +3,7 @@ import cx from 'classnames';
 import Preview from './Preview';
 import {autobind} from '../util';
 import {MainStore, EditorStoreType} from '../store/editor';
-import type {SchemaObject} from 'amis/lib/Schema';
+import type {SchemaObject} from 'amis';
 import {EditorManager, EditorManagerConfig, PluginClass} from '../manager';
 import {reaction} from 'mobx';
 import {RenderOptions, toast} from 'amis';
@@ -475,7 +475,7 @@ export default class Editor extends Component<EditorProps> {
 
   preview() {
     if (this.props.onPreview) {
-      this.props.onPreview(true);
+      this.props.onPreview(!this.props.preview);
     }
   }
 

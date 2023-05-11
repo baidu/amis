@@ -25,9 +25,8 @@ import {tipedLabel} from 'amis-editor-core';
 
 import type {Option} from 'amis';
 import {createObject, FormControlProps} from 'amis-core';
-import type {TextControlSchema} from 'amis/lib/renderers/Form/inputText';
 import type {OptionValue} from 'amis-core';
-import type {SchemaApi} from 'amis/lib/Schema';
+import type {SchemaApi} from 'amis';
 
 export type valueType = 'text' | 'boolean' | 'number';
 
@@ -43,12 +42,14 @@ export interface OptionControlProps extends FormControlProps {
   className?: string;
 }
 
+export type SourceType = 'custom' | 'api' | 'apicenter' | 'variable';
+
 export interface OptionControlState {
   options: Array<OptionControlItem>;
   api: SchemaApi;
   labelField: string;
   valueField: string;
-  source: 'custom' | 'api' | 'apicenter';
+  source: SourceType;
 }
 
 export default class OptionControl extends React.Component<
@@ -65,7 +66,7 @@ export default class OptionControl extends React.Component<
   constructor(props: OptionControlProps) {
     super(props);
 
-    let source: 'custom' | 'api' | 'apicenter' = 'custom';
+    let source: SourceType = 'custom';
 
     if (props.data.hasOwnProperty('source') && props.data.source) {
       const api = props.data.source;
@@ -76,7 +77,11 @@ export default class OptionControl extends React.Component<
           ? api.url || ''
           : '';
 
-      source = !url.indexOf('api://') ? 'apicenter' : 'api';
+      source = /\$\{(.*?)\}/g.test(props.data.source)
+        ? 'variable'
+        : !url.indexOf('api://')
+        ? 'apicenter'
+        : 'api';
     }
 
     this.state = {
@@ -251,7 +256,7 @@ export default class OptionControl extends React.Component<
       data.value = defaultValue;
     }
 
-    if (source === 'api' || source === 'apicenter') {
+    if (source === 'api' || source === 'apicenter' || source === 'variable') {
       const {api, labelField, valueField} = this.state;
       data.source = api;
       data.labelField = labelField || undefined;
@@ -338,8 +343,8 @@ export default class OptionControl extends React.Component<
    * 切换选项类型
    */
   @autobind
-  handleSourceChange(source: 'custom' | 'api' | 'apicenter') {
-    this.setState({source: source}, this.onChange);
+  handleSourceChange(source: SourceType) {
+    this.setState({api: '', source: source}, this.onChange);
   }
 
   /**
@@ -479,14 +484,18 @@ export default class OptionControl extends React.Component<
           label: '外部接口',
           value: 'api'
         },
-        ...(hasApiCenter ? [{label: 'API中心', value: 'apicenter'}] : [])
+        ...(hasApiCenter ? [{label: 'API中心', value: 'apicenter'}] : []),
+        {
+          label: '上下文变量',
+          value: 'variable'
+        }
         // {
         //   label: '表单实体',
         //   value: 'form'
         // }
       ] as Array<{
         label: string;
-        value: 'custom' | 'api' | 'apicenter';
+        value: SourceType;
       }>
     ).map(item => ({
       ...item,
@@ -814,9 +823,6 @@ export default class OptionControl extends React.Component<
   renderApiPanel() {
     const {render} = this.props;
     const {source, api, labelField, valueField} = this.state;
-    if (source === 'custom') {
-      return null;
-    }
 
     return render(
       'api',
@@ -889,7 +895,22 @@ export default class OptionControl extends React.Component<
           </div>
         ) : null}
 
-        {this.renderApiPanel()}
+        {source === 'api' || source === 'apicenter'
+          ? this.renderApiPanel()
+          : null}
+
+        {source === 'variable'
+          ? render(
+              'variable',
+              getSchemaTpl('sourceBindControl', {
+                label: false,
+                className: 'ae-ExtendMore'
+              }),
+              {
+                onChange: this.handleAPIChange
+              }
+            )
+          : null}
       </div>
     );
   }

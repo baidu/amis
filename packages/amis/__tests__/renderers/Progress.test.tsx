@@ -79,6 +79,7 @@ test('Renderer:Progress with map', async () => {
     })
   );
 
+  await wait(200);
   expect(container).toMatchSnapshot();
   expect(container.querySelector('.cxd-Progress-line-bar')!).toHaveStyle({
     'background-color': 'rgb(249, 109, 62)'
@@ -203,6 +204,7 @@ test('Renderer:Progress with mode', async () => {
     })
   );
 
+  await wait(200);
   // gapDegree 与 gapPosition 无法验证，因为是 svg
   expect(container).toMatchSnapshot();
 });

@@ -8,7 +8,7 @@ import {Link} from 'amis-ui';
 
 /**
  * Link 链接展示控件。
- * 文档：https://baidu.gitee.io/amis/docs/components/link
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/link
  */
 export interface LinkSchema extends BaseSchema {
   /**

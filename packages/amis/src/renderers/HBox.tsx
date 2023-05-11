@@ -69,7 +69,7 @@ export type HBoxColumn = HBoxColumnObject;
 
 /**
  * Hbox 水平布局渲染器。
- * 文档：https://baidu.gitee.io/amis/docs/components/hbox
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/hbox
  */
 export interface HBoxSchema extends BaseSchema {
   /**

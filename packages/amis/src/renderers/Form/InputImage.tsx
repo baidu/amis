@@ -14,7 +14,11 @@ import {FileRejection, ErrorCode, DropEvent} from 'react-dropzone';
 import 'blueimp-canvastoblob';
 import find from 'lodash/find';
 import {Payload, ActionObject} from 'amis-core';
-import {buildApi} from 'amis-core';
+import {buildApi,
+  isEffectiveApi,
+  normalizeApi,
+  isApiOutdated,
+  isApiOutdatedWithData} from 'amis-core';
 import {createObject, qsstringify, guid, isEmpty, qsparse} from 'amis-core';
 import {Icon, TooltipWrapper, Button} from 'amis-ui';
 import accepts from 'attr-accept';
@@ -37,7 +41,7 @@ import {TplSchema} from '../Tpl';
 
 /**
  * Image 图片上传控件
- * 文档：https://baidu.gitee.io/amis/docs/components/form/image
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/image
  */
 export interface ImageControlSchema extends FormBaseControlSchema {
   /**
@@ -487,7 +491,6 @@ export default class ImageControl extends React.Component<
       const multiple = props.multiple;
       const joinValues = props.joinValues;
       const delimiter = props.delimiter as string;
-
       let files: Array<FileValue> = [];
 
       if (value) {
@@ -585,7 +588,7 @@ export default class ImageControl extends React.Component<
     const {
       accept,
       multiple,
-      formItem,
+      onChange,
       maxLength,
       maxSize,
       translate: __
@@ -645,19 +648,21 @@ export default class ImageControl extends React.Component<
           currentFiles.push(formatFile(item));
         });
       }
-    } else {
-      const file = formatFile(errorFiles[0]);
-      currentFiles.splice(0, 1, file);
-      formItem?.setError(file?.error ?? '');
-    }
-
-    return this.setState(
-      {
+      this.setState({
         files: (this.files = currentFiles),
         dropMultiple: multiple
-      },
-      this.tick
-    );
+      });
+    } else {
+      const file = formatFile(errorFiles[0]);
+      this.setState(
+        {
+          error: file?.error ?? '',
+          files: (this.files = []),
+          dropMultiple: multiple
+        },
+        () => onChange(undefined)
+      );
+    }
   }
 
   handleFileCancel() {
@@ -707,7 +712,7 @@ export default class ImageControl extends React.Component<
       return;
     }
 
-    const {translate: __, formItem, multiple} = this.props;
+    const {translate: __, multiple} = this.props;
     const file = find(this.files, item => item.state === 'pending') as FileX;
     if (file) {
       this.current = file;
@@ -735,10 +740,14 @@ export default class ImageControl extends React.Component<
                   file.state !== 'uploading' ? file.state : 'error';
                 newFile.error = error;
                 if (!multiple) {
-                  formItem?.setError(error);
-                  if (files.length === 1) {
-                    files.splice(0, 1);
-                  }
+                  this.current = null;
+                  return this.setState(
+                    {
+                      files: (this.files = []),
+                      error
+                    },
+                    this.tick
+                  );
                 }
               } else {
                 newFile = {
@@ -897,7 +906,7 @@ export default class ImageControl extends React.Component<
       }
     }
 
-    onChange(this.emitValue, undefined, changeImmediately);
+    onChange((this.emitValue = newValue || ''), undefined, changeImmediately);
     curInitAutoFill && this.syncAutoFill();
   }
 
@@ -1353,6 +1362,12 @@ export default class ImageControl extends React.Component<
   validate(): any {
     const {translate: __, multiple} = this.props;
 
+    if (this.state.error) {
+      this.setState({
+        error: ''
+      });
+    }
+
     if (this.state.locked && this.state.lockedReason) {
       return this.state.lockedReason;
     } else if (this.state.cropFile) {
@@ -1369,9 +1384,10 @@ export default class ImageControl extends React.Component<
         this.startUpload();
       });
     } else if (
+      multiple &&
       this.files.some(i => i.state && ['error', 'invalid'].includes(i.state))
     ) {
-      return multiple ? ' ' : this.files[0].error;
+      return ' ';
     }
   }
 
@@ -1884,6 +1900,10 @@ export default class ImageControl extends React.Component<
                         {__(uploading ? 'File.pause' : 'File.start')}
                       </Button>
                     ) : null}
+
+                    {error ? (
+                      <div className={cx('ImageControl-errorMsg')}>{error}</div>
+                    ) : null}
                   </>
                 )}
               </div>
@@ -1897,6 +1917,20 @@ export default class ImageControl extends React.Component<
 
 @FormItem({
   type: 'input-image',
-  sizeMutable: false
+  sizeMutable: false,
+  shouldComponentUpdate: (props: any, prevProps: any) =>
+    !!isEffectiveApi(props.receiver, props.data) &&
+    (isApiOutdated(
+      props.receiver,
+      prevProps.receiver,
+      props.data,
+      prevProps.data
+    ) ||
+    isApiOutdatedWithData(
+      props.receiver,
+      prevProps.receiver,
+      props.data,
+      prevProps.data
+    ))
 })
 export class ImageControlRenderer extends ImageControl {}

@@ -6,7 +6,7 @@ import {SchemaCollection} from '../../Schema';
 
 /**
  * InputArray 数组输入框。 combo 的别名。
- * 文档：https://baidu.gitee.io/amis/docs/components/form/array
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/array
  */
 export interface ArrayControlSchema
   extends Omit<

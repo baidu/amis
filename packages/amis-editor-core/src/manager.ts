@@ -66,7 +66,7 @@ import findIndex from 'lodash/findIndex';
 import {EditorDNDManager} from './dnd';
 import {VariableManager} from './variable';
 import {IScopedContext} from 'amis';
-import type {SchemaObject, SchemaCollection} from 'amis/lib/Schema';
+import type {SchemaObject, SchemaCollection} from 'amis';
 import type {RendererConfig} from 'amis-core';
 import isPlainObject from 'lodash/isPlainObject';
 import {omit} from 'lodash';
@@ -121,6 +121,7 @@ export function registerEditorPlugin(klass: PluginClass) {
     isExitPlugin = builtInPlugins.find(item => item === klass);
   }
   if (!isExitPlugin) {
+    klass.id = klass.id || klass.name || guid();
     builtInPlugins.push(klass);
   } else {
     console.warn(`注册插件异常，已存在同名插件：`, klass);
@@ -132,7 +133,9 @@ export function registerEditorPlugin(klass: PluginClass) {
  */
 export function getEditorPlugins(options: any = {}) {
   const {scene = 'global'} = options;
-  return builtInPlugins.filter(item => item.scene?.includes(scene));
+  return builtInPlugins.filter(item =>
+    (Array.isArray(item) ? item[0] : item).scene?.includes(scene)
+  );
 }
 
 /**
@@ -327,15 +330,29 @@ export class EditorManager {
     );
   }
 
-  normalizeScene(plugins?: Array<PluginClass>) {
+  normalizeScene(
+    plugins?: Array<
+      | PluginClass
+      | [PluginClass, Record<string, any> | (() => Record<string, any>)]
+    >
+  ): (
+    | PluginClass
+    | [PluginClass, Record<string, any> | (() => Record<string, any>)]
+  )[] {
     return (
-      plugins?.map((klass: PluginClass) => {
+      plugins?.map(klass => {
+        let options;
+        if (Array.isArray(klass)) {
+          options = klass[1];
+          klass = klass[0];
+        }
+
         // 处理插件身上的场景信息
         const scene = Array.from(
           new Set(['global'].concat(klass.scene || 'global'))
         );
         klass.scene = scene;
-        return klass;
+        return options ? [klass, options] : klass;
       }) || []
     );
   }
@@ -618,7 +635,7 @@ export class EditorManager {
    * 备注3: 建议优先使用当前选中组件ID（this.store.activeId）来更新属性配置面板;
    * @param pluginType 组件类型
    */
-  updateConfigPanel(pluginType: string) {
+  updateConfigPanel(pluginType?: string) {
     const {activeId, getSchema, getNodeById} = this.store;
     let curPluginType = pluginType;
 
@@ -850,6 +867,9 @@ export class EditorManager {
     ) {
       // 布局能力提升: 点击插入新元素，当wrapper为空插入布局容器时，自动改为置换，避免过多层级
       this.replaceChild(curActiveId, curElemSchema);
+      setTimeout(() => {
+        this.updateConfigPanel();
+      }, 0);
       return;
     }
 
