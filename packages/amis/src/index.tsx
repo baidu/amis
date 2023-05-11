@@ -129,7 +129,6 @@ import './renderers/Nav';
 import './renderers/Number';
 import './renderers/Tasks';
 import './renderers/Drawer';
-import './renderers/ConfirmDialog';
 import './renderers/Wrapper';
 import './renderers/IFrame';
 import './renderers/BarCode';

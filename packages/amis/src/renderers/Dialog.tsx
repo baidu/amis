@@ -3,7 +3,7 @@ import {ScopedContext, IScopedContext} from 'amis-core';
 import {Renderer, RendererProps} from 'amis-core';
 import {SchemaNode, Schema, ActionObject} from 'amis-core';
 import {filter} from 'amis-core';
-import {Modal, SpinnerExtraProps} from 'amis-ui';
+import {Modal, SpinnerExtraProps, Button} from 'amis-ui';
 import {
   guid,
   isVisible,
@@ -110,6 +110,11 @@ export interface DialogSchema extends BaseSchema {
    * 是否显示蒙层
    */
   overlay?: boolean;
+
+  /**
+   * 弹框类型 normal普通弹框 confirm 确认弹框
+   */
+  dialogType?: 'normal' | 'confirm';
 }
 
 export type DialogSchemaBase = Omit<DialogSchema, 'type'>;
@@ -485,8 +490,22 @@ export default class Dialog extends React.Component<DialogProps> {
       classnames: cx,
       showErrorMsg,
       showLoading,
-      show
+      show,
+      dialogType,
+      cancelBtnLevel,
+      confirmBtnLevel,
+      cancelText,
+      confirmText
     } = this.props;
+
+    if (dialogType === 'confirm') {
+      return (
+        <div className={cx('Modal-footer')}>
+          <Button level={cancelBtnLevel}>{cancelText || '取消'}</Button>
+          <Button level={confirmBtnLevel}>{confirmText || '确认'}</Button>
+        </div>
+      );
+    }
 
     return (
       <div className={cx('Modal-footer')}>

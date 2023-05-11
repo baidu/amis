@@ -523,7 +523,8 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 confirmText: '确认',
                 cancelText: '取消',
                 confirmBtnLevel: 'primary',
-                body: '对，你刚刚点击了'
+                body: '对，你刚刚点击了',
+                dialogType: 'confirm'
               }),
               asFormItem: true,
               visibleOn: 'data.groupType === "confirmDialog"',
@@ -534,7 +535,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   onClick={() =>
                     manager.openSubEditor({
                       title: '配置弹框内容',
-                      value: {type: 'confirm-dialog', ...value},
+                      value: {type: 'dialog', ...value},
                       onChange: (value: any) => onChange(value)
                     })
                   }

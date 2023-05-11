@@ -49,7 +49,6 @@ import {WizardSchema} from './renderers/Wizard';
 import {WrapperSchema} from './renderers/Wrapper';
 import {TableSchema} from './renderers/Table';
 import {DialogSchema, DialogSchemaBase} from './renderers/Dialog';
-import {ConfirmDialogSchema} from './renderers/ConfirmDialog';
 import {DrawerSchema} from './renderers/Drawer';
 import {SearchBoxSchema} from './renderers/SearchBox';
 import {SparkLineSchema} from './renderers/SparkLine';
@@ -165,7 +164,6 @@ export type SchemaType =
   | 'static-month' // 这个几个跟表单项同名，再form下面用必须带前缀 static-
   | 'date-range'
   | 'dialogs'
-  | 'confirm-dialog'
   | 'spinner'
   | 'divider'
   | 'dropdown-button'
@@ -382,7 +380,6 @@ export type SchemaObject =
   | DateSchema
   | DialogSchema
   | DividerSchema
-  | ConfirmDialogSchema
   | DrawerSchema
   | DropdownButtonSchema
   | EachSchema

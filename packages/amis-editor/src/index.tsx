@@ -148,7 +148,6 @@ import './plugin/Breadcrumb';
 import './plugin/CustomRegion';
 import './plugin/Dialog';
 import './plugin/Drawer';
-import './plugin/ConfirmDialog';
 import './plugin/HBox';
 import './plugin/ListItem';
 import './plugin/Operation';

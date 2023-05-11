@@ -108,6 +108,92 @@ export class DialogPlugin extends BasePlugin {
   panelTitle = '弹框';
   panelJustify = true;
   panelBodyCreator = (context: BaseEventContext) => {
+    // 确认对话框的配置面板
+    if (context.schema?.dialogType === 'confirm') {
+      return getSchemaTpl('tabs', [
+        {
+          title: '属性',
+          body: getSchemaTpl('collapseGroup', [
+            {
+              title: '基本',
+              body: [
+                getSchemaTpl('layout:originPosition', {value: 'left-top'}),
+                {
+                  label: '标题',
+                  type: 'input-text',
+                  name: 'title'
+                },
+                getSchemaTpl('layout:originPosition', {value: 'left-top'}),
+                {
+                  label: '确认按钮文案',
+                  type: 'input-text',
+                  name: 'confirmText'
+                },
+                getSchemaTpl('layout:originPosition', {value: 'left-top'}),
+                {
+                  label: '取消按钮文案',
+                  type: 'input-text',
+                  name: 'cancelText'
+                },
+                getSchemaTpl('switch', {
+                  label: '可按 Esc 关闭',
+                  name: 'closeOnEsc',
+                  value: false
+                })
+              ]
+            }
+          ])
+        },
+        {
+          title: '外观',
+          body: getSchemaTpl('collapseGroup', [
+            {
+              title: '基本',
+              body: [
+                {
+                  label: '尺寸',
+                  type: 'button-group-select',
+                  name: 'size',
+                  size: 'sm',
+                  options: [
+                    {
+                      label: '标准',
+                      value: ''
+                    },
+                    {
+                      label: '小',
+                      value: 'sm'
+                    },
+                    {
+                      label: '中',
+                      value: 'md'
+                    },
+                    {
+                      label: '大',
+                      value: 'lg'
+                    },
+                    {
+                      label: '超大',
+                      value: 'xl'
+                    }
+                  ],
+                  pipeIn: defaultValue(''),
+                  pipeOut: (value: string) => (value ? value : undefined)
+                },
+                getSchemaTpl('buttonLevel', {
+                  label: '确认按钮样式',
+                  name: 'confirmBtnLevel'
+                }),
+                getSchemaTpl('buttonLevel', {
+                  label: '取消按钮样式',
+                  name: 'cancelBtnLevel'
+                })
+              ]
+            }
+          ])
+        }
+      ]);
+    }
     return getSchemaTpl('tabs', [
       {
         title: '属性',
