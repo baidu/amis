@@ -8,7 +8,6 @@ import {
   noop,
   defaultValue
 } from 'amis-editor-core';
-import {getEventControlConfig} from '../renderer/event-control/helper';
 import {InlineModal} from './Dialog';
 
 export class ConfirmDialogPlugin extends BasePlugin {
