@@ -14,11 +14,13 @@ import {FileRejection, ErrorCode, DropEvent} from 'react-dropzone';
 import 'blueimp-canvastoblob';
 import find from 'lodash/find';
 import {Payload, ActionObject} from 'amis-core';
-import {buildApi,
+import {
+  buildApi,
   isEffectiveApi,
   normalizeApi,
   isApiOutdated,
-  isApiOutdatedWithData} from 'amis-core';
+  isApiOutdatedWithData
+} from 'amis-core';
 import {createObject, qsstringify, guid, isEmpty, qsparse} from 'amis-core';
 import {Icon, TooltipWrapper, Button} from 'amis-ui';
 import accepts from 'attr-accept';
@@ -629,8 +631,10 @@ export default class ImageControl extends React.Component<
               });
             }
             // 文件太大
-            else if (err.code === ErrorCode.FileTooLarge) {
-              return __('File.sizeLimit', {maxSize});
+            else if (err.code === ErrorCode.FileTooLarge && maxSize) {
+              return __('File.sizeLimit', {
+                maxSize: prettyBytes(maxSize, 1024)
+              });
             }
           })
           .join('; ');
@@ -1926,11 +1930,11 @@ export default class ImageControl extends React.Component<
       props.data,
       prevProps.data
     ) ||
-    isApiOutdatedWithData(
-      props.receiver,
-      prevProps.receiver,
-      props.data,
-      prevProps.data
-    ))
+      isApiOutdatedWithData(
+        props.receiver,
+        prevProps.receiver,
+        props.data,
+        prevProps.data
+      ))
 })
 export class ImageControlRenderer extends ImageControl {}
