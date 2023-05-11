@@ -511,8 +511,13 @@ export class EventControl extends React.Component<
     // 收集当前事件已有ajax动作的请求返回结果作为事件变量
     let oldActions = onEvent[activeData.actionData!.eventKey].actions;
     if (activeData.type === 'update') {
-      // 编辑的时候只能拿到当前动作前面动作的事件变量
-      oldActions = oldActions.slice(0, activeData.actionData!.actionIndex);
+      // 编辑的时候只能拿到当前动作前面动作的事件变量以及当前动作事件
+      oldActions = oldActions.slice(
+        0,
+        activeData.actionData!.actionIndex !== undefined
+          ? activeData.actionData!.actionIndex + 1
+          : 0
+      );
     }
 
     const withOutputVarActions = oldActions?.filter(item => item.outputVar);
