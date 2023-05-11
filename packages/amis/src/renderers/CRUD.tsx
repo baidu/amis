@@ -50,6 +50,7 @@ import type {CardsRendererEvent} from './Cards';
 import {isPureVariable, resolveVariableAndFilter, parseQuery} from 'amis-core';
 
 import type {PaginationProps} from './Pagination';
+import {isAlive} from 'mobx-state-tree';
 
 export type CRUDBultinToolbarType =
   | 'columns-toggler'
@@ -1186,6 +1187,10 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             columns: store.columns ?? columns
           })
           .then(async value => {
+            if (!isAlive(store)) {
+              return value;
+            }
+
             const {page, lastPage, data, msg, error} = store;
 
             if (isInit) {
