@@ -262,7 +262,14 @@
       }
 
       > .#{$ns}Form-label {
-        line-height: px2rem(32px);
+        padding-top: calc(
+          (
+              var(--Form-input-height) - var(--Form-item-lineHeight) *
+                var(--Form-item-fontSize)
+            ) / 2
+        );
+        word-break: break-word;
+        line-height: var(--Form-item-lineHeight);
         margin: 0;
         margin-right: var(--Form--horizontal-label-gap);
         flex-shrink: 0;
@@ -318,8 +325,14 @@
       vertical-align: top;
 
       > .#{$ns}Form-label {
-        height: px2rem(32px);
-        line-height: px2rem(32px);
+        padding-top: calc(
+          (
+              var(--Form-input-height) - var(--Form-item-lineHeight) *
+                var(--Form-item-fontSize)
+            ) / 2
+        );
+        word-break: break-word;
+        line-height: var(--Form-item-lineHeight);
         margin: 0;
         margin-right: var(--Form-mode-inline-label-gap);
 
