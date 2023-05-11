@@ -1522,7 +1522,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         newItems.splice(0, newItems.length - 1)
       );
     }
-
     store.setSelectedItems(newItems);
     store.setUnSelectedItems(newUnSelectedItems);
     onSelect && onSelect(newItems, newUnSelectedItems);
@@ -2047,7 +2046,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     }
 
     const $$editable = childProps.$$editable;
-
     return render(`toolbar/${index}`, toolbar, {
       // 包两层，主要是为了处理以下 case
       // 里面放了个 form，form 提交过来的时候不希望把 items 这些发送过来。
@@ -2055,8 +2053,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       data: createObject(
         createObject(store.filterData, {
           items: childProps.items,
-          selectedItems: childProps.selectedItems,
-          unSelectedItems: childProps.unSelectedItems
+          selectedItems: store.selectedItems.concat(),
+          unSelectedItems: store.unSelectedItems.concat()
         }),
         {}
       ),

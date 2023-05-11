@@ -499,20 +499,27 @@ export class Table extends React.PureComponent<TableProps, TableState> {
 
   componentDidUpdate(prevProps: TableProps, prevState: TableState) {
     // 数据源发生了变化
+    // 异步加载数据需求再更新一次
+    // 翻页
     if (!isEqual(prevProps.dataSource, this.props.dataSource)) {
-      this.setState({dataSource: [...this.props.dataSource]}, () => {
-        if (this.props.draggable) {
-          if (this.sortable) {
-            this.destroyDragging();
+      this.setState(
+        {
+          dataSource: [...this.props.dataSource]
+        },
+        () => {
+          if (this.props.draggable) {
+            if (this.sortable) {
+              this.destroyDragging();
+            }
+
+            this.initDragging();
           }
 
-          this.initDragging();
+          this.updateTableFixedRows();
+
+          this.updateColWidths();
         }
-
-        this.updateTableFixedRows();
-
-        this.updateColWidths();
-      }); // 异步加载数据需求再更新一次
+      );
     }
 
     // 选择项发生了变化触发
@@ -960,24 +967,35 @@ export class Table extends React.PureComponent<TableProps, TableState> {
         ></Cell>
       ) : null;
 
-    let allRowKeys: Array<string> = [];
+    let allRowKeys: Array<string | number> = [];
     let allRows: Array<any> = [];
-    const maxSelectedLength = rowSelection?.maxSelectedLength;
     dataList.forEach(data => {
-      if (
-        !maxSelectedLength ||
-        (!!maxSelectedLength && allRows.length < maxSelectedLength)
-      ) {
-        allRowKeys.push(data[keyField]);
-        allRows.push(data);
-        if (!expandable && this.hasChildrenRow(data)) {
-          allRowKeys = [...allRowKeys, ...this.getDataChildrenKeys(data)];
-          data[this.getChildrenColumnName()].forEach((item: any) =>
-            allRows.push(item)
-          );
-        }
+      allRowKeys.push(data[keyField]);
+      allRows.push(data);
+      if (!expandable && this.hasChildrenRow(data)) {
+        allRowKeys = [...allRowKeys, ...this.getDataChildrenKeys(data)];
+        data[this.getChildrenColumnName()].forEach((item: any) =>
+          allRows.push(item)
+        );
       }
     });
+
+    // 从renderers的table传来的数据 可能不在当前页 因此需要过滤一下
+    const selectedRowKeys = this.state.selectedRowKeys.filter(key =>
+      allRowKeys.includes(key)
+    );
+    const restSelectedRowKeys = this.state.selectedRowKeys.filter(
+      key => !allRowKeys.includes(key)
+    );
+
+    const maxSelectedLength = rowSelection?.maxSelectedLength;
+    if (maxSelectedLength && Number.isInteger(maxSelectedLength)) {
+      if (restSelectedRowKeys.length + allRowKeys.length > maxSelectedLength) {
+        const count = maxSelectedLength - restSelectedRowKeys.length;
+        allRowKeys = allRowKeys.slice(0, count);
+        allRows = allRows.slice(0, count);
+      }
+    }
 
     return (
       <thead ref={this.theadDom} className={cx('Table-thead')}>
@@ -1003,14 +1021,14 @@ export class Table extends React.PureComponent<TableProps, TableState> {
                         <CheckBox
                           key="checkAll"
                           partial={
-                            this.state.selectedRowKeys.length > 0 &&
-                            this.state.selectedRowKeys.length <
-                              allRowKeys.length
+                            selectedRowKeys.length > 0 &&
+                            selectedRowKeys.length < allRowKeys.length
                           }
-                          checked={this.state.selectedRowKeys.length > 0}
+                          checked={selectedRowKeys.length > 0}
                           onChange={async value => {
                             const selectedRows = value ? allRows : [];
                             const selectedRowKeys = value ? allRowKeys : [];
+
                             if (onSelectAll) {
                               const prevented = await onSelectAll(
                                 selectedRows,
@@ -1021,7 +1039,12 @@ export class Table extends React.PureComponent<TableProps, TableState> {
                                 return;
                               }
                             }
-                            this.setState({selectedRowKeys});
+                            this.setState({
+                              selectedRowKeys: [
+                                ...selectedRowKeys,
+                                ...restSelectedRowKeys // 更新数据要把非当前页的数据也加上
+                              ]
+                            });
                           }}
                         ></CheckBox>,
                         rowSelection.selections &&
@@ -1260,9 +1283,9 @@ export class Table extends React.PureComponent<TableProps, TableState> {
   }
 
   getRowSelectionKeyField() {
-    const {rowSelection} = this.props;
+    const {rowSelection, keyField} = this.props;
 
-    return rowSelection ? rowSelection.keyField || 'key' : '';
+    return rowSelection?.keyField || keyField || 'key';
   }
 
   getExpandableKeyField() {
