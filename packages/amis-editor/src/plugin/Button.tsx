@@ -130,6 +130,7 @@ export class ButtonPlugin extends BasePlugin {
           name: `themeCss.className.background:${state}`,
           labelMode: 'input',
           needGradient: true,
+          needImage: true,
           visibleOn: visibleOn,
           editorThemePath: `button1.type.\${level}.${state}.body.bg-color`
         }),

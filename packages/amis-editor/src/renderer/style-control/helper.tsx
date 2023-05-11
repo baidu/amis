@@ -52,6 +52,7 @@ export const inputStateFunc = (
       name: `${className}.background:${state}`,
       labelMode: 'input',
       needGradient: true,
+      needImage: true,
       visibleOn: visibleOn,
       editorThemePath: `${path}.${state}.body.bg-color`
     }),

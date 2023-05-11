@@ -25,7 +25,6 @@ const inputStateFunc = (visibleOn: string, state: string) => {
       label: '文字',
       name: `${addBtnCssClassName}.color:${state}`,
       labelMode: 'input',
-      needGradient: true,
       visibleOn: visibleOn,
       editorThemePath: `${editorPath}.${state}.body.color`
     }),
@@ -34,6 +33,7 @@ const inputStateFunc = (visibleOn: string, state: string) => {
       name: `${addBtnCssClassName}.background:${state}`,
       labelMode: 'input',
       needGradient: true,
+      needImage: true,
       visibleOn: visibleOn,
       editorThemePath: `${editorPath}.${state}.body.bg-color`
     }),
@@ -41,7 +41,6 @@ const inputStateFunc = (visibleOn: string, state: string) => {
       label: '图标',
       name: `${addBtnCssClassName}.icon-color:${state}`,
       labelMode: 'input',
-      needGradient: true,
       visibleOn: visibleOn,
       editorThemePath: `${editorPath}.${state}.body.icon-color`
     })
