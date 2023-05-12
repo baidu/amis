@@ -127,27 +127,9 @@ export class ConfirmAction implements RendererAction {
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
-    const renderBody: (
-      body: SchemaNode,
-      key?: any
-    ) => React.ReactNode = body => {
-      if (Array.isArray(body)) {
-        return body.map((body, key) => renderBody(body, key));
-      }
-
-      let schema: Schema = body as Schema;
-
-      return renderer.props.render('confirmBody', schema);
-    };
-
-    let body = action.confirmDialog?.body;
-
-    let node = null;
-    if (body) {
-      node = renderBody(body, 'body');
-    }
-
-    let content = node || action.args.msg;
+    let content = action.confirmDialog?.body
+      ? renderer.props.render('confirmBody', action.confirmDialog.body)
+      : action.args.msg;
 
     const confirmed = await event.context.env.confirm?.(
       content,
