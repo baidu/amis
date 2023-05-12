@@ -2905,7 +2905,7 @@ itemAction 里的 onClick 还能通过 `data` 参数拿到当前行的数据，�
 | autoGenerateFilter                    | `Object \| boolean`             |                                 | 是否开启查询区域，开启后会根据列元素的 `searchable` 属性值，自动生成查询条件表单                                      |
 | resetPageAfterAjaxItemAction          | `boolean`                       | `false`                         | 单条数据 ajax 操作后是否重置页码为第一页                                                                              |
 | autoFillHeight                        | `boolean` 丨 `{height: number}` |                                 | 内容区域自适应高度                                                                                                    |
-| canAccessSuperData                    | `boolean`                       | `true`                          | 指定是否可以自动获取上层的数据并映射到表格行数据上                                                                    |
+| canAccessSuperData                    | `boolean`                       | `true`                          | 指定是否可以自动获取上层的数据并映射到表格行数据上，如果列也配置了该属性，则列的优先级更高                            |
 
 注意除了上面这些属性，CRUD 在不同模式下的属性需要参考各自的文档，比如
 
