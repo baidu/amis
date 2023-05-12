@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Renderer, RendererProps} from 'amis-core';
+import {Renderer, RendererProps, filterTarget} from 'amis-core';
 import {observer} from 'mobx-react';
 import {ServiceStore, IServiceStore} from 'amis-core';
 import {
@@ -513,7 +513,10 @@ export default class Page extends React.Component<PageProps> {
             action.redirect && filter(action.redirect, store.data);
           redirect && env.jumpTo(redirect, action);
           action.reload &&
-            this.reloadTarget(filter(action.reload, store.data), store.data);
+            this.reloadTarget(
+              filterTarget(action.reload, store.data),
+              store.data
+            );
         })
         .catch(e => {
           if (throwErrors || action.countDown) {

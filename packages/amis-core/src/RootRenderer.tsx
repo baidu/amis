@@ -1,7 +1,7 @@
 import {observer} from 'mobx-react';
 import React from 'react';
 import type {RootProps} from './Root';
-import {IScopedContext, ScopedContext} from './Scoped';
+import {IScopedContext, ScopedContext, filterTarget} from './Scoped';
 import {IRootStore, RootStore} from './store/root';
 import {ActionObject} from './types';
 import {bulkBindFunctions, guid, isVisible} from './utils/helper';
@@ -202,7 +202,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
           action.reload &&
             this.reloadTarget(
               delegate || (this.context as IScopedContext),
-              filter(action.reload, ctx),
+              filterTarget(action.reload, ctx),
               store.data
             );
         })

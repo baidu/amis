@@ -2,7 +2,7 @@ import React from 'react';
 import isEqual from 'lodash/isEqual';
 import pickBy from 'lodash/pickBy';
 import omitBy from 'lodash/omitBy';
-import {Renderer, RendererProps} from 'amis-core';
+import {Renderer, RendererProps, filterTarget} from 'amis-core';
 import {SchemaNode, Schema, ActionObject, PlainObject} from 'amis-core';
 import {CRUDStore, ICRUDStore} from 'amis-core';
 import {
@@ -714,7 +714,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           const redirect = action.redirect && filter(action.redirect, data);
           redirect && !action.blank && env.jumpTo(redirect, action);
           action.reload
-            ? this.reloadTarget(filter(action.reload, data), data)
+            ? this.reloadTarget(filterTarget(action.reload, data), data)
             : redirect
             ? null
             : this.search(undefined, undefined, true, true);
@@ -813,7 +813,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
               }
 
               action.reload
-                ? this.reloadTarget(filter(action.reload, data), data)
+                ? this.reloadTarget(filterTarget(action.reload, data), data)
                 : this.search(
                     {[pageField || 'page']: 1},
                     undefined,
@@ -1081,7 +1081,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
     const reload = action.reload ?? dialogAction.reload;
     if (reload) {
-      this.reloadTarget(filter(reload, ctx), ctx);
+      this.reloadTarget(filterTarget(reload, ctx), ctx);
     }
 
     let redirect = action.redirect ?? dialogAction.redirect;
@@ -1350,7 +1350,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         .then(() => {
           const finalReload = options?.reload ?? reload;
           finalReload
-            ? this.reloadTarget(filter(finalReload, data), data)
+            ? this.reloadTarget(filterTarget(finalReload, data), data)
             : this.search(undefined, undefined, true, true);
         })
         .catch(() => {});
@@ -1372,7 +1372,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         .then(() => {
           const finalReload = options?.reload ?? reload;
           finalReload
-            ? this.reloadTarget(filter(finalReload, data), data)
+            ? this.reloadTarget(filterTarget(finalReload, data), data)
             : this.search(undefined, undefined, true, true);
         })
         .catch(() => {
@@ -1477,7 +1477,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       store
         .saveRemote(saveOrderApi, model)
         .then(() => {
-          reload && this.reloadTarget(filter(reload, model), model);
+          reload && this.reloadTarget(filterTarget(reload, model), model);
           this.search(undefined, undefined, true, true);
         })
         .catch(() => {});
