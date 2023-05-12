@@ -43,7 +43,7 @@ import {
 } from './locale';
 import type {LocaleProps, TranslateFn} from './locale';
 
-import Scoped, {ScopedContext} from './Scoped';
+import Scoped, {ScopedContext, filterTarget} from './Scoped';
 import type {ScopedComponentType, IScopedContext} from './Scoped';
 
 import {
@@ -189,7 +189,8 @@ export {
   IColumn2,
   IRow2,
   OnEventProps,
-  FormSchemaBase
+  FormSchemaBase,
+  filterTarget
 };
 
 export function render(
