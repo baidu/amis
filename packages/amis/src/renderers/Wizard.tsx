@@ -1,5 +1,5 @@
 import React from 'react';
-import {ScopedContext, IScopedContext} from 'amis-core';
+import {ScopedContext, IScopedContext, filterTarget} from 'amis-core';
 import {Renderer, RendererProps} from 'amis-core';
 import {ServiceStore, IServiceStore} from 'amis-core';
 import {Api, ActionObject} from 'amis-core';
@@ -675,11 +675,15 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
           reidrect && env.jumpTo(reidrect, action);
 
           action.reload &&
-            this.reloadTarget(filter(action.reload, store.data), store.data);
+            this.reloadTarget(
+              filterTarget(action.reload, store.data),
+              store.data
+            );
         })
         .catch(reason => {});
     } else if (action.actionType === 'reload') {
-      action.target && this.reloadTarget(filter(action.target, data), data);
+      action.target &&
+        this.reloadTarget(filterTarget(action.target, data), data);
     } else if (action.actionType === 'goto-step') {
       const targetStep = (data as any).step;
 
@@ -783,7 +787,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
 
     // 最后一步
     if (target) {
-      this.submitToTarget(filter(target, store.data), store.data);
+      this.submitToTarget(filterTarget(target, store.data), store.data);
       this.setState({completeStep: steps.length});
     } else if (action.api || step.api || api) {
       let finnalAsyncApi = action.asyncApi || step.asyncApi || asyncApi;
@@ -872,7 +876,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
             env.jumpTo(finalRedirect, action);
           } else if (action.reload || step.reload || reload) {
             this.reloadTarget(
-              filter(action.reload || step.reload || reload!, store.data),
+              filterTarget(action.reload || step.reload || reload!, store.data),
               store.data
             );
           }

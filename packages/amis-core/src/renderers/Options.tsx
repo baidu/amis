@@ -803,14 +803,16 @@ export function registerOptionsControl(config: OptionsConfig) {
         return;
       }
 
-      return formItem.loadOptions(
-        source,
-        data,
-        undefined,
-        false,
-        isInit ? setPrinstineValue : onChange,
-        setError
-      );
+      return isAlive(formItem)
+        ? formItem.loadOptions(
+            source,
+            data,
+            undefined,
+            false,
+            isInit ? setPrinstineValue : onChange,
+            setError
+          )
+        : undefined;
     }
 
     @autobind

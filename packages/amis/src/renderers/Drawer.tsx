@@ -1,5 +1,5 @@
 import React from 'react';
-import {ScopedContext, IScopedContext} from 'amis-core';
+import {ScopedContext, IScopedContext, filterTarget} from 'amis-core';
 import {Renderer, RendererProps} from 'amis-core';
 import {SchemaNode, Schema, ActionObject} from 'amis-core';
 import {Drawer as DrawerContainer, SpinnerExtraProps} from 'amis-ui';
@@ -859,7 +859,10 @@ export class DrawerRenderer extends Drawer {
             action.redirect && filter(action.redirect, store.data);
           redirect && env.jumpTo(redirect, action);
           action.reload &&
-            this.reloadTarget(filter(action.reload, store.data), store.data);
+            this.reloadTarget(
+              filterTarget(action.reload, store.data),
+              store.data
+            );
 
           if (action.close) {
             action.close === true

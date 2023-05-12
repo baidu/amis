@@ -619,6 +619,7 @@ setSchemaTpl(
         label: '背景',
         needCustom: true,
         needGradient: true,
+        needImage: true,
         labelMode: 'input'
       }),
       getSchemaTpl('theme:shadow', {
