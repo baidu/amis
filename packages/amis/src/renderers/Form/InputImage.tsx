@@ -631,9 +631,9 @@ export default class ImageControl extends React.Component<
               });
             }
             // 文件太大
-            else if (err.code === ErrorCode.FileTooLarge && maxSize) {
+            else if (err.code === ErrorCode.FileTooLarge) {
               return __('File.sizeLimit', {
-                maxSize: prettyBytes(maxSize, 1024)
+                maxSize: prettyBytes(maxSize as number, 1024)
               });
             }
           })
