@@ -120,6 +120,7 @@ order: 15
             "label": "日期范围",
               "ranges": [
                 "7daysago",
+                "prevweek",
                 "15dayslater",
                 "2weeksago",
                 "1weekslater",
@@ -145,7 +146,7 @@ order: 15
 - `thisquarter`: 这个季度
 - `thisyear`: 今年
 - `lastYear`: 去年
-- `{n}daysago` : 最近 n 天，例如：`7daysago`，下面用法相同
+- `{n}daysago` : 最近 n 天，例如：`7daysago`，下面用法相同：
 - `{n}dayslater`: n 天以内
 - `{n}weeksago`: 最近 n 周
 - `{n}weekslater`: n 周以内
@@ -155,6 +156,8 @@ order: 15
 - `{n}quarterslater`: n 季度以内
 - `{n}yearsago`: 最近 n 年
 - `{n}yearslater`: n 年以内
+
+> {n}xxlater 和 {n}xxago 均包含当天
 
 ## 内嵌模式
 
