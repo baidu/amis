@@ -17,6 +17,7 @@ import {
   autobind,
   flattenTree,
   filterTree,
+  getTreeDepth,
   string2regExp,
   getTreeAncestors,
   getTreeParent,
@@ -110,6 +111,8 @@ export default class NestedSelectControl extends React.Component<
     checkAllLabel: 'Select.checkAll',
     hideNodePathLabel: false
   };
+  outTarget: React.RefObject<HTMLDivElement> = React.createRef();
+  outTargetWidth?: number;
   target: any;
   input: HTMLInputElement;
   state: NestedSelectState = {
@@ -157,6 +160,7 @@ export default class NestedSelectControl extends React.Component<
   @autobind
   handleOutClick(e: React.MouseEvent<any>) {
     const {options} = this.props;
+    this.outTargetWidth = this.outTarget.current?.clientWidth
     e.defaultPrevented ||
       this.setState({
         isOpened: true
@@ -225,10 +229,18 @@ export default class NestedSelectControl extends React.Component<
     }
     const ancestors = getTreeAncestors(options, option, true);
 
+    const optionText = option[labelField || 'label'];
+    const splitJoin = ' / ';
+
+    const title = ancestors
+      ? ancestors.map((item) => item[labelField || 'label']).join(splitJoin)
+      : optionText;
+
     return (
       <span
         className={cx('Select-valueLabel')}
         key={key || option[valueField || 'value']}
+        title={title}
       >
         {ancestors
           ? ancestors.map((item, index) => {
@@ -240,11 +252,11 @@ export default class NestedSelectControl extends React.Component<
                   {regexp.test(value) || regexp.test(label)
                     ? renderTextByKeyword(label, inputValue)
                     : label}
-                  {!isEnd && ' / '}
+                  {!isEnd && splitJoin}
                 </span>
               );
             })
-          : option[labelField || 'label']}
+          : optionText}
       </span>
     );
   }
@@ -577,6 +589,20 @@ export default class NestedSelectControl extends React.Component<
     isPrevented || onChange(newValue);
   }
 
+  @autobind
+  getMenuSelectMenuStyle() {
+    const {options} = this.props;
+    const width = this.outTargetWidth;
+    const depth = getTreeDepth(options);
+    let style = {};
+    if (width) {
+      style = {
+        width: width / depth
+      }
+    }
+    return style;
+  }
+
   renderOptions() {
     const {
       multiple,
@@ -596,11 +622,15 @@ export default class NestedSelectControl extends React.Component<
     const stack = this.state.stack;
     let partialChecked = this.partialChecked(propOptions);
     let allChecked = this.allChecked(propOptions);
-
+  
     return (
       <>
         {stack.map((options, index) => (
-          <div key={index} className={cx('NestedSelect-menu', menuClassName)}>
+          <div
+            key={index}
+            className={cx('NestedSelect-menu', menuClassName)}
+            style={this.getMenuSelectMenuStyle()}
+          >
             {multiple && checkAll && index === 0 ? (
               <div className={cx('NestedSelect-option', 'checkall')}>
                 <Checkbox
@@ -640,6 +670,8 @@ export default class NestedSelectControl extends React.Component<
                 selfChecked = true;
               }
 
+              let label = option[labelField || 'label'];
+
               return (
                 <div
                   key={idx}
@@ -671,8 +703,9 @@ export default class NestedSelectControl extends React.Component<
                         ? this.handleCheck(option, index)
                         : this.handleOptionClick(option))
                     }
+                    title={label}
                   >
-                    {option[labelField || 'label']}
+                    {label}
                   </div>
 
                   {option.children && option.children.length ? (
@@ -719,7 +752,7 @@ export default class NestedSelectControl extends React.Component<
 
     // 一个stack一个menu
     const resultBody = (
-      <div className={cx('NestedSelect-menu')}>
+      <div className={cx('NestedSelect-menu')} style={this.getMenuSelectMenuStyle()}>
         {flattenTreeWithNodes.length ? (
           flattenTreeWithNodes.map((option, index) => {
             const ancestors = getTreeAncestors(propOptions, option as any);
@@ -878,7 +911,7 @@ export default class NestedSelectControl extends React.Component<
 
     const mobileUI = useMobileUI && isMobile();
     return (
-      <div className={cx('NestedSelectControl', className)}>
+      <div className={cx('NestedSelectControl', className)} ref={this.outTarget}>
         <ResultBox
           useMobileUI={useMobileUI}
           disabled={disabled}
