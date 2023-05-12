@@ -162,6 +162,7 @@ export default class NumberControl extends React.Component<
   input?: HTMLInputElement;
   static defaultProps: Partial<NumberProps> = {
     step: 1,
+    precision: 2,
     resetValue: '',
     clearValueOnEmpty: false
   };

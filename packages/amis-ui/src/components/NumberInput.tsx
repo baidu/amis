@@ -83,10 +83,9 @@ export interface NumberState {
 export class NumberInput extends React.Component<NumberProps, NumberState> {
   static defaultProps: Pick<
     NumberProps,
-    'step' | 'precision' | 'readOnly' | 'borderMode' | 'resetValue'
+    'step' | 'readOnly' | 'borderMode' | 'resetValue'
   > = {
     step: 1,
-    precision: 2,
     readOnly: false,
     borderMode: 'full',
     resetValue: ''
