@@ -143,16 +143,9 @@ export default class ExcelControl extends React.PureComponent<
           }
         });
       } else {
-        let worksheet;
-        for (const sheet of workbook.worksheets) {
-          const sheetState = sheet.state || 'visible';
-          // hidden 的不处理
-          if (sheetState === 'hidden') {
-            continue;
-          }
-          worksheet = sheet;
-          break;
-        }
+        const worksheet = workbook.worksheets.find(
+          (sheet: any) => sheet.state !== 'hidden'
+        );
 
         if (parseImage) {
           const images = this.readImages(worksheet, workbook);
