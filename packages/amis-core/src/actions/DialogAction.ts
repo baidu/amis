@@ -6,7 +6,6 @@ import {
   ListenerContext,
   registerAction
 } from './Action';
-import {render} from '../../src';
 
 export interface IAlertAction extends ListenerAction {
   actionType: 'alert';
@@ -138,7 +137,7 @@ export class ConfirmAction implements RendererAction {
 
       let schema: Schema = body as Schema;
 
-      return render(schema);
+      return renderer.props.render('confirmBody', schema);
     };
 
     let body = action.confirmDialog?.body;

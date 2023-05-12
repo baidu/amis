@@ -1,6 +1,6 @@
 import React from 'react';
 import omitBy from 'lodash/omitBy';
-import {Renderer, RendererProps} from 'amis-core';
+import {ActionObject, Renderer, RendererProps} from 'amis-core';
 import {CRUDStore, ICRUDStore} from 'amis-core';
 import {
   createObject,
@@ -950,7 +950,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
   }
 
   @autobind
-  doAction(action: Action, data: object, throwErrors: boolean = false) {
+  doAction(action: ActionObject, data: object, throwErrors: boolean = false) {
     if (
       action.actionType &&
       [

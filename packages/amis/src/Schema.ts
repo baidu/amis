@@ -163,7 +163,7 @@ export type SchemaType =
   | 'month'
   | 'static-month' // 这个几个跟表单项同名，再form下面用必须带前缀 static-
   | 'date-range'
-  | 'dialogs'
+  | 'dialog'
   | 'spinner'
   | 'divider'
   | 'dropdown-button'
