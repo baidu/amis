@@ -564,7 +564,7 @@ Cards 模式支持 [Cards](./cards) 中的所有功能。
 
 大部分表格展示有对数据进行检索的需求，CRUD 自身支持通过配置`filter`，实现查询条件过滤表单。`filter` 配置实际上同 [Form](./form/index) 组件，因此支持绝大部分`form`的功能。
 
-在条件搜索区的 `Engine` 输入框中输入任意值查询会发现结果中 `ID` 为 1 - 3 的 `Rendering engine` 列因为返回值中没有对应字段值，被错误填入了与 `filter` 中相同 `name` 的字段值，这是因为表格 Cell 通过[数据链](../../docs/concepts/datascope-and-datachain)获取到了上层数据域 `filter` 中相同字段的数据值。这种情况可以在 CRUD `columns` 对应列配置`"canAccessSuperData": false`禁止访问父级数据域（比如: `Platform`列），或者 CRUD`"canAccessSuperData": false`追加配置禁止所有列访问父级数据域。
+在条件搜索区的 `Engine` 输入框中输入任意值查询会发现结果中 `ID` 为 1 - 3 的 `Rendering engine` 列因为返回值中没有对应字段值，被错误填入了与 `filter` 中相同 `name` 的字段值，这是因为表格 Cell 通过[数据链](../../docs/concepts/datascope-and-datachain)获取到了上层数据域 `filter` 中相同字段的数据值。这种情况可以在 CRUD `columns` 对应列配置`"canAccessSuperData": false`禁止访问父级数据域（比如: `Platform`列），或者 CRUD 追加`"canAccessSuperData": false`配置禁止所有列访问父级数据域。
 
 ```schema: scope="body"
 {
