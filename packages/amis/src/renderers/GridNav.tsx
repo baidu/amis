@@ -1,5 +1,5 @@
 import React from 'react';
-import {Renderer, RendererProps} from 'amis-core';
+import {ClassName, Renderer, RendererProps} from 'amis-core';
 import {autobind, getPropValue} from 'amis-core';
 import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
 import {
@@ -64,7 +64,12 @@ export interface ListSchema extends BaseSchema {
   /**
    * 列表项类名
    */
-  itemClassName?: string;
+  itemClassName?: ClassName;
+
+  /**
+   * 列表项内容类名
+   */
+  contentClassName?: ClassName;
 
   /**
    * 静态图片列表配置
@@ -154,8 +159,15 @@ export default class List extends React.Component<ListProps, object> {
   }
 
   render() {
-    const {itemClassName, style, source, data, options, classnames} =
-      this.props;
+    const {
+      itemClassName,
+      style,
+      contentClassName,
+      source,
+      data,
+      options,
+      classnames
+    } = this.props;
 
     let value = getPropValue(this.props);
     let list: any = [];
@@ -185,6 +197,7 @@ export default class List extends React.Component<ListProps, object> {
               item.clickAction || item.link ? this.handleClick(item) : undefined
             }
             className={itemClassName}
+            contentClassName={contentClassName}
             text={item.text}
             icon={item.icon}
             classnames={classnames}
