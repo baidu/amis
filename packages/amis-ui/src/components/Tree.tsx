@@ -449,7 +449,7 @@ export class TreeSelector extends React.Component<
       return;
     }
 
-    if (onlyLeaf && (Array.isArray(node.children) && node.children.length)) {
+    if (onlyLeaf && Array.isArray(node.children) && node.children.length) {
       return;
     }
 
@@ -878,8 +878,10 @@ export class TreeSelector extends React.Component<
         } else if (this.isUnfolded(parent)) {
           this.relations.set(item, parent);
           // 父节点是展开的状态
-          item.level = level;
-          flattenedOptions.push(item);
+          flattenedOptions.push({
+            ...item,
+            level
+          });
         }
       }
     );
@@ -1096,7 +1098,7 @@ export class TreeSelector extends React.Component<
     const iconValue =
       item[iconField] ||
       (enableDefaultIcon !== false
-        ? (Array.isArray(item.children) && item.children.length)
+        ? Array.isArray(item.children) && item.children.length
           ? 'folder'
           : 'file'
         : false);
@@ -1159,7 +1161,9 @@ export class TreeSelector extends React.Component<
               <i
                 className={cx(
                   `Tree-itemIcon ${
-                    (Array.isArray(item.children) && item.children.length) ? 'Tree-folderIcon' : 'Tree-leafIcon'
+                    Array.isArray(item.children) && item.children.length
+                      ? 'Tree-folderIcon'
+                      : 'Tree-leafIcon'
                   }`
                 )}
                 onClick={() =>
