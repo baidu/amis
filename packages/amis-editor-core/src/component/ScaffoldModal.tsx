@@ -4,7 +4,6 @@ import {EditorStoreType} from '../store/editor';
 import {render, Modal, getTheme, Icon, Spinner, Button} from 'amis';
 import {observer} from 'mobx-react';
 import {autobind, isObject} from '../util';
-import {createObject} from 'amis-core';
 
 export interface SubEditorProps {
   store: EditorStoreType;
@@ -12,23 +11,8 @@ export interface SubEditorProps {
   theme?: string;
 }
 
-interface ScaffoldState {
-  step: number;
-}
-
 @observer
-export class ScaffoldModal extends React.Component<
-  SubEditorProps,
-  ScaffoldState
-> {
-  constructor(props: SubEditorProps) {
-    super(props);
-
-    this.state = {
-      step: 0
-    };
-  }
-
+export class ScaffoldModal extends React.Component<SubEditorProps> {
   @autobind
   handleConfirm([values]: any) {
     const store = this.props.store;
@@ -47,7 +31,7 @@ export class ScaffoldModal extends React.Component<
 
     store.scaffoldForm?.callback(values);
     store.closeScaffoldForm();
-    this.setState({step: 0});
+    store.scaffoldForm?.stepsBody && store.setScaffoldStep(0);
   }
 
   buildSchema() {
@@ -91,9 +75,6 @@ export class ScaffoldModal extends React.Component<
       api: scaffoldFormContext.api,
       ...layout,
       wrapperComponent: 'div',
-      data: {
-        __step: 0
-      },
       [scaffoldFormContext.controls ? 'controls' : 'body']: body
     };
     // const {store} = this.props;
@@ -151,27 +132,25 @@ export class ScaffoldModal extends React.Component<
   @autobind
   goToNextStep() {
     // 不能更新props的data，控制amis不重新渲染，否则数据会重新初始化
+    const store = this.props.store;
     const form = this.amisScope?.getComponents()[0].props.store;
-    const step = this.state.step + 1;
+    const step = store.scaffoldFormStep + 1;
     form.setValueByName('__step', step);
 
     // 控制按钮
-    this.setState({
-      step
-    });
+    store.setScaffoldStep(step);
   }
 
   @autobind
   goToPrevStep() {
     // 不能更新props的data，控制amis不重新渲染，否则数据会重新初始化
+    const store = this.props.store;
     const form = this.amisScope?.getComponents()[0].props.store;
-    const step = this.state.step - 1;
+    const step = store.scaffoldFormStep - 1;
     form.setValueByName('__step', step);
 
     // 控制按钮
-    this.setState({
-      step
-    });
+    store.setScaffoldStep(step);
   }
 
   @autobind
@@ -206,7 +185,7 @@ export class ScaffoldModal extends React.Component<
   @autobind
   handleCancelClick() {
     this.props.store.closeScaffoldForm();
-    this.setState({step: 0});
+    this.props.store.setScaffoldStep(0);
   }
 
   render() {
@@ -216,8 +195,9 @@ export class ScaffoldModal extends React.Component<
 
     const isStepBody = !!scaffoldFormContext?.stepsBody;
     const isLastStep =
-      isStepBody && this.state.step === scaffoldFormContext!.body.length - 1;
-    const isFirstStep = isStepBody && this.state.step === 0;
+      isStepBody &&
+      store.scaffoldFormStep === scaffoldFormContext!.body.length - 1;
+    const isFirstStep = isStepBody && store.scaffoldFormStep === 0;
 
     return (
       <Modal
@@ -245,10 +225,7 @@ export class ScaffoldModal extends React.Component<
             render(
               this.buildSchema(),
               {
-                data: createObject(store.ctx, {
-                  ...(scaffoldFormContext?.value || {}),
-                  __step: 0
-                }),
+                data: store.scaffoldData,
                 onValidate: scaffoldFormContext.validate,
                 scopeRef: this.scopeRef
               },

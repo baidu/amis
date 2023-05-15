@@ -72,7 +72,9 @@ export class TableCell extends React.Component<TableCellProps> {
       className: innerClassName,
       type: (column && column.type) || 'plain'
     };
-    const canAccessSuperData = schema?.canAccessSuperData !== false;
+    // 列比表的的优先级高
+    const canAccessSuperData =
+      (schema?.canAccessSuperData ?? this.props.canAccessSuperData) !== false;
 
     // 如果本来就是 type 为 button，不要删除，其他情况下都应该删除。
     if (schema.type !== 'button' && schema.type !== 'dropdown-button') {

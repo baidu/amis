@@ -211,11 +211,11 @@ export const iRendererStore = StoreNode.named('iRendererStore')
 
           const clonedAction = {
             ...self.action,
-            dialog: {
-              ...self.action.dialog
+            drawer: {
+              ...self.action.drawer
             }
           };
-          delete clonedAction.dialog.data;
+          delete clonedAction.drawer.data;
           self.action = clonedAction;
         } else {
           self.drawerData = data;

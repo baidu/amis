@@ -989,14 +989,18 @@ export default class FormTable extends React.Component<TableProps, TableState> {
           ? omit(column, ['quickEdit'])
           : {
               ...column,
-              quickEdit: {
-                ...this.columnToQuickEdit(column),
-                ...quickEdit,
-                saveImmediately: true,
-                mode: 'inline',
-                disabled,
-                static: isStatic
-              }
+              ...(column.type === 'operation'
+                ? {}
+                : {
+                    quickEdit: {
+                      ...this.columnToQuickEdit(column),
+                      ...quickEdit,
+                      saveImmediately: true,
+                      mode: 'inline',
+                      disabled,
+                      static: isStatic
+                    }
+                  })
             };
       });
     } else if (
@@ -1234,6 +1238,10 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         ? operation.buttons.concat()
         : [];
       operation.buttons.unshift.apply(operation.buttons, btns);
+
+      if (operation.hasOwnProperty('quickEdit')) {
+        delete operation.quickEdit;
+      }
     }
 
     if (showIndex) {

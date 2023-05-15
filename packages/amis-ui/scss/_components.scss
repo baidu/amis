@@ -1630,7 +1630,7 @@
   --Form-item-fontColor: var(--Form-item-color);
   --Form-item-fontSize: var(--fonts-size-7);
   --Form-item-fontWeight: var(--fonts-weight-6);
-  --Form-item-lineHeight: var(--fonts-lineHeight-2);
+  --Form-item-lineHeight: var(--fonts-lineHeight-1);
   --Form-item-star-color: var(--colors-error-5);
   --Form-item-star-size: var(--sizes-size-7);
   --Form-description-color: var(--colors-neutral-text-5);
@@ -3316,7 +3316,7 @@
   --Tag-base-paddingLeft: var(--sizes-size-5);
   --Tag-base-paddingRight: var(--sizes-size-5);
   --Tag-base-padding: var(--Tag-base-paddingTop) var(--Tag-base-paddingRight)
-   var(--Tag-base-paddingBottom) var(--Tag-base-paddingLeft);
+    var(--Tag-base-paddingBottom) var(--Tag-base-paddingLeft);
   --Tag-model-normal-top-border-color: var(--colors-neutral-line-6);
   --Tag-model-normal-top-border-width: var(--borders-width-2);
   --Tag-model-normal-top-border-style: var(--borders-style-1);

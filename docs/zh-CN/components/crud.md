@@ -107,7 +107,11 @@ CRUD，即增删改查组件，主要用来展现数据列表，并支持各类�
 }
 ```
 
-## 数据源接口数据结构要求
+## 数据源接口
+
+### 数据结构
+
+CRUD 组件对数据源接口的数据结构要求如下：
 
 - `items`或`rows`：用于返回数据源数据，格式是数组
 - `total`: 用于返回数据库中一共有多少条数据，用于生成分页
@@ -174,9 +178,11 @@ CRUD，即增删改查组件，主要用来展现数据列表，并支持各类�
 
 如果不需要分页，或者配置了 `loadDataOnce` 则可以忽略掉 `total` 和 `hasNext` 参数。
 
-> 如果 api 地址中有变量，比如 `/api/mock2/sample/${id}`，amis 就不会自动加上分页参数，需要自己加上，改成 `/api/mock2/sample/${id}?page=${page}&perPage=${perPage}`
+### Query 参数
 
-## 分页参数
+数据源接口地址可以通过变量实现动态拼接，例如： `/api/mock2/sample/${id}`，但需要注意的是接口地址拼接变量后，amis 就不会自动追加默认参数了，例如：分页参数、查询参数等，如需追加，可以自行拼接，例如： `/api/mock2/sample/${id}?page=${page}&perPage=${perPage}`
+
+### 分页参数
 
 默认的分页参数是 `page` 和 `perPage`，page 代表页数，比如第一页，perPage 代表每页显示几行。
 
@@ -558,7 +564,7 @@ Cards 模式支持 [Cards](./cards) 中的所有功能。
 
 大部分表格展示有对数据进行检索的需求，CRUD 自身支持通过配置`filter`，实现查询条件过滤表单。`filter` 配置实际上同 [Form](./form/index) 组件，因此支持绝大部分`form`的功能。
 
-在条件搜索区的 `Engine` 输入框中输入任意值查询会发现结果中 `ID` 为 1 - 3 的 `Rendering engine` 列因为返回值中没有对应字段值，被错误填入了与 `filter` 中相同 `name` 的字段值，这是因为表格 Cell 通过[数据链](../../docs/concepts/datascope-and-datachain)获取到了上层数据域 `filter` 中相同字段的数据值。这种情况可以在 CRUD `columns` 对应列配置`"canAccessSuperData": false`禁止访问父级数据域（比如: `Platform`列）。
+在条件搜索区的 `Engine` 输入框中输入任意值查询会发现结果中 `ID` 为 1 - 3 的 `Rendering engine` 列因为返回值中没有对应字段值，被错误填入了与 `filter` 中相同 `name` 的字段值，这是因为表格 Cell 通过[数据链](../../docs/concepts/datascope-and-datachain)获取到了上层数据域 `filter` 中相同字段的数据值。这种情况可以在 CRUD `columns` 对应列配置`"canAccessSuperData": false`禁止访问父级数据域（比如: `Platform`列），或者 CRUD 追加`"canAccessSuperData": false`配置禁止所有列访问父级数据域。
 
 ```schema: scope="body"
 {
@@ -2896,9 +2902,10 @@ itemAction 里的 onClick 还能通过 `data` 参数拿到当前行的数据，�
 | footerToolbar                         | Array                           | `['statistics', 'pagination']`  | 底部工具栏配置                                                                                                        |
 | alwaysShowPagination                  | `boolean`                       | `false`                         | 是否总是显示分页                                                                                                      |
 | affixHeader                           | `boolean`                       | `true`                          | 是否固定表头(table 下)                                                                                                |
-| autoGenerateFilter                    | `Object \| boolean`                        |                                 | 是否开启查询区域，开启后会根据列元素的 `searchable` 属性值，自动生成查询条件表单                                      |
+| autoGenerateFilter                    | `Object \| boolean`             |                                 | 是否开启查询区域，开启后会根据列元素的 `searchable` 属性值，自动生成查询条件表单                                      |
 | resetPageAfterAjaxItemAction          | `boolean`                       | `false`                         | 单条数据 ajax 操作后是否重置页码为第一页                                                                              |
 | autoFillHeight                        | `boolean` 丨 `{height: number}` |                                 | 内容区域自适应高度                                                                                                    |
+| canAccessSuperData                    | `boolean`                       | `true`                          | 指定是否可以自动获取上层的数据并映射到表格行数据上，如果列也配置了该属性，则列的优先级更高                            |
 
 注意除了上面这些属性，CRUD 在不同模式下的属性需要参考各自的文档，比如
 
