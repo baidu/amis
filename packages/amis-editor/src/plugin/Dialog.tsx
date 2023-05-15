@@ -1,4 +1,5 @@
 import React from 'react';
+import {Button} from 'amis-ui';
 import {
   registerEditorPlugin,
   BaseEventContext,
@@ -307,7 +308,36 @@ export class InlineModal extends React.Component<any, any> {
   componentDidMount() {}
 
   render() {
-    const {children} = this.props;
+    let {
+      children,
+      dialogType,
+      cancelBtnLevel,
+      cancelText,
+      confirmBtnLevel,
+      confirmText
+    } = this.props;
+    if (dialogType === 'confirm') {
+      children = children.filter((item: any) => item?.key !== 'actions');
+      return (
+        <div className="ae-InlineModel">
+          {children}
+          <div className="ae-InlineModel-footer">
+            <Button
+              className="ae-InlineModel-footer-btn"
+              level={cancelBtnLevel}
+            >
+              {cancelText || '取消'}
+            </Button>
+            <Button
+              className="ae-InlineModel-footer-btn"
+              level={confirmBtnLevel}
+            >
+              {confirmText || '确认'}
+            </Button>
+          </div>
+        </div>
+      );
+    }
     return <div className="ae-InlineModel">{children}</div>;
   }
 }

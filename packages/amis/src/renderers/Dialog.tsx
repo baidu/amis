@@ -490,22 +490,8 @@ export default class Dialog extends React.Component<DialogProps> {
       classnames: cx,
       showErrorMsg,
       showLoading,
-      show,
-      dialogType,
-      cancelBtnLevel,
-      confirmBtnLevel,
-      cancelText,
-      confirmText
+      show
     } = this.props;
-
-    if (dialogType === 'confirm') {
-      return (
-        <div className={cx('Modal-footer')}>
-          <Button level={cancelBtnLevel}>{cancelText || '取消'}</Button>
-          <Button level={confirmBtnLevel}>{confirmText || '确认'}</Button>
-        </div>
-      );
-    }
 
     return (
       <div className={cx('Modal-footer')}>
@@ -558,7 +544,12 @@ export default class Dialog extends React.Component<DialogProps> {
       classPrefix,
       translate: __,
       loadingConfig,
-      overlay
+      overlay,
+      dialogType,
+      cancelBtnLevel,
+      cancelText,
+      confirmBtnLevel,
+      confirmText
     } = {
       ...this.props,
       ...store.schema
@@ -587,6 +578,11 @@ export default class Dialog extends React.Component<DialogProps> {
         enforceFocus={false}
         disabled={store.loading}
         overlay={overlay}
+        dialogType={dialogType}
+        cancelBtnLevel={cancelBtnLevel}
+        cancelText={cancelText}
+        confirmBtnLevel={confirmBtnLevel}
+        confirmText={confirmText}
       >
         {title && typeof title === 'string' ? (
           <div className={cx('Modal-header', headerClassName)}>

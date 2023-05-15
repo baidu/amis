@@ -1583,6 +1583,15 @@ div.ae-DragImage {
     flex-basis: auto;
     overflow: visible;
   }
+  &-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 #{px2rem(24px)};
+    &-btn {
+      margin-left: #{px2rem(8px)};
+    }
+  }
 }
 
 .ae-EditableRenderers {
