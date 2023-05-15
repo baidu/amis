@@ -942,7 +942,7 @@ export class FormPlugin extends BasePlugin {
       const scope = this.manager.dataSchema.getScope(`${node.id}-${node.type}`);
       const jsonschema: any = {
         $id: 'formInitedData',
-        ...jsonToJsonSchema(data)
+        ...jsonToJsonSchema(data.responseData)
       };
 
       scope?.removeSchema(jsonschema.$id);

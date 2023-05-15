@@ -1847,18 +1847,15 @@ export class CRUDPlugin extends BasePlugin {
       const jsonschema: any = {
         $id: 'crudFetchInitedData',
         type: 'object',
-        ...jsonToJsonSchema(
-          omit(data, 'selectedItems', 'unSelectedItems'),
-          (type: string, key: string) => {
-            if (type === 'array' && key === 'items') {
-              return '数据列表';
-            }
-            if (type === 'number' && key === 'count') {
-              return '总行数';
-            }
-            return key;
+        ...jsonToJsonSchema(data.responseData, (type: string, key: string) => {
+          if (type === 'array' && key === 'items') {
+            return '数据列表';
           }
-        )
+          if (type === 'number' && key === 'count') {
+            return '总行数';
+          }
+          return key;
+        })
       };
 
       scope?.removeSchema(jsonschema.$id);
