@@ -430,9 +430,11 @@ setSchemaTpl(
   'theme:cssCode',
   ({
     themeClass = [],
+    themeClassTree = [],
     isFormItem
   }: {
     themeClass?: any[];
+    themeClassTree?: any[];
     isFormItem?: boolean;
   } = {}) => {
     if (isFormItem) {
@@ -446,6 +448,16 @@ setSchemaTpl(
           {name: 'label', value: 'label', className: 'labelClassName'}
         ]
       );
+      themeClassTree.push(
+        ...[
+          {
+            label: 'description',
+            value: 'description',
+            className: 'descriptionClassName'
+          },
+          {label: 'label', value: 'label', className: 'labelClassName'}
+        ]
+      );
     }
     return {
       title: '样式源码',
@@ -453,7 +465,8 @@ setSchemaTpl(
         {
           type: 'theme-cssCode',
           label: false,
-          themeClass
+          themeClass,
+          themeClassTree
         }
       ]
     };

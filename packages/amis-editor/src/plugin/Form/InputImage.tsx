@@ -504,6 +504,28 @@ export class ImageControlPlugin extends BasePlugin {
                   className: 'iconControlClassName'
                 }
               ],
+              themeClassTree: [
+                {
+                  label: '组件最外层',
+                  value: '',
+                  className: 'inputImageControlClassName',
+                  children: [
+                    {
+                      label: '图片上传按钮',
+                      value: 'addOn',
+                      className: 'addBtnControlClassName',
+                      state: ['default', 'hover', 'active'],
+                      children: [
+                        {
+                          label: '上传图标',
+                          value: 'icon',
+                          className: 'iconControlClassName'
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
               isFormItem: true
             })
           ],
