@@ -950,7 +950,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
   }
 
   @autobind
-  doAction(action: ActionObject, data: object, throwErrors: boolean = false) {
+  doAction(action: Action, data: object, throwErrors: boolean = false) {
     if (
       action.actionType &&
       [
