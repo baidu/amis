@@ -73,7 +73,7 @@
     "jest": "^29.0.3",
     "jest-environment-jsdom": "^29.0.3",
     "js-yaml": "^4.1.0",
-    "lerna": "^5.5.2",
+    "lerna": "^6.6.2",
     "magic-string": "^0.26.7",
     "marked": "^4.2.1",
     "monaco-editor": "0.30.1",
