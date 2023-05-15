@@ -77,11 +77,11 @@ export function InputTable({
 }: InputTabbleProps) {
   const subForms = React.useRef<Record<any, UseFormReturn>>({});
   const subFormRef = React.useCallback(
-    (subform: UseFormReturn | null, index: number) => {
+    (subform: UseFormReturn | null, id: string) => {
       if (subform) {
-        subForms.current[index] = subform;
+        subForms.current[id] = subform;
       } else {
-        delete subForms.current[index];
+        delete subForms.current[id];
       }
     },
     [subForms]
@@ -143,17 +143,18 @@ export function InputTable({
     control
   });
 
-  const {trigger} = useFormContext();
+  const {trigger, setValue} = useFormContext();
 
   // useFieldArray 的 update 会更新行 id，导致重新渲染
   // 正在编辑中的元素失去焦点，所以自己写一个
   const lightUpdate = React.useCallback(
     (index: number, value: any) => {
-      const arr = control._getFieldArray(name);
-      arr[index] = {...value};
-      control._updateFieldArray(name, arr);
-      trigger(name);
-      control._subjects.watch.next({});
+      // const arr = control._getFieldArray(name);
+      // arr[index] = {...value};
+      // control._updateFieldArray(name, arr);
+      // trigger(name);
+      // control._subjects.watch.next({});
+      setValue(`${name}.${index}`, value);
     },
     [control]
   );
@@ -263,7 +264,7 @@ export interface InputTableRowProps {
   index: number;
   translate: TranslateFn;
   classnames: ClassNamesFn;
-  formRef: (form: UseFormReturn | null, index: number) => void;
+  formRef: (form: UseFormReturn | null, id: string) => void;
 }
 
 export function InputTableRow({
@@ -275,13 +276,20 @@ export function InputTableRow({
   formRef,
   classnames: cx
 }: InputTableRowProps) {
-  const methods = useSubForm(value, translate, data => update(index, data));
+  const indexRef = React.useRef(index);
   React.useEffect(() => {
-    formRef?.(methods, index);
+    indexRef.current = index;
+  }, [index]);
+
+  const methods = useSubForm(value, translate, (data: any) =>
+    update(indexRef.current!, data)
+  );
+  React.useEffect(() => {
+    formRef?.(methods, value.id);
     return () => {
-      formRef?.(null, index);
+      formRef?.(null, value.id);
     };
-  }, [methods]);
+  }, [methods, value.id]);
 
   return (
     <>
