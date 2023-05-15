@@ -76,7 +76,7 @@ import PickerContainer from './PickerContainer';
 import InputJSONSchema from './json-schema';
 import {Badge, withBadge} from './Badge';
 import type {BadgeObject} from './Badge';
-import {getIcon, Icon, registerIcon} from './icons';
+import {getIcon, getIconNames, Icon, registerIcon} from './icons';
 import {withRemoteConfig} from './WithRemoteConfig';
 import type {RemoteOptionsProps} from './WithRemoteConfig';
 import ConditionBuilder from './condition-builder';
@@ -224,6 +224,7 @@ export {
   UserSelect,
   UserTabSelect,
   getIcon,
+  getIconNames,
   registerIcon,
   Badge,
   HeadCellDropDown,
