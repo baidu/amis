@@ -29,7 +29,12 @@ export interface HeadCellFilterProps extends RendererProps {
   data: any;
   name: string;
   filterable: QuickFilterConfig;
-  onQuery: (values: object) => void;
+  onQuery: (
+    values: object,
+    forceReload?: boolean,
+    replace?: boolean,
+    resetPage?: boolean
+  ) => void;
 }
 
 export class HeadCellFilterDropDown extends React.Component<
@@ -211,9 +216,14 @@ export class HeadCellFilterDropDown extends React.Component<
       return;
     }
 
-    onQuery({
-      [name]: value
-    });
+    onQuery(
+      {
+        [name]: value
+      },
+      false,
+      false,
+      true
+    );
     this.close();
   }
 
@@ -247,9 +257,14 @@ export class HeadCellFilterDropDown extends React.Component<
 
   handleReset() {
     const {name, onQuery} = this.props;
-    onQuery({
-      [name]: undefined
-    });
+    onQuery(
+      {
+        [name]: undefined
+      },
+      false,
+      false,
+      true
+    );
     this.close();
   }
 
