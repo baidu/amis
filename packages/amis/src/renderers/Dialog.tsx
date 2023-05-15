@@ -3,7 +3,7 @@ import {ScopedContext, IScopedContext, filterTarget} from 'amis-core';
 import {Renderer, RendererProps} from 'amis-core';
 import {SchemaNode, Schema, ActionObject} from 'amis-core';
 import {filter} from 'amis-core';
-import {Modal, SpinnerExtraProps, Button} from 'amis-ui';
+import {Modal, SpinnerExtraProps} from 'amis-ui';
 import {
   guid,
   isVisible,
