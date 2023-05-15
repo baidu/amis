@@ -18,7 +18,6 @@ import Avatar from './Avatar';
 import Button from './Button';
 import Breadcrumb from './Breadcrumb';
 import Checkbox from './Checkbox';
-import Checkboxes from './Selection';
 import Collapse from './Collapse';
 import CollapseGroup from './CollapseGroup';
 import DatePicker from './DatePicker';
@@ -142,7 +141,7 @@ export {
   Button,
   Breadcrumb,
   Checkbox,
-  Checkboxes,
+  Selection as Checkboxes,
   Collapse,
   CollapseGroup,
   DatePicker,

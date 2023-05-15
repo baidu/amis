@@ -6,7 +6,7 @@
 import React from 'react';
 import {themeable, ThemeProps} from 'amis-core';
 import {LocaleProps, localeable} from 'amis-core';
-import {ResultBox} from '.';
+import ResultBox from './ResultBox';
 import UserSelect from './UserSelect';
 import type {Option} from 'amis-core';
 import Sortable from 'sortablejs';
