@@ -182,13 +182,23 @@ CRUD 组件对数据源接口的数据结构要求如下：
 
 数据源接口地址可以通过变量实现动态拼接，例如： `/api/mock2/sample/${id}`，但需要注意的是接口地址拼接变量后，amis 就不会自动追加默认参数了，例如：分页参数、查询参数等，如需追加，可以自行拼接，例如： `/api/mock2/sample/${id}?page=${page}&perPage=${perPage}`
 
-### 分页参数
-
 默认的分页参数是 `page` 和 `perPage`，page 代表页数，比如第一页，perPage 代表每页显示几行。
 
 如果要其它格式，比如转成 `limit` 和 `offset`，可以使用公式来转换，比如
 
 `/api/mock2/sample?limit=${perPage}&offset=${(page - 1) * perPage}`
+
+### 参数汇总
+
+这里汇总一下 CRUD 里默认用到的 query 列表
+
+| query 名 | 类型         | 说明                           |
+| -------- | ------------ | ------------------------------ |
+| page     | number       | 分页，从 1 开始                |
+| perPage  | number       | 每页数量                       |
+| orderBy  | string       | 排序字段，目前 CRUD 只支持一个 |
+| orderDir | 'asc'/'desc' | 排序方式                       |
+| keywords | string       | 搜索关键字                     |
 
 ## 功能
 
