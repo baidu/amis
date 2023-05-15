@@ -12,7 +12,6 @@ import {themeable} from 'amis-core';
 import {uncontrollable} from 'amis-core';
 import GroupedSelection from './GroupedSelection';
 import TableSelection from './TableSelection';
-import GroupedSelecton from './GroupedSelection';
 import ChainedSelection from './ChainedSelection';
 import {Icon} from './icons';
 import {localeable} from 'amis-core';
@@ -154,7 +153,7 @@ export class AssociatedSelection extends BaseSelection<
               loadingConfig={loadingConfig}
             />
           ) : (
-            <GroupedSelecton
+            <GroupedSelection
               option2value={this.leftOption2Value}
               options={leftOptions}
               value={this.state.leftValue}
