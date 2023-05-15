@@ -282,7 +282,7 @@ export class ServicePlugin extends BasePlugin {
       const scope = this.manager.dataSchema.getScope(`${node.id}-${node.type}`);
       const jsonschema: any = {
         $id: 'serviceFetchInitedData',
-        ...jsonToJsonSchema(data)
+        ...jsonToJsonSchema(data.responseData)
       };
 
       scope?.removeSchema(jsonschema.$id);
