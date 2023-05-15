@@ -124,6 +124,11 @@ export default class ExcelControl extends React.PureComponent<
       let sheetsResult: any = [];
       if (allSheets) {
         workbook.eachSheet((worksheet: any) => {
+          const sheetState = worksheet.state || 'visible';
+          // hidden 的不处理
+          if (sheetState === 'hidden') {
+            return;
+          }
           if (parseImage) {
             sheetsResult.push({
               sheetName: worksheet.name,
@@ -138,7 +143,9 @@ export default class ExcelControl extends React.PureComponent<
           }
         });
       } else {
-        const worksheet = workbook.worksheets[0];
+        const worksheet = workbook.worksheets.find(
+          (sheet: any) => sheet.state !== 'hidden'
+        );
 
         if (parseImage) {
           const images = this.readImages(worksheet, workbook);
