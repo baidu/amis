@@ -269,8 +269,7 @@ export class Alert extends React.Component<AlertProps, AlertState> {
               theme
             )
           ) : (
-            // <Html html={this.state.content} />
-            <>{this.state.content}</>
+            <Html html={this.state.content} />
           )}
         </div>
         {finalConfirmText ? (
