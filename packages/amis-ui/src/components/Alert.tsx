@@ -273,6 +273,8 @@ export class Alert extends React.Component<AlertProps, AlertState> {
               this.scopeRef,
               theme
             )
+          ) : typeof this.state.content === 'string' ? (
+            <Html html={this.state.content} />
           ) : (
             <>{this.state.content}</>
           )}
