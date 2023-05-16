@@ -805,6 +805,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
           autoComplete="off"
           value={this.state.inputValue || ''}
           disabled={disabled}
+          readOnly={useMobileUI && isMobile()}
         />
 
         {clearable && !disabled && normalizeValue(value, format) ? (

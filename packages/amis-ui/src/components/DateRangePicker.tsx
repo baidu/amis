@@ -1629,6 +1629,7 @@ export class DateRangePicker extends React.Component<
           autoComplete="off"
           value={this.state.startInputValue || ''}
           disabled={disabled}
+          readOnly={useMobileUI && isMobile()}
         />
         <span
           className={cx('DateRangePicker-input-separator')}
@@ -1648,6 +1649,7 @@ export class DateRangePicker extends React.Component<
           autoComplete="off"
           value={this.state.endInputValue || ''}
           disabled={disabled}
+          readOnly={useMobileUI && isMobile()}
         />
 
         {/* 指示游标 */}
