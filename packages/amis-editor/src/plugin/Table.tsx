@@ -757,34 +757,34 @@ export class TablePlugin extends BasePlugin {
       return itemsSchema;
     }
 
-    let cellProperties = {};
+    let cellProperties = {type: 'object', title: '所在行记录', properties: {}};
     if (trigger) {
       const isColumnChild = someTree(
         columns?.children,
         item => item.id === trigger.id
       );
 
-      isColumnChild && (cellProperties = itemsSchema.properties);
+      isColumnChild && (cellProperties.properties = itemsSchema.properties);
     }
 
     return {
       $id: 'table',
       type: 'object',
       properties: {
-        ...cellProperties,
-        rows: {
+        '': cellProperties,
+        'rows': {
           type: 'array',
-          title: '数据列表',
+          title: '列表记录',
           items: itemsSchema
         },
-        selectedItems: {
+        'selectedItems': {
           type: 'array',
-          title: '已选中行'
+          title: '已选中行记录'
           // items: itemsSchema
         },
-        unSelectedItems: {
+        'unSelectedItems': {
           type: 'array',
-          title: '未选中行'
+          title: '未选中行记录'
           // items: itemsSchema
         }
       }

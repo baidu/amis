@@ -1786,7 +1786,11 @@ export class CRUDPlugin extends BasePlugin {
 
     // 兼容table的rows，并自行merged异步数据
     if (child.type === 'table') {
-      let cellProperties = {};
+      let cellProperties = {
+        type: 'object',
+        title: '所在行记录',
+        properties: {}
+      };
       const columns: EditorNodeType = child.children.find(
         item => item.isRegion && item.region === 'columns'
       );
@@ -1805,15 +1809,9 @@ export class CRUDPlugin extends BasePlugin {
           const menberProps = (
             scope.getSchemaById('crudFetchInitedData')?.properties?.items as any
           )?.items?.properties;
-
-          cellProperties = {
+          cellProperties.properties = {
             ...menberProps,
-            ...omit(
-              childSchame.properties,
-              'rows',
-              'selectedItems',
-              'unSelectedItems'
-            )
+            ...childSchame.properties[''].properties
           };
         }
       }
@@ -1822,17 +1820,17 @@ export class CRUDPlugin extends BasePlugin {
         $id: childSchame.$id,
         type: childSchame.type,
         properties: {
-          ...cellProperties,
-          items: childSchame.properties.rows,
-          selectedItems: childSchame.properties.selectedItems,
-          unSelectedItems: childSchame.properties.unSelectedItems,
-          count: {
+          '': cellProperties,
+          'items': childSchame.properties.rows,
+          'selectedItems': childSchame.properties.selectedItems,
+          'unSelectedItems': childSchame.properties.unSelectedItems,
+          'count': {
             type: 'number',
-            title: '总行数'
+            title: '记录总条数'
           },
-          page: {
+          'page': {
             type: 'number',
-            title: '当前页码'
+            title: '页码'
           }
         }
       };
@@ -1844,15 +1842,19 @@ export class CRUDPlugin extends BasePlugin {
   rendererBeforeDispatchEvent(node: EditorNodeType, e: any, data: any) {
     if (e === 'fetchInited') {
       const scope = this.manager.dataSchema.getScope(`${node.id}-${node.type}`);
+      // 这里去掉total，统一显示count
+      let resData = {...data.responseData};
+      delete resData.total;
+
       const jsonschema: any = {
         $id: 'crudFetchInitedData',
         type: 'object',
-        ...jsonToJsonSchema(data.responseData, (type: string, key: string) => {
+        ...jsonToJsonSchema(resData, (type: string, key: string) => {
           if (type === 'array' && key === 'items') {
-            return '数据列表';
+            return '列表记录';
           }
           if (type === 'number' && key === 'count') {
-            return '总行数';
+            return '记录总条数';
           }
           return key;
         })
