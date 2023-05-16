@@ -314,29 +314,29 @@ function normalizeValue(value: any, format?: string) {
 
   const v = moment(value, format, true);
 
-  if (!v.isValid()) {
-    if (typeof value === 'string' || typeof value === 'number') {
-      let formats = ['', 'YYYY-MM-DD HH:mm:ss', 'X'];
-
-      if (/^\d{10}((\.\d+)*)$/.test(value.toString())) {
-        formats = ['X', 'x', 'YYYY-MM-DD HH:mm:ss', ''];
-      } else if (/^\d{13}((\.\d+)*)$/.test(value.toString())) {
-        formats = ['x', 'X', 'YYYY-MM-DD HH:mm:ss', ''];
-      }
-      while (formats.length) {
-        const format = formats.shift()!;
-        const date = moment(value, format);
-
-        if (date.isValid()) {
-          return date;
-        }
-      }
-    }
-
-    return undefined;
-  } else {
+  if (v.isValid()) {
     return v;
   }
+
+  if (typeof value === 'string' || typeof value === 'number') {
+    let formats = ['', 'YYYY-MM-DD HH:mm:ss', 'X'];
+
+    if (/^\d{10}((\.\d+)*)$/.test(value.toString())) {
+      formats = ['X', 'x', 'YYYY-MM-DD HH:mm:ss', ''];
+    } else if (/^\d{13}((\.\d+)*)$/.test(value.toString())) {
+      formats = ['x', 'X', 'YYYY-MM-DD HH:mm:ss', ''];
+    }
+    while (formats.length) {
+      const format = formats.shift()!;
+      const date = moment(value, format);
+
+      if (date.isValid()) {
+        return date;
+      }
+    }
+  }
+
+  return undefined;
 }
 
 export class DatePicker extends React.Component<DateProps, DatePickerState> {
