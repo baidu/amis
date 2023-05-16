@@ -16,7 +16,6 @@ import {PopOver} from 'amis-core';
 import TooltipWrapper from './TooltipWrapper';
 import Downshift, {ControllerStateAndHelpers} from 'downshift';
 import {closeIcon, Icon} from './icons';
-// @ts-ignore
 import {matchSorter} from 'match-sorter';
 import {
   noop,
@@ -46,6 +45,15 @@ import BasePopover, {PopOverOverlay} from './PopOverContainer';
 import type {TooltipObject} from '../components/TooltipWrapper';
 
 export {Option, Options};
+
+export const defaultFilterOption = (
+  options: Option[],
+  inputValue: string,
+  option: {keys: string[]},
+  matchFn = matchSorter
+): Option[] => matchFn(options, inputValue, option);
+
+export type FilterOption = typeof defaultFilterOption;
 
 export interface OptionProps {
   className?: string;
@@ -375,6 +383,11 @@ interface SelectProps
    * 收纳标签的Popover配置
    */
   overflowTagPopover?: TooltipObject;
+
+  /**
+   * 检索函数
+   */
+  filterOption?: FilterOption;
 }
 
 interface SelectState {
@@ -573,15 +586,22 @@ export class Select extends React.Component<SelectProps, SelectState> {
       simpleValue,
       checkAllBySearch,
       labelField,
-      valueField
+      valueField,
+      filterOption = defaultFilterOption
     } = this.props;
+
     const inputValue = this.state.inputValue;
     let {selection} = this.state;
     let filtedOptions: Array<Option> =
       inputValue && checkAllBySearch !== false
-        ? matchSorter(options, inputValue, {
-            keys: [labelField || 'label', valueField || 'value']
-          })
+        ? filterOption(
+            options,
+            inputValue,
+            {
+              keys: [labelField || 'label', valueField || 'value']
+            },
+            matchSorter
+          )
         : options.concat();
     const optionsValues = filtedOptions.map(option => option.value);
     const selectionValues = selection.map(select => select.value);
@@ -973,6 +993,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       mobileClassName,
       virtualThreshold = 100,
       useMobileUI = false,
+      filterOption = defaultFilterOption,
       overlay
     } = this.props;
     const {selection} = this.state;
@@ -981,9 +1002,14 @@ export class Select extends React.Component<SelectProps, SelectState> {
     let checkedPartial = false;
     let filtedOptions: Array<Option> = (
       inputValue && isOpen && !loadOptions
-        ? matchSorter(options, inputValue, {
-            keys: [labelField || 'label', valueField || 'value']
-          })
+        ? filterOption(
+            options,
+            inputValue,
+            {
+              keys: [labelField || 'label', valueField || 'value']
+            },
+            matchSorter
+          )
         : options.concat()
     ).filter((option: Option) => !option.hidden && option.visible !== false);
     const enableVirtualRender =
