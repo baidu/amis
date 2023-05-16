@@ -370,7 +370,7 @@ export class PagePlugin extends BasePlugin {
       const scope = this.manager.dataSchema.getScope(`${node.id}-${node.type}`);
       const jsonschema: any = {
         $id: 'pageInitedData',
-        ...jsonToJsonSchema(data)
+        ...jsonToJsonSchema(data.responseData)
       };
 
       scope?.removeSchema(jsonschema.$id);

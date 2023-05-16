@@ -326,7 +326,13 @@ export function ComboItem({
   classnames: cx,
   formRef
 }: ComboItemProps) {
-  const methods = useSubForm(value, translate, data => update(index, data));
+  const indexRef = React.useRef(index);
+  React.useEffect(() => {
+    indexRef.current = index;
+  }, [index]);
+  const methods = useSubForm(value, translate, (data: any) =>
+    update(indexRef.current!, data)
+  );
   React.useEffect(() => {
     formRef?.(methods, index);
     return () => {

@@ -171,7 +171,11 @@ export const MappingField = withStore(props =>
     componentDidUpdate(prevProps: MappingProps) {
       const props = this.props;
       const {store, source, data} = this.props;
-      store.syncProps(props, prevProps, ['valueField', 'map']);
+      store.syncProps(
+        props,
+        prevProps,
+        source ? ['valueField'] : ['valueField', 'map']
+      );
 
       if (isPureVariable(source)) {
         const prev = resolveVariableAndFilter(

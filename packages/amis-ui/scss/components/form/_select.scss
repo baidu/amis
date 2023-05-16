@@ -150,7 +150,6 @@
   .#{$ns}PopOver.#{$ns}Select-popover {
     margin-top: px2rem(4px);
     .#{$ns}Select-menu {
-      min-width: px2rem(100px);
       .#{$ns}Select-option {
         line-height: var(--select-base-default-option-line-height);
       }

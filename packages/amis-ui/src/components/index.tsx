@@ -18,7 +18,6 @@ import Avatar from './Avatar';
 import Button from './Button';
 import Breadcrumb from './Breadcrumb';
 import Checkbox from './Checkbox';
-import Checkboxes from './Selection';
 import Collapse from './Collapse';
 import CollapseGroup from './CollapseGroup';
 import DatePicker from './DatePicker';
@@ -76,7 +75,7 @@ import PickerContainer from './PickerContainer';
 import InputJSONSchema from './json-schema';
 import {Badge, withBadge} from './Badge';
 import type {BadgeObject} from './Badge';
-import {getIcon, Icon, registerIcon} from './icons';
+import {getIcon, getIconNames, Icon, registerIcon} from './icons';
 import {withRemoteConfig} from './WithRemoteConfig';
 import type {RemoteOptionsProps} from './WithRemoteConfig';
 import ConditionBuilder from './condition-builder';
@@ -142,7 +141,7 @@ export {
   Button,
   Breadcrumb,
   Checkbox,
-  Checkboxes,
+  Selection as Checkboxes,
   Collapse,
   CollapseGroup,
   DatePicker,
@@ -224,6 +223,7 @@ export {
   UserSelect,
   UserTabSelect,
   getIcon,
+  getIconNames,
   registerIcon,
   Badge,
   HeadCellDropDown,

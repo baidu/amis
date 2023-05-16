@@ -430,8 +430,7 @@ export default class TreeSelectControl extends React.Component<
           !find(combinedOptions, (item: Option) => item.value == option.value)
         ) {
           combinedOptions.push({
-            ...option,
-            visible: false
+            ...option
           });
         }
       });

@@ -953,7 +953,7 @@ export class WizardPlugin extends BasePlugin {
       const scope = this.manager.dataSchema.getScope(`${node.id}-${node.type}`);
       const jsonschema: any = {
         $id: 'wizardInitedData',
-        ...jsonToJsonSchema(data)
+        ...jsonToJsonSchema(data.responseData)
       };
 
       scope?.removeSchema(jsonschema.$id);
