@@ -522,7 +522,9 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 title: '弹框标题',
                 confirmText: '确认',
                 cancelText: '取消',
-                confirmBtnLevel: 'primary',
+                options: {
+                  confirmBtnLevel: 'primary'
+                },
                 body: '对，你刚刚点击了',
                 dialogType: 'confirm'
               }),

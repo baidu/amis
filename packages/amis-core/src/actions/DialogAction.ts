@@ -6,6 +6,7 @@ import {
   ListenerContext,
   registerAction
 } from './Action';
+import {render} from '../../src';
 
 export interface IAlertAction extends ListenerAction {
   actionType: 'alert';
@@ -128,7 +129,7 @@ export class ConfirmAction implements RendererAction {
     event: RendererEvent<any>
   ) {
     let content = action.confirmDialog?.body
-      ? renderer.props.render('confirmBody', action.confirmDialog.body)
+      ? render(action.confirmDialog.body)
       : action.args.msg;
 
     const confirmed = await event.context.env.confirm?.(
@@ -136,10 +137,7 @@ export class ConfirmAction implements RendererAction {
       action.confirmDialog?.title,
       action.confirmDialog?.confirmText,
       action.confirmDialog?.cancelText,
-      action.confirmDialog?.size,
-      action.confirmDialog?.closeOnEsc,
-      action.confirmDialog?.confirmBtnLevel,
-      action.confirmDialog?.cancelBtnLevel
+      action.confirmDialog?.options
     );
     return confirmed;
   }

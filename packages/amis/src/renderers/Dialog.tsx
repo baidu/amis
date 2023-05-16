@@ -546,10 +546,9 @@ export default class Dialog extends React.Component<DialogProps> {
       loadingConfig,
       overlay,
       dialogType,
-      cancelBtnLevel,
       cancelText,
-      confirmBtnLevel,
-      confirmText
+      confirmText,
+      options
     } = {
       ...this.props,
       ...store.schema
@@ -579,9 +578,8 @@ export default class Dialog extends React.Component<DialogProps> {
         disabled={store.loading}
         overlay={overlay}
         dialogType={dialogType}
-        cancelBtnLevel={cancelBtnLevel}
+        options={options}
         cancelText={cancelText}
-        confirmBtnLevel={confirmBtnLevel}
         confirmText={confirmText}
       >
         {title && typeof title === 'string' ? (

@@ -138,7 +138,7 @@ export class DialogPlugin extends BasePlugin {
                 },
                 getSchemaTpl('switch', {
                   label: '可按 Esc 关闭',
-                  name: 'closeOnEsc',
+                  name: 'options.closeOnEsc',
                   value: false
                 })
               ]
@@ -154,7 +154,7 @@ export class DialogPlugin extends BasePlugin {
                 {
                   label: '尺寸',
                   type: 'button-group-select',
-                  name: 'size',
+                  name: 'options.size',
                   size: 'sm',
                   options: [
                     {
@@ -183,11 +183,11 @@ export class DialogPlugin extends BasePlugin {
                 },
                 getSchemaTpl('buttonLevel', {
                   label: '确认按钮样式',
-                  name: 'confirmBtnLevel'
+                  name: 'options.confirmBtnLevel'
                 }),
                 getSchemaTpl('buttonLevel', {
                   label: '取消按钮样式',
-                  name: 'cancelBtnLevel'
+                  name: 'options.cancelBtnLevel'
                 })
               ]
             }
@@ -308,14 +308,7 @@ export class InlineModal extends React.Component<any, any> {
   componentDidMount() {}
 
   render() {
-    let {
-      children,
-      dialogType,
-      cancelBtnLevel,
-      cancelText,
-      confirmBtnLevel,
-      confirmText
-    } = this.props;
+    let {children, dialogType, options, cancelText, confirmText} = this.props;
     if (dialogType === 'confirm') {
       children = children.filter((item: any) => item?.key !== 'actions');
       return (
@@ -324,13 +317,13 @@ export class InlineModal extends React.Component<any, any> {
           <div className="ae-InlineModel-footer">
             <Button
               className="ae-InlineModel-footer-btn"
-              level={cancelBtnLevel}
+              level={options.cancelBtnLevel}
             >
               {cancelText || '取消'}
             </Button>
             <Button
               className="ae-InlineModel-footer-btn"
-              level={confirmBtnLevel}
+              level={options.confirmBtnLevel}
             >
               {confirmText || '确认'}
             </Button>
