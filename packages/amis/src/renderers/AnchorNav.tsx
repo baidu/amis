@@ -8,7 +8,7 @@ import {BaseSchema, SchemaClassName, SchemaCollection} from '../Schema';
 
 /**
  * AnchorNavSection 锚点区域渲染器
- * 文档：https://baidu.gitee.io/amis/docs/components/anchor-nav
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/anchor-nav
  */
 
 export type AnchorNavSectionSchema = {
@@ -30,7 +30,7 @@ export type AnchorNavSectionSchema = {
 
 /**
  * AnchorNav 锚点导航渲染器
- * 文档：https://baidu.gitee.io/amis/docs/components/anchor-nav
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/anchor-nav
  */
 export interface AnchorNavSchema extends BaseSchema {
   /**
@@ -162,22 +162,24 @@ export default class AnchorNav extends React.Component<
     links = Array.isArray(links) ? links : [links];
     let children: Array<JSX.Element | null> = [];
 
-    children = links.map((section, index) =>
-      isVisible(section, data) ? (
-        <AnchorNavSection
-          {...(section as any)}
-          title={filter(section.title, data)}
-          key={index}
-          name={section.href || index}
-        >
-          {this.renderSection
-            ? this.renderSection(section, this.props, index)
-            : sectionRender
-            ? sectionRender(section, this.props, index)
-            : render(`section/${index}`, section.body || '')}
-        </AnchorNavSection>
-      ) : null
-    ).filter(item => !!item);
+    children = links
+      .map((section, index) =>
+        isVisible(section, data) ? (
+          <AnchorNavSection
+            {...(section as any)}
+            title={filter(section.title, data)}
+            key={index}
+            name={section.href || index}
+          >
+            {this.renderSection
+              ? this.renderSection(section, this.props, index)
+              : sectionRender
+              ? sectionRender(section, this.props, index)
+              : render(`section/${index}`, section.body || '')}
+          </AnchorNavSection>
+        ) : null
+      )
+      .filter(item => !!item);
 
     return (
       <CAnchorNav

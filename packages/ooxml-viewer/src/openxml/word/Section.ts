@@ -11,6 +11,8 @@ import {Hyperlink} from './Hyperlink';
 import {Paragraph} from './Paragraph';
 import {Table} from './Table';
 import {Body} from './Body';
+import {getAttrNumber} from '../../OpenXML';
+import {Header} from './Header';
 
 export type PageSize = {
   width: string;
@@ -28,16 +30,43 @@ export type PageMargin = {
   gutter?: string;
 };
 
+/**
+ * 列设置，其实这里支持
+ */
 export interface Column {
-  width?: number;
-  space?: number;
+  num?: number;
+  space?: string;
 }
 
-export type SectionChild = Paragraph | Table | Hyperlink;
+export type SectionChild = Paragraph | Table;
 
 export interface SectionPr {
   pageSize?: PageSize;
   pageMargin?: PageMargin;
+  cols?: Column;
+  headers?: {[key in HeaderType]?: Header};
+  footers?: {[key in HeaderType]?: Header};
+}
+
+export type HeaderType = 'default' | 'first' | 'even';
+
+function parseHeader(word: Word, element: Element, type: 'header' | 'footer') {
+  const headerType = element.getAttribute('w:type') as HeaderType;
+  const headerId = element.getAttribute('r:id');
+  if (headerType && headerId) {
+    const headerRel = word.getDocumentRels(headerId);
+    if (headerRel) {
+      const headerDoc = word.getXML('/word/' + headerRel.target);
+      if (headerDoc) {
+        const header = Header.fromXML(word, headerDoc);
+        return {
+          headerType,
+          header
+        };
+      }
+    }
+  }
+  return null;
 }
 
 export class Section {
@@ -50,6 +79,8 @@ export class Section {
 
   static parsePr(word: Word, element: Element, body: Body): SectionPr {
     const properties: SectionPr = {};
+    properties.headers = {};
+    properties.footers = {};
 
     for (const child of element.children) {
       const tagName = child.tagName;
@@ -75,21 +106,28 @@ export class Section {
           break;
 
         case 'w:headerReference':
-          const headerType = child.getAttribute('w:type');
-          const headerId = child.getAttribute('r:id');
-          // 目前只支持 default 且只支持背景图
-          // TODO: 这里 rel 不对，需要用 "/word/_rels/header1.xml.rels，后面得想想怎么改
-          if (headerType === 'default' && headerId) {
-            const headerRel = word.getDocumentRels(headerId);
-            if (headerRel) {
-              const headerDoc = word.getXML('/word/' + headerRel.target);
-              const headerP = headerDoc.getElementsByTagName('w:p').item(0);
-              if (headerP) {
-                const p = Paragraph.fromXML(word, headerP);
-                body.addChild(p);
-              }
-            }
+          const header = parseHeader(word, child, 'header');
+          if (header) {
+            properties.headers[header.headerType] = header.header;
           }
+          break;
+
+        case 'w:footerReference':
+          const footer = parseHeader(word, child, 'footer');
+          if (footer) {
+            properties.footers[footer.headerType] = footer.header;
+          }
+          break;
+
+        case 'w:cols':
+          const cols: Column = {};
+          const num = getAttrNumber(child, 'w:num', 1);
+          cols.num = num;
+          const space = parseSize(child, 'w:space');
+          if (space) {
+            cols.space = space;
+          }
+          properties.cols = cols;
           break;
 
         default:

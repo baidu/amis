@@ -11,6 +11,42 @@ import {tipedLabel} from 'amis-editor-core';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {ValidatorTag} from '../../validator';
 
+const addBtnCssClassName = 'themeCss.addBtnControlClassName';
+const IconCssClassName = 'themeCss.iconControlClassName';
+const editorPath = 'inputImage.base';
+const inputStateFunc = (visibleOn: string, state: string) => {
+  return [
+    getSchemaTpl('theme:border', {
+      name: `${addBtnCssClassName}.border:${state}`,
+      visibleOn: visibleOn,
+      editorThemePath: `${editorPath}.${state}.body.border`
+    }),
+    getSchemaTpl('theme:colorPicker', {
+      label: '文字',
+      name: `${addBtnCssClassName}.color:${state}`,
+      labelMode: 'input',
+      visibleOn: visibleOn,
+      editorThemePath: `${editorPath}.${state}.body.color`
+    }),
+    getSchemaTpl('theme:colorPicker', {
+      label: '背景',
+      name: `${addBtnCssClassName}.background:${state}`,
+      labelMode: 'input',
+      needGradient: true,
+      needImage: true,
+      visibleOn: visibleOn,
+      editorThemePath: `${editorPath}.${state}.body.bg-color`
+    }),
+    getSchemaTpl('theme:colorPicker', {
+      label: '图标',
+      name: `${addBtnCssClassName}.icon-color:${state}`,
+      labelMode: 'input',
+      visibleOn: visibleOn,
+      editorThemePath: `${editorPath}.${state}.body.icon-color`
+    })
+  ];
+};
+
 export class ImageControlPlugin extends BasePlugin {
   // 关联渲染器名字
   rendererName = 'input-image';
@@ -393,43 +429,81 @@ export class ImageControlPlugin extends BasePlugin {
       },
       {
         title: '外观',
-        body: getSchemaTpl('collapseGroup', [
-          getSchemaTpl('style:formItem', {renderer: context.info.renderer}),
-          {
-            title: '尺寸',
-            body: [
-              getSchemaTpl('switch', {
-                name: 'fixedSize',
-                label: tipedLabel(
-                  '固定尺寸',
-                  '开启后需通过CSS类设置其高度、宽度'
+        body: getSchemaTpl(
+          'collapseGroup',
+          [
+            getSchemaTpl('style:formItem', {renderer: context.info.renderer}),
+            {
+              title: '自定义样式',
+              body: [
+                {
+                  type: 'select',
+                  name: 'editorState',
+                  label: '状态',
+                  selectFirst: true,
+                  options: [
+                    {
+                      label: '常规',
+                      value: 'default'
+                    },
+                    {
+                      label: '悬浮',
+                      value: 'hover'
+                    },
+                    {
+                      label: '点击',
+                      value: 'active'
+                    }
+                  ]
+                },
+                ...inputStateFunc(
+                  "${editorState == 'default' || !editorState}",
+                  'default'
                 ),
-                value: false
-              }),
-
-              {
-                type: 'container',
-                className: 'ae-ExtendMore mb-3',
-                visibleOn: 'data.fixedSize',
-                body: [
-                  {
-                    type: 'input-text',
-                    required: true,
-                    name: 'fixedSizeClassName',
-                    label: tipedLabel(
-                      'CSS类名',
-                      '开启固定尺寸时，根据此值控制展示尺寸'
-                    )
-                  }
-                ]
-              }
-            ]
-          },
-          getSchemaTpl('style:classNames', {
-            unsupportStatic: true,
-            schema: []
-          })
-        ])
+                ...inputStateFunc("${editorState == 'hover'}", 'hover'),
+                ...inputStateFunc("${editorState == 'active'}", 'active'),
+                getSchemaTpl('theme:radius', {
+                  name: `${addBtnCssClassName}.border-radius`,
+                  label: '圆角',
+                  editorThemePath: `${editorPath}.default.body.border`
+                }),
+                {
+                  name: `${addBtnCssClassName}.--inputImage-base-default-icon`,
+                  label: '选择图标',
+                  type: 'icon-select',
+                  returnSvg: true
+                },
+                getSchemaTpl('theme:size', {
+                  name: `${IconCssClassName}.font-size`,
+                  label: '图标大小',
+                  editorThemePath: `${editorPath}.default.body.icon-size`
+                }),
+                getSchemaTpl('theme:size', {
+                  name: `${IconCssClassName}.margin-bottom`,
+                  label: '图标底边距',
+                  editorThemePath: `${editorPath}.default.body.icon-margin`
+                })
+              ]
+            },
+            getSchemaTpl('theme:cssCode', {
+              themeClass: [
+                {
+                  name: '图片上传按钮',
+                  value: 'addOn',
+                  className: 'addBtnControlClassName',
+                  state: ['default', 'hover', 'active']
+                },
+                {
+                  name: '上传图标',
+                  value: 'icon',
+                  className: 'iconControlClassName'
+                }
+              ],
+              isFormItem: true
+            })
+          ],
+          {...context?.schema, configTitle: 'style'}
+        )
       },
       {
         title: '事件',

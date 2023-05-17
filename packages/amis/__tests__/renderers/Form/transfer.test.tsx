@@ -969,6 +969,6 @@ test('Renderer:transfer with showInvalidMatch & unmatched do not add', async () 
 
   expect(container).toMatchSnapshot();
 
-  expect(leftItems()!.length).toBe(7);
+  expect(leftItems()!.length).toBe(3);
   expect(rightItems()!.length).toBe(4);
 });

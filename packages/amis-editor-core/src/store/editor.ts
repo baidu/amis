@@ -3,7 +3,8 @@ import {
   getVariable,
   mapObject,
   mapTree,
-  extendObject
+  extendObject,
+  createObject
 } from 'amis-core';
 import {cast, getEnv, Instance, types} from 'mobx-state-tree';
 import {
@@ -18,7 +19,6 @@ import {
   needDefaultWidth,
   guid,
   addStyleClassName,
-  setThemeDefaultData,
   appTranslate
 } from '../../src/util';
 import {
@@ -42,7 +42,7 @@ import {
   JSONPipeOut,
   JSONUpdate
 } from '../util';
-import {Schema} from 'amis';
+import type {Schema} from 'amis';
 import {toast, resolveVariable} from 'amis';
 import find from 'lodash/find';
 import {InsertSubRendererPanel} from '../component/Panel/InsertSubRendererPanel';
@@ -192,6 +192,7 @@ export const MainStore = types
     jsonSchemaUri: '',
 
     scaffoldForm: types.maybe(types.frozen<ScaffoldFormContext>()),
+    scaffoldFormStep: 0,
     scaffoldFormBuzy: false,
     scaffoldError: '',
 
@@ -530,8 +531,7 @@ export const MainStore = types
       getValueOf(id: string) {
         const schema = JSONGetById(self.schema, id);
         const data = JSONPipeOut(schema, false);
-        const res = setThemeDefaultData(data);
-        return res;
+        return data;
       },
 
       get valueWithoutHiddenProps() {
@@ -548,8 +548,6 @@ export const MainStore = types
                 key !== '$$commonSchema') ||
               typeof props === 'function' || // pipeIn 和 pipeOut
               key.substring(0, 2) === '__' ||
-              key === 'themeCss' ||
-              key === 'editorPath' ||
               key === 'editorState') // 样式不需要出现做json中,
         );
       },
@@ -1001,6 +999,13 @@ export const MainStore = types
           1,
           true
         );
+      },
+
+      get scaffoldData() {
+        return createObject(self.ctx, {
+          ...(self.scaffoldForm?.value || {}),
+          __step: self.scaffoldFormStep
+        });
       }
     };
   })
@@ -1673,6 +1678,10 @@ export const MainStore = types
 
       setScaffoldBuzy(value: any) {
         self.scaffoldFormBuzy = !!value;
+      },
+
+      setScaffoldStep(value: number) {
+        self.scaffoldFormStep = value;
       },
 
       setScaffoldError(msg: string = '') {

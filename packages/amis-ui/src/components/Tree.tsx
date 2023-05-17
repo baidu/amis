@@ -210,6 +210,7 @@ export class TreeSelector extends React.Component<
   unfolded: WeakMap<Object, boolean> = new WeakMap();
   // key: child option, value: parent option;
   relations: WeakMap<Option, Option> = new WeakMap();
+  levels: WeakMap<Option, number> = new WeakMap();
 
   dragNode: Option | null;
   dropInfo: IDropInfo | null;
@@ -285,6 +286,11 @@ export class TreeSelector extends React.Component<
         )
       });
     }
+  }
+
+  componentWillUnmount(): void {
+    // clear data
+    this.relations = this.unfolded = this.levels = new WeakMap() as any;
   }
 
   /**
@@ -449,7 +455,7 @@ export class TreeSelector extends React.Component<
       return;
     }
 
-    if (onlyLeaf && node.children) {
+    if (onlyLeaf && Array.isArray(node.children) && node.children.length) {
       return;
     }
 
@@ -612,9 +618,10 @@ export class TreeSelector extends React.Component<
           const result = [] as Option[];
 
           for (let option of this.state.flattenedOptions) {
-            result.push(option);
             if (option === parent) {
               result.push({...option, isAdding: true});
+            } else {
+              result.push(option);
             }
           }
           this.setState({flattenedOptions: result});
@@ -876,8 +883,8 @@ export class TreeSelector extends React.Component<
           flattenedOptions.push(item);
         } else if (this.isUnfolded(parent)) {
           this.relations.set(item, parent);
+          this.levels.set(item, level);
           // 父节点是展开的状态
-          item.level = level;
           flattenedOptions.push(item);
         }
       }
@@ -1095,11 +1102,11 @@ export class TreeSelector extends React.Component<
     const iconValue =
       item[iconField] ||
       (enableDefaultIcon !== false
-        ? item.children
+        ? Array.isArray(item.children) && item.children.length
           ? 'folder'
           : 'file'
         : false);
-    const level = item.level ? item.level - 1 : 0;
+    const level = this.levels.has(item) ? this.levels.get(item)! - 1 : 0;
 
     let body = null;
 
@@ -1158,7 +1165,9 @@ export class TreeSelector extends React.Component<
               <i
                 className={cx(
                   `Tree-itemIcon ${
-                    item.children ? 'Tree-folderIcon' : 'Tree-leafIcon'
+                    Array.isArray(item.children) && item.children.length
+                      ? 'Tree-folderIcon'
+                      : 'Tree-leafIcon'
                   }`
                 )}
                 onClick={() =>
@@ -1246,7 +1255,7 @@ export class TreeSelector extends React.Component<
 
     return (
       <li
-        key={item[valueField]}
+        key={`${item[valueField || 'value']}-${index}`}
         className={cx(`Tree-item ${itemClassName || ''}`, {
           'Tree-item--isLeaf': isLeaf,
           'is-child': this.relations.get(item)

@@ -5,11 +5,7 @@
 import React from 'react';
 import isEqual from 'lodash/isEqual';
 import {toast} from 'amis';
-import {
-  TableViewSchema,
-  TdObject,
-  TrObject
-} from 'amis/lib/renderers/TableView';
+import {TableViewSchema, TrObject} from 'amis';
 import {EditorManager} from 'amis-editor-core';
 import {autobind, JSONGetById, EditorStoreType} from 'amis-editor-core';
 

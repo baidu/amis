@@ -15,7 +15,7 @@ import {supportStatic} from './StaticHoc';
 
 /**
  * Radio 单选框。
- * 文档：https://baidu.gitee.io/amis/docs/components/form/radios
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/radios
  */
 export interface RadiosControlSchema extends FormOptionsSchema {
   type: 'radios';
@@ -73,16 +73,12 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
 
     const rendererEvent = await dispatchEvent(
       'change',
-      resolveEventData(
-        this.props,
-        {
-          value,
-          options,
-          items: options, // 为了保持名字统一
-          selectedItems: option
-        },
-        'value'
-      )
+      resolveEventData(this.props, {
+        value,
+        options,
+        items: options, // 为了保持名字统一
+        selectedItems: option
+      })
     );
     if (rendererEvent?.prevented) {
       return;

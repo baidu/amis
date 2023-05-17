@@ -31,7 +31,7 @@ import {supportStatic} from './StaticHoc';
 
 /**
  * Transfer
- * 文档：https://baidu.gitee.io/amis/docs/components/form/transfer
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/transfer
  */
 export interface TransferControlSchema
   extends FormOptionsSchema,
@@ -220,7 +220,10 @@ export class BaseTransferRenderer<
         );
 
         if (!indexes) {
-          newOptions.push(item);
+          newOptions.push({
+            ...item,
+            visible: false
+          });
         } else if (optionModified) {
           const origin = getTree(newOptions, indexes);
           newOptions = spliceTree(newOptions, indexes, 1, {
@@ -251,7 +254,10 @@ export class BaseTransferRenderer<
       );
 
       if (!indexes) {
-        newOptions.push(value);
+        newOptions.push({
+          ...value,
+          visible: false
+        });
       } else if (optionModified) {
         const origin = getTree(newOptions, indexes);
         newOptions = spliceTree(newOptions, indexes, 1, {
@@ -270,22 +276,22 @@ export class BaseTransferRenderer<
           (option: Option) => option.deferApi || option.defer
         ));
 
-    isTreeDefer === true ||
-      ((newOptions.length > options.length || optionModified) &&
-        setOptions(newOptions, true));
+    if (
+      isTreeDefer === true ||
+      newOptions.length > options.length ||
+      optionModified
+    ) {
+      setOptions(newOptions, true);
+    }
 
     // 触发渲染器事件
     const rendererEvent = await dispatchEvent(
       'change',
-      resolveEventData(
-        this.props,
-        {
-          value: newValue,
-          options,
-          items: options // 为了保持名字统一
-        },
-        'value'
-      )
+      resolveEventData(this.props, {
+        value: newValue,
+        options,
+        items: options // 为了保持名字统一
+      })
     );
     if (rendererEvent?.prevented) {
       return;

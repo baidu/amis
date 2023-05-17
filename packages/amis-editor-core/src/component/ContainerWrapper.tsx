@@ -2,7 +2,7 @@ import {NodeWrapper, NodeWrapperProps} from './NodeWrapper';
 import React from 'react';
 import {observer} from 'mobx-react';
 import {autobind} from '../util';
-import {Schema} from 'amis';
+import type {Schema} from 'amis';
 import find from 'lodash/find';
 import {RegionWrapper} from './RegionWrapper';
 

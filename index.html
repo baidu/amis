@@ -56,8 +56,17 @@
         );
         document.head.appendChild(link);
       });
+
+      // helper 放在末尾提高优先级
+      const helper = document.createElement('link');
+      helper.setAttribute('rel', 'stylesheet');
+      helper.setAttribute(
+        'href',
+        new URL(`./packages/amis-ui/scss/helper.scss`, import.meta.url).href
+      );
+      document.head.appendChild(helper);
     </script>
-    <link rel="stylesheet" href="./packages/amis-ui/scss/helper.scss" />
+    <!-- <link rel="stylesheet" href="./packages/amis-ui/scss/helper.scss" /> -->
   </head>
 
   <body>

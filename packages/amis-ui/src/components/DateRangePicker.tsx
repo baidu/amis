@@ -1239,13 +1239,15 @@ export class DateRangePicker extends React.Component<
   }
 
   renderMonth(props: any, month: number, year: number, date: any) {
-    const m = moment();
-    const currentDate = m.year(year).month(month);
+    const currentDate = props.viewDate.year(year).month(month);
     const {startDate, endDate} = this.state;
 
-    var localMoment = m.localeData().monthsShort(m.month(month));
-    var strLength = 3;
-    var monthStrFixedLength = localMoment.substring(0, strLength);
+    const {translate: __} = this.props;
+    const monthStr = currentDate.format(__('MMM'));
+    const strLength = 3;
+    // Because some months are up to 5 characters long, we want to
+    // use a fixed string length for consistency
+    const monthStrFixedLength = monthStr.substring(0, strLength);
 
     if (
       startDate &&
@@ -1262,7 +1264,7 @@ export class DateRangePicker extends React.Component<
     props.className += className;
 
     return (
-      <td {...props} {...others}>
+      <td {...omit(props, 'viewDate')} {...others}>
         <span>{monthStrFixedLength}</span>
       </td>
     );
@@ -1627,6 +1629,7 @@ export class DateRangePicker extends React.Component<
           autoComplete="off"
           value={this.state.startInputValue || ''}
           disabled={disabled}
+          readOnly={useMobileUI && isMobile()}
         />
         <span
           className={cx('DateRangePicker-input-separator')}
@@ -1646,6 +1649,7 @@ export class DateRangePicker extends React.Component<
           autoComplete="off"
           value={this.state.endInputValue || ''}
           disabled={disabled}
+          readOnly={useMobileUI && isMobile()}
         />
 
         {/* 指示游标 */}

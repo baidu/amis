@@ -118,6 +118,10 @@ const iconFactory: {
   [propName: string]: React.ElementType<{}>;
 } = {};
 
+export function getIconNames() {
+  return Object.keys(iconFactory);
+}
+
 export function getIcon(key: string) {
   return iconFactory[key];
 }

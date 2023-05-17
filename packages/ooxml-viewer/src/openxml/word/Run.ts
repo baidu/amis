@@ -3,7 +3,7 @@ import {parsePr} from '../../parse/parsePr';
 import Word from '../../Word';
 import {ST_FldCharType, ST_VerticalAlignRun} from '../Types';
 import {Break} from './Break';
-import {Drawing} from './drawing/Drawing';
+import {Drawing} from '../drawing/Drawing';
 import {InstrText} from './InstrText';
 import {NoBreakHyphen} from './NoBreakHyphen';
 import {Pict} from './Pict';
@@ -104,7 +104,9 @@ export class Run {
           break;
 
         case 'w:lastRenderedPageBreak':
-          // 目前也不支持分页显示
+          const pageBreak = new Break();
+          pageBreak.type = 'page';
+          run.addChild(pageBreak);
           break;
 
         case 'w:pict':

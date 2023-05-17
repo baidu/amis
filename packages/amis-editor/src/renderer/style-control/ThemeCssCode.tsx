@@ -4,6 +4,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {Button, Editor, Overlay, PopOver} from 'amis-ui';
 import {FormControlProps, FormItem, styleMap} from 'amis-core';
+// @ts-ignore
 import {parse as cssParse} from 'amis-postcss';
 import {PlainObject} from './types';
 import {debounce, isEmpty} from 'lodash';
@@ -74,7 +75,8 @@ function AmisThemeCssCodeEditor(props: FormControlProps) {
           const item = css.find(c => {
             if (
               c.selector === node.selector ||
-              node.selector.endsWith(`:${c.state}`)
+              node.selector.endsWith(`:${c.state}`) ||
+              node.selector.split(' ').indexOf(c.selector) > -1
             ) {
               return c;
             }
@@ -106,14 +108,14 @@ function AmisThemeCssCodeEditor(props: FormControlProps) {
       nodeTabs.forEach(tab => {
         tab.children.forEach(node => {
           const nodes = cssParse(node.value)
-            .nodes.map(node => {
+            .nodes.map((node: any) => {
               const {prop, value} = node;
               return {
                 prop,
                 value
               };
             })
-            .filter(n => n.value);
+            .filter((n: any) => n.value);
           const selector = node.selector;
           const nameEtr = /\.(.*)\-/.exec(selector);
           const cssCode: PlainObject = {};
@@ -124,7 +126,7 @@ function AmisThemeCssCodeEditor(props: FormControlProps) {
           } else if (!!~selector.indexOf(':hover')) {
             state = 'hover';
           }
-          nodes.forEach(item => {
+          nodes.forEach((item: any) => {
             const prop = item.prop;
             const cssValue = item.value;
             if (!!~prop.indexOf('radius')) {
@@ -297,7 +299,7 @@ function AmisStyleCodeEditor(props: FormControlProps) {
     const newStyle: PlainObject = {};
     try {
       const style = cssParse(value);
-      style.nodes.forEach(node => {
+      style.nodes.forEach((node: any) => {
         const {prop, value} = node;
         if (value) {
           if (prop === 'border-radius') {
@@ -363,7 +365,7 @@ function ThemeCssCode(props: FormControlProps) {
       <Overlay
         container={document.body}
         placement="left"
-        target={ref.current}
+        target={ref.current as any}
         show={showEditor}
         rootClose={false}
       >

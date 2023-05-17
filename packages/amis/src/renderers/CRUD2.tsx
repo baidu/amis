@@ -1,7 +1,6 @@
 import React from 'react';
-
-import {Renderer, RendererProps} from 'amis-core';
-import {Action} from '../types';
+import omitBy from 'lodash/omitBy';
+import {Renderer, RendererProps, filterTarget} from 'amis-core';
 import {CRUDStore, ICRUDStore} from 'amis-core';
 import {
   createObject,
@@ -22,6 +21,7 @@ import {evalExpression, filter} from 'amis-core';
 import {isEffectiveApi, isApiOutdated} from 'amis-core';
 import findIndex from 'lodash/findIndex';
 import {Html, SpinnerExtraProps} from 'amis-ui';
+import {Action} from '../types';
 import {
   BaseSchema,
   SchemaApi,
@@ -33,11 +33,13 @@ import {
 import {CardsSchema} from './Cards';
 import {ListSchema} from './List';
 import {TableSchema2} from './Table2';
+import type {Table2RendererEvent} from './Table2';
+import type {CardsRendererEvent} from './Cards';
 import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
 import {SchemaCollection} from '../Schema';
 import upperFirst from 'lodash/upperFirst';
 
-export type CRUDRendererEvent = 'search';
+export type CRUDRendererEvent = Table2RendererEvent | CardsRendererEvent;
 
 export interface CRUD2CommonSchema extends BaseSchema, SpinnerExtraProps {
   /**
@@ -192,6 +194,19 @@ export interface CRUD2Props
   store: ICRUDStore;
   pickerMode?: boolean; // 选择模式，用做表单中的选择操作
 }
+
+const INNER_EVENTS: Array<CRUDRendererEvent> = [
+  'selectedChange',
+  'columnSort',
+  'columnFilter',
+  'columnSearch',
+  'columnToggled',
+  'orderChange',
+  'rowClick',
+  'rowMouseEnter',
+  'rowMouseLeave',
+  'selected'
+];
 
 export default class CRUD2 extends React.Component<CRUD2Props, any> {
   static propsList: Array<keyof CRUD2Props> = [
@@ -661,7 +676,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
           errorMessage: messages && messages.saveSuccess
         })
         .then(() => {
-          reload && this.reloadTarget(filter(reload, data), data);
+          reload && this.reloadTarget(filterTarget(reload, data), data);
           this.getData(undefined, undefined, true);
         })
         .catch(() => {});
@@ -681,7 +696,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       store
         .saveRemote(quickSaveItemApi, sendData)
         .then(() => {
-          reload && this.reloadTarget(filter(reload, data), data);
+          reload && this.reloadTarget(filterTarget(reload, data), data);
 
           this.getData(undefined, undefined, true);
         })
@@ -788,7 +803,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       store
         .saveRemote(saveOrderApi, model)
         .then(() => {
-          reload && this.reloadTarget(filter(reload, model), model);
+          reload && this.reloadTarget(filterTarget(reload, model), model);
           this.getData(undefined, undefined, true);
         })
         .catch(() => {});
@@ -894,8 +909,10 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
         newItems.splice(0, newItems.length - 1)
       );
     }
+    // store.updateSelectData(newItems, newUnSelectedItems);
+    store.setSelectedItems(newItems);
+    store.setUnSelectedItems(newUnSelectedItems);
 
-    store.updateSelectData(newItems, newUnSelectedItems);
     onSelect && onSelect(newItems);
   }
 
@@ -1072,7 +1089,8 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       labelField,
       labelTpl,
       primaryField,
-      translate: __
+      translate: __,
+      env
     } = this.props;
 
     if (!store.selectedItems.length) {
@@ -1096,7 +1114,10 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
             </span>
             <span className={cx('Crud-valueLabel')}>
               {labelTpl ? (
-                <Html html={filter(labelTpl, item)} />
+                <Html
+                  html={filter(labelTpl, item)}
+                  filterHtml={env.filterHtml}
+                />
               ) : (
                 getVariable(item, labelField || 'label') ||
                 getVariable(item, primaryField || 'id')
@@ -1104,7 +1125,10 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
             </span>
           </div>
         ))}
-        <a onClick={this.clearSelection} className={cx('Crud-selectionClear')}>
+        <a
+          onClick={this.clearSelection.bind(this)}
+          className={cx('Crud-selectionClear')}
+        >
           {__('clear')}
         </a>
       </div>
@@ -1135,6 +1159,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       classnames: cx,
       keepItemSelectionOnPageChange,
       maxKeepItemSelectionLength,
+      onEvent,
       onAction,
       popOverContainer,
       translate: __,
@@ -1171,6 +1196,12 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
           'body',
           {
             ...rest,
+            // 通用事件 例如cus-event 如果直接透传给table 则会被触发2次
+            // 因此只将下层组件table、cards中自定义事件透传下去 否则通过crud配置了也不会执行
+            onEvent: omitBy(
+              onEvent,
+              (event, key: any) => !INNER_EVENTS.includes(key)
+            ),
             type: mode,
             columns: mode.startsWith('table')
               ? store.columns || columns

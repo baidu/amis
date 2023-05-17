@@ -128,6 +128,7 @@ import Loading from './Loading';
 import CodeSchema from './Code';
 import OfficeViewer from './OfficeViewer';
 import InputTableEvent from './EventAction/cmpt-event-action/InputTableEvent';
+import WizardPage from './WizardPage';
 
 import {Switch} from 'react-router-dom';
 import {navigations2route} from './App';
@@ -908,6 +909,13 @@ export const examples = [
 
           return null;
         }
+      },
+
+      {
+        label: 'wizard页面',
+        icon: 'fa fa-desktop',
+        path: '/examples/wizard-page',
+        component: makeSchemaRenderer(WizardPage)
       }
 
       // {

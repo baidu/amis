@@ -232,7 +232,7 @@ export interface DialogActionSchema extends ButtonSchema {
 
   /**
    * 弹框详情
-   * 文档：https://baidu.gitee.io/amis/docs/components/dialog
+   * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/dialog
    */
   dialog: DialogSchemaBase;
 
@@ -252,7 +252,7 @@ export interface DrawerActionSchema extends ButtonSchema {
 
   /**
    * 抽出式弹框详情
-   * 文档：https://baidu.gitee.io/amis/docs/components/drawer
+   * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/drawer
    */
   drawer: DrawerSchemaBase;
 
@@ -272,7 +272,7 @@ export interface ToastActionSchema extends ButtonSchema {
 
   /**
    * 轻提示详情
-   * 文档：https://baidu.gitee.io/amis/docs/components/toast
+   * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/toast
    */
   toast: ToastSchemaBase;
 }
@@ -365,7 +365,7 @@ export interface VanillaAction extends ButtonSchema {
 
 /**
  * 按钮动作渲染器。
- * 文档：https://baidu.gitee.io/amis/docs/components/action
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/action
  */
 export type ActionSchema =
   | AjaxActionSchema
@@ -448,7 +448,6 @@ import {generateIcon} from 'amis-core';
 import {withBadge} from 'amis-ui';
 import {normalizeApi, str2AsyncFunction} from 'amis-core';
 import {TooltipWrapper} from 'amis-ui';
-import {ICmptAction} from 'amis-core/lib/actions/CmptAction';
 
 // 构造一个假的 React 事件避免可能的报错，主要用于快捷键功能
 // 来自 https://stackoverflow.com/questions/27062455/reactjs-can-i-create-my-own-syntheticevent
@@ -978,7 +977,8 @@ export class ActionRenderer extends React.Component<ActionRendererProps> {
         // 触发渲染器事件
         const rendererEvent = await dispatchEvent(
           e as React.MouseEvent<any> | string,
-          mergedData
+          mergedData,
+          this // 保证renderer可以拿到，避免因交互设计导致的清空情况，例如crud内itemAction
         );
 
         // 阻止原有动作执行

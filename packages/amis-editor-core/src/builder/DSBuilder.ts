@@ -2,9 +2,9 @@
  * 数据源构造器，可用于对接当前amis中的扩展数据源
  */
 
-import {ButtonSchema} from 'amis/lib/renderers/Action';
-import {CRUD2Schema} from 'amis/lib/renderers/CRUD2';
-import {FormSchema, SchemaCollection, SchemaObject} from 'amis/lib/Schema';
+import type {ButtonSchema} from 'amis';
+import type {CRUD2Schema} from 'amis';
+import type {FormSchema, SchemaCollection, SchemaObject} from 'amis';
 import {EditorNodeType} from '../store/node';
 
 /**
@@ -230,7 +230,10 @@ export abstract class DSBuilder {
     feat?: DSFeatureType;
   }): SchemaObject[];
 
-  abstract resolveSimpleFilterSchema(config: {setting: any}): SchemaObject[];
+  abstract resolveSimpleFilterSchema(config: {
+    setting: any;
+    size?: 'xs' | 'sm' | 'md' | 'lg' | 'full';
+  }): SchemaObject[];
 
   abstract resolveAdvancedFilterSchema(config: {
     setting: any;

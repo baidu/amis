@@ -39,9 +39,14 @@ export const Item = types
     },
 
     get locals(): any {
+      const listStore = getParent(self, 2) as IListStore;
       return createObject(
-        extendObject((getParent(self, 2) as IListStore).data, {
-          index: self.index
+        extendObject(listStore.data, {
+          index: self.index,
+
+          // 只有table时，也可以获取选中行
+          selectedItems: listStore.selectedItems.map(item => item.data),
+          unSelectedItems: listStore.unSelectedItems.map(item => item.data)
         }),
         self.data
       );

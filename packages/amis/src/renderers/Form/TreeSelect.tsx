@@ -30,7 +30,7 @@ import type {ItemRenderStates} from 'amis-ui/lib/components/Selection';
 
 /**
  * Tree 下拉选择框。
- * 文档：https://baidu.gitee.io/amis/docs/components/form/tree
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/tree
  */
 export interface TreeSelectControlSchema extends FormOptionsSchema {
   type: 'tree-select';
@@ -236,12 +236,12 @@ export default class TreeSelectControl extends React.Component<
 
   handleFocus(e: any) {
     const {dispatchEvent, value} = this.props;
-    dispatchEvent('focus', resolveEventData(this.props, {value}, 'value'));
+    dispatchEvent('focus', resolveEventData(this.props, {value}));
   }
 
   handleBlur(e: any) {
     const {dispatchEvent, value, data} = this.props;
-    dispatchEvent('blur', resolveEventData(this.props, {value}, 'value'));
+    dispatchEvent('blur', resolveEventData(this.props, {value}));
   }
 
   handleKeyPress(e: React.KeyboardEvent) {
@@ -430,8 +430,7 @@ export default class TreeSelectControl extends React.Component<
           !find(combinedOptions, (item: Option) => item.value == option.value)
         ) {
           combinedOptions.push({
-            ...option,
-            visible: false
+            ...option
           });
         }
       });
@@ -486,7 +485,7 @@ export default class TreeSelectControl extends React.Component<
 
     const rendererEvent = await dispatchEvent(
       'change',
-      resolveEventData(this.props, {value}, 'value')
+      resolveEventData(this.props, {value})
     );
 
     if (rendererEvent?.prevented) {

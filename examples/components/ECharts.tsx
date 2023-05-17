@@ -49,11 +49,11 @@ const LazyComponent = lazyData(
                 },
                 {
                   title: 'X 轴',
-                  body: Axis('x')
+                  body: (Axis as any)('x')
                 },
                 {
                   title: 'Y 轴',
-                  body: Axis('y')
+                  body: (Axis as any)('y')
                 },
                 {
                   title: '极标',

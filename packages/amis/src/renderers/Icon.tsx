@@ -15,7 +15,7 @@ import {isObject} from 'lodash';
 
 /**
  * Icon 图表渲染器
- * 文档：https://baidu.gitee.io/amis/docs/components/icon
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/icon
  */
 export interface IconSchema extends BaseSchema {
   type: 'icon';
@@ -141,7 +141,8 @@ export class Icon extends React.Component<IconProps, object> {
       );
     }
 
-    const isURLIcon = icon?.indexOf('.') !== -1;
+    const isURLIcon =
+      icon?.indexOf('.') !== -1 || icon.startsWith('data:image/');
     let iconPrefix = '';
     if (vendor === 'iconfont') {
       iconPrefix = `iconfont icon-${icon}`;
@@ -154,7 +155,7 @@ export class Icon extends React.Component<IconProps, object> {
     }
     return isURLIcon ? (
       <img
-        className={cx('Icon')}
+        className={cx('Icon', className)}
         src={icon}
         style={style}
         onClick={this.handleClick}

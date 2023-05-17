@@ -21,7 +21,7 @@ import {supportStatic} from './StaticHoc';
 
 /**
  * TabsTransfer
- * 文档：https://baidu.gitee.io/amis/docs/components/form/tabs-transfer
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/tabs-transfer
  */
 export interface TabsTransferControlSchema
   extends Omit<TransferControlSchema, 'type'>,
@@ -218,15 +218,11 @@ export class BaseTabsTransferRenderer<
     // 触发渲染器事件
     const rendererEvent = await dispatchEvent(
       'change',
-      resolveEventData(
-        this.props,
-        {
-          value: newValue,
-          options,
-          items: options // 为了保持名字统一
-        },
-        'value'
-      )
+      resolveEventData(this.props, {
+        value: newValue,
+        options,
+        items: options // 为了保持名字统一
+      })
     );
     if (rendererEvent?.prevented) {
       return;
@@ -303,7 +299,8 @@ export class TabsTransferRenderer extends BaseTabsTransferRenderer<TabsTransferP
       itemHeight,
       virtualThreshold,
       onlyChildren,
-      loadingConfig
+      loadingConfig,
+      data
     } = this.props;
 
     return (
@@ -331,6 +328,7 @@ export class TabsTransferRenderer extends BaseTabsTransferRenderer<TabsTransferP
             toNumber(itemHeight) > 0 ? toNumber(itemHeight) : undefined
           }
           virtualThreshold={virtualThreshold}
+          ctx={data}
         />
 
         <Spinner

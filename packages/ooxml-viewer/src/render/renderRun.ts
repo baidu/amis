@@ -7,7 +7,7 @@ import {appendChild, createElement, applyStyle} from '../util/dom';
 import Word from '../Word';
 import {Run, Text} from '../openxml/word/Run';
 import {Break} from '../openxml/word/Break';
-import {Drawing} from '../openxml/word/drawing/Drawing';
+import {Drawing} from '../openxml/drawing/Drawing';
 import {renderDrawing} from './renderDrawing';
 import {setElementStyle} from './setElementStyle';
 import {Tab} from '../openxml/word/Tab';
@@ -76,7 +76,8 @@ export default function renderRun(
   word: Word,
   run: Run,
   paragraph?: Paragraph,
-  inFldChar?: boolean
+  inFldChar?: boolean,
+  inHeader?: boolean
 ) {
   const span = createElement('span');
 
@@ -102,10 +103,10 @@ export default function renderRun(
         renderText(newSpan, word, child.text, paragraph);
         appendChild(span, newSpan);
       } else if (child instanceof Break) {
-        const br = renderBr(child);
+        const br = renderBr(word, child);
         appendChild(span, br);
       } else if (child instanceof Drawing) {
-        appendChild(span, renderDrawing(word, child));
+        appendChild(span, renderDrawing(word, child, inHeader));
       } else if (child instanceof Tab) {
         appendChild(span, renderTab(word, child));
       } else if (child instanceof Pict) {

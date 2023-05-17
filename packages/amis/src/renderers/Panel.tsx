@@ -1,5 +1,9 @@
 import React from 'react';
-import {Renderer, RendererProps} from 'amis-core';
+import {
+  RENDERER_TRANSMISSION_OMIT_PROPS,
+  Renderer,
+  RendererProps
+} from 'amis-core';
 import {SchemaNode, ActionObject} from 'amis-core';
 import {getScrollParent, autobind} from 'amis-core';
 import {findDOMNode} from 'react-dom';
@@ -12,10 +16,11 @@ import {
 } from '../Schema';
 import {ActionSchema} from './Action';
 import {FormHorizontal} from 'amis-core';
+import omit from 'lodash/omit';
 
 /**
  * Panel渲染器。
- * 文档：https://baidu.gitee.io/amis/docs/components/panel
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/panel
  */
 export interface PanelSchema extends BaseSchema {
   /**
@@ -198,16 +203,12 @@ export default class Panel extends React.Component<PanelProps> {
       subFormMode,
       subFormHorizontal,
       id,
-      // 不应该将 label、renderLabel 传递下去，否则内部的表单项组件会受到影响
-      label,
-      renderLabel,
-      inputOnly,
       ...rest
     } = this.props;
 
     const subProps = {
       data,
-      ...rest,
+      ...omit(rest, RENDERER_TRANSMISSION_OMIT_PROPS),
       formMode: subFormMode || formMode,
       formHorizontal: subFormHorizontal || formHorizontal
     };

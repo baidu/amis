@@ -26,7 +26,7 @@ import {supportStatic} from './StaticHoc';
 
 /**
  * Select 下拉选择框。
- * 文档：https://baidu.gitee.io/amis/docs/components/form/select
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/select
  */
 export interface SelectControlSchema
   extends FormOptionsSchema,
@@ -274,18 +274,14 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     // 触发渲染器事件
     const rendererEvent = await dispatchEvent(
       eventName,
-      resolveEventData(
-        this.props,
-        {
-          options,
-          items: options, // 为了保持名字统一
-          value: ['onEdit', 'onDelete'].includes(event)
-            ? eventData
-            : eventData && eventData.value,
-          selectedItems: multiple ? selectedOptions : selectedOptions[0]
-        },
-        'value'
-      )
+      resolveEventData(this.props, {
+        options,
+        items: options, // 为了保持名字统一
+        value: ['onEdit', 'onDelete'].includes(event)
+          ? eventData
+          : eventData && eventData.value,
+        selectedItems: multiple ? selectedOptions : selectedOptions[0]
+      })
     );
     if (rendererEvent?.prevented) {
       return;
@@ -308,16 +304,12 @@ export default class SelectControl extends React.Component<SelectProps, any> {
 
     const rendererEvent = await dispatchEvent(
       'change',
-      resolveEventData(
-        this.props,
-        {
-          value: newValue,
-          options,
-          items: options, // 为了保持名字统一
-          selectedItems: value
-        },
-        'value'
-      )
+      resolveEventData(this.props, {
+        value: newValue,
+        options,
+        items: options, // 为了保持名字统一
+        selectedItems: value
+      })
     );
     if (rendererEvent?.prevented) {
       return;

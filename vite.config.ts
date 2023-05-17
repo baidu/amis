@@ -38,6 +38,7 @@ export default defineConfig({
   ],
   optimizeDeps: {
     include: ['amis-formula/lib/doc'],
+    exclude: ['amis-core', 'amis-formula', 'amis', 'amis-ui'],
     esbuildOptions: {
       target: 'esnext'
     }
@@ -47,6 +48,10 @@ export default defineConfig({
   },
   resolve: {
     alias: [
+      {
+        find: 'moment/locale',
+        replacement: 'moment/dist/locale'
+      },
       {
         find: 'amis-formula/lib',
         replacement: path.resolve(__dirname, './packages/amis-formula/src')

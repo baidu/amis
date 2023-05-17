@@ -98,7 +98,7 @@ export interface TabSchema extends Omit<BaseSchema, 'type'> {
 
 /**
  * 选项卡控件。
- * 文档：https://baidu.gitee.io/amis/docs/components/tabs
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/tabs
  */
 export interface TabsSchema extends BaseSchema {
   type: 'tabs';
@@ -640,13 +640,9 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
 
     const rendererEvent = await dispatchEvent(
       'change',
-      resolveEventData(
-        this.props,
-        {
-          value: tab?.hash ? tab?.hash : key + 1
-        },
-        'value'
-      )
+      resolveEventData(this.props, {
+        value: tab?.hash ? tab?.hash : key + 1
+      })
     );
     if (rendererEvent?.prevented) {
       return;

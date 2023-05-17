@@ -18,7 +18,6 @@ import Avatar from './Avatar';
 import Button from './Button';
 import Breadcrumb from './Breadcrumb';
 import Checkbox from './Checkbox';
-import Checkboxes from './Selection';
 import Collapse from './Collapse';
 import CollapseGroup from './CollapseGroup';
 import DatePicker from './DatePicker';
@@ -70,11 +69,13 @@ import SchemaVariableListPicker from './schema-editor/SchemaVariableListPicker';
 import SchemaVariableList from './schema-editor/SchemaVariableList';
 import VariableList from './formula/VariableList';
 import FormulaPicker from './formula/Picker';
+import {FormulaEditor} from './formula/Editor';
+import type {VariableItem} from './formula/Editor';
 import PickerContainer from './PickerContainer';
 import InputJSONSchema from './json-schema';
 import {Badge, withBadge} from './Badge';
 import type {BadgeObject} from './Badge';
-import {getIcon, Icon, registerIcon} from './icons';
+import {getIcon, getIconNames, Icon, registerIcon} from './icons';
 import {withRemoteConfig} from './WithRemoteConfig';
 import type {RemoteOptionsProps} from './WithRemoteConfig';
 import ConditionBuilder from './condition-builder';
@@ -122,6 +123,8 @@ import ConfirmBox from './ConfirmBox';
 import DndContainer from './DndContainer';
 import Menu from './menu';
 import InputBoxWithSuggestion from './InputBoxWithSuggestion';
+import {CodeMirrorEditor} from './CodeMirror';
+import type CodeMirror from 'codemirror';
 
 export {
   NotFound,
@@ -138,7 +141,7 @@ export {
   Button,
   Breadcrumb,
   Checkbox,
-  Checkboxes,
+  Selection as Checkboxes,
   Collapse,
   CollapseGroup,
   DatePicker,
@@ -193,6 +196,8 @@ export {
   PickerContainer,
   ConfirmBox,
   FormulaPicker,
+  VariableItem,
+  FormulaEditor,
   InputJSONSchema,
   withBadge,
   BadgeObject,
@@ -218,6 +223,7 @@ export {
   UserSelect,
   UserTabSelect,
   getIcon,
+  getIconNames,
   registerIcon,
   Badge,
   HeadCellDropDown,
@@ -248,5 +254,7 @@ export {
   InputTable,
   InputTableColumnProps,
   DndContainer,
-  Menu
+  Menu,
+  CodeMirror,
+  CodeMirrorEditor
 };

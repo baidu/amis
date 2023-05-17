@@ -88,6 +88,11 @@
     }
   }
 
+  .is-error > & {
+    border-color: var(--Form-input-onError-borderColor);
+    background: var(--Form-input-onError-bg);
+  }
+
   &.is-disabled {
     background: var(--inputDate-disabled-bg-color);
     border-width: var(--inputDate-disabled-top-border-width)
@@ -779,7 +784,9 @@ td.rdtQuarter {
 
 .#{$ns}DateCalendar {
   display: inline-block;
-  border: var(--DatePicker-borderWidth) solid var(--DatePicker-borderColor);
+  border-width: var(--DatePicker-borderWidth);
+  border-style: var(--DatePicker-borderStyle);
+  border-color: var(--DatePicker-borderColor);
   background: var(--DatePicker-bg);
   border-radius: var(--DatePicker-borderRadius);
 }

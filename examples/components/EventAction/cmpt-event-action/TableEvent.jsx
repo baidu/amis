@@ -256,7 +256,7 @@ export default {
                   actionType: 'toast',
                   args: {
                     msgType: 'info',
-                    msg: '行单击数据：${rowItem|json}'
+                    msg: '行单击数据：${item|json}；行索引：${index}'
                   }
                 }
               ]

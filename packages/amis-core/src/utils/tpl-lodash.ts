@@ -60,6 +60,7 @@ export function register(): Enginer & {name: string} {
   return {
     name: 'lodash',
     test: (str: string) => !!~str.indexOf('<%'),
-    compile: (str: string, data: object) => lodashCompile(str, data)
+    compile: (str: string, data: object) => lodashCompile(str, data),
+    asyncCompile: (str: string, data: object) => lodashCompile(str, data)
   };
 }

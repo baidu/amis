@@ -6,7 +6,12 @@
  * 获取 w:val 的值
  */
 export function getVal(element: Element) {
-  return element.getAttribute('w:val') || element.getAttribute('w14:val') || '';
+  return (
+    element.getAttribute('w:val') ||
+    element.getAttribute('w14:val') ||
+    element.getAttribute('val') ||
+    ''
+  );
 }
 
 /**
@@ -90,7 +95,7 @@ export function getAttrNumber(
  *
  * @returns 0-1 之间的小数
  */
-export function getAttrPercentage(element: Element, attr: string) {
+export function getAttrPercent(element: Element, attr: string) {
   const value = element.getAttribute(attr);
 
   if (value) {

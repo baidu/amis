@@ -1,7 +1,12 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 import isEqual from 'lodash/isEqual';
-import {ScopedContext, IScopedContext, SchemaExpression} from 'amis-core';
+import {
+  ScopedContext,
+  IScopedContext,
+  SchemaExpression,
+  extendObject
+} from 'amis-core';
 import {Renderer, RendererProps} from 'amis-core';
 import {SchemaNode, ActionObject, Schema} from 'amis-core';
 import forEach from 'lodash/forEach';
@@ -31,6 +36,7 @@ import {resizeSensor} from 'amis-core';
 import find from 'lodash/find';
 import {Icon} from 'amis-ui';
 import {TableCell} from './TableCell';
+import type {AutoGenerateFilterObject} from '../CRUD';
 import {HeadCellFilterDropDown} from './HeadCellFilterDropdown';
 import {HeadCellSearchDropDown} from './HeadCellSearchDropdown';
 import {TableContent} from './TableContent';
@@ -55,7 +61,7 @@ import ColumnToggler from './ColumnToggler';
 import {offset} from 'amis-core';
 import {getStyleNumber} from 'amis-core';
 import {exportExcel} from './exportExcel';
-import type {IColumn, IRow} from 'amis-core/lib/store/table';
+import type {IColumn, IRow} from 'amis-core';
 import intersection from 'lodash/intersection';
 
 /**
@@ -187,7 +193,7 @@ export type TableColumn = TableColumnWithType | TableColumnObject;
 type AutoFillHeightObject = Record<'height' | 'maxHeight', number>;
 /**
  * Table 表格渲染器。
- * 文档：https://baidu.gitee.io/amis/docs/components/table
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/table
  */
 export interface TableSchema extends BaseSchema {
   /**
@@ -307,7 +313,7 @@ export interface TableSchema extends BaseSchema {
   /**
    * 开启查询区域，会根据列元素的searchable属性值，自动生成查询条件表单
    */
-  autoGenerateFilter?: boolean;
+  autoGenerateFilter?: AutoGenerateFilterObject | boolean;
 
   /**
    * 表格是否可以获取父级数据域值，默认为false
@@ -400,6 +406,7 @@ export type ExportExcelToolbar = SchemaNode & {
   filename?: string;
 };
 
+// 如果这里的事件调整，对应CRUD里的事件配置也需要同步修改
 export type TableRendererEvent =
   | 'selectedChange'
   | 'columnSort'
@@ -407,7 +414,9 @@ export type TableRendererEvent =
   | 'columnSearch'
   | 'columnToggled'
   | 'orderChange'
-  | 'rowClick';
+  | 'rowClick'
+  | 'rowMouseEnter'
+  | 'rowMouseLeave';
 
 export type TableRendererAction =
   | 'selectAll'
@@ -543,6 +552,9 @@ export default class Table extends React.Component<TableProps, object> {
     this.handleMouseLeave = this.handleMouseLeave.bind(this);
     this.subFormRef = this.subFormRef.bind(this);
     this.handleColumnToggle = this.handleColumnToggle.bind(this);
+    this.handleRowClick = this.handleRowClick.bind(this);
+    this.handleRowMouseEnter = this.handleRowMouseEnter.bind(this);
+    this.handleRowMouseLeave = this.handleRowMouseLeave.bind(this);
 
     this.updateAutoFillHeight = this.updateAutoFillHeight.bind(this);
 
@@ -906,16 +918,51 @@ export default class Table extends React.Component<TableProps, object> {
     this.syncSelected();
   }
 
+  handleRowClick(item: IRow, index: number) {
+    const {dispatchEvent, store, data} = this.props;
+    return dispatchEvent(
+      'rowClick',
+      createObject(data, {
+        rowItem: item, // 保留rowItem 可能有用户已经在用 兼容之前的版本
+        item,
+        index
+      })
+    );
+  }
+
+  handleRowMouseEnter(item: IRow, index: number) {
+    const {dispatchEvent, store, data} = this.props;
+    return dispatchEvent(
+      'rowMouseEnter',
+      createObject(data, {
+        item,
+        index
+      })
+    );
+  }
+
+  handleRowMouseLeave(item: IRow, index: number) {
+    const {dispatchEvent, store, data} = this.props;
+    return dispatchEvent(
+      'rowMouseLeave',
+      createObject(data, {
+        item,
+        index
+      })
+    );
+  }
+
   async handleCheckAll() {
     const {store, data, dispatchEvent} = this.props;
-
-    const items = store.getSelectedRows().map(item => item.data);
+    const items = store.rows.map((row: any) => row.data);
+    const selectedItems = store.getSelectedRows().map(item => item.data);
 
     const rendererEvent = await dispatchEvent(
       'selectedChange',
       createObject(data, {
-        selectedItems: store.allChecked ? [] : items,
-        unSelectedItems: store.allChecked ? items : []
+        selectedItems: store.allChecked ? [] : selectedItems,
+        unSelectedItems: store.allChecked ? selectedItems : [],
+        items
       })
     );
 
@@ -1667,8 +1714,16 @@ export default class Table extends React.Component<TableProps, object> {
       onSearchableFromSubmit,
       onSearchableFromInit,
       classnames: cx,
+      autoGenerateFilter,
       translate: __
     } = this.props;
+    const {columnsNum, showBtnToolbar} =
+      typeof autoGenerateFilter === 'boolean'
+        ? {
+            columnsNum: 3,
+            showBtnToolbar: true
+          }
+        : autoGenerateFilter;
     const searchableColumns = store.searchableColumns;
     const activedSearchableColumns = store.activedSearchableColumns;
 
@@ -1678,7 +1733,7 @@ export default class Table extends React.Component<TableProps, object> {
 
     const body: Array<any> = [];
 
-    padArr(activedSearchableColumns, 3, true).forEach(group => {
+    padArr(activedSearchableColumns, columnsNum, true).forEach(group => {
       const children: Array<any> = [];
 
       group.forEach(column => {
@@ -1712,7 +1767,7 @@ export default class Table extends React.Component<TableProps, object> {
       });
     });
 
-    let showExpander = body.length > 1;
+    let showExpander = searchableColumns.length > columnsNum;
 
     // todo 以后做动画
     if (!store.searchFormExpanded) {
@@ -1737,6 +1792,7 @@ export default class Table extends React.Component<TableProps, object> {
             trigger: 'click',
             size: 'sm',
             align: 'right',
+            visible: showBtnToolbar,
             buttons: searchableColumns.map(column => {
               return {
                 type: 'checkbox',
@@ -1966,6 +2022,7 @@ export default class Table extends React.Component<TableProps, object> {
     if (column.searchable && column.name && !autoGenerateFilter) {
       affix.push(
         <HeadCellSearchDropDown
+          {...props}
           key="table-head-search"
           {...this.props}
           onQuery={onQuery}
@@ -1983,6 +2040,7 @@ export default class Table extends React.Component<TableProps, object> {
     if (column.sortable && column.name) {
       affix.push(
         <span
+          {...props}
           key="table-head-sort"
           className={cx('TableCell-sortBtn')}
           onClick={async () => {
@@ -2153,9 +2211,7 @@ export default class Table extends React.Component<TableProps, object> {
             type={multiple ? 'checkbox' : 'radio'}
             checked={item.checked}
             disabled={item.checkdisable || !item.checkable}
-            onChange={
-              checkOnItemClick ? noop : this.handleCheck.bind(this, item)
-            }
+            onChange={this.handleCheck.bind(this, item)}
           />
         </td>
       );
@@ -2415,6 +2471,9 @@ export default class Table extends React.Component<TableProps, object> {
             render={render}
             renderCell={this.renderCell}
             onCheck={this.handleCheck}
+            onRowClick={this.handleRowClick}
+            onRowMouseEnter={this.handleRowMouseEnter}
+            onRowMouseLeave={this.handleRowMouseLeave}
             onQuickChange={store.dragging ? undefined : this.handleQuickChange}
             footable={store.footable}
             ignoreFootableContent
@@ -2469,6 +2528,7 @@ export default class Table extends React.Component<TableProps, object> {
       store,
       classPrefix: ns,
       classnames: cx,
+      affixRow,
       ...rest
     } = this.props;
     const __ = rest.translate;
@@ -2478,6 +2538,10 @@ export default class Table extends React.Component<TableProps, object> {
     if (!store.columnsTogglable) {
       return null;
     }
+
+    // 不能取消到比总结行要少
+    // 否则总结行将显示不全
+    const min = Math.max(Array.isArray(affixRow) ? affixRow.length : 0, 1);
 
     return (
       <ColumnToggler
@@ -2524,7 +2588,7 @@ export default class Table extends React.Component<TableProps, object> {
                 return;
               }
 
-              store.toggleAllColumns();
+              store.toggleAllColumns(min);
             }}
           >
             <Checkbox
@@ -2570,7 +2634,7 @@ export default class Table extends React.Component<TableProps, object> {
                 return;
               }
 
-              column.toggleToggle();
+              column.toggleToggle(min);
             }}
           >
             <Checkbox size="sm" classPrefix={ns} checked={column.toggled}>
@@ -2622,7 +2686,6 @@ export default class Table extends React.Component<TableProps, object> {
       data,
       render
     } = this.props;
-
     let columns = store.filteredColumns || [];
 
     if (!columns) {
@@ -2634,12 +2697,21 @@ export default class Table extends React.Component<TableProps, object> {
       {
         label: __('CRUD.exportExcel'),
         ...(toolbar as any),
+
         type: 'button'
       },
       {
+        loading: store.exportExcelLoading,
         onAction: () => {
+          store.update({exportExcelLoading: true});
           import('exceljs').then(async (ExcelJS: any) => {
-            exportExcel(ExcelJS, this.props, toolbar);
+            try {
+              await exportExcel(ExcelJS, this.props, toolbar);
+            } catch (error) {
+              console.error(error);
+            } finally {
+              store.update({exportExcelLoading: false});
+            }
           });
         }
       }
@@ -2789,6 +2861,7 @@ export default class Table extends React.Component<TableProps, object> {
           {
             ...this.props,
             selectedItems: store.selectedRows.map(item => item.data),
+            unSelectedItems: store.unSelectedRows.map(item => item.data),
             items: store.rows.map(item => item.data)
           },
           this.renderToolbar
@@ -2888,6 +2961,9 @@ export default class Table extends React.Component<TableProps, object> {
           renderHeadCell={this.renderHeadCell}
           renderCell={this.renderCell}
           onCheck={this.handleCheck}
+          onRowClick={this.handleRowClick}
+          onRowMouseEnter={this.handleRowMouseEnter}
+          onRowMouseLeave={this.handleRowMouseLeave}
           onQuickChange={store.dragging ? undefined : this.handleQuickChange}
           footable={store.footable}
           footableColumns={store.footableColumns}
@@ -3062,6 +3138,19 @@ export class TableRenderer extends Table {
     if (subPath) {
       return scoped.reload(subPath, ctx);
     }
+  }
+
+  setData(values: any, replace?: boolean) {
+    const data = {
+      ...values,
+      rows: values.rows ?? values.items // 做个兼容
+    };
+    return this.props.store.updateData(data, undefined, replace);
+  }
+
+  getData() {
+    const {store, data} = this.props;
+    return store.getData(data);
   }
 }
 

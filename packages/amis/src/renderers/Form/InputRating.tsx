@@ -14,7 +14,7 @@ import {supportStatic} from './StaticHoc';
 
 /**
  * Rating
- * 文档：https://baidu.gitee.io/amis/docs/components/form/rating
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/rating
  */
 export interface RatingControlSchema extends FormBaseControlSchema {
   type: 'input-rating';
@@ -111,7 +111,7 @@ export default class RatingControl extends React.Component<RatingProps, any> {
 
     const rendererEvent = await dispatchEvent(
       'change',
-      resolveEventData(this.props, {value}, 'value')
+      resolveEventData(this.props, {value})
     );
 
     if (rendererEvent?.prevented) {

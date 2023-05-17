@@ -8,7 +8,7 @@ import {
 } from 'amis-editor-core';
 import {getEventControlConfig} from '../renderer/event-control/helper';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
-import type {SchemaObject} from 'amis/lib/Schema';
+import type {SchemaObject} from 'amis';
 import {tipedLabel} from 'amis-editor-core';
 import {jsonToJsonSchema, EditorNodeType} from 'amis-editor-core';
 
@@ -67,15 +67,23 @@ export class PagePlugin extends BasePlugin {
     },
     {
       eventName: 'inited',
-      eventLabel: '初始化数据接口请求成功',
-      description: '远程初始化数据接口请求成功时触发',
+      eventLabel: '初始化数据接口请求完成',
+      description: '远程初始化数据接口请求完成时触发',
       dataSchema: [
         {
           type: 'object',
           properties: {
-            'event.data': {
+            'event.data.responseData': {
               type: 'object',
-              title: '初始化数据接口请求成功返回的数据'
+              title: '响应数据'
+            },
+            'event.data.responseStatus': {
+              type: 'number',
+              title: '响应状态(0表示成功)'
+            },
+            'event.data.responseMsg': {
+              type: 'string',
+              title: '响应消息'
             }
           }
         }
@@ -362,7 +370,7 @@ export class PagePlugin extends BasePlugin {
       const scope = this.manager.dataSchema.getScope(`${node.id}-${node.type}`);
       const jsonschema: any = {
         $id: 'pageInitedData',
-        ...jsonToJsonSchema(data)
+        ...jsonToJsonSchema(data.responseData)
       };
 
       scope?.removeSchema(jsonschema.$id);

@@ -1,10 +1,27 @@
 import {AsyncEvaluator, parse} from 'amis-formula';
 
+let formulaEvalErrorHandler: (
+  path: string,
+  data?: object,
+  ...args: any[]
+) => any | undefined;
+
+/**
+ * 设置自定义函数，functions中找不到处理的函数时执行
+ * @param fn
+ */
+export function setFormulaEvalErrorHandler(
+  fn: (path: string, data?: object, ...args: any[]) => any
+): void {
+  formulaEvalErrorHandler = fn;
+}
+
 export const resolveVariableAndFilterForAsync = async (
   path?: string,
   data: object = {},
   defaultFilter: string = '| html',
-  fallbackValue = (value: any) => value
+  fallbackValue = (value: any) => value,
+  skipFormulaEvalErrorHandler: boolean = false
 ) => {
   if (!path || typeof path !== 'string') {
     return undefined;
@@ -25,6 +42,19 @@ export const resolveVariableAndFilterForAsync = async (
       : ret;
   } catch (e) {
     console.warn(e);
+    if (e.name === 'FormulaEvalError') {
+      if (!skipFormulaEvalErrorHandler) {
+        // 无法解析时，执行handler自定义解析逻辑
+        return formulaEvalErrorHandler?.(
+          path,
+          data,
+          defaultFilter,
+          fallbackValue
+        );
+      }
+      // 跳过自定义解析逻辑，则直接抛异常
+      throw e;
+    }
     return undefined;
   }
 };

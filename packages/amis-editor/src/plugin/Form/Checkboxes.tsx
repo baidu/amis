@@ -22,8 +22,6 @@ export class CheckboxesControlPlugin extends BasePlugin {
   rendererName = 'checkboxes';
   $schema = '/schemas/CheckboxesControlSchema.json';
 
-  order = -470;
-
   // 组件名称
   name = '复选框';
   isBaseComponent = true;

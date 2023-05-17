@@ -12,12 +12,12 @@ import {
   AfterBuildPanelBody,
   defaultValue,
   getSchemaTpl,
-  tipedLabel,
-  DSField
+  tipedLabel
 } from 'amis-editor-core';
+import type {DSField} from 'amis-editor-core';
 import {fromPairs} from 'lodash';
-import {TabsSchema} from 'amis/lib/renderers/Tabs';
-import {SchemaObject} from 'amis/lib/Schema';
+import type {TabsSchema} from 'amis';
+import type {SchemaObject} from 'amis';
 import {remarkTpl} from '../component/BaseControl';
 
 export class TableCell2Plugin extends BasePlugin {

@@ -3,6 +3,7 @@
  */
 import {FilterContext} from './types';
 import {createObject, Evaluator, stripNumber} from './evalutor';
+import {FormulaEvalError} from './error';
 
 export async function runSequence<T, U>(
   arr: Array<T>,
@@ -299,7 +300,7 @@ export class AsyncEvaluator extends (Evaluator as any) {
         this.filters[ast.identifier]);
 
     if (!fn) {
-      throw new Error(`${ast.identifier}函数没有定义`);
+      throw new FormulaEvalError(`${ast.identifier}函数没有定义`);
     }
 
     let args: Array<any> = ast.args;

@@ -30,8 +30,8 @@ export class GridPlugin extends BasePlugin {
   isBaseComponent = true;
   description = '分栏布局';
   docLink = '/amis/zh-CN/components/grid';
-  tags = ['布局'];
-  order = 505;
+  tags = ['布局容器'];
+  order = -2;
   icon = 'fa fa-th';
   pluginIcon = 'grid-plugin';
 
@@ -367,10 +367,12 @@ export class GridPlugin extends BasePlugin {
           : {
               title: '外观',
               body: [
-                getSchemaTpl('className'),
-                getSchemaTpl('subFormItemMode'),
-                getSchemaTpl('subFormHorizontalMode'),
-                getSchemaTpl('subFormHorizontal')
+                getSchemaTpl('collapseGroup', [
+                  getSchemaTpl('subFormItemMode'),
+                  getSchemaTpl('subFormHorizontalMode'),
+                  getSchemaTpl('subFormHorizontal'),
+                  ...getSchemaTpl('theme:common', ['layout'])
+                ])
               ]
             }
       ])
@@ -546,12 +548,9 @@ export class GridPlugin extends BasePlugin {
           {
             title: '外观',
             body: [
-              this.panelWithOutOthers
-                ? null
-                : getSchemaTpl('className', {
-                    label: '栏 CSS 类名',
-                    name: 'columnClassName'
-                  })
+              getSchemaTpl('collapseGroup', [
+                ...getSchemaTpl('theme:common', ['layout'])
+              ])
             ]
           }
         ])

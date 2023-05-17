@@ -22,7 +22,7 @@ export class ServicePlugin extends BasePlugin {
   description =
     '功能性容器，可以用来加载数据或者加载渲染器配置。加载到的数据在容器可以使用。';
   docLink = '/amis/zh-CN/components/service';
-  tags = ['功能'];
+  tags = ['数据容器'];
   icon = 'fa fa-server';
   pluginIcon = 'service-plugin';
   scaffold = {
@@ -68,13 +68,51 @@ export class ServicePlugin extends BasePlugin {
     },
     {
       eventName: 'fetchInited',
-      eventLabel: '初始化数据接口请求成功',
-      description: '远程初始化数据接口请求成功时触发'
+      eventLabel: '初始化数据接口请求完成',
+      description: '远程初始化数据接口请求完成时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            'event.data.responseData': {
+              type: 'object',
+              title: '响应数据'
+            },
+            'event.data.responseStatus': {
+              type: 'object',
+              title: '响应状态'
+            },
+            'event.data.responseMsg': {
+              type: 'object',
+              title: '响应消息'
+            }
+          }
+        }
+      ]
     },
     {
       eventName: 'fetchSchemaInited',
-      eventLabel: '初始化Schema接口请求成功',
-      description: '远程初始化Schema接口请求成功时触发'
+      eventLabel: '初始化Schema接口请求完成',
+      description: '远程初始化Schema接口请求完成时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            'event.data.responseData': {
+              type: 'object',
+              title: '响应数据'
+            },
+            'event.data.responseStatus': {
+              type: 'number',
+              title: '响应状态(0表示成功)'
+            },
+            'event.data.responseMsg': {
+              type: 'string',
+              title: '响应消息'
+            }
+          }
+        }
+      ]
     }
   ];
 
@@ -244,7 +282,7 @@ export class ServicePlugin extends BasePlugin {
       const scope = this.manager.dataSchema.getScope(`${node.id}-${node.type}`);
       const jsonschema: any = {
         $id: 'serviceFetchInitedData',
-        ...jsonToJsonSchema(data)
+        ...jsonToJsonSchema(data.responseData)
       };
 
       scope?.removeSchema(jsonschema.$id);

@@ -19,7 +19,7 @@ import {isEmpty} from 'lodash';
 
 /**
  * 链式下拉框
- * 文档：https://baidu.gitee.io/amis/docs/components/form/chained-select
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/chained-select
  */
 export interface ChainedSelectControlSchema extends FormOptionsSchema {
   type: 'chained-select';
@@ -190,7 +190,7 @@ export default class ChainedSelectControl extends React.Component<
 
               const rendererEvent = await dispatchEvent(
                 'change',
-                resolveEventData(this.props, {value: valueRes}, 'value')
+                resolveEventData(this.props, {value: valueRes})
               );
 
               if (rendererEvent?.prevented) {
@@ -244,7 +244,7 @@ export default class ChainedSelectControl extends React.Component<
 
     const rendererEvent = await dispatchEvent(
       'change',
-      resolveEventData(this.props, {value: valueRes}, 'value')
+      resolveEventData(this.props, {value: valueRes})
     );
 
     if (rendererEvent?.prevented) {

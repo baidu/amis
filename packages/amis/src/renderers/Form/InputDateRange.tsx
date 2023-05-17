@@ -7,7 +7,6 @@ import {
 } from 'amis-core';
 import cx from 'classnames';
 import {filterDate, parseDuration} from 'amis-core';
-import 'moment/locale/zh-cn';
 import {DateRangePicker} from 'amis-ui';
 import {isMobile, createObject, autobind} from 'amis-core';
 import {ActionObject} from 'amis-core';
@@ -17,7 +16,7 @@ import {supportStatic} from './StaticHoc';
 
 /**
  * DateRange 日期范围控件
- * 文档：https://baidu.gitee.io/amis/docs/components/form/date-range
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/date-range
  */
 export interface DateRangeControlSchema extends FormBaseControlSchema {
   /**
@@ -202,7 +201,7 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
   dispatchEvent(eventName: string) {
     const {dispatchEvent, data, value} = this.props;
 
-    dispatchEvent(eventName, resolveEventData(this.props, {value}, 'value'));
+    dispatchEvent(eventName, resolveEventData(this.props, {value}));
   }
 
   // 动作
@@ -225,7 +224,7 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
     const {dispatchEvent, data} = this.props;
     const dispatcher = dispatchEvent(
       'change',
-      resolveEventData(this.props, {value: nextValue}, 'value')
+      resolveEventData(this.props, {value: nextValue})
     );
     if (dispatcher?.prevented) {
       return;

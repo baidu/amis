@@ -5,7 +5,8 @@ import {
   ActionObject,
   Renderer,
   RendererProps,
-  loadScript
+  loadScript,
+  buildStyle
 } from 'amis-core';
 import {ServiceStore, IServiceStore} from 'amis-core';
 
@@ -33,7 +34,7 @@ import {ActionSchema} from './Action';
 import {isAlive} from 'mobx-state-tree';
 import debounce from 'lodash/debounce';
 import pick from 'lodash/pick';
-import {ApiObject} from 'packages/amis-core/lib';
+import {ApiObject} from 'amis-core';
 
 const DEFAULT_EVENT_PARAMS = [
   'componentType',
@@ -50,7 +51,7 @@ const DEFAULT_EVENT_PARAMS = [
 
 /**
  * Chart 图表渲染器。
- * 文档：https://baidu.gitee.io/amis/docs/components/carousel
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/carousel
  */
 export interface ChartSchema extends BaseSchema {
   /**
@@ -223,6 +224,7 @@ export class Chart extends React.Component<ChartProps> {
   timer: ReturnType<typeof setTimeout>;
   mounted: boolean;
   reloadCancel?: Function;
+  onChartMount?: ((chart: any, echarts: any) => void) | undefined;
 
   constructor(props: ChartProps) {
     super(props);
@@ -333,7 +335,7 @@ export class Chart extends React.Component<ChartProps> {
     } = this.props;
     let {mapURL, mapName} = this.props;
 
-    let onChartMount = this.props.onChartMount;
+    let onChartMount = this.props.onChartMount || this.onChartMount;
 
     if (ref) {
       Promise.all([
@@ -588,15 +590,17 @@ export class Chart extends React.Component<ChartProps> {
       width,
       height,
       classPrefix: ns,
-      unMountOnHidden
+      unMountOnHidden,
+      data
     } = this.props;
     let style = this.props.style || {};
 
     width && (style.width = width);
     height && (style.height = height);
+    const styleVar = buildStyle(style, data);
 
     return (
-      <div className={cx(`${ns}Chart`, className)} style={style}>
+      <div className={cx(`${ns}Chart`, className)} style={styleVar}>
         <LazyComponent
           unMountOnHidden={unMountOnHidden}
           placeholder="..." // 之前那个 spinner 会导致 sensor 失效

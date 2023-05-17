@@ -23,7 +23,7 @@ export type DropdownButton =
 
 /**
  * 下拉按钮渲染器。
- * 文档：https://baidu.gitee.io/amis/docs/components/dropdown-button
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/dropdown-button
  */
 export interface DropdownButtonSchema extends BaseSchema {
   /**
@@ -271,7 +271,8 @@ export default class DropDownButton extends React.Component<
       closeOnClick,
       closeOnOutside,
       menuClassName,
-      overlayPlacement
+      overlayPlacement,
+      trigger
     } = this.props;
     let body = (
       <RootClose
@@ -311,7 +312,7 @@ export default class DropDownButton extends React.Component<
           show
         >
           <PopOver
-            overlay
+            overlay={trigger !== 'hover'}
             onHide={this.close}
             classPrefix={ns}
             className={cx('DropDown-popover', menuClassName)}
@@ -375,7 +376,7 @@ export default class DropDownButton extends React.Component<
       >
         <TooltipWrapper
           placement={placement}
-          tooltip={disabled ? disabledTip : tooltip}
+          tooltip={disabled ? disabledTip : (tooltip as any)}
           container={tooltipContainer || env?.getModalContainer}
           trigger={tooltipTrigger}
           rootClose={tooltipRootClose}

@@ -6,13 +6,12 @@ import {findDOMNode} from 'react-dom';
 import cx from 'classnames';
 import uniqBy from 'lodash/uniqBy';
 import Sortable from 'sortablejs';
-import {render as amisRender, FormItem, Icon, InputBox} from 'amis';
-import {getI18nEnabled, tipedLabel} from 'amis-editor-core';
+import {render as amisRender, FormItem, Icon} from 'amis';
+import {getI18nEnabled} from 'amis-editor-core';
 import {autobind} from 'amis-editor-core';
 import {getSchemaTpl} from 'amis-editor-core';
 import type {FormControlProps} from 'amis-core';
-import {SchemaApi} from 'amis/lib/Schema';
-import {isObject} from 'lodash';
+import type {SchemaApi} from 'amis';
 
 type TimelineItem = {
   title: string;

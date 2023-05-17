@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Renderer, RendererProps} from 'amis-core';
+import {Renderer, RendererProps, filterTarget} from 'amis-core';
 import {observer} from 'mobx-react';
 import {ServiceStore, IServiceStore} from 'amis-core';
 import {
@@ -51,7 +51,7 @@ interface CSSRule {
 }
 
 /**
- * amis Page 渲染器。详情请见：https://baidu.gitee.io/amis/docs/components/page
+ * amis Page 渲染器。详情请见：https://aisuda.bce.baidu.com/amis/zh-CN/components/page
  */
 export interface PageSchema extends BaseSchema, SpinnerExtraProps {
   /**
@@ -513,7 +513,10 @@ export default class Page extends React.Component<PageProps> {
             action.redirect && filter(action.redirect, store.data);
           redirect && env.jumpTo(redirect, action);
           action.reload &&
-            this.reloadTarget(filter(action.reload, store.data), store.data);
+            this.reloadTarget(
+              filterTarget(action.reload, store.data),
+              store.data
+            );
         })
         .catch(e => {
           if (throwErrors || action.countDown) {
@@ -678,12 +681,25 @@ export default class Page extends React.Component<PageProps> {
   }
 
   initInterval(value: any) {
-    const {interval, silentPolling, stopAutoRefreshWhen, data, dispatchEvent} =
-      this.props;
+    const {
+      interval,
+      silentPolling,
+      stopAutoRefreshWhen,
+      data,
+      dispatchEvent,
+      store
+    } = this.props;
 
-    if (value?.data) {
-      dispatchEvent('inited', createObject(data, value.data));
-    }
+    dispatchEvent(
+      'inited',
+      createObject(data, {
+        ...value?.data,
+        responseData: value?.ok ? value?.data ?? {} : value,
+        responseStatus:
+          value?.status === undefined ? (store?.error ? 1 : 0) : value?.status,
+        responseMsg: value?.msg || store?.msg
+      })
+    );
 
     interval &&
       this.mounted &&

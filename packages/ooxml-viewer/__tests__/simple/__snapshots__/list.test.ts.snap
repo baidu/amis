@@ -1,325 +1,100 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`list 1`] = `
-<div
-  class="docx-viewer-0 docx-viewer-wrapper"
-  id="root"
->
-  <style>
-    
-  
-  .docx-viewer-wrapper {
-
-  }
-
-  .docx-viewer-wrapper &gt; article &gt; section {
-    background: white;
-  }
-
-  /** docDefaults **/
-
-  .docx-viewer-0 p {
-    margin: 0;
-    padding: 0;
-    line-height: 1.5;
-  }
-
-  .docx-viewer-0 table {
-    border-spacing: 0;
-  }
-
-  .docx-viewer-0 .docx-viewer-0-p {
-    
-  }
-
-  .docx-viewer-0 .docx-viewer-0-r {
-    white-space: pre-wrap;
-    overflow-wrap: break-word;
-    font-family: var(--docx-theme-font-minorHAnsi), var(--docx-theme-font-minorEastAsia);
-font-size: 16.00px;
-
-  }
-  
-
-  
-    
-      .docx-viewer-0 .docx-viewer-0-Normal {
-        text-align: justify;
-
-      }
-      
-    
-      .docx-viewer-0 .docx-viewer-0-Normal &gt; .docx-viewer-0-r {
-        
-      }
-      
-    
-    
-    
-    
-      .docx-viewer-0 .docx-viewer-0-Heading1 {
-        margin-top: 22.67px;
-margin-bottom: 22.00px;
-line-height: 2.41;
-
-      }
-      
-    
-      .docx-viewer-0 .docx-viewer-0-Heading1 &gt; .docx-viewer-0-r {
-        font-weight: bold;
-font-size: 29.33px;
-
-      }
-      
-    
-    
-    
-    
-      .docx-viewer-0 .docx-viewer-0-Heading2 {
-        margin-top: 17.33px;
-margin-bottom: 17.33px;
-line-height: 1.73;
-
-      }
-      
-    
-      .docx-viewer-0 .docx-viewer-0-Heading2 &gt; .docx-viewer-0-r {
-        font-family: var(--docx-theme-font-majorHAnsi), var(--docx-theme-font-majorEastAsia);
-font-weight: bold;
-font-size: 21.33px;
-
-      }
-      
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
- .docx-viewer-0 .docx-viewer-0-TableNormal {
-  border-collapse: collapse;
-  margin-left: 0.00px;
-
- }
-
- .docx-viewer-0 .docx-viewer-0-TableNormal &gt; tbody &gt; tr &gt; td {
-  padding-top: 0.00px;
-padding-left: 7.20px;
-padding-bottom: 0.00px;
-padding-right: 7.20px;
-
- }
- 
-    
-    
-    
-    
-    
-    
-    
-    
-      .docx-viewer-0 .docx-viewer-0-ListParagraph {
-        text-indent: 28.00px;
-
-      }
-      
-    
-    
-    
-    
-    
-    
-      .docx-viewer-0 .docx-viewer-0-Heading1Char &gt; .docx-viewer-0-r {
-        font-weight: bold;
-font-size: 29.33px;
-
-      }
-      
-    
-    
-    
-    
-    
-      .docx-viewer-0 .docx-viewer-0-Heading2Char &gt; .docx-viewer-0-r {
-        font-family: var(--docx-theme-font-majorHAnsi), var(--docx-theme-font-majorEastAsia);
-font-weight: bold;
-font-size: 21.33px;
-
-      }
-      
-    
-    
-    
-    
-    
-      .docx-viewer-0 .docx-viewer-0-PlainTable1 &gt; .docx-viewer-0-r {
-        
-      }
-      
-    
- .docx-viewer-0 .docx-viewer-0-PlainTable1 {
-  border-collapse: collapse;
-  border-top: 0.67px solid #BFBFBF;
-border-left: 0.67px solid #BFBFBF;
-border-bottom: 0.67px solid #BFBFBF;
-border-right: 0.67px solid #BFBFBF;
-
- }
-
- .docx-viewer-0 .docx-viewer-0-PlainTable1 &gt; tbody &gt; tr &gt; td {
-  
- }
- 
-      .docx-viewer-0 .docx-viewer-0-PlainTable1 &gt; tbody &gt; tr &gt; td {
-        border-top: 0.67px solid #BFBFBF;
-      }
-      .docx-viewer-0 .docx-viewer-0-PlainTable1 &gt; tbody &gt; tr &gt; td {
-        border-left: 0.67px solid #BFBFBF;
-      }
-    
-    .docx-viewer-0 .docx-viewer-0-PlainTable1.enable-hBand &gt; tbody &gt; tr &gt; td.band1Horz {
-       background-color: #F2F2F2;
-
-    }
-    
-    .docx-viewer-0 .docx-viewer-0-PlainTable1.enable-vBand &gt; tbody &gt; tr &gt; td.band1Vert {
-       background-color: #F2F2F2;
-
-    }
-    
-    .docx-viewer-0 .docx-viewer-0-PlainTable1.enable-firstColumn &gt; tbody &gt; tr &gt; td.firstCol &gt; .docx-viewer-0-p &gt; .docx-viewer-0-r {
-       font-weight: bold;
-
-    }
-    
-    .docx-viewer-0 .docx-viewer-0-PlainTable1.enable-firstRow &gt; tbody &gt; tr &gt; td.firstRow &gt; .docx-viewer-0-p &gt; .docx-viewer-0-r {
-       font-weight: bold;
-
-    }
-    
-    .docx-viewer-0 .docx-viewer-0-PlainTable1.enable-lastColumn &gt; tbody &gt; tr &gt; td.lastCol &gt; .docx-viewer-0-p &gt; .docx-viewer-0-r {
-       font-weight: bold;
-
-    }
-    
-    .docx-viewer-0 .docx-viewer-0-PlainTable1.enable-lastRow &gt; tbody &gt; tr &gt; td.lastRow {
-       border-top: 0.67px solid #BFBFBF;
-
-    }
-    
-    .docx-viewer-0 .docx-viewer-0-PlainTable1.enable-lastRow &gt; tbody &gt; tr &gt; td.lastRow &gt; .docx-viewer-0-p &gt; .docx-viewer-0-r {
-       font-weight: bold;
-
-    }
-    
-    
-  
-  </style>
-  <style>
-    /** embedded fonts **/
-  </style>
-  <article>
-    <section
-      style="position: relative; width: 815.98px; padding: 96.00px 96.00px 96.00px 96.00px;"
+<article>
+  <section
+    style="position: relative; width: 815.98px; padding: 96.00px 96.00px 96.00px 96.00px;"
+  >
+    <p
+      class="docx-viewer-0-p docx-viewer-0-Normal docx-viewer-0-Heading1"
+      style="position: relative; text-indent: -28.33px; margin-left: 28.33px;"
     >
-      <p
-        class="docx-viewer-0-p docx-viewer-0-Normal docx-viewer-0-Heading1"
-        style="text-indent: -28.33px; margin-left: 28.33px;"
+      <span>
+         
+      </span>
+      <span
+        class="docx-viewer-0-r"
+        style="font-family: "Microsoft YaHei";"
       >
-        <span>
-           
-        </span>
-        <span
-          class="docx-viewer-0-r"
-          style="font-family: "Microsoft YaHei";"
-        >
-          总体结论
-        </span>
-      </p>
-      <p
-        class="docx-viewer-0-p docx-viewer-0-Normal docx-viewer-0-Heading2"
-        style="text-indent: -37.80px; margin-left: 66.13px;"
+        总体结论
+      </span>
+    </p>
+    <p
+      class="docx-viewer-0-p docx-viewer-0-Normal docx-viewer-0-Heading2"
+      style="position: relative; text-indent: -37.80px; margin-left: 66.13px;"
+    >
+      <span>
+         
+      </span>
+      <span
+        class="docx-viewer-0-r"
+        style="font-family: "Microsoft YaHei";"
       >
-        <span>
-           
-        </span>
-        <span
-          class="docx-viewer-0-r"
-          style="font-family: "Microsoft YaHei";"
-        >
-          整体情况
-        </span>
-      </p>
-      <p
-        class="docx-viewer-0-p docx-viewer-0-Normal docx-viewer-0-Heading2"
-        style="text-indent: -37.80px; margin-left: 66.13px;"
+        整体情况
+      </span>
+    </p>
+    <p
+      class="docx-viewer-0-p docx-viewer-0-Normal docx-viewer-0-Heading2"
+      style="position: relative; text-indent: -37.80px; margin-left: 66.13px;"
+    >
+      <span>
+         
+      </span>
+      <span
+        class="docx-viewer-0-r"
+        style="font-family: "Microsoft YaHei";"
       >
-        <span>
-           
-        </span>
-        <span
-          class="docx-viewer-0-r"
-          style="font-family: "Microsoft YaHei";"
-        >
-          差异对比
-        </span>
-      </p>
-      <p
-        class="docx-viewer-0-p docx-viewer-0-Normal docx-viewer-0-Heading1"
-        style="text-indent: -28.33px; margin-left: 28.33px;"
+        差异对比
+      </span>
+    </p>
+    <p
+      class="docx-viewer-0-p docx-viewer-0-Normal docx-viewer-0-Heading1"
+      style="position: relative; text-indent: -28.33px; margin-left: 28.33px;"
+    >
+      <span>
+         
+      </span>
+      <span
+        class="docx-viewer-0-r"
+        style="font-family: "Microsoft YaHei";"
       >
-        <span>
-           
-        </span>
-        <span
-          class="docx-viewer-0-r"
-          style="font-family: "Microsoft YaHei";"
-        >
-          Doc
-        </span>
-      </p>
-      <p
-        class="docx-viewer-0-p docx-viewer-0-Normal docx-viewer-0-Heading2"
-        style="text-indent: -37.80px; margin-left: 66.13px;"
+        Doc
+      </span>
+    </p>
+    <p
+      class="docx-viewer-0-p docx-viewer-0-Normal docx-viewer-0-Heading2"
+      style="position: relative; text-indent: -37.80px; margin-left: 66.13px;"
+    >
+      <span>
+         
+      </span>
+      <span
+        class="docx-viewer-0-r"
+        style="font-family: "Microsoft YaHei";"
       >
-        <span>
-           
-        </span>
-        <span
-          class="docx-viewer-0-r"
-          style="font-family: "Microsoft YaHei";"
-        >
-          总体结论
-        </span>
-      </p>
-      <p
-        class="docx-viewer-0-p docx-viewer-0-Normal docx-viewer-0-Heading2"
-        style="text-indent: -37.80px; margin-left: 66.13px;"
+        总体结论
+      </span>
+    </p>
+    <p
+      class="docx-viewer-0-p docx-viewer-0-Normal docx-viewer-0-Heading2"
+      style="position: relative; text-indent: -37.80px; margin-left: 66.13px;"
+    >
+      <span>
+         
+      </span>
+      <span
+        class="docx-viewer-0-r"
+        style="font-family: "Microsoft YaHei";"
       >
-        <span>
-           
-        </span>
-        <span
-          class="docx-viewer-0-r"
-          style="font-family: "Microsoft YaHei";"
-        >
-          Doc文档
-        </span>
-      </p>
-      <p
-        class="docx-viewer-0-p"
-      >
-         
-      </p>
-    </section>
-    <section
+        Doc文档
+      </span>
+    </p>
+    <p
+      class="docx-viewer-0-p"
       style="position: relative;"
-    />
-  </article>
-</div>
+    >
+       
+    </p>
+  </section>
+</article>
 `;

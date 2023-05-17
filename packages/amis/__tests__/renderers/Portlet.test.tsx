@@ -14,7 +14,7 @@ test('Renderer:portlet', () => {
             label: '固定操作',
             type: 'button',
             actionType: 'ajax',
-            api: 'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm'
+            api: 'https://aisuda.bce.baidu.com/amis/api/mock2/form/saveForm'
           }
         ],
         tabs: [
@@ -26,7 +26,7 @@ test('Renderer:portlet', () => {
                 label: 'ajax请求',
                 type: 'button',
                 actionType: 'ajax',
-                api: 'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm'
+                api: 'https://aisuda.bce.baidu.com/amis/api/mock2/form/saveForm'
               },
               {
                 type: 'dropdown-button',

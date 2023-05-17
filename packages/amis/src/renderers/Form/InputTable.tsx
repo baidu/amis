@@ -230,7 +230,7 @@ export interface TableState {
 }
 
 export type FormTableRendererEvent =
-  'add'
+  | 'add'
   | 'addConfirm'
   | 'addSuccess'
   | 'addFail'
@@ -315,8 +315,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     // 如果static为true 或 disabled为true，
     // 则删掉正在新增 或 编辑的那一行
     if (
-      props.$schema.disabled !== nextProps.$schema.disabled
-      || props.$schema.static !== nextProps.$schema.static
+      props.$schema.disabled !== nextProps.$schema.disabled ||
+      props.$schema.static !== nextProps.$schema.static
     ) {
       const items = this.state.items.filter(item => !item.__isPlaceholder);
       toUpdate = {
@@ -532,10 +532,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       } else {
         return this.addItem(items.length - 1, false);
       }
-    } else if (
-      actionType === 'remove' ||
-      actionType === 'delete'
-    ) {
+    } else if (actionType === 'remove' || actionType === 'delete') {
       if (!valueField) {
         return env.alert(__('Table.valueField'));
       } else if (!action.payload) {
@@ -556,11 +553,14 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         }
       });
 
-      this.setState({
+      this.setState(
+        {
           items
-      }, () => {
-        onChange?.(items);
-      });
+        },
+        () => {
+          onChange?.(items);
+        }
+      );
 
       return;
     }
@@ -692,14 +692,10 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     const {items} = this.state;
     const rendererEvent = await dispatchEvent(
       eventName,
-      resolveEventData(
-        this.props,
-        {
-          value: [...items],
-          ...eventData
-        },
-        'value'
-      )
+      resolveEventData(this.props, {
+        value: [...items],
+        ...eventData
+      })
     );
 
     return !!rendererEvent?.prevented;
@@ -747,7 +743,10 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     };
     const isNew = !!item.__isPlaceholder;
     const confirmEventName = isNew ? 'addConfirm' : 'editConfirm';
-    let isPrevented = await this.dispatchEvent(confirmEventName, {index: this.state.editIndex, item});
+    let isPrevented = await this.dispatchEvent(confirmEventName, {
+      index: this.state.editIndex,
+      item
+    });
     if (isPrevented) {
       return;
     }
@@ -765,7 +764,11 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     if (remote && !remote.ok) {
       env.notify('error', apiMsg ?? (remote.msg || __('saveFailed')));
       const failEventName = isNew ? 'addFail' : 'editFail';
-      this.dispatchEvent(failEventName, {index: this.state.editIndex, item, error: remote});
+      this.dispatchEvent(failEventName, {
+        index: this.state.editIndex,
+        item,
+        error: remote
+      });
       return;
     } else if (remote && remote.ok) {
       item = merge(
@@ -790,7 +793,10 @@ export default class FormTable extends React.Component<TableProps, TableState> {
           return;
         }
         const successEventName = isNew ? 'addSuccess' : 'editSuccess';
-        this.dispatchEvent(successEventName, {index: this.state.editIndex, item});
+        this.dispatchEvent(successEventName, {
+          index: this.state.editIndex,
+          item
+        });
       }
     );
   }
@@ -983,17 +989,24 @@ export default class FormTable extends React.Component<TableProps, TableState> {
           ? omit(column, ['quickEdit'])
           : {
               ...column,
-              quickEdit: {
-                ...this.columnToQuickEdit(column),
-                ...quickEdit,
-                saveImmediately: true,
-                mode: 'inline',
-                disabled,
-                static: isStatic
-              }
+              ...(column.type === 'operation'
+                ? {}
+                : {
+                    quickEdit: {
+                      ...this.columnToQuickEdit(column),
+                      ...quickEdit,
+                      saveImmediately: true,
+                      mode: 'inline',
+                      disabled,
+                      static: isStatic
+                    }
+                  })
             };
       });
-    } else if (isStatic !== true && (props.addable || props.editable || isCreateMode)) {
+    } else if (
+      isStatic !== true &&
+      (props.addable || props.editable || isCreateMode)
+    ) {
       columns = columns.map(column => {
         const quickEdit =
           !isCreateMode && column.hasOwnProperty('quickEditOnUpdate')
@@ -1017,7 +1030,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             };
       });
 
-      !isStatic && props.editable &&
+      !isStatic &&
+        props.editable &&
         btns.push({
           children: ({
             key,
@@ -1068,79 +1082,84 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             )
         });
 
-      !isStatic && btns.push({
-        children: ({
-          key,
-          rowIndex,
-          offset
-        }: {
-          key: any;
-          rowIndex: number;
-          offset: number;
-        }) =>
-          this.state.editIndex === rowIndex + offset ? (
-            <Button
-              classPrefix={ns}
-              size="sm"
-              key={key}
-              level="link"
-              tooltip={__('save')}
-              tooltipContainer={
-                env && env.getModalContainer ? env.getModalContainer : undefined
-              }
-              onClick={this.confirmEdit}
-            >
-              {props.confirmBtnIcon ? (
-                typeof props.confirmBtnIcon === 'string' ? (
-                  <Icon icon={props.confirmBtnIcon} className="icon" />
-                ) : (
-                  generateIcon(props.classnames, props.confirmBtnIcon)
-                )
-              ) : null}
-              {props.confirmBtnLabel ? (
-                <span>{props.confirmBtnLabel}</span>
-              ) : null}
-            </Button>
-          ) : null
-      });
+      !isStatic &&
+        btns.push({
+          children: ({
+            key,
+            rowIndex,
+            offset
+          }: {
+            key: any;
+            rowIndex: number;
+            offset: number;
+          }) =>
+            this.state.editIndex === rowIndex + offset ? (
+              <Button
+                classPrefix={ns}
+                size="sm"
+                key={key}
+                level="link"
+                tooltip={__('save')}
+                tooltipContainer={
+                  env && env.getModalContainer
+                    ? env.getModalContainer
+                    : undefined
+                }
+                onClick={this.confirmEdit}
+              >
+                {props.confirmBtnIcon ? (
+                  typeof props.confirmBtnIcon === 'string' ? (
+                    <Icon icon={props.confirmBtnIcon} className="icon" />
+                  ) : (
+                    generateIcon(props.classnames, props.confirmBtnIcon)
+                  )
+                ) : null}
+                {props.confirmBtnLabel ? (
+                  <span>{props.confirmBtnLabel}</span>
+                ) : null}
+              </Button>
+            ) : null
+        });
 
-      !isStatic && btns.push({
-        children: ({
-          key,
-          rowIndex,
-          offset
-        }: {
-          key: any;
-          rowIndex: number;
-          offset: number;
-        }) =>
-          this.state.editIndex === rowIndex + offset ? (
-            <Button
-              classPrefix={ns}
-              size="sm"
-              key={key}
-              level="link"
-              tooltip={__('cancel')}
-              tooltipContainer={
-                env && env.getModalContainer ? env.getModalContainer : undefined
-              }
-              onClick={this.cancelEdit}
-            >
-              {props.cancelBtnIcon ? (
-                typeof props.cancelBtnIcon === 'string' ? (
-                  <Icon icon={props.cancelBtnIcon} className="icon" />
-                ) : (
-                  generateIcon(props.classnames, props.cancelBtnIcon)
-                )
-              ) : null}
-              {props.cancelBtnLabel ? (
-                <span>{props.cancelBtnLabel}</span>
-              ) : null}
-            </Button>
-          ) : null
-      });
-    }
-    else {
+      !isStatic &&
+        btns.push({
+          children: ({
+            key,
+            rowIndex,
+            offset
+          }: {
+            key: any;
+            rowIndex: number;
+            offset: number;
+          }) =>
+            this.state.editIndex === rowIndex + offset ? (
+              <Button
+                classPrefix={ns}
+                size="sm"
+                key={key}
+                level="link"
+                tooltip={__('cancel')}
+                tooltipContainer={
+                  env && env.getModalContainer
+                    ? env.getModalContainer
+                    : undefined
+                }
+                onClick={this.cancelEdit}
+              >
+                {props.cancelBtnIcon ? (
+                  typeof props.cancelBtnIcon === 'string' ? (
+                    <Icon icon={props.cancelBtnIcon} className="icon" />
+                  ) : (
+                    generateIcon(props.classnames, props.cancelBtnIcon)
+                  )
+                ) : null}
+                {props.cancelBtnLabel ? (
+                  <span>{props.cancelBtnLabel}</span>
+                ) : null}
+              </Button>
+            ) : null
+        });
+    } else {
       columns = columns.map(column => {
         const render = getRendererByName(column?.type);
         if (!!render?.isFormItem) {
@@ -1150,7 +1169,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               ...column,
               isFormMode: true
             }
-          }
+          };
         }
         return column;
       });
@@ -1219,6 +1238,10 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         ? operation.buttons.concat()
         : [];
       operation.buttons.unshift.apply(operation.buttons, btns);
+
+      if (operation.hasOwnProperty('quickEdit')) {
+        delete operation.quickEdit;
+      }
     }
 
     if (showIndex) {
@@ -1316,25 +1339,31 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         }
       });
 
-      const data = mergeWith({}, origin, diff, (
-        objValue: any,
-        srcValue: any,
-        key: string,
-        object: any,
-        source: any,
-        stack: any
-      ) => {
-        // 只对第一层做处理，如果不是combo，并且是数组，直接采用diff的值
-        if (
-          stack.size === 0
-          && comboNames.indexOf(key) === -1
-          && Array.isArray(objValue)
-          && Array.isArray(srcValue)) {
-          return srcValue;
+      const data = mergeWith(
+        {},
+        origin,
+        diff,
+        (
+          objValue: any,
+          srcValue: any,
+          key: string,
+          object: any,
+          source: any,
+          stack: any
+        ) => {
+          // 只对第一层做处理，如果不是combo，并且是数组，直接采用diff的值
+          if (
+            stack.size === 0 &&
+            comboNames.indexOf(key) === -1 &&
+            Array.isArray(objValue) &&
+            Array.isArray(srcValue)
+          ) {
+            return srcValue;
+          }
+          // 直接return，默认走的mergeWith自身的merge
+          return;
         }
-        // 直接return，默认走的mergeWith自身的merge
-        return;
-      });
+      );
 
       items = spliceTree(items, indexes, 1, data);
       this.entries.set(data, this.entries.get(origin) || this.entityId++);
@@ -1482,7 +1511,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       label: __('Table.add'),
       icon: 'fa fa-plus',
       disabled: footerAddBtnDisabled,
-      ...(footerAddBtnDisabled ? {disabledTip: __('Table.addButtonDisabledTip')} : {})
+      ...(footerAddBtnDisabled
+        ? {disabledTip: __('Table.addButtonDisabledTip')}
+        : {})
     };
 
     if (footerAddBtn !== undefined) {
@@ -1530,16 +1561,17 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             // onPristineChange: this.handlePristineChange
           }
         )}
-        {(!isStatic && addable &&
+        {(!isStatic &&
+          addable &&
           showFooterAddBtn !== false &&
           (!maxLength || maxLength > items.length)) ||
         showPager ? (
           <div className={cx('InputTable-toolbar')}>
-            {addable && showFooterAddBtn !== false ? (
-              render('button', footerAddBtnSchema, {
-                onClick: () => this.addItem(this.state.items.length)
-              })
-            ) : null}
+            {addable && showFooterAddBtn !== false
+              ? render('button', footerAddBtnSchema, {
+                  onClick: () => this.addItem(this.state.items.length)
+                })
+              : null}
 
             {showPager
               ? render(
@@ -1571,12 +1603,19 @@ export class TableControlRenderer extends FormTable {
       // 如果setValue动作传入了index，更新指定索引的值
       const items = [...this.state.items];
       items.splice(index, 1, value);
-      this.setState({items}, () => {this.emitValue()});
+      this.setState({items}, () => {
+        this.emitValue();
+      });
     } else {
       // 如果setValue动作没有传入index，则直接替换组件数据
-      this.setState({
-        items: [...value]
-      }, () => {this.emitValue()});
+      this.setState(
+        {
+          items: [...value]
+        },
+        () => {
+          this.emitValue();
+        }
+      );
     }
   }
 
@@ -1635,7 +1674,8 @@ export class TableControlRenderer extends FormTable {
             !valueField ||
             !find(
               items,
-              item => item[valueField as string] == toAdd[i - 1][valueField as string]
+              item =>
+                item[valueField as string] == toAdd[i - 1][valueField as string]
             )
           ) {
             items.splice(pushIndex, 0, toAdd[i - 1]);
@@ -1683,7 +1723,10 @@ export class TableControlRenderer extends FormTable {
       }
       // 删除api
       if (isEffectiveApi(deleteApi, createObject(ctx, {deletedItems}))) {
-        const payload = await env.fetcher(deleteApi, createObject(ctx, {deletedItems}));
+        const payload = await env.fetcher(
+          deleteApi,
+          createObject(ctx, {deletedItems})
+        );
         if (payload && !payload.ok) {
           env.notify(
             'error',
@@ -1693,26 +1736,35 @@ export class TableControlRenderer extends FormTable {
           return;
         }
       }
-      this.setState({
-        items: rawItems
-      }, () => {
-        onChange?.(rawItems);
-      });
+      this.setState(
+        {
+          items: rawItems
+        },
+        () => {
+          onChange?.(rawItems);
+        }
+      );
       return;
     } else if (actionType === 'clear') {
-      this.setState({
-        items: []
-      }, () => {
-        onChange?.([]);
-      });
+      this.setState(
+        {
+          items: []
+        },
+        () => {
+          onChange?.([]);
+        }
+      );
       return;
     } else if (actionType === 'reset') {
       const newItems = Array.isArray(resetValue) ? resetValue : [];
-      this.setState({
-        items: newItems
-      }, () => {
-        onChange?.(newItems);
-      });
+      this.setState(
+        {
+          items: newItems
+        },
+        () => {
+          onChange?.(newItems);
+        }
+      );
       return;
     }
     return super.doAction(action as ActionObject, ctx, ...rest);

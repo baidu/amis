@@ -182,8 +182,6 @@ export class DateRangeControlPlugin extends BasePlugin {
   rendererName = 'input-date-range';
   $schema = '/schemas/DateRangeControlSchema.json';
 
-  order = -440;
-
   // 组件名称
   icon = 'fa fa-calendar';
   pluginIcon = 'input-date-range-plugin';

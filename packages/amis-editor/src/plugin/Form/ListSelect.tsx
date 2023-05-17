@@ -10,8 +10,6 @@ export class ListControlPlugin extends BasePlugin {
   rendererName = 'list-select';
   $schema = '/schemas/ListControlSchema.json';
 
-  order = -430;
-
   // 组件名称
   name = '列表选择';
   isBaseComponent = true;
@@ -120,11 +118,7 @@ export class ListControlPlugin extends BasePlugin {
           ]
         },
         option: {
-          body: [
-            getSchemaTpl('optionControlV2', {
-              description: '设置选项后，输入时会下拉这些选项供用户参考。'
-            })
-          ]
+          body: [getSchemaTpl('optionControlV2')]
         },
         status: {}
       },

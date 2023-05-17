@@ -35,7 +35,12 @@ import {
 import debouce from 'lodash/debounce';
 import flatten from 'lodash/flatten';
 import find from 'lodash/find';
-import {ScopedContext, IScopedContext, ScopedComponentType} from '../Scoped';
+import {
+  ScopedContext,
+  IScopedContext,
+  ScopedComponentType,
+  filterTarget
+} from '../Scoped';
 
 import {IComboStore} from '../store/combo';
 import {dataMapping} from '../utils/tpl-builtin';
@@ -186,7 +191,7 @@ export interface FormSchemaBase {
   /**
    * Form 用来保存数据的 api。
    *
-   * 详情：https://baidu.gitee.io/amis/docs/components/form/index#%E8%A1%A8%E5%8D%95%E6%8F%90%E4%BA%A4
+   * 详情：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/index#%E8%A1%A8%E5%8D%95%E6%8F%90%E4%BA%A4
    */
   api?: string | BaseApiObject;
 
@@ -706,7 +711,12 @@ export default class Form extends React.Component<FormProps, object> {
     // 派发init事件，参数为初始化数据
     const dispatcher = await dispatchEvent(
       'inited',
-      createObject(this.props.data, data)
+      createObject(this.props.data, {
+        ...data, // 保留，兼容历史
+        responseData: data ?? {},
+        responseStatus: store.error ? 1 : 0,
+        responseMsg: store.msg
+      })
     );
     if (!dispatcher?.prevented) {
       onInit && onInit(data, this.props);
@@ -1091,11 +1101,11 @@ export default class Form extends React.Component<FormProps, object> {
         dispatchEvent('validateSucc', this.props.data);
 
         if (target) {
-          this.submitToTarget(filter(target, values), values);
+          this.submitToTarget(filterTarget(target, values), values);
           dispatchEvent('submitSucc', createObject(this.props.data, values));
         } else if (action.actionType === 'reload') {
           action.target &&
-            this.reloadTarget(filter(action.target, values), values);
+            this.reloadTarget(filterTarget(action.target, values), values);
         } else if (action.actionType === 'dialog') {
           store.openDialog(data);
         } else if (action.actionType === 'drawer') {
@@ -1195,7 +1205,7 @@ export default class Form extends React.Component<FormProps, object> {
             finalRedirect && env.jumpTo(finalRedirect, action);
           } else if (action.reload || reload) {
             this.reloadTarget(
-              filter(action.reload || reload!, store.data),
+              filterTarget(action.reload || reload!, store.data),
               store.data
             );
           }
@@ -1261,7 +1271,10 @@ export default class Form extends React.Component<FormProps, object> {
           redirect && env.jumpTo(redirect, action);
 
           action.reload &&
-            this.reloadTarget(filter(action.reload, store.data), store.data);
+            this.reloadTarget(
+              filterTarget(action.reload, store.data),
+              store.data
+            );
           action.close && this.closeTarget(action.close);
         })
         .catch(e => {
@@ -1273,11 +1286,11 @@ export default class Form extends React.Component<FormProps, object> {
     } else if (action.actionType === 'reload') {
       store.setCurrentAction(action);
       if (action.target) {
-        this.reloadTarget(filter(action.target, data), data);
+        this.reloadTarget(filterTarget(action.target, data), data);
       } else {
         this.receive(data);
       }
-      // action.target && this.reloadTarget(action.target, data);
+      // action.target && this.reloadTarget(filterTarget(action.target, data), data);
     } else if (onAction) {
       // 不识别的丢给上层去处理。
       return onAction(e, action, data, throwErrors, delegate || this.context);

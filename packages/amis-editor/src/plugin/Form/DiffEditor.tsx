@@ -1,4 +1,4 @@
-import {availableLanguages} from 'amis/lib/renderers/Form/Editor';
+import {EditorAvailableLanguages as availableLanguages} from 'amis';
 import {
   defaultValue,
   getSchemaTpl,

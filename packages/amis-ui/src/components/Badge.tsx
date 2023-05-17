@@ -11,7 +11,7 @@ import {ClassNamesFn} from 'amis-core';
 
 /**
  * Badge 角标。
- * 文档：https://baidu.gitee.io/amis/docs/components/badge
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/badge
  */
 export interface BadgeObject {
   className?: string;

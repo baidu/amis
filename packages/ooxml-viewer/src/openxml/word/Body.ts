@@ -62,6 +62,10 @@ export class Body {
       }
     }
 
+    // 过滤掉没内容的 section，一般是最后一个
+    body.sections = body.sections.filter(
+      section => section.children.length > 0
+    );
     return body;
   }
 }

@@ -25,12 +25,18 @@ div.ae-editor-FormulaControl {
 
   & &-input {
     flex: 1;
-    border-radius: var(--Form-select-borderRadius) 0 0
-      var(--Form-select-borderRadius);
-    max-width: calc(100% - 35px); // 避免表达式内容太长撑开面板
+    height: 32px;
+    border-radius: var(--input-default-default-top-left-border-radius) 0 0
+      var(--input-default-default-bottom-left-border-radius);
+    max-width: calc(100% - 29px); // 避免表达式内容太长撑开面板
 
     &.is-clearable {
       padding-right: 30px; // 避免间隙过大
+    }
+
+    svg {
+      width: 12px;
+      height: 12px;
     }
   }
 
@@ -85,8 +91,8 @@ div.ae-editor-FormulaControl {
     }
     > div,
     &:not(.border-wrapper) > div > div {
-      border-radius: var(--Form-select-borderRadius) 0 0
-        var(--Form-select-borderRadius);
+      border-radius: var(--input-default-default-top-left-border-radius) 0 0
+        var(--input-default-default-bottom-left-border-radius);
     }
 
     &.border-wrapper {
@@ -97,21 +103,28 @@ div.ae-editor-FormulaControl {
 
   &-tooltipBox {
     flex: 1;
-    max-width: calc(100% - 35px); // 避免表达式内容太长撑开面板
+    max-width: calc(100% - 29px); // 避免表达式内容太长撑开面板
+    position: relative;
+  }
+
+  &-ResultBox-wrapper {
+    cursor: pointer;
   }
 
   & &-ResultBox {
     flex-wrap: nowrap !important; // 不换行，避免被其他样式覆盖
     white-space: nowrap;
     padding: 0 0 0 0.25rem;
-    border-radius: var(--Form-select-borderRadius) 0 0
-      var(--Form-select-borderRadius);
+    font-size: 12px;
+    border-radius: var(--input-default-default-top-left-border-radius) 0 0
+      var(--input-default-default-bottom-left-border-radius);
 
-    &.is-clearable {
+    & {
       > div:first-child {
         max-width: calc(100% - 30px); // 避免表达式内容太长撑开面板
-        background: #f7f7f9;
-        color: #151b26;
+        // background: var(--button-primary-default-bg-color);
+        background: #007bff;
+        color: #fff;
         padding: 1px 5px;
         border-radius: 4px 0 0 4px;
         height: 26px;
@@ -122,9 +135,11 @@ div.ae-editor-FormulaControl {
         }
       }
       > div:last-child {
-        background: #f7f7f9;
+        // background: var(--button-primary-default-bg-color);
+        background: #007bff;
         margin-right: 0.75rem;
         border-radius: 0 4px 4px 0;
+        color: #fff;
         height: 26px;
         svg {
           fill: var(--Form-input-clearBtn-color);
@@ -136,12 +151,7 @@ div.ae-editor-FormulaControl {
     }
 
     span.c-field {
-      background: #007bff;
-      padding: 3px 5px;
-      margin: 0 1px;
-      color: #fff;
       font-size: 12px;
-      border-radius: 4px;
     }
 
     span.c-func {
@@ -152,9 +162,24 @@ div.ae-editor-FormulaControl {
     }
   }
 
+  .input-clear-icon {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 8px;
+    margin: auto;
+    height: 14px;
+    fill: var(--Form-input-clearBtn-color);
+    cursor: pointer;
+
+    &:hover {
+      fill: var(--Form-input-clearBtn-color-onHover);
+    }
+  }
+
   &-icon {
     top: 0 !important;
-    font-size: #{px2rem(18px)};
+    font-size: #{px2rem(14px)};
 
     &:not(:last-child) {
       margin-right: var(--fontSizeSm);

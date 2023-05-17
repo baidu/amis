@@ -16,6 +16,7 @@ import {stripNumber} from './stripNumber';
 import {tokenize} from './tokenize';
 import {resolveVariable} from './resolveVariable';
 import {resolveVariableAndFilter} from './resolveVariableAndFilter';
+import {resolveVariableAndFilterForAsync} from './resolveVariableAndFilterForAsync';
 import {dataMapping, resolveMapping, resolveMappingObject} from './dataMapping';
 import './filter'; // 扩充 formula 里面的 filter
 
@@ -35,6 +36,7 @@ export {
   tokenize,
   resolveVariable,
   resolveVariableAndFilter,
+  resolveVariableAndFilterForAsync,
   resolveMapping,
   resolveMappingObject,
   dataMapping
@@ -78,6 +80,17 @@ export function register(): Enginer & {name: string} {
     compile: (str: string, data: object, defaultFilter = '| html') => {
       try {
         return tokenize(str, data, defaultFilter);
+      } catch (e) {
+        return `error: ${e.message}`;
+      }
+    },
+    asyncCompile: async (
+      str: string,
+      data: object,
+      defaultFilter = '| html'
+    ) => {
+      try {
+        return resolveVariableAndFilterForAsync(str, data, defaultFilter);
       } catch (e) {
         return `error: ${e.message}`;
       }

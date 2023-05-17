@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 import {findDOMNode} from 'react-dom';
 import {Renderer, RendererProps} from 'amis-core';
 import {SchemaNode, Schema, ActionObject} from 'amis-core';
@@ -10,7 +10,6 @@ import {
   getScrollParent,
   difference,
   ucFirst,
-  noop,
   autobind,
   createObject
 } from 'amis-core';
@@ -28,11 +27,11 @@ import {
 } from '../Schema';
 import {CardProps, CardSchema} from './Card';
 import {Card2Props, Card2Schema} from './Card2';
-import type {IItem} from 'amis-core/lib/store/list';
+import type {IItem} from 'amis-core';
 
 /**
  * Cards 卡片集合渲染器。
- * 文档：https://baidu.gitee.io/amis/docs/components/card
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/card
  */
 export interface CardsSchema extends BaseSchema, SpinnerExtraProps {
   /**
@@ -138,9 +137,9 @@ export interface Column {
   type: string;
   [propName: string]: any;
 }
-
-export type CardsRendererEvent = 'change';
-export type CardsRendererAction = 'check-all';
+// 如果这里的事件调整，对应CRUD里的事件配置也需要同步修改
+export type CardsRendererEvent = 'selected';
+export type CardsRendererAction = 'toggleSelectAll' | 'selectAll' | 'clearAll';
 
 export interface GridProps
   extends RendererProps,

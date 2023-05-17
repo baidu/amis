@@ -128,15 +128,13 @@ export class FormPlugin extends BasePlugin {
   rendererName = 'form';
   $schema = '/schemas/FormSchema.json';
 
-  order = -999;
-
   // 组件名称
   name = '表单';
   isBaseComponent = true;
   description =
     '可用于新建、编辑或者展示数据，配置初始化接口可从远端加载数据，配置提交接口可将数据发送远端。另外也可以将数据提交给其他组件，与其他组件通信。';
   docLink = '/amis/zh-CN/components/form/index';
-  tags = ['功能'];
+  tags = ['数据容器'];
   icon = 'fa fa-list-alt';
   pluginIcon = 'form-plugin';
   scaffold = {
@@ -249,16 +247,24 @@ export class FormPlugin extends BasePlugin {
   events: RendererPluginEvent[] = [
     {
       eventName: 'inited',
-      eventLabel: '初始化数据接口请求成功',
-      description: '远程初始化数据接口请求成功时触发',
+      eventLabel: '初始化数据接口请求完成',
+      description: '远程初始化数据接口请求完成时触发',
       // 表单数据为表单变量
       dataSchema: [
         {
           type: 'object',
           properties: {
-            'event.data': {
+            'event.data.responseData': {
               type: 'object',
-              title: '初始化数据接口请求成功返回的数据'
+              title: '响应数据'
+            },
+            'event.data.responseStatus': {
+              type: 'number',
+              title: '响应状态(0表示成功)'
+            },
+            'event.data.responseMsg': {
+              type: 'string',
+              title: '响应消息'
             }
           }
         }
@@ -936,7 +942,7 @@ export class FormPlugin extends BasePlugin {
       const scope = this.manager.dataSchema.getScope(`${node.id}-${node.type}`);
       const jsonschema: any = {
         $id: 'formInitedData',
-        ...jsonToJsonSchema(data)
+        ...jsonToJsonSchema(data.responseData)
       };
 
       scope?.removeSchema(jsonschema.$id);

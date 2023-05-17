@@ -32,6 +32,7 @@
 @import './control/feature-control';
 @import './control/databinding-control';
 @import './control/event-action';
+@import './control/tpl-formula-control';
 @import './control/timeline_item_control';
 @import './control/tree_option_control';
 @import './control/_inpupt-file';
@@ -790,7 +791,7 @@
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  z-index: 100;
+  z-index: 1000;
   pointer-events: none;
 }
 
@@ -1710,6 +1711,9 @@ div.ae-DragImage {
   label {
     margin-right: 0;
   }
+}
+.ae-scaffoldForm-Modal {
+  @include panel-sm-content();
 }
 
 .ae-Scaffold-Modal {

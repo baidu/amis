@@ -483,8 +483,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         eventName,
         resolveEventData(
           this.props,
-          {value: eventData, options, items: options}, // 为了保持名字统一
-          'value'
+          {value: eventData, options, items: options} // 为了保持名字统一
         )
       );
       // 返回阻塞标识
@@ -804,14 +803,16 @@ export function registerOptionsControl(config: OptionsConfig) {
         return;
       }
 
-      return formItem.loadOptions(
-        source,
-        data,
-        undefined,
-        false,
-        isInit ? setPrinstineValue : onChange,
-        setError
-      );
+      return isAlive(formItem)
+        ? formItem.loadOptions(
+            source,
+            data,
+            undefined,
+            false,
+            isInit ? setPrinstineValue : onChange,
+            setError
+          )
+        : undefined;
     }
 
     @autobind

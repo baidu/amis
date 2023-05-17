@@ -12,7 +12,7 @@ import {FormItem, Button, InputBox, Switch, Radios} from 'amis';
 import {autobind} from 'amis-editor-core';
 import {getSchemaTpl} from 'amis-editor-core';
 import type {FormControlProps} from 'amis-core';
-import {SchemaApi} from 'amis/lib/Schema';
+import type {SchemaApi} from 'amis';
 
 export type valueType = 'text' | 'boolean' | 'number';
 
@@ -402,7 +402,7 @@ export default class NavSourceControl extends React.Component<
         </div>
         {children && children.length ? (
           <>
-            {children.map((item, id: number) => {
+            {children.map((item: any, id: number) => {
               return this.renderOption({...item, index: `${index}_${id}`});
             })}
             <Button onClick={() => this.handleAddChildren(index, true)}>

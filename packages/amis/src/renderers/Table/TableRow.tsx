@@ -1,13 +1,21 @@
 import {observer} from 'mobx-react';
 import React from 'react';
-import uniq from 'lodash/uniq';
 import type {IColumn, IRow} from 'amis-core/lib/store/table';
-import {RendererProps} from 'amis-core';
+import {RendererEvent, RendererProps} from 'amis-core';
 import {Action} from '../Action';
 import {isClickOnInput, createObject} from 'amis-core';
 
 interface TableRowProps extends Pick<RendererProps, 'render'> {
   onCheck: (item: IRow) => Promise<void>;
+  onRowClick: (item: IRow, index: number) => Promise<RendererEvent<any> | void>;
+  onRowMouseEnter: (
+    item: IRow,
+    index: number
+  ) => Promise<RendererEvent<any> | void>;
+  onRowMouseLeave: (
+    item: IRow,
+    index: number
+  ) => Promise<RendererEvent<any> | void>;
   classPrefix: string;
   renderCell: (
     region: string,
@@ -35,6 +43,18 @@ export class TableRow extends React.Component<TableRowProps> {
     this.handleQuickChange = this.handleQuickChange.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleItemClick = this.handleItemClick.bind(this);
+    this.handleMouseEnter = this.handleMouseEnter.bind(this);
+    this.handleMouseLeave = this.handleMouseLeave.bind(this);
+  }
+
+  handleMouseEnter(e: React.MouseEvent<HTMLTableRowElement>) {
+    const {item, itemIndex, onRowMouseEnter} = this.props;
+    onRowMouseEnter?.(item?.data, itemIndex);
+  }
+
+  handleMouseLeave(e: React.MouseEvent<HTMLTableRowElement>) {
+    const {item, itemIndex, onRowMouseLeave} = this.props;
+    onRowMouseLeave?.(item?.data, itemIndex);
   }
 
   // 定义点击一行的行为，通过 itemAction配置
@@ -43,23 +63,21 @@ export class TableRow extends React.Component<TableRowProps> {
       return;
     }
 
-    const {itemAction, onAction, item, data, dispatchEvent, onCheck} =
+    e.preventDefault();
+    e.stopPropagation();
+
+    const {itemAction, onAction, item, itemIndex, onCheck, onRowClick} =
       this.props;
 
-    const rendererEvent = await dispatchEvent(
-      'rowClick',
-      createObject(data, {
-        rowItem: item?.data
-      })
-    );
+    const rendererEvent = await onRowClick?.(item?.data, itemIndex);
 
     if (rendererEvent?.prevented) {
       return;
     }
 
     if (itemAction) {
-      onAction && onAction(e, itemAction, item?.data);
-      item.toggle();
+      onAction && onAction(e, itemAction, item?.locals);
+      // item.toggle();
     } else {
       if (item.checkable && item.isCheckAvaiableOnClick) {
         onCheck?.(item);
@@ -69,7 +87,7 @@ export class TableRow extends React.Component<TableRowProps> {
 
   handleAction(e: React.UIEvent<any>, action: Action, ctx: any) {
     const {onAction, item} = this.props;
-    onAction && onAction(e, action, ctx || item.data);
+    onAction && onAction(e, action, ctx || item.locals);
   }
 
   handleQuickChange(
@@ -144,6 +162,8 @@ export class TableRow extends React.Component<TableRowProps> {
               ? this.handleItemClick
               : undefined
           }
+          onMouseEnter={this.handleMouseEnter}
+          onMouseLeave={this.handleMouseLeave}
           className={cx(itemClassName, {
             'is-hovered': item.isHover,
             'is-checked': item.checked,
@@ -210,6 +230,8 @@ export class TableRow extends React.Component<TableRowProps> {
             ? this.handleItemClick
             : undefined
         }
+        onMouseEnter={this.handleMouseEnter}
+        onMouseLeave={this.handleMouseLeave}
         data-index={item.depth === 1 ? item.newIndex : undefined}
         data-id={item.id}
         className={cx(

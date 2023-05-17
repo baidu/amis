@@ -209,6 +209,7 @@ export class NumberInput extends React.Component<NumberProps, NumberState> {
     const {min, max, step, precision, resetValue, clearValueOnEmpty, onChange} =
       this.props;
     const finalPrecision = NumberInput.normalizePrecision(precision, step);
+
     const result = NumberInput.normalizeValue(
       value,
       min,
@@ -218,7 +219,6 @@ export class NumberInput extends React.Component<NumberProps, NumberState> {
       clearValueOnEmpty,
       this.isBig
     );
-
     onChange?.(result);
   }
 

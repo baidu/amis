@@ -16,7 +16,6 @@ order: 73
 {
     "type": "wizard",
     "initApi": "/api/mock2/form/saveForm?waitSeconds=2",
-    "mode": "vertical",
     "steps": [
         {
             "title": "第一步",
@@ -101,16 +100,16 @@ order: 73
 
 > `[name]`为当前数据域中的字段名，例如：当前数据域为 {username: 'amis'}，则可以通过${username}获取对应的值。
 
-| 事件名称       | 事件参数                                                                                         | 说明                         |
-| -------------- | ------------------------------------------------------------------------------------------------ | ---------------------------- |
-| inited         | `event.data: object` initApi 远程请求返回的初始化数据<br/>`[name]: any` 当前数据域中指定字段的值 | 远程初始化接口请求成功时触发 |
-| stepChange     | `step: number` 步骤索引                                                                          | 切换步骤时触发               |
-| change         | `event.data: object` 当前表单数据<br/>`[name]: any` 当前数据域中指定字段的值                     | 表单值变化时触发             |
-| stepSubmitSucc | -                                                                                                | 单个步骤提交成功             |
-| stepSubmitFail | `error: object` 单个步骤 api 远程请求失败后返回的错误信息                                        | 单个步骤提交失败             |
-| finished       | `event.data: object` 即将提交的表单数据<br/>`[name]: any` 当前数据域中指定字段的值               | 最终提交时触发               |
-| submitSucc     | `result: object` api 远程请求成功后返回的结果数据                                                | 最终提交成功时触发           |
-| submitFail     | `error: object` api 远程请求失败后返回的错误信息                                                 | 最终提交失败时触发           |
+| 事件名称       | 事件参数                                                                                                                                                                                   | 说明                       |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------- |
+| inited         | `responseData: any` 请求的响应数据</br>`responseStatus: number` 响应状态，0 表示成功</br>`responseMsg: string`响应消息, `error`表示接口是否成功<br/>`[name]: any` 当前数据域中指定字段的值 | initApi 接口请求完成时触发 |
+| stepChange     | `step: number` 步骤索引                                                                                                                                                                    | 切换步骤时触发             |
+| change         | `event.data: object` 当前表单数据<br/>`[name]: any` 当前数据域中指定字段的值                                                                                                               | 表单值变化时触发           |
+| stepSubmitSucc | -                                                                                                                                                                                          | 单个步骤提交成功           |
+| stepSubmitFail | `error: object` 单个步骤 api 远程请求失败后返回的错误信息                                                                                                                                  | 单个步骤提交失败           |
+| finished       | `event.data: object` 即将提交的表单数据<br/>`[name]: any` 当前数据域中指定字段的值                                                                                                         | 最终提交时触发             |
+| submitSucc     | `result: object` api 远程请求成功后返回的结果数据                                                                                                                                          | 最终提交成功时触发         |
+| submitFail     | `error: object` api 远程请求失败后返回的错误信息                                                                                                                                           | 最终提交失败时触发         |
 
 ## 动作表
 

@@ -41,10 +41,10 @@ export function createElement(tagName: string): HTMLElement {
 }
 
 /**
- * 创建片段
+ * 创建 SVG 元素
  */
-export function createDocumentFragment() {
-  return document.createDocumentFragment();
+export function createSVGElement(tagName: string): SVGElement {
+  return document.createElementNS('http://www.w3.org/2000/svg', tagName);
 }
 
 /**
@@ -53,6 +53,15 @@ export function createDocumentFragment() {
 export function appendChild(parent: HTMLElement, child?: Node | null): void {
   if (parent && child) {
     parent.appendChild(child);
+  }
+}
+
+/**
+ * 删除子节点，会做一些判断避免报错
+ */
+export function removeChild(parent: HTMLElement, child?: Node | null): void {
+  if (parent && child) {
+    parent.removeChild(child);
   }
 }
 

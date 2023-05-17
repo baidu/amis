@@ -143,6 +143,7 @@ test('Renderer:Picker with pickerSchema & valueField & labelField & multiple & v
   expect(fetcher).toHaveBeenCalled;
   expect(fetcher.mock.calls[0][0].query).toEqual({
     op: 'loadOptions',
+    id: 'a,b',
     value: 'a,b'
   });
 

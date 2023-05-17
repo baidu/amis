@@ -23,6 +23,23 @@ import {RendererData, ActionObject} from './types';
 import {isPureVariable} from './utils/isPureVariable';
 import {filter} from './utils';
 
+/**
+ * target 里面可能包含 ?xxx=xxx，这种情况下，需要把 ?xxx=xxx 保留下来，然后对前面的部分进行 filter
+ * 因为后面会对 query 部分做不一样的处理。会保留原始的值。而不是会转成字符串。
+ * @param target
+ * @param data
+ * @returns
+ */
+export function filterTarget(target: string, data: Record<string, any>) {
+  const idx = target.indexOf('?');
+
+  if (~idx) {
+    return filter(target.slice(0, idx), data) + target.slice(idx);
+  }
+
+  return filter(target, data, '| raw');
+}
+
 export interface ScopedComponentType extends React.Component<RendererProps> {
   focus?: () => void;
   doAction?: (
@@ -54,7 +71,9 @@ export interface IScopedContext {
   closeById: (target: string) => void;
 }
 type AliasIScopedContext = IScopedContext;
-export const ScopedContext = React.createContext(createScopedTools(''));
+
+const rootScopedContext = createScopedTools('');
+export const ScopedContext = React.createContext(rootScopedContext);
 
 function createScopedTools(
   path?: string,
@@ -115,7 +134,7 @@ function createScopedTools(
     getComponentById(id: string) {
       let root: AliasIScopedContext = this;
       // 找到顶端scoped
-      while (root.parent) {
+      while (root.parent && root.parent !== rootScopedContext) {
         root = root.parent;
       }
 
@@ -130,6 +149,7 @@ function createScopedTools(
           return false;
         })
       ) as ScopedComponentType | undefined;
+
       return component;
     },
 

@@ -16,7 +16,7 @@ import {
 } from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {VRenderer} from 'amis-editor-core';
-import type {TableViewSchema} from 'amis/lib/renderers/TableView';
+import type {TableViewSchema} from 'amis';
 import {JSONGetById} from 'amis-editor-core';
 import {TableViewEditor} from '../component/TableViewEditor';
 
@@ -96,7 +96,7 @@ export class TableViewPlugin extends BasePlugin {
   pluginIcon = 'table-view-plugin';
   description = '表格类型的展现';
   docLink = '/amis/zh-CN/components/table-view';
-  tags = ['容器'];
+  tags = ['功能'];
   scaffold = {
     type: 'table-view',
     trs: [

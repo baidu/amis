@@ -28,7 +28,7 @@ import intersectionWith from 'lodash/intersectionWith';
 
 /**
  * Picker
- * 文档：https://baidu.gitee.io/amis/docs/components/form/picker
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/picker
  */
 export interface PickerControlSchema extends FormOptionsSchema {
   type: 'picker';
@@ -159,6 +159,7 @@ export default class PickerControl extends React.PureComponent<
 
     const ctx = createObject(data, {
       value: value,
+      [valueField || 'value']: value,
       op: 'loadOptions'
     });
 
@@ -288,11 +289,7 @@ export default class PickerControl extends React.PureComponent<
     const option = multiple ? items : items[0];
     const rendererEvent = await dispatchEvent(
       'change',
-      resolveEventData(
-        this.props,
-        {value, option, selectedItems: option},
-        'value'
-      )
+      resolveEventData(this.props, {value, option, selectedItems: option})
     );
     if (rendererEvent?.prevented) {
       return;
@@ -391,7 +388,8 @@ export default class PickerControl extends React.PureComponent<
       labelField,
       labelTpl,
       translate: __,
-      disabled
+      disabled,
+      env
     } = this.props;
 
     return (
@@ -422,7 +420,10 @@ export default class PickerControl extends React.PureComponent<
               }}
             >
               {labelTpl ? (
-                <Html html={filter(labelTpl, item)} />
+                <Html
+                  html={filter(labelTpl, item)}
+                  filterHtml={env.filterHtml}
+                />
               ) : (
                 `${
                   getVariable(item, labelField || 'label') ||
@@ -557,7 +558,11 @@ export default class PickerControl extends React.PureComponent<
               ) : null}
 
               <span onClick={this.open} className={cx('Picker-btn')}>
-                <Icon icon="window-restore" className="icon" />
+                <Icon
+                  icon="window-restore"
+                  className="icon"
+                  iconContent="Picker-icon"
+                />
               </span>
             </div>
 

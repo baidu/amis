@@ -146,7 +146,6 @@ export class TagPlugin extends BasePlugin {
                 label: '模式',
                 name: 'displayMode',
                 value: 'normal',
-                size: 'md',
                 options: [
                   {
                     label: '普通',

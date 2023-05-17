@@ -14,7 +14,9 @@ import 'core-js/es/map';
 import 'core-js/es/set';
 import 'core-js/es/symbol';
 
+// @ts-ignore
 import './cloest';
+// @ts-ignore
 import './classList';
 
 // ios 没有这个会报错

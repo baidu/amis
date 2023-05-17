@@ -4,7 +4,7 @@
  */
 
 import React, {useMemo} from 'react';
-import {ClassNamesFn} from 'amis-core';
+import {ClassName, ClassNamesFn} from 'amis-core';
 import {Badge, BadgeProps} from './Badge';
 
 export type GridNavDirection = 'horizontal' | 'vertical';
@@ -27,7 +27,7 @@ export interface GridNavProps {
   /** 列数	 */
   columnNum?: number;
   className?: string;
-  itemClassName?: string;
+  itemClassName?: ClassName;
   classnames: ClassNamesFn;
   style?: React.CSSProperties;
   children?: React.ReactNode | Array<React.ReactNode>;
@@ -40,9 +40,9 @@ export interface GridNavItemProps {
   text?: string | React.ReactNode;
   /** 图标名称或图片链接	 */
   icon?: string | React.ReactNode;
-  className?: string;
+  className?: ClassName;
   style?: React.CSSProperties;
-  contentClassName?: string;
+  contentClassName?: ClassName;
   contentStyle?: React.CSSProperties;
   children?: React.ReactNode;
   classnames: ClassNamesFn;

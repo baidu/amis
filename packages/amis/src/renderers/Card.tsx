@@ -23,7 +23,7 @@ import {ActionSchema} from './Action';
 import {Card} from 'amis-ui';
 import {findDOMNode} from 'react-dom';
 import {Icon} from 'amis-ui';
-import type {IItem} from 'amis-core/lib/store/list';
+import type {IItem} from 'amis-core';
 
 export type CardBodyField = SchemaObject & {
   /**
@@ -59,7 +59,7 @@ export type CardBodyField = SchemaObject & {
 
 /**
  * Card 卡片渲染器。
- * 文档：https://baidu.gitee.io/amis/docs/components/card
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/card
  */
 export interface CardSchema extends BaseSchema {
   /**

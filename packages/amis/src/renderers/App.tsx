@@ -81,7 +81,7 @@ export interface AppPage extends SpinnerExtraProps {
 
 /**
  * App 渲染器，适合 JSSDK 用来做多页渲染。
- * 文档：https://baidu.gitee.io/amis/docs/components/app
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/app
  */
 export interface AppSchema extends BaseSchema, SpinnerExtraProps {
   /**
@@ -280,7 +280,15 @@ export default class App extends React.Component<AppProps, object> {
   }
 
   renderHeader() {
-    const {classnames: cx, brandName, header, render, store, logo} = this.props;
+    const {
+      classnames: cx,
+      brandName,
+      header,
+      render,
+      store,
+      logo,
+      env
+    } = this.props;
 
     return (
       <>
@@ -294,7 +302,11 @@ export default class App extends React.Component<AppProps, object> {
 
           <div className={cx('Layout-brand')}>
             {logo && ~logo.indexOf('<svg') ? (
-              <Html className={cx('AppLogo-html')} html={logo} />
+              <Html
+                className={cx('AppLogo-html')}
+                html={logo}
+                filterHtml={env.filterHtml}
+              />
             ) : logo ? (
               <img className={cx('AppLogo')} src={logo} />
             ) : null}

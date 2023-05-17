@@ -5,14 +5,15 @@ import {
   FormOptionsControl
 } from 'amis-core';
 import type {Option} from 'amis-core';
-import {ActionObject} from 'amis-core';
+import {ActionObject, isObject} from 'amis-core';
+import type {BadgeObject} from 'amis-ui';
 import {getLevelFromClassName, autobind, isEmpty} from 'amis-core';
 import {ButtonGroupSchema} from '../ButtonGroup';
 import {supportStatic} from './StaticHoc';
 
 /**
  * 按钮组控件。
- * 文档：https://baidu.gitee.io/amis/docs/components/form/button-group
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/button-group
  */
 export interface ButtonGroupControlSchema
   extends Omit<ButtonGroupSchema, 'type'>,
@@ -68,6 +69,16 @@ export default class ButtonGroupControl extends React.Component<
     reload && reload();
   }
 
+  getBadgeConfig(config: BadgeObject, item: Option) {
+    return config
+      ? item?.badge && (typeof item.badge === 'string' || typeof item.badge === 'number')
+        ? {...config, text: item.badge}
+        : item?.badge && isObject(item.badge)
+        ? {...config, ...item.badge}
+        : null
+      : item.badge;
+  }
+
   @supportStatic()
   render(props = this.props) {
     const {
@@ -89,6 +100,7 @@ export default class ButtonGroupControl extends React.Component<
       block,
       vertical,
       tiled,
+      badge,
       translate: __
     } = props;
 
@@ -103,13 +115,15 @@ export default class ButtonGroupControl extends React.Component<
     if (options && options.length) {
       body = options.map((option, key) => {
         const active = !!~selectedOptions.indexOf(option);
+        const optionBadge = this.getBadgeConfig(badge, option);
+
         return render(
           `option/${key}`,
           {
             label: option[labelField || 'label'],
             icon: option.icon,
             size: option.size || size,
-            badge: option.badge,
+            badge: optionBadge,
             type: 'button',
             block: block
           },
@@ -130,8 +144,10 @@ export default class ButtonGroupControl extends React.Component<
         );
       });
     } else if (Array.isArray(buttons)) {
-      body = buttons.map((button, key) =>
-        render(
+      body = buttons.map((button, key) => {
+        const buttonBadge = this.getBadgeConfig(badge, button);
+
+        return render(
           `button/${key}`,
           {
             size: size,
@@ -139,14 +155,15 @@ export default class ButtonGroupControl extends React.Component<
             activeLevel: btnActiveLevel,
             level: btnLevel,
             disabled,
-            ...button
+            ...button,
+            badge: buttonBadge
           },
           {
             key,
             className: cx(button.className, btnClassName)
           }
-        )
-      );
+        );
+      });
     }
 
     return (

@@ -279,6 +279,164 @@ order: 43
 }
 ```
 
+## 多级弹框
+
+```schema: scope="body"
+{
+    "type": "button",
+    "label": "多级弹框",
+    "actionType": "drawer",
+    "drawer": {
+        "title": "提示",
+        "body": "这是个简单的弹框",
+        "actions": [
+            {
+                "type": "button",
+                "actionType": "confirm",
+                "label": "确认",
+                "primary": true
+            },
+            {
+                "type": "button",
+                "actionType": "drawer",
+                "label": "再弹一个",
+                "drawer": {
+                    "title": "弹框中的弹框",
+                    "body": "如果你想，可以无限弹下去",
+                    "actions": [
+                        {
+                            "type": "button",
+                            "actionType": "drawer",
+                            "label": "来吧",
+                            "level": "info",
+                            "drawer": {
+                                "title": "弹框中的弹框",
+                                "body": "如果你想，可以无限弹下去",
+                                "actions": [
+                                    {
+                                        "type": "button",
+                                        "actionType": "confirm",
+                                        "label": "不弹了",
+                                        "primary": true
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}
+```
+
+## 动作后关闭弹框
+
+在弹框中配置行为按钮，可以在按钮上配置`"close": true`，在行为完成后，关闭当前弹框。
+
+```schema: scope="body"
+{
+    "type": "button",
+    "label": "弹个框",
+    "actionType": "drawer",
+    "drawer": {
+        "title": "弹框",
+        "body": [
+          {
+            "type": "button",
+            "label": "默认的 ajax 请求",
+            "actionType": "ajax",
+            "api": "/api/mock2/form/saveForm?waitSeconds=1"
+          },
+          {
+            "type": "button",
+            "label": "ajax 请求成功后关闭弹框",
+            "actionType": "ajax",
+            "api": "/api/mock2/form/saveForm?waitSeconds=1",
+            "close": true
+          }
+        ]
+    }
+}
+```
+
+以上例子是关闭当前弹窗，如果希望关闭上层弹窗，则需要给目标弹窗设置 `name` 属性，然后配置按钮 `close` 属性为目标 `name` 属性如：
+
+```schema: scope="body"
+{
+    "type": "button",
+    "label": "多级弹框",
+    "actionType": "drawer",
+    "drawer": {
+        "title": "提示",
+        "body": "这是个简单的弹框",
+        "name": "drawer_1",
+        "actions": [
+            {
+                "type": "button",
+                "actionType": "confirm",
+                "label": "确认",
+                "primary": true
+            },
+            {
+                "type": "button",
+                "actionType": "drawer",
+                "label": "再弹一个",
+                "drawer": {
+                    "title": "弹框中的弹框",
+                    "body": "关闭当前弹窗的时候把外层的弹窗一起关了",
+                    "actions": [
+                        {
+                            "type": "button",
+                            "label": "关闭所有",
+                            "level": "info",
+                            "close": "drawer_1"
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}
+```
+
+## 配置弹窗的按钮
+
+默认弹窗会自动生成两个按钮，一个取消，一个确认。如果通过 `actions` 来自定义配置，则以配置的为准。
+
+```schema: scope="body"
+{
+    "type": "button-toolbar",
+    "buttons": [
+        {
+            "type": "button",
+            "label": "无按钮",
+            "actionType": "dialog",
+            "dialog": {
+                "title": "提示",
+                "actions": [],
+                "body": "无按钮的弹框"
+            }
+        },
+        {
+            "type": "button",
+            "label": "只有一个确认按钮",
+            "actionType": "dialog",
+            "dialog": {
+                "title": "提示",
+                "actions": [{
+                  "type": "button",
+                  "actionType": "confirm",
+                  "label": "OK",
+                  "primary": true
+                }],
+                "body": "只有一个 OK 的弹框"
+            }
+        }
+    ]
+}
+```
+
 ## 属性表
 
 | 属性名          | 类型                                      | 默认值             | 说明                                                                                              |

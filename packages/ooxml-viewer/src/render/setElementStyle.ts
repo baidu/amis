@@ -1,5 +1,5 @@
 import {Properties} from '../openxml/word/properties/Properties';
-import {addClassNames, applyStyle} from '../util/dom';
+import {addClassName, addClassNames, applyStyle} from '../util/dom';
 import Word from '../Word';
 
 /**
@@ -16,6 +16,12 @@ export function setElementStyle(
 
   if (properties.cssStyle) {
     applyStyle(element, properties.cssStyle);
+
+    // 需要依赖这个 class 才能实现水平分布
+    // https://stackoverflow.com/a/21199162
+    if (properties.cssStyle['text-align'] === 'justify') {
+      addClassName(element, 'justify');
+    }
   }
 
   if (properties.pStyle) {

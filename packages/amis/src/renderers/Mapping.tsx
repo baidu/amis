@@ -21,7 +21,7 @@ import {
 } from 'amis-core';
 /**
  * Mapping 映射展示控件。
- * 文档：https://baidu.gitee.io/amis/docs/components/mapping
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/mapping
  */
 export interface MappingSchema extends BaseSchema {
   /**
@@ -171,7 +171,11 @@ export const MappingField = withStore(props =>
     componentDidUpdate(prevProps: MappingProps) {
       const props = this.props;
       const {store, source, data} = this.props;
-      store.syncProps(props, prevProps, ['valueField', 'map']);
+      store.syncProps(
+        props,
+        prevProps,
+        source ? ['valueField'] : ['valueField', 'map']
+      );
 
       if (isPureVariable(source)) {
         const prev = resolveVariableAndFilter(
@@ -264,10 +268,10 @@ export const MappingField = withStore(props =>
         }
         let realValue = value;
         if (
-          isObject(label)
-          && label.type === 'tag'
-          && !isObject(label.label)
-          && label.label != null
+          isObject(label) &&
+          label.type === 'tag' &&
+          !isObject(label.label) &&
+          label.label != null
         ) {
           realValue = label.label;
         }
@@ -276,13 +280,12 @@ export const MappingField = withStore(props =>
             value: realValue,
             label: realValue
           }),
-          value: null
+          ...(label?.type === 'tag' ? {value: null} : {})
         });
       }
       return render('mappingItemSchema', itemSchema, {
         data: createObject(data, isObject(value) ? value : {item: value}),
-        // 阻止 itemSchema 从props.value 取值，否则渲染不正确
-        value: null
+        ...((itemSchema as any)?.type === 'tag' ? {value: null} : {})
       });
     }
 

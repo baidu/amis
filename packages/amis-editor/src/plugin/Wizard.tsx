@@ -90,15 +90,23 @@ export class WizardPlugin extends BasePlugin {
   events: RendererPluginEvent[] = [
     {
       eventName: 'inited',
-      eventLabel: '初始化数据接口请求成功',
-      description: '远程初始化数据接口请求成功时触发',
+      eventLabel: '初始化数据接口请求完成',
+      description: '远程初始化数据接口请求完成时触发',
       dataSchema: [
         {
           type: 'object',
           properties: {
-            'event.data': {
+            'event.data.responseData': {
               type: 'object',
-              title: '初始化数据接口请求成功返回的数据'
+              title: '响应数据'
+            },
+            'event.data.responseStatus': {
+              type: 'number',
+              title: '响应状态(0表示成功)'
+            },
+            'event.data.responseMsg': {
+              type: 'string',
+              title: '响应消息'
             }
           }
         }
@@ -945,7 +953,7 @@ export class WizardPlugin extends BasePlugin {
       const scope = this.manager.dataSchema.getScope(`${node.id}-${node.type}`);
       const jsonschema: any = {
         $id: 'wizardInitedData',
-        ...jsonToJsonSchema(data)
+        ...jsonToJsonSchema(data.responseData)
       };
 
       scope?.removeSchema(jsonschema.$id);

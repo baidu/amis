@@ -6,7 +6,6 @@
 
 import React from 'react';
 import moment from 'moment';
-import 'moment/locale/zh-cn';
 import {Icon} from './icons';
 import {PopOver} from 'amis-core';
 import PopUp from './PopUp';
@@ -312,8 +311,32 @@ function normalizeValue(value: any, format?: string) {
   if (!value || value === '0') {
     return undefined;
   }
+
   const v = moment(value, format, true);
-  return v.isValid() ? v : undefined;
+
+  if (v.isValid()) {
+    return v;
+  }
+
+  if (typeof value === 'string' || typeof value === 'number') {
+    let formats = ['', 'YYYY-MM-DD HH:mm:ss', 'X'];
+
+    if (/^\d{10}((\.\d+)*)$/.test(value.toString())) {
+      formats = ['X', 'x', 'YYYY-MM-DD HH:mm:ss', ''];
+    } else if (/^\d{13}((\.\d+)*)$/.test(value.toString())) {
+      formats = ['x', 'X', 'YYYY-MM-DD HH:mm:ss', ''];
+    }
+    while (formats.length) {
+      const format = formats.shift()!;
+      const date = moment(value, format);
+
+      if (date.isValid()) {
+        return date;
+      }
+    }
+  }
+
+  return undefined;
 }
 
 export class DatePicker extends React.Component<DateProps, DatePickerState> {
@@ -806,6 +829,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
           autoComplete="off"
           value={this.state.inputValue || ''}
           disabled={disabled}
+          readOnly={useMobileUI && isMobile()}
         />
 
         {clearable && !disabled && normalizeValue(value, format) ? (

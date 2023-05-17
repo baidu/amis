@@ -3,8 +3,7 @@
     "packages/amis-formula",
     "packages/amis-core",
     "packages/amis-ui",
-    "packages/amis",
-    "packages/ooxml-viewer"
+    "packages/amis"
   ],
-  "version": "2.9.0"
+  "version": "3.0.0"
 }

@@ -77,6 +77,90 @@ key 只能是字符串，因此输入格式是 `input-text`，但 value 格式�
 }
 ```
 
+## 自定义 value 的 schema
+
+> 3.1.0 及以上版本
+
+默认创建的 value schema 是
+
+```json
+{
+  "placeholder": "Value",
+  "type": "input-text",
+  "name": "value"
+}
+```
+
+前面的配置可以改其中的 type 或 placeholder，而这个新的 `valueSchema` 配置就能做到替换所有配置，比如
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "debug": true,
+    "body": [
+        {
+            "type": "input-kv",
+            "name": "css",
+            "valueSchema": {
+                "type": "select",
+                "options": [
+                    {
+                        "label": "A",
+                        "value": "a"
+                    },
+                    {
+                        "label": "B",
+                        "value": "b"
+                    },
+                    {
+                        "label": "C",
+                        "value": "c"
+                    }
+                ]
+            }
+        }
+    ]
+}
+```
+
+## 自定义 key schema
+
+> 3.1.0 及以上版本
+
+和前面的 value schema 类似，还可以自定义 key 的 schema
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "debug": true,
+    "body": [
+        {
+            "type": "input-kv",
+            "name": "css",
+            "keySchema": {
+                "type": "select",
+                "options": [
+                    {
+                        "label": "A",
+                        "value": "a"
+                    },
+                    {
+                        "label": "B",
+                        "value": "b"
+                    },
+                    {
+                        "label": "C",
+                        "value": "c"
+                    }
+                ]
+            }
+        }
+    ]
+}
+```
+
 ## 关闭可拖拽排序
 
 ```schema: scope="body"

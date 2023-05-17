@@ -12,7 +12,7 @@ import {supportStatic} from './StaticHoc';
 
 /**
  * TextArea 多行文本输入框。
- * 文档：https://baidu.gitee.io/amis/docs/components/form/textarea
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/textarea
  */
 export interface TextareaControlSchema extends FormBaseControlSchema {
   /**
@@ -109,7 +109,7 @@ export default class TextAreaControl extends React.Component<
   handleChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
     const {onChange, dispatchEvent} = this.props;
 
-    dispatchEvent('change', resolveEventData(this.props, {value: e}, 'value'));
+    dispatchEvent('change', resolveEventData(this.props, {value: e}));
 
     onChange && onChange(e);
   }
@@ -125,7 +125,7 @@ export default class TextAreaControl extends React.Component<
       async () => {
         const rendererEvent = await dispatchEvent(
           'focus',
-          resolveEventData(this.props, {value}, 'value')
+          resolveEventData(this.props, {value})
         );
 
         if (rendererEvent?.prevented) {
@@ -151,7 +151,7 @@ export default class TextAreaControl extends React.Component<
 
         const rendererEvent = await dispatchEvent(
           'blur',
-          resolveEventData(this.props, {value}, 'value')
+          resolveEventData(this.props, {value})
         );
 
         if (rendererEvent?.prevented) {

@@ -256,7 +256,7 @@ setSchemaTpl(
       }
     ];
     const configSchema = {
-      type: 'button-icon-group',
+      type: 'icon-button-group',
       label:
         config?.label ||
         tipedLabel(
@@ -1483,7 +1483,7 @@ setSchemaTpl(
     alignItems?: string;
   }) => {
     return {
-      type: 'flex-setting',
+      type: 'flex-layout-setting',
       name: config?.name || 'style',
       mode: 'vertical', // horizontal、vertical
       label: config?.label ?? false,
@@ -1491,6 +1491,19 @@ setSchemaTpl(
       direction: config?.direction,
       justify: config?.justify,
       alignItems: config?.alignItems
+    };
+  }
+);
+
+// 子配置项包裹容器
+setSchemaTpl(
+  'layout:wrapper-contanier',
+  (config: {visibleOn?: string; body: Array<any>}) => {
+    return {
+      type: 'container',
+      className: 'config-wrapper-contanier',
+      body: config.body,
+      visibleOn: config?.visibleOn
     };
   }
 );

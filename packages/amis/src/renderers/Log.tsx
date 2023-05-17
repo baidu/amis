@@ -6,6 +6,29 @@ import {buildApi, isApiOutdated, Renderer, RendererProps} from 'amis-core';
 import {BaseSchema} from '../Schema';
 import {Icon, SearchBox, VirtualList} from 'amis-ui';
 
+const foregroundColors = {
+  '30': 'black',
+  '31': 'red',
+  '32': 'green',
+  '33': 'yellow',
+  '34': 'blue',
+  '35': 'magenta',
+  '36': 'cyan',
+  '37': 'white',
+  '90': 'grey'
+} as {[key: string]: string};
+
+const backgroundColors = {
+  '40': 'black',
+  '41': 'red',
+  '42': 'green',
+  '43': 'yellow',
+  '44': 'blue',
+  '45': 'magenta',
+  '46': 'cyan',
+  '47': 'white'
+} as {[key: string]: string};
+
 export type LogOperation =
   | 'stop'
   | 'restart'
@@ -15,7 +38,7 @@ export type LogOperation =
 
 /**
  * 日志展示组件
- * 文档：https://baidu.gitee.io/amis/docs/components/log
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/log
  */
 export interface LogSchema extends BaseSchema {
   /**
@@ -62,6 +85,11 @@ export interface LogSchema extends BaseSchema {
    * 一些可操作选项
    */
   operation?: Array<LogOperation>;
+
+  /**
+   * credentials 配置
+   */
+  credentials?: string;
 }
 
 export interface LogProps
@@ -71,6 +99,7 @@ export interface LogProps
 export interface LogState {
   lastLine: string;
   logs: string[];
+  originLastLine: string;
   originLogs: string[];
   refresh: boolean;
   showLineNumber: boolean;
@@ -94,6 +123,7 @@ export class Log extends React.Component<LogProps, LogState> {
   state: LogState = {
     lastLine: '',
     logs: [],
+    originLastLine: '',
     originLogs: [],
     refresh: true,
     showLineNumber: false,
@@ -167,30 +197,41 @@ export class Log extends React.Component<LogProps, LogState> {
   clear = (e: React.MouseEvent<HTMLElement>) => {
     this.setState({
       logs: [],
-      lastLine: ''
+      lastLine: '',
+      originLogs: [],
+      originLastLine: ''
     });
     e.preventDefault();
   };
 
-  changeFilterWord = (value: string) => {
-    let logs = this.state.originLogs;
-    if (
-      value !== '' &&
-      value !== undefined &&
-      value !== null &&
-      value.length > 0
-    ) {
-      logs = logs.filter(line => line.includes(value));
+  filterWord = (logs: string[], lastLine: string, word: string) => {
+    let originLogs = logs;
+    let originLastLine = lastLine;
+    if (word !== '' && word !== undefined && word !== null && word.length > 0) {
+      logs = logs.filter(line => line.includes(word));
+      if (!lastLine.includes(word)) {
+        lastLine = '';
+      }
     }
-
     this.setState({
-      filterWord: value,
-      logs: logs
+      filterWord: word,
+      lastLine: lastLine,
+      logs: logs,
+      originLogs: originLogs,
+      originLastLine: originLastLine
     });
   };
 
   async loadLogs() {
-    const {source, data, env, translate: __, encoding, maxLength} = this.props;
+    const {
+      source,
+      data,
+      env,
+      translate: __,
+      encoding,
+      maxLength,
+      credentials = 'include'
+    } = this.props;
     // 因为这里返回结果是流式的，和普通 api 请求不一样，如果直接用 fetcher 经过 responseAdaptor 可能会导致出错，所以就直接 fetch 了
     const api = buildApi(source, data);
     if (!api.url) {
@@ -200,7 +241,7 @@ export class Log extends React.Component<LogProps, LogState> {
       method: api.method?.toLocaleUpperCase() || 'GET',
       headers: (api.headers as Record<string, string>) || undefined,
       body: api.data ? JSON.stringify(api.data) : undefined,
-      credentials: 'include'
+      credentials: credentials as RequestCredentials
     });
     if (res.status === 200) {
       const body = res.body;
@@ -208,7 +249,7 @@ export class Log extends React.Component<LogProps, LogState> {
         return;
       }
       const reader = body.getReader();
-      let lastline = '';
+      let lastLine = '';
       let logs: string[] = [];
       for (;;) {
         if (!this.state.refresh) {
@@ -224,30 +265,24 @@ export class Log extends React.Component<LogProps, LogState> {
           const lines = text.split('\n');
           // 如果没有换行符就只更新最后一行
           if (lines.length === 1) {
-            lastline += lines[0];
+            lastLine += lines[0];
             this.setState({
-              lastLine: lastline
+              lastLine: lastLine
             });
           } else {
             // 将之前的数据补上
-            lines[0] = lastline + lines[0];
+            lines[0] = lastLine + lines[0];
             // 最后一个要么是空，要么是下一行的数据
-            lastline = lines.pop() || '';
+            lastLine = lines.pop() || '';
             if (maxLength) {
               if (logs.length + lines.length > maxLength) {
                 logs.splice(0, logs.length + lines.length - maxLength);
               }
             }
             logs = logs.concat(lines);
-            this.setState({
-              logs: logs,
-              originLogs: logs,
-              lastLine: lastline
-            });
+            this.filterWord(logs, lastLine, this.state.filterWord);
           }
         }
-
-        this.changeFilterWord(this.state.filterWord);
 
         if (done) {
           this.isDone = true;
@@ -259,18 +294,46 @@ export class Log extends React.Component<LogProps, LogState> {
     }
   }
 
+  // 简单支持 ansi 颜色，只支持一行，不支持嵌套
+  ansiColrToHtml(line: string) {
+    const {disableColor} = this.props;
+    if (disableColor === true) {
+      return line;
+    }
+    const match = line.match(/\u001b\[([^m]+)m/);
+    if (match) {
+      const colorNumber = match[1];
+      if (colorNumber) {
+        line = line.replace(/\u001b[^m]*?m/g, '');
+        if (colorNumber in foregroundColors) {
+          return (
+            <span style={{color: foregroundColors[colorNumber]}}>{line}</span>
+          );
+        } else if (colorNumber in backgroundColors) {
+          return (
+            <span style={{backgroundColor: backgroundColors[colorNumber]}}>
+              {line.replace(/\u001b[^m]*?m/g, '')}
+            </span>
+          );
+        }
+      }
+    }
+
+    return line;
+  }
+
   renderHighlightWord(line: string) {
     const {classnames: cx} = this.props;
     let {filterWord} = this.state;
     if (filterWord === '') {
-      return line;
+      return this.ansiColrToHtml(line);
     }
     let items = line.split(filterWord);
     return items.map((item, index) => {
       if (index < items.length - 1) {
         return (
           <span>
-            {item}
+            {this.ansiColrToHtml(item)}
             <span className={cx('Log-line-highlight')}>{filterWord}</span>
           </span>
         );
@@ -401,7 +464,14 @@ export class Log extends React.Component<LogProps, LogState> {
                 <SearchBox
                   className={cx('Log-filter-box')}
                   placeholder="过滤词"
-                  onChange={this.changeFilterWord}
+                  onChange={value =>
+                    this.filterWord(
+                      this.state.originLogs,
+                      this.state.lastLine,
+                      value
+                    )
+                  }
+                  value={this.state.filterWord}
                 />
               )}
             </>

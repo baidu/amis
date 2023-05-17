@@ -9,7 +9,7 @@ import {supportStatic} from './StaticHoc';
 
 /**
  * TransferPicker 穿梭器的弹框形态
- * 文档：https://baidu.gitee.io/amis/docs/components/form/transfer-picker
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/transfer-picker
  */
 export interface TransferPickerControlSchema
   extends Omit<TransferControlSchema, 'type'>,
@@ -44,7 +44,7 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
   @autobind
   dispatchEvent(name: string) {
     const {dispatchEvent, value} = this.props;
-    dispatchEvent(name, resolveEventData(this.props, {value}, 'value'));
+    dispatchEvent(name, resolveEventData(this.props, {value}));
   }
 
   // 动作

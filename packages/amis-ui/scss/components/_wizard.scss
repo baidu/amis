@@ -160,6 +160,7 @@
         float: left;
         padding: 0 var(--gap-md) 0 px2rem(25px);
         margin: 0;
+        font-size: var(--Wizard-step-fontSize);
         color: var(--Wizard-step-color);
         cursor: default;
         height: var(--Wizard-steps-height);
@@ -178,11 +179,11 @@
           bottom: 0;
           right: px2rem(-10px);
           z-index: 2;
+          color: var(--Wizard-after-color);
         }
 
         &:after {
           right: px2rem(-9px);
-          color: var(--Wizard-after-color);
           border-left-color: var(--Wizard-steps-bg);
           z-index: 2;
         }
@@ -192,7 +193,10 @@
           background: var(--Wizard-steps-li-onActive-bg);
         }
 
-        &.is-active:after {
+        &.is-active:after,
+        &.is-complete:after,
+        &.is-active:before,
+        &.is-complete:before {
           color: var(--Wizard-after-onActive-color);
           border-left-color: var(--Wizard-steps-li-onActive-arrow-bg);
         }
@@ -220,6 +224,21 @@
         display: inherit;
       }
     }
+  }
+
+  &-footer {
+    padding: var(--sizes-size-5) var(--sizes-size-7);
+    .#{$ns}Button {
+      &+.#{$ns}Button {
+        margin-left: var(--Panel-footerButtonMarginLeft)
+      }
+    }
+  }
+
+  &-fixedButtom {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
   }
 
   &--vertical {
