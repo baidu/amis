@@ -479,6 +479,7 @@ export class Transfer<
       cellRender,
       multiple,
       labelField,
+      valueField = 'value',
       virtualThreshold,
       itemHeight,
       virtualListHeight,
@@ -503,6 +504,7 @@ export class Transfer<
         option2value={option2value}
         cellRender={cellRender}
         itemRender={optionItemRender}
+        valueField={valueField}
         multiple={multiple}
         virtualThreshold={virtualThreshold}
         itemHeight={itemHeight}
@@ -526,6 +528,7 @@ export class Transfer<
         onlyChildren={onlyChildren ?? !isTreeDeferLoad}
         itemRender={optionItemRender}
         labelField={labelField}
+        valueField={valueField}
         virtualThreshold={virtualThreshold}
         itemHeight={itemHeight}
         checkAllLabel={checkAllLabel}
@@ -543,6 +546,7 @@ export class Transfer<
         itemRender={optionItemRender}
         multiple={multiple}
         labelField={labelField}
+        valueField={valueField}
         virtualThreshold={virtualThreshold}
         itemHeight={itemHeight}
         virtualListHeight={virtualListHeight}
@@ -561,6 +565,7 @@ export class Transfer<
         itemRender={optionItemRender}
         multiple={multiple}
         labelField={labelField}
+        valueField={valueField}
         virtualThreshold={virtualThreshold}
         itemHeight={itemHeight}
         virtualListHeight={virtualListHeight}
@@ -590,6 +595,7 @@ export class Transfer<
       multiple,
       noResultsText,
       labelField,
+      valueField = 'value',
       virtualThreshold,
       itemHeight,
       virtualListHeight,
@@ -633,6 +639,7 @@ export class Transfer<
         multiple={multiple}
         cascade={true}
         labelField={labelField}
+        valueField={valueField}
         virtualThreshold={virtualThreshold}
         itemHeight={itemHeight}
         loadingConfig={loadingConfig}
@@ -651,6 +658,7 @@ export class Transfer<
         itemRender={optionItemRender}
         multiple={multiple}
         labelField={labelField}
+        valueField={valueField}
         virtualThreshold={virtualThreshold}
         itemHeight={itemHeight}
         virtualListHeight={virtualListHeight}
@@ -675,6 +683,7 @@ export class Transfer<
         itemRender={optionItemRender}
         multiple={multiple}
         labelField={labelField}
+        valueField={valueField}
         virtualThreshold={virtualThreshold}
         itemHeight={itemHeight}
         virtualListHeight={virtualListHeight}
@@ -694,6 +703,7 @@ export class Transfer<
         itemRender={optionItemRender}
         multiple={multiple}
         labelField={labelField}
+        valueField={valueField}
         virtualThreshold={virtualThreshold}
         itemHeight={itemHeight}
         virtualListHeight={virtualListHeight}

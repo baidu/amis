@@ -300,6 +300,8 @@ export class TabsTransferRenderer extends BaseTabsTransferRenderer<TabsTransferP
       virtualThreshold,
       onlyChildren,
       loadingConfig,
+      valueField = 'value',
+      labelField = 'label',
       data
     } = this.props;
 
@@ -328,6 +330,8 @@ export class TabsTransferRenderer extends BaseTabsTransferRenderer<TabsTransferP
             toNumber(itemHeight) > 0 ? toNumber(itemHeight) : undefined
           }
           virtualThreshold={virtualThreshold}
+          labelField={labelField}
+          valueField={valueField}
           ctx={data}
         />
 

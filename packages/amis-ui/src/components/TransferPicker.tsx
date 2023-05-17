@@ -50,6 +50,7 @@ export class TransferPicker extends React.Component<TransferPickerProps> {
       onChange,
       size,
       borderMode,
+      labelField = 'label',
       ...rest
     } = this.props;
 
@@ -64,6 +65,7 @@ export class TransferPicker extends React.Component<TransferPickerProps> {
               {...rest}
               {...states}
               value={value}
+              labelField={labelField}
               onChange={(value: any, optionModified) => {
                 if (optionModified) {
                   let options = mapTree(rest.options, item => {
@@ -98,6 +100,9 @@ export class TransferPicker extends React.Component<TransferPickerProps> {
             placeholder={__('Select.placeholder')}
             disabled={disabled}
             borderMode={borderMode}
+            itemRender={option => (
+              <span>{(option && option[labelField]) || 'undefined'}</span>
+            )}
           >
             <span className={cx('TransferPicker-icon')}>
               <Icon icon="pencil" className="icon" />

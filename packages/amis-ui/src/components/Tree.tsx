@@ -1204,6 +1204,7 @@ export class TreeSelector extends React.Component<
                     index,
                     multiple: multiple,
                     checked: checked,
+                    labelField: labelField,
                     onChange: () => this.handleCheck(item, !checked),
                     disabled: disabled || item.disabled
                   })
