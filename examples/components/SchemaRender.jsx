@@ -255,6 +255,13 @@ export default function (schema, schemaProps, showCode, envOverrides) {
           schema,
           {
             ...(isPlainObject(schemaProps) ? schemaProps : {}),
+            context: {
+              // 上下文信息，无论那层可以获取到这个
+              amisUser: {
+                id: 1,
+                name: 'AMIS User'
+              }
+            },
             location,
             theme,
             locale
