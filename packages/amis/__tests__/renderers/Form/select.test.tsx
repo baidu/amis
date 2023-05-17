@@ -900,3 +900,42 @@ test('should call the user filterOption if it is provided', async () => {
     keys: ['label', 'value']
   });
 });
+
+test('should call the string style user filterOption if it is provided', async () => {
+  const options = [
+    {
+      label: 'label1',
+      value: 'value1',
+      comment: 'comment1'
+    },
+    {
+      label: 'label2',
+      value: 'value2',
+      comment: 'comment2'
+    }
+  ];
+
+  const {debug} = render(
+    amisRender(
+      {
+        type: 'select',
+        name: 'select',
+        searchable: true,
+        filterOption: "return [{label: 'label3', value: 'value3'}]",
+        options
+      },
+      {},
+      makeEnv()
+    )
+  );
+
+  const select = screen.getByText('请选择');
+  fireEvent.click(select);
+  fireEvent.change(screen.getByPlaceholderText('搜索'), {
+    target: {value: 'comment'}
+  });
+
+  await waitFor(() => {
+    expect(screen.getByText('label3')).toBeInTheDocument();
+  });
+});
