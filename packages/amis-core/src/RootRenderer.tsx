@@ -14,6 +14,8 @@ import {normalizeApi} from './utils/api';
 
 export interface RootRendererProps extends RootProps {
   location?: any;
+  data?: Record<string, any>;
+  context?: Record<string, any>;
   render: (region: string, schema: any, props: any) => React.ReactNode;
 }
 
@@ -32,6 +34,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
       parentId: ''
     }) as IRootStore;
 
+    this.store.setContext(props.context);
     this.store.initData(props.data);
     this.store.updateLocation(props.location, this.props.env?.parseLocation);
 
@@ -61,6 +64,10 @@ export class RootRenderer extends React.Component<RootRendererProps> {
 
     if (props.location !== prevProps.location) {
       this.store.updateLocation(props.location);
+    }
+
+    if (props.context !== prevProps.context) {
+      this.store.setContext(props.context);
     }
   }
 
