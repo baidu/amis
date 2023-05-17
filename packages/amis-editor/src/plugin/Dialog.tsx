@@ -128,13 +128,13 @@ export class DialogPlugin extends BasePlugin {
                 {
                   label: '确认按钮文案',
                   type: 'input-text',
-                  name: 'confirmText'
+                  name: 'options.confirmText'
                 },
                 getSchemaTpl('layout:originPosition', {value: 'left-top'}),
                 {
                   label: '取消按钮文案',
                   type: 'input-text',
-                  name: 'cancelText'
+                  name: 'options.cancelText'
                 },
                 getSchemaTpl('switch', {
                   label: '可按 Esc 关闭',
@@ -312,25 +312,25 @@ export class InlineModal extends React.Component<any, any> {
     if (dialogType === 'confirm') {
       children = children.filter((item: any) => item?.key !== 'actions');
       return (
-        <div className="ae-InlineModel">
+        <div className="ae-InlineModal">
           {children}
-          <div className="ae-InlineModel-footer">
+          <div className="ae-InlineModal-footer">
             <Button
-              className="ae-InlineModel-footer-btn"
+              className="ae-InlineModal-footer-btn"
               level={options.cancelBtnLevel}
             >
-              {cancelText || '取消'}
+              {options.cancelText || cancelText || '取消'}
             </Button>
             <Button
-              className="ae-InlineModel-footer-btn"
+              className="ae-InlineModal-footer-btn"
               level={options.confirmBtnLevel}
             >
-              {confirmText || '确认'}
+              {options.confirmText || confirmText || '确认'}
             </Button>
           </div>
         </div>
       );
     }
-    return <div className="ae-InlineModel">{children}</div>;
+    return <div className="ae-InlineModal">{children}</div>;
   }
 }

@@ -112,9 +112,9 @@ export interface DialogSchema extends BaseSchema {
   overlay?: boolean;
 
   /**
-   * 弹框类型 normal普通弹框 confirm 确认弹框
+   * 弹框类型 confirm 确认弹框
    */
-  dialogType?: 'normal' | 'confirm';
+  dialogType?: 'confirm';
 }
 
 export type DialogSchemaBase = Omit<DialogSchema, 'type'>;

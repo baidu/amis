@@ -6,7 +6,7 @@ import {
   ListenerContext,
   registerAction
 } from './Action';
-import {render} from '../../src';
+import {render} from '../index';
 
 export interface IAlertAction extends ListenerAction {
   actionType: 'alert';

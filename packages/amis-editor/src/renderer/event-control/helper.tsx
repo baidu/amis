@@ -520,9 +520,9 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               required: true,
               pipeIn: defaultValue({
                 title: '弹框标题',
-                confirmText: '确认',
-                cancelText: '取消',
                 options: {
+                  confirmText: '确认',
+                  cancelText: '取消',
                   confirmBtnLevel: 'primary'
                 },
                 body: '对，你刚刚点击了',

@@ -21,15 +21,17 @@ export interface AlertProps extends ThemeProps, LocaleProps {
   isolate?: boolean;
   children?: React.ReactElement;
   closeOnEsc?: boolean;
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
+  size?: '' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
   cancelBtnLevel?: string;
 }
 
 interface ConfirmOptions {
-  closeOnEsc?: boolean;
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
-  confirmBtnLevel?: string;
-  cancelBtnLevel?: string;
+  closeOnEsc?: AlertProps['closeOnEsc'];
+  size?: AlertProps['size'];
+  confirmBtnLevel?: AlertProps['confirmBtnLevel'];
+  cancelBtnLevel?: AlertProps['cancelBtnLevel'];
+  confirmText?: AlertProps['confirmText'];
+  cancelText?: AlertProps['cancelText'];
 }
 
 export interface AlertState {
@@ -66,7 +68,15 @@ export class Alert extends React.Component<AlertProps, AlertState> {
     show: false,
     title: '',
     content: '',
-    confirm: false
+    confirm: false,
+    options: {
+      size: '',
+      confirmBtnLevel: 'primary',
+      cancelBtnLevel: 'default',
+      closeOnEsc: false,
+      confirmText: '确认',
+      cancelText: '取消'
+    }
   };
   originInstance: Alert | null;
   constructor(props: AlertProps) {
@@ -170,7 +180,9 @@ export class Alert extends React.Component<AlertProps, AlertState> {
         size: options?.size,
         closeOnEsc: options?.closeOnEsc,
         confirmBtnLevel: options?.confirmBtnLevel,
-        cancelBtnLevel: options?.cancelBtnLevel
+        cancelBtnLevel: options?.cancelBtnLevel,
+        confirmText: options?.confirmText,
+        cancelText: options?.cancelText
       }
     });
 
@@ -243,8 +255,12 @@ export class Alert extends React.Component<AlertProps, AlertState> {
     }
     const __ = this.props.translate;
     const finalTitle = __(this.state.title ?? title);
-    const finalConfirmText = __(this.state.confirmText ?? confirmText);
-    const finalCancelText = __(this.state.cancelText ?? cancelText);
+    const finalConfirmText = __(
+      this.state.confirmText ?? this.state.options?.confirmText ?? confirmText
+    );
+    const finalCancelText = __(
+      this.state.cancelText ?? this.state.options?.cancelText ?? cancelText
+    );
     const finalConfirmBtnLevel =
       this.state.options?.confirmBtnLevel ?? confirmBtnLevel;
     const finalCancelBtnLevel =
