@@ -15,6 +15,8 @@ import {RootStoreContext} from './WithRootStore';
 export interface RootRenderProps {
   location?: Location;
   theme?: string;
+  data?: Record<string, any>;
+  locale?: string;
   [propName: string]: any;
 }
 
@@ -35,6 +37,8 @@ export interface RootWrapperProps {
   schema: SchemaNode;
   rootStore: IRendererStore;
   theme: string;
+  data?: Record<string, any>;
+  context?: Record<string, any>;
   [propName: string]: any;
 }
 
@@ -64,6 +68,7 @@ export class Root extends React.Component<RootProps> {
       pathPrefix,
       location,
       data,
+      context,
       locale,
       translate,
       ...rest
@@ -123,6 +128,7 @@ export class Root extends React.Component<RootProps> {
                       resolveDefinitions={this.resolveDefinitions}
                       location={location}
                       data={data}
+                      context={context}
                       env={env}
                       classnames={theme.classnames}
                       classPrefix={theme.classPrefix}

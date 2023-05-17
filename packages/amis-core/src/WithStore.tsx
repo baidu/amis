@@ -35,6 +35,8 @@ export function HocStoreFactory(renderer: {
       store?: IIRendererStore;
       data?: RendererData;
       scope?: RendererData;
+      rootStore: any;
+      topStore: any;
     };
 
     @observer
@@ -66,6 +68,7 @@ export function HocStoreFactory(renderer: {
           storeType: renderer.storeType,
           parentId: this.props.store ? this.props.store.id : ''
         }) as IIRendererStore;
+        store.setTopStore(props.topStore);
         this.store = store;
 
         const extendsData =
@@ -167,7 +170,7 @@ export function HocStoreFactory(renderer: {
         return data as object;
       }
 
-      componentDidUpdate(prevProps: RendererProps) {
+      componentDidUpdate(prevProps: Props) {
         const props = this.props;
         const store = this.store;
         const shouldSync = renderer.shouldSyncSuperStore?.(
@@ -290,7 +293,10 @@ export function HocStoreFactory(renderer: {
         const store = this.store;
 
         this.unReaction?.();
-        isAlive(store) && rootStore.removeStore(store);
+        if (isAlive(store)) {
+          store.setTopStore(null);
+          rootStore.removeStore(store);
+        }
 
         // @ts-ignore
         delete this.store;
