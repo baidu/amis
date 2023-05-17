@@ -24,7 +24,6 @@ import type {SchemaClassName} from '../../Schema';
 import type {TooltipObject} from 'amis-ui/lib/components/TooltipWrapper';
 import type {PopOverOverlay} from 'amis-ui/lib/components/PopOverContainer';
 import {supportStatic} from './StaticHoc';
-import type {FilterOption} from 'amis-ui/src/components/Select';
 
 /**
  * Select 下拉选择框。
@@ -152,7 +151,10 @@ export interface SelectControlSchema
      */
     align?: 'left' | 'center' | 'right';
 
-    filterOption?: 'string' | FilterOption;
+    /**
+     * 检索函数
+     */
+    filterOption?: 'string';
   };
 }
 
@@ -499,13 +501,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
             options={options}
             filterOption={
               typeof filterOption === 'string'
-                ? str2function(
-                    filterOption,
-                    'options',
-                    'inputValue',
-                    'option',
-                    'matchFn'
-                  )
+                ? str2function(filterOption, 'options', 'inputValue', 'option')
                 : filterOption
             }
             loadOptions={

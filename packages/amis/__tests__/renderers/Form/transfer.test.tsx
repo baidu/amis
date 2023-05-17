@@ -15,7 +15,7 @@
  * 12. 关联模式虚拟滚动
  */
 
-import {fireEvent, render, waitFor} from '@testing-library/react';
+import {fireEvent, render, waitFor, screen} from '@testing-library/react';
 import '../../../src';
 import {render as amisRender} from '../../../src';
 import {makeEnv, formatStyleObject, wait} from '../../helper';
@@ -647,6 +647,52 @@ test('Renderer:transfer follow left mode', async () => {
   expect(dom).not.toBeNull();
   expect(dom?.getAttribute('title')).toEqual('战士');
   expect(container).toMatchSnapshot();
+});
+
+test.only('should call custom filterOption if it is provided', async () => {
+  const filterOption = jest.fn().mockImplementation(options => options);
+  const options = [
+    {
+      label: '法师',
+      children: [
+        {
+          label: '诸葛亮',
+          value: 'zhugeliang',
+          weapon: '翡翠仙扇'
+        }
+      ]
+    }
+  ];
+
+  const {container, findByText, debug} = render(
+    amisRender(
+      {
+        label: '树型展示',
+        type: 'transfer',
+        name: 'transfer4',
+        selectMode: 'tree',
+        searchable: true,
+        filterOption: filterOption,
+        options
+      },
+      {},
+      makeEnv({})
+    )
+  );
+
+  const input = screen.getByPlaceholderText('请输入关键字');
+
+  fireEvent.change(input, {
+    target: {value: '翡翠仙扇'}
+  });
+
+  // 300 毫秒才行
+  await wait(300);
+
+  expect(filterOption).toBeCalledTimes(1);
+  expect(filterOption).toBeCalledWith(options, '翡翠仙扇', {
+    keys: ['label', 'value']
+  });
 });
 
 test('Renderer:transfer group mode with virtual', async () => {

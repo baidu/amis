@@ -49,9 +49,8 @@ export {Option, Options};
 export const defaultFilterOption = (
   options: Option[],
   inputValue: string,
-  option: {keys: string[]},
-  matchFn = matchSorter
-): Option[] => matchFn(options, inputValue, option);
+  option: {keys: string[]}
+): Option[] => matchSorter(options, inputValue, option);
 
 export type FilterOption = typeof defaultFilterOption;
 
@@ -594,14 +593,9 @@ export class Select extends React.Component<SelectProps, SelectState> {
     let {selection} = this.state;
     let filtedOptions: Array<Option> =
       inputValue && checkAllBySearch !== false
-        ? filterOption(
-            options,
-            inputValue,
-            {
-              keys: [labelField || 'label', valueField || 'value']
-            },
-            matchSorter
-          )
+        ? filterOption(options, inputValue, {
+            keys: [labelField || 'label', valueField || 'value']
+          })
         : options.concat();
     const optionsValues = filtedOptions.map(option => option.value);
     const selectionValues = selection.map(select => select.value);
@@ -1002,14 +996,9 @@ export class Select extends React.Component<SelectProps, SelectState> {
     let checkedPartial = false;
     let filtedOptions: Array<Option> = (
       inputValue && isOpen && !loadOptions
-        ? filterOption(
-            options,
-            inputValue,
-            {
-              keys: [labelField || 'label', valueField || 'value']
-            },
-            matchSorter
-          )
+        ? filterOption(options, inputValue, {
+            keys: [labelField || 'label', valueField || 'value']
+          })
         : options.concat()
     ).filter((option: Option) => !option.hidden && option.visible !== false);
     const enableVirtualRender =
