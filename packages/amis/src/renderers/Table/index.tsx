@@ -2277,13 +2277,7 @@ export default class Table extends React.Component<TableProps, object> {
       // 操作列不下发loading，否则会导致操作栏里面的所有按钮都出现loading
       loading: column.type === 'operation' ? false : props.loading,
       btnDisabled: store.dragging,
-      data: this.props.selectable
-        ? extendObject(item.locals, {
-            // 只有table时，也可以获取选中行
-            selectedItems: store.selectedRows.map(item => item.data),
-            unSelectedItems: store.unSelectedRows.map(item => item.data)
-          })
-        : item.locals,
+      data: item.locals,
       value: column.name
         ? resolveVariable(
             column.name,

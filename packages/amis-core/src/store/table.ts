@@ -174,12 +174,17 @@ export const Row = types
         children = self.children.map(item => item.locals);
       }
 
+      const table = getParent(self, self.depth * 2) as ITableStore;
       const parent = getParent(self, 2) as ITableStore;
       return createObject(
         extendObject((getParent(self, self.depth * 2) as ITableStore).data, {
           index: self.index,
           // todo 以后再支持多层，目前先一层
-          parent: parent.storeType === Row.name ? parent.data : undefined
+          parent: parent.storeType === Row.name ? parent.data : undefined,
+
+          // 只有table时，也可以获取选中行
+          selectedItems: table.selectedRows.map(item => item.data),
+          unSelectedItems: table.unSelectedRows.map(item => item.data)
         }),
         children
           ? {
