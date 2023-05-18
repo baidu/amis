@@ -811,6 +811,26 @@ export class Action extends React.Component<ActionProps, ActionState> {
       ],
       id
     );
+    insertCustomStyle(
+      themeCss || css,
+      [
+        {
+          key: 'iconClassName',
+          value: iconClassName,
+          weights: {
+            default: {
+              important: true
+            },
+            hover: {
+              important: true,
+              suf: ':not(:disabled):not(.is-disabled)'
+            },
+            active: {important: true, suf: ':not(:disabled):not(.is-disabled)'}
+          }
+        }
+      ],
+      id
+    );
 
     if (actionType !== 'email' && body) {
       return (

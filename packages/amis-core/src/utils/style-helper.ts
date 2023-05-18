@@ -34,6 +34,7 @@ export const inheritValueMap: PlainObject = {
 };
 
 interface extra {
+  important?: boolean;
   pre?: string;
   suf?: string;
 }
@@ -209,7 +210,14 @@ export function formatStyle(
             }
           } else {
             const value = style;
-            value && fn(key, value);
+            if (key === 'iconSize') {
+              fn('width', value + (weights.important ? ' !important' : ''));
+              fn('height', value + (weights.important ? ' !important' : ''));
+              fn('font-size', value + (weights.important ? ' !important' : ''));
+            } else {
+              value &&
+                fn(key, value + (weights.important ? ' !important' : ''));
+            }
           }
         }
         if (styles.length > 0) {
@@ -255,6 +263,7 @@ export function insertCustomStyle(
   if (!themeCss) {
     return;
   }
+
   const {value} = formatStyle(themeCss, classNames, id, defaultData);
   if (value) {
     insertStyle(value, id?.replace('u:', '') || uuid());
