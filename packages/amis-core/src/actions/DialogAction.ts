@@ -134,7 +134,7 @@ export class ConfirmAction implements RendererAction {
 
     const confirmed = await event.context.env.confirm?.(
       content,
-      action.args.confirmDialog?.title,
+      action.args.confirmDialog?.title || action.args.msg,
       action.args.confirmDialog?.options
     );
     return confirmed;
