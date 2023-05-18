@@ -337,7 +337,8 @@ setSchemaTpl(
       key: string;
       visibleOn: string;
       body: Array<any>;
-    }>
+    }>,
+    context: any
   ) => {
     const collapseGroupBody = config
       .filter(
@@ -349,13 +350,17 @@ setSchemaTpl(
         headingClassName: 'ae-formItemControl-header',
         bodyClassName: 'ae-formItemControl-body',
         ...item,
-        key: item.title,
+        key: item.key || item.title,
         body: flatten(item.body)
       }));
+    const domTree =
+      context?.configTitle === 'style'
+        ? '${domTree}'
+        : collapseGroupBody.map(panel => panel.title);
 
     return {
       type: 'collapse-group',
-      activeKey: collapseGroupBody.map(panel => panel.title),
+      activeKey: domTree, // collapseGroupBody.map(panel => panel.title),
       expandIconPosition: 'right',
       expandIcon: {
         type: 'icon',

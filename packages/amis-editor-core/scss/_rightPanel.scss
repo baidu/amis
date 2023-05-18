@@ -402,6 +402,8 @@ $tooltip-bottom: '[data-tooltip][data-position=' bottom ']:hover:after';
       z-index: -1;
       transform: perspective(50px) rotateY(-30deg);
       transition: all 0.15s;
+      border: 2px solid #e8e9eb;
+      border-right: none;
     }
     &::after {
       content: '';
@@ -418,6 +420,8 @@ $tooltip-bottom: '[data-tooltip][data-position=' bottom ']:hover:after';
       background-color: #a1a6b3;
       transform: translate(-50%, -50%) rotate(180deg);
       transition: all 0.15s;
+      border: 2px solid #e8e9eb;
+      border-left: none;
     }
     display: flex;
     flex-direction: column;

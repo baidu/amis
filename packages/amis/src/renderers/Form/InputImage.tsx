@@ -1436,6 +1436,36 @@ export default class ImageControl extends React.Component<
     );
   }
 
+  getThemeConfigStyle(props: any) {
+    return [
+      {
+        key: 'inputImageControlClassName',
+        value: props.inputImageControlClassName
+      },
+      {
+        key: 'iconControlClassName',
+        value: props.iconControlClassName,
+        weights: {
+          default: {
+            suf: ' svg'
+          }
+        }
+      },
+      {
+        key: 'addBtnControlClassName',
+        value: props.addBtnControlClassName,
+        weights: {
+          hover: {
+            suf: ':not(:disabled):not(.is-disabled)'
+          },
+          active: {
+            suf: ':not(:disabled):not(.is-disabled)'
+          }
+        }
+      }
+    ];
+  }
+
   render() {
     const {
       className,
@@ -1463,51 +1493,7 @@ export default class ImageControl extends React.Component<
       translate: __
     } = this.props;
 
-    insertCustomStyle(
-      themeCss,
-      [
-        {
-          key: 'inputImageControlClassName',
-          value: inputImageControlClassName
-        }
-      ],
-      id
-    );
-
-    insertCustomStyle(
-      themeCss,
-      [
-        {
-          key: 'addBtnControlClassName',
-          value: addBtnControlClassName,
-          weights: {
-            hover: {
-              suf: ':not(:disabled):not(.is-disabled)'
-            },
-            active: {
-              suf: ':not(:disabled):not(.is-disabled)'
-            }
-          }
-        }
-      ],
-      id + '-addOn'
-    );
-
-    insertCustomStyle(
-      themeCss,
-      [
-        {
-          key: 'iconControlClassName',
-          value: iconControlClassName,
-          weights: {
-            default: {
-              suf: ' svg'
-            }
-          }
-        }
-      ],
-      id + '-icon'
-    );
+    insertCustomStyle(themeCss, this.getThemeConfigStyle(this.props), id);
 
     const {
       files,

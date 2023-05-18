@@ -1,5 +1,5 @@
 import React from 'react';
-import {Renderer, RendererProps} from 'amis-core';
+import {Renderer, RendererProps, resolveVariableAndFilter} from 'amis-core';
 import {BaseSchema, SchemaCollection, SchemaObject} from '../Schema';
 import {CollapseGroup} from 'amis-ui';
 
@@ -62,9 +62,19 @@ export class CollapseGroupRender extends React.Component<
       style,
       render
     } = this.props;
+    let activeKey = defaultActiveKey;
+    if (
+      typeof defaultActiveKey === 'string' &&
+      defaultActiveKey.indexOf('${') > -1
+    ) {
+      activeKey = resolveVariableAndFilter(
+        this.props.defaultActiveKey,
+        this.props.data
+      );
+    }
     return (
       <CollapseGroup
-        defaultActiveKey={defaultActiveKey}
+        defaultActiveKey={activeKey}
         accordion={accordion}
         expandIcon={expandIcon}
         expandIconPosition={expandIconPosition}

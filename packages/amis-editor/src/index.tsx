@@ -195,6 +195,7 @@ import './renderer/event-control/index';
 import './renderer/TreeOptionControl';
 import './renderer/TransferTableControl';
 import './renderer/style-control/ThemeCssCode';
+import './renderer/style-control/ThemeDomTree';
 import './renderer/ButtonGroupControl';
 import './renderer/FlexSettingControl';
 import 'amis-theme-editor/lib/locale/zh-CN';

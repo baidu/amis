@@ -40,19 +40,18 @@ interface CssNodeTab {
   children: CssNode[];
 }
 
-function AmisThemeCssCodeEditor(props: FormControlProps) {
-  const {themeClass, data, themeClassTree} = props;
+export function AmisThemeCssCodeEditor(props: FormControlProps) {
+  const {themeClass, data, tabValue, isFromDomTree} = props;
   const id = data.id.replace('u:', '');
   const [cssNodes, setCssNodes] = useState<CssNodeTab[]>([]);
-  const [cssNodesTree, setCssNodesTree] = useState<CssNodeTab[]>([]);
-  const [tabId, setTabId] = useState('');
+  const [tabId, setTabId] = useState(tabValue || '');
   function getCssAndSetValue(themeClass: any[]) {
     try {
       const newCssNodes: CssNodeTab[] = [];
       themeClass?.forEach(n => {
-        const classId = n.value ? id + '-' + n.value : id;
+        const classId = n.extra ? id + '-' + n.extra : id;
         const state = n.state || ['default'];
-        const className = n.className || 'className';
+        const className = n.value || 'className';
         const dom = document.getElementById(classId || '') || null;
         const content = dom?.innerHTML || '';
         const ast = cssParse(content);
@@ -84,7 +83,7 @@ function AmisThemeCssCodeEditor(props: FormControlProps) {
             }
             return false;
           })!;
-          item.value = style.join('\n');
+          item && (item.value = style.join('\n'));
         });
 
         newCssNodes.push({
@@ -94,7 +93,7 @@ function AmisThemeCssCodeEditor(props: FormControlProps) {
         });
       });
       setCssNodes(newCssNodes);
-      setTabId(newCssNodes[0]?.key);
+      !isFromDomTree && setTabId(newCssNodes[0]?.key);
     } catch (error) {
       console.error(error);
     }
@@ -111,15 +110,20 @@ function AmisThemeCssCodeEditor(props: FormControlProps) {
   }
 
   useEffect(() => {
-    // getCssAndSetValue(themeClass);
-    if (themeClassTree) {
+    if (themeClass) {
       let nodes: any[] = [];
-      themeClassTree.forEach((child: any) => {
+      themeClass.forEach((child: any) => {
         flattenTree(child, nodes);
       });
       getCssAndSetValue(nodes);
     }
   }, []);
+
+  useEffect(() => {
+    if (tabValue && tabValue !== tabId) {
+      setTabId(tabValue);
+    }
+  }, [tabValue]);
 
   const editorChange = debounce((nodeTabs: CssNodeTab[]) => {
     try {
@@ -222,18 +226,19 @@ function AmisThemeCssCodeEditor(props: FormControlProps) {
         </Button>
       </div>
       <div className="ThemeCssCode-editor-content">
-        {render({
-          type: 'tree-select',
-          label: '层级：',
-          mode: 'horizontal',
-          name: 'tree-select',
-          clearable: false,
-          options: themeClassTree,
-          value: tabId,
-          onChange: (value: string) => {
-            setTabId(value);
-          }
-        })}
+        {!isFromDomTree &&
+          render({
+            type: 'tree-select',
+            label: '层级：',
+            mode: 'horizontal',
+            name: 'tree-select',
+            clearable: false,
+            options: themeClass,
+            value: tabId,
+            onChange: (value: string) => {
+              setTabId(value);
+            }
+          })}
         <div className="ThemeCssCode-editor-content-main">
           {cssNodes.map((node, i) => {
             const children = node.children;
@@ -279,7 +284,7 @@ function AmisThemeCssCodeEditor(props: FormControlProps) {
   );
 }
 
-function AmisStyleCodeEditor(props: FormControlProps) {
+export function AmisStyleCodeEditor(props: FormControlProps) {
   const {data, onBulkChange} = props;
   const {style} = data;
   const [value, setValue] = useState('');
@@ -366,7 +371,7 @@ function AmisStyleCodeEditor(props: FormControlProps) {
   );
 }
 
-function ThemeCssCode(props: FormControlProps) {
+export default function ThemeCssCode(props: FormControlProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [showEditor, setShowEditor] = useState(false);
   function handleShowEditor() {

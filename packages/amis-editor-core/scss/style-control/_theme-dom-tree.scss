@@ -1,0 +1,45 @@
+.ThemeDomTree {
+  position: fixed;
+  right: 280px;
+  top: 0;
+  background: #fff;
+  border: 1px solid #e8e9eb;
+  height: 400px;
+  min-width: 280px;
+
+  &-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 var(--gap-base);
+    line-height: 30px;
+    font-size: 14px;
+    border-bottom: 1px solid #e8e9eb;
+
+    &-title {
+      font-weight: 500;
+    }
+
+    &-close {
+      cursor: pointer;
+      svg {
+        color: #84878c;
+      }
+      svg:hover {
+        color: #151b26;
+      }
+    }
+  }
+
+  &-content {
+    padding: var(--gap-base);
+    overflow-y: auto;
+  }
+
+  &-style-wrapper {
+    position: absolute;
+    top: 0;
+    left: -460px;
+    background: #fff;
+    border: 1px solid #e8e9eb;
+  }
+}

@@ -430,32 +430,20 @@ setSchemaTpl(
   'theme:cssCode',
   ({
     themeClass = [],
-    themeClassTree = [],
     isFormItem
   }: {
     themeClass?: any[];
-    themeClassTree?: any[];
     isFormItem?: boolean;
   } = {}) => {
     if (isFormItem) {
       themeClass.push(
         ...[
           {
-            name: 'description',
-            value: 'description',
-            className: 'descriptionClassName'
-          },
-          {name: 'label', value: 'label', className: 'labelClassName'}
-        ]
-      );
-      themeClassTree.push(
-        ...[
-          {
             label: 'description',
-            value: 'description',
-            className: 'descriptionClassName'
+            extra: 'description',
+            value: 'descriptionClassName'
           },
-          {label: 'label', value: 'label', className: 'labelClassName'}
+          {label: 'label', extra: 'label', value: 'labelClassName'}
         ]
       );
     }
@@ -465,10 +453,40 @@ setSchemaTpl(
         {
           type: 'theme-cssCode',
           label: false,
-          themeClass,
-          themeClassTree
+          themeClass
         }
       ]
+    };
+  }
+);
+
+// dom树
+setSchemaTpl(
+  'theme:domTree',
+  ({
+    themeClass = [],
+    isFormItem
+  }: {
+    themeClass?: any[];
+    isFormItem?: boolean;
+  } = {}) => {
+    if (isFormItem) {
+      themeClass.push(
+        ...[
+          {label: '标题', extra: 'label', value: 'labelClassName'},
+          {
+            label: '描述',
+            extra: 'description',
+            value: 'descriptionClassName'
+          }
+        ]
+      );
+    }
+    return {
+      type: 'theme-domTree',
+      label: false,
+      name: 'domTree',
+      themeClass
     };
   }
 );
@@ -599,6 +617,7 @@ setSchemaTpl('theme:size', (option: any = {}) => {
     type: 'amis-theme-select',
     label: false,
     name: `css.className.size`,
+    isEditorTpl: true,
     ...option
   };
 });
