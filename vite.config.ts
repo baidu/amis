@@ -91,20 +91,6 @@ export default defineConfig({
       {
         find: 'ooxml-viewer',
         replacement: path.resolve(__dirname, './packages/ooxml-viewer/src')
-      },
-      {
-        find: 'amis-theme-editor/lib/renderers.css',
-        replacement: path.resolve(
-          __dirname,
-          '../editor/packages/amis-theme-editor/src/renderers/style/_index.scss'
-        )
-      },
-      {
-        find: 'amis-theme-editor/lib',
-        replacement: path.resolve(
-          __dirname,
-          '../editor/packages/amis-theme-editor/src'
-        )
       }
     ]
   }

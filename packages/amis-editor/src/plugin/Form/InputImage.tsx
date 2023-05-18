@@ -48,13 +48,6 @@ const inputStateFunc = (visibleOn: string, state: string) => {
       visibleOn: visibleOn,
       editorThemePath: `${editorPath}.${state}.body.icon-color`,
       state
-    }),
-    getSchemaTpl('theme:size', {
-      name: `${addBtnCssClassName}.width:${state}`,
-      label: '图标大小',
-      visibleOn: visibleOn,
-      editorThemePath: `${editorPath}.${state}.body.icon-size`,
-      state
     })
   ];
 };
