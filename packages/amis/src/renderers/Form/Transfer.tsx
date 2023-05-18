@@ -387,7 +387,7 @@ export class BaseTransferRenderer<
 
   @autobind
   optionItemRender(option: Option, states: ItemRenderStates) {
-    const {menuTpl, render, data} = this.props;
+    const {menuTpl, render, data, labelField = 'label'} = this.props;
 
     if (menuTpl) {
       return render(`item/${states.index}`, menuTpl, {
@@ -395,7 +395,7 @@ export class BaseTransferRenderer<
       });
     }
 
-    return BaseSelection.itemRender(option, states);
+    return BaseSelection.itemRender(option, {labelField, ...states});
   }
 
   @autobind
@@ -498,6 +498,7 @@ export class BaseTransferRenderer<
       resultSearchable = false,
       statistics,
       labelField,
+      valueField,
       virtualThreshold,
       itemHeight,
       loadingConfig,
@@ -552,6 +553,7 @@ export class BaseTransferRenderer<
           resultSearchPlaceholder={resultSearchPlaceholder}
           statistics={statistics}
           labelField={labelField}
+          valueField={valueField}
           optionItemRender={this.optionItemRender}
           resultItemRender={this.resultItemRender}
           onSelectAll={this.onSelectAll}

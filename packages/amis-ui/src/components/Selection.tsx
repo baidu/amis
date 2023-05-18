@@ -28,6 +28,7 @@ export interface BaseSelectionProps extends ThemeProps, LocaleProps {
   multiple?: boolean;
   clearable?: boolean;
   labelField?: string;
+  valueField?: string;
   onChange?: (value: Array<any> | any) => void;
   onDeferLoad?: (option: Option) => void;
   onLeftDeferLoad?: (option: Option, leftOptions: Option) => void;

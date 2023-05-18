@@ -104,7 +104,9 @@ export class TabsTransferPickerRenderer extends BaseTabsTransferRenderer<TabsTra
       leftOptions,
       itemHeight,
       virtualThreshold,
-      loadingConfig
+      loadingConfig,
+      labelField = 'label',
+      valueField = 'value'
     } = this.props;
 
     return (
@@ -135,6 +137,8 @@ export class TabsTransferPickerRenderer extends BaseTabsTransferRenderer<TabsTra
             toNumber(itemHeight) > 0 ? toNumber(itemHeight) : undefined
           }
           virtualThreshold={virtualThreshold}
+          labelField={labelField}
+          valueField={valueField}
         />
 
         <Spinner

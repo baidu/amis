@@ -166,7 +166,9 @@ export class TabsTransfer extends React.Component<
       itemHeight,
       virtualThreshold,
       onlyChildren,
-      loadingConfig
+      loadingConfig,
+      valueField = 'value',
+      labelField = 'label'
     } = this.props;
     const options = searchResult || [];
     const mode = searchResultMode;
@@ -206,6 +208,8 @@ export class TabsTransfer extends React.Component<
                 })
             : undefined
         }
+        valueField={valueField}
+        labelField={labelField}
       />
     ) : mode === 'chained' ? (
       <ChainedCheckboxes
@@ -226,6 +230,8 @@ export class TabsTransfer extends React.Component<
         }
         itemHeight={itemHeight}
         virtualThreshold={virtualThreshold}
+        valueField={valueField}
+        labelField={labelField}
       />
     ) : (
       <ListCheckboxes
@@ -246,6 +252,8 @@ export class TabsTransfer extends React.Component<
         }
         itemHeight={itemHeight}
         virtualThreshold={virtualThreshold}
+        valueField={valueField}
+        labelField={labelField}
       />
     );
   }
@@ -332,7 +340,9 @@ export class TabsTransfer extends React.Component<
       itemHeight,
       virtualThreshold,
       onlyChildren,
-      loadingConfig
+      loadingConfig,
+      valueField = 'value',
+      labelField = 'label'
     } = this.props;
 
     return option.selectMode === 'table' ? (
@@ -349,6 +359,8 @@ export class TabsTransfer extends React.Component<
         cellRender={cellRender}
         itemHeight={itemHeight}
         virtualThreshold={virtualThreshold}
+        valueField={valueField}
+        labelField={labelField}
       />
     ) : option.selectMode === 'tree' ? (
       <Tree
@@ -376,6 +388,8 @@ export class TabsTransfer extends React.Component<
         }
         itemHeight={itemHeight}
         virtualThreshold={virtualThreshold}
+        valueField={valueField}
+        labelField={labelField}
       />
     ) : option.selectMode === 'chained' ? (
       <ChainedCheckboxes
@@ -399,6 +413,8 @@ export class TabsTransfer extends React.Component<
         }
         itemHeight={itemHeight}
         virtualThreshold={virtualThreshold}
+        valueField={valueField}
+        labelField={labelField}
       />
     ) : option.selectMode === 'associated' ? (
       <AssociatedCheckboxes
@@ -426,6 +442,8 @@ export class TabsTransfer extends React.Component<
         }
         itemHeight={itemHeight}
         virtualThreshold={virtualThreshold}
+        valueField={valueField}
+        labelField={labelField}
       />
     ) : (
       <ListCheckboxes
@@ -448,6 +466,8 @@ export class TabsTransfer extends React.Component<
         }
         itemHeight={itemHeight}
         virtualThreshold={virtualThreshold}
+        valueField={valueField}
+        labelField={labelField}
       />
     );
   }
