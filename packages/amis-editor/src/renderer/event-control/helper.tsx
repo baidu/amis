@@ -514,7 +514,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               )
             },
             {
-              name: 'confirmDialog',
+              name: 'args.confirmDialog',
               label: '弹框内容',
               mode: 'horizontal',
               required: true,

@@ -38,8 +38,8 @@ export interface IConfirmDialogAction extends ListenerAction {
   args: {
     msg: string;
     title: string;
+    confirmDialog?: Schema; // 兼容历史
   };
-  confirmDialog?: Schema; // 兼容历史
 }
 
 /**
@@ -128,14 +128,14 @@ export class ConfirmAction implements RendererAction {
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
-    let content = action.confirmDialog?.body
-      ? render(action.confirmDialog.body)
+    let content = action.args.confirmDialog?.body
+      ? render(action.args.confirmDialog.body)
       : action.args.msg;
 
     const confirmed = await event.context.env.confirm?.(
       content,
-      action.confirmDialog?.title,
-      action.confirmDialog?.options
+      action.args.confirmDialog?.title,
+      action.args.confirmDialog?.options
     );
     return confirmed;
   }
