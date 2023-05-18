@@ -151,6 +151,7 @@ register('en-US', {
   'Form.nestedError': 'Form cannot appear as a descendant of form',
   'Iframe.invalid': 'Invalid iframe url',
   'Iframe.invalidProtocol': 'Can not use http url iframe in https',
+  'Image.dragTip': 'Drag to sort',
   'Image.upload': 'Upload image',
   'Image.errorRetry': 'upload failed, please try again',
   'Image.configError': 'Can only set one of crop or multiple',

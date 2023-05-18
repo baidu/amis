@@ -40,6 +40,7 @@ import isPlainObject from 'lodash/isPlainObject';
 import merge from 'lodash/merge';
 import omit from 'lodash/omit';
 import {TplSchema} from '../Tpl';
+import Sortable from 'sortablejs';
 
 /**
  * Image 图片上传控件
@@ -284,6 +285,18 @@ export interface ImageControlSchema extends FormBaseControlSchema {
    * 固定尺寸的 CSS类名
    */
   fixedSizeClassName?: SchemaClassName;
+
+  /**
+   * 是否可拖拽排序
+   */
+  draggable?: boolean;
+
+  /**
+   * 可拖拽排序的提示信息。
+   *
+   * @default 可拖拽排序
+   */
+  draggableTip?: string;
 }
 
 let preventEvent = (e: any) => e.stopPropagation();
@@ -403,6 +416,7 @@ export default class ImageControl extends React.Component<
   };
 
   files: Array<FileValue | FileX> = [];
+  fileKeys: WeakMap<FileValue | FileX, string> = new WeakMap();
   fileUploadCancelExecutors: Array<{
     file: any;
     executor: () => void;
@@ -470,6 +484,7 @@ export default class ImageControl extends React.Component<
     this.syncAutoFill = this.syncAutoFill.bind(this);
     this.handleReSelect = this.handleReSelect.bind(this);
     this.handleFileCancel = this.handleFileCancel.bind(this);
+    this.dragTipRef = this.dragTipRef.bind(this);
   }
 
   componentDidMount() {
@@ -549,6 +564,17 @@ export default class ImageControl extends React.Component<
 
   componentWillUnmount() {
     this.unmounted = true;
+    this.fileKeys = new WeakMap();
+  }
+
+  getFileKey(file: FileValue | FileX) {
+    if (this.fileKeys.has(file)) {
+      return this.fileKeys.get(file);
+    }
+
+    const key = guid();
+    this.fileKeys.set(file, key);
+    return key;
   }
 
   buildCrop(props: ImageProps) {
@@ -1438,6 +1464,56 @@ export default class ImageControl extends React.Component<
     );
   }
 
+  dragTip?: HTMLElement;
+  sortable?: Sortable;
+  id: string = guid();
+  dragTipRef(ref: any) {
+    if (!this.dragTip && ref) {
+      this.initDragging(ref.parentNode as HTMLElement);
+    } else if (this.dragTip && !ref) {
+      this.destroyDragging();
+    }
+
+    this.dragTip = ref;
+  }
+
+  initDragging(dom: HTMLElement) {
+    const ns = this.props.classPrefix;
+    this.sortable = new Sortable(dom, {
+      group: `inputimages-${this.id}`,
+      animation: 150,
+      handle: `.${ns}ImageControl-item [data-role="dragBar"]`,
+      ghostClass: `${ns}ImageControl-item--dragging`,
+      onEnd: (e: any) => {
+        // 没有移动
+        if (e.newIndex === e.oldIndex) {
+          return;
+        }
+
+        // 换回来
+        const parent = e.to as HTMLElement;
+        if (e.oldIndex < parent.childNodes.length - 1) {
+          parent.insertBefore(e.item, parent.childNodes[e.oldIndex]);
+        } else {
+          parent.appendChild(e.item);
+        }
+
+        const files = this.files.concat();
+        files.splice(e.newIndex, 0, files.splice(e.oldIndex, 1)[0]);
+        this.setState(
+          {
+            files: (this.files = files)
+          },
+          () => this.onChange(true)
+        );
+      }
+    });
+  }
+
+  destroyDragging() {
+    this.sortable && this.sortable.destroy();
+  }
+
   render() {
     const {
       className,
@@ -1462,7 +1538,9 @@ export default class ImageControl extends React.Component<
       addBtnControlClassName,
       iconControlClassName,
       id,
-      translate: __
+      translate: __,
+      draggable,
+      draggableTip
     } = this.props;
 
     insertCustomStyle(
@@ -1529,6 +1607,10 @@ export default class ImageControl extends React.Component<
     }
     const filterFrameImage = filter(frameImage, this.props.data, '| raw');
     const hasPending = files.some(file => file.state == 'pending');
+
+    const enableDraggable =
+      !!multiple && draggable && !disabled && !hasPending && files.length > 1;
+
     return (
       <div
         className={cx(`ImageControl`, className, inputImageControlClassName)}
@@ -1616,10 +1698,11 @@ export default class ImageControl extends React.Component<
                   </div>
                 ) : (
                   <>
-                    {files && files.length
-                      ? files.map((file, key) => (
+                    {files && files.length ? (
+                      <div className={cx('ImageControl-itemList')}>
+                        {files.map((file, key) => (
                           <div
-                            key={file.id || key}
+                            key={this.getFileKey(file)}
                             className={cx(
                               'ImageControl-item',
                               {
@@ -1755,6 +1838,22 @@ export default class ImageControl extends React.Component<
                                   thumbRatio={thumbRatio}
                                   overlays={
                                     <>
+                                      {enableDraggable ? (
+                                        <a
+                                          data-role="dragBar"
+                                          data-tooltip={__(
+                                            draggableTip || 'Image.dragTip'
+                                          )}
+                                          data-position="bottom"
+                                          target="_blank"
+                                          rel="noopener"
+                                        >
+                                          <Icon
+                                            icon="drag-bar"
+                                            className="icon"
+                                          />
+                                        </a>
+                                      ) : null}
                                       <a
                                         data-tooltip={__('Image.zoomIn')}
                                         data-position="bottom"
@@ -1820,23 +1919,27 @@ export default class ImageControl extends React.Component<
                                         </a>
                                       ) : null}
                                       {/* <a
-                                        data-tooltip={
-                                          file.name ||
-                                          getNameFromUrl(file.value || file.url)
-                                        }
-                                        data-position="bottom"
-                                        target="_blank"
-                                      >
-                                        <Icon icon="info" className="icon" />
-                                      </a> */}
+                                      data-tooltip={
+                                        file.name ||
+                                        getNameFromUrl(file.value || file.url)
+                                      }
+                                      data-position="bottom"
+                                      target="_blank"
+                                    >
+                                      <Icon icon="info" className="icon" />
+                                    </a> */}
                                     </>
                                   }
                                 />
                               </>
                             )}
                           </div>
-                        ))
-                      : null}
+                        ))}
+                        {enableDraggable ? (
+                          <span ref={this.dragTipRef} />
+                        ) : null}
+                      </div>
+                    ) : null}
 
                     {(multiple && (!maxLength || files.length < maxLength)) ||
                     (!multiple && !files.length) ? (
