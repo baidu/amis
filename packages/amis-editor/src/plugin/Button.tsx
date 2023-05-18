@@ -150,7 +150,7 @@ export class ButtonPlugin extends BasePlugin {
           editorThemePath: `button1.size.\${size}.body.border`
         }),
         getSchemaTpl('theme:size', {
-          label: '图标大小',
+          label: '图标尺寸',
           name: `themeCss.iconClassName.iconSize:${state}`,
           visibleOn: visibleOn,
           editorThemePath: `button1.size.\${size}.body.icon-size`
