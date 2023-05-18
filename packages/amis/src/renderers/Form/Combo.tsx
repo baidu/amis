@@ -635,7 +635,8 @@ export default class ComboControl extends React.Component<ComboProps> {
       data,
       env,
       translate: __,
-      dispatchEvent
+      dispatchEvent,
+      submitOnChange
     } = this.props;
 
     if (disabled) {
@@ -687,7 +688,7 @@ export default class ComboControl extends React.Component<ComboProps> {
       value = value.join(delimiter || ',');
     }
 
-    this.props.onChange(value);
+    this.props.onChange(value, submitOnChange, true);
   }
 
   handleChange(values: any, diff: any, {index}: any) {
