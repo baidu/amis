@@ -155,6 +155,7 @@ register('zh-CN', {
   'Form.nestedError': '表单不要直接嵌套在表单下面',
   'Iframe.invalid': 'iframe 地址不合法',
   'Iframe.invalidProtocol': '无法加载 http 协议的 iframe',
+  'Image.dragTip': '拖拽排序',
   'Image.upload': '图片上传',
   'Image.errorRetry': '上传失败，请重试',
   'Image.configError': '图片多选配置和裁剪配置只能设置一个',
