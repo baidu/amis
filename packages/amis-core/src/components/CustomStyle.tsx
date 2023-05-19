@@ -1,5 +1,6 @@
-import {RendererEnv} from '../env';
-import {CustomStyleClassName, insertCustomStyle} from '../utils/style-helper';
+import type {RendererEnv} from '../env';
+import type {CustomStyleClassName} from '../utils/style-helper';
+import {insertCustomStyle} from '../utils/style-helper';
 
 interface CustomStyleProps {
   config: {
