@@ -243,8 +243,8 @@ extendsFilters({
       input,
       (result: any, v, k) => {
         (result || (result = [])).push({
-          [label]: v,
-          [value]: k
+          [label]: k,
+          [value]: v
         });
       },
       []

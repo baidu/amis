@@ -232,16 +232,16 @@ test(`filter:objectToArray`, () => {
     })
   ).toMatchObject([
     {
-      value: 'a',
-      label: 1
+      label: 'a',
+      value: 1
     },
     {
-      value: 'b',
-      label: 2
+      label: 'b',
+      value: 2
     },
     {
-      value: 'done',
-      label: 'Done'
+      label: 'done',
+      value: 'Done'
     }
   ]);
 });
