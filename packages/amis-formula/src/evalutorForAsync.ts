@@ -65,19 +65,21 @@ export class AsyncEvaluator extends (Evaluator as any) {
       }
       context.filter = filter;
 
-      const argsRes = await filter.args.reduce(async (promise, item) => {
-        await promise;
+      const argsRes = await runSequence(filter.args, async item => {
+        // await promise;
         if (item?.type === 'mixed') {
-          return runSequence(item.body, item =>
+          const res = await runSequence(item.body, item =>
             typeof item === 'string' ? item : this.evalute(item)
           );
+
+          return res.join('');
         } else if (item.type) {
           return this.evalute(item);
         }
         return item;
-      }, Promise.resolve([]));
+      });
 
-      return fn.apply(context, [input].concat(argsRes));
+      return await fn.apply(context, [input].concat(argsRes));
     }, Promise.resolve(input));
 
     return result;
