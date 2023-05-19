@@ -1,6 +1,6 @@
 import React from 'react';
-import {Renderer, RendererProps} from 'amis-core';
-import moment from 'moment';
+import {Renderer, RendererProps, normalizeDate} from 'amis-core';
+import moment, {Moment} from 'moment';
 import {BaseSchema} from '../Schema';
 import {getPropValue} from 'amis-core';
 
@@ -98,6 +98,7 @@ export class DateField extends React.Component<DateProps, DateState> {
       className,
       style,
       classnames: cx,
+      locale,
       translate: __
     } = this.props;
     let viewValue: React.ReactNode = (
@@ -107,24 +108,18 @@ export class DateField extends React.Component<DateProps, DateState> {
     const value = getPropValue(this.props);
 
     // 主要是给 fromNow 用的
-    let date;
-    if (value) {
-      let ISODate = moment(value, moment.ISO_8601);
-      let NormalDate = moment(value, valueFormat);
-
-      viewValue = ISODate.isValid()
-        ? ISODate.format(format)
-        : NormalDate.isValid()
-        ? NormalDate.format(format)
-        : false;
+    let date: any = null;
+    if (value && (date = normalizeDate(value, valueFormat))) {
+      const normalizeDate: Moment = date;
+      viewValue = normalizeDate.format(format);
 
       if (viewValue) {
         date = viewValue as string;
       }
-    }
 
-    if (fromNow) {
-      viewValue = moment(viewValue as string).fromNow();
+      if (fromNow) {
+        viewValue = normalizeDate.locale(locale).fromNow();
+      }
     }
 
     viewValue = !viewValue ? (
@@ -137,7 +132,7 @@ export class DateField extends React.Component<DateProps, DateState> {
       <span
         className={cx('DateField', className)}
         style={style}
-        title={fromNow ? date : undefined}
+        title={fromNow && date ? date : undefined}
       >
         {viewValue}
       </span>

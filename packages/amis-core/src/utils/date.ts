@@ -92,3 +92,41 @@ export function parseDuration(str: string): moment.Duration | undefined {
 
   return;
 }
+
+/**
+ * 解析日期，先尝试用 format 解析，如果失败，再尝试用其他标准格式解析
+ * @param value
+ * @param format
+ * @returns
+ */
+export function normalizeDate(value: any, format?: string) {
+  if (!value || value === '0') {
+    return undefined;
+  }
+
+  const v = moment(value, format, true);
+  if (v.isValid()) {
+    return v;
+  }
+
+  if (typeof value === 'string' || typeof value === 'number') {
+    let formats = ['', 'YYYY-MM-DD HH:mm:ss', 'X'];
+
+    if (/^\d{10}((\.\d+)*)$/.test(value.toString())) {
+      formats = ['X', 'x', 'YYYY-MM-DD HH:mm:ss', ''];
+    } else if (/^\d{13}((\.\d+)*)$/.test(value.toString())) {
+      formats = ['x', 'X', 'YYYY-MM-DD HH:mm:ss', ''];
+    }
+
+    while (formats.length) {
+      const format = formats.shift()!;
+      const date = moment(value, format);
+
+      if (date.isValid()) {
+        return date;
+      }
+    }
+  }
+
+  return undefined;
+}
