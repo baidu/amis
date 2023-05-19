@@ -26,6 +26,7 @@ import {HocStoreFactory} from './WithStore';
 import type {RendererEnv} from './env';
 import {OnEventProps, RendererEvent} from './utils/renderer-event';
 import {Placeholder} from './renderers/Placeholder';
+import {StatusScopedProps} from './StatusScoped';
 
 export interface TestFunc {
   (
@@ -57,7 +58,11 @@ export interface RendererBasicConfig {
   // [propName:string]:any;
 }
 
-export interface RendererProps extends ThemeProps, LocaleProps, OnEventProps {
+export interface RendererProps
+  extends ThemeProps,
+    LocaleProps,
+    OnEventProps,
+    StatusScopedProps {
   render: (
     region: string,
     node: SchemaNode,
