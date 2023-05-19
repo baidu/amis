@@ -138,50 +138,54 @@ export const availableRanges: {[propName: string]: any} = {
   '7daysago': {
     label: 'DateRange.7daysago',
     startDate: (now: moment.Moment) => {
-      return now.add(-7, 'days').startOf('day');
+      return now.add(-7, 'days');
     },
     endDate: (now: moment.Moment) => {
-      return now.add(-1, 'days').endOf('day');
+      return now;
     }
   },
 
   '30daysago': {
     label: 'DateRange.30daysago',
     startDate: (now: moment.Moment) => {
-      return now.add(-30, 'days').startOf('day');
+      return now.add(-30, 'days');
     },
     endDate: (now: moment.Moment) => {
-      return now.add(-1, 'days').endOf('day');
+      return now;
     }
   },
 
   '90daysago': {
     label: 'DateRange.90daysago',
     startDate: (now: moment.Moment) => {
-      return now.add(-90, 'days').startOf('day');
+      return now.add(-90, 'days');
     },
     endDate: (now: moment.Moment) => {
-      return now.add(-1, 'days').endOf('day');
+      return now;
     }
   },
 
   'prevweek': {
     label: 'DateRange.lastWeek',
-    startDate: (now: moment.Moment) => {
-      return now.startOf('week').add(-1, 'weeks');
+    /** 默认开启iso，每周从周一起始，ios为false时从周日起始 */
+    startDate: (now: moment.Moment, iso: boolean = true) => {
+      return now.startOf(iso ? 'isoWeek' : 'week').add(-1, 'weeks');
     },
-    endDate: (now: moment.Moment) => {
-      return now.startOf('week').add(-1, 'days').endOf('day');
+    endDate: (now: moment.Moment, iso: boolean = true) => {
+      return now
+        .startOf(iso ? 'isoWeek' : 'week')
+        .add(-1, 'days')
+        .endOf('day');
     }
   },
 
   'thisweek': {
     label: 'DateRange.thisWeek',
-    startDate: (now: moment.Moment) => {
-      return now.startOf('week');
+    startDate: (now: moment.Moment, iso: boolean = true) => {
+      return now.startOf(iso ? 'isoWeek' : 'week');
     },
-    endDate: (now: moment.Moment) => {
-      return now.endOf('week');
+    endDate: (now: moment.Moment, iso: boolean = true) => {
+      return now.endOf(iso ? 'isoWeek' : 'week');
     }
   },
 
@@ -264,10 +268,10 @@ export const advancedRanges = [
       return {
         label: __('DateRange.hoursago', {hours}),
         startDate: (now: moment.Moment) => {
-          return now.add(-hours, 'hours').startOf('hour');
+          return now.add(-hours, 'hours');
         },
         endDate: (now: moment.Moment) => {
-          return now.add(-1, 'hours').endOf('hours');
+          return now;
         }
       };
     }
@@ -278,10 +282,10 @@ export const advancedRanges = [
       return {
         label: __('DateRange.hourslater', {hours}),
         startDate: (now: moment.Moment) => {
-          return now.startOf('hour');
+          return now;
         },
         endDate: (now: moment.Moment) => {
-          return now.add(hours, 'hours').endOf('hour');
+          return now.add(hours, 'hours');
         }
       };
     }
@@ -292,10 +296,10 @@ export const advancedRanges = [
       return {
         label: __('DateRange.daysago', {days}),
         startDate: (now: moment.Moment) => {
-          return now.add(-days, 'days').startOf('day');
+          return now.add(-days, 'days');
         },
         endDate: (now: moment.Moment) => {
-          return now.add(-1, 'days').endOf('day');
+          return now;
         }
       };
     }
@@ -306,10 +310,10 @@ export const advancedRanges = [
       return {
         label: __('DateRange.dayslater', {days}),
         startDate: (now: moment.Moment) => {
-          return now.startOf('day');
+          return now;
         },
         endDate: (now: moment.Moment) => {
-          return now.add(days, 'days').endOf('day');
+          return now.add(days, 'days');
         }
       };
     }
@@ -320,10 +324,10 @@ export const advancedRanges = [
       return {
         label: __('DateRange.weeksago', {weeks}),
         startDate: (now: moment.Moment) => {
-          return now.startOf('week').add(-weeks, 'weeks');
+          return now.add(-weeks, 'weeks');
         },
         endDate: (now: moment.Moment) => {
-          return now.startOf('week').add(-1, 'days').endOf('day');
+          return now;
         }
       };
     }
@@ -334,10 +338,10 @@ export const advancedRanges = [
       return {
         label: __('DateRange.weekslater', {weeks}),
         startDate: (now: moment.Moment) => {
-          return now.startOf('week');
+          return now;
         },
         endDate: (now: moment.Moment) => {
-          return now.startOf('week').add(weeks, 'weeks').endOf('day');
+          return now.add(weeks, 'weeks');
         }
       };
     }
@@ -348,10 +352,10 @@ export const advancedRanges = [
       return {
         label: __('DateRange.monthsago', {months}),
         startDate: (now: moment.Moment) => {
-          return now.startOf('months').add(-months, 'months');
+          return now.add(-months, 'months');
         },
         endDate: (now: moment.Moment) => {
-          return now.startOf('month').add(-1, 'days').endOf('day');
+          return now;
         }
       };
     }
@@ -362,10 +366,10 @@ export const advancedRanges = [
       return {
         label: __('DateRange.monthslater', {months}),
         startDate: (now: moment.Moment) => {
-          return now.startOf('month');
+          return now;
         },
         endDate: (now: moment.Moment) => {
-          return now.startOf('month').add(months, 'months').endOf('day');
+          return now.add(months, 'months');
         }
       };
     }
@@ -376,10 +380,10 @@ export const advancedRanges = [
       return {
         label: __('DateRange.quartersago', {quarters}),
         startDate: (now: moment.Moment) => {
-          return now.startOf('quarters').add(-quarters, 'quarters');
+          return now.add(-quarters, 'quarters');
         },
         endDate: (now: moment.Moment) => {
-          return now.startOf('quarter').add(-1, 'days').endOf('day');
+          return now;
         }
       };
     }
@@ -390,10 +394,10 @@ export const advancedRanges = [
       return {
         label: __('DateRange.quarterslater', {quarters}),
         startDate: (now: moment.Moment) => {
-          return now.startOf('quarter');
+          return now;
         },
         endDate: (now: moment.Moment) => {
-          return now.startOf('quarter').add(quarters, 'quarters').endOf('day');
+          return now.add(quarters, 'quarters');
         }
       };
     }
@@ -404,10 +408,10 @@ export const advancedRanges = [
       return {
         label: __('DateRange.yearsago', {years}),
         startDate: (now: moment.Moment) => {
-          return now.startOf('years').add(-years, 'years');
+          return now.add(-years, 'years');
         },
         endDate: (now: moment.Moment) => {
-          return now.startOf('year').add(-1, 'days').endOf('day');
+          return now;
         }
       };
     }
@@ -418,10 +422,10 @@ export const advancedRanges = [
       return {
         label: __('DateRange.yearslater', {years}),
         startDate: (now: moment.Moment) => {
-          return now.startOf('year');
+          return now;
         },
         endDate: (now: moment.Moment) => {
-          return now.startOf('year').add(years, 'years').endOf('day');
+          return now.add(years, 'years');
         }
       };
     }

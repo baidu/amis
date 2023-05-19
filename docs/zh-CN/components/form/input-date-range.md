@@ -156,6 +156,8 @@ order: 15
 - `{n}yearsago`: 最近 n 年
 - `{n}yearslater`: n 年以内
 
+> {n}{_}later 和 {n}{_}ago 均包含当天
+
 ## 内嵌模式
 
 ```schema: scope="body"
