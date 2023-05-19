@@ -5,7 +5,8 @@ import {
   OptionsControlProps,
   Option,
   FormOptionsControl,
-  resolveEventData
+  resolveEventData,
+  str2function
 } from 'amis-core';
 import {normalizeOptions} from 'amis-core';
 import find from 'lodash/find';
@@ -149,6 +150,11 @@ export interface SelectControlSchema
      * 下拉框 Popover 的对齐方式
      */
     align?: 'left' | 'center' | 'right';
+
+    /**
+     * 检索函数
+     */
+    filterOption?: 'string';
   };
 }
 
@@ -460,6 +466,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       env,
       useMobileUI,
       overlay,
+      filterOption,
       ...rest
     } = this.props;
 
@@ -492,6 +499,11 @@ export default class SelectControl extends React.Component<SelectProps, any> {
             ref={this.inputRef}
             value={selectedOptions}
             options={options}
+            filterOption={
+              typeof filterOption === 'string'
+                ? str2function(filterOption, 'options', 'inputValue', 'option')
+                : filterOption
+            }
             loadOptions={
               isEffectiveApi(autoComplete) ? this.lazyloadRemote : undefined
             }
