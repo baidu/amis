@@ -52,35 +52,37 @@ export function normalizeOptions(
       return option;
     });
   } else if (Array.isArray(options as Options)) {
-    return (options as Options).map(item => {
-      const value = item && item[valueField];
-      /**
-       * value 有可能为 null，但 null !== undefined，
-       * 因此从item中读取属性数据，需要判空
-       */
-      const idx =
-        value !== undefined && !item?.children
-          ? share.values.indexOf(value)
-          : -1;
+    return (options as Options)
+      .filter(item => item !== null && item !== undefined)
+      .map(item => {
+        const value = item && item[valueField];
+        const idx =
+          value !== undefined && !item.children
+            ? share.values.indexOf(value)
+            : -1;
 
-      if (~idx) {
-        return share.options[idx];
-      }
+        if (~idx) {
+          return share.options[idx];
+        }
 
-      const option = {
-        ...item,
-        [valueField]: value
-      };
+        const option = {
+          ...item,
+          [valueField]: value
+        };
 
-      if (typeof option.children !== 'undefined') {
-        option.children = normalizeOptions(option.children, share, valueField);
-      } else if (value !== undefined) {
-        share.values.push(value);
-        share.options.push(option);
-      }
+        if (typeof option.children !== 'undefined') {
+          option.children = normalizeOptions(
+            option.children,
+            share,
+            valueField
+          );
+        } else if (value !== undefined) {
+          share.values.push(value);
+          share.options.push(option);
+        }
 
-      return option;
-    });
+        return option;
+      });
   } else if (isPlainObject(options)) {
     return Object.keys(options).map(key => {
       const idx = share.values.indexOf(key);
