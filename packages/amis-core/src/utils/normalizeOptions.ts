@@ -54,9 +54,12 @@ export function normalizeOptions(
   } else if (Array.isArray(options as Options)) {
     return (options as Options).map(item => {
       const value = item && item[valueField];
-
+      /**
+       * value 有可能为 null，但 null !== undefined，
+       * 因此从item中读取属性数据，需要判空
+       */
       const idx =
-        value !== undefined && !item.children
+        value !== undefined && !item?.children
           ? share.values.indexOf(value)
           : -1;
 
