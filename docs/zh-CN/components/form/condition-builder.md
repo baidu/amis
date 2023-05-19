@@ -836,6 +836,11 @@ selectMode 为`tree`时
           "builderMode": "simple",
           "name": "conditions",
           "description": "适合让用户自己拼查询条件，然后后端根据数据生成 query where",
+          "pickerIcon": {
+            "type": "icon",
+            "icon": "edit",
+            "className": "w-4 h-4"
+          },
           "fields": [
             {
               "label": "文本",
