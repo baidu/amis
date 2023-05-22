@@ -211,12 +211,15 @@ export function formatStyle(
           } else {
             const value = style;
             if (key === 'iconSize') {
-              fn('width', value + (weights.important ? ' !important' : ''));
-              fn('height', value + (weights.important ? ' !important' : ''));
-              fn('font-size', value + (weights.important ? ' !important' : ''));
+              fn('width', value + (weights?.important ? ' !important' : ''));
+              fn('height', value + (weights?.important ? ' !important' : ''));
+              fn(
+                'font-size',
+                value + (weights?.important ? ' !important' : '')
+              );
             } else {
               value &&
-                fn(key, value + (weights.important ? ' !important' : ''));
+                fn(key, value + (weights?.important ? ' !important' : ''));
             }
           }
         }
@@ -245,27 +248,33 @@ export function formatStyle(
   };
 }
 
+export interface CustomStyleClassName {
+  key: string;
+  value?: string;
+  weights?: {
+    default?: extra;
+    hover?: extra;
+    active?: extra;
+    disabled?: extra;
+  };
+}
+
 export function insertCustomStyle(
   themeCss: any,
-  classNames: {
-    key: string;
-    value?: string;
-    weights?: {
-      default?: extra;
-      hover?: extra;
-      active?: extra;
-      disabled?: extra;
-    };
-  }[],
+  classNames: CustomStyleClassName[],
   id?: string,
-  defaultData?: any
+  defaultData?: any,
+  customStyleClassPrefix?: string
 ) {
   if (!themeCss) {
     return;
   }
 
-  const {value} = formatStyle(themeCss, classNames, id, defaultData);
+  let {value} = formatStyle(themeCss, classNames, id, defaultData);
   if (value) {
+    value = customStyleClassPrefix
+      ? `${customStyleClassPrefix} ${value}`
+      : value;
     insertStyle(value, id?.replace('u:', '') || uuid());
   }
 }

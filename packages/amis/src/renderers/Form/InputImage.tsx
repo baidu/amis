@@ -5,7 +5,7 @@ import {
   FormBaseControl,
   prettyBytes,
   resolveEventData,
-  insertCustomStyle
+  CustomStyle
 } from 'amis-core';
 // import 'cropperjs/dist/cropper.css';
 const Cropper = React.lazy(() => import('react-cropper'));
@@ -1540,57 +1540,9 @@ export default class ImageControl extends React.Component<
       id,
       translate: __,
       draggable,
-      draggableTip
+      draggableTip,
+      env
     } = this.props;
-
-    insertCustomStyle(
-      themeCss,
-      [
-        {
-          key: 'inputImageControlClassName',
-          value: inputImageControlClassName
-        }
-      ],
-      id,
-      null
-    );
-
-    insertCustomStyle(
-      themeCss,
-      [
-        {
-          key: 'addBtnControlClassName',
-          value: addBtnControlClassName,
-          weights: {
-            hover: {
-              suf: ':not(:disabled):not(.is-disabled)'
-            },
-            active: {
-              suf: ':not(:disabled):not(.is-disabled)'
-            }
-          }
-        }
-      ],
-      id + '-addOn',
-      null
-    );
-
-    insertCustomStyle(
-      themeCss,
-      [
-        {
-          key: 'iconControlClassName',
-          value: iconControlClassName,
-          weights: {
-            default: {
-              suf: ' svg'
-            }
-          }
-        }
-      ],
-      id + '-icon',
-      null
-    );
 
     const {
       files,
@@ -2017,6 +1969,58 @@ export default class ImageControl extends React.Component<
             )}
           </DropZone>
         )}
+        <CustomStyle
+          config={{
+            themeCss,
+            classNames: [
+              {
+                key: 'inputImageControlClassName',
+                value: inputImageControlClassName
+              }
+            ],
+            id
+          }}
+          env={env}
+        />
+        <CustomStyle
+          config={{
+            themeCss,
+            classNames: [
+              {
+                key: 'addBtnControlClassName',
+                value: addBtnControlClassName,
+                weights: {
+                  hover: {
+                    suf: ':not(:disabled):not(.is-disabled)'
+                  },
+                  active: {
+                    suf: ':not(:disabled):not(.is-disabled)'
+                  }
+                }
+              }
+            ],
+            id: id + '-addOn'
+          }}
+          env={env}
+        />
+        <CustomStyle
+          config={{
+            themeCss,
+            classNames: [
+              {
+                key: 'iconControlClassName',
+                value: iconControlClassName,
+                weights: {
+                  default: {
+                    suf: ' svg'
+                  }
+                }
+              }
+            ],
+            id: id + '-icon'
+          }}
+          env={env}
+        />
       </div>
     );
   }
