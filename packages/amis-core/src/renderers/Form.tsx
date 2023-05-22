@@ -1154,17 +1154,12 @@ export default class Form extends React.Component<FormProps, object> {
                 }
                 const cbResult = until(
                   () => store.checkRemote(finnalAsyncApi as Api, store.data),
-                  (ret: any) => {
-                    return ret && ret[finishedField || 'finished'];
-                  },
+                  (ret: any) => ret && ret[finishedField || 'finished'],
                   cancel => (this.asyncCancel = cancel),
                   checkInterval
                 ).then((value: any) => {
                   // 派发asyncApiFinished事件
-                  dispatchEvent(
-                    'asyncApiFinished',
-                    createObject(data, store.data)
-                  );
+                  dispatchEvent('asyncApiFinished', store.data);
                 });
                 return {
                   cbResult,
