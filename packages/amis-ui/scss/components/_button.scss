@@ -624,9 +624,6 @@
       var(--button-size-default-icon-size),
       var(--button-size-default-icon-margin)
     );
-    &.#{$ns}Button--iconOnly {
-      min-width: var(--button-size-default-height);
-    }
   }
 
   &--size-xs {
@@ -651,10 +648,6 @@
       var(--button-size-xs-icon-size),
       var(--button-size-xs-icon-margin)
     );
-
-    &.#{$ns}Button--iconOnly {
-      min-width: var(--button-size-xs-height);
-    }
   }
 
   &--size-sm {
@@ -679,10 +672,6 @@
       var(--button-size-sm-icon-size),
       var(--button-size-sm-icon-margin)
     );
-
-    &.#{$ns}Button--iconOnly {
-      min-width: var(--button-size-sm-height);
-    }
   }
 
   &--size-md {
@@ -707,10 +696,6 @@
       var(--button-size-md-icon-size),
       var(--button-size-md-icon-margin)
     );
-
-    &.#{$ns}Button--iconOnly {
-      min-width: var(--button-size-md-height);
-    }
   }
 
   &--size-lg {
@@ -735,29 +720,6 @@
       var(--button-size-lg-icon-size),
       var(--button-size-lg-icon-margin)
     );
-
-    &.#{$ns}Button--iconOnly {
-      min-width: var(--button-size-lg-height);
-    }
-  }
-
-  &--iconOnly {
-    padding: 0;
-    &:not(.#{$ns}Button--link) {
-      > svg.icon {
-        width: px2rem(14px);
-        height: px2rem(14px);
-      }
-
-      > .fa,
-      > .iconfont {
-        font-size: var(--fontSizeMd);
-      }
-
-      > .iconfont {
-        line-height: 1;
-      }
-    }
   }
 
   @include hover-focus {

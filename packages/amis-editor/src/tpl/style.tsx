@@ -586,6 +586,7 @@ setSchemaTpl('theme:size', (option: any = {}) => {
     type: 'amis-theme-select',
     label: false,
     name: `css.className.size`,
+    options: '${sizesOptions}',
     ...option
   };
 });

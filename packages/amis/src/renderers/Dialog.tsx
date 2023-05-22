@@ -375,7 +375,8 @@ export default class Dialog extends React.Component<DialogProps> {
   }
 
   handleExited() {
-    const {lazySchema, store} = this.props;
+    const {lazySchema, store, statusStore} = this.props;
+    statusStore && isAlive(statusStore) && statusStore.resetAll();
     if (isAlive(store)) {
       store.reset();
       store.setEntered(false);

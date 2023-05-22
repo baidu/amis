@@ -11,6 +11,7 @@ import {ThemeContext} from './theme';
 import {Schema, SchemaNode} from './types';
 import {autobind, isEmpty} from './utils/helper';
 import {RootStoreContext} from './WithRootStore';
+import {StatusScoped, StatusScopedProps} from './StatusScoped';
 
 export interface RootRenderProps {
   location?: Location;
@@ -20,7 +21,7 @@ export interface RootRenderProps {
   [propName: string]: any;
 }
 
-export interface RootProps {
+export interface RootProps extends StatusScopedProps {
   schema: SchemaNode;
   rootStore: IRendererStore;
   env: RendererEnv;
@@ -146,10 +147,14 @@ export class Root extends React.Component<RootProps> {
   }
 }
 
-export interface renderChildProps extends Partial<RendererProps> {
+export interface renderChildProps
+  extends Partial<Omit<RendererProps, 'statusStore'>>,
+    StatusScopedProps {
   env: RendererEnv;
 }
 export type ReactElement = React.ReactNode[] | JSX.Element | null | false;
+
+const StatusScopedSchemaRenderer = StatusScoped(SchemaRenderer);
 
 export function renderChildren(
   prefix: string,
@@ -201,6 +206,26 @@ export function renderChild(
     props = transform(props);
   }
 
+  if (
+    ['dialog', 'drawer'].includes(schema?.type) &&
+    !schema?.component &&
+    !schema?.children
+  ) {
+    // 因为状态判断实在 SchemaRenderer 里面判断的
+    // 找渲染器也是在那，所以没办法在之前根据渲染器信息来包裹个组件下发 statusStore
+    // 所以这里先根据 type 来处理一下
+    // 等后续把状态处理再抽一层，可以把此处放到 SchemaRenderer 里面去
+    return (
+      <StatusScopedSchemaRenderer
+        render={renderChild as any}
+        {...props}
+        schema={schema}
+        propKey={schema.key}
+        $path={`${prefix ? `${prefix}/` : ''}${(schema && schema.type) || ''}`}
+      />
+    );
+  }
+
   return (
     <SchemaRenderer
       render={renderChild as any}
@@ -212,4 +237,4 @@ export function renderChild(
   );
 }
 
-export default Scoped(Root);
+export default StatusScoped(Scoped(Root));

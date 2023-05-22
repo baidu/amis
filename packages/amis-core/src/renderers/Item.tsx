@@ -33,9 +33,10 @@ import {wrapControl} from './wrapControl';
 import debounce from 'lodash/debounce';
 import {isApiOutdated, isEffectiveApi} from '../utils/api';
 import {findDOMNode} from 'react-dom';
-import {dataMapping, insertCustomStyle} from '../utils';
+import {dataMapping} from '../utils';
 import Overlay from '../components/Overlay';
 import PopOver from '../components/PopOver';
+import CustomStyle from '../components/CustomStyle';
 
 export type LabelAlign = 'right' | 'left';
 
@@ -1460,30 +1461,10 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       themeCss,
       id,
       labelClassName,
-      descriptionClassName
+      descriptionClassName,
+      env
     } = this.props;
     const mode = this.props.mode || formMode;
-
-    insertCustomStyle(
-      themeCss || css,
-      [
-        {
-          key: 'labelClassName',
-          value: labelClassName
-        }
-      ],
-      id + '-label'
-    );
-    insertCustomStyle(
-      themeCss || css,
-      [
-        {
-          key: 'descriptionClassName',
-          value: descriptionClassName
-        }
-      ],
-      id + '-description'
-    );
 
     if (wrap === false || inputOnly) {
       return this.renderControl();
@@ -1513,6 +1494,32 @@ export class FormItemWrap extends React.Component<FormItemProps> {
               }
             )
           : null}
+        <CustomStyle
+          config={{
+            themeCss: themeCss || css,
+            classNames: [
+              {
+                key: 'labelClassName',
+                value: labelClassName
+              }
+            ],
+            id: id + '-label'
+          }}
+          env={env}
+        />
+        <CustomStyle
+          config={{
+            themeCss: themeCss || css,
+            classNames: [
+              {
+                key: 'descriptionClassName',
+                value: descriptionClassName
+              }
+            ],
+            id: id + '-description'
+          }}
+          env={env}
+        />
       </>
     );
   }

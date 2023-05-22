@@ -1771,10 +1771,12 @@ export function parseQuery(
     (location && location?.search && qsparse(location.search.substring(1))) ||
     (window.location.search && qsparse(window.location.search.substring(1)));
   /* 处理hash中的query */
-  const hashQuery =
-    window.location?.hash && typeof window.location?.hash === 'string'
-      ? qsparse(window.location.hash.replace(/^#.*\?/gi, ''))
-      : {};
+  const hash = window.location?.hash;
+  let hashQuery = {};
+  let idx = -1;
+  if (typeof hash === 'string' && ~(idx = hash.indexOf('?'))) {
+    hashQuery = qsparse(hash.substring(idx + 1));
+  }
   const normalizedQuery = isPlainObject(query) ? query : {};
 
   return merge(normalizedQuery, hashQuery);

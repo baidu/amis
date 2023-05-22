@@ -60,6 +60,11 @@ export interface PickerControlSchema extends FormOptionsSchema {
   modalMode?: 'dialog' | 'drawer';
 
   /**
+   * 弹窗的标题，默认为情选择
+   */
+  modalTitle?: string;
+
+  /**
    * 内嵌模式，也就是说不弹框了。
    */
   embed?: boolean;
@@ -82,6 +87,7 @@ export default class PickerControl extends React.PureComponent<
   any
 > {
   static propsList: Array<string> = [
+    'modalTitle',
     'modalMode',
     'pickerSchema',
     'labelField',
@@ -513,7 +519,9 @@ export default class PickerControl extends React.PureComponent<
       embed,
       selectedOptions,
       translate: __,
-      popOverContainer
+      popOverContainer,
+      modalTitle,
+      data
     } = this.props;
 
     return (
@@ -569,7 +577,10 @@ export default class PickerControl extends React.PureComponent<
             {render(
               'modal',
               {
-                title: __('Select.placeholder'),
+                title:
+                  modalTitle && typeof modalTitle === 'string'
+                    ? filter(modalTitle, data)
+                    : __('Select.placeholder'),
                 size: size,
                 type: modalMode,
                 className: modalClassName,

@@ -25,7 +25,7 @@
       var(--inputImage-base-default-bottom-left-border-radius);
     cursor: pointer;
     margin-right: var(--gap-base);
-    
+
     &-bg {
       position: absolute;
       z-index: 0;
@@ -119,11 +119,10 @@
     }
 
     &:not(:disabled):not(.is-disabled) {
-
       &.is-invalid:hover {
         border-color: var(--FileControl-danger-color);
       }
-  
+
       &:hover {
         svg {
           color: var(--inputImage-base-hover-icon-color);
@@ -198,6 +197,10 @@
     }
   }
 
+  &-itemList {
+    display: inline;
+  }
+
   &-item {
     border: var(--borderWidth) solid var(--borderColor);
     border-radius: var(--ImageControl-addBtn-borderRadius);
@@ -220,6 +223,10 @@
 
     svg.icon-refresh {
       transform: rotate(180deg);
+    }
+
+    &--dragging {
+      border: var(--borderWidth) solid var(--colors-brand-5);
     }
   }
 

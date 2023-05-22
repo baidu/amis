@@ -581,13 +581,13 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     // 展开行变化时触发
     if (!isEqual(prevState.expandedRowKeys, this.state.expandedRowKeys)) {
       if (this.props.expandable) {
-        const {onExpandedRowsChange, keyField} = this.props.expandable;
+        const {onExpandedRowsChange} = this.props.expandable;
         const expandedRows: Array<any> = [];
         this.state.dataSource.forEach(item => {
           if (
             find(
               this.state.expandedRowKeys,
-              key => key == item[keyField || 'key']
+              key => key == item[this.getExpandableKeyField()]
             )
           ) {
             expandedRows.push(item);

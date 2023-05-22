@@ -44,6 +44,7 @@ export class TransferPicker extends React.Component<TabsTransferPickerProps> {
       className,
       onChange,
       size,
+      labelField = 'label',
       ...rest
     } = this.props;
 
@@ -71,6 +72,7 @@ export class TransferPicker extends React.Component<TabsTransferPickerProps> {
                   onChange(value);
                 }
               }}
+              labelField={labelField}
             />
           );
         }}
@@ -91,6 +93,9 @@ export class TransferPicker extends React.Component<TabsTransferPickerProps> {
             onResultClick={onClick}
             placeholder={__('Select.placeholder')}
             disabled={disabled}
+            itemRender={option => (
+              <span>{(option && option[labelField]) || 'undefiend'}</span>
+            )}
           >
             <span className={cx('TransferPicker-icon')}>
               <Icon icon="pencil" className="icon" />

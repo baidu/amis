@@ -5,7 +5,7 @@ import {
   highlight,
   FormOptionsControl,
   resolveEventData,
-  insertCustomStyle,
+  CustomStyle,
   getValueByPath
 } from 'amis-core';
 import {ActionObject} from 'amis-core';
@@ -1051,6 +1051,7 @@ export default class TextControl extends React.PureComponent<
       inputControlClassName,
       id,
       addOnClassName,
+      env,
       classPrefix: ns
     } = this.props;
     let input =
@@ -1058,35 +1059,42 @@ export default class TextControl extends React.PureComponent<
         ? this.renderSugestMode()
         : this.renderNormal();
 
-    insertCustomStyle(
-      themeCss || css,
-      [
-        {
-          key: 'inputControlClassName',
-          value: inputControlClassName,
-          weights: {
-            active: {
-              pre: `${ns}TextControl.is-focused > .${inputControlClassName}, `
-            }
-          }
-        }
-      ],
-      id,
-      null
+    return (
+      <>
+        {this.renderBody(input)}
+        <CustomStyle
+          config={{
+            themeCss: themeCss || css,
+            classNames: [
+              {
+                key: 'inputControlClassName',
+                value: inputControlClassName,
+                weights: {
+                  active: {
+                    pre: `${ns}TextControl.is-focused > .${inputControlClassName}, `
+                  }
+                }
+              }
+            ],
+            id: id
+          }}
+          env={env}
+        />
+        <CustomStyle
+          config={{
+            themeCss: themeCss || css,
+            classNames: [
+              {
+                key: 'addOnClassName',
+                value: addOnClassName
+              }
+            ],
+            id: id + '-addOn'
+          }}
+          env={env}
+        />
+      </>
     );
-
-    insertCustomStyle(
-      themeCss || css,
-      [
-        {
-          key: 'addOnClassName',
-          value: addOnClassName
-        }
-      ],
-      id + '-addOn'
-    );
-
-    return this.renderBody(input);
   }
 }
 

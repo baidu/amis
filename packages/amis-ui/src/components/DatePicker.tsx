@@ -7,7 +7,7 @@
 import React from 'react';
 import moment from 'moment';
 import {Icon} from './icons';
-import {PopOver} from 'amis-core';
+import {normalizeDate, PopOver} from 'amis-core';
 import PopUp from './PopUp';
 import {Overlay} from 'amis-core';
 import {ClassNamesFn, themeable, ThemeProps} from 'amis-core';
@@ -307,38 +307,6 @@ export interface DatePickerState {
   inputValue: string | undefined; // 手动输入的值
 }
 
-function normalizeValue(value: any, format?: string) {
-  if (!value || value === '0') {
-    return undefined;
-  }
-
-  const v = moment(value, format, true);
-
-  if (v.isValid()) {
-    return v;
-  }
-
-  if (typeof value === 'string' || typeof value === 'number') {
-    let formats = ['', 'YYYY-MM-DD HH:mm:ss', 'X'];
-
-    if (/^\d{10}((\.\d+)*)$/.test(value.toString())) {
-      formats = ['X', 'x', 'YYYY-MM-DD HH:mm:ss', ''];
-    } else if (/^\d{13}((\.\d+)*)$/.test(value.toString())) {
-      formats = ['x', 'X', 'YYYY-MM-DD HH:mm:ss', ''];
-    }
-    while (formats.length) {
-      const format = formats.shift()!;
-      const date = moment(value, format);
-
-      if (date.isValid()) {
-        return date;
-      }
-    }
-  }
-
-  return undefined;
-}
-
 export class DatePicker extends React.Component<DateProps, DatePickerState> {
   static defaultProps = {
     viewMode: 'days' as 'years' | 'months' | 'days' | 'time',
@@ -356,9 +324,9 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
   state: DatePickerState = {
     isOpened: false,
     isFocused: false,
-    value: normalizeValue(this.props.value, this.props.format),
+    value: normalizeDate(this.props.value, this.props.format),
     inputValue:
-      normalizeValue(this.props.value, this.props.format)?.format(
+      normalizeDate(this.props.value, this.props.format)?.format(
         this.props.inputFormat
       ) || ''
   };
@@ -393,7 +361,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
     this.props?.onRef?.(this);
     const {value, format, inputFormat} = this.props;
     if (value) {
-      let valueCache = normalizeValue(value, format);
+      let valueCache = normalizeDate(value, format);
       this.inputValueCache = valueCache?.format(inputFormat) || '';
     }
   }
@@ -405,7 +373,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
 
     if (prevValue !== props.value) {
       const newState: any = {
-        value: normalizeValue(props.value, props.format)
+        value: normalizeDate(props.value, props.format)
       };
 
       newState.inputValue =
@@ -498,7 +466,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
     const {format, inputFormat, onChange} = this.props;
     onChange(resetValue);
     this.setState({
-      inputValue: normalizeValue(resetValue, format)?.format(inputFormat || '')
+      inputValue: normalizeDate(resetValue, format)?.format(inputFormat || '')
     });
   }
 
@@ -832,7 +800,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
           readOnly={useMobileUI && isMobile()}
         />
 
-        {clearable && !disabled && normalizeValue(value, format) ? (
+        {clearable && !disabled && normalizeDate(value, format) ? (
           <a className={cx(`DatePicker-clear`)} onClick={this.clearValue}>
             <Icon icon="input-clear" className="icon" />
           </a>

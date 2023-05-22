@@ -83,7 +83,9 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
       borderMode,
       itemHeight,
       virtualThreshold,
-      loadingConfig
+      loadingConfig,
+      labelField = 'label',
+      valueField = 'value'
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载
@@ -127,6 +129,8 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
           resultItemRender={this.resultItemRender}
           onFocus={() => this.dispatchEvent('focus')}
           onBlur={() => this.dispatchEvent('blur')}
+          labelField={labelField}
+          valueField={valueField}
           itemHeight={
             toNumber(itemHeight) > 0 ? toNumber(itemHeight) : undefined
           }
