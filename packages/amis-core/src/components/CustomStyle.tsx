@@ -1,3 +1,4 @@
+import {useEffect} from 'react';
 import type {RendererEnv} from '../env';
 import type {CustomStyleClassName} from '../utils/style-helper';
 import {insertCustomStyle} from '../utils/style-helper';
@@ -14,12 +15,15 @@ interface CustomStyleProps {
 
 export default function (props: CustomStyleProps) {
   const {themeCss, classNames, id, defaultData} = props.config;
-  insertCustomStyle(
-    themeCss,
-    classNames,
-    id,
-    defaultData,
-    props.env?.customStyleClassPrefix
-  );
+  useEffect(() => {
+    insertCustomStyle(
+      themeCss,
+      classNames,
+      id,
+      defaultData,
+      props.env?.customStyleClassPrefix
+    );
+  }, [props.config.themeCss]);
+
   return null;
 }
