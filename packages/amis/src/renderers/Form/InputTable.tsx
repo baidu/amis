@@ -308,15 +308,15 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     this.emitValue = this.emitValue.bind(this);
   }
 
-  componentDidUpdate(nextProps: TableProps) {
+  componentDidUpdate(prevProps: TableProps) {
     const props = this.props;
     let toUpdate: any = null;
 
     // 如果static为true 或 disabled为true，
     // 则删掉正在新增 或 编辑的那一行
     if (
-      props.$schema.disabled !== nextProps.$schema.disabled ||
-      props.$schema.static !== nextProps.$schema.static
+      props.$schema.disabled !== prevProps.$schema.disabled ||
+      props.$schema.static !== prevProps.$schema.static
     ) {
       const items = this.state.items.filter(item => !item.__isPlaceholder);
       toUpdate = {
@@ -327,14 +327,17 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       };
     }
 
-    if (props.columns !== nextProps.columns) {
+    if (
+      props.columns !== prevProps.columns ||
+      props.disabled !== prevProps.disabled
+    ) {
       toUpdate = {
         ...toUpdate,
         columns: this.buildColumns(props)
       };
     }
 
-    if (props.value !== nextProps.value) {
+    if (props.value !== prevProps.value) {
       toUpdate = {
         ...toUpdate,
         items: Array.isArray(props.value) ? props.value.concat() : [],

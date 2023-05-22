@@ -1540,7 +1540,6 @@ export default class Form extends React.Component<FormProps, object> {
       labelWidth,
       static: isStatic
     } = props;
-
     const subProps = {
       formStore: form,
       data: store.data,

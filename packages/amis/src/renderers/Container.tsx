@@ -138,9 +138,7 @@ export default class Container<T> extends React.Component<
       disabled,
       wrapperBody
     } = this.props;
-
     const isWrapperBody = wrapperBody ?? true;
-
     const containerBody = children
       ? typeof children === 'function'
         ? ((children as any)(this.props) as JSX.Element)
