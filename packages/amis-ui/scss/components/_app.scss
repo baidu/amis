@@ -29,3 +29,13 @@
   display: inline-flex;
   vertical-align: middle;
 }
+
+.#{$ns}AppContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.#{$ns}AppBody {
+  flex: 1;
+  min-height: 0;
+}

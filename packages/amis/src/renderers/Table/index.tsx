@@ -2547,7 +2547,10 @@ export default class Table extends React.Component<TableProps, object> {
       <ColumnToggler
         {...rest}
         {...(isObject(config) ? config : {})}
-        tooltip={config?.tooltip || __('Table.columnsVisibility')}
+        tooltip={{
+          content: config?.tooltip || __('Table.columnsVisibility'),
+          placement: 'bottom'
+        }}
         tooltipContainer={
           env && env.getModalContainer ? env.getModalContainer : undefined
         }
@@ -2658,7 +2661,7 @@ export default class Table extends React.Component<TableProps, object> {
         disabled={!!store.modified}
         classPrefix={ns}
         key="dragging-toggle"
-        tooltip={__('Table.startSort')}
+        tooltip={{content: __('Table.startSort'), placement: 'bottom'}}
         tooltipContainer={
           env && env.getModalContainer ? env.getModalContainer : undefined
         }
