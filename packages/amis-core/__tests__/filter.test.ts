@@ -273,6 +273,12 @@ test('filter:isMatch', () => {
       status: 2
     })
   ).toBe(1);
+
+  expect(
+    resolveVariableAndFilter('${status | isMatch:2:1|isMatch:5:1:4}', {
+      status: 1
+    })
+  ).toBe(4);
 });
 
 test('filter:filter:isMatch', () => {
