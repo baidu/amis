@@ -134,7 +134,7 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
           __keywords: form.data.__keywords,
           __resultActionTree: form.data.__resultActionTree,
           componentId: form.data.componentId ? '' : undefined,
-          args: {},
+          ...(form.data.args ? {args: {}} : {}), // 切换动作时清空args
           groupType,
           __actionDesc: actionNode?.description,
           __actionSchema: actionNode?.schema,
