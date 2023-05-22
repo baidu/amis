@@ -247,6 +247,7 @@
     font-size: $iconSize;
     width: $iconSize;
     height: $iconSize;
+    line-height: $iconSize;
   }
 
   .#{$ns}Button-icon:last-child:not(:first-child):not(.pull-left),
@@ -255,6 +256,7 @@
     margin-left: $iconMargin;
     width: $iconSize;
     height: $iconSize;
+    line-height: $iconSize;
   }
 
   .#{$ns}Button--loading:first-child:not(:last-child):not(.pull-right),
@@ -264,6 +266,7 @@
     margin-right: $iconMargin;
     width: $iconSize;
     height: $iconSize;
+    line-height: $iconSize;
   }
 
   .#{$ns}Button--loading:last-child:not(:first-child):not(.pull-left),
@@ -272,6 +275,7 @@
     margin-left: $iconMargin;
     width: $iconSize;
     height: $iconSize;
+    line-height: $iconSize;
   }
 
   &.#{$ns}Button--iconOnly {
