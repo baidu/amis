@@ -1068,6 +1068,7 @@ export default class Form extends React.Component<FormProps, object> {
     if (data === this.props.data) {
       data = store.data;
     }
+
     if (Array.isArray(action.required) && action.required.length) {
       /** 如果是按钮指定了required，则校验前先清空一下遗留的校验报错 */
       store.clearErrors();
@@ -1101,6 +1102,14 @@ export default class Form extends React.Component<FormProps, object> {
       action.actionType === 'reset-and-submit' ||
       action.actionType === 'clear-and-submit'
     ) {
+      // 配了submit事件的表示将提交逻辑全部托管给事件
+      const {dispatchEvent, onEvent} = this.props;
+      const submitEvent = onEvent?.submit?.actions?.length;
+      const dispatcher = await dispatchEvent('submit', this.props.data);
+      if (dispatcher?.prevented || submitEvent) {
+        return;
+      }
+
       store.setCurrentAction(action);
 
       if (action.actionType === 'reset-and-submit') {
@@ -1891,13 +1900,6 @@ export class FormRenderer extends Form {
     //   return;
     // }
 
-    // 配了submit事件的表示将提交逻辑全部托管给事件
-    const {dispatchEvent, onEvent} = this.props;
-    const submitEvent = onEvent?.submit?.actions?.length;
-    const dispatcher = await dispatchEvent('submit', this.props.data);
-    if (dispatcher?.prevented || submitEvent) {
-      return;
-    }
     if (action.target && action.actionType !== 'reload') {
       const scoped = this.context as IScopedContext;
 
