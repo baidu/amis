@@ -556,16 +556,11 @@
 
     &.#{$ns}Nav-Menu-expand-before {
       .#{$ns}Nav-Menu-submenu-title {
-        .#{$ns}Nav-Menu-item-wrap {
-          padding-right: 0;
-          padding-left: px2rem(16px);
-        }
-      }
+        flex-direction: row-reverse;
 
-      .#{$ns}Nav-Menu-submenu-arrow {
-        right: auto;
-        position: absolute;
-        margin: 0;
+        > .#{$ns}Nav-Menu-submenu-arrow {
+          margin: 0 px2rem(10px) 0 0;
+        }
       }
     }
 
