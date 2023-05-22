@@ -290,6 +290,10 @@ export default class App extends React.Component<AppProps, object> {
       env
     } = this.props;
 
+    if (!header && !logo && !brandName) {
+      return null;
+    }
+
     return (
       <>
         <div className={cx('Layout-brandBar')}>
@@ -438,6 +442,7 @@ export default class App extends React.Component<AppProps, object> {
         footer={this.renderFooter()}
         folded={store.folded}
         offScreen={store.offScreen}
+        contentClassName={cx('AppContent')}
       >
         {store.activePage && store.schema ? (
           <>
@@ -461,10 +466,12 @@ export default class App extends React.Component<AppProps, object> {
               </ul>
             ) : null}
 
-            {render('page', store.schema, {
-              key: `${store.activePage?.id}-${store.schemaKey}`,
-              data: store.pageData
-            })}
+            <div className={cx('AppBody')}>
+              {render('page', store.schema, {
+                key: `${store.activePage?.id}-${store.schemaKey}`,
+                data: store.pageData
+              })}
+            </div>
           </>
         ) : store.pages && !store.activePage ? (
           <NotFound>
