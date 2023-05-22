@@ -549,7 +549,8 @@ export default class Dialog extends React.Component<DialogProps> {
       dialogType,
       cancelText,
       confirmText,
-      options
+      confirmBtnLevel,
+      cancelBtnLevel
     } = {
       ...this.props,
       ...store.schema
@@ -579,9 +580,10 @@ export default class Dialog extends React.Component<DialogProps> {
         disabled={store.loading}
         overlay={overlay}
         dialogType={dialogType}
-        options={options}
         cancelText={cancelText}
         confirmText={confirmText}
+        confirmBtnLevel={confirmBtnLevel}
+        cancelBtnLevel={cancelBtnLevel}
       >
         {title && typeof title === 'string' ? (
           <div className={cx('Modal-header', headerClassName)}>

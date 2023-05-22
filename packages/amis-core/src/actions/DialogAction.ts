@@ -38,7 +38,13 @@ export interface IConfirmDialogAction extends ListenerAction {
   args: {
     msg: string;
     title: string;
-    confirmDialog?: Schema; // 兼容历史
+    body?: Schema;
+    closeOnEsc?: boolean;
+    size?: '' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
+    confirmText?: string;
+    cancelText?: string;
+    confirmBtnLevel?: string;
+    cancelBtnLevel?: string;
   };
 }
 
@@ -128,14 +134,21 @@ export class ConfirmAction implements RendererAction {
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
-    let content = action.args.confirmDialog?.body
-      ? render(action.args.confirmDialog.body)
+    let content = action.args?.body
+      ? render(action.args.body)
       : action.args.msg;
 
     const confirmed = await event.context.env.confirm?.(
       content,
-      action.args.confirmDialog?.title || action.args.msg,
-      action.args.confirmDialog?.options
+      action.args.title,
+      {
+        closeOnEsc: action.args.closeOnEsc,
+        size: action.args.size,
+        confirmText: action.args.confirmText,
+        cancelText: action.args.cancelText,
+        confirmBtnLevel: action.args.confirmBtnLevel,
+        cancelBtnLevel: action.args.cancelBtnLevel
+      }
     );
     return confirmed;
   }

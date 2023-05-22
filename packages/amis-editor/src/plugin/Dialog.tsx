@@ -128,17 +128,17 @@ export class DialogPlugin extends BasePlugin {
                 {
                   label: '确认按钮文案',
                   type: 'input-text',
-                  name: 'options.confirmText'
+                  name: 'confirmText'
                 },
                 getSchemaTpl('layout:originPosition', {value: 'left-top'}),
                 {
                   label: '取消按钮文案',
                   type: 'input-text',
-                  name: 'options.cancelText'
+                  name: 'cancelText'
                 },
                 getSchemaTpl('switch', {
                   label: '可按 Esc 关闭',
-                  name: 'options.closeOnEsc',
+                  name: 'closeOnEsc',
                   value: false
                 })
               ]
@@ -154,7 +154,7 @@ export class DialogPlugin extends BasePlugin {
                 {
                   label: '尺寸',
                   type: 'button-group-select',
-                  name: 'options.size',
+                  name: 'size',
                   size: 'sm',
                   options: [
                     {
@@ -183,11 +183,11 @@ export class DialogPlugin extends BasePlugin {
                 },
                 getSchemaTpl('buttonLevel', {
                   label: '确认按钮样式',
-                  name: 'options.confirmBtnLevel'
+                  name: 'confirmBtnLevel'
                 }),
                 getSchemaTpl('buttonLevel', {
                   label: '取消按钮样式',
-                  name: 'options.cancelBtnLevel'
+                  name: 'cancelBtnLevel'
                 })
               ]
             }
@@ -308,7 +308,14 @@ export class InlineModal extends React.Component<any, any> {
   componentDidMount() {}
 
   render() {
-    let {children, dialogType, options, cancelText, confirmText} = this.props;
+    let {
+      children,
+      dialogType,
+      cancelText,
+      confirmText,
+      cancelBtnLevel,
+      confirmBtnLevel
+    } = this.props;
     if (dialogType === 'confirm') {
       children = children.filter((item: any) => item?.key !== 'actions');
       return (
@@ -317,15 +324,15 @@ export class InlineModal extends React.Component<any, any> {
           <div className="ae-InlineModal-footer">
             <Button
               className="ae-InlineModal-footer-btn"
-              level={options.cancelBtnLevel}
+              level={cancelBtnLevel}
             >
-              {options.cancelText || cancelText || '取消'}
+              {cancelText || '取消'}
             </Button>
             <Button
               className="ae-InlineModal-footer-btn"
-              level={options.confirmBtnLevel}
+              level={confirmBtnLevel}
             >
-              {options.confirmText || confirmText || '确认'}
+              {confirmText || '确认'}
             </Button>
           </div>
         </div>

@@ -514,17 +514,15 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               )
             },
             {
-              name: 'args.confirmDialog',
+              name: 'args',
               label: '弹框内容',
               mode: 'horizontal',
               required: true,
               pipeIn: defaultValue({
                 title: '弹框标题',
-                options: {
-                  confirmText: '确认',
-                  cancelText: '取消',
-                  confirmBtnLevel: 'primary'
-                },
+                confirmText: '确认',
+                cancelText: '取消',
+                confirmBtnLevel: 'primary',
                 body: '对，你刚刚点击了',
                 dialogType: 'confirm'
               }),
@@ -2896,7 +2894,6 @@ export const getEventControlConfig = (
       }
     ) => {
       let config = {...action};
-
       if (['link', 'url'].includes(action.actionType) && action.args?.params) {
         config.args = {
           ...config.args,
