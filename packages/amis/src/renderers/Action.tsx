@@ -858,7 +858,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
           level={
             activeLevel && isActive
               ? activeLevel
-              : level || (primary ? 'primary' : undefined)
+              : filter(level, data) || (primary ? 'primary' : undefined)
           }
           loadingClassName={loadingClassName}
           loading={loading}
