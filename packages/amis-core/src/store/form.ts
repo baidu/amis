@@ -212,7 +212,7 @@ export const FormStore = ServiceStore.named('FormStore')
       const data = cloneObject(self.data);
 
       if (value !== origin) {
-        if (prev.__prev) {
+        if (prev.hasOwnProperty('__prev')) {
           // 基于之前的 __prev 改
           const prevData = cloneObject(prev.__prev);
           setVariable(prevData, name, origin);
@@ -261,7 +261,7 @@ export const FormStore = ServiceStore.named('FormStore')
       const prev = self.data;
       const data = cloneObject(self.data);
 
-      if (prev.__prev) {
+      if (prev.hasOwnProperty('__prev')) {
         // 基于之前的 __prev 改
         const prevData = cloneObject(prev.__prev);
         setVariable(prevData, name, getVariable(prev, name));
