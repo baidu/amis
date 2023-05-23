@@ -10,7 +10,7 @@ import omit from 'lodash/omit';
 import kebabCase from 'lodash/kebabCase';
 import {findDOMNode} from 'react-dom';
 import {Icon} from './icons';
-import {Overlay} from 'amis-core';
+import {Overlay, isExpression, FormulaExec, filterDate} from 'amis-core';
 import {ShortCuts, ShortCutDateRange} from './DatePicker';
 import Calendar from './calendar/Calendar';
 import {PopOver} from 'amis-core';
@@ -36,6 +36,8 @@ export interface DateRangePickerProps extends ThemeProps, LocaleProps {
   clearable?: boolean;
   minDate?: moment.Moment;
   maxDate?: moment.Moment;
+  minDateRaw?: string;
+  maxDateRaw?: string;
   minDuration?: moment.Duration;
   maxDuration?: moment.Duration;
   joinValues: boolean;
@@ -138,53 +140,50 @@ export const availableRanges: {[propName: string]: any} = {
   '7daysago': {
     label: 'DateRange.7daysago',
     startDate: (now: moment.Moment) => {
-      return now.add(-7, 'days');
+      return now.add(-7, 'days').startOf('day');
     },
     endDate: (now: moment.Moment) => {
-      return now;
+      return now.add(-1, 'days').endOf('day');
     }
   },
 
   '30daysago': {
     label: 'DateRange.30daysago',
     startDate: (now: moment.Moment) => {
-      return now.add(-30, 'days');
+      return now.add(-30, 'days').startOf('day');
     },
     endDate: (now: moment.Moment) => {
-      return now;
+      return now.add(-1, 'days').endOf('day');
     }
   },
 
   '90daysago': {
     label: 'DateRange.90daysago',
     startDate: (now: moment.Moment) => {
-      return now.add(-90, 'days');
+      return now.add(-90, 'days').startOf('day');
     },
     endDate: (now: moment.Moment) => {
-      return now;
+      return now.add(-1, 'days').endOf('day');
     }
   },
 
   'prevweek': {
     label: 'DateRange.lastWeek',
-    startDate: (now: moment.Moment, iso: boolean = true) => {
-      return now.startOf(iso ? 'isoWeek' : 'week').add(-1, 'weeks');
+    startDate: (now: moment.Moment) => {
+      return now.startOf('week').add(-1, 'weeks');
     },
-    endDate: (now: moment.Moment, iso: boolean = true) => {
-      return now
-        .startOf(iso ? 'isoWeek' : 'week')
-        .add(-1, 'days')
-        .endOf('day');
+    endDate: (now: moment.Moment) => {
+      return now.startOf('week').add(-1, 'days').endOf('day');
     }
   },
 
   'thisweek': {
     label: 'DateRange.thisWeek',
-    startDate: (now: moment.Moment, iso: boolean = true) => {
-      return now.startOf(iso ? 'isoWeek' : 'week');
+    startDate: (now: moment.Moment) => {
+      return now.startOf('week');
     },
-    endDate: (now: moment.Moment, iso: boolean = true) => {
-      return now.endOf(iso ? 'isoWeek' : 'week');
+    endDate: (now: moment.Moment) => {
+      return now.endOf('week');
     }
   },
 
@@ -267,10 +266,10 @@ export const advancedRanges = [
       return {
         label: __('DateRange.hoursago', {hours}),
         startDate: (now: moment.Moment) => {
-          return now.add(-hours, 'hours');
+          return now.add(-hours, 'hours').startOf('hour');
         },
         endDate: (now: moment.Moment) => {
-          return now;
+          return now.add(-1, 'hours').endOf('hours');
         }
       };
     }
@@ -281,10 +280,10 @@ export const advancedRanges = [
       return {
         label: __('DateRange.hourslater', {hours}),
         startDate: (now: moment.Moment) => {
-          return now;
+          return now.startOf('hour');
         },
         endDate: (now: moment.Moment) => {
-          return now.add(hours, 'hours');
+          return now.add(hours, 'hours').endOf('hour');
         }
       };
     }
@@ -295,10 +294,10 @@ export const advancedRanges = [
       return {
         label: __('DateRange.daysago', {days}),
         startDate: (now: moment.Moment) => {
-          return now.add(-days, 'days');
+          return now.add(-days, 'days').startOf('day');
         },
         endDate: (now: moment.Moment) => {
-          return now;
+          return now.add(-1, 'days').endOf('day');
         }
       };
     }
@@ -309,10 +308,10 @@ export const advancedRanges = [
       return {
         label: __('DateRange.dayslater', {days}),
         startDate: (now: moment.Moment) => {
-          return now;
+          return now.startOf('day');
         },
         endDate: (now: moment.Moment) => {
-          return now.add(days, 'days');
+          return now.add(days, 'days').endOf('day');
         }
       };
     }
@@ -323,10 +322,10 @@ export const advancedRanges = [
       return {
         label: __('DateRange.weeksago', {weeks}),
         startDate: (now: moment.Moment) => {
-          return now.add(-weeks, 'weeks');
+          return now.startOf('week').add(-weeks, 'weeks');
         },
         endDate: (now: moment.Moment) => {
-          return now;
+          return now.startOf('week').add(-1, 'days').endOf('day');
         }
       };
     }
@@ -337,10 +336,10 @@ export const advancedRanges = [
       return {
         label: __('DateRange.weekslater', {weeks}),
         startDate: (now: moment.Moment) => {
-          return now;
+          return now.startOf('week');
         },
         endDate: (now: moment.Moment) => {
-          return now.add(weeks, 'weeks');
+          return now.startOf('week').add(weeks, 'weeks').endOf('day');
         }
       };
     }
@@ -351,10 +350,10 @@ export const advancedRanges = [
       return {
         label: __('DateRange.monthsago', {months}),
         startDate: (now: moment.Moment) => {
-          return now.add(-months, 'months');
+          return now.startOf('months').add(-months, 'months');
         },
         endDate: (now: moment.Moment) => {
-          return now;
+          return now.startOf('month').add(-1, 'days').endOf('day');
         }
       };
     }
@@ -365,10 +364,10 @@ export const advancedRanges = [
       return {
         label: __('DateRange.monthslater', {months}),
         startDate: (now: moment.Moment) => {
-          return now;
+          return now.startOf('month');
         },
         endDate: (now: moment.Moment) => {
-          return now.add(months, 'months');
+          return now.startOf('month').add(months, 'months').endOf('day');
         }
       };
     }
@@ -379,10 +378,10 @@ export const advancedRanges = [
       return {
         label: __('DateRange.quartersago', {quarters}),
         startDate: (now: moment.Moment) => {
-          return now.add(-quarters, 'quarters');
+          return now.startOf('quarters').add(-quarters, 'quarters');
         },
         endDate: (now: moment.Moment) => {
-          return now;
+          return now.startOf('quarter').add(-1, 'days').endOf('day');
         }
       };
     }
@@ -393,10 +392,10 @@ export const advancedRanges = [
       return {
         label: __('DateRange.quarterslater', {quarters}),
         startDate: (now: moment.Moment) => {
-          return now;
+          return now.startOf('quarter');
         },
         endDate: (now: moment.Moment) => {
-          return now.add(quarters, 'quarters');
+          return now.startOf('quarter').add(quarters, 'quarters').endOf('day');
         }
       };
     }
@@ -407,10 +406,10 @@ export const advancedRanges = [
       return {
         label: __('DateRange.yearsago', {years}),
         startDate: (now: moment.Moment) => {
-          return now.add(-years, 'years');
+          return now.startOf('years').add(-years, 'years');
         },
         endDate: (now: moment.Moment) => {
-          return now;
+          return now.startOf('year').add(-1, 'days').endOf('day');
         }
       };
     }
@@ -421,10 +420,10 @@ export const advancedRanges = [
       return {
         label: __('DateRange.yearslater', {years}),
         startDate: (now: moment.Moment) => {
-          return now;
+          return now.startOf('year');
         },
         endDate: (now: moment.Moment) => {
-          return now.add(years, 'years');
+          return now.startOf('year').add(years, 'years').endOf('day');
         }
       };
     }
@@ -1021,19 +1020,27 @@ export class DateRangePicker extends React.Component<
     );
   }
 
-  selectRannge(range: PlainObject) {
-    const {closeOnSelect, minDate, maxDate} = this.props;
+  selectRange(range: PlainObject) {
+    const {closeOnSelect, minDateRaw, maxDateRaw, format, data} = this.props;
     const now = moment();
+    /** minDate和maxDate要实时计算，因为用户可能设置为${NOW()}，暂时不考虑毫米级的时间差了 */
+    const minDate = minDateRaw
+      ? filterDate(minDateRaw, data, format)
+      : undefined;
+    const maxDate = maxDateRaw
+      ? filterDate(maxDateRaw, data, format)
+      : undefined;
+    const startDate = range.startDate(now.clone());
+    const endDate = range.endDate(now.clone());
+
     this.setState(
       {
         startDate:
-          minDate && minDate.isValid()
-            ? moment.max(range.startDate(now.clone()), minDate)
-            : range.startDate(now.clone()),
+          minDate && minDate?.isValid()
+            ? moment.max(startDate, minDate)
+            : startDate,
         endDate:
-          maxDate && maxDate.isValid()
-            ? moment.min(maxDate, range.endDate(now.clone()))
-            : range.endDate(now.clone())
+          maxDate && maxDate?.isValid() ? moment.min(maxDate, endDate) : endDate
       },
       closeOnSelect ? this.confirm : noop
     );
@@ -1043,7 +1050,7 @@ export class DateRangePicker extends React.Component<
     if (!ranges) {
       return null;
     }
-    const {classPrefix: ns} = this.props;
+    const {classPrefix: ns, format, data} = this.props;
     let rangeArr: Array<string | ShortCuts>;
     if (typeof ranges === 'string') {
       rangeArr = ranges.split(',');
@@ -1058,6 +1065,7 @@ export class DateRangePicker extends React.Component<
           if (!item) {
             return null;
           }
+
           let range: PlainObject = {};
           if (typeof item === 'string') {
             if (availableRanges[item]) {
@@ -1078,17 +1086,43 @@ export class DateRangePicker extends React.Component<
             (item as ShortCutDateRange).startDate &&
             (item as ShortCutDateRange).endDate
           ) {
+            const rangeRaw = {...item} as ShortCutDateRange;
+
             range = {
               ...item,
-              startDate: () => (item as ShortCutDateRange).startDate,
-              endDate: () => (item as ShortCutDateRange).endDate
+              startDate: () => {
+                const startDate = isExpression(rangeRaw.startDate)
+                  ? moment(
+                      FormulaExec['formula'](rangeRaw.startDate, data),
+                      format
+                    )
+                  : rangeRaw.startDate;
+
+                return startDate &&
+                  moment.isMoment(startDate) &&
+                  startDate?.isValid()
+                  ? startDate
+                  : (item as ShortCutDateRange).startDate;
+              },
+              endDate: () => {
+                const endDate = isExpression(rangeRaw.endDate)
+                  ? moment(
+                      FormulaExec['formula'](rangeRaw.endDate, data),
+                      format
+                    )
+                  : rangeRaw.startDate;
+
+                return endDate && moment.isMoment(endDate) && endDate?.isValid()
+                  ? endDate
+                  : (item as ShortCutDateRange).endDate;
+              }
             };
           }
           if (Object.keys(range).length) {
             return (
               <li
                 className={`${ns}DateRangePicker-ranger`}
-                onClick={() => this.selectRannge(range)}
+                onClick={() => this.selectRange(range)}
                 key={range.key || range.label}
               >
                 <a>{__(range.label)}</a>
