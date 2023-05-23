@@ -8,6 +8,16 @@ export interface FunctionMap {
   [propName: string]: (this: Evaluator, ast: Object, data: any) => any;
 }
 
+export interface FunctionDocItem {
+  name: string; // 函数名
+  example?: string; // 示例
+  description?: string; // 描述
+  [propName: string]: any;
+}
+export interface FunctionDocMap {
+  [propName: string]: FunctionDocItem[];
+}
+
 export interface FilterContext {
   data: Object;
   filter?: {
