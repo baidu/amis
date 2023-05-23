@@ -7,7 +7,13 @@
 import React from 'react';
 import moment from 'moment';
 import {Icon} from './icons';
-import {normalizeDate, PopOver} from 'amis-core';
+import {
+  normalizeDate,
+  PopOver,
+  isExpression,
+  FormulaExec,
+  filterDate
+} from 'amis-core';
 import PopUp from './PopUp';
 import {Overlay} from 'amis-core';
 import {ClassNamesFn, themeable, ThemeProps} from 'amis-core';
@@ -218,13 +224,14 @@ const advancedShortcuts = [
 
 export type ShortCutDate = {
   label: string;
-  date: moment.Moment;
+  /** 支持表达式 */
+  date: moment.Moment | string;
 };
 
 export type ShortCutDateRange = {
   label: string;
-  startDate?: moment.Moment;
-  endDate?: moment.Moment;
+  startDate?: moment.Moment | string;
+  endDate?: moment.Moment | string;
 };
 
 export type ShortCuts =
@@ -247,6 +254,8 @@ export interface DateProps extends LocaleProps, ThemeProps {
   disabled?: boolean;
   minDate?: moment.Moment;
   maxDate?: moment.Moment;
+  minDateRaw?: string;
+  maxDateRaw?: string;
   clearable?: boolean;
   defaultValue?: any;
   utc?: boolean;
@@ -298,6 +307,7 @@ export interface DateProps extends LocaleProps, ThemeProps {
   onFocus?: Function;
   onBlur?: Function;
   onRef?: any;
+  data?: any;
 }
 
 export interface DatePickerState {
@@ -334,7 +344,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
     super(props);
     this.inputRef = React.createRef();
     this.handleChange = this.handleChange.bind(this);
-    this.selectRannge = this.selectRannge.bind(this);
+    this.selectShortcut = this.selectShortcut.bind(this);
     this.checkIsValidDate = this.checkIsValidDate.bind(this);
     this.open = this.open.bind(this);
     this.close = this.close.bind(this);
@@ -547,11 +557,27 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
     });
   }
 
-  selectRannge(item: any) {
-    const {closeOnSelect} = this.props;
+  selectShortcut(shortcut: any) {
+    const {closeOnSelect, minDateRaw, maxDateRaw, data, format} = this.props;
     const now = moment();
-    this.handleChange(item.date(now));
+    /** minDate和maxDate要实时计算，因为用户可能设置为${NOW()}，暂时不考虑毫秒级的时间差 */
+    const minDate = minDateRaw
+      ? filterDate(minDateRaw, data, format)
+      : undefined;
+    const maxDate = maxDateRaw
+      ? filterDate(maxDateRaw, data, format)
+      : undefined;
+    let date = shortcut.date(now.clone());
 
+    if (minDate && moment.isMoment(minDate) && minDate?.isValid()) {
+      date = moment.max(date, minDate);
+    }
+
+    if (maxDate && moment.isMoment(maxDate) && maxDate?.isValid()) {
+      date = moment.min(maxDate, date);
+    }
+
+    this.handleChange(date);
     closeOnSelect && this.close();
   }
 
@@ -602,36 +628,57 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
     if (!shortcuts) {
       return null;
     }
-    const {classPrefix: ns, classnames: cx} = this.props;
+    const {
+      classPrefix: ns,
+      classnames: cx,
+      translate: __,
+      format,
+      data
+    } = this.props;
     let shortcutArr: Array<string | ShortCuts>;
+
     if (typeof shortcuts === 'string') {
       shortcutArr = shortcuts.split(',');
     } else {
       shortcutArr = shortcuts;
     }
 
-    const __ = this.props.translate;
     return (
       <ul className={cx(`DatePicker-shortcuts`)}>
-        {shortcutArr.map(item => {
+        {shortcutArr.map((item, index) => {
           if (!item) {
             return null;
           }
+
           let shortcut: PlainObject = {};
+
           if (typeof item === 'string') {
             shortcut = this.getAvailableShortcuts(item);
             shortcut.key = item;
           } else if ((item as ShortCutDate).date) {
+            const shortcutRaw = {...item} as ShortCutDate;
+
             shortcut = {
               ...item,
-              date: () => (item as ShortCutDate).date
+              date: () => {
+                const date = isExpression(shortcutRaw.date)
+                  ? moment(
+                      FormulaExec['formula'](shortcutRaw.date, data),
+                      format
+                    )
+                  : shortcutRaw.date;
+
+                return date && moment.isMoment(date) && date?.isValid()
+                  ? date
+                  : (item as ShortCutDate).date;
+              }
             };
           }
           return (
             <li
               className={cx(`DatePicker-shortcut`)}
-              onClick={() => this.selectRannge(shortcut)}
-              key={shortcut.key || shortcut.label}
+              onClick={() => this.selectShortcut(shortcut)}
+              key={index}
             >
               <a>{__(shortcut.label)}</a>
             </li>

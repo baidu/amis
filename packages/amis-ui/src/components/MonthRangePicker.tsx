@@ -20,7 +20,7 @@ import {LocaleProps, localeable} from 'amis-core';
 import {DateRangePicker} from './DateRangePicker';
 import capitalize from 'lodash/capitalize';
 import {ShortCuts, ShortCutDateRange} from './DatePicker';
-import {availableRanges} from './DateRangePicker';
+import {availableShortcuts} from './DateRangePicker';
 import CalendarMobile from './CalendarMobile';
 import type {PlainObject} from 'amis-core';
 
@@ -33,7 +33,11 @@ export interface MonthRangePickerProps extends ThemeProps, LocaleProps {
   utc?: boolean;
   inputFormat?: string;
   timeFormat?: string;
+  /**
+   * @deprecated 3.1.0后废弃，用shortcuts替代
+   */
   ranges?: string | Array<ShortCuts>;
+  shortcuts?: string | Array<ShortCuts>;
   clearable?: boolean;
   minDate?: moment.Moment;
   maxDate?: moment.Moment;
@@ -300,49 +304,49 @@ export class MonthRangePicker extends React.Component<
     );
   }
 
-  selectRannge(range: PlainObject) {
+  selectShortcut(shortcut: PlainObject) {
     const {closeOnSelect, minDate, maxDate} = this.props;
     this.setState(
       {
         startDate: minDate
-          ? moment.max(range.startDate(moment()), minDate)
-          : range.startDate(moment()),
+          ? moment.max(shortcut.startDate(moment()), minDate)
+          : shortcut.startDate(moment()),
         endDate: maxDate
-          ? moment.min(maxDate, range.endDate(moment()))
-          : range.endDate(moment())
+          ? moment.min(maxDate, shortcut.endDate(moment()))
+          : shortcut.endDate(moment())
       },
       closeOnSelect ? this.confirm : noop
     );
   }
 
-  renderRanges(ranges: string | Array<ShortCuts> | undefined) {
-    if (!ranges) {
+  renderShortcuts(shortcuts: string | Array<ShortCuts> | undefined) {
+    if (!shortcuts) {
       return null;
     }
     const {classPrefix: ns} = this.props;
-    let rangeArr: Array<string | ShortCuts>;
-    if (typeof ranges === 'string') {
-      rangeArr = ranges.split(',');
+    let shortcutArr: Array<string | ShortCuts>;
+    if (typeof shortcuts === 'string') {
+      shortcutArr = shortcuts.split(',');
     } else {
-      rangeArr = ranges;
+      shortcutArr = shortcuts;
     }
     const __ = this.props.translate;
 
     return (
       <ul className={`${ns}DateRangePicker-rangers`}>
-        {rangeArr.map(item => {
+        {shortcutArr.map((item, index) => {
           if (!item) {
             return null;
           }
-          let range: PlainObject = {};
+          let shortcut: PlainObject = {};
           if (typeof item === 'string') {
-            range = availableRanges[item];
-            range.key = item;
+            shortcut = availableShortcuts[item];
+            shortcut.key = item;
           } else if (
             (item as ShortCutDateRange).startDate &&
             (item as ShortCutDateRange).endDate
           ) {
-            range = {
+            shortcut = {
               ...item,
               startDate: () => (item as ShortCutDateRange).startDate,
               endDate: () => (item as ShortCutDateRange).endDate
@@ -351,10 +355,10 @@ export class MonthRangePicker extends React.Component<
           return (
             <li
               className={`${ns}DateRangePicker-ranger`}
-              onClick={() => this.selectRannge(range)}
-              key={range.key || range.label}
+              onClick={() => this.selectShortcut(shortcut)}
+              key={index}
             >
-              <a>{__(range.label)}</a>
+              <a>{__(shortcut.label)}</a>
             </li>
           );
         })}
@@ -468,6 +472,7 @@ export class MonthRangePicker extends React.Component<
       locale,
       embed,
       ranges,
+      shortcuts,
       inputFormat,
       timeFormat
     } = this.props;
@@ -478,7 +483,7 @@ export class MonthRangePicker extends React.Component<
 
     return (
       <div className={`${ns}DateRangePicker-wrap`}>
-        {this.renderRanges(ranges)}
+        {this.renderShortcuts(shortcuts ?? ranges)}
         <Calendar
           className={`${ns}DateRangePicker-start`}
           value={startDate}
@@ -571,12 +576,12 @@ export class MonthRangePicker extends React.Component<
       minDuration,
       maxDuration,
       ranges,
-      label
+      shortcuts,
+      label,
+      translate: __
     } = this.props;
     const mobileUI = isMobile() && useMobileUI;
-
     const {isOpened, isFocused, startDate, endDate} = this.state;
-
     const selectedDate = DateRangePicker.unFormatValue(
       value,
       format,
@@ -590,9 +595,9 @@ export class MonthRangePicker extends React.Component<
       ? selectedDate.endDate.format(inputFormat)
       : '';
     const arr = [];
+
     startViewValue && arr.push(startViewValue);
     endViewValue && arr.push(endViewValue);
-    const __ = this.props.translate;
 
     const calendarMobile = (
       <CalendarMobile
@@ -609,7 +614,7 @@ export class MonthRangePicker extends React.Component<
         close={this.close}
         confirm={this.confirm}
         onChange={this.handleMobileChange}
-        footerExtra={this.renderRanges(ranges)}
+        footerExtra={this.renderShortcuts(shortcuts ?? ranges)}
         showViewMode="years"
       />
     );

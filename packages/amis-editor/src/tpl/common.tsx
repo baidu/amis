@@ -1166,6 +1166,7 @@ setSchemaTpl('nav-default-active', {
 setSchemaTpl('dateShortCutControl', (schema: object = {}) => {
   return {
     type: 'ae-DateShortCutControl',
+    name: 'shortcuts',
     ...schema
   };
 });

@@ -63,7 +63,9 @@ export class YearRangeControlRenderer extends YearRangeControl {
     joinValues: true,
     delimiter: ',',
     timeFormat: '',
+    /** shortcuts的兼容配置 */
     ranges: 'thisyear,prevyear',
+    shortcuts: 'thisyear,prevyear',
     animation: true
   };
 }

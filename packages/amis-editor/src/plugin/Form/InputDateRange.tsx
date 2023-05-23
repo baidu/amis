@@ -22,7 +22,9 @@ const DateType: {
   [key: string]: {
     format: string;
     placeholder: string;
-    ranges: string[];
+    shortcuts: string[];
+    /** shortcuts的兼容配置, 不需要配置了 */
+    ranges?: string[];
     sizeMutable?: boolean;
     type?: string;
     timeFormat?: string;
@@ -33,7 +35,7 @@ const DateType: {
     ...getRendererByName('input-date-range'),
     format: 'YYYY-MM-DD',
     placeholder: '请选择日期范围',
-    ranges: [
+    shortcuts: [
       'yesterday',
       '7daysago',
       'prevweek',
@@ -62,7 +64,7 @@ const DateType: {
     format: 'YYYY-MM-DD HH:mm:ss',
     timeFormat: 'HH:mm:ss',
     placeholder: '请选择日期时间范围',
-    ranges: [
+    shortcuts: [
       'yesterday',
       '7daysago',
       'prevweek',
@@ -91,7 +93,7 @@ const DateType: {
     format: 'HH:mm',
     timeFormat: 'HH:mm:ss',
     placeholder: '请选择时间范围',
-    ranges: [],
+    shortcuts: [],
     formatOptions: [
       {
         label: 'HH:mm',
@@ -119,7 +121,7 @@ const DateType: {
     ...getRendererByName('input-month-range'),
     format: 'YYYY-MM',
     placeholder: '请选择月份范围',
-    ranges: [],
+    shortcuts: [],
     formatOptions: [
       ...formatX,
       {
@@ -140,7 +142,7 @@ const DateType: {
     ...getRendererByName('input-quarter-range'),
     format: 'YYYY [Q]Q',
     placeholder: '请选择季度范围',
-    ranges: ['thisquarter', 'prevquarter'],
+    shortcuts: ['thisquarter', 'prevquarter'],
     formatOptions: [
       ...formatX,
       {
@@ -157,7 +159,7 @@ const DateType: {
     ...getRendererByName('input-year-range'),
     format: 'YYYY',
     placeholder: '请选择年范围',
-    ranges: ['thisyear', 'lastYear'],
+    shortcuts: ['thisyear', 'lastYear'],
     formatOptions: [
       ...formatX,
       {
@@ -321,7 +323,9 @@ export class DateRangeControlPlugin extends BasePlugin {
                       minDate: '',
                       maxDate: '',
                       value: '',
-                      ranges: DateType[type]?.ranges,
+                      shortcuts: DateType[type]?.shortcuts,
+                      /** amis 3.1.0之后ranges属性废弃 */
+                      ranges: undefined,
                       // size immutable 组件去除 size 字段
                       size: sizeImmutableComponents.includes(value)
                         ? undefined
@@ -444,6 +448,7 @@ export class DateRangeControlPlugin extends BasePlugin {
                   label: tipedLabel('最大跨度', rangTooltip)
                 }),
                 getSchemaTpl('dateShortCutControl', {
+                  name: 'shortcuts',
                   mode: 'normal',
                   normalDropDownOption: {
                     yesterday: '昨天',
