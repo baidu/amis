@@ -130,7 +130,7 @@ export class TableBody extends React.Component<TableBodyProps> {
               item={item}
               itemClassName={cx(
                 rowClassNameExpr
-                  ? filter(rowClassNameExpr, item.data)
+                  ? filter(rowClassNameExpr, item.locals)
                   : rowClassName
               )}
               columns={footableColumns}
