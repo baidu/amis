@@ -1040,6 +1040,24 @@ export default class TextControl extends React.PureComponent<
     );
   }
 
+  /**
+   * 处理input的自定义样式
+   */
+  @autobind
+  formatInputThemeCss() {
+    const {themeCss, css} = this.props;
+    const inputFontThemeCss: any = {inputControlClassName: {}};
+    const inputControlClassNameObject =
+      (themeCss || css)?.inputControlClassName || {};
+    for (let key in inputControlClassNameObject) {
+      if (~key.indexOf('font')) {
+        inputFontThemeCss.inputControlClassName[key] =
+          inputControlClassNameObject[key];
+      }
+    }
+    return inputFontThemeCss;
+  }
+
   @supportStatic()
   render(): JSX.Element {
     const {
@@ -1080,6 +1098,32 @@ export default class TextControl extends React.PureComponent<
           }}
           env={env}
         />
+        <CustomStyle
+          config={{
+            themeCss: this.formatInputThemeCss(),
+            classNames: [
+              {
+                key: 'inputControlClassName',
+                value: inputControlClassName,
+                weights: {
+                  default: {
+                    inner: 'input'
+                  },
+                  hover: {
+                    inner: 'input'
+                  },
+                  active: {
+                    pre: `${ns}TextControl.is-focused > .${inputControlClassName}, `,
+                    inner: 'input'
+                  }
+                }
+              }
+            ],
+            id: id + '-inner'
+          }}
+          env={env}
+        />
+
         <CustomStyle
           config={{
             themeCss: themeCss || css,
