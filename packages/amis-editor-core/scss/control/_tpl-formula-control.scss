@@ -7,7 +7,7 @@
   .ae-TplResultBox {
     position: relative;
     flex: 1;
-    overflow-x: auto;
+    overflow: hidden;
     border: 1px solid var(--Form-input-borderColor);
     border-radius: var(--input-default-default-top-left-border-radius) 0 0
       var(--input-default-default-bottom-left-border-radius);
