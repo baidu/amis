@@ -313,7 +313,11 @@ export default class App extends React.Component<AppProps, object> {
               />
             ) : logo ? (
               <img className={cx('AppLogo')} src={logo} />
-            ) : null}
+            ) : (
+              <span className="visible-folded ">
+                {brandName?.substring(0, 1)}
+              </span>
+            )}
             <span className="hidden-folded m-l-sm">{brandName}</span>
           </div>
         </div>
