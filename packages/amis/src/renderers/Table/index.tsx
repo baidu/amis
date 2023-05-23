@@ -888,7 +888,11 @@ export default class Table extends React.Component<TableProps, object> {
   }
 
   async handleCheck(item: IRow, value: boolean, shift?: boolean) {
-    const {store, data, dispatchEvent} = this.props;
+    const {store, data, dispatchEvent, selectable} = this.props;
+
+    if (!selectable) {
+      return;
+    }
 
     const selectedItems = value
       ? [...store.selectedRows.map(row => row.data), item.data]
