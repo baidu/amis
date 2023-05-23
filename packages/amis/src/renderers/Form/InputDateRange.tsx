@@ -281,6 +281,8 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
           format={format}
           minDate={minDate ? filterDate(minDate, data, format) : undefined}
           maxDate={maxDate ? filterDate(maxDate, data, format) : undefined}
+          minDateRaw={minDate}
+          maxDateRaw={maxDate}
           minDuration={minDuration ? parseDuration(minDuration) : undefined}
           maxDuration={maxDuration ? parseDuration(maxDuration) : undefined}
           onChange={this.handleChange}

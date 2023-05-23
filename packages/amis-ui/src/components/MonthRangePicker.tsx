@@ -300,7 +300,7 @@ export class MonthRangePicker extends React.Component<
     );
   }
 
-  selectRannge(range: PlainObject) {
+  selectRange(range: PlainObject) {
     const {closeOnSelect, minDate, maxDate} = this.props;
     this.setState(
       {
@@ -351,7 +351,7 @@ export class MonthRangePicker extends React.Component<
           return (
             <li
               className={`${ns}DateRangePicker-ranger`}
-              onClick={() => this.selectRannge(range)}
+              onClick={() => this.selectRange(range)}
               key={range.key || range.label}
             >
               <a>{__(range.label)}</a>
