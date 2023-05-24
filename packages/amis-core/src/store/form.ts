@@ -189,7 +189,7 @@ export const FormStore = ServiceStore.named('FormStore')
       // 如果数据域中有数据变化，就都reset一下，去掉之前残留的验证消息
       self.items.forEach(item => {
         const value = item.value;
-        if (value !== item.tmpValue) {
+        if (typeof value !== 'undefined' && value !== item.tmpValue) {
           item.changeTmpValue(value);
         }
         item.reset();
