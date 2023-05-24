@@ -138,7 +138,7 @@ export default class JSONSchemaEditorControl extends React.PureComponent<JSONSch
   }
 
   render() {
-    const {enableAdvancedSetting, ...rest} = this.props;
+    const {enableAdvancedSetting, env, ...rest} = this.props;
 
     return (
       <JSONSchemaEditor
@@ -146,6 +146,7 @@ export default class JSONSchemaEditorControl extends React.PureComponent<JSONSch
         placeholder={this.normalizePlaceholder()}
         enableAdvancedSetting={enableAdvancedSetting}
         renderModalProps={this.renderModalProps}
+        popOverContainer={env?.getModalContainer}
       />
     );
   }

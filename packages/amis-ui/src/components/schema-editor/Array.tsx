@@ -40,6 +40,7 @@ export class SchemaEditorItemArray extends SchemaEditorItemCommon {
       types,
       onTypeChange,
       enableAdvancedSetting,
+      popOverContainer,
       placeholder
     } = this.props;
     const items = value?.items || {
@@ -70,6 +71,7 @@ export class SchemaEditorItemArray extends SchemaEditorItemCommon {
           classPrefix={classPrefix}
           disabled={disabled || !!(items as any)?.$ref}
           enableAdvancedSetting={enableAdvancedSetting}
+          popOverContainer={popOverContainer}
           placeholder={placeholder}
         />
       </div>
