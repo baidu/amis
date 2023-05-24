@@ -44,6 +44,10 @@ export interface TableContentProps extends LocaleProps {
   ) => React.ReactNode;
   onCheck: (item: IRow, value: boolean, shift?: boolean) => void;
   onRowClick: (item: IRow, index: number) => Promise<RendererEvent<any> | void>;
+  onRowDbClick: (
+    item: IRow,
+    index: number
+  ) => Promise<RendererEvent<any> | void>;
   onRowMouseEnter: (
     item: IRow,
     index: number
@@ -139,6 +143,7 @@ export class TableContent extends React.Component<TableContentProps> {
       renderCell,
       onCheck,
       onRowClick,
+      onRowDbClick,
       onRowMouseEnter,
       onRowMouseLeave,
       rowClassName,
@@ -247,6 +252,7 @@ export class TableContent extends React.Component<TableContentProps> {
               renderCell={renderCell}
               onCheck={onCheck}
               onRowClick={onRowClick}
+              onRowDbClick={onRowDbClick}
               onRowMouseEnter={onRowMouseEnter}
               onRowMouseLeave={onRowMouseLeave}
               onQuickChange={onQuickChange}

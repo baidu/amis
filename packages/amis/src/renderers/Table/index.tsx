@@ -553,6 +553,7 @@ export default class Table extends React.Component<TableProps, object> {
     this.subFormRef = this.subFormRef.bind(this);
     this.handleColumnToggle = this.handleColumnToggle.bind(this);
     this.handleRowClick = this.handleRowClick.bind(this);
+    this.handleRowDbClick = this.handleRowDbClick.bind(this);
     this.handleRowMouseEnter = this.handleRowMouseEnter.bind(this);
     this.handleRowMouseLeave = this.handleRowMouseLeave.bind(this);
 
@@ -924,6 +925,17 @@ export default class Table extends React.Component<TableProps, object> {
       'rowClick',
       createObject(data, {
         rowItem: item, // 保留rowItem 可能有用户已经在用 兼容之前的版本
+        item,
+        index
+      })
+    );
+  }
+
+  handleRowDbClick(item: IRow, index: number) {
+    const {dispatchEvent, store, data} = this.props;
+    return dispatchEvent(
+      'rowDbClick',
+      createObject(data, {
         item,
         index
       })
@@ -2472,6 +2484,7 @@ export default class Table extends React.Component<TableProps, object> {
             renderCell={this.renderCell}
             onCheck={this.handleCheck}
             onRowClick={this.handleRowClick}
+            onRowDbClick={this.handleRowDbClick}
             onRowMouseEnter={this.handleRowMouseEnter}
             onRowMouseLeave={this.handleRowMouseLeave}
             onQuickChange={store.dragging ? undefined : this.handleQuickChange}
@@ -2962,6 +2975,7 @@ export default class Table extends React.Component<TableProps, object> {
           renderCell={this.renderCell}
           onCheck={this.handleCheck}
           onRowClick={this.handleRowClick}
+          onRowDbClick={this.handleRowDbClick}
           onRowMouseEnter={this.handleRowMouseEnter}
           onRowMouseLeave={this.handleRowMouseLeave}
           onQuickChange={store.dragging ? undefined : this.handleQuickChange}

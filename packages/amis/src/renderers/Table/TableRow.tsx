@@ -8,6 +8,10 @@ import {isClickOnInput, createObject} from 'amis-core';
 interface TableRowProps extends Pick<RendererProps, 'render'> {
   onCheck: (item: IRow) => Promise<void>;
   onRowClick: (item: IRow, index: number) => Promise<RendererEvent<any> | void>;
+  onRowDbClick: (
+    item: IRow,
+    index: number
+  ) => Promise<RendererEvent<any> | void>;
   onRowMouseEnter: (
     item: IRow,
     index: number
@@ -43,6 +47,7 @@ export class TableRow extends React.Component<TableRowProps> {
     this.handleQuickChange = this.handleQuickChange.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleItemClick = this.handleItemClick.bind(this);
+    this.handleDbClick = this.handleDbClick.bind(this);
     this.handleMouseEnter = this.handleMouseEnter.bind(this);
     this.handleMouseLeave = this.handleMouseLeave.bind(this);
   }
@@ -83,6 +88,11 @@ export class TableRow extends React.Component<TableRowProps> {
         onCheck?.(item);
       }
     }
+  }
+
+  handleDbClick(e: React.MouseEvent<HTMLTableRowElement>) {
+    const {item, itemIndex, onRowDbClick} = this.props;
+    onRowDbClick?.(item?.data, itemIndex);
   }
 
   handleAction(e: React.UIEvent<any>, action: Action, ctx: any) {
@@ -162,6 +172,7 @@ export class TableRow extends React.Component<TableRowProps> {
               ? this.handleItemClick
               : undefined
           }
+          onDoubleClick={this.handleDbClick}
           onMouseEnter={this.handleMouseEnter}
           onMouseLeave={this.handleMouseLeave}
           className={cx(itemClassName, {
@@ -230,6 +241,7 @@ export class TableRow extends React.Component<TableRowProps> {
             ? this.handleItemClick
             : undefined
         }
+        onDoubleClick={this.handleDbClick}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
         data-index={item.depth === 1 ? item.newIndex : undefined}
