@@ -26,6 +26,7 @@ import {
 import {
   BaseSchema,
   SchemaApi,
+  SchemaApiObject,
   SchemaCollection,
   SchemaExpression,
   SchemaMessage,
@@ -319,7 +320,9 @@ export default class Service extends React.Component<ServiceProps> {
       store
         .fetchInitData(api, store.data, {
           successMessage: fetchSuccess,
-          errorMessage: fetchFailed
+          errorMessage: fetchFailed,
+          silent:
+            api && isObject(api) && (api as SchemaApiObject)?.silent === true
         })
         .then(res => {
           this.runDataProvider('onApiFetched');
