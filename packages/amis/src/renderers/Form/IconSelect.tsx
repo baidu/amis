@@ -147,7 +147,13 @@ export default class IconSelectControl extends React.PureComponent<
               dangerouslySetInnerHTML={{__html: SvgStr[0].replace(/\\"/g, '"')}}
             ></div>
           ) : (
-            <Icon icon={valueTemp} className="icon" />
+            <Icon
+              icon={valueTemp}
+              className={cx(
+                `${ns}IconSelectControl-input-area-iconfont`,
+                'icon'
+              )}
+            />
           )
         ) : null}
         <span className={cx(`${ns}IconSelectControl-input-icon-id`)}>

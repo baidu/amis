@@ -97,7 +97,7 @@ export class TableBody extends React.Component<TableBodyProps> {
           item={item}
           itemClassName={cx(
             rowClassNameExpr
-              ? filter(rowClassNameExpr, item.data)
+              ? filter(rowClassNameExpr, item.locals)
               : rowClassName,
             {
               'is-last': item.depth > 1 && rowIndex === rows.length - 1
@@ -130,7 +130,7 @@ export class TableBody extends React.Component<TableBodyProps> {
               item={item}
               itemClassName={cx(
                 rowClassNameExpr
-                  ? filter(rowClassNameExpr, item.data)
+                  ? filter(rowClassNameExpr, item.locals)
                   : rowClassName
               )}
               columns={footableColumns}

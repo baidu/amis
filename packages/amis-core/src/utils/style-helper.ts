@@ -35,6 +35,7 @@ export const inheritValueMap: PlainObject = {
 
 interface extra {
   important?: boolean;
+  inner?: string;
   pre?: string;
   suf?: string;
 }
@@ -141,7 +142,8 @@ export function formatStyle(
             .replace('-label', '')
             .replace('-description', '')
             .replace('-addOn', '')
-            .replace('-icon', '') || ''
+            .replace('-icon', '')
+            .replace('-inner', '') || ''
         )
       ) {
         classNameList.push(n);
@@ -225,9 +227,10 @@ export function formatStyle(
         }
         if (styles.length > 0) {
           const cx = (weights?.pre || '') + className + (weights?.suf || '');
+          const inner = weights?.inner || '';
           res.push({
-            className: cx + status2string[status],
-            content: `.${cx + status2string[status]} {\n  ${styles.join(
+            className: cx + status2string[status] + inner,
+            content: `.${cx + status2string[status]} ${inner}{\n  ${styles.join(
               '\n  '
             )}\n}`
           });

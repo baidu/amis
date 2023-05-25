@@ -802,8 +802,12 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   }
 
   cancelEdit() {
-    let items = this.state.items.concat();
-    items.splice(this.state.editIndex, 1);
+    const items = this.state.items.concat();
+    let item = {
+      ...items[this.state.editIndex]
+    };
+    const isNew = !!item.__isPlaceholder;
+    isNew && items.splice(this.state.editIndex, 1);
 
     this.setState(
       {

@@ -967,7 +967,7 @@ export class EventControl extends React.Component<
           ) : (
             <div className="ae-event-control-placeholder">
               {/* 翻译未生效，临时方案 */}
-              {_i18n('4db5110d41293fef57f5a1f364187896')}
+              {_i18n('快去添加事件，让你的产品动起来吧')}
             </div>
           )}
         </ul>
