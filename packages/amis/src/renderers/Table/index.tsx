@@ -889,7 +889,11 @@ export default class Table extends React.Component<TableProps, object> {
   }
 
   async handleCheck(item: IRow, value: boolean, shift?: boolean) {
-    const {store, data, dispatchEvent} = this.props;
+    const {store, data, dispatchEvent, selectable} = this.props;
+
+    if (!selectable) {
+      return;
+    }
 
     const selectedItems = value
       ? [...store.selectedRows.map(row => row.data), item.data]
@@ -2560,7 +2564,10 @@ export default class Table extends React.Component<TableProps, object> {
       <ColumnToggler
         {...rest}
         {...(isObject(config) ? config : {})}
-        tooltip={config?.tooltip || __('Table.columnsVisibility')}
+        tooltip={{
+          content: config?.tooltip || __('Table.columnsVisibility'),
+          placement: 'bottom'
+        }}
         tooltipContainer={
           env && env.getModalContainer ? env.getModalContainer : undefined
         }
@@ -2671,7 +2678,7 @@ export default class Table extends React.Component<TableProps, object> {
         disabled={!!store.modified}
         classPrefix={ns}
         key="dragging-toggle"
-        tooltip={__('Table.startSort')}
+        tooltip={{content: __('Table.startSort'), placement: 'bottom'}}
         tooltipContainer={
           env && env.getModalContainer ? env.getModalContainer : undefined
         }

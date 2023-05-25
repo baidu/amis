@@ -198,6 +198,7 @@ export class SchemaEditorItemObject extends SchemaEditorItemCommon<
       types,
       onTypeChange,
       enableAdvancedSetting,
+      popOverContainer,
       placeholder
     } = this.props;
     const members = this.state.members;
@@ -215,6 +216,7 @@ export class SchemaEditorItemObject extends SchemaEditorItemCommon<
               types={types}
               onTypeChange={onTypeChange}
               enableAdvancedSetting={enableAdvancedSetting}
+              popOverContainer={popOverContainer}
               prefix={
                 <>
                   <InputBox

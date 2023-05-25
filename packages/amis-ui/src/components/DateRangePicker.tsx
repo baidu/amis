@@ -1440,9 +1440,12 @@ export class DateRangePicker extends React.Component<
   ) {
     const {endDateOpenedFirst, endDate, startDate, editState} = this.state;
     const afterEndDate =
-      editState === 'start' && currentDate.isAfter(endDate!, granularity);
+      editState === 'start' &&
+      endDate &&
+      currentDate.isAfter(endDate!, granularity);
     const beforeStartDate =
       editState === 'end' &&
+      startDate &&
       !currentDate.isSameOrAfter(startDate!, granularity);
 
     if (afterEndDate || beforeStartDate) {

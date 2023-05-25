@@ -142,6 +142,11 @@ export interface CodeSchema extends BaseSchema {
    * 使用的标签，默认多行使用pre，单行使用code
    */
   wrapperComponent?: string;
+
+  /**
+   * 最大高度，单位为px
+   */
+  maxHeight?: number;
 }
 
 export interface CodeProps
@@ -320,7 +325,8 @@ export default class Code extends React.Component<CodeProps> {
     const sourceCode = getPropValue(this.props);
     const {
       className,
-      style,
+      maxHeight,
+      style = {},
       classnames: cx,
       editorTheme,
       customLang,
@@ -334,6 +340,11 @@ export default class Code extends React.Component<CodeProps> {
 
     if (customLang) {
       this.customLang = customLang;
+    }
+
+    if (maxHeight) {
+      style.maxHeight = style.maxHeight || maxHeight;
+      style.overflow = 'auto';
     }
 
     return (

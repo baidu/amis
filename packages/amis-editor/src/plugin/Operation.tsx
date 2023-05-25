@@ -57,10 +57,9 @@ export class OperationPlugin extends BasePlugin {
       {
         children: (
           <Button
-            level="info"
             size="sm"
-            className="m-b-sm"
             block
+            className="m-b-sm ae-Button--enhance"
             onClick={() => {
               // this.manager.showInsertPanel('buttons', context.id, '按钮');
               this.manager.showRendererPanel(

@@ -102,6 +102,22 @@ language 支持从上下文获取数据
 }
 ```
 
+## 最大高度
+
+通过配置 `maxHeight` 可以实现最大高度，超出滚动
+
+```schema
+{
+  "body": {
+    "type": "code",
+    "language": "javascript",
+    "className": "b-a",
+    "maxHeight": 200,
+    "value": "(function () {\n  let amis = amisRequire('amis/embed');\n  let amisJSON = {\n    type: 'page',\n    title: '表单页面',\n    body: {\n      type: 'form',\n      mode: 'horizontal',\n      api: '/saveForm',\n      body: [\n        {\n          label: 'Name',\n          type: 'input-text',\n          name: 'name'\n        },\n        {\n          label: 'Email',\n          type: 'input-email',\n          name: 'email'\n        }\n      ]\n    }\n  };\n  let amisScoped = amis.embed('#root', amisJSON);\n})();"
+  }
+}
+```
+
 ## 自定义语言高亮
 
 还可以通过 `customLang` 参数来自定义高亮，详情参考[示例](../../../examples/code)。
@@ -116,12 +132,13 @@ language 支持从上下文获取数据
 
 ## 属性表
 
-| 属性名      | 类型     | 默认值 | 说明                               |
-| ----------- | -------- | ------ | ---------------------------------- |
-| className   | `string` |        | 外层 CSS 类名                      |
-| value       | `string` |        | 显示的颜色值                       |
-| name        | `string` |        | 在其他组件中，时，用作变量映射     |
-| language    | `string` |        | 所使用的高亮语言，默认是 plaintext |
-| tabSize     | `number` | 4      | 默认 tab 大小                      |
-| editorTheme | `string` | 'vs'   | 主题，还有 'vs-dark'               |
-| wordWrap    | `string` | `true` | 是否折行                           |
+| 属性名      | 类型               | 默认值 | 说明                               |
+| ----------- | ------------------ | ------ | ---------------------------------- |
+| className   | `string`           |        | 外层 CSS 类名                      |
+| value       | `string`           |        | 显示的颜色值                       |
+| name        | `string`           |        | 在其他组件中，时，用作变量映射     |
+| language    | `string`           |        | 所使用的高亮语言，默认是 plaintext |
+| tabSize     | `number`           | 4      | 默认 tab 大小                      |
+| editorTheme | `string`           | 'vs'   | 主题，还有 'vs-dark'               |
+| wordWrap    | `string`           | `true` | 是否折行                           |
+| maxHeight   | `string`\|`number` |        | 最大高度                           |

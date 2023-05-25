@@ -989,7 +989,7 @@ Form 支持轮询初始化接口，步骤如下：
 ```schema: scope="body"
 {
     "type": "form",
-    "initApi": "/api/mock2/page/initData",
+    "api": "/api/mock2/form/saveForm",
     "asyncApi": "/api/mock2/page/initData",
     "title": "用户信息",
     "body": [
@@ -1462,6 +1462,7 @@ Form 支持轮询初始化接口，步骤如下：
 | submit                | `event.data: object` 当前表单数据                                                                                                                                                          | 点击提交按钮或者触发表单提交动作的时候触发，配置了该事件后将不会触发表单提交时的校验、提交到 api 或者 target 等行为，所有行为需要自己配置 |
 | submitSucc            | `event.data.result: object` api 远程请求成功后返回的结果数据                                                                                                                               | 提交成功时触发                                                                                                                            |
 | submitFail            | `event.data.error: object` api 远程请求失败后返回的错误信息                                                                                                                                | 提交失败时触发                                                                                                                            |
+| asyncApiFinished      | `[name]: any` 当前数据域中指定字段的值                                                                                                                                                     | asyncApi 远程请求轮训结束                                                                                                                 |
 
 ## 动作表
 

@@ -13,7 +13,9 @@ import {
   LocaleProps,
   eachTree
 } from 'amis-core';
+import {functionDocs} from 'amis-formula';
 import {doc} from 'amis-formula/lib/doc';
+import type {FunctionDocMap} from 'amis-formula/lib/types';
 
 import {FormulaPlugin, editorFactory} from './plugin';
 import FuncList from './FuncList';
@@ -131,6 +133,13 @@ export class FormulaEditor extends React.Component<
     });
 
     return funcs;
+  }
+
+  static buildCustomFunctions(map: FunctionDocMap = {}) {
+    return Object.entries(map).map(([k, items]) => ({
+      groupName: k,
+      items
+    }));
   }
 
   static defaultProps: Pick<FormulaEditorProps, 'variables' | 'evalMode'> = {
@@ -323,6 +332,7 @@ export class FormulaEditor extends React.Component<
     const customFunctions = Array.isArray(functions) ? functions : [];
     const functionList = [
       ...FormulaEditor.buildDefaultFunctions(doc),
+      ...FormulaEditor.buildCustomFunctions(functionDocs),
       ...customFunctions
     ];
 

@@ -53,6 +53,7 @@ export interface SchemaEditorItemCommonProps extends LocaleProps, ThemeProps {
   enableAdvancedSetting?: boolean;
   /** 各属性输入控件的placeholder */
   placeholder?: SchemaEditorItemPlaceholder;
+  popOverContainer?: any;
 }
 
 export class SchemaEditorItemCommon<
@@ -97,6 +98,7 @@ export class SchemaEditorItemCommon<
       renderExtraProps,
       renderModalProps,
       enableAdvancedSetting,
+      popOverContainer,
       prefix,
       affix,
       types,
@@ -193,6 +195,7 @@ export class SchemaEditorItemCommon<
             beforeConfirm={this.handleBeforeSubmit}
             onConfirm={this.handlePropsChange}
             title={__('SubForm.editDetail')}
+            popOverContainer={popOverContainer}
           >
             {({onClick}) => (
               <Button

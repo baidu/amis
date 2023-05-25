@@ -1,6 +1,6 @@
 import isPlainObject from 'lodash/isPlainObject';
 import {ActionObject} from '../types';
-import {promisify} from '../utils';
+import {promisify, str2AsyncFunction} from '../utils';
 import {RendererEvent} from '../utils/renderer-event';
 import {
   RendererAction,
@@ -44,9 +44,12 @@ export class CustomAction implements RendererAction {
     let scriptFunc = action.args?.script ?? action.script;
 
     if (typeof scriptFunc === 'string') {
-      scriptFunc = promisify(
-        new Function('context', 'doAction', 'event', scriptFunc) as any
-      );
+      scriptFunc = str2AsyncFunction(
+        scriptFunc,
+        'context',
+        'doAction',
+        'event'
+      ) as any;
     }
 
     // 外部可以直接调用doAction来完成动作调用
