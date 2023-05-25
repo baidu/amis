@@ -557,6 +557,15 @@ export const components = [
           ).then(wrapDoc)
         )
       },
+
+      {
+        label: 'Radio 单选框',
+        path: '/zh-CN/components/form/radio',
+        component: React.lazy(() =>
+          import('../../docs/zh-CN/components/form/radio.md').then(wrapDoc)
+        )
+      },
+
       {
         label: 'Radios 单选框',
         path: '/zh-CN/components/form/radios',

@@ -26,7 +26,8 @@ import {
   getRendererByName,
   resolveEventData,
   ListenerAction,
-  evalExpressionWithConditionBuilder
+  evalExpressionWithConditionBuilder,
+  mapTree
 } from 'amis-core';
 import {Button, Icon} from 'amis-ui';
 import omit from 'lodash/omit';
@@ -302,6 +303,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     this.cancelEdit = this.cancelEdit.bind(this);
     this.handleSaveTableOrder = this.handleSaveTableOrder.bind(this);
     this.handleTableSave = this.handleTableSave.bind(this);
+    this.handleRadioChange = this.handleRadioChange.bind(this);
     this.getEntryId = this.getEntryId.bind(this);
     this.subFormRef = this.subFormRef.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
@@ -1267,11 +1269,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     };
 
     if (
-      (column.type &&
-        /^input\-|(?:select|picker|checkbox|checkboxes|editor|transfer|radios)$/i.test(
-          column.type
-        )) ||
-      ~['textarea', 'combo', 'condition-builder', 'group'].indexOf(column.type)
+      getRendererByName(column?.type)?.isFormItem ||
+      ~['group'].indexOf(column.type)
     ) {
       return {
         ...column,
@@ -1380,6 +1379,29 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       },
       this.emitValue
     );
+  }
+
+  handleRadioChange(
+    cxt: any,
+    {name, row, trueValue = true, falseValue = false}: any
+  ) {
+    const path: string = row.path;
+    const items = mapTree(
+      this.state.items,
+      (item: any, index, level, paths, indexes) => ({
+        ...item,
+        [name]: path === indexes.join('.') ? trueValue : falseValue
+      })
+    );
+
+    this.setState(
+      {
+        items
+      },
+      this.state.editIndex == row.path ? undefined : this.emitValue
+    );
+
+    return false;
   }
 
   handleSaveTableOrder(moved: Array<object>, rows: Array<object>) {
@@ -1549,6 +1571,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             items: items,
             getEntryId: this.getEntryId,
             onSave: this.handleTableSave,
+            onRadioChange: this.handleRadioChange,
             onSaveOrder: this.handleSaveTableOrder,
             buildItemProps: this.buildItemProps,
             quickEditFormRef: this.subFormRef,
@@ -1557,7 +1580,6 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             combineFromIndex: combineFromIndex,
             expandConfig,
             canAccessSuperData,
-            reUseRow: false,
             offset,
             rowClassName,
             rowClassNameExpr
