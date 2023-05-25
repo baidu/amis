@@ -309,8 +309,8 @@ exports[`Renderer:inputCity with searchable: open select 1`] = `
                       <div
                         aria-expanded="true"
                         aria-haspopup="listbox"
-                        aria-labelledby="downshift-3-label"
-                        aria-owns="downshift-3-menu"
+                        aria-labelledby="downshift-2-label"
+                        aria-owns="downshift-2-menu"
                         class="cxd-Select cxd-Select--searchable is-opened has-popover"
                         role="combobox"
                         style="position: relative;"
@@ -353,10 +353,10 @@ exports[`Renderer:inputCity with searchable: open select 1`] = `
                               />
                               <input
                                 aria-autocomplete="list"
-                                aria-controls="downshift-3-menu"
-                                aria-labelledby="downshift-3-label"
+                                aria-controls="downshift-2-menu"
+                                aria-labelledby="downshift-2-label"
                                 autocomplete="off"
-                                id="downshift-3-input"
+                                id="downshift-2-input"
                                 placeholder="搜索"
                                 type="text"
                                 value=""
@@ -365,7 +365,7 @@ exports[`Renderer:inputCity with searchable: open select 1`] = `
                             <div
                               aria-selected="false"
                               class="cxd-Select-option"
-                              id="downshift-3-item-0"
+                              id="downshift-2-item-0"
                               role="option"
                             >
                               <span
@@ -378,7 +378,7 @@ exports[`Renderer:inputCity with searchable: open select 1`] = `
                             <div
                               aria-selected="false"
                               class="cxd-Select-option"
-                              id="downshift-3-item-1"
+                              id="downshift-2-item-1"
                               role="option"
                             >
                               <span
@@ -391,7 +391,7 @@ exports[`Renderer:inputCity with searchable: open select 1`] = `
                             <div
                               aria-selected="false"
                               class="cxd-Select-option"
-                              id="downshift-3-item-2"
+                              id="downshift-2-item-2"
                               role="option"
                             >
                               <span
@@ -404,7 +404,7 @@ exports[`Renderer:inputCity with searchable: open select 1`] = `
                             <div
                               aria-selected="false"
                               class="cxd-Select-option"
-                              id="downshift-3-item-3"
+                              id="downshift-2-item-3"
                               role="option"
                             >
                               <span
@@ -417,7 +417,7 @@ exports[`Renderer:inputCity with searchable: open select 1`] = `
                             <div
                               aria-selected="false"
                               class="cxd-Select-option"
-                              id="downshift-3-item-4"
+                              id="downshift-2-item-4"
                               role="option"
                             >
                               <span
@@ -430,7 +430,7 @@ exports[`Renderer:inputCity with searchable: open select 1`] = `
                             <div
                               aria-selected="false"
                               class="cxd-Select-option"
-                              id="downshift-3-item-5"
+                              id="downshift-2-item-5"
                               role="option"
                             >
                               <span
@@ -443,7 +443,7 @@ exports[`Renderer:inputCity with searchable: open select 1`] = `
                             <div
                               aria-selected="false"
                               class="cxd-Select-option"
-                              id="downshift-3-item-6"
+                              id="downshift-2-item-6"
                               role="option"
                             >
                               <span
@@ -456,7 +456,7 @@ exports[`Renderer:inputCity with searchable: open select 1`] = `
                             <div
                               aria-selected="false"
                               class="cxd-Select-option"
-                              id="downshift-3-item-7"
+                              id="downshift-2-item-7"
                               role="option"
                             >
                               <span
@@ -469,7 +469,7 @@ exports[`Renderer:inputCity with searchable: open select 1`] = `
                             <div
                               aria-selected="false"
                               class="cxd-Select-option"
-                              id="downshift-3-item-8"
+                              id="downshift-2-item-8"
                               role="option"
                             >
                               <span
@@ -482,7 +482,7 @@ exports[`Renderer:inputCity with searchable: open select 1`] = `
                             <div
                               aria-selected="false"
                               class="cxd-Select-option"
-                              id="downshift-3-item-9"
+                              id="downshift-2-item-9"
                               role="option"
                             >
                               <span
@@ -495,7 +495,7 @@ exports[`Renderer:inputCity with searchable: open select 1`] = `
                             <div
                               aria-selected="false"
                               class="cxd-Select-option"
-                              id="downshift-3-item-10"
+                              id="downshift-2-item-10"
                               role="option"
                             >
                               <span
@@ -508,7 +508,7 @@ exports[`Renderer:inputCity with searchable: open select 1`] = `
                             <div
                               aria-selected="false"
                               class="cxd-Select-option"
-                              id="downshift-3-item-11"
+                              id="downshift-2-item-11"
                               role="option"
                             >
                               <span
@@ -521,7 +521,7 @@ exports[`Renderer:inputCity with searchable: open select 1`] = `
                             <div
                               aria-selected="false"
                               class="cxd-Select-option"
-                              id="downshift-3-item-12"
+                              id="downshift-2-item-12"
                               role="option"
                             >
                               <span
@@ -534,7 +534,7 @@ exports[`Renderer:inputCity with searchable: open select 1`] = `
                             <div
                               aria-selected="false"
                               class="cxd-Select-option"
-                              id="downshift-3-item-13"
+                              id="downshift-2-item-13"
                               role="option"
                             >
                               <span
@@ -547,7 +547,7 @@ exports[`Renderer:inputCity with searchable: open select 1`] = `
                             <div
                               aria-selected="false"
                               class="cxd-Select-option"
-                              id="downshift-3-item-14"
+                              id="downshift-2-item-14"
                               role="option"
                             >
                               <span
@@ -560,7 +560,7 @@ exports[`Renderer:inputCity with searchable: open select 1`] = `
                             <div
                               aria-selected="false"
                               class="cxd-Select-option"
-                              id="downshift-3-item-15"
+                              id="downshift-2-item-15"
                               role="option"
                             >
                               <span
@@ -573,7 +573,7 @@ exports[`Renderer:inputCity with searchable: open select 1`] = `
                             <div
                               aria-selected="false"
                               class="cxd-Select-option"
-                              id="downshift-3-item-16"
+                              id="downshift-2-item-16"
                               role="option"
                             >
                               <span
@@ -586,7 +586,7 @@ exports[`Renderer:inputCity with searchable: open select 1`] = `
                             <div
                               aria-selected="false"
                               class="cxd-Select-option"
-                              id="downshift-3-item-17"
+                              id="downshift-2-item-17"
                               role="option"
                             >
                               <span
@@ -599,7 +599,7 @@ exports[`Renderer:inputCity with searchable: open select 1`] = `
                             <div
                               aria-selected="false"
                               class="cxd-Select-option"
-                              id="downshift-3-item-18"
+                              id="downshift-2-item-18"
                               role="option"
                             >
                               <span
@@ -612,7 +612,7 @@ exports[`Renderer:inputCity with searchable: open select 1`] = `
                             <div
                               aria-selected="false"
                               class="cxd-Select-option"
-                              id="downshift-3-item-19"
+                              id="downshift-2-item-19"
                               role="option"
                             >
                               <span
@@ -625,7 +625,7 @@ exports[`Renderer:inputCity with searchable: open select 1`] = `
                             <div
                               aria-selected="false"
                               class="cxd-Select-option"
-                              id="downshift-3-item-20"
+                              id="downshift-2-item-20"
                               role="option"
                             >
                               <span
@@ -638,7 +638,7 @@ exports[`Renderer:inputCity with searchable: open select 1`] = `
                             <div
                               aria-selected="false"
                               class="cxd-Select-option"
-                              id="downshift-3-item-21"
+                              id="downshift-2-item-21"
                               role="option"
                             >
                               <span
@@ -651,7 +651,7 @@ exports[`Renderer:inputCity with searchable: open select 1`] = `
                             <div
                               aria-selected="false"
                               class="cxd-Select-option"
-                              id="downshift-3-item-22"
+                              id="downshift-2-item-22"
                               role="option"
                             >
                               <span
@@ -664,7 +664,7 @@ exports[`Renderer:inputCity with searchable: open select 1`] = `
                             <div
                               aria-selected="false"
                               class="cxd-Select-option"
-                              id="downshift-3-item-23"
+                              id="downshift-2-item-23"
                               role="option"
                             >
                               <span
@@ -677,7 +677,7 @@ exports[`Renderer:inputCity with searchable: open select 1`] = `
                             <div
                               aria-selected="false"
                               class="cxd-Select-option"
-                              id="downshift-3-item-24"
+                              id="downshift-2-item-24"
                               role="option"
                             >
                               <span
@@ -690,7 +690,7 @@ exports[`Renderer:inputCity with searchable: open select 1`] = `
                             <div
                               aria-selected="false"
                               class="cxd-Select-option"
-                              id="downshift-3-item-25"
+                              id="downshift-2-item-25"
                               role="option"
                             >
                               <span
@@ -703,7 +703,7 @@ exports[`Renderer:inputCity with searchable: open select 1`] = `
                             <div
                               aria-selected="false"
                               class="cxd-Select-option"
-                              id="downshift-3-item-26"
+                              id="downshift-2-item-26"
                               role="option"
                             >
                               <span
@@ -716,7 +716,7 @@ exports[`Renderer:inputCity with searchable: open select 1`] = `
                             <div
                               aria-selected="false"
                               class="cxd-Select-option"
-                              id="downshift-3-item-27"
+                              id="downshift-2-item-27"
                               role="option"
                             >
                               <span
@@ -729,7 +729,7 @@ exports[`Renderer:inputCity with searchable: open select 1`] = `
                             <div
                               aria-selected="false"
                               class="cxd-Select-option"
-                              id="downshift-3-item-28"
+                              id="downshift-2-item-28"
                               role="option"
                             >
                               <span
@@ -742,7 +742,7 @@ exports[`Renderer:inputCity with searchable: open select 1`] = `
                             <div
                               aria-selected="false"
                               class="cxd-Select-option"
-                              id="downshift-3-item-29"
+                              id="downshift-2-item-29"
                               role="option"
                             >
                               <span
@@ -755,7 +755,7 @@ exports[`Renderer:inputCity with searchable: open select 1`] = `
                             <div
                               aria-selected="false"
                               class="cxd-Select-option"
-                              id="downshift-3-item-30"
+                              id="downshift-2-item-30"
                               role="option"
                             >
                               <span
@@ -768,7 +768,7 @@ exports[`Renderer:inputCity with searchable: open select 1`] = `
                             <div
                               aria-selected="false"
                               class="cxd-Select-option"
-                              id="downshift-3-item-31"
+                              id="downshift-2-item-31"
                               role="option"
                             >
                               <span
@@ -781,7 +781,7 @@ exports[`Renderer:inputCity with searchable: open select 1`] = `
                             <div
                               aria-selected="false"
                               class="cxd-Select-option"
-                              id="downshift-3-item-32"
+                              id="downshift-2-item-32"
                               role="option"
                             >
                               <span
@@ -794,7 +794,7 @@ exports[`Renderer:inputCity with searchable: open select 1`] = `
                             <div
                               aria-selected="false"
                               class="cxd-Select-option"
-                              id="downshift-3-item-33"
+                              id="downshift-2-item-33"
                               role="option"
                             >
                               <span
