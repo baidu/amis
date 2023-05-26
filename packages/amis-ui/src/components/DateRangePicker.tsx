@@ -1112,11 +1112,13 @@ export class DateRangePicker extends React.Component<
                       FormulaExec['formula'](shortcutRaw.startDate, data),
                       format
                     )
+                  : typeof shortcutRaw.startDate === 'string'
+                  ? moment(shortcutRaw.startDate, format)
                   : shortcutRaw.startDate;
 
                 return startDate &&
                   moment.isMoment(startDate) &&
-                  startDate?.isValid()
+                  startDate.isValid()
                   ? startDate
                   : (item as ShortCutDateRange).startDate;
               },
@@ -1126,9 +1128,11 @@ export class DateRangePicker extends React.Component<
                       FormulaExec['formula'](shortcutRaw.endDate, data),
                       format
                     )
-                  : shortcutRaw.startDate;
+                  : typeof shortcutRaw.endDate === 'string'
+                  ? moment(shortcutRaw.endDate, format)
+                  : shortcutRaw.endDate;
 
-                return endDate && moment.isMoment(endDate) && endDate?.isValid()
+                return endDate && moment.isMoment(endDate) && endDate.isValid()
                   ? endDate
                   : (item as ShortCutDateRange).endDate;
               }
