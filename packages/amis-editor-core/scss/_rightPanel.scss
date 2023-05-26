@@ -18,8 +18,6 @@ $tooltip-bottom: '[data-tooltip][data-position=' bottom ']:hover:after';
   transition: width ease-in-out 0.2s;
   // transform: translateZ(0);
 
-  @include panel-sm-content();
-
   .ae-Settings-content {
     padding: var(--gap-base);
     #{$tooltip-bottom} {
@@ -245,6 +243,10 @@ $tooltip-bottom: '[data-tooltip][data-position=' bottom ']:hover:after';
 
       .editor-prop-config-tabs {
         padding-bottom: 45px;
+
+        &-links {
+          --fonts-size-7: 14px;
+        }
       }
 
       .ae-Settings-actions,
@@ -315,7 +317,8 @@ $tooltip-bottom: '[data-tooltip][data-position=' bottom ']:hover:after';
           font-family: PingFangSC-Regular;
           color: #84868c;
           width: 100%;
-          font-size: 14px;
+          --Tabs--line-active-fontSize: 14px;
+          --Tabs--line-fontSize: 14px;
           letter-spacing: 0;
           font-weight: 400;
           text-decoration: none;

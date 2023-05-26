@@ -7,20 +7,44 @@ import Sortable from 'sortablejs';
 import {findDOMNode} from 'react-dom';
 import {FormItem, Icon} from 'amis';
 
-import type {FormControlProps} from 'amis-core';
-import type {BaseEventContext} from 'amis-editor-core';
-import type {Option} from 'amis';
+import {FormControlProps, Option, optionValueCompare} from 'amis-core';
+import {BaseEventContext, getSchemaTpl} from 'amis-editor-core';
 
 import {autobind} from 'amis-editor-core';
+import {FormulaDateType} from './FormulaControl';
 
-type $Object = {
-  [key: string]: string;
+const DefaultValue = [
+  'yesterday',
+  '7daysago',
+  'thismonth',
+  'prevmonth',
+  'prevquarter'
+];
+
+const CertainPresetShorcut = {
+  today: '今天',
+  yesterday: '昨天',
+  thisweek: '这个周',
+  prevweek: '上周',
+  thismonth: '这个月',
+  prevmonth: '上个月',
+  thisquarter: '这个季度',
+  prevquarter: '上个季度',
+  thisyear: '今年'
 };
 
-enum RangeType {
-  Normal = 'Normal',
-  Custom = 'Custom'
-}
+const ModifyPresetShorcut = {
+  $daysago: '最近n天',
+  $dayslater: 'n天以内',
+  $weeksago: '最近n周',
+  $weekslater: 'n周以内',
+  $monthsago: '最近n月',
+  $monthslater: 'n月以内',
+  $quartersago: '最近n季度',
+  $quarterslater: 'n季度以内',
+  $yearsago: '最近n年',
+  $yearslater: 'n年以内'
+};
 
 export interface DateShortCutControlProps extends FormControlProps {
   className?: string;
@@ -28,25 +52,38 @@ export interface DateShortCutControlProps extends FormControlProps {
    * 编辑器上下文数据，用于获取字段所在Form的其他字段
    */
   context: BaseEventContext;
-  normalDropDownOption: $Object;
-  customDropDownOption: $Object;
+  certainOptions: Array<keyof typeof CertainPresetShorcut>;
+  modifyOptions: Array<keyof typeof ModifyPresetShorcut>;
 }
 
-interface OptionsType {
-  label?: string;
+type PresetShorCutType = string;
+
+// 完全自定义label与时间计算方式的快捷键数据格式
+type CustomShortCutType = {
+  label: string;
+  startDate: string;
+  endDate: string;
+};
+
+// 可修改数字的预置快捷键数据值格式
+type ModifyOptionType = {
+  key: keyof typeof ModifyPresetShorcut;
   value: string;
-  type: RangeType;
-  inputType?: string;
+};
+
+enum OptionType {
+  Custom = 1,
+  Certain = 2,
+  Modify = 3
+}
+
+interface OptionDataType {
+  data: PresetShorCutType | CustomShortCutType | ModifyOptionType;
+  type?: OptionType; // 自定义的、某个特定的、可修改数字的特定描述区域
 }
 
 interface DateShortCutControlState {
-  options: Array<OptionsType>;
-}
-
-interface InputOption {
-  type: 'middle' | 'suffix';
-  prefix?: string;
-  suffix: string;
+  options: Array<OptionDataType>;
 }
 
 const ShortCutItemWrap = (props: {
@@ -79,8 +116,8 @@ export class DateShortCutControl extends React.PureComponent<
   sortable?: Sortable;
   drag?: HTMLElement | null;
   target: HTMLElement | null;
-  normalDropDownOptionArr: Array<Option>;
-  customDropDownOptionArr: Array<Option>;
+  certainDropDownOptions: Array<Option>;
+  modifyDropDownOptions: Array<Option>;
 
   static defaultProps: Partial<DateShortCutControlProps> = {
     label: '快捷键'
@@ -88,46 +125,62 @@ export class DateShortCutControl extends React.PureComponent<
 
   constructor(props: DateShortCutControlProps) {
     super(props);
-    const {normalDropDownOption, customDropDownOption, data} = props;
-    this.normalDropDownOptionArr = Object.keys(normalDropDownOption).map(
-      key => ({
-        label: normalDropDownOption[key],
-        value: key
-      })
-    );
-    this.customDropDownOptionArr = Object.keys(customDropDownOption).map(
-      key => ({
-        label: customDropDownOption[key],
-        value: key
-      })
-    );
-    const defaultShortcuts = [
-      'yesterday',
-      '7daysago',
-      'prevweek',
-      'thismonth',
-      'prevmonth',
-      'prevquarter'
-    ];
+
+    // 初始化下拉选项
+    const {certainOptions, modifyOptions, data} = props;
+    this.certainDropDownOptions = certainOptions.map(key => ({
+      label: CertainPresetShorcut[key],
+      value: key
+    }));
+    this.modifyDropDownOptions = modifyOptions.map(key => ({
+      label: ModifyPresetShorcut[key],
+      value: key
+    }));
+
+    // 初始化原始组件配置的快捷键
+    /** amis 3.1.0之后ranges属性废弃，此处兼容 */
+    let initData = data?.ranges ?? data?.shortcuts ?? DefaultValue;
+    initData = Array.isArray(initData) ? initData : initData.split(',');
+
     this.state = {
-      /** amis 3.1.0之后ranges属性废弃，此处兼容 */
-      options: (data?.ranges ?? data?.shortcuts ?? defaultShortcuts).map(
-        (item: string, index: number) => {
-          const arr = item.match(/^(\d+)[a-zA-Z]+/);
-          if (arr) {
+      options: initData
+        .map((item: PresetShorCutType | CustomShortCutType) => {
+          if (!item) {
+            return null;
+          }
+
+          // 完全自定义的快捷键
+          if (
+            typeof item != 'string' &&
+            item.label &&
+            item.startDate &&
+            item.endDate
+          ) {
             return {
-              value: arr[1],
-              type: RangeType.Custom,
-              inputType: item.match(/[a-zA-Z]+/)?.[0]
+              type: OptionType.Custom,
+              data: item
             };
           }
+
+          // amis中提供的可灵活配置数字的自定义快捷键
+          const arr = (item as string).match(/^([a-zA-Z]*)(\d+)([a-zA-Z]*)$/);
+          if (arr) {
+            return {
+              data: {
+                value: arr[2],
+                key: `${arr[1]}$${arr[3]}`
+              },
+              type: OptionType.Modify
+            };
+          }
+
+          // 固定值的快捷键
           return {
-            label: normalDropDownOption[item],
-            value: item,
-            type: RangeType.Normal
+            data: item,
+            type: OptionType.Certain
           };
-        }
-      )
+        })
+        .filter(Boolean)
     };
   }
 
@@ -204,19 +257,130 @@ export class DateShortCutControl extends React.PureComponent<
   }
 
   /**
+   * 生成快捷键项的配置
+   */
+  renderOption(option: OptionDataType, index: number) {
+    const {render, data: schema} = this.props;
+
+    if (option.type === OptionType.Certain) {
+      return (
+        <span className={klass + 'Item-content-label'}>
+          {
+            CertainPresetShorcut[
+              option.data as keyof typeof CertainPresetShorcut
+            ]
+          }
+        </span>
+      );
+    }
+
+    if (option.type === OptionType.Custom) {
+      const data = option?.data as CustomShortCutType;
+      return render(
+        'inner',
+        {
+          type: 'form',
+          wrapWithPanel: false,
+          body: [
+            {
+              type: 'input-text',
+              mode: 'normal',
+              placeholder: '快捷键名称',
+              name: 'label'
+            },
+            getSchemaTpl('valueFormula', {
+              name: 'startDate',
+              header: '表达式或相对值',
+              DateTimeType: FormulaDateType.IsDate,
+              rendererSchema: {
+                ...schema,
+                type: 'input-date'
+              },
+              placeholder: '开始时间',
+              needDeleteProps: [
+                'ranges',
+                'shortcuts',
+                'maxDate',
+                'id',
+                'minDuration'
+              ],
+              label: false
+            }),
+            getSchemaTpl('valueFormula', {
+              name: 'endDate',
+              header: '表达式或相对值',
+              DateTimeType: FormulaDateType.IsDate,
+              rendererSchema: {
+                ...schema,
+                type: 'input-date'
+              },
+              placeholder: '结束时间',
+              needDeleteProps: [
+                'ranges',
+                'shortcuts',
+                'maxDate',
+                'id',
+                'minDuration'
+              ],
+              label: false
+            })
+          ],
+          onChange: (value: CustomShortCutType) => {
+            this.handleOptionChange(value, index);
+          }
+        },
+        {
+          data
+        }
+      );
+    }
+
+    const key = (option.data as ModifyOptionType)
+      .key as keyof typeof ModifyPresetShorcut;
+    const label = ModifyPresetShorcut[key].split('n');
+
+    return render(
+      'inner',
+      {
+        type: 'form',
+        wrapWithPanel: false,
+        body: [
+          {
+            name: 'value',
+            type: 'input-text',
+            prefix: label[0] || undefined,
+            suffix: label[1] || undefined,
+            mode: 'normal',
+            placeholder: 'n'
+          }
+        ],
+        onChange: (value: ModifyOptionType) =>
+          this.handleOptionChange(value, index)
+      },
+      {
+        data: option.data
+      }
+    );
+  }
+
+  /**
    * 生成内容体
    */
   renderContent() {
     const {options} = this.state;
+
     return (
       <div className={klass + '-wrapper'}>
         {options && options.length ? (
           <ul className={klass + '-content'} ref={this.dragRef}>
             {options.map((option, index) => (
               <li className={klass + 'Item'} key={index}>
-                {option.type === RangeType.Normal
-                  ? this.renderNormalOption(option, index)
-                  : this.renderCustomOption(option, index)}
+                <ShortCutItemWrap
+                  index={index}
+                  handleDelete={this.handleDelete}
+                >
+                  {this.renderOption(option, index)}
+                </ShortCutItemWrap>
               </li>
             ))}
           </ul>
@@ -228,90 +392,32 @@ export class DateShortCutControl extends React.PureComponent<
   }
 
   /**
-   * 生成固定跨度选项
-   */
-  renderNormalOption(option: OptionsType, index: number) {
-    return (
-      <ShortCutItemWrap index={index} handleDelete={this.handleDelete}>
-        <span>{option.label}</span>
-      </ShortCutItemWrap>
-    );
-  }
-
-  /**
-   * 生成自定义跨度选项
-   */
-  renderCustomOption(option: OptionsType, index: number) {
-    const {render} = this.props;
-
-    const renderInput = (option: InputOption & {value: string}) => {
-      if (option.type === 'middle') {
-        return render('inner', {
-          type: 'input-text',
-          prefix: option?.prefix,
-          suffix: option.suffix,
-          mode: 'normal',
-          placeholder: 'n',
-          value: option?.value,
-          onChange: (value: string) => this.handleCustomItemChange(value, index)
-        });
-      }
-      return render('inner', {
-        type: 'input-text',
-        placeholder: 'n',
-        mode: 'normal',
-        suffix: option.suffix,
-        value: option?.value,
-        onChange: (value: string) => this.handleCustomItemChange(value, index)
-      });
-    };
-
-    const dateMap: {[key: string]: InputOption} = {
-      daysago: {prefix: '最近', suffix: '天', type: 'middle'},
-      dayslater: {suffix: '天以内', type: 'suffix'},
-      weeksago: {prefix: '最近', suffix: '周', type: 'middle'},
-      weekslater: {suffix: '周以内', type: 'suffix'},
-      monthsago: {prefix: '最近', suffix: '月', type: 'middle'},
-      monthslater: {suffix: '月以内', type: 'suffix'},
-      quartersago: {prefix: '最近', suffix: '季度', type: 'middle'},
-      quarterslater: {suffix: '季度以内', type: 'suffix'},
-      yearsago: {prefix: '最近', suffix: '年', type: 'middle'},
-      yearslater: {suffix: '年以内', type: 'suffix'}
-    };
-
-    return (
-      <ShortCutItemWrap index={index} handleDelete={this.handleDelete}>
-        {option.inputType
-          ? renderInput({...dateMap[option.inputType], value: option.value})
-          : null}
-      </ShortCutItemWrap>
-    );
-  }
-
-  /**
    * 自定义跨度变化
    */
-  handleCustomItemChange(value: string, index: number) {
+  handleOptionChange(
+    data: string | CustomShortCutType | ModifyOptionType,
+    index: number
+  ) {
     const options = [...this.state.options];
-    options[index].value = value;
+    options[index].data = data;
     this.setState({options}, () => this.onChangeOptions());
   }
 
   /**
    * option添加
    */
-  addItem(item: Option, type: RangeType) {
+  addItem(item: Option, type: OptionType) {
     this.setState(
       {
-        options: [
-          ...this.state.options,
-          {
-            label: item?.label ?? '',
-            type,
-            value: type === RangeType.Normal ? item.value : '',
-            ...(type === RangeType.Normal ? {} : {inputType: item.value})
-          }
-        ]
+        options: this.state.options.concat({
+          type,
+          data:
+            type === OptionType.Certain
+              ? item.value
+              : type === OptionType.Modify
+              ? {key: item.value, value: undefined}
+              : {label: undefined, startDate: undefined, endDate: undefined}
+        })
       },
       () => {
         this.onChangeOptions();
@@ -336,18 +442,31 @@ export class DateShortCutControl extends React.PureComponent<
   onChangeOptions() {
     const {options} = this.state;
     const {onBulkChange, name} = this.props;
-    const newOptions: Array<string> = [];
-    options.forEach((item, index) => {
-      if (item.type === RangeType.Normal) {
-        newOptions[index] = item.value;
+    const newRanges: Array<string | CustomShortCutType> = [];
+
+    options.forEach(item => {
+      if (item.type === OptionType.Certain) {
+        newRanges.push(item.data as string);
       }
-      if (item.type === RangeType.Custom && item.value) {
-        newOptions[index] = `${item.value}${item.inputType}`;
+
+      if (item.type === OptionType.Modify) {
+        let data = item.data as ModifyOptionType;
+        let value = data.value;
+        /^\d+$/.test(value) && newRanges.push(data.key.replace('$', value));
+      }
+
+      if (item.type === OptionType.Custom) {
+        let data = item.data as CustomShortCutType;
+        data.label &&
+          data.startDate &&
+          data.endDate &&
+          newRanges.push({...data});
       }
     });
+
     /** amis 3.1.0之后ranges属性废弃 */
     onBulkChange &&
-      onBulkChange({[name ?? 'shortcuts']: newOptions, ranges: undefined});
+      onBulkChange({[name ?? 'shortcuts']: newRanges, ranges: undefined});
   }
 
   render() {
@@ -368,11 +487,11 @@ export class DateShortCutControl extends React.PureComponent<
                 closeOnClick: true,
                 closeOnOutside: true,
                 level: 'enhance',
-                buttons: this.normalDropDownOptionArr.map((item: any) => ({
+                buttons: this.certainDropDownOptions.map((item: any) => ({
                   ...item,
                   type: 'button',
                   onAction: (e: React.MouseEvent, action: any) =>
-                    this.addItem(item, RangeType.Normal)
+                    this.addItem(item, OptionType.Certain)
                 }))
               },
               {
@@ -388,12 +507,30 @@ export class DateShortCutControl extends React.PureComponent<
                 label: '自定义跨度',
                 closeOnClick: true,
                 closeOnOutside: true,
-                buttons: this.customDropDownOptionArr.map((item: any) => ({
-                  ...item,
-                  type: 'button',
-                  onAction: (e: React.MouseEvent, action: any) =>
-                    this.addItem(item, RangeType.Custom)
-                }))
+                buttons: this.modifyDropDownOptions
+                  .map((item: any) => ({
+                    ...item,
+                    type: 'button',
+                    onAction: (e: React.MouseEvent, action: any) =>
+                      this.addItem(item, OptionType.Modify)
+                  }))
+                  .concat([
+                    {
+                      type: 'button',
+                      label: '其他',
+                      onAction: (e: React.MouseEvent, action: any) =>
+                        this.addItem(
+                          {
+                            value: {
+                              label: undefined,
+                              startDate: undefined,
+                              endData: undefined
+                            }
+                          },
+                          OptionType.Custom
+                        )
+                    }
+                  ])
               },
               {
                 popOverContainer: null

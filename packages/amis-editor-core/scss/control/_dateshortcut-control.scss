@@ -68,7 +68,8 @@
       @include flexBox();
       width: 100%;
       padding: #{px2rem(5px)} #{px2rem(10px)};
-      height: #{px2rem(38px)};
+      min-height: #{px2rem(38px)};
+      align-items: baseline;
 
       &:hover {
         background: #e9effd;
@@ -93,9 +94,14 @@
 
       &-content {
         display: inline-block;
-        width: 100%;
+        flex-grow: 1;
+        max-width: calc(100% - 32px);
         text-align: left;
         padding: 0 #{px2rem(5px)};
+
+        &-label {
+          line-height: var(--input-size-default-height);
+        }
       }
 
       &-close {
