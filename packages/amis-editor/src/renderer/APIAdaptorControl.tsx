@@ -64,14 +64,6 @@ export default class APIAdaptorControl extends React.Component<
     };
   }
 
-  componentDidUpdate(prevProps: Readonly<APIAdaptorControlProps>): void {
-    if (this.props.value !== prevProps.value) {
-      this.setState({
-        switch: !!this.props.value
-      });
-    }
-  }
-
   @autobind
   onChange(value: any = '') {
     this.props.onChange?.(value);
