@@ -356,7 +356,7 @@ test('Renderer:condition-builder with number type', async () => {
           field: 'number'
         },
         op: 'is_not_empty',
-        right: undefined
+        right: [11, 22]
       }
     ]
   });
