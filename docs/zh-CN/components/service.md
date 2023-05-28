@@ -739,7 +739,7 @@ ws.on('connection', function connection(ws) {
 
 ## 事件表
 
-当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`或`${event.data.[事件参数名]}`来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
 
 > `[name]`为当前数据域中的字段名，例如：当前数据域为 {username: 'amis'}，则可以通过${username}获取对应的值。
 
@@ -748,6 +748,89 @@ ws.on('connection', function connection(ws) {
 | init              | -                                                                                                                                                                                          | 组件实例被创建并插入 DOM 中时触发。2.4.1 及以上版本 |
 | fetchInited       | `responseData: any` 请求的响应数据</br>`responseStatus: number` 响应状态，0 表示成功</br>`responseMsg: string`响应消息, `error`表示接口是否成功<br/>`[name]: any` 当前数据域中指定字段的值 | api 接口请求完成时触发                              |
 | fetchSchemaInited | `responseData: any` 请求的响应数据</br>`responseStatus: number` 响应状态，0 表示成功</br>`responseMsg: string`响应消息, `error`表示接口是否成功<br/>`[name]: any` 当前数据域中指定字段的值 | schemaApi 接口请求完成时触发                        |
+
+### init
+
+开始初始化。
+
+```schema: scope="body"
+{
+  "type": "service",
+  "api": "/api/mock2/page/initData",
+  "body": {
+    "type": "panel",
+    "title": "$title",
+    "body": "现在是：${date}"
+  },
+  "onEvent": {
+    "init": {
+      "actions": [
+        {
+          "actionType": "toast",
+          "args": {
+            "msg": "init"
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
+### fetchInited
+
+api 接口请求完成。
+
+```schema: scope="body"
+{
+  "type": "service",
+  "api": "/api/mock2/page/initData",
+  "body": [
+    {
+      "type": "panel",
+      "title": "$title",
+      "body": "现在是：${date}"
+    }
+  ],
+  "onEvent": {
+    "fetchInited": {
+      "actions": [
+        {
+          "actionType": "toast",
+          "args": {
+            "msg": "title:${event.data.responseData.title}，date:${date}，status:${event.data.responseStatus}"
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
+### fetchSchemaInited
+
+schemaApi 接口请求完成。
+
+```schema: scope="body"
+[
+  {
+    "type": "service",
+    "schemaApi": "/api/mock2/service/schema?type=tabs",
+    "onEvent": {
+      "fetchSchemaInited": {
+        "actions": [
+          {
+            "actionType": "toast",
+            "args": {
+              "msg": "type:${event.data.responseData.type}，status:${event.data.responseStatus}"
+            }
+          }
+        ]
+      }
+    }
+  }
+]
+```
 
 ## 动作表
 
@@ -758,3 +841,169 @@ ws.on('connection', function connection(ws) {
 | reload   | -        | 重新加载，调用 `api`，刷新数据域数据              |
 | rebuild  | -        | 重新构建，调用 `schemaApi`，重新构建容器内 Schema |
 | setValue | -        | 更新数据域数据                                    |
+
+### reload
+
+重新请求 api 接口，并刷新。
+
+```schema: scope="body"
+[
+  {
+    "type": "button",
+    "label": "刷新请求",
+    "onEvent": {
+      "click": {
+        "actions": [
+          {
+            "componentId": "service-reload",
+            "actionType": "reload"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "service",
+    "id": "service-reload",
+    "name": "service-reload",
+    "api": "/api/mock2/number/random",
+    "body": "现在是：${random}"
+  }
+]
+```
+
+### rebuild
+
+重新构建，基于 args 传参和 schemaApi 绑定变量，让 service 获取不同的 schema。
+
+```schema: scope="body"
+[
+  {
+    "type": "alert",
+    "body": "请选择一种构建方式生成组件",
+    "level": "info",
+    "showIcon": true,
+    "className": "mb-3",
+    "visibleOn": "this.schemaType == null"
+  },
+  {
+    "type": "button-group",
+    "tiled": true,
+    "className": "mb-3",
+    "buttons": [
+      {
+        "type": "action",
+        "label": "构建form",
+        "icon": "fa fa-hammer",
+        "onEvent": {
+          "click": {
+            "actions": [
+              {
+                "actionType": "rebuild",
+                "componentId": "service-rebuild",
+                "args": {
+                  "schemaType": "form"
+                }
+              }
+            ]
+          }
+        }
+      },
+      {
+        "type": "action",
+        "label": "构建tabs",
+        "icon": "fa fa-hammer",
+        "onEvent": {
+          "click": {
+            "actions": [
+              {
+                "actionType": "rebuild",
+                "componentId": "service-rebuild",
+                "args": {
+                  "schemaType": "tabs"
+                }
+              }
+            ]
+          }
+        }
+      },
+      {
+        "type": "action",
+        "label": "构建crud",
+        "icon": "fa fa-hammer",
+        "onEvent": {
+          "click": {
+            "actions": [
+              {
+                "actionType": "rebuild",
+                "componentId": "service-rebuild",
+                "args": {
+                  "schemaType": "crud"
+                }
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "service",
+    "id": "service-rebuild",
+    "name": "service-rebuild",
+    "schemaApi": {
+      "url": "/api/mock2/service/schema?type=${schemaType}",
+      "method": "post",
+      "sendOn": "this.schemaType != null"
+    }
+  }
+]
+```
+
+### setValue
+
+更新数据域。
+
+```schema: scope="body"
+[
+    {
+      "type": "button",
+      "label": "更新数据",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "actionType": "setValue",
+              "componentId": "service-setvalue",
+              "args": {
+                "value": {
+                  "language": [
+                    "🇨🇳 中国"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "service",
+      "id": "service-setvalue",
+      "name": "service-setvalue",
+      "data": {
+        "language": [
+          "🇺🇸 美国"
+        ]
+      },
+      "body": {
+        "type": "each",
+        "name": "language",
+        "items": {
+          "type": "tpl",
+          "tpl": "<span class='label label-default m-l-sm'><%= data.item %></span> "
+        }
+      }
+    }
+]
+```

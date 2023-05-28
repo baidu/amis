@@ -282,7 +282,7 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
 
 ## 事件表
 
-当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`或`${event.data.[事件参数名]}`来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
 
 > `[name]`为当前数据域中的字段名，例如：当前数据域为 {username: 'amis'}，则可以通过${username}获取对应的值。
 
@@ -292,6 +292,45 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
 | inited      | `responseData: any` 请求的响应数据</br>`responseStatus: number` 响应状态，0 表示成功</br>`responseMsg: string`响应消息, `error`表示接口是否成功<br/>`[name]: any` 当前数据域中指定字段的值 | initApi 接口请求完成时触发                          |
 | pullRefresh | -                                                                                                                                                                                          | 开启下拉刷新后，下拉释放后触发（仅用于移动端）      |
 
+### init 和 inited
+
+```schema
+{
+  "type": "page",
+  "initApi": "/api/mock2/page/initData",
+  "body": [
+    {
+      "type": "tpl",
+      "tpl": "当前时间是：${date}"
+    }
+  ],
+  "onEvent": {
+    "init": {
+      "actions": [
+        {
+          "actionType": "toast",
+          "args": {
+            "msgType": "info",
+            "msg": "init"
+          }
+        }
+      ]
+    },
+    "inited": {
+      "actions": [
+        {
+          "actionType": "toast",
+          "args": {
+            "msgType": "info",
+            "msg": "${event.data.responseData|json}"
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
 ## 动作表
 
 当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
@@ -300,3 +339,66 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
 | -------- | -------------------------- | ---------------------------------------- |
 | reload   | -                          | 重新加载，调用 `intiApi`，刷新数据域数据 |
 | setValue | `value: object` 更新的数据 | 更新数据                                 |
+
+### reload
+
+```schema
+{
+  "type": "page",
+  "id": "page01",
+  "initApi": "/api/mock2/page/initData",
+  "body": [
+    {
+      "type": "tpl",
+      "tpl": "当前时间是：${date}"
+    },
+    {
+      "type": "button",
+      "label": "刷新请求",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "componentId": "page01",
+              "actionType": "reload"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+### setValue
+
+```schema
+{
+  "type": "page",
+  "id": "page02",
+  "initApi": "/api/mock2/page/initData",
+  "body": [
+    {
+      "type": "tpl",
+      "tpl": "当前时间是：${date}"
+    },
+    {
+      "type": "button",
+      "label": "更新数据",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "componentId": "page02",
+              "actionType": "setValue",
+              "args": {
+                "value": {"date": "2023-05-01"}
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```

@@ -99,7 +99,7 @@ export class TagField extends React.Component<TagProps, object> {
     const {dispatchEvent, onClick} = this.props;
     const params = this.getResolvedEventParams(nativeEvent);
 
-    dispatchEvent('click', params);
+    dispatchEvent(nativeEvent, params);
     onClick?.(params);
   }
 
@@ -124,7 +124,13 @@ export class TagField extends React.Component<TagProps, object> {
     const {dispatchEvent, onClose} = this.props;
     const params = this.getResolvedEventParams(nativeEvent);
 
-    dispatchEvent('close', params);
+    dispatchEvent(
+      {
+        ...nativeEvent,
+        type: 'close'
+      },
+      params
+    );
     onClose?.(params);
   }
 
@@ -183,11 +189,9 @@ export class TagField extends React.Component<TagProps, object> {
     const {data} = this.props;
 
     return createObject(data, {
-      nativeEvent,
       label: this.resolveLabel()
     }) as {
       [propName: string]: any;
-      nativeEvent: React.MouseEvent<T>;
       label: string;
     };
   }

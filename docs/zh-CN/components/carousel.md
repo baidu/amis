@@ -134,40 +134,76 @@ itemSchema: {
 
 ## 属性表
 
-| 属性名                       | 类型      | 默认值                 | 说明                                                    | 版本 |
-| ---------------------------- | --------- | ---------------------- | ------------------------------------------------------- | --- |
-| type                         | `string`  | `"carousel"`           | 指定为 Carousel 渲染器                                  |
-| className                    | `string`  | `"panel-default"`      | 外层 Dom 的类名                                         |
-| options                      | `array`   | `[]`                   | 轮播面板数据                                            |
-| options.image                | `string`  |                        | 图片链接                                                |
-| options.href                 | `string`  |                        | 图片打开网址的链接                                      |
-| options.imageClassName       | `string`  |                        | 图片类名                                                |
-| options.title                | `string`  |                        | 图片标题                                                |
-| options.titleClassName       | `string`  |                        | 图片标题类名                                            |
-| options.description          | `string`  |                        | 图片描述                                                |
-| options.descriptionClassName | `string`  |                        | 图片描述类名                                            |
-| options.html                 | `string`  |                        | HTML 自定义，同[Tpl](./tpl)一致                         |
-| itemSchema                   | `object`  |                        | 自定义`schema`来展示数据                                |
-| auto                         | `boolean` | `true`                 | 是否自动轮播                                            |
-| interval                     | `string`  | `5s`                   | 切换动画间隔                                            |
-| duration                     | `number`  | `500`                 | 切换动画时长（ms）                                       |
-| width                        | `string`  | `auto`                 | 宽度                                                    |
-| height                       | `string`  | `200px`                | 高度                                                    |
-| controls                     | `array`   | `['dots', 'arrows']`   | 显示左右箭头、底部圆点索引                              |
-| controlsTheme                | `string`  | `light`                | 左右箭头、底部圆点索引颜色，默认`light`，另有`dark`模式 |
-| animation                    | `string`  | fade                   | 切换动画效果，默认`fade`，另有`slide`模式               |
-| thumbMode                    | `string`  | `"cover" \| "contain"` | 图片默认缩放模式                                        |
-| multiple                    | `object`  | `{count: 1}`            | 多图展示，count表示展示的数量           | `2.8.1` |
-| alwaysShowArrow              | `boolean`  | `false` | 是否一直显示箭头，为false时鼠标hover才会显示              | `2.8.1` |
-| icons                    | {prev: `SchemaCollection`; next: `SchemaCollection`;}  | | 自定义箭头图标                          | `2.8.1` |
+| 属性名                       | 类型                                                  | 默认值                 | 说明                                                    | 版本    |
+| ---------------------------- | ----------------------------------------------------- | ---------------------- | ------------------------------------------------------- | ------- |
+| type                         | `string`                                              | `"carousel"`           | 指定为 Carousel 渲染器                                  |
+| className                    | `string`                                              | `"panel-default"`      | 外层 Dom 的类名                                         |
+| options                      | `array`                                               | `[]`                   | 轮播面板数据                                            |
+| options.image                | `string`                                              |                        | 图片链接                                                |
+| options.href                 | `string`                                              |                        | 图片打开网址的链接                                      |
+| options.imageClassName       | `string`                                              |                        | 图片类名                                                |
+| options.title                | `string`                                              |                        | 图片标题                                                |
+| options.titleClassName       | `string`                                              |                        | 图片标题类名                                            |
+| options.description          | `string`                                              |                        | 图片描述                                                |
+| options.descriptionClassName | `string`                                              |                        | 图片描述类名                                            |
+| options.html                 | `string`                                              |                        | HTML 自定义，同[Tpl](./tpl)一致                         |
+| itemSchema                   | `object`                                              |                        | 自定义`schema`来展示数据                                |
+| auto                         | `boolean`                                             | `true`                 | 是否自动轮播                                            |
+| interval                     | `string`                                              | `5s`                   | 切换动画间隔                                            |
+| duration                     | `number`                                              | `500`                  | 切换动画时长（ms）                                      |
+| width                        | `string`                                              | `auto`                 | 宽度                                                    |
+| height                       | `string`                                              | `200px`                | 高度                                                    |
+| controls                     | `array`                                               | `['dots', 'arrows']`   | 显示左右箭头、底部圆点索引                              |
+| controlsTheme                | `string`                                              | `light`                | 左右箭头、底部圆点索引颜色，默认`light`，另有`dark`模式 |
+| animation                    | `string`                                              | fade                   | 切换动画效果，默认`fade`，另有`slide`模式               |
+| thumbMode                    | `string`                                              | `"cover" \| "contain"` | 图片默认缩放模式                                        |
+| multiple                     | `object`                                              | `{count: 1}`           | 多图展示，count 表示展示的数量                          | `2.8.1` |
+| alwaysShowArrow              | `boolean`                                             | `false`                | 是否一直显示箭头，为 false 时鼠标 hover 才会显示        | `2.8.1` |
+| icons                        | {prev: `SchemaCollection`; next: `SchemaCollection`;} |                        | 自定义箭头图标                                          | `2.8.1` |
 
 ## 事件表
 
-当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`来获取事件产生的数据（`< 2.3.2 及以下版本 为 ${event.data.[事件参数名]}`），详细请查看[事件动作](../../docs/concepts/event-action)。
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`或`${event.data.[事件参数名]}`来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
 
 | 事件名称 | 事件参数                                                                         | 说明             |
 | -------- | -------------------------------------------------------------------------------- | ---------------- |
 | change   | `activeIndex: number` 激活图片的索引 <br /> `prevIndex: number` 上一张图片的索引 | 轮播图切换时触发 |
+
+### change
+
+```schema: scope="body"
+{
+  "type": "carousel",
+  "auto": false,
+  "thumbMode": "cover",
+  "animation": "slide",
+  "height": 300,
+  "options": [
+    {
+      "image": "https://internal-amis-res.cdn.bcebos.com/images/2019-12/1577157239810/da6376bf988c.png"
+    },
+    {
+      "html": "<div style=\"width: 100%; height: 300px; background: #e3e3e3; text-align: center; line-height: 300px;\">carousel data</div>"
+    },
+    {
+      "thumbMode": "contain",
+      "image": "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg"
+    }
+  ],
+  "onEvent": {
+    "change": {
+      "actions": [
+        {
+          "actionType": "toast",
+          "args": {
+            "msg": "滚动至${activeIndex}"
+          }
+        }
+      ]
+    }
+  }
+}
+```
 
 ## 动作表
 
@@ -178,3 +214,132 @@ itemSchema: {
 | next       | -                                    | 下一张     |
 | prev       | -                                    | 上一张     |
 | goto-image | `activeIndex: number` 切换图片的索引 | 切换轮播图 |
+
+### next
+
+```schema: scope="body"
+[
+  {
+    "type": "action",
+    "label": "下一张",
+    "className": "mr-3 mb-3",
+    "onEvent": {
+      "click": {
+        "actions": [
+          {
+            "actionType": "next",
+            "componentId": "carousel_001"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "carousel",
+    "id": "carousel_001",
+    "auto": false,
+    "thumbMode": "cover",
+    "animation": "slide",
+    "height": 300,
+    "options": [
+      {
+        "image": "https://internal-amis-res.cdn.bcebos.com/images/2019-12/1577157239810/da6376bf988c.png"
+      },
+      {
+        "html": "<div style=\"width: 100%; height: 300px; background: #e3e3e3; text-align: center; line-height: 300px;\">carousel data</div>"
+      },
+      {
+        "thumbMode": "contain",
+        "image": "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg"
+      }
+    ]
+  }
+]
+```
+
+### prev
+
+```schema: scope="body"
+[
+  {
+    "type": "action",
+    "label": "上一张",
+    "className": "mr-3 mb-3",
+    "onEvent": {
+      "click": {
+        "actions": [
+          {
+            "actionType": "prev",
+            "componentId": "carousel_002"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "carousel",
+    "id": "carousel_002",
+    "auto": false,
+    "thumbMode": "cover",
+    "animation": "slide",
+    "height": 300,
+    "options": [
+      {
+        "image": "https://internal-amis-res.cdn.bcebos.com/images/2019-12/1577157239810/da6376bf988c.png"
+      },
+      {
+        "html": "<div style=\"width: 100%; height: 300px; background: #e3e3e3; text-align: center; line-height: 300px;\">carousel data</div>"
+      },
+      {
+        "thumbMode": "contain",
+        "image": "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg"
+      }
+    ]
+  }
+]
+```
+
+### goto-image
+
+```schema: scope="body"
+[
+  {
+    "type": "action",
+    "label": "滚动到第三张",
+    "className": "mr-3 mb-3",
+    "onEvent": {
+      "click": {
+        "actions": [
+          {
+            "actionType": "goto-image",
+            "componentId": "carousel_003",
+            "args": {
+              "activeIndex": "${index}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "carousel",
+    "id": "carousel_003",
+    "auto": false,
+    "thumbMode": "cover",
+    "animation": "slide",
+    "height": 300,
+    "options": [
+      {
+        "image": "https://internal-amis-res.cdn.bcebos.com/images/2019-12/1577157239810/da6376bf988c.png"
+      },
+      {
+        "html": "<div style=\"width: 100%; height: 300px; background: #e3e3e3; text-align: center; line-height: 300px;\">carousel data</div>"
+      },
+      {
+        "thumbMode": "contain",
+        "image": "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg"
+      }
+    ]
+  }
+]
+```

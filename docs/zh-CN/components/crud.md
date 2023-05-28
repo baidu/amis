@@ -2975,3 +2975,741 @@ itemAction 里的 onClick 还能通过 `data` 参数拿到当前行的数据，�
 | icon            | `string`                       |           | 按钮的图标                             |
 | className       | `string`                       |           | 外层 CSS 类名                          |
 | btnClassName    | `string`                       |           | 按钮的 CSS 类名                        |
+
+## 事件表
+
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`或`${event.data.[事件参数名]}`来获取事件产生的数据，详细查看[事件动作](../../docs/concepts/event-action)。
+
+| 事件名称       | 事件参数                                                                | 说明                 |
+| -------------- | ----------------------------------------------------------------------- | -------------------- |
+| selectedChange | `selectedItems: item[]` 已选择行<br/>`unSelectedItems: item[]` 未选择行 | 手动选择表格项时触发 |
+| columnSort     | `orderBy: string` 列排序列名<br/>`orderDir: string` 列排序值            | 点击列排序时触发     |
+| columnFilter   | `filterName: string` 列筛选列名<br/>`filterValue: string` 列筛选值      | 点击列筛选时触发     |
+| columnSearch   | `searchName: string` 列搜索列名<br/>`searchValue: object` 列搜索数据    | 点击列搜索时触发     |
+| orderChange    | `movedItems: item[]` 已排序数据                                         | 手动拖拽行排序时触发 |
+| columnToggled  | `columns: item[]` 当前显示的列配置数据                                  | 点击自定义列时触发   |
+| rowClick       | `item: object` 行点击数据<br/>`index: number` 行索引                    | 点击整行时触发       |
+| rowMouseEnter  | `item: object` 行移入数据<br/>`index: number` 行索引                    | 移入整行时触发       |
+| rowMouseLeave  | `item: object` 行移出数据<br/>`index: number` 行索引                    | 移出整行时触发       |
+
+### selectedChange
+
+在开启批量操作后才会用到，可以尝试勾选列表的行记录。
+
+```schema: scope="body"
+{
+  "type": "page",
+  "body": {
+    "type": "crud",
+    "api": "/api/mock2/sample",
+    "syncLocation": false,
+    "onEvent": {
+      "selectedChange": {
+        "actions": [
+          {
+            "actionType": "toast",
+            "args": {
+              "msg": "已选择${event.data.selectedItems.length}条记录"
+            }
+          }
+        ]
+      }
+    },
+    "bulkActions": [
+        {
+            "label": "批量删除",
+            "actionType": "ajax",
+            "api": "delete:/api/mock2/sample/${ids|raw}",
+            "confirmText": "确定要批量删除?"
+        }
+    ],
+    "columns": [
+      {
+        "name": "id",
+        "label": "ID"
+      },
+      {
+        "name": "engine",
+        "label": "Rendering engine"
+      },
+      {
+        "name": "browser",
+        "label": "Browser"
+      },
+      {
+        "name": "platform",
+        "label": "Platform(s)"
+      },
+      {
+        "name": "version",
+        "label": "Engine version"
+      },
+      {
+        "name": "grade",
+        "label": "CSS grade"
+      }
+    ]
+  }
+}
+```
+
+### columnSort
+
+列排序，可以尝试点击`Browser`列右侧的排序图标。
+
+```schema: scope="body"
+{
+  "type": "page",
+  "body": {
+    "type": "crud",
+    "api": "/api/mock2/sample",
+    "syncLocation": false,
+    "onEvent": {
+      "columnSort": {
+            "actions": [
+                {
+                    "actionType": "toast",
+                    "args": {
+                    "msgType": "info",
+                    "msg": "orderBy：${event.data.orderBy},orderDir：${event.data.orderDir}"
+                    }
+                }
+            ]
+        }
+    },
+    "bulkActions": [
+        {
+            "label": "批量删除",
+            "actionType": "ajax",
+            "api": "delete:/api/mock2/sample/${ids|raw}",
+            "confirmText": "确定要批量删除?"
+        }
+    ],
+    "columns": [
+      {
+        "name": "id",
+        "label": "ID",
+        "searchable": true
+      },
+      {
+        "name": "engine",
+        "label": "Rendering engine",
+        "filterable": {
+            "options": [
+                "Internet Explorer 4.0",
+                "Internet Explorer 5.0"
+            ]
+        }
+      },
+      {
+        "name": "browser",
+        "label": "Browser",
+        "sortable": true
+      },
+      {
+        "name": "platform",
+        "label": "Platform(s)"
+      },
+      {
+        "name": "version",
+        "label": "Engine version"
+      },
+      {
+        "name": "grade",
+        "label": "CSS grade"
+      }
+    ]
+  }
+}
+```
+
+### columnFilter
+
+列过滤，可以尝试点击`Rendering engine`列右侧的筛选图标。
+
+```schema: scope="body"
+{
+  "type": "page",
+  "body": {
+    "type": "crud",
+    "api": "/api/mock2/sample",
+    "syncLocation": false,
+    "onEvent": {
+        "columnFilter": {
+            "actions": [
+                {
+                    "actionType": "toast",
+                    "args": {
+                    "msgType": "info",
+                    "msg": "filterName：${event.data.filterName},filterValue：${event.data.filterValue}"
+                    }
+                }
+            ]
+        }
+    },
+    "bulkActions": [
+        {
+            "label": "批量删除",
+            "actionType": "ajax",
+            "api": "delete:/api/mock2/sample/${ids|raw}",
+            "confirmText": "确定要批量删除?"
+        }
+    ],
+    "columns": [
+      {
+        "name": "id",
+        "label": "ID",
+        "searchable": true
+      },
+      {
+        "name": "engine",
+        "label": "Rendering engine",
+        "filterable": {
+            "options": [
+                "Internet Explorer 4.0",
+                "Internet Explorer 5.0"
+            ]
+        }
+      },
+      {
+        "name": "browser",
+        "label": "Browser",
+        "sortable": true
+      },
+      {
+        "name": "platform",
+        "label": "Platform(s)"
+      },
+      {
+        "name": "version",
+        "label": "Engine version"
+      },
+      {
+        "name": "grade",
+        "label": "CSS grade"
+      }
+    ]
+  }
+}
+```
+
+### columnSearch
+
+列检索，，可以尝试点击`ID`列右侧的检索图标。
+
+```schema: scope="body"
+{
+  "type": "page",
+  "body": {
+    "type": "crud",
+    "api": "/api/mock2/sample",
+    "syncLocation": false,
+    "onEvent": {
+        "columnSearch": {
+            "actions": [
+                {
+                    "actionType": "toast",
+                    "args": {
+                    "msgType": "info",
+                    "msg": "searchName：${event.data.searchName},searchValue：${event.data.searchValue|json}"
+                    }
+                }
+            ]
+        }
+    },
+    "bulkActions": [
+        {
+            "label": "批量删除",
+            "actionType": "ajax",
+            "api": "delete:/api/mock2/sample/${ids|raw}",
+            "confirmText": "确定要批量删除?"
+        }
+    ],
+    "columns": [
+      {
+        "name": "id",
+        "label": "ID",
+        "searchable": true
+      },
+      {
+        "name": "engine",
+        "label": "Rendering engine",
+        "filterable": {
+            "options": [
+                "Internet Explorer 4.0",
+                "Internet Explorer 5.0"
+            ]
+        }
+      },
+      {
+        "name": "browser",
+        "label": "Browser",
+        "sortable": true
+      },
+      {
+        "name": "platform",
+        "label": "Platform(s)"
+      },
+      {
+        "name": "version",
+        "label": "Engine version"
+      },
+      {
+        "name": "grade",
+        "label": "CSS grade"
+      }
+    ]
+  }
+}
+```
+
+### columnToggled
+
+点击自定义列，可以尝试修改`自定义列`的配置。
+
+```schema: scope="body"
+{
+  "type": "page",
+  "body": {
+    "type": "crud",
+    "api": "/api/mock2/sample",
+    "syncLocation": false,
+    "onEvent": {
+      "columnToggled": {
+            "actions": [
+            {
+                "actionType": "toast",
+                "args": {
+                "msgType": "info",
+                "msg": "当前显示${event.data.columns.length}列"
+                }
+            }
+            ]
+        }
+    },
+    "bulkActions": [
+        {
+            "label": "批量删除",
+            "actionType": "ajax",
+            "api": "delete:/api/mock2/sample/${ids|raw}",
+            "confirmText": "确定要批量删除?"
+        }
+    ],
+    "columns": [
+      {
+        "name": "id",
+        "label": "ID",
+        "searchable": true
+      },
+      {
+        "name": "engine",
+        "label": "Rendering engine",
+        "filterable": {
+            "options": [
+                "Internet Explorer 4.0",
+                "Internet Explorer 5.0"
+            ]
+        }
+      },
+      {
+        "name": "browser",
+        "label": "Browser",
+        "sortable": true
+      },
+      {
+        "name": "platform",
+        "label": "Platform(s)"
+      },
+      {
+        "name": "version",
+        "label": "Engine version"
+      },
+      {
+        "name": "grade",
+        "label": "CSS grade"
+      }
+    ]
+  }
+}
+```
+
+### orderChange
+
+在开启拖拽排序行记录后才会用到，排序确认后触发。
+
+```schema: scope="body"
+{
+  "type": "page",
+  "body": {
+    "type": "crud",
+    "api": "/api/mock2/sample",
+    "syncLocation": false,
+    "draggable": true,
+    "onEvent": {
+      "orderChange": {
+            "actions": [
+                {
+                    "actionType": "toast",
+                    "args": {
+                        "msgType": "info",
+                        "msg": "${event.data.movedItems.length}行发生移动"
+                    }
+                }
+            ]
+        }
+    },
+    "bulkActions": [
+        {
+            "label": "批量删除",
+            "actionType": "ajax",
+            "api": "delete:/api/mock2/sample/${ids|raw}",
+            "confirmText": "确定要批量删除?"
+        }
+    ],
+    "columns": [
+      {
+        "name": "id",
+        "label": "ID",
+        "searchable": true
+      },
+      {
+        "name": "engine",
+        "label": "Rendering engine",
+        "filterable": {
+            "options": [
+                "Internet Explorer 4.0",
+                "Internet Explorer 5.0"
+            ]
+        }
+      },
+      {
+        "name": "browser",
+        "label": "Browser",
+        "sortable": true
+      },
+      {
+        "name": "platform",
+        "label": "Platform(s)"
+      },
+      {
+        "name": "version",
+        "label": "Engine version"
+      },
+      {
+        "name": "grade",
+        "label": "CSS grade"
+      }
+    ]
+  }
+}
+```
+
+### rowClick
+
+点击行记录。
+
+```schema: scope="body"
+{
+  "type": "page",
+  "body": {
+    "type": "crud",
+    "api": "/api/mock2/sample",
+    "syncLocation": false,
+    "onEvent": {
+      "rowClick": {
+            "actions": [
+                {
+                    "actionType": "toast",
+                    "args": {
+                        "msgType": "info",
+                        "msg": "行单击数据：${event.data.item|json}；行索引：${event.data.index}"
+                    }
+                }
+            ]
+        }
+    },
+    "bulkActions": [
+        {
+            "label": "批量删除",
+            "actionType": "ajax",
+            "api": "delete:/api/mock2/sample/${ids|raw}",
+            "confirmText": "确定要批量删除?"
+        }
+    ],
+    "columns": [
+      {
+        "name": "id",
+        "label": "ID",
+        "searchable": true
+      },
+      {
+        "name": "engine",
+        "label": "Rendering engine",
+        "filterable": {
+            "options": [
+                "Internet Explorer 4.0",
+                "Internet Explorer 5.0"
+            ]
+        }
+      },
+      {
+        "name": "browser",
+        "label": "Browser",
+        "sortable": true
+      },
+      {
+        "name": "platform",
+        "label": "Platform(s)"
+      },
+      {
+        "name": "version",
+        "label": "Engine version"
+      },
+      {
+        "name": "grade",
+        "label": "CSS grade"
+      }
+    ]
+  }
+}
+```
+
+### rowMouseEnter
+
+鼠标移入行记录。
+
+```schema: scope="body"
+{
+  "type": "page",
+  "body": {
+    "type": "crud",
+    "api": "/api/mock2/sample",
+    "syncLocation": false,
+    "onEvent": {
+      "rowMouseEnter": {
+            "actions": [
+                {
+                    "actionType": "toast",
+                    "args": {
+                        "msgType": "info",
+                        "msg": "行索引：${event.data.index}"
+                    }
+                }
+            ]
+        }
+    },
+    "bulkActions": [
+        {
+            "label": "批量删除",
+            "actionType": "ajax",
+            "api": "delete:/api/mock2/sample/${ids|raw}",
+            "confirmText": "确定要批量删除?"
+        }
+    ],
+    "columns": [
+      {
+        "name": "id",
+        "label": "ID",
+        "searchable": true
+      },
+      {
+        "name": "engine",
+        "label": "Rendering engine",
+        "filterable": {
+            "options": [
+                "Internet Explorer 4.0",
+                "Internet Explorer 5.0"
+            ]
+        }
+      },
+      {
+        "name": "browser",
+        "label": "Browser",
+        "sortable": true
+      },
+      {
+        "name": "platform",
+        "label": "Platform(s)"
+      },
+      {
+        "name": "version",
+        "label": "Engine version"
+      },
+      {
+        "name": "grade",
+        "label": "CSS grade"
+      }
+    ]
+  }
+}
+```
+
+### rowMouseLeave
+
+鼠标移出行记录。
+
+```schema: scope="body"
+{
+  "type": "page",
+  "body": {
+    "type": "crud",
+    "api": "/api/mock2/sample",
+    "syncLocation": false,
+    "onEvent": {
+      "rowMouseLeave": {
+            "actions": [
+                {
+                    "actionType": "toast",
+                    "args": {
+                        "msgType": "info",
+                        "msg": "行索引：${event.data.index}"
+                    }
+                }
+            ]
+        }
+    },
+    "bulkActions": [
+        {
+            "label": "批量删除",
+            "actionType": "ajax",
+            "api": "delete:/api/mock2/sample/${ids|raw}",
+            "confirmText": "确定要批量删除?"
+        }
+    ],
+    "columns": [
+      {
+        "name": "id",
+        "label": "ID",
+        "searchable": true
+      },
+      {
+        "name": "engine",
+        "label": "Rendering engine",
+        "filterable": {
+            "options": [
+                "Internet Explorer 4.0",
+                "Internet Explorer 5.0"
+            ]
+        }
+      },
+      {
+        "name": "browser",
+        "label": "Browser",
+        "sortable": true
+      },
+      {
+        "name": "platform",
+        "label": "Platform(s)"
+      },
+      {
+        "name": "version",
+        "label": "Engine version"
+      },
+      {
+        "name": "grade",
+        "label": "CSS grade"
+      }
+    ]
+  }
+}
+```
+
+### 列的事件表
+
+表格的默认列定义的事件如下，即 click、mouseenter、mouseleave。如果列定义是其他组件，则事件表就是这个组件对应的事件表，例如列定义是 Switch 组件，则可以监听 [Switch 的 change 事件](./form/switch#%E4%BA%8B%E4%BB%B6%E8%A1%A8)。
+
+| 事件名称   | 事件参数                            | 说明                                           |
+| ---------- | ----------------------------------- | ---------------------------------------------- |
+| click      | `[columnName]: string` 对应列名的值 | 监听表格列点击事件，表格数据点击时触发         |
+| mouseenter | `[columnName]: string` 对应列名的值 | 监听表格列鼠标移入事件，表格数据鼠标移入时触发 |
+| mouseleave | `[columnName]: string` 对应列名的值 | 监听表格列鼠标移出事件，表格数据鼠标移出时触发 |
+
+```schema: scope="body"
+{
+  "type": "page",
+  "body": {
+    "type": "crud",
+    "api": "/api/mock2/sample",
+    "syncLocation": false,
+    "bulkActions": [
+        {
+            "label": "批量删除",
+            "actionType": "ajax",
+            "api": "delete:/api/mock2/sample/${ids|raw}",
+            "confirmText": "确定要批量删除?"
+        }
+    ],
+    "columns": [
+      {
+        "name": "id",
+        "label": "ID",
+        "searchable": true
+      },
+      {
+        "name": "engine",
+        "label": "Rendering engine",
+        "filterable": {
+            "options": [
+                "Internet Explorer 4.0",
+                "Internet Explorer 5.0"
+            ]
+        },
+        "onEvent": {
+            "click": {
+                "actions": [
+                    {
+                        "actionType": "toast",
+                        "args": {
+                            "msgType": "info",
+                            "msg": "第${event.data.index}行的${event.data.engine}"
+                        }
+                    }
+                ]
+            }
+        }
+      },
+      {
+        "name": "browser",
+        "label": "Browser",
+        "sortable": true,
+        "onEvent": {
+            "mouseenter": {
+                "actions": [
+                    {
+                        "actionType": "toast",
+                        "args": {
+                            "msgType": "info",
+                            "msg": "第${event.data.index}行的${event.data.browser}"
+                        }
+                    }
+                ]
+            },
+            "mouseleave": {
+                "actions": [
+                    {
+                        "actionType": "toast",
+                        "args": {
+                            "msgType": "info",
+                            "msg": "第${event.data.index}行的${event.data.browser}"
+                        }
+                    }
+                ]
+            }
+        }
+      },
+      {
+        "name": "platform",
+        "label": "Platform(s)"
+      },
+      {
+        "name": "version",
+        "label": "Engine version"
+      },
+      {
+        "name": "grade",
+        "label": "CSS grade"
+      }
+    ]
+  }
+}
+```
