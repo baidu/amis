@@ -1,5 +1,10 @@
 import React from 'react';
-import {Renderer, RendererProps} from 'amis-core';
+import {
+  Renderer,
+  RendererProps,
+  isPureVariable,
+  resolveVariableAndFilter
+} from 'amis-core';
 import {BaseSchema} from '../Schema';
 import {Pagination as BasicPagination} from 'amis-ui';
 import type {MODE_TYPE} from 'amis-ui/lib/components/Pagination';
@@ -39,7 +44,7 @@ export interface PaginationSchema extends BaseSchema {
   /**
    * 最后一页，总页数（如果传入了total，会重新计算lastPage）
    */
-  lastPage?: number;
+  // lastPage?: number;
 
   /**
    * 每页显示条数
@@ -85,8 +90,28 @@ export interface PaginationProps
     Omit<PaginationSchema, 'type' | 'className'> {}
 
 export default class Pagination extends React.Component<PaginationProps> {
+  formatNumber(num: number | string | undefined, defaultValue: number = 0) {
+    let result: number | undefined = undefined;
+    if (typeof num === 'string') {
+      num = isPureVariable(num) ? resolveVariableAndFilter(num) : num;
+      result = typeof num === 'string' ? parseInt(num, 10) : num;
+    } else if (typeof num === 'number') {
+      result = num;
+    }
+    return result ?? defaultValue;
+  }
+
   render() {
-    return <BasicPagination {...this.props} />;
+    const {maxButtons, activePage, total, perPage} = this.props;
+    return (
+      <BasicPagination
+        {...this.props}
+        maxButtons={this.formatNumber(maxButtons, 5)}
+        activePage={this.formatNumber(activePage, 1)}
+        total={this.formatNumber(total, 0)}
+        perPage={this.formatNumber(perPage, 10)}
+      />
+    );
   }
 }
 
