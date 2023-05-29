@@ -142,7 +142,7 @@ function createScopedTools(
       let component = undefined;
       findTree([root], (item: TreeItem) =>
         item.getComponents().find((cmpt: ScopedComponentType) => {
-          if (cmpt.props.id === id) {
+          if (filter(cmpt.props.id, cmpt.props.data) === id) {
             component = cmpt;
             return true;
           }

@@ -3713,3 +3713,181 @@ itemAction 里的 onClick 还能通过 `data` 参数拿到当前行的数据，�
   }
 }
 ```
+
+## 动作表
+
+当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
+
+| 动作名称 | 动作配置        | 说明               |
+| -------- | --------------- | ------------------ |
+| setValue | `value: object` | 设置 CRUD 数据记录 |
+
+value 结构说明：
+
+| 属性名         | 类型     | 默认值 | 说明     |
+| -------------- | -------- | ------ | -------- |
+| items 或 rows  | `item[]` |        | 列表记录 |
+| count 或 total | `number` |        | 记录总数 |
+
+### setValue
+
+#### 更新列表记录
+
+```schema: scope="body"
+{
+    "type": "crud",
+    "id": "crud_setvalue",
+    "syncLocation": false,
+    "api": "/api/mock2/sample",
+    "quickSaveApi": "/api/mock2/sample/bulkUpdate",
+    "headerToolbar": [
+        {
+            "type": "button",
+            "label": "更新列表记录",
+            "onEvent": {
+                "click": {
+                    "actions": [
+                    {
+                        "actionType": "setValue",
+                        "componentId": "crud_setvalue",
+                        "args": {
+                            "value": {
+                                "total": 2,
+                                "items": [
+                                    {
+                                        "engine": "Trident - f12fj",
+                                        "browser": "Internet Explorer 4.0",
+                                        "platform": "Win 95+",
+                                        "version": "4",
+                                        "grade": "X",
+                                        "badgeText": "默认",
+                                        "id": 1
+                                    },
+                                    {
+                                        "engine": "Trident - oqvc0e",
+                                        "browser": "Internet Explorer 5.0",
+                                        "platform": "Win 95+",
+                                        "version": "5",
+                                        "grade": "C",
+                                        "badgeText": "危险",
+                                        "id": 2
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                    ]
+                }
+            }
+        },
+
+        {
+            "type": "button",
+            "label": "清空数据",
+            "onEvent": {
+                "click": {
+                    "actions": [
+                    {
+                        "actionType": "setValue",
+                        "componentId": "crud_setvalue",
+                        "args": {
+                            "value": {
+                                "items": []
+                            }
+                        }
+                    }
+                    ]
+                }
+            }
+        }
+    ],
+    "bulkActions": [
+        {
+            "label": "批量删除",
+            "actionType": "ajax",
+            "api": "delete:/api/mock2/sample/${ids|raw}",
+            "confirmText": "确定要批量删除?"
+        }
+    ],
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID",
+            "id": "u:3db3f2b1b99e"
+        },
+        {
+            "name": "engine",
+            "label": "engine",
+            "id": "u:0b9be99f3403"
+        },
+        {
+            "name": "version",
+            "label": "version",
+            "id": "u:4868d7db0139"
+        }
+    ]
+}
+```
+
+#### 行记录中字段赋值
+
+需要通过表达式配置动态`name`或`id`和`componentName`或`componentId`。例如修改`engine`选中状态的同时选中`version`，勾选`id`的同时去掉对`engine`的选中。
+
+```schema: scope="body"
+{
+    "type": "crud",
+    "syncLocation": false,
+    "api": "/api/mock2/sample",
+    "quickSaveApi": "/api/mock2/sample/bulkUpdate",
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID",
+            "id": "u:3db3f2b1b99e",
+            "onEvent": {
+                "click": {
+                    "actions": [
+                    {
+                        "actionType": "setValue",
+                        "componentId": "u:4868d7db0139_${index}",
+                        "args": {
+                            "value": false
+                        }
+                    }
+                    ]
+                }
+            }
+        },
+        {
+            "name": "engine",
+            "type": "checkbox",
+            "label": "engine",
+            "quickEdit": true,
+            "quickEditEnabledOn": "this.id < 5",
+            "id": "u:0b9be99f3403",
+            "onEvent": {
+                "change": {
+                    "actions": [
+                    {
+                        "actionType": "setValue",
+                        "componentName": "version_${index}",
+                        "args": {
+                            "value": true
+                        }
+                    }
+                    ]
+                }
+            }
+        },
+        {
+            "name": "version_${index}",
+            "type": "checkbox",
+            "label": "version",
+            "quickEdit": true,
+            "quickEditEnabledOn": "this.id < 5",
+            "id": "u:4868d7db0139_${index}"
+        }
+    ],
+    "id": "u:f5bad706d7c5"
+}
+```

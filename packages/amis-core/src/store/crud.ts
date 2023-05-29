@@ -645,6 +645,10 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       self.columns = columns;
     };
 
+    const updateTotal = (total: number) => {
+      self.total = total || 0;
+    };
+
     return {
       getData,
       updateSelectData,
@@ -662,7 +666,8 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       setInnerModalOpened,
       initFromScope,
       exportAsCSV,
-      updateColumns
+      updateColumns,
+      updateTotal
     };
   });
 
